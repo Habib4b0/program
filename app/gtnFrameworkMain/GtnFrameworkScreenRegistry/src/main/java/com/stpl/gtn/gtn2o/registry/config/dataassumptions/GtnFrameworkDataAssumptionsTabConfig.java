@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.registry.config.dataassumptions;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
@@ -81,14 +83,21 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 	private void addDataAssumptionsPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String parentComponentId, String nameSpace) {
 		GtnUIFrameworkComponentConfig dataAssumptionsResultsTable = new GtnUIFrameworkComponentConfig();
-		dataAssumptionsResultsTable.setComponentType(GtnUIFrameworkComponentType.PAGEDTABLE);
+		dataAssumptionsResultsTable.setComponentType(GtnUIFrameworkComponentType.PAGED_GRID);
 		dataAssumptionsResultsTable.setAuthorizationIncluded(true);
-		dataAssumptionsResultsTable.setComponentName("Data Assumptions Paged Table"); /* Ask */
+		dataAssumptionsResultsTable.setComponentName("Data Assumptions Paged Table");
 		dataAssumptionsResultsTable.setComponentId(nameSpace + "_" + "resultsTable");
 		dataAssumptionsResultsTable.setAddToParent(Boolean.TRUE);
 		dataAssumptionsResultsTable.setParentComponentId(parentComponentId);
 		dataAssumptionsResultsTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
+		List<String> tableStyle = new ArrayList<>();
+		tableStyle.add("filterbar");
+		tableStyle.add("v-has-width");
+		tableStyle.add("v-table-filterbar");
+		tableStyle.add("table-header-normal");
+		dataAssumptionsResultsTable.setComponentStyle(tableStyle);
+		
 		componentList.add(dataAssumptionsResultsTable);
 
 		GtnUIFrameworkPagedTableConfig dataAssumptionsPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
@@ -103,8 +112,8 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 				GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_UTIL_DATE,
 				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE });
-		dataAssumptionsPagedTableConfig.setTableVisibleHeader(new String[] { "File", "Company", "Business Unit", "Type",
-				"Version", "Active From", "From Period", "To Period" });
+		dataAssumptionsPagedTableConfig.setColumnHeaders(Arrays.asList(new String[] { "File", "Company", "Business Unit", "Type",
+				"Version", "Active From", "From Period", "To Period" }));
 		dataAssumptionsPagedTableConfig.setTableColumnMappingId(new Object[] { "file", "company", "businessUnit",
 				"type", "version", "activeFrom", "fromPeriod", "toPeriod" });
 		dataAssumptionsResultsTable.setGtnPagedTableConfig(dataAssumptionsPagedTableConfig);

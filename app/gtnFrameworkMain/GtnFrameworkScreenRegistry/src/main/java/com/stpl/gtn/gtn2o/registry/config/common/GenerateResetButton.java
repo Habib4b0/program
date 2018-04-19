@@ -16,20 +16,20 @@ public class GenerateResetButton {
 	public void addGenerateResetButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
 		
-		GtnUIFrameworkComponentConfig generateResetButtonButtonLayout = new GtnUIFrameworkComponentConfig();
-		generateResetButtonButtonLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		generateResetButtonButtonLayout.setAuthorizationIncluded(true);
-		generateResetButtonButtonLayout.setComponentId(nameSpace + "_" + "generateResetButtonButtonLayout");
-		generateResetButtonButtonLayout.setAddToParent(Boolean.TRUE);
-		generateResetButtonButtonLayout.setParentComponentId(parentComponentId);
+		GtnUIFrameworkComponentConfig generateResetButtonLayout = new GtnUIFrameworkComponentConfig();
+		generateResetButtonLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		generateResetButtonLayout.setAuthorizationIncluded(true);
+		generateResetButtonLayout.setComponentId(nameSpace + "_" + "generateResetButtonButtonLayout");
+		generateResetButtonLayout.setAddToParent(Boolean.TRUE);
+		generateResetButtonLayout.setParentComponentId(parentComponentId);
 		GtnUIFrameworkLayoutConfig layoutConfig = new GtnUIFrameworkLayoutConfig();
 		layoutConfig.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
-		generateResetButtonButtonLayout.setGtnLayoutConfig(layoutConfig);
-		generateResetButtonButtonLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		generateResetButtonLayout.setGtnLayoutConfig(layoutConfig);
+		generateResetButtonLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
-		componentList.add(generateResetButtonButtonLayout);
+		componentList.add(generateResetButtonLayout);
 
-		addGenerateResetButtonButton(componentList, generateResetButtonButtonLayout.getComponentId(), nameSpace);
+		addGenerateResetButtonButton(componentList, generateResetButtonLayout.getComponentId(), nameSpace);
 	}
 
 	private void addGenerateResetButtonButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
