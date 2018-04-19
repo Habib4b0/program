@@ -153,10 +153,8 @@ public class NMProjectionResultsLogic {
         StringBuilder resultBuilder = new StringBuilder();
         if (discountList != null && !discountList.isEmpty()) {
             for (int i = 0; i < discountList.size(); i++) {
-                //result+="("+discountList.get(i)+")";
                 resultBuilder.append('(').append(discountList.get(i)).append(')');
                 if(i!=discountList.size()-1){
-                    //result+=",";
                     resultBuilder.append(',');
                 }
             }

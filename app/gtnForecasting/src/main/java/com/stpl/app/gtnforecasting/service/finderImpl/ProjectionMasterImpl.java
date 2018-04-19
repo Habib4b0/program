@@ -640,8 +640,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                 String fkTbName[] = foreignKeyTableName.split(",");
                 int pksize = fkTbName.length;
                 for (int i = 0; i < pksize; i++) {
-                    //sql1 += "delete from ";
-                    sqlBuilder.append("delete from ");
+                   sqlBuilder.append("delete from ");
                     if (fkTbName[i] != null && !StringUtils.EMPTY.equals(fkTbName[i]) && !ConstantsUtils.NULL.equals(fkTbName[i])) {
                         sqlBuilder.append(fkTbName[i]);
                     }
@@ -1342,7 +1341,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                         customSql = customSql.concat(" UNION ALL ");
                     }
                     finalQueryBuilder.append(customSql);
-                    //finalQuery += customSql;
+                    
                 }
                 finalQuery = finalQueryBuilder.toString();
                 List tempValueList = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);

@@ -5221,7 +5221,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 itemId = tableLogic.getExpandedTreeValues(tableTreeLevelNo);
             }
             if (itemId != null) {
-                //hierarchyNo += ((DiscountProjectionDTO) itemId).getHierarchyNo() + ",";
                 hierarchyNoBuilder.append(((DiscountProjectionDTO) itemId).getHierarchyNo()).append(',');
             }
         }

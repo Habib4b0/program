@@ -506,10 +506,8 @@ public class Details extends CustomComponent {
 
         for (String variables : accrualRateSelectionDTO.getVariableList()) {
             if (StringUtils.EMPTY.equals(varValueBuilder.toString())) {
-                //varValue += variables;
                 varValueBuilder.append(variables);
             } else {
-                //varValue += "," + variables;
                 varValueBuilder.append(',').append(variables);
             }
         }

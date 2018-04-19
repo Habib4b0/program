@@ -129,7 +129,6 @@ public class NationalAssumptionsUI extends UI {
                 for (Throwable t = event.getThrowable(); t != null; t = t.getCause()) {
                     if (t.getCause() == null) // We're at final cause
                     {
-                        //cause += t.getClass().getName();
                         causeBuilder.append(t.getClass().getName());
                     }
 

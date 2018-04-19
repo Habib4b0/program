@@ -739,7 +739,6 @@ public class DiscountQueryBuilder {
         String framedString;
         StringBuilder framedStringBuilder = new StringBuilder();
         for (String value : discountList) {
-           // framedString += " '" + (value.contains("~") ? value.split("~")[1] : value) + "'" + ",";
             framedStringBuilder.append(" '").append(value.contains("~") ? value.split("~")[1] : value).append( '\'' ).append( ',');
         }
         framedString = framedStringBuilder.toString();
@@ -754,11 +753,9 @@ public class DiscountQueryBuilder {
         for (String value : discountList) {
             if (value.contains(",")) {
                 for (String string : value.split(",")) {
-                    //framedInQueryString += " '" + (string) + "'" + ",";
                     framedInQueryStringBuilder.append(" '").append(string).append( '\'' ).append( ',');
                 }
             } else {
-                //framedInQueryString += " '" + (value) + "'" + ",";
                 framedInQueryStringBuilder.append(" '" ).append(value).append('\'').append( ',');
             }
         }
@@ -775,11 +772,9 @@ public class DiscountQueryBuilder {
         for (String value : discountList) {
             if (value.contains(",")) {
                 for (String string : value.split(",")) {
-                    //framedRsString += " '" + (string) + "'" + ",";
                     framedRsStringBuilder.append(" '").append(string).append( '\'' ).append( ',');
                 }
             } else {
-                //framedRsString += " '" + (value) + "'" + ",";
                 framedRsStringBuilder.append(" '").append(value).append( '\'' ).append( ',');
             }
         }

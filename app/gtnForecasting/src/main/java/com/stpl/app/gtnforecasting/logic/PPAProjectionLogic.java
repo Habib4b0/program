@@ -729,7 +729,6 @@ public class PPAProjectionLogic {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    //queryString += " AND " + filterCriteria.get(stringFilter.getPropertyId().toString()) + " LIKE '%" + stringFilter.getFilterString() + "%'";
                     queryStringBuilder.append(" AND " ).append( filterCriteria.get(stringFilter.getPropertyId().toString()) ).append( " LIKE '%" ).append( stringFilter.getFilterString() ).append( "%'");
 
                 }

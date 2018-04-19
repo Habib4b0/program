@@ -41,11 +41,9 @@ public class NmDiscountImpl {
             if (priceGroupType != null && !priceGroupType.isEmpty()) {
                 for (int i = 0; i < priceGroupType.size(); i++) {
                     if (i != 0) {
-                        //selectedDiscounts += comma;
                         selectedDiscountsBuilder.append(comma);
                     }
-                    //selectedDiscounts += "'" + priceGroupType.get(i) + "'";
-                    selectedDiscountsBuilder.append("'" ).append( priceGroupType.get(i) ).append( "'");
+                    selectedDiscountsBuilder.append('\'' ).append( priceGroupType.get(i) ).append( '\'');
                 }
             }
             selectedDiscounts = selectedDiscountsBuilder.toString();
@@ -1621,10 +1619,8 @@ public class NmDiscountImpl {
             StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    //idString = idString + discountprojectionId.get(i) + ",";
                     idStringBuilder.append(discountprojectionId.get(i) ).append( ',');
                 } else {
-                    //idString = idString + discountprojectionId.get(i);
                     idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
@@ -1793,10 +1789,8 @@ public class NmDiscountImpl {
             StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    //idString = idString + discountprojectionId.get(i) + ",";
                     idStringBuilder.append(discountprojectionId.get(i) ).append( ',');
                 } else {
-                    //idString = idString + discountprojectionId.get(i);
                     idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
@@ -2008,10 +2002,8 @@ public class NmDiscountImpl {
 
                 for (int i = 0; i < discountList.size(); i++) {
                     if (i != 0) {
-                        //selectedDiscounts += comma;
                         selectedDiscountsBuilder.append(comma);
                     }
-                    //selectedDiscounts += "'" + discountList.get(i) + "'";
                     selectedDiscountsBuilder.append('\'' ).append( discountList.get(i) ).append( '\'');
                 }
                 selectedDiscounts = selectedDiscountsBuilder.toString();
@@ -2051,10 +2043,8 @@ public class NmDiscountImpl {
             StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < projectionDetailsId.size(); i++) {
                 if (i != projectionDetailsId.size() - 1) {
-                    //idString = idString + projectionDetailsId.get(i) + ",";
                     idStringBuilder.append(projectionDetailsId.get(i) ).append( ',');
                 } else {
-                    //idString = idString + projectionDetailsId.get(i);
                     idStringBuilder.append(projectionDetailsId.get(i));
                 }
             }
@@ -2178,10 +2168,8 @@ public class NmDiscountImpl {
                 StringBuilder idStringBuilder = new StringBuilder();
                 for (int i = 0; i < projectionDetailsId.size(); i++) {
                     if (i != projectionDetailsId.size() - 1) {
-                        //idString = idString + projectionDetailsId.get(i) + ",";
                         idStringBuilder.append(projectionDetailsId.get(i) ).append( ',');
                     } else {
-                        //idString = idString + projectionDetailsId.get(i);
                         idStringBuilder.append(projectionDetailsId.get(i));
                     }
                 }
@@ -2540,10 +2528,8 @@ public class NmDiscountImpl {
             String declareStatement = "";
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    //idString = idString + discountprojectionId.get(i) + ",";
                     idStringBuilder.append(discountprojectionId.get(i) ).append( ',');
                 } else {
-                    //idString = idString + discountprojectionId.get(i);
                     idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
@@ -2698,10 +2684,8 @@ public class NmDiscountImpl {
             StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    //idString = idString + discountprojectionId.get(i) + ",";
                     idStringBuilder.append(discountprojectionId.get(i) ).append( ',');
                 } else {
-                    //idString = idString + discountprojectionId.get(i);
                     idStringBuilder.append(discountprojectionId.get(i));
                 }
             }

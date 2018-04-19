@@ -1768,7 +1768,6 @@ public class AlternateHistoryLogic {
             String frequency = (StringUtils.EMPTY + object).substring(frequencyStartIndex, frequncyEndIndex);
             String year = (StringUtils.EMPTY + object).substring(yearStartIndex, yearEndIndex);
             frequency = isMonthlyFrequency ? (months.indexOf(StringUtils.capitalize(frequency)) + 1) + StringUtils.EMPTY : frequency;
-            //selectedPeriods += "'" + frequency + " " + year + "',";
             selectedPeriodsBuilder.append('\'' ).append( frequency ).append( ' ' ).append( year ).append( "',");
         }
         selectedPeriods = selectedPeriodsBuilder.toString();

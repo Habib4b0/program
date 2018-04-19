@@ -741,8 +741,7 @@ public class DiscountProjectionLogic {
             StringBuilder discountIdsBuilder = new StringBuilder();
             String query;
             for (String discountName : selectedDiscount) {
-                //discountIds += "'" + discountName + "',";
-                discountIdsBuilder.append("'").append(discountName ).append( "',");
+                discountIdsBuilder.append('\'').append(discountName ).append( "',");
             }
             discountIds = discountIdsBuilder.toString();
             discountIds = discountIds.substring(0, discountIds.length() - 1);
@@ -1063,7 +1062,6 @@ public class DiscountProjectionLogic {
             for (int i = 0; i < list.size(); i++) {
                 Object obj = (Object) list.get(i);
                 if (!StringUtils.EMPTY.equalsIgnoreCase(String.valueOf(obj)) && !"null".equalsIgnoreCase(String.valueOf(obj))) {
-                    //detailsSid += StringUtils.EMPTY + Integer.valueOf(String.valueOf(obj)) + ",";
                     idStringBuilder.append(StringUtils.EMPTY ).append( Integer.valueOf(String.valueOf(obj)) ).append( ',');
                 }
             }

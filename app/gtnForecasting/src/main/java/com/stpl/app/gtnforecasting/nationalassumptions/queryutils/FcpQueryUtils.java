@@ -84,10 +84,8 @@ public class FcpQueryUtils {
         int lastOne = size - 1;
         for (int i = 0; i < size; i++) {
             if (i == lastOne) {
-                //priceType += priceTypeList.get(i).toUpperCase();
                 priceTypeBuilder.append(priceTypeList.get(i).toUpperCase());
             } else {
-                //priceType += priceTypeList.get(i).toUpperCase() + ",";
                 priceTypeBuilder.append(priceTypeList.get(i).toUpperCase() ).append( ',');
             }
         }

@@ -405,8 +405,6 @@ public class UiUtils {
 			loop = 1;
 		}
 		for (int i = loop, j = splitArray.length; i < j; i++) {
-			//finalValue += splitArray[i].replaceFirst(String.valueOf(splitArray[i].charAt(0)),
-			//		String.valueOf(splitArray[i].charAt(0)).toUpperCase());
                         finalValueBuilder.append(finalValue).append(splitArray[i].replaceFirst(String.valueOf(splitArray[i].charAt(0)),
 					String.valueOf(splitArray[i].charAt(0)).toUpperCase()));
 		}

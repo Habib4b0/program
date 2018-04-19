@@ -2514,7 +2514,6 @@ public class SalesLogic {
                     for (Map.Entry<String, Map<String, Double>> entrys : salesMap.entrySet()) {
                         query = updateQuery.replace(Constant.YEAR1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[0]).replace(Constant.PERIOD1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[1]);
                         query = addFrequencyInQuery(projectionSelectionDTO.getFrequencyDivision(), Integer.parseInt(entrys.getKey().split(",")[1]), query);
-                        //bulkQuery += calculationLogic(projectionSelectionDTO, salesDTO.getHierarchyNo(), enteredValue, query, entrys.getValue(), entrys.getValue());
                         bulkQueryBuilder.append(calculationLogic(projectionSelectionDTO, salesDTO.getHierarchyNo(), enteredValue, query, entrys.getValue(), entrys.getValue()));
                     }
                     bulkQuery = bulkQueryBuilder.toString();
@@ -3392,7 +3391,6 @@ public class SalesLogic {
         Map<String, String> returnMap = projSelDTO.getSessionDTO().getReturnsDetailsMap();
         for (Map.Entry<String, String> entr : returnMap.entrySet()) {
             if (entr.getKey().contains(projSelDTO.getHierarchyNo())) {
-                //returnDetailsSID += entr.getValue() + ",";
                 returnDetailsSIDBuilder.append(entr.getValue() ).append( ',');
             }
         }

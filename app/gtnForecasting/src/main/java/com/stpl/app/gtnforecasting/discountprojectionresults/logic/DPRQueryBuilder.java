@@ -84,10 +84,8 @@ public class DPRQueryBuilder {
             StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    //idString = idString + discountprojectionId.get(i) + ",";
                     idStringBuilder.append(discountprojectionId.get(i)).append(',');
                 } else {
-                    //idString = idString + discountprojectionId.get(i);
                     idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
@@ -225,10 +223,8 @@ public class DPRQueryBuilder {
             StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    //idString = idString + discountprojectionId.get(i) + ",";
                     idStringBuilder.append(discountprojectionId.get(i)).append(',');
                 } else {
-                    //idString = idString + discountprojectionId.get(i);
                     idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
@@ -345,10 +341,8 @@ public class DPRQueryBuilder {
             StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < projectionDetailsId.size(); i++) {
                 if (i != projectionDetailsId.size() - 1) {
-                    //idString = idString + projectionDetailsId.get(i) + ",";
                     idStringBuilder.append(projectionDetailsId.get(i)).append(',');
                 } else {
-                    //idString = idString + projectionDetailsId.get(i);
                     idStringBuilder.append(projectionDetailsId.get(i));
                 }
             }
@@ -472,10 +466,8 @@ public class DPRQueryBuilder {
                 StringBuilder idStringBuilder = new StringBuilder();
                 for (int i = 0; i < projectionDetailsId.size(); i++) {
                     if (i != projectionDetailsId.size() - 1) {
-                        //idString = idString + projectionDetailsId.get(i) + ",";
                         idStringBuilder.append(projectionDetailsId.get(i)).append(',');
                     } else {
-                        //idString = idString + projectionDetailsId.get(i);
                         idStringBuilder.append(projectionDetailsId.get(i));
                     }
                 }

@@ -82,10 +82,8 @@ public class MedicaidQueryUtils {
         int lastOne = size - 1;
         for (int i = 0; i < size; i++) {
             if (i == lastOne) {
-                //priceTypeString += priceTypeList.get(i).toUpperCase();
                 priceTypeStringBuilder.append( priceTypeList.get(i).toUpperCase());
             } else {
-                //priceTypeString += priceTypeList.get(i).toUpperCase() + ",";
                 priceTypeStringBuilder.append( priceTypeList.get(i).toUpperCase() ).append( ',');
             }
         }

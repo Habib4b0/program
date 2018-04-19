@@ -314,8 +314,6 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
             if (selectedResultsBean.size() != 0) {
                 List<ComparisonLookupDTO> list = selectedResultsBean.getItemIds();
                 for (ComparisonLookupDTO tempLookUpDTO : list) {
-//                    notNeededProjectionIds += ",";
-//                    notNeededProjectionIds += tempLookUpDTO.getProjectionId();
                     notNeededProjectionIdsBuilder.append(',');
                     notNeededProjectionIdsBuilder.append(tempLookUpDTO.getProjectionId());
                 }

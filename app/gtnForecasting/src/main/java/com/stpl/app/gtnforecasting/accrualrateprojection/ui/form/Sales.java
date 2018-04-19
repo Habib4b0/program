@@ -397,11 +397,9 @@ public class Sales extends CustomComponent {
         String actionValue = (Constant.EDIT_CAPS.equalsIgnoreCase(session.getAction()) || Constant.VIEW_CAPS.equalsIgnoreCase(session.getAction())) ? Constant.UPDATE_SMALL : "Save";
         for (String variables : selectedVariables) {
             if (StringUtils.EMPTY.equals(varValueBuilder.toString())) {
-                //varValue += variables;
                 varValueBuilder.append(variables);
             } else {
 
-                //varValue += "," + variables;
                 varValueBuilder.append(',').append(variables);
             }
         }

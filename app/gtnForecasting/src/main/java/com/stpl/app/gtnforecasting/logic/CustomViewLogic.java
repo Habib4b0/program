@@ -148,10 +148,8 @@ public class CustomViewLogic {
                 Integer LEVEL_CCP_ID = jsd.get(j);
                String subQuery = query.replace("[$CCP_DETAILS_SID]", String.valueOf(LEVEL_CCP_ID));
                 if (selectQueryStringBuilder.length() == 0) {
-                    //selectQuery += subQuery;
                     selectQueryStringBuilder.append(subQuery);
                 } else {
-                    //selectQuery += " UNION ALL " + subQuery;
                     selectQueryStringBuilder.append(" UNION ALL ").append(subQuery);
                 }
             }
@@ -234,11 +232,9 @@ listNameCollection.add(listName);
             if (LIST_NAME == null) {
                 if ((!objArray[0].equals(lastTableName) || i == lastElement) && !lastTableName.isEmpty()) {
                     if (!queryBuilder.toString().isEmpty()) {
-                        //query += " UNION ALL ";
                         queryBuilder.append(" UNION ALL ");
                     }
-                    //query += "SELECT " + lastFieldName + "," + lastTableName + "_SID  " + " FROM " + lastTableName + " WHERE " + lastTableName + "_SID in( " + LEVEL_SID + " )";
-                    queryBuilder.append("SELECT ").append(lastFieldName ).append( "," ).append( lastTableName ).append( "_SID  " ).append( " FROM " ).append( lastTableName ).append( " WHERE " ).append( lastTableName ).append( "_SID in( " ).append( LEVEL_SID ).append( " )");
+                    queryBuilder.append("SELECT ").append(lastFieldName ).append( ',' ).append( lastTableName ).append( "_SID  " ).append( " FROM " ).append( lastTableName ).append( " WHERE " ).append( lastTableName ).append( "_SID in( " ).append( LEVEL_SID ).append( " )");
                 }
             } else {
                 helperList_values.add(LEVEL_ID);

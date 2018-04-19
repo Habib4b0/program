@@ -529,15 +529,11 @@ public class DataSelectionLogic {
 				int listSize = addLevels.size();
 				for (int i = 0; i < listSize; i++) {
 					if (i == 0) {
-						//insertQuery += "Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID)  ";
                                                 insertQueryBuilder.append("Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID)  ");
 					}
-					//insertQuery += SELECT_CAPS + projectionId + " , "
-					//		+ UiUtils.parseStringToInteger(String.valueOf(addLevels.get(i)));
                                         insertQueryBuilder.append(SELECT_CAPS).append(projectionId ).append( " , "
 							).append( UiUtils.parseStringToInteger(String.valueOf(addLevels.get(i))));
 					if (i != listSize - 1) {
-						//insertQuery += UNION_ALL;
                                                 insertQueryBuilder.append(UNION_ALL);
 					}
 				}
@@ -545,23 +541,16 @@ public class DataSelectionLogic {
 				int listSize = levelList.size();
 				for (int i = 0; i < listSize; i++) {
 					if (i == 0) {
-						//insertQuery = insertQuery
-						//		+ "Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) ";
                                                 insertQueryBuilder.append("Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) ");
 					}
-					//insertQuery += SELECT_CAPS + projectionId + " , " + levelList.get(i).getRelationshipLevelSid();
                                         insertQueryBuilder.append(SELECT_CAPS ).append( projectionId ).append( " , " ).append( levelList.get(i).getRelationshipLevelSid());
 					if (i != listSize - 1) {
-						//insertQuery += UNION_ALL;
                                                 insertQueryBuilder.append(UNION_ALL);
 					}
 				}
 				if (insertQueryBuilder.toString().isEmpty()) {
-					//insertQuery = insertQuery
-					//		+ "Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) ";
                                         insertQueryBuilder.append("Insert into PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) ");
 				} else {
-					//insertQuery += UNION_ALL + endLevelsQuery;
                                         insertQueryBuilder.append(UNION_ALL ).append( endLevelsQuery);
 				}
 			}

@@ -601,11 +601,9 @@ public class MProjectionVarianceLogic {
         StringBuilder fromBuilder = new StringBuilder();
         StringBuilder toBuilder = new StringBuilder();
         for (int i = 0; i < fromArray.length; i++) {
-            //from = from + fromArray[i];
             fromBuilder.append(fromArray[i]);
         }
         for (int i = 0; i < toArray.length; i++) {
-            //to = to + toArray[i];
             toBuilder.append(toArray[i]);
         }
         from = fromBuilder.toString();

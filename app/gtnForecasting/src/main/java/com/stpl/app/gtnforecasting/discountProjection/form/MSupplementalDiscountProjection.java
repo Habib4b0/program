@@ -1286,11 +1286,9 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     if (!emptyNdcList.isEmpty()) {
                         for (int k = 0; k < emptyNdcList.size(); k++) {
                             if (k != 0 && !emptyValue.equals(emptyNdcList.get(k))) {
-                                //lookUpValue += ",";
                                 lookUpValueBuilder.append(',');
                             }
                             emptyValue = emptyNdcList.get(k);
-                           // lookUpValue += emptyNdcList.get(k);
                             lookUpValueBuilder.append(emptyNdcList.get(k));
                         }
                     }
@@ -1307,7 +1305,6 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                             String tempValue;
                             StringBuilder tempValueBuilder = new StringBuilder();
                             for (String le : lit) {
-                                //tempValue += le + ", ";
                                 tempValueBuilder.append(le ).append( ", ");
                             }
                             tempValue = tempValueBuilder.toString();
@@ -1320,28 +1317,19 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     List<String> ndcValue = returnList.get(NumericConstants.THREE);
 
                     if (!StringUtils.EMPTY.equals(lookUpValue)) {
-                        //notifyContent += lookUpValue;
-                        //notifyContent += ",";
                         notifyContentBuilder.append(lookUpValue).append(',');
                     }
 
                     for (int j = 0; j < ndcValue.size(); j++) {
-
-                        //notifyContent += j == 0 ? StringUtils.EMPTY : " and";
-
-                        //notifyContent += ndcValue.get(j);
                         notifyContentBuilder.append(j == 0 ? StringUtils.EMPTY : " and").append(ndcValue.get(j));
 
                         if (quaterName.length != 0) {
-                            //notifyContent += " " + quaterName[j];
                             notifyContentBuilder.append(' ').append(quaterName[j]);
 
                             if (quatValue != quaterName.length) {
-                                //notifyContent += ",";
                                 notifyContentBuilder.append(',');
                             }
                         } else if (quatValue != quaterName.length) {
-                            //notifyContent += ", ";
                             notifyContentBuilder.append(", ");
                         }
                     }
