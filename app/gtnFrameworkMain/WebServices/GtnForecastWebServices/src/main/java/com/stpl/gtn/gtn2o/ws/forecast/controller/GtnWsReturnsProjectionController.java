@@ -5,11 +5,6 @@
  */
 package com.stpl.gtn.gtn2o.ws.forecast.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
@@ -17,6 +12,7 @@ import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.service.GtnReturnsExcelLoadService;
 import com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsReturnsExcelHeaderService;
 import com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsReturnsHeaderService;
+import com.stpl.gtn.gtn2o.ws.forecast.service.HeaderGeneratorService;
 import com.stpl.gtn.gtn2o.ws.forecast.service.calculation.GtnWsCalculationService;
 import com.stpl.gtn.gtn2o.ws.forecast.service.tree.GtnTreeTableLoadService;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
@@ -27,8 +23,11 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
 import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
-
 import net.sourceforge.jeval.EvaluationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
@@ -53,6 +52,8 @@ public class GtnWsReturnsProjectionController {
 
 	@Autowired
 	GtnReturnsExcelLoadService returnsExcelLoadService;
+        @Autowired
+	private HeaderGeneratorService reportHeaderService;
 
 	private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -152,7 +153,48 @@ public class GtnWsReturnsProjectionController {
 					.getReturnsRightTableColumns(request.getGtnForecastBean());
 			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(rightHeader);
 			return gtnUIFrameworkWebserviceResponse;
+		} catch (Exception ex) {
+			LOGGER.error(ex.getMessage(), ex);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			return gtnUIFrameworkWebserviceResponse;
+		}
+	}
+
+        @PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_LEFT_HEADERS_SERVICE)
+	public GtnUIFrameworkWebserviceResponse getReportConfigureLeftHeaders(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+			GtnWsPagedTreeTableResponse leftHeader = reportHeaderService.getReportLeftTableColumns(request);
+			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(leftHeader);
+			return gtnUIFrameworkWebserviceResponse;
 		} catch (GtnFrameworkGeneralException ex) {
+			LOGGER.error(ex.getMessage(), ex);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			return gtnUIFrameworkWebserviceResponse;
+		}
+	}
+
+	@PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE)
+	public GtnUIFrameworkWebserviceResponse getReportConfiguredRightHeaders(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+
+		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+
+			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+			GtnWsPagedTreeTableResponse rightHeader = reportHeaderService
+					.getReportRightTableColumnsDummy();
+			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(rightHeader);
+			return gtnUIFrameworkWebserviceResponse;
+		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage(), ex);
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);

@@ -186,7 +186,7 @@ public class GtnUIFrameworkPagedGridLogic {
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(componentConfig.getComponentId(), componentConfig.getSourceViewId());
 		tableBaseComponent.getComponentData().setDataTableRecordList(null);
-		resetAndInit();
+		tableBaseComponent.getComponentData().getPagedGrid().refreshGrid();
 	}
 
 	public void startSearchProcess(boolean isActive) {
@@ -194,7 +194,7 @@ public class GtnUIFrameworkPagedGridLogic {
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(componentConfig.getComponentId(), componentConfig.getSourceViewId());
 		tableBaseComponent.getComponentData().setDataTableRecordList(null);
-		resetAndInit();
+		tableBaseComponent.getComponentData().getPagedGrid().refreshGrid();
 	}
 
 //	public List<GtnWsRecordBean> generateExcel() {
@@ -217,18 +217,20 @@ public class GtnUIFrameworkPagedGridLogic {
 		addCurrentSearchCriteria(vaadinFieldValues, vaadinFieldDescriptionList);
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(componentConfig.getComponentId(), componentConfig.getSourceViewId());
-		tableBaseComponent.getComponentData().setDataTableRecordList(null);
-		resetAndInit();
+		tableBaseComponent.getComponentData().getPagedGrid().refreshGrid();
+//		resetAndInit();
 	}
 
-	private void resetAndInit() {
-//		resetFilter();
-//		super.clearAll();
-//		super.getFilters().clear();
-//		super.removeAllContainerFilters();
-//		super.setRequiredCount(true);
-//		super.setCurrentPage(1);
-	}
+//	private void resetAndInit() {
+//            
+//            
+////		resetFilter();
+////		super.clearAll();
+////		super.getFilters().clear();
+////		super.removeAllContainerFilters();
+////		super.setRequiredCount(true);
+////		super.setCurrentPage(1);
+//	}
 
 	public void addCurrentSearchCriteria(List<String> vaadinFieldValues, List<String> vaadinFieldDescriptionList)
 			throws GtnFrameworkValidationFailedException {
