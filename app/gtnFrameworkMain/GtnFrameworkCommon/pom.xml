@@ -35,14 +35,12 @@
             <artifactId>GtnFrameworkPropertyManager</artifactId>
             <version>${GtnFrameworkPropertyManager.version}</version>
             <type>jar</type>
-            
         </dependency>
         <dependency>
             <groupId>com.stpl.gtn.gtn2o</groupId>
             <artifactId>GtnLogger</artifactId>
             <version>1.0</version>
-            <type>jar</type>
-            
+            <type>jar</type> 
         </dependency>
     </dependencies>
 
