@@ -113,7 +113,7 @@ public class GtnFrameworkSqlQueryEngine {
 			//long startTime = queryLogger.startQueryLog(sqlQuery);
 			Query query = generateSQLQuery(session, sqlQuery, params, type);
 			queyValuelist = query.list();
-			//queryLogger.endQueryLog(startTime, sqlQuery);
+			//queryLogger.endQueryLog(startTime, sqlQuery); 
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
 			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,
