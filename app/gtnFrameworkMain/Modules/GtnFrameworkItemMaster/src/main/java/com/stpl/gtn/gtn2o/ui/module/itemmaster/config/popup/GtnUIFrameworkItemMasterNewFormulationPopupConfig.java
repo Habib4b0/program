@@ -721,7 +721,7 @@ public class GtnUIFrameworkItemMasterNewFormulationPopupConfig {
 				.addActionParameter(GtnFrameworkItemMasterStringContants.GTN_ITEM_MASTER_VALIDATION_MSG_RESET_HEADER);
 		resetActionConfig.addActionParameter(GtnFrameworkItemMasterStringContants.GTN_ITEM_MASTER_VALIDATION_MSG_RESET);
 
-		Map<String, Object> resetMap = new HashMap<>();
+		Map<String, Object> resetMap = new HashMap<>(50);
 		resetMap.put(GtnFrameworkItemMasterStringContants.NF_POPUP + GtnFrameworkCommonConstants.ITEM_SYSTEM_ID,
 				GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		resetMap.put(
