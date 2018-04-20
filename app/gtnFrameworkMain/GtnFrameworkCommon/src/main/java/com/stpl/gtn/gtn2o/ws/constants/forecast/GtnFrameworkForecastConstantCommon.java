@@ -14,6 +14,8 @@ public class GtnFrameworkForecastConstantCommon {
 	public static final String BUSINESS_UNIT_GLCOMP = "BusinessUnitGLcomp";
 
 	public static final String PRODUCT_RELATIONSHIP = "ProductRelationship";
+	
+	public static final String RELATIONSHIP_VERSION = "RelationshipVersion";
 
 	public static final String PRODUCT_FORCAST_LEVEL = "ProductForecastLevel";
 

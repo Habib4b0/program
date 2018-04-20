@@ -33,6 +33,7 @@ import com.stpl.gtn.gtn2o.ws.request.processscheduler.GtnWsProcessSchedulerReque
 import com.stpl.gtn.gtn2o.ws.request.rebateplan.GtnWsRebatePlanGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.rebateschedule.GtnWsRebateScheduleGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
+import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.request.transaction.GtnWsTransactionRequest;
 import com.stpl.gtn.gtn2o.ws.request.udc.GtnWsUdcRequest;
 import com.stpl.gtn.gtn2o.ws.request.workflow.GtnWsCommonWorkflowRequest;
@@ -78,8 +79,8 @@ public class GtnUIFrameworkWebserviceRequest {
 	private GtnWsItemMasterRequest gtnWsItemMasterRequest;
 
 	private GtnWsForecastProjectionSubmitRequest gtnWsForecastProjectionSubmitRequest;
-        
-	private GtnWsCFFSubmitRequest gtnCffsubmitRequest ;
+
+	private GtnWsCFFSubmitRequest gtnCffsubmitRequest;
 
 	private GtnWsNetSalesFormulaGeneralRequest gtnWsNetSalesGeneralRequest;
 
@@ -123,8 +124,10 @@ public class GtnUIFrameworkWebserviceRequest {
 	private GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest;
 
 	private GtnWsUdcRequest gtnWsUdcRequest;
-	
-    private GtnWsAttachmentRequest gtnWsAttachmentRequest;
+
+	private GtnWsAttachmentRequest gtnWsAttachmentRequest;
+
+	private GtnWsReportRequest gtnWsReportRequest;
 
 	public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
 		return gtnWshirarchyInsertRequest;
@@ -449,22 +452,28 @@ public class GtnUIFrameworkWebserviceRequest {
 		this.gtnWsUdcRequest = gtnWsUdcRequest;
 	}
 
-        public GtnWsCFFSubmitRequest getGtnCffsubmitRequest() {
-            return gtnCffsubmitRequest;
-        }
+	public GtnWsCFFSubmitRequest getGtnCffsubmitRequest() {
+		return gtnCffsubmitRequest;
+	}
 
-        public void setGtnCffsubmitRequest(GtnWsCFFSubmitRequest gtnCffsubmitRequest) {
-            this.gtnCffsubmitRequest = gtnCffsubmitRequest;
-        }
+	public void setGtnCffsubmitRequest(GtnWsCFFSubmitRequest gtnCffsubmitRequest) {
+		this.gtnCffsubmitRequest = gtnCffsubmitRequest;
+	}
 
-		public GtnWsAttachmentRequest getGtnWsAttachmentRequest() {
-			return gtnWsAttachmentRequest;
-		}
+	public GtnWsAttachmentRequest getGtnWsAttachmentRequest() {
+		return gtnWsAttachmentRequest;
+	}
 
-		public void setGtnWsAttachmentRequest(GtnWsAttachmentRequest gtnWsAttachmentRequest) {
-			this.gtnWsAttachmentRequest = gtnWsAttachmentRequest;
-		}
+	public void setGtnWsAttachmentRequest(GtnWsAttachmentRequest gtnWsAttachmentRequest) {
+		this.gtnWsAttachmentRequest = gtnWsAttachmentRequest;
+	}
 
-       
+	public GtnWsReportRequest getGtnWsReportRequest() {
+		return gtnWsReportRequest;
+	}
+
+	public void setGtnWsReportRequest(GtnWsReportRequest gtnWsReportRequest) {
+		this.gtnWsReportRequest = gtnWsReportRequest;
+	}
 
 }
