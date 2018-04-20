@@ -310,7 +310,40 @@ public class GtnFrameworkContractDashboardContants {
         public static final String CONTRACT_DASHBOARD_SAVE_BUTTONLAYOUT = "contractDashboardSaveButtonlayout";
         public static final String CONTRACT_DASHBOARD_PROCESS_BUTTONLAYOUT = "contractDashboardProcessButtonlayout";
         public static final String CONTRACT_DASHBOARD_SUBMIT_BUTTONLAYOUT = "contractDashboardSubmitButtonlayout";
+    static {
+        COMPONENT_MEMBER_HEADER_MAP.put(GtnWsContractDashboardContants.CONTRACT,
+                new String[]{"Contract ID", "Contract No", "Contract Name", "Contract Type"});
+        COMPONENT_MEMBER_HEADER_MAP.put(GtnWsContractDashboardContants.COMPANY_FAMILY_PLAN,
+                new String[]{CFP_ID, CFP_NO, CFP_NAME, CFP_TYPE});
+        COMPONENT_MEMBER_HEADER_MAP.put(GtnWsContractDashboardContants.ITEM_FAMILY_PLAN,
+                new String[]{IFP_ID, "IFP No", IFP_NAME, IFP_TYPE});
+        COMPONENT_MEMBER_HEADER_MAP.put(GtnWsContractDashboardContants.PRICE_SCHEDULE,
+                new String[]{"PS ID", "PS No", "PS Name", "PS Type"});
+        COMPONENT_MEMBER_HEADER_MAP.put(GtnWsContractDashboardContants.REBATE_SCHEDULE,
+                new String[]{"RS ID", "RS No", "RS Name", "RS Type"});
 
+        COMPONENT_DETAILS_HEADER_MAP.put(GtnWsContractDashboardContants.CONTRACT, new String[]{"Contract No",
+            "Contract Name", "Contract Type", COMPANY_CATEGORY, CFP_STATUS2, START_DATE2, END_DATE2});
+        COMPONENT_DETAILS_HEADER_MAP.put(GtnWsContractDashboardContants.COMPANY_FAMILY_PLAN,
+                new String[]{COMPANY_NO, COMPANY_NAME, COMPANY_TYPE, COMPANY_CATEGORY, CFP_STATUS2});
+        COMPONENT_DETAILS_HEADER_MAP.put(GtnWsContractDashboardContants.ITEM_FAMILY_PLAN,
+                new String[]{ITEM_NO, ITEM_NAME, IFP_STATUS2, IFP_START_DATE, IFP_END_DATE});
+        COMPONENT_DETAILS_HEADER_MAP.put(GtnWsContractDashboardContants.PRICE_SCHEDULE,
+                new String[]{ITEM_NO, ITEM_NAME, "PS Status", "PS Start Date", "PS End Date"});
+        COMPONENT_DETAILS_HEADER_MAP.put(GtnWsContractDashboardContants.REBATE_SCHEDULE,
+                new String[]{ITEM_NO, ITEM_NAME, RS_STATUS, "RS Start Date", "RS End Date"});
+        
+        COMPONENT_DETAILS_COLUMN_MAP.put(GtnWsContractDashboardContants.CONTRACT,
+                new Object[]{"no", "name", "type", CATEGORY, STATUS, START_DATE, END_DATE});
+        COMPONENT_DETAILS_COLUMN_MAP.put(GtnWsContractDashboardContants.COMPANY_FAMILY_PLAN,
+                new Object[]{"no", "name", "type", CATEGORY, STATUS});
+        COMPONENT_DETAILS_COLUMN_MAP.put(GtnWsContractDashboardContants.ITEM_FAMILY_PLAN,
+                new Object[]{"no", "name", STATUS, START_DATE, END_DATE});
+        COMPONENT_DETAILS_COLUMN_MAP.put(GtnWsContractDashboardContants.PRICE_SCHEDULE,
+                new Object[]{"no", "name", STATUS, START_DATE, END_DATE});
+        COMPONENT_DETAILS_COLUMN_MAP.put(GtnWsContractDashboardContants.REBATE_SCHEDULE,
+                new Object[]{"no", "name", STATUS, START_DATE, END_DATE});
+    }
 	private static final String[] PP_MASS_POPULATE_FIELD = { PRICE_PROTECTION_STATUS, PRICE_PROTECTION_START_DATE,
 			PRICE_PROTECTION_END_DATE, PRICE_PROTECTION_PRICE_TYPE, NEP, NEP_FORMULA, BASE_PRICE, BASELINE_NET_WAC,
 			NET_BASELINE_WAC_FORMULA, SUBSEQUENT_PERIOD_PRICE_TYPE, NET_SUBSEQUEN_PERIOD_PRICE,
@@ -826,50 +859,15 @@ public class GtnFrameworkContractDashboardContants {
 	}
 
 	public static Object[] getComponentDetailsColumnMappedValue(String value) {
-		if (COMPONENT_DETAILS_COLUMN_MAP.isEmpty()) {
-			COMPONENT_DETAILS_COLUMN_MAP.put(GtnWsContractDashboardContants.CONTRACT,
-					new Object[] { "no", "name", "type", CATEGORY, STATUS, START_DATE, END_DATE });
-			COMPONENT_DETAILS_COLUMN_MAP.put(GtnWsContractDashboardContants.COMPANY_FAMILY_PLAN,
-					new Object[] { "no", "name", "type", CATEGORY, STATUS });
-			COMPONENT_DETAILS_COLUMN_MAP.put(GtnWsContractDashboardContants.ITEM_FAMILY_PLAN,
-					new Object[] { "no", "name", STATUS, START_DATE, END_DATE });
-			COMPONENT_DETAILS_COLUMN_MAP.put(GtnWsContractDashboardContants.PRICE_SCHEDULE,
-					new Object[] { "no", "name", STATUS, START_DATE, END_DATE });
-			COMPONENT_DETAILS_COLUMN_MAP.put(GtnWsContractDashboardContants.REBATE_SCHEDULE,
-					new Object[] { "no", "name", STATUS, START_DATE, END_DATE });
-		}
 		return COMPONENT_DETAILS_COLUMN_MAP.get(value);
 	}
 
 	public static String[] getComponentDetailsHeaderMappedValue(String value) {
-		if (COMPONENT_DETAILS_HEADER_MAP.isEmpty()) {
-			COMPONENT_DETAILS_HEADER_MAP.put(GtnWsContractDashboardContants.CONTRACT, new String[] { "Contract No",
-					"Contract Name", "Contract Type", COMPANY_CATEGORY, CFP_STATUS2, START_DATE2, END_DATE2 });
-			COMPONENT_DETAILS_HEADER_MAP.put(GtnWsContractDashboardContants.COMPANY_FAMILY_PLAN,
-					new String[] { COMPANY_NO, COMPANY_NAME, COMPANY_TYPE, COMPANY_CATEGORY, CFP_STATUS2 });
-			COMPONENT_DETAILS_HEADER_MAP.put(GtnWsContractDashboardContants.ITEM_FAMILY_PLAN,
-					new String[] { ITEM_NO, ITEM_NAME, IFP_STATUS2, IFP_START_DATE, IFP_END_DATE });
-			COMPONENT_DETAILS_HEADER_MAP.put(GtnWsContractDashboardContants.PRICE_SCHEDULE,
-					new String[] { ITEM_NO, ITEM_NAME, "PS Status", "PS Start Date", "PS End Date" });
-			COMPONENT_DETAILS_HEADER_MAP.put(GtnWsContractDashboardContants.REBATE_SCHEDULE,
-					new String[] { ITEM_NO, ITEM_NAME, RS_STATUS, "RS Start Date", "RS End Date" });
-		}
+
 		return COMPONENT_DETAILS_HEADER_MAP.get(value);
 	}
 
 	public static String[] getComponentHeaderMappedValue(String value) {
-		if (COMPONENT_MEMBER_HEADER_MAP.isEmpty()) {
-			COMPONENT_MEMBER_HEADER_MAP.put(GtnWsContractDashboardContants.CONTRACT,
-					new String[] { "Contract ID", "Contract No", "Contract Name", "Contract Type" });
-			COMPONENT_MEMBER_HEADER_MAP.put(GtnWsContractDashboardContants.COMPANY_FAMILY_PLAN,
-					new String[] { CFP_ID, CFP_NO, CFP_NAME, CFP_TYPE });
-			COMPONENT_MEMBER_HEADER_MAP.put(GtnWsContractDashboardContants.ITEM_FAMILY_PLAN,
-					new String[] { IFP_ID, "IFP No", IFP_NAME, IFP_TYPE });
-			COMPONENT_MEMBER_HEADER_MAP.put(GtnWsContractDashboardContants.PRICE_SCHEDULE,
-					new String[] { "PS ID", "PS No", "PS Name", "PS Type" });
-			COMPONENT_MEMBER_HEADER_MAP.put(GtnWsContractDashboardContants.REBATE_SCHEDULE,
-					new String[] { "RS ID", "RS No", "RS Name", "RS Type" });
-		}
 		return COMPONENT_MEMBER_HEADER_MAP.get(value);
 	}
 

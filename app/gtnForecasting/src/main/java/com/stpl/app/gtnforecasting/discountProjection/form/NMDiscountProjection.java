@@ -608,8 +608,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         variables.addItem(GROWTH.getConstant());
         variables.focus();
         variables.setImmediate(true);
-        variables.select(DISCOUNT_AMT.getConstant());
+        if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction())){
+        variables.select(DISCOUNT_AMT.getConstant());     
         projectionSelection.setdPVariablesList(Arrays.asList(new String[]{ DISCOUNT_AMT.getConstant()}));
+        }
         newBtn.setEnabled(true);
 
         startPeriodForecastTab.addItem(SELECT_ONE.getConstant());
@@ -1011,6 +1013,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 level.select(mapValue);
                 mapValue = map.get(Constant.YEAR_SELECTION_DDLB);
                 yearSelection.select(mapValue);
+                mapValue = map.get(Constant.VARIABLES);
+                String selectedValue = String.valueOf(mapValue);
+                selectedValue = selectedValue.replace("[", "");
+                String replacedValue = selectedValue.replace("]", "");
+                String[] array = replacedValue.split(",");
+                for(int i = 0; i < array.length; i++){
+                    mapValue = array[i];
+                    variables.select(((String)mapValue).trim());
+                }
+                
                 if (!CommonUtil.nullCheck(map.get(Constant.DISPLAY_FORMAT_SAVE))) {
                     CommonUtil.setCustomMenuBarValuesInEdit(map.get(Constant.DISPLAY_FORMAT_SAVE), displayFormatValues);
                 }
@@ -3873,6 +3885,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     public void saveSelections() {
         LOGGER.debug(" Entering Save Selection ");
         Map map = new HashMap();
+        Collection c = (Collection) variables.getValue();
+        List<String> l = new ArrayList();
+        for (Object s : c) {
+            l.add(String.valueOf(s));
+        }
+        projectionSelection.setdPVariablesList(l);
         try {
             map.put(Constant.FREQUENCY, projectionSelection.getFrequency());
             map.put(Constant.HISTORY, projectionSelection.getHistory());
@@ -3889,6 +3907,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             map.put("selectedDiscountNo", CommonUtils.CollectionToString(discountNoList, false));
             map.put("Program Selection Ddlb", String.valueOf(programSelection.getValue()));
             map.put(Constant.YEAR_SELECTION_DDLB, projectionSelection.getYear());
+            map.put(Constant.VARIABLES, variables.getValue());
             map.put(Constant.DISPLAY_FORMAT_SAVE, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(displayFormatValues), CommonUtil.COMMA));
             map.put(Constant.CUSTOMER_LEVEL_DDLB, customerlevelDdlb.getValue());
             map.put(Constant.CUSTOMER_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(customerFilterValues).get(SID), CommonUtil.COMMA));
@@ -4140,10 +4159,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 frequencyDdlb.setValue(QUARTERLY.getConstant());
                 periodOrder.select(ASCENDING.getConstant());
                 actualsProjs.select(ACTUALS.getConstant());
+                if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction())){
                 variables.unselect(DISCOUNT_RATE.getConstant());
                 variables.unselect(REBATE_PER_UNIT.getConstant());
                 variables.unselect(GROWTH.getConstant());
                 variables.select(DISCOUNT_AMT.getConstant());
+                }
                 uomDdlb.select("EACH");
                 loadDisplayFormatDdlb();
                 if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
@@ -5212,7 +5233,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      * @return
      */
     private String getHierarchyNoForCheckedRecord(final Set<String> tableLevelNo) {
-        String hierarchyNo = StringUtils.EMPTY;
+        String hierarchyNo;
+        StringBuilder hierarchyNoBuilder = new StringBuilder(); 
         for (String tableTreeLevelNo : tableLevelNo) {
 
             Object itemId = tableLogic.getcurrentTreeData(tableTreeLevelNo);
@@ -5220,9 +5242,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 itemId = tableLogic.getExpandedTreeValues(tableTreeLevelNo);
             }
             if (itemId != null) {
-                hierarchyNo += ((DiscountProjectionDTO) itemId).getHierarchyNo() + ",";
+                hierarchyNoBuilder.append(((DiscountProjectionDTO) itemId).getHierarchyNo()).append(',');
             }
         }
+        hierarchyNo = hierarchyNoBuilder.toString();
         return StringUtils.isEmpty(hierarchyNo) ? StringUtils.EMPTY
                 : hierarchyNo.substring(0, hierarchyNo.length() - 1);
     }

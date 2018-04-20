@@ -46,7 +46,7 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 
 		GtnWsSearchQueryConfig gtnWebServiceSearchQueryContext = new GtnWsSearchQueryConfig();
 
-		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
+		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>(70);
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.SYSTEM_ID,
 				configProvider.getColumnStringConfig("RS_MODEL_SID", "RSM"));
 		fieldToColumnDetailsMap.put("rebateScheduleId", configProvider.getColumnStringConfig("RS_ID", "RSM"));
@@ -161,7 +161,7 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 		GtnWsSearchQueryConfig gtnWebServiceSearchQueryContext = new GtnWsSearchQueryConfig();
 
-		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
+		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>(60);
 		fieldToColumnDetailsMap.put("createdBy",
 				configProvider.getColumnUserConfig("CREATED_BY", GtnFrameworkWebserviceConstant.IMTD_RSD));
 		fieldToColumnDetailsMap.put("checkRecordId",

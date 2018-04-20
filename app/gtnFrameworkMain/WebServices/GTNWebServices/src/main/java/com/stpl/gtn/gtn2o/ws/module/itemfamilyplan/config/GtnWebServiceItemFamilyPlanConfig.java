@@ -40,7 +40,7 @@ public class GtnWebServiceItemFamilyPlanConfig implements GtnWsSearchQueryConfig
 			gtnWebServiceSearchQueryConfig.setCountQuery(GtnWsIfpQueryContants.GTN_IFP_SEARCH_QUERY_COUNT);
 			gtnWebServiceSearchQueryConfig.setSearchQuery(GtnWsIfpQueryContants.GTN_IFP_SEARCH_QUERY);
 
-			Map<String, GtnWsColumnDetailsConfig> ifpColumnDetailsMap = new HashMap<>();
+			Map<String, GtnWsColumnDetailsConfig> ifpColumnDetailsMap = new HashMap<>(25);
 			GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 			ifpColumnDetailsMap.put("itemFamilyplanSystemId",
 					configProvider.getColumnIntegerConfig("IFP_MODEL_SID", "IFP"));

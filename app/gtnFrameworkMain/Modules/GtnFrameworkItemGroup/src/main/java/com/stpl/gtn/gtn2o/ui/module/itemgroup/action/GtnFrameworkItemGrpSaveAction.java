@@ -63,7 +63,7 @@ public class GtnFrameworkItemGrpSaveAction
 		infoBean.setItemGrpSid(systemId);
 		Integer versionId = (Integer) GtnUIFrameworkGlobalUI.getSessionProperty("versionId");
 		String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
-		infoBean.setModifiedBy(Integer.valueOf(userId));
+		infoBean.setModifiedBy(Integer.parseInt(userId));
 		if (versionId != null && versionId > 0) {
 			infoBean.setVersionNo(versionId + 1);
 		}

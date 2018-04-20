@@ -228,7 +228,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 
 			if (comboboxConfig.isHasDefaultValue()) {
 				for (int i = 0; i < captionList.size(); i++) {
-					if (comboboxConfig.getDefaultDesc().equals(captionList.get(i))) {
+					if (comboboxConfig.getDefaultDesc().equals(captionList.get(i))||comboboxConfig.getDefaultDesc().equals("next")) {
 						vaadin8ComboBox.setSelectedItem(valueList.get(i));
 						break;
 					}

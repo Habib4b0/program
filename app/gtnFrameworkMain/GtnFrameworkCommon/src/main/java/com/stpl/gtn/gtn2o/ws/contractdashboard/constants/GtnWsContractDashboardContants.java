@@ -234,32 +234,31 @@ public class GtnWsContractDashboardContants {
 	public static final String CONTRACT_DASHBOARD_TREE = "cdTree";
 
 	public static String getComponentMappedValue(String value) {
-		if (COMPONENT_VALUE_MAP.isEmpty()) {
-			COMPONENT_VALUE_MAP.put(CONTRACT, "1");
-			COMPONENT_VALUE_MAP.put(COMPANY_FAMILY_PLAN, "2");
-			COMPONENT_VALUE_MAP.put(ITEM_FAMILY_PLAN, "3");
-			COMPONENT_VALUE_MAP.put(PRICE_SCHEDULE, "4");
-			COMPONENT_VALUE_MAP.put(REBATE_SCHEDULE, "5");
-			COMPONENT_VALUE_MAP.put(SUMMARY, "S");
-			COMPONENT_VALUE_MAP.put(DETAIL, "D");
-			COMPONENT_VALUE_MAP.put(RIGHT, "R");
-			COMPONENT_VALUE_MAP.put(LEFT, "L");
-		}
 		return COMPONENT_VALUE_MAP.get(value);
 	}
 
 	private static final Map<String, String> COMPONENT_SESSION_VAR_MAP = new HashMap<>();
 
 	public static String getComponentSessionVariable(String value) {
-		if (COMPONENT_SESSION_VAR_MAP.isEmpty()) {
-			COMPONENT_SESSION_VAR_MAP.put("1", CONTRACT);
-			COMPONENT_SESSION_VAR_MAP.put("2", CFP);
-			COMPONENT_SESSION_VAR_MAP.put("3", IFP);
-			COMPONENT_SESSION_VAR_MAP.put("4", PS);
-			COMPONENT_SESSION_VAR_MAP.put("5", RS);
-		}
 		return COMPONENT_SESSION_VAR_MAP.get(value);
 	}
+        static {
+            COMPONENT_SESSION_VAR_MAP.put("1", CONTRACT);
+            COMPONENT_SESSION_VAR_MAP.put("2", CFP);
+            COMPONENT_SESSION_VAR_MAP.put("3", IFP);
+            COMPONENT_SESSION_VAR_MAP.put("4", PS);
+            COMPONENT_SESSION_VAR_MAP.put("5", RS);
+            COMPONENT_VALUE_MAP.put(CONTRACT, "1");
+            COMPONENT_VALUE_MAP.put(COMPANY_FAMILY_PLAN, "2");
+            COMPONENT_VALUE_MAP.put(ITEM_FAMILY_PLAN, "3");
+            COMPONENT_VALUE_MAP.put(PRICE_SCHEDULE, "4");
+            COMPONENT_VALUE_MAP.put(REBATE_SCHEDULE, "5");
+            COMPONENT_VALUE_MAP.put(SUMMARY, "S");
+            COMPONENT_VALUE_MAP.put(DETAIL, "D");
+            COMPONENT_VALUE_MAP.put(RIGHT, "R");
+            COMPONENT_VALUE_MAP.put(LEFT, "L");
+            
+    }
 
 	private static final Map<String, List<String>> ITEM_ADDITION_FIELD_VALUE_MAP = new HashMap<>();
 

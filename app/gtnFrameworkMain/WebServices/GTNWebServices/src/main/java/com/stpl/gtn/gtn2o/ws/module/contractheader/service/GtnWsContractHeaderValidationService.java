@@ -33,11 +33,11 @@ public class GtnWsContractHeaderValidationService {
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
 
-	public org.hibernate.SessionFactory getSessionFactory() {
+	public synchronized org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
-	public void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
+	public synchronized void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
