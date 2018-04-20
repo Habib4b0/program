@@ -69,7 +69,7 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 	
 		GtnUIFrameworkComponentConfig displaySelectionLayoutConfig = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "displaySelectionLayout", true, nameSpace + "_" + "projectionVarianceSubMainPanel");
-		displaySelectionLayoutConfig.setComponentWidth("175%");
+		displaySelectionLayoutConfig.setComponentWidth("180%");
 		displaySelectionLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		displaySelectionLayoutConfig.setAddToParent(true);
 		

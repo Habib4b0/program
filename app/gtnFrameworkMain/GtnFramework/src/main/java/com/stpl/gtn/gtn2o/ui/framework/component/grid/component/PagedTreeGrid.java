@@ -576,7 +576,7 @@ public class PagedTreeGrid {
         ComboBox itemsPerPage = new ComboBox();
         itemsPerPage.setItems(new Object[]{5, 10, 15, 20, 25, 50, 100});
         itemsPerPage.setSelectedItem(10);
-        itemsPerPage.setWidth("60px");
+        itemsPerPage.setWidth("100px");
         itemsPerPage.setEmptySelectionAllowed(false);
         itemsPerPage.addValueChangeListener(new HasValue.ValueChangeListener() {
             @Override
