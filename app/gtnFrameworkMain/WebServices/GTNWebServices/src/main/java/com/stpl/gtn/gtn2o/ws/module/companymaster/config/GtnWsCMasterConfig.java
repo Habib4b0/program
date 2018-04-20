@@ -88,7 +88,7 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 		gtnWebServiceSearchQueryConfig.setCountQuerySelectClause(GtnWsCMasterConstants.QUERY_COUNT);
 
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
-		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
+		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>(100);
 		fieldToColumnDetailsMap.put("companyMasterSid",
 				configProvider.getColumnStringConfig("COMPANY_MASTER_SID", "cm"));
 		GtnWsColumnDetailsConfig companyIdColumnConfig = configProvider.getColumnStringConfig("COMPANY_ID", "cm");

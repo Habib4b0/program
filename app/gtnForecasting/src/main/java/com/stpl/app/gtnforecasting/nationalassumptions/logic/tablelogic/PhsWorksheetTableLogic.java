@@ -27,7 +27,6 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
 public class PhsWorksheetTableLogic extends PageTreeTableLogic {
     
     private int levelNo;
-    private String hierarchyNo;
     private boolean firstGenerated = false;
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private PhsResultsLogic phsResLogic = new PhsResultsLogic();
