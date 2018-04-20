@@ -41,7 +41,6 @@ public class GtnFrameworkPeriodConfigurationContants {
 	public static final String SINGLE = "Single";
 	public static final String MULTIPLE = "Multiple";
 	public static final String AUTO = "Auto";
-	public static final String PERIOD_CONFIG_MAIN_LAYOUT = "PeriodConfigurationMainLayout";
 	public static final String PERIOD_CONFIG_LAYOUT = "periodConfigurationLayout";
 	public static final String NEGATIVE_ONLY_MSG = "Can contains  Negative Numbers and 0";
 	public static final String POSITIVE_ONLY_MSG = "Can contains  Positive and Negative Numbers and Zero";
@@ -59,7 +58,6 @@ public class GtnFrameworkPeriodConfigurationContants {
 			TO_PERIOD_DATE, TO_DEF_PERIOD_DATE };
 	public static final String FREQUENCY_FROM_COMPONENT = "frequencyFromComponent";
 	public static final String PERIOD_TO_LAYOUT = "PeriodToLayout";
-	public static final String PERIOD_CONFIGURATION_LAYOUT = "periodConfigurationLayout";
 	public static final String DEFAULT_FREQUENCY_TO = "defaultFrequencyTo";
 	public static final String ACTION_BUTTONLAYOUT = "actionButtonlayout";
 	public static final String DEFAULT_MODE_TO = "defaultModeTo";
@@ -128,6 +126,7 @@ public class GtnFrameworkPeriodConfigurationContants {
 			PERIOD_CONFIG_STRING_DATATYPE, PERIOD_CONFIG_STRING_DATATYPE, PERIOD_CONFIG_STRING_DATATYPE,
 			PERIOD_CONFIG_DATE, PERIOD_CONFIG_STRING_DATATYPE, PERIOD_CONFIG_STRING_DATATYPE,
 			PERIOD_CONFIG_STRING_DATATYPE, PERIOD_CONFIG_DATE };
+    public static final String FROM_DEFAULT_VALIDATION_FAILED = "From Default validation failed";
 
 	private GtnFrameworkPeriodConfigurationContants() {
 

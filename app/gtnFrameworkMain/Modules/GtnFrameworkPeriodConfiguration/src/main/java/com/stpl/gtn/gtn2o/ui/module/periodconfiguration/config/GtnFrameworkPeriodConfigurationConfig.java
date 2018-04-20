@@ -107,7 +107,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 		componentList.add(gtnMainLayout);
 
 		GtnUIFrameworkComponentConfig gtnLayout = componentConfigProvider.getCssLayoutConfig(
-				namspacePrefix + GtnFrameworkPeriodConfigurationContants.PERIOD_CONFIGURATION_LAYOUT, true,
+				namspacePrefix + GtnFrameworkPeriodConfigurationContants.PERIOD_CONFIG_LAYOUT, true,
 				namspacePrefix + "periodConfigurationFromToMainLayout");
 
 		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -162,7 +162,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 			GtnFrameworkComponentConfigProvider componentConfigProvider) {
 		GtnUIFrameworkComponentConfig gtnLayout = componentConfigProvider.getHorizontalLayoutConfig(
 				namspacePrefix + GtnFrameworkPeriodConfigurationContants.PERIOD_CONFIG_FROM_TO_LAYOUT, true,
-				namspacePrefix + GtnFrameworkPeriodConfigurationContants.PERIOD_CONFIGURATION_LAYOUT);
+				namspacePrefix + GtnFrameworkPeriodConfigurationContants.PERIOD_CONFIG_LAYOUT);
 		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(gtnLayout);
 		addPeriodConfigurationFromPeriodPanel(componentList, namspacePrefix, componentConfigProvider);
@@ -373,7 +373,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 			GtnFrameworkComponentConfigProvider componentConfigProvider) {
 		GtnUIFrameworkComponentConfig gtnLayoutConfig = componentConfigProvider.getCssLayoutConfig(
 				namspacePrefix + GtnFrameworkPeriodConfigurationContants.PERIOD_VIEW, true,
-				namspacePrefix + GtnFrameworkPeriodConfigurationContants.PERIOD_CONFIGURATION_LAYOUT);
+				namspacePrefix + GtnFrameworkPeriodConfigurationContants.PERIOD_CONFIG_LAYOUT);
 		componentList.add(gtnLayoutConfig);
 
 		GtnUIFrameworkComponentConfig processTypeComponentConfig = componentConfigProvider

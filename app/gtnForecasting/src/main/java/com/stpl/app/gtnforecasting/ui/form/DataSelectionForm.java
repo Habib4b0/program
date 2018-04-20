@@ -4781,13 +4781,13 @@ public class DataSelectionForm extends ForecastDataSelection {
 				public void valueChange(Property.ValueChangeEvent event) {
 					try {
 
-						if (Constant.DEDUCTION_CATEGORY1.equalsIgnoreCase(String.valueOf(deductionLevel))) {
+						if (Constant.DEDUCTION_CATEGORY1.equalsIgnoreCase(String.valueOf(deductionLevel.getValue()))) {
 
 							commonUtils.loadComboBox(deductionValue, Constant.RS_CATEGORY1, false);
-						} else if (Constant.DEDUCTION_PROGRAM_TYPE1.equalsIgnoreCase(String.valueOf(deductionLevel))) {
+						} else if (Constant.DEDUCTION_PROGRAM_TYPE1.equalsIgnoreCase(String.valueOf(deductionLevel.getValue()))) {
 
 							commonUtils.loadComboBox(deductionValue, Constant.REBATE_PROGRAM_TYPE1, false);
-						} else if (Constant.DEDUCTION_SCHEDULE_TYPE1.equalsIgnoreCase(String.valueOf(deductionLevel))) {
+						} else if (Constant.DEDUCTION_SCHEDULE_TYPE1.equalsIgnoreCase(String.valueOf(deductionLevel.getValue()))) {
 
 							commonUtils.loadComboBox(deductionValue, Constant.RS_TYPE, false);
 						}

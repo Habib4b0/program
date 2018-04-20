@@ -27,7 +27,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkSkipActionException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.request.periodconfig.GtnWsPeriodConfigurationRequest;
-import java.util.Date;
 
 public class GtnFrameworkPeriodConfigurationValidation
         implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -74,7 +73,7 @@ public class GtnFrameworkPeriodConfigurationValidation
         Calendar temptoDefDate = getCalendar(periodConfigurationRequest.getDefaultDateTo());
         if (temptoDefDate.compareTo(temptoDate) > 0) {
             alertError(GtnFrameworkPeriodConfigurationContants.VALIDATE_TO_DATES, componentId);
-            throw new GtnFrameworkSkipActionException("From Default validation failed");
+            throw new GtnFrameworkSkipActionException(GtnFrameworkPeriodConfigurationContants.FROM_DEFAULT_VALIDATION_FAILED);
         }
 
     }
@@ -88,7 +87,7 @@ public class GtnFrameworkPeriodConfigurationValidation
             return;
         }
         alertError(GtnFrameworkPeriodConfigurationContants.PERIOD_CONFIGURATION_DEFAULT_DATE_RANGE, componentId);
-        throw new GtnFrameworkSkipActionException("From Default validation failed");
+        throw new GtnFrameworkSkipActionException(GtnFrameworkPeriodConfigurationContants.FROM_DEFAULT_VALIDATION_FAILED);
     }
 
     private Calendar getCalendar(String dateAsString) throws GtnFrameworkGeneralException {
@@ -348,76 +347,71 @@ public class GtnFrameworkPeriodConfigurationValidation
 
         Calendar cal = Calendar.getInstance();
         cal.set(cal.get(Calendar.YEAR) - 5, cal.get(Calendar.MONTH), 1);
-        Date currentMinusSixty = cal.getTime();
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(calendar.get(Calendar.YEAR) - 5, cal.get(Calendar.MONTH), calendar.getActualMaximum(Calendar.DATE));
-        Date currentMinusSixtyForTo = cal.getTime();
-        String fromValue = periodConfigurationRequest.getDateFrom();
-        Date tempFromDate = new Date(fromValue);
+        
+        Calendar tempFromDate = getCalendar(periodConfigurationRequest.getDateFrom());
+        Calendar tempDefaultFromDate = getCalendar(periodConfigurationRequest.getDefaultDateFrom());
 
-        String defaultFromValue = periodConfigurationRequest.getDefaultDateFrom();
-        Date tempDefaultFromDate = new Date(defaultFromValue);
-
-        Boolean fromDateVal = tempFromDate.after(currentMinusSixty) || (tempFromDate.getMonth() == currentMinusSixty.getMonth() && tempFromDate.getYear() == currentMinusSixty.getYear());
-        Boolean defaultFromDateVal = tempDefaultFromDate.after(currentMinusSixty) || (tempDefaultFromDate.getMonth() == currentMinusSixty.getMonth() && tempDefaultFromDate.getYear() == currentMinusSixty.getYear());
+        Boolean fromDateVal = tempFromDate.compareTo(cal) > 0;
+        Boolean defaultFromDateVal = tempDefaultFromDate.compareTo(cal) > 0;
         Boolean toDateVal = true;
         Boolean defaultToDateVal = true;
         String viewMode = GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(GtnFrameworkPeriodConfigurationContants.PERIOD_VIEW, componentId)
                 .getStringFromField();
         if (GtnFrameworkPeriodConfigurationContants.MULTIPLE.equalsIgnoreCase(viewMode)) {
-            String toValue = periodConfigurationRequest.getDateTo();
-            Date tempToDate = new Date(toValue);
-            String defaultToValue = periodConfigurationRequest.getDefaultDateTo();
-            Date tempDefaultToDate = new Date(defaultToValue);
-            toDateVal = tempToDate.after(currentMinusSixtyForTo) || (tempToDate.getMonth() == currentMinusSixtyForTo.getMonth() && tempToDate.getYear() == currentMinusSixtyForTo.getYear());
-            defaultToDateVal = tempDefaultToDate.after(currentMinusSixtyForTo) || (tempDefaultToDate.getMonth() == currentMinusSixtyForTo.getMonth() && tempDefaultToDate.getYear() == currentMinusSixtyForTo.getYear());
+            Calendar tempToDate = getCalendar(periodConfigurationRequest.getDateTo());
+            Calendar tempDefaultToDate = getCalendar(periodConfigurationRequest.getDefaultDateTo());
+            
+             toDateVal = tempToDate.compareTo(calendar) > 0;
+         defaultToDateVal = tempDefaultToDate.compareTo(calendar) > 0;
+            
         }
         if (!(fromDateVal && defaultFromDateVal && toDateVal && defaultToDateVal)) {
              alertError(GtnFrameworkPeriodConfigurationContants.VALIDATE_START_DATES, componentId);
-            throw new GtnFrameworkSkipActionException("From Default validation failed");
+            throw new GtnFrameworkSkipActionException(GtnFrameworkPeriodConfigurationContants.FROM_DEFAULT_VALIDATION_FAILED);
         }
 
     }
 
     private void validateFromDefaultdates(GtnWsPeriodConfigurationRequest periodConfigurationRequest, String componentId) throws GtnFrameworkGeneralException {
-        Date tempfromDate = new Date(periodConfigurationRequest.getDateFrom());
-        Date tempfromDefDate = new Date(periodConfigurationRequest.getDefaultDateFrom());
-        if (!(tempfromDate.getTime() == tempfromDefDate.getTime() || tempfromDefDate.after(tempfromDate))) {
+       Calendar tempfromDefDate = getCalendar(periodConfigurationRequest.getDateFrom());
+        Calendar temptoDefDate = getCalendar(periodConfigurationRequest.getDefaultDateFrom());
+         if (temptoDefDate.compareTo(tempfromDefDate) < 0) {
             alertError(GtnFrameworkPeriodConfigurationContants.VALIDATE_FROM_DEFAULT_DATES, componentId);
-            throw new GtnFrameworkSkipActionException("From Default validation failed");
-        }
+            throw new GtnFrameworkSkipActionException(GtnFrameworkPeriodConfigurationContants.FROM_DEFAULT_VALIDATION_FAILED); 
+         }
 
     }
 
     private void validateDateRange(GtnWsPeriodConfigurationRequest periodConfigurationRequest, String componentId) throws GtnFrameworkGeneralException {
-
+        Calendar tempFromDate = getCalendar(periodConfigurationRequest.getDateFrom());
+        
         String toValue = periodConfigurationRequest.getDateTo();
-        Date tempToDate = new Date();
-        Date currentDate = new Date();
-        currentDate.setDate(1);
+        Calendar tempToDate = Calendar.getInstance();
 
-        String fromValue = periodConfigurationRequest.getDateFrom();
-        Date tempFromDate = new Date(fromValue);
+        
         if (!toValue.isEmpty()) {
-            tempToDate = new Date(toValue);
+              tempToDate = getCalendar(toValue);
         }
-
-        if (!((tempFromDate.before(currentDate) || (tempFromDate.getMonth() == currentDate.getMonth() && tempFromDate.getYear() == currentDate.getYear()))
-                && ((tempFromDate.getMonth() == tempToDate.getMonth() && tempFromDate.getYear() == tempToDate.getYear()) || (tempFromDate.before(tempToDate))))) {
-           alertError(GtnFrameworkPeriodConfigurationContants.VALIDATE_DATE_RANGE, componentId);
-            throw new GtnFrameworkSkipActionException("From Default validation failed");
+        
+        if (tempFromDate.compareTo(tempToDate) > 0) {
+          alertError(GtnFrameworkPeriodConfigurationContants.VALIDATE_DATE_RANGE, componentId);
+            throw new GtnFrameworkSkipActionException(GtnFrameworkPeriodConfigurationContants.FROM_DEFAULT_VALIDATION_FAILED);   
         }
 
     }
 
     private void validateToDefaultFromandTodates(GtnWsPeriodConfigurationRequest periodConfigurationRequest, String componentId) throws GtnFrameworkGeneralException {
-        Date tempfromDefDate = new Date(periodConfigurationRequest.getDefaultDateFrom());
-        Date temptoDefDate = new Date(periodConfigurationRequest.getDefaultDateTo());
-        if (!(tempfromDefDate.getTime() == temptoDefDate.getTime() || tempfromDefDate.before(temptoDefDate))) {
+
+        Calendar tempfromDefDate = getCalendar(periodConfigurationRequest.getDefaultDateFrom());
+        Calendar temptoDefDate = getCalendar(periodConfigurationRequest.getDefaultDateTo());
+
+        if (tempfromDefDate.compareTo(temptoDefDate) > 0) {
             alertError(GtnFrameworkPeriodConfigurationContants.VALIDATE_DEFAULT_DATES, componentId);
-            throw new GtnFrameworkSkipActionException("From Default validation failed");
+            throw new GtnFrameworkSkipActionException(GtnFrameworkPeriodConfigurationContants.FROM_DEFAULT_VALIDATION_FAILED);
         }
 
     }
