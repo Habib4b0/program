@@ -7,6 +7,7 @@ import com.stpl.gtn.gtn2o.registry.config.GtnUIFrameworkDataSelectionScreenConfi
 import com.stpl.gtn.gtn2o.registry.config.additionalinformation.GtnFrameworkAdditionalInformationTabConfig;
 import com.stpl.gtn.gtn2o.registry.config.dataassumptions.GtnFrameworkDataAssumptionsTabConfig;
 import com.stpl.gtn.gtn2o.registry.config.discountprojection.GtnFrameworkDiscountProjectionTabConfig;
+import com.stpl.gtn.gtn2o.registry.config.projectionvariance.ProjectionVariance;
 import com.stpl.gtn.gtn2o.registry.config.salesprojection.GtnFrameworkSalesProjectionTabConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
@@ -107,6 +108,13 @@ public class ForecastGenerateLookup {
 		discountProjection.setTabLayoutComponentConfigList(discountProjectionTabConfigList);
 		new GtnFrameworkDiscountProjectionTabConfig().addDiscountProjectionComponents(discountProjectionTabConfigList, discountProjection.getComponentId());
 		
+		GtnUIFrameworkTabConfig projectionVariance = new GtnUIFrameworkTabConfig();
+		projectionVariance.setComponentId(namespace + "_" + "projectionVarianceTab");
+		projectionVariance.setTabCaption("Projection Variance");
+		List<GtnUIFrameworkComponentConfig> projectionVarianceTabConfigList = new ArrayList<>();
+		projectionVariance.setTabLayoutComponentConfigList(projectionVarianceTabConfigList);
+		new ProjectionVariance().addProjectionVarianceTabComponents(projectionVarianceTabConfigList, projectionVariance.getComponentId());
+		
 		GtnUIFrameworkTabConfig additionalInformation = new GtnUIFrameworkTabConfig();
 		additionalInformation.setComponentId(namespace + "_" + "additionalInformationTab");
 		additionalInformation.setTabCaption("Additional Information");
@@ -119,6 +127,7 @@ public class ForecastGenerateLookup {
 		tabList.add(dataAssumptions);
 		tabList.add(salesProjection);
 		tabList.add(discountProjection);
+		tabList.add(projectionVariance);
 		tabList.add(additionalInformation);
 
 		tabSheetConfig.setGtnTabSheetConfigList(tabList);
