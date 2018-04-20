@@ -77,6 +77,7 @@ public class Constants {
     public static final String PARENTVALIDATE = "PARENT-VALIDATE";
     public static final String DED_JOIN = "?DEDJOIN";
     public static final String DATE_FORMAT= "yyyy-MM-dd";
+    public static final String MULTIPLE= "Multiple";
 
     
     
