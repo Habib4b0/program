@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkScreenRegisteryConstants;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkedcombobox.GtnUIFrameworkCheckedComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
@@ -17,7 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
-public class DisplaySelectionFilterOptionTab {
+public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOptionTab {
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public void addTabSheet(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
@@ -281,7 +282,7 @@ public class DisplaySelectionFilterOptionTab {
 		comparisonBasis.setAddToParent(true);
 		
 		GtnUIFrameworkComboBoxConfig comparisonBasisConfig = new GtnUIFrameworkComboBoxConfig();
-		comparisonBasisConfig.setComboBoxType("FORECAST_FREQUENCY");
+		comparisonBasisConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		comparisonBasisConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		comparisonBasis.setGtnComboboxConfig(comparisonBasisConfig);
 		
@@ -303,7 +304,7 @@ public class DisplaySelectionFilterOptionTab {
 		variableCatagroy.setAddToParent(true);
 		
 		GtnUIFrameworkComboBoxConfig variableCatagroyConfig = new GtnUIFrameworkComboBoxConfig();
-		variableCatagroyConfig.setComboBoxType("FORECAST_FREQUENCY");
+		variableCatagroyConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		variableCatagroyConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		variableCatagroy.setGtnComboboxConfig(variableCatagroyConfig);
 		
@@ -376,7 +377,7 @@ public class DisplaySelectionFilterOptionTab {
 		from.setAddToParent(true);
 		
 		GtnUIFrameworkComboBoxConfig fromConfig = new GtnUIFrameworkComboBoxConfig();
-		fromConfig.setComboBoxType("FORECAST_FREQUENCY");
+		fromConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		fromConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		from.setGtnComboboxConfig(fromConfig);
 		
@@ -401,7 +402,7 @@ public class DisplaySelectionFilterOptionTab {
 		componentList.add(displayFormat);
 
 		GtnUIFrameworkCheckedComboBoxConfig displayFormatConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		displayFormatConfig.setCheckedComboBoxType("FORECAST_FREQUENCY");
+		displayFormatConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		displayFormatConfig.setDefaultValue("-Select-");
 		displayFormatConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
@@ -424,7 +425,7 @@ public class DisplaySelectionFilterOptionTab {
 		frequency.setAddToParent(true);
 		
 		GtnUIFrameworkComboBoxConfig frequencyConfig = new GtnUIFrameworkComboBoxConfig();
-		frequencyConfig.setComboBoxType("FORECAST_FREQUENCY");
+		frequencyConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		frequencyConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		frequency.setGtnComboboxConfig(frequencyConfig);
 		
@@ -467,7 +468,6 @@ public class DisplaySelectionFilterOptionTab {
 		GtnUIFrameworkComponentConfig discountLevelLayoutOptionRadioGroup = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + "_" + "level", true, nameSpace + "_" + "discountLevelLayout",
 				GtnUIFrameworkComponentType.OPTIONGROUP);
-		//discountLevelLayoutOptionRadioGroup.setComponentName("Discount Level:");
 		discountLevelLayoutOptionRadioGroup.setMargin(true);
 
 		GtnUIFrameworkOptionGroupConfig disocountLevelOptionGroupConfig = new GtnUIFrameworkOptionGroupConfig();
@@ -497,7 +497,7 @@ public class DisplaySelectionFilterOptionTab {
 		variables.setMargin(true);
 		
 		GtnUIFrameworkComboBoxConfig variablesConfig = new GtnUIFrameworkComboBoxConfig();
-		variablesConfig.setComboBoxType("FORECAST_FREQUENCY");
+		variablesConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		variablesConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		variables.setGtnComboboxConfig(variablesConfig);
 		
@@ -568,7 +568,7 @@ public class DisplaySelectionFilterOptionTab {
 		to.setAddToParent(true);
 		
 		GtnUIFrameworkComboBoxConfig toConfig = new GtnUIFrameworkComboBoxConfig();
-		toConfig.setComboBoxType("FORECAST_FREQUENCY");
+		toConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		toConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		to.setGtnComboboxConfig(toConfig);
 		
@@ -592,7 +592,7 @@ public class DisplaySelectionFilterOptionTab {
 		unitOfMeasure.setAddToParent(true);
 		
 		GtnUIFrameworkComboBoxConfig unitOfMeasureConfig = new GtnUIFrameworkComboBoxConfig();
-		unitOfMeasureConfig.setComboBoxType("FORECAST_FREQUENCY");
+		unitOfMeasureConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		unitOfMeasureConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		unitOfMeasure.setGtnComboboxConfig(unitOfMeasureConfig);
 		
@@ -617,7 +617,7 @@ public class DisplaySelectionFilterOptionTab {
 		currencyFormat.setAddToParent(true);
 		
 		GtnUIFrameworkComboBoxConfig currencyFormatConfig = new GtnUIFrameworkComboBoxConfig();
-		currencyFormatConfig.setComboBoxType("FORECAST_FREQUENCY");
+		currencyFormatConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		currencyFormatConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		currencyFormat.setGtnComboboxConfig(currencyFormatConfig);
 		
@@ -639,11 +639,12 @@ public class DisplaySelectionFilterOptionTab {
 			String nameSpace) {
 		GtnUIFrameworkLayoutConfig filterInnerLayout = new GtnUIFrameworkLayoutConfig();
 		filterInnerLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
-		filterInnerLayout.setMargin(Boolean.TRUE);
+		
 		GtnUIFrameworkComponentConfig filterInnerLayoutConfig = new GtnUIFrameworkComponentConfig();
 		filterInnerLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		filterInnerLayoutConfig.setComponentId(nameSpace + "_" + "filterInnerLayout");
 		filterInnerLayoutConfig.setAddToParent(Boolean.TRUE);
+		filterInnerLayoutConfig.setMargin(Boolean.TRUE);
 		filterInnerLayoutConfig.setSpacing(Boolean.TRUE);
 		filterInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
 		filterInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_4);
@@ -674,7 +675,7 @@ public class DisplaySelectionFilterOptionTab {
 		customerLevel.setComponentName("Customer Level");
 
 		GtnUIFrameworkComboBoxConfig customerLevelConfig = new GtnUIFrameworkComboBoxConfig();
-		customerLevelConfig.setComboBoxType("FORECAST_FREQUENCY");
+		customerLevelConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		customerLevelConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		customerLevel.setGtnComboboxConfig(customerLevelConfig);
@@ -694,7 +695,7 @@ public class DisplaySelectionFilterOptionTab {
 		productLevel.setComponentName("Product Level");
 
 		GtnUIFrameworkComboBoxConfig productLevelConfig = new GtnUIFrameworkComboBoxConfig();
-		productLevelConfig.setComboBoxType("FORECAST_FREQUENCY");
+		productLevelConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		productLevelConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		productLevel.setGtnComboboxConfig(productLevelConfig);
@@ -714,7 +715,7 @@ public class DisplaySelectionFilterOptionTab {
 		deductionLevel.setComponentName("Deduction Level");
 
 		GtnUIFrameworkComboBoxConfig deductionLevelConfig = new GtnUIFrameworkComboBoxConfig();
-		deductionLevelConfig.setComboBoxType("FORECAST_FREQUENCY");
+		deductionLevelConfig.setComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		deductionLevelConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		deductionLevel.setGtnComboboxConfig(deductionLevelConfig);
@@ -736,7 +737,7 @@ public class DisplaySelectionFilterOptionTab {
 		componentList.add(salesInclusion);
 
 		GtnUIFrameworkCheckedComboBoxConfig salesInclusionConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		salesInclusionConfig.setCheckedComboBoxType("FORECAST_FREQUENCY");
+		salesInclusionConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		salesInclusionConfig.setDefaultValue("-Select One-");
 		salesInclusionConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
@@ -757,7 +758,7 @@ public class DisplaySelectionFilterOptionTab {
 		componentList.add(customerFilter);
 
 		GtnUIFrameworkCheckedComboBoxConfig customerFilterConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		customerFilterConfig.setCheckedComboBoxType("FORECAST_FREQUENCY");
+		customerFilterConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		customerFilterConfig.setDefaultValue("-Select-");
 		customerFilterConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
@@ -780,7 +781,7 @@ public class DisplaySelectionFilterOptionTab {
 		componentList.add(productFilter);
 
 		GtnUIFrameworkCheckedComboBoxConfig productFilterConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		productFilterConfig.setCheckedComboBoxType("FORECAST_FREQUENCY");
+		productFilterConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		productFilterConfig.setDefaultValue("-Select-");
 		productFilterConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
@@ -803,7 +804,7 @@ public class DisplaySelectionFilterOptionTab {
 		componentList.add(deductionFilter);
 
 		GtnUIFrameworkCheckedComboBoxConfig deductionFilterConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		deductionFilterConfig.setCheckedComboBoxType("FORECAST_FREQUENCY");
+		deductionFilterConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		deductionFilterConfig.setDefaultValue("-Select-");
 		deductionFilterConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
@@ -826,7 +827,7 @@ public class DisplaySelectionFilterOptionTab {
 		componentList.add(deductionInclusion);
 
 		GtnUIFrameworkCheckedComboBoxConfig deductionInclusionConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		deductionInclusionConfig.setCheckedComboBoxType("FORECAST_FREQUENCY");
+		deductionInclusionConfig.setCheckedComboBoxType(GtnFrameworkScreenRegisteryConstants.COMBOBOX_TYPE);
 		deductionInclusionConfig.setDefaultValue("-Select One-");
 		deductionInclusionConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
