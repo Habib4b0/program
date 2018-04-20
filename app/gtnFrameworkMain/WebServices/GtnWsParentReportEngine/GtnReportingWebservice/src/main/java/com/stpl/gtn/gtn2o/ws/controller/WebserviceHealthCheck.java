@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class WebserviceHealthCheck {
 
+
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public boolean display() {
-
+		
 		return true;
 	}
 

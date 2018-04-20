@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-
+	<context:component-scan base-package="com.stpl.gtn.gtn2o.ws" />
 	<bean id="gtnSqlQueryEngine"
 		class="com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine">
 	</bean>
@@ -18,18 +16,23 @@
 			<ref bean="dataSource" />
 		</property>
 	</bean>
-	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<!--<property name="jndiName" value="java:comp/env/jdbc/appDataPool" /> -->
-		<property name="jndiName" value="java:jboss/datasources/jdbc/appDataPool" />
-		<property name="lookupOnStartup" value="true" />
-		<!-- <property name="username" value="${jdbc.username}" /> -->
-		<!-- <property name="password" value="${jdbc.password}" /> -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		<property name="url"
+			value="jdbc:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APPL7_QA" />
+		<property name="username" value="bpigtn_db" />
+		<property name="password" value="^D$b2K5!" />
 	</bean>
-	<bean id="mongoCLientFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="java:jboss/MongoClient" />
+	<bean id="mongoUri" class="com.mongodb.MongoClientURI">
+		<constructor-arg type="java.lang.String" value="mongodb://localhost:27017" />
+	</bean>
+	<bean id="mongoCLientFactory" class="com.mongodb.MongoClient">
+		<constructor-arg type="com.mongodb.MongoClientURI"
+			ref="mongoUri" />
 	</bean>
 	<bean id="sqlPropertyBean"
-	class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-	<property name="locations" value="classpath:/sqlresource/sqlqueries.xml" />
-</bean>
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations" value="classpath:/sqlresource/sqlqueries.xml" />
+	</bean>
 </beans>

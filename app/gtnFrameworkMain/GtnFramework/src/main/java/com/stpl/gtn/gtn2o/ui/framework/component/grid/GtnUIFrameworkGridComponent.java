@@ -14,7 +14,7 @@ public class GtnUIFrameworkGridComponent implements GtnUIFrameworkComponent, Gtn
 
 	@Override
 	public void postCreateComponent(AbstractComponent component, GtnUIFrameworkComponentConfig componentConfig) {
-
+		// Not yet needed
 	}
 
 	@Override
@@ -33,6 +33,7 @@ public class GtnUIFrameworkGridComponent implements GtnUIFrameworkComponent, Gtn
 			GtnUIFrameworkGridComponentConfig gtnUIFrameworkGridComponentConfig) {
 		boolean isHeaderNameAvailable = gtnUIFrameworkGridComponentConfig.getColumnHeadersName().length > 0;
 		int index = 0;
+
 		for (String propertyId : gtnUIFrameworkGridComponentConfig.getColumnHeadersId()) {
 			Column<GtnWsRecordBean, Object> column = grid
 					.addColumn(recordBean -> recordBean.getPropertyValue(propertyId));
@@ -45,12 +46,12 @@ public class GtnUIFrameworkGridComponent implements GtnUIFrameworkComponent, Gtn
 	@Override
 	public void reloadComponent(GtnUIFrameworkActionType actionType, String dependentComponentId, String componentId,
 			Object reloadInput) {
-
+		// Not yet needed
 	}
 
 	@Override
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
-
+		// Not yet needed
 	}
 
 }
