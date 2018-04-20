@@ -33,6 +33,7 @@ public class GtnWsReportController {
 
 	}
 
+	
 	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportController.class);
 
 	@Autowired
