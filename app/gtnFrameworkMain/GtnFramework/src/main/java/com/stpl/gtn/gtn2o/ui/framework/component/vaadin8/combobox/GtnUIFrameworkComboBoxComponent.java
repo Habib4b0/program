@@ -35,11 +35,11 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 
 	@Override
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) {
-
+                ComboBox vaadinComboBox = new ComboBox(componentConfig.getComponentName());
 		try {
 
 			final GtnUIFrameworkComboBoxConfig comboboxConfig = componentConfig.getGtnComboboxConfig();
-			ComboBox vaadinComboBox = fillComboBox(comboboxConfig, null, componentConfig.getSourceViewId(),
+			vaadinComboBox = fillComboBox(comboboxConfig, null, componentConfig.getSourceViewId(),
 					new ComboBox());
 
 			if (componentConfig.getComponentName() != null && !componentConfig.getComponentName().isEmpty()
@@ -93,7 +93,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 			gtnLogger.error("Exception in addVaadinComponent for " + componentConfig.getComponentId(), exception);
 		}
 
-		return null;
+		return vaadinComboBox;
 	}
 
 	@Override
@@ -281,10 +281,15 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 
 		comboboxRequest.setGtnWsGeneralRequest(comboboxGeneralWSRequest);
 		if (comboboxConfig.getLoadingUrl() != null) {
+                    try{
 			comboboxResponse = comboboxWsclient
-					.callGtnWebServiceUrl(comboboxConfig.getLoadingUrl(),comboboxConfig.getModuleName(), comboboxRequest,
+					.callGtnWebServiceUrl(comboboxConfig.getLoadingUrl(),comboboxRequest,
 							GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
 					.getGtnUIFrameworkWebserviceComboBoxResponse();
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
 		}
 		return comboboxResponse;
 	}

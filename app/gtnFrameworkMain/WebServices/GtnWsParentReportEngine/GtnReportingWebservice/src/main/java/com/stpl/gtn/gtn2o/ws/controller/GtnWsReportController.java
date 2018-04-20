@@ -101,11 +101,20 @@ public class GtnWsReportController {
 	}
 
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOADRELATIONSHIP_SERVICE, method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse loadRelationshipValues(@RequestBody GtnUIFrameworkWebserviceRequest request) throws GtnFrameworkGeneralException{
+	public GtnUIFrameworkWebserviceResponse loadRelationshipValues(@RequestBody GtnUIFrameworkWebserviceRequest request)
+			throws GtnFrameworkGeneralException {
+		List<String> itemValuesList = new ArrayList<>();
+		List<String> itemCodeList = new ArrayList<>();
 		GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
 		CustomerHierarchyLookupBean lookupBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		gtnWsReportWebsevice.loadRelationshipValues(lookupBean);
+		List<Object[]> resultList = gtnWsReportWebsevice.loadRelationshipValues(lookupBean);
+		for (Object[] objects : resultList) {
+			itemCodeList.add(String.valueOf(objects[0]));
+			itemValuesList.add(String.valueOf(objects[1]));
+		}
+		response.setItemCodeList(itemCodeList);
+		response.setItemValueList(itemValuesList);
 		return response;
 	}
 
