@@ -110,28 +110,31 @@ public class PVQueryUtils {
     public String getPVMainDiscountDolQuery(PVSelectionDTO projSelDTO) {
         projSelDTO.setIsTotal(false);
         String selectClause = " select C.YEARS as YEARS, C.PERIODS AS  PERIODS,C.DISCOUNTS AS DISCOUNTS,";
+        StringBuilder selectClauseBuilder = new StringBuilder();
+        selectClauseBuilder.append(selectClause);
         String customQuery = "";
         String orderBy = " DISCOUNTS, YEARS,PERIODS ";
         String projectedSales = "PROJECTION_SALES";
         if (projSelDTO.getGroup().contains(StringConstantsUtil.VALUE_LABEL)) {
-            selectClause += "C." + projectedSales + " AS C_PROJECTION_SALES";
+            selectClauseBuilder.append("C." ).append( projectedSales ).append( " AS C_PROJECTION_SALES");
         } else if (projSelDTO.getGroup().contains(StringConstantsUtil.VARIANCE_LABEL)) {
-            selectClause += "0  AS C_PROJECTION_SALES";
+            selectClauseBuilder.append("0  AS C_PROJECTION_SALES");
         } else {
-            selectClause += "0  AS C_PROJECTION_SALES";
+            selectClauseBuilder.append("0  AS C_PROJECTION_SALES");
         }
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
             if (projSelDTO.getGroup().contains(StringConstantsUtil.VALUE_LABEL)) {
-                selectClause += ", P" + i + "." + projectedSales + " AS P" + i + "_PROJECTION_SALES  ";
+                selectClauseBuilder.append(", P" ).append( i ).append( '.' ).append( projectedSales ).append( " AS P" ).append( i ).append( "_PROJECTION_SALES  ");
             } else if (projSelDTO.getGroup().contains(StringConstantsUtil.VARIANCE_LABEL)) {
-                selectClause += ", (IsNull(C." + projectedSales + ", 0)- IsNull(P" + i + "." + projectedSales + ", 0)) AS P" + i + "_PROJECTION_SALES ";
+                selectClauseBuilder.append( ", (IsNull(C." ).append( projectedSales ).append( ", 0)- IsNull(P" ).append( i ).append( "." ).append( projectedSales ).append( ", 0)) AS P" ).append( i ).append( "_PROJECTION_SALES ");
             } else {
-                selectClause += CASE_WHEN_P + i + "." + projectedSales + " = 0 THEN  0\n"
-                        + " ELSE ( IsNull(C." + projectedSales + ", 0) -  IsNull (P" + i + "." + projectedSales + ", 0) / P" + i + "." + projectedSales + " )  \n"
-                        + " END   AS  P" + i + "_PROJECTION_SALES ";
+                selectClauseBuilder.append( CASE_WHEN_P ).append( i ).append( '.' ).append( projectedSales ).append( " = 0 THEN  0\n")
+                        .append( " ELSE ( IsNull(C." ).append( projectedSales ).append( ", 0) -  IsNull (P" ).append( i ).append( '.' ).append( projectedSales ).append( ", 0) / P" ).append( i ).append( '.' ).append( projectedSales ).append( " )  \n")
+                        .append( " END   AS  P" ).append( i ).append( "_PROJECTION_SALES ");
             }
 
         }
+        selectClause = selectClauseBuilder.toString();
         projSelDTO.setProjectionId(projSelDTO.getCurrentProjId());
         projSelDTO.setCurrentOrPrior("C");
         projSelDTO.setIsPrior(false);
@@ -154,6 +157,8 @@ public class PVQueryUtils {
     public String getPVMainDiscountPerQuery(PVSelectionDTO projSelDTO) {
         projSelDTO.setIsTotal(false);
         String selectClause = " select C.YEARS as YEARS,  C.PERIODS AS PERIODS,C.DISCOUNTS AS DISCOUNTS,";
+        StringBuilder selectClauseBuilder = new StringBuilder();
+        selectClauseBuilder.append(selectClause);
         String customQuery = "";
         String orderBy = " DISCOUNTS, YEARS,PERIODS ";
         String projectedSales;
@@ -163,23 +168,24 @@ public class PVQueryUtils {
             projectedSales = "PROJECTION_RATE ";
         }
         if (projSelDTO.getGroup().contains(StringConstantsUtil.VALUE_LABEL)) {
-            selectClause += "C." + projectedSales + " AS C_PROJECTION_RATE";
+            selectClauseBuilder.append("C." ).append( projectedSales ).append( " AS C_PROJECTION_RATE");
         } else if (projSelDTO.getGroup().contains(StringConstantsUtil.VARIANCE_LABEL)) {
-            selectClause += "0  AS PROJECTION_RATE";
+            selectClauseBuilder.append("0  AS PROJECTION_RATE");
         } else {
-            selectClause += "0  AS PROJECTION_RATE";
+            selectClauseBuilder.append( "0  AS PROJECTION_RATE");
         }
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
             if (projSelDTO.getGroup().contains(StringConstantsUtil.VALUE_LABEL)) {
-                selectClause += ", P" + i + "." + projectedSales + " AS P" + i + "_" + projectedSales + " ";
+                selectClauseBuilder .append( ", P" ).append( i ).append( '.' ).append( projectedSales ).append( " AS P" ).append( i ).append( '_' ).append( projectedSales ).append( ' ');
             } else if (projSelDTO.getGroup().contains(StringConstantsUtil.VARIANCE_LABEL)) {
-                selectClause += ", (IsNull(C." + projectedSales + ", 0)- IsNull(P" + i + "." + projectedSales + ", 0)) AS P" + i + "_" + projectedSales + " ";
+                selectClauseBuilder.append( ", (IsNull(C." ).append( projectedSales ).append( ", 0)- IsNull(P" ).append( i ).append( '.' ).append( projectedSales ).append( ", 0)) AS P" ).append( i ).append( '_' ).append( projectedSales ).append( ' ');
             } else {
-                selectClause += CASE_WHEN_P + i + "." + projectedSales + " = 0 THEN 0\n"
-                        + " ELSE (IsNull(C." + projectedSales + ", 0) - IsNull(P" + i + "." + projectedSales + ", 0) / P" + i + "." + projectedSales + ") \n"
-                        + " END   AS  P" + i + "_" + projectedSales + " ";
+                selectClauseBuilder.append( CASE_WHEN_P ).append( i ).append( "." ).append( projectedSales ).append( " = 0 THEN 0\n")
+                        .append( " ELSE (IsNull(C." ).append( projectedSales ).append( ", 0) - IsNull(P" ).append( i ).append( "." ).append( projectedSales ).append( ", 0) / P" ).append( i ).append( "." ).append( projectedSales ).append( ") \n")
+                        .append( " END   AS  P" ).append( i ).append( "_" ).append( projectedSales ).append( " ");
             }
         }
+        selectClause = selectClauseBuilder.toString();
         projSelDTO.setProjectionId(projSelDTO.getCurrentProjId());
         projSelDTO.setCurrentOrPrior("C");
         projSelDTO.setIsPrior(false);
@@ -202,7 +208,7 @@ public class PVQueryUtils {
     public String getPeriodDiscountExpand(PVSelectionDTO projSelDTO) {
         projSelDTO.setIsTotal(false);
         String selectClause = " select C.YEARS as YEARS, C.PERIODS AS PERIODS,C.DISCOUNTS AS DISCOUNTS,";
-        String customQuery = "";
+        StringBuilder customQuery = new StringBuilder();
         String orderBy = " DISCOUNTS , YEARS,PERIODS ";
         String projectedSales;
         String projectedReturns;
@@ -285,20 +291,20 @@ public class PVQueryUtils {
         projSelDTO.setProjectionId(projSelDTO.getCurrentProjId());
         projSelDTO.setCurrentOrPrior("C");
         projSelDTO.setIsPrior(false);
-        customQuery += selectClause + "  from  \n(" + getProjectionResultsDiscountsPerQuery(projSelDTO) + ")  C\n ";
+        customQuery.append(selectClause ).append( "  from  \n(" ).append( getProjectionResultsDiscountsPerQuery(projSelDTO) ).append( ")  C\n ");
         projSelDTO.setCurrentOrPrior("P");
         projSelDTO.setIsPrior(true);
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
             projSelDTO.setProjectionId(projSelDTO.getProjIdList().get(i));
-            customQuery += " LEFT  JOIN  (\n" + getProjectionResultsDiscountsPerQuery(projSelDTO) + "\n) " + "P" + i + "  \n on C.DISCOUNTS=P" + i + ".DISCOUNTS \n  "
-                    + " AND C.YEARS=P" + i + ".YEARS  \n "
-                    + " and C.PERIODS =P" + i + ".PERIODS   ";
+            customQuery.append(" LEFT  JOIN  (\n" ).append( getProjectionResultsDiscountsPerQuery(projSelDTO) ).append( "\n) " ).append( "P" ).append( i ).append( "  \n on C.DISCOUNTS=P" ).append( i ).append( ".DISCOUNTS \n  ")
+                    .append( " AND C.YEARS=P" ).append( i ).append( ".YEARS  \n ")
+                    .append( " and C.PERIODS =P" ).append( i ).append( ".PERIODS   ");
         }
-        customQuery += " order  by " + orderBy;
+        customQuery.append(" order  by " ).append( orderBy);
         projSelDTO.setIsPrior(false);
         projSelDTO.setCurrentOrPrior("C");
         projSelDTO.setProjectionId(projSelDTO.getCurrentProjId());
-        return customQuery;
+        return customQuery.toString();
     }
 
     public String getProjectionResultsMainPivotQuery(PVSelectionDTO projSelDTO) {
@@ -900,7 +906,7 @@ public class PVQueryUtils {
     public String getPVMainDiscountPivotQuery(PVSelectionDTO projSelDTO) {
         projSelDTO.setIsTotal(false);
         String selectClauseDol = " select C.YEARS as YEARS, C.PERIODS AS PERIODS,C.DISCOUNTS AS DISCOUNTS,";
-        String customQuery = "";
+        StringBuilder customQuery = new StringBuilder();
         String orderBy = " DISCOUNTS , YEARS,PERIODS ";
         selectClauseDol += "IsNull(C.PROJECTION_SALES, 0) AS C_DOL_VAL ";
         selectClauseDol += ",0  AS C_DOL_VAR ";
@@ -996,20 +1002,20 @@ public class PVQueryUtils {
         projSelDTO.setProjectionId(projSelDTO.getCurrentProjId());
         projSelDTO.setCurrentOrPrior("C");
         projSelDTO.setIsPrior(false);
-        customQuery += selectClauseDol + " from   \n(" + getProjectionResultsDiscountsPerQuery(projSelDTO) + ") C \n ";
+        customQuery.append(selectClauseDol ).append( " from   \n(" ).append( getProjectionResultsDiscountsPerQuery(projSelDTO) ).append( ") C \n ");
         projSelDTO.setCurrentOrPrior("P");
         projSelDTO.setIsPrior(true);
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
             projSelDTO.setProjectionId(projSelDTO.getProjIdList().get(i));
-            customQuery += " LEFT JOIN (\n" + getProjectionResultsDiscountsPerQuery(projSelDTO) + "\n) " + "P" + i + " \n on  C.DISCOUNTS=P" + i + ".DISCOUNTS \n "
-                    + " AND C.YEARS=P" + i + ".YEARS  \n "
-                    + " and C.PERIODS= P" + i + ".PERIODS   ";
+            customQuery.append( " LEFT JOIN (\n" ).append( getProjectionResultsDiscountsPerQuery(projSelDTO) ).append( "\n) " ).append( 'P' ).append( i ).append( " \n on  C.DISCOUNTS=P" ).append( i ).append( ".DISCOUNTS \n ")
+                    .append( " AND C.YEARS=P" ).append( i ).append( ".YEARS  \n ")
+                    .append( " and C.PERIODS= P" ).append( i ).append( ".PERIODS   ");
         }
-        customQuery += " order  by " + orderBy;
+        customQuery.append( " order  by " ).append( orderBy);
         projSelDTO.setIsPrior(false);
         projSelDTO.setCurrentOrPrior("C");
         projSelDTO.setProjectionId(projSelDTO.getCurrentProjId());
-        return customQuery;
+        return customQuery.toString();
     }
 
     public String getProjectionResultsDiscountsPerQuery(PVSelectionDTO projSelDTO) {
