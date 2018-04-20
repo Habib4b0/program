@@ -33,6 +33,8 @@ import com.stpl.app.cff.util.ChangeMenuBarValueUtil;
 import com.stpl.app.cff.util.CommonUtils;
 import static com.stpl.app.cff.util.CommonUtils.isInteger;
 import com.stpl.app.cff.util.Constants;
+import static com.stpl.app.cff.util.Constants.CommonConstants.ACTION_EDIT;
+import static com.stpl.app.cff.util.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.cff.util.Constants.LabelConstants.*;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.DataSelectionUtil;
@@ -267,7 +269,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 customItem[i].setCheckAll(true);
             }
         }
-        if (!"edit".equals(sessionDTO.getAction()) ||  !"view".equals(sessionDTO.getAction())) {
+        if (!ACTION_EDIT.getConstant().equals(sessionDTO.getAction()) ||  !ACTION_VIEW.getConstant().equals(sessionDTO.getAction())) {
         customMenuBar.addSubMenuCloseListener(customMenuBarListener);
         customMenuItem.getChildren().get(5).setChecked(true);
         customMenuItem.getChildren().get(7).setChecked(true);
@@ -287,7 +289,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             variableCategoryCustomItem[i].setItemClickable(true);
 
             variableCategoryCustomItem[i].setItemClickNotClosable(true);
-        }  if (!"edit".equals(sessionDTO.getAction()) ||  !"view".equals(sessionDTO.getAction())) {
+        }  if (!ACTION_EDIT.getConstant().equals(sessionDTO.getAction()) ||  !ACTION_VIEW.getConstant().equals(sessionDTO.getAction())) {
         variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryListener);
         variableCategoryCustomMenuItem.getChildren().get(0).setChecked(true);
          ChangeMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, "Value");
@@ -2192,7 +2194,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         }
         }
         deductionInclusionDdlb.addSubMenuCloseListener(deductionInclusionListener);
-         if (!"edit".equals(sessionDTO.getAction()) || (!"view".equalsIgnoreCase(sessionDTO.getAction()) )) {
+         if (!ACTION_EDIT.getConstant().equals(sessionDTO.getAction()) || (!ACTION_VIEW.getConstant().equalsIgnoreCase(sessionDTO.getAction()) )) {
              getUnCheckedVariableMenuItem(deductionInclusionValues);
         deductionInclusionDdlb.addSubMenuCloseListener(deductionInclusionListener);
         deductionInclusionValues.getChildren().get(0).setChecked(true);
