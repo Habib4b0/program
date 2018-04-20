@@ -48,20 +48,33 @@ public class CommercialForecastingProjectionVarianceMain {
 		new CommercialForecastingProjectionVarianceDisplaySelectionFilterOptionTab().addTabSheet(componentList, projectionVarianceMainLayout.getComponentId(), nameSpace);
 		new CommercialForecastingProjectionVarianceGenerateResetButton().addGenerateResetButtonComponetsLayout(componentList, projectionVarianceMainLayout.getComponentId(), nameSpace);
 		
-		addProjectionVarianceExcelGraphButton(componentList, projectionVarianceMainLayout.getComponentId(), nameSpace);
+		addProjectionPivoteViewTable(componentList, projectionVarianceMainLayout.getComponentId(), nameSpace);
+		
+		
 		addUpdatePreviousNextCloseSubmitButtonLayout(componentList, projectionVarianceMainLayout.getComponentId(), nameSpace);
 		
-		addProjectionPivoteViewTable(componentList, projectionVarianceMainLayout.getComponentId(), nameSpace);
 	}
 
 	private void addProjectionPivoteViewTable(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace)
 	{
-		GtnUIFrameworkComponentConfig reportingDashboardResultTableComponentConfig = new GtnUIFrameworkComponentConfig();
-		reportingDashboardResultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGED_TREE_GRID);
-		reportingDashboardResultTableComponentConfig.setComponentId(GtnFrameworkCommonConstants.RESULT_TABLE);
-		reportingDashboardResultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
-		reportingDashboardResultTableComponentConfig.setAddToParent(true);
-		reportingDashboardResultTableComponentConfig.setParentComponentId(parentComponentId);
+		
+		GtnUIFrameworkComponentConfig projectionpivoteViewPanel = new GtnUIFrameworkComponentConfig();
+		projectionpivoteViewPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
+		projectionpivoteViewPanel.setComponentId(nameSpace + "_" + "projectionpivoteViewPanel");
+		projectionpivoteViewPanel.setComponentName("Projecion Pivot View");
+		projectionpivoteViewPanel.setAddToParent(true);
+		projectionpivoteViewPanel.setParentComponentId(parentComponentId);
+		projectionpivoteViewPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		componentList.add(projectionpivoteViewPanel);
+		
+		
+		GtnUIFrameworkComponentConfig projectionpivoteViewResultTableComponentConfig = new GtnUIFrameworkComponentConfig();
+		projectionpivoteViewResultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGED_TREE_GRID);
+		projectionpivoteViewResultTableComponentConfig.setComponentId(GtnFrameworkCommonConstants.RESULT_TABLE);
+		projectionpivoteViewResultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
+		projectionpivoteViewResultTableComponentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		projectionpivoteViewResultTableComponentConfig.setAddToParent(true);
+		projectionpivoteViewResultTableComponentConfig.setParentComponentId(nameSpace + "_" + "projectionpivoteViewPanel");
 
 		GtnUIFrameworkPagedTreeTableConfig reportingDashboardGtnPagedTreeTableConfig = new GtnUIFrameworkPagedTreeTableConfig();
 
@@ -88,7 +101,6 @@ public class CommercialForecastingProjectionVarianceMain {
 		reportingDashboardGtnPagedTreeTableConfig.setResultSetUrl("");
 
 		reportingDashboardGtnPagedTreeTableConfig.setSplitPosition(493);
-
 		reportingDashboardGtnPagedTreeTableConfig.setTableHeight("650px");
 		reportingDashboardGtnPagedTreeTableConfig.setDoubleHeaderVisible(true);
 
@@ -175,8 +187,10 @@ public class CommercialForecastingProjectionVarianceMain {
 
 		reportingDashboardGtnPagedTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
 
-		reportingDashboardResultTableComponentConfig.setGtnPagedTreeTableConfig(reportingDashboardGtnPagedTreeTableConfig);
-		componentList.add(reportingDashboardResultTableComponentConfig);
+		projectionpivoteViewResultTableComponentConfig.setGtnPagedTreeTableConfig(reportingDashboardGtnPagedTreeTableConfig);
+		componentList.add(projectionpivoteViewResultTableComponentConfig);
+		
+		//addProjectionVarianceExcelGraphButton(componentList, nameSpace + "_" + "projectionpivoteViewPanel", nameSpace);
 
 	}
 	

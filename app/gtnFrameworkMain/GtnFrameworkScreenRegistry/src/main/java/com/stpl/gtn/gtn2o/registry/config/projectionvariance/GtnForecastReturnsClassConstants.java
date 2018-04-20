@@ -19,7 +19,7 @@ public class GtnForecastReturnsClassConstants {
 
 	public static final String RETURNS_FORECAST_VALIDATION_PACKAGE = "com.stpl.gtn.gtn2o.ui.action.validation.";
 
-	public static final String RETURNS_FORECAST_PAGED_TREE_TABLE_PACKAGE = "com.stpl.gtn.gtn2o.registry.action.pagedtreetable.";
+	public static final String RETURNS_FORECAST_PAGED_TREE_TABLE_PACKAGE = "com.stpl.gtn.gtn2o.ui.module.forecasting.action.pagedtreetable.";
 
 	public static final String RETURNS_FORECAST_TABS_PACKAGE = "com.stpl.gtn.gtn2o.ui.action.tabs.";
 

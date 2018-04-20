@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.registry.action.pagedtreetable;
+package com.stpl.gtn.gtn2o.ui.module.forecasting.action.pagedtreetable;
 
 import java.util.List;
 
@@ -13,11 +13,11 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 
-public class GtnFrameworkFSPTTCompLeftHeaderFormHeaderAndConfigAction
+public class GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	private final GtnWSLogger gtnLogger = GtnWSLogger
-			.getGTNLogger(GtnFrameworkFSPTTCompLeftHeaderFormHeaderAndConfigAction.class);
+	private final GtnWSLogger gtnWSLogger = GtnWSLogger
+			.getGTNLogger(GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -30,19 +30,17 @@ public class GtnFrameworkFSPTTCompLeftHeaderFormHeaderAndConfigAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
-		gtnLogger.info(" Enter Form Header and Config for Paged Tree table Component in returns forecast");
+		gtnWSLogger.info(" inside GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction");
 
 		List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
+		GtnWsForecastRequest gtnWsForecastRequest = new GtnWsForecastRequest();
 		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
-
-		GtnWsForecastRequest requestForLeftHeader = new GtnWsForecastRequest();
-		gtnUIFrameworkWebserviceRequest.setGtnWsForecastRequest(requestForLeftHeader);
+		gtnUIFrameworkWebserviceRequest.setGtnWsForecastRequest(gtnWsForecastRequest);
 
 		GtnUIFrameworkComponentData resultTableComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(actionParameterList.get(0).toString(), componentId);
 		resultTableComponentData.setCustomPagedTreeTableRequest(gtnUIFrameworkWebserviceRequest);
-
 	}
 
 	@Override

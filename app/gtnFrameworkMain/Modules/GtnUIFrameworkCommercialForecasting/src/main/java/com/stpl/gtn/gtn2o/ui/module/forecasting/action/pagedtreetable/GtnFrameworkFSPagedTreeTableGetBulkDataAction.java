@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.registry.action.pagedtreetable;
+package com.stpl.gtn.gtn2o.ui.module.forecasting.action.pagedtreetable;
 
 import java.util.ArrayList;
 import java.util.Collections;
