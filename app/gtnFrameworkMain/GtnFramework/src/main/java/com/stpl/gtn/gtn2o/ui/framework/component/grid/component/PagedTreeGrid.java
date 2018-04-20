@@ -5,15 +5,19 @@ import com.stpl.gtn.gtn2o.ui.framework.component.grid.config.PagedTreeTableConfi
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.service.FetchData;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.vaadin.data.HasValue;
 import com.vaadin.data.TreeData;
 import com.vaadin.data.provider.TreeDataProvider;
 import com.vaadin.event.ExpandEvent;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
+import com.vaadin.ui.components.grid.HeaderRow;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -44,6 +48,7 @@ public class PagedTreeGrid {
     GtnWsRecordBean lastExpandedItem;
     HorizontalLayout controlLayout = new HorizontalLayout();
     private TextField pageNoField = new TextField();
+    private Label pageCountLabel;
 
     public PagedTreeGrid(GtnUIFrameworkPagedTreeTableConfig tableConfig) {
         this.tableConfig = tableConfig;
@@ -78,10 +83,40 @@ public class PagedTreeGrid {
 //        leftTableDataSet.getColumns().stream().forEach((leftColumn) -> {
 //            grid.addColumn(leftRow -> leftRow.getPropertyValue(leftColumn.toString())).setCaption(leftColumn.toString());
 //        });
+       
         for (int j = 0; j < 50; j++) {
             Object column = tableConfig.getVisibleColumns().get(j);
+            System.out.println("column = " + column);
             grid.addColumn(row -> row.getPropertyValue(column.toString())).setCaption(column.toString());
+            
         }
+//         if (tableConfig.isDoubleHeaderVisible()) {
+//            HeaderRow groupingHeader = grid.prependHeaderRow();
+//             for (int j = 0; j < tableConfig.getVisibleColumns().size(); j++) {
+//                 Object column = tableConfig.getVisibleColumns().get(j);
+//                 System.out.println("column getCell= " + column);
+//                 groupingHeader.getCell(column.toString()).setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j));
+//             }
+//             for(Object property:tableConfig.getRightTableDoubleHeaderMap().keySet()){
+//                 Object joinList[]=tableConfig.getRightTableDoubleHeaderMap().get(property);
+//                 String[] stringArray = Arrays.copyOf(joinList, joinList.length, String[].class);
+//                 groupingHeader.join(stringArray);
+//             }
+//        }
+//          if (tableConfig.isTripleHeaderVisible()) {
+//            HeaderRow groupingHeader = grid.prependHeaderRow();
+//             for (int j = 0; j < tableConfig.getVisibleColumns().size(); j++) {
+//                 Object column = tableConfig.getVisibleColumns().get(j);
+//                 groupingHeader.getCell(column.toString()).setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j));
+//             }
+//             for(Object property:tableConfig.getRightTableTripleHeaderMap().keySet()){
+//                 Object joinList[]=tableConfig.getRightTableTripleHeaderMap().get(property);
+//                 String[] stringArray = Arrays.copyOf(joinList, joinList.length, String[].class);
+//                 groupingHeader.join(stringArray);
+//             }
+//        }
+         // Group headers by joining the cells
+      
 //        tableConfig.getVisibleColumns().stream().forEach((column) -> {
 //            
 //            grid.addColumn(row -> row.getPropertyValue(column.toString())).setCaption(column.toString());
@@ -504,20 +539,44 @@ public class PagedTreeGrid {
     }
 
     public HorizontalLayout getControlLayout() {
-
-        setPageNoFieldValue(0);
-        controlLayout.addComponent(new Label("Page No:"));
-        controlLayout.addComponent(pageNoField);
-        controlLayout.addComponent(new Button("<<", e -> this.setPageNumber(0)));
-        controlLayout.addComponent(new Button("<", e -> this.previousPage()));
-        controlLayout.addComponent(new Button(">", e -> this.nextPage()));
-        controlLayout.addComponent(new Button(">>",
-                e -> this.setPageNumber(this.getPageCount() - 1)));
-        pageNoField.addBlurListener(e -> setPageNumber((Integer.parseInt(pageNoField.getValue())) - 1));
+           controlLayout.setWidth("100%");
+            pageNoField = new TextField();
+            pageCountLabel = new Label("1");
+            pageNoField.setWidth("50px");
+            setPageNoFieldValue(0);
+            controlLayout.addComponent(new Label("Items per page:"));
+            controlLayout.addComponent(getItemsPerPage());
+            controlLayout.addComponent(getControlLayoutButtons("<<", e -> this.setPageNumber(0)));
+            controlLayout.addComponent(getControlLayoutButtons("<", e -> this.previousPage()));
+            controlLayout.addComponent(new Label("Page No:"));
+            controlLayout.addComponent(pageNoField);
+            controlLayout.addComponent(new Label("/"));
+            controlLayout.addComponent(pageCountLabel);
+            controlLayout.addComponent(getControlLayoutButtons(">", e -> this.nextPage()));
+            controlLayout.addComponent(getControlLayoutButtons(">>", e -> this.setPageNumber(this.getPageCount() - 1)));
+            pageNoField.addBlurListener(e -> setPageNumber((Integer.parseInt(pageNoField.getValue())) - 1));
         return controlLayout;
     }
-
+  private Button getControlLayoutButtons(String caption, Button.ClickListener listener) {
+        Button button = new Button(caption, listener);
+        button.setStyleName("link");
+        return button;
+    }
     public void addStyleNames(String... styles) {
         grid.addStyleNames(styles);
+    }
+      private Component getItemsPerPage() {
+        ComboBox itemsPerPage = new ComboBox();
+        itemsPerPage.setItems(new Object[]{5, 10, 15, 20, 25, 50, 100});
+        itemsPerPage.setSelectedItem(10);
+        itemsPerPage.setWidth("60px");
+        itemsPerPage.setEmptySelectionAllowed(false);
+        itemsPerPage.addValueChangeListener(new HasValue.ValueChangeListener() {
+            @Override
+            public void valueChange(HasValue.ValueChangeEvent event) {
+                setPageLength((int) itemsPerPage.getValue());
+            }
+        });
+        return itemsPerPage;
     }
 }
