@@ -38,7 +38,6 @@ import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
@@ -55,7 +54,6 @@ import com.vaadin.v7.ui.Upload;
 import com.vaadin.v7.ui.Upload.Receiver;
 import com.vaadin.v7.ui.VerticalLayout;
 import elemental.json.JsonArray;
-import org.osgi.framework.FrameworkUtil;
 
 /**
  *
@@ -148,21 +146,20 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
     protected String fileUploadPath;
     private final Map<Integer, Boolean> reloadVerticalLayoutTabFiveMap = new HashMap<Integer, Boolean>();
     public List<NotesDTO> removeDetailsList = new ArrayList<NotesDTO>();
+    protected String moduleName;
 
     /**
      * constructor for additional information
      *
      */
     public AbstractNotesTab(final FieldGroup binder, final String moduleName) {
-        try {
-            this.binder = binder;
-            this.fileName = "Notes_History_" + moduleName.replace(" ", "");
-            setCompositionRoot(Clara.create(AbstractNotesTab.class.getResource("/ui/notestabform.xml").openStream(), this));
-            intailizingObject(moduleName);
-            init();
-        } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
-        }
+        this.moduleName = moduleName;
+        this.binder = binder;
+        this.fileName = "Notes_History_" + moduleName.replace(" ", "");
+        setCompositionRoot(Clara.create(getClass().getResourceAsStream("/ui/notestabform.xml"), this));
+        intailizingObject(moduleName);
+        init();
+
     }
 
     private void init() {

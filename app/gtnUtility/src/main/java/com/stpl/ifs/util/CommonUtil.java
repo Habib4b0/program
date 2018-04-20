@@ -115,6 +115,24 @@ public class CommonUtil {
     }
          
          public static String getGtnDataPath(){
-            return System.getProperty("gtn.app.data.path");
-         }
+        return System.getProperty("gtn.app.data.path");
+    }
+
+    public boolean getEquals(Object obj, Class classObj) {
+        if (obj == null) {
+            return false;
+        } else if (classObj != obj.getClass()) {
+            return false;
+        }
+        return true;
+    }
+    
+    
+    public File getFileName(String path) {
+        return new File(path);
+    }
+
+    public File getFileName(File dir, String path) {
+        return new File(dir, path);
+    }
 }

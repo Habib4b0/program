@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:com.stpl.ifs.ui" 
+       xmlns:b="urn:import:org.asi.ui.customtextfield" xmlns:cu="urn:import:org.asi.ui.customcombobox" xmlns:c="urn:import:org.asi.ui.custommenubar">
+    <VerticalLayout spacing="true"  margin="true" immediate="true">
+        <Panel  margin="true" immediate="true" spacing="true" caption="Data Selection">
+            <VerticalLayout margin="true" immediate="true" spacing="true" styleName = "width-auto">
+                <GridLayout spacing="true" id="dataSelecionGrid"
+                            immediate="true" columns="8" rows="1">
+                    <Label caption="Inventory Details : " id="inventoryDetails" contentMode="HTML" />
+                    <cu:CustomComboBox id="inventoryDetailsDdlb" enable="true"
+                                       immediate="true" />
+                               
+                    <Label caption="Baseline Price: "  contentMode="HTML" />
+                    <cu:CustomComboBox id="baseLinePrice" enable="true"
+                                       immediate="true" />
+                    <Label caption="Adjusted Price: " contentMode="HTML" />
+                    <cu:CustomComboBox id="adjustedPrice" enable="true"
+                                       immediate="true" />
+                    <Label caption=" Variables : " contentMode="HTML" />
+                    <c:CustomMenuBar id="customMenuBar" styleName="custommenumulticheck"/>
+                </GridLayout>
+            </VerticalLayout>
+        </Panel>   
+        <HorizontalLayout margin="true" immediate="true" spacing="true" styleName = "width-auto">
+            <Button id="reset" caption="RESET" />
+            <Button id="generate" caption="GENERATE" />
+        </HorizontalLayout> 
+    </VerticalLayout>
+</Panel>

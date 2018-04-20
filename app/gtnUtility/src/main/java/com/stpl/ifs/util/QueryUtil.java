@@ -8,16 +8,24 @@ package com.stpl.ifs.util;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.util.constants.ForecastingConstants;
 import com.stpl.ifs.util.constants.GlobalConstants;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author sriram
  */
 public class QueryUtil {
-
+    private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    
+    public static final Logger LOGGER = LoggerFactory.getLogger(QueryUtil.class);
     public static List<String> getColumnNames(String query) {
         ArrayList<String> columnNames = new ArrayList<>();
         query = query.replaceFirst("select ", "").replaceFirst("Select ", "").replaceFirst("SELECT ", "").replace("Distinct ", query).replace("distinct ", query).replace("DISTINCT ", query);
@@ -119,5 +127,33 @@ public class QueryUtil {
             query = query.replaceAll("(?i:\\b" + entry.getKey() + "\\b)", entry.getValue());
         }
         return query;
+    }
+    public static void callProcedure(String procedureName, Object[] orderedArgs) {
+        LOGGER.debug("Procedure Name " + procedureName);
+        StringBuilder procedureToCall = new StringBuilder("{call ");
+        procedureToCall.append(procedureName);
+        int noOfArgs = orderedArgs.length;
+        for (int i = 0; i < noOfArgs; i++) {
+            if (i == 0) {
+                procedureToCall.append("(");
+            }
+            procedureToCall.append("?,");
+            if (i == noOfArgs - 1) {
+                procedureToCall.append(")");
+            }
+        }
+        procedureToCall.append("}");
+        String procedureToCallVal = procedureToCall.toString().replace(",)", ")");
+        try (Connection connection = ((DataSource) new InitialContext().lookup(DATASOURCE_CONTEXT)).getConnection();
+                CallableStatement statement = connection.prepareCall(procedureToCallVal)) {
+            for (int i = 0; i < noOfArgs; i++) {
+                LOGGER.debug(i + " -- " + orderedArgs[i]);
+                statement.setObject(i + 1, orderedArgs[i]);
+            }
+            statement.executeUpdate();
+        } catch (Exception ex) {
+            LOGGER.error("Error in callProcedure :"+ex);
+        }
+
     }
 }

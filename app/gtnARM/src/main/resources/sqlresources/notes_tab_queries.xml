@@ -1,0 +1,74 @@
+<sql>
+    <!--
+    To change this license header, choose License Headers in Project Properties.
+    To change this template file, choose Tools | Templates
+    and open the template in the editor.
+    -->
+
+    <entity id="insertAdditionalNotes">
+        <query> 
+		<![CDATA[
+                INSERT
+                    INTO
+                    ADDITIONAL_NOTES(
+                    PROJECTION_ID,
+                    FORECAST_TYPE,
+                    CREATED_BY,
+                    CREATED_DATE,
+                    NOTES,
+                    CURRENCY
+                    )
+                    VALUES 
+                 ]]>
+        </query>
+    </entity>
+
+    <entity id="insertUploadDocs">
+        <query> 
+		<![CDATA[
+                    INSERT
+                        INTO
+                                DOC_DETAILS(
+                                        FILE_NAME,
+                                        FILE_TYPE,
+                                        FILE_SIZE,
+                                        UPLOADED_BY,
+                                        FORECAST_TYPE,
+                                        UPLOADED_DATE,
+                                        PROJECTION_ID
+                                )
+                        VALUES @Values
+                 ]]>
+        </query>
+    </entity>
+    <entity id="deleteUploadDocs">
+        <query> 
+		<![CDATA[
+                    DELETE FROM DOC_DETAILS WHERE PROJECTION_ID in ( @PROJECTION_IDS );
+                 ]]>
+        </query>
+    </entity>
+    <entity id="removeUploadDocs">
+        <query> 
+		<![CDATA[
+                    DELETE FROM DOC_DETAILS WHERE DOC_DETAILS_SID in ( @PROJECTION_IDS );
+                 ]]>
+        </query>
+    </entity>
+    <entity id="retrieveNotesInfo">
+        <query> 
+		<![CDATA[
+                    SELECT 
+                        AN.NOTES,
+                        DD.FILE_NAME,
+                        DD.FILE_TYPE,
+                        DD.UPLOADED_BY,
+                        DD.UPLOADED_DATE,
+                        AN.CURRENCY
+                    FROM DOC_DETAILS DD JOIN ADDITIONAL_NOTES AN ON 
+                        DD.PROJECTION_ID = AN.PROJECTION_ID
+                    WHERE DD.PROJECTION_ID = @PROJECTION_ID ;
+                 ]]>
+        </query>
+    </entity>
+</sql>

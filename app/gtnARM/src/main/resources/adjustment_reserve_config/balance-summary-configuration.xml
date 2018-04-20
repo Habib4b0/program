@@ -1,0 +1,16 @@
+<Panel>
+    <VerticalLayout id="verticalLayout" margin="true" spacing = "true" width="100%" height="100%">
+        <Panel caption="Adjustment Summary Configuration" width="100%" height="100%">
+            <VerticalLayout spacing="true">
+                <Panel id="addPanelRes" width="100%" height="100%" >
+                    <HorizontalLayout spacing="true" margin="true">
+                        <Label id="methodology" value="Methodology" immediate="true"   />
+                        <ComboBox id="methodologyDdlbRes" enabled="true" immediate="true" />
+                    </HorizontalLayout>
+                </Panel>
+                <VerticalLayout  id="resultsTableLayoutRes" width="100%" height="100%">
+                </VerticalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

@@ -1,0 +1,27 @@
+<Panel>
+    <VerticalLayout margin="true" spacing = "true" width="100%" height="100%">
+        <Panel caption = "Search Criteria" width="100%" height="100%">
+            <HorizontalLayout spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true"  immediate="true" columns="4" rows="1">
+                    <Label value="Hierarchy Type" immediate="true" />
+                    <OptionGroup id = "hierarchyTypeOpgDS"/>
+                    <Label value="Hierarchy Name" immediate="true" />
+                    <TextField id="hierarchyNameDS"/>
+                </GridLayout>
+            </HorizontalLayout>
+        </Panel>
+        <HorizontalLayout margin="true" spacing = "true">
+            <Button id="searchButtonDS" caption = "SEARCH" />
+            <Button id="resetButtonDS" caption = "RESET" />
+        </HorizontalLayout>
+        <Panel caption = "Results" width="100%" height="100%">
+            <VerticalLayout id ="resultsTableLayoutDS" width="100%" height="100%">                
+            </VerticalLayout>
+        </Panel>
+        <HorizontalLayout margin="true" spacing = "true">
+            <Button id="selectButtonDS" caption = "SELECT" />
+            <Button id="resetTableButtonDS" caption = "RESET" />
+            <Button id="closeButtonDS" caption = "CANCEL" />
+        </HorizontalLayout>
+    </VerticalLayout>
+</Panel>

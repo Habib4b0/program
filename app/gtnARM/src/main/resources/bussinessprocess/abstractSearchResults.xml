@@ -1,0 +1,35 @@
+<Panel>
+    <VerticalLayout id="abstractSearchLayout" spacing="true"  margin="true" immediate="true" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:com.stpl.ifs.ui">
+        <Panel  margin="true" immediate="true" spacing="true" id="panelCaption" caption="Sales Results">
+            <VerticalLayout margin="true" immediate="true" width="100%" height = "100%" spacing="true" id="abstractSearchContent">
+                <Panel  margin="true" immediate="true" spacing="true" width="100%" height = "100%">
+                    <HorizontalLayout spacing="true" margin="true" immediate="true">
+                        <GridLayout spacing="true" id="BB-searchResultsGrid" immediate="true" columns="12" rows="1">
+                            <Label id="ARMLevelLabel" caption=""  contentMode="HTML" />
+                            <ComboBox id="levelDdlb" nullSelectionAllowed="false"
+                                      immediate="true" />
+                            <Button id="BB-expand" caption="EXPAND" />
+                            <Button id="BB-collapse" caption="COLLAPSE" />
+                            <Label caption=" Level Filter: "  contentMode="HTML" />
+                            <ComboBox id="levelFilterDdlb" nullSelectionAllowed="false"
+                                      immediate="true" />
+                            <Label id="valueLabel" caption="" contentMode="HTML" />
+                            <ComboBox id="valueDdlb" nullSelectionAllowed="false"
+                                      immediate="true" />
+                            <Label id="cpLabel" caption=" Customer/Product View : " contentMode="HTML" />
+                            <ComboBox id="customerProductView" nullSelectionAllowed="false"
+                                      immediate="true" />
+                        </GridLayout>
+                    </HorizontalLayout>
+                </Panel>
+                <VerticalLayout id="TableLayout" immediate="true" spacing="true" >
+                </VerticalLayout >
+                <HorizontalLayout margin="true" immediate="true" spacing="true" styleName = "width-auto">
+                    <Button id="BB-calculate" caption="CALCULATE" />
+                    <Button id="cancelOverride" caption="CANCEL OVERRIDE" />
+                    <Button id="BB-export" caption="" />
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>   
+    </VerticalLayout>
+</Panel>

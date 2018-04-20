@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Panel xmlns:b="urn:import:org.asi.ui.customtextfield" xmlns:c="urn:import:org.asi.ui.customcombobox">
+    <VerticalLayout spacing = "true" width="100%" height="100%">
+        <Panel spacing="true" caption = "Adjustment Selection" width="100%" height="100%">
+            <HorizontalLayout spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true" immediate="true" columns="8" rows="1" width="100%">
+                    <Label id="labelAdjustmentTypeRate" value="Adjustment Type:"  contentMode="HTML" immediate="true" width="124px"  />
+                    <ComboBox id="adjustmentTypeDdlbRate" enabled="true" immediate="true"  width="178px"  />
+
+                    <Label id="labelCompanyRate" value="Company:"  contentMode="HTML" immediate="true" width="124px"  />
+                    <ComboBox id="companyDdlbRate" enable="true" immediate="true" width="178px" />
+            
+                    <Label id="labelBusinessRate" value="Business Unit:"  contentMode="HTML" immediate="true"  width="124px" />
+                    <ComboBox id="businessDdlbRate" enable="true" immediate="true" width="178px" />
+          
+                    <Label id="labelFrequencyRate" value="Frequency"  contentMode="HTML" immediate="true" visible="false" width="124px"  />
+                    <ComboBox id="frequencyDdlbRate" enable="true" immediate="true" visible="false" width="178px" />
+                </GridLayout>
+            </HorizontalLayout>
+        </Panel>
+        <HorizontalLayout spacing="true">
+            <Button id="resetBtnRate" caption="RESET" />
+            <Button id="generateBtnRate" caption="GENERATE" />
+        </HorizontalLayout>
+        <Panel spacing="true" caption = "Mass Update" width="100%" height="100%">
+            <HorizontalLayout spacing="true" margin="true" immediate="true">
+            
+                <Label id="labelFieldRate" value="Field:"  contentMode="HTML" immediate="true"   />
+                <ComboBox id="fieldDdlbRate" enable="true" immediate="true" />
+            
+                <Label id="labelValueRate" value="Value:"  contentMode="HTML" immediate="true"   />
+                <c:CustomComboBox id="valueDdlbRate" enable="true" immediate="true" />
+                
+                <b:CustomTextField id="valueTxt" styleName="searchicon" inputPrompt="" readOnly="true"/>
+                
+                <Button id="populateBtnRate" Caption="POPULATE"/>
+                
+            </HorizontalLayout>
+        </Panel>
+        <Panel caption="Control Table" spacing="true" width="100%" height="100%">
+            <VerticalLayout spacing="true">
+                <VerticalLayout id="resultsTableLayout" spacing="true" width="100%" height="100%">
+             
+                </VerticalLayout >
+                <HorizontalLayout spacing="true" width="100%" height="100%">
+                    <Button id="saveBtn" Caption="SAVE"/>
+                    <Button id="exportBtn" enable="true" immediate="true"  />   
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

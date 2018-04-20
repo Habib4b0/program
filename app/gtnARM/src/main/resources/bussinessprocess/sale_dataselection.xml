@@ -1,0 +1,22 @@
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable" xmlns:p="urn:vaadin:parent" xmlns:b="urn:import:org.asi.ui.customtextfield" xmlns:c="urn:import:org.asi.ui.custommenubar" xmlns:cu="urn:import:org.asi.ui.customcombobox">
+    <VerticalLayout spacing="true"  immediate="true">
+        <Panel  margin="true" immediate="true" spacing="true" caption="Data Selection">
+            <VerticalLayout margin="true" immediate="true" spacing="true" styleName = "width-auto">
+                <GridLayout spacing="true" id="dataSelecionGrid"
+                            immediate="true" columns="9" rows="1">
+                    <Label caption="Variables : " id="variable" contentMode="HTML" />
+                    <c:CustomMenuBar id="customMenuBar" styleName="custommenumulticheck"/>
+                    <Label caption=" Date Type: "  contentMode="HTML" />
+                    <cu:CustomComboBox id="dateType" nullSelectionAllowed="true"
+                                       immediate="true" />
+                    <Label caption=" Price : " contentMode="HTML" />
+                    <cu:CustomComboBox id="price" nullSelectionAllowed="true"
+                                       immediate="true" />
+                    <Button id="exclusionDetails" caption="Exclusion Details " />
+                    <Button id="reset" caption="RESET" />
+                    <Button id="generate" caption="GENERATE" />
+                </GridLayout>
+            </VerticalLayout>
+        </Panel>   
+    </VerticalLayout>
+</Panel>

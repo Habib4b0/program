@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<sql>
+    <entity id="getCompanyQuery">
+        <query> 
+            <![CDATA[
+                SELECT DISTINCT COMPANY_MASTER_SID,COMPANY_ID,COMPANY_NAME FROM COMPANY_MASTER 
+                JOIN HELPER_TABLE ON COMPANY_TYPE = HELPER_TABLE_SID
+                WHERE LIST_NAME = 'COMPANY_TYPE' AND DESCRIPTION = 'GLCOMP'
+            ]]>
+        </query>
+    </entity>
+    <entity id="getBusinessQuery">
+        <query> 
+            <![CDATA[
+                SELECT DISTINCT COMPANY_MASTER_SID,COMPANY_ID,COMPANY_NAME FROM COMPANY_MASTER 
+                JOIN HELPER_TABLE ON COMPANY_TYPE = HELPER_TABLE_SID
+                WHERE LIST_NAME = 'COMPANY_TYPE' AND DESCRIPTION = 'BUSINESS UNIT'
+            ]]>
+        </query>
+    </entity>
+    <entity id="getDeductionProgram">
+        <query> 
+            <![CDATA[
+                 SELECT DISTINCT REBATE_PROGRAM_TYPE,HT.DESCRIPTION FROM RS_CONTRACT RC 
+                 JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.REBATE_PROGRAM_TYPE
+                 ORDER BY HT.DESCRIPTION
+            ]]>
+        </query>
+    </entity>
+    <entity id="getDeductionType">
+        <query> 
+            <![CDATA[
+               
+                  SELECT DISTINCT RS_TYPE,HT.DESCRIPTION FROM RS_CONTRACT RC 
+                  JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.RS_TYPE
+                  ORDER BY HT.DESCRIPTION
+            ]]>
+        </query>
+    </entity>
+    <entity id="getDeductionCategory">
+        <query> 
+            <![CDATA[
+              SELECT DISTINCT RS_CATEGORY,HT.DESCRIPTION FROM RS_CONTRACT RC 
+              JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.RS_CATEGORY
+              ORDER BY HT.DESCRIPTION
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="getRsCategoryQuery">
+        <query> 
+            <![CDATA[
+                SELECT Distinct HELPER_TABLE_SID, DESCRIPTION FROM RS_MODEL 
+                JOIN HELPER_TABLE ON RS_CATEGORY = HELPER_TABLE_SID;
+            ]]>
+        </query>
+    </entity>
+    <entity id="getRsTypeQuery">
+        <query> 
+            <![CDATA[
+                SELECT Distinct HELPER_TABLE_SID, DESCRIPTION FROM RS_MODEL 
+                JOIN HELPER_TABLE ON RS_TYPE = HELPER_TABLE_SID;
+            ]]>
+        </query>
+    </entity>
+    <entity id="getRpTypeQuery">
+        <query> 
+            <![CDATA[
+                SELECT Distinct HELPER_TABLE_SID, DESCRIPTION FROM RS_MODEL 
+                JOIN HELPER_TABLE ON REBATE_PROGRAM_TYPE = HELPER_TABLE_SID;
+            ]]>
+        </query>
+    </entity>
+    <entity id="getCompanyQueryForDS">
+        <query> 
+            <![CDATA[
+                SELECT DISTINCT COMPANY_MASTER_SID,COMPANY_NAME FROM COMPANY_MASTER 
+                JOIN HELPER_TABLE ON COMPANY_TYPE = HELPER_TABLE_SID
+                WHERE LIST_NAME = 'COMPANY_TYPE' AND DESCRIPTION = 'GLCOMP'
+            ]]>
+        </query>
+    </entity>
+    <entity id="getBusinessQueryForDS">
+        <query> 
+            <![CDATA[
+                SELECT DISTINCT COMPANY_MASTER_SID,COMPANY_NAME FROM COMPANY_MASTER 
+                JOIN HELPER_TABLE ON COMPANY_TYPE = HELPER_TABLE_SID
+                WHERE LIST_NAME = 'COMPANY_TYPE' AND DESCRIPTION = 'BUSINESS UNIT'
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="getMonthYear">
+        <query> 
+             <![CDATA[
+    DECLARE @forecast_name VARCHAR(50) DECLARE @forecast_var VARCHAR(100) 
+SELECT
+    TOP 1 @forecast_name = FT.FORECAST_NAME,
+    @forecast_var = FT.[VERSION]
+FROM
+    FILE_MANAGEMENT FT INNER JOIN HELPER_TABLE HT
+        ON HT.HELPER_TABLE_SID = FT.FILE_TYPE
+WHERE
+    (
+        CONVERT(
+            DATE,
+            FT.FROM_PERIOD
+        ) <= CONVERT(
+            DATE,
+            GETDATE()
+        )
+        AND FT.FROM_PERIOD IS NOT NULL
+    )
+    AND(
+        CONVERT(
+            DATE,
+            FT.TO_PERIOD
+        ) >= CONVERT(
+            DATE,
+            GETDATE()
+        )
+        OR FT.TO_PERIOD IS NULL
+    )
+    AND HT.LIST_NAME = 'FILE_TYPE'
+    AND HT.DESCRIPTION = 'EX-FACTORY SALES'
+ORDER BY
+    FT.FROM_PERIOD DESC 
+	
+	SELECT
+        FORECAST_NAME,
+        MONTH(
+            MAX(
+                CAST(
+                    (
+                        CAST(
+                            fm.FORECAST_YEAR AS VARCHAR(4)
+                        ) + '-' + CAST(
+                            fm.FORECAST_MONTH AS VARCHAR(2)
+                        ) + '-01'
+                    ) AS DATE
+                )
+            )
+        ) AS MAX_MONTH,
+        YEAR(
+            MAX(
+                CAST(
+                    (
+                        CAST(
+                            fm.FORECAST_YEAR AS VARCHAR(4)
+                        ) + '-' + CAST(
+                            fm.FORECAST_MONTH AS VARCHAR(2)
+                        ) + '-01'
+                    ) AS DATE
+                )
+            )
+        ) AS MAX_YEAR
+    FROM
+        FORECASTING_MASTER FM CROSS APPLY(
+            SELECT
+                MIN(
+                    CAST(
+                        (
+                            CAST(
+                                FORECAST_YEAR AS VARCHAR(4)
+                            ) + '-' + CAST(
+                                FORECAST_MONTH AS VARCHAR(2)
+                            ) + '-01'
+                        ) AS DATE
+                    )
+                ) AS FT_MIN_DATE
+            FROM
+                FORECASTING_MASTER
+            WHERE
+                FORECAST_VER = FLOOR(FM.FORECAST_VER)
+                AND forecast_name = fm.forecast_name
+        ) CS
+    WHERE
+        (
+            SOURCE IN(
+                'FORESIGHT',
+                'LE_FORESIGHT'
+            )
+        )
+        AND COUNTRY = 'US'
+        AND FORECAST_NAME = @forecast_name
+        AND FLOOR(FORECAST_VER) = @forecast_var
+    GROUP BY
+        FORECAST_NAME,
+        FORECAST_VER,
+        SOURCE,
+        COUNTRY,
+        FORECAST_DATE
+    ORDER BY
+        FORECAST_NAME ASC 
+     ]]>
+        </query>
+    </entity>
+    
+    <entity id="adjustmentSummaryLoadRSType">
+        <query> 
+            <![CDATA[
+        SELECT DISTINCT 
+            A.RS_TYPE
+        FROM   RS_CONTRACT A
+        LEFT JOIN   UDCS U ON U.MASTER_SID=A.RS_CONTRACT_SID AND U.MASTER_TYPE='RS_CONTRACT'
+        WHERE  A.RS_CATEGORY LIKE ? 
+            ]]>
+        </query>
+    </entity>   
+    
+    <entity id="adjustmentSummaryLoadRebateProgramType">
+        <query> 
+            <![CDATA[
+            SELECT DISTINCT
+             A.REBATE_PROGRAM_TYPE
+             FROM   RS_CONTRACT A
+             LEFT JOIN   UDCS U ON U.MASTER_SID=A.RS_CONTRACT_SID AND U.MASTER_TYPE='RS_CONTRACT'
+             WHERE  A.RS_CATEGORY LIKE '@RS_CATEGORY'
+             AND A.RS_TYPE LIKE '@RS_TYPE'
+ ]]>
+        </query>
+    </entity>  
+    
+    
+</sql>

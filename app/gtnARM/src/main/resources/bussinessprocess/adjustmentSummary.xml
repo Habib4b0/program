@@ -1,0 +1,25 @@
+<Panel  xmlns:c="urn:import:org.asi.ui.custommenubar">
+    <VerticalLayout spacing="true"  margin="true" immediate="true">
+        <Panel  margin="true" immediate="true" spacing="true" caption="Adjustment Selection">
+            <VerticalLayout margin="true" immediate="true" spacing="true" styleName = "width-auto">
+                <GridLayout spacing="true" id="dataSelecionGrid"
+                            immediate="true" columns="10" rows="1">
+                    <Label caption="Deduction Level : " id="deductionLevel" contentMode="HTML" />
+                    <ComboBox id="deductionLevelDdlb" nullSelectionAllowed="true"
+                              immediate="true" />
+                    <Label caption=" Deduction Value : "  contentMode="HTML" />
+                    <c:CustomMenuBar id="deductionValueDdlb" styleName="custommenumulticheck"/>
+                    <Label caption=" Variables : " contentMode="HTML" />
+                    <c:CustomMenuBar id="variablesDdlb" styleName="custommenumulticheck"/>
+                    <Label value="GL Impact Date: "  contentMode="HTML" />
+                    <PopupDateField id="glImpactDate" dateFormat="MM/dd/yyyy" immediate="true" enable="true" styleName = "align-center" />
+               
+                </GridLayout>
+            </VerticalLayout>
+        </Panel>  
+        <HorizontalLayout margin="true" immediate="true" spacing="true" styleName = "width-auto">
+            <Button id="reset" caption="RESET" />
+            <Button id="generate" caption="GENERATE" />
+        </HorizontalLayout> 
+    </VerticalLayout>
+</Panel>

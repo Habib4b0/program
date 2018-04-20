@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<sql>
+    
+    
+    
+    <entity id="AdjustmentConfigCount">
+        <query> 
+            <![CDATA[
+            
+            
+
+;WITH CTE AS (SELECT ARM_ADJUSTMENT_CONFIG_SID,
+ TRANSACTION_NAME,
+ TRANSACTION_DESC,
+ ac.METHODOLGY,
+ ht.DESCRIPTION,
+  REDEMPTION_PERIOD,
+   ac.CREATED_DATE,
+ (crt.lastName+' '+crt.firstName) as created,
+  ac.MODIFIED_DATE,
+(mod.lastName+' '+mod.firstName) as Modified
+FROM ARM_ADJUSTMENT_CONFIG ac
+JOIN HELPER_TABLE ht on ht.HELPER_TABLE_SID=ac.METHODOLGY 
+left JOIN ?.dbo.User_ mod ON mod.UserId = ac.MODIFIED_BY
+  JOIN ?.dbo.User_ crt ON crt.UserId = ac.CREATED_BY
+   ) SELECT COUNT(*) FROM CTE
+ ?
+                    
+                    ]]>    
+        </query>
+    </entity>
+    <entity id="AdjustmentConfigCountForHistory">
+        <query> 
+            <![CDATA[
+
+                    ;WITH CTE AS (SELECT ARM_ADJUSTMENT_CONFIG_SID,
+              TRANSACTION_NAME,
+              TRANSACTION_DESC,
+              ac.METHODOLGY,
+              ht.DESCRIPTION,
+              REDEMPTION_PERIOD,
+              ac.CREATED_DATE,
+              (crt.lastName+' '+crt.firstName) as created,
+              ac.MODIFIED_DATE,
+             (mod.lastName+' '+mod.firstName)  as Modified
+             FROM HIST_ARM_ADJUSTMENT_CONFIG ac
+             JOIN HELPER_TABLE ht on ht.HELPER_TABLE_SID=ac.METHODOLGY
+             left JOIN ?.dbo.User_ mod ON mod.UserId = ac.MODIFIED_BY
+              JOIN ?.dbo.User_ crt ON crt.UserId = ac.CREATED_BY
+              and ac.ARM_ADJUSTMENT_CONFIG_SID=? ) SELECT COUNT(*) FROM CTE
+              ?
+
+                    
+                    ]]>    
+        </query>
+    </entity>
+    <entity id="AdjustmentConfigLoadData">
+        <query> 
+            <![CDATA[
+            
+            
+
+ SELECT ARM_ADJUSTMENT_CONFIG_SID,
+ TRANSACTION_NAME,
+ TRANSACTION_DESC,
+ ac.METHODOLGY,
+ ht.DESCRIPTION,
+ CASE WHEN REDEMPTION_PERIOD = 1 THEN 'Yes' ELSE 'No' END  AS REDEMPTION_PERIOD,
+  ac.CREATED_DATE,
+ (crt.lastName+' '+crt.firstName) as created,
+ ac.MODIFIED_DATE,
+(mod.lastName+' '+mod.firstName) as Modified
+FROM ARM_ADJUSTMENT_CONFIG ac
+JOIN HELPER_TABLE ht on ht.HELPER_TABLE_SID=ac.METHODOLGY
+left JOIN ?.dbo.User_ mod ON mod.UserId = ac.MODIFIED_BY
+ JOIN ?.dbo.User_ crt ON crt.UserId = ac.CREATED_BY
+ ?
+ OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+                    
+                    ]]>    
+        </query>
+    </entity>
+    <entity id="AdjustmentConfigLoadDataForHistory">
+        <query> 
+            <![CDATA[
+            
+            
+
+SELECT ARM_ADJUSTMENT_CONFIG_SID,
+ TRANSACTION_NAME,
+ TRANSACTION_DESC,
+ ac.METHODOLGY,
+ ht.DESCRIPTION,
+ CASE WHEN REDEMPTION_PERIOD = 1 THEN 'Yes' ELSE 'No' END  AS REDEMPTION_PERIOD,
+ ac.CREATED_DATE,
+ (crt.lastName+' '+crt.firstName) as created,
+ ac.MODIFIED_DATE,
+(mod.lastName+' '+mod.firstName)  as Modified
+FROM HIST_ARM_ADJUSTMENT_CONFIG ac
+JOIN HELPER_TABLE ht on ht.HELPER_TABLE_SID=ac.METHODOLGY
+left JOIN ?.dbo.User_ mod ON mod.UserId = ac.MODIFIED_BY
+ JOIN ?.dbo.User_ crt ON crt.UserId = ac.CREATED_BY
+ and ac.ARM_ADJUSTMENT_CONFIG_SID=?  ?
+ OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+                    
+                    ]]>    
+        </query>
+    </entity>
+    
+    <entity id="Add-Mode Save">
+        <query> 
+            <![CDATA[
+insert into ARM_ADJUSTMENT_CONFIG 
+(TRANSACTION_NAME,TRANSACTION_DESC,METHODOLGY,REDEMPTION_PERIOD,CREATED_DATE,CREATED_BY) VALUES
+('?'             ,'?'             ,'?'       ,'?'              ,getdate()      ,'?'       )
+                    
+                    ]]>    
+        </query>
+    </entity>
+    
+    <entity id="Edit-Mode Save">
+        <query> 
+            <![CDATA[
+
+update ARM_ADJUSTMENT_CONFIG set TRANSACTION_DESC='?',
+METHODOLGY='?',
+REDEMPTION_PERIOD='?',
+MODIFIED_BY='?',
+MODIFIED_DATE=getdate()
+where ARM_ADJUSTMENT_CONFIG_SID=?
+                    
+                    ]]>    
+        </query>
+    </entity>
+    
+    <entity id="Check Adjusment Type">
+        <query> 
+            <![CDATA[
+
+ SELECT COUNT(*) FROM ARM_ADJ_RES_CONFIG_DETAIL AA 
+    JOIN ARM_ADJUSTMENT_CONFIG AAC ON 
+    AAC.ARM_ADJUSTMENT_CONFIG_SID = AA.ADJUSTMENT_TYPE
+    WHERE ARM_ADJUSTMENT_CONFIG_SID = ?
+                    
+                    ]]>    
+        </query>
+    </entity>
+    
+    <entity id="delte adjustment Config">
+        <query> 
+            <![CDATA[
+delete from ARM_ADJUSTMENT_MASTER where TRANSACTION_TYPE=?;
+delete from ARM_ADJ_RES_CONFIG_DETAIL where adjustment_type=?;
+delete from ARM_ADJ_RES_CCP where adjustment_type=?;
+DELETE PCD FROM PERIOD_CONFIG_DETAILS PCD 
+		 JOIN PERIOD_CONFIG_MASTER PCM 
+		 ON PCM.PERIOD_CONFIG_MASTER_SID=PCD.PERIOD_CONFIG_MASTER_SID AND PCM.BUSINESS_PROCESS_TYPE = ?;
+DELETE FROM PERIOD_CONFIG_MASTER WHERE BUSINESS_PROCESS_TYPE = ?;
+delete from ARM_ADJUSTMENT_CONFIG where ARM_ADJUSTMENT_CONFIG_SID=?;
+            
+                    ]]>    
+        </query>
+    </entity>
+    
+    <entity id="Projection created Check">
+        <query> 
+            <![CDATA[
+
+ SELECT count(PROJECTION_MASTER_SID) FROM ARM_ADJUSTMENT_MASTER where TRANSACTION_TYPE=?
+
+                    
+                    ]]>    
+        </query>
+    </entity>
+    
+    <entity id="duplicate-transaction-name-check">
+        <query> 
+            <![CDATA[
+                IF EXISTS (SELECT 1
+                    FROM ARM_ADJUSTMENT_CONFIG                  
+                WHERE TRANSACTION_NAME LIKE '?')
+                    SELECT 1
+                 ELSE
+                   SELECT 0 
+            ]]>    
+        </query>
+    </entity>    
+    <entity id="usedCount">
+        <query> 
+            <![CDATA[                       
+                    select count(1) from WORKFLOW_MASTER wm join
+                PROJECTION_MASTER pm on wm.PROJECTION_MASTER_SID=pm.PROJECTION_MASTER_SID 
+                join ARM_ADJUSTMENT_MASTER AAM on AAM.PROJECTION_MASTER_SID = pm.PROJECTION_MASTER_SID
+join HELPER_TABLE ht on wm.WORKFLOW_STATUS_ID = ht.HELPER_TABLE_SID
+and AAM.TRANSACTION_TYPE = ? and ht.DESCRIPTION in ('Pending','Withdrawn','Approved')
+                    
+                    ]]>    
+        </query>
+    </entity>
+    
+    <entity id="AdjustmentConfigDelCount">
+        <query> 
+            <![CDATA[
+    SELECT count(*) FROM ARM_ADJ_RES_CONFIG_DETAIL AAR 
+    JOIN ARM_ADJUSTMENT_CONFIG AAC ON 
+    AAC.ARM_ADJUSTMENT_CONFIG_SID = AAR.ADJUSTMENT_TYPE
+    WHERE ARM_ADJUSTMENT_CONFIG_SID = ?   
+                    ]]>    
+        </query>
+    </entity> 
+</sql>

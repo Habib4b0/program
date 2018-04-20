@@ -1,0 +1,1805 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<sql>
+    <entity id="Load_Company_No">
+        <query> 
+            <![CDATA[
+               SELECT COMPANY_NO FROM COMPANY_MASTER where COMPANY_MASTER_SID=?
+            ]]>
+        </query>
+    </entity>
+    <entity id="Add_Line_to_Temp_For_Master_Table">
+        <query> 
+            <![CDATA[
+              
+DECLARE @OutputTbl TABLE (ID INT)
+insert into ST_ARM_ADJ_RES_CONFIG_MASTER
+(
+   GL_COMPANY_MASTER_SID,
+   BU_COMPANY_MASTER_SID,
+   RS_CATEGORY,
+   RS_TYPE,
+   REBATE_PROGRAM_TYPE,
+   CONFIGURATION_TYPE,
+   CREATED_BY,
+   CREATED_DATE,
+   USER_ID,
+   SESSION_ID
+   )OUTPUT INSERTED.ARM_ADJ_RES_CONFIG_MASTER_SID  into @OutputTbl(ID)
+values(?,?,?,?,?,?,?,?,?,?)  select
+Id
+FROM @OutputTbl
+
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="ComboBox List Name Query">
+        <query> 
+            <![CDATA[
+SELECT
+    HELPER_TABLE_SID,
+    DESCRIPTION
+FROM
+    HELPER_TABLE
+WHERE
+    LIST_NAME  = '?'
+            ]]>
+        </query>
+    </entity>
+    <entity id="Load_udc">
+        <query> 
+            <![CDATA[
+  SELECT DISTINCT
+  HELPER_TABLE_SID,
+  DESCRIPTION
+FROM UDCS udc
+JOIN HELPER_TABLE he
+  ON HELPER_TABLE_SID = ?
+WHERE MASTER_TYPE = 'RS_MODEL'
+AND HELPER_TABLE_SID <> 0
+]]>
+        </query>
+    </entity>
+    <entity id="ADD_Line_to_Temp_table">
+        <query> 
+            <![CDATA[
+               DECLARE @OutputTb2 TABLE (ID INT)
+insert into ?
+(
+   ARM_ADJ_RES_CONFIG_MASTER_SID,CREATED_BY, CREATED_DATE
+)
+OUTPUT INSERTED.ARM_ADJ_RES_CONFIG_DETAIL_SID into @OutputTb2(ID)
+values(?,?,getdate())
+select
+Id
+FROM @OutputTb2
+            ]]>
+        </query>
+    </entity>
+    <entity id="Update_values_To_tempTable">
+        <query> 
+            <![CDATA[
+               update ? set ?=? where ARM_ADJ_RES_CONFIG_DETAIL_SID=?
+            ]]>
+        </query>
+    </entity>
+    <entity id="Load_Reserve_Details_count">
+        <query> 
+            <![CDATA[
+  SELECT count(distinct
+ARM_ADJ_RES_CONFIG_DETAIL_SID)
+FROM ? ARC
+LEFT JOIN ARM_ADJUSTMENT_CONFIG ADC ON ADC.ARM_ADJUSTMENT_CONFIG_SID = ARC.ADJUSTMENT_TYPE
+?
+where 
+ ARM_ADJ_RES_CONFIG_MASTER_SID=?
+ ?
+            ]]>
+        </query>
+    </entity>
+    <entity id="Load_Reserve_Details_count_Hist">
+        <query> 
+            <![CDATA[
+  SELECT count(*)
+FROM HIST_ARM_ADJ_RES_CONFIG_DETAIL ARC
+LEFT JOIN ARM_ADJUSTMENT_CONFIG ADC ON ADC.ARM_ADJUSTMENT_CONFIG_SID = ARC.ADJUSTMENT_TYPE
+?
+where  ARM_ADJ_RES_CONFIG_MASTER_SID=? 
+?
+            ]]>
+        </query>
+    </entity>
+    <entity id="Load_Reserve_Details_count_For_view">
+        <query> 
+            <![CDATA[
+  SELECT
+count(*)from(select distinct ADJUSTMENT_TYPE, ADJUSTMENT_LEVEL, ACCOUNT_CATEGORY,ACCOUNT_TYPE,ACCOUNT
+FROM ARM_ADJ_RES_CONFIG_DETAIL ARC
+LEFT JOIN ARM_ADJUSTMENT_CONFIG ADC ON ADC.ARM_ADJUSTMENT_CONFIG_SID = ARC.ADJUSTMENT_TYPE
+?
+where ARM_ADJ_RES_CONFIG_MASTER_SID=? ?)A
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="Load_Reserve_Details_Data">
+        <query> 
+            <![CDATA[
+            SELECT
+ARM_ADJ_RES_CONFIG_DETAIL_SID,
+ADJUSTMENT_TYPE,
+ADJUSTMENT_LEVEL,
+ACCOUNT_CATEGORY,
+ACCOUNT_TYPE,
+ACCOUNT,
+ACCOUNT_DESC,
+ACCOUNT_INDICATOR,
+COST_CENTER,
+PROJECT,
+FUTURE_1,
+FUTURE_2,
+BALANCE_TYPE,
+[DATABASE] as DB,
+DATA_ACCESS_SET,
+CHART_OF_ACCOUNTS,
+LEDGER,
+CATEGORY,
+SOURCE,
+CURRENCY,
+JOURNAL_NAME,
+JOURNAL_DESCRIPTION,
+REVERSE_JOURNAL,
+REVERSAL_PERIOD_DATE,
+LINE_DESCRIPTION,
+UDC_1,
+UDC_2,
+UDC_3,
+UDC_4,
+UDC_5,
+UDC_6,
+CHECK_RECORD,
+CREDIT,DEBIT , DIVISION,REPORT_INDICATOR
+FROM ? ARC
+? 
+LEFT JOIN ARM_ADJUSTMENT_CONFIG ADC ON ADC.ARM_ADJUSTMENT_CONFIG_SID = ARC.ADJUSTMENT_TYPE
+?
+where  ARM_ADJ_RES_CONFIG_MASTER_SID=?   ? order by ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+            ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="Load_Reserve_Details_Data_For_view">
+        <query> 
+            <![CDATA[
+            SELECT
+0,
+ADJUSTMENT_TYPE,
+ADJUSTMENT_LEVEL,
+ACCOUNT_CATEGORY,
+ACCOUNT_TYPE,
+ACCOUNT,
+ACCOUNT_DESC,
+ACCOUNT_INDICATOR,
+COST_CENTER,
+PROJECT,
+FUTURE_1,
+FUTURE_2,
+BALANCE_TYPE,
+[DATABASE] as DB,
+DATA_ACCESS_SET,
+CHART_OF_ACCOUNTS,
+LEDGER,
+CATEGORY,
+SOURCE,
+CURRENCY,
+JOURNAL_NAME,
+JOURNAL_DESCRIPTION,
+REVERSE_JOURNAL,
+REVERSAL_PERIOD_DATE,
+LINE_DESCRIPTION,
+UDC_1,
+UDC_2,
+UDC_3,
+UDC_4,
+UDC_5,
+UDC_6,
+CONVERT(bit, 1) AS active,
+CREDIT,DEBIT, DIVISION,REPORT_INDICATOR
+FROM ARM_ADJ_RES_CONFIG_DETAIL ARC
+JOIN ARM_ADJUSTMENT_CONFIG ADC ON ADC.ARM_ADJUSTMENT_CONFIG_SID = ARC.ADJUSTMENT_TYPE
+? ?
+where  ARM_ADJ_RES_CONFIG_MASTER_SID=?  ? order by ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+            ]]>
+        </query>
+    </entity>
+    <entity id="Load_Reserve_Details_Data_For_Hist">
+        <query> 
+            <![CDATA[
+            SELECT
+0,
+ADJUSTMENT_TYPE,
+ADJUSTMENT_LEVEL,
+ACCOUNT_CATEGORY,
+ACCOUNT_TYPE,
+ACCOUNT,
+ACCOUNT_DESC,
+ACCOUNT_INDICATOR,
+COST_CENTER,
+PROJECT,
+FUTURE_1,
+FUTURE_2,
+BALANCE_TYPE,
+[DATABASE] as DB,
+DATA_ACCESS_SET,
+CHART_OF_ACCOUNTS,
+LEDGER,
+CATEGORY,
+SOURCE,
+CURRENCY,
+JOURNAL_NAME,
+JOURNAL_DESCRIPTION,
+REVERSE_JOURNAL,
+REVERSAL_PERIOD_DATE,
+LINE_DESCRIPTION,
+UDC_1,
+UDC_2,
+UDC_3,
+UDC_4,
+UDC_5,
+UDC_6,
+CONVERT(bit, 1) AS active,
+CREDIT,DEBIT, DIVISION,REPORT_INDICATOR
+FROM HIST_ARM_ADJ_RES_CONFIG_DETAIL ARC
+?
+JOIN ARM_ADJUSTMENT_CONFIG ADC ON ADC.ARM_ADJUSTMENT_CONFIG_SID = ARC.ADJUSTMENT_TYPE
+?
+where  ARM_ADJ_RES_CONFIG_MASTER_SID=?   ? order by ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="MassUpdate_reserve">
+        <query> 
+            <![CDATA[
+  update ? set ?=?
+where 
+ ARM_ADJ_RES_CONFIG_MASTER_SID=?
+and CHECK_RECORD=1
+            ]]>
+        </query>
+    </entity>
+    <entity id="Load_GTN_Details_Data">
+        <query> 
+            <![CDATA[
+            SELECT
+ARM_ADJ_RES_CONFIG_DETAIL_SID,
+ADJUSTMENT_TYPE,
+ADJUSTMENT_LEVEL,
+ACCOUNT_CATEGORY,
+ACCOUNT_TYPE,
+ACCOUNT,
+ACCOUNT_DESC,
+ACCOUNT_INDICATOR,
+COST_CENTER,
+PROJECT,
+FUTURE_1,
+FUTURE_2,
+UDC_1,
+UDC_2,
+UDC_3,
+UDC_4,
+UDC_5,
+UDC_6,
+CHECK_RECORD,
+DIVISION
+FROM ? ARC
+? 
+LEFT JOIN ARM_ADJUSTMENT_CONFIG ADC ON ADC.ARM_ADJUSTMENT_CONFIG_SID = ARC.ADJUSTMENT_TYPE
+?
+where  ARM_ADJ_RES_CONFIG_MASTER_SID=?  ? order by ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+            ]]>
+        </query>
+    </entity>
+    <entity id="Load_GTN_Details_Data_For_view">
+        <query> 
+            <![CDATA[
+            SELECT
+0,
+ADJUSTMENT_TYPE,
+ADJUSTMENT_LEVEL,
+ACCOUNT_CATEGORY,
+ACCOUNT_TYPE,
+ACCOUNT,
+ACCOUNT_DESC,
+ACCOUNT_INDICATOR,
+COST_CENTER,
+PROJECT,
+FUTURE_1,
+FUTURE_2,
+UDC_1,
+UDC_2,
+UDC_3,
+UDC_4,
+UDC_5,
+UDC_6,
+CONVERT(bit, 1) AS active,
+DIVISION
+FROM ARM_ADJ_RES_CONFIG_DETAIL ARC
+LEFT JOIN ARM_ADJUSTMENT_CONFIG ADC ON ADC.ARM_ADJUSTMENT_CONFIG_SID = ARC.ADJUSTMENT_TYPE
+? ?
+where  ARM_ADJ_RES_CONFIG_MASTER_SID=?  ? order by ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="Load_GTN_Details_Data_For_Hist">
+        <query> 
+            <![CDATA[
+            SELECT
+0,
+ADJUSTMENT_TYPE,
+ADJUSTMENT_LEVEL,
+ACCOUNT_CATEGORY,
+ACCOUNT_TYPE,
+ACCOUNT,
+ACCOUNT_DESC,
+ACCOUNT_INDICATOR,
+COST_CENTER,
+PROJECT,
+FUTURE_1,
+FUTURE_2,
+UDC_1,
+UDC_2,
+UDC_3,
+UDC_4,
+UDC_5,
+UDC_6,
+CONVERT(bit, 1) AS active,
+DIVISION
+FROM HIST_ARM_ADJ_RES_CONFIG_DETAIL ARC
+?
+JOIN ARM_ADJUSTMENT_CONFIG ADC ON ADC.ARM_ADJUSTMENT_CONFIG_SID = ARC.ADJUSTMENT_TYPE
+?
+where  ARM_ADJ_RES_CONFIG_MASTER_SID=?  ? order by ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="Delete_row_query">
+        <query> 
+            <![CDATA[
+  delete from ?  where CHECK_RECORD=1  and ARM_ADJ_RES_CONFIG_MASTER_SID=?
+            ]]>
+        </query>
+    </entity>
+   
+    <entity id="Main_save_query">
+        <query> 
+            <![CDATA[
+  insert into ARM_ADJ_RES_CONFIG_DETAIL
+(  ARM_ADJ_RES_CONFIG_DETAIL_SID,
+   ARM_ADJ_RES_CONFIG_MASTER_SID ,
+   ADJUSTMENT_TYPE,
+   ADJUSTMENT_LEVEL,
+   ACCOUNT_CATEGORY,
+   ACCOUNT_TYPE,
+   ACCOUNT,
+   ACCOUNT_DESC,
+   ACCOUNT_INDICATOR,
+   COST_CENTER,
+   PROJECT,
+   FUTURE_1,
+   FUTURE_2,
+   UDC_1,
+   UDC_2,
+   UDC_3,
+   UDC_4,
+   UDC_5,
+   UDC_6,
+   BALANCE_TYPE,
+   [DATABASE],
+   DATA_ACCESS_SET,
+   CHART_OF_ACCOUNTS,
+   LEDGER,
+   CATEGORY,
+   SOURCE,
+   CURRENCY,
+   JOURNAL_NAME,
+   JOURNAL_DESCRIPTION,
+   REVERSE_JOURNAL,
+   REVERSAL_PERIOD_DATE,
+   LINE_DESCRIPTION,
+   CREATED_BY,
+   CREATED_DATE,
+   CREDIT,
+   DEBIT, 
+   DIVISION,REPORT_INDICATOR
+)
+select
+ARM_ADJ_RES_CONFIG_DETAIL_SID,
+ARM_ADJ_RES_CONFIG_MASTER_SID ,
+ADJUSTMENT_TYPE,
+ADJUSTMENT_LEVEL,
+ACCOUNT_CATEGORY,
+ACCOUNT_TYPE,
+ACCOUNT,
+ACCOUNT_DESC,
+ACCOUNT_INDICATOR,
+COST_CENTER,
+PROJECT,
+FUTURE_1,
+FUTURE_2,
+UDC_1,
+UDC_2,
+UDC_3,
+UDC_4,
+UDC_5,
+UDC_6,
+BALANCE_TYPE,
+[DATABASE],
+DATA_ACCESS_SET,
+CHART_OF_ACCOUNTS,
+LEDGER,
+CATEGORY,
+SOURCE,
+CURRENCY,
+JOURNAL_NAME,
+JOURNAL_DESCRIPTION,
+REVERSE_JOURNAL,
+REVERSAL_PERIOD_DATE,
+LINE_DESCRIPTION,
+CREATED_BY,
+CREATED_DATE,
+CREDIT,
+   DEBIT, DIVISION,REPORT_INDICATOR
+from ?
+
+
+            ]]>
+        </query>
+    </entity>
+    
+    
+  
+    <entity id="CopyLine_query">
+        <query> 
+            <![CDATA[
+
+insert into ?
+(
+   ARM_ADJ_RES_CONFIG_MASTER_SID ,
+   ADJUSTMENT_TYPE,
+   ADJUSTMENT_LEVEL,
+   ACCOUNT_CATEGORY,
+   ACCOUNT_TYPE,
+   ACCOUNT,
+   ACCOUNT_DESC,
+   ACCOUNT_INDICATOR,
+   COST_CENTER,
+   PROJECT,
+   FUTURE_1,
+   FUTURE_2,
+   UDC_1,
+   UDC_2,
+   UDC_3,
+   UDC_4,
+   UDC_5,
+   UDC_6,
+   BALANCE_TYPE,
+   [DATABASE],
+   DATA_ACCESS_SET,
+   CHART_OF_ACCOUNTS,
+   LEDGER,
+   CATEGORY,
+   SOURCE,
+   CURRENCY,
+   JOURNAL_NAME,
+   JOURNAL_DESCRIPTION,
+   REVERSE_JOURNAL,
+   REVERSAL_PERIOD_DATE,
+   LINE_DESCRIPTION,
+   CREATED_BY,
+   CREATED_DATE,
+      CHECK_RECORD,
+   CREDIT,
+    DEBIT, DIVISION,REPORT_INDICATOR
+)
+select
+ARM_ADJ_RES_CONFIG_MASTER_SID ,
+ADJUSTMENT_TYPE,
+ADJUSTMENT_LEVEL,
+ACCOUNT_CATEGORY,
+ACCOUNT_TYPE,
+ACCOUNT,
+ACCOUNT_DESC,
+ACCOUNT_INDICATOR,
+COST_CENTER,
+PROJECT,
+FUTURE_1,
+FUTURE_2,
+UDC_1,
+UDC_2,
+UDC_3,
+UDC_4,
+UDC_5,
+UDC_6,
+BALANCE_TYPE,
+[DATABASE],
+DATA_ACCESS_SET,
+CHART_OF_ACCOUNTS,
+LEDGER,
+CATEGORY,
+SOURCE,
+CURRENCY,
+JOURNAL_NAME,
+JOURNAL_DESCRIPTION,
+REVERSE_JOURNAL,
+REVERSAL_PERIOD_DATE,
+LINE_DESCRIPTION,
+CREATED_BY,
+CREATED_DATE,
+CHECK_RECORD,
+ CREDIT,
+    DEBIT, DIVISION,REPORT_INDICATOR
+from ?
+where CHECK_RECORD=1
+and ARM_ADJ_RES_CONFIG_MASTER_SID=?
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="Reset_table_in_DB">
+        <query> 
+            <![CDATA[
+
+
+delete from ? where ARM_ADJ_RES_CONFIG_MASTER_SID in (?)
+
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="Update_data_in_MasterTable">
+        <query> 
+            <![CDATA[
+
+update ST_ARM_ADJ_RES_CONFIG_MASTER set GL_COMPANY_MASTER_SID= ?,
+BU_COMPANY_MASTER_SID=?,
+RS_CATEGORY=?,
+RS_TYPE=?,
+REBATE_PROGRAM_TYPE=?
+where ARM_ADJ_RES_CONFIG_MASTER_SID=?
+
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="Check_For_Save_validation">
+        <query> 
+            <![CDATA[
+                      ; with cte as(
+                      Select
+                              ARM_ADJ_RES_CONFIG_MASTER_SID,
+                              ADJUSTMENT_TYPE,
+                              ACCOUNT_CATEGORY,
+                              ACCOUNT_TYPE,
+                              ACCOUNT,
+                              count( * ) as cnt
+                      from
+                              ?
+                      WHERE
+                              ARM_ADJ_RES_CONFIG_MASTER_SID = ?
+                      group by
+                              ARM_ADJ_RES_CONFIG_MASTER_SID,
+                              ADJUSTMENT_TYPE,
+                              ACCOUNT_CATEGORY,
+                              ACCOUNT_TYPE,
+                              ACCOUNT
+                      having
+                              count( * ) > 1
+              ) Select
+                      count( * )
+              from
+                      cte
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="Mandatory check for Reserve">
+        <query> 
+            <![CDATA[
+DECLARE 
+ @ARM_ADJ_RES INT =?,
+ @COUNT INT SELECT
+     @COUNT = COUNT(ARM_ADJ_RES_CONFIG_DETAIL_SID)
+ FROM
+     ?
+ WHERE
+     ARM_ADJ_RES_CONFIG_MASTER_SID = @ARM_ADJ_RES
+      IF(
+         @COUNT = 0
+     ) BEGIN SELECT
+         NULL
+     END
+     ELSE BEGIN
+ IF   NOT EXISTS(
+         SELECT
+             *
+         FROM
+             ?
+         WHERE
+              ARM_ADJ_RES_CONFIG_MASTER_SID =@ARM_ADJ_RES
+             AND(
+                 (
+                     ADJUSTMENT_TYPE IS  NULL
+                     OR ADJUSTMENT_TYPE = ''
+                     OR ADJUSTMENT_TYPE = 0
+                 )
+                 OR(
+                     ADJUSTMENT_LEVEL IS  NULL
+                     OR ADJUSTMENT_LEVEL = ''
+                     OR ADJUSTMENT_LEVEL = 0
+                 )
+                 OR(
+                     ACCOUNT IS  NULL
+                     OR ACCOUNT = ''
+
+                 )
+                 OR(
+                     REPORT_INDICATOR IS  NULL
+                    
+                 )
+               
+                 OR(
+                     PROJECT IS  NULL
+                     OR PROJECT = ''
+
+                 )
+                 OR(
+                     FUTURE_1 IS  NULL
+                     OR FUTURE_1 = ''
+
+                 )
+                 OR(
+                     FUTURE_2 IS  NULL
+                     OR FUTURE_2 = ''
+
+                 )
+                 OR(
+                     BALANCE_TYPE IS  NULL
+                     OR BALANCE_TYPE = ''
+
+                 )
+                 OR(
+                     [DATABASE] IS  NULL
+                     OR [DATABASE] = ''
+
+                 )
+                 OR(
+                     DATA_ACCESS_SET IS  NULL
+                     OR DATA_ACCESS_SET = ''
+
+                 )
+                 OR(
+                     CHART_OF_ACCOUNTS IS  NULL
+                     OR CHART_OF_ACCOUNTS = ''
+
+                 )
+                 OR(
+                     LEDGER IS  NULL
+                     OR LEDGER = ''
+
+                 )
+                 OR(
+                     CATEGORY IS  NULL
+                     OR CATEGORY = ''
+
+                 )
+                 OR(
+                     DATA_ACCESS_SET IS  NULL
+                     OR DATA_ACCESS_SET = ''
+
+                 )
+                 OR(
+                     SOURCE IS  NULL
+                     OR SOURCE = ''
+
+                 )
+                 OR(
+                     JOURNAL_NAME IS  NULL
+                     OR JOURNAL_NAME = ''
+
+                 )
+                 OR(
+                     REVERSE_JOURNAL IS NULL
+                     OR REVERSE_JOURNAL = ''
+
+                 )
+             )
+     ) SELECT
+         1
+         ELSE
+		  SELECT
+            0
+         END
+
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="Mandatory check for GTNDetails">
+        <query> 
+            <![CDATA[
+DECLARE  
+ @ARM_ADJ_RES INT =?,
+ @COUNT INT
+
+  SELECT @COUNT=
+    COUNT(ARM_ADJ_RES_CONFIG_DETAIL_SID)
+    FROM ?
+    WHERE ARM_ADJ_RES_CONFIG_MASTER_SID=@ARM_ADJ_RES
+    
+
+IF (@COUNT=0)
+BEGIN
+SELECT NULL
+END
+ELSE
+BEGIN
+ IF NOT  EXISTS
+(
+   SELECT
+*
+FROM ?
+WHERE
+  ARM_ADJ_RES_CONFIG_MASTER_SID=@ARM_ADJ_RES AND
+((ADJUSTMENT_TYPE IS  NULL OR ADJUSTMENT_TYPE='' OR ADJUSTMENT_TYPE =0)
+OR (ADJUSTMENT_LEVEL IS  NULL OR ADJUSTMENT_LEVEL ='' OR ADJUSTMENT_LEVEL =0)
+OR (ACCOUNT IS  NULL OR ACCOUNT ='' )
+OR (PROJECT IS  NULL OR PROJECT ='' )
+OR (FUTURE_1 IS  NULL OR FUTURE_1 ='' )
+OR (FUTURE_2 IS  NULL OR FUTURE_2 ='')) )
+ SELECT
+ 1 ELSE
+ SELECT
+ 0
+ END
+            ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="Reserve_Details_search_count">
+        <query> 
+            <![CDATA[
+SELECT count(distinct
+adj.ARM_ADJ_RES_CONFIG_MASTER_SID)
+FROM ARM_ADJ_RES_CONFIG_MASTER ADJ
+JOIN COMPANY_MASTER Cm on cm.COMPANY_MASTER_SID=ADJ.GL_COMPANY_MASTER_SID
+AND ADJ.GL_COMPANY_MASTER_SID LIKE '?'
+AND ADJ.BU_COMPANY_MASTER_SID LIKE '?'
+AND ADJ.RS_CATEGORY LIKE '?'
+AND ADJ.RS_TYPE LIKE '?'
+AND ADJ.REBATE_PROGRAM_TYPE LIKE '?'
+ and adj.CONFIGURATION_TYPE=1
+ and adj.DELETE_STATUS=0
+JOIN COMPANY_MASTER BU on Bu.COMPANY_MASTER_SID=adj.BU_COMPANY_MASTER_SID
+JOIN HELPER_TABLE RS_C on rs_C.HELPER_TABLE_SID=adj.RS_CATEGORY
+JOIN HELPER_TABLE RS_T on rs_T.HELPER_TABLE_SID=adj.RS_TYPE
+JOIN HELPER_TABLE RS_P on rs_P.HELPER_TABLE_SID=adj.REBATE_PROGRAM_TYPE
+
+ ?
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="Reserve_Details_search_count_filter">
+        <query> 
+            <![CDATA[
+SELECT count(distinct
+adj.ARM_ADJ_RES_CONFIG_MASTER_SID)
+FROM ARM_ADJ_RES_CONFIG_MASTER ADJ
+JOIN COMPANY_MASTER Cm on cm.COMPANY_MASTER_SID=ADJ.GL_COMPANY_MASTER_SID
+AND ADJ.GL_COMPANY_MASTER_SID LIKE '?'
+AND ADJ.BU_COMPANY_MASTER_SID LIKE '?'
+AND ADJ.RS_CATEGORY LIKE '?'
+AND ADJ.RS_TYPE LIKE '?'
+AND ADJ.REBATE_PROGRAM_TYPE LIKE '?'
+ and adj.CONFIGURATION_TYPE=1
+ and adj.DELETE_STATUS=0
+JOIN COMPANY_MASTER BU on Bu.COMPANY_MASTER_SID=adj.BU_COMPANY_MASTER_SID
+JOIN HELPER_TABLE RS_C on rs_C.HELPER_TABLE_SID=adj.RS_CATEGORY
+JOIN HELPER_TABLE RS_T on rs_T.HELPER_TABLE_SID=adj.RS_TYPE
+JOIN HELPER_TABLE RS_P on rs_P.HELPER_TABLE_SID=adj.REBATE_PROGRAM_TYPE
+JOIN ?.dbo.User_ crt ON crt.UserId = ADJ.CREATED_BY
+
+ ?
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="Reserve_Details_search_Data">
+        <query> 
+            <![CDATA[
+SELECT
+adj.ARM_ADJ_RES_CONFIG_MASTER_SID,
+cm.COMPANY_NO as GLCOMP,
+cm.COMPANY_NAME as GLCOMP1,
+bu.COMPANY_NO as BUCOMP,
+bu.COMPANY_NAME as BUCOMP1,
+rs_c.DESCRIPTION as CAT,
+rs_t.DESCRIPTION as CATTYPE,
+RS_P.DESCRIPTION as CAT_PRo,
+adj.CREATED_BY,
+adj.CREATED_DATE,
+adj.MODIFIED_DATE,
+adj.SOURCE as Source,
+adj.GL_COMPANY_MASTER_SID,
+adj.BU_COMPANY_MASTER_SID,
+adj.RS_CATEGORY,
+adj.RS_TYPE,
+adj.REBATE_PROGRAM_TYPE
+FROM ARM_ADJ_RES_CONFIG_MASTER ADJ
+JOIN COMPANY_MASTER Cm on cm.COMPANY_MASTER_SID=ADJ.GL_COMPANY_MASTER_SID
+AND ADJ.GL_COMPANY_MASTER_SID LIKE '?'
+AND ADJ.BU_COMPANY_MASTER_SID LIKE '?'
+AND ADJ.RS_CATEGORY LIKE '?'
+AND ADJ.RS_TYPE LIKE '?'
+AND ADJ.REBATE_PROGRAM_TYPE LIKE '?'
+ and adj.CONFIGURATION_TYPE=1
+ and adj.DELETE_STATUS=0
+JOIN COMPANY_MASTER BU on Bu.COMPANY_MASTER_SID=adj.BU_COMPANY_MASTER_SID
+JOIN HELPER_TABLE RS_C on rs_C.HELPER_TABLE_SID=adj.RS_CATEGORY
+JOIN HELPER_TABLE RS_T on rs_T.HELPER_TABLE_SID=adj.RS_TYPE
+JOIN HELPER_TABLE RS_P on rs_P.HELPER_TABLE_SID=adj.REBATE_PROGRAM_TYPE
+? 
+order by ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="Reserve_Details_search_Data_Filter">
+        <query> 
+            <![CDATA[
+SELECT
+adj.ARM_ADJ_RES_CONFIG_MASTER_SID,
+cm.COMPANY_NO as GLCOMP,
+cm.COMPANY_NAME as GLCOMP1,
+bu.COMPANY_NO as BUCOMP,
+bu.COMPANY_NAME as BUCOMP1,
+rs_c.DESCRIPTION as CAT,
+rs_t.DESCRIPTION as CATTYPE,
+RS_P.DESCRIPTION as CAT_PRo,
+adj.CREATED_BY,
+adj.CREATED_DATE,
+adj.MODIFIED_DATE,
+adj.SOURCE as Source,
+adj.GL_COMPANY_MASTER_SID,
+adj.BU_COMPANY_MASTER_SID,
+adj.RS_CATEGORY,
+adj.RS_TYPE,
+adj.REBATE_PROGRAM_TYPE
+FROM ARM_ADJ_RES_CONFIG_MASTER ADJ
+JOIN COMPANY_MASTER Cm on cm.COMPANY_MASTER_SID=ADJ.GL_COMPANY_MASTER_SID
+AND ADJ.GL_COMPANY_MASTER_SID LIKE '?'
+AND ADJ.BU_COMPANY_MASTER_SID LIKE '?'
+AND ADJ.RS_CATEGORY LIKE '?'
+AND ADJ.RS_TYPE LIKE '?'
+AND ADJ.REBATE_PROGRAM_TYPE LIKE '?'
+ and adj.CONFIGURATION_TYPE=1
+ and adj.DELETE_STATUS=0
+JOIN COMPANY_MASTER BU on Bu.COMPANY_MASTER_SID=adj.BU_COMPANY_MASTER_SID
+JOIN HELPER_TABLE RS_C on rs_C.HELPER_TABLE_SID=adj.RS_CATEGORY
+JOIN HELPER_TABLE RS_T on rs_T.HELPER_TABLE_SID=adj.RS_TYPE
+JOIN HELPER_TABLE RS_P on rs_P.HELPER_TABLE_SID=adj.REBATE_PROGRAM_TYPE
+JOIN ?.dbo.User_ crt ON crt.UserId = adj.CREATED_BY
+? 
+order by ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;  
+
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="Same_Combination_of_Company_selected">
+        <query> 
+            <![CDATA[
+if EXISTS
+(
+   SELECT
+   1
+   from ARM_ADJ_RES_CONFIG_MASTER
+   where GL_COMPANY_MASTER_SID=?
+   and BU_COMPANY_MASTER_SID=?
+   and RS_CATEGORY=?
+   and RS_TYPE=?
+   and REBATE_PROGRAM_TYPE=?
+    and DELETE_STATUS=0
+     and CONFIGURATION_TYPE=1
+)
+select
+1 else
+select
+0
+
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="UPdate_all_check_record">
+        <query> 
+            <![CDATA[
+update ? set CHECK_RECORD=? where  ARM_ADJ_RES_CONFIG_MASTER_SID=?
+
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="GetReserveMasterSid">
+        <query> 
+            <![CDATA[
+SELECT
+ARM_ADJ_RES_CONFIG_MASTER_SID
+FROM ARM_ADJ_RES_CONFIG_MASTER
+where GL_COMPANY_MASTER_SID=?
+and BU_COMPANY_MASTER_SID=?
+and RS_CATEGORY=?
+and RS_TYPE=?
+and REBATE_PROGRAM_TYPE=?
+and CONFIGURATION_TYPE=0
+
+
+            ]]>
+        </query>
+    </entity>
+  
+    <entity id="InsertMainToTemp">
+        <query> 
+            <![CDATA[
+insert into ?
+(
+   ARM_ADJ_RES_CONFIG_MASTER_SID,
+   ADJUSTMENT_TYPE,
+   ADJUSTMENT_LEVEL,
+   ACCOUNT_CATEGORY,
+   ACCOUNT_TYPE,
+   ACCOUNT,
+   ACCOUNT_DESC,
+   ACCOUNT_INDICATOR,
+   COST_CENTER,
+   PROJECT,
+   FUTURE_1,
+   FUTURE_2,
+   BALANCE_TYPE,
+   [DATABASE],
+   DATA_ACCESS_SET,
+   CHART_OF_ACCOUNTS,
+   LEDGER,
+   CATEGORY,
+   SOURCE,
+   CURRENCY,
+   JOURNAL_NAME,
+   JOURNAL_DESCRIPTION,
+   REVERSE_JOURNAL,
+   REVERSAL_PERIOD_DATE,
+   LINE_DESCRIPTION,
+   UDC_1,
+   UDC_2,
+   UDC_3,
+   UDC_4,
+   UDC_5,
+   UDC_6,
+     CREDIT,
+ DEBIT, DIVISION,REPORT_INDICATOR
+   
+)
+select 
+ARM_ADJ_RES_CONFIG_MASTER_SID,
+ADJUSTMENT_TYPE,
+ADJUSTMENT_LEVEL,
+ACCOUNT_CATEGORY,
+ACCOUNT_TYPE,
+ACCOUNT,
+ACCOUNT_DESC,
+ACCOUNT_INDICATOR,
+COST_CENTER,
+PROJECT,
+FUTURE_1,
+FUTURE_2,
+BALANCE_TYPE,
+[DATABASE],
+DATA_ACCESS_SET,
+CHART_OF_ACCOUNTS,
+LEDGER,
+CATEGORY,
+SOURCE,
+CURRENCY,
+JOURNAL_NAME,
+JOURNAL_DESCRIPTION,
+REVERSE_JOURNAL,
+REVERSAL_PERIOD_DATE,
+LINE_DESCRIPTION,
+UDC_1,
+UDC_2,
+UDC_3,
+UDC_4,
+UDC_5,
+UDC_6,
+  CREDIT,
+ DEBIT, DIVISION,REPORT_INDICATOR
+ 
+FROM ARM_ADJ_RES_CONFIG_DETAIL
+where ARM_ADJ_RES_CONFIG_MASTER_SID in(?)
+order by ARM_ADJ_RES_CONFIG_DETAIL_SID asc
+
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="UpdateMainToTemp">
+        <query> 
+            <![CDATA[
+MERGE ARM_ADJ_RES_CONFIG_DETAIL AS TARGET USING
+(
+   SELECT
+   ARM_ADJ_RES_CONFIG_DETAIL_SID,
+   ARM_ADJ_RES_CONFIG_MASTER_SID,
+   ADJUSTMENT_TYPE,
+   ADJUSTMENT_LEVEL,
+   ACCOUNT_CATEGORY,
+   ACCOUNT_TYPE,
+   ACCOUNT,
+   ACCOUNT_DESC,
+   ACCOUNT_INDICATOR,
+   COST_CENTER,
+   PROJECT,
+   FUTURE_1,
+   FUTURE_2,
+   UDC_1,
+   UDC_2,
+   UDC_3,
+   UDC_4,
+   UDC_5,
+   UDC_6,
+   BALANCE_TYPE,
+   [DATABASE],
+   DATA_ACCESS_SET,
+   CHART_OF_ACCOUNTS,
+   LEDGER,
+   CATEGORY,
+   SOURCE,
+   CURRENCY,
+   JOURNAL_NAME,
+   JOURNAL_DESCRIPTION,
+   REVERSE_JOURNAL,
+   REVERSAL_PERIOD_DATE,
+   LINE_DESCRIPTION,
+   CREDIT,
+   DEBIT, DIVISION,REPORT_INDICATOR
+   FROM ?
+   
+)
+SOURCE ON TARGET.ARM_ADJ_RES_CONFIG_MASTER_SID = SOURCE.ARM_ADJ_RES_CONFIG_MASTER_SID AND 
+TARGET.ADJUSTMENT_TYPE=SOURCE.ADJUSTMENT_TYPE AND
+TARGET.ADJUSTMENT_LEVEL=SOURCE.ADJUSTMENT_TYPE AND
+TARGET.ACCOUNT_CATEGORY=SOURCE.ACCOUNT_CATEGORY AND
+TARGET.ACCOUNT_TYPE=SOURCE.ACCOUNT_TYPE AND
+TARGET.ACCOUNT=source.ACCOUNT WHEN MATCHED THEN
+UPDATE SET TARGET.ADJUSTMENT_TYPE = SOURCE.ADJUSTMENT_TYPE,
+TARGET.ACCOUNT_CATEGORY = SOURCE.ACCOUNT_CATEGORY,
+TARGET.ACCOUNT_TYPE = SOURCE.ACCOUNT_TYPE,
+TARGET.ACCOUNT = SOURCE.ACCOUNT,
+TARGET.ACCOUNT_DESC = SOURCE.ACCOUNT_DESC,
+TARGET.ACCOUNT_INDICATOR = SOURCE.ACCOUNT_INDICATOR,
+TARGET.COST_CENTER = SOURCE.COST_CENTER,
+TARGET.FUTURE_1 = SOURCE.FUTURE_1,
+TARGET.FUTURE_2 = SOURCE.FUTURE_2,
+TARGET.UDC_1 = SOURCE.UDC_1,
+TARGET.UDC_2 = SOURCE.UDC_2,
+TARGET.UDC_3 = SOURCE.UDC_3,
+TARGET.UDC_4 = SOURCE.UDC_4,
+TARGET.UDC_5 = SOURCE.UDC_5,
+TARGET.UDC_6 = SOURCE.UDC_6,
+TARGET.BALANCE_TYPE = SOURCE.BALANCE_TYPE ,
+TARGET.[DATABASE] = SOURCE.[DATABASE] ,
+TARGET.DATA_ACCESS_SET = SOURCE.DATA_ACCESS_SET,
+TARGET.CHART_OF_ACCOUNTS = SOURCE.CHART_OF_ACCOUNTS,
+TARGET.LEDGER = SOURCE.LEDGER ,
+TARGET.CATEGORY = SOURCE.CATEGORY,
+TARGET.SOURCE = SOURCE.SOURCE,
+TARGET.CURRENCY = SOURCE.CURRENCY ,
+TARGET.JOURNAL_NAME = SOURCE.JOURNAL_NAME,
+TARGET.JOURNAL_DESCRIPTION = SOURCE.JOURNAL_DESCRIPTION,
+TARGET.REVERSE_JOURNAL = SOURCE.REVERSE_JOURNAL ,
+TARGET.REVERSAL_PERIOD_DATE = SOURCE.REVERSAL_PERIOD_DATE,
+TARGET.LINE_DESCRIPTION = SOURCE.LINE_DESCRIPTION,
+ TARGET.CREDIT =SOURCE.CREDIT,
+TARGET.DEBIT =SOURCE.DEBIT ,
+TARGET.DIVISION =SOURCE.DIVISION, 
+TARGET.REPORT_INDICATOR =SOURCE.REPORT_INDICATOR 
+WHEN NOT MATCHED BY SOURCE AND TARGET.ARM_ADJ_RES_CONFIG_MASTER_SID IN (?)  THEN
+DELETE WHEN NOT MATCHED BY TARGET THEN
+INSERT
+(
+   ARM_ADJ_RES_CONFIG_DETAIL_SID,
+   ARM_ADJ_RES_CONFIG_MASTER_SID,
+   ADJUSTMENT_TYPE,
+   ADJUSTMENT_LEVEL,
+   ACCOUNT_CATEGORY,
+   ACCOUNT_TYPE,
+   ACCOUNT,
+   ACCOUNT_DESC,
+   ACCOUNT_INDICATOR,
+   COST_CENTER,
+   PROJECT,
+   FUTURE_1,
+   FUTURE_2,
+   UDC_1,
+   UDC_2,
+   UDC_3,
+   UDC_4,
+   UDC_5,
+   UDC_6,
+   BALANCE_TYPE,
+   [DATABASE],
+   DATA_ACCESS_SET,
+   CHART_OF_ACCOUNTS,
+   LEDGER,
+   CATEGORY,
+   SOURCE,
+   CURRENCY,
+   JOURNAL_NAME,
+   JOURNAL_DESCRIPTION,
+   REVERSE_JOURNAL,
+   REVERSAL_PERIOD_DATE,
+   LINE_DESCRIPTION,
+   CREDIT,
+   DEBIT, DIVISION,REPORT_INDICATOR
+)
+VALUES
+(
+ARM_ADJ_RES_CONFIG_DETAIL_SID,
+ ARM_ADJ_RES_CONFIG_MASTER_SID,
+ADJUSTMENT_TYPE,
+ADJUSTMENT_LEVEL,
+ACCOUNT_CATEGORY,
+ACCOUNT_TYPE,
+ACCOUNT,
+ACCOUNT_DESC,
+ACCOUNT_INDICATOR,
+COST_CENTER,
+PROJECT,
+FUTURE_1,
+FUTURE_2,
+UDC_1,
+UDC_2,
+UDC_3,
+UDC_4,
+UDC_5,
+UDC_6,
+BALANCE_TYPE,
+[DATABASE],
+DATA_ACCESS_SET,
+CHART_OF_ACCOUNTS,
+LEDGER,
+CATEGORY,
+SOURCE,
+CURRENCY,
+JOURNAL_NAME,
+JOURNAL_DESCRIPTION,
+REVERSE_JOURNAL,
+REVERSAL_PERIOD_DATE,
+LINE_DESCRIPTION,
+CREDIT,
+   DEBIT, DIVISION,REPORT_INDICATOR ) ;
+
+
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="Delete Reserve">
+        <query> 
+            <![CDATA[
+
+UPDATE
+    mas1
+SET
+    mas1.DELETE_STATUS = 1
+FROM
+    ARM_ADJ_RES_CONFIG_MASTER mas JOIN ARM_ADJ_RES_CONFIG_MASTER mas1
+        ON mas.GL_COMPANY_MASTER_SID = mas1.GL_COMPANY_MASTER_SID
+    AND mas.BU_COMPANY_MASTER_SID = mas1.BU_COMPANY_MASTER_SID
+    AND mas.RS_CATEGORY = mas1.RS_CATEGORY
+    AND mas.RS_TYPE = mas1.RS_TYPE
+    AND mas.REBATE_PROGRAM_TYPE = mas1.REBATE_PROGRAM_TYPE
+WHERE
+    mas.ARM_ADJ_RES_CONFIG_MASTER_SID = ?;
+
+delete de
+from ARM_ADJ_RES_CONFIG_DETAIL de
+JOIN ARM_ADJ_RES_CONFIG_MASTER ms on ms.ARM_ADJ_RES_CONFIG_MASTER_SID=de.ARM_ADJ_RES_CONFIG_MASTER_SID
+JOIN ARM_ADJ_RES_CONFIG_MASTER ms1 on ms.GL_COMPANY_MASTER_SID=ms1.GL_COMPANY_MASTER_SID
+and ms.BU_COMPANY_MASTER_SID=ms1.BU_COMPANY_MASTER_SID
+and ms.RS_CATEGORY=ms1.RS_CATEGORY
+and ms.RS_TYPE=ms1.RS_TYPE
+and ms.REBATE_PROGRAM_TYPE=ms1.REBATE_PROGRAM_TYPE
+and ms1.ARM_ADJ_RES_CONFIG_MASTER_SID=?
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="Update_ST_Master_sid">
+        <query> 
+            <![CDATA[
+
+update ? set ARM_ADJ_RES_CONFIG_MASTER_SID=?
+where ARM_ADJ_RES_CONFIG_MASTER_SID=?;
+
+update ? set ARM_ADJ_RES_CONFIG_MASTER_SID=?
+where ARM_ADJ_RES_CONFIG_MASTER_SID=?;
+            ]]>
+        </query>
+    </entity>
+     
+    <entity id="Update_ST_Master_sid_FOr_Add">
+        <query> 
+            <![CDATA[
+
+MERGE ARM_ADJ_RES_CONFIG_MASTER AS TARGET USING
+(
+   SELECT
+   ARM_ADJ_RES_CONFIG_MASTER_SID,
+   GL_COMPANY_MASTER_SID,
+   BU_COMPANY_MASTER_SID,
+   RS_CATEGORY,
+   RS_TYPE,
+   REBATE_PROGRAM_TYPE,
+   CONFIGURATION_TYPE,
+   CREATED_BY,
+   CREATED_DATE
+   FROM ST_ARM_ADJ_RES_CONFIG_MASTER
+   where ARM_ADJ_RES_CONFIG_MASTER_SID in(?)
+)
+SOURCE ON TARGET.GL_COMPANY_MASTER_SID=SOURCE.GL_COMPANY_MASTER_SID
+AND TARGET.BU_COMPANY_MASTER_SID=SOURCE.BU_COMPANY_MASTER_SID
+AND TARGET.RS_CATEGORY=SOURCE.RS_CATEGORY
+AND TARGET.RS_TYPE=SOURCE.RS_TYPE
+AND TARGET.REBATE_PROGRAM_TYPE=source.REBATE_PROGRAM_TYPE WHEN MATCHED THEN
+UPDATE SET TARGET.DELETE_STATUS=0 WHEN NOT MATCHED THEN
+INSERT
+(
+   ARM_ADJ_RES_CONFIG_MASTER_SID,
+   GL_COMPANY_MASTER_SID,
+   BU_COMPANY_MASTER_SID,
+   RS_CATEGORY,
+   RS_TYPE,
+   REBATE_PROGRAM_TYPE,
+   CONFIGURATION_TYPE,
+   CREATED_BY,
+   CREATED_DATE
+)
+VALUES
+(
+   ARM_ADJ_RES_CONFIG_MASTER_SID,
+   GL_COMPANY_MASTER_SID,
+   BU_COMPANY_MASTER_SID,
+   RS_CATEGORY,
+   RS_TYPE,
+   REBATE_PROGRAM_TYPE,
+   CONFIGURATION_TYPE,
+   CREATED_BY,
+   CREATED_DATE
+)OUTPUT INSERTED.ARM_ADJ_RES_CONFIG_MASTER_SID
+;
+
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="Update_ST_Master_sid_FOr_Add_mode">
+        <query> 
+            <![CDATA[
+   
+DECLARE @comp_id INT =?,
+@buid INT=?,
+@cata_type INT=?,
+@rs_type INT=?,
+@Rebate_PRogram INT=?,
+@confi_type INT=?,
+@ReserveId INT=?,
+@createdby INT = ?,
+@OutputTbl INT 
+
+
+IF EXISTS
+(
+   SELECT
+   1
+   FROM ARM_ADJ_RES_CONFIG_MASTER
+   where GL_COMPANY_MASTER_SID =@comp_id
+   and BU_COMPANY_MASTER_SID=@buid
+   and RS_CATEGORY=@cata_type
+   and RS_TYPE=@rs_type
+   and REBATE_PROGRAM_TYPE=@Rebate_PRogram
+   and DELETE_STATUS=1 
+   and CONFIGURATION_TYPE=@confi_type HAVING COUNT(ARM_ADJ_RES_CONFIG_MASTER_SID)=1
+)
+BEGIN
+UPDATE ARM_ADJ_RES_CONFIG_MASTER SET DELETE_STATUS=0,MODIFIED_DATE = GETDATE(),CREATED_DATE = GETDATE(),CREATED_BY = @createdby
+WHERE GL_COMPANY_MASTER_SID =@comp_id
+and BU_COMPANY_MASTER_SID=@buid
+and RS_CATEGORY=@cata_type
+and RS_TYPE=@rs_type
+and REBATE_PROGRAM_TYPE=@Rebate_PRogram
+and CONFIGURATION_TYPE=@confi_type;
+SELECT
+@OutputTbl=ARM_ADJ_RES_CONFIG_MASTER_SID
+FROM ARM_ADJ_RES_CONFIG_MASTER
+where GL_COMPANY_MASTER_SID =@comp_id
+and BU_COMPANY_MASTER_SID=@buid
+and RS_CATEGORY=@cata_type
+and RS_TYPE=@rs_type
+and REBATE_PROGRAM_TYPE=@Rebate_PRogram
+and CONFIGURATION_TYPE=@confi_type ;
+UPdate ? set ARM_ADJ_RES_CONFIG_MASTER_SID=@OutputTbl
+where ARM_ADJ_RES_CONFIG_MASTER_SID=@ReserveId;
+END
+ELSE BEGIN
+insert into ARM_ADJ_RES_CONFIG_MASTER
+(
+   ARM_ADJ_RES_CONFIG_MASTER_SID,
+   GL_COMPANY_MASTER_SID,
+   BU_COMPANY_MASTER_SID,
+   RS_CATEGORY,
+   RS_TYPE,
+   REBATE_PROGRAM_TYPE,
+   CONFIGURATION_TYPE,
+   CREATED_BY,
+   CREATED_DATE,
+   MODIFIED_DATE,
+   SOURCE
+)
+SELECT
+ARM_ADJ_RES_CONFIG_MASTER_SID,
+GL_COMPANY_MASTER_SID,
+BU_COMPANY_MASTER_SID,
+RS_CATEGORY,
+RS_TYPE,
+REBATE_PROGRAM_TYPE,
+CONFIGURATION_TYPE,
+CREATED_BY,
+CREATED_DATE,
+MODIFIED_DATE,
+SOURCE
+FROM ST_ARM_ADJ_RES_CONFIG_MASTER
+where ARM_ADJ_RES_CONFIG_MASTER_SID=@ReserveId
+and CONFIGURATION_TYPE=@confi_type; END
+select @OutputTbl
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="delete data from temp table">
+        <query> 
+            <![CDATA[
+
+delete from ST_ARM_ADJ_RES_CONFIG_MASTER where ARM_ADJ_RES_CONFIG_MASTER_SID in (?)
+delete from ST_ARM_ADJ_RES_CONFIG_DETAIL where ARM_ADJ_RES_CONFIG_MASTER_SID in (?) and SESSION_ID=? and USER_ID=?
+            ]]>
+        </query>
+    </entity>
+    <entity id="List_view_items_check_details">
+        <query> 
+            <![CDATA[
+               Select DISTINCT CHECK_RECORD from ? where   ARM_ADJ_RES_CONFIG_MASTER_SID= ? AND (CHECK_RECORD IS NOT NULL OR CHECK_RECORD <> '')
+            ]]>
+        </query>
+    </entity>
+    <entity id="Load_Transaction_names">
+        <query> 
+            <![CDATA[
+             SELECT ARM_ADJUSTMENT_CONFIG_SID,TRANSACTION_NAME FROM ARM_ADJUSTMENT_CONFIG
+            ]]>
+        </query>
+    </entity>
+    <entity id="Checked_Records">
+        <query> 
+            <![CDATA[
+               Select DISTINCT CHECK_RECORD from ? where  ARM_ADJ_RES_CONFIG_MASTER_SID= ? AND CHECK_RECORD = 1
+            ]]>
+        </query>
+    </entity>
+
+    <entity id="Insert To Reserve CCP">
+        <query> 
+            <![CDATA[
+            
+           
+ 
+ DECLARE @PROJECTION_MASTER_SID INT = ?;
+
+             IF OBJECT_ID('TEMPDB..#TEMP_CCP_PLUS_D') IS NOT NULL
+                     DROP TABLE #TEMP_CCP_PLUS_D
+
+             CREATE TABLE #TEMP_CCP_PLUS_D (
+                    ARM_ADJUSTMENT_MASTER_SID INT
+                    ,ARM_ADJUSTMENT_DETAILS_SID INT
+                    ,PROJECTION_MASTER_SID INT
+                    ,CCP_DETAILS_SID INT
+                    ,RS_MODEL_SID INT
+                    ,GL_COMPANY_MASTER_SID INT
+                    ,BU_COMPANY_MASTER_SID INT
+                    ,TRANSACTION_TYPE VARCHAR(50)
+                    ,BRAND_MASTER_SID INT,
+                    RS_CATEGORY                INT,
+                    RS_TYPE                    INT,
+                    REBATE_PROGRAM_TYPE        INT
+                    ,PRIMARY KEY (
+                             ARM_ADJUSTMENT_DETAILS_SID
+                             ,CCP_DETAILS_SID
+                             ,RS_MODEL_SID
+                             )
+                     )
+
+             INSERT INTO #TEMP_CCP_PLUS_D (
+                    BU_COMPANY_MASTER_SID
+                    ,GL_COMPANY_MASTER_SID
+                    ,ARM_ADJUSTMENT_MASTER_SID
+                    ,ARM_ADJUSTMENT_DETAILS_SID
+                    ,PROJECTION_MASTER_SID
+                    ,CCP_DETAILS_SID
+                    ,RS_MODEL_SID
+                    ,TRANSACTION_TYPE
+                    ,BRAND_MASTER_SID,
+                    RS_CATEGORY,
+                    RS_TYPE,
+                    REBATE_PROGRAM_TYPE
+                     )
+            SELECT AM.BU_COMPANY_MASTER_SID
+                    ,PM.COMPANY_MASTER_SID AS GL_COMPANY_MASTER_SID
+                    ,AM.ARM_ADJUSTMENT_MASTER_SID
+                    ,ARM_ADJUSTMENT_DETAILS_SID
+                    ,AD.PROJECTION_MASTER_SID
+                    ,AD.CCP_DETAILS_SID
+                    ,AD.RS_MODEL_SID
+                    ,AM.TRANSACTION_TYPE
+                    ,IM.BRAND_MASTER_SID,
+                    RS_CATEGORY,
+                    RS_TYPE,
+                    REBATE_PROGRAM_TYPE
+            FROM PROJECTION_MASTER PM
+                    INNER JOIN ARM_ADJUSTMENT_MASTER AM 
+                            ON PM.PROJECTION_MASTER_SID = AM.PROJECTION_MASTER_SID
+                    INNER JOIN ARM_ADJUSTMENT_DETAILS AD 
+                            ON PM.PROJECTION_MASTER_SID = AD.PROJECTION_MASTER_SID
+                    INNER JOIN CCP_DETAILS CD 
+                            ON AD.CCP_DETAILS_SID=CD.CCP_DETAILS_SID
+                    INNER JOIN ITEM_MASTER IM 
+                            ON CD.ITEM_MASTER_SID=IM.ITEM_MASTER_SID
+                    INNER JOIN RS_CONTRACT R
+                            ON R.RS_MODEL_SID = AD.RS_MODEL_SID
+                            AND R.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+                    INNER JOIN RS_CONTRACT_DETAILS RD
+                            ON RD.RS_CONTRACT_SID=R.RS_CONTRACT_SID
+                            AND RD.ITEM_MASTER_SID=IM.ITEM_MASTER_SID
+                            AND RD.INBOUND_STATUS <> 'D'
+                    INNER JOIN ARM_DEDUCTION_SELECTION ADS
+                            ON ADS.PROJECTION_MASTER_SID = AD.PROJECTION_MASTER_SID
+                            AND ADS.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+            WHERE PM.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+
+IF Object_id('TEMPDB..#ARM_ACC_CONFIG') IS NOT NULL
+  DROP TABLE #ARM_ACC_CONFIG
+
+SELECT *
+INTO   #ARM_ACC_CONFIG
+FROM   ARM_ACC_CONFIG AAC
+
+       INSERT INTO ARM_ADJ_RES_CCP (
+                     ARM_ADJUSTMENT_DETAILS_SID
+                     ,ARM_ADJ_RES_CONFIG_MASTER_SID
+                     ,ADJUSTMENT_TYPE
+                     ,ACCOUNT_CATEGORY
+                     ,ACCOUNT_TYPE
+                     ,ACCOUNT
+                     ,ADJUSTMENT_LEVEL
+                     ,CREDIT
+                     ,DEBIT
+                     ,ACCOUNT_DESC
+                     ,ACCOUNT_INDICATOR
+                     ,COST_CENTER
+                     ,PROJECT
+                     ,FUTURE_1
+                     ,FUTURE_2
+                     ,UDC_1
+                     ,UDC_2
+                     ,UDC_3
+                     ,UDC_4
+                     ,UDC_5
+                     ,UDC_6
+                     ,BALANCE_TYPE
+                     ,[DATABASE]
+                     ,DATA_ACCESS_SET
+                     ,CHART_OF_ACCOUNTS
+                     ,LEDGER
+                     ,CATEGORY
+                     ,SOURCE
+                     ,CURRENCY
+                     ,JOURNAL_NAME
+                     ,JOURNAL_DESCRIPTION
+                     ,REVERSE_JOURNAL
+                     ,REVERSAL_PERIOD_DATE
+                     ,LINE_DESCRIPTION
+                     ,DIVISION
+		     ,REPORT_INDICATOR
+                     )
+            
+			SELECT ARM_ADJUSTMENT_DETAILS_SID
+			,ARM_ADJ_RES_CONFIG_MASTER_SID
+			,ADJUSTMENT_TYPE
+			,ACCOUNT_CATEGORY
+			,ACCOUNT_TYPE
+			,ACCOUNT
+			,ADJUSTMENT_LEVEL
+			,CREDIT
+			,DEBIT
+			,ACCOUNT_DESC
+			,ACCOUNT_INDICATOR
+			,COST_CENTER
+			,PROJECT
+			,FUTURE_1
+			,FUTURE_2
+			,UDC_1
+			,UDC_2
+			,UDC_3
+			,UDC_4
+			,UDC_5
+			,UDC_6
+			,BALANCE_TYPE
+			,[DATABASE]
+			,DATA_ACCESS_SET
+			,CHART_OF_ACCOUNTS
+			,LEDGER
+			,CATEGORY
+			,SOURCE
+			,CURRENCY
+			,JOURNAL_NAME
+			,JOURNAL_DESCRIPTION
+			,REVERSE_JOURNAL
+			,REVERSAL_PERIOD_DATE
+			,LINE_DESCRIPTION
+			,DIVISION
+			,REPORT_INDICATOR
+			 FROM ( SELECT  TD.ARM_ADJUSTMENT_DETAILS_SID
+                     ,AAM.ARM_ADJ_RES_CONFIG_MASTER_SID
+                     ,AAD.ADJUSTMENT_TYPE
+                     ,AAD.ACCOUNT_CATEGORY
+                     ,AAD.ACCOUNT_TYPE
+                     ,AAD.ACCOUNT
+                     ,AAD.ADJUSTMENT_LEVEL
+                     ,AAD.CREDIT
+                     ,AAD.DEBIT
+                     ,AAD.ACCOUNT_DESC
+             ,AAD.ACCOUNT_INDICATOR
+             ,CASE WHEN HT.DESCRIPTION IN ('BRAND','ITEM') THEN ISNULL(AAD.COST_CENTER,AAC.COST_CENTER)
+                         ELSE AAD.COST_CENTER END AS COST_CENTER
+             ,AAD.PROJECT
+             ,AAD.FUTURE_1
+             ,AAD.FUTURE_2
+             ,AAD.UDC_1
+             ,AAD.UDC_2
+             ,AAD.UDC_3
+             ,AAD.UDC_4
+             ,AAD.UDC_5
+             ,AAD.UDC_6
+             ,AAD.BALANCE_TYPE
+             ,AAD.[DATABASE]
+             ,AAD.DATA_ACCESS_SET
+             ,AAD.CHART_OF_ACCOUNTS
+             ,AAD.LEDGER
+             ,AAD.CATEGORY
+             ,AAD.SOURCE
+             ,AAD.CURRENCY
+             ,AAD.JOURNAL_NAME
+             ,AAD.JOURNAL_DESCRIPTION
+             ,AAD.REVERSE_JOURNAL
+             ,AAD.REVERSAL_PERIOD_DATE
+             ,AAD.LINE_DESCRIPTION
+             ,AAD.DIVISION
+	     ,AAD.REPORT_INDICATOR
+			 ,RANK() OVER(PARTITION BY AAC.GL_COMPANY_MASTER_SID,AAC.BU_COMPANY_MASTER_SID,
+                 AAC.ACCOUNT,AAC.BRAND_MASTER_SID ORDER BY AAC.MODIFIED_DATE DESC) AS RN
+             FROM #TEMP_CCP_PLUS_D TD
+             --JOIN CCP_DETAILS C ON C.CCP_DETAILS_SID = TD.CCP_DETAILS_SID
+             --JOIN RS_CONTRACT R ON R.RS_MODEL_SID = TD.RS_MODEL_SID
+             --        AND R.CONTRACT_MASTER_SID = C.CONTRACT_MASTER_SID
+             --JOIN ARM_DEDUCTION_SELECTION ADS ON ADS.PROJECTION_MASTER_SID = TD.PROJECTION_MASTER_SID
+             --        AND ADS.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+            JOIN ARM_ADJ_RES_CONFIG_MASTER AAM
+                 ON AAM.RS_CATEGORY = td.RS_CATEGORY
+                    AND AAM.RS_TYPE = td.RS_TYPE
+                    AND AAM.REBATE_PROGRAM_TYPE = td.REBATE_PROGRAM_TYPE
+                    AND TD.GL_COMPANY_MASTER_SID = AAM.GL_COMPANY_MASTER_SID
+                    AND TD.BU_COMPANY_MASTER_SID = AAM.BU_COMPANY_MASTER_SID
+               JOIN ARM_ADJ_RES_CONFIG_DETAIL AAD
+                 ON AAD.ADJUSTMENT_TYPE = TD.TRANSACTION_TYPE
+                    AND AAD.ARM_ADJ_RES_CONFIG_MASTER_SID = AAM.ARM_ADJ_RES_CONFIG_MASTER_SID
+               JOIN HELPER_TABLE HT
+                 ON AAD.ADJUSTMENT_LEVEL = HT.HELPER_TABLE_SID
+               LEFT JOIN #ARM_ACC_CONFIG AAC
+                      ON AAC.GL_COMPANY_MASTER_SID = TD.GL_COMPANY_MASTER_SID
+                         AND AAC.BU_COMPANY_MASTER_SID = TD.BU_COMPANY_MASTER_SID
+                         AND AAC.ACCOUNT = AAD.ACCOUNT
+                         AND AAC.BRAND_MASTER_SID = TD.BRAND_MASTER_SID)A WHERE RN=1 
+			
+
+
+
+            ]]>
+        </query>
+    </entity> 
+    
+    <entity id="GetWorkflowId">
+        <query> 
+            <![CDATA[
+            select WORKFLOW_ID from WORKFLOW_MASTER where WORKFLOW_MASTER_SID = ? ;
+            ]]>
+        </query>
+    </entity>    
+    <entity id="InsertMainToTempForReset">
+        <query> 
+            <![CDATA[
+        insert into ?
+(
+   ARM_ADJ_RES_CONFIG_MASTER_SID,
+   ADJUSTMENT_TYPE,
+   ADJUSTMENT_LEVEL,
+   ACCOUNT_CATEGORY,
+   ACCOUNT_TYPE,
+   ACCOUNT,
+   ACCOUNT_DESC,
+   ACCOUNT_INDICATOR,
+   COST_CENTER,
+   PROJECT,
+   FUTURE_1,
+   FUTURE_2,
+   BALANCE_TYPE,
+   [DATABASE],
+   DATA_ACCESS_SET,
+   CHART_OF_ACCOUNTS,
+   LEDGER,
+   CATEGORY,
+   SOURCE,
+   CURRENCY,
+   JOURNAL_NAME,
+   JOURNAL_DESCRIPTION,
+   REVERSE_JOURNAL,
+   REVERSAL_PERIOD_DATE,
+   LINE_DESCRIPTION,
+   UDC_1,
+   UDC_2,
+   UDC_3,
+   UDC_4,
+   UDC_5,
+   UDC_6,
+     CREDIT,
+ DEBIT, DIVISION,REPORT_INDICATOR
+   )
+select 
+?,
+ADJUSTMENT_TYPE,
+ADJUSTMENT_LEVEL,
+ACCOUNT_CATEGORY,
+ACCOUNT_TYPE,
+ACCOUNT,
+ACCOUNT_DESC,
+ACCOUNT_INDICATOR,
+COST_CENTER,
+PROJECT,
+FUTURE_1,
+FUTURE_2,
+BALANCE_TYPE,
+[DATABASE],
+DATA_ACCESS_SET,
+CHART_OF_ACCOUNTS,
+LEDGER,
+CATEGORY,
+SOURCE,
+CURRENCY,
+JOURNAL_NAME,
+JOURNAL_DESCRIPTION,
+REVERSE_JOURNAL,
+REVERSAL_PERIOD_DATE,
+LINE_DESCRIPTION,
+UDC_1,
+UDC_2,
+UDC_3,
+UDC_4,
+UDC_5,
+UDC_6,
+  CREDIT,
+ DEBIT, DIVISION,REPORT_INDICATOR
+FROM ARM_ADJ_RES_CONFIG_DETAIL
+where ARM_ADJ_RES_CONFIG_MASTER_SID in(?)
+order by ARM_ADJ_RES_CONFIG_DETAIL_SID asc
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="CrediDebit_Validation">
+        <query> 
+            <![CDATA[
+
+                
+                IF NOT EXISTS
+
+                 (SELECT * FROM ? WHERE ARM_ADJ_RES_CONFIG_MASTER_SID = ? AND(CREDIT IS NULL AND DEBIT IS NULL))
+                 SELECT 1
+                 ELSE
+                 SELECT 0
+        
+        
+            ]]>
+        </query>
+    </entity> 
+    
+    <entity id="CrediDebit_Same">
+        <query> 
+            <![CDATA[
+
+                    select
+                        COUNT( * )
+                    FROM
+                        ?
+                    where
+                         ARM_ADJ_RES_CONFIG_MASTER_SID = ?
+                        and CREDIT = DEBIT
+            ]]>
+        </query>
+    </entity> 
+    <entity id="adjustment_details_check">
+        <query> 
+            <![CDATA[
+                ;WITH CTE AS(
+                    SELECT ARC.GL_COMPANY_MASTER_SID,ARC.BU_COMPANY_MASTER_SID,RS.RS_CATEGORY,RS.RS_TYPE,RS.REBATE_PROGRAM_TYPE FROM WORKFLOW_MASTER WM 
+                    JOIN PROJECTION_MASTER PM ON PM.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID
+                    JOIN ARM_DEDUCTION_SELECTION ADS ON ADS.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+                    JOIN RS_CONTRACT RS ON ADS.RS_CONTRACT_SID = RS.RS_CONTRACT_SID
+                    JOIN ARM_ADJ_RES_CONFIG_MASTER ARC ON ARC.GL_COMPANY_MASTER_SID = PM.COMPANY_MASTER_SID
+                    AND ARC.BU_COMPANY_MASTER_SID = PM.BUSINESS_UNIT
+                    AND ARC.RS_CATEGORY = RS.RS_CATEGORY
+                    AND ARC.RS_TYPE = RS.RS_TYPE
+                    AND ARC.REBATE_PROGRAM_TYPE = RS.REBATE_PROGRAM_TYPE
+                    JOIN HELPER_TABLE HT1 ON WM.WORKFLOW_STATUS_ID = HT1.HELPER_TABLE_SID
+                    WHERE HT1.DESCRIPTION = 'Approved'
+                    AND ARC.ARM_ADJ_RES_CONFIG_MASTER_SID = ? )
+
+                    SELECT COUNT (*) FROM CTE
+            ]]>
+        </query>
+    </entity> 
+    <entity id="UpdateMasterModifiedDate">
+        <query> 
+            <![CDATA[
+                UPDATE ARM_ADJ_RES_CONFIG_MASTER
+                SET MODIFIED_DATE = GETDATE()
+                WHERE ARM_ADJ_RES_CONFIG_MASTER_SID IN (?);
+            ]]>
+        </query>
+    </entity> 
+    <entity id="ValidationForatleastOneRecordForSave">
+        <query> 
+            <![CDATA[
+                select COUNT(*) FROM
+                   ?
+                where ARM_ADJ_RES_CONFIG_MASTER_SID = ?
+            ]]>
+        </query>
+    </entity> 
+</sql>
