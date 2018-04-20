@@ -31,6 +31,7 @@ public class GtnUIFrameworkPagedTreeTableConfig {
     private String[] keyFieldFactory = null;
     private String[] valueFieldFactory = null;
     private boolean doubleHeaderVisible = false;
+    private boolean tripleHeaderVisible = false;
 
     private float splitPosition = 300;
 
@@ -53,6 +54,73 @@ public class GtnUIFrameworkPagedTreeTableConfig {
     private Map<Object, Object[]> leftTableDoubleHeaderMap = new HashMap<>();
 
     private Map<Object, Object[]> rightTableDoubleHeaderMap = new HashMap<>();
+    private List<Object> leftTableTripleHeaderVisibleColumns = new ArrayList<>();
+
+    private List<Object> rightTableTripleHeaderVisibleColumns = new ArrayList<>();
+
+    private List<String> leftTableTripleHeaderVisibleHeaders = new ArrayList<>();
+
+    private List<String> rightTableTripleVisibleHeaders = new ArrayList<>();
+
+    private Map<Object, Object[]> leftTableTripleHeaderMap = new HashMap<>();
+
+    private Map<Object, Object[]> rightTableTripleHeaderMap = new HashMap<>();
+
+    public boolean isTripleHeaderVisible() {
+        return tripleHeaderVisible;
+    }
+
+    public void setTripleHeaderVisible(boolean tripleHeaderVisible) {
+        this.tripleHeaderVisible = tripleHeaderVisible;
+    }
+
+    public List<Object> getLeftTableTripleHeaderVisibleColumns() {
+        return leftTableTripleHeaderVisibleColumns;
+    }
+
+    public void setLeftTableTripleHeaderVisibleColumns(List<Object> leftTableTripleHeaderVisibleColumns) {
+        this.leftTableTripleHeaderVisibleColumns = leftTableTripleHeaderVisibleColumns;
+    }
+
+    public List<Object> getRightTableTripleHeaderVisibleColumns() {
+        return rightTableTripleHeaderVisibleColumns;
+    }
+
+    public void setRightTableTripleHeaderVisibleColumns(List<Object> rightTableTripleHeaderVisibleColumns) {
+        this.rightTableTripleHeaderVisibleColumns = rightTableTripleHeaderVisibleColumns;
+    }
+
+    public List<String> getLeftTableTripleHeaderVisibleHeaders() {
+        return leftTableTripleHeaderVisibleHeaders;
+    }
+
+    public void setLeftTableTripleHeaderVisibleHeaders(List<String> leftTableTripleHeaderVisibleHeaders) {
+        this.leftTableTripleHeaderVisibleHeaders = leftTableTripleHeaderVisibleHeaders;
+    }
+
+    public List<String> getRightTableTripleVisibleHeaders() {
+        return rightTableTripleVisibleHeaders;
+    }
+
+    public void setRightTableTripleVisibleHeaders(List<String> rightTableTripleVisibleHeaders) {
+        this.rightTableTripleVisibleHeaders = rightTableTripleVisibleHeaders;
+    }
+
+    public Map<Object, Object[]> getLeftTableTripleHeaderMap() {
+        return leftTableTripleHeaderMap;
+    }
+
+    public void setLeftTableTripleHeaderMap(Map<Object, Object[]> leftTableTripleHeaderMap) {
+        this.leftTableTripleHeaderMap = leftTableTripleHeaderMap;
+    }
+
+    public Map<Object, Object[]> getRightTableTripleHeaderMap() {
+        return rightTableTripleHeaderMap;
+    }
+
+    public void setRightTableTripleHeaderMap(Map<Object, Object[]> rightTableTripleHeaderMap) {
+        this.rightTableTripleHeaderMap = rightTableTripleHeaderMap;
+    }
 
     private Map<Object, String> singleHeaderMap = new HashMap<>();
 
