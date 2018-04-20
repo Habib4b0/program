@@ -2218,7 +2218,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         }
         }
         salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
-        if (!"edit".equals(sessionDTO.getAction()) || (!"view".equalsIgnoreCase(sessionDTO.getAction()) ) ) {
+        if (!ACTION_EDIT.getConstant().equals(sessionDTO.getAction()) || (!ACTION_VIEW.getConstant().equalsIgnoreCase(sessionDTO.getAction()) )) {
             getUnCheckedVariableMenuItem(salesInclusionValues);
         salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
         salesInclusionValues.getChildren().get(0).setChecked(true);
