@@ -13,1066 +13,1105 @@ import java.util.Map;
  */
 public class GtnForecastBean implements Serializable {
 
-	public GtnForecastBean() {
-		// constructor
+    public GtnForecastBean() {
+        // constructor
 
-	}
+    }
 
-	private static final long serialVersionUID = -5362500031533055558L;
+    private static final long serialVersionUID = -5362500031533055558L;
 
-	private int viewId;
+    private int viewId;
 
-	private String company;
+    private String company;
 
-	private int companyId;
+    private int companyId;
 
-	private int businessUnitId;
+    private int businessUnitId;
 
-	private String productHirerachy;
+    private String productHirerachy;
 
-	private int productRelationship;
+    private int productRelationship;
 
-	private int productForecastLevel;
+    private int productForecastLevel;
 
-	private String productGroup;
+    private String productGroup;
 
-	private int productInnerLevel;
+    private int productInnerLevel;
 
-	private String viewName;
+    private String viewName;
 
-	private String moduleName;
+    private String moduleName;
 
-	private String userId;
+    private String userId;
 
-	private String forecastSessionId;
+    private String forecastSessionId;
 
-	private String level;
+    private String level;
 
-	private int fromPeriod;
+    private int fromPeriod;
 
-	private int toPeriod;
-	private int parent = 0;
+    private int toPeriod;
+    private int parent = 0;
 
-	private String hierarchyNo;
+    private String hierarchyNo;
 
-	private String hierarchyType;
+    private String hierarchyType;
 
-	private int historyStartYear;
+    private int historyStartYear;
 
-	private int historyEndYear;
-	private int levelNo;
+    private int historyEndYear;
+    private int levelNo;
 
-	private int start;
+    private int start;
 
-	private int offset;
+    private int offset;
 
-	private int projectionStartYear;
+    private int projectionStartYear;
 
-	private int projectionEndYear;
+    private int projectionEndYear;
 
-	private String projectionName;
+    private String projectionName;
 
-	private String projectionDescription;
-	private int historyStartMonth;
+    private String projectionDescription;
+    private int historyStartMonth;
 
-	private int historyEndMonth;
+    private int historyEndMonth;
 
-	private String projectionMasterSid;
+    private String projectionMasterSid;
 
-	private List<String> hierarchyList;
+    private List<String> hierarchyList;
 
-	private int projectionStartMonth;
+    private int projectionStartMonth;
 
-	private int projectionEndMonth;
+    private int projectionEndMonth;
 
-	private String history;
+    private String history;
 
-	private String projectionPeriodOrder;
+    private String projectionPeriodOrder;
 
-	private String forecastType;
+    private String forecastType;
 
-	private int expandCollapseLevelNo;
+    private int expandCollapseLevelNo;
 
-	/**
-	 * Start Date which is available in forecast configuration
-	 */
-	private Date projectionStartDate;
+    /**
+     * Start Date which is available in forecast configuration
+     */
+    private Date projectionStartDate;
 
-	/**
-	 * End Date which is available in forecast configuration
-	 */
-	private Date projectionEndDate;
+    /**
+     * End Date which is available in forecast configuration
+     */
+    private Date projectionEndDate;
 
-	/**
-	 * Projection start date, which is editable
-	 */
-	private Date forecastStartDate;
+    /**
+     * Projection start date, which is editable
+     */
+    private Date forecastStartDate;
 
-	/**
-	 * Projection end date, which is editable
-	 */
-	private Date forecastEndDate;
+    /**
+     * Projection end date, which is editable
+     */
+    private Date forecastEndDate;
 
-	private Map<String, List<String>> queryParameters;
+    private Date historyStartDate;
 
-	private String actualOrProjection;
+    private Date historyEndDate;
 
-	private boolean ascending;
+    private Map<String, List<String>> queryParameters;
 
-	private String selectedHistory;
+    private String actualOrProjection;
 
-	private String frequency;
+    private boolean ascending;
 
-	private List<Object> recordheader;
+    private String selectedHistory;
 
-	private int relationshipBuilderSid;
+    private String frequency;
 
-	private int forecastLevel;
+    private List<Object> recordheader;
 
-	private int discountType;
+    private int relationshipBuilderSid;
 
-	private int brandType;
-	private List<Integer> checkedRowSid;
+    private int forecastLevel;
 
-	private List<String> baselinePeriodList;
+    private int discountType;
 
-	private String forecastMethodology;
+    private int brandType;
+    private List<Integer> checkedRowSid;
 
-	private String calculationStartPeriod;
+    private List<String> baselinePeriodList;
 
-	private String calculationEndPeriod;
+    private String forecastMethodology;
 
-	private List<String> checkedHierarchyNumbers;
-	private int productHierarchyInnerLevel;
+    private String calculationStartPeriod;
 
-	private int prodRelationshipBuilderSid;
+    private String calculationEndPeriod;
 
-	private int companyMasterSid;
+    private List<String> checkedHierarchyNumbers;
+    private int productHierarchyInnerLevel;
 
-	private int productHierarchySid;
+    private int prodRelationshipBuilderSid;
 
-	private int productHierarchyLevel;
+    private int companyMasterSid;
 
-	private int productHierarchyVersionNo;
+    private int productHierarchySid;
 
-	private int itemGroupSid;
+    private int productHierarchyLevel;
 
-	private String isApproved;
+    private int productHierarchyVersionNo;
 
-	private List<String> relationshipSidList;
+    private int itemGroupSid;
 
-	private int saveFlag;
+    private String isApproved;
 
-	private int createdBy;
+    private List<String> relationshipSidList;
 
-	private Date createdDate;
+    private int saveFlag;
 
-	private int modifiedBy;
+    private int createdBy;
 
-	private Date modifiedDate;
+    private Date createdDate;
 
-	private List<Integer> returnsMasterListSize;
+    private int modifiedBy;
 
-	private String selectedHierarchyNo;
+    private Date modifiedDate;
 
-	private Map<String, List<String>> rightTableHierarchy;
+    private List<Integer> returnsMasterListSize;
 
-	private String checkValue;
+    private String selectedHierarchyNo;
 
-	private boolean updateFlag;
+    private Map<String, List<String>> rightTableHierarchy;
 
-	private boolean submitFlag;
+    private String checkValue;
 
-	private String mode;
+    private boolean updateFlag;
 
-	private String viewType;
+    private boolean submitFlag;
 
-	private boolean checkedLeftTreeTable;
+    private String mode;
 
-	private int viewCreatedBy;
+    private String viewType;
 
-	private boolean viewMode;
+    private boolean checkedLeftTreeTable;
 
-	private String manualEntryValue;
+    private int viewCreatedBy;
 
-	private String manualEntryOldValue;
+    private boolean viewMode;
 
-	private int massUpdateLevelNo;
+    private String manualEntryValue;
 
-	private int levelFilter;
+    private String manualEntryOldValue;
 
-	private int endLevel;
+    private int massUpdateLevelNo;
 
-	private List<String> existingViewName;
+    private int levelFilter;
 
-	private boolean multipleSaveFalg;
+    private int endLevel;
 
-	private boolean massUpdate = false;
-	private boolean editMode;
+    private List<String> existingViewName;
 
-	private boolean viewModeFlag;
+    private boolean multipleSaveFalg;
 
-	private boolean checkAllFlag;
+    private boolean massUpdate = false;
+    private boolean editMode;
 
-	private String testFilePath;
+    private boolean viewModeFlag;
 
-	private boolean dataSelectionTabEditFlag;
+    private boolean checkAllFlag;
 
-	private String workflowId;
+    private String testFilePath;
 
-	private String workflowStatus;
+    private boolean dataSelectionTabEditFlag;
 
-	private String userType;
+    private String workflowId;
 
-	private int noOfApprovals;
+    private String workflowStatus;
 
-	private int approvalLevels;
+    private String userType;
 
-	private boolean workflowFlag;
+    private int noOfApprovals;
 
-	private boolean methodologyCalculationFlag;
+    private int approvalLevels;
 
-	public String getLevel() {
-		return level;
-	}
+    private boolean workflowFlag;
 
-	public void setLevel(String level) {
-		this.level = level;
-	}
+    private boolean methodologyCalculationFlag;
 
-	public int getParent() {
-		return parent;
-	}
+    public String getLevel() {
+        return level;
+    }
 
-	public void setParent(int parent) {
-		this.parent = parent;
-	}
+    public void setLevel(String level) {
+        this.level = level;
+    }
 
-	public String getHierarchyNo() {
-		return hierarchyNo;
-	}
+    public int getParent() {
+        return parent;
+    }
 
-	public void setHierarchyNo(String hierarchyNo) {
-		this.hierarchyNo = hierarchyNo;
-	}
+    public void setParent(int parent) {
+        this.parent = parent;
+    }
 
-	public int getLevelNo() {
-		return levelNo;
-	}
+    public String getHierarchyNo() {
+        return hierarchyNo;
+    }
 
-	public void setLevelNo(int levelNo) {
-		this.levelNo = levelNo;
-	}
+    public void setHierarchyNo(String hierarchyNo) {
+        this.hierarchyNo = hierarchyNo;
+    }
 
-	public String getModuleName() {
-		return moduleName;
-	}
+    public int getLevelNo() {
+        return levelNo;
+    }
 
-	public void setModuleName(String moduleName) {
-		this.moduleName = moduleName;
-	}
+    public void setLevelNo(int levelNo) {
+        this.levelNo = levelNo;
+    }
 
-	public String getUserId() {
-		return userId;
-	}
+    public String getModuleName() {
+        return moduleName;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
 
-	public String getForecastSessionId() {
-		return forecastSessionId;
-	}
+    public String getUserId() {
+        return userId;
+    }
 
-	public void setForecastSessionId(String forecastSessionId) {
-		this.forecastSessionId = forecastSessionId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public Map<String, List<String>> getQueryParameters() {
-		return queryParameters;
-	}
+    public String getForecastSessionId() {
+        return forecastSessionId;
+    }
 
-	public void setQueryParameters(Map<String, List<String>> queryParameters) {
-		this.queryParameters = queryParameters;
-	}
+    public void setForecastSessionId(String forecastSessionId) {
+        this.forecastSessionId = forecastSessionId;
+    }
 
-	public void putQueryParameters(String indicator, List<String> queryParameters) {
-		if (this.queryParameters == null) {
-			this.queryParameters = new HashMap<>();
-		}
-		this.queryParameters.put(indicator, queryParameters);
-	}
+    public Map<String, List<String>> getQueryParameters() {
+        return queryParameters;
+    }
 
-	public String getHierarchyType() {
-		return hierarchyType;
-	}
+    public void setQueryParameters(Map<String, List<String>> queryParameters) {
+        this.queryParameters = queryParameters;
+    }
 
-	public void setHierarchyType(String hierarchyType) {
-		this.hierarchyType = hierarchyType;
-	}
+    public void putQueryParameters(String indicator, List<String> queryParameters) {
+        if (this.queryParameters == null) {
+            this.queryParameters = new HashMap<>();
+        }
+        this.queryParameters.put(indicator, queryParameters);
+    }
 
-	public int getStart() {
-		return start;
-	}
+    public String getHierarchyType() {
+        return hierarchyType;
+    }
 
-	public void setStart(int start) {
-		this.start = start;
-	}
+    public void setHierarchyType(String hierarchyType) {
+        this.hierarchyType = hierarchyType;
+    }
 
-	public int getOffset() {
-		return offset;
-	}
+    public int getStart() {
+        return start;
+    }
 
-	public void setOffset(int offset) {
-		this.offset = offset;
-	}
+    public void setStart(int start) {
+        this.start = start;
+    }
 
-	public Date getProjectionStartDate() {
-		return projectionStartDate == null ? null : (Date) projectionStartDate.clone();
-	}
+    public int getOffset() {
+        return offset;
+    }
 
-	public void setProjectionStartDate(Date projectionStartDate) {
-		this.projectionStartDate = projectionStartDate == null ? null : (Date) projectionStartDate.clone();
-	}
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
 
-	public Date getProjectionEndDate() {
-		return projectionEndDate == null ? null : (Date) projectionEndDate.clone();
-	}
+    public Date getProjectionStartDate() {
+        return projectionStartDate == null ? null : (Date) projectionStartDate.clone();
+    }
 
-	public void setProjectionEndDate(Date projectionEndDate) {
-		this.projectionEndDate = projectionEndDate == null ? null : (Date) projectionEndDate.clone();
-	}
+    public void setProjectionStartDate(Date projectionStartDate) {
+        this.projectionStartDate = projectionStartDate == null ? null : (Date) projectionStartDate.clone();
+    }
 
-	public Date getForecastStartDate() {
-		return forecastStartDate == null ? null : (Date) forecastStartDate.clone();
-	}
+    public Date getProjectionEndDate() {
+        return projectionEndDate == null ? null : (Date) projectionEndDate.clone();
+    }
 
-	public void setForecastStartDate(Date forecastStartDate) {
-		this.forecastStartDate = forecastStartDate == null ? null : (Date) forecastStartDate.clone();
-	}
+    public void setProjectionEndDate(Date projectionEndDate) {
+        this.projectionEndDate = projectionEndDate == null ? null : (Date) projectionEndDate.clone();
+    }
 
-	public Date getForecastEndDate() {
-		return forecastEndDate == null ? null : (Date) forecastEndDate.clone();
-	}
+    public Date getForecastStartDate() {
+        return forecastStartDate == null ? null : (Date) forecastStartDate.clone();
+    }
 
-	public void setForecastEndDate(Date forecastEndDate) {
-		this.forecastEndDate = forecastEndDate == null ? null : (Date) forecastEndDate.clone();
-	}
+    public void setForecastStartDate(Date forecastStartDate) {
+        this.forecastStartDate = forecastStartDate == null ? null : (Date) forecastStartDate.clone();
+    }
 
-	public String getActualOrProjection() {
-		return actualOrProjection;
-	}
+    public Date getForecastEndDate() {
+        return forecastEndDate == null ? null : (Date) forecastEndDate.clone();
+    }
 
-	public void setActualOrProjection(String projection) {
-		this.actualOrProjection = projection;
-	}
+    public Date getHistoryStartDate() {
+        return historyStartDate;
+    }
 
-	public boolean isAscending() {
-		return ascending;
-	}
+    public void setHistoryStartDate(Date historyStartDate) {
+        this.historyStartDate = historyStartDate;
+    }
 
-	public void setAscending(boolean ascending) {
-		this.ascending = ascending;
-	}
+    public Date getHistoryEndDate() {
+        return historyEndDate;
+    }
 
-	public String getSelectedHistory() {
-		return selectedHistory;
-	}
+    public void setHistoryEndDate(Date historyEndDate) {
+        this.historyEndDate = historyEndDate;
+    }
 
-	public void setSelectedHistory(String selectedHistory) {
-		this.selectedHistory = selectedHistory;
-	}
+    public void setForecastEndDate(Date forecastEndDate) {
+        this.forecastEndDate = forecastEndDate == null ? null : (Date) forecastEndDate.clone();
+    }
 
-	public String getFrequency() {
-		return frequency;
-	}
+    public String getActualOrProjection() {
+        return actualOrProjection;
+    }
 
-	public void setFrequency(String frequency) {
-		this.frequency = frequency;
-	}
+    public void setActualOrProjection(String projection) {
+        this.actualOrProjection = projection;
+    }
 
-	public List<Object> getRecordheader() {
-		return recordheader != null ? new ArrayList<>(recordheader) : recordheader;
-	}
+    public boolean isAscending() {
+        return ascending;
+    }
 
-	public void setRecordheader(List<Object> recordheader) {
-		this.recordheader = recordheader != null ? new ArrayList<>(recordheader) : recordheader;
-	}
+    public void setAscending(boolean ascending) {
+        this.ascending = ascending;
+    }
 
-	public int getRelationshipBuilderSid() {
-		return relationshipBuilderSid;
-	}
+    public String getSelectedHistory() {
+        return selectedHistory;
+    }
 
-	public void setRelationshipBuilderSid(int relationshipBuilderSid) {
-		this.relationshipBuilderSid = relationshipBuilderSid;
-	}
+    public void setSelectedHistory(String selectedHistory) {
+        this.selectedHistory = selectedHistory;
+    }
 
-	public int getForecastLevel() {
-		return forecastLevel;
-	}
+    public String getFrequency() {
+        return frequency;
+    }
 
-	public void setForecastLevel(int forecastLevel) {
-		this.forecastLevel = forecastLevel;
-	}
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
+    }
 
-	public int getViewId() {
-		return viewId;
-	}
+    public List<Object> getRecordheader() {
+        return recordheader != null ? new ArrayList<>(recordheader) : recordheader;
+    }
 
-	public void setViewId(int viewId) {
-		this.viewId = viewId;
-	}
+    public void setRecordheader(List<Object> recordheader) {
+        this.recordheader = recordheader != null ? new ArrayList<>(recordheader) : recordheader;
+    }
 
-	public String getCompany() {
-		return company;
-	}
+    public int getRelationshipBuilderSid() {
+        return relationshipBuilderSid;
+    }
 
-	public void setCompany(String company) {
-		this.company = company;
-	}
+    public void setRelationshipBuilderSid(int relationshipBuilderSid) {
+        this.relationshipBuilderSid = relationshipBuilderSid;
+    }
 
-	public int getCompanyId() {
-		return companyId;
-	}
+    public int getForecastLevel() {
+        return forecastLevel;
+    }
 
-	public void setCompanyId(int companyId) {
-		this.companyId = companyId;
-	}
+    public void setForecastLevel(int forecastLevel) {
+        this.forecastLevel = forecastLevel;
+    }
 
-	public int getBusinessUnitId() {
-		return businessUnitId;
-	}
+    public int getViewId() {
+        return viewId;
+    }
 
-	public void setBusinessUnitId(int businessUnitId) {
-		this.businessUnitId = businessUnitId;
-	}
+    public void setViewId(int viewId) {
+        this.viewId = viewId;
+    }
 
-	public String getProjectionName() {
-		return projectionName;
-	}
+    public String getCompany() {
+        return company;
+    }
 
-	public void setProjectionName(String projectionName) {
-		this.projectionName = projectionName;
-	}
+    public void setCompany(String company) {
+        this.company = company;
+    }
 
-	public String getProjectionDescription() {
-		return projectionDescription;
-	}
+    public int getCompanyId() {
+        return companyId;
+    }
 
-	public void setProjectionDescription(String projectionDescription) {
-		this.projectionDescription = projectionDescription;
-	}
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
 
-	public int getFromPeriod() {
-		return fromPeriod;
-	}
+    public int getBusinessUnitId() {
+        return businessUnitId;
+    }
 
-	public void setFromPeriod(int fromPeriod) {
-		this.fromPeriod = fromPeriod;
-	}
+    public void setBusinessUnitId(int businessUnitId) {
+        this.businessUnitId = businessUnitId;
+    }
 
-	public int getToPeriod() {
-		return toPeriod;
-	}
+    public String getProjectionName() {
+        return projectionName;
+    }
 
-	public void setToPeriod(int toPeriod) {
-		this.toPeriod = toPeriod;
-	}
+    public void setProjectionName(String projectionName) {
+        this.projectionName = projectionName;
+    }
 
-	public String getProductHirerachy() {
-		return productHirerachy;
-	}
+    public String getProjectionDescription() {
+        return projectionDescription;
+    }
 
-	public void setProductHirerachy(String productHirerachy) {
-		this.productHirerachy = productHirerachy;
-	}
+    public void setProjectionDescription(String projectionDescription) {
+        this.projectionDescription = projectionDescription;
+    }
 
-	public int getProductRelationship() {
-		return productRelationship;
-	}
+    public int getFromPeriod() {
+        return fromPeriod;
+    }
 
-	public void setProductRelationship(int productRelationship) {
-		this.productRelationship = productRelationship;
-	}
+    public void setFromPeriod(int fromPeriod) {
+        this.fromPeriod = fromPeriod;
+    }
 
-	public int getProductForecastLevel() {
-		return productForecastLevel;
-	}
+    public int getToPeriod() {
+        return toPeriod;
+    }
 
-	public void setProductForecastLevel(int productForecastLevel) {
-		this.productForecastLevel = productForecastLevel;
-	}
+    public void setToPeriod(int toPeriod) {
+        this.toPeriod = toPeriod;
+    }
 
-	public String getProductGroup() {
-		return productGroup;
-	}
+    public String getProductHirerachy() {
+        return productHirerachy;
+    }
 
-	public void setProductGroup(String productGroup) {
-		this.productGroup = productGroup;
-	}
+    public void setProductHirerachy(String productHirerachy) {
+        this.productHirerachy = productHirerachy;
+    }
 
-	public int getProductInnerLevel() {
-		return productInnerLevel;
-	}
+    public int getProductRelationship() {
+        return productRelationship;
+    }
 
-	public void setProductInnerLevel(int productInnerLevel) {
-		this.productInnerLevel = productInnerLevel;
-	}
+    public void setProductRelationship(int productRelationship) {
+        this.productRelationship = productRelationship;
+    }
 
-	public String getViewName() {
-		return viewName;
-	}
+    public int getProductForecastLevel() {
+        return productForecastLevel;
+    }
 
-	public void setViewName(String viewName) {
-		this.viewName = viewName;
-	}
+    public void setProductForecastLevel(int productForecastLevel) {
+        this.productForecastLevel = productForecastLevel;
+    }
 
-	public List<Integer> getCheckedRowSid() {
-		return checkedRowSid != null ? new ArrayList<>(checkedRowSid) : checkedRowSid;
-	}
+    public String getProductGroup() {
+        return productGroup;
+    }
 
-	public void setCheckedRowSid(List<Integer> checkedRowSid) {
-		this.checkedRowSid = checkedRowSid != null ? new ArrayList<>(checkedRowSid) : checkedRowSid;
-	}
+    public void setProductGroup(String productGroup) {
+        this.productGroup = productGroup;
+    }
 
-	public List<String> getBaselinePeriodList() {
-		return baselinePeriodList != null ? new ArrayList<>(baselinePeriodList) : baselinePeriodList;
-	}
+    public int getProductInnerLevel() {
+        return productInnerLevel;
+    }
 
-	public void setBaselinePeriodList(List<String> baselinePeriodList) {
-		this.baselinePeriodList = baselinePeriodList != null ? new ArrayList<>(baselinePeriodList) : baselinePeriodList;
-	}
+    public void setProductInnerLevel(int productInnerLevel) {
+        this.productInnerLevel = productInnerLevel;
+    }
 
-	public int getHistoryStartYear() {
-		return historyStartYear;
-	}
+    public String getViewName() {
+        return viewName;
+    }
 
-	public void setHistoryStartYear(int historyStartYear) {
-		this.historyStartYear = historyStartYear;
-	}
+    public void setViewName(String viewName) {
+        this.viewName = viewName;
+    }
 
-	public int getHistoryEndYear() {
-		return historyEndYear;
-	}
+    public List<Integer> getCheckedRowSid() {
+        return checkedRowSid != null ? new ArrayList<>(checkedRowSid) : checkedRowSid;
+    }
 
-	public void setHistoryEndYear(int historyEndYear) {
-		this.historyEndYear = historyEndYear;
-	}
+    public void setCheckedRowSid(List<Integer> checkedRowSid) {
+        this.checkedRowSid = checkedRowSid != null ? new ArrayList<>(checkedRowSid) : checkedRowSid;
+    }
 
-	public int getProjectionStartYear() {
-		return projectionStartYear;
-	}
+    public List<String> getBaselinePeriodList() {
+        return baselinePeriodList != null ? new ArrayList<>(baselinePeriodList) : baselinePeriodList;
+    }
 
-	public void setProjectionStartYear(int projectionStartYear) {
-		this.projectionStartYear = projectionStartYear;
-	}
+    public void setBaselinePeriodList(List<String> baselinePeriodList) {
+        this.baselinePeriodList = baselinePeriodList != null ? new ArrayList<>(baselinePeriodList) : baselinePeriodList;
+    }
 
-	public int getProjectionEndYear() {
-		return projectionEndYear;
-	}
+    public int getHistoryStartYear() {
+        return historyStartYear;
+    }
 
-	public void setProjectionEndYear(int projectionEndYear) {
-		this.projectionEndYear = projectionEndYear;
-	}
+    public void setHistoryStartYear(int historyStartYear) {
+        this.historyStartYear = historyStartYear;
+    }
 
-	public int getHistoryStartMonth() {
-		return historyStartMonth;
-	}
+    public int getHistoryEndYear() {
+        return historyEndYear;
+    }
 
-	public void setHistoryStartMonth(int historyStartMonth) {
-		this.historyStartMonth = historyStartMonth;
-	}
+    public void setHistoryEndYear(int historyEndYear) {
+        this.historyEndYear = historyEndYear;
+    }
 
-	public int getHistoryEndMonth() {
-		return historyEndMonth;
-	}
+    public int getProjectionStartYear() {
+        return projectionStartYear;
+    }
 
-	public void setHistoryEndMonth(int historyEndMonth) {
-		this.historyEndMonth = historyEndMonth;
-	}
+    public void setProjectionStartYear(int projectionStartYear) {
+        this.projectionStartYear = projectionStartYear;
+    }
 
-	public int getProjectionStartMonth() {
-		return projectionStartMonth;
-	}
+    public int getProjectionEndYear() {
+        return projectionEndYear;
+    }
 
-	public void setProjectionStartMonth(int projectionStartMonth) {
-		this.projectionStartMonth = projectionStartMonth;
-	}
+    public void setProjectionEndYear(int projectionEndYear) {
+        this.projectionEndYear = projectionEndYear;
+    }
 
-	public int getProjectionEndMonth() {
-		return projectionEndMonth;
-	}
+    public int getHistoryStartMonth() {
+        return historyStartMonth;
+    }
 
-	public void setProjectionEndMonth(int projectionEndMonth) {
-		this.projectionEndMonth = projectionEndMonth;
-	}
+    public void setHistoryStartMonth(int historyStartMonth) {
+        this.historyStartMonth = historyStartMonth;
+    }
 
-	public String getForecastMethodology() {
-		return forecastMethodology;
-	}
+    public int getHistoryEndMonth() {
+        return historyEndMonth;
+    }
 
-	public void setForecastMethodology(String forecastMethodology) {
-		this.forecastMethodology = forecastMethodology;
-	}
+    public void setHistoryEndMonth(int historyEndMonth) {
+        this.historyEndMonth = historyEndMonth;
+    }
 
-	public String getCalculationStartPeriod() {
-		return calculationStartPeriod;
-	}
+    public int getProjectionStartMonth() {
+        return projectionStartMonth;
+    }
 
-	public void setCalculationStartPeriod(String calculationStartPeriod) {
-		this.calculationStartPeriod = calculationStartPeriod;
-	}
+    public void setProjectionStartMonth(int projectionStartMonth) {
+        this.projectionStartMonth = projectionStartMonth;
+    }
 
-	public String getCalculationEndPeriod() {
-		return calculationEndPeriod;
-	}
+    public int getProjectionEndMonth() {
+        return projectionEndMonth;
+    }
 
-	public void setCalculationEndPeriod(String calculationEndPeriod) {
-		this.calculationEndPeriod = calculationEndPeriod;
-	}
+    public void setProjectionEndMonth(int projectionEndMonth) {
+        this.projectionEndMonth = projectionEndMonth;
+    }
 
-	public List<String> getCheckedHierarchyNumbers() {
-		return checkedHierarchyNumbers != null ? new ArrayList<>(checkedHierarchyNumbers) : checkedHierarchyNumbers;
-	}
+    public String getForecastMethodology() {
+        return forecastMethodology;
+    }
 
-	public void setCheckedHierarchyNumbers(List<String> checkedHierarchyNumbers) {
-		this.checkedHierarchyNumbers = checkedHierarchyNumbers != null ? new ArrayList<>(checkedHierarchyNumbers)
-				: checkedHierarchyNumbers;
-	}
+    public void setForecastMethodology(String forecastMethodology) {
+        this.forecastMethodology = forecastMethodology;
+    }
 
-	public int getDiscountType() {
-		return discountType;
-	}
+    public String getCalculationStartPeriod() {
+        return calculationStartPeriod;
+    }
 
-	public void setDiscountType(int discountType) {
-		this.discountType = discountType;
-	}
+    public void setCalculationStartPeriod(String calculationStartPeriod) {
+        this.calculationStartPeriod = calculationStartPeriod;
+    }
 
-	public int getBrandType() {
-		return brandType;
-	}
+    public String getCalculationEndPeriod() {
+        return calculationEndPeriod;
+    }
 
-	public void setBrandType(int brandType) {
-		this.brandType = brandType;
-	}
+    public void setCalculationEndPeriod(String calculationEndPeriod) {
+        this.calculationEndPeriod = calculationEndPeriod;
+    }
 
-	public int getCompanyMasterSid() {
-		return companyMasterSid;
-	}
+    public List<String> getCheckedHierarchyNumbers() {
+        return checkedHierarchyNumbers != null ? new ArrayList<>(checkedHierarchyNumbers) : checkedHierarchyNumbers;
+    }
 
-	public void setCompanyMasterSid(int companyMasterSid) {
-		this.companyMasterSid = companyMasterSid;
-	}
+    public void setCheckedHierarchyNumbers(List<String> checkedHierarchyNumbers) {
+        this.checkedHierarchyNumbers = checkedHierarchyNumbers != null ? new ArrayList<>(checkedHierarchyNumbers)
+                : checkedHierarchyNumbers;
+    }
 
-	public int getProductHierarchySid() {
-		return productHierarchySid;
-	}
+    public int getDiscountType() {
+        return discountType;
+    }
 
-	public void setProductHierarchySid(int productHierarchySid) {
-		this.productHierarchySid = productHierarchySid;
-	}
+    public void setDiscountType(int discountType) {
+        this.discountType = discountType;
+    }
 
-	public int getProductHierarchyLevel() {
-		return productHierarchyLevel;
-	}
+    public int getBrandType() {
+        return brandType;
+    }
 
-	public void setProductHierarchyLevel(int productHierarchyLevel) {
-		this.productHierarchyLevel = productHierarchyLevel;
-	}
+    public void setBrandType(int brandType) {
+        this.brandType = brandType;
+    }
 
-	public int getProductHierarchyVersionNo() {
-		return productHierarchyVersionNo;
-	}
+    public int getCompanyMasterSid() {
+        return companyMasterSid;
+    }
 
-	public void setProductHierarchyVersionNo(int productHierarchyVersionNo) {
-		this.productHierarchyVersionNo = productHierarchyVersionNo;
-	}
+    public void setCompanyMasterSid(int companyMasterSid) {
+        this.companyMasterSid = companyMasterSid;
+    }
 
-	public int getItemGroupSid() {
-		return itemGroupSid;
-	}
+    public int getProductHierarchySid() {
+        return productHierarchySid;
+    }
 
-	public void setItemGroupSid(int itemGroupSid) {
-		this.itemGroupSid = itemGroupSid;
-	}
+    public void setProductHierarchySid(int productHierarchySid) {
+        this.productHierarchySid = productHierarchySid;
+    }
 
-	public int getProductHierarchyInnerLevel() {
-		return productHierarchyInnerLevel;
-	}
+    public int getProductHierarchyLevel() {
+        return productHierarchyLevel;
+    }
 
-	public void setProductHierarchyInnerLevel(int productHierarchyInnerLevel) {
-		this.productHierarchyInnerLevel = productHierarchyInnerLevel;
-	}
+    public void setProductHierarchyLevel(int productHierarchyLevel) {
+        this.productHierarchyLevel = productHierarchyLevel;
+    }
 
-	public int getSaveFlag() {
-		return saveFlag;
-	}
+    public int getProductHierarchyVersionNo() {
+        return productHierarchyVersionNo;
+    }
 
-	public void setSaveFlag(int saveFlag) {
-		this.saveFlag = saveFlag;
-	}
+    public void setProductHierarchyVersionNo(int productHierarchyVersionNo) {
+        this.productHierarchyVersionNo = productHierarchyVersionNo;
+    }
 
-	public int getCreatedBy() {
-		return createdBy;
-	}
+    public int getItemGroupSid() {
+        return itemGroupSid;
+    }
 
-	public void setCreatedBy(int createdBy) {
-		this.createdBy = createdBy;
-	}
+    public void setItemGroupSid(int itemGroupSid) {
+        this.itemGroupSid = itemGroupSid;
+    }
 
-	public int getModifiedBy() {
-		return modifiedBy;
-	}
+    public int getProductHierarchyInnerLevel() {
+        return productHierarchyInnerLevel;
+    }
 
-	public void setModifiedBy(int modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
+    public void setProductHierarchyInnerLevel(int productHierarchyInnerLevel) {
+        this.productHierarchyInnerLevel = productHierarchyInnerLevel;
+    }
 
-	public int getProdRelationshipBuilderSid() {
-		return prodRelationshipBuilderSid;
-	}
+    public int getSaveFlag() {
+        return saveFlag;
+    }
 
-	public void setProdRelationshipBuilderSid(int prodRelationshipBuilderSid) {
-		this.prodRelationshipBuilderSid = prodRelationshipBuilderSid;
-	}
+    public void setSaveFlag(int saveFlag) {
+        this.saveFlag = saveFlag;
+    }
 
-	public Date getCreatedDate() {
-		return createdDate == null ? null : (Date) createdDate.clone();
-	}
+    public int getCreatedBy() {
+        return createdBy;
+    }
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
-	}
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
 
-	public String getIsApproved() {
-		return isApproved;
-	}
+    public int getModifiedBy() {
+        return modifiedBy;
+    }
 
-	public void setIsApproved(String isApproved) {
-		this.isApproved = isApproved;
-	}
+    public void setModifiedBy(int modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
 
-	public Date getModifiedDate() {
-		return modifiedDate == null ? null : (Date) modifiedDate.clone();
-	}
+    public int getProdRelationshipBuilderSid() {
+        return prodRelationshipBuilderSid;
+    }
 
-	public void setModifiedDate(Date modifiedDate) {
-		this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
-	}
+    public void setProdRelationshipBuilderSid(int prodRelationshipBuilderSid) {
+        this.prodRelationshipBuilderSid = prodRelationshipBuilderSid;
+    }
 
-	public List<String> getRelationshipSidList() {
-		return relationshipSidList != null ? new ArrayList<>(relationshipSidList) : relationshipSidList;
-	}
+    public Date getCreatedDate() {
+        return createdDate == null ? null : (Date) createdDate.clone();
+    }
 
-	public void setRelationshipSidList(List<String> relationshipSidList) {
-		this.relationshipSidList = relationshipSidList != null ? new ArrayList<>(relationshipSidList)
-				: relationshipSidList;
-	}
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
+    }
 
-	public List<Integer> getReturnsMasterListSize() {
-		return returnsMasterListSize != null ? new ArrayList<>(returnsMasterListSize) : returnsMasterListSize;
-	}
+    public String getIsApproved() {
+        return isApproved;
+    }
 
-	public void setReturnsMasterListSize(List<Integer> returnsMasterListSize) {
-		this.returnsMasterListSize = returnsMasterListSize != null ? new ArrayList<>(returnsMasterListSize)
-				: returnsMasterListSize;
-	}
+    public void setIsApproved(String isApproved) {
+        this.isApproved = isApproved;
+    }
 
-	public String getHistory() {
-		return history;
-	}
+    public Date getModifiedDate() {
+        return modifiedDate == null ? null : (Date) modifiedDate.clone();
+    }
 
-	public void setHistory(String history) {
-		this.history = history;
-	}
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
+    }
 
-	public String getProjectionPeriodOrder() {
-		return projectionPeriodOrder;
-	}
+    public List<String> getRelationshipSidList() {
+        return relationshipSidList != null ? new ArrayList<>(relationshipSidList) : relationshipSidList;
+    }
 
-	public void setProjectionPeriodOrder(String projectionPeriodOrder) {
-		this.projectionPeriodOrder = projectionPeriodOrder;
-	}
+    public void setRelationshipSidList(List<String> relationshipSidList) {
+        this.relationshipSidList = relationshipSidList != null ? new ArrayList<>(relationshipSidList)
+                : relationshipSidList;
+    }
 
-	public String getForecastType() {
-		return forecastType;
-	}
+    public List<Integer> getReturnsMasterListSize() {
+        return returnsMasterListSize != null ? new ArrayList<>(returnsMasterListSize) : returnsMasterListSize;
+    }
 
-	public void setForecastType(String forecastType) {
-		this.forecastType = forecastType;
-	}
+    public void setReturnsMasterListSize(List<Integer> returnsMasterListSize) {
+        this.returnsMasterListSize = returnsMasterListSize != null ? new ArrayList<>(returnsMasterListSize)
+                : returnsMasterListSize;
+    }
 
-	public String getProjectionMasterSid() {
-		return projectionMasterSid;
-	}
+    public String getHistory() {
+        return history;
+    }
 
-	public void setProjectionMasterSid(String projectionMasterSid) {
-		this.projectionMasterSid = projectionMasterSid;
-	}
+    public void setHistory(String history) {
+        this.history = history;
+    }
 
-	public Map<String, List<String>> getRightTableHierarchy() {
-		return rightTableHierarchy;
-	}
+    public String getProjectionPeriodOrder() {
+        return projectionPeriodOrder;
+    }
 
-	public void setRightTableHierarchy(Map<String, List<String>> rightTableHierarchy) {
-		this.rightTableHierarchy = rightTableHierarchy;
-	}
+    public void setProjectionPeriodOrder(String projectionPeriodOrder) {
+        this.projectionPeriodOrder = projectionPeriodOrder;
+    }
 
-	public String getSelectedHierarchyNo() {
-		return selectedHierarchyNo;
-	}
+    public String getForecastType() {
+        return forecastType;
+    }
 
-	public void setSelectedHierarchyNo(String selectedHierarchyNo) {
-		this.selectedHierarchyNo = selectedHierarchyNo;
-	}
+    public void setForecastType(String forecastType) {
+        this.forecastType = forecastType;
+    }
 
-	public String getCheckValue() {
-		return checkValue;
-	}
+    public String getProjectionMasterSid() {
+        return projectionMasterSid;
+    }
 
-	public void setCheckValue(String checkValue) {
-		this.checkValue = checkValue;
-	}
+    public void setProjectionMasterSid(String projectionMasterSid) {
+        this.projectionMasterSid = projectionMasterSid;
+    }
 
-	public boolean isUpdateFlag() {
-		return updateFlag;
-	}
+    public Map<String, List<String>> getRightTableHierarchy() {
+        return rightTableHierarchy;
+    }
 
-	public void setUpdateFlag(boolean updateFlag) {
-		this.updateFlag = updateFlag;
-	}
+    public void setRightTableHierarchy(Map<String, List<String>> rightTableHierarchy) {
+        this.rightTableHierarchy = rightTableHierarchy;
+    }
 
-	public boolean isSubmitFlag() {
-		return submitFlag;
-	}
+    public String getSelectedHierarchyNo() {
+        return selectedHierarchyNo;
+    }
 
-	public void setSubmitFlag(boolean submitFlag) {
-		this.submitFlag = submitFlag;
-	}
+    public void setSelectedHierarchyNo(String selectedHierarchyNo) {
+        this.selectedHierarchyNo = selectedHierarchyNo;
+    }
 
-	public String getMode() {
-		return mode;
-	}
+    public String getCheckValue() {
+        return checkValue;
+    }
 
-	public void setMode(String mode) {
-		this.mode = mode;
-	}
+    public void setCheckValue(String checkValue) {
+        this.checkValue = checkValue;
+    }
 
-	public boolean isCheckedLeftTreeTable() {
-		return checkedLeftTreeTable;
-	}
+    public boolean isUpdateFlag() {
+        return updateFlag;
+    }
 
-	public void setCheckedLeftTreeTable(boolean checkedLeftTreeTable) {
-		this.checkedLeftTreeTable = checkedLeftTreeTable;
-	}
+    public void setUpdateFlag(boolean updateFlag) {
+        this.updateFlag = updateFlag;
+    }
 
-	public String getViewType() {
-		return viewType;
-	}
+    public boolean isSubmitFlag() {
+        return submitFlag;
+    }
 
-	public void setViewType(String viewType) {
-		this.viewType = viewType;
-	}
+    public void setSubmitFlag(boolean submitFlag) {
+        this.submitFlag = submitFlag;
+    }
 
-	public int getViewCreatedBy() {
-		return viewCreatedBy;
-	}
+    public String getMode() {
+        return mode;
+    }
 
-	public void setViewCreatedBy(int viewCreatedBy) {
-		this.viewCreatedBy = viewCreatedBy;
-	}
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
 
-	public boolean isViewMode() {
-		return viewMode;
-	}
+    public boolean isCheckedLeftTreeTable() {
+        return checkedLeftTreeTable;
+    }
 
-	public void setViewMode(boolean viewMode) {
-		this.viewMode = viewMode;
-	}
+    public void setCheckedLeftTreeTable(boolean checkedLeftTreeTable) {
+        this.checkedLeftTreeTable = checkedLeftTreeTable;
+    }
 
-	public String getManualEntryValue() {
-		return manualEntryValue;
-	}
+    public String getViewType() {
+        return viewType;
+    }
 
-	public void setManualEntryValue(String manualEntryValue) {
-		this.manualEntryValue = manualEntryValue;
-	}
+    public void setViewType(String viewType) {
+        this.viewType = viewType;
+    }
 
-	public int getMassUpdateLevelNo() {
-		return massUpdateLevelNo;
-	}
+    public int getViewCreatedBy() {
+        return viewCreatedBy;
+    }
 
-	public void setMassUpdateLevelNo(int massUpdateLevel) {
-		this.massUpdateLevelNo = massUpdateLevel;
-	}
+    public void setViewCreatedBy(int viewCreatedBy) {
+        this.viewCreatedBy = viewCreatedBy;
+    }
 
-	public List<String> getExistingViewName() {
-		return existingViewName != null ? new ArrayList<>(existingViewName) : existingViewName;
-	}
+    public boolean isViewMode() {
+        return viewMode;
+    }
 
-	public void setExistingViewName(List<String> existingViewName) {
-		this.existingViewName = existingViewName != null ? new ArrayList<>(existingViewName) : existingViewName;
-	}
+    public void setViewMode(boolean viewMode) {
+        this.viewMode = viewMode;
+    }
 
-	public String getManualEntryOldValue() {
-		return manualEntryOldValue;
-	}
+    public String getManualEntryValue() {
+        return manualEntryValue;
+    }
 
-	public void setManualEntryOldValue(String manualEntryOldValue) {
-		this.manualEntryOldValue = manualEntryOldValue;
-	}
+    public void setManualEntryValue(String manualEntryValue) {
+        this.manualEntryValue = manualEntryValue;
+    }
 
-	public int getLevelFilter() {
-		return levelFilter;
-	}
+    public int getMassUpdateLevelNo() {
+        return massUpdateLevelNo;
+    }
 
-	public void setLevelFilter(int levelFilter) {
-		this.levelFilter = levelFilter;
-	}
+    public void setMassUpdateLevelNo(int massUpdateLevel) {
+        this.massUpdateLevelNo = massUpdateLevel;
+    }
 
-	public int getEndLevel() {
-		return endLevel;
-	}
+    public List<String> getExistingViewName() {
+        return existingViewName != null ? new ArrayList<>(existingViewName) : existingViewName;
+    }
 
-	public void setEndLevel(int endLevel) {
-		this.endLevel = endLevel;
-	}
+    public void setExistingViewName(List<String> existingViewName) {
+        this.existingViewName = existingViewName != null ? new ArrayList<>(existingViewName) : existingViewName;
+    }
 
-	public boolean isMultipleSaveFalg() {
-		return multipleSaveFalg;
-	}
+    public String getManualEntryOldValue() {
+        return manualEntryOldValue;
+    }
 
-	public void setMultipleSaveFalg(boolean multipleSaveFalg) {
-		this.multipleSaveFalg = multipleSaveFalg;
-	}
+    public void setManualEntryOldValue(String manualEntryOldValue) {
+        this.manualEntryOldValue = manualEntryOldValue;
+    }
 
-	public boolean isMassUpdate() {
-		return massUpdate;
-	}
+    public int getLevelFilter() {
+        return levelFilter;
+    }
 
-	public void setMassUpdate(boolean massUpdate) {
-		this.massUpdate = massUpdate;
-	}
+    public void setLevelFilter(int levelFilter) {
+        this.levelFilter = levelFilter;
+    }
 
-	public boolean isEditMode() {
-		return editMode;
-	}
+    public int getEndLevel() {
+        return endLevel;
+    }
 
-	public void setEditMode(boolean editMode) {
-		this.editMode = editMode;
-	}
+    public void setEndLevel(int endLevel) {
+        this.endLevel = endLevel;
+    }
 
-	public boolean isViewModeFlag() {
-		return viewModeFlag;
-	}
+    public boolean isMultipleSaveFalg() {
+        return multipleSaveFalg;
+    }
 
-	public void setViewModeFlag(boolean viewModeFlag) {
-		this.viewModeFlag = viewModeFlag;
-	}
+    public void setMultipleSaveFalg(boolean multipleSaveFalg) {
+        this.multipleSaveFalg = multipleSaveFalg;
+    }
 
-	public List<String> getHierarchyList() {
-		return hierarchyList != null ? new ArrayList<>(hierarchyList) : hierarchyList;
-	}
+    public boolean isMassUpdate() {
+        return massUpdate;
+    }
 
-	public void setHierarchyList(List<String> hierarchyList) {
-		this.hierarchyList = hierarchyList != null ? new ArrayList<>(hierarchyList) : hierarchyList;
-	}
+    public void setMassUpdate(boolean massUpdate) {
+        this.massUpdate = massUpdate;
+    }
 
-	public int getExpandCollapseLevelNo() {
-		return expandCollapseLevelNo;
-	}
+    public boolean isEditMode() {
+        return editMode;
+    }
 
-	public void setExpandCollapseLevelNo(int expandCollapseLevelNo) {
-		this.expandCollapseLevelNo = expandCollapseLevelNo;
-	}
+    public void setEditMode(boolean editMode) {
+        this.editMode = editMode;
+    }
 
-	public boolean isCheckAllFlag() {
-		return checkAllFlag;
-	}
+    public boolean isViewModeFlag() {
+        return viewModeFlag;
+    }
 
-	public void setCheckAllFlag(boolean checkAllFlag) {
-		this.checkAllFlag = checkAllFlag;
-	}
+    public void setViewModeFlag(boolean viewModeFlag) {
+        this.viewModeFlag = viewModeFlag;
+    }
 
-	public String getTestFilePath() {
-		return testFilePath;
-	}
+    public List<String> getHierarchyList() {
+        return hierarchyList != null ? new ArrayList<>(hierarchyList) : hierarchyList;
+    }
 
-	public void setTestFilePath(String testFilePath) {
-		this.testFilePath = testFilePath;
-	}
+    public void setHierarchyList(List<String> hierarchyList) {
+        this.hierarchyList = hierarchyList != null ? new ArrayList<>(hierarchyList) : hierarchyList;
+    }
 
-	public boolean isDataSelectionTabEditFlag() {
-		return dataSelectionTabEditFlag;
-	}
+    public int getExpandCollapseLevelNo() {
+        return expandCollapseLevelNo;
+    }
 
-	public void setDataSelectionTabEditFlag(boolean dataSelectionTabEditFlag) {
-		this.dataSelectionTabEditFlag = dataSelectionTabEditFlag;
-	}
+    public void setExpandCollapseLevelNo(int expandCollapseLevelNo) {
+        this.expandCollapseLevelNo = expandCollapseLevelNo;
+    }
 
-	public String getWorkflowId() {
-		return workflowId;
-	}
+    public boolean isCheckAllFlag() {
+        return checkAllFlag;
+    }
 
-	public void setWorkflowId(String workflowId) {
-		this.workflowId = workflowId;
-	}
+    public void setCheckAllFlag(boolean checkAllFlag) {
+        this.checkAllFlag = checkAllFlag;
+    }
 
-	public String getWorkflowStatus() {
-		return workflowStatus;
-	}
+    public String getTestFilePath() {
+        return testFilePath;
+    }
 
-	public void setWorkflowStatus(String workflowStatus) {
-		this.workflowStatus = workflowStatus;
-	}
+    public void setTestFilePath(String testFilePath) {
+        this.testFilePath = testFilePath;
+    }
 
-	public String getUserType() {
-		return userType;
-	}
+    public boolean isDataSelectionTabEditFlag() {
+        return dataSelectionTabEditFlag;
+    }
 
-	public void setUserType(String userType) {
-		this.userType = userType;
-	}
+    public void setDataSelectionTabEditFlag(boolean dataSelectionTabEditFlag) {
+        this.dataSelectionTabEditFlag = dataSelectionTabEditFlag;
+    }
 
-	public int getNoOfApprovals() {
-		return noOfApprovals;
-	}
+    public String getWorkflowId() {
+        return workflowId;
+    }
 
-	public void setNoOfApprovals(int noOfApprovals) {
-		this.noOfApprovals = noOfApprovals;
-	}
+    public void setWorkflowId(String workflowId) {
+        this.workflowId = workflowId;
+    }
 
-	public int getApprovalLevels() {
-		return approvalLevels;
-	}
+    public String getWorkflowStatus() {
+        return workflowStatus;
+    }
 
-	public void setApprovalLevels(int approvalLevels) {
-		this.approvalLevels = approvalLevels;
-	}
+    public void setWorkflowStatus(String workflowStatus) {
+        this.workflowStatus = workflowStatus;
+    }
 
-	public boolean isWorkflowFlag() {
-		return workflowFlag;
-	}
+    public String getUserType() {
+        return userType;
+    }
 
-	public void setWorkflowFlag(boolean workflowFlag) {
-		this.workflowFlag = workflowFlag;
-	}
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
 
-	public boolean isMethodologyCalculationFlag() {
-		return methodologyCalculationFlag;
-	}
+    public int getNoOfApprovals() {
+        return noOfApprovals;
+    }
 
-	public void setMethodologyCalculationFlag(boolean methodologyCalculationFlag) {
-		this.methodologyCalculationFlag = methodologyCalculationFlag;
-	}
-        private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
-		s.defaultWriteObject();
-	}
+    public void setNoOfApprovals(int noOfApprovals) {
+        this.noOfApprovals = noOfApprovals;
+    }
 
-	private void readObject(java.io.ObjectInputStream s) throws java.io.IOException, ClassNotFoundException {
-		s.defaultReadObject();
-	}
+    public int getApprovalLevels() {
+        return approvalLevels;
+    }
 
+    public void setApprovalLevels(int approvalLevels) {
+        this.approvalLevels = approvalLevels;
+    }
 
+    public boolean isWorkflowFlag() {
+        return workflowFlag;
+    }
+
+    public void setWorkflowFlag(boolean workflowFlag) {
+        this.workflowFlag = workflowFlag;
+    }
+
+    public boolean isMethodologyCalculationFlag() {
+        return methodologyCalculationFlag;
+    }
+
+    public void setMethodologyCalculationFlag(boolean methodologyCalculationFlag) {
+        this.methodologyCalculationFlag = methodologyCalculationFlag;
+    }
+
+    private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
+        s.defaultWriteObject();
+    }
+
+    private void readObject(java.io.ObjectInputStream s) throws java.io.IOException, ClassNotFoundException {
+        s.defaultReadObject();
+    }
+
+    private boolean column;
+    private boolean variablesVariances;
+
+    public boolean isColumn() {
+        return column;
+    }
+
+    public void setColumn(boolean column) {
+        this.column = column;
+    }
+
+    public boolean isVariablesVariances() {
+        return variablesVariances;
+    }
+
+    public void setVariablesVariances(boolean variablesVariances) {
+        this.variablesVariances = variablesVariances;
+    }
 
 }
+

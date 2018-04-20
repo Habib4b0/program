@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.response.pagetreetable;
+package com.stpl.reportingheadergeneration.bean;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,36 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.forecast.bean.DataSelectionBean;
-import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
-import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
-
-/**
- * @author Kalpana.Ramanana
- *
- */
 public class GtnWsPagedTreeTableResponse {
 
     public GtnWsPagedTreeTableResponse() {
         super();
     }
 
-    private GtnWsForecastResponse gtnWsForecastResponse;
-
-    private List<GtnWsRecordBean> gtnWsRecordBeanList;
-
     private GtnForecastBean gtnForecastBean;
 
-    private List<GtnWsRecordBean> forecastPagedTableBeanList;
-
     private List<String> results;
-
-    private List<String> editableFields;
-
-    private List<String> editablePeriods;
-
-    private DataSelectionBean dataSelectionBean;
 
     private boolean checkAll;
 
@@ -76,7 +55,8 @@ public class GtnWsPagedTreeTableResponse {
      * The double header map.
      */
     private Map<Object, Object[]> doubleHeaderMap = new HashMap<>();
-        /**
+
+    /**
      * The Triple header map.
      */
     private Map<Object, Object[]> tripleHeaderMap = new HashMap<>();
@@ -91,17 +71,6 @@ public class GtnWsPagedTreeTableResponse {
 
     public void setGtnForecastBean(GtnForecastBean gtnForecastBean) {
         this.gtnForecastBean = gtnForecastBean;
-    }
-
-    public List<GtnWsRecordBean> getForecastPagedTableBeanList() {
-        return forecastPagedTableBeanList != null ? new ArrayList<>(forecastPagedTableBeanList)
-                : forecastPagedTableBeanList;
-    }
-
-    public void setForecastPagedTableBeanList(List<GtnWsRecordBean> forecastPagedTableBeanList) {
-        this.forecastPagedTableBeanList = forecastPagedTableBeanList != null
-                ? new ArrayList<>(forecastPagedTableBeanList)
-                : forecastPagedTableBeanList;
     }
 
     public int getTableCount() {
@@ -219,52 +188,12 @@ public class GtnWsPagedTreeTableResponse {
         this.results = results != null ? Collections.unmodifiableList(results) : results;
     }
 
-    public List<String> getEditableFields() {
-        return editableFields != null ? new ArrayList<>(editableFields) : editableFields;
-    }
-
-    public void setEditableFields(List<String> editableFields) {
-        this.editableFields = editableFields != null ? new ArrayList<>(editableFields) : editableFields;
-    }
-
-    public List<String> getEditablePeriods() {
-        return editablePeriods;
-    }
-
-    public void setEditablePeriods(List<String> editablePeriods) {
-        this.editablePeriods = editablePeriods;
-    }
-
     public Map<String, Integer> getCountMap() {
         return countMap;
     }
 
     public void setCountMap(Map<String, Integer> countMap) {
         this.countMap = countMap;
-    }
-
-    public DataSelectionBean getDataSelectionBean() {
-        return dataSelectionBean;
-    }
-
-    public void setDataSelectionBean(DataSelectionBean dataSelectionBean) {
-        this.dataSelectionBean = dataSelectionBean;
-    }
-
-    public GtnWsForecastResponse getGtnWsForecastResponse() {
-        return gtnWsForecastResponse;
-    }
-
-    public void setGtnWsForecastResponse(GtnWsForecastResponse gtnWsForecastResponse) {
-        this.gtnWsForecastResponse = gtnWsForecastResponse;
-    }
-
-    public List<GtnWsRecordBean> getGtnWsRecordBeanList() {
-        return gtnWsRecordBeanList;
-    }
-
-    public void setGtnWsRecordBeanList(List<GtnWsRecordBean> gtnWsRecordBeanList) {
-        this.gtnWsRecordBeanList = gtnWsRecordBeanList;
     }
 
     public boolean isCheckAll() {
@@ -274,7 +203,8 @@ public class GtnWsPagedTreeTableResponse {
     public void setCheckAll(boolean checkAll) {
         this.checkAll = checkAll;
     }
-/**
+
+    /**
      * Adds the Triple column.
      *
      * @param column the column
