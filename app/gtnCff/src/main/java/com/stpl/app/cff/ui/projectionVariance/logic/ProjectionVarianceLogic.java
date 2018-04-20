@@ -190,14 +190,18 @@ public class ProjectionVarianceLogic {
         Map<Object, Object[]> doubleFinalMap = new HashMap<>();
         List<Object> finalVisList = new ArrayList<>();
         List<String> finalHeaderList = new ArrayList<>();
-        String from = StringUtils.EMPTY;
-        String to = StringUtils.EMPTY;
+        String from;
+        String to;
+        StringBuilder fromBuilder = new StringBuilder();
+        StringBuilder toBuilder = new StringBuilder();
         for (int i = 0; i < fromArray.length; i++) {
-            from = from + fromArray[i];
+            fromBuilder.append(fromArray[i]);
         }
         for (int i = 0; i < toArray.length; i++) {
-            to = to + toArray[i];
+            toBuilder.append(toArray[i]);
         }
+        from = fromBuilder.toString();
+        to = toBuilder.toString();
         if (rightHeader.getFrequencyDivision() == NumericConstants.TWELVE) {
             from = from.toLowerCase(Locale.ENGLISH);
             to = to.toLowerCase(Locale.ENGLISH);

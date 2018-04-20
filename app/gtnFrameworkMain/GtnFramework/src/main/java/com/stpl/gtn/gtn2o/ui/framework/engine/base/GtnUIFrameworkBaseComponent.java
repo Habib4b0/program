@@ -653,8 +653,9 @@ public class GtnUIFrameworkBaseComponent {
 		GtnUIFrameworkPagedTreeTableLogic tableLogic = (GtnUIFrameworkPagedTreeTableLogic) resultsTable
 				.getLeftFreezeAsTable().getContainerLogic();
 		Set<String> hierarchyNo = (Set<String>) componentData.getCustomDataList().get(1);
+                int currentPage = tableLogic.getCurrentPage();
 		tableLogic.forRefresh(hierarchyNo);
-		tableLogic.setCurrentPage(tableLogic.getCurrentPage());
+		tableLogic.setCurrentPage(currentPage);
 	}
 
 	public void setTabVisible(String tabComponentId, boolean visibleFlag) throws GtnFrameworkValidationFailedException {

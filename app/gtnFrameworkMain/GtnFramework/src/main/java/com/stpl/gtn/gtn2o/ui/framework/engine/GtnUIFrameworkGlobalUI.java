@@ -539,7 +539,7 @@ public class GtnUIFrameworkGlobalUI {
 	}
 
 	public static String regexValidation(String[] componentIds) {
-		StringBuilder msg = new StringBuilder(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		StringBuilder msg = new StringBuilder();
 		for (int i = 0; i < componentIds.length; i++) {
 			GtnUIFrameworkComponentConfig currentComponentConfig = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(componentIds[i]).getComponentConfig();

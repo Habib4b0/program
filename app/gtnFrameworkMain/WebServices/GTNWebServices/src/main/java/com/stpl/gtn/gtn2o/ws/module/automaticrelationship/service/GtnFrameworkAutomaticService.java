@@ -39,7 +39,7 @@ public class GtnFrameworkAutomaticService {
             super();
         }
 
-	public void checkAndUpdateAllRelationShip(String relationShipType) {
+	public synchronized void checkAndUpdateAllRelationShip(String relationShipType) {
 
 		List<GtnWsRelationshipBuilderBean> finalResultbeanList = getRelationShipBuilderData(relationShipType);
 		customerExecutorService = Executors.newFixedThreadPool(50);
