@@ -273,7 +273,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         customMenuItem.getChildren().get(7).setChecked(true);
         customMenuItem.getChildren().get(8).setChecked(true);
         customMenuItem.getChildren().get(11).setChecked(true);
-        ChangeMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, "Multiple");
+        ChangeMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, Constants.MULTIPLE);
         }
 
         String[] variableCategoryValues = ConstantsUtil.PVVariableCategory.names();
@@ -997,7 +997,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         customMenuItem.getChildren().get(15).setChecked(true);
         customMenuItem.getChildren().get(16).setChecked(true);
         customMenuItem.getChildren().get(19).setChecked(true);
-        ChangeMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, "Multiple");
+        ChangeMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, Constants.MULTIPLE);
         
         variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryListener);
         variableCategoryCustomMenuItem.getChildren().get(0).setChecked(true);
@@ -1418,7 +1418,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             for (int i = 0; i < projIdList.size(); i++) {
                 projectionMap.put(projIdList.get(i), projNameList.get(i));
             }
-            comparison.setValue(projNameList.size() > 1 ? "Multiple" : projNameList.get(0));
+            comparison.setValue(projNameList.size() > 1 ? Constants.MULTIPLE : projNameList.get(0));
             pvSelectionDTO.setProjIdList(projIdList);
             pvSelectionDTO.setProjectionMap(projectionMap);
             if (!pvSelectionDTO.getProjIdList().isEmpty()) {
