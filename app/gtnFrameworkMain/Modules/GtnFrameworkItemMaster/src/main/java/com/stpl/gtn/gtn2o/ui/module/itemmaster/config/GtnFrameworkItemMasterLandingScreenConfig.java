@@ -635,7 +635,7 @@ public class GtnFrameworkItemMasterLandingScreenConfig {
 				.addActionParameter(GtnFrameworkItemMasterStringContants.GTN_ITEM_MASTER_VALIDATION_MSG_RESET_HEADER);
 		resetActionConfig.addActionParameter(GtnFrameworkItemMasterStringContants.GTN_ITEM_MASTER_VALIDATION_MSG_RESET);
 
-		Map<String, Object> resetMap = new HashMap<>();
+		Map<String, Object> resetMap = new HashMap<>(50);
 		resetMap.put(GtnFrameworkCommonConstants.ITEM_SYSTEM_ID, GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_ID,
 				GtnFrameworkCommonStringConstants.STRING_EMPTY);

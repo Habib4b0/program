@@ -63,7 +63,7 @@ public class GtnFrameworkItemGrpRemoveAction implements GtnUIFrameWorkAction, Gt
 			List<GtnWsItemGrpDataBean> beanList = new ArrayList<>();
 			for (GtnWsRecordBean GtnWsRecordBean : dtoSet) {
 				GtnWsItemGrpDataBean bean = new GtnWsItemGrpDataBean();
-				bean.setItemMasterSid(Integer.valueOf(GtnWsRecordBean.getPropertyValueByIndex(64) == null ? "0"
+				bean.setItemMasterSid(Integer.parseInt(GtnWsRecordBean.getPropertyValueByIndex(64) == null ? "0"
 						: GtnWsRecordBean.getPropertyValueByIndex(64).toString()));
 				beanList.add(bean);
 			}

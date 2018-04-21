@@ -983,7 +983,7 @@ public class GtnFrameworkRPLandingScreenConfig {
 	}
 
 	private Map<String, Object> getResetMap() {
-		Map<String, Object> resetMap = new HashMap<>();
+		Map<String, Object> resetMap = new HashMap<>(30);
 		resetMap.put(GtnFrameworkStringConstants.REBATE_DETAILS_ATTACH_RESULT_TABLE, "");
 		resetMap.put(GtnFrameworkStringConstants.REBATE_PLAN_INFORMATION_TYPE, null);
 		resetMap.put(GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_REBATE_STATUS, null);

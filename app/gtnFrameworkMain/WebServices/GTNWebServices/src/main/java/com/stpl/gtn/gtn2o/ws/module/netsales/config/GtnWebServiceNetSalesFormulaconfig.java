@@ -96,7 +96,7 @@ public class GtnWebServiceNetSalesFormulaconfig implements GtnWsSearchQueryConfi
 		GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = new GtnWsSearchQueryConfig();
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 
-		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
+		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>(50);
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.SYSTEM_ID,
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.CONTRACT_MASTER_SID, "CM"));
 		fieldToColumnDetailsMap.put(GtnFrameworkWebserviceConstant.CONTRACT_NO_PROPERTYID,
@@ -380,7 +380,7 @@ public class GtnWebServiceNetSalesFormulaconfig implements GtnWsSearchQueryConfi
 
 		GtnWsSearchQueryConfig gtnWebServiceSearchQueryContext = new GtnWsSearchQueryConfig();
 
-		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
+		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>(100);
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 		fieldToColumnDetailsMap.put("contractSystemId",
 				configProvider.getColumnIntegerConfig(GtnFrameworkWebserviceConstant.CONTRACT_MASTER_SID, "CM"));
@@ -501,7 +501,7 @@ public class GtnWebServiceNetSalesFormulaconfig implements GtnWsSearchQueryConfi
 
 		GtnWsSearchQueryConfig gtnWebServiceSearchQueryContext = new GtnWsSearchQueryConfig();
 
-		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
+		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>(80);
 
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.SYSTEM_ID,
