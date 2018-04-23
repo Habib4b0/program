@@ -14,34 +14,7 @@ CREATE PROCEDURE [dbo].[PRC_NM_PPA_PROJECTION] (@PROJECTION_MASTER_SID INT,
 AS
   BEGIN
 
-  SET NOCOUNT ON 
-/**********************************************************************************************************
-** FILE NAME		:	PRC_NM_PPA_PROJECTION.SQL
-** PROCEDURE NAME	:	PRC_NM_PPA_PROJECTION
-** DESCRIPTION		:	this procedure will calculate the ppa discount for the ccp's having netting logic ONLY after performing the nep and wac calcuation in the ppa init procedure 
-** INPUT PARAMETERS	:	@PROJECTION_SID	  - passing input as PROJECTION_MASTER_SID
-						@USER_ID          - user id for the particular projection 
-						@SESSION_ID       - session id for the particular projection 					
-                        
-** OUTPUT PARAMETERS:	na
-** AUTHOR NAME		:	@SandeepKumar.A
-** CREATION DATE	:	 
-** CALLED BY		:   This procedure will be called from UI in the ppa projection results screen.
-**********************************************************************************************************
-** CHANGE HISTORY
-**********************************************************************************************************
-** VER   DATE       LOCAL ALMTICKET NO      SUBTICKET NO        ONLINE ALM TICKET      AUTHOR                              DESCRIPTION 
-** ---   --------      ---------             -------------        -------------     ----------------                       ------------------
-** 1                                                                                   @SandeepKumar.A		               Implemented the logic as the request that is based on price tolerance type and table consists of ccp wise only.
-** 2                                                                                   @SandeepKumar.A		               Implemented the netting logic
-** 3                                                                  GALUAT-321       @SandeepKumar.A		               Implemented the logic in which if there were multiple rebates attached to the PS of Price protection rebate type then the tables should contains the ccp+rebate combinbation.
-** 4                                                                  GAL-1163         @SandeepKumar.A                     Added RS_CONTRACT_SID column instead of RS_MODEL_SID .   
-** 5                                                                  GALUAT-295       @SandeepKumar.A                     Actuals should be taken from actuals details so this logic was added in the insert procedure.
-** 6                                                                                   @pradeepthanga and @SandeepKumar.A  modified the procedure to improve the performance
-** 7                                                                                   @pradeepthanga 					   modified the procedure to improve the performance
-*****************************************************************************************************/
---------------------------- VARIABLES DECLARATION SATRTS HERE-------------------
-      DECLARE @D_PROJECTION_TABLE VARCHAR(200) = CONCAT ('ST_NM_DISCOUNT_PROJECTION_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', '')),
+  DECLARE @D_PROJECTION_TABLE VARCHAR(200) = CONCAT ('ST_NM_DISCOUNT_PROJECTION_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', '')),
               @D_SQL              NVARCHAR(MAX),
               @PROJECTION_TABLE   VARCHAR(200) = CONCAT ('ST_NM_PPA_PROJECTION_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', '')),
               @MASTER_TABLE       VARCHAR(200) = CONCAT ('ST_NM_PPA_PROJECTION_MASTER_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', '')),
@@ -427,10 +400,10 @@ exec sp_executesql @SQL
            AS (SELECT DISTINCT TN.CCP_DETAILS_SID,
                                TN.RS_CONTRACT_SID,
                                TN.PERIOD_SID,
-                                CASE WHEN LEFT(TN.REBATE_FREQUENCY,1)='Q' THEN TRR.QUARTERLY * J.INDICATOR
+                                isnull(CASE WHEN LEFT(TN.REBATE_FREQUENCY,1)='Q' THEN TRR.QUARTERLY * J.INDICATOR
 								WHEN LEFT(TN.REBATE_FREQUENCY,1)='M' THEN TRR.MONTHLY * J.INDICATOR
 								WHEN LEFT(TN.REBATE_FREQUENCY,1)='S' THEN TRR.SEMI_ANNUAL * J.INDICATOR
-								WHEN LEFT(TN.REBATE_FREQUENCY,1) IN ('A','Y') THEN TRR.ANNUALLY * J.INDICATOR end  PRODUCT,
+								WHEN LEFT(TN.REBATE_FREQUENCY,1) IN ('A','Y') THEN TRR.ANNUALLY * J.INDICATOR end,0)  PRODUCT,
                                TRR.REBATE_TYPE,
                                J.INDICATOR,TN.PPA_INDEX_NO
                FROM   #NETTING_LOGIC_CCPS TN
@@ -470,10 +443,10 @@ exec sp_executesql @SQL
            AS (SELECT DISTINCT TN.CCP_DETAILS_SID,
                                TN.RS_CONTRACT_SID,
                                TN.PERIOD_SID,
-                               CASE WHEN LEFT(TN.REBATE_FREQUENCY,1)='Q' THEN TRR.QUARTERLY * J.INDICATOR
+                                  isnull(CASE WHEN LEFT(TN.REBATE_FREQUENCY,1)='Q' THEN TRR.QUARTERLY * J.INDICATOR
 								WHEN LEFT(TN.REBATE_FREQUENCY,1)='M' THEN TRR.MONTHLY * J.INDICATOR
 								WHEN LEFT(TN.REBATE_FREQUENCY,1)='S' THEN TRR.SEMI_ANNUAL * J.INDICATOR
-								WHEN LEFT(TN.REBATE_FREQUENCY,1) IN ('A','Y') THEN TRR.ANNUALLY * J.INDICATOR end    PRODUCT,
+								WHEN LEFT(TN.REBATE_FREQUENCY,1) IN ('A','Y') THEN TRR.ANNUALLY * J.INDICATOR end,0)    PRODUCT,
                                TRR.REBATE_TYPE,
                                J.INDICATOR,TN.PPA_INDEX_NO
                FROM   #NETTING_LOGIC_CCPS TN
@@ -514,10 +487,10 @@ exec sp_executesql @SQL
            AS (SELECT DISTINCT TN.CCP_DETAILS_SID,
                                TN.RS_CONTRACT_SID,
                                TN.PERIOD_SID,
-                              CASE WHEN LEFT(TN.REBATE_FREQUENCY,1)='Q' THEN TRR.QUARTERLY * J.INDICATOR
+                                isnull( CASE WHEN LEFT(TN.REBATE_FREQUENCY,1)='Q' THEN TRR.QUARTERLY * J.INDICATOR
 								WHEN LEFT(TN.REBATE_FREQUENCY,1)='M' THEN TRR.MONTHLY * J.INDICATOR
 								WHEN LEFT(TN.REBATE_FREQUENCY,1)='S' THEN TRR.SEMI_ANNUAL * J.INDICATOR
-								WHEN LEFT(TN.REBATE_FREQUENCY,1) IN ('A','Y') THEN TRR.ANNUALLY * J.INDICATOR end  PRODUCT,
+								WHEN LEFT(TN.REBATE_FREQUENCY,1) IN ('A','Y') THEN TRR.ANNUALLY * J.INDICATOR end ,0) PRODUCT,
                                TRR.REBATE_TYPE,
                                J.INDICATOR,TN.PPA_INDEX_NO
                FROM   #NETTING_LOGIC_CCPS TN
@@ -557,10 +530,10 @@ exec sp_executesql @SQL
            AS (SELECT DISTINCT TN.CCP_DETAILS_SID,
                                TN.RS_CONTRACT_SID,
                                TN.PERIOD_SID,
-                               CASE WHEN LEFT(TN.REBATE_FREQUENCY,1)='Q' THEN TRR.QUARTERLY * J.INDICATOR
+                                  isnull(CASE WHEN LEFT(TN.REBATE_FREQUENCY,1)='Q' THEN TRR.QUARTERLY * J.INDICATOR
 								WHEN LEFT(TN.REBATE_FREQUENCY,1)='M' THEN TRR.MONTHLY * J.INDICATOR
 								WHEN LEFT(TN.REBATE_FREQUENCY,1)='S' THEN TRR.SEMI_ANNUAL * J.INDICATOR
-								WHEN LEFT(TN.REBATE_FREQUENCY,1) IN ('A','Y') THEN TRR.ANNUALLY * J.INDICATOR end  PRODUCT,
+								WHEN LEFT(TN.REBATE_FREQUENCY,1) IN ('A','Y') THEN TRR.ANNUALLY * J.INDICATOR end,0)  PRODUCT,
                                TRR.REBATE_TYPE,
                                J.INDICATOR,TN.PPA_INDEX_NO
                FROM   #NETTING_LOGIC_CCPS TN
@@ -1376,4 +1349,4 @@ WHERE   EXISTS (SELECT 1
                           AND NLC.RS_CONTRACT_SID = RP.RS_CONTRACT_SID
 						  AND NLC.PPA_INDEX_NO=RP.PPA_INDEX_NO) ')
 END
-end
+END

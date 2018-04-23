@@ -63,7 +63,7 @@ public class PVExcelLogic {
     private String groupFilterValue = StringUtils.EMPTY;
     private String viewValue = StringUtils.EMPTY;
     private static final String PRC_PROJ_RESULTS = "PRC_PROJECTION_RESULTS";
-    public static final String SEPERATOR_FORMAT = "`$";
+    public static final String SEPERATOR_FORMAT = "`\\$";
     private final Map<String, String> discountNameMap = new HashMap<>();
     public static final String TOTAL1 = "Total";
     private List<Object> pivotDiscountList = new ArrayList<>();
@@ -1475,7 +1475,7 @@ public class PVExcelLogic {
                             selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), dataMap);
             dto.setGroup(groupName);
         }
-        if (groupName.contains(SEPERATOR_FORMAT)) {
+        if (groupName.contains("`$")) {
                 String[] tempArr = groupName.split(SEPERATOR_FORMAT);
                 dto.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
                 dto.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
