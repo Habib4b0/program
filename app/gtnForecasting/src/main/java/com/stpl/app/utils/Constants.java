@@ -1382,6 +1382,7 @@ public class Constants {
     public static final String PROGRAM = "Program";
     public static final String PROGRAM_CATEGORY = "Program Category";
      public static final String MONTH = "Monthly";
+     public static final String MULTIPLE = "Multiple";
      private static final String COMMERCIAL_FORECASTING_MULTIPLE_VARIABLES_HEADER = "COMMERCIAL_FORECASTING_MULTIPLE_VARIABLES_HEADER";
      private static final String COMMERCIAL_FORECASTING_MULTIPLE_VARIABLES_MESSAGE = "COMMERCIAL_FORECASTING_MULTIPLE_VARIABLES_MESSAGE";
 	

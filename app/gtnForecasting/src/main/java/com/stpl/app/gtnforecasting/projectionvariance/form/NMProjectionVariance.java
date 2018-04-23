@@ -46,6 +46,7 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
+import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.HeaderConstants.HEADER_LEVEL;
 import static com.stpl.app.utils.Constants.LabelConstants.*;
@@ -313,13 +314,13 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 customItem[i].setCheckAll(true);
             }
         }
-         if (!"edit".equals(session.getAction()) ) {
+         if (!"edit".equals(session.getAction()) || (!"view".equalsIgnoreCase(session.getAction()) )) {
         customMenuBar.addSubMenuCloseListener(customMenuBarListener);
         customMenuItem.getChildren().get(3).setChecked(true);
         customMenuItem.getChildren().get(5).setChecked(true);
         customMenuItem.getChildren().get(6).setChecked(true);
         customMenuItem.getChildren().get(9).setChecked(true);
-        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, "Multiple");
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, Constants.MULTIPLE);
         }
 
         String[] variableCategoryValues = Constant.PVVariableCategory.names();
@@ -821,7 +822,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         customMenuItem.getChildren().get(5).setChecked(true);
         customMenuItem.getChildren().get(6).setChecked(true);
         customMenuItem.getChildren().get(9).setChecked(true);
-        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, "Multiple");
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, Constants.MULTIPLE);
         
         variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryCustomMenuBarListener);
         variableCategoryCustomMenuItem.getChildren().get(0).setChecked(true);
@@ -2511,7 +2512,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             deductionInclusionCustomItem[i].setItemClickable(true);
             deductionInclusionCustomItem[i].setItemClickNotClosable(true);
         }
-           if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) ) {
+        deductionInclusionDdlb.addSubMenuCloseListener(deductionInclusionListener);
+           if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || (!ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()) )) {
         deductionInclusionDdlb.addSubMenuCloseListener(deductionInclusionListener);
         deductionInclusionValues.getChildren().get(0).setChecked(true);
          ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionInclusionDdlb, "Yes");
@@ -2560,7 +2562,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             salesInclusionCustomItem[i].setItemClickNotClosable(true);
 
         }
-           if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) ) {
+        salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
+           if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || (!ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()) )) {
         salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
         salesInclusionValues.getChildren().get(0).setChecked(true);
          ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, "Yes");

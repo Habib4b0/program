@@ -5491,7 +5491,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             deductionInclusionCustomItem[i].setItemClickNotClosable(true);
 
         }
-        if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) ) {
+        deductionInclusionDdlb.addSubMenuCloseListener(deductionInclusionListener);
+        if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || (!ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()) )) {
         deductionInclusionDdlb.addSubMenuCloseListener(deductionInclusionListener);
         deductionInclusionValues.getChildren().get(0).setChecked(true);
          ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionInclusionDdlb, "Yes");

@@ -57,15 +57,13 @@ public class DroolsProperties {
                 }
                 isPrinted = true;
             }
-            return properties;
         } catch (FileNotFoundException e) {
-            logger.error(e.getMessage());
+            logger.error(ERROR_READING_PROPERTY_FILE+e.getMessage());
             logger.error("Please check the forecasting_properties.properties file in following path :[" + path + "]");
-            throw new IllegalArgumentException(ERROR_READING_PROPERTY_FILE + e);
         } catch (IOException e) {
-            logger.error(e.getMessage());
-            throw new IllegalArgumentException(ERROR_READING_PROPERTY_FILE + e);
+            logger.error(ERROR_READING_PROPERTY_FILE+e.getMessage());
         }
+         return properties;
     }
 
     /**
@@ -101,15 +99,13 @@ public class DroolsProperties {
                 }
                 isPrinted = true;
             }
-            return cffProperties;
         } catch (FileNotFoundException e) {
-            logger.error(e.getMessage());
+            logger.error(ERROR_READING_PROPERTY_FILE+e.getMessage());
             logger.error("Please check the hierarchy_properties.properties file in following path :[" + path + "]");
-            throw new IllegalArgumentException(ERROR_READING_PROPERTY_FILE + e.getMessage());
         } catch (IOException e) {
-            logger.error(e.getMessage());
-            throw new IllegalArgumentException(ERROR_READING_PROPERTY_FILE + e.getMessage());
+            logger.error(ERROR_READING_PROPERTY_FILE+e.getMessage());
         }
+        return cffProperties;
     }
 
 }
