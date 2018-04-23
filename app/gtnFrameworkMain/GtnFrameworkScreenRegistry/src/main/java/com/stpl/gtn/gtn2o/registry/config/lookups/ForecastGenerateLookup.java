@@ -124,7 +124,7 @@ public class ForecastGenerateLookup {
 
 		List<GtnUIFrameworkTabConfig> tabList = new ArrayList<>();
 		tabList.add(dataSelection);
-		//tabList.add(dataAssumptions);
+		tabList.add(dataAssumptions);
 		tabList.add(salesProjection);
 		tabList.add(discountProjection);
 		tabList.add(projectionVariance);
