@@ -759,14 +759,18 @@ public class NMProjectionVarianceLogic {
                 ccps = getCCPIds(projSelDTO);
                 discountId = (D.equals(projSelDTO.getHierarchyIndicator()) && projSelDTO.getLevelNo() == NumericConstants.TEN) ? projSelDTO.getHierarchyNo() : getRSIds(projSelDTO);
             }
-            Object sIds = projSelDTO.getDeductionLevelFilter().isEmpty() ? null : PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter());
-            String levelName = projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDiscountLevel() : projSelDTO.getSelectedDeductionLevelName();
-            String salesInclusion=Constant.ALL.equalsIgnoreCase(projSelDTO.getSalesInclusion()) ? null : projSelDTO.getSalesInclusion();
-            Object[] orderedArg = {projectionId, frequency, discountId, Constant.VARIANCE_COLUMN, projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId(), Constant.STRING_ONE, levelName, ccps,salesInclusion , projSelDTO.getSession().getDeductionInclusion(), projSelDTO.getUomCode(), sIds};
-            discountsList = CommonLogic.callProcedure("PRC_PROJECTION_RESULTS_DISCOUNT", orderedArg);
+            discountsList = getParameters(projSelDTO, projectionId, frequency, discountId, ccps);
             pivotDiscountList.addAll(discountsList);
         }
         return Collections.unmodifiableList(pivotDiscountList);
+    }
+
+    public List<Object[]> getParameters(PVSelectionDTO projSelDTO, String projectionId, String frequency, String discountId, String ccps) {
+        Object sIds = projSelDTO.getDeductionLevelFilter().isEmpty() ? null : PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter());
+        String levelName = projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDiscountLevel() : projSelDTO.getSelectedDeductionLevelName();
+        String salesInclusion=Constant.ALL.equalsIgnoreCase(projSelDTO.getSalesInclusion()) ? null : projSelDTO.getSalesInclusion();
+        Object[] orderedArg = {projectionId, frequency, discountId, Constant.VARIANCE_COLUMN, projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId(), Constant.STRING_ONE, levelName, ccps,salesInclusion , projSelDTO.getSession().getDeductionInclusion(), projSelDTO.getUomCode(), sIds};
+        return CommonLogic.callProcedure("PRC_PROJECTION_RESULTS_DISCOUNT", orderedArg);
     }
 
     /**

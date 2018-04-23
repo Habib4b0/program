@@ -113,7 +113,7 @@ public class NmPpaProjectionMasterImpl {
                 sql.append(Double.valueOf(priceCap.toString()));
             } else if(priceCap instanceof String){
                 sql.append("GROUP=");
-                sql.append(priceCap.toString());
+                sql.append(priceCap);
             }
             sql.append("where NM_PPA_PROJECTION_SID \n");
              sql.append("in (\n"
