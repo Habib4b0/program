@@ -2289,7 +2289,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                     .equals(ANNUALLY.getConstant())
                                             && !exFactoryMethodologyCheck())) {
                                         NotificationUtils.getErrorNotification("Select complete annual period",
-                                                "The " + methodologyDdlb.getValue().toString() + " methodology requires"
+                                                "The " + methodologyDdlb.getValue() + " methodology requires"
                                                 + " a complete calendar year of periods to use as a baseline."
                                                 + "  Please select a complete calendar year of periods "
                                                 + "for each selected discount and try again.");
@@ -2474,7 +2474,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                             && !projectionSelection.getFrequency().equals(ANNUALLY.getConstant())
                                             && !rollingAnnualTrendCount()) {
                                         NotificationUtils.getErrorNotification("Select complete annual period",
-                                                "The " + methodologyDdlb.getValue().toString() + " methodology requires"
+                                                "The " + methodologyDdlb.getValue() + " methodology requires"
                                                 + " a complete calendar year of periods to use as a baseline."
                                                 + "  Please select a complete calendar year of periods "
                                                 + "for each selected discount and try again.");
@@ -3887,8 +3887,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         Map map = new HashMap();
         Collection c = (Collection) variables.getValue();
         List<String> l = new ArrayList();
-        for (Object s : c) {
-            l.add(String.valueOf(s));
+        if (c != null) {
+            for (Object s : c) {
+                l.add(String.valueOf(s));
+            }
         }
         projectionSelection.setdPVariablesList(l);
         try {
