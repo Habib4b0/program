@@ -24,11 +24,27 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 
 public class GtnUIFrameworkRSPopulateAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-	private static final Map<String, List<String>> popupIdViewMap = new HashMap<>();
-	private static final Map<String, String> propertyColumMap = new HashMap<>();
+	private static final Map<String, List<String>> POP_UP_ID_VIEW_MAP = new HashMap<>();
+	private static final Map<String, String> PROPERTY_COLUM_MAP = new HashMap<>();
 
 	static {
-		configurePopUp();
+		POP_UP_ID_VIEW_MAP.put("Deduction Calendar No",
+				Arrays.asList(GtnFrameworkCommonConstants.SYSTEM_ID, "deductionCalendarName", "deductionCalendarNo"));
+		POP_UP_ID_VIEW_MAP.put("Evaluation Rule", Arrays.asList(GtnFrameworkCommonConstants.SYSTEM_ID));
+		POP_UP_ID_VIEW_MAP.put("Calculation Rule", Arrays.asList(GtnFrameworkCommonConstants.SYSTEM_ID));
+		POP_UP_ID_VIEW_MAP.put("Net Sales Rule", Arrays.asList(GtnFrameworkCommonConstants.SYSTEM_ID));
+		POP_UP_ID_VIEW_MAP.put("Formula No",
+				Arrays.asList(GtnFrameworkCommonConstants.SYSTEM_ID, "formulaName", "formulaNo", "formulaType"));
+		POP_UP_ID_VIEW_MAP.put("Net Sales Formula", Arrays.asList(GtnFrameworkCommonConstants.SYSTEM_ID, "formulaName"));
+		POP_UP_ID_VIEW_MAP.put("Rebate Plan No",
+				Arrays.asList(GtnFrameworkCommonConstants.SYSTEM_ID, "secondaryRebatePlanName"));
+                
+                PROPERTY_COLUM_MAP.put("RS Status", "rsStatus");
+		PROPERTY_COLUM_MAP.put("Start Date", "rsStartDate");
+		PROPERTY_COLUM_MAP.put("End Date", "rsEndDate");
+		PROPERTY_COLUM_MAP.put("Evaluation Rule Bundle", "evaluationRuleBundle");
+		PROPERTY_COLUM_MAP.put("Calculation Rule Bundle", "calculationRuleBundle");
+		PROPERTY_COLUM_MAP.put("Bundle No", "rsBundleNo");
 
 	}
 
@@ -60,20 +76,20 @@ public class GtnUIFrameworkRSPopulateAction implements GtnUIFrameWorkAction, Gtn
 
 		if (component.getValueFromComponent() != null) {
 
-			if (popupIdViewMap.get(component.getCaptionFromComboBox()) != null) {
+			if (POP_UP_ID_VIEW_MAP.get(component.getCaptionFromComboBox()) != null) {
 
 				GtnWsRecordBean dto = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 						.getVaadinComponentData("massCustomTextField").getCustomData();
 				Map<String, String> valueMap = new HashMap<>();
 				checkAllUpdateBean.setPropertyValueMap(valueMap);
 				checkAllUpdateBean.setPropertyId(component.getCaptionFromComboBox());
-				for (int i = 0; i < popupIdViewMap.get(component.getCaptionFromComboBox()).size(); i++) {
+				for (int i = 0; i < POP_UP_ID_VIEW_MAP.get(component.getCaptionFromComboBox()).size(); i++) {
 					String newValue = getValueFromComboBox(dto, component, i);
-					valueMap.put(popupIdViewMap.get(component.getCaptionFromComboBox()).get(i), newValue);
+					valueMap.put(POP_UP_ID_VIEW_MAP.get(component.getCaptionFromComboBox()).get(i), newValue);
 				}
 
 			} else {
-				checkAllUpdateBean.setPropertyId(propertyColumMap.get(component.getCaptionFromComboBox()));
+				checkAllUpdateBean.setPropertyId(PROPERTY_COLUM_MAP.get(component.getCaptionFromComboBox()));
 
 				if (component.getCaptionFromComboBox().equals("Start Date")
 						|| component.getCaptionFromComboBox().equals("End Date")) {
@@ -105,33 +121,13 @@ public class GtnUIFrameworkRSPopulateAction implements GtnUIFrameWorkAction, Gtn
 		return this;
 	}
 
-	private static void configurePopUp() {
 
-		popupIdViewMap.put("Deduction Calendar No",
-				Arrays.asList(GtnFrameworkCommonConstants.SYSTEM_ID, "deductionCalendarName", "deductionCalendarNo"));
-		popupIdViewMap.put("Evaluation Rule", Arrays.asList(GtnFrameworkCommonConstants.SYSTEM_ID));
-		popupIdViewMap.put("Calculation Rule", Arrays.asList(GtnFrameworkCommonConstants.SYSTEM_ID));
-		popupIdViewMap.put("Net Sales Rule", Arrays.asList(GtnFrameworkCommonConstants.SYSTEM_ID));
-		popupIdViewMap.put("Formula No",
-				Arrays.asList(GtnFrameworkCommonConstants.SYSTEM_ID, "formulaName", "formulaNo", "formulaType"));
-		popupIdViewMap.put("Net Sales Formula", Arrays.asList(GtnFrameworkCommonConstants.SYSTEM_ID, "formulaName"));
-		popupIdViewMap.put("Rebate Plan No",
-				Arrays.asList(GtnFrameworkCommonConstants.SYSTEM_ID, "secondaryRebatePlanName"));
-
-		propertyColumMap.put("RS Status", "rsStatus");
-		propertyColumMap.put("Start Date", "rsStartDate");
-		propertyColumMap.put("End Date", "rsEndDate");
-		propertyColumMap.put("Evaluation Rule Bundle", "evaluationRuleBundle");
-		propertyColumMap.put("Calculation Rule Bundle", "calculationRuleBundle");
-		propertyColumMap.put("Bundle No", "rsBundleNo");
-
-	}
 
 	public String getValueFromComboBox(GtnWsRecordBean dto, GtnUIFrameworkBaseComponent component, int index)
 			throws GtnFrameworkValidationFailedException {
-		if (dto.getPropertyValue(popupIdViewMap.get(component.getCaptionFromComboBox()).get(index)) != null) {
+		if (dto.getPropertyValue(POP_UP_ID_VIEW_MAP.get(component.getCaptionFromComboBox()).get(index)) != null) {
 			return String
-					.valueOf(dto.getPropertyValue(popupIdViewMap.get(component.getCaptionFromComboBox()).get(index)));
+					.valueOf(dto.getPropertyValue(POP_UP_ID_VIEW_MAP.get(component.getCaptionFromComboBox()).get(index)));
 		} else {
 
 			return String.valueOf(dto.getPropertyValueByIndex(dto.getRecordHeader().size()));

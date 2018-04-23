@@ -208,7 +208,7 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 	}
 
 	public Map<String, Object> initializeMap(String propertyId) {
-		Map<String, Object> defaultDataMap = new HashMap<>();
+		Map<String, Object> defaultDataMap = new HashMap<>(30);
 		if (getPopupBeanType(propertyId).getViewName().equals(GtnFrameworkRSConstants.RS_NS_RULE_VIEW)) {
 			defaultDataMap.put("ruleType", getPopupBeanType(propertyId).getRuleTypeId());
 			defaultDataMap.put("ruleNo", GtnFrameworkCommonStringConstants.STRING_EMPTY);

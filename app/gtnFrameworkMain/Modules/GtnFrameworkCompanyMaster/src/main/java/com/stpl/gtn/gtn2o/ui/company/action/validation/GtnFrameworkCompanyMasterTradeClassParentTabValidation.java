@@ -8,7 +8,6 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnWsNumericConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
@@ -31,7 +30,7 @@ public class GtnFrameworkCompanyMasterTradeClassParentTabValidation
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		int position = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("tabSheet").getTabSheetSelectedTabIndex();
-		StringBuilder errorMessage = new StringBuilder(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		StringBuilder errorMessage = new StringBuilder();
 		char appender = ' ';
 		if (position == GtnWsNumericConstants.THREE) {
 			Integer tradeClass = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("tradeTabtradeClass")

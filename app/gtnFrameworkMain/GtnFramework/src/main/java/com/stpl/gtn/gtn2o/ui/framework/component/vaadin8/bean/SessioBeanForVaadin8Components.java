@@ -1,6 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.bean;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,8 +9,8 @@ public class SessioBeanForVaadin8Components {
 	protected static SessioBeanForVaadin8Components sessioBeanForVaadin8 = null;
 	private List<String> captionList;
 	private List valueList;
-	private LocalDate startDateForFilterGrid;
-	private LocalDate endDateForFilterGrid;
+	private LocalDateTime startDateForFilterGrid;
+	private LocalDateTime endDateForFilterGrid;
 	
 	private SessioBeanForVaadin8Components(){
 		
@@ -40,19 +40,19 @@ public class SessioBeanForVaadin8Components {
 		this.valueList = valueList == null ? valueList : Collections.unmodifiableList(valueList);
 	}
 
-	public LocalDate getEndDateForFilterGrid() {
+	public LocalDateTime getEndDateForFilterGrid() {
 		return endDateForFilterGrid;
 	}
 
-	public void setEndDateForFilterGrid(LocalDate endDateForFilterGrid) {
+	public void setEndDateForFilterGrid(LocalDateTime endDateForFilterGrid) {
 		this.endDateForFilterGrid = endDateForFilterGrid;
 	}
 	
-	public LocalDate getStartDateForFilterGrid() {
+	public LocalDateTime getStartDateForFilterGrid() {
 		return startDateForFilterGrid;
 	}
 
-	public void setStartDateForFilterGrid(LocalDate startDateForFilterGrid) {
+	public void setStartDateForFilterGrid(LocalDateTime startDateForFilterGrid) {
 		this.startDateForFilterGrid = startDateForFilterGrid;
 	}
 

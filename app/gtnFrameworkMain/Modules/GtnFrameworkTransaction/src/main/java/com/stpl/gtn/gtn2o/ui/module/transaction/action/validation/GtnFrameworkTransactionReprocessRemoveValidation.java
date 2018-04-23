@@ -87,7 +87,7 @@ public class GtnFrameworkTransactionReprocessRemoveValidation
 	}
 
 	private Map<String, String> getProcessName() {
-		Map<String, String> processNameMap = new HashMap<>();
+		Map<String, String> processNameMap = new HashMap<>(50);
 		processNameMap.put("Accrual Details", "ACCRUAL_INBOUND_INTERFACE");
 		processNameMap.put("Average Shelf Life", "AVERAGE_SHELF_LIFE_INTERFACE");
 		processNameMap.put("Contract Header", "CONTRACT_HEADER_INTERFACE");

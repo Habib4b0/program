@@ -56,7 +56,7 @@ public class GtnFrameworkCGrpRemoveAction
 			List<GtnCompanyGrpDataBean> beanList = new ArrayList<>();
 			for (GtnWsRecordBean GtnWsRecordBean : dtoSet) {
 				GtnCompanyGrpDataBean bean = new GtnCompanyGrpDataBean();
-				bean.setCompanyMasterSid(Integer.valueOf(GtnWsRecordBean.getPropertyValueByIndex(28) == null ? "0"
+				bean.setCompanyMasterSid(Integer.parseInt(GtnWsRecordBean.getPropertyValueByIndex(28) == null ? "0"
 						: GtnWsRecordBean.getPropertyValueByIndex(28).toString()));
 				beanList.add(bean);
 			}

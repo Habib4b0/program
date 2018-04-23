@@ -52,11 +52,13 @@ public class GtnUIFrameworkPagedGridLogic {
 	private GtnWsRecordTypeBean gtnWsRecordTypeBean = null;
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPagedGridLogic.class);
 	private Object extraParameter = null;
+	private GtnUIFrameworkPagedTableConfig tableConfig;
         GtnUIFrameworkPagedGridLogic(GtnUIFrameworkPagedTableConfig tableConfig, GtnUIFrameworkComponentConfig gridComponentConfig){
             recordHeader=Arrays.asList(tableConfig.getTableColumnMappingId());
             countUrl=tableConfig.getCountUrl();
             resultSetUrl=tableConfig.getResultSetUrl();
             componentConfig=gridComponentConfig;
+            this.tableConfig=tableConfig;
         }
 
 	public int getCount() {
@@ -188,7 +190,7 @@ public class GtnUIFrameworkPagedGridLogic {
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(componentConfig.getComponentId(), componentConfig.getSourceViewId());
 		tableBaseComponent.getComponentData().setDataTableRecordList(null);
-		resetAndInit();
+		tableBaseComponent.getComponentData().getPagedGrid().refreshGrid();
 	}
 
 	public void startSearchProcess(boolean isActive) {
@@ -196,7 +198,7 @@ public class GtnUIFrameworkPagedGridLogic {
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(componentConfig.getComponentId(), componentConfig.getSourceViewId());
 		tableBaseComponent.getComponentData().setDataTableRecordList(null);
-		resetAndInit();
+		tableBaseComponent.getComponentData().getPagedGrid().refreshGrid();
 	}
 
 //	public List<GtnWsRecordBean> generateExcel() {
@@ -219,18 +221,20 @@ public class GtnUIFrameworkPagedGridLogic {
 		addCurrentSearchCriteria(vaadinFieldValues, vaadinFieldDescriptionList);
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(componentConfig.getComponentId(), componentConfig.getSourceViewId());
-		tableBaseComponent.getComponentData().setDataTableRecordList(null);
-		resetAndInit();
+		tableBaseComponent.getComponentData().getPagedGrid().refreshGrid();
+//		resetAndInit();
 	}
 
-	private void resetAndInit() {
-//		resetFilter();
-//		super.clearAll();
-//		super.getFilters().clear();
-//		super.removeAllContainerFilters();
-//		super.setRequiredCount(true);
-//		super.setCurrentPage(1);
-	}
+//	private void resetAndInit() {
+//            
+//            
+////		resetFilter();
+////		super.clearAll();
+////		super.getFilters().clear();
+////		super.removeAllContainerFilters();
+////		super.setRequiredCount(true);
+////		super.setCurrentPage(1);
+//	}
 
 	public void addCurrentSearchCriteria(List<String> vaadinFieldValues, List<String> vaadinFieldDescriptionList)
 			throws GtnFrameworkValidationFailedException {
@@ -319,22 +323,23 @@ public class GtnUIFrameworkPagedGridLogic {
 				gtnWebServiceSearchCriteriaList.add(current);
 			}
 		}
-
-//		if (filterSet != null && !filterSet.isEmpty()) {
-//			for (Container.Filter filter : filterSet) {
-//				searchCriteria = new GtnWebServiceSearchCriteria();
-//				searchCriteria.setFilter(true);
+		gtnLogger.info("---------getSearchCriteriaList--------");
+		if (tableConfig.getFilterValueMap() != null && !tableConfig.getFilterValueMap().isEmpty()) {
+			for (String property : tableConfig.getFilterValueMap() .keySet()) {
+				gtnLogger.info("---------tableConfig.getFilterValueMap() --------"+property);
+				searchCriteria = new GtnWebServiceSearchCriteria();
+				searchCriteria.setFilter(true);
 //				if (filter instanceof SimpleStringFilter) {
-//					searchCriteria.setFieldId(((SimpleStringFilter) filter).getPropertyId().toString());
-//					searchCriteria.setFilterValue1(((SimpleStringFilter) filter).getFilterString());
-//					searchCriteria.setExpression("LIKE");
+					searchCriteria.setFieldId(property);
+					searchCriteria.setFilterValue1(String.valueOf(tableConfig.getFilterValueMap().get(property)));
+					searchCriteria.setExpression("LIKE");
 //				}
 //				setBetweenFilter(filter, searchCriteria);
 //				setCompareFilter(filter, searchCriteria);
 //				setAddFilter(filter, searchCriteria);
-//				gtnWebServiceSearchCriteriaList.add(searchCriteria);
-//			}
-//		}
+				gtnWebServiceSearchCriteriaList.add(searchCriteria);
+			}
+		}
 
 		return gtnWebServiceSearchCriteriaList;
 	}

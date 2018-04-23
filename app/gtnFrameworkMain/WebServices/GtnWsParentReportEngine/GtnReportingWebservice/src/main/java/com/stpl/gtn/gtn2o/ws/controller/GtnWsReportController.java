@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,36 +13,114 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
+import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.CustomerHierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsReportWebsevice;
 
 @RestController
+@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_SERVICE)
 public class GtnWsReportController {
+
+	public GtnWsReportController() {
+
+	}
+
+	
+	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportController.class);
+
 	@Autowired
-	private GtnQueryLogger queryLogger;
+	private GtnWsReportWebsevice gtnWsReportWebsevice;
+	@Autowired
+	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
 
-	@Autowired
-	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
-
-	public GtnQueryLogger getQueryLogger() {
-		return queryLogger;
+	public org.hibernate.SessionFactory getSessionFactory() {
+		return sessionFactory;
 	}
 
-	public void setQueryLogger(GtnQueryLogger queryLogger) {
-		this.queryLogger = queryLogger;
+	public void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 
-	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportController.class);
+	public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
+		return gtnSqlQueryEngine;
+	}
+
+	public void setGtnSqlQueryEngine(GtnFrameworkSqlQueryEngine gtnSqlQueryEngine) {
+		this.gtnSqlQueryEngine = gtnSqlQueryEngine;
+	}
+
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_CUSTOMERHIERARCHY_SEARCHSERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadHierarchyResults(@RequestBody GtnUIFrameworkWebserviceRequest request)
+			throws GtnFrameworkGeneralException {
+		List<Object[]> resultList;
+		GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
+		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
+
+                GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		if (gtnWsReportRequest != null) {
+			CustomerHierarchyLookupBean hierarchyBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
+			resultList = gtnWsReportWebsevice.loadHierarchyResults(hierarchyBean);
+		}else{
+			resultList = gtnWsReportWebsevice.loadHierarchyResults();
+		}
+		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+		dataTable.addData(resultList);
+		gtnSearchResponse.setResultSet(dataTable);
+		response.setGtnSerachResponse(gtnSearchResponse);
+		return response;
+	}
+
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_PRODUCTHIERARCHY_SEARCHSERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadProductHierarchyResults(
+			@RequestBody GtnUIFrameworkWebserviceRequest request) throws GtnFrameworkGeneralException {
+		List<Object[]> resultList;
+		GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
+		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		if (gtnWsReportRequest != null) {
+			CustomerHierarchyLookupBean hierarchyBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
+			resultList = gtnWsReportWebsevice.loadProductHierarchyResults(hierarchyBean);
+		}else{
+			resultList = gtnWsReportWebsevice.loadProductHierarchyResults();
+		}
+		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+		dataTable.addData(resultList);
+		gtnSearchResponse.setResultSet(dataTable);
+		response.setGtnSerachResponse(gtnSearchResponse);
+		return response;
+	}
+
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOADRELATIONSHIP_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadRelationshipValues(@RequestBody GtnUIFrameworkWebserviceRequest request)
+			throws GtnFrameworkGeneralException {
+		List<String> itemValuesList = new ArrayList<>();
+		List<String> itemCodeList = new ArrayList<>();
+		GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
+		CustomerHierarchyLookupBean lookupBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		List<Object[]> resultList = gtnWsReportWebsevice.loadRelationshipValues(lookupBean);
+		for (Object[] objects : resultList) {
+			itemCodeList.add(String.valueOf(objects[0]));
+			itemValuesList.add(String.valueOf(objects[1]));
+		}
+		response.setItemCodeList(itemCodeList);
+		response.setItemValueList(itemValuesList);
+		return response;
+	}
+
 
 	@RequestMapping(value = "/gtnWsReportComboboxLoad", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getComboBoxResultSet(
@@ -116,16 +196,22 @@ public class GtnWsReportController {
 		List<Object[]> resultList = null;
 		wsGeneralResponse.setSucess(true);
 		boolean count = gtnWsRequest.getGtnWsSearchRequest().isCount();
+		
+
 		try {
 			if (count) {
-
 				resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_COUNT_QUERY);
 				wsSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
-				gtnLogger.info("-------count" + wsSearchResponse.getCount());
 			}
 
 			else {
-				resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY);
+				String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY;
+
+				String filter = setFilterValueList(gtnWsRequest);
+
+				finalQuery = finalQuery.replace("@filter", filter);
+				resultList = executeQuery(finalQuery);
+				resultList = resultListCustomization(resultList);
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData(resultList);
 				wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
@@ -137,6 +223,63 @@ public class GtnWsReportController {
 		return wsResponse;
 	}
 
+	private String setFilterValueList(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		String filter = "";
+		Map<String, String> dbColumnIdMap = getDataBaseColumnIdName();
+		Map<String, String> dbColumnDataTypeMap = getDataBaseColumnDatatype();
+		List<GtnWebServiceSearchCriteria> searchCriteriaList = gtnWsRequest.getGtnWsSearchRequest()
+				.getGtnWebServiceSearchCriteriaList();
+		if (!searchCriteriaList.isEmpty()) {
+			for (GtnWebServiceSearchCriteria searchCriteria : searchCriteriaList) {
+				String filterId = dbColumnIdMap.get(searchCriteria.getFieldId());
+				String filterValue = searchCriteria.getFilterValue1();
+				String filterExpression = searchCriteria.getExpression();
+				filter = "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue + "%'";
+				if(dbColumnDataTypeMap.get(searchCriteria.getFieldId()).equals("Date")){
+				filter = "AND" + " (CONVERT(CHAR(10)," + filterId + "120) >=" + " " + "'" + filterValue + "'";
+				}
+			}
+		}
+		return filter;
+	}
+
+	private Map<String, String> getDataBaseColumnIdName() {
+		Map<String, String> dbColumnIdMap = new HashMap<>();
+		dbColumnIdMap.put("file", "FORECAST_NAME");
+		dbColumnIdMap.put("company", "company.COMPANY_NAME");
+		dbColumnIdMap.put("businessUnit", "businessunit.COMPANY_NAME");
+		dbColumnIdMap.put("type", "ht.DESCRIPTION");
+		dbColumnIdMap.put("version", "VERSION");
+		dbColumnIdMap.put("activeFrom", "ACTIVE_FROM");
+		dbColumnIdMap.put("fromPeriod", "FROM_PERIOD");
+		dbColumnIdMap.put("toPeriod", "TO_PERIOD");
+		return dbColumnIdMap;
+	}
+
+	private Map<String, String> getDataBaseColumnDatatype() {
+		Map<String, String> dbColumnDataTypeMap = new HashMap<>();
+		dbColumnDataTypeMap.put("file", "String");
+		dbColumnDataTypeMap.put("company", "String");
+		dbColumnDataTypeMap.put("businessUnit", "String");
+		dbColumnDataTypeMap.put("type", "String");
+		dbColumnDataTypeMap.put("version", "String");
+		dbColumnDataTypeMap.put("activeFrom", "Date");
+		dbColumnDataTypeMap.put("fromPeriod", "Date");
+		dbColumnDataTypeMap.put("toPeriod", "Date");
+		return dbColumnDataTypeMap;
+	}
+	
+	public List<Object[]> resultListCustomization(List<Object[]> resultList){
+		List<Object[]> customizedResultList = new ArrayList<>();
+		for(Object[] object:resultList){
+			Object[] obj=object;
+			for(int i=0;i<obj.length;i++){		
+				obj[i]=String.valueOf(obj[i]);
+			}
+			customizedResultList.add(object);
+		}
+		return customizedResultList;
+	}
 	@SuppressWarnings({ "rawtypes" })
 	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 		gtnSqlQueryEngine.setSessionFactory(sessionFactory);
