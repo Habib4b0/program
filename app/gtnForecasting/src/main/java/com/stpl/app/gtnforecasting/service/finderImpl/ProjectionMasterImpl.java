@@ -629,7 +629,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
         String sql1 = StringUtils.EMPTY;
         StringBuilder sqlBuilder = new StringBuilder();
         String sql = StringUtils.EMPTY;
-        String sql2 = StringUtils.EMPTY;
+        StringBuilder sql2Builder = new StringBuilder();
         try {
 
             sql = "select PROJECTION_DETAILS_SID from PROJECTION_DETAILS where PROJECTION_MASTER_SID = " + projectionID + " ";
@@ -656,29 +656,29 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             String pkTbName[] = primarykeyTableName.split(",");
 
             if (screenName.equals("Non Mandated") || screenName.equals("Mandated")) {
-                sql2 += "delete from WORKFLOW_PROCESS_INFO where PROJECTION_MASTER_SID=" + projectionID + "; ";
-                sql2 += "delete from WORKFLOW_MASTER where PROJECTION_MASTER_SID=" + projectionID + "; ";
+                sql2Builder.append("delete from WORKFLOW_PROCESS_INFO where PROJECTION_MASTER_SID=" ).append( projectionID ).append( "; ");
+                sql2Builder.append("delete from WORKFLOW_MASTER where PROJECTION_MASTER_SID=" ).append( projectionID ).append( "; ");
             }
 
             int size = pkTbName.length;
             for (int i = 0; i < size; i++) {
-                sql2 += "delete from ";
+                sql2Builder.append("delete from ");
                 if (pkTbName[i] != null && !StringUtils.EMPTY.equals(pkTbName[i]) && !ConstantsUtils.NULL.equals(pkTbName[i])) {
-                    sql2 += pkTbName[i];
+                    sql2Builder.append(pkTbName[i]);
                 }
                 if (projectionID != 0) {
-                    sql2 += " where PROJECTION_MASTER_SID=" + projectionID + ";";
+                    sql2Builder.append(" where PROJECTION_MASTER_SID=" ).append( projectionID ).append( ';');
                 }
             }
 
-            HelperTableLocalServiceUtil.executeUpdateQuery(sql2);
+            HelperTableLocalServiceUtil.executeUpdateQuery(sql2Builder.toString());
 
             return "Success";
         } catch (Exception ex) {
             LOGGER.error("In deleteProjection ->= {}" , ex.getMessage());
             LOGGER.error(sql);
             LOGGER.error(sql1);
-            LOGGER.error(sql2);
+            LOGGER.error(sql2Builder.toString());
             return "fail";
         }
     }
