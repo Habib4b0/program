@@ -18,6 +18,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.CustomerHierarchyLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
@@ -67,7 +68,7 @@ public class GtnWsReportController {
 		GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 
-                GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		if (gtnWsReportRequest != null) {
 			CustomerHierarchyLookupBean hierarchyBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
 			resultList = gtnWsReportWebsevice.loadHierarchyResults(hierarchyBean);

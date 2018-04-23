@@ -14,8 +14,10 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class GtnFrameworkReportCustHierarchyConfig {
@@ -138,23 +140,53 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				.getHorizontalLayoutConfig("customerSelectionRelationshipLayout", true, customerSelectionHierarchyRelationshipConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig customerSelectionRelationship = configProvider.getUIFrameworkComponentConfig(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"customerSelectionRelationship", true,
-				customerSelectionRelationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+				customerSelectionRelationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		customerSelectionRelationship.setComponentName("Relationship: ");
 
+                
 		GtnUIFrameworkComboBoxConfig customerSelectionRelationshipLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.COMPANY_MASTER_GLCOMP, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				GtnFrameworkReportStringConstants.PRODUCT_RELATIONSHIP, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		customerSelectionRelationship.setGtnComboboxConfig(customerSelectionRelationshipLoadConfig);
+		
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig relationshipValueChangeAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		relationshipValueChangeAction.addActionParameter(GtnRelationshipVersionLoadAction.class.getName());
+		relationshipValueChangeAction.addActionParameter(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship");
+		relationshipValueChangeAction.addActionParameter(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion");
+		actionConfigList.add(relationshipValueChangeAction);
+		customerSelectionRelationship.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		
+		GtnUIFrameworkComponentConfig customerSelectionRelationshipVersionLayout = configProvider
+				.getHorizontalLayoutConfig("customerSelectionRelationshipVersionLayout", true, customerSelectionHierarchyRelationshipConfig.getComponentId());
+//		customerSelectionRelationshipVersionLayout.setVisible(false);
+		componentList.add(customerSelectionRelationshipVersionLayout);
+		
+		GtnUIFrameworkComponentConfig customerRelationshipVersion = configProvider.getUIFrameworkComponentConfig(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion", true,
+				customerSelectionRelationshipVersionLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+		customerRelationshipVersion.setComponentName("CustomerRelationshipVersion");
+//		customerRelationshipVersion.setVisible(false);
+
+		GtnUIFrameworkComboBoxConfig customerRelationshipVersionConfig = configProvider.getComboBoxConfig(
+				GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION,
+				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		customerRelationshipVersion.setGtnComboboxConfig(customerRelationshipVersionConfig);
+		componentList.add(customerRelationshipVersion);
 
 		GtnUIFrameworkComponentConfig customerSelectionLevelLayout = configProvider.getHorizontalLayoutConfig("customerSelectionLevelLayout", true,
 				customerSelectionHierarchyRelationshipConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig customerSelectionLevel = configProvider.getUIFrameworkComponentConfig(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"customerSelectionLevel", true,
-				customerSelectionLevelLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+				customerSelectionLevelLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		customerSelectionLevel.setComponentName("Level: ");
 
 		GtnUIFrameworkComboBoxConfig customerSelectionLevelLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				GtnFrameworkReportStringConstants.PRODUCT_FORCAST_LEVEL, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		customerSelectionLevel.setGtnComboboxConfig(customerSelectionLevelLoadConfig);
 

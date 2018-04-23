@@ -52,6 +52,8 @@ public final class GtnFrameworkReportStringConstants {
 	
 	public static final String PRODUCT_RELATIONSHIP = "ProductRelationship";
 	
+	public static final String RELATIONSHIP_VERSION = "RelationshipVersion";
+	
 	public static final String PRIVATE_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT = "privateViewSearchLookupSearchAndResetLayout";
 	
 	public static final String REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT = "reportProductHierarchyLookUpSearchCriteriaLayout";

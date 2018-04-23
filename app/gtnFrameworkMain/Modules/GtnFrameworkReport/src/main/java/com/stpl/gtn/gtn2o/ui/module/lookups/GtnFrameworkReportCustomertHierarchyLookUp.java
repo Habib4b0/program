@@ -307,16 +307,10 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		customerHierarchyPagedTableConfig.setTableColumnMappingId(
 				GtnFrameworkReportStringConstants.getReportCustomerHierarchyTableColumnsMappingId());
 
-		customerHierarchyPagedTableConfig.setCountUrl("/gtnReport/lookUp/getCustomerHierarchyLookUp");
+		customerHierarchyPagedTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
+				+ GtnWsReportConstants.GTN_REPORT_CUSTOMERHIERARCHY_SEARCHSERVICE);
 		customerHierarchyPagedTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_CUSTOMERHIERARCHY_SEARCHSERVICE);
-
-		/*Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-		filterConfig.setPropertId("custHierarchyLookupHierName");
-		filterConfig.setGtnComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
-		customFilterConfigMap.put(filterConfig.getPropertId(), filterConfig);
-		customerHierarchyPagedTableConfig.setCustomFilterConfigMap(customFilterConfigMap);*/
 
 		customerHierarchyPagedTableComponent.setGtnPagedTableConfig(customerHierarchyPagedTableConfig);
 	}
@@ -361,13 +355,6 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		actionParameter.add(Arrays.asList("reportLandingScreen_customerHierarchy"));
 		reportCustomerHierarchySelectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(reportCustomerHierarchySelectAction);
-
-		/*GtnUIFrameWorkActionConfig reportCustomerHierarchyRecordSelectAction = new GtnUIFrameWorkActionConfig();
-		reportCustomerHierarchyRecordSelectAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		reportCustomerHierarchyRecordSelectAction.addActionParameter(GtnCustomerHierarchyRecordSelectAction.class.getName());
-		reportCustomerHierarchyRecordSelectAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE);
-		actionConfigList.add(reportCustomerHierarchyRecordSelectAction);*/
 		
 		GtnUIFrameWorkActionConfig reportCustomHierarchyClosepopup = new GtnUIFrameWorkActionConfig();
 		reportCustomHierarchyClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
