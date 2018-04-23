@@ -293,7 +293,7 @@ public class NMPVExcelLogic {
                 Object[] obj = it.next();
                 String key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
                 key = key.substring(key.indexOf('-') + 1);
-                String discountName = obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX].toString();
+                String discountName = obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[obj.length - 1].toString().concat(obj[BASECOLUMN_DISC_INDEX].toString());
                 if (hierarchyKey.add(key)) {
                     listIndex = 0;
                     discountMap.clear();
