@@ -458,21 +458,22 @@ public class GtnWsReturnForecastDataSelectionController {
 		try {
 
 			GtnForecastBean gtnForecastBeanInfo = getPublicPrivateInfoDetails(gtnForecastBean);
+			GtnForecastBean gtnForecastBeanInfoGetters = getPublicPrivateInfoDetails(gtnForecastBean);
 			if (gtnForecastBeanInfo != null) {
-				gtnForecastBeanInfo.setCompanyId(gtnForecastBeanInfo.getCompanyId());
-				gtnForecastBeanInfo.setBusinessUnitId(gtnForecastBeanInfo.getBusinessUnitId());
-				gtnForecastBeanInfo.setProjectionName(gtnForecastBeanInfo.getProjectionName());
-				gtnForecastBeanInfo.setProjectionDescription(gtnForecastBeanInfo.getProjectionDescription());
-				gtnForecastBeanInfo.setFromPeriod(gtnForecastBeanInfo.getFromPeriod());
-				gtnForecastBeanInfo.setToPeriod(gtnForecastBeanInfo.getToPeriod());
-				gtnForecastBeanInfo.setProductHirerachy(gtnForecastBeanInfo.getProductHirerachy());
-				gtnForecastBeanInfo.setProductRelationship(gtnForecastBeanInfo.getProductRelationship());
-				gtnForecastBeanInfo.setProductForecastLevel(gtnForecastBeanInfo.getProductForecastLevel());
-				gtnForecastBeanInfo.setProductGroup(gtnForecastBeanInfo.getProductGroup());
-				gtnForecastBeanInfo.setProductInnerLevel(gtnForecastBeanInfo.getProductInnerLevel());
-				gtnForecastBeanInfo.setViewName(gtnForecastBeanInfo.getViewName());
-				gtnForecastBeanInfo.setViewCreatedBy(gtnForecastBeanInfo.getViewCreatedBy());
-				gtnForecastBeanInfo.setProjectionMasterSid(gtnForecastBeanInfo.getProjectionMasterSid());
+				gtnForecastBeanInfo.setCompanyId(gtnForecastBeanInfoGetters.getCompanyId());
+				gtnForecastBeanInfo.setBusinessUnitId(gtnForecastBeanInfoGetters.getBusinessUnitId());
+				gtnForecastBeanInfo.setProjectionName(gtnForecastBeanInfoGetters.getProjectionName());
+				gtnForecastBeanInfo.setProjectionDescription(gtnForecastBeanInfoGetters.getProjectionDescription());
+				gtnForecastBeanInfo.setFromPeriod(gtnForecastBeanInfoGetters.getFromPeriod());
+				gtnForecastBeanInfo.setToPeriod(gtnForecastBeanInfoGetters.getToPeriod());
+				gtnForecastBeanInfo.setProductHirerachy(gtnForecastBeanInfoGetters.getProductHirerachy());
+				gtnForecastBeanInfo.setProductRelationship(gtnForecastBeanInfoGetters.getProductRelationship());
+				gtnForecastBeanInfo.setProductForecastLevel(gtnForecastBeanInfoGetters.getProductForecastLevel());
+				gtnForecastBeanInfo.setProductGroup(gtnForecastBeanInfoGetters.getProductGroup());
+				gtnForecastBeanInfo.setProductInnerLevel(gtnForecastBeanInfoGetters.getProductInnerLevel());
+				gtnForecastBeanInfo.setViewName(gtnForecastBeanInfoGetters.getViewName());
+				gtnForecastBeanInfo.setViewCreatedBy(gtnForecastBeanInfoGetters.getViewCreatedBy());
+				gtnForecastBeanInfo.setProjectionMasterSid(gtnForecastBeanInfoGetters.getProjectionMasterSid());
 			}
 			gtnWsForecastResponse.setGtnForecastBean(gtnForecastBeanInfo);
 			generalWSResponse.setSucess(true);

@@ -328,8 +328,8 @@ public class GtnFrameworkRebateScheduleAddConfig {
 
 	public List<Object> getResetFieldValueList() {
 		List<Object> defaultFieldValueList = new ArrayList<>();
-		List<String> resetComponentIdListTemp = new ArrayList<>();
-		List<Object> resetComponentValueListTemp = new ArrayList<>();
+		List<String> resetComponentIdListTemp = new ArrayList<>(50);
+		List<Object> resetComponentValueListTemp = new ArrayList<>(50);
 
 		resetComponentIdListTemp.add("RSMassCheck");
 		resetComponentIdListTemp.add("RSRebateSetupMassCheck");

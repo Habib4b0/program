@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,11 +15,11 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Object nodeData;
+	private transient Object nodeData;
 
 	private List<GtnWsReportEngineTreeNode> children;
 
-	private GtnWsReportEngineTreeNode parent;
+	private transient GtnWsReportEngineTreeNode parent;
 
 	private int levelNumber;
 
@@ -167,6 +169,14 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 		this.indicator = indicator;
 	}
 
+	public void setCcpIds(Set<Integer> ccpIds) {
+		this.ccpIds = ccpIds;
+	}
+
+	public void setRsIds(Set<Integer> rsIds) {
+		this.rsIds = rsIds;
+	}
+
 	@Override
 	public int hashCode() {
 		int hash = 7;
@@ -192,4 +202,12 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 				+ levelValue + " ccp ids = " + ccpIds + " RS = " + rsIds + "}";
 	}
 
+	private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
+		s.defaultWriteObject();
+	}
+
+	// Dont delete. this Method is called during Serialization
+	private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+		ois.defaultReadObject();
+	}
 }

@@ -10,7 +10,7 @@ import java.util.List;
 public class GtnSmallHashMap {
 
 	private final List<GtnPairsBean> listPair;
-
+        
 	public GtnSmallHashMap() {
 		this.listPair = new ArrayList<>();
 	}
@@ -44,7 +44,8 @@ public class GtnSmallHashMap {
 			if (pair == null) {
 				listPair.add(pair);
 			} else {
-				pair.setValue(pair.getValue());
+                            Object value = pair.getValue();
+                            pair.setValue(value);
 			}
 		}
 	}

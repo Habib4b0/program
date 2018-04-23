@@ -724,17 +724,17 @@ public class PPAProjectionLogic {
         filterCriteria.put(Constant.DEDUCTION_SUB_TYPE, "DEDUCTION_SUB_TYPE");
         filterCriteria.put(Constant.DEDUCTION_CATEGORY, "DEDUCTION_CATEGORY");
         filterCriteria.put(Constant.INDICATOR, "INDICATOR");
-        String stringBuilder = StringUtils.EMPTY;
+        StringBuilder queryStringBuilder = new StringBuilder();
         if (filterSet != null) {
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
-                    stringBuilder += " AND " + filterCriteria.get(stringFilter.getPropertyId().toString()) + " LIKE '%" + stringFilter.getFilterString() + "%'";
+                    queryStringBuilder.append(" AND " ).append( filterCriteria.get(stringFilter.getPropertyId().toString()) ).append( " LIKE '%" ).append( stringFilter.getFilterString() ).append( "%'");
 
                 }
             }
         }
-        return stringBuilder;
+        return queryStringBuilder.toString();
     }
 
     public Object loadDetailsTable(int forectastingFormulaSid, final int start, final int offset, final boolean isCount, final Set<Container.Filter> filterSet) {

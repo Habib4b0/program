@@ -1359,7 +1359,9 @@ public class CommonUtils {
         return System.getProperty(BUSINESS_PROCESS).equals(BP_NAME);
     }
     
-    public static String getDisplayFormattedName(String hierarchyNumber, String indicator, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndex) {
+    public static String getDisplayFormattedName(String hierarchyNumber, String indicator, Map<String, List> relationshipDetails, SessionDTO session, Map<Object,Object> dataMap) {
+        Object[] displayFormatIndex=(Object[])dataMap.get("format");
+        boolean isExcel=(boolean)dataMap.get("isExcel");
         StringBuilder formattedName = new StringBuilder();
         try {
             List<Object> relationshipValues = relationshipDetails.get(hierarchyNumber);
@@ -1367,7 +1369,7 @@ public class CommonUtils {
                 List<Object> levelName = (List<Object>) relationshipValues.get(NumericConstants.FIVE);
                 if (displayFormatIndex.length > 0 && !containsAllNull(levelName)) {
                     for (int i = 0; i < displayFormatIndex.length; i++) {
-                        formattedName.append(setLevelNameValues(i, levelName, displayFormatIndex));
+                        formattedName.append(setLevelNameValues(i, levelName, displayFormatIndex,isExcel));
                     }
                     if (displayFormatIndex.length == 1 && StringUtils.isBlank(formattedName.toString())) {
                         return String.valueOf(levelName.get(NumericConstants.ZERO));
@@ -1393,13 +1395,13 @@ public class CommonUtils {
         return StringUtils.isBlank(objValue) || Constants.NULL.equals(objValue);
     }
     
-    private static String setLevelNameValues(int index, List<Object> levelName, Object[] displayFormatIndex) {
+    private static String setLevelNameValues(int index, List<Object> levelName, Object[] displayFormatIndex,boolean isExcel) {
         String formattedName = StringUtils.EMPTY;
         int indexFrom = (int) displayFormatIndex[index];
         Object value = levelName.get(indexFrom + 1);
         if (!getLevelName(value)) {
             if (index != 0) {
-                formattedName += " - ";
+                formattedName = isExcel ? formattedName + " `$ " : formattedName + " - ";
             }
             formattedName += value;
         }

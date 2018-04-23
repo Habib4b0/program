@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.stpl.gtn.gtn2o.ws.report.engine</groupId>
 		<artifactId>GtnWsParentReportEngine</artifactId>
-		<version>1</version>
+		<version>1.0</version>
 	</parent>
 	<dependencies>
 		<dependency>
@@ -17,8 +17,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>sqljdbc4</artifactId>
-			<version>4.0</version>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>6.4.0.jre7</version>
 		</dependency>
 	</dependencies>
 	<name>GtnWsReportEngineHibernate</name>

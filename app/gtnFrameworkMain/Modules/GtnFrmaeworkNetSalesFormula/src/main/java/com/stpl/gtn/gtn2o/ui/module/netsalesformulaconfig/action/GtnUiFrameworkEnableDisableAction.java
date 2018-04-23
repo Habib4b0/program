@@ -44,7 +44,7 @@ public class GtnUiFrameworkEnableDisableAction implements GtnUIFrameWorkAction, 
 		String viewId = (String) actionParemeterList.get(1);
 		boolean isEnable = (Boolean) actionParemeterList.get(2);
 		boolean isAdd = (Boolean) actionParemeterList.get(3);
-		List<String> componentIds = new ArrayList<>();
+		List<String> componentIds = new ArrayList<>(50);
 		componentIds.add(viewId + "formulaInformationPanel");
 		componentIds.add(viewId + "saveButtonLayout");
 		componentIds.add(viewId + "salesBasisSearchButton");

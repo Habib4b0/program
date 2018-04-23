@@ -206,13 +206,13 @@ public class GtnUIFrameworkTreeItemClickAction implements GtnUIFrameWorkAction, 
 						.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal()));
 				boolean isNodeVisited = (boolean) gtnWsRecordBean
 						.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.IS_NODE_VISITED.ordinal());
-				if (!isNodeVisited
+				if ( gtnWsRecordBean.getChildList() != null
+						&& !gtnWsRecordBean.getChildList().isEmpty() && !isNodeVisited
 						&& gtnWsRecordBean
 								.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.HIDDEN_ID.ordinal())
 								.equals(bean.getStringPropertyByIndex(
 										GtnWsRelationshipBuilderKeyConstant.HIDDEN_ID.ordinal()))
-						&& currentChildLevelNo == originalEndLeveNo && gtnWsRecordBean.getChildList() != null
-						&& !gtnWsRecordBean.getChildList().isEmpty()) {
+						&& currentChildLevelNo == originalEndLeveNo) {
 					GtnWsRecordBean.addProperties(GtnWsRelationshipBuilderKeyConstant.IS_NODE_VISITED.ordinal(), Boolean.TRUE,
 							gtnWsRecordBean.getProperties());
 					returnList.addAll(gtnWsRecordBean.getChildList());

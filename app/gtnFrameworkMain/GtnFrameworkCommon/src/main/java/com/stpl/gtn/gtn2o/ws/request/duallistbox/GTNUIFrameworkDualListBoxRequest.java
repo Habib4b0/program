@@ -97,12 +97,12 @@ public class GTNUIFrameworkDualListBoxRequest implements GtnWSRequestData {
 	public void setDualListBoxRecord(GtnWsRecordBean dualListBoxRecord) {
 		this.dualListBoxRecord = dualListBoxRecord;
 	}
-
-	private void writeObject(ObjectOutputStream stream) throws IOException {
+        private void writeObject(ObjectOutputStream stream) throws IOException {
 		stream.defaultWriteObject();
 	}
 
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
 		stream.defaultReadObject();
 	}
+
 }

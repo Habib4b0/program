@@ -39,7 +39,7 @@ public class GtnWsCallEtlService {
 				return;
 			}
 			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			StringBuilder urlString = new StringBuilder("");
+			StringBuilder urlString = new StringBuilder();
 			String current;
 
 			while ((current = in.readLine()) != null) {
