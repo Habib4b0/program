@@ -317,7 +317,7 @@ public class PagedGrid {
 			} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
 				Button dateFilterPopupButton = new Button("Show all");
 				dateFilterPopupButton.setWidth("400px");
-				DateFilterPopup dateFilterpopup = new DateFilterPopup(dateFilterPopupButton);
+				DateFilterPopup dateFilterpopup = new DateFilterPopup(dateFilterPopupButton,tableConfig,property,componentConfig);
 				Window window = dateFilterpopup.getDateFilterPopup();				
 				dateFilterPopupButton.addClickListener(new Button.ClickListener() {
 					@Override

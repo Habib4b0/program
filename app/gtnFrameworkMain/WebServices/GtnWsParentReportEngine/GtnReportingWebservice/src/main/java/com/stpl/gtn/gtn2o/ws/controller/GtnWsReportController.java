@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
+import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.CustomerHierarchyLookupBean;
@@ -196,16 +198,21 @@ public class GtnWsReportController {
 		wsGeneralResponse.setSucess(true);
 		boolean count = gtnWsRequest.getGtnWsSearchRequest().isCount();
 		
+
 		try {
 			if (count) {
 				resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_COUNT_QUERY);
 				wsSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
-				gtnLogger.info("-------count" + wsSearchResponse.getCount());
 			}
 
 			else {
-				resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY);
-				resultList=resultListCustomization(resultList);
+				String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY;
+
+				String filter = setFilterValueList(gtnWsRequest);
+
+				finalQuery = finalQuery.replace("@filter", filter);
+				resultList = executeQuery(finalQuery);
+				resultList = resultListCustomization(resultList);
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData(resultList);
 				wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
@@ -215,6 +222,52 @@ public class GtnWsReportController {
 		}
 		wsResponse.setGtnSerachResponse(wsSearchResponse);
 		return wsResponse;
+	}
+
+	private String setFilterValueList(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		String filter = "";
+		Map<String, String> dbColumnIdMap = getDataBaseColumnIdName();
+		Map<String, String> dbColumnDataTypeMap = getDataBaseColumnDatatype();
+		List<GtnWebServiceSearchCriteria> searchCriteriaList = gtnWsRequest.getGtnWsSearchRequest()
+				.getGtnWebServiceSearchCriteriaList();
+		if (!searchCriteriaList.isEmpty()) {
+			for (GtnWebServiceSearchCriteria searchCriteria : searchCriteriaList) {
+				String filterId = dbColumnIdMap.get(searchCriteria.getFieldId());
+				String filterValue = searchCriteria.getFilterValue1();
+				String filterExpression = searchCriteria.getExpression();
+				filter = "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue + "%'";
+				if(dbColumnDataTypeMap.get(searchCriteria.getFieldId()).equals("Date")){
+				filter = "AND" + " (CONVERT(CHAR(10)," + filterId + "120) >=" + " " + "'" + filterValue + "'";
+				}
+			}
+		}
+		return filter;
+	}
+
+	private Map<String, String> getDataBaseColumnIdName() {
+		Map<String, String> dbColumnIdMap = new HashMap<>();
+		dbColumnIdMap.put("file", "FORECAST_NAME");
+		dbColumnIdMap.put("company", "company.COMPANY_NAME");
+		dbColumnIdMap.put("businessUnit", "businessunit.COMPANY_NAME");
+		dbColumnIdMap.put("type", "ht.DESCRIPTION");
+		dbColumnIdMap.put("version", "VERSION");
+		dbColumnIdMap.put("activeFrom", "ACTIVE_FROM");
+		dbColumnIdMap.put("fromPeriod", "FROM_PERIOD");
+		dbColumnIdMap.put("toPeriod", "TO_PERIOD");
+		return dbColumnIdMap;
+	}
+
+	private Map<String, String> getDataBaseColumnDatatype() {
+		Map<String, String> dbColumnDataTypeMap = new HashMap<>();
+		dbColumnDataTypeMap.put("file", "String");
+		dbColumnDataTypeMap.put("company", "String");
+		dbColumnDataTypeMap.put("businessUnit", "String");
+		dbColumnDataTypeMap.put("type", "String");
+		dbColumnDataTypeMap.put("version", "String");
+		dbColumnDataTypeMap.put("activeFrom", "Date");
+		dbColumnDataTypeMap.put("fromPeriod", "Date");
+		dbColumnDataTypeMap.put("toPeriod", "Date");
+		return dbColumnDataTypeMap;
 	}
 	
 	public List<Object[]> resultListCustomization(List<Object[]> resultList){

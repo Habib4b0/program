@@ -1,15 +1,17 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Locale;
 
+import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.bean.SessioBeanForVaadin8Components;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.data.HasValue.ValueChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.InlineDateField;
+import com.vaadin.ui.InlineDateTimeField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -19,9 +21,14 @@ public class DateFilterPopup {
 	SessioBeanForVaadin8Components sessioBeanForVaadin8Components = SessioBeanForVaadin8Components.getInstance();
 
 	private Button buttonFromGrid;
-
-	public DateFilterPopup(Button button) {
+	private GtnUIFrameworkPagedTableConfig tableConfig;
+	private String property;
+	GtnUIFrameworkComponentConfig componentConfig;
+	public DateFilterPopup(Button button,GtnUIFrameworkPagedTableConfig tableConfig,String property, GtnUIFrameworkComponentConfig componentConfig) {
 		this.buttonFromGrid = button;
+		this.tableConfig=tableConfig;
+		this.property=property;
+		this.componentConfig=componentConfig;
 	}
 
 	public Window getDateFilterPopup() {
@@ -32,8 +39,8 @@ public class DateFilterPopup {
 		HorizontalLayout horizontalLayoutForButton = new HorizontalLayout();
 		horizontalLayout.setMargin(true);
 
-		InlineDateField inlineDateFieldStartDate = getDateField("Start date:", "inlineDateFieldStartDate");
-		InlineDateField inlineDateFieldEndDate = getDateField("End date:", "inlineDateFieldEndDate");
+		InlineDateTimeField inlineDateFieldStartDate = getDateField("Start date:", "inlineDateFieldStartDate");
+		InlineDateTimeField inlineDateFieldEndDate = getDateField("End date:", "inlineDateFieldEndDate");
 
 		Button setButton = getButton("Set", "setButton", window);
 		Button clearButton = getButton("Clear", "clearButton", window);
@@ -42,18 +49,17 @@ public class DateFilterPopup {
 		horizontalLayoutForButton.addComponents(setButton, clearButton);
 		verticalLayout.addComponents(horizontalLayout, horizontalLayoutForButton);
 
-		
 		window.setContent(verticalLayout);
 		window.setResizable(false);
 		window.setClosable(false);
 		return window;
 	}
 
-	private void addValueChangeListenerForDate(InlineDateField inlineDateField) {
-		inlineDateField.addValueChangeListener(new ValueChangeListener<LocalDate>() {
+	private void addValueChangeListenerForDate(InlineDateTimeField inlineDateField) {
+		inlineDateField.addValueChangeListener(new ValueChangeListener<LocalDateTime>() {
 
 			@Override
-			public void valueChange(ValueChangeEvent<LocalDate> event) {
+			public void valueChange(ValueChangeEvent<LocalDateTime> event) {
 				if (inlineDateField.getId().equals("inlineDateFieldStartDate")) {
 					sessioBeanForVaadin8Components.setStartDateForFilterGrid(event.getValue());
 				} else {
@@ -81,6 +87,10 @@ public class DateFilterPopup {
 						endDate = (String.valueOf(sessioBeanForVaadin8Components.getEndDateForFilterGrid()));
 
 						buttonFromGrid.setCaption(startDate + "-" + endDate);
+
+						tableConfig.getFilterValueMap().put(property,startDate + "-" + endDate);
+						PagedGrid pagedGrid = new PagedGrid(tableConfig,componentConfig);
+						pagedGrid.refreshGrid();
 						return;
 					}
 					if (!String.valueOf(sessioBeanForVaadin8Components.getStartDateForFilterGrid()).isEmpty() && !String
@@ -101,10 +111,10 @@ public class DateFilterPopup {
 		});
 	}
 
-	private InlineDateField getDateField(String caption, String id) {
-		InlineDateField inlineDateField = new InlineDateField(caption);
+	private InlineDateTimeField getDateField(String caption, String id) {
+		InlineDateTimeField inlineDateField = new InlineDateTimeField(caption);
 		inlineDateField.setId(id);
-		inlineDateField.setValue(LocalDate.now());
+		inlineDateField.setValue(LocalDateTime.now());
 		inlineDateField.setLocale(Locale.US);
 		addValueChangeListenerForDate(inlineDateField);
 		return inlineDateField;
