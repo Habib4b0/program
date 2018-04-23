@@ -27,24 +27,24 @@ public class RsContractDetailsImpl {
      */
     public static Boolean saveRsDetailsAttached(final List<Object> input, final Object future){
         boolean retFlag;
-        String sql = StringUtils.EMPTY;
+        String sqlSaveRsDetailsAttached = StringUtils.EMPTY;
         try {
-            sql = SQlUtil.getQuery("com.contractDashboard.saveRS");
-            sql=sql.replaceFirst("[?]", input.get(0).toString());
-            sql=sql.replaceFirst("[?]", input.get(1).toString());
-            sql=sql.replaceFirst("[?]", input.get(2).toString());
-            sql=sql.replaceFirst("[?]", input.get(3).toString());
-            sql=sql.replaceFirst("[?]", input.get(4).toString());
-            sql=sql.replaceFirst("[?]", input.get(5).toString());
-            sql=sql.replace("@RS_START_DATE","'"+input.get(6).toString()+"'");
-            sql=sql.replace("@RS_END_DATE",String.valueOf(input.get(7)).equals("null") ? "NULL" : "'"+input.get(7).toString()+"'");
-            sql=sql.replace("@ATTACHDATE", input.get(8).toString());
-            HelperTableLocalServiceUtil.executeUpdateQuery(sql);
+            sqlSaveRsDetailsAttached = SQlUtil.getQuery("com.contractDashboard.saveRS");
+            sqlSaveRsDetailsAttached=sqlSaveRsDetailsAttached.replaceFirst("[?]", input.get(0).toString());
+            sqlSaveRsDetailsAttached=sqlSaveRsDetailsAttached.replaceFirst("[?]", input.get(1).toString());
+            sqlSaveRsDetailsAttached=sqlSaveRsDetailsAttached.replaceFirst("[?]", input.get(2).toString());
+            sqlSaveRsDetailsAttached=sqlSaveRsDetailsAttached.replaceFirst("[?]", input.get(3).toString());
+            sqlSaveRsDetailsAttached=sqlSaveRsDetailsAttached.replaceFirst("[?]", input.get(4).toString());
+            sqlSaveRsDetailsAttached=sqlSaveRsDetailsAttached.replaceFirst("[?]", input.get(5).toString());
+            sqlSaveRsDetailsAttached=sqlSaveRsDetailsAttached.replace("@RS_START_DATE","'"+input.get(6)+"'");
+            sqlSaveRsDetailsAttached=sqlSaveRsDetailsAttached.replace("@RS_END_DATE",String.valueOf(input.get(7)).equals("null") ? "NULL" : "'"+input.get(7)+"'");
+            sqlSaveRsDetailsAttached=sqlSaveRsDetailsAttached.replace("@ATTACHDATE", input.get(8).toString());
+            HelperTableLocalServiceUtil.executeUpdateQuery(sqlSaveRsDetailsAttached);
             retFlag = true;
         } catch (Exception e) {
             retFlag = false;
             LOGGER.error(e.getMessage());
-            LOGGER.error(sql);
+            LOGGER.error(sqlSaveRsDetailsAttached);
         }
         return retFlag;
 

@@ -31,25 +31,25 @@ public class IfpContractDetailsImpl {
      */
     public static Boolean saveIfpDetailsAttached(final List<Object> input, final Object future){
         boolean retFlag;
-        String sql = StringUtils.EMPTY;
+        String sqlSaveIfpDetailsAttached = StringUtils.EMPTY;
         try {
-            sql = SQlUtil.getQuery("com.contractDashboard.saveIFP");
-            sql=sql.replaceFirst("[?]", input.get(0).toString());
-            sql=sql.replaceFirst("[?]", input.get(1).toString());
-            sql=sql.replaceFirst("[?]", input.get(2).toString());
-            sql=sql.replaceFirst("[?]", input.get(3).toString());
-            sql=sql.replaceFirst("[?]", input.get(4).toString());
-            sql=sql.replaceFirst("[?]", input.get(5).toString());
-            sql=sql.replace("@IFP_START_DATE","'"+input.get(6).toString()+"'");
-            sql=sql.replace("@IFP_END_DATE",String.valueOf(input.get(7)).equals("null") ? "NULL" : "'"+input.get(7).toString()+"'");
-            sql=sql.replace("@ATTACHDATE",input.get(8).toString());
-            HelperTableLocalServiceUtil.executeUpdateQuery(sql);
+            sqlSaveIfpDetailsAttached = SQlUtil.getQuery("com.contractDashboard.saveIFP");
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replaceFirst("[?]", input.get(0).toString());
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replaceFirst("[?]", input.get(1).toString());
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replaceFirst("[?]", input.get(2).toString());
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replaceFirst("[?]", input.get(3).toString());
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replaceFirst("[?]", input.get(4).toString());
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replaceFirst("[?]", input.get(5).toString());
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replace("@IFP_START_DATE","'"+input.get(6)+"'");
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replace("@IFP_END_DATE",String.valueOf(input.get(7)).equals("null") ? "NULL" : "'"+input.get(7)+"'");
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replace("@ATTACHDATE",input.get(8).toString());
+            HelperTableLocalServiceUtil.executeUpdateQuery(sqlSaveIfpDetailsAttached);
             retFlag = true;
 
         } catch (Exception e) {
             retFlag = false;
             LOGGER.error(e.getMessage());
-            LOGGER.error(sql);
+            LOGGER.error(sqlSaveIfpDetailsAttached);
         }
         return retFlag;
 

@@ -1940,18 +1940,18 @@ public class SalesLogic {
             String table = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName()) ? Constant.ST_M_SALES_PROJECTION : Constant.ST_NM_SALES_PROJECTION;
             switch (column) {
                 case "AccountGrowth":
-                    saveQuery.append(UPDATE).append(table).append(" SET ACCOUNT_GROWTH='").append(value.toString()).append("' ");
+                    saveQuery.append(UPDATE).append(table).append(" SET ACCOUNT_GROWTH='").append(value).append("' ");
                     break;
                 case "ProductGrowth":
-                    saveQuery.append(UPDATE).append(table).append(" SET PRODUCT_GROWTH='").append(value.toString()).append("' ");
+                    saveQuery.append(UPDATE).append(table).append(" SET PRODUCT_GROWTH='").append(value).append("' ");
                     break;
                 case PROJECTED_SALES:
                     if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
                         finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
-                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_SALES=PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue.toString()).append(')');
+                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_SALES=PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue).append(')');
                     } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
-                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_SALES='").append(finalvalue.toString()).append('\'');
+                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_SALES='").append(finalvalue).append('\'');
                     }
                     break;
                 case Constant.PROJECTED_UNITS1:
@@ -1959,10 +1959,10 @@ public class SalesLogic {
                         saveQuery.append("DECLARE @PROJECTION_UNITS NUMERIC(22, 6)\n"
                                 ).append( "SET @PROJECTION_UNITS=(SELECT Sum(PROJECTION_UNITS)\n"
                                 ).append( "FROM   " ).append( table ).append( " @Replace_Value" + "   )");
-                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_UNITS=PROJECTION_UNITS + ( PROJECTION_UNITS * ( ( ( ( " ).append( value.toString() ).append( " - @PROJECTION_UNITS ) / NULLIF(@PROJECTION_UNITS, 0) ) * 100 ) / 100 ) )");
+                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_UNITS=PROJECTION_UNITS + ( PROJECTION_UNITS * ( ( ( ( " ).append( value ).append( " - @PROJECTION_UNITS ) / NULLIF(@PROJECTION_UNITS, 0) ) * 100 ) / 100 ) )");
                     } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
-                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_UNITS='").append(finalvalue.toString()).append("' ");
+                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_UNITS='").append(finalvalue).append("' ");
                     }
                     break;
                 default:
@@ -2091,10 +2091,10 @@ public class SalesLogic {
 
             switch (column) {
                 case "AccountGrowth":
-                    updateLine.append(" ACCOUNT_GROWTH='").append(value.toString()).append("' ");
+                    updateLine.append(" ACCOUNT_GROWTH='").append(value).append("' ");
                     break;
                 case "ProductGrowth":
-                    updateLine.append(" PRODUCT_GROWTH='").append(value.toString()).append("' ");
+                    updateLine.append(" PRODUCT_GROWTH='").append(value).append("' ");
                     break;
                 case PROJECTED_SALES:
                     if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
