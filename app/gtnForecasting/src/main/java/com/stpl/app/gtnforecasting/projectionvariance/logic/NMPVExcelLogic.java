@@ -2484,12 +2484,12 @@ public class NMPVExcelLogic {
             for (ListIterator<Object[]> it = rawListDisc.listIterator(); it.hasNext();) {
                 Object[] obj = it.next();
                 String key=obj[BASECOLUMN_HIERARCHY_INDEX].toString();
-                if (STRING_NULL.equals(String.valueOf(obj[obj.length - 1]))) {
+                if (STRING_NULL.equals(String.valueOf(obj[obj.length - 2]))) {
                     key = "D".equals(selection.getSession().getHierarchyLevelDetails().get(key).get(4)) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString().concat(".") : obj[BASECOLUMN_HIERARCHY_INDEX].toString();
                 } else {
-                    key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[obj.length - 1].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + ".$" + obj[obj.length - 1].toString();
+                    key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[obj.length - 2].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + ".$" + obj[obj.length - 2].toString();
                 }
-                String discountName = obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX].toString();
+                String discountName = obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[obj.length - 1].toString().concat(obj[BASECOLUMN_DISC_INDEX].toString());
                 if (hierarchyKey.add(key)) {
                     listIndex = 0;
                     discountMap.clear();

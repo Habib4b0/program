@@ -3524,10 +3524,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
         int m = 0;
         int count = 0;
+        int temp=0;
         for (Map.Entry<Object, Boolean> entry : checkBoxMap.entrySet()) {
             if (checkBoxMap.get(entry.getKey())) {
                 String columnName = String.valueOf(entry.getKey());
-                int temp = !ANNUAL.equals(frequency) ? getQuaterAndYear(columnName, true) : Integer.parseInt(columnName);
+                temp = !ANNUAL.equals(frequency) ? getQuaterAndYear(columnName, true) : Integer.parseInt(columnName);
                 if (entry.getValue() == true) {
                     count = count + 1;
                 }
@@ -3546,6 +3547,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         }
         if (methodology.getValue().equals(Constant.AVERAGE) && count < NumericConstants.TWO && count != 0) {
             m = NumericConstants.FOUR;
+        }
+         if (methodology.getValue().equals(Constant.AVERAGE) &&temp >= startPeriodValue) {
+            m = NumericConstants.TWO;
         }
         if (methodology.getValue().equals(Constant.SINGLE_PERIOD) && count > 1) {
             m = NumericConstants.FIVE;
