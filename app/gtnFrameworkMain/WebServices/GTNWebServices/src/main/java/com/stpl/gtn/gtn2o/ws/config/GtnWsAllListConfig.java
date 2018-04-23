@@ -132,7 +132,6 @@ public class GtnWsAllListConfig {
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	private Map<Integer, String> idDescMap = new HashMap<>();
-	private Map<Integer, String> idDescMapForNonCombobox = new HashMap<>();
 	private Map<String, GtnUIFrameworkWebserviceComboBoxResponse> comboBoxResponseMap = new HashMap<>();
 	private Map<String, GtnUIFrameworkWebserviceComboBoxResponse> nonHelperComboBoxResponseMap = new HashMap<>();
 	private Map<String, String> comboBoxQueryMap = new HashMap<>();
@@ -407,7 +406,6 @@ public class GtnWsAllListConfig {
 				nonHelperComboBoxResponseMap.get(currentRow[0].toString()).addItemCodeList(itemCode);
 				nonHelperComboBoxResponseMap.get(currentRow[0].toString()).addItemValueList(itemValue);
 
-				idDescMapForNonCombobox.put(Integer.valueOf(itemCode), itemValue);
 
 			}
 		} catch (GtnFrameworkGeneralException e) {
