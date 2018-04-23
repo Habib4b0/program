@@ -1580,7 +1580,7 @@ public class NMPVExcelLogic {
             if (STRING_NULL.equals(String.valueOf(obj[obj.length - 1]))) {
                 key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
             } else {
-                key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[obj.length - 1].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + ".$" + obj[obj.length - 1].toString();
+                key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX] + "$" + obj[obj.length - 1] : obj[BASECOLUMN_HIERARCHY_INDEX] + ".$" + obj[obj.length - 1];
             }
             List<ProjectionVarianceDTO> pvList = resultMap.get(key);
             List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.parseInt(obj[isTotal ? BASECOLUMN_PERIOD_YR_TOTAL : BASECOLUMN_YR_INDEX].toString()), Integer.parseInt(obj[isTotal ? frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX_TOTAL : BASECOLUMN_PERIOD_INDEX].toString()));
@@ -2464,7 +2464,7 @@ public class NMPVExcelLogic {
             if (STRING_NULL.equals(String.valueOf(obj[obj.length - 1]))) {
                 key = "D".equals(selection.getSession().getHierarchyLevelDetails().get(key).get(4)) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString().concat(".") : obj[BASECOLUMN_HIERARCHY_INDEX].toString();
             } else {
-                key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[obj.length - 1].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + ".$" + obj[obj.length - 1].toString();
+                key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX] + "$" + obj[obj.length - 1] : obj[BASECOLUMN_HIERARCHY_INDEX] + ".$" + obj[obj.length - 1];
             }
 
             List<ProjectionVarianceDTO> pvList = resultMap.get(key);
@@ -2484,12 +2484,13 @@ public class NMPVExcelLogic {
             for (ListIterator<Object[]> it = rawListDisc.listIterator(); it.hasNext();) {
                 Object[] obj = it.next();
                 String key=obj[BASECOLUMN_HIERARCHY_INDEX].toString();
-                if (STRING_NULL.equals(String.valueOf(obj[obj.length - 1]))) {
+                if (STRING_NULL.equals(String.valueOf(obj[obj.length - 2]))) {
                     key = "D".equals(selection.getSession().getHierarchyLevelDetails().get(key).get(4)) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString().concat(".") : obj[BASECOLUMN_HIERARCHY_INDEX].toString();
                 } else {
-                    key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[obj.length - 1].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + ".$" + obj[obj.length - 1].toString();
+
+                    key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX] + "$" + obj[obj.length - 2] : obj[BASECOLUMN_HIERARCHY_INDEX] + ".$" + obj[obj.length - 2];
                 }
-                String discountName = obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX].toString();
+                String discountName = obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[obj.length - 1].toString().concat(obj[BASECOLUMN_DISC_INDEX].toString());
                 if (hierarchyKey.add(key)) {
                     listIndex = 0;
                     discountMap.clear();

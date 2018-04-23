@@ -31,32 +31,32 @@ public class IfpContractDetailsImpl {
      */
     public static Boolean saveIfpDetailsAttached(final List<Object> input, final Object future){
         boolean retFlag;
-        String sql = StringUtils.EMPTY;
+        String sqlSaveIfpDetailsAttached = StringUtils.EMPTY;
         try {
-            sql = SQlUtil.getQuery("com.contractDashboard.saveIFP");
-            sql=sql.replaceFirst("[?]", input.get(0).toString());
-            sql=sql.replaceFirst("[?]", input.get(1).toString());
-            sql=sql.replaceFirst("[?]", input.get(2).toString());
-            sql=sql.replaceFirst("[?]", input.get(3).toString());
-            sql=sql.replaceFirst("[?]", input.get(4).toString());
-            sql=sql.replaceFirst("[?]", input.get(5).toString());
-            sql=sql.replace("@IFP_START_DATE","'"+input.get(6).toString()+"'");
-            sql=sql.replace("@IFP_END_DATE",String.valueOf(input.get(7)).equals("null") ? "NULL" : "'"+input.get(7).toString()+"'");
-            sql=sql.replace("@ATTACHDATE",input.get(8).toString());
-            HelperTableLocalServiceUtil.executeUpdateQuery(sql);
+            sqlSaveIfpDetailsAttached = SQlUtil.getQuery("com.contractDashboard.saveIFP");
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replaceFirst("[?]", input.get(0).toString());
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replaceFirst("[?]", input.get(1).toString());
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replaceFirst("[?]", input.get(2).toString());
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replaceFirst("[?]", input.get(3).toString());
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replaceFirst("[?]", input.get(4).toString());
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replaceFirst("[?]", input.get(5).toString());
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replace("@IFP_START_DATE","'"+input.get(6)+"'");
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replace("@IFP_END_DATE",String.valueOf(input.get(7)).equals("null") ? "NULL" : "'"+input.get(7)+"'");
+            sqlSaveIfpDetailsAttached=sqlSaveIfpDetailsAttached.replace("@ATTACHDATE",input.get(8).toString());
+            HelperTableLocalServiceUtil.executeUpdateQuery(sqlSaveIfpDetailsAttached);
             retFlag = true;
 
         } catch (Exception e) {
             retFlag = false;
             LOGGER.error(e.getMessage());
-            LOGGER.error(sql);
+            LOGGER.error(sqlSaveIfpDetailsAttached);
         }
         return retFlag;
 
     }
     
     public List findIFP(final Object field, final Object value, final List<Integer> future,Map<String, Object> filterMap, int start, int end, String column, String orderBy, Object future1){
-        String sql = StringUtils.EMPTY;
+        StringBuilder sql = new StringBuilder();
         try {
             
             if(orderBy == null) {
@@ -64,31 +64,31 @@ public class IfpContractDetailsImpl {
             }
             
             if (Constants.BRAND_NAME.equals(field.toString())) {
-                sql = SQlUtil.getQuery("findBrand");
+                sql.append(SQlUtil.getQuery("findBrand"));
                 if (!"%".equals(value.toString().trim())) {
-                    sql += " and im.BRAND_MASTER_SID in (";
+                    sql.append( " and im.BRAND_MASTER_SID in (");
                     Iterator<Integer> list=future.iterator();
                     if (list.hasNext()) {
-                        sql +=list.next();
+                        sql.append(list.next());
                         for (;list.hasNext();) {
-                            sql += ","+list.next();
+                            sql.append(',').append(list.next());
                         }
-                        sql += ")";
+                        sql.append(')');
                     }else{
-                        sql += ")";
+                        sql.append(')');
                     }
                 }
                 
             }else{
                 if ("IFP_NO".equalsIgnoreCase(field.toString()) || "IFP_NAME".equalsIgnoreCase(field.toString())) {
-                    sql += SQlUtil.getQuery("findIFP");
-                    sql += " where ifp."+String.valueOf(field)+" like '" + String.valueOf(value) + "' ";
+                    sql.append(SQlUtil.getQuery("findIFP"));
+                    sql.append(" where ifp.").append(String.valueOf(field)).append(" like '" ).append( String.valueOf(value) ).append( "' ");
                 }else{
-                    sql += SQlUtil.getQuery("findItems");
+                    sql.append(SQlUtil.getQuery("findItems"));
                     if (Constants.STRENGTH_PROPERTY.equalsIgnoreCase(field.toString()) || "THERAPEUTIC_CLASS".equalsIgnoreCase(field.toString())) {
-                        sql += " and im."+String.valueOf(field)+" = " + String.valueOf(value) + " ";
+                        sql.append(" and im.").append(String.valueOf(field)).append(" = " ).append( String.valueOf(value) ).append( ' ');
                     }else{
-                        sql += " and im."+String.valueOf(field)+" like '" + String.valueOf(value) + "' ";
+                        sql.append(" and im.").append(String.valueOf(field)).append(" like '" ).append( String.valueOf(value) ).append( "' ");
                     }
                 }
                 
@@ -96,42 +96,42 @@ public class IfpContractDetailsImpl {
             }
             
             if(StringUtils.isNotBlank(String.valueOf(filterMap.get("itemNo")))){
-                sql += " AND im.ITEM_NO LIKE '"+String.valueOf(filterMap.get("itemNo"))+"'";
+                sql.append(" AND im.ITEM_NO LIKE '").append(String.valueOf(filterMap.get("itemNo"))).append('\'');
             }
             
             if(StringUtils.isNotBlank(String.valueOf(filterMap.get("itemName")))){
-                sql += " AND im.ITEM_NAME LIKE '"+String.valueOf(filterMap.get("itemName"))+"'";
+                sql.append(" AND im.ITEM_NAME LIKE '").append(String.valueOf(filterMap.get("itemName"))).append('\'');
             }
             if(StringUtils.isNotBlank(String.valueOf(filterMap.get("form")))){
-                sql += " AND im.FORM ="+Integer.valueOf(String.valueOf(filterMap.get("form")));
+                sql.append(" AND im.FORM =").append(Integer.valueOf(String.valueOf(filterMap.get("form"))));
             }
             if(filterMap.get(ConstantsUtils.ITEM_STATUS) != null && !"null".equals(String.valueOf(filterMap.get(ConstantsUtils.ITEM_STATUS))) && StringUtils.isNotBlank(String.valueOf(filterMap.get(ConstantsUtils.ITEM_STATUS)))){
-                 sql += " AND im.ITEM_STATUS ="+Integer.valueOf(String.valueOf(filterMap.get(ConstantsUtils.ITEM_STATUS)));
+                 sql.append(" AND im.ITEM_STATUS =").append(Integer.valueOf(String.valueOf(filterMap.get(ConstantsUtils.ITEM_STATUS))));
             }
             if(filterMap.get(ConstantsUtils.STRENGTH) != null && !"null".equals(String.valueOf(filterMap.get(ConstantsUtils.STRENGTH))) && StringUtils.isNotBlank(String.valueOf(filterMap.get(ConstantsUtils.STRENGTH)))){
-                 sql += " AND im.STRENGTH ="+Integer.valueOf(String.valueOf(filterMap.get(ConstantsUtils.STRENGTH)));
+                 sql.append(" AND im.STRENGTH =").append(Integer.valueOf(String.valueOf(filterMap.get(ConstantsUtils.STRENGTH))));
             }
             if(filterMap.get(ConstantsUtils.THERAPEUTIC_CLASS) != null && !"null".equals(String.valueOf(filterMap.get(ConstantsUtils.THERAPEUTIC_CLASS))) && StringUtils.isNotBlank(String.valueOf(filterMap.get(ConstantsUtils.THERAPEUTIC_CLASS)))){
-                 sql += " AND im.THERAPEUTIC_CLASS ="+Integer.valueOf(String.valueOf(filterMap.get(ConstantsUtils.THERAPEUTIC_CLASS)));
+                 sql.append(" AND im.THERAPEUTIC_CLASS =").append(Integer.valueOf(String.valueOf(filterMap.get(ConstantsUtils.THERAPEUTIC_CLASS))));
             }
              if(filterMap.get(ConstantsUtils.PACKAGE_SIZE) != null && !"null".equals(String.valueOf(filterMap.get(ConstantsUtils.PACKAGE_SIZE))) && StringUtils.isNotBlank(String.valueOf(filterMap.get(ConstantsUtils.PACKAGE_SIZE)))){
-                 sql += " AND im.PACKAGE_SIZE ="+Integer.valueOf(String.valueOf(filterMap.get(ConstantsUtils.PACKAGE_SIZE)));
+                 sql.append(" AND im.PACKAGE_SIZE =").append(Integer.valueOf(String.valueOf(filterMap.get(ConstantsUtils.PACKAGE_SIZE))));
             }
                if(filterMap.get(ConstantsUtils.ITEM_DESC) != null && !"null".equals(String.valueOf(filterMap.get(ConstantsUtils.ITEM_DESC))) && StringUtils.isNotBlank(String.valueOf(filterMap.get(ConstantsUtils.ITEM_DESC)))){
-                 sql += " AND im.ITEM_DESC LIKE '"+String.valueOf(filterMap.get(ConstantsUtils.ITEM_DESC))+"'";
+                 sql.append(" AND im.ITEM_DESC LIKE '").append(String.valueOf(filterMap.get(ConstantsUtils.ITEM_DESC))).append('\'');
             }
                if(filterMap.get(ConstantsUtils.BRAND) != null && !"null".equals(String.valueOf(filterMap.get(ConstantsUtils.BRAND))) && StringUtils.isNotBlank(String.valueOf(filterMap.get(ConstantsUtils.BRAND)))){
-                 sql += " AND bm.BRAND_NAME LIKE '"+String.valueOf(filterMap.get(ConstantsUtils.BRAND)+"'");
+                 sql.append(" AND bm.BRAND_NAME LIKE '").append(String.valueOf(filterMap.get(ConstantsUtils.BRAND))).append('\'');
             }
             if (column!=null) {
-                sql += " ORDER BY "+column+" "+orderBy+" OFFSET "+start+" ROWS FETCH NEXT "+end+" ROWS ONLY";
+                sql.append(" ORDER BY ").append(column).append(' ').append(orderBy).append(" OFFSET ").append(start).append(" ROWS FETCH NEXT ").append(end).append(" ROWS ONLY");
             }
             
 		
-            return HelperTableLocalServiceUtil.executeSelectQuery(sql);
+            return HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
         } catch (Exception e) {
            LOGGER.error("",e);
-           LOGGER.error(sql);
+           LOGGER.error(sql.toString());
             return null;
         } 
     }

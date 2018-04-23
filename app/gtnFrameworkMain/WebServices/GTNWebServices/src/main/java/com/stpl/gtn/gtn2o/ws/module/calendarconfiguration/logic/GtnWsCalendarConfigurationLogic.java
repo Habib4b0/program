@@ -367,6 +367,7 @@ public class GtnWsCalendarConfigurationLogic {
 		for (CalendarConfigMaster calendarConfigMaster : resultList) {
 			if(calendarId==calendarConfigMaster.getCalendarConfigMasterSid()){
 				tempCalendarName=calendarConfigMaster.getCalendarName();
+                                break;
 			}
 		}
 			if (!tempCalendarName.equals(calendarName)) {

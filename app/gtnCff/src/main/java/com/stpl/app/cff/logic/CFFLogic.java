@@ -199,7 +199,7 @@ public class CFFLogic {
             cffType = String.valueOf(CommonUtils.getHelperTableSId(CommonUtils.UPDATE_CYCLE, CommonUtils.CFF_TYPE));
         }
         if (ConstantsUtils.YES.equals(String.valueOf(valueMap.get("latestEstimate"))) && ConstantsUtils.YES.equals(String.valueOf(valueMap.get("updateCycle")))) {
-            cffName = valueMap.get("latestEstimateName").toString() + "-" + valueMap.get("updateCycleName").toString();
+            cffName = valueMap.get("latestEstimateName") + "-" + valueMap.get("updateCycleName");
             cffType = String.valueOf(CommonUtils.getHelperTableSId(CommonUtils.BOTH, CommonUtils.CFF_TYPE));
         }
 

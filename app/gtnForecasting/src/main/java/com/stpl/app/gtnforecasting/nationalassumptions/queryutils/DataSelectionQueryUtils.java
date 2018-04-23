@@ -976,13 +976,13 @@ public class DataSelectionQueryUtils {
             String customSql = SQlUtil.getQuery(getClass(),"getProductNamesFromGroup");
             input.put("?PGQUERY", "AND IG.ITEM_GROUP_NAME LIKE '" + productGroupValue.toString().trim() + "'");
             if (!StringUtils.EMPTY.equals(companyValue.toString())) {
-                input.put("?CMQUERY", "AND CM.COMPANY_NAME= '" + companyValue.toString() + "'");
+                input.put("?CMQUERY", "AND CM.COMPANY_NAME= '" + companyValue + "'");
             } else {
                 input.put("?CMQUERY", StringUtils.EMPTY);
             }
             boolean flag=false;
             if (!StringUtils.EMPTY.equals(therapeuticClassValue) && !therapeuticClassValue.toString().equals("0")) {
-                input.put("?TCQUERY", "WHERE IM.THERAPEUTIC_CLASS= '" + therapeuticClassValue.toString() + "'");
+                input.put("?TCQUERY", "WHERE IM.THERAPEUTIC_CLASS= '" + therapeuticClassValue + "'");
                 flag=true;
             } else {
                 input.put("?TCQUERY", StringUtils.EMPTY);

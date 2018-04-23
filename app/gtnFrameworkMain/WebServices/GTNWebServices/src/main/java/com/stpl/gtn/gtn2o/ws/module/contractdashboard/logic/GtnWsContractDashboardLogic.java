@@ -232,7 +232,8 @@ public class GtnWsContractDashboardLogic {
 			postFix = comp;
 		}
 		String searchQuery = searchCriteriaMap().get(searchCriteria.getFieldId() + postFix);
-		StringBuilder value = new StringBuilder(" '" + searchCriteria.getFilterValue1().replace('*', '%') + "' ");
+		StringBuilder value = new StringBuilder();
+                value.append(" '").append(searchCriteria.getFilterValue1().replace('*', '%')).append("' ");
 		String expression = " " + searchCriteria.getExpression().replace("EQUALS", "=");
 		if (searchQuery.contains("in (")) {
 			value.append(value).append(')');

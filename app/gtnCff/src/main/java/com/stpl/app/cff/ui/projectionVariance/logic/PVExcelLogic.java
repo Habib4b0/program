@@ -186,7 +186,7 @@ public class PVExcelLogic {
             if (isCustomView) {
                 key = !key.contains("-") ? key.concat(".") : key;
                 key = key + appendedParentKey;
-                appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
+                appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1];
             } else {
                 key = obj[NumericConstants.TWO].toString();
             }
@@ -2745,7 +2745,7 @@ public class PVExcelLogic {
             if ("null".equals(String.valueOf(obj[obj.length - 1]))) {
                 parentkey = obj[0].toString();
             } else {
-                parentkey = obj[0].toString().endsWith(".") ? obj[0].toString() + "$" + obj[obj.length - 1].toString() : obj[0].toString() + ".$" + obj[obj.length - 1].toString();
+                parentkey = obj[0].toString().endsWith(".") ? obj[0] + "$" + obj[obj.length - 1] : obj[0] + ".$" + obj[obj.length - 1];
             }
             if (i == 0) {
                 oldHierarchyNo = parentkey;
@@ -3314,7 +3314,7 @@ public class PVExcelLogic {
                 //To check condition total or details values
                 pvList = new ArrayList();
                 addListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId);
-                appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
+                appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1];
                 if (isCustomView && !isTotal) {
                     customHierarchyAndTPKeys(obj, key, pvList);
                 } else {
@@ -3333,7 +3333,7 @@ public class PVExcelLogic {
                     } else {
 						hierarchyAndTPkeys(obj, key, pvList);
                     }
-                    appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
+                    appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1];
                 } else {
                     updateListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId);
                 }

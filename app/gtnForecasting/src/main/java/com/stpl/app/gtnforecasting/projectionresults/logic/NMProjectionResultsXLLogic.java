@@ -560,7 +560,7 @@ public class NMProjectionResultsXLLogic {
     private void calculateAndCustomize_detail_pivot(List<Object[]> rawList, List<Object[]> rawListDisc) {
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
-            String key = "null".equals(String.valueOf(obj[NumericConstants.FIFTY_THREE])) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[NumericConstants.FIFTY_THREE].toString();
+            String key = "null".equals(String.valueOf(obj[NumericConstants.FIFTY_THREE])) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() : obj[BASECOLUMN_HIERARCHY_INDEX] + "$" + obj[NumericConstants.FIFTY_THREE];
             List<ProjectionResultsDTO> pvList = resultMap.get(key);
             int year = Integer.parseInt(obj[BASECOLUMN_YEAR_INDEX].toString());
             int period = Integer.parseInt(obj[frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX].toString());
@@ -591,7 +591,7 @@ public class NMProjectionResultsXLLogic {
                 if (year < selection.getHistoryStartYear() || ((year == selection.getHistoryStartYear()) && (period < selection.getHistoryStartPeriod()))) {
                     continue;
                 }
-                String key = "null".equals(String.valueOf(obj[13])) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[13].toString();
+                String key = "null".equals(String.valueOf(obj[13])) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() : obj[BASECOLUMN_HIERARCHY_INDEX] + "$" + obj[13];
                 if (hierarchySet.add(key)) {
                     listIndex = 1;
                     yearPeriod.clear();
@@ -1058,7 +1058,7 @@ public class NMProjectionResultsXLLogic {
     private void calculateAndCustomize_periodForCustomView(List<Object[]> rawList, List<Object[]> rawListDisc) {
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
-            String key = "null".equals(String.valueOf(obj[NumericConstants.FIFTY_THREE])) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[NumericConstants.FIFTY_THREE].toString();
+            String key = "null".equals(String.valueOf(obj[NumericConstants.FIFTY_THREE])) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() : obj[BASECOLUMN_HIERARCHY_INDEX] + "$" + obj[NumericConstants.FIFTY_THREE];
             List<ProjectionResultsDTO> pvList = resultMap.get(key);
             if (pvList == null) {
                 //To check condition total or details values
@@ -1075,7 +1075,7 @@ public class NMProjectionResultsXLLogic {
             int listIndex = 0;
             for (ListIterator<Object[]> it = rawListDisc.listIterator(); it.hasNext();) {
                 Object[] obj = it.next();
-                String key = "null".equals(String.valueOf(obj[13])) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[13].toString();
+                String key = "null".equals(String.valueOf(obj[13])) ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() : obj[BASECOLUMN_HIERARCHY_INDEX] + "$" + obj[13];
                 String discountName = obj[6] == null ? "" : obj[6].toString();
                 if (hierarchyKey.add(key)) {
                     listIndex = 0;

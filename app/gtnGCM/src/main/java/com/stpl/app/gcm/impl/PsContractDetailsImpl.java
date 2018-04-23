@@ -27,25 +27,25 @@ public class PsContractDetailsImpl {
      */
     public static Boolean savePsDetailsAttached(final List<Object> input, final Object future){
         boolean retFlag;
-        String sql = SQlUtil.getQuery("com.contractDashboard.savePS");
+        String sqlSavePsDetailsAttached = SQlUtil.getQuery("com.contractDashboard.savePS");
         try {
-            sql=sql.replaceFirst("[?]", input.get(0).toString());
-            sql=sql.replaceFirst("[?]", input.get(1).toString());
-            sql=sql.replaceFirst("[?]", input.get(2).toString());
-            sql=sql.replaceFirst("[?]", input.get(3).toString());
-            sql=sql.replaceFirst("[?]", input.get(4).toString());
-            sql=sql.replaceFirst("[?]", input.get(5).toString());
-            sql=sql.replace("@PS_START_DATE","'"+input.get(6).toString()+"'");
-            sql=sql.replace("@PS_END_DATE",String.valueOf(input.get(7)).equals("null") ? "NULL" : "'"+input.get(7).toString()+"'");
-            sql=sql.replace("@ATTACHDATE",input.get(8).toString());
-            LOGGER.debug("====savePsDetailsAttached========{}" ,sql);
-            HelperTableLocalServiceUtil.executeUpdateQuery(sql);
+            sqlSavePsDetailsAttached=sqlSavePsDetailsAttached.replaceFirst("[?]", input.get(0).toString());
+            sqlSavePsDetailsAttached=sqlSavePsDetailsAttached.replaceFirst("[?]", input.get(1).toString());
+            sqlSavePsDetailsAttached=sqlSavePsDetailsAttached.replaceFirst("[?]", input.get(2).toString());
+            sqlSavePsDetailsAttached=sqlSavePsDetailsAttached.replaceFirst("[?]", input.get(3).toString());
+            sqlSavePsDetailsAttached=sqlSavePsDetailsAttached.replaceFirst("[?]", input.get(4).toString());
+            sqlSavePsDetailsAttached=sqlSavePsDetailsAttached.replaceFirst("[?]", input.get(5).toString());
+            sqlSavePsDetailsAttached=sqlSavePsDetailsAttached.replace("@PS_START_DATE","'"+input.get(6)+"'");
+            sqlSavePsDetailsAttached=sqlSavePsDetailsAttached.replace("@PS_END_DATE",String.valueOf(input.get(7)).equals("null") ? "NULL" : "'"+input.get(7)+"'");
+            sqlSavePsDetailsAttached=sqlSavePsDetailsAttached.replace("@ATTACHDATE",input.get(8).toString());
+            LOGGER.debug("====savePsDetailsAttached========{}" ,sqlSavePsDetailsAttached);
+            HelperTableLocalServiceUtil.executeUpdateQuery(sqlSavePsDetailsAttached);
             retFlag = true;
 
         } catch (Exception e) {
             retFlag = false;
            LOGGER.error(e.getMessage());
-           LOGGER.error(sql);
+           LOGGER.error(sqlSavePsDetailsAttached);
         } 
         return retFlag;
 
