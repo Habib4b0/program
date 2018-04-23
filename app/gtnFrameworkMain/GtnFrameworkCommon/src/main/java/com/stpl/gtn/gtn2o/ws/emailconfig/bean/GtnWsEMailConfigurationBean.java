@@ -161,24 +161,25 @@ public class GtnWsEMailConfigurationBean implements Serializable {
 		return defaultDataLoad == null ? null : Collections.unmodifiableList(defaultDataLoad);
 	}
 
-	public void setDefaultDataLoad(List<Object[]> defaultDataLoad) {
-		this.defaultDataLoad = defaultDataLoad == null ? null : Collections.unmodifiableList(defaultDataLoad);
-	}
+	   public void setDefaultDataLoad(List<Object[]> defaultDataLoad) {
+        this.defaultDataLoad = defaultDataLoad == null ? null : Collections.unmodifiableList(defaultDataLoad);
+    }
 
-	public List<Object[]> getComboboxOnChangeDataLoad() {
-		return comboboxOnChangeDataLoad == null ? null : Collections.unmodifiableList(comboboxOnChangeDataLoad);
-	}
+    public List<Object[]> getComboboxOnChangeDataLoad() {
+        return comboboxOnChangeDataLoad == null ? null : Collections.unmodifiableList(comboboxOnChangeDataLoad);
+    }
 
-	public void setComboboxOnChangeDataLoad(List<Object[]> comboboxOnChangeDataLoad) {
-		this.comboboxOnChangeDataLoad = comboboxOnChangeDataLoad == null ? null
-				: Collections.unmodifiableList(comboboxOnChangeDataLoad);
-	}
+    public void setComboboxOnChangeDataLoad(List<Object[]> comboboxOnChangeDataLoad) {
+        this.comboboxOnChangeDataLoad = comboboxOnChangeDataLoad == null ? null
+                : Collections.unmodifiableList(comboboxOnChangeDataLoad);
+    }
 
-	private void writeObject(ObjectOutputStream stream) throws IOException {
-		stream.defaultWriteObject();
-	}
+    private void writeObject(ObjectOutputStream stream) throws IOException {
+        stream.defaultWriteObject();
+    }
 
-	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-		stream.defaultReadObject();
-	}
+    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+    }
+
 }

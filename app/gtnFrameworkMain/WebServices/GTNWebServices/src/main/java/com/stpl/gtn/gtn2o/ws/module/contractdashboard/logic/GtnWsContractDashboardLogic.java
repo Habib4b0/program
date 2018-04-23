@@ -232,7 +232,8 @@ public class GtnWsContractDashboardLogic {
 			postFix = comp;
 		}
 		String searchQuery = searchCriteriaMap().get(searchCriteria.getFieldId() + postFix);
-		StringBuilder value = new StringBuilder(" '" + searchCriteria.getFilterValue1().replace('*', '%') + "' ");
+		StringBuilder value = new StringBuilder();
+                value.append(" '").append(searchCriteria.getFilterValue1().replace('*', '%')).append("' ");
 		String expression = " " + searchCriteria.getExpression().replace("EQUALS", "=");
 		if (searchQuery.contains("in (")) {
 			value.append(value).append(')');
@@ -780,13 +781,6 @@ public class GtnWsContractDashboardLogic {
 		cfpContract.setSalesInclusion(cfpModel.getSalesInclusion());
 		session.saveOrUpdate(cfpContract);
 
-		List<Object> inputlist = new ArrayList<>(6);
-		inputlist.add(cfpContract.getCfpContractSid());
-		inputlist.add(cdRequest.getUserId());
-		inputlist.add(dateFormat.format(new Date()));
-		inputlist.add(cdRequest.getUserId());
-		inputlist.add(dateFormat.format(new Date()));
-		inputlist.add(levelId);
 		String saveCfpTreeQuery = getSqlService().getQuery("com.contractDashboard.saveCFP");
 		Object[] saveCfpTreeQueryParams = { dateFormat.format(cfpContract.getCfpStartDate()),
 				cfpContract.getCfpEndDate() == null ? null : dateFormat.format(cfpContract.getCfpEndDate()),
@@ -854,13 +848,6 @@ public class GtnWsContractDashboardLogic {
 		ifpContract.setCfpContract(cfpContract);
 		session.saveOrUpdate(ifpContract);
 
-		List<Object> inputlist = new ArrayList<>(6);
-		inputlist.add(ifpContract.getIfpContractSid());
-		inputlist.add(cdRequest.getUserId());
-		inputlist.add(dateFormat.format(new Date()));
-		inputlist.add(cdRequest.getUserId());
-		inputlist.add(dateFormat.format(new Date()));
-		inputlist.add(levelId);
 		String saveifpTreeQuery = getSqlService().getQuery("com.contractDashboard.saveIFP");
 
 		Object[] saveifpTreeQueryParams = { dateFormat.format(ifpContract.getIfpStartDate()),
@@ -944,13 +931,6 @@ public class GtnWsContractDashboardLogic {
 
 		session.saveOrUpdate(psContract);
 
-		List<Object> inputlist = new ArrayList<>(6);
-		inputlist.add(psContract.getPsContractSid());
-		inputlist.add(cdRequest.getUserId());
-		inputlist.add(dateFormat.format(new Date()));
-		inputlist.add(cdRequest.getUserId());
-		inputlist.add(dateFormat.format(new Date()));
-		inputlist.add(levelId);
 		String savePsTreeQuery = getSqlService().getQuery("com.contractDashboard.savePS");
 		Object[] savePsTreeQueryParams = { dateFormat.format(psContract.getPsStartDate()),
 				psContract.getPsEndDate() == null ? null : dateFormat.format(psContract.getPsEndDate()), currentDate,
@@ -1055,13 +1035,6 @@ public class GtnWsContractDashboardLogic {
 		setRSContractValues(rsModel, rsContract);
 		session.saveOrUpdate(rsContract);
 
-		List<Object> inputlist = new ArrayList<>(6);
-		inputlist.add(rsContract.getRsContractSid());
-		inputlist.add(cdRequest.getUserId());
-		inputlist.add(dateFormat.format(new Date()));
-		inputlist.add(cdRequest.getUserId());
-		inputlist.add(dateFormat.format(new Date()));
-		inputlist.add(levelId);
 		String saveRsTreeQuery = getSqlService().getQuery("com.contractDashboard.saveRS");
 		Object[] saveRsTreeQueryParams = { dateFormat.format(rsContract.getRsStartDate()),
 				rsContract.getRsEndDate() == null ? null : dateFormat.format(rsContract.getRsEndDate()), currentDate,

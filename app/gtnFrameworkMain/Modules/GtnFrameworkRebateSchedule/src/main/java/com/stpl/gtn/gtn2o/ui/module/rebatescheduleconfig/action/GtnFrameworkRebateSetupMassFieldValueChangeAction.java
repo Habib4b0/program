@@ -28,9 +28,79 @@ public class GtnFrameworkRebateSetupMassFieldValueChangeAction
 	private static final Map<String, GtnUIFrameworkPopUpBean> popupIdViewMap = new HashMap<>();
 
 	static {
-		configurePopUp();
+        GtnUIFrameworkPopUpBean deductionCalendarPopUpSearchViewBean = new GtnUIFrameworkPopUpBean(
+                "deductionCalendarPopUpSearchView");
+        deductionCalendarPopUpSearchViewBean.setSourceTableName("dcPopUpSearchResultTable");
+        deductionCalendarPopUpSearchViewBean.setDestinationComponentId(GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD);
+        deductionCalendarPopUpSearchViewBean
+                .setSourcePropertyIdList(Arrays.asList(new String[]{"deductionCalendarName"}));
+        deductionCalendarPopUpSearchViewBean.setDestinaComponentIdList(
+                Arrays.asList(new String[]{GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD}));
+        deductionCalendarPopUpSearchViewBean.setSelectButtonId("dcPopUpViewSelectButton");
 
-	}
+        GtnUIFrameworkPopUpBean evaluationRulePopUpSearchViewBean = new GtnUIFrameworkPopUpBean(
+                GtnFrameworkRSConstants.RS_NS_RULE_VIEW);
+        evaluationRulePopUpSearchViewBean.setSourceTableName(GtnFrameworkRSConstants.RS_NS_RULE_VIEW_RESULT_TABLE);
+        evaluationRulePopUpSearchViewBean.setDestinationComponentId(GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD);
+        evaluationRulePopUpSearchViewBean
+                .setSourcePropertyIdList(Arrays.asList(new String[]{GtnFrameworkCommonConstants.RULE_NAME}));
+        evaluationRulePopUpSearchViewBean.setDestinaComponentIdList(
+                Arrays.asList(new String[]{GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD}));
+        evaluationRulePopUpSearchViewBean.setSelectButtonId(GtnFrameworkRSConstants.RS_NS_RULE_VIEW_SELECT_BUTTON);
+        GtnUIFrameworkPopUpBean calculationRulePopUpSearchViewBean = new GtnUIFrameworkPopUpBean(
+                GtnFrameworkRSConstants.RS_NS_RULE_VIEW);
+        calculationRulePopUpSearchViewBean.setSourceTableName(GtnFrameworkRSConstants.RS_NS_RULE_VIEW_RESULT_TABLE);
+        calculationRulePopUpSearchViewBean.setDestinationComponentId(GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD);
+        calculationRulePopUpSearchViewBean
+                .setSourcePropertyIdList(Arrays.asList(new String[]{GtnFrameworkCommonConstants.RULE_NAME}));
+        calculationRulePopUpSearchViewBean.setDestinaComponentIdList(
+                Arrays.asList(new String[]{GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD}));
+        calculationRulePopUpSearchViewBean.setSelectButtonId(GtnFrameworkRSConstants.RS_NS_RULE_VIEW_SELECT_BUTTON);
+
+        GtnUIFrameworkPopUpBean netSalesRulePopUpSearchViewBean = new GtnUIFrameworkPopUpBean(
+                GtnFrameworkRSConstants.RS_NS_RULE_VIEW);
+        netSalesRulePopUpSearchViewBean.setSourceTableName(GtnFrameworkRSConstants.RS_NS_RULE_VIEW_RESULT_TABLE);
+        netSalesRulePopUpSearchViewBean.setDestinationComponentId(GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD);
+        netSalesRulePopUpSearchViewBean
+                .setSourcePropertyIdList(Arrays.asList(new String[]{GtnFrameworkCommonConstants.RULE_NAME}));
+        netSalesRulePopUpSearchViewBean.setDestinaComponentIdList(
+                Arrays.asList(new String[]{GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD}));
+        netSalesRulePopUpSearchViewBean.setSelectButtonId(GtnFrameworkRSConstants.RS_NS_RULE_VIEW_SELECT_BUTTON);
+
+        GtnUIFrameworkPopUpBean netSalesFormulaPopUpSearchViewBean = new GtnUIFrameworkPopUpBean(
+                "netSalesFormulaPopUpView");
+        netSalesFormulaPopUpSearchViewBean.setSourceTableName("netSalesSearchResultTable");
+        netSalesFormulaPopUpSearchViewBean.setDestinationComponentId(GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD);
+        netSalesFormulaPopUpSearchViewBean.setSourcePropertyIdList(Arrays.asList(new String[]{"formulaName"}));
+        netSalesFormulaPopUpSearchViewBean.setDestinaComponentIdList(
+                Arrays.asList(new String[]{GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD}));
+        netSalesFormulaPopUpSearchViewBean.setSelectButtonId("netSalesFormulaPopUpViewAddButton");
+
+        GtnUIFrameworkPopUpBean formulaPopUpSearchViewBean = new GtnUIFrameworkPopUpBean(
+                "FormulaPopUpSearchSearchView");
+        formulaPopUpSearchViewBean.setSourceTableName("FormulaPopUpsearchResultTable");
+        formulaPopUpSearchViewBean.setDestinationComponentId(GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD);
+        formulaPopUpSearchViewBean.setSourcePropertyIdList(Arrays.asList(new String[]{"formulaName"}));
+        formulaPopUpSearchViewBean.setDestinaComponentIdList(
+                Arrays.asList(new String[]{GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD}));
+        formulaPopUpSearchViewBean.setSelectButtonId("FormulaPopUpSearchSearchViewAddButton");
+
+        GtnUIFrameworkPopUpBean rebatePlanPopUpSearchViewBean = new GtnUIFrameworkPopUpBean(
+                "rebatePlanPopUpSearchView");
+        rebatePlanPopUpSearchViewBean.setSourceTableName("rpPopUpSearchResultTable");
+        rebatePlanPopUpSearchViewBean.setDestinationComponentId(GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD);
+        rebatePlanPopUpSearchViewBean.setSourcePropertyIdList(Arrays.asList(new String[]{"secondaryRebatePlanNo"}));
+        rebatePlanPopUpSearchViewBean.setDestinaComponentIdList(
+                Arrays.asList(new String[]{GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD}));
+        rebatePlanPopUpSearchViewBean.setSelectButtonId("rebatePlanPopUpViewSelectButton");
+        popupIdViewMap.put("Deduction Calendar No", deductionCalendarPopUpSearchViewBean);
+        popupIdViewMap.put("Evaluation Rule", evaluationRulePopUpSearchViewBean);
+        popupIdViewMap.put("Calculation Rule", calculationRulePopUpSearchViewBean);
+        popupIdViewMap.put("Net Sales Rule", netSalesRulePopUpSearchViewBean);
+        popupIdViewMap.put("Formula No", formulaPopUpSearchViewBean);
+        popupIdViewMap.put("Net Sales Formula", netSalesFormulaPopUpSearchViewBean);
+        popupIdViewMap.put("Rebate Plan No", rebatePlanPopUpSearchViewBean);
+    }
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -130,82 +200,6 @@ public class GtnFrameworkRebateSetupMassFieldValueChangeAction
 		return new GtnFrameworkRebateSetupMassFieldValueChangeAction();
 	}
 
-	private static void configurePopUp() {
-
-		GtnUIFrameworkPopUpBean deductionCalendarPopUpSearchViewBean = new GtnUIFrameworkPopUpBean(
-				"deductionCalendarPopUpSearchView");
-		deductionCalendarPopUpSearchViewBean.setSourceTableName("dcPopUpSearchResultTable");
-		deductionCalendarPopUpSearchViewBean.setDestinationComponentId(GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD);
-		deductionCalendarPopUpSearchViewBean
-				.setSourcePropertyIdList(Arrays.asList(new String[] { "deductionCalendarName" }));
-		deductionCalendarPopUpSearchViewBean.setDestinaComponentIdList(
-				Arrays.asList(new String[] { GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD }));
-		deductionCalendarPopUpSearchViewBean.setSelectButtonId("dcPopUpViewSelectButton");
-
-		GtnUIFrameworkPopUpBean evaluationRulePopUpSearchViewBean = new GtnUIFrameworkPopUpBean(
-				GtnFrameworkRSConstants.RS_NS_RULE_VIEW);
-		evaluationRulePopUpSearchViewBean.setSourceTableName(GtnFrameworkRSConstants.RS_NS_RULE_VIEW_RESULT_TABLE);
-		evaluationRulePopUpSearchViewBean.setDestinationComponentId(GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD);
-		evaluationRulePopUpSearchViewBean
-				.setSourcePropertyIdList(Arrays.asList(new String[] { GtnFrameworkCommonConstants.RULE_NAME }));
-		evaluationRulePopUpSearchViewBean.setDestinaComponentIdList(
-				Arrays.asList(new String[] { GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD }));
-		evaluationRulePopUpSearchViewBean.setSelectButtonId(GtnFrameworkRSConstants.RS_NS_RULE_VIEW_SELECT_BUTTON);
-		GtnUIFrameworkPopUpBean calculationRulePopUpSearchViewBean = new GtnUIFrameworkPopUpBean(
-				GtnFrameworkRSConstants.RS_NS_RULE_VIEW);
-		calculationRulePopUpSearchViewBean.setSourceTableName(GtnFrameworkRSConstants.RS_NS_RULE_VIEW_RESULT_TABLE);
-		calculationRulePopUpSearchViewBean.setDestinationComponentId(GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD);
-		calculationRulePopUpSearchViewBean
-				.setSourcePropertyIdList(Arrays.asList(new String[] { GtnFrameworkCommonConstants.RULE_NAME }));
-		calculationRulePopUpSearchViewBean.setDestinaComponentIdList(
-				Arrays.asList(new String[] { GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD }));
-		calculationRulePopUpSearchViewBean.setSelectButtonId(GtnFrameworkRSConstants.RS_NS_RULE_VIEW_SELECT_BUTTON);
-
-		GtnUIFrameworkPopUpBean netSalesRulePopUpSearchViewBean = new GtnUIFrameworkPopUpBean(
-				GtnFrameworkRSConstants.RS_NS_RULE_VIEW);
-		netSalesRulePopUpSearchViewBean.setSourceTableName(GtnFrameworkRSConstants.RS_NS_RULE_VIEW_RESULT_TABLE);
-		netSalesRulePopUpSearchViewBean.setDestinationComponentId(GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD);
-		netSalesRulePopUpSearchViewBean
-				.setSourcePropertyIdList(Arrays.asList(new String[] { GtnFrameworkCommonConstants.RULE_NAME }));
-		netSalesRulePopUpSearchViewBean.setDestinaComponentIdList(
-				Arrays.asList(new String[] { GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD }));
-		netSalesRulePopUpSearchViewBean.setSelectButtonId(GtnFrameworkRSConstants.RS_NS_RULE_VIEW_SELECT_BUTTON);
-
-		GtnUIFrameworkPopUpBean netSalesFormulaPopUpSearchViewBean = new GtnUIFrameworkPopUpBean(
-				"netSalesFormulaPopUpView");
-		netSalesFormulaPopUpSearchViewBean.setSourceTableName("netSalesSearchResultTable");
-		netSalesFormulaPopUpSearchViewBean.setDestinationComponentId(GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD);
-		netSalesFormulaPopUpSearchViewBean.setSourcePropertyIdList(Arrays.asList(new String[] { "formulaName" }));
-		netSalesFormulaPopUpSearchViewBean.setDestinaComponentIdList(
-				Arrays.asList(new String[] { GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD }));
-		netSalesFormulaPopUpSearchViewBean.setSelectButtonId("netSalesFormulaPopUpViewAddButton");
-
-		GtnUIFrameworkPopUpBean formulaPopUpSearchViewBean = new GtnUIFrameworkPopUpBean(
-				"FormulaPopUpSearchSearchView");
-		formulaPopUpSearchViewBean.setSourceTableName("FormulaPopUpsearchResultTable");
-		formulaPopUpSearchViewBean.setDestinationComponentId(GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD);
-		formulaPopUpSearchViewBean.setSourcePropertyIdList(Arrays.asList(new String[] { "formulaName" }));
-		formulaPopUpSearchViewBean.setDestinaComponentIdList(
-				Arrays.asList(new String[] { GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD }));
-		formulaPopUpSearchViewBean.setSelectButtonId("FormulaPopUpSearchSearchViewAddButton");
-
-		GtnUIFrameworkPopUpBean rebatePlanPopUpSearchViewBean = new GtnUIFrameworkPopUpBean(
-				"rebatePlanPopUpSearchView");
-		rebatePlanPopUpSearchViewBean.setSourceTableName("rpPopUpSearchResultTable");
-		rebatePlanPopUpSearchViewBean.setDestinationComponentId(GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD);
-		rebatePlanPopUpSearchViewBean.setSourcePropertyIdList(Arrays.asList(new String[] { "secondaryRebatePlanNo" }));
-		rebatePlanPopUpSearchViewBean.setDestinaComponentIdList(
-				Arrays.asList(new String[] { GtnFrameworkRSConstants.MASS_CUSTOM_TEXT_FIELD }));
-		rebatePlanPopUpSearchViewBean.setSelectButtonId("rebatePlanPopUpViewSelectButton");
-
-		popupIdViewMap.put("Deduction Calendar No", deductionCalendarPopUpSearchViewBean);
-		popupIdViewMap.put("Evaluation Rule", evaluationRulePopUpSearchViewBean);
-		popupIdViewMap.put("Calculation Rule", calculationRulePopUpSearchViewBean);
-		popupIdViewMap.put("Net Sales Rule", netSalesRulePopUpSearchViewBean);
-		popupIdViewMap.put("Formula No", formulaPopUpSearchViewBean);
-		popupIdViewMap.put("Net Sales Formula", netSalesFormulaPopUpSearchViewBean);
-		popupIdViewMap.put("Rebate Plan No", rebatePlanPopUpSearchViewBean);
-
-	}
+	
 
 }

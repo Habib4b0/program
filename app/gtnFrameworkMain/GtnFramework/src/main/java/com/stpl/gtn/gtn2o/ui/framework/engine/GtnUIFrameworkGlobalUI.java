@@ -539,7 +539,7 @@ public class GtnUIFrameworkGlobalUI {
 	}
 
 	public static String regexValidation(String[] componentIds) {
-		StringBuilder msg = new StringBuilder(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		StringBuilder msg = new StringBuilder();
 		for (int i = 0; i < componentIds.length; i++) {
 			GtnUIFrameworkComponentConfig currentComponentConfig = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(componentIds[i]).getComponentConfig();
@@ -547,8 +547,7 @@ public class GtnUIFrameworkGlobalUI {
 			if (currentComponentConfig.getGtnUIFrameworkValidationConfig() != null
 					&& currentComponentConfig.getGtnUIFrameworkValidationConfig().isAttachRegxValidatior()
 					&& !value.matches(currentComponentConfig.getGtnUIFrameworkValidationConfig().getFormatString())) {
-				msg.append(GtnFrameworkCommonConstants.BR
-						+ currentComponentConfig.getGtnUIFrameworkValidationConfig().getRegxValidationMessage());
+				msg.append(GtnFrameworkCommonConstants.BR).append(currentComponentConfig.getGtnUIFrameworkValidationConfig().getRegxValidationMessage());
 			}
 
 		}

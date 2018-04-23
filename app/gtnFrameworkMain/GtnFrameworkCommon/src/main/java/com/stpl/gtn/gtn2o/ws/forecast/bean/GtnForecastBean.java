@@ -1065,13 +1065,14 @@ public class GtnForecastBean implements Serializable {
 	public void setMethodologyCalculationFlag(boolean methodologyCalculationFlag) {
 		this.methodologyCalculationFlag = methodologyCalculationFlag;
 	}
-
-	private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
+        private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
 		s.defaultWriteObject();
 	}
 
 	private void readObject(java.io.ObjectInputStream s) throws java.io.IOException, ClassNotFoundException {
 		s.defaultReadObject();
 	}
+
+
 
 }

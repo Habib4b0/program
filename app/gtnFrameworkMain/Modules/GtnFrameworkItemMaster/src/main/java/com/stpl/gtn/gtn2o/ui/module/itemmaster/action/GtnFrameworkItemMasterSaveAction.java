@@ -77,7 +77,7 @@ public class GtnFrameworkItemMasterSaveAction
 				.getItemMasterSid();
 		int systemId = GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.ITEM_MASTER_SID) == null
 				? 0
-				: Integer.valueOf(GtnUIFrameworkGlobalUI
+				: Integer.parseInt(GtnUIFrameworkGlobalUI
 						.getSessionProperty(GtnFrameworkCommonConstants.ITEM_MASTER_SID).toString());
 		if (systemId == 0) {
 			cpDetailsInsert(itemMasterSid);
@@ -360,7 +360,7 @@ public class GtnFrameworkItemMasterSaveAction
 	private Double toDouble(String str) {
 		Double deafultValue = null;
 		try {
-			deafultValue = Double.parseDouble(str);
+			deafultValue = Double.valueOf(str);
 		} catch (NumberFormatException e) {
 			logger.error(e.getMessage());
 		}

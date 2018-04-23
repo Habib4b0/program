@@ -490,29 +490,30 @@ public class QueryUtils {
      * @return 
      */   
     public String getAdjustPeriodQuery(List list) {
-        String query = "SELECT PERIOD_SID FROM PERIOD WHERE (MONTH IN ('";
+        StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append("SELECT PERIOD_SID FROM PERIOD WHERE (MONTH IN ('");
         String lastValue = "";
         for (int i = 0; i < list.size(); i++) {
             Object[] arr = String.valueOf(list.get(i)).split("~");
             if (!lastValue.isEmpty() && !lastValue.equals(String.valueOf(arr[NumericConstants.TWO]))) {
-                query += "') AND YEAR =" + lastValue;
-                query += ") OR ( MONTH IN ('";
+                queryBuilder.append("') AND YEAR =" ).append( lastValue);
+                queryBuilder.append(") OR ( MONTH IN ('");
             }
             if (list.size() > 1) {
                 if (i == 0) {
-                    query += arr[1];
+                    queryBuilder.append(arr[1]);
                 } else {
-                    query += "','" + arr[1];
+                    queryBuilder.append("','").append(arr[1]);
                 }
             } else {
-                query += arr[1];
+                queryBuilder.append(arr[1]);
             }
             lastValue = String.valueOf(arr[NumericConstants.TWO]);
             if(i==list.size()-1){
-                query += "') AND YEAR =" + arr[NumericConstants.TWO]+" )";
+                queryBuilder.append("') AND YEAR =").append(arr[NumericConstants.TWO]).append(" )");
             }
         }
-        return query;
+        return queryBuilder.toString();
     }
     
     /**

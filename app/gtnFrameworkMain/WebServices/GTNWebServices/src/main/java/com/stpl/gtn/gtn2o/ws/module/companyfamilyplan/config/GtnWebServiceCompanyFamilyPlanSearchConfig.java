@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.module.companyfamilyplan.config;
+    package com.stpl.gtn.gtn2o.ws.module.companyfamilyplan.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public class GtnWebServiceCompanyFamilyPlanSearchConfig implements GtnWsSearchQu
 			gtnWebServiceSearchQueryConfig.setSearchQuery(GtnWsCfpQueryContants.GTN_CFP_COMPANIES_SEARCH_QUERY);
 
 			GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
-			Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
+			Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>(18);
 			fieldToColumnDetailsMap.put("companyFamilyPlanSystemId",
 					configProvider.getColumnIntegerConfig("CFP_MODEL_SID", "CFP"));
 			fieldToColumnDetailsMap.put("companyFamilyPlanId", configProvider.getColumnStringConfig("CFP_ID", "CFP"));

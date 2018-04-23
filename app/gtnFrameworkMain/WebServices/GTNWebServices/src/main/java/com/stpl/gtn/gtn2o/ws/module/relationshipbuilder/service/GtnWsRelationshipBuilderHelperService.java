@@ -215,7 +215,7 @@ public class GtnWsRelationshipBuilderHelperService {
 			}
 
 			for (int i = 0; i < totalLevels; i++) {
-				final StringBuilder rules = new StringBuilder("");
+				final StringBuilder rules = new StringBuilder();
 				final Integer levelNo = i + 1;
 				if (!list.isEmpty()) {
 					final Object[] obj = (Object[]) list.get(i);

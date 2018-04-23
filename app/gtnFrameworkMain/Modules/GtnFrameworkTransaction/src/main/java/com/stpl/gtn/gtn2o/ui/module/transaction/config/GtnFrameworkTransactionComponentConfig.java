@@ -430,9 +430,6 @@ public class GtnFrameworkTransactionComponentConfig {
 		companyStatus.setGtnComboboxConfig(companyStatusConfig);
 		companyStatusConfig.setIntegerItemCode(!component.isLoadDescription());
 		getAdditonalSetting(component, companyStatus, companyStatusConfig);
-		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
-		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		companyStatus.setGtnUIFrameworkValidationConfig(validationConfig);
 		companyStatus.setDefaultFocus(component.isDefaultFocus());
 
 	}
@@ -488,9 +485,6 @@ public class GtnFrameworkTransactionComponentConfig {
 			companyStatus.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.DATE_CENTER_ALIGN));
 		}
 		companyStatus.setEnable(isEnable);
-		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
-		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		companyStatus.setGtnUIFrameworkValidationConfig(validationConfig);
 		componentList.add(companyStatus);
 	}
 
@@ -686,27 +680,10 @@ public class GtnFrameworkTransactionComponentConfig {
 		customAlertAction.addActionParameter(mandatoryMsgHeaderList);
 		customAlertAction.addActionParameter(mandatoryMsgBodyList);
 
-		GtnUIFrameWorkActionConfig searchValidationActionConfig = new GtnUIFrameWorkActionConfig();
-		searchValidationActionConfig.setActionType(GtnUIFrameworkActionType.VALIDATION_ACTION);
-		List searchComponentIdList = new ArrayList<>(searchComponentID);
-		searchComponentIdList.addAll(descriptionList);
-		searchValidationActionConfig.setFieldValues(searchComponentIdList);
-
-		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
-		alertActionConfig.setActionType(GtnUIFrameworkActionType.WARNING_ACTION);
-
-		List<Object> alertParamsList = new ArrayList<>();
-		alertParamsList.add("Search Criteria ");
-		alertParamsList.add("Please enter/select search criteria.");
-
-		alertActionConfig.setActionParameterList(alertParamsList);
-		searchValidationActionConfig.setActionParameterList(
-				Arrays.asList(GtnUIFrameworkValidationType.OR, Arrays.asList(alertActionConfig)));
 
 		validationActionConfig.setActionParameterList(
 				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(customAlertAction)));
 		actionConfigList.add(validationActionConfig);
-		actionConfigList.add(searchValidationActionConfig);
 
 		if (totalCombination > 0) {
 			Object tableNameForDemand = tableName;

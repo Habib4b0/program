@@ -56,7 +56,7 @@ public class GtnFrameworkAutoBuildAction implements GtnUIFrameWorkAction, GtnUIF
 				GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
 				request.setRelationshipBuilderRequest(rbRequest);
 				rbRequest.setMainNode(selectedRelationShip);
-				rbRequest.setHierarchyDefSId(Integer.valueOf(hierarchyName.getValueFromComponent() == null ? "0"
+				rbRequest.setHierarchyDefSId(Integer.parseInt(hierarchyName.getValueFromComponent() == null ? "0"
 						: hierarchyName.getValueFromComponent().toString()));
 				rbRequest.setHierarchyVersionNo(Integer.valueOf(hierarchyVersionNo.getValueFromComponent() == null ? "0"
 						: hierarchyVersionNo.getValueFromComponent().toString()));

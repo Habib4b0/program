@@ -308,17 +308,19 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
                 lookUpDTO.setCreatedDateTo(format.format(toDate.getValue()));
             }
 
-            String notNeededProjectionIds = String.valueOf(sessionDTO.getProjectionId());
+            String notNeededProjectionIds;
+            StringBuilder notNeededProjectionIdsBuilder = new StringBuilder();
+            notNeededProjectionIdsBuilder.append(String.valueOf(sessionDTO.getProjectionId()));
             if (selectedResultsBean.size() != 0) {
                 List<ComparisonLookupDTO> list = selectedResultsBean.getItemIds();
                 for (ComparisonLookupDTO tempLookUpDTO : list) {
-                    notNeededProjectionIds += ",";
-                    notNeededProjectionIds += tempLookUpDTO.getProjectionId();
+                    notNeededProjectionIdsBuilder.append(',');
+                    notNeededProjectionIdsBuilder.append(tempLookUpDTO.getProjectionId());
                 }
 
             }
 
-
+            notNeededProjectionIds = notNeededProjectionIdsBuilder.toString();
             tableLogic.setContainerDataSource(resultsBean);
             resultsTable.setVisibleColumns(headerUtils.getComparisonColumns());
             resultsTable.setColumnHeaders(headerUtils.getComparisonHeader());

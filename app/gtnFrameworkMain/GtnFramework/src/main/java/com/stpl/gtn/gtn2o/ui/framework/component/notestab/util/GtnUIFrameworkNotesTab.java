@@ -777,7 +777,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		remove.setEnabled(!isView);
 	}
 
-	public void intailizingObject() {
+	public final void intailizingObject() {
 		uploadReceiver = new FileUploader(moduleName);
 		uploadComponent = new Upload(null, uploadReceiver);
 		filePath = GtnFileNameUtils.getFile(basepath + File.separator + GtnFrameworkCommonStringConstants.ATTACHMENTS

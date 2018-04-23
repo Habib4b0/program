@@ -544,7 +544,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 	}
 
 	private Map<String, String> getComboBoxMap() {
-		Map<String, String> priceProtectionTabComboBoxMap = new HashMap<>();
+		Map<String, String> priceProtectionTabComboBoxMap = new HashMap<>(30);
 		priceProtectionTabComboBoxMap.put("psPPStatus", "STATUS");
 		priceProtectionTabComboBoxMap.put("psPPPriceType", GtnFrameworkCommonConstants.ITEM_PRICING_QUALIFIER);
 		priceProtectionTabComboBoxMap.put("psBasePriceType", "BASE_PRICE_TYPE");

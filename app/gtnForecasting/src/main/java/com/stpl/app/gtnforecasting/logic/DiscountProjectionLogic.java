@@ -737,12 +737,13 @@ public class DiscountProjectionLogic {
 
     public void checkUncheckRebateBeforeAdjust(boolean isCheck, List<String> selectedDiscount, SessionDTO session, boolean isCheckList, boolean isProgram) {
         if (selectedDiscount != null && !selectedDiscount.isEmpty()) {
-            String discountIds = StringUtils.EMPTY;
+            String discountIds;
+            StringBuilder discountIdsBuilder = new StringBuilder();
             String query;
             for (String discountName : selectedDiscount) {
-                discountIds += "'" + discountName + "',";
+                discountIdsBuilder.append('\'').append(discountName ).append( "',");
             }
-
+            discountIds = discountIdsBuilder.toString();
             discountIds = discountIds.substring(0, discountIds.length() - 1);
             query = "UPDATE ST_NM_DISCOUNT_PROJ_MASTER \n"
                     + "SET CHECK_RECORD = " + (isCheck ? Constant.STRING_ONE : DASH) + '\n';
@@ -1053,6 +1054,7 @@ public class DiscountProjectionLogic {
 
     public String getDetailsId(SessionDTO session) {
         String detailsSid = StringUtils.EMPTY;
+        StringBuilder idStringBuilder = new StringBuilder();
         try {
             String query = "Select Distinct PROJECTION_DETAILS_SID from ST_DISC_ALTERNATE_HIST_ALLOCATION";
             List list;
@@ -1060,9 +1062,10 @@ public class DiscountProjectionLogic {
             for (int i = 0; i < list.size(); i++) {
                 Object obj = (Object) list.get(i);
                 if (!StringUtils.EMPTY.equalsIgnoreCase(String.valueOf(obj)) && !"null".equalsIgnoreCase(String.valueOf(obj))) {
-                    detailsSid += StringUtils.EMPTY + Integer.valueOf(String.valueOf(obj)) + ",";
+                    idStringBuilder.append(StringUtils.EMPTY ).append( Integer.valueOf(String.valueOf(obj)) ).append( ',');
                 }
             }
+            detailsSid = idStringBuilder.toString();
             detailsSid.substring(0, detailsSid.length() - 1);
             return detailsSid;
         } catch (NumberFormatException e) {

@@ -253,7 +253,7 @@ public class GtnWsCMasterService {
 	}
 
 	public Integer getIntegerFromObject(final Object obj) {
-		return Integer.parseInt(String.valueOf(obj));
+		return Integer.valueOf(String.valueOf(obj));
 	}
 
 	public void getCustomisedResult(final List<Object[]> resultList, GtnWsSearchQueryConfig searchQueryConfig,
