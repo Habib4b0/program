@@ -48,7 +48,7 @@ public class CommercialForecastingProjectionVarianceMain {
 		new CommercialForecastingProjectionVarianceDisplaySelectionFilterOptionTab().addTabSheet(componentList, projectionVarianceMainLayout.getComponentId(), nameSpace);
 		new CommercialForecastingProjectionVarianceGenerateResetButton().addGenerateResetButtonComponetsLayout(componentList, projectionVarianceMainLayout.getComponentId(), nameSpace);
 		
-		addProjectionPivoteViewTable(componentList, projectionVarianceMainLayout.getComponentId(), nameSpace);
+		//addProjectionPivoteViewTable(componentList, projectionVarianceMainLayout.getComponentId(), nameSpace);
 		
 		
 		addUpdatePreviousNextCloseSubmitButtonLayout(componentList, projectionVarianceMainLayout.getComponentId(), nameSpace);
