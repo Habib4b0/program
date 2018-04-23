@@ -10,6 +10,8 @@ import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroup
 import com.stpl.gtn.gtn2o.ui.framework.component.date.GtnUIFrameworkDateComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.GtnUIFrameworkGridComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.GtnUIFrameworkTreeGridComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedgrid.GtnUIFrameworkPagedGridComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedtreeGrid.GtnUIFrameworkPagedTreeGridComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.label.GtnUIFrameworkLabelComponent;
@@ -89,22 +91,23 @@ public enum GtnUIFrameworkComponentType {
 	ERROR_BANNER(new GtnUIFrameworkErrorBannerComponent()),
 
 	CALENDAR_FIELD(new GtnUIFrameworkCalendarComponent()),
-	
+
 	COMBOBOXMULTISELECT(new GtnUIFrameworkComboBoxMultiselectComponent()),
-	
+
 	DATEFIELDVAADIN8(new GtnUIFrameworkDateFieldComponent()),
-	
+
 	TEXTBOX_VAADIN8(new GtnUIFrameworkTextBoxComponent()),
-	
+
 	COMBOBOX_VAADIN8(new GtnUIFrameworkComboBoxComponent()),
-	
+
 	RADIOBUTTON_VAADIN8(new GtnUIFrameworkRadioButtonGroupComponent()),
-	
-	POPUPTEXTFIELDVAADIN8(new GtnUIFrameworkPopupTextBox()),
-        PAGED_GRID(new  GtnUIFrameworkPagedGridComponent()),
-        V8_DUALLISTBOX(new GtnUIFrameworkDualListBoxComponent()),
-        PAGED_TREE_GRID(new  GtnUIFrameworkPagedTreeGridComponent());
-	
+
+	POPUPTEXTFIELDVAADIN8(new GtnUIFrameworkPopupTextBox()), PAGED_GRID(
+			new GtnUIFrameworkPagedGridComponent()), V8_DUALLISTBOX(
+					new GtnUIFrameworkDualListBoxComponent()), PAGED_TREE_GRID(
+							new GtnUIFrameworkPagedTreeGridComponent()), GRID(
+									new GtnUIFrameworkGridComponent()), TREE_GRID(
+											new GtnUIFrameworkTreeGridComponent());
 	private GtnUIFrameworkComponent gtnComponent;
 
 	private GtnUIFrameworkComponentType(GtnUIFrameworkComponent gtnComponent) {

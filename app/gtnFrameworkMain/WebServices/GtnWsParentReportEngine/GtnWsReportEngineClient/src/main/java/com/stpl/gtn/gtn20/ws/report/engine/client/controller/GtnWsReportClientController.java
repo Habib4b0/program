@@ -17,13 +17,21 @@ public class GtnWsReportClientController {
 	}
 
 	public void getWsReportClientController() {
-		GtnWsReportEngineTreeNode input = new GtnWsReportInputGenerator().callBuildTree(9);
+            try{
+                GtnWsReportInputGenerator inputGenerator = new GtnWsReportInputGenerator();
+		GtnWsReportEngineTreeNode input = inputGenerator.callBuildTree(9);
 		new GtnWsRawDataCustomiseService().generateDataToMongo();
 		GtnWsReportEngineTreeNode outputTree = getGtnGeneratedReportOutput(input);
 		System.out.println("outputTree = " + outputTree);
 
-		 MONGO_SERVICE.createCollection("computedResults");
-		 MONGO_SERVICE.updateFinalResultsToMongo("computedResults", outputTree);
+		MONGO_SERVICE.createCollection("computedResults");
+		MONGO_SERVICE.updateFinalResultsToMongo("computedResults", outputTree);
+
+		MONGO_SERVICE.writeTreeToMongo("Tree", input);
+                inputGenerator.displayNodeValues(MONGO_SERVICE.getTreeFromMongo("Tree"));
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
 	}
 
 	private GtnWsReportEngineTreeNode getGtnGeneratedReportOutput(GtnWsReportEngineTreeNode input) {

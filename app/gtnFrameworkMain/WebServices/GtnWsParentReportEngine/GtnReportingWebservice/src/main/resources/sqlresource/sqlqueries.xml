@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="getHierarchyLevels">
+    <![CDATA[
+        select
+	LEVEL_NO,
+	LEVEl_NAME
+from
+	HIERARCHY_DEFINITION HD
+join HIERARCHY_LEVEL_DEFINITION HLD on
+	HD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
+where
+	HD.HIERARCHY_DEFINITION_SID = ?
+	and LEVEL_NO >= ?     
+    ]]>
+
+	</entry>
+</properties>

@@ -121,7 +121,6 @@ public class GtnWsReportController {
 		return response;
 	}
 
-	
 
 	@RequestMapping(value = "/gtnWsReportComboboxLoad", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getComboBoxResultSet(
