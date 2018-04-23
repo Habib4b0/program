@@ -316,7 +316,8 @@ public class GtnFrameworkCfpInformationTabConfig {
 		// To disable Select Button when a popup is opened
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new String[] { "parentCfpSelectButton" };
+                List<Object> disableField = new ArrayList<>();
+                disableField.add(Arrays.asList("parentCfpSelectButton"));
 		disableAction.setActionParameterList(Arrays.asList(disableField));
 		parentCFPIdActionConfigList.add(disableAction);
 		parentCFPId.setGtnUIFrameWorkActionConfigList(parentCFPIdActionConfigList);
