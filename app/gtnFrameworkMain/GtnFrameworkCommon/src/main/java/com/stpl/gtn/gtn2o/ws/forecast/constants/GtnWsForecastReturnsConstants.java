@@ -5,8 +5,6 @@
  */
 package com.stpl.gtn.gtn2o.ws.forecast.constants;
 
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
-
 /**
  *
  * @author Sibi.Chakaravarthy
@@ -31,6 +29,9 @@ public final class GtnWsForecastReturnsConstants {
 
 	public static final String GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_LEFT_HEADERS_SERVICE = "/getLeftHeaders";
 	public static final String GTN_WS_REPORT_PROJECTION_TAB_LEFT_HEADERS_SERVICE = "/getReportLeftHeaders";
+	
+	public static final String GTN_WS_COMMERCIAL_FORECAST_PROJECTION_VARIANCE_TAB_LEFT_HEADERS_SERVICE = "/getProjectionVarianceLeftHeaders";
+	public static final String GTN_WS_COMMERCIAL_FORECAST_PROJECTION_VARIANCE_TAB_RIGHT_HEADERS_SERVICE = "/getProjectionVarianceRightHeaders";
 
 	public static final String GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_RIGHT_HEADERS_SERVICE = "/getRightHeaders";
 	public static final String GTN_WS_REPORT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE = "/getReportRightHeaders";

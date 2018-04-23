@@ -4,9 +4,9 @@ package com.stpl.gtn.gtn2o.registry.config.projectionvariance;
  *
  * @author Nimisha.Rakesh
  */
-public class GtnForecastReturnsClassConstants {
+public class GtnCommercialForecastProjectionVarianceClassConstants {
 
-	private GtnForecastReturnsClassConstants() {
+	private GtnCommercialForecastProjectionVarianceClassConstants() {
 	}
 
 	public static final String RETURNS_FORECAST_ACTION_PACKAGE = "com.stpl.gtn.gtn2o.ui.action.";
