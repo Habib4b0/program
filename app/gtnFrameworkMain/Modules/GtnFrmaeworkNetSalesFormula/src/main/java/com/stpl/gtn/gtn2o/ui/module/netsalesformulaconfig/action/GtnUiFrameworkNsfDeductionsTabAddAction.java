@@ -63,8 +63,8 @@ public class GtnUiFrameworkNsfDeductionsTabAddAction implements GtnUIFrameWorkAc
 			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 			alertActionConfig.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
 			alertActionConfig.setActionParameterList(
-					Arrays.asList(new Object[] { GtnFrameworkNSFMessageConstants.GTN_NSF_ADD_CUSTOMER_BUTTON_MSG_HEADER,
-							GtnFrameworkNSFMessageConstants.GTN_NSF_ADD_DEDUCTION_BUTTON_MSG_BODY }));
+					Arrays.asList( GtnFrameworkNSFMessageConstants.GTN_NSF_ADD_CUSTOMER_BUTTON_MSG_HEADER,
+							GtnFrameworkNSFMessageConstants.GTN_NSF_ADD_DEDUCTION_BUTTON_MSG_BODY ));
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
 			throw new GtnFrameworkSkipActionException("Add Error ");
 
@@ -79,9 +79,9 @@ public class GtnUiFrameworkNsfDeductionsTabAddAction implements GtnUIFrameWorkAc
 				selectedContractBean
 						.setDeductionType(Integer.valueOf(String.valueOf(GtnWsRecordBean.getProperties().get(17))));
 				selectedContractBean
-						.setDeductionSubType(Integer.valueOf(String.valueOf(GtnWsRecordBean.getProperties().get(18))));
+						.setDeductionSubType(Integer.valueOf(String.valueOf(GtnWsRecordBean.getProperties().get(19))));
 				selectedContractBean
-						.setDeductionCategory(Integer.valueOf(String.valueOf(GtnWsRecordBean.getProperties().get(19))));
+						.setDeductionCategory(Integer.valueOf(String.valueOf(GtnWsRecordBean.getProperties().get(18))));
 				selectedContractBean
 						.setContractMasterSid(Integer.valueOf(String.valueOf(GtnWsRecordBean.getProperties().get(20))));
 				selectedContractBean
