@@ -51,35 +51,35 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		super();
 	}
 
-	public GtnWsSqlService getGtnWsSqlService() {
+	public synchronized GtnWsSqlService getGtnWsSqlService() {
 		return gtnWsSqlService;
 	}
 
-	public void setGtnWsSqlService(GtnWsSqlService gtnWsSqlService) {
+	public synchronized void setGtnWsSqlService(GtnWsSqlService gtnWsSqlService) {
 		this.gtnWsSqlService = gtnWsSqlService;
 	}
 
-	public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
+	public synchronized GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
 		return gtnSqlQueryEngine;
 	}
 
-	public void setGtnSqlQueryEngine(GtnFrameworkSqlQueryEngine gtnSqlQueryEngine) {
+	public synchronized void setGtnSqlQueryEngine(GtnFrameworkSqlQueryEngine gtnSqlQueryEngine) {
 		this.gtnSqlQueryEngine = gtnSqlQueryEngine;
 	}
 
-	public GtnFrameworkEntityMasterBean getGtnFrameworkEntityMasterBean() {
+	public synchronized GtnFrameworkEntityMasterBean getGtnFrameworkEntityMasterBean() {
 		return gtnFrameworkEntityMasterBean;
 	}
 
-	public void setGtnFrameworkEntityMasterBean(GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean) {
+	public synchronized void setGtnFrameworkEntityMasterBean(GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean) {
 		this.gtnFrameworkEntityMasterBean = gtnFrameworkEntityMasterBean;
 	}
 
-	public GtnFrameworkHierarchyService getHierarchyService() {
+	public synchronized GtnFrameworkHierarchyService getHierarchyService() {
 		return hierarchyService;
 	}
 
-	public void setHierarchyService(GtnFrameworkHierarchyService hierarchyService) {
+	public synchronized void setHierarchyService(GtnFrameworkHierarchyService hierarchyService) {
 		this.hierarchyService = hierarchyService;
 	}
 
@@ -132,11 +132,13 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 	public int updateRelationShipVersionNo(GtnWsRelationshipBuilderBean relationBean) {
 
 		SessionFactory sessionFactory = gtnSqlQueryEngine.getSessionFactory();
+                int modifiedBy;
 		try (Session session = sessionFactory.openSession()) {
 			Transaction tx = session.beginTransaction();
 			RelationshipBuilder relationshipBuilder = session.load(RelationshipBuilder.class,
 					relationBean.getRelationshipBuilderSid());
-			relationshipBuilder.setModifiedBy(relationshipBuilder.getModifiedBy());
+                        modifiedBy = relationshipBuilder.getModifiedBy();
+			relationshipBuilder.setModifiedBy(modifiedBy);
 			relationshipBuilder.setModifiedDate(new Date());
 			relationshipBuilder.setVersionNo(relationshipBuilder.getVersionNo() + 1);
 			session.update("RelationshipBuilder", relationshipBuilder);

@@ -7643,6 +7643,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'ACTUALS_CHARGEBACK_INTERFACE'		
@@ -7663,6 +7665,8 @@ BEGIN
 		,'ACTUALS_CHARGEBACK_INTERFACE SUCCESS'
 		,'FAILURE - ACTUALS_CHARGEBACK_INTERFACE '
 		,'ACTUALS_CHARGEBACK_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -7695,6 +7699,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'ACTUALS_MEDICAID_INTERFACE'		
@@ -7715,6 +7721,8 @@ BEGIN
 		,'ACTUALS_MEDICAID_INTERFACE SUCCESS'
 		,'FAILURE - ACTUALS_MEDICAID_INTERFACE '
 		,'ACTUALS_MEDICAID_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -7744,6 +7752,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'ACTUALS_REBATE_INTERFACE'		
@@ -7764,6 +7774,8 @@ BEGIN
 		,'ACTUALS_REBATE_INTERFACE SUCCESS'
 		,'FAILURE - ACTUALS_REBATE_INTERFACE '
 		,'ACTUALS_REBATE_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -7793,6 +7805,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'ACTUALS_COUPON_INTERFACE'		
@@ -7813,6 +7827,8 @@ BEGIN
 		,'ACTUALS_COUPON_INTERFACE SUCCESS'
 		,'FAILURE - ACTUALS_COUPON_INTERFACE '
 		,'ACTUALS_COUPON_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -7842,6 +7858,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'COMPANY_BUNIT_INTERFACE'		
@@ -7862,6 +7880,8 @@ BEGIN
 		,'COMPANY_BUNIT_INTERFACE SUCCESS'
 		,'FAILURE - COMPANY_BUNIT_INTERFACE '
 		,'COMPANY_BUNIT_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -7891,6 +7911,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'COMPANY_BUID_INTERFACE'		
@@ -7911,6 +7933,8 @@ BEGIN
 		,'COMPANY_BUID_INTERFACE SUCCESS'
 		,'FAILURE - COMPANY_BUID_INTERFACE '
 		,'COMPANY_BUID_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -7941,6 +7965,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'COMPANY_BUTYPE_INTERFACE'		
@@ -7961,6 +7987,8 @@ BEGIN
 		,'COMPANY_BUTYPE_INTERFACE SUCCESS'
 		,'FAILURE - COMPANY_BUTYPE_INTERFACE '
 		,'COMPANY_BUTYPE_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -7990,6 +8018,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'PRODUCT_PRODID_INTERFACE'		
@@ -8010,6 +8040,8 @@ BEGIN
 		,'PRODUCT_PRODID_INTERFACE SUCCESS'
 		,'FAILURE - PRODUCT_PRODID_INTERFACE '
 		,'PRODUCT_PRODID_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8039,6 +8071,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'PRODUCT_PROD_INTERFACE'		
@@ -8059,6 +8093,8 @@ BEGIN
 		,'PRODUCT_PROD_INTERFACE SUCCESS'
 		,'FAILURE - PRODUCT_PROD_INTERFACE '
 		,'PRODUCT_PROD_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8088,6 +8124,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'PRODUCT_PROD_HIERARCHY_INTERFACE'		
@@ -8108,6 +8146,8 @@ BEGIN
 		,'PRODUCT_PROD_HIERARCHY_INTERFACE SUCCESS'
 		,'FAILURE - PRODUCT_PROD_HIERARCHY_INTERFACE '
 		,'PRODUCT_PROD_HIERARCHY_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8137,6 +8177,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'PRODUCT_PROD_BW_INTERFACE'		
@@ -8157,6 +8199,8 @@ BEGIN
 		,'PRODUCT_PROD_BW_INTERFACE SUCCESS'
 		,'FAILURE - PRODUCT_PROD_BW_INTERFACE '
 		,'PRODUCT_PROD_BW_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8186,6 +8230,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'PRICING_INTERFACE'		
@@ -8206,6 +8252,8 @@ BEGIN
 		,'PRICING_INTERFACE SUCCESS'
 		,'FAILURE - PRICING_INTERFACE '
 		,'PRICING_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8235,6 +8283,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'CONTRACT_CONT_INTERFACE'		
@@ -8255,6 +8305,8 @@ BEGIN
 		,'CONTRACT_CONT_INTERFACE SUCCESS'
 		,'FAILURE - CONTRACT_CONT_INTERFACE '
 		,'CONTRACT_CONT_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8284,6 +8336,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'CONTRACT_CPGRP_INTERFACE'		
@@ -8304,6 +8358,8 @@ BEGIN
 		,'CONTRACT_CPGRP_INTERFACE SUCCESS'
 		,'FAILURE - CONTRACT_CPGRP_INTERFACE '
 		,'CONTRACT_CPGRP_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8333,6 +8389,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'CONTRACT_CPPPO_INTERFACE'		
@@ -8353,6 +8411,8 @@ BEGIN
 		,'CONTRACT_CPPPO_INTERFACE SUCCESS'
 		,'FAILURE - CONTRACT_CPPPO_INTERFACE '
 		,'CONTRACT_CPPPO_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8382,6 +8442,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'CONTRACT_CPPT_INTERFACE'		
@@ -8402,6 +8464,8 @@ BEGIN
 		,'CONTRACT_CPPT_INTERFACE SUCCESS'
 		,'FAILURE - CONTRACT_CPPT_INTERFACE '
 		,'CONTRACT_CPPT_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8431,6 +8495,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'CONTRACT_CPGRP_PGMMKT_INTERFACE'		
@@ -8451,6 +8517,8 @@ BEGIN
 		,'CONTRACT_CPGRP_PGMMKT_INTERFACE SUCCESS'
 		,'FAILURE - CONTRACT_CPGRP_PGMMKT_INTERFACE '
 		,'CONTRACT_CPGRP_PGMMKT_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8480,6 +8548,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'CONTRACT_PRGMMKT_INTERFACE'		
@@ -8500,6 +8570,8 @@ BEGIN
 		,'CONTRACT_PRGMMKT_INTERFACE SUCCESS'
 		,'FAILURE - CONTRACT_PRGMMKT_INTERFACE '
 		,'CONTRACT_PRGMMKT_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8529,6 +8601,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'PSTG_SALES_MASTER_INTERFACE'		
@@ -8549,6 +8623,8 @@ BEGIN
 		,'PSTG_SALES_MASTER_INTERFACE SUCCESS'
 		,'FAILURE - PSTG_SALES_MASTER_INTERFACE '
 		,'PSTG_SALES_MASTER_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8578,6 +8654,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'PSTG_CUSTOMER_GTS_ACTUAL_INTERFACE'		
@@ -8598,6 +8676,8 @@ BEGIN
 		,'PSTG_CUSTOMER_GTS_ACTUAL_INTERFACE SUCCESS'
 		,'FAILURE - PSTG_CUSTOMER_GTS_ACTUAL_INTERFACE '
 		,'PSTG_CUSTOMER_GTS_ACTUAL_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8627,6 +8707,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'PSTG_CUSTOMER_GTS_FORECAST_INTERFACE'		
@@ -8647,6 +8729,8 @@ BEGIN
 		,'PSTG_CUSTOMER_GTS_FORECAST_INTERFACE SUCCESS'
 		,'FAILURE - PSTG_CUSTOMER_GTS_FORECAST_INTERFACE '
 		,'PSTG_CUSTOMER_GTS_FORECAST_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8676,6 +8760,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'PSTG_RETURNS_INTERFACE'		
@@ -8696,6 +8782,8 @@ BEGIN
 		,'PSTG_RETURNS_INTERFACE SUCCESS'
 		,'FAILURE - PSTG_RETURNS_INTERFACE '
 		,'PSTG_RETURNS_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8725,6 +8813,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'CONSUMER_PRICE_INDEX_INTERFACE'		
@@ -8745,6 +8835,8 @@ BEGIN
 		,'CONSUMER_PRICE_INDEX_INTERFACE SUCCESS'
 		,'FAILURE - CONSUMER_PRICE_INDEX_INTERFACE '
 		,'CONSUMER_PRICE_INDEX_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8789,6 +8881,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'PSTG_GL_COST_CENTER_INTERFACE'		
@@ -8809,6 +8903,8 @@ BEGIN
 		,'PSTG_GL_COST_CENTER_INTERFACE SUCCESS'
 		,'FAILURE - PSTG_GL_COST_CENTER_INTERFACE '
 		,'PSTG_GL_COST_CENTER_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8838,6 +8934,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'ACCRUALS_INTERFACE'		
@@ -8858,6 +8956,8 @@ BEGIN
 		,'ACCRUALS_INTERFACE SUCCESS'
 		,'FAILURE - ACCRUALS_INTERFACE '
 		,'ACCRUALS_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8887,6 +8987,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'PSTG_SALES_FORECAST_INTERFACE'		
@@ -8907,6 +9009,8 @@ BEGIN
 		,'PSTG_SALES_FORECAST_INTERFACE SUCCESS'
 		,'FAILURE - PSTG_SALES_FORECAST_INTERFACE '
 		,'PSTG_SALES_FORECAST_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8937,6 +9041,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'UNIT_OF_MEASURE_INTERFACE'		
@@ -8957,6 +9063,8 @@ BEGIN
 		,'UNIT_OF_MEASURE_INTERFACE SUCCESS'
 		,'FAILURE - UNIT_OF_MEASURE_INTERFACE '
 		,'UNIT_OF_MEASURE_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO
@@ -8987,6 +9095,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'CONTRACT_CFP_MBR_INTERFACE'		
@@ -9007,6 +9117,8 @@ BEGIN
 		,'CONTRACT_CFP_MBR_INTERFACE SUCCESS'
 		,'FAILURE - CONTRACT_CFP_MBR_INTERFACE '
 		,'CONTRACT_CFP_MBR_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
 		)
 END
 GO
@@ -9038,6 +9150,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'PSTG_FORECAST_SALES_WAC_INTERFACE'		
@@ -9058,6 +9172,8 @@ BEGIN
 		,'PSTG_FORECAST_SALES_WAC_INTERFACE SUCCESS'
 		,'FAILURE - PSTG_FORECAST_SALES_WAC_INTERFACE '
 		,'PSTG_FORECAST_SALES_WAC_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com'
 		)
 END
 GO
@@ -9090,6 +9206,8 @@ BEGIN
 		,[SUCCESS_MAIL_BODY]
 		,[FAILURE_MAIL_SUBJECT]
 		,[FAILURE_MAIL_BODY]
+		,[EMAIL_NOTIFICATION_SUCCESS_TO]
+		,[EMAIL_NOTIFICATION_FAILURE_TO]
 		)
 	VALUES (
 		'PSTG_GCC_PROD_HIERARCHY_INTERFACE'		
@@ -9110,6 +9228,8 @@ BEGIN
 		,'PSTG_GCC_PROD_HIERARCHY_INTERFACE SUCCESS'
 		,'FAILURE - PSTG_GCC_PROD_HIERARCHY_INTERFACE '
 		,'PSTG_GCC_PROD_HIERARCHY_INTERFACE FAILURE'
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
+		,'dk@adroit-transformations.com SMedina@bpitechnologies.com ERodriguez@bpitechnologies.com support@bpitechnologies.com' 
 		)
 END
 GO

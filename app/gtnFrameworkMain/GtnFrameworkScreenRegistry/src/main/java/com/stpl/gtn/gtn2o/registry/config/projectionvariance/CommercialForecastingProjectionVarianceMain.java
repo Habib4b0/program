@@ -92,7 +92,7 @@ public class CommercialForecastingProjectionVarianceMain {
 		
 		GtnUIFrameworkComponentConfig ppvComponetsLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "ppvTableLayout", true, parentComponentId);
-		ppvComponetsLayout.setComponentWidth("100%s");
+		ppvComponetsLayout.setComponentWidth("100%");
 		ppvComponetsLayout.setSpacing(false);
 		componentList.add(ppvComponetsLayout);
 

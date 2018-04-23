@@ -135,6 +135,7 @@ public class CustomViewLogic {
 
         StringBuilder ccpfinalQuery = new StringBuilder(SQlUtil.getQuery("UPDATE_CUSTOM_CCP_MAP"));
            String selectQuery = "";
+           StringBuilder selectQueryStringBuilder = new StringBuilder();
         for (ListIterator<LevelMapKey> it = hierarchyList.listIterator(); it.hasNext();) {
             LevelMapKey obj = it.next();
             String query;
@@ -146,13 +147,14 @@ public class CustomViewLogic {
             for (int j = 0; j < jsd.size(); j++) {
                 Integer LEVEL_CCP_ID = jsd.get(j);
                String subQuery = query.replace("[$CCP_DETAILS_SID]", String.valueOf(LEVEL_CCP_ID));
-                if (selectQuery.length() == 0) {
-                    selectQuery += subQuery;
+                if (selectQueryStringBuilder.length() == 0) {
+                    selectQueryStringBuilder.append(subQuery);
                 } else {
-                    selectQuery += " UNION ALL " + subQuery;
+                    selectQueryStringBuilder.append(" UNION ALL ").append(subQuery);
                 }
             }
         }
+        selectQuery = selectQueryStringBuilder.toString();
         if (!hierarchyList.isEmpty()) {
             ccpfinalQuery = new StringBuilder(ccpfinalQuery.toString().replace("[$UPDATE_CUSTOM_CCP_MAP_SELECT]", selectQuery));
             HelperTableLocalServiceUtil.executeUpdateQuery(ccpfinalQuery.toString());
@@ -214,7 +216,8 @@ listNameCollection.add(listName);
 
     private List<Object[]> build_custom_query() {
         LOGGER.debug("build_custom_query for selecting the table values :");
-        String query = "";
+        String query;
+        StringBuilder queryBuilder = new StringBuilder();
         String lastTableName = "";
         String lastFieldName = "";
         String LEVEL_SID = "";
@@ -227,16 +230,11 @@ listNameCollection.add(listName);
             String key = objArray[0] + "-" + objArray[1];
             String LIST_NAME = table_field_helperList.get(key);
             if (LIST_NAME == null) {
-
-                if (!LEVEL_SID.isEmpty()) {
-                    LEVEL_SID += " , ";
-                }
-                LEVEL_SID += LEVEL_ID;
                 if ((!objArray[0].equals(lastTableName) || i == lastElement) && !lastTableName.isEmpty()) {
-                    if (!query.isEmpty()) {
-                        query += " UNION ALL ";
+                    if (!queryBuilder.toString().isEmpty()) {
+                        queryBuilder.append(" UNION ALL ");
                     }
-                    query += "SELECT " + lastFieldName + "," + lastTableName + "_SID  " + " FROM " + lastTableName + " WHERE " + lastTableName + "_SID in( " + LEVEL_SID + " )";
+                    queryBuilder.append("SELECT ").append(lastFieldName ).append( ',' ).append( lastTableName ).append( "_SID  " ).append( " FROM " ).append( lastTableName ).append( " WHERE " ).append( lastTableName ).append( "_SID in( " ).append( LEVEL_SID ).append( " )");
                 }
             } else {
                 helperList_values.add(LEVEL_ID);
@@ -244,6 +242,7 @@ listNameCollection.add(listName);
             lastTableName = objArray[0];
             lastFieldName = objArray[1];
         }
+        query = queryBuilder.toString();
         finalQuery.append(query);
         List<Object[]> rawList = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery.toString());
         return rawList;

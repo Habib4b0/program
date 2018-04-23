@@ -101,7 +101,7 @@ public class PagedTreeGrid {
              for(Object property:tableConfig.getRightTableDoubleHeaderMap().keySet()){
                  Object joinList[]=tableConfig.getRightTableDoubleHeaderMap().get(property);
                  String[] stringArray = Arrays.copyOf(joinList, joinList.length, String[].class);
-                 groupingHeader.join(stringArray).setText(tableConfig.getLeftTableDoubleHeaderVisibleHeaders().iterator().next());
+                 groupingHeader.join(stringArray).setText(tableConfig.getRightTableDoubleVisibleHeaders().iterator().next());
              }
         }
           if (tableConfig.isTripleHeaderVisible()) {

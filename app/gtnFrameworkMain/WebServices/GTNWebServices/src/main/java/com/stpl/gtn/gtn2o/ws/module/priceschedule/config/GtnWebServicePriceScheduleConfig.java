@@ -178,7 +178,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 		GtnWsSearchQueryConfig gtnWebServiceSearchQueryContext = new GtnWsSearchQueryConfig();
 
-		Map<String, GtnWsColumnDetailsConfig> psPriceTabToColumnDetailsMap = new HashMap<>();
+		Map<String, GtnWsColumnDetailsConfig> psPriceTabToColumnDetailsMap = new HashMap<>(50);
 
 		psPriceTabToColumnDetailsMap.put("createdBy",
 				configProvider.getColumnUserConfig("CREATED_BY", GtnFrameworkWebserviceConstant.IMPSD));
@@ -295,7 +295,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 		GtnWsSearchQueryConfig gtnWebServiceSearchQueryContext = new GtnWsSearchQueryConfig();
 
-		Map<String, GtnWsColumnDetailsConfig> updatePPColumnDetailsMap = new HashMap<>();
+		Map<String, GtnWsColumnDetailsConfig> updatePPColumnDetailsMap = new HashMap<>(100);
 
 		// PRICE_PROTECTION_PRICE_TYPE
 		updatePPColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_MASTER_SID, configProvider.getColumnStringConfig(
@@ -403,7 +403,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 		GtnWsSearchQueryConfig gtnWebServiceSearchQueryContext = new GtnWsSearchQueryConfig();
 
-		Map<String, GtnWsColumnDetailsConfig> psPPColumnDetailsMap = new HashMap<>();
+		Map<String, GtnWsColumnDetailsConfig> psPPColumnDetailsMap = new HashMap<>(70);
 		psPPColumnDetailsMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, configProvider.getColumnBooleanConfig(
 				GtnFrameworkWebserviceConstant.CHECK_RECORD_COLUMN, GtnFrameworkWebserviceConstant.IMPSD));
 		psPPColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_ID, configProvider.getColumnStringConfig(
@@ -561,7 +561,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 		GtnWsSearchQueryConfig gtnWebServiceSearchQueryContext = new GtnWsSearchQueryConfig();
 
-		Map<String, GtnWsColumnDetailsConfig> psPPViewColumnDetailsMap = new HashMap<>();
+		Map<String, GtnWsColumnDetailsConfig> psPPViewColumnDetailsMap = new HashMap<>(100);
 		psPPViewColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_ID,
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_ID_COLUMN, "IM"));
 		psPPViewColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_NO,

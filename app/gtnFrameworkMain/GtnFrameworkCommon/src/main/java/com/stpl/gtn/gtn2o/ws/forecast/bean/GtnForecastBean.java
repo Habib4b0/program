@@ -1114,3 +1114,4 @@ public class GtnForecastBean implements Serializable {
     }
 
 }
+

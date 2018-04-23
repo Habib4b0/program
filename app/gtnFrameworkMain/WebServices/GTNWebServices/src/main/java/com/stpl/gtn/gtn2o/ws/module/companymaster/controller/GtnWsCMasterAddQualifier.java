@@ -116,6 +116,8 @@ public class GtnWsCMasterAddQualifier {
 			} else {
 				masterData = session.get(CompanyQualifier.class, bean.getCompanyQualifierSid());
 			}
+                        int createdBy = masterData.getCreatedBy();
+                        Date createdDate = masterData.getCreatedDate();
 			masterData.setCompanyQualifierSid(bean.getCompanyQualifierSid());
 			masterData.setCompanyQualifierName(bean.getCompanyQualifierName());
 			masterData.setCompanyQualifierValue(bean.getCompanyQualifierValue());
@@ -128,8 +130,8 @@ public class GtnWsCMasterAddQualifier {
 				masterData.setCreatedBy(bean.getUserId());
 				masterData.setCreatedDate(new Date());
 			} else {
-				masterData.setCreatedBy(masterData.getCreatedBy());
-				masterData.setCreatedDate(masterData.getCreatedDate());
+				masterData.setCreatedBy(createdBy);
+				masterData.setCreatedDate(createdDate);
 			}
 			masterData.setModifiedBy(bean.getUserId());
 			masterData.setModifiedDate(new Date());

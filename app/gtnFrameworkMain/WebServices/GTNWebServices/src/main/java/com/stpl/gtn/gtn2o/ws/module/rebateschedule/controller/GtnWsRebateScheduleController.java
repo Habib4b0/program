@@ -318,7 +318,7 @@ public class GtnWsRebateScheduleController {
 	public Object validateTempRSDeatils(String userId, String sessionId, String process)
 			throws GtnFrameworkGeneralException {
 
-		StringBuilder sql = new StringBuilder("");
+		StringBuilder sql = new StringBuilder();
 		try {
 
 			if (process.equalsIgnoreCase("tempCount")) {

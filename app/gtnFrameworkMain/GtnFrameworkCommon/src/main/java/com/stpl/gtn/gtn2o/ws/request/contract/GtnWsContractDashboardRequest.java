@@ -225,8 +225,7 @@ public class GtnWsContractDashboardRequest implements GtnWSRequestData {
 	public void setContractStructure(String contractStructure) {
 		this.contractStructure = contractStructure;
 	}
-
-	private void writeObject(ObjectOutputStream stream) throws IOException {
+        private void writeObject(ObjectOutputStream stream) throws IOException {
 		stream.defaultWriteObject();
 	}
 

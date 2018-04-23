@@ -332,7 +332,7 @@ public class GtnWsPeriodConfigurationController {
 			throws GtnFrameworkGeneralException {
 		List<Object> periodConfigurationInputList = new ArrayList<>();
 
-		StringBuilder inputWhereConditions = new StringBuilder("");
+		StringBuilder inputWhereConditions = new StringBuilder();
 		String and = "AND ";
 		String where = " ";
 		try {
@@ -443,7 +443,7 @@ public class GtnWsPeriodConfigurationController {
 	}
 
 	private Map<String, String> filterAndSortingCriteriaMap() {
-		Map<String, String> filterAndSortingCriteriaMap = new HashMap<>();
+		Map<String, String> filterAndSortingCriteriaMap = new HashMap<>(50);
 		filterAndSortingCriteriaMap.put("moduleName", "A.MODULES");
 		filterAndSortingCriteriaMap.put("buscinessProcessName", "A.TRANSACTION_NAME");
 		filterAndSortingCriteriaMap.put("activeFlag", "A.active_flag");

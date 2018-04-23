@@ -736,43 +736,49 @@ public class DiscountQueryBuilder {
     
 
     public String getRSDiscountSids(List<String> discountList) {
-        String framedString = StringUtils.EMPTY;
+        String framedString;
+        StringBuilder framedStringBuilder = new StringBuilder();
         for (String value : discountList) {
-            framedString += " '" + (value.contains("~") ? value.split("~")[1] : value) + "'" + ",";
+            framedStringBuilder.append(" '").append(value.contains("~") ? value.split("~")[1] : value).append( '\'' ).append( ',');
         }
+        framedString = framedStringBuilder.toString();
         framedString = framedString.substring(0, framedString.length() - 1);
         return framedString;
     }
     
     
     public static String getQueryRSDiscountHierarchyNo(List<String> discountList) {
-    String framedString=StringUtils.EMPTY;
+    String framedInQueryString=StringUtils.EMPTY;
+    StringBuilder framedInQueryStringBuilder = new StringBuilder();
         for (String value : discountList) {
             if (value.contains(",")) {
                 for (String string : value.split(",")) {
-                    framedString += " '" + (string) + "'" + ",";
+                    framedInQueryStringBuilder.append(" '").append(string).append( '\'' ).append( ',');
                 }
             } else {
-                framedString += " '" + (value) + "'" + ",";
+                framedInQueryStringBuilder.append(" '" ).append(value).append('\'').append( ',');
             }
         }
-        framedString = framedString.substring(0, framedString.length() - 1);
-        String framedQuery = "SELECT DISTINCT DEDUCTION_HIERARCHY_NO FROM ST_NM_DISCOUNT_PROJ_MASTER  WHERE RS_CONTRACT_SID in ("+framedString+")";
+        framedInQueryString = framedInQueryStringBuilder.toString();
+        framedInQueryString = framedInQueryString.substring(0, framedInQueryString.length() - 1);
+        String framedQuery = "SELECT DISTINCT DEDUCTION_HIERARCHY_NO FROM ST_NM_DISCOUNT_PROJ_MASTER  WHERE RS_CONTRACT_SID in ("+framedInQueryString+")";
         
         return framedQuery;
     }
-    
+     
     public static List getRSHierarchyNo(List<String> discountList,SessionDTO session) {
         String framedRsString=StringUtils.EMPTY;
+        StringBuilder framedRsStringBuilder = new StringBuilder();
         for (String value : discountList) {
             if (value.contains(",")) {
                 for (String string : value.split(",")) {
-                    framedRsString += " '" + (string) + "'" + ",";
+                    framedRsStringBuilder.append(" '").append(string).append( '\'' ).append( ',');
                 }
             } else {
-                framedRsString += " '" + (value) + "'" + ",";
+                framedRsStringBuilder.append(" '").append(value).append( '\'' ).append( ',');
             }
         }
+        framedRsString = framedRsStringBuilder.toString();
         framedRsString = framedRsString.substring(0, framedRsString.length() - 1);
         String framedQuery = "SELECT DISTINCT HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION  WHERE RELATIONSHIP_LEVEL_VALUES  in ("+framedRsString+") AND RELATIONSHIP_BUILDER_SID ="+session.getDedRelationshipBuilderSid();
         
