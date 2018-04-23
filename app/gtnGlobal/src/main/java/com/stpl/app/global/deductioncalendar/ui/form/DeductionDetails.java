@@ -1032,7 +1032,7 @@ public class DeductionDetails extends CustomComponent {
     }
 
     private void adjustmentLogic() {
-        MessageBox.showPlain(Icon.QUESTION, "Confirm " + type.getValue().toString(), "You are about to make the following ($/ %) adjustment for the following periods (list periods). Are you sure you want to continue?", new MessageBoxListener() {
+        MessageBox.showPlain(Icon.QUESTION, "Confirm " + type.getValue(), "You are about to make the following ($/ %) adjustment for the following periods (list periods). Are you sure you want to continue?", new MessageBoxListener() {
             /**
              * The method is triggered when a button of the message box is
              * pressed .
