@@ -80,6 +80,9 @@ public class CommercialForecastingProjectionVarianceMain {
 
 		List<Object> reportingDashboardActionConfigList = new ArrayList<>();
 		reportingDashboardActionConfigList.add(parentComponentId);
+		
+		
+		
 		GtnUIFrameWorkActionConfig reportingDashboardGtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
 		reportingDashboardGtnUIFrameWorkActionConfig.setActionParameterList(reportingDashboardActionConfigList);
 		reportingDashboardGtnPagedTreeTableConfig.setGtnUIFrameWorkActionConfig(reportingDashboardGtnUIFrameWorkActionConfig);
