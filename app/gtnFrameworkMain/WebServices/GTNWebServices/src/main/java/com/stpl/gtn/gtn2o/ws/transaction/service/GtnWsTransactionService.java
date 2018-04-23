@@ -160,7 +160,7 @@ public class GtnWsTransactionService {
 							: columns.getExpression());
 			boolean isUser = columns.getFieldId().contains(GtnFrameworkCommonConstants.CREATED_BY)
 					|| columns.getFieldId().contains(GtnFrameworkCommonConstants.MODIFIED_BY);
-			String dateFormat = columns.isFilter() ? "E MMM dd HH:mm:ss Z yyyy" : "yyyy-MM-dd";
+			String dateFormat = "yyyy-MM-dd";
 			boolean isInvalidFilter = isInvalid && columns.getFieldId().contains("Date");
 			switch (columns.getExpression()) {
 			case "BETWEEN":
@@ -475,7 +475,7 @@ public class GtnWsTransactionService {
 		filePath.append("exceltransaction");
 		filePath.append('/');
 		Path path = Paths.get(filePath.toString());
-		if (!Files.exists(path)) {
+                if (path.toFile().exists()){
 			try {
 				Files.createDirectories(path);
 			} catch (IOException e) {
@@ -514,7 +514,7 @@ public class GtnWsTransactionService {
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getResultList(Object resultSet, List<Object> searchColumnNameList,
 			Map<Integer, String> userMap, String tableName) {
-		List<Object[]> resultList = new ArrayList<>();
+		List<Object[]> resultList = new ArrayList<>(((List<Object>) resultSet).size());
 		Iterator<Object> iterator = ((List<Object>) resultSet).iterator();
 		while (iterator.hasNext()) {
 			Object[] ob = (Object[]) iterator.next();

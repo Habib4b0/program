@@ -459,7 +459,7 @@ public class GtnWsReturnForecastDataSelectionController {
 
 			GtnForecastBean gtnForecastBeanInfo = getPublicPrivateInfoDetails(gtnForecastBean);
 			GtnForecastBean gtnForecastBeanInfoGetters = getPublicPrivateInfoDetails(gtnForecastBean);
-			if (gtnForecastBeanInfo != null) {
+			if (gtnForecastBeanInfo != null && gtnForecastBeanInfoGetters !=null) {
 				gtnForecastBeanInfo.setCompanyId(gtnForecastBeanInfoGetters.getCompanyId());
 				gtnForecastBeanInfo.setBusinessUnitId(gtnForecastBeanInfoGetters.getBusinessUnitId());
 				gtnForecastBeanInfo.setProjectionName(gtnForecastBeanInfoGetters.getProjectionName());
