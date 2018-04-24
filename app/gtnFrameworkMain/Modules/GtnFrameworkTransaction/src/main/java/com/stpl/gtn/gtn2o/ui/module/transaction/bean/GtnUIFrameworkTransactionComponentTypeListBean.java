@@ -18,6 +18,7 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	private List<GtnWSTransactionColumnBean> defaultListViewComponent;
 	private List<GtnWSTransactionColumnBean> searchComponent;
 	private List<GtnWSTransactionColumnBean> viewModeComponents;
+	private List<GtnWSTransactionColumnBean> viewDateModeComponents;
 	private List<GtnWSTransactionColumnBean> viewModeOrderComponents;
 	private List<GtnWSTransactionColumnBean> staticComponent;
 	private boolean viewIndexFlag = false;
@@ -28,6 +29,24 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	private Object[] stagingInsertColumns = null;
 	private Map<String, String> formatterMap = null;
 	private List<String> formatterList = null;
+	private List<String> inventoryType;
+	private String invalidModule;
+
+	public String getInvalidModule() {
+		return invalidModule;
+	}
+
+	public void setInvalidModule(String invalidModule) {
+		this.invalidModule = invalidModule;
+	}
+
+	public List<String> getInventoryType() {
+		return Collections.unmodifiableList(inventoryType);
+	}
+
+	public void setInventoryType(List<String> inventoryType) {
+		this.inventoryType = new ArrayList<>(inventoryType);
+	}
 
 	public List<GtnWSTransactionColumnBean> getListViewComponent() {
 		return Collections.unmodifiableList(listViewComponent);
@@ -59,6 +78,14 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 
 	public void setViewModeComponents(List<GtnWSTransactionColumnBean> viewModeComponents) {
 		this.viewModeComponents = new ArrayList<>(viewModeComponents);
+	}
+
+	public List<GtnWSTransactionColumnBean> getViewDateModeComponents() {
+		return Collections.unmodifiableList(viewDateModeComponents);
+	}
+
+	public void setViewDateModeComponents(List<GtnWSTransactionColumnBean> viewDateModeComponents) {
+		this.viewDateModeComponents = new ArrayList<>(viewDateModeComponents);
 	}
 
 	public List<GtnWSTransactionColumnBean> getViewModeOrderComponents() {
