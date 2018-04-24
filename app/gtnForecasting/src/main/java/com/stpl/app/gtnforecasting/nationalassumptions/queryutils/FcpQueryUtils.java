@@ -169,7 +169,7 @@ public class FcpQueryUtils {
                             } else {
                                 queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT= ").append(Constant.NULL_CAPS);
                             }
-                        } else if (pricetype.equals("QFSS") || pricetype.equals("QNON-FAMP")) {
+                        } else if (pricetype.equals(Constant.QFSS) || pricetype.equals(Constant.QNONFAMP)) {
                             queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ")
                                     .append(" , ADJUSTMENT_PRICE='").append(finalvalue).append("' ");
                         } else {
