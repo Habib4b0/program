@@ -41,11 +41,11 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	}
 
 	public List<String> getInventoryType() {
-		return inventoryType;
+		return Collections.unmodifiableList(inventoryType);
 	}
 
 	public void setInventoryType(List<String> inventoryType) {
-		this.inventoryType = inventoryType;
+		this.inventoryType = new ArrayList<>(inventoryType);
 	}
 
 	public List<GtnWSTransactionColumnBean> getListViewComponent() {
@@ -85,7 +85,7 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	}
 
 	public void setViewDateModeComponents(List<GtnWSTransactionColumnBean> viewDateModeComponents) {
-		this.viewDateModeComponents = viewDateModeComponents;
+		this.viewDateModeComponents = new ArrayList<>(viewDateModeComponents);
 	}
 
 	public List<GtnWSTransactionColumnBean> getViewModeOrderComponents() {
