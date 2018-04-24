@@ -28,8 +28,8 @@ public class HeaderGeneratorService {
 		tableHeaderDTO.addDoubleColumn("levelName", "");
 
 		return tableHeaderDTO;
-	}
-
+	}	
+	
 	public GtnWsPagedTreeTableResponse getProjectionVarianceRightTableColumns(GtnWsForecastRequest request)
 			throws GtnFrameworkGeneralException {
 
@@ -42,6 +42,57 @@ public class HeaderGeneratorService {
 		tableHeaderDTO.addDoubleColumn("currentProjection2018", "2018");
 		tableHeaderDTO.addDoubleColumn("currentProjection2019", "2019");
 		tableHeaderDTO.addDoubleColumn("currentProjection2020", "2020");
+
+		return tableHeaderDTO;
+	}
+	
+	public GtnWsPagedTreeTableResponse getDiscountProjectionLeftTableColumns(GtnWsForecastRequest request)
+			{
+
+		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
+		tableHeaderDTO.addSingleColumn("levelNameDiscount", "", String.class);
+		tableHeaderDTO.addDoubleColumn("levelNameDiscount", "");
+
+		return tableHeaderDTO;
+	}
+	
+	public GtnWsPagedTreeTableResponse getDiscountProjectionRightTableColumns(GtnWsForecastRequest request)
+			{
+
+		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
+
+		tableHeaderDTO.addSingleColumn("1a", "Currentg Projection", String.class);
+		tableHeaderDTO.addSingleColumn("2b", "Current sgrwgProjection", String.class);
+		tableHeaderDTO.addSingleColumn("c3", "Current Projection", String.class);
+
+		tableHeaderDTO.addDoubleColumn("1", "2018");
+		/*tableHeaderDTO.addDoubleColumn("currentProjection2019", "2019");
+		tableHeaderDTO.addDoubleColumn("currentProjection2020", "2020");*/
+		
+		tableHeaderDTO.addTripleColumn("1d", "year");
+
+		return tableHeaderDTO;
+	}
+
+	public GtnWsPagedTreeTableResponse getSalesProjectionLeftTableColumns(GtnWsForecastRequest request) {
+		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
+		tableHeaderDTO.addSingleColumn("level", "", String.class);
+		tableHeaderDTO.addDoubleColumn("levelNam", "");
+
+		return tableHeaderDTO;
+	}
+	
+	public GtnWsPagedTreeTableResponse getSalesProjectionRightTableColumns(GtnWsForecastRequest request){
+
+		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
+
+		tableHeaderDTO.addSingleColumn("SalesProjection2018", "Current Projection", String.class);
+		tableHeaderDTO.addSingleColumn("SalesProjection2019", "Current Projection", String.class);
+		tableHeaderDTO.addSingleColumn("SalesProjection2020", "Current Projection", String.class);
+
+		tableHeaderDTO.addDoubleColumn("SalesProjection2018", "2018");
+		tableHeaderDTO.addDoubleColumn("SalesProjection2019", "2019");
+		tableHeaderDTO.addDoubleColumn("SalesProjection2020", "2020");
 
 		return tableHeaderDTO;
 	}
@@ -86,7 +137,7 @@ public class HeaderGeneratorService {
 
 		// for (int i = 0; i < doubleHeaderMapKey.length; i++) {
 		// String[] mapValue = doubleHeaderMapValue[i].split("-");
-		// tableHeaderDTO.addDoubleHeaderMap(doubleHeaderMapKey[i], mapValue);
+		 //tableHeaderDTO.addDoubleHeaderMap(doubleHeaderMapKey[i], mapValue);
 		// }
 
 		return tableHeaderDTO;

@@ -265,8 +265,7 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		
 		GtnUIFrameworkComponentConfig discountProjectionResultPanel = new GtnUIFrameworkComponentConfig();
 		discountProjectionResultPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
-		discountProjectionResultPanel.setComponentId(nameSpace + "_" + "discountProjectionResultPanel");
-		discountProjectionResultPanel.setComponentName("Results");
+		discountProjectionResultPanel.setComponentId(nameSpace + "_" + "discountProjectionResultTablePanel");
 		discountProjectionResultPanel.setAddToParent(true);
 		discountProjectionResultPanel.setParentComponentId(parentComponentId);
 		discountProjectionResultPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -279,7 +278,7 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		discountProjectionResultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
 		discountProjectionResultTableComponentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		discountProjectionResultTableComponentConfig.setAddToParent(true);
-		discountProjectionResultTableComponentConfig.setParentComponentId(nameSpace + "_" + "discountProjectionResultPanel");
+		discountProjectionResultTableComponentConfig.setParentComponentId(nameSpace + "_" + "discountProjectionResultTablePanel");
 
 		GtnUIFrameworkPagedTreeTableConfig discountProjectionGtnPagedTreeTableConfig = new GtnUIFrameworkPagedTreeTableConfig();
 
@@ -290,9 +289,9 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		discountProjectionGtnPagedTreeTableConfig.setGtnUIFrameWorkActionConfig(reportingDashboardGtnUIFrameWorkActionConfig);
 
 		discountProjectionGtnPagedTreeTableConfig.setLeftHeader(
-				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
+				GtnWsForecastReturnsConstants.GTN_WS_FORECAST_DISCOUNT_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
 		discountProjectionGtnPagedTreeTableConfig.setRightHeader(
-				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
+				GtnWsForecastReturnsConstants.GTN_WS_FORECAST_DISCOUNT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
 //            reportingDashboardGtnPagedTreeTableConfig.setLeftWsHeaderUrl(
 //                    GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
 //             reportingDashboardGtnPagedTreeTableConfig.setRightWsHeaderUrl(
@@ -308,6 +307,7 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		discountProjectionGtnPagedTreeTableConfig.setSplitPosition(493);
 		discountProjectionGtnPagedTreeTableConfig.setTableHeight("650px");
 		discountProjectionGtnPagedTreeTableConfig.setDoubleHeaderVisible(true);
+		discountProjectionGtnPagedTreeTableConfig.setTripleHeaderVisible(true);
 
 		discountProjectionGtnPagedTreeTableConfig.setLeftTableEditable(true);
 		discountProjectionGtnPagedTreeTableConfig.setRightTableEditable(true);

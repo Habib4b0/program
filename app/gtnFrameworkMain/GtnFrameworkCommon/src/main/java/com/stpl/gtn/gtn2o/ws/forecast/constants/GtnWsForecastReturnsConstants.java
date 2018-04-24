@@ -112,4 +112,11 @@ public final class GtnWsForecastReturnsConstants {
 	public static final String GTN_WS_RETURNS_FORECAST_WRITE_DATA_SELECTION_FILE = "/writeDataSelectionFile";
 
 	public static final String GTN_WS_RETURNS_FORECAST_READ_DATA_SELECTION_FILE = "/readDataSelectionFile";
+
+	public static final String GTN_WS_COMMERCIAL_FORECAST_SALES_PROJECTION_TAB_LEFT_HEADERS_SERVICE = "/getSalesProjectionLeftHeaders";
+	public static final String GTN_WS_COMMERCIAL_FORECAST_SALES_PROJECTION_TAB_RIGHT_HEADERS_SERVICE = "/getSalesProjectionRightHeaders";
+
+	public static final String GTN_WS_FORECAST_DISCOUNT_PROJECTION_TAB_LEFT_HEADERS_SERVICE ="/getDiscountProjectionLeftHeaders";
+
+	public static final String GTN_WS_FORECAST_DISCOUNT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE = "/getDiscountProjectionLeftHeaders";
 }
