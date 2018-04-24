@@ -478,4 +478,9 @@ public class GtnUIFrameworkWebserviceRequest {
 		this.gtnReportRequest = gtnReportRequest;
 	}
 
+    public GtnWsReportRequest getGtnWsReportRequest() {
+       return gtnReportRequest;
+    }
+
+
 }

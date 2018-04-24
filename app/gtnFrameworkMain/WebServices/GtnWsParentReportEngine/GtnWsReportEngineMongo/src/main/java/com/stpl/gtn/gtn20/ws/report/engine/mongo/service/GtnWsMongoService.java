@@ -1,11 +1,6 @@
 package com.stpl.gtn.gtn20.ws.report.engine.mongo.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.bson.Document;
-
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoCommandException;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
@@ -16,8 +11,11 @@ import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsTreeNodeAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsCommonCalculationService;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import net.sourceforge.jeval.EvaluationException;
+import org.bson.Document;
 
 public class GtnWsMongoService {
 
@@ -320,18 +318,25 @@ public class GtnWsMongoService {
 		}
 		return documentList;
 	}
-
-	public GtnWsReportEngineTreeNode getTreeFromMongo(String collectionName) {
-
-		@SuppressWarnings("unchecked")
-		FindIterable<GtnWsReportEngineTreeNode> itr = (FindIterable<GtnWsReportEngineTreeNode>) getCollectionForCustomClass(
-				collectionName, GtnWsReportEngineTreeNode.class).find();
-		MongoCursor<GtnWsReportEngineTreeNode> cursor = itr.iterator();
-		GtnWsReportEngineTreeNode treeNode = null;
-		while (cursor.hasNext()) {
-			treeNode = cursor.next();
-		}
-		return treeNode;
+//GtnWsReportEngineTreeNode
+	public Object getTreeFromMongo(String collectionName,Class<?> className,String input[],Object values[]) {
+             BasicDBObject whereQuery = new BasicDBObject();
+            if (input != null && values != null && values.length == input.length) {
+                for (int i = 0; i < input.length; i++) {
+                    System.out.println("i =input " + input[i]);
+                    System.out.println("i =values " + values[i]);
+                    whereQuery.put(input[i], values[i]);
+                }
+            }
+            @SuppressWarnings("unchecked")
+            FindIterable<GtnWsReportEngineTreeNode> itr = (FindIterable<GtnWsReportEngineTreeNode>) getCollectionForCustomClass(
+                    collectionName, className).find(whereQuery);
+            MongoCursor<GtnWsReportEngineTreeNode> cursor = itr.iterator();
+            GtnWsReportEngineTreeNode treeNode = null;
+            while (cursor.hasNext()) {
+                treeNode = cursor.next();
+            }
+            return treeNode;
 	}
 
 }
