@@ -1,10 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.response;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-
 import com.stpl.gtn.gtn2o.ws.rebateschedule.GtnWsRebateScheduleInfoBean;
 import com.stpl.gtn.gtn2o.ws.response.authorization.GtnWsModuleAuthorizationGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.automaticrelationupdate.GtnFrameworkAutomaticRelationshipResponse;
@@ -31,8 +26,12 @@ import com.stpl.gtn.gtn2o.ws.response.priceschedule.GtnWsPriceScheduleGeneralRes
 import com.stpl.gtn.gtn2o.ws.response.processmonitor.GtnWsProcessMonitorResponse;
 import com.stpl.gtn.gtn2o.ws.response.rebateplan.GtnWsRebatePlanGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuilderResponse;
+import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportRespose;
 import com.stpl.gtn.gtn2o.ws.response.transaction.GtnWsTransactionResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 public class GtnUIFrameworkWebserviceResponse {
 
@@ -86,7 +85,8 @@ public class GtnUIFrameworkWebserviceResponse {
 	private GtnWsModuleAuthorizationGeneralResponse gtnWsModuleAuthorizationGeneralResponse;
 	private GtnWsCsvExportResponse gtnWsCsvExportResponse;
 	private GtnWsAttachmentResponse gtnWsAttachmentResponse;
-
+	private GtnWsReportRespose gtnWsReportRespose;
+        
 	private GtnFrameworkAutomaticRelationshipResponse automaticRelationResponse;
 
 	public String getResponseStatus() {
@@ -423,6 +423,14 @@ public class GtnUIFrameworkWebserviceResponse {
 	public void setGtnWsAttachmentResponse(GtnWsAttachmentResponse gtnWsAttachmentResponse) {
 		this.gtnWsAttachmentResponse = gtnWsAttachmentResponse;
 	}
+
+    public GtnWsReportRespose getGtnWsReportRespose() {
+        return gtnWsReportRespose;
+    }
+
+    public void setGtnWsReportRespose(GtnWsReportRespose gtnWsReportRespose) {
+        this.gtnWsReportRespose = gtnWsReportRespose;
+    }
 
 
 

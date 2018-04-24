@@ -55,6 +55,12 @@
 			<version>3.3.0.Final</version>
 			<scope>test</scope>
 		</dependency>
+	 <dependency>
+	  <groupId>com.stpl.gtn.gtn2o.ws.report.engine</groupId>
+	  <artifactId>GtnWsReportEngineMongo</artifactId>
+	  <version>1.0</version>
+	  <type>jar</type>
+	 </dependency>
 	</dependencies>
 	<build>
 		<finalName>GtnReportingWebservice</finalName>

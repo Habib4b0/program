@@ -24,11 +24,13 @@ public class GtnWsReportClientController {
 		GtnWsReportEngineTreeNode outputTree = getGtnGeneratedReportOutput(input);
 		System.out.println("outputTree = " + outputTree);
 
-		MONGO_SERVICE.createCollection("computedResults");
-		MONGO_SERVICE.updateFinalResultsToMongo("computedResults", outputTree);
+		MONGO_SERVICE.createCollection("computedResults1");
+		MONGO_SERVICE.updateFinalResultsToMongo("computedResults1", outputTree);
 
 		MONGO_SERVICE.writeTreeToMongo("Tree", input);
-                inputGenerator.displayNodeValues(MONGO_SERVICE.getTreeFromMongo("Tree"));
+                String inputs[]={"levelNumber"};
+                Object values[]={1};
+                inputGenerator.displayNodeValues((GtnWsReportEngineTreeNode) MONGO_SERVICE.getTreeFromMongo("Tree",GtnWsReportEngineTreeNode.class,inputs,values));
             }catch(Exception ex){
                 ex.printStackTrace();
             }

@@ -39,15 +39,5 @@ public class PagedTreeGridUI extends VerticalLayout {
                 queryBean.setLeftDataQueryInputs(countQueryInput);
 		pagedTableConfig.setQueryBean(queryBean);
 
-		PagedTreeGrid pagedGrid = new PagedTreeGrid(new GtnUIFrameworkPagedTreeTableConfig());
-		setStyleName("demoContentLayout");
-		setSizeFull();
-		addComponent(pagedGrid.getGrid());
-		pagedGrid.getGrid().setWidth("80%");
-		pagedGrid.getGrid().setHeight("450px");
-		setComponentAlignment(pagedGrid.getGrid(), Alignment.MIDDLE_CENTER);
-		addComponent(pagedGrid.getControlLayout());
-                setComponentAlignment(pagedGrid.getControlLayout(), Alignment.MIDDLE_CENTER);
-		pagedGrid.getGrid().getEditor().setEnabled(true);
 	}
 }
