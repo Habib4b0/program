@@ -2110,6 +2110,8 @@ public class Constant {
     public static final String AND_NDC9_IN_SELECT_ITEM_MASTER_SID = "  AND NDC9 IN (SELECT ITEM_MASTER_SID\n";
     public static final String USER_ID_WITH_COMMA = " USER_ID,\n";
     public static final String SESSION_ID_WITH_COMMA = " SESSION_ID,\n";
+    public static final String QFSS = "QFSS";
+    public static final String QNONFAMP = "QNON-FAMP";
 
     /**
      * Enum for Frequency constants
