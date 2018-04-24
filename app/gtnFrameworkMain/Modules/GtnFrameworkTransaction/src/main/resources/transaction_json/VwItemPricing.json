@@ -81,8 +81,18 @@
 	{
 		"columnID": "startDate",
 		"columnName": "Start Date",
-		"isSearchCriteria": true,
+		"isSearchCriteria": false,
 		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"viewFlag": true,
+		"dateFlag": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "startDate",
+		"columnName": "Start Date",
+		"isSearchCriteria": true,
+		"isResultView": false,
 		"columnAlignment": "CENTER",
 		"componentType": "date"
 	},
@@ -92,8 +102,19 @@
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"columnAlignment": "CENTER",
+		"viewFlag": true,
+		"dateFlag": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "endDate",
+		"columnName": "End Date",
+		"isSearchCriteria": false,
+		"isResultView": false,
+		"columnAlignment": "CENTER",
 		"componentType": "date"
 	},
+	
 	{
 		"columnID": "entityCode",
 		"columnName": "Entity Code",
@@ -121,8 +142,19 @@
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"columnAlignment": "CENTER",
+		"viewFlag": true,
+		"dateFlag": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "createdDate",
+		"columnName": "Created Date",
+		"isSearchCriteria": false,
+		"isResultView": false,
+		"columnAlignment": "CENTER",
 		"componentType": "date"
 	},
+	
 	{
 		"columnID": "modifiedBy",
 		"columnName": "Modified By",
@@ -135,14 +167,25 @@
 		"columnName": "Modified Date",
 		"isSearchCriteria": false,
 		"isResultView": true,
+		"dateFlag": true,
+		"columnAlignment": "CENTER",
+		"componentType": "text"
+	},
+	{
+		"columnID": "modifiedDate",
+		"columnName": "Modified Date",
+		"isSearchCriteria": false,
+		"isResultView": false,
 		"columnAlignment": "CENTER",
 		"componentType": "date"
 	},
+	
 	{
 		"columnID": "addChgDelIndicator",
 		"columnName": "Add Chg Del Indicator",
 		"isSearchCriteria": false,
 		"isResultView": true,
+		"viewFlag": true,
 		"componentType": "text"
 	},
 	{
@@ -184,6 +227,16 @@
 		"componentType": "text",
 		"defaultValue": "N",
 		"isInvalidComponent": true
+	},
+	{
+		"columnID": "itemPricingIntfid",
+		"columnName": "Item Pricing Interface ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": false,
+		"viewFlag": true
+		
 	},
 	{
 		"columnID": "itemPricingIntfid",

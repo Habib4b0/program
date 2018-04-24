@@ -181,6 +181,7 @@ public class GtnFrameworkTransactionComponentConfig {
 		List<GtnWSTransactionColumnBean> defaultListViewComponent = new ArrayList<>();
 		List<GtnWSTransactionColumnBean> searchComponent = new ArrayList<>();
 		List<GtnWSTransactionColumnBean> viewModeComponents = new ArrayList<>();
+		List<GtnWSTransactionColumnBean> viewDateModeComponents = new ArrayList<>();
 		List<GtnWSTransactionColumnBean> viewModeOrderComponents = new ArrayList<>();
 		List<GtnWSTransactionColumnBean> staticComponent = new ArrayList<>();
 		boolean viewIndexFlag = false;
@@ -195,6 +196,7 @@ public class GtnFrameworkTransactionComponentConfig {
 				getSearchComponentsList(gtnWSTransactionColumnBean, searchComponent, listViewComponent,
 						defaultListViewComponent, staticComponent);
 				getViewRelatedComponentList(gtnWSTransactionColumnBean, viewModeComponents, viewModeOrderComponents);
+				getViewDateRelatedComponentList(gtnWSTransactionColumnBean, viewDateModeComponents);
 				if (gtnWSTransactionColumnBean.isViewModeIndexFlag()) {
 					viewIndexFlag = true;
 				}
@@ -217,6 +219,7 @@ public class GtnFrameworkTransactionComponentConfig {
 		componentBean.setStaticComponent(staticComponent);
 		componentBean.setViewIndexFlag(viewIndexFlag);
 		componentBean.setViewModeComponents(viewModeComponents);
+		componentBean.setViewDateModeComponents(viewDateModeComponents);
 		componentBean.setViewModeOrderComponents(viewModeOrderComponents);
 		return componentBean;
 	}
@@ -241,6 +244,15 @@ public class GtnFrameworkTransactionComponentConfig {
 		}
 		if (gtnWSTransactionColumnBean.getViewModeOrder() > 0) {
 			viewModeOrderComponents.add(gtnWSTransactionColumnBean);
+		}
+
+	}
+
+	private void getViewDateRelatedComponentList(GtnWSTransactionColumnBean gtnWSTransactionColumnBean,
+			List<GtnWSTransactionColumnBean> viewDateModeComponents) {
+
+		if (gtnWSTransactionColumnBean.isDateFlag()) {
+			viewDateModeComponents.add(gtnWSTransactionColumnBean);
 		}
 
 	}
@@ -510,7 +522,12 @@ public class GtnFrameworkTransactionComponentConfig {
 		searchResults.setTableColumnDataTypeURL(GtnWsTransactionConstants.GTN_WS_TRANSACTION_SERVICE
 				+ GtnWsTransactionConstants.GTN_WS_TRANSACTION_GETDATATYPE_SERVICE);
 		List<GtnWSTransactionColumnBean> viewModeComponents = componentBean.getViewModeComponents();
+		List<GtnWSTransactionColumnBean> viewDateModeComponents = componentBean.getViewDateModeComponents();
+
 		for (GtnWSTransactionColumnBean gtnWSTransactionColumnBean : viewModeComponents) {
+			viewVisibleColumn.add(gtnWSTransactionColumnBean.getColumnID());
+		}
+		for (GtnWSTransactionColumnBean gtnWSTransactionColumnBean : viewDateModeComponents) {
 			viewVisibleColumn.add(gtnWSTransactionColumnBean.getColumnID());
 		}
 		if (totalCombination > 0) {
@@ -536,11 +553,12 @@ public class GtnFrameworkTransactionComponentConfig {
 
 		if (isInvalid) {
 			viewEnabled = setEnableFlag(moduleName);
-			getInvalidTableConfig(searchResults, tableName, viewEnabled, componentBean, invalidModule);
+			getInvalidTableConfig(searchResults, tableName, viewEnabled, componentBean, invalidModule,
+					viewDateModeComponents);
 		} else {
 			viewEnabled = setEnableFlag(tableName);
 			getValidTableConfig(searchResults, searchResultConfig, tableName, viewEnabled, viewModeComponents,
-					componentBean);
+					viewDateModeComponents, componentBean);
 		}
 		getCustomFilter(tableName, searchResults);
 		searchResultConfig.setGtnPagedTableConfig(searchResults);
@@ -549,6 +567,7 @@ public class GtnFrameworkTransactionComponentConfig {
 	private void getValidTableConfig(GtnUIFrameworkPagedTableConfig searchResults,
 			GtnUIFrameworkComponentConfig searchResultConfig, String tableName, boolean viewEnabled,
 			List<GtnWSTransactionColumnBean> viewModeComponents,
+			List<GtnWSTransactionColumnBean> viewDateModeComponents,
 			GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
 		List<GtnWSTransactionColumnBean> viewModeOrderComponents = componentBean.getViewModeOrderComponents();
 		List<GtnWSTransactionColumnBean> listViewComponent = componentBean.getListViewComponent();
@@ -562,7 +581,7 @@ public class GtnFrameworkTransactionComponentConfig {
 			actionConfigList.add(navigationActionConfig);
 			GtnUIFrameWorkActionConfig viewActionConfig = new GtnUIFrameWorkActionConfig();
 			getViewActionconfig(viewActionConfig, tableName, Boolean.FALSE, viewModeComponents, viewModeOrderComponents,
-					listViewComponent);
+					listViewComponent, viewDateModeComponents);
 
 			actionConfigList.add(viewActionConfig);
 
@@ -581,7 +600,8 @@ public class GtnFrameworkTransactionComponentConfig {
 	private void getViewActionconfig(GtnUIFrameWorkActionConfig viewActionConfig, String tableName, Boolean isInvalid,
 			List<GtnWSTransactionColumnBean> viewModeComponents,
 			List<GtnWSTransactionColumnBean> viewModeOrderComponents,
-			List<GtnWSTransactionColumnBean> listViewComponent) {
+			List<GtnWSTransactionColumnBean> listViewComponent,
+			List<GtnWSTransactionColumnBean> viewDateModeComponents) {
 		viewActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		viewActionConfig.addActionParameter(GtnUIFrameworkTransactionViewAction.class.getName());
 		String layoutName = GtnTransactionUIConstants.VIEW_LAYOUT;
@@ -599,6 +619,7 @@ public class GtnFrameworkTransactionComponentConfig {
 			onlyViewColumns.addAll(visibleColumns);
 			removeColumnIdNoInView(onlyViewColumns, listViewComponent);
 			addViewOnlyId(viewModeComponents, onlyViewColumns);
+			addDateView(viewDateModeComponents, onlyViewColumns);
 			viewActionConfig.addActionParameter(onlyViewColumns);
 		}
 		viewActionConfig.addActionParameter(tableName);
@@ -608,11 +629,15 @@ public class GtnFrameworkTransactionComponentConfig {
 		viewActionConfig.addActionParameter(viewModeComponents);
 		viewActionConfig.addActionParameter(viewModeOrderComponents);
 		viewActionConfig.addActionParameter(isInvalid);
+		viewActionConfig.addActionParameter(viewDateModeComponents);
 
 	}
 
 	private void getInvalidTableConfig(GtnUIFrameworkPagedTableConfig searchResults, String tableName,
-			boolean viewEnabled, GtnUIFrameworkTransactionComponentTypeListBean componentBean, String invalidModule) {
+			boolean viewEnabled, GtnUIFrameworkTransactionComponentTypeListBean componentBean, String invalidModule,
+			List<GtnWSTransactionColumnBean> viewDateModeComponents) {
+		GtnUIFrameworkTransactionComponentTypeListBean componentTypeListBean = new GtnUIFrameworkTransactionComponentTypeListBean();
+
 		searchResults.setEditable(true);
 		List<String> editablelist = Arrays.asList(GtnTransactionUIConstants.CHECK_RECORD);
 		searchResults.setColumnCheckBoxId(GtnTransactionUIConstants.CHECK_RECORD);
@@ -626,10 +651,12 @@ public class GtnFrameworkTransactionComponentConfig {
 		if (!componentBean.getStaticComponent().isEmpty()) {
 			List<String> generatedColumnlist = Arrays.asList(componentBean.getStaticComponent().get(0).getColumnID());
 			searchResults.setGeneratedColumnList(generatedColumnlist);
+			componentTypeListBean.setViewDateModeComponents(viewDateModeComponents);
+			componentTypeListBean.setInvalidModule(invalidModule);
 			searchResults.setGeneratedColumn(createTableGeneratedColumnComponents(
 					componentBean.getStaticComponent().get(0).getColumnID(), tableName, viewEnabled,
 					componentBean.getViewModeComponents(), componentBean.getViewModeOrderComponents(),
-					componentBean.getListViewComponent(), invalidModule));
+					componentBean.getListViewComponent(), componentTypeListBean));
 		}
 
 		GtnUIFrameWorkActionConfig recordTypeAction = new GtnUIFrameWorkActionConfig();
@@ -679,7 +706,6 @@ public class GtnFrameworkTransactionComponentConfig {
 		customAlertAction.addActionParameter(GtnUIFrameworkTransactionAlertAction.class.getName());
 		customAlertAction.addActionParameter(mandatoryMsgHeaderList);
 		customAlertAction.addActionParameter(mandatoryMsgBodyList);
-
 
 		validationActionConfig.setActionParameterList(
 				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(customAlertAction)));
@@ -909,7 +935,8 @@ public class GtnFrameworkTransactionComponentConfig {
 	private List<GtnUIFrameworkComponentConfig> createTableGeneratedColumnComponents(String propertyId,
 			String tableName, boolean viewEnabled, List<GtnWSTransactionColumnBean> viewModeComponents,
 			List<GtnWSTransactionColumnBean> viewModeOrderComponents,
-			List<GtnWSTransactionColumnBean> listViewComponent, String invalidModule) {
+			List<GtnWSTransactionColumnBean> listViewComponent,
+			GtnUIFrameworkTransactionComponentTypeListBean gtnUIFrameworkTransactionComponentTypeListBean) {
 		List<GtnUIFrameworkComponentConfig> generatedColumnComponent = new ArrayList<>();
 
 		GtnUIFrameworkComponentConfig hylinkButton = new GtnUIFrameworkComponentConfig();
@@ -923,7 +950,8 @@ public class GtnFrameworkTransactionComponentConfig {
 		customAction.addActionParameter(propertyId);
 		hylinkButton.setGtnUIFrameWorkColumnGeneratorConfig(customAction);
 		if (viewEnabled) {
-			Object invalidModuleName = "Invalid Table : " + invalidModule;
+			Object invalidModuleName = "Invalid Table : "
+					+ gtnUIFrameworkTransactionComponentTypeListBean.getInvalidModule();
 			GtnUIFrameWorkActionConfig popupAction = new GtnUIFrameWorkActionConfig();
 			popupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 			popupAction.setActionParameterList(Arrays.asList("V002", invalidModuleName, "60%", null, null, null,
@@ -936,7 +964,7 @@ public class GtnFrameworkTransactionComponentConfig {
 			hylinkButton.addGtnUIFrameWorkActionConfig(viewAction);
 			GtnUIFrameWorkActionConfig viewActionConfig = new GtnUIFrameWorkActionConfig();
 			getViewActionconfig(viewActionConfig, tableName, Boolean.TRUE, viewModeComponents, viewModeOrderComponents,
-					listViewComponent);
+					listViewComponent, gtnUIFrameworkTransactionComponentTypeListBean.getViewDateModeComponents());
 			hylinkButton.addGtnUIFrameWorkActionConfig(viewActionConfig);
 		}
 		generatedColumnComponent.add(hylinkButton);
@@ -1031,6 +1059,16 @@ public class GtnFrameworkTransactionComponentConfig {
 		for (GtnWSTransactionColumnBean gtnWSTransactionColumnBean : viewModeComponents2) {
 			if (gtnWSTransactionColumnBean.isViewOnlyColumn()) {
 				visibleColumns2.add(gtnWSTransactionColumnBean.getColumnID());
+			}
+		}
+
+	}
+
+	private void addDateView(List<GtnWSTransactionColumnBean> viewDateModeComponents, List<Object> visibleColumns3) {
+
+		for (GtnWSTransactionColumnBean gtnWSTransactionColumnBean : viewDateModeComponents) {
+			if (gtnWSTransactionColumnBean.isViewOnlyColumn()) {
+				visibleColumns3.add(gtnWSTransactionColumnBean.getColumnID());
 			}
 		}
 

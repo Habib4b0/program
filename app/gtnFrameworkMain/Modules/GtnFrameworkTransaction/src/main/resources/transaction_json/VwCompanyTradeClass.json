@@ -44,19 +44,39 @@
 		"loadDescription": true,
 		"isInvalidComponent": true
 	},
+        {
+		"columnID": "tradeClassStartDate",
+		"columnName": "Trade Class Start Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"viewFlag": true,
+		"dateFlag": true,
+		"componentType": "text",
+                "onlyValidComponent": true
+	},
 	{
 		"columnID": "tradeClassStartDate",
 		"columnName": "Trade Class Start Date",
 		"isSearchCriteria": true,
-		"isResultView": true,
+		"isResultView": false,
 		"componentType": "date",
 		"onlyValidComponent": true
+	},
+        {
+		"columnID": "tradeClassEndDate",
+		"columnName": "Trade Class End Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"viewFlag": true,
+		"dateFlag": true,
+		"componentType": "text",
+                "onlyValidComponent": true
 	},
 	{
 		"columnID": "tradeClassEndDate",
 		"columnName": "Trade Class End Date",
 		"isSearchCriteria": true,
-		"isResultView": true,
+		"isResultView": false,
 		"componentType": "date",
 		"onlyValidComponent": true
 	},
@@ -89,11 +109,21 @@
 		"listName": "priorTradeClass",
 		"loadDescription": true
 	},
+          {
+		"columnID": "priorTradeClassStartDate",
+		"columnName": "Prior Trade Class Start Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"viewFlag": true,
+		"dateFlag": true,
+		"componentType": "text",
+                "onlyValidComponent": true
+	},
 	{
 		"columnID": "priorTradeClassStartDate",
 		"columnName": "Prior Trade Class Start Date",
 		"isSearchCriteria": true,
-		"isResultView": true,
+		"isResultView": false,
 		"componentType": "date",
 		"onlyValidComponent": true
 	},
@@ -107,11 +137,22 @@
 		"columnAlignment": "CENTER",
 		"isInvalidComponent": true
 	},
-	{
+        {
 		"columnID": "lastUpdatedDate",
 		"columnName": "Last Updated Date",
 		"isSearchCriteria": false,
 		"isResultView": true,
+		"viewFlag": true,
+		"dateFlag": true,
+		"componentType": "text",
+                "columnAlignment": "CENTER",
+                "onlyValidComponent": true
+	},
+	{
+		"columnID": "lastUpdatedDate",
+		"columnName": "Last Updated Date",
+		"isSearchCriteria": false,
+		"isResultView": false,
 		"columnAlignment": "CENTER",
 		"componentType": "date"
 	},
@@ -136,25 +177,45 @@
 		"isResultView": true,
 		"componentType": "text"
 	},
-	{
+           {
 		"columnID": "createdDate",
 		"columnName": "Created Date",
 		"isSearchCriteria": false,
 		"isResultView": true,
-		"componentType": "date"
+		"viewFlag": true,
+		"dateFlag": true,
+		"componentType": "text",
+                "onlyValidComponent": true
 	},
 	{
+		"columnID": "createdDate",
+		"columnName": "Created Date",
+		"isSearchCriteria": false,
+		"isResultView": false,
+		"componentType": "date"
+	},
+           {
 		"columnID": "modifiedBy",
 		"columnName": "Modified By",
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"componentType": "text"
 	},
-	{
+           {
 		"columnID": "modifiedDate",
 		"columnName": "Modified Date",
 		"isSearchCriteria": false,
 		"isResultView": true,
+		"viewFlag": true,
+		"dateFlag": true,
+		"componentType": "text",
+                "onlyValidComponent": true
+	},
+	{
+		"columnID": "modifiedDate",
+		"columnName": "Modified Date",
+		"isSearchCriteria": false,
+		"isResultView": false,
 		"componentType": "date"
 	},
 	{
@@ -197,7 +258,7 @@
 		"defaultValue": "N",
 		"isInvalidComponent": true
 	},
-	{
+        {
 		"columnID": "tradeClassIntfid",
 		"columnName": "Invalid Record Id",
 		"isSearchCriteria": true,
@@ -205,6 +266,18 @@
 		"componentType": "text",
 		"staticSearchCriterian": "true",
 		"isInvalidComponent": true
+	},
+	{
+		"columnID": "tradeClassIntfid",
+		"columnName": "Trade Class Interface ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"viewFlag": true,
+		"dateFlag": true,
+		"componentType": "text",
+                "onlyValidComponent": true
+		
+		
 	},
 	{
 		"columnID": "invalidDateFrom",
