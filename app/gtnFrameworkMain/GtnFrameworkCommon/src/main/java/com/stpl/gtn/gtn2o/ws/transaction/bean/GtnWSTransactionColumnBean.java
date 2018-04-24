@@ -33,6 +33,7 @@ public class GtnWSTransactionColumnBean implements Comparable<GtnWSTransactionCo
 	private int totalCombination = 0;
 	private int combination = 0;
 	private boolean viewFlag = true;
+	private boolean dateFlag = true;
 	private boolean defaultResultView = false;
 	private boolean demandTypeFlag = false;
 	private List<String> listValues = null;
@@ -60,6 +61,14 @@ public class GtnWSTransactionColumnBean implements Comparable<GtnWSTransactionCo
 	private boolean defaultFocus = false;
 	private boolean decimalFormatNeeded = false;
 	private String pattern = null;
+
+	public boolean isDateFlag() {
+		return dateFlag;
+	}
+
+	public void setDateFlag(boolean dateFlag) {
+		this.dateFlag = dateFlag;
+	}
 
 	public String getColumnID() {
 		return columnID;
