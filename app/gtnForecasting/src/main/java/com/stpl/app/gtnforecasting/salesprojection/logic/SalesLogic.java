@@ -1940,18 +1940,18 @@ public class SalesLogic {
             String table = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName()) ? Constant.ST_M_SALES_PROJECTION : Constant.ST_NM_SALES_PROJECTION;
             switch (column) {
                 case "AccountGrowth":
-                    saveQuery.append(UPDATE).append(table).append(" SET ACCOUNT_GROWTH='").append(value.toString()).append("' ");
+                    saveQuery.append(UPDATE).append(table).append(" SET ACCOUNT_GROWTH='").append(value).append("' ");
                     break;
                 case "ProductGrowth":
-                    saveQuery.append(UPDATE).append(table).append(" SET PRODUCT_GROWTH='").append(value.toString()).append("' ");
+                    saveQuery.append(UPDATE).append(table).append(" SET PRODUCT_GROWTH='").append(value).append("' ");
                     break;
                 case PROJECTED_SALES:
                     if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
                         finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
-                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_SALES=PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue.toString()).append(')');
+                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_SALES=PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue).append(')');
                     } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
-                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_SALES='").append(finalvalue.toString()).append('\'');
+                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_SALES='").append(finalvalue).append('\'');
                     }
                     break;
                 case Constant.PROJECTED_UNITS1:
@@ -1959,10 +1959,10 @@ public class SalesLogic {
                         saveQuery.append("DECLARE @PROJECTION_UNITS NUMERIC(22, 6)\n"
                                 ).append( "SET @PROJECTION_UNITS=(SELECT Sum(PROJECTION_UNITS)\n"
                                 ).append( "FROM   " ).append( table ).append( " @Replace_Value" + "   )");
-                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_UNITS=PROJECTION_UNITS + ( PROJECTION_UNITS * ( ( ( ( " ).append( value.toString() ).append( " - @PROJECTION_UNITS ) / NULLIF(@PROJECTION_UNITS, 0) ) * 100 ) / 100 ) )");
+                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_UNITS=PROJECTION_UNITS + ( PROJECTION_UNITS * ( ( ( ( " ).append( value ).append( " - @PROJECTION_UNITS ) / NULLIF(@PROJECTION_UNITS, 0) ) * 100 ) / 100 ) )");
                     } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
-                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_UNITS='").append(finalvalue.toString()).append("' ");
+                        saveQuery.append(UPDATE).append(table).append(" SET PROJECTION_UNITS='").append(finalvalue).append("' ");
                     }
                     break;
                 default:
@@ -2091,10 +2091,10 @@ public class SalesLogic {
 
             switch (column) {
                 case "AccountGrowth":
-                    updateLine.append(" ACCOUNT_GROWTH='").append(value.toString()).append("' ");
+                    updateLine.append(" ACCOUNT_GROWTH='").append(value).append("' ");
                     break;
                 case "ProductGrowth":
-                    updateLine.append(" PRODUCT_GROWTH='").append(value.toString()).append("' ");
+                    updateLine.append(" PRODUCT_GROWTH='").append(value).append("' ");
                     break;
                 case PROJECTED_SALES:
                     if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
@@ -2509,12 +2509,14 @@ public class SalesLogic {
                     List<Map> mapList = getActiveExFactorySalesAndUnitsForMassUpdate(projectionSelectionDTO, periodQuery, frequency);
                     Map<String, Map<String, Double>> salesMap = mapList.get(0);
                     String bulkQuery = StringUtils.EMPTY;
+                    StringBuilder bulkQueryBuilder = new StringBuilder();
                     String query;
                     for (Map.Entry<String, Map<String, Double>> entrys : salesMap.entrySet()) {
                         query = updateQuery.replace(Constant.YEAR1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[0]).replace(Constant.PERIOD1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[1]);
                         query = addFrequencyInQuery(projectionSelectionDTO.getFrequencyDivision(), Integer.parseInt(entrys.getKey().split(",")[1]), query);
-                        bulkQuery += calculationLogic(projectionSelectionDTO, salesDTO.getHierarchyNo(), enteredValue, query, entrys.getValue(), entrys.getValue());
+                        bulkQueryBuilder.append(calculationLogic(projectionSelectionDTO, salesDTO.getHierarchyNo(), enteredValue, query, entrys.getValue(), entrys.getValue()));
                     }
+                    bulkQuery = bulkQueryBuilder.toString();
                     salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(bulkQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 }
             } else if (updateVariable.equals(Constant.PROJECTED_RPU)) {
@@ -2528,14 +2530,14 @@ public class SalesLogic {
                     List<Map> mapList = getActiveExFactorySalesAndUnitsForMassUpdate(projectionSelectionDTO, periodQuery, frequency);
                     Map<String, Map<String, Double>> salesMap = mapList.get(0);
                     Map<String, Map<String, Double>> unitsMap = mapList.get(1);
-                    String bulkQuery = StringUtils.EMPTY;
+                    StringBuilder bulkQuery = new StringBuilder();
                     String query;
                     for (Map.Entry<String, Map<String, Double>> entrys : salesMap.entrySet()) {
                         query = updateQuery.replace(Constant.YEAR1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[0]).replace(Constant.PERIOD1_AT, StringUtils.EMPTY + entrys.getKey().split(",")[1]);
                         query = addFrequencyInQuery(projectionSelectionDTO.getFrequencyDivision(), Integer.parseInt(entrys.getKey().split(",")[1]), query);
-                        bulkQuery += calculationLogic(projectionSelectionDTO, salesDTO.getHierarchyNo(), enteredValue, query, entrys.getValue(), unitsMap.get(entrys.getKey()));
+                        bulkQuery.append(calculationLogic(projectionSelectionDTO, salesDTO.getHierarchyNo(), enteredValue, query, entrys.getValue(), unitsMap.get(entrys.getKey())));
                     }
-                    salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(bulkQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
+                    salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(bulkQuery.toString(), projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
                 }
             } else if (updateVariable.equals(Constant.GROWTH_RATE)) {
                 actualAmount = Double.valueOf(enteredValue);
@@ -3385,12 +3387,14 @@ public class SalesLogic {
         String queryName = Constant.VIEW.equals(projSelDTO.getSessionDTO().getAction()) ? "RETURNS_SALES_QUERY_RESULTS_VIEW" : "RETURNS_SALES_QUERY_RESULTS";
         String frequency = StringUtils.EMPTY;
         String returnDetailsSID = StringUtils.EMPTY;
+        StringBuilder returnDetailsSIDBuilder = new StringBuilder();
         Map<String, String> returnMap = projSelDTO.getSessionDTO().getReturnsDetailsMap();
         for (Map.Entry<String, String> entr : returnMap.entrySet()) {
             if (entr.getKey().contains(projSelDTO.getHierarchyNo())) {
-                returnDetailsSID += entr.getValue() + ",";
+                returnDetailsSIDBuilder.append(entr.getValue() ).append( ',');
             }
         }
+        returnDetailsSID = returnDetailsSIDBuilder.toString();
         LOGGER.debug("ReturnDetailsSID= {} " , returnDetailsSID);
         StringBuilder query = new StringBuilder();
         query.append(SQlUtil.getQuery(queryName));

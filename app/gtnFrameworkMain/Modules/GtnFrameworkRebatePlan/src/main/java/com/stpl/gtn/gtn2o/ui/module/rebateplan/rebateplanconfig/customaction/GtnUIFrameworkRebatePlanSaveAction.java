@@ -422,6 +422,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
             if (j == str.length - 1) {
                 finalFormula.append(')');
                 newFormula=finalFormula.toString();
+                break;
             }
         }
         return newFormula;

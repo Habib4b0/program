@@ -64,7 +64,7 @@ public class CommonQueryUtils {
                 ).append( "INSERT INTO NM_PROJECTION_SELECTION(PROJECTION_MASTER_SID,SCREEN_NAME,FIELD_NAME,FIELD_VALUES)\n"
                 ).append( "VALUES(" ).append( projectionID);
         queryBuilder.append(" ,'Discount Projection','SelectedDiscountsSids','");
-        queryBuilder.append(map.get("SelectedDiscountsSids").toString() ).append( "');");
+        queryBuilder.append(map.get("SelectedDiscountsSids")).append( "');");
         }
         commonDao.executeBulkUpdateQuery(queryBuilder.toString(), null, null);
     }

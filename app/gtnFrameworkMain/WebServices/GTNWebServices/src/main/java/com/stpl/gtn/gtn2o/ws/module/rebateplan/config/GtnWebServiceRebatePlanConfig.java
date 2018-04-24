@@ -33,7 +33,7 @@ public class GtnWebServiceRebatePlanConfig implements GtnWsSearchQueryConfigLoad
 
 		GtnWsSearchQueryConfig gtnWebServiceSearchQueryContext = new GtnWsSearchQueryConfig();
 
-		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
+		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>(50);
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 		fieldToColumnDetailsMap.put("systemId", configProvider.getColumnStringConfig("REBATE_PLAN_MASTER_SID", "RP"));
 		fieldToColumnDetailsMap.put("rebatePlanId", configProvider.getColumnStringConfig("REBATE_PLAN_ID", "RP"));

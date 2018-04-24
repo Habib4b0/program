@@ -56,8 +56,7 @@ public class GtnCMasterRequest implements GtnWSRequestData {
 	public void setGtnCMasterQualifierBean(GtnWsCMasterQualifierBean gtnCMasterQualifierBean) {
 		this.gtnCMasterQualifierBean = gtnCMasterQualifierBean;
 	}
-
-	private void writeObject(ObjectOutputStream stream) throws IOException {
+        private void writeObject(ObjectOutputStream stream) throws IOException {
 		stream.defaultWriteObject();
 	}
 

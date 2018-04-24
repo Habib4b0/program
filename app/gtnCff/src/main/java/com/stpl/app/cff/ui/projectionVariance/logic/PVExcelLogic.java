@@ -63,7 +63,7 @@ public class PVExcelLogic {
     private String groupFilterValue = StringUtils.EMPTY;
     private String viewValue = StringUtils.EMPTY;
     private static final String PRC_PROJ_RESULTS = "PRC_PROJECTION_RESULTS";
-    public static final String SEPERATOR_FORMAT = "`$";
+    public static final String SEPERATOR_FORMAT = "`\\$";
     private final Map<String, String> discountNameMap = new HashMap<>();
     public static final String TOTAL1 = "Total";
     private List<Object> pivotDiscountList = new ArrayList<>();
@@ -186,7 +186,7 @@ public class PVExcelLogic {
             if (isCustomView) {
                 key = !key.contains("-") ? key.concat(".") : key;
                 key = key + appendedParentKey;
-                appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
+                appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1];
             } else {
                 key = obj[NumericConstants.TWO].toString();
             }
@@ -1475,7 +1475,7 @@ public class PVExcelLogic {
                             selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), dataMap);
             dto.setGroup(groupName);
         }
-        if (groupName.contains(SEPERATOR_FORMAT)) {
+        if (groupName.contains("`$")) {
                 String[] tempArr = groupName.split(SEPERATOR_FORMAT);
                 dto.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
                 dto.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
@@ -2745,7 +2745,7 @@ public class PVExcelLogic {
             if ("null".equals(String.valueOf(obj[obj.length - 1]))) {
                 parentkey = obj[0].toString();
             } else {
-                parentkey = obj[0].toString().endsWith(".") ? obj[0].toString() + "$" + obj[obj.length - 1].toString() : obj[0].toString() + ".$" + obj[obj.length - 1].toString();
+                parentkey = obj[0].toString().endsWith(".") ? obj[0] + "$" + obj[obj.length - 1] : obj[0] + ".$" + obj[obj.length - 1];
             }
             if (i == 0) {
                 oldHierarchyNo = parentkey;
@@ -3314,7 +3314,7 @@ public class PVExcelLogic {
                 //To check condition total or details values
                 pvList = new ArrayList();
                 addListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId);
-                appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
+                appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1];
                 if (isCustomView && !isTotal) {
                     customHierarchyAndTPKeys(obj, key, pvList);
                 } else {
@@ -3333,7 +3333,7 @@ public class PVExcelLogic {
                     } else {
 						hierarchyAndTPkeys(obj, key, pvList);
                     }
-                    appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
+                    appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1];
                 } else {
                     updateListPivot(pvList, obj, freVarianceDTO, INDEX_VALUE, key, groupId);
                 }

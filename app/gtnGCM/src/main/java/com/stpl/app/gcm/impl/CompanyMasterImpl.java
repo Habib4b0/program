@@ -675,27 +675,27 @@ public class CompanyMasterImpl {
     }
 
     public List getAvailableSearchResults(final String searchCriteria) {
-        String sql = StringUtils.EMPTY;
+        StringBuilder sql = new StringBuilder();
         try {
 
-            sql = SQlUtil.getQuery("getCustomerDetails");
+            sql.append(SQlUtil.getQuery("getCustomerDetails"));
 
             if (searchCriteria.contains("~") && !searchCriteria.contains("*")) {
                 String arr[] = searchCriteria.split("~");
                 for (String arr1 : arr) {
-                    sql += arr1;
+                    sql.append(arr1);
                 }
             } else {
                 if (searchCriteria.length() != 0 && !searchCriteria.contains("*")) {
-                    sql += searchCriteria;
+                    sql.append(searchCriteria);
                 }
             }
 
-            return HelperTableLocalServiceUtil.executeSelectQuery(sql);
+            return HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
 
         } catch (Exception e) {
             LOGGER.error("",e);
-            LOGGER.error(sql);
+            LOGGER.error(sql.toString());
             return null;
         } 
     }
