@@ -3887,8 +3887,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         Map map = new HashMap();
         Collection c = (Collection) variables.getValue();
         List<String> l = new ArrayList();
-        for (Object s : c) {
-            l.add(String.valueOf(s));
+        if (c != null) {
+            for (Object s : c) {
+                l.add(String.valueOf(s));
+            }
         }
         projectionSelection.setdPVariablesList(l);
         try {
