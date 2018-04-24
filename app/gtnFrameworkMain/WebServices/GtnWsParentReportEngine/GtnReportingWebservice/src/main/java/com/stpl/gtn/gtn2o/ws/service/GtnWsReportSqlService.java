@@ -1,7 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.service;
 
 import java.io.IOException;
-import java.util.Optional;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -18,18 +17,19 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 @Component
 public class GtnWsReportSqlService {
 
-	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportSqlService.class);
-	@Autowired
-	private PropertiesFactoryBean sqlPropertyBean;
+    private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportSqlService.class);
+    @Autowired
+    private PropertiesFactoryBean sqlPropertyBean;
 
-	public String getQuery(String queryId) {
-		try {
-			return Optional.ofNullable(sqlPropertyBean.getObject()).orElseThrow(IllegalArgumentException::new)
-					.getProperty(queryId);
-		} catch (IOException e) {
-			gtnLogger.error("Error in Loading sql file ", e);
-		}
-		return StringUtils.EMPTY;
-	}
+    public String getQuery(String queryId) {
+        try {
+            if (sqlPropertyBean.getObject() != null) {
+                return sqlPropertyBean.getObject().getProperty(queryId);
+            }
+        } catch (IOException e) {
+            gtnLogger.error("Error in Loading sql file ", e);
+        }
+        return StringUtils.EMPTY;
+    }
 
 }
