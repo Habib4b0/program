@@ -16,14 +16,14 @@ import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.report.bean.CustomerHierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.HierarchyLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceDateResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsReportWebsevice;
@@ -66,14 +66,14 @@ public class GtnWsReportController {
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_CUSTOMERHIERARCHY_SEARCHSERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadHierarchyResults(@RequestBody GtnUIFrameworkWebserviceRequest request)
 			throws GtnFrameworkGeneralException {
-		List<Object[]> resultList;
-		GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
+		List<Object[]> resultList = null;
+		GtnWsReportRequest gtnWsReportRequest = request.getGtnReportRequest();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		if (gtnWsReportRequest != null) {
-			CustomerHierarchyLookupBean hierarchyBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
-			resultList = gtnWsReportWebsevice.loadHierarchyResults(hierarchyBean);
+			HierarchyLookupBean hierarchyBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
+//			resultList = gtnWsReportWebsevice.loadHierarchyResults(hierarchyBean);
 		}else{
 			resultList = gtnWsReportWebsevice.loadHierarchyResults();
 		}
@@ -87,13 +87,13 @@ public class GtnWsReportController {
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_PRODUCTHIERARCHY_SEARCHSERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadProductHierarchyResults(
 			@RequestBody GtnUIFrameworkWebserviceRequest request) throws GtnFrameworkGeneralException {
-		List<Object[]> resultList;
-		GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
+		List<Object[]> resultList = null;
+		GtnWsReportRequest gtnWsReportRequest = request.getGtnReportRequest();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		if (gtnWsReportRequest != null) {
-			CustomerHierarchyLookupBean hierarchyBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
-			resultList = gtnWsReportWebsevice.loadProductHierarchyResults(hierarchyBean);
+			HierarchyLookupBean hierarchyBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
+//			resultList = gtnWsReportWebsevice.loadProductHierarchyResults(hierarchyBean);
 		}else{
 			resultList = gtnWsReportWebsevice.loadProductHierarchyResults();
 		}
@@ -103,26 +103,7 @@ public class GtnWsReportController {
 		response.setGtnSerachResponse(gtnSearchResponse);
 		return response;
 	}
-
-	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOADRELATIONSHIP_SERVICE, method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse loadRelationshipValues(@RequestBody GtnUIFrameworkWebserviceRequest request)
-			throws GtnFrameworkGeneralException {
-		List<String> itemValuesList = new ArrayList<>();
-		List<String> itemCodeList = new ArrayList<>();
-		GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
-		CustomerHierarchyLookupBean lookupBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		List<Object[]> resultList = gtnWsReportWebsevice.loadRelationshipValues(lookupBean);
-		for (Object[] objects : resultList) {
-			itemCodeList.add(String.valueOf(objects[0]));
-			itemValuesList.add(String.valueOf(objects[1]));
-		}
-		response.setItemCodeList(itemCodeList);
-		response.setItemValueList(itemValuesList);
-		return response;
-	}
-
-
+	
 	@RequestMapping(value = "/gtnWsReportComboboxLoad", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getComboBoxResultSet(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {

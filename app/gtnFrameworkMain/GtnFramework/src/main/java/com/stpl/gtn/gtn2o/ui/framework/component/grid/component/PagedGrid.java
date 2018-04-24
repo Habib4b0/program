@@ -65,8 +65,8 @@ public class PagedGrid {
 		
         
         pagedTableLogic=new GtnUIFrameworkPagedGridLogic(tableConfig,componentConfig);
-        setFilterToGrid();
-       refreshGrid();
+//        setFilterToGrid();
+//       refreshGrid();
 	}
 
 	public void refreshGrid() {

@@ -1,23 +1,23 @@
 package com.stpl.gtn.gtn2o.ws.request.report;
 
-import com.stpl.gtn.gtn2o.ws.report.bean.CustomerHierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.HierarchyLookupBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnWSRequestData;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 
 public class GtnWsReportRequest implements GtnWSRequestData {
 
-	private CustomerHierarchyLookupBean customerHierarchyLookupBean;
+	private HierarchyLookupBean customerHierarchyLookupBean;
 
 	public GtnWsReportRequest() {
 		super();
 	}
 
-	public CustomerHierarchyLookupBean getCustomerHierarchyLookupBean() {
+	public HierarchyLookupBean getCustomerHierarchyLookupBean() {
 		return customerHierarchyLookupBean;
 	}
 
-	public void setCustomerHierarchyLookupBean(CustomerHierarchyLookupBean customerHierarchyLookupBean) {
+	public void setCustomerHierarchyLookupBean(HierarchyLookupBean customerHierarchyLookupBean) {
 		this.customerHierarchyLookupBean = customerHierarchyLookupBean;
 
 	}
