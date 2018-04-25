@@ -59,17 +59,8 @@ public class NmSalesProjectionImpl {
                 String lastCustomerHierarchyno=(String)inputs[19];
                 String lastProductHierarchyno=(String) inputs[20];
                 String methodology=(String) inputs[21];
-               String baseLine=(String) inputs[22];
-                
-             
-                if (!iscustom) {
-                    parentLevel = levelNo - 1;
-
-                } else {
-
-                    parentLevel = levelNo - 1;
-
-                }
+                String baseLine=(String) inputs[22];
+                parentLevel = levelNo - 1;
 
                 if (count) {
                     queryBuilder1.append("SELECT count(*) \n");
@@ -239,13 +230,7 @@ public class NmSalesProjectionImpl {
                 }
 
                 queryBuilder1.append("   ON CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID    \n");
-
-                if (!iscustom) {
-                    queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD);
-                } else {
-                    queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD);
-                }
-
+                queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD);
                 queryBuilder1.append("   JOIN ST_NM_SALES_PROJECTION_MASTER nm_mas     \n \n");
                 queryBuilder1.append("   ON pd.PROJECTION_DETAILS_SID = nm_mas.PROJECTION_DETAILS_SID       \n\n");
                 queryBuilder1.append(Constant.JOIN_ST_NM_ACTUAL_SALES_NM_AC);
@@ -416,11 +401,7 @@ public class NmSalesProjectionImpl {
 
                     queryBuilder1.append("   ON CCP.CCP_DETAILS_SID=pd.CCP_DETAILS_SID    \n");
 
-                    if (!iscustom) {
-                        queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD);
-                    } else {
-                        queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD);
-                    }
+                    queryBuilder1.append(Constant.JOIN_RELATIONSHIP_LEVEL_DEFINITION_RLD);
                     queryBuilder1.append(Constant.JOIN_ST_NM_SALES_PROJECTION_MASTER);
                     queryBuilder1.append(Constant.ON_PD_PROJECTION_DETAILS_SID_NM_MAS_PROJ);
                     queryBuilder1.append(Constant.JOIN_ST_NM_SALES_PROJECTION_NM_SP);

@@ -1259,9 +1259,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         if (fromDate.getValue() != null && !Constant.NULL.equals(String.valueOf(fromDate.getValue())) && !StringUtils.EMPTY.equals(String.valueOf(fromDate.getValue()))
                 && !Constant.SELECT_ONE.equals(String.valueOf(fromDate.getValue())) && !fromDateVal.equals(Constant.SELECT_ONE)) {
             String fromVal = fromDateVal.replace(" ", StringUtils.EMPTY);
-            if (pivotView.getValue().equals(Constant.PERIOD)) {
-                fromVal = fromVal.toLowerCase();
-            } else if (frequency.getValue().toString().equals(Constant.MONTHLY)) {
+            if ((pivotView.getValue().equals(Constant.PERIOD)) || (frequency.getValue().toString().equals(Constant.MONTHLY))) {
                 fromVal = fromVal.toLowerCase();
             }
             start = periodList.indexOf(fromVal);

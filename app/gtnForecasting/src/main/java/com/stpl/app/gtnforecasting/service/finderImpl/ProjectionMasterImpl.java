@@ -831,18 +831,6 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
             queryString.append(String.valueOf(parameters.get("query")));
         }
         try {
-
-            if (parameters.get(Constant.INDICATOR) != null
-                    && (Constant.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))
-                    || (Constant.UNSAVED_PROJECTION_IDS.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))
-                    || (Constant.CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))
-                    || (Constant.GET_REMOVABLE_CHILDREN.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))
-                    || (Constant.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))
-                    || (Constant.GET_FS_VALUE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))
-                    || (Constant.CHILD_LEVEL_RL_SID.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR)))))
-                    || (Constant.COMPANY_FILTER.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))) {
-            } else {
-            }
             if (parameters.get(Constant.INDICATOR) != null
                     && (Constant.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(Constant.INDICATOR))))) {
                 List<Integer> list = new ArrayList<Integer>();
