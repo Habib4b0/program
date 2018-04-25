@@ -430,12 +430,7 @@ public class Allocation extends CustomComponent implements View {
                                             return;
                                         }
                                         Double incOrDec;
-                                        
-                                        if (String.valueOf(propertyId).contains(Constant.PERCENT)) {
-                                            incOrDec = Double.valueOf(blurValue);
-                                        } else {
-                                            incOrDec = Double.valueOf(blurValue);
-                                        }
+                                        incOrDec = Double.valueOf(blurValue);
                                         AlternateHistoryDTO dto = (AlternateHistoryDTO) itemId;
                                         dto.addStringProperties(propertyId, blurValue);
                                         logic.updateAllocationOnEdit(String.valueOf(propertyId), dto.getProjDetailSid(), incOrDec,(String)frequency.getValue(),session);

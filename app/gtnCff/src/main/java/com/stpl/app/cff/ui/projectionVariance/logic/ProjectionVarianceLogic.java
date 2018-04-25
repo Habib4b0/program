@@ -1345,13 +1345,10 @@ public class ProjectionVarianceLogic {
 
     public Leveldto getNextLevel(int levelNo, List<Leveldto> hierarchy, boolean isCustomHierarchy) {
         for (Leveldto dto : hierarchy) {
-            if (isCustomHierarchy && dto.getTreeLevelNo() == levelNo) {
-                return dto;
-            } else if (dto.getLevelNo() == levelNo) {
+            if ((isCustomHierarchy && dto.getTreeLevelNo() == levelNo) || (dto.getLevelNo() == levelNo)) {
                 return dto;
             }
         }
-
         return null;
     }
 

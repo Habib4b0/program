@@ -589,14 +589,19 @@ public class DataSelectionUtil {
         List<String> companies = new ArrayList<>();
         if (innerProdLevels != null) {
             for (Leveldto leveldto : innerProdLevels) {
-                if ((screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS)) && leveldto.isFromCompany() || ("Company".equalsIgnoreCase(leveldto.getLevel()) || "GL Comp".contains(leveldto.getLevel()) || "GL Company".contains(leveldto.getLevel()))) {
-                    companies.add(leveldto.getRelationshipLevelValue());
-                } else if (leveldto.isFromCompany()) {
+                if ((isChannelsGlComp(screenName, leveldto)) || (leveldto.isFromCompany())) {
                     companies.add(leveldto.getRelationshipLevelValue());
                 }
             }
         }
         return companies;
+    }
+
+    private static boolean isChannelsGlComp(String screenName, Leveldto leveldto) {
+        return (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_CHANNELS)) && leveldto.isFromCompany() 
+                || ("Company".equalsIgnoreCase(leveldto.getLevel())
+                || "GL Comp".contains(leveldto.getLevel())
+                || "GL Company".contains(leveldto.getLevel()));
     }
 
     public static void mapUserIds() {
