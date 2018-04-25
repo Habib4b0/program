@@ -229,21 +229,21 @@
         },
         {
             "columnID": "itemPricingIntfid",
-            "columnName": "Item Pricing Interface ID",
-            "isSearchCriteria": false,
-            "isResultView": true,
-            "componentType": "text",
-            "isInvalidComponent": false,
-            "viewFlag": true
-        },
-        {
-            "columnID": "itemPricingIntfid",
             "columnName": "Invalid Record Id",
             "isSearchCriteria": true,
             "isResultView": true,
             "componentType": "text",
             "staticSearchCriterian": "true",
             "isInvalidComponent": true
+        },
+        {
+            "columnID": "itemPricingIntfid",
+            "columnName": "Item Pricing Interface ID",
+            "isSearchCriteria": false,
+            "isResultView": true,
+            "componentType": "text",
+            "onlyValidComponent": true,
+            "viewFlag": true
         },
         {
             "columnID": "invalidDateFrom",
