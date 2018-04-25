@@ -5,7 +5,6 @@
  */
 package com.stpl.gtn.gtn2o.ws.workflow.bean;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -48,9 +47,9 @@ public class GtnWsForecastProjectionSubmitBean implements Serializable {
 
     private String forecastProjectionVariableName;
 
-    private Map<String, Object> forecastProjectionSubmitWorkflowParam;
+    private transient Map<String, Object> forecastProjectionSubmitWorkflowParam;
     
-    private Object objectValue;
+    private transient Object objectValue;
 
     public int getProjectionId() {
         return forecastProjectionId;
