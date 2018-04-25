@@ -4102,14 +4102,8 @@ public class MProjectionResultsLogic {
 
             whereClause += " and I.\"YEAR\" = " + projSelDTO.getYear();
         }
-        if (projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) {
-            whereClause += StringUtils.EMPTY;
-        } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) {
-            whereClause += StringUtils.EMPTY;
-        } else if (projSelDTO.getFrequencyDivision() == NumericConstants.ONE) {
-            whereClause += StringUtils.EMPTY;
-
-        } else if (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE) {
+        if ((projSelDTO.getFrequencyDivision() == NumericConstants.FOUR) || (projSelDTO.getFrequencyDivision() == NumericConstants.TWO) 
+                || (projSelDTO.getFrequencyDivision() == NumericConstants.ONE) || (projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE))  {
             whereClause += StringUtils.EMPTY;
         }
 

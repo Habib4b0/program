@@ -1475,15 +1475,11 @@ public class FileManagementLookup extends Window {
 		public void validate(final Object value) {
 			LOGGER.debug("validate Method started");
 			if (fromDate.getValue() != null && toDate.getValue() != null) {
-				if (fromDate.getValue().after(toDate.getValue())) {
+				if (fromDate.getValue().after(toDate.getValue()) || fromDate.getValue().equals(toDate.getValue())) {
 					toDate.setValue(null);
 					AbstractNotificationUtils.getErrorNotification(SEARCH_ERROR,
 							"Created Date To should be greater than Created Date From");
 
-				} else if (fromDate.getValue().equals(toDate.getValue())) {
-					toDate.setValue(null);
-					AbstractNotificationUtils.getErrorNotification(SEARCH_ERROR,
-							"Created Date To should be greater than Created Date From");
 				}
 			}
 			LOGGER.debug("validate Method Ended");

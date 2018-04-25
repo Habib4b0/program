@@ -1386,14 +1386,8 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                 List<DiscountProjectionDTO> checkedDto = new ArrayList<>();
 
                 for (DiscountProjectionDTO dto : resultBeanContainer.getBeans()) {
-                    if ((Boolean) dto.getPropertyValue(Constant.CHECK)) {
-                        if (dto.getSupplementalLevelNo() == NumericConstants.FIVE) {
-                            checkedDto.add(dto);
-                        } else if (dto.getSupplementalLevelNo() == 1 && String.valueOf(fieldDdlb.getValue()).equals(METHODOLOGY.getConstant())) {
-                            checkedDto.add(dto);
-                        } else if (dto.getSupplementalLevelNo() == NumericConstants.FOUR && String.valueOf(fieldDdlb.getValue()).equals(ACCESS.getConstant())) {
-                            checkedDto.add(dto);
-                        }
+                    if (((Boolean) dto.getPropertyValue(Constant.CHECK)) && (isLevelFive(dto) || isMethodology(dto) || isAccessDdlb(dto))) {
+                        checkedDto.add(dto);
                     }
                 }
 
@@ -1424,6 +1418,18 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         tableLogic.setRefresh(true);
     }
 
+    private boolean isAccessDdlb(DiscountProjectionDTO dto) {
+        return dto.getSupplementalLevelNo() == NumericConstants.FOUR && String.valueOf(fieldDdlb.getValue()).equals(ACCESS.getConstant());
+    }
+
+    private boolean isMethodology(DiscountProjectionDTO dto) {
+        return dto.getSupplementalLevelNo() == 1 && String.valueOf(fieldDdlb.getValue()).equals(METHODOLOGY.getConstant());
+    }
+
+    private static boolean isLevelFive(DiscountProjectionDTO dto) {
+        return dto.getSupplementalLevelNo() == NumericConstants.FIVE;
+    }
+
     public void refreshTableData(Set<String> finalHirarechyNo) {
         tableLogic.setHierarchyToRefresh(finalHirarechyNo);
         tableLogic.setCurrentPage(tableLogic.getCurrentPage());
@@ -1432,14 +1438,8 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     public void allowMethod(final String selectedValue) {
         List<DiscountProjectionDTO> checkedDto = new ArrayList<>();
         for (DiscountProjectionDTO dto : resultBeanContainer.getBeans()) {
-            if ((Boolean) dto.getPropertyValue(Constant.CHECK)) {
-                if (dto.getSupplementalLevelNo() == NumericConstants.FIVE) {
-                    checkedDto.add(dto);
-                } else if (dto.getSupplementalLevelNo() == 1 && String.valueOf(fieldDdlb.getValue()).equals(METHODOLOGY.getConstant())) {
-                    checkedDto.add(dto);
-                } else if (dto.getSupplementalLevelNo() == NumericConstants.FOUR && String.valueOf(fieldDdlb.getValue()).equals(ACCESS.getConstant())) {
-                    checkedDto.add(dto);
-                }
+            if (((Boolean) dto.getPropertyValue(Constant.CHECK)) &&  ((isLevelFive(dto) || isMethodology(dto) || isAccessDdlb(dto)))) {
+                checkedDto.add(dto);
             }
         }
 

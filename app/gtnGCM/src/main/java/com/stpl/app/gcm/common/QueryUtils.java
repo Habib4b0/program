@@ -1304,73 +1304,11 @@ public class QueryUtils {
                     if (stringFilter.getValue() instanceof Date) {
 
                         Date filterString = (Date) stringFilter.getValue();
-                        if (Constants.RS_START_DATE.equals(stringFilter.getPropertyId())) {
                             if (stringFilter.getOperation().equals(Compare.Operation.GREATER_OR_EQUAL)) {
                                 parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "from", String.valueOf(dateFormat.format(filterString)));
                             } else if (stringFilter.getOperation().equals(Compare.Operation.LESS_OR_EQUAL)) {
                                 parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "to", String.valueOf(dateFormat.format(filterString)));
                             }
-                        } else if (Constants.RS_END_DATE.equals(stringFilter.getPropertyId())) {
-                            if (stringFilter.getOperation().equals(Compare.Operation.GREATER_OR_EQUAL)) {
-                                parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "from", String.valueOf(dateFormat.format(filterString)));
-                            } else if (stringFilter.getOperation().equals(Compare.Operation.LESS_OR_EQUAL)) {
-                                parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "to", String.valueOf(dateFormat.format(filterString)));
-                            }
-                        } else if (Constants.CFP_START_DATE.equals(stringFilter.getPropertyId())) {
-
-                            if (stringFilter.getOperation().equals(Compare.Operation.GREATER_OR_EQUAL)) {
-
-                                parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "from", String.valueOf(dateFormat.format(filterString)));
-                            } else if (stringFilter.getOperation().equals(Compare.Operation.LESS_OR_EQUAL)) {
-
-                                parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "to", String.valueOf(dateFormat.format(filterString)));
-                            }
-                        } else if (Constants.CFP_END_DATE.equals(stringFilter.getPropertyId())) {
-                            if (stringFilter.getOperation().equals(Compare.Operation.GREATER_OR_EQUAL)) {
-
-                                parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "from", String.valueOf(dateFormat.format(filterString)));
-                            } else if (stringFilter.getOperation().equals(Compare.Operation.LESS_OR_EQUAL)) {
-
-                                parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "to", String.valueOf(dateFormat.format(filterString)));
-                            }
-                        } else if (Constants.PS_START_DATE.equals(stringFilter.getPropertyId())) {
-
-                            if (stringFilter.getOperation().equals(Compare.Operation.GREATER_OR_EQUAL)) {
-
-                                parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "from", String.valueOf(dateFormat.format(filterString)));
-                            } else if (stringFilter.getOperation().equals(Compare.Operation.LESS_OR_EQUAL)) {
-
-                                parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "to", String.valueOf(dateFormat.format(filterString)));
-                            }
-                        } else if (Constants.PS_END_DATE.equals(stringFilter.getPropertyId())) {
-                            if (stringFilter.getOperation().equals(Compare.Operation.GREATER_OR_EQUAL)) {
-
-                                parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "from", String.valueOf(dateFormat.format(filterString)));
-                            } else if (stringFilter.getOperation().equals(Compare.Operation.LESS_OR_EQUAL)) {
-
-                                parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "to", String.valueOf(dateFormat.format(filterString)));
-                            }
-                        } else if (Constants.IFP_START_DATE.equals(stringFilter.getPropertyId())) {
-
-                            if (stringFilter.getOperation().equals(Compare.Operation.GREATER_OR_EQUAL)) {
-
-                                parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "from", String.valueOf(dateFormat.format(filterString)));
-                            } else if (stringFilter.getOperation().equals(Compare.Operation.LESS_OR_EQUAL)) {
-
-                                parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "to", String.valueOf(dateFormat.format(filterString)));
-                            }
-
-                        } else if (Constants.IFP_END_DATE.equals(stringFilter.getPropertyId())) {
-
-                            if (stringFilter.getOperation().equals(Compare.Operation.GREATER_OR_EQUAL)) {
-
-                                parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "from", String.valueOf(dateFormat.format(filterString)));
-                            } else if (stringFilter.getOperation().equals(Compare.Operation.LESS_OR_EQUAL)) {
-
-                                parameters.put(StringConstantsUtil.FILTER + stringFilter.getPropertyId() + "to", String.valueOf(dateFormat.format(filterString)));
-                            }
-                        }
-
                     }
                 }
 

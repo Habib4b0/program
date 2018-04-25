@@ -389,7 +389,7 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
             public void buttonClick(final Button.ClickEvent event) {
                 try {
                     availableResultsBean.removeAllItems();
-                    final String businessProces = "<" + businessProcess.getValue().toString() + ">";
+                    final String businessProces = "<" + businessProcess.getValue() + ">";
                     final List<ProjectionNameDTO> availableNameResults = nameConfigLogic.getAvailableNameTemplate(businessProces);
                     availableResultsBean.addAll(availableNameResults);
                 } catch (Exception ex) {

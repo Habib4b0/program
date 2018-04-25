@@ -118,7 +118,7 @@ public class GtnFrameworkCCPInsertService {
 		if (!isProduct) {
 			List<Object> input1 = new ArrayList<>();
 			input1.add(inputBean.getProjectionId());
-			query.append(gtnWsSqlService.getQuery(input1, "filtercontractsbasedoneligibledate"));
+			query.append(gtnWsSqlService.getQuery(input1, "CFFfiltercontractsbasedoneligibledate"));
 		}
 
 		return gtnWsSqlService.getReplacedQuery(input, query.toString());

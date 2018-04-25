@@ -568,6 +568,10 @@ public class GtnFrameworkForecastConfigurationConfig {
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.MODE);
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.SEARCH_RESULT_TABLE);
 		customAction.addActionParameter(namspacePrefix + "errorDisplay");
+		customAction
+				.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.HISTORICAL_DATA_PERIOD);
+		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.FORECAST_PERIOD);
+		customAction.addActionParameter(namspacePrefix + GtnFrameworkForecastConfigurationContants.MODE);
 		actionConfigList.add(customAction);
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}

@@ -1273,20 +1273,11 @@ public class NationalAssumptions extends CustomComponent implements View {
         createDeleteButton(priceTypeDTO);
 
         priceTypeDTO.setSymbol(deleteBtn);
-        if (!Constant.ANNUAL_FSS.equals(priceTypeDdlb.getValue())) {
-            if (count > 1) {
-                if (baselineMethodology.getValue().equals(Constant.SINGLE_PERIOD)) {
-                    selectedFlag = false;
-                } else {
-                    selectedFlag = true;
-                }
-            }
-            if (count == 1) {
-                if (baselineMethodology.getValue().equals("Average")) {
-                    selectedFlag = false;
-                } else {
-                    selectedFlag = true;
-                }
+        if (count > 1 && !Constant.ANNUAL_FSS.equals(priceTypeDdlb.getValue())) {
+            if (baselineMethodology.getValue().equals(Constant.SINGLE_PERIOD)) {
+                selectedFlag = false;
+            } else {
+                selectedFlag = true;
             }
         }
         if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && ROLLING_AVERAGE.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))
@@ -1305,10 +1296,10 @@ public class NationalAssumptions extends CustomComponent implements View {
             if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && baselineMethodology.getValue().equals(Constant.SINGLE_PERIOD)) {
                 AbstractNotificationUtils.getErrorNotification(Constant.WARNING, "You can only select a single period when the Single Period Baseline Methodology is selected.");
             }
-            if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && baselineMethodology.getValue().equals("Average")) {
+            if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && baselineMethodology.getValue().equals("Average") && periodsForBaselineTable.isEnabled()) {
                 AbstractNotificationUtils.getErrorNotification(Constant.WARNING, "You must select more than 1 single period when using the Average Baseline Methodology.");
-            }
         }
+    }
     }
 
     public boolean checkSelection(Object startPeriod, Object endPeriod) {
