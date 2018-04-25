@@ -413,7 +413,6 @@ public class GtnWsRebateScheduleCrudService {
 			rsInfoBean = setRsInfoBean(rsInfoList.get(0));
 			getUdcsValue(rsInfoBean, systemId);
 			rsInfoBean.setNoteBeanList(getRsNotesTabDetails(systemId));
-			rsInfoBean.setNoteBeanList(getRsNotesTabAttachDetails(systemId));
 		}
 		return rsInfoBean;
 
@@ -476,17 +475,6 @@ public class GtnWsRebateScheduleCrudService {
 		return GtnCommonUtil.getNotesTabBean(rsNotesDetailsList, gtnWebServiceAllListConfig);
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private List<NotesTabBean> getRsNotesTabAttachDetails(int systemId) throws GtnFrameworkGeneralException {
-
-		String rsNoteAttachDetailsQuery = gtnWsSqlService.getQuery("rsNotesTabAttachDetailsQuery");
-		Object[] rsNoteAttachDetailsQueryParams = { systemId };
-		GtnFrameworkDataType[] rsNoteAttachDetailsQueryTypes = { GtnFrameworkDataType.INTEGER };
-
-		List<Object[]> rsNotesAttachDetailsList = (List) gtnSqlQueryEngine.executeSelectQuery(rsNoteAttachDetailsQuery,
-				rsNoteAttachDetailsQueryParams, rsNoteAttachDetailsQueryTypes);
-		return GtnCommonUtil.getNotesTabBean(rsNotesAttachDetailsList, gtnWebServiceAllListConfig);
-	}
 
 	private int getIntValue(Object obj) {
 		int value = 0;

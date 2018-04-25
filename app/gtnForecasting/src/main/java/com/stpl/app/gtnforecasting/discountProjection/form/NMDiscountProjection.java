@@ -991,38 +991,22 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     .getNMProjectionSelection(session.getProjectionId(), TAB_DISCOUNT_PROJECTION.getConstant());
 
             if (map != null && map.size() > 0) {
-                LOGGER.debug(" Freq= {} ", map.get(Constant.FREQUENCY));
-                LOGGER.debug(" history= {} ", map.get(Constant.HISTORY));
-                LOGGER.debug(" Period Order= {} ", map.get(Constant.PROJECTION_PERIOD_ORDER_LABEL));
-                LOGGER.debug(" Actuals / Proj= {}", map.get(Constant.ACTUALS_PROJECTIONS));
-                LOGGER.debug(" Level= {} ", map.get(Constant.LEVEL_LABEL));
-                LOGGER.debug(" Program selection ddlb= {}", map.get("Program Selection Ddlb"));
-                LOGGER.debug(" year seelction ddlb= {} ", map.get(Constant.YEAR_SELECTION_DDLB));
-                LOGGER.debug(" selected discount= {} ", map.get(Constant.SELECTED_DISCOUNTS));
                 Object mapValue = map.get(Constant.FREQUENCY);
                 frequencyDdlb.select(mapValue);
-                mapValue = map.get(Constant.HISTORY);
-                historyDdlb.select(Integer.parseInt(String.valueOf((mapValue == null || StringUtils.isBlank(mapValue.toString())
-                        || mapValue.toString().equalsIgnoreCase(ANULL)) ? 0
-                        : map.get(Constant.HISTORY))));
-                mapValue = map.get(Constant.PROJECTION_PERIOD_ORDER_LABEL);
-                periodOrder.select(mapValue);
-                mapValue = map.get(Constant.ACTUALS_PROJECTIONS);
-                actualsProjs.select(mapValue);
-                mapValue = map.get(Constant.LEVEL_LABEL);
-                level.select(mapValue);
-                mapValue = map.get(Constant.YEAR_SELECTION_DDLB);
-                yearSelection.select(mapValue);
+                setSelectedVariablesValue(map);
                 mapValue = map.get(Constant.VARIABLES);
-                String selectedValue = String.valueOf(mapValue);
-                selectedValue = selectedValue.replace("[", "");
-                String replacedValue = selectedValue.replace("]", "");
-                String[] array = replacedValue.split(",");
-                for(int i = 0; i < array.length; i++){
-                    mapValue = array[i];
-                    variables.select(((String)mapValue).trim());
+                if (mapValue != null && !ANULL.equals(mapValue)) {
+                    String selectedValue = String.valueOf(mapValue);
+                    selectedValue = selectedValue.replace("[", "");
+                    String replacedValue = selectedValue.replace("]", "");
+                    String[] array = replacedValue.split(",");
+                    for (int i = 0; i < array.length; i++) {
+                        mapValue = array[i];
+                        variables.select(((String) mapValue).trim());
+                    }
+                } else {
+                    variables.select(DISCOUNT_AMT.getConstant());
                 }
-                
                 if (!CommonUtil.nullCheck(map.get(Constant.DISPLAY_FORMAT_SAVE))) {
                     CommonUtil.setCustomMenuBarValuesInEdit(map.get(Constant.DISPLAY_FORMAT_SAVE), displayFormatValues);
                 }
@@ -1033,70 +1017,98 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     CommonLogic.unCheckMultiSelect(customerFilterValues);
                     CommonLogic.unCheckMultiSelect(productFilterValues);
                 }
-                mapValue = map.get(Constant.CUSTOMER_LEVEL_DDLB);
-                customerlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(mapValue));
-                mapValue = map.get(Constant.CUSTOMER_LEVEL_VALUE);
-                if (!CommonUtil.nullCheck(mapValue)) {
-                    CommonUtil.setCustomMenuBarValuesInEdit(mapValue, customerFilterValues);
-                    generateCustomerToBeLoaded = commonLogic.getFilterValues(customerFilterValues).get(SID);
-                    projectionSelection.setCustomerLevelFilter((List) generateCustomerToBeLoaded);
-                }
-                String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
-                ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
-                mapValue = map.get(Constant.PRODUCT_LEVEL_DDLB);
-                productlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(mapValue));
-                mapValue = map.get(Constant.PRODUCT_LEVEL_VALUE);
-                if (!CommonUtil.nullCheck(mapValue)) {
-                    CommonUtil.setCustomMenuBarValuesInEdit(mapValue, productFilterValues);
-                    generateProductToBeLoaded = commonLogic.getFilterValues(productFilterValues).get(SID);
-                    projectionSelection.setProductLevelFilter((List) generateProductToBeLoaded);
-                }
-                String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
-                ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
-                mapValue = map.get(Constant.DEDUCTION_LEVEL_DDLB);
-                deductionlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(mapValue));
-                mapValue = map.get(Constant.DEDUCTION_LEVEL_VALUE);
-                if (!CommonUtil.nullCheck(mapValue)) {
-                    CommonUtil.setCustomMenuBarValuesInEdit(mapValue, deductionFilterValues);
-                    generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
-                    generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
-                    projectionSelection.setDeductionLevelFilter((List) generateDiscountToBeLoaded);
-                    projectionSelection.setDeductionLevelCaptions((List) generateDiscountToBeLoaded);
-                }
-                String deductionMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
-                ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
-                mapValue = map.get(Constant.DEDUCTION_INCLUSION_DDLB);
-                if (!CommonUtil.nullCheck(mapValue)) {
-                    CommonUtil.setCustomMenuBarValuesInEdit(mapValue, deductionInclusionValues);
-                }
-                String deductionInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(deductionInclusionValues);
-                ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionInclusionDdlb, deductionInclusionValue);
-                if (!map.get(Constant.SELECTED_DISCOUNTS).equals("")) {
-
-                    if ("Program Category".equals(String.valueOf(map.get(Constant.LEVEL_LABEL)))) {
-                        discountProgramsList = new LinkedList<>(
-                                Arrays.asList(String.valueOf(map.get(Constant.SELECTED_DISCOUNTS)).split("\\s*,\\s*")));
-                        discountNamesList = new LinkedList<>(discountProgramsList);
-                        discountNoList = new LinkedList<>(
-                                Arrays.asList(String.valueOf(map.get("selectedDiscountNo")).split("\\s*,\\s*")));
-                    } else {
-                        List rawRSList = logic.getRSDiscountSids("" + session.getProjectionId());
-                        discountProgramsList = new LinkedList<>((List<String>) rawRSList.get(0));
-                        discountNamesList = new LinkedList<>(discountProgramsList);
-                        discountNoList = new LinkedList<>((List<String>) rawRSList.get(1));
-                    }
-
-                }
+                setCustomerLevelFilterValues(map);
+                setProductLevelFilter(map);
+                setValuesForDeductions(map);
                 customizeDataForDDLB(discountProgramsList, programSelection);
                 frequencyDdlb.focus();
                 setListviewGenerated(true);
                 return true;
             }
             viewValueChangeLogic();
-        } catch (Property.ReadOnlyException | NumberFormatException e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
         return false;
+    }
+
+    public void setSelectedVariablesValue(Map<Object, Object> map)  {
+        Object mapValue;
+        mapValue = map.get(Constant.HISTORY);
+        historyDdlb.select(Integer.parseInt(String.valueOf((mapValue == null || StringUtils.isBlank(mapValue.toString())
+                || mapValue.toString().equalsIgnoreCase(ANULL)) ? 0
+                : map.get(Constant.HISTORY))));
+        mapValue = map.get(Constant.PROJECTION_PERIOD_ORDER_LABEL);
+        periodOrder.select(mapValue);
+        mapValue = map.get(Constant.ACTUALS_PROJECTIONS);
+        actualsProjs.select(mapValue);
+        mapValue = map.get(Constant.LEVEL_LABEL);
+        level.select(mapValue);
+        mapValue = map.get(Constant.YEAR_SELECTION_DDLB);
+        yearSelection.select(mapValue);
+    }
+
+    public void setCustomerLevelFilterValues(Map<Object, Object> map)  {
+        Object mapValue = map.get(Constant.CUSTOMER_LEVEL_DDLB);
+        customerlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(mapValue));
+        mapValue = map.get(Constant.CUSTOMER_LEVEL_VALUE);
+        if (!CommonUtil.nullCheck(mapValue)) {
+            CommonUtil.setCustomMenuBarValuesInEdit(mapValue, customerFilterValues);
+            generateCustomerToBeLoaded = commonLogic.getFilterValues(customerFilterValues).get(SID);
+            projectionSelection.setCustomerLevelFilter((List) generateCustomerToBeLoaded);
+        }
+        String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
+    }
+
+    public void setProductLevelFilter(Map<Object, Object> map)  {
+        Object mapValue = map.get(Constant.PRODUCT_LEVEL_DDLB);
+        productlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(mapValue));
+        mapValue = map.get(Constant.PRODUCT_LEVEL_VALUE);
+        if (!CommonUtil.nullCheck(mapValue)) {
+            CommonUtil.setCustomMenuBarValuesInEdit(mapValue, productFilterValues);
+            generateProductToBeLoaded = commonLogic.getFilterValues(productFilterValues).get(SID);
+            projectionSelection.setProductLevelFilter((List) generateProductToBeLoaded);
+        }
+        String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
+    }
+
+    public void setValuesForDeductions(Map<Object, Object> map){
+        Object mapValue = map.get(Constant.DEDUCTION_LEVEL_DDLB);
+        deductionlevelDdlb.setValue(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(mapValue));
+        mapValue = map.get(Constant.DEDUCTION_LEVEL_VALUE);
+        if (!CommonUtil.nullCheck(mapValue)) {
+            CommonUtil.setCustomMenuBarValuesInEdit(mapValue, deductionFilterValues);
+            generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
+            generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
+            projectionSelection.setDeductionLevelFilter((List) generateDiscountToBeLoaded);
+            projectionSelection.setDeductionLevelCaptions((List) generateDiscountToBeLoaded);
+        }
+        String deductionMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
+        mapValue = map.get(Constant.DEDUCTION_INCLUSION_DDLB);
+        if (!CommonUtil.nullCheck(mapValue)) {
+            CommonUtil.setCustomMenuBarValuesInEdit(mapValue, deductionInclusionValues);
+        }
+        String deductionInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(deductionInclusionValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionInclusionDdlb, deductionInclusionValue);
+        if (!map.get(Constant.SELECTED_DISCOUNTS).equals("")) {
+            
+            if ("Program Category".equals(String.valueOf(map.get(Constant.LEVEL_LABEL)))) {
+                discountProgramsList = new LinkedList<>(
+                        Arrays.asList(String.valueOf(map.get(Constant.SELECTED_DISCOUNTS)).split("\\s*,\\s*")));
+                discountNamesList = new LinkedList<>(discountProgramsList);
+                discountNoList = new LinkedList<>(
+                        Arrays.asList(String.valueOf(map.get("selectedDiscountNo")).split("\\s*,\\s*")));
+            } else {
+                List rawRSList = logic.getRSDiscountSids(String.valueOf(session.getProjectionId()));
+                discountProgramsList = new LinkedList<>((List<String>) rawRSList.get(0));
+                discountNamesList = new LinkedList<>(discountProgramsList);
+                discountNoList = new LinkedList<>((List<String>) rawRSList.get(1));
+            }
+            
+        }
     }
 
     /**
@@ -3887,8 +3899,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         Map map = new HashMap();
         Collection c = (Collection) variables.getValue();
         List<String> l = new ArrayList();
-        for (Object s : c) {
-            l.add(String.valueOf(s));
+        if (c != null) {
+            for (Object s : c) {
+                l.add(String.valueOf(s));
+            }
         }
         projectionSelection.setdPVariablesList(l);
         try {

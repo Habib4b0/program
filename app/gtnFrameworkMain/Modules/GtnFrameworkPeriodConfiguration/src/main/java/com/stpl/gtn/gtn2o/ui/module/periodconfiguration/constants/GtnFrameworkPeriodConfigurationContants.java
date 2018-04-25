@@ -41,12 +41,12 @@ public class GtnFrameworkPeriodConfigurationContants {
 	public static final String SINGLE = "Single";
 	public static final String MULTIPLE = "Multiple";
 	public static final String AUTO = "Auto";
-	public static final String PERIOD_CONFIG_MAIN_LAYOUT = "PeriodConfigurationMainLayout";
 	public static final String PERIOD_CONFIG_LAYOUT = "periodConfigurationLayout";
 	public static final String NEGATIVE_ONLY_MSG = "Can contains  Negative Numbers and 0";
-	public static final String POSITIVE_ONLY_MSG = "Can contains  Positive Numbers and 0";
+	public static final String POSITIVE_ONLY_MSG = "Can contains  Positive and Negative Numbers and Zero";
 	public static final String ONE_HUNDRED_TWENTY_SEVEN_PERCENT = "127%";
 	public static final String ONE_HUNDRED_PERCENT = "100%";
+        public static final String FIFTY_PERCENT = "50%";
 	private static final String[] PERIOD_CONFIGURATION_DOUBLE_HEADER_VISIBLE_COLUMNS = { "group1", "group2", "group3" };
 	private static final String[] PERIOD_CONFIGURATION_DOUBLE_HEADER_VISIBLE_HEADER = { "", "From Period",
 			"To Period" };
@@ -58,7 +58,6 @@ public class GtnFrameworkPeriodConfigurationContants {
 			TO_PERIOD_DATE, TO_DEF_PERIOD_DATE };
 	public static final String FREQUENCY_FROM_COMPONENT = "frequencyFromComponent";
 	public static final String PERIOD_TO_LAYOUT = "PeriodToLayout";
-	public static final String PERIOD_CONFIGURATION_LAYOUT = "periodConfigurationLayout";
 	public static final String DEFAULT_FREQUENCY_TO = "defaultFrequencyTo";
 	public static final String ACTION_BUTTONLAYOUT = "actionButtonlayout";
 	public static final String DEFAULT_MODE_TO = "defaultModeTo";
@@ -85,6 +84,11 @@ public class GtnFrameworkPeriodConfigurationContants {
 	public static final String PERIOD_TO_COMPONENT_LAYOUT = "periodToComponentLayout";
 	public static final String DATE_TO = "dateTo";
 	public static final String PERIOD_TO_TEXT_BOX = "periodToTextBox";
+        public static final String VALIDATE_TO_DATES = "The ‘To Period’ default date cannot be after the ‘To Period’ date.";
+        public static final String VALIDATE_START_DATES = "The value entered in the ‘Period’ field cannot be before Current - 60 months when in the ‘From’ and ‘To’ group boxes.";
+        public static final String VALIDATE_FROM_DEFAULT_DATES = "The ‘From Period’ default date cannot be before the ‘From Period’ date.";
+        public static final String VALIDATE_DATE_RANGE = "The ‘To Period’ date cannot be before the ‘From Period’ date.";
+        public static final String VALIDATE_DEFAULT_DATES = "The ‘To Period’ default date cannot be before the ‘From Period’ default date.";
 	private static final String[] FROM_FIELDS = { MODE_FROM_COMPONENT, DEFAULT_MODE_FROM_COMPONENT,
 			FREQUENCY_FROM_COMPONENT, DEFAULT_FREQUENCY_FROM, PERIOD_FROM, DEFAULT_PERIOD_FROM, PERIOD_FROM_TEXT_BOX,
 			DEFAULT_PERIOD_FROM_TEXT_BOX, DATE_FROM, DEFAULT_DATE_FROM };
@@ -122,6 +126,7 @@ public class GtnFrameworkPeriodConfigurationContants {
 			PERIOD_CONFIG_STRING_DATATYPE, PERIOD_CONFIG_STRING_DATATYPE, PERIOD_CONFIG_STRING_DATATYPE,
 			PERIOD_CONFIG_DATE, PERIOD_CONFIG_STRING_DATATYPE, PERIOD_CONFIG_STRING_DATATYPE,
 			PERIOD_CONFIG_STRING_DATATYPE, PERIOD_CONFIG_DATE };
+    public static final String FROM_DEFAULT_VALIDATION_FAILED = "From Default validation failed";
 
 	private GtnFrameworkPeriodConfigurationContants() {
 
