@@ -29,7 +29,6 @@ public class BpmManagerBean {
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(BpmManagerBean.class);
 
 	private static final String COM_STPL_APP_BPM = "com.stpl.app.bpm";
-	private static final String ORG_JBPM_DOMAIN = "org.jbpm.domain";
 	protected ReleaseId releaseId;
 	private Map<String, RuntimeEngine> runtimeEngineMap = new HashMap<>();
 	private Properties properties = DroolsProperties.getPropertiesData();
@@ -37,7 +36,7 @@ public class BpmManagerBean {
 	protected RuntimeManagerRegistry registry = RuntimeManagerRegistry.get();
 
 	@Autowired
-	EntityManagerFactoryInfo enitiyManagerFactoryBean;
+	private EntityManagerFactoryInfo enitiyManagerFactoryBean;
 
 	@Autowired
 	private CustomUserCallBack userGroupCallback;
