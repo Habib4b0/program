@@ -172,7 +172,7 @@ public class GtnFrameworkContractInformationTabLoadAction implements GtnUIFrameW
 			notesDTOList.add(notesDTO);
 		}
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("notesTab").setNotesTabValue(
-				Arrays.asList(processDataBean.getContractInfoBean().getStringPropertyByIndex(48), notesDTOList));
+				Arrays.asList(processDataBean.getContractInfoBean().getStringPropertyByIndex(49), notesDTOList));
 		return records;
 	}
 }
