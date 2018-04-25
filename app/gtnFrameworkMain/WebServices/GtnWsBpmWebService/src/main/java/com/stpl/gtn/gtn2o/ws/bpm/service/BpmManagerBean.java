@@ -15,7 +15,6 @@ import org.kie.internal.runtime.manager.RuntimeManagerRegistry;
 import org.kie.scanner.MavenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.EntityManagerFactoryInfo;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import com.stpl.gtn.gtn2o.ws.bpm.properties.DroolsProperties;
 import com.stpl.gtn.gtn2o.ws.constants.workflow.GtnWsBpmCommonConstants;
@@ -30,7 +29,6 @@ public class BpmManagerBean {
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(BpmManagerBean.class);
 
 	private static final String COM_STPL_APP_BPM = "com.stpl.app.bpm";
-	private static final String ORG_JBPM_DOMAIN = "org.jbpm.domain";
 	protected ReleaseId releaseId;
 	private Map<String, RuntimeEngine> runtimeEngineMap = new HashMap<>();
 	private Properties properties = DroolsProperties.getPropertiesData();
@@ -38,7 +36,7 @@ public class BpmManagerBean {
 	protected RuntimeManagerRegistry registry = RuntimeManagerRegistry.get();
 
 	@Autowired
-	EntityManagerFactoryInfo enitiyManagerFactoryBean;
+	private EntityManagerFactoryInfo enitiyManagerFactoryBean;
 
 	@Autowired
 	private CustomUserCallBack userGroupCallback;

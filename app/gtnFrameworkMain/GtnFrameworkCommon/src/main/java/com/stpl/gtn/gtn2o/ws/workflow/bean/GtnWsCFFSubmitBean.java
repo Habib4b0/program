@@ -159,13 +159,4 @@ public class GtnWsCFFSubmitBean implements Serializable {
         this.value = value;
     }
     
-    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
-        out.writeObject(value);
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        value = in.readObject();
-    }
     }
