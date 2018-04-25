@@ -82,8 +82,6 @@ public class GtnWsItemMasterAddService {
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
@@ -92,12 +90,9 @@ public class GtnWsItemMasterAddService {
 	private GtnWsAllListConfig gtnWebServiceAllListConfig;
 
 	public synchronized org.hibernate.SessionFactory getSessionFactory() {
-		return sessionFactory;
+		return gtnSqlQueryEngine.getSessionFactory();
 	}
 
-	public synchronized void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 
 	public synchronized GtnWsSqlService getGtnWsSqlService() {
 		return gtnWsSqlService;

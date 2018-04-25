@@ -119,7 +119,7 @@ public class GtnSmallHashMap {
 	 */
 	public Integer getInt(Object key) {
 		GtnPairsBean dto = iterator(key);
-		return dto == null ? 0 : (Integer) dto.getValue();
+		return (Integer) (dto == null ? 0 :  dto.getValue());
 	}
 
 	/**

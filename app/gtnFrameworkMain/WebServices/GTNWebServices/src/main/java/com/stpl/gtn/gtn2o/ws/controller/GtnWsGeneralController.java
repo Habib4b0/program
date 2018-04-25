@@ -41,8 +41,6 @@ public class GtnWsGeneralController {
 	@Autowired
 	private GtnQueryLogger queryLogger;
 
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
 	private GtnWsAllListConfig gtnWebServiceAllListConfig;
@@ -84,12 +82,9 @@ public class GtnWsGeneralController {
 	}
 
 	public SessionFactory getSessionFactory() {
-		return sessionFactory;
+		return gtnSqlQueryEngine.getSessionFactory();
 	}
 
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 
 	public org.hibernate.SessionFactory getSysSessionFactory() {
 		return sysSessionFactory;

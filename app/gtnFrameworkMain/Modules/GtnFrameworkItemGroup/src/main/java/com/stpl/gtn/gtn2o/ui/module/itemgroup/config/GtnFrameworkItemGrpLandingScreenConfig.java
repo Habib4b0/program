@@ -630,16 +630,9 @@ public class GtnFrameworkItemGrpLandingScreenConfig {
 		resetActionConfig
 				.addActionParameter(GtnFrameworkItemGrpStringContants.GTN_ITEM_GRP_CONFIRMATION_MSG_RESET_HEADER);
 		resetActionConfig.addActionParameter(GtnFrameworkItemGrpStringContants.GTN_ITEM_GRP_CONFIRMATION_RESET_MSG);
-
-		String[] resetIdArray = { GtnFrameworkCommonConstants.ITEM_GROUP_NAME,
-				GtnFrameworkCommonConstants.ITEM_GROUP_NO, GtnFrameworkCommonConstants.ITEM_GROUP_DESC,
-				GtnFrameworkCommonConstants.I_GRP_INFO_COMPANY,
-				GtnFrameworkCommonConstants.ITEM_GRPSEARCH_RESULT_TABLE };
-		List<String> resetIdList = Arrays.asList(resetIdArray);
-
 		List<Object> resetValueList = Arrays.asList(GtnFrameworkItemGrpStringContants.getResetValueArray());
 
-		resetActionConfig.addActionParameter(resetIdList);
+		resetActionConfig.addActionParameter(GtnFrameworkItemGrpStringContants.RESET_ID_ARRAYY);
 		resetActionConfig.addActionParameter(resetValueList);
 
 		actionConfigList.add(resetActionConfig);
