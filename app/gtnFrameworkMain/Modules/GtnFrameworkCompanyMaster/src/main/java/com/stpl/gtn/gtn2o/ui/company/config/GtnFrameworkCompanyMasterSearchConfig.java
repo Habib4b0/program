@@ -583,19 +583,9 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 
 		GtnUIFrameWorkActionConfig visibleAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		String[] visibleFields = new String[] { GtnFrameworkCompanyStringContants.COMPANY_ADD_SAVE_BUTTON,
-				GtnFrameworkCompanyStringContants.COMPANY_MASTER_RESET_BTN,
-				GtnFrameworkCompanyStringContants.COMPANY_MASTER_DELETE_BTN,
-				GtnFrameworkCompanyStringContants.IDENTIFIER_INFO_PANEL,
-				GtnFrameworkCompanyStringContants.IDENTIFIER_REMOVE_BTN_LAYOUT,
-				GtnFrameworkCompanyStringContants.TRADE_CLASS_INFO_PANEL,
-				GtnFrameworkCompanyStringContants.TRADE_CLASS_REMOVE_BTN_LAYOUT,
-				GtnFrameworkCompanyStringContants.PARENT_COMPANY_INFO_PANEL,
-				GtnFrameworkCompanyStringContants.PARENT_COMPANY_REMOVE_BTN_LAYOUT };
-
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.FALSE);
-		visibleParameters.add(Arrays.asList(visibleFields));
+		visibleParameters.add(Arrays.asList(GtnFrameworkCompanyStringContants.VISIBLE_FIELDS));
 		visibleAction.setActionParameterList(visibleParameters);
 		actionConfigList.add(visibleAction);
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);

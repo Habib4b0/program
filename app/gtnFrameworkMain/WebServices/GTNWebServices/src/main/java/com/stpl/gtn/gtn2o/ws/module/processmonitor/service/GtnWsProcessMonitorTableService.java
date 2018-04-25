@@ -42,8 +42,6 @@ public class GtnWsProcessMonitorTableService {
 
 	private Map<String, String> filterAndSortingCriteriaMap = new HashMap<>();
 
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
 	private org.hibernate.SessionFactory sysSessionFactory;
@@ -59,7 +57,7 @@ public class GtnWsProcessMonitorTableService {
 	}
 
 	public org.hibernate.SessionFactory getSessionFactory() {
-		return sessionFactory;
+		return gtnSqlQueryEngine.getSessionFactory();
 	}
 
 	public org.hibernate.SessionFactory getSysSessionFactory() {

@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ws.service.security;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -18,7 +19,7 @@ public class GtnWsGenerateSecretKeyService {
 		try (FileOutputStream fout = new FileOutputStream(file)) {
 			SecretKey secretKey = KeyGenerator.getInstance("AES").generateKey();
 			String encode = Base64.encodeBase64String(secretKey.getEncoded());
-			byte[] b = encode.getBytes();
+			byte[] b = encode.getBytes(StandardCharsets.UTF_8);
 			fout.write(b);
 		} catch (Exception e) {
 			return;

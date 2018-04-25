@@ -42,7 +42,8 @@ public class GtnFrameworkAutomaticService {
 	public synchronized void checkAndUpdateAllRelationShip(String relationShipType) {
 
 		List<GtnWsRelationshipBuilderBean> finalResultbeanList = getRelationShipBuilderData(relationShipType);
-		customerExecutorService = Executors.newFixedThreadPool(50);
+		customerExecutorService.shutdown();
+                customerExecutorService = Executors.newFixedThreadPool(50);
 		for (GtnWsRelationshipBuilderBean relationShipBuilderBean : finalResultbeanList) {
 			GtnFrameworkAutomaticRunnable automaticRelationUpdateRunnable = applicationContext
 					.getBean(GtnFrameworkAutomaticRunnable.class);
