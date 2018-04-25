@@ -50,7 +50,7 @@ public class GtnWsForecastProjectionSubmitBean implements Serializable {
 
     private Map<String, Object> forecastProjectionSubmitWorkflowParam;
     
-    private Object value;
+    private Object objectValue;
 
     public int getProjectionId() {
         return forecastProjectionId;
@@ -157,20 +157,11 @@ public class GtnWsForecastProjectionSubmitBean implements Serializable {
     }
 
     public Object getValue() {
-        return value;
+        return objectValue;
     }
 
     public void setValue(Object value) {
-        this.value = value;
+        this.objectValue = value;
     }
     
-    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
-        out.writeObject(value);
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        value = in.readObject();
-    }
 }

@@ -6,10 +6,7 @@
  */
 package com.stpl.gtn.gtn2o.ws.constants.common;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 /**
  *
