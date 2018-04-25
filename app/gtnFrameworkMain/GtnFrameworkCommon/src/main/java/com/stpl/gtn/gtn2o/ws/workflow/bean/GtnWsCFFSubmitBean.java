@@ -5,7 +5,6 @@
  */
 package com.stpl.gtn.gtn2o.ws.workflow.bean;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -43,9 +42,9 @@ public class GtnWsCFFSubmitBean implements Serializable {
 
     private String variableName;
 
-    private Map<String, Object> submitWorkflowParam;
+    private transient Map<String, Object> submitWorkflowParam;
     
-    private Object value;
+    private transient Object value;
 
     public int getProjectionId() {
         return projectionId;
