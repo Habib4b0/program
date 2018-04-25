@@ -45,7 +45,7 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	}
 
 	public void setInventoryType(List<String> inventoryType) {
-		this.inventoryType = new ArrayList<>(inventoryType);
+            this.inventoryType = inventoryType == null ? inventoryType : new ArrayList<>(inventoryType);
 	}
 
 	public List<GtnWSTransactionColumnBean> getListViewComponent() {
