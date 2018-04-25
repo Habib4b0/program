@@ -15,7 +15,6 @@ import org.kie.internal.runtime.manager.RuntimeManagerRegistry;
 import org.kie.scanner.MavenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.EntityManagerFactoryInfo;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import com.stpl.gtn.gtn2o.ws.bpm.properties.DroolsProperties;
 import com.stpl.gtn.gtn2o.ws.constants.workflow.GtnWsBpmCommonConstants;
