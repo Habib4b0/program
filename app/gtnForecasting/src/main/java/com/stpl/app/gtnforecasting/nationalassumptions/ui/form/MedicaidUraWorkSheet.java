@@ -1192,10 +1192,10 @@ public class MedicaidUraWorkSheet extends Window {
                 }
 
                 if (adjustFlag || notesFlag) {
+                    submitMsg = true;
                     if (adjustFlag && !isCpiUra) {
                         callAdjustmentProcedure();
-                        projectionDTO.setAdjust(true);
-                        submitMsg = true;
+                        projectionDTO.setAdjust(true);                       
                     }
                     loadResultTable(0, StringUtils.EMPTY);
                      final Notification notif = new Notification("Calculation Complete", Notification.Type.HUMANIZED_MESSAGE);
