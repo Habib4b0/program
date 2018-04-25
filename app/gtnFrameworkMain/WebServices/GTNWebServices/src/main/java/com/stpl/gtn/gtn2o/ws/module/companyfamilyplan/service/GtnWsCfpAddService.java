@@ -51,8 +51,6 @@ public class GtnWsCfpAddService {
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
 
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
 	private GtnWsAllListConfig gtnWebServiceAllListConfig;
