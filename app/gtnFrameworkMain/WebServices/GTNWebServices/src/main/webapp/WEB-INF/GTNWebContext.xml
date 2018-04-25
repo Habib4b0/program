@@ -469,7 +469,6 @@
 		<property name="gtnGeneralServiceController" ref="gtnGeneralServiceController"></property>
 	</bean>
 	<bean id="gtnGeneralServiceController" class="com.stpl.gtn.gtn2o.ws.controller.GtnWsGeneralController">
-		<property name="sessionFactory" ref="sessionFactory"></property>
 		<property name="sysSessionFactory" ref="sysSessionFactory"></property>
 		<property name="queryLogger" ref="queryLogger"></property>
 		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
