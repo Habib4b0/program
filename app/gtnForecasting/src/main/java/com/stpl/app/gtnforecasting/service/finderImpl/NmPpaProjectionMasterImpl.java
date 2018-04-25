@@ -168,22 +168,12 @@ public class NmPpaProjectionMasterImpl {
        
         StringBuilder sql = new StringBuilder();
         Integer startFrequency = null;
-         String frequency = input.get(4);
-          Integer startYear=0;
-         Integer endYear=0;
-          String custOrProd = input.get(5);
-        if(frequency.equals(Constants.MONTHLY))
-        {
-             startYear = Integer.valueOf(input.get(1));
-              endYear = Integer.valueOf(input.get(3));
-        }
-        else
-        {
-             startYear = Integer.valueOf(input.get(1));
-              endYear = Integer.valueOf(input.get(3));
-        }
-        
-       
+        String frequency = input.get(4);
+        Integer startYear = 0;
+        Integer endYear = 0;
+        String custOrProd = input.get(5);
+        startYear = Integer.valueOf(input.get(1));
+        endYear = Integer.valueOf(input.get(3));
         Integer endFrequency = 0;
        
         if (!frequency.equals(Constants.ANNUALLY)) {

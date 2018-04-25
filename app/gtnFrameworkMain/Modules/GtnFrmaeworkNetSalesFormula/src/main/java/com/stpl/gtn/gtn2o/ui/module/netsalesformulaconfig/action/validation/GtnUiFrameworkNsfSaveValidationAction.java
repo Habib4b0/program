@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -46,54 +47,28 @@ public class GtnUiFrameworkNsfSaveValidationAction implements GtnUIFrameWorkActi
 	}
 
 	private String validate(String viewId) throws GtnFrameworkValidationFailedException {
-		String subMessage = "";
+		StringBuilder subMessage = new StringBuilder();
 
-		String formulaId = getValueFromField(viewId + "formulaId");
-		String formulaNo = getValueFromField(viewId + "formulaNo");
-		String formulaName = getValueFromField(viewId + "formulaName");
-		String formulaType = getValueFromField(viewId + "formulaType");
 		GtnUIFrameworkBaseComponent selectedDeductionResultTable = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(viewId + "selectedDeductionsResultTable");
-		if (checkCondition(formulaId)) {
-			if (!subMessage.isEmpty()) {
-				subMessage = subMessage + ",";
-			}
-			subMessage = subMessage + "Formula ID";
-		}
-		if (checkCondition(formulaNo)) {
-			if (!subMessage.isEmpty()) {
-				subMessage = subMessage + ",";
-			}
-			subMessage = subMessage + "Formula No";
-
-		}
-		if (checkCondition(formulaName)) {
-			if (!subMessage.isEmpty()) {
-				subMessage = subMessage + ",";
-			}
-			subMessage = subMessage + "Formula Name";
-		}
-		if (checkCondition(formulaType)) {
-			if (!subMessage.isEmpty()) {
-				subMessage = subMessage + ",";
-			}
-			subMessage = subMessage + "Formula Type ";
-		}
+                
+               subMessage= GtnUIFrameworkGlobalUI.validateFields(new String[]{viewId + "formulaId",viewId + "formulaNo",viewId + "formulaName",viewId + "formulaType"}, subMessage);
+		
 		if (selectedDeductionResultTable.getExtPagedTableSize() == 0) {
-			if (!subMessage.isEmpty()) {
-				subMessage = subMessage + ",";
+			if (!subMessage.toString().isEmpty()) {
+				subMessage.append(',');
 			}
-			subMessage = subMessage + "Select at least one Deduction in Deductions tab.";
+			subMessage.append( "Select at least one Deduction in Deductions tab.");
 		}
-		subMessage += getIndicatorError(selectedDeductionResultTable, subMessage);
+		subMessage.append(getIndicatorError(selectedDeductionResultTable, subMessage));
 
-		return subMessage;
+		return subMessage.toString();
 	}
 
-	private String getIndicatorError(GtnUIFrameworkBaseComponent selectedDeductionResultTable, String subMessage)
+	private String getIndicatorError(GtnUIFrameworkBaseComponent selectedDeductionResultTable, StringBuilder subMessage)
 			throws GtnFrameworkValidationFailedException {
 		String msg = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		if (!selectedDeductionResultTable.getItemsFromDataTable().isEmpty() && subMessage.isEmpty()) {
+		if (!selectedDeductionResultTable.getItemsFromDataTable().isEmpty() && subMessage.toString().isEmpty()) {
 			for (GtnWsRecordBean bean : selectedDeductionResultTable.getItemsFromDataTable()) {
 				if (bean.getPropertyValue("indicator").toString().isEmpty()) {
 					msg = " Select +/- Indicator for selected deductions in Deductions tab.";

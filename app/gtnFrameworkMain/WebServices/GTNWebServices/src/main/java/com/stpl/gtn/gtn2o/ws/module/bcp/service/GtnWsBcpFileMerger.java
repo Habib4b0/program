@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 @Service
@@ -52,7 +53,7 @@ public class GtnWsBcpFileMerger {
 
 			try (FileOutputStream outShell = GtnFileNameUtils.getFileOutputStream(shellFile)) {
                             GTNLOGGER.info("strb.toString() ====="+strb.toString());
-				outShell.write(strb.toString().getBytes());
+				outShell.write(strb.toString().getBytes(StandardCharsets.UTF_8));
 				outShell.flush();
 			}
 			boolean isExecutable = shellFile.setExecutable(true, false);

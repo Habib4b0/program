@@ -75,6 +75,15 @@ AND (CFP_CONTRACT_DETAILS.CFP_ELIGIBLE_DATE>= FORECAST_ELIGIBLE_DATE OR CFP_CONT
             ]]>
             </query>
         </entity>
+        <entity id="CFFfiltercontractsbasedoneligibledate">
+            <query> 
+            <![CDATA[ 
+                AND EXISTS (SELECT 1 FROM CFF_MASTER  CFF_MASTER WHERE CFF_MASTER.CFF_MASTER_SID=? AND 
+		(CONTRACT_MASTER.CONTRACT_ELIGIBLE_DATE>=CFF_MASTER.CFF_ELIGIBLE_DATE OR CONTRACT_MASTER.CONTRACT_ELIGIBLE_DATE IS NULL) AND 
+		(CFP_CONTRACT_DETAILS.CFP_ELIGIBLE_DATE>=CFF_MASTER.CFF_ELIGIBLE_DATE OR CFP_CONTRACT_DETAILS.CFP_ELIGIBLE_DATE IS NULL));           
+            ]]>
+            </query>
+        </entity>
 <entity id="relationShipSubQuery">
 		<query> 
         <![CDATA[            

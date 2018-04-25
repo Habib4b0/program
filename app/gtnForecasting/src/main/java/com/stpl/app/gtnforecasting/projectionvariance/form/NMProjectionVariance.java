@@ -103,6 +103,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private final StplSecurity stplSecurity = new StplSecurity();
     public static final String CAPTION = "CAPTION";
     public static final String GROUP_PROPERTY = "group";
+    public static final String VALUE_SMALL = "Value";
     /**
      * The projection id.
      */
@@ -314,13 +315,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 customItem[i].setCheckAll(true);
             }
         }
-         if (!"edit".equals(session.getAction()) || (!"view".equalsIgnoreCase(session.getAction()) )) {
-        customMenuBar.addSubMenuCloseListener(customMenuBarListener);
-        customMenuItem.getChildren().get(3).setChecked(true);
-        customMenuItem.getChildren().get(5).setChecked(true);
-        customMenuItem.getChildren().get(6).setChecked(true);
-        customMenuItem.getChildren().get(9).setChecked(true);
-        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, Constants.MULTIPLE);
+         if (!"edit".equals(session.getAction()) && (!"view".equalsIgnoreCase(session.getAction()) )) {
+            loadDefaultVariableMenuBar();
         }
 
         String[] variableCategoryValues = Constant.PVVariableCategory.names();
@@ -335,10 +331,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
             variableCategoryCustomItem[i].setItemClickNotClosable(true);
         }
-        if (!"edit".equals(session.getAction()) ) {
+        if (!"edit".equals(session.getAction())&& (!"view".equalsIgnoreCase(session.getAction()) ) ) {
         variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryCustomMenuBarListener);
         variableCategoryCustomMenuItem.getChildren().get(0).setChecked(true);
-         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, "Value");
+         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, VALUE_SMALL);
         }
         variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryCustomMenuBarListener);
         discountLevel.addItem(Constants.LabelConstants.TOTAL_DISCOUNT.toString());
@@ -826,7 +822,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         
         variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryCustomMenuBarListener);
         variableCategoryCustomMenuItem.getChildren().get(0).setChecked(true);
-         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, "Value");
+         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, VALUE_SMALL);
                 
                 variables.setImmediate(true);
 
@@ -1263,9 +1259,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         if (fromDate.getValue() != null && !Constant.NULL.equals(String.valueOf(fromDate.getValue())) && !StringUtils.EMPTY.equals(String.valueOf(fromDate.getValue()))
                 && !Constant.SELECT_ONE.equals(String.valueOf(fromDate.getValue())) && !fromDateVal.equals(Constant.SELECT_ONE)) {
             String fromVal = fromDateVal.replace(" ", StringUtils.EMPTY);
-            if (pivotView.getValue().equals(Constant.PERIOD)) {
-                fromVal = fromVal.toLowerCase();
-            } else if (frequency.getValue().toString().equals(Constant.MONTHLY)) {
+            if ((pivotView.getValue().equals(Constant.PERIOD)) || (frequency.getValue().toString().equals(Constant.MONTHLY))) {
                 fromVal = fromVal.toLowerCase();
             }
             start = periodList.indexOf(fromVal);
@@ -1630,8 +1624,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             map.put(Constant.FREQUENCY_SMALL, frequency.getValue() != null ? frequency.getValue().toString() : StringUtils.EMPTY);
             map.put("Discount Level", discountLevel.getValue() != null ? discountLevel.getValue().toString() : StringUtils.EMPTY);
             map.put("Pivot View", pivotView.getValue() != null ? pivotView.getValue().toString() : StringUtils.EMPTY);
-            map.put("Variable Category", getCheckedVariableCategoryValues());
-            map.put(Constant.VARIABLES, getCheckedValues());
+            String variableSelected = getCheckedVariableCategoryValues();
+            map.put("Variable Category", variableSelected.replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY).isEmpty() ? "[Value]" : variableSelected);
+            String checkedValues = getCheckedValues();
+            map.put(Constant.VARIABLES, checkedValues.replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY).isEmpty() ? "[Contract Sales @ WAC, Discount $, Discount %, Net Sales]" : checkedValues);
             map.put("Comparison Basis", comparisonBasis.getValue() != null ? comparisonBasis.getValue().toString() : StringUtils.EMPTY);
             map.put(Constant.DISPLAY_FORMAT_SAVE, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(displayFormatValues), CommonUtil.COMMA));
             map.put(Constant.CUSTOMER_LEVEL_DDLB, customerlevelDdlb.getValue());
@@ -1659,89 +1655,12 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 frequency.setValue(String.valueOf(value));
             }
 
-            value = map.get("Comparison");
-            if (value != null && StringUtils.isNotBlank(value.toString()) && !Constant.NULL.equals(value.toString())) {
-                comparison.setReadOnly(false);
-                loadComparisonOnEdit(String.valueOf(value));
-                comparison.setReadOnly(true);
-            }
-
-            value = map.get(HEADER_LEVEL.getConstant());
-            if (value != null) {
-                level.setValue(String.valueOf(value));
-            }
-            value = map.get("Discount Level");
-            if (value != null) {
-                discountLevel.setValue(String.valueOf(value));
-            }
-            value = map.get("Projection Period Order");
-            if (value != null) {
-                projectionPeriodOrder.setValue(String.valueOf(value));
-            }
-            value = map.get("Pivot View");
-            if (value != null) {
-                pivotView.setValue(String.valueOf(value));
-            }
-            value = map.get("From");
-            if (value != null && StringUtils.isBlank(String.valueOf(value))) {
-                fromDate.setValue(String.valueOf(value));
-            }
-            value = map.get("To");
-            if (value != null && StringUtils.isBlank(String.valueOf(value))) {
-                toDate.setValue(String.valueOf(value));
-            }
-            value = map.get("Comparison Basis");
-            if (value != null && StringUtils.isBlank(String.valueOf(value))) {
-                comparisonBasis.setValue(String.valueOf(value));
-            }
-            value = map.get("Variable Category");
-            if (value != null && variableCategoryCustomMenuItem != null && value.toString().length() > 0) {
-                String val = value.toString();
-
-                val = val.substring(1, val.length() - 1);
-                final String[] col = val.split(",");
-                for (int i = 0; i < col.length; i++) {
-                    if (i == Constant.ZERO) {
-                        for (CustomMenuBar.CustomMenuItem string : variableCategoryCustomMenuItem.getChildren()) {
-                            if (string.getText().equals(String.valueOf(col[i]).trim())) {
-                                string.setChecked(true);
-                            }
-                        }
-                    } else {
-                        for (CustomMenuBar.CustomMenuItem string : variableCategoryCustomMenuItem.getChildren()) {
-                            if (string.getText().equals(String.valueOf(col[i]).substring(1, col[i].length()).trim())) {
-                                string.setChecked(true);
-                            }
-                        }
-                    }
-                }
-            }
-            String variableCategoryItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(variableCategoryCustomMenuItem);
-            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, variableCategoryItemValue);
-            value = map.get(Constant.VARIABLES);
-            if (value != null && customMenuItem != null && value.toString().length() > 0) {
-                String val = value.toString();
-                val = val.substring(1, val.length() - 1);
-                final String[] col = val.split(",");
-                for (int i = 0; i < col.length; i++) {
-                    if (i == Constant.ZERO) {
-                        for (CustomMenuBar.CustomMenuItem string : customMenuItem.getChildren()) {
-                            if (string.getText().equals(String.valueOf(col[i]).trim())) {
-                                string.setChecked(true);
-                            }
-                        }
-                    } else {
-                        for (CustomMenuBar.CustomMenuItem string : customMenuItem.getChildren()) {
-                            if (string.getText().equals(String.valueOf(col[i]).substring(1, col[i].length()).trim())) {
-                                string.setChecked(true);
-                            }
-                        }
-                    }
-
-                }
-            }
-            String variableMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customMenuItem);
-            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, variableMenuItemValue);
+            setProjectionSelectionValues(map);
+            
+            setVariableCategoryValues(map);
+           
+            setVariableValues(map);
+            
             value = map.get(Constant.DISPLAY_FORMAT_SAVE);
             if (!CommonUtil.nullCheck(value)) {
                 CommonUtil.setCustomMenuBarValuesInEdit(value, displayFormatValues);
@@ -1753,53 +1672,167 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 CommonLogic.unCheckMultiSelect(productFilterValues);
                 CommonLogic.unCheckMultiSelect(deductionFilterValues);
             }
-            value = map.get(Constant.CUSTOMER_LEVEL_DDLB);
-            customerlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(value));
-            value = map.get(Constant.CUSTOMER_LEVEL_VALUE);
-            if (!CommonUtil.nullCheck(value)) {
-                CommonUtil.setCustomMenuBarValuesInEdit(value, customerFilterValues);
-                generateCustomerToBeLoaded = commonLogic.getFilterValues(customerFilterValues).get(SID);
-                pvSelectionDTO.setCustomerLevelFilter((List) generateCustomerToBeLoaded);
-            }
-            String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
-            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
-            value = map.get(Constant.PRODUCT_LEVEL_DDLB);
-            productlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(value));
-            value = map.get(Constant.PRODUCT_LEVEL_VALUE);
-            if (!CommonUtil.nullCheck(value)) {
-                CommonUtil.setCustomMenuBarValuesInEdit(value, productFilterValues);
-                generateProductToBeLoaded = commonLogic.getFilterValues(productFilterValues).get(SID);
-                pvSelectionDTO.setProductLevelFilter((List) generateProductToBeLoaded);
-            }
-            String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
-            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
-            value = map.get(Constant.DEDUCTION_LEVEL_DDLB);
-            deductionlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(value));
-            value = map.get(Constant.DEDUCTION_LEVEL_VALUE);
-            if (!CommonUtil.nullCheck(value)) {
-                CommonUtil.setCustomMenuBarValuesInEdit(value, deductionFilterValues);
-                generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
-                generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
-                pvSelectionDTO.setDeductionLevelFilter((List) generateDiscountToBeLoaded);
-                pvSelectionDTO.setDeductionLevelCaptions((List) generateDiscountToBeLoaded);
-            }
-            String deductionMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
-            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
-            value = map.get(Constant.SALES_INCLUSION_DDLB);
-            if (!CommonUtil.nullCheck(value)) {
-                CommonUtil.setCustomMenuBarValuesInEdit(value, salesInclusionValues);
-            }
-            String salesInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(salesInclusionValues);
-            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, salesInclusionValue);
-            value = map.get(Constant.DEDUCTION_INCLUSION_DDLB);
-            if (!CommonUtil.nullCheck(value)) {
-                CommonUtil.setCustomMenuBarValuesInEdit(value, deductionInclusionValues);
-            }
-            String deductionInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(deductionInclusionValues);
-            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionInclusionDdlb, deductionInclusionValue);
+            setProductCustomerValues(map);
+            setDeductionValues(map);
+            setInclusionValues(map);
         }
         if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.VIEW.equalsIgnoreCase(session.getAction())) {
             fetchDiscountsFromSave();
+        }
+    }
+
+    public void setProductCustomerValues(Map<Object, Object> map)  {
+        Object value = map.get(Constant.CUSTOMER_LEVEL_DDLB);
+        customerlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(value));
+        value = map.get(Constant.CUSTOMER_LEVEL_VALUE);
+        if (!CommonUtil.nullCheck(value)) {
+            CommonUtil.setCustomMenuBarValuesInEdit(value, customerFilterValues);
+            generateCustomerToBeLoaded = commonLogic.getFilterValues(customerFilterValues).get(SID);
+            pvSelectionDTO.setCustomerLevelFilter((List) generateCustomerToBeLoaded);
+        }
+        String customerMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customerFilterValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
+        value = map.get(Constant.PRODUCT_LEVEL_DDLB);
+        productlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(value));
+        value = map.get(Constant.PRODUCT_LEVEL_VALUE);
+        if (!CommonUtil.nullCheck(value)) {
+            CommonUtil.setCustomMenuBarValuesInEdit(value, productFilterValues);
+            generateProductToBeLoaded = commonLogic.getFilterValues(productFilterValues).get(SID);
+            pvSelectionDTO.setProductLevelFilter((List) generateProductToBeLoaded);
+        }
+        String productMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(productFilterValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
+    }
+
+    public void setDeductionValues(Map<Object, Object> map) {
+        Object value = map.get(Constant.DEDUCTION_LEVEL_DDLB);
+        deductionlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(value));
+        value = map.get(Constant.DEDUCTION_LEVEL_VALUE);
+        if (!CommonUtil.nullCheck(value)) {
+            CommonUtil.setCustomMenuBarValuesInEdit(value, deductionFilterValues);
+            generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
+            generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
+            pvSelectionDTO.setDeductionLevelFilter((List) generateDiscountToBeLoaded);
+            pvSelectionDTO.setDeductionLevelCaptions((List) generateDiscountToBeLoaded);
+        }
+        String deductionMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
+    }
+
+    public void setInclusionValues(Map<Object, Object> map) {
+        Object value = map.get(Constant.SALES_INCLUSION_DDLB);
+        if (!CommonUtil.nullCheck(value)) {
+            CommonUtil.setCustomMenuBarValuesInEdit(value, salesInclusionValues);
+        }
+        String salesInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(salesInclusionValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, salesInclusionValue);
+        value = map.get(Constant.DEDUCTION_INCLUSION_DDLB);
+        if (!CommonUtil.nullCheck(value)) {
+            CommonUtil.setCustomMenuBarValuesInEdit(value, deductionInclusionValues);
+        }
+        String deductionInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(deductionInclusionValues);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionInclusionDdlb, deductionInclusionValue);
+    }
+
+    public void setVariableCategoryValues(Map<Object, Object> map) {
+        Object value = map.get("Variable Category");
+        if (value != null && variableCategoryCustomMenuItem != null && value.toString().length() > 0) {
+            String val = value.toString();
+            
+            val = val.substring(1, val.length() - 1);
+            final String[] col = val.split(",");
+            for (int i = 0; i < col.length; i++) {
+                if (i == Constant.ZERO) {
+                    for (CustomMenuBar.CustomMenuItem string : variableCategoryCustomMenuItem.getChildren()) {
+                        if (string.getText().equals(String.valueOf(col[i]).trim())) {
+                            string.setChecked(true);
+                        }
+                    }
+                } else {
+                    for (CustomMenuBar.CustomMenuItem string : variableCategoryCustomMenuItem.getChildren()) {
+                        if (string.getText().equals(String.valueOf(col[i]).substring(1, col[i].length()).trim())) {
+                            string.setChecked(true);
+                        }
+                    }
+                }
+            }
+            String variableCategoryItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(variableCategoryCustomMenuItem);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, variableCategoryItemValue);
+        } else if(variableCategoryCustomMenuItem != null){
+            variableCategoryCustomMenuItem.getChildren().get(0).setChecked(true);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, VALUE_SMALL);
+        }
+    }
+
+    public void setVariableValues(Map<Object, Object> map) {
+        Object value = map.get(Constant.VARIABLES);
+        if (value != null && customMenuItem != null && value.toString().length() > 0) {
+            String val = value.toString();
+            val = val.substring(1, val.length() - 1);
+            final String[] col = val.split(",");
+            for (int i = 0; i < col.length; i++) {
+                if (i == Constant.ZERO) {
+                    getCheckedForFirstValue(col, i);
+                } else {
+                    getCheckedForRemainingLevel(col, i);
+                }
+                
+            }
+        }
+        String variableMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(customMenuItem);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, variableMenuItemValue);
+    }
+
+    public void getCheckedForRemainingLevel(final String[] col, int i) {
+        for (CustomMenuBar.CustomMenuItem string : customMenuItem.getChildren()) {
+            if (string.getText().equals(String.valueOf(col[i]).substring(1, col[i].length()).trim())) {
+                string.setChecked(true);
+            }
+        }
+    }
+
+    public void getCheckedForFirstValue(final String[] col, int i) {
+        for (CustomMenuBar.CustomMenuItem string : customMenuItem.getChildren()) {
+            if (string.getText().equals(String.valueOf(col[i]).trim())) {
+                string.setChecked(true);
+            }
+        }
+    }
+
+    public void setProjectionSelectionValues(Map<Object, Object> map)  {
+        Object value = map.get("Comparison");
+        if (value != null && StringUtils.isNotBlank(value.toString()) && !Constant.NULL.equals(value.toString())) {
+            comparison.setReadOnly(false);
+            loadComparisonOnEdit(String.valueOf(value));
+            comparison.setReadOnly(true);
+        }
+        value = map.get(HEADER_LEVEL.getConstant());
+        if (value != null) {
+            level.setValue(String.valueOf(value));
+        }
+        value = map.get("Discount Level");
+        if (value != null) {
+            discountLevel.setValue(String.valueOf(value));
+        }
+        value = map.get("Projection Period Order");
+        if (value != null) {
+            projectionPeriodOrder.setValue(String.valueOf(value));
+        }
+        value = map.get("Pivot View");
+        if (value != null) {
+            pivotView.setValue(String.valueOf(value));
+        }
+        value = map.get("From");
+        if (value != null && StringUtils.isBlank(String.valueOf(value))) {
+            fromDate.setValue(String.valueOf(value));
+        }
+        value = map.get("To");
+        if (value != null && StringUtils.isBlank(String.valueOf(value))) {
+            toDate.setValue(String.valueOf(value));
+        }
+        value = map.get("Comparison Basis");
+        if (value != null && StringUtils.isBlank(String.valueOf(value))) {
+            comparisonBasis.setValue(String.valueOf(value));
         }
     }
 
@@ -2576,6 +2609,15 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     public void setComparisonProjName(List<String> comparisonProjName) {
         this.comparisonProjName = comparisonProjName;
+    }
+    
+    public void loadDefaultVariableMenuBar() {
+        customMenuBar.addSubMenuCloseListener(customMenuBarListener);
+        customMenuItem.getChildren().get(3).setChecked(true);
+        customMenuItem.getChildren().get(5).setChecked(true);
+        customMenuItem.getChildren().get(6).setChecked(true);
+        customMenuItem.getChildren().get(9).setChecked(true);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, Constants.MULTIPLE);
     }
 
 }

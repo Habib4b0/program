@@ -144,7 +144,6 @@ public class GtnWsForecastConfigurationController {
 			String string = GtnWsForecastConfigurationUtil.getMonthForInt(gtsCalculation.get(Calendar.MONTH)) + " "
 					+ gtsCalculation.get(Calendar.YEAR);
 			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
-			LOGGER.info("str******************" + string);
 			forecastResponse.setForecastPeriod(string);
 			forecastResponse.setSuccess(forecastResponse.isSuccess());
 			gtnWsResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
@@ -224,7 +223,7 @@ public class GtnWsForecastConfigurationController {
 		GtnWsForecastConfigurationResponse response = new GtnWsForecastConfigurationResponse();
 		response.setHistoryPeriod(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		response.setSuccess(true);
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = gtnSqlQueryEngine.getSessionFactory().openSession()) {
 			if (!request.getHistoryInterval().equals(GtnFrameworkCommonStringConstants.STRING_EMPTY)) {
 				Integer interval = Integer.valueOf(request.getHistoryInterval());
 				Map<String, Integer> frequencyIntervalMap = new HashMap<>();
@@ -268,7 +267,7 @@ public class GtnWsForecastConfigurationController {
 		GtnWsForecastConfigurationResponse response = new GtnWsForecastConfigurationResponse();
 		response.setHistoryPeriod(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		response.setSuccess(true);
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = gtnSqlQueryEngine.getSessionFactory().openSession()) {
 			if (!request.getFutureInterval().equals(GtnFrameworkCommonStringConstants.STRING_EMPTY)) {
 				Integer interval = Integer.valueOf(request.getFutureInterval());
 				Map<String, Integer> frequencyIntervalMap = new HashMap<>();
@@ -308,7 +307,7 @@ public class GtnWsForecastConfigurationController {
 			GtnWsForecastConfigurationResponse response) {
 		LOGGER.info("Enter futureIntervalValueChangeLogic");
 
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = gtnSqlQueryEngine.getSessionFactory().openSession()) {
 			if (request.getFutureInterval() != null
 					&& !request.getFutureInterval().trim().equals(GtnFrameworkCommonStringConstants.STRING_EMPTY)) {
 				int freq = request.getFutureFrequency();
@@ -722,7 +721,7 @@ public class GtnWsForecastConfigurationController {
 	public void saveForecastConfiguration(GtnWsForecastConfigurationRequest fcRequest,
 			GtnWsForecastConfigurationResponse fcResponse) throws GtnFrameworkGeneralException {
 		fcResponse.setSuccess(true);
-		Session session = sessionFactory.openSession();
+		Session session = gtnSqlQueryEngine.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		HelperTable businessProcess = session.load(HelperTable.class, fcRequest.getBusinessProcess());
 		try {
