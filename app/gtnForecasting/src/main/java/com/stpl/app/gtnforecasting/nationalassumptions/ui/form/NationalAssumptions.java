@@ -1273,13 +1273,11 @@ public class NationalAssumptions extends CustomComponent implements View {
         createDeleteButton(priceTypeDTO);
 
         priceTypeDTO.setSymbol(deleteBtn);
-        if (!Constant.ANNUAL_FSS.equals(priceTypeDdlb.getValue())) {
-            if (count > 1) {
-                if (baselineMethodology.getValue().equals(Constant.SINGLE_PERIOD)) {
-                    selectedFlag = false;
-                } else {
-                    selectedFlag = true;
-                }
+        if (count > 1 && !Constant.ANNUAL_FSS.equals(priceTypeDdlb.getValue())) {
+            if (baselineMethodology.getValue().equals(Constant.SINGLE_PERIOD)) {
+                selectedFlag = false;
+            } else {
+                selectedFlag = true;
             }
         }
         if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && ROLLING_AVERAGE.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))

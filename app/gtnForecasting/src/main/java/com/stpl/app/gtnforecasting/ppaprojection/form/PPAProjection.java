@@ -1029,16 +1029,7 @@ public class PPAProjection extends CustomComponent implements View {
                 String groupFilterValue = String.valueOf(groupFilterDdlb.getValue() == null ? Constant.PERCENT : groupFilterDdlb.getValue()).replace(Constant.PPA, StringUtils.EMPTY);
                 groupFilterValue = groupFilterValue.equals(Constant.ALL_GROUP) ? Constant.PERCENT : groupFilterValue;
 
-                if ((populateIdentifier.get(Constant.DDLB_FIELD).contains(fieldValue) || Constant.PRICE_PROTECTION_STATUS.equals(fieldValue))
-                        && (valueDdlbVal == null || valueDdlbVal.equals(defaultValue))) {
-                    validationError = BooleanConstant.getTrueFlag();
-                } else if ((Constant.PRICE_PROTECTION_START_DATE.equals(fieldValue) || Constant.PRICE_PROTECTION_END_DATE.equals(fieldValue)
-                        || populateIdentifier.get(Constant.DATE_FEILD).contains(fieldValue)) && date == null) {
-                    validationError = BooleanConstant.getTrueFlag();
-                } else if (Constant.GROUPFCAPS.equals(fieldValue)
-                        && (groupValue == null || groupValue.equals(Constant.SELECT_ONE))) {
-                    validationError = BooleanConstant.getTrueFlag();
-                } else if (populateIdentifier.get(Constant.LOOKUP_FIELD).contains(fieldValue) && lookupValue == null) {
+                if ((fieldDdlbCheck(fieldValue, valueDdlbVal) || (fieldDateCheck(fieldValue, date))) || (fieldGroupCheck(fieldValue, groupValue)) || (fieldLookupCheck(fieldValue, lookupValue))) {
                     validationError = BooleanConstant.getTrueFlag();
                 }
                 if (validationError) {
@@ -1107,6 +1098,25 @@ public class PPAProjection extends CustomComponent implements View {
         } catch (NumberFormatException e) {
             LOGGER.error("Error While doing mass Update = {}" , e.getMessage());
         }
+    }
+
+    private static boolean fieldLookupCheck(String fieldValue, String lookupValue) {
+        return populateIdentifier.get(Constant.LOOKUP_FIELD).contains(fieldValue) && lookupValue == null;
+    }
+
+    private static boolean fieldGroupCheck(String fieldValue, Object groupValue) {
+        return Constant.GROUPFCAPS.equals(fieldValue)
+                && (groupValue == null || groupValue.equals(Constant.SELECT_ONE));
+    }
+
+    private static boolean fieldDateCheck(String fieldValue, Date date) {
+        return (Constant.PRICE_PROTECTION_START_DATE.equals(fieldValue) || Constant.PRICE_PROTECTION_END_DATE.equals(fieldValue)
+                || populateIdentifier.get(Constant.DATE_FEILD).contains(fieldValue)) && date == null;
+    }
+
+    private boolean fieldDdlbCheck(String fieldValue, Object valueDdlbVal) {
+        return (populateIdentifier.get(Constant.DDLB_FIELD).contains(fieldValue) || Constant.PRICE_PROTECTION_STATUS.equals(fieldValue))
+                && (valueDdlbVal == null || valueDdlbVal.equals(defaultValue));
     }
 
     private void updateForTopLevelCheckRecord(boolean value, Object itemId, Object propertyId)  {

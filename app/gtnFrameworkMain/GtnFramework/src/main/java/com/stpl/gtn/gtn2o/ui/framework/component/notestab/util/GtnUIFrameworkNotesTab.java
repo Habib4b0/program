@@ -315,7 +315,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		return vlayout;
 	}
 
-	   public void configNotesTabForm() {
+	   public final void configNotesTabForm() {
 
         table.setContainerDataSource(attachmentsListBean);
         table.setVisibleColumns(obj);

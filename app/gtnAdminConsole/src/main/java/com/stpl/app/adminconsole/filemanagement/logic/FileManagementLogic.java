@@ -2315,11 +2315,7 @@ public class FileManagementLogic {
 					if (outerSize.contains("0")) {
 						version = "0" + String.valueOf(i);
 					}
-					if (j == innerSize && j != NumericConstants.NINE) {
-						sqlString = sqlString.concat(" '" + version + "." + j + "',");
-					} else {
-						sqlString = sqlString.concat(" '" + version + "." + j + "',");
-					}
+					sqlString = sqlString.concat(" '" + version + "." + j + "',");
 				}
 			}
 			if (sqlString.endsWith(",")) {
@@ -3372,11 +3368,7 @@ public class FileManagementLogic {
 					if (outerSize.contains("0")) {
 						version = "0" + String.valueOf(i);
 					}
-					if (j == innerSize && j != NumericConstants.NINE) {
-						sqlString = sqlString.concat(" '" + version + "." + j + "',");
-					} else {
-						sqlString = sqlString.concat(" '" + version + "." + j + "',");
-					}
+                                        sqlString = sqlString.concat(" '" + version + "." + j + "',");
 				}
 			}
 			if (sqlString.endsWith(",")) {
