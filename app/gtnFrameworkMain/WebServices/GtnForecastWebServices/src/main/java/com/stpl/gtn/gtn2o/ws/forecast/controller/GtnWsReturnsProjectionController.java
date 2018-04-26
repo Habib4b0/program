@@ -281,7 +281,7 @@ public class GtnWsReturnsProjectionController {
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
 
 			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
-			GtnWsPagedTreeTableResponse rightHeader = reportHeaderService.getDiscountProjectionRightTableColumns(request);
+			GtnWsPagedTreeTableResponse rightHeader = reportHeaderService.getProjectionVarianceRightTableColumns(request);
 			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(rightHeader);
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (Exception ex) {

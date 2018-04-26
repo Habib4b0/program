@@ -26,7 +26,7 @@ public class DisplaySelectionTab {
 		GtnUIFrameworkComponentConfig dispalySelectionLayout=new GtnUIFrameworkComponentConfig();
 		dispalySelectionLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		dispalySelectionLayout.setComponentId(nameSpace+"_"+"displaySelectionLayout");
-		dispalySelectionLayout.setComponentWidth("110%");
+		dispalySelectionLayout.setComponentWidth("107%");
 		dispalySelectionLayout.setAddToParent(true);
 		dispalySelectionLayout.setParentComponentId(displaySelectionPanel.getComponentId());
 		
@@ -90,7 +90,7 @@ public class DisplaySelectionTab {
 		addCurrencyFormat(componentList,displayCurrencyFormatLayout.getComponentId(), nameSpace);
 	}
 	
-	public void addFrequency(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId,
+	private void addFrequency(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId,
 			String nameSpace) {
 		GtnUIFrameworkComponentConfig frequencyLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "freqLayout", true, parentComponentId);
@@ -114,7 +114,7 @@ public class DisplaySelectionTab {
 
 	}
 
-	public void addHistory(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId,
+	private void addHistory(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId,
 			String nameSpace) {
 		GtnUIFrameworkComponentConfig historyLayout = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "historyLayout", true, parentComponentId);
@@ -133,7 +133,7 @@ public class DisplaySelectionTab {
 		history.setGtnComboboxConfig(historyConfig);
 	}
 
-	public void addActualsProjection(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
+	private void addActualsProjection(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
 		GtnUIFrameworkComponentConfig actualsProjectionLayoutConfig = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "actualsProjectionLayout", true, parentComponentId);
@@ -157,7 +157,7 @@ public class DisplaySelectionTab {
 		componentList.add(actualsProjectionOptionRadioGroup);
 	}
 
-	public void addSalesProjectionVariables(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
+	private void addSalesProjectionVariables(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
 		GtnUIFrameworkComponentConfig salesProjectionVariablesLayoutConfig = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "variablesLayout", true, parentComponentId);
@@ -184,7 +184,7 @@ public class DisplaySelectionTab {
 		componentList.add(salesProjectionVariablesOptionGroup);
 	}
 
-	public void addDiscountProjectionVariables(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
+	private void addDiscountProjectionVariables(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId,
 			String nameSpace) {
 		GtnUIFrameworkComponentConfig discountProjectionVariablesLayoutConfig = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "variablesLayout", true,parentComponentId);
@@ -211,7 +211,7 @@ public class DisplaySelectionTab {
 		componentList.add(discountProjectionVariablesOptionGroup);
 	}
 
-	public void addProjectionPeriodOrder(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, 
+	private void addProjectionPeriodOrder(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, 
 			String nameSpace) {
 		GtnUIFrameworkComponentConfig projectionPeriodLayoutConfig = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "projectionPeriodLayout", true, parentComponentId);
@@ -234,7 +234,7 @@ public class DisplaySelectionTab {
 		componentList.add(projectionPeriodRadioGroup);
 	}
 
-	public void addCurrencyFormat(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, 
+	private void addCurrencyFormat(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, 
 			String nameSpace) {
 		GtnUIFrameworkComponentConfig currencyFormatLayoutConfig = configProvider
 				.getHorizontalLayoutConfig(nameSpace + "_" + "currencyFormatLayout", true, parentComponentId);

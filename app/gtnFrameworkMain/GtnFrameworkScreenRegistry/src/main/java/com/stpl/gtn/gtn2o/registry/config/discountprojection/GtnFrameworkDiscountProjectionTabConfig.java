@@ -263,22 +263,22 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 	
 	private void addDiscountProjectionResultTable(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace){
 		
-		GtnUIFrameworkComponentConfig discountProjectionResultPanel = new GtnUIFrameworkComponentConfig();
+	/*	GtnUIFrameworkComponentConfig discountProjectionResultPanel = new GtnUIFrameworkComponentConfig();
 		discountProjectionResultPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		discountProjectionResultPanel.setComponentId(nameSpace + "_" + "discountProjectionResultTablePanel");
 		discountProjectionResultPanel.setAddToParent(true);
 		discountProjectionResultPanel.setParentComponentId(parentComponentId);
 		discountProjectionResultPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		componentList.add(discountProjectionResultPanel);
+		componentList.add(discountProjectionResultPanel);*/
 		
 		
 		GtnUIFrameworkComponentConfig discountProjectionResultTableComponentConfig = new GtnUIFrameworkComponentConfig();
 		discountProjectionResultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGED_TREE_GRID);
-		discountProjectionResultTableComponentConfig.setComponentId(GtnFrameworkCommonConstants.RESULT_TABLE);
+		discountProjectionResultTableComponentConfig.setComponentId("hi");
 		discountProjectionResultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
 		discountProjectionResultTableComponentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		discountProjectionResultTableComponentConfig.setAddToParent(true);
-		discountProjectionResultTableComponentConfig.setParentComponentId(nameSpace + "_" + "discountProjectionResultTablePanel");
+		discountProjectionResultTableComponentConfig.setParentComponentId(parentComponentId);
 
 		GtnUIFrameworkPagedTreeTableConfig discountProjectionGtnPagedTreeTableConfig = new GtnUIFrameworkPagedTreeTableConfig();
 
@@ -307,7 +307,7 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		discountProjectionGtnPagedTreeTableConfig.setSplitPosition(493);
 		discountProjectionGtnPagedTreeTableConfig.setTableHeight("650px");
 		discountProjectionGtnPagedTreeTableConfig.setDoubleHeaderVisible(true);
-		discountProjectionGtnPagedTreeTableConfig.setTripleHeaderVisible(true);
+		//discountProjectionGtnPagedTreeTableConfig.setTripleHeaderVisible(true);
 
 		discountProjectionGtnPagedTreeTableConfig.setLeftTableEditable(true);
 		discountProjectionGtnPagedTreeTableConfig.setRightTableEditable(true);

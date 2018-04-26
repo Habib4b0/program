@@ -64,7 +64,9 @@ public class PagedGrid {
 		}
 
 		pagedTableLogic = new GtnUIFrameworkPagedGridLogic(tableConfig, componentConfig);
+		if (tableConfig.getCustomFilterConfigMap() != null) {
 		setFilterToGrid();
+		}
 		refreshGrid();
 	}
 
@@ -258,11 +260,10 @@ public class PagedGrid {
 		Component vaadinComponent = null;
 		Object[] filterColumnIdList = tableConfig.getTableColumnMappingId();
 		for (Object column : filterColumnIdList) {
-			if (String.valueOf(column)!= null) {
+		
 			vaadinComponent = getCustomFilterComponent(String.valueOf(column));
 			
 				filterRow.getCell(String.valueOf(column)).setComponent(vaadinComponent);
-			}
 		}
 	}
 
@@ -295,7 +296,6 @@ public class PagedGrid {
 	private Component getCustomFilterComponent(String property) {
 		try {
 			gtnlogger.info("-------property------" + property);
-			if (tableConfig.getCustomFilterConfigMap() != null) {
 				GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = tableConfig.getCustomFilterConfigMap()
 						.get(property);
 
@@ -333,7 +333,6 @@ public class PagedGrid {
 					});
 
 					return dateFilterPopupButton;
-				}
 			}
 
 		} catch (GtnFrameworkGeneralException exception) {

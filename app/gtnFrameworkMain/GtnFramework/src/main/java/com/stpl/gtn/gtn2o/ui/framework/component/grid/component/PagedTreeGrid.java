@@ -47,7 +47,7 @@ public class PagedTreeGrid {
     private DataSet leftTableDataSet;
     TreeDataProvider<GtnWsRecordBean> treeDataProvider;
     private final List<GtnWsRecordBean> expandedItemIds = new ArrayList<>();
-    ;
+    
     private final List<Integer> expandedRowIds = new ArrayList<>();
     GtnWsRecordBean lastExpandedItem;
     HorizontalLayout controlLayout = new HorizontalLayout();
