@@ -79,7 +79,7 @@ public class GtnForecastBean implements Serializable {
 
 	private String projectionMasterSid;
 
-	private List<String> hierarchyList;
+	private List<String> hierarchyList = new ArrayList<>();
 
 	private int projectionStartMonth;
 
@@ -113,7 +113,7 @@ public class GtnForecastBean implements Serializable {
 	 */
 	private Date forecastEndDate;
 
-	private Map<String, List<String>> queryParameters;
+	private Map<String, List<String>> queryParameters ;
 
 	private String actualOrProjection;
 
@@ -123,7 +123,7 @@ public class GtnForecastBean implements Serializable {
 
 	private String frequency;
 
-	private List<Object> recordheader;
+	private transient List<Object> recordheader  = new ArrayList<>();
 
 	private int relationshipBuilderSid;
 
@@ -132,9 +132,9 @@ public class GtnForecastBean implements Serializable {
 	private int discountType;
 
 	private int brandType;
-	private List<Integer> checkedRowSid;
+	private List<Integer> checkedRowSid  = new ArrayList<>();
 
-	private List<String> baselinePeriodList;
+	private List<String> baselinePeriodList  = new ArrayList<>();
 
 	private String forecastMethodology;
 
@@ -142,7 +142,7 @@ public class GtnForecastBean implements Serializable {
 
 	private String calculationEndPeriod;
 
-	private List<String> checkedHierarchyNumbers;
+	private List<String> checkedHierarchyNumbers  = new ArrayList<>();
 	private int productHierarchyInnerLevel;
 
 	private int prodRelationshipBuilderSid;
@@ -159,7 +159,7 @@ public class GtnForecastBean implements Serializable {
 
 	private String isApproved;
 
-	private List<String> relationshipSidList;
+	private List<String> relationshipSidList = new ArrayList<>();
 
 	private int saveFlag;
 
@@ -171,7 +171,7 @@ public class GtnForecastBean implements Serializable {
 
 	private Date modifiedDate;
 
-	private List<Integer> returnsMasterListSize;
+	private List<Integer> returnsMasterListSize  = new ArrayList<>();
 
 	private String selectedHierarchyNo;
 
@@ -203,7 +203,7 @@ public class GtnForecastBean implements Serializable {
 
 	private int endLevel;
 
-	private List<String> existingViewName;
+	private List<String> existingViewName = new ArrayList<>();
 
 	private boolean multipleSaveFalg;
 
@@ -1064,13 +1064,6 @@ public class GtnForecastBean implements Serializable {
 
 	public void setMethodologyCalculationFlag(boolean methodologyCalculationFlag) {
 		this.methodologyCalculationFlag = methodologyCalculationFlag;
-	}
-        private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
-		s.defaultWriteObject();
-	}
-
-	private void readObject(java.io.ObjectInputStream s) throws java.io.IOException, ClassNotFoundException {
-		s.defaultReadObject();
 	}
 
 

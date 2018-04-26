@@ -1,9 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.emailconfig.bean;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,8 +32,8 @@ public class GtnWsEMailConfigurationBean implements Serializable {
 	private String emailNotificationTabFailureSubject;
 	private String emailNotificationTabFailureEmailCc;
 	private String emailNotificationTabFailureEmailBody;
-	private List<Object[]> defaultDataLoad;
-	private List<Object[]> comboboxOnChangeDataLoad;
+	private transient List<Object[]> defaultDataLoad = new ArrayList<>();
+	private transient List<Object[]> comboboxOnChangeDataLoad = new ArrayList<>();
 
 	public String getEmailConfigTabSMTP() {
 		return emailConfigTabSMTP;
@@ -172,14 +170,6 @@ public class GtnWsEMailConfigurationBean implements Serializable {
     public void setComboboxOnChangeDataLoad(List<Object[]> comboboxOnChangeDataLoad) {
         this.comboboxOnChangeDataLoad = comboboxOnChangeDataLoad == null ? null
                 : Collections.unmodifiableList(comboboxOnChangeDataLoad);
-    }
-
-    private void writeObject(ObjectOutputStream stream) throws IOException {
-        stream.defaultWriteObject();
-    }
-
-    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
     }
 
 }
