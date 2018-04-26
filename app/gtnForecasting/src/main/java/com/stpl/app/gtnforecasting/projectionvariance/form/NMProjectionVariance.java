@@ -9,7 +9,6 @@ import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastProjectionVariance;
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
-import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
 import static com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection.ANULL;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
@@ -1501,45 +1500,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     }
 
     public void getDiscount() {
-        NMDiscountProjection dp = nonMandatedForm.getDiscountProjection();
-        if (dp != null) {
-            String discountType = nonMandatedForm.getDiscountProjection().getDiscountType();
-            if (discountType != null && session.isDiscountRSlistUpdated() && dp.getResultBeanContainer().size() > 0 ) {
-                discountlist = new ArrayList<>();
-                if (PROGRAM_CATEGORY.getConstant().equals(discountType)) {
-                    List<String> priceGroupType = nonMandatedForm.getDiscountProjection().getDiscountNamesList();
-                    if (discountLevel.getValue().equals(PROGRAM_CATEGORY.getConstant())) {
-                        List<List<String>> discList = session.getDiscountRSlist();
-                        discountlist.add(discList.get(0));
-                        discountlist.add(priceGroupType);
-                    } else {
-                        discountlist = session.getDiscountRSlist();
-                    }
-                } else if (PROGRAM.getConstant().equals(discountType)) {
-                    List<List<String>> discList = null;
-                    List<String> discountNameList = nonMandatedForm.getDiscountProjection().getDiscountNamesList();
-                    for (int i = 0; i < discountNameList.size(); i++) {
-                        discountNameList.set(i, discountNameList.get(i).split("~")[0]);
-                    }
-                    List<List<String>> rsList = session.getDiscountRSlist();
-                    if (discountLevel.getValue().equals(PROGRAM_CATEGORY.getConstant())) {
-                        if (!compareDiscountList(discountNameList, oldDiscountNameList)) {
-                            discList = CommonLogic.getPriceGroupTypeList(discountNameList, pvSelectionDTO.getSessionDTO());
-                            session.setDiscountlist(discList);
-                        } else {
-                            discList = session.getDiscountlist();
-                        }
-                        oldDiscountNameList = discountNameList;
-                        if (!rsList.isEmpty()) {
-                            discountlist.add(rsList.get(0));
-                        }
-                        discountlist.add(discList.get(1));
-                    } else {
-                        discountlist = session.getDiscountRSlist();
-                    }
-                }
-            }
-        }
+        discountlist.addAll((List)generateDiscountToBeLoaded);
         pvSelectionDTO.setDiscountList(new ArrayList<>(discountlist));
         pvSelectionDTO.setSession(session);
     }
