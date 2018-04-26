@@ -31,6 +31,7 @@ import com.stpl.gtn.gtn2o.ws.response.priceschedule.GtnWsPriceScheduleGeneralRes
 import com.stpl.gtn.gtn2o.ws.response.processmonitor.GtnWsProcessMonitorResponse;
 import com.stpl.gtn.gtn2o.ws.response.rebateplan.GtnWsRebatePlanGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuilderResponse;
+import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
 import com.stpl.gtn.gtn2o.ws.response.transaction.GtnWsTransactionResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 
@@ -88,6 +89,14 @@ public class GtnUIFrameworkWebserviceResponse {
 	private GtnWsAttachmentResponse gtnWsAttachmentResponse;
 
 	private GtnFrameworkAutomaticRelationshipResponse automaticRelationResponse;
+	private GtnWsReportResponse gtnWsReportResponse;
+	public GtnWsReportResponse getGtnWsReportResponse() {
+		return gtnWsReportResponse;
+	}
+
+	public void setGtnWsReportResponse(GtnWsReportResponse gtnWsReportResponse) {
+		this.gtnWsReportResponse = gtnWsReportResponse;
+	}
 
 	public String getResponseStatus() {
 		return responseStatus;
