@@ -1,10 +1,9 @@
-package com.stpl.gtn.gtn2o.ws.request.report;
+package com.stpl.gtn.gtn2o.ws.response.report;
 
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 
-public class GtnWsReportRequest {
+public class GtnWsReportResponse {
 	private GtnWsReportBean reportBean = new GtnWsReportBean();
-
 
 	public GtnWsReportBean getReportBean() {
 		return reportBean;
@@ -13,5 +12,4 @@ public class GtnWsReportRequest {
 	public void setReportBean(GtnWsReportBean reportBean) {
 		this.reportBean = reportBean;
 	}
-
 }

@@ -1,12 +1,10 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
-import java.util.List;
-
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 
 public class GtnWsReportCustomViewBean {
 	private GtnWsHierarchyType hierarchyType;
-	private List<GtnWsRecordBean> bean;
+	private GtnUIFrameworkDataTable gridData;
 
 	public GtnWsHierarchyType getHierarchyType() {
 		return hierarchyType;
@@ -16,12 +14,12 @@ public class GtnWsReportCustomViewBean {
 		this.hierarchyType = hierarchyType;
 	}
 
-	public List<GtnWsRecordBean> getBean() {
-		return bean;
+	public GtnUIFrameworkDataTable getGridData() {
+		return gridData;
 	}
 
-	public void setBean(List<GtnWsRecordBean> bean) {
-		this.bean = bean;
+	public void setGridData(GtnUIFrameworkDataTable gridData) {
+		this.gridData = gridData;
 	}
 
 }

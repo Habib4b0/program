@@ -18,8 +18,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
-import com.stpl.gtn.gtn2o.ui.module.lookups.action.CustomerHierarchySearchAction;
-import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnCustomerHierarchyRecordSelectAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
@@ -189,7 +187,7 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		
 		GtnUIFrameWorkActionConfig customerHierarchySearchConfig = new GtnUIFrameWorkActionConfig();
 		customerHierarchySearchConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		customerHierarchySearchConfig.addActionParameter(CustomerHierarchySearchAction.class.getName());
+//		customerHierarchySearchConfig.addActionParameter(CustomerHierarchySearchAction.class.getName());
 		customerHierarchySearchConfig.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP);
 		customerHierarchySearchConfig.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE

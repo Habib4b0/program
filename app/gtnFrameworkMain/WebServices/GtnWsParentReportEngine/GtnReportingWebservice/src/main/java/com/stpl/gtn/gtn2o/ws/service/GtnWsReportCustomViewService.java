@@ -45,11 +45,12 @@ public class GtnWsReportCustomViewService {
 
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportCustomViewService.class);
 
-	public void loadHierarchy(GtnUIFrameworkWebserviceRequest gtnWsRequestF) throws GtnFrameworkGeneralException {
+	public GtnUIFrameworkDataTable loadHierarchy(GtnUIFrameworkWebserviceRequest gtnWsRequestF)
+			throws GtnFrameworkGeneralException {
 		GtnWsReportRequest request = gtnWsRequestF.getGtnReportRequest();
-		String reportTempName = request.getDataSelectionBean().getName();
+		String reportTempName = request.getReportBean().getDataSelectionBean().getName();
 		GtnWsReportDataSelectionBean bean = getDataSelectionBean(reportTempName);
-		getHierarachyLevels(bean, request.getCustomViewBean());
+		return getHierarachyLevels(bean, request.getReportBean().getCustomViewBean());
 	}
 
 	private GtnUIFrameworkDataTable getHierarachyLevels(GtnWsReportDataSelectionBean bean,
@@ -65,8 +66,9 @@ public class GtnWsReportCustomViewService {
 		}
 		gtnLogger.debug(sqlStringService.getQuery("getHierarchyLevels"));
 		List<?> hierarchyData = gtnSqlQueryEngine.executeSelectQuery(sqlStringService.getQuery("getHierarchyLevels"),
-				new Object[] { hierarchySid, forecastLevel },
-				new GtnFrameworkDataType[] { GtnFrameworkDataType.DOUBLE, GtnFrameworkDataType.INTEGER });
+				new Object[] { gtnWsReportCustomViewBean.getHierarchyType().toString(), hierarchySid, forecastLevel },
+				new GtnFrameworkDataType[] { GtnFrameworkDataType.STRING, GtnFrameworkDataType.DOUBLE,
+						GtnFrameworkDataType.INTEGER });
 		GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 		gtnUIFrameworkDataTable.addData((List<Object[]>) hierarchyData);
 		return gtnUIFrameworkDataTable;

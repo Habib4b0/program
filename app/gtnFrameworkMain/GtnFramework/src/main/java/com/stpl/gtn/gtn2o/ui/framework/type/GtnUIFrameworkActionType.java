@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkCsvExcelExportAction
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkDeleteAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkEditAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkExcelExportAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkGridStaticLoadAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkInfoAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadCustomAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadDataGridAction;
@@ -167,11 +168,13 @@ public enum GtnUIFrameworkActionType {
 
 	LOAD_NOTES_TAB(new GtnUIFrameworkLoadNotesTabAction()),
 
-	LOAD_TABLE_ACTION(new GtnUIFrameworkLoadTableAction()),
-        LOAD_DATA_GRID_ACTION(new GtnUIFrameWorkLoadDataGridAction()),
-	DATA_TABLE_CHECKALL_ACTION(new GtnUIFrameworkDataTableCheckAllAction()),
-        
-        V8_POP_UP_SELECT_ACTION(new GtnUIFrameworkV8PopupSelectAction());
+	LOAD_TABLE_ACTION(new GtnUIFrameworkLoadTableAction()), LOAD_DATA_GRID_ACTION(
+			new GtnUIFrameWorkLoadDataGridAction()), DATA_TABLE_CHECKALL_ACTION(
+					new GtnUIFrameworkDataTableCheckAllAction()),
+
+	V8_POP_UP_SELECT_ACTION(new GtnUIFrameworkV8PopupSelectAction()),
+
+	GRID_STATIC_LOAD_ACTION(new GtnUIFrameWorkGridStaticLoadAction());
 
 	private final GtnUIFrameWorkAction gtnUIFrameWorkAction;
 
