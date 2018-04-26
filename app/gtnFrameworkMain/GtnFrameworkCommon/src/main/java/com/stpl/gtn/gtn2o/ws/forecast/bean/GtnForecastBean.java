@@ -123,7 +123,7 @@ public class GtnForecastBean implements Serializable {
 
 	private String frequency;
 
-	private transient List<Object> recordheader  = new ArrayList<>();
+	private List<Object> recordheader  = new ArrayList<>();
 
 	private int relationshipBuilderSid;
 
