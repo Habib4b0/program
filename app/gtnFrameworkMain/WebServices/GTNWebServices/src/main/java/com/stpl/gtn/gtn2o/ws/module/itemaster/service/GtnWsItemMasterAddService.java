@@ -256,7 +256,6 @@ public class GtnWsItemMasterAddService {
 					getItemIdentifier(session, bean.getGtnWsItemMasterInfoBean().getItemMasterSid()));
 			createTembTable(gtnWsRequest);
 			bean.setNoteBeanList(getNotesTabDetails(bean.getGtnWsItemMasterInfoBean().getItemMasterSid()));
-			bean.setNoteBeanList(getCfpNotesTabAttachDetails(bean.getGtnWsItemMasterInfoBean().getItemMasterSid()));
 			
 			GtnWsItemMasterResponse reponse = new GtnWsItemMasterResponse();
 			reponse.setGtnWsItemMasterBean(bean);
@@ -402,16 +401,6 @@ public class GtnWsItemMasterAddService {
 		return GtnCommonUtil.getNotesTabBean(cmNotesDetailsResultList, gtnWebServiceAllListConfig);
 	}
 	
-
-	@SuppressWarnings("unchecked")
-	private List<NotesTabBean> getCfpNotesTabAttachDetails(int systemId) throws GtnFrameworkGeneralException {
-		LOGGER.info("Enter getitemMasterNotesTabAttachDetails");
-		String cmNotesTabDetailsSelectQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_ATTACHMENT_SELECT + +systemId
-				+ " AND MASTER_TABLE_NAME='ITEM_MASTER'";
-		List<Object[]> cmNotesDetailsResultList = (List<Object[]>) gtnSqlQueryEngine
-				.executeSelectQuery(cmNotesTabDetailsSelectQuery);
-		return GtnCommonUtil.getNotesTabBean(cmNotesDetailsResultList, gtnWebServiceAllListConfig);
-	}
 
 	public void deleteItemQualifier(GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
 		int itemQualifierSid = gtnWsRequest.getGtnWsItemMasterRequest().getGtnWsItemQualifierBean()
