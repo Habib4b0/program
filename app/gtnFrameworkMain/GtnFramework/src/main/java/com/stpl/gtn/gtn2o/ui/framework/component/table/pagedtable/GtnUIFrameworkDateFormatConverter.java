@@ -12,12 +12,10 @@ public class GtnUIFrameworkDateFormatConverter implements Converter<String, Date
 	 * 
 	 */
 	private static final long serialVersionUID = 2670500024232907566L;
-	private String formatString = "";
 	private SimpleDateFormat dateFormat = null;
 
 	public GtnUIFrameworkDateFormatConverter(String formatString) {
-		this.formatString = formatString;
-		dateFormat = new SimpleDateFormat(this.formatString);
+		dateFormat = new SimpleDateFormat(formatString);
 	}
 
 	@Override

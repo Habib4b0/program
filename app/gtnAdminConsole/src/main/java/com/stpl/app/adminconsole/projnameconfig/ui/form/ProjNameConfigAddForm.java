@@ -604,7 +604,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
     private void saveButtonLogic() throws SystemException {
         LOGGER.debug("saveButtonLogic Method started ");
         if (!selectedResults.getItemIds().isEmpty()) {
-            nameTemplate = "<" + businessProcess.getValue().toString() + ">";
+            nameTemplate = "<" + businessProcess.getValue() + ">";
             for (final Iterator<?> it = selectedResultsBean.getItemIds().iterator(); it.hasNext();) {
                 final Object idValue = it.next();
                 final ProjectionNameDTO availableContract = getBeanFromId(idValue);
@@ -612,7 +612,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
             }
         }
 
-        final boolean check = nameConfigLogic.duplicateCheck("<" + businessProcess.getValue().toString() + ">", nameTemplate);
+        final boolean check = nameConfigLogic.duplicateCheck("<" + businessProcess.getValue() + ">", nameTemplate);
 
         if (check) {
             String status = nameConfigLogic.saveProjNameConfigDetails(nameTemplate);
@@ -655,7 +655,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
         selectedResultsBean.addBean(treeBean);
 
         if (!selectedResults.getItemIds().isEmpty()) {
-            nameTemplate = "<" + businessProcess.getValue().toString() + ">";
+            nameTemplate = "<" + businessProcess.getValue() + ">";
             for (final Iterator<?> it = selectedResultsBean.getItemIds().iterator(); it.hasNext();) {
                 final Object idValue = it.next();
                 final ProjectionNameDTO availableContract = getBeanFromId(idValue);

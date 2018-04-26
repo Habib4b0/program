@@ -319,19 +319,19 @@ public class CommonUtils {
 		    }
 		 
 		 public static String arrayToString(String a[], String separator){
-		        String result = "";
+		        StringBuilder resultBuilder = new StringBuilder();
 		                   if (a.length > 0) {
                          if (a[0] != null) {
-                             result = "'" + a[0] + "'";    // start with the first element
+                             resultBuilder.append('\'' ).append( a[0] ).append( '\'');    // start with the first element
                          }
                          for (int i = 1; i < a.length; i++) {
                              if (a[i] != null) {
-                                 result = result + separator + "'" + a[i] + "'";
+                                 resultBuilder.append(separator ).append( '\'' ).append( a[i] ).append( '\'');
                              }
                          }
                      }
 		        
-		        return result;
+		        return resultBuilder.toString();
 		    }
 		 
 		  public static String arrayToString2(String a[], String separator){

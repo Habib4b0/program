@@ -63,5 +63,8 @@
 		<property name="modifiedDate" type="timestamp">
 			<column name="MODIFIED_DATE" length="23" not-null="true" />
 		</property>
+		<property name="itemPricingIntfid" type="string">
+			<column name="ITEM_PRICING_INTFID" not-null="true" />
+		</property>
 	</class>
 </hibernate-mapping>

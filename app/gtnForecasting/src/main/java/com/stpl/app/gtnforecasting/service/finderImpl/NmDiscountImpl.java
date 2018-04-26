@@ -97,7 +97,7 @@ public class NmDiscountImpl {
         boolean viewFlag = "view".equalsIgnoreCase(action);
         String masterTableName = !viewFlag ? "ST_NM_DISCOUNT_PROJ_MASTER" : Constant.NM_DISCOUNT_PROJ_MASTER;
         String actualDiscountTableName = !viewFlag ? "ST_NM_ACTUAL_DISCOUNT" : "NM_ACTUAL_DISCOUNT";
-        String actualSalesTableName = !viewFlag ? "ST_NM_ACTUAL_SALES" : "ST_NM_ACTUAL_SALES";
+        String actualSalesTableName = "ST_NM_ACTUAL_SALES";
         String discountTableName = !viewFlag ? "ST_NM_DISCOUNT_PROJECTION" : "NM_DISCOUNT_PROJECTION";
         String salesTableName = !viewFlag ? "ST_NM_SALES_PROJECTION" : "NM_SALES_PROJECTION";
         if (isCustom) {

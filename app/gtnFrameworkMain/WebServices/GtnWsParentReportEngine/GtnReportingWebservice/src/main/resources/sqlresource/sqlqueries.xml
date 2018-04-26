@@ -5,8 +5,9 @@
 	<entry key="getHierarchyLevels">
     <![CDATA[
         select
+        LEVEl_NAME,
 	LEVEL_NO,
-	LEVEl_NAME
+	?
 from
 	HIERARCHY_DEFINITION HD
 join HIERARCHY_LEVEL_DEFINITION HLD on

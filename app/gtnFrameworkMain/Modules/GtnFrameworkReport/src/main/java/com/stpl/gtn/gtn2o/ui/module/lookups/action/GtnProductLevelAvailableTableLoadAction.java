@@ -19,7 +19,7 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.report.bean.CustomerHierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.LevelDto;
 import com.stpl.gtn.gtn2o.ws.report.constants.NumericConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -145,7 +145,7 @@ public class GtnProductLevelAvailableTableLoadAction
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsReportRequest gtnWsReportRequest = new GtnWsReportRequest();
-		CustomerHierarchyLookupBean lookupbean = new CustomerHierarchyLookupBean();
+		GtnReportHierarchyLookupBean lookupbean = new GtnReportHierarchyLookupBean();
 		lookupbean.setHierarchyDefSid(hierarchyDefinitionSid);
 		lookupbean.setVersionNo(hierarchyVersionNo);
 		gtnWsReportRequest.setCustomerHierarchyLookupBean(lookupbean);

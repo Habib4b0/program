@@ -24,6 +24,15 @@ public class VwItemPricing implements java.io.Serializable {
 	private String pricingCodeQualifier;
 	private String pricingCodeQualifierName;
 	private String addChgDelIndicator;
+	private String itemPricingIntfid;
+
+	public String getItemPricingIntfid() {
+		return itemPricingIntfid;
+	}
+
+	public void setItemPricingIntfid(String itemPricingIntfid) {
+		this.itemPricingIntfid = itemPricingIntfid;
+	}
 
 	public VwItemPricing() {
 		// constructor

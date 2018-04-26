@@ -1067,13 +1067,7 @@ public class HeaderUtils {
                         fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + ACTUALS.getConstant(), String.class);
                     }
                 }
-                if (i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex()) {
-                    projectionCol = true;
-                } else if (historyFlag && (projections.contains(BOTH.getConstant()) || projections.contains(PROJECTIONS.getConstant()))) {
-                    projectionCol = true;
-                }
-
-                if (i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex()) {
+                if (isProjectionWithinIndex(i, projSelDTO) || isHistoryAndProjection(historyFlag, projections) || (isForecastWithinIndex(i, projSelDTO))) {
                     projectionCol = true;
                 }
 
@@ -1097,6 +1091,18 @@ public class HeaderUtils {
 
         projSelDTO.setColumns(CommonUtils.objectListToStringList(fullHeaderDTO.getSingleColumns()));
         return tableHeaderDTO;
+    }
+
+    private static boolean isForecastWithinIndex(int i, ProjectionSelectionDTO projSelDTO) {
+        return i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex();
+    }
+
+    private static boolean isHistoryAndProjection(boolean historyFlag, String projections) {
+        return historyFlag && (projections.contains(BOTH.getConstant()) || projections.contains(PROJECTIONS.getConstant()));
+    }
+
+    private static boolean isProjectionWithinIndex(int i, ProjectionSelectionDTO projSelDTO) {
+        return i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex();
     }
 
     public static List<String> getCommonColumnHeader(int frequencyDivision, int year, int period) {
@@ -1456,7 +1462,7 @@ public class HeaderUtils {
                         }
                     }
 
-                    if (i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex()) {
+                    if (isProjectionWithinIndex(i, projSelDTO)) {
                         projectionFlag = true;
                         projectionCol = true;
                         if ((historyActualFlag) && (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant()))) {
@@ -1468,7 +1474,7 @@ public class HeaderUtils {
                         projectionCol = true;
                     }
 
-                    if (i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex()) {
+                    if (isForecastWithinIndex(i, projSelDTO)) {
                         forecastFlag = true;
                         projectionCol = true;
                     }
@@ -1735,13 +1741,7 @@ public class HeaderUtils {
                         tableHeaderDTO.addSingleHistoryColumn(singleColumn, ACTUALS.getConstant());
                     }
                 }
-                if (i >= selection.getProjectionStartIndex() && i <= selection.getProjectionEndIndex()) {
-                    projectionCol = true;
-                } else if (historyFlag && (projection.contains(BOTH.getConstant()) || projection.contains(PROJECTIONS.getConstant()))) {
-                    projectionCol = true;
-                }
-
-                if (i >= selection.getForecastStartIndex() && i <= selection.getForecastEndIndex()) {
+                if ((isProjectionWithinIndex(i, selection)) || (isHistoryAndProjection(historyFlag, projection)) || (isForecastWithinIndex(i, selection))) {
                     projectionCol = true;
                 }
 
@@ -1777,7 +1777,7 @@ public class HeaderUtils {
             String commonHeader = periodListMap.get(commonColumn);
             List<String> columns = selection.getPpaSelectedVariables();
 
-            if ((i >= selection.getProjectionStartIndex() && i <= selection.getProjectionEndIndex()) || (i >= selection.getForecastStartIndex() && i <= selection.getForecastEndIndex())) {
+            if ((isProjectionWithinIndex(i, selection)) || (isForecastWithinIndex(i, selection))) {
                 for (String column : columns) {
                     String singleColumn1 = commonColumn + column + "." + start;
                     String excelsingleColumn = commonColumn + column + "." + (start - 1);
@@ -2356,11 +2356,7 @@ public class HeaderUtils {
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             projSelDTO.setHistoryStartMonth(historyStartFreq);
         }
-        if (projSelDTO.getHistoryStartPeriod() == historyStartFreq && projSelDTO.getForecastDTO().getHistoryStartYear() == historyStartYear) {
-            projSelDTO.setHistoryStartMonth(projSelDTO.getForecastDTO().getHistoryStartMonth());
-        } else {
-            projSelDTO.setHistoryStartMonth(projSelDTO.getForecastDTO().getHistoryStartMonth());
-        }
+        projSelDTO.setHistoryStartMonth(projSelDTO.getForecastDTO().getHistoryStartMonth());
         projSelDTO.setHistoryStartPeriod(historyStartFreq);
         projSelDTO.setHistoryStartYear(historyStartYear);
         projSelDTO.setHistoryStartDay(1);
@@ -2521,11 +2517,8 @@ public class HeaderUtils {
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             projSelDTO.setHistoryStartMonth(historyStartFreq);
         }
-        if (projSelDTO.getHistoryStartPeriod() == historyStartFreq && projSelDTO.getForecastDTO().getHistoryStartYear() == historyStartYear) {
-            projSelDTO.setHistoryStartMonth(projSelDTO.getForecastDTO().getHistoryStartMonth());
-        } else {
-            projSelDTO.setHistoryStartMonth(projSelDTO.getForecastDTO().getHistoryStartMonth());
-        }
+        
+        projSelDTO.setHistoryStartMonth(projSelDTO.getForecastDTO().getHistoryStartMonth());
         projSelDTO.setHistoryStartPeriod(historyStartFreq);
         projSelDTO.setHistoryStartYear(historyStartYear);
         projSelDTO.setHistoryStartDay(1);
@@ -3082,13 +3075,7 @@ public class HeaderUtils {
                         singleHeaderForExcel.add(ACTUALS.getConstant());//Ends here
                     }
                 }
-                if (i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex()) {
-                    projectionCol = true;
-                } else if (historyFlag && (projections.contains(BOTH.getConstant()) || projections.contains(PROJECTIONS.getConstant()))) {
-                    projectionCol = true;
-                }
-
-                if (i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex()) {
+                if ((isProjectionWithinIndex(i, projSelDTO)) || (isHistoryAndProjection(historyFlag, projections)) || (isForecastWithinIndex(i, projSelDTO))){
                     projectionCol = true;
                 }
 
@@ -4606,13 +4593,7 @@ public class HeaderUtils {
 
                     }
                 }
-                if (i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex()) {
-                    projectionCol = true;
-                } else if (historyFlag && (projections.contains(BOTH.getConstant()) || projections.contains(PROJECTIONS.getConstant()))) {
-                    projectionCol = true;
-                }
-
-                if (i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex()) {
+                if ((isProjectionWithinIndex(i, projSelDTO)) || (isHistoryAndProjection(historyFlag, projections)) || (isForecastWithinIndex(i, projSelDTO))) {
                     projectionCol = true;
                 }
 
@@ -4800,13 +4781,7 @@ public class HeaderUtils {
                         fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + ACTUALS, String.class);
                     }
                 }
-                if (i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex()) {
-                    projectionCol = true;
-                } else if (historyFlag && (projections.contains(BOTH.getConstant()) || projections.contains(PROJECTIONS.getConstant()))) {
-                    projectionCol = true;
-                }
-
-                if (i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex()) {
+                if ((isProjectionWithinIndex(i, projSelDTO)) || (isHistoryAndProjection(historyFlag, projections)) || (isForecastWithinIndex(i, projSelDTO))){
                     projectionCol = true;
                 }
 
@@ -5101,13 +5076,7 @@ public class HeaderUtils {
                         fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + ACTUALS.getConstant(), String.class);
                     }
                 }
-                if (i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex()) {
-                    projectionCol = true;
-                } else if (historyFlag && (projections.contains(BOTH.getConstant()) || projections.contains(PROJECTIONS.getConstant()))) {
-                    projectionCol = true;
-                }
-
-                if (i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex()) {
+                if ((isProjectionWithinIndex(i, projSelDTO)) || (isHistoryAndProjection(historyFlag, projections)) || (isForecastWithinIndex(i, projSelDTO))) {
                     projectionCol = true;
                 }
 
@@ -5142,18 +5111,10 @@ public class HeaderUtils {
             String type;
             String discType = projSelDTO.getDiscountType();
             String projType = projSelDTO.getProjectionType();
-            if (PROJECTED.getConstant().equalsIgnoreCase(projType)) {
-                if ("$".equals(discType)) {
-                    type = "Amount";
-                } else {
-                    type = "Rate";
-                }
+            if ("$".equals(discType)) {
+                type = "Amount";
             } else {
-                if ("$".equals(discType)) {
-                    type = "Amount";
-                } else {
-                    type = "Rate";
-                }
+                type = "Rate";
             }
             CommonUtils.getHistoryAndProjectionDetails(projSelDTO);
             prepareCommonColumnHeaders(projSelDTO);
@@ -5188,7 +5149,7 @@ public class HeaderUtils {
                     }
                 }
 
-                if (i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex()) {
+                if (isProjectionWithinIndex(i, projSelDTO)) {
                     projectionFlag = true;
                     projectionCol = true;
                     if (historyActualFlag) {
@@ -5198,7 +5159,7 @@ public class HeaderUtils {
                     projectionCol = true;
                 }
 
-                if (i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex()) {
+                if (isForecastWithinIndex(i, projSelDTO)) {
                     forecastFlag = true;
                     projectionCol = true;
                 }

@@ -51,8 +51,6 @@ public class GtnWsCfpAddService {
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
 
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
 	private GtnWsAllListConfig gtnWebServiceAllListConfig;
@@ -61,12 +59,9 @@ public class GtnWsCfpAddService {
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	public org.hibernate.SessionFactory getSessionFactory() {
-		return sessionFactory;
+		return gtnSqlQueryEngine.getSessionFactory();
 	}
 
-	public void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 
 	public String leftTableSearchQuery(GtnUIFrameworkWebserviceRequest cfpCompanyAdditionRequest) {
 

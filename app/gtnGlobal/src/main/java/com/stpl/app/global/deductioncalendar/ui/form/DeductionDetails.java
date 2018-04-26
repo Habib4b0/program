@@ -1032,7 +1032,7 @@ public class DeductionDetails extends CustomComponent {
     }
 
     private void adjustmentLogic() {
-        MessageBox.showPlain(Icon.QUESTION, "Confirm " + type.getValue().toString(), "You are about to make the following ($/ %) adjustment for the following periods (list periods). Are you sure you want to continue?", new MessageBoxListener() {
+        MessageBox.showPlain(Icon.QUESTION, "Confirm " + type.getValue(), "You are about to make the following ($/ %) adjustment for the following periods (list periods). Are you sure you want to continue?", new MessageBoxListener() {
             /**
              * The method is triggered when a button of the message box is
              * pressed .
@@ -1046,7 +1046,7 @@ public class DeductionDetails extends CustomComponent {
                     try {
                         if (ConstantsUtils.MONTHLY.equalsIgnoreCase(detailsDto.getFrequency())) {
 
-                            String lastValue = StringUtils.EMPTY;
+                            StringBuilder lastValue = new StringBuilder();
 
                             List<Object> periodList;
                             if (ConstantsUtils.SELECT1.equals(String.valueOf(adjustmentPeriods.getValue()))) {
@@ -1059,12 +1059,12 @@ public class DeductionDetails extends CustomComponent {
                                 Object[] arr = String.valueOf(periodList.get(i)).split("~");
 
                                 if (i == 0) {
-                                    lastValue += "m" + String.valueOf(arr[1]) + " " + String.valueOf(arr[NumericConstants.TWO]);
+                                    lastValue.append('m' ).append( String.valueOf(arr[1]) ).append( ' ' ).append( String.valueOf(arr[NumericConstants.TWO]));
                                 } else {
-                                    lastValue += ConstantsUtils.COMMA + "m" + String.valueOf(arr[1]) + " " + String.valueOf(arr[NumericConstants.TWO]);
+                                    lastValue.append(ConstantsUtils.COMMA ).append( 'm' ).append( String.valueOf(arr[1]) ).append( ' ' ).append( String.valueOf(arr[NumericConstants.TWO]));
                                 }
                             }
-                            Object[] orderedArgs = {lastValue, detailsDto.getUserId(), detailsDto.getSessionId(), type.getValue().toString(), adjustment.getValue(), basis.getValue().toString(), variable.getValue().toString(), allocationMethododlogyDdlb.getValue().toString()};
+                            Object[] orderedArgs = {lastValue.toString(), detailsDto.getUserId(), detailsDto.getSessionId(), type.getValue().toString(), adjustment.getValue(), basis.getValue().toString(), variable.getValue().toString(), allocationMethododlogyDdlb.getValue().toString()};
                             CommonUtil.callProcedure("PRC_DEDUCTION_CALENDAR_ADJUSTMENT", orderedArgs);
 
                             if (detailsDto.getListView().equals(ConstantsUtils.EXPAND)) {

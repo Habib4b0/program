@@ -1,7 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -37,6 +36,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 	@Override
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) {
                 ComboBox vaadinComboBox = new ComboBox(componentConfig.getComponentName());
+                gtnLogger.info("--------------GtnUIFrameworkComboBoxComponent ");
 		try {
 
 			final GtnUIFrameworkComboBoxConfig comboboxConfig = componentConfig.getGtnComboboxConfig();
@@ -97,6 +97,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 					vaadinComboBox.setSelectedItem(idList.get(0));
 					vaadinComboBox.setEmptySelectionAllowed(false);
 				}
+
 				setDefaultFocus(vaadinComboBox, componentConfig);
 				return vaadinComboBox;
 			}

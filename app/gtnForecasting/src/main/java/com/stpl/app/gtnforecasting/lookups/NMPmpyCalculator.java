@@ -950,10 +950,7 @@ public class NMPmpyCalculator extends Window {
 
         final Double salesByMarketshareValue = salesValue / (marketShareValue / 100);
         final Double valuePerLifeValue = salesByMarketshareValue / analogLivesValue;
-        if (Constant.SALES.equalsIgnoreCase(getVariableValue())) {
-
-            valuePerLife.setValue(String.valueOf(MONEY_TWO_DECIMAL.format(valuePerLifeValue)));
-        } else if (Constant.UNITS.equalsIgnoreCase(getVariableValue())) {
+        if ((Constant.SALES.equalsIgnoreCase(getVariableValue())) || (Constant.UNITS.equalsIgnoreCase(getVariableValue()))){
             valuePerLife.setValue(String.valueOf(MONEY_TWO_DECIMAL.format(valuePerLifeValue)));
         }
         LOGGER.debug("End of firstCalculation method");
@@ -983,11 +980,7 @@ public class NMPmpyCalculator extends Window {
         if (valuePerLife.getValue() != null && !StringUtils.EMPTY.equals(tempValuePerLifeValue) && !Constant.NULL.equals(tempValuePerLifeValue) && isNumeric(tempValuePerLifeValue)
                 && Double.parseDouble(tempValuePerLifeValue) != 0.0) {
 
-            if (Constant.SALES.equalsIgnoreCase(getVariableValue())) {
-
-                valuePerLifeValue = Double.parseDouble(tempValuePerLifeValue);
-            } else if (Constant.UNITS.equalsIgnoreCase(getVariableValue())) {
-
+            if ((Constant.SALES.equalsIgnoreCase(getVariableValue())) || (Constant.UNITS.equalsIgnoreCase(getVariableValue()))){
                 valuePerLifeValue = Double.parseDouble(tempValuePerLifeValue);
             }
         } else {

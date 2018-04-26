@@ -1125,9 +1125,7 @@ public class AlternateSummery extends CustomComponent {
         rightTable.setColumnHeaders(rightHeader.getSingleHeaders().toArray(new String[rightHeader.getSingleHeaders().size()]));
 
         for (Object obj : leftHeader.getSingleColumns()) {
-            if (String.valueOf(obj).contains(Constant.GROUP)) {
-                resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.THREE_HUNDRED);
-            } else if (String.valueOf(obj).contains(Constant.LEVEL_NAME)) {
+            if ((String.valueOf(obj).contains(Constant.GROUP)) || (String.valueOf(obj).contains(Constant.LEVEL_NAME))) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.THREE_HUNDRED);
             }
         }

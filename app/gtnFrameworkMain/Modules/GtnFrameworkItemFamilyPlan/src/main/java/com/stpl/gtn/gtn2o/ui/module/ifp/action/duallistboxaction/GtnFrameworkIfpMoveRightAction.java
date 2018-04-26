@@ -55,7 +55,7 @@ public class GtnFrameworkIfpMoveRightAction
 		}
 		GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
 		try {
-
+                        GtnUIFrameworkWebServiceClient frameworkWebServiceClient = new GtnUIFrameworkWebServiceClient();
 			for (GtnWsRecordBean gtnWsRecordBean : dtoSet) {
 				String companyMasterSid = String.valueOf(gtnWsRecordBean.getProperties().get(8));
 				GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
@@ -72,7 +72,7 @@ public class GtnFrameworkIfpMoveRightAction
 				generalWSRequest.setSessionId(String.valueOf(
 						GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.SESSION_ID)));
 				request.setGtnWsGeneralRequest(generalWSRequest);
-				new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				frameworkWebServiceClient.callGtnWebServiceUrl(
 						GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
 								+ GtnWsIFamilyPlanContants.GTN_WS_IFP_COMPANY_ADDITION_MOVE_RIGHT_SERVICE,
 						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());

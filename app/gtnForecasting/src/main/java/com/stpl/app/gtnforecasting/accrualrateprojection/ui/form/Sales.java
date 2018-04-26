@@ -433,7 +433,6 @@ public class Sales extends CustomComponent {
                 int customMenuSize = customMenuItem.getSize() - 1;
                 final String[] col = val.split(",");
                 for (int i = 0; i < col.length; i++) {
-                    if (i == Constant.ZERO) {
                         for (CustomMenuBar.CustomMenuItem string : customMenuItem.getChildren()) {
                             if ((customMenuSize == col.length) && string.getText().equals("Check All")) {
                                 string.setChecked(true);
@@ -442,16 +441,6 @@ public class Sales extends CustomComponent {
                                 string.setChecked(true);
                             }
                         }
-                    } else {
-                        for (CustomMenuBar.CustomMenuItem string : customMenuItem.getChildren()) {
-                            if ((customMenuSize == col.length) && string.getText().equals("Check All")) {
-                                string.setChecked(true);
-                            }
-                            if (string.getText().equals(String.valueOf(col[i]).trim())) {
-                                string.setChecked(true);
-                            }
-                        }
-                    }
                 }
             }
         }

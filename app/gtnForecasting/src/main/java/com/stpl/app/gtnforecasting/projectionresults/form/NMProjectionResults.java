@@ -535,9 +535,9 @@ public class NMProjectionResults extends ForecastProjectionResults {
                     excelResultBean.addBean(itemId);
                     excelResultBean.setChildrenAllowed(itemId, false);
                     if (!Constants.LabelConstants.TOTAL_DISCOUNT.toString().equals(projectionSelectionDTO.getDiscountLevel())) {
-                        if (itemId.getGroup().startsWith(TOTAL + Constants.LabelConstants.DISCOUNT.toString())
+                        if (itemId.getGroup().startsWith(TOTAL + Constants.LabelConstants.DISCOUNT)
                                 || itemId.getGroup().startsWith(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER)
-                                || itemId.getGroup().startsWith(TOTAL + Constant.PVVariables.VAR_RPU.toString())) {
+                                || itemId.getGroup().startsWith(TOTAL + Constant.PVVariables.VAR_RPU)) {
                             if (itemId.getGroup().startsWith("Total Discount $")) {
                                 excelResultBean.setChildrenAllowed(itemId, true);
                                 List<ProjectionResultsDTO> discountDollarList = resultMap.get("D$value");
@@ -669,7 +669,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
                             excelResultBean.setParent(itemId, parentItemId);
 
                             if ((!Constants.LabelConstants.TOTAL_DISCOUNT.toString().equals(projectionSelectionDTO.getDiscountLevel())) && (itemId.getGroup().startsWith(Constants.LabelConstants.TOTAL_DISCOUNT.toString())
-                                    || itemId.getGroup().startsWith(TOTAL + Constant.PVVariables.VAR_RPU.toString()))
+                                    || itemId.getGroup().startsWith(TOTAL + Constant.PVVariables.VAR_RPU))
                                     || itemId.getGroup().equals(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER)) {
                                 excelResultBean.setChildrenAllowed(itemId, true);
                                 excelParentRecords.put(newKey + itemId.getGroup(), itemId);
@@ -703,7 +703,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
                             excelResultBean.setParent(itemId, parentItemId);
                             excelResultBean.setChildrenAllowed(itemId, false);
                             if ((!Constants.LabelConstants.TOTAL_DISCOUNT.toString().equals(projectionSelectionDTO.getDiscountLevel())) && (itemId.getGroup().startsWith(Constants.LabelConstants.TOTAL_DISCOUNT.toString())
-                                    || itemId.getGroup().startsWith(TOTAL + Constant.PVVariables.VAR_RPU.toString())
+                                    || itemId.getGroup().startsWith(TOTAL + Constant.PVVariables.VAR_RPU)
                                     || itemId.getGroup().equals(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER))) {
                                 excelResultBean.setChildrenAllowed(itemId, true);
                                 excelParentRecords.put(newKey + itemId.getGroup(), itemId);

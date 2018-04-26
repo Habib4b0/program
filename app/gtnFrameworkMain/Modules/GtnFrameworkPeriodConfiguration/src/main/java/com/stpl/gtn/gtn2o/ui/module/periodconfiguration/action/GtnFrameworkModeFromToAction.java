@@ -35,7 +35,7 @@ public class GtnFrameworkModeFromToAction
 
 		String modeFromValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1).toString())
 				.getCaptionFromComboBox();
-		if (modeFromValue.equals("AUTO")) {
+		if ("Auto".equalsIgnoreCase(modeFromValue)) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString()).setComponentEnable(true);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3).toString()).setComponentVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(4).toString()).setComponentVisible(true);

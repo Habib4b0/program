@@ -1499,13 +1499,7 @@ public class HeaderUtils {
                         singleHeaderForExcel.add(ACTUALS.getConstant());
                     }
                 }
-                if (i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex()) {
-                    projectionCol = true;
-                } else if (historyFlag && (projections.contains(BOTH) || projections.contains(PROJECTIONS.getConstant()))) {
-                    projectionCol = true;
-                }
-
-                if (i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex()) {
+                if ((isProjectionIndex(i, projSelDTO)) || (isHistoryAndProjectionColumns(historyFlag, projections)) || (isForecastIndex(i, projSelDTO))) {
                     projectionCol = true;
                 }
 
@@ -1534,6 +1528,18 @@ public class HeaderUtils {
         projSelDTO.setColumns(CommonUtils.objectListToStringList(fullHeaderDTO.getSingleColumns()));
         projSelDTO.setHeaderMapForExcel(periodListMapForExcel);
         return tableHeaderDTO;
+    }
+
+    private static boolean isForecastIndex(int i, ProjectionSelectionDTO projSelDTO) {
+        return i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex();
+    }
+
+    private static boolean isHistoryAndProjectionColumns(boolean historyFlag, String projections) {
+        return historyFlag && (projections.contains(BOTH) || projections.contains(PROJECTIONS.getConstant()));
+    }
+
+    private static boolean isProjectionIndex(int i, ProjectionSelectionDTO projSelDTO) {
+        return i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex();
     }
 
     private static void configurePivotHeaderForNonMandated(final ProjectionSelectionDTO projSelDTO, String projections, CustomTableHeaderDTO tableHeaderDTO, CustomTableHeaderDTO fullHeaderDTO) {

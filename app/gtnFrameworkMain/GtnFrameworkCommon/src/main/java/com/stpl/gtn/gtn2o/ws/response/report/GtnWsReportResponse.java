@@ -2,15 +2,19 @@ package com.stpl.gtn.gtn2o.ws.response.report;
 
 import java.util.List;
 
-import com.stpl.gtn.gtn2o.ws.report.bean.CustomerHierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnWSRequestData;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 
 public class GtnWsReportResponse implements GtnWSRequestData {
 
-	private CustomerHierarchyLookupBean customerHierarchyLookupBean;
+	private GtnReportHierarchyLookupBean customerHierarchyLookupBean;
 	private List<Object[]> resultList;
+	private GtnWsReportDataSelectionBean dataSelectionBean;
+	private GtnWsReportCustomViewBean customViewBean;
+
 	public List<Object[]> getResultList() {
 		return resultList;
 	}
@@ -23,17 +27,15 @@ public class GtnWsReportResponse implements GtnWSRequestData {
 		super();
 	}
 
-	public CustomerHierarchyLookupBean getCustomerHierarchyLookupBean() {
+	public GtnReportHierarchyLookupBean getCustomerHierarchyLookupBean() {
 		return customerHierarchyLookupBean;
 	}
 
-	public void setCustomerHierarchyLookupBean(CustomerHierarchyLookupBean customerHierarchyLookupBean) {
+	public void setCustomerHierarchyLookupBean(GtnReportHierarchyLookupBean customerHierarchyLookupBean) {
 		this.customerHierarchyLookupBean = customerHierarchyLookupBean;
 
 	}
 
-	private GtnWsReportDataSelectionBean dataSelectionBean;
-	private GtnWsReportCustomViewBean customViewBean;
 	public GtnWsReportDataSelectionBean getDataSelectionBean() {
 		return dataSelectionBean;
 	}
@@ -50,4 +52,13 @@ public class GtnWsReportResponse implements GtnWSRequestData {
 		this.customViewBean = customViewBean;
 	}
 
+	private GtnWsReportBean reportBean = new GtnWsReportBean();
+
+	public GtnWsReportBean getReportBean() {
+		return reportBean;
+	}
+
+	public void setReportBean(GtnWsReportBean reportBean) {
+		this.reportBean = reportBean;
+	}
 }

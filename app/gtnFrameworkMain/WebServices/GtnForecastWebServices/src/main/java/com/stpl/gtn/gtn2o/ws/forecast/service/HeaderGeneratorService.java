@@ -92,24 +92,28 @@ public GtnWsPagedTreeTableResponse getReportLeftTableColumns(GtnWsForecastReques
     public GtnWsPagedTreeTableResponse getReportRightTableColumns(GtnForecastBean gtnForecastBean) {
 
         GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
+        String[] comparisonBasisColumn = new String[]{"Actuals"};
+        String[] comparisonBasisHeader = new String[]{"Actuals"};
+//        String[] comparisonBasisColumn = new String[]{"Actuals", "Accruals", "CurrentProjection",
+//            "Projection1", "Projection2", "Projection3", "Projection4", "Projection5"};
+//        String[] comparisonBasisHeader = new String[]{"Actuals", "Accruals", "Current Projection",
+//            "Prior Projection1", "Prior Projection2", "Prior Projection3", "Prior Projection4", "Prior Projection5"};
+        
+          String[] variablesHeader = new String[]{"Ex-Factory Sales", "Gross Contract Sales % of Ex-Factory"};
 
-        String[] comparisonBasisColumn = new String[]{"Actuals", "Accruals", "CurrentProjection",
-            "Projection1", "Projection2", "Projection3", "Projection4", "Projection5"};
-        String[] comparisonBasisHeader = new String[]{"Actuals", "Accruals", "Current Projection",
-            "Prior Projection1", "Prior Projection2", "Prior Projection3", "Prior Projection4", "Prior Projection5"};
+//        String[] variablesHeader = new String[]{"Ex-Factory Sales", "Gross Contract Sales % of Ex-Factory", "Gross Contract Sales", "Contract Units",
+//            "Contract Sales % of Total Contract Sales", "Deduction $", "Deduction %", "RPU", "Deduction % of Ex-Factory", "Net Contract Sales",
+//            "Net Contract Sales % of Ex-Factory", "Net Ex-Factory Sales", "Net Ex-Factory Sales % of Total Ex-Factory",
+//            "Weighted GTN Contribution"};
 
-        String[] variablesHeader = new String[]{"Ex-Factory Sales", "Gross Contract Sales % of Ex-Factory", "Gross Contract Sales", "Contract Units",
-            "Contract Sales % of Total Contract Sales", "Deduction $", "Deduction %", "RPU", "Deduction % of Ex-Factory", "Net Contract Sales",
-            "Net Contract Sales % of Ex-Factory", "Net Ex-Factory Sales", "Net Ex-Factory Sales % of Total Ex-Factory",
-            "Weighted GTN Contribution"};
-
-//        String[] variablesColumn = new String[]{"exfactory", "grossContractSalesPerExFactory"};
-        String[] variablesColumn = new String[]{"exfactory", "grossContractSalesPerExFactory", "contractSales", "contractUnits", "contractSalesPerTotalContractSales",
-            "discountAmount", "discountPercent", "rpu", "deductionPerExfactory", "netContractSales", "netContractSalesPerExfactory", "netExfactorySales",
-            "netExfactorySalesPerTotalExfactory", "weightedGtn"};
-
-        String[] variableCategoryColumn = new String[]{"Value", "Variance", "PerChange", "Volume", "Rate", "ChangeInChange"};
-        String[] variableCategoryHeader = new String[]{"Value", "Variance", "% Change", "Volume", "Rate", "Change in Change"};
+        String[] variablesColumn = new String[]{"exfactory", "grossContractSalesPerExFactory"};
+//        String[] variablesColumn = new String[]{"exfactory", "grossContractSalesPerExFactory", "contractSales", "contractUnits", "contractSalesPerTotalContractSales",
+//            "discountAmount", "discountPercent", "rpu", "deductionPerExfactory", "netContractSales", "netContractSalesPerExfactory", "netExfactorySales",
+//            "netExfactorySalesPerTotalExfactory", "weightedGtn"};
+      String[] variableCategoryColumn = new String[]{"Value", "Variance", "PerChange"};
+        String[] variableCategoryHeader = new String[]{"Value", "Variance", "% Change"};
+//        String[] variableCategoryColumn = new String[]{"Value", "Variance", "PerChange", "Volume", "Rate", "ChangeInChange"};
+//        String[] variableCategoryHeader = new String[]{"Value", "Variance", "% Change", "Volume", "Rate", "Change in Change"};
 
         List<Object[]> periods = getTimeRange(gtnForecastBean);
         Object[] periodColumn = periods.get(0);

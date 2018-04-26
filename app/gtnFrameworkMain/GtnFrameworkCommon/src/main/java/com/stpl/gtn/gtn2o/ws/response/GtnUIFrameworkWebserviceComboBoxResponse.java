@@ -55,10 +55,16 @@ public class GtnUIFrameworkWebserviceComboBoxResponse implements GtnWSResponseDa
 		return defaultValue;
 	}
 
-	public void setDefaultValue(Object defaultValue) {
-		if (itemCodeList != null && itemCodeList.contains(defaultValue))
-			this.defaultValue = defaultValue;
-	}
+	   public void setDefaultValue(Object defaultValue) {
+        if (itemCodeList != null) {
+            for (String codeList : itemCodeList) {
+                if (codeList.equals(String.valueOf(defaultValue))) {
+                    this.defaultValue = defaultValue;
+                }
+            }
+        }
+
+    }
 
 	public void setComboBoxList(List<Object[]> resultList) {
 

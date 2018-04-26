@@ -59,7 +59,7 @@ public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkCompo
             this.configureRightTableHeader(tableConfig, componentConfig.getSourceViewId());
         }
         configureTableHeaders(tableConfig);
-        PagedTreeGrid pagedTreeGrid = new PagedTreeGrid(tableConfig);
+        PagedTreeGrid pagedTreeGrid = new PagedTreeGrid(tableConfig,componentConfig);
         pagedTreeGrid.getGrid().setId(componentConfig.getComponentId());
         resultLayout.setSizeFull();
         resultLayout.addComponent(pagedTreeGrid.getGrid());

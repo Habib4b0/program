@@ -63,6 +63,7 @@
 				<module>app/gtnAdminConsole</module>
 				<module>app/gtnGCM</module>
 				<module>app/gtnCff</module>
+				<module>app/gtnBpmSSOLoginHook</module>
 			</modules>
 			<activation>
 				<property>
@@ -148,6 +149,7 @@
 				<module>app/gtnAdminConsole</module>
 				<module>app/gtnGCM</module>
 				<module>app/gtnCff</module>
+                                <module>app/gtnBpmSSOLoginHook</module>
 			</modules>
 			<build>
 				<defaultGoal>clean</defaultGoal>

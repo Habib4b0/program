@@ -1977,7 +1977,7 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE).concat(" FM.FORECAST_VER='")
 					.concat(detailsResultDTO.getVersion()).concat("'");
 		}
-		String filterQuery = ConstantsUtils.EMPTY;
+		StringBuilder filterQuery = new StringBuilder();
 		HashMap<String, String> detailsColumn = new HashMap<>();
 		detailsColumn.put("year", "FORECAST_YEAR");
 		detailsColumn.put(StringConstantUtils.MONTH_PROPERTY, "FORECAST_MONTH");
@@ -1994,9 +1994,9 @@ public class FileManagementLogic {
 					SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
 					String filterString = "%" + stringFilter.getFilterString() + "%";
 
-					filterQuery = filterQuery + StringConstantUtils.AND_SPACE
-							+ detailsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-							+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+					filterQuery.append(StringConstantUtils.AND_SPACE)
+							.append( detailsColumn.get(String.valueOf(stringFilter.getPropertyId())))
+							.append( StringConstantUtils.LIKE_SPACE ).append( filterString ).append( '\'');
 
 				} else if (filter instanceof Between) {
 					Between stringFilter = (Between) filter;
@@ -2004,8 +2004,8 @@ public class FileManagementLogic {
 					String filterString = formatter.format(stringFilter.getStartValue());
 					String filterString1 = formatter.format(stringFilter.getEndValue());
 					if (StringConstantUtils.START_DATE.equals(stringFilter.getPropertyId())) {
-						filterQuery = filterQuery + " AND FORECAST_DATE >= '" + filterString + "' ";
-						filterQuery = filterQuery + " AND FORECAST_DATE <= '" + filterString1 + "' ";
+						filterQuery.append(" AND FORECAST_DATE >= '" ).append( filterString ).append( "' ");
+						filterQuery.append( " AND FORECAST_DATE <= '" ).append( filterString1 ).append( "' ");
 					}
 
 				}
@@ -2048,9 +2048,9 @@ public class FileManagementLogic {
 		String finalQuery;
 		String lockStatus = " AND FM.RECORD_LOCK_STATUS=0";
 		if (isCount) {
-			finalQuery = sqlString + filterQuery;
+			finalQuery = sqlString + filterQuery.toString();
 		} else {
-			finalQuery = sqlString + filterQuery + order;
+			finalQuery = sqlString + filterQuery.toString() + order;
 		}
 		if (isRecordLock) {
 			finalQuery = finalQuery + lockStatus;
@@ -2192,7 +2192,7 @@ public class FileManagementLogic {
 			sql += " and irt.inbound_Status <> '" + "D" + "' ";
 
 			// Query for filter in table
-			String filterQuery = ConstantsUtils.EMPTY;
+			StringBuilder filterQuery = new StringBuilder();
 			HashMap<String, String> itemColumn = new HashMap<>();
 			itemColumn.put("systemId", "im.item_Master_Sid");
 			itemColumn.put(StringConstantUtils.ITEM_NO_PROPERTY, "im.item_No");
@@ -2216,14 +2216,14 @@ public class FileManagementLogic {
 								|| "identifierType".equals(stringFilter.getPropertyId())) {
 							if (stringFilter.getFilterString() != null
 									&& !"null".equals(stringFilter.getFilterString())) {
-								filterQuery = filterQuery + StringConstantUtils.AND_SPACE
-										+ itemColumn.get(String.valueOf(stringFilter.getPropertyId()))
-										+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+								filterQuery.append(StringConstantUtils.AND_SPACE)
+										.append( itemColumn.get(String.valueOf(stringFilter.getPropertyId())))
+										.append( StringConstantUtils.LIKE_SPACE ).append( filterString ).append( '\'');
 							}
 						} else {
-							filterQuery = filterQuery + StringConstantUtils.AND_SPACE
-									+ itemColumn.get(String.valueOf(stringFilter.getPropertyId()))
-									+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+							filterQuery.append(StringConstantUtils.AND_SPACE)
+									.append( itemColumn.get(String.valueOf(stringFilter.getPropertyId())))
+									.append( StringConstantUtils.LIKE_SPACE ).append( filterString ).append( '\'');
 						}
 					}
 				}
@@ -2262,7 +2262,7 @@ public class FileManagementLogic {
 
 			}
 
-			sql = sql + filterQuery + order;
+			sql = sql + filterQuery.toString() + order;
 
 			return sql;
 		} catch (Exception e) {
@@ -2315,11 +2315,7 @@ public class FileManagementLogic {
 					if (outerSize.contains("0")) {
 						version = "0" + String.valueOf(i);
 					}
-					if (j == innerSize && j != NumericConstants.NINE) {
-						sqlString = sqlString.concat(" '" + version + "." + j + "',");
-					} else {
-						sqlString = sqlString.concat(" '" + version + "." + j + "',");
-					}
+					sqlString = sqlString.concat(" '" + version + "." + j + "',");
 				}
 			}
 			if (sqlString.endsWith(",")) {
@@ -2330,7 +2326,7 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE).concat(StringConstantUtils.DFFORECAST_VER)
 					.concat(detailsResultDTO.getVersion()).concat("'");
 		}
-		String filterQuery = ConstantsUtils.EMPTY;
+		StringBuilder filterQuery = new StringBuilder();
 		HashMap<String, String> detailsColumn = new HashMap<>();
 		detailsColumn.put("forecastType", "DF.FORECAST_TYPE");
 		detailsColumn.put(StringConstantUtils.FORCAST_YEAR, StringConstantUtils.DFFORECAST_YEAR);
@@ -2362,9 +2358,9 @@ public class FileManagementLogic {
 					SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
 					String filterString = "%" + stringFilter.getFilterString() + "%";
 
-					filterQuery = filterQuery + StringConstantUtils.AND_SPACE
-							+ detailsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-							+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+					filterQuery.append(StringConstantUtils.AND_SPACE)
+							.append( detailsColumn.get(String.valueOf(stringFilter.getPropertyId())))
+							.append( StringConstantUtils.LIKE_SPACE ).append( filterString ).append( '\'');
 
 				}
 
@@ -2402,9 +2398,9 @@ public class FileManagementLogic {
 		}
 		String lockStatus = StringConstantUtils.AND_DFRECORD_LOCK_STATUS;
 		if (isCount) {
-			finalQuery = sqlString + filterQuery;
+			finalQuery = sqlString + filterQuery.toString();
 		} else {
-			finalQuery = sqlString + filterQuery + order;
+			finalQuery = sqlString + filterQuery.toString() + order;
 		}
 		if (isRecordLock) {
 			finalQuery = finalQuery + lockStatus;
@@ -2471,7 +2467,7 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE).concat(StringConstantUtils.DFFORECAST_VER)
 					.concat(detailsResultDTO.getVersion()).concat("'");
 		}
-		String filterQuery = ConstantsUtils.EMPTY;
+		StringBuilder filterQuery = new StringBuilder();
 		HashMap<String, String> detailsColumn = new HashMap<>();
 
 		detailsColumn.put(StringConstantUtils.FORCAST_YEAR, "DF.YEAR");
@@ -2505,9 +2501,9 @@ public class FileManagementLogic {
 					SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
 					String filterString = "%" + stringFilter.getFilterString() + "%";
 
-					filterQuery = filterQuery + StringConstantUtils.AND_SPACE
-							+ detailsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-							+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+					filterQuery.append(StringConstantUtils.AND_SPACE)
+							.append( detailsColumn.get(String.valueOf(stringFilter.getPropertyId())))
+							.append( StringConstantUtils.LIKE_SPACE ).append( filterString ).append( '\'');
 
 				}
 
@@ -2545,9 +2541,9 @@ public class FileManagementLogic {
 		}
 		String lockStatus = StringConstantUtils.AND_DFRECORD_LOCK_STATUS;
 		if (isCount) {
-			finalQuery = sqlString + filterQuery;
+			finalQuery = sqlString + filterQuery.toString();
 		} else {
-			finalQuery = sqlString + filterQuery + order;
+			finalQuery = sqlString + filterQuery.toString() + order;
 		}
 		if (isRecordLock) {
 			finalQuery = finalQuery + lockStatus;
@@ -2609,7 +2605,7 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE).concat(StringConstantUtils.INWFORECAST_VER)
 					.concat(detailsResultDTO.getVersion()).concat("'");
 		}
-		String filterQuery = ConstantsUtils.EMPTY;
+		StringBuilder filterQuery = new StringBuilder();
 		String finalQuery;
 		HashMap<String, String> detailsColumn = new HashMap<>();
 		detailsColumn.put("year", "YEAR");
@@ -2631,9 +2627,9 @@ public class FileManagementLogic {
 					SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
 					String filterString = "%" + stringFilter.getFilterString() + "%";
 
-					filterQuery = filterQuery + StringConstantUtils.AND_SPACE
-							+ detailsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-							+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+					filterQuery.append(StringConstantUtils.AND_SPACE)
+							.append( detailsColumn.get(String.valueOf(stringFilter.getPropertyId())))
+							.append( StringConstantUtils.LIKE_SPACE ).append( filterString ).append( '\'');
 
 				}
 
@@ -2670,9 +2666,9 @@ public class FileManagementLogic {
 		}
 		String lockStatus = " AND INW.RECORD_LOCK_STATUS=0";
 		if (isCount) {
-			finalQuery = sqlString + filterQuery;
+			finalQuery = sqlString + filterQuery.toString();
 		} else {
-			finalQuery = sqlString + filterQuery + order;
+			finalQuery = sqlString + filterQuery.toString() + order;
 		}
 		if (isRecordLock) {
 			finalQuery = finalQuery + lockStatus;
@@ -2746,7 +2742,7 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE).concat(StringConstantUtils.INWFORECAST_VER)
 					.concat(detailsResultDTO.getVersion()).concat("'");
 		}
-		String filterQuery = ConstantsUtils.EMPTY;
+		StringBuilder filterQuery = new StringBuilder();
 		String finalQuery;
 		HashMap<String, String> detailsColumn = new HashMap<>();
 		detailsColumn.put("year", "YEAR");
@@ -2777,9 +2773,9 @@ public class FileManagementLogic {
 					SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
 					String filterString = "%" + stringFilter.getFilterString() + "%";
 
-					filterQuery = filterQuery + StringConstantUtils.AND_SPACE
-							+ detailsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-							+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+					filterQuery.append(StringConstantUtils.AND_SPACE)
+							.append( detailsColumn.get(String.valueOf(stringFilter.getPropertyId())))
+							.append( StringConstantUtils.LIKE_SPACE ).append( filterString ).append( '\'');
 
 				}
 
@@ -2815,9 +2811,9 @@ public class FileManagementLogic {
 			order = order + StringConstantUtils.ROWS_ONLY;
 		}
 		if (isCount) {
-			finalQuery = sqlString + filterQuery;
+			finalQuery = sqlString + filterQuery.toString();
 		} else {
-			finalQuery = sqlString + filterQuery + order;
+			finalQuery = sqlString + filterQuery.toString() + order;
 		}
 		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		LOGGER.debug("Ending getInventory Details Results");
@@ -2965,7 +2961,7 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE).concat(StringConstantUtils.DFFORECAST_VER)
 					.concat(detailsResultDTO.getVersion()).concat("'");
 		}
-		String filterQuery = "";
+		StringBuilder filterQuery = new StringBuilder();
 		HashMap<String, String> detailsColumn = new HashMap<>();
 		detailsColumn.put(StringConstantUtils.FORCAST_YEAR, StringConstantUtils.DFFORECAST_YEAR);
 		detailsColumn.put(StringConstantUtils.FORECAST_MONTH, StringConstantUtils.DFFORECAST_MONTH);
@@ -3001,9 +2997,9 @@ public class FileManagementLogic {
 					SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
 					String filterString = "%" + stringFilter.getFilterString() + "%";
 
-					filterQuery = filterQuery + StringConstantUtils.AND_SPACE
-							+ detailsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-							+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+					filterQuery.append(StringConstantUtils.AND_SPACE)
+							.append( detailsColumn.get(String.valueOf(stringFilter.getPropertyId())))
+							.append( StringConstantUtils.LIKE_SPACE ).append( filterString ).append( '\'');
 
 				}
 
@@ -3077,9 +3073,9 @@ public class FileManagementLogic {
 		}
 
 		if (isCount) {
-			finalQuery = sqlString + whereQuery + filterQuery;
+			finalQuery = sqlString + whereQuery + filterQuery.toString();
 		} else {
-			finalQuery = sqlString + whereQuery + filterQuery + order;
+			finalQuery = sqlString + whereQuery + filterQuery.toString() + order;
 		}
 		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		return list;
@@ -3240,7 +3236,7 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE).concat(" FM.FORECAST_VER='")
 					.concat(detailsResultDTO.getVersion()).concat("'");
 		}
-		String filterQuery = ConstantsUtils.EMPTY;
+		StringBuilder filterQuery = new StringBuilder();
 		HashMap<String, String> detailsColumn = new HashMap<>();
 		detailsColumn.put("year", "FORECAST_YEAR");
 		detailsColumn.put(StringConstantUtils.MONTH_PROPERTY, "FORECAST_MONTH");
@@ -3257,9 +3253,9 @@ public class FileManagementLogic {
 					SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
 					String filterString = "%" + stringFilter.getFilterString() + "%";
 
-					filterQuery = filterQuery + StringConstantUtils.AND_SPACE
-							+ detailsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-							+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+					filterQuery.append(StringConstantUtils.AND_SPACE)
+							.append( detailsColumn.get(String.valueOf(stringFilter.getPropertyId())))
+							.append( StringConstantUtils.LIKE_SPACE ).append( filterString ).append('\'');
 
 				} else if (filter instanceof Between) {
 					Between stringFilter = (Between) filter;
@@ -3267,8 +3263,8 @@ public class FileManagementLogic {
 					String filterString = formatter.format(stringFilter.getStartValue());
 					String filterString1 = formatter.format(stringFilter.getEndValue());
 					if (StringConstantUtils.START_DATE.equals(stringFilter.getPropertyId())) {
-						filterQuery = filterQuery + " AND FORECAST_DATE >= '" + filterString + "' ";
-						filterQuery = filterQuery + " AND FORECAST_DATE <= '" + filterString1 + "' ";
+						filterQuery.append(" AND FORECAST_DATE >= '" ).append( filterString ).append( "' ");
+						filterQuery.append(" AND FORECAST_DATE <= '" ).append( filterString1 ).append( "' ");
 					}
 
 				}
@@ -3314,9 +3310,9 @@ public class FileManagementLogic {
 		String finalQuery;
 		String lockStatus = " AND FM.RECORD_LOCK_STATUS=0";
 		if (isCount) {
-			finalQuery = sqlString + filterQuery;
+			finalQuery = sqlString + filterQuery.toString();
 		} else {
-			finalQuery = sqlString + filterQuery + order;
+			finalQuery = sqlString + filterQuery.toString() + order;
 		}
 		if (isRecordLock) {
 			finalQuery = finalQuery + lockStatus;
@@ -3372,11 +3368,7 @@ public class FileManagementLogic {
 					if (outerSize.contains("0")) {
 						version = "0" + String.valueOf(i);
 					}
-					if (j == innerSize && j != NumericConstants.NINE) {
-						sqlString = sqlString.concat(" '" + version + "." + j + "',");
-					} else {
-						sqlString = sqlString.concat(" '" + version + "." + j + "',");
-					}
+                                        sqlString = sqlString.concat(" '" + version + "." + j + "',");
 				}
 			}
 			if (sqlString.endsWith(",")) {
@@ -3387,7 +3379,7 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE).concat(StringConstantUtils.DFFORECAST_VER)
 					.concat(detailsResultDTO.getVersion()).concat("'");
 		}
-		String filterQuery = ConstantsUtils.EMPTY;
+		StringBuilder filterQuery = new StringBuilder();
 		HashMap<String, String> detailsColumn = new HashMap<>();
 		detailsColumn.put("forecastType", "DF.FORECAST_TYPE");
 		detailsColumn.put(StringConstantUtils.FORCAST_YEAR, StringConstantUtils.DFFORECAST_YEAR);
@@ -3419,9 +3411,9 @@ public class FileManagementLogic {
 					SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
 					String filterString = "%" + stringFilter.getFilterString() + "%";
 
-					filterQuery = filterQuery + StringConstantUtils.AND_SPACE
-							+ detailsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-							+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+					filterQuery.append(StringConstantUtils.AND_SPACE)
+							.append( detailsColumn.get(String.valueOf(stringFilter.getPropertyId())))
+							.append( StringConstantUtils.LIKE_SPACE ).append( filterString ).append( '\'');
 
 				}
 
@@ -3463,9 +3455,9 @@ public class FileManagementLogic {
 		}
 		String lockStatus = StringConstantUtils.AND_DFRECORD_LOCK_STATUS;
 		if (isCount) {
-			finalQuery = sqlString + filterQuery;
+			finalQuery = sqlString + filterQuery.toString();
 		} else {
-			finalQuery = sqlString + filterQuery + order;
+			finalQuery = sqlString + filterQuery.toString() + order;
 		}
 		if (isRecordLock) {
 			finalQuery = finalQuery + lockStatus;
@@ -3532,7 +3524,7 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE).concat(StringConstantUtils.DFFORECAST_VER)
 					.concat(detailsResultDTO.getVersion()).concat("'");
 		}
-		String filterQuery = ConstantsUtils.EMPTY;
+		StringBuilder filterQuery = new StringBuilder();
 		HashMap<String, String> detailsColumn = new HashMap<>();
 
 		detailsColumn.put("Year", "DF.YEAR");
@@ -3566,9 +3558,9 @@ public class FileManagementLogic {
 					SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
 					String filterString = "%" + stringFilter.getFilterString() + "%";
 
-					filterQuery = filterQuery + StringConstantUtils.AND_SPACE
-							+ detailsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-							+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+					filterQuery.append(StringConstantUtils.AND_SPACE)
+							.append( detailsColumn.get(String.valueOf(stringFilter.getPropertyId())))
+							.append( StringConstantUtils.LIKE_SPACE ).append( filterString ).append( '\'');
 
 				}
 
@@ -3610,9 +3602,9 @@ public class FileManagementLogic {
 		}
 		String lockStatus = StringConstantUtils.AND_DFRECORD_LOCK_STATUS;
 		if (isCount) {
-			finalQuery = sqlString + filterQuery;
+			finalQuery = sqlString + filterQuery.toString();
 		} else {
-			finalQuery = sqlString + filterQuery + order;
+			finalQuery = sqlString + filterQuery.toString() + order;
 		}
 		if (isRecordLock) {
 			finalQuery = finalQuery + lockStatus;
@@ -3678,7 +3670,7 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE).concat(StringConstantUtils.INWFORECAST_VER)
 					.concat(detailsResultDTO.getVersion()).concat("'");
 		}
-		String filterQuery = ConstantsUtils.EMPTY;
+		StringBuilder filterQuery = new StringBuilder();
 		String finalQuery;
 		HashMap<String, String> detailsColumn = new HashMap<>();
 		detailsColumn.put("year", "YEAR");
@@ -3700,9 +3692,9 @@ public class FileManagementLogic {
 					SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
 					String filterString = "%" + stringFilter.getFilterString() + "%";
 
-					filterQuery = filterQuery + StringConstantUtils.AND_SPACE
-							+ detailsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-							+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+					filterQuery.append(StringConstantUtils.AND_SPACE)
+							.append( detailsColumn.get(String.valueOf(stringFilter.getPropertyId())))
+							.append( StringConstantUtils.LIKE_SPACE ).append( filterString ).append( '\'');
 
 				}
 
@@ -3743,9 +3735,9 @@ public class FileManagementLogic {
 		}
 		String lockStatus = " AND INW.RECORD_LOCK_STATUS=0";
 		if (isCount) {
-			finalQuery = sqlString + filterQuery;
+			finalQuery = sqlString + filterQuery.toString();
 		} else {
-			finalQuery = sqlString + filterQuery + order;
+			finalQuery = sqlString + filterQuery.toString() + order;
 		}
 		if (isRecordLock) {
 			finalQuery = finalQuery + lockStatus;
@@ -3820,7 +3812,7 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE).concat(StringConstantUtils.INWFORECAST_VER)
 					.concat(detailsResultDTO.getVersion()).concat("'");
 		}
-		String filterQuery = ConstantsUtils.EMPTY;
+		StringBuilder filterQuery = new StringBuilder();
 		String finalQuery;
 		HashMap<String, String> detailsColumn = new HashMap<>();
 		detailsColumn.put("year", "YEAR");
@@ -3851,9 +3843,9 @@ public class FileManagementLogic {
 					SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
 					String filterString = "%" + stringFilter.getFilterString() + "%";
 
-					filterQuery = filterQuery + StringConstantUtils.AND_SPACE
-							+ detailsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-							+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+					filterQuery.append(StringConstantUtils.AND_SPACE)
+							.append( detailsColumn.get(String.valueOf(stringFilter.getPropertyId())))
+							.append( StringConstantUtils.LIKE_SPACE ).append( filterString ).append( '\'');
 
 				}
 
@@ -3893,9 +3885,9 @@ public class FileManagementLogic {
 			}
 		}
 		if (isCount) {
-			finalQuery = sqlString + filterQuery;
+			finalQuery = sqlString + filterQuery.toString();
 		} else {
-			finalQuery = sqlString + filterQuery + order;
+			finalQuery = sqlString + filterQuery.toString() + order;
 		}
 		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		LOGGER.debug("Ending getInventory Details Results");
@@ -3956,7 +3948,7 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE).concat(StringConstantUtils.DFFORECAST_VER)
 					.concat(detailsResultDTO.getVersion()).concat("'");
 		}
-		String filterQuery = "";
+		StringBuilder filterQuery = new StringBuilder();
 		HashMap<String, String> detailsColumn = new HashMap<>();
 		detailsColumn.put(StringConstantUtils.FORCAST_YEAR, StringConstantUtils.DFFORECAST_YEAR);
 		detailsColumn.put(StringConstantUtils.FORECAST_MONTH, StringConstantUtils.DFFORECAST_MONTH);
@@ -3992,9 +3984,9 @@ public class FileManagementLogic {
 					SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
 					String filterString = "%" + stringFilter.getFilterString() + "%";
 
-					filterQuery = filterQuery + StringConstantUtils.AND_SPACE
-							+ detailsColumn.get(String.valueOf(stringFilter.getPropertyId()))
-							+ StringConstantUtils.LIKE_SPACE + filterString + "'";
+					filterQuery.append(StringConstantUtils.AND_SPACE)
+							.append( detailsColumn.get(String.valueOf(stringFilter.getPropertyId())))
+							.append( StringConstantUtils.LIKE_SPACE ).append( filterString ).append( '\'');
 
 				}
 
@@ -4072,9 +4064,9 @@ public class FileManagementLogic {
 		}
 
 		if (isCount) {
-			finalQuery = sqlString + whereQuery + filterQuery;
+			finalQuery = sqlString + whereQuery + filterQuery.toString();
 		} else {
-			finalQuery = sqlString + whereQuery + filterQuery + order;
+			finalQuery = sqlString + whereQuery + filterQuery.toString() + order;
 		}
 		if (isExcelflag) {
 			return finalQuery;
