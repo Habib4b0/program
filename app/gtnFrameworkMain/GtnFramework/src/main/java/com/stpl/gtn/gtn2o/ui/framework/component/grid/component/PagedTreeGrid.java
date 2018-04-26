@@ -322,7 +322,7 @@ public class PagedTreeGrid {
             int childCount = getChildCount(newRow);
             newRow.addProperties(CHILD_COUNT, childCount);
             newRow.addProperties(ROW_NUMBER, parentRowIndex + 1);
-            rows.stream().filter((row) -> !(!String.valueOf(row.getPropertyValue(HIERARCHY_NO)).equals(String.valueOf(newRow.getPropertyValue(HIERARCHY_NO))))).forEach((row) -> {
+            rows.stream().filter(row -> !(!String.valueOf(row.getPropertyValue(HIERARCHY_NO)).equals(String.valueOf(newRow.getPropertyValue(HIERARCHY_NO))))).forEach(row -> {
                 String period = String.valueOf(row.getPropertyValue("frequency"));
                 String year = String.valueOf(row.getPropertyValue("year"));
 
@@ -332,7 +332,7 @@ public class PagedTreeGrid {
                 tableConfig.getVisibleColumns().stream().map((column) -> {
                     tableColumns.add(period + year + column);
                     return column;
-                }).forEach((column) -> {
+                }).forEach(column -> {
                     newRow.addProperties(period + year + column, row.getPropertyValue(column.toString()));
                 });
             });
