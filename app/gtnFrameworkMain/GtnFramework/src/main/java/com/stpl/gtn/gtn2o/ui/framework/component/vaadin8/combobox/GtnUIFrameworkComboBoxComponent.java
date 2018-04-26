@@ -97,15 +97,13 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 					vaadinComboBox.setSelectedItem(idList.get(0));
 					vaadinComboBox.setEmptySelectionAllowed(false);
 				}
-				gtnLogger.info("----------------vaadinComboBox.getValue()"+vaadinComboBox.getOptionalValue()+vaadinComboBox.getValue()+vaadinComboBox.getSelectedItem());
+
 				setDefaultFocus(vaadinComboBox, componentConfig);
-				gtnLogger.info("--------------try final return ");
 				return vaadinComboBox;
 			}
 		} catch (Exception exception) {
 			gtnLogger.error("Exception in addVaadinComponent for " + componentConfig.getComponentId(), exception);
 		}
-		gtnLogger.info("--------------final return "+vaadinComboBox);
 		return vaadinComboBox;
 	}
 

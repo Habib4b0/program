@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -190,6 +191,12 @@ public class GtnFrameworkReportProdHierarchyConfig {
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		level.setGtnComboboxConfig(levelLoadConfig);
 
+		List<GtnUIFrameWorkActionConfig> actionList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig loadAvailabletableActionConfig = new GtnUIFrameWorkActionConfig();
+		loadAvailabletableActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		loadAvailabletableActionConfig.addActionParameter(GtnProductLevelAvailableTableLoadAction.class.getName());
+		actionList.add(loadAvailabletableActionConfig);
+		level.setGtnUIFrameWorkActionConfigList(actionList);
 		componentList.add(hierarchyLayout);
 		componentList.add(hierarchy);
 		componentList.add(relationshipLayout);

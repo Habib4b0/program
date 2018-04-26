@@ -89,6 +89,14 @@ public class GtnUIFrameworkWebserviceResponse {
 	private GtnWsAttachmentResponse gtnWsAttachmentResponse;
 
 	private GtnFrameworkAutomaticRelationshipResponse automaticRelationResponse;
+	private GtnWsReportResponse gtnWsReportResponse;
+	public GtnWsReportResponse getGtnWsReportResponse() {
+		return gtnWsReportResponse;
+	}
+
+	public void setGtnWsReportResponse(GtnWsReportResponse gtnWsReportResponse) {
+		this.gtnWsReportResponse = gtnWsReportResponse;
+	}
 
 	private GtnWsReportResponse gtnReportResponse;
 
