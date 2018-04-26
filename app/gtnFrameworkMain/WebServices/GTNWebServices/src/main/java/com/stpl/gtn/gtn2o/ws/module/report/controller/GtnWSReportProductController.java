@@ -34,7 +34,8 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.entity.companymaster.Attachment;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.report.bean.CustomerHierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -87,7 +88,7 @@ public class GtnWSReportProductController {
 			throws GtnFrameworkGeneralException {
 	
 		GtnWsReportRequest gtnWsReportRequest = request.getGtnReportRequest();
-		CustomerHierarchyLookupBean lookupBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
+		GtnReportHierarchyLookupBean lookupBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		 String query = "SELECT distinct LEVEL_NO, LEVEL_VALUE_REFERENCE, TABLE_NAME, FIELD_NAME, LEVEL_NAME, HLD.HIERARCHY_LEVEL_DEFINITION_SID, HLD.HIERARCHY_DEFINITION_SID, HT.DESCRIPTION from HIERARCHY_LEVEL_DEFINITION HLD JOIN dbo.HIERARCHY_DEFINITION HD on HD.HIERARCHY_DEFINITION_SID = hld.HIERARCHY_DEFINITION_SID JOIN dbo.HELPER_TABLE HT on HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY where hld.HIERARCHY_DEFINITION_SID ="+lookupBean.getHierarchyDefSid()+" and HLD.VERSION_NO ="+lookupBean.getVersionNo() ;
 
