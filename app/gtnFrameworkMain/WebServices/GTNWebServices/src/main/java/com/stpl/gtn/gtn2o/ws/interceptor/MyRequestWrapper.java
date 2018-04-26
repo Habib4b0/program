@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -34,9 +35,9 @@ public class MyRequestWrapper extends HttpServletRequestWrapper {
 
 	@Override
 	public ServletInputStream getInputStream() throws IOException {
-		final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body.getBytes());
+		final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8));
 		return new ServletInputStream() {
-			public int read() throws IOException {
+			public int read()  {
 				return byteArrayInputStream.read();
 			}
 

@@ -277,7 +277,7 @@ public class GtnFrameworkProcessAction implements GtnUIFrameWorkAction ,GtnUIFra
 		GtnWsRecordBean.addProperties(1, "", bean.getProperties());
 		GtnWsRecordBean.addProperties(2, "", bean.getProperties());
 		GtnWsRecordBean.addProperties(3, "", bean.getProperties());
-		GtnWsRecordBean.addProperties(4, ((Integer) getProcessLevel(str)).toString(), bean.getProperties());
+		GtnWsRecordBean.addProperties(4, (String.valueOf(getProcessLevel(str))), bean.getProperties());
 		GtnWsRecordBean.addProperties(5, getMemberLevel(str), bean.getProperties());
 		GtnWsRecordBean.addProperties(6, sharedBean.getWorkflowBean().getContractId(), bean.getProperties());
 		GtnWsRecordBean.addProperties(7, str[0], bean.getProperties());

@@ -2312,15 +2312,15 @@ public class CommmonLogic {
     }
 
     public static String generateCustomerMappings(List<String> sourceCompanies, List<String> destinationCompanies) {
-        String customerMapping = StringUtils.EMPTY;
+        StringBuilder customerMapping = new StringBuilder();
         for (int i = 0; i < sourceCompanies.size(); i++) {
-            customerMapping += String.valueOf(sourceCompanies.get(i)) + " - " + String.valueOf(destinationCompanies.get(i));
+            customerMapping.append(String.valueOf(sourceCompanies.get(i)) ).append( " - " ).append( String.valueOf(destinationCompanies.get(i)));
             if (i < sourceCompanies.size() - 1) {
-                customerMapping += ",";
-                return customerMapping;
+                customerMapping.append(',');
+                return customerMapping.toString();
             }
         }
-        return customerMapping;
+        return customerMapping.toString();
     }
 
     public static List getPromotedContractDetails(String contractId, String companyId) {

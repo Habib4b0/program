@@ -1349,9 +1349,7 @@ public class HeaderUtils {
 
                     }
                 }
-                if (i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex()) {
-                    projectionCol = true;
-                } else if (historyFlag && (projections.contains(BOTH.getConstant()) || projections.contains(PROJECTIONS.getConstant()))) {
+                if (isWithinIndex(i, projSelDTO) || isProjectionColReq(historyFlag, projections)) {
                     projectionCol = true;
                 }
 
@@ -1411,6 +1409,10 @@ public class HeaderUtils {
         projSelDTO.setColumns(CommonUtils.objectListToStringList(fullHeaderDTO.getSingleColumns()));
         projSelDTO.setHeaderMapForExcel(periodListMapForExcel);
         return tableHeaderDTO;
+    }
+
+    private static boolean isProjectionColReq(boolean historyFlag, String projections) {
+        return historyFlag && (projections.contains(BOTH.getConstant()) || projections.contains(PROJECTIONS.getConstant()));
     }
 
     public static void prepareCommonColumnHeaders(ProjectionSelectionDTO projSelDTO, boolean flag) {
@@ -1845,9 +1847,7 @@ public class HeaderUtils {
 
                     }
                 }
-                if (i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex()) {
-                    projectionCol = true;
-                } else if (historyFlag && (projections.contains(BOTH.getConstant()) || projections.contains(PROJECTIONS.getConstant()))) {
+                if (isWithinIndex(i, projSelDTO) || isProjectionColReq(historyFlag, projections)) {
                     projectionCol = true;
                 }
 
@@ -1900,6 +1900,10 @@ public class HeaderUtils {
         projSelDTO.setColumns(CommonUtils.objectListToStringList(fullHeaderDTO.getSingleColumns()));
         projSelDTO.setHeaderMapForExcel(periodListMapForExcel);
         return tableHeaderDTO;
+    }
+
+    private static boolean isWithinIndex(int i, ProjectionSelectionDTO projSelDTO) {
+        return i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex();
     }
 
 }

@@ -216,9 +216,8 @@ public class HeaderUtils {
                             fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + ACTUALS.getConstant(), String.class);
                         }
                     }
-                    if (i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex()) {
-                        projectionCol = true;
-                    } else if (historyFlag && (projections.contains(BOTH.getConstant()) || projections.contains(PROJECTIONS.getConstant()))) {
+                    if ((i >= projSelDTO.getProjectionStartIndex() && i <= projSelDTO.getProjectionEndIndex()) 
+                            || (historyFlag && (projections.contains(BOTH.getConstant()) || projections.contains(PROJECTIONS.getConstant())))) {
                         projectionCol = true;
                     }
 
@@ -430,11 +429,8 @@ public class HeaderUtils {
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             projSelDTO.setHistoryStartMonth(historyStartFreq);
         }
-        if (projSelDTO.getHistoryStartPeriod() == historyStartFreq && projSelDTO.getForecastDTO().getHistoryStartYear() == historyStartYear) {
-            projSelDTO.setHistoryStartMonth(projSelDTO.getForecastDTO().getHistoryStartMonth());
-        } else {
-            projSelDTO.setHistoryStartMonth(projSelDTO.getForecastDTO().getHistoryStartMonth());
-        }
+        
+        projSelDTO.setHistoryStartMonth(projSelDTO.getForecastDTO().getHistoryStartMonth());
         projSelDTO.setHistoryStartPeriod(historyStartFreq);
         projSelDTO.setHistoryStartYear(historyStartYear);
         projSelDTO.setHistoryStartDay(1);

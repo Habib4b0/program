@@ -31,7 +31,7 @@ public class GtnWsWorkflowDdlbChangeController {
 		 */
 	}
 
-	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsWorkflowDdlbChangeController.class);
+	private final GtnWSLogger gtnWsLogger = GtnWSLogger.getGTNLogger(GtnWsWorkflowDdlbChangeController.class);
 
 	@Autowired
 	private GtnWsAllListConfig gtnWebServiceAllListConfig;
@@ -43,21 +43,21 @@ public class GtnWsWorkflowDdlbChangeController {
 	@PostMapping(value = "/getWfUsersList")
 	public GtnUIFrameworkWebserviceResponse deductionLevelChange(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		logger.info("Enter wfUsersList");
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		gtnWsLogger.info("Enter wfUsersList");
+		GtnUIFrameworkWebserviceResponse deductionResponse = new GtnUIFrameworkWebserviceResponse();
 		GtnWsCommonWorkflowResponse wsResonse = new GtnWsCommonWorkflowResponse();
 		List<GtnWsRecordBean> resultListBean = new ArrayList<>();
 		StringBuilder sqlQuery = new StringBuilder();
 
-		Session session = null;
-		Connection connection = null;
+		Session getWfUsersListSession = null;
+		Connection getWfUsersListConnection = null;
 		try {
 
-			session = gtnWebServiceAllListConfig.getSysSessionFactory().openSession();
+			getWfUsersListSession = gtnWebServiceAllListConfig.getSysSessionFactory().openSession();
 
-			connection = gtnWebServiceAllListConfig.getSysSessionFactory().getSessionFactoryOptions()
+			getWfUsersListConnection = gtnWebServiceAllListConfig.getSysSessionFactory().getSessionFactoryOptions()
 					.getServiceRegistry().getService(ConnectionProvider.class).getConnection();
-			sqlQuery.append("select lastName,firstName,CONCAT(lastName, ' ', firstName) as fullName from ").append(connection.getCatalog()).append(".dbo.User_");
+			sqlQuery.append("select lastName,firstName,CONCAT(lastName, ' ', firstName) as fullName from ").append(getWfUsersListConnection.getCatalog()).append(".dbo.User_");
 			List<Object[]> resultList = null;
 
 			resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(sqlQuery.toString());
@@ -77,22 +77,22 @@ public class GtnWsWorkflowDdlbChangeController {
 			}
 
 			wsResonse.setResultList(resultListBean);
-			response.setGtnWSCommonWorkflowResponse(wsResonse);
-			return response;
-		} catch (Exception e) {
-			logger.error("Exception in loadAllComboBoxList()----" + e.getMessage());
+			deductionResponse.setGtnWSCommonWorkflowResponse(wsResonse);
+			return deductionResponse;
+		} catch (Exception exception) {
+			gtnWsLogger.error("Exception in loadingComboBoxList() " + exception.getMessage());
 			return null;
 
 		} finally {
-			if (session != null) {
-				session.close();
+			if (getWfUsersListSession != null) {
+				getWfUsersListSession.close();
 			}
 			try {
-				if (connection != null) {
-					connection.close();
+				if (getWfUsersListConnection != null) {
+					getWfUsersListConnection.close();
 				}
 			} catch (SQLException e) {
-				logger.error(e.getMessage());
+				gtnWsLogger.error(e.getMessage());
 			}
 		}
 	}

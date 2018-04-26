@@ -378,6 +378,7 @@ public class WorkflowLogicService {
                 if (projMaster.getIsApproved() != null && (projMaster.getIsApproved().equals("R")
                         || projMaster.getIsApproved().equals("C") || projMaster.getIsApproved().equals("W"))) {
                     workflowStatus = "RC";
+                    break;
                 }
                 projMaster.setIsApproved("Y");
                 projMaster.setModifiedDate(new Date());

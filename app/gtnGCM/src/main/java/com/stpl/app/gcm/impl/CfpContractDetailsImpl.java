@@ -31,25 +31,25 @@ public class CfpContractDetailsImpl {
      */
     public static Boolean saveCfpDetailsAttached(final List<Object> input, final Object future) {
         boolean retFlag;
-        String sql = StringUtils.EMPTY;
+        String sqlSaveCfpDetailsAttached = StringUtils.EMPTY;
         try {
-            sql = SQlUtil.getQuery("com.contractDashboard.saveCFP");
-            sql = sql.replaceFirst("[?]", input.get(0).toString());
-            sql = sql.replaceFirst("[?]", input.get(1).toString());
-            sql = sql.replaceFirst("[?]", input.get(2).toString());
-            sql = sql.replaceFirst("[?]", input.get(3).toString());
-            sql = sql.replaceFirst("[?]", input.get(4).toString());
-            sql = sql.replaceFirst("[?]", input.get(5).toString());
-            sql = sql.replace("@CFP_START_DATE", "'" + input.get(6).toString() + "'");
-            sql = sql.replace("@CFP_END_DATE", String.valueOf(input.get(7)).equals("null") ? "NULL" : "'" + input.get(7).toString() + "'");
+            sqlSaveCfpDetailsAttached = SQlUtil.getQuery("com.contractDashboard.saveCFP");
+            sqlSaveCfpDetailsAttached = sqlSaveCfpDetailsAttached.replaceFirst("[?]", input.get(0).toString());
+            sqlSaveCfpDetailsAttached = sqlSaveCfpDetailsAttached.replaceFirst("[?]", input.get(1).toString());
+            sqlSaveCfpDetailsAttached = sqlSaveCfpDetailsAttached.replaceFirst("[?]", input.get(2).toString());
+            sqlSaveCfpDetailsAttached = sqlSaveCfpDetailsAttached.replaceFirst("[?]", input.get(3).toString());
+            sqlSaveCfpDetailsAttached = sqlSaveCfpDetailsAttached.replaceFirst("[?]", input.get(4).toString());
+            sqlSaveCfpDetailsAttached = sqlSaveCfpDetailsAttached.replaceFirst("[?]", input.get(5).toString());
+            sqlSaveCfpDetailsAttached = sqlSaveCfpDetailsAttached.replace("@CFP_START_DATE", "'" + input.get(6) + "'");
+            sqlSaveCfpDetailsAttached = sqlSaveCfpDetailsAttached.replace("@CFP_END_DATE", String.valueOf(input.get(7)).equals("null") ? "NULL" : "'" + input.get(7) + "'");
 
-            HelperTableLocalServiceUtil.executeUpdateQuery(sql);
+            HelperTableLocalServiceUtil.executeUpdateQuery(sqlSaveCfpDetailsAttached);
             retFlag = true;
 
         } catch (Exception e) {
             retFlag = false;
             LOGGER.error(e.getMessage());
-            LOGGER.error(sql);
+            LOGGER.error(sqlSaveCfpDetailsAttached);
         } 
         return retFlag;
     }

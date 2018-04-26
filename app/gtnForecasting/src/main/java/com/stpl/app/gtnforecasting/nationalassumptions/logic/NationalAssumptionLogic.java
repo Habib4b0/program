@@ -1087,7 +1087,7 @@ public class NationalAssumptionLogic {
         } else {
             Double newValue = Double.valueOf(value.trim().replace(Constant.PERCENT, StringUtils.EMPTY));
             newValue = newValue / NumericConstants.HUNDRED;
-            value = isGrowth ? perWithTwoDecimal.format(newValue) : perWithTwoDecimal.format(newValue) ;
+            value = perWithTwoDecimal.format(newValue) ;
         }
         return value;
     }

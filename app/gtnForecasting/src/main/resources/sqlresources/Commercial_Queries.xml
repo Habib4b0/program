@@ -739,8 +739,8 @@ and open the template in the editor.
             UPDATE B
             SET DEDUCTION_INCLUSION = CASE 
             WHEN DESCRIPTION = 'YES'
-            THEN 0
-            ELSE 1
+            THEN 1
+            ELSE 0
             END
             FROM ST_NM_DISCOUNT_PROJ_MASTER B
             JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = b.CCP_DETAILS_SID

@@ -2683,7 +2683,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             Object[] obj = listOfLevelFilter.get(i);
             newLevel = obj[0].toString();
             if (oldLevel.equals(newLevel)) {
-                listOfSids += "," + obj[1].toString();
+                listOfSids += "," + obj[1];
                 oldLevel = newLevel;
             } else {
                 if (i != 1) {
@@ -2694,7 +2694,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                     customerlevelCustomItem[i].setItemClickable(true);
                     customerlevelCustomItem[i].setItemClickNotClosable(true);
                 }
-                listOfSids += obj[1].toString();
+                listOfSids += obj[1];
                 oldLevel = newLevel;
             }
             if (i == listOfLevelFilter.size() - 1) {
@@ -3043,7 +3043,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                     stringBuilder.append(",\n");
                 }
                 stringBuilder.append("('");
-                stringBuilder.append(entry.getValue().get(3).toString());
+                stringBuilder.append(entry.getValue().get(3));
                 stringBuilder.append("', ");
                 stringBuilder.append(i++);
                 stringBuilder.append( " )");
@@ -3130,7 +3130,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                     customerlevelCustomItem[i].setItemClickable(true);
                     customerlevelCustomItem[i].setItemClickNotClosable(true);
                 }
-                listOfSids += obj[2].toString();
+                listOfSids += obj[2];
                 oldLevel = newLevel;
         
             if (i == listOfLevelFilter.size() - 1) {

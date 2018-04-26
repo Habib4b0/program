@@ -1365,14 +1365,10 @@ public class PMPYCalculator extends Window {
 
         final Double salesByMarketshareValue = salesVal / (marketShareValue / 100);
         final Double valuePerLifeValue = salesByMarketshareValue / analogLives;
-        if (Constant.SALES.equalsIgnoreCase(getVariableValue())) {
-
-            valuePerLifeField.setValue(String.valueOf(MONEY_TWO_DECIMAL.format(valuePerLifeValue)));
-        } else if (Constant.UNITS.equalsIgnoreCase(getVariableValue())) {
+        if ((Constant.SALES.equalsIgnoreCase(getVariableValue())) || (Constant.UNITS.equalsIgnoreCase(getVariableValue()))) {
             valuePerLifeField.setValue(String.valueOf(MONEY_TWO_DECIMAL.format(valuePerLifeValue)));
         }
         LOGGER.debug("End of firstCalculation method");
-
     }
 
     /**
@@ -1399,18 +1395,14 @@ public class PMPYCalculator extends Window {
         if (valuePerLifeField.getValue() != null && !StringUtils.EMPTY.equals(tempValuePerLifeValue) && !Constant.NULL.equals(tempValuePerLifeValue) && isNumeric(tempValuePerLifeValue)
                 && Double.parseDouble(tempValuePerLifeValue) != 0.0) {
 
-            if (Constant.SALES.equalsIgnoreCase(getVariableValue())) {
-
-                valuePerLifeValue = Double.parseDouble(tempValuePerLifeValue);
-            } else if (Constant.UNITS.equalsIgnoreCase(getVariableValue())) {
-
+            if ((Constant.SALES.equalsIgnoreCase(getVariableValue())) || (Constant.UNITS.equalsIgnoreCase(getVariableValue()))) {
                 valuePerLifeValue = Double.parseDouble(tempValuePerLifeValue);
             }
-        } else {
-            totalSalesField.setValue(StringUtils.EMPTY);
-            projectionPeriodTotalField.setValue(StringUtils.EMPTY);
-            return;
-        }
+            } else {
+                totalSalesField.setValue(StringUtils.EMPTY);
+                projectionPeriodTotalField.setValue(StringUtils.EMPTY);
+                return;
+            }
 
         Double marketShareValue;
 

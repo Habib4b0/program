@@ -43,8 +43,6 @@ public class GtnWsGeneralController {
 	@Autowired
 	private GtnQueryLogger queryLogger;
 
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
 	private GtnWsAllListConfig gtnWebServiceAllListConfig;
@@ -86,12 +84,9 @@ public class GtnWsGeneralController {
 	}
 
 	public SessionFactory getSessionFactory() {
-		return sessionFactory;
+		return gtnSqlQueryEngine.getSessionFactory();
 	}
 
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 
 	public org.hibernate.SessionFactory getSysSessionFactory() {
 		return sysSessionFactory;
@@ -117,8 +112,9 @@ public class GtnWsGeneralController {
 			GtnWsGeneralRequest generalWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
 			String comboBoxType = generalWSRequest.getComboBoxType();
 			String query = comboBoxTypeResponseMap.get(comboBoxType);
-            List<Object[]> resultList = null;
-			if (query != null) {
+                        List<Object[]> resultList = null;
+
+    			if (query != null) {
 				if (!"loadFromXML".equals(query)) {
 					if (query.contains("?")) {
 						if (generalWSRequest.getComboBoxWhereclauseParamList() != null) {

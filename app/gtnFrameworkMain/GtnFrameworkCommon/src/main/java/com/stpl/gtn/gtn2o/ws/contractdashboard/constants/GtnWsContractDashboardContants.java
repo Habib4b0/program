@@ -260,16 +260,18 @@ public class GtnWsContractDashboardContants {
             
     }
 
-	private static final Map<String, List<String>> ITEM_ADDITION_FIELD_VALUE_MAP = new HashMap<>();
+   private static final Map<String, List<String>> ITEM_ADDITION_FIELD_VALUE_MAP = new HashMap<>();
 
-	public static List<String> getItemAdditionMappedFieldValue(String value) {
-		if (ITEM_ADDITION_FIELD_VALUE_MAP.isEmpty()) {
-			ITEM_ADDITION_FIELD_VALUE_MAP.put(IFP, Arrays.asList("IFP No", "IFP Name"));
-			ITEM_ADDITION_FIELD_VALUE_MAP.put(ITEM, Arrays.asList("Brand Name", "Form", "Item Description", "Item Name",
-					"Item No", "NDC 8", "NDC 9", "Strength", "Therapeutic Class"));
-		}
-		return ITEM_ADDITION_FIELD_VALUE_MAP.get(value);
-	}
+    static {
+        ITEM_ADDITION_FIELD_VALUE_MAP.put(IFP, Arrays.asList("IFP No", "IFP Name"));
+        ITEM_ADDITION_FIELD_VALUE_MAP.put(ITEM, Arrays.asList("Brand Name", "Form", "Item Description", "Item Name",
+                "Item No", "NDC 8", "NDC 9", "Strength", "Therapeutic Class"));
+    }
+
+    public static List<String> getItemAdditionMappedFieldValue(String value) {
+
+        return ITEM_ADDITION_FIELD_VALUE_MAP.get(value);
+    }
 
 	public static final String PRICE_TOLERANCE_TYPE = "PRICE_TOLERANCE_TYPE";
 	public static final String PRICE_TOLERANCE_INTERVAL = "PRICE_TOLERANCE_INTERVAL";

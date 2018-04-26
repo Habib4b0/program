@@ -567,11 +567,7 @@ public class CommonLogic {
                     + " HLD" + hierarchyIndicator.trim() + Constant.PARENT_NODE_QUOTE
                     + " HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO  ";
             if (isLimit) {
-                if (tabName.contains("PPA")) {
-                    recordNumber += " SELECT * FROM #HIERARCHY_VALUES ORDER BY HIERARCHY_NO ASC OFFSET " + start + Constant.ROWS_FETCH_NEXT_SPACE + offset + Constant.ROWS_ONLY_SPACE;
-                } else {
-                    recordNumber += " SELECT * FROM #HIERARCHY_VALUES ORDER BY HIERARCHY_NO ASC OFFSET " + start + Constant.ROWS_FETCH_NEXT_SPACE + offset + Constant.ROWS_ONLY_SPACE;
-                }
+                recordNumber += " SELECT * FROM #HIERARCHY_VALUES ORDER BY HIERARCHY_NO ASC OFFSET " + start + Constant.ROWS_FETCH_NEXT_SPACE + offset + Constant.ROWS_ONLY_SPACE;
             } else {
                 selectClause += ", ROW_NUMBER() OVER  (ORDER BY HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO ASC) AS TEMP_INDEX  ";
             }
@@ -4608,7 +4604,7 @@ public class CommonLogic {
             Object[] obj = listOfLevelFilter.get(i);
             newLevel = obj[0].toString();
             if (oldLevel.equals(newLevel)) {
-                listOfSids += "," + obj[1].toString();
+                listOfSids += "," + obj[1];
                 oldLevel = newLevel;
             } else {
                 if (i != 1) {
@@ -4619,7 +4615,7 @@ public class CommonLogic {
                     customerlevelCustomItem[i].setItemClickable(true);
                     customerlevelCustomItem[i].setItemClickNotClosable(true);
                 }
-                listOfSids += obj[1].toString();
+                listOfSids += obj[1];
                 oldLevel = newLevel;
             }
             if (i == listOfLevelFilter.size() - 1) {
@@ -4956,7 +4952,7 @@ public class CommonLogic {
                     stringBuilder.append(",\n");
                 }
                 stringBuilder.append("('");
-                stringBuilder.append(entry.getValue().get(3).toString());
+                stringBuilder.append(entry.getValue().get(3));
                 stringBuilder.append(isCount ? "')" : "'," + i++ + ")");
 
                 isNotFirstElement = true;
@@ -5164,41 +5160,41 @@ public class CommonLogic {
                 header = discountId+String.valueOf(obj[NumericConstants.TWO]);
                 break;
             case 'Q':
-                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
+                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE] + separator + obj[NumericConstants.TWO];
                 break;
             case 'S':
-                header = discountId+Constant.S_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
+                header = discountId+Constant.S_SMALL + obj[NumericConstants.ONE] + separator + obj[NumericConstants.TWO];
                 break;
             case 'M':
                 String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])) - 1);
-                header = discountId+monthName.toLowerCase(Locale.ENGLISH) + separator + obj[NumericConstants.TWO].toString();
+                header = discountId+monthName.toLowerCase(Locale.ENGLISH) + separator + obj[NumericConstants.TWO];
                 break;
             default:
-                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
+                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE] + separator + obj[NumericConstants.TWO];
         }
         return header;
     }
 
      public String getHeaderForExcelDiscount(Character freq, Object[] obj,String discountId,String separator) {
-        String header;
+        String headerCondition;
         switch (freq) {
             case 'A':
-                header = String.valueOf(obj[NumericConstants.TWO]);
+                headerCondition = String.valueOf(obj[NumericConstants.TWO]);
                 break;
             case 'Q':
-                header = Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
+                headerCondition = Constant.Q_SMALL + obj[NumericConstants.ONE] + separator + obj[NumericConstants.TWO];
                 break;
             case 'S':
-                header = Constant.S_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
+                headerCondition = Constant.S_SMALL + obj[NumericConstants.ONE] + separator + obj[NumericConstants.TWO];
                 break;
             case 'M':
                 String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])) - 1);
-                header = monthName.toLowerCase(Locale.ENGLISH) + separator + obj[NumericConstants.TWO].toString();
+                headerCondition = monthName.toLowerCase(Locale.ENGLISH) + separator + obj[NumericConstants.TWO];
                 break;
             default:
-                header = Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
+                headerCondition = Constant.Q_SMALL + obj[NumericConstants.ONE] + separator + obj[NumericConstants.TWO];
         }
-        return header;
+        return headerCondition;
     }
 
     public String getFormattedValue(DecimalFormat format, String value) {
@@ -5280,7 +5276,7 @@ public class CommonLogic {
                     customerlevelCustomItem[i].setItemClickable(true);
                     customerlevelCustomItem[i].setItemClickNotClosable(true);
                 }
-                listOfSids += obj[2].toString();
+                listOfSids += obj[2];
                 oldLevel = newLevel;
            
             if (i == listOfLevelFilter.size() - 1) {
