@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.bcp.GtnWsBcpServiceRequest;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Arrays;
 
@@ -70,7 +71,7 @@ public class GtnWsBcpFileUploader {
 			File shellFile = GtnFileNameUtils.getFile(cumulativeBasePath + File.separator + "exec.sh");
 			fileList.add(shellFile.getAbsolutePath());
 			try (FileOutputStream outShell = GtnFileNameUtils.getFileOutputStream(shellFile)) {
-				outShell.write(strb.toString().getBytes());
+				outShell.write(strb.toString().getBytes(StandardCharsets.UTF_8));
 				outShell.flush();
 			}
 			boolean isExecutable = shellFile.setExecutable(true, false);

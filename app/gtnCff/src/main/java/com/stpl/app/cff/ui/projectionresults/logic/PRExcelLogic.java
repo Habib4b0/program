@@ -320,31 +320,19 @@ public class PRExcelLogic {
             //Discount $-ok
             String group;
             disDoll = new ProjectionResultsDTO();
-            if (isTotal) {
-                group = Constants.PVVariables.TOTAL_DISCOUNT_AMOUNT.toString();
-            } else {
-                group = Constants.PVVariables.TOTAL_DISCOUNT_AMOUNT.toString();
-            }
+            group = Constants.PVVariables.TOTAL_DISCOUNT_AMOUNT.toString();
             calculate(group, obj, isTotal ? NumericConstants.NINE : NumericConstants.ELEVEN, disDoll, AMOUNT, isTotal,true);
             pvList.add(disDoll);
 
             //Discount % -ok
             disPer = new ProjectionResultsDTO();
-            if (isTotal) {
-                group = Constants.PVVariables.TOTAL_DISCOUNT_PERC.toString();
-            } else {
-                group = Constants.PVVariables.TOTAL_DISCOUNT_PERC.toString();
-            }
+            group = Constants.PVVariables.TOTAL_DISCOUNT_PERC.toString();
             calculate(group, obj, isTotal ? NumericConstants.ELEVEN : NumericConstants.THIRTEEN, disPer, RATE_PER, isTotal,true);
             pvList.add(disPer);
 
             //RPU-ok
             rpu = new ProjectionResultsDTO();
-            if (isTotal) {
-                group = Constants.PVVariables.TOTAL_RPU.toString();
-            } else {
-                group = Constants.PVVariables.TOTAL_RPU.toString();
-            }
+            group = Constants.PVVariables.TOTAL_RPU.toString();
             calculate(group, obj, isTotal ? NumericConstants.FORTY_ONE : NumericConstants.FORTY_THREE, rpu, AMOUNT, isTotal,true);
             pvList.add(rpu);
             
@@ -460,30 +448,19 @@ public class PRExcelLogic {
         //Discount %
          String group;
         disPer = pvList.get(listIndex++);
-        if (isTotal) {
-            group = Constants.PVVariables.TOTAL_DISCOUNT_PERC.toString();
-        } else {
-            group = Constants.PVVariables.TOTAL_DISCOUNT_PERC.toString();
-        }
+        group = Constants.PVVariables.TOTAL_DISCOUNT_PERC.toString();
         calculate(group, obj, isTotal ? NumericConstants.ELEVEN : NumericConstants.THIRTEEN, disPer, RATE_PER, isTotal,true);
 
         //RPU
         rpu = pvList.get(listIndex++);
-        if (isTotal) {
-            group = Constants.PVVariables.TOTAL_RPU.toString();
-        } else {
-            group = Constants.PVVariables.TOTAL_RPU.toString();
-        }
+        group = Constants.PVVariables.TOTAL_RPU.toString();
         calculate(group, obj, isTotal ? NumericConstants.FORTY_ONE : NumericConstants.FORTY_THREE, rpu,  AMOUNT, isTotal,true);
         
          //Discount $
        
         disDoll = pvList.get(listIndex++);
-        if (isTotal) {
-            group = Constants.PVVariables.TOTAL_DISCOUNT_AMOUNT.toString();
-        } else {
-            group = Constants.PVVariables.TOTAL_DISCOUNT_AMOUNT.toString();
-        }
+        group = Constants.PVVariables.TOTAL_DISCOUNT_AMOUNT.toString();
+        
         calculate(group, obj, isTotal ? NumericConstants.NINE : NumericConstants.ELEVEN, disDoll, AMOUNT, isTotal,true);
 
         //Discount % of Ex-Factory
@@ -1843,31 +1820,18 @@ if(     StringConstantsUtil.UNIT_VOL_PROPERTY.equals(variableName)){
             newPeriod = String.valueOf(obj[NumericConstants.FOUR]);
             newDiscount = String.valueOf(obj[NumericConstants.FIVE]);
             if (oldHierarchyNo.equals(newHierarchyNo)) {
-                if (oldDiscount.equals(newDiscount)) {
-                    if (oldYear.equals(newyear) && newPeriod.equals(oldPeriod)) {
-                        setBaseValue(discountDto, obj, false);
-                    } else {
-                        periodDiscountMap.put(commonColumn, discountDto);
-                        discountDto = new ProjectionResultsDTO();
-                        commonColumn = getVisibleColumnHeader(obj, false);
-                        setBaseValue(discountDto, obj, false);
-                        oldYear = newyear;
-                        oldPeriod = newPeriod;
-                    }
-                    oldDiscount = newDiscount;
+                if (oldYear.equals(newyear) && newPeriod.equals(oldPeriod)) {
+                    setBaseValue(discountDto, obj, false);
                 } else {
-                    if (oldYear.equals(newyear) && newPeriod.equals(oldPeriod)) {
-                        setBaseValue(discountDto, obj, false);
-                    } else {
-                        periodDiscountMap.put(commonColumn, discountDto);
-                        discountDto = new ProjectionResultsDTO();
-                        commonColumn = getVisibleColumnHeader(obj, false);
-                        setBaseValue(discountDto, obj, false);
-                        oldYear = newyear;
-                        oldPeriod = newPeriod;
-                    }
-                    oldDiscount = newDiscount;
+                    periodDiscountMap.put(commonColumn, discountDto);
+                    discountDto = new ProjectionResultsDTO();
+                    commonColumn = getVisibleColumnHeader(obj, false);
+                    setBaseValue(discountDto, obj, false);
+                    oldYear = newyear;
+                    oldPeriod = newPeriod;
                 }
+                oldDiscount = newDiscount;
+                
             } else {
                 periodDiscountMap.put(commonColumn, discountDto);
                 pivotDiscountMap.put(oldHierarchyNo, periodDiscountMap);

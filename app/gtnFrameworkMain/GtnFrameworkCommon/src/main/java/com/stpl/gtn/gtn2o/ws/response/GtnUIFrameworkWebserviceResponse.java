@@ -49,6 +49,7 @@ public class GtnUIFrameworkWebserviceResponse {
 	private GtnUIFrameworkWebserviceComboBoxResponse gtnUIFrameworkWebserviceComboBoxResponse = null;
 	private GtnUIFrameworkWebserviceDualListBoxResponse gtnUIFrameworkWebserviceDualListBoxResponse = null;
 	private GtnUIFrameworkWebserviceTextBoxResponse gtnUIFrameworkWebserviceTextBoxResponse = null;
+	private GtnUIFrameworkWebserviceDateResponse gtnUIFrameworkWebserviceDateResponse = null;
 	private GtnWsGeneralResponse gtnWsGeneralResponse = new GtnWsGeneralResponse();
 	private GtnCompanyMasterResponse gtnCompanyMasterResponse;
 	private GtnSerachResponse gtnSerachResponse;
@@ -426,6 +427,15 @@ public class GtnUIFrameworkWebserviceResponse {
 		this.gtnWsAttachmentResponse = gtnWsAttachmentResponse;
 	}
 
+	public GtnUIFrameworkWebserviceDateResponse getGtnUIFrameworkWebserviceDateResponse() {
+		return gtnUIFrameworkWebserviceDateResponse;
+	}
+
+	public void setGtnUIFrameworkWebserviceDateResponse(
+			GtnUIFrameworkWebserviceDateResponse gtnUIFrameworkWebserviceDateResponse) {
+		this.gtnUIFrameworkWebserviceDateResponse = gtnUIFrameworkWebserviceDateResponse;
+	}
+
 	public GtnWsReportResponse getGtnReportResponse() {
 		return gtnReportResponse;
 	}
@@ -434,7 +444,4 @@ public class GtnUIFrameworkWebserviceResponse {
 		this.gtnReportResponse = gtnReportResponse;
 	}
 
-	
-
-	
 }

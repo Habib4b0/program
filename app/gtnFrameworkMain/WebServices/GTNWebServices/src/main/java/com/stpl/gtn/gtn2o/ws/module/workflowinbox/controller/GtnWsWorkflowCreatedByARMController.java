@@ -40,7 +40,7 @@ public class GtnWsWorkflowCreatedByARMController {
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "null"})
 	@PostMapping(value = "/getCreatedByArmUsersList")
 	public GtnUIFrameworkWebserviceResponse deductionLevelChangeArm(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
@@ -84,6 +84,7 @@ public class GtnWsWorkflowCreatedByARMController {
 				session.close();
 			}
 			try {
+                            if (connection != null)
 				connection.close();
 			} catch (SQLException e) {
 				logger.error(e.getMessage());

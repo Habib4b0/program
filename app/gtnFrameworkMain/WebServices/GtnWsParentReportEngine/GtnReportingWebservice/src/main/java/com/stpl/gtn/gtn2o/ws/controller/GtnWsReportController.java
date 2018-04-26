@@ -16,11 +16,9 @@ import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.report.bean.CustomerHierarchyLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
-import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -64,18 +62,10 @@ public class GtnWsReportController {
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_CUSTOMERHIERARCHY_SEARCHSERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadHierarchyResults(@RequestBody GtnUIFrameworkWebserviceRequest request)
 			throws GtnFrameworkGeneralException {
-		List<Object[]> resultList;
-		GtnWsReportRequest gtnWsReportRequest = request.getGtnReportRequest();
+		List<Object[]> resultList = null;
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
-
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		if (gtnWsReportRequest != null) {
-			CustomerHierarchyLookupBean hierarchyBean = gtnWsReportRequest.getReportBean()
-					.getCustomerHierarchyLookupBean();
-			resultList = gtnWsReportWebsevice.loadHierarchyResults(hierarchyBean);
-		} else {
-			resultList = gtnWsReportWebsevice.loadHierarchyResults();
-		}
+		resultList = gtnWsReportWebsevice.loadHierarchyResults();
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 		dataTable.addData(resultList);
 		gtnSearchResponse.setResultSet(dataTable);
@@ -86,39 +76,14 @@ public class GtnWsReportController {
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_PRODUCTHIERARCHY_SEARCHSERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadProductHierarchyResults(
 			@RequestBody GtnUIFrameworkWebserviceRequest request) throws GtnFrameworkGeneralException {
-		List<Object[]> resultList;
-		GtnWsReportRequest gtnWsReportRequest = request.getGtnReportRequest();
+		List<Object[]> resultList = null;
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		if (gtnWsReportRequest != null) {
-			CustomerHierarchyLookupBean hierarchyBean = gtnWsReportRequest.getReportBean()
-					.getCustomerHierarchyLookupBean();
-			resultList = gtnWsReportWebsevice.loadProductHierarchyResults(hierarchyBean);
-		} else {
-			resultList = gtnWsReportWebsevice.loadProductHierarchyResults();
-		}
+		resultList = gtnWsReportWebsevice.loadProductHierarchyResults();
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 		dataTable.addData(resultList);
 		gtnSearchResponse.setResultSet(dataTable);
 		response.setGtnSerachResponse(gtnSearchResponse);
-		return response;
-	}
-
-	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOADRELATIONSHIP_SERVICE, method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse loadRelationshipValues(@RequestBody GtnUIFrameworkWebserviceRequest request)
-			throws GtnFrameworkGeneralException {
-		List<String> itemValuesList = new ArrayList<>();
-		List<String> itemCodeList = new ArrayList<>();
-		GtnWsReportRequest gtnWsReportRequest = request.getGtnReportRequest();
-		CustomerHierarchyLookupBean lookupBean = gtnWsReportRequest.getReportBean().getCustomerHierarchyLookupBean();
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		List<Object[]> resultList = gtnWsReportWebsevice.loadRelationshipValues(lookupBean);
-		for (Object[] objects : resultList) {
-			itemCodeList.add(String.valueOf(objects[0]));
-			itemValuesList.add(String.valueOf(objects[1]));
-		}
-		response.setItemCodeList(itemCodeList);
-		response.setItemValueList(itemValuesList);
 		return response;
 	}
 

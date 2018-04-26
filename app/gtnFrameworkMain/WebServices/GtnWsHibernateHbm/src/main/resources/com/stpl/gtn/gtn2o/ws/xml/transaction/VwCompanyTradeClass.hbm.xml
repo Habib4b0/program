@@ -57,5 +57,8 @@
 		<property name="addChgDelIndicator" type="string">
 			<column name="ADD_CHG_DEL_INDICATOR" />
 		</property>
+		<property name="tradeClassIntfid" type="string">
+			<column name="TRADE_CLASS_INTFID" not-null="true" />
+		</property>
 	</class>
 </hibernate-mapping>

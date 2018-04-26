@@ -36,12 +36,13 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 	@Override
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) {
                 ComboBox vaadinComboBox = new ComboBox(componentConfig.getComponentName());
+                gtnLogger.info("--------------GtnUIFrameworkComboBoxComponent ");
 		try {
 
 			final GtnUIFrameworkComboBoxConfig comboboxConfig = componentConfig.getGtnComboboxConfig();
 			vaadinComboBox = fillComboBox(comboboxConfig, null, componentConfig.getSourceViewId(),
 					new ComboBox());
-
+			
 			if (componentConfig.getComponentName() != null && !componentConfig.getComponentName().isEmpty()
 					&& vaadinComboBox != null) {
 				vaadinComboBox.setCaption(componentConfig.getComponentName());
@@ -85,14 +86,26 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 						}
 					});
 				}
-
+				String vaadinComboBoxEmptyResponseValue=vaadinComboBox.getItemCaptionGenerator().apply(vaadinComboBox.getValue());
+				if("null".equals(vaadinComboBoxEmptyResponseValue)){
+					List<Integer> idList=new ArrayList<>();
+					List<String> captionList=new ArrayList<>();
+					idList.add(0);
+					captionList.add(GtnFrameworkCommonStringConstants.SELECT_ONE);
+					vaadinComboBox = new ComboBox(componentConfig.getComponentName(),idList);
+					vaadinComboBox.setItemCaptionGenerator(item -> captionList.get((int) item));
+					vaadinComboBox.setSelectedItem(idList.get(0));
+					vaadinComboBox.setEmptySelectionAllowed(false);
+				}
+				gtnLogger.info("----------------vaadinComboBox.getValue()"+vaadinComboBox.getOptionalValue()+vaadinComboBox.getValue()+vaadinComboBox.getSelectedItem());
 				setDefaultFocus(vaadinComboBox, componentConfig);
+				gtnLogger.info("--------------try final return ");
 				return vaadinComboBox;
 			}
 		} catch (Exception exception) {
 			gtnLogger.error("Exception in addVaadinComponent for " + componentConfig.getComponentId(), exception);
 		}
-
+		gtnLogger.info("--------------final return "+vaadinComboBox);
 		return vaadinComboBox;
 	}
 
@@ -203,7 +216,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 			}
 			return vaadinComboBox;
 		}
-		return null;
+		return vaadinComboBox;
 	}
 
         @SuppressWarnings("unchecked")

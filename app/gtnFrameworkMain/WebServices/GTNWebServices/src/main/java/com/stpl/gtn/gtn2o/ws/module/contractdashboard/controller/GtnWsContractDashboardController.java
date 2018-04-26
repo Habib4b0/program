@@ -69,8 +69,6 @@ public class GtnWsContractDashboardController {
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
 
-	@Autowired
-	private SessionFactory sessionFactory;
 
 	@Autowired
 	private SessionFactory sysSessionFactory;
@@ -114,7 +112,7 @@ public class GtnWsContractDashboardController {
 	}
 
 	public SessionFactory getSessionFactory() {
-		return sessionFactory;
+		return gtnSqlQueryEngine.getSessionFactory();
 	}
 
 	public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {

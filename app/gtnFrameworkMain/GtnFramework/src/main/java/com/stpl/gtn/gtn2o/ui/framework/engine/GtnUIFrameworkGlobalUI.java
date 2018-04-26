@@ -547,8 +547,7 @@ public class GtnUIFrameworkGlobalUI {
 			if (currentComponentConfig.getGtnUIFrameworkValidationConfig() != null
 					&& currentComponentConfig.getGtnUIFrameworkValidationConfig().isAttachRegxValidatior()
 					&& !value.matches(currentComponentConfig.getGtnUIFrameworkValidationConfig().getFormatString())) {
-				msg.append(GtnFrameworkCommonConstants.BR
-						+ currentComponentConfig.getGtnUIFrameworkValidationConfig().getRegxValidationMessage());
+				msg.append(GtnFrameworkCommonConstants.BR).append(currentComponentConfig.getGtnUIFrameworkValidationConfig().getRegxValidationMessage());
 			}
 
 		}

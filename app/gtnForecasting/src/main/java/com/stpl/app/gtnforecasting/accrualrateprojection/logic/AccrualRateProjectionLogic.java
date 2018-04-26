@@ -95,11 +95,9 @@ public final class AccrualRateProjectionLogic {
                     String[] to = toPeriod.split(AccrualRateUtils.DASH);
                     int endYear = Integer.parseInt(to[1].substring(0,  NumericConstants.FOUR));
                     int endMonth = Integer.parseInt(to[0].trim().substring(1, to[0].length()));
-                    if (startYear > endYear) {
+                    if ((startYear > endYear) || ((startYear == endYear) && (startMonth > endMonth))) {
                         isNotValid = true;
-                    } else if ((startYear == endYear) && (startMonth > endMonth)) {
-                            isNotValid = true;
-                        }
+                    }
                     if (!isNotValid) {
                         setFilterPeriods(accrualRateSelectionDTO, startYear, endYear, startMonth, endMonth);
                     }

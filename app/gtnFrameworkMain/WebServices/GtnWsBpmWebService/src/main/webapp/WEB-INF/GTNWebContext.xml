@@ -136,6 +136,9 @@
 		</property>
 	</bean>
 	<bean id="bpmManagerBean" class="com.stpl.gtn.gtn2o.ws.bpm.service.BpmManagerBean">
+		<property name="enitiyManagerFactoryBean">
+			<ref bean="jbpmEMF" />
+		</property>
 		<property name="userGroupCallback">
 			<ref bean="userGroupCallback" />
 		</property>
@@ -145,6 +148,11 @@
 			<ref bean="bpmManagerBean" />
 		</property>
 
+	</bean>
+	<bean id="jbpmEMF"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceXmlLocation" value="classpath*:META-INF/persistence.xml" />
+		<property name="persistenceUnitName" value="org.jbpm.domain" />
 	</bean>
 </beans>
 
