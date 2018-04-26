@@ -1,32 +1,33 @@
 package com.stpl.gtn.gtn2o.ws.request.report;
 
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyInputBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.HierarchyLookupBean;
-import com.stpl.gtn.gtn2o.ws.request.GtnWSRequestData;
 
-public class GtnWsReportRequest implements GtnWSRequestData {
+public class GtnWsReportRequest {
 
-	private HierarchyLookupBean customerHierarchyLookupBean;
-	private GtnReportHierarchyInputBean hierarchyInputBean;
+	private GtnWsReportBean reportBean = new GtnWsReportBean();
+
+	private GtnReportHierarchyLookupBean customerHierarchyLookupBean;
+	private GtnReportHierarchyLevelBean hierarchyInputBean;
 	private GtnWsReportDashboardBean gtnWsReportDashboardBean;
+	private GtnWsReportDataSelectionBean dataSelectionBean;
+	private GtnWsReportCustomViewBean customViewBean;
 
-	public GtnWsReportRequest() {
-		super();
+	public GtnWsReportBean getReportBean() {
+		return reportBean;
 	}
 
-	public HierarchyLookupBean getCustomerHierarchyLookupBean() {
+	public GtnReportHierarchyLookupBean getCustomerHierarchyLookupBean() {
 		return customerHierarchyLookupBean;
 	}
 
-	public void setCustomerHierarchyLookupBean(HierarchyLookupBean customerHierarchyLookupBean) {
+	public void setCustomerHierarchyLookupBean(GtnReportHierarchyLookupBean customerHierarchyLookupBean) {
 		this.customerHierarchyLookupBean = customerHierarchyLookupBean;
 	}
-
-	private GtnWsReportDataSelectionBean dataSelectionBean;
-	private GtnWsReportCustomViewBean customViewBean;
 
 	public GtnWsReportDataSelectionBean getDataSelectionBean() {
 		return dataSelectionBean;
@@ -44,6 +45,10 @@ public class GtnWsReportRequest implements GtnWSRequestData {
 		this.customViewBean = customViewBean;
 	}
 
+	public void setReportBean(GtnWsReportBean reportBean) {
+		this.reportBean = reportBean;
+	}
+
 	public GtnWsReportDashboardBean getGtnWsReportDashboardBean() {
 		return gtnWsReportDashboardBean;
 	}
@@ -52,11 +57,11 @@ public class GtnWsReportRequest implements GtnWSRequestData {
 		this.gtnWsReportDashboardBean = gtnWsReportDashboardBean;
 	}
 
-	public GtnReportHierarchyInputBean getHierarchyInputBean() {
+	public GtnReportHierarchyLevelBean getHierarchyInputBean() {
 		return hierarchyInputBean;
 	}
 
-	public void setHierarchyInputBean(GtnReportHierarchyInputBean hierarchyInputBean) {
+	public void setHierarchyInputBean(GtnReportHierarchyLevelBean hierarchyInputBean) {
 		this.hierarchyInputBean = hierarchyInputBean;
 	}
 

@@ -76,7 +76,7 @@ public class FetchData {
 			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(url,moduleName, serviceRequest,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
-             List<GtnWsRecordBean> result = response.getGtnWsReportRespose().getResultList();
+             List<GtnWsRecordBean> result = null;
             logger.info("result size= " + result.size());
 
             return result;

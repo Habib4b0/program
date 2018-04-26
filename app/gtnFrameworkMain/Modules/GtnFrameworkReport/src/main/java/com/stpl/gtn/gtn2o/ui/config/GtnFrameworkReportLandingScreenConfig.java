@@ -348,7 +348,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		fromPeriod.setGtnComboboxConfig(fromPeriodConfig);
 
 	
-		componentList.add(fromPeriod);
+//		componentList.add(fromPeriod);
 
 
 		GtnUIFrameworkLayoutConfig toPeriodLayout = new GtnUIFrameworkLayoutConfig();
@@ -387,7 +387,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 		toPeriod.setGtnComboboxConfig(toPeriodTypeConfig);
 
-		componentList.add(toPeriod);
+//		componentList.add(toPeriod);
 
 	}
 

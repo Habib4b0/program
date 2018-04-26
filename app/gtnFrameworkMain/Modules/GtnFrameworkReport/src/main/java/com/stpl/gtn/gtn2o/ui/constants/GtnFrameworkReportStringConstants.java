@@ -35,73 +35,79 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String PRODUCT_HIERARCHY_GROUP_BUILDER = "Product Hierarchy Group Builder";
 
 	public static final String RESET_CONFIRMATION = "Reset Confirmation";
-	
+
 	public static final String RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Search Criteria ?";
-	
+
 	public static final String RESET_CONFIRMATION_TABLE_MESSAGE = "Are you sure you want to reset the values in the table ?";
-	
+
 	public static final String RETURNS = "returns";
-	
+
 	public static final String NDC_LAYOUT = "ndcLayout";
 
 	public static final String NDC_CONFIG = "ndcConfig";
-	
+
 	public static final String HIERARCHY_NO = "hierarchyNo";
-	
+
 	public static final String VIEW_DETAILS_LAYOUT = "viewDetailsLayout";
-	
+
 	public static final String PRODUCT_RELATIONSHIP = "ProductRelationship";
-	
+
 	public static final String RELATIONSHIP_VERSION = "RelationshipVersion";
 	
 	public static final String PRIVATE_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT = "privateViewSearchLookupSearchAndResetLayout";
-	
+
 	public static final String REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT = "reportProductHierarchyLookUpSearchCriteriaLayout";
-	
+
 	public static final String REPORT_CUSTOMER_HIERARCHY_SEARCH_CRITERIA_LAYOUT = "reportCustomerHierarchySearchCriteriaLayout";
-	
+
 	public static final String REPORT_CUSTOMER_HIERARCHY_SEARCH_AND_RESULT_LAYOUT = "reportCustomerHierarchySearchAndResetLayout";
 
 	public static final String PUBLIC_VIEW_LOOKUP_SEARCH_AND_RESET_LAYOUT = "publicViewLookUpSearchAndResetLayout";
-	
+
 	public static final String RELATIONSHIP_LEVEL_SID = "relationshipLevelSid";
 
 	public static final String PROJ_DETAILS_TABSHEET_MAIN_LAYOUT = "projectionDetailsTabsheetMainLayout";
 
 	public static final String PRODUCT_HIERARCHY_LOOKUP_ID = "productHierarchyLookup";
-	
+
 	public static final String REPORT_GENERATE_LOOKUP_VIEW = "reportGenerateLookupView";
 
 	public static final String PRODUCT_HIERARCHY_LOOKUP_NAME = "Product Hierarchy LookUp";
 
 	public static final String PRODUCT_FORCAST_LEVEL = "ProductForecastLevel";
-	
+
 	public static final String CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE = "customerHierarchySearchResultTable";
-	
+
 	public static final String CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE = "customViewLookupProductTable";
-		
+	
+	public static final String CUSTOM_VIEW_LOOKUP_DEDUCTION_TABLE = "customViewLookupDeductionTable";
+	
+	public static final String CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE = "customViewLookupVariableTable";
+	
+	
+
 	public static final String PRODUCT_BTN_MAIN = "productBtnMain";
-	
+
 	public static final String PRODUCT_BTN = "productBtn";
-	
+
 	public static final String ADD_PRODUCT_BTN = "addProductBtn";
-	
+
 	public static final String REMOVE_PRODUCT_BTN = "removeProductBtn";
-	
+
 	public static final String DEDUCTION_BTN_MAIN = "deductionBtnMain";
-	
+
 	public static final String DEDUCTION_BTN = "deductionBtn";
-	
+
 	public static final String ADD_DEDUCTION_BTN = "addDeductionBtn";
-	
+
 	public static final String REMOVE_DEDUCTION_BTN = "removeDeductionBtn";
-	
+
 	public static final String VARIABLES_BTN_MAIN = "variablesBtnMain";
-	
+
 	public static final String VARIABLES_BTN = "variablesBtn";
-	
+
 	public static final String ADD_VARIABLES_BTN = "addVariablesBtn";
-	
+
 	public static final String REMOVE_VARIABLES_BTN = "removeVariablesBtn";
 
 	public static final String MODULE_TYPE = "forecast";
@@ -111,13 +117,13 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String HUNDRED_PERCENT = "100%";
 
 	public static final String ONE_FIFTY_PIXEL = "150px";
-	
+
 	public static final String TWO_SEVENTY_PIXEL = "270px";
 
 	public static final String SELECT_VALUES = "-Select Values-";
 
 	public static final String TAB_SHEET = "tabSheet";
-	
+
 	public static final String SEARCH_QUERY = "searchQuery";
 
 	public static final String REPORT_LANDING_SCREEN = "reportLandingScreen";
@@ -125,7 +131,7 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String DATA_SELECTION_MAIN_LAYOUT = "dataSelectionMainLayout";
 
 	public static final String REPORT_OPTIONS_MAIN_LAYOUT = "reportOptionsMainLayout";
-	
+
 	public static final String MAIN_CSS_LAYOUT_FOR_PRODUCT = "mainCssLayoutForProduct";
 
 	public static final String PUBLIC_VIEW_LAYOUT = "publicViewLayout";
@@ -165,7 +171,7 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORT_GENERATE_ID = "R001";
 
 	public static final String REPORT_PROFILE = "reportProfile";
-	
+
 	public static final String COMPARISON_LOOKUP = "comparisonLookup";
 
 	public static final String REPORT_PROFILE_LOOKUP = "reportProfileLookup";
@@ -305,37 +311,42 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORTING_DASHBOARD_SAVE_PROFILE = "reportDashboardSaveProfile";
 
 	public static final String COMPANY_MASTER_GLCOMP = "CompanyMasterGLcomp";
-	
+
 	public static final String BUSINESS_UNIT_GLCOMP = "BusinessUnitGLcomp";
 
 	public static final String TIME_PERIOD_FROM_DATE = "TimePeriodFromDate";
 
 	public static final String TIME_PERIOD_FROM_HISTORY_INTERVAL = "TimePeriodFromHistoryInterval";
-	
-	public static final String TIME_PERIOD_TO_DATE = "TimePeriodToDate";
-	
-	public static final String REPORT_PROFILE_CONTROL_POPUP_BUTTON_LAYOUT="reportProfileControlPopUpButtonLayout";
-	
-	public static final String REPORT_PROFILE_SEARCH_AND_RESET_BUTTON_LAYOUT="reportProfileSearchAndResetButtonLayout";
-	
-	public static final String REPORT_VIEW_SEARCH_CRITERIA_LAYOUT="reportViewSearchCriteriaLayout";
-	
-	public static final String REPORT_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP="reportCustomerHierarchyTypeOptionGroup";
-	
-	public static final String REPORT_CUSTOMER_HIERARCHY_NAME_TEXTBOX="reportCustomerHierarchyNameTextBox";
-	
-	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections","Consolidated Financial Forecasts","No Source");
 
-	private static final Class<?>[] REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE = new Class<?>[] {
-		String.class, Integer.class, Integer.class, Date.class, Date.class };
+	public static final String TIME_PERIOD_TO_DATE = "TimePeriodToDate";
+
+	public static final String REPORT_PROFILE_CONTROL_POPUP_BUTTON_LAYOUT = "reportProfileControlPopUpButtonLayout";
+
+	public static final String REPORT_PROFILE_SEARCH_AND_RESET_BUTTON_LAYOUT = "reportProfileSearchAndResetButtonLayout";
+
+	public static final String REPORT_VIEW_SEARCH_CRITERIA_LAYOUT = "reportViewSearchCriteriaLayout";
+
+	public static final String REPORT_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP = "reportCustomerHierarchyTypeOptionGroup";
+
+	public static final String REPORT_CUSTOMER_HIERARCHY_NAME_TEXTBOX = "reportCustomerHierarchyNameTextBox";
+
+	public static final String NO_LEVEL_SELECTED_CAPTION = "No level Selected";
+
+	public static final String NO_LEVEL_SELECTED_MSG = "Please select a row to move.";
+
+	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
+			"Consolidated Financial Forecasts", "No Source");
+
+	private static final Class<?>[] REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE = new Class<?>[] { String.class,
+			Integer.class, Integer.class, Date.class, Date.class };
 
 	private static final String[] REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_VISIBLE_HEADER = new String[] {
-		"Hierarchy Name", "Highest Level", "Lowest Level", "Created Date", "Modified Date" };
+			"Hierarchy Name", "Highest Level", "Lowest Level", "Created Date", "Modified Date" };
 
 	private static final Object[] REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_MAPPING_ID = new Object[] {
 			"custHierarchyLookupHierName", "custHierarchyLookupHighestLevel", "custHierarchyLookupLowestLevel",
 			"custHierarchyLookupCreatedDate", "custHierarchyLookupModifiedDate" };
-	
+
 	public static Class<?>[] getReportCustomerHierarchyTableColumnsDataType() {
 		return REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE.clone();
 	}
@@ -349,6 +360,8 @@ public final class GtnFrameworkReportStringConstants {
 	}
 
 	public static List<String> getReportDataSourceLoadCombobox() {
-		return REPORT_DATA_SOURCE_LOAD_COMBOBOX==null?REPORT_DATA_SOURCE_LOAD_COMBOBOX:Collections.unmodifiableList(REPORT_DATA_SOURCE_LOAD_COMBOBOX);
+		return REPORT_DATA_SOURCE_LOAD_COMBOBOX == null ? REPORT_DATA_SOURCE_LOAD_COMBOBOX
+				: Collections.unmodifiableList(REPORT_DATA_SOURCE_LOAD_COMBOBOX);
 	}
+
 }

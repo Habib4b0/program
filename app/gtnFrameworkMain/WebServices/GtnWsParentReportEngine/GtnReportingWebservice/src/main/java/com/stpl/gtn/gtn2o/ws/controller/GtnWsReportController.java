@@ -16,14 +16,11 @@ import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.report.bean.HierarchyLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
-import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceDateResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsReportWebsevice;
@@ -36,7 +33,6 @@ public class GtnWsReportController {
 
 	}
 
-	
 	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportController.class);
 
 	@Autowired
@@ -67,16 +63,9 @@ public class GtnWsReportController {
 	public GtnUIFrameworkWebserviceResponse loadHierarchyResults(@RequestBody GtnUIFrameworkWebserviceRequest request)
 			throws GtnFrameworkGeneralException {
 		List<Object[]> resultList = null;
-		GtnWsReportRequest gtnWsReportRequest = request.getGtnReportRequest();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
-
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		if (gtnWsReportRequest != null) {
-			HierarchyLookupBean hierarchyBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
-//			resultList = gtnWsReportWebsevice.loadHierarchyResults(hierarchyBean);
-		}else{
-			resultList = gtnWsReportWebsevice.loadHierarchyResults();
-		}
+		resultList = gtnWsReportWebsevice.loadHierarchyResults();
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 		dataTable.addData(resultList);
 		gtnSearchResponse.setResultSet(dataTable);
@@ -88,22 +77,16 @@ public class GtnWsReportController {
 	public GtnUIFrameworkWebserviceResponse loadProductHierarchyResults(
 			@RequestBody GtnUIFrameworkWebserviceRequest request) throws GtnFrameworkGeneralException {
 		List<Object[]> resultList = null;
-		GtnWsReportRequest gtnWsReportRequest = request.getGtnReportRequest();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		if (gtnWsReportRequest != null) {
-			HierarchyLookupBean hierarchyBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
-//			resultList = gtnWsReportWebsevice.loadProductHierarchyResults(hierarchyBean);
-		}else{
-			resultList = gtnWsReportWebsevice.loadProductHierarchyResults();
-		}
+		resultList = gtnWsReportWebsevice.loadProductHierarchyResults();
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 		dataTable.addData(resultList);
 		gtnSearchResponse.setResultSet(dataTable);
 		response.setGtnSerachResponse(gtnSearchResponse);
 		return response;
 	}
-	
+
 	@RequestMapping(value = "/gtnWsReportComboboxLoad", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getComboBoxResultSet(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
@@ -178,7 +161,6 @@ public class GtnWsReportController {
 		List<Object[]> resultList = null;
 		wsGeneralResponse.setSucess(true);
 		boolean count = gtnWsRequest.getGtnWsSearchRequest().isCount();
-		
 
 		try {
 			if (count) {
@@ -217,8 +199,8 @@ public class GtnWsReportController {
 				String filterValue = searchCriteria.getFilterValue1();
 				String filterExpression = searchCriteria.getExpression();
 				filter = "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue + "%'";
-				if(dbColumnDataTypeMap.get(searchCriteria.getFieldId()).equals("Date")){
-				filter = "AND" + " (CONVERT(CHAR(10)," + filterId + "120) >=" + " " + "'" + filterValue + "'";
+				if (dbColumnDataTypeMap.get(searchCriteria.getFieldId()).equals("Date")) {
+					filter = "AND" + " (CONVERT(CHAR(10)," + filterId + "120) >=" + " " + "'" + filterValue + "'";
 				}
 			}
 		}
@@ -250,18 +232,19 @@ public class GtnWsReportController {
 		dbColumnDataTypeMap.put("toPeriod", "Date");
 		return dbColumnDataTypeMap;
 	}
-	
-	public List<Object[]> resultListCustomization(List<Object[]> resultList){
+
+	public List<Object[]> resultListCustomization(List<Object[]> resultList) {
 		List<Object[]> customizedResultList = new ArrayList<>();
-		for(Object[] object:resultList){
-			Object[] obj=object;
-			for(int i=0;i<obj.length;i++){		
-				obj[i]=String.valueOf(obj[i]);
+		for (Object[] object : resultList) {
+			Object[] obj = object;
+			for (int i = 0; i < obj.length; i++) {
+				obj[i] = String.valueOf(obj[i]);
 			}
 			customizedResultList.add(object);
 		}
 		return customizedResultList;
 	}
+
 	@SuppressWarnings({ "rawtypes" })
 	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 		gtnSqlQueryEngine.setSessionFactory(sessionFactory);

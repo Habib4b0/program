@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.report.bean.HierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
 
 @Service
 public class GtnWsReportWebsevice {
