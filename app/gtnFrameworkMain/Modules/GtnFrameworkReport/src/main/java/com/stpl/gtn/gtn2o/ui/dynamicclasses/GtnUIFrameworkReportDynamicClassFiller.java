@@ -13,10 +13,7 @@ import com.stpl.gtn.gtn2o.ui.action.pagedtreetable.GtnFrameworkFSPagedTreeTableG
 import com.stpl.gtn.gtn2o.ui.action.pagedtreetable.GtnFrameworkReturnCheckAllAction;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
-<<<<<<< HEAD
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnProductLevelAvailableTableLoadAction;
-=======
->>>>>>> ed048f07ae011b589698adf23ca6f70e371cd621
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAction;
 
 public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjectFiller {
