@@ -317,8 +317,6 @@ public class GtnWsForecastConfigurationController {
 					String leastYear = getFrequencyDivision(table.getDescription(), gtsCal, foreCastPeriod);
 					LOGGER.info("leastYear===============>" + leastYear);
 					response.setForecastPeriod(leastYear);
-<<<<<<< HEAD
-=======
 					String interval = request.getFutureInterval().trim();
 					LOGGER.info("interval===============>" + interval);
 					if (!"".equals(interval)) {
@@ -332,7 +330,6 @@ public class GtnWsForecastConfigurationController {
 							response.setMessage(GtnWsForecastConfigurationConstants.ENTERED_FUTUREPERIOD);
 						}
 					}
->>>>>>> 92c26d1de427823c3749a932b8f21546e580a180
 				}
 			}
 		} catch (Exception ex) {
@@ -379,15 +376,12 @@ public class GtnWsForecastConfigurationController {
 		try {
 			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
 			gtnResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
-<<<<<<< HEAD
-=======
 			Calendar gtsCal = getCurrentGTSToCalendar(GtnWsForecastConfigurationConstants.EX_FACTORY_SALES);
 			gtnResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
 			if (gtnWsRequest.getForecastConfigurationRequest().getToDate().after(gtsCal.getTime())) {
 				forecastResponse.setErrorMessage(true);
 				forecastResponse.setMessage(GtnWsForecastConfigurationConstants.ENTERED_FUTUREPERIOD);
 			}
->>>>>>> 92c26d1de427823c3749a932b8f21546e580a180
 		} catch (Exception ex) {
 			LOGGER.error(GtnFrameworkWebserviceConstant.ERROR_IN
 					+ GtnWsForecastConfigurationConstants.TO_PERIOD_VALUE_CHANGE, ex);
@@ -441,7 +435,7 @@ public class GtnWsForecastConfigurationController {
 
 					StringBuilder value = new StringBuilder(forecastConfigurationSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(forecastConfigurationSearchCriteria.getExpression())) {
-						value.append("%").append(value).append("%");
+						value.append('%').append(value).append('%');
 					}
 					inputWhereConditions.append(where).append(and)
 							.append(GtnCommonUtil.getWhereClauseForAColumn(
@@ -938,4 +932,3 @@ public class GtnWsForecastConfigurationController {
 		}
 	}
 }
-
