@@ -24,7 +24,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 /**
  *
