@@ -36,15 +36,17 @@ public class NmDiscountImpl {
         String customSql = StringUtils.EMPTY;
         try {
             String selectedDiscounts = "";
+            StringBuilder selectedDiscountsBuilder = new StringBuilder();
             String comma = ", ";
             if (priceGroupType != null && !priceGroupType.isEmpty()) {
                 for (int i = 0; i < priceGroupType.size(); i++) {
                     if (i != 0) {
-                        selectedDiscounts += comma;
+                        selectedDiscountsBuilder.append(comma);
                     }
-                    selectedDiscounts += "'" + priceGroupType.get(i) + "'";
+                    selectedDiscountsBuilder.append('\'' ).append( priceGroupType.get(i) ).append( '\'');
                 }
             }
+            selectedDiscounts = selectedDiscountsBuilder.toString();
             customSql = "select Distinct RS.RS_MODEL_SID as DISCOUNT_ID,RS.RS_NAME as DISCOUNT_NAME from RS_MODEL RS, ST_NM_DISCOUNT_PROJ_MASTER DM, PROJECTION_DETAILS D , PROJECTION_MASTER M where DM.PROJECTION_DETAILS_SID = D.PROJECTION_DETAILS_SID "
                     + " and D.PROJECTION_MASTER_SID = " + projectionId
                     + " and DM.PRICE_GROUP_TYPE in (" + selectedDiscounts + ")"
@@ -1614,13 +1616,15 @@ public class NmDiscountImpl {
         String projectionQuery = "";
         try {
             String idString = "";
+            StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    idString = idString + discountprojectionId.get(i) + ",";
+                    idStringBuilder.append(discountprojectionId.get(i) ).append( ',');
                 } else {
-                    idString = idString + discountprojectionId.get(i);
+                    idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
+            idString = idStringBuilder.toString();
             String startPeriod = "";
             String endPeriod = "";
 
@@ -1774,7 +1778,7 @@ public class NmDiscountImpl {
 
         String sql = "";
         try {
-            String idString = "";
+            String idString;
             int startFreq = 0;
             int endFreq = 0;
             int startYear = 0;
@@ -1782,14 +1786,15 @@ public class NmDiscountImpl {
             String declareStatement = "";
             int startMonth = 0;
             int endMonth = 0;
+            StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    idString = idString + discountprojectionId.get(i) + ",";
+                    idStringBuilder.append(discountprojectionId.get(i) ).append( ',');
                 } else {
-                    idString = idString + discountprojectionId.get(i);
+                    idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
-
+            idString = idStringBuilder.toString();
             if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
                 startFreq = startAndEndPeriods.get(0);
                 endFreq = startAndEndPeriods.get(1);
@@ -1991,15 +1996,17 @@ public class NmDiscountImpl {
                     discountTypeColumnName = " B.PRICE_GROUP_TYPE ";
                     groupBy += ", " + discountTypeColumnName;
                 }
-                String selectedDiscounts = "";
+                String selectedDiscounts;
+                StringBuilder selectedDiscountsBuilder = new StringBuilder();
                 String comma = ", ";
 
                 for (int i = 0; i < discountList.size(); i++) {
                     if (i != 0) {
-                        selectedDiscounts += comma;
+                        selectedDiscountsBuilder.append(comma);
                     }
-                    selectedDiscounts += "'" + discountList.get(i) + "'";
+                    selectedDiscountsBuilder.append('\'' ).append( discountList.get(i) ).append( '\'');
                 }
+                selectedDiscounts = selectedDiscountsBuilder.toString();
                 whereClause += " and B.PRICE_GROUP_TYPE in (" + selectedDiscounts + ")";
 
             }
@@ -2032,14 +2039,16 @@ public class NmDiscountImpl {
 
         String projectionQuery = "";
         try {
-            String idString = "";
+            String idString;
+            StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < projectionDetailsId.size(); i++) {
                 if (i != projectionDetailsId.size() - 1) {
-                    idString = idString + projectionDetailsId.get(i) + ",";
+                    idStringBuilder.append(projectionDetailsId.get(i) ).append( ',');
                 } else {
-                    idString = idString + projectionDetailsId.get(i);
+                    idStringBuilder.append(projectionDetailsId.get(i));
                 }
             }
+            idString = idStringBuilder.toString();
             String startPeriod = "";
             String endPeriod = "";
             String forecastStartPeriod = "";
@@ -2155,14 +2164,16 @@ public class NmDiscountImpl {
 
             String sql = "";
             try {
-                String idString = "";
+                String idString ;
+                StringBuilder idStringBuilder = new StringBuilder();
                 for (int i = 0; i < projectionDetailsId.size(); i++) {
                     if (i != projectionDetailsId.size() - 1) {
-                        idString = idString + projectionDetailsId.get(i) + ",";
+                        idStringBuilder.append(projectionDetailsId.get(i) ).append( ',');
                     } else {
-                        idString = idString + projectionDetailsId.get(i);
+                        idStringBuilder.append(projectionDetailsId.get(i));
                     }
                 }
+                idString = idStringBuilder.toString();
                 String startPeriod = "";
                 String endPeriod = "";
                 String forecastStartPeriod = "";
@@ -2508,21 +2519,21 @@ public class NmDiscountImpl {
         String sql = "";
         try {
 
-            String idString = "";
+            String idString;
+            StringBuilder idStringBuilder = new StringBuilder();
             int startFreq = 0;
             int endFreq = 0;
             int startYear = 0;
             int endYear = 0;
-            String selectedHistoryFrequency = "";
-            String selectedFutureFrequency = "";
             String declareStatement = "";
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    idString = idString + discountprojectionId.get(i) + ",";
+                    idStringBuilder.append(discountprojectionId.get(i) ).append( ',');
                 } else {
-                    idString = idString + discountprojectionId.get(i);
+                    idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
+            idString = idStringBuilder.toString();
             int startMonth = 0;
             int endMonth = 0;
             if (startAndEndPeriods != null && startAndEndPeriods.size() != 0) {
@@ -2669,14 +2680,16 @@ public class NmDiscountImpl {
         String sql = "";
         try {
 
-            String idString = "";
+            String idString;
+            StringBuilder idStringBuilder = new StringBuilder();
             for (int i = 0; i < discountprojectionId.size(); i++) {
                 if (i != discountprojectionId.size() - 1) {
-                    idString = idString + discountprojectionId.get(i) + ",";
+                    idStringBuilder.append(discountprojectionId.get(i) ).append( ',');
                 } else {
-                    idString = idString + discountprojectionId.get(i);
+                    idStringBuilder.append(discountprojectionId.get(i));
                 }
             }
+            idString = idStringBuilder.toString();
             String startPeriod = "";
             String endPeriod = "";
             String forecastStartPeriod = "";

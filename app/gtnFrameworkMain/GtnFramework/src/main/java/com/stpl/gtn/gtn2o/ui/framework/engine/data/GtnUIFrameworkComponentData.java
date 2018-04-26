@@ -1,14 +1,9 @@
 package com.stpl.gtn.gtn2o.ui.framework.engine.data;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.asi.ui.customwindow.CustomWindow;
-
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.fieldfactory.GtnUIFrameworkActionParameter;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.GtnUIFrameworkPagedGridLogic;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.newpagedtreetable.GtnUIFrameworkNewPagedTreeTableLogic;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
@@ -20,6 +15,10 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkSupportedValidationType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import org.asi.ui.customwindow.CustomWindow;
 
 public class GtnUIFrameworkComponentData {
 
@@ -44,6 +43,8 @@ public class GtnUIFrameworkComponentData {
 	private GtnUIFrameworkComponentConfig currentComponentConfig;
 
 	private GtnUIFrameworkPagedTableLogic currentPageTableLogic;
+        
+	private GtnUIFrameworkPagedGridLogic currentPageGridLogic;
 
 	private GtnUIFrameworkNewPagedTreeTableLogic newPageTableLogic;
 
@@ -303,6 +304,14 @@ public class GtnUIFrameworkComponentData {
 
     public void setTableConfig(GtnUIFrameworkPagedTableConfig tableConfig) {
         this.tableConfig = tableConfig;
+    }
+
+    public GtnUIFrameworkPagedGridLogic getCurrentPageGridLogic() {
+        return currentPageGridLogic;
+    }
+
+    public void setCurrentPageGridLogic(GtnUIFrameworkPagedGridLogic currentPageGridLogic) {
+        this.currentPageGridLogic = currentPageGridLogic;
     }
         
 }

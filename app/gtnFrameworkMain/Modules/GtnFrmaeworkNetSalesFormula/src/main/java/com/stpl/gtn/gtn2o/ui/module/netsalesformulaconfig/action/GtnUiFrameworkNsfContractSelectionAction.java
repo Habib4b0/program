@@ -37,7 +37,7 @@ public class GtnUiFrameworkNsfContractSelectionAction implements GtnUIFrameWorkA
 		List<Object> actionParemeterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String viewId = (String) actionParemeterList.get(1);
 		String contractSelectionValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getStringFromField();
-		List<String> componentIds = new ArrayList<>();
+		List<String> componentIds = new ArrayList<>(50);
 		componentIds.add(viewId + "searchCriteriaPanel");
 		componentIds.add(viewId + "searchButtonlayout");
 		componentIds.add(viewId + "displayButtonlayout");

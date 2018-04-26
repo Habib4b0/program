@@ -315,7 +315,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         }
          if (!"edit".equals(session.getAction()) ) {
         customMenuBar.addSubMenuCloseListener(customMenuBarListener);
-        customMenuItem.getChildren().get(4).setChecked(true);
+        customMenuItem.getChildren().get(3).setChecked(true);
         customMenuItem.getChildren().get(5).setChecked(true);
         customMenuItem.getChildren().get(6).setChecked(true);
         customMenuItem.getChildren().get(9).setChecked(true);
@@ -817,6 +817,16 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 variables.unselect(CommonUtils.VAR_DIS_RATE);
                 variables.unselect(CommonUtils.VAR_NETSALES);
                 getUnCheckedVariableMenuItem(customMenuItem);
+        customMenuItem.getChildren().get(3).setChecked(true);
+        customMenuItem.getChildren().get(5).setChecked(true);
+        customMenuItem.getChildren().get(6).setChecked(true);
+        customMenuItem.getChildren().get(9).setChecked(true);
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, "Multiple");
+        
+        variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryCustomMenuBarListener);
+        variableCategoryCustomMenuItem.getChildren().get(0).setChecked(true);
+         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, "Value");
+                
                 variables.setImmediate(true);
 
                 uomDdlb.select(EACH);

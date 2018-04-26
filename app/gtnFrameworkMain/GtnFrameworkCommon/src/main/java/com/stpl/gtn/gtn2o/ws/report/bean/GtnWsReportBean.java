@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ws.report.bean;
 public class GtnWsReportBean {
 	private GtnWsReportDataSelectionBean dataSelectionBean;
 	private GtnWsReportCustomViewBean customViewBean;
+	private CustomerHierarchyLookupBean customerHierarchyLookupBean;
 
 	public GtnWsReportDataSelectionBean getDataSelectionBean() {
 		return dataSelectionBean;
@@ -18,5 +19,14 @@ public class GtnWsReportBean {
 
 	public void setCustomViewBean(GtnWsReportCustomViewBean customViewBean) {
 		this.customViewBean = customViewBean;
+	}
+
+	public CustomerHierarchyLookupBean getCustomerHierarchyLookupBean() {
+		return customerHierarchyLookupBean;
+	}
+
+	public void setCustomerHierarchyLookupBean(CustomerHierarchyLookupBean customerHierarchyLookupBean) {
+		this.customerHierarchyLookupBean = customerHierarchyLookupBean;
+
 	}
 }

@@ -127,6 +127,7 @@ public class GtnUIFrameworkWebserviceRequest {
 
 	private GtnWsAttachmentRequest gtnWsAttachmentRequest;
 
+
 	private GtnWsReportRequest gtnReportRequest;
 
 	public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
@@ -467,6 +468,7 @@ public class GtnUIFrameworkWebserviceRequest {
 	public void setGtnWsAttachmentRequest(GtnWsAttachmentRequest gtnWsAttachmentRequest) {
 		this.gtnWsAttachmentRequest = gtnWsAttachmentRequest;
 	}
+
 
 	public GtnWsReportRequest getGtnReportRequest() {
 		return gtnReportRequest;

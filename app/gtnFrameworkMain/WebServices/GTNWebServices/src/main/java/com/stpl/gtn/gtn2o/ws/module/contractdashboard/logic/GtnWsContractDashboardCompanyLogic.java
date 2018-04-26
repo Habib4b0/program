@@ -485,7 +485,7 @@ public class GtnWsContractDashboardCompanyLogic {
 	}
 
 	private StringBuilder returnWhereCluase(GtnWsSearchRequest searchRequest) throws GtnFrameworkGeneralException {
-		StringBuilder whereBuilder = new StringBuilder("");
+		StringBuilder whereBuilder = new StringBuilder();
 		for (int i = 0; i < searchRequest.getGtnWebServiceSearchCriteriaList().size(); i++) {
 			GtnWebServiceSearchCriteria searchCriteria = searchRequest.getGtnWebServiceSearchCriteriaList().get(i);
 			if (searchCriteria.isFilter() && !skipCriteria(searchCriteria.getFieldId())) {

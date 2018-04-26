@@ -283,6 +283,8 @@ public class GtnWsAllListConfig {
 				"select distinct rld.level_no,'Level '+rld.level_no+' - '+rld.level_name from relationship_level_definition rld, relationship_builder rb, hierarchy_level_definition hld where rld.relationship_builder_sid in (select rbt.relationship_builder_sid from relationship_builder rbt where rbt.hierarchy_definition_sid = ?) and rld.hierarchy_level_definition_sid = hld.hierarchy_level_definition_sid order by rld.level_no asc");
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.PRODUCT_INNER_LEVEL,
 				"select distinct rld.level_no,'Level '+rld.level_no+' - '+rld.level_name from relationship_level_definition rld, relationship_builder rb, hierarchy_level_definition hld where rld.relationship_builder_sid in (select rbt.relationship_builder_sid from relationship_builder rbt where rbt.hierarchy_definition_sid = ?) and rld.level_no <=? and rld.hierarchy_level_definition_sid = hld.hierarchy_level_definition_sid order by rld.level_no asc");
+		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION,
+				"select version_no,hierarchy_version from Relationship_builder where relationship_name = ? order by version_no desc");
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.TIME_PERIOD_FROM_DATE,
 				GtnFrameworkForecastConstantCommon.LOAD_QUERY_FROM_XML);
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.TIME_PERIOD_TO_DATE,

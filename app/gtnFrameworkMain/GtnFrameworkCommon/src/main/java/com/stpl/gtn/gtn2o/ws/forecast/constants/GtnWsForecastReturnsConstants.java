@@ -30,8 +30,10 @@ public final class GtnWsForecastReturnsConstants {
 	public static final String GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_BULK_LOAD_COUNT_SERVICE = "/loadCount";
 
 	public static final String GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_LEFT_HEADERS_SERVICE = "/getLeftHeaders";
+	public static final String GTN_WS_REPORT_PROJECTION_TAB_LEFT_HEADERS_SERVICE = "/getReportLeftHeaders";
 
 	public static final String GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_RIGHT_HEADERS_SERVICE = "/getRightHeaders";
+	public static final String GTN_WS_REPORT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE = "/getReportRightHeaders";
 
 	public static final String GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_CALCULATE_SERVICE = "/calculate";
 

@@ -979,7 +979,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 	private void addResultTable(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig reportingDashboardResultTableComponentConfig = new GtnUIFrameworkComponentConfig();
-		reportingDashboardResultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGEDTREETABLE);
+		reportingDashboardResultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGED_TREE_GRID);
 		reportingDashboardResultTableComponentConfig.setComponentId(GtnFrameworkCommonConstants.RESULT_TABLE);
 		reportingDashboardResultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
 		reportingDashboardResultTableComponentConfig.setAddToParent(true);
@@ -994,10 +994,14 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		reportingDashboardGtnPagedTreeTableConfig.setGtnUIFrameWorkActionConfig(reportingDashboardGtnUIFrameWorkActionConfig);
 
 		reportingDashboardGtnPagedTreeTableConfig.setLeftHeader(
-				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
+				GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
 		reportingDashboardGtnPagedTreeTableConfig.setRightHeader(
-				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
+				GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
 
+//            reportingDashboardGtnPagedTreeTableConfig.setLeftWsHeaderUrl(
+//                    GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
+//             reportingDashboardGtnPagedTreeTableConfig.setRightWsHeaderUrl(
+//                    GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
 		reportingDashboardGtnPagedTreeTableConfig.setCountUrl("");
 		reportingDashboardGtnPagedTreeTableConfig.setItemPerPage(10);
 

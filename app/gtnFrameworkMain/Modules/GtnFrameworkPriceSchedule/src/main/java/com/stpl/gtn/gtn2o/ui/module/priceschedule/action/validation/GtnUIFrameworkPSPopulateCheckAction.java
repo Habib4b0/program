@@ -80,7 +80,7 @@ public class GtnUIFrameworkPSPopulateCheckAction implements GtnUIFrameWorkAction
 
 		int result = Integer.parseInt(String.valueOf(gtnUIFrameworkWebserviceResponse.getOutBountData()[0]));
 
-		if (checkedCount.equalsIgnoreCase("tempCheckedCount") && result > 0) {
+		if (result > 0 && checkedCount.equalsIgnoreCase("tempCheckedCount")) {
 			isDuplicated = true;
 		}
 

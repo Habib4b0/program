@@ -269,11 +269,11 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         }
         if (!"edit".equals(sessionDTO.getAction()) ) {
         customMenuBar.addSubMenuCloseListener(customMenuBarListener);
-        customMenuItem.getChildren().get(6).setChecked(true);
+        customMenuItem.getChildren().get(5).setChecked(true);
         customMenuItem.getChildren().get(7).setChecked(true);
         customMenuItem.getChildren().get(8).setChecked(true);
         customMenuItem.getChildren().get(11).setChecked(true);
-        ChangeMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, "Multiple");
+        ChangeMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, Constants.MULTIPLE);
         }
 
         String[] variableCategoryValues = ConstantsUtil.PVVariableCategory.names();
@@ -985,13 +985,29 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     customItem[i] = customMenuItem.addItem(variableValues[i].trim(), null);
                     customItem[i].setCheckable(true);
                     customItem[i].setItemClickable(true);
-
+        
                     customItem[i].setItemClickNotClosable(true);
                     if (i == 0) {
-                        customItem[i].setCheckAll(true);
-                    }
-                }
+                        customItem[i].setCheckAll(false);
+        }
+        }
                 getUnCheckedVariableMenuItem(customMenuItem);
+                customMenuBar.removeSubMenuCloseListener(customMenuBarListener);
+                customMenuItem.getChildren().get(13).setChecked(true);
+        customMenuItem.getChildren().get(15).setChecked(true);
+        customMenuItem.getChildren().get(16).setChecked(true);
+        customMenuItem.getChildren().get(19).setChecked(true);
+        ChangeMenuBarValueUtil.setMenuItemToDisplay(customMenuBar, Constants.MULTIPLE);
+        
+        variableCategoryCustomMenuBar.addSubMenuCloseListener(variableCategoryListener);
+        variableCategoryCustomMenuItem.getChildren().get(0).setChecked(true);
+        variableCategoryCustomMenuItem.getChildren().get(1).setChecked(false);
+        variableCategoryCustomMenuItem.getChildren().get(2).setChecked(false);
+        variableCategoryCustomMenuItem.getChildren().get(3).setChecked(false);
+        variableCategoryCustomMenuItem.getChildren().get(4).setChecked(false);
+         ChangeMenuBarValueUtil.setMenuItemToDisplay(variableCategoryCustomMenuBar, "Value");
+         loadSalesInclusion(true);
+         loadDeductionInclusion(true);
             }
         }.getConfirmationMessage("Confirmation",
                 "Are you sure you want to reset the values in the Variance Selection section to the previous values?");
@@ -1402,7 +1418,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             for (int i = 0; i < projIdList.size(); i++) {
                 projectionMap.put(projIdList.get(i), projNameList.get(i));
             }
-            comparison.setValue(projNameList.size() > 1 ? "Multiple" : projNameList.get(0));
+            comparison.setValue(projNameList.size() > 1 ? Constants.MULTIPLE : projNameList.get(0));
             pvSelectionDTO.setProjIdList(projIdList);
             pvSelectionDTO.setProjectionMap(projectionMap);
             if (!pvSelectionDTO.getProjIdList().isEmpty()) {
@@ -2162,8 +2178,9 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         customerFilterDdlb.addSubMenuCloseListener(customerlistener);
     }
 
-    private void loadDeductionInclusion() throws IllegalStateException {
+    private void loadDeductionInclusion(boolean reset) throws IllegalStateException {
         String[] deductionValues = {"Yes", "No"};
+        if(!reset){
         deductionInclusionValues = deductionInclusionDdlb.addItem(SELECT_VALUES, null);
         CustomMenuBar.CustomMenuItem[] deductionInclusionCustomItem = new CustomMenuBar.CustomMenuItem[deductionValues.length];
         for (int i = 0; i < deductionValues.length; i++) {
@@ -2173,16 +2190,19 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             deductionInclusionCustomItem[i].setItemClickable(true);
             deductionInclusionCustomItem[i].setItemClickNotClosable(true);
         }
+        }
          if (!"edit".equals(sessionDTO.getAction()) ) {
+             getUnCheckedVariableMenuItem(deductionInclusionValues);
         deductionInclusionDdlb.addSubMenuCloseListener(deductionInclusionListener);
         deductionInclusionValues.getChildren().get(0).setChecked(true);
          ChangeMenuBarValueUtil.setMenuItemToDisplay(deductionInclusionDdlb, "Yes");
         }
     }
 
-    private void loadSalesInclusion() {
+    private void loadSalesInclusion(boolean reset) {
         String[] salesValues = {"Yes", "No"};
         salesInclusionDdlb.removeSubMenuCloseListener(salesInclusionListener);
+        if(!reset){
         salesInclusionValues = salesInclusionDdlb.addItem(SELECT_VALUES, null);
         CustomMenuBar.CustomMenuItem[] salesInclusionCustomItem = new CustomMenuBar.CustomMenuItem[salesValues.length];
         for (int i = 0; i < salesValues.length; i++) {
@@ -2193,7 +2213,9 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             salesInclusionCustomItem[i].setItemClickNotClosable(true);
 
         }
+        }
         if (!"edit".equals(sessionDTO.getAction()) ) {
+            getUnCheckedVariableMenuItem(salesInclusionValues);
         salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
         salesInclusionValues.getChildren().get(0).setChecked(true);
          ChangeMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, "Yes");
@@ -2256,8 +2278,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             loadCustomerLevelFilter(StringUtils.EMPTY);
             loadProductLevelFilter(StringUtils.EMPTY);
             loadDeductionLevelFilter(StringUtils.EMPTY);
-            loadDeductionInclusion();
-            loadSalesInclusion();
+            loadDeductionInclusion(false);
+            loadSalesInclusion(false);
             uomLoadingTabChange();
             loadDisplayFormatDdlb();
         }

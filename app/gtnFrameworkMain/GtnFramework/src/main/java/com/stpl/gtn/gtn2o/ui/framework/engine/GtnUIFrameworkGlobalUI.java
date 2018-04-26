@@ -12,9 +12,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.QueryBean;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.GtnUIFrameworkNotesTab;
-import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkConfigMap;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
@@ -436,15 +434,15 @@ public class GtnUIFrameworkGlobalUI {
 			GtnUIFrameworkBaseComponent field = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentIds[i]);
 			GtnUIFrameworkComponentType type = field.getComponentConfig().getComponentType();
 			Object value;
-			if (type.equals(GtnUIFrameworkComponentType.COMBOBOX)) {
+			if (GtnUIFrameworkComponentType.COMBOBOX == type) {
 				value = field.getIntegerFromField();
-			} else if (type.equals(GtnUIFrameworkComponentType.DATEFIELD)) {
+			} else if (GtnUIFrameworkComponentType.DATEFIELD == type) {
 				value = field.getDateFromDateField();
 			} else {
 				value = field.getStringFromField();
 			}
 			if (value == null || value instanceof String && String.valueOf(value).isEmpty()
-					|| value instanceof Integer && Integer.valueOf(String.valueOf(value)) == 0) {
+					|| value instanceof Integer && Integer.parseInt(String.valueOf(value)) == 0) {
 				errorMessageBuilder.append(appender).append(field.getCaption());
 				appender = " , ";
 
@@ -541,7 +539,7 @@ public class GtnUIFrameworkGlobalUI {
 	}
 
 	public static String regexValidation(String[] componentIds) {
-		StringBuilder msg = new StringBuilder(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		StringBuilder msg = new StringBuilder();
 		for (int i = 0; i < componentIds.length; i++) {
 			GtnUIFrameworkComponentConfig currentComponentConfig = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(componentIds[i]).getComponentConfig();
@@ -569,16 +567,4 @@ public class GtnUIFrameworkGlobalUI {
 			}
 		}
 	}
-        
-    
-
-    public static Object[]  fetchInput(Object[] queryInputIds) {
-        Object[] values=new Object[queryInputIds.length];
-        int i = 0;
-        for (Object object : queryInputIds) {
-            GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(object.toString());
-            values[i++] = baseComponent == null ? object : baseComponent.getFieldValue() == null || baseComponent.getFieldValue().toString().isEmpty() ? '%' : baseComponent.getFieldValue();
-        }
-        return values;
-    }
 }

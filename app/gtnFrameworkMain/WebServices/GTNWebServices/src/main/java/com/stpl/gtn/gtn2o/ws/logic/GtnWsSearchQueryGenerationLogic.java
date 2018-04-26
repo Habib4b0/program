@@ -166,7 +166,7 @@ public class GtnWsSearchQueryGenerationLogic {
 	public String generateFilterRelatedWhereClause(List<GtnWebServiceSearchCriteria> gtnWebServiceSearchCriteriaList,
 			boolean isWhereAppended) {
 		boolean isWhereCondition = isWhereAppended;
-		StringBuilder finalWhere = new StringBuilder("");
+		StringBuilder finalWhere = new StringBuilder();
 		if (gtnWebServiceSearchCriteriaList != null && !gtnWebServiceSearchCriteriaList.isEmpty()) {
 			Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = gtnWebServiceSearchQueryConfig
 					.getFieldToColumnDetailsMap();
