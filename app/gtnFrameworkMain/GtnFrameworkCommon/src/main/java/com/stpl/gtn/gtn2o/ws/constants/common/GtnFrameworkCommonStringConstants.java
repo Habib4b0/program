@@ -197,6 +197,8 @@ public class GtnFrameworkCommonStringConstants {
 	public static final String CM = "CM";
 	public static final String CMF = "CMF";
 	public static final String GETFRIENDLYURLQUERY = "getfriendlyURLQuery";
+	
+	public static final String REPORT_MODULE_NAME = "report";
 
 	private GtnFrameworkCommonStringConstants() {
 	}

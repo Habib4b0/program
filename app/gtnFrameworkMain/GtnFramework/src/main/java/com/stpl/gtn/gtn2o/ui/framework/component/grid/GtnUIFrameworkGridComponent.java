@@ -1,8 +1,10 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid;
 
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentActionable;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -14,7 +16,13 @@ public class GtnUIFrameworkGridComponent implements GtnUIFrameworkComponent, Gtn
 
 	@Override
 	public void postCreateComponent(AbstractComponent component, GtnUIFrameworkComponentConfig componentConfig) {
-		// Not yet needed
+		componentConfig.getGtnUIFrameWorkActionConfigList();
+		try {
+			GtnUIFrameworkActionExecutor.executeActionList(componentConfig.getComponentId(),
+					componentConfig.getGtnUIFrameWorkActionConfigList());
+		} catch (GtnFrameworkGeneralException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -26,6 +34,9 @@ public class GtnUIFrameworkGridComponent implements GtnUIFrameworkComponent, Gtn
 		grid.setCaption(componentConfig.getComponentName());
 		grid.setHeight(componentConfig.getComponentHight());
 		generateColumns(grid, componentConfig.getGtnUIFrameWorkGridConfig());
+		GtnUIFrameworkComponentData componentData = new GtnUIFrameworkComponentData();
+		componentData.setCurrentComponentConfig(componentConfig);
+		grid.setData(componentData);
 		return grid;
 	}
 

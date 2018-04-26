@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-
 import com.stpl.gtn.gtn2o.ws.rebateschedule.GtnWsRebateScheduleInfoBean;
 import com.stpl.gtn.gtn2o.ws.response.authorization.GtnWsModuleAuthorizationGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.automaticrelationupdate.GtnFrameworkAutomaticRelationshipResponse;
@@ -31,6 +30,7 @@ import com.stpl.gtn.gtn2o.ws.response.priceschedule.GtnWsPriceScheduleGeneralRes
 import com.stpl.gtn.gtn2o.ws.response.processmonitor.GtnWsProcessMonitorResponse;
 import com.stpl.gtn.gtn2o.ws.response.rebateplan.GtnWsRebatePlanGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuilderResponse;
+import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
 import com.stpl.gtn.gtn2o.ws.response.transaction.GtnWsTransactionResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 
@@ -88,6 +88,8 @@ public class GtnUIFrameworkWebserviceResponse {
 	private GtnWsAttachmentResponse gtnWsAttachmentResponse;
 
 	private GtnFrameworkAutomaticRelationshipResponse automaticRelationResponse;
+
+	private GtnWsReportResponse gtnReportResponse;
 
 	public String getResponseStatus() {
 		return responseStatus;
@@ -424,6 +426,15 @@ public class GtnUIFrameworkWebserviceResponse {
 		this.gtnWsAttachmentResponse = gtnWsAttachmentResponse;
 	}
 
+	public GtnWsReportResponse getGtnReportResponse() {
+		return gtnReportResponse;
+	}
 
+	public void setGtnReportResponse(GtnWsReportResponse gtnReportResponse) {
+		this.gtnReportResponse = gtnReportResponse;
+	}
 
+	
+
+	
 }
