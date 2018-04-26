@@ -53,6 +53,7 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	private GtnFrameworkRelationshipLevelDefintionBean selectedHierarchyLevelDto;
 
 	private boolean isCff;
+    private boolean forecastInsert;
 
 	public GtnForecastHierarchyInputBean() {
 		super();
@@ -322,5 +323,14 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	public void setLowestLevelNo(int lowestLevelNo) {
 		this.lowestLevelNo = lowestLevelNo;
 	}
+
+        public boolean isForecastInsert() {
+                return forecastInsert;
+        }
+
+        public void setForecastInsert(boolean forecastInsert) {
+                 this.forecastInsert = forecastInsert;
+        }
+        
 
 }
