@@ -307,7 +307,7 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		discountProjectionGtnPagedTreeTableConfig.setSplitPosition(493);
 		discountProjectionGtnPagedTreeTableConfig.setTableHeight("650px");
 		discountProjectionGtnPagedTreeTableConfig.setDoubleHeaderVisible(true);
-		//discountProjectionGtnPagedTreeTableConfig.setTripleHeaderVisible(true);
+		discountProjectionGtnPagedTreeTableConfig.setTripleHeaderVisible(true);
 
 		discountProjectionGtnPagedTreeTableConfig.setLeftTableEditable(true);
 		discountProjectionGtnPagedTreeTableConfig.setRightTableEditable(true);

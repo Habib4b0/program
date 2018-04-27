@@ -79,17 +79,18 @@ public class HeaderGeneratorService {
 		tableHeaderDTO.addSingleColumn("growth", "Growth", String.class);
 		
 		tableHeaderDTO.addDoubleHeaderMap("q1-17",new Object[] {"actualRate","actualRPU","actualAmount","projectedRate","projectedRPU","projectedAmount","growth"});
-		tableHeaderDTO.addTripleHeaderMap("q2-17",new Object[] {"q1-17"});
+	
 		//tableHeaderDTO.addDoubleHeaderMap("q3-17",new Object[] {"actualRate","actualRPU","actualAmount","projectedRate","projectedRPU","projectedAmount","growth"});
 		//tableHeaderDTO.addDoubleHeaderMap("q4-17",new Object[] {"actualRate","actualRPU","actualAmount","projectedRate","projectedRPU","projectedAmount","growth"});
 		
 		tableHeaderDTO.addDoubleColumn("q1-17", "Q1 2017");
+		
+		tableHeaderDTO.addTripleHeaderMap("q2-17",new Object[] {"q1-17"});
 		tableHeaderDTO.addTripleColumn("q2-17", "Q2 2017");
-		//;tableHeaderDTO.addDoubleColumn();
+		//tableHeaderDTO.addDoubleColumn();
 		/*tableHeaderDTO.addDoubleColumn("q3-17", "Q3 2017");
 		tableHeaderDTO.addDoubleColumn("q4-17", "Q4 2017");*/
 		
-		tableHeaderDTO.addTripleColumn("a", "kumar");
 		return tableHeaderDTO;
 	}
 
