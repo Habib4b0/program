@@ -834,8 +834,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 				Files.move(fileUpload.toPath(), Paths.get(destFileUpload.getAbsolutePath()),
 						StandardCopyOption.REPLACE_EXISTING);
 				NotesDTO attachmentDTO = new NotesDTO();
-				String name = file + sb.substring(sb.indexOf("."));
-				attachmentDTO.setDocumentName(name);
+				attachmentDTO.setDocumentName(event.getFilename());
 				SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
 				TimeZone central = TimeZone.getTimeZone("CST");
 				format.setTimeZone(central);
