@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -173,8 +174,7 @@ public class GtnWsEMailConfigurationBean implements Serializable {
         this.comboboxOnChangeDataLoad = comboboxOnChangeDataLoad == null ? null
                 : Collections.unmodifiableList(comboboxOnChangeDataLoad);
     }
-
-    private void writeObject(ObjectOutputStream stream) throws IOException {
+     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
     }
 

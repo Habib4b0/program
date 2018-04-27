@@ -113,7 +113,7 @@ public class GtnForecastBean implements Serializable {
 	 */
 	private Date forecastEndDate;
 
-	private Map<String, List<String>> queryParameters;
+	private Map<String, List<String>> queryParameters ;
 
 	private String actualOrProjection;
 
@@ -1072,7 +1072,6 @@ public class GtnForecastBean implements Serializable {
 	private void readObject(java.io.ObjectInputStream s) throws java.io.IOException, ClassNotFoundException {
 		s.defaultReadObject();
 	}
-
 
 
 }

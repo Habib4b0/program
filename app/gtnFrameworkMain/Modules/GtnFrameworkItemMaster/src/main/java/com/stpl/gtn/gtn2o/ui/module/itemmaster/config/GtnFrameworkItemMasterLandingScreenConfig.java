@@ -476,7 +476,7 @@ public class GtnFrameworkItemMasterLandingScreenConfig {
 		ndc8.setComponentName("NDC 8");
 		componentList.add(ndc8);
 
-		GtnUIFrameworkComboBoxConfig ndc8Config = componentConfig.getComboBoxConfig("NDC8",
+		GtnUIFrameworkComboBoxConfig ndc8Config = componentConfig.getComboBoxConfig("Ndc8Items",
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 
