@@ -35,8 +35,8 @@ public class GtnWsEMailConfigurationBean implements Serializable {
 	private String emailNotificationTabFailureSubject;
 	private String emailNotificationTabFailureEmailCc;
 	private String emailNotificationTabFailureEmailBody;
-	private List<Object[]> defaultDataLoad = new ArrayList<>();
-	private List<Object[]> comboboxOnChangeDataLoad = new ArrayList<>();
+	private List<Object[]> defaultDataLoad;
+	private List<Object[]> comboboxOnChangeDataLoad;
 
 	public String getEmailConfigTabSMTP() {
 		return emailConfigTabSMTP;
