@@ -12,12 +12,19 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dao.AdditionalInfoDAO;
 import com.stpl.app.cff.dao.impl.AdditionalInfoDAOImpl;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
+import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.parttwo.model.CffAdditionalInfo;
 import com.stpl.app.parttwo.model.CffDocDetails;
 import com.stpl.app.parttwo.service.CffAdditionalInfoLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffDocDetailsLocalServiceUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.NotesDTO;
+import com.stpl.ifs.util.GtnFileUtil;
 import com.stpl.ifs.util.constants.BooleanConstant;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -240,4 +247,32 @@ public class AdditionalInfoLogic {
         LOGGER.debug("End of deleteUploadedFile method");
         return BooleanConstant.getTrueFlag();
     }
+    
+    public void saveAttachFile (List<NotesDTO> availableUploadedInformation, String moduleName,
+            int moduleSystemId) throws SystemException, PortalException {
+             for (NotesDTO uploadDetails : availableUploadedInformation) {
+                String query = SQlUtil.getQuery("insertAttachQuery");
+                query = query.replace("?ATTACHMENT_TABLE_SID","'" + moduleSystemId + "'");
+                query = query.replace("?MASTER_TABLE_NAME","'" + moduleName + "'");
+                try {
+                    query = query.replace("?FILE_DATA", "'" + readBytesFromFile(uploadDetails.getDocumentFullPath())+ "'" );
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                query = query.replace("?FILE_NAME","'"  + uploadDetails.getDocumentName() + "'" );
+                query = query.replace("?CREATED_BY", "'" + uploadDetails.getUserId()+ "'" );
+                LOGGER.info("query " + query );
+                HelperTableLocalServiceUtil.executeUpdateQuery(query);
+             }
+            }
+         private static byte[] readBytesFromFile(String filePath) throws IOException {
+                File inputFile = GtnFileUtil.getFile(filePath);
+                FileInputStream inputStreamIm= GtnFileUtil.getFileInputStreamFile(inputFile);
+                byte[] fileBytes = new byte[(int) inputFile.length()];
+                int i=inputStreamIm.read(fileBytes);
+                if(i>0) 
+                return fileBytes;
+                return  new byte[0];
+            }
+
 }

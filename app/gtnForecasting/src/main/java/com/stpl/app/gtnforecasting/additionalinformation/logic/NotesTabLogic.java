@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.dto.AttachmentDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.PROJECTION_ID;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -16,9 +17,13 @@ import com.stpl.app.model.AdditionalNotes;
 import com.stpl.app.model.DocDetails;
 import com.stpl.app.service.AdditionalNotesLocalServiceUtil;
 import com.stpl.app.service.DocDetailsLocalServiceUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.NotesDTO;
+import com.stpl.ifs.util.GtnFileUtil;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -255,5 +260,32 @@ public class NotesTabLogic {
 
         return notes.toString();
     }
+    
+    public void saveAttachFile (List<NotesDTO> availableUploadedInformation, String moduleName,
+            int moduleSystemId) throws SystemException, PortalException {
+             for (NotesDTO uploadDetails : availableUploadedInformation) {
+                String query = com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil.getQuery("insertAttachQuery");
+                query = query.replace("?ATTACHMENT_TABLE_SID","'" + moduleSystemId + "'");
+                query = query.replace("?MASTER_TABLE_NAME","'" + moduleName + "'");
+                try {
+                    query = query.replace("?FILE_DATA", "'" + readBytesFromFile(uploadDetails.getDocumentFullPath())+ "'" );
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                query = query.replace("?FILE_NAME","'"  + uploadDetails.getDocumentName() + "'" );
+                query = query.replace("?CREATED_BY", "'" + uploadDetails.getUserId()+ "'" );
+                HelperTableLocalServiceUtil.executeUpdateQuery(query);
+             }
+            }
+         private static byte[] readBytesFromFile(String filePath) throws IOException {
+                File inputFile = GtnFileUtil.getFile(filePath);
+                FileInputStream inputStreamIm= GtnFileUtil.getFileInputStreamFile(inputFile);
+                byte[] fileBytes = new byte[(int) inputFile.length()];
+                int i=inputStreamIm.read(fileBytes);
+                if(i>0) 
+                return fileBytes;
+                return  new byte[0];
+            }
+
 
 }
