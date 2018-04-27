@@ -286,6 +286,7 @@ public class RelationShipFilterLogic {
 		inputBean.setSelectedCustomerHierarchyVersionNo(dto.getCustomerHierVersionNo());
 		inputBean.setSelectedProductHierarchyVersionNo(dto.getProductHierVersionNo());
 		inputBean.setProjectionId(dto.getProjectionId());
+                inputBean.setForecastInsert(true);
 		return inputBean;
 	}
 

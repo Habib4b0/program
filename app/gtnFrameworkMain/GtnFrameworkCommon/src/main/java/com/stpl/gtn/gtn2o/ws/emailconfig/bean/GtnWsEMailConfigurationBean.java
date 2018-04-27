@@ -173,8 +173,7 @@ public class GtnWsEMailConfigurationBean implements Serializable {
         this.comboboxOnChangeDataLoad = comboboxOnChangeDataLoad == null ? null
                 : Collections.unmodifiableList(comboboxOnChangeDataLoad);
     }
-
-    private void writeObject(ObjectOutputStream stream) throws IOException {
+     private void writeObject(ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
     }
 

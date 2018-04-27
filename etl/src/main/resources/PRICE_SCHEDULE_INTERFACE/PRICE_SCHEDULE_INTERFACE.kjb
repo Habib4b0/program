@@ -234,7 +234,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;FULL_JOB.kjb</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;FULL_JOB_FOR_PS.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -257,8 +257,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1196</xloc>
-      <yloc>514</yloc>
+      <xloc>1197</xloc>
+      <yloc>515</yloc>
       </entry>
     <entry>
       <name>CSV_TO_INTERFACE</name>
