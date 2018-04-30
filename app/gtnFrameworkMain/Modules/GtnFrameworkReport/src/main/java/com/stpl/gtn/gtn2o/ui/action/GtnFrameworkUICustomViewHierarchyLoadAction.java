@@ -64,7 +64,7 @@ public class GtnFrameworkUICustomViewHierarchyLoadAction
 		List deductionList = Arrays.stream(values).map(value -> {
 			Object[] dataArray = new Object[3];
 			dataArray[0] = value.toString();
-			dataArray[1] = 1;
+			dataArray[1] = value.getLevelNo();
 			dataArray[2] = GtnWsHierarchyType.DEDUCTION.toString();
 			return dataArray;
 		}).collect(Collectors.toList());

@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.constants.MongoStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
@@ -80,5 +81,13 @@ public class GtnWsReportCustomViewService {
 				.getCollection(MongoStringConstants.REPORT_COLLECTION, GtnWsReportDataSelectionBean.class);
 		FindIterable<GtnWsReportDataSelectionBean> selectionBean = collection.find(and(eq("name", reportTempName)));
 		return selectionBean.first();
+	}
+
+	public void saveCustomViewTree(GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
+		MongoCollection<GtnWsCustomTreeData> collection = client.getDatabase(MongoStringConstants.DATABSE_NAME)
+				.withCodecRegistry(registery.getPojoCodecRegistry())
+				.getCollection(MongoStringConstants.CUSTOM_VIEW_COLLECTION, GtnWsCustomTreeData.class);
+		collection
+				.insertOne(gtnWsRequestF.getGtnReportRequest().getReportBean().getCustomViewBean().getCustomTreeData());
 	}
 }

@@ -47,6 +47,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
+import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.UI;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
@@ -1096,6 +1097,10 @@ public class GtnUIFrameworkBaseComponent {
 	public void deSelectItemInGrid(GtnWsRecordBean item) throws GtnFrameworkGeneralException {
 		Grid dataGrid = this.getGrid();
 		dataGrid.deselect(item);
+	}
+
+	public TreeGrid getTreeGrid() {
+		return (TreeGrid) this.component;
 	}
 
 }

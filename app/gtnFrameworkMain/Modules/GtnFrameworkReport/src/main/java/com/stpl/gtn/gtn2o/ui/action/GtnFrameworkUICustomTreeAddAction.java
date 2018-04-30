@@ -17,7 +17,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkSkipActionException;
 import com.vaadin.data.TreeData;
 import com.vaadin.ui.TreeGrid;
 
-public class GtnFrameWorkUICustomTreeAddAction
+public class GtnFrameworkUICustomTreeAddAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
 	private static final String INVALID_STRUCTURE_CAPTION = "Invalid Structure";
