@@ -72,13 +72,12 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     protected static final String MODE = StringUtils.EMPTY;
 
-	private static final int List = 0;
     protected final boolean isAddMode;
     protected final boolean isEditMode;
     protected final boolean isViewMode;
     protected CommonUIUtils commonUiUtil = new CommonUIUtils();
     private boolean isFileRename;
-    AttachmentDTO attachmentDTO=new AttachmentDTO();
+
 
     /**
      * The logo.
@@ -277,6 +276,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     @Override
     public void itemClickLogic(ItemClickEvent event) {
         try {
+            AttachmentDTO attachmentSaveDTO;
             tableBeanId = event.getItemId();
             BeanItem<?> targetItem = null;
             if (tableBeanId instanceof BeanItem<?>) {
@@ -288,21 +288,15 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 tableBean = (NotesDTO) targetItem.getBean();
             }
             if (event.isDoubleClick()) {
-                try {
-                    attachmentDTO=fetchData(tableBean.getDocDetailsId());
+                	attachmentSaveDTO=fetchData(tableBean.getDocDetailsId());
                     FileOutputStream fileOuputStream = null;
                     fileOuputStream = GtnFileUtil.getFileOutputStream(tableBean.getDocumentFullPath());
-                    fileOuputStream.write(attachmentDTO.getFileData());
+                    fileOuputStream.write(attachmentSaveDTO.getFileData());
                     fileOuputStream.close();
                     File uploadedFile = GtnFileUtil.getFile(tableBean.getDocumentFullPath());
                     Resource res = new FileResource(uploadedFile);
                     fileDownloader.setFileDownloadResource(res);
                     downloadFile(uploadedFile);
-                    } catch (Exception e) {
-                        LOGGER.error("Error in file is not Found",e);
-                    }
-
-
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -412,7 +406,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                  oos = new ObjectOutputStream(bos);
                  oos.writeObject(fileData);
              } catch (IOException e) {
-                 e.printStackTrace();
+            	 LOGGER.error("Error While File Fetching");
              }
              byte[] bytes = bos.toByteArray();
          attachmentBean.setFileData(bytes);

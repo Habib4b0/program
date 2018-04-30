@@ -262,7 +262,7 @@ public class NotesTabLogic {
     }
     
     public void saveAttachFile (List<NotesDTO> availableUploadedInformation, String moduleName,
-            int moduleSystemId) throws SystemException, PortalException {
+            int moduleSystemId) throws  PortalException {
              for (NotesDTO uploadDetails : availableUploadedInformation) {
                 String query = com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil.getQuery("insertAttachQuery");
                 query = query.replace("?ATTACHMENT_TABLE_SID","'" + moduleSystemId + "'");
@@ -270,7 +270,7 @@ public class NotesTabLogic {
                 try {
                     query = query.replace("?FILE_DATA", "'" + readBytesFromFile(uploadDetails.getDocumentFullPath())+ "'" );
                 } catch (IOException e) {
-                    e.printStackTrace();
+                	LOGGER.error("Error While Fetching");
                 }
                 query = query.replace("?FILE_NAME","'"  + uploadDetails.getDocumentName() + "'" );
                 query = query.replace("?CREATED_BY", "'" + uploadDetails.getUserId()+ "'" );
@@ -283,7 +283,7 @@ public class NotesTabLogic {
                 byte[] fileBytes = new byte[(int) inputFile.length()];
                 int i=inputStreamIm.read(fileBytes);
                 if(i>0) 
-                return fileBytes;
+                   return fileBytes;
                 return  new byte[0];
             }
 

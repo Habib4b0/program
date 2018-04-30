@@ -70,7 +70,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	private final String userName;
 	private final NotesTabLogic logic = new NotesTabLogic();
 	private NotesDTO tableBean = new NotesDTO();
-	GlobalImpl globalImpl= new GlobalImpl();
+	private GlobalImpl globalImpl= new GlobalImpl();
 
 	protected final String mode;
 	protected final boolean isAddMode;

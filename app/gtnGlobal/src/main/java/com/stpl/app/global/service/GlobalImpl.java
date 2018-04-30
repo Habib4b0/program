@@ -148,9 +148,9 @@ public byte[] fetchData(int documentSid) {
 			oos = new ObjectOutputStream(bos);
 			oos.writeObject(fileData);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Error While File Fetching",e);
 		}
-		byte[] bytes = bos.toByteArray();
-		return bytes;
+		
+		return  bos.toByteArray();
    }
 }
