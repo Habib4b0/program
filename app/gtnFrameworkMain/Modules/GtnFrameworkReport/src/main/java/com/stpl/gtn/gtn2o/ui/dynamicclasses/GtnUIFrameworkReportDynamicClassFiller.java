@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.dynamicclasses;
 
-import com.stpl.gtn.gtn2o.ui.action.GtnFrameWorkUICustomTreeAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomViewHierarchyLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.pagedtreetable.GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction;
 import com.stpl.gtn.gtn2o.ui.action.pagedtreetable.GtnFrameworkConfigureRightTableHeaderForPTTCompoAction;
@@ -39,8 +40,10 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnFrameworkReturnCheckAllAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUICustomViewHierarchyLoadAction.class.getName(),
 				new GtnFrameworkUICustomViewHierarchyLoadAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameWorkUICustomTreeAddAction.class.getName(),
-				new GtnFrameWorkUICustomTreeAddAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUICustomTreeAddAction.class.getName(),
+				new GtnFrameworkUICustomTreeAddAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUICustomTreeSaveAction.class.getName(),
+				new GtnFrameworkUICustomTreeSaveAction());
 	}
 
 }
