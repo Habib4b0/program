@@ -276,7 +276,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     @Override
     public void itemClickLogic(ItemClickEvent event) {
         try {
-            AttachmentDTO attachmentSaveDTO=new AttachmentDTO();
+            AttachmentDTO attachmentSaveDTO;
             tableBeanId = event.getItemId();
             BeanItem<?> targetItem = null;
             if (tableBeanId instanceof BeanItem<?>) {

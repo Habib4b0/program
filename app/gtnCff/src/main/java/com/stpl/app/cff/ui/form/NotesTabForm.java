@@ -259,7 +259,7 @@ public class NotesTabForm extends AbstractNotesTab {
 
 	@Override
 	public void itemClickLogic(ItemClickEvent event) {
-		AttachmentDTO attachmentSaveDTO=new AttachmentDTO();
+		AttachmentDTO attachmentSaveDTO;
 		tableBeanId = event.getItemId();
 		BeanItem<?> targetItem = null;
 		if (tableBeanId instanceof BeanItem<?>) {
