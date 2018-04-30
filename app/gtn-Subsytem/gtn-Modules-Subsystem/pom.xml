@@ -45,6 +45,11 @@
 			<artifactId>gtnSecurity</artifactId>
 			<version>1.0</version>
 		</dependency>
+                <dependency>
+			<groupId>com.stpl.app.bpm</groupId>
+			<artifactId>GtnLoginHook</artifactId>
+			<version>1.0</version>
+		</dependency>
 
 
 	</dependencies>

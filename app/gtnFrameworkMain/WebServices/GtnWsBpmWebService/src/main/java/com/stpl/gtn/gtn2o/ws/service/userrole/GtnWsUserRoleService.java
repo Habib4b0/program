@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsReturnsDatabaseService;
 public class GtnWsUserRoleService {
 
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsUserRoleService.class);
+	
 	@Autowired
 	private GtnWsReturnsDatabaseService databaseService;
 	

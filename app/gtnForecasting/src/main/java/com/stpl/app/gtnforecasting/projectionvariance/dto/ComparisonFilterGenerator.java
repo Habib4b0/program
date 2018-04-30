@@ -231,10 +231,10 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                             Object[] obj = (Object[]) list.get(i);
                             contractType.addItem(obj[0] == null ? StringUtils.EMPTY : obj[0].toString() + "~" + Constant.MANDATED_DISCOUNT);
                             contractType.setItemCaption(obj[0].toString() + "~" + Constant.MANDATED_DISCOUNT == null ? StringUtils.EMPTY : obj[0].toString() + "~" + Constant.MANDATED_DISCOUNT, obj[0] == null ? StringUtils.EMPTY
-                                    : "Mandated Discount " + "-" + " " + obj[0].toString());
+                                    : "Mandated Discount " + "-" + " " + obj[0]);
                             contractType.addItem(obj[0] == null ? StringUtils.EMPTY : obj[0].toString() + "~" + Constant.MANDATED_SUPPLEMENTAL);
                             contractType.setItemCaption(obj[0].toString() + "~" + Constant.MANDATED_SUPPLEMENTAL == null ? StringUtils.EMPTY : obj[0].toString() + "~" + Constant.MANDATED_SUPPLEMENTAL, obj[0] == null ? StringUtils.EMPTY
-                                    : "Mandated Supplemental " + "-" + " " + obj[0].toString());
+                                    : "Mandated Supplemental " + "-" + " " + obj[0]);
                         }
                     }
                 }

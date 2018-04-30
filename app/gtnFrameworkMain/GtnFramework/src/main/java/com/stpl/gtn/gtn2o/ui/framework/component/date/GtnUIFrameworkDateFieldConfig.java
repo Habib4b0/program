@@ -12,6 +12,8 @@ public class GtnUIFrameworkDateFieldConfig {
 	private boolean required;
 	private boolean immediate = true;
 	private String requiredMessage;
+	private boolean valueLoadFromService;
+	private String loadingUrl;
 	private List<GtnUIFrameWorkActionConfig> valueChangeActionConfigList = new ArrayList<>();
 	private List<GtnUIFrameWorkActionConfig> validationActionConfigList = new ArrayList<>();
 
@@ -44,7 +46,23 @@ public class GtnUIFrameworkDateFieldConfig {
 		this.required = required;
 	}
 
-        public List<GtnUIFrameWorkActionConfig> getValidationActionConfigList() {
+	public boolean isValueLoadFromService() {
+		return valueLoadFromService;
+	}
+
+	public void setValueLoadFromService(boolean valueLoadFromService) {
+		this.valueLoadFromService = valueLoadFromService;
+	}
+
+	public String getLoadingUrl() {
+		return loadingUrl;
+	}
+
+	public void setLoadingUrl(String loadingUrl) {
+		this.loadingUrl = loadingUrl;
+	}
+
+	public List<GtnUIFrameWorkActionConfig> getValidationActionConfigList() {
 		return validationActionConfigList == null ? validationActionConfigList
 				: Collections.unmodifiableList(validationActionConfigList);
 	}

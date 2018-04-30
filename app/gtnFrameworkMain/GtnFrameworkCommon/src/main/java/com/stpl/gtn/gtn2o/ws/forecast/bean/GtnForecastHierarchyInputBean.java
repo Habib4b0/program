@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
+
 /**
  * @author Srithar.Raju
  *
@@ -46,6 +48,7 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	private String businessUnitValue;
 	private String hierarchyIndicator;
 	private Map<String, String> tempTableMap;
+	List<GtnReportHierarchyLevelBean> levelList;
 
 	private List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerList;
 	private List<GtnFrameworkRelationshipLevelDefintionBean> selectedProductList;
@@ -321,6 +324,14 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 
 	public void setLowestLevelNo(int lowestLevelNo) {
 		this.lowestLevelNo = lowestLevelNo;
+	}
+
+	public List<GtnReportHierarchyLevelBean> getLevelList() {
+		return levelList;
+	}
+
+	public void setLevelList(List<GtnReportHierarchyLevelBean> levelList) {
+		this.levelList = levelList;
 	}
 
 }

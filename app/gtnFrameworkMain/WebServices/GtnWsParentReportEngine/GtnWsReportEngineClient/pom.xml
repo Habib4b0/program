@@ -18,22 +18,22 @@
 		<dependency>
 			<groupId>com.stpl.gtn.gtn2o.ws.report.engine</groupId>
 			<artifactId>GtnWsReportEngineCommon</artifactId>
-			<version>1</version>
+			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.stpl.gtn.gtn2o.ws.report.engine</groupId>
 			<artifactId>GtnWsReportEngine</artifactId>
-			<version>1</version>
+			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.stpl.gtn.gtn2o.ws.report.engine</groupId>
 			<artifactId>GtnWsReportEngineInputGenerator</artifactId>
-			<version>1</version>
+			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.stpl.gtn.gtn2o.ws.report.engine</groupId>
 			<artifactId>GtnWsReportEngineRawDataGenerator</artifactId>
-			<version>1</version>
+			<version>1.0</version>
 		</dependency>
 	</dependencies>
 </project>

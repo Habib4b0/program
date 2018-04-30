@@ -574,7 +574,7 @@ public class CommonServiceImpl {
 
     public Object tempOperation(final Map<String, Object> input, final String queryName) {
         String customSql = SQlUtil.getQuery(queryName);
-        String finalQuery = StringUtils.EMPTY;
+        StringBuilder finalQuery = new StringBuilder();
         try {
             Object temp;
             if ("getHierarchyTableDetails".equals(queryName)) {
@@ -595,9 +595,9 @@ public class CommonServiceImpl {
                     if (i != 0) {
                         customSql = customSql.concat(" UNION ALL ");
                     }
-                    finalQuery += customSql;
+                    finalQuery.append(customSql);
                 }
-                List tempValueList = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
+                List tempValueList = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery.toString());
                 for (int j = tempValueList.size() - 1; j >= 0; j--) {
                     Object[] tempObject = (Object[]) tempValueList.get(j);
                     valueList.put(String.valueOf(tempObject[0]), String.valueOf(tempObject[1]));

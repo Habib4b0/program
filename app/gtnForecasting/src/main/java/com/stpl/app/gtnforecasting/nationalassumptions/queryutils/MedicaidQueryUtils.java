@@ -138,7 +138,8 @@ public class MedicaidQueryUtils {
                         } else {
                             queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ");
                         }
-                        if (Constant.CPIURA.equals(pricetype)) {
+                        if (Constant.CPIURA.equals(pricetype) 
+                                || Constant.AMP.equals(pricetype) || Constant.BEST_PRICE.equals(pricetype)) {
                             queryBuilder1.append(" , ADJUSTMENT_PRICE = '").append(finalvalue).append('\'');
                         }
                     } else {

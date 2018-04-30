@@ -106,6 +106,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				.getHorizontalLayoutConfig("displaySelectionTabPagedTreeTableLayout", true,
 						GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB);
 		componentList.add(displaySelectionTabPagedTreeTableLayout);
+                displaySelectionTabPagedTreeTableLayout.setComponentWidth("100%");
 
 		GtnUIFrameworkComponentConfig displaySelectionTabNavigationButtonLayout = configProvider
 				.getHorizontalLayoutConfig("displaySelectionTabNavigationButtonLayout", true,
@@ -1003,12 +1004,10 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				true, parentId);
 		resultsPanel.setComponentName("Results");
 		resultsPanel.addComponentStyle(GtnUIFrameworkConstants.GTNFRAMEWORK_12.toString());
-		componentList.add(resultsPanel);
-
-		GtnUIFrameworkComponentConfig resultsLayout = configProvider.getVerticalLayoutConfig("resultsLayout", true,
-				resultsPanel.getComponentId());
-		componentList.add(resultsLayout);
-
+		componentList.add(resultsPanel);		
+		GtnUIFrameworkComponentConfig resultsLayout = configProvider.getVerticalLayoutConfig("resultsLayout", true, resultsPanel.getComponentId());
+		resultsLayout.setComponentWidth("100%");
+                componentList.add(resultsLayout);
 		addResultTable(componentList, resultsLayout.getComponentId());
 		addExcelButtonComponent(componentList, nameSpace, resultsLayout.getComponentId());
 	}
@@ -1019,6 +1018,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		reportingDashboardResultTableComponentConfig.setComponentId(GtnFrameworkCommonConstants.RESULT_TABLE);
 		reportingDashboardResultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
 		reportingDashboardResultTableComponentConfig.setAddToParent(true);
+                reportingDashboardResultTableComponentConfig.setComponentWidth("100%");
 		reportingDashboardResultTableComponentConfig.setParentComponentId(parentId);
 
 		GtnUIFrameworkPagedTreeTableConfig reportingDashboardGtnPagedTreeTableConfig = new GtnUIFrameworkPagedTreeTableConfig();
@@ -1051,6 +1051,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		reportingDashboardGtnPagedTreeTableConfig.setTableHeight("650px");
 		reportingDashboardGtnPagedTreeTableConfig.setDoubleHeaderVisible(true);
+		reportingDashboardGtnPagedTreeTableConfig.setTripleHeaderVisible(true);
 
 		reportingDashboardGtnPagedTreeTableConfig.setLeftTableEditable(true);
 		reportingDashboardGtnPagedTreeTableConfig.setRightTableEditable(true);

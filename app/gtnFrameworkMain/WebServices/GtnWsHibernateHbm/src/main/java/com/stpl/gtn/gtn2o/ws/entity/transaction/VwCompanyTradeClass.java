@@ -25,9 +25,18 @@ public class VwCompanyTradeClass implements java.io.Serializable {
 	private Date modifiedDate;
 	private String companyId;
 	private String addChgDelIndicator;
+	private String tradeClassIntfid;
+
+	public String getTradeClassIntfid() {
+		return tradeClassIntfid;
+	}
+
+	public void setTradeClassIntfid(String tradeClassIntfid) {
+		this.tradeClassIntfid = tradeClassIntfid;
+	}
 
 	public VwCompanyTradeClass() {
-            //constructor
+		// constructor
 	}
 
 	public int getCompanyTradeClassSid() {

@@ -68,7 +68,7 @@ public class GtnWorkFlowIdGeneratorService {
 
 		} else {
 			c = Integer.parseInt(counterValue) + 1;
-			counterValue = (Integer.valueOf(c)).toString();
+			counterValue = String.valueOf(c);
 
 		}
 

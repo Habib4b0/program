@@ -1169,7 +1169,7 @@ public class SupplementalDiscountProjectionLogic {
                     for (int i = 0; i < getNDCList.size(); i++) {
                         final Object[] obNdc = (Object[]) getNDCList.get(i);
                         if (String.valueOf(obj[6]).equals(obNdc[0].toString())) {
-                            levelDetails += obNdc[1].toString() + ",";
+                            levelDetails += obNdc[1] + ",";
                         }
                         if (i == getNDCList.size() - 1) {
                             levelDetails = levelDetails.substring(0, levelDetails.length() - 1);
@@ -1571,9 +1571,9 @@ public class SupplementalDiscountProjectionLogic {
 
         String selectedValue = populateFlag ? propertyId.toString() : String.valueOf(saveDto.getPropertyValue(propertyId));
         query.append("UPDATE ST_M_SUPPLEMENTAL_DISC_PROJ SET METHODOLOGY = '" ).append( selectedValue ).append( "' ,\n"
-                + " CONTRACT_PRICE = " ).append( ob[0].toString() ).append( ",\n"
-                + " DISCOUNT_RATE_1 = " ).append( ob[1].toString() ).append( ",\n"
-                + " DISCOUNT_RATE_2 = " ).append( ob[NumericConstants.TWO].toString() ).append( " \n"
+                + " CONTRACT_PRICE = " ).append( ob[0] ).append( ",\n"
+                + " DISCOUNT_RATE_1 = " ).append( ob[1] ).append( ",\n"
+                + " DISCOUNT_RATE_2 = " ).append( ob[NumericConstants.TWO] ).append( " \n"
                 + " FROM   ST_M_SUPPLEMENTAL_DISC_PROJ \n"
                 + " WHERE  CCP_DETAILS_SID IN ( " ).append( tempStr[1] ).append( " )\n"
                 + " AND PERIOD_SID IN ");

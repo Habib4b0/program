@@ -47,8 +47,6 @@ public class GtnWsFileManagementService {
 	}
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsFileManagementService.class);
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
@@ -60,7 +58,7 @@ public class GtnWsFileManagementService {
 	private org.hibernate.SessionFactory sysSessionFactory;
 
 	public org.hibernate.SessionFactory getSessionFactory() {
-		return sessionFactory;
+		return gtnSqlQueryEngine.getSessionFactory();
 	}
 
 	public org.hibernate.SessionFactory getSysSessionFactory() {
