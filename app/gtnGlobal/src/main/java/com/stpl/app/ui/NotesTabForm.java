@@ -16,7 +16,6 @@ import java.util.TimeZone;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
-import com.stpl.app.global.common.dto.AttachmentDTO;
 import com.stpl.app.global.service.GlobalImpl;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -79,7 +78,6 @@ public class NotesTabForm extends AbstractNotesTab {
 	protected final boolean isViewMode;
 	private final CommonUIUtils commonUiUtil = new CommonUIUtils();
 	private final CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-	AttachmentDTO attachment= new AttachmentDTO();
 
 	public NotesTabForm(ErrorfulFieldGroup binder, String moduleName, String dbModuleName, String masterTableSid,
 			String mode) throws SystemException, PortalException {
