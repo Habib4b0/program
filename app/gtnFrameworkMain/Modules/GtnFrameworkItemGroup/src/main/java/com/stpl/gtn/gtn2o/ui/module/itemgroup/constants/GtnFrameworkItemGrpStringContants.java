@@ -7,6 +7,9 @@ package com.stpl.gtn.gtn2o.ui.module.itemgroup.constants;
 
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -58,6 +61,10 @@ public class GtnFrameworkItemGrpStringContants {
         private static final Object[] RESET_VALUE_ARRAY = { GtnFrameworkCommonStringConstants.STRING_EMPTY,
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
 				null };
+        public static final List<String> RESET_ID_ARRAYY = Collections.unmodifiableList(Arrays.asList(GtnFrameworkCommonConstants.ITEM_GROUP_NAME,
+				GtnFrameworkCommonConstants.ITEM_GROUP_NO, GtnFrameworkCommonConstants.ITEM_GROUP_DESC,
+				GtnFrameworkCommonConstants.I_GRP_INFO_COMPANY,
+				GtnFrameworkCommonConstants.ITEM_GRPSEARCH_RESULT_TABLE ));
 
     public static Object[] getResetValueArray() {
         return RESET_VALUE_ARRAY.clone();

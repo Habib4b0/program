@@ -34,7 +34,7 @@ echo $RPM_BUILD_DIR
 echo %{prefix}
 
 mkdir -p  $RPM_BUILD_ROOT%{prefix}/conf
-mkdir -p  $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/standalone/deployments/
+mkdir -p  $RPM_BUILD_ROOT%{prefix}/wildfly-10.0.0/standalone/deployments/
 mkdir -p $RPM_BUILD_ROOT%{prefix}/tempdeploy
 chmod -R 777 $RPM_BUILD_ROOT%{prefix}/tempdeploy
 echo %{prefix}
@@ -45,7 +45,7 @@ cp -R  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/JBoss_User_Configur
 
 #Moving JBOSS configurations
 
-cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/JBoss_Configuration/*  $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/
+cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/JBoss_Configuration/*  $RPM_BUILD_ROOT%{prefix}/wildfly-10.0.0/
 
 # Create Log directories
 
@@ -57,7 +57,7 @@ chmod -R 755 $RPM_BUILD_ROOT%{prefix}/*
 touch $RPM_BUILD_ROOT%{prefix}/conf/jboss-as2/jboss-as-standalone.pid
 chmod -R 777 $RPM_BUILD_ROOT%{prefix}/conf/jboss-as2/*
 cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/GTN_Framework_War/*  $RPM_BUILD_ROOT%{prefix}/tempdeploy
-chmod -R 777 $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/*
+chmod -R 777 $RPM_BUILD_ROOT%{prefix}/wildfly-10.0.0/*
 else 
 
 cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/GTN_Framework_War/*  $RPM_BUILD_ROOT%{prefix}/tempdeploy
@@ -80,7 +80,7 @@ then
 install_path=%{prefix}
 fi
 chmod -R 755  $install_path/*
-if grep -q GTN_FRAMEWORK_BASE_PATH "$install_path/jboss-7.1.1/standalone/configuration/standalone.xml"; then
+if grep -q GTN_FRAMEWORK_BASE_PATH "$install_path/wildfly-10.0.0/standalone/configuration/standalone.xml"; then
 chown -R $APP_User:$Chown  $install_path
 fi
 
@@ -94,25 +94,25 @@ do
 	echo "Moving  $f"
  currentfile=$(basename $f)
       
-if [ -e  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.deployed ];
+if [ -e  $install_path/wildfly-10.0.0/standalone/deployments/$currentfile.deployed ];
 then
-mv  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.deployed $install_path/jboss-7.1.1/standalone/deployments/$currentfile.undeployed
-rm -rf $install_path/jboss-7.1.1/standalone/deployments/$currentfile.undeployed
-rm -rf $install_path/jboss-7.1.1/standalone/deployments/$currentfile*
+mv  $install_path/wildfly-10.0.0/standalone/deployments/$currentfile.deployed $install_path/wildfly-10.0.0/standalone/deployments/$currentfile.undeployed
+rm -rf $install_path/wildfly-10.0.0/standalone/deployments/$currentfile.undeployed
+rm -rf $install_path/wildfly-10.0.0/standalone/deployments/$currentfile*
 fi
 
 while :
 do
-cp  $f  $install_path/jboss-7.1.1/standalone/deployments/
+cp  $f  $install_path/wildfly-10.0.0/standalone/deployments/
 chown -R $APP_User:$Chown $install_path
    echo "deploying ...................." $currentfile
    sleep 1
-   if [ -e  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.deployed ];
+   if [ -e  $install_path/wildfly-10.0.0/standalone/deployments/$currentfile.deployed ];
     
    then
 echo "deployed ***********************"$currentfile
 	break
-elif [ -e  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.failed ];
+elif [ -e  $install_path/wildfly-10.0.0/standalone/deployments/$currentfile.failed ];
 then
 echo "failed "$currentfile
 break       	   
@@ -121,36 +121,36 @@ done
 done
 
  
-standalone_xml_path=$install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-if grep -q GTN_FRAMEWORK_BASE_PATH "$install_path/jboss-7.1.1/standalone/configuration/standalone.xml"; then
-chmod 777 $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's/Base_Path/'$base_path'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's/Server_Name/'$server_name'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's/DB_Host/'$DB_Host'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's/DB_User_Name/'$DB_User_Name'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's=DB_Password='$DB_Password'=g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's/GTN_RPM_APP_DB/'$DB_APP_Name'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's/GTN_RPM_SYS_DB/'$DB_SYS_Name'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's/GTN_RPM_BPM_DB/'$DB_BPM_Name'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's=GTN_FRAMEWORK_BASE_PATH='$Gtn_Framework_Base_path'=g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's='0.0.0.0'='127.0.0.1'=g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's='com.stpl.portal'='net.sourceforge.jtds'=g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
+standalone_xml_path=$install_path/wildfly-10.0.0/standalone/configuration/standalone.xml
+if grep -q GTN_FRAMEWORK_BASE_PATH "$install_path/wildfly-10.0.0/standalone/configuration/standalone.xml"; then
+chmod 777 $install_path/wildfly-10.0.0/standalone/configuration/standalone.xml
+sed -i 's/Base_Path/'$base_path'/g' $install_path/wildfly-10.0.0/standalone/configuration/standalone.xml
+sed -i 's/Server_Name/'$server_name'/g' $install_path/wildfly-10.0.0/standalone/configuration/standalone.xml
+sed -i 's/DB_Host/'$DB_Host'/g' $install_path/wildfly-10.0.0/standalone/configuration/standalone.xml
+sed -i 's/DB_User_Name/'$DB_User_Name'/g' $install_path/wildfly-10.0.0/standalone/configuration/standalone.xml
+sed -i 's=DB_Password='$DB_Password'=g' $install_path/wildfly-10.0.0/standalone/configuration/standalone.xml
+sed -i 's/GTN_RPM_APP_DB/'$DB_APP_Name'/g' $install_path/wildfly-10.0.0/standalone/configuration/standalone.xml
+sed -i 's/GTN_RPM_SYS_DB/'$DB_SYS_Name'/g' $install_path/wildfly-10.0.0/standalone/configuration/standalone.xml
+sed -i 's/GTN_RPM_BPM_DB/'$DB_BPM_Name'/g' $install_path/wildfly-10.0.0/standalone/configuration/standalone.xml
+sed -i 's=GTN_FRAMEWORK_BASE_PATH='$Gtn_Framework_Base_path'=g' $install_path/wildfly-10.0.0/standalone/configuration/standalone.xml
+sed -i 's='0.0.0.0'='127.0.0.1'=g' $install_path/wildfly-10.0.0/standalone/configuration/standalone.xml
+sed -i 's='com.stpl.portal'='net.sourceforge.jtds'=g' $install_path/wildfly-10.0.0/standalone/configuration/standalone.xml
 
 if [ -z "$PORT_OFFSET" ];
 then 
 PORT_OFFSET=0
 fi
-sed -i 's/PORT_OFFSET/'$PORT_OFFSET'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
+sed -i 's/PORT_OFFSET/'$PORT_OFFSET'/g' $install_path/wildfly-10.0.0/standalone/configuration/standalone.xml
 
 #do_Jboss_Conf
-jboss_env_conf=$install_path/conf/jboss-as2/jboss-as.conf
+jboss_env_conf=$install_path/conf/wildfly/wildfly.conf
 chmod 777  $jboss_env_conf
  sed -i 's/Server_Name/'$server_name'/g' $jboss_env_conf
  sed -i 's/Base_Path/'$base_path'/g' $jboss_env_conf
- sed -i 's/CELAPP/'$APP_User'/g' $jboss_env_conf
+ sed -i 's=GTN_APP_DATA_PATH='$GTN_APP_DATA_PATH'=g' $jboss_env_conf
 
 fi
-rm -rf $install_path/jboss-7.1.1/standalone/deployments/ROOT.war*
+rm -rf $install_path/wildfly-10.0.0/standalone/deployments/ROOT.war*
 chmod -R 750 $install_path
 chown -R $APP_User:$Chown $install_path
 

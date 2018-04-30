@@ -4,6 +4,9 @@ package com.stpl.gtn.gtn2o.ws.bean.sql;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+
+
+
 public class GtnWsSqlEntityElement {
 
 	private String sqlQuery = "";

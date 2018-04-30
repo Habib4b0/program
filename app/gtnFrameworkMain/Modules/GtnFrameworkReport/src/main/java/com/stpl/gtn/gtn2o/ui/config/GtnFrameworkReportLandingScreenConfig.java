@@ -341,14 +341,14 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameworkComboBoxConfig fromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
 
 		fromPeriodConfig.setModuleName("report");
-		fromPeriodConfig.setLoadingUrl("/gtnWsReportComboboxLoad");
+		fromPeriodConfig.setLoadingUrl("/gtnReport/gtnWsReportComboboxLoad");
 		fromPeriodConfig.setComboBoxType("timePeriodForReportFromDate");
 		fromPeriodConfig.setHasDefaultValue(true);
 		fromPeriodConfig.setDefaultDesc("next");
 		fromPeriod.setGtnComboboxConfig(fromPeriodConfig);
 
 	
-		componentList.add(fromPeriod);
+//		componentList.add(fromPeriod);
 
 
 		GtnUIFrameworkLayoutConfig toPeriodLayout = new GtnUIFrameworkLayoutConfig();
@@ -379,7 +379,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameworkComboBoxConfig toPeriodTypeConfig = new GtnUIFrameworkComboBoxConfig();
 
 		toPeriodTypeConfig.setModuleName("report");
-		toPeriodTypeConfig.setLoadingUrl("/gtnWsReportComboboxLoad");
+		toPeriodTypeConfig.setLoadingUrl("/gtnReport/gtnWsReportComboboxLoad");
 		toPeriodTypeConfig.setComboBoxType("timePeriodForReportToDate");
 		toPeriodTypeConfig.setHasDefaultValue(true);
 		toPeriodTypeConfig.setDefaultDesc("next");
@@ -387,7 +387,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 		toPeriod.setGtnComboboxConfig(toPeriodTypeConfig);
 
-		componentList.add(toPeriod);
+//		componentList.add(toPeriod);
 
 	}
 

@@ -1,54 +1,88 @@
 package com.stpl.gtn.gtn2o.ws.request.report;
 
-import com.stpl.gtn.gtn2o.ws.report.bean.CustomerHierarchyLookupBean;
+import java.util.List;
+
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
-import com.stpl.gtn.gtn2o.ws.request.GtnWSRequestData;
 
-public class GtnWsReportRequest implements GtnWSRequestData {
+public class GtnWsReportRequest {
 
-    private CustomerHierarchyLookupBean customerHierarchyLookupBean;
-    private GtnWsReportDashboardBean gtnWsReportDashboardBean;
+	private List<Object[]> resultList;
+	private String query;
+	private GtnWsReportBean reportBean = new GtnWsReportBean();
 
-    public GtnWsReportRequest() {
-        super();
-    }
+	private GtnReportHierarchyLookupBean customerHierarchyLookupBean;
+	private GtnReportHierarchyLevelBean hierarchyInputBean;
+	private GtnWsReportDashboardBean gtnWsReportDashboardBean;
+	private GtnWsReportDataSelectionBean dataSelectionBean;
+	private GtnWsReportCustomViewBean customViewBean;
 
-    public CustomerHierarchyLookupBean getCustomerHierarchyLookupBean() {
-        return customerHierarchyLookupBean;
-    }
+	public List<Object[]> getResultList() {
+		return resultList;
+	}
 
-    public void setCustomerHierarchyLookupBean(CustomerHierarchyLookupBean customerHierarchyLookupBean) {
-        this.customerHierarchyLookupBean = customerHierarchyLookupBean;
+	public void setResultList(List<Object[]> resultList) {
+		this.resultList = resultList;
+	}
 
-    }
+	public GtnWsReportBean getReportBean() {
+		return reportBean;
+	}
 
-    private GtnWsReportDataSelectionBean dataSelectionBean;
-    private GtnWsReportCustomViewBean customViewBean;
+	public GtnReportHierarchyLookupBean getCustomerHierarchyLookupBean() {
+		return customerHierarchyLookupBean;
+	}
 
-    public GtnWsReportDataSelectionBean getDataSelectionBean() {
-        return dataSelectionBean;
-    }
+	public void setCustomerHierarchyLookupBean(GtnReportHierarchyLookupBean customerHierarchyLookupBean) {
+		this.customerHierarchyLookupBean = customerHierarchyLookupBean;
+	}
 
-    public void setDataSelectionBean(GtnWsReportDataSelectionBean dataSelectionBean) {
-        this.dataSelectionBean = dataSelectionBean;
-    }
+	public GtnWsReportDataSelectionBean getDataSelectionBean() {
+		return dataSelectionBean;
+	}
 
-    public GtnWsReportCustomViewBean getCustomViewBean() {
-        return customViewBean;
-    }
+	public void setDataSelectionBean(GtnWsReportDataSelectionBean dataSelectionBean) {
+		this.dataSelectionBean = dataSelectionBean;
+	}
 
-    public void setCustomViewBean(GtnWsReportCustomViewBean customViewBean) {
-        this.customViewBean = customViewBean;
-    }
+	public GtnWsReportCustomViewBean getCustomViewBean() {
+		return customViewBean;
+	}
 
-    public GtnWsReportDashboardBean getGtnWsReportDashboardBean() {
-        return gtnWsReportDashboardBean;
-    }
+	public void setCustomViewBean(GtnWsReportCustomViewBean customViewBean) {
+		this.customViewBean = customViewBean;
+	}
 
-    public void setGtnWsReportDashboardBean(GtnWsReportDashboardBean gtnWsReportDashboardBean) {
-        this.gtnWsReportDashboardBean = gtnWsReportDashboardBean;
-    }
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
+	}
+
+	public void setReportBean(GtnWsReportBean reportBean) {
+		this.reportBean = reportBean;
+	}
+
+	public GtnWsReportDashboardBean getGtnWsReportDashboardBean() {
+		return gtnWsReportDashboardBean;
+	}
+
+	public void setGtnWsReportDashboardBean(GtnWsReportDashboardBean gtnWsReportDashboardBean) {
+		this.gtnWsReportDashboardBean = gtnWsReportDashboardBean;
+	}
+
+	public GtnReportHierarchyLevelBean getHierarchyInputBean() {
+		return hierarchyInputBean;
+	}
+
+	public void setHierarchyInputBean(GtnReportHierarchyLevelBean hierarchyInputBean) {
+		this.hierarchyInputBean = hierarchyInputBean;
+	}
 
 }

@@ -326,7 +326,7 @@ public class ForecastForm extends AbstractForm {
 					session.getProjectionId(), session.getAction());
 			this.projectionVarianceForMandated = new MProjectionVariance(session, screenName);
 
-		} else if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
+		} else if (isReturns(screenName)) {
 			latch = new CountDownLatch(1);
 			dsThread = new Thread(createRunnable());
 			dsThread.start();
@@ -485,7 +485,7 @@ public class ForecastForm extends AbstractForm {
 				tabSheet.addTab(mandatedprojectionResults, Constant.PROJECTION_RESULTS, null, NumericConstants.FIVE);
 				tabSheet.addTab(projectionVarianceForMandated, "Projection Variance", null, NumericConstants.SIX);
 				tabSheet.addTab(additionalInformation, "Additional Information", null, NumericConstants.SEVEN);
-			} else if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
+			} else if (isReturns(screenName)) {
 				tabSheet.addTab(returnsProjection, Constant.RETURNS_PROJECTION, null, 1);
 			}
 
@@ -1427,17 +1427,24 @@ public class ForecastForm extends AbstractForm {
 	}
 
 	private boolean canBeSubmitted(String screenName) {
-		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)
-				&& nmSalesProjection.getSubmitFlag() == true && discountProjection.getSubmitFlag() == true) {
-			return true;
-		} else if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)
-				&& salesProjectionForMandated.getSubmitFlag() == true) {
-			return true;
-		} else if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
-			return true;
+            boolean returnFlag = BooleanConstant.getFalseFlag();
+		if (isNonMandated(screenName) || isMandated(screenName) || isReturns(screenName)) {
+                    returnFlag = BooleanConstant.getTrueFlag();
 		}
-		return false;
+		return returnFlag;
 	}
+
+    private static boolean isReturns(String screenName1) {
+        return CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName1);
+    }
+
+    private boolean isMandated(String screenName1) {
+        return CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName1) && salesProjectionForMandated.getSubmitFlag() == true;
+    }
+
+    private boolean isNonMandated(String screenName1) {
+        return CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName1) && nmSalesProjection.getSubmitFlag() == true && discountProjection.getSubmitFlag() == true;
+    }
 
 	/**
 	 * Saves the projection.
@@ -1483,7 +1490,7 @@ public class ForecastForm extends AbstractForm {
 				for (Future future : saveFutureList) {
 					CommonUtil.getInstance().waitsForOtherThreadsToComplete(future);
 				}
-			} else if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
+			} else if (isReturns(screenName)) {
 				returnsProjection.saveSPSave();
 				returnsProjection.saveReturnsSave();
 			}
@@ -2494,13 +2501,19 @@ public class ForecastForm extends AbstractForm {
 
 	private Boolean checkLastPositionTab(int tabPosition) {
 		boolean salesFlag = false;
-		if (tabPosition == 2 && screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-			salesFlag = true;
-		} else if (tabPosition == 1 && (!screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED))) {
+		if (isNonMandatedTab2(tabPosition) || isNonMandatedTab1(tabPosition)) {
 			salesFlag = true;
 		}
 		return salesFlag;
 	}
+
+    private boolean isNonMandatedTab1(int tabPosition1) {
+        return tabPosition1 == 1 && (!screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED));
+    }
+
+    private boolean isNonMandatedTab2(int tabPosition1) {
+        return tabPosition1 == 2 && screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED);
+    }
 
 	private void nmSalesInsertDiscMasterProcedure() {
             CommonUtil salesCommonUtil = CommonUtil.getInstance();

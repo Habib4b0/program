@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.constants.MongoStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
@@ -45,11 +46,12 @@ public class GtnWsReportCustomViewService {
 
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportCustomViewService.class);
 
-	public void loadHierarchy(GtnUIFrameworkWebserviceRequest gtnWsRequestF) throws GtnFrameworkGeneralException {
+	public GtnUIFrameworkDataTable loadHierarchy(GtnUIFrameworkWebserviceRequest gtnWsRequestF)
+			throws GtnFrameworkGeneralException {
 		GtnWsReportRequest request = gtnWsRequestF.getGtnReportRequest();
-		String reportTempName = request.getDataSelectionBean().getName();
+		String reportTempName = request.getReportBean().getDataSelectionBean().getName();
 		GtnWsReportDataSelectionBean bean = getDataSelectionBean(reportTempName);
-		getHierarachyLevels(bean, request.getCustomViewBean());
+		return getHierarachyLevels(bean, request.getReportBean().getCustomViewBean());
 	}
 
 	private GtnUIFrameworkDataTable getHierarachyLevels(GtnWsReportDataSelectionBean bean,
@@ -65,8 +67,9 @@ public class GtnWsReportCustomViewService {
 		}
 		gtnLogger.debug(sqlStringService.getQuery("getHierarchyLevels"));
 		List<?> hierarchyData = gtnSqlQueryEngine.executeSelectQuery(sqlStringService.getQuery("getHierarchyLevels"),
-				new Object[] { hierarchySid, forecastLevel },
-				new GtnFrameworkDataType[] { GtnFrameworkDataType.DOUBLE, GtnFrameworkDataType.INTEGER });
+				new Object[] { gtnWsReportCustomViewBean.getHierarchyType().toString(), hierarchySid, forecastLevel },
+				new GtnFrameworkDataType[] { GtnFrameworkDataType.STRING, GtnFrameworkDataType.DOUBLE,
+						GtnFrameworkDataType.INTEGER });
 		GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 		gtnUIFrameworkDataTable.addData((List<Object[]>) hierarchyData);
 		return gtnUIFrameworkDataTable;
@@ -78,5 +81,13 @@ public class GtnWsReportCustomViewService {
 				.getCollection(MongoStringConstants.REPORT_COLLECTION, GtnWsReportDataSelectionBean.class);
 		FindIterable<GtnWsReportDataSelectionBean> selectionBean = collection.find(and(eq("name", reportTempName)));
 		return selectionBean.first();
+	}
+
+	public void saveCustomViewTree(GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
+		MongoCollection<GtnWsCustomTreeData> collection = client.getDatabase(MongoStringConstants.DATABSE_NAME)
+				.withCodecRegistry(registery.getPojoCodecRegistry())
+				.getCollection(MongoStringConstants.CUSTOM_VIEW_COLLECTION, GtnWsCustomTreeData.class);
+		collection
+				.insertOne(gtnWsRequestF.getGtnReportRequest().getReportBean().getCustomViewBean().getCustomTreeData());
 	}
 }

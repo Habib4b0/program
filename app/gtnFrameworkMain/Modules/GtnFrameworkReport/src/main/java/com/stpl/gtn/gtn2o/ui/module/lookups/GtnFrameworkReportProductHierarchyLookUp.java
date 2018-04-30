@@ -239,7 +239,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		searchResultConfig.setComponentWidth("100%");
 		searchResultConfig.setComponentHight("450px");
 		searchResultConfig.setComponentStyle(tableStyle);
-
+		searchResultConfig.setModuleName("report");
 		componentList.add(searchResultConfig);
 		GtnUIFrameworkPagedTableConfig searchResults = new GtnUIFrameworkPagedTableConfig();
 
@@ -258,7 +258,8 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		searchResults.setTableColumnMappingId(
 				new Object[] { "hierName", "highestLevel", "lowestLevel", "createdDate", "modifiedDate" });
 		
-		searchResults.setCountUrl("/gtnReport/lookUp/getCustomerHierarchyLookUp");
+		searchResults.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
+				+ GtnWsReportConstants.GTN_REPORT_PRODUCTHIERARCHY_SEARCHSERVICE);
 		searchResults.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_PRODUCTHIERARCHY_SEARCHSERVICE);
 		/*searchResults.setCountQuery(Query.getCountProductHierarchy);

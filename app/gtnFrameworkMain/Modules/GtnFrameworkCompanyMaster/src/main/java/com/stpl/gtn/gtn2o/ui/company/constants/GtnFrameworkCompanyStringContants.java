@@ -449,6 +449,17 @@ public class GtnFrameworkCompanyStringContants {
         private static final String[] LIST_NAME_ARRAY = { "COMPANY_TYPE", "STATUS", "COMPANY_TRADE_CLASS", "COMPANY_GROUP", "COMPANY_CATEGORY",
 				"ORGANIZATION_KEY", "COMP_UDC1", "COMP_UDC2", "COMP_UDC3", "COMP_UDC4", "COMP_UDC5", "COMP_UDC6",
 				"STATE", "COUNTRY" };
+        
+        public static final List<String> VISIBLE_FIELDS = Collections.unmodifiableList(Arrays.asList(GtnFrameworkCompanyStringContants.COMPANY_ADD_SAVE_BUTTON,
+				GtnFrameworkCompanyStringContants.COMPANY_MASTER_RESET_BTN,
+				GtnFrameworkCompanyStringContants.COMPANY_MASTER_DELETE_BTN,
+				GtnFrameworkCompanyStringContants.IDENTIFIER_INFO_PANEL,
+				GtnFrameworkCompanyStringContants.IDENTIFIER_REMOVE_BTN_LAYOUT,
+				GtnFrameworkCompanyStringContants.TRADE_CLASS_INFO_PANEL,
+				GtnFrameworkCompanyStringContants.TRADE_CLASS_REMOVE_BTN_LAYOUT,
+				GtnFrameworkCompanyStringContants.PARENT_COMPANY_INFO_PANEL,
+				GtnFrameworkCompanyStringContants.PARENT_COMPANY_REMOVE_BTN_LAYOUT));
+        
 
     public static String[] getListNameArray() {
         return LIST_NAME_ARRAY.clone();

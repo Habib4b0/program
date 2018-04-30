@@ -72,13 +72,14 @@ public class GlobalChangeUI extends UI {
             public void error(com.vaadin.server.ErrorEvent event) {
                 // Find the final cause
                 String cause = "The Exception occured because of: ";
+                StringBuilder causeBuilder = new StringBuilder();
                 for (Throwable t = event.getThrowable(); t != null; t = t.getCause()) {
                     if (t.getCause() == null) {
-                        cause += t.getClass().getName();
+                        causeBuilder.append(cause ).append(t.getClass().getName());
                     }
 
                 }
-                LOGGER.error(cause);
+                LOGGER.error(causeBuilder.toString());
                 // Do the default error handling (optional)
             }
         });

@@ -38,10 +38,10 @@ public class GtnWsReportCustomViewControllerTest {
 	public void testDisplay() {
 		prepereData();
 		GtnUIFrameworkWebserviceRequest request = getRequest();
-		request.getGtnReportRequest().getDataSelectionBean().setName("12114" + "UddasEdvbas$5");
+		request.getGtnReportRequest().getReportBean().getDataSelectionBean().setName("12114" + "UddasEdvbas$5");
 		getcustomerHierarchyRequest(request);
 		controller.loadHierarchyLevels(request);
-		deleteData();
+//		deleteData();
 	}
 
 	private void deleteData() {
@@ -51,7 +51,7 @@ public class GtnWsReportCustomViewControllerTest {
 	private GtnUIFrameworkWebserviceRequest getcustomerHierarchyRequest(GtnUIFrameworkWebserviceRequest request) {
 		GtnWsReportCustomViewBean customViewBean = new GtnWsReportCustomViewBean();
 		customViewBean.setHierarchyType(GtnWsHierarchyType.CUSTOMER);
-		request.getGtnReportRequest().setCustomViewBean(customViewBean);
+		request.getGtnReportRequest().getReportBean().setCustomViewBean(customViewBean);
 		return request;
 	}
 
@@ -60,8 +60,7 @@ public class GtnWsReportCustomViewControllerTest {
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 		request.setGtnReportRequest(reportRequest);
 		GtnWsReportDataSelectionBean bean = new GtnWsReportDataSelectionBean();
-		reportRequest.setDataSelectionBean(bean);
-
+		reportRequest.getReportBean().setDataSelectionBean(bean);
 		return request;
 	}
 

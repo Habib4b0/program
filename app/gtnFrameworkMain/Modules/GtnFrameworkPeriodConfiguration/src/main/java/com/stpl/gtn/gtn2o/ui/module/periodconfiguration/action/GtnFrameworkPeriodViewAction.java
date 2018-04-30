@@ -49,7 +49,7 @@ public class GtnFrameworkPeriodViewAction implements GtnUIFrameWorkAction, GtnUI
 	 resetActionConfig.setActionType(GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
 		List<Object> params = new ArrayList<>();
 		params.add(Arrays.asList(new String[] { "modeTo", "defaultModeTo", "frequencyTo",
-				"defaultFrequencyTo", "periodTo", "periodToTextBox", "defaultPeriodTo", "defaultPeriodToTextBox","dateFrom","defaultDateFrom"}));
+				"defaultFrequencyTo", "periodTo", "periodToTextBox", "defaultPeriodTo", "defaultPeriodToTextBox"}));
 		params.add(Arrays.asList(new Object[] {null,null,null,null,null,
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
 				 GtnFrameworkCommonStringConstants.STRING_EMPTY,GtnFrameworkCommonStringConstants.STRING_EMPTY,GtnFrameworkCommonStringConstants.STRING_EMPTY}));

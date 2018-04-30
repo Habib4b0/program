@@ -84,6 +84,9 @@ public final class GtnWebServiceUrlConstants {
 	public static final String GTN_DATASELECTION_LOAD_SELECTED_PRODUCT = "/dataSelectionSelectedProductChild";
 	public static final String GTN_DATASELECTION_LOAD_SELECTED_CUSTOMER = "/dataSelectionSelectedCustomerChild";
 	public static final String GTN_DATASELECTION_LOAD_LEVELVALUE_MAP = "/dataSelectionSelectedLevelValueMap";
+	public static final String GTN_REPORTDATASELECTION_LOAD_LEVELVALUE_MAP = "/reportDataSelectionLevelValueMap";
+	public static final String GTN_REPORTCUSTOMER_HIERARCHYLEVEL_VALUES = "/reportCustomerHierarchyLevelValues";
+	public static final String GTN_REPORT_LOAD_CUSTOMER_LEVEL = "/reportLoadCustomerLevel";
 
 	private GtnWebServiceUrlConstants() {
 		super();

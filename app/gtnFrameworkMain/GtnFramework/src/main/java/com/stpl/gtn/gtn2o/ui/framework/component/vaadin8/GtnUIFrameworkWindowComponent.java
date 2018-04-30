@@ -39,7 +39,7 @@ public class GtnUIFrameworkWindowComponent extends Window {
 		WindowHeaderExtension.extend(this, new MinimizeIcon(), this::miniMizeWindow);
 	}
 
-	class MinimizeIcon implements FontIcon {
+	public static class MinimizeIcon implements FontIcon {
 
 		private static final long serialVersionUID = 7979027940347288873L;
 

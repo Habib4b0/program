@@ -2,9 +2,7 @@ package com.stpl.gtn.gtn2o.ui.module.lookups;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -18,8 +16,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
-import com.stpl.gtn.gtn2o.ui.module.lookups.action.CustomerHierarchySearchAction;
-import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnCustomerHierarchyRecordSelectAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
@@ -186,18 +182,6 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		reportCustomerHierarchySearchButton.setAddToParent(true);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		
-		GtnUIFrameWorkActionConfig customerHierarchySearchConfig = new GtnUIFrameWorkActionConfig();
-		customerHierarchySearchConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		customerHierarchySearchConfig.addActionParameter(CustomerHierarchySearchAction.class.getName());
-		customerHierarchySearchConfig.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP);
-		customerHierarchySearchConfig.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_NAME_TEXTBOX);
-		customerHierarchySearchConfig.addActionParameter("Customer Hierarchy");
-		customerHierarchySearchConfig.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE);
-		
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
 		loadDataTableActionConfig.setActionParameterList(
@@ -207,7 +191,6 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_NAME_TEXTBOX }));
 		actionConfigList.add(loadDataTableActionConfig);
-		actionConfigList.add(customerHierarchySearchConfig);
 		reportCustomerHierarchySearchButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		componentList.add(reportCustomerHierarchySearchButton);
@@ -291,7 +274,8 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		tableStyle.add("table-header-normal");
 		customerHierarchyPagedTableComponent.setComponentWidth("100%");
 		customerHierarchyPagedTableComponent.setComponentStyle(tableStyle);
-
+		customerHierarchyPagedTableComponent.setModuleName("report");
+		
 		componentList.add(customerHierarchyPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig customerHierarchyPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
 		customerHierarchyPagedTableConfig.setEditable(false);
@@ -307,17 +291,10 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		customerHierarchyPagedTableConfig.setTableColumnMappingId(
 				GtnFrameworkReportStringConstants.getReportCustomerHierarchyTableColumnsMappingId());
 
-		customerHierarchyPagedTableConfig.setCountUrl("/gtnReport/lookUp/getCustomerHierarchyLookUp");
+		customerHierarchyPagedTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
+				+ GtnWsReportConstants.GTN_REPORT_CUSTOMERHIERARCHY_SEARCHSERVICE);
 		customerHierarchyPagedTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_CUSTOMERHIERARCHY_SEARCHSERVICE);
-
-		/*Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-		filterConfig.setPropertId("custHierarchyLookupHierName");
-		filterConfig.setGtnComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
-		customFilterConfigMap.put(filterConfig.getPropertId(), filterConfig);
-		customerHierarchyPagedTableConfig.setCustomFilterConfigMap(customFilterConfigMap);*/
-
 		customerHierarchyPagedTableComponent.setGtnPagedTableConfig(customerHierarchyPagedTableConfig);
 	}
 	
@@ -361,13 +338,6 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		actionParameter.add(Arrays.asList("reportLandingScreen_customerHierarchy"));
 		reportCustomerHierarchySelectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(reportCustomerHierarchySelectAction);
-
-		/*GtnUIFrameWorkActionConfig reportCustomerHierarchyRecordSelectAction = new GtnUIFrameWorkActionConfig();
-		reportCustomerHierarchyRecordSelectAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		reportCustomerHierarchyRecordSelectAction.addActionParameter(GtnCustomerHierarchyRecordSelectAction.class.getName());
-		reportCustomerHierarchyRecordSelectAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE);
-		actionConfigList.add(reportCustomerHierarchyRecordSelectAction);*/
 		
 		GtnUIFrameWorkActionConfig reportCustomHierarchyClosepopup = new GtnUIFrameWorkActionConfig();
 		reportCustomHierarchyClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);

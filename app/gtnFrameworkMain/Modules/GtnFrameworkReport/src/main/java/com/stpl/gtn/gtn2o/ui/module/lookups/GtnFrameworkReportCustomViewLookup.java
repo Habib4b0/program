@@ -9,21 +9,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeSaveAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomViewHierarchyLoadAction;
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroupConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.GtnUIFrameworkGridComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 
 public class GtnFrameworkReportCustomViewLookup {
 
+	private static final String LEVEL_VALUE = "levelValue";
 	private final GtnFrameworkReportLayoutsConfig layoutsConfig = new GtnFrameworkReportLayoutsConfig();
 	private String tabName = "";
 
@@ -192,8 +198,13 @@ public class GtnFrameworkReportCustomViewLookup {
 		customerGrid.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		GtnUIFrameworkGridComponentConfig gridConfig = new GtnUIFrameworkGridComponentConfig();
 		gridConfig.setColumnHeadersName(new String[] { GtnFrameworkReportStringConstants.LEVEL });
-		gridConfig.setColumnHeadersId(new String[] { "customerLevel" });
+		gridConfig.setColumnHeadersId(new String[] { LEVEL_VALUE });
 
+		GtnUIFrameWorkActionConfig hierachyLoadAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		hierachyLoadAction.addActionParameter(GtnFrameworkUICustomViewHierarchyLoadAction.class.getName());
+		hierachyLoadAction.addActionParameter(GtnWsHierarchyType.CUSTOMER);
+		customerGrid.setGtnUIFrameWorkActionConfigList(Arrays.asList(hierachyLoadAction));
 		customerGrid.setGtnUIFrameWorkGridConfig(gridConfig);
 		componentList.add(customerGrid);
 
@@ -213,6 +224,13 @@ public class GtnFrameworkReportCustomViewLookup {
 		addCustomerButton.setComponentId(tabName + "addCustomerBtn");
 		addCustomerButton.setComponentName(" > ");
 		componentList.add(addCustomerButton);
+
+		GtnUIFrameWorkActionConfig treeAddActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		treeAddActionConfig.addActionParameter(GtnFrameworkUICustomTreeAddAction.class.getName());
+		treeAddActionConfig.addActionParameter(tabName + "customViewLookupCustomerTable");
+		treeAddActionConfig.addActionParameter(tabName + "customTreeTable");
+		addCustomerButton.addGtnUIFrameWorkActionConfig(treeAddActionConfig);
 
 		GtnUIFrameworkComponentConfig removeCustomerButton = new GtnUIFrameworkComponentConfig();
 		removeCustomerButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -240,9 +258,15 @@ public class GtnFrameworkReportCustomViewLookup {
 		productGrid.setComponentHight(GtnFrameworkReportStringConstants.TWO_SEVENTY_PIXEL);
 		productGrid.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
+		GtnUIFrameWorkActionConfig hierachyLoadAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		hierachyLoadAction.addActionParameter(GtnFrameworkUICustomViewHierarchyLoadAction.class.getName());
+		hierachyLoadAction.addActionParameter(GtnWsHierarchyType.PRODUCT);
+		productGrid.setGtnUIFrameWorkActionConfigList(Arrays.asList(hierachyLoadAction));
+
 		GtnUIFrameworkGridComponentConfig gridConfig = new GtnUIFrameworkGridComponentConfig();
 		gridConfig.setColumnHeadersName(new String[] { GtnFrameworkReportStringConstants.LEVEL });
-		gridConfig.setColumnHeadersId(new String[] { "productLevel" });
+		gridConfig.setColumnHeadersId(new String[] { LEVEL_VALUE });
 		productGrid.setGtnUIFrameWorkGridConfig(gridConfig);
 
 		componentList.add(productGrid);
@@ -264,6 +288,14 @@ public class GtnFrameworkReportCustomViewLookup {
 		addProductButton.setComponentName(" > ");
 		componentList.add(addProductButton);
 
+		GtnUIFrameWorkActionConfig productTreeAddActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		productTreeAddActionConfig.addActionParameter(GtnFrameworkUICustomTreeAddAction.class.getName());
+		productTreeAddActionConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE);
+		productTreeAddActionConfig.addActionParameter(tabName + "customTreeTable");
+		addProductButton.addGtnUIFrameWorkActionConfig(productTreeAddActionConfig);
+
 		GtnUIFrameworkComponentConfig removeProductButton = new GtnUIFrameworkComponentConfig();
 		removeProductButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		removeProductButton.setAddToParent(true);
@@ -282,16 +314,22 @@ public class GtnFrameworkReportCustomViewLookup {
 
 		GtnUIFrameworkComponentConfig deductionGrid = new GtnUIFrameworkComponentConfig();
 		deductionGrid.setComponentType(GtnUIFrameworkComponentType.GRID);
-		deductionGrid.setComponentId(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE);
+		deductionGrid.setComponentId(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_DEDUCTION_TABLE);
 		deductionGrid.setComponentName("Deduction Hierarchy");
 		deductionGrid.setAddToParent(true);
 		deductionGrid.setParentComponentId(mainCssLayoutForProduct.getComponentId());
 		deductionGrid.setComponentHight(GtnFrameworkReportStringConstants.TWO_SEVENTY_PIXEL);
 		deductionGrid.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
+		GtnUIFrameWorkActionConfig hierachyLoadAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		hierachyLoadAction.addActionParameter(GtnFrameworkUICustomViewHierarchyLoadAction.class.getName());
+		hierachyLoadAction.addActionParameter(GtnWsHierarchyType.DEDUCTION);
+		deductionGrid.setGtnUIFrameWorkActionConfigList(Arrays.asList(hierachyLoadAction));
+
 		GtnUIFrameworkGridComponentConfig gridConfig = new GtnUIFrameworkGridComponentConfig();
 		gridConfig.setColumnHeadersName(new String[] { GtnFrameworkReportStringConstants.LEVEL });
-		gridConfig.setColumnHeadersId(new String[] { "deductionLevel" });
+		gridConfig.setColumnHeadersId(new String[] { LEVEL_VALUE });
 		deductionGrid.setGtnUIFrameWorkGridConfig(gridConfig);
 
 		componentList.add(deductionGrid);
@@ -313,6 +351,14 @@ public class GtnFrameworkReportCustomViewLookup {
 		addDeductionButton.setComponentName(" > ");
 		componentList.add(addDeductionButton);
 
+		GtnUIFrameWorkActionConfig deductionTreeAddActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deductionTreeAddActionConfig.addActionParameter(GtnFrameworkUICustomTreeAddAction.class.getName());
+		deductionTreeAddActionConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_DEDUCTION_TABLE);
+		deductionTreeAddActionConfig.addActionParameter(tabName + "customTreeTable");
+		addDeductionButton.addGtnUIFrameWorkActionConfig(deductionTreeAddActionConfig);
+
 		GtnUIFrameworkComponentConfig removeDeductionButton = new GtnUIFrameworkComponentConfig();
 		removeDeductionButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		removeDeductionButton.setAddToParent(true);
@@ -331,16 +377,22 @@ public class GtnFrameworkReportCustomViewLookup {
 
 		GtnUIFrameworkComponentConfig variablesGrid = new GtnUIFrameworkComponentConfig();
 		variablesGrid.setComponentType(GtnUIFrameworkComponentType.GRID);
-		variablesGrid.setComponentId(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE);
+		variablesGrid.setComponentId(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
 		variablesGrid.setComponentName("Variables");
 		variablesGrid.setAddToParent(true);
 		variablesGrid.setParentComponentId(mainCssLayoutForProduct.getComponentId());
 		variablesGrid.setComponentHight(GtnFrameworkReportStringConstants.TWO_SEVENTY_PIXEL);
 		variablesGrid.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
+		GtnUIFrameWorkActionConfig hierachyLoadAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		hierachyLoadAction.addActionParameter(GtnFrameworkUICustomViewHierarchyLoadAction.class.getName());
+		hierachyLoadAction.addActionParameter(GtnWsHierarchyType.VARIABLES);
+		variablesGrid.setGtnUIFrameWorkActionConfigList(Arrays.asList(hierachyLoadAction));
+
 		GtnUIFrameworkGridComponentConfig gridConfig = new GtnUIFrameworkGridComponentConfig();
 		gridConfig.setColumnHeadersName(new String[] { GtnFrameworkReportStringConstants.LEVEL });
-		gridConfig.setColumnHeadersId(new String[] { "variablesLevel" });
+		gridConfig.setColumnHeadersId(new String[] { LEVEL_VALUE });
 		variablesGrid.setGtnUIFrameWorkGridConfig(gridConfig);
 
 		componentList.add(variablesGrid);
@@ -361,6 +413,14 @@ public class GtnFrameworkReportCustomViewLookup {
 		addVariablesButton.setComponentId(tabName + GtnFrameworkReportStringConstants.ADD_VARIABLES_BTN);
 		addVariablesButton.setComponentName(" > ");
 		componentList.add(addVariablesButton);
+
+		GtnUIFrameWorkActionConfig deductionTreeAddActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deductionTreeAddActionConfig.addActionParameter(GtnFrameworkUICustomTreeAddAction.class.getName());
+		deductionTreeAddActionConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
+		deductionTreeAddActionConfig.addActionParameter(tabName + "customTreeTable");
+		addVariablesButton.addGtnUIFrameWorkActionConfig(deductionTreeAddActionConfig);
 
 		GtnUIFrameworkComponentConfig removeVariablesButton = new GtnUIFrameworkComponentConfig();
 		removeVariablesButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -385,10 +445,10 @@ public class GtnFrameworkReportCustomViewLookup {
 		customTree.setComponentHight("580px");
 		customTree.setAddToParent(true);
 		customTree.setParentComponentId(customTreeMainLayout.getComponentId());
-		
+
 		GtnUIFrameworkGridComponentConfig gridConfig = new GtnUIFrameworkGridComponentConfig();
 		gridConfig.setColumnHeadersName(new String[] { GtnFrameworkReportStringConstants.LEVEL });
-		gridConfig.setColumnHeadersId(new String[] { "customTreeLevel" });
+		gridConfig.setColumnHeadersId(new String[] { LEVEL_VALUE });
 		customTree.setGtnUIFrameWorkGridConfig(gridConfig);
 		componentList.add(customTree);
 
@@ -423,6 +483,14 @@ public class GtnFrameworkReportCustomViewLookup {
 		saveButton.setAddToParent(true);
 		componentList.add(saveButton);
 
+		GtnUIFrameWorkActionConfig saveActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		saveActionConfig.addActionParameter(GtnFrameworkUICustomTreeSaveAction.class.getName());
+		saveActionConfig.addActionParameter(
+				tabName + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_NAME);
+		saveActionConfig.addActionParameter(tabName + "customTreeTable");
+		saveButton.addGtnUIFrameWorkActionConfig(saveActionConfig);
+		
 		GtnUIFrameworkComponentConfig updateButton = new GtnUIFrameworkComponentConfig();
 		updateButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		updateButton.setComponentId(tabName + "customViewSelect");
