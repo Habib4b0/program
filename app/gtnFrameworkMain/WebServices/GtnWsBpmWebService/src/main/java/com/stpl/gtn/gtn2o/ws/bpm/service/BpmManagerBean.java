@@ -15,7 +15,6 @@ import org.kie.internal.runtime.manager.RuntimeManagerRegistry;
 import org.kie.scanner.MavenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.EntityManagerFactoryInfo;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import com.stpl.gtn.gtn2o.ws.bpm.properties.DroolsProperties;
 import com.stpl.gtn.gtn2o.ws.constants.workflow.GtnWsBpmCommonConstants;
@@ -93,6 +92,7 @@ public class BpmManagerBean {
 				properties.getProperty("Forecasting_version", "1.0"));
 		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
 				.entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
+                getContainerAndSetToEnvironment(builder, releaseId);
 		if (registry.isRegistered(identifier)) {
 			registry.remove(identifier);
 		}
@@ -111,6 +111,7 @@ public class BpmManagerBean {
 				properties.getProperty("Contract_version", "1.0"));
 		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
 				.entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
+                getContainerAndSetToEnvironment(builder, releaseId);
 		if (registry.isRegistered(identifier)) {
 			registry.remove(identifier);
 		}
@@ -136,7 +137,7 @@ public class BpmManagerBean {
 		RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
 				.newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
 		runtimeEngineMap.put(GtnWsBpmCommonConstants.FORECAST_COMMERCIAL, runtimeEngine);
-		LOGGER.info("initContractRuntimeEngine End ");
+		LOGGER.info("initForecastRuntimeEngine End ");
 	}
 
 	private void getContainerAndSetToEnvironment(RuntimeEnvironmentBuilder builder, ReleaseId releaseId2) {
@@ -155,6 +156,7 @@ public class BpmManagerBean {
 				cffproperties.getProperty("CFF_version", "1.0"));
 		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
 				.entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
+                getContainerAndSetToEnvironment(builder, releaseId);
 		if (registry.isRegistered(identifier)) {
 			registry.remove(identifier);
 		}
