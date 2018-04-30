@@ -13,6 +13,9 @@
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
+		<property name="queryLogger">
+			<ref bean="queryLogger" />
+		</property>
 	</bean>
 	<bean id="queryLogger" class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger">
 	</bean>
@@ -31,15 +34,13 @@
 	</bean>
 
 	<bean id="gtnWsReportController" class="com.stpl.gtn.gtn2o.ws.controller.GtnWsReportController">
-		<property name="sessionFactory" ref="sessionFactory"></property>
-		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
 	</bean>
 
 	<bean id="mongoCLientFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:jboss/MongoClient" />
 	</bean>
 	<bean id="sqlPropertyBean"
-	class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-	<property name="locations" value="classpath:/sqlresource/sqlqueries.xml" />
-</bean>
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations" value="classpath:/sqlresource/sqlqueries.xml" />
+	</bean>
 </beans>
