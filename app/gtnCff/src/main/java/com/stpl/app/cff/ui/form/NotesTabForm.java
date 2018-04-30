@@ -81,7 +81,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	private final Button close = new Button("Close");
 	private static final String MODULE_NAME = "Consolidated Financial Forecast";
 	
-	AttachmentDTO attachmentDTO=new AttachmentDTO();
+	
 
 	public NotesTabForm(SessionDTO sessionDTO, CustomFieldGroup binder, String moduleName,
 			CffApprovalDetailsForm approvalWindow) throws SystemException {
@@ -259,6 +259,7 @@ public class NotesTabForm extends AbstractNotesTab {
 
 	@Override
 	public void itemClickLogic(ItemClickEvent event) {
+		AttachmentDTO attachmentSaveDTO;
 		tableBeanId = event.getItemId();
 		BeanItem<?> targetItem = null;
 		if (tableBeanId instanceof BeanItem<?>) {
@@ -271,10 +272,10 @@ public class NotesTabForm extends AbstractNotesTab {
                 }
 		if (event.isDoubleClick()) {
             try {
-                attachmentDTO=fetchData(tableBean.getDocDetailsId());
+            	attachmentSaveDTO=fetchData(tableBean.getDocDetailsId());
                 FileOutputStream fileOuputStream = null;
                 fileOuputStream = GtnFileUtil.getFileOutputStream(tableBean.getDocumentFullPath());
-                fileOuputStream.write(attachmentDTO.getFileData());
+                fileOuputStream.write(attachmentSaveDTO.getFileData());
                 fileOuputStream.close();
                 File uploadedFile = GtnFileUtil.getFile(tableBean.getDocumentFullPath());
                 Resource res = new FileResource(uploadedFile);
@@ -429,7 +430,7 @@ public class NotesTabForm extends AbstractNotesTab {
 					oos = new ObjectOutputStream(bos);
 					oos.writeObject(fileData);
 				} catch (IOException e) {
-					e.printStackTrace();
+					LOGGER.error("Error in file is not Found",e);
 				}
 			    byte[] bytes = bos.toByteArray();
 			attachmentBean.setFileData(bytes);
