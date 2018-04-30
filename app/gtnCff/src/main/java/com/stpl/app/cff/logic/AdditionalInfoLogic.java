@@ -248,31 +248,32 @@ public class AdditionalInfoLogic {
         return BooleanConstant.getTrueFlag();
     }
     
-    public void saveAttachFile (List<NotesDTO> availableUploadedInformation, String moduleName,
-            int moduleSystemId) throws SystemException, PortalException {
-             for (NotesDTO uploadDetails : availableUploadedInformation) {
-                String query = SQlUtil.getQuery("insertAttachQuery");
-                query = query.replace("?ATTACHMENT_TABLE_SID","'" + moduleSystemId + "'");
-                query = query.replace("?MASTER_TABLE_NAME","'" + moduleName + "'");
-                try {
-                    query = query.replace("?FILE_DATA", "'" + readBytesFromFile(uploadDetails.getDocumentFullPath())+ "'" );
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                query = query.replace("?FILE_NAME","'"  + uploadDetails.getDocumentName() + "'" );
-                query = query.replace("?CREATED_BY", "'" + uploadDetails.getUserId()+ "'" );
-                LOGGER.info("query " + query );
-                HelperTableLocalServiceUtil.executeUpdateQuery(query);
-             }
-            }
-         private static byte[] readBytesFromFile(String filePath) throws IOException {
-                File inputFile = GtnFileUtil.getFile(filePath);
-                FileInputStream inputStreamIm= GtnFileUtil.getFileInputStreamFile(inputFile);
-                byte[] fileBytes = new byte[(int) inputFile.length()];
-                int i=inputStreamIm.read(fileBytes);
-                if(i>0) 
-                return fileBytes;
-                return  new byte[0];
-            }
+	public void saveAttachFile(List<NotesDTO> availableUploadedInformation, String moduleName, int moduleSystemId)
+			throws SystemException, PortalException {
+		for (NotesDTO uploadDetails : availableUploadedInformation) {
+			String query = SQlUtil.getQuery("insertAttachQuery");
+			query = query.replace("?ATTACHMENT_TABLE_SID", "'" + moduleSystemId + "'");
+			query = query.replace("?MASTER_TABLE_NAME", "'" + moduleName + "'");
+			try {
+				query = query.replace("?FILE_DATA", "'" + readBytesFromFile(uploadDetails.getDocumentFullPath()) + "'");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			query = query.replace("?FILE_NAME", "'" + uploadDetails.getDocumentName() + "'");
+			query = query.replace("?CREATED_BY", "'" + uploadDetails.getUserId() + "'");
+			LOGGER.info("query " + query);
+			HelperTableLocalServiceUtil.executeUpdateQuery(query);
+		}
+	}
+
+	private static byte[] readBytesFromFile(String filePath) throws IOException {
+		File inputFile = GtnFileUtil.getFile(filePath);
+		FileInputStream inputStreamIm = GtnFileUtil.getFileInputStreamFile(inputFile);
+		byte[] fileBytes = new byte[(int) inputFile.length()];
+		int i = inputStreamIm.read(fileBytes);
+		if (i > 0)
+			return fileBytes;
+		return new byte[0];
+	}
 
 }
