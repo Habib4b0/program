@@ -31,6 +31,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import com.stpl.gtn.gtn2o.ws.util.GtnWsCommonQueryContants;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 /**
  *
@@ -281,9 +282,11 @@ public class GtnWsCfpSaveService {
 					attachForCfp.setCreatedBy(notesTabRequest.getCreatedBy());
 					attachForCfp.setCreatedDate(new Date());
 					session.saveOrUpdate(attachForCfp);
-					tx.commit();
-				}
-			}
+                            if (tx.getStatus().equals(TransactionStatus.ACTIVE)) {
+                                tx.commit();
+                            }
+                        }
+                    }
 		} catch (Exception e) {
 			tx.rollback();
 			throw new GtnFrameworkGeneralException("Exception in save attachQuery ", e);

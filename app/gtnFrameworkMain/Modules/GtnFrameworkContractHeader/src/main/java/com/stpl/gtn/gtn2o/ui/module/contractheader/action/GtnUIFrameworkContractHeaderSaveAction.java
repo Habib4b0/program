@@ -194,7 +194,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 			for (GtnWsRecordBean dto : identifierList) {
 				aliasBean = new GtnwsContractAliasMasterBean();
 				Object tpSid = dto.getPropertyValueByIndex(6);
-				aliasBean.setTpCompanyMasterSid(tpSid == null ? Integer.valueOf(0) : (Integer) tpSid);
+				aliasBean.setTpCompanyMasterSid(tpSid == null ? Integer.valueOf("0") : (Integer) tpSid);
 				Object aliasMasterSid = dto.getPropertyValueByIndex(7);
 				aliasBean.setContractAliasMasterSid(aliasMasterSid == null ? 0 : (int) aliasMasterSid);
 				aliasBean.setContractAliasNo((String) dto.getPropertyValue("contractAliasNo"));
@@ -203,7 +203,7 @@ public class GtnUIFrameworkContractHeaderSaveAction
 				aliasBean.setEndDate((Date) dto.getPropertyValue("aliasEndDate"));
 				aliasBean.setContractTypeDesc((String) dto.getPropertyValue("contractAliasType"));
 				Object contractType = dto.getPropertyValueByIndex(5);
-				aliasBean.setContractType(contractType == null ? 0 : (int) contractType);
+				aliasBean.setContractType(contractType == null ? Integer.valueOf("0") : (Integer) contractType);
 				aliasBeanList.add(aliasBean);
 			}
 		} catch (Exception systemExcption) {

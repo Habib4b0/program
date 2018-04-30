@@ -92,7 +92,7 @@ public class GtnUIFrameWorkSetDefaultAction implements GtnUIFrameWorkAction {
 	 */
 	private void setFieldValue(Object resetComponentValue, Component component) {
 		@SuppressWarnings("unchecked")
-		Field<Object> vaadinField = ((Field<Object>) component);
+		
 		Object fieldValue;
 		if (component instanceof TextField) {
 			fieldValue = resetComponentValue == null ? GtnFrameworkCommonStringConstants.STRING_EMPTY
@@ -100,6 +100,7 @@ public class GtnUIFrameWorkSetDefaultAction implements GtnUIFrameWorkAction {
 		} else {
 			fieldValue = resetComponentValue;
 		}
+                Field<Object> vaadinField = ((Field<Object>) component);
 		if (vaadinField.isReadOnly()) {
 			vaadinField.setReadOnly(false);
 			vaadinField.setValue(fieldValue);

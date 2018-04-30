@@ -146,7 +146,10 @@ public class GtnFrameworkCfpSaveAction
 				cfpNotesBean.setMasterTableName("CFP_MODEL");
 				cfpNotesBean.setMasterTableSystemId(note.getDocDetailsId());
 				cfpNotesBean.setFilePath(note.getDocumentFullPath());
-				cfpNotesBean.setFileName(note.getDocumentName());
+                                 String filePath = cfpNotesBean.getFilePath();
+                                String fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('_'))
+						+ filePath.substring(filePath.lastIndexOf('.'));
+				cfpNotesBean.setFileName(fileName);
 				cfpNotesBean.setCreatedBy(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				cfpNotesBean.setCreatedDate(new Date());
 				cfpNotesBeanList.add(cfpNotesBean);

@@ -111,6 +111,7 @@ public class GtnFrameworkCCPInsertService {
 		input.add(relationSid);
 
 		String beanName = isProduct ? "CCP_INSERT_PRODUCT" : "CCP_INSERT_CUSTOMER";
+                String queryName = inputBean.isForecastInsert() ? "filtercontractsbasedoneligibledate" : "CFFfiltercontractsbasedoneligibledate";
 		GtnFrameworkQueryGeneratorBean queryBean = queryGeneratorService.getQuerybySituationNameAndLevel(lastLevelDto,
 				beanName, hierarchyLevelDefinitionList);
 		queryGeneratorService.getWhereQueryForCustomerAndContract(selectedRelationLevelList, queryBean);
@@ -118,7 +119,7 @@ public class GtnFrameworkCCPInsertService {
 		if (!isProduct) {
 			List<Object> input1 = new ArrayList<>();
 			input1.add(inputBean.getProjectionId());
-			query.append(gtnWsSqlService.getQuery(input1, "filtercontractsbasedoneligibledate"));
+			query.append(gtnWsSqlService.getQuery(input1, queryName));
 		}
 
 		return gtnWsSqlService.getReplacedQuery(input, query.toString());

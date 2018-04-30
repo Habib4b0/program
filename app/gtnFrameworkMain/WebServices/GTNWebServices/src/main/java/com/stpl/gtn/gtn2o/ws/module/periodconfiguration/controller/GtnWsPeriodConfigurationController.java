@@ -62,8 +62,6 @@ public class GtnWsPeriodConfigurationController {
 		 */
 	}
 
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
 	private org.hibernate.SessionFactory sysSessionFactory;
@@ -79,7 +77,7 @@ public class GtnWsPeriodConfigurationController {
 	}
 
 	private org.hibernate.SessionFactory getSessionFactory() {
-		return sessionFactory;
+		return gtnSqlQueryEngine.getSessionFactory();
 	}
 
 	private org.hibernate.SessionFactory getSysSessionFactory() {

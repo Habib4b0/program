@@ -567,11 +567,7 @@ public class CommonLogic {
                     + " HLD" + hierarchyIndicator.trim() + Constant.PARENT_NODE_QUOTE
                     + " HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO  ";
             if (isLimit) {
-                if (tabName.contains("PPA")) {
-                    recordNumber += " SELECT * FROM #HIERARCHY_VALUES ORDER BY HIERARCHY_NO ASC OFFSET " + start + Constant.ROWS_FETCH_NEXT_SPACE + offset + Constant.ROWS_ONLY_SPACE;
-                } else {
-                    recordNumber += " SELECT * FROM #HIERARCHY_VALUES ORDER BY HIERARCHY_NO ASC OFFSET " + start + Constant.ROWS_FETCH_NEXT_SPACE + offset + Constant.ROWS_ONLY_SPACE;
-                }
+                recordNumber += " SELECT * FROM #HIERARCHY_VALUES ORDER BY HIERARCHY_NO ASC OFFSET " + start + Constant.ROWS_FETCH_NEXT_SPACE + offset + Constant.ROWS_ONLY_SPACE;
             } else {
                 selectClause += ", ROW_NUMBER() OVER  (ORDER BY HLD" + hierarchyIndicator.trim() + ".HIERARCHY_NO ASC) AS TEMP_INDEX  ";
             }

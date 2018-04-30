@@ -6,6 +6,7 @@
 package com.stpl.app.ui;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.TimeZone;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
+import com.stpl.app.global.service.GlobalImpl;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.util.CommonUIUtils;
@@ -68,6 +70,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	private final String userName;
 	private final NotesTabLogic logic = new NotesTabLogic();
 	private NotesDTO tableBean = new NotesDTO();
+	private GlobalImpl globalImpl= new GlobalImpl();
 
 	protected final String mode;
 	protected final boolean isAddMode;
@@ -304,10 +307,19 @@ public class NotesTabForm extends AbstractNotesTab {
                 if (targetItem != null) {
                 tableBean = (NotesDTO) targetItem.getBean();
                 if (event.isDoubleClick()) {
-                    File uploadedFile = GtnFileUtil.getFile(tableBean.getDocumentFullPath());
-                    Resource res = new FileResource(uploadedFile);
-                    fileDownloader.setFileDownloadResource(res);
-                    downloadFile(uploadedFile);
+				try {
+				    byte[] attachmentFile=globalImpl.fetchData(tableBean.getDocDetailsId());
+					FileOutputStream fileOuputStream=null ;
+					fileOuputStream = GtnFileUtil.getFileOutputStream(tableBean.getDocumentFullPath());
+					fileOuputStream.write(attachmentFile);
+					fileOuputStream.close();
+					File uploadedFile = GtnFileUtil.getFile(tableBean.getDocumentFullPath());
+					Resource res = new FileResource(uploadedFile);
+					fileDownloader.setFileDownloadResource(res);
+					downloadFile(uploadedFile);
+        			} catch (Exception e) {
+        				LOGGER.error("Error in file is not Found",e);
+        			}
                 }
             }
 

@@ -9,7 +9,6 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -29,15 +28,12 @@ import com.stpl.gtn.gtn2o.ui.framework.component.notestab.GtnUIFrameworkNotesTab
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
-import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
-import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsAttachmentRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.v7.data.Property;
@@ -315,7 +311,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		return vlayout;
 	}
 
-	   public void configNotesTabForm() {
+	   public final void configNotesTabForm() {
 
         table.setContainerDataSource(attachmentsListBean);
         table.setVisibleColumns(obj);
@@ -838,8 +834,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 				Files.move(fileUpload.toPath(), Paths.get(destFileUpload.getAbsolutePath()),
 						StandardCopyOption.REPLACE_EXISTING);
 				NotesDTO attachmentDTO = new NotesDTO();
-				String name = file + sb.substring(sb.indexOf("."));
-				attachmentDTO.setDocumentName(name);
+				attachmentDTO.setDocumentName(event.getFilename());
 				SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
 				TimeZone central = TimeZone.getTimeZone("CST");
 				format.setTimeZone(central);
@@ -959,14 +954,9 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		GtnWsAttachmentRequest gtnRequest1= new GtnWsAttachmentRequest();
 		gtnRequest1.setDocDetailsSid(tableBean.getDocDetailsId());
 		gtnRequest.setGtnWsAttachmentRequest(gtnRequest1);
-		if (event.isDoubleClick()) {	
-		    GtnUIFrameworkWebserviceResponse attachResponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(GtnWebServiceUrlConstants.GTN_DOWNLOAD_FILE_SERVICE, gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-			byte[] attachment =attachResponse.getGtnWsAttachmentResponse().getGtnWsAttachmentBean().getFileData();
+		if (event.isDoubleClick()) {
 			try {
-				FileOutputStream fileOuputStream = null ;
-			    fileOuputStream = GtnFileNameUtils.getFileOutputStream(tableBean.getDocumentFullPath());
-				fileOuputStream.write(attachment);		
-				fileOuputStream.close();	
+                            gtnLogger.info("tableBean.getDocumentFullPath()============================"+tableBean.getDocumentFullPath());
 				File uploadedFile = GtnFileNameUtils.getFile(tableBean.getDocumentFullPath());
 				Resource res = new FileResource(uploadedFile);
 				fileDownloader.setFileDownloadResource(res);
