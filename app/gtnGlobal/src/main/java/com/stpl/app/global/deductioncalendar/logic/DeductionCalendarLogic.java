@@ -141,6 +141,7 @@ public class DeductionCalendarLogic {
                 }
             }
             notesLogic.saveUploadedInformation(availableUploadedInformation, "DEDUCTION_CALENDAR_MASTER", result.getDeductionCalendarMasterSid());
+            notesLogic.saveUploadedAttachInformation(availableUploadedInformation, "DEDUCTION_CALENDAR_MASTER", result.getDeductionCalendarMasterSid());
             sessionDTO.setSystemId(result.getDeductionCalendarMasterSid());
             sessionDTO.setAdditionalNotes(deductionCalendarMaster.getAdditionalNotes());
             return ConstantsUtils.SUCCESS;
