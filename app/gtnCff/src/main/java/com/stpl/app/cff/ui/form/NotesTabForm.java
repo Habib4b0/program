@@ -81,7 +81,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	private final Button close = new Button("Close");
 	private static final String MODULE_NAME = "Consolidated Financial Forecast";
 	
-	private AttachmentDTO attachmentSaveDTO=new AttachmentDTO();
+	
 
 	public NotesTabForm(SessionDTO sessionDTO, CustomFieldGroup binder, String moduleName,
 			CffApprovalDetailsForm approvalWindow) throws SystemException {
@@ -259,6 +259,7 @@ public class NotesTabForm extends AbstractNotesTab {
 
 	@Override
 	public void itemClickLogic(ItemClickEvent event) {
+		AttachmentDTO attachmentSaveDTO=new AttachmentDTO();
 		tableBeanId = event.getItemId();
 		BeanItem<?> targetItem = null;
 		if (tableBeanId instanceof BeanItem<?>) {

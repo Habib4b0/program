@@ -72,13 +72,12 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     protected static final String MODE = StringUtils.EMPTY;
 
-	private static final int list = 0;
     protected final boolean isAddMode;
     protected final boolean isEditMode;
     protected final boolean isViewMode;
     protected CommonUIUtils commonUiUtil = new CommonUIUtils();
     private boolean isFileRename;
-    private AttachmentDTO attachmentSaveDTO=new AttachmentDTO();
+
 
     /**
      * The logo.
@@ -277,6 +276,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     @Override
     public void itemClickLogic(ItemClickEvent event) {
         try {
+            AttachmentDTO attachmentSaveDTO=new AttachmentDTO();
             tableBeanId = event.getItemId();
             BeanItem<?> targetItem = null;
             if (tableBeanId instanceof BeanItem<?>) {
