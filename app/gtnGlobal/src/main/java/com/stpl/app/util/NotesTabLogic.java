@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.stpl.app.model.MasterDataFiles;
@@ -138,7 +139,7 @@ public class NotesTabLogic {
 		}
 	}
 	 public void saveUploadedAttachInformation (List<NotesDTO> availableUploadedInformation, String moduleName,
-				int moduleSystemId) throws SystemException, PortalException {
+				int moduleSystemId) throws  PortalException {
 				 for (NotesDTO uploadDetails : availableUploadedInformation) {
 			        String query = SQLUtil.getQuery("insertAttachQuery");
 			        query = query.replace("?ATTACHMENT_TABLE_SID","'" + moduleSystemId + "'");
@@ -146,11 +147,10 @@ public class NotesTabLogic {
 			        try {
 						query = query.replace("?FILE_DATA", "'" + readBytesFromFile(uploadDetails.getDocumentFullPath())+ "'" );
 					} catch (IOException e) {
-						e.printStackTrace();
+						LOGGER.error("Error while Fetching File");
 					}
 			        query = query.replace("?FILE_NAME","'"  + uploadDetails.getDocumentName() + "'" );
 			        query = query.replace("?CREATED_BY", "'" + uploadDetails.getUserId()+ "'" );
-			        LOGGER.info("query " + query );
 			        HelperTableLocalServiceUtil.executeUpdateQuery(query);
 				 }
 			    }

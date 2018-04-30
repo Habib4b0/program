@@ -249,7 +249,7 @@ public class AdditionalInfoLogic {
     }
     
 	public void saveAttachFile(List<NotesDTO> availableUploadedInformation, String moduleName, int moduleSystemId)
-			throws SystemException, PortalException {
+			throws  PortalException {
 		for (NotesDTO uploadDetails : availableUploadedInformation) {
 			String query = SQlUtil.getQuery("insertAttachQuery");
 			query = query.replace("?ATTACHMENT_TABLE_SID", "'" + moduleSystemId + "'");
@@ -257,11 +257,10 @@ public class AdditionalInfoLogic {
 			try {
 				query = query.replace("?FILE_DATA", "'" + readBytesFromFile(uploadDetails.getDocumentFullPath()) + "'");
 			} catch (IOException e) {
-				e.printStackTrace();
+				LOGGER.error("Error in save Attachment");
 			}
 			query = query.replace("?FILE_NAME", "'" + uploadDetails.getDocumentName() + "'");
 			query = query.replace("?CREATED_BY", "'" + uploadDetails.getUserId() + "'");
-			LOGGER.info("query " + query);
 			HelperTableLocalServiceUtil.executeUpdateQuery(query);
 		}
 	}
