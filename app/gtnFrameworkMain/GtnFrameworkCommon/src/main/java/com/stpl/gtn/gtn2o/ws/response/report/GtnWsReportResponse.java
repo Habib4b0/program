@@ -2,18 +2,16 @@ package com.stpl.gtn.gtn2o.ws.response.report;
 
 import java.util.List;
 
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnWSRequestData;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 
 public class GtnWsReportResponse implements GtnWSRequestData {
 
-	private GtnReportHierarchyLookupBean customerHierarchyLookupBean;
+	private static final long serialVersionUID = -135232026568151871L;
+	private GtnWsReportBean reportBean = new GtnWsReportBean();
 	private List<Object[]> resultList;
-	private GtnWsReportDataSelectionBean dataSelectionBean;
-	private GtnWsReportCustomViewBean customViewBean;
+	private List<GtnWsRecordBean> recordBeanResultList;
 
 	public List<Object[]> getResultList() {
 		return resultList;
@@ -27,33 +25,6 @@ public class GtnWsReportResponse implements GtnWSRequestData {
 		super();
 	}
 
-	public GtnReportHierarchyLookupBean getCustomerHierarchyLookupBean() {
-		return customerHierarchyLookupBean;
-	}
-
-	public void setCustomerHierarchyLookupBean(GtnReportHierarchyLookupBean customerHierarchyLookupBean) {
-		this.customerHierarchyLookupBean = customerHierarchyLookupBean;
-
-	}
-
-	public GtnWsReportDataSelectionBean getDataSelectionBean() {
-		return dataSelectionBean;
-	}
-
-	public void setDataSelectionBean(GtnWsReportDataSelectionBean dataSelectionBean) {
-		this.dataSelectionBean = dataSelectionBean;
-	}
-
-	public GtnWsReportCustomViewBean getCustomViewBean() {
-		return customViewBean;
-	}
-
-	public void setCustomViewBean(GtnWsReportCustomViewBean customViewBean) {
-		this.customViewBean = customViewBean;
-	}
-
-	private GtnWsReportBean reportBean = new GtnWsReportBean();
-
 	public GtnWsReportBean getReportBean() {
 		return reportBean;
 	}
@@ -61,4 +32,13 @@ public class GtnWsReportResponse implements GtnWSRequestData {
 	public void setReportBean(GtnWsReportBean reportBean) {
 		this.reportBean = reportBean;
 	}
+
+	public List<GtnWsRecordBean> getRecordBeanResultList() {
+		return recordBeanResultList;
+	}
+
+	public void setRecordBeanResultList(List<GtnWsRecordBean> recordBeanResultList) {
+		this.recordBeanResultList = recordBeanResultList;
+	}
+
 }
