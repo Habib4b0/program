@@ -7,6 +7,7 @@ package com.stpl.app.cff.ui.form;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dao.CommonServiceImpl;
+import com.stpl.app.cff.dto.AttachmentDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.AdditionalInfoLogic;
 import com.stpl.app.cff.security.StplSecurity;
@@ -15,6 +16,8 @@ import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.FileUploader;
 import com.stpl.app.cff.util.NotesTabLogic;
 import com.stpl.app.cff.util.StringConstantsUtil;
+import com.stpl.app.cff.util.xmlparser.SQlUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.AbstractNotesTab;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.NotesDTO;
@@ -32,7 +35,12 @@ import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.ui.Upload;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,6 +80,8 @@ public class NotesTabForm extends AbstractNotesTab {
 	private CffApprovalDetailsForm approvalWindow;
 	private final Button close = new Button("Close");
 	private static final String MODULE_NAME = "Consolidated Financial Forecast";
+	
+	AttachmentDTO attachmentDTO=new AttachmentDTO();
 
 	public NotesTabForm(SessionDTO sessionDTO, CustomFieldGroup binder, String moduleName,
 			CffApprovalDetailsForm approvalWindow) throws SystemException {
@@ -260,10 +270,20 @@ public class NotesTabForm extends AbstractNotesTab {
                     tableBean = (NotesDTO) targetItem.getBean();
                 }
 		if (event.isDoubleClick()) {
-			File uploadedFile = GtnFileUtil.getFile(tableBean.getDocumentFullPath());
-			Resource res = new FileResource(uploadedFile);
-			fileDownloader.setFileDownloadResource(res);
-			downloadFile(uploadedFile);
+            try {
+                attachmentDTO=fetchData(tableBean.getDocDetailsId());
+                FileOutputStream fileOuputStream = null;
+                fileOuputStream = GtnFileUtil.getFileOutputStream(tableBean.getDocumentFullPath());
+                fileOuputStream.write(attachmentDTO.getFileData());
+                fileOuputStream.close();
+                File uploadedFile = GtnFileUtil.getFile(tableBean.getDocumentFullPath());
+                Resource res = new FileResource(uploadedFile);
+                fileDownloader.setFileDownloadResource(res);
+                downloadFile(uploadedFile);
+                } catch (Exception e) {
+                    LOGGER.error("Error in file is not Found",e);
+                }
+
 		}
 
 	}
@@ -351,6 +371,7 @@ public class NotesTabForm extends AbstractNotesTab {
 		List<NotesDTO> addedAttachments = getUploadedData();
 		for (NotesDTO attached : addedAttachments) {
 			addInfoLogic.saveUploadedFile(projectionId, attached.getDocumentName(), vUserId, fileSize, MODULE_NAME);
+			addInfoLogic.saveAttachFile( addedAttachments, MODULE_NAME, projectionId);
 		}
 		attachmentsListBean.removeAllItems();
 		List<NotesDTO> removedAttachments = getRemoveDocDetailsItem();
@@ -396,4 +417,22 @@ public class NotesTabForm extends AbstractNotesTab {
 		}
 		LOGGER.debug("Ends of AdditionalInformation setValues Method");
 	}
+	public AttachmentDTO fetchData(int documentSid) {
+		   
+		   AttachmentDTO attachmentBean=new AttachmentDTO();
+		    String query = SQlUtil.getQuery("selectAttachQuery");
+			query = query.replace("?attachmentSid", "'" + documentSid + "'");
+			List<AttachmentDTO> fileData=HelperTableLocalServiceUtil.executeSelectQuery(query);
+			  ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			    ObjectOutputStream oos;
+				try {
+					oos = new ObjectOutputStream(bos);
+					oos.writeObject(fileData);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			    byte[] bytes = bos.toByteArray();
+			attachmentBean.setFileData(bytes);
+			return attachmentBean;
+		   }
 }
