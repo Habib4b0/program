@@ -288,9 +288,9 @@ public class GtnFrameworkRSItemAdditionConfig {
 				GtnFrameworkRSConstants.RS_ITEM_ADDITION_DUAL_LIST_BOX_LAYOUT, true,
 				GtnFrameworkRSConstants.RS_ITEM_ADDITION_PANEL_LAYOUT);
 		componentList.add(layoutConfig);
-		leftResultLayout(componentList);
+                availableResultLayout(componentList);
 		moveButtons(componentList);
-		rightResultLayout(componentList);
+		selectedResultLayout(componentList);		
 	}
 
 	private void moveButtons(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -387,7 +387,7 @@ public class GtnFrameworkRSItemAdditionConfig {
 
 	private void leftResultLayout(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig layoutConfig = configProvider.getHorizontalLayoutConfig("RSleftResultLayout",
-				true, GtnFrameworkRSConstants.RS_ITEM_ADDITION_DUAL_LIST_BOX_LAYOUT);
+				true, "availresultPanel");
 		layoutConfig.setComponentWidth(GtnFrameworkCssConstants.PIXEL_600);
 		componentList.add(layoutConfig);
 
@@ -426,16 +426,31 @@ public class GtnFrameworkRSItemAdditionConfig {
 		rsItemAdditionleftResults.setExtraColumnDataType(new Class<?>[] { String.class });
 		rsItemAdditionleftResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.PRICE_SCHEDULE);
 	}
+        private void availableResultLayout(List<GtnUIFrameworkComponentConfig> componentList) {
+            GtnUIFrameworkComponentConfig availPanelConfig = configProvider.getPanelConfig("availresultPanel", true, GtnFrameworkRSConstants.RS_ITEM_ADDITION_DUAL_LIST_BOX_LAYOUT);
+		availPanelConfig.setComponentName("Available Results");
+		availPanelConfig.setAuthorizationIncluded(true);
+		componentList.add(availPanelConfig);
 
+		leftResultLayout(componentList);
+	}
+        private void selectedResultLayout(List<GtnUIFrameworkComponentConfig> componentList) {
+            GtnUIFrameworkComponentConfig selectedPanelConfig = configProvider.getPanelConfig("selectedresultPanel", true, GtnFrameworkRSConstants.RS_ITEM_ADDITION_DUAL_LIST_BOX_LAYOUT);
+		selectedPanelConfig.setComponentName("Selected Results");
+		selectedPanelConfig.setAuthorizationIncluded(true);
+		componentList.add(selectedPanelConfig);
+
+		rightResultLayout(componentList);
+	}
 	private void rightResultLayout(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig layoutConfig = configProvider.getHorizontalLayoutConfig("RSrightResultLayout",
-				true, GtnFrameworkRSConstants.RS_ITEM_ADDITION_DUAL_LIST_BOX_LAYOUT);
+				true, "selectedresultPanel");
 		layoutConfig.setComponentWidth(GtnFrameworkCssConstants.PIXEL_600);
 		componentList.add(layoutConfig);
 
 		rightResultDataTable(componentList);
 	}
-
+        
 	private void rightResultDataTable(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig rsItemAdditionRightResultConfig = configProvider.getUIFrameworkComponentConfig(
 				GtnFrameworkRSConstants.R_SRIGHT_RESULT_TABLE, true, "RSrightResultLayout",
