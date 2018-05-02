@@ -19,11 +19,13 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 
 	private List<GtnWsReportEngineTreeNode> children;
 
-	private transient GtnWsReportEngineTreeNode parent;
-
 	private int levelNumber;
 
 	private String hierarchyNo;
+
+	private String parentHierarchyNo;
+
+	private String parentIndicator;
 
 	private String levelName;
 
@@ -36,6 +38,8 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 	private Set<Integer> rsIds = null;
 
 	private String indicator = StringUtils.EMPTY;
+
+	private boolean isDiscountAvailable;
 
 	public Object getNodeData() {
 		return nodeData;
@@ -51,14 +55,6 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 
 	public void setChildren(List<GtnWsReportEngineTreeNode> children) {
 		this.children = children;
-	}
-
-	public GtnWsReportEngineTreeNode getParent() {
-		return parent;
-	}
-
-	public void setParent(GtnWsReportEngineTreeNode parent) {
-		this.parent = parent;
 	}
 
 	public String getLevelName() {
@@ -115,7 +111,6 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 			}
 		}
 
-		treeNode.setParent(this);
 		if (this.children == null) {
 			children = new ArrayList<>();
 		}
@@ -209,5 +204,47 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 	// Dont delete. this Method is called during Serialization
 	private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
 		ois.defaultReadObject();
+	}
+
+	public String getParentHierarchyNo() {
+		return parentHierarchyNo;
+	}
+
+	public void setParentHierarchyNo(String parentHierarchyNo) {
+		this.parentHierarchyNo = parentHierarchyNo;
+	}
+
+	public String getParentIndicator() {
+		return parentIndicator;
+	}
+
+	public void setParentIndicator(String parentIndicator) {
+		this.parentIndicator = parentIndicator;
+	}
+
+	public GtnWsReportEngineTreeNode copy() {
+		GtnWsReportEngineTreeNode gtnWsReportEngineTreeNode = new GtnWsReportEngineTreeNode();
+
+		gtnWsReportEngineTreeNode.setNodeData(this.nodeData);
+		gtnWsReportEngineTreeNode.setLevelNumber(levelNumber);
+		gtnWsReportEngineTreeNode.setHierarchyNo(hierarchyNo);
+		gtnWsReportEngineTreeNode.setParentHierarchyNo(parentHierarchyNo);
+		gtnWsReportEngineTreeNode.setParentIndicator(parentIndicator);
+		gtnWsReportEngineTreeNode.setLevelName(levelName);
+		gtnWsReportEngineTreeNode.setLevelValue(levelValue);
+		gtnWsReportEngineTreeNode.setNodeIndex(nodeIndex);
+		gtnWsReportEngineTreeNode.setCcpIds(ccpIds);
+		gtnWsReportEngineTreeNode.setRsIds(rsIds);
+		gtnWsReportEngineTreeNode.setIndicator(indicator);
+
+		return gtnWsReportEngineTreeNode;
+	}
+
+	public boolean isDiscountAvailable() {
+		return isDiscountAvailable;
+	}
+
+	public void setDiscountAvailable(boolean isDiscountAvailable) {
+		this.isDiscountAvailable = isDiscountAvailable;
 	}
 }
