@@ -57,7 +57,6 @@ public class GtnUIFrameworkTransactionTableCheckAction implements GtnUIFrameWork
 						.setPagedTableHeaderCheckBox(false, actionParametersList.get(3).toString());
 				checkBean.addtoUnCheckedIdSet(systemID);
 			} else {
-				checkBean.addtoUnCheckedIdSet(systemID);
 				checkBean.removeFromCheckedIdSet(systemID);
 			}
 		}
