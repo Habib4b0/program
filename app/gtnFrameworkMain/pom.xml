@@ -83,7 +83,7 @@
 				<module>GtnFramework</module>
 				<module>GtnFrameworkComponentRepository</module>
 				<module>GtnFrameworkHierarchyRouteBuilder</module>
-				<module>WebServices</module>
+				
 				<module>WebServices/GtnWsHibernateHbm</module>
 				<module>WebServices/GtnQueryEngine</module>
 				<module>GtnFramworkQueryGenerator</module>
