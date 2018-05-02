@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>com.stpl.gtn.gtn2o.ws.report.engine</groupId>
 			<artifactId>GtnWsReportEngineHibernate</artifactId>
-			<version>1</version>
+			<version>1.0</version>
 		</dependency>
 	</dependencies>
 	<name>GtnWsReportEngineRawDataGenerator</name>
