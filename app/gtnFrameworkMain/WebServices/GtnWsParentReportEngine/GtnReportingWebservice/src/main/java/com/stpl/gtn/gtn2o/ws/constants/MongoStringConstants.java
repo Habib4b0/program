@@ -8,4 +8,6 @@ public class MongoStringConstants {
 
 	public static final String DATABSE_NAME = "GTN_MONGO_APP";
 	public static final String REPORT_COLLECTION = "GTN_REPORTING";
+	public static final String CUSTOM_VIEW_COLLECTION = "GTN_CUSTOM_VIEW_REPORTING";
+	
 }

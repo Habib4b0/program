@@ -360,7 +360,7 @@ public class GtnFrameworkItemMasterSaveAction
 	private Double toDouble(String str) {
 		Double deafultValue = null;
 		try {
-			deafultValue = Double.parseDouble(str);
+			deafultValue = Double.valueOf(str);
 		} catch (NumberFormatException e) {
 			logger.error(e.getMessage());
 		}

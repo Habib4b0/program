@@ -1,20 +1,16 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Date;
 
-public class CustomerHierarchyLookupBean {
+public class GtnReportHierarchyLookupBean {
 
 	private String hierarchyName;
 	private String hierarchyType;
-	private String hierarchyIndicator;
+	private String hierarchyLevelName;
 	private String hierarchyHighestLevel;
 	private String hierarchyLowestLevel;
-	private String createdDate;
-	private String modifiedDate;
-	private List<String> levels;
-	private List<String> levelValues;
-	private Map<Integer, String> levelNoMap;
+	private Date createdDate;
+	private Date modifiedDate;
 	private int versionNo;
 	private int hierarchyDefSid;
 
@@ -34,14 +30,6 @@ public class CustomerHierarchyLookupBean {
 		this.hierarchyType = hierarchyType;
 	}
 
-	public String getHierarchyIndicator() {
-		return hierarchyIndicator;
-	}
-
-	public void setHierarchyIndicator(String hierarchyIndicator) {
-		this.hierarchyIndicator = hierarchyIndicator;
-	}
-
 	public String getHierarchyHighestLevel() {
 		return hierarchyHighestLevel;
 	}
@@ -58,19 +46,19 @@ public class CustomerHierarchyLookupBean {
 		this.hierarchyLowestLevel = hierarchyLowestLevel;
 	}
 
-	public String getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(String createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public String getModifiedDate() {
+	public Date getModifiedDate() {
 		return modifiedDate;
 	}
 
-	public void setModifiedDate(String modifiedDate) {
+	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
 
@@ -88,6 +76,14 @@ public class CustomerHierarchyLookupBean {
 
 	public void setHierarchyDefSid(int hierarchyDefSid) {
 		this.hierarchyDefSid = hierarchyDefSid;
+	}
+
+	public String getHierarchyLevelName() {
+		return hierarchyLevelName;
+	}
+
+	public void setHierarchyLevelName(String hierarchyLevelName) {
+		this.hierarchyLevelName = hierarchyLevelName;
 	}
 
 }

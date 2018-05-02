@@ -44,6 +44,14 @@ import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilde
 public class GtnWsRelationshipBuilderHelperService {
 
 	private final Set<String> tableNames = new HashSet<>();
+
+    public Set<String> getTableNames() {
+        return Collections.unmodifiableSet(tableNames);
+    }
+
+    public Set<String> getColumnNames() {
+        return Collections.unmodifiableSet(columnNames);
+    }
 	private final Set<String> columnNames = new HashSet<>();
 	private final Map<Integer, String> inclusionExclusionRules = new HashMap<>();
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsRelationshipBuilderHelperService.class);

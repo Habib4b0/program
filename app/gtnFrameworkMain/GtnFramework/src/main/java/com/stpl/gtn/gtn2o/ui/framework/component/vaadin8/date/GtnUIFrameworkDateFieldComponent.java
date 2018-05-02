@@ -8,12 +8,18 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.date.GtnUIFrameworkDateFieldConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.textbox.GtnUIFrameworkTextBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.bean.ComponentBinderValidatorBean;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.date.validator.GtnUIFrameworkDateValidator;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceDateResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceTextBoxResponse;
 import com.vaadin.data.Binder;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
@@ -44,6 +50,9 @@ public class GtnUIFrameworkDateFieldComponent implements GtnUIFrameworkComponent
 						ComponentBinderValidatorBean::setDateRequiredField);
 			}
 			dateField.setEnabled(dateFieldConfig.isEnable());
+			if(dateFieldConfig.isValueLoadFromService()){
+				fillDateField(dateFieldConfig, dateField);
+			}
 			if (dateFieldConfig.getValueChangeActionConfigList() != null
 					&& !dateFieldConfig.getValueChangeActionConfigList().isEmpty()) {
 				dateField.addValueChangeListener(e -> {
@@ -65,6 +74,26 @@ public class GtnUIFrameworkDateFieldComponent implements GtnUIFrameworkComponent
 		return dateField;
 	}
 
+	private void fillDateField(GtnUIFrameworkDateFieldConfig dateFieldConfig, DateField dateField){
+		GtnUIFrameworkWebserviceDateResponse response = getResponseFromService(dateFieldConfig);
+		if(response != null){
+			dateField.setValue(response.getResultValue());
+		}
+	}
+	
+	private GtnUIFrameworkWebserviceDateResponse getResponseFromService(GtnUIFrameworkDateFieldConfig dateFieldConfig) {
+		GtnUIFrameworkWebserviceDateResponse response = new GtnUIFrameworkWebserviceDateResponse();
+		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		if (dateFieldConfig.getLoadingUrl() != null) {
+			response = wsclient
+					.callGtnWebServiceUrl(dateFieldConfig.getLoadingUrl(), "report", request, 
+							GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
+					.getGtnUIFrameworkWebserviceDateResponse();
+		}
+		return response;
+	}
+	
 	private void loadStyles(final Component component, final List<String> stylesList) {
 		if (stylesList != null) {
 			for (String style : stylesList) {

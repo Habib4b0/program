@@ -112,13 +112,14 @@ public class QuartzUtil {
 			return null;
 		}
 		Collections.sort(hourlist);
-		String output = hourlist.get(0) + "";
+		StringBuilder output = new StringBuilder();
+                output.append(hourlist.get(0) );
 		if (hourlist.size() == 1) {
-			return output;
+			return output.toString();
 		}
 		for (int i = 1; i < hourlist.size(); i++) {
-			output = output + "," + hourlist.get(i);
+			output.append(',' ).append( hourlist.get(i));
 		}
-		return output;
+		return output.toString();
 	}	
 }

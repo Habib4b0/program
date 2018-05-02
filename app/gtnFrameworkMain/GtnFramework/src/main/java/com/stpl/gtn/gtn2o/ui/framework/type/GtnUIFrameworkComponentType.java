@@ -108,6 +108,7 @@ public enum GtnUIFrameworkComponentType {
 							new GtnUIFrameworkPagedTreeGridComponent()), GRID(
 									new GtnUIFrameworkGridComponent()), TREE_GRID(
 											new GtnUIFrameworkTreeGridComponent());
+
 	private GtnUIFrameworkComponent gtnComponent;
 
 	private GtnUIFrameworkComponentType(GtnUIFrameworkComponent gtnComponent) {

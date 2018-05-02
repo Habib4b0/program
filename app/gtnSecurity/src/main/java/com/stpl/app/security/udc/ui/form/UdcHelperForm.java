@@ -406,7 +406,7 @@ public class UdcHelperForm extends CustomComponent implements View {
                                 searchResultbeans.addAll(helperResult);
                             }
                             Notification notif = new Notification("Category "
-                                    + category.getValue().toString() + " Saved successfully",
+                                    + category.getValue() + " Saved successfully",
                                     Notification.Type.HUMANIZED_MESSAGE);
 
                             notif.setPosition(Position.MIDDLE_CENTER);
@@ -415,7 +415,7 @@ public class UdcHelperForm extends CustomComponent implements View {
                         }
                         if (success.equals("fail")) {
                             Notification notif = new Notification("Category "
-                                    + category.getValue().toString() + " Save Failed ",
+                                    + category.getValue() + " Save Failed ",
                                     Notification.Type.HUMANIZED_MESSAGE);
 
                             notif.setPosition(Position.MIDDLE_CENTER);

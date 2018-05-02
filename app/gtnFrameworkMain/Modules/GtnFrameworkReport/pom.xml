@@ -26,5 +26,24 @@
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.portal.tools.bundle.support</artifactId>
+				<version>2.0.1</version>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+						<phase>pre-integration-test</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<liferayHome>E:/Abishekram/Project/Vaadin/Server/liferay7</liferayHome>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

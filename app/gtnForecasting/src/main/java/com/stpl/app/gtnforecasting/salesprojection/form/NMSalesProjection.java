@@ -957,8 +957,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
             salesInclusionCustomItem[i].setItemClickNotClosable(true);
 
         }
-        if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) ) {
-        salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
+         salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
+        if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || (!ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()) )) {
+             salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
         salesInclusionValues.getChildren().get(0).setChecked(true);
          ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, "Yes");
         }

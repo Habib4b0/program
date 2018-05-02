@@ -1,7 +1,7 @@
 
 package com.stpl.gtn.gtn2o.ws.bean.sql;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -17,12 +17,12 @@ public class GtnWsSqlRootElement {
 	private List<GtnWsSqlEntityElement> sqlEntity;
 
 	public List<GtnWsSqlEntityElement> getSqlEntity() {
-		return sqlEntity != null ? new ArrayList<>(sqlEntity) : sqlEntity;
+		return sqlEntity == null ? sqlEntity : Collections.unmodifiableList(sqlEntity);
 	}
 
 	@XmlElement(name = "entity")
 	public void setSqlEntity(List<GtnWsSqlEntityElement> sqlEntity) {
-		this.sqlEntity = sqlEntity != null ? new ArrayList<>(sqlEntity) : sqlEntity;
+		this.sqlEntity = sqlEntity == null ? sqlEntity : Collections.unmodifiableList(sqlEntity);
 	}
 
 }

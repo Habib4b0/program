@@ -1,6 +1,12 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.service;
 
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -19,6 +25,7 @@ import org.apache.log4j.Logger;
 public class FetchData {
 
     private static final Logger logger = LogManager.getLogger(FetchData.class);
+   
 
     FetchData() {
 
@@ -42,7 +49,7 @@ public class FetchData {
 
     public static List<GtnWsRecordBean> fetchResultAsRow(Object[] visibleColumns,String query, Object... params) {
 //		if (params.length == 1) {
-        logger.info(" fetchResultAsRow query" + query);
+        logger.info(" callWebService query" + query);
         query = replaceParameters(params, query);
         QueryRunner queryRunner = new QueryRunner();
         ResultSetHandler<List<GtnWsRecordBean>> resultSetHandler = getResultSetHandler(visibleColumns);
@@ -53,13 +60,33 @@ public class FetchData {
 
             return result;
         } catch (Exception e) {
-            logger.info("in fetchResultAsRow Error= " + e.getMessage());
+            logger.info("in callWebService Error= " + e.getMessage());
             e.printStackTrace();
             return null;
         }
 
     }
 
+     public static List<GtnWsRecordBean> callWebService(GtnUIFrameworkPagedTreeTableConfig tableConfig,String moduleName, GtnWsSearchRequest request) {
+        try {
+                        GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+			GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
+                        String url=request.isCount()?tableConfig.getCountUrl():tableConfig.getResultSetUrl();
+                        serviceRequest.setGtnWsSearchRequest(request);
+			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(url,moduleName, serviceRequest,
+					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+
+             List<GtnWsRecordBean> result = null;
+            logger.info("result size= " + result.size());
+
+            return result;
+        } catch (Exception e) {
+            logger.info("in fetchResultAsRow Error= " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
+    }
     public static String replaceParameters(Object[] params, String query) {
          logger.info("params " + Arrays.toString(params));
         for (Object param : params) {

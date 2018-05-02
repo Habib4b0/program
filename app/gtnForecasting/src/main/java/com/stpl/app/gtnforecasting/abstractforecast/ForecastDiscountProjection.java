@@ -617,13 +617,9 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         expandBtn.addClickListener(buttonClickListener);
         collapseBtn.setData("collapseBtn");
         collapseBtn.addClickListener(buttonClickListener);
-        if (CUSTOM.getConstant().equals(String.valueOf(view.getValue()))) {
-            adjprogramsLb.setVisible(false);
-            adjprograms.setVisible(false);
-        } else {
-            adjprogramsLb.setVisible(false);
-            adjprograms.setVisible(false);
-        }
+        adjprogramsLb.setVisible(false);
+        adjprograms.setVisible(false);
+
 
         screenLoad();
 

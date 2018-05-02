@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import org.apache.commons.io.output.StringBuilderWriter;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
@@ -388,6 +389,7 @@ public class UiUtils {
 	 */
 	public static String generateHqlField(String fieldName, final String indicator) {
 		String finalValue = StringUtils.EMPTY;
+                StringBuilder finalValueBuilder = new StringBuilder();
 		int loop = 0;
 		fieldName = fieldName.toLowerCase();
 		String[] splitArray = fieldName.split("_");
@@ -398,9 +400,10 @@ public class UiUtils {
 			loop = 1;
 		}
 		for (int i = loop, j = splitArray.length; i < j; i++) {
-			finalValue += splitArray[i].replaceFirst(String.valueOf(splitArray[i].charAt(0)),
-					String.valueOf(splitArray[i].charAt(0)).toUpperCase());
+			finalValueBuilder.append(finalValue ).append( splitArray[i].replaceFirst(String.valueOf(splitArray[i].charAt(0)),
+					String.valueOf(splitArray[i].charAt(0)).toUpperCase()));
 		}
+                finalValue = finalValueBuilder.toString();
 		return finalValue;
 	}
 
