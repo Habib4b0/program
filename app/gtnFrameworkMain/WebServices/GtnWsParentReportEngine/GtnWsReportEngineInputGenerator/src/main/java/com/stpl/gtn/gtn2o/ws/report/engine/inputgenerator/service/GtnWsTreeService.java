@@ -14,17 +14,17 @@ import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTr
 
 public class GtnWsTreeService {
 
-	private static GtnWsTreeService TREE_INSTANCE = null;
+	private static GtnWsTreeService treeService = null;
 
 	private GtnWsTreeService() {
 		super();
 	}
 
 	public static GtnWsTreeService getInstance() {
-		if (TREE_INSTANCE == null) {
-			TREE_INSTANCE = new GtnWsTreeService();
+		if (treeService == null) {
+			treeService = new GtnWsTreeService();
 		}
-		return TREE_INSTANCE;
+		return treeService;
 	}
 
 	public GtnWsReportEngineTreeNode buildTree(List<Object[]> resultList, final Map<String, Object[]> hierarchyNames,
@@ -69,28 +69,12 @@ public class GtnWsTreeService {
 		}
 	}
 
-	private List<GtnWsReportEngineTreeNode> getNextCCPChildNode(GtnWsReportEngineTreeNode rootNode, int nextLevelNo) {
-		List<GtnWsReportEngineTreeNode> resultNode = new ArrayList<>();
-		if (rootNode.getLevelNumber() == 0 && nextLevelNo == 1) {
-			resultNode.add(rootNode);
-		} else if (nextLevelNo == rootNode.getLevelNumber() + 1) {
-			resultNode.add(rootNode);
-		} else if (rootNode.getChildren() != null) {
-			for (GtnWsReportEngineTreeNode gtnWsTreeNode : rootNode.getChildren()) {
-				resultNode.addAll(getNextCCPChildNode(gtnWsTreeNode, nextLevelNo));
-			}
-		}
-		return resultNode;
-	}
-
 	public void getAllNodesFromTree(GtnWsReportEngineTreeNode inputTree, List<GtnWsReportEngineTreeNode> outputList,
 			int levelNo) {
-		System.out.println("Level No :" + levelNo);
 		if (inputTree.getLevelNumber() > levelNo) {
 			return;
 		}
 		for (GtnWsReportEngineTreeNode gtnWsReportEngineTreeNode : inputTree.getChildren()) {
-			System.out.println(" GET Level No :" + gtnWsReportEngineTreeNode.getLevelNumber());
 			if (gtnWsReportEngineTreeNode.getLevelNumber() < levelNo) {
 				getAllNodesFromTree(gtnWsReportEngineTreeNode, outputList, levelNo);
 			}
@@ -250,7 +234,6 @@ public class GtnWsTreeService {
 
 			if (copyNode != null) {
 				resultList.add(copyNode);
-				copyNode = null;
 			}
 
 		}
@@ -297,7 +280,6 @@ public class GtnWsTreeService {
 
 			if (copyNode != null) {
 				resultList.add(copyNode);
-				copyNode = null;
 			}
 
 		}
@@ -321,7 +303,6 @@ public class GtnWsTreeService {
 
 			if (copyNode != null) {
 				resultList.add(copyNode);
-				copyNode = null;
 			}
 
 		}
@@ -381,7 +362,6 @@ public class GtnWsTreeService {
 
 			if (copyNode != null) {
 				resultList.add(copyNode);
-				copyNode = null;
 			}
 
 		}
