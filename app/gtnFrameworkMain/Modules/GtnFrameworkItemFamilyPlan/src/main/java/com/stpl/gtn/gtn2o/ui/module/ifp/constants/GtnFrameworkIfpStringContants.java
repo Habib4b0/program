@@ -100,18 +100,19 @@ public class GtnFrameworkIfpStringContants {
 	public static final List<Object> DISABLED_IFP_FIELDS = Collections.unmodifiableList(Arrays.asList(
 			IFP_INFORMATION_TAB_CREATED_BY, IFP_INFORMATION_CREATED_DATE, IFP_INFORMATION_TAB_MODIFIED_BY,
 			IFP_INFORMATION_MODIFIED_DATE, IFP_INFORMATION_TAB_PARENT_IFP_NAME, IFP_INFORMATION_TAB_PARENT_IFP_ID));
-        
-        private static final Object[] COPY_DISABLED_FIELDS = new Object[] { GtnFrameworkIfpStringContants.IFP_INFO_TAB_PARENT_IFP_ID,
-				GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_PARENT_IFP_NAME,
-				GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_CREATED_BY,
-				GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_MODIFIED_BY,
-				GtnFrameworkIfpStringContants.IFP_INFORMATION_CREATED_DATE,
-				GtnFrameworkIfpStringContants.IFP_INFORMATION_MODIFIED_DATE,
-				GtnFrameworkCommonConstants.IFP_ADD_DELETE_BUTTON };
 
-        public static Object[] getCOPY_DISABLED_FIELDS() {
-            return COPY_DISABLED_FIELDS.clone();
-        }
+	private static final Object[] COPY_DISABLED_FIELDS = new Object[] {
+			GtnFrameworkIfpStringContants.IFP_INFO_TAB_PARENT_IFP_ID,
+			GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_PARENT_IFP_NAME,
+			GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_CREATED_BY,
+			GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_MODIFIED_BY,
+			GtnFrameworkIfpStringContants.IFP_INFORMATION_CREATED_DATE,
+			GtnFrameworkIfpStringContants.IFP_INFORMATION_MODIFIED_DATE,
+			GtnFrameworkCommonConstants.IFP_ADD_DELETE_BUTTON };
+
+	public static Object[] getCOPY_DISABLED_FIELDS() {
+		return COPY_DISABLED_FIELDS.clone();
+	}
 
 	public static final String IFP_INFO_TAB_PARENT_IFP_ID = IFP_INFORMATION_TAB_PARENT_IFP_ID;
 
