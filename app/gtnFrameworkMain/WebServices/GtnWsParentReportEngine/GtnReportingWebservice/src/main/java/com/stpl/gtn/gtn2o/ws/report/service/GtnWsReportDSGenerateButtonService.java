@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,8 +7,8 @@ import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
 import com.stpl.gtn.gtn2o.ws.report.engine.inputgenerator.service.GtnWsTreeService;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
@@ -34,14 +33,13 @@ public class GtnWsReportDSGenerateButtonService {
 		client.callGtnWebServiceUrl(
 				GtnWebServiceUrlConstants.GTN_CCP_INSERT_SERVICE + GtnWebServiceUrlConstants.GTN_REPORT_CCP_INSERT,
 				gtnWsRequest, getGsnWsSecurityToken(gtnWsRequest.getGtnWsGeneralRequest().getUserId(),
-                                                                    gtnWsRequest.getGtnWsGeneralRequest().getSessionId()));
+						gtnWsRequest.getGtnWsGeneralRequest().getSessionId()));
 	}
 
 	public void buildCustomerTree() {
 		// Selected customer hierarchy all level
 		// LevelMap
-		GtnWsReportEngineTreeNode customerNode = gtnWsTreeService.buildTree(null, null,
-				MongoStringConstants.CUSTOMER_INDICATOR);
+		GtnWsReportEngineTreeNode customerNode = gtnWsTreeService.buildTree(null, null, GtnWsHierarchyType.CUSTOMER);
 		// Mongo table name
 		gtnWsMongoService.writeTreeToMongo("", customerNode);
 	}
@@ -49,8 +47,7 @@ public class GtnWsReportDSGenerateButtonService {
 	public void buildProductTree() {
 		// Selected customer hierarchy all level
 		// LevelMap
-		GtnWsReportEngineTreeNode productNode = gtnWsTreeService.buildTree(null, null,
-				MongoStringConstants.PRODUCT_INDICATOR);
+		GtnWsReportEngineTreeNode productNode = gtnWsTreeService.buildTree(null, null, GtnWsHierarchyType.PRODUCT);
 		// Mongo table name
 		gtnWsMongoService.writeTreeToMongo("", productNode);
 	}
