@@ -53,7 +53,7 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String PRODUCT_RELATIONSHIP = "ProductRelationship";
 
 	public static final String RELATIONSHIP_VERSION = "RelationshipVersion";
-	
+
 	public static final String PRIVATE_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT = "privateViewSearchLookupSearchAndResetLayout";
 
 	public static final String REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT = "reportProductHierarchyLookUpSearchCriteriaLayout";
@@ -79,12 +79,10 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE = "customerHierarchySearchResultTable";
 
 	public static final String CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE = "customViewLookupProductTable";
-	
+
 	public static final String CUSTOM_VIEW_LOOKUP_DEDUCTION_TABLE = "customViewLookupDeductionTable";
-	
+
 	public static final String CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE = "customViewLookupVariableTable";
-	
-	
 
 	public static final String PRODUCT_BTN_MAIN = "productBtnMain";
 
@@ -333,6 +331,10 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String NO_LEVEL_SELECTED_CAPTION = "No level Selected";
 
 	public static final String NO_LEVEL_SELECTED_MSG = "Please select a row to move.";
+
+	public static final String VARIABLE_POSITION_OPTION_GROUP = "custom_Variable_OptionGroup";
+
+	public static final String VARIABLE_TYPE_OPTION_GROUP = "custom_Variable_Type_OptionGroup";
 
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");

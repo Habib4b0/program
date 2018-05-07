@@ -13,6 +13,10 @@
         <property name="sessionFactory">
             <ref bean="sessionFactory" />
         </property>
+        <property name="queryLogger">
+            <ref bean="queryLogger" />
+        </property>
+        
     </bean>
     <bean id="queryLogger" class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger">
     </bean>
@@ -30,7 +34,7 @@
         <!-- <property name="password" value="${jdbc.password}" /> -->
     </bean>
 
-    <bean id="gtnWsReportController" class="com.stpl.gtn.gtn2o.ws.controller.GtnWsReportController">
+    <bean id="gtnWsReportController" class="com.stpl.gtn.gtn2o.ws.report.controller.GtnWsReportController">
         <property name="sessionFactory" ref="sessionFactory"></property>
         <property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
     </bean>

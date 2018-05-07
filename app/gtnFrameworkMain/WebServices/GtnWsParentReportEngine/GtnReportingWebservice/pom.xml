@@ -16,7 +16,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.test.skip>false</maven.test.skip>
-        <sonar.sources>src\main\java\com\stpl\gtn\gtn2o\ws\constants</sonar.sources>
     </properties>
     <dependencies>
         <dependency>
@@ -74,11 +73,6 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.4.0.905</version>
             </plugin>
         </plugins>
     </build>

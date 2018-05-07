@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkSkipActionException;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.vaadin.data.TreeData;
 import com.vaadin.ui.TreeGrid;
 
@@ -72,12 +73,26 @@ public class GtnFrameworkUICustomTreeAddAction
 		TreeData<GtnWsRecordBean> data = grid.getTreeData();
 		isLowerValueAlreadyAdded(parentBean, beanTobeAdded, data);
 		isChildAlreadAdded(data, parentBean, beanTobeAdded);
+		isAddingToVariable(parentBean, beanTobeAdded);
+	}
+
+	private void isAddingToVariable(GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded)
+			throws GtnFrameworkSkipActionException {
+		if (parentBean != null
+				&& GtnWsHierarchyType.VARIABLES.toString().equals(parentBean.getStringPropertyByIndex(2))) {
+			throw new GtnFrameworkSkipActionException("Can't add to Variables");
+		}
+		if (parentBean == null
+				&& GtnWsHierarchyType.VARIABLES.toString().equals(beanTobeAdded.getStringPropertyByIndex(2))) {
+			throw new GtnFrameworkSkipActionException("Can't add  Variables to root Level");
+		}
 
 	}
 
 	private void isChildAlreadAdded(TreeData<GtnWsRecordBean> gridData, GtnWsRecordBean selectedBean,
 			GtnWsRecordBean beanTobeAdded) throws GtnFrameworkGeneralException {
-		if (!gridData.getChildren(selectedBean).isEmpty()) {
+		if (!gridData.getChildren(selectedBean).isEmpty()
+				&& !beanTobeAdded.getStringPropertyByIndex(2).equals(GtnWsHierarchyType.VARIABLES.toString())) {
 			GtnUIFrameWorkActionConfig notificationConfig = new GtnUIFrameWorkActionConfig(
 					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 			String errorMsg = String.format(INVALID_MSG, beanTobeAdded.getStringPropertyByIndex(0),
@@ -95,7 +110,8 @@ public class GtnFrameworkUICustomTreeAddAction
 		if (next != null) {
 			int currentLevel = beanTobeAdded.getIntegerPropertyByIndex(1);
 			if (next.getPropertyValueByIndex(2).equals(beanTobeAdded.getStringPropertyByIndex(2))
-					&& next.getIntegerPropertyByIndex(1) > currentLevel) {
+					&& next.getIntegerPropertyByIndex(1) > currentLevel
+					&& !beanTobeAdded.getStringPropertyByIndex(2).equals(GtnWsHierarchyType.VARIABLES.toString())) {
 				GtnUIFrameWorkActionConfig notificationConfig = new GtnUIFrameWorkActionConfig(
 						GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 				String errorMsg = String.format(INVALID_MSG, beanTobeAdded.getStringPropertyByIndex(0),

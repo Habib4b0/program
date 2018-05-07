@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.controller;
 
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.junit.Ignore;
@@ -9,12 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.stpl.gtn.gtn20.ws.report.engine.mongo.constants.MongoConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
 import com.stpl.gtn.gtn2o.ws.report.controller.GtnWsReportCustomViewController;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,22 +34,22 @@ public class GtnWsReportCustomViewControllerTest {
 	@Autowired
 	SessionFactory sessionFactory;
 
-	// @Autowired
-	// com.mongodb.MongoClient client;
+	@Autowired
+	com.mongodb.MongoClient client;
 
 	@Test
 	public void testDisplay() {
-		// prepereData();
+		prepereData();
 		GtnUIFrameworkWebserviceRequest request = getRequest();
 		request.getGtnReportRequest().getReportBean().getDataSelectionBean().setName("12114" + "UddasEdvbas$5");
 		getcustomerHierarchyRequest(request);
 		controller.loadHierarchyLevels(request);
-		// deleteData();
+		deleteData();
 	}
 
-	// private void deleteData() {
-	// client.getDatabase(MongoStringConstants.DATABSE_NAME).drop();
-	// }
+	private void deleteData() {
+		client.getDatabase(MongoConstants.DATABSE_NAME).drop();
+	}
 
 	private GtnUIFrameworkWebserviceRequest getcustomerHierarchyRequest(GtnUIFrameworkWebserviceRequest request) {
 		GtnWsReportCustomViewBean customViewBean = new GtnWsReportCustomViewBean();
@@ -59,18 +67,15 @@ public class GtnWsReportCustomViewControllerTest {
 		return request;
 	}
 
-	// private void prepereData() {
-	// CodecRegistry pojoCodecRegistry =
-	// fromRegistries(MongoClient.getDefaultCodecRegistry(),
-	// fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-	// MongoCollection<GtnWsReportDataSelectionBean> collection =
-	// client.getDatabase(MongoStringConstants.DATABSE_NAME)
-	// .withCodecRegistry(pojoCodecRegistry)
-	// .getCollection(MongoStringConstants.REPORT_COLLECTION,
-	// GtnWsReportDataSelectionBean.class);
-	// GtnWsReportDataSelectionBean bean = createDummyHierarchySelection();
-	// collection.insertOne(bean);
-	// }
+	private void prepereData() {
+		CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
+				fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+		MongoCollection<GtnWsReportDataSelectionBean> collection = client.getDatabase(MongoConstants.DATABSE_NAME)
+				.withCodecRegistry(pojoCodecRegistry)
+				.getCollection(MongoStringConstants.REPORT_COLLECTION, GtnWsReportDataSelectionBean.class);
+		GtnWsReportDataSelectionBean bean = createDummyHierarchySelection();
+		collection.insertOne(bean);
+	}
 
 	private GtnWsReportDataSelectionBean createDummyHierarchySelection() {
 		GtnWsReportDataSelectionBean bean = new GtnWsReportDataSelectionBean();
