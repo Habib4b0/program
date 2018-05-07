@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 
+import com.google.gwt.user.client.rpc.core.java.util.Collections;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.DataSet;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.config.PagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.service.FetchData;
@@ -23,6 +24,7 @@ import com.vaadin.ui.components.grid.HeaderCell;
 import com.vaadin.ui.components.grid.HeaderRow;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -98,10 +100,17 @@ public class PagedTreeGrid {
         
          if (tableConfig.isDoubleHeaderVisible()) {
             HeaderRow groupingHeader = grid.prependHeaderRow();
-             for(Object property:tableConfig.getRightTableDoubleHeaderMap().keySet()){
+            int j=0;
+             for(Object property:tableConfig.getRightTableDoubleHeaderVisibleColumns() ){
+            	 if(tableConfig.getRightTableDoubleHeaderMap().get(property)!=null){
                  Object joinList[]=tableConfig.getRightTableDoubleHeaderMap().get(property);
+                 if(joinList.length>1){
                  String[] stringArray = Arrays.copyOf(joinList, joinList.length, String[].class);
-                 groupingHeader.join(stringArray).setText(tableConfig.getRightTableDoubleVisibleHeaders().iterator().next());
+                 groupingHeader.join(stringArray).setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j++));
+                 }else{
+                	 groupingHeader.getCell((String.valueOf( joinList[0]))).setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j++));
+                 }
+            	 }
              }
         }
           if (tableConfig.isTripleHeaderVisible()) {
