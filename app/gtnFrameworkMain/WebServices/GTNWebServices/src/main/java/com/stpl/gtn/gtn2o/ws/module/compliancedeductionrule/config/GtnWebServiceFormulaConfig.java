@@ -43,7 +43,7 @@ public class GtnWebServiceFormulaConfig implements GtnWsSearchQueryConfigLoader 
 		fieldToColumnDetailsMapRule.put("systemId", configProvider.getColumnStringConfig("FORECASTING_FORMULA_SID", "FF"));
 		fieldToColumnDetailsMapRule.put("formulaType", configProvider.getColumnStringConfig("DESCRIPTION", "FORMULA_TYPE",
 				"FORMULA_TYPE", "HELPER_TABLE_SID"));
-		fieldToColumnDetailsMapRule.put("formulaNo", configProvider.getColumnStringConfig("FORMULA_NO", "FF"));
+		fieldToColumnDetailsMapRule.put("formulaNo", configProvider.getColumnStringConfig("ISNULL(FF.FORMULA_NO,'')", ""));
 		fieldToColumnDetailsMapRule.put("formulaName", configProvider.getColumnStringConfig("FORMULA_NAME", "FF"));
 		fieldToColumnDetailsMapRule.put("formula", configProvider.getColumnStringConfig("FORMULA", "FF"));
 

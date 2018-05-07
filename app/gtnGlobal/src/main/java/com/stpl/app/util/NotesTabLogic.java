@@ -1,6 +1,8 @@
 package com.stpl.app.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,7 +13,9 @@ import org.slf4j.Logger;
 
 import com.stpl.app.model.MasterDataFiles;
 import com.stpl.app.security.StplSecurity;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.MasterDataFilesLocalServiceUtil;
+import com.stpl.app.util.xmlparser.SQLUtil;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.util.GtnFileUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -56,7 +60,7 @@ public class NotesTabLogic {
 			if (docDetailsList != null && docDetailsList.size() > 0) {
 				for (MasterDataFiles docDetails : docDetailsList) {
 					NotesDTO attachmentDTO = new NotesDTO();
-					attachmentDTO.setDocDetailsId(docDetails.getMasterDataFilesSid());
+					attachmentDTO.setDocDetailsId(docDetails.getMasterTableSid());
 					String filePath = docDetails.getFilePath();
 					attachmentDTO.setDocumentFullPath(filePath);
 					attachmentDTO.setDocumentName(
@@ -133,4 +137,29 @@ public class NotesTabLogic {
 
 		}
 	}
+	 public void saveUploadedAttachInformation (List<NotesDTO> availableUploadedInformation, String moduleName,
+				int moduleSystemId) throws  PortalException {
+				 for (NotesDTO uploadDetails : availableUploadedInformation) {
+			        String query = SQLUtil.getQuery("insertAttachQuery");
+			        query = query.replace("?ATTACHMENT_TABLE_SID","'" + moduleSystemId + "'");
+			        query = query.replace("?MASTER_TABLE_NAME","'" + moduleName + "'");
+			        try {
+						query = query.replace("?FILE_DATA", "'" + readBytesFromFile(uploadDetails.getDocumentFullPath())+ "'" );
+					} catch (IOException e) {
+						LOGGER.error("Error while Fetching File");
+					}
+			        query = query.replace("?FILE_NAME","'"  + uploadDetails.getDocumentName() + "'" );
+			        query = query.replace("?CREATED_BY", "'" + uploadDetails.getUserId()+ "'" );
+			        HelperTableLocalServiceUtil.executeUpdateQuery(query);
+				 }
+			    }
+			 private static byte[] readBytesFromFile(String filePath) throws IOException {
+				    File inputFile = GtnFileUtil.getFile(filePath);
+			        FileInputStream inputStreamIm= GtnFileUtil.getFileInputStreamFile(inputFile);
+			        byte[] fileBytes = new byte[(int) inputFile.length()];
+			        int i=inputStreamIm.read(fileBytes);
+			        if(i>0) 
+			        return fileBytes;
+					return  new byte[0];
+			    }
 }
