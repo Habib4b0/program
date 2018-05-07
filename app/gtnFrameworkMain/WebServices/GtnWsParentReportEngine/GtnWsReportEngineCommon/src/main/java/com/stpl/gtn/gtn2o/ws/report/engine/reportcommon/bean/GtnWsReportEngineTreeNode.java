@@ -19,6 +19,8 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 
 	private List<GtnWsReportEngineTreeNode> children;
 
+	private List<GtnWsReportEngineTreeNode> variableList;
+
 	private int levelNumber;
 
 	private String hierarchyNo;
@@ -246,5 +248,20 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 
 	public void setDiscountAvailable(boolean isDiscountAvailable) {
 		this.isDiscountAvailable = isDiscountAvailable;
+	}
+
+	public List<GtnWsReportEngineTreeNode> getVariableList() {
+		return variableList;
+	}
+
+	public void setVariableList(List<GtnWsReportEngineTreeNode> variableList) {
+		this.variableList = variableList;
+	}
+
+	public void addVariable(GtnWsReportEngineTreeNode variable) {
+		if (this.variableList == null) {
+			this.variableList = new ArrayList<>();
+		}
+		this.variableList.add(variable);
 	}
 }

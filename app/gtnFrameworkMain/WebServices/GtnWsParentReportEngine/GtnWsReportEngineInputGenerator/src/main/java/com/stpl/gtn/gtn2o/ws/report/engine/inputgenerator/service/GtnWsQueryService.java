@@ -138,7 +138,7 @@ public class GtnWsQueryService {
 	}
 
 	public String getCPPListWithRsQuery() {
-		return " select * from ST_CCP_HIERARCHY_LEELA_KRISH_143_180207;";
+		return " select * from ST_CCP_HIERARCHY_LEELA_KRISH_143_180207 where CUST_HIERARCHY_NO like '390-116.222.23.86.%';";
 	}
 
 	public List<Object[]> getCPPListWithRS() {
@@ -608,15 +608,19 @@ public class GtnWsQueryService {
 			custom.add(obj);
 			obj = new Object[] { 3, "C", "Contract", 2 };
 			custom.add(obj);
-			obj = new Object[] { 4, "C", "TP", 3 };
+			obj = new Object[] { 3, "A", "Contract", 3 };
+			custom.add(obj);
+			obj = new Object[] { 4, "C", "TP", 4 };
 			custom.add(obj);
 			break;
 		case 1:
-			obj = new Object[] { 3, "C", "Contract", 1 };
+			obj = new Object[] { 3, "A", "Contract", 1 };
 			custom.add(obj);
 			obj = new Object[] { 3, "D", "Program Type", 2 };
 			custom.add(obj);
-			obj = new Object[] { 4, "C", "TP", 3 };
+			obj = new Object[] { 4, "C", "Contract", 3 };
+			custom.add(obj);
+			obj = new Object[] { 4, "C", "TP", 4 };
 			custom.add(obj);
 			break;
 		case 2:

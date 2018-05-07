@@ -107,18 +107,82 @@ public class GtnWsTreeService {
 	public void buildDeductionTree(GtnWsReportEngineTreeNode root, int levelNo, List<Object[]> discountList,
 			List<Object[]> ccpResult, int discountLevelIndex) {
 		if (root.getChildren() == null && levelNo == 1) {
-			root.setChildren(getMatchingRootDiscountNode(discountList, ccpResult, discountLevelIndex));
+			root.setChildren(getMatchingRootDiscountNode(discountList, levelNo, ccpResult, discountLevelIndex));
 			return;
 		}
 		for (GtnWsReportEngineTreeNode gtnWsReportEngineTreeNode : root.getChildren()) {
 			if (gtnWsReportEngineTreeNode.getLevelNumber() == levelNo - 1) {
-				gtnWsReportEngineTreeNode.setChildren(getMatchingChildDiscountNode(gtnWsReportEngineTreeNode,
-						discountList, levelNo, discountLevelIndex));
+				if (gtnWsReportEngineTreeNode.getRsIds() == null) {
+					gtnWsReportEngineTreeNode.setChildren(
+							getMatchingRootDiscountNode(discountList, levelNo, ccpResult, discountLevelIndex));
+				} else {
+					gtnWsReportEngineTreeNode.setChildren(getMatchingChildDiscountNode(gtnWsReportEngineTreeNode,
+							discountList, levelNo, discountLevelIndex));
+				}
+
 			} else {
 				buildDeductionTree(gtnWsReportEngineTreeNode, levelNo, discountList, ccpResult, discountLevelIndex);
 			}
 		}
 
+	}
+
+	public void buildFixedVariableTree(GtnWsReportEngineTreeNode root, int levelNo, List<String> variableList) {
+		if (root.getChildren() != null) {
+			for (GtnWsReportEngineTreeNode gtnWsReportEngineTreeNode : root.getChildren()) {
+				if (gtnWsReportEngineTreeNode.getLevelNumber() == levelNo - 1) {
+					for (String variable : variableList) {
+						GtnWsReportEngineTreeNode node = new GtnWsReportEngineTreeNode();
+						node.setLevelName(variable);
+						node.setLevelValue(variable);
+						node.setLevelNumber(levelNo);
+						node.setIndicator("V");
+						gtnWsReportEngineTreeNode.addChildren(node);
+					}
+				} else {
+					buildAllVariableTree(gtnWsReportEngineTreeNode, levelNo, variableList);
+				}
+			}
+		}
+	}
+
+	public void buildAllVariableTree(GtnWsReportEngineTreeNode root, int levelNo, List<String> variableList) {
+
+		if (root.getChildren() == null && levelNo == 1) {
+			for (String variable : variableList) {
+				GtnWsReportEngineTreeNode node = new GtnWsReportEngineTreeNode();
+				node.setLevelName(variable);
+				node.setLevelValue(variable);
+				node.setLevelNumber(levelNo);
+				node.setIndicator("A");
+				node.setHierarchyNo(levelNo + "~" + variable);
+				node.setDiscountAvailable(root.isDiscountAvailable());
+				root.addChildren(node);
+			}
+			return;
+		}
+
+		for (GtnWsReportEngineTreeNode gtnWsReportEngineTreeNode : root.getChildren()) {
+			if (gtnWsReportEngineTreeNode.getLevelNumber() == levelNo - 1) {
+				for (String variable : variableList) {
+					GtnWsReportEngineTreeNode node = new GtnWsReportEngineTreeNode();
+					node.setLevelName(variable);
+					node.setLevelValue(variable);
+					node.setLevelNumber(levelNo);
+					node.setIndicator("A");
+					node.setHierarchyNo(gtnWsReportEngineTreeNode.getHierarchyNo() + "~"
+							+ gtnWsReportEngineTreeNode.getIndicator() + "~" + variable);
+					node.setCcpIds(gtnWsReportEngineTreeNode.getCcpIds());
+					node.setRsIds(gtnWsReportEngineTreeNode.getRsIds());
+					node.setDiscountAvailable(root.isDiscountAvailable());
+					node.setParentHierarchyNo(gtnWsReportEngineTreeNode.getParentHierarchyNo());
+					node.setParentIndicator(gtnWsReportEngineTreeNode.getParentIndicator());
+					gtnWsReportEngineTreeNode.addChildren(node);
+				}
+			} else {
+				buildAllVariableTree(gtnWsReportEngineTreeNode, levelNo, variableList);
+			}
+		}
 	}
 
 	private List<GtnWsReportEngineTreeNode> getMatchingChildNode(GtnWsReportEngineTreeNode root,
@@ -169,7 +233,7 @@ public class GtnWsTreeService {
 		return resultList;
 	}
 
-	private List<GtnWsReportEngineTreeNode> getMatchingRootDiscountNode(List<Object[]> discountList,
+	private List<GtnWsReportEngineTreeNode> getMatchingRootDiscountNode(List<Object[]> discountList, int levelNo,
 			List<Object[]> ccpResult, int discountLevelIndex) {
 
 		Map<Object, Set<Integer>> distinctDiscountNode = new HashMap<>();
@@ -196,7 +260,7 @@ public class GtnWsTreeService {
 			discountTreeNode.setHierarchyNo(discountNode.getKey().toString());
 			discountTreeNode.setRsIds(discountNode.getValue());
 			discountTreeNode.setIndicator("D");
-			discountTreeNode.setLevelNumber(1);
+			discountTreeNode.setLevelNumber(levelNo);
 			discountTreeNode.setDiscountAvailable(true);
 			resultList.add(discountTreeNode);
 		}
@@ -213,7 +277,8 @@ public class GtnWsTreeService {
 		String hierarchyNo = root.getHierarchyNo();
 
 		boolean discountFlag = "D".equals(root.getIndicator());
-		if (discountFlag) {
+		boolean allVariable = "A".equals(root.getIndicator());
+		if (discountFlag || allVariable) {
 			String[] discountHierarchyNo = root.getHierarchyNo().split("~");
 			currentHierarchyIndex = "C".equals(discountHierarchyNo[1]) ? 1 : 2;
 			hierarchyNo = discountHierarchyNo[0];
@@ -243,7 +308,8 @@ public class GtnWsTreeService {
 	}
 
 	private void setParentDetails(GtnWsReportEngineTreeNode root, GtnWsReportEngineTreeNode copyNode) {
-		if (root.getIndicator().equals(copyNode.getIndicator()) || "D".equals(root.getIndicator())) {
+		if (root.getIndicator().equals(copyNode.getIndicator()) || "D".equals(root.getIndicator())
+				|| "A".equals(root.getIndicator())) {
 			copyNode.setParentIndicator(root.getParentIndicator());
 			copyNode.setParentHierarchyNo(root.getParentHierarchyNo());
 		} else {
@@ -261,7 +327,8 @@ public class GtnWsTreeService {
 		String hierarchyNo = root.getHierarchyNo();
 
 		boolean discountFlag = "D".equals(root.getIndicator());
-		if (discountFlag) {
+		boolean allVariable = "A".equals(root.getIndicator());
+		if (discountFlag || allVariable) {
 			String[] discountHierarchyNo = root.getHierarchyNo().split("~");
 			currentHierarchyIndex = "C".equals(discountHierarchyNo[1]) ? 1 : 2;
 			hierarchyNo = discountHierarchyNo[0];

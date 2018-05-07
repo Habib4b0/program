@@ -24,19 +24,28 @@ public class GtnWsReportInputGenerator {
 		List<Object[]> selectedProd = QUERY.getSelectedProd();
 		Map<String, Object[]> custHierarchy = convertAsMap(SQL_INSTANCE.executeQuery(QUERY.getCustomerMap()));
 		GtnWsReportEngineTreeNode customerRootNode = TREE_SERVICE.buildTree(selectedCust, custHierarchy, "C");
-		displayNodeValues(customerRootNode);
+		// displayNodeValues(customerRootNode);
 		Map<String, Object[]> prodHierarchy = convertAsMap(SQL_INSTANCE.executeQuery(QUERY.getProductMap()));
 		GtnWsReportEngineTreeNode productrootNode = TREE_SERVICE.buildTree(selectedProd, prodHierarchy, "P");
-		displayNodeValues(productrootNode);
+		// displayNodeValues(productrootNode);
 		List<Object[]> customLevelDeatils = QUERY.getCustomViewWithDiscountLevel(caseNo);
+
+		List<String> variableList = new ArrayList<>();
+		variableList.add("Test1");
+		variableList.add("Test2");
 
 		GtnWsReportEngineTreeNode root = new GtnWsReportEngineTreeNode();
 
 		for (Object[] objects : customLevelDeatils) {
+			if ("A".equals(objects[1])) {
+				TREE_SERVICE.buildAllVariableTree(root, Integer.parseInt(objects[3].toString()), variableList);
+			}
 			if ("D".equals(objects[1])) {
 				TREE_SERVICE.buildDeductionTree(root, Integer.parseInt(objects[3].toString()), deductionList, ccpResult,
 						Integer.parseInt(objects[0].toString()));
-			} else {
+			}
+
+			if ("C".equals(objects[1]) || "P".equals(objects[1])) {
 				GtnWsReportEngineTreeNode inputTree = "C".equals(objects[1]) ? customerRootNode : productrootNode;
 				List<GtnWsReportEngineTreeNode> allLevelNodeList = new ArrayList<>();
 				TREE_SERVICE.getAllNodesFromTree(inputTree, allLevelNodeList, Integer.parseInt(objects[0].toString()));
