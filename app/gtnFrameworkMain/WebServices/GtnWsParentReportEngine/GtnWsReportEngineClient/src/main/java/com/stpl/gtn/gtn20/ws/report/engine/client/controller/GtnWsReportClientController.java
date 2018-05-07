@@ -18,7 +18,7 @@ public class GtnWsReportClientController {
 	public void getWsReportClientController() {
 		try {
 			GtnWsReportInputGenerator inputGenerator = new GtnWsReportInputGenerator();
-			GtnWsReportEngineTreeNode input = inputGenerator.callBuildTree(26);
+			GtnWsReportEngineTreeNode input = inputGenerator.callBuildTree(0);
 			// new GtnWsRawDataCustomiseService().generateDataToMongo();
 			// GtnWsReportEngineTreeNode outputTree = getGtnGeneratedReportOutput(input);
 			// System.out.println("outputTree = " + outputTree);
