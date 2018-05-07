@@ -12,6 +12,8 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 
 public class GtnWsReportRequest {
 
+	private List<Object[]> resultList;
+	private String query;
 	private GtnWsReportBean reportBean = new GtnWsReportBean();
 
 	private GtnReportHierarchyLookupBean customerHierarchyLookupBean;
@@ -21,7 +23,15 @@ public class GtnWsReportRequest {
 	private GtnWsReportCustomViewBean customViewBean;
 	private List<GtnWsRecordBean> recordBean;
 	private List<GtnReportHierarchyLevelBean> hierarchyLevelList;
-	
+
+	public List<Object[]> getResultList() {
+		return resultList;
+	}
+
+	public void setResultList(List<Object[]> resultList) {
+		this.resultList = resultList;
+	}
+
 	public GtnWsReportBean getReportBean() {
 		return reportBean;
 	}
@@ -48,6 +58,14 @@ public class GtnWsReportRequest {
 
 	public void setCustomViewBean(GtnWsReportCustomViewBean customViewBean) {
 		this.customViewBean = customViewBean;
+	}
+
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
 	}
 
 	public void setReportBean(GtnWsReportBean reportBean) {
@@ -85,5 +103,5 @@ public class GtnWsReportRequest {
 	public void setHierarchyLevelList(List<GtnReportHierarchyLevelBean> hierarchyLevelList) {
 		this.hierarchyLevelList = hierarchyLevelList;
 	}
-	
+
 }
