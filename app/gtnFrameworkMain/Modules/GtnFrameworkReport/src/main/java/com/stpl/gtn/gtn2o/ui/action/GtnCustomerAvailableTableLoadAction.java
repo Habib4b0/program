@@ -85,6 +85,7 @@ public class GtnCustomerAvailableTableLoadAction
 		queryParameters.add(hierarchyVersionNo);
 		queryParameters.add(selectedLevelNo);
 		queryParameters.add(forecastEligibleDate);
+		queryParameters.add(false);
 
 		AbstractComponent dualListBoxComponent = GtnUIFrameworkGlobalUI
 				.getVaadinComponent(actionParamList.get(1).toString());
