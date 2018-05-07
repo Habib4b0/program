@@ -151,6 +151,15 @@ public class GtnFrameworkPSConstants {
 			GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON,
 			GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_ADD_RESET_BUTTON,
 			GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON };
+        
+        private static final Object[] PS_COPY_DISABLE_FIELDS = new Object[] { GtnFrameworkCommonConstants.CREATED_BY,
+				GtnFrameworkCommonConstants.MODIFIED_BY, GtnFrameworkCommonConstants.CREATED_DATE,
+				GtnFrameworkCommonConstants.MODIFIED_DATE, GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME_TOP,
+				GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON };
+
+        public static Object[] getPS_COPY_DISABLE_FIELDS() {
+            return PS_COPY_DISABLE_FIELDS.clone();
+        }
 
 	public static final String ERROR_MESSAGE_COPY_HEADER = "Copy Error";
 	public static final String ERROR_MESSAGE_COPY_MESSAGE = "Please select a record to copy.";

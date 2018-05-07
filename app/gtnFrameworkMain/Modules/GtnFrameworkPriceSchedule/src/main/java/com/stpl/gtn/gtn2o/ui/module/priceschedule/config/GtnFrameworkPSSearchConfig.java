@@ -742,12 +742,7 @@ public class GtnFrameworkPSSearchConfig {
 
 		GtnUIFrameWorkActionConfig disableActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new Object[] { GtnFrameworkCommonConstants.CREATED_BY,
-				GtnFrameworkCommonConstants.MODIFIED_BY, GtnFrameworkCommonConstants.CREATED_DATE,
-				GtnFrameworkCommonConstants.MODIFIED_DATE, GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME_TOP,
-				GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON };
-
-		disableActionConfig.setActionParameterList(Arrays.asList(disableField));
+		disableActionConfig.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getPS_COPY_DISABLE_FIELDS()));
 		cpyActionConfigList.add(disableActionConfig);
 
 		GtnUIFrameWorkActionConfig visibleActionConfig = new GtnUIFrameWorkActionConfig();
