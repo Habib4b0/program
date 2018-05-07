@@ -56,7 +56,7 @@ public class HeaderGeneratorService {
 			{
 
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
-		tableHeaderDTO.addSingleColumn("", "", String.class);
+		tableHeaderDTO.addSingleColumn("levelId", "", String.class);
 		tableHeaderDTO.addSingleColumn("levelName", "Level Name", String.class);
 		
 		tableHeaderDTO.addDoubleHeaderMap("",new Object[] {"","levelName"});
@@ -70,23 +70,39 @@ public class HeaderGeneratorService {
 
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
 
-		tableHeaderDTO.addSingleColumn("actualRate", "Actual Rate", String.class);
-		tableHeaderDTO.addSingleColumn("actualRPU", "Actual RPU", String.class);
-		tableHeaderDTO.addSingleColumn("actualAmount", "Actual Amount", String.class);
-		tableHeaderDTO.addSingleColumn("projectedRate", "Projected Rate", String.class);
-		tableHeaderDTO.addSingleColumn("projectedRPU", "Projected RPU", String.class);
-		tableHeaderDTO.addSingleColumn("projectedAmount", "Projected Amount", String.class);
-		tableHeaderDTO.addSingleColumn("growth", "Growth", String.class);
+		tableHeaderDTO.addSingleColumn("q12017actualRate", "Actual Rate", String.class);
+		tableHeaderDTO.addSingleColumn("q12017actualRPU", "Actual RPU", String.class);
+		tableHeaderDTO.addSingleColumn("q12017actualAmount", "Actual Amount", String.class);
+		tableHeaderDTO.addSingleColumn("q12017projectedRate", "Projected Rate", String.class);
+		tableHeaderDTO.addSingleColumn("q12017projectedRPU", "Projected RPU", String.class);
+		tableHeaderDTO.addSingleColumn("q12017projectedAmount", "Projected Amount", String.class);
+		tableHeaderDTO.addSingleColumn("q12017growth", "Growth", String.class);
 		
-		tableHeaderDTO.addDoubleHeaderMap("q1-17",new Object[] {"actualRate","actualRPU","actualAmount","projectedRate","projectedRPU","projectedAmount","growth"});
+		tableHeaderDTO.addDoubleHeaderMap("q1-17",new Object[] {"q12017actualRate","q12017actualRPU","q12017actualAmount","q12017projectedRate","q12017projectedRPU","q12017projectedAmount","q12017growth"});
 	
+		
+		tableHeaderDTO.addSingleColumn("q22017actualRate", "Actual Rate", String.class);
+		tableHeaderDTO.addSingleColumn("q22017actualRPU", "Actual RPU", String.class);
+		tableHeaderDTO.addSingleColumn("q22017actualAmount", "Actual Amount", String.class);
+		tableHeaderDTO.addSingleColumn("q22017projectedRate", "Projected Rate", String.class);
+		tableHeaderDTO.addSingleColumn("q22017projectedRPU", "Projected RPU", String.class);
+		tableHeaderDTO.addSingleColumn("q22017projectedAmount", "Projected Amount", String.class);
+		tableHeaderDTO.addSingleColumn("q22017growth", "Growth", String.class);
+		
+		tableHeaderDTO.addDoubleHeaderMap("q2-17",new Object[] {"q22017actualRate","q22017actualRPU","q22017actualAmount","q22017projectedRate","q22017projectedRPU","q22017projectedAmount","q22017growth"});
 		//tableHeaderDTO.addDoubleHeaderMap("q3-17",new Object[] {"actualRate","actualRPU","actualAmount","projectedRate","projectedRPU","projectedAmount","growth"});
 		//tableHeaderDTO.addDoubleHeaderMap("q4-17",new Object[] {"actualRate","actualRPU","actualAmount","projectedRate","projectedRPU","projectedAmount","growth"});
 		
 		tableHeaderDTO.addDoubleColumn("q1-17", "Q1 2017");
 		
-		tableHeaderDTO.addTripleHeaderMap("q2-17",new Object[] {"q1-17"});
-		tableHeaderDTO.addTripleColumn("q2-17", "Q2 2017");
+		tableHeaderDTO.addDoubleColumn("q2-17", "Q2 2017");
+		
+		
+		
+		tableHeaderDTO.addTripleHeaderMap("q1-17",new Object[] {"q22017actualRate","q22017actualRPU","q22017actualAmount","q22017projectedRate","q22017projectedRPU","q22017projectedAmount","q22017growth","q12017actualRate","q12017actualRPU","q12017actualAmount","q12017projectedRate","q12017projectedRPU","q12017projectedAmount","q12017growth"});
+		
+		tableHeaderDTO.addTripleColumn("2017", " 2017");
+		
 		//tableHeaderDTO.addDoubleColumn();
 		/*tableHeaderDTO.addDoubleColumn("q3-17", "Q3 2017");
 		tableHeaderDTO.addDoubleColumn("q4-17", "Q4 2017");*/
