@@ -1,9 +1,9 @@
 package com.stpl.gtn.gtn20.ws.report.engine.client.service;
 
-import com.mongodb.client.MongoCollection;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mongodb.client.MongoCollection;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
 import com.stpl.gtn.gtn2o.ws.report.engine.rawdatagenerator.GtnWsGenerateRawData;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsDiscountBean;
@@ -14,7 +14,7 @@ public class GtnWsRawDataCustomiseService {
 
 	private static final GtnWsGenerateRawData RAW_DATA_INSTANCE = GtnWsGenerateRawData.getInstance();
 
-	private static final GtnWsMongoService MONGO_SERVICE = GtnWsMongoService.getInstance();
+	private static final GtnWsMongoService MONGO_SERVICE = new GtnWsMongoService();
 
 	public void generateDataToMongo() {
 		writeRawDataToMongo("testingpurpose", generateApprovedData());
@@ -117,9 +117,9 @@ public class GtnWsRawDataCustomiseService {
 
 	private void writeRawDataToMongo(String filename, List<GtnWsProjectionBean> rawData) {
 		// JSON_SERVICE_INSTANCE.writeToJsonFile(filename, rawData);
-                MongoCollection<GtnWsProjectionBean> collection = (MongoCollection<GtnWsProjectionBean>)
-                        MONGO_SERVICE.getCollectionForCustomClass(filename, GtnWsProjectionBean.class);
-                MONGO_SERVICE.insertManyRecordsToMongoDbUsingCustomClass(collection, rawData);
+		MongoCollection<GtnWsProjectionBean> collection = (MongoCollection<GtnWsProjectionBean>) MONGO_SERVICE
+				.getCollectionForCustomClass(filename, GtnWsProjectionBean.class);
+		MONGO_SERVICE.insertManyRecordsToMongoDbUsingCustomClass(collection, rawData);
 	}
 
 }

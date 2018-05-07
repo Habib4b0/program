@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.util.List;
+
 public class GtnReportHierarchyLevelBean {
 
 	private String level;
@@ -271,6 +273,15 @@ public class GtnReportHierarchyLevelBean {
 
 	public void setHierarchyDefSid(Integer hierarchyDefSid) {
 		this.hierarchyDefSid = hierarchyDefSid;
+	}
+	
+	public static GtnReportHierarchyLevelBean getLastLinkedLevel(List<GtnReportHierarchyLevelBean> customerHierarchyLevelDefinitionList) {
+		for (int i = customerHierarchyLevelDefinitionList.size() - 1; i >= 0; i--) {
+			if (!customerHierarchyLevelDefinitionList.get(i).tableName.isEmpty()) {
+				return customerHierarchyLevelDefinitionList.get(i);
+			}
+		}
+		return null;
 	}
 
 }

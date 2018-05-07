@@ -330,8 +330,8 @@ public class GtnWsTransactionService {
 
 	private void betweenConditon(Criteria criteria, GtnWebServiceSearchCriteria columns, String type, String dateFormat)
 			throws ParseException {
-		criteria.add(Restrictions.gt(columns.getFieldId(), getDateValue(type, columns.getFilterValue1(), dateFormat)));
-		criteria.add(Restrictions.lt(columns.getFieldId(), getDateValue(type, columns.getFilterValue2(), dateFormat)));
+		criteria.add(Restrictions.ge(columns.getFieldId(), getDateValue(type, columns.getFilterValue1(), dateFormat)));
+		criteria.add(Restrictions.le(columns.getFieldId(), getDateValue(type, columns.getFilterValue2(), dateFormat)));
 	}
 
 	Object getDateValue(String type, String filterValue, String dateFormat) throws ParseException {

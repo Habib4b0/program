@@ -34,6 +34,7 @@ public class AttachmentDTO implements Serializable {
      */
     private String userName;
     private String documentFullPath;
+	private byte[] fileData;
 
     public AttachmentDTO() {
         super();
@@ -118,5 +119,11 @@ public class AttachmentDTO implements Serializable {
     public void setDocumentFullPath(String documentFullPath) {
         this.documentFullPath = documentFullPath;
     }
-    
+	public byte[] getFileData() {
+		return (fileData==null) ? null : fileData.clone();
+	}
+
+	public void setFileData(byte[] fileData) {
+		this.fileData  = (fileData==null) ? null : fileData.clone();
+	}
 }

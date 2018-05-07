@@ -2,6 +2,10 @@ package com.stpl.gtn.gtn2o.ws.report.engine.calculation;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
 import com.stpl.gtn.gtn2o.ws.report.engine.bean.GtnWsCalculationType;
 import com.stpl.gtn.gtn2o.ws.report.engine.bean.GtnWsVariableCategoryBean;
@@ -10,11 +14,14 @@ import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineBe
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsTreeNodeAttributeBean;
 
+@Service
+@Scope(value = "singleton")
 public class GtnWsMongoCalculation {
 
-	private final GtnWsReportEngineBean engineBean;
+	@Autowired
+	GtnWsMongoService gtnMongoService;
 
-	private static final GtnWsMongoService MONGO_SERVICE = GtnWsMongoService.getInstance();
+	private final GtnWsReportEngineBean engineBean;
 
 	boolean index = false;
 
@@ -33,14 +40,14 @@ public class GtnWsMongoCalculation {
 	private void nodeDataRecursion(GtnWsReportEngineTreeNode ccpNode, String collection,
 			GtnWsTreeNodeAttributeBean rootNodeAtrributeBean) {
 		if (ccpNode.getLevelNumber() == 0 || rootNodeAtrributeBean == null) {
-			rootNodeAtrributeBean = MONGO_SERVICE.topLevelAggregationSelectClause(ccpNode, collection);
+			rootNodeAtrributeBean = gtnMongoService.topLevelAggregationSelectClause(ccpNode, collection);
 		}
 		for (GtnWsReportEngineTreeNode gtnWsTreeNode : ccpNode.getChildren()) {
 			if (gtnWsTreeNode.getChildren() != null) {
-				MONGO_SERVICE.nodeAggregationSelectClause(gtnWsTreeNode, collection, rootNodeAtrributeBean);
+				gtnMongoService.nodeAggregationSelectClause(gtnWsTreeNode, collection, rootNodeAtrributeBean);
 				nodeDataRecursion(gtnWsTreeNode, collection, rootNodeAtrributeBean);
 			} else {
-				MONGO_SERVICE.nodeAggregationSelectClause(gtnWsTreeNode, collection, rootNodeAtrributeBean);
+				gtnMongoService.nodeAggregationSelectClause(gtnWsTreeNode, collection, rootNodeAtrributeBean);
 			}
 		}
 	}
@@ -77,7 +84,8 @@ public class GtnWsMongoCalculation {
 				GtnWsTreeNodeAttributeBean calculatedAttributes = new GtnWsTreeNodeAttributeBean();
 				GtnWsAttributeBean newAttributes = new GtnWsAttributeBean();
 				newAttributes.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());
-				newAttributes.putAttributes("parentHierarchyNo", gtnWsTreeNode.getParent().getHierarchyNo());
+				// newAttributes.putAttributes("parentHierarchyNo",
+				// gtnWsTreeNode.getParent().getHierarchyNo());
 				newAttributes.putAttributes("RsId", gtnWsTreeNode.getRsIds());
 				newAttributes.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
 				callVariableCategoryLogic(currentAttributes, newAttributes, finalNode, categoryBean);

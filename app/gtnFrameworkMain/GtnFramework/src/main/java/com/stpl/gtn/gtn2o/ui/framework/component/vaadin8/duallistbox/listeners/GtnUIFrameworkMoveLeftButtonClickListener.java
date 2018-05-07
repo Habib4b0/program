@@ -52,7 +52,7 @@ public class GtnUIFrameworkMoveLeftButtonClickListener implements Button.ClickLi
 		GtnUIFrameworkComponentData dualListBoxData = (GtnUIFrameworkComponentData) event.getButton().getData();
 		GtnUIFrameWorkActionConfig loadRightToLeftTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadRightToLeftTableActionConfig
-				.setActionType(GtnUIFrameworkActionType.DUAL_LISTBOX_RIGHT_TO_LEFT_TABLE_LOADACTION);
+				.setActionType(GtnUIFrameworkActionType.V8DUAL_LISTBOX_RIGHT_TO_LEFT_TABLE_LOADACTION);
 		List<Object> actionParametersList = new ArrayList<>(1);
 		actionParametersList.add(dualListBoxData);
 		loadRightToLeftTableActionConfig.setActionParameterList(actionParametersList);

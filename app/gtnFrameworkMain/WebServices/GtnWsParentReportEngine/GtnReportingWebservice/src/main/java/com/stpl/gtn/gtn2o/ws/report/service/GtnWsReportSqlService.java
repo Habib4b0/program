@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.service;
+package com.stpl.gtn.gtn2o.ws.report.service;
 
 import java.io.IOException;
 import java.util.Optional;

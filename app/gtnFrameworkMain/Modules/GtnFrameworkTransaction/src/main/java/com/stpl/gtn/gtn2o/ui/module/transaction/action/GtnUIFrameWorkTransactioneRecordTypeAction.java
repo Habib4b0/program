@@ -78,9 +78,7 @@ public class GtnUIFrameWorkTransactioneRecordTypeAction implements GtnUIFrameWor
 								.contains(record.getStringPropertyByIndex(record.getProperties().size() - 1)),
 						record.getProperties());
 			} else {
-				GtnWsRecordBean.addProperties(0,
-						!checkBean.getUnCheckedIdSet().isEmpty() && !checkBean.getUnCheckedIdSet()
-								.contains(record.getStringPropertyByIndex(record.getProperties().size() - 1)),
+				GtnWsRecordBean.addProperties(0, checkBean.getCheckedIdSet().contains(record.getStringPropertyByIndex(record.getProperties().size() - 1)),
 						record.getProperties());
 			}
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableId).setPagedTableHeaderCheckBox(checkBean.isCheckAll(),

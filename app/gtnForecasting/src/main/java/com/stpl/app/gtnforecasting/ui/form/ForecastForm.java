@@ -2365,6 +2365,8 @@ public class ForecastForm extends AbstractForm {
 
 			session.addFutureMap(Constant.DATA_SELECTION_TAB_LOAD, new Future[] {
 					service.submit(CommonUtil.getInstance().createRunnable(Constant.DATA_SELECTION_TAB_LOAD, data)) });
+                        
+                        CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_LOWER_CASE));
 			// Call sales Insert Procedure
 			nmSalesInsertDiscMasterProcedure();
 			// sales threads need to be completed before calling discound thread

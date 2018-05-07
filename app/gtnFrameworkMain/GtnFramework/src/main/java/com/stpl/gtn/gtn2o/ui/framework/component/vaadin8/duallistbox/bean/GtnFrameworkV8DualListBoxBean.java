@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GtnFrameworkDualListBoxBean {
+public class GtnFrameworkV8DualListBoxBean {
 	private Grid<GtnWsRecordBean> leftTable;
 	private TreeGrid<GtnWsRecordBean> rightTable;
 	private Button moveLeft;
@@ -22,7 +22,7 @@ public class GtnFrameworkDualListBoxBean {
 	private GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig;
 	private final GtnUIFrameworkHierarchyTreeBuilder treeBuilder = new GtnUIFrameworkHierarchyTreeBuilder();
 
-	public GtnFrameworkDualListBoxBean(Grid<GtnWsRecordBean> leftTable, TreeGrid<GtnWsRecordBean> rightTable, Button moveLeft,
+	public GtnFrameworkV8DualListBoxBean(Grid<GtnWsRecordBean> leftTable, TreeGrid<GtnWsRecordBean> rightTable, Button moveLeft,
 			Button moveRight, Button moveAllRight,
 			GtnUIFrameworkV8DualListBoxComponent gtnUIFrameworkDualListBoxComponent,
 			GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig) {
@@ -89,7 +89,12 @@ public class GtnFrameworkDualListBoxBean {
 		return gtnDualListBoxqueryParameters == null ? gtnDualListBoxqueryParameters
 				: Collections.unmodifiableList(gtnDualListBoxqueryParameters);
 	}
-
+	
+	public List<Object> getGtnDualListBoxqueryParametersList() {
+		return gtnDualListBoxqueryParameters == null ? null
+				: gtnDualListBoxqueryParameters;
+	}
+	
 	public void setGtnDualListBoxqueryParameters(List<Object> gtnDualListBoxqueryParameters) {
 		this.gtnDualListBoxqueryParameters = new ArrayList<>(gtnDualListBoxqueryParameters);
 	}

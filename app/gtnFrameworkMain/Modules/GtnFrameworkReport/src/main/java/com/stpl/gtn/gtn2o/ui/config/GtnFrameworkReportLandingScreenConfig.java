@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -275,7 +276,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		componentList.add(businessUnitLayoutConfig);
 
 		GtnUIFrameworkComponentConfig businessUnit = new GtnUIFrameworkComponentConfig();
-		businessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		businessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
 		businessUnit.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.BUSINESS_UNIT);
 		businessUnit.setComponentName("Business Unit");
@@ -450,6 +451,13 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 		componentList.add(generateBtn);
 		List<GtnUIFrameWorkActionConfig> actionList = new ArrayList<>();
+		
+		GtnUIFrameWorkActionConfig generateAction = new GtnUIFrameWorkActionConfig();
+		generateAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		generateAction.addActionParameter(GtnReportCCPTableLoadAction.class.getName());
+		generateAction.addActionParameter("reportLandingScreen_customerDualListBox");
+		actionList.add(generateAction);
+		
 		
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
 		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);

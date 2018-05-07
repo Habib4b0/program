@@ -5,8 +5,13 @@
  */
 package com.stpl.app.global.service;
 
+
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.util.xmlparser.SQLUtil;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -130,4 +135,22 @@ public class GlobalImpl {
         } 
         
     }
+    
+   @SuppressWarnings({ "rawtypes" })
+public byte[] fetchData(int documentSid) {
+	   
+		String query = SQLUtil.getQuery("selectAttachQuery");
+		query = query.replace("?attachmentSid", "'" + documentSid + "'");
+		List fileData = HelperTableLocalServiceUtil.executeSelectQuery(query);
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutputStream oos;
+		try {
+			oos = new ObjectOutputStream(bos);
+			oos.writeObject(fileData);
+		} catch (IOException e) {
+			LOGGER.error("Error While File Fetching",e);
+		}
+		
+		return  bos.toByteArray();
+   }
 }

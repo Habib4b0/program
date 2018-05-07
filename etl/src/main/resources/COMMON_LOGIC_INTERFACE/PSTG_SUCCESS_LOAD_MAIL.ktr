@@ -101,7 +101,10 @@
   </connection>
   <order>
   <hop> <from>MAIL ID</from><to>Mail</to><enabled>N</enabled> </hop>
-  <hop> <from>Table input</from><to>Mail</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table input</from><to>Mail</to><enabled>N</enabled> </hop>
+  <hop> <from>Filter rows 2</from><to>NO MAIL ID </to><enabled>Y</enabled> </hop>
+  <hop> <from>Table input</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2</from><to>Mail</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>MAIL ID</name>
@@ -184,8 +187,8 @@
       </embeddedimages>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>401</xloc>
-      <yloc>200</yloc>
+      <xloc>416</xloc>
+      <yloc>361</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -194,7 +197,7 @@
     <name>Table input</name>
     <type>TableInput</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -210,8 +213,56 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>275</xloc>
-      <yloc>96</yloc>
+      <xloc>282</xloc>
+      <yloc>102</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Mail</send_true_to>
+<send_false_to>NO MAIL ID </send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>DESTINATION_ADDRESS</leftvalue>
+ <function>IS NOT NULL</function>
+ <rightvalue/>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>281</xloc>
+      <yloc>213</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>NO MAIL ID </name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>184</xloc>
+      <yloc>363</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

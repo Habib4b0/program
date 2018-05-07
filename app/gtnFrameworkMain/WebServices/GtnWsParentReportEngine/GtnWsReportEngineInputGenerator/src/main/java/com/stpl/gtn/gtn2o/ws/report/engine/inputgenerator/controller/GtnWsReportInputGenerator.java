@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.report.engine.inputgenerator.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,21 +14,40 @@ public class GtnWsReportInputGenerator {
 
 	public static final GtnWsCustomSqlClass SQL_INSTANCE = GtnWsCustomSqlClass.getInstance();
 	public static final GtnWsQueryService QUERY = new GtnWsQueryService();
-	public static final GtnWsTreeService TREE_SERVICE = GtnWsTreeService.getInstance();
+	public static final GtnWsTreeService TREE_SERVICE = new GtnWsTreeService();
 
 	public GtnWsReportEngineTreeNode callBuildTree(int caseNo) {
 		List<Object[]> deductionList = QUERY.getDeductionQueryList();
-		// List<Object[]> ccpResult =
-		// SQL_INSTANCE.executeQuery(QUERY.getCPPListWithRsQuery());
-		List<Object[]> ccpResult = QUERY.getCPPListWithRS();
+		List<Object[]> ccpResult = SQL_INSTANCE.executeQuery(QUERY.getCPPListWithRsQuery());
+		// List<Object[]> ccpResult = QUERY.getCPPListWithRS();
 		List<Object[]> selectedCust = QUERY.getSelectedCust();
 		List<Object[]> selectedProd = QUERY.getSelectedProd();
 		Map<String, Object[]> custHierarchy = convertAsMap(SQL_INSTANCE.executeQuery(QUERY.getCustomerMap()));
-		GtnWsReportEngineTreeNode customerRootNode = TREE_SERVICE.buildTree(selectedCust, custHierarchy);
+		GtnWsReportEngineTreeNode customerRootNode = TREE_SERVICE.buildTree(selectedCust, custHierarchy, "C");
+		displayNodeValues(customerRootNode);
 		Map<String, Object[]> prodHierarchy = convertAsMap(SQL_INSTANCE.executeQuery(QUERY.getProductMap()));
-		GtnWsReportEngineTreeNode productrootNode = TREE_SERVICE.buildTree(selectedProd, prodHierarchy);
-		return buildStructure(caseNo, customerRootNode, productrootNode, ccpResult,
-				deductionList);
+		GtnWsReportEngineTreeNode productrootNode = TREE_SERVICE.buildTree(selectedProd, prodHierarchy, "P");
+		displayNodeValues(productrootNode);
+		List<Object[]> customLevelDeatils = QUERY.getCustomViewWithDiscountLevel(caseNo);
+
+		GtnWsReportEngineTreeNode root = new GtnWsReportEngineTreeNode();
+
+		for (Object[] objects : customLevelDeatils) {
+			if ("D".equals(objects[1])) {
+				TREE_SERVICE.buildDeductionTree(root, Integer.parseInt(objects[3].toString()), deductionList, ccpResult,
+						Integer.parseInt(objects[0].toString()));
+			} else {
+				GtnWsReportEngineTreeNode inputTree = "C".equals(objects[1]) ? customerRootNode : productrootNode;
+				List<GtnWsReportEngineTreeNode> allLevelNodeList = new ArrayList<>();
+				TREE_SERVICE.getAllNodesFromTree(inputTree, allLevelNodeList, Integer.parseInt(objects[0].toString()));
+				TREE_SERVICE.buildCustomTree(root, Integer.parseInt(objects[3].toString()), allLevelNodeList,
+						ccpResult);
+			}
+
+		}
+
+		displayNodeValues(root);
+		return root;
 	}
 
 	private Map<String, Object[]> convertAsMap(List<Object[]> resultList) {
@@ -46,14 +66,6 @@ public class GtnWsReportInputGenerator {
 				displayNodeValues(gtnWsTreeNode);
 			}
 		}
-	}
-
-	private GtnWsReportEngineTreeNode buildStructure(int caseNo, GtnWsReportEngineTreeNode customerRootNode,
-			GtnWsReportEngineTreeNode productrootNode, List<Object[]> ccpResult, List<Object[]> deductionList) {
-		GtnWsReportEngineTreeNode ccpNode = TREE_SERVICE.formingTreeBasedOnInputs(customerRootNode, productrootNode,
-				ccpResult, QUERY.getCustomViewWithDiscountLevel(caseNo), deductionList);
-		displayNodeValues(ccpNode);
-		return ccpNode;
 	}
 
 	public static void shutdown() {

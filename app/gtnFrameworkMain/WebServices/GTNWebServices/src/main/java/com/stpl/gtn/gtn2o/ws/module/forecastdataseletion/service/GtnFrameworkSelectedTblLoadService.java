@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkQueryGeneratorService;
+import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
@@ -26,6 +27,9 @@ public class GtnFrameworkSelectedTblLoadService {
 	private GtnFrameworkQueryGeneratorService queryGeneratorService;
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
+	
+	@Autowired
+	private GtnFrameworkSqlQueryEngine gtnFrameworkSqlQueryEngine;
 
 	public GtnFrameworkSelectedTblLoadService() {
 		super();
@@ -43,7 +47,27 @@ public class GtnFrameworkSelectedTblLoadService {
 				inputBean.getGroupFilterCompenies(), queryBean);
 		return queryBean.generateQuery();
 	}
+	
+	public List<Object[]> getResultForSelectedCustomer(StringBuilder inputQuery, List<Object> inputValuesList) throws GtnFrameworkGeneralException {
+		String query = getQuery(inputQuery.toString(), inputValuesList);
+		List<Object[]> resultList = (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(query);
+		return resultList;
+	}
+	
+	public static String getQuery( String query,List input) {
+        StringBuilder sql =new StringBuilder();
+        try {
+            sql = new StringBuilder(query);
+            for (Object temp : input) {
+                sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+            }
 
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return sql.toString();
+    }
+	
 	public String getChildLevelQueryForProduct(GtnForecastHierarchyInputBean inputBean)
 			throws GtnFrameworkGeneralException {
 
@@ -69,5 +93,35 @@ public class GtnFrameworkSelectedTblLoadService {
 		queryBean.addOrderByClauseBean("HIERARCHY_NO_JOIN.LEVEL_NO", "ASC");
 		return gtnWsSqlService.getReplacedQuery(input, queryBean.generateQuery());
 	}
+	
+	public String getChildLevelQueryForReportProduct(GtnForecastHierarchyInputBean inputBean)
+			throws GtnFrameworkGeneralException {
 
+		GtnFrameworkRelationshipLevelDefintionBean selecteHierarchyBean = inputBean.getSelectedHierarchyLevelDto();
+		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = relationUpdateService.getHierarchyBuilder(
+				selecteHierarchyBean.getHierarchyDefinitionSid(), selecteHierarchyBean.getHierarchyVersionNo());
+		HierarchyLevelDefinitionBean lastlinkedLevel = HierarchyLevelDefinitionBean
+				.getLastLinkedLevel(hierarchyDefinitionList);
+		GtnFrameworkQueryGeneratorBean queryBean = queryGeneratorService.getQuerybySituationNameAndLevel(
+				lastlinkedLevel,
+				"LOAD_SELECTED_PRODUCT", hierarchyDefinitionList);
+		queryGeneratorService.getWhereQueryBasedOnHierarchyType(inputBean.getHierarchyType(),
+				inputBean.getGroupFilterCompenies(), queryBean);
+		queryBean.addOrderByClauseBean("HIERARCHY_NO_JOIN.LEVEL_NO", "ASC");
+		return queryBean.generateQuery();
+	}
+	
+	public List<Object[]> getResultForSelectedProduct(StringBuilder inputQuery, List<Object> inputValuesList) throws GtnFrameworkGeneralException {
+		String query = getQuery(inputQuery.toString(), inputValuesList);
+		List<Object[]> resultList = (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(query);
+		return resultList;
+	}
+	
+	public List<Object[]> getChildLevelQueryForCustomer(List<Object> inputsForRelationQuery)
+			throws GtnFrameworkGeneralException {
+		String query = gtnWsSqlService.getQuery("childLevelsHierarchyNo");
+		String replacedQuery = getQuery(query, inputsForRelationQuery);
+		List<Object[]> resultList = (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(replacedQuery);
+		return resultList;
+	}
 }
