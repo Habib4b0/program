@@ -1,42 +1,40 @@
 package com.stpl.gtn.gtn20.ws.report.engine.mongo.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoCommandException;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsTreeNodeAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsCommonCalculationService;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import net.sourceforge.jeval.EvaluationException;
-import org.bson.Document;
 
+import net.sourceforge.jeval.EvaluationException;
+
+@Service
+@Scope(value = "singleton")
 public class GtnWsMongoService {
 
-	private static GtnWsMongoService mongoService = null;
-	private static final MongoDatabase MONGODB_INSTANCE = GtnWsMongoDBConnectionService.getDBInstance();
-	private final GtnWsCommonCalculationService gtnWsCommonCalculation = GtnWsCommonCalculationService.getInstance();
+	@Autowired
+	GtnWsMongoDBConnectionService mongoDBInstance;
 
-	private GtnWsMongoService() {
-		super();
-	}
-
-	public static GtnWsMongoService getInstance() {
-		if (mongoService == null) {
-			mongoService = new GtnWsMongoService();
-		}
-		return mongoService;
-	}
+	@Autowired
+	GtnWsCommonCalculationService gtnWsCommonCalculation;
 
 	public void createCollection(String collectionName) {
 		try {
-			MONGODB_INSTANCE.createCollection(collectionName);
+			mongoDBInstance.getDBInstance().createCollection(collectionName);
 		} catch (MongoCommandException ex) {
 			ex.printStackTrace();
 			System.out.println(" Collection Already exists ");
@@ -44,11 +42,11 @@ public class GtnWsMongoService {
 	}
 
 	public MongoCollection<Document> getCollection(String collectionName) {
-		return MONGODB_INSTANCE.getCollection(collectionName);
+		return mongoDBInstance.getDBInstance().getCollection(collectionName);
 	}
 
 	public MongoCollection<?> getCollectionForCustomClass(String collectionName, Class<?> clazz) {
-		return MONGODB_INSTANCE.getCollection(collectionName, clazz);
+		return mongoDBInstance.getDBInstance().getCollection(collectionName, clazz);
 	}
 
 	public void insertManyRecordsToMongoDbUsingCustomClass(MongoCollection collection, List<?> dataList) {
@@ -57,7 +55,7 @@ public class GtnWsMongoService {
 
 	public void dropCollections(List<String> collectionList) {
 		for (String collectionName : collectionList) {
-			MONGODB_INSTANCE.getCollection(collectionName).drop();
+			mongoDBInstance.getDBInstance().getCollection(collectionName).drop();
 		}
 	}
 
@@ -318,25 +316,26 @@ public class GtnWsMongoService {
 		}
 		return documentList;
 	}
-//GtnWsReportEngineTreeNode
-	public Object getTreeFromMongo(String collectionName,Class<?> className,String input[],Object values[]) {
-             BasicDBObject whereQuery = new BasicDBObject();
-            if (input != null && values != null && values.length == input.length) {
-                for (int i = 0; i < input.length; i++) {
-                    System.out.println("i =input " + input[i]);
-                    System.out.println("i =values " + values[i]);
-                    whereQuery.put(input[i], values[i]);
-                }
-            }
-            @SuppressWarnings("unchecked")
-            FindIterable<GtnWsReportEngineTreeNode> itr = (FindIterable<GtnWsReportEngineTreeNode>) getCollectionForCustomClass(
-                    collectionName, className).find(whereQuery);
-            MongoCursor<GtnWsReportEngineTreeNode> cursor = itr.iterator();
-            GtnWsReportEngineTreeNode treeNode = null;
-            while (cursor.hasNext()) {
-                treeNode = cursor.next();
-            }
-            return treeNode;
+
+	// GtnWsReportEngineTreeNode
+	public Object getTreeFromMongo(String collectionName, Class<?> className, String input[], Object values[]) {
+		BasicDBObject whereQuery = new BasicDBObject();
+		if (input != null && values != null && values.length == input.length) {
+			for (int i = 0; i < input.length; i++) {
+				System.out.println("i =input " + input[i]);
+				System.out.println("i =values " + values[i]);
+				whereQuery.put(input[i], values[i]);
+			}
+		}
+		@SuppressWarnings("unchecked")
+		FindIterable<GtnWsReportEngineTreeNode> itr = (FindIterable<GtnWsReportEngineTreeNode>) getCollectionForCustomClass(
+				collectionName, className).find(whereQuery);
+		MongoCursor<GtnWsReportEngineTreeNode> cursor = itr.iterator();
+		GtnWsReportEngineTreeNode treeNode = null;
+		while (cursor.hasNext()) {
+			treeNode = cursor.next();
+		}
+		return treeNode;
 	}
 
 }
