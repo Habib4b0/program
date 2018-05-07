@@ -164,7 +164,6 @@ public class GtnWsContractHeaderService {
 			cGrpResponse.setGtnWsContractMasterBean(infoBean);
 			cGrpResponse.setGtnwsContractAliasMasterBeanList(fetchContractAlias(session, systemId));
 			cGrpResponse.setNotesTabList(getNotesTabDetails(systemId));
-			cGrpResponse.setNotesTabList(getNotesTabAttachDetails(systemId));
 			response.setGtnWsContractHeaderResponse(cGrpResponse);
 			tx.commit();
 		} catch (Exception e) {
@@ -607,15 +606,6 @@ public class GtnWsContractHeaderService {
 		return cmNotesDetailsInfoBeanList;
 	}
 	
-	@SuppressWarnings("unchecked")
-	private List<NotesTabBean> getNotesTabAttachDetails(int systemId) throws GtnFrameworkGeneralException {
-		logger.info("Enter getNotesTabAttachDetails");
-		String chNotesTabAttachDetailsSelectQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_ATTACHMENT_SELECT + systemId
-				+ " AND MASTER_TABLE_NAME=" + CONTRACT_MASTER;
-		List<Object[]> chNotesAttachDetailsResultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(chNotesTabAttachDetailsSelectQuery);
-		logger.info("Exit getNotesTabAttachDetails");
-		return GtnCommonUtil.getNotesTabBean(chNotesAttachDetailsResultList, gtnWebServiceAllListConfig);
-	}
 
 	private void  notesTabAttachInsert(GtnWsContractHeaderRequest imRquest, int masterSid) throws  GtnFrameworkGeneralException {
 		logger.info("Enter contract notesTabAttachInsert");

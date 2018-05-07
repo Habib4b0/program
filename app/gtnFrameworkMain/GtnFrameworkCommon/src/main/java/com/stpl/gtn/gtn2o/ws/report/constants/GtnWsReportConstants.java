@@ -13,4 +13,10 @@ public class GtnWsReportConstants {
 	public static final String GTN_REPORT_LOADELIGIBLEDATE_SERVICE = "/loadForecastEligibleDate";
 	public static final String GTN_REPORT_DASHBOARD_LEFT_DATA = "/loadDashboardLeftData";
 	public static final String GTN_REPORT_DASHBOARD_RIGHT_DATA = "/loadDashboardRightData";
+	public static final String GTN_REPORT_CUSTHIERARCHY_LEFT_TABLELOAD_SERVICE = "/loadReportCustomerLeftTable";
+	public static final String GTN_REPORT_CUSTHIERARCHY_RIGHT_TABLELOAD_SERVICE = "/loadReportCustomerRightTable";
+	public static final String GTN_REPORT_CUSTHIERARCHY_ALL_DATA_TABLELOAD_SERVICE = "/loadReportCustomerRightTableAllData";
+	public static final String GTN_REPORT_PRODHIERARCHY_LEFT_TABLELOAD_SERVICE = "/loadReportProductLeftTable";
+	public static final String GTN_REPORT_PRODHIERARCHY_RIGHT_TABLELOAD_SERVICE = "/loadReportProductRightTable";
+	public static final String GTN_REPORT_PRODHIERARCHY_ALL_DATA_TABLELOAD_SERVICE = "/loadReportProductRightTableAllData";
 }

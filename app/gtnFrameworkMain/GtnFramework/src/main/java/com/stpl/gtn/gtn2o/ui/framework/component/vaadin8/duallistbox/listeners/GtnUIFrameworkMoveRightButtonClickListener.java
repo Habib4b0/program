@@ -53,7 +53,7 @@ public class GtnUIFrameworkMoveRightButtonClickListener implements Button.ClickL
 		LOGGER.info("Inside MoveRightButtonClickListener:");
 		GtnUIFrameworkComponentData dualListBoxData = (GtnUIFrameworkComponentData) event.getButton().getData();
 		GtnUIFrameWorkActionConfig loadRightTableActionConfig = new GtnUIFrameWorkActionConfig();
-		loadRightTableActionConfig.setActionType(GtnUIFrameworkActionType.DUAL_LISTBOX_RIGHT_TABLE_LOADACTION);
+		loadRightTableActionConfig.setActionType(GtnUIFrameworkActionType.V8DUAL_LISTBOX_RIGHT_TABLE_LOADACTION);
 		List<Object> actionParametersList = new ArrayList<>(2);
 		actionParametersList.add(dualListBoxData);
 		actionParametersList.add(Boolean.FALSE);

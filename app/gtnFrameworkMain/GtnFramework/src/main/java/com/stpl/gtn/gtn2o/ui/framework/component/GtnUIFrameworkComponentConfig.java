@@ -417,13 +417,6 @@ public class GtnUIFrameworkComponentConfig {
 		this.margin = margin;
 	}
 
-	public GtnUIFrameworkDualListBoxConfig getGtnUIFrameworkDualListBoxConfig() {
-		return gtnUIFrameworkDualListBoxConfig;
-	}
-
-	public void setGtnUIFrameworkDualListBoxConfig(GtnUIFrameworkDualListBoxConfig gtnUIFrameworkDualListBoxConfig) {
-		this.gtnUIFrameworkDualListBoxConfig = gtnUIFrameworkDualListBoxConfig;
-	}
 
 	public List<Object> getQueryInputs() {
 		return queryInputs == null ? queryInputs : Collections.unmodifiableList(queryInputs);
@@ -696,15 +689,6 @@ public class GtnUIFrameworkComponentConfig {
 		this.defaultFocus = defaultFocus;
 	}
 
-	public GtnUIFrameworkV8DualListBoxConfig getGtnUIFrameworkV8DualListBoxConfig() {
-		return gtnUIFrameworkV8DualListBoxConfig;
-	}
-
-	public void setGtnUIFrameworkV8DualListBoxConfig(
-			GtnUIFrameworkV8DualListBoxConfig gtnUIFrameworkV8DualListBoxConfig) {
-		this.gtnUIFrameworkV8DualListBoxConfig = gtnUIFrameworkV8DualListBoxConfig;
-	}
-
 	public String getModuleName() {
 		return moduleName;
 	}
@@ -719,6 +703,23 @@ public class GtnUIFrameworkComponentConfig {
 
 	public void setGtnUIFrameWorkGridConfig(GtnUIFrameworkGridComponentConfig gtnUIFrameWorkGridConfig) {
 		this.gtnUIFrameWorkGridConfig = gtnUIFrameWorkGridConfig;
+	}
+
+	public GtnUIFrameworkDualListBoxConfig getGtnUIFrameworkDualListBoxConfig() {
+		return gtnUIFrameworkDualListBoxConfig;
+	}
+
+	public void setGtnUIFrameworkDualListBoxConfig(GtnUIFrameworkDualListBoxConfig gtnUIFrameworkDualListBoxConfig) {
+		this.gtnUIFrameworkDualListBoxConfig = gtnUIFrameworkDualListBoxConfig;
+	}
+
+	public GtnUIFrameworkV8DualListBoxConfig getGtnUIFrameworkV8DualListBoxConfig() {
+		return gtnUIFrameworkV8DualListBoxConfig;
+	}
+
+	public void setGtnUIFrameworkV8DualListBoxConfig(
+			GtnUIFrameworkV8DualListBoxConfig gtnUIFrameworkV8DualListBoxConfig) {
+		this.gtnUIFrameworkV8DualListBoxConfig = gtnUIFrameworkV8DualListBoxConfig;
 	}
 
 }
