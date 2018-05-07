@@ -18,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ui.module.ifp.action.GtnFrameworkIfpEditAction;
 import com.stpl.gtn.gtn2o.ui.module.ifp.constants.GtnFrameworkIfpClassContants;
@@ -52,7 +53,7 @@ public class GtnFrameworkIfpLandingScreenConfig {
 		panel.setComponentName("Search Criteria");
 		panel.setAuthorizationIncluded(true);
 		panel.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
-	
+
 		componentList.add(panel);
 		addIfpFieldLayout(componentList);
 	}
@@ -365,7 +366,7 @@ public class GtnFrameworkIfpLandingScreenConfig {
 		searchResultConfig.setComponentStyle(tableStyleList);
 
 		componentList.add(searchResultConfig);
-		GtnUIFrameworkPagedTableConfig searchResults =  new GtnUIFrameworkPagedTableConfig();
+		GtnUIFrameworkPagedTableConfig searchResults = new GtnUIFrameworkPagedTableConfig();
 		searchResults.setEditable(false);
 		searchResults.setFilterBar(true);
 		searchResults.setSelectable(true);
@@ -402,8 +403,7 @@ public class GtnFrameworkIfpLandingScreenConfig {
 		searchResults.setCustomFilterConfigMap(getIfpCustomFilterConfig());
 		searchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.ITEM_FAMILY_PLAN);
 		searchResults.setDoubleClickEnable(true);
-		
-		
+
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
@@ -434,6 +434,7 @@ public class GtnFrameworkIfpLandingScreenConfig {
 		addAddButtonComponent(componentList);
 		addEditButtonComponent(componentList);
 		addViewButtonComponent(componentList);
+		addCopyButtonComponent(componentList);
 		addIfpExcelButtonComponent(componentList);
 	}
 
@@ -533,6 +534,12 @@ public class GtnFrameworkIfpLandingScreenConfig {
 
 		alertActionConfig.setActionParameterList(alertParams1List);
 		actionConfigList.add(alertActionConfig);
+
+		GtnUIFrameWorkActionConfig changeCaptionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CHANGE_CAPTION);
+		changeCaptionConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.IFP_ADD_SAVE_BUTTON));
+		changeCaptionConfig.addActionParameter(Arrays.asList("UPDATE"));
+		actionConfigList.add(changeCaptionConfig);
 
 		GtnUIFrameWorkActionConfig confirmationActionConfig = new GtnUIFrameWorkActionConfig();
 		confirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
@@ -682,7 +689,8 @@ public class GtnFrameworkIfpLandingScreenConfig {
 				GtnFrameworkCommonConstants.IFP_INFORMATION_IFP_END_DATE,
 				GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_TYPE,
 				GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_CATEGORY,
-				GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_DESIGNATION, "ifpInformationTabParentIFPId",
+				GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_DESIGNATION,
+				GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_PARENT_IFP_ID,
 				GtnFrameworkCommonConstants.IFP_ITEM_ADDITION_SEARCH_FIELD,
 				GtnFrameworkCommonConstants.IFP_ITEM_ADDITION_SEARCH_VALUE,
 				GtnFrameworkCommonConstants.IFP_ITEM_ADDITIONGTN_SEARCH01,
@@ -758,5 +766,175 @@ public class GtnFrameworkIfpLandingScreenConfig {
 
 		}
 		return ifpCustomFilterConfigMap;
+	}
+
+	private void addCopyButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
+
+		GtnUIFrameworkComponentConfig gtnCopyBtn = configProvider.getUIFrameworkComponentConfig("gtnCopyButton", true,
+				GtnFrameworkCommonConstants.ACTION_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
+		gtnCopyBtn.setComponentName("COPY");
+		gtnCopyBtn.setAuthorizationIncluded(true);
+		componentList.add(gtnCopyBtn);
+
+		List<GtnUIFrameWorkActionConfig> copyConfigActionList = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig copyModeConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.MODE_CHANGE);
+		copyModeConfig.addActionParameter(GtnUIFrameworkModeType.COPY);
+		copyConfigActionList.add(copyModeConfig);
+
+		GtnUIFrameWorkActionConfig ifpCopyBtnAlertActionConfig = new GtnUIFrameWorkActionConfig();
+		ifpCopyBtnAlertActionConfig.setActionType(GtnUIFrameworkActionType.TABLE_ALERT_ACTION);
+		List<Object> psCopyButtonAlertParamsList = new ArrayList<>();
+		psCopyButtonAlertParamsList.add(GtnFrameworkIfpStringContants.SEARCH_RESULT_TABLE);
+		psCopyButtonAlertParamsList.add(GtnFrameworkIfpStringContants.COPY_ERROR);
+		psCopyButtonAlertParamsList.add("Please select a record to copy.");
+		ifpCopyBtnAlertActionConfig.setActionParameterList(psCopyButtonAlertParamsList);
+
+		copyConfigActionList.add(ifpCopyBtnAlertActionConfig);
+
+		GtnUIFrameWorkActionConfig ifpCopyNavigationAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.NAVIGATION_ACTION);
+		Object ifpView = "V002";
+		ifpCopyNavigationAction.setActionParameterList(Arrays.asList(ifpView));
+		copyConfigActionList.add(ifpCopyNavigationAction);
+
+		GtnUIFrameWorkActionConfig setDefaultCopyConfigAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
+		setDefaultCopyConfigAction.setActionParameterList(getDefaultFieldValueList());
+		copyConfigActionList.add(setDefaultCopyConfigAction);
+
+		GtnUIFrameWorkActionConfig captionChangeConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CHANGE_CAPTION);
+		captionChangeConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.IFP_ADD_SAVE_BUTTON));
+		captionChangeConfig.addActionParameter(Arrays.asList("SAVE"));
+		copyConfigActionList.add(captionChangeConfig);
+
+		GtnUIFrameWorkActionConfig enableActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ENABLE_ACTION);
+		makeObjectArray(enableActionConfig);
+		copyConfigActionList.add(enableActionConfig);
+
+		GtnUIFrameWorkActionConfig disableFieldActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.DISABLE_ACTION);
+
+		disableFieldActionConfig.setActionParameterList(Arrays.asList(GtnFrameworkIfpStringContants.getCOPY_DISABLED_FIELDS()));
+		copyConfigActionList.add(disableFieldActionConfig);
+
+		GtnUIFrameWorkActionConfig visibleActionConfig = new GtnUIFrameWorkActionConfig();
+		visibleActionConfig.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
+
+		List<Object> visibleParameters = makeParameterList();
+
+		visibleActionConfig.setActionParameterList(visibleParameters);
+		copyConfigActionList.add(visibleActionConfig);
+
+		GtnUIFrameWorkActionConfig invisibleActionView = new GtnUIFrameWorkActionConfig();
+		invisibleActionView.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
+		invisibleActionView.addActionParameter(Boolean.FALSE);
+		invisibleActionView.addActionParameter(
+				Arrays.asList(GtnFrameworkCommonConstants.IFP_ITEM_ADDITION_DUAL_LIST_BOX_LAYOUT_ON_VIEW));
+		copyConfigActionList.add(invisibleActionView);
+
+		GtnUIFrameWorkActionConfig ifpEditActionConfig = new GtnUIFrameWorkActionConfig();
+		ifpEditActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		ifpEditActionConfig.addActionParameter(GtnFrameworkIfpEditAction.class.getName());
+		ifpEditActionConfig.addActionParameter(GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE);
+		ifpEditActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_FAMILYPLAN_SYSTEM_ID);
+		ifpEditActionConfig.addActionParameter(GtnFrameworkCommonConstants.IFPRIGHT_RESULT_TABLE);
+		ifpEditActionConfig.addActionParameter(Boolean.TRUE);
+		copyConfigActionList.add(ifpEditActionConfig);
+
+		GtnUIFrameWorkActionConfig resetActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
+
+		List<Object> params = new ArrayList<>();
+		Map<String, Object> resetMap = new HashMap<>();
+		resetMap.put(GtnFrameworkIfpStringContants.IFP_INFO_IFP_ID, "");
+		resetMap.put(GtnFrameworkIfpStringContants.IFP_INFO_IFP_NO, "");
+		resetMap.put(GtnFrameworkIfpStringContants.IFP_INFO_IFP_NAME, "");
+		resetMap.put(GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_ID, "");
+		resetMap.put(GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_NO, "");
+		resetMap.put(GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_NAME, "");
+		params.add(resetMap);
+
+		resetActionConfig.setActionParameterList(params);
+		copyConfigActionList.add(resetActionConfig);
+
+		gtnCopyBtn.setGtnUIFrameWorkActionConfigList(copyConfigActionList);
+
+	}
+
+	public List<Object> getDefaultFieldValueList() {
+
+		List<Object> defaultFieldValueList = new ArrayList<>();
+		List<String> resetComponentIdListTemp = new ArrayList<>();
+		List<Object> resetComponentValueListTemp = new ArrayList<>();
+
+		resetComponentIdListTemp.add(GtnFrameworkIfpStringContants.IFP_MASS_CHECK);
+		resetComponentIdListTemp.add(GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_ID);
+		resetComponentIdListTemp.add(GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_NO);
+		resetComponentIdListTemp.add(GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_NAME);
+
+		resetComponentValueListTemp.add("Disable");
+		resetComponentValueListTemp.add(null);
+		resetComponentValueListTemp.add(null);
+		resetComponentValueListTemp.add(null);
+
+		defaultFieldValueList.add(resetComponentIdListTemp);
+		defaultFieldValueList.add(resetComponentValueListTemp);
+		return defaultFieldValueList;
+	}
+
+	private static Object[] enableFieldsForCopy;
+	private static String[] copyVisibleFields;
+
+	public static Object[] getEnableCopyFieldValues() {
+		return enableFieldsForCopy.clone();
+	}
+
+	public static void setEnableCopyFieldValues(Object[] enableCopyField) {
+		GtnFrameworkIfpLandingScreenConfig.enableFieldsForCopy = enableCopyField.clone();
+	}
+
+	public static String[] getVisibleIfpCopyFields() {
+		return copyVisibleFields.clone();
+	}
+
+	public static void setVisibleIfpCopyFields(String[] visibleCopyFields) {
+		GtnFrameworkIfpLandingScreenConfig.copyVisibleFields = visibleCopyFields.clone();
+	}
+
+	private static List<Object> makeParameterList() {
+		setVisibleIfpCopyFields(new String[] { GtnFrameworkCommonConstants.IFP_ADD_SAVE_BUTTON,
+				GtnFrameworkCommonConstants.IFP_ADD_DELETE_BUTTON, GtnFrameworkIfpStringContants.IFP_ADD_BACK_BUTTON,
+				GtnFrameworkCommonConstants.IFPADD_RESET_BUTTON, GtnFrameworkIfpStringContants.IFP_ITEMS_RECORD_PANEL,
+				GtnFrameworkCommonConstants.IFP_ITEMSMASS_UPDATE_PANEL_LAYOUT });
+
+		List<Object> visibleCpyParameters = new ArrayList<>();
+		visibleCpyParameters.add(Boolean.TRUE);
+		visibleCpyParameters.add(Arrays.asList(getVisibleIfpCopyFields()));
+		return visibleCpyParameters;
+	}
+
+	private static void makeObjectArray(GtnUIFrameWorkActionConfig enableCopyAction) {
+		setEnableCopyFieldValues(new Object[] { GtnFrameworkCommonConstants.NOTES_TAB,
+				GtnFrameworkIfpStringContants.IFP_ITEMS_TAB_RESULT_DATA_TABLE,
+				GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_ID,
+				GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_NO,
+				GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_NAME,
+				GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_STATUS,
+				GtnFrameworkCommonConstants.IFP_INFORMATION_IFP_START_DATE,
+				GtnFrameworkCommonConstants.IFP_INFORMATION_IFP_END_DATE,
+				GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_DESIGNATION,
+				GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_PARENT_IFP_ID,
+				GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_PARENT_IFP_NAME,
+				GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_TYPE,
+				GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_CREATED_BY,
+				GtnFrameworkCommonConstants.IFP_INFORMATION_TAB_IFP_CATEGORY,
+				GtnFrameworkIfpStringContants.IFP_INFORMATION_CREATED_DATE,
+				GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_MODIFIED_BY,
+				GtnFrameworkIfpStringContants.IFP_INFORMATION_MODIFIED_DATE });
+		enableCopyAction.setActionParameterList(Arrays.asList(getEnableCopyFieldValues()));
 	}
 }
