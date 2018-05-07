@@ -47,7 +47,7 @@ public class PagedTreeGrid {
     private DataSet leftTableDataSet;
     TreeDataProvider<GtnWsRecordBean> treeDataProvider;
     private final List<GtnWsRecordBean> expandedItemIds = new ArrayList<>();
-    ;
+    
     private final List<Integer> expandedRowIds = new ArrayList<>();
     GtnWsRecordBean lastExpandedItem;
     HorizontalLayout controlLayout = new HorizontalLayout();
@@ -105,29 +105,32 @@ public class PagedTreeGrid {
              }
         }
           if (tableConfig.isTripleHeaderVisible()) {
-//            HeaderRow doubleHeader=  grid.getHeaderRow(1);
-//            
-//            HeaderRow groupingHeader = grid.appendHeaderRow();
-////             for (int j = 1; j < columnCount; j++) {
-////                 Object column = tableConfig.getVisibleColumns().get(j);
-////                 groupingHeader.getCell(column.toString()).setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j));
-////             }
-//             for(Object property:tableConfig.getRightTableTripleHeaderMap().keySet()){
-//                 Object joinList[]=tableConfig.getRightTableTripleHeaderMap().get(property);
-//                 List<HeaderCell> columnList=new ArrayList<>();
-//                 for (int i = 0; i < joinList.length; i++) {
-//                     Object object = joinList[i];
-//                     columnList.add(doubleHeader.getCell(object.toString()));
-//                 }
-//                 groupingHeader.join((HeaderCell[]) columnList.toArray());
-//             }
-        }
-         // Group headers by joining the cells
+         /* HeaderRow doubleHeader=  grid.getHeaderRow(0);
+            
+             HeaderRow groupingHeader = grid.appendHeaderRow();
+             for (int j = 0; j < columnCount; j++) {
+            	  gtnlogger.info("columnCount= " + columnCount);
+                 Object column = tableConfig.getVisibleColumns().get(j);
+                 groupingHeader.getCell(column.toString()).setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j));
+             }
+             for(Object property:tableConfig.getRightTableTripleHeaderMap().keySet()){
+                 Object joinList[]=tableConfig.getRightTableTripleHeaderMap().get(property);
+                 List<HeaderCell> columnList=new ArrayList<>();
+                 for (int i = 0; i < joinList.length; i++) {
+                     Object object = joinList[i];
+                     columnList.add(doubleHeader.getCell(object.toString()));
+                 }
+             
+                 
+                 groupingHeader.join((HeaderCell[]) columnList.toArray());
+             }*/
+      }
+       // Group headers by joining the cells
       
-//        tableConfig.getVisibleColumns().stream().forEach((column) -> {
-//            
-//            grid.addColumn(row -> row.getPropertyValue(column.toString())).setCaption(column.toString());
-//        });
+        tableConfig.getVisibleColumns().stream().forEach((column) -> {
+            
+            grid.addColumn(row -> row.getPropertyValue(column.toString())).setCaption(column.toString());
+        });
         TreeData<GtnWsRecordBean> data = new TreeData<>();
         if (dataSet != null) {
             data.addItems(null, dataSet.getRows());
@@ -322,7 +325,7 @@ public class PagedTreeGrid {
             int childCount = getChildCount(newRow);
             newRow.addProperties(CHILD_COUNT, childCount);
             newRow.addProperties(ROW_NUMBER, parentRowIndex + 1);
-            rows.stream().filter((row) -> !(!String.valueOf(row.getPropertyValue(HIERARCHY_NO)).equals(String.valueOf(newRow.getPropertyValue(HIERARCHY_NO))))).forEach((row) -> {
+            rows.stream().filter(row -> !(!String.valueOf(row.getPropertyValue(HIERARCHY_NO)).equals(String.valueOf(newRow.getPropertyValue(HIERARCHY_NO))))).forEach(row -> {
                 String period = String.valueOf(row.getPropertyValue("frequency"));
                 String year = String.valueOf(row.getPropertyValue("year"));
 
@@ -332,7 +335,7 @@ public class PagedTreeGrid {
                 tableConfig.getVisibleColumns().stream().map((column) -> {
                     tableColumns.add(period + year + column);
                     return column;
-                }).forEach((column) -> {
+                }).forEach(column -> {
                     newRow.addProperties(period + year + column, row.getPropertyValue(column.toString()));
                 });
             });

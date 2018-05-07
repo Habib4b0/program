@@ -183,6 +183,7 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 
 		addMassUpdateForecastAdjustmentTabSheetPanel(componentList, discountProjectionPanelLayout.getComponentId(), nameSpace);
 		new ResultsLayout().addResultsLayout(componentList, discountProjectionPanelLayout.getComponentId(), nameSpace);
+		addDiscountProjectionResultTable(componentList, discountProjectionPanelLayout.getComponentId(), nameSpace);
 		addDiscountProjectionExcelRefreshButton(componentList, discountProjectionPanelLayout.getComponentId(), nameSpace);
 	}
 	
@@ -260,26 +261,24 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 
 	}
 	
-	private void addDiscountProjectionResultTable(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace)
-	{
+	private void addDiscountProjectionResultTable(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace){
 		
-		GtnUIFrameworkComponentConfig discountProjectionResultPanel = new GtnUIFrameworkComponentConfig();
+	/*	GtnUIFrameworkComponentConfig discountProjectionResultPanel = new GtnUIFrameworkComponentConfig();
 		discountProjectionResultPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
-		discountProjectionResultPanel.setComponentId(nameSpace + "_" + "discountProjectionResultPanel");
-		discountProjectionResultPanel.setComponentName("Results");
+		discountProjectionResultPanel.setComponentId(nameSpace + "_" + "discountProjectionResultTablePanel");
 		discountProjectionResultPanel.setAddToParent(true);
 		discountProjectionResultPanel.setParentComponentId(parentComponentId);
 		discountProjectionResultPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		componentList.add(discountProjectionResultPanel);
+		componentList.add(discountProjectionResultPanel);*/
 		
 		
 		GtnUIFrameworkComponentConfig discountProjectionResultTableComponentConfig = new GtnUIFrameworkComponentConfig();
 		discountProjectionResultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGED_TREE_GRID);
-		discountProjectionResultTableComponentConfig.setComponentId(GtnFrameworkCommonConstants.RESULT_TABLE);
+		discountProjectionResultTableComponentConfig.setComponentId("hi");
 		discountProjectionResultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
 		discountProjectionResultTableComponentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		discountProjectionResultTableComponentConfig.setAddToParent(true);
-		discountProjectionResultTableComponentConfig.setParentComponentId(nameSpace + "_" + "discountProjectionResultPanel");
+		discountProjectionResultTableComponentConfig.setParentComponentId(parentComponentId);
 
 		GtnUIFrameworkPagedTreeTableConfig discountProjectionGtnPagedTreeTableConfig = new GtnUIFrameworkPagedTreeTableConfig();
 
@@ -290,9 +289,9 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		discountProjectionGtnPagedTreeTableConfig.setGtnUIFrameWorkActionConfig(reportingDashboardGtnUIFrameWorkActionConfig);
 
 		discountProjectionGtnPagedTreeTableConfig.setLeftHeader(
-				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
+				GtnWsForecastReturnsConstants.GTN_WS_FORECAST_DISCOUNT_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
 		discountProjectionGtnPagedTreeTableConfig.setRightHeader(
-				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
+				GtnWsForecastReturnsConstants.GTN_WS_FORECAST_DISCOUNT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
 //            reportingDashboardGtnPagedTreeTableConfig.setLeftWsHeaderUrl(
 //                    GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
 //             reportingDashboardGtnPagedTreeTableConfig.setRightWsHeaderUrl(
@@ -308,6 +307,7 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		discountProjectionGtnPagedTreeTableConfig.setSplitPosition(493);
 		discountProjectionGtnPagedTreeTableConfig.setTableHeight("650px");
 		discountProjectionGtnPagedTreeTableConfig.setDoubleHeaderVisible(true);
+		discountProjectionGtnPagedTreeTableConfig.setTripleHeaderVisible(true);
 
 		discountProjectionGtnPagedTreeTableConfig.setLeftTableEditable(true);
 		discountProjectionGtnPagedTreeTableConfig.setRightTableEditable(true);

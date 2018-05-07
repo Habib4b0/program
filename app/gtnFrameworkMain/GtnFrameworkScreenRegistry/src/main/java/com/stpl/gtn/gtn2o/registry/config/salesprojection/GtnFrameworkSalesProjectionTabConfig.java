@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.registry.config.salesprojection;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
@@ -12,12 +13,20 @@ import com.stpl.gtn.gtn2o.registry.config.common.GenerateResetButton;
 import com.stpl.gtn.gtn2o.registry.config.common.MassUpdateTab;
 import com.stpl.gtn.gtn2o.registry.config.common.ResultsLayout;
 import com.stpl.gtn.gtn2o.registry.config.common.UpdatePreviousNextCloseSubmitButton;
+import com.stpl.gtn.gtn2o.registry.config.projectionvariance.GtnCommercialForecastProjectionVarianceClassConstants;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.checkbox.GtnUIFrameworkCheckBoxComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfig;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 
 public class GtnFrameworkSalesProjectionTabConfig {
 
@@ -141,6 +150,7 @@ public class GtnFrameworkSalesProjectionTabConfig {
 
 		addMassUpdateForecastAdjustmentTabSheetPanel(componentList, salesProjectionPanelLayout.getComponentId(), nameSpace);
 		new ResultsLayout().addResultsLayout(componentList, salesProjectionPanelLayout.getComponentId(), nameSpace);
+		addSalesProjectionTable(componentList, salesProjectionPanelLayout.getComponentId(), nameSpace);
 		addSalesProjectionExcelButton(componentList, salesProjectionPanelLayout.getComponentId(), nameSpace);
 	}
 	
@@ -241,6 +251,158 @@ public class GtnFrameworkSalesProjectionTabConfig {
 		refreshButton.setComponentName("REFRESH");
 		componentList.add(refreshButton);
 
+
+	}             
+	/*                                        
+
+	private void addSalesProjectionTablePanelComponents(List<GtnUIFrameworkComponentConfig> componentList,
+			String parentComponentId, String nameSpace) {
+		
+		GtnUIFrameworkComponentConfig tableComponetsLayout = configProvider
+				.getVerticalLayoutConfig(nameSpace + "_" + "tableComponetsLayout", true, parentComponentId);
+		tableComponetsLayout.setComponentWidth("100%");
+		componentList.add(tableComponetsLayout);
+
+		addSalesProjectionTable(componentList, tableComponetsLayout.getComponentId(), nameSpace);
+	} */
+
+	private void addSalesProjectionTable(List<GtnUIFrameworkComponentConfig> componentList,
+			String parentComponentId, String nameSpace) {
+		
+		GtnUIFrameworkComponentConfig tableLayout = configProvider
+				.getHorizontalLayoutConfig(nameSpace + "_" + "tableLayout", true, parentComponentId);
+		tableLayout.setComponentWidth("100%");
+		tableLayout.setSpacing(false);
+		componentList.add(tableLayout);
+
+		GtnUIFrameworkComponentConfig salesProjectionResultTableComponentConfig = new GtnUIFrameworkComponentConfig();
+		salesProjectionResultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGED_TREE_GRID);
+		salesProjectionResultTableComponentConfig.setComponentId(GtnFrameworkCommonConstants.RESULT_TABLE);
+		salesProjectionResultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
+		salesProjectionResultTableComponentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		salesProjectionResultTableComponentConfig.setAddToParent(true);
+		salesProjectionResultTableComponentConfig.setParentComponentId(tableLayout.getComponentId());
+
+		GtnUIFrameworkPagedTreeTableConfig salesProjectionTreeTableConfig = new GtnUIFrameworkPagedTreeTableConfig();
+
+		List<Object> salesProjectionActionConfigList = new ArrayList<>();
+		salesProjectionActionConfigList.add(parentComponentId);
+
+		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+		actionConfig.setActionParameterList(salesProjectionActionConfigList);
+		salesProjectionTreeTableConfig
+				.setGtnUIFrameWorkActionConfig(actionConfig);
+
+		salesProjectionTreeTableConfig.setLeftHeader(
+				GtnWsForecastReturnsConstants.GTN_WS_COMMERCIAL_FORECAST_SALES_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
+		salesProjectionTreeTableConfig.setRightHeader(
+				GtnWsForecastReturnsConstants.GTN_WS_COMMERCIAL_FORECAST_SALES_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
+		// reportingDashboardGtnPagedTreeTableConfig.setLeftWsHeaderUrl(
+		// GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
+		// reportingDashboardGtnPagedTreeTableConfig.setRightWsHeaderUrl(
+		// GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
+		salesProjectionTreeTableConfig.setCountUrl("");
+		salesProjectionTreeTableConfig.setItemPerPage(10);
+
+		salesProjectionTreeTableConfig.setMaxSplitPosition(1000);
+		salesProjectionTreeTableConfig.setMinSplitPosition(300);
+		salesProjectionTreeTableConfig.setPageLength(15);
+		salesProjectionTreeTableConfig.setResultSetUrl("");
+
+		salesProjectionTreeTableConfig.setSplitPosition(493);
+		salesProjectionTreeTableConfig.setTableHeight("650px");
+		salesProjectionTreeTableConfig.setDoubleHeaderVisible(true);
+		
+		salesProjectionTreeTableConfig.setLeftTableEditable(true);
+		salesProjectionTreeTableConfig.setRightTableEditable(true);
+
+		List<String> fieldFactoryColum = Arrays.asList(GtnFrameworkCommonConstants.CHECK);
+		List<GtnUIFrameworkComponentConfig> reportingDashboardFieldFactoryComponent = new ArrayList<>();
+		salesProjectionTreeTableConfig.setLeftTableEditableColumnList(fieldFactoryColum);
+
+		GtnUIFrameworkComponentConfig checkBox = new GtnUIFrameworkComponentConfig();
+		checkBox.setComponentId(GtnFrameworkCommonConstants.CHECK);
+		checkBox.setComponentType(GtnUIFrameworkComponentType.CHECKBOX);
+		GtnUIFrameworkCheckBoxComponentConfig checkBoxConfig = new GtnUIFrameworkCheckBoxComponentConfig();
+		checkBoxConfig.setImmediate(true);
+
+		checkBox.setGtnCheckBoxConfig(checkBoxConfig);
+		List<GtnUIFrameWorkActionConfig> checkBoxClickActionList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig generateActionConfig = new GtnUIFrameWorkActionConfig();
+		generateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		generateActionConfig.addActionParameter(
+				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_LEFT_FIELD_FACTORY_ACTION);
+		checkBoxClickActionList.add(generateActionConfig);
+		generateActionConfig
+				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT,
+						GtnFrameworkCommonConstants.RESULT_TABLE));
+		checkBox
+				.setGtnUIFrameWorkItemClickActionConfigList(checkBoxClickActionList);
+
+		reportingDashboardFieldFactoryComponent.add(checkBox);
+		salesProjectionTreeTableConfig
+				.setLeftTableEditableComponentConfig(reportingDashboardFieldFactoryComponent);
+
+		List<GtnUIFrameWorkActionConfig> textFieldConfig = new ArrayList<>();
+		GtnUIFrameWorkActionConfig fieldFactoryCustomAction = new GtnUIFrameWorkActionConfig();
+
+		fieldFactoryCustomAction
+				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT,
+						GtnFrameworkCommonConstants.RESULT_TABLE));
+
+		fieldFactoryCustomAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		fieldFactoryCustomAction.addActionParameter(
+				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_RIGHT_FIELD_FACTORY_ACTION);
+		textFieldConfig.add(fieldFactoryCustomAction);
+		salesProjectionTreeTableConfig.setComponentconfigActionlist(textFieldConfig);
+
+		salesProjectionTreeTableConfig
+				.setCheckBoxVisibleColoumn(Arrays.asList(GtnFrameworkCommonConstants.CHECK));
+		List<GtnUIFrameWorkActionConfig> checkAllConflist = new ArrayList<>();
+		GtnUIFrameWorkActionConfig checkAllActionConfig = new GtnUIFrameWorkActionConfig();
+		checkAllActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		checkAllActionConfig.addActionParameter(
+				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_CHECK_ALL_ACTION);
+		checkAllConflist.add(checkAllActionConfig);
+		salesProjectionTreeTableConfig.setCheckBoxActionConfigList(checkAllConflist);
+		salesProjectionTreeTableConfig.setCountUrl(
+				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_PAGED_TREE_TABLE_GET_COUNT_ACTION);
+		salesProjectionTreeTableConfig
+				.setCountWsUrl(GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_COUNT_SERVICE);
+
+		salesProjectionTreeTableConfig.setBulkDataUrl(
+				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_PAGED_TREE_TABLE_GET_BULK_DATA_ACTION);
+		salesProjectionTreeTableConfig.setBulkDataWsUrl(
+				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_BULK_LOAD_DATA_SERVICE);
+
+		salesProjectionTreeTableConfig.setFillCountUrl(
+				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_PAGED_TREE_TABLE_FILL_COUNT_DATA_ACTION);
+		salesProjectionTreeTableConfig.setFillCountWsUrl(
+				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_BULK_LOAD_COUNT_SERVICE);
+
+		salesProjectionTreeTableConfig.setLeftHeaderUrl(
+				GtnCommercialForecastProjectionVarianceClassConstants.GTN_WS_RETURNS_FORECAST_COMP_LEFT_HEADER_FORM_HEADER_CONFIG_ACTION);
+
+		salesProjectionTreeTableConfig.setLeftWsHeaderUrl(
+				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
+
+		salesProjectionTreeTableConfig.setRighttHeaderUrl(
+				GtnCommercialForecastProjectionVarianceClassConstants.GTN_WS_RETURNS_FORECAST_COMP_RIGHT_HEADER_FORM_HEADER_CONFIG_ACTION);
+
+		salesProjectionTreeTableConfig.setRightWsHeaderUrl(
+				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
+
+		salesProjectionTreeTableConfig.setLeftHeaderCustomClassLoadUrl(
+				GtnCommercialForecastProjectionVarianceClassConstants.GTN_WS_RETURNS_FORECAST_LEFT_HEADER_CONFIG_ACTION);
+
+		salesProjectionTreeTableConfig.setRightHeaderCustomClassLoadUrl(
+				GtnCommercialForecastProjectionVarianceClassConstants.GTN_WS_RETURNS_FORECAST_RIGHT_HEADER_CONFIG_ACTION);
+
+		salesProjectionTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
+
+		salesProjectionResultTableComponentConfig
+				.setGtnPagedTreeTableConfig(salesProjectionTreeTableConfig);
+		componentList.add(salesProjectionResultTableComponentConfig);
 
 	}
 

@@ -133,7 +133,7 @@ public class CommercialForecastingProjectionVarianceMain {
 		reportingDashboardGtnPagedTreeTableConfig.setSplitPosition(493);
 		reportingDashboardGtnPagedTreeTableConfig.setTableHeight("650px");
 		reportingDashboardGtnPagedTreeTableConfig.setDoubleHeaderVisible(true);
-
+		
 		reportingDashboardGtnPagedTreeTableConfig.setLeftTableEditable(true);
 		reportingDashboardGtnPagedTreeTableConfig.setRightTableEditable(true);
 

@@ -57,6 +57,53 @@ public class GtnWsReturnsProjectionController {
 	private HeaderGeneratorService reportHeaderService;
 
 	private ObjectMapper objectMapper = new ObjectMapper();
+	
+	
+	// Discount Projection Left Headers
+		@PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_FORECAST_DISCOUNT_PROJECTION_TAB_LEFT_HEADERS_SERVICE)
+		public GtnUIFrameworkWebserviceResponse getDiscountProjectionConfigureLeftHeaders(
+				@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+			GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+			try {
+				gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+				gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+				GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+				GtnWsPagedTreeTableResponse leftHeader = reportHeaderService.getDiscountProjectionLeftTableColumns(request);
+				gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(leftHeader);
+				return gtnUIFrameworkWebserviceResponse;
+			} catch (Exception ex) {
+				LOGGER.error(ex.getMessage(), ex);
+				gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+				gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+				return gtnUIFrameworkWebserviceResponse;
+			}
+		}
+
+		// Discount Projection Right Headers
+		@PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_FORECAST_DISCOUNT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE)
+		public GtnUIFrameworkWebserviceResponse getDiscountProjectionConfigureRightHeaders(
+				@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+
+			GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+			try {
+				gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+				gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+
+				GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+				GtnWsPagedTreeTableResponse rightHeader = reportHeaderService.getDiscountProjectionRightTableColumns(request);
+				gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(rightHeader);
+				return gtnUIFrameworkWebserviceResponse;
+			} catch (Exception ex) {
+				LOGGER.error(ex.getMessage(), ex);
+				gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+				gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+				return gtnUIFrameworkWebserviceResponse;
+			}
+		}
+	
+	
+	
+	
 
 	@PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_COUNT_SERVICE)
 	public GtnUIFrameworkWebserviceResponse getCount(@RequestBody GtnUIFrameworkWebserviceRequest requester) {
@@ -150,8 +197,49 @@ public class GtnWsReturnsProjectionController {
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
 
 			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
-			GtnWsPagedTreeTableResponse rightHeader = headerService
-					.getReturnsRightTableColumns(request.getGtnForecastBean());
+			GtnWsPagedTreeTableResponse rightHeader = headerService.getReturnsRightTableColumns(request.getGtnForecastBean());
+			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(rightHeader);
+			return gtnUIFrameworkWebserviceResponse;
+		} catch (Exception ex) {
+			LOGGER.error(ex.getMessage(), ex);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			return gtnUIFrameworkWebserviceResponse;
+		}
+	}
+	
+	// Sales Projection Left Headers
+	@PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_COMMERCIAL_FORECAST_SALES_PROJECTION_TAB_LEFT_HEADERS_SERVICE)
+	public GtnUIFrameworkWebserviceResponse getSalesProjectionConfigureLeftHeaders(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+			GtnWsPagedTreeTableResponse leftHeader = reportHeaderService.getSalesProjectionLeftTableColumns(request);
+			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(leftHeader);
+			return gtnUIFrameworkWebserviceResponse;
+		} catch (Exception ex) {
+			LOGGER.error(ex.getMessage(), ex);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			return gtnUIFrameworkWebserviceResponse;
+		}
+	}
+
+	// Sales Projection Right Headers
+	@PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_COMMERCIAL_FORECAST_SALES_PROJECTION_TAB_RIGHT_HEADERS_SERVICE)
+	public GtnUIFrameworkWebserviceResponse getSalesProjectionConfigureRightHeaders(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+
+		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+
+			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+			GtnWsPagedTreeTableResponse rightHeader = reportHeaderService.getSalesProjectionRightTableColumns(request);
 			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(rightHeader);
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (Exception ex) {
