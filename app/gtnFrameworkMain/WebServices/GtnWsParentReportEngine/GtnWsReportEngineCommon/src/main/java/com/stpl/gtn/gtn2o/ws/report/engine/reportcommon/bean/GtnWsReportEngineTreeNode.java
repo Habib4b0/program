@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
-
 public class GtnWsReportEngineTreeNode implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -27,7 +25,7 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 
 	private String parentHierarchyNo;
 
-	private String parentIndicator;
+	private GtnWsHierarchyType parentIndicator;
 
 	private String levelName;
 
@@ -39,7 +37,7 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 
 	private Set<Integer> rsIds = null;
 
-	private String indicator = StringUtils.EMPTY;
+	private GtnWsHierarchyType indicator;
 
 	private boolean isDiscountAvailable;
 
@@ -158,11 +156,11 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 		ccpIds.addAll(ccpId);
 	}
 
-	public String getIndicator() {
+	public GtnWsHierarchyType getIndicator() {
 		return indicator;
 	}
 
-	public void setIndicator(String indicator) {
+	public void setIndicator(GtnWsHierarchyType indicator) {
 		this.indicator = indicator;
 	}
 
@@ -216,11 +214,11 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 		this.parentHierarchyNo = parentHierarchyNo;
 	}
 
-	public String getParentIndicator() {
+	public GtnWsHierarchyType getParentIndicator() {
 		return parentIndicator;
 	}
 
-	public void setParentIndicator(String parentIndicator) {
+	public void setParentIndicator(GtnWsHierarchyType parentIndicator) {
 		this.parentIndicator = parentIndicator;
 	}
 
