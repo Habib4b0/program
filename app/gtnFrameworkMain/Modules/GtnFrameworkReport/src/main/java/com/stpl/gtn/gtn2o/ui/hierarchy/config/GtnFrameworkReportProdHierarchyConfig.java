@@ -249,6 +249,9 @@ public class GtnFrameworkReportProdHierarchyConfig {
 						"level","levelNo","relationshipLevelSid","tableName","fieldName","hierarchyNo",
 						"hierarchyDefSid","hierarchyLevelDefSid","levelValueReference","relationShipBuilderId",
 						"relationShipVersionNo","hierarchyVersionNo","hierarchyType"));
+		productSelectionDualListBoxConfig.setRightRecordHeader(Arrays.asList("levelNo", "relationshipLevelValues",
+				"parentNode", "levelName", "levelValuReference", "tableName", "fieldName", "relationshipLevelSid",
+				"hierarchyNo", "relationshipBuilderSid", "hierarchyLevelDefSid", "hierarchyDefSid", "versionNo","levelValue"));
 		productSelectionDualListBoxConfig.setLeftTableURL(
 				GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_LEFT_TABLELOAD_SERVICE);
 		productSelectionDualListBoxConfig.setMoveRightURL(

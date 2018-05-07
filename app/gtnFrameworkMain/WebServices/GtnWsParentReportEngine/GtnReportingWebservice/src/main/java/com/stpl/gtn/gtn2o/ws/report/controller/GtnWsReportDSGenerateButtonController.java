@@ -9,6 +9,7 @@ import com.stpl.gtn.gtn2o.ws.report.service.GtnUIFrameWorkReportResponseBuilder;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportDSGenerateButtonService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 public class GtnWsReportDSGenerateButtonController {
@@ -17,7 +18,7 @@ public class GtnWsReportDSGenerateButtonController {
 	GtnWsReportDSGenerateButtonService generateButtonService;
 
 	@RequestMapping(value = "/gtnWsReportCCPGeneration", method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse generateCCPForReprt(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+	public GtnUIFrameworkWebserviceResponse generateCCPForReprt(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameWorkReportResponseBuilder().build();
 		generateButtonService.generateCCPForReporting(gtnWsRequest);
 		return response;

@@ -310,6 +310,16 @@ public class GtnUIFrameworkBaseComponent {
 		}
 
 	}
+        
+        public String getCaptionFromV8ComboBox() throws GtnFrameworkValidationFailedException {
+		try {
+			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
+			return getString(comboBox.getValue()).trim();
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+
+	}
 
 	private static String getString(Object value) {
 		if (isNull(value)) {

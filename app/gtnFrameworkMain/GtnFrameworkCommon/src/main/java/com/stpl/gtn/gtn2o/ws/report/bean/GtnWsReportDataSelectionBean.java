@@ -1,50 +1,125 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.util.Date;
+
 public class GtnWsReportDataSelectionBean {
-	private long customerHierarchySid;
-	private long productHierarchySid;
-	private int customerHierarchyForecastLevel;
-	private int productHierarchyForecastLevel;
-	private String name;
 
-	public long getCustomerHierarchySid() {
-		return customerHierarchySid;
-	}
+    private long customerHierarchySid;
+    private long productHierarchySid;
+    private int customerHierarchyForecastLevel;
+    private int productHierarchyForecastLevel;
+    private String name;
+    private int productRelationshipBuilderSid;
+    private int customerRelationshipBuilderSid;
+    private int customerHierarchyVersionNo;
+    private int productHierarchyVersionNo;
+    private int customerRelationshipVersionNo;
+    private int productRelationshipVersionNo;
+    private Date forecastEligibleDate;
 
-	public void setCustomerHierarchySid(long customerHierarchySid) {
-		this.customerHierarchySid = customerHierarchySid;
-	}
+    public int getProductRelationshipBuilderSid() {
+        return productRelationshipBuilderSid;
+    }
 
-	public long getProductHierarchySid() {
-		return productHierarchySid;
-	}
+    public void setProductRelationshipBuilderSid(int productRelationshipBuilderSid) {
+        this.productRelationshipBuilderSid = productRelationshipBuilderSid;
+    }
 
-	public void setProductHierarchySid(long productHierarchySid) {
-		this.productHierarchySid = productHierarchySid;
-	}
+    public int getCustomerRelationshipBuilderSid() {
+        return customerRelationshipBuilderSid;
+    }
 
-	public int getCustomerHierarchyForecastLevel() {
-		return customerHierarchyForecastLevel;
-	}
+    public void setCustomerRelationshipBuilderSid(int customerRelationshipBuilderSid) {
+        this.customerRelationshipBuilderSid = customerRelationshipBuilderSid;
+    }
 
-	public void setCustomerHierarchyForecastLevel(int customerHierarchyForecastLevel) {
-		this.customerHierarchyForecastLevel = customerHierarchyForecastLevel;
-	}
+    public int getCustomerHierarchyVersionNo() {
+        return customerHierarchyVersionNo;
+    }
 
-	public int getProductHierarchyForecastLevel() {
-		return productHierarchyForecastLevel;
-	}
+    public void setCustomerHierarchyVersionNo(int customerHierarchyVersionNo) {
+        this.customerHierarchyVersionNo = customerHierarchyVersionNo;
+    }
 
-	public void setProductHierarchyForecastLevel(int productHierarchyForecastLevel) {
-		this.productHierarchyForecastLevel = productHierarchyForecastLevel;
-	}
+    public int getProductHierarchyVersionNo() {
+        return productHierarchyVersionNo;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setProductHierarchyVersionNo(int productHierarchyVersionNo) {
+        this.productHierarchyVersionNo = productHierarchyVersionNo;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public int getCustomerRelationshipVersionNo() {
+        return customerRelationshipVersionNo;
+    }
+
+    public void setCustomerRelationshipVersionNo(int customerRelationshipVersionNo) {
+        this.customerRelationshipVersionNo = customerRelationshipVersionNo;
+    }
+
+    public int getProductRelationshipVersionNo() {
+        return productRelationshipVersionNo;
+    }
+
+    public void setProductRelationshipVersionNo(int productRelationshipVersionNo) {
+        this.productRelationshipVersionNo = productRelationshipVersionNo;
+    }
+
+    public Date getForecastEligibleDate() {
+        return forecastEligibleDate;
+    }
+
+    public void setForecastEligibleDate(Date forecastEligibleDate) {
+        this.forecastEligibleDate = forecastEligibleDate;
+    }
+
+    public String getReportDataSource() {
+        return reportDataSource;
+    }
+
+    public void setReportDataSource(String reportDataSource) {
+        this.reportDataSource = reportDataSource;
+    }
+    private String reportDataSource;
+
+    public long getCustomerHierarchySid() {
+        return customerHierarchySid;
+    }
+
+    public void setCustomerHierarchySid(long customerHierarchySid) {
+        this.customerHierarchySid = customerHierarchySid;
+    }
+
+    public long getProductHierarchySid() {
+        return productHierarchySid;
+    }
+
+    public void setProductHierarchySid(long productHierarchySid) {
+        this.productHierarchySid = productHierarchySid;
+    }
+
+    public int getCustomerHierarchyForecastLevel() {
+        return customerHierarchyForecastLevel;
+    }
+
+    public void setCustomerHierarchyForecastLevel(int customerHierarchyForecastLevel) {
+        this.customerHierarchyForecastLevel = customerHierarchyForecastLevel;
+    }
+
+    public int getProductHierarchyForecastLevel() {
+        return productHierarchyForecastLevel;
+    }
+
+    public void setProductHierarchyForecastLevel(int productHierarchyForecastLevel) {
+        this.productHierarchyForecastLevel = productHierarchyForecastLevel;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

@@ -79,7 +79,6 @@ public class GtnProductLevelAvailableTableLoadAction
 
 			gtnLogger.info(
 					"-----------productHierarchyLevelDefinitionList" + productHierarchyLevelDefinitionList.size());
-			Object businessUnitValue = null;
 			GtnReportHierarchyLevelBean selectedHierarchyLevelDto = productHierarchyLevelDefinitionList
 					.get(selectedLevel - 1);
 
