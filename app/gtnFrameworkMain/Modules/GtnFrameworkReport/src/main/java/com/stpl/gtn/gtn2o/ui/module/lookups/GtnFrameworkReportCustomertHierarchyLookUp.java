@@ -334,7 +334,7 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		actionParameter.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE);
 		actionParameter.add("reportLandingScreen_customerHierarchy");
-		actionParameter.add(Arrays.asList("custHierarchyLookupHighestLevel"));
+		actionParameter.add(Arrays.asList("custHierarchyLookupHierName"));
 		actionParameter.add(Arrays.asList("reportLandingScreen_customerHierarchy"));
 		reportCustomerHierarchySelectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(reportCustomerHierarchySelectAction);

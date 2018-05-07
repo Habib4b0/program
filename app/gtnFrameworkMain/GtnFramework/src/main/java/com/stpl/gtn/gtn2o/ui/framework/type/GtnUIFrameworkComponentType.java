@@ -34,6 +34,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.tree.GtnUIFrameworkTreeComponen
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.comboboxmultiselect.GtnUIFrameworkComboBoxMultiselectComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.date.GtnUIFrameworkDateFieldComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkV8DualListBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.popuptextbox.GtnUIFrameworkPopupTextBox;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.radiobuttongroup.GtnUIFrameworkRadioButtonGroupComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.textbox.GtnUIFrameworkTextBoxComponent;
@@ -104,7 +105,7 @@ public enum GtnUIFrameworkComponentType {
 
 	POPUPTEXTFIELDVAADIN8(new GtnUIFrameworkPopupTextBox()), PAGED_GRID(
 			new GtnUIFrameworkPagedGridComponent()), V8_DUALLISTBOX(
-					new GtnUIFrameworkDualListBoxComponent()), PAGED_TREE_GRID(
+					new GtnUIFrameworkV8DualListBoxComponent()), PAGED_TREE_GRID(
 							new GtnUIFrameworkPagedTreeGridComponent()), GRID(
 									new GtnUIFrameworkGridComponent()), TREE_GRID(
 											new GtnUIFrameworkTreeGridComponent());

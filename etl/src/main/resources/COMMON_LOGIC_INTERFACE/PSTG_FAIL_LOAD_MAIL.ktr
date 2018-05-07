@@ -100,35 +100,10 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>MAIL ID 2</from><to>Mail 2</to><enabled>N</enabled> </hop>
-  <hop> <from>Table input</from><to>Mail 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table input</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2</from><to>Mail 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2</from><to>NO MAIL ID </to><enabled>Y</enabled> </hop>
   </order>
-  <step>
-    <name>MAIL ID 2</name>
-    <type>DBJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>FailLoad</connection>
-    <rowlimit>0</rowlimit>
-    <sql>DECLARE &#x40;CONTENT VARCHAR&#x28;max&#x29;&#x3d; &#x27;&#x3c;HTML&#x3e;&#x3c;body&#x3e;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;There was an error in loading file to table&#x3c;br&#x3e;&#x3c;br&#x3e;&#x3c;p&#x3e; Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x27;&#xa;SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,&#xa;             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,&#xa;             A.PASSWORD                      AS SENDER_PASSWORD,&#xa;             A.PORT_NUMBER                   AS MAIL_PORT,&#xa;             B.EMAIL_NOTIFICATION_FAILURE_TO AS DESTINATION_ADDRESS,&#xa;             B.EMAIL_NOTIFICATION_FAILURE_CC AS DESTINATION_CC,&#xa;             B.FAILURE_MAIL_SUBJECT        AS SUBJECT,&#xa;            -- B.FAILURE_MAIL_BODY &#x2b; &#x40;CONTENT  AS CONTENT,&#xa;			 stuff&#x28;&#x40;CONTENT,charindex&#x28;&#x27;Hi,&#x27;,&#x40;CONTENT&#x29;&#x2b;3,0,&#x27;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x27;&#x2b;B.FAILURE_MAIL_BODY&#x29; as CONTENT&#xa;FROM   WF_MAIL_CONFIG A&#xa;       JOIN WORKFLOW_PROFILE B&#xa;         ON 1 &#x3d; 1&#xa;WHERE  b.PROCESS_NAME &#x3d; &#x27;&#x24;&#x7b;WORKFLOW_INTERFACE_NAME&#x7d;&#x27;&#xa;       AND a.SMTP_FLAG &#x3d; &#x27;yes&#x27;</sql>
-    <outer_join>N</outer_join>
-    <replace_vars>Y</replace_vars>
-    <parameter>
-    </parameter>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>339</xloc>
-      <yloc>162</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
   <step>
     <name>Mail 2</name>
     <type>Mail</type>
@@ -184,8 +159,8 @@
       </embeddedimages>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>304</xloc>
-      <yloc>332</yloc>
+      <xloc>745</xloc>
+      <yloc>483</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -210,8 +185,56 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>180</xloc>
-      <yloc>218</yloc>
+      <xloc>540</xloc>
+      <yloc>202</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Mail 2</send_true_to>
+<send_false_to>NO MAIL ID </send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>DESTINATION_ADDRESS</leftvalue>
+ <function>IS NOT NULL</function>
+ <rightvalue/>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>539</xloc>
+      <yloc>340</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>NO MAIL ID </name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>390</xloc>
+      <yloc>477</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

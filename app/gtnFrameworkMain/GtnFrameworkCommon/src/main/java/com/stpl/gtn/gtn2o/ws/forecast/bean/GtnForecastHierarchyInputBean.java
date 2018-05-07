@@ -18,8 +18,7 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	private int relationShipBuilderSid;
 	private int hierarchyDefinitionSid;
 	private int hierarchyLevelDefinitionSid;
@@ -56,6 +55,7 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	private GtnFrameworkRelationshipLevelDefintionBean selectedHierarchyLevelDto;
 
 	private boolean isCff;
+	private boolean forecastInsert;
 
 	public GtnForecastHierarchyInputBean() {
 		super();
@@ -206,7 +206,6 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 		this.tempTableMap = tempTableMap;
 	}
 
-
 	public void setSelectedCustomerRelationShipBuilderSid(int selectedCustomerRelationShipBuilderSid) {
 		this.selectedCustomerRelationShipBuilderSid = selectedCustomerRelationShipBuilderSid;
 	}
@@ -218,7 +217,6 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	public void setSelectedCustomerRelationShipBuilderVersionNo(int selectedCustomerRelationShipBuilderVersionNo) {
 		this.selectedCustomerRelationShipBuilderVersionNo = selectedCustomerRelationShipBuilderVersionNo;
 	}
-
 
 	public String getBusinessUnitValue() {
 		return businessUnitValue;
@@ -332,6 +330,14 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 
 	public void setLevelList(List<GtnReportHierarchyLevelBean> levelList) {
 		this.levelList = levelList;
+	}
+
+	public boolean isForecastInsert() {
+		return forecastInsert;
+	}
+
+	public void setForecastInsert(boolean forecastInsert) {
+		this.forecastInsert = forecastInsert;
 	}
 
 }

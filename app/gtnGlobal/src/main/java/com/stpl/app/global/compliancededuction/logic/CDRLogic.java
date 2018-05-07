@@ -395,6 +395,7 @@ public class CDRLogic {
                 }
             }
             notesLogic.saveUploadedInformation(uploadedData, ConstantsUtils.CDR_MODEL, cdrModelSid);
+            notesLogic.saveUploadedAttachInformation(uploadedData, ConstantsUtils.CDR_MODEL , cdrModelSid);
         } catch (SystemException | PortalException ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -405,6 +406,7 @@ public class CDRLogic {
         list.add(cdrModelSId);
         deleteRules(list, "CDR_MODEL_SID");
         deleteAttachments(cdrModelSId);
+        deleteAttachFiledata(cdrModelSId);
         try {
             ComplianceDeductionDao dao = new ComplianceDeductionDaoImpl();
             dao.deleteCdrModel(cdrModelSId);
@@ -422,7 +424,16 @@ public class CDRLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(masterQuery);
 
     }
+    
+    private void deleteAttachFiledata(Integer cdrModelSId) {
 
+        String masterQuery = "delete from ATTACHMENT"
+                + " where ATTACHMENT_TABLE_SID=" + cdrModelSId + " and"
+                + " MASTER_TABLE_NAME='CDR_MODEL' ";
+        HelperTableLocalServiceUtil.executeUpdateQuery(masterQuery);
+
+    }
+    
     public boolean isSameRuleNoAndName(CDRDto binderDto) {
         String countQuery = "select count(CDR_MODEL_SID) from CDR_MODEL where RULE_NO='" + binderDto.getRuleNo() + "' and rule_name ='" + binderDto.getRuleName() + "' ";
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(countQuery);
