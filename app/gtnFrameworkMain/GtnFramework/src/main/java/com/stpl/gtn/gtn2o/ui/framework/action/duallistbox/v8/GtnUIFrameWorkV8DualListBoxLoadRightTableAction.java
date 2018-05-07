@@ -73,7 +73,10 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 		Set<GtnWsRecordBean> recordBean = leftTable.getSelectedItems();
 		Map<String, String> levelValueMap = (Map<String, String>) dualListBoxBean.getGtnDualListBoxqueryParameters()
 				.get(1);
+		boolean isProduct = (boolean) dualListBoxBean.getGtnDualListBoxqueryParameters().get(8);
+		if(!isProduct){
 		Date forecastEligibleDate = (Date) dualListBoxBean.getGtnDualListBoxqueryParameters().get(7);
+		}
 		GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig = dualListBoxBean.getDualListBoxConfig();
 		GtnUIFrameworkHierarchyTreeBuilder treeBuilder = dualListBoxBean.getTreeBuilder();
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
@@ -104,7 +107,7 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 			List<Object> queryParameters = dualListBoxBean.getGtnDualListBoxqueryParametersList();
 			GtnWsRecordBean record = recordBean.iterator().next();
 			GtnUIFrameworkWebserviceRequest request = createRightTableRequest(queryParameters, record,
-					dualListBoxConfig);
+					dualListBoxConfig, isProduct);
 			GtnUIFrameworkWebserviceResponse response = callWebService(dualListBoxConfig.getMoveRightURL(),
 					dualListBoxConfig.getModuleType(), request);
 			List<GtnWsRecordBean> beanList = new ArrayList<>();
@@ -125,19 +128,21 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 	}
 
 	private GtnUIFrameworkWebserviceRequest createRightTableRequest(final List<Object> queryParameters,
-			GtnWsRecordBean recordBean, GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig) {
+			GtnWsRecordBean recordBean, GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig, boolean isProduct) {
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		request.setGtnReportRequest(createReportRequest(recordBean, queryParameters));
+		request.setGtnReportRequest(createReportRequest(recordBean, queryParameters, isProduct));
 		request.setGtnWsSearchRequest(createSearchRequest(queryParameters, dualListBoxConfig));
 		request.setGtnWsGeneralRequest(createGeneralRequest());
 		return request;
 	}
 
-	private GtnWsReportRequest createReportRequest(GtnWsRecordBean recordBean, final List<Object> queryParameters) {
+	private GtnWsReportRequest createReportRequest(GtnWsRecordBean recordBean, final List<Object> queryParameters, boolean isProduct) {
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 		reportRequest.setHierarchyInputBean((GtnReportHierarchyLevelBean) queryParameters.get(2));
 		reportRequest.setHierarchyLevelList((List<GtnReportHierarchyLevelBean>) queryParameters.get(3));
+		if(!isProduct){
 		reportRequest.setForecastEligibleDate((Date) queryParameters.get(7));
+		}
 		List<GtnWsRecordBean> bean = new ArrayList<>();
 		bean.add(recordBean);
 		reportRequest.setRecordBean(bean);
