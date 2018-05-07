@@ -13,6 +13,10 @@
         <property name="sessionFactory">
             <ref bean="sessionFactory" />
         </property>
+        <property name="queryLogger">
+            <ref bean="queryLogger" />
+        </property>
+        
     </bean>
     <bean id="queryLogger" class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger">
     </bean>

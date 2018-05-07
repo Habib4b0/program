@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.data.TreeData;
@@ -60,17 +61,22 @@ public class GtnFrameworkUICustomTreeSaveAction
 
 	private void addChildBeans(List<GtnWsRecordBean> childItems, TreeData<GtnWsRecordBean> treeData,
 			GtnWsCustomTreeData parentBean) {
-		List<GtnWsCustomTreeData> childBean = new ArrayList<>();
-		parentBean.setChildren(childBean);
+		List<GtnWsReportVariablesType> variableList = new ArrayList<>();
 		for (GtnWsRecordBean bean : childItems) {
-			GtnWsCustomTreeData tempBean = new GtnWsCustomTreeData();
-			tempBean.setLevelName(bean.getStringPropertyByIndex(0));
-			tempBean.setLevelNo(bean.getIntegerPropertyByIndex(1));
-			tempBean.setHierarchyType(GtnWsHierarchyType.fromString(bean.getStringPropertyByIndex(2)));
-			tempBean.setCurrentTreeLevelNo(parentBean.getCurrentTreeLevelNo() + 1);
-			childBean.add(tempBean);
-			addChildBeans(treeData.getChildren(bean), treeData, tempBean);
+			if (bean.getStringPropertyByIndex(3).equals(GtnWsHierarchyType.VARIABLES.toString())) {
+				variableList.add(GtnWsReportVariablesType.fromString(bean.getStringPropertyByIndex(0)));
+			} else {
+				GtnWsCustomTreeData tempBean = new GtnWsCustomTreeData();
+				tempBean.setLevelName(bean.getStringPropertyByIndex(0));
+				tempBean.setLevelNo(bean.getIntegerPropertyByIndex(1));
+				tempBean.setHierarchyType(GtnWsHierarchyType.fromString(bean.getStringPropertyByIndex(2)));
+				tempBean.setCurrentTreeLevelNo(parentBean.getCurrentTreeLevelNo() + 1);
+				parentBean.setChild(tempBean);
+				addChildBeans(treeData.getChildren(bean), treeData, tempBean);
+			}
+
 		}
+		parentBean.setVariableList(variableList);
 	}
 
 	@Override
