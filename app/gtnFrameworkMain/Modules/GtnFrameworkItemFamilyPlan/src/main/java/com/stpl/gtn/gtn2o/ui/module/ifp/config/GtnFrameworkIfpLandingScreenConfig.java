@@ -817,15 +817,8 @@ public class GtnFrameworkIfpLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig disableFieldActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new Object[] { GtnFrameworkIfpStringContants.IFP_INFO_TAB_PARENT_IFP_ID,
-				GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_PARENT_IFP_NAME,
-				GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_CREATED_BY,
-				GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_MODIFIED_BY,
-				GtnFrameworkIfpStringContants.IFP_INFORMATION_CREATED_DATE,
-				GtnFrameworkIfpStringContants.IFP_INFORMATION_MODIFIED_DATE,
-				GtnFrameworkCommonConstants.IFP_ADD_DELETE_BUTTON };
 
-		disableFieldActionConfig.setActionParameterList(Arrays.asList(disableField));
+		disableFieldActionConfig.setActionParameterList(Arrays.asList(GtnFrameworkIfpStringContants.getCOPY_DISABLED_FIELDS()));
 		copyConfigActionList.add(disableFieldActionConfig);
 
 		GtnUIFrameWorkActionConfig visibleActionConfig = new GtnUIFrameWorkActionConfig();
