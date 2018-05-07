@@ -1,24 +1,23 @@
 package com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
 
+@Service
+@Scope(value = "singleton")
 public class GtnWsCommonCalculationService {
 
+	@Autowired
+	GtnWsCalculationValidationService gtnWsCalculationValidation;
+
 	private static final Evaluator EVALUATOR = new Evaluator();
-	private final GtnWsCalculationValidationService gtnWsCalculationValidation = GtnWsCalculationValidationService
-			.getInstance();
-	private static GtnWsCommonCalculationService gtnWsCommonCalculation;
 
-	private GtnWsCommonCalculationService() {
-		super();
-	}
-
-	public static GtnWsCommonCalculationService getInstance() {
-		if (gtnWsCommonCalculation == null) {
-			gtnWsCommonCalculation = new GtnWsCommonCalculationService();
-		}
-		return gtnWsCommonCalculation;
+	public void disp() {
+		System.out.println("Success");
 	}
 
 	public double getDividedValue(Object numerator, Object denominator) throws EvaluationException {
@@ -40,8 +39,7 @@ public class GtnWsCommonCalculationService {
 		String denominatorStr = gtnWsCalculationValidation.getDoubleValue(second);
 		String expression = convertToPercent ? numeratorStr + "*" + denominatorStr + "*100"
 				: numeratorStr + "*" + denominatorStr;
-		return gtnWsCalculationValidation
-				.getDoubleValue(EVALUATOR.getNumberResult(expression));
+		return gtnWsCalculationValidation.getDoubleValue(EVALUATOR.getNumberResult(expression));
 	}
 
 }

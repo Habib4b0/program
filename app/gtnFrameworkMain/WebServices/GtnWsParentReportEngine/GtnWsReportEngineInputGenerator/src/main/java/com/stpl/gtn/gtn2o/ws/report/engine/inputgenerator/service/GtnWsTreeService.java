@@ -9,23 +9,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 
+@Service
+@Scope(value = "singleton")
 public class GtnWsTreeService {
-
-	private static GtnWsTreeService treeService = null;
-
-	private GtnWsTreeService() {
-		super();
-	}
-
-	public static GtnWsTreeService getInstance() {
-		if (treeService == null) {
-			treeService = new GtnWsTreeService();
-		}
-		return treeService;
-	}
 
 	public GtnWsReportEngineTreeNode buildTree(List<Object[]> resultList, final Map<String, Object[]> hierarchyNames,
 			String indicator) {

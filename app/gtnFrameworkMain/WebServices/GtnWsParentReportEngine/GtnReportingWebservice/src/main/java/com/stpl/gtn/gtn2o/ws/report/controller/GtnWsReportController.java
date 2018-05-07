@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.controller;
+package com.stpl.gtn.gtn2o.ws.report.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
-import com.stpl.gtn.gtn2o.ws.service.GtnWsReportWebsevice;
+import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportWebsevice;
 
 @RestController
 @RequestMapping(value = GtnWsReportConstants.GTN_REPORT_SERVICE)

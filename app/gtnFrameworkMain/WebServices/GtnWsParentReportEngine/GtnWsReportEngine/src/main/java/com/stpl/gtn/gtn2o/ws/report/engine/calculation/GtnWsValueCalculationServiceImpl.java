@@ -2,18 +2,23 @@ package com.stpl.gtn.gtn2o.ws.report.engine.calculation;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.stpl.gtn.gtn2o.ws.report.engine.bean.GtnWsVariableCategoryBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsCalculationValidationService;
 
+@Service
 public class GtnWsValueCalculationServiceImpl implements GtnWsCalculationInterface {
+
+	@Autowired
+	GtnWsCalculationValidationService gtnWsCalculationValidation;
 
 	private GtnWsVariableCategoryBean variableCategoryBean;
 	private GtnWsAttributeBean newAttributes;
 	private int projectionId;
 	private String variableCategory;
-	private final GtnWsCalculationValidationService gtnWsCalculationValidation = GtnWsCalculationValidationService
-			.getInstance();
 
 	@Override
 	public void initiateCalculation(GtnWsVariableCategoryBean variableCategoryBean) {

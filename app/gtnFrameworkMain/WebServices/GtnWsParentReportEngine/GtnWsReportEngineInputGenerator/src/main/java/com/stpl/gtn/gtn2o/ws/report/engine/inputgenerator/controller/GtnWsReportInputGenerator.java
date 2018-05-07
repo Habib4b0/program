@@ -14,7 +14,7 @@ public class GtnWsReportInputGenerator {
 
 	public static final GtnWsCustomSqlClass SQL_INSTANCE = GtnWsCustomSqlClass.getInstance();
 	public static final GtnWsQueryService QUERY = new GtnWsQueryService();
-	public static final GtnWsTreeService TREE_SERVICE = GtnWsTreeService.getInstance();
+	public static final GtnWsTreeService TREE_SERVICE = new GtnWsTreeService();
 
 	public GtnWsReportEngineTreeNode callBuildTree(int caseNo) {
 		List<Object[]> deductionList = QUERY.getDeductionQueryList();

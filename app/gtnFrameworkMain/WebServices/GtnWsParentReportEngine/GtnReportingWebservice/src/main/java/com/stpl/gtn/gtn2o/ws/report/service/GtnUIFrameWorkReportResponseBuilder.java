@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.service;
+package com.stpl.gtn.gtn2o.ws.report.service;
 
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;

@@ -8,7 +8,7 @@ import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTr
 
 public class GtnWsReportClientController {
 
-	private static final GtnWsMongoService MONGO_SERVICE = GtnWsMongoService.getInstance();
+	private static final GtnWsMongoService MONGO_SERVICE = new GtnWsMongoService();
 
 	public static void main(String[] args) {
 		GtnWsReportClientController controller = new GtnWsReportClientController();
