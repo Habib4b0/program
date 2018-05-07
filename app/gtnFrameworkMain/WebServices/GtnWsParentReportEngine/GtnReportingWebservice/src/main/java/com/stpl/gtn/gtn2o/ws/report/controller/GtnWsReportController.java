@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceDateResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
@@ -90,6 +92,18 @@ public class GtnWsReportController {
 		gtnSearchResponse.setResultSet(dataTable);
 		response.setGtnSerachResponse(gtnSearchResponse);
 		return response;
+	}
+	
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOADELIGIBLEDATE_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadForecastEligibleDate(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		GtnUIFrameworkWebserviceDateResponse dateResponse = new GtnUIFrameworkWebserviceDateResponse();
+		Date forecastEligibleDate = gtnWsReportWebsevice.loadForecastEligibleDate();
+		dateResponse.setResultValue(forecastEligibleDate);
+		gtnResponse.setGtnUIFrameworkWebserviceDateResponse(dateResponse);
+		return gtnResponse;
 	}
 
 	@RequestMapping(value = "/hierarchyDefinition", method = RequestMethod.POST)

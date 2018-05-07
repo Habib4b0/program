@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,6 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.gtn.gtn2o.ws.response.duallistbox.GtnUIFrameworkWebserviceDualListBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
 
 @RestController
@@ -251,7 +249,7 @@ public class GtnWsDataSelectionEditController {
 		inputValuesList.add(String.valueOf(inputList.get(4)));
 		inputValuesList.add(String.valueOf(inputList.get(6)));
 		inputValuesList.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
-		Date forecastEligibleDate = (Date) inputList.get(7);
+		Date forecastEligibleDate = gtnUIFrameworkWebserviceRequest.getGtnReportRequest().getForecastEligibleDate();
 		if (forecastEligibleDate != null) {
 			inputValuesList.add(String.valueOf(forecastEligibleDate));
 			inputValuesList.add(String.valueOf(forecastEligibleDate));

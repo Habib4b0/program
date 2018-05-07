@@ -5,23 +5,19 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
-import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
-import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
-import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportCustHierarchyConfig;
 import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
-import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class GtnFrameworkReportLandingScreenConfig {
@@ -456,6 +452,17 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		generateAction.addActionParameter(GtnReportCCPTableLoadAction.class.getName());
 		generateAction.addActionParameter("reportLandingScreen_customerDualListBox");
+		generateAction.addActionParameter("reportLandingScreen_productdualListBoxComp");
+		generateAction.addActionParameter("reportLandingScreen_customerHierarchy");
+		generateAction.addActionParameter("reportLandingScreen_customerSelectionRelationship");
+		generateAction.addActionParameter("reportLandingScreen_customerRelationshipVersion");
+		generateAction.addActionParameter("reportLandingScreen_customerSelectionLevel");
+		generateAction.addActionParameter("reportLandingScreen_customerSelectionForecastEligibilityDate");
+		generateAction.addActionParameter("reportLandingScreen_producthierarchy");
+		generateAction.addActionParameter("reportLandingScreen_relationship");
+		generateAction.addActionParameter("reportLandingScreen_level");
+		generateAction.addActionParameter("reportLandingScreen_productRelationshipVersion");
+		generateAction.addActionParameter("reportLandingScreen_reportDataSource");
 		actionList.add(generateAction);
 		
 		
