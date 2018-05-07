@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class GtnWsReportWebsevice {
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+	
+	@Autowired
+	private GtnWsReportSqlService sqlService;
 
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
@@ -66,6 +70,11 @@ public class GtnWsReportWebsevice {
 			System.out.println("**********" + objects);
 		}
 		return resultList;
+	}
+
+	public Date loadForecastEligibleDate() throws GtnFrameworkGeneralException {
+		List forecastEligibleDate = gtnSqlQueryEngine.executeSelectQuery(sqlService.getQuery("loadForecastEligibleDate"));
+		return forecastEligibleDate != null && !forecastEligibleDate.isEmpty() ? (Date) forecastEligibleDate.get(0) : null;
 	}
 
 }

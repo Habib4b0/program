@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
-import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,8 +32,9 @@ public class GtnWsReportDSGenerateButtonService {
 	public void callCCPInsertService(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		client.callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_CCP_INSERT_SERVICE + GtnWebServiceUrlConstants.GTN_CCP_INSERT,
-				gtnWsRequest, getGsnWsSecurityToken());
+				GtnWebServiceUrlConstants.GTN_CCP_INSERT_SERVICE + GtnWebServiceUrlConstants.GTN_REPORT_CCP_INSERT,
+				gtnWsRequest, getGsnWsSecurityToken(gtnWsRequest.getGtnWsGeneralRequest().getUserId(),
+                                                                    gtnWsRequest.getGtnWsGeneralRequest().getSessionId()));
 	}
 
 	public void buildCustomerTree() {
@@ -59,12 +59,10 @@ public class GtnWsReportDSGenerateButtonService {
 		// Need to get query from reddy
 	}
 
-	public static GtnWsSecurityToken getGsnWsSecurityToken() {
+	public static GtnWsSecurityToken getGsnWsSecurityToken(String userId, String sessionId) {
 		GtnWsSecurityToken token = new GtnWsSecurityToken();
-		Integer sessionId = Calendar.getInstance().get(Calendar.MILLISECOND);
-		String userId = "123";
 		token.setUserId(userId);
-		token.setSessionId(sessionId.toString());
+		token.setSessionId(sessionId);
 		return token;
 	}
 }

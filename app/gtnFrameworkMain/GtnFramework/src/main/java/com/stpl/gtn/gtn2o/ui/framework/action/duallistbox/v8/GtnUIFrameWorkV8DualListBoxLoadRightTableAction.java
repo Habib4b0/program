@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -72,6 +73,7 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 		Set<GtnWsRecordBean> recordBean = leftTable.getSelectedItems();
 		Map<String, String> levelValueMap = (Map<String, String>) dualListBoxBean.getGtnDualListBoxqueryParameters()
 				.get(1);
+		Date forecastEligibleDate = (Date) dualListBoxBean.getGtnDualListBoxqueryParameters().get(7);
 		GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig = dualListBoxBean.getDualListBoxConfig();
 		GtnUIFrameworkHierarchyTreeBuilder treeBuilder = dualListBoxBean.getTreeBuilder();
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
@@ -135,6 +137,7 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 		reportRequest.setHierarchyInputBean((GtnReportHierarchyLevelBean) queryParameters.get(2));
 		reportRequest.setHierarchyLevelList((List<GtnReportHierarchyLevelBean>) queryParameters.get(3));
+		reportRequest.setForecastEligibleDate((Date) queryParameters.get(7));
 		List<GtnWsRecordBean> bean = new ArrayList<>();
 		bean.add(recordBean);
 		reportRequest.setRecordBean(bean);

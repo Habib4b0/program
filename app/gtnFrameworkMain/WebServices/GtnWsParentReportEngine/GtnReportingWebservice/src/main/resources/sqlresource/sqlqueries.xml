@@ -18,4 +18,11 @@ where
     ]]>
 
 	</entry>
+	
+	<entry key="loadForecastEligibleDate">
+	<![CDATA[
+		SELECT  PROJECTION_START_DATE FROM   [Udf_na_proj_dates]('Commercial')
+	]]>
+	
+	</entry>
 </properties>

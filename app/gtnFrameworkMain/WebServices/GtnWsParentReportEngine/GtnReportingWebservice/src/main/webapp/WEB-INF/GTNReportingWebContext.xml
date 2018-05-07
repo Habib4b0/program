@@ -30,7 +30,7 @@
         <!-- <property name="password" value="${jdbc.password}" /> -->
     </bean>
 
-    <bean id="gtnWsReportController" class="com.stpl.gtn.gtn2o.ws.controller.GtnWsReportController">
+    <bean id="gtnWsReportController" class="com.stpl.gtn.gtn2o.ws.report.controller.GtnWsReportController">
         <property name="sessionFactory" ref="sessionFactory"></property>
         <property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
     </bean>
