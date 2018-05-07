@@ -3,6 +3,8 @@ package com.stpl.gtn.gtn2o.ui.dynamicclasses;
 import com.stpl.gtn.gtn2o.ui.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameWorkUICustomTreeAddAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomViewHierarchyLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.pagedtreetable.GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction;
 import com.stpl.gtn.gtn2o.ui.action.pagedtreetable.GtnFrameworkConfigureRightTableHeaderForPTTCompoAction;
 import com.stpl.gtn.gtn2o.ui.action.pagedtreetable.GtnFrameworkFSPTTCompLeftHeaderFormHeaderAndConfigAction;
@@ -44,12 +46,15 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnRelationshipVersionLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnCustomerAvailableTableLoadAction.class.getName(),
 				new GtnCustomerAvailableTableLoadAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnCustomerAvailableTableLoadAction.class.getName(),
-				new GtnCustomerAvailableTableLoadAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnProductLevelAvailableTableLoadAction.class.getName(),
+				new GtnProductLevelAvailableTableLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUICustomViewHierarchyLoadAction.class.getName(),
 				new GtnFrameworkUICustomViewHierarchyLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameWorkUICustomTreeAddAction.class.getName(),
 				new GtnFrameWorkUICustomTreeAddAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportCCPTableLoadAction.class.getName(),
+				new GtnReportCCPTableLoadAction());
+		
 	}
 
 }
