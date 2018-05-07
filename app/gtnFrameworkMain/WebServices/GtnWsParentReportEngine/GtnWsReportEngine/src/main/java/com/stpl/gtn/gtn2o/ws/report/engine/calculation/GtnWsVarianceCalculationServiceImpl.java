@@ -2,6 +2,9 @@ package com.stpl.gtn.gtn2o.ws.report.engine.calculation;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.stpl.gtn.gtn2o.ws.report.engine.bean.GtnWsVariableCategoryBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsCalculationValidationService;
@@ -9,13 +12,15 @@ import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsCalculation
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
 
+@Service
 public class GtnWsVarianceCalculationServiceImpl implements GtnWsCalculationInterface {
+
+	@Autowired
+	GtnWsCalculationValidationService gtnWsCalculationValidation;
 
 	private GtnWsVariableCategoryBean variableCategoryBean;
 	private GtnWsAttributeBean newAttribute;
 	private String variableCategory;
-	private final GtnWsCalculationValidationService gtnWsCalculationValidation = GtnWsCalculationValidationService
-			.getInstance();
 	private int projectionId;
 	private static final Evaluator EVALUATOR = new Evaluator();
 

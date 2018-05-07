@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.stpl.gtn.gtn2o.ws.service;
+package com.stpl.gtn.gtn2o.ws.report.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 /**
  *
  * @author Karthik.Raja
@@ -22,8 +23,8 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 @Service
 public class GtnWsReportingDashBoardSevice {
     
-    
-    GtnWsMongoService MONGO_SERVICE=GtnWsMongoService.getInstance();
+    @Autowired
+    GtnWsMongoService gtnMongoService;
 //    public static void main(String[] args) {
 ////        new GtnWsReportingDashBoardSevice().getDashboardLeftData();
 //    }
@@ -31,7 +32,7 @@ public class GtnWsReportingDashBoardSevice {
         
         String inputs[] =(String[]) gtnWsSearchRequest.getQueryInput() .toArray();
         Object values[] = gtnWsSearchRequest.getQueryInputList().toArray();
-        GtnWsReportEngineTreeNode treeNode = (GtnWsReportEngineTreeNode) MONGO_SERVICE.getTreeFromMongo("Tree", GtnWsReportEngineTreeNode.class, inputs, values);
+        GtnWsReportEngineTreeNode treeNode = (GtnWsReportEngineTreeNode) gtnMongoService.getTreeFromMongo("Tree", GtnWsReportEngineTreeNode.class, inputs, values);
         List<GtnWsRecordBean> data=new ArrayList<>();
         displayNodeValues(treeNode,data,gtnWsSearchRequest.getRecordHeader());
         return data;

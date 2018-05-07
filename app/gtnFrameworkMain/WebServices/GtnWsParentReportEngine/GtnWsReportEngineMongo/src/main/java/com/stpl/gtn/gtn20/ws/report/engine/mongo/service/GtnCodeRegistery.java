@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.service;
+package com.stpl.gtn.gtn20.ws.report.engine.mongo.service;
 
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;

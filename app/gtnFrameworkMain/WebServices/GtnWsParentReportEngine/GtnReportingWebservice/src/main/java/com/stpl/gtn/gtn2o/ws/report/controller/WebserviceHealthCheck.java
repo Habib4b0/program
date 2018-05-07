@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.controller;
+package com.stpl.gtn.gtn2o.ws.report.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

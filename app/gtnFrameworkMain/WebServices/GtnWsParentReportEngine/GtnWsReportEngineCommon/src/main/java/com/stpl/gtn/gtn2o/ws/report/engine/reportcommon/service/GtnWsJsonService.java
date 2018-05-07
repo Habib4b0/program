@@ -18,7 +18,7 @@ public class GtnWsJsonService {
 
 	public static GtnWsJsonService getInstance() {
 		if (JSON_SERVICE == null) {
-			JSON_SERVICE = new GtnWsJsonService();	
+			JSON_SERVICE = new GtnWsJsonService();
 		}
 		return JSON_SERVICE;
 	}

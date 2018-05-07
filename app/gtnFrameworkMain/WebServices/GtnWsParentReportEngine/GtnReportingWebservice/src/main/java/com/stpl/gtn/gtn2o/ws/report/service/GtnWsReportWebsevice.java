@@ -1,16 +1,13 @@
-package com.stpl.gtn.gtn2o.ws.service;
+package com.stpl.gtn.gtn2o.ws.report.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
 
 @Service
 public class GtnWsReportWebsevice {
@@ -56,7 +53,6 @@ public class GtnWsReportWebsevice {
 		return resultList;
 
 	}
-
 
 	public List<Object[]> loadProductHierarchyResults() throws GtnFrameworkGeneralException {
 		Object[] params = { "Product Hierarchy", "%", "Primary" };

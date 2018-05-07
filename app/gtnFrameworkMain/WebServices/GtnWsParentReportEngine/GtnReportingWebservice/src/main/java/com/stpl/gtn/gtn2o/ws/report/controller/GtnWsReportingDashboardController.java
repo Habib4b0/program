@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.stpl.gtn.gtn2o.ws.controller;
+package com.stpl.gtn.gtn2o.ws.report.controller;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
-import com.stpl.gtn.gtn2o.ws.service.GtnWsReportingDashBoardSevice;
+import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportingDashBoardSevice;
 
 /**
  *

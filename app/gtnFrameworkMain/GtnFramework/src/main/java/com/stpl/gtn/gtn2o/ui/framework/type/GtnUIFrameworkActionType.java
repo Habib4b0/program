@@ -57,6 +57,10 @@ import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.GtnUIFrameWorkDualList
 import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.GtnUIFrameWorkDualListBoxLoadRightTableAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.GtnUIFrameWorkDualListBoxLoadRightTableBulkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.GtnUIFrameWorkDuallistBoxRightToLeftTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameWorkV8DualListBoxLoadLeftTableAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameWorkV8DualListBoxLoadRightTableAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameWorkV8DuallistBoxRightToLeftTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnFrameworkDateCompareValidationAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameWorkValidationAction;
 
@@ -174,7 +178,15 @@ public enum GtnUIFrameworkActionType {
 
 	V8_POP_UP_SELECT_ACTION(new GtnUIFrameworkV8PopupSelectAction()),
 
-	GRID_STATIC_LOAD_ACTION(new GtnUIFrameWorkGridStaticLoadAction());
+	GRID_STATIC_LOAD_ACTION(new GtnUIFrameWorkGridStaticLoadAction()),
+	
+	V8DUAL_LISTBOX_LEFT_TABLE_LOADACTION(new GtnUIFrameWorkV8DualListBoxLoadLeftTableAction()),
+	
+	V8DUAL_LISTBOX_RIGHT_TABLE_LOADACTION(new GtnUIFrameWorkV8DualListBoxLoadRightTableAction()),
+	
+	V8DUAL_LISTBOX_RIGHT_TO_LEFT_TABLE_LOADACTION(new GtnUIFrameWorkV8DuallistBoxRightToLeftTableLoadAction()),
+	
+	V8DUAL_LISTBOX_ALL_BUTTON_LOADACTION(new GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction());
 
 	private final GtnUIFrameWorkAction gtnUIFrameWorkAction;
 

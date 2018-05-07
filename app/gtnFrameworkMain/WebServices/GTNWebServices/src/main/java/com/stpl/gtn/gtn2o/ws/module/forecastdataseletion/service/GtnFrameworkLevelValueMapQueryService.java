@@ -12,8 +12,10 @@ import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSelectColumnRelationBean;
+import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkJoinType;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
@@ -31,6 +33,8 @@ public class GtnFrameworkLevelValueMapQueryService {
 	private GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
+	@Autowired
+	private GtnFrameworkSqlQueryEngine gtnFrameworkSqlQueryEngine;
 	private static final String RELATIONSHIP_BUILD_VERSION = "RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO";
 	private static final String RELATIONSHIP_BUILD_HIERARCHY_NO = "RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO";
 	private static final String RELATIONSHIP_LEVEL_DEFN = "RELATIONSHIP_LEVEL_DEFINITION";
@@ -92,5 +96,27 @@ public class GtnFrameworkLevelValueMapQueryService {
 		return "";
 	}
 
+	public List<Object[]> getLevelValueMap(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
+		List<Object[]> resultList = (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(inputBean.getHieraryQuery());
+ 		return resultList;
+	}
+
+	public List<Object[]> getHierarchyLevelValues(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
+		String query = gtnWsSqlService.getQuery("getHierarchyLevelVlaues");
+		Object[] params = {inputBean.getHierarchyDefinitionSid(), inputBean.getHierarchyVersionNo()};
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER , GtnFrameworkDataType.INTEGER};
+		List<Object[]> resultList = (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(query, params,paramsType);
+		return resultList;
+	}
+
+	public List<Object[]> getCustomerLevels(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
+		List<Object[]> resultList = (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(inputBean.getHieraryQuery());
+		return resultList;
+	}
+	
+	public List<Object[]> loadCustHierarchyAvailableTable(String query) throws GtnFrameworkGeneralException {
+		List<Object[]> resultList = (List<Object[]>) gtnFrameworkSqlQueryEngine.executeSelectQuery(query);
+		return resultList;
+	}
 
 }
