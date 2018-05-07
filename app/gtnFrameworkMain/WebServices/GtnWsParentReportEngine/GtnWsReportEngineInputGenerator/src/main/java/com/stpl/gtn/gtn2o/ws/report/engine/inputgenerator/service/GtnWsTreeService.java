@@ -68,6 +68,11 @@ public class GtnWsTreeService {
 			List<Object[]> deductionList, List<Object[]> ccpResult) {
 		processCustomTree(root, customTreeData, customerRootNode, productRootNode, deductionList, ccpResult);
 
+		List<GtnWsReportVariablesType> variableList = customTreeData.getVariableList();
+		if (variableList != null) {
+			buildFixedVariableTree(root, customTreeData.getCurrentTreeLevelNo(), variableList);
+		}
+
 		if (customTreeData.getChild() != null) {
 			buildCustomTree(root, customTreeData.getChild(), customerRootNode, productRootNode, deductionList,
 					ccpResult);
