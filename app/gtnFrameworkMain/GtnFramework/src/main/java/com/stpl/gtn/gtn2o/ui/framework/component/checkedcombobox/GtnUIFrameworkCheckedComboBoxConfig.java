@@ -11,7 +11,6 @@ public class GtnUIFrameworkCheckedComboBoxConfig {
 	private String checkedComboBoxType;
 	private String defaultValue;
 	private String blurListenerClassName;
-
 	private List<String> itemValueList;
 
 	public GtnUIFrameworkCheckedComboBoxConfig() {

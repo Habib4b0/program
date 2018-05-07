@@ -13,4 +13,13 @@ public enum GtnWsHierarchyType {
 	public String toString() {
 		return type;
 	}
+
+	public static GtnWsHierarchyType fromString(String type) {
+		for (GtnWsHierarchyType hierarchyType : values()) {
+			if (hierarchyType.type.equals(type)) {
+				return hierarchyType;
+			}
+		}
+		throw new IllegalArgumentException("No type found for " + type);
+	}
 }

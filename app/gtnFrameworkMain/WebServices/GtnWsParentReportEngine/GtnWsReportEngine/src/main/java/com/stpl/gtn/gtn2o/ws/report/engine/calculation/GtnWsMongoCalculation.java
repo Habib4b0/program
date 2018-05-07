@@ -77,7 +77,8 @@ public class GtnWsMongoCalculation {
 				GtnWsTreeNodeAttributeBean calculatedAttributes = new GtnWsTreeNodeAttributeBean();
 				GtnWsAttributeBean newAttributes = new GtnWsAttributeBean();
 				newAttributes.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());
-				newAttributes.putAttributes("parentHierarchyNo", gtnWsTreeNode.getParent().getHierarchyNo());
+				// newAttributes.putAttributes("parentHierarchyNo",
+				// gtnWsTreeNode.getParent().getHierarchyNo());
 				newAttributes.putAttributes("RsId", gtnWsTreeNode.getRsIds());
 				newAttributes.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
 				callVariableCategoryLogic(currentAttributes, newAttributes, finalNode, categoryBean);

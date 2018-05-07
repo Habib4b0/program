@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn20.ws.report.engine.client.controller;
 
-import com.stpl.gtn.gtn20.ws.report.engine.client.service.GtnWsRawDataCustomiseService;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
 import com.stpl.gtn.gtn2o.ws.report.engine.engine.GtnGenerateReportEngine;
 import com.stpl.gtn.gtn2o.ws.report.engine.inputgenerator.controller.GtnWsReportInputGenerator;
@@ -17,23 +16,22 @@ public class GtnWsReportClientController {
 	}
 
 	public void getWsReportClientController() {
-            try{
-                GtnWsReportInputGenerator inputGenerator = new GtnWsReportInputGenerator();
-		GtnWsReportEngineTreeNode input = inputGenerator.callBuildTree(9);
-		new GtnWsRawDataCustomiseService().generateDataToMongo();
-		GtnWsReportEngineTreeNode outputTree = getGtnGeneratedReportOutput(input);
-		System.out.println("outputTree = " + outputTree);
-
-		MONGO_SERVICE.createCollection("computedResults1");
-		MONGO_SERVICE.updateFinalResultsToMongo("computedResults1", outputTree);
-
-		MONGO_SERVICE.writeTreeToMongo("Tree", input);
-                String inputs[]={"levelNumber"};
-                Object values[]={1};
-                inputGenerator.displayNodeValues((GtnWsReportEngineTreeNode) MONGO_SERVICE.getTreeFromMongo("Tree",GtnWsReportEngineTreeNode.class,inputs,values));
-            }catch(Exception ex){
-                ex.printStackTrace();
-            }
+		try {
+			GtnWsReportInputGenerator inputGenerator = new GtnWsReportInputGenerator();
+			GtnWsReportEngineTreeNode input = inputGenerator.callBuildTree(26);
+			// new GtnWsRawDataCustomiseService().generateDataToMongo();
+			// GtnWsReportEngineTreeNode outputTree = getGtnGeneratedReportOutput(input);
+			// System.out.println("outputTree = " + outputTree);
+			//
+			// MONGO_SERVICE.createCollection("computedResults");
+			// MONGO_SERVICE.updateFinalResultsToMongo("computedResults", outputTree);
+			//
+			// MONGO_SERVICE.writeTreeToMongo("Tree", input);
+			// inputGenerator.displayNodeValues(MONGO_SERVICE.getTreeFromMongo("Tree"));
+			GtnWsReportInputGenerator.shutdown();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	private GtnWsReportEngineTreeNode getGtnGeneratedReportOutput(GtnWsReportEngineTreeNode input) {

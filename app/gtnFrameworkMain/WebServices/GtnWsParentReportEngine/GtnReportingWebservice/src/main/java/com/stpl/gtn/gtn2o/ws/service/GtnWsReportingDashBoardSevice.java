@@ -6,14 +6,15 @@
 
 package com.stpl.gtn.gtn2o.ws.service;
 
-import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.stereotype.Service;
+
+import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 /**
  *
  * @author Karthik.Raja

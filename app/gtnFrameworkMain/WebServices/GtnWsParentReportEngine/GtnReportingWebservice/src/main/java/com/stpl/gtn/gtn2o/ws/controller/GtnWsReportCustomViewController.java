@@ -33,4 +33,14 @@ public class GtnWsReportCustomViewController {
 		return response;
 	}
 
+	@RequestMapping(value = GtnWsReportEndPointUrlConstants.SAVE_CUSTOM_TREE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse saveCustomTree(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameWorkReportResponseBuilder().withCustomViewBean()
+				.build();
+
+		service.saveCustomViewTree(gtnWsRequestF);
+
+		return response;
+	}
+
 }

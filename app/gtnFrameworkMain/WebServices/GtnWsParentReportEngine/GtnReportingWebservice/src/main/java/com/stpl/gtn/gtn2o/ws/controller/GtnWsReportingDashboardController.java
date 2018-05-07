@@ -6,24 +6,24 @@
 
 package com.stpl.gtn.gtn2o.ws.controller;
 
-import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
-import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
-import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportRespose;
-import com.stpl.gtn.gtn2o.ws.service.GtnWsReportingDashBoardSevice;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsReportingDashBoardSevice;
 
 /**
  *
@@ -66,12 +66,12 @@ public class GtnWsReportingDashboardController {
 			throws GtnFrameworkGeneralException {
 		List<GtnWsRecordBean> resultList;
                 GtnWsSearchRequest gtnWsSearchRequest= request.getGtnWsSearchRequest();
-		GtnWsReportRespose gtnWsReportRespose = new GtnWsReportRespose();
+		GtnWsReportResponse gtnWsReportRespose = new GtnWsReportResponse();
 
                 GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 			resultList = gtnWsReportingDashBoardSevice.getDashboardLeftData(gtnWsSearchRequest);
-		gtnWsReportRespose.setResultList(resultList);
-		response.setGtnWsReportRespose(gtnWsReportRespose);
+		gtnWsReportRespose.setRecordBeanResultList(resultList);
+		response.setGtnWsReportResponse(gtnWsReportRespose);
 		return response;
 	}
 }
