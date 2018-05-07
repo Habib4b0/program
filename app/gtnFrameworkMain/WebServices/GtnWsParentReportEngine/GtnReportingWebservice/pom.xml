@@ -55,10 +55,21 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-			<groupId>com.stpl.gtn.gtn2o.ws.report.engine</groupId>
-			<artifactId>GtnWsReportEngineInputGenerator</artifactId>
-			<version>1.0</version>
-		</dependency>
+            <groupId>com.stpl.gtn.gtn2o.ws.report.engine</groupId>
+            <artifactId>GtnWsReportEngineInputGenerator</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.stpl.gtn.gtn2o</groupId>
+            <artifactId>GtnWsSecurity</artifactId>
+            <version>${gtnsecurity.version}</version>
+            <type>jar</type>            
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jsonwebtoken.version}</version>
+        </dependency>        
     </dependencies>
     <build>
         <finalName>GtnReportingWebservice</finalName>

@@ -33,5 +33,14 @@ public class GtnFrameworkCCPInsertController {
 		service.insertToCPPTable(inputBean);
 		return new GtnUIFrameworkWebserviceResponse();
 	}
+        
+        @RequestMapping(value = GtnWebServiceUrlConstants.GTN_REPORT_CCP_INSERT, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse ccpInsertToReportingg(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+		GtnWsForecastRequest reportRequet = gtnWsRequest.getGtnWsForecastRequest();
+		GtnForecastHierarchyInputBean inputBean = reportRequet.getInputBean();
+		service.insertToCPPTableReporting(inputBean);
+		return new GtnUIFrameworkWebserviceResponse();
+	}
 
 }

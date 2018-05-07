@@ -1,11 +1,11 @@
 package com.stpl.gtn.gtn2o.ws.module.forecastdataseletion.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,6 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.gtn.gtn2o.ws.response.duallistbox.GtnUIFrameworkWebserviceDualListBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
 
 @RestController
@@ -228,6 +227,8 @@ public class GtnWsDataSelectionEditController {
 	public GtnUIFrameworkWebserviceResponse loadCustHierarchyRightTable(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
 			throws GtnFrameworkGeneralException {
+		String dateFormat = "yyyy-MM-dd";
+		SimpleDateFormat dateFormatter = new SimpleDateFormat(dateFormat);
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		List<Object> inputList = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getQueryInputList();
 		List<GtnWsRecordBean> recordBean = gtnUIFrameworkWebserviceRequest.getGtnReportRequest().getRecordBean();
@@ -251,10 +252,10 @@ public class GtnWsDataSelectionEditController {
 		inputValuesList.add(String.valueOf(inputList.get(4)));
 		inputValuesList.add(String.valueOf(inputList.get(6)));
 		inputValuesList.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
-		Date forecastEligibleDate = (Date) inputList.get(7);
+		Date forecastEligibleDate = gtnUIFrameworkWebserviceRequest.getGtnReportRequest().getForecastEligibleDate();
 		if (forecastEligibleDate != null) {
-			inputValuesList.add(String.valueOf(forecastEligibleDate));
-			inputValuesList.add(String.valueOf(forecastEligibleDate));
+			inputValuesList.add(dateFormatter.format(forecastEligibleDate));
+			inputValuesList.add(dateFormatter.format(forecastEligibleDate));
 			inputQuery.append("AND (CONTRACT_ELIGIBLE_DATE >= '?' OR CONTRACT_ELIGIBLE_DATE IS NULL)");
 			inputQuery.append("AND (CFP_ELIGIBLE_DATE >= '?' OR CFP_ELIGIBLE_DATE IS NULL)");
 		}

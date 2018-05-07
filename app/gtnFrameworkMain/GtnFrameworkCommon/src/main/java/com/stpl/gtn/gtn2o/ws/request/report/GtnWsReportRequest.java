@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.request.report;
 
+import java.util.Date;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
@@ -23,6 +24,7 @@ public class GtnWsReportRequest {
 	private GtnWsReportCustomViewBean customViewBean;
 	private List<GtnWsRecordBean> recordBean;
 	private List<GtnReportHierarchyLevelBean> hierarchyLevelList;
+	private Date forecastEligibleDate;
 
 	public List<Object[]> getResultList() {
 		return resultList;
@@ -104,4 +106,12 @@ public class GtnWsReportRequest {
 		this.hierarchyLevelList = hierarchyLevelList;
 	}
 
+	public Date getForecastEligibleDate() {
+		return forecastEligibleDate;
+	}
+
+	public void setForecastEligibleDate(Date forecastEligibleDate) {
+		this.forecastEligibleDate = forecastEligibleDate;
+	}
+	
 }

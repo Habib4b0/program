@@ -178,6 +178,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		GtnUIFrameworkComboBoxConfig customerRelationshipVersionConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		customerRelationshipVersionConfig.setHasDefaultValue(true);
 		customerRelationshipVersion.setGtnComboboxConfig(customerRelationshipVersionConfig);
 		
 
@@ -230,6 +231,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionForecastEligibilityDateConfig.setValueLoadFromService(true);
 		customerSelectionForecastEligibilityDateConfig.setLoadingUrl(
 				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_REPORT_LOADELIGIBLEDATE_SERVICE);
+                customerSelectionForecastEligibilityDate.setGtnDateFieldConfig(customerSelectionForecastEligibilityDateConfig);
 
 		componentList.add(customerSelectionHierarchyLayout);
 		componentList.add(customerSelectionHierarchy);

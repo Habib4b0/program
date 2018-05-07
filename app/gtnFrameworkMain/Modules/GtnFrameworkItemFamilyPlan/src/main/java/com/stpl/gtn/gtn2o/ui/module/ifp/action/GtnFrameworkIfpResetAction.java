@@ -191,12 +191,12 @@ public class GtnFrameworkIfpResetAction
 
 	public void setValueToComponents(GtnIFamilyPlanBean bean, String componentId) throws GtnFrameworkGeneralException {
 		GtnIFamilyPlanInformationBean ifpInfoBean = bean.getIfpInfo();
-		List<Object> ifpFieldValues = Arrays.asList(new Object[] { ifpInfoBean.getIfpId(), ifpInfoBean.getIfpNo(),
+		List<Object> ifpFieldValues = Arrays.asList(ifpInfoBean.getIfpId(), ifpInfoBean.getIfpNo(),
 				ifpInfoBean.getIfpName(), ifpInfoBean.getIfpId(), ifpInfoBean.getIfpNo(), ifpInfoBean.getIfpName(),
 				ifpInfoBean.getIfpStatus(), ifpInfoBean.getIfpStartDate(), ifpInfoBean.getIfpEndDate(),
 				ifpInfoBean.getIfpType(), ifpInfoBean.getIfpCategory(), ifpInfoBean.getIfpDesignation(),
 				ifpInfoBean.getParentIfpId(), ifpInfoBean.getParentIfpName(), ifpInfoBean.getCreatedDate(),
-				ifpInfoBean.getModifiedDate(), ifpInfoBean.getModifiedBy() });
+				ifpInfoBean.getModifiedDate(), ifpInfoBean.getModifiedBy());
 
 		GtnUIFrameWorkActionConfig ifpResetDefaultValueActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
