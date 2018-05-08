@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn20.ws.report.engine.hibernate.GtnWsCustomSqlClass;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.report.engine.inputgenerator.service.GtnWsQueryService;
 import com.stpl.gtn.gtn2o.ws.report.engine.inputgenerator.service.GtnWsTreeService;
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportVariablesType;
 
 public class GtnWsReportInputGenerator {
 
@@ -35,8 +35,8 @@ public class GtnWsReportInputGenerator {
 		List<Object[]> customLevelDeatils = QUERY.getCustomViewWithDiscountLevel(caseNo);
 
 		List<GtnWsReportVariablesType> variableList = new ArrayList<>();
-		variableList.add(GtnWsReportVariablesType.EX_FACTORY);
-		variableList.add(GtnWsReportVariablesType.GTS);
+		variableList.add(GtnWsReportVariablesType.CONTRACT_UNITS);
+		variableList.add(GtnWsReportVariablesType.CS_TOTAL_CONTRACT_SALES);
 
 		GtnWsReportEngineTreeNode root = new GtnWsReportEngineTreeNode();
 

@@ -243,13 +243,6 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		componentList.add(searchResultConfig);
 		GtnUIFrameworkPagedTableConfig searchResults = new GtnUIFrameworkPagedTableConfig();
 
-//		searchResults.setEditable(false);
-//		searchResults.setFilterBar(true);
-//		searchResults.setSelectable(false);
-//		searchResults.setPageLength(10);
-//		searchResults.setItemPerPage(10);
-//		searchResults.setSelectable(true);
-//		searchResults.setSinkItemPerPageWithPageLength(false);
 		searchResults.setColumnHeaders( Arrays.asList("HierarchyName", "Highest Level", "Lowest Level",
 				GtnFrameworkCommonConstants.CREATED_DATE_HEADER, GtnFrameworkCommonConstants.MODIFIED_DATE_HEADER));
 		searchResults.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVA_LANG_STRING,
@@ -262,21 +255,6 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 				+ GtnWsReportConstants.GTN_REPORT_PRODUCTHIERARCHY_SEARCHSERVICE);
 		searchResults.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_PRODUCTHIERARCHY_SEARCHSERVICE);
-		/*searchResults.setCountQuery(Query.getCountProductHierarchy);
-		searchResults.setDataQuery(Query.getDataProductHierarchy);
-		searchResults
-				.setCountQueryInputs(new String[] {
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkCommonConstants.HIERARCHY_NAME,
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkCommonConstants.HIERARCHY_TYPE });
-		searchResults
-				.setDataQueryInputs(new String[] {
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkCommonConstants.HIERARCHY_NAME,
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkCommonConstants.HIERARCHY_TYPE });*/
-
 		searchResults.setCustomFilterConfigMap(getCustomFilterConfig());
 		searchResultConfig.setGtnPagedTableConfig(searchResults);
 	}
@@ -341,7 +319,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		actionParameter.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
 		actionParameter.add("reportLandingScreen_producthierarchy");
-		actionParameter.add(Arrays.asList("highestLevel"));
+		actionParameter.add(Arrays.asList("hierName"));
 		actionParameter
 				.add(Arrays.asList("reportLandingScreen_producthierarchy"));
 

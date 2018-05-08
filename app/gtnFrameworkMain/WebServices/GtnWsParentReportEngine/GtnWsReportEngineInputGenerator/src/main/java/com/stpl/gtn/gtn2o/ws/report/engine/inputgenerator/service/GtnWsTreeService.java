@@ -12,10 +12,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsCustomTreeData;
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportVariablesType;
 
 @Service
 @Scope(value = "singleton")
@@ -83,7 +83,7 @@ public class GtnWsTreeService {
 			GtnWsReportEngineTreeNode customerRootNode, GtnWsReportEngineTreeNode productRootNode,
 			List<Object[]> deductionList, List<Object[]> ccpResult) {
 
-		if (GtnWsHierarchyType.ALLVARIABLE.equals(customTreeData.getHierarchyType())) {
+		if (GtnWsHierarchyType.VARIABLES.equals(customTreeData.getHierarchyType())) {
 			buildAllVariableTree(root, customTreeData.getCurrentTreeLevelNo(), customTreeData.getVariableList());
 		}
 		if (GtnWsHierarchyType.CUSTOMER.equals(customTreeData.getHierarchyType())) {
@@ -189,7 +189,7 @@ public class GtnWsTreeService {
 				node.setLevelName(variable.toString());
 				node.setLevelValue(variable.toString());
 				node.setLevelNumber(levelNo);
-				node.setIndicator(GtnWsHierarchyType.ALLVARIABLE);
+				node.setIndicator(GtnWsHierarchyType.VARIABLES);
 				node.setHierarchyNo(levelNo + "~" + variable);
 				node.setDiscountAvailable(root.isDiscountAvailable());
 				root.addChildren(node);
@@ -204,9 +204,9 @@ public class GtnWsTreeService {
 					node.setLevelName(variable.toString());
 					node.setLevelValue(variable.toString());
 					node.setLevelNumber(levelNo);
-					node.setIndicator(GtnWsHierarchyType.ALLVARIABLE);
+					node.setIndicator(GtnWsHierarchyType.VARIABLES);
 					node.setHierarchyNo(gtnWsReportEngineTreeNode.getHierarchyNo() + "~"
-							+ gtnWsReportEngineTreeNode.getIndicator() + "~" + variable);
+							+ gtnWsReportEngineTreeNode.getIndicator().toString() + "~" + variable);
 					node.setCcpIds(gtnWsReportEngineTreeNode.getCcpIds());
 					node.setRsIds(gtnWsReportEngineTreeNode.getRsIds());
 					node.setDiscountAvailable(root.isDiscountAvailable());
@@ -254,8 +254,8 @@ public class GtnWsTreeService {
 		List<GtnWsReportEngineTreeNode> resultList = new ArrayList<>();
 		for (Entry<Object, Set<Integer>> discountNode : distinctDiscountNode.entrySet()) {
 			GtnWsReportEngineTreeNode discountTreeNode = new GtnWsReportEngineTreeNode();
-			discountTreeNode
-					.setHierarchyNo(root.getHierarchyNo() + "~" + root.getIndicator() + "~" + discountNode.getKey());
+			discountTreeNode.setHierarchyNo(
+					root.getHierarchyNo() + "~" + root.getIndicator().toString() + "~" + discountNode.getKey());
 			discountTreeNode.setRsIds(discountNode.getValue());
 			discountTreeNode.setIndicator(GtnWsHierarchyType.DEDUCTION);
 			discountTreeNode.setParentHierarchyNo(root.getParentHierarchyNo());
@@ -312,10 +312,11 @@ public class GtnWsTreeService {
 		String hierarchyNo = root.getHierarchyNo();
 
 		boolean discountFlag = GtnWsHierarchyType.DEDUCTION.equals(root.getIndicator());
-		boolean allVariableFlag = GtnWsHierarchyType.ALLVARIABLE.equals(root.getIndicator());
+		boolean allVariableFlag = GtnWsHierarchyType.VARIABLES.equals(root.getIndicator());
 		if (discountFlag || allVariableFlag) {
 			String[] discountHierarchyNo = root.getHierarchyNo().split("~");
-			currentHierarchyIndex = GtnWsHierarchyType.CUSTOMER.equals(discountHierarchyNo[1]) ? 1 : 2;
+			currentHierarchyIndex = GtnWsHierarchyType.CUSTOMER
+					.equals(GtnWsHierarchyType.fromString(discountHierarchyNo[1])) ? 1 : 2;
 			hierarchyNo = discountHierarchyNo[0];
 		}
 		for (GtnWsReportEngineTreeNode node : nodeList) {
@@ -345,7 +346,7 @@ public class GtnWsTreeService {
 	private void setParentDetails(GtnWsReportEngineTreeNode root, GtnWsReportEngineTreeNode copyNode) {
 		if (root.getIndicator().equals(copyNode.getIndicator())
 				|| GtnWsHierarchyType.DEDUCTION.equals(root.getIndicator())
-				|| GtnWsHierarchyType.ALLVARIABLE.equals(root.getIndicator())) {
+				|| GtnWsHierarchyType.VARIABLES.equals(root.getIndicator())) {
 			copyNode.setParentIndicator(root.getParentIndicator());
 			copyNode.setParentHierarchyNo(root.getParentHierarchyNo());
 		} else {
@@ -359,14 +360,15 @@ public class GtnWsTreeService {
 	private List<GtnWsReportEngineTreeNode> applyHierarchyFilter(GtnWsReportEngineTreeNode root,
 			List<GtnWsReportEngineTreeNode> nodeList, List<Object[]> ccpResult, int currentLevel) {
 		List<GtnWsReportEngineTreeNode> resultList = new ArrayList<>();
-		int currentHierarchyIndex = "C".equals(root.getIndicator()) ? 1 : 2;
+		int currentHierarchyIndex = GtnWsHierarchyType.CUSTOMER.equals(root.getIndicator()) ? 1 : 2;
 		String hierarchyNo = root.getHierarchyNo();
 
 		boolean discountFlag = GtnWsHierarchyType.DEDUCTION.equals(root.getIndicator());
-		boolean allVariableFlag = GtnWsHierarchyType.ALLVARIABLE.equals(root.getIndicator());
+		boolean allVariableFlag = GtnWsHierarchyType.VARIABLES.equals(root.getIndicator());
 		if (discountFlag || allVariableFlag) {
 			String[] discountHierarchyNo = root.getHierarchyNo().split("~");
-			currentHierarchyIndex = GtnWsHierarchyType.CUSTOMER.equals(discountHierarchyNo[1]) ? 1 : 2;
+			currentHierarchyIndex = GtnWsHierarchyType.CUSTOMER
+					.equals(GtnWsHierarchyType.fromString(discountHierarchyNo[1])) ? 1 : 2;
 			hierarchyNo = discountHierarchyNo[0];
 		}
 
