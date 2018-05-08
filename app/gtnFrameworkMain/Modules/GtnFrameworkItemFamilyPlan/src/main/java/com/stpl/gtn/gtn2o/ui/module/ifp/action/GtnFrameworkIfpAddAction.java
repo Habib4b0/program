@@ -66,11 +66,11 @@ public class GtnFrameworkIfpAddAction
 	public void setValueToComponents(String componentId) throws GtnFrameworkGeneralException {
 		GtnIFamilyPlanInformationBean info = new GtnIFamilyPlanInformationBean();
 
-		List<Object> ifpFieldValues = Arrays.asList(
-				new Object[] { info.getIfpId(), info.getIfpNo(), info.getIfpName(), info.getIfpId(), info.getIfpNo(),
-						info.getIfpName(), info.getIfpStatus(), info.getIfpStartDate(), info.getIfpEndDate(),
-						info.getIfpType(), info.getIfpCategory(), info.getIfpDesignation(), info.getParentIfpId(),
-						info.getParentIfpName(), new Date(), null, GtnFrameworkCommonStringConstants.STRING_EMPTY });
+		List<Object> ifpFieldValues = Arrays.asList(info.getIfpId(), info.getIfpNo(), info.getIfpName(),
+				info.getIfpId(), info.getIfpNo(), info.getIfpName(), info.getIfpStatus(), info.getIfpStartDate(),
+				info.getIfpEndDate(), info.getIfpType(), info.getIfpCategory(), info.getIfpDesignation(),
+				info.getParentIfpId(), info.getParentIfpName(), new Date(), null,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY);
 
 		GtnUIFrameWorkActionConfig ifpAddDefaultValueActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.SET_DEFAULT_ACTION);

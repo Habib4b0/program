@@ -481,6 +481,7 @@ public class GtnFrameworkPSSearchConfig {
 		addAddButtonComponent(componentList);
 		addEditButtonComponent(componentList);
 		addViewButtonComponent(componentList);
+		addCopyButtonComponent(componentList);
 		addExcelButtonComponent(componentList);
 	}
 
@@ -521,7 +522,6 @@ public class GtnFrameworkPSSearchConfig {
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		
 
 		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getAddDisableField()));
 		psAddButtonActionConfigList.add(disableAction);
@@ -608,21 +608,18 @@ public class GtnFrameworkPSSearchConfig {
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
 		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-		
 
 		enableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getAddEditEnableField()));
 		psEditButtonActionConfigList.add(enableAction);
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		
 
 		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getAddEditDisableField()));
 		psEditButtonActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		
 
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.TRUE);
@@ -678,14 +675,12 @@ public class GtnFrameworkPSSearchConfig {
 
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		
 
 		disableAction.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getAddViewDisableField()));
 		psViewButtonActionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
 		visibleAction.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
-		
 
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.FALSE);
@@ -695,6 +690,82 @@ public class GtnFrameworkPSSearchConfig {
 		psViewButtonActionConfigList.add(visibleAction);
 
 		psViewButtonConfig.setGtnUIFrameWorkActionConfigList(psViewButtonActionConfigList);
+
+	}
+
+	private void addCopyButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
+
+		GtnUIFrameworkComponentConfig psCopyBtnConfig = configProvider.getUIFrameworkComponentConfig("psCopyBtn", true,
+				GtnFrameworkCommonConstants.ACTION_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
+		psCopyBtnConfig.setComponentName("COPY");
+		psCopyBtnConfig.setAuthorizationIncluded(true);
+
+		componentList.add(psCopyBtnConfig);
+
+		List<GtnUIFrameWorkActionConfig> cpyActionConfigList = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig copyModeActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.MODE_CHANGE);
+		copyModeActionConfig.addActionParameter(GtnUIFrameworkModeType.EDIT);
+		cpyActionConfigList.add(copyModeActionConfig);
+
+		GtnUIFrameWorkActionConfig psCopyButtonAlertActionConfig = new GtnUIFrameWorkActionConfig();
+		psCopyButtonAlertActionConfig.setActionType(GtnUIFrameworkActionType.TABLE_ALERT_ACTION);
+		List<Object> psCopyButtonAlertParamsList = new ArrayList<>();
+		psCopyButtonAlertParamsList.add(GtnFrameworkCommonConstants.PS_SEARCH_RESULT_TABLE);
+		psCopyButtonAlertParamsList.add(GtnFrameworkPSConstants.ERROR_MESSAGE_COPY_HEADER);
+		psCopyButtonAlertParamsList.add(GtnFrameworkPSConstants.ERROR_MESSAGE_COPY_MESSAGE);
+		psCopyButtonAlertActionConfig.setActionParameterList(psCopyButtonAlertParamsList);
+
+		cpyActionConfigList.add(psCopyButtonAlertActionConfig);
+
+		GtnUIFrameWorkActionConfig copyNavigationAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.NAVIGATION_ACTION);
+		copyNavigationAction.setActionParameterList(Arrays.asList(GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW));
+		cpyActionConfigList.add(copyNavigationAction);
+
+		GtnUIFrameWorkActionConfig setDefaultCopyConfigAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
+		setDefaultCopyConfigAction.setActionParameterList(getDefaultFieldValueList());
+		cpyActionConfigList.add(setDefaultCopyConfigAction);
+
+		GtnUIFrameWorkActionConfig captionChangeConfigAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CHANGE_CAPTION);
+		captionChangeConfigAction.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON));
+		captionChangeConfigAction.addActionParameter(Arrays.asList("SAVE"));
+		cpyActionConfigList.add(captionChangeConfigAction);
+
+		GtnUIFrameWorkActionConfig enableActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ENABLE_ACTION);
+		getObjectArray(enableActionConfig);
+		cpyActionConfigList.add(enableActionConfig);
+
+		GtnUIFrameWorkActionConfig disableActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.DISABLE_ACTION);
+		disableActionConfig.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getPsCopyDisableFields()));
+		cpyActionConfigList.add(disableActionConfig);
+
+		GtnUIFrameWorkActionConfig visibleActionConfig = new GtnUIFrameWorkActionConfig();
+		visibleActionConfig.setActionType(GtnUIFrameworkActionType.VISIBLE_ACTION);
+
+		List<Object> visibleParameters = makeParameterList();
+
+		visibleActionConfig.setActionParameterList(visibleParameters);
+		cpyActionConfigList.add(visibleActionConfig);
+
+		GtnUIFrameWorkActionConfig editActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.EDIT_ACTION);
+		List<Object> parameters = new ArrayList<>();
+		parameters.add(GtnUIFrameWorkPSLoadAction.class.getName());
+		parameters.add(GtnFrameworkCommonConstants.PS_SEARCH_RESULT_TABLE);
+		parameters.add("");
+		parameters.add(Boolean.TRUE);
+		parameters.add(0);
+
+		editActionConfig.setActionParameterList(parameters);
+		cpyActionConfigList.add(editActionConfig);
+
+		psCopyBtnConfig.setGtnUIFrameWorkActionConfigList(cpyActionConfigList);
 
 	}
 
@@ -721,4 +792,85 @@ public class GtnFrameworkPSSearchConfig {
 		psExcelButton.setGtnUIFrameWorkActionConfigList(Arrays.asList(excelAction));
 	}
 
+	public List<Object> getDefaultFieldValueList() {
+
+		List<Object> defaultValueFieldList = new ArrayList<>();
+		List<String> resetCompIdListTemp = new ArrayList<>();
+		List<Object> resetCompValueListTemp = new ArrayList<>();
+
+		resetCompIdListTemp.add("itemOrIfpOption");
+		resetCompIdListTemp.add("cfpPricingTabMassCheck");
+		resetCompIdListTemp.add("cfpPriceProtectionMassCheck");
+
+		resetCompIdListTemp.add(GtnFrameworkCommonConstants.PRICE_SCHEDULE_ID1);
+		resetCompIdListTemp.add(GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO1);
+		resetCompIdListTemp.add(GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME1);
+		resetCompIdListTemp.add(GtnFrameworkCommonConstants.CFP_LEFT_RESULT_TABLE);
+
+		resetCompValueListTemp.add("IFP");
+		resetCompValueListTemp.add("Disable");
+		resetCompValueListTemp.add("Disable");
+		resetCompValueListTemp.add(null);
+		resetCompValueListTemp.add(null);
+		resetCompValueListTemp.add(null);
+		resetCompValueListTemp.add("null");
+
+		defaultValueFieldList.add(resetCompIdListTemp);
+		defaultValueFieldList.add(resetCompValueListTemp);
+		return defaultValueFieldList;
+	}
+
+	private static Object[] copyEnableField;
+	private static String[] copyVisibleFields;
+
+	public static Object[] getCopyEnableField() {
+		return copyEnableField.clone();
+	}
+
+	public static void setCopyEnableField(Object[] enableCpyField) {
+		GtnFrameworkPSSearchConfig.copyEnableField = enableCpyField.clone();
+	}
+
+	public static String[] getCopyVisibleFields() {
+		return copyVisibleFields.clone();
+	}
+
+	public static void setCopyVisibleFields(String[] visibleCopyFields) {
+		GtnFrameworkPSSearchConfig.copyVisibleFields = visibleCopyFields.clone();
+	}
+
+	private static List<Object> makeParameterList() {
+		setCopyVisibleFields(new String[] { GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON,
+				GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_ADD_RESET_BUTTON,
+				GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON,
+				GtnFrameworkCommonConstants.PS_ITEM_ADDITION_FIELD_SEARCH_LAYOUT, "pricingMassUpdatePanel",
+				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_MASS_UPDATE_PANEL_LAYOUT });
+
+		List<Object> copyParams = new ArrayList<>();
+		copyParams.add(Boolean.TRUE);
+		copyParams.add(Arrays.asList(getCopyVisibleFields()));
+		return copyParams;
+	}
+
+	private static void getObjectArray(GtnUIFrameWorkActionConfig enableCopyValues) {
+		setCopyEnableField(new Object[] { GtnFrameworkCommonConstants.NOTES_TAB,
+				GtnFrameworkCommonConstants.CFP_LEFT_RESULT_TABLE, GtnFrameworkCommonConstants.CFP_RIGHT_RESULT_TABLE,
+				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE,
+				GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE,
+				GtnFrameworkCommonConstants.PRICE_SCHEDULE_END_DATE,
+				GtnFrameworkCommonConstants.PRICE_SCHEDULE_START_DATE, "priceScheduleTradeClass",
+				GtnFrameworkCommonConstants.PRICE_SCHEDULE_TYPE1,
+				GtnFrameworkCommonConstants.PRICE_SCHEDULE_DESIGNATION,
+				GtnFrameworkCommonConstants.PRICE_SCHEDULE_STATUS1, GtnFrameworkCommonConstants.CREATED_BY,
+				GtnFrameworkCommonConstants.MODIFIED_BY, GtnFrameworkCommonConstants.PRICE_SCHEDULE_ID1,
+				GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO1, GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME1,
+				GtnFrameworkCommonConstants.PRICE_PROTECTION_TAB, GtnFrameworkCommonConstants.CFP_LEFT_RESULT_TABLE,
+				GtnFrameworkCommonConstants.CFP_RIGHT_RESULT_TABLE,
+				GtnFrameworkCommonConstants.PS_ITEM_ADDITION_SEARCH_VALUE,
+				GtnFrameworkCommonConstants.CFP_COMPANY_ADDITION_GTN_SEARCH_01,
+				GtnFrameworkCommonConstants.PS_ITEM_ADDITION_MOVE_RIGHT_BUTTONS,
+				GtnFrameworkCommonConstants.PS_ITEM_ADDITION_MOVE_LEFT_BUTTONS, GtnFrameworkCommonConstants.PRICING_TAB,
+				GtnFrameworkCommonConstants.PRICE_PROTECTION_TAB });
+		enableCopyValues.setActionParameterList(Arrays.asList(getCopyEnableField()));
+	}
 }
