@@ -15,7 +15,7 @@ public class GtnWsReportWebsevice {
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
-	
+
 	@Autowired
 	private GtnWsReportSqlService sqlService;
 
@@ -73,8 +73,10 @@ public class GtnWsReportWebsevice {
 	}
 
 	public Date loadForecastEligibleDate() throws GtnFrameworkGeneralException {
-		List forecastEligibleDate = gtnSqlQueryEngine.executeSelectQuery(sqlService.getQuery("loadForecastEligibleDate"));
-		return forecastEligibleDate != null && !forecastEligibleDate.isEmpty() ? (Date) forecastEligibleDate.get(0) : null;
+		List forecastEligibleDate = gtnSqlQueryEngine
+				.executeSelectQuery(sqlService.getQuery("loadForecastEligibleDate"));
+		return forecastEligibleDate != null && !forecastEligibleDate.isEmpty() ? (Date) forecastEligibleDate.get(0)
+				: null;
 	}
 
 }

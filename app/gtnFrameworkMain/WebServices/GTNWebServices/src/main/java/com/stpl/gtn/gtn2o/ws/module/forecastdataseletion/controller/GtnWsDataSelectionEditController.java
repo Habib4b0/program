@@ -309,12 +309,22 @@ public class GtnWsDataSelectionEditController {
 		input.add(selectedHierarchyLevelDto.getRelationshipVersionNo());
 		input.add(Integer.parseInt(String.valueOf(inputList.get(6))) + 1);
 		input.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
-		
-		
-		List<Object[]> resultList = productSelectedLoadService.getResultForSelectedProduct(inputQuery,
-				input);
+
+		List<Object[]> resultList = productSelectedLoadService.getResultForSelectedProduct(inputQuery, input);
+		List<String> hierarchyNoList = new ArrayList<>();
+		for (Object[] object : resultList) {
+			hierarchyNoList.add(object[8].toString());
+		}
+		List<Object> inputsForProductRelationQuery = new ArrayList<>();
+		String hierarchyNo = StringUtils.join(hierarchyNoList, "','");
+		hierarchyNo += "'," + selectedHierarchyLevelDto.getHierarchyNo();
+		inputsForProductRelationQuery.add("'" + hierarchyNo + "'");
+		inputsForProductRelationQuery.add(String.valueOf(inputList.get(6)));
+		inputsForProductRelationQuery.add(String.valueOf(inputList.get(4)));
+		inputsForProductRelationQuery.add(String.valueOf(inputList.get(5)));
+		List<Object[]> results = productSelectedLoadService.getChildLevelQueryForCustomer(inputsForProductRelationQuery);
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
-		dataTable.addData(resultList);
+		dataTable.addData(results);
 		GtnSerachResponse searchResponse = new GtnSerachResponse();
 		searchResponse.setResultSet(dataTable);
 		gtnResponse.setGtnSerachResponse(searchResponse);
@@ -382,6 +392,73 @@ public class GtnWsDataSelectionEditController {
 		gtnResponse.setGtnSerachResponse(searchResponse);
 		return gtnResponse;
 	}
+	
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_PRODHIERARCHY_ALL_DATA_TABLELOAD_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadAllProductHierarchyRightTable(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		List<Object> inputList = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getQueryInputList();
+		GtnReportHierarchyLevelBean allDataSelectedHierarchyBean = gtnUIFrameworkWebserviceRequest.getGtnReportRequest()
+				.getHierarchyInputBean();
+		List<Object[]> searchResultList = levelValueMapQueryService
+				.loadCustHierarchyAvailableTable(String.valueOf(inputList.get(0)));
+		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+		dataTable.addData(searchResultList);
+		GtnSerachResponse serachResponse = new GtnSerachResponse();
+		serachResponse.setResultSet(dataTable);
+		List<GtnWsRecordBean> beanList = new ArrayList<>();
+		for (GtnUIFrameworkDataRow record : serachResponse.getResultSet().getDataTable()) {
+			GtnWsRecordBean recordBean = new GtnWsRecordBean();
+			recordBean.setProperties(record.getColList());
+			beanList.add(recordBean);
+		}
+		GtnReportHierarchyLevelBean lastHierarchyLevelBean = GtnReportHierarchyLevelBean
+				.getLastLinkedLevel(gtnUIFrameworkWebserviceRequest.getGtnReportRequest().getHierarchyLevelList());
+		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
+		inputBean.setSelectedHierarchyLevelDto(
+				convertParametersToRelation(inputList, beanList, allDataSelectedHierarchyBean));
+		inputBean.setBusinessUnitValue(String.valueOf(inputList.get(7)));
+		inputBean.setRelationVersionNo(Integer.parseInt(String.valueOf(inputList.get(4))));
+		inputBean.setLowestLevelNo(Integer.parseInt(String.valueOf(inputList.get(6))));
+		inputBean.setLevelNo(Integer.parseInt(String.valueOf(inputList.get(6))));
+		String finalQuery = productSelectedLoadService.getChildLevelQueryForReportProduct(inputBean);
+		StringBuilder inputQuery = new StringBuilder(finalQuery);
+		LOGGER.info("finalQuery is ------->" + finalQuery);
+
+		GtnFrameworkRelationshipLevelDefintionBean selectedHierarchyLevelDto = inputBean.getSelectedHierarchyLevelDto();
+		
+		List<Object> input = new ArrayList<>();
+		input.add(selectedHierarchyLevelDto.getRelationshipVersionNo());
+		input.add(lastHierarchyLevelBean.getLevelNo());
+		input.add( "'%'");
+		input.add(selectedHierarchyLevelDto.getRelationshipBuilderSid());
+		input.add(selectedHierarchyLevelDto.getRelationshipVersionNo());
+		input.add(Integer.parseInt(String.valueOf(inputList.get(6))) + 1);
+		input.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
+
+		List<Object[]> resultList = productSelectedLoadService.getResultForSelectedProduct(inputQuery, input);
+		List<String> hierarchyNoList = new ArrayList<>();
+		for (Object[] object : resultList) {
+			hierarchyNoList.add(object[8].toString());
+		}
+		List<Object> inputsForProductRelationQuery = new ArrayList<>();
+		String hierarchyNo = StringUtils.join(hierarchyNoList, "','");
+		hierarchyNo += "'," + selectedHierarchyLevelDto.getHierarchyNo();
+		inputsForProductRelationQuery.add("'" + hierarchyNo + "'");
+		inputsForProductRelationQuery.add(String.valueOf(inputList.get(6)));
+		inputsForProductRelationQuery.add(String.valueOf(inputList.get(4)));
+		inputsForProductRelationQuery.add(String.valueOf(inputList.get(5)));
+		List<Object[]> results = productSelectedLoadService.getChildLevelQueryForCustomer(inputsForProductRelationQuery);
+		GtnUIFrameworkDataTable productResultsDataTable = new GtnUIFrameworkDataTable();
+		productResultsDataTable.addData(results);
+		GtnSerachResponse searchResponse = new GtnSerachResponse();
+		searchResponse.setResultSet(productResultsDataTable);
+		gtnResponse.setGtnSerachResponse(searchResponse);
+		return gtnResponse;
+		
+	}
+	
 
 	private GtnFrameworkRelationshipLevelDefintionBean convertParametersToRelation(List<Object> inputList,
 			List<GtnWsRecordBean> recordBean, GtnReportHierarchyLevelBean selectedHierarchyBean) {
