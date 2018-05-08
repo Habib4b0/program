@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
+
 public class GtnWsReportEngineTreeNode implements Serializable {
 
 	private static final long serialVersionUID = 1L;

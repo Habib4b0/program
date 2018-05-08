@@ -27,7 +27,6 @@ public class GtnWsMongoDBConnectionService {
 	@PostConstruct
 	public void init() {
 		if (mongoDBInstance == null) {
-			mongoDBInstance = client.getDatabase(MongoConstants.DATABSE_NAME);
 			mongoDBInstance = client.getDatabase(MongoConstants.DATABSE_NAME)
 					.withCodecRegistry(registery.getPojoCodecRegistry());
 		}

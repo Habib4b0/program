@@ -166,19 +166,19 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		GtnUIFrameworkComponentConfig productSelectionRelationshipVersionLayout = configProvider
 				.getHorizontalLayoutConfig("productSelectionRelationshipVersionLayout", true,
 						hierarchyRelationshipConfig.getComponentId());
-		// productSelectionRelationshipVersionLayout.setVisible(false);
+		productSelectionRelationshipVersionLayout.setVisible(false);
 		componentList.add(productSelectionRelationshipVersionLayout);
 
 		GtnUIFrameworkComponentConfig productRelationshipVersion = configProvider.getUIFrameworkComponentConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productRelationshipVersion", true,
 				productSelectionRelationshipVersionLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		productRelationshipVersion.setComponentName("ProductRelationshipVersion");
-		// productRelationshipVersion.setVisible(false);
 
 		GtnUIFrameworkComboBoxConfig productRelationshipVersionConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION,
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		productRelationshipVersionConfig.setHasDefaultValue(true);
 		productRelationshipVersion.setGtnComboboxConfig(productRelationshipVersionConfig);
 		componentList.add(productRelationshipVersion);
 
@@ -243,12 +243,11 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		productSelectionDualListBoxConfig
 				.setRightVisibleColumns(new Object[] { GtnFrameworkReportStringConstants.LEVEL_VALUE });
 		productSelectionDualListBoxConfig.setModuleType("");
-		productSelectionDualListBoxConfig.setRecordHeader(
-				Arrays.asList("relationshipLevelValues", "levelNo", "parentNode", "relationshipLevelSid", "hierarchyNo",
-						"relationshipBuilderSid", "levelValues", "hierarchyLevelValuesSid",GtnFrameworkReportStringConstants.LEVEL_VALUE ,
-						"level","levelNo","relationshipLevelSid","tableName","fieldName","hierarchyNo",
-						"hierarchyDefSid","hierarchyLevelDefSid","levelValueReference","relationShipBuilderId",
-						"relationShipVersionNo","hierarchyVersionNo","hierarchyType"));
+		productSelectionDualListBoxConfig.setRecordHeader(Arrays.asList("parent_relationrelationship_level_values",
+				"parent_relationlevel_no", "parent_relationparent_node", "parent_relationrelationship_level_sid",
+				"parent_relationhierarchy_no", "parent_relationrelationship_builder_sid", "levelValue", "levelNo",
+				"levelValueReference", "tableName", "fieldName", "level", "hierarchyLevelDefSid", "hierarchyDefSid",
+				"hierarchyType"));
 		productSelectionDualListBoxConfig.setRightRecordHeader(Arrays.asList("levelNo", "relationshipLevelValues",
 				"parentNode", "levelName", "levelValuReference", "tableName", "fieldName", "relationshipLevelSid",
 				"hierarchyNo", "relationshipBuilderSid", "hierarchyLevelDefSid", "hierarchyDefSid", "versionNo","levelValue"));

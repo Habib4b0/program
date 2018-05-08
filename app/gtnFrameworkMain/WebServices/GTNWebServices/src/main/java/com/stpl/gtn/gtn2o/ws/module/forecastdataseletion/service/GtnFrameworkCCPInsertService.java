@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.module.forecastdataseletion.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -168,7 +169,8 @@ public class GtnFrameworkCCPInsertService {
 	private String getCustomerAndContractHierarchyQueryForReporting(GtnForecastHierarchyInputBean inputBean,
 			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
 			List<GtnFrameworkRelationshipLevelDefintionBean> selectedRelationLevelList, boolean isProduct) {
-
+		String dateFormat = "yyyy-MM-dd";
+		SimpleDateFormat dateFormatter = new SimpleDateFormat(dateFormat);
 		int relationSid = selectedRelationLevelList.get(0).getRelationshipBuilderSid();
 		int relationVersionNo = selectedRelationLevelList.get(0).getRelationshipVersionNo();
 		List<Object> input = new ArrayList<>();
@@ -189,8 +191,8 @@ public class GtnFrameworkCCPInsertService {
 			List<Object> input1 = new ArrayList<>();
 			String date = inputBean.getForecastEligibleDate() == null ? null
 					: "'" + inputBean.getForecastEligibleDate() + "'";
-			input1.add(date);
-			input1.add(date);
+			input1.add(dateFormatter.format(date));
+			input1.add(dateFormatter.format(date));
 			query.append(gtnWsSqlService.getQuery(input1, queryName));
 		}
 
