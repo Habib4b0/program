@@ -112,8 +112,8 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 				GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_UTIL_DATE,
 				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE });
-		dataAssumptionsPagedTableConfig.setColumnHeaders(Arrays.asList(new String[] { "File", "Company", "Business Unit", "Type",
-				"Version", "Active From", "From Period", "To Period" }));
+		dataAssumptionsPagedTableConfig.setColumnHeaders(Arrays.asList( "File", "Company", "Business Unit", "Type",
+				"Version", "Active From", "From Period", "To Period" ));
 		dataAssumptionsPagedTableConfig.setTableColumnMappingId(new Object[] { "file", "company", "businessUnit",
 				"type", "version", "activeFrom", "fromPeriod", "toPeriod" });
 		dataAssumptionsResultsTable.setGtnPagedTableConfig(dataAssumptionsPagedTableConfig);

@@ -500,7 +500,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 
 	private void addPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig projectionResultsTable = new GtnUIFrameworkComponentConfig();
-		projectionResultsTable.setComponentType(GtnUIFrameworkComponentType.PAGEDTABLE);
+		projectionResultsTable.setComponentType(GtnUIFrameworkComponentType.PAGED_GRID);
 		projectionResultsTable.setComponentId(nameSpace + "_" + "projectionResultsTable");
 		projectionResultsTable.setAddToParent(true);
 		projectionResultsTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -519,9 +519,9 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 						GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 						GtnFrameworkCommonConstants.JAVAUTIL_DATE, GtnFrameworkCommonConstants.JAVAUTIL_DATE,
 						GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
-		projectionResultsTableConfig.setTableVisibleHeader(new String[] { "Projection Name", "Description",
+		projectionResultsTableConfig.setColumnHeaders(Arrays.asList( "Projection Name", "Description",
 				"Customer Hierarchy", "Customer Level", "Product Hierarchy", "Product Level", "Created By",
-				"Created Date", "Modified Date", "Company", "Business Unit" });
+				"Created Date", "Modified Date", "Company", "Business Unit" ));
 		projectionResultsTableConfig.setTableColumnMappingId(new String[] { "projactionName", "description",
 				"customerHierarchy", "customerLevel", "productHierarchy", "productLevel", "createdBy", "createdDate",
 				"modifiedDate", "company", "businessUnit" });

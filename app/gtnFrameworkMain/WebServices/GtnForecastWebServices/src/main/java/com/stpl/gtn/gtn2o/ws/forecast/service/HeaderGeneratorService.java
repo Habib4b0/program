@@ -101,7 +101,7 @@ public class HeaderGeneratorService {
 		
 		tableHeaderDTO.addTripleHeaderMap("q1-17",new Object[] {"q22017actualRate","q22017actualRPU","q22017actualAmount","q22017projectedRate","q22017projectedRPU","q22017projectedAmount","q22017growth","q12017actualRate","q12017actualRPU","q12017actualAmount","q12017projectedRate","q12017projectedRPU","q12017projectedAmount","q12017growth"});
 		
-		tableHeaderDTO.addTripleColumn("2017", " 2017");
+		tableHeaderDTO.addTripleColumn("allDiscount", "All Discount");
 		
 		//tableHeaderDTO.addDoubleColumn();
 		/*tableHeaderDTO.addDoubleColumn("q3-17", "Q3 2017");
