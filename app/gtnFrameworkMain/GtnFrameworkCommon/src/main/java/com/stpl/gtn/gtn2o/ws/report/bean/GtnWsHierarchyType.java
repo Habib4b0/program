@@ -1,7 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
 public enum GtnWsHierarchyType {
-	CUSTOMER("customer"), PRODUCT("product"), DEDUCTION("deduction"), VARIABLES("variable"), ALLVARIABLE("allVariable");
+	CUSTOMER("customer"), PRODUCT("product"), DEDUCTION("deduction"), VARIABLES("variable");
 
 	private final String type;
 
