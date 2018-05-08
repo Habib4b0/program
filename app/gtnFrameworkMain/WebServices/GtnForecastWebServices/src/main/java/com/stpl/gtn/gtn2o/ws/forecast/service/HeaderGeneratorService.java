@@ -41,13 +41,17 @@ public class HeaderGeneratorService {
 
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
 
-		tableHeaderDTO.addSingleColumn("currentProjection2018", "Current Projection", String.class);
-		tableHeaderDTO.addSingleColumn("currentProjection2019", "Current Projection", String.class);
-		tableHeaderDTO.addSingleColumn("currentProjection2020", "Current Projection", String.class);
-
-		tableHeaderDTO.addDoubleColumn("currentProjection2018", "2018");
-		tableHeaderDTO.addDoubleColumn("currentProjection2019", "2019");
-		tableHeaderDTO.addDoubleColumn("currentProjection2020", "2020");
+		tableHeaderDTO.addSingleColumn("currentProjection2018", "Current Projection",String.class);
+		tableHeaderDTO.addSingleColumn("currentProjection2019", "Current Projection",String.class);
+		tableHeaderDTO.addSingleColumn("currentProjection2020", "Current Projection",String.class);
+		
+		tableHeaderDTO.addDoubleHeaderMap("D2018",new Object[] {"currentProjection2018"});
+		tableHeaderDTO.addDoubleHeaderMap("D2019",new Object[] {"currentProjection2019"});
+		tableHeaderDTO.addDoubleHeaderMap("D2020",new Object[] {"currentProjection2020"});
+		
+		tableHeaderDTO.addDoubleColumn("D2018", "2018");
+		tableHeaderDTO.addDoubleColumn("D2019", "2019");
+		tableHeaderDTO.addDoubleColumn("D2020", "2020");
 		
 		return tableHeaderDTO;
 	}
