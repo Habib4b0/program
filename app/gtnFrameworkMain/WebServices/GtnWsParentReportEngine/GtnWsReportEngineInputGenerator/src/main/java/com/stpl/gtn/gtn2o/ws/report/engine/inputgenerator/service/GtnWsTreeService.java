@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -21,34 +20,23 @@ import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTr
 @Scope(value = "singleton")
 public class GtnWsTreeService {
 
-	public GtnWsReportEngineTreeNode buildTree(List<Object[]> resultList, final Map<String, Object[]> hierarchyNames,
-			GtnWsHierarchyType indicator) {
-		GtnWsReportEngineTreeNode rootNode = new GtnWsReportEngineTreeNode();
-		rootNode.setLevelNumber(0);
-		rootNode.setHierarchyNo(StringUtils.EMPTY);
-		int initialLevelNo = 0;
-		int index = 0;
-		for (Object[] resultValue : resultList) {
-			GtnWsReportEngineTreeNode treeNode = new GtnWsReportEngineTreeNode();
-			treeNode.setHierarchyNo(resultValue[2].toString());
-			Object[] hierarchyDetails = hierarchyNames.get(treeNode.getHierarchyNo());
-			if (hierarchyDetails != null) {
-				treeNode.setHierarchyNo(hierarchyDetails[0].toString());
-				treeNode.setLevelValue(hierarchyDetails[1].toString());
-				treeNode.setLevelName(hierarchyDetails[2].toString());
-				treeNode.setIndicator(indicator);
-				treeNode.setLevelNumber(Integer.valueOf(hierarchyDetails[3].toString()));
-				treeNode.setNodeIndex(index++);
-				initialLevelNo = initialLevelNo == 0 ? treeNode.getLevelNumber() : initialLevelNo;
+	public GtnWsReportEngineTreeNode buildTree(List<Object[]> resultList, GtnWsHierarchyType indicator) {
+		GtnWsReportEngineTreeNode root = new GtnWsReportEngineTreeNode();
+		root.setLevelNumber(0);
+		root.setIndicator(indicator);
+		root.setHierarchyNo("");
+		for (Object[] results : resultList) {
+			GtnWsReportEngineTreeNode child = new GtnWsReportEngineTreeNode();
+			child.setHierarchyNo(String.valueOf(results[0]));
+			child.setLevelValue(String.valueOf(results[1]));
+			child.setLevelName(String.valueOf(results[2]));
+			child.setLevelNumber(Integer.parseInt(String.valueOf(results[3])));
+			// child.setRelationshipLevelValue(Integer.parseInt(String.valueOf(results[4])));
+			child.setIndicator(indicator);
+			addChildrenRecursively(root, child);
 
-				if (treeNode.getLevelNumber() == initialLevelNo) {
-					rootNode.addChildren(treeNode);
-				} else {
-					addChildrenRecursively(rootNode, treeNode);
-				}
-			}
 		}
-		return rootNode;
+		return root;
 	}
 
 	private void addChildrenRecursively(GtnWsReportEngineTreeNode parentNode, GtnWsReportEngineTreeNode treeNode) {
