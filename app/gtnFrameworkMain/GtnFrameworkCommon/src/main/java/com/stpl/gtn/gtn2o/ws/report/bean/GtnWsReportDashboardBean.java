@@ -11,23 +11,46 @@ package com.stpl.gtn.gtn2o.ws.report.bean;
  * @author Karthik.Raja
  */
 public class GtnWsReportDashboardBean {
-    String[] input;
-    Object[] values;
 
-    public String[] getInput() {
-        return input;
-    }
+	private String[] input;
+	private Object[] values;
+	private String customViewName;
+	private String sessionId;
 
-    public void setInput(String[] input) {
-        this.input = input;
-    }
+	public String[] getInput() {
+		return input;
+	}
 
-    public Object[] getValues() {
-        return values;
-    }
+	public void setInput(String[] input) {
+		this.input = input;
+	}
 
-    public void setValues(Object[] values) {
-        this.values = values;
-    }
-    
+	public Object[] getValues() {
+		return values;
+	}
+
+	public void setValues(Object[] values) {
+		this.values = values;
+	}
+
+	public String getCustomViewName() {
+		return customViewName;
+	}
+
+	public void setCustomViewName(String customViewName) {
+		this.customViewName = customViewName;
+	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
+	public String getTableNameWithUniqueId(String tableName) {
+		return tableName + "_" + sessionId;
+	}
+
 }
