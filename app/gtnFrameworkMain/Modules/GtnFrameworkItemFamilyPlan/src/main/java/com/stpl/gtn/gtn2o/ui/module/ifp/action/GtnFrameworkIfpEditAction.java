@@ -132,12 +132,12 @@ public class GtnFrameworkIfpEditAction
 			throws GtnFrameworkGeneralException {
 		gtnLogger.debug("Laoding values in IFP - EDit Action " + bean.getIfpInfo());
 		GtnIFamilyPlanInformationBean ifpInfoBean = bean.getIfpInfo();
-		List<Object> ifpFieldValues = Arrays.asList(new Object[] { ifpInfoBean.getIfpId(), ifpInfoBean.getIfpNo(),
+		List<Object> ifpFieldValues = Arrays.asList(ifpInfoBean.getIfpId(), ifpInfoBean.getIfpNo(),
 				ifpInfoBean.getIfpName(), ifpInfoBean.getIfpId(), ifpInfoBean.getIfpNo(), ifpInfoBean.getIfpName(),
 				ifpInfoBean.getIfpStatus(), ifpInfoBean.getIfpStartDate(), ifpInfoBean.getIfpEndDate(),
 				ifpInfoBean.getIfpType(), ifpInfoBean.getIfpCategory(), ifpInfoBean.getIfpDesignation(),
 				ifpInfoBean.getParentIfpId(), ifpInfoBean.getParentIfpName(), ifpInfoBean.getCreatedDate(),
-				ifpInfoBean.getModifiedDate(), ifpInfoBean.getModifiedBy() });
+				ifpInfoBean.getModifiedDate(), ifpInfoBean.getModifiedBy());
 
 		GtnUIFrameWorkActionConfig ifpEditdDefaultValueActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
@@ -147,9 +147,6 @@ public class GtnFrameworkIfpEditAction
 		boolean isButtonVisible = isEditable && !ifpInfoBean.isRecordLockStatus();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpAddDeleteButton").setVisible(isButtonVisible);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("IFPADDResetButton").setVisible(isButtonVisible);
-		GtnUIFrameworkBaseComponent ifpAddSaveBtn = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpAddSaveButton");
-		ifpAddSaveBtn.setCaption("UPDATE");
-		ifpAddSaveBtn.setVisible(isButtonVisible);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpInformationTabCreatedBy", componentId)
 				.loadFieldValue(ifpInfoBean.getCreatedBy());
 
