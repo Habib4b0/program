@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.module.forecastdataseletion.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ public class GtnFrameworkCCPInsertService {
 	public GtnFrameworkCCPInsertService() {
 		super();
 	}
+
 	public void insertToCPPTable(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
 		try {
 			List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList = relationUpdateService
@@ -112,7 +114,8 @@ public class GtnFrameworkCCPInsertService {
 		input.add(relationSid);
 
 		String beanName = isProduct ? "CCP_INSERT_PRODUCT" : "CCP_INSERT_CUSTOMER";
-                String queryName = inputBean.isForecastInsert() ? "filtercontractsbasedoneligibledate" : "CFFfiltercontractsbasedoneligibledate";
+		String queryName = inputBean.isForecastInsert() ? "filtercontractsbasedoneligibledate"
+				: "CFFfiltercontractsbasedoneligibledate";
 		GtnFrameworkQueryGeneratorBean queryBean = queryGeneratorService.getQuerybySituationNameAndLevel(lastLevelDto,
 				beanName, hierarchyLevelDefinitionList);
 		queryGeneratorService.getWhereQueryForCustomerAndContract(selectedRelationLevelList, queryBean);
@@ -126,7 +129,6 @@ public class GtnFrameworkCCPInsertService {
 		return gtnWsSqlService.getReplacedQuery(input, query.toString());
 	}
 
-
 	public static String replaceTableNames(String query, final Map<String, String> tableNameMap) {
 		String tempQuery = query;
 		for (Map.Entry<String, String> key : tableNameMap.entrySet()) {
@@ -134,8 +136,8 @@ public class GtnFrameworkCCPInsertService {
 		}
 		return tempQuery;
 	}
-        
-        public void insertToCPPTableReporting(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
+
+	public void insertToCPPTableReporting(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
 		try {
 			List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList = relationUpdateService
 					.getHierarchyBuilder(inputBean.getSelectedCustomerHierarcySid(),
@@ -154,19 +156,22 @@ public class GtnFrameworkCCPInsertService {
 			List<String> input = new ArrayList<>();
 			input.add(customerHierarchyQuery);
 			input.add(productHierarchyQuery);
-//			String withTableNameQuery = replaceTableNames(gtnWsSqlService.getQuery(input, "ccpInsertQueryForReporting"),
-//					inputBean.getTempTableMap());
+			// String withTableNameQuery =
+			// replaceTableNames(gtnWsSqlService.getQuery(input,
+			// "ccpInsertQueryForReporting"),
+			// inputBean.getTempTableMap());
 			String withTableNameQuery = gtnWsSqlService.getQuery(input, "ccpInsertQueryForReporting");
 			gtnSqlQueryEngine.executeInsertOrUpdateQuery(withTableNameQuery);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
 	}
-        
-        private String getCustomerAndContractHierarchyQueryForReporting(GtnForecastHierarchyInputBean inputBean,
+
+	private String getCustomerAndContractHierarchyQueryForReporting(GtnForecastHierarchyInputBean inputBean,
 			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
 			List<GtnFrameworkRelationshipLevelDefintionBean> selectedRelationLevelList, boolean isProduct) {
-
+		String dateFormat = "yyyy-MM-dd";
+		SimpleDateFormat dateFormatter = new SimpleDateFormat(dateFormat);
 		int relationSid = selectedRelationLevelList.get(0).getRelationshipBuilderSid();
 		int relationVersionNo = selectedRelationLevelList.get(0).getRelationshipVersionNo();
 		List<Object> input = new ArrayList<>();
@@ -178,21 +183,21 @@ public class GtnFrameworkCCPInsertService {
 		input.add(relationSid);
 
 		String beanName = isProduct ? "CCP_INSERT_PRODUCT" : "CCP_INSERT_CUSTOMER";
-                String queryName = "filtercontractsbasedoneligibledateForReporting";
+		String queryName = "filtercontractsbasedoneligibledateForReporting";
 		GtnFrameworkQueryGeneratorBean queryBean = queryGeneratorService.getQuerybySituationNameAndLevel(lastLevelDto,
 				beanName, hierarchyLevelDefinitionList);
 		queryGeneratorService.getWhereQueryForCustomerAndContract(selectedRelationLevelList, queryBean);
 		StringBuilder query = new StringBuilder(queryBean.generateQuery());
 		if (!isProduct) {
 			List<Object> input1 = new ArrayList<>();
-                        String date = inputBean.getForecastEligibleDate() == null ? null : "'"+inputBean.getForecastEligibleDate()+"'";
-			input1.add(date);
-			input1.add(date);
+			String date = inputBean.getForecastEligibleDate() == null ? null
+					: "'" + inputBean.getForecastEligibleDate() + "'";
+			input1.add(dateFormatter.format(date));
+			input1.add(dateFormatter.format(date));
 			query.append(gtnWsSqlService.getQuery(input1, queryName));
 		}
 
 		return gtnWsSqlService.getReplacedQuery(input, query.toString());
 	}
-
 
 }
