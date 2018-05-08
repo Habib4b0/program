@@ -311,6 +311,10 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 
 		discountProjectionGtnPagedTreeTableConfig.setLeftTableEditable(true);
 		discountProjectionGtnPagedTreeTableConfig.setRightTableEditable(true);
+		
+		discountProjectionGtnPagedTreeTableConfig.setEnableRadioButtonInSingleHeader(true);
+		discountProjectionGtnPagedTreeTableConfig.setEnableCheckBoxInDoubleHeader(true);
+		discountProjectionGtnPagedTreeTableConfig.setEnableCheckBoxInTripleHeader(true);
 
 		List<String> resultDashboardFieldFactoryColum = Arrays.asList(GtnFrameworkCommonConstants.CHECK);
 		List<GtnUIFrameworkComponentConfig> resultDashboardFieldFactoryComponent = new ArrayList<>();

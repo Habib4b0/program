@@ -65,6 +65,8 @@ public class GtnUIFrameworkPagedTreeTableConfig {
     private Map<Object, Object[]> leftTableTripleHeaderMap = new HashMap<>();
 	
     private Map<Object, Object[]> rightTableTripleHeaderMap = new HashMap<>();
+    
+    
 
     public boolean isTripleHeaderVisible() {
         return tripleHeaderVisible;
@@ -691,5 +693,35 @@ public class GtnUIFrameworkPagedTreeTableConfig {
     public void setColumnHeaders(List<String> columnHeaders) {
         this.columnHeaders = columnHeaders;
     }
+    
+    private boolean enableRadioButtonInSingleHeader;
+    private boolean enableCheckBoxInDoubleHeader;
+    private boolean enableCheckBoxInTripleHeader;
+
+	public boolean isEnableRadioButtonInSingleHeader() {
+		return enableRadioButtonInSingleHeader;
+	}
+
+	public void setEnableRadioButtonInSingleHeader(boolean enableRadioButtonInSingleHeader) {
+		this.enableRadioButtonInSingleHeader = enableRadioButtonInSingleHeader;
+	}
+
+	public boolean isEnableCheckBoxInDoubleHeader() {
+		return enableCheckBoxInDoubleHeader;
+	}
+
+	public void setEnableCheckBoxInDoubleHeader(boolean enableCheckBoxInDoubleHeader) {
+		this.enableCheckBoxInDoubleHeader = enableCheckBoxInDoubleHeader;
+	}
+
+	public boolean isEnableCheckBoxInTripleHeader() {
+		return enableCheckBoxInTripleHeader;
+	}
+
+	public void setEnableCheckBoxInTripleHeader(boolean enableCheckBoxInTripleHeader) {
+		this.enableCheckBoxInTripleHeader = enableCheckBoxInTripleHeader;
+	}
+    
+	
 
 }

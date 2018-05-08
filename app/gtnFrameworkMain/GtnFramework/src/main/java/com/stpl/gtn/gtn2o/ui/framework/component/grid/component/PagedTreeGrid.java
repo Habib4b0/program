@@ -12,12 +12,14 @@ import com.vaadin.data.TreeData;
 import com.vaadin.data.provider.TreeDataProvider;
 import com.vaadin.event.ExpandEvent;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.components.grid.HeaderCell;
@@ -98,38 +100,98 @@ public class PagedTreeGrid {
         }
 //        gtnlogger.info("headers size= " + tableConfig.getVisibleColumns().size());
         
-         if (tableConfig.isDoubleHeaderVisible()) {
-            HeaderRow groupingHeader = grid.prependHeaderRow();
-            int j=0;
-             for(Object property:tableConfig.getRightTableDoubleHeaderVisibleColumns() ){
-            	 if(tableConfig.getRightTableDoubleHeaderMap().get(property)!=null){
-                 Object joinList[]=tableConfig.getRightTableDoubleHeaderMap().get(property);
-                 if(joinList.length>1){
-                 String[] stringArray = Arrays.copyOf(joinList, joinList.length, String[].class);
-                 groupingHeader.join(stringArray).setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j++));
-                 }else{
-                	 groupingHeader.getCell((String.valueOf( joinList[0]))).setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j++));
-                 }
-            	 }
-             }
+        
+        
+       // Adding Radio Button to the singleHeader 
+        if(tableConfig.isEnableRadioButtonInSingleHeader()){
+        	
+        	HeaderRow single = grid.getHeaderRow(0);
+            for (int j = 0; j < columnCount && j < tableConfig.getColumnHeaders().size(); j++) {
+                String column = (tableConfig.getVisibleColumns().get(j)).toString();
+                RadioButtonGroup vaadinRadioButtonGroup = new RadioButtonGroup();
+                vaadinRadioButtonGroup.setItems(tableConfig.getColumnHeaders().get(j));
+                single.getCell(column).setComponent(vaadinRadioButtonGroup);
+                
+            }
         }
-          if (tableConfig.isTripleHeaderVisible()) {
-         HeaderRow doubleHeader=  grid.getHeaderRow(1);
-            
-             HeaderRow groupingHeader = grid.prependHeaderRow();
-           
-             for(Object property:tableConfig.getRightTableTripleHeaderMap().keySet()){
-                 Object joinList[]=tableConfig.getRightTableTripleHeaderMap().get(property);
-                 Set<HeaderCell> columnList=new HashSet<>();
-                 for (int i = 0; i < joinList.length; i++) {
-                     Object object = joinList[i];
-                     columnList.add(doubleHeader.getCell(object.toString()));
-                 }
-             
-                 
-                 groupingHeader.join( columnList).setText(tableConfig.getRightTableTripleVisibleHeaders().iterator().next());
-             }
-      }
+        
+
+        if (tableConfig.isDoubleHeaderVisible()) {
+            HeaderRow groupingHeader = grid.prependHeaderRow();
+            for (Object property : tableConfig.getRightTableDoubleHeaderMap().keySet()) {
+                Object joinList[] = tableConfig.getRightTableDoubleHeaderMap().get(property);
+                String[] stringArray = Arrays.copyOf(joinList, joinList.length, String[].class);
+                
+                if(tableConfig.isEnableCheckBoxInDoubleHeader()){
+                	
+                    CheckBoxGroup vaadinCheckBoxGroup = new CheckBoxGroup();
+                    vaadinCheckBoxGroup.setItems(tableConfig.getRightTableDoubleVisibleHeaders().iterator().next());
+                    groupingHeader.join(stringArray).setComponent(vaadinCheckBoxGroup);
+                    
+                }else{
+                groupingHeader.join(stringArray).setText(tableConfig.getRightTableDoubleVisibleHeaders().iterator().next());
+                }
+            }
+        }
+        
+//         if (tableConfig.isDoubleHeaderVisible()) {
+//            HeaderRow groupingHeader = grid.prependHeaderRow();
+//            int j=0;
+//             for(Object property:tableConfig.getRightTableDoubleHeaderVisibleColumns() ){
+//            	 if(tableConfig.getRightTableDoubleHeaderMap().get(property)!=null){
+//                 Object joinList[]=tableConfig.getRightTableDoubleHeaderMap().get(property);
+//                 if(joinList.length>1){
+//                 String[] stringArray = Arrays.copyOf(joinList, joinList.length, String[].class);
+//                 groupingHeader.join(stringArray).setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j++));
+//                 }else{
+//                	 groupingHeader.getCell((String.valueOf( joinList[0]))).setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j++));
+//                 }
+//            	 }
+//             }
+//        }
+		if (tableConfig.isTripleHeaderVisible()) {
+			HeaderRow doubleHeader = grid.getHeaderRow(1);
+
+			HeaderRow groupingHeader = grid.prependHeaderRow();
+
+			for (Object property : tableConfig.getRightTableTripleHeaderMap().keySet()) {
+				Object joinList[] = tableConfig.getRightTableTripleHeaderMap().get(property);
+
+				Set<HeaderCell> columnList = new HashSet<>();
+				for (int i = 0; i < joinList.length; i++) {
+					Object object = joinList[i];
+					columnList.add(doubleHeader.getCell(object.toString()));
+				}
+
+				if (tableConfig.isEnableCheckBoxInTripleHeader()) {
+
+					CheckBoxGroup vaadinCheckBoxGroup = new CheckBoxGroup();
+					vaadinCheckBoxGroup.setItems(tableConfig.getRightTableDoubleVisibleHeaders().iterator().next());
+					groupingHeader.join(columnList).setComponent(vaadinCheckBoxGroup);
+
+				} else {
+					groupingHeader.join(columnList).setText(tableConfig.getRightTableTripleVisibleHeaders().iterator().next());
+				}
+
+			}
+		}
+//          if (tableConfig.isTripleHeaderVisible()) {
+//         HeaderRow doubleHeader=  grid.getHeaderRow(1);
+//            
+//             HeaderRow groupingHeader = grid.prependHeaderRow();
+//           
+//             for(Object property:tableConfig.getRightTableTripleHeaderMap().keySet()){
+//                 Object joinList[]=tableConfig.getRightTableTripleHeaderMap().get(property);
+//                 Set<HeaderCell> columnList=new HashSet<>();
+//                 for (int i = 0; i < joinList.length; i++) {
+//                     Object object = joinList[i];
+//                     columnList.add(doubleHeader.getCell(object.toString()));
+//                 }
+//             
+//                 
+//                 groupingHeader.join( columnList).setText(tableConfig.getRightTableTripleVisibleHeaders().iterator().next());
+//             }
+//      }
        // Group headers by joining the cells
 //      
 //        tableConfig.getVisibleColumns().stream().forEach((column) -> {
