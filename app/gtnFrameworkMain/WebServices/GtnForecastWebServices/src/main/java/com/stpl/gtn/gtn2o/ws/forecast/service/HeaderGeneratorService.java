@@ -60,12 +60,12 @@ public class HeaderGeneratorService {
 			{
 
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
-		tableHeaderDTO.addSingleColumn("levelId", "", String.class);
+		tableHeaderDTO.addSingleColumn("singleLevelId", "", String.class);
 		tableHeaderDTO.addSingleColumn("levelName", "Level Name", String.class);
 		
-		tableHeaderDTO.addDoubleHeaderMap("",new Object[] {"","levelName"});
+		tableHeaderDTO.addDoubleHeaderMap("doubleLevelId",new Object[] {"singleLevelId","levelName"});
 		
-		tableHeaderDTO.addDoubleColumn("", "");
+		tableHeaderDTO.addDoubleColumn("doubleLevelId", "");
 
 		return tableHeaderDTO;
 	}
