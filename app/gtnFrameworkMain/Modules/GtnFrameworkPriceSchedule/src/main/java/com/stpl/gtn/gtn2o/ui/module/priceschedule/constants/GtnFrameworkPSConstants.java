@@ -157,7 +157,7 @@ public class GtnFrameworkPSConstants {
 			GtnFrameworkCommonConstants.MODIFIED_DATE, GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME_TOP,
 			GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON };
 
-	public static Object[] getPS_COPY_DISABLE_FIELDS() {
+	public static Object[] getPsCopyDisableFields() {
 		return PS_COPY_DISABLE_FIELDS.clone();
 	}
 
