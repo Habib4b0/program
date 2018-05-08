@@ -742,7 +742,7 @@ public class GtnFrameworkPSSearchConfig {
 
 		GtnUIFrameWorkActionConfig disableActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.DISABLE_ACTION);
-		disableActionConfig.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getPS_COPY_DISABLE_FIELDS()));
+		disableActionConfig.setActionParameterList(Arrays.asList(GtnFrameworkPSConstants.getPsCopyDisableFields()));
 		cpyActionConfigList.add(disableActionConfig);
 
 		GtnUIFrameWorkActionConfig visibleActionConfig = new GtnUIFrameWorkActionConfig();

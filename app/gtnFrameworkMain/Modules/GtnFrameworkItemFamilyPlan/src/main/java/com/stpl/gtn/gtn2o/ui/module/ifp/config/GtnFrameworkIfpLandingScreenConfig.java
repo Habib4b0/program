@@ -818,7 +818,7 @@ public class GtnFrameworkIfpLandingScreenConfig {
 		GtnUIFrameWorkActionConfig disableFieldActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.DISABLE_ACTION);
 
-		disableFieldActionConfig.setActionParameterList(Arrays.asList(GtnFrameworkIfpStringContants.getCOPY_DISABLED_FIELDS()));
+		disableFieldActionConfig.setActionParameterList(Arrays.asList(GtnFrameworkIfpStringContants.getCopyDisabledFields()));
 		copyConfigActionList.add(disableFieldActionConfig);
 
 		GtnUIFrameWorkActionConfig visibleActionConfig = new GtnUIFrameWorkActionConfig();
