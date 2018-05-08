@@ -12,10 +12,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsCustomTreeData;
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportVariablesType;
 
 @Service
 @Scope(value = "singleton")
