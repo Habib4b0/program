@@ -257,6 +257,7 @@ public class GtnWsTreeService {
 			discountTreeNode.setHierarchyNo(
 					root.getHierarchyNo() + "~" + root.getIndicator().toString() + "~" + discountNode.getKey());
 			discountTreeNode.setRsIds(discountNode.getValue());
+			discountTreeNode.setLevelValue(discountNode.getKey().toString());
 			discountTreeNode.setIndicator(GtnWsHierarchyType.DEDUCTION);
 			discountTreeNode.setParentHierarchyNo(root.getParentHierarchyNo());
 			discountTreeNode.setParentIndicator(root.getParentIndicator());
@@ -296,6 +297,7 @@ public class GtnWsTreeService {
 			discountTreeNode.setRsIds(discountNode.getValue());
 			discountTreeNode.setIndicator(GtnWsHierarchyType.DEDUCTION);
 			discountTreeNode.setLevelNumber(levelNo);
+			discountTreeNode.setLevelValue(discountNode.getKey().toString());
 			discountTreeNode.setDiscountAvailable(true);
 			resultList.add(discountTreeNode);
 		}
