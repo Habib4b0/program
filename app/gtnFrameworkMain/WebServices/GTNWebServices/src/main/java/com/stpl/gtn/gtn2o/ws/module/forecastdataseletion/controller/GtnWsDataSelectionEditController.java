@@ -335,6 +335,8 @@ public class GtnWsDataSelectionEditController {
 	public GtnUIFrameworkWebserviceResponse loadAllHierarchyRightTable(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
 			throws GtnFrameworkGeneralException {
+		String dateFormat = "yyyy-MM-dd";
+		SimpleDateFormat dateFormatter = new SimpleDateFormat(dateFormat);
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		List<Object> inputList = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getQueryInputList();
 		GtnReportHierarchyLevelBean allDataSelectedHierarchyBean = gtnUIFrameworkWebserviceRequest.getGtnReportRequest()
@@ -368,10 +370,10 @@ public class GtnWsDataSelectionEditController {
 		inputValuesList.add(String.valueOf(inputList.get(4)));
 		inputValuesList.add(String.valueOf(inputList.get(6)));
 		inputValuesList.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
-		Date forecastEligibleDate = (Date) inputList.get(7);
+		Date forecastEligibleDate = gtnUIFrameworkWebserviceRequest.getGtnReportRequest().getForecastEligibleDate();
 		if (forecastEligibleDate != null) {
-			inputValuesList.add(String.valueOf(forecastEligibleDate));
-			inputValuesList.add(String.valueOf(forecastEligibleDate));
+			inputValuesList.add(dateFormatter.format(forecastEligibleDate));
+			inputValuesList.add(dateFormatter.format(forecastEligibleDate));
 			inputQuery.append("AND (CONTRACT_ELIGIBLE_DATE >= '?' OR CONTRACT_ELIGIBLE_DATE IS NULL)");
 			inputQuery.append("AND (CFP_ELIGIBLE_DATE >= '?' OR CFP_ELIGIBLE_DATE IS NULL)");
 		}
