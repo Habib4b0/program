@@ -87,7 +87,7 @@
 		"isResultView": true,
 		"componentType": "text",
 		"listViewIndex": 7,
-		"viewModeIndex": 11
+		"viewModeIndex": 12
 	},
 	{
 		"columnID": "sentRecordAmount",
@@ -96,7 +96,7 @@
 		"isResultView": true,
 		"componentType": "text",
 		"listViewIndex": 8,
-		"viewModeIndex": 12
+		"viewModeIndex": 11
 	},
 	{
 		"columnID": "receivedRecordAmountAttr",
@@ -177,7 +177,7 @@
 		"isResultView": true,
 		"componentType": "text",
 		"listViewIndex": 15,
-		"viewModeIndex": 18
+		"viewModeIndex": 19
 	},
 	{
 		"columnID": "validRecordAmount",
@@ -186,7 +186,7 @@
 		"isResultView": true,
 		"componentType": "text",
 		"listViewIndex": 16,
-		"viewModeIndex": 19
+		"viewModeIndex": 18
 	},
 	{
 		"columnID": "unprocessedRecords",

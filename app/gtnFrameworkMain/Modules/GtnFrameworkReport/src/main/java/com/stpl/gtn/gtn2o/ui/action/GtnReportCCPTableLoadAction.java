@@ -7,16 +7,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
-import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
@@ -50,10 +53,18 @@ public class GtnReportCCPTableLoadAction
 		List<GtnWsRecordBean> selectedProductList = getSelectedProductList(actionParamList, componentId);
 		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList);
 		ccpHierarchyInsert(selectedCustomerList, selectedProductList, dataSelectionDto);
-
-		GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId);
-		GtnUIFrameworkComponentData componentData = baseComponent.getComponentData();
-		componentData.setCustomData(dataSelectionDto);
+		
+		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
+		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+		List<Object> params = new ArrayList<>();
+		params.add(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		params.add("Report Generate Lookup View");
+		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		params.add(null);
+		params.add(dataSelectionDto);
+		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
 	}
 
 	private List<GtnWsRecordBean> getSelectedCustomerList(List<Object> actionParamList, String componentId) {
@@ -138,8 +149,6 @@ public class GtnReportCCPTableLoadAction
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		dto.setSessionId(UUID.randomUUID().toString().replaceAll("-", "_"));
 		dto.setUniqueId(UUID.randomUUID().toString().replaceAll("-", "_"));
-		logger.info("******" + dto.getSessionId());
-
 		return dto;
 	}
 
@@ -164,7 +173,6 @@ public class GtnReportCCPTableLoadAction
 			GtnWsReportDataSelectionBean dataSelectionDto) {
 
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
-		// inputBean.setTempTableMap(convertToHashMap(tempTableNames));
 		inputBean.setSelectedCustomerList(relationBeanList(selectedCustomerContractList, dataSelectionDto, false));
 		inputBean.setSelectedProductList(relationBeanList(selectedProductList, dataSelectionDto, true));
 		inputBean.setSelectedCustomerRelationShipBuilderVersionNo(dataSelectionDto.getCustomerRelationshipVersionNo());

@@ -465,16 +465,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.addActionParameter("reportLandingScreen_reportDataSource");
 		actionList.add(generateAction);
 		
-		
-		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
-		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		List<Object> params=new ArrayList<>();
-		params.add(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
-		params.add("Report Generate Lookup View");
-		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
-		
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
 
@@ -483,12 +473,9 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 		loadDataTableActionConfig.setActionParameterList(actionParams);
 		
-		actionList.add(gtnUIFrameWorkGeneratePopupAction);
 		actionList.add(loadDataTableActionConfig);
 		
 		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);
-
-
 
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
 		resetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
