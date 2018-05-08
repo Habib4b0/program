@@ -30,7 +30,7 @@ import com.vaadin.ui.Component;
 
 public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent {
 
-	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkComboboxComponent.class);
+	 GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkComboboxComponent.class);
 
 	@Override
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) {
@@ -384,7 +384,8 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 					vaadinComboBox.setItemCaption(newItemId, newItem);
 					vaadinComboBox.select(newItemId);
 				} catch (NumberFormatException e) {
-					vaadinComboBox.select(0);
+                                    gtnLogger.debug("exception case"+e.getMessage());
+                                        vaadinComboBox.select(newItem);
 				}
 			} else {
 				try {
