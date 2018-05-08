@@ -18,7 +18,13 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
+import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
+import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportWebsevice;
+import com.stpl.gtn.gtn2o.ws.report.service.GtnWsTreeService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
@@ -28,7 +34,6 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceDateResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
-import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportWebsevice;
 
 @RestController
 @RequestMapping(value = GtnWsReportConstants.GTN_REPORT_SERVICE)
@@ -47,6 +52,9 @@ public class GtnWsReportController {
 
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
+
+	@Autowired
+	private GtnWsTreeService gtnWsTreeService;
 
 	public org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -93,7 +101,7 @@ public class GtnWsReportController {
 		response.setGtnSerachResponse(gtnSearchResponse);
 		return response;
 	}
-	
+
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOADELIGIBLEDATE_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadForecastEligibleDate(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
@@ -107,15 +115,16 @@ public class GtnWsReportController {
 	}
 
 	@RequestMapping(value = "/hierarchyDefinition", method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse getHierarchySidAndLevelDefId(@RequestBody GtnUIFrameworkWebserviceRequest request)
-			throws GtnFrameworkGeneralException {
-	
+	public GtnUIFrameworkWebserviceResponse getHierarchySidAndLevelDefId(
+			@RequestBody GtnUIFrameworkWebserviceRequest request) throws GtnFrameworkGeneralException {
+
 		GtnWsReportRequest gtnWsReportRequest = request.getGtnReportRequest();
 		GtnReportHierarchyLookupBean lookupBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		String query=GtnWsQueryConstants.HIERARCHY_SID_AND_LEVEL_DEFINITION_SID;
-		query.replace("@HIERARCHY_DEFINITION_SID", String.valueOf(lookupBean.getHierarchyDefSid())).replace("@VERSION_NO", String.valueOf(lookupBean.getVersionNo()));
-		List<Object[]> results=executeQuery(query);
+		String query = GtnWsQueryConstants.HIERARCHY_SID_AND_LEVEL_DEFINITION_SID;
+		query.replace("@HIERARCHY_DEFINITION_SID", String.valueOf(lookupBean.getHierarchyDefSid()))
+				.replace("@VERSION_NO", String.valueOf(lookupBean.getVersionNo()));
+		List<Object[]> results = executeQuery(query);
 		GtnWsReportResponse gtnWsReportResponse = new GtnWsReportResponse();
 		gtnWsReportResponse.setResultList(results);
 		response.setGtnWsReportResponse(gtnWsReportResponse);
@@ -285,4 +294,36 @@ public class GtnWsReportController {
 		gtnSqlQueryEngine.setSessionFactory(sessionFactory);
 		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
 	}
+
+	@RequestMapping(value = "/buildCustomTree", method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse buildCustomTree(@RequestBody GtnUIFrameworkWebserviceRequest request)
+			throws GtnFrameworkGeneralException {
+
+		GtnWsReportRequest gtnWsReportRequest = request.getGtnReportRequest();
+		GtnWsReportDashboardBean gtnWsReportDashboardBean = gtnWsReportRequest.getGtnWsReportDashboardBean();
+
+		GtnWsReportEngineTreeNode root = new GtnWsReportEngineTreeNode();
+
+		GtnWsCustomTreeData customTreeData = gtnWsTreeService.getCustomTreeData(
+				MongoStringConstants.CUSTOM_VIEW_COLLECTION, gtnWsReportDashboardBean.getCustomViewName());
+
+		GtnWsReportEngineTreeNode customerTree = gtnWsTreeService
+				.getCustomerTree(gtnWsReportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.CUSTOMER_TREE));
+
+		GtnWsReportEngineTreeNode productTree = gtnWsTreeService
+				.getCustomerTree(gtnWsReportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.PRODUCT_TREE));
+
+		List<Object[]> ccpList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery("Select * from "
+				+ gtnWsReportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.ST_CCPD_SESSION_TABLE_NAME));
+
+		List<Object[]> deductionList = (List<Object[]>) gtnSqlQueryEngine
+				.executeSelectQuery("Select * from " + gtnWsReportDashboardBean
+						.getTableNameWithUniqueId(MongoStringConstants.ST_DEDUCTION_SESSION_TABLE_NAME));
+
+		gtnWsTreeService.buildCustomTree(root, customTreeData, customerTree, productTree, deductionList, ccpList);
+		gtnWsTreeService.saveCustomTree(root,
+				gtnWsReportDashboardBean.getTableNameWithUniqueId(gtnWsReportDashboardBean.getCustomViewName()));
+		return new GtnUIFrameworkWebserviceResponse();
+	}
+
 }
