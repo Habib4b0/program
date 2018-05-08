@@ -63,7 +63,7 @@ public class GtnUIFrameworkPagedTreeTableConfig {
     private List<String> rightTableTripleVisibleHeaders = new ArrayList<>();
 
     private Map<Object, Object[]> leftTableTripleHeaderMap = new HashMap<>();
-
+	
     private Map<Object, Object[]> rightTableTripleHeaderMap = new HashMap<>();
 
     public boolean isTripleHeaderVisible() {
