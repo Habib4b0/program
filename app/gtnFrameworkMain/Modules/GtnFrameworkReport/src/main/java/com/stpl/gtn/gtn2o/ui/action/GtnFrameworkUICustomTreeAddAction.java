@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
+import java.util.Optional;
 import java.util.Set;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
@@ -80,12 +81,12 @@ public class GtnFrameworkUICustomTreeAddAction
 	private void isAddingToVariable(GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded)
 			throws GtnFrameworkSkipActionException {
 		if (parentBean != null && GtnWsHierarchyType.VARIABLES.toString().equals(parentBean.getStringPropertyByIndex(2))
-				&& beanTobeAdded.getStringPropertyByIndex(0).equals(GtnWsReportVariablesType.VARIABLES.toString())) {
+				&& !(beanTobeAdded.getStringPropertyByIndex(0).equals(GtnWsReportVariablesType.VARIABLES.toString()))) {
 			throw new GtnFrameworkSkipActionException("Can't add to Variables");
 		}
 		if (parentBean == null
 				&& GtnWsHierarchyType.VARIABLES.toString().equals(beanTobeAdded.getStringPropertyByIndex(2))
-				&& beanTobeAdded.getStringPropertyByIndex(0).equals(GtnWsReportVariablesType.VARIABLES.toString())) {
+				&& !beanTobeAdded.getStringPropertyByIndex(0).equals(GtnWsReportVariablesType.VARIABLES.toString())) {
 			throw new GtnFrameworkSkipActionException("Can't add  Variables to root Level");
 		}
 
@@ -93,8 +94,14 @@ public class GtnFrameworkUICustomTreeAddAction
 
 	private void isChildAlreadAdded(TreeData<GtnWsRecordBean> gridData, GtnWsRecordBean selectedBean,
 			GtnWsRecordBean beanTobeAdded) throws GtnFrameworkGeneralException {
-		if (!gridData.getChildren(selectedBean).isEmpty()
-				&& !beanTobeAdded.getStringPropertyByIndex(2).equals(GtnWsHierarchyType.VARIABLES.toString())) {
+		if (beanTobeAdded.getStringPropertyByIndex(2).equals(GtnWsHierarchyType.VARIABLES.toString())) {
+			return;
+		}
+		Optional<GtnWsRecordBean> child = gridData.getChildren(selectedBean).stream().filter(
+				childBean -> !childBean.getStringPropertyByIndex(2).equals(GtnWsHierarchyType.VARIABLES.toString()))
+				.findFirst();
+
+		if (child.isPresent()) {
 			GtnUIFrameWorkActionConfig notificationConfig = new GtnUIFrameWorkActionConfig(
 					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 			String errorMsg = String.format(INVALID_MSG, beanTobeAdded.getStringPropertyByIndex(0),

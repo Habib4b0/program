@@ -263,7 +263,7 @@ public class GtnFrameworkReportCustomViewLookup {
 
 		GtnUIFrameWorkActionConfig removeAddActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
-		removeAddActionConfig.addActionParameter(GtnFrameworkUICustomTreeAddAction.class.getName());
+		removeAddActionConfig.addActionParameter(GtnFrameworkUICustomTreeRemoveAction.class.getName());
 		removeAddActionConfig.addActionParameter(tabName + "customViewLookupCustomerTable");
 		removeAddActionConfig.addActionParameter(tabName + "customTreeTable");
 		removeAddActionConfig.addActionParameter(GtnWsHierarchyType.CUSTOMER);

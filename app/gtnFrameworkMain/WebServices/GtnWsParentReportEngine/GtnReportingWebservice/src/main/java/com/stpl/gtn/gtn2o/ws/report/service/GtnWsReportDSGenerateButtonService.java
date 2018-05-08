@@ -8,6 +8,7 @@ import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
 import com.stpl.gtn.gtn2o.ws.report.engine.inputgenerator.service.GtnWsTreeService;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
@@ -41,7 +42,7 @@ public class GtnWsReportDSGenerateButtonService {
 		// Selected customer hierarchy all level
 		// LevelMap
 		GtnWsReportEngineTreeNode customerNode = gtnWsTreeService.buildTree(null, null,
-				MongoStringConstants.CUSTOMER_INDICATOR);
+				GtnWsHierarchyType.CUSTOMER);
 		// Mongo table name
 		gtnWsMongoService.writeTreeToMongo("", customerNode);
 	}
@@ -50,7 +51,7 @@ public class GtnWsReportDSGenerateButtonService {
 		// Selected customer hierarchy all level
 		// LevelMap
 		GtnWsReportEngineTreeNode productNode = gtnWsTreeService.buildTree(null, null,
-				MongoStringConstants.PRODUCT_INDICATOR);
+				GtnWsHierarchyType.PRODUCT);
 		// Mongo table name
 		gtnWsMongoService.writeTreeToMongo("", productNode);
 	}
