@@ -25,12 +25,12 @@ public class GtnWsReportInputGenerator {
 		List<Object[]> selectedCust = QUERY.getSelectedCust();
 		List<Object[]> selectedProd = QUERY.getSelectedProd();
 		Map<String, Object[]> custHierarchy = convertAsMap(SQL_INSTANCE.executeQuery(QUERY.getCustomerMap()));
-		GtnWsReportEngineTreeNode customerRootNode = TREE_SERVICE.buildTree(selectedCust, custHierarchy,
-				GtnWsHierarchyType.CUSTOMER);
+		GtnWsReportEngineTreeNode customerRootNode = TREE_SERVICE
+				.buildTree(SQL_INSTANCE.executeQuery(QUERY.getCustomerMap()), GtnWsHierarchyType.CUSTOMER);
 		// displayNodeValues(customerRootNode);
 		Map<String, Object[]> prodHierarchy = convertAsMap(SQL_INSTANCE.executeQuery(QUERY.getProductMap()));
-		GtnWsReportEngineTreeNode productrootNode = TREE_SERVICE.buildTree(selectedProd, prodHierarchy,
-				GtnWsHierarchyType.PRODUCT);
+		GtnWsReportEngineTreeNode productrootNode = TREE_SERVICE
+				.buildTree(SQL_INSTANCE.executeQuery(QUERY.getProductMap()), GtnWsHierarchyType.PRODUCT);
 		// displayNodeValues(productrootNode);
 		List<Object[]> customLevelDeatils = QUERY.getCustomViewWithDiscountLevel(caseNo);
 
