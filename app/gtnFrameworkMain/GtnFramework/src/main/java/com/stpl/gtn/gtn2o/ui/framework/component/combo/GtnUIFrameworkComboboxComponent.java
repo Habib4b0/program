@@ -30,7 +30,7 @@ import com.vaadin.ui.Component;
 
 public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent {
 
-	 GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkComboboxComponent.class);
+	 private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkComboboxComponent.class);
 
 	@Override
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) {
