@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeRemoveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomVariableGridLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomVariablePositionChangeAction;
@@ -104,7 +105,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		variableTypeOptionGroup.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_TYPE);
 		variableTypeOptionGroup.addComponentStyle(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE);
 		variableTypeOptionGroup.setGtnUIFrameworkOptionGroupConfig(optionGroupConfig);
-		
+
 		GtnUIFrameWorkActionConfig variableLoadConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		variableLoadConfig.addActionParameter(GtnFrameworkUICustomVariableGridLoadAction.class.getName());
@@ -112,7 +113,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				+ GtnFrameworkReportStringConstants.VARIABLE_TYPE_OPTION_GROUP);
 		variableLoadConfig
 				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
-		
+
 		variableTypeOptionGroup.addGtnUIFrameWorkActionConfig(variableLoadConfig);
 		componentList.add(variableTypeOptionGroup);
 	}
@@ -259,6 +260,15 @@ public class GtnFrameworkReportCustomViewLookup {
 		removeCustomerButton.setParentComponentId(customerBtnVerticalLayout.getComponentId());
 		removeCustomerButton.setComponentId(tabName + "removeCustomerBtn");
 		removeCustomerButton.setComponentName(" < ");
+
+		GtnUIFrameWorkActionConfig removeAddActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		removeAddActionConfig.addActionParameter(GtnFrameworkUICustomTreeRemoveAction.class.getName());
+		removeAddActionConfig.addActionParameter(tabName + "customViewLookupCustomerTable");
+		removeAddActionConfig.addActionParameter(tabName + "customTreeTable");
+		removeAddActionConfig.addActionParameter(GtnWsHierarchyType.CUSTOMER);
+		removeCustomerButton.addGtnUIFrameWorkActionConfig(removeAddActionConfig);
+
 		componentList.add(removeCustomerButton);
 
 	}
@@ -323,6 +333,16 @@ public class GtnFrameworkReportCustomViewLookup {
 		removeProductButton.setParentComponentId(productBtnVerticalLayout.getComponentId());
 		removeProductButton.setComponentId(tabName + GtnFrameworkReportStringConstants.REMOVE_PRODUCT_BTN);
 		removeProductButton.setComponentName(" < ");
+
+		GtnUIFrameWorkActionConfig productTreeRemoveActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		productTreeRemoveActionConfig.addActionParameter(GtnFrameworkUICustomTreeRemoveAction.class.getName());
+		productTreeRemoveActionConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE);
+		productTreeRemoveActionConfig.addActionParameter(tabName + "customTreeTable");
+		productTreeRemoveActionConfig.addActionParameter(GtnWsHierarchyType.PRODUCT);
+		removeProductButton.addGtnUIFrameWorkActionConfig(productTreeRemoveActionConfig);
+
 		componentList.add(removeProductButton);
 	}
 
@@ -386,6 +406,16 @@ public class GtnFrameworkReportCustomViewLookup {
 		removeDeductionButton.setParentComponentId(deductionBtnVerticalLayout.getComponentId());
 		removeDeductionButton.setComponentId(tabName + GtnFrameworkReportStringConstants.REMOVE_DEDUCTION_BTN);
 		removeDeductionButton.setComponentName(" < ");
+
+		GtnUIFrameWorkActionConfig deductionTreeRemoveActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deductionTreeRemoveActionConfig.addActionParameter(GtnFrameworkUICustomTreeRemoveAction.class.getName());
+		deductionTreeRemoveActionConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_DEDUCTION_TABLE);
+		deductionTreeRemoveActionConfig.addActionParameter(tabName + "customTreeTable");
+		deductionTreeRemoveActionConfig.addActionParameter(GtnWsHierarchyType.DEDUCTION);
+		removeDeductionButton.addGtnUIFrameWorkActionConfig(deductionTreeRemoveActionConfig);
+
 		componentList.add(removeDeductionButton);
 	}
 
@@ -452,6 +482,15 @@ public class GtnFrameworkReportCustomViewLookup {
 		removeVariablesButton.setParentComponentId(variablesBtnVerticalLayout.getComponentId());
 		removeVariablesButton.setComponentId(tabName + GtnFrameworkReportStringConstants.REMOVE_VARIABLES_BTN);
 		removeVariablesButton.setComponentName(" < ");
+
+		GtnUIFrameWorkActionConfig deductionTreeRemoveActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deductionTreeRemoveActionConfig.addActionParameter(GtnFrameworkUICustomTreeRemoveAction.class.getName());
+		deductionTreeRemoveActionConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
+		deductionTreeRemoveActionConfig.addActionParameter(tabName + "customTreeTable");
+		deductionTreeRemoveActionConfig.addActionParameter(GtnWsHierarchyType.VARIABLES);
+		removeVariablesButton.addGtnUIFrameWorkActionConfig(deductionTreeRemoveActionConfig);
 		componentList.add(removeVariablesButton);
 	}
 
