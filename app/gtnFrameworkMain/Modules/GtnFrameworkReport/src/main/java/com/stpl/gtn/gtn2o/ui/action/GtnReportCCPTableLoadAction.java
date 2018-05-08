@@ -138,6 +138,7 @@ public class GtnReportCCPTableLoadAction
 				.getVaadinBaseComponent(actionParamList.get(12).toString()).getCaptionFromV8ComboBox()));
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		dto.setSessionId(UUID.randomUUID().toString());
+		dto.setUniqueId(UUID.randomUUID().toString());
 		logger.info("******"+dto.getSessionId());
 		
 		return dto;
