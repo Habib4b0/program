@@ -89,35 +89,6 @@ public class GtnWsReturnsDualListBoxController {
 		return gtnResponse;
 	}
 	
-	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_CUSTHIERARCHY_LEFT_TABLELOAD_SERVICE, method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse loadCustHierarchyLeftTable(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
-			throws GtnFrameworkGeneralException {
-		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
-		List<Object> inputList = new ArrayList(
-				gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getQueryInputList());
-		GtnUIFrameworkWebserviceDualListBoxResponse dualListResponse = new GtnUIFrameworkWebserviceDualListBoxResponse();
-		String query = (String) inputList.get(0);
-		List<GtnWsRecordBean> resultList = (List<GtnWsRecordBean>) dualListBoxService.loadCustHierarchyLeftTable(query);
-		dualListResponse.setDualListBoxTableDataList(resultList);
-		System.out.println("DualDataListSize-------------->" + dualListResponse.getDualListBoxTableDataList().size());
-		System.out.println("DualDataList-------------->" + dualListResponse.getDualListBoxTableDataList().get(0));
-		for (int i = 0; i < dualListResponse.getDualListBoxTableDataList().get(0).getAdditionalProperties()
-				.size(); i++) {
-			System.out.println("properties----------->"
-					+ dualListResponse.getDualListBoxTableDataList().get(0).getAdditionalProperties().get(i));
-		}
-		gtnResponse.setGtnUIFrameworkWebserviceDualListBoxResponse(dualListResponse);
-		List<Object[]> searchResultList = dualListBoxService.loadCustHierarchyAvailableTable(query);
-		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
-		dataTable.addData(searchResultList);
-		GtnSerachResponse searchResponse = new GtnSerachResponse();
-		searchResponse.setResultSet(dataTable);
-		gtnResponse.setGtnSerachResponse(searchResponse);
-		logger.info("duallistresponse" + gtnResponse.getGtnUIFrameworkWebserviceDualListBoxResponse());
-		return gtnResponse;
-	}
-	
 	private boolean checkForData(List<Object> inputList) {
 		for (int i = 0; i < inputList.size(); i++) {
 			if ((inputList.get(i) == null || StringUtils.isBlank(String.valueOf(inputList.get(i))))
