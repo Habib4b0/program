@@ -30,7 +30,7 @@ import com.vaadin.ui.Component;
 
 public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent {
 
-	 GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkComboboxComponent.class);
+	 private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnUIFrameworkComboboxComponent.class);
 
 	@Override
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) {
@@ -79,7 +79,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 			setDefaultFocus(vaadinComboBox, componentConfig);
 		} catch (GtnFrameworkGeneralException ex) {
 
-			gtnLogger.error(ex.getMessage(), ex);
+			LOGGER.error(ex.getMessage(), ex);
 
 		}
 
@@ -98,7 +98,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 	public void reloadComponent(GtnUIFrameworkActionType action, String dependentComponentId, String componentId,
 			String sourceViewId, Object reloadInput) {
 
-		gtnLogger.info("Triggered reload with reload input " + reloadInput + "--Action--" + action);
+		LOGGER.info("Triggered reload with reload input " + reloadInput + "--Action--" + action);
 		GtnUIFrameworkComponentConfig componentConfig = getComboBoxComponentConfig(dependentComponentId, componentId);
 		reloadComboBoxComponent(dependentComponentId, componentId, reloadInput, sourceViewId, componentConfig);
 
@@ -114,7 +114,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 	@SuppressWarnings("unchecked")
 	private void reloadComboBoxComponent(String dependentComponentId, String componentId, Object reloadInput,
 			String sourceViewId, GtnUIFrameworkComponentConfig componentConfig) {
-		gtnLogger.info("Triggered reload with reload input " + reloadInput);
+		LOGGER.info("Triggered reload with reload input " + reloadInput);
 		List<Object> requestInputList = (List<Object>) reloadInput;
 		String simpleReload = String.valueOf(requestInputList.get(0));
 		if (!"simpleReload".equals(simpleReload)) {
@@ -127,7 +127,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 					actionConfig.addActionParameter(reloadInput);
 					customAction.doAction(componentId, actionConfig);
 				} catch (GtnFrameworkGeneralException ex) {
-					gtnLogger.error(componentId, ex);
+					LOGGER.error(componentId, ex);
 				}
 				return;
 			}
@@ -378,13 +378,13 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 
 				try {
 					Double value = Double.valueOf(newItem);
-					gtnLogger.debug("Value entered---" + value);
+					LOGGER.debug("Value entered---" + value);
 					int newItemId = -(vaadinComboBox.getItemIds().size() + 2);
 					vaadinComboBox.addItem(newItemId);
 					vaadinComboBox.setItemCaption(newItemId, newItem);
 					vaadinComboBox.select(newItemId);
 				} catch (NumberFormatException e) {
-                                    gtnLogger.debug("exception case"+e.getMessage());
+                                    LOGGER.debug("exception case"+e.getMessage());
                                         vaadinComboBox.select(newItem);
 				}
 			} else {
@@ -394,7 +394,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 							gtnComboboxConfig.getNewItemHandlerActionConfig());
 					gtnComboboxConfig.getNewItemHandlerActionConfig().getActionParameterList().remove(newItem);
 				} catch (GtnFrameworkGeneralException e) {
-					gtnLogger.error(e.getErrorMessage());
+					LOGGER.error(e.getErrorMessage());
 				}
 			}
 		}
