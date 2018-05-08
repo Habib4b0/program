@@ -319,6 +319,9 @@ public class GtnFrameworkSalesProjectionTabConfig {
 		List<String> fieldFactoryColum = Arrays.asList(GtnFrameworkCommonConstants.CHECK);
 		List<GtnUIFrameworkComponentConfig> reportingDashboardFieldFactoryComponent = new ArrayList<>();
 		salesProjectionTreeTableConfig.setLeftTableEditableColumnList(fieldFactoryColum);
+		
+		salesProjectionTreeTableConfig.setEnableRadioButtonInSingleHeader(true);
+		salesProjectionTreeTableConfig.setEnableCheckBoxInDoubleHeader(true);
 
 		GtnUIFrameworkComponentConfig checkBox = new GtnUIFrameworkComponentConfig();
 		checkBox.setComponentId(GtnFrameworkCommonConstants.CHECK);
