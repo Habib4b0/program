@@ -5,6 +5,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -21,7 +22,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -50,6 +50,10 @@ public class GtnReportCCPTableLoadAction
 		List<GtnWsRecordBean> selectedProductList = getSelectedProductList(actionParamList, componentId);
 		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList);
 		ccpHierarchyInsert(selectedCustomerList, selectedProductList, dataSelectionDto);
+
+		GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId);
+		GtnUIFrameworkComponentData componentData = baseComponent.getComponentData();
+		componentData.setCustomData(dataSelectionDto);
 	}
 
 	private List<GtnWsRecordBean> getSelectedCustomerList(List<Object> actionParamList, String componentId) {
@@ -121,19 +125,21 @@ public class GtnReportCCPTableLoadAction
 
 		dto.setProductHierarchyForecastLevel(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(10).toString()).getValueFromComponent())));
-		dto.setProductHierarchySid((Integer) productRecordBean.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1));
+		dto.setProductHierarchySid(
+				(Integer) productRecordBean.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1));
 		dto.setProductHierarchyVersionNo(Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(11).toString()).getCaptionFromComboBox()));
-		dto.setProductRelationshipBuilderSid(Integer.parseInt(String.valueOf(
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(9).toString()).getValueFromComponent())));
+		dto.setProductRelationshipBuilderSid(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(9).toString()).getValueFromComponent())));
 		dto.setProductRelationshipVersionNo(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(11).toString()).getValueFromComponent())));
 		dto.setReportDataSource(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(12).toString()).getCaptionFromV8ComboBox()));
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		dto.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
-		logger.info("******"+dto.getSessionId());
-		
+		dto.setSessionId(UUID.randomUUID().toString().replaceAll("-", "_"));
+		dto.setUniqueId(UUID.randomUUID().toString().replaceAll("-", "_"));
+		logger.info("******" + dto.getSessionId());
+
 		return dto;
 	}
 
@@ -191,7 +197,8 @@ public class GtnReportCCPTableLoadAction
 	}
 
 	private List<GtnFrameworkRelationshipLevelDefintionBean> relationBeanList(
-			List<GtnWsRecordBean> selectedCustomerContractList, GtnWsReportDataSelectionBean dataSelectionDto, boolean isProduct) {
+			List<GtnWsRecordBean> selectedCustomerContractList, GtnWsReportDataSelectionBean dataSelectionDto,
+			boolean isProduct) {
 		List<GtnFrameworkRelationshipLevelDefintionBean> relationBeanList = new ArrayList<>();
 		for (GtnWsRecordBean recordBean : selectedCustomerContractList) {
 
@@ -207,10 +214,10 @@ public class GtnReportCCPTableLoadAction
 			forecast.setHierarchyLevelDefinitionSid(recordBean.getIntegerProperty("hierarchyLevelDefSid"));
 			forecast.setLevelValueReference(recordBean.getStringProperty("levelValuReference"));
 			forecast.setRelationshipBuilderSid(recordBean.getIntegerProperty("relationshipBuilderSid"));
-			forecast.setRelationshipVersionNo(!isProduct ? dataSelectionDto.getCustomerRelationshipVersionNo():
-                                dataSelectionDto.getProductRelationshipVersionNo());
-			forecast.setHierarchyVersionNo(!isProduct ? dataSelectionDto.getCustomerHierarchyVersionNo():
-                                dataSelectionDto.getProductHierarchyVersionNo());
+			forecast.setRelationshipVersionNo(!isProduct ? dataSelectionDto.getCustomerRelationshipVersionNo()
+					: dataSelectionDto.getProductRelationshipVersionNo());
+			forecast.setHierarchyVersionNo(!isProduct ? dataSelectionDto.getCustomerHierarchyVersionNo()
+					: dataSelectionDto.getProductHierarchyVersionNo());
 			forecast.setHierarchyCategory(recordBean.getStringProperty("hierarchyCategory"));
 			relationBeanList.add(forecast);
 

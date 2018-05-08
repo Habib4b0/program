@@ -18,6 +18,7 @@ public class GtnWsReportDataSelectionBean {
 	private Date forecastEligibleDate;
 	private String userId;
 	private String sessionId;
+	private String uniqueId;
 
 	public int getProductRelationshipBuilderSid() {
 		return productRelationshipBuilderSid;
@@ -139,6 +140,18 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
+	}
+
+	public String getUniqueId() {
+		return uniqueId;
+	}
+
+	public void setUniqueId(String uniqueId) {
+		this.uniqueId = uniqueId;
+	}
+
+	public String getTableNameWithUniqueId(String tableName) {
+		return tableName + "_" + uniqueId;
 	}
 
 }
