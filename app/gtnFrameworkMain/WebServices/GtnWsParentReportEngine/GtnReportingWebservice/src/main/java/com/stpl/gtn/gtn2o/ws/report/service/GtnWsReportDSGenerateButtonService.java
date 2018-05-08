@@ -14,9 +14,10 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
 import com.stpl.gtn.gtn2o.ws.report.engine.inputgenerator.service.GtnWsTreeService;
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.service.displayformat.service.RelationshipLevelValuesMasterBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -45,7 +46,7 @@ public class GtnWsReportDSGenerateButtonService {
 		try {
 			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnReportRequest().getDataSelectionBean();
 			callCCPInsertService(gtnWsRequest);
-			callDeductionInsertQuery();
+			callDeductionInsertQuery(dataSelectionBean);
 			buildCustomerTree(dataSelectionBean);
 			buildProductTree(dataSelectionBean);
 			createDataSourceData("");
@@ -62,14 +63,15 @@ public class GtnWsReportDSGenerateButtonService {
 						gtnWsRequest.getGtnWsGeneralRequest().getSessionId()));
 	}
 
-	public void callDeductionInsertQuery() {
+	public void callDeductionInsertQuery(GtnWsReportDataSelectionBean dataSelectionBean) {
 		try {
-			String tableName = "ST_DEDUCTION_DETAILS_111_111";
+			String tableName = dataSelectionBean
+					.getTableNameWithUniqueId(MongoStringConstants.ST_DEDUCTION_SESSION_TABLE_NAME);
 			List<String> input = new ArrayList<>();
 			input.add(tableName);
 			input.add(tableName);
 			input.add(tableName);
-			input.add("ST_CCPD_HIERARCHY_111_111");
+			input.add(dataSelectionBean.getTableNameWithUniqueId(MongoStringConstants.ST_CCPD_SESSION_TABLE_NAME));
 			gtnSqlQueryEngine.executeInsertOrUpdateQuery(sqlService.getQuery(input, "deductionInsertQuery"));
 		} catch (GtnFrameworkGeneralException e) {
 			GTNLOGGER.error(e.getMessage());
@@ -90,7 +92,8 @@ public class GtnWsReportDSGenerateButtonService {
 				.executeSelectQuery(relationshipLevelValueMasterBean.getFinalQuery());
 		GtnWsReportEngineTreeNode customerNode = gtnWsTreeService.buildTree(customerResults,
 				GtnWsHierarchyType.CUSTOMER);
-		gtnWsMongoService.writeTreeToMongo("Customer_Tree", customerNode);
+		gtnWsMongoService.writeTreeToMongo(
+				dataSelectionBean.getTableNameWithUniqueId(MongoStringConstants.CUSTOMER_TREE), customerNode);
 	}
 
 	public void buildProductTree(GtnWsReportDataSelectionBean dataSelectionBean) throws GtnFrameworkGeneralException {
@@ -103,7 +106,8 @@ public class GtnWsReportDSGenerateButtonService {
 		List<Object[]> productResults = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(relationshipLevelValueMasterBean.getFinalQuery());
 		GtnWsReportEngineTreeNode productNode = gtnWsTreeService.buildTree(productResults, GtnWsHierarchyType.PRODUCT);
-		gtnWsMongoService.writeTreeToMongo("Product_Tree", productNode);
+		gtnWsMongoService.writeTreeToMongo(
+				dataSelectionBean.getTableNameWithUniqueId(MongoStringConstants.PRODUCT_TREE), productNode);
 	}
 
 	public void createDataSourceData(String collectionName) {

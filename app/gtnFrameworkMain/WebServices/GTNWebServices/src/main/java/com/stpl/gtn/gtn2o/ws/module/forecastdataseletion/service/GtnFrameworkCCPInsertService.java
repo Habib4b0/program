@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
 import com.stpl.gtn.gtn2o.ws.module.forecastconfiguration.controller.GtnWsForecastConfigurationController;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @Service
@@ -136,7 +137,8 @@ public class GtnFrameworkCCPInsertService {
 		return tempQuery;
 	}
 
-	public void insertToCPPTableReporting(GtnForecastHierarchyInputBean inputBean) throws GtnFrameworkGeneralException {
+	public void insertToCPPTableReporting(GtnForecastHierarchyInputBean inputBean,
+			GtnWsReportDataSelectionBean dataSelectionBean) throws GtnFrameworkGeneralException {
 		try {
 			List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList = relationUpdateService
 					.getHierarchyBuilder(inputBean.getSelectedCustomerHierarcySid(),
@@ -152,7 +154,7 @@ public class GtnFrameworkCCPInsertService {
 					customerHierarchyLevelDefinitionList, selectedCustomerRelationLevelList, false);
 			String productHierarchyQuery = getCustomerAndContractHierarchyQueryForReporting(inputBean,
 					productHierarchyLevelDefinitionList, selectedProductRelationLevelList, true);
-			String tableName = "ST_CCPD_HIERARCHY_111_111";
+			String tableName = dataSelectionBean.getTableNameWithUniqueId("ST_CCPD_HIERARCHY");
 			List<String> input = new ArrayList<>();
 			input.add(tableName);
 			input.add(tableName);
@@ -190,9 +192,9 @@ public class GtnFrameworkCCPInsertService {
 		if (!isProduct) {
 			List<Object> input1 = new ArrayList<>();
 			String date = inputBean.getForecastEligibleDate() == null ? null
-					: "'" + inputBean.getForecastEligibleDate() + "'";
-			input1.add(dateFormatter.format(date));
-			input1.add(dateFormatter.format(date));
+					: "'" + dateFormatter.format(inputBean.getForecastEligibleDate()) + "'";
+			input1.add(date);
+			input1.add(date);
 			query.append(gtnWsSqlService.getQuery(input1, queryName));
 		}
 

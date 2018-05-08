@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.NumericConstants;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportSqlService;
 import com.stpl.gtn.gtn2o.ws.report.service.displayformat.bean.GtnFrameworkDisplayFormatBean;
@@ -98,7 +99,7 @@ public class RelationshipLevelValuesMasterBean {
 		input.add(String.valueOf(tempListObject[0]));
 		input.add(getDisplayFormatColumn(gtnDisplayFormatMasterBean.getDisplayFormatList(),
 				String.valueOf(tempListObject[0]), bean));
-		input.add("ST_CCPD_HIERARCHY_111_111");
+		input.add(dataSelectionBean.getTableNameWithUniqueId(MongoStringConstants.ST_CCPD_SESSION_TABLE_NAME));
 		input.add(hierarchyNoType);
 		input.add(String.valueOf(tempListObject[1]));
 		input.add(String.valueOf(tempListObject[NumericConstants.TWO]));
