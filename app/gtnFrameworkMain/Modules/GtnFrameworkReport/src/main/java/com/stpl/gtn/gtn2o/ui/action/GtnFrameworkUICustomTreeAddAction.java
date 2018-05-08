@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkSkipActionException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.vaadin.data.TreeData;
 import com.vaadin.ui.TreeGrid;
 
@@ -78,12 +79,13 @@ public class GtnFrameworkUICustomTreeAddAction
 
 	private void isAddingToVariable(GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded)
 			throws GtnFrameworkSkipActionException {
-		if (parentBean != null
-				&& GtnWsHierarchyType.VARIABLES.toString().equals(parentBean.getStringPropertyByIndex(2))) {
+		if (parentBean != null && GtnWsHierarchyType.VARIABLES.toString().equals(parentBean.getStringPropertyByIndex(2))
+				&& beanTobeAdded.getStringPropertyByIndex(0).equals(GtnWsReportVariablesType.VARIABLES.toString())) {
 			throw new GtnFrameworkSkipActionException("Can't add to Variables");
 		}
 		if (parentBean == null
-				&& GtnWsHierarchyType.VARIABLES.toString().equals(beanTobeAdded.getStringPropertyByIndex(2))) {
+				&& GtnWsHierarchyType.VARIABLES.toString().equals(beanTobeAdded.getStringPropertyByIndex(2))
+				&& beanTobeAdded.getStringPropertyByIndex(0).equals(GtnWsReportVariablesType.VARIABLES.toString())) {
 			throw new GtnFrameworkSkipActionException("Can't add  Variables to root Level");
 		}
 
