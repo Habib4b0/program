@@ -3,8 +3,10 @@ package com.stpl.gtn.gtn2o.ui.action;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -50,6 +52,10 @@ public class GtnReportCCPTableLoadAction
 		List<GtnWsRecordBean> selectedProductList = getSelectedProductList(actionParamList, componentId);
 		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList);
 		ccpHierarchyInsert(selectedCustomerList, selectedProductList, dataSelectionDto);
+		
+		GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId);
+		GtnUIFrameworkComponentData componentData = baseComponent.getComponentData();
+		componentData.setCustomData(dataSelectionDto);
 	}
 
 	private List<GtnWsRecordBean> getSelectedCustomerList(List<Object> actionParamList, String componentId) {
@@ -131,7 +137,8 @@ public class GtnReportCCPTableLoadAction
 		dto.setReportDataSource(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(12).toString()).getCaptionFromV8ComboBox()));
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		dto.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
+		dto.setSessionId(UUID.randomUUID().toString());
+		dto.setUniqueId(UUID.randomUUID().toString());
 		logger.info("******"+dto.getSessionId());
 		
 		return dto;
