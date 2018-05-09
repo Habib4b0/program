@@ -5,8 +5,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 public class GtnWsReportCustomViewBean {
 	private GtnWsHierarchyType hierarchyType;
 	private GtnUIFrameworkDataTable gridData;
-	private GtnWsCustomTreeData customTreeData;
-	private String customViewName;
+	private GtnWsReportCustomViewDataBean customViewDataBean;
 
 	public GtnWsHierarchyType getHierarchyType() {
 		return hierarchyType;
@@ -24,20 +23,12 @@ public class GtnWsReportCustomViewBean {
 		this.gridData = gridData;
 	}
 
-	public GtnWsCustomTreeData getCustomTreeData() {
-		return customTreeData;
+	public GtnWsReportCustomViewDataBean getCustomViewDataBean() {
+		return customViewDataBean;
 	}
 
-	public void setCustomTreeData(GtnWsCustomTreeData customTreeData) {
-		this.customTreeData = customTreeData;
-	}
-
-	public String getCustomViewName() {
-		return customViewName;
-	}
-
-	public void setCustomViewName(String customViewName) {
-		this.customViewName = customViewName;
+	public void setCustomViewDataBean(GtnWsReportCustomViewDataBean customViewDataBean) {
+		this.customViewDataBean = customViewDataBean;
 	}
 
 }

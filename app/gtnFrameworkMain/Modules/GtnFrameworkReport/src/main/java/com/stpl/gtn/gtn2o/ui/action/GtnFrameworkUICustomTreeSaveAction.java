@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewDataBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -44,9 +45,13 @@ public class GtnFrameworkUICustomTreeSaveAction
 
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebServiceReportRequestBuilder()
 				.withCustomViewBean().build();
-		request.getGtnReportRequest().getReportBean().getCustomViewBean().setCustomTreeData(apexBean);
-		request.getGtnReportRequest().getReportBean().getCustomViewBean().setCustomViewName(
+		GtnWsReportCustomViewDataBean customViewDataBean = new GtnWsReportCustomViewDataBean();
+		request.getGtnWsReportRequest().getReportBean().getCustomViewBean().setCustomViewDataBean(customViewDataBean);
+		request.getGtnWsReportRequest().getReportBean().getCustomViewBean().getCustomViewDataBean()
+				.setCustomTreeData(apexBean);
+		request.getGtnWsReportRequest().getReportBean().getCustomViewBean().getCustomViewDataBean().setCustomViewName(
 				(String) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(textField, componentId).getFieldValue());
+
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportEndPointUrlConstants.SAVE_CUSTOM_TREE, GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
