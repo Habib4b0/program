@@ -82,17 +82,18 @@ public class GtnWSReportProductController {
 	public void setGtnFrameworkQueryEngineMain(GtnFrameworkQueryEngineMain gtnFrameworkQueryEngineMain) {
 		this.gtnFrameworkQueryEngineMain = gtnFrameworkQueryEngineMain;
 	}
-	
+
 	@RequestMapping(value = "/hierarchyDefinition", method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse getHierarchySidAndLevelDefId(@RequestBody GtnUIFrameworkWebserviceRequest request)
-			throws GtnFrameworkGeneralException {
-	
-		GtnWsReportRequest gtnWsReportRequest = request.getGtnReportRequest();
+	public GtnUIFrameworkWebserviceResponse getHierarchySidAndLevelDefId(
+			@RequestBody GtnUIFrameworkWebserviceRequest request) throws GtnFrameworkGeneralException {
+
+		GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
 		GtnReportHierarchyLookupBean lookupBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		 String query = "SELECT distinct LEVEL_NO, LEVEL_VALUE_REFERENCE, TABLE_NAME, FIELD_NAME, LEVEL_NAME, HLD.HIERARCHY_LEVEL_DEFINITION_SID, HLD.HIERARCHY_DEFINITION_SID, HT.DESCRIPTION from HIERARCHY_LEVEL_DEFINITION HLD JOIN dbo.HIERARCHY_DEFINITION HD on HD.HIERARCHY_DEFINITION_SID = hld.HIERARCHY_DEFINITION_SID JOIN dbo.HELPER_TABLE HT on HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY where hld.HIERARCHY_DEFINITION_SID ="+lookupBean.getHierarchyDefSid()+" and HLD.VERSION_NO ="+lookupBean.getVersionNo() ;
+		String query = "SELECT distinct LEVEL_NO, LEVEL_VALUE_REFERENCE, TABLE_NAME, FIELD_NAME, LEVEL_NAME, HLD.HIERARCHY_LEVEL_DEFINITION_SID, HLD.HIERARCHY_DEFINITION_SID, HT.DESCRIPTION from HIERARCHY_LEVEL_DEFINITION HLD JOIN dbo.HIERARCHY_DEFINITION HD on HD.HIERARCHY_DEFINITION_SID = hld.HIERARCHY_DEFINITION_SID JOIN dbo.HELPER_TABLE HT on HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY where hld.HIERARCHY_DEFINITION_SID ="
+				+ lookupBean.getHierarchyDefSid() + " and HLD.VERSION_NO =" + lookupBean.getVersionNo();
 
-		List<Object[]> results=executeQuery(query);
+		List<Object[]> results = executeQuery(query);
 		GtnWsReportResponse gtnWsReportResponse = new GtnWsReportResponse();
 		gtnWsReportResponse.setResultList(results);
 		response.setGtnWsReportResponse(gtnWsReportResponse);
@@ -102,20 +103,19 @@ public class GtnWSReportProductController {
 	@RequestMapping(value = "/queryExecutor", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getResultSet(@RequestBody GtnUIFrameworkWebserviceRequest request)
 			throws GtnFrameworkGeneralException {
-	
-		GtnWsReportRequest gtnWsReportRequest = request.getGtnReportRequest();
+
+		GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		List<Object[]> results=executeQuery(gtnWsReportRequest.getQuery());		
+		List<Object[]> results = executeQuery(gtnWsReportRequest.getQuery());
 		GtnWsReportResponse gtnWsReportResponse = new GtnWsReportResponse();
 		gtnWsReportResponse.setResultList(results);
 		response.setGtnWsReportResponse(gtnWsReportResponse);
 		return response;
 	}
-	
-		@SuppressWarnings({ "rawtypes" })
+
+	@SuppressWarnings({ "rawtypes" })
 	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 		gtnSqlQueryEngine.setSessionFactory(sessionFactory);
 		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
 	}
 }
-

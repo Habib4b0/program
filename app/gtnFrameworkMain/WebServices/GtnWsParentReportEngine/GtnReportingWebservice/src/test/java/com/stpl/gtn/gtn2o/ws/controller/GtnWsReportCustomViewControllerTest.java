@@ -1,5 +1,8 @@
 package com.stpl.gtn.gtn2o.ws.controller;
 
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
+
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.hibernate.Query;
@@ -21,8 +24,6 @@ import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
 import com.stpl.gtn.gtn2o.ws.report.controller.GtnWsReportCustomViewController;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
-import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
-import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -41,7 +42,7 @@ public class GtnWsReportCustomViewControllerTest {
 	public void testDisplay() {
 		prepereData();
 		GtnUIFrameworkWebserviceRequest request = getRequest();
-		request.getGtnReportRequest().getReportBean().getDataSelectionBean().setName("12114" + "UddasEdvbas$5");
+		request.getGtnWsReportRequest().getReportBean().getDataSelectionBean().setName("12114" + "UddasEdvbas$5");
 		getcustomerHierarchyRequest(request);
 		controller.loadHierarchyLevels(request);
 		deleteData();
@@ -54,7 +55,7 @@ public class GtnWsReportCustomViewControllerTest {
 	private GtnUIFrameworkWebserviceRequest getcustomerHierarchyRequest(GtnUIFrameworkWebserviceRequest request) {
 		GtnWsReportCustomViewBean customViewBean = new GtnWsReportCustomViewBean();
 		customViewBean.setHierarchyType(GtnWsHierarchyType.CUSTOMER);
-		request.getGtnReportRequest().getReportBean().setCustomViewBean(customViewBean);
+		request.getGtnWsReportRequest().getReportBean().setCustomViewBean(customViewBean);
 		return request;
 	}
 
