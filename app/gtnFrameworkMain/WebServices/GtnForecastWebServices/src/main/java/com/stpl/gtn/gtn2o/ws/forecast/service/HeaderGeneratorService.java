@@ -116,6 +116,20 @@ public class HeaderGeneratorService {
 
 	public GtnWsPagedTreeTableResponse getSalesProjectionLeftTableColumns(GtnWsForecastRequest request) {
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
+		
+		/*tableHeaderDTO.addSingleColumn("filterbox1", "",String.class);
+		tableHeaderDTO.addSingleColumn("filterbox2", "",String.class);
+		tableHeaderDTO.addSingleColumn("filterbox3", "",String.class);
+		
+		tableHeaderDTO.addDoubleHeaderMap("levelName",new Object[] {"filterbox1"});
+		tableHeaderDTO.addDoubleHeaderMap("baseLine",new Object[] {"filterbox2"});
+		tableHeaderDTO.addDoubleHeaderMap("methodology",new Object[] {"filterbox3"});
+		
+		tableHeaderDTO.addDoubleColumn("levelName", "Level Name");
+		tableHeaderDTO.addDoubleColumn("baseLine", "Base Line");
+		tableHeaderDTO.addDoubleColumn("methodology", "Methodology");*/
+		
+		
 		tableHeaderDTO.addSingleColumn("levelName", "Level Name", String.class);
 		tableHeaderDTO.addSingleColumn("baseLine", "Base Line", String.class);
 		tableHeaderDTO.addSingleColumn("methodology", "Methodology", String.class);
