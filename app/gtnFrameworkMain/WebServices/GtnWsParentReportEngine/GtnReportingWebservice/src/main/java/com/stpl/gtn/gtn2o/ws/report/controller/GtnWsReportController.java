@@ -295,7 +295,7 @@ public class GtnWsReportController {
 		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
 	}
 
-	@RequestMapping(value = "/buildCustomTree", method = RequestMethod.POST)
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_BUILD_CUSTOM_TREE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse buildCustomTree(@RequestBody GtnUIFrameworkWebserviceRequest request)
 			throws GtnFrameworkGeneralException {
 
