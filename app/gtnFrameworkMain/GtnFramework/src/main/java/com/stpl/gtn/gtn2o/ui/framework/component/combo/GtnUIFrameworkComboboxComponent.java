@@ -356,7 +356,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 		vaadinComboBox.setValue(0);
 	}
 
-	class GtnNewItemHandler implements NewItemHandler {
+	public static class GtnNewItemHandler implements NewItemHandler {
 
 		private static final long serialVersionUID = 1L;
 
