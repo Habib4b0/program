@@ -1113,5 +1113,5 @@ public class GtnForecastBean implements Serializable {
         this.variablesVariances = variablesVariances;
     }
 
-}
+	}
 
