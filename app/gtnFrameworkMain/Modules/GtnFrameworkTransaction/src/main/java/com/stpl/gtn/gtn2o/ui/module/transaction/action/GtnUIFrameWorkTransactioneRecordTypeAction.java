@@ -73,15 +73,14 @@ public class GtnUIFrameWorkTransactioneRecordTypeAction implements GtnUIFrameWor
 
 			}
 			if (checkBean.isCheckAll()) {
-				GtnWsRecordBean.addProperties(0,
-						checkBean.isCheckAll() || checkBean.getCheckedIdSet()
+				GtnWsRecordBean.addProperties(0,!checkBean.getUnCheckedIdSet()
 								.contains(record.getStringPropertyByIndex(record.getProperties().size() - 1)),
 						record.getProperties());
 			} else {
 				GtnWsRecordBean.addProperties(0, checkBean.getCheckedIdSet().contains(record.getStringPropertyByIndex(record.getProperties().size() - 1)),
 						record.getProperties());
 			}
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableId).setPagedTableHeaderCheckBox(checkBean.isCheckAll(),
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableId).setPagedTableHeaderCheckBox(checkBean.getUnCheckedIdSet().isEmpty() && checkBean.isCheckAll(),
 					GtnTransactionUIConstants.CHECK_RECORD);
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException("Error in doAction", e);
