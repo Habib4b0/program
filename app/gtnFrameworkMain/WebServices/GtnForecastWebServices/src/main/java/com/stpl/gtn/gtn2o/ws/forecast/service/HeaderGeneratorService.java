@@ -30,8 +30,10 @@ public class HeaderGeneratorService {
 			throws GtnFrameworkGeneralException {
 
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
-		tableHeaderDTO.addSingleColumn("levelName", "", String.class);
-		tableHeaderDTO.addDoubleColumn("levelName", "");
+		
+		tableHeaderDTO.addSingleColumn("leftSingleHeader", "", String.class);
+		tableHeaderDTO.addDoubleHeaderMap("leftDoubleHeader",new Object[] {"leftSingleHeader"});
+		tableHeaderDTO.addDoubleColumn("leftDoubleHeader", "");
 
 		return tableHeaderDTO;
 	}	

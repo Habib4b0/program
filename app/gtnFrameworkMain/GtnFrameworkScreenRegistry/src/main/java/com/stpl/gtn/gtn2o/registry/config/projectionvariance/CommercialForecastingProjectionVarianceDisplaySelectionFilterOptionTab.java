@@ -73,7 +73,6 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		displaySelectionLayoutConfig.setAddToParent(true);
 		
-		
 		componentList.add(displaySelectionLayoutConfig);
 
 		addDisplaySelectionInnerLayout(componentList,displaySelectionLayoutConfig.getComponentId(), nameSpace);		
@@ -88,7 +87,7 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionInnerMainLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		displaySelectionInnerMainLayoutConfig.setComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout");
 		displaySelectionInnerMainLayoutConfig.setAddToParent(Boolean.TRUE);
-		displaySelectionInnerMainLayoutConfig.setSpacing(Boolean.TRUE);
+		displaySelectionInnerMainLayoutConfig.setSpacing(Boolean.FALSE);
 		displaySelectionInnerMainLayout.setMargin(Boolean.TRUE);
 		displaySelectionInnerMainLayoutConfig.setParentComponentId(parentComponentId);
 		displaySelectionInnerMainLayoutConfig.setGtnLayoutConfig(displaySelectionInnerMainLayout);
@@ -100,7 +99,7 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionInnerMainLayoutConfig2.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		displaySelectionInnerMainLayoutConfig2.setComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout2");
 		displaySelectionInnerMainLayoutConfig2.setAddToParent(Boolean.TRUE);
-		displaySelectionInnerMainLayoutConfig2.setSpacing(Boolean.TRUE);
+		displaySelectionInnerMainLayoutConfig2.setSpacing(Boolean.FALSE);
 		displaySelectionInnerMainLayoutConfig2.setParentComponentId(parentComponentId);
 		displaySelectionInnerMainLayoutConfig2.setGtnLayoutConfig(displaySelectionInnerMainLayout2);
 		
@@ -114,7 +113,6 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionInnerLayoutConfig1.setComponentId(nameSpace + "_" + "displaySelectionInnerLayout1");
 		displaySelectionInnerLayoutConfig1.setAddToParent(Boolean.TRUE);
 		displaySelectionInnerLayoutConfig1.setSpacing(Boolean.TRUE);
-		displaySelectionInnerLayout1.setMargin(Boolean.TRUE);
 		displaySelectionInnerLayoutConfig1.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout");
 		displaySelectionInnerLayoutConfig1.setGtnLayoutConfig(displaySelectionInnerLayout1);
 		
@@ -127,7 +125,6 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionInnerLayoutConfig2.setComponentId(nameSpace + "_" + "displaySelectionInnerLayout2");
 		displaySelectionInnerLayoutConfig2.setAddToParent(Boolean.TRUE);
 		displaySelectionInnerLayoutConfig2.setSpacing(Boolean.TRUE);
-		displaySelectionInnerLayout2.setMargin(Boolean.TRUE);
 		displaySelectionInnerLayoutConfig2.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout");
 		displaySelectionInnerLayoutConfig2.setGtnLayoutConfig(displaySelectionInnerLayout2);
 		
@@ -140,7 +137,6 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionInnerLayoutConfig3.setComponentId(nameSpace + "_" + "displaySelectionInnerLayout3");
 		displaySelectionInnerLayoutConfig3.setAddToParent(Boolean.TRUE);
 		displaySelectionInnerLayoutConfig3.setSpacing(Boolean.TRUE);
-		displaySelectionInnerLayout3.setMargin(Boolean.TRUE);
 		displaySelectionInnerLayoutConfig3.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout");
 		displaySelectionInnerLayoutConfig3.setGtnLayoutConfig(displaySelectionInnerLayout3);
 		
@@ -151,8 +147,7 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionInnerLayoutConfig4.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		displaySelectionInnerLayoutConfig4.setComponentId(nameSpace + "_" + "displaySelectionInnerLayout4");
 		displaySelectionInnerLayoutConfig4.setAddToParent(Boolean.TRUE);
-		displaySelectionInnerLayoutConfig4.setSpacing(Boolean.TRUE);
-		displaySelectionInnerLayout4.setMargin(Boolean.TRUE);
+		displaySelectionInnerLayoutConfig4.setSpacing(Boolean.FALSE);
 		displaySelectionInnerLayoutConfig4.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout2");
 		displaySelectionInnerLayoutConfig4.setGtnLayoutConfig(displaySelectionInnerLayout4);
 		
@@ -164,8 +159,8 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		displaySelectionInnerLayoutConfig5.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		displaySelectionInnerLayoutConfig5.setComponentId(nameSpace + "_" + "displaySelectionInnerLayout5");
 		displaySelectionInnerLayoutConfig5.setAddToParent(Boolean.TRUE);
-		displaySelectionInnerLayoutConfig5.setSpacing(Boolean.TRUE);
-		displaySelectionInnerLayout5.setMargin(Boolean.TRUE);
+		displaySelectionInnerLayoutConfig5.setSpacing(Boolean.FALSE);
+		
 		displaySelectionInnerLayoutConfig5.setParentComponentId(nameSpace + "_" + "displaySelectionInnerMainLayout2");
 		displaySelectionInnerLayoutConfig5.setGtnLayoutConfig(displaySelectionInnerLayout5);
 		
@@ -180,18 +175,16 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		componentList.add(displaySelectionInnerLayoutConfig5);
 		
 		addComparisonComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);	
-		addlevelLabelComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);
 		addLevelComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);
 		addComparisonBasisComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);
-		addVariableCatagoryComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);
 		addProjectionPeriodOrderComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);
+		addVariableCatagoryComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);
 		addDateRangeComponent(componentList, displaySelectionInnerLayoutConfig1.getComponentId(), nameSpace);
 		addFrequencyComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
+		addPivotViewComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
+		addVariablesComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
 		addDiscountLevelLabelComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
 		addDiscountLevelComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
-		addVariablesComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
-		addPivoteViewLabelComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
-		addPivotViewComponent(componentList, displaySelectionInnerLayoutConfig2.getComponentId(), nameSpace);
 		addCurrencyFormatComponent(componentList, displaySelectionInnerLayoutConfig3.getComponentId(), nameSpace);
 		addFromComponent(componentList, displaySelectionInnerLayoutConfig4.getComponentId(), nameSpace);
 		addDisplayFormatComponent(componentList, displaySelectionInnerLayoutConfig4.getComponentId(), nameSpace);	
@@ -219,29 +212,29 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 	}
 	
 	
-	private void addlevelLabelComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
-		
-		GtnUIFrameworkComponentConfig levelLabelLayout = configProvider
-				.getHorizontalLayoutConfig(nameSpace + "_" + "levelLabelLayout", true, parentComponentId);
-		levelLabelLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		levelLabelLayout.setSpacing(true);
-		componentList.add(levelLabelLayout);
-
-		GtnUIFrameworkComponentConfig levelLabel = new GtnUIFrameworkComponentConfig();
-		levelLabel.setComponentType(GtnUIFrameworkComponentType.LABEL);
-		levelLabel.setComponentValue("Level:");
-		levelLabel.setComponentId(nameSpace + "_" + "levelLable");
-		levelLabel.setParentComponentId(levelLabelLayout.getComponentId());
-		levelLabel.setAddToParent(true);
-		
-		GtnUIFrameworkLabelConfig levelLabelConfig = new GtnUIFrameworkLabelConfig();
-		levelLabelConfig.setEnable(true);
-		levelLabel.setGtnLabelConfig(levelLabelConfig);
-		
-		
-		componentList.add(levelLabel);
-
-	}
+//	private void addlevelLabelComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
+//		
+//		GtnUIFrameworkComponentConfig levelLabelLayout = configProvider
+//				.getHorizontalLayoutConfig(nameSpace + "_" + "levelLabelLayout", true, parentComponentId);
+//		levelLabelLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+//		levelLabelLayout.setSpacing(true);
+//		componentList.add(levelLabelLayout);
+//
+//		GtnUIFrameworkComponentConfig levelLabel = new GtnUIFrameworkComponentConfig();
+//		levelLabel.setComponentType(GtnUIFrameworkComponentType.LABEL);
+//		levelLabel.setComponentValue("Level:");
+//		levelLabel.setComponentId(nameSpace + "_" + "levelLable");
+//		levelLabel.setParentComponentId(levelLabelLayout.getComponentId());
+//		levelLabel.setAddToParent(true);
+//		
+//		GtnUIFrameworkLabelConfig levelLabelConfig = new GtnUIFrameworkLabelConfig();
+//		levelLabelConfig.setEnable(true);
+//		levelLabel.setGtnLabelConfig(levelLabelConfig);
+//		
+//		
+//		componentList.add(levelLabel);
+//
+//	}
 	
 	private void addLevelComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
 		
@@ -252,9 +245,9 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		componentList.add(levelLayoutConfig);
 
 		GtnUIFrameworkComponentConfig levelOptionRadioGroup = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "level", true, nameSpace + "_" + "levelLayout",
+				nameSpace + "_" + "pvLevel", true, nameSpace + "_" + "levelLayout",
 				GtnUIFrameworkComponentType.OPTIONGROUP);
-		//levelOptionRadioGroup.setComponentName("Level:");
+		levelOptionRadioGroup.setComponentName("Level:");
 
 		GtnUIFrameworkOptionGroupConfig levelOptionGroupConfig = new GtnUIFrameworkOptionGroupConfig();
 		levelOptionGroupConfig.setItemValues(Arrays.asList(new String[] { "Total", "Detail"}));
@@ -466,9 +459,10 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		componentList.add(discountLevelLayoutConfig);
 
 		GtnUIFrameworkComponentConfig discountLevelLayoutOptionRadioGroup = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + "_" + "level", true, nameSpace + "_" + "discountLevelLayout",
+				nameSpace + "_" + "discountlevel", true, nameSpace + "_" + "discountLevelLayout",
 				GtnUIFrameworkComponentType.OPTIONGROUP);
 		discountLevelLayoutOptionRadioGroup.setMargin(true);
+		//discountLevelLayoutOptionRadioGroup.setComponentName("Discount Level:");
 
 		GtnUIFrameworkOptionGroupConfig disocountLevelOptionGroupConfig = new GtnUIFrameworkOptionGroupConfig();
 		disocountLevelOptionGroupConfig.setItemValues(Arrays.asList(new String[] { "Total Discount", "Program Category", "Program"}));
@@ -505,28 +499,28 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 
 	}
 
-	private void addPivoteViewLabelComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
-		
-		GtnUIFrameworkComponentConfig pivoteViewLabelLayout = configProvider
-				.getHorizontalLayoutConfig(nameSpace + "_" + "pivoteViewLabelLayout", true, parentComponentId);
-		pivoteViewLabelLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		componentList.add(pivoteViewLabelLayout);
-
-		GtnUIFrameworkComponentConfig pivoteViewLabel = new GtnUIFrameworkComponentConfig();
-		pivoteViewLabel.setComponentType(GtnUIFrameworkComponentType.LABEL);
-		pivoteViewLabel.setComponentValue("Pivot View:");
-		pivoteViewLabel.setComponentId(nameSpace + "_" + "pivoteViewLabel");
-		pivoteViewLabel.setParentComponentId(pivoteViewLabelLayout.getComponentId());
-		pivoteViewLabel.setAddToParent(true);
-		
-		GtnUIFrameworkLabelConfig discountLevelLableConfig = new GtnUIFrameworkLabelConfig();
-		discountLevelLableConfig.setEnable(true);
-		pivoteViewLabel.setGtnLabelConfig(discountLevelLableConfig);
-		
-		
-		componentList.add(pivoteViewLabel);
-
-	}
+//	private void addPivoteViewLabelComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
+//		
+//		GtnUIFrameworkComponentConfig pivoteViewLabelLayout = configProvider
+//				.getHorizontalLayoutConfig(nameSpace + "_" + "pivoteViewLabelLayout", true, parentComponentId);
+//		pivoteViewLabelLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+//		componentList.add(pivoteViewLabelLayout);
+//
+//		GtnUIFrameworkComponentConfig pivoteViewLabel = new GtnUIFrameworkComponentConfig();
+//		pivoteViewLabel.setComponentType(GtnUIFrameworkComponentType.LABEL);
+//		pivoteViewLabel.setComponentValue("Pivot View:");
+//		pivoteViewLabel.setComponentId(nameSpace + "_" + "pivoteViewLabel");
+//		pivoteViewLabel.setParentComponentId(pivoteViewLabelLayout.getComponentId());
+//		pivoteViewLabel.setAddToParent(true);
+//		
+//		GtnUIFrameworkLabelConfig discountLevelLableConfig = new GtnUIFrameworkLabelConfig();
+//		discountLevelLableConfig.setEnable(true);
+//		pivoteViewLabel.setGtnLabelConfig(discountLevelLableConfig);
+//		
+//		
+//		componentList.add(pivoteViewLabel);
+//
+//	}
 	
 	private void addPivotViewComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId, String nameSpace) {
 		
@@ -539,7 +533,7 @@ public class CommercialForecastingProjectionVarianceDisplaySelectionFilterOption
 		GtnUIFrameworkComponentConfig pivotViewOptionRadioGroup = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + "_" + "pivotView", true, nameSpace + "_" + "pivotViewLayout",
 				GtnUIFrameworkComponentType.OPTIONGROUP);
-		//pivotViewOptionRadioGroup.setComponentName("Pivot View:");
+		pivotViewOptionRadioGroup.setComponentName("Pivot View:");
 		pivotViewOptionRadioGroup.setSpacing(true);
 
 		GtnUIFrameworkOptionGroupConfig pivotOptionGroupConfig = new GtnUIFrameworkOptionGroupConfig();
