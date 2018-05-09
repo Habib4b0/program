@@ -55,11 +55,6 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.stpl.gtn.gtn2o.ws.report.engine</groupId>
-            <artifactId>GtnWsReportEngineInputGenerator</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
             <groupId>com.stpl.gtn.gtn2o</groupId>
             <artifactId>GtnWsSecurity</artifactId>
             <version>${gtnsecurity.version}</version>

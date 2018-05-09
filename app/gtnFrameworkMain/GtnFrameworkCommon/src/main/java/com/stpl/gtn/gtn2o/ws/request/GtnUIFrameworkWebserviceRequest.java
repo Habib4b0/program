@@ -127,7 +127,6 @@ public class GtnUIFrameworkWebserviceRequest {
 
 	private GtnWsAttachmentRequest gtnWsAttachmentRequest;
 
-
 	private GtnWsReportRequest gtnReportRequest;
 
 	public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
@@ -469,18 +468,12 @@ public class GtnUIFrameworkWebserviceRequest {
 		this.gtnWsAttachmentRequest = gtnWsAttachmentRequest;
 	}
 
-
-	public GtnWsReportRequest getGtnReportRequest() {
-		return gtnReportRequest;
-	}
-
 	public void setGtnReportRequest(GtnWsReportRequest gtnReportRequest) {
 		this.gtnReportRequest = gtnReportRequest;
 	}
 
-    public GtnWsReportRequest getGtnWsReportRequest() {
-       return gtnReportRequest;
-    }
-
+	public GtnWsReportRequest getGtnWsReportRequest() {
+		return gtnReportRequest;
+	}
 
 }
