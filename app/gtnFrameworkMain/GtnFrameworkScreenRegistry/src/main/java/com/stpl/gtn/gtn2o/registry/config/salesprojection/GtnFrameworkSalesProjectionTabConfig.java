@@ -277,7 +277,7 @@ public class GtnFrameworkSalesProjectionTabConfig {
 
 		GtnUIFrameworkComponentConfig salesProjectionResultTableComponentConfig = new GtnUIFrameworkComponentConfig();
 		salesProjectionResultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGED_TREE_GRID);
-		salesProjectionResultTableComponentConfig.setComponentId(GtnFrameworkCommonConstants.RESULT_TABLE);
+		salesProjectionResultTableComponentConfig.setComponentId(nameSpace+"resultPagedTreeGrid");
 		salesProjectionResultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
 		salesProjectionResultTableComponentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		salesProjectionResultTableComponentConfig.setAddToParent(true);
