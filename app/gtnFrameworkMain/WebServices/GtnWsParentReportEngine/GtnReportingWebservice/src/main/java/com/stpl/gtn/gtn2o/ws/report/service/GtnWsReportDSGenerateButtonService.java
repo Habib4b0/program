@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import com.stpl.gtn.gtn20.ws.report.engine.mongo.constants.MongoConstants;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
@@ -43,13 +44,12 @@ public class GtnWsReportDSGenerateButtonService {
 
 	public void generateCCPForReporting(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		try {
-			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getReportBean()
-					.getDataSelectionBean();
+			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
 			callCCPInsertService(gtnWsRequest);
 			callDeductionInsertQuery(dataSelectionBean);
 			buildCustomerTree(dataSelectionBean);
 			buildProductTree(dataSelectionBean);
-			createDataSourceData("");
+			createDataSourceData(MongoConstants.KAFKA_MONGO_COLLECTION_NAME);
 		} catch (GtnFrameworkGeneralException ex) {
 			ex.printStackTrace();
 		}
@@ -111,7 +111,7 @@ public class GtnWsReportDSGenerateButtonService {
 	}
 
 	public void createDataSourceData(String collectionName) {
-		// Need to get query from reddy
+		gtnWsMongoService.kafkaToMongoData(collectionName);
 	}
 
 	public static GtnWsSecurityToken getGsnWsSecurityToken(String userId, String sessionId) {
