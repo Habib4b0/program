@@ -165,7 +165,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		
 		GtnUIFrameworkComponentConfig customerSelectionRelationshipVersionLayout = configProvider
 				.getHorizontalLayoutConfig("customerSelectionRelationshipVersionLayout", true, customerSelectionHierarchyRelationshipConfig.getComponentId());
-		customerSelectionRelationshipVersionLayout.setVisible(false);
+//		customerSelectionRelationshipVersionLayout.setVisible(false);
 		
 		GtnUIFrameworkComponentConfig customerRelationshipVersion = configProvider.getUIFrameworkComponentConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion", true,

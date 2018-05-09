@@ -40,10 +40,16 @@
     </bean>
 
     <bean id="mongoCLientFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName" value="java:jboss/MongoClient" />
+        <property name="jndiName" value="java:global/MyMongoClient" />
     </bean>
     <bean id="sqlPropertyBean"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations" value="classpath:/sqlresource/sqlqueries.xml" />
     </bean>
+    
+    <bean id="gtnDisplayFormatMasterBean"
+          class="com.stpl.gtn.gtn2o.ws.report.service.displayformat.service.GtnDisplayFormatMasterBean" init-method="init">
+          <property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+    </bean>
+    
 </beans>

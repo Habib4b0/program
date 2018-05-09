@@ -149,5 +149,9 @@ public class GtnWsReportDataSelectionBean {
 	public void setUniqueId(String uniqueId) {
 		this.uniqueId = uniqueId;
 	}
-	
+
+	public String getTableNameWithUniqueId(String tableName) {
+		return tableName + "_" + uniqueId;
+	}
+
 }

@@ -63,7 +63,7 @@ public class GtnFrameworkUICustomTreeSaveAction
 			GtnWsCustomTreeData parentBean) {
 		List<GtnWsReportVariablesType> variableList = new ArrayList<>();
 		for (GtnWsRecordBean bean : childItems) {
-			if (bean.getStringPropertyByIndex(3).equals(GtnWsHierarchyType.VARIABLES.toString())) {
+			if (bean.getStringPropertyByIndex(2).equals(GtnWsHierarchyType.VARIABLES.toString())) {
 				variableList.add(GtnWsReportVariablesType.fromString(bean.getStringPropertyByIndex(0)));
 			} else {
 				GtnWsCustomTreeData tempBean = new GtnWsCustomTreeData();
