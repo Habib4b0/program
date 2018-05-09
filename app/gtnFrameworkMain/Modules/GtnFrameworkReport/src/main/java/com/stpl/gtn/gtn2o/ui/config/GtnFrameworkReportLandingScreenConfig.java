@@ -465,16 +465,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.addActionParameter("reportLandingScreen_reportDataSource");
 		actionList.add(generateAction);
 		
-		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
-		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
-
-		List<Object> actionParams = new ArrayList<>();
-		actionParams.add("dataAssumptionsPagedTableComponent");
-
-		loadDataTableActionConfig.setActionParameterList(actionParams);
-		
-		actionList.add(loadDataTableActionConfig);
-		
 		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);
 
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();

@@ -36,7 +36,7 @@ public class GtnCustomerAvailableTableLoadAction
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		// TODO Auto-generated method stub
+		return ;
 
 	}
 

@@ -118,7 +118,7 @@ public class GtnWsReportController {
 	public GtnUIFrameworkWebserviceResponse getHierarchySidAndLevelDefId(
 			@RequestBody GtnUIFrameworkWebserviceRequest request) throws GtnFrameworkGeneralException {
 
-		GtnWsReportRequest gtnWsReportRequest = request.getGtnReportRequest();
+		GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
 		GtnReportHierarchyLookupBean lookupBean = gtnWsReportRequest.getCustomerHierarchyLookupBean();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		String query = GtnWsQueryConstants.HIERARCHY_SID_AND_LEVEL_DEFINITION_SID;
@@ -242,7 +242,7 @@ public class GtnWsReportController {
 				String filterId = dbColumnIdMap.get(searchCriteria.getFieldId());
 				String filterValue = searchCriteria.getFilterValue1();
 				String filterExpression = searchCriteria.getExpression();
-				filter = "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue + "%'";
+				filter = filter + "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue + "%'";
 				if (dbColumnDataTypeMap.get(searchCriteria.getFieldId()).equals("Date")) {
 					filter = "AND" + " (CONVERT(CHAR(10)," + filterId + "120) >=" + " " + "'" + filterValue + "'";
 				}
@@ -299,7 +299,7 @@ public class GtnWsReportController {
 	public GtnUIFrameworkWebserviceResponse buildCustomTree(@RequestBody GtnUIFrameworkWebserviceRequest request)
 			throws GtnFrameworkGeneralException {
 
-		GtnWsReportRequest gtnWsReportRequest = request.getGtnReportRequest();
+		GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
 		GtnWsReportDashboardBean gtnWsReportDashboardBean = gtnWsReportRequest.getGtnWsReportDashboardBean();
 
 		GtnWsReportEngineTreeNode root = new GtnWsReportEngineTreeNode();
