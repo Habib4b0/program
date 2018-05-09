@@ -11,15 +11,15 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 public class GtnWsReportResponse implements GtnWSRequestData {
 
 	private GtnReportHierarchyLookupBean customerHierarchyLookupBean;
-	private List<Object[]> resultList;
+	private List<?> resultList;
 	private GtnWsReportDataSelectionBean dataSelectionBean;
 	private GtnWsReportCustomViewBean customViewBean;
 
-	public List<Object[]> getResultList() {
+	public List<?> getResultList() {
 		return resultList;
 	}
 
-	public void setResultList(List<Object[]> resultList) {
+	public void setResultList(List<?> resultList) {
 		this.resultList = resultList;
 	}
 

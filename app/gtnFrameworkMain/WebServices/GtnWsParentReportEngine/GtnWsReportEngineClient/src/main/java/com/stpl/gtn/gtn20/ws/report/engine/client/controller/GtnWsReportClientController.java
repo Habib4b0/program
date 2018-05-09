@@ -27,10 +27,10 @@ public class GtnWsReportClientController {
 		MONGO_SERVICE.createCollection("computedResults1");
 		MONGO_SERVICE.updateFinalResultsToMongo("computedResults1", outputTree);
 
-		MONGO_SERVICE.writeTreeToMongo("Tree", input);
+//		MONGO_SERVICE.writeTreeToMongo("Tree", input);
                 String inputs[]={"levelNumber"};
                 Object values[]={1};
-                inputGenerator.displayNodeValues((GtnWsReportEngineTreeNode) MONGO_SERVICE.getTreeFromMongo("Tree",GtnWsReportEngineTreeNode.class,inputs,values));
+//                inputGenerator.displayNodeValues((GtnWsReportEngineTreeNode) MONGO_SERVICE.getTreeFromMongo("Tree",GtnWsReportEngineTreeNode.class,inputs,values));
             }catch(Exception ex){
                 ex.printStackTrace();
             }
