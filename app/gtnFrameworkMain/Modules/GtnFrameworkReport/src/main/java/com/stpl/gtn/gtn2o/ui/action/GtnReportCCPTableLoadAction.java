@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -53,7 +54,7 @@ public class GtnReportCCPTableLoadAction
 		List<GtnWsRecordBean> selectedProductList = getSelectedProductList(actionParamList, componentId);
 		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList);
 		ccpHierarchyInsert(selectedCustomerList, selectedProductList, dataSelectionDto);
-		
+
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
 		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		List<Object> params = new ArrayList<>();
@@ -191,9 +192,11 @@ public class GtnReportCCPTableLoadAction
 		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+		GtnWsReportBean reportBeanRequest = new GtnWsReportBean();
 		generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
-		reportRequest.setDataSelectionBean(dataSelectionBean);
+		reportRequest.setReportBean(reportBeanRequest);
+		reportBeanRequest.setDataSelectionBean(dataSelectionBean);
 		forecastRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
