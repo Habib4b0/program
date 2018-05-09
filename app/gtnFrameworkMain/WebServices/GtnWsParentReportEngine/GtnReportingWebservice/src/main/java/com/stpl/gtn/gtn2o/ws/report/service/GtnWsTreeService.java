@@ -20,6 +20,7 @@ import com.mongodb.client.MongoCollection;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoDBConnectionService;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewDataBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 
@@ -476,10 +477,10 @@ public class GtnWsTreeService {
 	}
 
 	public GtnWsCustomTreeData getCustomTreeData(String tableName, String customViewName) {
-		MongoCollection<GtnWsCustomTreeData> collection = connection.getDBInstance().getCollection(tableName,
-				GtnWsCustomTreeData.class);
-		FindIterable<GtnWsCustomTreeData> selectionBean = collection.find(and(eq("name", customViewName)));
-		return selectionBean.first();
+		MongoCollection<GtnWsReportCustomViewDataBean> collection = connection.getDBInstance().getCollection(tableName,
+				GtnWsReportCustomViewDataBean.class);
+		FindIterable<GtnWsReportCustomViewDataBean> selectionBean = collection.find(and(eq("customViewName", customViewName)));
+		return selectionBean.first().getCustomTreeData();
 	}
 
 	public GtnWsReportEngineTreeNode getCustomerTree(String tableName) {

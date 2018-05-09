@@ -17,7 +17,6 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
-import com.stpl.gtn.gtn2o.ws.report.engine.inputgenerator.service.GtnWsTreeService;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.service.displayformat.service.RelationshipLevelValuesMasterBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -44,7 +43,7 @@ public class GtnWsReportDSGenerateButtonService {
 
 	public void generateCCPForReporting(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		try {
-			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnReportRequest().getDataSelectionBean();
+			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
 			callCCPInsertService(gtnWsRequest);
 			callDeductionInsertQuery(dataSelectionBean);
 			buildCustomerTree(dataSelectionBean);

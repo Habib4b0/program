@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDeductionType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -41,9 +42,12 @@ public class GtnFrameworkUICustomViewHierarchyLoadAction
 		if (hierarchyType == GtnWsHierarchyType.CUSTOMER || hierarchyType == GtnWsHierarchyType.PRODUCT) {
 			GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebServiceReportRequestBuilder()
 					.withCustomViewBean().withDataSelectionBean().build();
-			request.getGtnReportRequest().getReportBean().getDataSelectionBean().setName("12114" + "UddasEdvbas$5");
-			request.getGtnReportRequest().getReportBean().getCustomViewBean().setHierarchyType(hierarchyType);
-
+			request.getGtnWsReportRequest().getReportBean().getCustomViewBean().setHierarchyType(hierarchyType);
+			String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
+			String parentWindow = sourceComponentId + "_" + "reportGenerateLookupView";
+			GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(parentWindow).getComponentData().getSharedPopupData();
+			request.getGtnWsReportRequest().getReportBean().setDataSelectionBean(dataSelectionBean);
 			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 					GtnWsReportEndPointUrlConstants.LOAD_HIERARCHY,
 					GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, request,
