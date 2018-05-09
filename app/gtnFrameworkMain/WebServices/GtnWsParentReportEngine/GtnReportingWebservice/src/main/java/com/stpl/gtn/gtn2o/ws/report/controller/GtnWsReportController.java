@@ -242,7 +242,7 @@ public class GtnWsReportController {
 				String filterId = dbColumnIdMap.get(searchCriteria.getFieldId());
 				String filterValue = searchCriteria.getFilterValue1();
 				String filterExpression = searchCriteria.getExpression();
-				filter = "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue + "%'";
+				filter = filter + "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue + "%'";
 				if (dbColumnDataTypeMap.get(searchCriteria.getFieldId()).equals("Date")) {
 					filter = "AND" + " (CONVERT(CHAR(10)," + filterId + "120) >=" + " " + "'" + filterValue + "'";
 				}
