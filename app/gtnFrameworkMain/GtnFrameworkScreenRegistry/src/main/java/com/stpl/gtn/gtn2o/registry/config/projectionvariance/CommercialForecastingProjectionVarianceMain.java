@@ -104,125 +104,126 @@ public class CommercialForecastingProjectionVarianceMain {
 		projectionpivoteViewResultTableComponentConfig.setAddToParent(true);
 		projectionpivoteViewResultTableComponentConfig.setParentComponentId(nameSpace + "_" + "ppvTableLayout");
 
-		GtnUIFrameworkPagedTreeTableConfig reportingDashboardGtnPagedTreeTableConfig = new GtnUIFrameworkPagedTreeTableConfig();
+		GtnUIFrameworkPagedTreeTableConfig projectionVarianceProjectPivotViewGtnPagedTreeTableConfig = new GtnUIFrameworkPagedTreeTableConfig();
 
-		List<Object> reportingDashboardActionConfigList = new ArrayList<>();
-		reportingDashboardActionConfigList.add(parentComponentId);
+		List<Object> projectionVarianceProjectPivotViewActionConfigList = new ArrayList<>();
+		projectionVarianceProjectPivotViewActionConfigList.add(parentComponentId);
 
-		GtnUIFrameWorkActionConfig reportingDashboardGtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
-		reportingDashboardGtnUIFrameWorkActionConfig.setActionParameterList(reportingDashboardActionConfigList);
-		reportingDashboardGtnPagedTreeTableConfig
-				.setGtnUIFrameWorkActionConfig(reportingDashboardGtnUIFrameWorkActionConfig);
+		GtnUIFrameWorkActionConfig projectionVarianceProjectPivotViewGtnUIFrameWorkActionConfig = new GtnUIFrameWorkActionConfig();
+		projectionVarianceProjectPivotViewGtnUIFrameWorkActionConfig.setActionParameterList(projectionVarianceProjectPivotViewActionConfigList);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig
+				.setGtnUIFrameWorkActionConfig(projectionVarianceProjectPivotViewGtnUIFrameWorkActionConfig);
 
-		reportingDashboardGtnPagedTreeTableConfig.setLeftHeader(
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setLeftHeader(
 				GtnWsForecastReturnsConstants.GTN_WS_COMMERCIAL_FORECAST_PROJECTION_VARIANCE_TAB_LEFT_HEADERS_SERVICE);
-		reportingDashboardGtnPagedTreeTableConfig.setRightHeader(
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setRightHeader(
 				GtnWsForecastReturnsConstants.GTN_WS_COMMERCIAL_FORECAST_PROJECTION_VARIANCE_TAB_RIGHT_HEADERS_SERVICE);
 		// reportingDashboardGtnPagedTreeTableConfig.setLeftWsHeaderUrl(
 		// GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
 		// reportingDashboardGtnPagedTreeTableConfig.setRightWsHeaderUrl(
 		// GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
-		reportingDashboardGtnPagedTreeTableConfig.setCountUrl("");
-		reportingDashboardGtnPagedTreeTableConfig.setItemPerPage(10);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setCountUrl("");
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setItemPerPage(10);
 
-		reportingDashboardGtnPagedTreeTableConfig.setMaxSplitPosition(1000);
-		reportingDashboardGtnPagedTreeTableConfig.setMinSplitPosition(300);
-		reportingDashboardGtnPagedTreeTableConfig.setPageLength(15);
-		reportingDashboardGtnPagedTreeTableConfig.setResultSetUrl("");
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setMaxSplitPosition(1000);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setMinSplitPosition(300);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setPageLength(15);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setResultSetUrl("");
 
-		reportingDashboardGtnPagedTreeTableConfig.setSplitPosition(493);
-		reportingDashboardGtnPagedTreeTableConfig.setTableHeight("650px");
-		reportingDashboardGtnPagedTreeTableConfig.setDoubleHeaderVisible(true);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setSplitPosition(493);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setTableHeight("650px");
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setDoubleHeaderVisible(true);
 		
-		reportingDashboardGtnPagedTreeTableConfig.setLeftTableEditable(true);
-		reportingDashboardGtnPagedTreeTableConfig.setRightTableEditable(true);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setLeftTableEditable(true);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setRightTableEditable(true);
 
-		List<String> reportingDashboardFieldFactoryColum = Arrays.asList(GtnFrameworkCommonConstants.CHECK);
-		List<GtnUIFrameworkComponentConfig> reportingDashboardFieldFactoryComponent = new ArrayList<>();
-		reportingDashboardGtnPagedTreeTableConfig.setLeftTableEditableColumnList(reportingDashboardFieldFactoryColum);
+		List<String> projectionVarianceProjectPivotViewFieldFactoryColumn = Arrays.asList(GtnFrameworkCommonConstants.CHECK);
+		List<GtnUIFrameworkComponentConfig> projectionVarianceProjectPivotViewFieldFactoryComponent = new ArrayList<>();
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setLeftTableEditableColumnList(projectionVarianceProjectPivotViewFieldFactoryColumn);
 
-		GtnUIFrameworkComponentConfig reportingDashboardCheckBox = new GtnUIFrameworkComponentConfig();
-		reportingDashboardCheckBox.setComponentId(GtnFrameworkCommonConstants.CHECK);
-		reportingDashboardCheckBox.setComponentType(GtnUIFrameworkComponentType.CHECKBOX);
-		GtnUIFrameworkCheckBoxComponentConfig reportingDashboardCheckBoxConfig = new GtnUIFrameworkCheckBoxComponentConfig();
-		reportingDashboardCheckBoxConfig.setImmediate(true);
+		GtnUIFrameworkComponentConfig projectionVarianceProjectPivotViewCheckBox = new GtnUIFrameworkComponentConfig();
+		projectionVarianceProjectPivotViewCheckBox.setComponentId(GtnFrameworkCommonConstants.CHECK);
+		projectionVarianceProjectPivotViewCheckBox.setComponentType(GtnUIFrameworkComponentType.CHECKBOX);
+		GtnUIFrameworkCheckBoxComponentConfig projectionVarianceProjectPivotViewCheckBoxConfig = new GtnUIFrameworkCheckBoxComponentConfig();
+		projectionVarianceProjectPivotViewCheckBoxConfig.setImmediate(true);
 
-		reportingDashboardCheckBox.setGtnCheckBoxConfig(reportingDashboardCheckBoxConfig);
-		List<GtnUIFrameWorkActionConfig> reportingDashboardCheckBoxClickActionList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig reportingDashboardGtnUIFrameWorkGenerateActionConfig = new GtnUIFrameWorkActionConfig();
-		reportingDashboardGtnUIFrameWorkGenerateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		reportingDashboardGtnUIFrameWorkGenerateActionConfig.addActionParameter(
+		projectionVarianceProjectPivotViewCheckBox.setGtnCheckBoxConfig(projectionVarianceProjectPivotViewCheckBoxConfig);
+		List<GtnUIFrameWorkActionConfig> projectionVarianceProjectPivotViewCheckBoxClickActionList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig = new GtnUIFrameWorkActionConfig();
+		
+		projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig.addActionParameter(
 				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_LEFT_FIELD_FACTORY_ACTION);
-		reportingDashboardCheckBoxClickActionList.add(reportingDashboardGtnUIFrameWorkGenerateActionConfig);
-		reportingDashboardGtnUIFrameWorkGenerateActionConfig
+		projectionVarianceProjectPivotViewCheckBoxClickActionList.add(projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig);
+		projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig
 				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT,
 						GtnFrameworkCommonConstants.RESULT_TABLE));
-		reportingDashboardCheckBox
-				.setGtnUIFrameWorkItemClickActionConfigList(reportingDashboardCheckBoxClickActionList);
+		projectionVarianceProjectPivotViewCheckBox
+				.setGtnUIFrameWorkItemClickActionConfigList(projectionVarianceProjectPivotViewCheckBoxClickActionList);
 
-		reportingDashboardFieldFactoryComponent.add(reportingDashboardCheckBox);
-		reportingDashboardGtnPagedTreeTableConfig
-				.setLeftTableEditableComponentConfig(reportingDashboardFieldFactoryComponent);
+		projectionVarianceProjectPivotViewFieldFactoryComponent.add(projectionVarianceProjectPivotViewCheckBox);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig
+				.setLeftTableEditableComponentConfig(projectionVarianceProjectPivotViewFieldFactoryComponent);
 
-		List<GtnUIFrameWorkActionConfig> reportingDashboardTextFieldConfig = new ArrayList<>();
-		GtnUIFrameWorkActionConfig reportingDashboardFieldFactoryCustomAction = new GtnUIFrameWorkActionConfig();
+		List<GtnUIFrameWorkActionConfig> projectionVarianceProjectPivotViewTextFieldConfig = new ArrayList<>();
+		GtnUIFrameWorkActionConfig projectionVarianceProjectPivotViewFieldFactoryCustomAction = new GtnUIFrameWorkActionConfig();
 
-		reportingDashboardFieldFactoryCustomAction
+		projectionVarianceProjectPivotViewFieldFactoryCustomAction
 				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT,
 						GtnFrameworkCommonConstants.RESULT_TABLE));
 
-		reportingDashboardFieldFactoryCustomAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		reportingDashboardFieldFactoryCustomAction.addActionParameter(
+		projectionVarianceProjectPivotViewFieldFactoryCustomAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		projectionVarianceProjectPivotViewFieldFactoryCustomAction.addActionParameter(
 				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_RIGHT_FIELD_FACTORY_ACTION);
-		reportingDashboardTextFieldConfig.add(reportingDashboardFieldFactoryCustomAction);
-		reportingDashboardGtnPagedTreeTableConfig.setComponentconfigActionlist(reportingDashboardTextFieldConfig);
+		projectionVarianceProjectPivotViewTextFieldConfig.add(projectionVarianceProjectPivotViewFieldFactoryCustomAction);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setComponentconfigActionlist(projectionVarianceProjectPivotViewTextFieldConfig);
 
-		reportingDashboardGtnPagedTreeTableConfig
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig
 				.setCheckBoxVisibleColoumn(Arrays.asList(GtnFrameworkCommonConstants.CHECK));
-		List<GtnUIFrameWorkActionConfig> reportingDashboardCheckAllConflist = new ArrayList<>();
-		GtnUIFrameWorkActionConfig reportingDashboardCheckAllActionConfig = new GtnUIFrameWorkActionConfig();
-		reportingDashboardCheckAllActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		reportingDashboardCheckAllActionConfig.addActionParameter(
+		List<GtnUIFrameWorkActionConfig> projectionVarianceProjectPivotViewCheckAllConflist = new ArrayList<>();
+		GtnUIFrameWorkActionConfig projectionVarianceProjectPivotViewCheckAllActionConfig = new GtnUIFrameWorkActionConfig();
+		projectionVarianceProjectPivotViewCheckAllActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		projectionVarianceProjectPivotViewCheckAllActionConfig.addActionParameter(
 				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_CHECK_ALL_ACTION);
-		reportingDashboardCheckAllConflist.add(reportingDashboardCheckAllActionConfig);
-		reportingDashboardGtnPagedTreeTableConfig.setCheckBoxActionConfigList(reportingDashboardCheckAllConflist);
-		reportingDashboardGtnPagedTreeTableConfig.setCountUrl(
+		projectionVarianceProjectPivotViewCheckAllConflist.add(projectionVarianceProjectPivotViewCheckAllActionConfig);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setCheckBoxActionConfigList(projectionVarianceProjectPivotViewCheckAllConflist);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setCountUrl(
 				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_PAGED_TREE_TABLE_GET_COUNT_ACTION);
-		reportingDashboardGtnPagedTreeTableConfig
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig
 				.setCountWsUrl(GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_COUNT_SERVICE);
 
-		reportingDashboardGtnPagedTreeTableConfig.setBulkDataUrl(
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setBulkDataUrl(
 				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_PAGED_TREE_TABLE_GET_BULK_DATA_ACTION);
-		reportingDashboardGtnPagedTreeTableConfig.setBulkDataWsUrl(
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setBulkDataWsUrl(
 				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_BULK_LOAD_DATA_SERVICE);
 
-		reportingDashboardGtnPagedTreeTableConfig.setFillCountUrl(
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setFillCountUrl(
 				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_PAGED_TREE_TABLE_FILL_COUNT_DATA_ACTION);
-		reportingDashboardGtnPagedTreeTableConfig.setFillCountWsUrl(
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setFillCountWsUrl(
 				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_BULK_LOAD_COUNT_SERVICE);
 
-		reportingDashboardGtnPagedTreeTableConfig.setLeftHeaderUrl(
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setLeftHeaderUrl(
 				GtnCommercialForecastProjectionVarianceClassConstants.GTN_WS_RETURNS_FORECAST_COMP_LEFT_HEADER_FORM_HEADER_CONFIG_ACTION);
 
-		reportingDashboardGtnPagedTreeTableConfig.setLeftWsHeaderUrl(
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setLeftWsHeaderUrl(
 				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
 
-		reportingDashboardGtnPagedTreeTableConfig.setRighttHeaderUrl(
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setRighttHeaderUrl(
 				GtnCommercialForecastProjectionVarianceClassConstants.GTN_WS_RETURNS_FORECAST_COMP_RIGHT_HEADER_FORM_HEADER_CONFIG_ACTION);
 
-		reportingDashboardGtnPagedTreeTableConfig.setRightWsHeaderUrl(
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setRightWsHeaderUrl(
 				GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
 
-		reportingDashboardGtnPagedTreeTableConfig.setLeftHeaderCustomClassLoadUrl(
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setLeftHeaderCustomClassLoadUrl(
 				GtnCommercialForecastProjectionVarianceClassConstants.GTN_WS_RETURNS_FORECAST_LEFT_HEADER_CONFIG_ACTION);
 
-		reportingDashboardGtnPagedTreeTableConfig.setRightHeaderCustomClassLoadUrl(
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setRightHeaderCustomClassLoadUrl(
 				GtnCommercialForecastProjectionVarianceClassConstants.GTN_WS_RETURNS_FORECAST_RIGHT_HEADER_CONFIG_ACTION);
 
-		reportingDashboardGtnPagedTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
 
 		projectionpivoteViewResultTableComponentConfig
-				.setGtnPagedTreeTableConfig(reportingDashboardGtnPagedTreeTableConfig);
+				.setGtnPagedTreeTableConfig(projectionVarianceProjectPivotViewGtnPagedTreeTableConfig);
 		componentList.add(projectionpivoteViewResultTableComponentConfig);
 
 	}
