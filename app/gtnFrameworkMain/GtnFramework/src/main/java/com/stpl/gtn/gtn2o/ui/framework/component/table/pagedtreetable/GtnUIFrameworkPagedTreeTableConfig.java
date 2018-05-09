@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 
 /**
  *
@@ -66,7 +67,8 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 	
     private Map<Object, Object[]> rightTableTripleHeaderMap = new HashMap<>();
     
-    
+    private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = null;
+
 
     public boolean isTripleHeaderVisible() {
         return tripleHeaderVisible;
@@ -720,6 +722,14 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 
 	public void setEnableCheckBoxInTripleHeader(boolean enableCheckBoxInTripleHeader) {
 		this.enableCheckBoxInTripleHeader = enableCheckBoxInTripleHeader;
+	}
+
+	public Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfigMap() {
+		return customFilterConfigMap;
+	}
+
+	public void setCustomFilterConfigMap(Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap) {
+		this.customFilterConfigMap = customFilterConfigMap;
 	}
     
 	

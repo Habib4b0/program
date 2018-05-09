@@ -1,11 +1,16 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 
 import com.google.gwt.user.client.rpc.core.java.util.Collections;
+import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.DataSet;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.config.PagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.service.FetchData;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.data.HasValue;
 import com.vaadin.data.TreeData;
@@ -15,6 +20,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -22,8 +28,12 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.components.grid.HeaderCell;
 import com.vaadin.ui.components.grid.HeaderRow;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -57,13 +67,16 @@ public class PagedTreeGrid {
 	HorizontalLayout controlLayout = new HorizontalLayout();
 	private TextField pageNoField = new TextField();
 	private Label pageCountLabel;
+	private GtnUIFrameworkComponentConfig componentConfig;
 
-	public PagedTreeGrid(GtnUIFrameworkPagedTreeTableConfig tableConfig) {
+	public PagedTreeGrid(GtnUIFrameworkPagedTreeTableConfig tableConfig,GtnUIFrameworkComponentConfig componentConfig) {
 		this.tableConfig = tableConfig;
+		this. componentConfig=componentConfig;
 		count = getTotalCount();
 		gtnlogger.info("count>>>" + count);
 		grid = new TreeGrid<>();
 		initializeGrid();
+	
 	}
 
 	public void resetGridToInitialState() {
@@ -100,6 +113,9 @@ public class PagedTreeGrid {
 					.setId(column);
 
 		}
+		if(tableConfig.getCustomFilterConfigMap()!=null){
+			setFilterToGrid();
+		}
 		// gtnlogger.info("headers size= " +
 		// tableConfig.getVisibleColumns().size());
 
@@ -107,15 +123,19 @@ public class PagedTreeGrid {
 		if (tableConfig.isEnableRadioButtonInSingleHeader()) {
 
 			HeaderRow single = grid.getHeaderRow(0);
-			for (int j = 0; j < columnCount && j < tableConfig.getColumnHeaders().size(); j++) {
-				String column = (tableConfig.getVisibleColumns().get(j)).toString();
+			for (int j = 0; j < tableConfig.getRightTableColumnMappingId().length ; j++) {
+				String column = (tableConfig.getRightTableColumnMappingId()[j]).toString();
 				RadioButtonGroup vaadinRadioButtonGroup = new RadioButtonGroup();
-				vaadinRadioButtonGroup.setItems(tableConfig.getColumnHeaders().get(j));
+				vaadinRadioButtonGroup.setItems(tableConfig.getRightTableVisibleHeader()[j]);
 				single.getCell(column).setComponent(vaadinRadioButtonGroup);
 
 			}
 		}
-
+		
+//tableConfig.getLeftTableColumnMappingId()               Left Single column
+		//tableConfig.getRightTableColumnMappingId()                Right Single COlumns
+		
+		
 		// if (tableConfig.isDoubleHeaderVisible()) {
 		// HeaderRow groupingHeader = grid.prependHeaderRow();
 		// for (Object property :
@@ -694,5 +714,76 @@ public class PagedTreeGrid {
 			}
 		});
 		return itemsPerPage;
+	}
+	private HeaderRow setFilterToGrid() {
+		HeaderRow filterRow = grid.appendHeaderRow();
+		Component vaadinComponent = null;
+		Object[] filterColumnIdList = tableConfig.getLeftTableColumnMappingId();
+		for (Object column : filterColumnIdList) {
+		
+			vaadinComponent = getCustomFilterComponent(String.valueOf(column));
+			
+				filterRow.getCell(String.valueOf(column)).setComponent(vaadinComponent);
+		}
+		
+		String[] stringArray = Arrays.copyOf(tableConfig.getRightTableColumnMappingId(), tableConfig.getRightTableColumnMappingId().length, String[].class);
+		filterRow.join(stringArray);
+		return filterRow;
+	}
+	private Component getCustomFilterComponent(String property) {
+		try {
+			gtnlogger.info("-------property------" + property);
+				GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = tableConfig.getCustomFilterConfigMap()
+						.get(property);
+
+				if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.TEXTBOX_VAADIN8) {
+					TextField textField = new TextField();
+					textField.setId(property);
+					textField.addValueChangeListener(this::onFilterTextChange);
+					return textField;
+				} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
+					DateField dateField = new DateField();
+					dateField.setId(property);
+					dateField.addValueChangeListener(this::onFilterDateChange);
+					return dateField;
+				} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.COMBOBOX_VAADIN8) {
+					GtnUIFrameworkComponent component = filterConfig.getGtnComponentType().getGtnComponent();
+					Component vaadinComponent = null;
+					vaadinComponent = component.buildVaadinComponent(filterConfig.getGtnComponentConfig());
+					ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
+					vaadinCombobox.setId(property);
+					vaadinCombobox.addValueChangeListener(this::onFilterTextChange);
+					return vaadinCombobox;
+				} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
+					Button dateFilterPopupButton = new Button("Show all");
+//					dateFilterPopupButton.setWidth("400px");
+//					DateFilterPopup dateFilterpopup = new DateFilterPopup(dateFilterPopupButton, tableConfig, property,
+//							componentConfig);
+//					Window window = dateFilterpopup.getDateFilterPopup();
+//					dateFilterPopupButton.addClickListener(new Button.ClickListener() {
+//						@Override
+//						public void buttonClick(Button.ClickEvent event) {
+//
+//							window.setPosition(event.getClientX(), event.getClientY());
+//							UI.getCurrent().addWindow(window);
+//						}
+//					});
+
+					return dateFilterPopupButton;
+			}
+
+		} catch (GtnFrameworkGeneralException exception) {
+			gtnlogger.error("Exception while creating the filter component", exception);
+		}
+
+		return null;
+	}
+	private void onFilterTextChange(HasValue.ValueChangeEvent<String> event) {
+//		tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
+		resetGridToInitialState();
+	}
+	public void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event) {
+//		tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
+		resetGridToInitialState();
 	}
 }

@@ -61,7 +61,9 @@ public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkCompo
             this.configureRightTableHeader(tableConfig, componentConfig.getSourceViewId());
         }
         configureTableHeaders(tableConfig);
-        PagedTreeGrid pagedTreeGrid = new PagedTreeGrid(tableConfig);
+        
+        //added 2nd paremeter
+        PagedTreeGrid pagedTreeGrid = new PagedTreeGrid(tableConfig, componentConfig);
         pagedTreeGrid.getGrid().setId(componentConfig.getComponentId());
         resultLayout.setSizeFull();
         resultLayout.addComponent(pagedTreeGrid.getGrid());
@@ -144,24 +146,10 @@ public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkCompo
         List<Object> recordHeader = new ArrayList<>();
         recordHeader.addAll(leftVisibleColumnList);
         recordHeader.addAll(rightVisibleColumnList);
-//		container.setRecordHeader(recordHeader);
-//		Map<Object, Class> dataType = new HashMap<>();
-//		for (int i = 0; i < recordHeader.size(); i++) {
-//			dataType.put(recordHeader.get(i).toString(), String.class);
-//		}
-//		container.setColumnProperties(dataType);
-//		pagedTreeGrid.setRecordHeader(recordHeader);
-//		pagedTreeGrid.setContainerDataSource(container);
 
         List<String> leftHeaderList = new ArrayList<>(Arrays.asList(tableConfig.getLeftTableVisibleHeader()));
         List<String> rightHeaderList = new ArrayList<>(Arrays.asList(tableConfig.getRightTableVisibleHeader()));
-//		final ExtFilterTreeTable leftTable = resultsTable.getLeftFreezeAsTable();
-//		final ExtFilterTreeTable rightTable = resultsTable.getRightFreezeAsTable();
-
-//		leftTable.setImmediate(true);
-//		leftTable.reConstruct(true);
-//		resultsTable.setHeight(tableConfig.getTableHeight());
-//		leftTable.setHeight(tableConfig.getTableHeight());
+//	ftTable.setHeight(tableConfig.getTableHeight());
         
         leftVisibleColumnList.addAll(rightVisibleColumnList);
         leftHeaderList.addAll(rightHeaderList);

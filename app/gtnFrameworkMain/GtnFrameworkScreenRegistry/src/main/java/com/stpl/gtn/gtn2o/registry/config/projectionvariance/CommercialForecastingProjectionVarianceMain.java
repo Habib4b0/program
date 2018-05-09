@@ -2,18 +2,24 @@ package com.stpl.gtn.gtn2o.registry.config.projectionvariance;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.config.common.UpdatePreviousNextCloseSubmitButton;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkbox.GtnUIFrameworkCheckBoxComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 
 public class CommercialForecastingProjectionVarianceMain {
@@ -222,10 +228,27 @@ public class CommercialForecastingProjectionVarianceMain {
 
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
 
-		projectionpivoteViewResultTableComponentConfig
-				.setGtnPagedTreeTableConfig(projectionVarianceProjectPivotViewGtnPagedTreeTableConfig);
+		
+		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
+		projectionpivoteViewResultTableComponentConfig.setGtnPagedTreeTableConfig(projectionVarianceProjectPivotViewGtnPagedTreeTableConfig);
+		
 		componentList.add(projectionpivoteViewResultTableComponentConfig);
 
+	}
+	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
+		String[] propertyIds = { "leftSingleHeader" };
+		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8};
+		
+		for (int i = 0; i < propertyIds.length; i++) {
+			
+			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
+			pagedTableCustomFilterConfig.setPropertId(propertyIds[i]);
+			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
+			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
+			
+		}
+		return customFilterConfigMap;
 	}
 
 	private void addProjectionVarianceExcelGraphButton(List<GtnUIFrameworkComponentConfig> componentList,
