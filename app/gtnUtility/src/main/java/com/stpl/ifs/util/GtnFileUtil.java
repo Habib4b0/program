@@ -42,4 +42,7 @@ public class GtnFileUtil {
 	public static Path getPath(String fileName) {
 		return Paths.get(fileName);
 	}
+	public static FileInputStream getFileInputStreamFile(File inputFile) throws FileNotFoundException {
+		return new FileInputStream(inputFile);
+	}
 }

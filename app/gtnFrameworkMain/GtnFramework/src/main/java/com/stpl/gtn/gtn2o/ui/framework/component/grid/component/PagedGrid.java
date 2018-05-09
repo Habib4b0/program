@@ -1,6 +1,11 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -13,8 +18,8 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.data.HasValue;
-import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
@@ -24,352 +29,359 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.components.grid.HeaderRow;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class PagedGrid {
 
-    GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedGrid.class);
-    GtnUIFrameworkPagedTableConfig tableConfig;
+	GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedGrid.class);
+	GtnUIFrameworkPagedTableConfig tableConfig;
 
-    GtnUIFrameworkComponentConfig componentConfig;
-    int count;
-    private int pageLength = 10;
-    private int pageNumber = 0;
-    private DataSet dataSet;
-    private Label pageCountLabel;
-    GtnUIFrameworkPagedTableConfig gtnUIFrameworkPagedTableConfig;
-    Grid<GtnWsRecordBean> grid;
-    HorizontalLayout controlLayout;
-    private TextField pageNoField;
+	GtnUIFrameworkComponentConfig componentConfig;
+	int count;
+	private int pageLength = 10;
+	private int pageNumber = 0;
+	private DataSet dataSet;
+	private Label pageCountLabel;
+	GtnUIFrameworkPagedTableConfig gtnUIFrameworkPagedTableConfig;
+	Grid<GtnWsRecordBean> grid;
+	HorizontalLayout controlLayout;
+	private TextField pageNoField;
 
-    GtnUIFrameworkPagedGridLogic pagedTableLogic;
+	GtnUIFrameworkPagedGridLogic pagedTableLogic;
 
-    public PagedGrid(GtnUIFrameworkPagedTableConfig tableConfig, GtnUIFrameworkComponentConfig componentConfig) {
-        this.tableConfig = tableConfig;
-        this.componentConfig = componentConfig;
-        grid = new Grid<>();
-        int i = 0;
+	public PagedGrid(GtnUIFrameworkPagedTableConfig tableConfig, GtnUIFrameworkComponentConfig componentConfig) {
+		this.tableConfig = tableConfig;
+		this.componentConfig = componentConfig;
+		grid = new Grid<>();
+		int i = 0;
 
-        for (Object column : tableConfig.getTableColumnMappingId()) {
-            String property = column.toString();
-            grid.addColumn(row -> row.getPropertyValue(property)).setCaption(tableConfig.getColumnHeaders().get(i)).setId(property);
+		for (Object column : tableConfig.getTableColumnMappingId()) {
+			String property = column.toString();
+			grid.addColumn(row -> row.getPropertyValue(property)).setCaption(tableConfig.getColumnHeaders().get(i))
+					.setId(property);
 
-            i++;
-        }
+			i++;
+		}
+		addFilterAndRefreshLogic(tableConfig);
+		pagedTableLogic = new GtnUIFrameworkPagedGridLogic(tableConfig, componentConfig);
+		// setFilterToGrid();
+		// refreshGrid();
+	}
 
-        pagedTableLogic = new GtnUIFrameworkPagedGridLogic(tableConfig, componentConfig);
+	private void addFilterAndRefreshLogic(GtnUIFrameworkPagedTableConfig tableConfig) {
+		if(!tableConfig.getCustomFilterConfigMap().isEmpty()){
         setFilterToGrid();
+        }
+        if(tableConfig.isRefreshAtStart()){
         refreshGrid();
-    }
-
-    public void refreshGrid() {
-        count = getTotalCount();
-        gtnlogger.info("count------" + count);
-        dataSet = loadData((pageNumber * pageLength), pageLength);
-//		int i = 0;
-//		grid.removeAllColumns();
-//		for (String column : tableConfig.getVisibleColumns()) {
-//			grid.addColumn(row -> row.getValue(column)).setCaption(tableConfig.getColumnHeaders().get(i)).setId(tableConfig.getColumnHeaders().get(i));
-//			i++;
-//		}
-
-        if (dataSet.getRows() != null) {
-            grid.setItems(dataSet.getRows());
-
         }
-        //pageCountLabel.setCaption(String.valueOf(getPageCount()));
+	}
+	
+	public void refreshGrid() {
+		count = getTotalCount();
+		gtnlogger.info("count------" + count);
+		dataSet = loadData((pageNumber * pageLength), pageLength);
+		// int i = 0;
+		// grid.removeAllColumns();
+		// for (String column : tableConfig.getVisibleColumns()) {
+		// grid.addColumn(row ->
+		// row.getValue(column)).setCaption(tableConfig.getColumnHeaders().get(i)).setId(tableConfig.getColumnHeaders().get(i));
+		// i++;
+		// }
 
-    }
+		if (dataSet.getRows() != null) {
+			grid.setItems(dataSet.getRows());
 
-    private int getTotalCount() {
+		}
+		// pageCountLabel.setCaption(String.valueOf(getPageCount()));
 
-        if (tableConfig.getCountQuery() != null) {
-            List<Object[]> result = FetchData.fetchResult(appendFilter(tableConfig.getCountQuery()),
-                    tableConfig.getCountQueryInputs());
+	}
 
-            return result == null || result.isEmpty() ? 0 : Integer.parseInt(String.valueOf(result.get(0)[0]));
-        } else {
-            return pagedTableLogic.getCount();
-        }
-    }
+	private int getTotalCount() {
 
-    private DataSet loadData(int offset, int limit) {
-        List<GtnWsRecordBean> rows;
-        if (tableConfig.getDataQuery() != null) {
+		if (tableConfig.getCountQuery() != null) {
+			List<Object[]> result = FetchData.fetchResult(appendFilter(tableConfig.getCountQuery()),
+					tableConfig.getCountQueryInputs());
 
-            List<Object> input = PagedTreeGrid.addRangeInInput(tableConfig.getDataQueryInputs(), offset,
-                    limit);
-            rows = FetchData.fetchResultAsRow(tableConfig.getTableColumnMappingId(), appendFilter(tableConfig.getDataQuery()), input.toArray());
-        } else {
-            rows = pagedTableLogic.loadData(limit, offset);
-        }
-        return new DataSet(Arrays.asList(tableConfig.getTableColumnMappingId()), rows);
-    }
+			return result == null || result.isEmpty() ? 0 : Integer.parseInt(String.valueOf(result.get(0)[0]));
+		} else {
+			return pagedTableLogic.getCount();
+		}
+	}
 
-    public void nextPage() {
-        System.out.println("next page->" + (pageNumber + 1));
-        if (pageNumber + 1 < getPageCount()) {
-            setPageNoFieldValue(++pageNumber);
+	private DataSet loadData(int offset, int limit) {
+		List<GtnWsRecordBean> rows;
+		if (tableConfig.getDataQuery() != null) {
 
-            refreshGrid();
-        }
-    }
+			List<Object> input = PagedTreeGrid.addRangeInInput(tableConfig.getDataQueryInputs(), offset, limit);
+			rows = FetchData.fetchResultAsRow(tableConfig.getTableColumnMappingId(),
+					appendFilter(tableConfig.getDataQuery()), input.toArray());
+		} else {
+			rows = pagedTableLogic.loadData(limit, offset);
+		}
+		return new DataSet(Arrays.asList(tableConfig.getTableColumnMappingId()), rows);
+	}
 
-    /**
-     * Moves to previous page, if previous page exists.
-     */
-    public void previousPage() {
-        if ((pageNumber - 1) >= 0) {
-            setPageNoFieldValue(--pageNumber);
-            refreshGrid();
-        }
-    }
+	public void nextPage() {
+		System.out.println("next page->" + (pageNumber + 1));
+		if (pageNumber + 1 < getPageCount()) {
+			setPageNoFieldValue(++pageNumber);
 
-    /**
-     * Sets the page length.
-     */
-    public void setPageLength(int newPageLength) {
-        if (newPageLength <= 0) {
-            throw new IllegalArgumentException("Illegal page length.");
-        }
-        if (pageLength != newPageLength) {
-            pageNumber = 0;
-            setPageNoFieldValue(pageNumber);
-            pageLength = newPageLength;
-            refreshGrid();
-        }
-    }
+			refreshGrid();
+		}
+	}
 
-    /**
-     * Sets the current page number.
-     *
-     * @param newPageNumber the desired page
-     */
-    public void setPageNumber(int newPageNumber) {
-        if (newPageNumber >= 0 && newPageNumber < getPageCount()) {
-            pageNumber = newPageNumber;
-            setPageNoFieldValue(pageNumber);
-            refreshGrid();
-        } else {
-            throw new IllegalArgumentException("Illegal page number.");
-        }
-    }
+	/**
+	 * Moves to previous page, if previous page exists.
+	 */
+	public void previousPage() {
+		if ((pageNumber - 1) >= 0) {
+			setPageNoFieldValue(--pageNumber);
+			refreshGrid();
+		}
+	}
 
-    int getPageCount() {
-        int lastPage = count / pageLength;
-        return count % pageLength == 0 ? lastPage : lastPage + 1;
-    }
+	/**
+	 * Sets the page length.
+	 */
+	public void setPageLength(int newPageLength) {
+		if (newPageLength <= 0) {
+			throw new IllegalArgumentException("Illegal page length.");
+		}
+		if (pageLength != newPageLength) {
+			pageNumber = 0;
+			setPageNoFieldValue(pageNumber);
+			pageLength = newPageLength;
+			refreshGrid();
+		}
+	}
 
-    /**
-     * Gets the current page number.
-     *
-     * @return current page number
-     */
-    public int getPageNumber() {
-        return pageNumber;
-    }
+	/**
+	 * Sets the current page number.
+	 *
+	 * @param newPageNumber
+	 *            the desired page
+	 */
+	public void setPageNumber(int newPageNumber) {
+		if (newPageNumber >= 0 && newPageNumber < getPageCount()) {
+			pageNumber = newPageNumber;
+			setPageNoFieldValue(pageNumber);
+			refreshGrid();
+		} else {
+			throw new IllegalArgumentException("Illegal page number.");
+		}
+	}
 
-    /**
-     * Gets the current page length.
-     *
-     * @return current page length
-     */
-    public int getPageLength() {
-        return pageLength;
-    }
+	int getPageCount() {
+		int lastPage = count / pageLength;
+		return count % pageLength == 0 ? lastPage : lastPage + 1;
+	}
 
-    public int getCount() {
-        return count;
-    }
+	/**
+	 * Gets the current page number.
+	 *
+	 * @return current page number
+	 */
+	public int getPageNumber() {
+		return pageNumber;
+	}
 
-    public void setCount(int count) {
-        this.count = count;
-    }
+	/**
+	 * Gets the current page length.
+	 *
+	 * @return current page length
+	 */
+	public int getPageLength() {
+		return pageLength;
+	}
 
-    public DataSet getDataSet() {
-        return dataSet;
-    }
+	public int getCount() {
+		return count;
+	}
 
-    public void setDataSet(DataSet dataSet) {
-        this.dataSet = dataSet;
-    }
+	public void setCount(int count) {
+		this.count = count;
+	}
 
-    public Grid<GtnWsRecordBean> getGrid() {
-        return grid;
-    }
+	public DataSet getDataSet() {
+		return dataSet;
+	}
 
-    public void setGrid(Grid<GtnWsRecordBean> grid) {
+	public void setDataSet(DataSet dataSet) {
+		this.dataSet = dataSet;
+	}
 
-        this.grid = grid;
-    }
+	public Grid<GtnWsRecordBean> getGrid() {
+		return grid;
+	}
 
-    public HorizontalLayout getControlLayout() {
-        if (controlLayout == null) {
-            controlLayout = new HorizontalLayout();
-            pageNoField = new TextField();
-            pageCountLabel = new Label("1");
-            pageNoField.setWidth("50px");
-            setPageNoFieldValue(0);
-            controlLayout.addComponent(getItemsPerPage());
-            controlLayout.addComponent(getControlLayoutButtons("<<", e -> this.setPageNumber(0)));
-            controlLayout.addComponent(getControlLayoutButtons("<", e -> this.previousPage()));
-            controlLayout.addComponent(new Label("Page No:"));
-            controlLayout.addComponent(pageNoField);
-            controlLayout.addComponent(new Label("/"));
-            controlLayout.addComponent(pageCountLabel);
-            controlLayout.addComponent(getControlLayoutButtons(">", e -> this.nextPage()));
-            controlLayout.addComponent(getControlLayoutButtons(">>", e -> this.setPageNumber(this.getPageCount() - 1)));
-            pageNoField.addBlurListener(e -> setPageNumber((Integer.parseInt(pageNoField.getValue())) - 1));
-        }
-        return controlLayout;
-    }
+	public void setGrid(Grid<GtnWsRecordBean> grid) {
 
-    private Button getControlLayoutButtons(String caption, ClickListener listener) {
-        Button button = new Button(caption, listener);
-        button.setStyleName("link");
-        return button;
-    }
+		this.grid = grid;
+	}
 
-    private Component getItemsPerPage() {
-        ComboBox itemsPerPage = new ComboBox("Items per page:");
-        itemsPerPage.setItems(new Object[]{5, 10, 15, 20, 25, 50, 100});
-        itemsPerPage.setSelectedItem(10);
-        itemsPerPage.setWidth("60px");
-        itemsPerPage.setEmptySelectionAllowed(false);
-        itemsPerPage.addValueChangeListener(new HasValue.ValueChangeListener() {
-            @Override
-            public void valueChange(HasValue.ValueChangeEvent event) {
-                setPageLength((int) itemsPerPage.getValue());
-            }
-        });
-        return itemsPerPage;
-    }
+	public HorizontalLayout getControlLayout() {
+		if (controlLayout == null) {
+			controlLayout = new HorizontalLayout();
+			pageNoField = new TextField();
+			pageCountLabel = new Label("1");
+			pageNoField.setWidth("50px");
+			setPageNoFieldValue(0);
+			controlLayout.addComponent(getItemsPerPage());
+			controlLayout.addComponent(getControlLayoutButtons("<<", e -> this.setPageNumber(0)));
+			controlLayout.addComponent(getControlLayoutButtons("<", e -> this.previousPage()));
+			controlLayout.addComponent(new Label("Page No:"));
+			controlLayout.addComponent(pageNoField);
+			controlLayout.addComponent(new Label("/"));
+			controlLayout.addComponent(pageCountLabel);
+			controlLayout.addComponent(getControlLayoutButtons(">", e -> this.nextPage()));
+			controlLayout.addComponent(getControlLayoutButtons(">>", e -> this.setPageNumber(this.getPageCount() - 1)));
+			pageNoField.addBlurListener(e -> setPageNumber((Integer.parseInt(pageNoField.getValue())) - 1));
+		}
+		return controlLayout;
+	}
 
-    private void setFilterToGrid() {
-        HeaderRow filterRow = grid.appendHeaderRow();
-        Component vaadinComponent = null;
-        Object[] filterColumnIdList = tableConfig.getTableColumnMappingId();
-        for (Object column : filterColumnIdList) {
-            vaadinComponent = getCustomFilterComponent(String.valueOf(column));
-            filterRow.getCell(String.valueOf(column)).setComponent(vaadinComponent);
-        }
-    }
+	private Button getControlLayoutButtons(String caption, ClickListener listener) {
+		Button button = new Button(caption, listener);
+		button.setStyleName("link");
+		return button;
+	}
 
-    String appendFilter(String query) {
-        String filter = "";
-        // int i = 0;
-        String condition = "AND";
-        for (Map.Entry<String, Object> entry : tableConfig.getFilterValueMap().entrySet()) {
-            String key = getDBColumnName(entry.getKey());
-            Object value = entry.getValue();
+	private Component getItemsPerPage() {
+		ComboBox itemsPerPage = new ComboBox("Items per page:");
+		itemsPerPage.setItems(new Object[] { 5, 10, 15, 20, 25, 50, 100 });
+		itemsPerPage.setSelectedItem(10);
+		itemsPerPage.setWidth("60px");
+		itemsPerPage.setEmptySelectionAllowed(false);
+		itemsPerPage.addValueChangeListener(new HasValue.ValueChangeListener() {
+			@Override
+			public void valueChange(HasValue.ValueChangeEvent event) {
+				setPageLength((int) itemsPerPage.getValue());
+			}
+		});
+		return itemsPerPage;
+	}
 
-            filter += condition + " " + key + "  like '%" + value + "%'";
-            // i++;
-        }
+	private void setFilterToGrid() {
+		HeaderRow filterRow = grid.appendHeaderRow();
+		Component vaadinComponent = null;
+		Object[] filterColumnIdList = tableConfig.getTableColumnMappingId();
+		for (Object column : filterColumnIdList) {
+			vaadinComponent = getCustomFilterComponent(String.valueOf(column));
+			filterRow.getCell(String.valueOf(column)).setComponent(vaadinComponent);
+		}
+	}
 
-        return query.replace("@filter", filter);
-    }
+	String appendFilter(String query) {
+		String filter = "";
+		// int i = 0;
+		String condition = "AND";
+		for (Map.Entry<String, Object> entry : tableConfig.getFilterValueMap().entrySet()) {
+			String key = getDBColumnName(entry.getKey());
+			Object value = entry.getValue();
 
-    private String getDBColumnName(String key) {
-        HashMap<String, String> dbColumnMap = new HashMap<>();
-        dbColumnMap.put("hierName", "c.HIERARCHY_NAME");
-        dbColumnMap.put("highestLevel", "a.LEVEL_NO");
-        dbColumnMap.put("lowestLevel", "b.LEVEL_NO");
-        dbColumnMap.put("createdDate", "c.CREATED_DATE");
-        dbColumnMap.put("modifiedDate", "c.MODIFIED_DATE");
+			filter += condition + " " + key + "  like '%" + value + "%'";
+			// i++;
+		}
 
-        return dbColumnMap.get(key);
-    }
+		return query.replace("@filter", filter);
+	}
 
-    private Component getCustomFilterComponent(String property) {
-        try {
-            gtnlogger.info("-------property------" + property);
-            GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = tableConfig.getCustomFilterConfigMap().get(property);
-            if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.TEXTBOX_VAADIN8) {
-                TextField textField = new TextField();
-                textField.setId(property);
-                textField.addValueChangeListener(this::onFilterTextChange);
-                return textField;
-            } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
-                DateField dateField = new DateField();
-                dateField.setId(property);
-                dateField.addValueChangeListener(this::onFilterDateChange);
-                return dateField;
-            } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.COMBOBOX_VAADIN8) {
-                GtnUIFrameworkComponent component = filterConfig.getGtnComponentType().getGtnComponent();
-                Component vaadinComponent = null;
-                vaadinComponent = component.buildVaadinComponent(filterConfig.getGtnComponentConfig());
-                ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
-                vaadinCombobox.setId(property);
-                vaadinCombobox.addValueChangeListener(this::onFilterTextChange);
-                return vaadinCombobox;
-            } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
-                Button dateFilterPopupButton = new Button("Show all");
-                dateFilterPopupButton.setWidth("400px");
-                DateFilterPopup dateFilterpopup = new DateFilterPopup(dateFilterPopupButton, tableConfig, property, componentConfig);
-                Window window = dateFilterpopup.getDateFilterPopup();
-                dateFilterPopupButton.addClickListener(new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
+	private String getDBColumnName(String key) {
+		HashMap<String, String> dbColumnMap = new HashMap<>();
+		dbColumnMap.put("hierName", "c.HIERARCHY_NAME");
+		dbColumnMap.put("highestLevel", "a.LEVEL_NO");
+		dbColumnMap.put("lowestLevel", "b.LEVEL_NO");
+		dbColumnMap.put("createdDate", "c.CREATED_DATE");
+		dbColumnMap.put("modifiedDate", "c.MODIFIED_DATE");
 
-                        window.setPosition(event.getClientX(), event.getClientY());
-                        UI.getCurrent().addWindow(window);
-                    }
-                });
+		return dbColumnMap.get(key);
+	}
 
-                return dateFilterPopupButton;
-            }
+	private Component getCustomFilterComponent(String property) {
+		try {
+			gtnlogger.info("-------property------" + property);
+			GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = tableConfig.getCustomFilterConfigMap()
+					.get(property);
+			if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.TEXTBOX_VAADIN8) {
+				TextField textField = new TextField();
+				textField.setId(property);
+				textField.addValueChangeListener(this::onFilterTextChange);
+				return textField;
+			} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
+				DateField dateField = new DateField();
+				dateField.setId(property);
+				dateField.addValueChangeListener(this::onFilterDateChange);
+				return dateField;
+			} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.COMBOBOX_VAADIN8) {
+				GtnUIFrameworkComponent component = filterConfig.getGtnComponentType().getGtnComponent();
+				Component vaadinComponent = null;
+				vaadinComponent = component.buildVaadinComponent(filterConfig.getGtnComponentConfig());
+				ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
+				vaadinCombobox.setId(property);
+				vaadinCombobox.addValueChangeListener(this::onFilterTextChange);
+				return vaadinCombobox;
+			} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
+				Button dateFilterPopupButton = new Button("Show all");
+				dateFilterPopupButton.setWidth("400px");
+				DateFilterPopup dateFilterpopup = new DateFilterPopup(dateFilterPopupButton, tableConfig, property,
+						componentConfig);
+				Window window = dateFilterpopup.getDateFilterPopup();
+				dateFilterPopupButton.addClickListener(new Button.ClickListener() {
+					@Override
+					public void buttonClick(Button.ClickEvent event) {
 
-        } catch (GtnFrameworkGeneralException exception) {
-            gtnlogger.error("Exception while creating the filter component", exception);
-        }
+						window.setPosition(event.getClientX(), event.getClientY());
+						UI.getCurrent().addWindow(window);
+					}
+				});
 
-        return null;
-    }
+				return dateFilterPopupButton;
+			}
 
-    void setPageNoFieldValue(int pageNo) {
-        pageNoField.setValue(String.valueOf(pageNo + 1));
-    }
+		} catch (GtnFrameworkGeneralException exception) {
+			gtnlogger.error("Exception while creating the filter component", exception);
+		}
 
-    public void setData(Object data) {
-        grid.setData(data);
-    }
+		return null;
+	}
 
-    public GtnUIFrameworkPagedTableConfig getTableConfig() {
-        return tableConfig;
-    }
+	void setPageNoFieldValue(int pageNo) {
+		pageNoField.setValue(String.valueOf(pageNo + 1));
+	}
 
-    public void setTableConfig(GtnUIFrameworkPagedTableConfig tableConfig) {
-        this.tableConfig = tableConfig;
-    }
+	public void setData(Object data) {
+		grid.setData(data);
+	}
 
-    private void onFilterTextChange(HasValue.ValueChangeEvent<String> event) {
-        tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
-        refreshGrid();
-    }
+	public GtnUIFrameworkPagedTableConfig getTableConfig() {
+		return tableConfig;
+	}
 
-    public void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event) {
-        tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
-        refreshGrid();
-    }
+	public void setTableConfig(GtnUIFrameworkPagedTableConfig tableConfig) {
+		this.tableConfig = tableConfig;
+	}
 
-    public Set<GtnWsRecordBean> getValue() {
-        return grid.getSelectedItems();
-    }
+	private void onFilterTextChange(HasValue.ValueChangeEvent<String> event) {
+		tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
+		refreshGrid();
+	}
 
-    public GtnUIFrameworkPagedGridLogic getPagedTableLogic() {
-        return pagedTableLogic;
-    }
+	public void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event) {
+		tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
+		refreshGrid();
+	}
 
-    public void setPagedTableLogic(GtnUIFrameworkPagedGridLogic pagedTableLogic) {
-        this.pagedTableLogic = pagedTableLogic;
-    }
+	public Set<GtnWsRecordBean> getValue() {
+		return grid.getSelectedItems();
+	}
+
+	public GtnUIFrameworkPagedGridLogic getPagedTableLogic() {
+		return pagedTableLogic;
+	}
+
+	public void setPagedTableLogic(GtnUIFrameworkPagedGridLogic pagedTableLogic) {
+		this.pagedTableLogic = pagedTableLogic;
+	}
 
 }

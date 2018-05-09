@@ -1,10 +1,16 @@
 package com.stpl.gtn.gtn2o.ui.dynamicclasses;
 
 import com.stpl.gtn.gtn2o.ui.action.GtnCustomerAvailableTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIBuildCustomTreeAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeRemoveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeSaveAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomVariableGridLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomVariablePositionChangeAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomViewHierarchyLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportDasboardTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.pagedtreetable.GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction;
 import com.stpl.gtn.gtn2o.ui.action.pagedtreetable.GtnFrameworkConfigureRightTableHeaderForPTTCompoAction;
 import com.stpl.gtn.gtn2o.ui.action.pagedtreetable.GtnFrameworkFSPTTCompLeftHeaderFormHeaderAndConfigAction;
@@ -15,7 +21,6 @@ import com.stpl.gtn.gtn2o.ui.action.pagedtreetable.GtnFrameworkFSPagedTreeTableG
 import com.stpl.gtn.gtn2o.ui.action.pagedtreetable.GtnFrameworkReturnCheckAllAction;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
-import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAction;
 
 public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjectFiller {
@@ -44,19 +49,27 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnFrameworkReturnCheckAllAction());
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnRelationshipVersionLoadAction.class.getName(),
-				new GtnRelationshipVersionLoadAction());	
+				new GtnRelationshipVersionLoadAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnCustomerAvailableTableLoadAction.class.getName(),
+				new GtnCustomerAvailableTableLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnProductLevelAvailableTableLoadAction.class.getName(),
 				new GtnProductLevelAvailableTableLoadAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnCustomerAvailableTableLoadAction.class.getName(),
-				new GtnCustomerAvailableTableLoadAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnCustomerAvailableTableLoadAction.class.getName(),
-				new GtnCustomerAvailableTableLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUICustomViewHierarchyLoadAction.class.getName(),
 				new GtnFrameworkUICustomViewHierarchyLoadAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportCCPTableLoadAction.class.getName(),
+				new GtnReportCCPTableLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUICustomTreeAddAction.class.getName(),
 				new GtnFrameworkUICustomTreeAddAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUICustomTreeSaveAction.class.getName(),
 				new GtnFrameworkUICustomTreeSaveAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUICustomVariablePositionChangeAction.class.getName(),
+				new GtnFrameworkUICustomVariablePositionChangeAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUICustomVariableGridLoadAction.class.getName(),
+				new GtnFrameworkUICustomVariableGridLoadAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUICustomTreeRemoveAction.class.getName(),
+				new GtnFrameworkUICustomTreeRemoveAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUIBuildCustomTreeAction.class.getName(),
+				new GtnFrameworkUIBuildCustomTreeAction());
                 GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUIReportDasboardTableLoadAction.class.getName(),
 				new GtnFrameworkUIReportDasboardTableLoadAction());
                 

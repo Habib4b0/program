@@ -12,10 +12,13 @@ public class GtnUIFrameworkV8DualListBoxConfig {
 	private Object[] rightVisibleColumns;
 
 	private List<String> recordHeader;
+	private List<String> rightRecordHeader;
 
 	private String leftTableURL;
 	private String moveRightURL;
 	private String moveLeftURL;
+	private String moveAllDataURL;
+	
 
 	private int loadingLevel;
 	private String moduleName;
@@ -52,7 +55,7 @@ public class GtnUIFrameworkV8DualListBoxConfig {
 	}
 
 	public Object[] getRightVisibleColumns() {
-		return rightVisibleColumns == null ? rightVisibleHeaders : rightVisibleHeaders.clone();
+		return rightVisibleColumns == null ? rightVisibleColumns : rightVisibleColumns.clone();
 	}
 
 	public void setRightVisibleColumns(Object[] rightVisibleColumns) {
@@ -65,6 +68,14 @@ public class GtnUIFrameworkV8DualListBoxConfig {
 
 	public void setRecordHeader(List<String> recordHeader) {
 		this.recordHeader = new ArrayList<>(recordHeader);
+	}
+	
+	public List<String> getRightRecordHeader() {
+		return rightRecordHeader;
+	}
+
+	public void setRightRecordHeader(List<String> rightRecordHeader) {
+		this.rightRecordHeader = rightRecordHeader;
 	}
 
 	public int getLoadingLevel() {
@@ -121,6 +132,14 @@ public class GtnUIFrameworkV8DualListBoxConfig {
 
 	public void setModuleType(String moduleType) {
 		this.moduleType = moduleType;
+	}
+
+	public String getMoveAllDataURL() {
+		return moveAllDataURL;
+	}
+
+	public void setMoveAllDataURL(String moveAllDataURL) {
+		this.moveAllDataURL = moveAllDataURL;
 	}
 
 }

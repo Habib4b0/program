@@ -7,7 +7,8 @@ public class GtnWsCustomTreeData {
 	private int levelNo;
 	private int currentTreeLevelNo;
 	private GtnWsHierarchyType hierarchyType;
-	private List<GtnWsCustomTreeData> children;
+	private List<GtnWsReportVariablesType> variableList;
+	private GtnWsCustomTreeData child;
 
 	public String getLevelName() {
 		return levelName;
@@ -41,14 +42,20 @@ public class GtnWsCustomTreeData {
 		this.hierarchyType = hierarchyType;
 	}
 
-	public List<GtnWsCustomTreeData> getChildren() {
-		return children;
+	public GtnWsCustomTreeData getChild() {
+		return child;
 	}
 
-	public void setChildren(List<GtnWsCustomTreeData> children) {
-		this.children = children;
+	public void setChild(GtnWsCustomTreeData child) {
+		this.child = child;
 	}
-	
-	
+
+	public List<GtnWsReportVariablesType> getVariableList() {
+		return variableList;
+	}
+
+	public void setVariableList(List<GtnWsReportVariablesType> variableList) {
+		this.variableList = variableList;
+	}
 
 }

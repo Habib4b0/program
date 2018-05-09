@@ -2,7 +2,7 @@ package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkDualListBoxBean;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.listeners.GtnUIFrameworkMoveAllRightButtonClickListener;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.listeners.GtnUIFrameworkMoveLeftButtonClickListener;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.listeners.GtnUIFrameworkMoveRightButtonClickListener;
@@ -33,8 +33,8 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig)
 			throws GtnFrameworkGeneralException {
 		try {
-			GtnFrameworkDualListBoxBean dualListBoxBean = createComponents(
-					componentConfig.getGtnUIFrameworkV8DualListBoxConfig());
+			GtnFrameworkV8DualListBoxBean dualListBoxBean = createComponents(
+					componentConfig.getGtnUIFrameworkV8DualListBoxConfig(),componentConfig);
 			return dualListBoxComponent(dualListBoxBean);
 		} catch (Exception ex) {
 			throw new GtnFrameworkGeneralException(
@@ -50,7 +50,7 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 			HorizontalLayout dualListBox = (HorizontalLayout) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
 			GtnUIFrameworkComponentData gtnUIFrameworkComponentData = (GtnUIFrameworkComponentData) dualListBox
 					.getData();
-			GtnFrameworkDualListBoxBean dualListBoxBean = (GtnFrameworkDualListBoxBean) gtnUIFrameworkComponentData
+			GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) gtnUIFrameworkComponentData
 					.getCustomData();
 			List<?> reloadInputList = (List<?>) reloadInput;
 			if (GtnFrameworkCommonStringConstants.RETURNS_FORECAST_DUALLIST_CONFIG_ACTION
@@ -67,21 +67,21 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		AbstractComponent dualListBoxLayout = GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
 		GtnUIFrameworkComponentData dualListBoxcomponentData = (GtnUIFrameworkComponentData) dualListBoxLayout
 				.getData();
-		GtnFrameworkDualListBoxBean dualListBoxBean = (GtnFrameworkDualListBoxBean) dualListBoxcomponentData
+		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) dualListBoxcomponentData
 				.getCustomData();
 		dualListBoxBean.clearLeftTableData();
 		dualListBoxBean.clearRightTableData();
 	}
 
 	@SuppressWarnings("unchecked")
-	private void resetHeadersForLeftTable(List<?> reloadInput, GtnFrameworkDualListBoxBean dualListBoxBean) {
+	private void resetHeadersForLeftTable(List<?> reloadInput, GtnFrameworkV8DualListBoxBean dualListBoxBean) {
 		List<Object> visibleColumns = (List<Object>) reloadInput.get(1);
 		List<String> headers = (List<String>) reloadInput.get(2);
 		resetDualListBoxHeadersAndColumns(visibleColumns, headers, dualListBoxBean);
 	}
 
 	private void resetDualListBoxHeadersAndColumns(List<Object> visibleColumns, List<String> listViewHeaders,
-			GtnFrameworkDualListBoxBean dualListBoxBean) {
+			GtnFrameworkV8DualListBoxBean dualListBoxBean) {
 //		@SuppressWarnings("unchecked")
 //		ExtContainer<GtnWsRecordBean> extContainer = (ExtContainer<GtnWsRecordBean>) dualListBoxBean.getLeftTable()
 //				.getContainerDataSource();
@@ -90,6 +90,7 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
                 dualListBoxBean.getLeftTable().removeAllColumns();
                 for (int i = 0; i <  visibleColumns.size(); i++) {
                 String column = visibleColumns.get(i).toString();
+                LOGGER.info("column name is ---->" + column);
 			dualListBoxBean.getLeftTable().addColumn(row -> row.getPropertyValue(column)).setCaption(listViewHeaders.get(i));
 		}
 //		dualListBoxBean.getLeftTable().setVisibleColumns(visibleColumns.toArray());
@@ -98,8 +99,8 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 //		dualListBoxBean.getLeftTable().setFilterDecorator(new ExtDemoFilterDecorator());
 	}
 
-	private GtnFrameworkDualListBoxBean createComponents(GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig) {
-		LOGGER.info("Entering into the createComponents() of VaadinDualListBox");
+	private GtnFrameworkV8DualListBoxBean createComponents(GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig,GtnUIFrameworkComponentConfig componentConfig) {
+		LOGGER.info("Entering into the createComponents() of VaadinDualListBox with id: "+componentConfig.getComponentId());
 
 		Grid<GtnWsRecordBean> leftTable;
 		TreeGrid<GtnWsRecordBean> rightTable;
@@ -116,20 +117,23 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 //		leftTable.setContainerDataSource(extContainer);
 //		leftTable.setVisibleColumns(dualListBoxConfig.getLeftVisibleColumns());
 //		leftTable.setColumnHeaders(dualListBoxConfig.getLeftVisibleHeaders());
-                  for (int i = 0; i <  dualListBoxConfig.getLeftVisibleColumns().length; i++) {
-                String column = dualListBoxConfig.getRightVisibleColumns()[i].toString();
-			leftTable.addColumn(row -> row.getPropertyValue(column)).setCaption(dualListBoxConfig.getLeftVisibleHeaders()[i]);
+		for (int i = 0; i < dualListBoxConfig.getLeftVisibleColumns().length; i++) {
+			String column = dualListBoxConfig.getLeftVisibleColumns()[i].toString();
+			LOGGER.info("column---------->" + column);
+			leftTable.addColumn(row -> row.getPropertyValue(column))
+					.setCaption(dualListBoxConfig.getLeftVisibleHeaders()[i]);
 		}
 		rightTable = new TreeGrid<>();
-                rightTable.setSelectionMode(Grid.SelectionMode.SINGLE);
+		rightTable.setSelectionMode(Grid.SelectionMode.SINGLE);
 //		ExtTreeContainer<GtnWsRecordBean> extTreeContainer = new ExtTre;reMode.LIST);
 //		rightTable.setContainerDataSource(extTreeContainer);
 //
 //		rightTable.setVisibleColumns(dualListBoxConfig.getRightVisibleColumns());
 //		rightTable.setColumnHeaders(dualListBoxConfig.getRightVisibleHeaders());
-                for (int i = 0; i <  dualListBoxConfig.getRightVisibleColumns().length; i++) {
-                String column = dualListBoxConfig.getRightVisibleColumns()[i].toString();
-			rightTable.addColumn(row -> row.getPropertyValue(column)).setCaption(dualListBoxConfig.getRightVisibleHeaders()[i]);
+		for (int i = 0; i < dualListBoxConfig.getRightVisibleColumns().length; i++) {
+			String column = dualListBoxConfig.getRightVisibleColumns()[i].toString();
+			rightTable.addColumn(row -> row.getPropertyValue(column))
+					.setCaption(dualListBoxConfig.getRightVisibleHeaders()[i]);
 		}
 		moveLeft = new Button(" < ");
 		moveRight = new Button(" > ");
@@ -150,15 +154,15 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		moveRight.addStyleName(GtnFrameworkCommonConstants.DUALLISTBOXBUTTON);
 		moveAllRight.addStyleName(GtnFrameworkCommonConstants.DUALLISTBOXBUTTON);
 
-		GtnFrameworkDualListBoxBean dualListBoxBean = new GtnFrameworkDualListBoxBean(leftTable, rightTable, moveLeft,
+		GtnFrameworkV8DualListBoxBean dualListBoxBean = new GtnFrameworkV8DualListBoxBean(leftTable, rightTable, moveLeft,
 				moveRight, moveAllRight, this, dualListBoxConfig);
 
-		LOGGER.info("End into the createComponents() of VaadinDualListBox");
+		LOGGER.info("End into the createComponents() of VaadinDualListBox with id: "+componentConfig.getComponentId());
 		return dualListBoxBean;
 	}
 
-	private HorizontalLayout dualListBoxComponent(GtnFrameworkDualListBoxBean dualListBoxBean) {
-		LOGGER.info("Entering into the addComponents() of VaadinDualListBox");
+	private HorizontalLayout dualListBoxComponent(GtnFrameworkV8DualListBoxBean dualListBoxBean) {
+		LOGGER.info("Entering into the addComponents() of VaadinDualListBoxw");
 
 		HorizontalLayout dualListBoxHorizontalLayout = new HorizontalLayout();
 		dualListBoxHorizontalLayout.setSpacing(true);
@@ -180,11 +184,11 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		dualListBoxBean.getMoveRight().setData(dualListBoxData);
 		dualListBoxBean.getMoveAllRight().setData(dualListBoxData);
 		dualListBoxHorizontalLayout.setData(dualListBoxData);
-		LOGGER.info("End into the addComponents() of VaadinDualListBox");
+		LOGGER.info("End into the addComponents() of VaadinDualListBox + "+dualListBoxHorizontalLayout.getClass());
 		return dualListBoxHorizontalLayout;
 	}
 
-	private void addListeners(GtnFrameworkDualListBoxBean dualListBoxBean) {
+	private void addListeners(GtnFrameworkV8DualListBoxBean dualListBoxBean) {
 		dualListBoxBean.getMoveRight().addClickListener(GtnUIFrameworkMoveRightButtonClickListener.getInstance());
 		dualListBoxBean.getMoveLeft().addClickListener(GtnUIFrameworkMoveLeftButtonClickListener.getInstance());
 		dualListBoxBean.getMoveAllRight().addClickListener(GtnUIFrameworkMoveAllRightButtonClickListener.getInstance());

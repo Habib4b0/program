@@ -1,42 +1,40 @@
 package com.stpl.gtn.gtn20.ws.report.engine.mongo.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoCommandException;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsTreeNodeAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsCommonCalculationService;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import net.sourceforge.jeval.EvaluationException;
-import org.bson.Document;
 
+import net.sourceforge.jeval.EvaluationException;
+
+@Service
+@Scope(value = "singleton")
 public class GtnWsMongoService {
 
-	private static GtnWsMongoService mongoService = null;
-	private static final MongoDatabase MONGODB_INSTANCE = GtnWsMongoDBConnectionService.getDBInstance();
-	private final GtnWsCommonCalculationService gtnWsCommonCalculation = GtnWsCommonCalculationService.getInstance();
+	@Autowired
+	GtnWsMongoDBConnectionService mongoDBInstance;
 
-	private GtnWsMongoService() {
-		super();
-	}
-
-	public static GtnWsMongoService getInstance() {
-		if (mongoService == null) {
-			mongoService = new GtnWsMongoService();
-		}
-		return mongoService;
-	}
+	@Autowired
+	GtnWsCommonCalculationService gtnWsCommonCalculation;
 
 	public void createCollection(String collectionName) {
 		try {
-			MONGODB_INSTANCE.createCollection(collectionName);
+			mongoDBInstance.getDBInstance().createCollection(collectionName);
 		} catch (MongoCommandException ex) {
 			ex.printStackTrace();
 			System.out.println(" Collection Already exists ");
@@ -44,11 +42,11 @@ public class GtnWsMongoService {
 	}
 
 	public MongoCollection<Document> getCollection(String collectionName) {
-		return MONGODB_INSTANCE.getCollection(collectionName);
+		return mongoDBInstance.getDBInstance().getCollection(collectionName);
 	}
 
 	public MongoCollection<?> getCollectionForCustomClass(String collectionName, Class<?> clazz) {
-		return MONGODB_INSTANCE.getCollection(collectionName, clazz);
+		return mongoDBInstance.getDBInstance().getCollection(collectionName, clazz);
 	}
 
 	public void insertManyRecordsToMongoDbUsingCustomClass(MongoCollection collection, List<?> dataList) {
@@ -57,7 +55,7 @@ public class GtnWsMongoService {
 
 	public void dropCollections(List<String> collectionList) {
 		for (String collectionName : collectionList) {
-			MONGODB_INSTANCE.getCollection(collectionName).drop();
+			mongoDBInstance.getDBInstance().getCollection(collectionName).drop();
 		}
 	}
 
@@ -319,25 +317,80 @@ public class GtnWsMongoService {
 		}
 		return documentList;
 	}
-//GtnWsReportEngineTreeNode
-	public Object getTreeFromMongo(String collectionName,Class<?> className,String input[],Object values[]) {
-             BasicDBObject whereQuery = new BasicDBObject();
-            if (input != null && values != null && values.length == input.length) {
-                for (int i = 0; i < input.length; i++) {
-                    System.out.println("i =input " + input[i]);
-                    System.out.println("i =values " + values[i]);
-                    whereQuery.put(input[i], values[i]);
-                }
-            }
-            @SuppressWarnings("unchecked")
-            FindIterable<GtnWsReportEngineTreeNode> itr = (FindIterable<GtnWsReportEngineTreeNode>) getCollectionForCustomClass(
-                    collectionName, className).find(whereQuery);
-            MongoCursor<GtnWsReportEngineTreeNode> cursor = itr.iterator();
-            GtnWsReportEngineTreeNode treeNode = null;
-            while (cursor.hasNext()) {
-                treeNode = cursor.next();
-            }
-            return treeNode;
+
+	// GtnWsReportEngineTreeNode
+	public Object getTreeFromMongo(String collectionName, Class<?> className, String input[], Object values[]) {
+		BasicDBObject whereQuery = new BasicDBObject();
+		if (input != null && values != null && values.length == input.length) {
+			for (int i = 0; i < input.length; i++) {
+				System.out.println("i =input " + input[i]);
+				System.out.println("i =values " + values[i]);
+				whereQuery.put(input[i], values[i]);
+			}
+		}
+		@SuppressWarnings("unchecked")
+		FindIterable<GtnWsReportEngineTreeNode> itr = (FindIterable<GtnWsReportEngineTreeNode>) getCollectionForCustomClass(
+				collectionName, className).find(whereQuery);
+		MongoCursor<GtnWsReportEngineTreeNode> cursor = itr.iterator();
+		GtnWsReportEngineTreeNode treeNode = null;
+		while (cursor.hasNext()) {
+			treeNode = cursor.next();
+		}
+		return treeNode;
+	}
+
+	public void kafkaToMongoData(String collectionName) {
+		Document group1Criteria = new Document("_id",
+				new Document("ccp", "$CCP_DETAILS_SID").append("pr", "$PERIOD_SID"));
+		group1Criteria.put("values",
+				new Document("$push",
+						new Document("rsId", "$RS_CONTRACT_SID").append("discountActuals", "$ACTUAL_DISCOUNT")
+								.append("discountProjection", "$PROJECTION_DISCOUNT")
+								.append("accural", "$ACCURAL_DISCOUNT")));
+		group1Criteria.put("salesActuals", new Document("$max", "$ACTUAL_SALES"));
+		group1Criteria.put("salesProjection", new Document("$max", "$PROJECTION_SALES"));
+
+		group1Criteria.put("periodSid", new Document("$max", "$PERIOD_SID"));
+		group1Criteria.put("ccpId", new Document("$max", "$CCP_DETAILS_SID"));
+		group1Criteria.put("salesUnitsActuals", new Document("$max", "$ACTUAL_UNITS"));
+		group1Criteria.put("salesUnitsProjection", new Document("$max", "$PROJECTION_UNITS"));
+
+		group1Criteria.put("year", new Document("$max", "$YEAR"));
+		group1Criteria.put("quarter", new Document("$max", "$QUARTER"));
+		group1Criteria.put("semiAnnual", new Document("$max", "$SEMI_ANNUAL"));
+
+		group1Criteria.put("exfactoryActuals", new Document("$max", "$EXFACTORY_ACTUAL_SALES"));
+		group1Criteria.put("exfactoryProjection", new Document("$max", "$EXFACTORY_PROJECTION_SALES"));
+
+		group1Criteria.put("MONTH", new Document("$max", "$MONTH"));
+
+		Document group1 = new Document("$group", group1Criteria);
+
+		Document group2Criteria = new Document("_id", "$ccpId");
+		group2Criteria.put("projectionDetailsValues", new Document("$push", new Document("periodSid", "$periodSid")
+				.append("quarter", "$quarter").append("semiAnnual", "$semiAnnual").append("year", "$year")
+				.append("salesActuals", "$salesActuals").append("salesProjection", "$salesProjection")
+				.append("salesUnitsActuals", "$salesUnitsActuals")
+				.append("salesUnitsProjection", "$salesUnitsProjection").append("exfactoryActuals", "$exfactoryActuals")
+				.append("exfactoryProjection", "$exfactoryProjection").append("discountBean", "$values")));
+
+		Document group2 = new Document("$group", group2Criteria);
+
+		Document projections = new Document("$project",
+				new Document("ccpId", "$_id").append("projectionDetailsValues", 1).append("_id", 0));
+
+		List conditions = new ArrayList<>();
+		conditions.add(group1);
+		conditions.add(group2);
+		conditions.add(projections);
+
+		AggregateIterable itr = getCollection(collectionName).aggregate(conditions).batchSize(5000);
+
+		MongoCursor cr = itr.iterator();
+		while (cr.hasNext()) {
+			Document doc = (Document) cr.next();
+			getCollection("KafkaData").insertOne(doc);
+		}
 	}
         
         public FindIterable<Document> fetchDataFromMongo(String collectionName,Object input[],Object values[]) {

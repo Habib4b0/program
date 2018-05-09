@@ -98,14 +98,14 @@ public GtnWsPagedTreeTableResponse getReportLeftTableColumns(GtnWsForecastReques
 //        String[] comparisonBasisHeader = new String[]{"Actuals", "Accruals", "Current Projection",
 //            "Prior Projection1", "Prior Projection2", "Prior Projection3", "Prior Projection4", "Prior Projection5"};
         
-          String[] variablesHeader = new String[]{"Ex-Factory Sales", "Gross Contract Sales % of Ex-Factory"};
+          String[] variablesHeader = new String[]{"Gross Contract Sales", "Weighted GTN Contribution"};
 
 //        String[] variablesHeader = new String[]{"Ex-Factory Sales", "Gross Contract Sales % of Ex-Factory", "Gross Contract Sales", "Contract Units",
 //            "Contract Sales % of Total Contract Sales", "Deduction $", "Deduction %", "RPU", "Deduction % of Ex-Factory", "Net Contract Sales",
 //            "Net Contract Sales % of Ex-Factory", "Net Ex-Factory Sales", "Net Ex-Factory Sales % of Total Ex-Factory",
 //            "Weighted GTN Contribution"};
 
-        String[] variablesColumn = new String[]{"exfactory", "grossContractSalesPerExFactory"};
+        String[] variablesColumn = new String[]{"contractSales", "weightedGtn"};
 //        String[] variablesColumn = new String[]{"exfactory", "grossContractSalesPerExFactory", "contractSales", "contractUnits", "contractSalesPerTotalContractSales",
 //            "discountAmount", "discountPercent", "rpu", "deductionPerExfactory", "netContractSales", "netContractSalesPerExfactory", "netExfactorySales",
 //            "netExfactorySalesPerTotalExfactory", "weightedGtn"};

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.stpl.gtn.gtn2o.ws.controller;
 
+import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -13,16 +13,19 @@ import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
+import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
+import com.stpl.gtn.gtn2o.ws.report.controller.GtnWsReportController;
+import com.stpl.gtn.gtn2o.ws.report.engine.engine.GtnGenerateReportEngine;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineBean;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
+import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportingDashBoardSevice;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
-import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
 import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
-import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportRespose;
-import com.stpl.gtn.gtn2o.ws.service.GtnWsReportingDashBoardSevice;
 import com.stpl.gtn.gtn2o.ws.service.HeaderGeneratorService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,94 +41,125 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class GtnWsReportingDashboardController {
-    	public GtnWsReportingDashboardController() {
 
-	}
+    public GtnWsReportingDashboardController() {
 
-	
-	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportController.class);
+    }
 
-	@Autowired
-	private GtnWsReportingDashBoardSevice gtnWsReportingDashBoardSevice;
-	@Autowired
-	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+    GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportController.class);
 
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
-        @Autowired
-	private HeaderGeneratorService reportHeaderService;
+    @Autowired
+    private GtnWsReportingDashBoardSevice gtnWsReportingDashBoardSevice;
+    @Autowired
+    private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
+    @Autowired
+    private org.hibernate.SessionFactory sessionFactory;
 
-	public org.hibernate.SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
+    @Autowired
+    GtnGenerateReportEngine gtnGeneralReportEngine;
 
-	public void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
+    @Autowired
+    GtnWsMongoService gtnWsMongoService;
+    @Autowired
+    private HeaderGeneratorService reportHeaderService;
 
-	public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
-		return gtnSqlQueryEngine;
-	}
+    public org.hibernate.SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
 
-	public void setGtnSqlQueryEngine(GtnFrameworkSqlQueryEngine gtnSqlQueryEngine) {
-		this.gtnSqlQueryEngine = gtnSqlQueryEngine;
-	}
-          @RequestMapping(value = GtnWsReportConstants.GTN_REPORT_DASHBOARD_LEFT_DATA, method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse loadDashboardLeftData(@RequestBody GtnUIFrameworkWebserviceRequest request)
-			throws GtnFrameworkGeneralException {
-            
-                GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-            	try {
-		List<GtnWsRecordBean> resultList;
-                GtnWsSearchRequest gtnWsSearchRequest= request.getGtnWsSearchRequest();
-		GtnWsReportResponse gtnWsReportRespose = new GtnWsReportResponse();
-                resultList = gtnWsReportingDashBoardSevice.getDashboardLeftData(gtnWsSearchRequest);
-		gtnWsReportRespose.setResultList(resultList);
-		response.setGtnWsReportResponse(gtnWsReportRespose);
-	
-                } catch (Exception ex) {
-                    gtnLogger.error(ex.getMessage(),ex);
-                }
-                	return response;
-	}
-         @PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_LEFT_HEADERS_SERVICE)
-	public GtnUIFrameworkWebserviceResponse getReportConfigureLeftHeaders(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
-		try {
-			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
-			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
-			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
-			GtnWsPagedTreeTableResponse leftHeader = reportHeaderService.getReportLeftTableColumns(request);
-			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(leftHeader);
-			return gtnUIFrameworkWebserviceResponse;
-		} catch (Exception ex) {
-			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
-			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
-			return gtnUIFrameworkWebserviceResponse;
-		}
-	}
+    public void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
-	@PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE)
-	public GtnUIFrameworkWebserviceResponse getReportConfiguredRightHeaders(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+    public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
+        return gtnSqlQueryEngine;
+    }
 
-		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
-		try {
-			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
-			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+    public void setGtnSqlQueryEngine(GtnFrameworkSqlQueryEngine gtnSqlQueryEngine) {
+        this.gtnSqlQueryEngine = gtnSqlQueryEngine;
+    }
 
-			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
-			GtnWsPagedTreeTableResponse rightHeader = reportHeaderService
-					.getReportRightTableColumnsDummy();
-			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(rightHeader);
-			return gtnUIFrameworkWebserviceResponse;
-		} catch (Exception ex) {
-			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
-			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
-			return gtnUIFrameworkWebserviceResponse;
-		}
-	}
+    @RequestMapping(value = GtnWsReportConstants.GTN_REPORT_DASHBOARD_LEFT_DATA, method = RequestMethod.POST)
+    public GtnUIFrameworkWebserviceResponse loadDashboardLeftData(@RequestBody GtnUIFrameworkWebserviceRequest request)
+            throws GtnFrameworkGeneralException {
+        List<GtnWsRecordBean> resultList;
+        GtnWsSearchRequest gtnWsSearchRequest = request.getGtnWsSearchRequest();
+        GtnWsReportResponse gtnWsReportRespose = new GtnWsReportResponse();
+        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+        GtnWsReportDashboardBean reportDashboardBean = request.getGtnWsReportRequest().getGtnWsReportDashboardBean();
+        GtnWsReportEngineTreeNode inputTree = getSavedCustomTree(reportDashboardBean);
 
+        if (inputTree != null) {
+            GtnWsReportEngineTreeNode root = gtnGeneralReportEngine
+                    .generateReportOutput(getGtnWsReportEngineBean(inputTree));
+            saveComputedResults(reportDashboardBean, root);
+
+            resultList = gtnWsReportingDashBoardSevice.getDashboardLeftData(gtnWsSearchRequest);
+            gtnWsReportRespose.setRecordBeanResultList(resultList);
+            response.setGtnWsReportResponse(gtnWsReportRespose);
+        }
+        return response;
+    }
+
+    private void saveComputedResults(GtnWsReportDashboardBean reportDashboardBean, GtnWsReportEngineTreeNode root) {
+        gtnWsMongoService.updateFinalResultsToMongo(
+                reportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.COMPUTED_TREE_RESULTS), root);
+    }
+
+    private GtnWsReportEngineTreeNode getSavedCustomTree(GtnWsReportDashboardBean reportDashboardBean) {
+        return (GtnWsReportEngineTreeNode) gtnWsMongoService.getTreeFromMongo(
+                reportDashboardBean.getTableNameWithUniqueId(reportDashboardBean.getCustomViewName()),
+                GtnWsReportEngineTreeNode.class, null, null);
+    }
+
+    private GtnWsReportEngineBean getGtnWsReportEngineBean(GtnWsReportEngineTreeNode input) {
+        GtnWsReportEngineBean engineBean = new GtnWsReportEngineBean();
+        engineBean.setSelectedProjectionId(0);
+        engineBean.setComparisonBasis("Actuals");
+        engineBean.setInput(input);
+        engineBean.addComparisonTableName("projection");
+        engineBean.addComparisonTableName("projection1");
+        engineBean.addComparisonTableName("projection2");
+        return engineBean;
+    }
+
+    @PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE)
+    public GtnUIFrameworkWebserviceResponse getReportConfiguredRightHeaders(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+
+        GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+        try {
+            gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+            gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+
+            GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+            GtnWsPagedTreeTableResponse rightHeader = reportHeaderService
+                    .getReportRightTableColumnsDummy();
+            gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(rightHeader);
+            return gtnUIFrameworkWebserviceResponse;
+        } catch (Exception ex) {
+            gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+            gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+            return gtnUIFrameworkWebserviceResponse;
+        }
+    }
+
+    @PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_LEFT_HEADERS_SERVICE)
+    public GtnUIFrameworkWebserviceResponse getReportConfigureLeftHeaders(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+        GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+        try {
+            gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+            gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+            GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+            GtnWsPagedTreeTableResponse leftHeader = reportHeaderService.getReportLeftTableColumns(request);
+            gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(leftHeader);
+            return gtnUIFrameworkWebserviceResponse;
+        } catch (Exception ex) {
+            gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+            gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+            return gtnUIFrameworkWebserviceResponse;
+        }
+    }
 }

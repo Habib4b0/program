@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.module.forecastdataseletion.service.GtnFrameworkCCPInsertService;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -31,6 +32,17 @@ public class GtnFrameworkCCPInsertController {
 		GtnWsForecastRequest forecastRequet = gtnWsRequest.getGtnWsForecastRequest();
 		GtnForecastHierarchyInputBean inputBean = forecastRequet.getInputBean();
 		service.insertToCPPTable(inputBean);
+		return new GtnUIFrameworkWebserviceResponse();
+	}
+
+	@RequestMapping(value = GtnWebServiceUrlConstants.GTN_REPORT_CCP_INSERT, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse ccpInsertToReportingg(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+		GtnWsForecastRequest reportRequet = gtnWsRequest.getGtnWsForecastRequest();
+		GtnForecastHierarchyInputBean inputBean = reportRequet.getInputBean();
+		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getReportBean()
+				.getDataSelectionBean();
+		service.insertToCPPTableReporting(inputBean, dataSelectionBean);
 		return new GtnUIFrameworkWebserviceResponse();
 	}
 

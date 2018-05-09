@@ -18,4 +18,168 @@ where
     ]]>
 
 	</entry>
+	
+	<entry key="loadForecastEligibleDate">
+	<![CDATA[
+		SELECT  PROJECTION_START_DATE FROM   [Udf_na_proj_dates]('Commercial')
+	]]>
+	
+	</entry>
+	
+	<entry key="deductionInsertQuery">
+		<![CDATA[
+		
+		IF NOT EXISTS (
+		SELECT 'X'
+		FROM SYS.TABLES
+		WHERE OBJECT_NAME(OBJECT_ID) = '?'
+			AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+		)
+		BEGIN
+			CREATE TABLE [DBO].[?] (
+				RS_CONTRACT_SID INT  NULL,
+				RS_CATEGORY INT  NULL,
+		        RS_TYPE INT  NULL,
+		        REBATE_PROGRAM_TYPE INT  NULL,
+		        UDC1 INT  NULL,
+		        UDC2 INT  NULL,
+		        UDC3 INT  NULL,
+		        UDC4 INT  NULL,
+		        UDC5 INT  NULL,
+		        UDC6 INT  NULL,
+		        RS_ID VARCHAR(200) NOT NULL
+				)
+		END
+		
+		
+			INSERT
+		    INTO
+		        ? (
+		        	RS_CONTRACT_SID,
+		            RS_CATEGORY,
+		            RS_TYPE,
+		            REBATE_PROGRAM_TYPE,
+		            UDC1,
+		            UDC2,
+		            UDC3,
+		            UDC4,
+		            UDC5,
+		            UDC6,
+		            RS_ID
+		        ) SELECT
+		         	DISTINCT 
+		            RS.RS_CONTRACT_SID,
+		            RS_CATEGORY,
+		            RS_TYPE,
+		            REBATE_PROGRAM_TYPE,
+		            U.UDC1,
+		            U.UDC2,
+		            U.UDC3,
+		            U.UDC4,
+		            U.UDC5,
+		            U.UDC6,
+		            RS.RS_ID
+		        FROM
+		            RS_CONTRACT RS JOIN dbo.UDCS U
+		                ON U.MASTER_SID = RS.RS_CONTRACT_SID
+		            AND U.MASTER_TYPE = 'RS_CONTRACT'
+		            JOIN ? CCP ON
+		            CCP.RS_CONTRACT_SID = RS.RS_CONTRACT_SID ;
+		]]>
+	</entry>
+	
+	<entry key="getHierarchyTableDetails">
+		<![CDATA[
+			SELECT distinct 
+                    CASE WHEN HLD.LEVEL_VALUE_REFERENCE='User Defined'  THEN 'LEVEL_VALUES' ELSE 
+                        CASE WHEN HLD.TABLE_NAME=JVIEW.REFERENCE_TABLE_NAME OR JVIEW.REFERENCE_TABLE_NAME='HELPER_TABLE' THEN JVIEW.REFERENCE_COLUMN_NAME ELSE JVIEW.DESC_COLUMN_NAME END END DISPLAY_COLUMN,
+                    CASE WHEN HLD.LEVEL_VALUE_REFERENCE='User Defined'  THEN 'HIERARCHY_LEVEL_VALUES' ELSE 
+                        CASE WHEN HLD.TABLE_NAME=JVIEW.REFERENCE_TABLE_NAME THEN HLD.TABLE_NAME ELSE JVIEW.REFERENCE_TABLE_NAME  END END H_TABLE_NAME,
+                    CASE WHEN HLD.LEVEL_VALUE_REFERENCE='User Defined'  THEN 'HIERARCHY_LEVEL_VALUES_SID' ELSE 
+                        CASE WHEN JVIEW.MAPPING_COLUMN_NAME is null THEN JVIEW.PRIMARY_KEY_COLUMN_NAME ELSE JVIEW.MAPPING_COLUMN_NAME END END FIELD_NAME,
+                    RLD.LEVEL_NO
+                    FROM RELATIONSHIP_LEVEL_DEFINITION RLD 
+                    JOIN HIERARCHY_LEVEL_DEFINITION HLD ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD.HIERARCHY_LEVEL_DEFINITION_SID AND RLD.RELATIONSHIP_BUILDER_SID = ?
+                    JOIN HIERARCHY_DEFINITION HD ON HD.HIERARCHY_DEFINITION_SID=HLD.HIERARCHY_DEFINITION_SID
+                    LEFT JOIN vw_helper_list JVIEW ON JVIEW.ACTUAL_TABLE_NAME=HLD.TABLE_NAME AND JVIEW.ACTUAL_COLUMN_NAME=HLD.FIELD_NAME
+                    JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=HD.HIERARCHY_CATEGORY ORDER BY RLD.LEVEL_NO;
+		]]>
+	</entry>
+	
+	<entry key="getRelationshipLevelValues">
+            <![CDATA[ 
+                SELECT DISTINCT
+                    RLD.HIERARCHY_NO,
+                    TEMP.? VALUE,
+                    LEVEL_NAME,
+                    LEVEL_NO,
+                    RELATIONSHIP_LEVEL_VALUES
+                    ?
+               FROM
+                    RELATIONSHIP_LEVEL_DEFINITION RLD
+                JOIN ? CH ON CH.? LIKE RLD.HIERARCHY_NO+'%'
+                JOIN ? TEMP ON
+                                TEMP.? = RLD.RELATIONSHIP_LEVEL_VALUES
+                                AND RLD.RELATIONSHIP_BUILDER_SID = ?
+                                AND RLD.LEVEL_NO = ?
+                                AND RLD.VERSION_NO = ?
+                                
+            ]]>
+	</entry>
+	
+	<entry key="getHierarchyResults">
+			<![CDATA[
+				SELECT
+					distinct c.HIERARCHY_NAME,
+					a.LEVEL_NAME,
+					b.LEVEL_NO,
+					c.CREATED_DATE,
+					c.MODIFIED_DATE,
+					c.VERSION_NO,
+					c.HIERARCHY_DEFINITION_SID
+				from
+					HIERARCHY_LEVEL_DEFINITION a,
+					HIERARCHY_LEVEL_DEFINITION b,
+					HIERARCHY_DEFINITION c
+				where
+					a.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+					and a.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+					AND c.HIERARCHY_CATEGORY in(
+						select
+							ht.HELPER_TABLE_SID
+						from
+							HELPER_TABLE ht
+						where
+							ht.LIST_NAME = 'HIERARCHY_CATEGORY'
+							and ht.DESCRIPTION like ?
+					)
+					AND b.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+					AND a.LEVEL_NO in(
+						SELECT
+							MAX( h.LEVEL_NO )
+						FROM
+							HIERARCHY_LEVEL_DEFINITION h
+						WHERE
+							h.HIERARCHY_DEFINITION_SID = a.HIERARCHY_DEFINITION_SID
+					)
+					AND b.LEVEL_NO in(
+						SELECT
+							MIN( h.LEVEL_NO )
+						FROM
+							HIERARCHY_LEVEL_DEFINITION h
+						WHERE
+							h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+					)
+					AND c.HIERARCHY_NAME like ?
+					AND c.HIERARCHY_TYPE in(
+						select
+							ht.HELPER_TABLE_SID
+						from
+							HELPER_TABLE ht
+						where
+							ht.DESCRIPTION like ?
+					)
+			]]>
+	</entry>
+	
 </properties>

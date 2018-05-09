@@ -1095,4 +1095,97 @@ ORDER by
 		</query>
 	</entity>
         
+        <entity id="ccpInsertQueryForReporting">
+		<query> 
+        <![CDATA[    
+        
+        IF NOT EXISTS (
+		SELECT 'X'
+		FROM SYS.TABLES
+		WHERE OBJECT_NAME(OBJECT_ID) = '?'
+			AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+		)
+		BEGIN
+			CREATE TABLE [DBO].[?] (
+				CCP_DETAILS_SID INT NOT NULL,
+				CUST_HIERARCHY_NO VARCHAR(8000) NOT NULL,
+				PROD_HIERARCHY_NO VARCHAR(8000) NOT NULL,
+				RS_CONTRACT_SID INT  NULL
+				)
+		END
+        
+  IF Object_id('tempdb..#COMP_CONT') IS NOT NULL DROP
+						TABLE
+							#COMP_CONT CREATE
+								TABLE
+									#COMP_CONT(
+									   
+										COMPANY_MASTER_SID INT,
+										CONTRACT_MASTER_SID INT,
+										HIERARCHY_NO VARCHAR(50)
+									) INSERT
+										INTO
+											#COMP_CONT(
+											   
+												COMPANY_MASTER_SID,
+												CONTRACT_MASTER_SID,
+												HIERARCHY_NO
+											)?
+		
+		
+		  IF Object_id('TEMPDB..#SELECTED_PROD_HIERARCHY_NO') IS NOT NULL
+  DROP TABLE #SELECTED_PROD_HIERARCHY_NO
+
+		 IF Object_id('tempdb..#ITEM') IS NOT NULL DROP
+						TABLE
+							#ITEM CREATE
+								TABLE
+									#ITEM(
+										
+										ITEM_MASTER_SID INT,
+										HIERARCHY_NO VARCHAR(50)
+									) INSERT
+										INTO
+											#ITEM(
+												
+												ITEM_MASTER_SID,
+												HIERARCHY_NO
+											)  ?
+
+INSERT
+	INTO
+		?(
+			CCP_DETAILS_SID,
+			CUST_HIERARCHY_NO,
+			PROD_HIERARCHY_NO,
+                        RS_CONTRACT_SID
+		) SELECT Distinct
+			CD.CCP_DETAILS_SID,
+			CC.HIERARCHY_NO,
+			I.HIERARCHY_NO,
+                        RC.RS_CONTRACT_SID
+		FROM 
+			#COMP_CONT CC
+		JOIN CCP_DETAILS CD ON
+			CC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+			AND CC.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+		JOIN #ITEM I ON
+			I.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                LEFT JOIN RS_CONTRACT RC ON RC.CONTRACT_MASTER_SID=CD.CONTRACT_MASTER_SID
+                LEFT JOIN RS_CONTRACT_DETAILS RCD ON RCD.RS_CONTRACT_SID=RC.RS_CONTRACT_SID
+                        AND I.ITEM_MASTER_SID =RCD.ITEM_MASTER_SID
+        
+                 ]]>
+		</query>
+	</entity>
+        
+        <entity id="filtercontractsbasedoneligibledateForReporting">
+            <query> 
+            <![CDATA[ 
+                AND  (CONTRACT_MASTER.CONTRACT_ELIGIBLE_DATE>= ? OR CONTRACT_MASTER.CONTRACT_ELIGIBLE_DATE IS NULL)
+                AND (CFP_CONTRACT_DETAILS.CFP_ELIGIBLE_DATE>= ? OR CFP_CONTRACT_DETAILS.CFP_ELIGIBLE_DATE IS NULL);
+            ]]>
+            </query>
+        </entity>
+        
 </sql>

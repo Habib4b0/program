@@ -30,6 +30,12 @@ public class GtnFrameworkRegexStringConstants {
 	public static final String ACCEPT_9_CHARACTER = "^[a-zA-Z0-9]{9}?$";
 
 	public static final String ACCEPT_MIN8_MAX100_CHARACTER = "^[a-zA-Z0-9]{8,100}?$";
+        
+	public static final String ACCEPT_MIN_1_MAX_50_CHARACTER = "^[a-zA-Z0-9\\.|\\*|\\,|\\_|\\-|\\@|\\#|\\$|\\+|\\'|\\&|\\%|\\^|\\{|\\}|\\[|\\]|\\s|\\/|\\(|\\!|\\)]{1,50}?$";
+        
+	public static final String ACCEPT_MIN_1_MAX_38_CHARACTER = "^[a-zA-Z0-9\\.|\\*|\\,|\\_|\\-|\\@|\\#|\\$|\\+|\\'|\\&|\\%|\\^|\\{|\\}|\\[|\\]|\\s|\\/|\\(|\\!|\\)]{1,38}?$";
+	
+    public static final String ACCEPT_MIN_1_MAX_100_CHARACTER = "^[a-zA-Z0-9\\.|\\*|\\,|\\_|\\-|\\@|\\#|\\$|\\+|\\'|\\&|\\%|\\^|\\{|\\}|\\[|\\]|\\s|\\/|\\(|\\!|\\)]{1,100}?$";
 
 	public static final String ACCEPT_NEGATIVE_AND_ZERO = "^\\-[1-9]*|0$";
         

@@ -21,6 +21,12 @@
 			<version>1.0</version>
 		</dependency>
 		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver</artifactId>
+			<version>3.6.3</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.stpl.gtn.gtn2o.ws.report.engine</groupId>
 			<artifactId>GtnWsReportEngine</artifactId>
 			<version>1.0</version>

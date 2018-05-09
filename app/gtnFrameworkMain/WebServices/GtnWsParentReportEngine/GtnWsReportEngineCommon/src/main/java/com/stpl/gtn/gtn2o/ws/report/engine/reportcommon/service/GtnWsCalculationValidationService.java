@@ -5,23 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.constants.CalculationConstants;
+
+@Service
+@Scope(value = "singleton")
 public class GtnWsCalculationValidationService {
 
-	private static GtnWsCalculationValidationService gtnWsCalculationValidation;
 	private static final Map<String, List<String[]>> COMPARISON_BASIS = new HashMap<>();
-	private static final String DECIMAL_DEFAULT = "0.0";
-
-	private GtnWsCalculationValidationService() {
-		super();
-	}
-
-	public static GtnWsCalculationValidationService getInstance() {
-		if (gtnWsCalculationValidation == null) {
-			gtnWsCalculationValidation = new GtnWsCalculationValidationService();
-			loadComparisonBasisMap();
-		}
-		return gtnWsCalculationValidation;
-	}
 
 	public boolean doubleValidation(Double value) {
 		return !(value == null || Double.isInfinite(value) || Double.isNaN(value));
@@ -36,35 +29,36 @@ public class GtnWsCalculationValidationService {
 
 	public String getDoubleValue(Object value) {
 		if (value == null) {
-			return DECIMAL_DEFAULT;
+			return CalculationConstants.DECIMAL_DEFAULT;
 		}
 		String doubleValue = String.valueOf(value);
 		try {
 			if (Double.isInfinite(Double.valueOf(doubleValue))) {
-				return DECIMAL_DEFAULT;
+				return CalculationConstants.DECIMAL_DEFAULT;
 			}
 			return doubleValue;
 		} catch (NumberFormatException ex) {
-			return DECIMAL_DEFAULT;
+			return CalculationConstants.DECIMAL_DEFAULT;
 		}
 	}
 
 	private static void loadComparisonBasisMap() {
 		if (COMPARISON_BASIS.isEmpty()) {
 			List<String[]> actuals = new ArrayList<>();
-			actuals.add(new String[] { "Actuals", "Projection" });
-			COMPARISON_BASIS.put("Actuals", actuals);
+			actuals.add(new String[] { CalculationConstants.ACTUALS, CalculationConstants.PROJECTIONS });
+			COMPARISON_BASIS.put(CalculationConstants.ACTUALS, actuals);
 			List<String[]> accruals = new ArrayList<>();
-			accruals.add(new String[] { "Accruals", "Projection" });
-			COMPARISON_BASIS.put("Accruals", accruals);
+			accruals.add(new String[] { CalculationConstants.ACCRUALS, "Projection" });
+			COMPARISON_BASIS.put(CalculationConstants.ACCRUALS, accruals);
 			List<String[]> projection = new ArrayList<>();
-			projection.add(new String[] { "Projection", "Actuals" });
-			projection.add(new String[] { "Projection", "Accruals" });
-			projection.add(new String[] { "Projection", "Projection" });
-			COMPARISON_BASIS.put("Projection", projection);
+			projection.add(new String[] { CalculationConstants.PROJECTIONS, CalculationConstants.ACTUALS });
+			projection.add(new String[] { CalculationConstants.PROJECTIONS, CalculationConstants.ACCRUALS });
+			projection.add(new String[] { CalculationConstants.PROJECTIONS, CalculationConstants.PROJECTIONS });
+			COMPARISON_BASIS.put(CalculationConstants.PROJECTIONS, projection);
 			List<String[]> value = new ArrayList<>();
-			value.add(new String[] { "Actuals", "Accruals", "Projection" });
-			COMPARISON_BASIS.put("Value", value);
+			value.add(new String[] { CalculationConstants.ACTUALS, CalculationConstants.ACCRUALS,
+					CalculationConstants.PROJECTIONS });
+			COMPARISON_BASIS.put(CalculationConstants.VALUE, value);
 		}
 	}
 

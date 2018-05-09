@@ -1,15 +1,19 @@
 package com.stpl.gtn.gtn2o.ws.response.report;
 
-import java.util.List;
-
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
-import com.stpl.gtn.gtn2o.ws.request.GtnWSRequestData;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.request.GtnWSRequestData;
+import java.util.List;
 
 public class GtnWsReportResponse implements GtnWSRequestData {
 
+	private static final long serialVersionUID = -135232026568151871L;
+	private GtnWsReportBean reportBean = new GtnWsReportBean();
+	private List<GtnWsRecordBean> recordBeanResultList;
+        
 	private GtnReportHierarchyLookupBean customerHierarchyLookupBean;
 	private List<?> resultList;
 	private GtnWsReportDataSelectionBean dataSelectionBean;
@@ -27,38 +31,45 @@ public class GtnWsReportResponse implements GtnWSRequestData {
 		super();
 	}
 
-	public GtnReportHierarchyLookupBean getCustomerHierarchyLookupBean() {
-		return customerHierarchyLookupBean;
-	}
+    public GtnWsReportBean getReportBean() {
+        return reportBean;
+    }
 
-	public void setCustomerHierarchyLookupBean(GtnReportHierarchyLookupBean customerHierarchyLookupBean) {
-		this.customerHierarchyLookupBean = customerHierarchyLookupBean;
+    public void setReportBean(GtnWsReportBean reportBean) {
+        this.reportBean = reportBean;
+    }
 
-	}
+    public List<GtnWsRecordBean> getRecordBeanResultList() {
+        return recordBeanResultList;
+    }
 
-	public GtnWsReportDataSelectionBean getDataSelectionBean() {
-		return dataSelectionBean;
-	}
+    public void setRecordBeanResultList(List<GtnWsRecordBean> recordBeanResultList) {
+        this.recordBeanResultList = recordBeanResultList;
+    }
 
-	public void setDataSelectionBean(GtnWsReportDataSelectionBean dataSelectionBean) {
-		this.dataSelectionBean = dataSelectionBean;
-	}
+    public GtnReportHierarchyLookupBean getCustomerHierarchyLookupBean() {
+        return customerHierarchyLookupBean;
+    }
 
-	public GtnWsReportCustomViewBean getCustomViewBean() {
-		return customViewBean;
-	}
+    public void setCustomerHierarchyLookupBean(GtnReportHierarchyLookupBean customerHierarchyLookupBean) {
+        this.customerHierarchyLookupBean = customerHierarchyLookupBean;
+    }
 
-	public void setCustomViewBean(GtnWsReportCustomViewBean customViewBean) {
-		this.customViewBean = customViewBean;
-	}
+    public GtnWsReportDataSelectionBean getDataSelectionBean() {
+        return dataSelectionBean;
+    }
 
-	private GtnWsReportBean reportBean = new GtnWsReportBean();
+    public void setDataSelectionBean(GtnWsReportDataSelectionBean dataSelectionBean) {
+        this.dataSelectionBean = dataSelectionBean;
+    }
 
-	public GtnWsReportBean getReportBean() {
-		return reportBean;
-	}
+    public GtnWsReportCustomViewBean getCustomViewBean() {
+        return customViewBean;
+    }
 
-	public void setReportBean(GtnWsReportBean reportBean) {
-		this.reportBean = reportBean;
-	}
+    public void setCustomViewBean(GtnWsReportCustomViewBean customViewBean) {
+        this.customViewBean = customViewBean;
+    }
+
+	
 }

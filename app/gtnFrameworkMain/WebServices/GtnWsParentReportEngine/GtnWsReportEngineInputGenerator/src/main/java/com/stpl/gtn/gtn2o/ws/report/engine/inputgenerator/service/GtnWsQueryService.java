@@ -138,7 +138,7 @@ public class GtnWsQueryService {
 	}
 
 	public String getCPPListWithRsQuery() {
-		return " select * from ST_CCP_HIERARCHY_LEELA_KRISH_143_180207;";
+		return " select * from ST_CCP_HIERARCHY_LEELA_KRISH_143_180207 where CUST_HIERARCHY_NO like '390-116.222.23.86.%';";
 	}
 
 	public List<Object[]> getCPPListWithRS() {
@@ -326,6 +326,7 @@ public class GtnWsQueryService {
 		result.add(new Object[] { "4", "Trading Partner", "390-116.222.1083.84.", "84" });
 		result.add(new Object[] { "4", "Trading Partner", "390-116.222.22.84.", "84" });
 		result.add(new Object[] { "4", "Trading Partner", "390-116.222.23.86.", "86" });
+		result.add(new Object[] { "4", "Trading Partner", "390-116.222.23.87.", "87" });
 		result.add(new Object[] { "4", "Trading Partner", "390-116.222.24.88.", "88" });
 		result.add(new Object[] { "4", "Trading Partner", "390-116.222.24.89.", "89" });
 		result.add(new Object[] { "4", "Trading Partner", "390-116.222.24.90.", "90" });
@@ -497,13 +498,13 @@ public class GtnWsQueryService {
 
 	public List<Object[]> getDeductionQueryList() {
 		List<Object[]> results = new ArrayList<>();
-		results.add(new Object[] { "147", "628", "627", "630", "12363", "12358", "12359", "12360", "12361", "12362",
+		results.add(new Object[] { "143", "628", "627", "630", "12363", "12358", "12359", "12360", "12361", "12362",
 				"RS_12" });
-		results.add(new Object[] { "150", "628", "627", "630", "12363", "12358", "12359", "12360", "12361", "12362",
+		results.add(new Object[] { "173", "628", "627", "630", "12363", "12358", "12359", "12360", "12361", "12362",
 				"RS_13" });
-		results.add(new Object[] { "151", "628", "627", "630", "12363", "12358", "12359", "12360", "12361", "12362",
+		results.add(new Object[] { "174", "628", "627", "630", "12363", "12358", "12359", "12360", "12361", "12362",
 				"RS_14" });
-		results.add(new Object[] { "157", "628", "627", "630", "12363", "12358", "12359", "12360", "12361", "12362",
+		results.add(new Object[] { "175", "628", "627", "630", "12363", "12358", "12359", "12360", "12361", "12362",
 				"RS_2" });
 		results.add(new Object[] { "158", "6281", "6271", "6301", "12363", "12358", "12359", "12360", "12361", "12363",
 				"RS_2" });
@@ -517,7 +518,7 @@ public class GtnWsQueryService {
 				"RS_1" });
 		results.add(new Object[] { "184", "628", "627", "630", "12363", "12358", "12359", "12360", "12361", "12363",
 				"RS_1" });
-		results.add(new Object[] { "235", "628", "627", "6301", "12363", "12358", "12359", "12360", "12361", "12362",
+		results.add(new Object[] { "237", "628", "627", "6301", "12363", "12358", "12359", "12360", "12361", "12362",
 				"RS_12" });
 		return results;
 	}
@@ -607,15 +608,19 @@ public class GtnWsQueryService {
 			custom.add(obj);
 			obj = new Object[] { 3, "C", "Contract", 2 };
 			custom.add(obj);
-			obj = new Object[] { 4, "C", "TP", 3 };
+			obj = new Object[] { 3, "A", "Contract", 3 };
+			custom.add(obj);
+			obj = new Object[] { 4, "C", "TP", 4 };
 			custom.add(obj);
 			break;
 		case 1:
-			obj = new Object[] { 3, "C", "Contract", 1 };
+			obj = new Object[] { 3, "A", "Contract", 1 };
 			custom.add(obj);
 			obj = new Object[] { 3, "D", "Program Type", 2 };
 			custom.add(obj);
-			obj = new Object[] { 4, "C", "TP", 3 };
+			obj = new Object[] { 4, "C", "Contract", 3 };
+			custom.add(obj);
+			obj = new Object[] { 4, "C", "TP", 4 };
 			custom.add(obj);
 			break;
 		case 2:
@@ -712,15 +717,15 @@ public class GtnWsQueryService {
 			custom.add(obj);
 			break;
 		case 11:
-			obj = new Object[] { 3, "D", "Program Type", 5 };
+			obj = new Object[] { 3, "D", "Program Type", 1 };
 			custom.add(obj);
-			obj = new Object[] { 2, "P", "Brand", 1 };
+			obj = new Object[] { 2, "P", "Brand", 2 };
 			custom.add(obj);
-			obj = new Object[] { 3, "P", "Item", 2 };
+			obj = new Object[] { 3, "P", "Item", 3 };
 			custom.add(obj);
-			obj = new Object[] { 3, "C", "Contract", 3 };
+			obj = new Object[] { 3, "C", "Contract", 4 };
 			custom.add(obj);
-			obj = new Object[] { 4, "C", "TP", 4 };
+			obj = new Object[] { 4, "C", "TP", 5 };
 			custom.add(obj);
 			break;
 		case 12:

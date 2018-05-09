@@ -1,7 +1,9 @@
 package com.stpl.gtn.gtn2o.ws.request.report;
 
+import java.util.Date;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
@@ -20,6 +22,9 @@ public class GtnWsReportRequest {
 	private GtnWsReportDashboardBean gtnWsReportDashboardBean;
 	private GtnWsReportDataSelectionBean dataSelectionBean;
 	private GtnWsReportCustomViewBean customViewBean;
+	private List<GtnWsRecordBean> recordBean;
+	private List<GtnReportHierarchyLevelBean> hierarchyLevelList;
+	private Date forecastEligibleDate;
 
 	public List<Object[]> getResultList() {
 		return resultList;
@@ -83,6 +88,30 @@ public class GtnWsReportRequest {
 
 	public void setHierarchyInputBean(GtnReportHierarchyLevelBean hierarchyInputBean) {
 		this.hierarchyInputBean = hierarchyInputBean;
+	}
+
+	public List<GtnWsRecordBean> getRecordBean() {
+		return recordBean;
+	}
+
+	public void setRecordBean(List<GtnWsRecordBean> recordBean) {
+		this.recordBean = recordBean;
+	}
+
+	public List<GtnReportHierarchyLevelBean> getHierarchyLevelList() {
+		return hierarchyLevelList;
+	}
+
+	public void setHierarchyLevelList(List<GtnReportHierarchyLevelBean> hierarchyLevelList) {
+		this.hierarchyLevelList = hierarchyLevelList;
+	}
+
+	public Date getForecastEligibleDate() {
+		return forecastEligibleDate;
+	}
+
+	public void setForecastEligibleDate(Date forecastEligibleDate) {
+		this.forecastEligibleDate = forecastEligibleDate;
 	}
 
 }

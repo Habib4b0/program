@@ -118,7 +118,7 @@ public class GtnUIFrameworkView extends CustomComponent implements View {
 		}
 		if (gtnViewConfig.getViewActionList() != null && !gtnViewConfig.getViewActionList().isEmpty()) {
 			gtnLogger.debug("gtnViewConfig.getViewActionList() is going to execute for " + getViewName());
-			GtnUIFrameworkActionExecutor.executeActionList(gtnViewConfig.getViewId(),
+			GtnUIFrameworkActionExecutor.executeActionList(generatedViewId,
 					gtnViewConfig.getViewActionList());
 		}
 		return toBuild;

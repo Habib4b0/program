@@ -4,23 +4,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
-import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
-import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportCustHierarchyConfig;
 import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
-import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class GtnFrameworkReportLandingScreenConfig {
@@ -275,7 +272,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		componentList.add(businessUnitLayoutConfig);
 
 		GtnUIFrameworkComponentConfig businessUnit = new GtnUIFrameworkComponentConfig();
-		businessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		businessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
 		businessUnit.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.BUSINESS_UNIT);
 		businessUnit.setComponentName("Business Unit");
@@ -348,7 +345,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		fromPeriod.setGtnComboboxConfig(fromPeriodConfig);
 
 	
-//		componentList.add(fromPeriod);
+		componentList.add(fromPeriod);
 
 
 		GtnUIFrameworkLayoutConfig toPeriodLayout = new GtnUIFrameworkLayoutConfig();
@@ -387,7 +384,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 		toPeriod.setGtnComboboxConfig(toPeriodTypeConfig);
 
-//		componentList.add(toPeriod);
+		componentList.add(toPeriod);
 
 	}
 
@@ -451,29 +448,24 @@ public class GtnFrameworkReportLandingScreenConfig {
 		componentList.add(generateBtn);
 		List<GtnUIFrameWorkActionConfig> actionList = new ArrayList<>();
 		
-		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
-		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		List<Object> params=new ArrayList<>();
-		params.add(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
-		params.add("Report Generate Lookup View");
-		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
-		
-		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
-		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
-
-		List<Object> actionParams = new ArrayList<>();
-		actionParams.add("dataAssumptionsPagedTableComponent");
-
-		loadDataTableActionConfig.setActionParameterList(actionParams);
-		
-		actionList.add(gtnUIFrameWorkGeneratePopupAction);
-		actionList.add(loadDataTableActionConfig);
+		GtnUIFrameWorkActionConfig generateAction = new GtnUIFrameWorkActionConfig();
+		generateAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		generateAction.addActionParameter(GtnReportCCPTableLoadAction.class.getName());
+		generateAction.addActionParameter("reportLandingScreen_customerDualListBox");
+		generateAction.addActionParameter("reportLandingScreen_productdualListBoxComp");
+		generateAction.addActionParameter("reportLandingScreen_customerHierarchy");
+		generateAction.addActionParameter("reportLandingScreen_customerSelectionRelationship");
+		generateAction.addActionParameter("reportLandingScreen_customerRelationshipVersion");
+		generateAction.addActionParameter("reportLandingScreen_customerSelectionLevel");
+		generateAction.addActionParameter("reportLandingScreen_customerSelectionForecastEligibilityDate");
+		generateAction.addActionParameter("reportLandingScreen_producthierarchy");
+		generateAction.addActionParameter("reportLandingScreen_relationship");
+		generateAction.addActionParameter("reportLandingScreen_level");
+		generateAction.addActionParameter("reportLandingScreen_productRelationshipVersion");
+		generateAction.addActionParameter("reportLandingScreen_reportDataSource");
+		actionList.add(generateAction);
 		
 		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);
-
-
 
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
 		resetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);

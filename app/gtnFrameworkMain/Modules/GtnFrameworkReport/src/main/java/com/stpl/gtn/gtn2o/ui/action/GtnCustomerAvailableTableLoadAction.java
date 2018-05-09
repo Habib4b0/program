@@ -9,8 +9,10 @@ import java.util.Map;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -22,7 +24,9 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
+import com.vaadin.ui.AbstractComponent;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 public class GtnCustomerAvailableTableLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -32,13 +36,14 @@ public class GtnCustomerAvailableTableLoadAction
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		// TODO Auto-generated method stub
+		return ;
 
 	}
 
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		Date forecastEligibleDate = null;
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String hierarchyComponentId = actionParamList.get(2).toString();
 		String relationshipComponentId = actionParamList.get(3).toString();
@@ -54,28 +59,42 @@ public class GtnCustomerAvailableTableLoadAction
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(relationshipComponentId).getValueFromComponent());
 		Integer hierarchyDefSid = (Integer) recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
 
-		String selectedLevel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString())
-				.getCaptionFromComboBox();
 		Integer selectedLevelNo = (Integer) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(5).toString()).getValueFromComponent();
 
-		Date forecastEligibleDate = (Date) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(6).toString())
+		LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(6).toString())
 				.getFieldValue();
-		
-		logger.info("relationshipVersionNo---------->" + relationshipVersionNo);
-		logger.info("hierarchyVersionNo------------->" + hierarchyVersionNo);
-		logger.info("relationshipBuilderSid--------->" + relationshipBuilderSid);
-		logger.info("componentData------------------->" + recordBean);
-		logger.info("hierarchyDefSid------------------>" + hierarchyDefSid);
+		if (date != null) {
+			forecastEligibleDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		}
+
 		String query = getLevelValueMapQuery(relationshipBuilderSid, hierarchyDefSid, hierarchyVersionNo,
 				relationshipVersionNo);
 		Map<String, String> levelValueMap = getLevelValueMap(query);
-		List<GtnReportHierarchyLevelBean> hierarchyLevels = getHierarchyLevelDefinition(hierarchyDefSid, hierarchyVersionNo);
+		List<GtnReportHierarchyLevelBean> hierarchyLevels = getHierarchyLevelDefinition(hierarchyDefSid,
+				hierarchyVersionNo);
 		GtnReportHierarchyLevelBean selectedHierarchyLevelBean = hierarchyLevels.get(selectedLevelNo - 1);
-		List<GtnReportHierarchyLevelBean> resultLevelList = null;
 		String customerLevelQuery = loadAvailableCustomerLevelQuery(selectedHierarchyLevelBean,
 				Integer.parseInt(relationshipBuilderSid), relationshipVersionNo, forecastEligibleDate, levelValueMap);
-//		resultLevelList = loadAvailableCustomerLevel(customerLevelQuery);
+		List<Object> queryParameters = new ArrayList<>();
+		queryParameters.add(customerLevelQuery);
+		queryParameters.add(levelValueMap);
+		queryParameters.add(selectedHierarchyLevelBean);
+		queryParameters.add(hierarchyLevels);
+		queryParameters.add(relationshipVersionNo);
+		queryParameters.add(hierarchyVersionNo);
+		queryParameters.add(selectedLevelNo);
+		queryParameters.add(forecastEligibleDate);
+		queryParameters.add(false);
+
+		AbstractComponent dualListBoxComponent = GtnUIFrameworkGlobalUI
+				.getVaadinComponent(actionParamList.get(1).toString());
+		GtnUIFrameworkComponentData dualListBoxComponentData = (GtnUIFrameworkComponentData) dualListBoxComponent
+				.getData();
+		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) dualListBoxComponentData
+				.getCustomData();
+		dualListBoxBean.setGtnDualListBoxqueryParameters(queryParameters);
+		dualListBoxComponentData.setCustomData(dualListBoxBean);
 	}
 
 	private String getLevelValueMapQuery(String relationshipBuilderSid, Integer hierarchyDefSid,
@@ -117,7 +136,8 @@ public class GtnCustomerAvailableTableLoadAction
 		return relationMap;
 	}
 
-	private List<GtnReportHierarchyLevelBean> getHierarchyLevelDefinition(Integer hierarchyDefSid, String hierarchyVersionNo) {
+	private List<GtnReportHierarchyLevelBean> getHierarchyLevelDefinition(Integer hierarchyDefSid,
+			String hierarchyVersionNo) {
 		List<GtnReportHierarchyLevelBean> levelList = new ArrayList<>();
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		inputBean.setHierarchyDefinitionSid(hierarchyDefSid);
@@ -134,8 +154,9 @@ public class GtnCustomerAvailableTableLoadAction
 		return levelList;
 	}
 
-	private String loadAvailableCustomerLevelQuery(GtnReportHierarchyLevelBean selectedHierarchyLevelBean, int relationshipSid,
-			String relationshipVersionNo, Date forecastEligibleDate, Map<String, String> levelValueMap) {
+	private String loadAvailableCustomerLevelQuery(GtnReportHierarchyLevelBean selectedHierarchyLevelBean,
+			int relationshipSid, String relationshipVersionNo, Date forecastEligibleDate,
+			Map<String, String> levelValueMap) {
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		inputBean.setRelationShipBuilderSid(relationshipSid);
 		inputBean.setRelationVersionNo(Integer.parseInt(relationshipVersionNo));
@@ -156,17 +177,8 @@ public class GtnCustomerAvailableTableLoadAction
 		return response.getGtnWsForecastResponse().getInputBean().getHieraryQuery();
 	}
 
-	/*private List<Object[]> loadAvailableCustomerLevel(String customerQuery){
-		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
-		inputBean.setHieraryQuery(customerQuery);
-		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
-		forecastRequest.setInputBean(inputBean);
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		request.setGtnWsForecastRequest(forecastRequest);
-	}*/
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 }

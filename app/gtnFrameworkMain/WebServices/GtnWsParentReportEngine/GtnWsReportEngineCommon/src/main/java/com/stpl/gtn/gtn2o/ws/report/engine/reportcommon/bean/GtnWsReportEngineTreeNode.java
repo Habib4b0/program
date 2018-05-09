@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 
 public class GtnWsReportEngineTreeNode implements Serializable {
 
@@ -19,11 +19,15 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 
 	private List<GtnWsReportEngineTreeNode> children;
 
-	private transient GtnWsReportEngineTreeNode parent;
+	private List<GtnWsReportEngineTreeNode> variableList;
 
 	private int levelNumber;
 
 	private String hierarchyNo;
+
+	private String parentHierarchyNo;
+
+	private GtnWsHierarchyType parentIndicator;
 
 	private String levelName;
 
@@ -35,7 +39,9 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 
 	private Set<Integer> rsIds = null;
 
-	private String indicator = StringUtils.EMPTY;
+	private GtnWsHierarchyType indicator;
+
+	private boolean isDiscountAvailable;
 
 	public Object getNodeData() {
 		return nodeData;
@@ -51,14 +57,6 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 
 	public void setChildren(List<GtnWsReportEngineTreeNode> children) {
 		this.children = children;
-	}
-
-	public GtnWsReportEngineTreeNode getParent() {
-		return parent;
-	}
-
-	public void setParent(GtnWsReportEngineTreeNode parent) {
-		this.parent = parent;
 	}
 
 	public String getLevelName() {
@@ -115,7 +113,6 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 			}
 		}
 
-		treeNode.setParent(this);
 		if (this.children == null) {
 			children = new ArrayList<>();
 		}
@@ -161,11 +158,11 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 		ccpIds.addAll(ccpId);
 	}
 
-	public String getIndicator() {
+	public GtnWsHierarchyType getIndicator() {
 		return indicator;
 	}
 
-	public void setIndicator(String indicator) {
+	public void setIndicator(GtnWsHierarchyType indicator) {
 		this.indicator = indicator;
 	}
 
@@ -209,5 +206,62 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 	// Dont delete. this Method is called during Serialization
 	private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
 		ois.defaultReadObject();
+	}
+
+	public String getParentHierarchyNo() {
+		return parentHierarchyNo;
+	}
+
+	public void setParentHierarchyNo(String parentHierarchyNo) {
+		this.parentHierarchyNo = parentHierarchyNo;
+	}
+
+	public GtnWsHierarchyType getParentIndicator() {
+		return parentIndicator;
+	}
+
+	public void setParentIndicator(GtnWsHierarchyType parentIndicator) {
+		this.parentIndicator = parentIndicator;
+	}
+
+	public GtnWsReportEngineTreeNode copy() {
+		GtnWsReportEngineTreeNode gtnWsReportEngineTreeNode = new GtnWsReportEngineTreeNode();
+
+		gtnWsReportEngineTreeNode.setNodeData(this.nodeData);
+		gtnWsReportEngineTreeNode.setLevelNumber(levelNumber);
+		gtnWsReportEngineTreeNode.setHierarchyNo(hierarchyNo);
+		gtnWsReportEngineTreeNode.setParentHierarchyNo(parentHierarchyNo);
+		gtnWsReportEngineTreeNode.setParentIndicator(parentIndicator);
+		gtnWsReportEngineTreeNode.setLevelName(levelName);
+		gtnWsReportEngineTreeNode.setLevelValue(levelValue);
+		gtnWsReportEngineTreeNode.setNodeIndex(nodeIndex);
+		gtnWsReportEngineTreeNode.setCcpIds(ccpIds);
+		gtnWsReportEngineTreeNode.setRsIds(rsIds);
+		gtnWsReportEngineTreeNode.setIndicator(indicator);
+
+		return gtnWsReportEngineTreeNode;
+	}
+
+	public boolean isDiscountAvailable() {
+		return isDiscountAvailable;
+	}
+
+	public void setDiscountAvailable(boolean isDiscountAvailable) {
+		this.isDiscountAvailable = isDiscountAvailable;
+	}
+
+	public List<GtnWsReportEngineTreeNode> getVariableList() {
+		return variableList;
+	}
+
+	public void setVariableList(List<GtnWsReportEngineTreeNode> variableList) {
+		this.variableList = variableList;
+	}
+
+	public void addVariable(GtnWsReportEngineTreeNode variable) {
+		if (this.variableList == null) {
+			this.variableList = new ArrayList<>();
+		}
+		this.variableList.add(variable);
 	}
 }

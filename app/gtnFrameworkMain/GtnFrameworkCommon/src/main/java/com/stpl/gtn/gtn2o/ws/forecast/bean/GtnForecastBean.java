@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class GtnForecastBean implements Serializable {
 
-	public GtnForecastBean() {
+    public GtnForecastBean() {
         // constructor
 
     }
@@ -1088,7 +1088,7 @@ public class GtnForecastBean implements Serializable {
 
     private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
         s.defaultWriteObject();
-    }
+}
 
     private void readObject(java.io.ObjectInputStream s) throws java.io.IOException, ClassNotFoundException {
         s.defaultReadObject();

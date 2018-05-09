@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.date;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -8,7 +9,6 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.date.GtnUIFrameworkDateFieldConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.textbox.GtnUIFrameworkTextBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.bean.ComponentBinderValidatorBean;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.date.validator.GtnUIFrameworkDateValidator;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -18,8 +18,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceDateResponse;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceTextBoxResponse;
 import com.vaadin.data.Binder;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
@@ -77,7 +75,8 @@ public class GtnUIFrameworkDateFieldComponent implements GtnUIFrameworkComponent
 	private void fillDateField(GtnUIFrameworkDateFieldConfig dateFieldConfig, DateField dateField){
 		GtnUIFrameworkWebserviceDateResponse response = getResponseFromService(dateFieldConfig);
 		if(response != null){
-			dateField.setValue(response.getResultValue());
+			LocalDate date = response.getResultValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			dateField.setValue(date);
 		}
 	}
 	

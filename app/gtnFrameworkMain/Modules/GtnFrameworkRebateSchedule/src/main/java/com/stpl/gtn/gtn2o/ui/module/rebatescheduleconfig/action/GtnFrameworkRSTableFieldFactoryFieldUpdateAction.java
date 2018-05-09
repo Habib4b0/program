@@ -112,8 +112,13 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 		window.addStyleName(GtnFrameworkCssConstants.BOOTSTRAP);
 		window.addStyleName("bootstrap-forecast bootstrap-nm");
 		window.setCaption(getPopupBeanType(propertyId).getCaption());
-		window.setWidth("70%");
-		window.setHeight("70%");
+		if (propertyId.equals(GtnFrameworkCommonConstants.FORMULA_NO)) {
+			window.setWidth("100%");
+			window.setHeight("70%");
+		} else {
+			window.setWidth("70%");
+			window.setHeight("70%");
+		}
 		window.center();
 		window.setModal(false);
 		window.setClosable(true);

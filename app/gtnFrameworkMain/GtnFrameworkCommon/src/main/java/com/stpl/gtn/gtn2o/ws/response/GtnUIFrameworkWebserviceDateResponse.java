@@ -1,6 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.response;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class GtnUIFrameworkWebserviceDateResponse implements GtnWSResponseData {
 
@@ -8,13 +8,13 @@ public class GtnUIFrameworkWebserviceDateResponse implements GtnWSResponseData {
 		super();
 	}
 
-	private LocalDate resultValue;
+	private Date resultValue;
 
-	public LocalDate getResultValue() {
+	public Date getResultValue() {
 		return resultValue;
 	}
 
-	public void setResultValue(LocalDate resultValue) {
+	public void setResultValue(Date resultValue) {
 		this.resultValue = resultValue;
 	}
 

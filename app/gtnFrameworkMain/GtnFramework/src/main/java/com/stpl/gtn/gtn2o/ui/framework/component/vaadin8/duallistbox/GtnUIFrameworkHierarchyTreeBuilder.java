@@ -31,10 +31,10 @@ public class GtnUIFrameworkHierarchyTreeBuilder {
 			this.createRootNode();
 		}
 		for (GtnWsRecordBean data : inputDataList) {
-			List<Object> record = data.getAdditionalProperties();
+			List<Object> record = data.getProperties();
 			GtnWSTreeNode treeNode = new GtnWSTreeNode();
-			treeNode.setTreeCode(record.get(1).toString());
-			treeNode.setLevel(Integer.valueOf(record.get(2).toString()));
+			treeNode.setTreeCode(record.get(8).toString());
+			treeNode.setLevel(Integer.valueOf(record.get(0).toString()));
 			treeNode.setNodeData(data);
 			if (treeNode.getLevel() == rootTreeNode.getLevel() + 1) {
 				rootTreeNode.addChildren(treeNode);
@@ -146,35 +146,38 @@ public class GtnUIFrameworkHierarchyTreeBuilder {
 
 	@SuppressWarnings("unchecked")
 	public void loadRightTreeTable(TreeGrid<GtnWsRecordBean> treeTable, int loadingLevel) {
-//		ExtTreeContainer<GtnWsRecordBean> container = (ExtTreeContainer<GtnWsRecordBean>) treeTable
-//				.getDataProvider();
+		// ExtTreeContainer<GtnWsRecordBean> container =
+		// (ExtTreeContainer<GtnWsRecordBean>) treeTable
+		// .getDataProvider();
 		treeTable.getTreeData().clear();
 		recursiveLoad(rootTreeNode, treeTable, loadingLevel);
 	}
 
-	private void recursiveLoad(GtnWSTreeNode node,TreeGrid<GtnWsRecordBean> treeTable, int loadingLevel) {
+	private void recursiveLoad(GtnWSTreeNode node, TreeGrid<GtnWsRecordBean> treeTable, int loadingLevel) {
+
 		if (node == null) {
 			return;
 		}
 		List<GtnWSTreeNode> childeren = node.getChildren();
 		if (childeren == null) {
-//			container.setChildrenAllowed(node.getNodeData(), false);
+			// container.setChildrenAllowed(node.getNodeData(), false);
 			return;
 		}
-		if (node.getLevel() > loadingLevel - 1) {
-//			container.setChildrenAllowed(node.getNodeData(), false);
-			return;
-		}
-//		container.setChildrenAllowed(node.getNodeData(), true);
+		// container.setChildrenAllowed(node.getNodeData(), true);
 		for (GtnWSTreeNode childNode : childeren) {
-                    treeTable.getTreeData().addItem(node.getNodeData(), childNode.getNodeData());
-		    recursiveLoad(childNode, treeTable, loadingLevel);
+			if (node.getLevel() == 0) {
+				treeTable.getTreeData().addItem(null, childNode.getNodeData());
+			} else {
+				treeTable.getTreeData().addItem(node.getNodeData(), childNode.getNodeData());
+
+			}
+			recursiveLoad(childNode, treeTable, loadingLevel);
 		}
 	}
 
 	public void clearRootNode() {
-		if ((rootTreeNode != null)&&(rootTreeNode.getChildren() != null)) {
-				rootTreeNode.getChildren().clear();
+		if ((rootTreeNode != null) && (rootTreeNode.getChildren() != null)) {
+			rootTreeNode.getChildren().clear();
 		}
 		rootTreeNode = null;
 	}

@@ -70,10 +70,10 @@ public class GtnUIFrameworkPagedGridLogic {
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			if (response != null && response.getGtnSerachResponse() != null) {
 				if (response.getGtnSerachResponse().getCount() == 0) {
-					GtnUIFrameworkGlobalUI
+					/*GtnUIFrameworkGlobalUI
 							.getVaadinBaseComponent(componentConfig.getComponentId(), componentConfig.getSourceViewId())
 							.getGrid().setItems();
-					return 0;
+					return 0;*/
 				}
 				getCheckedRecordCount(serviceRequest, response.getGtnSerachResponse().getCount() > 0);
 				return response.getGtnSerachResponse().getCount();
@@ -140,7 +140,7 @@ public class GtnUIFrameworkPagedGridLogic {
 			GtnUIFrameworkWebserviceRequest serviceRequest = getWSRequest();
 			serviceRequest.getGtnWsSearchRequest().setTableRecordOffset(offset);
 			serviceRequest.getGtnWsSearchRequest().setTableRecordStart(start);
-			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(resultSetUrl,componentConfig.getModuleName(), serviceRequest,
+			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(resultSetUrl,"report", serviceRequest,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
 			for (GtnUIFrameworkDataRow record : response.getGtnSerachResponse().getResultSet().getDataTable()) {
