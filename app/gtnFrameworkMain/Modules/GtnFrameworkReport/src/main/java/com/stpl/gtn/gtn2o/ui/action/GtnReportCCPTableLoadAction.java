@@ -201,7 +201,7 @@ public class GtnReportCCPTableLoadAction
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
-		request.setGtnReportRequest(reportRequest);
+		request.setGtnWsReportRequest(reportRequest);
 		request.setGtnWsGeneralRequest(generalRequest);
 		client.callGtnWebServiceUrl("/gtnWsReportCCPGeneration", "report", request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());

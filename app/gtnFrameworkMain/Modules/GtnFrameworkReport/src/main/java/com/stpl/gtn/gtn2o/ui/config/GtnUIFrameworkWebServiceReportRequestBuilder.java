@@ -11,7 +11,6 @@ public class GtnUIFrameworkWebServiceReportRequestBuilder implements Builder<Gtn
 
 	GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 	GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-	
 
 	public GtnUIFrameworkWebServiceReportRequestBuilder withDataSelectionBean() {
 		GtnWsReportDataSelectionBean bean = new GtnWsReportDataSelectionBean();
@@ -27,7 +26,7 @@ public class GtnUIFrameworkWebServiceReportRequestBuilder implements Builder<Gtn
 
 	@Override
 	public GtnUIFrameworkWebserviceRequest build() {
-		request.setGtnReportRequest(reportRequest);
+		request.setGtnWsReportRequest(reportRequest);
 		return request;
 	}
 }

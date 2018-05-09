@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoDBConnectionService;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
@@ -45,7 +46,7 @@ public class GtnWsReportCustomViewService {
 	public GtnUIFrameworkDataTable loadHierarchy(GtnUIFrameworkWebserviceRequest gtnWsRequestF)
 			throws GtnFrameworkGeneralException {
 		GtnWsReportRequest request = gtnWsRequestF.getGtnWsReportRequest();
-		return getHierarachyLevels(gtnWsRequestF.getGtnWsReportRequest().getDataSelectionBean(),
+		return getHierarachyLevels(gtnWsRequestF.getGtnWsReportRequest().getReportBean().getDataSelectionBean(),
 				request.getReportBean().getCustomViewBean());
 	}
 
