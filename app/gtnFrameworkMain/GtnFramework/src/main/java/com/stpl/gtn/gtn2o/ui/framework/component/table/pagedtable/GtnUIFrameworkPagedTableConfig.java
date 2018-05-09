@@ -35,7 +35,7 @@ public class GtnUIFrameworkPagedTableConfig {
     private int pageLength = 10;
     private List<String> editableColumnList = null;
     private List<GtnUIFrameworkComponentConfig> editableField = null;
-    private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = null;
+    private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
     private String columnCheckBoxId = "";
     private String customFieldFactoryClassname = null;
     private GtnWsSearchQueryConfigLoaderType searchQueryConfigLoaderType = null;
@@ -74,6 +74,7 @@ public class GtnUIFrameworkPagedTableConfig {
     private String countQuery;
     private String dataQuery;
     private HashMap<String, Object> filterValueMap=new HashMap<>();
+    private boolean isRefreshAtStart;
 
 
     public List<String> getColumnHeaders() {
@@ -588,5 +589,12 @@ public class GtnUIFrameworkPagedTableConfig {
         this.filterValueMap = filterValueMap;
     }
 
+	public boolean isRefreshAtStart() {
+		return isRefreshAtStart;
+	}
 
+	public void setRefreshAtStart(boolean isRefreshAtStart) {
+		this.isRefreshAtStart = isRefreshAtStart;
+	}
+    
 }

@@ -345,7 +345,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		fromPeriod.setGtnComboboxConfig(fromPeriodConfig);
 
 	
-//		componentList.add(fromPeriod);
+		componentList.add(fromPeriod);
 
 
 		GtnUIFrameworkLayoutConfig toPeriodLayout = new GtnUIFrameworkLayoutConfig();
@@ -384,7 +384,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 		toPeriod.setGtnComboboxConfig(toPeriodTypeConfig);
 
-//		componentList.add(toPeriod);
+		componentList.add(toPeriod);
 
 	}
 
@@ -464,16 +464,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.addActionParameter("reportLandingScreen_productRelationshipVersion");
 		generateAction.addActionParameter("reportLandingScreen_reportDataSource");
 		actionList.add(generateAction);
-		
-		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
-		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
-
-		List<Object> actionParams = new ArrayList<>();
-		actionParams.add("dataAssumptionsPagedTableComponent");
-
-		loadDataTableActionConfig.setActionParameterList(actionParams);
-		
-		actionList.add(loadDataTableActionConfig);
 		
 		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);
 

@@ -231,12 +231,12 @@ public class GtnWsDataSelectionEditController {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat(dateFormat);
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		List<Object> inputList = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getQueryInputList();
-		List<GtnWsRecordBean> recordBean = gtnUIFrameworkWebserviceRequest.getGtnReportRequest().getRecordBean();
-		GtnReportHierarchyLevelBean selectedHierarchyBean = gtnUIFrameworkWebserviceRequest.getGtnReportRequest()
+		List<GtnWsRecordBean> recordBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getRecordBean();
+		GtnReportHierarchyLevelBean selectedHierarchyBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
 				.getHierarchyInputBean();
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		GtnReportHierarchyLevelBean lastHierarchyLevelBean = GtnReportHierarchyLevelBean
-				.getLastLinkedLevel(gtnUIFrameworkWebserviceRequest.getGtnReportRequest().getHierarchyLevelList());
+				.getLastLinkedLevel(gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getHierarchyLevelList());
 		inputBean.setSelectedHierarchyLevelDto(
 				convertParametersToRelation(inputList, recordBean, selectedHierarchyBean));
 		String finalQuery = productSelectedLoadService.getQueryForSelectedCustomer(inputBean);
@@ -252,7 +252,7 @@ public class GtnWsDataSelectionEditController {
 		inputValuesList.add(String.valueOf(inputList.get(4)));
 		inputValuesList.add(String.valueOf(inputList.get(6)));
 		inputValuesList.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
-		Date forecastEligibleDate = gtnUIFrameworkWebserviceRequest.getGtnReportRequest().getForecastEligibleDate();
+		Date forecastEligibleDate = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getForecastEligibleDate();
 		if (forecastEligibleDate != null) {
 			inputValuesList.add(dateFormatter.format(forecastEligibleDate));
 			inputValuesList.add(dateFormatter.format(forecastEligibleDate));
@@ -283,12 +283,12 @@ public class GtnWsDataSelectionEditController {
 			throws GtnFrameworkGeneralException {
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		List<Object> inputList = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getQueryInputList();
-		List<GtnWsRecordBean> recordBean = gtnUIFrameworkWebserviceRequest.getGtnReportRequest().getRecordBean();
-		GtnReportHierarchyLevelBean selectedHierarchyBean = gtnUIFrameworkWebserviceRequest.getGtnReportRequest()
+		List<GtnWsRecordBean> recordBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getRecordBean();
+		GtnReportHierarchyLevelBean selectedHierarchyBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
 				.getHierarchyInputBean();
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		GtnReportHierarchyLevelBean lastHierarchyLevelBean = GtnReportHierarchyLevelBean
-				.getLastLinkedLevel(gtnUIFrameworkWebserviceRequest.getGtnReportRequest().getHierarchyLevelList());
+				.getLastLinkedLevel(gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getHierarchyLevelList());
 		inputBean.setSelectedHierarchyLevelDto(
 				convertParametersToRelation(inputList, recordBean, selectedHierarchyBean));
 		inputBean.setBusinessUnitValue(String.valueOf(inputList.get(7)));
@@ -339,7 +339,7 @@ public class GtnWsDataSelectionEditController {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat(dateFormat);
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		List<Object> inputList = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getQueryInputList();
-		GtnReportHierarchyLevelBean allDataSelectedHierarchyBean = gtnUIFrameworkWebserviceRequest.getGtnReportRequest()
+		GtnReportHierarchyLevelBean allDataSelectedHierarchyBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
 				.getHierarchyInputBean();
 		List<Object[]> searchResultList = levelValueMapQueryService
 				.loadCustHierarchyAvailableTable(String.valueOf(inputList.get(0)));
@@ -354,7 +354,7 @@ public class GtnWsDataSelectionEditController {
 			beanList.add(recordBean);
 		}
 		GtnReportHierarchyLevelBean lastHierarchyLevelBean = GtnReportHierarchyLevelBean
-				.getLastLinkedLevel(gtnUIFrameworkWebserviceRequest.getGtnReportRequest().getHierarchyLevelList());
+				.getLastLinkedLevel(gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getHierarchyLevelList());
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		inputBean.setSelectedHierarchyLevelDto(
 				convertParametersToRelation(inputList, beanList, allDataSelectedHierarchyBean));
@@ -370,7 +370,7 @@ public class GtnWsDataSelectionEditController {
 		inputValuesList.add(String.valueOf(inputList.get(4)));
 		inputValuesList.add(String.valueOf(inputList.get(6)));
 		inputValuesList.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
-		Date forecastEligibleDate = gtnUIFrameworkWebserviceRequest.getGtnReportRequest().getForecastEligibleDate();
+		Date forecastEligibleDate = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getForecastEligibleDate();
 		if (forecastEligibleDate != null) {
 			inputValuesList.add(dateFormatter.format(forecastEligibleDate));
 			inputValuesList.add(dateFormatter.format(forecastEligibleDate));
@@ -401,7 +401,7 @@ public class GtnWsDataSelectionEditController {
 			throws GtnFrameworkGeneralException {
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		List<Object> inputList = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getQueryInputList();
-		GtnReportHierarchyLevelBean allDataSelectedHierarchyBean = gtnUIFrameworkWebserviceRequest.getGtnReportRequest()
+		GtnReportHierarchyLevelBean allDataSelectedHierarchyBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
 				.getHierarchyInputBean();
 		List<Object[]> searchResultList = levelValueMapQueryService
 				.loadCustHierarchyAvailableTable(String.valueOf(inputList.get(0)));
@@ -416,7 +416,7 @@ public class GtnWsDataSelectionEditController {
 			beanList.add(recordBean);
 		}
 		GtnReportHierarchyLevelBean lastHierarchyLevelBean = GtnReportHierarchyLevelBean
-				.getLastLinkedLevel(gtnUIFrameworkWebserviceRequest.getGtnReportRequest().getHierarchyLevelList());
+				.getLastLinkedLevel(gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getHierarchyLevelList());
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		inputBean.setSelectedHierarchyLevelDto(
 				convertParametersToRelation(inputList, beanList, allDataSelectedHierarchyBean));
