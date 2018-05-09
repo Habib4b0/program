@@ -12,5 +12,6 @@ public class MongoStringConstants {
 	public static final String ST_DEDUCTION_SESSION_TABLE_NAME = "ST_DEDUCTION_DETAILS";
 	public static final String CUSTOMER_TREE = "CUSTOMER_TREE";
 	public static final String PRODUCT_TREE = "PRODUCT_TREE";
+	public static final String COMPUTED_TREE_RESULTS = "COMPUTED_RESULTS";
 
 }

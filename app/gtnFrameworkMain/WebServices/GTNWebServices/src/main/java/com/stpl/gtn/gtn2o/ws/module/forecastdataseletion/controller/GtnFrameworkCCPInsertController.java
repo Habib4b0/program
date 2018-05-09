@@ -40,7 +40,8 @@ public class GtnFrameworkCCPInsertController {
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
 		GtnWsForecastRequest reportRequet = gtnWsRequest.getGtnWsForecastRequest();
 		GtnForecastHierarchyInputBean inputBean = reportRequet.getInputBean();
-		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
+		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getReportBean()
+				.getDataSelectionBean();
 		service.insertToCPPTableReporting(inputBean, dataSelectionBean);
 		return new GtnUIFrameworkWebserviceResponse();
 	}

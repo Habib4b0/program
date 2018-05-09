@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.dynamicclasses;
 
 import com.stpl.gtn.gtn2o.ui.action.GtnCustomerAvailableTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIBuildCustomTreeAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeAddAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeRemoveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeSaveAction;
@@ -66,7 +67,8 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnFrameworkUICustomVariableGridLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUICustomTreeRemoveAction.class.getName(),
 				new GtnFrameworkUICustomTreeRemoveAction());
-
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUIBuildCustomTreeAction.class.getName(),
+				new GtnFrameworkUIBuildCustomTreeAction());
 	}
 
 }

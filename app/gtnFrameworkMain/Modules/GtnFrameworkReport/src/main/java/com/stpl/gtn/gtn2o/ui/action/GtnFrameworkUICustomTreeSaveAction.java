@@ -7,8 +7,10 @@ import com.stpl.gtn.gtn2o.ui.config.GtnUIFrameworkWebServiceReportRequestBuilder
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
@@ -49,12 +51,21 @@ public class GtnFrameworkUICustomTreeSaveAction
 		request.getGtnWsReportRequest().getReportBean().getCustomViewBean().setCustomViewDataBean(customViewDataBean);
 		request.getGtnWsReportRequest().getReportBean().getCustomViewBean().getCustomViewDataBean()
 				.setCustomTreeData(apexBean);
-		request.getGtnWsReportRequest().getReportBean().getCustomViewBean().getCustomViewDataBean().setCustomViewName(
-				(String) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(textField, componentId).getFieldValue());
+		String customViewName = (String) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(textField, componentId)
+				.getFieldValue();
+		request.getGtnWsReportRequest().getReportBean().getCustomViewBean().getCustomViewDataBean()
+				.setCustomViewName(customViewName);
 
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportEndPointUrlConstants.SAVE_CUSTOM_TREE, GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+
+		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		actionConfig.addActionParameter(GtnFrameworkUIBuildCustomTreeAction.class.getName());
+		actionConfig.addActionParameter(customViewName);
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
+
 	}
 
 	private GtnWsCustomTreeData buildCustomTreeData(TreeData<GtnWsRecordBean> treeData) {
