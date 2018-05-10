@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoDBConnectionService;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewDataBean;
@@ -30,6 +31,8 @@ public class GtnWsTreeService {
 
 	@Autowired
 	GtnWsMongoDBConnectionService connection;
+
+	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsTreeService.class);
 
 	public GtnWsReportEngineTreeNode buildTree(List<Object[]> resultList, GtnWsHierarchyType indicator) {
 		GtnWsReportEngineTreeNode root = new GtnWsReportEngineTreeNode();
@@ -65,17 +68,23 @@ public class GtnWsTreeService {
 	public void buildCustomTree(GtnWsReportEngineTreeNode root, GtnWsCustomTreeData customTreeData,
 			GtnWsReportEngineTreeNode customerRootNode, GtnWsReportEngineTreeNode productRootNode,
 			List<Object[]> deductionList, List<Object[]> ccpResult) {
-		processCustomTree(root, customTreeData, customerRootNode, productRootNode, deductionList, ccpResult);
+		long start = System.currentTimeMillis();
+		if (customTreeData.getCurrentTreeLevelNo() != 0) {
 
-		List<GtnWsReportVariablesType> variableList = customTreeData.getVariableList();
-		if (variableList != null) {
-			buildFixedVariableTree(root, customTreeData.getCurrentTreeLevelNo(), variableList);
+			processCustomTree(root, customTreeData, customerRootNode, productRootNode, deductionList, ccpResult);
+
+			List<GtnWsReportVariablesType> variableList = customTreeData.getVariableList();
+			if (variableList != null) {
+				buildFixedVariableTree(root, customTreeData.getCurrentTreeLevelNo(), variableList);
+			}
+
 		}
 
 		if (customTreeData.getChild() != null) {
 			buildCustomTree(root, customTreeData.getChild(), customerRootNode, productRootNode, deductionList,
 					ccpResult);
 		}
+		gtnLogger.info("Time taken to build tree = " + (System.currentTimeMillis() - start));
 	}
 
 	public void processCustomTree(GtnWsReportEngineTreeNode root, GtnWsCustomTreeData customTreeData,
@@ -85,7 +94,7 @@ public class GtnWsTreeService {
 		if (GtnWsHierarchyType.VARIABLES.equals(customTreeData.getHierarchyType())) {
 			buildAllVariableTree(root, customTreeData.getCurrentTreeLevelNo(), customTreeData.getVariableList());
 		}
-		if (GtnWsHierarchyType.CUSTOMER.equals(customTreeData.getHierarchyType())) {
+		if (GtnWsHierarchyType.DEDUCTION.equals(customTreeData.getHierarchyType())) {
 			buildDeductionTree(root, customTreeData.getCurrentTreeLevelNo(), deductionList, ccpResult,
 					customTreeData.getLevelNo());
 		}
@@ -479,7 +488,8 @@ public class GtnWsTreeService {
 	public GtnWsCustomTreeData getCustomTreeData(String tableName, String customViewName) {
 		MongoCollection<GtnWsReportCustomViewDataBean> collection = connection.getDBInstance().getCollection(tableName,
 				GtnWsReportCustomViewDataBean.class);
-		FindIterable<GtnWsReportCustomViewDataBean> selectionBean = collection.find(and(eq("customViewName", customViewName)));
+		FindIterable<GtnWsReportCustomViewDataBean> selectionBean = collection
+				.find(and(eq("customViewName", customViewName)));
 		return selectionBean.first().getCustomTreeData();
 	}
 

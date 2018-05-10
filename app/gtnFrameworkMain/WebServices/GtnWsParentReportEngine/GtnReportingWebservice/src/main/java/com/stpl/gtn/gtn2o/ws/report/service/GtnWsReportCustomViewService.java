@@ -46,7 +46,7 @@ public class GtnWsReportCustomViewService {
 	public GtnUIFrameworkDataTable loadHierarchy(GtnUIFrameworkWebserviceRequest gtnWsRequestF)
 			throws GtnFrameworkGeneralException {
 		GtnWsReportRequest request = gtnWsRequestF.getGtnWsReportRequest();
-		return getHierarachyLevels(gtnWsRequestF.getGtnWsReportRequest().getDataSelectionBean(),
+		return getHierarachyLevels(gtnWsRequestF.getGtnWsReportRequest().getReportBean().getDataSelectionBean(),
 				request.getReportBean().getCustomViewBean());
 	}
 

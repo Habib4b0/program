@@ -56,12 +56,13 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnU
 		Map<String, String> levelValueMap = (Map<String, String>) dualListBoxBean.getGtnDualListBoxqueryParameters()
 				.get(1);
 		boolean isProduct = (boolean) dualListBoxBean.getGtnDualListBoxqueryParameters().get(8);
-		if(!isProduct){
-		Date forecastEligibleDate = (Date) dualListBoxBean.getGtnDualListBoxqueryParameters().get(7);
+		if (!isProduct) {
+			Date forecastEligibleDate = (Date) dualListBoxBean.getGtnDualListBoxqueryParameters().get(7);
 		}
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
 		GtnUIFrameworkWebserviceResponse response = callWebService(dualListBoxConfig.getMoveAllDataURL(),
-				createRightTableRequest(dualListBoxBean.getGtnDualListBoxqueryParameters(), dualListBoxConfig, isProduct),
+				createRightTableRequest(dualListBoxBean.getGtnDualListBoxqueryParameters(), dualListBoxConfig,
+						isProduct),
 				dualListBoxConfig);
 
 		List<GtnWsRecordBean> gtnWsRecordBeanList = new ArrayList<>();
@@ -85,9 +86,9 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnU
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 		reportRequest.setHierarchyInputBean((GtnReportHierarchyLevelBean) queryParameters.get(2));
 		reportRequest.setHierarchyLevelList((List<GtnReportHierarchyLevelBean>) queryParameters.get(3));
-		if(!isProduct){
+		if (!isProduct) {
 			reportRequest.setForecastEligibleDate((Date) queryParameters.get(7));
-			}
+		}
 		return reportRequest;
 	}
 
@@ -110,7 +111,7 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnU
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsSearchRequest(createSearchRequest(queryParameters, dualListBoxConfig));
 		request.setGtnWsGeneralRequest(createGeneralRequest());
-		request.setGtnReportRequest(createReportRequest(queryParameters, isProduct));
+		request.setGtnWsReportRequest(createReportRequest(queryParameters, isProduct));
 		return request;
 	}
 

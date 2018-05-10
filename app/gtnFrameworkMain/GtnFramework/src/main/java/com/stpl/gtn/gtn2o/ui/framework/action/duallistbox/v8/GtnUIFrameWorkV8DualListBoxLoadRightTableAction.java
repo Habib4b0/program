@@ -74,8 +74,8 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 		Map<String, String> levelValueMap = (Map<String, String>) dualListBoxBean.getGtnDualListBoxqueryParameters()
 				.get(1);
 		boolean isProduct = (boolean) dualListBoxBean.getGtnDualListBoxqueryParameters().get(8);
-		if(!isProduct){
-		Date forecastEligibleDate = (Date) dualListBoxBean.getGtnDualListBoxqueryParameters().get(7);
+		if (!isProduct) {
+			Date forecastEligibleDate = (Date) dualListBoxBean.getGtnDualListBoxqueryParameters().get(7);
 		}
 		GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig = dualListBoxBean.getDualListBoxConfig();
 		GtnUIFrameworkHierarchyTreeBuilder treeBuilder = dualListBoxBean.getTreeBuilder();
@@ -130,18 +130,19 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 	private GtnUIFrameworkWebserviceRequest createRightTableRequest(final List<Object> queryParameters,
 			GtnWsRecordBean recordBean, GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig, boolean isProduct) {
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		request.setGtnReportRequest(createReportRequest(recordBean, queryParameters, isProduct));
+		request.setGtnWsReportRequest(createReportRequest(recordBean, queryParameters, isProduct));
 		request.setGtnWsSearchRequest(createSearchRequest(queryParameters, dualListBoxConfig));
 		request.setGtnWsGeneralRequest(createGeneralRequest());
 		return request;
 	}
 
-	private GtnWsReportRequest createReportRequest(GtnWsRecordBean recordBean, final List<Object> queryParameters, boolean isProduct) {
+	private GtnWsReportRequest createReportRequest(GtnWsRecordBean recordBean, final List<Object> queryParameters,
+			boolean isProduct) {
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 		reportRequest.setHierarchyInputBean((GtnReportHierarchyLevelBean) queryParameters.get(2));
 		reportRequest.setHierarchyLevelList((List<GtnReportHierarchyLevelBean>) queryParameters.get(3));
-		if(!isProduct){
-		reportRequest.setForecastEligibleDate((Date) queryParameters.get(7));
+		if (!isProduct) {
+			reportRequest.setForecastEligibleDate((Date) queryParameters.get(7));
 		}
 		List<GtnWsRecordBean> bean = new ArrayList<>();
 		bean.add(recordBean);

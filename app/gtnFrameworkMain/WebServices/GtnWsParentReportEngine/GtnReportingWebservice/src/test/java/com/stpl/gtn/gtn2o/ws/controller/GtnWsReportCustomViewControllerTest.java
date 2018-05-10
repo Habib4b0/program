@@ -62,7 +62,7 @@ public class GtnWsReportCustomViewControllerTest {
 	private GtnUIFrameworkWebserviceRequest getRequest() {
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-		request.setGtnReportRequest(reportRequest);
+		request.setGtnWsReportRequest(reportRequest);
 		GtnWsReportDataSelectionBean bean = new GtnWsReportDataSelectionBean();
 		reportRequest.getReportBean().setDataSelectionBean(bean);
 		return request;

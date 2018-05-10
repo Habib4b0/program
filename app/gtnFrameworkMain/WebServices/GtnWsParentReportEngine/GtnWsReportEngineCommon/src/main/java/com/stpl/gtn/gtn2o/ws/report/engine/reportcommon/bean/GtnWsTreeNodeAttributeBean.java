@@ -26,6 +26,13 @@ public class GtnWsTreeNodeAttributeBean implements Serializable {
 		}
 		this.attributeBeanList.add(attributeBean);
 	}
+        
+        public void addAllAttributeBeanToList(List<GtnWsAttributeBean> attributeBean) {
+		if (attributeBeanList == null) {
+			attributeBeanList = new ArrayList<>();
+		}
+		this.attributeBeanList.addAll(attributeBean);
+	}
 
 	private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
 		s.defaultWriteObject();

@@ -222,8 +222,9 @@ public class GtnWsMongoService {
 		conditions.add(sort);
 		AggregateIterable<Document> itr = getCollection(collectionName).aggregate(conditions).batchSize(1000);
 		MongoCursor cursor = itr.iterator();
-		GtnWsAttributeBean attributeBean = new GtnWsAttributeBean();
+		GtnWsAttributeBean attributeBean = null;
 		while (cursor.hasNext()) {
+                        attributeBean = new GtnWsAttributeBean();
 			Document doc = (Document) cursor.next();
 			Document frequencyDocument = (Document) doc.remove("_id");
 			if (frequencyDocument != null) {
@@ -232,9 +233,9 @@ public class GtnWsMongoService {
 				attributeBean.putAllAttributes(frequencyDocument);
 			}
 			attributeBean.putAllAttributes(doc);
+                        treeNodeAtrributeBean.addAttributeBeanToList(attributeBean);
 		}
 		List<GtnWsTreeNodeAttributeBean> nodeData = new ArrayList<>();
-		treeNodeAtrributeBean.addAttributeBeanToList(attributeBean);
 		nodeData.add(treeNodeAtrributeBean);
 		totalLevelCalculation(rootNodeAtrributeBean, treeNodeAtrributeBean);
 		if (ccpNode.getNodeData() == null) {
@@ -401,6 +402,31 @@ public class GtnWsMongoService {
 			Document doc = (Document) cr.next();
 			getCollection(MongoConstants.USER_BASED_CCP_COLLECTION + uniqueId).insertOne(doc);
 		}
+	}
+        
+        public FindIterable<Document> fetchDataFromMongo(String collectionName,Object input[],Object values[]) {
+            try{
+             BasicDBObject whereQuery = new BasicDBObject();
+            if (input != null && values != null && values.length == input.length) {
+                    for (int i = 0; i < input.length; i++) {
+                        System.out.println("fetchDataFromMongo =input " + input[i]);
+                        System.out.println("fetchDataFromMongo=values " + values[i]);
+                        if (!values[i].toString().equals(".*")) {
+                            whereQuery.put(input[i].toString(), values[i]);
+                        }
+                    }
+                }
+            @SuppressWarnings("unchecked")
+            FindIterable<Document> itr = getCollection(
+                    collectionName).find(whereQuery);
+            
+            return itr;
+            }
+            catch(Exception ex){
+             ex.printStackTrace();
+                      return null;
+            }
+      
 	}
 
 }

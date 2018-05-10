@@ -19,4 +19,5 @@ public class GtnWsReportConstants {
 	public static final String GTN_REPORT_PRODHIERARCHY_LEFT_TABLELOAD_SERVICE = "/loadReportProductLeftTable";
 	public static final String GTN_REPORT_PRODHIERARCHY_RIGHT_TABLELOAD_SERVICE = "/loadReportProductRightTable";
 	public static final String GTN_REPORT_PRODHIERARCHY_ALL_DATA_TABLELOAD_SERVICE = "/loadReportProductRightTableAllData";
+	public static final String GTN_REPORT_BUILD_CUSTOM_TREE = "/buildCustomTree";
 }

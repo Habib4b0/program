@@ -177,6 +177,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORT_CUSTOM_VIEW_LOOKUP = "reportCustomViewLookup";
 
 	public static final String REPORT_CUSTOMER_HIERARCHY_LOOKUP = "reportCustomerHierarchyLookup";
+	
+	public static final String REPORT_DS_CUSTOMER_HIERARCHY_LOOKUP = "reportDsCustomerHierarchyLookup";
 
 	public static final String CURRENT_TAB = "currentTab";
 

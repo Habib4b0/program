@@ -113,5 +113,5 @@ public class GtnWsReportRequest {
 	public void setForecastEligibleDate(Date forecastEligibleDate) {
 		this.forecastEligibleDate = forecastEligibleDate;
 	}
-	
+
 }

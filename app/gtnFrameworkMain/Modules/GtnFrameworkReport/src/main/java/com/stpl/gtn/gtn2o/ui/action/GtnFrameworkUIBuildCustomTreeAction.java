@@ -11,11 +11,11 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
-public class GtnFrameworkUiBuildCustomTreeAction
+public class GtnFrameworkUIBuildCustomTreeAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
 	@Override
@@ -30,16 +30,16 @@ public class GtnFrameworkUiBuildCustomTreeAction
 			throws GtnFrameworkGeneralException {
 		String viewName = (String) gtnUIFrameWorkActionConfig.getActionParameterList().get(1);
 		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
-		String parentWindow = sourceComponentId + "_" + "reportGenerateLookupView";
 		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(parentWindow).getComponentData().getSharedPopupData();
+				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
 		GtnWsReportDashboardBean dashBoardBean = new GtnWsReportDashboardBean();
 		dashBoardBean.setCustomViewName(viewName);
 		dashBoardBean.setSessionId(dataSelectionBean.getUniqueId());
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebServiceReportRequestBuilder().build();
 		request.getGtnWsReportRequest().setGtnWsReportDashboardBean(dashBoardBean);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				"/buildCustomTree", GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, request,
+				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_REPORT_BUILD_CUSTOM_TREE,
+				GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
