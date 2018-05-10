@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -54,9 +55,14 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnU
 		GtnUIFrameworkHierarchyTreeBuilder treeBuilder = dualListBoxBean.getTreeBuilder();
 		Map<String, String> levelValueMap = (Map<String, String>) dualListBoxBean.getGtnDualListBoxqueryParameters()
 				.get(1);
+		boolean isProduct = (boolean) dualListBoxBean.getGtnDualListBoxqueryParameters().get(8);
+		if (!isProduct) {
+			Date forecastEligibleDate = (Date) dualListBoxBean.getGtnDualListBoxqueryParameters().get(7);
+		}
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
 		GtnUIFrameworkWebserviceResponse response = callWebService(dualListBoxConfig.getMoveAllDataURL(),
-				createRightTableRequest(dualListBoxBean.getGtnDualListBoxqueryParameters(), dualListBoxConfig),
+				createRightTableRequest(dualListBoxBean.getGtnDualListBoxqueryParameters(), dualListBoxConfig,
+						isProduct),
 				dualListBoxConfig);
 
 		List<GtnWsRecordBean> gtnWsRecordBeanList = new ArrayList<>();
@@ -76,10 +82,13 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnU
 		}
 	}
 
-	private GtnWsReportRequest createReportRequest(final List<Object> queryParameters) {
+	private GtnWsReportRequest createReportRequest(final List<Object> queryParameters, boolean isProduct) {
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 		reportRequest.setHierarchyInputBean((GtnReportHierarchyLevelBean) queryParameters.get(2));
 		reportRequest.setHierarchyLevelList((List<GtnReportHierarchyLevelBean>) queryParameters.get(3));
+		if (!isProduct) {
+			reportRequest.setForecastEligibleDate((Date) queryParameters.get(7));
+		}
 		return reportRequest;
 	}
 
@@ -98,11 +107,11 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnU
 	}
 
 	private GtnUIFrameworkWebserviceRequest createRightTableRequest(final List<Object> queryParameters,
-			GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig) {
+			GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig, boolean isProduct) {
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsSearchRequest(createSearchRequest(queryParameters, dualListBoxConfig));
 		request.setGtnWsGeneralRequest(createGeneralRequest());
-		request.setGtnReportRequest(createReportRequest(queryParameters));
+		request.setGtnWsReportRequest(createReportRequest(queryParameters, isProduct));
 		return request;
 	}
 

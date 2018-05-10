@@ -221,8 +221,9 @@ public class GtnWsMongoService {
 		conditions.add(sort);
 		AggregateIterable<Document> itr = getCollection(collectionName).aggregate(conditions).batchSize(1000);
 		MongoCursor cursor = itr.iterator();
-		GtnWsAttributeBean attributeBean = new GtnWsAttributeBean();
+		GtnWsAttributeBean attributeBean = null;
 		while (cursor.hasNext()) {
+                        attributeBean = new GtnWsAttributeBean();
 			Document doc = (Document) cursor.next();
 			Document frequencyDocument = (Document) doc.remove("_id");
 			if (frequencyDocument != null) {
@@ -231,9 +232,9 @@ public class GtnWsMongoService {
 				attributeBean.putAllAttributes(frequencyDocument);
 			}
 			attributeBean.putAllAttributes(doc);
+                        treeNodeAtrributeBean.addAttributeBeanToList(attributeBean);
 		}
 		List<GtnWsTreeNodeAttributeBean> nodeData = new ArrayList<>();
-		treeNodeAtrributeBean.addAttributeBeanToList(attributeBean);
 		nodeData.add(treeNodeAtrributeBean);
 		totalLevelCalculation(rootNodeAtrributeBean, treeNodeAtrributeBean);
 		if (ccpNode.getNodeData() == null) {
@@ -336,6 +337,85 @@ public class GtnWsMongoService {
 			treeNode = cursor.next();
 		}
 		return treeNode;
+	}
+
+	public void kafkaToMongoData(String collectionName) {
+		Document group1Criteria = new Document("_id",
+				new Document("ccp", "$CCP_DETAILS_SID").append("pr", "$PERIOD_SID"));
+		group1Criteria.put("values",
+				new Document("$push",
+						new Document("rsId", "$RS_CONTRACT_SID").append("discountActuals", "$ACTUAL_DISCOUNT")
+								.append("discountProjection", "$PROJECTION_DISCOUNT")
+								.append("accural", "$ACCURAL_DISCOUNT")));
+		group1Criteria.put("salesActuals", new Document("$max", "$ACTUAL_SALES"));
+		group1Criteria.put("salesProjection", new Document("$max", "$PROJECTION_SALES"));
+
+		group1Criteria.put("periodSid", new Document("$max", "$PERIOD_SID"));
+		group1Criteria.put("ccpId", new Document("$max", "$CCP_DETAILS_SID"));
+		group1Criteria.put("salesUnitsActuals", new Document("$max", "$ACTUAL_UNITS"));
+		group1Criteria.put("salesUnitsProjection", new Document("$max", "$PROJECTION_UNITS"));
+
+		group1Criteria.put("year", new Document("$max", "$YEAR"));
+		group1Criteria.put("quarter", new Document("$max", "$QUARTER"));
+		group1Criteria.put("semiAnnual", new Document("$max", "$SEMI_ANNUAL"));
+
+		group1Criteria.put("exfactoryActuals", new Document("$max", "$EXFACTORY_ACTUAL_SALES"));
+		group1Criteria.put("exfactoryProjection", new Document("$max", "$EXFACTORY_PROJECTION_SALES"));
+
+		group1Criteria.put("MONTH", new Document("$max", "$MONTH"));
+
+		Document group1 = new Document("$group", group1Criteria);
+
+		Document group2Criteria = new Document("_id", "$ccpId");
+		group2Criteria.put("projectionDetailsValues", new Document("$push", new Document("periodSid", "$periodSid")
+				.append("quarter", "$quarter").append("semiAnnual", "$semiAnnual").append("year", "$year")
+				.append("salesActuals", "$salesActuals").append("salesProjection", "$salesProjection")
+				.append("salesUnitsActuals", "$salesUnitsActuals")
+				.append("salesUnitsProjection", "$salesUnitsProjection").append("exfactoryActuals", "$exfactoryActuals")
+				.append("exfactoryProjection", "$exfactoryProjection").append("discountBean", "$values")));
+
+		Document group2 = new Document("$group", group2Criteria);
+
+		Document projections = new Document("$project",
+				new Document("ccpId", "$_id").append("projectionDetailsValues", 1).append("_id", 0));
+
+		List conditions = new ArrayList<>();
+		conditions.add(group1);
+		conditions.add(group2);
+		conditions.add(projections);
+
+		AggregateIterable itr = getCollection(collectionName).aggregate(conditions).batchSize(5000);
+
+		MongoCursor cr = itr.iterator();
+		while (cr.hasNext()) {
+			Document doc = (Document) cr.next();
+			getCollection("KafkaData").insertOne(doc);
+		}
+	}
+        
+        public FindIterable<Document> fetchDataFromMongo(String collectionName,Object input[],Object values[]) {
+            try{
+             BasicDBObject whereQuery = new BasicDBObject();
+            if (input != null && values != null && values.length == input.length) {
+                    for (int i = 0; i < input.length; i++) {
+                        System.out.println("fetchDataFromMongo =input " + input[i]);
+                        System.out.println("fetchDataFromMongo=values " + values[i]);
+                        if (!values[i].toString().equals(".*")) {
+                            whereQuery.put(input[i].toString(), values[i]);
+                        }
+                    }
+                }
+            @SuppressWarnings("unchecked")
+            FindIterable<Document> itr = getCollection(
+                    collectionName).find(whereQuery);
+            
+            return itr;
+            }
+            catch(Exception ex){
+             ex.printStackTrace();
+                      return null;
+            }
+      
 	}
 
 }

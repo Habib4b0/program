@@ -56,7 +56,7 @@
         </dependency>
         <dependency>
             <groupId>com.stpl.gtn.gtn2o.ws.report.engine</groupId>
-            <artifactId>GtnWsReportEngineInputGenerator</artifactId>
+            <artifactId>GtnWsReportEngine</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>

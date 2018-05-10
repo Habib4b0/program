@@ -474,8 +474,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 		
 		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);
 
-
-
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
 		resetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		resetButton.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsReset");

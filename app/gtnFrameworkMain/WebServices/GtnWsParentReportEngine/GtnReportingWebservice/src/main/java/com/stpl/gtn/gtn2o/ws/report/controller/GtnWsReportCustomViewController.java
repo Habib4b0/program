@@ -43,4 +43,12 @@ public class GtnWsReportCustomViewController {
 		return response;
 	}
 
+	@RequestMapping(value = GtnWsReportEndPointUrlConstants.LOAD_CUSTOM_VIEW, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadCustomView(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameWorkReportResponseBuilder().withCustomViewBean()
+				.build();
+		service.loadCustomView(gtnWsRequestF);
+		return response;
+	}
+
 }

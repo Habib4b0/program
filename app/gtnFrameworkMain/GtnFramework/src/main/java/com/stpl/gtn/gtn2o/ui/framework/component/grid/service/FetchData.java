@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
@@ -13,6 +14,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -22,9 +24,11 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import com.fasterxml.jackson.databind.ObjectMapper;
 public class FetchData {
 
     private static final Logger logger = LogManager.getLogger(FetchData.class);
+    private static final ObjectMapper mapper=new ObjectMapper();
    
 
     FetchData() {
@@ -68,24 +72,25 @@ public class FetchData {
     }
 
      public static List<GtnWsRecordBean> callWebService(GtnUIFrameworkPagedTreeTableConfig tableConfig,String moduleName, GtnWsSearchRequest request) {
-        try {
+       List<GtnWsRecordBean> records=new ArrayList<>();
+         try {
                         GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 			GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
                         String url=request.isCount()?tableConfig.getCountUrl():tableConfig.getResultSetUrl();
                         serviceRequest.setGtnWsSearchRequest(request);
 			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(url,moduleName, serviceRequest,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+                       if(response!=null&&response.getGtnWsReportResponse()!=null){
+                        records= mapper.convertValue(response.getGtnWsReportResponse().getResultList(), new TypeReference<List<GtnWsRecordBean>>() { });
+                       }
 
-             List<GtnWsRecordBean> result = null;
-            logger.info("result size= " + result.size());
-
-            return result;
+//             List<GtnWsRecordBean> result = (List<GtnWsRecordBean>) response.getGtnReportResponse().getResultList();
+            logger.info("result size= " + records.size());
         } catch (Exception e) {
-            logger.info("in fetchResultAsRow Error= " + e.getMessage());
+            logger.info("in fetchResultAsRow Error= " , e);
             e.printStackTrace();
-            return null;
         }
-
+     return records;
     }
     public static String replaceParameters(Object[] params, String query) {
          logger.info("params " + Arrays.toString(params));

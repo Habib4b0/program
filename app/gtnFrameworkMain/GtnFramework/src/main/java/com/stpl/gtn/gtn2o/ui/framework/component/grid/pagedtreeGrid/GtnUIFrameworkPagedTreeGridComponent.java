@@ -60,7 +60,6 @@ public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkCompo
         }
         configureTableHeaders(tableConfig);
         PagedTreeGrid pagedTreeGrid = new PagedTreeGrid(tableConfig,componentConfig);
-        pagedTreeGrid.getGrid().setId(componentConfig.getComponentId());
         resultLayout.setSizeFull();
         resultLayout.addComponent(pagedTreeGrid.getGrid());
         pagedTreeGrid.getGrid().setWidth(componentConfig.getComponentWidth());
@@ -73,11 +72,12 @@ public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkCompo
         
 
         pagedTreeGrid.getGrid().getEditor().setEnabled(true);
-        resultLayout.setData(componentData);
+        pagedTreeGrid.getGrid().setData(componentData);
+//        resultLayout.setData(componentData);
 
         try {
 
-            GtnUIFrameworkPagedTreeTableLogic tableLogic = getPagedTableLogicClass(componentConfig, componentData);
+//            GtnUIFrameworkPagedTreeTableLogic tableLogic = getPagedTableLogicClass(componentConfig, componentData);
 
 //            pagedTreeGrid.addStyleNames(componentConfig.getComponentStyle().toArray(new String[componentConfig.getComponentStyle().size()]));
 
@@ -86,12 +86,12 @@ public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkCompo
             pagedTreeGrid.setPageLength(tableConfig.getPageLength());
 
 //			addFieldFactory(pagedTreeGrid, tableConfig, componentData);
-            componentData.setCurrentComponentConfig(componentConfig);
-            componentData.getCurrentComponentConfig().setGtnPagedTreeTableConfig(tableConfig);
-            componentData.setCustomData(this);
-            componentData.addCustomDataToList(pagedTreeGrid);
-            componentData.addCustomDataToList(new HashSet<String>());
-            componentData.addCustomDataToList(new HashSet<String>());
+//            componentData.setCurrentComponentConfig(componentConfig);
+//            componentData.getCurrentComponentConfig().setGtnPagedTreeTableConfig(tableConfig);
+//            componentData.setCustomData(this);
+//            componentData.addCustomDataToList(pagedTreeGrid);
+//            componentData.addCustomDataToList(new HashSet<String>());
+//            componentData.addCustomDataToList(new HashSet<String>());
 
 //            pagedTreeGrid.addStyleNames("filterbar", "v-has-width", "v-table-filterbar", "table-header-normal");
 //            pagedTreeGrid.addStyleNames("filterbar", "v-has-width", "v-table-filterbar", "table-header-normal");
@@ -308,7 +308,7 @@ public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkCompo
     public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
         VerticalLayout resultLayout = (VerticalLayout) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
         GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) resultLayout.getData();
-        PagedTreeGrid resultsTable = (PagedTreeGrid) componentData.getCustomDataList().get(0);
+//        PagedTreeGrid resultsTable = (PagedTreeGrid) componentData.getCustomDataList().get(0);
 //		GtnUIFrameworkPagedTreeTableLogic tableLogic = (GtnUIFrameworkPagedTreeTableLogic) resultsTable
 //				.getLeftFreezeAsTable().getContainerLogic();
 //		tableLogic.clearAll();
@@ -442,7 +442,7 @@ public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkCompo
             GtnUIFrameworkPagedTreeTableConfig tableConfig, GtnUIFrameworkPagedTreeTableLogic tableLogic,
             GtnUIFrameworkComponentData componentData, GtnWsPagedTreeTableResponse leftTableHeaders,
             GtnWsPagedTreeTableResponse rightTableHeaders) {
-        initializeResultTable(pagedTreeGrid, tableConfig);
+            initializeResultTable(pagedTreeGrid, tableConfig);
 //		loadHeaders(pagedTreeGrid, tableConfig, tableLogic, leftTableHeaders, rightTableHeaders, componentData);
 //		addFieldFactory(pagedTreeGrid, tableConfig, componentData);
 
