@@ -15,6 +15,7 @@ import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.stpl.gtn.gtn20.ws.report.engine.mongo.constants.MongoConstants;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsTreeNodeAttributeBean;
@@ -395,7 +396,17 @@ public class GtnWsMongoService {
 		MongoCursor cr = itr.iterator();
 		while (cr.hasNext()) {
 			Document doc = (Document) cr.next();
-			getCollection("KafkaData").insertOne(doc);
+			getCollection(MongoConstants.KAFKA_COLLECTION_ID).insertOne(doc);
+		}
+	}
+
+	public void createUserBasedCcpCollection(List ccpIdList, String uniqueId) {
+		Document matchCondition = new Document("ccpId", new Document("$in", ccpIdList));
+		FindIterable filteredResult = getCollection(MongoConstants.KAFKA_COLLECTION_ID).find(matchCondition);
+		MongoCursor cr = filteredResult.iterator();
+		while (cr.hasNext()) {
+			Document doc = (Document) cr.next();
+			getCollection(MongoConstants.USER_BASED_CCP_COLLECTION + uniqueId).insertOne(doc);
 		}
 	}
 
