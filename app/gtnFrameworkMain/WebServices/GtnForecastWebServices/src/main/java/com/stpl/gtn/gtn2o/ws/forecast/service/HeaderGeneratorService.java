@@ -131,11 +131,11 @@ public class HeaderGeneratorService {
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
 		
 		tableHeaderDTO.addSingleColumn("filterTextBox1", "",String.class);
-		tableHeaderDTO.addSingleColumn("filterTextBox2", "",String.class);
-		tableHeaderDTO.addSingleColumn("filterTextBox3", "",String.class);
-		tableHeaderDTO.addSingleColumn("filterTextBox4", "",String.class);
+		tableHeaderDTO.addSingleColumn("filterTextBox2", "Level Name",String.class);
+		tableHeaderDTO.addSingleColumn("filterTextBox3", "Base Line",String.class);
+		tableHeaderDTO.addSingleColumn("filterTextBox4", "Methodology",String.class);
 		
-		tableHeaderDTO.addDoubleHeaderMap("firstLeftHeaderId",new Object[] {"filterTextBox1"});
+		/*tableHeaderDTO.addDoubleHeaderMap("firstLeftHeaderId",new Object[] {"filterTextBox1"});
 		tableHeaderDTO.addDoubleHeaderMap("levelName",new Object[] {"filterTextBox2"});
 		tableHeaderDTO.addDoubleHeaderMap("baseLine",new Object[] {"filterTextBox3"});
 		tableHeaderDTO.addDoubleHeaderMap("methodology",new Object[] {"filterTextBox4"});
@@ -143,7 +143,7 @@ public class HeaderGeneratorService {
 		tableHeaderDTO.addDoubleColumn("firstLeftHeaderId", "");
 		tableHeaderDTO.addDoubleColumn("levelName", "Level Name");
 		tableHeaderDTO.addDoubleColumn("baseLine", "Base Line");
-		tableHeaderDTO.addDoubleColumn("methodology", "Methodology");
+		tableHeaderDTO.addDoubleColumn("methodology", "Methodology");*/
 		
 		
 		/*tableHeaderDTO.addSingleColumn("levelName", "Level Name", String.class);

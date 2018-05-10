@@ -587,6 +587,4 @@ public class GtnUIFrameworkPagedTableConfig {
     public void setFilterValueMap(HashMap<String, Object> filterValueMap) {
         this.filterValueMap = filterValueMap;
     }
-
-
 }
