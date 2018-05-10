@@ -15,7 +15,13 @@ import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 /**
  *
@@ -37,14 +43,19 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 		List<Object> params = (gtnUIFrameWorkActionConfig.getActionParameterList());
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData((String) params.get(1), componentId);
-		if (componentData != null) {
-			// QueryBean
-			// querybean=GtnUIFrameworkGlobalUI.setQueryBean(componentData.getTableConfig());
-			// componentData.getPagedGrid().getTableConfig().setQueryBean(querybean);
+		PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
 
-			PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
-			grid.initializeGrid();
-		}
+		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
+		serviceRequest.setGtnWsReportRequest(reportRequest);
+		reportRequest.setGtnWsReportDashboardBean(grid.getTableConfig().getGtnWsReportDashboardBean());
+		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
+				GtnWsReportConstants.GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT,
+				GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, serviceRequest,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+
+		grid.initializeGrid();
 	}
 
 	@Override

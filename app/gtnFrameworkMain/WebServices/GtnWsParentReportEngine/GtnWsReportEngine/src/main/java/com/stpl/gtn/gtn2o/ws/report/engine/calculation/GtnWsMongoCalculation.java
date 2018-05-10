@@ -27,11 +27,11 @@ public class GtnWsMongoCalculation {
 
 	public void nodeData(GtnWsReportEngineBean engineBean) {
 		this.engineBean = engineBean;
-		 List<String> collection = engineBean.getComparisonTableName();
-		 GtnWsReportEngineTreeNode reportEngineTreeNode = engineBean.getInput();
-		 for (String collectionName : collection) {
-		 nodeDataRecursion(reportEngineTreeNode, collectionName, null);
-		 }
+		// List<String> collection = engineBean.getComparisonTableName();
+		// GtnWsReportEngineTreeNode reportEngineTreeNode = engineBean.getInput();
+		// for (String collectionName : collection) {
+		// nodeDataRecursion(reportEngineTreeNode, collectionName, null);
+		// }
 	}
 
 	private void nodeDataRecursion(GtnWsReportEngineTreeNode ccpNode, String collection,
@@ -73,23 +73,38 @@ public class GtnWsMongoCalculation {
 
 	private void variableCategoryCalculationRecursion(final GtnWsReportEngineTreeNode ccpNode) {
 		for (GtnWsReportEngineTreeNode gtnWsTreeNode : ccpNode.getChildren()) {
-			if (gtnWsTreeNode.getNodeData() != null) {
-				GtnWsVariableCategoryBean categoryBean = new GtnWsVariableCategoryBean();
-				categoryBean.setComparisonBasis(engineBean.getComparisonBasis());
-				List<GtnWsTreeNodeAttributeBean> finalNode = (List<GtnWsTreeNodeAttributeBean>) gtnWsTreeNode
-						.getNodeData();
-				GtnWsTreeNodeAttributeBean currentAttributes = finalNode.get(engineBean.getSelectedProjectionId());
-				GtnWsTreeNodeAttributeBean calculatedAttributes = new GtnWsTreeNodeAttributeBean();
-				GtnWsAttributeBean newAttributes = new GtnWsAttributeBean();
-				newAttributes.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());
-				// newAttributes.putAttributes("parentHierarchyNo",
-				// gtnWsTreeNode.getParent().getHierarchyNo());
-				newAttributes.putAttributes("RsId", gtnWsTreeNode.getRsIds());
-				newAttributes.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
-				callVariableCategoryLogic(currentAttributes, newAttributes, finalNode, categoryBean);
-				calculatedAttributes.addAttributeBeanToList(newAttributes);
-				gtnWsTreeNode.setNodeData(calculatedAttributes);
-			}
+			// if (gtnWsTreeNode.getNodeData() != null) {
+			// GtnWsVariableCategoryBean categoryBean = new GtnWsVariableCategoryBean();
+			// categoryBean.setComparisonBasis(engineBean.getComparisonBasis());
+			// List<GtnWsTreeNodeAttributeBean> finalNode =
+			// (List<GtnWsTreeNodeAttributeBean>) gtnWsTreeNode
+			// .getNodeData();
+			// GtnWsTreeNodeAttributeBean currentAttributes =
+			// finalNode.get(engineBean.getSelectedProjectionId());
+			// GtnWsTreeNodeAttributeBean calculatedAttributes = new
+			// GtnWsTreeNodeAttributeBean();
+			// GtnWsAttributeBean newAttributes = new GtnWsAttributeBean();
+			// newAttributes.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());
+			// // newAttributes.putAttributes("parentHierarchyNo",
+			// // gtnWsTreeNode.getParent().getHierarchyNo());
+			// newAttributes.putAttributes("RsId", gtnWsTreeNode.getRsIds());
+			// newAttributes.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
+			// callVariableCategoryLogic(currentAttributes, newAttributes, finalNode,
+			// categoryBean);
+			// calculatedAttributes.addAttributeBeanToList(newAttributes);
+			// gtnWsTreeNode.setNodeData(calculatedAttributes);
+			// } else {
+			GtnWsTreeNodeAttributeBean calculatedAttributes = new GtnWsTreeNodeAttributeBean();
+			GtnWsAttributeBean newAttributes = new GtnWsAttributeBean();
+			newAttributes.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());
+			newAttributes.putAttributes("levelNumber", gtnWsTreeNode.getLevelNumber());
+			newAttributes.putAttributes("levelValue", gtnWsTreeNode.getLevelValue());
+			newAttributes.putAttributes("parentHierarchyNo", gtnWsTreeNode.getParentHierarchyNo());
+			newAttributes.putAttributes("RsId", gtnWsTreeNode.getRsIds());
+			newAttributes.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
+			calculatedAttributes.addAttributeBeanToList(newAttributes);
+			gtnWsTreeNode.setNodeData(calculatedAttributes);
+			// }
 			if (gtnWsTreeNode.getChildren() != null) {
 				variableCategoryCalculationRecursion(gtnWsTreeNode);
 			}

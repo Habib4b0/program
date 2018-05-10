@@ -60,6 +60,10 @@ public class GtnWsMongoService {
 		}
 	}
 
+	public void dropCollection(String collection) {
+		mongoDBInstance.getDBInstance().getCollection(collection).drop();
+	}
+
 	public void updateFinalResultsToMongo(String collectionName, GtnWsReportEngineTreeNode output) {
 		try {
 			MongoCollection<Document> collection = getCollection(collectionName);
@@ -84,10 +88,10 @@ public class GtnWsMongoService {
 	private void insertIntoMongoCollection(MongoCollection<Document> collection, GtnWsReportEngineTreeNode output) {
 		for (GtnWsReportEngineTreeNode gtnWsTreeNode : output.getChildren()) {
 			GtnWsTreeNodeAttributeBean nodeData = (GtnWsTreeNodeAttributeBean) gtnWsTreeNode.getNodeData();
-				List<Document> documentList = convertGtnWsTreeNodeAttributeToDocument(nodeData);
-				if (documentList != null) {
-					collection.insertMany(documentList);
-				}
+			List<Document> documentList = convertGtnWsTreeNodeAttributeToDocument(nodeData);
+			if (documentList != null) {
+				collection.insertMany(documentList);
+			}
 			if (gtnWsTreeNode.getChildren() != null) {
 				insertIntoMongoCollection(collection, gtnWsTreeNode);
 			}
@@ -311,18 +315,18 @@ public class GtnWsMongoService {
 	}
 
 	private List<Document> convertGtnWsTreeNodeAttributeToDocument(GtnWsTreeNodeAttributeBean nodeData) {
-            if(nodeData!=null){
-                List<GtnWsAttributeBean> attributeBeanList=nodeData.getAttributeBeanList();
-		List<Document> documentList = null;
-		for (GtnWsAttributeBean gtnWsAttributeBean : attributeBeanList) {
-			if (documentList == null) {
-				documentList = new ArrayList<>();
+		if (nodeData != null) {
+			List<GtnWsAttributeBean> attributeBeanList = nodeData.getAttributeBeanList();
+			List<Document> documentList = null;
+			for (GtnWsAttributeBean gtnWsAttributeBean : attributeBeanList) {
+				if (documentList == null) {
+					documentList = new ArrayList<>();
+				}
+				documentList.add(new Document(gtnWsAttributeBean.getAttributeMap()));
 			}
-			documentList.add(new Document(gtnWsAttributeBean.getAttributeMap()));
+			return documentList;
 		}
-		return documentList;
-            }
-            return null;
+		return null;
 	}
 
 	// GtnWsReportEngineTreeNode
