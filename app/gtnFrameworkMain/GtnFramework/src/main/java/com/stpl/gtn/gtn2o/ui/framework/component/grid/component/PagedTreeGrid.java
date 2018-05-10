@@ -68,6 +68,7 @@ public class PagedTreeGrid {
 	private TextField pageNoField = new TextField();
 	private Label pageCountLabel;
 	private GtnUIFrameworkComponentConfig componentConfig;
+	private boolean shiftLeftSingeHeader=false;
 
 	public PagedTreeGrid(GtnUIFrameworkPagedTreeTableConfig tableConfig,GtnUIFrameworkComponentConfig componentConfig) {
 		this.tableConfig = tableConfig;
@@ -114,7 +115,7 @@ public class PagedTreeGrid {
 
 		}
 		if(tableConfig.getCustomFilterConfigMap()!=null){
-			setFilterToGrid();
+			shiftLeftSingeHeader=true;
 		}
 		// gtnlogger.info("headers size= " +
 		// tableConfig.getVisibleColumns().size());
@@ -132,57 +133,19 @@ public class PagedTreeGrid {
 			}
 		}
 		
-//tableConfig.getLeftTableColumnMappingId()               Left Single column
-		//tableConfig.getRightTableColumnMappingId()                Right Single COlumns
-		
-		
-		// if (tableConfig.isDoubleHeaderVisible()) {
-		// HeaderRow groupingHeader = grid.prependHeaderRow();
-		// for (Object property :
-		// tableConfig.getRightTableDoubleHeaderMap().keySet()) {
-		// Object joinList[] =
-		// tableConfig.getRightTableDoubleHeaderMap().get(property);
-		//
-		//
-		//
-		// if(joinList.length>1){
-		// String[] stringArray = Arrays.copyOf(joinList, joinList.length,
-		// String[].class);
-		// groupingHeader.join(stringArray).setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j++));
-		// }else{
-		// groupingHeader.getCell((String.valueOf(
-		// joinList[0]))).setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j++));
-		// }
-		// }
-		// }
-		// }
 
 		if (tableConfig.isDoubleHeaderVisible()) {
 			HeaderRow groupingHeader = grid.prependHeaderRow();
+			if(shiftLeftSingeHeader){
+				shiftLeftHeader(groupingHeader);
+			}
 			int j = 0;
 			for (Object property : tableConfig.getRightTableDoubleHeaderVisibleColumns()) {
 				if (tableConfig.getRightTableDoubleHeaderMap().get(property) != null) {
 					Object joinList[] = tableConfig.getRightTableDoubleHeaderMap().get(property);
 
 					String[] stringArray = Arrays.copyOf(joinList, joinList.length, String[].class);
-					if (tableConfig.isEnableCheckBoxInDoubleHeader()) {
-						CheckBoxGroup vaadinCheckBoxGroup = new CheckBoxGroup();
-						vaadinCheckBoxGroup.setItems(tableConfig.getRightTableDoubleVisibleHeaders().iterator().next());
-						if (joinList.length > 1) {
-							groupingHeader.join(stringArray).setComponent(vaadinCheckBoxGroup);
-						} else {
-							groupingHeader.getCell((String.valueOf(joinList[0]))).setComponent(vaadinCheckBoxGroup);
-						}
-
-					} else {
-						if (joinList.length > 1) {
-							groupingHeader.join(stringArray)
-									.setText(tableConfig.getRightTableDoubleVisibleHeaders().iterator().next());
-						} else {
-							groupingHeader.getCell((String.valueOf(joinList[0])))
-									.setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j++));
-						}
-					}
+					j = configureDoubleHeaderComponents(groupingHeader, j, joinList, stringArray);
 				}
 			}
 		}
@@ -214,33 +177,10 @@ public class PagedTreeGrid {
 
 			}
 		}
-		// if (tableConfig.isTripleHeaderVisible()) {
-		// HeaderRow doubleHeader= grid.getHeaderRow(1);
-		//
-		// HeaderRow groupingHeader = grid.prependHeaderRow();
-		//
-		// for(Object
-		// property:tableConfig.getRightTableTripleHeaderMap().keySet()){
-		// Object
-		// joinList[]=tableConfig.getRightTableTripleHeaderMap().get(property);
-		// Set<HeaderCell> columnList=new HashSet<>();
-		// for (int i = 0; i < joinList.length; i++) {
-		// Object object = joinList[i];
-		// columnList.add(doubleHeader.getCell(object.toString()));
-		// }
-		//
-		//
-		// groupingHeader.join(
-		// columnList).setText(tableConfig.getRightTableTripleVisibleHeaders().iterator().next());
-		// }
-		// }
-		// Group headers by joining the cells
-		//
-		// tableConfig.getVisibleColumns().stream().forEach((column) -> {
-		//
-		// grid.addColumn(row ->
-		// row.getPropertyValue(column.toString())).setCaption(column.toString());
-		// });
+		if(tableConfig.getCustomFilterConfigMap()!=null){
+			setFilterToGrid();
+		}
+		
 		TreeData<GtnWsRecordBean> data = new TreeData<>();
 		if (dataSet != null) {
 			data.addItems(null, dataSet.getRows());
@@ -252,6 +192,38 @@ public class PagedTreeGrid {
 
 		addExpandListener();
 		addCollapseListener();
+	}
+
+	private int configureDoubleHeaderComponents(HeaderRow groupingHeader, int j, Object[] joinList,
+			String[] stringArray) {
+		if (tableConfig.isEnableCheckBoxInDoubleHeader()) {
+			CheckBoxGroup vaadinCheckBoxGroup = new CheckBoxGroup();
+			vaadinCheckBoxGroup.setItems(tableConfig.getRightTableDoubleVisibleHeaders().iterator().next());
+			if (joinList.length > 1) {
+				groupingHeader.join(stringArray).setComponent(vaadinCheckBoxGroup);
+			} else {
+				groupingHeader.getCell((String.valueOf(joinList[0]))).setComponent(vaadinCheckBoxGroup);
+			}
+
+		} else {
+			if (joinList.length > 1) {
+				groupingHeader.join(stringArray)
+						.setText(tableConfig.getRightTableDoubleVisibleHeaders().iterator().next());
+			} else {
+				groupingHeader.getCell((String.valueOf(joinList[0])))
+						.setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j++));
+			}
+		}
+		return j;
+	}
+
+	private void shiftLeftHeader(HeaderRow groupingHeader) {
+		for (int j = 0; j < tableConfig.getLeftTableColumnMappingId().length; j++) {
+			String column = (tableConfig.getLeftTableColumnMappingId()[j]).toString();
+			 gtnlogger.info("column = " + column);
+			groupingHeader.getCell(column).setText(tableConfig.getColumnHeaders().get(j));
+
+		}
 	}
 
 	private void addExpandListener() {
@@ -716,18 +688,17 @@ public class PagedTreeGrid {
 		return itemsPerPage;
 	}
 	private HeaderRow setFilterToGrid() {
-		HeaderRow filterRow = grid.appendHeaderRow();
+		HeaderRow filterRow = grid.getDefaultHeaderRow();
 		Component vaadinComponent = null;
 		Object[] filterColumnIdList = tableConfig.getLeftTableColumnMappingId();
 		for (Object column : filterColumnIdList) {
 		
 			vaadinComponent = getCustomFilterComponent(String.valueOf(column));
-			
+			vaadinComponent.setId(column.toString());
 				filterRow.getCell(String.valueOf(column)).setComponent(vaadinComponent);
 		}
 		
-		String[] stringArray = Arrays.copyOf(tableConfig.getRightTableColumnMappingId(), tableConfig.getRightTableColumnMappingId().length, String[].class);
-		filterRow.join(stringArray);
+		shiftLeftSingeHeader=false;
 		return filterRow;
 	}
 	private Component getCustomFilterComponent(String property) {
