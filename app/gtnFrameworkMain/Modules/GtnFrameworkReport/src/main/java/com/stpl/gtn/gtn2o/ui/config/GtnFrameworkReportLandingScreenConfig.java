@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.context.annotation.Bean;
+
 import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionTabLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -198,7 +201,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameworkComboBoxConfig companyTypeConfig = new GtnUIFrameworkComboBoxConfig();
 		companyTypeConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		companyTypeConfig.setComboBoxType(GtnFrameworkReportStringConstants.BUSINESS_UNIT_GLCOMP);
+		companyTypeConfig.setComboBoxType(GtnFrameworkReportStringConstants.COMPANY_MASTER_GLCOMP);
 		company.setGtnComboboxConfig(companyTypeConfig);
 		
 		componentList.add(company);
@@ -463,6 +466,10 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.addActionParameter("reportLandingScreen_level");
 		generateAction.addActionParameter("reportLandingScreen_productRelationshipVersion");
 		generateAction.addActionParameter("reportLandingScreen_reportDataSource");
+		generateAction.addActionParameter("reportLandingScreen_company");
+		generateAction.addActionParameter("reportLandingScreen_businessUnit");
+		generateAction.addActionParameter("reportLandingScreen_fromPeriod");
+		
 		actionList.add(generateAction);
 		
 		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);

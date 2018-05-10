@@ -42,9 +42,11 @@ import com.vaadin.data.HasValue;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.AbstractSingleSelect;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HasComponents;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.TreeGrid;
@@ -824,8 +826,19 @@ public class GtnUIFrameworkBaseComponent {
 	@SuppressWarnings({ "unchecked" })
 	public void loadComboBoxComponentValue(Integer newValue) {
 		((Field<Object>) this.component).setValue(newValue);
+		
 	}
 
+	public void loadV8ComboBoxComponentValue(Integer value)throws GtnFrameworkValidationFailedException {	
+			AbstractSingleSelect comboboxSelect=(AbstractSingleSelect)this.component;
+			comboboxSelect.setSelectedItem(value);
+	}
+	
+	public void loadV8ComboBoxComponentValue(String value)throws GtnFrameworkValidationFailedException {
+			AbstractSingleSelect comboboxSelect=(AbstractSingleSelect)this.component;
+			comboboxSelect.setSelectedItem(value);
+	}
+	
 	public void setComponentReadOnly(boolean newValue) {
 		if (this.component instanceof Field<?>) {
 			((Field<?>) this.component).setReadOnly(newValue);
@@ -1085,6 +1098,13 @@ public class GtnUIFrameworkBaseComponent {
 		return field.getValue();
 	}
 
+	public void setV8PopupFieldValue(Object value) {
+		HorizontalLayout layout = (HorizontalLayout) this.component;
+		HasValue<Object> field = (HasValue) layout.getComponent(0);
+
+		field.setValue(value);
+	}
+	
 	public void setGridItems(List<GtnWsRecordBean> recordBeanList) {
 		((Grid) this.component).setItems(recordBeanList);
 	}

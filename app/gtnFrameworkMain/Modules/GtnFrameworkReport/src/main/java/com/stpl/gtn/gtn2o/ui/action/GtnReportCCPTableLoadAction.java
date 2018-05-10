@@ -41,7 +41,6 @@ public class GtnReportCCPTableLoadAction
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -65,6 +64,7 @@ public class GtnReportCCPTableLoadAction
 		params.add(null);
 		params.add(dataSelectionDto);
 		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
+
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
 	}
 
@@ -147,9 +147,20 @@ public class GtnReportCCPTableLoadAction
 				.getVaadinBaseComponent(actionParamList.get(11).toString()).getValueFromComponent())));
 		dto.setReportDataSource(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(12).toString()).getCaptionFromV8ComboBox()));
+
+		
+		dto.setCompanyReport(Integer.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox()));
+		dto.setBusinessUnitReport(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(14).toString()).getIntegerFromField());
+		dto.setFromPeriodReport(Integer.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(15).toString()).getCaptionFromV8ComboBox()));
+		dto.setCustomerHierarchyRecordBean(customerRecordBean);
+
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		dto.setSessionId(UUID.randomUUID().toString().replaceAll("-", "_"));
 		dto.setUniqueId(UUID.randomUUID().toString().replaceAll("-", "_"));
+
 		return dto;
 	}
 
