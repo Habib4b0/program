@@ -2,7 +2,9 @@ package com.stpl.gtn.gtn2o.registry.config.discountprojection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.config.common.AdjustmentTab;
@@ -18,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkbox.GtnUIFrameworkCheckBoxComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
@@ -395,11 +398,30 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 				GtnCommercialForecastProjectionVarianceClassConstants.GTN_WS_RETURNS_FORECAST_RIGHT_HEADER_CONFIG_ACTION);
 
 		discountProjectionGtnPagedTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
-
+		
+		//discountProjectionGtnPagedTreeTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
+		
 		discountProjectionResultTableComponentConfig.setGtnPagedTreeTableConfig(discountProjectionGtnPagedTreeTableConfig);
 		componentList.add(discountProjectionResultTableComponentConfig);
 		
 	}
+	
+	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
+		String[] propertyIds = {"filterComboBox" ,"filterTextBox"};
+		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.CHECKEDCOMBOBOX,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8};
+		
+		for (int i = 0; i < propertyIds.length; i++) {
+			
+			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
+			pagedTableCustomFilterConfig.setPropertId(propertyIds[i]);
+			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
+			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
+			
+		}
+		return customFilterConfigMap;
+	}
+
 	
 	private void addDiscountProjectionExcelRefreshButton(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
 		GtnUIFrameworkComponentConfig excelBtnLayout = configProvider.getHorizontalLayoutConfig(nameSpace + "_" + "excelButtonlayout", true, parentComponentId);
@@ -422,7 +444,6 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		componentList.add(refreshButton);
 
 	}
-
 	private void addUpdatePreviousNextCloseSubmitButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,String parentComponentId, String nameSpace) {
 		UpdatePreviousNextCloseSubmitButton discountProjectionButtonLayout=new UpdatePreviousNextCloseSubmitButton();
 		discountProjectionButtonLayout.addCommonButtonLayout(componentList,  parentComponentId, nameSpace);

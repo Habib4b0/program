@@ -62,12 +62,23 @@ public class HeaderGeneratorService {
 			{
 
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
+		tableHeaderDTO.addSingleColumn("filterComboBox", "",String.class);
+		tableHeaderDTO.addSingleColumn("filterTextBox", "",String.class);
+		
+		tableHeaderDTO.addDoubleHeaderMap("firstDoubleLeftHeaderId",new Object[] {"filterComboBox"});
+		tableHeaderDTO.addDoubleHeaderMap("levelName",new Object[] {"filterTextBox"});
+		
+		tableHeaderDTO.addDoubleColumn("firstDoubleLeftHeaderId", "");
+		tableHeaderDTO.addDoubleColumn("levelName", "Level Name");
+		
+		/*
+		
 		tableHeaderDTO.addSingleColumn("singleLevelId", "", String.class);
 		tableHeaderDTO.addSingleColumn("levelName", "Level Name", String.class);
 		
 		tableHeaderDTO.addDoubleHeaderMap("doubleLevelId",new Object[] {"singleLevelId","levelName"});
 		
-		tableHeaderDTO.addDoubleColumn("doubleLevelId", "");
+		tableHeaderDTO.addDoubleColumn("doubleLevelId", "");*/
 
 		return tableHeaderDTO;
 	}
@@ -119,22 +130,25 @@ public class HeaderGeneratorService {
 	public GtnWsPagedTreeTableResponse getSalesProjectionLeftTableColumns(GtnWsForecastRequest request) {
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
 		
-		/*tableHeaderDTO.addSingleColumn("filterbox1", "",String.class);
-		tableHeaderDTO.addSingleColumn("filterbox2", "",String.class);
-		tableHeaderDTO.addSingleColumn("filterbox3", "",String.class);
+		tableHeaderDTO.addSingleColumn("filterTextBox1", "",String.class);
+		tableHeaderDTO.addSingleColumn("filterTextBox2", "",String.class);
+		tableHeaderDTO.addSingleColumn("filterTextBox3", "",String.class);
+		tableHeaderDTO.addSingleColumn("filterTextBox4", "",String.class);
 		
-		tableHeaderDTO.addDoubleHeaderMap("levelName",new Object[] {"filterbox1"});
-		tableHeaderDTO.addDoubleHeaderMap("baseLine",new Object[] {"filterbox2"});
-		tableHeaderDTO.addDoubleHeaderMap("methodology",new Object[] {"filterbox3"});
+		tableHeaderDTO.addDoubleHeaderMap("firstLeftHeaderId",new Object[] {"filterTextBox1"});
+		tableHeaderDTO.addDoubleHeaderMap("levelName",new Object[] {"filterTextBox2"});
+		tableHeaderDTO.addDoubleHeaderMap("baseLine",new Object[] {"filterTextBox3"});
+		tableHeaderDTO.addDoubleHeaderMap("methodology",new Object[] {"filterTextBox4"});
 		
+		tableHeaderDTO.addDoubleColumn("firstLeftHeaderId", "");
 		tableHeaderDTO.addDoubleColumn("levelName", "Level Name");
 		tableHeaderDTO.addDoubleColumn("baseLine", "Base Line");
-		tableHeaderDTO.addDoubleColumn("methodology", "Methodology");*/
+		tableHeaderDTO.addDoubleColumn("methodology", "Methodology");
 		
 		
-		tableHeaderDTO.addSingleColumn("levelName", "Level Name", String.class);
+		/*tableHeaderDTO.addSingleColumn("levelName", "Level Name", String.class);
 		tableHeaderDTO.addSingleColumn("baseLine", "Base Line", String.class);
-		tableHeaderDTO.addSingleColumn("methodology", "Methodology", String.class);
+		tableHeaderDTO.addSingleColumn("methodology", "Methodology", String.class);*/
 
 		return tableHeaderDTO;
 	}
