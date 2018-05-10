@@ -48,21 +48,21 @@ public class GtnCustomerAvailableTableLoadAction
 		String hierarchyComponentId = actionParamList.get(2).toString();
 		String relationshipComponentId = actionParamList.get(3).toString();
 		GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(hierarchyComponentId).getComponentData().getCustomData();
+				.getVaadinBaseComponent(hierarchyComponentId,componentId).getComponentData().getCustomData();
 
 		String relationshipVersionNo = String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(4).toString()).getValueFromComponent());
-		String hierarchyVersionNo = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString())
+				.getVaadinBaseComponent(actionParamList.get(4).toString(),componentId).getValueFromComponent());
+		String hierarchyVersionNo = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString(),componentId)
 				.getCaptionFromComboBox();
 
 		String relationshipBuilderSid = String.valueOf(
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(relationshipComponentId).getValueFromComponent());
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(relationshipComponentId,componentId).getValueFromComponent());
 		Integer hierarchyDefSid = (Integer) recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
 
 		Integer selectedLevelNo = (Integer) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(5).toString()).getValueFromComponent();
+				.getVaadinBaseComponent(actionParamList.get(5).toString(),componentId).getValueFromComponent();
 
-		LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(6).toString())
+		LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(6).toString(),componentId)
 				.getFieldValue();
 		if (date != null) {
 			forecastEligibleDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -88,7 +88,7 @@ public class GtnCustomerAvailableTableLoadAction
 		queryParameters.add(false);
 
 		AbstractComponent dualListBoxComponent = GtnUIFrameworkGlobalUI
-				.getVaadinComponent(actionParamList.get(1).toString());
+				.getVaadinComponent(actionParamList.get(1).toString(),componentId);
 		GtnUIFrameworkComponentData dualListBoxComponentData = (GtnUIFrameworkComponentData) dualListBoxComponent
 				.getData();
 		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) dualListBoxComponentData
