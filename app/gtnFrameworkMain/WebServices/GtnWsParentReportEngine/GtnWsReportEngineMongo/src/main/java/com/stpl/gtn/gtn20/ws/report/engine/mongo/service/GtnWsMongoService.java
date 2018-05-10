@@ -15,6 +15,7 @@ import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.stpl.gtn.gtn20.ws.report.engine.mongo.constants.MongoConstants;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsTreeNodeAttributeBean;
@@ -59,6 +60,10 @@ public class GtnWsMongoService {
 		}
 	}
 
+	public void dropCollection(String collection) {
+		mongoDBInstance.getDBInstance().getCollection(collection).drop();
+	}
+
 	public void updateFinalResultsToMongo(String collectionName, GtnWsReportEngineTreeNode output) {
 		try {
 			MongoCollection<Document> collection = getCollection(collectionName);
@@ -83,11 +88,9 @@ public class GtnWsMongoService {
 	private void insertIntoMongoCollection(MongoCollection<Document> collection, GtnWsReportEngineTreeNode output) {
 		for (GtnWsReportEngineTreeNode gtnWsTreeNode : output.getChildren()) {
 			GtnWsTreeNodeAttributeBean nodeData = (GtnWsTreeNodeAttributeBean) gtnWsTreeNode.getNodeData();
-			if (nodeData != null && !nodeData.getAttributeBeanList().isEmpty()) {
-				List<Document> documentList = convertGtnWsTreeNodeAttributeToDocument(nodeData.getAttributeBeanList());
-				if (documentList != null) {
-					collection.insertMany(documentList);
-				}
+			List<Document> documentList = convertGtnWsTreeNodeAttributeToDocument(nodeData);
+			if (documentList != null) {
+				collection.insertMany(documentList);
 			}
 			if (gtnWsTreeNode.getChildren() != null) {
 				insertIntoMongoCollection(collection, gtnWsTreeNode);
@@ -223,7 +226,7 @@ public class GtnWsMongoService {
 		MongoCursor cursor = itr.iterator();
 		GtnWsAttributeBean attributeBean = null;
 		while (cursor.hasNext()) {
-                        attributeBean = new GtnWsAttributeBean();
+			attributeBean = new GtnWsAttributeBean();
 			Document doc = (Document) cursor.next();
 			Document frequencyDocument = (Document) doc.remove("_id");
 			if (frequencyDocument != null) {
@@ -232,7 +235,7 @@ public class GtnWsMongoService {
 				attributeBean.putAllAttributes(frequencyDocument);
 			}
 			attributeBean.putAllAttributes(doc);
-                        treeNodeAtrributeBean.addAttributeBeanToList(attributeBean);
+			treeNodeAtrributeBean.addAttributeBeanToList(attributeBean);
 		}
 		List<GtnWsTreeNodeAttributeBean> nodeData = new ArrayList<>();
 		nodeData.add(treeNodeAtrributeBean);
@@ -248,54 +251,58 @@ public class GtnWsMongoService {
 
 	private void totalLevelCalculation(GtnWsTreeNodeAttributeBean rootNodeAtrributeBean,
 			GtnWsTreeNodeAttributeBean currentNodeData) {
-		try {
-			for (int i = 0; i < rootNodeAtrributeBean.getAttributeBeanList().size(); i++) {
-				GtnWsAttributeBean rootNodeDocument = rootNodeAtrributeBean.getAttributeBeanList().get(i);
-				int topPeriod = rootNodeDocument.getIntegerAttribute("semiAnnual");
-				int topyear = rootNodeDocument.getIntegerAttribute("year");
-				for (int j = 0; j < currentNodeData.getAttributeBeanList().size(); j++) {
-					GtnWsAttributeBean currentDoc = currentNodeData.getAttributeBeanList().get(j);
-					int currentPeriod = currentDoc.getIntegerAttribute("semiAnnual");
-					int currentyear = currentDoc.getIntegerAttribute("year");
-					if (topPeriod == currentPeriod && topyear == currentyear) {
-						currentDoc.putAttributes("totalExfactoryActuals",
-								rootNodeDocument.getAttributes("totalExfactoryActuals"));
-						currentDoc.putAttributes("totalExfactoryProjection",
-								rootNodeDocument.getAttributes("totalExfactoryProjection"));
-						currentDoc.putAttributes("contractSalesPerTotalContractSalesActuals",
-								gtnWsCommonCalculation.getDividedValue(currentDoc.getAttributes("contractSalesActual"),
-										rootNodeDocument.getAttributes("totalContractSalesActuals")));
-						currentDoc.putAttributes("contractSalesPerTotalContractSalesProjection",
-								gtnWsCommonCalculation.getDividedValue(
-										currentDoc.getAttributes("contractSalesProjection"),
-										rootNodeDocument.getAttributes("totalContractSalesProjection")));
-						currentDoc.putAttributes("netExfactorySalesPerTotalExfactoryActuals",
-								gtnWsCommonCalculation.getDividedValue(
-										currentDoc.getAttributes("netExfactorySalesActuals"),
-										currentDoc.getAttributes("exfactoryActuals")));
-						currentDoc.putAttributes("netExfactorySalesPerTotalExfactoryProjection",
-								gtnWsCommonCalculation.getDividedValue(
-										currentDoc.getAttributes("netExfactorySalesProjection"),
-										currentDoc.getAttributes("exfactoryProjection")));
-						double weightedGtnActualDividedValue = gtnWsCommonCalculation.getDividedValue(
-								currentDoc.getAttributes("exfactoryActuals"),
-								currentDoc.getAttributes("totalExfactoryActuals"));
-						currentDoc.putAttributes("weightedGtnActuals",
-								gtnWsCommonCalculation.getMultipiedValue(weightedGtnActualDividedValue,
-										currentDoc.getAttributes("deductionPerExfactoryActuals"), true));
-						double weightedGtnProjectionDividedValue = gtnWsCommonCalculation.getDividedValue(
-								currentDoc.getAttributes("exfactoryProjection"),
-								currentDoc.getAttributes("totalExfactoryProjection"));
-						currentDoc.putAttributes("weightedGtnProjection",
-								gtnWsCommonCalculation.getMultipiedValue(weightedGtnProjectionDividedValue,
-										currentDoc.getAttributes("deductionPerExfactoryProjection"), true));
-						break;
+		if (rootNodeAtrributeBean != null) {
+			try {
+				for (int i = 0; i < rootNodeAtrributeBean.getAttributeBeanList().size(); i++) {
+					GtnWsAttributeBean rootNodeDocument = rootNodeAtrributeBean.getAttributeBeanList().get(i);
+					int topPeriod = rootNodeDocument.getIntegerAttribute("semiAnnual");
+					int topyear = rootNodeDocument.getIntegerAttribute("year");
+					for (int j = 0; j < currentNodeData.getAttributeBeanList().size(); j++) {
+						GtnWsAttributeBean currentDoc = currentNodeData.getAttributeBeanList().get(j);
+						int currentPeriod = currentDoc.getIntegerAttribute("semiAnnual");
+						int currentyear = currentDoc.getIntegerAttribute("year");
+						if (topPeriod == currentPeriod && topyear == currentyear) {
+							currentDoc.putAttributes("totalExfactoryActuals",
+									rootNodeDocument.getAttributes("totalExfactoryActuals"));
+							currentDoc.putAttributes("totalExfactoryProjection",
+									rootNodeDocument.getAttributes("totalExfactoryProjection"));
+							currentDoc.putAttributes("contractSalesPerTotalContractSalesActuals",
+									gtnWsCommonCalculation.getDividedValue(
+											currentDoc.getAttributes("contractSalesActual"),
+											rootNodeDocument.getAttributes("totalContractSalesActuals")));
+							currentDoc.putAttributes("contractSalesPerTotalContractSalesProjection",
+									gtnWsCommonCalculation.getDividedValue(
+											currentDoc.getAttributes("contractSalesProjection"),
+											rootNodeDocument.getAttributes("totalContractSalesProjection")));
+							currentDoc.putAttributes("netExfactorySalesPerTotalExfactoryActuals",
+									gtnWsCommonCalculation.getDividedValue(
+											currentDoc.getAttributes("netExfactorySalesActuals"),
+											currentDoc.getAttributes("exfactoryActuals")));
+							currentDoc.putAttributes("netExfactorySalesPerTotalExfactoryProjection",
+									gtnWsCommonCalculation.getDividedValue(
+											currentDoc.getAttributes("netExfactorySalesProjection"),
+											currentDoc.getAttributes("exfactoryProjection")));
+							double weightedGtnActualDividedValue = gtnWsCommonCalculation.getDividedValue(
+									currentDoc.getAttributes("exfactoryActuals"),
+									currentDoc.getAttributes("totalExfactoryActuals"));
+							currentDoc.putAttributes("weightedGtnActuals",
+									gtnWsCommonCalculation.getMultipiedValue(weightedGtnActualDividedValue,
+											currentDoc.getAttributes("deductionPerExfactoryActuals"), true));
+							double weightedGtnProjectionDividedValue = gtnWsCommonCalculation.getDividedValue(
+									currentDoc.getAttributes("exfactoryProjection"),
+									currentDoc.getAttributes("totalExfactoryProjection"));
+							currentDoc.putAttributes("weightedGtnProjection",
+									gtnWsCommonCalculation.getMultipiedValue(weightedGtnProjectionDividedValue,
+											currentDoc.getAttributes("deductionPerExfactoryProjection"), true));
+							break;
+						}
 					}
 				}
+			} catch (EvaluationException ex) {
+				ex.printStackTrace();
 			}
-		} catch (EvaluationException ex) {
-			ex.printStackTrace();
 		}
+
 	}
 
 	public Document dividedResult(Object numerator, Object denominator) {
@@ -307,15 +314,19 @@ public class GtnWsMongoService {
 		return new Document("$cond", condition);
 	}
 
-	private List<Document> convertGtnWsTreeNodeAttributeToDocument(List<GtnWsAttributeBean> attributeBeanList) {
-		List<Document> documentList = null;
-		for (GtnWsAttributeBean gtnWsAttributeBean : attributeBeanList) {
-			if (documentList == null) {
-				documentList = new ArrayList<>();
+	private List<Document> convertGtnWsTreeNodeAttributeToDocument(GtnWsTreeNodeAttributeBean nodeData) {
+		if (nodeData != null) {
+			List<GtnWsAttributeBean> attributeBeanList = nodeData.getAttributeBeanList();
+			List<Document> documentList = null;
+			for (GtnWsAttributeBean gtnWsAttributeBean : attributeBeanList) {
+				if (documentList == null) {
+					documentList = new ArrayList<>();
+				}
+				documentList.add(new Document(gtnWsAttributeBean.getAttributeMap()));
 			}
-			documentList.add(new Document(gtnWsAttributeBean.getAttributeMap()));
+			return documentList;
 		}
-		return documentList;
+		return null;
 	}
 
 	// GtnWsReportEngineTreeNode
@@ -389,33 +400,41 @@ public class GtnWsMongoService {
 		MongoCursor cr = itr.iterator();
 		while (cr.hasNext()) {
 			Document doc = (Document) cr.next();
-			getCollection("KafkaData").insertOne(doc);
+			getCollection(MongoConstants.KAFKA_COLLECTION_ID).insertOne(doc);
 		}
 	}
-        
-        public FindIterable<Document> fetchDataFromMongo(String collectionName,Object input[],Object values[]) {
-            try{
-             BasicDBObject whereQuery = new BasicDBObject();
-            if (input != null && values != null && values.length == input.length) {
-                    for (int i = 0; i < input.length; i++) {
-                        System.out.println("fetchDataFromMongo =input " + input[i]);
-                        System.out.println("fetchDataFromMongo=values " + values[i]);
-                        if (!values[i].toString().equals(".*")) {
-                            whereQuery.put(input[i].toString(), values[i]);
-                        }
-                    }
-                }
-            @SuppressWarnings("unchecked")
-            FindIterable<Document> itr = getCollection(
-                    collectionName).find(whereQuery);
-            
-            return itr;
-            }
-            catch(Exception ex){
-             ex.printStackTrace();
-                      return null;
-            }
-      
+
+	public void createUserBasedCcpCollection(List ccpIdList, String uniqueId) {
+		Document matchCondition = new Document("ccpId", new Document("$in", ccpIdList));
+		FindIterable filteredResult = getCollection(MongoConstants.KAFKA_COLLECTION_ID).find(matchCondition);
+		MongoCursor cr = filteredResult.iterator();
+		while (cr.hasNext()) {
+			Document doc = (Document) cr.next();
+			getCollection(MongoConstants.USER_BASED_CCP_COLLECTION + uniqueId).insertOne(doc);
+		}
+	}
+
+	public FindIterable<Document> fetchDataFromMongo(String collectionName, Object input[], Object values[]) {
+		try {
+			BasicDBObject whereQuery = new BasicDBObject();
+			if (input != null && values != null && values.length == input.length) {
+				for (int i = 0; i < input.length; i++) {
+					System.out.println("fetchDataFromMongo =input " + input[i]);
+					System.out.println("fetchDataFromMongo=values " + values[i]);
+					if (!values[i].toString().equals(".*")) {
+						whereQuery.put(input[i].toString(), values[i]);
+					}
+				}
+			}
+			@SuppressWarnings("unchecked")
+			FindIterable<Document> itr = getCollection(collectionName).find(whereQuery);
+
+			return itr;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+
 	}
 
 }
