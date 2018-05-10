@@ -96,7 +96,7 @@ public class GtnWsMongoCalculation {
 			// calculatedAttributes.addAttributeBeanToList(newAttributes);
 			// gtnWsTreeNode.setNodeData(calculatedAttributes);
 			// } else {
-			String newParentHierarchyNo = parentHierarchyNo + hierarchyIndex + ".";
+			String newParentHierarchyNo = parentHierarchyNo + hierarchyIndex + "~";
 			GtnWsTreeNodeAttributeBean calculatedAttributes = new GtnWsTreeNodeAttributeBean();
 			GtnWsAttributeBean newAttributes = new GtnWsAttributeBean();
 			newAttributes.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());

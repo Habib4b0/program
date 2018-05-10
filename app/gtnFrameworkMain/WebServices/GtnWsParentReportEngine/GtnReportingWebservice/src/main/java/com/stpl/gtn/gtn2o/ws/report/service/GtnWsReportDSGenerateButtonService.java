@@ -125,7 +125,7 @@ public class GtnWsReportDSGenerateButtonService {
 
 	private void createUserBasedCcpCollection(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
-		List ccpIdList = gtnSqlQueryEngine.executeSelectQuery("Select * from "
+		List ccpIdList = gtnSqlQueryEngine.executeSelectQuery("Select DISTINCT CCP_DETAILS_SID from "
 				+ dataSelectionBean.getTableNameWithUniqueId(MongoStringConstants.ST_CCPD_SESSION_TABLE_NAME));
 		if (ccpIdList != null && !ccpIdList.isEmpty()) {
 			gtnWsMongoService.createUserBasedCcpCollection(ccpIdList, dataSelectionBean.getUniqueId());
