@@ -20,12 +20,12 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
-public class GtnFrameworkReportCustomertHierarchyLookUp {
+public class GtnFrameworkReportDSCustomertHierarchyLookUp {
 
 	public GtnUIFrameworkViewConfig getCustHierarchyLookUpView(String namespace) {
 		GtnUIFrameworkViewConfig view = new GtnUIFrameworkViewConfig();
 		view.setViewName("Customer Hierarchy LookUp");
-		view.setViewId("reportLandingScreen_customerHierarchyLookup");
+		view.setViewId("dataSelectionTab_customerHierarchyLookup");
 		view.setDefaultView(false);
 		addreportCustomertHierarchyComponentList(view, namespace);
 		return view;
@@ -323,26 +323,31 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		reportCustomerHierarchySelectButton.setAddToParent(true);
-		reportCustomerHierarchySelectButton.addDependentComponent("reportLandingScreen_customerSelectionRelationship");
-		reportCustomerHierarchySelectButton.addDependentComponent("reportLandingScreen_customerSelectionLevel");
+		reportCustomerHierarchySelectButton.addDependentComponent("dataSelectionTab_customerSelectionRelationship");
+		reportCustomerHierarchySelectButton.addDependentComponent("dataSelectionTab_customerSelectionLevel");
 		componentList.add(reportCustomerHierarchySelectButton);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		
+//		GtnUIFrameWorkActionConfig dsCustomerHierarchySelectAction = new GtnUIFrameWorkActionConfig();
+//		dsCustomerHierarchySelectAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+//		dsCustomerHierarchySelectAction.addActionParameter(GtnFrameworkDsPopupSelectAction.class.getName());
+		
+		//actionConfigList.add(dsCustomerHierarchySelectAction);
+		
 		GtnUIFrameWorkActionConfig reportCustomerHierarchySelectAction = new GtnUIFrameWorkActionConfig();
 		reportCustomerHierarchySelectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
 		List<Object> actionParameter = new ArrayList<>();
-		actionParameter.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE);
-		actionParameter.add("reportLandingScreen_customerHierarchy");
+		actionParameter.add("reportDsCustomerHierarchyLookup_customerHierarchySearchResultTable");
+		actionParameter.add("dataSelectionTab_customerHierarchy");
 		actionParameter.add(Arrays.asList("custHierarchyLookupHierName"));
-		actionParameter.add(Arrays.asList("reportLandingScreen_customerHierarchy"));
+		actionParameter.add(Arrays.asList("dataSelectionTab_customerHierarchy"));
 		reportCustomerHierarchySelectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(reportCustomerHierarchySelectAction);
 		
 		GtnUIFrameWorkActionConfig reportCustomHierarchyClosepopup = new GtnUIFrameWorkActionConfig();
 		reportCustomHierarchyClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		reportCustomHierarchyClosepopup.addActionParameter("customerHierarchyLookup");
+		reportCustomHierarchyClosepopup.addActionParameter("dataSelectionTab_CustomerHierarchyLookup");
 		actionConfigList.add(reportCustomHierarchyClosepopup);
 
 		reportCustomerHierarchySelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionTabLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -223,11 +224,10 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionProjectionName.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabProjectionNameLayout");
 
-		GtnUIFrameworkComboBoxConfig reportDataSelectionProjectionNameConfig = new GtnUIFrameworkComboBoxConfig();
-		reportDataSelectionProjectionNameConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		reportDataSelectionProjectionNameConfig.setComboBoxType(GtnFrameworkReportStringConstants.COMPANY_MASTER_GLCOMP);
-		reportDataSelectionProjectionName.setGtnComboboxConfig(reportDataSelectionProjectionNameConfig);
+		GtnUIFrameworkComboBoxConfig reportDSDataSourceLoadConfig = new GtnUIFrameworkComboBoxConfig();
+		reportDSDataSourceLoadConfig.setItemValues(GtnFrameworkReportStringConstants.getReportDataSourceLoadCombobox());
+		reportDataSelectionProjectionName.setGtnComboboxConfig(reportDSDataSourceLoadConfig);
+		
 
 		componentList.add(reportDataSelectionProjectionName);
 	}
@@ -349,50 +349,61 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 				+ GtnFrameworkCommonConstants.DS_TAB_TIME_PERIOD_INNER_LAYOUT);
 		componentList.add(reportDataSelectionFromPeriodLayoutConfig);
 	
-//		GtnUIFrameworkComponentConfig reportDataSelectionFromPeriod = new GtnUIFrameworkComponentConfig();
-//		reportDataSelectionFromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-//		reportDataSelectionFromPeriod.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabFromPeriod");
-//		reportDataSelectionFromPeriod.setComponentName("From ");
-//		reportDataSelectionFromPeriod.setAddToParent(true);
-//	
-//		reportDataSelectionFromPeriod.setParentComponentId(
-//				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabFromPeriodLayout");
-//		GtnUIFrameworkComboBoxConfig reportDataSelectionFromPeriodLoadConfig = new GtnUIFrameworkComboBoxConfig();
-//		reportDataSelectionFromPeriodLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-//				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-//		reportDataSelectionFromPeriodLoadConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.TIME_PERIOD_FROM_DATE);
-//		reportDataSelectionFromPeriod.setGtnComboboxConfig(reportDataSelectionFromPeriodLoadConfig);
-//	
-//		componentList.add(reportDataSelectionFromPeriod);
+		GtnUIFrameworkComponentConfig reportDataSelectionFromPeriod = new GtnUIFrameworkComponentConfig();
+		reportDataSelectionFromPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		reportDataSelectionFromPeriod.setComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD);
+		reportDataSelectionFromPeriod.setComponentName("From ");
+		reportDataSelectionFromPeriod.setAddToParent(true);
+
+		reportDataSelectionFromPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabFromPeriodLayout");
+		GtnUIFrameworkComboBoxConfig reportDataSelectionFromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
+
+		reportDataSelectionFromPeriodConfig.setModuleName("report");
+		reportDataSelectionFromPeriodConfig.setLoadingUrl("/gtnReport/gtnWsReportComboboxLoad");
+		reportDataSelectionFromPeriodConfig.setComboBoxType("timePeriodForReportFromDate");
+		reportDataSelectionFromPeriodConfig.setHasDefaultValue(true);
+		reportDataSelectionFromPeriodConfig.setDefaultDesc("next");
+		reportDataSelectionFromPeriod.setGtnComboboxConfig(reportDataSelectionFromPeriodConfig);
 	
-//		GtnUIFrameworkLayoutConfig reportDataSelectionToPeriodLayout = new GtnUIFrameworkLayoutConfig();
-//		reportDataSelectionToPeriodLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
-//		GtnUIFrameworkComponentConfig reportDataSelectionToPeriodLayoutConfig = new GtnUIFrameworkComponentConfig();
-//		reportDataSelectionToPeriodLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-//		reportDataSelectionToPeriodLayoutConfig
-//				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabToPeriodLayout");
-//		reportDataSelectionToPeriodLayoutConfig.setSpacing(true);
-//		reportDataSelectionToPeriodLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-//		reportDataSelectionToPeriodLayoutConfig.setAddToParent(true);
-//		reportDataSelectionToPeriodLayoutConfig.setGtnLayoutConfig(reportDataSelectionToPeriodLayout);
-//		reportDataSelectionToPeriodLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-//				+ GtnFrameworkCommonConstants.DS_TAB_TIME_PERIOD_INNER_LAYOUT);
-//		componentList.add(reportDataSelectionToPeriodLayoutConfig);
-//	
-//		GtnUIFrameworkComponentConfig reportDataSelectionToPeriod = new GtnUIFrameworkComponentConfig();
-//		reportDataSelectionToPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-//		reportDataSelectionToPeriod.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabToPeriod");
-//		reportDataSelectionToPeriod.setComponentName("To ");
-//		reportDataSelectionToPeriod.setAddToParent(true);
-//		reportDataSelectionToPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabToPeriodLayout");
-//		reportDataSelectionToPeriod.setEnable(false);
-//	
-//		GtnUIFrameworkComboBoxConfig reportDataSelectionToPeriodTypeLoadConfig = new GtnUIFrameworkComboBoxConfig();
-//		reportDataSelectionToPeriodTypeLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-//				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-//		reportDataSelectionToPeriodTypeLoadConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.TIME_PERIOD_TO_DATE);
-//		reportDataSelectionToPeriod.setGtnComboboxConfig(reportDataSelectionToPeriodTypeLoadConfig);
-//		componentList.add(reportDataSelectionToPeriod);
+		componentList.add(reportDataSelectionFromPeriod);
+	
+		GtnUIFrameworkLayoutConfig reportDataSelectionToPeriodLayout = new GtnUIFrameworkLayoutConfig();
+		reportDataSelectionToPeriodLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
+		GtnUIFrameworkComponentConfig reportDataSelectionToPeriodLayoutConfig = new GtnUIFrameworkComponentConfig();
+		reportDataSelectionToPeriodLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		reportDataSelectionToPeriodLayoutConfig
+				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabToPeriodLayout");
+		reportDataSelectionToPeriodLayoutConfig.setSpacing(true);
+		reportDataSelectionToPeriodLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		reportDataSelectionToPeriodLayoutConfig.setAddToParent(true);
+		reportDataSelectionToPeriodLayoutConfig.setGtnLayoutConfig(reportDataSelectionToPeriodLayout);
+		reportDataSelectionToPeriodLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.DS_TAB_TIME_PERIOD_INNER_LAYOUT);
+		componentList.add(reportDataSelectionToPeriodLayoutConfig);
+	
+		GtnUIFrameworkComponentConfig reportDataSelectionToPeriod = new GtnUIFrameworkComponentConfig();
+		reportDataSelectionToPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		reportDataSelectionToPeriod.setComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.STATUS);
+		reportDataSelectionToPeriod.setComponentName("To ");
+		reportDataSelectionToPeriod.setAddToParent(true);
+		reportDataSelectionToPeriod.setEnable(false);
+
+
+		reportDataSelectionToPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dsTabToPeriodLayout");
+
+		GtnUIFrameworkComboBoxConfig reportDataSelectionToPeriodTypeConfig = new GtnUIFrameworkComboBoxConfig();
+
+		reportDataSelectionToPeriodTypeConfig.setModuleName("report");
+		reportDataSelectionToPeriodTypeConfig.setLoadingUrl("/gtnReport/gtnWsReportComboboxLoad");
+		reportDataSelectionToPeriodTypeConfig.setComboBoxType("timePeriodForReportToDate");
+		reportDataSelectionToPeriodTypeConfig.setHasDefaultValue(true);
+		reportDataSelectionToPeriodTypeConfig.setDefaultDesc("next");
+
+
+		reportDataSelectionToPeriod.setGtnComboboxConfig(reportDataSelectionToPeriodTypeConfig);
+		componentList.add(reportDataSelectionToPeriod);
 	}
 
 	private void addProductSelectionLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
@@ -445,7 +456,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionNextButtonConfig.setComponentName("NEXT");
 		reportDataSelectionNextButtonConfig.setAddToParent(true);
 		reportDataSelectionNextButtonConfig.setParentComponentId(reportDataSelectionNavigationButtonConfig.getComponentId());
-
+		
 		GtnUIFrameworkComponentConfig reportDataSelectionCloseButtonConfig = new GtnUIFrameworkComponentConfig();
 		reportDataSelectionCloseButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		reportDataSelectionCloseButtonConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE+ "closeButtonConfig");

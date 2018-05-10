@@ -2,21 +2,26 @@ package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportDataSelectionTabLoadBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -36,7 +41,6 @@ public class GtnReportCCPTableLoadAction
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -49,6 +53,20 @@ public class GtnReportCCPTableLoadAction
 		List<GtnWsRecordBean> selectedProductList = getSelectedProductList(actionParamList, componentId);
 		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList);
 		ccpHierarchyInsert(selectedCustomerList, selectedProductList, dataSelectionDto);
+		
+		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
+		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+		List<Object> params=new ArrayList<>();
+		params.add(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		params.add("Report Generate Lookup View");
+		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		params.add(null);
+		params.add(dataSelectionDto);
+		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
+		
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
+		
 	}
 
 	private List<GtnWsRecordBean> getSelectedCustomerList(List<Object> actionParamList, String componentId) {
@@ -129,7 +147,14 @@ public class GtnReportCCPTableLoadAction
 				.getVaadinBaseComponent(actionParamList.get(11).toString()).getValueFromComponent())));
 		dto.setReportDataSource(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(12).toString()).getCaptionFromV8ComboBox()));
-
+		
+		dto.setCompanyReport(Integer.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox()));
+		dto.setBusinessUnitReport(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(14).toString()).getIntegerFromField());
+		dto.setFromPeriodReport(Integer.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(15).toString()).getCaptionFromV8ComboBox()));
+		dto.setCustomerHierarchyRecordBean(customerRecordBean);
 		return dto;
 	}
 
