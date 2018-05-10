@@ -21,26 +21,24 @@ public class GtnWsMongoCalculation {
 	@Autowired
 	GtnWsMongoService gtnMongoService;
 
-	private final GtnWsReportEngineBean engineBean;
+	private GtnWsReportEngineBean engineBean;
 
 	boolean index = false;
 
-	public GtnWsMongoCalculation(GtnWsReportEngineBean engineBean) {
+	public void nodeData(GtnWsReportEngineBean engineBean) {
 		this.engineBean = engineBean;
-	}
-
-	public void nodeData() {
-		List<String> collection = engineBean.getComparisonTableName();
-		GtnWsReportEngineTreeNode reportEngineTreeNode = engineBean.getInput();
-		for (String collectionName : collection) {
-			nodeDataRecursion(reportEngineTreeNode, collectionName, null);
-		}
+		 List<String> collection = engineBean.getComparisonTableName();
+		 GtnWsReportEngineTreeNode reportEngineTreeNode = engineBean.getInput();
+		 for (String collectionName : collection) {
+		 nodeDataRecursion(reportEngineTreeNode, collectionName, null);
+		 }
 	}
 
 	private void nodeDataRecursion(GtnWsReportEngineTreeNode ccpNode, String collection,
 			GtnWsTreeNodeAttributeBean rootNodeAtrributeBean) {
 		if (ccpNode.getLevelNumber() == 0 || rootNodeAtrributeBean == null) {
-			rootNodeAtrributeBean = gtnMongoService.topLevelAggregationSelectClause(ccpNode, collection);
+			// rootNodeAtrributeBean =
+			// gtnMongoService.topLevelAggregationSelectClause(ccpNode, collection);
 		}
 		for (GtnWsReportEngineTreeNode gtnWsTreeNode : ccpNode.getChildren()) {
 			if (gtnWsTreeNode.getChildren() != null) {
