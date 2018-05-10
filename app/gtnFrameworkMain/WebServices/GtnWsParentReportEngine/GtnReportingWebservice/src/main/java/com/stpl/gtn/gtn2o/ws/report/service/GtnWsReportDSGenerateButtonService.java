@@ -44,7 +44,7 @@ public class GtnWsReportDSGenerateButtonService {
 
 	public void generateCCPForReporting(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		try {
-			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest()
+			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getReportBean()
 					.getDataSelectionBean();
 			callCCPInsertService(gtnWsRequest);
 			callDeductionInsertQuery(dataSelectionBean);
