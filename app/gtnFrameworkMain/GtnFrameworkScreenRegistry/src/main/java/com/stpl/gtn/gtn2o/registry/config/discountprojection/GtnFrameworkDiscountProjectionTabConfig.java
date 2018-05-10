@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.registry.config.projectionvariance.GtnCommercialForeca
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkbox.GtnUIFrameworkCheckBoxComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
@@ -29,6 +30,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
@@ -399,7 +401,7 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 
 		discountProjectionGtnPagedTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
 		
-		//discountProjectionGtnPagedTreeTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
+		discountProjectionGtnPagedTreeTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		
 		discountProjectionResultTableComponentConfig.setGtnPagedTreeTableConfig(discountProjectionGtnPagedTreeTableConfig);
 		componentList.add(discountProjectionResultTableComponentConfig);
@@ -408,8 +410,13 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 	
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = {"filterComboBox" ,"filterTextBox"};
-		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.CHECKEDCOMBOBOX,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8};
+		String[] propertyIds = {"filterComboBox", "filterTextBox"};
+	
+		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.COMBOBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8};
+		
+		String[] comboboxIds={"filterComboBox"};
+		String[] comboboxType={"STATUS"};
+		int comboboxStart=0;
 		
 		for (int i = 0; i < propertyIds.length; i++) {
 			
@@ -418,7 +425,22 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
 			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
 			
+			//for comboBox 
+			if((comboboxStart<comboboxIds.length) && propertyIds[i].equals(comboboxIds[comboboxStart])){
+				GtnUIFrameworkComponentConfig companyMasterSearchFilterComponentConfig = new GtnUIFrameworkComponentConfig();
+				companyMasterSearchFilterComponentConfig.setComponentId("discountProjectionCustomFilterComboBox");
+				companyMasterSearchFilterComponentConfig.setComponentName("discountProjectionCustomFilterComboBox");
+				companyMasterSearchFilterComponentConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
+				companyMasterSearchFilterComponentConfig.getGtnComboboxConfig().setComboBoxType(comboboxType[comboboxStart]);
+				companyMasterSearchFilterComponentConfig.getGtnComboboxConfig()
+						.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+				pagedTableCustomFilterConfig.setGtnComponentConfig(companyMasterSearchFilterComponentConfig);
+				comboboxStart++;
+			}
+			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
 		}
+		
 		return customFilterConfigMap;
 	}
 

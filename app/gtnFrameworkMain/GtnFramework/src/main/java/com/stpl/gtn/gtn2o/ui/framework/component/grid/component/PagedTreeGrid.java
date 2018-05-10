@@ -148,6 +148,7 @@ public class PagedTreeGrid {
 					j = configureDoubleHeaderComponents(groupingHeader, j, joinList, stringArray);
 				}
 			}
+			
 		}
 		if (tableConfig.isTripleHeaderVisible()) {
 			HeaderRow doubleHeader = grid.getHeaderRow(1);

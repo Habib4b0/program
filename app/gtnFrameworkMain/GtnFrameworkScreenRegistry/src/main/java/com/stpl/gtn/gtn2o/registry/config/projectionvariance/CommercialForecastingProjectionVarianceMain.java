@@ -124,10 +124,7 @@ public class CommercialForecastingProjectionVarianceMain {
 				GtnWsForecastReturnsConstants.GTN_WS_COMMERCIAL_FORECAST_PROJECTION_VARIANCE_TAB_LEFT_HEADERS_SERVICE);
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setRightHeader(
 				GtnWsForecastReturnsConstants.GTN_WS_COMMERCIAL_FORECAST_PROJECTION_VARIANCE_TAB_RIGHT_HEADERS_SERVICE);
-		// reportingDashboardGtnPagedTreeTableConfig.setLeftWsHeaderUrl(
-		// GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
-		// reportingDashboardGtnPagedTreeTableConfig.setRightWsHeaderUrl(
-		// GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
+
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setCountUrl("");
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setItemPerPage(10);
 

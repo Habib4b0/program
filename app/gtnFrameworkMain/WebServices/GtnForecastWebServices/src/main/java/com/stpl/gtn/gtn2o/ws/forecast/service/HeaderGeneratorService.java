@@ -63,7 +63,7 @@ public class HeaderGeneratorService {
 
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
 		tableHeaderDTO.addSingleColumn("filterComboBox", "",String.class);
-		tableHeaderDTO.addSingleColumn("filterTextBox", "",String.class);
+		tableHeaderDTO.addSingleColumn("filterTextBox", "Level Name",String.class);
 		
 		tableHeaderDTO.addDoubleHeaderMap("firstDoubleLeftHeaderId",new Object[] {"filterComboBox"});
 		tableHeaderDTO.addDoubleHeaderMap("levelName",new Object[] {"filterTextBox"});
@@ -71,15 +71,6 @@ public class HeaderGeneratorService {
 		tableHeaderDTO.addDoubleColumn("firstDoubleLeftHeaderId", "");
 		tableHeaderDTO.addDoubleColumn("levelName", "Level Name");
 		
-		/*
-		
-		tableHeaderDTO.addSingleColumn("singleLevelId", "", String.class);
-		tableHeaderDTO.addSingleColumn("levelName", "Level Name", String.class);
-		
-		tableHeaderDTO.addDoubleHeaderMap("doubleLevelId",new Object[] {"singleLevelId","levelName"});
-		
-		tableHeaderDTO.addDoubleColumn("doubleLevelId", "");*/
-
 		return tableHeaderDTO;
 	}
 	

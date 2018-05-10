@@ -35,7 +35,9 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 
 	@Override
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) {
-                ComboBox vaadinComboBox = new ComboBox(componentConfig.getComponentName());
+		
+		ComboBox vaadinComboBox = new ComboBox(componentConfig.getComponentName());
+	
 		try {
 
 			final GtnUIFrameworkComboBoxConfig comboboxConfig = componentConfig.getGtnComboboxConfig();

@@ -58,27 +58,6 @@ public class GtnWsReturnsProjectionController {
 
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
-	
-	// Discount Projection Left Headers
-		@PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_FORECAST_DISCOUNT_PROJECTION_TAB_LEFT_HEADERS_SERVICE)
-		public GtnUIFrameworkWebserviceResponse getDiscountProjectionConfigureLeftHeaders(
-				@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-			GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
-			try {
-				gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
-				gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
-				GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
-				GtnWsPagedTreeTableResponse leftHeader = reportHeaderService.getDiscountProjectionLeftTableColumns(request);
-				gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(leftHeader);
-				return gtnUIFrameworkWebserviceResponse;
-			} catch (Exception ex) {
-				LOGGER.error(ex.getMessage(), ex);
-				gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
-				gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
-				return gtnUIFrameworkWebserviceResponse;
-			}
-		}
-
 		// Discount Projection Right Headers
 		@PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_FORECAST_DISCOUNT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE)
 		public GtnUIFrameworkWebserviceResponse getDiscountProjectionConfigureRightHeaders(
@@ -286,6 +265,28 @@ public class GtnWsReturnsProjectionController {
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage(), ex);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			return gtnUIFrameworkWebserviceResponse;
+		}
+	}
+	
+	// Discount Projection Left Headers
+	@PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_FORECAST_DISCOUNT_PROJECTION_TAB_LEFT_HEADERS_SERVICE)
+	public GtnUIFrameworkWebserviceResponse getDiscountProjectionConfigureLeftHeaders(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+
+		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+
+			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+			GtnWsPagedTreeTableResponse rightHeader = reportHeaderService.getDiscountProjectionLeftTableColumns(request);
+			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(rightHeader);
+			return gtnUIFrameworkWebserviceResponse;
+		} catch (Exception ex) {
+			LOGGER.error("error in Discount projection WS: " + ex.getMessage(), ex);
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
 			return gtnUIFrameworkWebserviceResponse;
