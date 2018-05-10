@@ -5,13 +5,18 @@ import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Projections.include;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
+import org.bson.Document;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mongodb.Block;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoIterable;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoDBConnectionService;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
@@ -85,10 +90,14 @@ public class GtnWsReportCustomViewService {
 				gtnWsRequestF.getGtnWsReportRequest().getReportBean().getCustomViewBean().getCustomViewDataBean());
 	}
 
-	public void loadCustomView(GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
-		MongoCollection<GtnWsReportCustomViewDataBean> collection = connection.getDBInstance()
-				.getCollection(MongoStringConstants.CUSTOM_VIEW_COLLECTION, GtnWsReportCustomViewDataBean.class);
-		FindIterable<GtnWsReportCustomViewDataBean> foundData = collection.find().projection(include("quantity"));
+	public List<String> loadCustomView() {
+		MongoCollection<Document> collection = connection.getDBInstance()
+				.getCollection(MongoStringConstants.CUSTOM_VIEW_COLLECTION);
+		FindIterable<Document> foundData = collection.find().projection(include("customViewName"));
+		MongoIterable<String> customViewNameIterable = foundData.map(document -> {
+			return document.getString("customViewName");
+		});
+		return StreamSupport.stream(customViewNameIterable.spliterator(), false).collect(Collectors.toList());
 
 	}
 }

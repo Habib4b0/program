@@ -22,6 +22,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import java.util.ArrayList;
@@ -107,7 +108,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				.getHorizontalLayoutConfig("displaySelectionTabPagedTreeTableLayout", true,
 						GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB);
 		componentList.add(displaySelectionTabPagedTreeTableLayout);
-                displaySelectionTabPagedTreeTableLayout.setComponentWidth("100%");
+		displaySelectionTabPagedTreeTableLayout.setComponentWidth("100%");
 
 		GtnUIFrameworkComponentConfig displaySelectionTabNavigationButtonLayout = configProvider
 				.getHorizontalLayoutConfig("displaySelectionTabNavigationButtonLayout", true,
@@ -310,10 +311,11 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		customViewComboboxConfig.setAuthorizationIncluded(true);
 
 		componentList.add(customViewComboboxConfig);
-
+		
 		GtnUIFrameworkComboBoxConfig customViewLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+				GtnFrameworkReportStringConstants.STATUS, GtnWsReportEndPointUrlConstants.LOAD_CUSTOM_VIEW);
+		customViewLoadConfig.setIntegerItemCode(false);
+		customViewLoadConfig.setModuleName(GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME);
 		customViewComboboxConfig.setGtnComboboxConfig(customViewLoadConfig);
 
 	}
@@ -456,7 +458,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		addFilterOptionsTabComponent(componentList, nameSpace);
 		addControlButtonLayout(componentList, "filterOptionsTabControlButtonLayout", nameSpace);
-//		addResultsPanel(componentList, "filterOptionsTabPagedTreeTableLayout", nameSpace);
+		// addResultsPanel(componentList, "filterOptionsTabPagedTreeTableLayout",
+		// nameSpace);
 		addNavigationButtonLayout(componentList, nameSpace, "filterOptionsTabNavigationButtonLayout");
 	}
 
@@ -705,7 +708,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		addReportOptionsTabComponent(componentList, nameSpace);
 		addControlButtonLayout(componentList, "reportOptionsTabControlButtonLayout", nameSpace);
-//		addResultsPanel(componentList, "reportOptionsTabPagedTreeTableLayout", nameSpace);
+		// addResultsPanel(componentList, "reportOptionsTabPagedTreeTableLayout",
+		// nameSpace);
 		addNavigationButtonLayout(componentList, nameSpace, "reportOptionsTabNavigationButtonLayout");
 	}
 
@@ -937,12 +941,13 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		generateButton.setParentComponentId(controlButtonLayoutConfig.getComponentId());
 		generateButton.setAddToParent(true);
 		componentList.add(generateButton);
-                List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig tableLoadAction = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-                tableLoadAction.addActionParameter(GtnFrameworkUIReportDasboardTableLoadAction.class.getName());
-                tableLoadAction.addActionParameter("reportDashboard"+GtnFrameworkCommonConstants.RESULT_TABLE);
-                actionConfigList.add(tableLoadAction);
-                generateButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig tableLoadAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		tableLoadAction.addActionParameter(GtnFrameworkUIReportDasboardTableLoadAction.class.getName());
+		tableLoadAction.addActionParameter("reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE);
+		actionConfigList.add(tableLoadAction);
+		generateButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
 		resetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		resetButton.setComponentName("RESET");
@@ -1010,10 +1015,11 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				true, parentId);
 		resultsPanel.setComponentName("Results");
 		resultsPanel.addComponentStyle(GtnUIFrameworkConstants.GTNFRAMEWORK_12.toString());
-		componentList.add(resultsPanel);		
-		GtnUIFrameworkComponentConfig resultsLayout = configProvider.getVerticalLayoutConfig("resultsLayout", true, resultsPanel.getComponentId());
+		componentList.add(resultsPanel);
+		GtnUIFrameworkComponentConfig resultsLayout = configProvider.getVerticalLayoutConfig("resultsLayout", true,
+				resultsPanel.getComponentId());
 		resultsLayout.setComponentWidth("100%");
-                componentList.add(resultsLayout);
+		componentList.add(resultsLayout);
 		addResultTable(componentList, resultsLayout.getComponentId());
 		addExcelButtonComponent(componentList, nameSpace, resultsLayout.getComponentId());
 	}
@@ -1021,11 +1027,13 @@ public class GtnFrameworkReportingDashboardTabConfig {
 	private void addResultTable(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig reportingDashboardResultTableComponentConfig = new GtnUIFrameworkComponentConfig();
 		reportingDashboardResultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGED_TREE_GRID);
-		reportingDashboardResultTableComponentConfig.setComponentId("reportDashboard"+GtnFrameworkCommonConstants.RESULT_TABLE);
+		reportingDashboardResultTableComponentConfig
+				.setComponentId("reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE);
 		reportingDashboardResultTableComponentConfig.setComponentName(GtnFrameworkCommonConstants.RESULT_TABLE);
 		reportingDashboardResultTableComponentConfig.setAddToParent(true);
-                reportingDashboardResultTableComponentConfig.setComponentWidth("100%");
-                reportingDashboardResultTableComponentConfig.setModuleName(GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME);
+		reportingDashboardResultTableComponentConfig.setComponentWidth("100%");
+		reportingDashboardResultTableComponentConfig
+				.setModuleName(GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME);
 		reportingDashboardResultTableComponentConfig.setParentComponentId(parentId);
 
 		GtnUIFrameworkPagedTreeTableConfig reportingDashboardGtnPagedTreeTableConfig = new GtnUIFrameworkPagedTreeTableConfig();
@@ -1112,8 +1120,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				.addActionParameter(GtnForecastReturnsClassConstants.RETURNS_FORECAST_CHECK_ALL_ACTION);
 		reportingDashboardCheckAllConflist.add(reportingDashboardCheckAllActionConfig);
 		reportingDashboardGtnPagedTreeTableConfig.setCheckBoxActionConfigList(reportingDashboardCheckAllConflist);
-		reportingDashboardGtnPagedTreeTableConfig
-				.setCountUrl(GtnWsReportConstants.GTN_REPORT_DASHBOARD_LEFT_DATA);
+		reportingDashboardGtnPagedTreeTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_DASHBOARD_LEFT_DATA);
 		reportingDashboardGtnPagedTreeTableConfig
 				.setCountWsUrl(GtnWsForecastReturnsConstants.GTN_WS_RETURNS_FORECAST_PROJECTION_TAB_COUNT_SERVICE);
 
@@ -1146,8 +1153,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				GtnForecastReturnsClassConstants.GTN_WS_RETURNS_FORECAST_RIGHT_HEADER_CONFIG_ACTION);
 
 		reportingDashboardGtnPagedTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME);
-                	reportingDashboardGtnPagedTreeTableConfig
-				.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_DASHBOARD_LEFT_DATA);
+		reportingDashboardGtnPagedTreeTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_DASHBOARD_LEFT_DATA);
 
 		reportingDashboardResultTableComponentConfig
 				.setGtnPagedTreeTableConfig(reportingDashboardGtnPagedTreeTableConfig);
