@@ -31,11 +31,11 @@ public class GtnRelationshipVersionLoadAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		String relationshipValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(1).toString())
+		String relationshipValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(1).toString(),componentId)
 				.getCaptionFromComboBox();
 		
 		GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(2).toString()).getComponentConfig().getGtnComboboxConfig();
+				.getVaadinBaseComponent(actionParamsList.get(2).toString(),componentId).getComponentConfig().getGtnComboboxConfig();
 		relationComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		relationComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION);

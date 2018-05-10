@@ -207,7 +207,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		levelValueChangeAction.setActionParameterList(Arrays.asList(new Object[] {
 				GtnCustomerAvailableTableLoadAction.class.getName(),
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerDualListBox",
-				"reportLandingScreen_customerHierarchy",
+				namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"customerHierarchy",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel", namespace
