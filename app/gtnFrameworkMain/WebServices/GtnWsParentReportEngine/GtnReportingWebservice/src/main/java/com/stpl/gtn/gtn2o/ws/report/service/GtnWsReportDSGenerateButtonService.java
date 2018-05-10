@@ -44,12 +44,14 @@ public class GtnWsReportDSGenerateButtonService {
 
 	public void generateCCPForReporting(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		try {
-			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
+			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest()
+					.getDataSelectionBean();
 			callCCPInsertService(gtnWsRequest);
 			callDeductionInsertQuery(dataSelectionBean);
 			buildCustomerTree(dataSelectionBean);
 			buildProductTree(dataSelectionBean);
 			createDataSourceData(MongoConstants.KAFKA_MONGO_COLLECTION_NAME);
+			createUserBasedCcpCollection(dataSelectionBean);
 		} catch (GtnFrameworkGeneralException ex) {
 			ex.printStackTrace();
 		}
@@ -120,4 +122,14 @@ public class GtnWsReportDSGenerateButtonService {
 		token.setSessionId(sessionId);
 		return token;
 	}
+
+	private void createUserBasedCcpCollection(GtnWsReportDataSelectionBean dataSelectionBean)
+			throws GtnFrameworkGeneralException {
+		List ccpIdList = gtnSqlQueryEngine.executeSelectQuery("Select * from "
+				+ dataSelectionBean.getTableNameWithUniqueId(MongoStringConstants.ST_CCPD_SESSION_TABLE_NAME));
+		if (ccpIdList != null && !ccpIdList.isEmpty()) {
+			gtnWsMongoService.createUserBasedCcpCollection(ccpIdList, dataSelectionBean.getUniqueId());
+		}
+	}
+
 }
