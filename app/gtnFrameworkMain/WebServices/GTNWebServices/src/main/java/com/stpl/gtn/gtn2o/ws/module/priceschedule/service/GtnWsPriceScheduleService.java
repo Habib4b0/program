@@ -101,6 +101,15 @@ public class GtnWsPriceScheduleService {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
+			int countUpdate = 0;
+			if (psInfoBean.getSystemId() == null || psInfoBean.getSystemId() == 0) {
+				countUpdate = doUpdateForDeletedPsId(psInfoBean);
+			}
+			if (countUpdate == 1) {
+				int automatedSystemId = getSysIdForPsIdWithStatusD(psInfoBean);
+				psInfoBean.setSystemId(automatedSystemId);
+
+			}
 			if (psInfoBean.getSystemId() != 0) {
 				deletePsDetails(psInfoBean.getSystemId(), session);
 				notesTabDelete(psInfoBean.getSystemId(), session);
@@ -183,7 +192,6 @@ public class GtnWsPriceScheduleService {
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(rsNotesTabDeleteQuery, rsNotesTabDeleteQueryParams,
 				rsNotesTabDeleteQueryTypes, session);
 	}
-	
 
 	private void notesTabAttachDelete(int systemId, Session session) throws GtnFrameworkGeneralException {
 		String psNotesTabAttachDeleteQuery = gtnWsSqlService.getQuery("getNotesTabAttachDeleteQuery");
@@ -379,7 +387,6 @@ public class GtnWsPriceScheduleService {
 				.executeSelectQuery(psNotesTabDetailsQuery, psNotesTabDetailsQueryParams, psInfoQueryTypes);
 		return GtnCommonUtil.getNotesTabBean(psNotesDetailsResultList, gtnWebServiceAllListConfig);
 	}
-	
 
 	private int getIntValue(Object obj) {
 		int value = 0;
@@ -403,9 +410,11 @@ public class GtnWsPriceScheduleService {
 		psInfoBean.setPsName(getStringValue(result[2]));
 		psInfoBean.setParentpSNo(getStringValue(result[3]));
 		int createdBy = getStringValue(result[4]) != null && !getStringValue(result[4]).isEmpty()
-				? Integer.parseInt(getStringValue(result[4])) : 0;
+				? Integer.parseInt(getStringValue(result[4]))
+				: 0;
 		int modifiedBy = getStringValue(result[5]) != null && !getStringValue(result[5]).isEmpty()
-				? Integer.parseInt(getStringValue(result[5])) : 0;
+				? Integer.parseInt(getStringValue(result[5]))
+				: 0;
 		psInfoBean.setCreatedBy(getStringValue(gtnWebServiceAllListConfig.getUserIdNameMap().get(createdBy)));
 		psInfoBean.setModifiedBy(getStringValue(gtnWebServiceAllListConfig.getUserIdNameMap().get(modifiedBy)));
 		psInfoBean.setParentPsSid(getStringValue(result[6]));
@@ -481,6 +490,7 @@ public class GtnWsPriceScheduleService {
 				imtdPsDetailsInsertQueryTypes);
 
 	}
+
 	private Integer psNotesTabAttachInsert(GtnUIFrameWorkPSInfoBean psInfoBean, Session session)
 			throws GtnFrameworkGeneralException {
 		List<NotesTabBean> psNotesTabRequestList = psInfoBean.getNoteBeanList();
@@ -505,7 +515,7 @@ public class GtnWsPriceScheduleService {
 
 			psNotesQueryDataTypeList.add(GtnFrameworkDataType.STRING);
 			psNotesQueryParamList.add(notesTabRequest.getMasterTableName());
-			
+
 			psNotesQueryDataTypeList.add(GtnFrameworkDataType.INTEGER);
 			psNotesQueryParamList.add(notesTabRequest.getCreatedBy());
 
@@ -517,16 +527,71 @@ public class GtnWsPriceScheduleService {
 					session);
 		}
 		return 0;
-		
+
 	}
-	 private static byte[] readBytesFromFile(String filePath) throws IOException {
-		 File inputFile = GtnFileNameUtils.getFile(filePath);
-	        FileInputStream inputStreamPs= GtnFileNameUtils.getFileInputStreamFile(inputFile);
-	        byte[] fileBytes = new byte[(int) inputFile.length()];
-	        int i=inputStreamPs.read(fileBytes);
-	        if(i>0) 
-	        return fileBytes;
-			return  new byte[0];
-	    }
+
+	private static byte[] readBytesFromFile(String filePath) throws IOException {
+		File inputFile = GtnFileNameUtils.getFile(filePath);
+		FileInputStream inputStreamPs = GtnFileNameUtils.getFileInputStreamFile(inputFile);
+		byte[] fileBytes = new byte[(int) inputFile.length()];
+		int i = inputStreamPs.read(fileBytes);
+		if (i > 0)
+			return fileBytes;
+		return new byte[0];
+	}
+
+	private int doUpdateForDeletedPsId(GtnUIFrameWorkPSInfoBean psInforBean) throws GtnFrameworkGeneralException {
+		boolean isCompanyExist = false;
+		List<Long> resultsDb4 = checkIfPsIdExistsWithStatusD(psInforBean);
+		if (resultsDb4 != null) {
+			isCompanyExist = (long) resultsDb4.size() == 1;
+		}
+		int countUpdate = 0;
+		if (isCompanyExist) {
+			try {
+				countUpdate = gtnSqlQueryEngine.executeInsertOrUpdateQuery(
+						gtnWsSqlService.getQuery(psIdAndNo(psInforBean), "UpdatePsIdAndPsNoWithStatusA"));
+			} catch (GtnFrameworkGeneralException e) {
+				throw new GtnFrameworkGeneralException("Error in Updating", e);
+			}
+		}
+		return countUpdate;
+
+	}
+
+	private List<Long> checkIfPsIdExistsWithStatusD(GtnUIFrameWorkPSInfoBean psInforBean)
+			throws GtnFrameworkGeneralException {
+
+		List<Long> resultsList = new ArrayList<>();
+		try {
+			resultsList = (List<Long>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(psIdAndNo(psInforBean), "getPsIdWithStatusD"));
+
+		} catch (GtnFrameworkGeneralException e) {
+			throw new GtnFrameworkGeneralException("Exception Occured while Checking Whetehr PS Exists", e);
+		}
+		return resultsList;
+	}
+
+	@SuppressWarnings("unchecked")
+	private int getSysIdForPsIdWithStatusD(GtnUIFrameWorkPSInfoBean psInforBean) throws GtnFrameworkGeneralException {
+		List<Integer> sysId = new ArrayList<>();
+		try {
+			sysId = (List<Integer>) (gtnSqlQueryEngine.executeSelectQuery(
+					gtnWsSqlService.getQuery(psIdAndNo(psInforBean), "getSysIdForPsIdWithStatusD")));
+
+		} catch (GtnFrameworkGeneralException e) {
+			throw new GtnFrameworkGeneralException("Error in Updating ", e);
+		}
+
+		return sysId.get(0);
+	}
+
+	private List<String> psIdAndNo(GtnUIFrameWorkPSInfoBean infoBean) {
+		List<String> cfpCriteria = new ArrayList<>();
+		cfpCriteria.add(infoBean.getPsId());
+		cfpCriteria.add(infoBean.getPsNo());
+		return cfpCriteria;
+	}
 
 }

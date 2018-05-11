@@ -537,7 +537,16 @@ public class GtnFrameworkItemMasterPricingTabConfig {
 		for (String propertyId : propertyIds) {
 			GtnUIFrameworkComponentType gtnUIFrameworkComponentType = getComponentType(propertyId);
 			GtnUIFrameworkComponentConfig fieldConfig = new GtnUIFrameworkComponentConfig();
+			boolean isReadOnly = !GtnFrameworkItemMasterStringContants.getItemMasterItemPricingEditablefieldList()
+					.contains(propertyId);
+
+			GtnUIFrameworkTextBoxConfig textConfigIMPricingTab = new GtnUIFrameworkTextBoxConfig();
+			textConfigIMPricingTab.setReadOnly(isReadOnly);
+			fieldConfig.setGtnTextBoxConfig(textConfigIMPricingTab);
+			
 			fieldConfig.setComponentType(gtnUIFrameworkComponentType);
+			
+			
 			if (!GtnFrameworkItemMasterStringContants.getItemMasterItemPricingEditablefieldList()
 					.contains(propertyId)) {
 				fieldConfig.setEnable(false);
