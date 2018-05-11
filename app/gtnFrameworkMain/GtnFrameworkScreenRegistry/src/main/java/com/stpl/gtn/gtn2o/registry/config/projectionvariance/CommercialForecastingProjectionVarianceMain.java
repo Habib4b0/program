@@ -181,8 +181,7 @@ public class CommercialForecastingProjectionVarianceMain {
 		projectionVarianceProjectPivotViewTextFieldConfig.add(projectionVarianceProjectPivotViewFieldFactoryCustomAction);
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setComponentconfigActionlist(projectionVarianceProjectPivotViewTextFieldConfig);
 
-		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig
-				.setCheckBoxVisibleColoumn(Arrays.asList(GtnFrameworkCommonConstants.CHECK));
+		//projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setCheckBoxVisibleColoumn(Arrays.asList(GtnFrameworkCommonConstants.CHECK));
 		List<GtnUIFrameWorkActionConfig> projectionVarianceProjectPivotViewCheckAllConflist = new ArrayList<>();
 		GtnUIFrameWorkActionConfig projectionVarianceProjectPivotViewCheckAllActionConfig = new GtnUIFrameWorkActionConfig();
 		projectionVarianceProjectPivotViewCheckAllActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);

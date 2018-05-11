@@ -284,6 +284,7 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		discountProjectionResultTableComponentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		discountProjectionResultTableComponentConfig.setAddToParent(true);
 		discountProjectionResultTableComponentConfig.setParentComponentId(parentComponentId);
+		
 
 		GtnUIFrameworkPagedTreeTableConfig discountProjectionGtnPagedTreeTableConfig = new GtnUIFrameworkPagedTreeTableConfig();
 
@@ -359,7 +360,7 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		resultDashboardTextFieldConfig.add(resultDashboardFieldFactoryCustomAction);
 		discountProjectionGtnPagedTreeTableConfig.setComponentconfigActionlist(resultDashboardTextFieldConfig);
 
-		discountProjectionGtnPagedTreeTableConfig.setCheckBoxVisibleColoumn(Arrays.asList(GtnFrameworkCommonConstants.CHECK));
+		discountProjectionGtnPagedTreeTableConfig.setCheckBoxVisibleColoumn(Arrays.asList("filterComboBox")); 
 		List<GtnUIFrameWorkActionConfig> resultDashboardCheckAllConflist = new ArrayList<>();
 		GtnUIFrameWorkActionConfig resultDashboardCheckAllActionConfig = new GtnUIFrameWorkActionConfig();
 		resultDashboardCheckAllActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);

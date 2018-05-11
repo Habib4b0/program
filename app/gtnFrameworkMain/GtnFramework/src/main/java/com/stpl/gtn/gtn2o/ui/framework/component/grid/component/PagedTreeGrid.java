@@ -17,6 +17,7 @@ import com.vaadin.data.TreeData;
 import com.vaadin.data.provider.TreeDataProvider;
 import com.vaadin.event.ExpandEvent;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -187,12 +188,29 @@ public class PagedTreeGrid {
 			data.addItems(null, dataSet.getRows());
 			addExpandIcon(data, dataSet.getRows());
 		}
+		addTableHeaderCheck();
 
 		treeDataProvider = new TreeDataProvider<>(data);
 		grid.setDataProvider(treeDataProvider);
 
 		addExpandListener();
 		addCollapseListener();
+		shiftLeftSingeHeader=false;
+	}
+	
+	// CheckBox in DoubleColumnHeader
+	private void addTableHeaderCheck() {
+
+		HeaderRow row = grid.getHeaderRowCount() > 2 ? grid.getHeaderRow(1) : grid.getHeaderRow(0);
+		if (tableConfig.getCheckBoxVisibleColoumn() != null) {
+			for (String columnId : tableConfig.getCheckBoxVisibleColoumn()) {
+
+				gtnlogger.info("CID= " + columnId);
+
+				CheckBox vaadinCheckBoxGroup = new CheckBox();
+				row.getCell(columnId).setComponent(vaadinCheckBoxGroup);
+			}
+		}
 	}
 
 	private int configureDoubleHeaderComponents(HeaderRow groupingHeader, int j, Object[] joinList,
@@ -699,7 +717,6 @@ public class PagedTreeGrid {
 				filterRow.getCell(String.valueOf(column)).setComponent(vaadinComponent);
 		}
 		
-		shiftLeftSingeHeader=false;
 		return filterRow;
 	}
 	private Component getCustomFilterComponent(String property) {

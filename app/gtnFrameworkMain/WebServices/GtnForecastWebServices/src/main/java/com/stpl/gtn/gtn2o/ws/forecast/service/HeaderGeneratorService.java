@@ -69,7 +69,7 @@ public class HeaderGeneratorService {
 		tableHeaderDTO.addDoubleHeaderMap("levelName",new Object[] {"filterTextBox"});
 		
 		tableHeaderDTO.addDoubleColumn("firstDoubleLeftHeaderId", "");
-		tableHeaderDTO.addDoubleColumn("levelName", "Level Name");
+		tableHeaderDTO.addDoubleColumn("levelName", "");
 		
 		return tableHeaderDTO;
 	}

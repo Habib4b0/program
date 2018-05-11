@@ -362,8 +362,7 @@ public class GtnFrameworkSalesProjectionTabConfig {
 		textFieldConfig.add(fieldFactoryCustomAction);
 		salesProjectionTreeTableConfig.setComponentconfigActionlist(textFieldConfig);
 
-		salesProjectionTreeTableConfig
-				.setCheckBoxVisibleColoumn(Arrays.asList(GtnFrameworkCommonConstants.CHECK));
+		salesProjectionTreeTableConfig.setCheckBoxVisibleColoumn(Arrays.asList("filterTextBox1"));
 		List<GtnUIFrameWorkActionConfig> checkAllConflist = new ArrayList<>();
 		GtnUIFrameWorkActionConfig checkAllActionConfig = new GtnUIFrameWorkActionConfig();
 		checkAllActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
