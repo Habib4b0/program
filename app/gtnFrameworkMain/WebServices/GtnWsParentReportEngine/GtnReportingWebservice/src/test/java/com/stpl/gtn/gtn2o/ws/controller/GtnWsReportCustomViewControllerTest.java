@@ -25,7 +25,7 @@ import com.stpl.gtn.gtn2o.ws.report.controller.GtnWsReportCustomViewController;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 
-@Ignore
+//@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/GtnReport-SpringContext-Test.xml" })
 public class GtnWsReportCustomViewControllerTest {
@@ -38,7 +38,7 @@ public class GtnWsReportCustomViewControllerTest {
 	@Autowired
 	com.mongodb.MongoClient client;
 
-	@Test
+	// @Test
 	public void testDisplay() {
 		prepereData();
 		GtnUIFrameworkWebserviceRequest request = getRequest();
@@ -99,4 +99,10 @@ public class GtnWsReportCustomViewControllerTest {
 		return bean;
 	}
 
+	@Test
+	public void testLoadCustomView() {
+
+		GtnUIFrameworkWebserviceRequest request = getRequest();
+		controller.loadCustomView(request);
+	}
 }

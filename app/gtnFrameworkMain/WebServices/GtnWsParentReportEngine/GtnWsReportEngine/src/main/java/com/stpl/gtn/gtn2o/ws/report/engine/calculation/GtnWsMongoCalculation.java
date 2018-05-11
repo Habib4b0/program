@@ -67,11 +67,13 @@ public class GtnWsMongoCalculation {
 	}
 
 	public GtnWsReportEngineTreeNode variableCategoryCalculation() {
-		variableCategoryCalculationRecursion(engineBean.getInput());
+		variableCategoryCalculationRecursion(engineBean.getInput(), "");
 		return engineBean.getInput();
 	}
 
-	private void variableCategoryCalculationRecursion(final GtnWsReportEngineTreeNode ccpNode) {
+	private void variableCategoryCalculationRecursion(final GtnWsReportEngineTreeNode ccpNode,
+			String parentHierarchyNo) {
+		int hierarchyIndex = 1;
 		for (GtnWsReportEngineTreeNode gtnWsTreeNode : ccpNode.getChildren()) {
 			// if (gtnWsTreeNode.getNodeData() != null) {
 			// GtnWsVariableCategoryBean categoryBean = new GtnWsVariableCategoryBean();
@@ -94,20 +96,22 @@ public class GtnWsMongoCalculation {
 			// calculatedAttributes.addAttributeBeanToList(newAttributes);
 			// gtnWsTreeNode.setNodeData(calculatedAttributes);
 			// } else {
+			String newParentHierarchyNo = parentHierarchyNo + hierarchyIndex + "~";
 			GtnWsTreeNodeAttributeBean calculatedAttributes = new GtnWsTreeNodeAttributeBean();
 			GtnWsAttributeBean newAttributes = new GtnWsAttributeBean();
 			newAttributes.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());
 			newAttributes.putAttributes("levelNumber", gtnWsTreeNode.getLevelNumber());
 			newAttributes.putAttributes("levelValue", gtnWsTreeNode.getLevelValue());
-			newAttributes.putAttributes("parentHierarchyNo", gtnWsTreeNode.getParentHierarchyNo());
 			newAttributes.putAttributes("RsId", gtnWsTreeNode.getRsIds());
 			newAttributes.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
+			newAttributes.putAttributes("generatedHierarchyNo", newParentHierarchyNo);
 			calculatedAttributes.addAttributeBeanToList(newAttributes);
 			gtnWsTreeNode.setNodeData(calculatedAttributes);
 			// }
 			if (gtnWsTreeNode.getChildren() != null) {
-				variableCategoryCalculationRecursion(gtnWsTreeNode);
+				variableCategoryCalculationRecursion(gtnWsTreeNode, newParentHierarchyNo);
 			}
+			hierarchyIndex++;
 		}
 	}
 

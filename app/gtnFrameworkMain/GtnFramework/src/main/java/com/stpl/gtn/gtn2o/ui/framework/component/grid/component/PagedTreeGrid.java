@@ -36,7 +36,7 @@ public class PagedTreeGrid {
 	private static final String ROW_NUMBER = "rowNumber";
 	private static final String CHILD_COUNT = "childCount";
 	private static final String HIERARCHY_NO = "hierarchyNo";
-	private static final String PARENT_HIERARCHY_NO = "parentHierarchyNo";
+	private static final String PARENT_HIERARCHY_NO = "generatedHierarchyNo";
 	private static final String LEVEL_NO = "levelNumber";
 	GtnUIFrameworkPagedTreeTableConfig tableConfig;
 	int count;
@@ -274,7 +274,7 @@ public class PagedTreeGrid {
 
 	public List<Object> getRecordHeader() {
 		List<Object> visibleColumns = tableConfig.getVisibleColumns();
-		addInRecordHeader(visibleColumns, LEVEL_NO, HIERARCHY_NO, CHILD_COUNT, ROW_NUMBER);
+		addInRecordHeader(visibleColumns, LEVEL_NO, HIERARCHY_NO, CHILD_COUNT, ROW_NUMBER, PARENT_HIERARCHY_NO);
 
 		return visibleColumns;
 	}
@@ -293,13 +293,13 @@ public class PagedTreeGrid {
 		if (tableConfig.getCountUrl() != null && parent.getPropertyValue(LEVEL_NO) != null) {
 			gtnlogger.info("parent.getPropertyValue(\"levelNo\")" + parent.getPropertyValue(LEVEL_NO));
 			int levelNo = Integer.valueOf(parent.getPropertyValue(LEVEL_NO).toString()) + 1;
-			String hierarchyNo = String.valueOf(parent.getPropertyValue(HIERARCHY_NO));
+			String hierarchyNo = String.valueOf(parent.getPropertyValue(PARENT_HIERARCHY_NO));
 			// String countQuery = replaceQueryInput(levelNo, hierarchyNo,
 			// tableConfig.getCountQuery());
 
 			GtnWsSearchRequest request = getWsRequest(0, 0, true);
 			request.setQueryInput(Arrays.asList(LEVEL_NO, PARENT_HIERARCHY_NO));
-			request.setQueryInputList(Arrays.asList(levelNo, hierarchyNo));
+			request.setQueryInputList(Arrays.asList(levelNo, "/^" + hierarchyNo + "/"));
 			List<GtnWsRecordBean> result = FetchData.callWebService(tableConfig, componentConfig.getModuleName(),
 					request);
 			gtnlogger.info("child count" + (result == null ? 0 : result.size()));
@@ -321,7 +321,7 @@ public class PagedTreeGrid {
 
 			GtnWsSearchRequest request = getWsRequest(limit, offset, true);
 			request.setQueryInput(Arrays.asList(LEVEL_NO, PARENT_HIERARCHY_NO));
-			request.setQueryInputList(Arrays.asList(levelNo, hierarchyNo));
+			request.setQueryInputList(Arrays.asList(levelNo, "/^" + hierarchyNo + "/"));
 
 			List<GtnWsRecordBean> result = FetchData.callWebService(tableConfig, componentConfig.getModuleName(),
 					request);
@@ -336,7 +336,7 @@ public class PagedTreeGrid {
 	}
 
 	public DataSet fetchChildren(int offset, int limit, GtnWsRecordBean parent, int parentRowIndex) {
-		String hierarchyNo = String.valueOf(parent.getPropertyValue(HIERARCHY_NO));
+		String hierarchyNo = String.valueOf(parent.getPropertyValue(PARENT_HIERARCHY_NO));
 		int levelNo = Integer.valueOf(parent.getPropertyValue(LEVEL_NO).toString()) + 1;
 		// String dataQuery = replaceQueryInput(levelNo, hierarchyNo,
 		// tableConfig.getDataQuery());
@@ -345,7 +345,7 @@ public class PagedTreeGrid {
 
 		GtnWsSearchRequest request = getWsRequest(limit, offset, true);
 		request.setQueryInput(Arrays.asList(LEVEL_NO, PARENT_HIERARCHY_NO));
-		request.setQueryInputList(Arrays.asList(levelNo, hierarchyNo));
+		request.setQueryInputList(Arrays.asList(levelNo, "/^" + hierarchyNo + "/"));
 		List<GtnWsRecordBean> rows = FetchData.callWebService(tableConfig, componentConfig.getModuleName(), request);
 		List<GtnWsRecordBean> updatedrows = mergeLeftAndRightData(rows, limit, offset, parentRowIndex);
 		return new DataSet(tableColumns.stream().collect(Collectors.toList()), updatedrows);
@@ -620,7 +620,7 @@ public class PagedTreeGrid {
 	}
 
 	public String getHierarchyNo(GtnWsRecordBean row) {
-		return String.valueOf(row.getPropertyValue(HIERARCHY_NO));
+		return String.valueOf(row.getPropertyValue(PARENT_HIERARCHY_NO));
 	}
 
 	private static int getInt(Object value) {
