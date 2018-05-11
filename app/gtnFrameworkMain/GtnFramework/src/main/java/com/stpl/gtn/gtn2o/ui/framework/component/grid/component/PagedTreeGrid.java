@@ -55,6 +55,8 @@ public class PagedTreeGrid {
 	private TextField pageNoField = new TextField();
 	private Label pageCountLabel;
 	GtnUIFrameworkComponentConfig componentConfig;
+	private static final String LIKE_OPERATOR = ".*";
+	private static final String CAP_OPERATOR = "^";
 
 	public PagedTreeGrid(GtnUIFrameworkPagedTreeTableConfig tableConfig,
 			GtnUIFrameworkComponentConfig componentConfig) {
@@ -86,7 +88,7 @@ public class PagedTreeGrid {
 		count = getTotalCount();
 
 		if (count > 0) {
-			getLeftData((pageNumber * pageLength), pageLength, tableConfig.getLevelNo(), ".*");
+			getLeftData((pageNumber * pageLength), pageLength, tableConfig.getLevelNo(), LIKE_OPERATOR);
 			dataSet = loadData((pageNumber * pageLength), pageLength);
 		}
 
@@ -246,7 +248,7 @@ public class PagedTreeGrid {
 		if (tableConfig.getCountUrl() != null) {
 			GtnWsSearchRequest request = getWsRequest(0, 0, true);
 			request.setQueryInput(Arrays.asList(LEVEL_NO, PARENT_HIERARCHY_NO));
-			request.setQueryInputList(Arrays.asList(1, ".*"));
+			request.setQueryInputList(Arrays.asList(1, LIKE_OPERATOR));
 			List<GtnWsRecordBean> result = FetchData.callWebService(tableConfig, componentConfig.getModuleName(),
 					request);
 			gtnlogger.info("total count " + (result == null ? 0 : result.size()));
@@ -299,7 +301,7 @@ public class PagedTreeGrid {
 
 			GtnWsSearchRequest request = getWsRequest(0, 0, true);
 			request.setQueryInput(Arrays.asList(LEVEL_NO, PARENT_HIERARCHY_NO));
-			request.setQueryInputList(Arrays.asList(levelNo, "/^" + hierarchyNo + "/"));
+			request.setQueryInputList(Arrays.asList(levelNo, CAP_OPERATOR + hierarchyNo + LIKE_OPERATOR));
 			List<GtnWsRecordBean> result = FetchData.callWebService(tableConfig, componentConfig.getModuleName(),
 					request);
 			gtnlogger.info("child count" + (result == null ? 0 : result.size()));
@@ -321,7 +323,7 @@ public class PagedTreeGrid {
 
 			GtnWsSearchRequest request = getWsRequest(limit, offset, true);
 			request.setQueryInput(Arrays.asList(LEVEL_NO, PARENT_HIERARCHY_NO));
-			request.setQueryInputList(Arrays.asList(levelNo, "/^" + hierarchyNo + "/"));
+			request.setQueryInputList(Arrays.asList(levelNo, CAP_OPERATOR + hierarchyNo + LIKE_OPERATOR));
 
 			List<GtnWsRecordBean> result = FetchData.callWebService(tableConfig, componentConfig.getModuleName(),
 					request);

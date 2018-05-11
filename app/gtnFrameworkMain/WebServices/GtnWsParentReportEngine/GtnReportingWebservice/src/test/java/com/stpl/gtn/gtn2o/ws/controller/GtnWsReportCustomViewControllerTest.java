@@ -25,7 +25,7 @@ import com.stpl.gtn.gtn2o.ws.report.controller.GtnWsReportCustomViewController;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 
-//@Ignore
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/GtnReport-SpringContext-Test.xml" })
 public class GtnWsReportCustomViewControllerTest {
