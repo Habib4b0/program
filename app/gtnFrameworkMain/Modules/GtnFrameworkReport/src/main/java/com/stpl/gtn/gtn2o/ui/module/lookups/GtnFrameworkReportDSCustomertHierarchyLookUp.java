@@ -328,12 +328,7 @@ public class GtnFrameworkReportDSCustomertHierarchyLookUp {
 		componentList.add(reportCustomerHierarchySelectButton);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		
-//		GtnUIFrameWorkActionConfig dsCustomerHierarchySelectAction = new GtnUIFrameWorkActionConfig();
-//		dsCustomerHierarchySelectAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-//		dsCustomerHierarchySelectAction.addActionParameter(GtnFrameworkDsPopupSelectAction.class.getName());
-		
-		//actionConfigList.add(dsCustomerHierarchySelectAction);
+
 		
 		GtnUIFrameWorkActionConfig reportCustomerHierarchySelectAction = new GtnUIFrameWorkActionConfig();
 		reportCustomerHierarchySelectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
