@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportVariableBreakdownL
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportCustomViewLookup;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportCustomertHierarchyLookUp;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDSCustomertHierarchyLookUp;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDSProductHierarchyLookUp;
 
 public class GtnFrameworkReportConfig {
 	public GtnUIFrameworkRootConfig getGtnReportRootConfig(){
@@ -59,6 +60,9 @@ public class GtnFrameworkReportConfig {
 		viewList.add(new GtnFrameworkReportDSCustomertHierarchyLookUp()
 				.getCustHierarchyLookUpView(GtnFrameworkReportStringConstants.REPORT_DS_CUSTOMER_HIERARCHY_LOOKUP));
 
+		viewList.add(new GtnFrameworkReportDSProductHierarchyLookUp()
+				.getProdHierarchyLookUpView(GtnFrameworkReportStringConstants.REPORT_DS_PRODUCT_HIERARCHY_LOOKUP));
+		
 		viewList.add(new GtnFrameworkReportVariableBreakdownLookup()
 				.getVariableBreakdownLookUpView(GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB));
 

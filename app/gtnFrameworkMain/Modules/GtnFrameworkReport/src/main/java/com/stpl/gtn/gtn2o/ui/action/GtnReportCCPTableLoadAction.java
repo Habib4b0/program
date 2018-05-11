@@ -51,7 +51,7 @@ public class GtnReportCCPTableLoadAction
 
 		List<GtnWsRecordBean> selectedCustomerList = getSelectedCustomerList(actionParamList, componentId);
 		List<GtnWsRecordBean> selectedProductList = getSelectedProductList(actionParamList, componentId);
-		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList,selectedCustomerList);
+		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList,selectedCustomerList,selectedProductList);
 		ccpHierarchyInsert(selectedCustomerList, selectedProductList, dataSelectionDto);
 
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
@@ -104,7 +104,7 @@ public class GtnReportCCPTableLoadAction
 		return selectedProductList;
 	}
 
-	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList, List<GtnWsRecordBean> selectedCustomerList)
+	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList, List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList)
 			throws GtnFrameworkValidationFailedException {
 
 		GtnWsReportDataSelectionBean dto = new GtnWsReportDataSelectionBean();
@@ -156,7 +156,9 @@ public class GtnReportCCPTableLoadAction
 		dto.setFromPeriodReport(Integer.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(15).toString()).getCaptionFromV8ComboBox()));
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);
+		dto.setProductHierarchyRecordBean(productRecordBean);
 		dto.setSelectedCustomerHierarchyList(selectedCustomerList);
+		dto.setSelectedProductHierarchyList(selectedProductList);
 		
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		dto.setSessionId(UUID.randomUUID().toString().replaceAll("-", "_"));

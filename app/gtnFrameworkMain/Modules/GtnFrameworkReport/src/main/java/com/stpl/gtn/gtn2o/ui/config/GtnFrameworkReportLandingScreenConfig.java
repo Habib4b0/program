@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.context.annotation.Bean;
-
 import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
-import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionTabLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -447,7 +444,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateBtn.setComponentName("GENERATE");
 		generateBtn.setParentComponentId(controlLayouts.getComponentId());
 		generateBtn.setAddToParent(true);
-
+				
 		componentList.add(generateBtn);
 		List<GtnUIFrameWorkActionConfig> actionList = new ArrayList<>();
 		
