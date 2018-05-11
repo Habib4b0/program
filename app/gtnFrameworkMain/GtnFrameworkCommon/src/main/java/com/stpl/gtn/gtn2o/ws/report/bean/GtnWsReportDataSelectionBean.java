@@ -27,9 +27,10 @@ public class GtnWsReportDataSelectionBean {
 	private Integer businessUnitReport;
 	private Integer fromPeriodReport;
 	private GtnWsRecordBean customerHierarchyRecordBean;
-	private List<GtnWsRecordBean> availableCustomerHierarchyList;
-	private List<GtnWsRecordBean> availableProductHierarchyList;
-	    
+	private GtnWsRecordBean productHierarchyRecordBean;
+	private List<GtnWsRecordBean> selectedCustomerHierarchyList;
+	private List<GtnWsRecordBean> selectedProductHierarchyList;
+	
 	public int getProductRelationshipBuilderSid() {
 		return productRelationshipBuilderSid;
 	}
@@ -189,28 +190,36 @@ public class GtnWsReportDataSelectionBean {
 		this.fromPeriodReport = fromPeriodReport;
 	}
 
-	public List<GtnWsRecordBean> getAvailableCustomerHierarchyList() {
-		return availableCustomerHierarchyList;
-	}
-
-	public void setAvailableCustomerHierarchyList(List<GtnWsRecordBean> availableCustomerHierarchyList) {
-		this.availableCustomerHierarchyList = availableCustomerHierarchyList;
-	}
-
-	public List<GtnWsRecordBean> getAvailableProductHierarchyList() {
-		return availableProductHierarchyList;
-	}
-
-	public void setAvailableProductHierarchyList(List<GtnWsRecordBean> availableProductHierarchyList) {
-		this.availableProductHierarchyList = availableProductHierarchyList;
-	}
-
 	public GtnWsRecordBean getCustomerHierarchyRecordBean() {
 		return customerHierarchyRecordBean;
 	}
 
 	public void setCustomerHierarchyRecordBean(GtnWsRecordBean customerHierarchyRecordBean) {
 		this.customerHierarchyRecordBean = customerHierarchyRecordBean;
+	}
+
+	public List<GtnWsRecordBean> getSelectedCustomerHierarchyList() {
+		return selectedCustomerHierarchyList;
+	}
+
+	public void setSelectedCustomerHierarchyList(List<GtnWsRecordBean> selectedCustomerHierarchyList) {
+		this.selectedCustomerHierarchyList = selectedCustomerHierarchyList;
+	}
+
+	public List<GtnWsRecordBean> getSelectedProductHierarchyList() {
+		return selectedProductHierarchyList;
+	}
+
+	public void setSelectedProductHierarchyList(List<GtnWsRecordBean> selectedProductHierarchyList) {
+		this.selectedProductHierarchyList = selectedProductHierarchyList;
+	}
+
+	public GtnWsRecordBean getProductHierarchyRecordBean() {
+		return productHierarchyRecordBean;
+	}
+
+	public void setProductHierarchyRecordBean(GtnWsRecordBean productHierarchyRecordBean) {
+		this.productHierarchyRecordBean = productHierarchyRecordBean;
 	}
 
 }

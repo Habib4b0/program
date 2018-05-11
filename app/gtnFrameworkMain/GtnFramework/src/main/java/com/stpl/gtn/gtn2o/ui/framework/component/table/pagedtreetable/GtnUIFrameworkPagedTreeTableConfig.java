@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 
 /**
  *
@@ -15,681 +16,691 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
  */
 public class GtnUIFrameworkPagedTreeTableConfig {
 
-    private String[] leftTableVisibleHeader = null;
-    private String[] rightTableVisibleHeader = null;
-    private String[] tableColumnDataType = null;
-    private Object[] leftTableColumnMappingId = null;
-    private Object[] rightTableColumnMappingId = null;
+	private String[] leftTableVisibleHeader = null;
+	private String[] rightTableVisibleHeader = null;
+	private String[] tableColumnDataType = null;
+	private Object[] leftTableColumnMappingId = null;
+	private Object[] rightTableColumnMappingId = null;
 
-    private String tableHeight = null;
-    private String countUrl = null;
-    private String resultSetUrl = null;
-    private List<String> leftTableEditableColumnList = null;
-    private List<String> rightTableEditableColumnList = null;
-    private List<GtnUIFrameworkComponentConfig> leftTableEditableComponentConfig = null;
-    private List<GtnUIFrameworkComponentConfig> rightTableEditableComponentConfig = null;
-    private String[] keyFieldFactory = null;
-    private String[] valueFieldFactory = null;
-    private boolean doubleHeaderVisible = false;
-    private boolean tripleHeaderVisible = false;
+	private String tableHeight = null;
+	private String countUrl = null;
+	private String resultSetUrl = null;
+	private List<String> leftTableEditableColumnList = null;
+	private List<String> rightTableEditableColumnList = null;
+	private List<GtnUIFrameworkComponentConfig> leftTableEditableComponentConfig = null;
+	private List<GtnUIFrameworkComponentConfig> rightTableEditableComponentConfig = null;
+	private String[] keyFieldFactory = null;
+	private String[] valueFieldFactory = null;
+	private boolean doubleHeaderVisible = false;
+	private boolean tripleHeaderVisible = false;
 
-    private float splitPosition = 300;
+	private float splitPosition = 300;
 
-    private float maxSplitPosition = 1000;
+	private float maxSplitPosition = 1000;
 
-    private float minSplitPosition = 200;
+	private float minSplitPosition = 200;
 
-    private int pageLength = 0;
+	private int pageLength = 0;
 
-    private int itemPerPage = 0;
+	private int itemPerPage = 0;
 
-    private List<Object> leftTableDoubleHeaderVisibleColumns = new ArrayList<>();
+	private List<Object> leftTableDoubleHeaderVisibleColumns = new ArrayList<>();
 
-    private List<Object> rightTableDoubleHeaderVisibleColumns = new ArrayList<>();
+	private List<Object> rightTableDoubleHeaderVisibleColumns = new ArrayList<>();
 
-    private List<String> leftTableDoubleHeaderVisibleHeaders = new ArrayList<>();
+	private List<String> leftTableDoubleHeaderVisibleHeaders = new ArrayList<>();
 
-    private List<String> rightTableDoubleVisibleHeaders = new ArrayList<>();
+	private List<String> rightTableDoubleVisibleHeaders = new ArrayList<>();
 
-    private Map<Object, Object[]> leftTableDoubleHeaderMap = new HashMap<>();
+	private Map<Object, Object[]> leftTableDoubleHeaderMap = new HashMap<>();
 
-    private Map<Object, Object[]> rightTableDoubleHeaderMap = new HashMap<>();
-    private List<Object> leftTableTripleHeaderVisibleColumns = new ArrayList<>();
+	private Map<Object, Object[]> rightTableDoubleHeaderMap = new HashMap<>();
+	private List<Object> leftTableTripleHeaderVisibleColumns = new ArrayList<>();
 
-    private List<Object> rightTableTripleHeaderVisibleColumns = new ArrayList<>();
+	private List<Object> rightTableTripleHeaderVisibleColumns = new ArrayList<>();
 
-    private List<String> leftTableTripleHeaderVisibleHeaders = new ArrayList<>();
+	private List<String> leftTableTripleHeaderVisibleHeaders = new ArrayList<>();
 
-    private List<String> rightTableTripleVisibleHeaders = new ArrayList<>();
+	private List<String> rightTableTripleVisibleHeaders = new ArrayList<>();
 
-    private Map<Object, Object[]> leftTableTripleHeaderMap = new HashMap<>();
+	private Map<Object, Object[]> leftTableTripleHeaderMap = new HashMap<>();
 
-    private Map<Object, Object[]> rightTableTripleHeaderMap = new HashMap<>();
+	private Map<Object, Object[]> rightTableTripleHeaderMap = new HashMap<>();
 
-    public boolean isTripleHeaderVisible() {
-        return tripleHeaderVisible;
-    }
+	GtnWsReportDashboardBean gtnWsReportDashboardBean;
 
-    public void setTripleHeaderVisible(boolean tripleHeaderVisible) {
-        this.tripleHeaderVisible = tripleHeaderVisible;
-    }
+	public boolean isTripleHeaderVisible() {
+		return tripleHeaderVisible;
+	}
 
-    public List<Object> getLeftTableTripleHeaderVisibleColumns() {
-        return leftTableTripleHeaderVisibleColumns;
-    }
+	public void setTripleHeaderVisible(boolean tripleHeaderVisible) {
+		this.tripleHeaderVisible = tripleHeaderVisible;
+	}
 
-    public void setLeftTableTripleHeaderVisibleColumns(List<Object> leftTableTripleHeaderVisibleColumns) {
-        this.leftTableTripleHeaderVisibleColumns = leftTableTripleHeaderVisibleColumns;
-    }
+	public List<Object> getLeftTableTripleHeaderVisibleColumns() {
+		return leftTableTripleHeaderVisibleColumns;
+	}
 
-    public List<Object> getRightTableTripleHeaderVisibleColumns() {
-        return rightTableTripleHeaderVisibleColumns;
-    }
+	public void setLeftTableTripleHeaderVisibleColumns(List<Object> leftTableTripleHeaderVisibleColumns) {
+		this.leftTableTripleHeaderVisibleColumns = leftTableTripleHeaderVisibleColumns;
+	}
 
-    public void setRightTableTripleHeaderVisibleColumns(List<Object> rightTableTripleHeaderVisibleColumns) {
-        this.rightTableTripleHeaderVisibleColumns = rightTableTripleHeaderVisibleColumns;
-    }
+	public List<Object> getRightTableTripleHeaderVisibleColumns() {
+		return rightTableTripleHeaderVisibleColumns;
+	}
 
-    public List<String> getLeftTableTripleHeaderVisibleHeaders() {
-        return leftTableTripleHeaderVisibleHeaders;
-    }
+	public void setRightTableTripleHeaderVisibleColumns(List<Object> rightTableTripleHeaderVisibleColumns) {
+		this.rightTableTripleHeaderVisibleColumns = rightTableTripleHeaderVisibleColumns;
+	}
 
-    public void setLeftTableTripleHeaderVisibleHeaders(List<String> leftTableTripleHeaderVisibleHeaders) {
-        this.leftTableTripleHeaderVisibleHeaders = leftTableTripleHeaderVisibleHeaders;
-    }
+	public List<String> getLeftTableTripleHeaderVisibleHeaders() {
+		return leftTableTripleHeaderVisibleHeaders;
+	}
 
-    public List<String> getRightTableTripleVisibleHeaders() {
-        return rightTableTripleVisibleHeaders;
-    }
+	public void setLeftTableTripleHeaderVisibleHeaders(List<String> leftTableTripleHeaderVisibleHeaders) {
+		this.leftTableTripleHeaderVisibleHeaders = leftTableTripleHeaderVisibleHeaders;
+	}
 
-    public void setRightTableTripleVisibleHeaders(List<String> rightTableTripleVisibleHeaders) {
-        this.rightTableTripleVisibleHeaders = rightTableTripleVisibleHeaders;
-    }
+	public List<String> getRightTableTripleVisibleHeaders() {
+		return rightTableTripleVisibleHeaders;
+	}
 
-    public Map<Object, Object[]> getLeftTableTripleHeaderMap() {
-        return leftTableTripleHeaderMap;
-    }
+	public void setRightTableTripleVisibleHeaders(List<String> rightTableTripleVisibleHeaders) {
+		this.rightTableTripleVisibleHeaders = rightTableTripleVisibleHeaders;
+	}
 
-    public void setLeftTableTripleHeaderMap(Map<Object, Object[]> leftTableTripleHeaderMap) {
-        this.leftTableTripleHeaderMap = leftTableTripleHeaderMap;
-    }
+	public Map<Object, Object[]> getLeftTableTripleHeaderMap() {
+		return leftTableTripleHeaderMap;
+	}
 
-    public Map<Object, Object[]> getRightTableTripleHeaderMap() {
-        return rightTableTripleHeaderMap;
-    }
+	public void setLeftTableTripleHeaderMap(Map<Object, Object[]> leftTableTripleHeaderMap) {
+		this.leftTableTripleHeaderMap = leftTableTripleHeaderMap;
+	}
 
-    public void setRightTableTripleHeaderMap(Map<Object, Object[]> rightTableTripleHeaderMap) {
-        this.rightTableTripleHeaderMap = rightTableTripleHeaderMap;
-    }
+	public Map<Object, Object[]> getRightTableTripleHeaderMap() {
+		return rightTableTripleHeaderMap;
+	}
 
-    private Map<Object, String> singleHeaderMap = new HashMap<>();
+	public void setRightTableTripleHeaderMap(Map<Object, Object[]> rightTableTripleHeaderMap) {
+		this.rightTableTripleHeaderMap = rightTableTripleHeaderMap;
+	}
 
-    private boolean leftTableEditable = false;
+	private Map<Object, String> singleHeaderMap = new HashMap<>();
 
-    private boolean rightTableEditable = false;
+	private boolean leftTableEditable = false;
 
-    private String leftTableCustomFieldFactoryClassname = null;
+	private boolean rightTableEditable = false;
 
-    private String rightTableCustomFieldFactoryClassname = null;
+	private String leftTableCustomFieldFactoryClassname = null;
 
-    private List<GtnUIFrameWorkActionConfig> checkBoxActionConfigList = null;
+	private String rightTableCustomFieldFactoryClassname = null;
 
-    private List<String> checkBoxVisibleColoumn = new ArrayList<>();
+	private List<GtnUIFrameWorkActionConfig> checkBoxActionConfigList = null;
 
-    private String countWsUrl = null;
+	private List<String> checkBoxVisibleColoumn = new ArrayList<>();
 
-    private String leftHeader = null;
+	private String countWsUrl = null;
 
-    private String rightHeader = null;
+	private String leftHeader = null;
 
-    private List<GtnUIFrameWorkActionConfig> componentconfigActionlist = null;
+	private String rightHeader = null;
 
-    private String moduleName = null;
+	private List<GtnUIFrameWorkActionConfig> componentconfigActionlist = null;
 
-    private String bulkDataUrl = null;
+	private String moduleName = null;
 
-    private String bulkDataWsUrl = null;
+	private String bulkDataUrl = null;
 
-    private String fillCountUrl = null;
+	private String bulkDataWsUrl = null;
 
-    private String fillCountWsUrl = null;
+	private String fillCountUrl = null;
 
-    private String leftHeaderUrl = null;
+	private String fillCountWsUrl = null;
 
-    private String leftWsHeaderUrl = null;
+	private String leftHeaderUrl = null;
 
-    private String righttHeaderUrl = null;
+	private String leftWsHeaderUrl = null;
 
-    private String rightWsHeaderUrl = null;
+	private String righttHeaderUrl = null;
 
-    private String leftHeaderCustomClassLoadUrl = null;
+	private String rightWsHeaderUrl = null;
 
-    private String rightHeaderCustomClassLoadUrl = null;
+	private String leftHeaderCustomClassLoadUrl = null;
 
-    private GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = null;
+	private String rightHeaderCustomClassLoadUrl = null;
 
-    private String hierarchyNoColumn;
-    private String frequency;
-    private int levelNo = 1;
-    private String levelNoColumn;
-    private int rowsPerLevelItem;
+	private GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = null;
 
-    private String countQuery;
-    private String dataQuery;
-    private String leftDataQuery;
-    Object[] dataQueryInputs;
-    Object[] leftDataQueryInputs;
-    Object[] countQueryInputs;
-    private List<Object> visibleColumns;
-    private List<String> columnHeaders;
+	private String hierarchyNoColumn;
+	private String frequency;
+	private int levelNo = 1;
+	private String levelNoColumn;
+	private int rowsPerLevelItem;
 
-    public String getLeftHeader() {
-        return leftHeader;
-    }
+	private String countQuery;
+	private String dataQuery;
+	private String leftDataQuery;
+	Object[] dataQueryInputs;
+	Object[] leftDataQueryInputs;
+	Object[] countQueryInputs;
+	private List<Object> visibleColumns;
+	private List<String> columnHeaders;
 
-    public void setLeftHeader(String leftHeader) {
-        this.leftHeader = leftHeader;
-    }
+	public String getLeftHeader() {
+		return leftHeader;
+	}
 
-    public String getRightHeader() {
-        return rightHeader;
-    }
+	public void setLeftHeader(String leftHeader) {
+		this.leftHeader = leftHeader;
+	}
 
-    public void setRightHeader(String rightHeader) {
-        this.rightHeader = rightHeader;
-    }
+	public String getRightHeader() {
+		return rightHeader;
+	}
 
-    public List<GtnUIFrameWorkActionConfig> getComponentconfigActionlist() {
-        return componentconfigActionlist == null ? componentconfigActionlist
-                : Collections.unmodifiableList(componentconfigActionlist);
-    }
+	public void setRightHeader(String rightHeader) {
+		this.rightHeader = rightHeader;
+	}
 
-    public void setComponentconfigActionlist(List<GtnUIFrameWorkActionConfig> componentconfigActionlist) {
-        this.componentconfigActionlist = new ArrayList<>(componentconfigActionlist);
-    }
+	public List<GtnUIFrameWorkActionConfig> getComponentconfigActionlist() {
+		return componentconfigActionlist == null ? componentconfigActionlist
+				: Collections.unmodifiableList(componentconfigActionlist);
+	}
 
-    public String[] getTableColumnDataType() {
-        return tableColumnDataType == null ? tableColumnDataType : tableColumnDataType.clone();
-    }
+	public void setComponentconfigActionlist(List<GtnUIFrameWorkActionConfig> componentconfigActionlist) {
+		this.componentconfigActionlist = new ArrayList<>(componentconfigActionlist);
+	}
 
-    public void setTableColumnDataType(String[] tableColumnDataType) {
-        this.tableColumnDataType = tableColumnDataType.clone();
-    }
+	public String[] getTableColumnDataType() {
+		return tableColumnDataType == null ? tableColumnDataType : tableColumnDataType.clone();
+	}
 
-    public String getCountUrl() {
-        return countUrl;
-    }
+	public void setTableColumnDataType(String[] tableColumnDataType) {
+		this.tableColumnDataType = tableColumnDataType.clone();
+	}
 
-    public void setCountUrl(String countUrl) {
-        this.countUrl = countUrl;
-    }
+	public String getCountUrl() {
+		return countUrl;
+	}
 
-    public String getResultSetUrl() {
-        return resultSetUrl;
-    }
+	public void setCountUrl(String countUrl) {
+		this.countUrl = countUrl;
+	}
 
-    public void setResultSetUrl(String resultSetUrl) {
-        this.resultSetUrl = resultSetUrl;
-    }
+	public String getResultSetUrl() {
+		return resultSetUrl;
+	}
 
-    public int getPageLength() {
-        return pageLength;
-    }
+	public void setResultSetUrl(String resultSetUrl) {
+		this.resultSetUrl = resultSetUrl;
+	}
 
-    public void setPageLength(int pageLength) {
-        this.pageLength = pageLength;
-    }
+	public int getPageLength() {
+		return pageLength;
+	}
 
-    public int getItemPerPage() {
-        return itemPerPage;
-    }
+	public void setPageLength(int pageLength) {
+		this.pageLength = pageLength;
+	}
 
-    public void setItemPerPage(int itemPerPage) {
-        this.itemPerPage = itemPerPage;
-    }
+	public int getItemPerPage() {
+		return itemPerPage;
+	}
 
-    public float getSplitPosition() {
-        return splitPosition;
-    }
+	public void setItemPerPage(int itemPerPage) {
+		this.itemPerPage = itemPerPage;
+	}
 
-    public void setSplitPosition(float splitPosition) {
-        this.splitPosition = splitPosition;
-    }
+	public float getSplitPosition() {
+		return splitPosition;
+	}
 
-    public float getMaxSplitPosition() {
-        return maxSplitPosition;
-    }
+	public void setSplitPosition(float splitPosition) {
+		this.splitPosition = splitPosition;
+	}
 
-    public void setMaxSplitPosition(float maxSplitPosition) {
-        this.maxSplitPosition = maxSplitPosition;
-    }
+	public float getMaxSplitPosition() {
+		return maxSplitPosition;
+	}
 
-    public float getMinSplitPosition() {
-        return minSplitPosition;
-    }
+	public void setMaxSplitPosition(float maxSplitPosition) {
+		this.maxSplitPosition = maxSplitPosition;
+	}
 
-    public void setMinSplitPosition(float minSplitPosition) {
-        this.minSplitPosition = minSplitPosition;
-    }
+	public float getMinSplitPosition() {
+		return minSplitPosition;
+	}
 
-    public String[] getLeftTableVisibleHeader() {
-        return leftTableVisibleHeader == null ? leftTableVisibleHeader : leftTableVisibleHeader.clone();
-    }
+	public void setMinSplitPosition(float minSplitPosition) {
+		this.minSplitPosition = minSplitPosition;
+	}
 
-    public void setLeftTableVisibleHeader(String[] leftTableVisibleHeader) {
-        this.leftTableVisibleHeader = leftTableVisibleHeader.clone();
-    }
+	public String[] getLeftTableVisibleHeader() {
+		return leftTableVisibleHeader == null ? leftTableVisibleHeader : leftTableVisibleHeader.clone();
+	}
 
-    public String[] getRightTableVisibleHeader() {
-        return rightTableVisibleHeader == null ? rightTableVisibleHeader : rightTableVisibleHeader.clone();
-    }
+	public void setLeftTableVisibleHeader(String[] leftTableVisibleHeader) {
+		this.leftTableVisibleHeader = leftTableVisibleHeader.clone();
+	}
 
-    public void setRightTableVisibleHeader(String[] rightTableVisibleHeader) {
-        this.rightTableVisibleHeader = rightTableVisibleHeader.clone();
-    }
+	public String[] getRightTableVisibleHeader() {
+		return rightTableVisibleHeader == null ? rightTableVisibleHeader : rightTableVisibleHeader.clone();
+	}
 
-    public Object[] getLeftTableColumnMappingId() {
-        return leftTableColumnMappingId == null ? leftTableColumnMappingId : leftTableColumnMappingId.clone();
-    }
+	public void setRightTableVisibleHeader(String[] rightTableVisibleHeader) {
+		this.rightTableVisibleHeader = rightTableVisibleHeader.clone();
+	}
 
-    public void setLeftTableColumnMappingId(Object[] leftTableColumnMappingId) {
-        this.leftTableColumnMappingId = leftTableColumnMappingId.clone();
-    }
+	public Object[] getLeftTableColumnMappingId() {
+		return leftTableColumnMappingId == null ? leftTableColumnMappingId : leftTableColumnMappingId.clone();
+	}
 
-    public Object[] getRightTableColumnMappingId() {
-        return rightTableColumnMappingId == null ? rightTableColumnMappingId : rightTableColumnMappingId.clone();
-    }
+	public void setLeftTableColumnMappingId(Object[] leftTableColumnMappingId) {
+		this.leftTableColumnMappingId = leftTableColumnMappingId.clone();
+	}
 
-    public void setRightTableColumnMappingId(Object[] rightTableColumnMappingId) {
-        this.rightTableColumnMappingId = rightTableColumnMappingId.clone();
-    }
+	public Object[] getRightTableColumnMappingId() {
+		return rightTableColumnMappingId == null ? rightTableColumnMappingId : rightTableColumnMappingId.clone();
+	}
 
-    public String getTableHeight() {
-        return tableHeight;
-    }
+	public void setRightTableColumnMappingId(Object[] rightTableColumnMappingId) {
+		this.rightTableColumnMappingId = rightTableColumnMappingId.clone();
+	}
 
-    public void setTableHeight(String tableHeight) {
-        this.tableHeight = tableHeight;
-    }
+	public String getTableHeight() {
+		return tableHeight;
+	}
 
-    public String[] getKeyFieldFactory() {
-        return keyFieldFactory == null ? keyFieldFactory : keyFieldFactory.clone();
-    }
+	public void setTableHeight(String tableHeight) {
+		this.tableHeight = tableHeight;
+	}
 
-    public void setKeyFieldFactory(String[] keyFieldFactory) {
-        this.keyFieldFactory = keyFieldFactory.clone();
-    }
+	public String[] getKeyFieldFactory() {
+		return keyFieldFactory == null ? keyFieldFactory : keyFieldFactory.clone();
+	}
 
-    public String[] getValueFieldFactory() {
-        return valueFieldFactory == null ? valueFieldFactory : valueFieldFactory.clone();
-    }
+	public void setKeyFieldFactory(String[] keyFieldFactory) {
+		this.keyFieldFactory = keyFieldFactory.clone();
+	}
 
-    public void setValueFieldFactory(String[] valueFieldFactory) {
-        this.valueFieldFactory = valueFieldFactory.clone();
-    }
+	public String[] getValueFieldFactory() {
+		return valueFieldFactory == null ? valueFieldFactory : valueFieldFactory.clone();
+	}
 
-    public boolean isDoubleHeaderVisible() {
-        return doubleHeaderVisible;
-    }
+	public void setValueFieldFactory(String[] valueFieldFactory) {
+		this.valueFieldFactory = valueFieldFactory.clone();
+	}
 
-    public void setDoubleHeaderVisible(boolean doubleHeaderVisible) {
-        this.doubleHeaderVisible = doubleHeaderVisible;
-    }
+	public boolean isDoubleHeaderVisible() {
+		return doubleHeaderVisible;
+	}
 
-    public List<Object> getLeftTableDoubleHeaderVisibleColumns() {
-        return leftTableDoubleHeaderVisibleColumns == null ? leftTableDoubleHeaderVisibleColumns
-                : Collections.unmodifiableList(leftTableDoubleHeaderVisibleColumns);
-    }
+	public void setDoubleHeaderVisible(boolean doubleHeaderVisible) {
+		this.doubleHeaderVisible = doubleHeaderVisible;
+	}
 
-    public void setLeftTableDoubleHeaderVisibleColumns(List<Object> leftTableDoubleHeaderVisibleColumns) {
-        this.leftTableDoubleHeaderVisibleColumns = new ArrayList<>(leftTableDoubleHeaderVisibleColumns);
-    }
+	public List<Object> getLeftTableDoubleHeaderVisibleColumns() {
+		return leftTableDoubleHeaderVisibleColumns == null ? leftTableDoubleHeaderVisibleColumns
+				: Collections.unmodifiableList(leftTableDoubleHeaderVisibleColumns);
+	}
 
-    public List<Object> getRightTableDoubleHeaderVisibleColumns() {
-        return rightTableDoubleHeaderVisibleColumns == null ? rightTableDoubleHeaderVisibleColumns
-                : Collections.unmodifiableList(rightTableDoubleHeaderVisibleColumns);
-    }
+	public void setLeftTableDoubleHeaderVisibleColumns(List<Object> leftTableDoubleHeaderVisibleColumns) {
+		this.leftTableDoubleHeaderVisibleColumns = new ArrayList<>(leftTableDoubleHeaderVisibleColumns);
+	}
 
-    public void setRightTableDoubleHeaderVisibleColumns(List<Object> rightTableDoubleHeaderVisibleColumns) {
-        this.rightTableDoubleHeaderVisibleColumns = new ArrayList<>(rightTableDoubleHeaderVisibleColumns);
-    }
+	public List<Object> getRightTableDoubleHeaderVisibleColumns() {
+		return rightTableDoubleHeaderVisibleColumns == null ? rightTableDoubleHeaderVisibleColumns
+				: Collections.unmodifiableList(rightTableDoubleHeaderVisibleColumns);
+	}
 
-    public List<String> getLeftTableDoubleHeaderVisibleHeaders() {
-        return leftTableDoubleHeaderVisibleHeaders == null ? leftTableDoubleHeaderVisibleHeaders
-                : Collections.unmodifiableList(leftTableDoubleHeaderVisibleHeaders);
-    }
+	public void setRightTableDoubleHeaderVisibleColumns(List<Object> rightTableDoubleHeaderVisibleColumns) {
+		this.rightTableDoubleHeaderVisibleColumns = new ArrayList<>(rightTableDoubleHeaderVisibleColumns);
+	}
 
-    public void setLeftTableDoubleHeaderVisibleHeaders(List<String> leftTableDoubleHeaderVisibleHeaders) {
-        this.leftTableDoubleHeaderVisibleHeaders = new ArrayList<>(leftTableDoubleHeaderVisibleHeaders);
-    }
+	public List<String> getLeftTableDoubleHeaderVisibleHeaders() {
+		return leftTableDoubleHeaderVisibleHeaders == null ? leftTableDoubleHeaderVisibleHeaders
+				: Collections.unmodifiableList(leftTableDoubleHeaderVisibleHeaders);
+	}
 
-    public List<String> getRightTableDoubleVisibleHeaders() {
-        return rightTableDoubleVisibleHeaders == null ? rightTableDoubleVisibleHeaders
-                : Collections.unmodifiableList(rightTableDoubleVisibleHeaders);
-    }
+	public void setLeftTableDoubleHeaderVisibleHeaders(List<String> leftTableDoubleHeaderVisibleHeaders) {
+		this.leftTableDoubleHeaderVisibleHeaders = new ArrayList<>(leftTableDoubleHeaderVisibleHeaders);
+	}
 
-    public void setRightTableDoubleVisibleHeaders(List<String> rightTableDoubleVisibleHeaders) {
-        this.rightTableDoubleVisibleHeaders = new ArrayList<>(rightTableDoubleVisibleHeaders);
-    }
+	public List<String> getRightTableDoubleVisibleHeaders() {
+		return rightTableDoubleVisibleHeaders == null ? rightTableDoubleVisibleHeaders
+				: Collections.unmodifiableList(rightTableDoubleVisibleHeaders);
+	}
 
-    public Map<Object, Object[]> getLeftTableDoubleHeaderMap() {
-        return leftTableDoubleHeaderMap;
-    }
+	public void setRightTableDoubleVisibleHeaders(List<String> rightTableDoubleVisibleHeaders) {
+		this.rightTableDoubleVisibleHeaders = new ArrayList<>(rightTableDoubleVisibleHeaders);
+	}
 
-    public void setLeftTableDoubleHeaderMap(Map<Object, Object[]> leftTableDoubleHeaderMap) {
-        this.leftTableDoubleHeaderMap = leftTableDoubleHeaderMap;
-    }
+	public Map<Object, Object[]> getLeftTableDoubleHeaderMap() {
+		return leftTableDoubleHeaderMap;
+	}
 
-    public Map<Object, Object[]> getRightTableDoubleHeaderMap() {
-        return rightTableDoubleHeaderMap;
-    }
+	public void setLeftTableDoubleHeaderMap(Map<Object, Object[]> leftTableDoubleHeaderMap) {
+		this.leftTableDoubleHeaderMap = leftTableDoubleHeaderMap;
+	}
 
-    public void setRightTableDoubleHeaderMap(Map<Object, Object[]> rightTableDoubleHeaderMap) {
-        this.rightTableDoubleHeaderMap = rightTableDoubleHeaderMap;
-    }
+	public Map<Object, Object[]> getRightTableDoubleHeaderMap() {
+		return rightTableDoubleHeaderMap;
+	}
 
-    public Map<Object, String> getSingleHeaderMap() {
-        return singleHeaderMap;
-    }
+	public void setRightTableDoubleHeaderMap(Map<Object, Object[]> rightTableDoubleHeaderMap) {
+		this.rightTableDoubleHeaderMap = rightTableDoubleHeaderMap;
+	}
 
-    public void setSingleHeaderMap(Map<Object, String> singleHeaderMap) {
-        this.singleHeaderMap = singleHeaderMap;
-    }
+	public Map<Object, String> getSingleHeaderMap() {
+		return singleHeaderMap;
+	}
 
-    public boolean isLeftTableEditable() {
-        return leftTableEditable;
-    }
+	public void setSingleHeaderMap(Map<Object, String> singleHeaderMap) {
+		this.singleHeaderMap = singleHeaderMap;
+	}
 
-    public void setLeftTableEditable(boolean leftTableEditable) {
-        this.leftTableEditable = leftTableEditable;
-    }
+	public boolean isLeftTableEditable() {
+		return leftTableEditable;
+	}
 
-    public boolean isRightTableEditable() {
-        return rightTableEditable;
-    }
+	public void setLeftTableEditable(boolean leftTableEditable) {
+		this.leftTableEditable = leftTableEditable;
+	}
 
-    public void setRightTableEditable(boolean rightTableEditable) {
-        this.rightTableEditable = rightTableEditable;
-    }
+	public boolean isRightTableEditable() {
+		return rightTableEditable;
+	}
 
-    public String getLeftTableCustomFieldFactoryClassname() {
-        return leftTableCustomFieldFactoryClassname;
-    }
+	public void setRightTableEditable(boolean rightTableEditable) {
+		this.rightTableEditable = rightTableEditable;
+	}
 
-    public void setLeftTableCustomFieldFactoryClassname(String leftTableCustomFieldFactoryClassname) {
-        this.leftTableCustomFieldFactoryClassname = leftTableCustomFieldFactoryClassname;
-    }
+	public String getLeftTableCustomFieldFactoryClassname() {
+		return leftTableCustomFieldFactoryClassname;
+	}
 
-    public String getRightTableCustomFieldFactoryClassname() {
-        return rightTableCustomFieldFactoryClassname;
-    }
+	public void setLeftTableCustomFieldFactoryClassname(String leftTableCustomFieldFactoryClassname) {
+		this.leftTableCustomFieldFactoryClassname = leftTableCustomFieldFactoryClassname;
+	}
 
-    public void setRightTableCustomFieldFactoryClassname(String rightTableCustomFieldFactoryClassname) {
-        this.rightTableCustomFieldFactoryClassname = rightTableCustomFieldFactoryClassname;
-    }
+	public String getRightTableCustomFieldFactoryClassname() {
+		return rightTableCustomFieldFactoryClassname;
+	}
 
-    public List<String> getLeftTableEditableColumnList() {
-        return leftTableEditableColumnList == null ? leftTableEditableColumnList
-                : Collections.unmodifiableList(leftTableEditableColumnList);
-    }
+	public void setRightTableCustomFieldFactoryClassname(String rightTableCustomFieldFactoryClassname) {
+		this.rightTableCustomFieldFactoryClassname = rightTableCustomFieldFactoryClassname;
+	}
 
-    public void setLeftTableEditableColumnList(List<String> leftTableEditableColumnArray) {
-        this.leftTableEditableColumnList = new ArrayList<>(leftTableEditableColumnArray);
-    }
+	public List<String> getLeftTableEditableColumnList() {
+		return leftTableEditableColumnList == null ? leftTableEditableColumnList
+				: Collections.unmodifiableList(leftTableEditableColumnList);
+	}
 
-    public List<String> getRightTableEditableColumnList() {
-        return rightTableEditableColumnList == null ? rightTableEditableColumnList
-                : Collections.unmodifiableList(rightTableEditableColumnList);
-    }
+	public void setLeftTableEditableColumnList(List<String> leftTableEditableColumnArray) {
+		this.leftTableEditableColumnList = new ArrayList<>(leftTableEditableColumnArray);
+	}
 
-    public void setRightTableEditableColumnList(List<String> rightTableEditableColumnArray) {
-        this.rightTableEditableColumnList = new ArrayList<>(rightTableEditableColumnArray);
-    }
+	public List<String> getRightTableEditableColumnList() {
+		return rightTableEditableColumnList == null ? rightTableEditableColumnList
+				: Collections.unmodifiableList(rightTableEditableColumnList);
+	}
 
-    public List<GtnUIFrameworkComponentConfig> getLeftTableEditableComponentConfig() {
-        return leftTableEditableComponentConfig == null ? leftTableEditableComponentConfig
-                : Collections.unmodifiableList(leftTableEditableComponentConfig);
-    }
+	public void setRightTableEditableColumnList(List<String> rightTableEditableColumnArray) {
+		this.rightTableEditableColumnList = new ArrayList<>(rightTableEditableColumnArray);
+	}
 
-    public void setLeftTableEditableComponentConfig(
-            List<GtnUIFrameworkComponentConfig> leftTableEditableComponentConfig) {
-        this.leftTableEditableComponentConfig = new ArrayList<>(leftTableEditableComponentConfig);
-    }
+	public List<GtnUIFrameworkComponentConfig> getLeftTableEditableComponentConfig() {
+		return leftTableEditableComponentConfig == null ? leftTableEditableComponentConfig
+				: Collections.unmodifiableList(leftTableEditableComponentConfig);
+	}
 
-    public List<GtnUIFrameworkComponentConfig> getRightTableEditableComponentConfig() {
-        return rightTableEditableComponentConfig == null ? rightTableEditableComponentConfig
-                : Collections.unmodifiableList(rightTableEditableComponentConfig);
-    }
+	public void setLeftTableEditableComponentConfig(
+			List<GtnUIFrameworkComponentConfig> leftTableEditableComponentConfig) {
+		this.leftTableEditableComponentConfig = new ArrayList<>(leftTableEditableComponentConfig);
+	}
 
-    public void setRightTableEditableComponentConfig(
-            List<GtnUIFrameworkComponentConfig> rightTableEditableComponentConfig) {
-        this.rightTableEditableComponentConfig = new ArrayList<>(rightTableEditableComponentConfig);
-    }
+	public List<GtnUIFrameworkComponentConfig> getRightTableEditableComponentConfig() {
+		return rightTableEditableComponentConfig == null ? rightTableEditableComponentConfig
+				: Collections.unmodifiableList(rightTableEditableComponentConfig);
+	}
 
-    public List<GtnUIFrameWorkActionConfig> getCheckBoxActionConfigList() {
-        return checkBoxActionConfigList == null ? checkBoxActionConfigList
-                : Collections.unmodifiableList(checkBoxActionConfigList);
-    }
+	public void setRightTableEditableComponentConfig(
+			List<GtnUIFrameworkComponentConfig> rightTableEditableComponentConfig) {
+		this.rightTableEditableComponentConfig = new ArrayList<>(rightTableEditableComponentConfig);
+	}
 
-    public void setCheckBoxActionConfigList(List<GtnUIFrameWorkActionConfig> checkBoxActionConfigList) {
-        this.checkBoxActionConfigList = new ArrayList<>(checkBoxActionConfigList);
-    }
+	public List<GtnUIFrameWorkActionConfig> getCheckBoxActionConfigList() {
+		return checkBoxActionConfigList == null ? checkBoxActionConfigList
+				: Collections.unmodifiableList(checkBoxActionConfigList);
+	}
 
-    public List<String> getCheckBoxVisibleColoumn() {
-        return checkBoxVisibleColoumn == null ? checkBoxVisibleColoumn
-                : Collections.unmodifiableList(checkBoxVisibleColoumn);
-    }
+	public void setCheckBoxActionConfigList(List<GtnUIFrameWorkActionConfig> checkBoxActionConfigList) {
+		this.checkBoxActionConfigList = new ArrayList<>(checkBoxActionConfigList);
+	}
 
-    public void setCheckBoxVisibleColoumn(List<String> checkBoxVisibleColoumn) {
-        this.checkBoxVisibleColoumn = new ArrayList<>(checkBoxVisibleColoumn);
-    }
+	public List<String> getCheckBoxVisibleColoumn() {
+		return checkBoxVisibleColoumn == null ? checkBoxVisibleColoumn
+				: Collections.unmodifiableList(checkBoxVisibleColoumn);
+	}
 
-    public String getModuleName() {
-        return moduleName;
-    }
+	public void setCheckBoxVisibleColoumn(List<String> checkBoxVisibleColoumn) {
+		this.checkBoxVisibleColoumn = new ArrayList<>(checkBoxVisibleColoumn);
+	}
 
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
+	public String getModuleName() {
+		return moduleName;
+	}
 
-    public String getBulkDataUrl() {
-        return bulkDataUrl;
-    }
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
+	}
 
-    public void setBulkDataUrl(String bulkDataUrl) {
-        this.bulkDataUrl = bulkDataUrl;
-    }
+	public String getBulkDataUrl() {
+		return bulkDataUrl;
+	}
 
-    public String getFillCountUrl() {
-        return fillCountUrl;
-    }
+	public void setBulkDataUrl(String bulkDataUrl) {
+		this.bulkDataUrl = bulkDataUrl;
+	}
 
-    public void setFillCountUrl(String fillCountUrl) {
-        this.fillCountUrl = fillCountUrl;
-    }
+	public String getFillCountUrl() {
+		return fillCountUrl;
+	}
 
-    public String getFillCountWsUrl() {
-        return fillCountWsUrl;
-    }
+	public void setFillCountUrl(String fillCountUrl) {
+		this.fillCountUrl = fillCountUrl;
+	}
 
-    public void setFillCountWsUrl(String fillCountWsUrl) {
-        this.fillCountWsUrl = fillCountWsUrl;
-    }
+	public String getFillCountWsUrl() {
+		return fillCountWsUrl;
+	}
 
-    public String getCountWsUrl() {
-        return countWsUrl;
-    }
+	public void setFillCountWsUrl(String fillCountWsUrl) {
+		this.fillCountWsUrl = fillCountWsUrl;
+	}
 
-    public void setCountWsUrl(String countWsUrl) {
-        this.countWsUrl = countWsUrl;
-    }
+	public String getCountWsUrl() {
+		return countWsUrl;
+	}
 
-    public String getBulkDataWsUrl() {
-        return bulkDataWsUrl;
-    }
+	public void setCountWsUrl(String countWsUrl) {
+		this.countWsUrl = countWsUrl;
+	}
 
-    public void setBulkDataWsUrl(String bulkDataWsUrl) {
-        this.bulkDataWsUrl = bulkDataWsUrl;
-    }
+	public String getBulkDataWsUrl() {
+		return bulkDataWsUrl;
+	}
 
-    public String getLeftHeaderUrl() {
-        return leftHeaderUrl;
-    }
+	public void setBulkDataWsUrl(String bulkDataWsUrl) {
+		this.bulkDataWsUrl = bulkDataWsUrl;
+	}
 
-    public void setLeftHeaderUrl(String leftHeaderUrl) {
-        this.leftHeaderUrl = leftHeaderUrl;
-    }
+	public String getLeftHeaderUrl() {
+		return leftHeaderUrl;
+	}
 
-    public String getLeftWsHeaderUrl() {
-        return leftWsHeaderUrl;
-    }
+	public void setLeftHeaderUrl(String leftHeaderUrl) {
+		this.leftHeaderUrl = leftHeaderUrl;
+	}
 
-    public void setLeftWsHeaderUrl(String leftWsHeaderUrl) {
-        this.leftWsHeaderUrl = leftWsHeaderUrl;
-    }
+	public String getLeftWsHeaderUrl() {
+		return leftWsHeaderUrl;
+	}
 
-    public String getRighttHeaderUrl() {
-        return righttHeaderUrl;
-    }
+	public void setLeftWsHeaderUrl(String leftWsHeaderUrl) {
+		this.leftWsHeaderUrl = leftWsHeaderUrl;
+	}
 
-    public void setRighttHeaderUrl(String righttHeaderUrl) {
-        this.righttHeaderUrl = righttHeaderUrl;
-    }
+	public String getRighttHeaderUrl() {
+		return righttHeaderUrl;
+	}
 
-    public String getRightWsHeaderUrl() {
-        return rightWsHeaderUrl;
-    }
+	public void setRighttHeaderUrl(String righttHeaderUrl) {
+		this.righttHeaderUrl = righttHeaderUrl;
+	}
 
-    public void setRightWsHeaderUrl(String rightWsHeaderUrl) {
-        this.rightWsHeaderUrl = rightWsHeaderUrl;
-    }
+	public String getRightWsHeaderUrl() {
+		return rightWsHeaderUrl;
+	}
 
-    public String getLeftHeaderCustomClassLoadUrl() {
-        return leftHeaderCustomClassLoadUrl;
-    }
+	public void setRightWsHeaderUrl(String rightWsHeaderUrl) {
+		this.rightWsHeaderUrl = rightWsHeaderUrl;
+	}
 
-    public void setLeftHeaderCustomClassLoadUrl(String leftHeaderCustomClassLoadUrl) {
-        this.leftHeaderCustomClassLoadUrl = leftHeaderCustomClassLoadUrl;
-    }
+	public String getLeftHeaderCustomClassLoadUrl() {
+		return leftHeaderCustomClassLoadUrl;
+	}
 
-    public String getRightHeaderCustomClassLoadUrl() {
-        return rightHeaderCustomClassLoadUrl;
-    }
+	public void setLeftHeaderCustomClassLoadUrl(String leftHeaderCustomClassLoadUrl) {
+		this.leftHeaderCustomClassLoadUrl = leftHeaderCustomClassLoadUrl;
+	}
 
-    public void setRightHeaderCustomClassLoadUrl(String rightHeaderCustomClassLoadUrl) {
-        this.rightHeaderCustomClassLoadUrl = rightHeaderCustomClassLoadUrl;
-    }
+	public String getRightHeaderCustomClassLoadUrl() {
+		return rightHeaderCustomClassLoadUrl;
+	}
 
-    public GtnUIFrameWorkActionConfig getGtnUIFrameWorkActionConfig() {
-        return gtnUIFrameWorkActionConfig;
-    }
+	public void setRightHeaderCustomClassLoadUrl(String rightHeaderCustomClassLoadUrl) {
+		this.rightHeaderCustomClassLoadUrl = rightHeaderCustomClassLoadUrl;
+	}
 
-    public void setGtnUIFrameWorkActionConfig(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) {
-        this.gtnUIFrameWorkActionConfig = gtnUIFrameWorkActionConfig;
-    }
+	public GtnUIFrameWorkActionConfig getGtnUIFrameWorkActionConfig() {
+		return gtnUIFrameWorkActionConfig;
+	}
 
-    public String getHierarchyNoColumn() {
-        return hierarchyNoColumn;
-    }
+	public void setGtnUIFrameWorkActionConfig(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) {
+		this.gtnUIFrameWorkActionConfig = gtnUIFrameWorkActionConfig;
+	}
 
-    public void setHierarchyNoColumn(String hierarchyNoColumn) {
-        this.hierarchyNoColumn = hierarchyNoColumn;
-    }
+	public String getHierarchyNoColumn() {
+		return hierarchyNoColumn;
+	}
 
-    public String getFrequency() {
-        return frequency;
-    }
+	public void setHierarchyNoColumn(String hierarchyNoColumn) {
+		this.hierarchyNoColumn = hierarchyNoColumn;
+	}
 
-    public void setFrequency(String frequency) {
-        this.frequency = frequency;
-    }
+	public String getFrequency() {
+		return frequency;
+	}
 
-    public int getLevelNo() {
-        return levelNo;
-    }
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
 
-    public void setLevelNo(int levelNo) {
-        this.levelNo = levelNo;
-    }
+	public int getLevelNo() {
+		return levelNo;
+	}
 
-    public String getLevelNoColumn() {
-        return levelNoColumn;
-    }
+	public void setLevelNo(int levelNo) {
+		this.levelNo = levelNo;
+	}
 
-    public void setLevelNoColumn(String levelNoColumn) {
-        this.levelNoColumn = levelNoColumn;
-    }
+	public String getLevelNoColumn() {
+		return levelNoColumn;
+	}
 
-    public int getRowsPerLevelItem() {
-        return rowsPerLevelItem;
-    }
+	public void setLevelNoColumn(String levelNoColumn) {
+		this.levelNoColumn = levelNoColumn;
+	}
 
-    public void setRowsPerLevelItem(int rowsPerLevelItem) {
-        this.rowsPerLevelItem = rowsPerLevelItem;
-    }
+	public int getRowsPerLevelItem() {
+		return rowsPerLevelItem;
+	}
 
-    public String getCountQuery() {
-        return countQuery;
-    }
+	public void setRowsPerLevelItem(int rowsPerLevelItem) {
+		this.rowsPerLevelItem = rowsPerLevelItem;
+	}
 
-    public void setCountQuery(String countQuery) {
-        this.countQuery = countQuery;
-    }
+	public String getCountQuery() {
+		return countQuery;
+	}
 
-    public String getDataQuery() {
-        return dataQuery;
-    }
+	public void setCountQuery(String countQuery) {
+		this.countQuery = countQuery;
+	}
 
-    public void setDataQuery(String dataQuery) {
-        this.dataQuery = dataQuery;
-    }
+	public String getDataQuery() {
+		return dataQuery;
+	}
 
-    public Object[] getDataQueryInputs() {
-        return dataQueryInputs;
-    }
+	public void setDataQuery(String dataQuery) {
+		this.dataQuery = dataQuery;
+	}
 
-    public void setDataQueryInputs(Object[] dataQueryInputs) {
-        this.dataQueryInputs = dataQueryInputs;
-    }
+	public Object[] getDataQueryInputs() {
+		return dataQueryInputs;
+	}
 
-    public Object[] getLeftDataQueryInputs() {
-        return leftDataQueryInputs;
-    }
+	public void setDataQueryInputs(Object[] dataQueryInputs) {
+		this.dataQueryInputs = dataQueryInputs;
+	}
 
-    public void setLeftDataQueryInputs(Object[] leftDataQueryInputs) {
-        this.leftDataQueryInputs = leftDataQueryInputs;
-    }
+	public Object[] getLeftDataQueryInputs() {
+		return leftDataQueryInputs;
+	}
 
-    public Object[] getCountQueryInputs() {
-        return countQueryInputs;
-    }
+	public void setLeftDataQueryInputs(Object[] leftDataQueryInputs) {
+		this.leftDataQueryInputs = leftDataQueryInputs;
+	}
 
-    public void setCountQueryInputs(Object[] countQueryInputs) {
-        this.countQueryInputs = countQueryInputs;
-    }
+	public Object[] getCountQueryInputs() {
+		return countQueryInputs;
+	}
 
-    public String getLeftDataQuery() {
-        return leftDataQuery;
-    }
+	public void setCountQueryInputs(Object[] countQueryInputs) {
+		this.countQueryInputs = countQueryInputs;
+	}
 
-    public void setLeftDataQuery(String leftDataQuery) {
-        this.leftDataQuery = leftDataQuery;
-    }
+	public String getLeftDataQuery() {
+		return leftDataQuery;
+	}
 
-    public List<Object> getVisibleColumns() {
-        return visibleColumns;
-    }
+	public void setLeftDataQuery(String leftDataQuery) {
+		this.leftDataQuery = leftDataQuery;
+	}
 
-    public void setVisibleColumns(List<Object> visibleColumns) {
-        this.visibleColumns = visibleColumns;
-    }
+	public List<Object> getVisibleColumns() {
+		return visibleColumns;
+	}
 
-    public List<String> getColumnHeaders() {
-        return columnHeaders;
-    }
+	public void setVisibleColumns(List<Object> visibleColumns) {
+		this.visibleColumns = visibleColumns;
+	}
 
-    public void setColumnHeaders(List<String> columnHeaders) {
-        this.columnHeaders = columnHeaders;
-    }
+	public List<String> getColumnHeaders() {
+		return columnHeaders;
+	}
+
+	public void setColumnHeaders(List<String> columnHeaders) {
+		this.columnHeaders = columnHeaders;
+	}
+
+	public GtnWsReportDashboardBean getGtnWsReportDashboardBean() {
+		return gtnWsReportDashboardBean;
+	}
+
+	public void setGtnWsReportDashboardBean(GtnWsReportDashboardBean gtnWsReportDashboardBean) {
+		this.gtnWsReportDashboardBean = gtnWsReportDashboardBean;
+	}
 
 }

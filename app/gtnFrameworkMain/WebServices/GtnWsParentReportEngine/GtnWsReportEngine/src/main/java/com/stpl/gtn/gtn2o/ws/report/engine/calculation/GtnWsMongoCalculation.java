@@ -21,26 +21,24 @@ public class GtnWsMongoCalculation {
 	@Autowired
 	GtnWsMongoService gtnMongoService;
 
-	private final GtnWsReportEngineBean engineBean;
+	private GtnWsReportEngineBean engineBean;
 
 	boolean index = false;
 
-	public GtnWsMongoCalculation(GtnWsReportEngineBean engineBean) {
+	public void nodeData(GtnWsReportEngineBean engineBean) {
 		this.engineBean = engineBean;
-	}
-
-	public void nodeData() {
-		List<String> collection = engineBean.getComparisonTableName();
-		GtnWsReportEngineTreeNode reportEngineTreeNode = engineBean.getInput();
-		for (String collectionName : collection) {
-			nodeDataRecursion(reportEngineTreeNode, collectionName, null);
-		}
+		// List<String> collection = engineBean.getComparisonTableName();
+		// GtnWsReportEngineTreeNode reportEngineTreeNode = engineBean.getInput();
+		// for (String collectionName : collection) {
+		// nodeDataRecursion(reportEngineTreeNode, collectionName, null);
+		// }
 	}
 
 	private void nodeDataRecursion(GtnWsReportEngineTreeNode ccpNode, String collection,
 			GtnWsTreeNodeAttributeBean rootNodeAtrributeBean) {
 		if (ccpNode.getLevelNumber() == 0 || rootNodeAtrributeBean == null) {
-			rootNodeAtrributeBean = gtnMongoService.topLevelAggregationSelectClause(ccpNode, collection);
+			// rootNodeAtrributeBean =
+			// gtnMongoService.topLevelAggregationSelectClause(ccpNode, collection);
 		}
 		for (GtnWsReportEngineTreeNode gtnWsTreeNode : ccpNode.getChildren()) {
 			if (gtnWsTreeNode.getChildren() != null) {
@@ -69,32 +67,51 @@ public class GtnWsMongoCalculation {
 	}
 
 	public GtnWsReportEngineTreeNode variableCategoryCalculation() {
-		variableCategoryCalculationRecursion(engineBean.getInput());
+		variableCategoryCalculationRecursion(engineBean.getInput(), "");
 		return engineBean.getInput();
 	}
 
-	private void variableCategoryCalculationRecursion(final GtnWsReportEngineTreeNode ccpNode) {
+	private void variableCategoryCalculationRecursion(final GtnWsReportEngineTreeNode ccpNode,
+			String parentHierarchyNo) {
+		int hierarchyIndex = 1;
 		for (GtnWsReportEngineTreeNode gtnWsTreeNode : ccpNode.getChildren()) {
-			if (gtnWsTreeNode.getNodeData() != null) {
-				GtnWsVariableCategoryBean categoryBean = new GtnWsVariableCategoryBean();
-				categoryBean.setComparisonBasis(engineBean.getComparisonBasis());
-				List<GtnWsTreeNodeAttributeBean> finalNode = (List<GtnWsTreeNodeAttributeBean>) gtnWsTreeNode
-						.getNodeData();
-				GtnWsTreeNodeAttributeBean currentAttributes = finalNode.get(engineBean.getSelectedProjectionId());
-				GtnWsTreeNodeAttributeBean calculatedAttributes = new GtnWsTreeNodeAttributeBean();
-				GtnWsAttributeBean newAttributes = new GtnWsAttributeBean();
-				newAttributes.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());
-				// newAttributes.putAttributes("parentHierarchyNo",
-				// gtnWsTreeNode.getParent().getHierarchyNo());
-				newAttributes.putAttributes("RsId", gtnWsTreeNode.getRsIds());
-				newAttributes.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
-				callVariableCategoryLogic(currentAttributes, newAttributes, finalNode, categoryBean);
-				calculatedAttributes.addAttributeBeanToList(newAttributes);
-				gtnWsTreeNode.setNodeData(calculatedAttributes);
-			}
+			// if (gtnWsTreeNode.getNodeData() != null) {
+			// GtnWsVariableCategoryBean categoryBean = new GtnWsVariableCategoryBean();
+			// categoryBean.setComparisonBasis(engineBean.getComparisonBasis());
+			// List<GtnWsTreeNodeAttributeBean> finalNode =
+			// (List<GtnWsTreeNodeAttributeBean>) gtnWsTreeNode
+			// .getNodeData();
+			// GtnWsTreeNodeAttributeBean currentAttributes =
+			// finalNode.get(engineBean.getSelectedProjectionId());
+			// GtnWsTreeNodeAttributeBean calculatedAttributes = new
+			// GtnWsTreeNodeAttributeBean();
+			// GtnWsAttributeBean newAttributes = new GtnWsAttributeBean();
+			// newAttributes.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());
+			// // newAttributes.putAttributes("parentHierarchyNo",
+			// // gtnWsTreeNode.getParent().getHierarchyNo());
+			// newAttributes.putAttributes("RsId", gtnWsTreeNode.getRsIds());
+			// newAttributes.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
+			// callVariableCategoryLogic(currentAttributes, newAttributes, finalNode,
+			// categoryBean);
+			// calculatedAttributes.addAttributeBeanToList(newAttributes);
+			// gtnWsTreeNode.setNodeData(calculatedAttributes);
+			// } else {
+			String newParentHierarchyNo = parentHierarchyNo + hierarchyIndex + "~";
+			GtnWsTreeNodeAttributeBean calculatedAttributes = new GtnWsTreeNodeAttributeBean();
+			GtnWsAttributeBean newAttributes = new GtnWsAttributeBean();
+			newAttributes.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());
+			newAttributes.putAttributes("levelNumber", gtnWsTreeNode.getLevelNumber());
+			newAttributes.putAttributes("levelValue", gtnWsTreeNode.getLevelValue());
+			newAttributes.putAttributes("RsId", gtnWsTreeNode.getRsIds());
+			newAttributes.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
+			newAttributes.putAttributes("generatedHierarchyNo", newParentHierarchyNo);
+			calculatedAttributes.addAttributeBeanToList(newAttributes);
+			gtnWsTreeNode.setNodeData(calculatedAttributes);
+			// }
 			if (gtnWsTreeNode.getChildren() != null) {
-				variableCategoryCalculationRecursion(gtnWsTreeNode);
+				variableCategoryCalculationRecursion(gtnWsTreeNode, newParentHierarchyNo);
 			}
+			hierarchyIndex++;
 		}
 	}
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -132,7 +133,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 
 		GtnUIFrameWorkActionConfig hierarchypopupAction = new GtnUIFrameWorkActionConfig();
 		hierarchypopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		hierarchypopupAction.addActionParameter("productHierarchyLookup");
+		hierarchypopupAction.addActionParameter(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"productHierarchyLookup");
 		hierarchypopupAction.addActionParameter("Product Hierarchy LookUp");
 		hierarchypopupAction.addActionParameter("720");
 		hierarchypopupAction.addActionParameter("875");
@@ -198,8 +199,17 @@ public class GtnFrameworkReportProdHierarchyConfig {
 
 		List<GtnUIFrameWorkActionConfig> actionList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig loadAvailabletableActionConfig = new GtnUIFrameWorkActionConfig();
-		loadAvailabletableActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		loadAvailabletableActionConfig.addActionParameter(GtnProductLevelAvailableTableLoadAction.class.getName());
+		loadAvailabletableActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);		
+		loadAvailabletableActionConfig.setActionParameterList(Arrays.asList(new Object[] {
+				GtnProductLevelAvailableTableLoadAction.class.getName(),
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy",
+				namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"relationship",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productRelationshipVersion",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "level", 
+				namespace+ GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnit",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion",
+				namespace+ GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp"}));
+		
 		actionList.add(loadAvailabletableActionConfig);
 
 		GtnUIFrameWorkActionConfig loadLeftDualListBoxtableActionConfig = new GtnUIFrameWorkActionConfig();

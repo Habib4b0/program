@@ -61,11 +61,10 @@ public class PagedGrid {
 					.setId(property);
 
 			i++;
-		}
-		addFilterAndRefreshLogic(tableConfig);
+		}		
 		pagedTableLogic = new GtnUIFrameworkPagedGridLogic(tableConfig, componentConfig);
-		// setFilterToGrid();
-		// refreshGrid();
+		addFilterAndRefreshLogic(tableConfig);
+	
 	}
 
 	private void addFilterAndRefreshLogic(GtnUIFrameworkPagedTableConfig tableConfig) {
@@ -324,8 +323,7 @@ public class PagedGrid {
 			} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
 				Button dateFilterPopupButton = new Button("Show all");
 				dateFilterPopupButton.setWidth("400px");
-				DateFilterPopup dateFilterpopup = new DateFilterPopup(dateFilterPopupButton, tableConfig, property,
-						componentConfig);
+				DateFilterPopup dateFilterpopup = new DateFilterPopup(dateFilterPopupButton, tableConfig, property,componentConfig);
 				Window window = dateFilterpopup.getDateFilterPopup();
 				dateFilterPopupButton.addClickListener(new Button.ClickListener() {
 					@Override

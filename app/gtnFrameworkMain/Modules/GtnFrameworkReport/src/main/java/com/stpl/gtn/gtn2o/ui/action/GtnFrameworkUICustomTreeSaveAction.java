@@ -2,8 +2,10 @@ package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.stpl.gtn.gtn2o.ui.config.GtnUIFrameworkWebServiceReportRequestBuilder;
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -15,6 +17,7 @@ import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkSkipActionException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewDataBean;
@@ -55,7 +58,7 @@ public class GtnFrameworkUICustomTreeSaveAction
 				.getFieldValue();
 		request.getGtnWsReportRequest().getReportBean().getCustomViewBean().getCustomViewDataBean()
 				.setCustomViewName(customViewName);
-
+		validateTreeSave(customViewDataBean, customViewName, componentId);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportEndPointUrlConstants.SAVE_CUSTOM_TREE, GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
@@ -66,6 +69,58 @@ public class GtnFrameworkUICustomTreeSaveAction
 		actionConfig.addActionParameter(customViewName);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
 
+	}
+
+	private void validateTreeSave(GtnWsReportCustomViewDataBean customViewDataBean, String customViewName,
+			String componentId) throws GtnFrameworkGeneralException {
+		validateEmptyTree(customViewDataBean, componentId);
+		validateEmptyViewName(customViewName, componentId);
+		validateIsNameTaken(customViewName, componentId);
+	}
+
+	private void validateIsNameTaken(String customViewName, String componentId) throws GtnFrameworkGeneralException {
+		List<String> savedCustomViewList = new GtnUIFrameworkWebServiceClient()
+				.callGtnWebServiceUrl(GtnWsReportEndPointUrlConstants.LOAD_CUSTOM_VIEW,
+						GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, new GtnUIFrameworkWebserviceRequest(),
+						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
+				.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList();
+		Optional<String> sameCustomView = savedCustomViewList.stream()
+				.filter(viewName -> viewName.equals(customViewName)).findFirst();
+		if (sameCustomView.isPresent()) {
+			GtnUIFrameWorkActionConfig noLevelChoosedAction = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+			noLevelChoosedAction
+					.addActionParameter("That view name is taken. Please enter a new Custom Tree View Name");
+			noLevelChoosedAction.addActionParameter("Name Already Taken");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, noLevelChoosedAction);
+			throw new GtnFrameworkSkipActionException("Name Already available");
+		}
+	}
+
+	private void validateEmptyViewName(String customViewName, String componentId) throws GtnFrameworkGeneralException {
+		if (customViewName == null || customViewName.equals("")) {
+			GtnUIFrameWorkActionConfig noLevelChoosedAction = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+			String missingViewName = "Missing Tree View Name";
+			noLevelChoosedAction.addActionParameter(missingViewName);
+			noLevelChoosedAction.addActionParameter("Missing Required Field");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, noLevelChoosedAction);
+			throw new GtnFrameworkSkipActionException("No Name found");
+
+		}
+
+	}
+
+	private void validateEmptyTree(GtnWsReportCustomViewDataBean customViewDataBean, String componentId)
+			throws GtnFrameworkGeneralException {
+		if (customViewDataBean.getCustomTreeData().getChild() == null) {
+			GtnUIFrameWorkActionConfig noLevelChoosedAction = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+			noLevelChoosedAction.addActionParameter("Please add at least one level to the Tree Structure list view");
+			noLevelChoosedAction.addActionParameter("Missing Level");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, noLevelChoosedAction);
+			throw new GtnFrameworkSkipActionException("Can't Save . No level available");
+		}
 	}
 
 	private GtnWsCustomTreeData buildCustomTreeData(TreeData<GtnWsRecordBean> treeData) {
