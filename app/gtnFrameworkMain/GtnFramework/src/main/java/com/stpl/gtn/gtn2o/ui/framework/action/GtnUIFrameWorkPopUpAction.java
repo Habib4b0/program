@@ -27,9 +27,8 @@ public class GtnUIFrameWorkPopUpAction implements GtnUIFrameWorkAction {
 
 	}
 	/*
-	 * Param 0 - View Component id , Param 1 - Pop up Window Name, Param2 -
-	 * Width, Param3 - Height, Param4 - Close Action class, Param5 -
-	 * PopUpSharedData *
+	 * Param 0 - View Component id , Param 1 - Pop up Window Name, Param2 - Width,
+	 * Param3 - Height, Param4 - Close Action class, Param5 - PopUpSharedData *
 	 */
 
 	@Override
@@ -45,10 +44,10 @@ public class GtnUIFrameWorkPopUpAction implements GtnUIFrameWorkAction {
 			if (view == null) {
 				view = new GtnUIFrameworkView((String) configList.get(0), sourceComponentId);
 				configureReplicableWindow(popUpWindow);
-
 				GtnUIFrameworkGlobalUI.addViewToNavigator(view.getGeneratedViewId(), view);
 				logger.info("Add to Navigator ::: View Generated Id:" + view.getGeneratedViewId());
 			} else {
+				view.buildScreen(sourceComponentId);
 				configureModalWindow(popUpWindow);
 			}
 			setSharedPopupData(view, configList);

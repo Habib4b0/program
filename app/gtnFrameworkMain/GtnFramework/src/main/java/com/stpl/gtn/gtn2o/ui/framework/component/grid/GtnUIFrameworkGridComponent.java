@@ -1,27 +1,33 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid;
 
+import java.util.Collections;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentActionable;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboboxComponent;
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.Column;
 
 public class GtnUIFrameworkGridComponent implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnUIFrameworkGridComponent.class);
 
 	@Override
 	public void postCreateComponent(AbstractComponent component, GtnUIFrameworkComponentConfig componentConfig) {
-		componentConfig.getGtnUIFrameWorkActionConfigList();
 		try {
 			GtnUIFrameworkActionExecutor.executeActionList(componentConfig.getComponentId(),
 					componentConfig.getGtnUIFrameWorkActionConfigList());
 		} catch (GtnFrameworkGeneralException e) {
-			e.printStackTrace();
+			LOGGER.error("Exception in postcreate of Grid", e);
 		}
 	}
 
@@ -36,6 +42,7 @@ public class GtnUIFrameworkGridComponent implements GtnUIFrameworkComponent, Gtn
 		generateColumns(grid, componentConfig.getGtnUIFrameWorkGridConfig());
 		GtnUIFrameworkComponentData componentData = new GtnUIFrameworkComponentData();
 		componentData.setCurrentComponentConfig(componentConfig);
+		componentData.setCurrentGtnComponent(this);
 		grid.setData(componentData);
 		return grid;
 	}
@@ -62,7 +69,10 @@ public class GtnUIFrameworkGridComponent implements GtnUIFrameworkComponent, Gtn
 
 	@Override
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
-		// Not yet needed
+		GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId);
+		Grid<GtnWsRecordBean> grid = (Grid<GtnWsRecordBean>) baseComponent.getComponent();
+		grid.setItems(Collections.emptyList());
+		postCreateComponent(grid, componentConfig);
 	}
 
 }
