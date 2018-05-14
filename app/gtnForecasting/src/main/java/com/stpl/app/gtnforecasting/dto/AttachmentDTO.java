@@ -44,6 +44,7 @@ public class AttachmentDTO implements Serializable {
      * The user name.
      */
     private String userName;
+	private byte[] fileData;
 
     /**
      * getter for docDetailsId field .
@@ -116,4 +117,11 @@ public class AttachmentDTO implements Serializable {
     public void setUserName(final String userName) {
         this.userName = userName;
     }
+	public byte[] getFileData() {
+		return (fileData==null) ? null : fileData.clone();
+	}
+
+	public void setFileData(byte[] fileData) {
+		this.fileData  = (fileData==null) ? null : fileData.clone();
+	}
 }

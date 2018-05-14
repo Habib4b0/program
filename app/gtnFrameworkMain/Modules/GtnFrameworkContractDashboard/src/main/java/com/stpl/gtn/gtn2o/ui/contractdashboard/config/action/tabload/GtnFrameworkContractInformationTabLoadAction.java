@@ -114,9 +114,8 @@ public class GtnFrameworkContractInformationTabLoadAction implements GtnUIFrameW
 					.setCustomDataList(Arrays.asList(processDataBean.getContractInfoBean().getProperties().get(49)));
 			GtnUIFrameworkGlobalUI.getVaadinComponentData(processDataBean.getContractInfoFieldList().get(12))
 					.setCustomDataList(Arrays.asList(processDataBean.getContractInfoBean().getProperties().get(50)));
-			Object[] aliasColumns = GtnFrameworkContractDashboardContants.getAliasTableColumn();
 			processDataBean.setContractAliasRecordList(getCustomisedAliasTableRecord(
-					cdResponse.getContractAliasRecordList(), Arrays.asList(aliasColumns)));
+					cdResponse.getContractAliasRecordList(), Arrays.asList(GtnFrameworkContractDashboardContants.getAliasTableColumn())));
 			processDataBean.setNotesTabRecordList(
 					getCustomisedNotesTableRecord(cdResponse.getNotesTabRecordList(), processDataBean));
 		} catch (Exception e) {
@@ -173,7 +172,7 @@ public class GtnFrameworkContractInformationTabLoadAction implements GtnUIFrameW
 			notesDTOList.add(notesDTO);
 		}
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("notesTab").setNotesTabValue(
-				Arrays.asList(processDataBean.getContractInfoBean().getStringPropertyByIndex(48), notesDTOList));
+				Arrays.asList(processDataBean.getContractInfoBean().getStringPropertyByIndex(49), notesDTOList));
 		return records;
 	}
 }

@@ -12,9 +12,12 @@ import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidatio
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.textbox.GtnUIFrameworkTextBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkRegexStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnWsNumericConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -78,6 +81,15 @@ public class GtnUIFrameworkCompanyInformationTab {
 		companyIdConfig.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
 
 		componentList.add(companyIdConfig);
+                
+                GtnUIFrameworkTextBoxConfig companyIdMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
+		companyIdConfig.setGtnTextBoxConfig(companyIdMaxLengthConfig);
+                
+                GtnUIFrameworkValidationConfig companyIdValidationConfig = configProvider.getValidationConfig(
+				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY), true,
+				"Company ID Should be less than 38 Characters",
+				GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_38_CHARACTER);
+		companyIdConfig.setGtnUIFrameworkValidationConfig(companyIdValidationConfig);
 	}
 
 	private void addCompanyNo(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -97,6 +109,15 @@ public class GtnUIFrameworkCompanyInformationTab {
 		companyNoConfig.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
 
 		componentList.add(companyNoConfig);
+                
+                GtnUIFrameworkTextBoxConfig companyNoMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
+		companyNoConfig.setGtnTextBoxConfig(companyNoMaxLengthConfig);
+                
+                GtnUIFrameworkValidationConfig companyNoValidationConfig = configProvider.getValidationConfig(
+				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY), true,
+				"Company No Should be less than 50 Characters",
+				GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_50_CHARACTER);
+		companyNoConfig.setGtnUIFrameworkValidationConfig(companyNoValidationConfig);
 	}
 
 	private void addCompanyName(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -112,6 +133,15 @@ public class GtnUIFrameworkCompanyInformationTab {
 		companyNameConfig.setAuthorizationIncluded(true);
 		companyNameConfig.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
 		componentList.add(companyNameConfig);
+                
+                GtnUIFrameworkTextBoxConfig companyNameMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
+		companyNameConfig.setGtnTextBoxConfig(companyNameMaxLengthConfig);
+                
+                GtnUIFrameworkValidationConfig companyNameValidationConfig = configProvider.getValidationConfig(
+				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY), true,
+				"Company Name Should be less than 100 Characters",
+				GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_100_CHARACTER);
+		companyNameConfig.setGtnUIFrameworkValidationConfig(companyNameValidationConfig);
 	}
 
 	private void addCompanyStatus(List<GtnUIFrameworkComponentConfig> componentList) {

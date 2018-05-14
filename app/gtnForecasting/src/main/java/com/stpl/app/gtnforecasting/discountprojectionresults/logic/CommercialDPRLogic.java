@@ -453,9 +453,9 @@ public class CommercialDPRLogic {
                     } else {
                         if (start < projSelDTO.getPeriodList().size()) {
                             List discountList = getDiscountBasedOnLevelValue(start, offset, projSelDTO, isPeriodView, parentId);
-                            int recordsToFetch = neededRecord < discountList.size() ? Math.abs(discountList.size() - start) : Math.abs(discountList.size() - start);
+                            int recordsToFetch = Math.abs(discountList.size() - start);
                             dataList.addAll(discountList.subList(start, start + recordsToFetch));
-                            neededRecord = neededRecord < discountList.size() ? Math.abs(discountList.size() - start - neededRecord) : Math.abs(discountList.size() - start - neededRecord);
+                            neededRecord = Math.abs(discountList.size() - start - neededRecord);
                             start = 0;
                         } else {
                             start = Math.abs(start - projSelDTO.getPeriodList().size());
@@ -915,11 +915,7 @@ public class CommercialDPRLogic {
             query = query.replace("[?PROD_RELATIONSHIP_BUILDER_SID]", projSelDTO.getProdRelationshipBuilderSid());
             query = query.replace("[?CUSTOM_VIEW_MASTER_SID]", String.valueOf(projSelDTO.getCustomId()));
         } else {
-            if (!isPeriodView) {
-                query = query.replace(Constant.ORDER_BY_QUESTION, "AD.HIERARCHY_NO,DPM.discount,AD.YEAR,AD.PERIOD ,DPM.RS_CONTRACT_SID,AP_TABLE_INDICATOR");
-            } else {
-                query = query.replace(Constant.ORDER_BY_QUESTION, "AD.HIERARCHY_NO,DPM.discount,AD.YEAR,AD.PERIOD ,DPM.RS_CONTRACT_SID,AP_TABLE_INDICATOR");
-            }
+            query = query.replace(Constant.ORDER_BY_QUESTION, "AD.HIERARCHY_NO,DPM.discount,AD.YEAR,AD.PERIOD ,DPM.RS_CONTRACT_SID,AP_TABLE_INDICATOR");
             if(projSelDTO.getHierarchyIndicator().equalsIgnoreCase("C") && !projSelDTO.getGroupFilter().equalsIgnoreCase(Constant.ALL_DISCOUNT_GROUP)){
                 String userGroupCondition=SQlUtil.getQuery(Constant.USER_GROUP_CONDITIONQUERY);
                 userGroupCondition=userGroupCondition.replace("AND", "WHERE");

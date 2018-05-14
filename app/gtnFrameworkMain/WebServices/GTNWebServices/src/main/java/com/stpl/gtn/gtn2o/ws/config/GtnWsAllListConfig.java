@@ -132,7 +132,6 @@ public class GtnWsAllListConfig {
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	private Map<Integer, String> idDescMap = new HashMap<>();
-	private Map<Integer, String> idDescMapForNonCombobox = new HashMap<>();
 	private Map<String, GtnUIFrameworkWebserviceComboBoxResponse> comboBoxResponseMap = new HashMap<>();
 	private Map<String, GtnUIFrameworkWebserviceComboBoxResponse> nonHelperComboBoxResponseMap = new HashMap<>();
 	private Map<String, String> comboBoxQueryMap = new HashMap<>();
@@ -331,8 +330,8 @@ public class GtnWsAllListConfig {
 				"select HELPER_TABLE_SID,DESCRIPTION from HELPER_TABLE where LIST_NAME like 'PERIODCONFIG_MODULES'  order by HELPER_TABLE_SID");
 
 		comboBoxQueryMap.put("BUSINESS_PROCESS",
-				"SELECT ARM_ADJUSTMENT_CONFIG_SID,TRANSACTION_NAME FROM ARM_ADJUSTMENT_CONFIG");
-
+				"SELECT -1 AS ARM_ADJUSTMENT_CONFIG_SID ,'Adjustment Summary' AS TRANSACTION_NAME UNION ALL SELECT HT.HELPER_TABLE_SID * -1 AS ARM_ADJUSTMENT_CONFIG_SID, CONCAT('Balance Summary Report - ',REPLACE(HT.DESCRIPTION,'Balance Summary','')) AS TRANSACTION_NAME FROM HELPER_TABLE HT where HT.LIST_NAME = 'ARM_REPORT_TYPE' UNION ALL SELECT AC.ARM_ADJUSTMENT_CONFIG_SID,AC.TRANSACTION_NAME FROM ARM_ADJUSTMENT_CONFIG AC");
+                
 		comboBoxQueryMap.put("company",
 				"select COMPANY_MASTER_SID,COMPANY_NO+' - '+COMPANY_NAME as company "
 						+ "from COMPANY_MASTER CM JOIN  HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CM.COMPANY_TYPE "
@@ -381,6 +380,8 @@ public class GtnWsAllListConfig {
 				"SELECT MODULE_SUBMODULE_SID, SUBMODULE_NAME FROM dbo.MODULE_SUBMODULE_MASTER where MODULE_NAME=?");
 		comboBoxQueryMap.put("Ndc9ItemId",
 				"SELECT DISTINCT IM.ITEM_MASTER_SID,IM.ITEM_ID FROM ITEM_MASTER IM join HELPER_TABLE HT ON IM.ITEM_TYPE=HT.HELPER_TABLE_SID WHERE LIST_NAME ='ITEM_TYPE' AND DESCRIPTION='NDC-9'");
+		comboBoxQueryMap.put("Ndc8Items",
+				"SELECT DISTINCT IM.ITEM_MASTER_SID,IM.NDC8 FROM ITEM_MASTER IM WHERE INBOUND_STATUS <> 'D'");
 	}
 
 	public void loadGLCompany() {
@@ -407,7 +408,6 @@ public class GtnWsAllListConfig {
 				nonHelperComboBoxResponseMap.get(currentRow[0].toString()).addItemCodeList(itemCode);
 				nonHelperComboBoxResponseMap.get(currentRow[0].toString()).addItemValueList(itemValue);
 
-				idDescMapForNonCombobox.put(Integer.valueOf(itemCode), itemValue);
 
 			}
 		} catch (GtnFrameworkGeneralException e) {

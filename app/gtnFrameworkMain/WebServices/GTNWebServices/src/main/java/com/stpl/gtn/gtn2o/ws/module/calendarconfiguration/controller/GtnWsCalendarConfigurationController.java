@@ -47,8 +47,6 @@ public class GtnWsCalendarConfigurationController {
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
 
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
 	private org.hibernate.SessionFactory sysSessionFactory;
@@ -65,7 +63,7 @@ public class GtnWsCalendarConfigurationController {
 	}
 
 	public org.hibernate.SessionFactory getSessionFactory() {
-		return sessionFactory;
+		return gtnSqlQueryEngine.getSessionFactory();
 	}
 
 	@SuppressWarnings("rawtypes")

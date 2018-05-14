@@ -112,12 +112,13 @@ public class ComparisonLookup extends AbstractComparisonLookup {
                 if (workFlowState.equals(Constants.SUBMITTED)) {
                     workFlowState = "Pending";
                 }
-                String notSearchProjId = "'" + currentProjId + "'";
+                StringBuilder notSearchProjId = new StringBuilder();
+                notSearchProjId.append( '\'' ).append( currentProjId ).append( '\'');
                 for (int j = 0; j < selectedResultsBean.size(); j++) {
-                    notSearchProjId += ",'" + selectedResultsBean.getIdByIndex(j).getProjectionId() + "'";
+                    notSearchProjId.append(",'" ).append( selectedResultsBean.getIdByIndex(j).getProjectionId() ).append( '\'');
                 }
                 comparisonLookup.setWorkflowStatus(workFlowState);
-                comparisonLookup.setCurrentProjId(notSearchProjId);
+                comparisonLookup.setCurrentProjId(notSearchProjId.toString());
                 comparisonLookup.setCreatedDateFrom(fromDate.getValue());
                 comparisonLookup.setCreatedDateTo(toDate.getValue());
                 tableLogic.fireSetData(comparisonLookup, false);

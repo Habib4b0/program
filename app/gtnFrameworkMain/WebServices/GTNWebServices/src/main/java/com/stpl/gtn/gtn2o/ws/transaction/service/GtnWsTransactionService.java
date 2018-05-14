@@ -160,7 +160,7 @@ public class GtnWsTransactionService {
 							: columns.getExpression());
 			boolean isUser = columns.getFieldId().contains(GtnFrameworkCommonConstants.CREATED_BY)
 					|| columns.getFieldId().contains(GtnFrameworkCommonConstants.MODIFIED_BY);
-			String dateFormat = columns.isFilter() ? "E MMM dd HH:mm:ss Z yyyy" : "yyyy-MM-dd";
+			String dateFormat = "yyyy-MM-dd";
 			boolean isInvalidFilter = isInvalid && columns.getFieldId().contains("Date");
 			switch (columns.getExpression()) {
 			case "BETWEEN":
@@ -330,8 +330,8 @@ public class GtnWsTransactionService {
 
 	private void betweenConditon(Criteria criteria, GtnWebServiceSearchCriteria columns, String type, String dateFormat)
 			throws ParseException {
-		criteria.add(Restrictions.gt(columns.getFieldId(), getDateValue(type, columns.getFilterValue1(), dateFormat)));
-		criteria.add(Restrictions.lt(columns.getFieldId(), getDateValue(type, columns.getFilterValue2(), dateFormat)));
+		criteria.add(Restrictions.ge(columns.getFieldId(), getDateValue(type, columns.getFilterValue1(), dateFormat)));
+		criteria.add(Restrictions.le(columns.getFieldId(), getDateValue(type, columns.getFilterValue2(), dateFormat)));
 	}
 
 	Object getDateValue(String type, String filterValue, String dateFormat) throws ParseException {
@@ -475,7 +475,7 @@ public class GtnWsTransactionService {
 		filePath.append("exceltransaction");
 		filePath.append('/');
 		Path path = Paths.get(filePath.toString());
-		if (!Files.exists(path)) {
+                if (path.toFile().exists()){
 			try {
 				Files.createDirectories(path);
 			} catch (IOException e) {
@@ -514,7 +514,7 @@ public class GtnWsTransactionService {
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getResultList(Object resultSet, List<Object> searchColumnNameList,
 			Map<Integer, String> userMap, String tableName) {
-		List<Object[]> resultList = new ArrayList<>();
+		List<Object[]> resultList = new ArrayList<>(((List<Object>) resultSet).size());
 		Iterator<Object> iterator = ((List<Object>) resultSet).iterator();
 		while (iterator.hasNext()) {
 			Object[] ob = (Object[]) iterator.next();
@@ -667,6 +667,7 @@ public class GtnWsTransactionService {
 		columnMap.put("quantity", "QUANTITY");
 		columnMap.put("salesAmount", "SALES_AMOUNT");
 		columnMap.put("recordCreatedDate", "RECORD_CREATED_DATE");
+		columnMap.put("avgShelfLife", "AVG_SHELF_LIFE");
 		return columnMap.get(columnName);
 	}
 

@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.cfp.contants.GtnFrameworkCfpClassContants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkRegexStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
@@ -70,12 +71,16 @@ public class GtnFrameworkCfpInformationTabConfig {
 		cfpId.setAuthorizationIncluded(true);
 		cfpId.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
 		componentList.add(cfpId);
+		
 
-		GtnUIFrameworkValidationConfig cfpIdValidationConfig = new GtnUIFrameworkValidationConfig();
-		cfpIdValidationConfig.setMaxLength(50);
-		cfpIdValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-
-		cfpId.setGtnUIFrameworkValidationConfig(cfpIdValidationConfig);
+		GtnUIFrameworkTextBoxConfig cfpTextConfig = new GtnUIFrameworkTextBoxConfig();
+		cfpId.setGtnTextBoxConfig(cfpTextConfig);
+                
+                GtnUIFrameworkValidationConfig cfpIdPValidationConfig = componentConfig.getValidationConfig(
+				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY), true,
+				"CFP ID Should be less than 38 Characters",
+				GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_38_CHARACTER);
+		cfpId.setGtnUIFrameworkValidationConfig(cfpIdPValidationConfig);
 
 	}
 
@@ -92,10 +97,14 @@ public class GtnFrameworkCfpInformationTabConfig {
 		cfpNoConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
 		componentList.add(cfpNoConfig);
 
-		GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
-		validationConfig.setMaxLength(50);
-		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		cfpNoConfig.setGtnUIFrameworkValidationConfig(validationConfig);
+		GtnUIFrameworkTextBoxConfig cfpNoLengthConfig = new GtnUIFrameworkTextBoxConfig();
+		cfpNoConfig.setGtnTextBoxConfig(cfpNoLengthConfig);
+                
+                GtnUIFrameworkValidationConfig cfpNoValidationConfig = componentConfig.getValidationConfig(
+				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY), true,
+				"CFP NO Should be less than 50 Characters",
+				GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_50_CHARACTER);
+		cfpNoConfig.setGtnUIFrameworkValidationConfig(cfpNoValidationConfig);
 
 	}
 
@@ -115,10 +124,13 @@ public class GtnFrameworkCfpInformationTabConfig {
 
 		componentList.add(cfpNameConfig);
 
-		GtnUIFrameworkValidationConfig cfpNameValidationConfig = new GtnUIFrameworkValidationConfig();
-		cfpNameValidationConfig.setMaxLength(50);
-		cfpNameValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-
+		GtnUIFrameworkTextBoxConfig cfpNameMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
+		cfpNameConfig.setGtnTextBoxConfig(cfpNameMaxLengthConfig);
+                
+                GtnUIFrameworkValidationConfig cfpNameValidationConfig = componentConfig.getValidationConfig(
+				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY), true,
+				"CFP Name Should be less than 100 Characters",
+				GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_100_CHARACTER);
 		cfpNameConfig.setGtnUIFrameworkValidationConfig(cfpNameValidationConfig);
 
 	}
@@ -316,7 +328,8 @@ public class GtnFrameworkCfpInformationTabConfig {
 		// To disable Select Button when a popup is opened
 		GtnUIFrameWorkActionConfig disableAction = new GtnUIFrameWorkActionConfig();
 		disableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
-		Object[] disableField = new String[] { "parentCfpSelectButton" };
+                List<Object> disableField = new ArrayList<>();
+                disableField.add(Arrays.asList("parentCfpSelectButton"));
 		disableAction.setActionParameterList(Arrays.asList(disableField));
 		parentCFPIdActionConfigList.add(disableAction);
 		parentCFPId.setGtnUIFrameWorkActionConfigList(parentCFPIdActionConfigList);

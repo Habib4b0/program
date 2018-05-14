@@ -18,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.module.transaction.bean.GtnUIFrameworkTransactionComponentTypeListBean;
 import com.stpl.gtn.gtn2o.ui.module.transaction.constants.GtnTransactionUIConstants;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
@@ -107,16 +108,26 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			}
 		} else {
 			componentList = (List<Object>) actionParamList.get(1);
+
 		}
+		List<GtnWSTransactionColumnBean> viewDateModeComponents = (List<GtnWSTransactionColumnBean>) actionParamList
+				.get(9);
 		List<String> helpercomponentList = (List<String>) actionParamList.get(3);
 		int systemId = getSystemId(isInvalid, componentId, actionParamList);
 		try {
+			GtnUIFrameworkTransactionComponentTypeListBean gtnUIFrameworkTransactionComponentTypeListBean = new GtnUIFrameworkTransactionComponentTypeListBean();
+
 			if ("VwInventoryWdActualProjMas".equalsIgnoreCase(wsViewName)) {
+				gtnUIFrameworkTransactionComponentTypeListBean.setInventoryType(inventoryType);
+				gtnUIFrameworkTransactionComponentTypeListBean.setViewDateModeComponents(viewDateModeComponents);
+
 				loadDataFromService(componentList, wsViewName, helpercomponentList, systemId, inventoryLevelColumnName,
-						inventoryLevelColumnValue, inventoryType);
+						inventoryLevelColumnValue, gtnUIFrameworkTransactionComponentTypeListBean);
 			} else {
+				gtnUIFrameworkTransactionComponentTypeListBean.setInventoryType(null);
+				gtnUIFrameworkTransactionComponentTypeListBean.setViewDateModeComponents(viewDateModeComponents);
 				loadDataFromService(componentList, wsViewName, helpercomponentList, systemId, demandTypeColumnName,
-						demandTypeColumnValue, null);
+						demandTypeColumnValue, gtnUIFrameworkTransactionComponentTypeListBean);
 			}
 			gtnLogger.info("----------Ending doAction ---------------");
 		} catch (Exception e) {
@@ -125,7 +136,8 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 	}
 
 	private void loadDataFromService(List<Object> componentList, String tableName, List<String> helpercomponentList,
-			int systemId, String demandTypeColumnName, String demandTypeColumnValue, List<String> inventoryType)
+			int systemId, String demandTypeColumnName, String demandTypeColumnValue,
+			GtnUIFrameworkTransactionComponentTypeListBean gtnUIFrameworkTransactionComponentTypeListBean)
 			throws GtnFrameworkGeneralException {
 		gtnLogger.info("--------Inside loadDataFromService----------");
 
@@ -140,8 +152,10 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			gtnWsTransactionRequest.setInventoryLevelColumnName(demandTypeColumnName);
 			gtnWsTransactionRequest.setInventoryLevelColumnValue(
 					demandTypeColumnValue.isEmpty() ? 0 : Integer.parseInt(demandTypeColumnValue));
-			gtnWsTransactionRequest.setInventoryTypeColumnName(inventoryType.get(0));
-			gtnWsTransactionRequest.setInventoryTypeColumnValue(Integer.valueOf(inventoryType.get(1)));
+			gtnWsTransactionRequest.setInventoryTypeColumnName(
+					gtnUIFrameworkTransactionComponentTypeListBean.getInventoryType().get(0));
+			gtnWsTransactionRequest.setInventoryTypeColumnValue(
+					Integer.valueOf(gtnUIFrameworkTransactionComponentTypeListBean.getInventoryType().get(1)));
 		} else if ("Demand".equalsIgnoreCase(tableName)) {
 			gtnWsTransactionRequest.setDemandTypeColumnName(demandTypeColumnName);
 			gtnWsTransactionRequest.setDemandTypeColumnValue(
@@ -154,7 +168,8 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		Object[] resultArray = response.getGtnWsTransactionResponse().getViewResults();
 
-		setValuesToComponents(componentList, resultArray);
+		setValuesToComponents(componentList, resultArray,
+				gtnUIFrameworkTransactionComponentTypeListBean.getViewDateModeComponents());
 
 		gtnLogger.info("--------Ending loadDataFromService----------");
 
@@ -316,28 +331,62 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		return systemId;
 	}
 
-	private void setValuesToComponents(List<Object> componentList, Object[] resultArray)
-			throws GtnFrameworkGeneralException {
+	private void setValuesToComponents(List<Object> componentList, Object[] resultArray,
+			List<GtnWSTransactionColumnBean> viewDateModeComponents) throws GtnFrameworkGeneralException {
 
 		Object value = null;
 
 		for (int i = 0; i < componentList.size(); i++) {
 			if (componentList.get(i) != null && resultArray[i] != null) {
-				value = getValuesForComponent(i,componentList,resultArray);
+				value = getValuesForComponent(i, componentList, resultArray);
 
-				GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent(
-								GtnTransactionUIConstants.TRANSACTION_VIEW + String.valueOf(componentList.get(i)))
-						.loadDateValue(value);
+				GtnWSTransactionColumnBean viewDateModeBean = getDateMode(viewDateModeComponents, componentList.get(i));
+				if (viewDateModeBean != null) {
+
+					getValuesForDateComponent(i, componentList, viewDateModeBean, value, resultArray);
+
+				}
+
 			}
+		}
+	}
+
+	private static GtnWSTransactionColumnBean getDateMode(List<GtnWSTransactionColumnBean> viewDateMode,
+			Object componentId) {
+		for (GtnWSTransactionColumnBean viewDateModeBean : viewDateMode) {
+			if (viewDateModeBean.getColumnID().equals(componentId)) {
+				return viewDateModeBean;
+			}
+		}
+		return null;
+	}
+
+	private void getValuesForDateComponent(int i, List<Object> componentList,
+			GtnWSTransactionColumnBean viewDateModeBean, Object value, Object[] resultArray) {
+
+		if (String.valueOf(componentList.get(i)).contains("Date")
+				&& (viewDateModeBean.getComponentType().equals("text"))) {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+			String stringDateValue = dateFormat.format(resultArray[i]);
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(
+							GtnTransactionUIConstants.TRANSACTION_VIEW + String.valueOf(componentList.get(i)))
+					.loadDateValue(stringDateValue);
+
+		} else {
+
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(
+							GtnTransactionUIConstants.TRANSACTION_VIEW + String.valueOf(componentList.get(i)))
+					.loadDateValue(value);
 		}
 
 	}
 
-	private Object getValuesForComponent(int i,List<Object> componentList, Object[] resultArray)
+	private Object getValuesForComponent(int i, List<Object> componentList, Object[] resultArray)
 			throws GtnFrameworkGeneralException {
-            Object componentId = componentList.get(i);
-            Object componentValue =  resultArray[i];
+		Object componentId = componentList.get(i);
+		Object componentValue = resultArray[i];
 		Object value = null;
 		try {
 			List<String> dateColumn = Arrays.asList("firstReturn", "lastReturn", "origSaleMonth", "maxExpiredMonth",
@@ -345,20 +394,17 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
 			boolean isDate = (String.valueOf(componentId).contains("Date")
 					|| dateColumn.contains(String.valueOf(componentId))) && componentValue instanceof java.lang.String;
-			
-                        if (isDate) {
+
+			if (isDate) {
 				value = sdf1.parse(sdf1.format(parseDate(String.valueOf(componentValue))));
 			} else if (String.valueOf(componentId).equals("baselineAmp") && String.valueOf(componentId) != null) {
 				value = "$" + new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN);
-			}
-                        else if (String.valueOf(componentId).equals("baseCpi") && String.valueOf(componentId) != null) {
+			} else if (String.valueOf(componentId).equals("baseCpi") && String.valueOf(componentId) != null) {
 				value = new BigDecimal(String.valueOf(componentValue)).setScale(3, BigDecimal.ROUND_DOWN).toString();
-			} 
-                        else if (String.valueOf(componentId).equals("itemPrice") && String.valueOf(componentId)!= null) {
-                            
-                        value = "$" + callDecimalFormatForItemPrice(componentValue,String.valueOf(resultArray[4]));
-			} 
-                        else {
+			} else if (String.valueOf(componentId).equals("itemPrice") && String.valueOf(componentId) != null) {
+
+				value = "$" + callDecimalFormatForItemPrice(componentValue, String.valueOf(resultArray[4]));
+			} else {
 				value = componentValue instanceof java.lang.Long ? new Date((Long) componentValue)
 						: String.valueOf(componentValue);
 			}
@@ -367,41 +413,38 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		}
 		return value;
 	}
-        
-        private Object callDecimalFormatForItemPrice(Object componentValue,String qualifierName){
-            
-            try {
-                
-                 Object value = null;
-                if("AMP".equalsIgnoreCase(qualifierName) || "BP".equalsIgnoreCase(qualifierName)){
-                
-                    value = new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN).toString();
 
-                }
-                else if("CPIURA".equalsIgnoreCase(qualifierName) || "CPI (Alt) URA".equalsIgnoreCase(qualifierName)){
-                
-                    value = new BigDecimal(String.valueOf(componentValue)).setScale(3, BigDecimal.ROUND_DOWN).toString();
+	private Object callDecimalFormatForItemPrice(Object componentValue, String qualifierName) {
 
-                }
-                else if("URA".equalsIgnoreCase(qualifierName)){
-                
-                    value = new BigDecimal(String.valueOf(componentValue)).setScale(4, BigDecimal.ROUND_DOWN).toString();
+		try {
 
-                }
-                else{
-                	
-                	value = Double.valueOf(String.valueOf(componentValue));
-                	
-                }
-                
-               return value;
-               
-            } catch (Exception ex) {
-               gtnLogger.error("Exception in getValuesForComponent() method",ex);
-            }
-            
-            return null;
-            
-        }
+			Object value = null;
+			if ("AMP".equalsIgnoreCase(qualifierName) || "BP".equalsIgnoreCase(qualifierName)) {
+
+				value = new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN).toString();
+
+			} else if ("CPIURA".equalsIgnoreCase(qualifierName) || "CPI (Alt) URA".equalsIgnoreCase(qualifierName)) {
+
+				value = new BigDecimal(String.valueOf(componentValue)).setScale(3, BigDecimal.ROUND_DOWN).toString();
+
+			} else if ("URA".equalsIgnoreCase(qualifierName)) {
+
+				value = new BigDecimal(String.valueOf(componentValue)).setScale(4, BigDecimal.ROUND_DOWN).toString();
+
+			} else {
+
+				value = Double.valueOf(String.valueOf(componentValue));
+
+			}
+
+			return value;
+
+		} catch (Exception ex) {
+			gtnLogger.error("Exception in getValuesForComponent() method", ex);
+		}
+
+		return null;
+
+	}
 
 }

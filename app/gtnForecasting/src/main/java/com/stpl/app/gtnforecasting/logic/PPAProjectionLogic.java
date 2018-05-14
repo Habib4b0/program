@@ -195,9 +195,7 @@ public class PPAProjectionLogic {
                         int endYear = selection.getForecastDTO().getProjectionEndYear();
                         boolean flag = BooleanConstant.getFalseFlag();
 
-                        if (intYear < endYear) {
-                            flag = BooleanConstant.getTrueFlag();
-                        } else if (intYear == endYear && intQuarter <= endQuater) {
+                        if ((intYear < endYear) || (intYear == endYear && intQuarter <= endQuater)) {
                             flag = BooleanConstant.getTrueFlag();
                         }
                         if ((isColumn(visibleColumn, quater, year, Constant.PRICECAP)) && (str[NumericConstants.EIGHT].toString() != null || !str[NumericConstants.EIGHT].equals(Constant.NULL))) {

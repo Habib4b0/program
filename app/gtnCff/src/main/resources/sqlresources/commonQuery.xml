@@ -1998,5 +1998,37 @@ ORDER by VERSION_NO DESC
          ]]>
 		</query>
 	</entity>
-    
+     <entity id="insertAttachQuery">
+        <query>
+    	<![CDATA[
+    	
+Declare @ATTACHMENT_TABLE_SID int = ?ATTACHMENT_TABLE_SID
+DECLARE @MASTER_TABLE_NAME varchar(50) = ?MASTER_TABLE_NAME
+DECLARE @FILE_DATA varbinary(MAX) = CONVERT(varbinary, ?FILE_DATA)
+DECLARE @FILE_NAME varchar(50) = ?FILE_NAME
+DECLARE @CREATED_DATE DATE = GETDATE()
+DECLARE @CREATED_BY int = ?CREATED_BY
+
+                    INSERT INTO ATTACHMENT
+                    (
+                    ATTACHMENT_TABLE_SID,
+                    MASTER_TABLE_NAME,
+                    FILE_DATA,
+                    FILE_NAME,
+                    CREATED_DATE,
+                    CREATED_BY
+                    )
+                    VALUES(@ATTACHMENT_TABLE_SID,@MASTER_TABLE_NAME,@FILE_DATA,@FILE_NAME,@CREATED_DATE,@CREATED_BY)
+          
+                     
+             ]]>
+        </query>
+    </entity>
+    <entity id="selectAttachQuery">
+        <query>
+    		<![CDATA[
+   select FILE_DATA from Attachment where ATTACHMENT_TABLE_SID = ?attachmentSid 
+		]]>
+        </query>
+    </entity>   
 </sql>

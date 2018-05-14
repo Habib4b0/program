@@ -465,13 +465,10 @@ public class AltHistorySelection extends CustomComponent implements View {
         resultsTable.addStyleName("stableheader");
         Object[] singleCol = rightTable.getVisibleColumns();
         for (Object object : singleCol) {
-            if (TabNameUtil.DISCOUNT_PROJECTION.equals(session.getForecastName())) {
+            if ((TabNameUtil.DISCOUNT_PROJECTION.equals(session.getForecastName())) || ((Constant.SALES_PROJECTION.equals(session.getForecastName())) && (String.valueOf(object).contains("Units")))) {
                 rightTable.setColumnCheckBox(object, true, false);
-            } else if ((Constant.SALES_PROJECTION.equals(session.getForecastName())) && (String.valueOf(object).contains("Units"))) {
-
-                    rightTable.setColumnCheckBox(object, true, false);
-                }
             }
+        }
 
     }
 

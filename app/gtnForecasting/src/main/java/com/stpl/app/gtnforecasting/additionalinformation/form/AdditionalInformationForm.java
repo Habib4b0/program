@@ -4,6 +4,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.abstractforecast.AbsAdditionalInformation;
 import com.stpl.app.gtnforecasting.additionalinformation.logic.NotesTabLogic;
+import com.stpl.app.gtnforecasting.dto.AttachmentDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.USER_ID;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.ADDITIONAL_INFORMATION;
@@ -12,8 +13,10 @@ import com.stpl.app.gtnforecasting.utils.CommonUIUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.FunctionNameUtil;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.FileUploader;
 import com.stpl.app.utils.ValidationUtils;
 import com.stpl.ifs.ui.NotesDTO;
@@ -34,7 +37,12 @@ import com.vaadin.v7.ui.Upload;
 import com.vaadin.v7.ui.Upload.Receiver;
 import com.vaadin.v7.ui.Upload.StartedEvent;
 import com.vaadin.v7.ui.Upload.SucceededEvent;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -63,11 +71,14 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     private NotesDTO tableBean = new NotesDTO();
 
     protected static final String MODE = StringUtils.EMPTY;
+
     protected final boolean isAddMode;
     protected final boolean isEditMode;
     protected final boolean isViewMode;
     protected CommonUIUtils commonUiUtil = new CommonUIUtils();
     private boolean isFileRename;
+
+
     /**
      * The logo.
      */
@@ -265,6 +276,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     @Override
     public void itemClickLogic(ItemClickEvent event) {
         try {
+            AttachmentDTO attachmentSaveDTO;
             tableBeanId = event.getItemId();
             BeanItem<?> targetItem = null;
             if (tableBeanId instanceof BeanItem<?>) {
@@ -276,10 +288,15 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 tableBean = (NotesDTO) targetItem.getBean();
             }
             if (event.isDoubleClick()) {
-                File uploadedFile = CommonUtil.getFilePath(tableBean.getDocumentFullPath());
-                Resource res = new FileResource(uploadedFile);
-                fileDownloader.setFileDownloadResource(res);
-                downloadFile(uploadedFile);
+                	attachmentSaveDTO=fetchData(tableBean.getDocDetailsId());
+                    FileOutputStream fileOuputStream = null;
+                    fileOuputStream = GtnFileUtil.getFileOutputStream(tableBean.getDocumentFullPath());
+                    fileOuputStream.write(attachmentSaveDTO.getFileData());
+                    fileOuputStream.close();
+                    File uploadedFile = GtnFileUtil.getFile(tableBean.getDocumentFullPath());
+                    Resource res = new FileResource(uploadedFile);
+                    fileDownloader.setFileDownloadResource(res);
+                    downloadFile(uploadedFile);
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -292,7 +309,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     }
 
     public void saveNotesInformation(int projectionIdValue, String moduleName) {
-
+    	List<NotesDTO> availableUploadedInformation=getUploadedData();
         try {
             if (projectionId == 0) {
                 projectionId = projectionIdValue;
@@ -305,6 +322,8 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
             notesList.clear();
             for (NotesDTO attached : getUploadedData()) {
                 logic.saveUploadedFile(projectionId, attached.getDocumentName(), CommonUtils.getUserNameById(userId), 0, moduleName);
+                logic.saveAttachFile(  availableUploadedInformation,moduleName,projectionId);
+
             }
 
             List<NotesDTO> removedAttachments = removeDetailsList();
@@ -375,4 +394,23 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
         attachmentsListBean.addAll(logic.addUserFile(allFiles));
     }
+    public AttachmentDTO fetchData(int documentSid) {
+        
+        AttachmentDTO attachmentBean=new AttachmentDTO();
+         String query = SQlUtil.getQuery("selectAttachQuery");
+         query = query.replace("?attachmentSid", "'" + documentSid + "'");
+         List<AttachmentDTO> fileData=HelperTableLocalServiceUtil.executeSelectQuery(query);
+           ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             ObjectOutputStream oos;
+             try {
+                 oos = new ObjectOutputStream(bos);
+                 oos.writeObject(fileData);
+             } catch (IOException e) {
+            	 LOGGER.error("Error While File Fetching");
+             }
+             byte[] bytes = bos.toByteArray();
+         attachmentBean.setFileData(bytes);
+         return attachmentBean;
+        }
+
 }

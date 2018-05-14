@@ -120,7 +120,6 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                     ccpDetails = queryUtils.getCustomCCPDetailsQuery(hierarchyIndicator, projectionId, customViewDetails, false, StringUtils.EMPTY);
                 }
 
-                if (Constant.PROJECTED.toString().equalsIgnoreCase(projectionSelection.getProjectionType())) {
                     if (Constant.PERCENT.equals(projectionSelection.getDiscountType())) {
                         selecthistoryQuery = "COALESCE(Sum(CP.ACTUAL_SALES) / NULLIF(Sum(CHAS.CONTRACT_SALES), 0), 0) * 100 AS ACTUAL_RATE,\n NULL AS DISCOUNT_RATE,";
                         selectfutureQuery = " NULL AS ACTUAL_RATE,\n  COALESCE(Sum(CP.DISCOUNT_AMOUNT) / NULLIF(Sum(CHSP.CONTRACT_SALES), 0), 0) * 100 AS DISCOUNT_RATE,";
@@ -129,17 +128,6 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                         selecthistoryQuery = "\n sum(CP.ACTUAL_SALES)as ACTUAL_SALES, NULL as DISCOUNT_AMOUNT,";
                         selectfutureQuery = "\n NULL as ACTUAL_SALES, sum(CP.DISCOUNT_AMOUNT) as DISCOUNT_AMOUNT,";
                     }
-                } else {
-                    if (Constant.PERCENT.equals(projectionSelection.getDiscountType())) {
-                        selecthistoryQuery = "COALESCE(Sum(CP.ACTUAL_SALES) / NULLIF(Sum(CHAS.CONTRACT_SALES), 0), 0) * 100 AS ACTUAL_RATE,\n NULL AS DISCOUNT_RATE,";
-                        selectfutureQuery = " NULL AS ACTUAL_RATE,\n  COALESCE(Sum(CP.DISCOUNT_AMOUNT) / NULLIF(Sum(CHSP.CONTRACT_SALES), 0), 0) * 100 AS DISCOUNT_RATE,";
-
-                    } else {
-                        selecthistoryQuery = "\n sum(CP.ACTUAL_SALES)as ACTUAL_SALES, NULL as DISCOUNT_AMOUNT,";
-                        selectfutureQuery = "\n NULL as ACTUAL_SALES, sum(CP.DISCOUNT_AMOUNT) as DISCOUNT_AMOUNT,";
-
-                    }
-                }
                 Map<String, Object> input = new HashMap<>();
                 LOGGER.debug("?SID= {}" , session.getSessionId());
                 LOGGER.debug("?PM= {}" , session.getProjectionId());

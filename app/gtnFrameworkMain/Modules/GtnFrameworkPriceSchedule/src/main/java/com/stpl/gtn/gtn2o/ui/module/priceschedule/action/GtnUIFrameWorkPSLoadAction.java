@@ -45,6 +45,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.priceschedule.GtnWsPriceScheduleGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.priceschedule.GtnWsPriceScheduleGeneralResponse;
+import com.vaadin.ui.Component;
 
 /**
  *
@@ -61,61 +62,64 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 	@Override
 	public void doAction(final String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		try{
-		GtnUIFrameWorkPSInfoBean priceScheduleInfoBean;
-		List<NotesTabBean> noteBeanList = new ArrayList<>();
-		priceScheduleInfoBean = loadDataFromService(noteBeanList);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleId1")
-				.setPropertyValue(priceScheduleInfoBean.getPsId());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleNo1")
-				.setPropertyValue(priceScheduleInfoBean.getPsNo());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleName1")
-				.setPropertyValue(priceScheduleInfoBean.getPsName());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("parentPriceScheduleName")
-				.setPropertyValue(priceScheduleInfoBean.getParentpSNo());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.CREATED_BY)
-				.loadFieldValue(priceScheduleInfoBean.getCreatedBy());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("modifiedBy")
-				.loadFieldValue(priceScheduleInfoBean.getModifiedBy());
-
-		setValueForComponent(GtnFrameworkCommonConstants.PARENT_PRICE_SCHEDULE_ID,
-				priceScheduleInfoBean.getParentPsSid());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PARENT_PRICE_SCHEDULE_ID)
-				.loadFieldValue(priceScheduleInfoBean.getParentPsId());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleStatus1")
-				.loadComboBoxComponentValue(priceScheduleInfoBean.getPsStatus());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleDesignation")
-				.loadComboBoxComponentValue(priceScheduleInfoBean.getPsDesignation());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleType1")
-				.loadComboBoxComponentValue(priceScheduleInfoBean.getPsType());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleCategory")
-				.loadComboBoxComponentValue(priceScheduleInfoBean.getPsCategory());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleTradeClass")
-				.loadComboBoxComponentValue(priceScheduleInfoBean.getPsTradeClass());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleStartDate")
-				.loadDateValue(priceScheduleInfoBean.getPsStartDate());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleEndDate")
-				.loadDateValue(priceScheduleInfoBean.getPsEndDate());
-		Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-		if (mode != null && mode != GtnUIFrameworkModeType.ADD) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleIdTop")
+		try {
+			GtnUIFrameWorkPSInfoBean priceScheduleInfoBean;
+			List<NotesTabBean> noteBeanList = new ArrayList<>();
+			priceScheduleInfoBean = loadDataFromService(noteBeanList);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleId1")
 					.setPropertyValue(priceScheduleInfoBean.getPsId());
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleNoTop")
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleNo1")
 					.setPropertyValue(priceScheduleInfoBean.getPsNo());
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleNameTop")
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleName1")
 					.setPropertyValue(priceScheduleInfoBean.getPsName());
-		}
-		resetNotesTab();
-		loadNotesTab(priceScheduleInfoBean, noteBeanList);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("parentPriceScheduleName")
+					.setPropertyValue(priceScheduleInfoBean.getParentpSNo());
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.CREATED_BY)
+					.loadFieldValue(priceScheduleInfoBean.getCreatedBy());
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("modifiedBy")
+					.loadFieldValue(priceScheduleInfoBean.getModifiedBy());
 
-		loadIfpSelectedTable(priceScheduleInfoBean,
-				(Integer) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPricingTabResultDataTable")
-				.setFilterFieldVisible(GtnFrameworkCommonConstants.CHECK_RECORD_ID, false);
-		}
-		catch(Exception e)
-		{
-			throw new GtnFrameworkGeneralException(e.getMessage(),e);
+			setValueForComponent(GtnFrameworkCommonConstants.PARENT_PRICE_SCHEDULE_ID,
+					priceScheduleInfoBean.getParentPsSid());
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PARENT_PRICE_SCHEDULE_ID)
+					.loadFieldValue(priceScheduleInfoBean.getParentPsId());
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleStatus1")
+					.loadComboBoxComponentValue(priceScheduleInfoBean.getPsStatus());
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleDesignation")
+					.loadComboBoxComponentValue(priceScheduleInfoBean.getPsDesignation());
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleType1")
+					.loadComboBoxComponentValue(priceScheduleInfoBean.getPsType());
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleCategory")
+					.loadComboBoxComponentValue(priceScheduleInfoBean.getPsCategory());
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleTradeClass")
+					.loadComboBoxComponentValue(priceScheduleInfoBean.getPsTradeClass());
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleStartDate")
+					.loadDateValue(priceScheduleInfoBean.getPsStartDate());
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleEndDate")
+					.loadDateValue(priceScheduleInfoBean.getPsEndDate());
+			Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+			if (mode != null && mode != GtnUIFrameworkModeType.ADD) {
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleIdTop")
+						.setPropertyValue(priceScheduleInfoBean.getPsId());
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleNoTop")
+						.setPropertyValue(priceScheduleInfoBean.getPsNo());
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleNameTop")
+						.setPropertyValue(priceScheduleInfoBean.getPsName());
+			}
+                         if (mode == GtnUIFrameworkModeType.COPY) {
+                            Component delComponent = GtnUIFrameworkGlobalUI.getVaadinComponent("priceScheduleAddViewAAddDeleteButton");
+                            delComponent.setEnabled(false);
+                        }
+			checkCopyModeAction(componentId);
+			resetNotesTab();
+			loadNotesTab(priceScheduleInfoBean, noteBeanList);
+
+			loadIfpSelectedTable(priceScheduleInfoBean,
+					(Integer) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPricingTabResultDataTable")
+					.setFilterFieldVisible(GtnFrameworkCommonConstants.CHECK_RECORD_ID, false);
+		} catch (Exception e) {
+			throw new GtnFrameworkGeneralException(e.getMessage(), e);
 		}
 	}
 
@@ -219,8 +223,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		} else {
 			loadPriceTabsForView(sysid, true);
 		}
-                
-                
+
 		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(true);
 		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(true);
 
@@ -293,12 +296,13 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 	private Class<?>[] getPricingTableDataTypeArray(boolean isEditable) {
 		if (isEditable) {
 			return new Class<?>[] { Boolean.class, String.class, String.class, String.class, String.class,
-					Integer.class, Date.class, Date.class, Integer.class, String.class, String.class,String.class, String.class,
-					Date.class, Date.class };
+					Integer.class, Date.class, Date.class, Integer.class, String.class, String.class, String.class,
+					String.class, Date.class, Date.class };
 
 		} else {
 			return new Class<?>[] { String.class, String.class, String.class, String.class, String.class, Date.class,
-					Date.class, String.class, String.class, String.class, String.class,String.class, Date.class, Date.class };
+					Date.class, String.class, String.class, String.class, String.class, String.class, Date.class,
+					Date.class };
 		}
 	}
 
@@ -307,12 +311,12 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 			return new Object[] { GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.ITEM_ID,
 					GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME,
 					GtnFrameworkCommonConstants.BRAND_NAME, "psStatus", "cpStartDate", "cpEndDate", "priceType",
-					"psPrice", "suggestedPrice","source", GtnFrameworkCommonConstants.CREATED_BY, "psCreatedDate",
+					"psPrice", "suggestedPrice", "source", GtnFrameworkCommonConstants.CREATED_BY, "psCreatedDate",
 					GtnFrameworkCommonConstants.PS_ATTACHED_DATE };
 		} else {
 			return new Object[] { GtnFrameworkCommonConstants.ITEM_ID, GtnFrameworkCommonConstants.ITEM_NO,
 					GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkCommonConstants.BRAND_NAME, "psStatusDes",
-					"cpStartDate", "cpEndDate", "priceTypeDes", "psPrice", "suggestedPrice","source",
+					"cpStartDate", "cpEndDate", "priceTypeDes", "psPrice", "suggestedPrice", "source",
 					GtnFrameworkCommonConstants.CREATED_BY, "psCreatedDate",
 					GtnFrameworkCommonConstants.PS_ATTACHED_DATE };
 		}
@@ -322,13 +326,13 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 	private String[] getPricingHeaderArray(boolean isEditable) {
 		if (isEditable) {
 			return new String[] { "", "Item ID", "Item NO", GtnFrameworkCommonConstants.LABEL_ITEM_NAME, "Brand Name",
-					"Status", "CP Start Date", "CP End Date", "Price Type", "Price", "Suggested Price","Source", "Created By",
-					"Created Date", "Attached Date" };
+					"Status", "CP Start Date", "CP End Date", "Price Type", "Price", "Suggested Price", "Source",
+					"Created By", "Created Date", "Attached Date" };
 		} else {
 
 			return new String[] { "Item ID", "Item NO", GtnFrameworkCommonConstants.LABEL_ITEM_NAME, "Brand Name",
-					"Status", "CP Start Date", "CP End Date", "Price Type", "Price", "Suggested Price", "Source","Created By",
-					"Created Date", "Attached Date" };
+					"Status", "CP Start Date", "CP End Date", "Price Type", "Price", "Suggested Price", "Source",
+					"Created By", "Created Date", "Attached Date" };
 		}
 
 	}
@@ -340,14 +344,14 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 					Object.class, Integer.class, String.class, Integer.class, Integer.class, String.class,
 					Integer.class, Integer.class, Integer.class, String.class, String.class, Integer.class,
 					Integer.class, Date.class, Integer.class, Integer.class, Integer.class, Integer.class, String.class,
-					Integer.class, String.class, Date.class};
+					Integer.class, String.class, Date.class };
 
 		} else {
 			return new Class<?>[] { String.class, String.class, String.class, String.class, String.class, Date.class,
 					Date.class, String.class, String.class, String.class, String.class, Object.class, String.class,
 					String.class, String.class, String.class, String.class, String.class, String.class, String.class,
 					String.class, String.class, String.class, String.class, Date.class, String.class, String.class,
-					String.class, String.class, String.class, String.class, String.class, Date.class};
+					String.class, String.class, String.class, String.class, String.class, Date.class };
 		}
 	}
 
@@ -431,7 +435,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 			pricingTabPagedTableConfig.setEditableColumnList(editableColumnPricingList);
 			pricingTabPagedTableConfig.setColumnCheckBoxId(checkRecordColum);
 		} else {
-			pricingTabPagedTableConfig.setEditableColumnList(Collections.<String>emptyList());
+			pricingTabPagedTableConfig.setEditableColumnList(Collections.<String> emptyList());
 			pricingTabPagedTableConfig.setColumnCheckBoxId("");
 		}
 		pricingTabPagedTableConfig.setModuleName(moduleAndQueryName);
@@ -514,6 +518,42 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 			return GtnFrameworkPSConstants.getPriceProtectionEditableList()
 					.subList(1, GtnFrameworkPSConstants.getPriceProtectionEditableList().size()).toArray();
 		}
+	}
+
+	private void checkCopyModeAction(String componentId) {
+		if (componentId.equals("psCopyBtn")) {
+			setValuesToComponents();
+		}
+	}
+
+	private void setValuesToComponents() {
+
+		GtnUIFrameworkBaseComponent psGrpId = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_ID_TOP);
+		GtnUIFrameworkBaseComponent psGrpNo = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO_TOP);
+		GtnUIFrameworkBaseComponent psGrpName = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME_TOP);
+		GtnUIFrameworkBaseComponent rsId = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_ID1);
+		GtnUIFrameworkBaseComponent rsNo = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO1);
+		GtnUIFrameworkBaseComponent rsName = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME1);
+
+		psGrpId.loadFieldValue(getEmptyValues());
+		psGrpNo.loadFieldValue(getEmptyValues());
+		psGrpName.loadFieldValue(getEmptyValues());
+		rsId.loadFieldValue(getEmptyValues());
+		rsNo.loadFieldValue(getEmptyValues());
+		rsName.loadFieldValue(getEmptyValues());
+
+	}
+
+	private static final String EMPTY = "";
+
+	public static String getEmptyValues() {
+		return EMPTY;
 	}
 
 }

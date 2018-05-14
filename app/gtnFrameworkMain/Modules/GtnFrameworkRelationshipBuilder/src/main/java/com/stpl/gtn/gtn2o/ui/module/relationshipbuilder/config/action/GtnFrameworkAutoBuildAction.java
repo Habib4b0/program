@@ -6,11 +6,9 @@ import java.util.Set;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
-import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
-import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -39,51 +37,46 @@ public class GtnFrameworkAutoBuildAction implements GtnUIFrameWorkAction, GtnUIF
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		try {
-			GtnUIFrameworkBaseComponent hierarchyName = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("RB001_hierarchyName");
-			GtnUIFrameworkBaseComponent hierarchyVersionNo = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("RB001_versionNo");
-			
-			List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
-			GtnUIFrameworkBaseComponent relationBuilderTreeBaseComponent=GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3).toString());
-			Set<GtnWsRecordBean> treeValue =  relationBuilderTreeBaseComponent.getSelectedValues();
-			gtnLogger.info("tree value size:"+treeValue.size());
-			for (GtnWsRecordBean treeSelectedBean : treeValue) {
-				GtnWsRecordBean selectedRelationShip = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-						.getSessionProperty(GtnFrameworkCommonConstants.SELECTED_RELATIONSHIP);
-				GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-				GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-				GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
-				request.setRelationshipBuilderRequest(rbRequest);
-				rbRequest.setMainNode(selectedRelationShip);
-				rbRequest.setHierarchyDefSId(Integer.parseInt(hierarchyName.getValueFromComponent() == null ? "0"
-						: hierarchyName.getValueFromComponent().toString()));
-				rbRequest.setHierarchyVersionNo(Integer.valueOf(hierarchyVersionNo.getValueFromComponent() == null ? "0"
-						: hierarchyVersionNo.getValueFromComponent().toString()));
+			                 GtnUIFrameworkBaseComponent hierarchyName = GtnUIFrameworkGlobalUI
+                            .getVaadinBaseComponent("RB001_hierarchyName");
+                    GtnUIFrameworkBaseComponent hierarchyVersionNo = GtnUIFrameworkGlobalUI
+                            .getVaadinBaseComponent("RB001_versionNo");
 
-				GtnUIFrameWorkActionConfig rbRequestAction = new GtnUIFrameWorkActionConfig(
-						GtnUIFrameworkActionType.CUSTOM_ACTION);
-				rbRequestAction.addActionParameter(GtnUIFrameworkRBRequestAction.class.getName());
-				rbRequestAction.addActionParameter(rbRequest);
-				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbRequestAction);
+                    List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
+                    GtnUIFrameworkBaseComponent relationBuilderTreeBaseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3).toString());
+                    Set<GtnWsRecordBean> treeValue = relationBuilderTreeBaseComponent.getSelectedValues();
+                    gtnLogger.info("tree value size:" + treeValue.size());
+                    GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+                    GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+                    GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();
+                    for (GtnWsRecordBean treeSelectedBean : treeValue) {
+                        GtnWsRecordBean selectedRelationShip = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+                                .getSessionProperty(GtnFrameworkCommonConstants.SELECTED_RELATIONSHIP);
 
-				
-				GtnUIFrameworkBaseComponent rbTreeBaseComponent = GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent(parameters.get(3).toString());
-				rbRequest.setSelectedTreeBean(treeSelectedBean);
-				List<List<String>> parentInfoIdList = getParentIDInfo(treeSelectedBean, rbTreeBaseComponent);
-				rbRequest.setHiddenIdList(parentInfoIdList.get(2));
-				rbRequest.setPrimarykeyColumnList(parentInfoIdList.get(1));
-				List<GtnWsRecordBean> notInList = new ArrayList<>();
-				rbRequest.setRsTreeNodeList(notInList);
-				GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-						GtnWsRelationshipBuilderConstants.GTN_RELATIONSHIP_BUILDER_SERVICE
-								+ GtnWsRelationshipBuilderConstants.AUTOBUILDERELATIONSHIP,
-						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-				GtnWsRelationshipBuilderResponse rbResponse = response.getGtnWsRelationshipBuilderResponse();
-				rbTreeBaseComponent.removeTreeItems(treeSelectedBean);
-				rbTreeBaseComponent.loadTreeFromTreeNode(rbResponse.getRbTreeNodeList(), treeSelectedBean);
-				}
+                        request.setRelationshipBuilderRequest(rbRequest);
+                        rbRequest.setMainNode(selectedRelationShip);
+                        rbRequest.setHierarchyDefSId(Integer.parseInt(hierarchyName.getValueFromComponent() == null ? "0"
+                                : hierarchyName.getValueFromComponent().toString()));
+                        rbRequest.setHierarchyVersionNo(Integer.parseInt(hierarchyVersionNo.getValueFromComponent() == null ? "0"
+                                : hierarchyVersionNo.getValueFromComponent().toString()));
+
+
+                        GtnUIFrameworkBaseComponent rbTreeBaseComponent = GtnUIFrameworkGlobalUI
+                                .getVaadinBaseComponent(parameters.get(3).toString());
+                        rbRequest.setSelectedTreeBean(treeSelectedBean);
+                        List<List<String>> parentInfoIdList = getParentIDInfo(treeSelectedBean, rbTreeBaseComponent);
+                        rbRequest.setHiddenIdList(parentInfoIdList.get(2));
+                        rbRequest.setPrimarykeyColumnList(parentInfoIdList.get(1));
+                        List<GtnWsRecordBean> notInList = new ArrayList<>();
+                        rbRequest.setRsTreeNodeList(notInList);
+                        GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
+                                GtnWsRelationshipBuilderConstants.GTN_RELATIONSHIP_BUILDER_SERVICE
+                                + GtnWsRelationshipBuilderConstants.AUTOBUILDERELATIONSHIP,
+                                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+                        GtnWsRelationshipBuilderResponse rbResponse = response.getGtnWsRelationshipBuilderResponse();
+                        rbTreeBaseComponent.removeTreeItems(treeSelectedBean);
+                        rbTreeBaseComponent.loadTreeFromTreeNode(rbResponse.getRbTreeNodeList(), treeSelectedBean);
+                    }
 		} catch (Exception e) {
 			gtnLogger.error("Exception in loadFilteredResultLayout", e);
 		}

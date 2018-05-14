@@ -51,8 +51,6 @@ public class GtnWsModuleAuthorizationService {
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
 
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
 	private org.hibernate.SessionFactory sysSessionFactory;
@@ -65,7 +63,7 @@ public class GtnWsModuleAuthorizationService {
 		List<GtnWsModuleAuthorizationBean> gtnSecurityBeanList = moduleSecurityGeneralRequest
 				.getGtnWsModuleSecuritySaveBeanList();
 		GtnWsGeneralRequest gtnSecurityGeneralRequest = gtnWsRequest.getGtnWsGeneralRequest();
-		Session session = sessionFactory.openSession();
+		Session session = gtnSqlQueryEngine.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			for (GtnWsModuleAuthorizationBean gtnWsModuleSecurityBean : gtnSecurityBeanList) {
@@ -219,7 +217,7 @@ public class GtnWsModuleAuthorizationService {
 				.getGtnWsModuleAuthorizationGeneralRequest();
 		List<GtnWsModuleComponentBean> gtnModuleComponentBeanList = moduleSecurityGeneralRequest
 				.getGtnWsModuleComponentBeanList();
-		Session session = sessionFactory.openSession();
+		Session session = gtnSqlQueryEngine.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 		List<String> propertyIds = new ArrayList<>();
 		propertyIds.add("submoduleName");
@@ -358,7 +356,7 @@ public class GtnWsModuleAuthorizationService {
 			throws GtnFrameworkGeneralException {
 		GtnWsModuleAuthorizationGeneralRequest moduleSubmoduleUpdateGenRequest = gtnWsRequest
 				.getGtnWsModuleAuthorizationGeneralRequest();
-		Session session = sessionFactory.openSession();
+		Session session = gtnSqlQueryEngine.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			for (GtnWsModuleAuthorizationBean updateModuleMasterBean : moduleSubmoduleUpdateGenRequest
@@ -379,7 +377,7 @@ public class GtnWsModuleAuthorizationService {
 	}
 
 	public void populateGtnModuleComponentRoleDetails() throws GtnFrameworkGeneralException {
-		Session session = sessionFactory.openSession();
+		Session session = gtnSqlQueryEngine.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			ProcedureCall procedureCall = session.createStoredProcedureCall("PRC_GTN_MODULE_COMPONENT_POPULATION");

@@ -162,5 +162,12 @@ public class GtnWsItemMasterResponse implements GtnWSRequestData {
 	public void setPricingQualfierUsed(boolean pricingQualfierUsed) {
 		this.pricingQualfierUsed = pricingQualfierUsed;
 	}
+        private void writeObject(ObjectOutputStream stream) throws IOException {
+		stream.defaultWriteObject();
+	}
+
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+		stream.defaultReadObject();
+	}
 
 }

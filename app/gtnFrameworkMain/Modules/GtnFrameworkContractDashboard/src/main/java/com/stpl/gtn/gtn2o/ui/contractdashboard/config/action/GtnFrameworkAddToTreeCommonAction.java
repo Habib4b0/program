@@ -52,7 +52,7 @@ public class GtnFrameworkAddToTreeCommonAction implements GtnUIFrameWorkAction ,
 			doForNonSelectedTreeValue(cdTreeBaseComponent, componentId, parameters, tableBean);
 			return;
 		}
-		doForSelectedTreeValue(selectedTreeValue, componentId, parameters, tableBean);
+		doForSelectedTreeValue((GtnWsRecordBean) selectedTreeValue, componentId, parameters, tableBean);
 	}
 
 	private void confirmAddToTree(String componentId, List<Object> parameters,
@@ -101,9 +101,9 @@ public class GtnFrameworkAddToTreeCommonAction implements GtnUIFrameWorkAction ,
 		return this;
 	}
 
-	private void doForSelectedTreeValue(Object selectedTreeValue, String componentId, List<Object> parameters,
+	private void doForSelectedTreeValue(GtnWsRecordBean selectedTreeValue, String componentId, List<Object> parameters,
 			GtnWsRecordBean tableBean) throws GtnFrameworkGeneralException {
-		GtnWsRecordBean treeBean = (GtnWsRecordBean) selectedTreeValue;
+		GtnWsRecordBean treeBean =selectedTreeValue;
 		GtnWsContractDashboardRequest cdRequest = new GtnWsContractDashboardRequest();
 		cdRequest.setTableBean(tableBean);
 		cdRequest.setTreeBean(treeBean);

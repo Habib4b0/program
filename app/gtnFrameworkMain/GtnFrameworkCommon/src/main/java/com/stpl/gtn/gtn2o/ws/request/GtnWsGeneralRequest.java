@@ -93,16 +93,23 @@ public class GtnWsGeneralRequest implements GtnWSRequestData {
 		return isExcel;
 	}
 
-	public void setExcel(boolean isExcel) {
-		this.isExcel = isExcel;
-	}
+	   public void setExcel(boolean isExcel) {
+        this.isExcel = isExcel;
+    }
 
+    private void writeObject(ObjectOutputStream stream) throws IOException {
+        stream.defaultWriteObject();
+    }
 
-	public List<String> getTableColumnFormatList() {
-		return tableColumnFormatList == null ? tableColumnFormatList
-				: Collections.unmodifiableList(tableColumnFormatList);
+    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+    }
 
-	}
+    public List<String> getTableColumnFormatList() {
+        return tableColumnFormatList == null ? tableColumnFormatList
+                : Collections.unmodifiableList(tableColumnFormatList);
+
+    }
 
 	public void setTableColumnFormatList(List<String> tableColumnFormatList) {
 		this.tableColumnFormatList = tableColumnFormatList == null ? tableColumnFormatList
