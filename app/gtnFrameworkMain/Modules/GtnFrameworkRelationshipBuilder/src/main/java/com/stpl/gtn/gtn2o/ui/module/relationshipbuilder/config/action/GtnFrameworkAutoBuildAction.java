@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -62,11 +63,6 @@ public class GtnFrameworkAutoBuildAction implements GtnUIFrameWorkAction, GtnUIF
                         rbRequest.setHierarchyVersionNo(Integer.parseInt(hierarchyVersionNo.getValueFromComponent() == null ? "0"
                                 : hierarchyVersionNo.getValueFromComponent().toString()));
 
-                        GtnUIFrameWorkActionConfig rbRequestAction = new GtnUIFrameWorkActionConfig(
-                                GtnUIFrameworkActionType.CUSTOM_ACTION);
-                        rbRequestAction.addActionParameter(GtnUIFrameworkRBRequestAction.class.getName());
-                        rbRequestAction.addActionParameter(rbRequest);
-                        GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbRequestAction);
 
                         GtnUIFrameworkBaseComponent rbTreeBaseComponent = GtnUIFrameworkGlobalUI
                                 .getVaadinBaseComponent(parameters.get(3).toString());
