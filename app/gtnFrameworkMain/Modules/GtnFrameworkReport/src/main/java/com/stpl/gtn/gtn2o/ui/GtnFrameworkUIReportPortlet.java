@@ -3,7 +3,7 @@ package com.stpl.gtn.gtn2o.ui;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
-import com.stpl.gtn.gtn2o.registry.dynamicclasses.GtnUIFrameworkForecastingDynamicClassFiller;
+import com.stpl.gtn.gtn2o.registry.dynamicclasses.GtnUIFrameworkDynamicClassFiller;
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportConfig;
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkRootConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkEngine;
@@ -41,7 +41,7 @@ public class GtnFrameworkUIReportPortlet extends UI {
 		}
 		GtnUIFrameworkEngine frameworkEngine = new GtnUIFrameworkEngine();
 		frameworkEngine.buildVaadinScreen(rootConfig, navigator, request, this, "Report",
-				new GtnUIFrameworkForecastingDynamicClassFiller());
+				new GtnUIFrameworkDynamicClassFiller());
 
 	}
 

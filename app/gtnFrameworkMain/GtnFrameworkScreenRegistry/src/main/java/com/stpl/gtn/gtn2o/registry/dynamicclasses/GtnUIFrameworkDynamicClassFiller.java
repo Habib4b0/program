@@ -11,7 +11,7 @@ import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkReturnCheck
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 
-public class GtnUIFrameworkForecastingDynamicClassFiller implements GtnUIDynamicObjectFiller {
+public class GtnUIFrameworkDynamicClassFiller implements GtnUIDynamicObjectFiller {
 
 	@Override
 	public void addDynamicObject() {
