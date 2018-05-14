@@ -243,7 +243,7 @@ public class GtnWsRelationshipBuilderController {
 			filterAndSortingRBCriteriaMap.put("startDate", GtnFrameworkWebserviceConstant.RBSTART_DATE);
 			filterAndSortingRBCriteriaMap.put("creationDate", GtnFrameworkWebserviceConstant.RBCREATED_DATE);
 			filterAndSortingRBCriteriaMap.put("modifiedDate", "RB.MODIFIED_DATE");
-			filterAndSortingRBCriteriaMap.put("createdBy", "usr.lastName + ' ' + usr.middleName + ' ' + usr.firstName");
+			filterAndSortingRBCriteriaMap.put("createdBy", "ISNULL(usr.lastName,'')+ ISNULL(' '+usr.middleName,'')+ ISNULL(' '+usr.firstName,'')");
 
 		}
 		return filterAndSortingRBCriteriaMap;
