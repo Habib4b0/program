@@ -109,14 +109,14 @@ public class GtnUIFrameWorkPSSaveAction implements GtnUIFrameWorkAction ,GtnUIFr
 					response.getGtnWsPriceScheduleGeneralResponse().getPriceScheduleInfoBean().getSystemId());
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("tabSheet").setSelectedTab("priceScheduleInfoTab");
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleAddViewAAddDeleteButton").setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON).setVisible(true);
                         
                           if (copyMode.equalsIgnoreCase("Copy")) {
-                        Component deleteComp = GtnUIFrameworkGlobalUI.getVaadinComponent("priceScheduleAddViewAAddDeleteButton");
+                        Component deleteComp = GtnUIFrameworkGlobalUI.getVaadinComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON);
                         deleteComp.setEnabled(true);
                         GtnUIFrameWorkActionConfig enableActionConfigCopyMode = new GtnUIFrameWorkActionConfig();
                         enableActionConfigCopyMode.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-                        Object[] enableFieldsObj = new Object[] { "priceScheduleAddViewAAddDeleteButton" } ;
+                        Object[] enableFieldsObj = new Object[] { GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON } ;
                         enableActionConfigCopyMode.setActionParameterList(Arrays.asList(enableFieldsObj));
                         GtnUIFrameworkActionExecutor.executeSingleAction(componentId, enableActionConfigCopyMode);
                         
