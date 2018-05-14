@@ -120,7 +120,7 @@ and open the template in the editor.
             <![CDATA[
                 SELECT
                     DISTINCT RELATIONSHIP_BUILDER_SID,
-                    RELATIONSHIP_NAME
+                    RELATIONSHIP_NAME,VERSION_NO
                 FROM
                     dbo.RELATIONSHIP_BUILDER
                 WHERE
@@ -699,9 +699,9 @@ where PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID  ;
 
 $$CREATETEMPDEDUCTION$$ 
 
-$$CREATETEMPCUSTSELECTION$$ 
+$$CREATETEMPCUSTSELECTION$$
 
-$$USETEMPCUSTSELECTION$$ 
+$$USETEMPCUSTSELECTION$$
 
 SELECT
         DISTINCT RLD.RELATIONSHIP_LEVEL_VALUES AS RELATIONSHIP_LEVEL_VALUES,
@@ -881,9 +881,9 @@ JOIN CFP_CONTRACT_DETAILS CFP ON
     <entity id="getProdRelation">
         <query> 
             <![CDATA[
-                SELECT DISTINCT RB.RELATIONSHIP_BUILDER_SID,RB.RELATIONSHIP_NAME FROM RELATIONSHIP_BUILDER RB JOIN RELATIONSHIP_LEVEL_DEFINITION R 
-ON RB.RELATIONSHIP_BUILDER_SID=R.RELATIONSHIP_BUILDER_SID
-AND RB.HIERARCHY_DEFINITION_SID=
+                SELECT DISTINCT RB.RELATIONSHIP_BUILDER_SID,RB.RELATIONSHIP_NAME,RB.VERSION_NO FROM RELATIONSHIP_BUILDER RB JOIN RELATIONSHIP_LEVEL_DEFINITION R 
+                ON RB.RELATIONSHIP_BUILDER_SID=R.RELATIONSHIP_BUILDER_SID
+                AND RB.HIERARCHY_DEFINITION_SID=
             ]]>    
         </query>
     </entity>  
@@ -1814,4 +1814,27 @@ CREATE TABLE #CCP_MAP
             where ARM_ADJUSTMENT_CONFIG_SID = ?
         </query>
     </entity>
+    <entity id="getHierarchyLevelVlaues">
+		<query> 
+        <![CDATA[            
+            SELECT
+                    distinct LEVEL_NO,
+                    LEVEL_VALUE_REFERENCE,
+                    "TABLE_NAME",
+                    FIELD_NAME,
+                    LEVEL_NAME,
+                    HLD.HIERARCHY_LEVEL_DEFINITION_SID,
+                    HLD.HIERARCHY_DEFINITION_SID,
+                    HT.DESCRIPTION
+            from
+                    HIERARCHY_LEVEL_DEFINITION HLD
+            JOIN dbo.HIERARCHY_DEFINITION HD on
+                    HD.HIERARCHY_DEFINITION_SID = hld.HIERARCHY_DEFINITION_SID
+            JOIN dbo.HELPER_TABLE HT on
+                    HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY
+            where
+                    hld.HIERARCHY_DEFINITION_SID =? and HLD.VERSION_NO =?;
+         ]]>
+		</query>
+	</entity>
 </sql>

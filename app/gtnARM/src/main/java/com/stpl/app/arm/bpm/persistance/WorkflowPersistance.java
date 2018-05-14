@@ -1,9 +1,10 @@
 package com.stpl.app.arm.bpm.persistance;
 
-import com.stpl.app.arm.bpm.persistance.provider.BasePersistanceProvider;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.utils.xmlparser.SQlUtil;
 import java.util.List;
 
-public class WorkflowPersistance extends BasePersistanceProvider {
+public class WorkflowPersistance {
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(WorkflowPersistance.class);
 
@@ -11,8 +12,8 @@ public class WorkflowPersistance extends BasePersistanceProvider {
         try {
 
             String customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (PROJECTION_MASTER_SID,PROCESS_INSTANCE_ID) VALUES(" + projectionId + "," + processInstanceId + ")";
-
-            return executeBulkUpdateQuery(customSql, null, null);
+            int count = HelperTableLocalServiceUtil.executeUpdateQueryCount(customSql);
+            return count > 0;
 
         } catch (Exception e) {
             LOGGER.error("Error in insertWFInstanceInfo" + e);
@@ -26,7 +27,7 @@ public class WorkflowPersistance extends BasePersistanceProvider {
 
             String customSql = "SELECT PROCESS_INSTANCE_ID FROM WORKFLOW_PROCESS_INFO WHERE PROJECTION_MASTER_SID=" + projectionId;
 
-            obj = executeSelectQuery(customSql, null, null);
+            obj = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 
         } catch (Exception e) {
             LOGGER.error("Error in selectWFInstanceInfo" + e);
@@ -37,15 +38,15 @@ public class WorkflowPersistance extends BasePersistanceProvider {
 
     public static List<Object[]> getProjectionRecordsForAccrual(int projectionId, String userId, String sessionId) {
         List<Object[]> obj = null;
-//        try {
-//            String customSql = CustomSQLUtil.get("getProjectionRecordsForAccrual");
-//            customSql = customSql.replace("?PROJECTION_ID", String.valueOf(projectionId));
-//            customSql = customSql.replace("?USER_ID", String.valueOf(userId));
-//            customSql = customSql.replace("?SESSION_ID", String.valueOf(sessionId));
-//            obj = executeSelectQuery(customSql, null, null);
-//        } catch (Exception e) {
-//            LOGGER.error("Error in getProjectionRecordsForAccrual" + e);
-//        }
+        try {
+            String customSql = SQlUtil.getQuery("getProjectionRecordsForAccrual");
+            customSql = customSql.replace("?PROJECTION_ID", String.valueOf(projectionId));
+            customSql = customSql.replace("?USER_ID", String.valueOf(userId));
+            customSql = customSql.replace("?SESSION_ID", String.valueOf(sessionId));
+            obj = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+        } catch (Exception e) {
+            LOGGER.error("Error in getProjectionRecordsForAccrual" + e);
+        }
         return obj;
     }
 

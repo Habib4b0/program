@@ -242,11 +242,330 @@ WHERE  RELATIONSHIP_BUILDER_SID = 63
     <entity id="getLevelsFromHierarchy">
         <query> 
 		<![CDATA[
-                select distinct RLD.LEVEL_NAME, RLD.LEVEL_NO, HLD.LEVEL_VALUE_REFERENCE, HLD."TABLE_NAME", HLD.FIELD_NAME  
+                select distinct RLD.LEVEL_NAME, RLD.LEVEL_NO, HLD.LEVEL_VALUE_REFERENCE, HLD."TABLE_NAME", HLD.FIELD_NAME,HLD.HIERARCHY_LEVEL_DEFINITION_SID
                 from RELATIONSHIP_LEVEL_DEFINITION RLD, RELATIONSHIP_BUILDER RB, HIERARCHY_LEVEL_DEFINITION HLD
                 where RLD.RELATIONSHIP_BUILDER_SID in (select RBT.RELATIONSHIP_BUILDER_SID from RELATIONSHIP_BUILDER RBT where RBT.HIERARCHY_DEFINITION_SID = '?')
                 and RLD.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID order by RLD.LEVEL_NO asc;
 		]]> 
-    </query> 
+        </query> 
     </entity>
+    <entity id="getRelationshipValues">
+        <query> 
+		<![CDATA[
+    SELECT
+        DISTINCT RLD.LEVEL_NO,
+        RLD.RELATIONSHIP_LEVEL_VALUES,
+        RLD.PARENT_NODE,
+        RLD.LEVEL_NAME,
+        RLD.RELATIONSHIP_LEVEL_SID,
+        HLD."TABLE_NAME",
+        HLD.FIELD_NAME,
+        RLD.HIERARCHY_NO
+    FROM
+        RELATIONSHIP_LEVEL_DEFINITION RLD
+    JOIN HIERARCHY_LEVEL_DEFINITION HLD ON
+        RLD.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+    JOIN ? PH ON
+        RLD.RELATIONSHIP_LEVEL_SID = PH.RELATIONSHIP_LEVEL_SID
+		]]> 
+        </query> 
+    </entity>
+    <entity id="getProjectionRecordsForAccrual">
+        <query> 
+		<![CDATA[
+     DECLARE @CNT                   INT=0,
+        @I                     INT=1,
+        @PROJECTION_MASTER_SID INT,
+        @PROJECTION            INT=?PROJECTION_ID,
+        @SESSION_ID            INT=?SESSION_ID,
+        @USER_ID               INT=?USER_ID
+DECLARE @TEMP_MASTER AS TABLE
+  (
+     ID                       INT IDENTITY(1, 1),
+     PROJECTION_MASTER_SID    INT,
+     ACCRUAL_PROJ_DETAILS_SID INT,
+     CCP_DETAILS_SID          INT,
+     RS_MODEL_SID             INT
+  )
+DECLARE @TEMP_MIN_MAX AS TABLE
+  (
+     PROJECTED_ACCRUAL_AMOUNT       NUMERIC(22, 6),
+     PROJECTED_ACCRUAL_RATE         NUMERIC(22, 6),
+     YEAR                           INT,
+     QUARTER                        INT,
+     CCP_DETAILS_SID                INT,
+     RS_MODEL_SID                   INT,
+     APPRV_PROJECTED_ACCRUAL_AMOUNT NUMERIC(22, 6),
+     APPRV_PROJECTED_ACCRUAL_RATE   NUMERIC(22, 6),
+     DIFF_AMOUNT                    NUMERIC(22, 6),
+     DIFF_RATE                      NUMERIC(22, 6),
+     [DIFF_AMOUNT_%]                NUMERIC(22, 6),
+     [DIFF_RATE_%]                  NUMERIC(22, 6)
+  )
+DECLARE @TEMP_APPROVED AS TABLE
+  (
+     CCP_DETAILS_SID          INT,
+     RS_MODEL_SID             INT,
+     PROJECTED_ACCRUAL_AMOUNT NUMERIC(22, 6),
+     PROJECTED_ACCRUAL_RATE   NUMERIC(22, 6),
+     YEAR                     INT,
+     QUARTER                  INT
+  )
+
+INSERT INTO @TEMP_MASTER
+            (PROJECTION_MASTER_SID,
+             ACCRUAL_PROJ_DETAILS_SID,
+             CCP_DETAILS_SID,
+             RS_MODEL_SID)
+SELECT @PROJECTION,
+       ACCRUAL_PROJ_DETAILS_SID,
+       CCP_DETAILS_SID,
+       RS_MODEL_SID
+FROM   ACCRUAL_PROJ_DETAILS
+WHERE  PROJECTION_MASTER_SID = @PROJECTION
+
+DECLARE @TEMP_PROJ_DETAILS TABLE
+  (
+     PROJECTION_MASTER_SID    INT,
+     CCP_DETAILS_SID          INT,
+     RS_MODEL_SID             INT,
+     ACCRUAL_PROJ_DETAILS_SID INT
+  )
+
+INSERT INTO @TEMP_PROJ_DETAILS
+            (PROJECTION_MASTER_SID,
+             CCP_DETAILS_SID,
+             RS_MODEL_SID,
+             ACCRUAL_PROJ_DETAILS_SID)
+SELECT PROJECTION_MASTER_SID,
+       CCP_DETAILS_SID,
+       RS_MODEL_SID,
+       ACCRUAL_PROJ_DETAILS_SID
+FROM   (SELECT WM.PROJECTION_MASTER_SID,
+               OUT_P.CCP_DETAILS_SID,
+               OUT_P.RS_MODEL_SID,
+               OUT_P.ACCRUAL_PROJ_DETAILS_SID,
+               ROW_NUMBER()
+                 OVER(
+                   PARTITION BY CCP_DETAILS_SID, RS_MODEL_SID
+                   ORDER BY WM.MODIFIED_DATE DESC) RNO
+        FROM   WORKFLOW_MASTER WM
+               JOIN (SELECT PM.PROJECTION_MASTER_SID,
+                            TMP.CCP_DETAILS_SID,
+                            TMP.RS_MODEL_SID,
+                            PD.ACCRUAL_PROJ_DETAILS_SID
+                     FROM   @TEMP_MASTER TMP
+                            JOIN ACCRUAL_PROJ_DETAILS PD
+                              ON TMP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+                                 AND TMP.RS_MODEL_SID = PD.RS_MODEL_SID
+                            JOIN PROJECTION_MASTER PM
+                              ON PM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+                     WHERE  PM.SAVE_FLAG = 1
+                            AND PM.FORECASTING_TYPE = 'AccrualRateProjection') OUT_P
+                 ON WM.PROJECTION_MASTER_SID = OUT_P.PROJECTION_MASTER_SID
+        WHERE  WM.WORKFLOW_STATUS_ID = (SELECT HELPER_TABLE_SID
+                                        FROM   HELPER_TABLE
+                                        WHERE  LIST_NAME = 'WorkFlowStatus'
+                                               AND DESCRIPTION = 'Approved'))A
+WHERE  RNO = 1
+
+INSERT INTO @TEMP_APPROVED
+            (CCP_DETAILS_SID,
+             RS_MODEL_SID,
+             PROJECTED_ACCRUAL_AMOUNT,
+             PROJECTED_ACCRUAL_RATE,
+             YEAR,
+             QUARTER)
+SELECT B.CCP_DETAILS_SID,
+       B.RS_MODEL_SID,
+       Sum(A.ACCRUAL_AMOUNT) AS ACCRUAL_AMOUNT,
+       Sum(A.ACCRUAL_RATE)   AS ACCRUAL_RATE,
+       YEAR,
+       QUARTER
+FROM   ACCRUAL_RATE_DETAILS A
+       JOIN ACCRUAL_PROJ_DETAILS B
+         ON A.ACCRUAL_PROJ_DETAILS_SID = B.ACCRUAL_PROJ_DETAILS_SID
+       JOIN @TEMP_PROJ_DETAILS CT
+         ON CT.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+            AND CT.RS_MODEL_SID = B.RS_MODEL_SID
+            AND CT.ACCRUAL_PROJ_DETAILS_SID = B.ACCRUAL_PROJ_DETAILS_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = A.PERIOD_SID
+WHERE  P.YEAR >= Year(Getdate())
+GROUP  BY P.YEAR,
+          P.QUARTER,
+          B.CCP_DETAILS_SID,
+          B.RS_MODEL_SID
+
+INSERT INTO @TEMP_MIN_MAX
+            (PROJECTED_ACCRUAL_AMOUNT,
+             PROJECTED_ACCRUAL_RATE,
+            YEAR,
+             QUARTER,
+             CCP_DETAILS_SID,
+             RS_MODEL_SID,
+             APPRV_PROJECTED_ACCRUAL_AMOUNT,
+             APPRV_PROJECTED_ACCRUAL_RATE,
+             DIFF_AMOUNT,
+             DIFF_RATE,
+             [DIFF_AMOUNT_%],
+             [DIFF_RATE_%])
+SELECT A.PROJECTED_ACCRUAL_AMOUNT,
+       A.PROJECTED_ACCRUAL_RATE,
+       A.YEAR,
+       A.QUARTER,
+       A.CCP_DETAILS_SID,
+       A.RS_MODEL_SID,
+       ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) AS APPRV_PROJECTED_ACCRUAL_AMOUNT,
+       ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0)   AS APPRV_PROJECTED_ACCRUAL_RATE,
+       CASE
+         WHEN ( ISNULL(A.PROJECTED_ACCRUAL_AMOUNT, 0) - ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) ) < 0 THEN 0
+         ELSE ( ISNULL(A.PROJECTED_ACCRUAL_AMOUNT, 0) - ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) )
+       END                                          AS DIFF_AMOUNT,
+       CASE
+         WHEN ( ISNULL(A.PROJECTED_ACCRUAL_RATE, 0) - ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) ) < 0 THEN 0
+         ELSE ( ISNULL(A.PROJECTED_ACCRUAL_RATE, 0) - ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) )
+       END                                          AS DIFF_RATE,
+       CASE
+         WHEN ( ( ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) - ISNULL(A.PROJECTED_ACCRUAL_AMOUNT, 0) ) / NULLIF(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) ) < 0 THEN 0
+         ELSE ( ( ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) - ISNULL(A.PROJECTED_ACCRUAL_AMOUNT, 0) ) / NULLIF(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) )
+       END                                          AS [DIFF_AMOUNT_%],
+       CASE
+         WHEN ( ( ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) - ISNULL(A.PROJECTED_ACCRUAL_RATE, 0) ) / NULLIF(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) ) < 0 THEN 0
+         ELSE ( ( ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) - ISNULL(A.PROJECTED_ACCRUAL_RATE, 0) ) / NULLIF(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) )
+       END                                          AS [DIFF_RATE_%]
+FROM   (SELECT B.CCP_DETAILS_SID,
+               B.RS_MODEL_SID,
+               Sum(A.ACCRUAL_AMOUNT) AS PROJECTED_ACCRUAL_AMOUNT,
+               Sum(A.ACCRUAL_RATE)   AS PROJECTED_ACCRUAL_RATE,
+               YEAR,
+               QUARTER
+        FROM   ST_ACCRUAL_RATE_DETAILS A
+               JOIN ACCRUAL_PROJ_DETAILS B
+                 ON A.ACCRUAL_PROJ_DETAILS_SID = B.ACCRUAL_PROJ_DETAILS_SID
+               JOIN PERIOD P
+                 ON P.PERIOD_SID = A.PERIOD_SID
+        WHERE  USER_ID = @USER_ID
+               AND SESSION_ID = @SESSION_ID
+        GROUP  BY P.YEAR,
+                  P.QUARTER,
+                  B.CCP_DETAILS_SID,
+                  B.RS_MODEL_SID) A
+       LEFT JOIN @TEMP_APPROVED TEMP_APP
+              ON TEMP_APP.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                 AND TEMP_APP.RS_MODEL_SID = A.RS_MODEL_SID
+                 AND TEMP_APP.YEAR = A.YEAR
+                 AND TEMP_APP.QUARTER = A.QUARTER
+
+SELECT ISNULL(Min(DIFF_AMOUNT), 0)     AS MIN_DIFF_AMOUNT,
+       ISNULL(Max(DIFF_AMOUNT), 0)     AS MAX_DIFF_AMOUNT,
+       ISNULL(Min(DIFF_RATE), 0)       AS MIN_DIFF_RATE,
+       ISNULL(Max(DIFF_RATE), 0)       AS MAX_DIFF_RATE,
+       ISNULL(Min([DIFF_AMOUNT_%]), 0) AS [MIN_DIFF_AMOUNT_%],
+       ISNULL(Max([DIFF_AMOUNT_%]), 0) AS [MAX_DIFF_AMOUNT_%],
+       ISNULL(Min([DIFF_RATE_%]), 0)   AS [MIN_DIFF_RATE_%],
+       ISNULL(Max([DIFF_RATE_%]), 0)   AS [MAX_DIFF_RATE_%]
+FROM   @TEMP_MIN_MAX 
+		]]> 
+        </query> 
+    </entity>
+    <entity id="getChildLevelsWithHierarchyNo">
+        <query> 
+		<![CDATA[
+    select distinct RLD.level_No, RLD.relationship_Level_Values, RLD.parent_Node, RLD.level_Name, HLD.level_Value_Reference, HLD.table_Name, HLD.field_Name, RLD.relationship_Level_Sid, RLD.hierarchy_No, RLD.relationship_Builder_Sid 
+                 FROM Relationship_Level_Definition RLD, Hierarchy_Level_Definition HLD 
+                 WHERE RLD.hierarchy_Level_Definition_Sid = HLD.hierarchy_Level_Definition_Sid 
+                 AND RLD.hierarchy_No like '?%' AND RLD.hierarchy_No != '?'  AND RLD.level_No <= ? ORDER by RLD.hierarchy_No asc  
+		]]> 
+        </query> 
+    </entity>
+    <entity id="hasTradingPartner">
+        <query> 
+		<![CDATA[
+                    SELECT count(RLD.RELATIONSHIP_LEVEL_SID) RELATIONSHIP_LEVEL_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD, PROJECTION_CUST_HIERARCHY PCH 
+                    WHERE PCH.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID 
+                    AND RLD.LEVEL_NAME='Trading Partner'
+                    AND PCH.PROJECTION_MASTER_SID = 
+		]]> 
+        </query> 
+    </entity>
+    <entity id="getUnsavedProjectionIds">
+        <query> 
+		<![CDATA[
+                    SELECT DISTINCT PROJECTION_MASTER_SID FROM PROJECTION_MASTER WHERE SAVE_FLAG = 'false' AND FORECASTING_TYPE ='Non Mandated' AND CREATED_DATE < '?' ;
+		]]> 
+        </query> 
+    </entity>
+    <entity id="getChildLevelRLSidRestricted">
+        <query> 
+		<![CDATA[
+                    SELECT distinct RLD.RELATIONSHIP_LEVEL_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD 
+		]]> 
+        </query> 
+    </entity>
+    <entity id="getChildLevelRL">
+        <query> 
+		<![CDATA[
+                SELECT distinct RLD.relationship_Level_Values, RLD.level_No, RLD.parent_Node, RLD.relationship_Level_Sid, HLD.table_Name, HLD.field_Name, RLD.hierarchy_No, RB.relationship_Builder_Sid, RLD.level_Name
+                from Relationship_Level_Definition RLD, Relationship_Builder RB, Hierarchy_Level_Definition HLD
+                where RLD.relationship_Builder_Sid = RB.relationship_Builder_Sid 
+                and HLD.hierarchy_Level_Definition_Sid = RLD.hierarchy_Level_Definition_Sid 
+                and HLD.table_Name in ('CONTRACT_MASTER', 'COMPANY_MASTER') 
+		]]> 
+        </query> 
+    </entity>
+    <entity id="getRemovableChildren">
+        <query> 
+		<![CDATA[
+                   SELECT RLD.RELATIONSHIP_LEVEL_SID, RLD.HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION RLD  WHERE RLD.RELATIONSHIP_LEVEL_SID in (SELECT RLD.RELATIONSHIP_LEVEL_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD, 
+                    (SELECT RLD.HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION RLD
+                    WHERE RLD.RELATIONSHIP_LEVEL_SID in (?)) HNO
+                    WHERE RLD.HIERARCHY_NO like HNO.HIERARCHY_NO+'%') AND RLD.RELATIONSHIP_LEVEL_SID NOT IN (?);
+		]]> 
+        </query> 
+    </entity>
+    <entity id="deleteTempOnUpdate">
+        <query> 
+		<![CDATA[
+                   DELETE FROM ?DTBL WHERE PROJECTION_DETAILS_SID in (Select distinct PD.PROJECTION_DETAILS_SID From PROJECTION_DETAILS PD, 
+		(SELECT CCPMAP.CCP_DETAILS_SID
+                  FROM   (SELECT RLD.HIERARCHY_NO,
+                                 CCP.CCP_DETAILS_SID
+                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                          JOIN   CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID = CCP.RELATIONSHIP_LEVEL_SID
+                          JOIN   PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID = ?PID
+                          JOIN   ?HTBL  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID=?PID
+                          ) CCPMAP JOIN 
+                         (SELECT RLD1.HIERARCHY_NO
+                          FROM   RELATIONSHIP_LEVEL_DEFINITION RLD1
+                          JOIN   ?HTBL  PCH ON PCH.RELATIONSHIP_LEVEL_SID = RLD1.RELATIONSHIP_LEVEL_SID AND PCH.PROJECTION_MASTER_SID = ?PID 
+                         AND  RLD1.HIERARCHY_NO LIKE '%') HLD ON CCPMAP.HIERARCHY_NO LIKE HLD.HIERARCHY_NO+'%' 
+ 					WHERE HLD.HIERARCHY_NO in(?HNO)) CCP
+		  Where PD.PROJECTION_MASTER_SID = ?PID AND PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID);
+		]]> 
+        </query> 
+    </entity>
+    <entity id="getFSValue">
+        <query> 
+		<![CDATA[
+                   SELECT H1.DESCRIPTION as form, H2.DESCRIPTION as strength
+                    FROM ITEM_MASTER IM
+                    JOIN HELPER_TABLE H1 ON H1.HELPER_TABLE_SID = IM.FORM
+                    JOIN HELPER_TABLE H2 ON H2.HELPER_TABLE_SID = IM.STRENGTH
+                    WHERE IM.ITEM_MASTER_SID = '?RLC?';
+		]]> 
+        </query> 
+    </entity>
+    <entity id="companyFilter">
+        <query> 
+		<![CDATA[
+                SELECT DISTINCT ITEM.ITEM_MASTER_SID
+                FROM GL_COST_CENTER_MASTER GLCOMP
+                JOIN COMPANY_MASTER COMPANY ON GLCOMP.COMPANY_CODE = COMPANY.COMPANY_ID
+                JOIN ITEM_MASTER ITEM ON ITEM.NDC8 = GLCOMP.NDC8
+                WHERE COMPANY.COMPANY_MASTER_SID = 
+		]]> 
+        </query> 
+    </entity>
+    
 </sql>

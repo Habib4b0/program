@@ -6,7 +6,9 @@
 package com.stpl.app.arm.dataselection.ui.form;
 
 import com.stpl.app.arm.adjustmentreserveconfiguration.dto.AdjustmentReserveDTO;
+import com.stpl.app.arm.bpm.logic.DSCalculationLogic;
 import com.stpl.app.arm.bpm.logic.VarianceCalculationLogic;
+import com.stpl.app.arm.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.dataselection.dto.DataSelectionDTO;
@@ -20,6 +22,7 @@ import com.stpl.app.arm.businessprocess.Transaction6;
 import com.stpl.app.arm.businessprocess.Transaction7;
 import com.stpl.app.arm.businessprocess.Transaction8;
 import com.stpl.app.arm.dataselection.logic.DataSelectionLogic;
+import com.stpl.app.arm.dataselection.view.DataSelectionView;
 import com.stpl.app.arm.security.StplSecurity;
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.CommonConstant;
@@ -27,12 +30,16 @@ import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.arm.workflow.dto.WorkflowMasterDTO;
 import com.stpl.app.arm.workflow.logic.WorkflowLogic;
 import com.stpl.app.arm.workflow.lookup.WorkFlowNotesLookup;
+import com.stpl.app.model.ProjectionMaster;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
 import com.stpl.app.utils.ConstantsUtils;
 
 import com.stpl.app.utils.VariableConstants;
 import com.stpl.app.utils.xmlparser.SQlUtil;
+import com.stpl.gtn.gtn2o.ws.constants.workflow.GtnWsBpmCommonConstants;
+import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.util.constants.ARMConstants;
@@ -53,6 +60,7 @@ import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.JavaScript;
+import com.vaadin.ui.UI;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
@@ -63,6 +71,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -379,86 +388,79 @@ public class BussinessProcessForm extends Window {
      */
     private void submitProjection(final String notesVal, final String screenName, final List<NotesDTO> getUploadedData) {
 
-//        Map<String, Object> params = new HashMap<>();
-//        try {
-//            params.put(ARMUtils.PROJECTION_ID, dataselectionDTO.getProjectionId());
-//            String workflowStatus = getWorkflowStatus(dataselectionDTO.getProjectionId());
-//            if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
-//                ProcessInstance processInstance = DSCalculationLogic.startWorkflow();
-//                User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
-//                List<String> roleList = new ArrayList<>();
-//                boolean workflowFlag = DSCalculationLogic.isValidWorkflowUser(userModel, roleList, processInstance.getId());
-//                Long processInstanceId = processInstance.getId();
-//
-//                TaskSummary taskSummary = DSCalculationLogic.startAndCompleteTask(userModel, dataselectionDTO.getProjectionId(), processInstanceId);
-//                processInstanceId = taskSummary.getProcessInstanceId();
-//                sessionDTO.setProcessId(processInstanceId);
-//
-//                if (workflowFlag) {
-//                    submitProjToWorkflow(params, notesVal, screenName, getUploadedData);
-//
-//                } else {
-//                    StringBuilder notiMsg = new StringBuilder("You dont have permission to submit a projection.");
-//                    if (!roleList.isEmpty()) {
-//                        notiMsg.append("\n Only " + roleList + " can submit a projection.");
-//                    }
-//                    AbstractNotificationUtils.getWarningNotification("Permission Denied", notiMsg.toString());
-//
-//                }
-//            } else {
-//                submitProjToWorkflow(params, notesVal, screenName, getUploadedData);
-//            }
-//        } catch (Exception e) {
-//            LOGGER.error("Error in submitProjection" + e);
-//        }
+        Map<String, Object> params = new HashMap<>();
+        try {
+            params.put(ARMUtils.PROJECTION_ID, dataselectionDTO.getProjectionId());
+            String workflowStatus = getWorkflowStatus(dataselectionDTO.getProjectionId());
+            if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
+                GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(sessionDTO,userId);
+                List<String> roleList = new ArrayList<>();
+                Long processInstanceId = Long.parseLong(String.valueOf(response.getProcessInstanceId()));
+                sessionDTO.setProcessId(processInstanceId);
+
+                if (response.isHasPermission()) {
+                     DSCalculationLogic.startAndCompleteTask(sessionDTO, userId);
+                    submitProjToWorkflow(params, notesVal, screenName, getUploadedData);
+
+                } else {
+                    StringBuilder notiMsg = new StringBuilder("You dont have permission to submit a projection.");
+                    if (!roleList.isEmpty()) {
+                        notiMsg.append("\n Only " + roleList + " can submit a projection.");
+                    }
+                    AbstractNotificationUtils.getWarningNotification("Permission Denied", notiMsg.toString());
+
+                }
+            } else {
+                submitProjToWorkflow(params, notesVal, screenName, getUploadedData);
+            }
+        } catch (NumberFormatException e) {
+            LOGGER.error("Error in submitProjection" + e);
+        }
     }
 
     private void submitProjToWorkflow(Map<String, Object> params, final String notes, final String screenName, final List<NotesDTO> getUploadedData) {
 
         try {
 
-//            WorkflowRuleDTO dto = new WorkflowRuleDTO();
-//            params.put("out_workflowDTO", dto);
-//
-//            Long processId = 0L;
-//            List processList = WorkflowPersistance.selectWFInstanceInfo(dataselectionDTO.getProjectionId());
-//            if (processList != null && !(processList.isEmpty())) {
-//                processId = Long.valueOf(processList.get(0).toString());
-//            }
-//            VarianceCalculationLogic.submitWorkflow(userId, processId, params);
-//            String noOfUsers = BPMProcessBean.getProcessVariableLog(processId, "NoOfUsers");
-//            LOGGER.debug("no of users : " + noOfUsers);
-//            if (!noOfUsers.isEmpty()) {
-//                LOGGER.debug("no of users : " + noOfUsers);
-//                String workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
-//                String approvedFlag;
-//                approvedFlag = ARMUtils.SUBMITTED;
-//                if (workflowId != null && !workflowId.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
-//                    callWorkflowInboxRefresh();
-//                    MessageBox.showPlain(Icon.INFO, approvedFlag + " Successfully ", " Workflow Id: " + workflowId + "  ", new MessageBoxListener() {
-//                        /**
-//                         * The method is triggered when a button of the message
-//                         * box is pressed .
-//                         *
-//                         * @param buttonId The buttonId of the pressed button.
-//                         */
-//                        @SuppressWarnings("PMD")
-//                        @Override
-//                        public void buttonClicked(final ButtonId buttonId) {
-//                            if (sessionDTO.getWorkflowId() != 0) {
-//                                submitBtn.setEnabled(false);
-//                            } else {
-//                                UI.getCurrent().getNavigator().navigateTo(DataSelectionView.NAME);
-//                            }
-//                        }
-//                    }, ButtonId.OK);
-//
-//                } else {
-//                    AbstractNotificationUtils.getErrorNotification("Error", "The Data not saved properly");
-//                }
-//
-//            }
-        } catch (Exception ex) {
+            Long processId = 0L;
+            List processList = WorkflowPersistance.selectWFInstanceInfo(dataselectionDTO.getProjectionId());
+            if (processList != null && !(processList.isEmpty())) {
+                processId = Long.valueOf(processList.get(0).toString());
+            }
+            VarianceCalculationLogic.submitWorkflow(processId,sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+            String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId,"NoOfUsers");
+            LOGGER.debug("no of users : " + noOfUsers);
+            if (!noOfUsers.isEmpty()) {
+                LOGGER.debug("no of users : " + noOfUsers);
+                String workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
+                String approvedFlag;
+                approvedFlag = ARMUtils.SUBMITTED;
+                if (workflowId != null && !workflowId.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
+                    callWorkflowInboxRefresh();
+                    MessageBox.showPlain(Icon.INFO, approvedFlag + " Successfully ", " Workflow Id: " + workflowId + "  ", new MessageBoxListener() {
+                        /**
+                         * The method is triggered when a button of the message
+                         * box is pressed .
+                         *
+                         * @param buttonId The buttonId of the pressed button.
+                         */
+                        @SuppressWarnings("PMD")
+                        @Override
+                        public void buttonClicked(final ButtonId buttonId) {
+                            if (sessionDTO.getWorkflowId() != 0) {
+                                submitBtn.setEnabled(false);
+                            } else {
+                                UI.getCurrent().getNavigator().navigateTo(DataSelectionView.NAME);
+                            }
+                        }
+                    }, ButtonId.OK);
+
+                } else {
+                    AbstractNotificationUtils.getErrorNotification("Error", "The Data not saved properly");
+                }
+
+            }
+        } catch (NumberFormatException ex) {
             LOGGER.error("Error in submitProjToWorkflow" + ex);
         }
     }
@@ -504,15 +506,15 @@ public class BussinessProcessForm extends Window {
         LOGGER.debug("Entering submitProjection method");
         String workflowStatus = StringUtils.EMPTY;
         try {
-//            ProjectionMaster projMaster = ProjectionMasterLocalServiceUtil.getProjectionMaster(projectionId);
-//            if (projMaster != null) {
-//                if (projMaster.getIsApproved() != null && (projMaster.getIsApproved().equals(ARMUtils.R) || projMaster.getIsApproved().equals(ARMUtils.INDICATOR_LOGIC_CUSTOMER_HIERARCHY) || projMaster.getIsApproved().equals("W"))) {
-//                    workflowStatus = WORKFLOW_LOGIC.updateWorkflowFromForecast(projectionId, notes, userId);
-//                } else {
-//                    workflowStatus = WORKFLOW_LOGIC.saveWorkflow(projectionId, userId, notes, noOfApprovals, screenName, getUploadedData, description);
-//                }
-//                QueryUtils.itemUpdate(Arrays.asList(new String[]{userId, String.valueOf(projectionId)}), QueryUtils.QueryName.UPDATE_PROJECTION_MASTER_IN_SUBMIT);
-//            }
+            ProjectionMaster projMaster = ProjectionMasterLocalServiceUtil.getProjectionMaster(projectionId);
+            if (projMaster != null) {
+                if (projMaster.getIsApproved() != null && (projMaster.getIsApproved().equals(ARMUtils.R) || projMaster.getIsApproved().equals(ARMUtils.INDICATOR_LOGIC_CUSTOMER_HIERARCHY) || projMaster.getIsApproved().equals("W"))) {
+                    workflowStatus = WORKFLOW_LOGIC.updateWorkflowFromForecast(projectionId, notes, userId);
+                } else {
+                    workflowStatus = WORKFLOW_LOGIC.saveWorkflow(projectionId, userId, notes, noOfApprovals, screenName, getUploadedData, description);
+                }
+                QueryUtils.itemUpdate(Arrays.asList(new String[]{userId, String.valueOf(projectionId)}), QueryUtils.QueryName.UPDATE_PROJECTION_MASTER_IN_SUBMIT);
+            }
 
         } catch (Exception e) {
             LOGGER.error("Error in submitProjectionLogic" + e);
@@ -690,9 +692,7 @@ public class BussinessProcessForm extends Window {
                                         }
                                         if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(ARMUtils.WORKFLOW_NOT_SAVED)) {
 
-                                            Map<String, Object> params = new HashMap<>();
-                                            params.put(CommonConstant.APPROVE_FLAG, "approve");
-                                            VarianceCalculationLogic.submitWorkflow(String.valueOf(sessionDTO.getUserId()), sessionDTO.getProcessId(), params);
+                                            VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(),sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                             callWorkflowInboxRefresh();
                                             AbstractNotificationUtils.getInfoNotification("Approved Information", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
                                             // For Mail
@@ -744,7 +744,7 @@ public class BussinessProcessForm extends Window {
 
                                         Map<String, Object> params = new HashMap<>();
                                         params.put(CommonConstant.APPROVE_FLAG, "reject-RWC");
-                                        VarianceCalculationLogic.submitWorkflow(String.valueOf(sessionDTO.getUserId()), sessionDTO.getProcessId(), params);
+                                        VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(),sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                         // For Mail
                                         callWorkflowInboxRefresh();
                                         AbstractNotificationUtils.getInfoNotification("Rejected Information ", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
@@ -792,7 +792,7 @@ public class BussinessProcessForm extends Window {
 
                                         Map<String, Object> params = new HashMap<>();
                                         params.put(CommonConstant.APPROVE_FLAG, "withdraw-RWC");
-                                        VarianceCalculationLogic.submitWorkflow(String.valueOf(sessionDTO.getUserId()), sessionDTO.getProcessId(), params);
+                                        VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(),sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                         callWorkflowInboxRefresh();
                                         AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " withdrawn successfully");
                                         // For Mail
@@ -841,7 +841,7 @@ public class BussinessProcessForm extends Window {
                                         Map<String, Object> params = new HashMap<>();
                                         params.put(CommonConstant.APPROVE_FLAG, "cancel-RWC");
 
-                                        VarianceCalculationLogic.submitWorkflow(String.valueOf(sessionDTO.getUserId()), sessionDTO.getProcessId(), params);
+                                        VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(),sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                         callWorkflowInboxRefresh();
                                         AbstractNotificationUtils.getInfoNotification("Cancel Information", CommonConstant.WORKFLOW_ID + workflowIdUpdate + " cancelled successfully");
                                         // For Mail

@@ -5,20 +5,19 @@
  */
 package com.stpl.app.arm.dataselection.dto;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  *
  * @author sathyaseelan.v
  */
-public class LevelDTO {
+public class LevelDTO implements Cloneable, Comparable<LevelDTO> {
 
     private String level;
     private String levelValueReference;
     private String tableName;
     private String fieldName;
-    private boolean fromCompany;
-    private boolean fromContract;
-    private boolean fromItem;
-    private int levelNo;
+    private Integer levelNo = new Integer("0");
     private int relationshipLevelSid;
     private String ndc;
     private String form;
@@ -40,12 +39,27 @@ public class LevelDTO {
     private String parentNode;
     private String hierarchyNo;
     private String relationShipBuilderId;
+    private String hierarchyLevelDefnId;
+    private int hierarchyId;
+    private String hierarchyType = StringUtils.EMPTY;
+    private int hierarchyVersionNo;
+    private int relationShipVersionNo;
 
     public LevelDTO() {
         /*
         THE DEFAULT CONSTRUCTOR
          */
     }
+    
+    @Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
+
+	@Override
+	public int compareTo(LevelDTO obj) {
+		return this.levelNo.compareTo(obj.levelNo);
+	}
 
     public String getLevel() {
         return level;
@@ -62,7 +76,7 @@ public class LevelDTO {
     public void setLevelValueReference(String levelValueReference) {
         this.levelValueReference = levelValueReference;
     }
-
+    
     public String getTableName() {
         return tableName;
     }
@@ -77,30 +91,6 @@ public class LevelDTO {
 
     public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
-    }
-
-    public boolean getFromCompany() {
-        return fromCompany;
-    }
-
-    public void setFromCompany(boolean fromCompany) {
-        this.fromCompany = fromCompany;
-    }
-
-    public boolean getFromontract() {
-        return fromContract;
-    }
-
-    public void setFromContract(boolean fromcontract) {
-        this.fromContract = fromcontract;
-    }
-
-    public boolean getFromItem() {
-        return fromItem;
-    }
-
-    public void setFromItem(boolean fromItem) {
-        this.fromItem = fromItem;
     }
 
     public int getLevelNo() {
@@ -279,4 +269,44 @@ public class LevelDTO {
         this.rsId = rsId;
     }
 
+    public int getRelationShipVersionNo() {
+        return relationShipVersionNo;
+    }
+
+    public void setRelationShipVersionNo(int relationShipVersionNo) {
+        this.relationShipVersionNo = relationShipVersionNo;
+    }
+
+    public String getHierarchyLevelDefnId() {
+        return hierarchyLevelDefnId;
+    }
+
+    public void setHierarchyLevelDefnId(String hierarchyLevelDefnId) {
+        this.hierarchyLevelDefnId = hierarchyLevelDefnId;
+    }
+
+    public int getHierarchyId() {
+        return hierarchyId;
+    }
+
+    public void setHierarchyId(int hierarchyId) {
+        this.hierarchyId = hierarchyId;
+    }
+
+    public String getHierarchyType() {
+        return hierarchyType;
+    }
+
+    public void setHierarchyType(String hierarchyType) {
+        this.hierarchyType = hierarchyType;
+    }
+
+    public int getHierarchyVersionNo() {
+        return hierarchyVersionNo;
+    }
+
+    public void setHierarchyVersionNo(int hierarchyVersionNo) {
+        this.hierarchyVersionNo = hierarchyVersionNo;
+    }
+    
 }

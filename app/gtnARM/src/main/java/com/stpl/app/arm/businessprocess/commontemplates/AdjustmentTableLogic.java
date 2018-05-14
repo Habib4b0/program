@@ -68,6 +68,7 @@ public class AdjustmentTableLogic<T extends AdjustmentDTO> extends PageTreeTable
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             LOGGER.error("Error in configureContainer :" + e);
         }
         return dto;

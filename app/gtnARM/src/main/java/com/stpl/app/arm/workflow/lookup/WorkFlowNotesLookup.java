@@ -126,7 +126,7 @@ public class WorkFlowNotesLookup extends Window {
     }
 
     private void addToContent() {
-        setContent(Clara.create(getClass().getResourceAsStream("/bussinessprocess//workFlowNotesLookup.xml"), this));
+        setContent(Clara.create(WorkFlowNotesLookup.class.getResourceAsStream("/bussinessprocess/workFlowNotesLookup.xml"), this));
         addStyleName(ARMUtils.BOOTSTRAP_UI);
         addStyleName(ARMUtils.BOOTSTRAP);
         addStyleName(ARMUtils.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);

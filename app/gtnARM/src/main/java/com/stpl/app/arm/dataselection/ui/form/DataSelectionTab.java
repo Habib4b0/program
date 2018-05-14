@@ -326,8 +326,8 @@ public class DataSelectionTab extends AbstractDataSelection {
             CommonLogic.loadCompanyAndBusinessUnit(businessUnit, "getBusinessQueryForDS");
             company.select(selection.getCompanyMasterSid());
             businessUnit.select(selection.getBucompanyMasterSid());
-            customerDescriptionMap = logic.getLevelValueMap(String.valueOf(selection.getCustRelationshipBuilderSid()));
-            productDescriptionMap = logic.getLevelValueMap(String.valueOf(selection.getProdRelationshipBuilderSid()));
+//            customerDescriptionMap = logic.getLevelValueMap(String.valueOf(selection.getCustRelationshipBuilderSid()));
+//            productDescriptionMap = logic.getLevelValueMap(String.valueOf(selection.getProdRelationshipBuilderSid()));
             initializeCustomerHierarchy(selection.getProjectionId(), Integer.valueOf(selection.getCustomerHierarchyLevel()));
             initializeProductHierarchy(selection.getProjectionId(), Integer.valueOf(selection.getProductHierarchyLevel()));
 

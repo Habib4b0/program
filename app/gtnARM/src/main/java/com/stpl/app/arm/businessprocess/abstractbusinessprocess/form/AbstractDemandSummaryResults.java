@@ -5,7 +5,6 @@
  */
 package com.stpl.app.arm.businessprocess.abstractbusinessprocess.form;
 
-import com.stpl.app.arm.adjustmentreserveconfiguration.ui.abstractreserveform.AbstractReserve;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSelectionDTO;
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.logic.AbstractDemandSummaryLogic;
 import com.stpl.app.arm.businessprocess.pipelineaccrual.form.tablegenerator.DemandSummaryFieldFactory;
@@ -19,7 +18,7 @@ import com.stpl.ifs.util.constants.ARMConstants;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.Label;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Panel xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:com.stpl.ifs.ui" 
-       xmlns:b="urn:import:org.asi.ui.customtextfield" xmlns:cu="urn:import:org.asi.ui.customcombobox" xmlns:c="urn:import:org.asi.ui.custommenubar">
+<Panel xmlns:cu="urn:import:org.asi.ui.customcombobox" xmlns:c="urn:import:org.asi.ui.custommenubar">
     <VerticalLayout spacing="true"  margin="true" immediate="true">
         <Panel  margin="true" immediate="true" spacing="true" caption="Data Selection">
             <VerticalLayout margin="true" immediate="true" spacing="true" styleName = "width-auto">

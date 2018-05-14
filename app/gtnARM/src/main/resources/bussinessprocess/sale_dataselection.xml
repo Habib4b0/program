@@ -1,4 +1,4 @@
-<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable" xmlns:p="urn:vaadin:parent" xmlns:b="urn:import:org.asi.ui.customtextfield" xmlns:c="urn:import:org.asi.ui.custommenubar" xmlns:cu="urn:import:org.asi.ui.customcombobox">
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable" xmlns:c="urn:import:org.asi.ui.custommenubar" xmlns:cu="urn:import:org.asi.ui.customcombobox">
     <VerticalLayout spacing="true"  immediate="true">
         <Panel  margin="true" immediate="true" spacing="true" caption="Data Selection">
             <VerticalLayout margin="true" immediate="true" spacing="true" styleName = "width-auto">

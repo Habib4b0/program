@@ -8,15 +8,24 @@ package com.stpl.app.arm.utils;
 import com.stpl.app.arm.common.CommonFilterLogic;
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-
-import com.stpl.app.utils.CommonUtils;
+import com.stpl.app.utils.ConstantsUtils;
 import com.stpl.app.utils.SysDataSourceConnection;
 import com.stpl.app.utils.xmlparser.SQlUtil;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.arm.dataselection.bean.GtnARMHierarchyInputBean;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.arm.GtnWsArmRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.arm.GtnWsARMResponse;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMConstants;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Container;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -33,40 +42,43 @@ import org.slf4j.LoggerFactory;
  */
 public class DataSelectionQueryUtils {
 
-    protected DataSelectionQueryUtils() {
+    public DataSelectionQueryUtils() {
 
     }
     private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionQueryUtils.class);
 
-    public static Object tempOperation(final Map<String, Object> input) {
+    public Map<String, String> loadLevelValuesMap(int relationshipBuilderSID, int relationVersionNo, int hierarchyBuilderSid, int hierarchyVersionNo) {
         Map<String, String> valueList = new HashMap<>();
-//        try {
-//            String customSql = CustomSQLUtil.get("getHierarchyTableDetails");
-//            for (String key : input.keySet()) {
-//                customSql = customSql.replace(key, String.valueOf(input.get(key)));
-//
-//            }
-//            List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-//            for (int i = tempList.size() - 1; i >= 0; i--) {
-//                customSql = CustomSQLUtil.get("getRelationshipLevelValues");
-//                Object[] tempListObject = (Object[]) tempList.get(i);
-//                customSql = customSql.replace("?FIELD", String.valueOf(tempListObject[0]));
-//                customSql = customSql.replace("?TABLE", String.valueOf(tempListObject[1]));
-//                customSql = customSql.replace("?IDCOL", String.valueOf(tempListObject[NumericConstants.TWO]));
-//                customSql = customSql.replace("?LNO", String.valueOf(tempListObject[NumericConstants.THREE]));
-//                customSql = customSql.replace("?RBSID", String.valueOf(input.get("?RBSID")));
-//                LOGGER.debug("customSql--" + customSql);
-//                List tempValueList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-//                for (int j = tempValueList.size() - 1; j >= 0; j--) {
-//                    Object[] tempObject = (Object[]) tempValueList.get(j);
-//                    valueList.put(String.valueOf(tempObject[0]), String.valueOf(tempObject[1]));
-//                }
-//            }
-//            LOGGER.debug("valueList ---" + valueList.size());
-//        } catch (Exception e) {
-//            LOGGER.error("Error in tempOperation :" + e);
-//        }
+        String query = getLevelMapValueMapQuery(relationshipBuilderSID, relationVersionNo, hierarchyBuilderSid,
+                hierarchyVersionNo);
+        List<Object[]> list = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(query);
+        for (Object[] leveldto2 : list) {
+            if (leveldto2[0] != null && leveldto2[1] != null) {
+                valueList.put(leveldto2[0].toString(), leveldto2[1].toString());
+            }
+        }
         return valueList;
+    }
+    
+    private String getLevelMapValueMapQuery(Object relationshipBuilderSID, int relationVersionNo,
+        int hierarchyBuilderSid, int hierarchyVersionNo) {
+        GtnARMHierarchyInputBean inputBean = new GtnARMHierarchyInputBean();
+        inputBean.setRelationShipBuilderSid(Integer.parseInt(relationshipBuilderSID.toString()));
+        inputBean.setRelationVersionNo(relationVersionNo);
+        inputBean.setHierarchyDefinitionSid(hierarchyBuilderSid);
+        inputBean.setHierarchyVersionNo(hierarchyVersionNo);
+        GtnWsArmRequest armRequest = new GtnWsArmRequest();
+        armRequest.setInputBean(inputBean);
+        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+        request.setGtnWsArmRequest(armRequest);
+        GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
+                GtnWebServiceUrlConstants.GTN_DATASELCTION_ARM_EDIT_SERVICE
+                + GtnWebServiceUrlConstants.GTN_DATASELECTION_ARM_LOAD_LEVEL_VALUE_MAP,
+                request, getGsnWsSecurityToken());
+        GtnWsARMResponse armResponse = relationResponse.getGtnWsARMResponse();
+        GtnARMHierarchyInputBean outputBean = armResponse.getInputBean();
+        return outputBean.getFramedQuery();
     }
 
     public static List getLevelsFromHierarchy(final Map<String, Object> parameters) {
@@ -90,111 +102,50 @@ public class DataSelectionQueryUtils {
         }
     }
 
-    public static List getCustomerInnerLevel(final String relationshipSid, int levelNo, int hierarchyId, List<Integer> rsContractSidList) {
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+    public static List getCustomerInnerLevel(GtnARMHierarchyInputBean inputBean) {
+        String query = StringUtils.EMPTY;
         try {
-            queryBuilder.append(insertIntoCcpMap(String.valueOf(hierarchyId == 0 ? StringUtils.EMPTY : hierarchyId), relationshipSid, StringUtils.EMPTY, StringUtils.EMPTY));
-            int index = 0;
-            queryBuilder.append(SQlUtil.getQuery("getCustomerHierarchyInnerLevel"));
-            index = queryBuilder.indexOf("?");
-            queryBuilder.replace(index, index + 1, String.valueOf(relationshipSid));
-            index = queryBuilder.indexOf("?", index);
-            queryBuilder.replace(index, index + 1, String.valueOf(hierarchyId));
-            index = queryBuilder.indexOf("?", index);
-            queryBuilder.replace(index, index + 1, String.valueOf(levelNo));
-            String query = queryBuilder.toString();
-            String createTempDeduction = "";
-            String joinTempDeduction = "";
-            if (rsContractSidList != null && !rsContractSidList.isEmpty()) {
-                String deductionID = CommonUtils.collectionToString(rsContractSidList, false, false, false, true);
-                createTempDeduction = SQlUtil.getQuery("createTempDeduction");
-                joinTempDeduction = SQlUtil.getQuery("joinTempDeduction");
-                createTempDeduction = createTempDeduction.replace("?", deductionID);
-            }
-            query = query.replace("$$CREATETEMPDEDUCTION$$", createTempDeduction);
-            query = query.replace("$$JOINTEMPDEDUCTION$$", joinTempDeduction);
+            query = getLoadDataQuery(inputBean,GtnWebServiceUrlConstants.GTN_DATASELECTION_ARM_LOAD_CUSTOMER_LEVEL);
             LOGGER.debug("query ---" + query);
             List<Object[]> returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             LOGGER.debug("returnList ---" + returnList.size());
             return returnList;
         } catch (Exception ex) {
             LOGGER.error(ex + " in getInnerLevel()");
-            LOGGER.error(queryBuilder.toString());
+            LOGGER.error("Error Because of Query" + query);
             return Collections.emptyList();
         }
     }
+    
 
-    public static List getProductInnerLevel(List<Integer> levelProdValues, final String prodRelationshipSid, List<Integer> rsContractSidList, List<Integer> customerSidList,
-            boolean isNdc, final String custRelationshipSid) {
-        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+    private static String getLoadDataQuery(GtnARMHierarchyInputBean inputBean,String url) {
+        GtnWsArmRequest forecastRequest = new GtnWsArmRequest();
+        forecastRequest.setInputBean(inputBean);
+        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+        request.setGtnWsArmRequest(forecastRequest);
+        GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
+                GtnWebServiceUrlConstants.GTN_DATASELCTION_ARM_EDIT_SERVICE+ url,
+                request, getGsnWsSecurityToken());
+        GtnWsARMResponse foreCastResponse = relationResponse.getGtnWsARMResponse();
+        GtnARMHierarchyInputBean outputBean = foreCastResponse.getInputBean();
+        return outputBean.getFramedQuery();
+    }
 
-        try {
-            int index = 0;
-            queryBuilder.append(insertIntoCcpMap(levelProdValues.get(4) == 0 ? StringUtils.EMPTY : String.valueOf(levelProdValues.get(4)), custRelationshipSid, levelProdValues.get(1) == 0 ? StringUtils.EMPTY : String.valueOf(levelProdValues.get(1)), prodRelationshipSid));
-            queryBuilder.append(SQlUtil.getQuery("getProductHierarchyInnerLevel"));
-            index = queryBuilder.indexOf("?");
-            queryBuilder.replace(index, index + 1, String.valueOf(prodRelationshipSid));
-            index = queryBuilder.indexOf("?", index);
-            queryBuilder.replace(index, index + 1, String.valueOf(levelProdValues.get(1)));
-            index = queryBuilder.indexOf("?", index);
-            queryBuilder.replace(index, index + 1, String.valueOf(levelProdValues.get(0)));
-            String query = queryBuilder.toString();
-            String createTempDeduction = "";
-            String joinTempDeduction = "";
-            String createCustRel = "";
-            String useCustRel = "";
-            String joinCustRel = "";
-            String joinBussinessUnit = "";
-            String joinGlComp = "";
-            String selNdc = "";
-            String joinNdc = "";
-            if (rsContractSidList != null && !rsContractSidList.isEmpty()) {
-                String deductionID = CommonUtils.collectionToString(rsContractSidList, false, false, false, true);
-                createTempDeduction = SQlUtil.getQuery("createTempDeduction");
-                joinTempDeduction = SQlUtil.getQuery("joinTempDeduction");
-                createTempDeduction = createTempDeduction.replace("?", deductionID);
-            }
-            if (customerSidList != null && !customerSidList.isEmpty()) {
-                String custRelID = CommonUtils.collectionToString(customerSidList, false, false, false, true);
-                createCustRel = SQlUtil.getQuery("createSelTempCustRelation");
-                useCustRel = SQlUtil.getQuery("useSelTempCustRelation");
-                joinCustRel = SQlUtil.getQuery("joinSelTempCustRelation");
-                createCustRel = createCustRel.replace("?", custRelID);
-                useCustRel = useCustRel.replace("?", custRelationshipSid);
-            }
-            if (levelProdValues.get(3) != 0) {
-                joinGlComp = SQlUtil.getQuery("joinGlComp");
-                joinGlComp = joinGlComp.replace("?", String.valueOf(levelProdValues.get(3)));
-            }
-            // commented Because Business unit is yet to implement
-            if (levelProdValues.get(2) != 0) {
-                joinBussinessUnit = SQlUtil.getQuery("joinBusinessUnit");
-                joinBussinessUnit = joinBussinessUnit.replace("?", String.valueOf(levelProdValues.get(2)));
-            }
+    public static GtnWsSecurityToken getGsnWsSecurityToken() {
+        GtnWsSecurityToken token = new GtnWsSecurityToken();
+        Integer sessionId = Calendar.getInstance().get(Calendar.MILLISECOND);
+        String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
+        token.setUserId(userId);
+        token.setSessionId(sessionId.toString());
+        return token;
+    }
 
-            if (isNdc) {
-                selNdc = SQlUtil.getQuery("selectProdNDC");
-                joinNdc = SQlUtil.getQuery("joinProdNDC");
-            }
-
-            query = query.replace("$$CREATETEMPDEDUCTION$$", createTempDeduction);
-            query = query.replace("$$JOINTEMPDEDUCTION$$", joinTempDeduction);
-            query = query.replace("$$CREATETEMPCUSTSELECTION$$", createCustRel);
-            query = query.replace("$$USETEMPCUSTSELECTION$$", useCustRel);
-            query = query.replace("$$JOINTEMPCUSTSELECTION$$", joinCustRel);
-            query = query.replace("$$JOINGLCOMP$$", joinGlComp);
-            query = query.replace("$$JOINBUSINESSUNIT$$", joinBussinessUnit);
-            query = query.replace("$$SELECTPRODNDC$$", selNdc);
-            query = query.replace("$$JOINPRODNDC$$", joinNdc);
-            LOGGER.debug("query ---" + query);
+    public static List getProductInnerLevel(GtnARMHierarchyInputBean inputBean) {
+            String query = getLoadDataQuery(inputBean,GtnWebServiceUrlConstants.GTN_DATASELECTION_ARM_LOAD_PRODUCT_LEVEL);
             List<Object[]> returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             LOGGER.debug("returnList ---" + returnList.size());
             return returnList;
-        } catch (Exception ex) {
-            LOGGER.error(ex + " in getInnerLevel()");
-            LOGGER.error(queryBuilder.toString());
-            return Collections.emptyList();
-        }
     }
 
     public static List getParentLevels(final int relationshipLevelSid, final Map<String, Object> parameters, String relationshipBuilderSid) {
@@ -230,135 +181,133 @@ public class DataSelectionQueryUtils {
     }
 
     public static List getChildLevels(final Map<String, Object> parameters) {
-//        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
-//        try {
-//            queryBuilder.append(CustomSQLUtil.get("getChildLevelsWithHierarchyNo"));
-//            queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNo")));
-//            queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNo")));
-//            queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("lowestLevelNo")));
-//            LOGGER.debug("getChildLevels: " + queryBuilder.toString());
-//            return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
-//        } catch (Exception ex) {
-//            LOGGER.error("In getChildLevels ->" + ex);
-//            LOGGER.error(queryBuilder.toString());
-//            return Collections.emptyList();
-//        }
-        return Collections.emptyList();
+        StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
+        try {
+            queryBuilder.append(SQlUtil.getQuery("getChildLevelsWithHierarchyNo"));
+            queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNo")));
+            queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNo")));
+            queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("lowestLevelNo")));
+            LOGGER.debug("getChildLevels: " + queryBuilder.toString());
+            return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
+        } catch (Exception ex) {
+            LOGGER.error("In getChildLevels ->" + ex);
+            LOGGER.error(queryBuilder.toString());
+            return Collections.emptyList();
+        }
     }
 
     public static List executeQuery(final Map<String, Object> parameters) {
-//        LOGGER.debug("----inside executeQuery in finder Impl--------Indicator value---" + parameters.get(CommonConstant.INDICATOR));
-//        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-//        if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
-//            queryString.append(CustomSQLUtil.get(CommonConstant.HAS_TRADING_PARTNER));
-//            queryString.append("'");
-//            queryString.append(String.valueOf(parameters.get(CommonConstant.PROJECTION_ID)));
-//            queryString.append("'");
-//        } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.UNSAVED_PROJECTION_IDS.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
-//            queryString.append(CustomSQLUtil.get(CommonConstant.UNSAVED_PROJECTION_IDS));
-//            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
-//        } else if (parameters.get(CommonConstant.INDICATOR) != null && "getChildLevelRLSid".equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
-//            LOGGER.debug("--inside getChildLevelRLSid---------------------------->>>>>>>>");
-//            if (parameters.get(CommonConstant.RL_SIDS) != null) {
-//                List<String> rlSids = (ArrayList<String>) parameters.get(CommonConstant.RL_SIDS);
-//                if (rlSids != null && !rlSids.isEmpty()) {
-//                    queryString.append(CustomSQLUtil.get("getChildLevelRLSidRestricted"));
-//                    queryString.append(" WHERE (");
-//                    for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
-//                        queryString.append("HIERARCHY_NO LIKE '");
-//                        queryString.append(rlSids.get(loop));
-//                        queryString.append("%'");
-//                        if (loop != (limit - 1)) {
-//                            queryString.append(" OR ");
-//                        }
-//                    }
-//                    queryString.append(") AND HIERARCHY_NO NOT IN (");
-//                    queryString.append(CommonLogic.stringListToString(rlSids));
-//                    queryString.append(")");
-//                    queryString.append(" AND RLD.RELATIONSHIP_LEVEL_SID not in (SELECT PH.RELATIONSHIP_LEVEL_SID FROM ");
-//                    queryString.append(String.valueOf(parameters.get("tableName")));
-//
-//                    if (parameters.get("module") != null && "cff".equalsIgnoreCase(String.valueOf(parameters.get("module")))) {
-//                        queryString.append(" PH WHERE PH.CFF_MASTER_SID = ");
-//                    } else {
-//                        queryString.append(" PH WHERE PH.PROJECTION_MASTER_SID = ");
-//                    }
-//                    queryString.append(String.valueOf(parameters.get(CommonConstant.PROJECTION_ID)));
-//                    queryString.append(")");
-//                }
-//            }
-//        } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
-//            List<String> rlSids = (ArrayList<String>) parameters.get(CommonConstant.RL_SIDS);
-//            if (rlSids != null && !rlSids.isEmpty()) {
-//                queryString.append(CustomSQLUtil.get(CommonConstant.CHILD_LEVEL_RL));
-//                queryString.append(" and (");
-//                for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
-//                    queryString.append("HIERARCHY_NO like '");
-//                    queryString.append(rlSids.get(loop));
-//                    queryString.append("%'");
-//                    if (loop != (limit - 1)) {
-//                        queryString.append(" or ");
-//                    }
-//                }
-//                queryString.append(") and HIERARCHY_NO not in (");
-//                queryString.append(CommonLogic.stringListToString(rlSids));
-//                if (parameters.get("availableHierNo") != null) {
-//                    List<String> availableHierNo = (ArrayList<String>) parameters.get("availableHierNo");
-//                    queryString.append(", ");
-//                    queryString.append(CommonLogic.stringListToString(availableHierNo));
-//                }
-//                queryString.append(") ");
-//            }
-//        } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.REMOVABLE_CHILDREN.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
-//            queryString.append(CustomSQLUtil.get(CommonConstant.REMOVABLE_CHILDREN));
-//            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("removeLevels")));
-//            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("removeLevels")));
-//        } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
-//            String hNos = String.valueOf(parameters.get("hNos"));
-//            String projectionId = String.valueOf(parameters.get(CommonConstant.PROJECTION_ID));
-//            String projectionHierarchyTable = String.valueOf(parameters.get("projectionHierarchyTable"));
-//            for (String table : CommonLogic.getTempTableList()) {
-//                queryString.append(CustomSQLUtil.get(CommonConstant.DELETE_TEMP_ON_UPDATE));
-//                queryString.replace(queryString.indexOf("?DTBL"), queryString.indexOf("?DTBL") + NumericConstants.FIVE, table);
-//                queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + NumericConstants.FOUR, projectionId);
-//                queryString.replace(queryString.indexOf(CommonConstant.HTBL), queryString.indexOf(CommonConstant.HTBL) + NumericConstants.FIVE, projectionHierarchyTable);
-//                queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + NumericConstants.FOUR, projectionId);
-//                queryString.replace(queryString.indexOf(CommonConstant.HTBL), queryString.indexOf(CommonConstant.HTBL) + NumericConstants.FIVE, projectionHierarchyTable);
-//                queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + NumericConstants.FOUR, projectionId);
-//                queryString.replace(queryString.indexOf("?HNO"), queryString.indexOf("?HNO") + NumericConstants.FOUR, hNos);
-//                queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + NumericConstants.FOUR, projectionId);
-//            }
-//        } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.FS_VALUE.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
-//            queryString.append(CustomSQLUtil.get(CommonConstant.FS_VALUE));
-//            queryString.replace(queryString.indexOf("?RLC?"), queryString.indexOf("?RLC?") + NumericConstants.FIVE, String.valueOf(parameters.get("relationshipLevelValue")));
-//        } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.COMPANY_FILTER.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
-//            queryString.append(CustomSQLUtil.get(CommonConstant.COMPANY_FILTER));
-//            queryString.append("'");
-//            queryString.append(String.valueOf(parameters.get("companySid")));
-//            queryString.append("'");
-//        } else {
-//            queryString.append(String.valueOf(parameters.get("query")));
-//        }
-//        LOGGER.debug("queryString: " + queryString.toString());
-//        try {
-//            List<Object[]> list;
-//            list = HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
-//            if (parameters.get(CommonConstant.INDICATOR) != null
-//                    && (CommonConstant.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR))))) {
-//                List<Integer> intList = new ArrayList<>();
-//                int returnValue = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
-//                intList.add(returnValue);
-//                return intList;
-//            } else {
-//                return list;
-//            }
-//
-//        } catch (Exception ex) {
-//            LOGGER.error("In executeQuery  ->" + ex);
-//            LOGGER.error(queryString.toString());
-//            return Collections.emptyList();
-//        }
- return Collections.emptyList();
+        LOGGER.debug("----inside executeQuery in finder Impl--------Indicator value---" + parameters.get(CommonConstant.INDICATOR));
+        StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
+        if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.HAS_TRADING_PARTNER.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(CommonConstant.HAS_TRADING_PARTNER));
+            queryString.append("'");
+            queryString.append(String.valueOf(parameters.get(CommonConstant.PROJECTION_ID)));
+            queryString.append("'");
+        } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.UNSAVED_PROJECTION_IDS.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(CommonConstant.UNSAVED_PROJECTION_IDS));
+            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
+        } else if (parameters.get(CommonConstant.INDICATOR) != null && "getChildLevelRLSid".equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
+            LOGGER.debug("--inside getChildLevelRLSid---------------------------->>>>>>>>");
+            if (parameters.get(CommonConstant.RL_SIDS) != null) {
+                List<String> rlSids = (ArrayList<String>) parameters.get(CommonConstant.RL_SIDS);
+                if (rlSids != null && !rlSids.isEmpty()) {
+                    queryString.append(SQlUtil.getQuery("getChildLevelRLSidRestricted"));
+                    queryString.append(" WHERE (");
+                    for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
+                        queryString.append("HIERARCHY_NO LIKE '");
+                        queryString.append(rlSids.get(loop));
+                        queryString.append("%'");
+                        if (loop != (limit - 1)) {
+                            queryString.append(" OR ");
+                        }
+                    }
+                    queryString.append(") AND HIERARCHY_NO NOT IN (");
+                    queryString.append(CommonLogic.stringListToString(rlSids));
+                    queryString.append(")");
+                    queryString.append(" AND RLD.RELATIONSHIP_LEVEL_SID not in (SELECT PH.RELATIONSHIP_LEVEL_SID FROM ");
+                    queryString.append(String.valueOf(parameters.get("tableName")));
+
+                    if (parameters.get("module") != null && "cff".equalsIgnoreCase(String.valueOf(parameters.get("module")))) {
+                        queryString.append(" PH WHERE PH.CFF_MASTER_SID = ");
+                    } else {
+                        queryString.append(" PH WHERE PH.PROJECTION_MASTER_SID = ");
+                    }
+                    queryString.append(String.valueOf(parameters.get(CommonConstant.PROJECTION_ID)));
+                    queryString.append(")");
+                }
+            }
+        } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.CHILD_LEVEL_RL.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
+            List<String> rlSids = (ArrayList<String>) parameters.get(CommonConstant.RL_SIDS);
+            if (rlSids != null && !rlSids.isEmpty()) {
+                queryString.append(SQlUtil.getQuery(CommonConstant.CHILD_LEVEL_RL));
+                queryString.append(" and (");
+                for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
+                    queryString.append("HIERARCHY_NO like '");
+                    queryString.append(rlSids.get(loop));
+                    queryString.append("%'");
+                    if (loop != (limit - 1)) {
+                        queryString.append(" or ");
+                    }
+                }
+                queryString.append(") and HIERARCHY_NO not in (");
+                queryString.append(CommonLogic.stringListToString(rlSids));
+                if (parameters.get("availableHierNo") != null) {
+                    List<String> availableHierNo = (ArrayList<String>) parameters.get("availableHierNo");
+                    queryString.append(", ");
+                    queryString.append(CommonLogic.stringListToString(availableHierNo));
+                }
+                queryString.append(") ");
+            }
+        } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.REMOVABLE_CHILDREN.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(CommonConstant.REMOVABLE_CHILDREN));
+            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("removeLevels")));
+            queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("removeLevels")));
+        } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
+            String hNos = String.valueOf(parameters.get("hNos"));
+            String projectionId = String.valueOf(parameters.get(CommonConstant.PROJECTION_ID));
+            String projectionHierarchyTable = String.valueOf(parameters.get("projectionHierarchyTable"));
+            for (String table : CommonLogic.getTempTableList()) {
+                queryString.append(SQlUtil.getQuery(CommonConstant.DELETE_TEMP_ON_UPDATE));
+                queryString.replace(queryString.indexOf("?DTBL"), queryString.indexOf("?DTBL") + NumericConstants.FIVE, table);
+                queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + NumericConstants.FOUR, projectionId);
+                queryString.replace(queryString.indexOf(CommonConstant.HTBL), queryString.indexOf(CommonConstant.HTBL) + NumericConstants.FIVE, projectionHierarchyTable);
+                queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + NumericConstants.FOUR, projectionId);
+                queryString.replace(queryString.indexOf(CommonConstant.HTBL), queryString.indexOf(CommonConstant.HTBL) + NumericConstants.FIVE, projectionHierarchyTable);
+                queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + NumericConstants.FOUR, projectionId);
+                queryString.replace(queryString.indexOf("?HNO"), queryString.indexOf("?HNO") + NumericConstants.FOUR, hNos);
+                queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + NumericConstants.FOUR, projectionId);
+            }
+        } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.FS_VALUE.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(CommonConstant.FS_VALUE));
+            queryString.replace(queryString.indexOf("?RLC?"), queryString.indexOf("?RLC?") + NumericConstants.FIVE, String.valueOf(parameters.get("relationshipLevelValue")));
+        } else if (parameters.get(CommonConstant.INDICATOR) != null && CommonConstant.COMPANY_FILTER.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR)))) {
+            queryString.append(SQlUtil.getQuery(CommonConstant.COMPANY_FILTER));
+            queryString.append("'");
+            queryString.append(String.valueOf(parameters.get("companySid")));
+            queryString.append("'");
+        } else {
+            queryString.append(String.valueOf(parameters.get("query")));
+        }
+        LOGGER.debug("queryString: " + queryString.toString());
+        try {
+            List<Object[]> list;
+            list = HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
+            if (parameters.get(CommonConstant.INDICATOR) != null
+                    && (CommonConstant.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(CommonConstant.INDICATOR))))) {
+                List<Integer> intList = new ArrayList<>();
+                int returnValue = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
+                intList.add(returnValue);
+                return intList;
+            } else {
+                return list;
+            }
+
+        } catch (Exception ex) {
+            LOGGER.error("In executeQuery  ->" + ex);
+            LOGGER.error(queryString.toString());
+            return Collections.emptyList();
+        }
     }
 
     public static List findViewByName(List<String> viewNameInputs, String viewName, boolean isCount, Set<Container.Filter> filters, List<SortByColumn> sortByColumns, int start, int offset) {

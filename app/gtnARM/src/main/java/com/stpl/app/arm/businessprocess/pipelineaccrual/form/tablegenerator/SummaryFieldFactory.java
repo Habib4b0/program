@@ -20,7 +20,6 @@ import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.ui.Component;
-
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.TableFieldFactory;
 import com.vaadin.v7.ui.TextField;
@@ -31,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,9 +58,9 @@ public class SummaryFieldFactory implements TableFieldFactory, LeaveCheckAble {
 
     @Override
     public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
-        String total = ((ExtPagedTable) uiContext).getDoubleHeaderForSingleHeader(propertyId.toString());
+        String total = ((ExtCustomTable)uiContext).getDoubleHeaderForSingleHeader(propertyId.toString());
         AdjustmentDTO dto = (AdjustmentDTO) itemId;
-        if (propertyId.toString().contains("override") && dto.getLevelNo() == NumericConstants.FIVE && isFieldRequire && !total.startsWith("total") && !total.startsWith("Total")) {
+        if (propertyId.toString().contains("override") && dto.getLevelNo() == NumericConstants.FIVE && isFieldRequire && !total.startsWith("total")) {
             List items = new ArrayList();
             items.add(itemId);
             items.add(propertyId);

@@ -30,19 +30,19 @@ public abstract class CommonUI extends UI {
     public void uiErrorHandler() {
 
         //added Default Error Handler 
-        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
-            @Override
-            public void error(com.vaadin.server.ErrorEvent event) {
-                StringBuilder cause = new StringBuilder("The Exception occured because of: ");
-                for (Throwable t = event.getThrowable(); t != null; t = t.getCause()) {
-                    if (t.getCause() == null) {
-                        cause.append(t.getClass().getName());
-                    }
-
-                }
-                LOGGER.error(cause.toString());
-            }
-        });
+//        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+//            @Override
+//            public void error(com.vaadin.server.ErrorEvent event) {
+//                StringBuilder cause = new StringBuilder("The Exception occured because of: ");
+//                for (Throwable t = event.getThrowable(); t != null; t = t.getCause()) {
+//                    if (t.getCause() == null) {
+//                        cause.append(t.getClass().getName());
+//                    }
+//
+//                }
+//                LOGGER.error(cause.toString());
+//            }
+//        });
 
     }
 

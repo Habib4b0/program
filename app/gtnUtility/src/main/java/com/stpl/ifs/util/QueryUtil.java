@@ -129,7 +129,7 @@ public class QueryUtil {
         return query;
     }
     public static void callProcedure(String procedureName, Object[] orderedArgs) {
-        LOGGER.debug("Procedure Name " + procedureName);
+        LOGGER.info("Procedure Name " + procedureName);
         StringBuilder procedureToCall = new StringBuilder("{call ");
         procedureToCall.append(procedureName);
         int noOfArgs = orderedArgs.length;
@@ -147,7 +147,7 @@ public class QueryUtil {
         try (Connection connection = ((DataSource) new InitialContext().lookup(DATASOURCE_CONTEXT)).getConnection();
                 CallableStatement statement = connection.prepareCall(procedureToCallVal)) {
             for (int i = 0; i < noOfArgs; i++) {
-                LOGGER.debug(i + " -- " + orderedArgs[i]);
+                LOGGER.info(i + " -- " + orderedArgs[i]);
                 statement.setObject(i + 1, orderedArgs[i]);
             }
             statement.executeUpdate();

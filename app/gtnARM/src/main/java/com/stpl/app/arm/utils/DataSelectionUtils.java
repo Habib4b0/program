@@ -64,26 +64,6 @@ public class DataSelectionUtils {
         }
     }
 
-    public static String identifyLevel(LevelDTO levelDTO) {
-        String level = StringUtils.EMPTY;
-        if (!StringUtils.isBlank(levelDTO.getLevel()) && !ARMUtils.NULL.equalsIgnoreCase(levelDTO.getLevel())) {
-            if (ARMUtils.COMPANY_MASTER.equalsIgnoreCase(levelDTO.getTableName())
-                    && (ARMUtils.CUSTOMER_SMALL.equalsIgnoreCase(levelDTO.getLevel())
-                    || ARMUtils.COMPANY_SMALL.equalsIgnoreCase(levelDTO.getLevel())
-                    || ARMUtils.TRADING_PARTNER.equalsIgnoreCase(levelDTO.getLevel()))) {
-                level = ARMUtils.INDICATOR_LEVEL_CUSTOMER;
-            } else if (ARMUtils.CONTRACT_MASTER.equalsIgnoreCase(levelDTO.getTableName())
-                    && levelDTO.getLevel().contains(ARMUtils.CONTRACT_SMALL)) {
-                level = ARMUtils.INDICATOR_LEVEL_CONTRACT;
-            } else if (ARMUtils.ITEM_MASTER.equalsIgnoreCase(levelDTO.getTableName())
-                    && (levelDTO.getLevel().contains(ARMUtils.NDC)
-                    || "Item".equalsIgnoreCase(levelDTO.getLevel()))) {
-                level = ARMUtils.INDICATOR_LEVEL_NDC;
-            }
-        }
-        return level;
-    }
-
     public static List<String> getEndLevelHierNo(List<LevelDTO> levels) {
         List<String> hierNos = new ArrayList<>();
         for (LevelDTO level : levels) {

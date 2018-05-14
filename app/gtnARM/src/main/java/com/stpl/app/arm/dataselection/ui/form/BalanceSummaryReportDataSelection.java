@@ -169,8 +169,8 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         tempDto.getLevelNo();
                     }
 
-                    custVlues = logicVal.loadCustomerInnerLevel(relationshipSid, tempDto.getLevelNo(), customerHierarchyLookup.getHierarchyDto().getHierarchyId(), new ArrayList<>(rsContractSids),
-                            customerDescriptionMap);
+//                    custVlues = logicVal.loadCustomerInnerLevel(relationshipSid, tempDto.getLevelNo(), customerHierarchyLookup.getHierarchyDto(), new ArrayList<>(rsContractSids),
+//                            customerDescriptionMap);
                     availableCustomerContainer.addAll(custVlues);
                 }
 
@@ -232,7 +232,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     selectedCustomer.removeAllItems();
                     selectedCustomerContainer.removeAllItems();
                     customerLevel.select(null);
-                    customerDescriptionMap = logicVal.getLevelValueMap(String.valueOf(customerRelation.getValue()));
+//                    customerDescriptionMap = logicVal.getLevelValueMap(String.valueOf(customerRelation.getValue()));
                     customerBeanList.clear();
                 } catch (Exception ex) {
                     LOGGER.error(ex + " in customerRelation value change");
@@ -259,7 +259,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     selectedProduct.removeAllItems();
                     selectedProductContainer.removeAllItems();
                     productLevel.select(null);
-                    productDescriptionMap = logicVal.getLevelValueMap(String.valueOf(productRelation.getValue()));
+//                    productDescriptionMap = logicVal.getLevelValueMap(String.valueOf(productRelation.getValue()));
                     productBeanList.clear();
                 } catch (Exception ex) {
                     LOGGER.error(ex + " in customerRelation value change");
@@ -314,12 +314,12 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     levelName = tempDto.getLevel();
                 }
 
-                if ((tempDto.getLevel() != null && (ARMUtils.NDC.equalsIgnoreCase(tempDto.getLevel()) || "Item".equalsIgnoreCase(tempDto.getLevel()) || ARMUtils.PRODUCT.equalsIgnoreCase(tempDto.getLevel()))) && ARMUtils.ITEM_MASTER.equals(tempDto.getTableName())) {
-
-                    isNdc = true;
-                } else {
-                    isNdc = false;
-                }
+//                if ((tempDto.getLevel() != null && (ARMUtils.NDC.equalsIgnoreCase(tempDto.getLevel()) || "Item".equalsIgnoreCase(tempDto.getLevel()) || ARMUtils.PRODUCT.equalsIgnoreCase(tempDto.getLevel()))) && ARMUtils.ITEM_MASTER.equals(tempDto.getTableName())) {
+//
+//                    isNdc = true;
+//                } else {
+//                    isNdc = false;
+//                }
 
                 int businessUnitVal = 0;
                 businessUnitVal = Integer.valueOf(businessUnit.getValue().toString());
@@ -334,8 +334,8 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 prodInnerLevelValues.add(2, businessUnitVal);
                 prodInnerLevelValues.add(3, glCompId);
                 prodInnerLevelValues.add(4, custhierarchyId);
-                innerLevelValues = logicVal.loadProductInnerLevel(prodInnerLevelValues, prodRelationshipSid, new ArrayList<>(rsContractSids),
-                        customerSidList, isNdc, custRelSid, productDescriptionMap);
+//                innerLevelValues = logicVal.loadProductInnerLevel(prodInnerLevelValues, prodRelationshipSid, new ArrayList<>(rsContractSids),
+//                        customerSidList, isNdc, custRelSid, productDescriptionMap);
                 availableProductContainer.addAll(innerLevelValues);
                 availableProduct.setContainerDataSource(availableProductContainer);
                 if (isNdc) {
@@ -1239,9 +1239,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 }
                 int currentLevel = CommonLogic.parseStringToInteger(levelInString);
                 if ((currentLevel != 0 && selectedLevel.getLevelNo() == currentLevel) && ARMUtils.NDC.equalsIgnoreCase(selectedLevel.getLevel())) {
-                    listValue = DataSelectionUtils.getFSValue(selectedLevel.getRelationshipLevelValue(), selectedLevel.getFieldName());
-                    selectedLevel.setForm(StringUtils.EMPTY + listValue.get(0).getForm());
-                    selectedLevel.setStrength(StringUtils.EMPTY + listValue.get(0).getStrength());
+//                    listValue = DataSelectionUtils.getFSValue(selectedLevel.getRelationshipLevelValue(), selectedLevel.getFieldName());
+//                    selectedLevel.setForm(StringUtils.EMPTY + listValue.get(0).getForm());
+//                    selectedLevel.setStrength(StringUtils.EMPTY + listValue.get(0).getStrength());
                 }
 
                 DataSelectionUtils.removeItemsRecursively(selectedItem, selectedProduct, availableProduct, selectedProductContainer, availableProductContainer, currentLevel);
@@ -2158,6 +2158,8 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 dataSelectionDTO.setSaveFlag(false);
                 dataSelectionDTO.setCustRelationshipBuilderSid(Integer.valueOf(customerRelation.getValue().toString()));
                 dataSelectionDTO.setProdRelationshipBuilderSid(Integer.valueOf(productRelation.getValue().toString()));
+//                dataSelectionDTO.setCustomerRelationshipVersionNo(customerVersionMap.get(Integer.valueOf(customerRelation.getValue().toString())));
+//                dataSelectionDTO.setProductRelationshipVersionNo(productVersionMap.get(Integer.valueOf(productRelation.getValue().toString())));
                 dataSelectionDTO.setForecastingType("Balance Summary Report");
                 dataSelectionDTO.setAdjustmentType(screenName);
                 dataSelectionDTO.setAdjustmentCaption(summaryTypeDdlb.getItemCaption(summaryTypeDdlb.getValue()));
@@ -2341,7 +2343,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 loadCustomerLevel();
                 logic.loadCustoProdLevels(customerLevel, dto.getCustomerHierarchySid());
 
-                customerDescriptionMap = logic.getLevelValueMap(String.valueOf(dto.getCustRelationshipBuilderSid()));
+//                customerDescriptionMap = logic.getLevelValueMap(String.valueOf(dto.getCustRelationshipBuilderSid()));
                 customerLevel.select(dto.getCustomerHierarchyLevel());
                 initializeCustomerHierarchy(dto.getProjectionId(), dto.getCustomerHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getCustomerHierarchyLevel()));
 
@@ -2351,7 +2353,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 loadProductLevel();
                 logic.loadCustoProdLevels(productLevel, dto.getProductHierarchySid());
                 productLevel.select(dto.getProductHierarchyLevel());
-                productDescriptionMap = logic.getLevelValueMap(String.valueOf(dto.getProdRelationshipBuilderSid()));
+//                productDescriptionMap = logic.getLevelValueMap(String.valueOf(dto.getProdRelationshipBuilderSid()));
                 initializeProductHierarchy(dto.getProjectionId(), dto.getProductHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getProductHierarchyLevel()));
             } catch (Property.ReadOnlyException | NumberFormatException e) {
                 LOGGER.error("Error in setViewDetails :" + e);

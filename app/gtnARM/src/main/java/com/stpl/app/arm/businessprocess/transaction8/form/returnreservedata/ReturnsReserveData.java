@@ -17,6 +17,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.VerticalLayout;
@@ -49,12 +50,13 @@ public class ReturnsReserveData extends VerticalLayout {
 
     @UiField("originalSaleLimiter")
     private PopupDateField originalSaleLimiter;
+    
+    @UiField("dataSelecionGrid")
+    private GridLayout dataSelecionGrid;
 
-    @UiField("removeClosedBatches")
-    private CheckBox removeClosedBatches;
+    private final CheckBox removeClosedBatches = new CheckBox();
 
-    @UiField("excudeBasedOnLoeDate")
-    private CheckBox excudeBasedOnLoeDate;
+    private final CheckBox excudeBasedOnLoeDate = new CheckBox();
 
     @UiField("generate")
     private Button generate;
@@ -79,7 +81,7 @@ public class ReturnsReserveData extends VerticalLayout {
 
     private void init() {
         searchResults = new ReturnsReserveDataSearchResults(logic, selection);
-        addComponent(Clara.create(getClass().getResourceAsStream("/bussinessprocess/returnsReserve/returnsreservedata.xml"), this));
+        addComponent(Clara.create(ReturnsReserveData.class.getResourceAsStream("/bussinessprocess/returnsReserve/returnsreservedata.xml"), this));
         searchResults.getResults();
         addComponent(searchResults);
         configureFields();

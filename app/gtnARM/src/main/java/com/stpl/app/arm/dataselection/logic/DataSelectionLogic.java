@@ -40,12 +40,21 @@ import com.stpl.app.arm.dataselection.dto.ViewDTO;
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.DataSelectionQueryUtils;
+import static com.stpl.app.arm.utils.DataSelectionQueryUtils.getGsnWsSecurityToken;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.CommonUtils;
 import com.stpl.app.utils.xmlparser.SQlUtil;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.arm.dataselection.bean.GtnARMHierarchyInputBean;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.arm.GtnWsArmRequest;
+import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.dto.Pairs;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.v7.data.Container;
@@ -319,7 +328,8 @@ public class DataSelectionLogic {
         return date;
     }
 
-    public void loadCustomerRelation(ComboBox comboBox, int hierSid) {
+    public Map<Integer,Integer> loadCustomerRelation(ComboBox comboBox, int hierSid) {
+        Map<Integer,Integer> map = new HashMap<>();
         String sqlQuery = SQlUtil.getQuery("getCustRelation").concat(StringUtils.EMPTY + hierSid);
         LOGGER.debug("--Inside loadCustomerRelation--");
         LOGGER.debug(CommonConstant.SQL_QUERY + sqlQuery);
@@ -331,11 +341,14 @@ public class DataSelectionLogic {
         for (Object[] obj : list) {
             comboBox.addItem(obj[0]);
             comboBox.setItemCaption(obj[0], String.valueOf(obj[1]));
+            map.put((Integer)obj[0], (Integer)obj[2]);
         }
         LOGGER.debug("--End of  loadCustomerRelation--");
+        return map;
     }
 
-    public void loadProductRelation(ComboBox comboBox, int hierSid, int glComp) {
+    public Map<Integer,Integer> loadProductRelation(ComboBox comboBox, int hierSid, int glComp) {
+        Map<Integer,Integer> map = new HashMap<>();
         LOGGER.debug("--Inside loadProductRelation--");
         String sqlQuery = SQlUtil.getQuery("getProdRelation").concat(StringUtils.EMPTY + hierSid);
         if (glComp != 0) {
@@ -350,10 +363,12 @@ public class DataSelectionLogic {
         for (Object[] obj : list) {
             comboBox.addItem(obj[0]);
             comboBox.setItemCaption(obj[0], String.valueOf(obj[1]));
+            map.put((Integer)obj[0], (Integer)obj[2]);
         }
+        return map;
     }
 
-    public void loadCustoProdLevels(ComboBox comboBox, int hierSid) {
+    public List<Integer> loadCustoProdLevels(ComboBox comboBox, int hierSid) {
         LOGGER.debug("--Inside loadCustoProdLevels--");
         String customSql = SQlUtil.getQuery("getLevelsFromHierarchy");
         if (StringUtils.isNotEmpty(String.valueOf(hierSid))
@@ -361,6 +376,7 @@ public class DataSelectionLogic {
             customSql = customSql.replace("?", String.valueOf(hierSid).trim());
         }
         LOGGER.debug(CommonConstant.SQL_QUERY + customSql);
+        List<Integer> integerList = new ArrayList<>();
         List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
         comboBox.removeAllItems();
         comboBox.addItem(GlobalConstants.getSelectOne());
@@ -369,19 +385,16 @@ public class DataSelectionLogic {
         for (Object[] obj : list) {
             comboBox.addItem(obj[1]);
             comboBox.setItemCaption(obj[1], ARMUtils.LEVEL + ARMUtils.SPACE + obj[1] + ARMUtils.SPACE + ARMUtils.HIPHEN + ARMUtils.SPACE + obj[0]);
+            integerList.add((Integer) obj[5]);
         }
         LOGGER.debug("--End loadCustoProdLevels--");
+        return integerList;
     }
 
     public void insertToCcpMap(final String hierarchyIndicator, final String tempTableName, final String hierarchyDefinitionSid, final String relationshipBuilderSid) {
         DataSelectionQueryUtils.insertIntoCcpMap(hierarchyIndicator, tempTableName, hierarchyDefinitionSid, relationshipBuilderSid);
     }
 
-    public Map<String, String> getLevelValueMap(String relationshipBuilderSID) {
-        Map<String, Object> levelValueInput = new HashMap<>();
-        levelValueInput.put("?RBSID", relationshipBuilderSID);
-        return (Map<String, String>) DataSelectionQueryUtils.tempOperation(levelValueInput);
-    }
 
     public List<LevelDTO> loadCustomerForecastLevel(int hierarchyId, String hierarchyName) {
         LOGGER.debug("--Inside loadCustomerForecastLevel--");
@@ -401,19 +414,6 @@ public class DataSelectionLogic {
                 leveldto.setLevelValueReference(object[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(object[NumericConstants.TWO]));
                 leveldto.setTableName(object[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(object[NumericConstants.THREE]));
                 leveldto.setFieldName(object[NumericConstants.FOUR] == null ? StringUtils.EMPTY : String.valueOf(object[NumericConstants.FOUR]));
-                if (object[NumericConstants.THREE] != null && !StringUtils.isEmpty(String.valueOf(object[NumericConstants.THREE])) && !StringUtils.isBlank(String.valueOf(object[NumericConstants.THREE]))) {
-                    if (ARMUtils.COMPANY_MASTER.equalsIgnoreCase(String.valueOf(object[NumericConstants.THREE]))) {
-                        leveldto.setFromCompany(true);
-                    } else if (ARMUtils.CONTRACT_MASTER.equalsIgnoreCase(String.valueOf(object[NumericConstants.THREE]))) {
-                        leveldto.setFromContract(true);
-                    } else if (ARMUtils.ITEM_MASTER.equalsIgnoreCase(String.valueOf(object[NumericConstants.THREE]))) {
-                        leveldto.setFromItem(true);
-                    } else {
-                        leveldto.setFromCompany(false);
-                        leveldto.setFromContract(false);
-                        leveldto.setFromItem(false);
-                    }
-                }
                 resultList.add(leveldto);
             }
         } catch (Exception e) {
@@ -423,97 +423,64 @@ public class DataSelectionLogic {
         return resultList;
     }
 
-    public List<LevelDTO> loadCustomerInnerLevel(final String relationshipSid, int levelNo, int hierarchyId, List<Integer> rsContractSidList,
-            final Map<String, String> descriptionMap) {
+    public List<LevelDTO> loadCustomerInnerLevel(GtnARMHierarchyInputBean inputBean, final Map<String, String> descriptionMap,LevelDTO selectedHierarchyLevelDto) {
         LOGGER.debug("--Inside loadCustomerInnerLevel--");
         List<LevelDTO> values = new ArrayList<>();
-        List result = DataSelectionQueryUtils.getCustomerInnerLevel(relationshipSid, levelNo, hierarchyId, rsContractSidList);
+        List result = DataSelectionQueryUtils.getCustomerInnerLevel(inputBean);
         if (result != null && !result.isEmpty()) {
             LevelDTO dto;
             for (int i = 0; i < result.size(); i++) {
-                dto = new LevelDTO();
-                Object[] obj = (Object[]) result.get(i);
-                dto.setRelationshipLevelValue(String.valueOf(obj[0]));
-                dto.setLevelNo(Integer.parseInt(String.valueOf(obj[1])));
-                dto.setParentNode(String.valueOf(obj[NumericConstants.TWO]));
-                dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
-                dto.setTableName(String.valueOf(obj[NumericConstants.FOUR]));
-                dto.setFieldName(String.valueOf(obj[NumericConstants.FIVE]));
-                dto.setHierarchyNo(String.valueOf(obj[NumericConstants.SIX]));
-                dto.setRelationShipBuilderId(String.valueOf(obj[NumericConstants.SEVEN]));
-                dto.setLevel(String.valueOf(obj[NumericConstants.EIGHT]));
-                if (obj[NumericConstants.FOUR] != null && !StringUtils.isEmpty(String.valueOf(obj[NumericConstants.FOUR])) && !StringUtils.isBlank(String.valueOf(obj[NumericConstants.FOUR]))) {
-                    if (ARMUtils.COMPANY_MASTER.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FOUR]))) {
-                        dto.setFromCompany(true);
-                    } else if (ARMUtils.CONTRACT_MASTER.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FOUR]))) {
-                        dto.setFromContract(true);
-                    } else if (ARMUtils.ITEM_MASTER.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FOUR]))) {
-                        dto.setFromItem(true);
-                    } else {
-                        dto.setFromCompany(false);
-                        dto.setFromContract(false);
-                        dto.setFromItem(false);
+                try {
+                    dto = (LevelDTO)selectedHierarchyLevelDto.clone();
+                    Object[] obj = (Object[]) result.get(i);
+                    dto.setDisplayValue(descriptionMap.get(obj[NumericConstants.FOUR].toString()));
+                    dto.setLevel(descriptionMap.get(obj[NumericConstants.FOUR].toString()));
+                    dto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.ZERO]));
+                    dto.setLevelNo(Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])));
+                    dto.setParentNode(String.valueOf(obj[NumericConstants.TWO]));
+                    dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
+                    dto.setHierarchyNo(String.valueOf(obj[NumericConstants.FOUR]));
+                    dto.setRelationShipBuilderId(String.valueOf(obj[NumericConstants.FIVE]));
+                    if (inputBean.isIsNdc()) {
+                        dto.setStrength(String.valueOf(obj[NumericConstants.SIX]));
+                        dto.setForm(String.valueOf(obj[NumericConstants.SEVEN]));
                     }
+                    dto.setRelationShipVersionNo(inputBean.getRelationVersionNo());
+                    values.add(dto);
+                } catch (CloneNotSupportedException ex) {
+                    LOGGER.error(ex.getMessage());
                 }
-
-                if (descriptionMap != null) {
-                    dto.setDisplayValue(descriptionMap.get(dto.getHierarchyNo()));
-                }
-
-                values.add(dto);
             }
         }
         LOGGER.debug("--End of loadCustomerInnerLevel--");
         return values;
     }
 
-    public List<LevelDTO> loadProductInnerLevel(List<Integer> levelValues, final String prodRelationshipSid,
-            List<Integer> rsContractSidList, List<Integer> customerSidList,
-            boolean isNdc, final String custRelationshipSid, final Map<String, String> descriptionMap) {
+    public List<LevelDTO> loadProductInnerLevel(GtnARMHierarchyInputBean inputBean, final Map<String, String> descriptionMap) {
         LOGGER.debug("--Inside loadProductInnerLevel--");
         List<LevelDTO> values = new ArrayList<>();
-        List result = DataSelectionQueryUtils.getProductInnerLevel(levelValues, prodRelationshipSid,
-                rsContractSidList, customerSidList,
-                isNdc, custRelationshipSid);
+        List result = DataSelectionQueryUtils.getProductInnerLevel(inputBean);
 
         if (result != null && !result.isEmpty()) {
             LevelDTO dto;
             for (int i = 0; i < result.size(); i++) {
                 dto = new LevelDTO();
                 Object[] obj = (Object[]) result.get(i);
-                dto.setRelationshipLevelValue(String.valueOf(obj[0]));
-                dto.setLevelNo(Integer.parseInt(String.valueOf(obj[1])));
+                dto.setRelationshipLevelValue(String.valueOf(obj[NumericConstants.ZERO]));
+                dto.setLevelNo(Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])));
                 dto.setParentNode(String.valueOf(obj[NumericConstants.TWO]));
                 dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])));
-                dto.setTableName(String.valueOf(obj[NumericConstants.FOUR]));
-                dto.setFieldName(String.valueOf(obj[NumericConstants.FIVE]));
-                dto.setHierarchyNo(String.valueOf(obj[NumericConstants.SIX]));
-                dto.setRelationShipBuilderId(String.valueOf(obj[NumericConstants.SEVEN]));
-                dto.setLevel(String.valueOf(obj[NumericConstants.EIGHT]));
-                if (obj[NumericConstants.FOUR] != null && !StringUtils.isEmpty(String.valueOf(obj[NumericConstants.FOUR])) && !StringUtils.isBlank(String.valueOf(obj[NumericConstants.FOUR]))) {
-                    if (ARMUtils.COMPANY_MASTER.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FOUR]))) {
-                        dto.setFromCompany(true);
-                    } else if (ARMUtils.CONTRACT_MASTER.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FOUR]))) {
-                        dto.setFromContract(true);
-                    } else if (ARMUtils.ITEM_MASTER.equalsIgnoreCase(String.valueOf(obj[NumericConstants.FOUR]))) {
-                        dto.setFromItem(true);
-                    } else {
-                        dto.setFromCompany(false);
-                        dto.setFromContract(false);
-                        dto.setFromItem(false);
-                    }
+                dto.setHierarchyNo(String.valueOf(obj[NumericConstants.FOUR]));
+                dto.setRelationShipBuilderId(String.valueOf(obj[NumericConstants.FIVE]));
+                dto.setLevel(descriptionMap != null ? descriptionMap.get(obj[NumericConstants.ONE].toString()) : StringUtils.EMPTY);
+                if (inputBean.isIsNdc()) {
+                    dto.setNdc(String.valueOf(obj[NumericConstants.ZERO]));
+                    dto.setForm(String.valueOf(obj[NumericConstants.SIX]));
+                    dto.setStrength(String.valueOf(obj[NumericConstants.SEVEN]));
                 }
-
-                if (isNdc) {
-                    dto.setNdc(String.valueOf(obj[0]));
-                    dto.setForm(String.valueOf(obj[NumericConstants.NINE]));
-                    dto.setStrength(String.valueOf(obj[NumericConstants.TEN]));
-                }
-
                 if (descriptionMap != null) {
                     dto.setDisplayValue(descriptionMap.get(dto.getHierarchyNo()));
                 }
-
                 values.add(dto);
             }
         }
@@ -674,7 +641,7 @@ public class DataSelectionLogic {
         }
         int count = 0;
         if (list != null && !list.isEmpty()) {
-            count = Integer.parseInt(list.get(0) + "");
+            count = Integer.parseInt(list.get(0) + StringUtils.EMPTY);
         }
         LOGGER.debug("End of searhViewCount method");
         return count;
@@ -803,7 +770,7 @@ public class DataSelectionLogic {
         for (Object[] obj : list) {
             DeductionLevelDTO level = new DeductionLevelDTO();
             int id = obj[0] == null ? 0 : (int) obj[0];
-            String desc = obj[1] == null ? "0" : obj[1] + "";
+            String desc = obj[1] == null ? "0" : obj[1] + StringUtils.EMPTY;
             level.setLevelSid(id);
             level.setLevelValue(desc);
             level.setLevelName(valueLevel.getDescription());
@@ -960,13 +927,13 @@ public class DataSelectionLogic {
     public void saveDeductionLogic(Set<Integer> rsModelSidList, int projectionSid) {
         LOGGER.debug("Inside saveDeductionLogic --projectionSid --" + projectionSid + "--rsModelSidList--" + rsModelSidList);
         try {
-            StringBuilder insertDeductionQuery = new StringBuilder("");
+            StringBuilder insertDeductionQuery = new StringBuilder(StringUtils.EMPTY);
             if (!rsModelSidList.isEmpty()) {
                 insertDeductionQuery.append(SQlUtil.getQuery("DEDUCTION_SAVED_PROJECTION"));
                 for (Integer rsModelSid : rsModelSidList) {
                     insertDeductionQuery.append("(").append(projectionSid).append(",").append(rsModelSid).append("),");
                 }
-                insertDeductionQuery.replace(insertDeductionQuery.length() - 1, insertDeductionQuery.length(), "");
+                insertDeductionQuery.replace(insertDeductionQuery.length() - 1, insertDeductionQuery.length(), StringUtils.EMPTY);
             }
             LOGGER.debug("insertDeductionQuery --" + insertDeductionQuery);
             HelperTableLocalServiceUtil.executeUpdateQuery(insertDeductionQuery.toString());
@@ -1041,7 +1008,7 @@ public class DataSelectionLogic {
         finalQuery = finalQuery.replace("$$$$VALUE$$$$", queryBuilder.toString());
         LOGGER.debug("finalQuery - -" + finalQuery);
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
-        return Integer.valueOf(list.get(0) + "");
+        return Integer.valueOf(list.get(0) + StringUtils.EMPTY);
     }
 
     public int saveProjectionForView(final DataSelectionDTO dataSelectionDTO) {
@@ -1068,7 +1035,7 @@ public class DataSelectionLogic {
         finalQuery = finalQuery.replace("$$$$VALUE$$$$", queryBuilder.toString());
         LOGGER.debug("finalQuery  --" + finalQuery);
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
-        return Integer.valueOf(list.get(0) + "");
+        return Integer.valueOf(list.get(0) + StringUtils.EMPTY);
     }
 
     public void saveAdjustmentMaster(DataSelectionDTO dataSelectionDTO) {
@@ -1166,23 +1133,6 @@ public class DataSelectionLogic {
                 dto.setParentNode(String.valueOf(objects[NumericConstants.TWO]));
                 dto.setLevel(String.valueOf(objects[NumericConstants.THREE]));
                 dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.FOUR])));
-                dto.setTableName(String.valueOf(objects[NumericConstants.FIVE]));
-                dto.setFieldName(String.valueOf(objects[NumericConstants.SIX]));
-                dto.setHierarchyNo(String.valueOf(objects[NumericConstants.SEVEN]));
-                if (objects[NumericConstants.FIVE] != null && !StringUtils.isEmpty(String.valueOf(objects[NumericConstants.FIVE])) && !StringUtils.isBlank(String.valueOf(objects[NumericConstants.FIVE]))) {
-                    if ("COMPANY_MASTER".equalsIgnoreCase(String.valueOf(objects[NumericConstants.FIVE]))) {
-                        dto.setFromCompany(true);
-                    } else if ("CONTRACT_MASTER".equalsIgnoreCase(String.valueOf(objects[NumericConstants.FIVE]))) {
-                        dto.setFromContract(true);
-                    } else if ("ITEM_MASTER".equalsIgnoreCase(String.valueOf(objects[NumericConstants.FIVE]))) {
-                        dto.setFromItem(true);
-                    } else {
-                        dto.setFromCompany(false);
-                        dto.setFromContract(false);
-                        dto.setFromItem(false);
-                    }
-                }
-
                 dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.SEVEN])));
                 LOGGER.debug("End of getRelationShipValues :: resultList ==>" + resultList.size());
                 resultList.add(dto);
@@ -1218,7 +1168,7 @@ public class DataSelectionLogic {
             String updateARMAdjustQuery = SQlUtil.getQuery("updateSelectedView");
             updateARMAdjustQuery = updateARMAdjustQuery.replace("@DEDUCTION_LEVEL", String.valueOf(dtoValue.getDeductionLevel()));
             updateARMAdjustQuery = updateARMAdjustQuery.replace("@ADJ_TYPE", String.valueOf(dtoValue.getAdjustmentId()));
-            updateARMAdjustQuery = updateARMAdjustQuery.replace(CommonConstant.CALCULATION_PROFILE_MASTER_SID, "");
+            updateARMAdjustQuery = updateARMAdjustQuery.replace(CommonConstant.CALCULATION_PROFILE_MASTER_SID, StringUtils.EMPTY);
             updateARMAdjustQuery = updateARMAdjustQuery.replace("@BU_COMPANY_MASTER_SID", dtoValue.getBucompanyMasterSid() == 0 ? String.valueOf(dtoValue.getDefaultCompanyMasterSid()) : String.valueOf(dtoValue.getBucompanyMasterSid()));
             updateARMAdjustQuery = updateARMAdjustQuery.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(dtoValue.getProjectionId()));
             updateARMAdjustQuery = updateARMAdjustQuery.replace("@MODIFIED_BY", String.valueOf(dtoValue.getCreatedBy()));
@@ -1270,7 +1220,7 @@ public class DataSelectionLogic {
             String query = SQlUtil.getQuery("LoadSelectedDeductions");
             String rsContractQuery = SQlUtil.getQuery("LoadSelectedRSContract");
             if (!map.isEmpty()) {
-                StringBuilder filterQuery = new StringBuilder("");
+                StringBuilder filterQuery = new StringBuilder(StringUtils.EMPTY);
 
                 Map<String, String> filterSelect = ARMUtils.getDeductionValuesMapForLevel();
                 for (Map.Entry<String, Set<Integer>> entrySet : map.entrySet()) {
@@ -1287,7 +1237,7 @@ public class DataSelectionLogic {
             if (rsContractSids.isEmpty()) {
                 query = query.replace("@RS_CONTRACT_SID", rsContractSids.toString().replace("[", "'").replace("]", "'"));
             } else {
-                query = query.replace("@RS_CONTRACT_SID", rsContractSids.toString().replace("[", "").replace("]", ""));
+                query = query.replace("@RS_CONTRACT_SID", rsContractSids.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY));
             }
             LOGGER.debug("--query --" + query);
             List<Object[]> returnQueryList = QueryUtils.executeSelect(query);
@@ -1307,7 +1257,7 @@ public class DataSelectionLogic {
             Map<String, DeductionLevelDTO> levelKeys = new HashMap<>();
             Map<String, Integer> columnIncrementer = new HashMap<>();
             for (Object[] obj : returnList) {
-                String parentKey = "";
+                String parentKey = StringUtils.EMPTY;
                 for (int keyIndex = 1; keyIndex <= NumericConstants.NINE; keyIndex++) {
                     String value = obj[keyIndex - 1].toString();
                     String[] valArry = value.split("~");
@@ -1409,8 +1359,8 @@ public class DataSelectionLogic {
         int endMonth = endCal.get(Calendar.MONTH);
         int endYear = endCal.get(Calendar.YEAR);
         boolean isNotEnd = true;
-        String item = "";
-        String caption = "";
+        String item = StringUtils.EMPTY;
+        String caption = StringUtils.EMPTY;
         while (isNotEnd) {
 
             tempCal.set(Calendar.MONTH, startmonth);
@@ -1627,29 +1577,135 @@ public class DataSelectionLogic {
         String query = "update PROJECTION_MASTER set FROM_DATE = '" + ARMUtils.getInstance().getDbDate().format(fromDate) + "' ,TO_DATE = '" + ARMUtils.getInstance().getDbDate().format(toDate) + "'  where PROJECTION_MASTER_SID = " + projectionId;
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
-    
+
     public List getRelationShipValues(final Map<String, Object> parameters) {
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-//        try {
-//            LOGGER.debug("Entering getRelationShipValues method");
-//            queryString.append(CustomSQLUtil.get("getRelationshipValues"));
-//            if ("customer".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-//                queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, " Projection_Cust_Hierarchy ");
-//            } else if ("product".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-//                queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, " Projection_Prod_Hierarchy ");
-//            }
-//            queryString.append(" WHERE PH.PROJECTION_MASTER_SID='");
-//            queryString.append(String.valueOf(parameters.get("projectionId")));
-//            if (parameters.get("restrictLevelNumber") != null && "true".equalsIgnoreCase(String.valueOf(parameters.get("restrictLevelNumber")))) {
-//                queryString.append("' AND RLD.LEVEL_NO <= '");
-//                queryString.append(String.valueOf(parameters.get("levelNo")));
-//            }
-//            queryString.append("' ORDER by RLD.level_No");
-//            return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
-//        } catch (Exception e) {
-//            LOGGER.error("getRelationShipValues  -->" + e.getMessage());
-//            LOGGER.error(queryString.toString());
-            return null;
-//        }
+        try {
+            LOGGER.debug("Entering getRelationShipValues method");
+            queryString.append(SQlUtil.getQuery("getRelationshipValues"));
+            if ("customer".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
+                queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, " Projection_Cust_Hierarchy ");
+            } else if ("product".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
+                queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, " Projection_Prod_Hierarchy ");
+            }
+            queryString.append(" WHERE PH.PROJECTION_MASTER_SID='");
+            queryString.append(String.valueOf(parameters.get("projectionId")));
+            if (parameters.get("restrictLevelNumber") != null && "true".equalsIgnoreCase(String.valueOf(parameters.get("restrictLevelNumber")))) {
+                queryString.append("' AND RLD.LEVEL_NO <= '");
+                queryString.append(String.valueOf(parameters.get("levelNo")));
+            }
+            queryString.append("' ORDER by RLD.level_No");
+            return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
+        } catch (Exception e) {
+            LOGGER.error("getRelationShipValues  -->" + e.getMessage());
+            LOGGER.error(queryString.toString());
+        return null;
+        }
+    }
+
+    public List<LevelDTO> getHierarchyLevelDefinition(int hierarchyDefinitionSid, int hierarchyVersionNo) {
+        List<String> inputLevel = new ArrayList<>();
+        List<LevelDTO> resultDtoList;
+        inputLevel.add(String.valueOf(hierarchyDefinitionSid));
+        inputLevel.add(String.valueOf(hierarchyVersionNo));
+        List<Object[]> results = QueryUtils.getItemData(inputLevel, "getHierarchyLevelVlaues", null);
+        resultDtoList = cutomizeHierarchyBean(results, hierarchyVersionNo);
+        Collections.sort(resultDtoList);
+        return resultDtoList;
+    }
+
+    public List<LevelDTO> cutomizeHierarchyBean(List<Object[]> results, int hierarchyVersionNo) {
+        List<LevelDTO> resultDtoList = new ArrayList<>();
+        for (Object[] objects : results) {
+            LevelDTO levelDto = new LevelDTO();
+            levelDto.setLevelNo(getIntegerValue(objects, 0));
+            levelDto.setLevelValueReference(getStringValue(objects, 1));
+            levelDto.setTableName(objects[2] == null ? StringUtils.EMPTY : objects[2].toString());
+            levelDto.setFieldName(objects[3] == null ? StringUtils.EMPTY : objects[3].toString());
+            levelDto.setLevel(objects[4] == null ? StringUtils.EMPTY : objects[4].toString());
+            levelDto.setHierarchyLevelDefnId(objects[5] == null ? "0" : objects[5].toString());
+            levelDto.setHierarchyId(Integer.valueOf(objects[6] == null ? "0" : objects[6].toString()));
+            levelDto.setHierarchyType(objects[7] == null ? StringUtils.EMPTY : objects[7].toString());
+            levelDto.setHierarchyVersionNo(hierarchyVersionNo);
+            resultDtoList.add(levelDto);
+        }
+        return resultDtoList;
+    }
+
+    private String getStringValue(Object[] objects, int index) {
+        return objects[index] == null ? StringUtils.EMPTY : objects[index].toString();
+    }
+
+    private Integer getIntegerValue(Object[] objects, int index) {
+        return Integer.valueOf(objects[index] == null ? "0" : objects[index].toString());
+    }
+
+    public void ccpHierarchyInsert(Map<String, String> tempTableNames, List<LevelDTO> selectedCustomerContractList,
+            List<LevelDTO> selectedProductList, DataSelectionDTO dto) {
+        GtnARMHierarchyInputBean inputBean = createInputBeanForCCPInsert(tempTableNames,
+                selectedCustomerContractList, selectedProductList, dto);
+        insertToCCp(inputBean);
+    }
+
+    private GtnARMHierarchyInputBean createInputBeanForCCPInsert(final Map<String, String> tempTableNames,
+            final List<LevelDTO> selectedCustomerContractList, final List<LevelDTO> selectedProductList,
+            DataSelectionDTO dto) {
+
+        GtnARMHierarchyInputBean inputBean = new GtnARMHierarchyInputBean();
+        inputBean.setTempTableMap(tempTableNames);
+        inputBean.setSelectedCustomerList(convetToRelationBean(selectedCustomerContractList));
+        inputBean.setSelectedProductList(convetToRelationBean(selectedProductList));
+        inputBean.setSelectedCustomerRelationShipBuilderVersionNo(dto.getCustomerRelationshipVersionNo());
+        inputBean.setSelectedProductRelationShipBuilderVersionNo(dto.getProductRelationshipVersionNo());
+        inputBean.setSelectedCustomerHierarcySid(dto.getCustomerHierarchySid());
+        inputBean.setSelectedProductHierarcySid(dto.getProductHierarchySid());
+        inputBean.setSelectedProductRelationShipBuilderSid(dto.getProdRelationshipBuilderSid());
+        inputBean.setSelectedCustomerHierarchyVersionNo(dto.getCustomerHierarchyVersionNo());
+        inputBean.setSelectedProductHierarchyVersionNo(dto.getProductHierarchyVersionNo());
+        inputBean.setProjectionId(dto.getProjectionId());
+        return inputBean;
+    }
+
+    private void insertToCCp(GtnARMHierarchyInputBean inputBean) {
+        GtnWsArmRequest forecastRequest = new GtnWsArmRequest();
+        forecastRequest.setInputBean(inputBean);
+        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+        request.setGtnWsArmRequest(forecastRequest);
+        client.callGtnWebServiceUrl(
+                GtnWebServiceUrlConstants.GTN_DATASELCTION_ARM_EDIT_SERVICE + GtnWebServiceUrlConstants.GTN_CCP_INSERT, request,
+                getGsnWsSecurityToken());
+    }
+
+    public static List<GtnFrameworkRelationshipLevelDefintionBean> convetToRelationBean(
+            List<LevelDTO> selectedCustomerContractList) {
+        List<GtnFrameworkRelationshipLevelDefintionBean> finalForecastList = new ArrayList<>();
+        for (LevelDTO levelDto : selectedCustomerContractList) {
+            GtnFrameworkRelationshipLevelDefintionBean relationBean = convertLevelDtoToRelationBean(levelDto);
+            finalForecastList.add(relationBean);
+        }
+        return finalForecastList;
+    }
+
+    public static GtnFrameworkRelationshipLevelDefintionBean convertLevelDtoToRelationBean(LevelDTO levelDto) {
+        GtnFrameworkRelationshipLevelDefintionBean forecast = new GtnFrameworkRelationshipLevelDefintionBean();
+        forecast.setLevelName(levelDto.getLevel());
+        forecast.setLevelNo(levelDto.getLevelNo());
+        forecast.setRelationshipLevelSid(levelDto.getRelationshipLevelSid());
+        forecast.setRelationShipLevelValue(levelDto.getRelationshipLevelValue() == null ? 0
+                : Integer.parseInt(levelDto.getRelationshipLevelValue()));
+        forecast.setTableName(levelDto.getTableName());
+        forecast.setFieldName(levelDto.getFieldName());
+        forecast.setHierarchyNo(levelDto.getHierarchyNo());
+        forecast.setHierarchyDefinitionSid(levelDto.getHierarchyId());
+        forecast.setHierarchyLevelDefinitionSid(levelDto.getHierarchyLevelDefnId() == null ? 0
+                : Integer.parseInt(levelDto.getHierarchyLevelDefnId()));
+        forecast.setLevelValueReference(levelDto.getLevelValueReference());
+        forecast.setRelationshipBuilderSid(levelDto.getRelationShipBuilderId() == null ? 0
+                : Integer.parseInt(levelDto.getRelationShipBuilderId()));
+        forecast.setRelationshipVersionNo(levelDto.getRelationShipVersionNo());
+        forecast.setHierarchyVersionNo(levelDto.getHierarchyVersionNo());
+        forecast.setHierarchyCategory(levelDto.getHierarchyType());
+        return forecast;
     }
 }

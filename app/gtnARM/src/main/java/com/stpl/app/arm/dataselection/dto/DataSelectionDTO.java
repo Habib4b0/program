@@ -85,6 +85,9 @@ public class DataSelectionDTO {
     private boolean checkFlag;
     private Date startDate;
     private boolean alterFlag = true;
+    private int customerRelationshipVersionNo;
+    private int productRelationshipVersionNo;
+    
 
     public DataSelectionDTO() {
         /*
@@ -587,4 +590,21 @@ public class DataSelectionDTO {
     public void setAlterFlag(boolean alterFlag) {
         this.alterFlag = alterFlag;
     }
+
+    public int getCustomerRelationshipVersionNo() {
+        return customerRelationshipVersionNo;
+    }
+
+    public void setCustomerRelationshipVersionNo(int customerRelationshipVersionNo) {
+        this.customerRelationshipVersionNo = customerRelationshipVersionNo;
+    }
+
+    public int getProductRelationshipVersionNo() {
+        return productRelationshipVersionNo;
+    }
+
+    public void setProductRelationshipVersionNo(int productRelationshipVersionNo) {
+        this.productRelationshipVersionNo = productRelationshipVersionNo;
+    }
+    
 }
