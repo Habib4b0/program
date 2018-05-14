@@ -28,6 +28,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.vaadin.ui.Component;
 
 /**
  *
@@ -66,10 +67,16 @@ public class GtnFrameworkIfpEditAction
 			if (gtnWsRecordBean == null) {
 				return;
 			}
-
-			int systemId = (Integer) gtnWsRecordBean.getPropertyValue(propertyId);
+                        boolean isCopyModeId="gtnCopyButton".equalsIgnoreCase(componentId);
+                        GtnUIFrameworkGlobalUI.addSessionProperty("mode", isCopyModeId?"Copy":"Edit");
+                        String copyModeVal =(String)GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+                         if ("Copy".equals(copyModeVal)) {
+                            Component delComponent = GtnUIFrameworkGlobalUI.getVaadinComponent("ifpAddDeleteButton");
+                            delComponent.setEnabled(false);
+                        }
+                        int systemId = (Integer) gtnWsRecordBean.getPropertyValue(propertyId);
 			ifpInfoBean.setIfpSid(systemId);
-			GtnUIFrameworkGlobalUI.addSessionProperty("ifpModelSid", systemId);
+                        GtnUIFrameworkGlobalUI.addSessionProperty("ifpModelSid", systemId);
 			GtnWsIfpRequest ifpRequest = new GtnWsIfpRequest();
 			ifpRequest.setGtnIFamilyPlan(ifpBean);
 			gtnRequest.setGtnWsIfpRequest(ifpRequest);
@@ -184,12 +191,15 @@ public class GtnFrameworkIfpEditAction
 
 	private void setTableEnableDisable(boolean isEditable, GtnIFamilyPlanInformationBean info) {
 		gtnLogger.debug("is ETL Record :: " + info.isRecordLockStatus());
+                if(isEditable){
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFP_ITEMS_TAB_RESULT_DATA_TABLE)
 				.getExtPagedTable().setEnabled(isEditable);
+                }else{
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFP_ITEMS_TAB_RESULT_DATA_TABLE)
 				.getExtPagedTable().setEditable(isEditable);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFP_ITEMS_TAB_RESULT_DATA_TABLE)
 				.getExtPagedTable().setReadOnly(!isEditable);
+                }
 
 	}
 
