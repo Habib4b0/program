@@ -336,8 +336,8 @@ public class GtnFrameworkSalesProjectionTabConfig {
 		List<GtnUIFrameWorkActionConfig> checkBoxClickActionList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig generateActionConfig = new GtnUIFrameWorkActionConfig();
 		generateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		generateActionConfig.addActionParameter(
-				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_LEFT_FIELD_FACTORY_ACTION);
+		//generateActionConfig.addActionParameter(
+				//GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_LEFT_FIELD_FACTORY_ACTION);
 		checkBoxClickActionList.add(generateActionConfig);
 		generateActionConfig
 				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT,
@@ -357,8 +357,8 @@ public class GtnFrameworkSalesProjectionTabConfig {
 						GtnFrameworkCommonConstants.RESULT_TABLE));
 
 		fieldFactoryCustomAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		fieldFactoryCustomAction.addActionParameter(
-				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_RIGHT_FIELD_FACTORY_ACTION);
+		//fieldFactoryCustomAction.addActionParameter(
+				//GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_RIGHT_FIELD_FACTORY_ACTION);
 		textFieldConfig.add(fieldFactoryCustomAction);
 		salesProjectionTreeTableConfig.setComponentconfigActionlist(textFieldConfig);
 

@@ -10,8 +10,6 @@ import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.config.common.UpdatePreviousNextCloseSubmitButton;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.checkbox.GtnUIFrameworkCheckBoxComponentConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
@@ -19,7 +17,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
-import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 
 public class CommercialForecastingProjectionVarianceMain {
@@ -144,27 +141,27 @@ public class CommercialForecastingProjectionVarianceMain {
 		List<GtnUIFrameworkComponentConfig> projectionVarianceProjectPivotViewFieldFactoryComponent = new ArrayList<>();
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setLeftTableEditableColumnList(projectionVarianceProjectPivotViewFieldFactoryColumn);
 
-		GtnUIFrameworkComponentConfig projectionVarianceProjectPivotViewCheckBox = new GtnUIFrameworkComponentConfig();
-		projectionVarianceProjectPivotViewCheckBox.setComponentId(GtnFrameworkCommonConstants.CHECK);
-		projectionVarianceProjectPivotViewCheckBox.setComponentType(GtnUIFrameworkComponentType.CHECKBOX);
-		GtnUIFrameworkCheckBoxComponentConfig projectionVarianceProjectPivotViewCheckBoxConfig = new GtnUIFrameworkCheckBoxComponentConfig();
-		projectionVarianceProjectPivotViewCheckBoxConfig.setImmediate(true);
+//		GtnUIFrameworkComponentConfig projectionVarianceProjectPivotViewCheckBox = new GtnUIFrameworkComponentConfig();
+//		projectionVarianceProjectPivotViewCheckBox.setComponentId(GtnFrameworkCommonConstants.CHECK);
+//		projectionVarianceProjectPivotViewCheckBox.setComponentType(GtnUIFrameworkComponentType.CHECKBOX);
+//		GtnUIFrameworkCheckBoxComponentConfig projectionVarianceProjectPivotViewCheckBoxConfig = new GtnUIFrameworkCheckBoxComponentConfig();
+//		projectionVarianceProjectPivotViewCheckBoxConfig.setImmediate(true);
 
-		projectionVarianceProjectPivotViewCheckBox.setGtnCheckBoxConfig(projectionVarianceProjectPivotViewCheckBoxConfig);
+		//projectionVarianceProjectPivotViewCheckBox.setGtnCheckBoxConfig(projectionVarianceProjectPivotViewCheckBoxConfig);
 		List<GtnUIFrameWorkActionConfig> projectionVarianceProjectPivotViewCheckBoxClickActionList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig = new GtnUIFrameWorkActionConfig();
 		
 		projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig.addActionParameter(
-				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_LEFT_FIELD_FACTORY_ACTION);
+		//projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig.addActionParameter(
+			//	GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_LEFT_FIELD_FACTORY_ACTION);
 		projectionVarianceProjectPivotViewCheckBoxClickActionList.add(projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig);
 		projectionVarianceProjectPivotViewGtnUIFrameWorkGenerateActionConfig
 				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT,
 						GtnFrameworkCommonConstants.RESULT_TABLE));
-		projectionVarianceProjectPivotViewCheckBox
-				.setGtnUIFrameWorkItemClickActionConfigList(projectionVarianceProjectPivotViewCheckBoxClickActionList);
+		
+		//projectionVarianceProjectPivotViewCheckBox.setGtnUIFrameWorkItemClickActionConfigList(projectionVarianceProjectPivotViewCheckBoxClickActionList);
 
-		projectionVarianceProjectPivotViewFieldFactoryComponent.add(projectionVarianceProjectPivotViewCheckBox);
+		//projectionVarianceProjectPivotViewFieldFactoryComponent.add(projectionVarianceProjectPivotViewCheckBox);
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig
 				.setLeftTableEditableComponentConfig(projectionVarianceProjectPivotViewFieldFactoryComponent);
 
@@ -176,8 +173,8 @@ public class CommercialForecastingProjectionVarianceMain {
 						GtnFrameworkCommonConstants.RESULT_TABLE));
 
 		projectionVarianceProjectPivotViewFieldFactoryCustomAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		projectionVarianceProjectPivotViewFieldFactoryCustomAction.addActionParameter(
-				GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_RIGHT_FIELD_FACTORY_ACTION);
+		//projectionVarianceProjectPivotViewFieldFactoryCustomAction.addActionParameter(
+				//GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_RIGHT_FIELD_FACTORY_ACTION);
 		projectionVarianceProjectPivotViewTextFieldConfig.add(projectionVarianceProjectPivotViewFieldFactoryCustomAction);
 		projectionVarianceProjectPivotViewGtnPagedTreeTableConfig.setComponentconfigActionlist(projectionVarianceProjectPivotViewTextFieldConfig);
 

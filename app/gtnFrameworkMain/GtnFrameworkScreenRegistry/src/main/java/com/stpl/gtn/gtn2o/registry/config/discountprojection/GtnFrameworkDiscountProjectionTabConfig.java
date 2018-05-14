@@ -336,8 +336,8 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		List<GtnUIFrameWorkActionConfig> resultDashboardCheckBoxClickActionList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig resultDashboardGtnUIFrameWorkGenerateActionConfig = new GtnUIFrameWorkActionConfig();
 		resultDashboardGtnUIFrameWorkGenerateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		resultDashboardGtnUIFrameWorkGenerateActionConfig
-				.addActionParameter(GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_LEFT_FIELD_FACTORY_ACTION);
+		//resultDashboardGtnUIFrameWorkGenerateActionConfig
+				//.addActionParameter(GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_LEFT_FIELD_FACTORY_ACTION);
 		resultDashboardCheckBoxClickActionList.add(resultDashboardGtnUIFrameWorkGenerateActionConfig);
 		resultDashboardGtnUIFrameWorkGenerateActionConfig
 				.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.PROJECTION_DETAILS_TABSHEET_MAIN_LAYOUT,
@@ -355,8 +355,8 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 						GtnFrameworkCommonConstants.RESULT_TABLE));
 
 		resultDashboardFieldFactoryCustomAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		resultDashboardFieldFactoryCustomAction
-				.addActionParameter(GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_RIGHT_FIELD_FACTORY_ACTION);
+		//resultDashboardFieldFactoryCustomAction
+				//.addActionParameter(GtnCommercialForecastProjectionVarianceClassConstants.RETURNS_FORECAST_RIGHT_FIELD_FACTORY_ACTION);
 		resultDashboardTextFieldConfig.add(resultDashboardFieldFactoryCustomAction);
 		discountProjectionGtnPagedTreeTableConfig.setComponentconfigActionlist(resultDashboardTextFieldConfig);
 
