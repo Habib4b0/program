@@ -706,7 +706,7 @@ public class GtnFrameworkPSSearchConfig {
 
 		GtnUIFrameWorkActionConfig copyModeActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.MODE_CHANGE);
-		copyModeActionConfig.addActionParameter(GtnUIFrameworkModeType.EDIT);
+		copyModeActionConfig.addActionParameter(GtnUIFrameworkModeType.COPY);
 		cpyActionConfigList.add(copyModeActionConfig);
 
 		GtnUIFrameWorkActionConfig psCopyButtonAlertActionConfig = new GtnUIFrameWorkActionConfig();
