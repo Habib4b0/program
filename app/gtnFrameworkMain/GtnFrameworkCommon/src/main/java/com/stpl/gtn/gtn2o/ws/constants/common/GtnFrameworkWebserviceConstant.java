@@ -227,6 +227,7 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String PS_DETAILS_ATTACHED_DATE = "PS_DETAILS_ATTACHED_DATE";
 	public static final String BRAND_NAME = "brandName";
 	public static final String IMPSD = "IMPSD";
+	public static final String NBP_FORMULA = "nbpFormula";
 	public static final String IFP_STATUS = "IFP_STATUS";
 	public static final String PS_MODEL_SID = "PS_MODEL_SID";
 	public static final String ITEM_ID_COLUMN = "ITEM_ID";

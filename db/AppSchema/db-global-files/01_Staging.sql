@@ -4067,10 +4067,10 @@ END
   GO 
   
   -------------------------AGN-909----------------------------------
-  IF NOT EXISTS (
+  IF EXISTS (
 		SELECT 1
 		FROM SYS.STATS
-		WHERE NAME = 'STAG_PRICE_SCHEDULE.NET_BASE_PRICE'
+		WHERE NAME = 'NET_BASE_PRICE'
 			AND OBJECT_ID = Object_id('STAG_PRICE_SCHEDULE')
 		)
 BEGIN
