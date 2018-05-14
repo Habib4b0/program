@@ -92,7 +92,8 @@ public class GtnWsTreeService {
 			List<Object[]> deductionList, List<Object[]> ccpResult) {
 
 		if (GtnWsHierarchyType.VARIABLES.equals(customTreeData.getHierarchyType())) {
-			buildAllVariableTree(root, customTreeData.getCurrentTreeLevelNo(), customTreeData.getVariableList());
+			buildAllVariableTree(root, customTreeData.getCurrentTreeLevelNo(), customTreeData.getVariableList(),
+					ccpResult);
 		}
 		if (GtnWsHierarchyType.DEDUCTION.equals(customTreeData.getHierarchyType())) {
 			buildDeductionTree(root, customTreeData.getCurrentTreeLevelNo(), deductionList, ccpResult,
@@ -179,19 +180,25 @@ public class GtnWsTreeService {
 						node.setLevelValue(variable.toString());
 						node.setLevelNumber(levelNo);
 						node.setIndicator(GtnWsHierarchyType.VARIABLES);
-						gtnWsReportEngineTreeNode.addChildren(node);
+						gtnWsReportEngineTreeNode.addVariable(node);
 					}
-				} else {
-					buildAllVariableTree(gtnWsReportEngineTreeNode, levelNo, variableList);
 				}
 			}
 		}
 	}
 
 	public void buildAllVariableTree(GtnWsReportEngineTreeNode root, int levelNo,
-			List<GtnWsReportVariablesType> variableList) {
+			List<GtnWsReportVariablesType> variableList, List<Object[]> ccpResult) {
 
 		if (root.getChildren() == null && levelNo == 1) {
+			Set<Integer> ccpList = new HashSet<>();
+			Set<Integer> rsList = new HashSet<>();
+			for (Object[] object : ccpResult) {
+				ccpList.add(Integer.parseInt(object[0].toString()));
+				if (object[3] != null) {
+					rsList.add(Integer.parseInt(object[3].toString()));
+				}
+			}
 			for (GtnWsReportVariablesType variable : variableList) {
 				GtnWsReportEngineTreeNode node = new GtnWsReportEngineTreeNode();
 				node.setLevelName(variable.toString());
@@ -200,6 +207,8 @@ public class GtnWsTreeService {
 				node.setIndicator(GtnWsHierarchyType.VARIABLES);
 				node.setHierarchyNo(levelNo + "~" + variable);
 				node.setDiscountAvailable(root.isDiscountAvailable());
+				node.setCcpIds(ccpList);
+				node.setRsIds(rsList);
 				root.addChildren(node);
 			}
 			return;
@@ -223,7 +232,7 @@ public class GtnWsTreeService {
 					gtnWsReportEngineTreeNode.addChildren(node);
 				}
 			} else {
-				buildAllVariableTree(gtnWsReportEngineTreeNode, levelNo, variableList);
+				buildAllVariableTree(gtnWsReportEngineTreeNode, levelNo, variableList, ccpResult);
 			}
 		}
 	}
