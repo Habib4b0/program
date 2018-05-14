@@ -28,6 +28,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		view.setViewName(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "View");
 		view.setViewId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "V001");
 		view.setDefaultView(true);
+		view.setResetAllowed(false);
 		addComponentList(view, namespace);
 		return view;
 	}
@@ -162,9 +163,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PRIVATE_VIEWS);
 		privateView.setComponentName("Private Views");
 		privateView.setAddToParent(true);
-		privateView
-				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
+		privateView.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_SELECTIONLAYOUT1);
 		privateView.setComponentWsFieldId(GtnFrameworkCommonConstants.PRIVATE_VIEWS);
 		List<GtnUIFrameWorkActionConfig> list = new ArrayList<>();
 		Object privateViewLookup = "Private View";
@@ -200,7 +200,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		companyTypeConfig.setComboBoxType(GtnFrameworkReportStringConstants.COMPANY_MASTER_GLCOMP);
 		company.setGtnComboboxConfig(companyTypeConfig);
-		
+
 		componentList.add(company);
 
 		GtnUIFrameworkLayoutConfig reportDataSourceLayout = new GtnUIFrameworkLayoutConfig();
@@ -246,7 +246,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		Object publicViewLookup = "Public View";
 		GtnUIFrameWorkActionConfig publicViewActionConfig = new GtnUIFrameWorkActionConfig();
 		publicViewActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		publicViewActionConfig.setActionParameterList(Arrays.asList("publicViewSearchLookupView", publicViewLookup, "795", "875"));
+		publicViewActionConfig
+				.setActionParameterList(Arrays.asList("publicViewSearchLookupView", publicViewLookup, "795", "875"));
 		publicViewActionConfigList.add(publicViewActionConfig);
 
 		GtnUIFrameWorkActionConfig publicViewDisableAction = new GtnUIFrameWorkActionConfig();
@@ -344,9 +345,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		fromPeriodConfig.setDefaultDesc("next");
 		fromPeriod.setGtnComboboxConfig(fromPeriodConfig);
 
-	
 		componentList.add(fromPeriod);
-
 
 		GtnUIFrameworkLayoutConfig toPeriodLayout = new GtnUIFrameworkLayoutConfig();
 		toPeriodLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
@@ -360,8 +359,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 				+ GtnFrameworkCommonConstants.TIME_PERIOD_INNER_LAYOUT);
 		componentList.add(toPeriodLayoutConfig);
 
-
-
 		GtnUIFrameworkComponentConfig toPeriod = new GtnUIFrameworkComponentConfig();
 		toPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		toPeriod.setComponentId(
@@ -369,7 +366,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 		toPeriod.setComponentName("To ");
 		toPeriod.setAddToParent(true);
 		toPeriod.setEnable(false);
-
 
 		toPeriod.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "toPeriodLayout");
 
@@ -380,7 +376,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 		toPeriodTypeConfig.setComboBoxType("timePeriodForReportToDate");
 		toPeriodTypeConfig.setHasDefaultValue(true);
 		toPeriodTypeConfig.setDefaultDesc("next");
-
 
 		toPeriod.setGtnComboboxConfig(toPeriodTypeConfig);
 
@@ -444,10 +439,10 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateBtn.setComponentName("GENERATE");
 		generateBtn.setParentComponentId(controlLayouts.getComponentId());
 		generateBtn.setAddToParent(true);
-				
+
 		componentList.add(generateBtn);
 		List<GtnUIFrameWorkActionConfig> actionList = new ArrayList<>();
-		
+
 		GtnUIFrameWorkActionConfig generateAction = new GtnUIFrameWorkActionConfig();
 		generateAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		generateAction.addActionParameter(GtnReportCCPTableLoadAction.class.getName());
@@ -466,9 +461,9 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.addActionParameter("reportLandingScreen_company");
 		generateAction.addActionParameter("reportLandingScreen_businessUnit");
 		generateAction.addActionParameter("reportLandingScreen_fromPeriod");
-		
+
 		actionList.add(generateAction);
-		
+
 		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);
 
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();

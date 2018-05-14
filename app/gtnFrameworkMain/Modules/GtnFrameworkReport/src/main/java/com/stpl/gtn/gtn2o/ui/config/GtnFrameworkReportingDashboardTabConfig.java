@@ -1,5 +1,10 @@
 package com.stpl.gtn.gtn2o.ui.config;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportDasboardTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnForecastReturnsClassConstants;
@@ -25,10 +30,6 @@ import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class GtnFrameworkReportingDashboardTabConfig {
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
@@ -311,7 +312,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		customViewComboboxConfig.setAuthorizationIncluded(true);
 
 		componentList.add(customViewComboboxConfig);
-		
+
 		GtnUIFrameworkComboBoxConfig customViewLoadConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkReportStringConstants.STATUS, GtnWsReportEndPointUrlConstants.LOAD_CUSTOM_VIEW);
 		customViewLoadConfig.setIntegerItemCode(false);
