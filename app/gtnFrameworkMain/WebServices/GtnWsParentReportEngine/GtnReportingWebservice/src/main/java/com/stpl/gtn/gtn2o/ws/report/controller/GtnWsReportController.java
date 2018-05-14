@@ -313,14 +313,17 @@ public class GtnWsReportController {
 		GtnWsReportEngineTreeNode productTree = gtnWsTreeService
 				.getCustomerTree(gtnWsReportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.PRODUCT_TREE));
 
+		@SuppressWarnings("unchecked")
 		List<Object[]> ccpList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery("Select * from "
 				+ gtnWsReportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.ST_CCPD_SESSION_TABLE_NAME));
 
+		@SuppressWarnings("unchecked")
 		List<Object[]> deductionList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery("Select * from " + gtnWsReportDashboardBean
 						.getTableNameWithUniqueId(MongoStringConstants.ST_DEDUCTION_SESSION_TABLE_NAME));
-
+		long start = System.currentTimeMillis();
 		gtnWsTreeService.buildCustomTree(root, customTreeData, customerTree, productTree, deductionList, ccpList);
+		gtnLogger.info("Time taken to build Tree =" + (System.currentTimeMillis() - start));
 		gtnWsTreeService.saveCustomTree(root,
 				gtnWsReportDashboardBean.getTableNameWithUniqueId(gtnWsReportDashboardBean.getCustomViewName()));
 		return new GtnUIFrameworkWebserviceResponse();
