@@ -108,7 +108,7 @@ public class GtnFrameworkIfpStringContants {
 			GtnFrameworkIfpStringContants.IFP_INFORMATION_TAB_MODIFIED_BY,
 			GtnFrameworkIfpStringContants.IFP_INFORMATION_CREATED_DATE,
 			GtnFrameworkIfpStringContants.IFP_INFORMATION_MODIFIED_DATE,
-			GtnFrameworkCommonConstants.IFP_ADD_DELETE_BUTTON };
+        };
 
 	public static Object[] getCopyDisabledFields() {
 		return COPY_DISABLED_FIELDS.clone();
