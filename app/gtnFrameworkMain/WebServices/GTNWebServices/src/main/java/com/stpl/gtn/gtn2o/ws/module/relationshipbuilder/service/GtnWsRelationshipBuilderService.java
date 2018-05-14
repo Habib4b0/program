@@ -66,6 +66,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuilderResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
+import java.util.Locale;
 
 /**
  *
