@@ -312,8 +312,8 @@ public class GtnUIFrameworkBaseComponent {
 		}
 
 	}
-        
-        public String getCaptionFromV8ComboBox() throws GtnFrameworkValidationFailedException {
+
+	public String getCaptionFromV8ComboBox() throws GtnFrameworkValidationFailedException {
 		try {
 			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
 			return getString(comboBox.getValue()).trim();
@@ -826,19 +826,19 @@ public class GtnUIFrameworkBaseComponent {
 	@SuppressWarnings({ "unchecked" })
 	public void loadComboBoxComponentValue(Integer newValue) {
 		((Field<Object>) this.component).setValue(newValue);
-		
+
 	}
 
-	public void loadV8ComboBoxComponentValue(Integer value)throws GtnFrameworkValidationFailedException {	
-			AbstractSingleSelect comboboxSelect=(AbstractSingleSelect)this.component;
-			comboboxSelect.setSelectedItem(value);
+	public void loadV8ComboBoxComponentValue(Integer value) throws GtnFrameworkValidationFailedException {
+		AbstractSingleSelect comboboxSelect = (AbstractSingleSelect) this.component;
+		comboboxSelect.setSelectedItem(value);
 	}
-	
-	public void loadV8ComboBoxComponentValue(String value)throws GtnFrameworkValidationFailedException {
-			AbstractSingleSelect comboboxSelect=(AbstractSingleSelect)this.component;
-			comboboxSelect.setSelectedItem(value);
+
+	public void loadV8ComboBoxComponentValue(String value) throws GtnFrameworkValidationFailedException {
+		AbstractSingleSelect comboboxSelect = (AbstractSingleSelect) this.component;
+		comboboxSelect.setSelectedItem(value);
 	}
-	
+
 	public void setComponentReadOnly(boolean newValue) {
 		if (this.component instanceof Field<?>) {
 			((Field<?>) this.component).setReadOnly(newValue);
@@ -1104,7 +1104,7 @@ public class GtnUIFrameworkBaseComponent {
 
 		field.setValue(value);
 	}
-	
+
 	public void setGridItems(List<GtnWsRecordBean> recordBeanList) {
 		((Grid) this.component).setItems(recordBeanList);
 	}
@@ -1133,4 +1133,7 @@ public class GtnUIFrameworkBaseComponent {
 		return (TreeGrid) this.component;
 	}
 
+	public void emptyHasValue() {
+		((HasValue) this.component).setValue(null);
+	}
 }
