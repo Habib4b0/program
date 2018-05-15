@@ -497,9 +497,12 @@ public class GtnWsTreeService {
 		return selectionBean.first().getCustomTreeData();
 	}
 
-	public GtnWsReportEngineTreeNode getCustomerTree(String tableName) {
+	public GtnWsReportEngineTreeNode getCustomerTree(String tableName, boolean withSessionInfo, String sessionId) {
 		MongoCollection<GtnWsReportEngineTreeNode> collection = connection.getDBInstance().getCollection(tableName,
 				GtnWsReportEngineTreeNode.class);
+		if (withSessionInfo) {
+			return collection.find(and(eq("sessionId", sessionId))).first();
+		}
 		return collection.find().first();
 	}
 

@@ -307,11 +307,11 @@ public class GtnWsReportController {
 		GtnWsCustomTreeData customTreeData = gtnWsTreeService.getCustomTreeData(
 				MongoStringConstants.CUSTOM_VIEW_COLLECTION, gtnWsReportDashboardBean.getCustomViewName());
 
-		GtnWsReportEngineTreeNode customerTree = gtnWsTreeService
-				.getCustomerTree(gtnWsReportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.CUSTOMER_TREE));
+		GtnWsReportEngineTreeNode customerTree = gtnWsTreeService.getCustomerTree(MongoStringConstants.CUSTOMER_TREE,
+				true, gtnWsReportDashboardBean.getSessionId());
 
-		GtnWsReportEngineTreeNode productTree = gtnWsTreeService
-				.getCustomerTree(gtnWsReportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.PRODUCT_TREE));
+		GtnWsReportEngineTreeNode productTree = gtnWsTreeService.getCustomerTree(MongoStringConstants.PRODUCT_TREE,
+				true, gtnWsReportDashboardBean.getSessionId());
 
 		@SuppressWarnings("unchecked")
 		List<Object[]> ccpList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery("Select * from "

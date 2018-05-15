@@ -8,17 +8,19 @@ import java.util.List;
 
 public class GtnWsTreeNodeAttributeBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
 	public GtnWsTreeNodeAttributeBean() {
 		super();
 	}
 
 	List<GtnWsAttributeBean> attributeBeanList;
 
-	public List<GtnWsAttributeBean> getAttributeBeanList() {
-		return attributeBeanList;
-	}
+    public List<GtnWsAttributeBean> getAttributeBeanList() {
+        return attributeBeanList;
+    }
+
+    public void setAttributeBeanList(List<GtnWsAttributeBean> attributeBeanList) {
+        this.attributeBeanList = attributeBeanList;
+    }
 
 	public void addAttributeBeanToList(GtnWsAttributeBean attributeBean) {
 		if (attributeBeanList == null) {
@@ -26,8 +28,8 @@ public class GtnWsTreeNodeAttributeBean implements Serializable {
 		}
 		this.attributeBeanList.add(attributeBean);
 	}
-        
-        public void addAllAttributeBeanToList(List<GtnWsAttributeBean> attributeBean) {
+
+	public void addAllAttributeBeanToList(List<GtnWsAttributeBean> attributeBean) {
 		if (attributeBeanList == null) {
 			attributeBeanList = new ArrayList<>();
 		}

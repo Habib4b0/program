@@ -51,7 +51,8 @@ public class GtnReportCCPTableLoadAction
 
 		List<GtnWsRecordBean> selectedCustomerList = getSelectedCustomerList(actionParamList, componentId);
 		List<GtnWsRecordBean> selectedProductList = getSelectedProductList(actionParamList, componentId);
-		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList,selectedCustomerList,selectedProductList);
+		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList, selectedCustomerList,
+				selectedProductList);
 		ccpHierarchyInsert(selectedCustomerList, selectedProductList, dataSelectionDto);
 
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
@@ -104,7 +105,8 @@ public class GtnReportCCPTableLoadAction
 		return selectedProductList;
 	}
 
-	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList, List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList)
+	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList,
+			List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList)
 			throws GtnFrameworkValidationFailedException {
 
 		GtnWsReportDataSelectionBean dto = new GtnWsReportDataSelectionBean();
@@ -148,21 +150,21 @@ public class GtnReportCCPTableLoadAction
 		dto.setReportDataSource(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(12).toString()).getCaptionFromV8ComboBox()));
 
-		
 		dto.setCompanyReport(Integer.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox()));
-		dto.setBusinessUnitReport(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(14).toString()).getIntegerFromField());
+		dto.setBusinessUnitReport(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(14).toString())
+				.getIntegerFromField());
 		dto.setFromPeriodReport(Integer.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(15).toString()).getCaptionFromV8ComboBox()));
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);
 		dto.setProductHierarchyRecordBean(productRecordBean);
 		dto.setSelectedCustomerHierarchyList(selectedCustomerList);
 		dto.setSelectedProductHierarchyList(selectedProductList);
-		
+
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		dto.setSessionId(UUID.randomUUID().toString().replaceAll("-", "_"));
-		dto.setUniqueId(UUID.randomUUID().toString().replaceAll("-", "_"));
+		String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_");
+		dto.setSessionId(uniqueId);
+		dto.setUniqueId(uniqueId);
 
 		return dto;
 	}
