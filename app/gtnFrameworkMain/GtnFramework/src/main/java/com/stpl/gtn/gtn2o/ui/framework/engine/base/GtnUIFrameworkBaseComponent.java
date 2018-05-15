@@ -366,6 +366,23 @@ public class GtnUIFrameworkBaseComponent {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
 	}
+       public void clearTree() throws GtnFrameworkValidationFailedException {
+		try {
+			AbstractSelect tree = (AbstractSelect) getComponentData().getCustomData();
+			tree.getContainerDataSource().removeAllItems();
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+       
+       public Object getTreeItemIds() throws GtnFrameworkValidationFailedException {
+		try {
+			AbstractSelect tree = (AbstractSelect) getComponentData().getCustomData();
+			return !tree.getItemIds().isEmpty() ? tree.getItemIds() : null;
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
 
 	public void addItemToTreeDataTable(Object item, boolean childrenAllowed)
 			throws GtnFrameworkValidationFailedException {
