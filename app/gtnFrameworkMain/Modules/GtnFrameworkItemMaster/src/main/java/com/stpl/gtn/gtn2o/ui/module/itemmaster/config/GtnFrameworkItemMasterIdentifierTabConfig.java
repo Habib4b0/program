@@ -359,13 +359,19 @@ public class GtnFrameworkItemMasterIdentifierTabConfig {
 		imAttachResultConfig.setComponentName("Results");
 		imAttachResultConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_400);
 		imAttachResultConfig.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
+		List<String> tableStyle = new ArrayList<>();
+		tableStyle.add("filterbar");
+		tableStyle.add("v-has-width");
+		tableStyle.add("v-table-filterbar");
+		tableStyle.add("table-header-normal");
+		imAttachResultConfig.setComponentStyle(tableStyle);
 		componentList.add(imAttachResultConfig);
 
 		GtnUIFrameworkPagedTableConfig attachResults = new GtnUIFrameworkPagedTableConfig();
-		imAttachResultConfig.setGtnPagedTableConfig(attachResults);
-		attachResults.setEditable(false);
+		attachResults.setEditable(true);
 		attachResults.setFilterBar(true);
 		attachResults.setSelectable(true);
+		imAttachResultConfig.setGtnPagedTableConfig(attachResults);
 
 		attachResults.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVALANG_STRING,
 				GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_INTEGER,
@@ -492,14 +498,23 @@ public class GtnFrameworkItemMasterIdentifierTabConfig {
 		List<GtnUIFrameworkComponentConfig> editableFields = new ArrayList<>();
 		for (String propertyId : propertyIds) {
 			GtnUIFrameworkComponentType checkRecord = "checkRecordId".equals(propertyId)
-					? GtnUIFrameworkComponentType.CHECKBOX : GtnUIFrameworkComponentType.COMBOBOX;
+					? GtnUIFrameworkComponentType.CHECKBOX
+					: GtnUIFrameworkComponentType.COMBOBOX;
 			GtnUIFrameworkComponentType itemMaster = GtnFrameworkItemMasterStringContants
 					.getItemMasterItemIdentifierDatefieldproperties().contains(propertyId)
-							? GtnUIFrameworkComponentType.DATEFIELD : checkRecord;
+							? GtnUIFrameworkComponentType.DATEFIELD
+							: checkRecord;
 			GtnUIFrameworkComponentType gtnUIFrameworkComponentType = GtnFrameworkItemMasterStringContants
 					.getItemMasterItemIdentifierTextfeildproperties().contains(propertyId)
-							? GtnUIFrameworkComponentType.TEXTBOX : itemMaster;
+							? GtnUIFrameworkComponentType.TEXTBOX
+							: itemMaster;
 			GtnUIFrameworkComponentConfig fieldConfig = new GtnUIFrameworkComponentConfig();
+			boolean isReadOnly = !GtnFrameworkItemMasterStringContants.getItemMasterItemIdentifierEditablefieldlist()
+					.contains(propertyId);
+			GtnUIFrameworkTextBoxConfig textConfigIMIdentifierTab = new GtnUIFrameworkTextBoxConfig();
+			textConfigIMIdentifierTab.setReadOnly(isReadOnly);
+			fieldConfig.setGtnTextBoxConfig(textConfigIMIdentifierTab);
+
 			fieldConfig.setComponentType(gtnUIFrameworkComponentType);
 			fieldConfig.setEnable(GtnFrameworkItemMasterStringContants.getItemMasterItemIdentifierEditablefieldlist()
 					.contains(propertyId));

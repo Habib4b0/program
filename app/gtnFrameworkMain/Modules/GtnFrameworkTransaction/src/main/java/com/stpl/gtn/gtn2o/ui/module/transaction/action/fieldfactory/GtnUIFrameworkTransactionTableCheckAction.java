@@ -52,12 +52,10 @@ public class GtnUIFrameworkTransactionTableCheckAction implements GtnUIFrameWork
 			}
 		} else {
 			if (checkBean.isCheckAll()) {
-				checkBean.setCheckAll(false);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParametersList.get(1).toString())
 						.setPagedTableHeaderCheckBox(false, actionParametersList.get(3).toString());
 				checkBean.addtoUnCheckedIdSet(systemID);
 			} else {
-				checkBean.addtoUnCheckedIdSet(systemID);
 				checkBean.removeFromCheckedIdSet(systemID);
 			}
 		}

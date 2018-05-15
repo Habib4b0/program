@@ -28,6 +28,8 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.rebateplan.GtnWsRebatePlanGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.rebateplan.GtnWsRebatePlanGeneralResponse;
+import com.vaadin.ui.Component;
+import java.util.Arrays;
 
 public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
@@ -42,7 +44,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 	@Override
 	public void doAction(final String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		saveToDb();
+		saveToDb(componentId);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanAddViewtabSheet").setSelectedTabByPostion(0);
 		GtnUIFrameWorkActionConfig notificationAction = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.NOTIFICATION_ACTION);
@@ -72,7 +74,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 	}
 
 	@SuppressWarnings("unchecked")
-	private void saveToDb() throws GtnFrameworkGeneralException {
+	private void saveToDb(String componentId) throws GtnFrameworkGeneralException {
         GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 
@@ -130,7 +132,17 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 		}
 		GtnUIFrameworkActionExecutor
 				.clearErrorBanner(GtnFrameworkCommonConstants.REBATE_PLAN_INFORMATION_TAB_REBATE_PLAN_NO);
-                              
+                String rpCopyMode = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode"));
+                 if (rpCopyMode.equalsIgnoreCase("Copy")) {
+                        Component deleteCompo = GtnUIFrameworkGlobalUI.getVaadinComponent(GtnFrameworkStringConstants.REBATE_ADD_VIEW_DELETE_BUTTON);
+                        deleteCompo.setEnabled(true);
+                        GtnUIFrameWorkActionConfig enableWorkActionConfig = new GtnUIFrameWorkActionConfig();
+                        enableWorkActionConfig.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
+                        Object[] enableFieldsConfig = new Object[] { GtnFrameworkStringConstants.REBATE_ADD_VIEW_DELETE_BUTTON } ;
+                        enableWorkActionConfig.setActionParameterList(Arrays.asList(enableFieldsConfig));
+                        GtnUIFrameworkActionExecutor.executeSingleAction(componentId, enableWorkActionConfig);
+                        
+                        }          
             
 
 	}

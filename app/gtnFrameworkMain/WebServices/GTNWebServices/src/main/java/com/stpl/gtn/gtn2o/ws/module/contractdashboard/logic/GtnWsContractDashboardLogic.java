@@ -187,7 +187,7 @@ public class GtnWsContractDashboardLogic {
 				if (searchCriteria.isFilter()) {
 					StringBuilder value = new StringBuilder(searchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(searchCriteria.getExpression())) {
-						value.append('%').append(value).append('%');
+						value.insert(0, '%').append('%');
 					}
 					inputWhereConditions.append(where).append(and)
 							.append(getWhereClauseForAColumn(searchCriteria.getExpression(),
