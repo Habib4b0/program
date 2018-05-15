@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoDBConnectionService;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewDataBean;
@@ -31,8 +30,6 @@ public class GtnWsTreeService {
 
 	@Autowired
 	GtnWsMongoDBConnectionService connection;
-
-	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsTreeService.class);
 
 	public GtnWsReportEngineTreeNode buildTree(List<Object[]> resultList, GtnWsHierarchyType indicator) {
 		GtnWsReportEngineTreeNode root = new GtnWsReportEngineTreeNode();
@@ -68,7 +65,6 @@ public class GtnWsTreeService {
 	public void buildCustomTree(GtnWsReportEngineTreeNode root, GtnWsCustomTreeData customTreeData,
 			GtnWsReportEngineTreeNode customerRootNode, GtnWsReportEngineTreeNode productRootNode,
 			List<Object[]> deductionList, List<Object[]> ccpResult) {
-		long start = System.currentTimeMillis();
 		if (customTreeData.getCurrentTreeLevelNo() != 0) {
 
 			processCustomTree(root, customTreeData, customerRootNode, productRootNode, deductionList, ccpResult);
@@ -84,7 +80,6 @@ public class GtnWsTreeService {
 			buildCustomTree(root, customTreeData.getChild(), customerRootNode, productRootNode, deductionList,
 					ccpResult);
 		}
-		gtnLogger.info("Time taken to build tree = " + (System.currentTimeMillis() - start));
 	}
 
 	public void processCustomTree(GtnWsReportEngineTreeNode root, GtnWsCustomTreeData customTreeData,
@@ -502,9 +497,12 @@ public class GtnWsTreeService {
 		return selectionBean.first().getCustomTreeData();
 	}
 
-	public GtnWsReportEngineTreeNode getCustomerTree(String tableName) {
+	public GtnWsReportEngineTreeNode getCustomerTree(String tableName, boolean withSessionInfo, String sessionId) {
 		MongoCollection<GtnWsReportEngineTreeNode> collection = connection.getDBInstance().getCollection(tableName,
 				GtnWsReportEngineTreeNode.class);
+		if (withSessionInfo) {
+			return collection.find(and(eq("sessionId", sessionId))).first();
+		}
 		return collection.find().first();
 	}
 

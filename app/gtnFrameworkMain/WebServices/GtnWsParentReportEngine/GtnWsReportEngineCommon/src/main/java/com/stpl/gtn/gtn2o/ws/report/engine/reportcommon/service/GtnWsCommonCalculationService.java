@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +10,7 @@ import net.sourceforge.jeval.Evaluator;
 @Scope(value = "singleton")
 public class GtnWsCommonCalculationService {
 
-	@Autowired
-	GtnWsCalculationValidationService gtnWsCalculationValidation;
+	GtnWsCalculationValidationService gtnWsCalculationValidation = GtnWsCalculationValidationService.getInstance();
 
 	private static final Evaluator EVALUATOR = new Evaluator();
 
