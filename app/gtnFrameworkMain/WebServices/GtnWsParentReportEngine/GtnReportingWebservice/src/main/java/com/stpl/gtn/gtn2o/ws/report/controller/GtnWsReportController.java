@@ -75,11 +75,9 @@ public class GtnWsReportController {
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_CUSTOMERHIERARCHY_SEARCHSERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadHierarchyResults(@RequestBody GtnUIFrameworkWebserviceRequest request)
 			throws GtnFrameworkGeneralException {
-
-		List<Object[]> resultList = null;
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		resultList = gtnWsReportWebsevice.loadHierarchyResults();
+		List<Object[]> resultList = gtnWsReportWebsevice.loadHierarchyResults(request, true);
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 		dataTable.addData(resultList);
 		gtnSearchResponse.setResultSet(dataTable);
@@ -90,13 +88,40 @@ public class GtnWsReportController {
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_PRODUCTHIERARCHY_SEARCHSERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadProductHierarchyResults(
 			@RequestBody GtnUIFrameworkWebserviceRequest request) throws GtnFrameworkGeneralException {
-
-		List<Object[]> resultList = null;
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		resultList = gtnWsReportWebsevice.loadProductHierarchyResults();
+		List<Object[]> resultList = gtnWsReportWebsevice.loadHierarchyResults(request, false);
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 		dataTable.addData(resultList);
+		gtnSearchResponse.setResultSet(dataTable);
+		response.setGtnSerachResponse(gtnSearchResponse);
+		return response;
+	}
+
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadViewResults(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
+		List<Object[]> resultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest, true);
+		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+		dataTable.addData(resultList);
+		gtnSearchResponse.setResultSet(dataTable);
+		response.setGtnSerachResponse(gtnSearchResponse);
+		return response;
+	}
+
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_PUBLICVIEWLOOKUP_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadPublicViewResults(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
+		List<Object[]> publicViewResultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest,
+				false);
+		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+		dataTable.addData(publicViewResultList);
 		gtnSearchResponse.setResultSet(dataTable);
 		response.setGtnSerachResponse(gtnSearchResponse);
 		return response;

@@ -197,6 +197,15 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		level.setGtnComboboxConfig(levelLoadConfig);
 
 		List<GtnUIFrameWorkActionConfig> actionList = new ArrayList<>();
+		
+		GtnUIFrameWorkActionConfig refreshDualListBoxAction = new GtnUIFrameWorkActionConfig();
+		refreshDualListBoxAction.setActionType(GtnUIFrameworkActionType.V8DUAL_LISTBOX_RESET_ACTION);
+		refreshDualListBoxAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ "product" + GtnFrameworkCommonConstants.DUAL_LIST_BOX_COMP);
+		refreshDualListBoxAction
+				.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "level");
+		actionList.add(refreshDualListBoxAction);
+		
 		GtnUIFrameWorkActionConfig loadAvailabletableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadAvailabletableActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadAvailabletableActionConfig.addActionParameter(GtnProductLevelAvailableTableLoadAction.class.getName());

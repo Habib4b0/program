@@ -623,6 +623,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String CREATED_DATE_HEADER = "Created Date";
 
 	public static final String PRIVATE_VIEW_NAME = "privateViewName";
+	public static final String PUBLIC_VIEW_NAME = "publicViewName";
 	public static final String PRIVATE_SEARCH_RESULT_TABLE = "privateSearchResultTable";
 	public static final String SAVE_VIEW_NAME = "saveViewName";
 	public static final String SAVE_VIEW_TYPE = "saveViewType";

@@ -26,9 +26,13 @@ public class GtnWsReportDataSelectionBean {
 	private Integer companyReport;
 	private Integer businessUnitReport;
 	private Integer fromPeriodReport;
+	private Integer toPeriod;
 	private GtnWsRecordBean customerHierarchyRecordBean;
 	private List<GtnWsRecordBean> availableCustomerHierarchyList;
 	private List<GtnWsRecordBean> availableProductHierarchyList;
+	private List<GtnWsRecordBean> selectedCustomerList;
+	private List<GtnWsRecordBean> selectedProductList;
+	private GtnWsRecordBean productHierarchy;
 	    
 	public int getProductRelationshipBuilderSid() {
 		return productRelationshipBuilderSid;
@@ -213,4 +217,36 @@ public class GtnWsReportDataSelectionBean {
 		this.customerHierarchyRecordBean = customerHierarchyRecordBean;
 	}
 
+	public Integer getToPeriod() {
+		return toPeriod;
+	}
+
+	public void setToPeriod(Integer toPeriod) {
+		this.toPeriod = toPeriod;
+	}
+
+	public List<GtnWsRecordBean> getSelectedCustomerList() {
+		return selectedCustomerList;
+	}
+
+	public void setSelectedCustomerList(List<GtnWsRecordBean> selectedCustomerList) {
+		this.selectedCustomerList = selectedCustomerList;
+	}
+
+	public List<GtnWsRecordBean> getSelectedProductList() {
+		return selectedProductList;
+	}
+
+	public void setSelectedProductList(List<GtnWsRecordBean> selectedProductList) {
+		this.selectedProductList = selectedProductList;
+	}
+
+	public GtnWsRecordBean getProductHierarchy() {
+		return productHierarchy;
+	}
+
+	public void setProductHierarchy(GtnWsRecordBean productHierarchy) {
+		this.productHierarchy = productHierarchy;
+	}
+	
 }

@@ -10,7 +10,6 @@ package com.stpl.gtn.gtn2o.ui.framework.action;
  *
  * @author Karthik.Raja
  */
-    
 
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
@@ -30,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
- public class GtnUIFrameworkV8PopupSelectAction implements GtnUIFrameWorkAction {
+public class GtnUIFrameworkV8PopupSelectAction implements GtnUIFrameWorkAction {
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -59,45 +58,44 @@ import java.util.Set;
 
 		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(resultTableId, componentId);
 		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) abstractComponent.getData();
-                 Set<GtnWsRecordBean> rows= componentData.getPagedGrid().getValue();
-                 GtnWsRecordBean selectedRow=rows.isEmpty()?null:rows.iterator().next();
+		Set<GtnWsRecordBean> rows = componentData.getPagedGrid().getValue();
+		GtnWsRecordBean selectedRow = rows.isEmpty() ? null : rows.iterator().next();
 		GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromParent(idComponent, componentId).getComponentData();
 		idComponentData.setCustomData(selectedRow);
 
-//		GtnWsRecordBean dto = (GtnWsRecordBean) resultTable.getValue();
+		// GtnWsRecordBean dto = (GtnWsRecordBean) resultTable.getValue();
 
 		for (int i = 0; i < inputColumIds.size(); i++) {
-                   GtnUIFrameworkBaseComponent baseComponent= GtnUIFrameworkGlobalUI
+			GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId);
-                   HasValue<Object> vaadinField;
-                   if(baseComponent.getComponentConfig().getComponentType().equals(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8)){
-                       HorizontalLayout layout= (HorizontalLayout)baseComponent.getComponent();
-                       vaadinField=(HasValue<Object>) layout.getComponent(0);
-                   }else{
-			 vaadinField= (HasValue<Object>) baseComponent.getComponent();
-                   }
+			HasValue<Object> vaadinField;
+			if (baseComponent.getComponentConfig().getComponentType()
+					.equals(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8)) {
+				HorizontalLayout layout = (HorizontalLayout) baseComponent.getComponent();
+				vaadinField = (HasValue<Object>) layout.getComponent(0);
+			} else {
+				vaadinField = (HasValue<Object>) baseComponent.getComponent();
+			}
 			Object newValue = null;
 			if (selectedRow != null && selectedRow.getPropertyValue(inputColumIds.get(i)) != null) {
 				newValue = selectedRow.getPropertyValue(inputColumIds.get(i));
-			}
-                        else if(selectedRow==null){
-                            GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
-			alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-			List<Object> alertMsgParamsList = new ArrayList<>();
-			alertMsgParamsList.add("Select Error");
-			alertMsgParamsList.add("Please select a row from the Results list view to proceed");
-			alertActionConfig.setActionParameterList(alertMsgParamsList);
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
-                        
-                        throw new GtnFrameworkValidationFailedException("IsRecordSelected  validation Failed");
-                        }
-                        else {
+			} else if (selectedRow == null) {
+				GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
+				alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+				List<Object> alertMsgParamsList = new ArrayList<>();
+				alertMsgParamsList.add("Select Error");
+				alertMsgParamsList.add("Please select a row from the Results list view to proceed");
+				alertActionConfig.setActionParameterList(alertMsgParamsList);
+				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
+
+				throw new GtnFrameworkValidationFailedException("IsRecordSelected  validation Failed");
+			} else {
 				newValue = selectedRow.getPropertyValueByIndex(Integer.parseInt(inputColumIds.get(i)));
 			}
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId)
 					.getComponentData().setCustomData(selectedRow);
-			if (vaadinField != null && newValue!=null && !"null".equals(String.valueOf(newValue))) {
+			if (vaadinField != null && newValue != null && !"null".equals(String.valueOf(newValue))) {
 				boolean isReadOnly = vaadinField.isReadOnly();
 				vaadinField.setReadOnly(false);
 				vaadinField.setValue(String.valueOf(newValue));
@@ -119,7 +117,8 @@ import java.util.Set;
 				GtnUIFrameworkComponent gtnUIFrameworkComponent = reloadComponentConfig.getComponentType()
 						.getGtnComponent();
 				List<Object> comboboxWhereClauseParamList = new ArrayList<>();
-				comboboxWhereClauseParamList.add(selectedRow.getPropertyValueByIndex(selectedRow.getProperties().size() - 1));
+				comboboxWhereClauseParamList
+						.add(selectedRow.getPropertyValueByIndex(selectedRow.getProperties().size() - 1));
 
 				gtnUIFrameworkComponent.reloadComponent(GtnUIFrameworkActionType.VALUE_CHANGE_ACTION, reloadComponentId,
 						getParentViewId(customData, componentId), comboboxWhereClauseParamList);

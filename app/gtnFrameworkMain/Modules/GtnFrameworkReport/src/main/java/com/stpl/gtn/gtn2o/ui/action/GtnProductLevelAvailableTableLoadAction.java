@@ -1,7 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,20 +27,19 @@ import com.vaadin.ui.AbstractComponent;
 public class GtnProductLevelAvailableTableLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnProductLevelAvailableTableLoadAction.class);
+	private static final GtnWSLogger gtnLogger = GtnWSLogger
+			.getGTNLogger(GtnProductLevelAvailableTableLoadAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-
+		return;
 	}
 
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		try {
-			Map<String, String> productDescMap = new HashMap<>();
-			List<GtnReportHierarchyLevelBean> selectedCustomerContractList = new ArrayList<>();
 			GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("reportLandingScreen_producthierarchy").getComponentData().getCustomData();
 			Object relationshipBuilderSID = GtnUIFrameworkGlobalUI
@@ -55,11 +53,8 @@ public class GtnProductLevelAvailableTableLoadAction
 					.getValueFromComponent();
 			int businessUnit = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_businessUnit")
 					.getValueFromComponent();
-			int customerHierarchyVersionNoComponent = Integer.parseInt(
-					GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_customerRelationshipVersion")
-							.getCaptionFromComboBox());
-			productDescMap = getLevelValueMap(relationshipBuilderSID, hierarchyBuilderSid, hierarchyVersionNo,
-					relationVersionNo);
+			Map<String, String> productDescMap = getLevelValueMap(relationshipBuilderSID, hierarchyBuilderSid,
+					hierarchyVersionNo, relationVersionNo);
 
 			List<GtnReportHierarchyLevelBean> productHierarchyLevelDefinitionList = getHierarchyLevelDefinition(
 					hierarchyBuilderSid, hierarchyVersionNo);
@@ -67,9 +62,8 @@ public class GtnProductLevelAvailableTableLoadAction
 			GtnReportHierarchyLevelBean selectedHierarchyLevelDto = productHierarchyLevelDefinitionList
 					.get(selectedLevel - 1);
 
-			String query = loadAvailableProductlevel(selectedHierarchyLevelDto, (int) relationshipBuilderSID,
-					selectedCustomerContractList, false, relationVersionNo, customerHierarchyVersionNoComponent,
-					businessUnit, productDescMap);
+			String query = loadAvailableProductlevel(selectedHierarchyLevelDto, (int) relationshipBuilderSID, false,
+					relationVersionNo, businessUnit);
 			List<Object> queryParameters = new ArrayList<>();
 			queryParameters.add(query);
 			queryParameters.add(productDescMap);
@@ -79,7 +73,7 @@ public class GtnProductLevelAvailableTableLoadAction
 			queryParameters.add(hierarchyVersionNo);
 			queryParameters.add(selectedLevel);
 			queryParameters.add(businessUnit);
-			queryParameters.add(true);
+			queryParameters.add(Boolean.TRUE);
 			AbstractComponent dualListBoxComponent = GtnUIFrameworkGlobalUI
 					.getVaadinComponent("reportLandingScreen_productdualListBoxComp");
 			GtnUIFrameworkComponentData dualListBoxComponentData = (GtnUIFrameworkComponentData) dualListBoxComponent
@@ -103,7 +97,6 @@ public class GtnProductLevelAvailableTableLoadAction
 	}
 
 	private Map<String, String> getLevelValueMap(String query) {
-		Map<String, String> relationMap = new HashMap<>();
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		inputBean.setHieraryQuery(query);
 		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
@@ -114,8 +107,7 @@ public class GtnProductLevelAvailableTableLoadAction
 				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_REPORTDATASELECTION_LOAD_LEVELVALUE_MAP,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		relationMap = response.getGtnWsForecastResponse().getInputBean().getTempTableMap();
-		return relationMap;
+		return response.getGtnWsForecastResponse().getInputBean().getTempTableMap();
 	}
 
 	private String getLevelMapValueMapQuery(Object relationshipBuilderSID, int relationVersionNo,
@@ -140,7 +132,6 @@ public class GtnProductLevelAvailableTableLoadAction
 	}
 
 	private List<GtnReportHierarchyLevelBean> getHierarchyLevelDefinition(int hierarchyDefSid, int hierarchyVersionNo) {
-		List<GtnReportHierarchyLevelBean> levelList = new ArrayList<>();
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		inputBean.setHierarchyDefinitionSid(hierarchyDefSid);
 		inputBean.setHierarchyVersionNo(hierarchyVersionNo);
@@ -152,8 +143,7 @@ public class GtnProductLevelAvailableTableLoadAction
 				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_REPORTCUSTOMER_HIERARCHYLEVEL_VALUES,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		levelList = response.getGtnWsForecastResponse().getInputBean().getLevelList();
-		return levelList;
+		return response.getGtnWsForecastResponse().getInputBean().getLevelList();
 	}
 
 	public List<GtnReportHierarchyLevelBean> cutomizeHierarchyBean(List<Object[]> results, int hierarchyVersionNo) {
@@ -176,9 +166,7 @@ public class GtnProductLevelAvailableTableLoadAction
 	}
 
 	public String loadAvailableProductlevel(GtnReportHierarchyLevelBean selectedHierarchyLevelDto, int relationshipSid,
-			List<GtnReportHierarchyLevelBean> selectedCustomerContractList, boolean isNdc, int relationVersionNo,
-			int customerRelationVersionNo, int businessUnitValue, Map<String, String> productDescMap)
-			throws CloneNotSupportedException {
+			boolean isNdc, int relationVersionNo, int businessUnitValue) throws CloneNotSupportedException {
 
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		inputBean.setRelationShipBuilderSid(relationshipSid);
@@ -190,8 +178,8 @@ public class GtnProductLevelAvailableTableLoadAction
 		inputBean.setHierarchyVersionNo(selectedHierarchyLevelDto.getHierarchyVersionNo());
 		inputBean.setLevelNo(selectedHierarchyLevelDto.getLevelNo());
 
-		String query = getLoadProductDataQuery(inputBean);
-		return query;
+		return getLoadProductDataQuery(inputBean);
+
 	}
 
 	private String getLoadProductDataQuery(GtnForecastHierarchyInputBean inputBean) {
