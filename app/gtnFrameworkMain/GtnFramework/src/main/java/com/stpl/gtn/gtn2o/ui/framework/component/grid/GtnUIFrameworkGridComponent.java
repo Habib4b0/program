@@ -40,10 +40,7 @@ public class GtnUIFrameworkGridComponent implements GtnUIFrameworkComponent, Gtn
 		grid.setCaption(componentConfig.getComponentName());
 		grid.setHeight(componentConfig.getComponentHight());
 		generateColumns(grid, componentConfig.getGtnUIFrameWorkGridConfig());
-		GtnUIFrameworkComponentData componentData = new GtnUIFrameworkComponentData();
-		componentData.setCurrentComponentConfig(componentConfig);
-		componentData.setCurrentGtnComponent(this);
-		grid.setData(componentData);
+		setComponentData(grid, componentConfig);
 		return grid;
 	}
 

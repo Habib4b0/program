@@ -90,14 +90,21 @@ public class GtnWsReportCustomViewService {
 				gtnWsRequestF.getGtnWsReportRequest().getReportBean().getCustomViewBean().getCustomViewDataBean());
 	}
 
-	public List<String> loadCustomView() {
+	public List<String> loadCustomViewString() {
 		MongoCollection<Document> collection = connection.getDBInstance()
 				.getCollection(MongoStringConstants.CUSTOM_VIEW_COLLECTION);
 		FindIterable<Document> foundData = collection.find().projection(include("customViewName"));
-		MongoIterable<String> customViewNameIterable = foundData.map(document -> {
-			return document.getString("customViewName");
-		});
+		MongoIterable<String> customViewNameIterable = foundData.map(document -> document.getString("customViewName"));
 		return StreamSupport.stream(customViewNameIterable.spliterator(), false).collect(Collectors.toList());
+
+	}
+
+	public GtnWsReportCustomViewDataBean loadCustomView(GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
+		MongoCollection<GtnWsReportCustomViewDataBean> mongoCollection = connection.getDBInstance()
+				.getCollection(MongoStringConstants.CUSTOM_VIEW_COLLECTION, GtnWsReportCustomViewDataBean.class);
+		String customViewName = gtnWsRequestF.getGtnWsReportRequest().getReportBean().getCustomViewBean()
+				.getCustomViewDataBean().getCustomViewName();
+		return mongoCollection.find(eq("customViewName", customViewName)).first();
 
 	}
 }

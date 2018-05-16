@@ -39,6 +39,7 @@ public class GtnUIFrameworkTreeGridComponent implements GtnUIFrameworkComponent,
 		grid.setCaption(componentConfig.getComponentName());
 		grid.setHeight(componentConfig.getComponentHight());
 		generateColumns(grid, componentConfig.getGtnUIFrameWorkGridConfig());
+		setComponentData(grid, componentConfig);
 		return grid;
 	}
 

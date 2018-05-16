@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeRemoveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomVariableGridLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomVariablePositionChangeAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomViewHierarchyLoadAction;
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
@@ -43,6 +44,11 @@ public class GtnFrameworkReportCustomViewLookup {
 		view.setViewId("reportCustomViewLookup");
 		view.setDefaultView(false);
 		view.setResetAllowed(true);
+		GtnUIFrameWorkActionConfig treeLoadActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		treeLoadActionConfig.addActionParameter(GtnFrameworkUICustomViewEditAction.class.getName());
+		treeLoadActionConfig.addActionParameter(tabName + "customTreeTable");
+		view.addViewAction(treeLoadActionConfig);
 		addComponentList(view);
 		return view;
 	}
@@ -564,7 +570,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		selectButtonConfig.setParentComponentId(layoutConfig.getComponentId());
 		selectButtonConfig.setAddToParent(true);
 		componentList.add(selectButtonConfig);
-		
+
 		GtnUIFrameWorkActionConfig selectButtonActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
 		selectButtonConfig.addGtnUIFrameWorkActionConfig(selectButtonActionConfig);
