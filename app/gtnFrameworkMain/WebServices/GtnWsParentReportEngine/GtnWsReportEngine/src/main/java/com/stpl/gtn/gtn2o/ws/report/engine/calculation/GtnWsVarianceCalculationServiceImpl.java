@@ -49,7 +49,7 @@ public class GtnWsVarianceCalculationServiceImpl implements GtnWsCalculationInte
 				.getComparisonBasis(variableCategoryBean.getComparisonBasis());
 		for (String[] basis : comparisonBasis) {
 			for (String selectColumn : this.variableCategoryBean.getComparisonBasisArray()) {
-				this.newAttribute.putAttributes(selectColumn + basis[1] + this.variableCategory + this.projectionId,
+				this.newAttribute.putAttributes(selectColumn + this.variableCategory + basis[1] + this.projectionId,
 						executeCalculation(selectColumn + basis[0], selectColumn + basis[1]));
 			}
 		}

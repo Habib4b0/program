@@ -111,7 +111,7 @@ public class PagedTreeGrid {
 
     private void initalizeColumnController() {
         columnFrom.setValue("1");
-        columnTo.setValue(tableConfig.getColumnHeaders().size() > 150 ? "150" : tableConfig.getColumnHeaders().size() + "");
+        columnTo.setValue(tableConfig.getColumnHeaders().size() > 50 ? "50" : tableConfig.getColumnHeaders().size() + "");
         totalColumns.setReadOnly(false);
         totalColumns.setValue(tableConfig.getColumnHeaders().size() + "");
         totalColumns.setReadOnly(true);
@@ -132,7 +132,7 @@ public class PagedTreeGrid {
             String column = (currentSingleColumns.get(j)).toString();
             gtnlogger.info("column = " + column);
             grid.addColumn(row -> row.getPropertyValue(column)).setCaption(tableConfig.getColumnHeaders().get(columnStart - 1))
-                    .setId(column);
+                    .setId(column).setWidth(170);
             columnStart++;
         }
         if (tableConfig.isDoubleHeaderVisible()) {
@@ -249,7 +249,7 @@ public class PagedTreeGrid {
     private void addExpandIcon(TreeData<GtnWsRecordBean> data, List<GtnWsRecordBean> rows) {
         gtnlogger.info("addExpandIcon");
         rows.stream().map((parent) -> {
-            if (parent.getPropertyValue(LEVEL_NO) != null && getChildCountForRow(parent) > 0) {
+            if (getLevelNo(parent) != 0 && getChildCountForRow(parent) > 0) {
                 data.addItem(parent, getEmptyRow());
             }
             return parent;

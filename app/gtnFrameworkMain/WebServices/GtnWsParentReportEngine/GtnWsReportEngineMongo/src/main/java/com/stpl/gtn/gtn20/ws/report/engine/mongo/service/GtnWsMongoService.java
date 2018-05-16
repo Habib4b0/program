@@ -37,6 +37,7 @@ public class GtnWsMongoService {
 
 	@Autowired
 	GtnWsCommonCalculationService gtnWsCommonCalculation;
+        int nodeIndex=1;
 
 	private static final GtnWSLogger GTNLOGGER = GtnWSLogger.getGTNLogger(GtnWsMongoService.class);
 
@@ -75,6 +76,7 @@ public class GtnWsMongoService {
 			MongoCollection<GtnWsReportComputedResultsBean> collection = (MongoCollection<GtnWsReportComputedResultsBean>) getCollectionForCustomClass(
 					collectionName, GtnWsReportComputedResultsBean.class);
 			insertComputedResults(collection, output, "");
+                         nodeIndex=0;
 		} catch (Exception ex) {
 			GTNLOGGER.error(ex.getMessage());
 		}
@@ -105,10 +107,15 @@ public class GtnWsMongoService {
 			finalBean.setLevelValue(gtnWsTreeNode.getLevelValue());
 			finalBean.setHierarchyNo(gtnWsTreeNode.getHierarchyNo());
 			finalBean.setGeneratedHierarchyNo(newParentHierarchyNo);
+                        
+                        int childCount=gtnWsTreeNode.getChildren()==null?0:gtnWsTreeNode.getChildren().size();
+                        finalBean.setNodeIndex(nodeIndex++);
+                        finalBean.setChildCount(childCount);
+                        finalBean.setLevelIndex(hierarchyIndex);
 			finalBean.setAttributes(((GtnWsTreeNodeAttributeBean) gtnWsTreeNode.getNodeData()).getAttributeBeanList());
 			collection.insertOne(finalBean);
 			if (gtnWsTreeNode.getChildren() != null) {
-				insertComputedResults(collection, gtnWsTreeNode, parentHierarchyNo);
+				insertComputedResults(collection, gtnWsTreeNode, newParentHierarchyNo);
 			}
 			hierarchyIndex++;
 		}
@@ -289,7 +296,7 @@ public class GtnWsMongoService {
 
 	private void totalLevelCalculation(GtnWsTreeNodeAttributeBean rootNodeAtrributeBean,
 			GtnWsTreeNodeAttributeBean currentNodeData) {
-		if (rootNodeAtrributeBean != null && !rootNodeAtrributeBean.getAttributeBeanList().isEmpty()
+		if (rootNodeAtrributeBean != null && rootNodeAtrributeBean.getAttributeBeanList() != null && !rootNodeAtrributeBean.getAttributeBeanList().isEmpty()
 				&& currentNodeData != null && currentNodeData.getAttributeBeanList() != null
 				&& !currentNodeData.getAttributeBeanList().isEmpty()) {
 			try {
@@ -468,9 +475,10 @@ public class GtnWsMongoService {
 					}
 				}
 			}
-                        if(rowIndexFieldName!=null&& !rowIndexFieldName.isEmpty()){
-                            whereQuery.put(rowIndexFieldName, new BasicDBObject("$gte", start).append("$lte", limit));
-                        }
+                        //Do not delete ,will be uncommented once pagination completed
+//                        if(rowIndexFieldName!=null&& !rowIndexFieldName.isEmpty()){
+//                            whereQuery.put(rowIndexFieldName, new BasicDBObject("$gte", start).append("$lte", limit));
+//                        }
 			@SuppressWarnings("unchecked")
 			FindIterable<Document> itr = getCollection(collectionName).find(whereQuery);
 			// Bson filter = Filters.regex(collectionName, collectionName);

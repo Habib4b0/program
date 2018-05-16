@@ -47,7 +47,7 @@ public class GtnWsValueCalculationServiceImpl implements GtnWsCalculationInterfa
 			for (String basis : comparisonBasisStr) {
 				if (this.projectionId == 0) {
 					for (String selectColumn : this.variableCategoryBean.getComparisonBasisArray()) {
-						this.newAttributes.putAttributes(selectColumn + basis + this.variableCategory,
+						this.newAttributes.putAttributes(selectColumn + this.variableCategory + basis ,
 								this.variableCategoryBean.getCurrentNodeAttribute().getAttribute(selectColumn + basis));
 						this.newAttributes.putAttributes(
 								selectColumn + basis + this.variableCategory + this.projectionId,
@@ -56,7 +56,7 @@ public class GtnWsValueCalculationServiceImpl implements GtnWsCalculationInterfa
 				} else {
 					for (String selectColumn : this.variableCategoryBean.getComparisonBasisArray()) {
 						this.newAttributes.putAttributes(
-								selectColumn + basis + this.variableCategory + this.projectionId,
+								selectColumn + this.variableCategory  + basis + this.projectionId,
 								this.variableCategoryBean.getPriorNodeAttribute().getAttribute(selectColumn + basis));
 					}
 				}

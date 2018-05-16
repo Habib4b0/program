@@ -85,7 +85,7 @@ public class GtnWsReportingDashBoardSevice {
         bean.addProperties("levelIndex", document.get("levelIndex"));
 
         @SuppressWarnings("unchecked")
-        List<Document> data = (List<Document>) document.get("data");
+        List<Document> data = (List<Document>) document.get("attributes");
         String frequencyColumn = "";
         String frequencyValue = "S";
         if (freq.equals("S")) {

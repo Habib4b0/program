@@ -15,6 +15,9 @@ public class GtnWsReportComputedResultsBean {
 	private String levelValue;
 
 	private String generatedHierarchyNo;
+	private int nodeIndex;
+	private int  childCount;
+	private int  levelIndex;
 
 	private List<GtnWsAttributeBean> attributes;
 
@@ -57,5 +60,29 @@ public class GtnWsReportComputedResultsBean {
 	public void setAttributes(List<GtnWsAttributeBean> attributes) {
 		this.attributes = attributes;
 	}
+
+    public int getNodeIndex() {
+        return nodeIndex;
+    }
+
+    public void setNodeIndex(int nodeIndex) {
+        this.nodeIndex = nodeIndex;
+    }
+
+    public int getChildCount() {
+        return childCount;
+    }
+
+    public void setChildCount(int childCount) {
+        this.childCount = childCount;
+    }
+
+    public int getLevelIndex() {
+        return levelIndex;
+    }
+
+    public void setLevelIndex(int levelIndex) {
+        this.levelIndex = levelIndex;
+    }
 
 }
