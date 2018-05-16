@@ -35,7 +35,7 @@ public class GtnWsWorkFlowOpenViewService {
 		GtnWsSqlService gtnWsSqlService = new GtnWsSqlService();
 		StringBuilder sql = new StringBuilder();
 		sql.append(gtnWsSqlService.getQuery("getbpmOpenViewQuery"));
-		sql.append("WHERE t.processInstanceId = ?");
+		sql.append("WHERE t.processInstanceId = ? ");
 		sql.append("order by t.id desc");
 		return sql.toString();
 
