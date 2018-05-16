@@ -14,14 +14,13 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFramework
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
-import com.stpl.gtn.gtn2o.ui.module.lookups.Query;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 public class GtnFrameworkDataAssumptionsTabConfig {
-	GtnWSLogger logger=GtnWSLogger.getGTNLogger(GtnFrameworkDataAssumptionsTabConfig.class);
+	private GtnWSLogger logger=GtnWSLogger.getGTNLogger(GtnFrameworkDataAssumptionsTabConfig.class);
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public void addDataAssumptionsLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -87,17 +86,8 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		dataAssumptionsPagedTableComponent.setComponentName(GtnFrameworkCommonConstants.RESULTS);
 		dataAssumptionsPagedTableComponent.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
-		dataAssumptionsPagedTableComponent.setModuleName("report");
+		dataAssumptionsPagedTableComponent.setModuleName(GtnFrameworkReportStringConstants.REPORT);
 		componentList.add(dataAssumptionsPagedTableComponent);
-
-		// GtnUIFrameworkPagedTableConfig dataAssumptionsPagedTableConfig = new
-		// GtnUIFrameworkPagedTableConfig();
-		// dataAssumptionsPagedTableConfig.setEditable(false);
-		// dataAssumptionsPagedTableConfig.setFilterBar(true);
-		// dataAssumptionsPagedTableConfig.setSelectable(true);
-		// dataAssumptionsPagedTableConfig.setItemPerPage(5);
-		// dataAssumptionsPagedTableConfig.setPageLength(5);
-		// dataAssumptionsPagedTableConfig.setSinkItemPerPageWithPageLength(false);
 
 		GtnUIFrameworkPagedTableConfig dataAssumptionsPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
 

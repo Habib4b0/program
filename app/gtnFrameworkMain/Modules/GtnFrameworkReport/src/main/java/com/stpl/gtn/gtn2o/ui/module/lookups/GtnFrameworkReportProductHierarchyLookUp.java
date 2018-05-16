@@ -254,7 +254,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_INTEGER,
 				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE });
 		searchResults.setTableColumnMappingId(
-				new Object[] { "hierName", "highestLevel", "lowestLevel", "createdDate", "modifiedDate" });
+				new Object[] { GtnFrameworkReportStringConstants.HIER_NAME, GtnFrameworkReportStringConstants.HIGHEST_LEVEL, "lowestLevel", "createdDate", "modifiedDate" });
 		
 		searchResults.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_PRODUCTHIERARCHY_SEARCHSERVICE);
@@ -266,11 +266,11 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { "hierName", "highestLevel", "lowestLevel", "createdDate", "modifiedDate"  };
+		String[] propertyIds = { GtnFrameworkReportStringConstants.HIER_NAME, GtnFrameworkReportStringConstants.HIGHEST_LEVEL, "lowestLevel", "createdDate", "modifiedDate"  };
 		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.DATEFIELDVAADIN8 };
-		String[] comboboxIds={"highestLevel"};
+		String[] comboboxIds={GtnFrameworkReportStringConstants.HIGHEST_LEVEL};
 		String[] comboboxType={"STATUS"};
 		int comboboxStart=0;
 		for (int i = 0; i < propertyIds.length; i++) {
@@ -324,7 +324,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		actionParameter.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
 		actionParameter.add("reportLandingScreen_producthierarchy");
-		actionParameter.add(Arrays.asList("hierName"));
+		actionParameter.add(Arrays.asList(GtnFrameworkReportStringConstants.HIER_NAME));
 		actionParameter
 				.add(Arrays.asList("reportLandingScreen_producthierarchy"));
 
