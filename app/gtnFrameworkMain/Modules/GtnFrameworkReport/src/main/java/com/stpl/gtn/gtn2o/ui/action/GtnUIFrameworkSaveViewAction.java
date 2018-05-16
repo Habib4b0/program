@@ -90,10 +90,10 @@ public class GtnUIFrameworkSaveViewAction
 			selectedList.add(gtnWsRecordBean);
 			addSelectedValues(rightTable, gtnWsRecordBean, selectedList);
 		}
-		dataSelectionBean.setSelectedCustomerList(selectedList);
+		dataSelectionBean.setSelectedCustomerHierarchyList(selectedList);
 		GtnWsRecordBean productHierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(12).toString()).getComponentData().getCustomData();
-		dataSelectionBean.setProductHierarchy(productHierarchyBean);
+		dataSelectionBean.setProductHierarchyRecordBean(productHierarchyBean);
 		int productRelationshipBuilderSid = (int) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(13).toString()).getValueFromComponent();
 		dataSelectionBean.setProductRelationshipBuilderSid(productRelationshipBuilderSid);
@@ -122,7 +122,7 @@ public class GtnUIFrameworkSaveViewAction
 			selectedProductList.add(gtnWsRecordBean);
 			addSelectedValues(rightTable, gtnWsRecordBean, selectedProductList);
 		}
-		dataSelectionBean.setSelectedProductList(selectedProductList);
+		dataSelectionBean.setSelectedProductHierarchyList(selectedProductList);
 
 		GtnUIFrameWorkActionConfig popupAction = new GtnUIFrameWorkActionConfig();
 		popupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
