@@ -243,7 +243,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		tableStyle.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
 		tableStyle.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
 		privateViewPagedTableComponent.setComponentStyle(tableStyle);
-
+		privateViewPagedTableComponent.setModuleName(GtnFrameworkReportStringConstants.REPORT);
 		componentList.add(privateViewPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig privateViewPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
 		privateViewPagedTableConfig.setEditable(false);

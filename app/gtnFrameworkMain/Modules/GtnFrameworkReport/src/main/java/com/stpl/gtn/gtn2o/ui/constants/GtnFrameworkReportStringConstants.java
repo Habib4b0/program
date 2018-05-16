@@ -31,6 +31,10 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String STATUS = "STATUS";
 
 	public static final String REPORT = "report";
+	
+	public static final String HIER_NAME = "hierName";
+	
+	public static final String HIGHEST_LEVEL = "highestLevel";
 
 	public static final String CUSTOMER_HIERARCHY_GROUP_BUILDER = "Customer Hierarchy Group Builder";
 

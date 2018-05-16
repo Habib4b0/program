@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
-import com.stpl.gtn.gtn2o.ui.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
