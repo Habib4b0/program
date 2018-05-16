@@ -1113,15 +1113,10 @@ public class GtnUIFrameworkBaseComponent {
 		return ((Grid<GtnWsRecordBean>) this.component).getSelectedItems();
 	}
 
-	public void removeItemsFromGrid(GtnWsRecordBean... itemList) throws GtnFrameworkGeneralException {
-		try {
-			Grid dataGrid = this.getGrid();
-			((ListDataProvider<GtnWsRecordBean>) dataGrid.getDataProvider()).getItems()
-					.removeAll(Arrays.asList(itemList));
-			dataGrid.getDataProvider().refreshAll();
-		} catch (Exception typeException) {
-			throw new GtnFrameworkValidationFailedException(componentId, typeException);
-		}
+	public void removeItemsFromGrid(GtnWsRecordBean... itemList) {
+		Grid dataGrid = this.getGrid();
+		((ListDataProvider<GtnWsRecordBean>) dataGrid.getDataProvider()).getItems().removeAll(Arrays.asList(itemList));
+		dataGrid.getDataProvider().refreshAll();
 	}
 
 	public void deSelectItemInGrid(GtnWsRecordBean item) throws GtnFrameworkGeneralException {
@@ -1133,7 +1128,7 @@ public class GtnUIFrameworkBaseComponent {
 		return (TreeGrid) this.component;
 	}
 
-	public void emptyHasValue() {
-		((HasValue) this.component).setValue(null);
+	public void setHasValue(String value) {
+		((HasValue) this.component).setValue(value);
 	}
 }

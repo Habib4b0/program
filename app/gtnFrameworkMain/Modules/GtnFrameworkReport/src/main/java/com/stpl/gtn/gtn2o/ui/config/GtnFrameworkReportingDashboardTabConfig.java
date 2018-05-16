@@ -308,7 +308,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW,
 				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		customViewComboboxConfig.setComponentName("");
 		customViewComboboxConfig.setAuthorizationIncluded(true);
 
 		componentList.add(customViewComboboxConfig);

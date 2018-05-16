@@ -22,5 +22,6 @@ public interface GtnUIFrameworkComponent {
 		}
 		componentData.setCurrentGtnComponent(this);
 		componentData.setCurrentComponentConfig(componentConfig);
+		component.setData(componentData);
 	}
 }
