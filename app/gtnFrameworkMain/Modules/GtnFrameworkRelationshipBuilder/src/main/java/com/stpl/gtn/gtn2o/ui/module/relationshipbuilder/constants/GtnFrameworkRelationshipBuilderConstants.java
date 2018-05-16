@@ -24,6 +24,9 @@ public class GtnFrameworkRelationshipBuilderConstants {
 					"hierarchyName", "versionNo", "startDate", "creationDate", "modifiedDate", "createdBy"));
 	public static final String AVAILABLE_LIST_COLUMNID = "value";
 	public static final String LEVEL_PANEL = "levelPanel";
+        public static final String CREATED_BY = "createdBy";
+        public static final String USERS = "USERS";
+        public static final String CUSTOMFILTERCOMBOBOX = "customFilterComboBox";
 
 	private GtnFrameworkRelationshipBuilderConstants() {
 
@@ -37,5 +40,15 @@ public class GtnFrameworkRelationshipBuilderConstants {
 		return RELATIONSHIP_BUILDER_COLUMN.toArray(new String[RELATIONSHIP_BUILDER_COLUMN.size()]);
 	}
 
-
+        private static final String[] CUSTOM_PROPERTY_IDS = {CREATED_BY};
+        private static final String[] CUSTOM_LIST_NAME_ARRAY = {USERS};
+        
+        public static String[] getCustomListNameArray() {
+        return CUSTOM_LIST_NAME_ARRAY.clone();
+    }
+        
+         public static String[] getCustomPropertyIds() {
+        return CUSTOM_PROPERTY_IDS.clone();
+    }
+        
 }

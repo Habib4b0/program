@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxCon
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroupConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
@@ -31,6 +32,8 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -39,6 +42,7 @@ import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuil
 public class GtnFrameworkRelationshipBuilderSearchConfig {
 	private final GtnFrameworkComponentConfigProvider gtnConfigFactory = GtnFrameworkComponentConfigProvider
 			.getInstance();
+        private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public GtnUIFrameworkViewConfig getSearchView() {
 		GtnUIFrameworkViewConfig view = gtnConfigFactory.getViewConfig(
@@ -410,6 +414,7 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 				+ GtnWsRelationshipBuilderConstants.GET_RELATIONSHIP_BUILDER_TABLE_DATA);
 		rbSearchResults.setResultSetUrl(GtnWsRelationshipBuilderConstants.GTN_RELATIONSHIP_BUILDER_SERVICE
 				+ GtnWsRelationshipBuilderConstants.GET_RELATIONSHIP_BUILDER_TABLE_DATA);
+                rbSearchResults.setCustomFilterConfigMap(getCustomFilterConfig());
 		searchResultConfig.setGtnPagedTableConfig(rbSearchResults);
 
 	}
@@ -691,4 +696,34 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 		excelAction.addActionParameter(gtnExcelButtonConfig);
 		excelBtnComponentConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(excelAction));
 	}
+        
+        private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
+		String[] propertyIds = GtnFrameworkRelationshipBuilderConstants.getCustomPropertyIds();
+		String[] listNameArray = GtnFrameworkRelationshipBuilderConstants.getCustomListNameArray();
+		for (int i = 0; i < propertyIds.length; i++) {
+			GtnUIFrameworkPagedTableCustomFilterConfig wfMainCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
+			wfMainCustomFilterConfig.setPropertId(propertyIds[i]);
+			wfMainCustomFilterConfig.setGtnComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+			GtnUIFrameworkComponentConfig wfMainCustomFilterComponentConfig = new GtnUIFrameworkComponentConfig();
+			wfMainCustomFilterComponentConfig
+					.setComponentId(GtnFrameworkRelationshipBuilderConstants.CUSTOMFILTERCOMBOBOX);
+			wfMainCustomFilterComponentConfig
+					.setComponentName(GtnFrameworkRelationshipBuilderConstants.CUSTOMFILTERCOMBOBOX);
+			GtnUIFrameworkComboBoxConfig comboBoxConfig;
+
+			if (propertyIds[i].equals(GtnFrameworkRelationshipBuilderConstants.CREATED_BY)) {
+				comboBoxConfig = configProvider.getComboBoxConfig(listNameArray[i],
+						GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_USER_COMBO_BOX);	 
+			comboBoxConfig.setDefaultValue(GtnFrameworkCommonStringConstants.SHOW_ALL);                
+			wfMainCustomFilterComponentConfig.setGtnComboboxConfig(comboBoxConfig);
+                        }
+			wfMainCustomFilterConfig.setGtnComponentConfig(wfMainCustomFilterComponentConfig);
+			customFilterConfigMap.put(wfMainCustomFilterConfig.getPropertId(), wfMainCustomFilterConfig);
+		}
+		return customFilterConfigMap;
+	}
+
 }
+
