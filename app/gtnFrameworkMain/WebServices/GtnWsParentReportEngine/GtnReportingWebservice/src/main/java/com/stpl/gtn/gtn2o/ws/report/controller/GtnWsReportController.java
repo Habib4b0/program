@@ -38,7 +38,7 @@ import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
 @RestController
 @RequestMapping(value = GtnWsReportConstants.GTN_REPORT_SERVICE)
 public class GtnWsReportController {
-
+	
 	public GtnWsReportController() {
 
 	}
@@ -267,14 +267,33 @@ public class GtnWsReportController {
 				String filterId = dbColumnIdMap.get(searchCriteria.getFieldId());
 				String filterValue = searchCriteria.getFilterValue1();
 				String filterExpression = searchCriteria.getExpression();
-				filter = filter + "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue + "%'";
-				if (dbColumnDataTypeMap.get(searchCriteria.getFieldId()).equals("Date")) {
-					filter = "AND" + " (CONVERT(CHAR(10)," + filterId + "120) >=" + " " + "'" + filterValue + "'";
+				if (!dbColumnDataTypeMap.get(searchCriteria.getFieldId()).equals("Date")) {
+					filter = filter + "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue + "%'";
+				} else {
+					String[] splitedArray = filterValue.split(" ");
+					if ("Show all".equals(filterValue)) {
+						filter = filter + "";
+					} else if (!filterValue.startsWith(" ") && splitedArray.length >= 3) {
+
+						filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) >= CONVERT(date, '" + splitedArray[0]
+								+ "')" + " AND" + " CONVERT(date, FROM_PERIOD) <= CONVERT(date, '" + splitedArray[2]
+								+ "')";
+
+					} else if (!filterValue.startsWith(" ") && splitedArray.length < 3) {
+
+						filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) >= CONVERT(date, '" + splitedArray[0]
+								+ "')";
+
+					} else {
+						filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) <= CONVERT(date, '" + splitedArray[2]
+								+ "')";
+					}
 				}
 			}
 		}
 		return filter;
 	}
+
 
 	private Map<String, String> getDataBaseColumnIdName() {
 		Map<String, String> dbColumnIdMap = new HashMap<>();
@@ -304,12 +323,17 @@ public class GtnWsReportController {
 
 	public List<Object[]> resultListCustomization(List<Object[]> resultList) {
 		List<Object[]> customizedResultList = new ArrayList<>();
+		try{
 		for (Object[] object : resultList) {
 			Object[] obj = object;
 			for (int i = 0; i < obj.length; i++) {
-				obj[i] = String.valueOf(obj[i]);
+				obj[i] = obj[i]==null?"":String.valueOf(obj[i]);
 			}
 			customizedResultList.add(object);
+		}
+		}
+		catch(Exception ex){
+			gtnLogger.error("Exception in " + ex);
 		}
 		return customizedResultList;
 	}
