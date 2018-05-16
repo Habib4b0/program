@@ -137,7 +137,8 @@ public class GtnFrameworkReportCustHierarchyConfig {
 
 		GtnUIFrameWorkActionConfig customerSelectionHierarchypopupAction = new GtnUIFrameWorkActionConfig();
 		customerSelectionHierarchypopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		customerSelectionHierarchypopupAction.addActionParameter(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"customerHierarchyLookup");
+		customerSelectionHierarchypopupAction.addActionParameter(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchyLookup");
 		customerSelectionHierarchypopupAction.addActionParameter("Customer Hierarchy LookUp");
 		customerSelectionHierarchypopupAction.addActionParameter("720");
 		customerSelectionHierarchypopupAction.addActionParameter("875");
@@ -202,16 +203,16 @@ public class GtnFrameworkReportCustHierarchyConfig {
 
 		List<GtnUIFrameWorkActionConfig> levelactionConfigList = new ArrayList<>();
 
+		GtnUIFrameWorkActionConfig refreshDualListBoxActiion = new GtnUIFrameWorkActionConfig();
+		refreshDualListBoxActiion.setActionType(GtnUIFrameworkActionType.V8DUAL_LISTBOX_RESET_ACTION);
+		refreshDualListBoxActiion
+				.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerDualListBox");
+                refreshDualListBoxActiion.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel");
+		levelactionConfigList.add(refreshDualListBoxActiion);
+
 		GtnUIFrameWorkActionConfig levelValueChangeAction = new GtnUIFrameWorkActionConfig();
 		levelValueChangeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		levelValueChangeAction.setActionParameterList(Arrays.asList(new Object[] {
-				GtnCustomerAvailableTableLoadAction.class.getName(),
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerDualListBox",
-				namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"customerHierarchy",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel", namespace
-						+ GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionForecastEligibilityDate" }));
+		levelValueChangeAction.addActionParameter(GtnCustomerAvailableTableLoadAction.class.getName());
 		levelactionConfigList.add(levelValueChangeAction);
 
 		GtnUIFrameWorkActionConfig loadDualListBoxLeftTableAction = new GtnUIFrameWorkActionConfig();
@@ -232,12 +233,6 @@ public class GtnFrameworkReportCustHierarchyConfig {
 						true, customerSelectionForecastEligibilityDateLayout.getComponentId(),
 						GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
 		customerSelectionForecastEligibilityDate.setComponentName("Forecast Eligibility Date: ");
-
-		GtnUIFrameworkDateFieldConfig customerSelectionForecastEligibilityDateConfig = new GtnUIFrameworkDateFieldConfig();
-		customerSelectionForecastEligibilityDateConfig.setValueLoadFromService(true);
-		customerSelectionForecastEligibilityDateConfig.setLoadingUrl(
-				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_REPORT_LOADELIGIBLEDATE_SERVICE);
-		customerSelectionForecastEligibilityDate.setGtnDateFieldConfig(customerSelectionForecastEligibilityDateConfig);
 
 		componentList.add(customerSelectionHierarchyLayout);
 		componentList.add(customerSelectionHierarchy);

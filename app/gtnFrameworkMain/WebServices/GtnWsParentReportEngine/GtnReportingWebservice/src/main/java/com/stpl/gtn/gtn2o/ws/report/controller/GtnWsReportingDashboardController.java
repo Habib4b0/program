@@ -136,8 +136,6 @@ public class GtnWsReportingDashboardController {
 		engineBean.setInput(input);
 		engineBean.addComparisonTableName(
 				reportDashboardBean.getTableNameWithUniqueId(MongoConstants.USER_BASED_CCP_COLLECTION));
-		engineBean.addComparisonTableName("projection1");
-		engineBean.addComparisonTableName("projection2");
 		return engineBean;
 	}
 

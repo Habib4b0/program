@@ -1,14 +1,19 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
 @Service
 public class GtnWsReportWebsevice {
@@ -42,31 +47,29 @@ public class GtnWsReportWebsevice {
 		this.gtnSqlQueryEngine = gtnSqlQueryEngine;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Object[]> loadHierarchyResults() throws GtnFrameworkGeneralException {
-
-		Object[] params = { "Customer Hierarchy", "%", "Primary" };
-		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
-				GtnFrameworkDataType.STRING };
-		String searchQuery = sqlService.getQuery("getHierarchyResults");
-		gtnSqlQueryEngine.setSessionFactory(getSessionFactory());
-		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(searchQuery, params,
-				paramsType);
-		return resultList;
-
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Object[]> loadProductHierarchyResults() throws GtnFrameworkGeneralException {
-		Object[] params = { "Product Hierarchy", "%", "Primary" };
-		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
-				GtnFrameworkDataType.STRING };
-		String searchQuery = sqlService.getQuery("getHierarchyResults");
-		gtnSqlQueryEngine.setSessionFactory(getSessionFactory());
-
-		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(searchQuery, params,
-				paramsType);
-		return resultList;
+	public List<Object[]> loadHierarchyResults(GtnUIFrameworkWebserviceRequest request, boolean isCustomerHierarchy)
+			throws GtnFrameworkGeneralException {
+		List<Object> inputList = new ArrayList<>();
+		Map<String, String> criteriaMap = new HashMap<>();
+		for (GtnWebServiceSearchCriteria searchCriteria : request.getGtnWsSearchRequest()
+				.getGtnWebServiceSearchCriteriaList()) {
+			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
+				criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
+			}
+		}
+		if (isCustomerHierarchy) {
+			inputList.add("'Customer Hierarchy'");
+			String hierarchyName = criteriaMap.get("hierarchyName");
+			inputList.add("'" + hierarchyName + "'");
+		} else {
+			inputList.add("'Product Hierarchy'");
+			String hierarchyName = criteriaMap.get("hierarchyName");
+			inputList.add("'" + hierarchyName + "'");
+		}
+		inputList.add("'" + criteriaMap.get("hierarchyType") + "'");
+		String hierarchyLoadQuery = sqlService.getQuery(inputList, "getHierarchyResults");
+		List<Object[]> hierarchyResultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(hierarchyLoadQuery);
+		return hierarchyResultList;
 	}
 
 	public Date loadForecastEligibleDate() throws GtnFrameworkGeneralException {
@@ -76,4 +79,45 @@ public class GtnWsReportWebsevice {
 				: null;
 	}
 
+	public List<Object[]> loadViewResults(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest,
+			boolean viewMode) throws GtnFrameworkGeneralException {
+		List<Object> inputList = new ArrayList<>();
+		String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
+		String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
+		Map<String, String> criteriaMap = new HashMap<>();
+		for (GtnWebServiceSearchCriteria searchCriteria : gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest()
+				.getGtnWebServiceSearchCriteriaList()) {
+			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
+				criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
+			}
+		}
+		inputList.add("'" + viewType + "'");
+		if (viewMode) {
+			String privateViewName = criteriaMap.get("privateViewName");
+			inputList.add("'" + privateViewName + "'");
+		} else {
+			String viewName = criteriaMap.get("publicViewName");
+			inputList.add("'" + viewName + "'");
+		}
+		inputList.add(userId);
+		String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
+		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(viewQuery);
+		return resultList;
+	}
+
+	private String getCriteria(GtnWebServiceSearchCriteria searchCriteria) {
+		switch (searchCriteria.getFieldId()) {
+		case "privateViewName":
+			return searchCriteria.getFilterValue1().replace("*", "%");
+		case "publicViewName":
+			return searchCriteria.getFilterValue1().replace("*", "%");
+		case "hierarchyName":
+			return searchCriteria.getFilterValue1().replace("*", "%");
+		case "hierarchyType":
+			return searchCriteria.getFilterValue1();
+		default:
+			return null;
+		}
+
+	}
 }

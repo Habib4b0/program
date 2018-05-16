@@ -2264,13 +2264,13 @@
         </key>
       <key>
         <name>PRIOR_PARENT_COMPANY_SYSTEM_ID</name>
-        <field>PARENT_COMPANY_MASTER_SID</field>
+        <field>PRIOR_PARENT_CMPY_MASTER_SID</field>
         <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>PRIOR_PARENT_START_DATE</name>
-        <field>PARENT_START_DATE</field>
+        <field>PRIOR_PARENT_START_DATE</field>
         <condition>&#x3d;</condition>
         <name2/>
         </key>
@@ -3902,13 +3902,13 @@
         </key>
       <key>
         <name>PRIOR_PER_COM_SYS_ID</name>
-        <field>PARENT_COMPANY_MASTER_SID</field>
+        <field>PRIOR_PARENT_CMPY_MASTER_SID</field>
         <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>PRIOR_PARENT_START_DATE</name>
-        <field>PARENT_START_DATE</field>
+        <field>PRIOR_PARENT_START_DATE</field>
         <condition>&#x3d;</condition>
         <name2/>
         </key>

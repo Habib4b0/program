@@ -8,10 +8,12 @@ import java.util.List;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.NotesDTO;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableLogic;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -33,6 +35,7 @@ import com.vaadin.shared.Position;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TabSheet;
+import java.util.Arrays;
 
 public class GtnFrameworkIfpSaveAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -73,6 +76,10 @@ public class GtnFrameworkIfpSaveAction
 			if (systemId != null && systemId > 0) {
 				cfpBean.getIfpInfo().setIfpSid(systemId);
 			}
+                        String getMode =(String)GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+                        if ("Copy".equals(getMode)) {
+                            cfpBean.getIfpInfo().setIfpSid(null);
+                        }
 			cfpRequest.setGtnIFamilyPlan(cfpBean);
 			request.setGtnWsIfpRequest(cfpRequest);
 			GtnUIFrameworkWebserviceResponse reponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
@@ -102,7 +109,7 @@ public class GtnFrameworkIfpSaveAction
 			Component component = GtnUIFrameworkGlobalUI.getVaadinComponent("ifpAddSaveButton");
 			component.setCaption("UPDATE");
 			component = GtnUIFrameworkGlobalUI.getVaadinComponent("ifpAddDeleteButton");
-			component.setVisible(true);
+                        component.setVisible(true);
 			GtnUIFrameworkGlobalUI.addSessionProperty("ifpModelSid",
 					reponse.getGtnWsIfpReponse().getGtnIFamilyPlan().getIfpInfo().getIfpSid());
 			final Notification notif = new Notification(
@@ -114,6 +121,17 @@ public class GtnFrameworkIfpSaveAction
 			notif.setStyleName(GtnFrameworkCssConstants.MY_STYLE);
 			notif.setDelayMsec(3000);
 			notif.show(Page.getCurrent());
+                        
+                         if ("Copy".equals(getMode)) {
+                        Component deleteComponentId = GtnUIFrameworkGlobalUI.getVaadinComponent("ifpAddDeleteButton");
+                        deleteComponentId.setEnabled(true);
+                        GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
+                        enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
+                        Object[] enableFields = new Object[] { GtnFrameworkCommonConstants.IFP_ADD_DELETE_BUTTON } ;
+                        enableAction.setActionParameterList(Arrays.asList(enableFields));
+                        GtnUIFrameworkActionExecutor.executeSingleAction(componentId, enableAction);
+                        
+                        }
 
 		} catch (GtnFrameworkValidationFailedException e) {
 			logger.error(e.getMessage(), e);

@@ -312,8 +312,8 @@ public class GtnUIFrameworkBaseComponent {
 		}
 
 	}
-        
-        public String getCaptionFromV8ComboBox() throws GtnFrameworkValidationFailedException {
+
+	public String getCaptionFromV8ComboBox() throws GtnFrameworkValidationFailedException {
 		try {
 			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
 			return getString(comboBox.getValue()).trim();
@@ -804,6 +804,11 @@ public class GtnUIFrameworkBaseComponent {
 	public void loadFieldValue(Object newValue) {
 		((Field<Object>) this.component).setValue(getString(newValue));
 	}
+	
+	@SuppressWarnings({ "unchecked" })
+	public void loadV8FieldValue(Object newValue) {
+		((HasValue<Object>) this.component).setValue(getString(newValue));
+	}
 
 	public void setComponentEnable(boolean newValue) {
 		this.component.setEnabled(newValue);
@@ -822,23 +827,28 @@ public class GtnUIFrameworkBaseComponent {
 	public void loadDateValue(Object newValue) {
 		((Field<Object>) this.component).setValue(newValue);
 	}
-
+	
+	@SuppressWarnings({ "unchecked" })
+	public void loadV8DateValue(Object newValue) {
+		((HasValue<Object>) this.component).setValue(newValue);
+	}
+	
 	@SuppressWarnings({ "unchecked" })
 	public void loadComboBoxComponentValue(Integer newValue) {
 		((Field<Object>) this.component).setValue(newValue);
-		
+
 	}
 
-	public void loadV8ComboBoxComponentValue(Integer value)throws GtnFrameworkValidationFailedException {	
-			AbstractSingleSelect comboboxSelect=(AbstractSingleSelect)this.component;
-			comboboxSelect.setSelectedItem(value);
+	public void loadV8ComboBoxComponentValue(Integer value) throws GtnFrameworkValidationFailedException {
+		AbstractSingleSelect comboboxSelect = (AbstractSingleSelect) this.component;
+		comboboxSelect.setSelectedItem(value);
 	}
-	
-	public void loadV8ComboBoxComponentValue(String value)throws GtnFrameworkValidationFailedException {
-			AbstractSingleSelect comboboxSelect=(AbstractSingleSelect)this.component;
-			comboboxSelect.setSelectedItem(value);
+
+	public void loadV8ComboBoxComponentValue(String value) throws GtnFrameworkValidationFailedException {
+		AbstractSingleSelect comboboxSelect = (AbstractSingleSelect) this.component;
+		comboboxSelect.setSelectedItem(value);
 	}
-	
+
 	public void setComponentReadOnly(boolean newValue) {
 		if (this.component instanceof Field<?>) {
 			((Field<?>) this.component).setReadOnly(newValue);
@@ -1104,7 +1114,7 @@ public class GtnUIFrameworkBaseComponent {
 
 		field.setValue(value);
 	}
-	
+
 	public void setGridItems(List<GtnWsRecordBean> recordBeanList) {
 		((Grid) this.component).setItems(recordBeanList);
 	}
@@ -1113,15 +1123,10 @@ public class GtnUIFrameworkBaseComponent {
 		return ((Grid<GtnWsRecordBean>) this.component).getSelectedItems();
 	}
 
-	public void removeItemsFromGrid(GtnWsRecordBean... itemList) throws GtnFrameworkGeneralException {
-		try {
-			Grid dataGrid = this.getGrid();
-			((ListDataProvider<GtnWsRecordBean>) dataGrid.getDataProvider()).getItems()
-					.removeAll(Arrays.asList(itemList));
-			dataGrid.getDataProvider().refreshAll();
-		} catch (Exception typeException) {
-			throw new GtnFrameworkValidationFailedException(componentId, typeException);
-		}
+	public void removeItemsFromGrid(GtnWsRecordBean... itemList) {
+		Grid dataGrid = this.getGrid();
+		((ListDataProvider<GtnWsRecordBean>) dataGrid.getDataProvider()).getItems().removeAll(Arrays.asList(itemList));
+		dataGrid.getDataProvider().refreshAll();
 	}
 
 	public void deSelectItemInGrid(GtnWsRecordBean item) throws GtnFrameworkGeneralException {
@@ -1133,4 +1138,7 @@ public class GtnUIFrameworkBaseComponent {
 		return (TreeGrid) this.component;
 	}
 
+	public void setHasValue(String value) {
+		((HasValue) this.component).setValue(value);
+	}
 }

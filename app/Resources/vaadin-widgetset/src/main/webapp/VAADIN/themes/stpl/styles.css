@@ -14833,6 +14833,22 @@ div.v-layout.v-horizontal.v-widget {
 	overflow: hidden;
 }
 
+.stpl .v-treegrid-column-header-content, .stpl .v-treegrid-column-footer-content {
+	vertical-align: inherit;
+}
+
+.stpl .v-grid-column-header-content, .stpl .v-grid-column-footer-content {
+	vertical-align: inherit;
+}
+
+.stpl th.v-grid-cell {
+	height: auto !important;
+}
+
+.stpl th.v-treegrid-cell {
+	height: auto !important;
+}
+
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;

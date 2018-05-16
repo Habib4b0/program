@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.report.engine.calculation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +25,20 @@ public class GtnWsMongoCalculation {
 	private GtnWsReportEngineBean engineBean;
 
 	boolean index = false;
-        int nodeIndex=1;
 
 	public void nodeData(GtnWsReportEngineBean engineBean) {
 		this.engineBean = engineBean;
-		// List<String> collection = engineBean.getComparisonTableName();
-		// GtnWsReportEngineTreeNode reportEngineTreeNode = engineBean.getInput();
-		// for (String collectionName : collection) {
-		// nodeDataRecursion(reportEngineTreeNode, collectionName, null);
-		// }
+		List<String> collection = engineBean.getComparisonTableName();
+		GtnWsReportEngineTreeNode reportEngineTreeNode = engineBean.getInput();
+		for (String collectionName : collection) {
+			nodeDataRecursion(reportEngineTreeNode, collectionName, null);
+		}
 	}
 
 	private void nodeDataRecursion(GtnWsReportEngineTreeNode ccpNode, String collection,
 			GtnWsTreeNodeAttributeBean rootNodeAtrributeBean) {
 		if (ccpNode.getLevelNumber() == 0 || rootNodeAtrributeBean == null) {
-			// rootNodeAtrributeBean =
-			// gtnMongoService.topLevelAggregationSelectClause(ccpNode, collection);
+			rootNodeAtrributeBean = gtnMongoService.topLevelAggregationSelectClause(ccpNode, collection);
 		}
 		for (GtnWsReportEngineTreeNode gtnWsTreeNode : ccpNode.getChildren()) {
 			if (gtnWsTreeNode.getChildren() != null) {
@@ -58,7 +57,7 @@ public class GtnWsMongoCalculation {
 				GtnWsTreeNodeAttributeBean finalNode = (GtnWsTreeNodeAttributeBean) gtnWsTreeNode.getNodeData();
 				for (int i = 0; i < finalNode.getAttributeBeanList().size(); i++) {
 					GtnWsAttributeBean doc = finalNode.getAttributeBeanList().get(i);
-					System.out.println("document for current " + i + " = " + doc.getAttributeMap());
+					System.out.println("document for current " + i + " = " + doc.getAttributes());
 				}
 			}
 			if (gtnWsTreeNode.getChildren() != null) {
@@ -68,100 +67,81 @@ public class GtnWsMongoCalculation {
 	}
 
 	public GtnWsReportEngineTreeNode variableCategoryCalculation() {
-		variableCategoryCalculationRecursion(engineBean.getInput(), "");
-                nodeIndex=0;
+		variableCategoryCalculationRecursion(engineBean.getInput());
 		return engineBean.getInput();
 	}
 
-	private void variableCategoryCalculationRecursion(final GtnWsReportEngineTreeNode ccpNode,
-			String parentHierarchyNo) {
-		int hierarchyIndex = 1;
-               
+	private void variableCategoryCalculationRecursion(final GtnWsReportEngineTreeNode ccpNode) {
 		for (GtnWsReportEngineTreeNode gtnWsTreeNode : ccpNode.getChildren()) {
-			// if (gtnWsTreeNode.getNodeData() != null) {
-			// GtnWsVariableCategoryBean categoryBean = new GtnWsVariableCategoryBean();
-			// categoryBean.setComparisonBasis(engineBean.getComparisonBasis());
-			// List<GtnWsTreeNodeAttributeBean> finalNode =
-			// (List<GtnWsTreeNodeAttributeBean>) gtnWsTreeNode
-			// .getNodeData();
-			// GtnWsTreeNodeAttributeBean currentAttributes =
-			// finalNode.get(engineBean.getSelectedProjectionId());
-			// GtnWsTreeNodeAttributeBean calculatedAttributes = new
-			// GtnWsTreeNodeAttributeBean();
-			// GtnWsAttributeBean newAttributes = new GtnWsAttributeBean();
-			// newAttributes.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());
-			// // newAttributes.putAttributes("parentHierarchyNo",
-			// // gtnWsTreeNode.getParent().getHierarchyNo());
-			// newAttributes.putAttributes("RsId", gtnWsTreeNode.getRsIds());
-			// newAttributes.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
-			// callVariableCategoryLogic(currentAttributes, newAttributes, finalNode,
-			// categoryBean);
-			// calculatedAttributes.addAttributeBeanToList(newAttributes);
-			// gtnWsTreeNode.setNodeData(calculatedAttributes);
-			// } else {
-			String newParentHierarchyNo = parentHierarchyNo + hierarchyIndex + "~";
-			GtnWsTreeNodeAttributeBean calculatedAttributes = new GtnWsTreeNodeAttributeBean();
-			GtnWsAttributeBean newAttributes = new GtnWsAttributeBean();
-			newAttributes.putAttributes("hierarchyNo", gtnWsTreeNode.getHierarchyNo());
-			newAttributes.putAttributes("levelNumber", gtnWsTreeNode.getLevelNumber());
-			newAttributes.putAttributes("levelValue", gtnWsTreeNode.getLevelValue());
-			newAttributes.putAttributes("RsId", gtnWsTreeNode.getRsIds());
-			newAttributes.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
-			newAttributes.putAttributes("generatedHierarchyNo", newParentHierarchyNo);
-			newAttributes.putAttributes("nodeIndex", nodeIndex++);
-			newAttributes.putAttributes("levelIndex",hierarchyIndex);
-                        int childCount=gtnWsTreeNode.getChildren()==null?0:gtnWsTreeNode.getChildren().size();
-			newAttributes.putAttributes("childCount", childCount);
-			calculatedAttributes.addAttributeBeanToList(newAttributes);
-			gtnWsTreeNode.setNodeData(calculatedAttributes);
-			// }
-			if (gtnWsTreeNode.getChildren() != null) {
-				variableCategoryCalculationRecursion(gtnWsTreeNode, newParentHierarchyNo);
+			if (gtnWsTreeNode.getNodeData() != null) {
+				GtnWsVariableCategoryBean categoryBean = new GtnWsVariableCategoryBean();
+				categoryBean.setComparisonBasis(engineBean.getComparisonBasis());
+				List<GtnWsTreeNodeAttributeBean> finalNode = (List<GtnWsTreeNodeAttributeBean>) gtnWsTreeNode
+						.getNodeData();
+				GtnWsTreeNodeAttributeBean currentAttributes = finalNode.get(engineBean.getSelectedProjectionId());
+				GtnWsTreeNodeAttributeBean calculatedAttributes = new GtnWsTreeNodeAttributeBean();
+				List<GtnWsAttributeBean> newAttributes = new ArrayList<>();
+				callVariableCategoryLogic(currentAttributes, newAttributes, finalNode, categoryBean);
+				calculatedAttributes.addAllAttributeBeanToList(newAttributes);
+				gtnWsTreeNode.setNodeData(calculatedAttributes);
 			}
-			hierarchyIndex++;
+
+			if (gtnWsTreeNode.getChildren() != null) {
+				variableCategoryCalculationRecursion(gtnWsTreeNode);
+			}
 		}
 	}
 
 	private void callVariableCategoryLogic(GtnWsTreeNodeAttributeBean currentAttributes,
-			GtnWsAttributeBean newAttributes, List<GtnWsTreeNodeAttributeBean> finalNode,
+			List<GtnWsAttributeBean> newAttributes, List<GtnWsTreeNodeAttributeBean> finalNode,
 			GtnWsVariableCategoryBean categoryBean) {
-		for (GtnWsAttributeBean currectProjection : currentAttributes.getAttributeBeanList()) {
-			categoryBean.setCurrentNodeAttribute(currectProjection);
-			newAttributes.putAttributes("_id", currectProjection.getAttributes("_id"));
-			for (int i = 0; i < finalNode.size(); i++) {
-				if (!"Latest Projection".equals(categoryBean.getComparisonBasis())) {
-					GtnWsTreeNodeAttributeBean priorAttributes = finalNode.get(i);
-					categoryBean.setProjectionId(i);
-					for (GtnWsAttributeBean priorProjection : priorAttributes.getAttributeBeanList()) {
-						categoryBean.setPriorNodeAttribute(priorProjection);
-						categoryBean.setVariableCategory("Value");
-						categoryBean.setCalculationType(GtnWsCalculationType.VALUE);
-						calculateVariableCategory(currectProjection, priorProjection, categoryBean, newAttributes);
-						categoryBean.setVariableCategory("Variance");
-						categoryBean.setCalculationType(GtnWsCalculationType.VARIANCE);
-						calculateVariableCategory(currectProjection, priorProjection, categoryBean, newAttributes);
-						categoryBean.setVariableCategory("PerChange");
-						categoryBean.setCalculationType(GtnWsCalculationType.PER_CHANGE);
-						calculateVariableCategory(currectProjection, priorProjection, categoryBean, newAttributes);
+		if (currentAttributes.getAttributeBeanList() != null) {
+			for (GtnWsAttributeBean currectProjection : currentAttributes.getAttributeBeanList()) {
+				categoryBean.setCurrentNodeAttribute(currectProjection);
+				for (int i = 0; i < finalNode.size(); i++) {
+					if (!"Latest Projection".equals(categoryBean.getComparisonBasis())) {
+						GtnWsTreeNodeAttributeBean priorAttributes = finalNode.get(i);
+						categoryBean.setProjectionId(i);
+						if (priorAttributes.getAttributeBeanList() != null) {
+							for (GtnWsAttributeBean priorProjection : priorAttributes.getAttributeBeanList()) {
+								GtnWsAttributeBean newDoc = new GtnWsAttributeBean();
+								categoryBean.setPriorNodeAttribute(priorProjection);
+								categoryBean.setVariableCategory("Value");
+								categoryBean.setCalculationType(GtnWsCalculationType.VALUE);
+								boolean added = calculateVariableCategory(currectProjection, priorProjection,
+										categoryBean, newDoc);
+								categoryBean.setVariableCategory("Variance");
+								categoryBean.setCalculationType(GtnWsCalculationType.VARIANCE);
+								calculateVariableCategory(currectProjection, priorProjection, categoryBean, newDoc);
+								categoryBean.setVariableCategory("PerChange");
+								categoryBean.setCalculationType(GtnWsCalculationType.PER_CHANGE);
+								calculateVariableCategory(currectProjection, priorProjection, categoryBean, newDoc);
+								if (added) {
+									newAttributes.add(newDoc);
+								}
+							}
+						}
 					}
 				}
 			}
 		}
 	}
 
-	private void calculateVariableCategory(GtnWsAttributeBean currentProjection, GtnWsAttributeBean priorProjection,
-			GtnWsVariableCategoryBean categoryBean, GtnWsAttributeBean newDoc) {
-		int currentPeriod = currentProjection.getIntegerAttribute("semiAnnual");
-		int currentyear = currentProjection.getIntegerAttribute("year");
-		int priorPeriod = priorProjection.getIntegerAttribute("semiAnnual");
-		int prioryear = priorProjection.getIntegerAttribute("year");
+	private boolean calculateVariableCategory(GtnWsAttributeBean currentProjection, GtnWsAttributeBean priorProjection,
+			GtnWsVariableCategoryBean categoryBean, GtnWsAttributeBean newAttributes) {
+		int currentPeriod = ((Long) currentProjection.getAttribute("semiAnnual")).intValue();
+		int currentyear = ((Long) currentProjection.getAttribute("year")).intValue();
+		int priorPeriod = ((Long) priorProjection.getAttribute("semiAnnual")).intValue();
+		int prioryear = ((Long) priorProjection.getAttribute("year")).intValue();
 		if (currentPeriod == priorPeriod && currentyear == prioryear) {
-			newDoc.putAttributes("semiAnnual", priorPeriod);
-			newDoc.putAttributes("year", prioryear);
-			categoryBean.setCalculatedNodeAttribute(newDoc);
+			newAttributes.putAttributes("semiAnnual", priorPeriod);
+			newAttributes.putAttributes("year", prioryear);
+			categoryBean.setCalculatedNodeAttribute(newAttributes);
 			GtnWsCalculationInterface calculationType = categoryBean.getCalculationType().getCalculation();
 			calculationType.initiateCalculation(categoryBean);
+			return true;
 		}
+		return false;
 	}
 
 }

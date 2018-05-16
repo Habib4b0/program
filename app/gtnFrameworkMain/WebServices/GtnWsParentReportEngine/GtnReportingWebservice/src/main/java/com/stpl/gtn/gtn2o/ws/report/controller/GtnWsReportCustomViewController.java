@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewDataBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnUIFrameWorkReportResponseBuilder;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportCustomViewService;
@@ -45,14 +46,24 @@ public class GtnWsReportCustomViewController {
 	}
 
 	@RequestMapping(value = GtnWsReportEndPointUrlConstants.LOAD_CUSTOM_VIEW, method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse loadCustomView(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
+	public GtnUIFrameworkWebserviceResponse loadCustomViewString(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameWorkReportResponseBuilder().withCustomViewBean()
 				.build();
 		GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
-		List<String> customViewList = service.loadCustomView();
+		List<String> customViewList = service.loadCustomViewString();
 		comboBoxResponse.setItemValueList(customViewList);
 		comboBoxResponse.setItemCodeList(customViewList);
 		response.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
+		return response;
+	}
+
+	@RequestMapping(value = GtnWsReportEndPointUrlConstants.LOAD_CUSTOM_VIEW_DATA, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadCustomView(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameWorkReportResponseBuilder().withCustomViewBean()
+				.build();
+		GtnWsReportCustomViewDataBean viewBean = service.loadCustomView(gtnWsRequestF);
+		response.getGtnReportResponse().getReportBean().getCustomViewBean().setCustomViewDataBean(viewBean);
 		return response;
 	}
 

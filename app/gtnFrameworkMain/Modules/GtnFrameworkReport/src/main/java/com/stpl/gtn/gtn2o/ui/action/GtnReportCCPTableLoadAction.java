@@ -24,7 +24,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -36,11 +35,10 @@ import com.vaadin.ui.TreeGrid;
 public class GtnReportCCPTableLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportCCPTableLoadAction.class);
-
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		return;
 
 	}
 
@@ -49,9 +47,10 @@ public class GtnReportCCPTableLoadAction
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
-		List<GtnWsRecordBean> selectedCustomerList = getSelectedCustomerList(actionParamList, componentId);
-		List<GtnWsRecordBean> selectedProductList = getSelectedProductList(actionParamList, componentId);
-		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList,selectedCustomerList,selectedProductList);
+		List<GtnWsRecordBean> selectedCustomerList = getSelectedList(actionParamList.get(1).toString(), componentId);
+		List<GtnWsRecordBean> selectedProductList = getSelectedList(actionParamList.get(2).toString(), componentId);
+		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList, selectedCustomerList,
+				selectedProductList);
 		ccpHierarchyInsert(selectedCustomerList, selectedProductList, dataSelectionDto);
 
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
@@ -68,43 +67,26 @@ public class GtnReportCCPTableLoadAction
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
 	}
 
-	private List<GtnWsRecordBean> getSelectedCustomerList(List<Object> actionParamList, String componentId) {
+	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
 		GtnUIFrameworkComponentData gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI
-				.getVaadinComponentData(String.valueOf(actionParamList.get(1)), componentId);
+				.getVaadinComponentData(tableComponentId, componentId);
 		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) gtnUIFrameworkComponentData
 				.getCustomData();
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
 		rightTable.expand(rightTable.getTreeData().getRootItems());
 		List<GtnWsRecordBean> selectedvalues = rightTable.getTreeData().getRootItems();
 
-		List<GtnWsRecordBean> selectedCustomerList = new ArrayList<>();
+		List<GtnWsRecordBean> selectedList = new ArrayList<>();
 		for (GtnWsRecordBean gtnWsRecordBean : selectedvalues) {
-			logger.info(gtnWsRecordBean.getStringProperty("levelName"));
-			selectedCustomerList.add(gtnWsRecordBean);
-			addSelectedValues(rightTable, gtnWsRecordBean, selectedCustomerList);
+
+			selectedList.add(gtnWsRecordBean);
+			addSelectedValues(rightTable, gtnWsRecordBean, selectedList);
 		}
-		return selectedCustomerList;
+		return selectedList;
 	}
 
-	private List<GtnWsRecordBean> getSelectedProductList(List<Object> actionParamList, String componentId) {
-		GtnUIFrameworkComponentData gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI
-				.getVaadinComponentData(String.valueOf(actionParamList.get(2)), componentId);
-		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) gtnUIFrameworkComponentData
-				.getCustomData();
-		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
-		rightTable.expand(rightTable.getTreeData().getRootItems());
-		List<GtnWsRecordBean> selectedvalues = rightTable.getTreeData().getRootItems();
-
-		List<GtnWsRecordBean> selectedProductList = new ArrayList<>();
-		for (GtnWsRecordBean gtnWsRecordBean : selectedvalues) {
-			logger.info(gtnWsRecordBean.getStringProperty("levelName"));
-			selectedProductList.add(gtnWsRecordBean);
-			addSelectedValues(rightTable, gtnWsRecordBean, selectedProductList);
-		}
-		return selectedProductList;
-	}
-
-	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList, List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList)
+	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList,
+			List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList)
 			throws GtnFrameworkValidationFailedException {
 
 		GtnWsReportDataSelectionBean dto = new GtnWsReportDataSelectionBean();
@@ -148,21 +130,21 @@ public class GtnReportCCPTableLoadAction
 		dto.setReportDataSource(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(12).toString()).getCaptionFromV8ComboBox()));
 
-		
 		dto.setCompanyReport(Integer.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox()));
-		dto.setBusinessUnitReport(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(14).toString()).getIntegerFromField());
+		dto.setBusinessUnitReport(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(14).toString())
+				.getIntegerFromField());
 		dto.setFromPeriodReport(Integer.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(15).toString()).getCaptionFromV8ComboBox()));
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);
 		dto.setProductHierarchyRecordBean(productRecordBean);
 		dto.setSelectedCustomerHierarchyList(selectedCustomerList);
 		dto.setSelectedProductHierarchyList(selectedProductList);
-		
+
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		dto.setSessionId(UUID.randomUUID().toString().replaceAll("-", "_"));
-		dto.setUniqueId(UUID.randomUUID().toString().replaceAll("-", "_"));
+		String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_");
+		dto.setSessionId(uniqueId);
+		dto.setUniqueId(uniqueId);
 
 		return dto;
 	}
@@ -170,7 +152,6 @@ public class GtnReportCCPTableLoadAction
 	private void addSelectedValues(TreeGrid<GtnWsRecordBean> rightTable, GtnWsRecordBean selectedvalues,
 			List<GtnWsRecordBean> selectedList) {
 		for (GtnWsRecordBean gtnWsRecordBean : rightTable.getTreeData().getChildren(selectedvalues)) {
-			logger.info(gtnWsRecordBean.getStringProperty("levelName"));
 			selectedList.add(gtnWsRecordBean);
 			addSelectedValues(rightTable, gtnWsRecordBean, selectedList);
 		}

@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeRemoveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomVariableGridLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomVariablePositionChangeAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomViewHierarchyLoadAction;
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
@@ -42,6 +43,12 @@ public class GtnFrameworkReportCustomViewLookup {
 		view.setViewName("reportCustomViewLookup");
 		view.setViewId("reportCustomViewLookup");
 		view.setDefaultView(false);
+		view.setResetAllowed(true);
+		GtnUIFrameWorkActionConfig treeLoadActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		treeLoadActionConfig.addActionParameter(GtnFrameworkUICustomViewEditAction.class.getName());
+		treeLoadActionConfig.addActionParameter(tabName + "customTreeTable");
+		view.addViewAction(treeLoadActionConfig);
 		addComponentList(view);
 		return view;
 	}
@@ -212,7 +219,7 @@ public class GtnFrameworkReportCustomViewLookup {
 
 		GtnUIFrameworkComponentConfig customerGrid = new GtnUIFrameworkComponentConfig();
 		customerGrid.setComponentType(GtnUIFrameworkComponentType.GRID);
-		customerGrid.setComponentId(tabName + "customViewLookupCustomerTable");
+		customerGrid.setComponentId(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_CUSTOMER_TABLE);
 		customerGrid.setComponentName("Customer Hierarchy");
 		customerGrid.setAddToParent(true);
 		customerGrid.setParentComponentId(mainCustomerCssLayout.getComponentId());
@@ -250,7 +257,8 @@ public class GtnFrameworkReportCustomViewLookup {
 		GtnUIFrameWorkActionConfig treeAddActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		treeAddActionConfig.addActionParameter(GtnFrameworkUICustomTreeAddAction.class.getName());
-		treeAddActionConfig.addActionParameter(tabName + "customViewLookupCustomerTable");
+		treeAddActionConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_CUSTOMER_TABLE);
 		treeAddActionConfig.addActionParameter(tabName + "customTreeTable");
 		addCustomerButton.addGtnUIFrameWorkActionConfig(treeAddActionConfig);
 
@@ -264,7 +272,8 @@ public class GtnFrameworkReportCustomViewLookup {
 		GtnUIFrameWorkActionConfig removeAddActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		removeAddActionConfig.addActionParameter(GtnFrameworkUICustomTreeRemoveAction.class.getName());
-		removeAddActionConfig.addActionParameter(tabName + "customViewLookupCustomerTable");
+		removeAddActionConfig
+				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_CUSTOMER_TABLE);
 		removeAddActionConfig.addActionParameter(tabName + "customTreeTable");
 		removeAddActionConfig.addActionParameter(GtnWsHierarchyType.CUSTOMER);
 		removeCustomerButton.addGtnUIFrameWorkActionConfig(removeAddActionConfig);
@@ -554,21 +563,29 @@ public class GtnFrameworkReportCustomViewLookup {
 		saveActionConfig.addActionParameter(tabName + "customTreeTable");
 		saveButton.addGtnUIFrameWorkActionConfig(saveActionConfig);
 
-		GtnUIFrameworkComponentConfig updateButton = new GtnUIFrameworkComponentConfig();
-		updateButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		updateButton.setComponentId(tabName + "customViewSelect");
-		updateButton.setComponentName("SELECT");
-		updateButton.setParentComponentId(layoutConfig.getComponentId());
-		updateButton.setAddToParent(true);
-		componentList.add(updateButton);
+		GtnUIFrameworkComponentConfig selectButtonConfig = new GtnUIFrameworkComponentConfig();
+		selectButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		selectButtonConfig.setComponentId(tabName + "customViewSelect");
+		selectButtonConfig.setComponentName("SELECT");
+		selectButtonConfig.setParentComponentId(layoutConfig.getComponentId());
+		selectButtonConfig.setAddToParent(true);
+		componentList.add(selectButtonConfig);
 
-		GtnUIFrameworkComponentConfig nextButton = new GtnUIFrameworkComponentConfig();
-		nextButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		nextButton.setComponentId(tabName + "customViewClose");
-		nextButton.setComponentName("CLOSE");
-		nextButton.setParentComponentId(layoutConfig.getComponentId());
-		nextButton.setAddToParent(true);
-		componentList.add(nextButton);
+		GtnUIFrameWorkActionConfig selectButtonActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
+		selectButtonConfig.addGtnUIFrameWorkActionConfig(selectButtonActionConfig);
+
+		GtnUIFrameworkComponentConfig closeButtonConfig = new GtnUIFrameworkComponentConfig();
+		closeButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		closeButtonConfig.setComponentId(tabName + "customViewClose");
+		closeButtonConfig.setComponentName("CLOSE");
+		closeButtonConfig.setParentComponentId(layoutConfig.getComponentId());
+		closeButtonConfig.setAddToParent(true);
+
+		GtnUIFrameWorkActionConfig closeConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		closeButtonConfig.addGtnUIFrameWorkActionConfig(closeConfig);
+		componentList.add(closeButtonConfig);
 
 	}
 

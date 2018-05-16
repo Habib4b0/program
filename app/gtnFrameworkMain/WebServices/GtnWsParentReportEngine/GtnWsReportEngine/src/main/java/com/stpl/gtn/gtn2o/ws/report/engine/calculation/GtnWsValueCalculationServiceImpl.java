@@ -2,18 +2,13 @@ package com.stpl.gtn.gtn2o.ws.report.engine.calculation;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.stpl.gtn.gtn2o.ws.report.engine.bean.GtnWsVariableCategoryBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsCalculationValidationService;
 
-@Service
 public class GtnWsValueCalculationServiceImpl implements GtnWsCalculationInterface {
 
-	@Autowired
-	GtnWsCalculationValidationService gtnWsCalculationValidation;
+	GtnWsCalculationValidationService gtnWsCalculationValidation = GtnWsCalculationValidationService.getInstance();
 
 	private GtnWsVariableCategoryBean variableCategoryBean;
 	private GtnWsAttributeBean newAttributes;
@@ -53,17 +48,16 @@ public class GtnWsValueCalculationServiceImpl implements GtnWsCalculationInterfa
 				if (this.projectionId == 0) {
 					for (String selectColumn : this.variableCategoryBean.getComparisonBasisArray()) {
 						this.newAttributes.putAttributes(selectColumn + basis + this.variableCategory,
-								this.variableCategoryBean.getCurrentNodeAttribute()
-										.getAttributes(selectColumn + basis));
+								this.variableCategoryBean.getCurrentNodeAttribute().getAttribute(selectColumn + basis));
 						this.newAttributes.putAttributes(
 								selectColumn + basis + this.variableCategory + this.projectionId,
-								this.variableCategoryBean.getPriorNodeAttribute().getAttributes(selectColumn + basis));
+								this.variableCategoryBean.getPriorNodeAttribute().getAttribute(selectColumn + basis));
 					}
 				} else {
 					for (String selectColumn : this.variableCategoryBean.getComparisonBasisArray()) {
 						this.newAttributes.putAttributes(
 								selectColumn + basis + this.variableCategory + this.projectionId,
-								this.variableCategoryBean.getPriorNodeAttribute().getAttributes(selectColumn + basis));
+								this.variableCategoryBean.getPriorNodeAttribute().getAttribute(selectColumn + basis));
 					}
 				}
 			}
