@@ -65,12 +65,6 @@ public class GtnFrameworkUICustomTreeSaveAction
 		confirmationActionConfig.addActionParameter(Arrays.asList(customSaveActionConfig));
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, confirmationActionConfig);
 
-		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.CUSTOM_ACTION);
-		actionConfig.addActionParameter(GtnFrameworkUIBuildCustomTreeAction.class.getName());
-		actionConfig.addActionParameter(customViewName);
-		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
-
 	}
 
 	private void validateTreeSave(GtnWsCustomTreeData apexBean, String customViewName, String componentId)
