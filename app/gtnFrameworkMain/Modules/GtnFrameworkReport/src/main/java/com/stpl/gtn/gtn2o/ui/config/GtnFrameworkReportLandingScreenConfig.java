@@ -31,6 +31,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		view.setViewName(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "View");
 		view.setViewId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "V001");
 		view.setDefaultView(true);
+		view.setResetAllowed(false);
 		addComponentList(view, namespace);
 		view.addViewAction(loadForecastEligibleDate());
 		return view;

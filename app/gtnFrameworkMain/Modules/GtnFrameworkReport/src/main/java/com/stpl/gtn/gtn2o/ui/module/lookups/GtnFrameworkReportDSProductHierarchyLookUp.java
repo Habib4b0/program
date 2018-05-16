@@ -23,12 +23,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GtnFrameworkReportProductHierarchyLookUp {
+public class GtnFrameworkReportDSProductHierarchyLookUp {
 
 	public GtnUIFrameworkViewConfig getProdHierarchyLookUpView(String namespace) {
 		GtnUIFrameworkViewConfig productHierarchyView = new GtnUIFrameworkViewConfig();
 		productHierarchyView.setViewName("Product Hierarchy LookUp");
-		productHierarchyView.setViewId("reportLandingScreen_productHierarchyLookup");
+		productHierarchyView.setViewId("dataSelectionTab_productHierarchyLookup");
 		productHierarchyView.setDefaultView(false);
 		addReportProductHierarchyLookUpComponentList(productHierarchyView, namespace);
 		return productHierarchyView;
@@ -170,12 +170,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		List<Object> actionParams = new ArrayList<>();
 		actionParams.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
-		loadDataTableActionConfig
-				.setFieldValues(Arrays.asList(new String[] {
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkCommonConstants.HIERARCHY_TYPE,
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkCommonConstants.HIERARCHY_NAME }));
+
 		loadDataTableActionConfig.setActionParameterList(actionParams);
 
 		actionConfigList.add(loadDataTableActionConfig);
@@ -315,18 +310,17 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		selectButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		selectButton.setAddToParent(true);
-		selectButton.addDependentComponent("reportLandingScreen_relationship");
-		selectButton.addDependentComponent("reportLandingScreen_level");
+		selectButton.addDependentComponent("dataSelectionTab_relationship");
+		selectButton.addDependentComponent("dataSelectionTab_level");
                 List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig selectAction = new GtnUIFrameWorkActionConfig();
 		selectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
 		List<Object> actionParameter = new ArrayList<>();
-		actionParameter.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
-		actionParameter.add("reportLandingScreen_producthierarchy");
+		actionParameter.add("reportDsProductHierarchyLookup_productHierarchySearchResultTable");
+		actionParameter.add("dataSelectionTab_producthierarchy");
 		actionParameter.add(Arrays.asList("hierName"));
 		actionParameter
-				.add(Arrays.asList("reportLandingScreen_producthierarchy"));
+				.add(Arrays.asList("dataSelectionTab_producthierarchy"));
 
 		selectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(selectAction);

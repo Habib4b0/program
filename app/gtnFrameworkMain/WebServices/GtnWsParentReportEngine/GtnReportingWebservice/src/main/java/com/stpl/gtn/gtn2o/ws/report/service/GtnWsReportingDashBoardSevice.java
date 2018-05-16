@@ -67,12 +67,14 @@ public class GtnWsReportingDashBoardSevice {
 			recordHeader.add("hierarchyNo");
 			recordHeader.add("levelName");
 			recordHeader.add("levelValue");
+		        recordHeader.add("generatedHierarchyNo");
 		}
 		bean.setRecordHeader(recordHeader);
 		bean.addProperties("levelNumber", document.get("levelNumber"));
 		bean.addProperties("hierarchyNo", document.get("hierarchyNo"));
 		bean.addProperties("levelName", document.get("levelName"));
 		bean.addProperties("levelValue", document.get("levelValue"));
+		bean.addProperties("generatedHierarchyNo", document.get("generatedHierarchyNo"));
 		return bean;
 	}
 }

@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn20.ws.report.engine.mongo.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,12 @@ import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.IndexOptions;
+import com.mongodb.client.model.Indexes;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.constants.MongoConstants;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
+import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportComputedResultsBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsTreeNodeAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsCommonCalculationService;
@@ -33,12 +38,13 @@ public class GtnWsMongoService {
 	@Autowired
 	GtnWsCommonCalculationService gtnWsCommonCalculation;
 
+	private static final GtnWSLogger GTNLOGGER = GtnWSLogger.getGTNLogger(GtnWsMongoService.class);
+
 	public void createCollection(String collectionName) {
 		try {
 			mongoDBInstance.getDBInstance().createCollection(collectionName);
 		} catch (MongoCommandException ex) {
-			ex.printStackTrace();
-			System.out.println(" Collection Already exists ");
+			GTNLOGGER.error(ex.getErrorMessage());
 		}
 	}
 
@@ -60,37 +66,51 @@ public class GtnWsMongoService {
 		}
 	}
 
+	public void dropCollection(String collection) {
+		mongoDBInstance.getDBInstance().getCollection(collection).drop();
+	}
+
 	public void updateFinalResultsToMongo(String collectionName, GtnWsReportEngineTreeNode output) {
 		try {
-			MongoCollection<Document> collection = getCollection(collectionName);
-			insertIntoMongoCollection(collection, output);
+			MongoCollection<GtnWsReportComputedResultsBean> collection = (MongoCollection<GtnWsReportComputedResultsBean>) getCollectionForCustomClass(
+					collectionName, GtnWsReportComputedResultsBean.class);
+			insertComputedResults(collection, output, "");
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println(ex.getMessage());
+			GTNLOGGER.error(ex.getMessage());
 		}
 	}
 
-	public void writeTreeToMongo(String collectionName, GtnWsReportEngineTreeNode output) {
+	public void writeTreeToMongo(String collectionName, GtnWsReportEngineTreeNode tree, boolean sessionNeeded) {
 		try {
 			@SuppressWarnings("unchecked")
 			MongoCollection<GtnWsReportEngineTreeNode> collection = (MongoCollection<GtnWsReportEngineTreeNode>) getCollectionForCustomClass(
 					collectionName, GtnWsReportEngineTreeNode.class);
-			collection.insertOne(output);
+			if (sessionNeeded && collection.count() == 0 && collection.listIndexes().first() == null) {
+				collection.createIndex(Indexes.ascending("createdDate"),
+						new IndexOptions().expireAfter(720L, TimeUnit.MINUTES));
+			}
+			collection.insertOne(tree);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			GTNLOGGER.error(ex.getMessage());
 		}
 	}
 
-	private void insertIntoMongoCollection(MongoCollection<Document> collection, GtnWsReportEngineTreeNode output) {
+	private void insertComputedResults(MongoCollection<GtnWsReportComputedResultsBean> collection,
+			GtnWsReportEngineTreeNode output, String parentHierarchyNo) {
+		int hierarchyIndex = 1;
 		for (GtnWsReportEngineTreeNode gtnWsTreeNode : output.getChildren()) {
-			GtnWsTreeNodeAttributeBean nodeData = (GtnWsTreeNodeAttributeBean) gtnWsTreeNode.getNodeData();
-				List<Document> documentList = convertGtnWsTreeNodeAttributeToDocument(nodeData);
-				if (documentList != null) {
-					collection.insertMany(documentList);
-				}
+			String newParentHierarchyNo = parentHierarchyNo + hierarchyIndex + "~";
+			GtnWsReportComputedResultsBean finalBean = new GtnWsReportComputedResultsBean();
+			finalBean.setLevelNumber(gtnWsTreeNode.getLevelNumber());
+			finalBean.setLevelValue(gtnWsTreeNode.getLevelValue());
+			finalBean.setHierarchyNo(gtnWsTreeNode.getHierarchyNo());
+			finalBean.setGeneratedHierarchyNo(newParentHierarchyNo);
+			finalBean.setAttributes(((GtnWsTreeNodeAttributeBean) gtnWsTreeNode.getNodeData()).getAttributeBeanList());
+			collection.insertOne(finalBean);
 			if (gtnWsTreeNode.getChildren() != null) {
-				insertIntoMongoCollection(collection, gtnWsTreeNode);
+				insertComputedResults(collection, gtnWsTreeNode, parentHierarchyNo);
 			}
+			hierarchyIndex++;
 		}
 	}
 
@@ -98,11 +118,20 @@ public class GtnWsMongoService {
 			String collectionName) {
 		GtnWsTreeNodeAttributeBean treeNodeAtrributeBean = new GtnWsTreeNodeAttributeBean();
 
-		Document matchCondition = new Document("ccpId", new Document("$in", ccpNode.getCcpIds()));
+		Document matchCondition = new Document();
+		boolean matchConditionFlag = false;
+		if (ccpNode.getCcpIds() != null && !ccpNode.getCcpIds().isEmpty()) {
+			matchCondition.append("ccpId", new Document("$in", ccpNode.getCcpIds()));
+			matchConditionFlag = true;
+		}
 		if (ccpNode.getRsIds() != null && !ccpNode.getRsIds().isEmpty()) {
 			matchCondition.append("projectionDetailsValues.discountBean.rsId", new Document("$in", ccpNode.getRsIds()));
+			matchConditionFlag = true;
 		}
-		Document match = new Document("$match", matchCondition);
+		Document match = null;
+		if (matchConditionFlag) {
+			match = new Document("$match", matchCondition);
+		}
 		Document groupFields = new Document("_id", new Document("semiAnnual", "$projectionDetailsValues.semiAnnual")
 				.append("year", "$projectionDetailsValues.year"));
 		groupFields.append("totalExfactoryActuals", new Document("$sum", "$projectionDetailsValues.exfactoryActual"));
@@ -124,34 +153,45 @@ public class GtnWsMongoService {
 		Document sort = new Document("$sort", new Document("_id.year", 1).append("_id.semiAnnual", 1));
 
 		List<Document> conditions = new ArrayList<>();
-		conditions.add(match);
+		if (match != null) {
+			conditions.add(match);
+		}
 		conditions.add(new Document("$unwind", "$projectionDetailsValues"));
 		conditions.add(group);
 		conditions.add(project);
 		conditions.add(sort);
 		AggregateIterable<Document> itr = getCollection(collectionName).aggregate(conditions).batchSize(1000);
 		MongoCursor<Document> cr = itr.iterator();
-		GtnWsAttributeBean attributeBean = new GtnWsAttributeBean();
+		GtnWsAttributeBean attributeBean = null;
 		while (cr.hasNext()) {
+			attributeBean = new GtnWsAttributeBean();
 			Document doc = cr.next();
 			Document frequencyDocument = (Document) doc.remove("_id");
 			if (frequencyDocument != null) {
 				attributeBean.putAllAttributes(frequencyDocument);
 			}
 			attributeBean.putAllAttributes(doc);
+			treeNodeAtrributeBean.addAttributeBeanToList(attributeBean);
 		}
-		treeNodeAtrributeBean.addAttributeBeanToList(attributeBean);
 		return treeNodeAtrributeBean;
 	}
 
 	public void nodeAggregationSelectClause(GtnWsReportEngineTreeNode ccpNode, String collectionName,
 			GtnWsTreeNodeAttributeBean rootNodeAtrributeBean) {
 		GtnWsTreeNodeAttributeBean treeNodeAtrributeBean = new GtnWsTreeNodeAttributeBean();
-		Document matchCondition = new Document("ccpId", new Document("$in", ccpNode.getCcpIds()));
+		boolean matchConditionFlag = false;
+		Document matchCondition = new Document();
+		if (ccpNode.getCcpIds() != null && !ccpNode.getCcpIds().isEmpty()) {
+			matchCondition.append("ccpId", new Document("$in", ccpNode.getCcpIds()));
+			matchConditionFlag = true;
+		}
 		if (ccpNode.getRsIds() != null && !ccpNode.getRsIds().isEmpty()) {
 			matchCondition.append("projectionDetailsValues.discountBean.rsId", new Document("$in", ccpNode.getRsIds()));
 		}
-		Document match = new Document("$match", matchCondition);
+		Document match = null;
+		if (matchConditionFlag) {
+			match = new Document("$match", matchCondition);
+		}
 		Document groupFields = new Document("_id", new Document("semiAnnual", "$projectionDetailsValues.semiAnnual")
 				.append("year", "$projectionDetailsValues.year"));
 		groupFields.append("exfactoryActuals", new Document("$sum", "$projectionDetailsValues.exfactoryActuals"));
@@ -212,7 +252,9 @@ public class GtnWsMongoService {
 		Document sort = new Document("$sort", new Document("_id.year", 1).append("_id.semiAnnual", 1));
 
 		List<Document> conditions = new ArrayList<>();
-		conditions.add(match);
+		if (match != null) {
+			conditions.add(match);
+		}
 		conditions.add(new Document("$unwind", "$projectionDetailsValues"));
 		conditions.add(new Document("$unwind", "$projectionDetailsValues.discountBean"));
 		conditions.add(group);
@@ -247,55 +289,57 @@ public class GtnWsMongoService {
 
 	private void totalLevelCalculation(GtnWsTreeNodeAttributeBean rootNodeAtrributeBean,
 			GtnWsTreeNodeAttributeBean currentNodeData) {
-		if (rootNodeAtrributeBean != null) {
+		if (rootNodeAtrributeBean != null && !rootNodeAtrributeBean.getAttributeBeanList().isEmpty()
+				&& currentNodeData != null && currentNodeData.getAttributeBeanList() != null
+				&& !currentNodeData.getAttributeBeanList().isEmpty()) {
 			try {
 				for (int i = 0; i < rootNodeAtrributeBean.getAttributeBeanList().size(); i++) {
 					GtnWsAttributeBean rootNodeDocument = rootNodeAtrributeBean.getAttributeBeanList().get(i);
-					int topPeriod = rootNodeDocument.getIntegerAttribute("semiAnnual");
-					int topyear = rootNodeDocument.getIntegerAttribute("year");
+					int topPeriod = ((Long) rootNodeDocument.getAttribute("semiAnnual")).intValue();
+					int topyear = ((Long) rootNodeDocument.getAttribute("year")).intValue();
 					for (int j = 0; j < currentNodeData.getAttributeBeanList().size(); j++) {
 						GtnWsAttributeBean currentDoc = currentNodeData.getAttributeBeanList().get(j);
-						int currentPeriod = currentDoc.getIntegerAttribute("semiAnnual");
-						int currentyear = currentDoc.getIntegerAttribute("year");
+						int currentPeriod = ((Long) currentDoc.getAttribute("semiAnnual")).intValue();
+						int currentyear = ((Long) currentDoc.getAttribute("year")).intValue();
 						if (topPeriod == currentPeriod && topyear == currentyear) {
 							currentDoc.putAttributes("totalExfactoryActuals",
-									rootNodeDocument.getAttributes("totalExfactoryActuals"));
+									rootNodeDocument.getAttribute("totalExfactoryActuals"));
 							currentDoc.putAttributes("totalExfactoryProjection",
-									rootNodeDocument.getAttributes("totalExfactoryProjection"));
+									rootNodeDocument.getAttribute("totalExfactoryProjection"));
 							currentDoc.putAttributes("contractSalesPerTotalContractSalesActuals",
 									gtnWsCommonCalculation.getDividedValue(
-											currentDoc.getAttributes("contractSalesActual"),
-											rootNodeDocument.getAttributes("totalContractSalesActuals")));
+											currentDoc.getAttribute("contractSalesActual"),
+											rootNodeDocument.getAttribute("totalContractSalesActuals")));
 							currentDoc.putAttributes("contractSalesPerTotalContractSalesProjection",
 									gtnWsCommonCalculation.getDividedValue(
-											currentDoc.getAttributes("contractSalesProjection"),
-											rootNodeDocument.getAttributes("totalContractSalesProjection")));
+											currentDoc.getAttribute("contractSalesProjection"),
+											rootNodeDocument.getAttribute("totalContractSalesProjection")));
 							currentDoc.putAttributes("netExfactorySalesPerTotalExfactoryActuals",
 									gtnWsCommonCalculation.getDividedValue(
-											currentDoc.getAttributes("netExfactorySalesActuals"),
-											currentDoc.getAttributes("exfactoryActuals")));
+											currentDoc.getAttribute("netExfactorySalesActuals"),
+											currentDoc.getAttribute("exfactoryActuals")));
 							currentDoc.putAttributes("netExfactorySalesPerTotalExfactoryProjection",
 									gtnWsCommonCalculation.getDividedValue(
-											currentDoc.getAttributes("netExfactorySalesProjection"),
-											currentDoc.getAttributes("exfactoryProjection")));
+											currentDoc.getAttribute("netExfactorySalesProjection"),
+											currentDoc.getAttribute("exfactoryProjection")));
 							double weightedGtnActualDividedValue = gtnWsCommonCalculation.getDividedValue(
-									currentDoc.getAttributes("exfactoryActuals"),
-									currentDoc.getAttributes("totalExfactoryActuals"));
+									currentDoc.getAttribute("exfactoryActuals"),
+									currentDoc.getAttribute("totalExfactoryActuals"));
 							currentDoc.putAttributes("weightedGtnActuals",
 									gtnWsCommonCalculation.getMultipiedValue(weightedGtnActualDividedValue,
-											currentDoc.getAttributes("deductionPerExfactoryActuals"), true));
+											currentDoc.getAttribute("deductionPerExfactoryActuals"), true));
 							double weightedGtnProjectionDividedValue = gtnWsCommonCalculation.getDividedValue(
-									currentDoc.getAttributes("exfactoryProjection"),
-									currentDoc.getAttributes("totalExfactoryProjection"));
+									currentDoc.getAttribute("exfactoryProjection"),
+									currentDoc.getAttribute("totalExfactoryProjection"));
 							currentDoc.putAttributes("weightedGtnProjection",
 									gtnWsCommonCalculation.getMultipiedValue(weightedGtnProjectionDividedValue,
-											currentDoc.getAttributes("deductionPerExfactoryProjection"), true));
+											currentDoc.getAttribute("deductionPerExfactoryProjection"), true));
 							break;
 						}
 					}
 				}
 			} catch (EvaluationException ex) {
-				ex.printStackTrace();
+				GTNLOGGER.error(ex.getMessage());
 			}
 		}
 
@@ -311,18 +355,18 @@ public class GtnWsMongoService {
 	}
 
 	private List<Document> convertGtnWsTreeNodeAttributeToDocument(GtnWsTreeNodeAttributeBean nodeData) {
-            if(nodeData!=null){
-                List<GtnWsAttributeBean> attributeBeanList=nodeData.getAttributeBeanList();
-		List<Document> documentList = null;
-		for (GtnWsAttributeBean gtnWsAttributeBean : attributeBeanList) {
-			if (documentList == null) {
-				documentList = new ArrayList<>();
+		if (nodeData != null) {
+			List<GtnWsAttributeBean> attributeBeanList = nodeData.getAttributeBeanList();
+			List<Document> documentList = null;
+			for (GtnWsAttributeBean gtnWsAttributeBean : attributeBeanList) {
+				if (documentList == null) {
+					documentList = new ArrayList<>();
+				}
+				documentList.add(new Document(gtnWsAttributeBean.getAttributes()));
 			}
-			documentList.add(new Document(gtnWsAttributeBean.getAttributeMap()));
+			return documentList;
 		}
-		return documentList;
-            }
-            return null;
+		return null;
 	}
 
 	// GtnWsReportEngineTreeNode
@@ -406,7 +450,7 @@ public class GtnWsMongoService {
 		MongoCursor cr = filteredResult.iterator();
 		while (cr.hasNext()) {
 			Document doc = (Document) cr.next();
-			getCollection(MongoConstants.USER_BASED_CCP_COLLECTION + uniqueId).insertOne(doc);
+			getCollection(MongoConstants.USER_BASED_CCP_COLLECTION + "_" + uniqueId).insertOne(doc);
 		}
 	}
 
@@ -417,13 +461,17 @@ public class GtnWsMongoService {
 				for (int i = 0; i < input.length; i++) {
 					System.out.println("fetchDataFromMongo =input " + input[i]);
 					System.out.println("fetchDataFromMongo=values " + values[i]);
-					if (!values[i].toString().equals(".*")) {
-						whereQuery.put(input[i].toString(), values[i]);
+					String value = values[i].toString();
+					if (!value.equals(".*")) {
+						Object filterValue = new BasicDBObject("$regex", values[i]);
+						whereQuery.put(input[i].toString(), value.contains(".*") ? filterValue : values[i]);
 					}
 				}
 			}
 			@SuppressWarnings("unchecked")
 			FindIterable<Document> itr = getCollection(collectionName).find(whereQuery);
+			// Bson filter = Filters.regex(collectionName, collectionName);
+			// getCollection(collectionName).find(filter);
 
 			return itr;
 		} catch (Exception ex) {

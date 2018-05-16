@@ -43,15 +43,15 @@ public class GtnCustomerAvailableTableLoadAction
 		String hierarchyComponentId = "reportLandingScreen_customerHierarchy";
 		String relationshipComponentId = "reportLandingScreen_customerSelectionRelationship";
 		GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(hierarchyComponentId).getComponentData().getCustomData();
+				.getVaadinBaseComponent(hierarchyComponentId, componentId).getComponentData().getCustomData();
 
 		String relationshipVersionNo = String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportLandingScreen_customerRelationshipVersion").getValueFromComponent());
 		String hierarchyVersionNo = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportLandingScreen_customerRelationshipVersion").getCaptionFromComboBox();
 
-		String relationshipBuilderSid = String.valueOf(
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(relationshipComponentId).getValueFromComponent());
+		String relationshipBuilderSid = String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(relationshipComponentId, componentId).getValueFromComponent());
 		Integer hierarchyDefSid = (Integer) recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
 
 		Integer selectedLevelNo = (Integer) GtnUIFrameworkGlobalUI

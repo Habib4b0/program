@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,10 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnUIFrameWorkReportResponseBuilder;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportCustomViewService;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 @RestController
 public class GtnWsReportCustomViewController {
@@ -37,9 +40,7 @@ public class GtnWsReportCustomViewController {
 	public GtnUIFrameworkWebserviceResponse saveCustomTree(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameWorkReportResponseBuilder().withCustomViewBean()
 				.build();
-
 		service.saveCustomViewTree(gtnWsRequestF);
-
 		return response;
 	}
 
@@ -47,7 +48,11 @@ public class GtnWsReportCustomViewController {
 	public GtnUIFrameworkWebserviceResponse loadCustomView(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameWorkReportResponseBuilder().withCustomViewBean()
 				.build();
-		service.loadCustomView(gtnWsRequestF);
+		GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
+		List<String> customViewList = service.loadCustomView();
+		comboBoxResponse.setItemValueList(customViewList);
+		comboBoxResponse.setItemCodeList(customViewList);
+		response.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
 		return response;
 	}
 

@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,21 +41,23 @@ public class GtnProductLevelAvailableTableLoadAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		try {
+			List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
+			Map<String, String> productDescMap = new HashMap<>();
 			GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportLandingScreen_producthierarchy").getComponentData().getCustomData();
+					.getVaadinBaseComponent(actionParamList.get(1).toString(),componentId).getComponentData().getCustomData();
 			Object relationshipBuilderSID = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportLandingScreen_relationship").getValueFromComponent();
+					.getVaadinBaseComponent(actionParamList.get(2).toString(),componentId).getValueFromComponent();
 			int hierarchyBuilderSid = (int) recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
 			int hierarchyVersionNo = Integer.parseInt(GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportLandingScreen_productRelationshipVersion").getCaptionFromComboBox());
+					.getVaadinBaseComponent(actionParamList.get(3).toString(),componentId).getCaptionFromComboBox());
 			int relationVersionNo = (int) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportLandingScreen_productRelationshipVersion").getValueFromComponent();
-			int selectedLevel = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_level")
+					.getVaadinBaseComponent(actionParamList.get(3).toString(),componentId).getValueFromComponent();
+			int selectedLevel = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString(),componentId)
 					.getValueFromComponent();
-			int businessUnit = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_businessUnit")
+			int businessUnit = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString(),componentId)
 					.getValueFromComponent();
-			Map<String, String> productDescMap = getLevelValueMap(relationshipBuilderSID, hierarchyBuilderSid,
-					hierarchyVersionNo, relationVersionNo);
+			productDescMap = getLevelValueMap(relationshipBuilderSID, hierarchyBuilderSid, hierarchyVersionNo,
+					relationVersionNo);
 
 			List<GtnReportHierarchyLevelBean> productHierarchyLevelDefinitionList = getHierarchyLevelDefinition(
 					hierarchyBuilderSid, hierarchyVersionNo);
@@ -75,7 +78,7 @@ public class GtnProductLevelAvailableTableLoadAction
 			queryParameters.add(businessUnit);
 			queryParameters.add(Boolean.TRUE);
 			AbstractComponent dualListBoxComponent = GtnUIFrameworkGlobalUI
-					.getVaadinComponent("reportLandingScreen_productdualListBoxComp");
+					.getVaadinComponent(actionParamList.get(7).toString(),componentId);
 			GtnUIFrameworkComponentData dualListBoxComponentData = (GtnUIFrameworkComponentData) dualListBoxComponent
 					.getData();
 			GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) dualListBoxComponentData

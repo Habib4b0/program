@@ -21,16 +21,15 @@ public class GtnRelationshipVersionLoadAction
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		// TODO Auto-generated method stub
-
+		return;
 	}
 
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		String relationshipValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(1).toString())
-				.getCaptionFromComboBox();
+		String relationshipValue = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(1).toString(), componentId).getCaptionFromComboBox();
 		Integer relationshipBuilderSid = (Integer) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(1).toString()).getValueFromComponent();
 		if (relationshipValue != "") {
@@ -50,7 +49,6 @@ public class GtnRelationshipVersionLoadAction
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		// TODO Auto-generated method stub
 		return this;
 	}
 

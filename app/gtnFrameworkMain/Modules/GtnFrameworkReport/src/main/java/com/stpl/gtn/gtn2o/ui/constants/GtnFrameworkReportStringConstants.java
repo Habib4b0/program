@@ -30,6 +30,8 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String STATUS = "STATUS";
 
+	public static final String REPORT = "report";
+
 	public static final String CUSTOMER_HIERARCHY_GROUP_BUILDER = "Customer Hierarchy Group Builder";
 
 	public static final String PRODUCT_HIERARCHY_GROUP_BUILDER = "Product Hierarchy Group Builder";
@@ -83,6 +85,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String CUSTOM_VIEW_LOOKUP_DEDUCTION_TABLE = "customViewLookupDeductionTable";
 
 	public static final String CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE = "customViewLookupVariableTable";
+
+	public static final String CUSTOM_VIEW_LOOKUP_CUSTOMER_TABLE = "customViewLookupCustomerTable";
 
 	public static final String PRODUCT_BTN_MAIN = "productBtnMain";
 
@@ -177,8 +181,10 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORT_CUSTOM_VIEW_LOOKUP = "reportCustomViewLookup";
 
 	public static final String REPORT_CUSTOMER_HIERARCHY_LOOKUP = "reportCustomerHierarchyLookup";
-	
+
 	public static final String REPORT_DS_CUSTOMER_HIERARCHY_LOOKUP = "reportDsCustomerHierarchyLookup";
+
+	public static final String REPORT_DS_PRODUCT_HIERARCHY_LOOKUP = "reportDsProductHierarchyLookup";
 
 	public static final String CURRENT_TAB = "currentTab";
 

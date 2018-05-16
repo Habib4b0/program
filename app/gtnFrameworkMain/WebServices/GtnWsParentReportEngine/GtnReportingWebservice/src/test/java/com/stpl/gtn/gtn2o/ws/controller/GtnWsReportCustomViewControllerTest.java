@@ -38,7 +38,7 @@ public class GtnWsReportCustomViewControllerTest {
 	@Autowired
 	com.mongodb.MongoClient client;
 
-	@Test
+	// @Test
 	public void testDisplay() {
 		prepereData();
 		GtnUIFrameworkWebserviceRequest request = getRequest();
@@ -99,4 +99,10 @@ public class GtnWsReportCustomViewControllerTest {
 		return bean;
 	}
 
+	@Test
+	public void testLoadCustomView() {
+
+		GtnUIFrameworkWebserviceRequest request = getRequest();
+		controller.loadCustomView(request);
+	}
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stpl.gtn.gtn20.ws.report.engine.mongo.constants.MongoConstants;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
@@ -89,18 +90,31 @@ public class GtnWsReportingDashboardController {
 		GtnWsReportResponse gtnWsReportRespose = new GtnWsReportResponse();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnWsReportDashboardBean reportDashboardBean = request.getGtnWsReportRequest().getGtnWsReportDashboardBean();
-		GtnWsReportEngineTreeNode inputTree = getSavedCustomTree(reportDashboardBean);
+		resultList = gtnWsReportingDashBoardSevice.getDashboardLeftData(gtnWsSearchRequest, reportDashboardBean);
+		gtnWsReportRespose.setRecordBeanResultList(resultList);
+		response.setGtnWsReportResponse(gtnWsReportRespose);
+		return response;
+	}
 
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse generateReportCalculationInsert(
+			@RequestBody GtnUIFrameworkWebserviceRequest request) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnWsReportDashboardBean reportDashboardBean = request.getGtnWsReportRequest().getGtnWsReportDashboardBean();
+		GtnWsReportEngineTreeNode inputTree = getSavedCustomTree(reportDashboardBean);
 		if (inputTree != null) {
 			GtnWsReportEngineTreeNode root = gtnGeneralReportEngine
-					.generateReportOutput(getGtnWsReportEngineBean(inputTree));
+					.generateReportOutput(getGtnWsReportEngineBean(inputTree, reportDashboardBean));
+			dropComputedResultsInGenerate(reportDashboardBean);
 			saveComputedResults(reportDashboardBean, root);
-
-			resultList = gtnWsReportingDashBoardSevice.getDashboardLeftData(gtnWsSearchRequest, reportDashboardBean);
-			gtnWsReportRespose.setRecordBeanResultList(resultList);
-			response.setGtnWsReportResponse(gtnWsReportRespose);
 		}
+
 		return response;
+	}
+
+	private void dropComputedResultsInGenerate(GtnWsReportDashboardBean reportDashboardBean) {
+		gtnWsMongoService.dropCollection(
+				reportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.COMPUTED_TREE_RESULTS));
 	}
 
 	private void saveComputedResults(GtnWsReportDashboardBean reportDashboardBean, GtnWsReportEngineTreeNode root) {
@@ -114,14 +128,14 @@ public class GtnWsReportingDashboardController {
 				GtnWsReportEngineTreeNode.class, null, null);
 	}
 
-	private GtnWsReportEngineBean getGtnWsReportEngineBean(GtnWsReportEngineTreeNode input) {
+	private GtnWsReportEngineBean getGtnWsReportEngineBean(GtnWsReportEngineTreeNode input,
+			GtnWsReportDashboardBean reportDashboardBean) {
 		GtnWsReportEngineBean engineBean = new GtnWsReportEngineBean();
 		engineBean.setSelectedProjectionId(0);
 		engineBean.setComparisonBasis("Actuals");
 		engineBean.setInput(input);
-		engineBean.addComparisonTableName("projection");
-		engineBean.addComparisonTableName("projection1");
-		engineBean.addComparisonTableName("projection2");
+		engineBean.addComparisonTableName(
+				reportDashboardBean.getTableNameWithUniqueId(MongoConstants.USER_BASED_CCP_COLLECTION));
 		return engineBean;
 	}
 

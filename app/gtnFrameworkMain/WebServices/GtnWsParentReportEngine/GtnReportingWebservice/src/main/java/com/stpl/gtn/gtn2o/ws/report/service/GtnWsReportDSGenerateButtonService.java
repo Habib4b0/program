@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class GtnWsReportDSGenerateButtonService {
 			createDataSourceData(MongoConstants.KAFKA_MONGO_COLLECTION_NAME);
 			createUserBasedCcpCollection(dataSelectionBean);
 		} catch (GtnFrameworkGeneralException ex) {
-			ex.printStackTrace();
+			GTNLOGGER.error(ex.getErrorMessage());
 		}
 	}
 
@@ -94,8 +95,9 @@ public class GtnWsReportDSGenerateButtonService {
 				.executeSelectQuery(relationshipLevelValueMasterBean.getFinalQuery());
 		GtnWsReportEngineTreeNode customerNode = gtnWsTreeService.buildTree(customerResults,
 				GtnWsHierarchyType.CUSTOMER);
-		gtnWsMongoService.writeTreeToMongo(
-				dataSelectionBean.getTableNameWithUniqueId(MongoStringConstants.CUSTOMER_TREE), customerNode);
+		customerNode.setCreatedDate(new Date());
+		customerNode.setSessionId(dataSelectionBean.getSessionId());
+		gtnWsMongoService.writeTreeToMongo(MongoStringConstants.CUSTOMER_TREE, customerNode, true);
 	}
 
 	public void buildProductTree(GtnWsReportDataSelectionBean dataSelectionBean) throws GtnFrameworkGeneralException {
@@ -108,8 +110,9 @@ public class GtnWsReportDSGenerateButtonService {
 		List<Object[]> productResults = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(relationshipLevelValueMasterBean.getFinalQuery());
 		GtnWsReportEngineTreeNode productNode = gtnWsTreeService.buildTree(productResults, GtnWsHierarchyType.PRODUCT);
-		gtnWsMongoService.writeTreeToMongo(
-				dataSelectionBean.getTableNameWithUniqueId(MongoStringConstants.PRODUCT_TREE), productNode);
+		productNode.setCreatedDate(new Date());
+		productNode.setSessionId(dataSelectionBean.getSessionId());
+		gtnWsMongoService.writeTreeToMongo(MongoStringConstants.PRODUCT_TREE, productNode, true);
 	}
 
 	public void createDataSourceData(String collectionName) {
@@ -125,7 +128,7 @@ public class GtnWsReportDSGenerateButtonService {
 
 	private void createUserBasedCcpCollection(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
-		List ccpIdList = gtnSqlQueryEngine.executeSelectQuery("Select * from "
+		List ccpIdList = gtnSqlQueryEngine.executeSelectQuery("Select DISTINCT CCP_DETAILS_SID from "
 				+ dataSelectionBean.getTableNameWithUniqueId(MongoStringConstants.ST_CCPD_SESSION_TABLE_NAME));
 		if (ccpIdList != null && !ccpIdList.isEmpty()) {
 			gtnWsMongoService.createUserBasedCcpCollection(ccpIdList, dataSelectionBean.getUniqueId());

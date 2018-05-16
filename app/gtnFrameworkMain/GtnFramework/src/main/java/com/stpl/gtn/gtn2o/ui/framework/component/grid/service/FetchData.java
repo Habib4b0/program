@@ -88,7 +88,7 @@ public class FetchData {
 			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(url, moduleName, serviceRequest,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			if (response != null && response.getGtnWsReportResponse() != null) {
-				records = mapper.convertValue(response.getGtnWsReportResponse().getResultList(),
+				records = mapper.convertValue(response.getGtnWsReportResponse().getRecordBeanResultList(),
 						new TypeReference<List<GtnWsRecordBean>>() {
 						});
 			}
