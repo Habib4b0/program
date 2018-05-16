@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class GtnWsReportDataSelectionBean {
 	private GtnWsRecordBean productHierarchyRecordBean;
 	private List<GtnWsRecordBean> selectedCustomerHierarchyList;
 	private List<GtnWsRecordBean> selectedProductHierarchyList;
+	private LocalDate v8forecastEligibilityDate;
 
 	public int getProductRelationshipBuilderSid() {
 		return productRelationshipBuilderSid;
@@ -246,6 +248,14 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setAvailableProductHierarchyList(List<GtnWsRecordBean> availableProductHierarchyList) {
 		this.availableProductHierarchyList = availableProductHierarchyList;
+	}
+
+	public LocalDate getv8ForecastEligibilityDate() {
+		return v8forecastEligibilityDate;
+	}
+
+	public void setv8ForecastEligibilityDate(LocalDate forecastEligibilityDate) {
+		this.v8forecastEligibilityDate = forecastEligibilityDate;
 	}
 
 }

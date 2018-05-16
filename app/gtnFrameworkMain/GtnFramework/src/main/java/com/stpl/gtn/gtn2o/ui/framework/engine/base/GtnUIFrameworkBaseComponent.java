@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.framework.engine.base;
 
 import java.lang.ref.WeakReference;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -174,6 +175,15 @@ public class GtnUIFrameworkBaseComponent {
 		}
 	}
 
+	public LocalDate getV8DateFromDateField() throws GtnFrameworkValidationFailedException {
+		try {
+			 com.vaadin.ui.DateField dateField = (com.vaadin.ui.DateField) this.component;
+			return dateField.getValue();
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+	
 	public GtnWsRecordBean getValueFromDataTable() throws GtnFrameworkValidationFailedException {
 		try {
 			AbstractSelect resultTable = (AbstractSelect) this.getComponentData().getCustomData();
