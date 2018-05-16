@@ -45,6 +45,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.priceschedule.GtnWsPriceScheduleGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.priceschedule.GtnWsPriceScheduleGeneralResponse;
+import com.vaadin.ui.Component;
 
 /**
  *
@@ -105,6 +106,10 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleNameTop")
 						.setPropertyValue(priceScheduleInfoBean.getPsName());
 			}
+                         if (mode == GtnUIFrameworkModeType.COPY) {
+                            Component delComponent = GtnUIFrameworkGlobalUI.getVaadinComponent("priceScheduleAddViewAAddDeleteButton");
+                            delComponent.setEnabled(false);
+                        }
 			checkCopyModeAction(componentId);
 			resetNotesTab();
 			loadNotesTab(priceScheduleInfoBean, noteBeanList);

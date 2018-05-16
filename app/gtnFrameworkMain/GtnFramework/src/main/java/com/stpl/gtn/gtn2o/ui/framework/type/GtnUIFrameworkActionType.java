@@ -61,6 +61,8 @@ import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameWorkV8Dua
 import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameWorkV8DualListBoxLoadRightTableAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameWorkV8DuallistBoxRightToLeftTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameworkV8ConfirmedDualListBoxResetAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameworkV8DualListBoxResetAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnFrameworkDateCompareValidationAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameWorkValidationAction;
 
@@ -186,7 +188,11 @@ public enum GtnUIFrameworkActionType {
 	
 	V8DUAL_LISTBOX_RIGHT_TO_LEFT_TABLE_LOADACTION(new GtnUIFrameWorkV8DuallistBoxRightToLeftTableLoadAction()),
 	
-	V8DUAL_LISTBOX_ALL_BUTTON_LOADACTION(new GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction());
+	V8DUAL_LISTBOX_ALL_BUTTON_LOADACTION(new GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction()),
+	
+	V8DUAL_LISTBOX_RESET_ACTION(new GtnUIFrameworkV8DualListBoxResetAction()),
+	
+	V8CONFIRMED_DUALLISTBOX_RESET_ACTION(new GtnUIFrameworkV8ConfirmedDualListBoxResetAction());
 
 	private final GtnUIFrameWorkAction gtnUIFrameWorkAction;
 

@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionResetAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkSaveViewAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -16,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportCustHierarchyConfig;
 import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportProdHierarchyConfig;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnForecastEligibleDateLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -30,6 +33,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		view.setDefaultView(true);
 		view.setResetAllowed(false);
 		addComponentList(view, namespace);
+		view.addViewAction(loadForecastEligibleDate());
 		return view;
 	}
 
@@ -472,8 +476,39 @@ public class GtnFrameworkReportLandingScreenConfig {
 		resetButton.setComponentName("RESET");
 		resetButton.setParentComponentId(controlLayouts.getComponentId());
 		resetButton.setAddToParent(true);
-
 		componentList.add(resetButton);
+
+		List<GtnUIFrameWorkActionConfig> resetActionList = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig confirmResetAction = new GtnUIFrameWorkActionConfig();
+		confirmResetAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		confirmResetAction.addActionParameter("Confirm Reset");
+		confirmResetAction.addActionParameter("Are you sure you want to reset the page to default values?");
+		List<GtnUIFrameWorkActionConfig> onSuccessActionConfigList = new ArrayList<>();
+		confirmResetAction.addActionParameter(onSuccessActionConfigList);
+
+		GtnUIFrameWorkActionConfig resetAction = new GtnUIFrameWorkActionConfig();
+		resetAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		resetAction.setActionParameterList(Arrays.asList(GtnReportDataSelectionResetAction.class.getName(),
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "company",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnit",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDataSource",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriod",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "STATUS",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchy",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionForecastEligibilityDate",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerDualListBox",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "relationship",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "level",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productRelationshipVersion",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp"));
+		onSuccessActionConfigList.add(resetAction);
+		resetActionList.add(confirmResetAction);
+		resetButton.setGtnUIFrameWorkActionConfigList(resetActionList);
 
 		GtnUIFrameworkComponentConfig saveViewBtn = new GtnUIFrameworkComponentConfig();
 		saveViewBtn.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -483,11 +518,27 @@ public class GtnFrameworkReportLandingScreenConfig {
 		saveViewBtn.setAddToParent(true);
 		List<GtnUIFrameWorkActionConfig> list = new ArrayList<>();
 
-		GtnUIFrameWorkActionConfig conf = new GtnUIFrameWorkActionConfig();
-		conf.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		conf.addActionParameter("dsSaveViewLookUp");
-		conf.addActionParameter("Save view");
-		list.add(conf);
+		GtnUIFrameWorkActionConfig saveViewAction = new GtnUIFrameWorkActionConfig();
+		saveViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		saveViewAction.setActionParameterList(Arrays.asList(GtnUIFrameworkSaveViewAction.class.getName(),
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "company",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnit",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDataSource",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriod",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "STATUS",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchy",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionForecastEligibilityDate",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerDualListBox",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "relationship",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "level",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productRelationshipVersion",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp"));
+		list.add(saveViewAction);
+
 		saveViewBtn.setGtnUIFrameWorkActionConfigList(list);
 		componentList.add(saveViewBtn);
 
@@ -499,5 +550,13 @@ public class GtnFrameworkReportLandingScreenConfig {
 		deleteViewButton.setAddToParent(true);
 		deleteViewButton.setEnable(false);
 		componentList.add(deleteViewButton);
+	}
+
+	private GtnUIFrameWorkActionConfig loadForecastEligibleDate() {
+		GtnUIFrameWorkActionConfig loadDateAction = new GtnUIFrameWorkActionConfig();
+		loadDateAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		loadDateAction.addActionParameter(GtnForecastEligibleDateLoadAction.class.getName());
+		loadDateAction.addActionParameter("reportLandingScreen_customerSelectionForecastEligibilityDate");
+		return loadDateAction;
 	}
 }

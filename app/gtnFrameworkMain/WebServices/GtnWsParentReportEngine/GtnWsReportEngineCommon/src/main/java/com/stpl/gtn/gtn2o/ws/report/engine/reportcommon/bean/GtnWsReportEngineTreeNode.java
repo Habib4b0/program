@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +43,10 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 	private GtnWsHierarchyType indicator;
 
 	private boolean isDiscountAvailable;
+
+	private Date createdDate;
+
+	private String sessionId;
 
 	public Object getNodeData() {
 		return nodeData;
@@ -264,4 +269,21 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 		}
 		this.variableList.add(variable);
 	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
 }

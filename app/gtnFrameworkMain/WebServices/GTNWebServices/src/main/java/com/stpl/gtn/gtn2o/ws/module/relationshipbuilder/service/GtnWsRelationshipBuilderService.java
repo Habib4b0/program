@@ -66,6 +66,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuilderResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
+import java.util.Locale;
 
 /**
  *
@@ -103,7 +104,13 @@ public class GtnWsRelationshipBuilderService {
 	private GtnFrameworkAutomaticService automaticService;
 
 	private static final String HELPER_JOIN_DESCRIPTION = "HELPER_JOIN .DESCRIPTION";
-
+        
+        private static final String ITEM_MASTER_JOIN_DESCRIPTION = "ITEM_MASTER AS ITEM_MASTER";
+        
+        private static final String CONTRACT_MASTER_JOIN_DESCRIPTION = "CONTRACT_MASTER.CONTRACT_MASTER_SID";
+        
+        private static final String COMPANY_MASTER_JOIN_DESCRIPTION = "COMPANY_MASTER.COMPANY_MASTER_SID";
+        
 	public GtnWsRelationshipBuilderService() {
 		super();
 	}
@@ -739,6 +746,8 @@ public class GtnWsRelationshipBuilderService {
 						gethiddenIdhierarchyNo);
 				query = gtnWsSqlService.getReplacedQuery(finalMasterSid, finalQueryBean.generateQuery());
 				query = checkForSelectOne(query);
+				query = addInboundStatusForCC(query);
+				query = addInboundStatusForItems(query);
 				if (finalQuery.length() > 0) {
 					finalQuery.append(" UNION ALL ");
 				}
@@ -762,6 +771,23 @@ public class GtnWsRelationshipBuilderService {
 			quer = quer.concat(" AND HELPER_JOIN .DESCRIPTION<> '-Select One-' ");
 		}
 		return quer;
+	}
+	private String addInboundStatusForItems(String query) {
+		String inboundStatusQuery = query;
+		if (inboundStatusQuery.toUpperCase(Locale.ENGLISH).contains(ITEM_MASTER_JOIN_DESCRIPTION)) {
+			inboundStatusQuery = inboundStatusQuery.concat(" AND ITEM_MASTER.INBOUND_STATUS <> 'D' ");
+		}
+		return inboundStatusQuery;
+	}
+	private String addInboundStatusForCC(String query) {
+		String inboundStatusCCQuery = query;
+		if (inboundStatusCCQuery.toUpperCase(Locale.ENGLISH).contains(CONTRACT_MASTER_JOIN_DESCRIPTION)) {
+			inboundStatusCCQuery = inboundStatusCCQuery.concat(" AND CONTRACT_MASTER.INBOUND_STATUS <> 'D' ");
+		}
+		if (inboundStatusCCQuery.toUpperCase(Locale.ENGLISH).contains(COMPANY_MASTER_JOIN_DESCRIPTION)) {
+			inboundStatusCCQuery = inboundStatusCCQuery.concat(" AND COMPANY_MASTER.INBOUND_STATUS <> 'D' ");
+		}
+		return inboundStatusCCQuery;
 	}
 
 	private void getIntermediateUserDefinedData(List<GtnWsRecordBean> linkedLevelDataList,

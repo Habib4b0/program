@@ -804,6 +804,11 @@ public class GtnUIFrameworkBaseComponent {
 	public void loadFieldValue(Object newValue) {
 		((Field<Object>) this.component).setValue(getString(newValue));
 	}
+	
+	@SuppressWarnings({ "unchecked" })
+	public void loadV8FieldValue(Object newValue) {
+		((HasValue<Object>) this.component).setValue(getString(newValue));
+	}
 
 	public void setComponentEnable(boolean newValue) {
 		this.component.setEnabled(newValue);
@@ -822,7 +827,12 @@ public class GtnUIFrameworkBaseComponent {
 	public void loadDateValue(Object newValue) {
 		((Field<Object>) this.component).setValue(newValue);
 	}
-
+	
+	@SuppressWarnings({ "unchecked" })
+	public void loadV8DateValue(Object newValue) {
+		((HasValue<Object>) this.component).setValue(newValue);
+	}
+	
 	@SuppressWarnings({ "unchecked" })
 	public void loadComboBoxComponentValue(Integer newValue) {
 		((Field<Object>) this.component).setValue(newValue);
