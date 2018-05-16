@@ -19,11 +19,13 @@ import com.mongodb.client.MongoCollection;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.constants.MongoConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewDataBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
 import com.stpl.gtn.gtn2o.ws.report.controller.GtnWsReportCustomViewController;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -65,6 +67,10 @@ public class GtnWsReportCustomViewControllerTest {
 		request.setGtnWsReportRequest(reportRequest);
 		GtnWsReportDataSelectionBean bean = new GtnWsReportDataSelectionBean();
 		reportRequest.getReportBean().setDataSelectionBean(bean);
+		GtnWsReportCustomViewBean viewBean = new GtnWsReportCustomViewBean();
+		GtnWsReportCustomViewDataBean dataBean = new GtnWsReportCustomViewDataBean();
+		viewBean.setCustomViewDataBean(dataBean);
+		reportRequest.getReportBean().setCustomViewBean(viewBean);
 		return request;
 	}
 
@@ -99,10 +105,19 @@ public class GtnWsReportCustomViewControllerTest {
 		return bean;
 	}
 
+	// @Test
+	public void testLoadCustomViewString() {
+		GtnUIFrameworkWebserviceRequest request = getRequest();
+		controller.loadCustomViewString(request);
+	}
+
 	@Test
 	public void testLoadCustomView() {
-
 		GtnUIFrameworkWebserviceRequest request = getRequest();
-		controller.loadCustomView(request);
+		request.getGtnWsReportRequest().getReportBean().getCustomViewBean().getCustomViewDataBean()
+				.setCustomViewName("LLRCM");
+		GtnUIFrameworkWebserviceResponse response = controller.loadCustomView(request);
+		System.out.println(response.getGtnReportResponse().getReportBean().getCustomViewBean().getCustomViewDataBean()
+				.getCustomTreeData());
 	}
 }

@@ -20,5 +20,7 @@ public class GtnWsReportConstants {
 	public static final String GTN_REPORT_PRODHIERARCHY_RIGHT_TABLELOAD_SERVICE = "/loadReportProductRightTable";
 	public static final String GTN_REPORT_PRODHIERARCHY_ALL_DATA_TABLELOAD_SERVICE = "/loadReportProductRightTableAllData";
 	public static final String GTN_REPORT_BUILD_CUSTOM_TREE = "/buildCustomTree";
+	public static final String GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_SERVICE = "/loadPrivateViewResults";
+	public static final String GTN_REPORT_LOAD_PUBLICVIEWLOOKUP_SERVICE = "/loadPublicViewResults";
 	public static final String GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT = "/generateReportCalculationInsert";
 }

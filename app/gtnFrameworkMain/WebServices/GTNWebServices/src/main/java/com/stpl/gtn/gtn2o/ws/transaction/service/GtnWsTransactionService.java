@@ -667,6 +667,7 @@ public class GtnWsTransactionService {
 		columnMap.put("quantity", "QUANTITY");
 		columnMap.put("salesAmount", "SALES_AMOUNT");
 		columnMap.put("recordCreatedDate", "RECORD_CREATED_DATE");
+		columnMap.put("avgShelfLife", "AVG_SHELF_LIFE");
 		return columnMap.get(columnName);
 	}
 

@@ -1,7 +1,9 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.date;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -17,7 +19,7 @@ import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceDateResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.data.Binder;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
@@ -48,9 +50,6 @@ public class GtnUIFrameworkDateFieldComponent implements GtnUIFrameworkComponent
 						ComponentBinderValidatorBean::setDateRequiredField);
 			}
 			dateField.setEnabled(dateFieldConfig.isEnable());
-			if(dateFieldConfig.isValueLoadFromService()){
-				fillDateField(dateFieldConfig, dateField);
-			}
 			if (dateFieldConfig.getValueChangeActionConfigList() != null
 					&& !dateFieldConfig.getValueChangeActionConfigList().isEmpty()) {
 				dateField.addValueChangeListener(e -> {
@@ -72,27 +71,6 @@ public class GtnUIFrameworkDateFieldComponent implements GtnUIFrameworkComponent
 		return dateField;
 	}
 
-	private void fillDateField(GtnUIFrameworkDateFieldConfig dateFieldConfig, DateField dateField){
-		GtnUIFrameworkWebserviceDateResponse response = getResponseFromService(dateFieldConfig);
-		if(response != null){
-			LocalDate date = response.getResultValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			dateField.setValue(date);
-		}
-	}
-	
-	private GtnUIFrameworkWebserviceDateResponse getResponseFromService(GtnUIFrameworkDateFieldConfig dateFieldConfig) {
-		GtnUIFrameworkWebserviceDateResponse response = new GtnUIFrameworkWebserviceDateResponse();
-		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		if (dateFieldConfig.getLoadingUrl() != null) {
-			response = wsclient
-					.callGtnWebServiceUrl(dateFieldConfig.getLoadingUrl(), "report", request, 
-							GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
-					.getGtnUIFrameworkWebserviceDateResponse();
-		}
-		return response;
-	}
-	
 	private void loadStyles(final Component component, final List<String> stylesList) {
 		if (stylesList != null) {
 			for (String style : stylesList) {

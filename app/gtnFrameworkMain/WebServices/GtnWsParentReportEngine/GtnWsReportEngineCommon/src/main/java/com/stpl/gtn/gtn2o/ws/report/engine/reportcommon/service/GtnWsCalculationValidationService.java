@@ -5,16 +5,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
-
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.constants.CalculationConstants;
 
-@Service
-@Scope(value = "singleton")
 public class GtnWsCalculationValidationService {
 
+	private static GtnWsCalculationValidationService VALIDATION_INSTANCE = null;
+
 	private static final Map<String, List<String[]>> COMPARISON_BASIS = new HashMap<>();
+
+	private GtnWsCalculationValidationService() {
+		super();
+	}
+
+	public static GtnWsCalculationValidationService getInstance() {
+		if (VALIDATION_INSTANCE == null) {
+			VALIDATION_INSTANCE = new GtnWsCalculationValidationService();
+			VALIDATION_INSTANCE.loadComparisonBasisMap();
+		}
+		return VALIDATION_INSTANCE;
+	}
 
 	public boolean doubleValidation(Double value) {
 		return !(value == null || Double.isInfinite(value) || Double.isNaN(value));
@@ -42,7 +51,7 @@ public class GtnWsCalculationValidationService {
 		}
 	}
 
-	private static void loadComparisonBasisMap() {
+	private void loadComparisonBasisMap() {
 		if (COMPARISON_BASIS.isEmpty()) {
 			List<String[]> actuals = new ArrayList<>();
 			actuals.add(new String[] { CalculationConstants.ACTUALS, CalculationConstants.PROJECTIONS });
@@ -63,7 +72,7 @@ public class GtnWsCalculationValidationService {
 	}
 
 	public List<String[]> getComparisonBasis(String key) {
-		return this.COMPARISON_BASIS.get(key);
+		return COMPARISON_BASIS.get(key);
 	}
 
 }

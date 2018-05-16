@@ -170,7 +170,12 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		List<Object> actionParams = new ArrayList<>();
 		actionParams.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
-
+		loadDataTableActionConfig
+				.setFieldValues(Arrays.asList(new String[] {
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkCommonConstants.HIERARCHY_TYPE,
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkCommonConstants.HIERARCHY_NAME }));
 		loadDataTableActionConfig.setActionParameterList(actionParams);
 
 		actionConfigList.add(loadDataTableActionConfig);

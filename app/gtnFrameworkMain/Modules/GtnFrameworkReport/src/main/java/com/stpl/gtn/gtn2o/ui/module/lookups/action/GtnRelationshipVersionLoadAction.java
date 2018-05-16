@@ -9,10 +9,8 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboboxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
-import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -23,33 +21,35 @@ public class GtnRelationshipVersionLoadAction
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		// TODO Auto-generated method stub
-
+		return;
 	}
 
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		String relationshipValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(1).toString(),componentId)
-				.getCaptionFromComboBox();
-		
-		GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(2).toString(),componentId).getComponentConfig().getGtnComboboxConfig();
-		relationComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		relationComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION);
+		String relationshipValue = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(1).toString(), componentId).getCaptionFromComboBox();
+		Integer relationshipBuilderSid = (Integer) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(1).toString()).getValueFromComponent();
+		if (relationshipValue != "") {
+			GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(2).toString()).getComponentConfig()
+					.getGtnComboboxConfig();
+			relationComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+					+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+			relationComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION);
 
-		GtnUIFrameworkComboboxComponent combobox = new GtnUIFrameworkComboboxComponent();
-		combobox.reloadComponent(GtnUIFrameworkActionType.VALUE_CHANGE_ACTION,
-				(String) gtnUIFrameWorkActionConfig.getActionParameterList().get(2), componentId,
-				Arrays.asList(relationshipValue));
+			GtnUIFrameworkComboboxComponent combobox = new GtnUIFrameworkComboboxComponent();
+			combobox.reloadComponent(GtnUIFrameworkActionType.VALUE_CHANGE_ACTION,
+					(String) gtnUIFrameWorkActionConfig.getActionParameterList().get(2), componentId,
+					Arrays.asList(relationshipBuilderSid));
+		}
 	}
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
 }

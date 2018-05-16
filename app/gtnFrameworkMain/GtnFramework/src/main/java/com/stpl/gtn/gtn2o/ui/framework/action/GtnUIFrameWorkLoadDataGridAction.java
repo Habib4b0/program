@@ -8,7 +8,7 @@ package com.stpl.gtn.gtn2o.ui.framework.action;
 
 import java.util.List;
 
-import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.QueryBean;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.GtnUIFrameworkPagedGridLogic;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
@@ -24,10 +24,18 @@ public class GtnUIFrameWorkLoadDataGridAction implements GtnUIFrameWorkAction {
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData((String) params.get(0), componentId);
 		if (componentData != null) {
-                    GtnUIFrameworkPagedTableConfig tableConfig=componentData.getTableConfig();
-//                     QueryBean querybean=GtnUIFrameworkGlobalUI.setQueryBean(componentData.getTableConfig());
-//                      componentData.getPagedGrid().getTableConfig().setQueryBean(querybean);
-                      componentData.getPagedGrid().refreshGrid();
+			GtnUIFrameworkPagedTableConfig tableConfig = componentData.getTableConfig();
+			GtnUIFrameworkPagedGridLogic tableLogic = componentData.getCurrentPageGridLogic();
+			// QueryBean
+			// querybean=GtnUIFrameworkGlobalUI.setQueryBean(componentData.getTableConfig());
+			// componentData.getPagedGrid().getTableConfig().setQueryBean(querybean);
+			if (gtnUIFrameWorkActionConfig.getFieldDescription() == null) {
+				tableLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
+			} else {
+				tableLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(),
+						gtnUIFrameWorkActionConfig.getFieldDescription(), true);
+			}
+//			componentData.getPagedGrid().refreshGrid();
 		}
 	}
 
