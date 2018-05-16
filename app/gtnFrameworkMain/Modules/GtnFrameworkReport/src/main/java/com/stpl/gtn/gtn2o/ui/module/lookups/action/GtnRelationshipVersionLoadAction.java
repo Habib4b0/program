@@ -34,7 +34,7 @@ public class GtnRelationshipVersionLoadAction
 				.getVaadinBaseComponent(actionParamsList.get(1).toString()).getValueFromComponent();
 		if (relationshipValue != "") {
 			GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(actionParamsList.get(2).toString()).getComponentConfig()
+					.getVaadinBaseComponent(actionParamsList.get(2).toString(),componentId).getComponentConfig()
 					.getGtnComboboxConfig();
 			relationComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 					+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
