@@ -104,8 +104,8 @@ public class HeaderGeneratorService {
 	public GtnWsPagedTreeTableResponse getReportRightTableColumns(GtnForecastBean gtnForecastBean) {
 
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
-		String[] comparisonBasisColumn = new String[] { "Actuals" };
-		String[] comparisonBasisHeader = new String[] { "Actuals" };
+		String[] comparisonBasisColumn = new String[] { "Actuals","Projection1"};
+		String[] comparisonBasisHeader = new String[] { "Actuals","Current Projection"};
 		// String[] comparisonBasisColumn = new String[]{"Actuals", "Accruals",
 		// "CurrentProjection",
 		// "Projection1", "Projection2", "Projection3", "Projection4", "Projection5"};
@@ -264,8 +264,8 @@ public class HeaderGeneratorService {
 					tableHeaderDTO.addSingleColumn(single, singleHeader[k].toString(), String.class);
 					doubleMap.add(single.toString());
 				}
-				tableHeaderDTO.addDoubleColumn(doubleColumn[j], doubleHeader[j].toString());
-				tableHeaderDTO.addDoubleHeaderMap(doubleColumn[j], doubleMap.toArray());
+				tableHeaderDTO.addDoubleColumn(doubleColumn[j]+ tripleColumn[i].toString(), doubleHeader[j].toString());
+				tableHeaderDTO.addDoubleHeaderMap(doubleColumn[j]+ tripleColumn[i].toString(), doubleMap.toArray());
 				doubleMap.clear();
 				tripleMap.add(doubleColumn[j].toString());
 			}

@@ -24,6 +24,7 @@ public class GtnWsMongoCalculation {
 	private GtnWsReportEngineBean engineBean;
 
 	boolean index = false;
+        int nodeIndex=1;
 
 	public void nodeData(GtnWsReportEngineBean engineBean) {
 		this.engineBean = engineBean;
@@ -68,12 +69,14 @@ public class GtnWsMongoCalculation {
 
 	public GtnWsReportEngineTreeNode variableCategoryCalculation() {
 		variableCategoryCalculationRecursion(engineBean.getInput(), "");
+                nodeIndex=0;
 		return engineBean.getInput();
 	}
 
 	private void variableCategoryCalculationRecursion(final GtnWsReportEngineTreeNode ccpNode,
 			String parentHierarchyNo) {
 		int hierarchyIndex = 1;
+               
 		for (GtnWsReportEngineTreeNode gtnWsTreeNode : ccpNode.getChildren()) {
 			// if (gtnWsTreeNode.getNodeData() != null) {
 			// GtnWsVariableCategoryBean categoryBean = new GtnWsVariableCategoryBean();
@@ -105,6 +108,10 @@ public class GtnWsMongoCalculation {
 			newAttributes.putAttributes("RsId", gtnWsTreeNode.getRsIds());
 			newAttributes.putAttributes("ccpId", gtnWsTreeNode.getCcpIds());
 			newAttributes.putAttributes("generatedHierarchyNo", newParentHierarchyNo);
+			newAttributes.putAttributes("nodeIndex", nodeIndex++);
+			newAttributes.putAttributes("levelIndex",hierarchyIndex);
+                        int childCount=gtnWsTreeNode.getChildren()==null?0:gtnWsTreeNode.getChildren().size();
+			newAttributes.putAttributes("childCount", childCount);
 			calculatedAttributes.addAttributeBeanToList(newAttributes);
 			gtnWsTreeNode.setNodeData(calculatedAttributes);
 			// }

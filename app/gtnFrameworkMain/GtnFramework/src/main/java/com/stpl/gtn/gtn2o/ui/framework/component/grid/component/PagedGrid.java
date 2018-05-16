@@ -1,12 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.DataSet;
@@ -30,6 +23,14 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.components.grid.HeaderRow;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class PagedGrid {
 
@@ -80,19 +81,11 @@ public class PagedGrid {
 		count = getTotalCount();
 		gtnlogger.info("count------" + count);
 		dataSet = loadData((pageNumber * pageLength), pageLength);
-		// int i = 0;
-		// grid.removeAllColumns();
-		// for (String column : tableConfig.getVisibleColumns()) {
-		// grid.addColumn(row ->
-		// row.getValue(column)).setCaption(tableConfig.getColumnHeaders().get(i)).setId(tableConfig.getColumnHeaders().get(i));
-		// i++;
-		// }
 
 		if (dataSet.getRows() != null) {
 			grid.setItems(dataSet.getRows());
 
 		}
-		// pageCountLabel.setCaption(String.valueOf(getPageCount()));
 
 	}
 
@@ -112,7 +105,7 @@ public class PagedGrid {
 		List<GtnWsRecordBean> rows;
 		if (tableConfig.getDataQuery() != null) {
 
-			List<Object> input = PagedTreeGrid.addRangeInInput(tableConfig.getDataQueryInputs(), offset, limit);
+			List<Object> input = addRangeInInput(tableConfig.getDataQueryInputs(), offset, limit);
 			rows = FetchData.fetchResultAsRow(tableConfig.getTableColumnMappingId(),
 					appendFilter(tableConfig.getDataQuery()), input.toArray());
 		} else {
@@ -381,5 +374,13 @@ public class PagedGrid {
 	public void setPagedTableLogic(GtnUIFrameworkPagedGridLogic pagedTableLogic) {
 		this.pagedTableLogic = pagedTableLogic;
 	}
-
+    public static List<Object> addRangeInInput(Object[] input, int offset, int limit) {
+        List<Object> list = new ArrayList<>();
+        if (input != null) {
+            list = new LinkedList<>(Arrays.asList(input));
+        }
+        list.add(offset);
+        list.add(limit);
+        return list;
+    }
 }

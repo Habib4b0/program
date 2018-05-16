@@ -414,7 +414,7 @@ public class GtnWsMongoService {
 		}
 	}
 
-	public FindIterable<Document> fetchDataFromMongo(String collectionName, Object input[], Object values[]) {
+	public FindIterable<Document> fetchDataFromMongo(String collectionName, Object input[], Object values[],int start,int limit,String rowIndexFieldName) {
 		try {
 			BasicDBObject whereQuery = new BasicDBObject();
 			if (input != null && values != null && values.length == input.length) {
@@ -428,6 +428,9 @@ public class GtnWsMongoService {
 					}
 				}
 			}
+                        if(rowIndexFieldName!=null&& !rowIndexFieldName.isEmpty()){
+                            whereQuery.put(rowIndexFieldName, new BasicDBObject("$gte", start).append("$lte", limit));
+                        }
 			@SuppressWarnings("unchecked")
 			FindIterable<Document> itr = getCollection(collectionName).find(whereQuery);
 			// Bson filter = Filters.regex(collectionName, collectionName);
