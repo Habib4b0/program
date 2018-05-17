@@ -701,6 +701,7 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
 		String[] propertyIds = GtnFrameworkRelationshipBuilderConstants.getCustomPropertyIds();
 		String[] listNameArray = GtnFrameworkRelationshipBuilderConstants.getCustomListNameArray();
+                GtnUIFrameworkComboBoxConfig comboBoxConfig = null;
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig wfMainCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			wfMainCustomFilterConfig.setPropertId(propertyIds[i]);
@@ -709,16 +710,14 @@ public class GtnFrameworkRelationshipBuilderSearchConfig {
 			wfMainCustomFilterComponentConfig
 					.setComponentId(GtnFrameworkRelationshipBuilderConstants.CUSTOMFILTERCOMBOBOX);
 			wfMainCustomFilterComponentConfig
-					.setComponentName(GtnFrameworkRelationshipBuilderConstants.CUSTOMFILTERCOMBOBOX);
-			GtnUIFrameworkComboBoxConfig comboBoxConfig;
-
-			if (propertyIds[i].equals(GtnFrameworkRelationshipBuilderConstants.CREATED_BY)) {
-				comboBoxConfig = configProvider.getComboBoxConfig(listNameArray[i],
+					.setComponentName(GtnFrameworkRelationshipBuilderConstants.CUSTOMFILTERCOMBOBOX);                       
+			if (propertyIds[i].equals(GtnFrameworkRelationshipBuilderConstants.CREATED_BY)) {                      
+				 comboBoxConfig = configProvider.getComboBoxConfig(listNameArray[i],
 						GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_USER_COMBO_BOX);	 
-			comboBoxConfig.setDefaultValue(GtnFrameworkCommonStringConstants.SHOW_ALL);                
-			wfMainCustomFilterComponentConfig.setGtnComboboxConfig(comboBoxConfig);
+								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_USER_COMBO_BOX);
                         }
+                        comboBoxConfig.setDefaultValue(GtnFrameworkCommonStringConstants.SHOW_ALL);                
+			wfMainCustomFilterComponentConfig.setGtnComboboxConfig(comboBoxConfig);
 			wfMainCustomFilterConfig.setGtnComponentConfig(wfMainCustomFilterComponentConfig);
 			customFilterConfigMap.put(wfMainCustomFilterConfig.getPropertId(), wfMainCustomFilterConfig);
 		}
