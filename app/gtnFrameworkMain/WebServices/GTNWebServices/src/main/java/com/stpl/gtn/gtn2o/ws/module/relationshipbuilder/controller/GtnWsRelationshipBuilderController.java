@@ -74,6 +74,7 @@ public class GtnWsRelationshipBuilderController {
 	private GtnWsRelationshipBuilderHierarchyFileGeneratorService gtnWsRelationshipBuilderHierarchyFileGenerator;
 
 	private Map<String, String> filterAndSortingRBCriteriaMap = new HashMap<>();
+	private Map<String, String> filterAndSortingRBCriteriaMapforCreatedBy = new HashMap<>();
 	private Map<String, String> searchCriteriaMap = new HashMap<>();
 
 	public GtnWsRelationshipBuilderHelperService getHelperLogic() {
@@ -173,7 +174,7 @@ public class GtnWsRelationshipBuilderController {
 					}
 					inputWhereConditions.append(where).append(and)
 							.append(GtnCommonUtil.getWhereClauseForAColumn(searchCriteria.getExpression(),
-									filterAndSortingRBCriteriaMap().get(searchCriteria.getFieldId()), value,
+									filterAndSortingRBCriteriaMapforCreatedBy().get(searchCriteria.getFieldId()), value,
 									searchCriteria.getFilterValue2()));
 					and = GtnFrameworkWebserviceConstant.AND_COLUMN;
 					where = "";
@@ -228,35 +229,59 @@ public class GtnWsRelationshipBuilderController {
 			GtnWebServiceOrderByCriteria dto = relationshipBuilderOrderByCriteriaList.get(0);
 			list.add(filterAndSortingRBCriteriaMap().get(dto.getPropertyId()) + " " + dto.getOrderByCriteria());
 		} else {
-			list.add(filterAndSortingRBCriteriaMap().get("creationDate") + " ASC");
+			list.add(filterAndSortingRBCriteriaMap().get(GtnFrameworkWebserviceConstant.CREATION_DATE) + " ASC");
 		}
 		return list;
 	}
 
 	private Map<String, String> filterAndSortingRBCriteriaMap() {
 		if (filterAndSortingRBCriteriaMap.isEmpty()) {
-			filterAndSortingRBCriteriaMap.put("relationshipName", "RB.RELATIONSHIP_NAME");
-			filterAndSortingRBCriteriaMap.put("relationshipDescription", "RB.RELATIONSHIP_DESCRIPTION");
-			filterAndSortingRBCriteriaMap.put("relationshipType", "HT.DESCRIPTION");
+			filterAndSortingRBCriteriaMap.put("relationshipName", GtnFrameworkWebserviceConstant.RB_RELATIONSHIP_NAME);
+			filterAndSortingRBCriteriaMap.put("relationshipDescription",
+					GtnFrameworkWebserviceConstant.RB_RELATIONSHIP_DESCRIPTION);
+			filterAndSortingRBCriteriaMap.put("relationshipType", GtnFrameworkWebserviceConstant.HT_DESCRIPTION_CAPS);
 			filterAndSortingRBCriteriaMap.put("hierarchyName", "HD.HIERARCHY_NAME");
 			filterAndSortingRBCriteriaMap.put("versionNo", "RB.VERSION_NO");
 			filterAndSortingRBCriteriaMap.put("startDate", GtnFrameworkWebserviceConstant.RBSTART_DATE);
-			filterAndSortingRBCriteriaMap.put("creationDate", GtnFrameworkWebserviceConstant.RBCREATED_DATE);
+			filterAndSortingRBCriteriaMap.put(GtnFrameworkWebserviceConstant.CREATION_DATE,
+					GtnFrameworkWebserviceConstant.RBCREATED_DATE);
 			filterAndSortingRBCriteriaMap.put("modifiedDate", "RB.MODIFIED_DATE");
-			filterAndSortingRBCriteriaMap.put("createdBy", "ISNULL(usr.lastName,'')+ ISNULL(' '+usr.middleName,'')+ ISNULL(' '+usr.firstName,'')");
+			filterAndSortingRBCriteriaMap.put("createdBy",
+					"ISNULL(usr.firstName,'')+ ISNULL(' '+usr.middleName,'')+ ISNULL(' '+usr.lastName,'')");
 
 		}
 		return filterAndSortingRBCriteriaMap;
 	}
 
+	private Map<String, String> filterAndSortingRBCriteriaMapforCreatedBy() {
+		if (filterAndSortingRBCriteriaMapforCreatedBy.isEmpty()) {
+			filterAndSortingRBCriteriaMapforCreatedBy.put("relationshipName",
+					GtnFrameworkWebserviceConstant.RB_RELATIONSHIP_NAME);
+			filterAndSortingRBCriteriaMapforCreatedBy.put("relationshipDescription",
+					GtnFrameworkWebserviceConstant.RB_RELATIONSHIP_DESCRIPTION);
+			filterAndSortingRBCriteriaMapforCreatedBy.put("relationshipType",
+					GtnFrameworkWebserviceConstant.HT_DESCRIPTION_CAPS);
+			filterAndSortingRBCriteriaMapforCreatedBy.put("hierarchyName", "HD.HIERARCHY_NAME");
+			filterAndSortingRBCriteriaMapforCreatedBy.put("versionNo", "RB.VERSION_NO");
+			filterAndSortingRBCriteriaMapforCreatedBy.put("startDate", GtnFrameworkWebserviceConstant.RBSTART_DATE);
+			filterAndSortingRBCriteriaMapforCreatedBy.put(GtnFrameworkWebserviceConstant.CREATION_DATE,
+					GtnFrameworkWebserviceConstant.RBCREATED_DATE);
+			filterAndSortingRBCriteriaMapforCreatedBy.put("modifiedDate", "RB.MODIFIED_DATE");
+			filterAndSortingRBCriteriaMapforCreatedBy.put("createdBy", "usr.userId");
+
+		}
+		return filterAndSortingRBCriteriaMapforCreatedBy;
+	}
+
 	private Map<String, String> searchCriteriaMap() {
 		if (searchCriteriaMap.isEmpty()) {
-			searchCriteriaMap.put("RBSearch_relationshipName", "RB.RELATIONSHIP_NAME");
+			searchCriteriaMap.put("RBSearch_relationshipName", GtnFrameworkWebserviceConstant.RB_RELATIONSHIP_NAME);
 			searchCriteriaMap.put("RBSearch_hierarchyName", "RB.HIERARCHY_DEFINITION_SID");
-			searchCriteriaMap.put("RBSearch_relationshipDescription", "RB.RELATIONSHIP_DESCRIPTION");
+			searchCriteriaMap.put("RBSearch_relationshipDescription",
+					GtnFrameworkWebserviceConstant.RB_RELATIONSHIP_DESCRIPTION);
 			searchCriteriaMap.put("RBSearch_startDateFrom", GtnFrameworkWebserviceConstant.RBSTART_DATE);
 			searchCriteriaMap.put("RBSearch_startDateTo", GtnFrameworkWebserviceConstant.RBSTART_DATE);
-			searchCriteriaMap.put("RBSearch_relationshipType", "HT.DESCRIPTION");
+			searchCriteriaMap.put("RBSearch_relationshipType", GtnFrameworkWebserviceConstant.HT_DESCRIPTION_CAPS);
 			searchCriteriaMap.put("RBSearch_creationDateFrom", GtnFrameworkWebserviceConstant.RBCREATED_DATE);
 			searchCriteriaMap.put("RBSearch_creationDateTo", GtnFrameworkWebserviceConstant.RBCREATED_DATE);
 		}
