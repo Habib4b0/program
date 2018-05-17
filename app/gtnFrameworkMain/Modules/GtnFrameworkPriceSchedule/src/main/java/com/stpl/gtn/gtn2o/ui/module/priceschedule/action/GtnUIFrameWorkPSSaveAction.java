@@ -12,12 +12,14 @@ import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.NotesDTO;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.module.priceschedule.constants.GtnFrameworkPSConstants;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
 import com.stpl.gtn.gtn2o.ws.complianceanddeductionrules.constants.GtnWsCDRContants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.priceschedule.bean.GtnUIFrameWorkPSInfoBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -107,7 +109,7 @@ public class GtnUIFrameWorkPSSaveAction implements GtnUIFrameWorkAction ,GtnUIFr
 
 			GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID,
 					response.getGtnWsPriceScheduleGeneralResponse().getPriceScheduleInfoBean().getSystemId());
-
+                        
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("tabSheet").setSelectedTab("priceScheduleInfoTab");
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON).setVisible(true);
                         
