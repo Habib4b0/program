@@ -47,6 +47,8 @@ public class GtnUIFrameWorkPSInfoBean {
 	private List<NotesTabBean> noteBeanList;
 
 	private List<Object> ifpDataList;
+        
+        private String mode;
 
 	public String getPsName() {
 		return psName;
@@ -200,4 +202,12 @@ public class GtnUIFrameWorkPSInfoBean {
 		this.ifpDataList = (ifpDataList != null ? Collections.unmodifiableList(ifpDataList) : ifpDataList);
 	}
 
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+        
 }
