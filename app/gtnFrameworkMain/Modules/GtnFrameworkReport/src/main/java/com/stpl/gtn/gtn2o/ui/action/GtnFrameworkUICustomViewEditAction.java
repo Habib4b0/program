@@ -46,10 +46,11 @@ public class GtnFrameworkUICustomViewEditAction
 		String id = sourceComponentId + "_" + "reportingDashboardTab_displaySelectionTabCustomView";
 		GtnUIFrameworkBaseComponent baseComboBoxComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(id);
 		String selectedItem = baseComboBoxComponent.getV8StringFromField();
+		setTypesAsEdit(false);
 		if (!"".equals(selectedItem) && !"0".equals(selectedItem)) {
 			loadScreen(selectedItem, componentId, gtnUIFrameWorkActionConfig);
-
 		}
+		
 	}
 
 	private void loadScreen(String selectedItem, String componentId,
@@ -67,11 +68,19 @@ public class GtnFrameworkUICustomViewEditAction
 				.getCustomViewDataBean();
 		loadTreeGrid(viewDataBean, gtnUIFrameWorkActionConfig, componentId);
 		loadViewName(viewDataBean.getCustomViewName());
+		setTypesAsEdit(true);
+
+	}
+
+	private void setTypesAsEdit(boolean isEdit) {
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookupcustomViewSave").getComponentData()
+				.setCustomData(isEdit);
 
 	}
 
 	private void loadViewName(String customViewName) {
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookup_hierarchyName").setHasValue(customViewName);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookup_hierarchyName")
+				.setHasValue(customViewName);
 	}
 
 	private void loadTreeGrid(GtnWsReportCustomViewDataBean viewDataBean,

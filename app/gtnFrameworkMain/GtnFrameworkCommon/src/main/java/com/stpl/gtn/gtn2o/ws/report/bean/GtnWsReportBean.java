@@ -16,7 +16,7 @@ public class GtnWsReportBean {
 	private int productHierarchyVersionNo;
 	private int customerRelationVersionNo;
 	private int productRelationVersionNo;
-	private Map<String, List> hierarchyLevelDetails;
+	private Map<String, List> hierarchyLevelDetails;	
 
 	public GtnWsReportDataSelectionBean getDataSelectionBean() {
 		return dataSelectionBean;
@@ -121,5 +121,5 @@ public class GtnWsReportBean {
 	public void setHierarchyLevelDetails(Map<String, List> hierarchyLevelDetails) {
 		this.hierarchyLevelDetails = hierarchyLevelDetails;
 	}
-	
+
 }
