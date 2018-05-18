@@ -38,7 +38,7 @@ import com.stpl.gtn.gtn2o.ws.response.contract.GtnWsContractDashboardResponse;
  * @author Abhiram.Giri
  */
 public class GtnFrameworkContractDashBoardSubmitAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
-    
+     
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -162,7 +162,7 @@ public class GtnFrameworkContractDashBoardSubmitAction implements GtnUIFrameWork
 							.getCustomDataList().get(0));
 
 			List<Object> notesValueList = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("notesTab").getNotesTabValue();
-			processDataBean.getContractInfoBean().getProperties().set(48, String.valueOf(notesValueList.get(0)));
+			processDataBean.getContractInfoBean().getProperties().set(49, String.valueOf(notesValueList.get(0)));
 			processDataBean.setNotesTabRecordList(
 					collectNotesTableRecord((List<NotesDTO>) notesValueList.get(1), processDataBean));
 			if (processDataBean.isAliasLoaded()) {
