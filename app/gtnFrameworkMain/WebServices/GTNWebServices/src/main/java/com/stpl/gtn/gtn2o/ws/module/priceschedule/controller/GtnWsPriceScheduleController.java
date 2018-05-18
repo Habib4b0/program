@@ -197,7 +197,7 @@ public class GtnWsPriceScheduleController {
 		GtnWsPriceScheduleGeneralRequest getGtnWsPriceScheduleGeneralRequest = gtnWsRequest
 				.getGtnWsPriceScheduleGeneralRequest();
 		GtnUIFrameWorkPSInfoBean psInfoBean = getGtnWsPriceScheduleGeneralRequest.getPsInfoBean();
-
+                        
 		try {
 			gtnWsPriceScheduleService.priceScheduleSave(psInfoBean, gtnWsGeneralRequest.getUserId(),
 					gtnWsGeneralRequest.getSessionId());
@@ -618,7 +618,7 @@ public class GtnWsPriceScheduleController {
 			int systemId = psMasterBean.getSystemId();
 			Criteria cr = session.createCriteria(PsModel.class).add(Restrictions.eq("psId", psMasterBean.getPsId()))
 					.add(Restrictions.ne("inboundStatus", 'D'));
-			if (systemId > 0) {
+			if (systemId > 0 && !psMasterBean.getMode().equals("COPY")) {
 				cr.add(Restrictions.ne("psModelSid", systemId));
 			}
 			ProjectionList proj = Projections.projectionList();
@@ -630,7 +630,7 @@ public class GtnWsPriceScheduleController {
 			}
 			Criteria cr2 = session.createCriteria(PsModel.class).add(Restrictions.eq("psNo", psMasterBean.getPsNo()))
 					.add(Restrictions.ne("inboundStatus", 'D'));
-			if (systemId > 0) {
+			if (systemId > 0 && !psMasterBean.getMode().equals("COPY")) {
 				cr2.add(Restrictions.ne("psModelSid", systemId));
 			}
 			ProjectionList proj2 = Projections.projectionList();
