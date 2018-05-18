@@ -199,9 +199,9 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
-			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_UTIL_DATE,
-			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_UTIL_DATE };
 
 	private static final String[] GTN_WORKFLOW_INBOX_PRIVATE_NOT_ARM_SEARCH_TABLE_HEADERS = new String[] { "View Name",
