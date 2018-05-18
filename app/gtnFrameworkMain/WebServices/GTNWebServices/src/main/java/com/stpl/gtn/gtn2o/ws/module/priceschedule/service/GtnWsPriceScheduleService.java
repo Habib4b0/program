@@ -123,7 +123,7 @@ public class GtnWsPriceScheduleService {
 				psInfoBean.setSystemId(((BigDecimal) id).intValue());
 
 			}
-			psSaveInsertToPSDetails(psInfoBean.getSystemId(), userId, sessionId, session);
+                     psCheckCopyMode( psInfoBean, userId,  sessionId, session);
 			if (psInfoBean.getNoteBeanList() != null && !psInfoBean.getNoteBeanList().isEmpty()) {
 				psNotesTabInsert(psInfoBean, session);
 				psNotesTabAttachInsert(psInfoBean, session);
@@ -136,6 +136,16 @@ public class GtnWsPriceScheduleService {
 			session.close();
 		}
 	}
+        
+        public void psCheckCopyMode(GtnUIFrameWorkPSInfoBean psInfoBean,String userId, String sessionId,Session session) throws GtnFrameworkGeneralException{
+                if (psInfoBean.isPsCopyMode()) {
+
+                    psCopyInsertToPSDetails(psInfoBean.getSystemId(), userId, sessionId, session);
+
+                } else {
+                    psSaveInsertToPSDetails(psInfoBean.getSystemId(), userId, sessionId, session);
+                }
+        }
 
 	public void priceScheduleInsertTemp(List<Object> inputValueList,
 			GtnUIFrameworkWebserviceResponse gtnPsProtectionUpdateResponse) throws GtnFrameworkGeneralException {
@@ -211,6 +221,17 @@ public class GtnWsPriceScheduleService {
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(psDetailsInsertQuery, psDetailsInsertQueryParams,
 				psDetailsInsertQueryTypes, session);
 
+	}
+        
+        private void psCopyInsertToPSDetails(int psmodelSid, String userId, String sessionId, Session session)
+			throws GtnFrameworkGeneralException {
+
+		String psDetailsInsertQuery = gtnWsSqlService.getQuery("getPsCopyDetailsInsertQuery");
+		Object[] psDetailsInsertQueryParams = { userId, sessionId, psmodelSid };
+		GtnFrameworkDataType[] psDetailsInsertQueryTypes = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.INTEGER };
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(psDetailsInsertQuery, psDetailsInsertQueryParams,
+				psDetailsInsertQueryTypes, session);
 	}
 
 	private void psSaveToPSModel(String userId, GtnUIFrameWorkPSInfoBean psInfoBean, Session session)

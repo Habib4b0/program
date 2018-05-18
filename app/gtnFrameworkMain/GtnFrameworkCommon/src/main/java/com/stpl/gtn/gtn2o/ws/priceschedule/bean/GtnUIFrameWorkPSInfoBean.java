@@ -47,6 +47,15 @@ public class GtnUIFrameWorkPSInfoBean {
 	private List<NotesTabBean> noteBeanList;
 
 	private List<Object> ifpDataList;
+        private boolean psCopyMode=false;
+
+        public boolean isPsCopyMode() {
+        return psCopyMode;
+         }
+
+        public void setPsCopyMode(boolean psCopyMode) {
+        this.psCopyMode = psCopyMode;
+         }
 
 	public String getPsName() {
 		return psName;

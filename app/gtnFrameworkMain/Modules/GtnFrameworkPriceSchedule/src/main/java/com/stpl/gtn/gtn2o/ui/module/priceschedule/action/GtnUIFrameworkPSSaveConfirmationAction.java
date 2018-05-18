@@ -95,7 +95,7 @@ public class GtnUIFrameworkPSSaveConfirmationAction implements GtnUIFrameWorkAct
 			}
 
 		} catch (Exception ex) {
-			throw ex;
+                        throw new GtnFrameworkGeneralException("Error in GtnUIFrameworkPSSaveConfirmationAction", ex);
 		}
 	}
 

@@ -67,6 +67,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String BASE_PRICE = "Baseline WAC";
 
 	public static final String SYSTEM_ID = "systemId";
+	public static final String COPY_MODE = "Copy";
 	public static final String VALUE = "Value";
 	public static final String SEARCH_BUTTON_LAYOUT = "searchButtonlayout";
 	public static final String FORMULA_TYPE = "formulaType";

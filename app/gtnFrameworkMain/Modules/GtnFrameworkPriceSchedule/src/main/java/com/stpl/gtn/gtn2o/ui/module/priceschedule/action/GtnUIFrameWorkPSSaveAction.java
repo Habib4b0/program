@@ -76,7 +76,7 @@ public class GtnUIFrameWorkPSSaveAction implements GtnUIFrameWorkAction ,GtnUIFr
 
 			GtnUIFrameWorkPSInfoBean priceScheduleInfoBean = new GtnUIFrameWorkPSInfoBean();
 			priceScheduleInfoBean.setSystemId(sysId);
-                         String copyMode =(String)GtnUIFrameworkGlobalUI.getSessionProperty("mode").toString();
+                         String copyMode = GtnUIFrameworkGlobalUI.getSessionProperty("mode").toString();
                         
 			List<NotesTabBean> noteBeanList = new ArrayList<>();
 
@@ -90,6 +90,9 @@ public class GtnUIFrameWorkPSSaveAction implements GtnUIFrameWorkAction ,GtnUIFr
 
 			loadNotesTab(noteBeanList, notesDTOs);
 			priceScheduleInfoBean.setNoteBeanList(noteBeanList);
+                        if(copyMode.equalsIgnoreCase(GtnFrameworkCommonConstants.COPY_MODE)){
+				priceScheduleInfoBean.setPsCopyMode(true);
+			} 
 			loadNonEditableField(priceScheduleInfoBean);
 
 			GtnWsPriceScheduleGeneralRequest getGtnWsPriceScheduleGeneralRequest = new GtnWsPriceScheduleGeneralRequest();
@@ -111,7 +114,7 @@ public class GtnUIFrameWorkPSSaveAction implements GtnUIFrameWorkAction ,GtnUIFr
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("tabSheet").setSelectedTab("priceScheduleInfoTab");
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON).setVisible(true);
                         
-                          if (copyMode.equalsIgnoreCase("Copy")) {
+                        if (copyMode.equalsIgnoreCase(GtnFrameworkCommonConstants.COPY_MODE)) {
                         Component deleteComp = GtnUIFrameworkGlobalUI.getVaadinComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON);
                         deleteComp.setEnabled(true);
                         GtnUIFrameWorkActionConfig enableActionConfigCopyMode = new GtnUIFrameWorkActionConfig();
