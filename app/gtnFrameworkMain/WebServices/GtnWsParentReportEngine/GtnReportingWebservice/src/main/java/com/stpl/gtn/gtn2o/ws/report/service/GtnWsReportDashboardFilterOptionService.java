@@ -57,4 +57,11 @@ public class GtnWsReportDashboardFilterOptionService {
 		return Optional.ofNullable(hierarchyData).get();
 	}
 
+	public List<Object[]> getDeductionLevelValues() throws GtnFrameworkGeneralException {
+		String custProdLevelQuery = reportSqlService.getQuery("filterOptionDeductionLevelLoadQuery");
+		gtnLogger.debug(custProdLevelQuery);
+		List<Object[]> deductionList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(custProdLevelQuery);
+		return Optional.ofNullable(deductionList).get();
+	}
+
 }
