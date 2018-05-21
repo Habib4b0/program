@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<sql>
+	<entity id="getCustomViewCustomerHierarchyCount">
+		<query> 
+        <![CDATA[
+		SELECT
+                    count(DISTINCT RLD.LEVEL_NO)
+                FROM RELATIONSHIP_BUILDER RB
+                JOIN RELATIONSHIP_LEVEL_DEFINITION RLD on RLD.RELATIONSHIP_BUILDER_SID = RB.RELATIONSHIP_BUILDER_SID WHERE
+                    RLD.VERSION_NO = RB.VERSION_NO
+                    AND RB.RELATIONSHIP_BUILDER_SID = ?
+      ]]>
+		</query>
+	</entity>
+        <entity id="getCustomViewCustomerHierarchyData">
+		<query> 
+        <![CDATA[
+            SELECT
+                    DISTINCT RLD.LEVEL_NAME,RLD.LEVEL_NO,
+                    convert(int,RLD.LEVEL_NO) as TREE_LEVEL_NO,
+                    ? as HIERARCHY_INDICATOR,
+                    RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                FROM RELATIONSHIP_BUILDER RB
+                JOIN RELATIONSHIP_LEVEL_DEFINITION RLD on RLD.RELATIONSHIP_BUILDER_SID = RB.RELATIONSHIP_BUILDER_SID WHERE
+                    RLD.VERSION_NO = RB.VERSION_NO
+                    AND RB.RELATIONSHIP_BUILDER_SID = ?
+                    order by convert(int, RLD.level_no) ;
+        ]]>
+
+		</query>
+	</entity>
+        <entity id="getCustomViewDeductionHierarchyCount">
+		<query> 
+        <![CDATA[
+		SELECT
+                    count(DISTINCT RLD.LEVEL_NO)
+                FROM RELATIONSHIP_BUILDER RB
+                JOIN RELATIONSHIP_LEVEL_DEFINITION RLD on RLD.RELATIONSHIP_BUILDER_SID = RB.RELATIONSHIP_BUILDER_SID WHERE
+                    RLD.VERSION_NO = RB.VERSION_NO
+                    AND RB.DEDUCTION_RELATION = ?
+      ]]>
+		</query>
+	</entity>
+        <entity id="getCustomViewDeductionHierarchyData">
+		<query> 
+        <![CDATA[
+            SELECT
+                    DISTINCT RLD.LEVEL_NAME,RLD.LEVEL_NO,
+                    convert(int,RLD.LEVEL_NO) as TREE_LEVEL_NO,
+                    ? as HIERARCHY_INDICATOR,
+                    RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                FROM RELATIONSHIP_BUILDER RB
+                JOIN RELATIONSHIP_LEVEL_DEFINITION RLD on RLD.RELATIONSHIP_BUILDER_SID = RB.RELATIONSHIP_BUILDER_SID WHERE
+                    RLD.VERSION_NO = RB.VERSION_NO
+                    AND RB.DEDUCTION_RELATION = ?
+                    order by convert(int, RLD.level_no) ;
+        ]]>
+
+		</query>
+	</entity>
+        <entity id="getCustomViewNameDuplicateCheck">
+		<query> 
+        <![CDATA[
+        SELECT
+		count( distinct CV.CUST_VIEW_MASTER_SID )
+	from
+		dbo.CUST_VIEW_MASTER CV
+	where
+		CV.CUST_VIEW_NAME = ?;
+   ]]>
+		</query>
+	</entity>
+        
+        <entity id="ccpInsertQueryCustom">
+		<query> 
+        <![CDATA[    
+  IF Object_id('tempdb..#COMP_CONT') IS NOT NULL DROP
+						TABLE
+							#COMP_CONT CREATE
+								TABLE
+									#COMP_CONT(
+									   
+										COMPANY_MASTER_SID INT,
+										CONTRACT_MASTER_SID INT,
+										RELATIONSHIP_BUILDER_SID VARCHAR(50),SALES_INCLUSION INT
+									) INSERT
+										INTO
+											#COMP_CONT(
+											   
+												COMPANY_MASTER_SID,
+												CONTRACT_MASTER_SID,
+												RELATIONSHIP_BUILDER_SID,SALES_INCLUSION
+											)?
+		
+		
+		  IF Object_id('TEMPDB..#SELECTED_PROD_HIERARCHY_NO') IS NOT NULL
+  DROP TABLE #SELECTED_PROD_HIERARCHY_NO
+
+		 IF Object_id('tempdb..#ITEM') IS NOT NULL DROP
+						TABLE
+							#ITEM CREATE
+								TABLE
+									#ITEM(
+										
+										ITEM_MASTER_SID INT,
+										RELATIONSHIP_BUILDER_SID VARCHAR(50)
+									) INSERT
+										INTO
+											#ITEM(
+												
+												ITEM_MASTER_SID,
+												RELATIONSHIP_BUILDER_SID
+											)  ?
+
+INSERT
+	INTO
+		CUSTOM_CCP_DETAILS(
+			CCP_DETAILS_SID,
+			CUSTOMER_RELATIONSHIP_BUILDER_SID,
+                            PRODUCT_RELATIONSHIP_BUILDER_SID,CUST_VIEW_MASTER_SID,CUSTOMER_VERSION,PRODUCT_VERSION
+		) SELECT Distinct
+			CD.CCP_DETAILS_SID,
+			?,
+			?
+                       ,?,?,?
+		FROM 
+			#COMP_CONT CC
+		JOIN CCP_DETAILS CD ON
+			CC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+			AND CC.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+		JOIN #ITEM I ON
+			I.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+	
+
+         ]]>
+		</query>
+	</entity>
+        
+        
+        
+        
+        
+        
+</sql>
