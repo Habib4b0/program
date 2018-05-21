@@ -3,7 +3,6 @@ package com.stpl.app.gtnforecasting.ui.form;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.abstractforecast.AbstractForm;
-import com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjection;
 import com.stpl.app.gtnforecasting.additionalinformation.form.AdditionalInformationForm;
 import com.stpl.app.gtnforecasting.bpm.logic.DSCalculationLogic;
 import com.stpl.app.gtnforecasting.bpm.logic.VarianceCalculationLogic;
@@ -111,8 +110,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.MinimizeTray;

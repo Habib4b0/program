@@ -42,7 +42,7 @@ public class SalesExcelNM extends ExcelExport{
     protected final CellStyle style6 = this.workbook.createCellStyle();
     protected DataFormat hssfDataFormat = this.workbook.createDataFormat();
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomExcelNM.class);
-    TableHolder tableHolder;
+    private TableHolder tableHolder;
 
 
     public SalesExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter) {
@@ -133,28 +133,30 @@ public class SalesExcelNM extends ExcelExport{
                 }
 
             } else {
-                if (null != value) {
-                    if (!isNumeric(prop.getType())) {
-                        if (java.util.Date.class.isAssignableFrom(prop.getType())) {
-                            sheetCell.setCellValue((Date) value);
-                        } else {
-                            sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
-                        }
-                    } else {
-                        try {
-                            // parse all numbers as double, the format will determine how they appear
-                            final Double d = DataTypeConverter.convertObjectToDouble(value);
-                            sheetCell.setCellValue(d);
-                            sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
-                        } catch (final NumberFormatException nfe) {
-
-                            sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
-                        }
-                    }
-                }
-
+                nonFormatter(value, prop, sheetCell);
             }
+        }
+    }
 
+    private void nonFormatter(Object value, Property prop, Cell sheetCell) {
+        if (null != value) {
+            if (!isNumeric(prop.getType())) {
+                if (java.util.Date.class.isAssignableFrom(prop.getType())) {
+                    sheetCell.setCellValue((Date) value);
+                } else {
+                    sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
+                }
+            } else {
+                try {
+                    // parse all numbers as double, the format will determine how they appear
+                    final Double d = DataTypeConverter.convertObjectToDouble(value);
+                    sheetCell.setCellValue(d);
+                    sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                } catch (final NumberFormatException nfe) {
+                    
+                    sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
+                }
+            }
         }
     }
     
@@ -194,39 +196,40 @@ public class SalesExcelNM extends ExcelExport{
                 .getChildren(rootItemId);
         LOGGER.info("*********************ROOT ITEM ID********************************" + ((SalesRowDto) rootItemId).getLevelName());
         int rowNo = sheetCell.getRowIndex() + 2;
-        String formula = "";
+        StringBuilder formula = new StringBuilder();
         int i = 0;
         if (children.size() == 1) {
-            formula = columnLetter + rowNo;
-            return formula;
+            formula.append(columnLetter).append(rowNo);
+            return formula.toString();
         }
         for (Object object : children) {
             
             if (i == 0) {
-                formula += columnLetter + rowNo;
+                formula.append(columnLetter).append(rowNo);
             } else if (i == children.size() - 1) {
-                return formula;
+                return formula.toString();
             }
-            formula += ",";
+            formula.append(",");
             rowNo = displayNodeValues(object, rowNo) + 1;
-            formula += columnLetter + rowNo;
+            formula.append(columnLetter).append(rowNo);
             i++;
         }
         LOGGER.info("**************************FORMULA******************************" + formula);
-        return formula;
+        return formula.toString();
     }
 
     private int displayNodeValues(Object children, int rownum) {
 
         final Collection<?> child = ((Container.Hierarchical) getTableHolder().getContainerDataSource())
                 .getChildren(children);
+        int tempRowNum = rownum;
         if (child != null) {
             for (Object innerchild : child) {
                 rownum++;
-                rownum = displayNodeValues(innerchild, rownum);
+                tempRowNum = displayNodeValues(innerchild, rownum);
             }
         } 
-        return rownum;
+        return tempRowNum;
     }
     
 }

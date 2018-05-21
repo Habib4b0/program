@@ -95,6 +95,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     public static final String SELECT_LEVEL_LABEL = "-Select Level-";
     public static final String SELECT_ALL_LABEL = "Select All";
+    public static final String SALES = "Sales";
     protected CustomMenuBar.SubMenuCloseListener productListener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
@@ -1039,8 +1040,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
         int customMasterSid = Integer.parseInt(viewDdlb.getValue() == null ? "0" : viewDdlb.getValue().toString());
         Object[] orderedArg = {projectionSelectionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionDTO().getSessionId(), projectionSelectionDTO.getLevelNo(),
             projectionSelectionDTO.getFrequency().substring(0, 1), projectionSelectionDTO.isIsCustomHierarchy() ? "D" : projectionSelectionDTO.getHierarchyIndicator(),
-            "Sales", "0", projectionSelectionDTO.getHierarchyNo(),
-            projectionSelectionDTO.getLevelNo(), null, customMasterSid, null, projectionSelectionDTO.getUomCode(), ALL.equals(projectionSelectionDTO.getSessionDTO().getSalesInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion(), ALL.equals(projectionSelectionDTO.getSessionDTO().getDeductionInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getDeductionInclusion(), null, "Sales"};
+            SALES, "0", projectionSelectionDTO.getHierarchyNo(),
+            projectionSelectionDTO.getLevelNo(), null, customMasterSid, null, projectionSelectionDTO.getUomCode(), ALL.equals(projectionSelectionDTO.getSessionDTO().getSalesInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion(), ALL.equals(projectionSelectionDTO.getSessionDTO().getDeductionInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getDeductionInclusion(), null, SALES};
         return CommonLogic.callProcedure("PRC_PROJECTION_VARIANCE", orderedArg);
     }
 
@@ -1052,7 +1053,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
             excelTable.setRefresh(BooleanConstant.getTrueFlag());
             excelTable.setDoubleHeaderVisible(false);
             ForecastUI.setEXCEL_CLOSE(true);
-            SalesExcelNM excel = null;
             ExcelExport exp = null;
             int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
             if ((QUARTERLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())) || MONTHLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())))) {
@@ -1065,7 +1065,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
                     ForecastUI.setEXCEL_CLOSE(true);
                     Map<String, String> formatterMap = new HashMap<>();
-                    formatterMap.put("currencyNoDecimal", "Sales");
+                    formatterMap.put("currencyNoDecimal", SALES);
                     formatterMap.put("unitNoDecimal", "Units");
                     if (i == 0) {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,

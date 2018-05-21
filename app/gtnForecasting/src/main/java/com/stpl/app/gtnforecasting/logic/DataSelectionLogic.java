@@ -121,7 +121,7 @@ public class DataSelectionLogic {
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 	private static final CommonUtil commonUtil = CommonUtil.getInstance();
         private  ExecutorService service = ThreadPool.getInstance().getService();
-        public SalesProjectionDAO salesAllocationDAO = new SalesProjectionDAOImpl();
+        public static final String EXEC_WITH_SPACE = "EXEC ";
 
 	/**
 	 * Gets the hierarchy group.
@@ -2465,7 +2465,7 @@ public class DataSelectionLogic {
 
     public void callInsertProcedureForNm(int projectionId, SessionDTO session, String procedureName,
             String screenName) {
-        StringBuilder query = new StringBuilder("EXEC ");
+        StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
             query.append(procedureName);
             query.append(' ');
@@ -2490,7 +2490,7 @@ public class DataSelectionLogic {
     public void callInsertProcedureForNmStatus(int projectionId, SessionDTO session, String procedureName,
             String screenName) {
 
-        StringBuilder query = new StringBuilder("EXEC ");
+        StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
             query.append(procedureName);
             query.append(' ');
@@ -2515,7 +2515,7 @@ public class DataSelectionLogic {
     
     public void callViewInsertProcedureForNm(SessionDTO session,String mode,String frequency,String screenName,String view,String startPeriod,String endPeriod) {
 
-        StringBuilder query = new StringBuilder("EXEC ");
+        StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
             query.append(Constant.PRC_VIEWS_POPULATION);
 				query.append(' ').append(session.getProjectionId()).append(',');
@@ -2545,7 +2545,7 @@ public class DataSelectionLogic {
     }
     public String callViewInsertProcedures(SessionDTO session,String frequency,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
      LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************");
-         StringBuilder query = new StringBuilder("EXEC ");
+         StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
             query.append(Constant.PRC_VIEWS_POPULATION);
 				query.append(' ').append(session.getProjectionId()).append(',');
