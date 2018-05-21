@@ -29,6 +29,7 @@ import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
+import com.stpl.app.gtnforecasting.utils.SalesExcelNM;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -497,6 +498,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     @Override
     public void generateBtnLogic(Button.ClickEvent event) {
+        CommonLogic.procedureCompletionCheck(projectionDTO,"sales",String.valueOf(view.getValue()));
         try {
             projectionDTO.setCustomerLevelFilter(generateCustomerToBeLoaded);
             projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
@@ -1050,6 +1052,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             excelTable.setRefresh(BooleanConstant.getTrueFlag());
             excelTable.setDoubleHeaderVisible(false);
             ForecastUI.setEXCEL_CLOSE(true);
+            SalesExcelNM excel = null;
             ExcelExport exp = null;
             int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
             if ((QUARTERLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())) || MONTHLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())))) {
@@ -1061,8 +1064,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     excelTable.setRefresh(true);
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
                     ForecastUI.setEXCEL_CLOSE(true);
+                    Map<String, String> formatterMap = new HashMap<>();
+                    formatterMap.put("currencyNoDecimal", "Sales");
+                    formatterMap.put("unitNoDecimal", "Units");
                     if (i == 0) {
-                        exp = new ExcelExport(new ExtCustomTableHolder(excelTable), sheetName, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false);
+                        exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
+                                Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap);
                     } else {
                         exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }

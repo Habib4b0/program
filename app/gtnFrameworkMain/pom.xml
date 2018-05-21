@@ -254,4 +254,7 @@
 		</profile>
 
 	</profiles>
+    <modules>
+        <module>GtnFrameworkCustomview</module>
+    </modules>
 </project>

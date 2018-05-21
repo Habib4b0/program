@@ -99,6 +99,7 @@ import com.stpl.gtn.gtn2o.ws.module.compliancedeductionrule.config.GtnWebService
 import com.stpl.gtn.gtn2o.ws.module.compliancedeductionrule.config.GtnWebServiceFormulaConfig;
 import com.stpl.gtn.gtn2o.ws.module.compliancedeductionrule.config.GtnWebServicePopUpConfig;
 import com.stpl.gtn.gtn2o.ws.module.contractheader.config.GtnWsContractHeaderConfig;
+import com.stpl.gtn.gtn2o.ws.module.customview.config.GtnWebServiceCustomSearchConfig;
 import com.stpl.gtn.gtn2o.ws.module.deductioncalendar.config.GtnWebServiceDeductionCalendarConfig;
 import com.stpl.gtn.gtn2o.ws.module.itemaster.config.GtnWsItemMasterConfig;
 import com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.config.GtnWebServiceItemFamilyPlanConfig;
@@ -382,6 +383,14 @@ public class GtnWsAllListConfig {
 				"SELECT DISTINCT IM.ITEM_MASTER_SID,IM.ITEM_ID FROM ITEM_MASTER IM join HELPER_TABLE HT ON IM.ITEM_TYPE=HT.HELPER_TABLE_SID WHERE LIST_NAME ='ITEM_TYPE' AND DESCRIPTION='NDC-9'");
 		comboBoxQueryMap.put("Ndc8Items",
 				"SELECT DISTINCT IM.ITEM_MASTER_SID,IM.NDC8 FROM ITEM_MASTER IM WHERE INBOUND_STATUS <> 'D'");
+		comboBoxQueryMap.put("customerRelation",
+				"select RB.RELATIONSHIP_BUILDER_SID, RB.RELATIONSHIP_NAME from RELATIONSHIP_BUILDER RB \n" +
+                                "join HIERARCHY_DEFINITION HD on HD.HIERARCHY_DEFINITION_SID =  RB.HIERARCHY_DEFINITION_SID\n" +
+                                "join HELPER_TABLE HT on HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY where HT.LIST_NAME = 'Hierarchy_Category' and HT.DESCRIPTION = 'Customer Hierarchy';");
+		comboBoxQueryMap.put("productRelation",
+				"select RB.RELATIONSHIP_BUILDER_SID, RB.RELATIONSHIP_NAME from RELATIONSHIP_BUILDER RB \n" +
+                                "join HIERARCHY_DEFINITION HD on HD.HIERARCHY_DEFINITION_SID =  RB.HIERARCHY_DEFINITION_SID\n" +
+                                "join HELPER_TABLE HT on HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY where HT.LIST_NAME = 'Hierarchy_Category' and HT.DESCRIPTION = 'Product Hierarchy';");
 	}
 
 	public void loadGLCompany() {
@@ -560,6 +569,8 @@ public class GtnWsAllListConfig {
 				new GtnWebServiceAttachmentWorkflowSearchConfig());
 		dynamicClassObjectMap.put(GtnWsSearchQueryConfigLoaderType.UDC_CONFIGURATION.getClassName(),
 				new GtnWsUdcConfig());
+		dynamicClassObjectMap.put(GtnWsSearchQueryConfigLoaderType.CUSTOM_SEARCH_CONFIG.getClassName(),
+				new GtnWebServiceCustomSearchConfig());
 
 	}
 
