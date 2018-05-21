@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
@@ -113,26 +114,30 @@ public class SalesExcelNM extends ExcelExport{
                         cellValue = cellValue / NumericConstants.HUNDRED;
                 }
                 sheetCell.setCellValue(cellValue);
-                if (formatter.get("currencyNoDecimal")!=null && String.valueOf(propId).endsWith(formatter.get("currencyNoDecimal"))) {
-                    sheetCell.setCellStyle(style1);
-                    if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                    String formula = getFormula(sheetCell, rootItemId);
-                    LOGGER.info("column formula{}" + formula);
-                    sheetCell.setCellStyle(style1);
-                    sheetCell.setCellFormula("SUM("+formula+")");
-                    }
-                } else if (formatter.get("unitNoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("unitNoDecimal"))) {
-                    sheetCell.setCellStyle(style3);
-                    if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                    String formula = getFormula(sheetCell, rootItemId);
-                    LOGGER.info("column formula{}" + formula);
-                    sheetCell.setCellStyle(style3);
-                    sheetCell.setCellFormula("SUM("+formula+")");
-                    }
-                }
+                formatForCurrencyAndDecimal(propId, sheetCell, rootItemId);
 
             } else {
                 nonFormatter(value, prop, sheetCell);
+            }
+        }
+    }
+
+    private void formatForCurrencyAndDecimal(Object propId, Cell sheetCell, final Object rootItemId) throws FormulaParseException {
+        if (formatter.get("currencyNoDecimal")!=null && String.valueOf(propId).endsWith(formatter.get("currencyNoDecimal"))) {
+            sheetCell.setCellStyle(style1);
+            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+                String formula = getFormula(sheetCell, rootItemId);
+                LOGGER.info("column formula{}" , formula);
+                sheetCell.setCellStyle(style1);
+                sheetCell.setCellFormula("SUM("+formula+")");
+            }
+        } else if (formatter.get("unitNoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("unitNoDecimal"))) {
+            sheetCell.setCellStyle(style3);
+            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+                String formula = getFormula(sheetCell, rootItemId);
+                LOGGER.info("column formula{}" , formula);
+                sheetCell.setCellStyle(style3);
+                sheetCell.setCellFormula("SUM("+formula+")");
             }
         }
     }
@@ -169,12 +174,6 @@ public class SalesExcelNM extends ExcelExport{
              * summed in the main sheet, we would double count. Subtotal with hidden rows is not yet
              * implemented in POI.
              */
-            for (final Row r : sheet) {
-                for (final Cell c : r) {
-                    if (c.getCellType() == Cell.CELL_TYPE_FORMULA) {
-                    }
-                }
-            }
             workbook.setActiveSheet(workbook.getSheetIndex(sheet));
             if (hierarchicalTotalsSheet != null) {
                 workbook.removeSheetAt(workbook.getSheetIndex(hierarchicalTotalsSheet));
@@ -189,10 +188,10 @@ public class SalesExcelNM extends ExcelExport{
 
     private String getFormula(Cell sheetCell, final Object rootItemId) {
         String columnLetter = CellReference.convertNumToColString(sheetCell.getColumnIndex());
-        LOGGER.info("*columnLetter: {}" + columnLetter);
+        LOGGER.info("*columnLetter: {}" , columnLetter);
         final Collection<?> children = ((Container.Hierarchical) getTableHolder().getContainerDataSource())
                 .getChildren(rootItemId);
-        LOGGER.info("ROOT ITEM ID: {}" + ((SalesRowDto) rootItemId).getLevelName());
+        LOGGER.info("ROOT ITEM ID: {}" , ((SalesRowDto) rootItemId).getLevelName());
         int rowNo = sheetCell.getRowIndex() + 2;
         StringBuilder formula = new StringBuilder();
         int i = 0;
@@ -207,12 +206,12 @@ public class SalesExcelNM extends ExcelExport{
             } else if (i == children.size() - 1) {
                 return formula.toString();
             }
-            formula.append(",");
+            formula.append(',');
             rowNo = displayNodeValues(object, rowNo) + 1;
             formula.append(columnLetter).append(rowNo);
             i++;
         }
-        LOGGER.info("FORMULA: {}" + formula.toString());
+        LOGGER.info("FORMULA: {}" , formula.toString());
         return formula.toString();
     }
 
@@ -223,8 +222,8 @@ public class SalesExcelNM extends ExcelExport{
         int tempRowNum = rownum;
         if (child != null) {
             for (Object innerchild : child) {
-                rownum++;
-                tempRowNum = displayNodeValues(innerchild, rownum);
+                tempRowNum++;
+                tempRowNum = displayNodeValues(innerchild, tempRowNum);
             }
         } 
         return tempRowNum;

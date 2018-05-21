@@ -5310,7 +5310,7 @@ public class CommonLogic {
         }
     }
     public static void procedureCompletionCheck(ProjectionSelectionDTO projectionDTO,String screenName,String view) {
-        LOGGER.info("procedureCompletionCheck---------------------------------------------------{}"+view);
+        LOGGER.info("procedureCompletionCheck---------------------------------------------------{}", view);
         switch (view) {
             case Constants.CUSTOMER:
                 CommonUtil.getInstance().isProcedureCompleted(screenName, Constants.CUSTOMER, projectionDTO.getSessionDTO());

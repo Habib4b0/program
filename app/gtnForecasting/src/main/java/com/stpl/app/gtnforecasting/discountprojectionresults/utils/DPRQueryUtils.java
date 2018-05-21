@@ -188,7 +188,7 @@ public class DPRQueryUtils {
                 if ("YEAR".equalsIgnoreCase(frequency)) {
                     query += Constant.AND_PER_YEAR + projSelDTO.getPivotValue();
                 } else {
-                    String str[] = projSelDTO.getPivotValue().split(" ");
+                    String[] str = projSelDTO.getPivotValue().split(" ");
                     query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                 }
 
@@ -230,7 +230,7 @@ public class DPRQueryUtils {
                 if ("YEAR".equalsIgnoreCase(frequency)) {
                     query += Constant.AND_PER_YEAR_EQUAL + projSelDTO.getPivotValue();
                 } else {
-                    String str[] = projSelDTO.getPivotValue().split(" ");
+                    String[] str = projSelDTO.getPivotValue().split(" ");
                     query += "and per." + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                 }
             }
@@ -299,7 +299,7 @@ public class DPRQueryUtils {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
                         query += Constant.AND_PER_YEAR_EQUAL + projSelDTO.getPivotValue();
                     } else {
-                        String str[] = projSelDTO.getPivotValue().split(" ");
+                        String[] str = projSelDTO.getPivotValue().split(" ");
                         query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
@@ -330,7 +330,7 @@ public class DPRQueryUtils {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
                         query += Constant.AND_PER_YEAR_EQUAL + projSelDTO.getPivotValue();
                     } else {
-                        String str[] = projSelDTO.getPivotValue().split(" ");
+                        String[] str = projSelDTO.getPivotValue().split(" ");
                         query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
@@ -405,7 +405,7 @@ public class DPRQueryUtils {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
                         query += Constant.AND_PER_YEAR_EQUAL + projSelDTO.getPivotValue();
                     } else {
-                        String str[] = projSelDTO.getPivotValue().split(" ");
+                        String[] str = projSelDTO.getPivotValue().split(" ");
                         query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
@@ -441,7 +441,7 @@ public class DPRQueryUtils {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
                         query += Constant.AND_PER_YEAR_EQUAL + projSelDTO.getPivotValue();
                     } else {
-                        String str[] = projSelDTO.getPivotValue().split(" ");
+                        String[] str = projSelDTO.getPivotValue().split(" ");
                         query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
@@ -524,7 +524,7 @@ public class DPRQueryUtils {
                 if ("YEAR".equalsIgnoreCase(frequency)) {
                     query += Constant.AND_PER_YEAR + projSelDTO.getPivotValue();
                 } else {
-                    String str[] = projSelDTO.getPivotValue().split(" ");
+                    String[] str = projSelDTO.getPivotValue().split(" ");
                     query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                 }
             }
@@ -563,7 +563,7 @@ public class DPRQueryUtils {
                 if ("YEAR".equalsIgnoreCase(frequency)) {
                     query += Constant.AND_PER_YEAR + projSelDTO.getPivotValue();
                 } else {
-                    String str[] = projSelDTO.getPivotValue().split(" ");
+                    String[] str = projSelDTO.getPivotValue().split(" ");
                     query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                 }
             }
@@ -639,7 +639,7 @@ public class DPRQueryUtils {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
                         query += Constant.AND_PER_YEAR + projSelDTO.getPivotValue();
                     } else {
-                        String str[] = projSelDTO.getPivotValue().split(" ");
+                        String[] str = projSelDTO.getPivotValue().split(" ");
                         query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
@@ -674,7 +674,7 @@ public class DPRQueryUtils {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
                         query += Constant.AND_PER_YEAR + projSelDTO.getPivotValue();
                     } else {
-                        String str[] = projSelDTO.getPivotValue().split(" ");
+                        String[] str = projSelDTO.getPivotValue().split(" ");
                         query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
@@ -753,7 +753,7 @@ public class DPRQueryUtils {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
                         query += Constant.AND_PER_YEAR + projSelDTO.getPivotValue();
                     } else {
-                        String str[] = projSelDTO.getPivotValue().split(" ");
+                        String[] str = projSelDTO.getPivotValue().split(" ");
                         query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
@@ -793,7 +793,7 @@ public class DPRQueryUtils {
                     if ("YEAR".equalsIgnoreCase(frequency)) {
                         query += Constant.AND_PER_YEAR + projSelDTO.getPivotValue();
                     } else {
-                        String str[] = projSelDTO.getPivotValue().split(" ");
+                        String[] str = projSelDTO.getPivotValue().split(" ");
                         query += Constant.AND_PER_DOT + frequency + Constant.EQUAL + str[0] + AND_SPACE + Constant.PER_YEAR_EQUAL + str[1];
                     }
                 }
@@ -1385,7 +1385,7 @@ public class DPRQueryUtils {
 
     }
 
-    public List getMandatedTotal(List<Integer> discountprojectionId, String frequency, ProjectionSelectionDTO projSelDTO) {
+    public List getMandatedTotal(String frequency, ProjectionSelectionDTO projSelDTO) {
         List list;
         try {
 
