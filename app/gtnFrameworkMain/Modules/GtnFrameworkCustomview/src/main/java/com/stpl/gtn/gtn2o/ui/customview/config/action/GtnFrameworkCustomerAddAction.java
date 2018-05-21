@@ -39,7 +39,7 @@ public class GtnFrameworkCustomerAddAction implements GtnUIFrameWorkAction, GtnU
         String hierarchyName = table.getComponentId().contains(GtnFrameworkCVConstants.CUSTOMER_LEVEL) ? "Customer Hierarchy" : prodOrDedHierarchy;
         if (customerLevelValue == null) {
             GtnUIFrameworkGlobalUI.showMessageBox(GtnFrameworkCVConstants.NO_LEVEL_SELECTED, GtnUIFrameworkActionType.ALERT_ACTION,
-                    GtnFrameworkCVConstants.NO_LEVEL_SELECTED, "Please select a "+hierarchyName+" level to move");
+                    GtnFrameworkCVConstants.NO_LEVEL_SELECTED, "Please select a " + hierarchyName + " level to move");
             return;
         }
         if (!cvTreeBaseComponent.getAllTreeNodes().isEmpty() && treeValue == null) {
@@ -49,15 +49,15 @@ public class GtnFrameworkCustomerAddAction implements GtnUIFrameWorkAction, GtnU
         }
         GtnWsRecordBean selectedCustomerBean = (GtnWsRecordBean) customerLevelValue;
         GtnWsRecordBean selectedParentBean = (GtnWsRecordBean) treeValue;
-        if (!cvTreeBaseComponent.getAllTreeNodes().isEmpty() && !isValidTree(customerLevelValue, String.valueOf(selectedCustomerBean.getPropertyValueByIndex(3)), treeValue, cvTreeBaseComponent)) {
-             GtnUIFrameworkGlobalUI.showMessageBox(GtnFrameworkCVConstants.NO_LEVEL_SELECTED, GtnUIFrameworkActionType.ALERT_ACTION,
-                    "Invalid Structure", "You cannot add "+selectedCustomerBean.getPropertyValueByIndex(0)+" as child to "+selectedParentBean.getPropertyValueByIndex(0));
-             return;
+        if (selectedParentBean != null && !cvTreeBaseComponent.getAllTreeNodes().isEmpty() && !isValidTree(customerLevelValue, String.valueOf(selectedCustomerBean.getPropertyValueByIndex(3)), treeValue, cvTreeBaseComponent)) {
+            GtnUIFrameworkGlobalUI.showMessageBox(GtnFrameworkCVConstants.NO_LEVEL_SELECTED, GtnUIFrameworkActionType.ALERT_ACTION,
+                    "Invalid Structure", "You cannot add " + selectedCustomerBean.getPropertyValueByIndex(0) + " as child to " + selectedParentBean.getPropertyValueByIndex(0));
+            return;
         }
-        if (!cvTreeBaseComponent.getAllTreeNodes().isEmpty() && !cvTreeBaseComponent.getChildNodes(selectedParentBean).isEmpty()) {
-             GtnUIFrameworkGlobalUI.showMessageBox(GtnFrameworkCVConstants.NO_LEVEL_SELECTED, GtnUIFrameworkActionType.ALERT_ACTION,
-                    "Invalid Structure", "You cannot add "+selectedCustomerBean.getPropertyValueByIndex(0)+" as child to "+selectedParentBean.getPropertyValueByIndex(0));
-             return;
+        if (selectedParentBean != null && !cvTreeBaseComponent.getAllTreeNodes().isEmpty() && !cvTreeBaseComponent.getChildNodes(selectedParentBean).isEmpty()) {
+            GtnUIFrameworkGlobalUI.showMessageBox(GtnFrameworkCVConstants.NO_LEVEL_SELECTED, GtnUIFrameworkActionType.ALERT_ACTION,
+                    "Invalid Structure", "You cannot add " + selectedCustomerBean.getPropertyValueByIndex(0) + " as child to " + selectedParentBean.getPropertyValueByIndex(0));
+            return;
         }
         table.removeItemFromDataTable(customerLevelValue);
         selectedCustomerBean.setAdditionalProperties(selectedCustomerBean.getProperties().subList(1, selectedCustomerBean.getProperties().size()));
@@ -76,12 +76,12 @@ public class GtnFrameworkCustomerAddAction implements GtnUIFrameWorkAction, GtnU
     public GtnUIFrameWorkAction createInstance() {
         return this;
     }
-    
+
     private boolean isValidTree(Object movingItem, String hierarchyIndicator, Object treeValue, GtnUIFrameworkBaseComponent cvTreeBaseComponent) {
-            return ((movingItem != null) && (getLastLevelNo(hierarchyIndicator, treeValue, cvTreeBaseComponent) < 
-                    Integer.parseInt(String.valueOf(((GtnWsRecordBean) movingItem).getPropertyValueByIndex(1)))));
+        return ((movingItem != null) && (getLastLevelNo(hierarchyIndicator, treeValue, cvTreeBaseComponent)
+                < Integer.parseInt(String.valueOf(((GtnWsRecordBean) movingItem).getPropertyValueByIndex(1)))));
     }
-    
+
     private int getLastLevelNo(String hierarchyIndicator, Object treeLastItem, GtnUIFrameworkBaseComponent cvTreeBaseComponent) {
         if (treeLastItem == null) {
             return 0;
@@ -93,5 +93,5 @@ public class GtnFrameworkCustomerAddAction implements GtnUIFrameWorkAction, GtnU
             return getLastLevelNo(hierarchyIndicator, cvTreeBaseComponent.getParent(treeLastItem), cvTreeBaseComponent);
         }
     }
-    
+
 }

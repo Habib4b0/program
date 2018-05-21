@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataRow;
 import com.stpl.gtn.gtn2o.ws.customview.constants.GtnWsCustomViewConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -48,15 +49,7 @@ public class GtnFrameworkCRValueChangeAction implements GtnUIFrameWorkAction, Gt
         GtnUIFrameworkBaseComponent dedTable = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(deductionTableId);
         boolean isEdit=String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")).equalsIgnoreCase("Edit");
         
-        for (GtnWsRecordBean beanTableData : treeTable.getItemsFromDataTable()) {
-            if ("C".equals(beanTableData.getAdditionalStringPropertyByIndex(2))) {
-                customerAlreadyAddedList.add(beanTableData.getAdditionalIntegerPropertyByIndex(3));
-            } else if ("P".equals(beanTableData.getAdditionalStringPropertyByIndex(2))) {
-                productAlreadyAddedList.add(beanTableData.getAdditionalIntegerPropertyByIndex(3));
-            } else {
-                deductionAlreadyAddedList.add(beanTableData.getAdditionalIntegerPropertyByIndex(3));
-            }
-        }
+        addSavedDataFromTree(treeTable, customerAlreadyAddedList, productAlreadyAddedList, deductionAlreadyAddedList);
         treeTable.clearTree();
       
         table.clearTree();
@@ -97,13 +90,30 @@ public class GtnFrameworkCRValueChangeAction implements GtnUIFrameWorkAction, Gt
             GtnUIFrameworkWebserviceResponse responseForDed = wsclient.callGtnWebServiceUrl(GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE + GtnWsCustomViewConstants.GET_DEDUCTION_HIERARCHY_TABLE_DATA, serviceRequest,
                     GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
             GtnUIFrameworkBaseComponent dedTableComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(deductionTableId);
-            for (GtnUIFrameworkDataRow record : responseForDed.getGtnSerachResponse().getResultSet().getDataTable()) {
-                 if ((isEdit && !deductionAlreadyAddedList.contains((Integer) record.getColList().get(4))) || !isEdit) {
-                    dto = new GtnWsRecordBean();
-                    dto.setRecordHeader(table.getTableRecordHeader());
-                    dto.setProperties(record.getColList());
-                    dedTableComponent.addItemToDataTable(dto);
-                }
+            loadDeductionTable(responseForDed, isEdit, deductionAlreadyAddedList, table, dedTableComponent);
+        }
+    }
+
+    private void loadDeductionTable(GtnUIFrameworkWebserviceResponse responseForDed, boolean isEdit, List<Integer> deductionAlreadyAddedList, GtnUIFrameworkBaseComponent table, GtnUIFrameworkBaseComponent dedTableComponent) throws GtnFrameworkValidationFailedException {
+        GtnWsRecordBean dto;
+        for (GtnUIFrameworkDataRow record : responseForDed.getGtnSerachResponse().getResultSet().getDataTable()) {
+            if ((isEdit && !deductionAlreadyAddedList.contains((Integer) record.getColList().get(4))) || !isEdit) {
+                dto = new GtnWsRecordBean();
+                dto.setRecordHeader(table.getTableRecordHeader());
+                dto.setProperties(record.getColList());
+                dedTableComponent.addItemToDataTable(dto);
+            }
+        }
+    }
+
+    private void addSavedDataFromTree(GtnUIFrameworkBaseComponent treeTable, List<Integer> customerAlreadyAddedList, List<Integer> productAlreadyAddedList, List<Integer> deductionAlreadyAddedList) throws GtnFrameworkValidationFailedException {
+        for (GtnWsRecordBean beanTableData : treeTable.getItemsFromDataTable()) {
+            if ("C".equals(beanTableData.getAdditionalStringPropertyByIndex(2))) {
+                customerAlreadyAddedList.add(beanTableData.getAdditionalIntegerPropertyByIndex(3));
+            } else if ("P".equals(beanTableData.getAdditionalStringPropertyByIndex(2))) {
+                productAlreadyAddedList.add(beanTableData.getAdditionalIntegerPropertyByIndex(3));
+            } else {
+                deductionAlreadyAddedList.add(beanTableData.getAdditionalIntegerPropertyByIndex(3));
             }
         }
     }
