@@ -21,27 +21,12 @@ import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 public class GtnWsReportDashboardFilterOptionService {
 
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportDashboardFilterOptionService.class);
+
 	@Autowired
 	private GtnWsReportSqlService reportSqlService;
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
-
-	public GtnWsReportSqlService getReportSqlService() {
-		return reportSqlService;
-	}
-
-	public void setReportSqlService(GtnWsReportSqlService reportSqlService) {
-		this.reportSqlService = reportSqlService;
-	}
-
-	public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
-		return gtnSqlQueryEngine;
-	}
-
-	public void setGtnSqlQueryEngine(GtnFrameworkSqlQueryEngine gtnSqlQueryEngine) {
-		this.gtnSqlQueryEngine = gtnSqlQueryEngine;
-	}
 
 	public GtnWsReportDashboardFilterOptionService() {
 		super();

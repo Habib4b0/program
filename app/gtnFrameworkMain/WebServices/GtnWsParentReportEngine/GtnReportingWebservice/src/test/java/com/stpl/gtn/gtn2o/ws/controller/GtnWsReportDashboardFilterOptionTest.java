@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportDashboardFilterOptionService;
@@ -19,7 +20,7 @@ import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "file:src/test/resources/GtnReport-SpringContext-Test.xml" })
+@ContextConfiguration(locations = { "file:src/test/resources/GtnReportDashboard-SpringContext-Text.xml" })
 public class GtnWsReportDashboardFilterOptionTest {
 	@Autowired
 	private GtnWsReportDashboardFilterOptionService reportDashboardFilterService;
@@ -33,8 +34,10 @@ public class GtnWsReportDashboardFilterOptionTest {
 		dataSelectionBean.setCustomerHierarchySid(11);
 
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-		reportRequest.setDataSelectionBean(dataSelectionBean);
+		GtnWsReportBean reportBean = new GtnWsReportBean();
+		reportBean.setDataSelectionBean(dataSelectionBean);
 		reportRequest.setGtnWsReportDashboardBean(gtnWsReportDashboardBean);
+		reportRequest.setReportBean(reportBean);
 
 		GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
 		gtnWsRequest.setGtnWsReportRequest(reportRequest);
