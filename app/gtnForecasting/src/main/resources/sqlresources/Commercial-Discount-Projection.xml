@@ -1470,392 +1470,229 @@ WHERE  P.PERIOD_DATE BETWEEN Datefromparts(@START_YEAR, @START_MONTH, 1) AND Dat
        </query>
    </entity>
    
-   <entity id="discount-generate-RS-Contract-Id">
+     <entity id="discount-generate-RS-Contract-Id">
        <query>
             <![CDATA[   
-            DECLARE @VAR CHAR(1)='R'
-            DECLARE @FREQUENCY CHAR(1)='?F'
+            DECLARE @VAR CHAR(1) = 'R'
+              DECLARE @FREQUENCY CHAR(1) = '?F'
+ 
+IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+       DROP TABLE #PERIOD
+ 
+SELECT PERIOD_SID,
+       YEAR,
+       QUARTER,
+       PERIOD = CASE
+              WHEN @FREQUENCY = 'M'
+                     THEN MONTH
+              WHEN @FREQUENCY = 'Q'
+                     THEN QUARTER
+              WHEN @FREQUENCY = 'S'
+                     THEN SEMI_ANNUAL
+              ELSE YEAR
+              END
+INTO #PERIOD
+FROM PERIOD
+ 
+IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL
+       DROP TABLE #SELECTED_REBATE
+ 
+CREATE TABLE #SELECTED_REBATE (HIERARCHY_NO VARCHAR(1000))
+ 
+INSERT INTO #SELECTED_REBATE (HIERARCHY_NO)
+SELECT A.HIERARCHY_NO
+FROM (
+       VALUES @SELECTED_REBATE
+       ) A(HIERARCHY_NO)
+ 
+IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+       DROP TABLE #SELECTED_HIERARCHY_NO
+ 
+CREATE TABLE #SELECTED_HIERARCHY_NO (
+       HIERARCHY_NO VARCHAR(50),
+       INSTR INT,
+       DISCOUNT VARCHAR(1000),
+       RS_CONTRACT_SID INT,
+       DEDUCTION_INCLUSION CHAR(1),
+       USER_GROUP VARCHAR(50)
+       )
+ 
+IF Object_id('TEMPDB..#HIERARCHY') IS NOT NULL
+       DROP TABLE #HIERARCHY
+ 
+SELECT DISTINCT A.HIERARCHY_NO,
+       INSTR,
+       RELATIONSHIP_LEVEL_VALUES
+INTO #HIERARCHY
+FROM (
+       VALUES @DEDHIERVALUES 
              
-            IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
-              DROP TABLE #PERIOD
-
-            SELECT PERIOD_SID,
-                    YEAR,QUARTER,
-                   PERIOD = CASE
-                              WHEN @FREQUENCY = 'M' THEN  MONTH
-                              WHEN @FREQUENCY = 'Q' THEN  QUARTER
-                              WHEN @FREQUENCY = 'S' THEN  SEMI_ANNUAL
-                              ELSE YEAR 
-                            END
-            INTO   #PERIOD
-            FROM   PERIOD
-            
-             
-             
-            IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL
-                    DROP TABLE #SELECTED_REBATE
-
-            CREATE TABLE #SELECTED_REBATE (HIERARCHY_NO VARCHAR(1000) )
-        
-            INSERT INTO #SELECTED_REBATE (HIERARCHY_NO)
-            SELECT   A.HIERARCHY_NO
-            FROM (
-           VALUES @SELECTED_REBATE
-                ) A(HIERARCHY_NO)
-
-        
-            IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
-            DROP TABLE #SELECTED_HIERARCHY_NO
-
-            CREATE TABLE #SELECTED_HIERARCHY_NO
-            (
-            HIERARCHY_NO    VARCHAR(50),
-            INSTR INT,
-            CCP_DETAILS_SID INT,
-            DISCOUNT         VARCHAR(1000),
-            RS_CONTRACT_SID INT ,
-            DEDUCTION_INCLUSION char(1),USER_GROUP varchar(50)
-            )
-            
-            IF Object_id('TEMPDB..#HIERARCHY') IS NOT NULL
-            DROP TABLE #HIERARCHY
-            SELECT DISTINCT A.HIERARCHY_NO,INSTR,RELATIONSHIP_LEVEL_VALUES INTO #HIERARCHY
-        FROM   (VALUES @DEDHIERVALUES 
-        )A(HIERARCHY_NO,INSTR)
-        @RELJOIN
-        WHERE  EXISTS (SELECT 1
-               FROM   ST_NM_DISCOUNT_PROJ_MASTER MAS
-                      JOIN ST_CCP_HIERARCHY CCPH
-                        ON MAS.CCP_DETAILS_SID = CCPH.CCP_DETAILS_SID
-                      JOIN #SELECTED_REBATE SR
-                        ON MAS.DEDUCTION_HIERARCHY_NO  LIKE SR.HIERARCHY_NO + '%' 
-               WHERE  CCPH.@CUSTORPROD LIKE A.HIERARCHY_NO + '%' @USER_GROUP and FILTER_CCP=1
-			     )
-                             ORDER  BY INSTR OFFSET @FIRSTROW ROWS FETCH NEXT @NEXTROW ROWS ONLY
-
-            INSERT INTO #SELECTED_HIERARCHY_NO
-            (HIERARCHY_NO,
-             CCP_DETAILS_SID,
-			 DISCOUNT,
-			 RS_CONTRACT_SID,
-			 DEDUCTION_INCLUSION,USER_GROUP,INSTR
-			 )
-        SELECT DISTINCT STUFF(( SELECT DISTINCT ', ' + HIERARCHY_NO
-                           FROM #HIERARCHY B
-                           WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES
-                           FOR XML PATH('')
-                           ), 1, 2, '') HIERARCHY_NO,
-       CH.CCP_DETAILS_SID,
-	  rld.relationship_level_values,
-                SPM.RS_CONTRACT_SID,SPM.DEDUCTION_INCLUSION,SPM.USER_GROUP,INSTR
-        FROM   #HIERARCHY A
-        JOIN ST_CCP_HIERARCHY CH ON  CH.@CUSTORPROD LIKE A.HIERARCHY_NO + '%'  
-        JOIN ST_NM_DISCOUNT_PROJ_MASTER SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
-        
-		and FILTER_CCP=1 @USER_GROUP
-         JOIN RS_CONTRACT RSC ON RSC.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID
-         JOIN #SELECTED_REBATE SR ON  SPM.DEDUCTION_HIERARCHY_NO  LIKE SR.HIERARCHY_NO + '%'  
-         JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.HIERARCHY_NO = SR.HIERARCHY_NO 
-         
-            IF Object_id('TEMPDB..#ST_NM_DISCOUNT_PROJ_MASTER') IS NOT NULL
-                DROP TABLE #ST_NM_DISCOUNT_PROJ_MASTER
-
-              SELECT DPM.CCP_DETAILS_SID,
-                     PRICE_GROUP_TYPE,
-                     RC.RS_NAME,
-                     RC.RS_CONTRACT_SID,   
+       ) A(HIERARCHY_NO, INSTR)
+    @RELJOIN 
+WHERE EXISTS (
+              SELECT 1
+              FROM ST_NM_DISCOUNT_PROJ_MASTER MAS
+              INNER JOIN ST_CCP_HIERARCHY CCPH
+                     ON MAS.CCP_DETAILS_SID = CCPH.CCP_DETAILS_SID
+              INNER JOIN #SELECTED_REBATE SR
+                     ON MAS.DEDUCTION_HIERARCHY_NO LIKE SR.HIERARCHY_NO + '%'
+              WHERE CCPH.@CUSTORPROD LIKE A.HIERARCHY_NO + '%'
+                    
+              )
+ORDER BY INSTR OFFSET @FIRSTROW ROWS
+ 
+FETCH NEXT @NEXTROW ROWS ONLY
+ 
+INSERT INTO #SELECTED_HIERARCHY_NO (
+       HIERARCHY_NO,
+       DISCOUNT,
+       RS_CONTRACT_SID,
+       INSTR,DEDUCTION_INCLUSION
+       )
+SELECT DISTINCT STUFF((
+                     SELECT DISTINCT ', ' + HIERARCHY_NO
+                     FROM #HIERARCHY B
+                     WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES
+                     FOR XML PATH('')
+                     ), 1, 2, '') HIERARCHY_NO,
+       rld.relationship_level_values,
+       SPM.RS_CONTRACT_SID,
+      
+       INSTR,SPM.DEDUCTION_INCLUSION
+FROM #HIERARCHY A
+INNER JOIN ST_CCP_HIERARCHY CH
+       ON CH.@CUSTORPROD LIKE A.HIERARCHY_NO + '%'
+INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER SPM
+       ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+INNER JOIN RS_CONTRACT RSC
+       ON RSC.RS_CONTRACT_SID = SPM.RS_CONTRACT_SID
+INNER JOIN #SELECTED_REBATE SR
+       ON SPM.DEDUCTION_HIERARCHY_NO LIKE SR.HIERARCHY_NO + '%'
+INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+       ON RLD.HIERARCHY_NO = SR.HIERARCHY_NO
+ 
+IF Object_id('TEMPDB..#DISCOUNT_PROJECTION_MASTER') IS NOT NULL
+       DROP TABLE #DISCOUNT_PROJECTION_MASTER
+ 
+SELECT DISCOUNT,
+      SHN.RS_CONTRACT_SID,
+       USER_GROUP = Max(shn.USER_GROUP),
+       CHECK_RECORD = Min(CASE (MSPM.CHECK_RECORD)
+                     WHEN 1
+                           THEN 1
+                     ELSE 0
+                     END),
+       UNCHECK_COUNT = Sum(CASE (MSPM.CHECK_RECORD)
+                     WHEN 1
+                           THEN 0
+                     ELSE 1
+                     END),
+       SHN.HIERARCHY_NO,
+       Count(*) AS CCP_COUNT,
+       shn.DEDUCTION_INCLUSION
+INTO #DISCOUNT_PROJECTION_MASTER
+FROM #SELECTED_HIERARCHY_NO SHN
+INNER JOIN ST_CCP_HIERARCHY CCP
+       ON CCP.@CUSTORPROD LIKE SHN.HIERARCHY_NO + '%'
+INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER MSPM
+       ON MSPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+              AND MSPM.RS_CONTRACT_SID = SHN.RS_CONTRACT_SID
+              @DPMDEDINCLLUSION
+        GROUP BY DISCOUNT,
+        SHN.RS_CONTRACT_SID,
+        SHN.HIERARCHY_NO,
+        SHN.DEDUCTION_INCLUSION
+ 
+SELECT   DPM.CHECK_RECORD,A.HIERARCHY_NO,
+                    YEAR,
+                     PERIOD,
+                    A.DISCOUNT,
+                      ACTUAL_RATE,
+                      PROJECTION_RATE,
+                     AP_TABLE_INDICATOR,
                      USER_GROUP,
-                CHECK_RECORD
-              
-              INTO   #ST_NM_DISCOUNT_PROJ_MASTER
-              FROM   ST_NM_DISCOUNT_PROJ_MASTER DPM
-                INNER JOIN RS_CONTRACT RC
-                             ON RC.RS_CONTRACT_SID = DPM.RS_CONTRACT_SID 
-					 @DEDINCLDPM 
-
-                 join #SELECTED_REBATE sr on dpm.DEDUCTION_HIERARCHY_NO LIKE sr.hierarchy_no+ '%' 
-				 and dpm.RS_CONTRACT_SID=dpm.RS_CONTRACT_SID
-		    
-              WHERE  EXISTS (SELECT 1
-                              FROM   CFP_CONTRACT CC
-                                     INNER JOIN IFP_CONTRACT IC
-                                             ON CC.CFP_CONTRACT_SID = IC.CFP_CONTRACT_SID
-                                                AND CC.CONTRACT_MASTER_SID = IC.CONTRACT_MASTER_SID
-                                     INNER JOIN PS_CONTRACT PC
-                                             ON PC.CFP_CONTRACT_SID = IC.CFP_CONTRACT_SID
-                                                AND PC.IFP_CONTRACT_SID = IC.IFP_CONTRACT_SID
-                                                AND PC.CONTRACT_MASTER_SID = IC.CONTRACT_MASTER_SID
-                              WHERE  RC.CFP_CONTRACT_SID = CC.CFP_CONTRACT_SID
-                                     AND CC.CFP_CONTRACT_SID = RC.CFP_CONTRACT_SID
-                                     AND IC.IFP_CONTRACT_SID = RC.IFP_CONTRACT_SID
-                                     AND (
-				PC.PS_CONTRACT_SID = RC.PS_CONTRACT_SID
-				OR RC.PS_CONTRACT_SID IS NULL
-				)
-                                     AND CC.CONTRACT_MASTER_SID = RC.CONTRACT_MASTER_SID
-                                     AND IC.CONTRACT_MASTER_SID = RC.CONTRACT_MASTER_SID
-                                     AND PC.CONTRACT_MASTER_SID = RC.CONTRACT_MASTER_SID)
-                      AND EXISTS (SELECT 1
-                             FROM   #SELECTED_HIERARCHY_NO P
-                             WHERE  P.CCP_DETAILS_SID = DPM.CCP_DETAILS_SID
-                        AND P.RS_CONTRACT_SID=DPM.RS_CONTRACT_SID )
-
-              IF Object_id('TEMPDB..#ACTUAL_SALES') IS NOT NULL
-                DROP TABLE #ACTUAL_SALES
-
-              SELECT HIERARCHY_NO,
-              DISCOUNT,
-		   RS_CONTRACT_SID, 
-                     I.PERIOD,
-                     I.YEAR,
-                   Sum(ACTUAL_SALES) ACTUAL_SALES ,
-                  @UOMACTUAL 
-         INTO   #ACTUAL_SALES
-              FROM   ST_NM_ACTUAL_SALES S
-                     INNER JOIN  #SELECTED_HIERARCHY_NO  m
-                             ON m.CCP_DETAILS_SID = S.CCP_DETAILS_SID
-							 JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=S.CCP_DETAILS_SID
-							 @DEDINCLUSION
-					
-					@UOMJOIN		 
-                     INNER JOIN #PERIOD I
-                             ON I.PERIOD_SID = S.PERIOD_SID
-              GROUP  BY HIERARCHY_NO,
-              DISCOUNT,
-		   RS_CONTRACT_SID, 
-                        I.PERIOD,
-                        I.YEAR
-
-              IF Object_id('TEMPDB..#ACTUAL_DISCOUNT') IS NOT NULL
-                DROP TABLE #ACTUAL_DISCOUNT
-
-              SELECT  HIERARCHY_NO,
-                     I.PERIOD,
-                     I.YEAR,
-                     DISCOUNT_ACTUALS=Sum(ACTUAL_SALES),
-                 C.DISCOUNT
-         ,s.rs_contract_sid 
-              INTO   #ACTUAL_DISCOUNT
- FROM   ST_NM_ACTUAL_DISCOUNT S
-
-       JOIN RS_CONTRACT rs
-         ON rs.RS_CONTRACT_SID = S.RS_CONTRACT_SID
-                     INNER JOIN #PERIOD I
-                             ON I.PERIOD_SID = S.PERIOD_SID
-                             
-                     JOIN ST_NM_DISCOUNT_PROJ_MASTER m
-         ON m.RS_CONTRACT_SID = s.RS_CONTRACT_SID
-           AND m.ccp_details_sid = s.ccp_details_sid
-		  	 @DEDINCLUSION 
-							 
-	   INNER JOIN #SELECTED_HIERARCHY_NO C
-               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
-			   AND C.RS_CONTRACT_SID=S.RS_CONTRACT_SID
-
-            WHERE  EXISTS (SELECT 1
-                           FROM    #ST_NM_DISCOUNT_PROJ_MASTER  sr
-                           WHERE  sr.RS_CONTRACT_SID = rs.RS_CONTRACT_SID
-            and SR.CCP_DETAILS_SID = S.CCP_DETAILS_SID)
-            GROUP  BY I.PERIOD,
-                                   C.HIERARCHY_NO
-
-              ,s.rs_contract_sid 
-            ,  DISCOUNT
-            ,year
-              IF Object_id('TEMPDB..#PROJECTION_SALES') IS NOT NULL
-                DROP TABLE #PROJECTION_SALES
-
-             SELECT I.PERIOD,
-       I.YEAR,
-       PROJECTION_SALES=SUM(PROJECTION_SALES),
-        @UOMPROJ ,
-       DISCOUNT
-         ,C.RS_CONTRACT_SID 
-        ,HIERARCHY_NO
-        INTO   #PROJECTION_SALES
-              FROM   ST_NM_SALES_PROJECTION S
-                     INNER JOIN  #SELECTED_HIERARCHY_NO  C
-                             ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
-							  JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=S.CCP_DETAILS_SID
-							  	
-					
-					@UOMJOIN		 
-                     INNER JOIN #PERIOD I
-                             ON I.PERIOD_SID = S.PERIOD_SID
-                     
-              GROUP  BY HIERARCHY_NO,
-                        I.PERIOD,
-                        I.YEAR,
-                       DISCOUNT
-  ,C.RS_CONTRACT_SID 
-
-
-
-              IF Object_id('TEMPDB..#DISCOUNT_PROJECTION') IS NOT NULL
-                DROP TABLE #DISCOUNT_PROJECTION
-
-              SELECT  HIERARCHY_NO,
-                     I.PERIOD,
-                     I.YEAR,
-                     PROJECTED_DISCOUNT=Sum(PROJECTION_SALES),
-                     AVG(GROWTH) GROWTH,
-        DISCOUNT
-  ,s.rs_contract_sid 
-              INTO   #DISCOUNT_PROJECTION
-              FROM   ST_NM_DISCOUNT_PROJECTION S
-                     JOIN RS_CONTRACT rs
-         ON rs.RS_CONTRACT_SID = S.RS_CONTRACT_SID
-                     INNER JOIN #PERIOD I
-                             ON I.PERIOD_SID = S.PERIOD_SID
-                    JOIN ST_NM_DISCOUNT_PROJ_MASTER m
-         ON m.RS_CONTRACT_SID = s.RS_CONTRACT_SID
-            AND m.ccp_details_sid = s.ccp_details_sid
-
-		  INNER JOIN #SELECTED_HIERARCHY_NO C
-               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
-			   AND C.RS_CONTRACT_SID=S.RS_CONTRACT_SID
-			   	 @DEDINCLUSION 
-
-WHERE  EXISTS (SELECT 1
-               FROM    #ST_NM_DISCOUNT_PROJ_MASTER  sr
-               WHERE  sr.RS_CONTRACT_SID = rs.RS_CONTRACT_SID 
-               and  SR.CCP_DETAILS_SID = S.CCP_DETAILS_SID)
-GROUP  BY I.PERIOD,DISCOUNT
-  ,s.rs_contract_sid 
-,		  HIERARCHY_NO,YEAR
-
-              IF Object_id('TEMPDB..#DISCOUNT_PROJECTION_MASTER') IS NOT NULL
-                DROP TABLE #DISCOUNT_PROJECTION_MASTER
-
-              SELECT DISCOUNT,
-                      DM.RS_CONTRACT_SID,        
-                     USER_GROUP=Max(DM.USER_GROUP),
-                     CHECK_RECORD=Min(CASE( DM.CHECK_RECORD )
-                                        WHEN 1 THEN 1
-                                        ELSE 0
-                                      END),
-                     UNCHECK_COUNT=Sum(CASE( DM.CHECK_RECORD )
-                                         WHEN 1 THEN 0
-                                         ELSE 1
-                                       END),
-                       P.HIERARCHY_NO,
-                     Count(*) AS CCP_COUNT @HASHDP
-              INTO   #DISCOUNT_PROJECTION_MASTER
-              FROM   #SELECTED_HIERARCHY_NO P
-                     INNER JOIN #ST_NM_DISCOUNT_PROJ_MASTER DM
-                             ON P.CCP_DETAILS_SID = DM.CCP_DETAILS_SID
-                        AND DM.RS_CONTRACT_SID=P.RS_CONTRACT_SID
-                        @DPMDEDINCLLUSION
-              GROUP  BY DISCOUNT,
-                         DM.RS_CONTRACT_SID, 
-                        P.HIERARCHY_NO @HASHDP
-                        
-              
-
-                     DECLARE @STAT_SALES INT
-                        ,@EN_SALES INT
-                        ,@ACTUAL_END_PERIOD int,
-                        @ACTUAL_START_PERIOD int
-
-                SET @STAT_SALES = (
-                                SELECT  min(PERIOD_SID)
-                                FROM ST_NM_ACTUAL_SALES
-                                )
-                SET @ACTUAL_END_PERIOD = (
-                                SELECT  MAX(PERIOD_SID)
-                                FROM ST_NM_SALES_PROJECTION
-                                )
-
-                SET @EN_SALES = (
-                                SELECT MAX(PERIOD_SID)
-                                FROM ST_NM_ACTUAL_SALES
-                                )
-
-                SET @ACTUAL_START_PERIOD = (
-                SELECT MIN(PERIOD_SID)
-                FROM ST_NM_SALES_PROJECTION)
-				
-
-
-
-        
-              SELECT  CHECK_RECORD,
-                     SH.HIERARCHY_NO,
-                     sh.YEAR,
-                     sh.PERIOD,
-                     SH.DISCOUNT,
-                     COALESCE((DISCOUNT_ACTUALS) / NULLIF(ACTUAL_SALES, 0), 0) * 100 AS ACTUAL_RATE,
-                     NULL PROJECTION_RATE,
-                     0                                                             AS AP_TABLE_INDICATOR,
-                     SH.USER_GROUP,
                      CCP_COUNT,
                      UNCHECK_COUNT,
-                     DISCOUNT_ACTUALS                           AS ACTUAL_SALES,
-                     COALESCE((DISCOUNT_ACTUALS )/ NULLIF(ACTUAL_UNITS, 0), 0)       AS ACTUAL_RPU,
-                     NULL                                      AS PROJECTION_SALES,
-                     NULL                                                          AS PROJECTION_RPU,
-                     NULL                                                          AS GROWTH
-                      ,sh.RS_CONTRACT_SID AS RS_CONTRACT_SID ,RELATIONSHIP_LEVEL_VALUES @SELCOLDED,INSTR
-              FROM  (SELECT HIERARCHY_NO,year,P.PERIOD,DISCOUNT,RS_CONTRACT_SID,USER_GROUP,INSTR FROM #SELECTED_HIERARCHY_NO SHS CROSS JOIN #PERIOD P WHERE P.PERIOD_SID BETWEEN @STAT_SALES AND @EN_SALES GROUP BY  year,P.PERIOD,HIERARCHY_NO,DISCOUNT,RS_CONTRACT_SID,USER_GROUP,INSTR) SH  
-			  LEFT JOIN  #DISCOUNT_PROJECTION_MASTER DPM ON DPM.DISCOUNT=SH.DISCOUNT  
-                        and dpm.HIERARCHY_NO=sh.HIERARCHY_NO  
-                     LEFT  JOIN #ACTUAL_DISCOUNT AD
-                             ON AD.HIERARCHY_NO = DPM.HIERARCHY_NO
-                                AND DPM.DISCOUNT = AD.DISCOUNT
-								 AND SH.YEAR = AD.YEAR
-                                AND SH.PERIOD = AD.PERIOD
-				       AND DPM.RS_CONTRACT_SID = AD.RS_CONTRACT_SID 
-                     LEFT  JOIN #ACTUAL_SALES SA
-                             ON SA.HIERARCHY_NO = AD.HIERARCHY_NO
-                                AND SA.YEAR = SH.YEAR
-                                AND SA.PERIOD = SH.PERIOD
-                                AND SA.DISCOUNT = AD.DISCOUNT
-				       AND SA.RS_CONTRACT_SID = AD.RS_CONTRACT_SID 
-                                       LEFT JOIN  RELATIONSHIP_LEVEL_DEFINITION RL ON SH.DISCOUNT=RL.HIERARCHY_NO
-              UNION ALL
-              SELECT   CHECK_RECORD,
-                     SH.HIERARCHY_NO,
-                     sh.YEAR,
-                     sh.PERIOD,
-                     SH.DISCOUNT,
-                     NULL AS                                                              ACTUAL_RATE,
-                     COALESCE((PROJECTED_DISCOUNT) / NULLIF(PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE,
-                     1                                                                   AS AP_TABLE_INDICATOR,
-                     SH.USER_GROUP,
-                     CCP_COUNT,
-                     UNCHECK_COUNT,
-                     NULL                                                                AS ACTUAL_SALES,
-                     NULL                                                                AS ACTUAL_RPU,
-                     PROJECTED_DISCOUNT                                                   AS PROJECTION_SALES,
-                     COALESCE((PROJECTED_DISCOUNT) / NULLIF(PROJECTION_UNITS, 0), 0)       AS PROJECTION_RPU,
-                     GROWTH
-                      ,sh.RS_CONTRACT_SID AS RS_CONTRACT_SID  ,RELATIONSHIP_LEVEL_VALUES @SELCOLDED,INSTR
-              FROM  (SELECT HIERARCHY_NO,year,P.PERIOD,DISCOUNT,RS_CONTRACT_SID,USER_GROUP,INSTR FROM #SELECTED_HIERARCHY_NO SHS CROSS JOIN #PERIOD P WHERE P.PERIOD_SID BETWEEN @ACTUAL_START_PERIOD AND @ACTUAL_END_PERIOD GROUP BY  year,P.PERIOD,HIERARCHY_NO,DISCOUNT,RS_CONTRACT_SID,USER_GROUP,INSTR) SH  LEFT JOIN 
-			   #DISCOUNT_PROJECTION_MASTER DPM
-			   ON   DPM.DISCOUNT=SH.DISCOUNT    and dpm.HIERARCHY_NO=sh.HIERARCHY_NO  
-                     LEFT JOIN #DISCOUNT_PROJECTION AD
-                             ON AD.HIERARCHY_NO = DPM.HIERARCHY_NO
-                                 AND DPM.DISCOUNT = AD.DISCOUNT
-				        AND DPM.RS_CONTRACT_SID = AD.RS_CONTRACT_SID 
-						    AND SH.YEAR = AD.YEAR
-                                AND SH.PERIOD = AD.PERIOD
-                     LEFT JOIN #PROJECTION_SALES SA
-                             ON SA.HIERARCHY_NO = AD.HIERARCHY_NO
-                                AND SA.discount = AD.discount
-                                AND SA.YEAR = SH.YEAR
-                                AND SA.PERIOD = SH.PERIOD
-                                LEFT JOIN  RELATIONSHIP_LEVEL_DEFINITION RL ON SH.DISCOUNT=RL.HIERARCHY_NO
-              ORDER  BY 
-                          INSTR,
-                          HIERARCHY_NO  ,
-                        DISCOUNT,
-                         sh.RS_CONTRACT_SID, 
-                        YEAR,
-                        PERIOD,
-                        AP_TABLE_INDICATOR 
+                   ACTUAL_SALES,
+                     ACTUAL_RPU,
+                     PROJECTION_SALES,
+                     PROJECTION_RPU,
+                     GROWTH,A.RS_CONTRACT_SID AS RS_CONTRACT_SID
+                      ,RELATIONSHIP_LEVEL_VALUES 
+                                    ,DPM.DEDUCTION_INCLUSION ,INSTR FROM
+   
+ 
+(SELECT
+       SH.HIERARCHY_NO,
+       STC.YEAR,
+       STC.PERIOD,
+       SH.DISCOUNT,
+       COALESCE(SUM(STC.DISCOUNT) / NULLIF(SUM(SALES), 0), 0) * 100 AS ACTUAL_RATE,
+       NULL PROJECTION_RATE,
+       0 AS AP_TABLE_INDICATOR,
+       SUM(STC.DISCOUNT) AS ACTUAL_SALES,
+       COALESCE(SUM(STC.DISCOUNT) / NULLIF(SUM(UNITS), 0), 0) AS ACTUAL_RPU,
+       NULL AS PROJECTION_SALES,
+       NULL AS PROJECTION_RPU,
+       NULL AS GROWTH,
+         SH.RS_CONTRACT_SID AS RS_CONTRACT_SID,
+       SH.DISCOUNT AS RELATIONSHIP_LEVEL_VALUES,
+       STC.DEDUCTION_INCLUSION,
+       INSTR
+FROM @VIEWTABLE STC
+INNER JOIN #SELECTED_HIERARCHY_NO SH
+       ON STC.HIERARCHY_NO LIKE SH.HIERARCHY_NO + '%' and stc.RS_CONTRACT_SID=SH.RS_CONTRACT_SID 
+ 
+WHERE INDICATOR = 0
+       @DEDINCLUSION
+GROUP BY SH.HIERARCHY_NO,
+ SH.RS_CONTRACT_SID,
+SH.DISCOUNT,
+       PERIOD,
+       YEAR,
+       STC.DEDUCTION_INCLUSION,   INSTR
+      
+ 
+UNION ALL
+ 
+SELECT
+       SH.HIERARCHY_NO,
+       STC.YEAR,
+       STC.PERIOD,
+       SH.DISCOUNT,
+       NULL AS ACTUAL_RATE,
+       COALESCE(SUM(STC.DISCOUNT) / NULLIF(SUM(SALES), 0), 0) * 100 AS PROJECTION_RATE,
+       1 AS AP_TABLE_INDICATOR,
+       NULL AS ACTUAL_SALES,
+       NULL AS ACTUAL_RPU,
+       SUM(STC.DISCOUNT) AS PROJECTION_SALES,
+       COALESCE(SUM(STC.DISCOUNT) / NULLIF(SUM(UNITS), 0), 0) AS PROJECTION_RPU,
+       AVG(GROWTH),
+       sh.RS_CONTRACT_SID AS RS_CONTRACT_SID,
+       SH.DISCOUNT AS RELATIONSHIP_LEVEL_VALUES,
+       STC.DEDUCTION_INCLUSION,
+       INSTR
+FROM @VIEWTABLE STC
+INNER JOIN #SELECTED_HIERARCHY_NO SH
+       ON STC.HIERARCHY_NO LIKE SH.HIERARCHY_NO + '%' and stc.RS_CONTRACT_SID=SH.RS_CONTRACT_SID 
+WHERE INDICATOR = 0
+       @DEDINCLUSION
+       GROUP BY SH.HIERARCHY_NO,
+       SH.DISCOUNT,
+              PERIOD,
+              Sh.RS_CONTRACT_SID,
+              YEAR,
+              STC.DEDUCTION_INCLUSION,
+              INDICATOR,    INSTR
+              
+              )A
+              JOIN #DISCOUNT_PROJECTION_MASTER DPM ON DPM.HIERARCHY_NO=A.HIERARCHY_NO
+                  @DEDINCLNWHR
+                   ORDER  BY
+                        INSTR,HIERARCHY_NO,DISCOUNT,
+                        YEAR, PERIOD,AP_TABLE_INDICATOR
             
             
-                 
         
      
         
@@ -1867,390 +1704,221 @@ GROUP  BY I.PERIOD,DISCOUNT
    <entity id="discount-generate-First-Nine-Level">
        <query>
             <![CDATA[   
-            
-            DECLARE @VAR CHAR(1)='R'
-            DECLARE @FREQUENCY CHAR(1)='?F'
-             
-            IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
-              DROP TABLE #PERIOD
-
-            SELECT PERIOD_SID,
-                    YEAR,QUARTER,
-                   PERIOD = CASE
-                              WHEN @FREQUENCY = 'M' THEN  MONTH
-                              WHEN @FREQUENCY = 'Q' THEN  QUARTER
-                              WHEN @FREQUENCY = 'S' THEN  SEMI_ANNUAL
-                              ELSE YEAR 
-                            END
-            INTO   #PERIOD
-            FROM   PERIOD
-            
-             
-                  
-IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL
-	DROP TABLE #SELECTED_REBATE
-
-CREATE TABLE #SELECTED_REBATE (HIERARCHY_NO VARCHAR(1000) )
-
-INSERT INTO #SELECTED_REBATE (HIERARCHY_NO)
-SELECT   A.HIERARCHY_NO
-FROM (
-	VALUES @SELECTED_REBATE
-		
-	) A(HIERARCHY_NO)
-
-                  
-              IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
-  DROP TABLE #SELECTED_HIERARCHY_NO      
-            
-
-CREATE TABLE #SELECTED_HIERARCHY_NO
-  (
-     HIERARCHY_NO    VARCHAR(50),
-     INSTR INT,
-     CCP_DETAILS_SID INT,
-	 DISCOUNT         VARCHAR(1000),
-	 RS_CONTRACT_SID INT ,
-	 DEDUCTION_INCLUSION char(1),
-         USER_GROUP varchar(50)
-  )
-IF Object_id('TEMPDB..#HIERARCHY') IS NOT NULL
-DROP TABLE #HIERARCHY
-SELECT DISTINCT A.HIERARCHY_NO,INSTR,RELATIONSHIP_LEVEL_VALUES INTO #HIERARCHY
-        FROM   (VALUES @DEDHIERVALUES
-  )A(HIERARCHY_NO,INSTR) 
-  INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1
-       ON RLD1.HIERARCHY_NO = A.HIERARCHY_NO
-WHERE  EXISTS (SELECT 1
-               FROM   ST_NM_DISCOUNT_PROJ_MASTER  MAS
-                      JOIN ST_CCP_HIERARCHY  CCPH
-                        ON MAS.CCP_DETAILS_SID = CCPH.CCP_DETAILS_SID
-                      JOIN #SELECTED_REBATE SR
-                        ON MAS.DEDUCTION_HIERARCHY_NO  LIKE SR.HIERARCHY_NO + '%' 
-               WHERE  CCPH.@CUSTORPROD LIKE A.HIERARCHY_NO + '%' @USER_GROUP and FILTER_CCP=1
-			    )
-               ORDER  BY INSTR OFFSET
-   @FIRSTROW ROWS FETCH NEXT @NEXTROW ROWS ONLY
-
-INSERT INTO #SELECTED_HIERARCHY_NO
-            (HIERARCHY_NO,
-             CCP_DETAILS_SID,
-			 DISCOUNT,
-			 RS_CONTRACT_SID,
-			 DEDUCTION_INCLUSION,USER_GROUP,INSTR
-			 )
-SELECT DISTINCT STUFF(( SELECT DISTINCT ', ' + HIERARCHY_NO
-                           FROM #HIERARCHY B
-                           WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES
-                           FOR XML PATH('')
-                           ), 1, 2, '') HIERARCHY_NO,
-       CH.CCP_DETAILS_SID,
-	  rld.relationship_level_values,
-                SPM.RS_CONTRACT_SID,SPM.DEDUCTION_INCLUSION,SPM.USER_GROUP,INSTR
-FROM   #HIERARCHY A
-        JOIN ST_CCP_HIERARCHY  CH ON  CH.@CUSTORPROD LIKE A.HIERARCHY_NO + '%'  
-                
-                JOIN ST_NM_DISCOUNT_PROJ_MASTER  SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
         
-	   and FILTER_CCP=1 @USER_GROUP
-         JOIN RS_CONTRACT RSC ON RSC.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID
-   JOIN #SELECTED_REBATE SR ON  SPM.DEDUCTION_HIERARCHY_NO  LIKE SR.HIERARCHY_NO + '%'
-   JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.HIERARCHY_NO = SR.HIERARCHY_NO  
-            
-            IF Object_id('TEMPDB..#ST_NM_DISCOUNT_PROJ_MASTER ') IS NOT NULL
-                DROP TABLE #ST_NM_DISCOUNT_PROJ_MASTER 
-
-              SELECT DPM.CCP_DETAILS_SID,
-                     PRICE_GROUP_TYPE,
-                     RC.RS_NAME,
-                     RC.RS_CONTRACT_SID,   
-                     USER_GROUP,
-                CHECK_RECORD
-              
-              INTO   #ST_NM_DISCOUNT_PROJ_MASTER 
-              FROM   ST_NM_DISCOUNT_PROJ_MASTER  DPM
-                INNER JOIN RS_CONTRACT RC
-                             ON RC.RS_CONTRACT_SID = DPM.RS_CONTRACT_SID  
+              DECLARE @VAR CHAR(1) = 'R'
+DECLARE @FREQUENCY CHAR(1) = '?F'
+ 
+IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+       DROP TABLE #PERIOD
+ 
+SELECT PERIOD_SID,
+       YEAR,
+       QUARTER,
+       PERIOD = CASE
+              WHEN @FREQUENCY = 'M'
+                     THEN MONTH
+              WHEN @FREQUENCY = 'Q'
+                     THEN QUARTER
+              WHEN @FREQUENCY = 'S'
+                     THEN SEMI_ANNUAL
+              ELSE YEAR
+              END
+INTO #PERIOD
+FROM PERIOD
+ 
+IF Object_id('TEMPDB..#SELECTED_REBATE') IS NOT NULL
+       DROP TABLE #SELECTED_REBATE
+ 
+CREATE TABLE #SELECTED_REBATE (HIERARCHY_NO VARCHAR(1000))
+ 
+INSERT INTO #SELECTED_REBATE (HIERARCHY_NO)
+SELECT A.HIERARCHY_NO
+FROM (
+       VALUES @SELECTED_REBATE
+       ) A(HIERARCHY_NO)
+ 
+IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+       DROP TABLE #SELECTED_HIERARCHY_NO
+ 
+CREATE TABLE #SELECTED_HIERARCHY_NO (
+       HIERARCHY_NO VARCHAR(50),
+       INSTR INT,
+       DISCOUNT VARCHAR(1000),
+       RS_CONTRACT_SID INT,
+       DEDUCTION_INCLUSION CHAR(1),
+       USER_GROUP VARCHAR(50)
+       )
+ 
+IF Object_id('TEMPDB..#HIERARCHY') IS NOT NULL
+       DROP TABLE #HIERARCHY
+ 
+SELECT DISTINCT A.HIERARCHY_NO,
+       INSTR,
+       RELATIONSHIP_LEVEL_VALUES
+INTO #HIERARCHY
+FROM (
+       VALUES @DEDHIERVALUES
+             
+       ) A(HIERARCHY_NO, INSTR)
+        @RELJOIN 
+WHERE EXISTS (
+              SELECT 1
+              FROM ST_NM_DISCOUNT_PROJ_MASTER MAS
+              INNER JOIN ST_CCP_HIERARCHY CCPH
+                     ON MAS.CCP_DETAILS_SID = CCPH.CCP_DETAILS_SID
+              INNER JOIN #SELECTED_REBATE SR
+                     ON MAS.DEDUCTION_HIERARCHY_NO LIKE SR.HIERARCHY_NO + '%'
+              WHERE CCPH.@CUSTORPROD LIKE A.HIERARCHY_NO + '%'
                     
-              WHERE  EXISTS (SELECT 1
-                              FROM   CFP_CONTRACT CC
-                                     INNER JOIN IFP_CONTRACT IC
-                                             ON CC.CFP_CONTRACT_SID = IC.CFP_CONTRACT_SID
-                                                AND CC.CONTRACT_MASTER_SID = IC.CONTRACT_MASTER_SID
-                                     INNER JOIN PS_CONTRACT PC
-                                             ON PC.CFP_CONTRACT_SID = IC.CFP_CONTRACT_SID
-                                                AND PC.IFP_CONTRACT_SID = IC.IFP_CONTRACT_SID
-                                                AND PC.CONTRACT_MASTER_SID = IC.CONTRACT_MASTER_SID
-                              WHERE  RC.CFP_CONTRACT_SID = CC.CFP_CONTRACT_SID
-                                     AND CC.CFP_CONTRACT_SID = RC.CFP_CONTRACT_SID
-                                     AND IC.IFP_CONTRACT_SID = RC.IFP_CONTRACT_SID
-                                    AND (
-				PC.PS_CONTRACT_SID = RC.PS_CONTRACT_SID
-				OR RC.PS_CONTRACT_SID IS NULL
-				)
-                                     AND CC.CONTRACT_MASTER_SID = RC.CONTRACT_MASTER_SID
-                                     AND IC.CONTRACT_MASTER_SID = RC.CONTRACT_MASTER_SID
-                                     AND PC.CONTRACT_MASTER_SID = RC.CONTRACT_MASTER_SID)
-                      AND EXISTS (SELECT 1
-                             FROM   #SELECTED_HIERARCHY_NO P
-                             WHERE  P.CCP_DETAILS_SID = DPM.CCP_DETAILS_SID
-                               AND P.RS_CONTRACT_SID=DPM.RS_CONTRACT_SID )
-
-              IF Object_id('TEMPDB..#ACTUAL_SALES') IS NOT NULL
-                DROP TABLE #ACTUAL_SALES
-
-              SELECT HIERARCHY_NO,
-              DISCOUNT,
-                     I.PERIOD,
-                     I.YEAR,
-                     ACTUAL_SALES=Sum(ACTUAL_SALES),
-                      @UOMACTUAL
-             INTO   #ACTUAL_SALES
-              FROM   ST_NM_ACTUAL_SALES  S
-                     INNER JOIN  (select distinct HIERARCHY_NO,DISCOUNT,ccp_details_sid from #SELECTED_HIERARCHY_NO  @DEDINCLNWHR )  C
-                             ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
-							 
-					JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=S.CCP_DETAILS_SID
-				
-							 @UOMJOIN 
-                     INNER JOIN #PERIOD I
-                             ON I.PERIOD_SID = S.PERIOD_SID
-              GROUP  BY HIERARCHY_NO,
-              DISCOUNT,
-
-		  
-                        I.PERIOD,
-                        I.YEAR
-
-              IF Object_id('TEMPDB..#ACTUAL_DISCOUNT') IS NOT NULL
-                DROP TABLE #ACTUAL_DISCOUNT
-
-              SELECT  HIERARCHY_NO,
-                     I.PERIOD,
-                     I.YEAR,
-                     DISCOUNT_ACTUALS=Sum(ACTUAL_SALES),discount
-
-       
-              INTO   #ACTUAL_DISCOUNT
-              FROM   ST_NM_ACTUAL_DISCOUNT  S
-       JOIN RS_CONTRACT rs
-         ON rs.RS_CONTRACT_SID = S.RS_CONTRACT_SID
-                     INNER JOIN #PERIOD I
-                             ON I.PERIOD_SID = S.PERIOD_SID
-                             
-                     JOIN ST_NM_DISCOUNT_PROJ_MASTER  m
-         ON m.RS_CONTRACT_SID = s.RS_CONTRACT_SID
-           AND m.ccp_details_sid = s.ccp_details_sid
-	   INNER JOIN #SELECTED_HIERARCHY_NO C
-               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
-			   AND C.RS_CONTRACT_SID=S.RS_CONTRACT_SID
-			   @DEDINCLUSION
-
-WHERE  EXISTS (SELECT 1
-               FROM    #ST_NM_DISCOUNT_PROJ_MASTER   sr
-               WHERE  sr.RS_CONTRACT_SID = rs.RS_CONTRACT_SID
-and SR.CCP_DETAILS_SID = S.CCP_DETAILS_SID)
-GROUP  BY I.PERIOD,
-                        I.YEAR,
-                     DISCOUNT
-
-
-,  HIERARCHY_NO
-
-              IF Object_id('TEMPDB..#PROJECTION_SALES') IS NOT NULL
-                DROP TABLE #PROJECTION_SALES
-
-             SELECT I.PERIOD,
-       I.YEAR,
-       PROJECTION_SALES=SUM(PROJECTION_SALES),
-       @UOMPROJ,
-       DISCOUNT
-
-       
-,	   HIERARCHY_NO
-INTO   #PROJECTION_SALES
-              FROM   ST_NM_SALES_PROJECTION S
-                     INNER JOIN  (select distinct HIERARCHY_NO,DISCOUNT,ccp_details_sid from #SELECTED_HIERARCHY_NO @DEDINCLNWHR)  C
-                             ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
-                     INNER JOIN #PERIOD I
-                             ON I.PERIOD_SID = S.PERIOD_SID
-							 JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=S.CCP_DETAILS_SID
-							
-                                                          @UOMJOIN  
-							 
-              GROUP  BY HIERARCHY_NO,
-                        I.PERIOD,
-                        I.YEAR,
-                       DISCOUNT
-
-					
-
-              IF Object_id('TEMPDB..#DISCOUNT_PROJECTION') IS NOT NULL
-                DROP TABLE #DISCOUNT_PROJECTION
-
-              SELECT  HIERARCHY_NO,
-                     I.PERIOD,
-                     I.YEAR,
-                     PROJECTED_DISCOUNT=Sum(PROJECTION_SALES),
-                     AVG(GROWTH) GROWTH,
-       discount
-
-
-              INTO   #DISCOUNT_PROJECTION
-              FROM   ST_NM_DISCOUNT_PROJECTION S
-                     JOIN RS_CONTRACT rs
-         ON rs.RS_CONTRACT_SID = S.RS_CONTRACT_SID
-                     INNER JOIN #PERIOD I
-                             ON I.PERIOD_SID = S.PERIOD_SID
-                    JOIN ST_NM_DISCOUNT_PROJ_MASTER m
-         ON m.RS_CONTRACT_SID = s.RS_CONTRACT_SID
-            AND m.ccp_details_sid = s.ccp_details_sid
-			@DEDINCLUSION
-		  INNER JOIN #SELECTED_HIERARCHY_NO C
-               ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
-			   AND C.RS_CONTRACT_SID=S.RS_CONTRACT_SID
-WHERE  EXISTS (SELECT 1
-               FROM    #ST_NM_DISCOUNT_PROJ_MASTER  sr
-               WHERE  sr.RS_CONTRACT_SID = rs.RS_CONTRACT_SID 
-               and  SR.CCP_DETAILS_SID = S.CCP_DETAILS_SID)
-GROUP  BY I.PERIOD,
-                        I.YEAR,
-                     DISCOUNT
-
-
-,		  HIERARCHY_NO
-
-              IF Object_id('TEMPDB..#DISCOUNT_PROJECTION_MASTER') IS NOT NULL
-                DROP TABLE #DISCOUNT_PROJECTION_MASTER
-
-              SELECT DISCOUNT,
-
-                            
-                     USER_GROUP=Max(DM.USER_GROUP),
-                     CHECK_RECORD=Min(CASE( DM.CHECK_RECORD )
-                                        WHEN 1 THEN 1
-                                        ELSE 0
-                                      END),
-                     UNCHECK_COUNT=Sum(CASE( DM.CHECK_RECORD )
-                                         WHEN 1 THEN 0
-                                         ELSE 1
-                                       END),
-                       P.HIERARCHY_NO,
-                     Count(*) AS CCP_COUNT @HASHDP
-              INTO   #DISCOUNT_PROJECTION_MASTER
-              FROM   #SELECTED_HIERARCHY_NO P
-                     INNER JOIN #ST_NM_DISCOUNT_PROJ_MASTER DM
-                             ON P.CCP_DETAILS_SID = DM.CCP_DETAILS_SID
-                        AND DM.RS_CONTRACT_SID=P.RS_CONTRACT_SID
-                        @DPMDEDINCLLUSION
-              GROUP  BY DISCOUNT @HASHDP ,
-                        P.HIERARCHY_NO
-                        
-                 
-
-           DECLARE @STAT_SALES INT
-                        ,@EN_SALES INT
-                        ,@ACTUAL_END_PERIOD int,
-                        @ACTUAL_START_PERIOD int
-
-                SET @STAT_SALES = (
-                                SELECT  min(PERIOD_SID)
-                                FROM ST_NM_ACTUAL_SALES
-                                )
-                SET @ACTUAL_END_PERIOD = (
-                                SELECT  MAX(PERIOD_SID)
-                                FROM ST_NM_SALES_PROJECTION
-                                )
-
-                SET @EN_SALES = (
-                                SELECT MAX(PERIOD_SID)
-                                FROM ST_NM_ACTUAL_SALES
-                                )
-
-                SET @ACTUAL_START_PERIOD = (
-                SELECT MIN(PERIOD_SID)
-                FROM ST_NM_SALES_PROJECTION)
-				
-
-                SELECT CHECK_RECORD,
-                     sh.HIERARCHY_NO,
-                     sh.YEAR,
-                     sh.PERIOD,
-                     sh.DISCOUNT,
-
-                     COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_SALES,0), 0) * 100 AS ACTUAL_RATE,
-                     NULL PROJECTION_RATE,
-                     0                                                             AS AP_TABLE_INDICATOR,
-                     SH.USER_GROUP,
+              )
+ORDER BY INSTR OFFSET @FIRSTROW ROWS
+ 
+FETCH NEXT @NEXTROW ROWS ONLY
+ 
+INSERT INTO #SELECTED_HIERARCHY_NO (
+       HIERARCHY_NO,
+       DISCOUNT,
+       RS_CONTRACT_SID,
+       INSTR,DEDUCTION_INCLUSION
+       )
+SELECT DISTINCT STUFF((
+                     SELECT DISTINCT ', ' + HIERARCHY_NO
+                     FROM #HIERARCHY B
+                     WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES
+                     FOR XML PATH('')
+                     ), 1, 2, '') HIERARCHY_NO,
+       rld.relationship_level_values,
+       SPM.RS_CONTRACT_SID,
+      
+       INSTR,SPM.DEDUCTION_INCLUSION
+FROM #HIERARCHY A
+INNER JOIN ST_CCP_HIERARCHY CH
+       ON CH.@CUSTORPROD LIKE A.HIERARCHY_NO + '%'
+INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER SPM
+       ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+INNER JOIN RS_CONTRACT RSC
+       ON RSC.RS_CONTRACT_SID = SPM.RS_CONTRACT_SID
+INNER JOIN #SELECTED_REBATE SR
+       ON SPM.DEDUCTION_HIERARCHY_NO LIKE SR.HIERARCHY_NO + '%'
+INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+       ON RLD.HIERARCHY_NO = SR.HIERARCHY_NO
+ 
+IF Object_id('TEMPDB..#DISCOUNT_PROJECTION_MASTER') IS NOT NULL
+       DROP TABLE #DISCOUNT_PROJECTION_MASTER
+ 
+SELECT DISCOUNT,
+      
+       USER_GROUP = Max(shn.USER_GROUP),
+       CHECK_RECORD = Min(CASE (MSPM.CHECK_RECORD)
+                     WHEN 1
+                           THEN 1
+                     ELSE 0
+                     END),
+       UNCHECK_COUNT = Sum(CASE (MSPM.CHECK_RECORD)
+                     WHEN 1
+                           THEN 0
+                     ELSE 1
+                     END),
+       SHN.HIERARCHY_NO,
+       Count(*) AS CCP_COUNT,
+       shn.DEDUCTION_INCLUSION
+INTO #DISCOUNT_PROJECTION_MASTER
+FROM #SELECTED_HIERARCHY_NO SHN
+INNER JOIN ST_CCP_HIERARCHY CCP
+       ON CCP.@CUSTORPROD LIKE SHN.HIERARCHY_NO + '%'
+INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER MSPM
+       ON MSPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+              AND MSPM.RS_CONTRACT_SID = SHN.RS_CONTRACT_SID
+              @DPMDEDINCLLUSION
+        GROUP BY DISCOUNT,
+        SHN.HIERARCHY_NO,
+        SHN.DEDUCTION_INCLUSION
+ 
+SELECT  DPM.CHECK_RECORD,A.HIERARCHY_NO,
+                    YEAR,
+                     PERIOD,
+                    A.DISCOUNT,
+                      ACTUAL_RATE,
+                      PROJECTION_RATE,
+                     AP_TABLE_INDICATOR,
+                     USER_GROUP,
                      CCP_COUNT,
                      UNCHECK_COUNT,
-                     DISCOUNT_ACTUALS                           AS ACTUAL_SALES,
-
-                     COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_UNITS, 0), 0)       AS ACTUAL_RPU,
-                     NULL                                      AS PROJECTION_SALES,
-                     NULL                                                          AS PROJECTION_RPU,
-                     NULL                                                          AS GROWTH,RELATIONSHIP_LEVEL_VALUES @SELCOLDED,INSTR
-
-                     
-              FROM (SELECT HIERARCHY_NO,year,P.PERIOD,DISCOUNT,USER_GROUP,INSTR FROM #SELECTED_HIERARCHY_NO SHS CROSS JOIN #PERIOD P WHERE P.PERIOD_SID BETWEEN @STAT_SALES AND @EN_SALES GROUP BY  year,P.PERIOD,HIERARCHY_NO,DISCOUNT,USER_GROUP,INSTR) SH  
-			  LEFT JOIN  #DISCOUNT_PROJECTION_MASTER DPM ON DPM.DISCOUNT=SH.DISCOUNT  and dpm.HIERARCHY_NO=sh.HIERARCHY_NO
-                     LEFT  JOIN #ACTUAL_DISCOUNT AD
-                             ON AD.HIERARCHY_NO = DPM.HIERARCHY_NO
-                                AND DPM.DISCOUNT = AD.DISCOUNT
-								 AND SH.YEAR = AD.YEAR
-                                AND SH.PERIOD = AD.PERIOD
-				      
-                     LEFT  JOIN #ACTUAL_SALES SA
-                             ON SA.HIERARCHY_NO = AD.HIERARCHY_NO
-                                AND SA.YEAR = SH.YEAR
-                                AND SA.PERIOD = SH.PERIOD
-                                AND SA.DISCOUNT = AD.DISCOUNT
-				       
-                                     
-                                     LEFT JOIN  RELATIONSHIP_LEVEL_DEFINITION RL ON sh.DISCOUNT=rl.HIERARCHY_NO
-              UNION ALL
-              SELECT  CHECK_RECORD,
-                     sh.HIERARCHY_NO,
-                     sh.YEAR,
-                     sh.PERIOD,
-                     sh.DISCOUNT,
-                     NULL AS                                                              ACTUAL_RATE,
-                     COALESCE((PROJECTED_DISCOUNT) / NULLIF(PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE,
-                     1                                                                   AS AP_TABLE_INDICATOR,
-                     SH.USER_GROUP,
-                     CCP_COUNT,
-                     UNCHECK_COUNT,
-                     NULL                                                                AS ACTUAL_SALES,
-                     NULL                                                                AS ACTUAL_RPU,
-                     PROJECTED_DISCOUNT                                                   AS PROJECTION_SALES,
-                     COALESCE((PROJECTED_DISCOUNT) / NULLIF(PROJECTION_UNITS, 0), 0)       AS PROJECTION_RPU,
-                     GROWTH,RELATIONSHIP_LEVEL_VALUES @SELCOLDED,INSTR
-
-                     
-              FROM    (SELECT HIERARCHY_NO,year,P.PERIOD,DISCOUNT,USER_GROUP,INSTR FROM #SELECTED_HIERARCHY_NO SHS CROSS JOIN #PERIOD P WHERE P.PERIOD_SID BETWEEN @ACTUAL_START_PERIOD AND @ACTUAL_END_PERIOD GROUP BY  year,P.PERIOD,HIERARCHY_NO,DISCOUNT,USER_GROUP,INSTR) SH  LEFT JOIN 
-			   #DISCOUNT_PROJECTION_MASTER DPM
-			   ON   DPM.DISCOUNT=SH.DISCOUNT  and dpm.HIERARCHY_NO=sh.HIERARCHY_NO
-                     LEFT JOIN #DISCOUNT_PROJECTION AD
-                             ON AD.HIERARCHY_NO = DPM.HIERARCHY_NO
-                                 AND DPM.DISCOUNT = AD.DISCOUNT
-				        
-						    AND SH.YEAR = AD.YEAR
-                                AND SH.PERIOD = AD.PERIOD
-                     LEFT JOIN #PROJECTION_SALES SA
-                             ON SA.HIERARCHY_NO = AD.HIERARCHY_NO
-                                AND SA.discount = AD.discount
-                                AND SA.YEAR = SH.YEAR
-                                AND SA.PERIOD = SH.PERIOD
-                             
-                                LEFT JOIN  RELATIONSHIP_LEVEL_DEFINITION RL ON SH.DISCOUNT=RL.HIERARCHY_NO
+                   ACTUAL_SALES,
+                     ACTUAL_RPU,
+                     PROJECTION_SALES,
+                     PROJECTION_RPU,
+                     GROWTH
+                      ,RELATIONSHIP_LEVEL_VALUES 
+                                    ,DPM.DEDUCTION_INCLUSION ,INSTR FROM
+   
+ 
+(SELECT
+       SH.HIERARCHY_NO,
+       STC.YEAR,
+       STC.PERIOD,
+       SH.DISCOUNT,
+       COALESCE(SUM(STC.DISCOUNT) / NULLIF(SUM(SALES), 0), 0) * 100 AS ACTUAL_RATE,
+       NULL PROJECTION_RATE,
+       0 AS AP_TABLE_INDICATOR,
+       SUM(STC.DISCOUNT) AS ACTUAL_SALES,
+       COALESCE(SUM(STC.DISCOUNT) / NULLIF(SUM(UNITS), 0), 0) AS ACTUAL_RPU,
+       NULL AS PROJECTION_SALES,
+       NULL AS PROJECTION_RPU,
+       NULL AS GROWTH,
+       SH.DISCOUNT AS RELATIONSHIP_LEVEL_VALUES,
+       STC.DEDUCTION_INCLUSION,
+       INSTR
+FROM @VIEWTABLE STC
+INNER JOIN #SELECTED_HIERARCHY_NO SH
+       ON STC.HIERARCHY_NO LIKE SH.HIERARCHY_NO + '%' and stc.RS_CONTRACT_SID=SH.DISCOUNT 
+ 
+WHERE INDICATOR = 0
+       @DEDINCLUSION
+GROUP BY SH.HIERARCHY_NO,
+ 
+SH.DISCOUNT,
+       PERIOD,
+       YEAR,
+       STC.DEDUCTION_INCLUSION,   INSTR
+      
+ 
+UNION ALL
+ 
+SELECT 
+       SH.HIERARCHY_NO,
+       STC.YEAR,
+       STC.PERIOD,
+       SH.DISCOUNT,
+       NULL AS ACTUAL_RATE,
+       COALESCE(SUM(STC.DISCOUNT) / NULLIF(SUM(SALES), 0), 0) * 100 AS PROJECTION_RATE,
+       1 AS AP_TABLE_INDICATOR,
+       NULL AS ACTUAL_SALES,
+       NULL AS ACTUAL_RPU,
+       SUM(STC.DISCOUNT) AS PROJECTION_SALES,
+       COALESCE(SUM(STC.DISCOUNT) / NULLIF(SUM(UNITS), 0), 0) AS PROJECTION_RPU,
+       AVG(GROWTH),
+       SH.DISCOUNT AS RELATIONSHIP_LEVEL_VALUES,
+       STC.DEDUCTION_INCLUSION,
+       INSTR
+FROM @VIEWTABLE STC
+INNER JOIN #SELECTED_HIERARCHY_NO SH
+       ON STC.HIERARCHY_NO LIKE SH.HIERARCHY_NO + '%' and stc.RS_CONTRACT_SID=SH.DISCOUNT 
+WHERE INDICATOR = 0
+       @DEDINCLUSION
+       GROUP BY SH.HIERARCHY_NO,
+       SH.DISCOUNT,
+              PERIOD,
+              YEAR,
+              STC.DEDUCTION_INCLUSION,
+              INDICATOR,    INSTR
               
-             ORDER  BY 
-                         sh.INSTR,
-                         sh.HIERARCHY_NO  ,
-                        DISCOUNT,
-                        YEAR,
-                        PERIOD,
-                        AP_TABLE_INDICATOR 
+              )A
+              JOIN #DISCOUNT_PROJECTION_MASTER DPM ON DPM.HIERARCHY_NO=A.HIERARCHY_NO
+                @DEDINCLNWHR
+                   ORDER  BY
+                        INSTR,HIERARCHY_NO,DISCOUNT,
+                        YEAR, PERIOD,AP_TABLE_INDICATOR
             
    
    ]]>
