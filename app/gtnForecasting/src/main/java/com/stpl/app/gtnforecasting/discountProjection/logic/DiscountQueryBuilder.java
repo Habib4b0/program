@@ -5,8 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.discountProjection.logic;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;

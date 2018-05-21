@@ -746,7 +746,7 @@ public class DiscountProjectionLogic {
         int count = queryBuilderAndExecutor.getCheckedRecordCount(session, isProgram, discountProgramsList);
         if (count != 0) {
             if (count == -1) {
-                LOGGER.error("Check Count is not retrieved properly{}"+isCustomHierarchy);
+                LOGGER.error("Check Count is not retrieved properly{}", isCustomHierarchy);
                 return false;
             } else {
                 return true;

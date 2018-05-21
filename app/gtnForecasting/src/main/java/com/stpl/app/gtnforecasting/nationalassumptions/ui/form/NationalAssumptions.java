@@ -1186,7 +1186,6 @@ public class NationalAssumptions extends CustomComponent implements View {
                 currentPeriod.add(Constant.Q + j + " " + year);
             }
         }
-        int count = 0;
         List<PriceTypeDTO> list = priceTypesBean.getItemIds();
         boolean combinationExists = false;
         for (PriceTypeDTO priceTypeDTO : list) {
@@ -1223,7 +1222,6 @@ public class NationalAssumptions extends CustomComponent implements View {
         for (int i = 0; i < baselineResultsBean.size(); i++) {
             BaselinePeriodDTO baseline = baselineResultsBean.getIdByIndex(i);
             if (baseline.getCheck()) {
-                count++;
                 actualsPeriod1 = (actualsPeriod1 != null) ? actualsPeriod1
                         + "," + baseline.getPeriod() : baseline.getPeriod();
             }
