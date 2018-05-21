@@ -31,6 +31,7 @@ public class StplAutoLogin implements AutoLogin {
 	@Override
 	public String[] handleException(HttpServletRequest request, HttpServletResponse response, Exception arg2)
 			throws AutoLoginException {
+		LOGGER.error("Error in Hook", arg2);
 		return null;
 	}
 
@@ -53,6 +54,8 @@ public class StplAutoLogin implements AutoLogin {
 		} catch (SystemException ex) {
 			LOGGER.error("Unable to create User", ex);
 		}
+
+		new StplBPMLogin().login(user, response);
 		return getUserString(user);
 
 	}
@@ -61,7 +64,6 @@ public class StplAutoLogin implements AutoLogin {
 		String emailAddress = "";
 		String samlResponseString = request.getParameter("SAMLResponse"); // constants
 
-		LOGGER.info("Saml Response is  " + samlResponseString);
 		String relayState = request.getParameter("RelayState");
 
 		if (samlResponseString == null) {
