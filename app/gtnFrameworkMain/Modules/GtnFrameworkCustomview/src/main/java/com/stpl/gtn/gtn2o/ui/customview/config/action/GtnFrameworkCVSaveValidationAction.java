@@ -60,7 +60,7 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
         saveCustomView(componentId, paramList);
     }
 
-    private void saveCustomView(String componentId, List<Object> paramList) throws GtnFrameworkValidationFailedException, GtnFrameworkGeneralException {
+    private void saveCustomView(String componentId, List<Object> paramList) throws GtnFrameworkGeneralException {
         final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
         final GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
         GtnWsCustomViewRequest cvRequest = new GtnWsCustomViewRequest();

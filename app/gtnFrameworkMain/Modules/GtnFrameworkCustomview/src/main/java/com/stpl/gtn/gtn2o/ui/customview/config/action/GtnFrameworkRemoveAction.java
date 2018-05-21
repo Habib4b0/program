@@ -42,8 +42,8 @@ public class GtnFrameworkRemoveAction implements GtnUIFrameWorkAction, GtnUIFram
             return;
         } 
         if(!hierarchyIndicator.equals(selectedTreeBean.getAdditionalPropertyByIndex(2))) {
-            String hierarchyName = "C".equals(selectedTreeBean.getAdditionalPropertyByIndex(2)) ? "Customer Hierarchy" : 
-                    "P".equals(selectedTreeBean.getAdditionalPropertyByIndex(2)) ? "Product Hierarchy" : "Deduction Hierarchy";
+            String prodOrDedHier = "P".equals(selectedTreeBean.getAdditionalPropertyByIndex(2)) ? "Product Hierarchy" : "Deduction Hierarchy";
+            String hierarchyName = "C".equals(selectedTreeBean.getAdditionalPropertyByIndex(2)) ? "Customer Hierarchy" : prodOrDedHier;
             GtnUIFrameworkGlobalUI.showMessageBox("Illegal Level", GtnUIFrameworkActionType.ALERT_ACTION,
                     "Illegal Level", "Level which is selected belongs to "+hierarchyName);
             return;
@@ -51,7 +51,6 @@ public class GtnFrameworkRemoveAction implements GtnUIFrameWorkAction, GtnUIFram
         if(treeBaseComponent.getChildNodes(selectedTreeBean).isEmpty()) {
             treeBaseComponent.removeSelectedTreeItems(parameters.get(1).toString(), false);
             table.removeItemFromDataTable(cutomerValueToRemove);
-//            GtnWsRecordBean addBean = (GtnWsRecordBean) cutomerValueToRemove;
             List<Object> dataList = selectedTreeBean.getProperties();
             dataList.addAll(selectedTreeBean.getAdditionalProperties());
             selectedTreeBean.setProperties(dataList);

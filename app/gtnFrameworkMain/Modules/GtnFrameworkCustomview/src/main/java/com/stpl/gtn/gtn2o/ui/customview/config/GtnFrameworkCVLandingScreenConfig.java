@@ -124,7 +124,7 @@ public class GtnFrameworkCVLandingScreenConfig {
                 namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_DESCRIPTION, true,
                 namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_DESCRIPTION_LAYOUT, GtnUIFrameworkComponentType.TEXTBOX);
         customViewDescConfig.setAuthorizationIncluded(true);
-        customViewDescConfig.setComponentName("Custom View Name");
+        customViewDescConfig.setComponentName("Custom View Description");
 
         customViewDescConfig.setAddToParent(true);
 
@@ -393,7 +393,7 @@ public class GtnFrameworkCVLandingScreenConfig {
         cvLandingScreenResultsTable.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.CONTRACT_HEADER);
         cvLandingScreenResultsTable.setDoubleClickEnable(true);
 //		chLandingScreenResultsTable.setCustomFilterConfigMap(getCustomFilterConfig());
-        List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+//        List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
 //		GtnUIFrameWorkActionConfig chTableClickNavigationActionConfig = new GtnUIFrameWorkActionConfig();
 //		chTableClickNavigationActionConfig.setActionType(GtnUIFrameworkActionType.NAVIGATION_ACTION);
