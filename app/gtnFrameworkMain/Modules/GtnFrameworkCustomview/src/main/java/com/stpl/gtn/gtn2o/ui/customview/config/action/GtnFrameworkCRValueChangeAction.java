@@ -36,6 +36,9 @@ public class GtnFrameworkCRValueChangeAction implements GtnUIFrameWorkAction, Gt
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
         List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
+        List<Integer> customerAlreadyAddedList=new ArrayList<>();
+        List<Integer> productAlreadyAddedList=new ArrayList<>();
+        List<Integer> deductionAlreadyAddedList=new ArrayList<>();
         String resultTableId = (String) parameters.get(2);
         String deductionTableId = (String) parameters.get(6);
         GtnWsRecordBean dto = new GtnWsRecordBean();
@@ -43,7 +46,19 @@ public class GtnFrameworkCRValueChangeAction implements GtnUIFrameWorkAction, Gt
         GtnUIFrameworkBaseComponent component = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId);
         GtnUIFrameworkBaseComponent treeTable = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(5).toString());
         GtnUIFrameworkBaseComponent dedTable = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(deductionTableId);
+        boolean isEdit=String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")).equalsIgnoreCase("Edit");
+        
+        for (GtnWsRecordBean beanTableData : treeTable.getItemsFromDataTable()) {
+            if ("C".equals(beanTableData.getAdditionalStringPropertyByIndex(2))) {
+                customerAlreadyAddedList.add(beanTableData.getAdditionalIntegerPropertyByIndex(3));
+            } else if ("P".equals(beanTableData.getAdditionalStringPropertyByIndex(2))) {
+                productAlreadyAddedList.add(beanTableData.getAdditionalIntegerPropertyByIndex(3));
+            } else {
+                deductionAlreadyAddedList.add(beanTableData.getAdditionalIntegerPropertyByIndex(3));
+            }
+        }
         treeTable.clearTree();
+      
         table.clearTree();
         
         int relationSid = component.getIntegerFromField();
@@ -52,18 +67,24 @@ public class GtnFrameworkCRValueChangeAction implements GtnUIFrameWorkAction, Gt
         GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
         GtnWsSearchRequest searchRequest = new GtnWsSearchRequest();
         List<Object> inputList = new ArrayList<>();
-        inputList.add(resultTableId.contains(GtnFrameworkCVConstants.CUSTOMER_LEVEL) ? "C" : "P");
+        boolean isCustomer=resultTableId.contains(GtnFrameworkCVConstants.CUSTOMER_LEVEL);
+        inputList.add(isCustomer ? "C" : "P");
         inputList.add(relationSid);
         searchRequest.setQueryInputList(inputList);
         serviceRequest.setGtnWsSearchRequest(searchRequest);
         GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE + GtnWsCustomViewConstants.GET_CUSTOM_VIEW_TABLE_DATA, serviceRequest,
                 GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
         GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(resultTableId);
+        
+        List<Integer> alreadyAddedList = isCustomer ? customerAlreadyAddedList : productAlreadyAddedList;
+        
         for (GtnUIFrameworkDataRow record : response.getGtnSerachResponse().getResultSet().getDataTable()) {
-            dto = new GtnWsRecordBean();
-            dto.setRecordHeader(table.getTableRecordHeader());
-            dto.setProperties(record.getColList());
-            tableBaseComponent.addItemToDataTable(dto);
+            if ((isEdit && !alreadyAddedList.contains((Integer)record.getColList().get(4))) || !isEdit) {
+                dto = new GtnWsRecordBean();
+                dto.setRecordHeader(table.getTableRecordHeader());
+                dto.setProperties(record.getColList());
+                tableBaseComponent.addItemToDataTable(dto);
+            }
         }
         
         if (resultTableId.contains(GtnFrameworkCVConstants.PRODUCT_LEVEL)) {
@@ -77,10 +98,12 @@ public class GtnFrameworkCRValueChangeAction implements GtnUIFrameWorkAction, Gt
                     GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
             GtnUIFrameworkBaseComponent dedTableComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(deductionTableId);
             for (GtnUIFrameworkDataRow record : responseForDed.getGtnSerachResponse().getResultSet().getDataTable()) {
-                dto = new GtnWsRecordBean();
-                dto.setRecordHeader(table.getTableRecordHeader());
-                dto.setProperties(record.getColList());
-                dedTableComponent.addItemToDataTable(dto);
+                 if ((isEdit && !deductionAlreadyAddedList.contains((Integer) record.getColList().get(4))) || !isEdit) {
+                    dto = new GtnWsRecordBean();
+                    dto.setRecordHeader(table.getTableRecordHeader());
+                    dto.setProperties(record.getColList());
+                    dedTableComponent.addItemToDataTable(dto);
+                }
             }
         }
     }

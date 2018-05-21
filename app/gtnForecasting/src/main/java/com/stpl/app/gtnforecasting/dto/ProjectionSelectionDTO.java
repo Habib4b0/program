@@ -76,6 +76,7 @@ public class ProjectionSelectionDTO {
     private String hierarchyIndicator = StringUtils.EMPTY;
     private List<List<String>> discountList = new ArrayList<>();
     private String view;
+    private String viewOption;
     private String frequency = StringUtils.EMPTY;
     private boolean isFrequencyChanged = true;
     private String projectionOrder;
@@ -2412,5 +2413,14 @@ public class ProjectionSelectionDTO {
     public void setUpdateQueryMap(Map<String, String> updateQueryMap) {
         this.updateQueryMap = updateQueryMap;
     }
+
+    public String getViewOption() {
+        return viewOption;
+    }
+
+    public void setViewOption(String viewOption) {
+        this.viewOption = viewOption;
+    }
+    
 
     }

@@ -49,6 +49,8 @@ public class GtnFrameworkCVConstants {
     public static final String CUSTOM_SEARCH_RESULT_PANEL = "CustomViewSearchResultPanel";
     public static final String CUSTOM_SEARCH_RESULT_LAYOUT = "CustomViewSearchResultlayout";
     public static final String GTN_ADD_BUTTON_LAYOUT = "gtnAddButtonLayout";
+    public static final String GTN_EDIT_BUTTON_LAYOUT = "gtnEditButtonLayout";
+    public static final String GTN_VIEW_BUTTON_LAYOUT = "gtnViewButtonLayout";
     public static final String CUSTOM_VIEW_INFO_PANEL = "customViewInformationPanel";
     public static final String CUSTOM_VIEW_INFO_VERTICAL_LAYOUT = "customViewInformationVerticallayout";
     public static final String CUSTOM_VIEW_TYPE_COMP_LAYOUT = "customViewTypeCompLayout";

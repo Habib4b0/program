@@ -31,6 +31,8 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
     private String modifiedBy;
     private int cvSysId;
     private int userId;
+    private int productRelVersionNo;
+    private int customerRelVersionNo;
     private List<GtnWsRecordBean> cvTreeNodeList;
 
     public GtnWsRecordBean getMainNode() {
@@ -136,5 +138,24 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    public int getProductRelVersionNo() {
+        return productRelVersionNo;
+    }
+
+    public void setProductRelVersionNo(int productRelVersionNo) {
+        this.productRelVersionNo = productRelVersionNo;
+    }
+
+    public int getCustomerRelVersionNo() {
+        return customerRelVersionNo;
+    }
+
+    public void setCustomerRelVersionNo(int customerRelVersionNo) {
+        this.customerRelVersionNo = customerRelVersionNo;
+    }
+
+
+   
     
 }

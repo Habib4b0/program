@@ -95,12 +95,11 @@ public class GtnUIFrameworkPSSaveConfirmationAction implements GtnUIFrameWorkAct
 			}
 
 		} catch (Exception ex) {
-			throw ex;
+			throw new GtnFrameworkGeneralException("Error in GtnUIFrameworkPSSaveConfirmationAction", ex);
 		}
 	}
 
-	public boolean priceProtectionStartDateAlert(String componentId)
-			throws GtnFrameworkGeneralException {
+	public boolean priceProtectionStartDateAlert(String componentId) throws GtnFrameworkGeneralException {
 		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();

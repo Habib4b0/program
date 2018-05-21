@@ -42,8 +42,9 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
         StringBuilder chErrorMsg = new StringBuilder();
         List<Object> paramList = gtnUIFrameWorkActionConfig.getActionParameterList();
         String[] fields = (String[]) paramList.get(1);
+        GtnUIFrameworkBaseComponent treeTable = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(paramList.get(3).toString());
+        
         GtnUIFrameworkGlobalUI.validateFields(fields, chErrorMsg);
-        GtnUIFrameworkBaseComponent treeTable = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(paramList.get(2).toString());
         if (chErrorMsg.length() > 0) {
             String msg = GtnFrameworkCVConstants.GTN_CUSTOM_VIEW_MANDATORY_FIELDS_VALIDATION
                     + " <br> " + chErrorMsg.toString();
@@ -51,7 +52,7 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
             throw new GtnFrameworkValidationFailedException(msg, componentId);
         }
         GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
-        if (treeTable.getAllTreeNodes().isEmpty()) {
+        if (treeTable.getItemsFromDataTable().isEmpty()) {
             GtnUIFrameworkGlobalUI.showMessageBox("Error", GtnUIFrameworkActionType.ALERT_ACTION,
                     "Error", "Please make a tree to save");
             return;
@@ -60,7 +61,7 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
         saveCustomView(componentId, paramList);
     }
 
-    private void saveCustomView(String componentId, List<Object> paramList) throws GtnFrameworkGeneralException {
+    private void saveCustomView(String componentId, List<Object> paramList) throws GtnFrameworkValidationFailedException, GtnFrameworkGeneralException {
         final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
         final GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
         GtnWsCustomViewRequest cvRequest = new GtnWsCustomViewRequest();
@@ -71,9 +72,9 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
                 .getStringFromField();
         String customViewDescription = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[1])
                 .getStringFromField();
-        int customerRelationSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[1])
+        int customerRelationSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[2])
                 .getIntegerFromField();
-        int productRelationSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[1])
+        int productRelationSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[3])
                 .getIntegerFromField();
         String customViewType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(paramList.get(2).toString())
                 .getStringFromField();
@@ -82,10 +83,13 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
         cvRequest.setCustomerRelationshipSid(customerRelationSid);
         cvRequest.setProductRelationshipSid(productRelationSid);
         cvRequest.setCustomViewType(customViewType);
+        if(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")).equalsIgnoreCase("Edit")){
+         cvRequest.setCvSysId(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("customSid"))));
+        }
         GtnUIFrameworkBaseComponent cvTreeBaseComponent = GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(paramList.get(3).toString());
         if (cvTreeBaseComponent != null) {
-            List<GtnWsRecordBean> treeNodeList = cvTreeBaseComponent.getTreeNodes();
+            List<GtnWsRecordBean> treeNodeList = cvTreeBaseComponent.getItemsFromDataTable();
             cvRequest.setCvTreeNodeList(treeNodeList);
         }
         GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(

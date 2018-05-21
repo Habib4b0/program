@@ -332,12 +332,12 @@ public class ForecastUI extends UI {
             LoggerFactory.getLogger(ForecastUI.class.getName()).error(StringUtils.EMPTY, ex);
         }
 
-        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
-            @Override
-            public void error(com.vaadin.server.ErrorEvent event) {
-                LOGGER.error("Error catched in UI ", event.getThrowable());
-            }
-        });
+//        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+//            @Override
+//            public void error(com.vaadin.server.ErrorEvent event) {
+//                LOGGER.error("Error catched in UI ", event.getThrowable());
+//            }
+//        });
         
     }
 

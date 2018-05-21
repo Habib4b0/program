@@ -123,7 +123,7 @@ public class GtnWsPriceScheduleService {
 				psInfoBean.setSystemId(((BigDecimal) id).intValue());
 
 			}
-			psSaveInsertToPSDetails(psInfoBean.getSystemId(), userId, sessionId, session);
+			psCheckCopyMode(psInfoBean, userId, sessionId, session);
 			if (psInfoBean.getNoteBeanList() != null && !psInfoBean.getNoteBeanList().isEmpty()) {
 				psNotesTabInsert(psInfoBean, session);
 				psNotesTabAttachInsert(psInfoBean, session);
@@ -134,6 +134,17 @@ public class GtnWsPriceScheduleService {
 			throw new GtnFrameworkGeneralException(ex);
 		} finally {
 			session.close();
+		}
+	}
+
+	public void psCheckCopyMode(GtnUIFrameWorkPSInfoBean psInfoBean, String userId, String sessionId, Session session)
+			throws GtnFrameworkGeneralException {
+		if (psInfoBean.isPsCopyMode()) {
+
+			psCopyInsertToPSDetails(psInfoBean.getSystemId(), userId, sessionId, session);
+
+		} else {
+			psSaveInsertToPSDetails(psInfoBean.getSystemId(), userId, sessionId, session);
 		}
 	}
 
@@ -211,6 +222,17 @@ public class GtnWsPriceScheduleService {
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(psDetailsInsertQuery, psDetailsInsertQueryParams,
 				psDetailsInsertQueryTypes, session);
 
+	}
+
+	private void psCopyInsertToPSDetails(int psmodelSid, String userId, String sessionId, Session session)
+			throws GtnFrameworkGeneralException {
+
+		String psCopyDetailsInsertQuery = gtnWsSqlService.getQuery("getPsCopyDetailsInsertQuery");
+		Object[] psCopyDetailsInsertQueryParams = { userId, sessionId, psmodelSid };
+		GtnFrameworkDataType[] psCopyDetailsInsertQueryTypes = { GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER };
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(psCopyDetailsInsertQuery, psCopyDetailsInsertQueryParams,
+				psCopyDetailsInsertQueryTypes, session);
 	}
 
 	private void psSaveToPSModel(String userId, GtnUIFrameWorkPSInfoBean psInfoBean, Session session)
@@ -410,11 +432,9 @@ public class GtnWsPriceScheduleService {
 		psInfoBean.setPsName(getStringValue(result[2]));
 		psInfoBean.setParentpSNo(getStringValue(result[3]));
 		int createdBy = getStringValue(result[4]) != null && !getStringValue(result[4]).isEmpty()
-				? Integer.parseInt(getStringValue(result[4]))
-				: 0;
+				? Integer.parseInt(getStringValue(result[4])) : 0;
 		int modifiedBy = getStringValue(result[5]) != null && !getStringValue(result[5]).isEmpty()
-				? Integer.parseInt(getStringValue(result[5]))
-				: 0;
+				? Integer.parseInt(getStringValue(result[5])) : 0;
 		psInfoBean.setCreatedBy(getStringValue(gtnWebServiceAllListConfig.getUserIdNameMap().get(createdBy)));
 		psInfoBean.setModifiedBy(getStringValue(gtnWebServiceAllListConfig.getUserIdNameMap().get(modifiedBy)));
 		psInfoBean.setParentPsSid(getStringValue(result[6]));

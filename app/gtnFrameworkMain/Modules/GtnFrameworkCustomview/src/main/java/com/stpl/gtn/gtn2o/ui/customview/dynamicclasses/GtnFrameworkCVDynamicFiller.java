@@ -7,6 +7,8 @@ package com.stpl.gtn.gtn2o.ui.customview.dynamicclasses;
 
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCRValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVSaveValidationAction;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkConfirmSaveAction;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCustomerAddAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkOptionGroupChangeAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkRemoveAction;
@@ -31,6 +33,10 @@ public class GtnFrameworkCVDynamicFiller implements GtnUIDynamicObjectFiller {
 				new GtnFrameworkRemoveAction());
         GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCVSaveValidationAction.class.getName(),
 				new GtnFrameworkCVSaveValidationAction());
+        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkConfirmSaveAction.class.getName(),
+				new GtnFrameworkConfirmSaveAction());
+        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCustomViewEditAction.class.getName(),
+				new GtnFrameworkCustomViewEditAction());
     }
     
 }
