@@ -187,10 +187,10 @@ public class SalesExcelNM extends ExcelExport{
 
     private String getFormula(Cell sheetCell, final Object rootItemId) {
         String columnLetter = CellReference.convertNumToColString(sheetCell.getColumnIndex());
-        LOGGER.info("*****************columnLetter******************************************************{}" + columnLetter);
+        LOGGER.info("*columnLetter: {}" + columnLetter);
         final Collection<?> children = ((Container.Hierarchical) getTableHolder().getContainerDataSource())
                 .getChildren(rootItemId);
-        LOGGER.info("*********************ROOT ITEM ID********************************{}" + ((SalesRowDto) rootItemId).getLevelName());
+        LOGGER.info("ROOT ITEM ID: {}" + ((SalesRowDto) rootItemId).getLevelName());
         int rowNo = sheetCell.getRowIndex() + 2;
         String formula = "";
         int i = 0;
@@ -210,7 +210,7 @@ public class SalesExcelNM extends ExcelExport{
             formula += columnLetter + rowNo;
             i++;
         }
-        LOGGER.info("**************************FORMULA******************************{}" + formula);
+        LOGGER.info("FORMULA: {}" + formula);
         return formula;
     }
 

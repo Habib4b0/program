@@ -2481,7 +2481,7 @@ public class DataSelectionLogic {
             }
             query.append('\'');
             HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-            LOGGER.info("*************Normal Procedures**************************{}"+query.toString());
+            LOGGER.info("Normal Procedures: {}"+query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -2506,7 +2506,7 @@ public class DataSelectionLogic {
             }
             query.append('\'');
             HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-            LOGGER.info("******************************************{}"+query.toString());
+            LOGGER.info("Query: {}"+query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -2537,9 +2537,9 @@ public class DataSelectionLogic {
                                 .append(',').append("null")
                                 .append(",'").append("Schedule Category")
                                 .append('\'');
-                                LOGGER.info("******before*****{}"+query.toString());
+                                LOGGER.info("before: {}"+query.toString());
 				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-                                LOGGER.info("***********{}"+query.toString());
+                                LOGGER.info("Query: {}"+query.toString());
                                  LOGGER.debug(endPeriod);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -2569,7 +2569,7 @@ public class DataSelectionLogic {
                                 .append(",'").append("Schedule Category").append('\'')
                                 .append(';');
                                 HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-                                LOGGER.info("***********{}"+query.toString());
+                                LOGGER.info("Query: {}"+query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
