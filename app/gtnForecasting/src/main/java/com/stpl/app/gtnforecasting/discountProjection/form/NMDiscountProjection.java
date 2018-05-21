@@ -4,7 +4,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.common.AppDataUtils;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
-import com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjection;
 import com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder;
 import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountExcelLogic;
 import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountProjectionLogic;
@@ -416,7 +415,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             loadDeductionInclusion();
             loadDisplayFormatDdlb();
             commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
-            deductionlevelDdlb.select(Integer.parseInt(session.getDataSelectionDeductionLevel()));
+            deductionlevelDdlb.select(Integer.valueOf(session.getDataSelectionDeductionLevel()));
 
         }
         securityForButton();
@@ -1139,7 +1138,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             refreshBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    commonLogic.viewProceduresCompletionCheck(projectionSelection);
+                    CommonLogic.viewProceduresCompletionCheck(projectionSelection);
                     session.setFunctionMode("R");
                     if (!isMultipleVariablesUpdated) {
                         if (isRateUpdatedManually || isRPUUpdatedManually
@@ -2037,7 +2036,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
      @Override
     protected void populateBtnClickLogic() {
-        commonLogic.viewProceduresCompletionCheckDiscount(projectionSelection);
+        CommonLogic.viewProceduresCompletionCheckDiscount(projectionSelection);
         session.setFunctionMode("M");
         if (isGroupUpdatedManually) {
             NotificationUtils.getAlertNotification(Constant.GROUP_FILTER_CONFLICT, Constant.GROUP_VALUE_VERIFICATION);
@@ -2278,7 +2277,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     @Override
     protected void calculateBtnClickLogic() {
         try {
-            commonLogic.viewProceduresCompletionCheckDiscount(projectionSelection);
+            CommonLogic.viewProceduresCompletionCheckDiscount(projectionSelection);
             session.setFunctionMode("CALC");
 
             if (CONTRACT_DETAILS.getConstant().equals(methodologyDdlb.getValue())) {
@@ -2706,7 +2705,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     @Override
     protected void adjustBtnClickLogic() {
-        commonLogic.viewProceduresCompletionCheckDiscount(projectionSelection);
+        CommonLogic.viewProceduresCompletionCheckDiscount(projectionSelection);
         session.setFunctionMode("ADJ");
         if (isGroupUpdatedManually) {
             NotificationUtils.getAlertNotification(Constant.GROUP_FILTER_CONFLICT, Constant.GROUP_VALUE_VERIFICATION);
@@ -2874,7 +2873,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     @Override
     protected void adjustBtnClickLogicCustom() {
-        commonLogic.viewProceduresCompletionCheckDiscount(projectionSelection);
+        CommonLogic.viewProceduresCompletionCheckDiscount(projectionSelection);
         session.setFunctionMode("ADJ");
 
         try {

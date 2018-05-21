@@ -240,7 +240,7 @@ public class DiscountQueryBuilder {
         }
     }
    
-    public List<String> getRsContractSid(SessionDTO session, boolean checkValue, String hierarchyNo,
+    public List<String> getRsContractSid(SessionDTO session, String hierarchyNo,
             String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountList) {
         String customSql = "";
         LOGGER.debug(" inside updateCheckRecord");
@@ -634,7 +634,7 @@ public class DiscountQueryBuilder {
         }
     }
 
-    public int getCheckedRecordCount(SessionDTO session, boolean isProgram, List<String> discountList, boolean isCustomHierarchy) {
+    public int getCheckedRecordCount(SessionDTO session, boolean isProgram, List<String> discountList) {
         List list = new ArrayList();
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" inside getCheckedRecordCount");
@@ -747,7 +747,6 @@ public class DiscountQueryBuilder {
             final int start, final int end, final String userGroup,final ProjectionSelectionDTO projectionSelection) {
         String queryBuilder=StringUtils.EMPTY;
         String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
-        boolean isLastLevel=session.getSelectedDeductionLevelNo() == 10;
         String dedQuery = NINE_LEVEL_DED;
             queryBuilder = SQlUtil.getQuery("discount-generate-First-Nine-Level");
         queryBuilder = queryBuilder.replace("?F", String.valueOf(frequency.charAt(0))) //Selected Frequency initial char
