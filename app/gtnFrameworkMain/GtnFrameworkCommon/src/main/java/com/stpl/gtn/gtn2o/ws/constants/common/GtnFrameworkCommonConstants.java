@@ -1133,4 +1133,6 @@ public class GtnFrameworkCommonConstants {
 	// Hierarchy Route Builder
 
 	public static final String HIERARCHY_SITUATION_TABLE_ID = "hierarchySitutationTableSid";
+        public static final String CUSTOM_VIEW_DESCRIPTION = "customerViewDescription";
+        public static final String CUSTOM_VIEW_SCREEN_NAME = "customerViewScreenName";
 }
