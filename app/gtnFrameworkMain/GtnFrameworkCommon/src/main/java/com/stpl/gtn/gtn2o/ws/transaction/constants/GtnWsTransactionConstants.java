@@ -32,8 +32,8 @@ public class GtnWsTransactionConstants {
 	
 	public static final String PERCENTAGE = "%";
         
-        public static final String AVGSHELFLIFE = "avgShelfLife";
-        
-        public static final String AVGSHELFLIFEMASTER = "AverageShelfLifeMaster";
+	public static final String AVGSHELFLIFE = "avgShelfLife";
+
+	public static final String AVGSHELFLIFEMASTER = "AverageShelfLifeMaster";
         
 }
