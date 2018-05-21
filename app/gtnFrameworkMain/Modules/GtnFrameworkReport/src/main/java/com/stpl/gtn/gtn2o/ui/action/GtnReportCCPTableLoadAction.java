@@ -140,8 +140,6 @@ public class GtnReportCCPTableLoadAction
 		dto.setProductHierarchyRecordBean(productRecordBean);
 		dto.setSelectedCustomerHierarchyList(selectedCustomerList);
 		dto.setSelectedProductHierarchyList(selectedProductList);
-		dto.setv8ForecastEligibilityDate(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(7).toString())
-				.getV8DateFromDateField());
 		
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_");
