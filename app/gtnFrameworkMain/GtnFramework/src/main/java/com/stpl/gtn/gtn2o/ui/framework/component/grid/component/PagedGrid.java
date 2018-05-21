@@ -39,21 +39,20 @@ import com.vaadin.ui.components.grid.HeaderRow;
 
 public class PagedGrid {
 
-	GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedGrid.class);
+	private GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedGrid.class);
 	GtnUIFrameworkPagedTableConfig tableConfig;
 
-	GtnUIFrameworkComponentConfig componentConfig;
-	int count;
+	private GtnUIFrameworkComponentConfig componentConfig;
+	private  int count;
 	private int pageLength = 10;
 	private int pageNumber = 0;
 	private DataSet dataSet;
 	private Label pageCountLabel;
-	GtnUIFrameworkPagedTableConfig gtnUIFrameworkPagedTableConfig;
+	private GtnUIFrameworkPagedTableConfig gtnUIFrameworkPagedTableConfig;
 	Grid<GtnWsRecordBean> grid;
-	HorizontalLayout controlLayout;
+	private  HorizontalLayout controlLayout;
 	private TextField pageNoField;
 	GtnUIFrameworkPagedGridLogic pagedTableLogic;
-	SessioBeanForVaadin8Components sessioBeanForVaadin8Components = SessioBeanForVaadin8Components.getInstance();
 
 	public PagedGrid(GtnUIFrameworkPagedTableConfig tableConfig, GtnUIFrameworkComponentConfig componentConfig) {
 		this.tableConfig = tableConfig;
@@ -86,21 +85,12 @@ public class PagedGrid {
 		count = getTotalCount();
 		gtnlogger.info("count------" + count);
 		dataSet = loadData((pageNumber * pageLength), pageLength);
-		// int i = 0;
-		// grid.removeAllColumns();
-		// for (String column : tableConfig.getVisibleColumns()) {
-		// grid.addColumn(row ->
-		// row.getValue(column)).setCaption(tableConfig.getColumnHeaders().get(i)).setId(tableConfig.getColumnHeaders().get(i));
-		// i++;
-		// }
 
 		if (dataSet.getRows() != null) {
 
 			grid.setItems(dataSet.getRows());
 
 		}
-		// pageCountLabel.setCaption(String.valueOf(getPageCount()));
-
 	}
 
 	private int getTotalCount() {
@@ -129,7 +119,7 @@ public class PagedGrid {
 	}
 
 	public void nextPage() {
-		System.out.println("next page->" + (pageNumber + 1));
+		gtnlogger.info("next page->" + (pageNumber + 1));
 		if (pageNumber + 1 < getPageCount()) {
 			setPageNoFieldValue(++pageNumber);
 
@@ -280,14 +270,11 @@ public class PagedGrid {
 
 	String appendFilter(String query) {
 		String filter = "";
-		// int i = 0;
 		String condition = "AND";
 		for (Map.Entry<String, Object> entry : tableConfig.getFilterValueMap().entrySet()) {
 			String key = getDBColumnName(entry.getKey());
 			Object value = entry.getValue();
-
 			filter += condition + " " + key + "  like '%" + value + "%'";
-			// i++;
 		}
 
 		return query.replace("@filter", filter);

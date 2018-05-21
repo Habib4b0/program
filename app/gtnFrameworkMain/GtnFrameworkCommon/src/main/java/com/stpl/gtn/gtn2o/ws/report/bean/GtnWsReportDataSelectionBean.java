@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class GtnWsReportDataSelectionBean {
 
 	private String viewName;
 	private String viewType;
+	private LocalDate v8forecastEligibilityDate;
 
 	public int getProductRelationshipBuilderSid() {
 		return productRelationshipBuilderSid;
@@ -283,6 +285,14 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setToPeriodReport(Date toPeriodReport) {
 		this.toPeriodReport = toPeriodReport;
+	}
+
+	public LocalDate getv8ForecastEligibilityDate() {
+		return v8forecastEligibilityDate;
+	}
+
+	public void setv8ForecastEligibilityDate(LocalDate forecastEligibilityDate) {
+		this.v8forecastEligibilityDate = forecastEligibilityDate;
 	}
 
 }

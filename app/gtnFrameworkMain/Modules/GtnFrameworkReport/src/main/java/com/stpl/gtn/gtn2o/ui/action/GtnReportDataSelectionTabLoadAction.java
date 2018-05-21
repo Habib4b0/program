@@ -265,6 +265,9 @@ public class GtnReportDataSelectionTabLoadAction
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_LEVEL, componentId)
 					.loadComboBoxComponentValue(reportDataSelectionBean.getProductHierarchyForecastLevel());
+			
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_customerSelectionForecastEligibilityDate", componentId).loadV8DateValue(reportDataSelectionBean.getv8ForecastEligibilityDate());
+			
 		} catch (Exception exception) {
 			logger.error("Error message", exception);
 		}
