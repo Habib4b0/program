@@ -54,9 +54,11 @@ import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
 import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbCriteria;
 import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbDao;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
+import com.stpl.app.gtnforecasting.logic.Utility;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.form.lookups.CustomerProductGroupLookup;
 import com.stpl.app.gtnforecasting.ui.form.lookups.HierarchyLookup;
@@ -132,6 +134,7 @@ public class DataSelection extends ForecastDataSelection {
 		productDescriptionMap = session.getProductDescription();
 		customerGroup.setValue(dataSelectionDTO.getCustomerGroup());
 		productGroup.setValue(dataSelectionDTO.getProductGroup());
+                frequency.select(session.getDsFrequency());
 		LOGGER.debug("Inside Constructor= {}" , form);
 	}
 
@@ -149,6 +152,7 @@ public class DataSelection extends ForecastDataSelection {
 			if (ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
 				configureOnViewMode();
 			}
+                        configureDataSelectionDeductionLevel();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -4395,6 +4399,15 @@ public class DataSelection extends ForecastDataSelection {
 			productForecastLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
 		}
 		level.setContainerDataSource(productForecastLevelContainer);
+	}
+        
+        private void configureDataSelectionDeductionLevel() {
+
+		List<String[]> newDeductionLevelList = CommonLogic.getDataselectionDeductionLevel();
+		Utility.loadDdlbForDeduction(dataSelectionDeductionLevel, newDeductionLevelList);
+
+		dataSelectionDeductionLevel.select(Integer.parseInt(session.getDataSelectionDeductionLevel()));
+
 	}
 
 }

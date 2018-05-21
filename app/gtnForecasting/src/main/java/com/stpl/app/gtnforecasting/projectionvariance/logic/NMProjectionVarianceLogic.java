@@ -28,6 +28,7 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.NmProjectionSelection;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
+import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.ButtonConstants.ALL;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
 import static com.stpl.app.utils.Constants.CommonConstants.VALUE;
@@ -772,7 +773,7 @@ public class NMProjectionVarianceLogic {
         Object sIds = projSelDTO.getDeductionLevelFilter().isEmpty() ? null : PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter());
         String levelName = projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDiscountLevel() : projSelDTO.getSelectedDeductionLevelName();
         String salesInclusion=Constant.ALL.equalsIgnoreCase(projSelDTO.getSalesInclusion()) ? null : projSelDTO.getSalesInclusion();
-        Object[] orderedArg = {projectionId, frequency, discountId, Constant.VARIANCE_COLUMN, projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId(), Constant.STRING_ONE, levelName, ccps,salesInclusion , projSelDTO.getSession().getDeductionInclusion(), projSelDTO.getUomCode(), sIds};
+        Object[] orderedArg = {projectionId, frequency, discountId, Constant.VARIANCE_COLUMN, projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId(), Constant.STRING_ONE, levelName, ccps,salesInclusion , projSelDTO.getSession().getDeductionInclusion(), projSelDTO.getUomCode(), sIds,projSelDTO.isIsCustomHierarchy() ? "D" : projSelDTO.getHierarchyIndicator()};
         return CommonLogic.callProcedure("PRC_PROJECTION_RESULTS_DISCOUNT", orderedArg);
     }
 
@@ -1217,8 +1218,10 @@ public class NMProjectionVarianceLogic {
     public void getTotalPivotVariance(PVSelectionDTO pvsdto) {
         List< Object[]> gtsResult = null;
         String frequency = pvsdto.getFrequency();
-        String discountId = null;
         List<String> projectionIdList = new ArrayList<>();
+        String discountLevelValue = Constants.LabelConstants.TOTAL_DISCOUNT.toString().equalsIgnoreCase(pvsdto.getDiscountLevel()) ? "Program" : pvsdto.getDiscountLevel();
+        String levelName = !pvsdto.getDeductionLevelFilter().isEmpty() ? pvsdto.getSelectedDeductionLevelName() : discountLevelValue;
+        String discountId = pvsdto.getDeductionLevelFilter().isEmpty() ? null : PVCommonLogic.removeBracesInList(pvsdto.getDeductionLevelFilter());
         pivotTotalList = new ArrayList<>();
         pivotPriorProjIdList = new ArrayList<>();
         if (frequency.equals(Constant.QUARTERLY)) {
@@ -1239,10 +1242,9 @@ public class NMProjectionVarianceLogic {
         String ccps = null;
         if (pvsdto.getLevel().equals(Constant.DETAIL)) {
             ccps = getCCPIds(pvsdto);
-            discountId = (D.equals(pvsdto.getHierarchyIndicator()) && pvsdto.getLevelNo() == NumericConstants.TEN) ? pvsdto.getHierarchyNo() : getRSIds(pvsdto);
         }
 
-        Object[] orderedArg = {projectionId, frequency, discountId, Constant.VARIANCE_COLUMN, pvsdto.getSessionDTO().getSessionId(), pvsdto.getUserId(), "PIVOT", ccps, pvsdto.getUomCode(), "ALL".equals(pvsdto.getSalesInclusion()) ? null : pvsdto.getSalesInclusion(), "ALL".equals(pvsdto.getSession().getDeductionInclusion()) ? null : pvsdto.getSession().getDeductionInclusion()};
+        Object[] orderedArg = {projectionId, frequency, discountId, Constant.VARIANCE_COLUMN, pvsdto.getSessionDTO().getSessionId(), pvsdto.getUserId(), "PIVOT", ccps, pvsdto.getUomCode(), "ALL".equals(pvsdto.getSalesInclusion()) ? null : pvsdto.getSalesInclusion(), "ALL".equals(pvsdto.getSession().getDeductionInclusion()) ? null : pvsdto.getSession().getDeductionInclusion(),pvsdto.isIsCustomHierarchy() ? "D" : pvsdto.getHierarchyIndicator(),levelName};
         gtsResult = CommonLogic.callProcedure(Constant.PRC_PROJ_RESULTS, orderedArg);
         pivotTotalList.addAll(gtsResult);
     }
@@ -1250,20 +1252,7 @@ public class NMProjectionVarianceLogic {
     String getCCPIds(PVSelectionDTO pvsdto) {
         String query = getCCPQueryForPV(pvsdto);
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        StringBuilder ccps = new StringBuilder();
-        boolean flag = true;
-        if (list != null) {
-            int size = list.size();
-            for (int i = 0; i < size; i++) {
-                Object[] obj = (Object[]) list.get(i);
-                if (flag) {
-                    ccps.append(String.valueOf(obj[0]));
-                    flag = false;
-                } else {
-                    ccps.append(',').append(obj[0]);
-                }
-            }
-        }
+        String ccps = PVCommonLogic.removeBracesInList(list);
         return ccps.toString();
     }
 
@@ -2919,7 +2908,7 @@ public class NMProjectionVarianceLogic {
         ccpQuery += projSelDTO.getLevelNo() == NumericConstants.TEN ? " AND A.HIERARCHY_NO=SPM.RS_CONTRACT_SID " : StringUtils.EMPTY;
         ccpQuery += SQlUtil.getQuery("get-ccp-query");
         ccpQuery = ccpQuery.replace(Constant.RELJOIN, CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator(),projSelDTO.getSessionDTO()));
-        ccpQuery += " SELECT * FROM #SELECTED_HIERARCHY_NO_TEMP SH  JOIN ST_NM_DISCOUNT_PROJ_MASTER SND ON SND.CCP_DETAILS_SID=SH.CCP_DETAILS_SID WHERE PV_FILTERS=1 ";
+        ccpQuery += " SELECT DISTINCT HIERARCHY_NO FROM #SELECTED_HIERARCHY_NO_TEMP SH  JOIN ST_NM_DISCOUNT_PROJ_MASTER SND ON SND.CCP_DETAILS_SID=SH.CCP_DETAILS_SID WHERE PV_FILTERS=1 ";
         return QueryUtil.replaceTableNames(ccpQuery, projSelDTO.getSessionDTO().getCurrentTableNames());
     }
     

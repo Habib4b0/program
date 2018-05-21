@@ -45,9 +45,11 @@ import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.ui.view.AccrualRateProjectionView;
 import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
+import com.stpl.app.gtnforecasting.logic.Utility;
 import com.stpl.app.gtnforecasting.logic.tablelogic.DataSelectionSearchLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionUtil;
@@ -353,6 +355,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 		if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 			loadDiscountLevel();
 		}
+                configureDataSelectionDeductionLevel();
 	}
 
 	public void loadFilteredProductSelection(final String selectedLevel) {
@@ -3142,12 +3145,15 @@ public class DataSelectionForm extends ForecastDataSelection {
 				 }
 				final SessionDTO tempSession = SessionUtil.createSession();
 				tempSession.setScreenName(scrName);
+                                tempSession.setFunctionMode("E");
+                                tempSession.setDsFrequency(String.valueOf(frequency.getValue()));
 				tempSession.setProjectionId(projectionIdValue);
 				tempSession.setCustomerHierarchyVersion(dto.getCustomerHierVersionNo());
 				tempSession.setProductHierarchyVersion(dto.getProductHierVersionNo());
 				tempSession.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
 				tempSession.setProductRelationVersion(dto.getProductRelationShipVersionNo());
 				tempSession.setDeductionRelationVersion(dto.getDeductionRelationShipVersionNo());
+                                tempSession.setDataSelectionDeductionLevel(String.valueOf(dataSelectionDeductionLevel.getValue()));
 				tempCustomerDescriptionMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
 						Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo(),
 						dto.getCustomerRelationShipVersionNo());
@@ -3355,6 +3361,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				session.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
 				session.setProductRelationVersion(dto.getProductRelationShipVersionNo());
                                 session.setDeductionRelationVersion(dto.getDeductionRelationShipVersionNo());
+                                session.setDsFrequency(String.valueOf(frequency.getValue()));
 				customerDescMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
 						Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo(),
 						dto.getCustomerRelationShipVersionNo());
@@ -4241,6 +4248,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 					if (projectionIdValue != 0) {
 						SessionDTO session = SessionUtil.createSession();
 						session.setGenerateFlag(true);
+                                                session.setDsFrequency(String.valueOf(frequency.getValue()));
+                                                session.setDataSelectionDeductionLevel(String.valueOf(dataSelectionDeductionLevel.getValue()));
 						session.setProjectionId(projectionIdValue);
 						session.setBusineesUnit(businessUnitlist);
 						session.setAction(Constant.ADD_FULL_SMALL);
@@ -4263,6 +4272,7 @@ public class DataSelectionForm extends ForecastDataSelection {
                                                 }
 						}
 						session.setScreenName(scrName);
+						session.setFunctionMode("G");
 						session.setProjectionName(dataSelectionDTO.getProjectionName());
 						// To create the temp tables with userId and session id
 						QueryUtils.createTempTables(session);
@@ -4936,6 +4946,14 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 	public void setTableName(ResourceBundle tableName) {
 		this.tableName = tableName;
+	}
+        
+        private void configureDataSelectionDeductionLevel() {
+
+		List<String[]> newDeductionLevelList = CommonLogic.getDataselectionDeductionLevel();
+		Utility.loadDdlbForDeduction(dataSelectionDeductionLevel, newDeductionLevelList);
+                dataSelectionDeductionLevel.select(1);
+		
 	}
 
 }
