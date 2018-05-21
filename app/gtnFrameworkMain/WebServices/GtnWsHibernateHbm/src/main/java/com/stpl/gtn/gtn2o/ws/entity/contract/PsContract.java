@@ -30,6 +30,8 @@ public class PsContract implements java.io.Serializable {
 	private HelperTable helperTableByPsCategory;
 	private HelperTable helperTableByPsStatus;
 	private HelperTable helperTableByPsDesignation;
+        private HelperTable helperTableByPsTradeClass;    
+
 	private HelperTable helperTableByPsType;
 	private HelperTable helperTableByPsContractAttachedStatus;
 	private IfpContract ifpContract;
@@ -78,7 +80,7 @@ public class PsContract implements java.io.Serializable {
 			Date psStartDate, Date psEndDate, Date psContractAttachedDate, String parentPsId, String parentPsName,
 			char inboundStatus, boolean recordLockStatus, String batchId, String source, int createdBy,
 			Date createdDate, int modifiedBy, Date modifiedDate, Integer psTradeClass, String psNo, Set rsContracts,
-			Set psContractDetailses) {
+			Set psContractDetailses, HelperTable helperTableByPsTradeClass) {
 		this.psContractSid = psContractSid;
 		this.cfpContract = cfpContract;
 		this.contractMaster = contractMaster;
@@ -107,6 +109,7 @@ public class PsContract implements java.io.Serializable {
 		this.psNo = psNo;
 		this.rsContracts = rsContracts;
 		this.psContractDetailses = psContractDetailses;
+                this.helperTableByPsTradeClass =helperTableByPsTradeClass;
 	}
 
 	public int getPsContractSid() {
@@ -332,5 +335,12 @@ public class PsContract implements java.io.Serializable {
 	public void setPsContractDetailses(Set psContractDetailses) {
 		this.psContractDetailses = psContractDetailses;
 	}
+        public HelperTable getHelperTableByPsTradeClass() {
+        return helperTableByPsTradeClass;
+    }
 
-}
+    public void setHelperTableByPsTradeClass(HelperTable helperTableByPsTradeClass) {
+        this.helperTableByPsTradeClass = helperTableByPsTradeClass;
+    }
+        
+    }

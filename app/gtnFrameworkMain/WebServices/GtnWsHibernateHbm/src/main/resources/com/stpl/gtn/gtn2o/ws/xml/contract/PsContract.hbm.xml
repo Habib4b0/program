@@ -21,6 +21,10 @@
 			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
 			<column name="PS_CATEGORY" />
 		</many-to-one>
+                <many-to-one name="helperTableByPsTradeClass"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PS_TRADE_CLASS" />
+		</many-to-one>
 		<many-to-one name="helperTableByPsStatus"
 			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
 			<column name="PS_STATUS" />
@@ -86,9 +90,6 @@
 		</property>
 		<property name="modifiedDate" type="timestamp">
 			<column name="MODIFIED_DATE" length="23" not-null="true" />
-		</property>
-		<property name="psTradeClass" type="java.lang.Integer">
-			<column name="PS_TRADE_CLASS" />
 		</property>
 		<property name="psNo" type="string">
 			<column name="PS_NO" length="50" />
