@@ -1217,7 +1217,7 @@ public class NMPVExcelLogic {
                         addList_pivot(pvList, obj, frequencyBasedDTO, NumericConstants.TWO, "");
 
                     } else {
-                        updateList_pivot(pvList, obj, frequencyBasedDTO, "");
+                        updateListPivot(pvList, obj, frequencyBasedDTO, "");
                     }
                 }
             }
@@ -1601,13 +1601,13 @@ public class NMPVExcelLogic {
                     addList_pivot(pvList, obj, freVarianceDTO, INDEX, key);
                     hierarchyAndTP_keys(obj, key, pvList);
                 } else {
-                    updateList_pivot(pvList, obj, freVarianceDTO,key);
+                    updateListPivot(pvList, obj, freVarianceDTO,key);
                 }
             }
         }
     }
 
-    private void updateList_pivot(List<ProjectionVarianceDTO> pvList, Object[] obj, ProjectionVarianceDTO frequencyBasedDTO, String key) {
+    private void updateListPivot(List<ProjectionVarianceDTO> pvList, Object[] obj, ProjectionVarianceDTO frequencyBasedDTO, String key) {
 
         pvList.add(frequencyBasedDTO);
         //Ex-Factory-Sales
@@ -2359,7 +2359,7 @@ public class NMPVExcelLogic {
     }
 
     private void setBase_Value(ProjectionVarianceDTO discountDto, Object[] obj) {
-          addList_detail_discount_Pivot(discountDto,obj);
+          addListDetaildiscountPivot(discountDto,obj);
     }
     
     public void customizePivot(String variableValue, String variableCategory, PVSelectionDTO pvsdto, ProjectionVarianceDTO projDTO, DecimalFormat format, int index, Object[] obj) {
@@ -2375,7 +2375,7 @@ public class NMPVExcelLogic {
     }
     
     
-    private void addList_detail_discount_Pivot(ProjectionVarianceDTO discountDto, Object[] obj) {
+    private void addListDetaildiscountPivot(ProjectionVarianceDTO discountDto, Object[] obj) {
         String discountName = String.valueOf(obj[NumericConstants.ZERO]).replace(" ", StringUtils.EMPTY);
         String head = discountName + String.valueOf(discountNameMap.get(discountName));
         if (selection.isVarDisAmount()) {

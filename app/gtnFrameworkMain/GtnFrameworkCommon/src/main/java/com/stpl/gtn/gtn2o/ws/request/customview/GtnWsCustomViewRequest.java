@@ -36,12 +36,12 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
     
     private List<GtnWsRecordBean> cvTreeNodeList;
 
-    public GtnWsRecordBean getMainNode() {
-        return mainNode;
+    public String getCustomViewDescription() {
+        return customViewDescription;
     }
 
-    public void setMainNode(GtnWsRecordBean mainNode) {
-        this.mainNode = mainNode;
+    public void setCustomViewDescription(String customViewDescription) {
+        this.customViewDescription = customViewDescription;
     }
 
     public String getCustomViewName() {
@@ -51,13 +51,13 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
     public void setCustomViewName(String customViewName) {
         this.customViewName = customViewName;
     }
-
-    public String getCustomViewDescription() {
-        return customViewDescription;
+    
+    public GtnWsRecordBean getMainNode() {
+        return mainNode;
     }
 
-    public void setCustomViewDescription(String customViewDescription) {
-        this.customViewDescription = customViewDescription;
+    public void setMainNode(GtnWsRecordBean mainNode) {
+        this.mainNode = mainNode;
     }
 
     public int getUserId() {

@@ -121,7 +121,7 @@ public class DataSelectionLogic {
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 	private static final CommonUtil commonUtil = CommonUtil.getInstance();
         private  ExecutorService service = ThreadPool.getInstance().getService();
-        public SalesProjectionDAO salesAllocationDAO = new SalesProjectionDAOImpl();
+        public static final String EXEC_WITH_SPACE = "EXEC ";
 
 	/**
 	 * Gets the hierarchy group.
@@ -2465,7 +2465,7 @@ public class DataSelectionLogic {
 
     public void callInsertProcedureForNm(int projectionId, SessionDTO session, String procedureName,
             String screenName) {
-        StringBuilder query = new StringBuilder("EXEC ");
+        StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
             query.append(procedureName);
             query.append(' ');
@@ -2481,7 +2481,7 @@ public class DataSelectionLogic {
             }
             query.append('\'');
             HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-            LOGGER.info("Normal Procedures: {}"+query.toString());
+            LOGGER.info("Normal Procedures: {}", query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -2490,7 +2490,7 @@ public class DataSelectionLogic {
     public void callInsertProcedureForNmStatus(int projectionId, SessionDTO session, String procedureName,
             String screenName) {
 
-        StringBuilder query = new StringBuilder("EXEC ");
+        StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
             query.append(procedureName);
             query.append(' ');
@@ -2506,7 +2506,7 @@ public class DataSelectionLogic {
             }
             query.append('\'');
             HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-            LOGGER.info("Query: {}"+query.toString());
+            LOGGER.info("Query callInsertProcedureForNmStatus: {}", query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -2515,7 +2515,7 @@ public class DataSelectionLogic {
     
     public void callViewInsertProcedureForNm(SessionDTO session,String mode,String frequency,String screenName,String view,String startPeriod,String endPeriod) {
 
-        StringBuilder query = new StringBuilder("EXEC ");
+        StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
              LOGGER.debug(frequency);
              LOGGER.debug(startPeriod);
@@ -2537,9 +2537,9 @@ public class DataSelectionLogic {
                                 .append(',').append("null")
                                 .append(",'").append("Schedule Category")
                                 .append('\'');
-                                LOGGER.info("before: {}"+query.toString());
+                                LOGGER.info("before: {}", query.toString());
 				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-                                LOGGER.info("Query: {}"+query.toString());
+                                LOGGER.info("Query callViewInsertProcedureForNm: {}", query.toString());
                                  LOGGER.debug(endPeriod);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -2547,8 +2547,8 @@ public class DataSelectionLogic {
 
     }
     public String callViewInsertProcedures(SessionDTO session,String frequency,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
-     LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}"+frequency);
-         StringBuilder query = new StringBuilder("EXEC ");
+     LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}", frequency);
+         StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
             query.append(Constant.PRC_VIEWS_POPULATION);
 				query.append(' ').append(session.getProjectionId()).append(',');
@@ -2569,7 +2569,7 @@ public class DataSelectionLogic {
                                 .append(",'").append("Schedule Category").append('\'')
                                 .append(';');
                                 HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-                                LOGGER.info("Query: {}"+query.toString());
+                                LOGGER.info("Query callViewInsertProcedures: {}", query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -2580,7 +2580,7 @@ public class DataSelectionLogic {
 
 
     public void callViewInsertProceduresThread(SessionDTO session, String frequency, String screenName, String startPeriod, String endPeriod, String massUpdateField) {
-        LOGGER.info("callViewInsertProceduresThread************************************{}"+frequency);
+        LOGGER.info("callViewInsertProceduresThread************************************{}", frequency);
 
         service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
                session, "Q", screenName, "C", startPeriod, endPeriod, massUpdateField));

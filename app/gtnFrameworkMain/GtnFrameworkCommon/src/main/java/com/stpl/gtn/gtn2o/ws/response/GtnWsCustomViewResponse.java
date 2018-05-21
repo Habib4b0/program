@@ -139,13 +139,13 @@ public class GtnWsCustomViewResponse implements GtnWSResponseData {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
-    public boolean isSuccess() {
-        return success;
+    
+    public String getMessage() {
+        return message;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getMessageType() {
@@ -156,12 +156,12 @@ public class GtnWsCustomViewResponse implements GtnWSResponseData {
         this.messageType = messageType;
     }
 
-    public String getMessage() {
-        return message;
+    public boolean isSuccess() {
+        return success;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
 }
