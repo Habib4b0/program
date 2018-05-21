@@ -1161,7 +1161,7 @@ public class NationalAssumptions extends CustomComponent implements View {
      * Contains the logic of populate button after clicking on populate button
      */
     protected void populateBtnOnClick() {
-
+try{
         String priceTypeNew = String.valueOf(priceTypeDdlb.getValue());
         String effectiveStartPeriodNew = String.valueOf(effectiveStartPeriod.getValue());
         String effectiveEndPeriodNew = String.valueOf(effectiveEndPeriod.getValue());
@@ -1273,13 +1273,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         createDeleteButton(priceTypeDTO);
 
         priceTypeDTO.setSymbol(deleteBtn);
-        if (count > 1 && !Constant.ANNUAL_FSS.equals(priceTypeDdlb.getValue())) {
-            if (baselineMethodology.getValue().equals(Constant.SINGLE_PERIOD)) {
-                selectedFlag = false;
-            } else {
-                selectedFlag = true;
-            }
-        }
+
         if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && ROLLING_AVERAGE.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue()))
                 && !StringUtils.isNotBlank(actualsPeriod2)) {
             AbstractNotificationUtils.getErrorNotification(Constant.WARNING, "Rolling Average baseline is not selected");
@@ -1293,13 +1287,16 @@ public class NationalAssumptions extends CustomComponent implements View {
         if (selectedFlag) {
             priceTypesBean.addItem(priceTypeDTO);
         } else {
-            if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && baselineMethodology.getValue().equals(Constant.SINGLE_PERIOD)) {
+            if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && baselineMethodology.getValue().equals(Constant.SINGLE_PERIOD)&& periodsForBaselineTable.isEnabled() ) {
                 AbstractNotificationUtils.getErrorNotification(Constant.WARNING, "You can only select a single period when the Single Period Baseline Methodology is selected.");
             }
             if (!priceTypeDdlb.getValue().equals(Constant.ANNUAL_FSS) && baselineMethodology.getValue().equals("Average") && periodsForBaselineTable.isEnabled()) {
                 AbstractNotificationUtils.getErrorNotification(Constant.WARNING, "You must select more than 1 single period when using the Average Baseline Methodology.");
         }
     }
+}catch(Exception ex){
+ ex.printStackTrace();
+}
     }
 
     public boolean checkSelection(Object startPeriod, Object endPeriod) {
