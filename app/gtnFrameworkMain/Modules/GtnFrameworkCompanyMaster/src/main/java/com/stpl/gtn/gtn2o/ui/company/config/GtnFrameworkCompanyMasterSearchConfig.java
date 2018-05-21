@@ -585,7 +585,7 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VISIBLE_ACTION);
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(Boolean.FALSE);
-		visibleParameters.add(Arrays.asList(GtnFrameworkCompanyStringContants.VISIBLE_FIELDS));
+		visibleParameters.add(GtnFrameworkCompanyStringContants.VISIBLE_FIELDS);
 		visibleAction.setActionParameterList(visibleParameters);
 		actionConfigList.add(visibleAction);
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);

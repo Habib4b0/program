@@ -28,7 +28,9 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.contractdashboard.constants.GtnWsContractDashboardContants;
+import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
 import com.stpl.gtn.gtn2o.ws.entity.companyfamilyplan.CfpModel;
+import com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs;
 import com.stpl.gtn.gtn2o.ws.entity.contract.CfpContract;
 import com.stpl.gtn.gtn2o.ws.entity.contract.ContractMaster;
 import com.stpl.gtn.gtn2o.ws.entity.contract.IfpContract;
@@ -187,7 +189,7 @@ public class GtnWsContractDashboardLogic {
 				if (searchCriteria.isFilter()) {
 					StringBuilder value = new StringBuilder(searchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(searchCriteria.getExpression())) {
-						value.append('%').append(value).append('%');
+						value.insert(0, '%').append('%');
 					}
 					inputWhereConditions.append(where).append(and)
 							.append(getWhereClauseForAColumn(searchCriteria.getExpression(),
@@ -914,6 +916,7 @@ public class GtnWsContractDashboardLogic {
 		psContract.setHelperTableByPsStatus(psModel.getHelperTableByPsStatus());
 		psContract.setParentPsId(psModel.getParentPsId());
 		psContract.setParentPsName(psModel.getParentPsName());
+                psContract.setHelperTableByPsTradeClass(psModel.getHelperTableByPsTradeClass());
 
 		psContract.setPsStartDate(new Date(recordBean.getLongPropertyByIndex(5)));
 		long endDate = recordBean.getLongPropertyByIndex(6);
@@ -1032,8 +1035,12 @@ public class GtnWsContractDashboardLogic {
 		rsContract.setHelperTableByState(rsModel.getHelperTableByState());
 		rsContract.setZipCode(rsModel.getZipCode());
 		rsContract.setFormulaMethodId(rsModel.getFormulaMethodId());
+                rsContract.setHelperTableByPaymentLevel(rsModel.getHelperTableByPaymentLevel());
+                rsContract.setRsAlias(rsModel.getRsAlias());
 		setRSContractValues(rsModel, rsContract);
 		session.saveOrUpdate(rsContract);
+                logger.info("rsModel.getRsModelSid()=============="+rsModel.getRsModelSid());
+                saveRsUdc(session, rsContract, rsModel.getRsModelSid());
 
 		String saveRsTreeQuery = getSqlService().getQuery("com.contractDashboard.saveRS");
 		Object[] saveRsTreeQueryParams = { dateFormat.format(rsContract.getRsStartDate()),
@@ -1094,6 +1101,48 @@ public class GtnWsContractDashboardLogic {
 				: rsModel.getCdrModelByEvaluationRuleOrAssociation().getCdrModelSid());
 		rsContract.setDeductionInclusion(rsModel.getHelperTableByDeductionInclusion() == null ? null
 				: rsModel.getHelperTableByDeductionInclusion().getHelperTableSid());
+	}
+        
+        @SuppressWarnings("unchecked")
+	private void saveRsUdc(Session session, RsContract rsContract, int rsId)
+			throws GtnFrameworkGeneralException {            
+		try {
+			Udcs udc = new Udcs();
+                        logger.info("results2.get(0).getRsModelSid()=========================="+rsId);
+                        Object[] formulaQueryParams = {rsId};
+				GtnFrameworkDataType[] formulaQueryTypes = { GtnFrameworkDataType.INTEGER};
+			List<Object[]> udcList = (List<Object[]>) getController().executeQuery(
+				getController().getGtnWsSqlService().getQuery("com.contractDashboard.selectUDC"), formulaQueryParams,
+				formulaQueryTypes);
+                        Criteria cr = session.createCriteria(Udcs.class)
+					.add(Restrictions.eq("masterSid", rsContract.getRsContractSid()))
+					.add(Restrictions.eq("masterType", GtnWsContractDashboardContants.RS_CONTRACT));
+
+			List<Udcs> results = cr.list();
+                                Object[] udcParams = {rsContract.getRsContractSid()};
+				GtnFrameworkDataType[] udcTypes = { GtnFrameworkDataType.INTEGER};
+                                 List<Object> udcAlreadyExists = (List<Object>) getController().executeQuery(
+				getController().getGtnWsSqlService().getQuery("com.contractDashboard.selectCountUDCAlreadyExists"), udcParams,
+				udcTypes);
+                                 int a = (Integer)udcAlreadyExists.get(0);  
+                                 logger.info("a==============================="+a);
+                                 if (a== 1) {
+				udc = session.load(Udcs.class, results.get(0).getUdcsSid());
+			}
+			udc.setMasterSid(rsContract.getRsContractSid());
+			udc.setMasterType(GtnWsContractDashboardContants.RS_CONTRACT);
+                            Object[] udcObj = udcList.get(0);
+                            udc.setHelperTableByUdc1(session.load(HelperTable.class,(Integer)udcObj[0]));
+                            udc.setHelperTableByUdc2(session.load(HelperTable.class,(Integer)udcObj[1]));
+                            udc.setHelperTableByUdc3(session.load(HelperTable.class,(Integer)udcObj[2]));
+                            udc.setHelperTableByUdc4(session.load(HelperTable.class,(Integer)udcObj[3]));
+                            udc.setHelperTableByUdc5(session.load(HelperTable.class,(Integer)udcObj[4]));
+                            udc.setHelperTableByUdc6(session.load(HelperTable.class,(Integer)udcObj[5]));
+			
+			session.save(udc);
+		} catch (Exception e) {
+			throw new GtnFrameworkGeneralException("Exception in save RsUdcInfo", e);
+		}
 	}
 
 	private GtnFrameworkSqlQueryEngine getSqlQueryEngine() {

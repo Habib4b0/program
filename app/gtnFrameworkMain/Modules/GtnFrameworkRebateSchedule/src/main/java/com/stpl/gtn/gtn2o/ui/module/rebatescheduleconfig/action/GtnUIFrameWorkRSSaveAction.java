@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.util.GtnFrameworkRSConstants;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
@@ -26,6 +27,8 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.rebateschedule.GtnWsRebateScheduleGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.vaadin.ui.Component;
+import java.util.Arrays;
 
 public class GtnUIFrameWorkRSSaveAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
@@ -38,7 +41,7 @@ public class GtnUIFrameWorkRSSaveAction implements GtnUIFrameWorkAction, GtnUIFr
 	@Override
 	public void doAction(final String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		saveToDb();
+		saveToDb(componentId);
 	}
 
 	private int getSystemId() {
@@ -52,7 +55,7 @@ public class GtnUIFrameWorkRSSaveAction implements GtnUIFrameWorkAction, GtnUIFr
 	}
 
 	@SuppressWarnings("unchecked")
-	private void saveToDb() throws GtnFrameworkGeneralException {
+	private void saveToDb(String componentId) throws GtnFrameworkGeneralException {
 
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 
@@ -96,6 +99,17 @@ public class GtnUIFrameWorkRSSaveAction implements GtnUIFrameWorkAction, GtnUIFr
 					GtnFrameworkCommonConstants.REBATE_SCHEDULE_ID);
 		}
 		GtnUIFrameworkActionExecutor.clearErrorBanner(GtnFrameworkCommonConstants.REBATE_SCHEDULE_ID);
+                String rsCopyMode =(String)GtnUIFrameworkGlobalUI.getSessionProperty("mode").toString();
+                 if (rsCopyMode.equalsIgnoreCase("Copy")) {
+                        Component deleteComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(GtnFrameworkRSConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON);
+                        deleteComponent.setEnabled(true);
+                        GtnUIFrameWorkActionConfig enableActionConfig = new GtnUIFrameWorkActionConfig();
+                        enableActionConfig.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
+                        Object[] enableFieldObj = new Object[] { GtnFrameworkRSConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON } ;
+                        enableActionConfig.setActionParameterList(Arrays.asList(enableFieldObj));
+                        GtnUIFrameworkActionExecutor.executeSingleAction(componentId, enableActionConfig);
+                        
+                        }
 
 	}
 

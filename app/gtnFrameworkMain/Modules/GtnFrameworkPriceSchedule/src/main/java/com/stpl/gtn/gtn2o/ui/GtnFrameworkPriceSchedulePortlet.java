@@ -9,8 +9,10 @@ package com.stpl.gtn.gtn2o.ui;
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkConfigMap;
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkRootConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkEngine;
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.config.GtnFrameworkPSConfig;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.dynamicclasses.GtnUIFrameworkPsDynamicClassFiller;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
@@ -44,6 +46,7 @@ public class GtnFrameworkPriceSchedulePortlet extends UI {
 		GtnUIFrameworkEngine frameworkEngine = new GtnUIFrameworkEngine();
 		frameworkEngine.buildVaadinScreen(rootConfig, navigator, request, this, "Price Schedule",
 				new GtnUIFrameworkPsDynamicClassFiller());
+                GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkCommonStringConstants.USER_ID, request.getRemoteUser());
 
 	}
 

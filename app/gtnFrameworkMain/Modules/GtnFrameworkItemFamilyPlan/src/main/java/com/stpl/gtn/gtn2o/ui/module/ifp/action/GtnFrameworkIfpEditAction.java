@@ -28,6 +28,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.vaadin.ui.Component;
 
 /**
  *
@@ -66,10 +67,16 @@ public class GtnFrameworkIfpEditAction
 			if (gtnWsRecordBean == null) {
 				return;
 			}
-
-			int systemId = (Integer) gtnWsRecordBean.getPropertyValue(propertyId);
+                        boolean isCopyModeId="gtnCopyButton".equalsIgnoreCase(componentId);
+                        GtnUIFrameworkGlobalUI.addSessionProperty("mode", isCopyModeId?"Copy":"Edit");
+                        String copyModeVal =(String)GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+                         if ("Copy".equals(copyModeVal)) {
+                            Component delComponent = GtnUIFrameworkGlobalUI.getVaadinComponent("ifpAddDeleteButton");
+                            delComponent.setEnabled(false);
+                        }
+                        int systemId = (Integer) gtnWsRecordBean.getPropertyValue(propertyId);
 			ifpInfoBean.setIfpSid(systemId);
-			GtnUIFrameworkGlobalUI.addSessionProperty("ifpModelSid", systemId);
+                        GtnUIFrameworkGlobalUI.addSessionProperty("ifpModelSid", systemId);
 			GtnWsIfpRequest ifpRequest = new GtnWsIfpRequest();
 			ifpRequest.setGtnIFamilyPlan(ifpBean);
 			gtnRequest.setGtnWsIfpRequest(ifpRequest);
@@ -132,12 +139,12 @@ public class GtnFrameworkIfpEditAction
 			throws GtnFrameworkGeneralException {
 		gtnLogger.debug("Laoding values in IFP - EDit Action " + bean.getIfpInfo());
 		GtnIFamilyPlanInformationBean ifpInfoBean = bean.getIfpInfo();
-		List<Object> ifpFieldValues = Arrays.asList(new Object[] { ifpInfoBean.getIfpId(), ifpInfoBean.getIfpNo(),
+		List<Object> ifpFieldValues = Arrays.asList(ifpInfoBean.getIfpId(), ifpInfoBean.getIfpNo(),
 				ifpInfoBean.getIfpName(), ifpInfoBean.getIfpId(), ifpInfoBean.getIfpNo(), ifpInfoBean.getIfpName(),
 				ifpInfoBean.getIfpStatus(), ifpInfoBean.getIfpStartDate(), ifpInfoBean.getIfpEndDate(),
 				ifpInfoBean.getIfpType(), ifpInfoBean.getIfpCategory(), ifpInfoBean.getIfpDesignation(),
 				ifpInfoBean.getParentIfpId(), ifpInfoBean.getParentIfpName(), ifpInfoBean.getCreatedDate(),
-				ifpInfoBean.getModifiedDate(), ifpInfoBean.getModifiedBy() });
+				ifpInfoBean.getModifiedDate(), ifpInfoBean.getModifiedBy());
 
 		GtnUIFrameWorkActionConfig ifpEditdDefaultValueActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
@@ -147,9 +154,6 @@ public class GtnFrameworkIfpEditAction
 		boolean isButtonVisible = isEditable && !ifpInfoBean.isRecordLockStatus();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpAddDeleteButton").setVisible(isButtonVisible);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("IFPADDResetButton").setVisible(isButtonVisible);
-		GtnUIFrameworkBaseComponent ifpAddSaveBtn = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpAddSaveButton");
-		ifpAddSaveBtn.setCaption("UPDATE");
-		ifpAddSaveBtn.setVisible(isButtonVisible);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpInformationTabCreatedBy", componentId)
 				.loadFieldValue(ifpInfoBean.getCreatedBy());
 
@@ -187,12 +191,15 @@ public class GtnFrameworkIfpEditAction
 
 	private void setTableEnableDisable(boolean isEditable, GtnIFamilyPlanInformationBean info) {
 		gtnLogger.debug("is ETL Record :: " + info.isRecordLockStatus());
+                if(isEditable){
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFP_ITEMS_TAB_RESULT_DATA_TABLE)
 				.getExtPagedTable().setEnabled(isEditable);
+                }else{
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFP_ITEMS_TAB_RESULT_DATA_TABLE)
 				.getExtPagedTable().setEditable(isEditable);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFP_ITEMS_TAB_RESULT_DATA_TABLE)
 				.getExtPagedTable().setReadOnly(!isEditable);
+                }
 
 	}
 

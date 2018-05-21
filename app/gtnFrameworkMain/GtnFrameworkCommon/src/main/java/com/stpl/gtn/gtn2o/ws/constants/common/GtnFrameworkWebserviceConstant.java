@@ -227,6 +227,7 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String PS_DETAILS_ATTACHED_DATE = "PS_DETAILS_ATTACHED_DATE";
 	public static final String BRAND_NAME = "brandName";
 	public static final String IMPSD = "IMPSD";
+	public static final String NBP_FORMULA = "nbpFormula";
 	public static final String IFP_STATUS = "IFP_STATUS";
 	public static final String PS_MODEL_SID = "PS_MODEL_SID";
 	public static final String ITEM_ID_COLUMN = "ITEM_ID";
@@ -343,5 +344,10 @@ public class GtnFrameworkWebserviceConstant {
         /**
          * Price Schedule Constant 
          */
-        public static final String PS_IFP_START_DATE = "IFP_START_DATE";
+	public static final String PS_IFP_START_DATE = "IFP_START_DATE";
+	public static final String CREATION_DATE = "creationDate";
+	public static final String RB_RELATIONSHIP_NAME = "RB.RELATIONSHIP_NAME";
+	public static final String HT_DESCRIPTION_CAPS = "HT.DESCRIPTION";
+	public static final String RB_RELATIONSHIP_DESCRIPTION = "RB.RELATIONSHIP_DESCRIPTION";
+
 }
