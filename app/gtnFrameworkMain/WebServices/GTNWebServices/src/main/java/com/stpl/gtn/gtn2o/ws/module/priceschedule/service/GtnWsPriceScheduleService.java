@@ -226,12 +226,12 @@ public class GtnWsPriceScheduleService {
         private void psCopyInsertToPSDetails(int psmodelSid, String userId, String sessionId, Session session)
 			throws GtnFrameworkGeneralException {
 
-		String psDetailsInsertQuery = gtnWsSqlService.getQuery("getPsCopyDetailsInsertQuery");
-		Object[] psDetailsInsertQueryParams = { userId, sessionId, psmodelSid };
-		GtnFrameworkDataType[] psDetailsInsertQueryTypes = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+		String psCopyDetailsInsertQuery = gtnWsSqlService.getQuery("getPsCopyDetailsInsertQuery");
+		Object[] psCopyDetailsInsertQueryParams = { userId, sessionId, psmodelSid };
+		GtnFrameworkDataType[] psCopyDetailsInsertQueryTypes = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
 				GtnFrameworkDataType.INTEGER };
-		gtnSqlQueryEngine.executeInsertOrUpdateQuery(psDetailsInsertQuery, psDetailsInsertQueryParams,
-				psDetailsInsertQueryTypes, session);
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(psCopyDetailsInsertQuery, psCopyDetailsInsertQueryParams,
+				psCopyDetailsInsertQueryTypes, session);
 	}
 
 	private void psSaveToPSModel(String userId, GtnUIFrameWorkPSInfoBean psInfoBean, Session session)
