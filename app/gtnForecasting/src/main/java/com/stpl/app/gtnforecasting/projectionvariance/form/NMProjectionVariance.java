@@ -353,7 +353,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             loadDeductionInclusion();
             loadSalesInclusion();
             commonLogic.loadUnitOfMeasureDdlb(uomDdlb, session);
-            deductionlevelDdlb.select(Integer.parseInt(session.getDataSelectionDeductionLevel()));
+            deductionlevelDdlb.select(Integer.valueOf(session.getDataSelectionDeductionLevel()));
         }
         excelBtn.setIcon(excelExportImage);
         graphBtn.setIcon(graphImage);

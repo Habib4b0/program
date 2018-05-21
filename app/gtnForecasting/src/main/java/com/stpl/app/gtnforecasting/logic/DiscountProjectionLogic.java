@@ -351,7 +351,7 @@ public class DiscountProjectionLogic {
                             PROJECTED_OBJ = getFormattedValue(PERCENTAGE_FORMAT, PROJECTED_OBJ);
                         }
                         
-                          Integer AP_INDICATOR = obj[NumericConstants.SEVEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.SEVEN])) : null;
+                          Integer AP_INDICATOR = obj[NumericConstants.SEVEN] != null ? Integer.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : null;
                         if (AP_INDICATOR == null) {
                             customizeDiscountForDeductionInclusion(doubleProjectedAndHistoryCombinedUniqueList, discountDto);
                         } else {
@@ -533,7 +533,7 @@ public class DiscountProjectionLogic {
      */
     public int updateCheckRecord(SessionDTO session, boolean checkValue, String hierarchyNo, String hierarchyIndicator,
             boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountNamesList, String discountHierarchy) {
-        session.setSelectedRsForCustom(queryBuilderAndExecutor.getRsContractSid(session, checkValue, hierarchyNo, hierarchyIndicator,
+        session.setSelectedRsForCustom(queryBuilderAndExecutor.getRsContractSid(session, hierarchyNo, hierarchyIndicator,
                 isCustomView, customViewDetails, isProgram, discountNamesList));
         return queryBuilderAndExecutor.updateCheckRecord(session, checkValue, hierarchyNo, hierarchyIndicator,
                 isCustomView, customViewDetails, isProgram, discountNamesList, discountHierarchy);
@@ -743,10 +743,10 @@ public class DiscountProjectionLogic {
     }
 
     public boolean isAnyRecordChecked(SessionDTO session, boolean isProgram, List<String> discountProgramsList, boolean isCustomHierarchy) {
-        int count = queryBuilderAndExecutor.getCheckedRecordCount(session, isProgram, discountProgramsList, isCustomHierarchy);
+        int count = queryBuilderAndExecutor.getCheckedRecordCount(session, isProgram, discountProgramsList);
         if (count != 0) {
             if (count == -1) {
-                LOGGER.error("Check Count is not retrieved properly");
+                LOGGER.error("Check Count is not retrieved properly{}"+isCustomHierarchy);
                 return false;
             } else {
                 return true;

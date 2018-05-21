@@ -41,7 +41,7 @@ public class SalesExcelNM extends ExcelExport{
     protected final CellStyle style5 = this.workbook.createCellStyle();
     protected final CellStyle style6 = this.workbook.createCellStyle();
     protected DataFormat hssfDataFormat = this.workbook.createDataFormat();
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomExcelNM.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SalesExcelNM.class);
     TableHolder tableHolder;
 
 
@@ -97,7 +97,6 @@ public class SalesExcelNM extends ExcelExport{
                         if (str.contains("$") || str.contains(",") || str.contains("%")) {
                             str = str.replace("$", "").replace(",", "");
                             d = Double.valueOf(str);
-                            System.out.println("obj---------------------------------" + d);
                         } else {
                             d = DataTypeConverter.convertObjectToDouble(value);
                         }
@@ -118,7 +117,7 @@ public class SalesExcelNM extends ExcelExport{
                     sheetCell.setCellStyle(style1);
                     if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                     String formula = getFormula(sheetCell, rootItemId);
-                    LOGGER.info("column formula" + formula);
+                    LOGGER.info("column formula{}" + formula);
                     sheetCell.setCellStyle(style1);
                     sheetCell.setCellFormula("SUM("+formula+")");
                     }
@@ -126,7 +125,7 @@ public class SalesExcelNM extends ExcelExport{
                     sheetCell.setCellStyle(style3);
                     if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                     String formula = getFormula(sheetCell, rootItemId);
-                    LOGGER.info("column formula" + formula);
+                    LOGGER.info("column formula{}" + formula);
                     sheetCell.setCellStyle(style3);
                     sheetCell.setCellFormula("SUM("+formula+")");
                     }
@@ -171,7 +170,6 @@ public class SalesExcelNM extends ExcelExport{
             for (final Row r : sheet) {
                 for (final Cell c : r) {
                     if (c.getCellType() == Cell.CELL_TYPE_FORMULA) {
-//                        evaluator.evaluateInCell(c);
                     }
                 }
             }
@@ -189,10 +187,10 @@ public class SalesExcelNM extends ExcelExport{
 
     private String getFormula(Cell sheetCell, final Object rootItemId) {
         String columnLetter = CellReference.convertNumToColString(sheetCell.getColumnIndex());
-        LOGGER.info("*****************columnLetter******************************************************" + columnLetter);
+        LOGGER.info("*****************columnLetter******************************************************{}" + columnLetter);
         final Collection<?> children = ((Container.Hierarchical) getTableHolder().getContainerDataSource())
                 .getChildren(rootItemId);
-        LOGGER.info("*********************ROOT ITEM ID********************************" + ((SalesRowDto) rootItemId).getLevelName());
+        LOGGER.info("*********************ROOT ITEM ID********************************{}" + ((SalesRowDto) rootItemId).getLevelName());
         int rowNo = sheetCell.getRowIndex() + 2;
         String formula = "";
         int i = 0;
@@ -212,7 +210,7 @@ public class SalesExcelNM extends ExcelExport{
             formula += columnLetter + rowNo;
             i++;
         }
-        LOGGER.info("**************************FORMULA******************************" + formula);
+        LOGGER.info("**************************FORMULA******************************{}" + formula);
         return formula;
     }
 

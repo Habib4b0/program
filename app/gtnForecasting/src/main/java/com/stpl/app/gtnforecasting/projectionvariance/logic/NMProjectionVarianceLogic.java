@@ -1253,7 +1253,7 @@ public class NMProjectionVarianceLogic {
         String query = getCCPQueryForPV(pvsdto);
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         String ccps = PVCommonLogic.removeBracesInList(list);
-        return ccps.toString();
+        return ccps;
     }
 
     String getRSIds(PVSelectionDTO pvsdto) {
