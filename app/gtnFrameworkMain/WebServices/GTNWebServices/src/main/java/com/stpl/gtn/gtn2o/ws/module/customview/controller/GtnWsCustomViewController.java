@@ -118,4 +118,39 @@ public class GtnWsCustomViewController {
         logger.info("Exit checkSaveRelationship");
         return gtnResponse;
     }
+    
+    @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_SAVE_LOGIC, method = RequestMethod.POST)
+    public GtnUIFrameworkWebserviceResponse customViewSaveLogic(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+        logger.info("Enters checkSaveRelationship");
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        try {
+            GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
+            cvResponse.setSuccess(logic.saveCustomView(gtnWsRequest.getGtnWsCustomViewRequest()));
+             gtnResponse.setGtnWsCustomViewResponse(cvResponse);
+        } catch (Exception ex) {
+            logger.error("Exception in customViewSaveLogic", ex);
+        }
+
+        logger.info("Exit checkSaveRelationship");
+        return gtnResponse;
+    }
+    @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_GET_TREE_DATA, method = RequestMethod.POST)
+    public GtnUIFrameworkWebserviceResponse customViewTreeData(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+        logger.info("Enters checkSaveRelationship");
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        try {
+            GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
+            cvResponse.setCvTreeNodeList(logic.getSavedTreeData(gtnWsRequest.getGtnWsCustomViewRequest()));
+            gtnResponse.setGtnWsCustomViewResponse(cvResponse);
+        } catch (Exception ex) {
+            logger.error("Exception in customViewSaveLogic", ex);
+        }
+
+        logger.info("Exit checkSaveRelationship");
+        return gtnResponse;
+    }
+    
+   
 }
