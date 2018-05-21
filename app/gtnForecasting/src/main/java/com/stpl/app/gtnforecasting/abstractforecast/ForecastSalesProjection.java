@@ -462,6 +462,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     private String changedProperty;
     private boolean refresh = false;
     private boolean valueChange = false;
+    private String SALES_SMALL = "sales";
 
     public boolean isRefresh() {
         return refresh;
@@ -2326,7 +2327,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     String endPeriodMassUpdate = salesLogic.getPeriodSid(endPeriodValue, projectionDTO.getFrequency(), "Max");
                     new DataSelectionLogic().callViewInsertProceduresThread(projectionDTO.getSessionDTO(),"Q", Constant.SALES1,startPeriodMassUpdate,endPeriodMassUpdate,updateVariable);
                     waitForSeconds();
-                    CommonLogic.procedureCompletionCheck(projectionDTO,"sales",String.valueOf(projectionDTO.getViewOption()));
+                    CommonLogic.procedureCompletionCheck(projectionDTO,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
                     isUpdated = true;
                     if (Constant.GROUPFCAPS.equals(String.valueOf(fieldDdlb.getValue()))) {
                         refreshGroupDdlb();
@@ -2471,7 +2472,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,
                                 adjMethodology, HISTORY_PERIODS, projectionPeriods);
                         waitForSeconds();
-                        CommonLogic.procedureCompletionCheck(projectionDTO, "sales", String.valueOf(projectionDTO.getViewOption()));
+                        CommonLogic.procedureCompletionCheck(projectionDTO, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
                         refreshTableData(getCheckedRecordsHierarchyNo());
                         getTableLogic().setRefresh(true);
                         session.setActualAdjustment(true);
@@ -2937,7 +2938,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 commonLogic.insertPFDTemp(session, calcMethodology, String.valueOf(allocationBasis.getValue()), true);
             }
             isSalesCalculated = salesLogic.calculateSalesProjection(projectionDTO, calcMethodology, selectedPeriods, calcBased, String.valueOf(forecastStartPeriod.getValue()), String.valueOf(forecastEndPeriod.getValue()), String.valueOf(allocationBasis.getValue()));
-            CommonLogic.procedureCompletionCheck(projectionDTO,"sales",String.valueOf(projectionDTO.getViewOption()));
+            CommonLogic.procedureCompletionCheck(projectionDTO,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
 
         } else {

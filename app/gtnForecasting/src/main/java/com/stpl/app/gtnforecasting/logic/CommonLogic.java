@@ -107,6 +107,7 @@ public class CommonLogic {
     public static final String RELATIONSHIPJOIN = " INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO AND RLD1.RELATIONSHIP_BUILDER_SID =";
     public static final String RELATIONSHIPVERSION = " AND RLD1.VERSION_NO=";
     private static final String PRPARENT_HIERARCHY_LIKE = " AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";
+    private static final String SMALL_SALES = "sales";
     
     protected RelationShipFilterLogic relationShipFilterLogic=RelationShipFilterLogic.getInstance();
     
@@ -4324,7 +4325,7 @@ public class CommonLogic {
     public String getJoinBasedOnTab(String tabName, String groupFilterValue, String screenName) {
         String sql = StringUtils.EMPTY;
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
-            if (tabName.toLowerCase(Locale.ENGLISH).contains("sales")) {
+            if (tabName.toLowerCase(Locale.ENGLISH).contains(SMALL_SALES)) {
                 sql += SQlUtil.getQuery("sales-join-nonmandated");
                 sql += addGroupFilterCondtion("All Sales Groups", groupFilterValue.trim().equalsIgnoreCase("null") || groupFilterValue.isEmpty() ? Constant.PERCENT : groupFilterValue);
             } else if (tabName.toLowerCase(Locale.ENGLISH).contains("discount")) {
@@ -5189,6 +5190,8 @@ public class CommonLogic {
             case Constant.CUSTOM_LABEL:
                 tableName = "ST_CUSTOM_SALES";
                 break;
+            default:
+                tableName = StringUtils.EMPTY;
         }
         return tableName;
     }
@@ -5327,8 +5330,8 @@ public class CommonLogic {
     
     public static void viewProceduresCompletionCheck(ProjectionSelectionDTO projectionDTO) {
         LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
-        procedureCompletionCheck(projectionDTO,"sales",Constants.CUSTOMER);
-        procedureCompletionCheck(projectionDTO,"sales",Constants.PRODUCT);
+        procedureCompletionCheck(projectionDTO,SMALL_SALES,Constants.CUSTOMER);
+        procedureCompletionCheck(projectionDTO,SMALL_SALES,Constants.PRODUCT);
     }
     public static void viewProceduresCompletionCheckDiscount(ProjectionSelectionDTO projectionDTO) {
         LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
@@ -5338,16 +5341,17 @@ public class CommonLogic {
     
     
     public static String getFrequency(String frequency) {
+        String tempFrequency;
     if (frequency.equals(Constant.QUARTERLY)) {
-            frequency = "Q";
+            tempFrequency = "Q";
         } else if (frequency.equals(Constant.SEMI_ANNUALLY)) {
-            frequency = "S";
+            tempFrequency = "S";
         } else if (frequency.equals(Constant.MONTHLY)) {
-            frequency = "M";
+            tempFrequency = "M";
         } else {
-            frequency = "A";
+            tempFrequency = "A";
         }
-    return frequency;
+    return tempFrequency;
     }
     
     public static List<String[]> getDataselectionDeductionLevel() {

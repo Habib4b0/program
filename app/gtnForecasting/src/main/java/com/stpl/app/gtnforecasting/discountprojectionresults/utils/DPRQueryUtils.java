@@ -1386,19 +1386,9 @@ public class DPRQueryUtils {
     }
 
     public List getMandatedTotal(List<Integer> discountprojectionId, String frequency, ProjectionSelectionDTO projSelDTO) {
-        List list = new ArrayList();
+        List list;
         try {
 
-            String idString = StringUtils.EMPTY;
-            StringBuilder idStringBuilder = new StringBuilder();
-            for (int i = 0; i < discountprojectionId.size(); i++) {
-                if (i != discountprojectionId.size() - 1) {
-                    idStringBuilder.append(discountprojectionId.get(i)).append(',');
-                } else {
-                    idStringBuilder.append(discountprojectionId.get(i));
-                }
-            }
-            idString = idStringBuilder.toString();
             if (frequency.equals(Constant.QUARTERLY)) {
                 frequency = Constant.QUARTER;
             }

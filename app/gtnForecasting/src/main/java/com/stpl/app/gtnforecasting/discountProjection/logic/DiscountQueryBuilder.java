@@ -445,7 +445,7 @@ public class DiscountQueryBuilder {
             LOGGER.error(customSql);
         }
     }
-    public String getPeriodSid(String period, String fre, String order) throws SystemException, PortalException {
+    public String getPeriodSid(String period, String fre, String order) {
         List periodSid = (List) HelperTableLocalServiceUtil.executeSelectQuery(periodQuery(period, fre, order));
         return periodSid.get(0).toString();
     }
@@ -468,8 +468,7 @@ public class DiscountQueryBuilder {
         } else {
             where = "where SEMI_ANNUAL = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
         }
-        String query = "select " + order + "(PERIOD_SID) from \"PERIOD\" " + where;
-        return query;
+        return "select " + order + "(PERIOD_SID) from \"PERIOD\" " + where;
     }
     
     public static final String AND_YEAR_EQUAL = "' and \"YEAR\" = '";
@@ -790,7 +789,7 @@ public class DiscountQueryBuilder {
     
     
     public static String getQueryRSDiscountHierarchyNo(List<String> discountList) {
-    String framedInQueryString=StringUtils.EMPTY;
+    String framedInQueryString;
     StringBuilder framedInQueryStringBuilder = new StringBuilder();
         for (String value : discountList) {
             if (value.contains(",")) {
@@ -809,7 +808,7 @@ public class DiscountQueryBuilder {
     }
      
     public static List getRSHierarchyNo(List<String> discountList,SessionDTO session) {
-        String framedRsString=StringUtils.EMPTY;
+        String framedRsString;
         StringBuilder framedRsStringBuilder = new StringBuilder();
         for (String value : discountList) {
             if (value.contains(",")) {
