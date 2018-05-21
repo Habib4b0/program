@@ -2481,7 +2481,7 @@ public class DataSelectionLogic {
             }
             query.append('\'');
             HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-            LOGGER.info("*************Normal Procedures********************************"+query.toString());
+            LOGGER.info("Normal Procedures: {}"+query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -2506,7 +2506,7 @@ public class DataSelectionLogic {
             }
             query.append('\'');
             HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-            LOGGER.info("******************************************"+query.toString());
+            LOGGER.info("Query: {}"+query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -2517,6 +2517,8 @@ public class DataSelectionLogic {
 
         StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
+             LOGGER.debug(frequency);
+             LOGGER.debug(startPeriod);
             query.append(Constant.PRC_VIEWS_POPULATION);
 				query.append(' ').append(session.getProjectionId()).append(',');
 				query.append(session.getUserId())
@@ -2532,19 +2534,20 @@ public class DataSelectionLogic {
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
-                                .append(",").append("null")
+                                .append(',').append("null")
                                 .append(",'").append("Schedule Category")
                                 .append('\'');
-                                LOGGER.info("******before*****"+query.toString());
+                                LOGGER.info("before: {}"+query.toString());
 				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-                                LOGGER.info("***********"+query.toString());
+                                LOGGER.info("Query: {}"+query.toString());
+                                 LOGGER.debug(endPeriod);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
 
     }
     public String callViewInsertProcedures(SessionDTO session,String frequency,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
-     LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************");
+     LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}"+frequency);
          StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
             query.append(Constant.PRC_VIEWS_POPULATION);
@@ -2562,11 +2565,11 @@ public class DataSelectionLogic {
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
-                                .append(",").append("null")
+                                .append(',').append("null")
                                 .append(",'").append("Schedule Category").append('\'')
-                                .append(";");
+                                .append(';');
                                 HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-                                LOGGER.info("***********"+query.toString());
+                                LOGGER.info("Query: {}"+query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -2577,7 +2580,7 @@ public class DataSelectionLogic {
 
 
     public void callViewInsertProceduresThread(SessionDTO session, String frequency, String screenName, String startPeriod, String endPeriod, String massUpdateField) {
-        LOGGER.info("callViewInsertProceduresThread**************************************");
+        LOGGER.info("callViewInsertProceduresThread************************************{}"+frequency);
 
         service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
                session, "Q", screenName, "C", startPeriod, endPeriod, massUpdateField));
@@ -2585,20 +2588,20 @@ public class DataSelectionLogic {
                 session, "Q", screenName, "P", startPeriod, endPeriod, massUpdateField));
     }
     public void nmDiscountInsertProcedure(SessionDTO session) {
-        ExecutorService service = ThreadPool.getInstance().getService();
+        ExecutorService discountService = ThreadPool.getInstance().getService();
         if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
             session.addFutureMap(Constant.DISCOUNT_MASTER_PROCEDURE_CALL,
 				new Future[] {
-						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+						discountService.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
 				SalesUtils.PRC_NM_MASTER_INSERT, session.getProjectionId(), session.getUserId(),
 				session.getSessionId(), Constant.DISCOUNT3,session)) });
             commonUtil
                     .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
             session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
-				new Future[] { service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+				new Future[] { discountService.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
 								SalesUtils.PRC_NM_ACTUAL_INSERT, session.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)),
-						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+						discountService.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
 								SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)) });
             }

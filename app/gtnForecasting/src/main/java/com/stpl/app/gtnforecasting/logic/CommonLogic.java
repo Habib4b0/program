@@ -5310,7 +5310,7 @@ public class CommonLogic {
         }
     }
     public static void procedureCompletionCheck(ProjectionSelectionDTO projectionDTO,String screenName,String view) {
-        LOGGER.info("procedureCompletionCheck---------------------------------------------------"+view);
+        LOGGER.info("procedureCompletionCheck---------------------------------------------------{}"+view);
         switch (view) {
             case Constants.CUSTOMER:
                 CommonUtil.getInstance().isProcedureCompleted(screenName, Constants.CUSTOMER, projectionDTO.getSessionDTO());
@@ -5332,13 +5332,11 @@ public class CommonLogic {
         LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
         procedureCompletionCheck(projectionDTO,SMALL_SALES,Constants.CUSTOMER);
         procedureCompletionCheck(projectionDTO,SMALL_SALES,Constants.PRODUCT);
-//        procedureCompletionCheck(projectionDTO,"sales",Constants.CUSTOM);
     }
     public static void viewProceduresCompletionCheckDiscount(ProjectionSelectionDTO projectionDTO) {
         LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
         procedureCompletionCheck(projectionDTO,"Discount",Constants.CUSTOMER);
         procedureCompletionCheck(projectionDTO,"Discount",Constants.PRODUCT);
-//        procedureCompletionCheck(projectionDTO,"Discount",Constants.CUSTOM);
     }
     
     

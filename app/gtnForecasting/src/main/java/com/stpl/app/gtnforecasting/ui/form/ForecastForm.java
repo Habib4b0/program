@@ -709,7 +709,6 @@ public class ForecastForm extends AbstractForm {
 								data.updateDataSelection();
 								session.setTradingPartner(
 										CommonLogic.getTradingPartnerLevelNo(false, session.getProjectionId()));
-//								pushUpdate(INDICATOR_REFRESH_UPDATE.getConstant());
 								if (session.isFromDateChanged()) {
 									DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
 									pushUpdate(INDICATOR_TIME_PERIOD_CHANGED.getConstant());
