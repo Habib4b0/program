@@ -94,6 +94,7 @@ public class SessionDTO implements Serializable {
     private String totalDiscountCount = StringUtils.EMPTY;
     //Added for persisting freq value in session for calc and adj prc
     private String frequency = StringUtils.EMPTY;
+    private String dsFrequency = StringUtils.EMPTY;
     private Map<String, String> returnsDetailsMap = new HashMap<>();
     private String detailsSID = StringUtils.EMPTY;
     private int noOfApproval;
@@ -173,6 +174,8 @@ public class SessionDTO implements Serializable {
     private int productRelationVersion = 0;
     private int deductionRelationVersion = 0;
     private Date forecastEligibleDate;
+    private String functionMode = StringUtils.EMPTY;
+    private String dataSelectionDeductionLevel;
 
     public SessionDTO() {
         super();
@@ -1441,6 +1444,31 @@ public class SessionDTO implements Serializable {
     public void setDeductionRelationVersion(int deductionRelationVersion) {
         this.deductionRelationVersion = deductionRelationVersion;
     }
+
+    public String getFunctionMode() {
+        return functionMode;
+    }
+
+    public void setFunctionMode(String functionMode) {
+        this.functionMode = functionMode;
+    }
+
+    public String getDsFrequency() {
+        return dsFrequency;
+    }
+
+    public void setDsFrequency(String dsFrequency) {
+        this.dsFrequency = dsFrequency;
+    }
+
+    public String getDataSelectionDeductionLevel() {
+        return dataSelectionDeductionLevel;
+    }
+
+    public void setDataSelectionDeductionLevel(String dataSelectionDeductionLevel) {
+        this.dataSelectionDeductionLevel = dataSelectionDeductionLevel;
+    }
+    
 
     
     

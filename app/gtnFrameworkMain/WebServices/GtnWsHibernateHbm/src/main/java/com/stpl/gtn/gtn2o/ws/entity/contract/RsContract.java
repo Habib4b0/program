@@ -84,6 +84,8 @@ public class RsContract implements java.io.Serializable {
 	private Integer evaluationRuleType;
 	private Integer evaluationRuleLevel;
 	private Integer evaluationRuleOrAssociation;
+	private HelperTable helperTableByPaymentLevel;
+   
 	private Set rsContractDetailses = new HashSet(0);
 
 	public RsContract() {
@@ -128,7 +130,7 @@ public class RsContract implements java.io.Serializable {
 			char inboundStatus, boolean recordLockStatus, String batchId, String source, int createdBy,
 			Date createdDate, int modifiedBy, Date modifiedDate, Integer deductionInclusion, Integer calculationType,
 			Integer calculationLevel, Integer calculationRule, Integer calculationRuleLevel, Integer evaluationRuleType,
-			Integer evaluationRuleLevel, Integer evaluationRuleOrAssociation, Set rsContractDetailses) {
+			Integer evaluationRuleLevel, Integer evaluationRuleOrAssociation, Set rsContractDetailses, HelperTable helperTableByPaymentLevel) {
 		this.rsContractSid = rsContractSid;
 		this.cfpContract = cfpContract;
 		this.contractMaster = contractMaster;
@@ -688,5 +690,12 @@ public class RsContract implements java.io.Serializable {
 	public void setRsContractDetailses(Set rsContractDetailses) {
 		this.rsContractDetailses = rsContractDetailses;
 	}
+        
+    public HelperTable getHelperTableByPaymentLevel() {
+        return helperTableByPaymentLevel;
+    }
 
-}
+    public void setHelperTableByPaymentLevel(HelperTable helperTableByPaymentLevel) {
+        this.helperTableByPaymentLevel = helperTableByPaymentLevel;
+    }
+    }

@@ -67,6 +67,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String BASE_PRICE = "Baseline WAC";
 
 	public static final String SYSTEM_ID = "systemId";
+	public static final String COPY_MODE = "Copy";
 	public static final String VALUE = "Value";
 	public static final String SEARCH_BUTTON_LAYOUT = "searchButtonlayout";
 	public static final String FORMULA_TYPE = "formulaType";
@@ -401,6 +402,8 @@ public class GtnFrameworkCommonConstants {
 	public static final String ITEM_FAMILYPLAN_SYSTEM_ID = "itemFamilyplanSystemId";
 	public static final String IFP_ITEM_ADDITIONMOVERIGHT_BUTTONS = "ifpItemAdditionmoverightButtons";
 	public static final String SEARCH_RESULT_TABLE = "searchResultTable";
+	public static final String PRODUCT_HIERARCHY_TABLE = "productHierarchyTable";
+	public static final String DEDUCTION_HIERARCHY_TABLE = "deductionHierarchyTable";
 	public static final String IFP_ITEM_ADDITIONMOVE_ALLRIGHT_BUTTONS = "ifpItemAdditionmoveAllrightButtons";
 	public static final String IFP_INFORMATION_TAB_IFP_NO = "ifpInformationTabIFPNo";
 	public static final String IFP_INFORMATION_TAB_IFP_DESIGNATION = "ifpInformationTabIFPDesignation";
@@ -680,6 +683,10 @@ public class GtnFrameworkCommonConstants {
 	 */
 	public static final String MAINLAYOUT = "mainlayout";
 	public static final String RELATIONSHIP_NAME = "relationshipName";
+	public static final String TREE_VIEW_NAME = "treeViewName";
+	public static final String CUTOMER_RELATION = "customerRelation";
+	public static final String PRODUCT_RELATION = "productRelation";
+	public static final String CUSTOM_VIEW_TYPE = "customViewType";
 	public static final String RESULTLAYOUT = RESULT_LAYOUT;
 	public static final String SELECTION_OPTIONLAYOUT = "selectionOptionlayout";
 	public static final String RELATIONSHIP_DESC = "relationshipDesc";
@@ -1127,4 +1134,6 @@ public class GtnFrameworkCommonConstants {
 	// Hierarchy Route Builder
 
 	public static final String HIERARCHY_SITUATION_TABLE_ID = "hierarchySitutationTableSid";
+        public static final String CUSTOM_VIEW_DESCRIPTION = "customerViewDescription";
+        public static final String CUSTOM_VIEW_SCREEN_NAME = "customerViewScreenName";
 }

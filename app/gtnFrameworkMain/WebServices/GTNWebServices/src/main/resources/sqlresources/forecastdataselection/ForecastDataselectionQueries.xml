@@ -13,14 +13,16 @@
 									   
 										COMPANY_MASTER_SID INT,
 										CONTRACT_MASTER_SID INT,
-										HIERARCHY_NO VARCHAR(50)
+										HIERARCHY_NO VARCHAR(50),
+                                                                                SALES_INCLUSION BIT
 									) INSERT
 										INTO
 											#COMP_CONT(
 											   
 												COMPANY_MASTER_SID,
 												CONTRACT_MASTER_SID,
-												HIERARCHY_NO
+												HIERARCHY_NO,
+                                                                                                SALES_INCLUSION
 											)?
 		
 		
@@ -48,11 +50,13 @@ INSERT
 		ST_CCP_HIERARCHY(
 			CCP_DETAILS_SID,
 			CUST_HIERARCHY_NO,
-			PROD_HIERARCHY_NO
+			PROD_HIERARCHY_NO,
+                        SALES_INCLUSION
 		) SELECT Distinct
 			CD.CCP_DETAILS_SID,
 			CC.HIERARCHY_NO,
-			I.HIERARCHY_NO
+			I.HIERARCHY_NO,
+                        CC.SALES_INCLUSION
 		FROM 
 			#COMP_CONT CC
 		JOIN CCP_DETAILS CD ON

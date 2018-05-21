@@ -7,6 +7,6 @@
     <property name="hibernate.connection.url">jdbc:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APPL7_QA</property>
     <property name="hibernate.connection.username">bpigtn_db</property>
     <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
-	<mapping package="com.stpl.gtn.gtn2o.ws.entity"/>
+    <mapping package="com.stpl.gtn.gtn2o.ws.entity"/>
   </session-factory>
 </hibernate-configuration>
