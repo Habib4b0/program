@@ -99,7 +99,10 @@ public class GtnUIFrameWorkTransactionTableColumnFormatAction
 
 	private Object setFormatter(Object propertyId, Object value,
 			GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
-
+            if (GtnWsTransactionConstants.AVGSHELFLIFE.equals(propertyId)) {
+                String stringValue=new DecimalFormat("######").format(Double.valueOf(value.toString()));
+                return stringValue;         
+            }
 		if (componentBean.getFormatterMap() != null && !componentBean.getFormatterMap().isEmpty()) {
 			String formatDecimalPattern = componentBean.getFormatterMap(propertyId.toString());
 			if (formatDecimalPattern != null) {

@@ -8,7 +8,7 @@ public class AverageShelfLifeMaster implements java.io.Serializable {
 	private int averageShelfLifeMasterSid;
 	private String itemIdType;
 	private String itemId;
-	private Double avgShelfLife;
+	private String avgShelfLife;
 	private Character inboundStatus;
 	private boolean recordLockStatus;
 	private String batchId;
@@ -21,7 +21,7 @@ public class AverageShelfLifeMaster implements java.io.Serializable {
 	public AverageShelfLifeMaster() {
 	}
 
-	public AverageShelfLifeMaster(int averageShelfLifeMasterSid, String itemIdType, String itemId, Double avgShelfLife,
+	public AverageShelfLifeMaster(int averageShelfLifeMasterSid, String itemIdType, String itemId, String avgShelfLife,
 			boolean recordLockStatus, String batchId, String createdBy, Date createdDate, String modifiedBy,
 			Date modifiedDate) {
 		this.averageShelfLifeMasterSid = averageShelfLifeMasterSid;
@@ -36,7 +36,7 @@ public class AverageShelfLifeMaster implements java.io.Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public AverageShelfLifeMaster(int averageShelfLifeMasterSid, String itemIdType, String itemId, Double avgShelfLife,
+	public AverageShelfLifeMaster(int averageShelfLifeMasterSid, String itemIdType, String itemId, String avgShelfLife,
 			Character inboundStatus, boolean recordLockStatus, String batchId, String source, String createdBy,
 			Date createdDate, String modifiedBy, Date modifiedDate) {
 		this.averageShelfLifeMasterSid = averageShelfLifeMasterSid;
@@ -77,11 +77,11 @@ public class AverageShelfLifeMaster implements java.io.Serializable {
 		this.itemId = itemId;
 	}
 
-	public Double getAvgShelfLife() {
+	public String getAvgShelfLife() {
 		return this.avgShelfLife;
 	}
 
-	public void setAvgShelfLife(Double avgShelfLife) {
+	public void setAvgShelfLife(String avgShelfLife) {
 		this.avgShelfLife = avgShelfLife;
 	}
 

@@ -604,6 +604,12 @@ public class FileManagementIndex extends CustomComponent implements View {
                     fileHistoryTable.setFilterDecorator(new ExtDemoFilterDecorator());
                     setTableDefaultConfig();
                 }
+                if (country.getValue() == ConstantsUtils.PR) {
+                    currentFile.setValue(ConstantsUtils.EMPTY);
+                    effectiveDateStr.setValue(ConstantsUtils.EMPTY);
+                } else {
+                    loadCurrentFile();
+                }
                 if (fileType.getValue() == null
                         || ConstantsUtils.SELECT_ONE.equals(fileType.getValue())
                         || "null".equals(fileType.getValue().toString().trim())
@@ -656,7 +662,13 @@ public class FileManagementIndex extends CustomComponent implements View {
         fileType.addValueChangeListener(new Property.ValueChangeListener() {
 
             public void valueChange(final Property.ValueChangeEvent event) {
-                LOGGER.debug("In configureFields fileType.addValueChangeListener started= {}" , fileType.getValue());
+                LOGGER.debug("In configureFields fileType.addValueChangeListener started= {}" , fileType.getValue());    
+                if (country.getValue() == ConstantsUtils.PR) {
+                    currentFile.setValue(ConstantsUtils.EMPTY);
+                    effectiveDateStr.setValue(ConstantsUtils.EMPTY);
+                } else {
+                    loadCurrentFile();
+                }
                 if (fileType.getValue() == null
                         || ConstantsUtils.SELECT_ONE.equals(fileType.getValue())
                         || "null".equals(fileType.getValue().toString().trim())
@@ -667,7 +679,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                     effectiveDateStr.setValue(ConstantsUtils.EMPTY);
                     selectFile.setValue(ConstantsUtils.EMPTY);
                 } else {
-                    
+
                     try {
                         fileString[1] = String.valueOf(country.getValue());
                         tableLogic.configureSearchData(CommonUtil.getSelectedFileType(fileType), fileString[1], String.valueOf(businessUnit.getValue()), company.getValue());
@@ -678,9 +690,10 @@ public class FileManagementIndex extends CustomComponent implements View {
                         fileHistoryTable.addStyleName(CommonUtil.TABLECHECKBOX);
                         fileHistoryTable.setSelectable(true);
                         fileHistoryTable.markAsDirtyRecursive();
-
-                        loadCurrentFile();
-
+                        if (!ConstantsUtils.PR.equals(country.getValue())) {
+                            loadCurrentFile();
+                        }
+                     
                     } catch (SystemException e) {
 
                         final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
