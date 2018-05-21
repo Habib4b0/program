@@ -41,7 +41,11 @@ import org.springframework.stereotype.Service;
 @Service
 @Scope(value = "singleton")
 public class GtnWsCustomViewService {
-
+    public GtnWsCustomViewService() {
+        super();
+    }
+    
+    
     private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsCustomViewService.class);
 
     @Autowired
@@ -98,8 +102,7 @@ public class GtnWsCustomViewService {
     }
 
     @SuppressWarnings("rawtypes")
-    public boolean saveCustomView(GtnWsCustomViewRequest cvRequest)
-            throws GtnFrameworkGeneralException {
+    public boolean saveCustomView(GtnWsCustomViewRequest cvRequest){
         int customViewMasterSid = saveCustViewMaster(cvRequest);
         saveCustomViewDetails(customViewMasterSid, cvRequest);
         customViewSaveLogicCCPDetails(customViewMasterSid, cvRequest);
@@ -118,9 +121,9 @@ public class GtnWsCustomViewService {
                 master.setCustViewType(cvRequest.getCustomViewType());
                 master.setCustomerRelationshipSid(cvRequest.getCustomerRelationshipSid());
                 master.setProductRelationshipSid(cvRequest.getProductRelationshipSid());
-                master.setCreatedBy(Integer.parseInt(cvRequest.getCreatedBy()));
+                master.setCreatedBy(Integer.valueOf(cvRequest.getCreatedBy()));
                 master.setCreatedDate(cvRequest.getCreatedDate());
-                master.setModifiedBy(Integer.parseInt(cvRequest.getModifiedBy()));
+                master.setModifiedBy(Integer.valueOf(cvRequest.getModifiedBy()));
                 master.setModifiedDate(cvRequest.getModifiedDate());
                 master.setScreenName(cvRequest.getCustomViewType());
                 customViewMasterSid = (int) session.save(master);
@@ -131,7 +134,7 @@ public class GtnWsCustomViewService {
                 master.setCustViewType(cvRequest.getCustomViewType());
                 master.setCustomerRelationshipSid(cvRequest.getCustomerRelationshipSid());
                 master.setProductRelationshipSid(cvRequest.getProductRelationshipSid());
-                master.setModifiedBy(Integer.parseInt(cvRequest.getModifiedBy()));
+                master.setModifiedBy(Integer.valueOf(cvRequest.getModifiedBy()));
                 master.setModifiedDate(cvRequest.getModifiedDate());
                 master.setScreenName(cvRequest.getCustomViewType());
                 session.update(master);
@@ -196,6 +199,7 @@ public class GtnWsCustomViewService {
     }
 
     private void customViewSaveLogicCCPDetails(int customViewMasterSid, GtnWsCustomViewRequest cvRequest) {
+        int tempCustomViewMasterSid=0;
          try {
         GtnForecastHierarchyInputBean inputBean =new GtnForecastHierarchyInputBean();
         inputBean.setSelectedCustomerRelationShipBuilderSid(cvRequest.getCustomerRelationshipSid());
@@ -211,8 +215,8 @@ public class GtnWsCustomViewService {
         inputBean.setSelectedProductHierarcySid(productRb.getHierarchyDefinition().getHierarchyDefinitionSid());
         inputBean.setSelectedProductHierarchyVersionNo(productRb.getHierarchyVersion());
         int masterSid=cvRequest.getCvSysId();
-        customViewMasterSid = (masterSid == 0) ? cvRequest.getCvSysId() : masterSid;
-        insertToCCPTable(inputBean,customViewMasterSid);
+        tempCustomViewMasterSid = (masterSid == 0) ? customViewMasterSid : cvRequest.getCvSysId();
+        insertToCCPTable(inputBean,tempCustomViewMasterSid);
         } catch (GtnFrameworkGeneralException ex) {
             logger.error(ex.getMessage());
         }

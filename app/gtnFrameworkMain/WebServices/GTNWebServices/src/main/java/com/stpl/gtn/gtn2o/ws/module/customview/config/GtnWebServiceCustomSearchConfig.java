@@ -43,13 +43,7 @@ public class GtnWebServiceCustomSearchConfig implements GtnWsSearchQueryConfigLo
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.TREE_VIEW_NAME, searchConfigProvider.getColumnStringConfig("CUST_VIEW_NAME", GtnWsCustomViewConstants.CVM));
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION, searchConfigProvider.getColumnStringConfig("CUST_VIEW_DESCRIPTION", GtnWsCustomViewConstants.CVM));
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE, searchConfigProvider.getColumnStringConfig("CUST_VIEW_TYPE", GtnWsCustomViewConstants.CVM));
-//		GtnWsColumnDetailsConfig customer = new GtnWsColumnDetailsConfig("RELATIONSHIP_NAME",
-//				GtnFrameworkWebserviceConstant.STRING, "RB");
-//		customer.setWhereClauseColumn( GtnWsCustomViewConstants.CVM+"."+"CUSTOMER_RELATIONSHIP_SID");
                 fieldToColumnDetailsMap.put( GtnFrameworkCommonConstants.CUTOMER_RELATION, searchConfigProvider.getColumnStringConfig("CUSTOMER_RELATIONSHIP_SID", GtnWsCustomViewConstants.CVM));
-//		GtnWsColumnDetailsConfig product = new GtnWsColumnDetailsConfig("RELATIONSHIP_NAME",
-//				GtnFrameworkWebserviceConstant.STRING, "RB");
-//		product.setWhereClauseColumn( GtnWsCustomViewConstants.CVM+"."+"PRODUCT_RELATIONSHIP_SID");
                 fieldToColumnDetailsMap.put( GtnFrameworkCommonConstants.PRODUCT_RELATION, searchConfigProvider.getColumnStringConfig("PRODUCT_RELATIONSHIP_SID", GtnWsCustomViewConstants.CVM));
 		
                 fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.CUSTOM_VIEW_SCREEN_NAME, searchConfigProvider.getColumnStringConfig("SCREEN_NAME", GtnWsCustomViewConstants.CVM));

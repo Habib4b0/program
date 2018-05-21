@@ -20,19 +20,20 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
         super();
     }
     private GtnWsRecordBean mainNode;
+    private int customerRelVersionNo;
     private String customViewName;
+    private String modifiedBy;
     private String customViewDescription;
-    private String customViewType;
-    private int customerRelationshipSid;
     private int productRelationshipSid;
+    private int customerRelationshipSid;
     private Date createdDate;
     private Date modifiedDate;
     private String createdBy;
-    private String modifiedBy;
+    private String customViewType;
     private int cvSysId;
-    private int userId;
     private int productRelVersionNo;
-    private int customerRelVersionNo;
+    private int userId;
+    
     private List<GtnWsRecordBean> cvTreeNodeList;
 
     public GtnWsRecordBean getMainNode() {
@@ -59,28 +60,20 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
         this.customViewDescription = customViewDescription;
     }
 
-    public String getCustomViewType() {
-        return customViewType;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setCustomViewType(String customViewType) {
-        this.customViewType = customViewType;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
-
+    
     public int getCustomerRelationshipSid() {
         return customerRelationshipSid;
     }
 
     public void setCustomerRelationshipSid(int customerRelationshipSid) {
         this.customerRelationshipSid = customerRelationshipSid;
-    }
-
-    public int getProductRelationshipSid() {
-        return productRelationshipSid;
-    }
-
-    public void setProductRelationshipSid(int productRelationshipSid) {
-        this.productRelationshipSid = productRelationshipSid;
     }
 
     public Date getCreatedDate() {
@@ -97,6 +90,14 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
+    }
+    
+    public int getProductRelationshipSid() {
+        return productRelationshipSid;
+    }
+
+    public void setProductRelationshipSid(int productRelationshipSid) {
+        this.productRelationshipSid = productRelationshipSid;
     }
 
     public String getCreatedBy() {
@@ -115,28 +116,12 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
         this.modifiedBy = modifiedBy;
     }
 
-    public int getCvSysId() {
-        return cvSysId;
-    }
-
-    public void setCvSysId(int cvSysId) {
-        this.cvSysId = cvSysId;
-    }
-
     public List<GtnWsRecordBean> getCvTreeNodeList() {
         return cvTreeNodeList == null ? null : Collections.unmodifiableList(cvTreeNodeList);
     }
 
     public void setCvTreeNodeList(List<GtnWsRecordBean> cvTreeNodeList) {
         this.cvTreeNodeList = cvTreeNodeList == null ? null : Collections.unmodifiableList(cvTreeNodeList);
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public int getProductRelVersionNo() {
@@ -155,7 +140,20 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
         this.customerRelVersionNo = customerRelVersionNo;
     }
 
+    public String getCustomViewType() {
+        return customViewType;
+    }
 
-   
+    public void setCustomViewType(String customViewType) {
+        this.customViewType = customViewType;
+    }
+    
+    public int getCvSysId() {
+        return cvSysId;
+    }
+
+    public void setCvSysId(int cvSysId) {
+        this.cvSysId = cvSysId;
+    }
     
 }
