@@ -55,7 +55,6 @@ public class GtnFrameworkCustomerAddAction implements GtnUIFrameWorkAction, GtnU
              return;
         }
         table.removeItemFromDataTable(customerLevelValue);
-//        GtnWsRecordBean bean  = (GtnWsRecordBean) customerLevelValue;
         selectedCustomerBean.setAdditionalProperties(selectedCustomerBean.getProperties().subList(1, selectedCustomerBean.getProperties().size()));
         selectedCustomerBean.setProperties(Arrays.asList(selectedCustomerBean.getProperties().get(0)));
         selectedCustomerBean.setRecordHeader(Arrays.asList("levelName"));

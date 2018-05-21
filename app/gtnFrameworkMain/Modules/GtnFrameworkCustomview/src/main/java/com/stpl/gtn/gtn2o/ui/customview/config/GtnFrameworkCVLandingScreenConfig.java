@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ui.customview.config;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.customview.constants.GtnFrameworkCVConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -39,73 +40,73 @@ public class GtnFrameworkCVLandingScreenConfig {
         GtnUIFrameworkViewConfig view = gtnConfigFactory.getViewConfig(
                 GtnFrameworkCVConstants.CUSTOM_VIEW_LANDING_SCREEN,
                 GtnFrameworkCVConstants.CUSTOM_VIEW_LANDING_SCREEN, true);
-        addComponentList(view, view.getViewId() + GtnFrameworkCommonStringConstants.UNDERSCORE);
+        addComponentList(view);
         return view;
     }
 
-    private void addComponentList(GtnUIFrameworkViewConfig view, String namspacePrefix) {
+    private void addComponentList(GtnUIFrameworkViewConfig view) {
         List<GtnUIFrameworkComponentConfig> componentList = new ArrayList<>();
         view.setGtnComponentList(componentList);
-        addCVMainPanel(componentList, namspacePrefix);
-        addCVButtonLayout(componentList, namspacePrefix);
-        addCVResultPanel(componentList, namspacePrefix);
-        addCVActionButtonLayout(componentList, namspacePrefix);
+        addCVMainPanel(componentList);
+        addCVButtonLayout(componentList);
+        addCVResultPanel(componentList);
+        addCVActionButtonLayout(componentList);
     }
 
-    private void addCVMainPanel(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
-        GtnUIFrameworkComponentConfig cvPanel = gtnConfigFactory.getPanelConfig(namspacePrefix + GtnFrameworkCVConstants.CV_LANDING_MAIN_PANEL, false,
+    private void addCVMainPanel(List<GtnUIFrameworkComponentConfig> componentList) {
+        GtnUIFrameworkComponentConfig cvPanel = gtnConfigFactory.getPanelConfig( GtnFrameworkCVConstants.CV_LANDING_MAIN_PANEL, false,
                 null);
         componentList.add(cvPanel);
-        addCVMainLayout(componentList, namspacePrefix);
+        addCVMainLayout(componentList );
     }
 
-    private void addCVMainLayout(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addCVMainLayout(List<GtnUIFrameworkComponentConfig> componentList) {
         GtnUIFrameworkComponentConfig cvMainLayout = gtnConfigFactory.getVerticalLayoutConfig(
-                namspacePrefix + GtnFrameworkCommonConstants.MAINLAYOUT, true, namspacePrefix + GtnFrameworkCVConstants.CV_LANDING_MAIN_PANEL);
+                 GtnFrameworkCommonConstants.MAINLAYOUT, true,   GtnFrameworkCVConstants.CV_LANDING_MAIN_PANEL);
         cvMainLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
         componentList.add(cvMainLayout);
-        addLandingScreenPanel(componentList, namspacePrefix);
+        addLandingScreenPanel(componentList );
     }
 
-    private void addLandingScreenPanel(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
-        GtnUIFrameworkComponentConfig landingPanel = gtnConfigFactory.getPanelConfig(namspacePrefix + GtnFrameworkCVConstants.CV_LANDING_SCREEN_PANEL,
-                true, namspacePrefix + GtnFrameworkCommonConstants.MAINLAYOUT);
+    private void addLandingScreenPanel(List<GtnUIFrameworkComponentConfig> componentList) {
+        GtnUIFrameworkComponentConfig landingPanel = gtnConfigFactory.getPanelConfig( GtnFrameworkCVConstants.CV_LANDING_SCREEN_PANEL,
+                true, GtnFrameworkCommonConstants.MAINLAYOUT);
         landingPanel.setComponentName("Custom Tree Build");
         landingPanel.setAuthorizationIncluded(true);
 
         componentList.add(landingPanel);
-        addFieldLayout(componentList, namspacePrefix);
+        addFieldLayout(componentList);
     }
 
-    private void addFieldLayout(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addFieldLayout(List<GtnUIFrameworkComponentConfig> componentList) {
         GtnUIFrameworkComponentConfig fieldLayout = gtnConfigFactory.getCssLayoutConfig(
-                namspacePrefix + GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT, true,
-                namspacePrefix + GtnFrameworkCVConstants.CV_LANDING_SCREEN_PANEL);
+                 GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT, true,
+                 GtnFrameworkCVConstants.CV_LANDING_SCREEN_PANEL);
         List<String> styleList = new ArrayList<>();
         styleList.add(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_3);
         fieldLayout.setComponentStyle(styleList);
         componentList.add(fieldLayout);
-        addFieldComponent(componentList, namspacePrefix);
+        addFieldComponent(componentList );
     }
 
-    private void addFieldComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
-        addCustomViewName(componentList, namspacePrefix);
-        addCustomViewDescription(componentList, namspacePrefix);
-        addCustomViewType(componentList, namspacePrefix);
-        addCustomerRelation(componentList, namspacePrefix);
-        addProductRelation(componentList, namspacePrefix);
-        addScreenName(componentList, namspacePrefix);
+    private void addFieldComponent(List<GtnUIFrameworkComponentConfig> componentList ) {
+        addCustomViewName(componentList );
+        addCustomViewDescription(componentList);
+        addCustomViewType(componentList );
+        addCustomerRelation(componentList );
+        addProductRelation(componentList );
+        addScreenName(componentList );
     }
 
-    private void addCustomViewName(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addCustomViewName(List<GtnUIFrameworkComponentConfig> componentList ) {
         GtnUIFrameworkComponentConfig viewNameLayout = gtnConfigFactory.getHorizontalLayoutConfig(
-                namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_NAME_LAYOUT, true,
-                namspacePrefix + GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT);
+                 GtnFrameworkCVConstants.CUSTOM_VIEW_NAME_LAYOUT, true,
+                 GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT);
         componentList.add(viewNameLayout);
 
         GtnUIFrameworkComponentConfig treeViewNameConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
-                namspacePrefix + GtnFrameworkCommonConstants.TREE_VIEW_NAME, true,
-                namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_NAME_LAYOUT, GtnUIFrameworkComponentType.TEXTBOX);
+                 GtnFrameworkCommonConstants.TREE_VIEW_NAME, true,
+                 GtnFrameworkCVConstants.CUSTOM_VIEW_NAME_LAYOUT, GtnUIFrameworkComponentType.TEXTBOX);
         treeViewNameConfig.setAuthorizationIncluded(true);
         treeViewNameConfig.setComponentName("Custom View Name");
 
@@ -114,15 +115,15 @@ public class GtnFrameworkCVLandingScreenConfig {
         componentList.add(treeViewNameConfig);
     }
 
-    private void addCustomViewDescription(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addCustomViewDescription(List<GtnUIFrameworkComponentConfig> componentList ) {
         GtnUIFrameworkComponentConfig descLayout = gtnConfigFactory.getHorizontalLayoutConfig(
-                namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_DESCRIPTION_LAYOUT, true,
-                namspacePrefix + GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT);
+                  GtnFrameworkCVConstants.CUSTOM_VIEW_DESCRIPTION_LAYOUT, true,
+                  GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT);
         componentList.add(descLayout);
 
         GtnUIFrameworkComponentConfig customViewDescConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
-                namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_DESCRIPTION, true,
-                namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_DESCRIPTION_LAYOUT, GtnUIFrameworkComponentType.TEXTBOX);
+                  GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION, true,
+                  GtnFrameworkCVConstants.CUSTOM_VIEW_DESCRIPTION_LAYOUT, GtnUIFrameworkComponentType.TEXTBOX);
         customViewDescConfig.setAuthorizationIncluded(true);
         customViewDescConfig.setComponentName("Custom View Name");
 
@@ -131,15 +132,15 @@ public class GtnFrameworkCVLandingScreenConfig {
         componentList.add(customViewDescConfig);
     }
 
-    private void addCustomerRelation(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addCustomerRelation(List<GtnUIFrameworkComponentConfig> componentList ) {
         GtnUIFrameworkComponentConfig customerRelationLayout = gtnConfigFactory.getHorizontalLayoutConfig(
-                namspacePrefix + GtnFrameworkCVConstants.CUSTOMER_RELATION_LAYOUT, true,
-                namspacePrefix + GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT);
+                  GtnFrameworkCVConstants.CUSTOMER_RELATION_LAYOUT, true,
+                  GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT);
         componentList.add(customerRelationLayout);
 
         GtnUIFrameworkComponentConfig customerRelationConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
-                namspacePrefix + GtnFrameworkCommonConstants.CUTOMER_RELATION, true,
-                namspacePrefix + GtnFrameworkCVConstants.CUSTOMER_RELATION_LAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
+                  GtnFrameworkCommonConstants.CUTOMER_RELATION, true,
+                  GtnFrameworkCVConstants.CUSTOMER_RELATION_LAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
         customerRelationConfig.setAuthorizationIncluded(true);
         customerRelationConfig.setComponentName("Customer Relation");
 
@@ -155,15 +156,15 @@ public class GtnFrameworkCVLandingScreenConfig {
 
     }
 
-    private void addProductRelation(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addProductRelation(List<GtnUIFrameworkComponentConfig> componentList ) {
         GtnUIFrameworkComponentConfig prodRelationLayout = gtnConfigFactory.getHorizontalLayoutConfig(
-                namspacePrefix + GtnFrameworkCVConstants.PRODUCT_RELATION_LAYOUT, true,
-                namspacePrefix + GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT);
+                  GtnFrameworkCVConstants.PRODUCT_RELATION_LAYOUT, true,
+                  GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT);
         componentList.add(prodRelationLayout);
 
         GtnUIFrameworkComponentConfig prodRelationConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
-                namspacePrefix + GtnFrameworkCommonConstants.PRODUCT_RELATION, true,
-                namspacePrefix + GtnFrameworkCVConstants.PRODUCT_RELATION_LAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
+                  GtnFrameworkCommonConstants.PRODUCT_RELATION, true,
+                  GtnFrameworkCVConstants.PRODUCT_RELATION_LAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
         prodRelationConfig.setAuthorizationIncluded(true);
         prodRelationConfig.setComponentName("Product Relation");
 
@@ -179,15 +180,15 @@ public class GtnFrameworkCVLandingScreenConfig {
 
     }
 
-    private void addCustomViewType(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addCustomViewType(List<GtnUIFrameworkComponentConfig> componentList ) {
         GtnUIFrameworkComponentConfig custViewTypeLayout = gtnConfigFactory.getHorizontalLayoutConfig(
-                namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_TYPE_LAYOUT, true,
-                namspacePrefix + GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT);
+                  GtnFrameworkCVConstants.CUSTOM_VIEW_TYPE_LAYOUT, true,
+                  GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT);
         componentList.add(custViewTypeLayout);
 
         GtnUIFrameworkComponentConfig customViewTypeOptionGroup = gtnConfigFactory.getUIFrameworkComponentConfig(
-                namspacePrefix + GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE, true,
-                namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_TYPE_LAYOUT, GtnUIFrameworkComponentType.OPTIONGROUP);
+                  GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE, true,
+                  GtnFrameworkCVConstants.CUSTOM_VIEW_TYPE_LAYOUT, GtnUIFrameworkComponentType.OPTIONGROUP);
         customViewTypeOptionGroup.setAuthorizationIncluded(true);
         customViewTypeOptionGroup.setComponentName("Custom View For");
 
@@ -202,15 +203,15 @@ public class GtnFrameworkCVLandingScreenConfig {
 
     }
 
-    private void addScreenName(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addScreenName(List<GtnUIFrameworkComponentConfig> componentList ) {
         GtnUIFrameworkComponentConfig screenNameLayout = gtnConfigFactory.getHorizontalLayoutConfig(
-                namspacePrefix + GtnFrameworkCVConstants.SCREEN_NAME_LAYOUT, true,
-                namspacePrefix + GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT);
+                  GtnFrameworkCVConstants.SCREEN_NAME_LAYOUT, true,
+                  GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT);
         componentList.add(screenNameLayout);
 
         GtnUIFrameworkComponentConfig screenNameConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
-                namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_SCREEN_NAME, true,
-                namspacePrefix + GtnFrameworkCVConstants.SCREEN_NAME_LAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
+                  GtnFrameworkCVConstants.CUSTOM_VIEW_SCREEN_NAME, true,
+                  GtnFrameworkCVConstants.SCREEN_NAME_LAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
         screenNameConfig.setAuthorizationIncluded(true);
         screenNameConfig.setComponentName("Screen Name");
         screenNameConfig.setEnable(false);
@@ -225,29 +226,21 @@ public class GtnFrameworkCVLandingScreenConfig {
         companyStatusConfig.setComboBoxType(GtnFrameworkCommonConstants.PRODUCT_RELATION);
         screenNameConfig.setGtnComboboxConfig(companyStatusConfig);
 
-//                List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-//		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
-//		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-//		customAction.addActionParameter(GtnFrameworkCRValueChangeAction.class.getName());
-//		customAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.RESULTLAYOUT);
-//		customAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_TABLE);
-//		actionConfigList.add(customAction);
-//		prodRelationConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
     }
 
-    private void addCVButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addCVButtonLayout(List<GtnUIFrameworkComponentConfig> componentList ) {
         GtnUIFrameworkComponentConfig buttonLayout = gtnConfigFactory.getCssLayoutConfig(
-                namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_BUTTONLAYOUT, false, null);
+                  GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_BUTTONLAYOUT, false, null);
         buttonLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
         buttonLayout.getGtnLayoutConfig().setComponentColumnSize(12);
         componentList.add(buttonLayout);
-        addSearchButtonComponent(componentList, namspacePrefix);
-        addResetButtonComponent(componentList, namspacePrefix);
+        addSearchButtonComponent(componentList );
+        addResetButtonComponent(componentList );
     }
 
-    private void addSearchButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addSearchButtonComponent(List<GtnUIFrameworkComponentConfig> componentList ) {
         GtnUIFrameworkComponentConfig searchButtonLayout = gtnConfigFactory.getHorizontalLayoutConfig(GtnFrameworkCVConstants.GTN_SEARCH_LAYOUT, true,
-                namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_BUTTONLAYOUT);
+                  GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_BUTTONLAYOUT);
         componentList.add(searchButtonLayout);
 
         GtnUIFrameworkComponentConfig searchButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig("gtnSearch01",
@@ -264,11 +257,11 @@ public class GtnFrameworkCVLandingScreenConfig {
         validationActionConfig.setActionType(GtnUIFrameworkActionType.VALIDATION_ACTION);
 
         validationActionConfig.setFieldValues(
-                Arrays.asList(namspacePrefix + GtnFrameworkCommonConstants.TREE_VIEW_NAME,
-                        namspacePrefix + GtnFrameworkCommonConstants.CUTOMER_RELATION,
-                        namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_DESCRIPTION,
-                        namspacePrefix + GtnFrameworkCommonConstants.PRODUCT_RELATION,
-                        namspacePrefix + GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE));
+                Arrays.asList(  GtnFrameworkCommonConstants.TREE_VIEW_NAME,
+                          GtnFrameworkCommonConstants.CUTOMER_RELATION,
+                          GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION,
+                          GtnFrameworkCommonConstants.PRODUCT_RELATION,
+                          GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE));
 
         GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
         alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
@@ -279,33 +272,30 @@ public class GtnFrameworkCVLandingScreenConfig {
 
         alertActionConfig.setActionParameterList(alertParamsList);
         validationActionConfig.setActionParameterList(
-                Arrays.asList(new Object[]{GtnUIFrameworkValidationType.OR, Arrays.asList(alertActionConfig)}));
+                Arrays.asList(GtnUIFrameworkValidationType.OR, Arrays.asList(alertActionConfig)));
         searchActionConfigList.add(validationActionConfig);
 
-//		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
-//		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
-//		loadDataTableActionConfig.addActionParameter(GtnUIFrameworkContractHeaderStringContants.SEARCH_RESULT_TABLE);
-//		loadDataTableActionConfig.setFieldValues(Arrays.asList(
-//				new String[] { GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_SEARCH_CRITERIA_CONTRACT_ID,
-//						GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_SEARCH_CRITERIA_CONTRACT_NO,
-//						GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_SEARCH_CRITERIA_CONTRACT_NAME,
-//						GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_SEARCH_CRITERIA_CONTRACT_STATU,
-//						GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_SEARCH_CRITERIA_CONTRACT_TYPE,
-//						GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_SEARCH_CRITERIA_TRADE_CLASS,
-//						GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_SEARCH_CRITERIA_TP_NO }));
-//		actionConfigList.add(loadDataTableActionConfig);
+		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
+		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
+		loadDataTableActionConfig.addActionParameter(  GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE);
+		loadDataTableActionConfig.setFieldValues(Arrays.asList(
+				            new String[]{  GtnFrameworkCommonConstants.TREE_VIEW_NAME,
+                      GtnFrameworkCommonConstants.CUTOMER_RELATION,
+                      GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION,
+                      GtnFrameworkCommonConstants.PRODUCT_RELATION,
+                      GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE}));
+	searchActionConfigList.add(loadDataTableActionConfig);
         GtnUIFrameWorkActionConfig notificationActionConfig = new GtnUIFrameWorkActionConfig();
         notificationActionConfig.setActionType(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
-//		notificationActionConfig.addActionParameter(GtnUIFrameworkContractHeaderStringContants.SEARCH_RESULT_TABLE);
-        notificationActionConfig.addActionParameter(0);
+	notificationActionConfig.addActionParameter(  GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE);
         searchActionConfigList.add(notificationActionConfig);
         searchButtonConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
 
     }
 
-    private void addResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList ) {
         GtnUIFrameworkComponentConfig resetLayout = gtnConfigFactory.getHorizontalLayoutConfig(GtnFrameworkCVConstants.GTN_RESET_LAYOUT, true,
-                namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_BUTTONLAYOUT);
+                  GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_BUTTONLAYOUT);
         componentList.add(resetLayout);
 
         GtnUIFrameworkComponentConfig resetButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig("gtnReset01",
@@ -323,12 +313,11 @@ public class GtnFrameworkCVLandingScreenConfig {
         paramsList.add("Confirmation");
         paramsList.add(GtnFrameworkCVConstants.GTN_CUSTOM_VIEW_SEARCH_CRITERIA_RESET_VALIDATION);
         paramsList.add(Arrays.asList(
-                new String[]{namspacePrefix + GtnFrameworkCommonConstants.TREE_VIEW_NAME,
-                    namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_DESCRIPTION,
-                    namspacePrefix + GtnFrameworkCommonConstants.CUTOMER_RELATION,
-                    namspacePrefix + GtnFrameworkCommonConstants.PRODUCT_RELATION,
-                    namspacePrefix + GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE
-//						GtnUIFrameworkContractHeaderStringContants.SEARCH_RESULT_TABLE
+                new String[]{  GtnFrameworkCommonConstants.TREE_VIEW_NAME,
+                      GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION,
+                      GtnFrameworkCommonConstants.CUTOMER_RELATION,
+                      GtnFrameworkCommonConstants.PRODUCT_RELATION,
+                      GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE
                 }));
 
         paramsList.add(Arrays.asList(new Object[]{GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
@@ -341,27 +330,27 @@ public class GtnFrameworkCVLandingScreenConfig {
 
     }
 
-    private void addCVResultPanel(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addCVResultPanel(List<GtnUIFrameworkComponentConfig> componentList ) {
         GtnUIFrameworkComponentConfig resultPanelConfig = gtnConfigFactory.getPanelConfig(GtnFrameworkCVConstants.CUSTOM_SEARCH_RESULT_PANEL,
                 false, null);
         resultPanelConfig.setComponentName("Results");
         componentList.add(resultPanelConfig);
-        addResultLayout(componentList, namspacePrefix);
+        addResultLayout(componentList);
     }
 
-    private void addResultLayout(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addResultLayout(List<GtnUIFrameworkComponentConfig> componentList ) {
 
         GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory
                 .getHorizontalLayoutConfig(GtnFrameworkCVConstants.CUSTOM_SEARCH_RESULT_LAYOUT, true, GtnFrameworkCVConstants.CUSTOM_SEARCH_RESULT_PANEL);
         gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
         componentList.add(gtnLayout);
-        addPagedTableComponent(componentList, namspacePrefix);
+        addPagedTableComponent(componentList);
     }
 
-    private void addPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList ) {
 
         GtnUIFrameworkComponentConfig searchResultConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
-                namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE, true,
+                 GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE, true,
                 GtnFrameworkCVConstants.CUSTOM_SEARCH_RESULT_LAYOUT, GtnUIFrameworkComponentType.PAGEDTABLE);
         searchResultConfig.setAuthorizationIncluded(true);
         searchResultConfig.setComponentName("Results");
@@ -378,7 +367,7 @@ public class GtnFrameworkCVLandingScreenConfig {
         GtnUIFrameworkPagedTableConfig cvLandingScreenResultsTable = gtnConfigFactory.getPagedTableConfig(true, true,
                 GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
                 GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
-                "contractHeader", "contractHeaderSearchQuery");
+                "customView", "customViewSearchQuery");
         cvLandingScreenResultsTable.setEditable(false);
         cvLandingScreenResultsTable.setItemPerPage(10);
         cvLandingScreenResultsTable.setSinkItemPerPageWithPageLength(false);
@@ -386,46 +375,33 @@ public class GtnFrameworkCVLandingScreenConfig {
             String.class, String.class, String.class, Date.class, String.class, Date.class, String.class});
         cvLandingScreenResultsTable.setTableVisibleHeader(new String[]{"Custom View Name", "Custom View Description", "Custom View Type",
             "Screen Name", "Customer Relationship Name", "Product Relationship Name", "Created Date", "Created By", "Modified Date", "Modified By"});
-        cvLandingScreenResultsTable.setTableColumnMappingId(new Object[]{"customViewName", "customViewDescription", "customViewType",
-            "screenName", "customerRelationshipName", "productRelationshipName", "createdDate", "createdBy", "modifiedDate", "modifiedBy"});
+        cvLandingScreenResultsTable.setTableColumnMappingId(new Object[]{GtnFrameworkCommonConstants.TREE_VIEW_NAME, GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION, GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE,
+           GtnFrameworkCommonConstants.CUSTOM_VIEW_SCREEN_NAME, GtnFrameworkCommonConstants.CUTOMER_RELATION, GtnFrameworkCommonConstants.PRODUCT_RELATION , "createdDate", "createdBy", "modifiedDate", "modifiedBy"});
         cvLandingScreenResultsTable.setExtraColumn(new Object[]{"customViewMasterSId"});
         cvLandingScreenResultsTable.setExtraColumnDataType(new Class[]{Integer.class});
-        cvLandingScreenResultsTable.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.CONTRACT_HEADER);
+        cvLandingScreenResultsTable.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.CUSTOM_SEARCH_CONFIG);
         cvLandingScreenResultsTable.setDoubleClickEnable(true);
-//		chLandingScreenResultsTable.setCustomFilterConfigMap(getCustomFilterConfig());
-        List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-
-//		GtnUIFrameWorkActionConfig chTableClickNavigationActionConfig = new GtnUIFrameWorkActionConfig();
-//		chTableClickNavigationActionConfig.setActionType(GtnUIFrameworkActionType.NAVIGATION_ACTION);
-//		chTableClickNavigationActionConfig.addActionParameter("V002");
-//		actionConfigList.add(chTableClickNavigationActionConfig);
-//		GtnUIFrameWorkActionConfig chTableClickEditActionConfig = new GtnUIFrameWorkActionConfig();
-//		chTableClickEditActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-//		chTableClickEditActionConfig.addActionParameter(GtnUIFrameworkContractHeaderEditAction.class.getName());
-//		chTableClickEditActionConfig.addActionParameter(namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE);
-//		chTableClickEditActionConfig.addActionParameter(Boolean.TRUE);
-//		actionConfigList.add(chTableClickEditActionConfig);
-//		chLandingScreenResultsTable.setGtnUIFrameWorkActionConfigList(actionConfigList);
         searchResultConfig.setGtnPagedTableConfig(cvLandingScreenResultsTable);
     }
 
-    private void addCVActionButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addCVActionButtonLayout(List<GtnUIFrameworkComponentConfig> componentList ) {
         GtnUIFrameworkComponentConfig actionButtonLayout = gtnConfigFactory
                 .getCssLayoutConfig(GtnFrameworkCVConstants.ACTION_BUTTON_LAYOUT, false, null);
 
         actionButtonLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
         actionButtonLayout.getGtnLayoutConfig().setComponentColumnSize(12);
         componentList.add(actionButtonLayout);
-        addAddButtonComponent(componentList, namspacePrefix);
-//		addEditButtonComponent(componentList, namspacePrefix);
+        addAddButtonComponent(componentList );
+	addEditButtonComponent(componentList );
+	addViewButtonComponent(componentList );
     }
 
-    private void addAddButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+    private void addAddButtonComponent(List<GtnUIFrameworkComponentConfig> componentList ) {
         GtnUIFrameworkComponentConfig cvAddButtonLayout = gtnConfigFactory.getHorizontalLayoutConfig(GtnFrameworkCVConstants.GTN_ADD_BUTTON_LAYOUT, true,
                 GtnFrameworkCVConstants.ACTION_BUTTON_LAYOUT);
         componentList.add(cvAddButtonLayout);
 
-        GtnUIFrameworkComponentConfig addButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(namspacePrefix + "gtnAddButton",
+        GtnUIFrameworkComponentConfig addButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(  "gtnAddButton",
                 true, GtnFrameworkCVConstants.GTN_ADD_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
         addButtonConfig.setAuthorizationIncluded(true);
         addButtonConfig.setComponentName("Add");
@@ -439,11 +415,55 @@ public class GtnFrameworkCVLandingScreenConfig {
         navigationActionConfig.addActionParameter("V002");
         actionConfigList.add(navigationActionConfig);
 
-//		GtnUIFrameWorkActionConfig customCommonValidationAction = new GtnUIFrameWorkActionConfig();
-//		customCommonValidationAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-//		customCommonValidationAction.addActionParameter(GtnUIFrameworkContractHeaderAddAction.class.getName());
-//		actionConfigList.add(customCommonValidationAction);
         addButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+
+    }
+    private void addEditButtonComponent(List<GtnUIFrameworkComponentConfig> componentList ) {
+        GtnUIFrameworkComponentConfig cvEditButtonLayout = gtnConfigFactory.getHorizontalLayoutConfig(GtnFrameworkCVConstants.GTN_EDIT_BUTTON_LAYOUT, true,
+                GtnFrameworkCVConstants.ACTION_BUTTON_LAYOUT);
+        componentList.add(cvEditButtonLayout);
+
+        GtnUIFrameworkComponentConfig editButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(  "gtnEditButton",
+                true, GtnFrameworkCVConstants.GTN_EDIT_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
+        editButtonConfig.setAuthorizationIncluded(true);
+        editButtonConfig.setComponentName("Edit");
+
+        componentList.add(editButtonConfig);
+
+        List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+        GtnUIFrameWorkActionConfig editActionConfig = new GtnUIFrameWorkActionConfig();
+        editActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+	editActionConfig.addActionParameter(GtnFrameworkCustomViewEditAction.class.getName());
+	editActionConfig.addActionParameter(GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE);
+	editActionConfig.addActionParameter("EDIT");
+	editActionConfig.addActionParameter(GtnFrameworkCVConstants.CUSTOM_VIEW_TREE);
+        actionConfigList.add(editActionConfig);
+        editButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+
+    }
+    private void addViewButtonComponent(List<GtnUIFrameworkComponentConfig> componentList ) {
+        GtnUIFrameworkComponentConfig cvViewButtonLayout = gtnConfigFactory.getHorizontalLayoutConfig(GtnFrameworkCVConstants.GTN_VIEW_BUTTON_LAYOUT, true,
+                GtnFrameworkCVConstants.ACTION_BUTTON_LAYOUT);
+        componentList.add(cvViewButtonLayout);
+
+        GtnUIFrameworkComponentConfig viewButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(  "gtnViewButton",
+                true, GtnFrameworkCVConstants.GTN_VIEW_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
+        viewButtonConfig.setAuthorizationIncluded(true);
+        viewButtonConfig.setComponentName("View");
+
+        componentList.add(viewButtonConfig);
+
+        List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+
+	GtnUIFrameWorkActionConfig viewActionConfig = new GtnUIFrameWorkActionConfig();
+        viewActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+	viewActionConfig.addActionParameter(GtnFrameworkCustomViewEditAction.class.getName());
+	viewActionConfig.addActionParameter(GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE);
+	viewActionConfig.addActionParameter("VIEW");
+        viewActionConfig.addActionParameter(GtnFrameworkCVConstants.CUSTOM_VIEW_TREE);
+        actionConfigList.add(viewActionConfig);
+
+        viewButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
     }
 }
