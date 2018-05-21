@@ -125,7 +125,7 @@ public class GtnFrameworkCVLandingScreenConfig {
                   GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION, true,
                   GtnFrameworkCVConstants.CUSTOM_VIEW_DESCRIPTION_LAYOUT, GtnUIFrameworkComponentType.TEXTBOX);
         customViewDescConfig.setAuthorizationIncluded(true);
-        customViewDescConfig.setComponentName("Custom View Name");
+        customViewDescConfig.setComponentName("Custom View Description");
 
         customViewDescConfig.setAddToParent(true);
 

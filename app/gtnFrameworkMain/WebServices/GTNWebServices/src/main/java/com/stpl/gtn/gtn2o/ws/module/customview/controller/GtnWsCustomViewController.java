@@ -31,6 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE)
 public class GtnWsCustomViewController {
+    public GtnWsCustomViewController() {
+        super();
+    }
 
     @Autowired
     private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
@@ -105,24 +108,24 @@ public class GtnWsCustomViewController {
     @RequestMapping(value = GtnWsCustomViewConstants.CHECK_CUSTOM_VIEW_SAVE, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse checkCustomViewSave(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-        logger.info("Enters checkSaveRelationship");
+        logger.info("Enters checkCustomViewSave");
         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         try {
             GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
             gtnResponse.setGtnWsCustomViewResponse(cvResponse);
             logic.checkCustomViewSave(gtnWsRequest.getGtnWsCustomViewRequest(), cvResponse);
         } catch (Exception ex) {
-            logger.error("Exception in checkSaveRelationship", ex);
+            logger.error("Exception in checkCustomViewSave", ex);
         }
 
-        logger.info("Exit checkSaveRelationship");
+        logger.info("Exit checkCustomViewSave");
         return gtnResponse;
     }
     
     @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_SAVE_LOGIC, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse customViewSaveLogic(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-        logger.info("Enters checkSaveRelationship");
+        logger.info("Enters customViewSaveLogic");
         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         try {
             GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
@@ -132,23 +135,23 @@ public class GtnWsCustomViewController {
             logger.error("Exception in customViewSaveLogic", ex);
         }
 
-        logger.info("Exit checkSaveRelationship");
+        logger.info("Exit customViewSaveLogic");
         return gtnResponse;
     }
     @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_GET_TREE_DATA, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse customViewTreeData(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-        logger.info("Enters checkSaveRelationship");
+        logger.info("Enters customViewTreeData");
         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         try {
             GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
             cvResponse.setCvTreeNodeList(logic.getSavedTreeData(gtnWsRequest.getGtnWsCustomViewRequest()));
             gtnResponse.setGtnWsCustomViewResponse(cvResponse);
         } catch (Exception ex) {
-            logger.error("Exception in customViewSaveLogic", ex);
+            logger.error("Exception in customViewTreeData", ex);
         }
 
-        logger.info("Exit checkSaveRelationship");
+        logger.info("Exit customViewTreeData");
         return gtnResponse;
     }
     

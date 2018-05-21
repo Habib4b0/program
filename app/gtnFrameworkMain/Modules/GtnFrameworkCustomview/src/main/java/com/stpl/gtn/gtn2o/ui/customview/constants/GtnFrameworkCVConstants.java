@@ -10,6 +10,11 @@ package com.stpl.gtn.gtn2o.ui.customview.constants;
  * @author Lokeshwari.Kumarasam
  */
 public class GtnFrameworkCVConstants {
+    private GtnFrameworkCVConstants() {
+		/**
+		 * empty constructor
+		 */
+    }
     public static final String CUSTOM_VIEW_LANDING_SCREEN = "CVSearch";
     public static final String CUSTOM_VIEW_OPTION_SALES = "Sales";
     public static final String CUSTOM_VIEW_OPTION_DISCOUNT = "Discount";
@@ -56,4 +61,14 @@ public class GtnFrameworkCVConstants {
     public static final String CV_TREE_PANEL = "customViewTreePanel";
     public static final String CV_TREE_VERTICAL_LAYOUT = "customViewTreeVerticallayout";
     public static final String CUSTOMER_TREE_LAYOUT = "customerTreeLayout";
+    public static final String LEVEL_NAME = "levelName";
+    public static final String LEVEL_NAME_HEADER = "Level Name";
+    public static final String LEVEL_NO_COLUMN = "levelNo";
+    public static final String TREE_LEVEL_NO_COLUMN = "treeLevelNo";
+    public static final String HIERARCHY_INDICATOR_COLUMN = "hierarchyIndicator";
+    public static final String HIERARCHY_LEVEL_DEF_SID = "hierarchyLevelDefinitionSid";
+    public static final String GTN_CUSTOMER_MOVE_LAYOUT = "gtnCustomerMoveLayout";
+    public static final String GTN_PRODUCT_MOVE_LAYOUT = "gtnProductMoveLayout";
+    public static final String PRODUCT_TREE_LAYOUT = "productTreeLayout";
+    public static final String NO_LEVEL_SELECTED = "No Level Selected";
 }

@@ -17,7 +17,6 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.customview.constants.GtnWsCustomViewConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
@@ -73,7 +72,7 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
         }
     }
 
-    private void setValuesToFields(GtnWsRecordBean customViewBean, String nameSpacePrefix, int customSid, List<Object> parameters) throws NumberFormatException, GtnFrameworkGeneralException {
+    private void setValuesToFields(GtnWsRecordBean customViewBean, String nameSpacePrefix, int customSid, List<Object> parameters) throws GtnFrameworkGeneralException {
         String viewName = String.valueOf(customViewBean.getPropertyValue(GtnFrameworkCommonConstants.TREE_VIEW_NAME));
         String description = (String)customViewBean.getPropertyValue(GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION);
         String viewType =String.valueOf(customViewBean.getPropertyValue(GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE));
@@ -128,7 +127,7 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
             
     }
 
-    private void getTreeData(int customSid,List<Object> parameters,String nameSpacePrefix) throws GtnFrameworkValidationFailedException, GtnFrameworkGeneralException {
+    private void getTreeData(int customSid,List<Object> parameters,String nameSpacePrefix) throws GtnFrameworkGeneralException {
         final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
         final GtnUIFrameworkWebserviceRequest generalRequest = new GtnUIFrameworkWebserviceRequest();
         GtnWsCustomViewRequest cvRequest = new GtnWsCustomViewRequest();
