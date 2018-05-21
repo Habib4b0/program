@@ -604,7 +604,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                     fileHistoryTable.setFilterDecorator(new ExtDemoFilterDecorator());
                     setTableDefaultConfig();
                 }
-                if (country.getValue() == ConstantsUtils.PR) {
+                if (ConstantsUtils.PR.equals(country.getValue())) {
                     currentFile.setValue(ConstantsUtils.EMPTY);
                     effectiveDateStr.setValue(ConstantsUtils.EMPTY);
                 } else {
@@ -663,7 +663,7 @@ public class FileManagementIndex extends CustomComponent implements View {
 
             public void valueChange(final Property.ValueChangeEvent event) {
                 LOGGER.debug("In configureFields fileType.addValueChangeListener started= {}" , fileType.getValue());    
-                if (country.getValue() == ConstantsUtils.PR) {
+                if (ConstantsUtils.PR.equals(country.getValue())) {
                     currentFile.setValue(ConstantsUtils.EMPTY);
                     effectiveDateStr.setValue(ConstantsUtils.EMPTY);
                 } else {
