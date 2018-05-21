@@ -2339,13 +2339,10 @@ public class ForecastForm extends AbstractForm {
                 nmSalesInsertDiscMasterProcedure();
                 // sales threads need to be completed before calling discound thread
                 nmSalesViewsPopulationProcedure();
-                try {
-                    TimeUnit.SECONDS.sleep(10);
-                } catch (InterruptedException ex) {
-                    java.util.logging.Logger.getLogger(ForecastSalesProjection.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                CommonUtil.getInstance().isProcedureCompleted("SALES", "PRC_NM_MASTER_INSERT", session);
-                CommonUtil.getInstance().isProcedureCompleted("SALES", "CUSTOMER", session);
+             
+                CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SALES_PROCEDURE_CALL));
+		CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL));
+                
                 DataSelectionLogic.nmDiscountActProjInsertProcedure(session);
                 nmDiscountViewsPopulationProcedure();
                 break;
