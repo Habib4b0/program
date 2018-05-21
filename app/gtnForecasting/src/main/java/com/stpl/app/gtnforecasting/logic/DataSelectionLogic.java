@@ -2552,7 +2552,7 @@ public class DataSelectionLogic {
 				query.append(session.getUserId())
                                 .append(",'").append(session.getSessionId()).append('\'')
                                 .append(",'").append(session.getFunctionMode()).append('\'')
-                                .append(",'").append(frequency).append('\'')
+                                .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
                                 .append(",'").append(screenName).append('\'')
                                 .append(",'").append(view).append('\'')
                                 .append(",'").append(startPeriod).append('\'')
