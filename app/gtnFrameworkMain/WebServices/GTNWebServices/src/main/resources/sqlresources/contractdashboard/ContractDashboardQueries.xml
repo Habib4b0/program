@@ -4096,7 +4096,7 @@ JOIN IFP_CONTRACT_DETAILS IFPCD ON IFPCD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID AN
 LEFT JOIN PS_CONTRACT_DETAILS PSCD ON PSCD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID   AND PSCD.PS_CONTRACT_SID  ?    AND PSCD.INBOUND_STATUS <> 'D'
 LEFT JOIN ps_contract ps ON PS.PS_CONTRACT_SID = PSCD.PS_CONTRACT_SID
 LEFT JOIN RS_CONTRACT_DETAILS RSCD ON RSCD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID   AND RSCD.INBOUND_STATUS <> 'D'     AND RSCD.RS_CONTRACT_SID  ?
-LEFT JOIN rs_contract RSC ON RSC.RS_CONTRACT_SID = RSCD.RS_CONTRACT_SID   AND RSC.CONTRACT_MASTER_SID ?  AND RSC.CFP_CONTRACT_SID  ?       
+LEFT JOIN rs_contract RSC ON RSC.RS_CONTRACT_SID = RSCD.RS_CONTRACT_SID   AND RSC.CONTRACT_MASTER_SID ?  AND RSC.CFP_CONTRACT_SID  ?  
        
         AND RSC.IFP_CONTRACT_SID ?
         AND RSC.PS_CONTRACT_SID  ?
@@ -4534,7 +4534,7 @@ LEFT JOIN rs_contract RSC ON RSC.RS_CONTRACT_SID = RSCD.RS_CONTRACT_SID   AND RS
                                     ,UDC.UDC6
                                     ,RSC.RS_CALENDAR
                                     ,RSC.REBATE_FREQUENCY
-                                    ,0 as PAYMENT_LEVEL
+                                    ,RSC.PAYMENT_LEVEL
                                     ,RSC.PAYMENT_FREQUENCY
                                     ,RSC.PAYMENT_GRACE_PERIOD
                                     ,RSC.PAYMENT_TERMS
@@ -7887,6 +7887,26 @@ SELECT
                         FROM dbo.IMTD_ITEM_PRICE_REBATE_DETAILS where USERS_SID=@USERS_SID AND SESSION_ID= @SESSION_ID
                         GROUP BY PRICE_PROTECTION_START_DATE,ITEM_ID) a
 		]]>
+		</query>
+	</entity>
+        <entity id="com.contractDashboard.selectUDC">
+		<query>
+        <![CDATA[
+                        DECLARE 
+			@RS_CONTRACT_SID int = ?
+           SELECT UDC1,UDC2,UDC3,UDC4,UDC5,UDC6 FROM DBO.UDCS WHERE MASTER_SID = @RS_CONTRACT_SID
+            
+         ]]>
+		</query>
+	</entity>
+        <entity id="com.contractDashboard.selectCountUDCAlreadyExists">
+		<query>
+        <![CDATA[
+                        DECLARE 
+			@RS_CONTRACT_SID int = ?
+          select count(0) from dbo.udcs where MASTER_TYPE = 'RS_Contract' and MASTER_SID = @RS_CONTRACT_SID
+            
+         ]]>
 		</query>
 	</entity>
 
