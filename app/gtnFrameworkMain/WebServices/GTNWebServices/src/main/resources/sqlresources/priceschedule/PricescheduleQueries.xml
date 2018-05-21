@@ -1023,16 +1023,16 @@ WHERE A.CHECK_RECORD = 1
 		]]>
 		</query>
 	</entity>
-        
-        	<entity id="Imtd_Ps_Details_Count_query">
+
+	<entity id="Imtd_Ps_Details_Count_query">
 		<query> 
             <![CDATA[ 
 			select count(item_No) from Imtd_Ps_Details where   
 		]]>
 		</query>
 	</entity>
-	
-<entity id="psNotesTabAttachDetailsQuery">
+
+	<entity id="psNotesTabAttachDetailsQuery">
 		<query>
         <![CDATA[
         	DECLARE 
@@ -1057,7 +1057,7 @@ WHERE A.CHECK_RECORD = 1
 		</query>
 	</entity>
 
-<entity id="getNotesTabAttachDeleteQuery">
+	<entity id="getNotesTabAttachDeleteQuery">
 		<query>
         <![CDATA[
               
@@ -1065,29 +1065,29 @@ WHERE A.CHECK_RECORD = 1
  		]]>
 		</query>
 	</entity>
-        <entity id="getPsIdWithStatusD">
+	<entity id="getPsIdWithStatusD">
 		<query> 
             <![CDATA[   
              Select * from PS_MODEL where INBOUND_STATUS <> 'A' and PS_ID='?' and PS_NO='?'
                 ]]>
 		</query>
 	</entity>
-        <entity id="UpdatePsIdAndPsNoWithStatusA">
+	<entity id="UpdatePsIdAndPsNoWithStatusA">
 		<query> 
             <![CDATA[   
           UPDATE PS_MODEL SET INBOUND_STATUS='A' WHERE PS_ID='?' AND PS_NO='?' AND INBOUND_STATUS like 'D'
                 ]]>
 		</query>
 	</entity>
-        <entity id="getSysIdForPsIdWithStatusD">
+	<entity id="getSysIdForPsIdWithStatusD">
 		<query> 
             <![CDATA[   
             Select PS_MODEL_SID from PS_MODEL where PS_ID='?' AND PS_NO='?'
                 ]]>
 		</query>
 	</entity>
-        
-        <entity id="getPsCopyDetailsInsertQuery">
+
+	<entity id="getPsCopyDetailsInsertQuery">
 		<query>
         <![CDATA[
         	DECLARE @USERS_SID VARCHAR(50) = ?
@@ -1219,5 +1219,5 @@ WHERE A.CHECK_RECORD = 1
  		]]>
 		</query>
 	</entity>
-	
+
 </sql>

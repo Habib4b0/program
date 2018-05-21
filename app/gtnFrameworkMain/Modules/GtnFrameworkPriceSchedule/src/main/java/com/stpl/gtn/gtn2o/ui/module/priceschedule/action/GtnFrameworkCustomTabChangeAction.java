@@ -21,7 +21,7 @@ public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction, 
 
 	}
 
-   @Override
+	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
@@ -41,17 +41,17 @@ public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction, 
 			if (position == 3) {
 				previousTable = GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE;
 				currentTable = GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE;
-				}
+			}
 			GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(currentTable);
 			GtnUIFrameworkPagedTableLogic currentTableLogic = componentData.getCurrentPageTableLogic();
-                        int currentPage = currentTableLogic.getCurrentPage();
+			int currentPage = currentTableLogic.getCurrentPage();
 			currentTableLogic.setCurrentPage(currentPage);
 			componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(previousTable);
 			GtnUIFrameworkPagedTableLogic previousTableLogic = componentData.getCurrentPageTableLogic();
 			currentTableLogic.setCheckedRecordCount(previousTableLogic.getCheckRecordCount());
-			if(position == 3 && previousTableLogic.getCheckRecordCount()>0)
-			{
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(currentTable).setPagedTableHeaderCheckBox(true, GtnFrameworkCommonConstants.CHECK_RECORD_ID);
+			if (position == 3 && previousTableLogic.getCheckRecordCount() > 0) {
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(currentTable).setPagedTableHeaderCheckBox(true,
+						GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 			}
 			String mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode").toString();
 			if (mode != null && "view".equalsIgnoreCase(mode)) {
@@ -59,15 +59,15 @@ public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction, 
 						.getColumnCheckBox(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(currentTable).getExtPagedTable()
 						.setColumnCheckBox(GtnFrameworkCommonConstants.CHECK_RECORD_ID, true, checkValue);
-				}
-			
+			}
+
 			GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(true);
 			return;
 		}
 		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(false);
 		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(false);
 		GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(true);
-		}
+	}
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
