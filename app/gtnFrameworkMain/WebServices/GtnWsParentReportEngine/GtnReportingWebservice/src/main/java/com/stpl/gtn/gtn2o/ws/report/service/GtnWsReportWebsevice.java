@@ -1,18 +1,23 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.ReportingMaster;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
 @Service
@@ -26,6 +31,9 @@ public class GtnWsReportWebsevice {
 
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
+
+	@Autowired
+	private GtnReportJsonService gtnReportJsonService;
 
 	public GtnWsReportWebsevice() {
 		super();
@@ -80,7 +88,7 @@ public class GtnWsReportWebsevice {
 	}
 
 	public List<Object[]> loadViewResults(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest,
-			boolean viewMode) throws GtnFrameworkGeneralException {
+			boolean viewMode) throws GtnFrameworkGeneralException, IOException {
 		List<Object> inputList = new ArrayList<>();
 		String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
 		String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
@@ -102,6 +110,18 @@ public class GtnWsReportWebsevice {
 		inputList.add(userId);
 		String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(viewQuery);
+		for (Object[] objects : resultList) {
+			System.out.println("objects[0]------->" + String.valueOf(objects[0]));
+			System.out.println("objects[1]------->" + String.valueOf(objects[1]));
+			System.out.println("objects[2]------->" + String.valueOf(objects[2]));
+			System.out.println("objects[3]------->" + String.valueOf(objects[3]));
+			System.out.println("objects[4]------->" + String.valueOf(objects[4]));
+			System.out.println("objects[5]------->" + String.valueOf(objects[5]));
+			Object bean = gtnReportJsonService.convertJsonToObject(GtnWsReportDataSelectionBean.class,
+					String.valueOf(objects[5]));
+			resultList.remove(5);
+			resultList.add((Object[]) bean);
+		}
 		return resultList;
 	}
 
@@ -119,5 +139,44 @@ public class GtnWsReportWebsevice {
 			return null;
 		}
 
+	}
+
+	public int saveReportingMaster(GtnWsReportDataSelectionBean dataSelectionBean, int userId)
+			throws GtnFrameworkGeneralException {
+		// Session session = sessionFactory.openSession();
+		// Transaction transaction = session.beginTransaction();
+		// ReportingMaster reportMaster = getReportingMaster(dataSelectionBean,
+		// userId);
+		List<Object> inputList = new ArrayList<>();
+		inputList.add("'" + dataSelectionBean.getViewName() + "'");
+		inputList.add("'" + dataSelectionBean.getViewType() + "'");
+		inputList.add(userId);
+		inputList.add(userId);
+		inputList.add("'" + gtnReportJsonService.convertObjectToJson(dataSelectionBean) + "'");
+		String query = sqlService.getQuery(inputList, "insertView");
+		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
+		return count;
+		// session.save(reportMaster);
+		// transaction.commit();
+	}
+
+	private ReportingMaster getReportingMaster(GtnWsReportDataSelectionBean dataSelectionBean, int userId) {
+		ReportingMaster reportMaster = new ReportingMaster();
+		reportMaster.setCompany(dataSelectionBean.getCompanyReport());
+		reportMaster.setBusinessUnit(dataSelectionBean.getBusinessUnitReport());
+		GtnWsRecordBean customerHierarchyBean = dataSelectionBean.getCustomerHierarchyRecordBean();
+		GtnWsRecordBean productHierachyBean = dataSelectionBean.getProductHierarchyRecordBean();
+		reportMaster.setCustomerRelationshipBuilderSid(dataSelectionBean.getCustomerRelationshipBuilderSid());
+		reportMaster.setCustomerRelationshipVersionNo(dataSelectionBean.getCustomerRelationshipVersionNo());
+		reportMaster.setProductRelationshipBuilderSid(dataSelectionBean.getProductRelationshipBuilderSid());
+		reportMaster.setProductRelationshipVersionNo(dataSelectionBean.getProductRelationshipVersionNo());
+		reportMaster.setCustomerHierarchyLevel(dataSelectionBean.getCustomerHierarchyForecastLevel());
+		reportMaster.setProductHierarchyLevel(dataSelectionBean.getProductHierarchyForecastLevel());
+		reportMaster.setCustomerHierarchySid((int) customerHierarchyBean.getPropertyValueByIndex(6));
+		reportMaster.setCustomerHierarchyVersionNo((int) customerHierarchyBean.getPropertyValueByIndex(7));
+		reportMaster.setProductHierarchySid((int) productHierachyBean.getPropertyValueByIndex(6));
+		reportMaster.setProductHierarchyVersionNo((int) productHierachyBean.getPropertyValueByIndex(7));
+		reportMaster.setReportingDataSource(dataSelectionBean.getReportDataSource());
+		return reportMaster;
 	}
 }
