@@ -34,6 +34,11 @@ public class GtnWsReportDataSelectionBean {
 	private GtnWsRecordBean productHierarchyRecordBean;
 	private List<GtnWsRecordBean> selectedCustomerHierarchyList;
 	private List<GtnWsRecordBean> selectedProductHierarchyList;
+	private Date fromPeriod;
+	private Date toPeriodReport;
+
+	private String viewName;
+	private String viewType;
 	private LocalDate v8forecastEligibilityDate;
 
 	public int getProductRelationshipBuilderSid() {
@@ -248,6 +253,38 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setAvailableProductHierarchyList(List<GtnWsRecordBean> availableProductHierarchyList) {
 		this.availableProductHierarchyList = availableProductHierarchyList;
+	}
+
+	public String getViewName() {
+		return viewName;
+	}
+
+	public void setViewName(String viewName) {
+		this.viewName = viewName;
+	}
+
+	public String getViewType() {
+		return viewType;
+	}
+
+	public void setViewType(String viewType) {
+		this.viewType = viewType;
+	}
+
+	public Date getFromPeriod() {
+		return fromPeriod;
+	}
+
+	public void setFromPeriod(Date fromPeriod) {
+		this.fromPeriod = fromPeriod;
+	}
+
+	public Date getToPeriodReport() {
+		return toPeriodReport;
+	}
+
+	public void setToPeriodReport(Date toPeriodReport) {
+		this.toPeriodReport = toPeriodReport;
 	}
 
 	public LocalDate getv8ForecastEligibilityDate() {

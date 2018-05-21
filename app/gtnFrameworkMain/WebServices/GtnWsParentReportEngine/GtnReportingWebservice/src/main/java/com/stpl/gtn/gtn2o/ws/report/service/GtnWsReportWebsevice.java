@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
@@ -20,7 +22,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 public class GtnWsReportWebsevice {
 
 	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportWebsevice.class);
-	
+
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
@@ -29,6 +31,9 @@ public class GtnWsReportWebsevice {
 
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
+
+	@Autowired
+	private GtnReportJsonService gtnReportJsonService;
 
 	public GtnWsReportWebsevice() {
 		super();
@@ -83,7 +88,7 @@ public class GtnWsReportWebsevice {
 	}
 
 	public List<Object[]> loadViewResults(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest,
-			boolean viewMode) throws GtnFrameworkGeneralException {
+			boolean viewMode) throws GtnFrameworkGeneralException, IOException {
 		List<Object> inputList = new ArrayList<>();
 		String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
 		String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
@@ -105,6 +110,18 @@ public class GtnWsReportWebsevice {
 		inputList.add(userId);
 		String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(viewQuery);
+		for (Object[] objects : resultList) {
+			System.out.println("objects[0]------->" + String.valueOf(objects[0]));
+			System.out.println("objects[1]------->" + String.valueOf(objects[1]));
+			System.out.println("objects[2]------->" + String.valueOf(objects[2]));
+			System.out.println("objects[3]------->" + String.valueOf(objects[3]));
+			System.out.println("objects[4]------->" + String.valueOf(objects[4]));
+			System.out.println("objects[5]------->" + String.valueOf(objects[5]));
+			Object bean = gtnReportJsonService.convertJsonToObject(GtnWsReportDataSelectionBean.class,
+					String.valueOf(objects[5]));
+			resultList.remove(5);
+			resultList.add((Object[]) bean);
+		}
 		return resultList;
 	}
 
@@ -123,7 +140,20 @@ public class GtnWsReportWebsevice {
 		}
 
 	}
-	
+
+	public int saveReportingMaster(GtnWsReportDataSelectionBean dataSelectionBean, int userId)
+			throws GtnFrameworkGeneralException {
+		List<Object> inputList = new ArrayList<>();
+		inputList.add("'" + dataSelectionBean.getViewName() + "'");
+		inputList.add("'" + dataSelectionBean.getViewType() + "'");
+		inputList.add(userId);
+		inputList.add(userId);
+		inputList.add("'" + gtnReportJsonService.convertObjectToJson(dataSelectionBean) + "'");
+		String query = sqlService.getQuery(inputList, "insertView");
+		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
+		return count;
+	}
+
 	public String getFromAndToDateLoadQuery(String comboBoxType, String frequency) {
 		String subQuery;
 		if (comboBoxType.equals("FROM")) {
@@ -149,7 +179,7 @@ public class GtnWsReportWebsevice {
 		}
 		return subQuery;
 	}
-	
+
 	public String setFilterValueList(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		String filter = "";
 		Map<String, String> dbColumnIdMap = getDataBaseColumnIdName();
@@ -183,22 +213,18 @@ public class GtnWsReportWebsevice {
 			filter = filter + "";
 		} else if (!filterValue.startsWith(" ") && splitedArray.length >= 3) {
 
-			filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) >= CONVERT(date, '" + splitedArray[0]
-					+ "')" + " AND" + " CONVERT(date, FROM_PERIOD) <= CONVERT(date, '" + splitedArray[2]
-					+ "')";
+			filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) >= CONVERT(date, '" + splitedArray[0] + "')"
+					+ " AND" + " CONVERT(date, FROM_PERIOD) <= CONVERT(date, '" + splitedArray[2] + "')";
 
 		} else if (!filterValue.startsWith(" ") && splitedArray.length < 3) {
 
-			filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) >= CONVERT(date, '" + splitedArray[0]
-					+ "')";
+			filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) >= CONVERT(date, '" + splitedArray[0] + "')";
 
 		} else {
-			filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) <= CONVERT(date, '" + splitedArray[2]
-					+ "')";
+			filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) <= CONVERT(date, '" + splitedArray[2] + "')";
 		}
 		return filter;
 	}
-	
 
 	private Map<String, String> getDataBaseColumnIdName() {
 		Map<String, String> dbColumnIdMap = new HashMap<>();
@@ -225,20 +251,18 @@ public class GtnWsReportWebsevice {
 		dbColumnDataTypeMap.put("toPeriod", GtnWsQueryConstants.CONSTANT_DATE);
 		return dbColumnDataTypeMap;
 	}
-	
 
 	public List<Object[]> resultListCustomization(List<Object[]> resultList) {
 		List<Object[]> customizedResultList = new ArrayList<>();
-		try{
-		for (Object[] object : resultList) {
-			Object[] obj = object;
-			for (int i = 0; i < obj.length; i++) {
-				obj[i] = obj[i]==null?"":String.valueOf(obj[i]);
+		try {
+			for (Object[] object : resultList) {
+				Object[] obj = object;
+				for (int i = 0; i < obj.length; i++) {
+					obj[i] = obj[i] == null ? "" : String.valueOf(obj[i]);
+				}
+				customizedResultList.add(object);
 			}
-			customizedResultList.add(object);
-		}
-		}
-		catch(Exception ex){
+		} catch (Exception ex) {
 			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + ex);
 		}
 		return customizedResultList;

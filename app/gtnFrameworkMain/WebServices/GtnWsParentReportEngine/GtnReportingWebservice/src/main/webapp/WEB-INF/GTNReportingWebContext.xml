@@ -52,4 +52,8 @@
           <property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
     </bean>
     
+    <bean id="gtnReportJsonService"
+    	class="com.stpl.gtn.gtn2o.ws.report.service.GtnReportJsonService">
+    </bean>
+    
 </beans>

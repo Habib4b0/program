@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionViewAddAction;
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroupConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -74,7 +77,7 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 	private void addTypeOptionGroup(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
 			String namespace) {
 		GtnUIFrameworkComponentConfig viewNameTypeOptionGroup = new GtnUIFrameworkComponentConfig();
-		viewNameTypeOptionGroup.setComponentType(GtnUIFrameworkComponentType.OPTIONGROUP);
+		viewNameTypeOptionGroup.setComponentType(GtnUIFrameworkComponentType.RADIOBUTTON_VAADIN8);
 		viewNameTypeOptionGroup.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
 		viewNameTypeOptionGroup.setAddToParent(true);
@@ -90,7 +93,7 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 	private void addNameTextField(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
 			String namespace) {
 		GtnUIFrameworkComponentConfig saveViewNameTextField = new GtnUIFrameworkComponentConfig();
-		saveViewNameTextField.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+		saveViewNameTextField.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		saveViewNameTextField.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_NAME);
 		saveViewNameTextField.setComponentName("View Name:");
@@ -110,7 +113,15 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 		saveViewAdd.setParentComponentId(parentId);
 		saveViewAdd.setAddToParent(true);
 		componentList.add(saveViewAdd);
-
+		
+		GtnUIFrameWorkActionConfig addViewAction = new GtnUIFrameWorkActionConfig();
+		addViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		addViewAction.addActionParameter(GtnReportDataSelectionViewAddAction.class.getName());
+		addViewAction.addActionParameter("dsSaveViewLookUp");
+		addViewAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_NAME);
+		addViewAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
+		saveViewAdd.addGtnUIFrameWorkActionConfig(addViewAction);
+		
 		GtnUIFrameworkComponentConfig saveViewUpdate = new GtnUIFrameworkComponentConfig();
 		saveViewUpdate.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		saveViewUpdate.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "saveViewUpdate");
@@ -129,4 +140,5 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 		componentList.add(saveViewCancel);
 
 	}
+	
 }
