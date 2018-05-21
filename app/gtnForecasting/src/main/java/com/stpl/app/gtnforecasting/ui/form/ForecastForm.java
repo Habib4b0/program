@@ -2340,8 +2340,10 @@ public class ForecastForm extends AbstractForm {
                 // sales threads need to be completed before calling discound thread
                 nmSalesViewsPopulationProcedure();
              
-                CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SALES_PROCEDURE_CALL));
-		CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL));
+                CommonUtil.getInstance()
+					.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SALES_PROCEDURE_CALL));
+                        
+					CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL));
                 
                 DataSelectionLogic.nmDiscountActProjInsertProcedure(session);
                 nmDiscountViewsPopulationProcedure();
