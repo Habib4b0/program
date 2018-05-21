@@ -428,7 +428,6 @@ public class GtnFrameworkCVAddConfig {
         customerAddButtonConfig.setComponentName(">");
         componentList.add(customerAddButtonConfig);
 
-//            if (!isView) {
         GtnUIFrameWorkActionConfig addToTreeAction = configProvider
                 .getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
         addToTreeAction.addActionParameter(GtnFrameworkCustomerAddAction.class.getName());
@@ -437,7 +436,6 @@ public class GtnFrameworkCVAddConfig {
         List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
         actionConfigList.add(addToTreeAction);
         customerAddButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
-//            }
 
         GtnUIFrameworkComponentConfig customerRemoveButtonConfig = configProvider.getUIFrameworkComponentConfig(
                 namspacePrefix + "gtnCustomerLesserButton", true, namspacePrefix + GtnFrameworkCVConstants.GTN_CUSTOMER_MOVE_LAYOUT,
@@ -554,11 +552,7 @@ public class GtnFrameworkCVAddConfig {
 
         GtnUIFrameworkTreeConfig treeConfig = new GtnUIFrameworkTreeConfig();
         treeConfig.setItemCaptionPropertyId(GtnFrameworkCVConstants.LEVEL_NAME);
-//        if (!isView) {
         treeConfig.setSelectable(true);
-//            GtnUIFrameWorkActionConfig actionConfig = getItemClickAction(namespaceprefix);
-//            treeConfig.addItemClickActionConfig(actionConfig);
-//        }
         treeComponentConfig.setGtnUIFrameworkTreeConfig(treeConfig);
         componentList.add(treeComponentConfig);
     }
@@ -622,7 +616,6 @@ public class GtnFrameworkCVAddConfig {
         customerAddButtonConfig.setComponentName(">");
         componentList.add(customerAddButtonConfig);
 
-//            if (!isView) {
         GtnUIFrameWorkActionConfig addToTreeAction = configProvider
                 .getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
         addToTreeAction.addActionParameter(GtnFrameworkCustomerAddAction.class.getName());
@@ -631,7 +624,6 @@ public class GtnFrameworkCVAddConfig {
         List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
         actionConfigList.add(addToTreeAction);
         customerAddButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
-//            }
 
         GtnUIFrameworkComponentConfig customerRemoveButtonConfig = configProvider.getUIFrameworkComponentConfig(
                 namspacePrefix + "gtnDeductionLesserButton", true, namspacePrefix + GtnFrameworkCVConstants.DEDUCTION_MOVE_LAYOUT,
