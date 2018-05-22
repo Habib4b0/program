@@ -67,7 +67,7 @@ public class SalesExcelNM extends ExcelExport{
 
         Property prop;
         Object propId;
-        Object value;
+        Object value = null;
         Cell sheetCell;
        style1.setDataFormat(hssfDataFormat.getFormat("$#,##0_);($#,##0)"));
        style2.setDataFormat(hssfDataFormat.getFormat("#,##0"));
@@ -80,9 +80,7 @@ public class SalesExcelNM extends ExcelExport{
 
             propId = getPropIds().get(col);
             prop = getProperty(rootItemId, propId);
-            if (null == prop) {
-                value = null;
-            } else {
+            if (prop != null) {
                 value = prop.getValue();
             }
             sheetCell = sheetRow.createCell(col);
@@ -93,14 +91,8 @@ public class SalesExcelNM extends ExcelExport{
             if (this.formatter != null) {
                 Double d = 0.0;
                 try {
-                    if (null != value) {
-                        String str = String.valueOf(value);
-                        if (str.contains("$") || str.contains(",") || str.contains("%")) {
-                            str = str.replace("$", "").replace(",", "");
-                            d = Double.valueOf(str);
-                        } else {
-                            d = DataTypeConverter.convertObjectToDouble(value);
-                        }
+                    if (value != null) {
+                        d = dataConverter(value);
                     }
                 } catch (final NumberFormatException nfe) {
                     sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
@@ -120,6 +112,18 @@ public class SalesExcelNM extends ExcelExport{
                 nonFormatter(value, prop, sheetCell);
             }
         }
+    }
+
+    private Double dataConverter(Object value) throws NumberFormatException {
+        Double d;
+        String str = String.valueOf(value);
+        if (str.contains("$") || str.contains(",") || str.contains("%")) {
+            str = str.replace("$", "").replace(",", "");
+            d = Double.valueOf(str);
+        } else {
+            d = DataTypeConverter.convertObjectToDouble(value);
+        }
+        return d;
     }
 
     private void formatForCurrencyAndDecimal(Object propId, Cell sheetCell, final Object rootItemId) throws FormulaParseException {
