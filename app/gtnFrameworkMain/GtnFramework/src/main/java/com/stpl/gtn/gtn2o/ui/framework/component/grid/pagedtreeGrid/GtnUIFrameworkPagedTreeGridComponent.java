@@ -21,6 +21,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
@@ -39,7 +40,8 @@ import java.util.Locale;
  * @author Karthik.Raja
  */
 public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
-
+    
+    GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPagedTreeGridComponent.class);
     @Override
     public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) throws GtnFrameworkGeneralException {
         VerticalLayout resultLayout = new VerticalLayout();
@@ -59,7 +61,14 @@ public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkCompo
             this.configureRightTableHeader(tableConfig, componentConfig.getSourceViewId());
         }
         configureTableHeaders(tableConfig);
+<<<<<<< HEAD
         PagedTreeGrid pagedTreeGrid = new PagedTreeGrid(tableConfig,componentConfig);
+=======
+        
+        //added 2nd paremeter
+        PagedTreeGrid pagedTreeGrid = new PagedTreeGrid(tableConfig, componentConfig);
+        pagedTreeGrid.getGrid().setId(componentConfig.getComponentId());
+>>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
         resultLayout.setSizeFull();
         resultLayout.addComponent(pagedTreeGrid.getGrid());
         pagedTreeGrid.getGrid().setWidth(componentConfig.getComponentWidth());
@@ -142,30 +151,16 @@ public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkCompo
         List<Object> recordHeader = new ArrayList<>();
         recordHeader.addAll(leftVisibleColumnList);
         recordHeader.addAll(rightVisibleColumnList);
-//		container.setRecordHeader(recordHeader);
-//		Map<Object, Class> dataType = new HashMap<>();
-//		for (int i = 0; i < recordHeader.size(); i++) {
-//			dataType.put(recordHeader.get(i).toString(), String.class);
-//		}
-//		container.setColumnProperties(dataType);
-//		pagedTreeGrid.setRecordHeader(recordHeader);
-//		pagedTreeGrid.setContainerDataSource(container);
 
         List<String> leftHeaderList = new ArrayList<>(Arrays.asList(tableConfig.getLeftTableVisibleHeader()));
         List<String> rightHeaderList = new ArrayList<>(Arrays.asList(tableConfig.getRightTableVisibleHeader()));
-//		final ExtFilterTreeTable leftTable = resultsTable.getLeftFreezeAsTable();
-//		final ExtFilterTreeTable rightTable = resultsTable.getRightFreezeAsTable();
-
-//		leftTable.setImmediate(true);
-//		leftTable.reConstruct(true);
-//		resultsTable.setHeight(tableConfig.getTableHeight());
-//		leftTable.setHeight(tableConfig.getTableHeight());
+//	ftTable.setHeight(tableConfig.getTableHeight());
         
         leftVisibleColumnList.addAll(rightVisibleColumnList);
         leftHeaderList.addAll(rightHeaderList);
 
-        tableConfig.setVisibleColumns(leftVisibleColumnList);
-        tableConfig.setColumnHeaders(leftHeaderList);
+        tableConfig.setVisibleColumns(leftVisibleColumnList);//
+        tableConfig.setColumnHeaders(leftHeaderList);// print these two bu
        
 //		leftTable.setColumnHeaders(leftHeaderList.toArray(new String[leftHeaderList.size()]));
 //
@@ -355,6 +350,10 @@ public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkCompo
                 GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
         GtnWsPagedTreeTableResponse rightTableHeaders = responseForRightHeader.getGtnWSPagedTreeTableResponse();
         tableConfig.setRightTableColumnMappingId(rightTableHeaders.getSingleColumns().toArray());
+        for (int i = 0; i < rightTableHeaders.getSingleHeaders().size(); i++) {
+        	gtnlogger.info("single header"+rightTableHeaders.getSingleHeaders().get(i));
+			
+		}
         tableConfig.setRightTableVisibleHeader(Arrays.copyOf(rightTableHeaders.getSingleHeaders().toArray(),
                 rightTableHeaders.getSingleHeaders().toArray().length, String[].class));
 

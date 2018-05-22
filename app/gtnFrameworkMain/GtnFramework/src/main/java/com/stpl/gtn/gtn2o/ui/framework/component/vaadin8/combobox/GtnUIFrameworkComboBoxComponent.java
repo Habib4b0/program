@@ -34,6 +34,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 
 	@Override
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) {
+<<<<<<< HEAD
 		ComboBox vaadinComboBox = new ComboBox(componentConfig.getComponentName());
 		vaadinComboBox = generateComboBox(componentConfig, vaadinComboBox);
 		setComponentData(vaadinComboBox, componentConfig);
@@ -41,6 +42,11 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 	}
 
 	private ComboBox generateComboBox(GtnUIFrameworkComponentConfig componentConfig, ComboBox vaadinComboBox) {
+=======
+		
+		ComboBox vaadinComboBox = new ComboBox(componentConfig.getComponentName());
+	
+>>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 		try {
 
 			final GtnUIFrameworkComboBoxConfig comboboxConfig = componentConfig.getGtnComboboxConfig();

@@ -4,7 +4,10 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Locale;
+=======
+>>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 import java.util.Map;
 import java.util.Set;
 
@@ -20,8 +23,11 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.data.HasValue;
+<<<<<<< HEAD
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.data.HasValue.ValueChangeListener;
+=======
+>>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
@@ -39,11 +45,19 @@ import com.vaadin.ui.components.grid.HeaderRow;
 
 public class PagedGrid {
 
+<<<<<<< HEAD
 	private GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedGrid.class);
 	GtnUIFrameworkPagedTableConfig tableConfig;
 
 	private GtnUIFrameworkComponentConfig componentConfig;
 	private  int count;
+=======
+	GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedGrid.class);
+	GtnUIFrameworkPagedTableConfig tableConfig;
+
+	GtnUIFrameworkComponentConfig componentConfig;
+	int count;
+>>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 	private int pageLength = 10;
 	private int pageNumber = 0;
 	private DataSet dataSet;
@@ -54,6 +68,11 @@ public class PagedGrid {
 	private TextField pageNoField;
 	GtnUIFrameworkPagedGridLogic pagedTableLogic;
 
+<<<<<<< HEAD
+=======
+	GtnUIFrameworkPagedGridLogic pagedTableLogic;
+
+>>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 	public PagedGrid(GtnUIFrameworkPagedTableConfig tableConfig, GtnUIFrameworkComponentConfig componentConfig) {
 		this.tableConfig = tableConfig;
 		this.componentConfig = componentConfig;
@@ -67,6 +86,7 @@ public class PagedGrid {
 
 			i++;
 		}
+<<<<<<< HEAD
 		pagedTableLogic = new GtnUIFrameworkPagedGridLogic(tableConfig, componentConfig);
 		addFilterAndRefreshLogic(tableConfig);
 
@@ -79,12 +99,21 @@ public class PagedGrid {
 		if (tableConfig.isRefreshAtStart()) {
 			refreshGrid();
 		}
+=======
+
+		pagedTableLogic = new GtnUIFrameworkPagedGridLogic(tableConfig, componentConfig);
+		if (tableConfig.getCustomFilterConfigMap() != null) {
+		setFilterToGrid();
+		}
+		refreshGrid();
+>>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 	}
 
 	public void refreshGrid() {
 		count = getTotalCount();
 		gtnlogger.info("count------" + count);
 		dataSet = loadData((pageNumber * pageLength), pageLength);
+<<<<<<< HEAD
 
 		if (dataSet.getRows() != null) {
 
@@ -137,6 +166,68 @@ public class PagedGrid {
 		}
 	}
 
+=======
+		// int i = 0;
+		// grid.removeAllColumns();
+		// for (String column : tableConfig.getVisibleColumns()) {
+		// grid.addColumn(row ->
+		// row.getValue(column)).setCaption(tableConfig.getColumnHeaders().get(i)).setId(tableConfig.getColumnHeaders().get(i));
+		// i++;
+		// }
+
+		if (dataSet.getRows() != null) {
+			grid.setItems(dataSet.getRows());
+
+		}
+		// pageCountLabel.setCaption(String.valueOf(getPageCount()));
+
+	}
+
+	private int getTotalCount() {
+
+		if (tableConfig.getCountQuery() != null) {
+			List<Object[]> result = FetchData.fetchResult(appendFilter(tableConfig.getCountQuery()),
+					tableConfig.getCountQueryInputs());
+
+			return result == null || result.isEmpty() ? 0 : Integer.parseInt(String.valueOf(result.get(0)[0]));
+		} else {
+			return pagedTableLogic.getCount();
+		}
+	}
+
+	private DataSet loadData(int offset, int limit) {
+		List<GtnWsRecordBean> rows;
+		if (tableConfig.getDataQuery() != null) {
+
+			List<Object> input = PagedTreeGrid.addRangeInInput(tableConfig.getDataQueryInputs(), offset, limit);
+			rows = FetchData.fetchResultAsRow(tableConfig.getTableColumnMappingId(),
+					appendFilter(tableConfig.getDataQuery()), input.toArray());
+		} else {
+			rows = pagedTableLogic.loadData(limit, offset);
+		}
+		return new DataSet(Arrays.asList(tableConfig.getTableColumnMappingId()), rows);
+	}
+
+	public void nextPage() {
+		System.out.println("next page->" + (pageNumber + 1));
+		if (pageNumber + 1 < getPageCount()) {
+			setPageNoFieldValue(++pageNumber);
+
+			refreshGrid();
+		}
+	}
+
+	/**
+	 * Moves to previous page, if previous page exists.
+	 */
+	public void previousPage() {
+		if ((pageNumber - 1) >= 0) {
+			setPageNoFieldValue(--pageNumber);
+			refreshGrid();
+		}
+	}
+
+>>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 	/**
 	 * Sets the page length.
 	 */
@@ -263,8 +354,10 @@ public class PagedGrid {
 		Component vaadinComponent = null;
 		Object[] filterColumnIdList = tableConfig.getTableColumnMappingId();
 		for (Object column : filterColumnIdList) {
+		
 			vaadinComponent = getCustomFilterComponent(String.valueOf(column));
-			filterRow.getCell(String.valueOf(column)).setComponent(vaadinComponent);
+			
+				filterRow.getCell(String.valueOf(column)).setComponent(vaadinComponent);
 		}
 	}
 
@@ -293,6 +386,7 @@ public class PagedGrid {
 
 	private Component getCustomFilterComponent(String property) {
 		try {
+<<<<<<< HEAD
 			GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = tableConfig.getCustomFilterConfigMap()
 					.get(property);
 			if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.TEXTBOX_VAADIN8) {
@@ -327,6 +421,46 @@ public class PagedGrid {
 				});
 
 				return dateFilterPopupButton;
+=======
+			gtnlogger.info("-------property------" + property);
+				GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = tableConfig.getCustomFilterConfigMap()
+						.get(property);
+
+				if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.TEXTBOX_VAADIN8) {
+					TextField textField = new TextField();
+					textField.setId(property);
+					textField.addValueChangeListener(this::onFilterTextChange);
+					return textField;
+				} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
+					DateField dateField = new DateField();
+					dateField.setId(property);
+					dateField.addValueChangeListener(this::onFilterDateChange);
+					return dateField;
+				} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.COMBOBOX_VAADIN8) {
+					GtnUIFrameworkComponent component = filterConfig.getGtnComponentType().getGtnComponent();
+					Component vaadinComponent = null;
+					vaadinComponent = component.buildVaadinComponent(filterConfig.getGtnComponentConfig());
+					ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
+					vaadinCombobox.setId(property);
+					vaadinCombobox.addValueChangeListener(this::onFilterTextChange);
+					return vaadinCombobox;
+				} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
+					Button dateFilterPopupButton = new Button("Show all");
+					dateFilterPopupButton.setWidth("400px");
+					DateFilterPopup dateFilterpopup = new DateFilterPopup(dateFilterPopupButton, tableConfig, property,
+							componentConfig);
+					Window window = dateFilterpopup.getDateFilterPopup();
+					dateFilterPopupButton.addClickListener(new Button.ClickListener() {
+						@Override
+						public void buttonClick(Button.ClickEvent event) {
+
+							window.setPosition(event.getClientX(), event.getClientY());
+							UI.getCurrent().addWindow(window);
+						}
+					});
+
+					return dateFilterPopupButton;
+>>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 			}
 
 		} catch (GtnFrameworkGeneralException exception) {
@@ -339,6 +473,7 @@ public class PagedGrid {
 	void setPageNoFieldValue(int pageNo) {
 		pageNoField.setValue(String.valueOf(pageNo + 1));
 	}
+<<<<<<< HEAD
 
 	public void setData(Object data) {
 		grid.setData(data);
@@ -466,6 +601,41 @@ public class PagedGrid {
 		addClickListenerForButton(button, window, dateFilterPopupButton, property, inlineDateFieldStartDate,
 				inlineDateFieldEndDate);
 		return button;
+=======
+
+	public void setData(Object data) {
+		grid.setData(data);
+	}
+
+	public GtnUIFrameworkPagedTableConfig getTableConfig() {
+		return tableConfig;
+	}
+
+	public void setTableConfig(GtnUIFrameworkPagedTableConfig tableConfig) {
+		this.tableConfig = tableConfig;
+	}
+
+	private void onFilterTextChange(HasValue.ValueChangeEvent<String> event) {
+		tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
+		refreshGrid();
+	}
+
+	public void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event) {
+		tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
+		refreshGrid();
+	}
+
+	public Set<GtnWsRecordBean> getValue() {
+		return grid.getSelectedItems();
+	}
+
+	public GtnUIFrameworkPagedGridLogic getPagedTableLogic() {
+		return pagedTableLogic;
+	}
+
+	public void setPagedTableLogic(GtnUIFrameworkPagedGridLogic pagedTableLogic) {
+		this.pagedTableLogic = pagedTableLogic;
+>>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 	}
 
 }

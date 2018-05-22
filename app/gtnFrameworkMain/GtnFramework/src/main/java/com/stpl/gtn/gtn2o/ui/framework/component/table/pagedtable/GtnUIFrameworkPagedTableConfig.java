@@ -589,6 +589,7 @@ public class GtnUIFrameworkPagedTableConfig {
         this.filterValueMap = filterValueMap;
     }
 
+
 	public boolean isRefreshAtStart() {
 		return isRefreshAtStart;
 	}
@@ -597,4 +598,5 @@ public class GtnUIFrameworkPagedTableConfig {
 		this.isRefreshAtStart = isRefreshAtStart;
 	}
     
+
 }
