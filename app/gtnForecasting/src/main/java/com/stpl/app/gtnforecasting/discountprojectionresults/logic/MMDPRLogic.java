@@ -1806,7 +1806,7 @@ public class MMDPRLogic {
             List list;
             if (dto.getGroup().equals(Constant.MANDATED_DISCOUNT) || dto.getLevelValue().equals(Constant.MANDATED_DISCOUNT)) {
                 dto.setCurrentLevel(Constant.MANDATED_DISCOUNT);
-                list = dqLogic.getMandatedTotal(projectionDet, frequency, projSelDTO);
+                list = dqLogic.getMandatedTotal(frequency, projSelDTO);
 
             } else {
                 dto.setCurrentLevel(Constant.MANDATED_SUPPLEMENTAL);

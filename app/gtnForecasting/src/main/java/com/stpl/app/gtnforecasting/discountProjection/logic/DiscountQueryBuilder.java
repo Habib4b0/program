@@ -5,8 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.discountProjection.logic;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
@@ -240,7 +238,7 @@ public class DiscountQueryBuilder {
         }
     }
    
-    public List<String> getRsContractSid(SessionDTO session, boolean checkValue, String hierarchyNo,
+    public List<String> getRsContractSid(SessionDTO session, String hierarchyNo,
             String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountList) {
         String customSql = "";
         LOGGER.debug(" inside updateCheckRecord");
@@ -445,7 +443,7 @@ public class DiscountQueryBuilder {
             LOGGER.error(customSql);
         }
     }
-    public String getPeriodSid(String period, String fre, String order) throws SystemException, PortalException {
+    public String getPeriodSid(String period, String fre, String order) {
         List periodSid = (List) HelperTableLocalServiceUtil.executeSelectQuery(periodQuery(period, fre, order));
         return periodSid.get(0).toString();
     }
@@ -468,8 +466,7 @@ public class DiscountQueryBuilder {
         } else {
             where = "where SEMI_ANNUAL = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
         }
-        String query = "select " + order + "(PERIOD_SID) from \"PERIOD\" " + where;
-        return query;
+        return "select " + order + "(PERIOD_SID) from \"PERIOD\" " + where;
     }
     
     public static final String AND_YEAR_EQUAL = "' and \"YEAR\" = '";
@@ -634,7 +631,7 @@ public class DiscountQueryBuilder {
         }
     }
 
-    public int getCheckedRecordCount(SessionDTO session, boolean isProgram, List<String> discountList, boolean isCustomHierarchy) {
+    public int getCheckedRecordCount(SessionDTO session, boolean isProgram, List<String> discountList) {
         List list = new ArrayList();
         String customSql = StringUtils.EMPTY;
         LOGGER.debug(" inside getCheckedRecordCount");
@@ -747,7 +744,6 @@ public class DiscountQueryBuilder {
             final int start, final int end, final String userGroup,final ProjectionSelectionDTO projectionSelection) {
         String queryBuilder=StringUtils.EMPTY;
         String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
-        boolean isLastLevel=session.getSelectedDeductionLevelNo() == 10;
         String dedQuery = NINE_LEVEL_DED;
             queryBuilder = SQlUtil.getQuery("discount-generate-First-Nine-Level");
         queryBuilder = queryBuilder.replace("?F", String.valueOf(frequency.charAt(0))) //Selected Frequency initial char
@@ -791,7 +787,7 @@ public class DiscountQueryBuilder {
     
     
     public static String getQueryRSDiscountHierarchyNo(List<String> discountList) {
-    String framedInQueryString=StringUtils.EMPTY;
+    String framedInQueryString;
     StringBuilder framedInQueryStringBuilder = new StringBuilder();
         for (String value : discountList) {
             if (value.contains(",")) {
@@ -810,7 +806,7 @@ public class DiscountQueryBuilder {
     }
      
     public static List getRSHierarchyNo(List<String> discountList,SessionDTO session) {
-        String framedRsString=StringUtils.EMPTY;
+        String framedRsString;
         StringBuilder framedRsStringBuilder = new StringBuilder();
         for (String value : discountList) {
             if (value.contains(",")) {

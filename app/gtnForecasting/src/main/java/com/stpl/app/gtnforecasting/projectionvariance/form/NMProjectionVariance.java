@@ -353,7 +353,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             loadDeductionInclusion();
             loadSalesInclusion();
             commonLogic.loadUnitOfMeasureDdlb(uomDdlb, session);
-            deductionlevelDdlb.select(Integer.parseInt(session.getDataSelectionDeductionLevel()));
         }
         excelBtn.setIcon(excelExportImage);
         graphBtn.setIcon(graphImage);
@@ -2390,7 +2389,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     private void loadDedutionLevel() {
         List<String[]> deductionLevel = CommonLogic.getDeductionLevel(session.getProjectionId());
-        Utility.loadDdlbForDeduction(deductionlevelDdlb, deductionLevel);
+        Utility.loadDdlbForDeduction(deductionlevelDdlb, deductionLevel,session);
         deductionlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
