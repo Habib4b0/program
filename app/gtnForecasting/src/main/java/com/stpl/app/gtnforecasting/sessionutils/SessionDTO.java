@@ -176,6 +176,7 @@ public class SessionDTO implements Serializable {
     private Date forecastEligibleDate;
     private String functionMode = StringUtils.EMPTY;
     private String dataSelectionDeductionLevel;
+    private String dataSelectionDeductionLevelCaption;
 
     public SessionDTO() {
         super();
@@ -1468,8 +1469,14 @@ public class SessionDTO implements Serializable {
     public void setDataSelectionDeductionLevel(String dataSelectionDeductionLevel) {
         this.dataSelectionDeductionLevel = dataSelectionDeductionLevel;
     }
-    
 
+    public String getDataSelectionDeductionLevelCaption() {
+        return dataSelectionDeductionLevelCaption;
+    }
+
+    public void setDataSelectionDeductionLevelCaption(String dataSelectionDeductionLevelCaption) {
+        this.dataSelectionDeductionLevelCaption = dataSelectionDeductionLevelCaption;
+    }
     
     
 }

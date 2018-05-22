@@ -2287,7 +2287,6 @@ public class DataSelectionLogic {
 															// Actual System Id
 			detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY
 			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
-//                        detailsList.add(object[object.length - 1]); //Sales Inclusion
 			resultMap.put(String.valueOf(object[0]), detailsList);
 
 			if (j == tempList.size() - 1) {
@@ -2535,7 +2534,7 @@ public class DataSelectionLogic {
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
                                 .append(',').append("null")
-                                .append(",'").append("Schedule Category")
+                                .append(",'").append(session.getDataSelectionDeductionLevelCaption())
                                 .append('\'');
                                 LOGGER.info("before: {}", query.toString());
 				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
@@ -2609,11 +2608,12 @@ public class DataSelectionLogic {
     
     public static void nmDiscountActProjInsertProcedure(SessionDTO session) {
         ExecutorService service = ThreadPool.getInstance().getService();
-        CommonUtil.getInstance().isProcedureCompleted("DISCOUNT", "PRC_NM_MASTER_INSERT", session);
+        CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
         if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
-            service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+            session.addFutureMap(Constant.DISCOUNT_PROJECTION_LABEL,
+				new Future[] {service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
                     SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
-                    session.getUserId(), session.getSessionId(), Constant.DISCOUNT3, session));
+                    session.getUserId(), session.getSessionId(), Constant.DISCOUNT3, session))});
         }
     }
         
