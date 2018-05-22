@@ -57,7 +57,8 @@ border-radius: 0px;
 .v-menubar > .v-menubar-menuitem:first-child  > .v-menubar-menuitem-caption{
      overflow: hidden;
 }
-	.v-treegrid-column-header-content,.v-treegrid-column-footer-content {
+
+.v-treegrid-column-header-content,.v-treegrid-column-footer-content {
  vertical-align: inherit;
 }
 
@@ -71,6 +72,5 @@ height: auto!important;
 	th.v-treegrid-cell {
 height: auto!important;
 }
-
 
 }
