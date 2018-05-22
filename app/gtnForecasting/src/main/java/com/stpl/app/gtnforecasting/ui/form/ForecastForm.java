@@ -775,12 +775,10 @@ public class ForecastForm extends AbstractForm {
 			if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == NumericConstants.THREE) {
 				salesProjectionResults.configure();
 			}
-			if (tabPosition == discountProjection.getTabNumber()) {
-				if (discountProjection.isListviewGenerated() && discountFlag) {
-					discountProjection.configure();
-					discountProjection.saveDiscountProjectionScreen(false);
-					discountFlag = false;
-				}
+			if (tabPosition == discountProjection.getTabNumber() && isListViewWithDiscountFlag()) {
+                            discountProjection.configure();
+                            discountProjection.saveDiscountProjectionScreen(false);
+                            discountFlag = false;
 			}
 			if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == nonmandatedprojectionResults.getTabNumber()
 					&& tabLazyLoadMap.get(nonmandatedprojectionResults.getTabNumber())) {
@@ -825,6 +823,10 @@ public class ForecastForm extends AbstractForm {
 		}
 		LOGGER.debug("onTabChange ends");
 	}
+
+    private boolean isListViewWithDiscountFlag() {
+        return discountProjection.isListviewGenerated() && discountFlag;
+    }
 
 	private void onTabChangeForReturns() {
 		try {
