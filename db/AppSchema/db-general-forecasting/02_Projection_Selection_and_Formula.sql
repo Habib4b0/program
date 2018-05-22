@@ -1182,6 +1182,19 @@ IF NOT EXISTS (SELECT 1
 
 GO
 
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'CCP_HIERARCHY'
+                      AND COLUMN_NAME = 'SALES_INCLUSION'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE CCP_HIERARCHY
+        ADD SALES_INCLUSION BIT NULL;
+  END
+
+GO  
+
 ---------------------------------------------- one time insertion 
 
 IF NOT EXISTS (SELECT 1 FROM ACTUALS_DETAILS)
