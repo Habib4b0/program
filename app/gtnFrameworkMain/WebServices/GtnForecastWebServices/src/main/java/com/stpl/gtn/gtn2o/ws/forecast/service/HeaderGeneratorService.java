@@ -242,7 +242,128 @@ public class HeaderGeneratorService {
 
 	}
 
-	
+	public GtnWsPagedTreeTableResponse getReportRightTableColumns(GtnForecastBean gtnForecastBean) {
+
+		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
+
+		String[] comparisonBasisColumn = new String[] { "Actuals", "Accruals", "CurrentProjection", "Projection1",
+				"Projection2", "Projection3", "Projection4", "Projection5" };
+		String[] comparisonBasisHeader = new String[] { "Actuals", "Accruals", "Current Projection",
+				"Prior Projection1", "Prior Projection2", "Prior Projection3", "Prior Projection4",
+				"Prior Projection5" };
+
+		String[] variablesHeader = new String[] { "Ex-Factory Sales", "Gross Contract Sales % of Ex-Factory",
+				"Gross Contract Sales", "Contract Units", "Contract Sales % of Total Contract Sales", "Deduction $",
+				"Deduction %", "RPU", "Deduction % of Ex-Factory", "Net Contract Sales",
+				"Net Contract Sales % of Ex-Factory", "Net Ex-Factory Sales",
+				"Net Ex-Factory Sales % of Total Ex-Factory", "Weighted GTN Contribution" };
+
+		// String[] variablesColumn = new String[]{"exfactory",
+		// "grossContractSalesPerExFactory"};
+		String[] variablesColumn = new String[] { "exfactory", "grossContractSalesPerExFactory", "contractSales",
+				"contractUnits", "contractSalesPerTotalContractSales", "discountAmount", "discountPercent", "rpu",
+				"deductionPerExfactory", "netContractSales", "netContractSalesPerExfactory", "netExfactorySales",
+				"netExfactorySalesPerTotalExfactory", "weightedGtn" };
+
+		String[] variableCategoryColumn = new String[] { "Value", "Variance", "PerChange", "Volume", "Rate",
+				"ChangeInChange" };
+		String[] variableCategoryHeader = new String[] { "Value", "Variance", "% Change", "Volume", "Rate",
+				"Change in Change" };
+
+		List<Object[]> periods = getTimeRange(gtnForecastBean);
+		Object[] periodColumn = periods.get(0);
+		Object[] periodHeader = periods.get(1);
+
+		List<Object[]> combinedVariableCategoryList = null;
+		Object[] combinedVariableCategoryColumn = null;
+		Object[] combinedVariableCategoryHeader = null;
+
+		if (gtnForecastBean.isColumn()) {
+			combinedVariableCategoryList = getCombinedVariableCategory(variablesColumn, variableCategoryColumn,
+					variablesHeader, variableCategoryHeader, gtnForecastBean.isVariablesVariances());
+			combinedVariableCategoryColumn = combinedVariableCategoryList.get(0);
+			combinedVariableCategoryHeader = combinedVariableCategoryList.get(1);
+			switch (1) {
+			case 1:// 1. Time/Variable/Comparison
+				createTableHeader(periodColumn, combinedVariableCategoryColumn, comparisonBasisColumn, periodHeader,
+						combinedVariableCategoryHeader, comparisonBasisHeader, tableHeaderDTO);
+				break;
+			case 2:// 2. Comparison/Variable/Time
+				createTableHeader(comparisonBasisColumn, combinedVariableCategoryColumn, periodColumn,
+						comparisonBasisHeader, combinedVariableCategoryHeader, periodHeader, tableHeaderDTO);
+				break;
+			case 3:// 3. Comparison/Time/Variable
+				createTableHeader(comparisonBasisColumn, periodColumn, combinedVariableCategoryColumn,
+						comparisonBasisHeader, periodHeader, combinedVariableCategoryHeader, tableHeaderDTO);
+				break;
+			case 4:// 4. Variable/Comparison/Time
+				createTableHeader(combinedVariableCategoryColumn, comparisonBasisColumn, periodColumn,
+						combinedVariableCategoryHeader, comparisonBasisHeader, periodHeader, tableHeaderDTO);
+				break;
+			default:
+				break;
+			}
+		} else {
+			combinedVariableCategoryList = getCombinedVariableCategory(comparisonBasisColumn, variableCategoryColumn,
+					comparisonBasisHeader, variableCategoryHeader, gtnForecastBean.isVariablesVariances());
+			combinedVariableCategoryColumn = combinedVariableCategoryList.get(0);
+			combinedVariableCategoryHeader = combinedVariableCategoryList.get(1);
+			switch (2) {
+			case 1:// 1. Time/Variable/Comparison
+				createTableHeader(periodColumn, combinedVariableCategoryColumn, periodHeader,
+						combinedVariableCategoryHeader, tableHeaderDTO);
+				break;
+			case 2:// 2. Comparison/Variable/Time
+				createTableHeader(combinedVariableCategoryColumn, periodColumn, combinedVariableCategoryHeader,
+						periodHeader, tableHeaderDTO);
+				break;
+			case 3:// 3. Comparison/Time/Variable
+				createTableHeader(combinedVariableCategoryColumn, periodColumn, combinedVariableCategoryHeader,
+						periodHeader, tableHeaderDTO);
+				break;
+			case 4:// 4. Variable/Comparison/Time
+				createTableHeader(combinedVariableCategoryColumn, periodColumn, combinedVariableCategoryHeader,
+						periodHeader, tableHeaderDTO);
+				break;
+			default:
+				break;
+			}
+		}
+
+		return tableHeaderDTO;
+	}
+
+    public  GtnWsPagedTreeTableResponse getReportRightTableColumnsDummy() {
+        HeaderGeneratorService header = new HeaderGeneratorService();
+        GtnForecastBean gtnForecastBean = new GtnForecastBean();
+
+//        gtnForecastBean.setHistoryStartYear(2014);
+//        gtnForecastBean.setHistoryStartMonth(0);
+//        gtnForecastBean.setHistoryEndYear(2017);
+//        gtnForecastBean.setHistoryEndMonth(0);
+        gtnForecastBean.setHistoryStartDate(new GregorianCalendar(2015, 5, 1, 0, 0, 0).getTime());
+        gtnForecastBean.setHistoryEndDate(new GregorianCalendar(2017, 11, 1, 0, 0, 0).getTime());
+
+        gtnForecastBean.setProjectionStartDate(new GregorianCalendar(2014, 0, 1, 0, 0, 0).getTime());
+        gtnForecastBean.setProjectionEndDate(new GregorianCalendar(2021, 11, 1, 0, 0, 0).getTime());
+
+//        gtnForecastBean.setProjectionStartYear(2016);
+//        gtnForecastBean.setProjectionStartMonth(0);
+//        gtnForecastBean.setProjectionEndYear(2020);
+//        gtnForecastBean.setProjectionEndMonth(11);
+        gtnForecastBean.setForecastStartDate(new GregorianCalendar(2014, 0, 1, 0, 0, 0).getTime());
+        gtnForecastBean.setForecastEndDate(new GregorianCalendar(2018, 11, 1, 0, 0, 0).getTime());
+
+        gtnForecastBean.setFrequency(QUARTERLY);
+//        gtnForecastBean.setSelectedHistory("3");
+        gtnForecastBean.setActualOrProjection("Actuals");
+        gtnForecastBean.setAscending(true);
+        gtnForecastBean.setColumn(true);
+        gtnForecastBean.setVariablesVariances(true);
+        GtnWsPagedTreeTableResponse response = header.getReportRightTableColumns(gtnForecastBean);
+          return response;
+
+    }
 
     public GtnWsPagedTreeTableResponse getReportRightTableColumns(GtnForecastBean gtnForecastBean) {
 
@@ -540,7 +661,5 @@ public class HeaderGeneratorService {
         periodColumnHeader.add(periodHeader);
         return periodColumnHeader;
     }
-
-	
 
 }

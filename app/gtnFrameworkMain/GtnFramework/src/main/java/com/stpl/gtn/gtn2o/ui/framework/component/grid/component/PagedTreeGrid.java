@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -10,18 +9,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-=======
-import com.google.gwt.user.client.rpc.core.java.util.Collections;
-import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.DataSet;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.service.FetchData;
-import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
-import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.vaadin.data.HasValue;
@@ -29,22 +21,13 @@ import com.vaadin.data.TreeData;
 import com.vaadin.data.provider.TreeDataProvider;
 import com.vaadin.event.ExpandEvent;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
-<<<<<<< HEAD
-=======
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.Grid;
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
-<<<<<<< HEAD
 import com.vaadin.ui.components.grid.HeaderRow;
 
 public class PagedTreeGrid {
@@ -58,33 +41,6 @@ public class PagedTreeGrid {
 	GtnUIFrameworkPagedTreeTableConfig tableConfig;
 	int count;
 	private int pageLength = 10;
-=======
-import com.vaadin.ui.UI;
-import com.vaadin.ui.Window;
-import com.vaadin.ui.components.grid.HeaderCell;
-import com.vaadin.ui.components.grid.HeaderRow;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-public class PagedTreeGrid {
-
-	GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedTreeGrid.class);
-	private static final String ROW_NUMBER = "rowNumber";
-	private static final String CHILD_COUNT = "childCount";
-	private static final String HIERARCHY_NO = "hierarchyNo";
-	private static final String LEVEL_NO = "levelNo";
-	GtnUIFrameworkPagedTreeTableConfig tableConfig;
-	int count;
-	private int pageLength = 3;
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 	private int pageNumber = 0;
 	private DataSet dataSet;
 	TreeGrid<GtnWsRecordBean> grid;
@@ -92,21 +48,16 @@ public class PagedTreeGrid {
 	GtnWsRecordBean lastRow;
 	private DataSet leftTableDataSet;
 	TreeDataProvider<GtnWsRecordBean> treeDataProvider;
-<<<<<<< HEAD
 	private final List<GtnWsRecordBean> expandedItemIds = new ArrayList<>();;
-=======
-	private final List<GtnWsRecordBean> expandedItemIds = new ArrayList<>();
-
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 	private final List<Integer> expandedRowIds = new ArrayList<>();
 	GtnWsRecordBean lastExpandedItem;
 	HorizontalLayout controlLayout = new HorizontalLayout();
 	private TextField pageNoField = new TextField();
 	private Label pageCountLabel;
-<<<<<<< HEAD
 	GtnUIFrameworkComponentConfig componentConfig;
 	private static final String LIKE_OPERATOR = ".*";
 	private static final String CAP_OPERATOR = "^";
+	private boolean shiftLeftSingeHeader=false;
 
 	public PagedTreeGrid(GtnUIFrameworkPagedTreeTableConfig tableConfig,
 			GtnUIFrameworkComponentConfig componentConfig) {
@@ -120,19 +71,6 @@ public class PagedTreeGrid {
 		} catch (Exception ex) {
 			gtnlogger.error(ex.getMessage(), ex);
 		}
-=======
-	private GtnUIFrameworkComponentConfig componentConfig;
-	private boolean shiftLeftSingeHeader=false;
-
-	public PagedTreeGrid(GtnUIFrameworkPagedTreeTableConfig tableConfig,GtnUIFrameworkComponentConfig componentConfig) {
-		this.tableConfig = tableConfig;
-		this. componentConfig=componentConfig;
-		count = getTotalCount();
-		gtnlogger.info("count>>>" + count);
-		grid = new TreeGrid<>();
-		initializeGrid();
-	
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 	}
 
 	public void resetGridToInitialState() {
@@ -147,7 +85,6 @@ public class PagedTreeGrid {
 		treeDataProvider.refreshAll();
 	}
 
-<<<<<<< HEAD
 	public void initializeGrid() {
 		count = getTotalCount();
 
@@ -156,25 +93,26 @@ public class PagedTreeGrid {
 			dataSet = loadData((pageNumber * pageLength), pageLength);
 		}
 
-=======
-	private void initializeGrid() {
-		count = getTotalCount();
-
-		if (count > 0) {
-			getLeftData((pageNumber * pageLength), pageLength, tableConfig.getLevelNo(), "%");
-			dataSet = loadData((pageNumber * pageLength), pageLength);
+		TreeData<GtnWsRecordBean> data = new TreeData<>();
+		if (dataSet != null) {
+			data.addItems(null, dataSet.getRows());
+			addExpandIcon(data, dataSet.getRows());
 		}
-		grid.removeAllColumns();
-		Set<String> headers = tableColumns;
 
-		// leftTableDataSet.getColumns().stream().forEach((leftColumn) -> {
-		// grid.addColumn(leftRow ->
-		// leftRow.getPropertyValue(leftColumn.toString())).setCaption(leftColumn.toString());
-		// });
+		treeDataProvider = new TreeDataProvider<>(data);
+		grid.setDataProvider(treeDataProvider);
+
+		addExpandListener();
+		addCollapseListener();
+	}
+
+	private void configureGridColumns() {
+		grid.removeAllColumns();
+
 		int columnCount = tableConfig.getVisibleColumns().size();
-		for (int j = 0; j < columnCount; j++) {
+		for (int j = 0; j < columnCount && j < tableConfig.getColumnHeaders().size(); j++) {
 			String column = (tableConfig.getVisibleColumns().get(j)).toString();
-			// gtnlogger.info("column = " + column);
+			gtnlogger.info("column = " + column);
 			grid.addColumn(row -> row.getPropertyValue(column)).setCaption(tableConfig.getColumnHeaders().get(j))
 					.setId(column);
 
@@ -246,65 +184,10 @@ public class PagedTreeGrid {
 		if(tableConfig.getCustomFilterConfigMap()!=null){
 			setFilterToGrid();
 		}
-		
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
-		TreeData<GtnWsRecordBean> data = new TreeData<>();
-		if (dataSet != null) {
-			data.addItems(null, dataSet.getRows());
-			addExpandIcon(data, dataSet.getRows());
-		}
-<<<<<<< HEAD
-=======
 		addTableHeaderCheck();
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
-
-		treeDataProvider = new TreeDataProvider<>(data);
-		grid.setDataProvider(treeDataProvider);
-
-		addExpandListener();
-		addCollapseListener();
-<<<<<<< HEAD
+		
 	}
-
-	private void configureGridColumns() {
-		grid.removeAllColumns();
-
-		int columnCount = tableConfig.getVisibleColumns().size();
-		for (int j = 0; j < columnCount && j < tableConfig.getColumnHeaders().size(); j++) {
-			String column = (tableConfig.getVisibleColumns().get(j)).toString();
-			gtnlogger.info("column = " + column);
-			grid.addColumn(row -> row.getPropertyValue(column)).setCaption(tableConfig.getColumnHeaders().get(j))
-					.setId(column);
-
-		}
-		Iterator<String> iterator = tableConfig.getRightTableDoubleVisibleHeaders().iterator();
-		if (tableConfig.isDoubleHeaderVisible()) {
-			HeaderRow groupingHeader = grid.prependHeaderRow();
-			for (Object property : tableConfig.getRightTableDoubleHeaderVisibleColumns()) {
-				Object joinList[] = tableConfig.getRightTableDoubleHeaderMap().get(property);
-				String[] stringArray = Arrays.copyOf(joinList, joinList.length, String[].class);
-				groupingHeader.join(stringArray).setText(iterator.next());
-			}
-		}
-		if (tableConfig.isTripleHeaderVisible()) {
-			// HeaderRow doubleHeader= grid.getHeaderRow(1);
-			//
-			// HeaderRow groupingHeader = grid.appendHeaderRow();
-			//// for (int j = 1; j < columnCount; j++) {
-			//// Object column = tableConfig.getVisibleColumns().get(j);
-			//// groupingHeader.getCell(column.toString()).setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j));
-			//// }
-			// for(Object property:tableConfig.getRightTableTripleHeaderMap().keySet()){
-			// Object joinList[]=tableConfig.getRightTableTripleHeaderMap().get(property);
-			// List<HeaderCell> columnList=new ArrayList<>();
-			// for (int i = 0; i < joinList.length; i++) {
-			// Object object = joinList[i];
-			// columnList.add(doubleHeader.getCell(object.toString()));
-			// }
-			// groupingHeader.join((HeaderCell[]) columnList.toArray());
-			// }
-=======
-		shiftLeftSingeHeader=false;
+	shiftLeftSingeHeader=false;
 	}
 	
 	// CheckBox in DoubleColumnHeader
@@ -351,7 +234,6 @@ public class PagedTreeGrid {
 			 gtnlogger.info("column = " + column);
 			groupingHeader.getCell(column).setText(tableConfig.getColumnHeaders().get(j));
 
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 		}
 	}
 
@@ -361,7 +243,6 @@ public class PagedTreeGrid {
 
 			@Override
 			public void itemExpand(ExpandEvent<GtnWsRecordBean> event) {
-<<<<<<< HEAD
 				try {
 
 					TreeData<GtnWsRecordBean> treeData = treeDataProvider.getTreeData();
@@ -371,12 +252,6 @@ public class PagedTreeGrid {
 				} catch (Exception ex) {
 					gtnlogger.error(ex.getMessage(), ex);
 				}
-=======
-				TreeData<GtnWsRecordBean> treeData = treeDataProvider.getTreeData();
-				GtnWsRecordBean parent = event.getExpandedItem();
-				int childCount = 0;
-				expandRow(parent, childCount, treeData, true);
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 			}
 
 		});
@@ -384,18 +259,11 @@ public class PagedTreeGrid {
 
 	public void expandRow(GtnWsRecordBean parent, int childCount, TreeData<GtnWsRecordBean> treeData,
 			boolean moveToNextPage) {
-<<<<<<< HEAD
 
 		if (parent != null && parent.getPropertyValue(LEVEL_NO) != null && (getChildCountForRow(parent)) > 0) {
 			childCount = getChildCountForRow(parent);
 			GtnWsRecordBean firstChild = treeData.getChildren(parent).get(0);
 			if (!firstChild.getProperties().isEmpty() && getLevelNo(firstChild) != 0) {
-=======
-		if (parent != null && parent.getPropertyValue(LEVEL_NO) != null
-				&& (childCount = getChildCountForRow(parent)) > 0) {
-			GtnWsRecordBean firstChild = treeData.getChildren(parent).get(0);
-			if (firstChild.getPropertyValue(LEVEL_NO) != null) {
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 				return;
 			}
 			treeData.removeItem(firstChild);
@@ -407,11 +275,7 @@ public class PagedTreeGrid {
 			expandedRowIds.add(rowNo);
 			if (limit == 0) {
 				if (!moveToNextPage) {
-<<<<<<< HEAD
 					treeData.addItem(parent, getEmptyRow());
-=======
-					treeData.addItem(parent, new GtnWsRecordBean());
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 					return;
 				}
 				limit = pageLength > childCount ? childCount : pageLength;
@@ -448,13 +312,8 @@ public class PagedTreeGrid {
 	private void addExpandIcon(TreeData<GtnWsRecordBean> data, List<GtnWsRecordBean> rows) {
 		gtnlogger.info("addExpandIcon");
 		rows.stream().map((parent) -> {
-<<<<<<< HEAD
 			if (parent.getPropertyValue(LEVEL_NO) != null && getChildCountForRow(parent) > 0) {
 				data.addItem(parent, getEmptyRow());
-=======
-			if (parent != null && parent.getPropertyValue(LEVEL_NO) != null && getChildCountForRow(parent) > 0) {
-				data.addItem(parent, new GtnWsRecordBean());
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 			}
 			return parent;
 		}).forEach((GtnWsRecordBean parent) -> {
@@ -469,7 +328,6 @@ public class PagedTreeGrid {
 		});
 	}
 
-<<<<<<< HEAD
 	public GtnWsRecordBean getEmptyRow() {
 		GtnWsRecordBean emptyRow = new GtnWsRecordBean();
 		emptyRow.setRecordHeader(getRecordHeader());
@@ -489,25 +347,11 @@ public class PagedTreeGrid {
 
 			leftTableDataSet = new DataSet(tableConfig.getVisibleColumns(), result);
 			return result == null ? 0 : result.size();
-=======
-	private int getTotalCount() {
-
-		if (tableConfig.getCountQuery() != null) {
-
-			String countQuery = replaceQueryInput(tableConfig.getLevelNo(), "%", tableConfig.getCountQuery());
-			List<GtnWsRecordBean> result = FetchData.fetchResultAsRow(tableConfig.getVisibleColumns().toArray(),
-					countQuery, tableConfig.getCountQueryInputs());
-			gtnlogger.info("total count " + result.size());
-
-			leftTableDataSet = new DataSet(tableConfig.getVisibleColumns(), result);
-			return result.size();
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 		}
 		return 0;
 
 	}
 
-<<<<<<< HEAD
 	public GtnWsSearchRequest getWsRequest(int offset, int start, boolean isCount) {
 		//
 		// String countQuery = replaceQueryInput(tableConfig.getLevelNo(), "%",
@@ -557,22 +401,6 @@ public class PagedTreeGrid {
 				leftTableDataSet = new DataSet(tableConfig.getVisibleColumns(), result);
 			}
 			return (result == null ? 0 : result.size());
-=======
-	private int getChildCount(GtnWsRecordBean parent) {
-
-		if (tableConfig.getCountQuery() != null) {
-			gtnlogger.info("parent.getPropertyValue(\"levelNo\")" + parent.getPropertyValue(LEVEL_NO));
-			int levelNo = Integer.valueOf(parent.getPropertyValue(LEVEL_NO).toString()) + 1;
-			String hierarchyNo = String.valueOf(parent.getPropertyValue(HIERARCHY_NO)) + "%";
-			String countQuery = replaceQueryInput(levelNo, hierarchyNo, tableConfig.getCountQuery());
-			List<GtnWsRecordBean> result = FetchData.fetchResultAsRow(tableConfig.getVisibleColumns().toArray(),
-					countQuery, tableConfig.getCountQueryInputs());
-			gtnlogger.info("child count" + result.size());
-			if (!result.isEmpty()) {
-				leftTableDataSet = new DataSet(tableConfig.getVisibleColumns(), result);
-			}
-			return result.size();
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 		}
 		return 0;
 
@@ -580,7 +408,6 @@ public class PagedTreeGrid {
 
 	private int getLeftData(int offset, int limit, int levelNo, String hierarchyNo) {
 
-<<<<<<< HEAD
 		if (tableConfig.getCountUrl() != null) {
 			// String countQuery = replaceQueryInput(levelNo, hierarchyNo,
 			// tableConfig.getLeftDataQuery());
@@ -597,25 +424,12 @@ public class PagedTreeGrid {
 				leftTableDataSet = new DataSet(tableConfig.getVisibleColumns(), result);
 			}
 			return (result == null ? 0 : result.size());
-=======
-		if (tableConfig.getCountQuery() != null) {
-			String countQuery = replaceQueryInput(levelNo, hierarchyNo, tableConfig.getLeftDataQuery());
-			List<Object> list = addRangeInInput(tableConfig.getLeftDataQueryInputs(), offset, limit);
-			List<GtnWsRecordBean> result = FetchData.fetchResultAsRow(tableConfig.getVisibleColumns().toArray(),
-					countQuery, list.toArray());
-			gtnlogger.info("child count" + result.size());
-			if (!result.isEmpty()) {
-				leftTableDataSet = new DataSet(tableConfig.getVisibleColumns(), result);
-			}
-			return result.size();
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 		}
 		return 0;
 
 	}
 
 	public DataSet fetchChildren(int offset, int limit, GtnWsRecordBean parent, int parentRowIndex) {
-<<<<<<< HEAD
 		String hierarchyNo = String.valueOf(parent.getPropertyValue(PARENT_HIERARCHY_NO));
 		int levelNo = Integer.valueOf(parent.getPropertyValue(LEVEL_NO).toString()) + 1;
 		// String dataQuery = replaceQueryInput(levelNo, hierarchyNo,
@@ -627,15 +441,6 @@ public class PagedTreeGrid {
 		request.setQueryInput(Arrays.asList(LEVEL_NO, PARENT_HIERARCHY_NO));
 		request.setQueryInputList(Arrays.asList(levelNo, "/^" + hierarchyNo + "/"));
 		List<GtnWsRecordBean> rows = FetchData.callWebService(tableConfig, componentConfig.getModuleName(), request);
-=======
-		String hierarchyNo = String.valueOf(parent.getPropertyValue(HIERARCHY_NO)) + "%";
-		int levelNo = Integer.valueOf(parent.getPropertyValue(LEVEL_NO).toString()) + 1;
-		String dataQuery = replaceQueryInput(levelNo, hierarchyNo, tableConfig.getDataQuery());
-		Object[] input = tableConfig.getDataQueryInputs();
-		List<Object> list = addRangeInInput(input, offset, limit);
-		List<GtnWsRecordBean> rows = FetchData.fetchResultAsRow(tableConfig.getVisibleColumns().toArray(), dataQuery,
-				list.toArray());
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 		List<GtnWsRecordBean> updatedrows = mergeLeftAndRightData(rows, limit, offset, parentRowIndex);
 		return new DataSet(tableColumns.stream().collect(Collectors.toList()), updatedrows);
 	}
@@ -650,7 +455,6 @@ public class PagedTreeGrid {
 		return list;
 	}
 
-<<<<<<< HEAD
 	// private String replaceQueryInput(int levelNo, String hierarchyNo, String
 	// query) {
 	// String replacedQuery = query.replaceAll("@levelNo",
@@ -658,18 +462,10 @@ public class PagedTreeGrid {
 	// replacedQuery = replacedQuery.replaceAll("@hierarchyNo", hierarchyNo);
 	// return replacedQuery;
 	// }
-=======
-	private String replaceQueryInput(int levelNo, String hierarchyNo, String query) {
-		String replacedQuery = query.replaceAll("@levelNo", Integer.toString(levelNo));
-		replacedQuery = replacedQuery.replaceAll("@hierarchyNo", hierarchyNo + "%");
-		return replacedQuery;
-	}
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 
 	private DataSet loadData(int offset, int limit) {
 		List<GtnWsRecordBean> updatedrows = new ArrayList<>();
 		if (count != 0) {
-<<<<<<< HEAD
 			// String dataQuery = replaceQueryInput(, , tableConfig.getDataQuery());
 			Object[] input = tableConfig.getDataQueryInputs();
 			List<Object> list = addRangeInInput(input, offset * tableConfig.getRowsPerLevelItem(),
@@ -679,14 +475,6 @@ public class PagedTreeGrid {
 			request.setQueryInputList(Arrays.asList(tableConfig.getLevelNo(), ".*"));
 			List<GtnWsRecordBean> rows = FetchData.callWebService(tableConfig, componentConfig.getModuleName(),
 					request);
-=======
-			String dataQuery = replaceQueryInput(tableConfig.getLevelNo(), "%", tableConfig.getDataQuery());
-			Object[] input = tableConfig.getDataQueryInputs();
-			List<Object> list = addRangeInInput(input, offset * tableConfig.getRowsPerLevelItem(),
-					limit * tableConfig.getRowsPerLevelItem());
-			List<GtnWsRecordBean> rows = FetchData.fetchResultAsRow(tableConfig.getVisibleColumns().toArray(),
-					dataQuery, list.toArray());
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 			updatedrows = mergeLeftAndRightData(rows, limit, offset, pageNumber * pageLength);
 		}
 
@@ -700,18 +488,11 @@ public class PagedTreeGrid {
 		List<GtnWsRecordBean> leftRows = leftTableDataSet.getRows();
 		for (GtnWsRecordBean newRow : leftRows) {
 			int childCount = getChildCount(newRow);
-<<<<<<< HEAD
 
 			newRow.addProperties(CHILD_COUNT, childCount);
 			newRow.addProperties(ROW_NUMBER, parentRowIndex + 1);
 			rows.stream().filter((row) -> !(!String.valueOf(row.getPropertyValue(HIERARCHY_NO))
 					.equals(String.valueOf(newRow.getPropertyValue(HIERARCHY_NO))))).forEach((row) -> {
-=======
-			newRow.addProperties(CHILD_COUNT, childCount);
-			newRow.addProperties(ROW_NUMBER, parentRowIndex + 1);
-			rows.stream().filter(row -> !(!String.valueOf(row.getPropertyValue(HIERARCHY_NO))
-					.equals(String.valueOf(newRow.getPropertyValue(HIERARCHY_NO))))).forEach(row -> {
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 						String period = String.valueOf(row.getPropertyValue("frequency"));
 						String year = String.valueOf(row.getPropertyValue("year"));
 
@@ -721,11 +502,7 @@ public class PagedTreeGrid {
 						tableConfig.getVisibleColumns().stream().map((column) -> {
 							tableColumns.add(period + year + column);
 							return column;
-<<<<<<< HEAD
 						}).forEach((column) -> {
-=======
-						}).forEach(column -> {
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 							newRow.addProperties(period + year + column, row.getPropertyValue(column.toString()));
 						});
 					});
@@ -774,17 +551,10 @@ public class PagedTreeGrid {
 		if (newPageLength <= 0) {
 			Notification.show("Illegal page length." + newPageLength);
 		}
-<<<<<<< HEAD
 		pageLength = newPageLength;
 		if (pageLength != newPageLength && count != 0) {
 			pageNumber = 0;
 			setPageNoFieldValue(0);
-=======
-		if (pageLength != newPageLength) {
-			pageNumber = 0;
-			setPageNoFieldValue(0);
-			pageLength = newPageLength;
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 			resetGridToInitialState();
 		}
 	}
@@ -904,11 +674,7 @@ public class PagedTreeGrid {
 
 		int currentOffset = pageNumber * pageLength;
 		if (expandedItemIds.isEmpty()) {
-<<<<<<< HEAD
 			getLeftData(currentOffset, currentOffset + pageLength, tableConfig.getLevelNo(), ".*");
-=======
-			getLeftData(currentOffset, currentOffset + pageLength, tableConfig.getLevelNo(), "%");
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 			dataSet = loadData((pageNumber * pageLength), pageLength);
 		} else {
 			findLastExpandedItem(currentOffset);
@@ -936,7 +702,6 @@ public class PagedTreeGrid {
 	}
 
 	public static int getChildCountForRow(GtnWsRecordBean row) {
-<<<<<<< HEAD
 		return getInt(row.getPropertyValue(CHILD_COUNT));
 	}
 
@@ -960,30 +725,11 @@ public class PagedTreeGrid {
 			gtnlogger.error(e.getMessage());
 		}
 		return i;
-=======
-		return (int) row.getPropertyValue(CHILD_COUNT);
-	}
-
-	public static int getRowNo(GtnWsRecordBean row) {
-		return (int) row.getPropertyValue(ROW_NUMBER);
-	}
-
-	public static int getLevelNo(GtnWsRecordBean row) {
-		return Integer.parseInt(row.getPropertyValue(LEVEL_NO).toString());
-	}
-
-	public String getHierarchyNo(GtnWsRecordBean row) {
-		return String.valueOf(row.getPropertyValue(HIERARCHY_NO));
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 	}
 
 	public HorizontalLayout getControlLayout() {
 		controlLayout.setWidth("100%");
-<<<<<<< HEAD
-=======
 		controlLayout.setSpacing(false);
-		
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 		pageNoField = new TextField();
 		pageCountLabel = new Label("1");
 		pageNoField.setWidth("50px");
@@ -1016,11 +762,7 @@ public class PagedTreeGrid {
 		ComboBox itemsPerPage = new ComboBox();
 		itemsPerPage.setItems(new Object[] { 5, 10, 15, 20, 25, 50, 100 });
 		itemsPerPage.setSelectedItem(10);
-<<<<<<< HEAD
 		itemsPerPage.setWidth("60px");
-=======
-		itemsPerPage.setWidth("100px");
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 		itemsPerPage.setEmptySelectionAllowed(false);
 		itemsPerPage.addValueChangeListener(new HasValue.ValueChangeListener() {
 			@Override
@@ -1030,7 +772,6 @@ public class PagedTreeGrid {
 		});
 		return itemsPerPage;
 	}
-<<<<<<< HEAD
 
 	public GtnUIFrameworkPagedTreeTableConfig getTableConfig() {
 		return tableConfig;
@@ -1039,8 +780,6 @@ public class PagedTreeGrid {
 	public void setTableConfig(GtnUIFrameworkPagedTreeTableConfig tableConfig) {
 		this.tableConfig = tableConfig;
 	}
-
-=======
 	private HeaderRow setFilterToGrid() {
 		HeaderRow filterRow = grid.getDefaultHeaderRow();
 		Component vaadinComponent = null;
@@ -1110,5 +849,5 @@ public class PagedTreeGrid {
 //		tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
 		resetGridToInitialState();
 	}
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
+
 }

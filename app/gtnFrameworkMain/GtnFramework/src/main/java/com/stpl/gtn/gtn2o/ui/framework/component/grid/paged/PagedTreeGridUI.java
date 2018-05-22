@@ -4,8 +4,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.QueryBean;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.config.PagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.constants.Queries;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.VerticalLayout;
 
 public class PagedTreeGridUI extends VerticalLayout {

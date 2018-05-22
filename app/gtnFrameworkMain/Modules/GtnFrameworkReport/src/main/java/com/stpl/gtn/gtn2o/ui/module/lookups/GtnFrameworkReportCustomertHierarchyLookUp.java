@@ -182,21 +182,6 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		reportCustomerHierarchySearchButton.setAddToParent(true);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-<<<<<<< HEAD
-=======
-		
-		/*GtnUIFrameWorkActionConfig customerHierarchySearchConfig = new GtnUIFrameWorkActionConfig();
-		customerHierarchySearchConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		customerHierarchySearchConfig.addActionParameter(CustomerHierarchySearchAction.class.getName());
-		customerHierarchySearchConfig.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP);
-		customerHierarchySearchConfig.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_NAME_TEXTBOX);
-		customerHierarchySearchConfig.addActionParameter("Customer Hierarchy");
-		customerHierarchySearchConfig.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE);*/
-		
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
 		loadDataTableActionConfig.setActionParameterList(
@@ -206,10 +191,6 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_NAME_TEXTBOX }));
 		actionConfigList.add(loadDataTableActionConfig);
-<<<<<<< HEAD
-=======
-		//actionConfigList.add(customerHierarchySearchConfig);
->>>>>>> 5ae106e9033d8b19bfca7628fe9932f63146c084
 		reportCustomerHierarchySearchButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		componentList.add(reportCustomerHierarchySearchButton);
