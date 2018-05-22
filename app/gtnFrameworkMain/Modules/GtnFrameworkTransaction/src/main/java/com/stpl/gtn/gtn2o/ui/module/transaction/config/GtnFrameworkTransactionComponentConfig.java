@@ -571,7 +571,7 @@ public class GtnFrameworkTransactionComponentConfig {
 			GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
 		List<GtnWSTransactionColumnBean> viewModeOrderComponents = componentBean.getViewModeOrderComponents();
 		List<GtnWSTransactionColumnBean> listViewComponent = componentBean.getListViewComponent();
-		if (viewEnabled) {
+		if (viewEnabled || GtnWsTransactionConstants.AVGSHELFLIFEMASTER.equals(tableName)) {
 			searchResults.setSelectable(true);
 			searchResults.setItemClickListener(true);
 			List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();

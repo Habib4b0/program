@@ -680,7 +680,8 @@ public final class ConstantsUtils {
     public static final String STATUS = "STATUS";
     public static final String SYS_SCHEMA = "sys.schema.jndi.name";
     public static final String DED_CONDITION = "%Deduction%";
-
+    public static final String PR = "PR";
+    
     public enum IndicatorConstants {
 
         INDICATOR_BASE_RATE_INDEX("BaseRateIndex"),

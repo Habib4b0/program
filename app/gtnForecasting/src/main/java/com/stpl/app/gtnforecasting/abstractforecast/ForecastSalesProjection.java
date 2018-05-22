@@ -140,7 +140,6 @@ import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.ui.themes.Reindeer;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
 /**
  *
@@ -462,6 +461,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     private String changedProperty;
     private boolean refresh = false;
     private boolean valueChange = false;
+    private static final String SALES_SMALL = "sales";
 
     public boolean isRefresh() {
         return refresh;
@@ -818,17 +818,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         refreshBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                commonLogic.viewProceduresCompletionCheck(projectionDTO);
+                CommonLogic.viewProceduresCompletionCheck(projectionDTO);
                 session.setFunctionMode("R");
                 setRefresh(true);
                 if (!projectionDTO.isMultipleVariablesUpdated()) {
                     salesLogic.executeUpdateQuery(projectionDTO);
                     getTableLogic().setRefresh(false);
-                    try {
-                        TimeUnit.SECONDS.sleep(3);
-                    } catch (InterruptedException ex) {
-                        java.util.logging.Logger.getLogger(ForecastSalesProjection.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    waitForSeconds();
                     CommonLogic.procedureCompletionCheck(projectionDTO,"Sales",String.valueOf(projectionDTO.getViewOption()));
                     refreshTableData(getCheckedRecordsHierarchyNo());
                     getTableLogic().setRefresh(true);
@@ -1786,9 +1782,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                         incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
                                     }
                                     String tempValue = String.valueOf(((TextField) event.getComponent()).getData());
-                                    String tempArray[] = tempValue.split("-");
+                                    String[] tempArray = tempValue.split("-");
                                     tempValue = projectionDTO.getFrequencyDivision() == 1 ? tempArray[1] : tempArray[NumericConstants.TWO];
-                                    String tempArray1[] = tempValue.split("~");
+                                    String[] tempArray1 = tempValue.split("~");
                                     changedProperty = tempArray1[0];
 
                                     String changedValue = ((TextField) event.getComponent()).getValue();
@@ -1825,7 +1821,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         });
         if (!returnsFlag) {
             for (Object obj : rightHeader.getDoubleHistoryColumns()) {
-                Object single[] = rightHeader.getDoubleHeaderMaps().get(obj);
+                Object[] single = rightHeader.getDoubleHeaderMaps().get(obj);
                 for (Object ob : single) {
                     rightTable.setColumnRadioButton(ob, (String) obj);
                     if (String.valueOf(ob).contains(Constant.ACTUALSALES)) {
@@ -1862,7 +1858,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
                 checkBoxMap.put(event.getPropertyId(), event.isChecked());
                 if (!returnsFlag) {
-                String arr[] = rightTable.getColumnRadioButtonArray((String) event.getPropertyId());
+                String[] arr = rightTable.getColumnRadioButtonArray((String) event.getPropertyId());
                     if (arr != null) {
                         for (String a : arr) {
                             rightTable.setColumnRadioButtonDisable(a, !event.isChecked());
@@ -2121,7 +2117,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      * the logic to check and save the entered values in the Mass Update Field.
      */
     protected void populateButtonLogic() {
-        commonLogic.viewProceduresCompletionCheck(projectionDTO);
+        CommonLogic.viewProceduresCompletionCheck(projectionDTO);
         
         try {
             session.setFunctionMode("M");
@@ -2326,15 +2322,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 } else {
                     Map<String, Object> inputParameters = loadInputParameters(startYear, endYear, startQuater, endQuater, enteredValue, updateVariable);
                     salesLogic.saveOnMassUpdate(projectionDTO, inputParameters);
-                    String startPeriod = salesLogic.getPeriodSid(startPeriodValue, projectionDTO.getFrequency(), "Min");
-                    String endPeriod = salesLogic.getPeriodSid(endPeriodValue, projectionDTO.getFrequency(), "Max");
-                    new DataSelectionLogic().callViewInsertProceduresThread(projectionDTO.getSessionDTO(),"Q", Constant.SALES1,startPeriod,endPeriod,updateVariable);
-                    try {
-                        TimeUnit.SECONDS.sleep(3);
-                    } catch (InterruptedException ex) {
-                        java.util.logging.Logger.getLogger(ForecastSalesProjection.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    CommonLogic.procedureCompletionCheck(projectionDTO,"sales",String.valueOf(projectionDTO.getViewOption()));
+                    String startPeriodMassUpdate = salesLogic.getPeriodSid(startPeriodValue, projectionDTO.getFrequency(), "Min");
+                    String endPeriodMassUpdate = salesLogic.getPeriodSid(endPeriodValue, projectionDTO.getFrequency(), "Max");
+                    new DataSelectionLogic().callViewInsertProceduresThread(projectionDTO.getSessionDTO(),"Q", Constant.SALES1,startPeriodMassUpdate,endPeriodMassUpdate,updateVariable);
+                    waitForSeconds();
+                    CommonLogic.procedureCompletionCheck(projectionDTO,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
                     isUpdated = true;
                     if (Constant.GROUPFCAPS.equals(String.valueOf(fieldDdlb.getValue()))) {
                         refreshGroupDdlb();
@@ -2352,6 +2344,15 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             LOGGER.error(ex.getMessage());
         }
 
+    }
+
+    private void waitForSeconds() {
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException ex) {
+            LOGGER.error( "Interrupted!", ex);
+            Thread.currentThread().interrupt();
+        }
     }
 
     public Map<String, Object> loadInputParameters(int startYear, int endYear, int startQuater, int endQuater, String enteredValue, String updateVariable) {
@@ -2390,7 +2391,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      */
     @UiHandler("adjust")
     public void adjustmentLogic(Button.ClickEvent event) {
-        commonLogic.viewProceduresCompletionCheck(projectionDTO);
+        CommonLogic.viewProceduresCompletionCheck(projectionDTO);
         session.setFunctionMode("ADJ");
         if (!checkForCheckedRecord()) {
             AbstractNotificationUtils.getErrorNotification("No Hierarchy level selected", "Please select a level in the hierarchy.");
@@ -2469,12 +2470,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         getTableLogic().setRefresh(false);
                         salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,
                                 adjMethodology, HISTORY_PERIODS, projectionPeriods);
-                        try {
-                            TimeUnit.SECONDS.sleep(3);
-                        } catch (InterruptedException ex) {
-                            java.util.logging.Logger.getLogger(ForecastSalesProjection.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        CommonLogic.procedureCompletionCheck(projectionDTO, "sales", String.valueOf(projectionDTO.getViewOption()));
+                        waitForSeconds();
+                        CommonLogic.procedureCompletionCheck(projectionDTO, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
                         refreshTableData(getCheckedRecordsHierarchyNo());
                         getTableLogic().setRefresh(true);
                         session.setActualAdjustment(true);
@@ -2587,11 +2584,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 }
                                 getTableLogic().setRefresh(false);
                                 salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable, adjMethodology, historyPeriods, projectionPeriods);
-                                try {
-                        TimeUnit.SECONDS.sleep(3);
-                    } catch (InterruptedException ex) {
-                        java.util.logging.Logger.getLogger(ForecastSalesProjection.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                                waitForSeconds();
                                 refreshTableData(getCheckedRecordsHierarchyNo());
                                 getTableLogic().setRefresh(true);
                             } catch (PortalException  | SQLException ex) {
@@ -2625,7 +2618,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         int currentSemi = (Integer) list.get(NumericConstants.THREE);
         String selectedFreq = projectionDTO.getFrequency();
         for (Object key : checkBoxMap.keySet()) {
-            String temp[] = ((String) key).split("-");
+            String[] temp = ((String) key).split("-");
             int tempYear = Integer.parseInt(ANNUAL.equals(selectedFreq) ? temp[0] : temp[1]);
             int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
             int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
@@ -2676,7 +2669,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         String selectedFreq = projectionDTO.getFrequency();
         for (Object key : rightHeader.getDoubleProjectedColumns()) {
             if (!String.valueOf(key).equals(Constant.GROUP)) {
-                String temp[] = ((String) key).split("-");
+                String[] temp = ((String) key).split("-");
                 int tempYear = Integer.parseInt(ANNUAL.equals(selectedFreq) ? temp[0] : temp[1]);
                 int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
                 int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
@@ -2727,7 +2720,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         String selectedFreq = projectionDTO.getFrequency();
 
         for (Object key : checkBoxMap.keySet()) {
-            String temp[] = ((String) key).split("-");
+            String[] temp = ((String) key).split("-");
             int tempYear = Integer.parseInt(ANNUAL.equals(selectedFreq) ? temp[0] : temp[1]);
             int tempQuarter = QUARTERLY.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
             int tempSemi = SEMI_ANNUAL.getConstant().equals(selectedFreq) ? Integer.parseInt((temp[0].replaceAll(Constant.FROM_ZERO_TO_NINE, StringUtils.EMPTY)).trim()) : 0;
@@ -2808,7 +2801,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public void calculateButtonLogic() {
 
         Set<String> setMethodologiesValuesVal = new HashSet();
-        commonLogic.viewProceduresCompletionCheck(projectionDTO);
+        CommonLogic.viewProceduresCompletionCheck(projectionDTO);
         session.setFunctionMode("CALC");
 
         if (methodology.getValue() == null) {
@@ -2944,7 +2937,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 commonLogic.insertPFDTemp(session, calcMethodology, String.valueOf(allocationBasis.getValue()), true);
             }
             isSalesCalculated = salesLogic.calculateSalesProjection(projectionDTO, calcMethodology, selectedPeriods, calcBased, String.valueOf(forecastStartPeriod.getValue()), String.valueOf(forecastEndPeriod.getValue()), String.valueOf(allocationBasis.getValue()));
-            CommonLogic.procedureCompletionCheck(projectionDTO,"sales",String.valueOf(projectionDTO.getViewOption()));
+            CommonLogic.procedureCompletionCheck(projectionDTO,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
 
         } else {
