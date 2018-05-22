@@ -782,16 +782,10 @@ public class CommonUtil {
         List inputList = new ArrayList<>();
         inputList.add(screenName);
         inputList.add(viewName);
-        List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(inputList, "getProcedureStatus"), session.getCurrentTableNames()));
-        for (int i = 0; i < resultList.size(); i++) {
-            Object[] obj = (Object[]) resultList.get(i);
-            if (!"C".equalsIgnoreCase((String.valueOf(obj[2])).trim())) {
-                isProcedureCompleted(String.valueOf(obj[0]), String.valueOf(obj[1]), session);
-            } else {
-                return ;
-            }
-        }
-        return ;
+        List resultList;
+        do {
+            resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(inputList, "getProcedureStatus"), session.getCurrentTableNames()));
+        } while (!"C".equalsIgnoreCase((String.valueOf(((Object[])resultList.get(0))[2]).trim())));
     }
     
 }
