@@ -267,6 +267,12 @@ public class GtnFrameworkWorkflowPopulateFieldsAction
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.GLDATEARM, componentId)
 					.loadDateValue(glDateArm);
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CREATEDBY, componentId)
+					.loadFieldValue(createdByPrivate);
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY, componentId)
+					.loadFieldValue(approvedByPrivate);
 
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONNOARM, componentId)
@@ -296,12 +302,6 @@ public class GtnFrameworkWorkflowPopulateFieldsAction
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("companyARM", componentId)
 						.loadComboBoxComponentValue(getIntValue(companyARM));
 			}
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CREATEDBY, componentId)
-					.loadFieldValue(createdByPrivate);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY, componentId)
-					.loadFieldValue(approvedByPrivate);
 
 		} catch (
 
@@ -316,7 +316,7 @@ public class GtnFrameworkWorkflowPopulateFieldsAction
 	}
 
 	private Integer getIntValue(String value) {
-		if (value != null && !value.isEmpty()) {
+		if (value != null && !value.isEmpty() && !"null".equalsIgnoreCase(String.valueOf(value).trim())) {
 			return Integer.valueOf(value);
 		}
 		return 0;
