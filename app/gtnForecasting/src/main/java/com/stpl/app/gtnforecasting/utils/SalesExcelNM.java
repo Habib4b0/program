@@ -102,9 +102,7 @@ public class SalesExcelNM extends ExcelExport{
                 sheetCell.setCellType(Cell.CELL_TYPE_NUMERIC);
                 
                 Double cellValue = d;
-                if ((formatter.get(Constant.PERCENT_THREE_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) && (d > 0)) {
-                        cellValue = cellValue / NumericConstants.HUNDRED;
-                }
+                cellValue = getCellValue(propId, d, cellValue);
                 sheetCell.setCellValue(cellValue);
                 formatForCurrencyAndDecimal(propId, sheetCell, rootItemId);
 
@@ -112,6 +110,13 @@ public class SalesExcelNM extends ExcelExport{
                 nonFormatter(value, prop, sheetCell);
             }
         }
+    }
+
+    private Double getCellValue(Object propId, Double d, Double cellValue) {
+        if ((formatter.get(Constant.PERCENT_THREE_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) && (d > 0)) {
+            cellValue = cellValue / NumericConstants.HUNDRED;
+        }
+        return cellValue;
     }
 
     private Double dataConverter(Object value) throws NumberFormatException {
