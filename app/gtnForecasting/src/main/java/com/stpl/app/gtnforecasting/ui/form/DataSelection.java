@@ -4404,10 +4404,7 @@ public class DataSelection extends ForecastDataSelection {
         private void configureDataSelectionDeductionLevel() {
 
 		List<String[]> newDeductionLevelList = CommonLogic.getDataselectionDeductionLevel();
-		Utility.loadDdlbForDeduction(dataSelectionDeductionLevel, newDeductionLevelList);
-
-		dataSelectionDeductionLevel.select(Integer.parseInt(session.getDataSelectionDeductionLevel()));
-
+		Utility.loadDdlbForDeduction(dataSelectionDeductionLevel, newDeductionLevelList,session);
 	}
 
 }

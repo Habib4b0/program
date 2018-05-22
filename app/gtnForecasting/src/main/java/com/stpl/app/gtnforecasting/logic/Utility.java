@@ -164,7 +164,20 @@ public class Utility {
             }
         }
     }
-    public static void loadDdlbForDeduction(ComboBox ddlb, List<String[]> currentHierarchy) {
+    public static void loadDdlbForDeduction(ComboBox ddlb, List<String[]> currentHierarchy,SessionDTO session) {
+        if (ddlb != null) {
+            resetDdlb(ddlb);
+            if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
+                for (int i = 0; i < currentHierarchy.size(); i++) {
+                    Object[] levelValues = currentHierarchy.get(i);
+                    ddlb.addItem(DataTypeConverter.convertObjectToInt(levelValues[0]));
+                    ddlb.setItemCaption(DataTypeConverter.convertObjectToInt(levelValues[0]), String.valueOf(levelValues[1]));
+                }
+                ddlb.select(Integer.parseInt(session.getDataSelectionDeductionLevel()));
+            }
+        }
+    }
+    public static void loadDdlbForDataselectionDeduction(ComboBox ddlb, List<String[]> currentHierarchy) {
         if (ddlb != null) {
             resetDdlb(ddlb);
             if (currentHierarchy != null && !currentHierarchy.isEmpty()) {

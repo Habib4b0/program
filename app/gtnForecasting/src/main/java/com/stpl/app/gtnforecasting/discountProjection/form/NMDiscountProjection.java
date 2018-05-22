@@ -470,6 +470,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         frequency.setCaption("Frequency");
         frequency.setWidth("80px");
         frequencyDdlb.setImmediate(true);
+        frequencyDdlb.select(dataSelectionDto.getFrequency());
         actualsProjections.setCaption("Actuals/Projections:");
         actualsProjections.setWidth("127px");
         actualsProjs.setEnabled(true);
@@ -3503,7 +3504,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     @Override
     protected void generateBtnClickLogic(Boolean isGenerate) {
-        CommonUtil.getInstance().isProcedureCompleted("Discount", "PRC_NM_MASTER_INSERT", session) ;
+        CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL));
+        CommonLogic.procedureCompletionCheck(projectionSelection,"Discount",String.valueOf(view.getValue()));
         isRateUpdatedManually = false;
         isRPUUpdatedManually = false;
         isAmountUpdatedManually = false;
@@ -3526,7 +3528,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      * @param isGenerate
      */
     public void generateListView(boolean isGenerate) {
-        CommonLogic.procedureCompletionCheck(projectionSelection,"Discount",String.valueOf(view.getValue()));
         LOGGER.debug("Inside generateListView ");
         List<String> discountToBeLoaded = new ArrayList<>();
         Object[] displayValidation = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
@@ -5413,7 +5414,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     private void loadDedutionLevel() {
         List<String[]> deductionLevel = CommonLogic.getDeductionLevel(session.getProjectionId());
-        Utility.loadDdlbForDeduction(deductionlevelDdlb, deductionLevel);
+        Utility.loadDdlbForDeduction(deductionlevelDdlb, deductionLevel,session);
         deductionlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
