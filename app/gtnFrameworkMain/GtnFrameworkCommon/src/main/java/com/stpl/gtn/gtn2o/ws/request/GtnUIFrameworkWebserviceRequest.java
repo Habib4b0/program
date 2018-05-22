@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ws.request.companygroup.GtnCompanyGroupRequest;
 import com.stpl.gtn.gtn2o.ws.request.compliancededuction.GtnWsComplianceGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractDashboardRequest;
 import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractHeaderRequest;
+import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.request.dataselectionedit.GtnWsForecastHierarchyInsertRequest;
 import com.stpl.gtn.gtn2o.ws.request.deductioncalendar.GtnWsDeductionCalendarRequest;
 import com.stpl.gtn.gtn2o.ws.request.duallistbox.GTNUIFrameworkDualListBoxRequest;
@@ -39,432 +40,440 @@ import com.stpl.gtn.gtn2o.ws.request.workflow.GtnWsCommonWorkflowRequest;
 
 public class GtnUIFrameworkWebserviceRequest {
 
-	public GtnUIFrameworkWebserviceRequest() {
-		super();
-	}
+    public GtnUIFrameworkWebserviceRequest() {
+        super();
+    }
 
-	private GtnBSTimePeriodRequest gtnBSTimePeriodRequest;
+    private GtnBSTimePeriodRequest gtnBSTimePeriodRequest;
 
-	private GTNUIFrameworkDualListBoxRequest gTNUIFrameworkDualListBoxRequest;
+    private GTNUIFrameworkDualListBoxRequest gTNUIFrameworkDualListBoxRequest;
 
-	private GtnWsGeneralRequest gtnWsGeneralRequest;
+    private GtnWsGeneralRequest gtnWsGeneralRequest;
 
-	private GtnCMasterRequest gtnCMasterRequest;
+    private GtnCMasterRequest gtnCMasterRequest;
 
-	private GtnWsSearchRequest gtnWsSearchRequest;
+    private GtnWsSearchRequest gtnWsSearchRequest;
 
-	private GtnWSAdjusmentSummaryRequest gtnWSAdjusmentSummaryRequest;
+    private GtnWSAdjusmentSummaryRequest gtnWSAdjusmentSummaryRequest;
 
-	private GtnWsCfpRequest gtnWsCfpRequest;
+    private GtnWsCfpRequest gtnWsCfpRequest;
 
-	private GtnWsIfpRequest gtnWsIfpRequest;
+    private GtnWsIfpRequest gtnWsIfpRequest;
 
-	private GtnWsForecastRequest gtnWsForecastRequest;
+    private GtnWsForecastRequest gtnWsForecastRequest;
 
-	private GtnCompanyGroupRequest gtnCompanyGroupRequest;
+    private GtnCompanyGroupRequest gtnCompanyGroupRequest;
 
-	private GtnWsCheckAllUpdateRequest gtnWsCheckAllUpdateRequest;
+    private GtnWsCheckAllUpdateRequest gtnWsCheckAllUpdateRequest;
 
-	private GtnWsComplianceGeneralRequest gtnWsComplianceGeneralRequest;
+    private GtnWsComplianceGeneralRequest gtnWsComplianceGeneralRequest;
 
-	private GtnWsRebatePlanGeneralRequest gtnWsRebatePlanGeneralRequest;
+    private GtnWsRebatePlanGeneralRequest gtnWsRebatePlanGeneralRequest;
 
-	private GtnWsPriceScheduleGeneralRequest gtnWsPriceScheduleGeneralRequest;
+    private GtnWsPriceScheduleGeneralRequest gtnWsPriceScheduleGeneralRequest;
 
-	private GtnWsRebateScheduleGeneralRequest gtnWsRebateScheduleGeneralRequest;
+    private GtnWsRebateScheduleGeneralRequest gtnWsRebateScheduleGeneralRequest;
 
-	private GtnWsItemGroupRequest gtnWsItemGroupRequest;
+    private GtnWsItemGroupRequest gtnWsItemGroupRequest;
 
-	private GtnWsItemMasterRequest gtnWsItemMasterRequest;
+    private GtnWsItemMasterRequest gtnWsItemMasterRequest;
 
-	private GtnWsForecastProjectionSubmitRequest gtnWsForecastProjectionSubmitRequest;
-        
-	private GtnWsCFFSubmitRequest gtnCffsubmitRequest ;
+    private GtnWsForecastProjectionSubmitRequest gtnWsForecastProjectionSubmitRequest;
 
-	private GtnWsNetSalesFormulaGeneralRequest gtnWsNetSalesGeneralRequest;
+    private GtnWsCFFSubmitRequest gtnCffsubmitRequest;
 
-	private GtnWsContractHeaderRequest gtnWsContractHeaderRequest;
+    private GtnWsNetSalesFormulaGeneralRequest gtnWsNetSalesGeneralRequest;
 
-	private GtnWsContractDashboardRequest gtnWsContractDashboardRequest;
+    private GtnWsContractHeaderRequest gtnWsContractHeaderRequest;
 
-	private GtnWsDeductionCalendarRequest deductionCalendarRequest;
+    private GtnWsContractDashboardRequest gtnWsContractDashboardRequest;
 
-	private GtnwsExcelRequest gtnwsExcelRequest;
+    private GtnWsDeductionCalendarRequest deductionCalendarRequest;
 
-	private GtnWsTransactionRequest gtnWsTransactionRequest;
+    private GtnwsExcelRequest gtnwsExcelRequest;
 
-	private GtnWsForecastConfigurationRequest forecastConfigurationRequest;
+    private GtnWsTransactionRequest gtnWsTransactionRequest;
 
-	private GtnWsProcessMonitorRequest processMonitorRequest;
+    private GtnWsForecastConfigurationRequest forecastConfigurationRequest;
 
-	private GtnWsProcessSchedulerRequest processSchedulerRequest;
+    private GtnWsProcessMonitorRequest processMonitorRequest;
 
-	private GtnWsRelationshipBuilderRequest relationshipBuilderRequest;
+    private GtnWsProcessSchedulerRequest processSchedulerRequest;
 
-	private GtnWsPagedTreeTableRequest gtnWsPagedTreeTableRequest;
+    private GtnWsRelationshipBuilderRequest relationshipBuilderRequest;
 
-	private GtnWsCommonWorkflowRequest gtnWSCommonWorkflowRequest;
+    private GtnWsPagedTreeTableRequest gtnWsPagedTreeTableRequest;
 
-	private GtnWsCalendarConfigurationRequest calendarConfigurationRequest;
+    private GtnWsCommonWorkflowRequest gtnWSCommonWorkflowRequest;
 
-	private GtnWsMailConfigurationRequest emailConfigurationRequest;
+    private GtnWsCalendarConfigurationRequest calendarConfigurationRequest;
 
-	private GtnWsPeriodConfigurationRequest gtnWsPeriodConfigurationRequest;
+    private GtnWsMailConfigurationRequest emailConfigurationRequest;
 
-	private GtnWsFileManagementRequest gtnWsFileManagementRequest;
+    private GtnWsPeriodConfigurationRequest gtnWsPeriodConfigurationRequest;
 
-	private GtnWsModuleAuthorizationGeneralRequest gtnWsModuleAuthorizationGeneralRequest;
+    private GtnWsFileManagementRequest gtnWsFileManagementRequest;
 
-	private GtnFrameworkAutomaticRelationshipRequest automaticRelationEequest;
-	private GtnWsCsvExportRequest gtnWsCsvExportRequest;
+    private GtnWsModuleAuthorizationGeneralRequest gtnWsModuleAuthorizationGeneralRequest;
 
-	private GtnWsBcpServiceRequest gtnWsBcpServiceRequest;
+    private GtnFrameworkAutomaticRelationshipRequest automaticRelationEequest;
+    private GtnWsCsvExportRequest gtnWsCsvExportRequest;
 
-	private GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest;
+    private GtnWsBcpServiceRequest gtnWsBcpServiceRequest;
 
-	private GtnWsUdcRequest gtnWsUdcRequest;
-	
+    private GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest;
+
+    private GtnWsUdcRequest gtnWsUdcRequest;
+
     private GtnWsAttachmentRequest gtnWsAttachmentRequest;
 
-	public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
-		return gtnWshirarchyInsertRequest;
-	}
-
-	public void setGtnWshirarchyInsertRequest(GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest) {
-		this.gtnWshirarchyInsertRequest = gtnWshirarchyInsertRequest;
-	}
-
-	public GtnBSTimePeriodRequest getGtnBSTimePeriodRequest() {
-		return gtnBSTimePeriodRequest;
-	}
-
-	public void setGtnBSTimePeriodRequest(GtnBSTimePeriodRequest gtnBSTimePeriodRequest) {
-		this.gtnBSTimePeriodRequest = gtnBSTimePeriodRequest;
-	}
-
-	public GTNUIFrameworkDualListBoxRequest getgTNUIFrameworkDualListBoxRequest() {
-		return gTNUIFrameworkDualListBoxRequest;
-	}
-
-	public void setgTNUIFrameworkDualListBoxRequest(GTNUIFrameworkDualListBoxRequest gTNUIFrameworkDualListBoxRequest) {
-		this.gTNUIFrameworkDualListBoxRequest = gTNUIFrameworkDualListBoxRequest;
-	}
-
-	public GtnWsGeneralRequest getGtnWsGeneralRequest() {
-		return gtnWsGeneralRequest;
-	}
-
-	public void setGtnWsGeneralRequest(GtnWsGeneralRequest gtnWsGeneralRequest) {
-		this.gtnWsGeneralRequest = gtnWsGeneralRequest;
-	}
-
-	public GtnCMasterRequest getGtnCMasterRequest() {
-		return gtnCMasterRequest;
-	}
-
-	public void setGtnCMasterRequest(GtnCMasterRequest gtnCMasterRequest) {
-		this.gtnCMasterRequest = gtnCMasterRequest;
-	}
-
-	public GtnWsSearchRequest getGtnWsSearchRequest() {
-		return gtnWsSearchRequest;
-	}
-
-	public void setGtnWsSearchRequest(GtnWsSearchRequest gtnWsSearchRequest) {
-		this.gtnWsSearchRequest = gtnWsSearchRequest;
-	}
-
-	public GtnWSAdjusmentSummaryRequest getGtnWSAdjusmentSummaryRequest() {
-		return gtnWSAdjusmentSummaryRequest;
-	}
-
-	public void setGtnWSAdjusmentSummaryRequest(GtnWSAdjusmentSummaryRequest gtnWSAdjusmentSummaryRequest) {
-		this.gtnWSAdjusmentSummaryRequest = gtnWSAdjusmentSummaryRequest;
-	}
-
-	public GtnWsCfpRequest getGtnWsCfpRequest() {
-		return gtnWsCfpRequest;
-	}
-
-	public void setGtnWsCfpRequest(GtnWsCfpRequest gtnWsCfpRequest) {
-		this.gtnWsCfpRequest = gtnWsCfpRequest;
-	}
-
-	public GtnWsIfpRequest getGtnWsIfpRequest() {
-		return gtnWsIfpRequest;
-	}
-
-	public void setGtnWsIfpRequest(GtnWsIfpRequest gtnWsIfpRequest) {
-		this.gtnWsIfpRequest = gtnWsIfpRequest;
-	}
-
-	public GtnCompanyGroupRequest getGtnCompanyGroupRequest() {
-		return gtnCompanyGroupRequest;
-	}
-
-	public void setGtnCompanyGroupRequest(GtnCompanyGroupRequest gtnCompanyGroupRequest) {
-		this.gtnCompanyGroupRequest = gtnCompanyGroupRequest;
-	}
-
-	public GtnWsForecastRequest getGtnWsForecastRequest() {
-		return gtnWsForecastRequest;
-	}
-
-	public void setGtnWsForecastRequest(GtnWsForecastRequest gtnWsForecastRequest) {
-		this.gtnWsForecastRequest = gtnWsForecastRequest;
-	}
-
-	public GtnWsCheckAllUpdateRequest getGtnWsCheckAllUpdateRequest() {
-		return gtnWsCheckAllUpdateRequest;
-	}
-
-	public void setGtnWsCheckAllUpdateRequest(GtnWsCheckAllUpdateRequest gtnWsCheckAllUpdateRequest) {
-		this.gtnWsCheckAllUpdateRequest = gtnWsCheckAllUpdateRequest;
-	}
-
-	public GtnWsItemGroupRequest getGtnWsItemGroupRequest() {
-		return gtnWsItemGroupRequest;
-	}
-
-	public void setGtnWsItemGroupRequest(GtnWsItemGroupRequest gtnWsItemGroupRequest) {
-		this.gtnWsItemGroupRequest = gtnWsItemGroupRequest;
-	}
-
-	public GtnWsItemMasterRequest getGtnWsItemMasterRequest() {
-		return gtnWsItemMasterRequest;
-	}
-
-	public void setGtnWsItemMasterRequest(GtnWsItemMasterRequest gtnWsItemMasterRequest) {
-		this.gtnWsItemMasterRequest = gtnWsItemMasterRequest;
-	}
-
-	public GtnWsContractHeaderRequest getGtnWsContractHeaderRequest() {
-		return gtnWsContractHeaderRequest;
-	}
-
-	public void setGtnWsContractHeaderRequest(GtnWsContractHeaderRequest gtnWsContractHeaderRequest) {
-		this.gtnWsContractHeaderRequest = gtnWsContractHeaderRequest;
-	}
-
-	public GtnWsContractDashboardRequest getGtnWsContractDashboardRequest() {
-		return gtnWsContractDashboardRequest;
-	}
-
-	public void setGtnWsContractDashboardRequest(GtnWsContractDashboardRequest gtnWsContractDashboardRequest) {
-		this.gtnWsContractDashboardRequest = gtnWsContractDashboardRequest;
-	}
-
-	public GtnWsForecastProjectionSubmitRequest getGtnWsForecastProjectionSubmitRequest() {
-		return gtnWsForecastProjectionSubmitRequest;
-	}
-
-	public void setGtnWsForecastProjectionSubmitRequest(
-			GtnWsForecastProjectionSubmitRequest gtnWsForecastProjectionSubmitRequest) {
-		this.gtnWsForecastProjectionSubmitRequest = gtnWsForecastProjectionSubmitRequest;
-	}
-
-	public GtnWsDeductionCalendarRequest getDeductionCalendarRequest() {
-		return deductionCalendarRequest;
-	}
-
-	public void setDeductionCalendarRequest(GtnWsDeductionCalendarRequest deductionCalendarRequest) {
-		this.deductionCalendarRequest = deductionCalendarRequest;
-	}
-
-	public GtnWsNetSalesFormulaGeneralRequest getGtnWsNetSalesGeneralRequest() {
-		return gtnWsNetSalesGeneralRequest;
-	}
-
-	public void setGtnWsNetSalesGeneralRequest(GtnWsNetSalesFormulaGeneralRequest gtnWsNetSalesGeneralRequest) {
-		this.gtnWsNetSalesGeneralRequest = gtnWsNetSalesGeneralRequest;
-	}
-
-	public GtnWsComplianceGeneralRequest getGtnWsComplianceGeneralRequest() {
-		return gtnWsComplianceGeneralRequest;
-	}
-
-	public void setGtnWsComplianceGeneralRequest(GtnWsComplianceGeneralRequest gtnWsComplianceGeneralRequest) {
-		this.gtnWsComplianceGeneralRequest = gtnWsComplianceGeneralRequest;
-	}
-
-	public GtnWsRebatePlanGeneralRequest getGtnWsRebatePlanGeneralRequest() {
-		return gtnWsRebatePlanGeneralRequest;
-	}
-
-	public void setGtnWsRebatePlanGeneralRequest(GtnWsRebatePlanGeneralRequest gtnWsRebatePlanGeneralRequest) {
-		this.gtnWsRebatePlanGeneralRequest = gtnWsRebatePlanGeneralRequest;
-	}
-
-	public GtnWsPriceScheduleGeneralRequest getGtnWsPriceScheduleGeneralRequest() {
-		return gtnWsPriceScheduleGeneralRequest;
-	}
-
-	public void setGtnWsPriceScheduleGeneralRequest(GtnWsPriceScheduleGeneralRequest gtnWsPriceScheduleGeneralRequest) {
-		this.gtnWsPriceScheduleGeneralRequest = gtnWsPriceScheduleGeneralRequest;
-	}
-
-	public GtnWsRebateScheduleGeneralRequest getGtnWsRebateScheduleGeneralRequest() {
-		return gtnWsRebateScheduleGeneralRequest;
-	}
-
-	public void setGtnWsRebateScheduleGeneralRequest(
-			GtnWsRebateScheduleGeneralRequest gtnWsRebateScheduleGeneralRequest) {
-		this.gtnWsRebateScheduleGeneralRequest = gtnWsRebateScheduleGeneralRequest;
-	}
-
-	public GtnWsTransactionRequest getGtnWsTransactionRequest() {
-		return gtnWsTransactionRequest;
-	}
-
-	public GtnwsExcelRequest getGtnwsExcelRequest() {
-		return gtnwsExcelRequest;
-	}
-
-	public void setGtnWsTransactionRequest(GtnWsTransactionRequest gtnWsTransactionRequest) {
-		this.gtnWsTransactionRequest = gtnWsTransactionRequest;
-	}
-
-	public void setGtnwsExcelRequest(GtnwsExcelRequest gtnwsExcelRequest) {
-		this.gtnwsExcelRequest = gtnwsExcelRequest;
-	}
-
-	public GtnWsForecastConfigurationRequest getForecastConfigurationRequest() {
-		return forecastConfigurationRequest;
-	}
-
-	public void setForecastConfigurationRequest(GtnWsForecastConfigurationRequest forecastConfigurationRequest) {
-		this.forecastConfigurationRequest = forecastConfigurationRequest;
-	}
-
-	public GtnWsRelationshipBuilderRequest getRelationshipBuilderRequest() {
-		return relationshipBuilderRequest;
-	}
-
-	public void setRelationshipBuilderRequest(GtnWsRelationshipBuilderRequest relationshipBuilderRequest) {
-		this.relationshipBuilderRequest = relationshipBuilderRequest;
-	}
-
-	public GtnWsPagedTreeTableRequest getGtnWsPagedTreeTableRequest() {
-		return gtnWsPagedTreeTableRequest;
-	}
-
-	public void setGtnWsPagedTreeTableRequest(GtnWsPagedTreeTableRequest gtnWsPagedTreeTableRequest) {
-		this.gtnWsPagedTreeTableRequest = gtnWsPagedTreeTableRequest;
-	}
-
-	public GtnWsCommonWorkflowRequest getGtnWSCommonWorkflowRequest() {
-		return gtnWSCommonWorkflowRequest;
-	}
-
-	public void setGtnWSCommonWorkflowRequest(GtnWsCommonWorkflowRequest gtnWSCommonWorkflowRequest) {
-		this.gtnWSCommonWorkflowRequest = gtnWSCommonWorkflowRequest;
-	}
-
-	public GtnWsCalendarConfigurationRequest getCalendarConfigurationRequest() {
-		return calendarConfigurationRequest;
-	}
-
-	public void setCalendarConfigurationRequest(GtnWsCalendarConfigurationRequest calendarConfigurationRequest) {
-		this.calendarConfigurationRequest = calendarConfigurationRequest;
-	}
-
-	public GtnWsProcessMonitorRequest getProcessMonitorRequest() {
-		return processMonitorRequest;
-	}
-
-	public void setProcessMonitorRequest(GtnWsProcessMonitorRequest processMonitorRequest) {
-		this.processMonitorRequest = processMonitorRequest;
-	}
-
-	public GtnWsProcessSchedulerRequest getProcessSchedulerRequest() {
-		return processSchedulerRequest;
-	}
-
-	public void setProcessSchedulerRequest(GtnWsProcessSchedulerRequest processSchedulerRequest) {
-		this.processSchedulerRequest = processSchedulerRequest;
-	}
-
-	public GtnWsMailConfigurationRequest getMailConfigurationRequest() {
-		return emailConfigurationRequest;
-	}
-
-	public void setMailConfigurationRequest(GtnWsMailConfigurationRequest emailConfigurationRequest) {
-		this.emailConfigurationRequest = emailConfigurationRequest;
-	}
-
-	public GtnWsPeriodConfigurationRequest getGtnWsPeriodConfigurationRequest() {
-		return gtnWsPeriodConfigurationRequest;
-	}
-
-	public void setGtnWsPeriodConfigurationRequest(GtnWsPeriodConfigurationRequest gtnWsPeriodConfigurationRequest) {
-		this.gtnWsPeriodConfigurationRequest = gtnWsPeriodConfigurationRequest;
-	}
-
-	public GtnWsFileManagementRequest getGtnWsFileManagementRequest() {
-		return gtnWsFileManagementRequest;
-	}
-
-	public void setGtnWsFileManagementRequest(GtnWsFileManagementRequest gtnWsFileManagementRequest) {
-		this.gtnWsFileManagementRequest = gtnWsFileManagementRequest;
-	}
-
-	public GtnWsModuleAuthorizationGeneralRequest getGtnWsModuleAuthorizationGeneralRequest() {
-		return gtnWsModuleAuthorizationGeneralRequest;
-	}
-
-	public void setGtnWsModuleAuthorizationGeneralRequest(
-			GtnWsModuleAuthorizationGeneralRequest gtnWsModuleAuthorizationGeneralRequest) {
-		this.gtnWsModuleAuthorizationGeneralRequest = gtnWsModuleAuthorizationGeneralRequest;
-	}
-
-	public GtnFrameworkAutomaticRelationshipRequest getAutomaticRelationEequest() {
-		return automaticRelationEequest;
-	}
-
-	public void setAutomaticRelationEequest(GtnFrameworkAutomaticRelationshipRequest automaticRelationEequest) {
-		this.automaticRelationEequest = automaticRelationEequest;
-	}
-
-	public GtnWsCsvExportRequest getGtnWsCsvExportRequest() {
-		return gtnWsCsvExportRequest;
-	}
-
-	public void setGtnWsCsvExportRequest(GtnWsCsvExportRequest gtnWsCsvExportRequest) {
-		this.gtnWsCsvExportRequest = gtnWsCsvExportRequest;
-	}
-
-	public GtnWsBcpServiceRequest getGtnWsBcpServiceRequest() {
-		return gtnWsBcpServiceRequest;
-	}
-
-	public void setGtnWsBcpServiceRequest(GtnWsBcpServiceRequest gtnWsBcpServiceRequest) {
-		this.gtnWsBcpServiceRequest = gtnWsBcpServiceRequest;
-	}
-
-	public GtnWsUdcRequest getGtnWsUdcRequest() {
-		return gtnWsUdcRequest;
-	}
-
-	public void setGtnWsUdcRequest(GtnWsUdcRequest gtnWsUdcRequest) {
-		this.gtnWsUdcRequest = gtnWsUdcRequest;
-	}
-
-        public GtnWsCFFSubmitRequest getGtnCffsubmitRequest() {
-            return gtnCffsubmitRequest;
-        }
-
-        public void setGtnCffsubmitRequest(GtnWsCFFSubmitRequest gtnCffsubmitRequest) {
-            this.gtnCffsubmitRequest = gtnCffsubmitRequest;
-        }
-
-		public GtnWsAttachmentRequest getGtnWsAttachmentRequest() {
-			return gtnWsAttachmentRequest;
-		}
-
-		public void setGtnWsAttachmentRequest(GtnWsAttachmentRequest gtnWsAttachmentRequest) {
-			this.gtnWsAttachmentRequest = gtnWsAttachmentRequest;
-		}
-
-       
+    private GtnWsCustomViewRequest gtnWsCustomViewRequest;
+
+    public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
+        return gtnWshirarchyInsertRequest;
+    }
+
+    public void setGtnWshirarchyInsertRequest(GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest) {
+        this.gtnWshirarchyInsertRequest = gtnWshirarchyInsertRequest;
+    }
+
+    public GtnBSTimePeriodRequest getGtnBSTimePeriodRequest() {
+        return gtnBSTimePeriodRequest;
+    }
+
+    public void setGtnBSTimePeriodRequest(GtnBSTimePeriodRequest gtnBSTimePeriodRequest) {
+        this.gtnBSTimePeriodRequest = gtnBSTimePeriodRequest;
+    }
+
+    public GTNUIFrameworkDualListBoxRequest getgTNUIFrameworkDualListBoxRequest() {
+        return gTNUIFrameworkDualListBoxRequest;
+    }
+
+    public void setgTNUIFrameworkDualListBoxRequest(GTNUIFrameworkDualListBoxRequest gTNUIFrameworkDualListBoxRequest) {
+        this.gTNUIFrameworkDualListBoxRequest = gTNUIFrameworkDualListBoxRequest;
+    }
+
+    public GtnWsGeneralRequest getGtnWsGeneralRequest() {
+        return gtnWsGeneralRequest;
+    }
+
+    public void setGtnWsGeneralRequest(GtnWsGeneralRequest gtnWsGeneralRequest) {
+        this.gtnWsGeneralRequest = gtnWsGeneralRequest;
+    }
+
+    public GtnCMasterRequest getGtnCMasterRequest() {
+        return gtnCMasterRequest;
+    }
+
+    public void setGtnCMasterRequest(GtnCMasterRequest gtnCMasterRequest) {
+        this.gtnCMasterRequest = gtnCMasterRequest;
+    }
+
+    public GtnWsSearchRequest getGtnWsSearchRequest() {
+        return gtnWsSearchRequest;
+    }
+
+    public void setGtnWsSearchRequest(GtnWsSearchRequest gtnWsSearchRequest) {
+        this.gtnWsSearchRequest = gtnWsSearchRequest;
+    }
+
+    public GtnWSAdjusmentSummaryRequest getGtnWSAdjusmentSummaryRequest() {
+        return gtnWSAdjusmentSummaryRequest;
+    }
+
+    public void setGtnWSAdjusmentSummaryRequest(GtnWSAdjusmentSummaryRequest gtnWSAdjusmentSummaryRequest) {
+        this.gtnWSAdjusmentSummaryRequest = gtnWSAdjusmentSummaryRequest;
+    }
+
+    public GtnWsCfpRequest getGtnWsCfpRequest() {
+        return gtnWsCfpRequest;
+    }
+
+    public void setGtnWsCfpRequest(GtnWsCfpRequest gtnWsCfpRequest) {
+        this.gtnWsCfpRequest = gtnWsCfpRequest;
+    }
+
+    public GtnWsIfpRequest getGtnWsIfpRequest() {
+        return gtnWsIfpRequest;
+    }
+
+    public void setGtnWsIfpRequest(GtnWsIfpRequest gtnWsIfpRequest) {
+        this.gtnWsIfpRequest = gtnWsIfpRequest;
+    }
+
+    public GtnCompanyGroupRequest getGtnCompanyGroupRequest() {
+        return gtnCompanyGroupRequest;
+    }
+
+    public void setGtnCompanyGroupRequest(GtnCompanyGroupRequest gtnCompanyGroupRequest) {
+        this.gtnCompanyGroupRequest = gtnCompanyGroupRequest;
+    }
+
+    public GtnWsForecastRequest getGtnWsForecastRequest() {
+        return gtnWsForecastRequest;
+    }
+
+    public void setGtnWsForecastRequest(GtnWsForecastRequest gtnWsForecastRequest) {
+        this.gtnWsForecastRequest = gtnWsForecastRequest;
+    }
+
+    public GtnWsCheckAllUpdateRequest getGtnWsCheckAllUpdateRequest() {
+        return gtnWsCheckAllUpdateRequest;
+    }
+
+    public void setGtnWsCheckAllUpdateRequest(GtnWsCheckAllUpdateRequest gtnWsCheckAllUpdateRequest) {
+        this.gtnWsCheckAllUpdateRequest = gtnWsCheckAllUpdateRequest;
+    }
+
+    public GtnWsItemGroupRequest getGtnWsItemGroupRequest() {
+        return gtnWsItemGroupRequest;
+    }
+
+    public void setGtnWsItemGroupRequest(GtnWsItemGroupRequest gtnWsItemGroupRequest) {
+        this.gtnWsItemGroupRequest = gtnWsItemGroupRequest;
+    }
+
+    public GtnWsItemMasterRequest getGtnWsItemMasterRequest() {
+        return gtnWsItemMasterRequest;
+    }
+
+    public void setGtnWsItemMasterRequest(GtnWsItemMasterRequest gtnWsItemMasterRequest) {
+        this.gtnWsItemMasterRequest = gtnWsItemMasterRequest;
+    }
+
+    public GtnWsContractHeaderRequest getGtnWsContractHeaderRequest() {
+        return gtnWsContractHeaderRequest;
+    }
+
+    public void setGtnWsContractHeaderRequest(GtnWsContractHeaderRequest gtnWsContractHeaderRequest) {
+        this.gtnWsContractHeaderRequest = gtnWsContractHeaderRequest;
+    }
+
+    public GtnWsContractDashboardRequest getGtnWsContractDashboardRequest() {
+        return gtnWsContractDashboardRequest;
+    }
+
+    public void setGtnWsContractDashboardRequest(GtnWsContractDashboardRequest gtnWsContractDashboardRequest) {
+        this.gtnWsContractDashboardRequest = gtnWsContractDashboardRequest;
+    }
+
+    public GtnWsForecastProjectionSubmitRequest getGtnWsForecastProjectionSubmitRequest() {
+        return gtnWsForecastProjectionSubmitRequest;
+    }
+
+    public void setGtnWsForecastProjectionSubmitRequest(
+            GtnWsForecastProjectionSubmitRequest gtnWsForecastProjectionSubmitRequest) {
+        this.gtnWsForecastProjectionSubmitRequest = gtnWsForecastProjectionSubmitRequest;
+    }
+
+    public GtnWsDeductionCalendarRequest getDeductionCalendarRequest() {
+        return deductionCalendarRequest;
+    }
+
+    public void setDeductionCalendarRequest(GtnWsDeductionCalendarRequest deductionCalendarRequest) {
+        this.deductionCalendarRequest = deductionCalendarRequest;
+    }
+
+    public GtnWsNetSalesFormulaGeneralRequest getGtnWsNetSalesGeneralRequest() {
+        return gtnWsNetSalesGeneralRequest;
+    }
+
+    public void setGtnWsNetSalesGeneralRequest(GtnWsNetSalesFormulaGeneralRequest gtnWsNetSalesGeneralRequest) {
+        this.gtnWsNetSalesGeneralRequest = gtnWsNetSalesGeneralRequest;
+    }
+
+    public GtnWsComplianceGeneralRequest getGtnWsComplianceGeneralRequest() {
+        return gtnWsComplianceGeneralRequest;
+    }
+
+    public void setGtnWsComplianceGeneralRequest(GtnWsComplianceGeneralRequest gtnWsComplianceGeneralRequest) {
+        this.gtnWsComplianceGeneralRequest = gtnWsComplianceGeneralRequest;
+    }
+
+    public GtnWsRebatePlanGeneralRequest getGtnWsRebatePlanGeneralRequest() {
+        return gtnWsRebatePlanGeneralRequest;
+    }
+
+    public void setGtnWsRebatePlanGeneralRequest(GtnWsRebatePlanGeneralRequest gtnWsRebatePlanGeneralRequest) {
+        this.gtnWsRebatePlanGeneralRequest = gtnWsRebatePlanGeneralRequest;
+    }
+
+    public GtnWsPriceScheduleGeneralRequest getGtnWsPriceScheduleGeneralRequest() {
+        return gtnWsPriceScheduleGeneralRequest;
+    }
+
+    public void setGtnWsPriceScheduleGeneralRequest(GtnWsPriceScheduleGeneralRequest gtnWsPriceScheduleGeneralRequest) {
+        this.gtnWsPriceScheduleGeneralRequest = gtnWsPriceScheduleGeneralRequest;
+    }
+
+    public GtnWsRebateScheduleGeneralRequest getGtnWsRebateScheduleGeneralRequest() {
+        return gtnWsRebateScheduleGeneralRequest;
+    }
+
+    public void setGtnWsRebateScheduleGeneralRequest(
+            GtnWsRebateScheduleGeneralRequest gtnWsRebateScheduleGeneralRequest) {
+        this.gtnWsRebateScheduleGeneralRequest = gtnWsRebateScheduleGeneralRequest;
+    }
+
+    public GtnWsTransactionRequest getGtnWsTransactionRequest() {
+        return gtnWsTransactionRequest;
+    }
+
+    public GtnwsExcelRequest getGtnwsExcelRequest() {
+        return gtnwsExcelRequest;
+    }
+
+    public void setGtnWsTransactionRequest(GtnWsTransactionRequest gtnWsTransactionRequest) {
+        this.gtnWsTransactionRequest = gtnWsTransactionRequest;
+    }
+
+    public void setGtnwsExcelRequest(GtnwsExcelRequest gtnwsExcelRequest) {
+        this.gtnwsExcelRequest = gtnwsExcelRequest;
+    }
+
+    public GtnWsForecastConfigurationRequest getForecastConfigurationRequest() {
+        return forecastConfigurationRequest;
+    }
+
+    public void setForecastConfigurationRequest(GtnWsForecastConfigurationRequest forecastConfigurationRequest) {
+        this.forecastConfigurationRequest = forecastConfigurationRequest;
+    }
+
+    public GtnWsRelationshipBuilderRequest getRelationshipBuilderRequest() {
+        return relationshipBuilderRequest;
+    }
+
+    public void setRelationshipBuilderRequest(GtnWsRelationshipBuilderRequest relationshipBuilderRequest) {
+        this.relationshipBuilderRequest = relationshipBuilderRequest;
+    }
+
+    public GtnWsPagedTreeTableRequest getGtnWsPagedTreeTableRequest() {
+        return gtnWsPagedTreeTableRequest;
+    }
+
+    public void setGtnWsPagedTreeTableRequest(GtnWsPagedTreeTableRequest gtnWsPagedTreeTableRequest) {
+        this.gtnWsPagedTreeTableRequest = gtnWsPagedTreeTableRequest;
+    }
+
+    public GtnWsCommonWorkflowRequest getGtnWSCommonWorkflowRequest() {
+        return gtnWSCommonWorkflowRequest;
+    }
+
+    public void setGtnWSCommonWorkflowRequest(GtnWsCommonWorkflowRequest gtnWSCommonWorkflowRequest) {
+        this.gtnWSCommonWorkflowRequest = gtnWSCommonWorkflowRequest;
+    }
+
+    public GtnWsCalendarConfigurationRequest getCalendarConfigurationRequest() {
+        return calendarConfigurationRequest;
+    }
+
+    public void setCalendarConfigurationRequest(GtnWsCalendarConfigurationRequest calendarConfigurationRequest) {
+        this.calendarConfigurationRequest = calendarConfigurationRequest;
+    }
+
+    public GtnWsProcessMonitorRequest getProcessMonitorRequest() {
+        return processMonitorRequest;
+    }
+
+    public void setProcessMonitorRequest(GtnWsProcessMonitorRequest processMonitorRequest) {
+        this.processMonitorRequest = processMonitorRequest;
+    }
+
+    public GtnWsProcessSchedulerRequest getProcessSchedulerRequest() {
+        return processSchedulerRequest;
+    }
+
+    public void setProcessSchedulerRequest(GtnWsProcessSchedulerRequest processSchedulerRequest) {
+        this.processSchedulerRequest = processSchedulerRequest;
+    }
+
+    public GtnWsMailConfigurationRequest getMailConfigurationRequest() {
+        return emailConfigurationRequest;
+    }
+
+    public void setMailConfigurationRequest(GtnWsMailConfigurationRequest emailConfigurationRequest) {
+        this.emailConfigurationRequest = emailConfigurationRequest;
+    }
+
+    public GtnWsPeriodConfigurationRequest getGtnWsPeriodConfigurationRequest() {
+        return gtnWsPeriodConfigurationRequest;
+    }
+
+    public void setGtnWsPeriodConfigurationRequest(GtnWsPeriodConfigurationRequest gtnWsPeriodConfigurationRequest) {
+        this.gtnWsPeriodConfigurationRequest = gtnWsPeriodConfigurationRequest;
+    }
+
+    public GtnWsFileManagementRequest getGtnWsFileManagementRequest() {
+        return gtnWsFileManagementRequest;
+    }
+
+    public void setGtnWsFileManagementRequest(GtnWsFileManagementRequest gtnWsFileManagementRequest) {
+        this.gtnWsFileManagementRequest = gtnWsFileManagementRequest;
+    }
+
+    public GtnWsModuleAuthorizationGeneralRequest getGtnWsModuleAuthorizationGeneralRequest() {
+        return gtnWsModuleAuthorizationGeneralRequest;
+    }
+
+    public void setGtnWsModuleAuthorizationGeneralRequest(
+            GtnWsModuleAuthorizationGeneralRequest gtnWsModuleAuthorizationGeneralRequest) {
+        this.gtnWsModuleAuthorizationGeneralRequest = gtnWsModuleAuthorizationGeneralRequest;
+    }
+
+    public GtnFrameworkAutomaticRelationshipRequest getAutomaticRelationEequest() {
+        return automaticRelationEequest;
+    }
+
+    public void setAutomaticRelationEequest(GtnFrameworkAutomaticRelationshipRequest automaticRelationEequest) {
+        this.automaticRelationEequest = automaticRelationEequest;
+    }
+
+    public GtnWsCsvExportRequest getGtnWsCsvExportRequest() {
+        return gtnWsCsvExportRequest;
+    }
+
+    public void setGtnWsCsvExportRequest(GtnWsCsvExportRequest gtnWsCsvExportRequest) {
+        this.gtnWsCsvExportRequest = gtnWsCsvExportRequest;
+    }
+
+    public GtnWsBcpServiceRequest getGtnWsBcpServiceRequest() {
+        return gtnWsBcpServiceRequest;
+    }
+
+    public void setGtnWsBcpServiceRequest(GtnWsBcpServiceRequest gtnWsBcpServiceRequest) {
+        this.gtnWsBcpServiceRequest = gtnWsBcpServiceRequest;
+    }
+
+    public GtnWsUdcRequest getGtnWsUdcRequest() {
+        return gtnWsUdcRequest;
+    }
+
+    public void setGtnWsUdcRequest(GtnWsUdcRequest gtnWsUdcRequest) {
+        this.gtnWsUdcRequest = gtnWsUdcRequest;
+    }
+
+    public GtnWsCFFSubmitRequest getGtnCffsubmitRequest() {
+        return gtnCffsubmitRequest;
+    }
+
+    public void setGtnCffsubmitRequest(GtnWsCFFSubmitRequest gtnCffsubmitRequest) {
+        this.gtnCffsubmitRequest = gtnCffsubmitRequest;
+    }
+
+    public GtnWsAttachmentRequest getGtnWsAttachmentRequest() {
+        return gtnWsAttachmentRequest;
+    }
+
+    public void setGtnWsAttachmentRequest(GtnWsAttachmentRequest gtnWsAttachmentRequest) {
+        this.gtnWsAttachmentRequest = gtnWsAttachmentRequest;
+    }
+
+    public GtnWsCustomViewRequest getGtnWsCustomViewRequest() {
+        return gtnWsCustomViewRequest;
+    }
+
+    public void setGtnWsCustomViewRequest(GtnWsCustomViewRequest gtnWsCustomViewRequest) {
+        this.gtnWsCustomViewRequest = gtnWsCustomViewRequest;
+    }
 
 }
