@@ -202,8 +202,8 @@ public class GtnWsTreeService {
 				node.setIndicator(GtnWsHierarchyType.VARIABLES);
 				node.setHierarchyNo(levelNo + "~" + variable);
 				node.setDiscountAvailable(root.isDiscountAvailable());
-				node.setCcpIds(ccpList);
-				node.setRsIds(rsList);
+				node.addAllCcpIds(ccpList);
+				node.addAllRsIds(rsList);
 				root.addChildren(node);
 			}
 			return;
