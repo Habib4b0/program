@@ -67,6 +67,7 @@ public class GtnUIFrameworkPagedGridLogic {
 			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 			GtnUIFrameworkWebserviceRequest serviceRequest = getWSRequest();
 			serviceRequest.getGtnWsSearchRequest().setCount(true);
+			gtnLogger.info("Count Query Module Name -------->" +componentConfig.getModuleName());
 			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(countUrl,
 					componentConfig.getModuleName(), serviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			if (response != null && response.getGtnSerachResponse() != null) {
@@ -141,6 +142,7 @@ public class GtnUIFrameworkPagedGridLogic {
 			GtnUIFrameworkWebserviceRequest serviceRequest = getWSRequest();
 			serviceRequest.getGtnWsSearchRequest().setTableRecordOffset(offset);
 			serviceRequest.getGtnWsSearchRequest().setTableRecordStart(start);
+			gtnLogger.info("Module Name is------->" +componentConfig.getModuleName());
 			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(resultSetUrl,
 					componentConfig.getModuleName(), serviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			if (response != null) {
@@ -187,6 +189,8 @@ public class GtnUIFrameworkPagedGridLogic {
 
 	public void startSearchProcess(final List<String> vaadinFieldValues, boolean isActive)
 			throws GtnFrameworkValidationFailedException {
+		
+		gtnLogger.info("*************Inside startSearchProcess");
 		this.active = isActive;
 		addCurrentSearchCriteria(vaadinFieldValues, null);
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
@@ -240,6 +244,9 @@ public class GtnUIFrameworkPagedGridLogic {
 
 	public void addCurrentSearchCriteria(List<String> vaadinFieldValues, List<String> vaadinFieldDescriptionList)
 			throws GtnFrameworkValidationFailedException {
+		
+		gtnLogger.info("*************Inside startSearchProcess");
+		
 		currentSearchCriteria = new ArrayList<>();
 		getFieldValues(vaadinFieldValues);
 		if (vaadinFieldDescriptionList != null) {

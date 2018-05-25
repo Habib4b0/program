@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -56,6 +58,8 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 	}
 
 	private void addHierarchy(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+		
+		
 		GtnUIFrameworkComponentConfig hierarchyLayout = configProvider.getHorizontalLayoutConfig(
 				nameSpace + "_" + "hierarchyLayout", true, nameSpace + "_" + "customerSelectionCssLayout");
 		componentList.add(hierarchyLayout);
@@ -66,6 +70,16 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		hierarchyName.setComponentName("Hierarchy");
 		hierarchyName.setAddToParent(Boolean.TRUE);
 		hierarchyName.setParentComponentId(nameSpace + "_" + "hierarchyLayout");
+		
+		// Added Customer Hierarchy Lookup
+		GtnUIFrameWorkActionConfig forecastCustomerSelectionHierarchypopupAction = new GtnUIFrameWorkActionConfig();
+		forecastCustomerSelectionHierarchypopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+		forecastCustomerSelectionHierarchypopupAction.addActionParameter(
+				"forecastingLandingScreen_customerHierarchyLookup");
+		forecastCustomerSelectionHierarchypopupAction.addActionParameter("Forecast Customer Hierarchy LookUp");
+		forecastCustomerSelectionHierarchypopupAction.addActionParameter("720");
+		forecastCustomerSelectionHierarchypopupAction.addActionParameter("875");
+		hierarchyName.addGtnUIFrameWorkActionConfig(forecastCustomerSelectionHierarchypopupAction);
 		componentList.add(hierarchyName);
 	}
 

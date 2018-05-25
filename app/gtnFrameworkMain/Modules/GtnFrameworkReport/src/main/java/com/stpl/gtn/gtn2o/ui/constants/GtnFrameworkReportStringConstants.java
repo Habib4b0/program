@@ -82,7 +82,7 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String PRODUCT_FORCAST_LEVEL = "ProductForecastLevel";
 
-	public static final String CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE = "customerHierarchySearchResultTable";
+	public static final String CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE = "customerHierarchySearchResultTableNEW";
 
 	public static final String CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE = "customViewLookupProductTable";
 
