@@ -27,11 +27,11 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		view.setViewName("Forecast Customer Hierarchy LookUp");
 		view.setViewId("forecastingLandingScreen_customerHierarchyLookup");
 		view.setDefaultView(false);
-		addreportCustomertHierarchyComponentList(view, namespace);
+		addForecastCustomertHierarchyComponentList(view, namespace);
 		return view;
 	}
 
-	private void addreportCustomertHierarchyComponentList(GtnUIFrameworkViewConfig view, String namespace) {
+	private void addForecastCustomertHierarchyComponentList(GtnUIFrameworkViewConfig view, String namespace) {
 		List<GtnUIFrameworkComponentConfig> componentList = new ArrayList<>();
 		view.setGtnComponentList(componentList);
 		addForecastCustomerHierarchyRootLayout(componentList, namespace);
@@ -99,7 +99,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		forecastCustomerHierarchySearchCriteriaLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		forecastCustomerHierarchySearchCriteriaLayout
 				.setComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-						+ GtnFrameworkForecastingStringConstants.REPORT_CUSTOMER_HIERARCHY_SEARCH_CRITERIA_LAYOUT);
+						+ GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_SEARCH_CRITERIA_LAYOUT);
 		forecastCustomerHierarchySearchCriteriaLayout.setComponentName("Search Criteria Layout");
 		forecastCustomerHierarchySearchCriteriaLayout.setAddToParent(true);
 		forecastCustomerHierarchySearchCriteriaLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -120,12 +120,12 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		GtnUIFrameworkComponentConfig forecastCustomerHierarchyTypeOptionGroup = new GtnUIFrameworkComponentConfig();
 		forecastCustomerHierarchyTypeOptionGroup.setComponentType(GtnUIFrameworkComponentType.RADIOBUTTON_VAADIN8);
 		forecastCustomerHierarchyTypeOptionGroup.setComponentId(
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.REPORT_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP);
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP);
 		forecastCustomerHierarchyTypeOptionGroup.setComponentName("Hierarchy Type");
 		forecastCustomerHierarchyTypeOptionGroup.setAddToParent(true);
 		forecastCustomerHierarchyTypeOptionGroup
 				.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-						+ GtnFrameworkForecastingStringConstants.REPORT_CUSTOMER_HIERARCHY_SEARCH_CRITERIA_LAYOUT);
+						+ GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_SEARCH_CRITERIA_LAYOUT);
 		GtnUIFrameworkOptionGroupConfig forecastCustomerHierarchyTypeOptionGroupConfig = new GtnUIFrameworkOptionGroupConfig();
 		forecastCustomerHierarchyTypeOptionGroupConfig.setItemValues(Arrays.asList("Primary", "Secondary"));
 		forecastCustomerHierarchyTypeOptionGroupConfig.setValuesFromService(false);
@@ -141,12 +141,12 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		GtnUIFrameworkComponentConfig forecastCustomerHierarchyNameTextBox = new GtnUIFrameworkComponentConfig();
 		forecastCustomerHierarchyNameTextBox.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		forecastCustomerHierarchyNameTextBox.setComponentId(
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.REPORT_CUSTOMER_HIERARCHY_NAME_TEXTBOX);
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_NAME_TEXTBOX);
 		forecastCustomerHierarchyNameTextBox.setComponentName("Hierarchy Name");
 		forecastCustomerHierarchyNameTextBox.setAddToParent(true);
 		forecastCustomerHierarchyNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		forecastCustomerHierarchyNameTextBox.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-				+ GtnFrameworkForecastingStringConstants.REPORT_CUSTOMER_HIERARCHY_SEARCH_CRITERIA_LAYOUT);
+				+ GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_SEARCH_CRITERIA_LAYOUT);
 		
 		GtnUIFrameworkValidationConfig forecasthierarchyNameValidationConfig = new GtnUIFrameworkValidationConfig();
 		forecasthierarchyNameValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
@@ -164,7 +164,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 				+ GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		forecastCustomerHierarchySearchAndResetLayout
 				.setComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-						+ GtnFrameworkForecastingStringConstants.REPORT_CUSTOMER_HIERARCHY_SEARCH_AND_RESULT_LAYOUT);
+						+ GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_SEARCH_AND_RESULT_LAYOUT);
 		forecastCustomerHierarchySearchAndResetLayout.setSpacing(true);
 		GtnUIFrameworkLayoutConfig forecastCustomerHierarchySearchAndResetConfig = new GtnUIFrameworkLayoutConfig();
 		forecastCustomerHierarchySearchAndResetLayout.setGtnLayoutConfig(forecastCustomerHierarchySearchAndResetConfig);
@@ -177,7 +177,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		forecastCustomerHierarchySearchButton.setComponentName("SEARCH");
 		forecastCustomerHierarchySearchButton
 				.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-						+ GtnFrameworkForecastingStringConstants.REPORT_CUSTOMER_HIERARCHY_SEARCH_AND_RESULT_LAYOUT);
+						+ GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_SEARCH_AND_RESULT_LAYOUT);
 		forecastCustomerHierarchySearchButton.setAddToParent(true);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
@@ -187,8 +187,8 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 				Arrays.asList(new Object[] { namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkForecastingStringConstants.CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE }));
 		loadDataTableActionConfig.setFieldValues(Arrays.asList(new String[] {
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.REPORT_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP,
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.REPORT_CUSTOMER_HIERARCHY_NAME_TEXTBOX }));
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP,
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_NAME_TEXTBOX }));
 		actionConfigList.add(loadDataTableActionConfig);
 		forecastCustomerHierarchySearchButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
@@ -200,7 +200,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "forecastCustomerHierarchyResetButton");
 		forecastCustomerHierarchyResetButton.setComponentName("RESET");
 		forecastCustomerHierarchyResetButton.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-				+ GtnFrameworkForecastingStringConstants.REPORT_CUSTOMER_HIERARCHY_SEARCH_AND_RESULT_LAYOUT);
+				+ GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_SEARCH_AND_RESULT_LAYOUT);
 		forecastCustomerHierarchyResetButton.setAddToParent(true);
 
 		List<GtnUIFrameWorkActionConfig> resetActionConfigList = new ArrayList<>();
@@ -211,8 +211,8 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		params.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION);
 		params.add(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION_MESSAGE);
 		params.add(Arrays.asList(
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.REPORT_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP,
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.REPORT_CUSTOMER_HIERARCHY_NAME_TEXTBOX));
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP,
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkForecastingStringConstants.FORECAST_CUSTOMER_HIERARCHY_NAME_TEXTBOX));
 		params.add(Arrays.asList(new Object[] { "Primary", "" }));
 		resetActionConfig.setActionParameterList(params);
 		resetActionConfigList.add(resetActionConfig);
@@ -273,7 +273,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		tableStyle.add("table-header-normal");
 		customerHierarchyPagedTableComponent.setComponentWidth("100%");
 		customerHierarchyPagedTableComponent.setComponentStyle(tableStyle);
-		customerHierarchyPagedTableComponent.setModuleName("report");
+		customerHierarchyPagedTableComponent.setModuleName("forecast");
 		
 		componentList.add(customerHierarchyPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig customerHierarchyPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
@@ -284,11 +284,11 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		customerHierarchyPagedTableConfig.setSelectable(true);
 		customerHierarchyPagedTableConfig.setSinkItemPerPageWithPageLength(false);
 		customerHierarchyPagedTableConfig.setTableColumnDataType(
-				GtnFrameworkForecastingStringConstants.getReportCustomerHierarchyTableColumnsDataType());
+				GtnFrameworkForecastingStringConstants.getForecastCustomerHierarchyTableColumnsDataType());
 		customerHierarchyPagedTableConfig.setColumnHeaders(Arrays.asList(
-				GtnFrameworkForecastingStringConstants.getReportCustomerHierarchyTableColumnsVisibleHeader()));
+				GtnFrameworkForecastingStringConstants.getForecastCustomerHierarchyTableColumnsVisibleHeader()));
 		customerHierarchyPagedTableConfig.setTableColumnMappingId(
-				GtnFrameworkForecastingStringConstants.getReportCustomerHierarchyTableColumnsMappingId());
+				GtnFrameworkForecastingStringConstants.getForecastCustomerHierarchyTableColumnsMappingId());
 
 		customerHierarchyPagedTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_CUSTOMERHIERARCHY_SEARCHSERVICE);
@@ -301,7 +301,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 	private void forecastCustomerHierarchyControlPopUpButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
 		GtnUIFrameworkComponentConfig forecastCustomerHierarchyControlPopUpConfig = new GtnUIFrameworkComponentConfig();
-		GtnUIFrameworkLayoutConfig reportCustomerHierarchyControlLayout = new GtnUIFrameworkLayoutConfig();
+		GtnUIFrameworkLayoutConfig forecastingCustomerHierarchyControlLayout = new GtnUIFrameworkLayoutConfig();
 		forecastCustomerHierarchyControlPopUpConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		forecastCustomerHierarchyControlPopUpConfig.setAddToParent(true);
 		forecastCustomerHierarchyControlPopUpConfig.setParentComponentId(namespace
@@ -310,7 +310,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 				.setComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		forecastCustomerHierarchyControlPopUpConfig.setSpacing(true);
-		forecastCustomerHierarchyControlPopUpConfig.setGtnLayoutConfig(reportCustomerHierarchyControlLayout);
+		forecastCustomerHierarchyControlPopUpConfig.setGtnLayoutConfig(forecastingCustomerHierarchyControlLayout);
 		componentList.add(forecastCustomerHierarchyControlPopUpConfig);
 
 		GtnUIFrameworkComponentConfig forecastCustomerHierarchySelectButton = new GtnUIFrameworkComponentConfig();
@@ -322,8 +322,8 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 				.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		forecastCustomerHierarchySelectButton.setAddToParent(true);
-		forecastCustomerHierarchySelectButton.addDependentComponent("reportLandingScreen_customerSelectionRelationship");
-		forecastCustomerHierarchySelectButton.addDependentComponent("reportLandingScreen_customerSelectionLevel");
+		forecastCustomerHierarchySelectButton.addDependentComponent("forecastLandingScreen_customerSelectionRelationship");
+		forecastCustomerHierarchySelectButton.addDependentComponent("forecastLandingScreen_customerSelectionLevel");
 		componentList.add(forecastCustomerHierarchySelectButton);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
@@ -333,9 +333,9 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		List<Object> actionParameter = new ArrayList<>();
 		actionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkForecastingStringConstants.CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE);
-		actionParameter.add("reportLandingScreen_customerHierarchy");
+		actionParameter.add("forecastLandingScreen_customerHierarchy");
 		actionParameter.add(Arrays.asList("custHierarchyLookupHierName"));
-		actionParameter.add(Arrays.asList("reportLandingScreen_customerHierarchy"));
+		actionParameter.add(Arrays.asList("forecastLandingScreen_customerHierarchy"));
 		forecastCustomerHierarchySelectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(forecastCustomerHierarchySelectAction);
 		
