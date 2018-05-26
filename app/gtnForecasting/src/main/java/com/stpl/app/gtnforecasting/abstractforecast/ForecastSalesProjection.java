@@ -3014,7 +3014,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         frequency.addItem(SEMI_ANNUAL.getConstant());
 
         frequency.addItem(ANNUAL);
-        frequency.select(session.getDsFrequency());
+        frequency.setValue(session.getDsFrequency());
         frequency.setNullSelectionAllowed(false);
         frequency.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
