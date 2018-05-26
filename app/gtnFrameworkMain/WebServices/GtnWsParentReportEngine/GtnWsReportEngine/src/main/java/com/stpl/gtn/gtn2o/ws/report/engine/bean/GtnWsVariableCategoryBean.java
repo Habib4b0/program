@@ -6,6 +6,10 @@ import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
 
 public class GtnWsVariableCategoryBean {
 
+	public GtnWsVariableCategoryBean() {
+		super();
+	}
+
 	private GtnWsAttributeBean currentNodeAttribute;
 	private GtnWsAttributeBean priorNodeAttribute;
 	private GtnWsAttributeBean calculatedNodeAttribute;
@@ -14,14 +18,15 @@ public class GtnWsVariableCategoryBean {
 	private DecimalFormat decimalFormat;
 	private String comparisonBasis;
 	private int projectionId = 0;
-	private final String[] comparisonBasisArray = new String[] { "contractSales","weightedGtn" };
-	// private final String[] comparisonBasisArray = new String[]{"exfactory",
-	// "contractSales", "contractUnits", "discountAmount", "discountPercent", "rpu",
-	// "netContractSales",
-	// "grossContractSalesPerExFactory", "deductionPerExfactory",
-	// "netContractSalesPerExfactory", "netExfactorySales",
-	// "contractSalesPerTotalContractSales",
-	// "netExfactorySalesPerTotalExfactory","weightedGtn"};
+	private String[] comparisonBasisArray = new String[] { "contractSales", "weightedGtn" };
+	/*
+	 * private final String[] comparisonBasisArray = new String[]{"exfactory", //
+	 * "contractSales", "contractUnits", "discountAmount", "discountPercent", "rpu",
+	 * // "netContractSales", // "grossContractSalesPerExFactory",
+	 * "deductionPerExfactory", // "netContractSalesPerExfactory",
+	 * "netExfactorySales", // "contractSalesPerTotalContractSales", //
+	 * "netExfactorySalesPerTotalExfactory","weightedGtn"}
+	 */
 
 	public GtnWsAttributeBean getCurrentNodeAttribute() {
 		return currentNodeAttribute;
@@ -88,7 +93,7 @@ public class GtnWsVariableCategoryBean {
 	}
 
 	public String[] getComparisonBasisArray() {
-		return comparisonBasisArray;
+		return comparisonBasisArray == null ? comparisonBasisArray : comparisonBasisArray.clone();
 	}
 
 }

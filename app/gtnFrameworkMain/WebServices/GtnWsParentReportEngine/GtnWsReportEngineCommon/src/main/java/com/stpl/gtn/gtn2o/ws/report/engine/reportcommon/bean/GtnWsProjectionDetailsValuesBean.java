@@ -4,10 +4,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GtnWsProjectionDetailsValuesBean implements Serializable {
 
+	public GtnWsProjectionDetailsValuesBean() {
+		super();
+	}
+
+	private static final long serialVersionUID = 1L;
 	private int periodSid;
 	private int quarter;
 	private int semiAnnual;
@@ -77,7 +83,7 @@ public class GtnWsProjectionDetailsValuesBean implements Serializable {
 	}
 
 	public List<GtnWsDiscountBean> getDiscountBean() {
-		return discountBean;
+		return discountBean != null ? Collections.unmodifiableList(discountBean) : discountBean;
 	}
 
 	public void addDiscountBean(GtnWsDiscountBean discountBean) {
@@ -119,5 +125,4 @@ public class GtnWsProjectionDetailsValuesBean implements Serializable {
 	private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
 		ois.defaultReadObject();
 	}
-
 }

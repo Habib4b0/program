@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -14,13 +15,17 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 
 public class GtnWsReportEngineTreeNode implements Serializable {
 
+	public GtnWsReportEngineTreeNode() {
+		super();
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	private transient Object nodeData;
 
-	private List<GtnWsReportEngineTreeNode> children;
+	private List<GtnWsReportEngineTreeNode> children = null;
 
-	private List<GtnWsReportEngineTreeNode> variableList;
+	private List<GtnWsReportEngineTreeNode> variableList = null;
 
 	private int levelNumber;
 
@@ -57,11 +62,11 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 	}
 
 	public List<GtnWsReportEngineTreeNode> getChildren() {
-		return children;
+		return children == null ? children : Collections.unmodifiableList(children);
 	}
 
 	public void setChildren(List<GtnWsReportEngineTreeNode> children) {
-		this.children = children;
+		this.children = children == null ? children : Collections.unmodifiableList(children);
 	}
 
 	public String getLevelName() {
@@ -126,7 +131,7 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 	}
 
 	public Set<Integer> getCcpIds() {
-		return ccpIds;
+		return ccpIds == null ? ccpIds : Collections.unmodifiableSet(ccpIds);
 	}
 
 	public void addCcpIds(Integer ccpId) {
@@ -137,7 +142,7 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 	}
 
 	public Set<Integer> getRsIds() {
-		return rsIds;
+		return rsIds == null ? rsIds : Collections.unmodifiableSet(rsIds);
 	}
 
 	public void addRsIds(Integer rsId) {
@@ -157,10 +162,12 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 	}
 
 	public void addAllCcpIds(Set<Integer> ccpId) {
-		if (ccpIds == null) {
+		if (ccpIds == null && ccpId != null) {
 			ccpIds = new HashSet<>();
 		}
-		ccpIds.addAll(ccpId);
+		if (ccpId != null) {
+			ccpIds.addAll(ccpId);
+		}
 	}
 
 	public GtnWsHierarchyType getIndicator() {
@@ -172,11 +179,11 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 	}
 
 	public void setCcpIds(Set<Integer> ccpIds) {
-		this.ccpIds = ccpIds;
+		this.ccpIds = ccpIds == null ? ccpIds : Collections.unmodifiableSet(ccpIds);
 	}
 
 	public void setRsIds(Set<Integer> rsIds) {
-		this.rsIds = rsIds;
+		this.rsIds = rsIds == null ? rsIds : Collections.unmodifiableSet(rsIds);
 	}
 
 	@Override
@@ -240,8 +247,8 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 		gtnWsReportEngineTreeNode.setLevelName(levelName);
 		gtnWsReportEngineTreeNode.setLevelValue(levelValue);
 		gtnWsReportEngineTreeNode.setNodeIndex(nodeIndex);
-		gtnWsReportEngineTreeNode.setCcpIds(ccpIds);
-		gtnWsReportEngineTreeNode.setRsIds(rsIds);
+		gtnWsReportEngineTreeNode.addAllCcpIds(ccpIds);
+		gtnWsReportEngineTreeNode.addAllRsIds(rsIds);
 		gtnWsReportEngineTreeNode.setIndicator(indicator);
 
 		return gtnWsReportEngineTreeNode;
@@ -256,11 +263,11 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 	}
 
 	public List<GtnWsReportEngineTreeNode> getVariableList() {
-		return variableList;
+		return variableList == null ? variableList : Collections.unmodifiableList(variableList);
 	}
 
 	public void setVariableList(List<GtnWsReportEngineTreeNode> variableList) {
-		this.variableList = variableList;
+		this.variableList = variableList == null ? variableList : Collections.unmodifiableList(variableList);
 	}
 
 	public void addVariable(GtnWsReportEngineTreeNode variable) {
@@ -271,11 +278,11 @@ public class GtnWsReportEngineTreeNode implements Serializable {
 	}
 
 	public Date getCreatedDate() {
-		return createdDate;
+		return createdDate == null ? null : (Date) createdDate.clone();
 	}
 
 	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+		this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
 	}
 
 	public String getSessionId() {
