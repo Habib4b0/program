@@ -187,20 +187,20 @@ WHEN NOT MATCHED BY SOURCE AND PROJECTION_MASTER_SID = @PROJECTION_SID THEN
                     CM.LEVEL_NAME,
                     CM.LEVEL_NO,
                     RLD.RELATIONSHIP_LEVEL_VALES
-                    ?DISPLAYFORMATCOLUMN
-                    ,CM.HIERARCHY_INDICATOR
+                     ?DISPLAYFORMATCOLUMN ,CM.HIERARCHY_INDICATOR
                FROM
-                    CUSTOM_CCP_SALES  RLD
+                    CUSTOM_CCP_SALES RLD
                 JOIN ST_CCP_HIERARCHY CH ON CH.CCP_DETAILS_SID=RLD.CCP_DETAILS_SID AND RLD.CUST_VIEW_MASTER_SID=?RBSID
-                JOIN CUST_VIEW_DETAILS CM ON CM.CUSTOM_VIEW_MASTER_SID=RLD.CUST_VIEW_MASTER_SID
-                JOIN HIERARCHY_LEVEL_DEFINITION HLD ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=CM.HIERARCHY_ID
-                JOIN ?TABLE TEMP ON
+                           JOIN CUST_VIEW_DETAILS CM ON CM.CUSTOM_VIEW_MASTER_SID=RLD.CUST_VIEW_MASTER_SID
+                          
+                JOIN ?TABLE  TEMP ON
                                 TEMP.?IDCOL = RLD.RELATIONSHIP_LEVEL_VALES
-                                AND cm.LEVEL_NO = ?LNO
+                                AND CM.LEVEL_NO = ?LNO
+                                
             ]]>
 		</query>
 	</entity>
-        
+
 
 
 

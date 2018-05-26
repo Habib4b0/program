@@ -27,9 +27,11 @@ import com.stpl.app.gtnforecasting.dto.PMPYTradingPartnerDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.AlternateLookupSource;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import static com.stpl.app.gtnforecasting.utils.CommonUtils.DBDate;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
@@ -1496,7 +1498,10 @@ public class NonMandatedLogic {
             customSql = customSql.replace("@DEDUCTION_HIERARCHY_SID", String.valueOf(obj1[1]));
             customSql = customSql.replace("@PROJECTION_DED_VERSION", String.valueOf(versionNoList.get(0)));
             customSql = customSql.replace("@FORECAST_ELIGIBLE_DATE", DBDate.format(dataSelectionDTO.getForecastEligibleDate()));
+            customSql = customSql.replace("@CUSTSID", String.valueOf(dataSelectionDTO.getCustomRelationShipSid()));
+            customSql = customSql.replace("@CUSTDEDSID", String.valueOf(dataSelectionDTO.getCustomDeductionRelationShipSid()));
              }
+        LOGGER.info("Projection Master Query------------"+customSql);
         HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
        
             String cffQuery = "select IDENT_CURRENT( 'PROJECTION_MASTER' )";
@@ -1510,26 +1515,28 @@ public class NonMandatedLogic {
         }
             return projectionId;
 
-    }
+	}
 
-    public Object[] deductionRelationBuilderId(String prdRelSid) {
-        List<String> input = new ArrayList<>();
-        input.add(prdRelSid);
-        String sql = QueryUtils.getQuery(input, "DeductionRelationshipId");
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
-        return list == null || list.isEmpty() ? null : (Object[]) list.get(0);
-    }
+	public Object[] deductionRelationBuilderId(String prdRelSid) {
+		List<String> input = new ArrayList<>();
+		input.add(prdRelSid);
+		String sql = QueryUtils.getQuery(input, "DeductionRelationshipId");
+		List list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
+		return list == null || list.isEmpty() ? null : (Object[]) list.get(0);
+	}
 
-    public List<Integer> getDeductionVersionNoList(Object relationShipBuilderSid) {
-        List<Object> input = new ArrayList<>();
-        input.add(relationShipBuilderSid);
-        return QueryUtils.getAppData(input, "getDedRelationshipVersionNo", null);
-    }
-    /**
-     * Search for projections.
-     *
-     * @param dataSelectionDTO the dataSelectionDTO
-     * @return the projection master result list
+        
+	 public List<Integer> getDeductionVersionNoList(Object relationShipBuilderSid) {
+		List<Object> input = new ArrayList<>();
+		input.add(relationShipBuilderSid);
+		return QueryUtils.getAppData(input, "getDedRelationshipVersionNo", null);
+	}
+	/**
+	 * Search for projections.
+	 *
+	 * @param dataSelectionDTO
+	 *            the dataSelectionDTO
+	 * @return the projection master result list
 	 * @throws com.liferay.portal.kernel.exception.SystemException
 	 */
 	public List<DataSelectionDTO> searchDSProjections(final DataSelectionDTO dataSelectionDTO)
@@ -2515,21 +2522,7 @@ public class NonMandatedLogic {
 				String.valueOf(session.getProjectionId()));
 		saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
 				QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
-		// PPA MASTER INSERT
-		query = SQlUtil.getQuery("PPA_Temp_Main_MASTER").replace(Constant.AT_PROJECTION_MASTER_SID,
-				String.valueOf(session.getProjectionId()));
-		saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-				QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
-		// PPA PROJ INSERT
-		query = SQlUtil.getQuery("PPA_Temp_Main_PROJ").replace(Constant.AT_PROJECTION_MASTER_SID,
-				String.valueOf(session.getProjectionId()));
-		saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-				QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
-		// PPA ACTUAL INSERT
-		query = SQlUtil.getQuery("PPA_Temp_Main_ACTUAL").replace(Constant.AT_PROJECTION_MASTER_SID,
-				String.valueOf(session.getProjectionId()));
-		saveFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-				QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
+		
 		// DISCOUNT MASTER INSERT
 		query = SQlUtil.getQuery("Discount_Temp_Main_MASTER").replace(Constant.AT_PROJECTION_MASTER_SID,
 				String.valueOf(session.getProjectionId()));
@@ -2760,4 +2753,24 @@ public class NonMandatedLogic {
 		HelperTableLocalServiceUtil
 				.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
 	}
+         
+        public static boolean isProjectionSavedSuccessFully(SessionDTO session) {
+        String saveCheckQuery = "SELECT FLAG FROM dbo.ST_STATUS_TABLE WHERE VIEW_NAME ='SAVE_VIEW'";
+        List<String> saveCheckList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(saveCheckQuery,session.getCurrentTableNames()));
+        if (saveCheckList != null) {
+            boolean isCompleted = ("6".equals(String.valueOf(saveCheckList.get(0)).trim()) || saveCheckList.get(0) == null);
+            if (!isCompleted) {
+                AbstractNotificationUtils.getInfoNotification("Not Saved", "Projection Save in Progress .");
+                return true;
+            }
+        }
+        return false;
+        }
+        
+        public void updateFlagForSaveCount(SessionDTO session) {
+        String updateQuery = "  UPDATE ST_STATUS_TABLE SET FLAG=NULL WHERE VIEW_NAME='SAVE_VIEW' AND SCREEN_NAME='FORECASTING'";
+        HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery,session.getCurrentTableNames()));
+       
+        }
+ 
 }

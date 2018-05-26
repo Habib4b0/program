@@ -216,6 +216,7 @@ public class DataSelectionDTO implements Serializable {
 	private int productRelationShipVersionNo;
 	private int deductionRelationShipVersionNo;
 	private int customRelationShipSid;
+	private int customDeductionRelationShipSid;
         private Date forecastEligibleDate;
 
 	public Integer getFileEndMonth() {
@@ -1094,12 +1095,18 @@ public class DataSelectionDTO implements Serializable {
         }
 
     public int getCustomRelationShipSid() {
-          return customRelationShipSid;
-      }
+        return customRelationShipSid;
+    }
 
-      public void setCustomRelationShipSid(int customRelationShipSid) {
-          this.customRelationShipSid = customRelationShipSid;
-      }
+    public void setCustomRelationShipSid(int customRelationShipSid) {
+        this.customRelationShipSid = customRelationShipSid;
+    }
 
-        
+    public int getCustomDeductionRelationShipSid() {
+        return customDeductionRelationShipSid;
+    }
+
+    public void setCustomDeductionRelationShipSid(int customDeductionRelationShipSid) {
+        this.customDeductionRelationShipSid = customDeductionRelationShipSid;
+    }
 }

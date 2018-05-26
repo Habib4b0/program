@@ -640,8 +640,6 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
                                 configureFrequency();
                                 setNullSelectionCustomDdlb(customRelationDdlb);
                                 setNullSelectionCustomDdlb(customRelationDdlbDeduction);
-		
-
 			}
 
 			deleteViewBtn.setEnabled(false);

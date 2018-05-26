@@ -800,7 +800,7 @@ public class DiscountQueryBuilder {
                 .replace(SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(session, isCustom ? Integer.parseInt(customViewDetails.get(0)) : 0, levelNo, isCustom, hierarchyIndicator, isCustom ? customViewDetails.get(NumericConstants.TWO) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.FOUR) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, userGroup))
                 .replace("@FILTERCCP"," and FILTER_CCP=1 ")
                 .replace("@PROJECTION_MASTER_SID",String.valueOf(session.getProjectionId()))
-                .replace("@CUST_VIEW_MASTER_SID",String.valueOf(session.getCustomRelationShipSid()));
+                .replace("@CUST_VIEW_MASTER_SID",String.valueOf(session.getCustomDeductionRelationShipSid()));
         if (StringUtils.isNotBlank(userGroup)) {
             queryBuilder = queryBuilder.replace(Constant.AT_USER_GROUP, " AND USER_GROUP = '" + userGroup + "'");
         }
@@ -1101,7 +1101,7 @@ public class DiscountQueryBuilder {
         String hierarchyNo = String.valueOf(customDetailsList.get(1));
         int treeLevelNo = Integer.parseInt(String.valueOf(customDetailsList.get(NumericConstants.TWO)));
         String query = insertAvailableHierarchyNoForCount(sessionDTO, hierarchyNo, hierarchyIndicator, (int) (isCustom ? treeLevelNo : levelNo), isCustom, isCustom ? Integer.parseInt(customViewDetails.get(0)) : 0, isCustom ? customViewDetails.get(NumericConstants.TWO) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.FOUR) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, 0, 0, userGroup);
-        query = query.replace(RELVALUE, String.valueOf(sessionDTO.getCustomRelationShipSid()));
+        query = query.replace(RELVALUE, String.valueOf(sessionDTO.getCustomDeductionRelationShipSid()));
         return query;
     }
 

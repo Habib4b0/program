@@ -64,7 +64,6 @@ import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
-import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
@@ -3581,7 +3580,7 @@ public class CommonLogic {
             if (StringUtils.isNotBlank(hierarchyQueryforExcel)) {
                 boolean booleanFlag = true;
                 String excelquery = SQlUtil.getQuery("count-Query-Excel");
-                excelquery = excelquery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchyForExpand(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(), booleanFlag));
+                excelquery = excelquery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchyForExpand(projSelDTO, projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(), booleanFlag));
                 excelquery = excelquery.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
                 excelquery = excelquery.replace(Constant.TAB_BASED_JOIN, getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName()));
                 if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
@@ -4002,7 +4001,7 @@ public class CommonLogic {
         String sql;
         boolean flag=false;
         sql = SQlUtil.getQuery(Constant.SELECTED_HIERARCHY_NO);
-        sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchyForExpand(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(),flag));
+        sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchyForExpand(projSelDTO, projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(),flag));
         sql = sql.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
         sql += getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName());
         if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
@@ -4017,6 +4016,7 @@ public class CommonLogic {
         String sql;
         sql = SQlUtil.getQuery(queryNameforSales);
         sql = sql.replace("[?Hierarchy-Combination]", getCustomHierarchies(nodeSet));
+        sql = sql.replace("@CUSTOMSID", String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid()));
         return sql;
     }
 
@@ -4026,26 +4026,10 @@ public class CommonLogic {
         int i = 1;
         for (TreeNode treeNode : nodeSet) {
         if (!treeNode.getHierachyNo().contains(",")) {
-            String previousOppositeHierarchy = treeNode.getPreviousOppositeHieararchy(treeNode.getHierarchyIndicator());
-            List<String> parentHierarchyNo = Arrays.asList((String.valueOf(previousOppositeHierarchy)).split("\\,"));
-            for (String parentHierarchy : parentHierarchyNo) {
-            if (isNotFirstElement) {
-                stringBuilder.append(",\n");
-            }
             stringBuilder.append("('");
-
-            stringBuilder.append(treeNode.getHierachyNo().trim()).
-                    append("',");
-            if (previousOppositeHierarchy.isEmpty()) {
-                stringBuilder.append("NULL");
-            } else {
-                stringBuilder.append('\'').append(parentHierarchy.trim()).append('\'');
-            }
-
-            stringBuilder.append(',').append('\'').append(treeNode.getHierarchyIndicator()).append("',").append(i++);
-            stringBuilder.append(')');
-            isNotFirstElement = true;
-            }
+            stringBuilder.append(treeNode.getHierachyNo().trim()).append("',");
+            stringBuilder.append(i++);
+            stringBuilder.append("),");
         }else{
             List<String> hierarchyNo = Arrays.asList((String.valueOf(treeNode.getHierachyNo())).split("\\,"));
             for (String hierarchy : hierarchyNo) {
@@ -4068,6 +4052,7 @@ public class CommonLogic {
         }
         }
         }
+        stringBuilder.replace(stringBuilder.lastIndexOf(","), stringBuilder.length(), StringUtils.EMPTY);
         return stringBuilder.toString();
     }
 
@@ -4178,13 +4163,13 @@ public class CommonLogic {
     }
     
  
-    public String getSelectedHierarchyForExpand(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo, boolean flag) {
-
+    public String getSelectedHierarchyForExpand(ProjectionSelectionDTO projSelDTO, String hierarchyNo, String hierarchyIndicator, int levelNo, boolean flag) {
+        SessionDTO sessionDTO = projSelDTO.getSessionDTO();
         if (levelNo == 0) {
             throw new IllegalArgumentException(Constant.INVALID_LEVEL_NO + levelNo);
         }
 
-        Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
+        Map<String, List> relationshipLevelDetailsMap = projSelDTO.isIsCustomHierarchy() ?   sessionDTO.getSalesHierarchyLevelDetails():sessionDTO.getHierarchyLevelDetails();
         StringBuilder stringBuilder = new StringBuilder();
 
        
@@ -4844,10 +4829,9 @@ public class CommonLogic {
                     LOGGER.info("More than 10 Levels");
 
             }
-            query.append("SELECT ").append(selectClause).append(" FROM ST_NM_DISCOUNT_PROJ_MASTER DPM ");
+            
+            query.append("SELECT ").append(selectClause).append(" FROM (SELECT RS_CONTRACT_SID FROM ST_NM_DISCOUNT_PROJ_MASTER GROUP BY RS_CONTRACT_SID) DPM ");
             query.append(" JOIN RS_CONTRACT RS ON DPM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID ").append(udcJoinClause).append(joinClause);
-            query.append(" JOIN ST_CCP_HIERARCHY CCP ON CCP.CCP_DETAILS_SID=DPM.CCP_DETAILS_SID  ");
-
             if (!productFilter.isEmpty()) {
                 String oldCustomerQuery=query.toString();
                 query=new StringBuilder();
@@ -4872,7 +4856,7 @@ public class CommonLogic {
                 query.append(scheduleCategoryQuery);
             }
             deductionValuesList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(),projectionDto.getSessionDTO().getCurrentTableNames()));
-
+            
         } catch (SystemException | PortalException ex) {
             LOGGER.error(ex.getMessage());
         }

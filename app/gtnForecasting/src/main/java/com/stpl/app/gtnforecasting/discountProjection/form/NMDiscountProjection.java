@@ -551,6 +551,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         programSelection.setNullSelectionAllowed(true);
         programSelection.setNullSelectionItemId(SELECT_ONE.getConstant());
         programSelection.setValue(SELECT_ONE.getConstant());
+        editBtn.setEnabled(false);
+        newBtn.setEnabled(false);
 
         level.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -1928,9 +1930,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         dataMap.put("custVer", String.valueOf(session.getCustomerRelationVersion()));
         dataMap.put("prodSid", session.getProdRelationshipBuilderSid());
         dataMap.put("prodVer", String.valueOf(session.getProductRelationVersion()));
-        new DataSelectionLogic().loadCustomViewValuesDeduction(viewDdlb, dataMap);
-        viewDdlb.setValue(session.getCustomRelationShipSid());
-   
+        new DataSelectionLogic().loadCustomViewDeductionValues(viewDdlb, dataMap,false);
+        viewDdlb.setValue(session.getCustomDeductionRelationShipSid());
         LOGGER.debug("loadCustomDDLB ends ");
     }
 

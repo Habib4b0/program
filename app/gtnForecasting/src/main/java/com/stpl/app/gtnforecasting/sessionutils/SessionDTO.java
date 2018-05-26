@@ -7,7 +7,6 @@ package com.stpl.app.gtnforecasting.sessionutils;
 import com.stpl.app.gtnforecasting.dataassumptions.logic.DataAssumptionsLogic;
 import com.stpl.app.gtnforecasting.dto.ForecastDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.model.CustomViewDetails;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
@@ -176,6 +175,7 @@ public class SessionDTO implements Serializable {
     private int productRelationVersion = 0;
     private int deductionRelationVersion = 0;
     private int customRelationShipSid = 0;
+    private int customDeductionRelationShipSid = 0;
     private Date forecastEligibleDate;
     private String functionMode = StringUtils.EMPTY;
     private String dataSelectionDeductionLevel;
@@ -1488,14 +1488,6 @@ public class SessionDTO implements Serializable {
     public void setCustomRelationShipSid(int customRelationShipSid) {
         this.customRelationShipSid = customRelationShipSid;
     }
-    
-    public Map<String, List> getSalesHierarchyLevelDetails() {
-        return salesHierarchyLevelDetails;
-    }
-
-    public void setSalesHierarchyLevelDetails(Map<String, List> salesHierarchyLevelDetails) {
-        this.salesHierarchyLevelDetails = salesHierarchyLevelDetails;
-    }
 
     public Map<String, List> getDiscountHierarchyLevelDetails() {
         return discountHierarchyLevelDetails;
@@ -1514,7 +1506,21 @@ public class SessionDTO implements Serializable {
         this.discountHierarchyLevelDetails.putAll(custDedDiscLevelDetails);
     }
 
-    
-    
+    public Map<String, List> getSalesHierarchyLevelDetails() {
+        return salesHierarchyLevelDetails;
+    }
+
+    public void setSalesHierarchyLevelDetails(Map<String, List> salesHierarchyLevelDetails) {
+        this.salesHierarchyLevelDetails = salesHierarchyLevelDetails;
+    }
+
+    public int getCustomDeductionRelationShipSid() {
+        return customDeductionRelationShipSid;
+    }
+
+    public void setCustomDeductionRelationShipSid(int customDeductionRelationShipSid) {
+        this.customDeductionRelationShipSid = customDeductionRelationShipSid;
+    }
+
     
 }

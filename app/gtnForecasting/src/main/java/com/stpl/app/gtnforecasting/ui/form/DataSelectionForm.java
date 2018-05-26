@@ -274,6 +274,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 		setProductLevelNullSelection();
 		setProductRelationNullSelection();
                 setNullSelectionCustomDdlb(customRelationDdlb);
+                setNullSelectionCustomDdlb(customRelationDdlbDeduction);
 		if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
 			resultTable.setVisibleColumns(TableHeaderColumnsUtil.getDataSelectionColumnsAccrual());
 			resultTable.setColumnHeaders(TableHeaderColumnsUtil.getDataSelectionHeadersAccrual());
@@ -840,6 +841,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 			dataSelectionDTO.setProjectionName(projectionName.getValue());
 			dataSelectionDTO.setDescription(description.getValue());
                         dataSelectionDTO.setForecastEligibleDate(forecastEligibleDate.getValue());
+                        dataSelectionDTO.setCustomRelationShipSid(customRelationDdlb.getValue()!=null ? Integer.valueOf(String.valueOf(customRelationDdlb.getValue())): 0 );
+                        dataSelectionDTO.setCustomDeductionRelationShipSid(customRelationDdlbDeduction.getValue()!=null ? Integer.valueOf(String.valueOf(customRelationDdlbDeduction.getValue())):0 );
 
 		} catch (ParseException ex) {
 
@@ -3204,7 +3207,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 				tempSession.setProdRelationshipBuilderSid(dto.getProdRelationshipBuilderSid());
 				tempSession.setCustomerHierarchyId(Integer.parseInt(dto.getCustomerHierSid()));
 				tempSession.setProductHierarchyId(Integer.parseInt(dto.getProdHierSid()));
-				tempSession.setBusineesUnit(businessUnitlist);
+				tempSession.setCustomRelationShipSid(dto.getCustomRelationShipSid());
+				tempSession.setCustomDeductionRelationShipSid(dto.getCustomDeductionRelationShipSid());
+                                tempSession.setBusineesUnit(businessUnitlist);
 				tempSession.setProjectionName(dto.getProjectionName());
                                 String contractIds=dsLogic.getremovedcontractbasedonEligibleDate(tempSession);
                                 if (contractIds != null && !contractIds.isEmpty()) {
@@ -3243,9 +3248,9 @@ public class DataSelectionForm extends ForecastDataSelection {
                                         tempSession.setSalesHierarchyLevelDetails(
                                         dsLogic.getRelationshipDetailsCustom(tempSession, String.valueOf(tempSession.getCustomRelationShipSid())));
                                         tempSession.setDiscountCustomerProductLevelDetails(
-                                        dsLogic.getRelationshipDetailsCustom(tempSession, String.valueOf(tempSession.getCustomRelationShipSid())));
-//                                        tempSession.setDiscountDeductionLevelDetails(
-//                                        dsLogic.getRelationshipDetailsDeductionCustom(tempSession, String.valueOf(tempSession.getCustomRelationShipSid())));
+                                        dsLogic.getRelationshipDetailsCustom(tempSession, String.valueOf(tempSession.getCustomDeductionRelationShipSid())));
+                                        tempSession.setDiscountDeductionLevelDetails(
+                                        dsLogic.getRelationshipDetailsDeductionCustom(tempSession, String.valueOf(tempSession.getCustomDeductionRelationShipSid())));
                                   
                                 tempSession.setCustomerDescription(tempCustomerDescriptionMap);
                                 tempSession.setProductDescription(tempProductDescriptionMap);
@@ -3375,7 +3380,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 				session.setProductRelationVersion(dto.getProductRelationShipVersionNo());
                                 session.setDeductionRelationVersion(dto.getDeductionRelationShipVersionNo());
                                 session.setDsFrequency(String.valueOf(frequency.getValue()));
-                                session.setCustomRelationShipSid(Integer.valueOf(String.valueOf(customRelationDdlb.getValue())));
+                                session.setCustomRelationShipSid(dto.getCustomRelationShipSid());
+                                session.setCustomDeductionRelationShipSid(dto.getCustomDeductionRelationShipSid());
                                 session.setDataSelectionDeductionLevelCaption(dataSelectionDeductionLevel.getItemCaption(dataSelectionDeductionLevel.getValue()));
 				customerDescMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
 						Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo(),
@@ -3406,13 +3412,20 @@ public class DataSelectionForm extends ForecastDataSelection {
 				DataSelectionLogic logic = new DataSelectionLogic();
 				session.setProductRelationId(Integer.parseInt(dto.getProdRelationshipBuilderSid()));
 				session.setProductLevelNumber(dto.getProductHierarchyLevel());
+                               
 
 				if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(scrName)) {
 					session.setCustomerLevelDetails(
 							logic.getLevelValueDetails(session, dto.getCustRelationshipBuilderSid(), true));
 					session.setProductLevelDetails(
 							logic.getLevelValueDetails(session, dto.getProdRelationshipBuilderSid(), false));
-				}
+                                        session.setSalesHierarchyLevelDetails(
+                                        dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomRelationShipSid())));
+                                        session.setDiscountCustomerProductLevelDetails(
+                                        dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
+                                        session.setDiscountDeductionLevelDetails(
+                                        dsLogic.getRelationshipDetailsDeductionCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
+                                }
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(scrName)) {
 					session.setProductDescription(productDescMap); // Fix
 					// for
@@ -4147,8 +4160,10 @@ public class DataSelectionForm extends ForecastDataSelection {
 				setCustomerLevelNullSelection();
 				setRelationshipBuilderSids(String.valueOf(customerRelationComboBox.getValue()));
 				loadCustomerVersionNo(customerRelationComboBox.getValue());
-                                customViewInput.put("custVer", String.valueOf(customerRelationVersionComboBox.getValue()));
+                                customViewInput.put("custVer", customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
                                 customViewInput.put("custSid", String.valueOf(customerRelationComboBox.getValue()));
+                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
+                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
 				loadForecastLevels(innerCustLevels, customerForecastLevelContainer, customerLevel,
 						customerHierarchyDto.getHierarchyId(),
 						Integer.parseInt(customerRelationVersionComboBox.getValue().toString()));
@@ -4173,6 +4188,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			selectedCustomerContainer.removeAllItems();
 			customerInnerLevelContainer.removeAllItems();
                         setNullSelectionCustomDdlb(customRelationDdlb);
+                        setNullSelectionCustomDdlb(customRelationDdlbDeduction);
 			setCustomerForecastLevelNullSelection();
 			setCustomerLevelNullSelection();
 			customerDescMap = null;
@@ -4197,10 +4213,10 @@ public class DataSelectionForm extends ForecastDataSelection {
 				setProductLevelNullSelection();
 				setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
 				loadProductVersionNo(productRelation.getValue());
-                                customViewInput.put("prodVer", productRelationVersionComboBox.getValue().toString());
+                                customViewInput.put("prodVer", productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
                                 customViewInput.put("prodSid", String.valueOf(productRelation.getValue()));
                                 loadCustomViewDropDown(customRelationDdlb,customViewInput);
-				
+                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
 				loadForecastLevels(innerProdLevels, productForecastLevelContainer, productLevel,
 						productHierarchyDto.getHierarchyId(),
 						Integer.parseInt(productRelationVersionComboBox.getValue().toString()));
@@ -4223,7 +4239,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 			availableProduct.removeAllItems();
 			availableProductContainer.removeAllItems();
 			productInnerLevelContainer.removeAllItems();
-                        setNullSelectionCustomDdlb(customRelationDdlb); 
+                        setNullSelectionCustomDdlb(customRelationDdlb);
+                        setNullSelectionCustomDdlb(customRelationDdlbDeduction);
 			setProductForecastLevelNullSelection();
 			setProductLevelNullSelection();
 			productDescMap = null;
@@ -4255,6 +4272,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 					}
 
 					bindDataselectionDtoToSave();
+                                        dataSelectionDTO.setCustomRelationShipSid(Integer.valueOf(String.valueOf(customRelationDdlb.getValue())));
+                                        dataSelectionDTO.setCustomDeductionRelationShipSid(Integer.valueOf(String.valueOf(customRelationDdlbDeduction.getValue())));
 					int projectionIdValue = nmLogic.saveProjection(dataSelectionDTO, scrName);
 					VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
 					projectionId.setValue(String.valueOf(projectionIdValue));
@@ -4263,7 +4282,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 					relationshipBuilderSids.clear();
 					setRelationshipBuilderSids(String.valueOf(customerRelationComboBox.getValue()));
 					setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
-
 					dataSelectionDTO
 							.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 					dataSelectionDTO
@@ -4282,8 +4300,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 						session.setProductDescription(productDescMap);
 						session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
 						session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
-                                                session.setCustomRelationShipSid(dataSelectionDTO.getCustomRelationShipSid());
-						session.setCustomerHierarchyVersion(
+						session.setCustomRelationShipSid(dataSelectionDTO.getCustomRelationShipSid());
+						session.setCustomDeductionRelationShipSid(dataSelectionDTO.getCustomDeductionRelationShipSid());
+                                                session.setCustomerHierarchyVersion(
 								dataSelectionDTO.getCustomerHierVersionNo());
 						session.setProductHierarchyVersion(dataSelectionDTO.getProductHierVersionNo());
 						session.setCustomerRelationVersion(dataSelectionDTO.getCustomerRelationShipVersionNo());
@@ -4317,10 +4336,9 @@ public class DataSelectionForm extends ForecastDataSelection {
                                              session.setSalesHierarchyLevelDetails(
                                         dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomRelationShipSid())));
                                         session.setDiscountCustomerProductLevelDetails(
-                                        dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomRelationShipSid())));
+                                        dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
                                         session.setDiscountDeductionLevelDetails(
-                                        dsLogic.getRelationshipDetailsDeductionCustom(session, String.valueOf(session.getCustomRelationShipSid())));
-
+                                        dsLogic.getRelationshipDetailsDeductionCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
                                             dsLogic.loadProjectionFileDetailsTabInGenerate(session);
                                             ForecastWindow forecastWindow = new ForecastWindow(projectionName.getValue(), session,
 								resultTable, scrName, this, dataSelectionDTO);
@@ -4987,9 +5005,19 @@ public class DataSelectionForm extends ForecastDataSelection {
                 dataSelectionDeductionLevel.select(1);
 		
 	}
-        private void loadCustomViewDropDown(ComboBox customRelationDdlb,Map<String,String> inputData) {
+
+    private void loadCustomViewDropDown(ComboBox customRelationDdlb,Map<String,String> inputData) {
         setNullSelectionCustomDdlb(customRelationDdlb);
-        dataLogic.loadCustomViewValues(customRelationDdlb,inputData);
+        dataLogic.loadCustomViewValues(customRelationDdlb,inputData,true);
         
-    } 
+    }
+	
+
+    private void loadCustomViewDeductionDropDown(ComboBox customRelationDdlb,Map<String,String> inputData) {
+        setNullSelectionCustomDdlb(customRelationDdlb);
+        dataLogic.loadCustomViewDeductionValues(customRelationDdlb,inputData,true);
+        
+    }
+
+
 }

@@ -24,15 +24,15 @@ public class RelationshipLevelValuesMasterBean {
 
 	public static final String DEFAULT_QUESTION = " ?DEFAULT ";
 	private List<Object[]> tempList = null;
-	   private final String relationshipBuilderSid;
-    private final String hierarchyNoType;
-    private final List<RelationshipLevelValuesBean> queryList = new ArrayList<>();
-    private int defaultCount = 0;
-    private final GtnDisplayFormatMasterBean masterBean = new GtnDisplayFormatMasterBean();
-    private final StringBuilder finalQry = new StringBuilder();
-    public static final String HT_DESC = "HT.DESCRIPTION";
-    public static final String FIELD_VALUE = "?FIELD_VALUE";
-    private static final String DISPLAYFORMATCOLUMN = "?DISPLAYFORMATCOLUMN";
+	private final String relationshipBuilderSid;
+        private final String hierarchyNoType;
+        private final List<RelationshipLevelValuesBean> queryList = new ArrayList<>();
+        private int defaultCount = 0;
+        private final GtnDisplayFormatMasterBean masterBean = new GtnDisplayFormatMasterBean();
+        private final StringBuilder finalQry = new StringBuilder();
+        public static final String HT_DESC = "HT.DESCRIPTION";
+        public static final String FIELD_VALUE = "?FIELD_VALUE";
+        private static final String DISPLAYFORMATCOLUMN = "?DISPLAYFORMATCOLUMN";
 
     public RelationshipLevelValuesMasterBean(List<Object[]> tempList, String relationshipBuilderSid,
             String hierarchyNoType, SessionDTO sessionDTO) {
@@ -106,6 +106,12 @@ public class RelationshipLevelValuesMasterBean {
 			queryList.add(getDeductionCustomisedQuery((Object[]) tempList.get(i),sessionDTO));
 		}
 	}
+        
+        private void createQuerySalesCustomCP(SessionDTO sessionDTO) {
+		for (int i = 0; i < tempList.size(); i++) {
+			queryList.add(getCustomisedQuerySalesCustom((Object[]) tempList.get(i), sessionDTO));
+		}
+	}
 
 	private RelationshipLevelValuesBean getCustomisedQuery(Object[] tempListObject, SessionDTO sessionDTO) {
 		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
@@ -133,6 +139,26 @@ public class RelationshipLevelValuesMasterBean {
 		customSql = customSql.replace("?LNO", String.valueOf(tempListObject[NumericConstants.THREE]));
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
 		customSql = customSql.replace(DISPLAYFORMATCOLUMN,
+				getDisplayFormatColumn(masterBean.getDisplayFormatList(), String.valueOf(tempListObject[0]), bean));
+		bean.setQuery(customSql);
+		return bean;
+	}
+
+
+	private RelationshipLevelValuesBean getCustomisedQuerySalesCustom(Object[] tempListObject, SessionDTO sessionDTO) {
+		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
+		String customSql = SQlUtil.getQuery("getRelationshipLevelValuesCustomSales");
+		customSql = customSql.replace("?FIELD", String.valueOf(tempListObject[0]));
+		customSql = customSql.replace("?TABLE", String.valueOf(tempListObject[1]));
+		customSql = customSql.replace("?IDCOL", String.valueOf(tempListObject[NumericConstants.TWO]));
+		customSql = customSql.replace("?LNO", String.valueOf(tempListObject[NumericConstants.THREE]));
+		customSql = customSql.replace("?LNO", String.valueOf(tempListObject[NumericConstants.THREE]));
+		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+		customSql = customSql.replace("@CUSTSID", String.valueOf(sessionDTO.getCustomRelationShipSid()));
+		customSql = customSql.replace("?RLDV",
+				isCustomer() ? sessionDTO.getCustomerRelationVersion() + StringUtils.EMPTY
+						: sessionDTO.getProductRelationVersion() + StringUtils.EMPTY);
+		customSql = customSql.replace("?DISPLAYFORMATCOLUMN",
 				getDisplayFormatColumn(masterBean.getDisplayFormatList(), String.valueOf(tempListObject[0]), bean));
 		bean.setQuery(customSql);
 		return bean;
@@ -252,5 +278,4 @@ public class RelationshipLevelValuesMasterBean {
 	private boolean isCustomer() {
 		return hierarchyNoType.equals("CUST_HIERARCHY_NO");
 	}
-
 }

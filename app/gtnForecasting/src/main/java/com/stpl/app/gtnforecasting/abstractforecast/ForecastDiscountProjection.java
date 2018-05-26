@@ -710,6 +710,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         return year;
     }
 
+
      public void customDdlbChangeOption() {
         viewDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
