@@ -89,20 +89,6 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameAlertWorkActionConfig);
 			return;
 		} else {
-			List<Object> inputPutList = new ArrayList<>(4);
-			inputPutList.add("loaddata");
-
-			List<String> hierarchyNoList = new ArrayList<>();
-			if (isMoveAll) {
-				hierarchyNoList.add("");
-			} else {
-				hierarchyNoList
-						.add(leftTable.getSelectedItems().iterator().next().getPropertyValueByIndex(4).toString());
-			}
-			inputPutList.add(hierarchyNoList);
-
-			inputPutList.add(dualListBoxConfig.getFileName());
-			inputPutList.add(isMoveAll);
 			List<Object> queryParameters = dualListBoxBean.getGtnDualListBoxqueryParametersList();
 			GtnWsRecordBean record = recordBean.iterator().next();
 			GtnUIFrameworkWebserviceRequest request = createRightTableRequest(queryParameters, record,
