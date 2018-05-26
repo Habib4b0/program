@@ -79,19 +79,11 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 			fromDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(6).toString())
 					.getDateFromDateField();
 		} else {
-			GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(parameters.get(2).toString());
-			String interval = baseComponent.getStringFromField();
-			GtnWsForecastConfigurationRequest forecastConfigurationRequest = new GtnWsForecastConfigurationRequest();
-			forecastConfigurationRequest.setFutureFrequency(futureFrequency);
-			forecastConfigurationRequest.setFutureInterval(interval);
 
 			String fromDateString = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(12).toString())
 					.getStringFromField();
 			String toDateString = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(13).toString())
 					.getStringFromField();
-			GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-			request.setForecastConfigurationRequest(forecastConfigurationRequest);
 			String[] splitFromDate = fromDateString.split(" ");
 			String[] splitToDate = toDateString.split(" ");
 			String frommonth;
