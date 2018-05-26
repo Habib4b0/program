@@ -327,7 +327,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 && !Constant.NULL.equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))
                 && !SELECT_ONE.getConstant().equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))
                 && !DASH.equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))) {
-            editBtn.setEnabled(true);
+            editBtn.setEnabled(false);
         } else {
             editBtn.setEnabled(false);
         }
@@ -635,17 +635,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
         } else if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, false);
-            if (customId != 0) {
-                List<Leveldto> hierarchyList = new ArrayList<>();
-                for (Leveldto leveldto : session.getCustomHierarchyMap().get(customId)) {
-                    if (!"D".equals(leveldto.getHierarchyIndicator())) {
-                        hierarchyList.add(leveldto);
-                    }
-                }
-                Utility.loadLevelValue(level, levelFilter, null, hierarchyList, Constant.CUSTOM_LABEL);
-                Leveldto levelDTO = (Leveldto) session.getCustomHierarchyMap().get(customId).get(0);
-                projectionDTO.setHierarchyIndicator(levelDTO.getHierarchyIndicator());
-            }
         } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue())) {
             leftTable.setColumnCollapsingAllowed(true);
             leftTable.setColumnCollapsed(Constant.GROUP, false);

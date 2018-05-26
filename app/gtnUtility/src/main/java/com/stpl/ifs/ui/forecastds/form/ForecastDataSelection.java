@@ -134,6 +134,10 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	protected Label customerRelationVersionLabel;
 	@UiField("customerRelationVersion")
 	protected ComboBox customerRelationVersionComboBox;
+        @UiField("customRelationDdlb")
+	protected ComboBox customRelationDdlb;
+        @UiField("customRelationDdlbDeduction")
+	protected ComboBox customRelationDdlbDeduction;
 
 	/**
 	 * The level.
@@ -634,6 +638,8 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 				configureCustomerVersionDdlb();
 				configureProductVersionDdlb();
                                 configureFrequency();
+                                setNullSelectionCustomDdlb(customRelationDdlb);
+                                setNullSelectionCustomDdlb(customRelationDdlbDeduction);
 			}
 
 			deleteViewBtn.setEnabled(false);
@@ -1805,19 +1811,26 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
             });
         }
         
-        private void configureFrequency() {
+       private void configureFrequency() {
         frequency.addItem(HeaderUtils.MONTHLY);
         frequency.addItem(HeaderUtils.QUARTERLY);
-        frequency.addItem(HeaderUtils.SEMI_ANNUALLY);
-        frequency.addItem(HeaderUtils.ANNUALLY);
+        frequency.addItem(HeaderUtils.SEMI_ANNUAL_C);
+        frequency.addItem(HeaderUtils.ANNUAL);
         frequency.select(HeaderUtils.QUARTERLY);
         frequency.setNullSelectionAllowed(false);
         frequency.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-//                session.setDsFrequency(String.valueOf(frequency.getValue()));
             }
         });
     }
+        
+        public void setNullSelectionCustomDdlb(ComboBox customRelationDdlb) {
+        customRelationDdlb.removeAllItems();
+        customRelationDdlb.setImmediate(true);
+        customRelationDdlb.setNullSelectionAllowed(true);
+        customRelationDdlb.setInputPrompt(SELECT_ONE);
+        customRelationDdlb.select(SELECT_ONE);
+        }
 
 	}

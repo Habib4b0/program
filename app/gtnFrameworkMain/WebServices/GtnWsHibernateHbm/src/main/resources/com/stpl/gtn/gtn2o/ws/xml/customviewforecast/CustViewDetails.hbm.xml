@@ -19,5 +19,8 @@
     <property name="levelNo" type="java.lang.Integer">
       <column name="LEVEL_NO"/>
     </property>
+    <property name="levelName" type="string">
+      <column length="100" name="LEVEL_NAME"/>
+    </property>
   </class>
 </hibernate-mapping>
