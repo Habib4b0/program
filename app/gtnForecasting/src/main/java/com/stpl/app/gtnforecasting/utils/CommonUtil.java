@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
@@ -778,14 +779,30 @@ public class CommonUtil {
         return formattedNameList;
     }
     
-    public void isProcedureCompleted(String screenName, String viewName, SessionDTO session) {
+      public void isProcedureCompleted(String screenName, String viewName, SessionDTO session) {
         List inputList = new ArrayList<>();
         inputList.add(screenName);
         inputList.add(viewName);
-        List resultList;
-        do {
-            resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(inputList, "getProcedureStatus"), session.getCurrentTableNames()));
-        } while (!"C".equalsIgnoreCase((String.valueOf(((Object[])resultList.get(0))[2]).trim())));
+        List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(inputList, "getProcedureStatus"), session.getCurrentTableNames()));
+        for (int i = 0; i < resultList.size(); i++) {
+            Object[] obj = (Object[]) resultList.get(i);
+            if (!"C".equalsIgnoreCase((String.valueOf(obj[2])).trim())) {
+                waitForSeconds();
+                isProcedureCompleted(String.valueOf(obj[0]), String.valueOf(obj[1]), session);
+            } else {
+                return ;
+            }
+        }
+        return ;
+    }
+    
+    public void waitForSeconds() {
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException ex) {
+            LOGGER.error( "Interrupted!", ex);
+            Thread.currentThread().interrupt();
+        }
     }
     
 }

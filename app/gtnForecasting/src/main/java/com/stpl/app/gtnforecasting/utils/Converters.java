@@ -234,6 +234,8 @@ public class Converters {
             }
             dataSelectionDTO.setForecastEligibleDate(parsetDate(convertNullToEmpty(String.valueOf(objects[NumericConstants.THIRTY_ONE]))));
             dataSelectionDTO.setDeductionRelationShipVersionNo(Integer.parseInt(objects[NumericConstants.THIRTY_TWO] == null ? DASH : objects[NumericConstants.THIRTY_TWO].toString()));
+            dataSelectionDTO.setCustomRelationShipSid(Integer.parseInt(objects[NumericConstants.THIRTY_THREE] == null ? DASH : objects[NumericConstants.THIRTY_THREE].toString()));
+            dataSelectionDTO.setCustomDeductionRelationShipSid(Integer.parseInt(objects[NumericConstants.THIRTY_FOUR] == null ? DASH : objects[NumericConstants.THIRTY_FOUR].toString()));
 
             dataSelectionDTOs.add(dataSelectionDTO);
         }

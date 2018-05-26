@@ -91,6 +91,7 @@ import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.vaadin.v7.data.Container;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.TreeTable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -2287,6 +2288,7 @@ public class DataSelectionLogic {
 															// Actual System Id
 			detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY
 			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
+//                        detailsList.add(object[object.length - 1]); //Sales Inclusion
 			resultMap.put(String.valueOf(object[0]), detailsList);
 
 			if (j == tempList.size() - 1) {
@@ -2526,20 +2528,19 @@ public class DataSelectionLogic {
                                 .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
                                 .append(",'").append(screenName).append('\'')
                                 .append(",'").append(view).append('\'')
-                                .append(",'").append("").append('\'')
-                                .append(",'").append("").append('\'')
-                                .append(",'").append("").append('\'')
-                                .append(",'").append("").append('\'')
-                                .append(",'").append("").append('\'')
-                                .append(",'").append("").append('\'')
-                                .append(",'").append("").append('\'')
+                                .append(",").append("null").append("")
+                                .append(",").append("null").append("")
+                                .append(",").append("null").append("")
+                                .append(",'").append(session.getCustomRelationShipSid()).append('\'')
+                                .append(",").append("null").append("")
+                                .append(",").append("null").append("")
+                                .append(",").append("null").append("")
                                 .append(',').append("null")
-                                .append(",'").append(session.getDataSelectionDeductionLevelCaption())
+                                .append(",'").append("Schedule Category")
                                 .append('\'');
                                 LOGGER.info("before: {}", query.toString());
 				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
                                 LOGGER.info("Query callViewInsertProcedureForNm: {}", query.toString());
-                                 LOGGER.debug(endPeriod);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -2560,7 +2561,7 @@ public class DataSelectionLogic {
                                 .append(",'").append(startPeriod).append('\'')
                                 .append(",'").append(endPeriod).append('\'')
                                 .append(",'").append(massUpdateField).append('\'')
-                                .append(",'").append("").append('\'')
+                                .append(",").append(session.getCustomRelationShipSid()).append("")
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
@@ -2568,6 +2569,38 @@ public class DataSelectionLogic {
                                 .append(",'").append("Schedule Category").append('\'')
                                 .append(';');
                                 HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
+                                LOGGER.info("Query callViewInsertProcedures: {}", query.toString());
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return query.toString();
+
+    }
+    
+    public String callViewInsertProceduresString(SessionDTO session,String frequency,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
+     LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}", frequency);
+        String truncateQuery="TRUNCATE TABLE ST_CUSTOM_SALES";
+        StringBuilder query = new StringBuilder(QueryUtil.replaceTableNames(truncateQuery, session.getCurrentTableNames()));
+        try {
+            query.append(EXEC_WITH_SPACE);
+            query.append(Constant.PRC_VIEWS_POPULATION);
+				query.append(' ').append(session.getProjectionId()).append(',');
+				query.append(session.getUserId())
+                                .append(",'").append(session.getSessionId()).append('\'')
+                                .append(",'").append(session.getFunctionMode()).append('\'')
+                                .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
+                                .append(",'").append(screenName).append('\'')
+                                .append(",'").append(view).append('\'')
+                                .append(",'").append(startPeriod).append('\'')
+                                .append(",'").append(endPeriod).append('\'')
+                                .append(",'").append(massUpdateField).append('\'')
+                                .append(",").append(session.getCustomRelationShipSid()).append("")
+                                .append(",'").append("").append('\'')
+                                .append(",'").append("").append('\'')
+                                .append(",'").append("").append('\'')
+                                .append(',').append("null")
+                                .append(",'").append("Schedule Category").append('\'')
+                                .append(';');
                                 LOGGER.info("Query callViewInsertProcedures: {}", query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -2583,6 +2616,8 @@ public class DataSelectionLogic {
 
         service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
                session, "Q", screenName, "C", startPeriod, endPeriod, massUpdateField));
+        service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
+                session, "Q", screenName, "P", startPeriod, endPeriod, massUpdateField));
         service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
                 session, "Q", screenName, "P", startPeriod, endPeriod, massUpdateField));
     }
@@ -2608,12 +2643,11 @@ public class DataSelectionLogic {
     
     public static void nmDiscountActProjInsertProcedure(SessionDTO session) {
         ExecutorService service = ThreadPool.getInstance().getService();
-        CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
+//        CommonUtil.getInstance().isProcedureCompleted("DISCOUNT", "PRC_NM_MASTER_INSERT", session);
         if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
-            session.addFutureMap(Constant.DISCOUNT_PROJECTION_LABEL,
-				new Future[] {service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
-                    SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
-                    session.getUserId(), session.getSessionId(), Constant.DISCOUNT3, session))});
+//            service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+//                    SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
+//                    session.getUserId(), session.getSessionId(), Constant.DISCOUNT3, session));
         }
     }
         
@@ -2693,7 +2727,7 @@ public class DataSelectionLogic {
 		HelperTableLocalServiceUtil
 				.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
 	}
-
+        
 	public int isFileChanged(SessionDTO session) {
 		int fileStatus = 1;
 		StringBuilder name = new StringBuilder();
@@ -2735,7 +2769,7 @@ public class DataSelectionLogic {
 		if (object.length > 5) {
 			List<Object> displayFormat = new ArrayList<>();
 			displayFormat.add(defaultValue);
-			for (int i = 5; i < object.length - 2; i++) {
+			for (int i = 5; i < object.length - 1; i++) {
 				displayFormat.add(object[i]);
 			}
 			detailsList.add(displayFormat);
@@ -2766,5 +2800,69 @@ public class DataSelectionLogic {
         List workflowforecastEligibleDate = (List) salesProjectionDAO.executeSelectQuery(datequery, null, null);
         return workflowforecastEligibleDate != null ? (Date) workflowforecastEligibleDate.get(0) : null;
     }
+    
+    public void loadCustomViewValues(ComboBox customRelationDdlb, Map<String, String> dataMap,boolean isDataSelection) {
+        if (dataMap.get("custSid") != null && dataMap.get("custVer") != null && dataMap.size()>3) {
+            String sqlQuery = QueryUtils.getQuery(Collections.emptyList(),"loadCustomRelationValues");
+            sqlQuery = sqlQuery.replace("@CUSTSID", dataMap.get("custSid")).replace("@PRODSID", dataMap.get("prodSid"))
+                    .replace("@CUSTVER", dataMap.get("custVer")).replace("@PRODVER", dataMap.get("prodVer"));
+            List<Object[]> queryList = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
+
+            for (Object[] objects : queryList) {
+                customRelationDdlb.addItem(objects[0]);
+                customRelationDdlb.setItemCaption(objects[0], String.valueOf(objects[1]));
+            }
+            if (queryList != null && isDataSelection) {
+                customRelationDdlb.setValue(queryList.get(0)[0]);
+            }
+        }
+    }
+    
+    public void loadCustomViewDeductionValues(ComboBox customDeductionRelationDdlb, Map<String, String> dataDeductionMap,boolean isDataSelection) {
+        if (dataDeductionMap.get("custSid") != null && dataDeductionMap.get("custVer") != null && dataDeductionMap.size()>3) {
+            String discountSqlQuery = QueryUtils.getQuery(Collections.emptyList(),"loadCustomDeductionRelationValues");
+            discountSqlQuery = discountSqlQuery.replace("@CUSTSID", dataDeductionMap.get("custSid")).replace("@PRODSID", dataDeductionMap.get("prodSid"))
+                    .replace("@CUSTVER", dataDeductionMap.get("custVer")).replace("@PRODVER", dataDeductionMap.get("prodVer"));
+            List<Object[]> queryDiscountList = HelperTableLocalServiceUtil.executeSelectQuery(discountSqlQuery);
+
+            for (Object[] objects : queryDiscountList) {
+                customDeductionRelationDdlb.addItem(objects[0]);
+                customDeductionRelationDdlb.setItemCaption(objects[0], String.valueOf(objects[1]));
+            }
+            if (queryDiscountList != null && isDataSelection) {
+                customDeductionRelationDdlb.select(queryDiscountList.get(0)[0]);
+            }
+        }
+    }
+    
+    
+    public Map<String, List> getRelationshipDetailsCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
+		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsCustom");
+		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+
+		Map<String, List> resultMap = new LinkedHashMap<>();
+
+		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
+				"customSalesCP", sessionDTO);
+		tempList.clear();
+		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
+				QueryUtil.replaceTableNames(bean.getCustomFinalQuery(), sessionDTO.getCurrentTableNames()));
+		for (int j = tempList.size() - 1; j >= 0; j--) {
+			Object[] object = (Object[]) tempList.get(j);
+			final List<Object> detailsList = new ArrayList<>();
+			detailsList.add(object[1]); // Level Value
+			detailsList.add(object[NumericConstants.TWO]); // Level No
+			detailsList.add(object[NumericConstants.THREE]); // Level Name
+			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
+															// Actual System Id
+			detailsList.add("U"); // U inducator for Custom HIERARCHY
+			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
+			resultMap.put(String.valueOf(object[0]), detailsList);
+
+
+		}
+		return resultMap;
+	}
     
 }

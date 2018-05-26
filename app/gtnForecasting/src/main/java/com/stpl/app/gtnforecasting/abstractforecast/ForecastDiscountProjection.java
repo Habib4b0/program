@@ -73,7 +73,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
@@ -621,7 +620,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         collapseBtn.addClickListener(buttonClickListener);
         adjprogramsLb.setVisible(false);
         adjprograms.setVisible(false);
-
+        customDdlbChangeOption();
 
         screenLoad();
 
@@ -709,9 +708,15 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         return year;
     }
 
-    @UiHandler("viewDdlb")
-    public void customDdlbChangeOption(Property.ValueChangeEvent event) {
-        customDdlbLogic();
+  
+    public void customDdlbChangeOption() {
+        viewDdlb.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                customDdlbLogic();
+            }
+        });
+        
     }
 
     /**
