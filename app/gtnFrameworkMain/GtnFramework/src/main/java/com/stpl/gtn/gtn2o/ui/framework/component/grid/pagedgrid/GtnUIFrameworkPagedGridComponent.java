@@ -62,6 +62,7 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
         componentData.setTableConfig(tableConfig);
         componentData.setPagedGrid(pagedGrid);
         componentData.setCustomData(pagedGrid);
+        componentData.setCurrentPageGridLogic(pagedGrid.getPagedTableLogic());
 
         VerticalLayout controls = new VerticalLayout();
         controls.addComponents(pagedGrid.getControlLayout());
