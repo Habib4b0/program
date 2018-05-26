@@ -369,7 +369,13 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             setProjectionSelection(false);
             initialConfig(Boolean.TRUE);
         }
-        frequency.select(dataSelectionDto.getFrequency());
+        frequency.select(session.getDsFrequency());
+        frequency.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                session.setDsFrequency(String.valueOf(frequency.getValue()));
+            }
+        });
         loadDisplayFormatDdlb();
     }
 
