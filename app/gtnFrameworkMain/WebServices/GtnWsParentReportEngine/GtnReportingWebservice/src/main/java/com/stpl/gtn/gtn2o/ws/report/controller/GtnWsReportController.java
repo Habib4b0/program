@@ -27,6 +27,7 @@ import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportWebsevice;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsTreeService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
@@ -282,9 +283,40 @@ public class GtnWsReportController {
 		GtnWsReportRequest reportRequest = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest();
 		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
 		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
+		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
 		int userId = Integer.valueOf(generalRequest.getUserId());
-		int count = gtnWsReportWebsevice.saveReportingMaster(dataSelectionBean, userId);
+		int recordCount = gtnWsReportWebsevice.checkViewRecordCount(dataSelectionBean, userId);
+		if (recordCount == 0) {
+			gtnWsReportWebsevice.saveReportingMaster(dataSelectionBean, userId);
+			generalResponse.setSucess(true);
+		} else {
+			generalResponse.setSucess(false);
+		}
+		response.setGtnWsGeneralResponse(generalResponse);
 		return response;
+	}
 
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORRT_DELETEVIEW_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse deleteView(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		GtnWsReportRequest reportRequest = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest();
+		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
+		int userId = Integer.valueOf(generalRequest.getUserId());
+		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
+		return gtnWsReportWebsevice.deleteView(dataSelectionBean, userId);
+	}
+	
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_LOADSERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadComparisonAvailableTable(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnSerachResponse searchResponse = new GtnSerachResponse();
+		List<Object[]> resultList = gtnWsReportWebsevice.loadComparisonAvailableTable(gtnUIFrameworkWebserviceRequest);
+		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+		dataTable.addData(resultList);
+		searchResponse.setResultSet(dataTable);
+		response.setGtnSerachResponse(searchResponse);
+		return response;
 	}
 }

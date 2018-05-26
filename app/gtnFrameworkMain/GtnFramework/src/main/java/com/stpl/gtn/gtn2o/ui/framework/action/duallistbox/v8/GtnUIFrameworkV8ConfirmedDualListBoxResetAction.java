@@ -13,17 +13,17 @@ public class GtnUIFrameworkV8ConfirmedDualListBoxResetAction implements GtnUIFra
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-            return;
-        }
+		return;
+	}
 
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		TreeGrid<GtnWsRecordBean> rightTable = (TreeGrid<GtnWsRecordBean>) actionParamsList.get(1);
-		GtnWsRecordBean recordBean = rightTable.getTreeData().getRootItems().iterator().next();
+		GtnWsRecordBean recordBean = rightTable.getTreeData().getRootItems().get(0);
 		rightTable.getTreeData().removeItem(recordBean);
-                rightTable.getDataProvider().refreshAll();
+		rightTable.getDataProvider().refreshAll();
 	}
 
 	@Override

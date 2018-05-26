@@ -1,12 +1,15 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 
 public class GtnWsReportDataSelectionBean {
+	
+	public GtnWsReportDataSelectionBean(){
+		super();
+	}
 
 	private long customerHierarchySid;
 	private long productHierarchySid;
@@ -39,7 +42,7 @@ public class GtnWsReportDataSelectionBean {
 
 	private String viewName;
 	private String viewType;
-	private LocalDate v8forecastEligibilityDate;
+	private Integer viewId;
 
 	public int getProductRelationshipBuilderSid() {
 		return productRelationshipBuilderSid;
@@ -90,7 +93,7 @@ public class GtnWsReportDataSelectionBean {
 	}
 
 	public Date getForecastEligibleDate() {
-		return forecastEligibleDate;
+		return this.forecastEligibleDate;
 	}
 
 	public void setForecastEligibleDate(Date forecastEligibleDate) {
@@ -272,7 +275,7 @@ public class GtnWsReportDataSelectionBean {
 	}
 
 	public Date getFromPeriod() {
-		return fromPeriod;
+		return this.fromPeriod;
 	}
 
 	public void setFromPeriod(Date fromPeriod) {
@@ -280,19 +283,19 @@ public class GtnWsReportDataSelectionBean {
 	}
 
 	public Date getToPeriodReport() {
-		return toPeriodReport;
+		return this.toPeriodReport;
 	}
 
 	public void setToPeriodReport(Date toPeriodReport) {
 		this.toPeriodReport = toPeriodReport;
 	}
 
-	public LocalDate getv8ForecastEligibilityDate() {
-		return v8forecastEligibilityDate;
+	public Integer getViewId() {
+		return viewId;
 	}
 
-	public void setv8ForecastEligibilityDate(LocalDate forecastEligibilityDate) {
-		this.v8forecastEligibilityDate = forecastEligibilityDate;
+	public void setViewId(Integer viewId) {
+		this.viewId = viewId;
 	}
-
+	
 }

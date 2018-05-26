@@ -47,13 +47,12 @@ public class GtnFrameworkUICustomViewEditAction
 		GtnUIFrameworkBaseComponent baseComboBoxComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(id);
 		String selectedItem = baseComboBoxComponent.getV8StringFromField();
 		if (!"".equals(selectedItem) && !"0".equals(selectedItem)) {
-			loadScreen(selectedItem, componentId, gtnUIFrameWorkActionConfig);
+			loadScreen(selectedItem, gtnUIFrameWorkActionConfig);
 
 		}
 	}
 
-	private void loadScreen(String selectedItem, String componentId,
-			GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) {
+	private void loadScreen(String selectedItem, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) {
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebServiceReportRequestBuilder()
 				.withCustomViewBean().build();
 		GtnWsReportCustomViewDataBean dataBean = new GtnWsReportCustomViewDataBean();
@@ -65,17 +64,18 @@ public class GtnFrameworkUICustomViewEditAction
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		GtnWsReportCustomViewDataBean viewDataBean = response.getGtnReportResponse().getReportBean().getCustomViewBean()
 				.getCustomViewDataBean();
-		loadTreeGrid(viewDataBean, gtnUIFrameWorkActionConfig, componentId);
+		loadTreeGrid(viewDataBean, gtnUIFrameWorkActionConfig);
 		loadViewName(viewDataBean.getCustomViewName());
 
 	}
 
 	private void loadViewName(String customViewName) {
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookup_hierarchyName").setHasValue(customViewName);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookup_hierarchyName")
+				.setHasValue(customViewName);
 	}
 
 	private void loadTreeGrid(GtnWsReportCustomViewDataBean viewDataBean,
-			GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String componentId) {
+			GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) {
 		TreeGrid<GtnWsRecordBean> treeGrid = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent((String) gtnUIFrameWorkActionConfig.getActionParameterList().get(1))
 				.getTreeGrid();
@@ -115,6 +115,8 @@ public class GtnFrameworkUICustomViewEditAction
 			break;
 		case VARIABLES:
 			removeLeftVariables(currentTempData);
+			break;
+		default:
 			break;
 		}
 

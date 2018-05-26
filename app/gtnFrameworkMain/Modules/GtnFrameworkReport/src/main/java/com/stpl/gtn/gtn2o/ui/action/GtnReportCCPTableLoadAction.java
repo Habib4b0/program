@@ -68,21 +68,21 @@ public class GtnReportCCPTableLoadAction
 	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
-		GtnUIFrameworkComponentData gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI
+		GtnUIFrameworkComponentData selectedTableComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(tableComponentId, componentId);
-		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) gtnUIFrameworkComponentData
+		GtnFrameworkV8DualListBoxBean selectedDualListBoxBean = (GtnFrameworkV8DualListBoxBean) selectedTableComponentData
 				.getCustomData();
-		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
-		rightTable.expand(rightTable.getTreeData().getRootItems());
-		List<GtnWsRecordBean> selectedvalues = rightTable.getTreeData().getRootItems();
+		TreeGrid<GtnWsRecordBean> selectedRightTable = selectedDualListBoxBean.getRightTable();
+		selectedRightTable.expand(selectedRightTable.getTreeData().getRootItems());
+		List<GtnWsRecordBean> selectedValues = selectedRightTable.getTreeData().getRootItems();
 
-		List<GtnWsRecordBean> selectedList = new ArrayList<>();
-		for (GtnWsRecordBean gtnWsRecordBean : selectedvalues) {
+		List<GtnWsRecordBean> selectedRecordList = new ArrayList<>(10);
+		for (GtnWsRecordBean gtnWsRecordBean : selectedValues) {
 
-			selectedList.add(gtnWsRecordBean);
-			addSelectedValues(rightTable, gtnWsRecordBean, selectedList);
+			selectedRecordList.add(gtnWsRecordBean);
+			addSelectedValues(selectedRightTable, gtnWsRecordBean, selectedRecordList);
 		}
-		return selectedList;
+		return selectedRecordList;
 	}
 
 	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList,
@@ -140,8 +140,6 @@ public class GtnReportCCPTableLoadAction
 		dto.setProductHierarchyRecordBean(productRecordBean);
 		dto.setSelectedCustomerHierarchyList(selectedCustomerList);
 		dto.setSelectedProductHierarchyList(selectedProductList);
-		dto.setv8ForecastEligibilityDate(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(7).toString())
-				.getV8DateFromDateField());
 		
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_");
@@ -207,7 +205,7 @@ public class GtnReportCCPTableLoadAction
 	private List<GtnFrameworkRelationshipLevelDefintionBean> relationBeanList(
 			List<GtnWsRecordBean> selectedCustomerContractList, GtnWsReportDataSelectionBean dataSelectionDto,
 			boolean isProduct) {
-		List<GtnFrameworkRelationshipLevelDefintionBean> relationBeanList = new ArrayList<>();
+		List<GtnFrameworkRelationshipLevelDefintionBean> relationBeanList = new ArrayList<>(selectedCustomerContractList.size());
 		for (GtnWsRecordBean recordBean : selectedCustomerContractList) {
 
 			GtnFrameworkRelationshipLevelDefintionBean forecast = new GtnFrameworkRelationshipLevelDefintionBean();

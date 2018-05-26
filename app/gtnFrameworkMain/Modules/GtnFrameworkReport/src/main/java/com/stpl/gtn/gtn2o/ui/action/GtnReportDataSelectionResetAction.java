@@ -50,7 +50,7 @@ public class GtnReportDataSelectionResetAction
 		leftTable.setItems(new ArrayList<>());
 
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
-		GtnWsRecordBean recordBean = rightTable.getTreeData().getRootItems().iterator().next();
+		GtnWsRecordBean recordBean = rightTable.getTreeData().getRootItems().get(0);
 		rightTable.getTreeData().removeItem(recordBean);
 		rightTable.getDataProvider().refreshAll();
 
@@ -74,7 +74,7 @@ public class GtnReportDataSelectionResetAction
 		productLeftTable.setItems(new ArrayList<>());
 
 		TreeGrid<GtnWsRecordBean> productRightTable = productDualListBoxBean.getRightTable();
-		GtnWsRecordBean productRecordBean = productRightTable.getTreeData().getRootItems().iterator().next();
+		GtnWsRecordBean productRecordBean = productRightTable.getTreeData().getRootItems().get(0);
 		productRightTable.getTreeData().removeItem(productRecordBean);
 		productRightTable.getDataProvider().refreshAll();
 

@@ -1,7 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +41,6 @@ public class GtnProductLevelAvailableTableLoadAction
 			throws GtnFrameworkGeneralException {
 		try {
 			List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
-			Map<String, String> productDescMap = new HashMap<>();
 			GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(actionParamList.get(1).toString(),componentId).getComponentData().getCustomData();
 			Object relationshipBuilderSID = GtnUIFrameworkGlobalUI
@@ -56,7 +54,7 @@ public class GtnProductLevelAvailableTableLoadAction
 					.getValueFromComponent();
 			int businessUnit = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(5).toString(),componentId)
 					.getValueFromComponent();
-			productDescMap = getLevelValueMap(relationshipBuilderSID, hierarchyBuilderSid, hierarchyVersionNo,
+			Map<String, String> productDescMap = getLevelValueMap(relationshipBuilderSID, hierarchyBuilderSid, hierarchyVersionNo,
 					relationVersionNo);
 
 			List<GtnReportHierarchyLevelBean> productHierarchyLevelDefinitionList = getHierarchyLevelDefinition(
@@ -150,7 +148,7 @@ public class GtnProductLevelAvailableTableLoadAction
 	}
 
 	public List<GtnReportHierarchyLevelBean> cutomizeHierarchyBean(List<Object[]> results, int hierarchyVersionNo) {
-		List<GtnReportHierarchyLevelBean> resultDtoList = new ArrayList<>();
+		List<GtnReportHierarchyLevelBean> resultDtoList = new ArrayList<>(results.size());
 		for (Object[] objects : results) {
 			GtnReportHierarchyLevelBean gtnReportHierarchyLevelBean = new GtnReportHierarchyLevelBean();
 			gtnReportHierarchyLevelBean.setLevelNo(getIntegerValue(objects, 0));

@@ -29,12 +29,12 @@ import com.vaadin.ui.TreeGrid;
 public class GtnReportDataSelectionTabLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportDataSelectionTabLoadAction.class);
+	private static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportDataSelectionTabLoadAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-
+		return;
 	}
 
 	@Override
@@ -160,9 +160,9 @@ public class GtnReportDataSelectionTabLoadAction
 					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId)
 					.loadComboBoxComponentValue(reportDataSelectionBean.getCustomerRelationshipBuilderSid());
 
-			String relationshipValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+			int relationshipValue = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
 					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId)
-					.getCaptionFromComboBox();
+					.getValueFromComponent();
 
 			GtnUIFrameworkComboBoxConfig customerRelationshipVersionComboboxConfig = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(
@@ -224,10 +224,10 @@ public class GtnReportDataSelectionTabLoadAction
 							componentId)
 					.loadComboBoxComponentValue(reportDataSelectionBean.getProductRelationshipBuilderSid());
 
-			String productrelationshipValue = GtnUIFrameworkGlobalUI
+			int productrelationshipValue = (int) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_RELATIONSHIP,
 							componentId)
-					.getCaptionFromComboBox();
+					.getValueFromComponent();
 
 			GtnUIFrameworkComboBoxConfig productRelationshipVersionComboboxConfig = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(
@@ -265,9 +265,7 @@ public class GtnReportDataSelectionTabLoadAction
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_LEVEL, componentId)
 					.loadComboBoxComponentValue(reportDataSelectionBean.getProductHierarchyForecastLevel());
-			
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_customerSelectionForecastEligibilityDate", componentId).loadV8DateValue(reportDataSelectionBean.getv8ForecastEligibilityDate());
-			
+
 		} catch (Exception exception) {
 			logger.error("Error message", exception);
 		}

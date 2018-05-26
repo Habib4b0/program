@@ -31,7 +31,7 @@ public class GtnRelationshipVersionLoadAction
 		String relationshipValue = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(1).toString(), componentId).getCaptionFromComboBox();
 		Integer relationshipBuilderSid = (Integer) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(1).toString()).getValueFromComponent();
+				.getVaadinBaseComponent(actionParamsList.get(1).toString(),componentId).getValueFromComponent();
 		if (relationshipValue != "") {
 			GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(actionParamsList.get(2).toString(),componentId).getComponentConfig()

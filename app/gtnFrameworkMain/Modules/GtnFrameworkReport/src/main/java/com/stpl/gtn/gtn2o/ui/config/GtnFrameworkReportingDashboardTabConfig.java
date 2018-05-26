@@ -458,8 +458,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		addFilterOptionsTabComponent(componentList, nameSpace);
 		addControlButtonLayout(componentList, "filterOptionsTabControlButtonLayout", nameSpace);
-		// addResultsPanel(componentList, "filterOptionsTabPagedTreeTableLayout",
-		// nameSpace);
 		addNavigationButtonLayout(componentList, nameSpace, "filterOptionsTabNavigationButtonLayout");
 	}
 
@@ -708,8 +706,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		addReportOptionsTabComponent(componentList, nameSpace);
 		addControlButtonLayout(componentList, "reportOptionsTabControlButtonLayout", nameSpace);
-		// addResultsPanel(componentList, "reportOptionsTabPagedTreeTableLayout",
-		// nameSpace);
 		addNavigationButtonLayout(componentList, nameSpace, "reportOptionsTabNavigationButtonLayout");
 	}
 
@@ -1050,10 +1046,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		reportingDashboardGtnPagedTreeTableConfig
 				.setRightHeader(GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
 
-		// reportingDashboardGtnPagedTreeTableConfig.setLeftWsHeaderUrl(
-		// GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_LEFT_HEADERS_SERVICE);
-		// reportingDashboardGtnPagedTreeTableConfig.setRightWsHeaderUrl(
-		// GtnWsForecastReturnsConstants.GTN_WS_REPORT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE);
 		reportingDashboardGtnPagedTreeTableConfig.setCountUrl("");
 		reportingDashboardGtnPagedTreeTableConfig.setItemPerPage(10);
 

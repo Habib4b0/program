@@ -40,8 +40,7 @@ public class GtnUIFrameWorkV8DuallistBoxRightToLeftTableLoadAction implements Gt
 	public void loadLeftTableOnButtonClick(GtnFrameworkV8DualListBoxBean dualListBoxBean, String componentId)
 			throws GtnFrameworkGeneralException {
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
-		GtnWsRecordBean deleteNode = rightTable.getSelectedItems().iterator().next();
-		if (deleteNode == null) {
+		if (!rightTable.getSelectedItems().iterator().hasNext()) {
 			GtnUIFrameWorkActionConfig gtnUIFrameAlertWorkActionConfig = new GtnUIFrameWorkActionConfig();
 			gtnUIFrameAlertWorkActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 			List<Object> alertMsgList = new ArrayList<>(2);
@@ -51,7 +50,7 @@ public class GtnUIFrameWorkV8DuallistBoxRightToLeftTableLoadAction implements Gt
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameAlertWorkActionConfig);
 			return;
 		}
-
+		GtnWsRecordBean deleteNode = rightTable.getSelectedItems().iterator().next();
 		rightTable.getTreeData().removeItem(deleteNode);
 		rightTable.getDataProvider().refreshAll();
 		rightTable.markAsDirty();

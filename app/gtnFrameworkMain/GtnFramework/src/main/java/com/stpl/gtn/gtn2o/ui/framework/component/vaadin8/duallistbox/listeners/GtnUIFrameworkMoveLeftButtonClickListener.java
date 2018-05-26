@@ -34,31 +34,32 @@ public class GtnUIFrameworkMoveLeftButtonClickListener implements Button.ClickLi
 	}
 
 	public static GtnUIFrameworkMoveLeftButtonClickListener getInstance() {
-		GtnUIFrameworkMoveLeftButtonClickListener buttonClickListener = GtnUIFrameworkMoveLeftButtonClickListener.moveLeftButtonClickListener;
-		if (buttonClickListener == null) {
+		GtnUIFrameworkMoveLeftButtonClickListener moveLefftBtnClickListener = GtnUIFrameworkMoveLeftButtonClickListener.moveLeftButtonClickListener;
+		if (moveLefftBtnClickListener == null) {
 			synchronized (GtnUIFrameworkMoveLeftButtonClickListener.class) {
-				buttonClickListener = GtnUIFrameworkMoveLeftButtonClickListener.moveLeftButtonClickListener;
-				if (buttonClickListener == null) {
-					GtnUIFrameworkMoveLeftButtonClickListener.moveLeftButtonClickListener = buttonClickListener = new GtnUIFrameworkMoveLeftButtonClickListener();
+				moveLefftBtnClickListener = GtnUIFrameworkMoveLeftButtonClickListener.moveLeftButtonClickListener;
+				if (moveLefftBtnClickListener == null) {
+					GtnUIFrameworkMoveLeftButtonClickListener.moveLeftButtonClickListener = moveLefftBtnClickListener = new GtnUIFrameworkMoveLeftButtonClickListener();
 				}
 			}
 		}
-		return buttonClickListener;
+		return moveLefftBtnClickListener;
 	}
 
 	@Override
 	public void buttonClick(Button.ClickEvent event) {
 		LOGGER.info("Inside MoveLeftButtonClickListener:");
-		GtnUIFrameworkComponentData dualListBoxData = (GtnUIFrameworkComponentData) event.getButton().getData();
-		GtnUIFrameWorkActionConfig loadRightToLeftTableActionConfig = new GtnUIFrameWorkActionConfig();
-		loadRightToLeftTableActionConfig
+		GtnUIFrameworkComponentData dualListBoxComponentData = (GtnUIFrameworkComponentData) event.getButton()
+				.getData();
+		GtnUIFrameWorkActionConfig loadV8RightToLeftTableActionConfig = new GtnUIFrameWorkActionConfig();
+		loadV8RightToLeftTableActionConfig
 				.setActionType(GtnUIFrameworkActionType.V8DUAL_LISTBOX_RIGHT_TO_LEFT_TABLE_LOADACTION);
 		List<Object> actionParametersList = new ArrayList<>(1);
-		actionParametersList.add(dualListBoxData);
-		loadRightToLeftTableActionConfig.setActionParameterList(actionParametersList);
+		actionParametersList.add(dualListBoxComponentData);
+		loadV8RightToLeftTableActionConfig.setActionParameterList(actionParametersList);
 		try {
 			GtnUIFrameworkActionExecutor.executeSingleAction(event.getButton().getId(),
-					loadRightToLeftTableActionConfig);
+					loadV8RightToLeftTableActionConfig);
 		} catch (GtnFrameworkGeneralException e) {
 			LOGGER.error("Exception in MoveRightButtonClickListener", e);
 		}
