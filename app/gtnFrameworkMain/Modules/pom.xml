@@ -39,6 +39,7 @@
 		<module>GtnFrameworkBusinessRoleModuleMaster</module>
 		<module>GtnFrameworkUDCConfiguration</module>
 		<module>GtnFrameworkReport</module>
+		<module>GtnFrameworkCustomview</module>
 	</modules>
 
 	<dependencies>

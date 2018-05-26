@@ -52,6 +52,7 @@ import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.ui.AbstractSelect;
@@ -333,6 +334,16 @@ public class GtnUIFrameworkBaseComponent {
 
 	}
 
+	public String getStringCaptionFromV8ComboBox() throws GtnFrameworkValidationFailedException {
+		try {
+			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
+			return getString(comboBox.getItemCaptionGenerator().apply(comboBox.getValue())).trim();
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+
+	}
+	
 	private static String getString(Object value) {
 		if (isNull(value)) {
 			return "";
@@ -376,6 +387,16 @@ public class GtnUIFrameworkBaseComponent {
 		}
 	}
 
+	public Object getV8ValueFromComponent() throws GtnFrameworkValidationFailedException {
+		try {
+		
+				return ((HasValue<Object>) getComponentData().getCustomData()).getValue();
+			
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+	
 	public Object validateAndGetValue() throws GtnFrameworkValidationFailedException {
 		validate();
 		return getObjectFromField();
@@ -1125,6 +1146,13 @@ public class GtnUIFrameworkBaseComponent {
 		field.setValue(value);
 	}
 
+        public void setV8GridItems(List<GtnWsRecordBean> value) {
+		VerticalLayout layout = (VerticalLayout) this.component;
+		Grid<GtnWsRecordBean> field = (Grid) layout.getComponent(0);
+
+		field.setItems(value);
+	}
+        
 	public void setGridItems(List<GtnWsRecordBean> recordBeanList) {
 		((Grid) this.component).setItems(recordBeanList);
 	}
