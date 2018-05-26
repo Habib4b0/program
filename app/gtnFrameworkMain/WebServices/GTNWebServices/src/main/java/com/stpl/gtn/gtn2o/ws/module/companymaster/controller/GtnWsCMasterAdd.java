@@ -34,7 +34,9 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.entity.companymaster.Attachment;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.module.companymaster.service.GtnWsCMasterService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.cmresponse.GtnCompanyMasterResponse;
@@ -64,6 +66,9 @@ public class GtnWsCMasterAdd {
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+        
+        @Autowired
+	private GtnWsCMasterService gtnWsCMService;
 
 	public org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -948,6 +953,30 @@ public class GtnWsCMasterAdd {
 		gtnResponse.setGtnWsGeneralResponse(gtnWsGeneralResponse);
 		return gtnResponse;
 	}
+        
+        @RequestMapping(value = "/getCompanyParentDetailsFromTable", method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getCPDid(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		GtnUIFrameworkWebserviceResponse gtnWSresponse = new GtnUIFrameworkWebserviceResponse();
+		GtnWsGeneralResponse gtnWsGeneralResponsePs = new GtnWsGeneralResponse();
+		gtnWSresponse.setGtnWsGeneralResponse(gtnWsGeneralResponsePs);
+
+		GtnWsGeneralRequest getrequest = gtnWsRequest.getGtnWsGeneralRequest();
+
+		List<Object> inputList = getrequest.getComboBoxWhereclauseParamList();
+
+		try {
+			gtnWsCMService.ccpId(inputList, gtnWSresponse);
+			gtnWsGeneralResponsePs.setSucess(true);
+		} catch (GtnFrameworkGeneralException e) {
+			gtnWsGeneralResponsePs.setSucess(false);
+			gtnWsGeneralResponsePs.setGtnGeneralException(e);
+		}
+
+		return gtnWSresponse;
+	}
+        
+        
+        
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = GtnWebServiceUrlConstants.GTN_WS_CM_FETCH_HELPERSID, method = RequestMethod.POST)

@@ -53,6 +53,7 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -427,6 +428,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                 LOGGER.debug("In configureFields selectedResultsExcelExport.addClickListener started");
                 try {
                     configureExcelResultTable();
+                    VaadinSession.getCurrent().setAttribute(ConstantsUtils.EXCEL_CLOSE, "true");
                     loadExcelTable(CommonUtil.getSelectedFileType(fileType), String.valueOf(country.getValue()), String.valueOf(businessUnit.getValue()));
                     ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(fileHistoryTable), "File Management History", "File Management History", "FileManagementHistory.xls", false);
                     excel.export();

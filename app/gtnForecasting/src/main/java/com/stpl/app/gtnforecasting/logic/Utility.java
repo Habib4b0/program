@@ -174,7 +174,7 @@ public class Utility {
                     ddlb.addItem(DataTypeConverter.convertObjectToInt(levelValues[0]));
                     ddlb.setItemCaption(DataTypeConverter.convertObjectToInt(levelValues[0]), String.valueOf(levelValues[1]));
                 }
-                ddlb.select(Integer.parseInt(session.getDataSelectionDeductionLevel()));
+                ddlb.select(Integer.valueOf(session.getDataSelectionDeductionLevel()));
             }
         }
     }

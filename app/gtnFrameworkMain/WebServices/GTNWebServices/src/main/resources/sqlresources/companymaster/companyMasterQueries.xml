@@ -396,4 +396,15 @@ END
                     ]]>
 		</query>
 	</entity>
+        
+        <entity id="getCompanyParentDetailsFromTable">
+		<query> 
+            <![CDATA[     
+                  
+            DECLARE @COMPANY_NO varchar(50) = ?
+            select COMPANY_MASTER_SID from dbo.company_master where COMPANY_NO = @COMPANY_NO
+            
+                    ]]>
+		</query>
+	</entity>
 </sql>
