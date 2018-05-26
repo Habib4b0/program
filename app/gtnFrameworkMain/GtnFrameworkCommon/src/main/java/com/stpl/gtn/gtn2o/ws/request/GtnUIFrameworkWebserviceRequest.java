@@ -479,4 +479,12 @@ public class GtnUIFrameworkWebserviceRequest {
         this.gtnWsCustomViewRequest = gtnWsCustomViewRequest;
     }
 
+	public GtnWsAttachmentRequest getGtnWsAttachmentRequest() {
+		return gtnWsAttachmentRequest;
+	}
+
+	public void setGtnWsAttachmentRequest(GtnWsAttachmentRequest gtnWsAttachmentRequest) {
+		this.gtnWsAttachmentRequest = gtnWsAttachmentRequest;
+	}
+
 }
