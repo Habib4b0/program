@@ -195,8 +195,8 @@ public class GtnWsTreeService {
 					node.setIndicator(GtnWsHierarchyType.VARIABLES);
 					node.setHierarchyNo(gtnWsReportEngineTreeNode.getHierarchyNo() + "~"
 							+ gtnWsReportEngineTreeNode.getIndicator().toString() + "~" + variable);
-					node.setCcpIds(gtnWsReportEngineTreeNode.getCcpIds());
-					node.setRsIds(gtnWsReportEngineTreeNode.getRsIds());
+					node.addAllCcpIds(gtnWsReportEngineTreeNode.getCcpIds());
+					node.addAllRsIds(gtnWsReportEngineTreeNode.getRsIds());
 					node.setDiscountAvailable(root.isDiscountAvailable());
 					node.setParentHierarchyNo(gtnWsReportEngineTreeNode.getParentHierarchyNo());
 					node.setParentIndicator(gtnWsReportEngineTreeNode.getParentIndicator());

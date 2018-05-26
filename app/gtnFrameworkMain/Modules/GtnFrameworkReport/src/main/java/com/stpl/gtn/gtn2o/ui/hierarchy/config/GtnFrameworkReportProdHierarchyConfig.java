@@ -145,7 +145,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		GtnUIFrameworkComponentConfig relationship = configProvider.getUIFrameworkComponentConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.PRODUCT_HIERARCHYRELATIONSHIP,
-				true, relationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+				true, relationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		relationship.setComponentName("Relationship: ");
 
 		GtnUIFrameworkComboBoxConfig relationshipLoadConfig = configProvider.getComboBoxConfig(
@@ -174,7 +174,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		GtnUIFrameworkComponentConfig productRelationshipVersion = configProvider.getUIFrameworkComponentConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.PRODUCT_RELATIONSHIP_VERSION,
-				true, productSelectionRelationshipVersionLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+				true, productSelectionRelationshipVersionLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		productRelationshipVersion.setComponentName("ProductRelationshipVersion");
 
 		GtnUIFrameworkComboBoxConfig productRelationshipVersionConfig = configProvider.getComboBoxConfig(
@@ -182,6 +182,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		productRelationshipVersionConfig.setHasDefaultValue(true);
+		productRelationshipVersionConfig.setDefaultDesc("next");
 		productRelationshipVersion.setGtnComboboxConfig(productRelationshipVersionConfig);
 		componentList.add(productRelationshipVersion);
 
@@ -191,7 +192,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		GtnUIFrameworkComponentConfig level = configProvider.getUIFrameworkComponentConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.PRODUCT_LEVEL,
-				true, levelLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+				true, levelLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		level.setComponentName("Level: ");
 
 		GtnUIFrameworkComboBoxConfig levelLoadConfig = configProvider.getComboBoxConfig(

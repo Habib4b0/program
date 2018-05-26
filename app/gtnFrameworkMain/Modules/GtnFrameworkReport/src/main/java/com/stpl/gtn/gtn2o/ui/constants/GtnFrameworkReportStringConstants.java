@@ -32,7 +32,11 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT = "report";
 
-	public static final String HIER_NAME = "hierName";
+	public static final String HIER_NAME = "hierarchyName";
+
+	public static final String PRODUCT_HIERARCHY_NAME = "landingScreenProductHierName";
+
+	public static final String HIER_TYPE = "hierarchyType";
 
 	public static final String HIGHEST_LEVEL = "highestLevel";
 
@@ -169,6 +173,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORT_SELECTIONLAYOUT1 = "reportSelectionlayout1";
 
 	public static final String REPORT_DATA_SOURCE = "reportDataSource";
+
+	public static final String REPORT_PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE = "productHierarchySearchResultTable";
 
 	public static final String CONTROL_BUTTON_LAYOUT = "controlButtonLayout";
 

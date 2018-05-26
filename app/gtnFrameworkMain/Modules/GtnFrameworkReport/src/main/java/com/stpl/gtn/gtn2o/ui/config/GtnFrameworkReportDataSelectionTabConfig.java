@@ -267,7 +267,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		componentList.add(businessUnitLayoutConfig);
 
 		GtnUIFrameworkComponentConfig reportDataSelectionBusinessUnit = new GtnUIFrameworkComponentConfig();
-		reportDataSelectionBusinessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		reportDataSelectionBusinessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		reportDataSelectionBusinessUnit.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnit");
 		reportDataSelectionBusinessUnit.setComponentName("Business Unit");
 		reportDataSelectionBusinessUnit.setAddToParent(true);

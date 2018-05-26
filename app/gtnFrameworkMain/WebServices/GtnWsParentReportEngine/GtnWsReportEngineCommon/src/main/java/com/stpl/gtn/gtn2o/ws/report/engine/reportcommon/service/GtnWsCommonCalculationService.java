@@ -10,7 +10,8 @@ import net.sourceforge.jeval.Evaluator;
 @Scope(value = "singleton")
 public class GtnWsCommonCalculationService {
 
-	GtnWsCalculationValidationService gtnWsCalculationValidation = GtnWsCalculationValidationService.getInstance();
+	private GtnWsCalculationValidationService gtnWsCalculationValidation = GtnWsCalculationValidationService
+			.getInstance();
 
 	private static final Evaluator EVALUATOR = new Evaluator();
 

@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsColumnDetailsConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
 import com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.constants.GtnWsIfpQueryContants;
+import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
 public class GtnWebServiceItemFamilyPlanConfig implements GtnWsSearchQueryConfigLoader {
 
@@ -47,15 +48,26 @@ public class GtnWebServiceItemFamilyPlanConfig implements GtnWsSearchQueryConfig
 			ifpColumnDetailsMap.put("ifpId", configProvider.getColumnStringConfig("IFP_ID", "IFP"));
 			ifpColumnDetailsMap.put("ifpNo", configProvider.getColumnStringConfig("IFP_NO", "IFP"));
 			ifpColumnDetailsMap.put("ifpName", configProvider.getColumnStringConfig("IFP_NAME", "IFP"));
-			ifpColumnDetailsMap.put("ifpType", configProvider.getColumnHelperConfig("IFP_TYPE", "IFP"));
-			ifpColumnDetailsMap.put("ifpStatus", configProvider.getColumnHelperConfig("IFP_STATUS", "IFP"));
-			ifpColumnDetailsMap.put("ifpCategory", configProvider.getColumnHelperConfig("IFP_CATEGORY", "IFP"));
+			GtnWsColumnDetailsConfig ifpTpeColumnConfig = configProvider.getColumnHelperConfig("IFP_TYPE", "IFP");
+			ifpTpeColumnConfig.setHelperTableAliasName("ifpTypeHelper");
+			ifpTpeColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+			ifpColumnDetailsMap.put("ifpType", ifpTpeColumnConfig);
+                        GtnWsColumnDetailsConfig ifpStatusConfig = configProvider.getColumnHelperConfig("IFP_STATUS", "IFP");
+                        ifpStatusConfig.setHelperTableAliasName("ifpStatusHelper");
+			ifpStatusConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+			ifpColumnDetailsMap.put("ifpStatus", ifpStatusConfig);
+                        GtnWsColumnDetailsConfig ifpCategoryColumnConfig = configProvider.getColumnHelperConfig("IFP_CATEGORY", "IFP");
+			ifpCategoryColumnConfig.setHelperTableAliasName("ifpCategoryHelper");
+			ifpCategoryColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+			ifpColumnDetailsMap.put("ifpCategory", ifpCategoryColumnConfig);
 			ifpColumnDetailsMap.put("itemFamilyplanStartDate",
 					configProvider.getColumnDateConfig("IFP_START_DATE", "IFP"));
 			ifpColumnDetailsMap.put("itemFamilyplanEndDate",
 					configProvider.getColumnDateConfig("IFP_END_DATE", "IFP"));
-			ifpColumnDetailsMap.put("ifpDesignation",
-					configProvider.getColumnHelperConfig("IFP_DESIGNATION", "IFP"));
+                        GtnWsColumnDetailsConfig ifpDesignationConfig = configProvider.getColumnHelperConfig("IFP_DESIGNATION", "IFP");
+			ifpDesignationConfig.setHelperTableAliasName("ifpDesignationHelper");
+			ifpDesignationConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+			ifpColumnDetailsMap.put("ifpDesignation", ifpDesignationConfig);
 			ifpColumnDetailsMap.put("totalDollarCommitment",
 					configProvider.getColumnStringConfig("TOTAL_DOLLAR_COMMITMENT", "IFP"));
 			ifpColumnDetailsMap.put("commitmentPeriod",
@@ -64,7 +76,7 @@ public class GtnWebServiceItemFamilyPlanConfig implements GtnWsSearchQueryConfig
 					configProvider.getColumnStringConfig("TOTAL_VOLUME_COMMITMENT", "IFP"));
 			ifpColumnDetailsMap.put("totalMarketshareCommitment",
 					configProvider.getColumnStringConfig("TOTAL_MARKETSHARE_COMMITMENT", "IFP"));
-			ifpColumnDetailsMap.put("ifpcreatedBy", configProvider.getColumnStringConfig("CREATED_BY", "IFP"));
+			ifpColumnDetailsMap.put("ifpcreatedBy", configProvider.getColumnUserConfig("CREATED_BY", "IFP"));
 			ifpColumnDetailsMap.put("ifpcreatedDate", configProvider.getColumnDateConfig("CREATED_DATE", "IFP"));
 			ifpColumnDetailsMap.put("parentItemFamilyplanId",
 					configProvider.getColumnStringConfig("PARENT_IFP_ID", "IFP", "parenCfpId"));

@@ -52,6 +52,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.*;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
@@ -175,6 +176,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private final NMPVExcelLogic excelLogic = new NMPVExcelLogic(resultMap, pvSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, parameterDto);
     private int columnSize = 0;
     private final DataSelectionLogic dsLogic = new DataSelectionLogic();
+    protected DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
     public static final String EACH = "EACH";
 
     private final CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
@@ -367,7 +369,13 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             setProjectionSelection(false);
             initialConfig(Boolean.TRUE);
         }
-        frequency.setValue(Constant.QUARTERLY);
+        frequency.select(session.getDsFrequency());
+        frequency.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                session.setDsFrequency(String.valueOf(frequency.getValue()));
+            }
+        });
         loadDisplayFormatDdlb();
     }
 
@@ -2390,7 +2398,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     private void loadDedutionLevel() {
         List<String[]> deductionLevel = CommonLogic.getDeductionLevel(session.getProjectionId());
-        Utility.loadDdlbForDeduction(deductionlevelDdlb, deductionLevel);
+        Utility.loadDdlbForDeduction(deductionlevelDdlb, deductionLevel,session);
         deductionlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {

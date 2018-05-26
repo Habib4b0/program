@@ -52,6 +52,13 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		currentTab.setTabLayoutComponentConfigList(currentTabTabConfigList);
 		addCurrentTab(currentTabTabConfigList, nameSpace);
 
+                GtnUIFrameworkTabConfig currentTab1 = new GtnUIFrameworkTabConfig();
+		currentTab1.setComponentId(nameSpace+GtnFrameworkReportStringConstants.CURRENT_TAB);
+		currentTab1.setTabCaption("Current11");
+		List<GtnUIFrameworkComponentConfig> currentTabTabConfigList1 = new ArrayList<>();
+		currentTab1.setTabLayoutComponentConfigList(currentTabTabConfigList1);
+		addCurrentTab(currentTabTabConfigList1, nameSpace);
+                
 		List<GtnUIFrameworkTabConfig> tabConfigList = new ArrayList<>();
 		tabConfigList.add(currentTab);
 

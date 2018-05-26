@@ -63,6 +63,7 @@ import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
+import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
@@ -103,9 +104,10 @@ public class CommonLogic {
     private static final String RBSID = " RELATIONSHIP_BUILDER_SID = ";
     private static final String VERSION_NO = " AND VERSION_NO = ";
     private static final String RLDPARENT_HIERARCHY_NO_LIKE = " AND RLD.PARENT_HIERARCHY_NO LIKE '";
-    public static final String RELATIONSHIPJOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO AND RLD1.RELATIONSHIP_BUILDER_SID =";
+    public static final String RELATIONSHIPJOIN = " INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO AND RLD1.RELATIONSHIP_BUILDER_SID =";
     public static final String RELATIONSHIPVERSION = " AND RLD1.VERSION_NO=";
     private static final String PRPARENT_HIERARCHY_LIKE = " AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";
+    private static final String SMALL_SALES = "sales";
     
     protected RelationShipFilterLogic relationShipFilterLogic=RelationShipFilterLogic.getInstance();
     
@@ -3886,7 +3888,7 @@ public class CommonLogic {
             }
 
         } else {
-            joinQuery.append(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator) ? "CH.CUST_HIERARCHY_NO " : "CH.PROD_HIERARCHY_NO");
+            joinQuery.append(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equalsIgnoreCase(hierarchyIndicator) ? "CH.CUST_HIERARCHY_NO " : "CH.PROD_HIERARCHY_NO");
             joinQuery.append(" LIKE A.HIERARCHY_NO + '%' ");
         }
 
@@ -4323,7 +4325,7 @@ public class CommonLogic {
     public String getJoinBasedOnTab(String tabName, String groupFilterValue, String screenName) {
         String sql = StringUtils.EMPTY;
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
-            if (tabName.toLowerCase(Locale.ENGLISH).contains("sales")) {
+            if (tabName.toLowerCase(Locale.ENGLISH).contains(SMALL_SALES)) {
                 sql += SQlUtil.getQuery("sales-join-nonmandated");
                 sql += addGroupFilterCondtion("All Sales Groups", groupFilterValue.trim().equalsIgnoreCase("null") || groupFilterValue.isEmpty() ? Constant.PERCENT : groupFilterValue);
             } else if (tabName.toLowerCase(Locale.ENGLISH).contains("discount")) {
@@ -5153,29 +5155,48 @@ public class CommonLogic {
         return resultList;
     }
     
-    public String getHeaderForExcel(Character freq, Object[] obj,String discountId,String separator) {
+    public String getHeaderForExcel(Character freq, Object[] obj, String discountId, String separator) {
         String header;
         switch (freq) {
             case 'A':
-                header = discountId+String.valueOf(obj[NumericConstants.TWO]);
+                header = discountId + String.valueOf(obj[NumericConstants.TWO]);
                 break;
             case 'Q':
-                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE] + separator + obj[NumericConstants.TWO];
+                header = discountId + Constant.Q_SMALL + obj[NumericConstants.ONE] + separator + obj[NumericConstants.TWO];
                 break;
             case 'S':
-                header = discountId+Constant.S_SMALL + obj[NumericConstants.ONE] + separator + obj[NumericConstants.TWO];
+                header = discountId + Constant.S_SMALL + obj[NumericConstants.ONE] + separator + obj[NumericConstants.TWO];
                 break;
             case 'M':
                 String monthName = getMonthForInt(Integer.parseInt(String.valueOf(obj[NumericConstants.ONE])) - 1);
-                header = discountId+monthName.toLowerCase(Locale.ENGLISH) + separator + obj[NumericConstants.TWO];
+                header = discountId + monthName.toLowerCase(Locale.ENGLISH) + separator + obj[NumericConstants.TWO];
                 break;
             default:
-                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE] + separator + obj[NumericConstants.TWO];
+                header = discountId + Constant.Q_SMALL + obj[NumericConstants.ONE] + separator + obj[NumericConstants.TWO];
         }
         return header;
     }
 
-     public String getHeaderForExcelDiscount(Character freq, Object[] obj,String discountId,String separator) {
+    public static String getViewTableName(ProjectionSelectionDTO projectionSelectionDto) {
+        String tableName = null;
+        String viewOption = projectionSelectionDto.getViewOption();
+        switch (viewOption) {
+            case Constant.CUSTOMER:
+                tableName = "ST_CUSTOMER_SALES";
+                break;
+            case Constant.PRODUCT_LABEL:
+                tableName = "ST_PRODUCT_SALES";
+                break;
+            case Constant.CUSTOM_LABEL:
+                tableName = "ST_CUSTOM_SALES";
+                break;
+            default:
+                tableName = StringUtils.EMPTY;
+        }
+        return tableName;
+    }
+
+    public String getHeaderForExcelDiscount(Character freq, Object[] obj, String discountId, String separator) {
         String headerCondition;
         switch (freq) {
             case 'A':
@@ -5287,5 +5308,63 @@ public class CommonLogic {
                 customerlevelCustomItem[i].setItemClickNotClosable(true);
             }
         }
+    }
+    public static void procedureCompletionCheck(ProjectionSelectionDTO projectionDTO,String screenName,String view) {
+        LOGGER.info("procedureCompletionCheck---------------------------------------------------{}", view);
+        switch (view) {
+            case Constants.CUSTOMER:
+                CommonUtil.getInstance().isProcedureCompleted(screenName, Constants.CUSTOMER, projectionDTO.getSessionDTO());
+                break;
+            case Constants.PRODUCT:
+                CommonUtil.getInstance().isProcedureCompleted(screenName, Constants.PRODUCT, projectionDTO.getSessionDTO());
+                break;
+            case Constants.CUSTOM:
+                CommonUtil.getInstance().isProcedureCompleted(screenName, Constants.CUSTOM, projectionDTO.getSessionDTO());
+                break;
+            default:
+                LOGGER.warn("screenName is not valid= {} ", screenName);
+                break;
+        }
+        LOGGER.info("procedureCompletionCheck-----------------END----------------------------------");
+    }
+    
+    public static void viewProceduresCompletionCheck(ProjectionSelectionDTO projectionDTO) {
+        LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
+        procedureCompletionCheck(projectionDTO,SMALL_SALES,Constants.CUSTOMER);
+        procedureCompletionCheck(projectionDTO,SMALL_SALES,Constants.PRODUCT);
+    }
+    public static void viewProceduresCompletionCheckDiscount(ProjectionSelectionDTO projectionDTO) {
+        LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
+        procedureCompletionCheck(projectionDTO,"Discount",Constants.CUSTOMER);
+        procedureCompletionCheck(projectionDTO,"Discount",Constants.PRODUCT);
+    }
+    
+    
+    public static String getFrequency(String frequency) {
+        String tempFrequency;
+    if (frequency.equals(Constant.QUARTERLY)) {
+            tempFrequency = "Q";
+        } else if (frequency.equals(Constant.SEMI_ANNUALLY)) {
+            tempFrequency = "S";
+        } else if (frequency.equals(Constant.MONTHLY)) {
+            tempFrequency = "M";
+        } else {
+            tempFrequency = "A";
+        }
+    return tempFrequency;
+    }
+    
+    public static List<String[]> getDataselectionDeductionLevel() {
+        List<String[]> deductionList = new ArrayList<>();
+        try {
+        	
+            SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
+            String levelQuery = SQlUtil.getQuery("dataSelection-deduction-loading");         
+            deductionList = (List<String[]>) salesProjectionDAO.executeSelectQuery(levelQuery);
+            
+        } catch (SystemException | PortalException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return deductionList;
     }
 }

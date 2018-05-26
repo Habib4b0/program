@@ -29,6 +29,7 @@ import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
+import com.stpl.app.gtnforecasting.utils.SalesExcelNM;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -94,6 +95,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     public static final String SELECT_LEVEL_LABEL = "-Select Level-";
     public static final String SELECT_ALL_LABEL = "Select All";
+    public static final String SALES = "Sales";
     protected CustomMenuBar.SubMenuCloseListener productListener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
@@ -497,6 +499,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     @Override
     public void generateBtnLogic(Button.ClickEvent event) {
+        CommonLogic.procedureCompletionCheck(projectionDTO,"sales",String.valueOf(view.getValue()));
         try {
             projectionDTO.setCustomerLevelFilter(generateCustomerToBeLoaded);
             projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
@@ -1037,8 +1040,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
         int customMasterSid = Integer.parseInt(viewDdlb.getValue() == null ? "0" : viewDdlb.getValue().toString());
         Object[] orderedArg = {projectionSelectionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionDTO().getSessionId(), projectionSelectionDTO.getLevelNo(),
             projectionSelectionDTO.getFrequency().substring(0, 1), projectionSelectionDTO.isIsCustomHierarchy() ? "D" : projectionSelectionDTO.getHierarchyIndicator(),
-            "Sales", "0", projectionSelectionDTO.getHierarchyNo(),
-            projectionSelectionDTO.getLevelNo(), null, customMasterSid, null, projectionSelectionDTO.getUomCode(), ALL.equals(projectionSelectionDTO.getSessionDTO().getSalesInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion(), ALL.equals(projectionSelectionDTO.getSessionDTO().getDeductionInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getDeductionInclusion(), null, "Sales"};
+            SALES, "0", projectionSelectionDTO.getHierarchyNo(),
+            projectionSelectionDTO.getLevelNo(), null, customMasterSid, null, projectionSelectionDTO.getUomCode(), ALL.equals(projectionSelectionDTO.getSessionDTO().getSalesInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion(), ALL.equals(projectionSelectionDTO.getSessionDTO().getDeductionInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getDeductionInclusion(), null, SALES};
         return CommonLogic.callProcedure("PRC_PROJECTION_VARIANCE", orderedArg);
     }
 
@@ -1061,8 +1064,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     excelTable.setRefresh(true);
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
                     ForecastUI.setEXCEL_CLOSE(true);
+                    Map<String, String> formatterMap = new HashMap<>();
+                    formatterMap.put("currencyNoDecimal", SALES);
+                    formatterMap.put("unitNoDecimal", "Units");
                     if (i == 0) {
-                        exp = new ExcelExport(new ExtCustomTableHolder(excelTable), sheetName, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false);
+                        exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
+                                Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap);
                     } else {
                         exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }

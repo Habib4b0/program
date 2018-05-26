@@ -35,7 +35,7 @@ import java.util.List;
  *
  * @author Mahesh.James
  */
-public class GtnUIFrameWorkPSSaveAction implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
+public class GtnUIFrameWorkPSSaveAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -54,7 +54,7 @@ public class GtnUIFrameWorkPSSaveAction implements GtnUIFrameWorkAction ,GtnUIFr
 		int sysId = 0;
 		if (mode.equalsIgnoreCase("Edit")) {
 			sysId = (Integer) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID);
-                }
+		}
 		return sysId;
 
 	}
@@ -76,13 +76,12 @@ public class GtnUIFrameWorkPSSaveAction implements GtnUIFrameWorkAction ,GtnUIFr
 
 			GtnUIFrameWorkPSInfoBean priceScheduleInfoBean = new GtnUIFrameWorkPSInfoBean();
 			priceScheduleInfoBean.setSystemId(sysId);
-                         String copyMode =(String)GtnUIFrameworkGlobalUI.getSessionProperty("mode").toString();
-                        
+			String copyMode = GtnUIFrameworkGlobalUI.getSessionProperty("mode").toString();
+
 			List<NotesTabBean> noteBeanList = new ArrayList<>();
 
 			loadPriceScheduleInfo(priceScheduleInfoBean);
 
-			
 			List<Object> notes = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("notesTab").getNotesTabValue();
 
 			priceScheduleInfoBean.setInternalNotes((String) notes.get(0));
@@ -90,6 +89,9 @@ public class GtnUIFrameWorkPSSaveAction implements GtnUIFrameWorkAction ,GtnUIFr
 
 			loadNotesTab(noteBeanList, notesDTOs);
 			priceScheduleInfoBean.setNoteBeanList(noteBeanList);
+			if (copyMode.equalsIgnoreCase(GtnFrameworkCommonConstants.COPY_MODE)) {
+				priceScheduleInfoBean.setPsCopyMode(true);
+			}
 			loadNonEditableField(priceScheduleInfoBean);
 
 			GtnWsPriceScheduleGeneralRequest getGtnWsPriceScheduleGeneralRequest = new GtnWsPriceScheduleGeneralRequest();
@@ -100,35 +102,38 @@ public class GtnUIFrameWorkPSSaveAction implements GtnUIFrameWorkAction ,GtnUIFr
 			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 					"/" + GtnWsCDRContants.PS_SERVICE + GtnWsCDRContants.PS_SAVE_SERVICE, request,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-                        
-                        
-                        GtnWsPriceScheduleGeneralResponse psGeneralRes = response.getGtnWsPriceScheduleGeneralResponse();
-                        priceScheduleInfoBean.setSystemId(psGeneralRes.getPriceScheduleInfoBean().getSystemId());
+
+			GtnWsPriceScheduleGeneralResponse psGeneralRes = response.getGtnWsPriceScheduleGeneralResponse();
+			priceScheduleInfoBean.setSystemId(psGeneralRes.getPriceScheduleInfoBean().getSystemId());
 
 			GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID,
 					response.getGtnWsPriceScheduleGeneralResponse().getPriceScheduleInfoBean().getSystemId());
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("tabSheet").setSelectedTab("priceScheduleInfoTab");
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON).setVisible(true);
-                        
-                          if (copyMode.equalsIgnoreCase("Copy")) {
-                        Component deleteComp = GtnUIFrameworkGlobalUI.getVaadinComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON);
-                        deleteComp.setEnabled(true);
-                        GtnUIFrameWorkActionConfig enableActionConfigCopyMode = new GtnUIFrameWorkActionConfig();
-                        enableActionConfigCopyMode.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-                        Object[] enableFieldsObj = new Object[] { GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON } ;
-                        enableActionConfigCopyMode.setActionParameterList(Arrays.asList(enableFieldsObj));
-                        GtnUIFrameworkActionExecutor.executeSingleAction(componentId, enableActionConfigCopyMode);
-                        
-                        }
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON)
+					.setVisible(true);
+
+			if (copyMode.equalsIgnoreCase(GtnFrameworkCommonConstants.COPY_MODE)) {
+				Component deleteComp = GtnUIFrameworkGlobalUI
+						.getVaadinComponent(GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON);
+				deleteComp.setEnabled(true);
+				GtnUIFrameWorkActionConfig enableActionConfigCopyMode = new GtnUIFrameWorkActionConfig();
+				enableActionConfigCopyMode.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
+				Object[] enableFieldsObj = new Object[] {
+						GtnFrameworkCommonConstants.PRICE_SCHEDULE_ADD_VIEW_A_ADD_DELETE_BUTTON };
+				enableActionConfigCopyMode.setActionParameterList(Arrays.asList(enableFieldsObj));
+				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, enableActionConfigCopyMode);
+
+			}
 
 		} catch (Exception systemExcption) {
 			throw new GtnFrameworkGeneralException(GtnFrameworkCommonConstants.SAVE_ERROR, systemExcption);
 		}
 
 	}
-        
-        private void loadPriceScheduleInfo(final GtnUIFrameWorkPSInfoBean psInfoBean) throws GtnFrameworkGeneralException {
+
+	private void loadPriceScheduleInfo(final GtnUIFrameWorkPSInfoBean psInfoBean) throws GtnFrameworkGeneralException {
 		try {
 
 			psInfoBean.setPsId(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleId1").getStringFromField());

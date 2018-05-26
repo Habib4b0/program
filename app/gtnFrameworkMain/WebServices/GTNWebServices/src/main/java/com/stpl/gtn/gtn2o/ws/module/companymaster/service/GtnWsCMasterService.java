@@ -30,6 +30,8 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
 @Service
@@ -46,6 +48,9 @@ public class GtnWsCMasterService {
 
 	@Autowired
 	private GtnWsAllListConfig gtnWebServiceAllListConfig;
+        
+        @Autowired
+	private GtnWsSqlService gtnWsSqlService;
 
 	public GtnSerachResponse getCompantMasterSearch(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
 			throws GtnFrameworkGeneralException {
@@ -327,6 +332,16 @@ public class GtnWsCMasterService {
 			break;
 		}
 		return operatorType;
+	}
+        public void ccpId(List<Object> inputValueList,
+			GtnUIFrameworkWebserviceResponse gtnWSresponse) throws GtnFrameworkGeneralException {
+		String companyNo = inputValueList.get(0).toString();
+		Object[] imtdPsDetailsInsertQueryParams = { companyNo};
+		GtnFrameworkDataType[] imtdPsDetailsInsertQueryTypes = { GtnFrameworkDataType.STRING};
+
+		List<Object>  companySid =  (List<Object>) gtnSqlQueryEngine.executeSelectQuery(gtnWsSqlService.getQuery("getCompanyParentDetailsFromTable"),imtdPsDetailsInsertQueryParams, imtdPsDetailsInsertQueryTypes);
+		gtnWSresponse.setOutBountData(new Object[] { companySid.get(0) });
+
 	}
 
 }

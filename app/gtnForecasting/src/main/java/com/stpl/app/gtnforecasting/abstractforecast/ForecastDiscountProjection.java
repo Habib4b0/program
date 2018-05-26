@@ -41,6 +41,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM;
 import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
 import static com.stpl.app.utils.Constants.LabelConstants.PROJECTIONS;
 import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -89,6 +90,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     /* The excel export image */
     protected final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     protected static final Logger LOGGER = LoggerFactory.getLogger(ForecastDiscountProjection.class);
+    protected DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
     /**
      * The forecastTab VerticalLayout.
      */
@@ -510,7 +512,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         frequencyDdlb.addItem(QUARTERLY.getConstant());
         frequencyDdlb.addItem(SEMI_ANNUALLY.getConstant());
         frequencyDdlb.addItem(ANNUALLY.getConstant());
-        frequencyDdlb.setValue(QUARTERLY.getConstant());
+        frequencyDdlb.setValue(session.getDsFrequency());
         frequencyDdlb.focus();
 
         loadFrequency(QUARTERLY.getConstant());
@@ -805,6 +807,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                     break;
                 case "frequencyDdlb":
                     loadFrequency(String.valueOf(event.getProperty().getValue()));
+                    session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
                     break;
                 case "levelFilterDdlb":
                     levelFilterValueChangeLogic(event);

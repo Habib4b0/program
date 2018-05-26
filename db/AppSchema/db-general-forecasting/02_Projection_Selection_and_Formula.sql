@@ -1133,6 +1133,18 @@ IF NOT EXISTS (SELECT 1
         )
   END 
    GO
+ ---------------------PRIMARY KEY CONSTRAINT-------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'CCP_HIERARCHY'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_CCP_HIERARCHY_CCP_DETAILS_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [dbo].[CCP_HIERARCHY]
+        ADD CONSTRAINT PK_CCP_HIERARCHY_CCP_DETAILS_SID PRIMARY KEY(CCP_DETAILS_SID)
+  END
+  GO   
 IF NOT EXISTS(SELECT 1
               FROM   SYS.FOREIGN_KEYS
               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'CCP_HIERARCHY'
@@ -1169,6 +1181,19 @@ IF NOT EXISTS (SELECT 1
     INCLUDE ( [CCP_DETAILS_SID])
 
 GO
+
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'CCP_HIERARCHY'
+                      AND COLUMN_NAME = 'SALES_INCLUSION'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE CCP_HIERARCHY
+        ADD SALES_INCLUSION BIT NULL;
+  END
+
+GO  
 
 ---------------------------------------------- one time insertion 
 

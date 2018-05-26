@@ -10,11 +10,15 @@ import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTr
 @Service
 public class GtnGenerateReportEngine {
 
+	public GtnGenerateReportEngine() {
+		super();
+	}
+
 	@Autowired
-	GtnWsMongoCalculation gtnWsMongoCalculation;
+	private GtnWsMongoCalculation gtnWsMongoCalculation;
 
 	public GtnWsReportEngineTreeNode generateReportOutput(GtnWsReportEngineBean engineBean) {
 		gtnWsMongoCalculation.nodeData(engineBean);
-		return gtnWsMongoCalculation.variableCategoryCalculation();
+		return gtnWsMongoCalculation.variableCategoryCalculation(engineBean);
 	}
 }

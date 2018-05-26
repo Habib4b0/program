@@ -21,27 +21,12 @@ import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 public class GtnWsReportDashboardFilterOptionService {
 
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportDashboardFilterOptionService.class);
+
 	@Autowired
 	private GtnWsReportSqlService reportSqlService;
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
-
-	public GtnWsReportSqlService getReportSqlService() {
-		return reportSqlService;
-	}
-
-	public void setReportSqlService(GtnWsReportSqlService reportSqlService) {
-		this.reportSqlService = reportSqlService;
-	}
-
-	public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
-		return gtnSqlQueryEngine;
-	}
-
-	public void setGtnSqlQueryEngine(GtnFrameworkSqlQueryEngine gtnSqlQueryEngine) {
-		this.gtnSqlQueryEngine = gtnSqlQueryEngine;
-	}
 
 	public GtnWsReportDashboardFilterOptionService() {
 		super();
@@ -70,6 +55,13 @@ public class GtnWsReportDashboardFilterOptionService {
 		List<Object[]> hierarchyData = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(custProdLevelQuery,
 				parameterValues, dataTypes);
 		return Optional.ofNullable(hierarchyData).get();
+	}
+
+	public List<Object[]> getDeductionLevelValues() throws GtnFrameworkGeneralException {
+		String custProdLevelQuery = reportSqlService.getQuery("filterOptionDeductionLevelLoadQuery");
+		gtnLogger.debug(custProdLevelQuery);
+		List<Object[]> deductionList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(custProdLevelQuery);
+		return Optional.ofNullable(deductionList).get();
 	}
 
 }

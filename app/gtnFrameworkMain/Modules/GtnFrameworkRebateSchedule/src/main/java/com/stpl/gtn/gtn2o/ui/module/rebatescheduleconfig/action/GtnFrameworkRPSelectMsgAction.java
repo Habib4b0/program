@@ -46,8 +46,8 @@ public class GtnFrameworkRPSelectMsgAction implements GtnUIFrameWorkAction, GtnU
 				GtnUIFrameWorkActionConfig alertConfigAction = new GtnUIFrameWorkActionConfig();
 				alertConfigAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 				List<Object> alertMsgParamsList = new ArrayList<>();
-				alertMsgParamsList.add("Select Error");
-				alertMsgParamsList.add("Please select a record to view ");
+				alertMsgParamsList.add("Select error");
+				alertMsgParamsList.add("Please select a record. ");
 				alertConfigAction.setActionParameterList(alertMsgParamsList);
 				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertConfigAction);
 

@@ -393,4 +393,26 @@ where
 		]]>
 	</entry>
 	
+	<entry key="filterOptionDeductionLevelLoadQuery">
+		<![CDATA[
+					SELECT
+					    DISTINCT rld.level_no,
+					    'Level ' + rld.level_no + ' - ' + rld.level_name
+					FROM
+					    relationship_level_definition rld,
+					    relationship_builder rb,
+					    hierarchy_level_definition hld
+					WHERE
+					    rld.relationship_builder_sid IN(
+					        SELECT
+					            rbt.relationship_builder_sid
+					        FROM
+					            relationship_builder rbt
+					        WHERE
+					            rbt.hierarchy_definition_sid = 15
+					    )
+					ORDER BY
+					    rld.level_no ASC;
+		]]>
+	</entry>
 </properties>

@@ -8,8 +8,12 @@ import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.service.GtnWsCalculation
 
 public class GtnWsValueCalculationServiceImpl implements GtnWsCalculationInterface {
 
-	GtnWsCalculationValidationService gtnWsCalculationValidation = GtnWsCalculationValidationService.getInstance();
+	public GtnWsValueCalculationServiceImpl() {
+		super();
+	}
 
+	private GtnWsCalculationValidationService gtnWsCalculationValidation = GtnWsCalculationValidationService
+			.getInstance();
 	private GtnWsVariableCategoryBean variableCategoryBean;
 	private GtnWsAttributeBean newAttributes;
 	private int projectionId;

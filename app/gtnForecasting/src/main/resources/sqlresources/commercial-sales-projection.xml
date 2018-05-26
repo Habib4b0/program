@@ -11,91 +11,45 @@ and open the template in the editor.
     <entity id="non-mandated-sales-query-new">
         <query>
             <![CDATA[
-                IF Object_id('TEMPDB..#ST_NM_SALES_PROJECTION') IS NOT NULL
-                DROP TABLE #ST_NM_SALES_PROJECTION
-
-                SELECT SHN.HIERARCHY_NO,           
-                       P."YEAR",
-                       @FREQUENCY@ ,
-                       SUM(NMSP.PROJECTION_SALES) AS PROJECTION_SALES ,
-                       @SUMPROJECTEDUNITS,
-                       AVG(NMSP.ACCOUNT_GROWTH) AS ACCOUNT_GROWTH ,
-                       AVG(NMSP.PRODUCT_GROWTH) AS PRODUCT_GROWTH  INTO #ST_NM_SALES_PROJECTION
-                FROM #SELECTED_HIERARCHY_NO SHN
-                JOIN ST_NM_SALES_PROJECTION NMSP ON NMSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
-                JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID
-                @UOMCODE 
-                @SALESINCLUSION 
-                GROUP BY SHN.HIERARCHY_NO,             
-                         P."YEAR"
-                        @FREQUENCY_GROUP@;
-
-                IF Object_id('TEMPDB..#ST_NM_ACTUAL_SALES') IS NOT NULL
-                DROP TABLE #ST_NM_ACTUAL_SALES
-                SELECT SHN.HIERARCHY_NO,
-                       P."YEAR", 
-                        @FREQUENCY@,
-                       Sum(NMSP.ACTUAL_SALES) AS ACTUAL_SALES,
-                       @SUMACTUALUNITS 
-                       INTO #ST_NM_ACTUAL_SALES
-                FROM #SELECTED_HIERARCHY_NO SHN
-                JOIN ST_NM_ACTUAL_SALES NMSP ON NMSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
-                JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID  
-                @UOMCODE 
-                @SALESINCLUSION
-                GROUP BY SHN.HIERARCHY_NO,             
-                         P."YEAR"
-                        @FREQUENCY_GROUP@;
-
-                IF Object_id('TEMPDB..#ST_NM_SALES_PROJECTION_MASTER') IS NOT NULL
+                IF OBJECT_ID('TEMPDB..#ST_NM_SALES_PROJECTION_MASTER') IS NOT NULL
                 DROP TABLE #ST_NM_SALES_PROJECTION_MASTER
-                SELECT CASE
-                           WHEN Count(DISTINCT MSPM.CALCULATION_PERIODS) > 1 THEN '-'
-                           ELSE Max(MSPM.CALCULATION_PERIODS)
-                       END CALCULATION_PERIODS,
-                       CASE
-                           WHEN Count(DISTINCT MSPM.METHODOLOGY) > 1 THEN '-'
-                           ELSE Max(MSPM.METHODOLOGY)
-                       END AS METHODOLOGY,
-                       SHN.HIERARCHY_NO,
-                       Count(*) AS RCOUNT,
-                       Min(CASE (CHECK_RECORD)
-                               WHEN 1 THEN 1
-                               ELSE 0
-                           END) AS checkrec,
-                       Sum(CASE (MSPM.CHECK_RECORD)
-                               WHEN 1 THEN 0
-                               ELSE 1
-                           END) AS UNCHECK_COUNT,
-                       Count(MSPM.CCP_DETAILS_SID) AS CCPCOUNT,
-                       Min(MSPM.USER_GROUP) AS USER_GROUP, SHN.SALES_INCLUSION INTO #ST_NM_SALES_PROJECTION_MASTER
+
+                SELECT  
+         CASE 
+                  WHEN COUNT(DISTINCT MSPM.CALCULATION_PERIODS) > 1 THEN '-' 
+                  ELSE MAX(MSPM.CALCULATION_PERIODS) 
+         END CALCULATION_PERIODS, 
+         CASE 
+                  WHEN COUNT(DISTINCT MSPM.METHODOLOGY) > 1 THEN '-' 
+                  ELSE MAX(MSPM.METHODOLOGY) 
+         END AS METHODOLOGY, 
+         SHN.HIERARCHY_NO, 
+         COUNT(*) AS RCOUNT, 
+         MIN( 
+         CASE (CHECK_RECORD) 
+                  WHEN 1 THEN 1 
+                  ELSE 0 
+         END) AS CHECKREC, 
+         SUM( 
+         CASE (MSPM.CHECK_RECORD) 
+                  WHEN 1 THEN 0 
+                  ELSE 1 
+         END)                        AS UNCHECK_COUNT, 
+         COUNT(MSPM.CCP_DETAILS_SID) AS CCPCOUNT, 
+         MIN(MSPM.USER_GROUP)        AS USER_GROUP, 
+         CCP.SALES_INCLUSION ,
+              SHN.INSTR
+ INTO #ST_NM_SALES_PROJECTION_MASTER
                 FROM #SELECTED_HIERARCHY_NO SHN
-                JOIN ST_NM_SALES_PROJECTION_MASTER MSPM ON MSPM.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID     
-                 @SALESINCLUSION  
-                GROUP BY SHN.HIERARCHY_NO,SHN.SALES_INCLUSION;
+                JOIN ST_CCP_HIERARCHY CCP ON CCP.@TABLCOLUMN LIKE SHN.HIERARCHY_NO  +'%'
+JOIN     ST_NM_SALES_PROJECTION_MASTER MSPM 
+ON       MSPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
+AND      CCP.SALES_INCLUSION=1 
+GROUP BY SHN.HIERARCHY_NO, 
+         CCP.SALES_INCLUSION,
+              SHN.INSTR
                 
-                                DECLARE @STAT_SALES INT
-                        ,@EN_SALES INT
-                        ,@ACTUAL_END_PERIOD int,
-                        @ACTUAL_START_PERIOD int
-
-                SET @STAT_SALES = (
-                                SELECT  min(PERIOD_SID)
-                                FROM ST_NM_ACTUAL_SALES
-                                )
-                SET @ACTUAL_END_PERIOD = (
-                                SELECT  MAX(PERIOD_SID)
-                                FROM ST_NM_SALES_PROJECTION
-                                )
-
-                SET @EN_SALES = (
-                                SELECT MAX(PERIOD_SID)
-                                FROM ST_NM_ACTUAL_SALES
-                                )
-
-                SET @ACTUAL_START_PERIOD = (
-                SELECT MIN(PERIOD_SID)
-                FROM ST_NM_SALES_PROJECTION)
+                   
 
                 SELECT MAINQ.account_growth,
                        MAINQ.product_growth,
@@ -125,64 +79,74 @@ and open the template in the editor.
                           Q.actualunits,
                           Q.YEARS,
                           Q.PERIODS,
-                          Q.calculation_periods,
-                          Q.methodology,
-                          Q.HIERARCHY_NO,
-                          Q.rcount,
+                          mas.calculation_periods,
+                          mas.methodology,
+                          mas.HIERARCHY_NO,
+                          mas.rcount,
                           Q.actualproj,
-                          Q.checkrec,
-                          Q.uncheck_count,
-                          Q.ccpcount,
-                          Q.hierarchy_indicator,
-                          Q.user_group,
+                          mas.checkrec,
+                          mas.uncheck_count,
+                          mas.ccpcount,
+                         '@HIERARCHY_INDICATOR' as hierarchy_indicator,
+                          mas.user_group,
                           Dense_rank() OVER(
-                                            ORDER BY Q.INSTR ASC) AS TEMP_INDEX,Q.SALES_INCLUSION,Q.INSTR
-                   FROM
-                     (SELECT distinct 0.0 AS ACCOUNT_GROWTH,
-                             0.0 AS PRODUCT_GROWTH,
-                             NULL AS PROJECTION_SALES,
-                             NULL AS PROJECTION_UNITS,
-                             MAS.ACTUAL_SALES AS actualSales,
-                             MAS.ACTUAL_UNITS AS actualUnits,
-                               SH."YEAR" AS YEARS,
-                               SH.@FRE@ AS PERIODS,
-                             sh.CALCULATION_PERIODS,
-                             sh.METHODOLOGY,
-                             sh.HIERARCHY_NO,
-                             RCOUNT,
-                             1 AS actualProj,
-                             checkrec,
-                             UNCHECK_COUNT,
-                             CCPCOUNT,
-                             '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR,
-                             sh.USER_GROUP,MSPM.SALES_INCLUSION,INSTR
-                      FROM (SELECT HIERARCHY_NO,year,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY,P.@FREVAL@,INSTR FROM #SELECTED_HIERARCHY_NO SHS CROSS JOIN PERIOD P WHERE P.PERIOD_SID BETWEEN @STAT_SALES AND @EN_SALES GROUP BY  year,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY,P.@FREVAL@,INSTR,HIERARCHY_NO) SH 
-					  left join 
-					  #ST_NM_SALES_PROJECTION_MASTER MSPM on  mspm.HIERARCHY_NO=sh.HIERARCHY_NO
-                     left  JOIN #ST_NM_ACTUAL_SALES MAS ON MSPM.HIERARCHY_NO = MAS.HIERARCHY_NO 
-					  and sh.YEAR=mas.year  and SH.@FRE@=mas.@FRE@
-                      UNION ALL SELECT distinct  MSP.ACCOUNT_GROWTH,
-                                       MSP.PRODUCT_GROWTH,
-                                       MSP.PROJECTION_SALES,
-                                       MSP.PROJECTION_UNITS,
-                                       NULL AS ACTUAL_SALES,
-                                       NULL AS ACTUAL_UNITS,
-                                       SH."YEAR" AS YEARS,
-                                       SH.@FRE@ AS PERIODS,
-                                       sh.CALCULATION_PERIODS,
-                                       sh.METHODOLOGY,
-                                       sh.HIERARCHY_NO,
-                                       RCOUNT,
-                                       0 AS actualProj,
-                                       checkrec,
-                                       UNCHECK_COUNT,
-                                       CCPCOUNT,
-                                       '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR,
-                                       sh.USER_GROUP,MSPM.SALES_INCLUSION, INSTR
-                      FROM (SELECT HIERARCHY_NO,year,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY,P.@FREVAL@,INSTR FROM #SELECTED_HIERARCHY_NO SHS CROSS JOIN PERIOD P WHERE P.PERIOD_SID BETWEEN @ACTUAL_START_PERIOD AND @ACTUAL_END_PERIOD GROUP BY  year,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY,P.@FREVAL@,INSTR,HIERARCHY_NO) sh left join 
-					   #ST_NM_SALES_PROJECTION_MASTER MSPM on mspm.HIERARCHY_NO=sh.HIERARCHY_NO
-                     left  JOIN #ST_NM_SALES_PROJECTION MSP ON MSPM.HIERARCHY_NO = MSP.HIERARCHY_NO 
-					  and sh.YEAR=MSP.year  and SH.@FRE@=MSP.@FRE@)  Q) MAINQ
+                                            ORDER BY mas.INSTR ASC) AS TEMP_INDEX,
+                                                                            Q.SALES_INCLUSION,mas.INSTR
+                   FROM 
+                     ( SELECT SH.HIERARCHY_NO,
+                                          PERIOD AS PERIODS,
+                                          YEAR AS YEARS,
+                                          SUM(SALES) AS ACTUALSALES,
+                                          SUM(UNITS) ACTUALUNITS,
+                                                                        NULL AS projection_sales,
+                                       NULL AS projection_units,
+                                          STC.SALES_INCLUSION,
+                                          INDICATOR  as ACTUALPROJ,
+                                          AVG(ACCOUNT_GROWTH)  ACCOUNT_GROWTH,
+                                          AVG(PRODUCT_GROWTH)  PRODUCT_GROWTH
+
+                                                                       
+                                                                        FROM @VIEWTABLE STC
+                                                                        @CUSTOMJOIN
+                                                                         JOIN #SELECTED_HIERARCHY_NO SH ON @REFCOLUMN.HIERARCHY_NO LIKE SH.HIERARCHY_NO+'%' 
+                                                                         @CUSTOMCONDITION
+                                                                     
+                                                                           WHERE INDICATOR=0 @SALESINCLUSION
+                                                                           GROUP BY  SH.HIERARCHY_NO,
+                                          PERIOD,
+                                          YEAR,
+                                                                       STC.SALES_INCLUSION,
+                                          INDICATOR
+
+                                           UNION ALL 
+                                           SELECT SH.HIERARCHY_NO,
+                                          PERIOD AS PERIODS,
+                                          YEAR AS YEARS,
+                                                                       NULL AS ACTUALSALES,
+                                          NULL ACTUALUNITS,
+                                          SUM(SALES) AS PROJECTION_SALES,
+                                          SUM(UNITS) PROJECTION_UNITS,
+                                          STC.SALES_INCLUSION,
+                                          INDICATOR  as ACTUALPROJ,
+                                          AVG(ACCOUNT_GROWTH)  ACCOUNT_GROWTH,
+                                          AVG(PRODUCT_GROWTH)  PRODUCT_GROWTH
+
+                                                                       
+                                                                        FROM @VIEWTABLE STC
+                                                                        @CUSTOMJOIN
+                                                                         JOIN #SELECTED_HIERARCHY_NO SH ON @REFCOLUMN.HIERARCHY_NO LIKE SH.HIERARCHY_NO+'%' 
+                                                                         @CUSTOMCONDITION
+                                                                     
+                                                                           WHERE INDICATOR=1 @SALESINCLUSION
+                                                                           GROUP BY  SH.HIERARCHY_NO,
+                                          PERIOD,
+                                          YEAR,
+                                                                       STC.SALES_INCLUSION,
+                                          INDICATOR    @OPPOSITESINC )  Q
+                                                                       
+                                                                       join #ST_NM_SALES_PROJECTION_MASTER mas on mas.HIERARCHY_NO=q.HIERARCHY_NO
+                                                                       
+                                                                       ) MAINQ
                 WHERE MAINQ.TEMP_INDEX > @START
                   AND MAINQ.TEMP_INDEX <= (@START+@END)
                 ORDER BY 
@@ -530,29 +494,28 @@ WHILE ( @I <= @COUNT )
     </entity>
     
     
-   <entity id="selected-hierarchy-no-ordered">
+    <entity id="selected-hierarchy-no-ordered">
         <query>
             <![CDATA[
              
                 IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
                 DROP TABLE #SELECTED_HIERARCHY_NO
-                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(8000),CCP_DETAILS_SID INT,INSTR INT,SALES_INCLUSION int,CALCULATION_PERIODS varchar(8000),USER_GROUP varchar(10),METHODOLOGY varchar(100))
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(8000),INSTR INT,SALES_INCLUSION BIT)
 
                 
-                ;WITH HIERARCHY AS ( SELECT DISTINCT A.HIERARCHY_NO,INSTR,RELATIONSHIP_LEVEL_VALUES
+                ;WITH HIERARCHY AS ( SELECT DISTINCT A.HIERARCHY_NO,INSTR,RELATIONSHIP_LEVEL_VALUES,CH.SALES_INCLUSION
                 FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO,INSTR)   
                 @RELJOIN          
                 [?SELECTED_HIERARCHY_JOIN] )
                 INSERT INTO #SELECTED_HIERARCHY_NO
                 (HIERARCHY_NO,
-                CCP_DETAILS_SID,
-                INSTR ,SALES_INCLUSION,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY)
+                INSTR,SALES_INCLUSION)
                 
                 SELECT DISTINCT STUFF(( SELECT DISTINCT ', ' + HIERARCHY_NO
                            FROM HIERARCHY B
                            WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES
                            FOR XML PATH('')
-                           ), 1, 2, '') HIERARCHY_NO,CH.CCP_DETAILS_SID,INSTR ,SALES_INCLUSION ,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY
+                           ), 1, 2, '') HIERARCHY_NO,INSTR, A.SALES_INCLUSION
                 FROM   HIERARCHY A
                 [?SELECTED_HIERARCHY_JOIN] 
             ]]>
@@ -2292,7 +2255,7 @@ INSERT INTO #CCP_DETAILS_TEMP (
 SELECT CH.CCP_DETAILS_SID,
 	ITEM_MASTER_SID,
 	ADJUSTED_CCP,
-	SALES_INCLUSION
+	NSP.SALES_INCLUSION
 FROM ST_CCP_HIERARCHY CH
 INNER JOIN CCP_DETAILS CD
 	ON CH.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
@@ -2423,6 +2386,17 @@ INNER JOIN CCP_DETAILS B
                 SELECT DISTINCT HIERARCHY_NO,CH.CCP_DETAILS_SID
                 FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)                
                 [?SELECTED_HIERARCHY_JOIN]
+            ]]>
+        </query>
+    </entity>
+    <entity id="dataSelection-deduction-loading">
+        <query>
+            <![CDATA[
+            
+                  SELECT distinct LEVEL_NO,LEVEL_NAME FROM dbo.HIERARCHY_LEVEL_DEFINITION HLD 
+                  JOIN dbo.PROJECTION_MASTER PM ON PM.DEDUCTION_HIERARCHY_SID=HLD.HIERARCHY_DEFINITION_SID
+ 
+ 
             ]]>
         </query>
     </entity>

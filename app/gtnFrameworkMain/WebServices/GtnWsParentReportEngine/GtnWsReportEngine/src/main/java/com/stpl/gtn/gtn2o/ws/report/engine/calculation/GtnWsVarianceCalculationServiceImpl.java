@@ -11,8 +11,12 @@ import net.sourceforge.jeval.Evaluator;
 
 public class GtnWsVarianceCalculationServiceImpl implements GtnWsCalculationInterface {
 
-	GtnWsCalculationValidationService gtnWsCalculationValidation = GtnWsCalculationValidationService.getInstance();
+	public GtnWsVarianceCalculationServiceImpl() {
+		super();
+	}
 
+	private GtnWsCalculationValidationService gtnWsCalculationValidation = GtnWsCalculationValidationService
+			.getInstance();
 	private GtnWsVariableCategoryBean variableCategoryBean;
 	private GtnWsAttributeBean newAttribute;
 	private String variableCategory;

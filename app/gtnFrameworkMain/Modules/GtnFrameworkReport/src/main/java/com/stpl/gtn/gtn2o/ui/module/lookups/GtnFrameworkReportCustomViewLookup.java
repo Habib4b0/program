@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomSelectAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeAddAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeRemoveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeSaveAction;
@@ -572,7 +573,8 @@ public class GtnFrameworkReportCustomViewLookup {
 		componentList.add(selectButtonConfig);
 
 		GtnUIFrameWorkActionConfig selectButtonActionConfig = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		selectButtonActionConfig.addActionParameter(GtnFrameworkUICustomSelectAction.class.getName());
 		selectButtonConfig.addGtnUIFrameWorkActionConfig(selectButtonActionConfig);
 
 		GtnUIFrameworkComponentConfig closeButtonConfig = new GtnUIFrameworkComponentConfig();
