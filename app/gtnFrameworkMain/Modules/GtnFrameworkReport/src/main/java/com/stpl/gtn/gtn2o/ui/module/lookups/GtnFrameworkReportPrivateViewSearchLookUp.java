@@ -243,7 +243,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		tableStyle.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
 		tableStyle.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
 		privateViewPagedTableComponent.setComponentStyle(tableStyle);
-
+		privateViewPagedTableComponent.setModuleName(GtnFrameworkReportStringConstants.REPORT);
 		componentList.add(privateViewPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig privateViewPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
 		privateViewPagedTableConfig.setEditable(false);
@@ -263,15 +263,11 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
-		privateViewPagedTableConfig.setColumnHeaders(Arrays.asList("View Name", "Description", "Time Period:From",
-				"Time Period:To", "Company", GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_HEADER,
-				GtnFrameworkCommonConstants.PRODUCT_LEVEL_HEADER, "Product Group",
+		privateViewPagedTableConfig.setColumnHeaders(Arrays.asList("View Name",
 				GtnFrameworkCommonConstants.CREATED_DATE_HEADER, GtnFrameworkCommonConstants.MODIFIED_DATE_HEADER,
-				GtnFrameworkCommonConstants.CREATED_BY_HEADER, GtnFrameworkCommonConstants.BUSINESS_UNIT_HEADER));
+				GtnFrameworkCommonConstants.CREATED_BY_HEADER));
 		privateViewPagedTableConfig.setTableColumnMappingId(
-				new Object[] { "viewNameFilter", "viewDescriptionFilter", "fromTimePeriodFilter", "toTimePeriodFilter",
-						"companyFilter", "productHierarchyFilter", "productLevelFilter", "productGroupFilter",
-						"createdDateFilter", "modifiedByFilter", "createdByFilter", "businessUnitFilter" });
+				new Object[] { "viewNameFilter", "createdDateFilter", "modifieddATEFilter", "createdByFilter" });
 		privateViewPagedTableConfig.setQueryName("Private");
 
 		privateViewPagedTableComponent.setGtnPagedTableConfig(privateViewPagedTableConfig);

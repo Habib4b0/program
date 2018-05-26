@@ -14,8 +14,10 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomViewHierarchyLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportDasboardTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataAssumptionsTabLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionResetAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionTabLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionViewAddAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkSaveViewAction;
 import com.stpl.gtn.gtn2o.ui.action.pagedtreetable.GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction;
 import com.stpl.gtn.gtn2o.ui.action.pagedtreetable.GtnFrameworkConfigureRightTableHeaderForPTTCompoAction;
@@ -92,6 +94,12 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnFrameworkUICustomViewEditAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUICustomSelectAction.class.getName(),
 				new GtnFrameworkUICustomSelectAction());
+
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportDataAssumptionsTabLoadAction.class.getName(),
+				new GtnReportDataAssumptionsTabLoadAction());
+
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportDataSelectionViewAddAction.class.getName(),
+				new GtnReportDataSelectionViewAddAction());
 	}
 
 }

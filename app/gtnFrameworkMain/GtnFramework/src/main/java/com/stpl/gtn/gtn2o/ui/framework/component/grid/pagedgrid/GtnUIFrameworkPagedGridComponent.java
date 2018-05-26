@@ -28,7 +28,7 @@ import java.util.Arrays;
  */
 public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
 
-	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPagedGridComponent.class);
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPagedGridComponent.class);
     @Override
     public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) throws GtnFrameworkGeneralException {
  

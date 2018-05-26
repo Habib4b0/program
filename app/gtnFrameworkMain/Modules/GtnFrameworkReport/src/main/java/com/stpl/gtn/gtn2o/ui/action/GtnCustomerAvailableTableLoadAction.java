@@ -39,27 +39,28 @@ public class GtnCustomerAvailableTableLoadAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+            List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		Date forecastEligibleDate = null;
-		String hierarchyComponentId = "reportLandingScreen_customerHierarchy";
-		String relationshipComponentId = "reportLandingScreen_customerSelectionRelationship";
+		String hierarchyComponentId = String.valueOf(actionParamList.get(1));
+		String relationshipComponentId = String.valueOf(actionParamList.get(2));
 		GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(hierarchyComponentId, componentId).getComponentData().getCustomData();
 
 		String relationshipVersionNo = String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("reportLandingScreen_customerRelationshipVersion").getValueFromComponent());
+				.getVaadinBaseComponent(String.valueOf(actionParamList.get(3)),componentId).getCaptionFromV8ComboBox());
 		String hierarchyVersionNo = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("reportLandingScreen_customerRelationshipVersion").getCaptionFromComboBox();
+				.getVaadinBaseComponent(String.valueOf(actionParamList.get(3)),componentId).getStringCaptionFromV8ComboBox();
 
 		String relationshipBuilderSid = String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(relationshipComponentId, componentId).getValueFromComponent());
+				.getVaadinBaseComponent(relationshipComponentId, componentId).getCaptionFromV8ComboBox());
 		Integer hierarchyDefSid = (Integer) recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
 
-		Integer selectedLevelNo = (Integer) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("reportLandingScreen_customerSelectionLevel").getValueFromComponent();
+		Integer selectedLevelNo = Integer.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)),componentId).getCaptionFromV8ComboBox());
 		String selectedLevel = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("reportLandingScreen_customerSelectionLevel").getCaptionFromComboBox();
+				.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)),componentId).getStringCaptionFromV8ComboBox();
 		LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("reportLandingScreen_customerSelectionForecastEligibilityDate").getFieldValue();
+				.getVaadinBaseComponent(String.valueOf(actionParamList.get(5)),componentId).getFieldValue();
 		if (date != null) {
 			forecastEligibleDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		}
@@ -84,7 +85,7 @@ public class GtnCustomerAvailableTableLoadAction
 			queryParameters.add(Boolean.FALSE);
 
 			AbstractComponent dualListBoxComponent = GtnUIFrameworkGlobalUI
-					.getVaadinComponent("reportLandingScreen_customerDualListBox");
+					.getVaadinComponent(String.valueOf(actionParamList.get(6)),componentId);
 			GtnUIFrameworkComponentData dualListBoxComponentData = (GtnUIFrameworkComponentData) dualListBoxComponent
 					.getData();
 			GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) dualListBoxComponentData

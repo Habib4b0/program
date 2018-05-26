@@ -31,6 +31,14 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String STATUS = "STATUS";
 
 	public static final String REPORT = "report";
+	
+	public static final String HIER_NAME = "hierarchyName";
+        
+        public static final String PRODUCT_HIERARCHY_NAME = "landingScreenProductHierName";
+	
+        public static final String HIER_TYPE = "hierarchyType";
+                
+	public static final String HIGHEST_LEVEL = "highestLevel";
 
 	public static final String CUSTOMER_HIERARCHY_GROUP_BUILDER = "Customer Hierarchy Group Builder";
 
@@ -143,6 +151,18 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String CUST_SELECTION_MAINLAYOUT = "custSelectionMainlayout";
 
 	public static final String CUSTOMER_SELECTION_INNERLAYOUT = "customerSelectionInnerlayout";
+	
+	public static final String DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP = "dataSelectionTab_customerSelectionRelationship";
+	
+	public static final String DATA_SELECTION_TAB_CUSTOMER_RELATIONSHIP_VERSION = "dataSelectionTab_customerRelationshipVersion";
+	
+	public static final String DATA_SELECTION_TAB_CUSTOMER_SELECTION_LEVEL = "dataSelectionTab_customerSelectionLevel";
+
+	public static final String DATA_SELECTION_TAB_RELATIONSHIP = "dataSelectionTab_relationship";
+	
+	public static final String DATA_SELECTION_TAB_PRODUCT_RELATIONSHIP_VERSION = "dataSelectionTab_productRelationshipVersion";
+	
+	public static final String DATA_SELECTION_TAB_LEVEL = "dataSelectionTab_level";
 
 	public static final String RESULTS_MAIN_LAYOUT_CONFIG = "resultsMainLayoutConfig";
 
@@ -154,6 +174,8 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT_DATA_SOURCE = "reportDataSource";
 
+        public static final String REPORT_PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE = "productHierarchySearchResultTable";
+                
 	public static final String CONTROL_BUTTON_LAYOUT = "controlButtonLayout";
 
 	public static final String DATA_ASSUMPTIONS_TAB_SHEET_LAYOUT = "dataAssumptionsTabSheetlayout";

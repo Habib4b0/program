@@ -692,7 +692,7 @@ SELECT
                         WHEN  IFP_ID = @IFP_ID THEN 'IFP_ID'
                         WHEN IFP_NO = @IFP_NO THEN 'IFP_NO'
                         ELSE '' END   AS COULMN1
-             FROM IFP_MODEL WHERE (IFP_ID =@IFP_ID OR IFP_NO = @IFP_NO)
+             FROM IFP_MODEL WHERE (IFP_ID =@IFP_ID OR IFP_NO = @IFP_NO) AND INBOUND_STATUS NOT IN ('D')
  ]]>
 		</query>
 	</entity>
@@ -703,6 +703,28 @@ SELECT
             UPDATE IMTD_IFP_DETAILS SET CHECK_BOX = ? WHERE USERS_SID = ?  AND SESSION_ID = ?    
            
  ]]>
+		</query>
+	</entity>
+        
+          <entity id="getIfpIdWithStatusD">
+		<query> 
+            <![CDATA[   
+             Select * from IFP_MODEL where INBOUND_STATUS <> 'A' and IFP_ID='?' and IFP_NO='?'
+                ]]>
+		</query>
+	</entity>
+        <entity id="UpdateIfpIdAndPsNoWithStatusA">
+		<query> 
+            <![CDATA[   
+          UPDATE IFP_MODEL SET INBOUND_STATUS='A' WHERE IFP_ID='?' AND IFP_NO='?' AND INBOUND_STATUS like 'D'
+                ]]>
+		</query>
+	</entity>
+        <entity id="getSysIdForIfpIdWithStatusD">
+		<query> 
+            <![CDATA[   
+            Select IFP_MODEL_SID from IFP_MODEL where IFP_ID='?' AND IFP_NO='?'
+                ]]>
 		</query>
 	</entity>
 </sql>

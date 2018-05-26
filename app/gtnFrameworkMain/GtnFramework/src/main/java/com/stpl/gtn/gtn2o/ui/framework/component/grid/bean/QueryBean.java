@@ -2,12 +2,12 @@ package com.stpl.gtn.gtn2o.ui.framework.component.grid.bean;
 
 public class QueryBean {
 
-    String countQuery;
-    String dataQuery;
-    String leftDataQuery;
-    Object[] dataQueryInputs;
-    Object[] leftDataQueryInputs;
-   Object[] countQueryInputs;
+    private String countQuery;
+    private String dataQuery;
+    private String leftDataQuery;
+    private Object[] dataQueryInputs;
+    private Object[] leftDataQueryInputs;
+    private Object[] countQueryInputs;
     public String getLeftDataQuery() {
         return leftDataQuery;
     }

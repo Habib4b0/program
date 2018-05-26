@@ -140,7 +140,7 @@ public class GtnUIFrameworkPagedGridLogic {
 			GtnUIFrameworkWebserviceRequest serviceRequest = getWSRequest();
 			serviceRequest.getGtnWsSearchRequest().setTableRecordOffset(offset);
 			serviceRequest.getGtnWsSearchRequest().setTableRecordStart(start);
-			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(resultSetUrl,"report", serviceRequest,
+			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(resultSetUrl,componentConfig.getModuleName(), serviceRequest,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
 			for (GtnUIFrameworkDataRow record : response.getGtnSerachResponse().getResultSet().getDataTable()) {

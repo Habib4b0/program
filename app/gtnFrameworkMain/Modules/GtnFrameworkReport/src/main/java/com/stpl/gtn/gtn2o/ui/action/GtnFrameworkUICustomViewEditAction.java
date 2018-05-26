@@ -64,7 +64,7 @@ public class GtnFrameworkUICustomViewEditAction
 				GtnWsReportEndPointUrlConstants.LOAD_CUSTOM_VIEW_DATA,
 				GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		GtnWsReportCustomViewDataBean viewDataBean = response.getGtnReportResponse().getReportBean().getCustomViewBean()
+		GtnWsReportCustomViewDataBean viewDataBean = response.getGtnWsReportResponse().getReportBean().getCustomViewBean()
 				.getCustomViewDataBean();
 		loadTreeGrid(viewDataBean, gtnUIFrameWorkActionConfig, componentId);
 		loadViewName(viewDataBean.getCustomViewName());

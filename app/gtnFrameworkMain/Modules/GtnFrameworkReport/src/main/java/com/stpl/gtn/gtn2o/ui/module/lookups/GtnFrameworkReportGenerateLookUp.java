@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.module.lookups;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataAssumptionsTabLoadAction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import java.util.Arrays;
 
 public class GtnFrameworkReportGenerateLookUp {
 
@@ -75,7 +77,7 @@ public class GtnFrameworkReportGenerateLookUp {
 
 		GtnUIFrameworkComponentConfig tabSheetConfig = new GtnUIFrameworkComponentConfig();
 		tabSheetConfig.setComponentType(GtnUIFrameworkComponentType.TABSHEET);
-		tabSheetConfig.setComponentId(GtnFrameworkCommonConstants.TAB_SHEET);
+		tabSheetConfig.setComponentId(GtnFrameworkCommonConstants.TAB_SHEET+"report");
 		tabSheetConfig.setComponentName("Tab Sheet");
 		tabSheetConfig.setComponentWidth("100%");
 		tabSheetConfig.setAddToParent(true);
@@ -111,6 +113,16 @@ public class GtnFrameworkReportGenerateLookUp {
 
 		tabSheetConfig.setGtnTabSheetConfigList(tabConfigList);
 
+                  List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+                
+                GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+                actionConfig.setActionParameterList(Arrays.asList(
+				GtnReportDataAssumptionsTabLoadAction.class.getName(),
+                       GtnFrameworkReportStringConstants.TAB_SHEET, GtnFrameworkReportStringConstants.CURRENT_TAB));
+		
+		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		actionConfigList.add(actionConfig);
+		tabSheetConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		componentList.add(tabSheetConfig);
 	}
 	

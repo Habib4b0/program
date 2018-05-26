@@ -14,14 +14,13 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFramework
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
-import com.stpl.gtn.gtn2o.ui.module.lookups.Query;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 public class GtnFrameworkDataAssumptionsTabConfig {
-	GtnWSLogger logger=GtnWSLogger.getGTNLogger(GtnFrameworkDataAssumptionsTabConfig.class);
+	private GtnWSLogger logger=GtnWSLogger.getGTNLogger(GtnFrameworkDataAssumptionsTabConfig.class);
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public void addDataAssumptionsLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -55,6 +54,13 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		currentTab.setTabLayoutComponentConfigList(currentTabTabConfigList);
 		addCurrentTab(currentTabTabConfigList, nameSpace);
 
+                GtnUIFrameworkTabConfig currentTab1 = new GtnUIFrameworkTabConfig();
+		currentTab1.setComponentId(nameSpace+GtnFrameworkReportStringConstants.CURRENT_TAB);
+		currentTab1.setTabCaption("Current11");
+		List<GtnUIFrameworkComponentConfig> currentTabTabConfigList1 = new ArrayList<>();
+		currentTab1.setTabLayoutComponentConfigList(currentTabTabConfigList1);
+		addCurrentTab(currentTabTabConfigList1, nameSpace);
+                
 		List<GtnUIFrameworkTabConfig> tabConfigList = new ArrayList<>();
 		tabConfigList.add(currentTab);
 
@@ -87,17 +93,8 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		dataAssumptionsPagedTableComponent.setComponentName(GtnFrameworkCommonConstants.RESULTS);
 		dataAssumptionsPagedTableComponent.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
-		dataAssumptionsPagedTableComponent.setModuleName("report");
+		dataAssumptionsPagedTableComponent.setModuleName(GtnFrameworkReportStringConstants.REPORT);
 		componentList.add(dataAssumptionsPagedTableComponent);
-
-		// GtnUIFrameworkPagedTableConfig dataAssumptionsPagedTableConfig = new
-		// GtnUIFrameworkPagedTableConfig();
-		// dataAssumptionsPagedTableConfig.setEditable(false);
-		// dataAssumptionsPagedTableConfig.setFilterBar(true);
-		// dataAssumptionsPagedTableConfig.setSelectable(true);
-		// dataAssumptionsPagedTableConfig.setItemPerPage(5);
-		// dataAssumptionsPagedTableConfig.setPageLength(5);
-		// dataAssumptionsPagedTableConfig.setSinkItemPerPageWithPageLength(false);
 
 		GtnUIFrameworkPagedTableConfig dataAssumptionsPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
 

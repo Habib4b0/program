@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.module.lookups;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroupConfig;
@@ -11,8 +12,11 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFr
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
@@ -138,6 +142,11 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		addHierarchyNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		addHierarchyNameTextBox.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT);
+                
+                  GtnUIFrameworkValidationConfig productHierarchyNameValidationConfig = new GtnUIFrameworkValidationConfig();
+		productHierarchyNameValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		addHierarchyNameTextBox.setGtnUIFrameworkValidationConfig(productHierarchyNameValidationConfig);
+                
 		componentList.add(addHierarchyNameTextBox);
 	}
 
@@ -163,14 +172,35 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		productHierarchySearchButton.setAddToParent(true);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+                
+                GtnUIFrameWorkActionConfig dsProductValidationActionConfig = new GtnUIFrameWorkActionConfig();
+		dsProductValidationActionConfig.setActionType(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
 
+		dsProductValidationActionConfig
+				.setFieldValues(Arrays.asList(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_NAME));
+
+		GtnUIFrameWorkActionConfig dsProductAlertActionConfig = new GtnUIFrameWorkActionConfig();
+		dsProductAlertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+
+		List<Object> dsProductAlertParamsList = new ArrayList<>();
+		dsProductAlertParamsList.add("No Results Found");
+		dsProductAlertParamsList.add("There are no Hierarchies that match the search criteria.");
+
+		dsProductAlertActionConfig.setActionParameterList(dsProductAlertParamsList);
+		Object dsProductValidationType = GtnUIFrameworkValidationType.OR;
+		dsProductValidationActionConfig.setActionParameterList(Arrays.asList(dsProductValidationType, Arrays.asList(dsProductAlertActionConfig)));
+		actionConfigList.add(dsProductValidationActionConfig);
+                
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
 
 		List<Object> actionParams = new ArrayList<>();
 		actionParams.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE);
-
+loadDataTableActionConfig.setFieldValues(Arrays.asList(new String[] {
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkCommonConstants.HIERARCHY_TYPE,
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE +GtnFrameworkCommonConstants.HIERARCHY_NAME}));
 		loadDataTableActionConfig.setActionParameterList(actionParams);
 
 		actionConfigList.add(loadDataTableActionConfig);
@@ -187,6 +217,20 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 				+ GtnFrameworkCommonConstants.SEARCH_AND_RESET_BUTTON_LAYOUT);
 		productHierarchyResetButton.setAddToParent(true);
 
+                 List<GtnUIFrameWorkActionConfig> dsProductHierarchyResetActionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig dsProductHierarchyResetActionConfig = new GtnUIFrameWorkActionConfig();
+		dsProductHierarchyResetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
+
+		List<Object> dsProductHierarchyParams = new ArrayList<>();
+		dsProductHierarchyParams.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
+		dsProductHierarchyParams.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
+		dsProductHierarchyParams.add(Arrays.asList(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.HIER_TYPE,
+                        namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_NAME));
+		dsProductHierarchyParams.add(Arrays.asList(new Object[] { "Primary", GtnFrameworkCommonStringConstants.STRING_EMPTY }));
+		dsProductHierarchyResetActionConfig.setActionParameterList(dsProductHierarchyParams);
+		dsProductHierarchyResetActionConfigList.add(dsProductHierarchyResetActionConfig);
+		productHierarchyResetButton.setGtnUIFrameWorkActionConfigList(dsProductHierarchyResetActionConfigList);
+                
 		componentList.add(productHierarchyResetButton);
 	}
 
@@ -249,7 +293,7 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_INTEGER,
 				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE });
 		searchResults.setTableColumnMappingId(
-				new Object[] { "hierName", "highestLevel", "lowestLevel", "createdDate", "modifiedDate" });
+				new Object[] { GtnFrameworkReportStringConstants.HIER_NAME, GtnFrameworkReportStringConstants.HIGHEST_LEVEL, "lowestLevel", "createdDate", "modifiedDate" });
 		
 		searchResults.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_PRODUCTHIERARCHY_SEARCHSERVICE);
@@ -261,11 +305,11 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { "hierName", "highestLevel", "lowestLevel", "createdDate", "modifiedDate"  };
+		String[] propertyIds = { GtnFrameworkReportStringConstants.HIER_NAME, GtnFrameworkReportStringConstants.HIGHEST_LEVEL, "lowestLevel", "createdDate", "modifiedDate"  };
 		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.DATEFIELDVAADIN8 };
-		String[] comboboxIds={"highestLevel"};
+		String[] comboboxIds={GtnFrameworkReportStringConstants.HIGHEST_LEVEL};
 		String[] comboboxType={"STATUS"};
 		int comboboxStart=0;
 		for (int i = 0; i < propertyIds.length; i++) {
@@ -318,7 +362,7 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		List<Object> actionParameter = new ArrayList<>();
 		actionParameter.add("reportDsProductHierarchyLookup_productHierarchySearchResultTable");
 		actionParameter.add("dataSelectionTab_producthierarchy");
-		actionParameter.add(Arrays.asList("hierName"));
+		actionParameter.add(Arrays.asList(GtnFrameworkReportStringConstants.HIER_NAME));
 		actionParameter
 				.add(Arrays.asList("dataSelectionTab_producthierarchy"));
 
@@ -344,15 +388,31 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 
 		componentList.add(cancelButton);
 
-		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
-		resetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		resetButton.setComponentId(
+		GtnUIFrameworkComponentConfig dsResetButton = new GtnUIFrameworkComponentConfig();
+		dsResetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		dsResetButton.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productHierarchyResetControlButton");
-		resetButton.setComponentName("RESET");
-		resetButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+		dsResetButton.setComponentName("RESET");
+		dsResetButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
-		resetButton.setAddToParent(true);
+		dsResetButton.setAddToParent(true);
 
-		componentList.add(resetButton);
+                 List<GtnUIFrameWorkActionConfig> dsProductHierarchyConfList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig dsProductHierarchyResetActionConfig = new GtnUIFrameWorkActionConfig();
+		dsProductHierarchyResetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
+
+		List<Object> dsProductHierarchyParamList = new ArrayList<>();
+		dsProductHierarchyParamList.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
+		dsProductHierarchyParamList.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_TABLE_MESSAGE);
+
+		dsProductHierarchyParamList.add(Arrays.asList(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE));
+		dsProductHierarchyParamList.add(Arrays.asList(new Object[] { "" }));
+
+		dsProductHierarchyResetActionConfig.setActionParameterList(dsProductHierarchyParamList);
+		dsProductHierarchyConfList.add(dsProductHierarchyResetActionConfig);
+		dsResetButton.setGtnUIFrameWorkActionConfigList(dsProductHierarchyConfList);
+                
+		componentList.add(dsResetButton);
 	}
 }

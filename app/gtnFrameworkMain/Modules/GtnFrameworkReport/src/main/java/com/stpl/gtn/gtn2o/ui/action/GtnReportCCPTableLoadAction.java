@@ -105,42 +105,44 @@ public class GtnReportCCPTableLoadAction
 			forecastEligibleDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		}
 		dto.setCustomerHierarchyForecastLevel(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(6).toString()).getValueFromComponent())));
+				.getVaadinBaseComponent(actionParamList.get(6).toString()).getCaptionFromV8ComboBox())));
 		dto.setCustomerHierarchySid(
 				(Integer) customerRecordBean.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1));
 		dto.setCustomerHierarchyVersionNo(Integer.parseInt(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(5).toString()).getCaptionFromComboBox()));
+				.getVaadinBaseComponent(actionParamList.get(5).toString()).getStringCaptionFromV8ComboBox()));
 		dto.setCustomerRelationshipBuilderSid(Integer.parseInt(String.valueOf(
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(relationshipComponentId).getValueFromComponent())));
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(relationshipComponentId).getCaptionFromV8ComboBox())));
 		dto.setCustomerRelationshipVersionNo(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(5).toString()).getValueFromComponent())));
+				.getVaadinBaseComponent(actionParamList.get(5).toString()).getCaptionFromV8ComboBox())));
 
 		dto.setForecastEligibleDate(forecastEligibleDate);
 
 		dto.setProductHierarchyForecastLevel(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(10).toString()).getValueFromComponent())));
+				.getVaadinBaseComponent(actionParamList.get(10).toString()).getCaptionFromV8ComboBox())));
 		dto.setProductHierarchySid(
 				(Integer) productRecordBean.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1));
 		dto.setProductHierarchyVersionNo(Integer.parseInt(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(11).toString()).getCaptionFromComboBox()));
+				.getVaadinBaseComponent(actionParamList.get(11).toString()).getStringCaptionFromV8ComboBox()));
 		dto.setProductRelationshipBuilderSid(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(9).toString()).getValueFromComponent())));
+				.getVaadinBaseComponent(actionParamList.get(9).toString()).getCaptionFromV8ComboBox())));
 		dto.setProductRelationshipVersionNo(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(11).toString()).getValueFromComponent())));
+				.getVaadinBaseComponent(actionParamList.get(11).toString()).getCaptionFromV8ComboBox())));
 		dto.setReportDataSource(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(12).toString()).getCaptionFromV8ComboBox()));
 
-		dto.setCompanyReport(Integer.valueOf(GtnUIFrameworkGlobalUI
+		dto.setCompanyReport(Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox()));
-		dto.setBusinessUnitReport(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(14).toString())
-				.getIntegerFromField());
-		dto.setFromPeriodReport(Integer.valueOf(GtnUIFrameworkGlobalUI
+		dto.setBusinessUnitReport(Integer.parseInt(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(14).toString())
+				.getCaptionFromV8ComboBox()));
+		dto.setFromPeriodReport(Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(15).toString()).getCaptionFromV8ComboBox()));
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);
 		dto.setProductHierarchyRecordBean(productRecordBean);
 		dto.setSelectedCustomerHierarchyList(selectedCustomerList);
 		dto.setSelectedProductHierarchyList(selectedProductList);
-
+		dto.setv8ForecastEligibilityDate(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(7).toString())
+				.getV8DateFromDateField());
+		
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_");
 		dto.setSessionId(uniqueId);

@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class GtnWsReportAllListConfig {
 
-	private Map<String, String> comboboxLoadMap = new HashMap<String, String>();
+	private Map<String, String> comboboxLoadMap = new HashMap<>();
 
 	public GtnWsReportAllListConfig() {
 		this.loadComboboxQuerymap();

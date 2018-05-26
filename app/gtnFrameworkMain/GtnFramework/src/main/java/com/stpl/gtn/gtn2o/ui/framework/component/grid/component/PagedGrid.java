@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,11 +14,14 @@ import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.DataSet;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.service.FetchData;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.bean.SessioBeanForVaadin8Components;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.data.HasValue;
+import com.vaadin.data.HasValue.ValueChangeEvent;
+import com.vaadin.data.HasValue.ValueChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
@@ -25,28 +29,29 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.InlineDateField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.components.grid.HeaderRow;
 
 public class PagedGrid {
 
-	GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedGrid.class);
+	private GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(PagedGrid.class);
 	GtnUIFrameworkPagedTableConfig tableConfig;
 
-	GtnUIFrameworkComponentConfig componentConfig;
-	int count;
+	private GtnUIFrameworkComponentConfig componentConfig;
+	private  int count;
 	private int pageLength = 10;
 	private int pageNumber = 0;
 	private DataSet dataSet;
 	private Label pageCountLabel;
-	GtnUIFrameworkPagedTableConfig gtnUIFrameworkPagedTableConfig;
+	private GtnUIFrameworkPagedTableConfig gtnUIFrameworkPagedTableConfig;
 	Grid<GtnWsRecordBean> grid;
-	HorizontalLayout controlLayout;
+	private  HorizontalLayout controlLayout;
 	private TextField pageNoField;
-
 	GtnUIFrameworkPagedGridLogic pagedTableLogic;
 
 	public PagedGrid(GtnUIFrameworkPagedTableConfig tableConfig, GtnUIFrameworkComponentConfig componentConfig) {
@@ -61,39 +66,31 @@ public class PagedGrid {
 					.setId(property);
 
 			i++;
-		}		
+		}
 		pagedTableLogic = new GtnUIFrameworkPagedGridLogic(tableConfig, componentConfig);
 		addFilterAndRefreshLogic(tableConfig);
-	
+
 	}
 
 	private void addFilterAndRefreshLogic(GtnUIFrameworkPagedTableConfig tableConfig) {
-		if(!tableConfig.getCustomFilterConfigMap().isEmpty()){
-        setFilterToGrid();
-        }
-        if(tableConfig.isRefreshAtStart()){
-        refreshGrid();
-        }
+		if (!tableConfig.getCustomFilterConfigMap().isEmpty()) {
+			setFilterToGrid();
+		}
+		if (tableConfig.isRefreshAtStart()) {
+			refreshGrid();
+		}
 	}
-	
+
 	public void refreshGrid() {
 		count = getTotalCount();
 		gtnlogger.info("count------" + count);
 		dataSet = loadData((pageNumber * pageLength), pageLength);
-		// int i = 0;
-		// grid.removeAllColumns();
-		// for (String column : tableConfig.getVisibleColumns()) {
-		// grid.addColumn(row ->
-		// row.getValue(column)).setCaption(tableConfig.getColumnHeaders().get(i)).setId(tableConfig.getColumnHeaders().get(i));
-		// i++;
-		// }
 
 		if (dataSet.getRows() != null) {
+
 			grid.setItems(dataSet.getRows());
 
 		}
-		// pageCountLabel.setCaption(String.valueOf(getPageCount()));
-
 	}
 
 	private int getTotalCount() {
@@ -122,7 +119,7 @@ public class PagedGrid {
 	}
 
 	public void nextPage() {
-		System.out.println("next page->" + (pageNumber + 1));
+		gtnlogger.info("next page->" + (pageNumber + 1));
 		if (pageNumber + 1 < getPageCount()) {
 			setPageNoFieldValue(++pageNumber);
 
@@ -273,14 +270,11 @@ public class PagedGrid {
 
 	String appendFilter(String query) {
 		String filter = "";
-		// int i = 0;
 		String condition = "AND";
 		for (Map.Entry<String, Object> entry : tableConfig.getFilterValueMap().entrySet()) {
 			String key = getDBColumnName(entry.getKey());
 			Object value = entry.getValue();
-
 			filter += condition + " " + key + "  like '%" + value + "%'";
-			// i++;
 		}
 
 		return query.replace("@filter", filter);
@@ -299,7 +293,6 @@ public class PagedGrid {
 
 	private Component getCustomFilterComponent(String property) {
 		try {
-			gtnlogger.info("-------property------" + property);
 			GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = tableConfig.getCustomFilterConfigMap()
 					.get(property);
 			if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.TEXTBOX_VAADIN8) {
@@ -323,8 +316,7 @@ public class PagedGrid {
 			} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
 				Button dateFilterPopupButton = new Button("Show all");
 				dateFilterPopupButton.setWidth("400px");
-				DateFilterPopup dateFilterpopup = new DateFilterPopup(dateFilterPopupButton, tableConfig, property,componentConfig);
-				Window window = dateFilterpopup.getDateFilterPopup();
+				Window window = getDateFilterPopup(dateFilterPopupButton, property);
 				dateFilterPopupButton.addClickListener(new Button.ClickListener() {
 					@Override
 					public void buttonClick(Button.ClickEvent event) {
@@ -380,6 +372,100 @@ public class PagedGrid {
 
 	public void setPagedTableLogic(GtnUIFrameworkPagedGridLogic pagedTableLogic) {
 		this.pagedTableLogic = pagedTableLogic;
+	}
+
+	public Window getDateFilterPopup(Button dateFilterPopupButton, String property) {
+		Window window = new Window();
+
+		VerticalLayout verticalLayout = new VerticalLayout();
+		HorizontalLayout horizontalLayout = new HorizontalLayout();
+		HorizontalLayout horizontalLayoutForButton = new HorizontalLayout();
+		horizontalLayout.setMargin(true);
+
+		InlineDateField inlineDateFieldStartDate = getDateField("Start date:", "inlineDateFieldStartDate");
+		InlineDateField inlineDateFieldEndDate = getDateField("End date:", "inlineDateFieldEndDate");
+
+		Button setButton = getButton("Set", "setButton", window, dateFilterPopupButton, property,
+				inlineDateFieldStartDate, inlineDateFieldEndDate);
+		Button clearButton = getButton("Clear", "clearButton", window, dateFilterPopupButton, property,
+				inlineDateFieldStartDate, inlineDateFieldEndDate);
+
+		horizontalLayout.addComponents(inlineDateFieldStartDate, inlineDateFieldEndDate);
+		horizontalLayoutForButton.addComponents(setButton, clearButton);
+		verticalLayout.addComponents(horizontalLayout, horizontalLayoutForButton);
+
+		window.setContent(verticalLayout);
+		window.setResizable(false);
+		window.setClosable(false);
+		return window;
+	}
+
+	private void addValueChangeListenerForDate(InlineDateField inlineDateField) {
+		inlineDateField.addValueChangeListener(new ValueChangeListener<LocalDate>() {
+
+			@Override
+			public void valueChange(ValueChangeEvent<LocalDate> event) {
+				if (inlineDateField.getId().equals("inlineDateFieldStartDate")) {
+					inlineDateField.setData(event.getValue());
+				} else {
+					inlineDateField.setData(event.getValue());
+				}
+			}
+		});
+	}
+
+	private void addClickListenerForButton(Button button, Window window, Button buttonFromGrid, String property,
+			InlineDateField inlineDateFieldStartDate, InlineDateField inlineDateFieldEndDate) {
+		button.addClickListener(new Button.ClickListener() {
+			@Override
+			public void buttonClick(Button.ClickEvent event) {
+				String startDate = "";
+				String endDate = "";
+				window.close();
+				if (button.getId().equals("setButton")) {
+					if (inlineDateFieldStartDate.getData() != null && inlineDateFieldEndDate.getData() != null) {
+						startDate = inlineDateFieldStartDate.getData().toString();
+						endDate = inlineDateFieldEndDate.getData().toString();
+
+						buttonFromGrid.setCaption(startDate + " - " + endDate);
+
+						tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);
+						refreshGrid();
+					}
+					if (inlineDateFieldStartDate.getData() != null && inlineDateFieldEndDate.getData() == null) {
+						startDate = inlineDateFieldStartDate.getData().toString();
+					}
+					if (inlineDateFieldStartDate.getData() == null && inlineDateFieldEndDate.getData() != null) {
+						endDate = inlineDateFieldEndDate.getData().toString();
+					}
+					buttonFromGrid.setCaption(startDate + " - " + endDate);
+					tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);
+					refreshGrid();
+				} else {
+					buttonFromGrid.setCaption("Show all");
+					tableConfig.getFilterValueMap().put(property, buttonFromGrid.getCaption());
+					refreshGrid();
+				}
+			}
+		});
+	}
+
+	private InlineDateField getDateField(String caption, String id) {
+		InlineDateField inlineDateField = new InlineDateField(caption);
+		inlineDateField.setId(id);
+		inlineDateField.setValue(LocalDate.now());
+		inlineDateField.setLocale(Locale.US);
+		addValueChangeListenerForDate(inlineDateField);
+		return inlineDateField;
+	}
+
+	private Button getButton(String caption, String id, Window window, Button dateFilterPopupButton, String property,
+			InlineDateField inlineDateFieldStartDate, InlineDateField inlineDateFieldEndDate) {
+		Button button = new Button(caption);
+		button.setId(id);
+		addClickListenerForButton(button, window, dateFilterPopupButton, property, inlineDateFieldStartDate,
+				inlineDateFieldEndDate);
+		return button;
 	}
 
 }

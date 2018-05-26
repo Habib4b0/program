@@ -19,9 +19,12 @@ import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.util.service.thread.ThreadPool;
+import com.stpl.app.utils.QueryUtils;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.QueryUtil;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -34,6 +37,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
@@ -66,6 +70,7 @@ public class CommonUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
     public static final String COMMA=",";
+    private ExecutorService service = ThreadPool.getInstance().getService();
 
     /**
      * Instantiates a new common util.
@@ -417,6 +422,14 @@ public class CommonUtil {
                         Thread.currentThread().setName(Constant.DISCOUNT_LIST_VIEW_SAVE);
                         ((NMDiscountProjection) inputs[1]).saveDiscountProjectionScreen(false);
                         break;
+                    case Constant.PRC_VIEWS_CALL:
+                        Thread.currentThread().setName(inputs[1].toString());
+                        new DataSelectionLogic().callViewInsertProcedureForNm((SessionDTO)inputs[NumericConstants.EIGHT], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,inputs[6].toString() ,inputs[7].toString());
+                        break;
+                    case Constant.FUNCTION_PRC_VIEWS_CALL:
+                        Thread.currentThread().setName(inputs[1].toString());
+                        new DataSelectionLogic().callViewInsertProcedures((SessionDTO)inputs[NumericConstants.ONE], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,inputs[6].toString() ,inputs[7].toString());
+                        break;
                     default:
                         break;
                 }
@@ -424,8 +437,8 @@ public class CommonUtil {
         };
         return runnable;
     }
-     
-     
+    
+    
     /**
      * Used to wait for the Data Selection thread(Once the Data Selection tab is
      * loaded screen will be visible to the user).
@@ -763,6 +776,16 @@ public class CommonUtil {
             logger.error(ex.getMessage());
         }
         return formattedNameList;
+    }
+    
+    public void isProcedureCompleted(String screenName, String viewName, SessionDTO session) {
+        List inputList = new ArrayList<>();
+        inputList.add(screenName);
+        inputList.add(viewName);
+        List resultList;
+        do {
+            resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(inputList, "getProcedureStatus"), session.getCurrentTableNames()));
+        } while (!"C".equalsIgnoreCase((String.valueOf(((Object[])resultList.get(0))[2]).trim())));
     }
     
 }

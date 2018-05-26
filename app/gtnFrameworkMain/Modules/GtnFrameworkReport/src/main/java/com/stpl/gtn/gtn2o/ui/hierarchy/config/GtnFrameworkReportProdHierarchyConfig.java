@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
-import com.stpl.gtn.gtn2o.ui.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -144,7 +143,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig relationship = configProvider.getUIFrameworkComponentConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "relationship", true,
-				relationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+				relationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		relationship.setComponentName("Relationship: ");
 
 		GtnUIFrameworkComboBoxConfig relationshipLoadConfig = configProvider.getComboBoxConfig(
@@ -167,12 +166,12 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		GtnUIFrameworkComponentConfig productSelectionRelationshipVersionLayout = configProvider
 				.getHorizontalLayoutConfig("productSelectionRelationshipVersionLayout", true,
 						hierarchyRelationshipConfig.getComponentId());
-		productSelectionRelationshipVersionLayout.setVisible(false);
+		productSelectionRelationshipVersionLayout.setVisible(true);
 		componentList.add(productSelectionRelationshipVersionLayout);
 
 		GtnUIFrameworkComponentConfig productRelationshipVersion = configProvider.getUIFrameworkComponentConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productRelationshipVersion", true,
-				productSelectionRelationshipVersionLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+				productSelectionRelationshipVersionLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		productRelationshipVersion.setComponentName("ProductRelationshipVersion");
 
 		GtnUIFrameworkComboBoxConfig productRelationshipVersionConfig = configProvider.getComboBoxConfig(
@@ -180,6 +179,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		productRelationshipVersionConfig.setHasDefaultValue(true);
+		productRelationshipVersionConfig.setDefaultDesc("next");
 		productRelationshipVersion.setGtnComboboxConfig(productRelationshipVersionConfig);
 		componentList.add(productRelationshipVersion);
 
@@ -188,7 +188,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig level = configProvider.getUIFrameworkComponentConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "level", true, levelLayout.getComponentId(),
-				GtnUIFrameworkComponentType.COMBOBOX);
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		level.setComponentName("Level: ");
 
 		GtnUIFrameworkComboBoxConfig levelLoadConfig = configProvider.getComboBoxConfig(
@@ -205,7 +205,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				+ "product" + GtnFrameworkCommonConstants.DUAL_LIST_BOX_COMP);
 		refreshDualListBoxAction
 				.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "level");
-		actionList.add(refreshDualListBoxAction);
+		//actionList.add(refreshDualListBoxAction);
 		
 		GtnUIFrameWorkActionConfig loadAvailabletableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadAvailabletableActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);		

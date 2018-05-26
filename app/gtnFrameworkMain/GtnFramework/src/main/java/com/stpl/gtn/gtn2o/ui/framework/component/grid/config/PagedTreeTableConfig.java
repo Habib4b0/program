@@ -4,12 +4,12 @@ import java.util.Set;
 
 public class PagedTreeTableConfig extends PagedTableConfig {
 
-	String hierarchyNoColumn;
-	String frequency;
-	int levelNo = 1;
-	String levelNoColumn;
-	Set<String> leftVisibleColumns;
-	int rowsPerLevelItem;
+	private String hierarchyNoColumn;
+	private String frequency;
+	private int levelNo = 1;
+	private String levelNoColumn;
+	private Set<String> leftVisibleColumns;
+	private int rowsPerLevelItem;
 
 	public PagedTreeTableConfig() {
 		super();

@@ -2554,6 +2554,7 @@ public class NonMandatedLogic {
 	public void mainToTempTableInsert(SessionDTO session, ExecutorService service) {
             CommonUtil commonUtil = CommonUtil.getInstance();
 		List<Future> tempInsertFutureList = new ArrayList<>();
+                 if (Constant.VIEW.equalsIgnoreCase(session.getAction())) {
 		// SALES MASTER TABLE INSERT
 		String query = SQlUtil.getQuery("Sales_Main_Temp_Master_Insert").replace(Constant.AT_PROJECTION_MASTER_SID,
 				String.valueOf(session.getProjectionId()));
@@ -2564,17 +2565,16 @@ public class NonMandatedLogic {
 				String.valueOf(session.getProjectionId()));
 		tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
 				QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
-                if (Constant.VIEW.equalsIgnoreCase(session.getAction())) {
+               
                 // SALES ACTUAL INSERT
 		query = SQlUtil.getQuery("Sales_Main_Temp_Actual_Insert").replace(Constant.AT_PROJECTION_MASTER_SID,
 				String.valueOf(session.getProjectionId()));
 		tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
 				QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
-                }
+                
 		for (Future futureObject : tempInsertFutureList) {
 			commonUtil.waitsForOtherThreadsToComplete(futureObject);
 		}
-
 		session.addFutureMap(Constant.DISCOUNT_LOWER_CASE,
 				new Future[] {
 						// DISCOUNT MASTER INSERT
@@ -2595,7 +2595,7 @@ public class NonMandatedLogic {
 																Constant.AT_PROJECTION_MASTER_SID,
 																String.valueOf(session.getProjectionId())),
 														session.getCurrentTableNames())))});
-                if (Constant.VIEW.equalsIgnoreCase(session.getAction())) {
+                
                 session.addFutureMap(Constant.DISCOUNT_LOWER_CASE,
 				new Future[] {service.submit(
 								commonUtil
