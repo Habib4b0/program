@@ -1288,5 +1288,21 @@ DECLARE @CREATED_BY int = ?CREATED_BY
 		]]>
         </query>
     </entity>   
+  
+    <entity id="getProcedureStatus">
+        <query>
+    		<![CDATA[
+   SELECT
+	SCREEN_NAME,
+	VIEW_NAME,
+	FLAG
+FROM
+	ST_STATUS_TABLE
+WHERE
+	SCREEN_NAME = '?'
+	AND VIEW_NAME = '?'
+		]]>
+        </query>
+    </entity>   
     
 </sql>

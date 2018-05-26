@@ -1090,13 +1090,13 @@ public class FileManagementLogic {
 				|| ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL.equals(fileType.getDescription())
 				|| ConstantsUtils.ADJUSTED_DEMAND.equals(fileType.getDescription())) {
 			criterion = criteria;
-		} else if (ConstantsUtils.CUSTOMERGTS.equals(fileType.getDescription())) {
+		} else if (ConstantsUtils.CUSTOMERGTS.equals(fileType.getDescription()) && ConstantsUtils.COUNTRY_US.equals(country)) {
 			criterion = criteria;
 
 		} else {
 			criterion = NULLCREATION;
 		}
-		projectionDynamicQuery.add(criterion);
+                projectionDynamicQuery.add(criterion);
 		if (businessUnit != null && !businessUnit.isEmpty() && !businessUnit.equalsIgnoreCase("null")
 				&& !businessUnit.equalsIgnoreCase("0")) {
 			projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantUtils.BUSINESS_UNIT, businessUnit));

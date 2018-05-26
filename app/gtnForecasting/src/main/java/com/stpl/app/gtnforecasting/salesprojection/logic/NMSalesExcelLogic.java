@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.DASH_PROJECTED_SALES;
+import java.util.Collections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -35,6 +38,8 @@ public class NMSalesExcelLogic {
     private final Map<String, SalesRowDto> resultMap = new HashMap<>();
     private final List<String> hierarchyKeys = new ArrayList<>();
     private final CommonLogic commonLogic=new CommonLogic();
+    private final List<String> hierarchyValues = new ArrayList<>();
+    public static final Logger LOGGER = LoggerFactory.getLogger(NMSalesExcelLogic.class);
     
     public void getCustomizedExcelData(List<Object[]> rawList, ProjectionSelectionDTO projectionSelectionDTO, List historyColumn) {
         SessionDTO sessionDTO = projectionSelectionDTO.getSessionDTO();
@@ -43,6 +48,7 @@ public class NMSalesExcelLogic {
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
             String key = obj[NumericConstants.ZERO].toString();
+            String hierKey = key.substring(0,key.lastIndexOf('.'));
             if (projectionSelectionDTO.isIsCustomHierarchy()) {
                 String parentId = obj[NumericConstants.FOUR] != null ? obj[NumericConstants.FOUR].toString() : StringUtils.EMPTY;
                 key = obj[NumericConstants.ZERO].toString().concat("$").concat(parentId);
@@ -54,6 +60,8 @@ public class NMSalesExcelLogic {
             String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(hierarchyNo.trim()).get(4));
             SalesRowDto salesRowDto = resultMap.get(key);
             if (salesRowDto == null) {
+                 getHierarchy(hierKey,projectionSelectionDTO);
+                 getParentLevels(projectionSelectionDTO);
                 //To check condition total or details values
                 salesRowDto = new SalesRowDto();
                 setActualsProjectionValues(salesRowDto, freq, obj, projectionSelectionDTO, historyColumn, hierarchyLevelDetails,hierarchyIndicator);
@@ -64,6 +72,35 @@ public class NMSalesExcelLogic {
             }
             }
 
+        }
+    }
+    
+    public String getHierarchy(String key, ProjectionSelectionDTO projectionSelection) {
+
+        if (key.contains(".")) {
+            String keyValue = key.substring(0, key.lastIndexOf('.'));
+            hierarchyValues.add(keyValue);
+            getHierarchy(keyValue, projectionSelection);
+            return keyValue;
+        }
+        return StringUtils.EMPTY;
+    }
+
+    public void getParentLevels(ProjectionSelectionDTO projectionSelection) {
+        Map<String, List> hierarchyLevelDetails = projectionSelection.getSessionDTO().getHierarchyLevelDetails();
+        Collections.reverse(hierarchyValues);
+        for (int i = 0; i < hierarchyValues.size(); i++) {
+            String keyValue = hierarchyValues.get(i) + ".";
+            String hierKeyValue = hierarchyValues.get(i) + ".";
+            hierKeyValue = hierKeyValue.substring(hierKeyValue.indexOf('-') + 1);
+            SalesRowDto salesRowDto = resultMap.get(hierKeyValue.trim());
+            if (salesRowDto == null) {
+                salesRowDto = new SalesRowDto();
+                String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(keyValue.trim()).get(4));
+                getExcelFormatColumns(keyValue, hierarchyIndicator, hierarchyLevelDetails, projectionSelection, salesRowDto);
+                resultMap.put(hierKeyValue.trim(), salesRowDto);
+                hierarchykeys(hierKeyValue.trim());
+            }
         }
     }
 
