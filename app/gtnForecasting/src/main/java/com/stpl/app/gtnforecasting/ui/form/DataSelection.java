@@ -439,7 +439,7 @@ public class DataSelection extends ForecastDataSelection {
 			String selectedLevel = String.valueOf(event.getProperty().getValue());
 			setSelectedProductLevel(selectedLevel);
 			int hierarchyId = 0;
-			String hierarchyName = StringUtils.EMPTY;
+			String hierarchyName;
 			if (productHierarchyDto != null && !StringUtils.isBlank(productHierarchyDto.getHierarchyName())) {
 				hierarchyName = productHierarchyDto.getHierarchyName();
 			}
@@ -496,8 +496,7 @@ public class DataSelection extends ForecastDataSelection {
 		setFirstTimeLoad(false);
 		if (!CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
 			session.setCustomerHierarchyId(Integer.parseInt(dataSelectionDTO.getCustomerHierSid()));
-			initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()),
-					dataSelectionDTO.getCustRelationshipBuilderSid());
+			initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()));
 		}
 	}
 
@@ -509,8 +508,7 @@ public class DataSelection extends ForecastDataSelection {
 			initializeFromDto();
 			setFirstTimeLoad(false);
 			if (!CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
-				initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()),
-						dataSelectionDTO.getCustRelationshipBuilderSid());
+				initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()));
 			}
 			initializeProductHierarchy(projectionId, String.valueOf(dataSelectionDTO.getProductHierarchyLevel()));
 		} catch (Exception e) {
@@ -593,8 +591,7 @@ public class DataSelection extends ForecastDataSelection {
 	 * @param projectionId
 	 * @throws java.lang.Exception
 	 */
-	private void initializeCustomerHierarchy(final int projectionId, final String customerLevel,
-			String relationShipBuilderSid) {
+	private void initializeCustomerHierarchy(final int projectionId, final String customerLevel) {
 		LOGGER.debug("Initializing Customer Hierarchy...");
 		List<Leveldto> initialCustomerHierarchy = getInitialHierarchy(projectionId, Boolean.TRUE, customerLevel,
 				session.getCustomerDescription());
@@ -744,7 +741,6 @@ public class DataSelection extends ForecastDataSelection {
 
 	private void initializeFromDto() {
 		try {
-                    DataSelectionLogic logic = new DataSelectionLogic();
 			if (selectionDTO != null) {
 				description.setValue(selectionDTO.getDescription());
 				projectionName.setValue(selectionDTO.getProjectionName());
@@ -4404,10 +4400,7 @@ public class DataSelection extends ForecastDataSelection {
         private void configureDataSelectionDeductionLevel() {
 
 		List<String[]> newDeductionLevelList = CommonLogic.getDataselectionDeductionLevel();
-		Utility.loadDdlbForDeduction(dataSelectionDeductionLevel, newDeductionLevelList);
-
-		dataSelectionDeductionLevel.select(Integer.valueOf(session.getDataSelectionDeductionLevel()));
-
+		Utility.loadDdlbForDeduction(dataSelectionDeductionLevel, newDeductionLevelList,session);
 	}
 
 }

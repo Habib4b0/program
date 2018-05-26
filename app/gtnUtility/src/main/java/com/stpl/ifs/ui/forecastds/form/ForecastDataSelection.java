@@ -134,6 +134,10 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	protected Label customerRelationVersionLabel;
 	@UiField("customerRelationVersion")
 	protected ComboBox customerRelationVersionComboBox;
+        @UiField("customRelationDdlb")
+	protected ComboBox customRelationDdlb;
+        @UiField("customRelationDdlbDeduction")
+	protected ComboBox customRelationDdlbDeduction;
 
 	/**
 	 * The level.
@@ -195,10 +199,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	protected ComboBox productRelation;
 	@UiField("productRelationVersion")
 	protected ComboBox productRelationVersionComboBox;
-	@UiField("customRelationDdlb")
-	protected ComboBox customRelationDdlb;
-	@UiField("customRelationDdlbDeduction")
-	protected ComboBox customRelationDdlbDeduction;
+	
 
 	/**
 	 * The product group.
@@ -1833,6 +1834,5 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
         customRelationDdlb.setInputPrompt(SELECT_ONE);
         customRelationDdlb.select(SELECT_ONE);
         }
-     
 
 	}

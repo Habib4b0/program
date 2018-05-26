@@ -1324,9 +1324,34 @@ WHERE
         JOIN CUSTOM_CCP_DETAILS CVD ON CVD.CUST_VIEW_MASTER_SID=CVM.CUST_VIEW_MASTER_SID 
          WHERE CVM.CUSTOMER_RELATIONSHIP_SID=@CUSTSID AND CVM.PRODUCT_RELATIONSHIP_SID=@PRODSID AND CVD.CUSTOMER_VERSION=@CUSTVER AND CVD.PRODUCT_VERSION=@PRODVER
          AND CUST_VIEW_TYPE='SALES' OR  CUST_VIEW_TYPE='DISCOUNT' ORDER BY CVM.MODIFIED_DATE DESC
-		]]>
+         	]]>
         </query>
     </entity>   
+         
+    
+    <entity id="ViewTableTruncationSales">
+        <query>
+    		<![CDATA[
+                
+  TRUNCATE TABLE ST_CUSTOMER_SALES;
+  TRUNCATE TABLE ST_PRODUCT_SALES;
+  TRUNCATE TABLE ST_CUSTOM_SALES;
+         
+		]]>
+        </query>
+    </entity> 
+    <entity id="ViewTableTruncationDiscount">
+        <query>
+    		<![CDATA[
+                
+  TRUNCATE TABLE ST_CUSTOMER_DISCOUNT;
+  TRUNCATE TABLE ST_PRODUCT_DISCOUNT;
+  TRUNCATE TABLE ST_CUSTOM_DISCOUNT;
+         
+		]]>
+        </query>
+    </entity> 
+    
     
     
      <entity id="projectionMasterInsert">
@@ -1344,5 +1369,4 @@ VALUES ('@PROJECTION_NAME','@PROJECTION_DESCRIPTION','@FORECASTING_TYPE',@CREATE
         </query>
     </entity> 
    
-    
 </sql>

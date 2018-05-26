@@ -2301,7 +2301,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     salesLogic.saveOnMassUpdate(projectionDTO, inputParameters);
                     String startPeriodMassUpdate = salesLogic.getPeriodSid(startPeriodValue, projectionDTO.getFrequency(), "Min");
                     String endPeriodMassUpdate = salesLogic.getPeriodSid(endPeriodValue, projectionDTO.getFrequency(), "Max");
-                    new DataSelectionLogic().callViewInsertProceduresThread(projectionDTO.getSessionDTO(),"Q", Constant.SALES1,startPeriodMassUpdate,endPeriodMassUpdate,updateVariable);
+                    new DataSelectionLogic().callViewInsertProceduresThread(projectionDTO.getSessionDTO(), Constant.SALES1,startPeriodMassUpdate,endPeriodMassUpdate,updateVariable);
                     CommonUtil.getInstance().waitForSeconds();
                     CommonLogic.procedureCompletionCheck(projectionDTO,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
                     isUpdated = true;

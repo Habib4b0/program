@@ -2289,7 +2289,6 @@ public class DataSelectionLogic {
 															// Actual System Id
 			detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY
 			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
-//                        detailsList.add(object[object.length - 1]); //Sales Inclusion
 			resultMap.put(String.valueOf(object[0]), detailsList);
 
 			if (j == tempList.size() - 1) {
@@ -2303,6 +2302,43 @@ public class DataSelectionLogic {
 		}
 		return resultMap;
 	}
+	public Map<String, List> getRelationshipDetailsCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
+		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsCustom");
+		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+
+		Map<String, List> resultMap = new LinkedHashMap<>();
+
+		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
+				"customSalesCP", sessionDTO);
+		tempList.clear();
+		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
+				QueryUtil.replaceTableNames(bean.getCustomFinalQuery(), sessionDTO.getCurrentTableNames()));
+		for (int j = tempList.size() - 1; j >= 0; j--) {
+			Object[] object = (Object[]) tempList.get(j);
+			final List<Object> detailsList = new ArrayList<>();
+			detailsList.add(object[1]); // Level Value
+			detailsList.add(object[NumericConstants.TWO]); // Level No
+			detailsList.add(object[NumericConstants.THREE]); // Level Name
+			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
+		        detailsList.add(object[object.length-1]);											// Actual System Id
+			 // HIERARCHY
+			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
+                        
+			resultMap.put(String.valueOf(object[0]), detailsList);
+
+			if (j == tempList.size() - 1) {
+				if (detailsList.get(detailsList.size() - 1).equals("C")) {
+					sessionDTO.setCustomerLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
+				} else {
+					sessionDTO.setProductLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
+				}
+			}
+
+		}
+		return resultMap;
+	}
+	
 
 	/**
 	 *
@@ -2322,6 +2358,32 @@ public class DataSelectionLogic {
 		tempList.clear();
 		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
 				QueryUtil.replaceTableNames(bean.getDeductionFinalQuery(), sessionDTO.getCurrentTableNames()));
+		for (int j = tempList.size() - 1; j >= 0; j--) {
+			Object[] object = (Object[]) tempList.get(j);
+			final List detailsList = new ArrayList();
+			detailsList.add(object[1]); // Level Value
+			detailsList.add(object[NumericConstants.TWO]); // Level No
+			detailsList.add(object[NumericConstants.THREE]); // Level Name
+			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
+															// Actual System Id
+			detailsList.add("D"); // HIERARCHY INDICATOR
+			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
+			resultMap.put(String.valueOf(object[0]), detailsList);
+		}
+		return resultMap;
+	}
+	public Map<String, List> getRelationshipDetailsDeductionCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
+		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsDeductionCustom");
+		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+		customSql = customSql.replace(RBVERSION, String.valueOf(sessionDTO.getDeductionRelationVersion()));
+		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+
+		Map<String, List> resultMap = new HashMap<>();
+		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
+				"customSalesDed", sessionDTO);
+		tempList.clear();
+		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
+				QueryUtil.replaceTableNames(bean.getCustomFinalQuery(), sessionDTO.getCurrentTableNames()));
 		for (int j = tempList.size() - 1; j >= 0; j--) {
 			Object[] object = (Object[]) tempList.get(j);
 			final List detailsList = new ArrayList();
@@ -2515,11 +2577,10 @@ public class DataSelectionLogic {
 
     }
     
-    public void callViewInsertProcedureForNm(SessionDTO session,String mode,String frequency,String screenName,String view,String startPeriod,String endPeriod) {
-
+    public void callViewInsertProcedureForNm(SessionDTO session,String mode,String screenName,String view,String startPeriod,String endPeriod) {
+        int masterSid = view.equalsIgnoreCase("Sales") ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
         StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
-             LOGGER.debug(frequency);
              LOGGER.debug(startPeriod);
             query.append(Constant.PRC_VIEWS_POPULATION);
 				query.append(' ').append(session.getProjectionId()).append(',');
@@ -2529,15 +2590,15 @@ public class DataSelectionLogic {
                                 .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
                                 .append(",'").append(screenName).append('\'')
                                 .append(",'").append(view).append('\'')
-                                .append(",").append("null").append("")
-                                .append(",").append("null").append("")
-                                .append(",").append("null").append("")
-                                .append(",'").append(session.getCustomRelationShipSid()).append('\'')
-                                .append(",").append("null").append("")
-                                .append(",").append("null").append("")
-                                .append(",").append("null").append("")
                                 .append(',').append("null")
-                                .append(",'").append("Schedule Category")
+                                .append(',').append("null")
+                                .append(',').append("null")
+                                .append(",'").append(String.valueOf(masterSid)).append('\'')
+                                .append(',').append("null")
+                                .append(',').append("null")
+                                .append(',').append("null")
+                                .append(',').append("null")
+                                .append(",'").append(session.getDataSelectionDeductionLevelCaption())
                                 .append('\'');
                                 LOGGER.info("before: {}", query.toString());
 				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
@@ -2547,8 +2608,9 @@ public class DataSelectionLogic {
         }
 
     }
-    public String callViewInsertProcedures(SessionDTO session,String frequency,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
-     LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}", frequency);
+    public String callViewInsertProcedures(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
+     int deductionMasterSid = view.equalsIgnoreCase("Sales") ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
+     LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}");
          StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
             query.append(Constant.PRC_VIEWS_POPULATION);
@@ -2562,12 +2624,12 @@ public class DataSelectionLogic {
                                 .append(",'").append(startPeriod).append('\'')
                                 .append(",'").append(endPeriod).append('\'')
                                 .append(",'").append(massUpdateField).append('\'')
-                                .append(",").append(session.getCustomRelationShipSid()).append("")
-                                .append(",'").append("").append('\'')
-                                .append(",'").append("").append('\'')
-                                .append(",'").append("").append('\'')
+                                .append(",'").append(deductionMasterSid).append('\'')
                                 .append(',').append("null")
-                                .append(",'").append("Schedule Category").append('\'')
+                                .append(',').append("null")
+                                .append(',').append("null")
+                                .append(',').append("null")
+                                .append(",'").append(session.getDataSelectionDeductionLevelCaption()).append('\'')
                                 .append(';');
                                 HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
                                 LOGGER.info("Query callViewInsertProcedures: {}", query.toString());
@@ -2578,8 +2640,7 @@ public class DataSelectionLogic {
 
     }
     
-    public String callViewInsertProceduresString(SessionDTO session,String frequency,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
-        LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}", frequency);
+    public String callViewInsertProceduresString(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
         StringBuilder query = new StringBuilder();
         try {
             query.append(EXEC_WITH_SPACE);
@@ -2611,15 +2672,15 @@ public class DataSelectionLogic {
 
 
 
-    public void callViewInsertProceduresThread(SessionDTO session, String frequency, String screenName, String startPeriod, String endPeriod, String massUpdateField) {
-        LOGGER.info("callViewInsertProceduresThread************************************{}", frequency);
+    public void callViewInsertProceduresThread(SessionDTO session, String screenName, String startPeriod, String endPeriod, String massUpdateField) {
+        LOGGER.info("callViewInsertProceduresThread************************************{}");
 
         service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
-               session, "Q", screenName, "C", startPeriod, endPeriod, massUpdateField));
+               session, screenName, "C", startPeriod, endPeriod, massUpdateField));
         service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
-                session, "Q", screenName, "P", startPeriod, endPeriod, massUpdateField));
+                session,screenName, "P", startPeriod, endPeriod, massUpdateField));
         service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
-                session, "Q", screenName, "P", startPeriod, endPeriod, massUpdateField));
+                session,screenName, "U", startPeriod, endPeriod, massUpdateField));
     }
     public void nmDiscountInsertProcedure(SessionDTO session) {
         ExecutorService discountService = ThreadPool.getInstance().getService();
@@ -2643,11 +2704,12 @@ public class DataSelectionLogic {
     
     public static void nmDiscountActProjInsertProcedure(SessionDTO session) {
         ExecutorService service = ThreadPool.getInstance().getService();
-        CommonUtil.getInstance().isProcedureCompleted("DISCOUNT", "PRC_NM_MASTER_INSERT", session);
+        CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
         if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
-            service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+            session.addFutureMap(Constant.DISCOUNT_PROJECTION_LABEL,
+				new Future[] {service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
                     SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
-                    session.getUserId(), session.getSessionId(), Constant.DISCOUNT3, session));
+                    session.getUserId(), session.getSessionId(), Constant.DISCOUNT3, session))});
         }
     }
         
@@ -2769,7 +2831,7 @@ public class DataSelectionLogic {
 		if (object.length > 5) {
 			List<Object> displayFormat = new ArrayList<>();
 			displayFormat.add(defaultValue);
-			for (int i = 5; i < object.length - 1; i++) {
+			for (int i = 5; i < object.length - 2; i++) {
 				displayFormat.add(object[i]);
 			}
 			detailsList.add(displayFormat);
@@ -2835,34 +2897,43 @@ public class DataSelectionLogic {
         }
     }
     
+     
+      private void nmSalesViewsPopulationProcedure(SessionDTO session) {
+        String query = SQlUtil.getQuery("ViewTableTruncationSales");
+        HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "C", "", "", session));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "P", "", "", session));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
+    }
+
+    public void nmDiscountViewsPopulationProcedure(SessionDTO session) {
+        String query = SQlUtil.getQuery("ViewTableTruncationDiscount");
+        HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "C", "null", "null", session));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "P", "null", "null", session));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "U", "null", "null", session));
+    }
     
-    public Map<String, List> getRelationshipDetailsCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
-		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsCustom");
-		customSql = customSql.replace(RBSID, relationshipBuilderSid);
-		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+    public void loadCustomViewValuesDeduction(ComboBox customRelationDdlb, Map<String, String> dataMap) {
+        if (dataMap.get("custSid") != null && dataMap.get("custVer") != null) {
+            String sqlQuery = QueryUtils.getQuery(Collections.emptyList(),"loadCustomDeductionRelationValues");
+            sqlQuery = sqlQuery.replace("@CUSTSID", dataMap.get("custSid")).replace("@PRODSID", dataMap.get("prodSid"))
+                    .replace("@CUSTVER", dataMap.get("custVer")).replace("@PRODVER", dataMap.get("prodVer"));
+            List<Object[]> queryList = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
 
-		Map<String, List> resultMap = new LinkedHashMap<>();
-
-		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
-				"customSalesCP", sessionDTO);
-		tempList.clear();
-		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
-				QueryUtil.replaceTableNames(bean.getCustomFinalQuery(), sessionDTO.getCurrentTableNames()));
-		for (int j = tempList.size() - 1; j >= 0; j--) {
-			Object[] object = (Object[]) tempList.get(j);
-			final List<Object> detailsList = new ArrayList<>();
-			detailsList.add(object[1]); // Level Value
-			detailsList.add(object[NumericConstants.TWO]); // Level No
-			detailsList.add(object[NumericConstants.THREE]); // Level Name
-			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
-															// Actual System Id
-			detailsList.add("U"); // U inducator for Custom HIERARCHY
-			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
-			resultMap.put(String.valueOf(object[0]), detailsList);
-
-
-		}
-		return resultMap;
-	}
+            for (Object[] objects : queryList) {
+                LOGGER.info(objects[0].toString());
+                customRelationDdlb.addItem(objects[0]);
+                customRelationDdlb.setItemCaption(objects[0], String.valueOf(objects[1]));
+            }
+        }
+    }
+   
     
 }

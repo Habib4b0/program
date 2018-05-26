@@ -1426,33 +1426,31 @@ public class NonMandatedLogic {
 	 * @throws java.lang.Exception
 	 */
 	public List<GroupDTO> getProductGroup(String productName, String productNo, List<String> itemSids)
-			throws SystemException {
-		Map<String, Object> parameters = new HashMap<>();
-		productName = productName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-		productNo = productNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+            throws SystemException {
+        Map<String, Object> parameters = new HashMap<>();
+        productName = productName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        productNo = productNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
 
-		parameters.put(Constant.PRODUCT_NAME, productName);
-		parameters.put(Constant.PRODUCT_NO, productNo);
-		parameters.put("itemSids", itemSids);
-		parameters.put(Constant.INDICATOR, "ProductGroup");
-		return Converters.convertItemGroupList(dataSelection.getProductGroup(parameters));
-	}
+        parameters.put(Constant.PRODUCT_NAME, productName);
+        parameters.put(Constant.PRODUCT_NO, productNo);
+        parameters.put("itemSids", itemSids);
+        parameters.put(Constant.INDICATOR, "ProductGroup");
+        return Converters.convertItemGroupList(dataSelection.getProductGroup(parameters));
+    }
 
-	/**
-	 * Generates Saves a projection.
-	 *
-	 * @param dataSelectionDTO
-	 *            the data selection dto
-	 * @return the projection ID
-	 * @throws SystemException
-	 *             the system exception
-	 * @throws Exception
-	 *             the exception
-	 */
-	public int saveProjection(final DataSelectionDTO dataSelectionDTO, String screenName) throws SystemException {
-		String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
-                int projectionId=0;
-		String customSql = SQlUtil.getQuery("projectionMasterInsert");
+    /**
+     * Generates Saves a projection.
+     *
+     * @param dataSelectionDTO the data selection dto
+     * @return the projection ID
+     * @throws SystemException the system exception
+     * @throws Exception the exception
+     */
+    public int saveProjection(final DataSelectionDTO dataSelectionDTO, String screenName) throws SystemException {
+        int projectionId = 0;
+        SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
+        String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
+        String customSql = SQlUtil.getQuery("projectionMasterInsert");
         customSql = customSql.replace("@PROJECTION_NAME", dataSelectionDTO.getProjectionName());
         customSql = customSql.replace("@PROJECTION_DESCRIPTION", dataSelectionDTO.getDescription());
         customSql = customSql.replace("@FORECASTING_TYPE", screenName);

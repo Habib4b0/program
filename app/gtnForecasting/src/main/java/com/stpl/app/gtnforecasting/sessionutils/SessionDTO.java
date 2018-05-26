@@ -7,7 +7,6 @@ package com.stpl.app.gtnforecasting.sessionutils;
 import com.stpl.app.gtnforecasting.dataassumptions.logic.DataAssumptionsLogic;
 import com.stpl.app.gtnforecasting.dto.ForecastDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.model.CustomViewDetails;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
@@ -75,6 +74,7 @@ public class SessionDTO implements Serializable {
     private Map<String, String> productDescription = new HashMap<>();
     private transient Map<String, List> hierarchyLevelDetails = new LinkedHashMap<>();
     private transient Map<String, List> salesHierarchyLevelDetails = new LinkedHashMap<>();
+    private transient Map<String, List> discountHierarchyLevelDetails = new LinkedHashMap<>();
     private int customerHierarchyId;
     private int productHierarchyId;
     private int customerRelationId;
@@ -120,7 +120,7 @@ public class SessionDTO implements Serializable {
     private List<Leveldto> productHierarchyList;
     private List<Leveldto> customerHierarchyList;
     private Map<Integer, List<Leveldto>> customHierarchyMap = new HashMap<>();
-    private Map<Integer, List<CustomViewDetails>> customDetailMap = new HashMap<>();
+    private Map<Integer, List<Object[]>> customDetailMap = new HashMap<>();
     private String screenName = StringUtils.EMPTY;
     private int customId;
     private Set<String> salesgroupSet;
@@ -176,10 +176,10 @@ public class SessionDTO implements Serializable {
     private int deductionRelationVersion = 0;
     private int customRelationShipSid = 0;
     private int customDeductionRelationShipSid = 0;
-    
     private Date forecastEligibleDate;
     private String functionMode = StringUtils.EMPTY;
     private String dataSelectionDeductionLevel;
+    private String dataSelectionDeductionLevelCaption;
 
     public SessionDTO() {
         super();
@@ -983,11 +983,11 @@ public class SessionDTO implements Serializable {
         this.customId = customId;
     }
 
-    public Map<Integer, List<CustomViewDetails>> getCustomDetailMap() {
+    public Map<Integer, List<Object[]>> getCustomDetailMap() {
         return customDetailMap;
     }
 
-    public void setCustomDetailMap(Map<Integer, List<CustomViewDetails>> customDetailMap) {
+    public void setCustomDetailMap(Map<Integer, List<Object[]>> customDetailMap) {
         this.customDetailMap = customDetailMap;
     }
 
@@ -1473,6 +1473,14 @@ public class SessionDTO implements Serializable {
         this.dataSelectionDeductionLevel = dataSelectionDeductionLevel;
     }
 
+    public String getDataSelectionDeductionLevelCaption() {
+        return dataSelectionDeductionLevelCaption;
+    }
+
+    public void setDataSelectionDeductionLevelCaption(String dataSelectionDeductionLevelCaption) {
+        this.dataSelectionDeductionLevelCaption = dataSelectionDeductionLevelCaption;
+    }
+
     public int getCustomRelationShipSid() {
         return customRelationShipSid;
     }
@@ -1481,6 +1489,23 @@ public class SessionDTO implements Serializable {
         this.customRelationShipSid = customRelationShipSid;
     }
     
+
+    public Map<String, List> getDiscountHierarchyLevelDetails() {
+        return discountHierarchyLevelDetails;
+    }
+
+    public void setDiscountHierarchyLevelDetails(Map<String, List> discountHierarchyLevelDetails) {
+        this.discountHierarchyLevelDetails = discountHierarchyLevelDetails;
+    }
+    
+    
+    public void setDiscountCustomerProductLevelDetails(Map<String, List> custCPDiscLevelDetails) {
+        this.discountHierarchyLevelDetails.putAll(custCPDiscLevelDetails);
+    }
+  
+    public void setDiscountDeductionLevelDetails(Map<String, List> custDedDiscLevelDetails) {
+        this.discountHierarchyLevelDetails.putAll(custDedDiscLevelDetails);
+    }
 
     public Map<String, List> getSalesHierarchyLevelDetails() {
         return salesHierarchyLevelDetails;

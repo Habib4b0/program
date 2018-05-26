@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 
 <sql> 
-    <entity id="Sales_Temp_Main_MASTER">
+   <entity id="Sales_Temp_Main_MASTER">
         <query> 
              <![CDATA[  
 	     INSERT INTO NM_SALES_PROJECTION_MASTER (
@@ -136,7 +136,6 @@ JOIN ST_NM_ACTUAL_SALES SOURCE ON TARGET.CCP_DETAILS_SID = SOURCE.CCP_DETAILS_SI
 		   ]]>
         </query>
     </entity> 
-   
    
     <entity id="PPA_Temp_Main_MASTER">
         <query> 
@@ -462,8 +461,7 @@ JOIN ST_NM_ACTUAL_SALES SOURCE ON TARGET.CCP_DETAILS_SID = SOURCE.CCP_DETAILS_SI
 	   ]]>
         </query>
     </entity> 	
-   
-    <entity id="Discount_Temp_Main_MASTER">
+      <entity id="Discount_Temp_Main_MASTER">
         <query> 
              <![CDATA[ 	
 		INSERT INTO NM_DISCOUNT_PROJ_MASTER (
@@ -602,6 +600,7 @@ UPDATE ST_STATUS_TABLE SET FLAG=CONVERT(INT,ISNULL(FLAG,0))+1 WHERE VIEW_NAME='S
 	  ]]>
         </query>
     </entity> 	  
+    
    
     <entity id="Sales_Main_Temp_Master_Insert">
         <query> 
