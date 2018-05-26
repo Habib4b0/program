@@ -30,7 +30,7 @@ public class GtnWsReportCustomViewController {
 				.build();
 		try {
 			GtnUIFrameworkDataTable dataTable = service.loadHierarchy(gtnWsRequestF);
-			response.getGtnReportResponse().getReportBean().getCustomViewBean().setGridData(dataTable);
+			response.getGtnWsReportResponse().getReportBean().getCustomViewBean().setGridData(dataTable);
 		} catch (GtnFrameworkGeneralException e) {
 
 		}
@@ -63,7 +63,7 @@ public class GtnWsReportCustomViewController {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameWorkReportResponseBuilder().withCustomViewBean()
 				.build();
 		GtnWsReportCustomViewDataBean viewBean = service.loadCustomView(gtnWsRequestF);
-		response.getGtnReportResponse().getReportBean().getCustomViewBean().setCustomViewDataBean(viewBean);
+		response.getGtnWsReportResponse().getReportBean().getCustomViewBean().setCustomViewDataBean(viewBean);
 		return response;
 	}
 

@@ -57,7 +57,7 @@ public class GtnFrameworkUICustomViewHierarchyLoadAction
 					GtnWsReportEndPointUrlConstants.LOAD_HIERARCHY,
 					GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, request,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-			dataTable = response.getGtnReportResponse().getReportBean().getCustomViewBean().getGridData();
+			dataTable = response.getGtnWsReportResponse().getReportBean().getCustomViewBean().getGridData();
 		} else {
 			dataTable = loadDeductionHierarchy();
 		}

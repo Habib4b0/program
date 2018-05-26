@@ -22,7 +22,7 @@ public class GtnUIFrameWorkReportResponseBuilder {
 	}
 
 	public GtnUIFrameworkWebserviceResponse build() {
-		response.setGtnReportResponse(reportResponse);
+		response.setGtnWsReportResponse(reportResponse);
 		return response;
 	}
 

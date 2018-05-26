@@ -44,6 +44,12 @@ public class GtnFrameworkCustomTreeConfirmedSaveAction
 				.setCustomViewName((String) gtnUIFrameWorkActionConfig.getActionParameterList().get(1));
 		request.getGtnWsReportRequest().getReportBean().getCustomViewBean().getCustomViewDataBean()
 				.setCustomTreeData((GtnWsCustomTreeData) gtnUIFrameWorkActionConfig.getActionParameterList().get(2));
+
+		boolean isEdit = (boolean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookupcustomViewSave")
+				.getComponentData().getCustomData();
+
+		request.getGtnWsReportRequest().getReportBean().getCustomViewBean().setEdit(isEdit);
+
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportEndPointUrlConstants.SAVE_CUSTOM_TREE, GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
@@ -55,6 +61,9 @@ public class GtnFrameworkCustomTreeConfirmedSaveAction
 		actionConfig.addActionParameter((String) gtnUIFrameWorkActionConfig.getActionParameterList().get(1));
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
 
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookupcustomViewSave").getComponentData()
+		.setCustomData(true);
+		
 		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
 		String id = sourceComponentId + "_" + "reportingDashboardTab_displaySelectionTabCustomView";
 		GtnUIFrameworkBaseComponent baseComboBoxComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(id);
