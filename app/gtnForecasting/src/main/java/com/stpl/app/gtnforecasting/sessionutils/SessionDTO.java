@@ -74,6 +74,7 @@ public class SessionDTO implements Serializable {
     private Map<String, String> customerDescription = new HashMap<>();
     private Map<String, String> productDescription = new HashMap<>();
     private transient Map<String, List> hierarchyLevelDetails = new LinkedHashMap<>();
+    private transient Map<String, List> salesHierarchyLevelDetails = new LinkedHashMap<>();
     private int customerHierarchyId;
     private int productHierarchyId;
     private int customerRelationId;
@@ -173,6 +174,9 @@ public class SessionDTO implements Serializable {
     private int customerRelationVersion = 0;
     private int productRelationVersion = 0;
     private int deductionRelationVersion = 0;
+    private int customRelationShipSid = 0;
+    private int customDeductionRelationShipSid = 0;
+    
     private Date forecastEligibleDate;
     private String functionMode = StringUtils.EMPTY;
     private String dataSelectionDeductionLevel;
@@ -1468,7 +1472,31 @@ public class SessionDTO implements Serializable {
     public void setDataSelectionDeductionLevel(String dataSelectionDeductionLevel) {
         this.dataSelectionDeductionLevel = dataSelectionDeductionLevel;
     }
+
+    public int getCustomRelationShipSid() {
+        return customRelationShipSid;
+    }
+
+    public void setCustomRelationShipSid(int customRelationShipSid) {
+        this.customRelationShipSid = customRelationShipSid;
+    }
     
+
+    public Map<String, List> getSalesHierarchyLevelDetails() {
+        return salesHierarchyLevelDetails;
+    }
+
+    public void setSalesHierarchyLevelDetails(Map<String, List> salesHierarchyLevelDetails) {
+        this.salesHierarchyLevelDetails = salesHierarchyLevelDetails;
+    }
+
+    public int getCustomDeductionRelationShipSid() {
+        return customDeductionRelationShipSid;
+    }
+
+    public void setCustomDeductionRelationShipSid(int customDeductionRelationShipSid) {
+        this.customDeductionRelationShipSid = customDeductionRelationShipSid;
+    }
 
     
     

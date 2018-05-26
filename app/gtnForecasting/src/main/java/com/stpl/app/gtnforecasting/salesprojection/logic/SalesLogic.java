@@ -524,7 +524,7 @@ public class SalesLogic {
             sql += SQlUtil.getQuery("alternate-join-loaddata");
             sql += SQlUtil.getQuery("alternate-histroy-sales-summary");
         } else if (projSelDTO.isIsCustomHierarchy() && CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName()) && !projSelDTO.isExcel()) {
-            String queryNameforSales = CommonUtil.isValueEligibleForLoading() ? SQlUtil.getQuery("non-mandated-sales-query-new") : "sales-customView";
+            String queryNameforSales = CommonUtil.isValueEligibleForLoading() ? "non-mandated-sales-query-new-custom" : "sales-customView";
             sql += SQlUtil.getQuery(queryNameforSales);
         } else {
             sql += CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName()) ? SQlUtil.getQuery("non-mandated-sales-query-new") : SQlUtil.getQuery("mandated-sales-query");
@@ -556,9 +556,9 @@ public class SalesLogic {
         sql = sql.replace("@PROJECTION_MASTER_SID", String.valueOf(projSelDTO.getProjectionId()));
         if (CommonUtil.isValueEligibleForLoading()) {
             String joinQuery = " JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=SHN.CCP_DETAILS_SID LEFT JOIN ST_ITEM_UOM_DETAILS  UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM.UOM_CODE = '" + projSelDTO.getUomCode() + "'";
+            sql = sql.replace("@SALESINCLUSIONCC", projSelDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? StringUtils.EMPTY : "and CCP.sales_inclusion=" + projSelDTO.getSessionDTO().getSalesInclusion());
             sql = sql.replace("@SALESINCLUSION", isSalesInclusionNotSelected ? StringUtils.EMPTY : " AND STC.SALES_INCLUSION = " + projSelDTO.getSessionDTO().getSalesInclusion());
             sql = sql.replace("@OPPOSITESINC", isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #SELECTED_HIERARCHY_NO WHERE SALES_INCLUSION= " + oppositeSalesInc);
-            sql = sql.replace("@SALESINCLUSION", projSelDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? StringUtils.EMPTY : "and shn.sales_inclusion=" + projSelDTO.getSessionDTO().getSalesInclusion());
             sql = sql.replace("@UOMCODE", projSelDTO.getUomCode().equals("EACH") ? StringUtils.EMPTY : joinQuery);
             sql = sql.replace("@SUMPROJECTEDUNITS", projSelDTO.getUomCode().equals("EACH") ? "SUM(NMSP.PROJECTION_UNITS) AS PROJECTION_UNITS" : "SUM(ISNULL(NMSP.PROJECTION_UNITS,0)*ISNULL(UOM.UOM_VALUE,0)) AS PROJECTION_UNITS");
             sql = sql.replace("@SUMACTUALUNITS", projSelDTO.getUomCode().equals("EACH") ? "Sum(NMSP.ACTUAL_UNITS) AS ACTUAL_UNITS" : "Sum(ISNULL(NMSP.ACTUAL_UNITS,0)*ISNULL(UOM.UOM_VALUE,0)) AS ACTUAL_UNITS");
@@ -567,6 +567,7 @@ public class SalesLogic {
             sql = sql.replace("@CUSTOMJOIN", !Constant.CUSTOM_LABEL.equals(projSelDTO.getViewOption()) ? StringUtils.EMPTY : "JOIN CUSTOM_CCP_SALES CO ON CO.ROWID = STC.HIERARCHY_NO");
             sql = sql.replace("@REFCOLUMN", !Constant.CUSTOM_LABEL.equals(projSelDTO.getViewOption()) ? "STC" : "CO");
             sql = sql.replace("@CUSTOMCONDITION", !Constant.CUSTOM_LABEL.equals(projSelDTO.getViewOption()) ? StringUtils.EMPTY : "AND CO.CUST_VIEW_MASTER_SID = 87 AND LEVEL_NO = 6");
+            sql = sql.replace("@CUSTOMSID", String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid()));
         }
         int freqNo = getFrequencyNumber(projSelDTO.getFrequency());
         sql = sql.replaceAll("@FREQDIVISION", String.valueOf(freqNo));
@@ -710,7 +711,7 @@ public class SalesLogic {
             salesRowDto = new SalesRowDto();
         }
         final SessionDTO sessionDTO = projectionSelectionDTO.getSessionDTO();
-        final Map<String, List> relationshipDetailsMap = sessionDTO.getHierarchyLevelDetails();
+        final Map<String, List> relationshipDetailsMap =  projectionSelectionDTO.isIsCustomHierarchy() ?  sessionDTO.getSalesHierarchyLevelDetails(): sessionDTO.getHierarchyLevelDetails();
         for (int i = 0; i < resulList.size(); i++) {
             Object obj[] = (Object[]) resulList.get(i);
             MSalesProjection.getRowCountMap().put(String.valueOf(obj[NumericConstants.TEN]), obj[NumericConstants.ELEVEN] != null ? DataTypeConverter.convertObjectToInt(obj[NumericConstants.ELEVEN]) : null);
@@ -1672,8 +1673,7 @@ public class SalesLogic {
         } else {
             CommonLogic commonLogic = new CommonLogic();
             String hierarchy = salesDTO.getHierarchyNo().contains(",") ? salesDTO.getHierarchyNo().split(",")[0] : salesDTO.getHierarchyNo();
-            String hierarchyInserQuery = SQlUtil.getQuery("selected-hierarchy-no-update");
-            
+            String hierarchyInserQuery = projectionSelectionDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-update-Sales_custom") : SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES,"('" + hierarchy.trim() + "')");
 
             String hiearchyIndicator = salesDTO.getHierarchyIndicator();
@@ -2037,7 +2037,7 @@ public class SalesLogic {
             String startPeriod = "";
             if (frequencyDivision != 1) {
             key = (keyarr[0])+(keyarr[1])+"~"+salesDTO.getHierarchyNo();
-            startPeriod = CommonLogic.getPeriodSID(projectionSelectionDTO.getFrequency(), (keyarr[0])+(keyarr[1]), true);
+            startPeriod = CommonLogic.getPeriodSID(projectionSelectionDTO.getFrequency(), (keyarr[0])+" "+(keyarr[1]), true);
             }else{
             key = (keyarr[0])+"~"+salesDTO.getHierarchyNo();
             startPeriod = CommonLogic.getPeriodSID(projectionSelectionDTO.getFrequency(), (keyarr[0]), true);
@@ -2119,7 +2119,7 @@ public class SalesLogic {
             }
 
             CommonLogic commonLogic = new CommonLogic();
-            String hierarchyInserQuery = SQlUtil.getQuery("selected-hierarchy-no-update");
+            String hierarchyInserQuery = projectionSelectionDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-update-Sales_custom") :SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + salesDTO.getHierarchyNo() + "')");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_CUSTOMERPARENT, salesDTO.getSecHierarchyNo());
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_PRODUCTPARENT, salesDTO.getHierarchyNo());
@@ -2160,9 +2160,10 @@ public class SalesLogic {
             }else{
                 updatedField = column;
             }
-            
-            finalQuery +=new DataSelectionLogic().callViewInsertProcedures(session,"Q", Constant.SALES1,"C",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,updatedField);
-            finalQuery +=new DataSelectionLogic().callViewInsertProcedures(session,"Q", Constant.SALES1,"P",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,updatedField);
+            projectionSelectionDTO.getSessionDTO().setFunctionMode("R");
+            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(),"Q", Constant.SALES1,"C",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,updatedField);
+            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(),"Q", Constant.SALES1,"P",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,updatedField);
+            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(),"Q", Constant.SALES1,"U",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,updatedField);
             projectionSelectionDTO.getUpdateQueryMap().put(key+","+changedValue,QueryUtil.replaceTableNames(finalQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
             if (column.equals(PROJECTED_SALES) || column.equals(Constant.PROJECTED_UNITS1)) {
                 checkMultiVariables(key.trim(), column, projectionSelectionDTO);
@@ -2379,9 +2380,11 @@ public class SalesLogic {
             hierarchyNumber.append("('").append(hierarchy).append("')").append(',');
         }
         hierarchyNumber.replace(hierarchyNumber.lastIndexOf(","), hierarchyNumber.length(), "");
-        String sqlUnitsQuery = com.stpl.app.utils.QueryUtils.getQuery(input, "mass-update-sales-units");
+        
+        String sqlUnitsQuery = projectionSelectionDTO.isIsCustomHierarchy() ? com.stpl.app.utils.QueryUtils.getQuery(input, "mass-update-sales-units-Custom") : com.stpl.app.utils.QueryUtils.getQuery(input, "mass-update-sales-units");
 
         sqlUnitsQuery = sqlUnitsQuery.replace("@HIERARCHY_NO_VALUES", hierarchyNumber);
+        sqlUnitsQuery = sqlUnitsQuery.replace("@CUSTSID", String.valueOf(projectionSelectionDTO.getSessionDTO().getCustomRelationShipSid()));
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(sqlUnitsQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
     }
 

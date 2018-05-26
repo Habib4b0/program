@@ -195,8 +195,8 @@
 
                             <OptionGroup id="view" enabled="true" immediate="true" />
                             <ComboBox id="viewDdlb" enabled="true" immediate="true" styleName="comboxsize" nullSelectionAllowed = "true" />
-                            <Button id="newBtn" caption="NEW" />
-                            <Button id="editBtn" caption="EDIT" />
+                            <Button id="newBtn" caption="NEW" enabled="false"/>
+                            <Button id="editBtn" caption="EDIT" enabled="false"/>
                            </GridLayout>
                         </GridLayout>
                     </VerticalLayout>

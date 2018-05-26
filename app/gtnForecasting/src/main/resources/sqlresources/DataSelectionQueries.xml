@@ -178,6 +178,28 @@ WHEN NOT MATCHED BY SOURCE AND PROJECTION_MASTER_SID = @PROJECTION_SID THEN
             ]]>
 		</query>
 	</entity>
+	<entity id="getRelationshipLevelValuesCustomSales">
+		<query> 
+            <![CDATA[ 
+                SELECT DISTINCT
+                    RLD.HIERARCHY_NO,
+                    TEMP.?FIELD VALUE,
+                    CM.LEVEL_NAME,
+                    CM.LEVEL_NO,
+                    RLD.RELATIONSHIP_LEVEL_VALES
+                     ?DISPLAYFORMATCOLUMN
+               FROM
+                    CUSTOM_CCP_SALES RLD
+                JOIN ST_CCP_HIERARCHY CH ON CH.CCP_DETAILS_SID=RLD.CCP_DETAILS_SID AND RLD.CUST_VIEW_MASTER_SID=@CUSTSID
+                           JOIN CUST_VIEW_DETAILS CM ON CM.CUSTOM_VIEW_MASTER_SID=RLD.CUST_VIEW_MASTER_SID
+                          
+                JOIN ?TABLE  TEMP ON
+                                TEMP.?IDCOL = RLD.RELATIONSHIP_LEVEL_VALES
+                                AND CM.LEVEL_NO = ?LNO
+                                
+            ]]>
+		</query>
+	</entity>
 
 
 
