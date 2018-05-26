@@ -277,7 +277,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		componentList.add(businessUnitLayoutConfig);
 
 		GtnUIFrameworkComponentConfig businessUnit = new GtnUIFrameworkComponentConfig();
-		businessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		businessUnit.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		businessUnit.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.BUSINESS_UNIT);
 		businessUnit.setComponentName("Business Unit");

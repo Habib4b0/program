@@ -32,13 +32,12 @@ public class GtnReportDataSelectionResetAction
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(1).toString())
 				.loadV8ComboBoxComponentValue(0);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(2).toString()).loadComboBoxComponentValue(0);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(2).toString()).loadV8ComboBoxComponentValue(0);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
 				.loadV8ComboBoxComponentValue(0);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(6).toString()).setV8PopupFieldValue("");
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(7).toString()).loadComboBoxComponentValue(0);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(8).toString()).loadComboBoxComponentValue(0);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(9).toString()).loadComboBoxComponentValue(0);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(7).toString()).loadV8ComboBoxComponentValue(0);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(8).toString()).loadV8ComboBoxComponentValue(0);
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(11).toString()).getComponentData();
 		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) componentData.getCustomData();
@@ -56,11 +55,9 @@ public class GtnReportDataSelectionResetAction
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(12).toString()).setV8PopupFieldValue("");
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(13).toString())
-				.loadComboBoxComponentValue(0);
+				.loadV8ComboBoxComponentValue(0);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(14).toString())
-				.loadComboBoxComponentValue(0);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(15).toString())
-				.loadComboBoxComponentValue(0);
+				.loadV8ComboBoxComponentValue(0);
 
 		GtnUIFrameworkComponentData productComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(16).toString()).getComponentData();
