@@ -90,7 +90,17 @@ public class GtnUIFrameworkWebserviceResponse {
 
     private GtnFrameworkAutomaticRelationshipResponse automaticRelationResponse;
     private GtnWsReportResponse gtnWsReportResponse;
-    private GtnUIFrameworkWebserviceDateResponse gtnUIFrameworkWebserviceDateResponse = null; 
+    private GtnWsReportResponse gtnReportResponse;
+
+    public GtnWsReportResponse getGtnReportResponse() {
+		return gtnReportResponse;
+	}
+
+	public void setGtnReportResponse(GtnWsReportResponse gtnReportResponse) {
+		this.gtnReportResponse = gtnReportResponse;
+	}
+
+	private GtnUIFrameworkWebserviceDateResponse gtnUIFrameworkWebserviceDateResponse = null; 
     
     public GtnUIFrameworkWebserviceDateResponse getGtnUIFrameworkWebserviceDateResponse() {
 		return gtnUIFrameworkWebserviceDateResponse;
