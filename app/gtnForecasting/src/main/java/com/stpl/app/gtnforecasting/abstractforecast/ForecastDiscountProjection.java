@@ -513,7 +513,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         frequencyDdlb.addItem(QUARTERLY.getConstant());
         frequencyDdlb.addItem(SEMI_ANNUALLY.getConstant());
         frequencyDdlb.addItem(ANNUALLY.getConstant());
-        frequencyDdlb.select(session.getFrequency());
+        frequencyDdlb.setValue(session.getDsFrequency());
         frequencyDdlb.focus();
 
         loadFrequency(QUARTERLY.getConstant());

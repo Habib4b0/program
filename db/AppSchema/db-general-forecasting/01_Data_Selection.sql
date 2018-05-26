@@ -372,7 +372,28 @@ BEGIN
        ALTER TABLE PROJECTION_MASTER ADD FORECAST_ELIGIBLE_DATE DATETIME
 END
 GO
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'CUSTOM_VIEW_MASTER_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE PROJECTION_MASTER
+        ADD  CUSTOM_VIEW_MASTER_SID INT 
+  END
 
+GO
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'CUSTOM_VIEW_MASTER_DEDUCTION_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE PROJECTION_MASTER
+        ADD  CUSTOM_VIEW_MASTER_DEDUCTION_SID INT 
+  END
+
+GO
 -------------------------------------------------------------- PROJECTION_DETAILS ------------------------------------------------------------
 IF NOT EXISTS (SELECT 'X'
                FROM   SYS.TABLES
