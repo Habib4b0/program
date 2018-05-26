@@ -18,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.ifp.constants.GtnFrameworkIfpClassContants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkRegexStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
@@ -67,7 +68,16 @@ public class GtnFrameworkIfpInformationTabConfig {
 		ifpInformationTabIFPIdConfig.setAuthorizationIncluded(true);
 		ifpInformationTabIFPIdConfig.setComponentName("IFP ID");
 		ifpInformationTabIFPIdConfig.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
-		setDefaultTextBoxConfig(50, new GtnUIFrameworkTextBoxConfig(), ifpInformationTabIFPIdConfig, componentList);
+                GtnUIFrameworkTextBoxConfig companyIdMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
+		ifpInformationTabIFPIdConfig.setGtnTextBoxConfig(companyIdMaxLengthConfig);
+		 GtnUIFrameworkValidationConfig companyIdValidationConfig = configProvider.getValidationConfig(
+				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY), true,
+				"IFP ID Should be less than 50 Characters",
+				GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_50_CHARACTER);
+                ifpInformationTabIFPIdConfig.setGtnUIFrameworkValidationConfig(companyIdValidationConfig);
+                
+
+		componentList.add(ifpInformationTabIFPIdConfig);
 	}
 
 	private void addInfoIFPNo(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -81,19 +91,16 @@ public class GtnFrameworkIfpInformationTabConfig {
 		ifpInfoNoConfig.setAuthorizationIncluded(true);
 		ifpInfoNoConfig.setComponentName("IFP NO");
 		ifpInfoNoConfig.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
-		setDefaultTextBoxConfig(50, new GtnUIFrameworkTextBoxConfig(), ifpInfoNoConfig, componentList);
-	}
-
-	private void setDefaultTextBoxConfig(int maxLength, GtnUIFrameworkTextBoxConfig gtnMaxLengthTextBoxConfig,
-			GtnUIFrameworkComponentConfig ifpInfoNoConfig, List<GtnUIFrameworkComponentConfig> componentList) {
-		gtnMaxLengthTextBoxConfig.setMaximumLength(maxLength);
-		ifpInfoNoConfig.setGtnTextBoxConfig(gtnMaxLengthTextBoxConfig);
-		GtnUIFrameworkValidationConfig valicationConfig = new GtnUIFrameworkValidationConfig();
-		valicationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		ifpInfoNoConfig.setGtnUIFrameworkValidationConfig(valicationConfig);
+		GtnUIFrameworkTextBoxConfig ifpNoMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
+		ifpInfoNoConfig.setGtnTextBoxConfig(ifpNoMaxLengthConfig);
+		 GtnUIFrameworkValidationConfig companyIdValidationConfig = configProvider.getValidationConfig(
+				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY), true,
+				"IFP NO Should be less than 50 Characters",
+				GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_50_CHARACTER);
+                ifpInfoNoConfig.setGtnUIFrameworkValidationConfig(companyIdValidationConfig);
+                
 
 		componentList.add(ifpInfoNoConfig);
-
 	}
 
 	private void addInfoIFPName(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -109,14 +116,13 @@ public class GtnFrameworkIfpInformationTabConfig {
 		ifpInfoNameConfig.setComponentName("IFP Name");
 		ifpInfoNameConfig.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
 
-		GtnUIFrameworkTextBoxConfig gtnMaxLengthTextBoxConfig = new GtnUIFrameworkTextBoxConfig();
-		gtnMaxLengthTextBoxConfig.setMaximumLength(100);
-		ifpInfoNameConfig.setGtnTextBoxConfig(gtnMaxLengthTextBoxConfig);
-
-		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
-		gtnUIFrameworkValidationConfig
-				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		ifpInfoNameConfig.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
+		GtnUIFrameworkTextBoxConfig ifpNoMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
+		ifpInfoNameConfig.setGtnTextBoxConfig(ifpNoMaxLengthConfig);
+		 GtnUIFrameworkValidationConfig companyIdValidationConfig = configProvider.getValidationConfig(
+				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY), true,
+				"IFP Name Should be less than 100 Characters",
+				GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_100_CHARACTER);
+                ifpInfoNameConfig.setGtnUIFrameworkValidationConfig(companyIdValidationConfig);
 		componentList.add(ifpInfoNameConfig);
 	}
 
