@@ -1109,5 +1109,4 @@ public class DataSelectionDTO implements Serializable {
     public void setCustomDeductionRelationShipSid(int customDeductionRelationShipSid) {
         this.customDeductionRelationShipSid = customDeductionRelationShipSid;
     }
-
 }
