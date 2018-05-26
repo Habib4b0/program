@@ -16,8 +16,8 @@
 		<property name="itemId" type="string">
 			<column name="ITEM_ID" length="50" not-null="true" />
 		</property>
-		<property name="avgShelfLife" type="double">
-			<column name="AVG_SHELF_LIFE" not-null="true" precision="22" scale="6" />
+		<property name="avgShelfLife" type="string">
+			<column name="AVG_SHELF_LIFE" not-null="true" />
 		</property>
 		<property name="inboundStatus" type="java.lang.Character">
 			<column name="INBOUND_STATUS" length="1" />

@@ -177,6 +177,7 @@ public class DataSelectionDTO implements Serializable {
 	private String customerGrpSid = StringUtils.EMPTY;
 
 	private String prodGrpSid = StringUtils.EMPTY;
+        private String frequency = StringUtils.EMPTY;
 	/**
 	 * product hierarchy level number
 	 */
@@ -1082,4 +1083,12 @@ public class DataSelectionDTO implements Serializable {
        public void setDeductionRelationShipVersionNo(int deductionRelationShipVersionNo) {
         this.deductionRelationShipVersionNo = deductionRelationShipVersionNo;
        }
+
+        public String getFrequency() {
+        return frequency;
+        }
+
+        public void setFrequency(String frequency) {
+        this.frequency = frequency;
+        }
 }

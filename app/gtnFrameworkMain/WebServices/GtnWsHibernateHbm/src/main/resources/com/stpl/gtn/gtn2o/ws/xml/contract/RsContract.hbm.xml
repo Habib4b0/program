@@ -65,6 +65,10 @@
 			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
 			<column name="RS_CATEGORY" />
 		</many-to-one>
+                <many-to-one name="helperTableByPaymentLevel"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PAYMENT_LEVEL" />
+		</many-to-one>
 		<many-to-one name="helperTableByInterestBearingIndicator"
 			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
 			<column name="INTEREST_BEARING_INDICATOR" />

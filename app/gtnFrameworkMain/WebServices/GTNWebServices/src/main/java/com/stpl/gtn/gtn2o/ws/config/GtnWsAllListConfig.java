@@ -99,6 +99,7 @@ import com.stpl.gtn.gtn2o.ws.module.compliancedeductionrule.config.GtnWebService
 import com.stpl.gtn.gtn2o.ws.module.compliancedeductionrule.config.GtnWebServiceFormulaConfig;
 import com.stpl.gtn.gtn2o.ws.module.compliancedeductionrule.config.GtnWebServicePopUpConfig;
 import com.stpl.gtn.gtn2o.ws.module.contractheader.config.GtnWsContractHeaderConfig;
+import com.stpl.gtn.gtn2o.ws.module.customview.config.GtnWebServiceCustomSearchConfig;
 import com.stpl.gtn.gtn2o.ws.module.deductioncalendar.config.GtnWebServiceDeductionCalendarConfig;
 import com.stpl.gtn.gtn2o.ws.module.itemaster.config.GtnWsItemMasterConfig;
 import com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.config.GtnWebServiceItemFamilyPlanConfig;
@@ -262,7 +263,7 @@ public class GtnWsAllListConfig {
 	}
 
 	private void loadcomboBoxTypeMap() {
-
+            
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.ACCRUAL_MASTER_SALES_MASTER_ID,
 				"select distinct sales_master_id as code ,sales_master_id as description from ACCRUAL_MASTER order by sales_master_id Asc");
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.ACCRUAL_MASTER_CATEGORY_ID,
@@ -282,12 +283,12 @@ public class GtnWsAllListConfig {
 				"select distinct rld.level_no,'Level '+rld.level_no+' - '+rld.level_name from relationship_level_definition rld, relationship_builder rb, hierarchy_level_definition hld where rld.relationship_builder_sid in (select rbt.relationship_builder_sid from relationship_builder rbt where rbt.hierarchy_definition_sid = ?) and rld.hierarchy_level_definition_sid = hld.hierarchy_level_definition_sid order by rld.level_no asc");
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.PRODUCT_INNER_LEVEL,
 				"select distinct rld.level_no,'Level '+rld.level_no+' - '+rld.level_name from relationship_level_definition rld, relationship_builder rb, hierarchy_level_definition hld where rld.relationship_builder_sid in (select rbt.relationship_builder_sid from relationship_builder rbt where rbt.hierarchy_definition_sid = ?) and rld.level_no <=? and rld.hierarchy_level_definition_sid = hld.hierarchy_level_definition_sid order by rld.level_no asc");
-		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION,
-				"select version_no,hierarchy_version from Relationship_builder where relationship_builder_sid = ? order by version_no desc");
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.TIME_PERIOD_FROM_DATE,
 				GtnFrameworkForecastConstantCommon.LOAD_QUERY_FROM_XML);
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.TIME_PERIOD_TO_DATE,
 				GtnFrameworkForecastConstantCommon.LOAD_QUERY_FROM_XML);
+		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION,
+				"select version_no,hierarchy_version from Relationship_builder where relationship_builder_sid = ? order by version_no desc");
 		comboBoxQueryMap.put("ItemPricingQualifier",
 				"SELECT ITEM_PRICING_QUALIFIER_SID,ITEM_PRICING_QUALIFIER_NAME FROM ITEM_PRICING_QUALIFIER WHERE ITEM_PRICING_QUALIFIER_NAME IS NOT NULL AND ITEM_PRICING_QUALIFIER_NAME <> ''");
 		comboBoxQueryMap.put("Brands",
@@ -333,7 +334,7 @@ public class GtnWsAllListConfig {
 
 		comboBoxQueryMap.put("BUSINESS_PROCESS",
 				"SELECT -1 AS ARM_ADJUSTMENT_CONFIG_SID ,'Adjustment Summary' AS TRANSACTION_NAME UNION ALL SELECT HT.HELPER_TABLE_SID * -1 AS ARM_ADJUSTMENT_CONFIG_SID, CONCAT('Balance Summary Report - ',REPLACE(HT.DESCRIPTION,'Balance Summary','')) AS TRANSACTION_NAME FROM HELPER_TABLE HT where HT.LIST_NAME = 'ARM_REPORT_TYPE' UNION ALL SELECT AC.ARM_ADJUSTMENT_CONFIG_SID,AC.TRANSACTION_NAME FROM ARM_ADJUSTMENT_CONFIG AC");
-
+                
 		comboBoxQueryMap.put("company",
 				"select COMPANY_MASTER_SID,COMPANY_NO+' - '+COMPANY_NAME as company "
 						+ "from COMPANY_MASTER CM JOIN  HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CM.COMPANY_TYPE "
@@ -384,6 +385,14 @@ public class GtnWsAllListConfig {
 				"SELECT DISTINCT IM.ITEM_MASTER_SID,IM.ITEM_ID FROM ITEM_MASTER IM join HELPER_TABLE HT ON IM.ITEM_TYPE=HT.HELPER_TABLE_SID WHERE LIST_NAME ='ITEM_TYPE' AND DESCRIPTION='NDC-9'");
 		comboBoxQueryMap.put("Ndc8Items",
 				"SELECT DISTINCT IM.ITEM_MASTER_SID,IM.NDC8 FROM ITEM_MASTER IM WHERE INBOUND_STATUS <> 'D'");
+		comboBoxQueryMap.put("customerRelation",
+				"select RB.RELATIONSHIP_BUILDER_SID, RB.RELATIONSHIP_NAME from RELATIONSHIP_BUILDER RB \n" +
+                                "join HIERARCHY_DEFINITION HD on HD.HIERARCHY_DEFINITION_SID =  RB.HIERARCHY_DEFINITION_SID\n" +
+                                "join HELPER_TABLE HT on HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY where HT.LIST_NAME = 'Hierarchy_Category' and HT.DESCRIPTION = 'Customer Hierarchy';");
+		comboBoxQueryMap.put("productRelation",
+				"select RB.RELATIONSHIP_BUILDER_SID, RB.RELATIONSHIP_NAME from RELATIONSHIP_BUILDER RB \n" +
+                                "join HIERARCHY_DEFINITION HD on HD.HIERARCHY_DEFINITION_SID =  RB.HIERARCHY_DEFINITION_SID\n" +
+                                "join HELPER_TABLE HT on HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY where HT.LIST_NAME = 'Hierarchy_Category' and HT.DESCRIPTION = 'Product Hierarchy';");
 	}
 
 	public void loadGLCompany() {
@@ -410,6 +419,7 @@ public class GtnWsAllListConfig {
 				nonHelperComboBoxResponseMap.get(currentRow[0].toString()).addItemCodeList(itemCode);
 				nonHelperComboBoxResponseMap.get(currentRow[0].toString()).addItemValueList(itemValue);
 
+
 			}
 		} catch (GtnFrameworkGeneralException e) {
 			logger.error("Exception in loadGLCompany()----" + e.getMessage());
@@ -432,10 +442,9 @@ public class GtnWsAllListConfig {
 
 			connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
 					.getService(ConnectionProvider.class).getConnection();
-			sqlQuery.append(
-					"select userId,ISNULL(firstName, '') +' '+ISNULL(middleName, '')+' '+ISNULL(lastName, '') from ");
-			sqlQuery.append(connection.getCatalog());
-			sqlQuery.append(".dbo.User_");
+			sqlQuery.append("select userId,ISNULL(firstName, '') +' '+ISNULL(middleName, '')+' '+ISNULL(lastName, '') from ");
+					sqlQuery.append(connection.getCatalog()); 
+                                        sqlQuery.append(".dbo.User_");
 			List<Object[]> resultList = null;
 
 			resultList = gtnSqlQueryEngine.executeSelectQuery(sqlQuery.toString(), session);
@@ -562,6 +571,8 @@ public class GtnWsAllListConfig {
 				new GtnWebServiceAttachmentWorkflowSearchConfig());
 		dynamicClassObjectMap.put(GtnWsSearchQueryConfigLoaderType.UDC_CONFIGURATION.getClassName(),
 				new GtnWsUdcConfig());
+		dynamicClassObjectMap.put(GtnWsSearchQueryConfigLoaderType.CUSTOM_SEARCH_CONFIG.getClassName(),
+				new GtnWebServiceCustomSearchConfig());
 
 	}
 
@@ -648,4 +659,5 @@ public class GtnWsAllListConfig {
 		transactionDynamicClassObjectMap.put(StCffOutboundMaster.class.getName(), StCffOutboundMaster.class);
 
 	}
+
 }

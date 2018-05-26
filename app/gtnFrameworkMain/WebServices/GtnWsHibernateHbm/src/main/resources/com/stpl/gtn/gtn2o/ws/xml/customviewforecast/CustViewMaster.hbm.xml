@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 16, 2018 7:59:00 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class  name="com.stpl.gtn.gtn2o.ws.entity.customviewforecast.CustViewMaster" optimistic-lock="version" schema="dbo" table="CUST_VIEW_MASTER">
+    <id name="custViewMasterSid" type="int">
+      <column name="CUST_VIEW_MASTER_SID"/>
+      <generator class="native"/>
+    </id>
+    <property name="custViewName" type="string">
+      <column length="100" name="CUST_VIEW_NAME"/>
+    </property>
+    <property name="custViewDescription" type="string">
+      <column length="100" name="CUST_VIEW_DESCRIPTION"/>
+    </property>
+    <property name="custViewType" type="string">
+      <column length="100" name="CUST_VIEW_TYPE"/>
+    </property>
+    <property name="customerRelationshipSid" type="java.lang.Integer">
+      <column name="CUSTOMER_RELATIONSHIP_SID"/>
+    </property>
+    <property name="productRelationshipSid" type="int">
+      <column name="PRODUCT_RELATIONSHIP_SID" not-null="true"/>
+    </property>
+    <property name="createdBy" type="java.lang.Integer">
+      <column name="CREATED_BY"/>
+    </property>
+    <property name="createdDate" type="timestamp">
+      <column length="23" name="CREATED_DATE"/>
+    </property>
+    <property name="modifiedBy" type="java.lang.Integer">
+      <column name="MODIFIED_BY"/>
+    </property>
+    <property name="modifiedDate" type="timestamp">
+      <column length="23" name="MODIFIED_DATE"/>
+    </property>
+    <property name="screenName" type="string">
+      <column length="100" name="SCREEN_NAME"/>
+    </property>
+  </class>
+</hibernate-mapping>
