@@ -724,6 +724,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         @Override
         public void blur(FieldEvents.BlurEvent event) {
             Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
+            session.setFunctionMode("R");
             if ("left".equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))) {
                 blurValue = String
                         .valueOf(tableLogic.getContainerDataSource().getContainerProperty(obj[0], obj[1]).getValue())
@@ -1152,7 +1153,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             Object[] orderedArg = {session.getProjectionId(), session.getUserId(),
                                 session.getSessionId()};
                             CommonLogic.callProcedure("PRC_NM_DISCOUNT_REFRESH", orderedArg);
-                            new DataSelectionLogic().callViewInsertProceduresThread(session, "Q", Constant.DISCOUNT3, "", "", "");
+                            new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3, "", "", "");
                             try {
                                 TimeUnit.SECONDS.sleep(3);
                             } catch (InterruptedException ex) {
@@ -1922,36 +1923,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      */
     public void loadCustomDDLB() {
         LOGGER.debug("loadCustomDDLB initiated ");
-        viewDdlb.setEnabled(true);
-        newBtn.setEnabled(true);
-        if (session.getCustomerViewList().isEmpty()) {
-            customViewList = CommonLogic.getCustomViewList(session.getProjectionId());
-            session.setCustomerViewList(customViewList);
-        } else {
-            customViewList = session.getCustomerViewList();
-        }
-        if (customViewList != null) {
-            viewDdlb.removeAllItems();
-            viewDdlb.addItem(SELECT_ONE);
-            viewDdlb.setNullSelectionItemId(SELECT_ONE);
-            Object select = null;
-            for (CustomViewMaster obj : customViewList) {
-                int customSid = obj.getCustomViewMasterSid();
-                Object itemId = customSid;
-                if (customIdToSelect == customSid) {
-                    select = itemId;
-                }
-                viewDdlb.addItem(itemId);
-                viewDdlb.setItemCaption(itemId, obj.getViewName());
-            }
-            if (select != null) {
-                levelDdlb.setEnabled(true);
-                viewDdlb.select(customIdToSelect);
-            } else {
-                levelDdlb.setEnabled(false);
-                viewDdlb.setValue(SELECT_ONE);
-            }
-        }
+        Map<String,String> dataMap=new HashMap<>();
+        dataMap.put("custSid", session.getCustRelationshipBuilderSid());
+        dataMap.put("custVer", String.valueOf(session.getCustomerRelationVersion()));
+        dataMap.put("prodSid", session.getProdRelationshipBuilderSid());
+        dataMap.put("prodVer", String.valueOf(session.getProductRelationVersion()));
+        new DataSelectionLogic().loadCustomViewValuesDeduction(viewDdlb, dataMap);
+        viewDdlb.setValue(session.getCustomRelationShipSid());
+   
         LOGGER.debug("loadCustomDDLB ends ");
     }
 
@@ -2416,7 +2395,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                             String.valueOf(level.getValue()));
                                                 }
                                                 logic.callDPProcedure(session, projectionSelection);
-                                                new DataSelectionLogic().callViewInsertProceduresThread(session,"Q", Constant.DISCOUNT3,"","","");
+                                                new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,"","","");
                                                 CommonLogic.procedureCompletionCheck(projectionSelection, DISCOUNT, String.valueOf(projectionSelection.getViewOption()));
                                                 refreshTableData(getCheckedRecordsHierarchyNo());
                                                 final Notification notif = new Notification(
@@ -4368,9 +4347,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         if (!session.getCustomDetailMap().containsKey(customId)) {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
-        }
-        if (CommonUtil.isValueEligibleForLoading()) {
-            session.setDeductionLevelDetails(dsLogic.getRelationshipDetailsDeduction(session, session.getDedRelationshipBuilderSid(), true));
         }
         currentHierarchy = session.getCustomHierarchyMap().get(customId);
         LOGGER.debug(" customId= {} ", customId);

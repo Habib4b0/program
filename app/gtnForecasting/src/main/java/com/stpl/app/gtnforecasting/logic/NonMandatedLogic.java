@@ -1424,106 +1424,112 @@ public class NonMandatedLogic {
 	 * @throws java.lang.Exception
 	 */
 	public List<GroupDTO> getProductGroup(String productName, String productNo, List<String> itemSids)
-			throws SystemException {
-		Map<String, Object> parameters = new HashMap<>();
-		productName = productName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
-		productNo = productNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+            throws SystemException {
+        Map<String, Object> parameters = new HashMap<>();
+        productName = productName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+        productNo = productNo.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
 
-		parameters.put(Constant.PRODUCT_NAME, productName);
-		parameters.put(Constant.PRODUCT_NO, productNo);
-		parameters.put("itemSids", itemSids);
-		parameters.put(Constant.INDICATOR, "ProductGroup");
-		return Converters.convertItemGroupList(dataSelection.getProductGroup(parameters));
-	}
+        parameters.put(Constant.PRODUCT_NAME, productName);
+        parameters.put(Constant.PRODUCT_NO, productNo);
+        parameters.put("itemSids", itemSids);
+        parameters.put(Constant.INDICATOR, "ProductGroup");
+        return Converters.convertItemGroupList(dataSelection.getProductGroup(parameters));
+    }
 
-	/**
-	 * Generates Saves a projection.
-	 *
-	 * @param dataSelectionDTO
-	 *            the data selection dto
-	 * @return the projection ID
-	 * @throws SystemException
-	 *             the system exception
-	 * @throws Exception
-	 *             the exception
-	 */
-	public int saveProjection(final DataSelectionDTO dataSelectionDTO, String screenName) throws SystemException {
-		String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
-		ProjectionMaster projectionMaster = ProjectionMasterLocalServiceUtil.createProjectionMaster(0);
-		projectionMaster.setProjectionName(dataSelectionDTO.getProjectionName());
-		projectionMaster.setProjectionDescription(dataSelectionDTO.getDescription());
-		projectionMaster.setForecastingType(screenName);
-		projectionMaster.setCreatedBy(UiUtils.parseStringToInteger(userId));
-		projectionMaster.setCreatedDate(new Date());
-		projectionMaster.setBrandType(true);
-		projectionMaster.setCustomerHierarchySid(dataSelectionDTO.getCustomerHierSid().equals(DASH) ? null
-				: String.valueOf(dataSelectionDTO.getCustomerHierSid()));
-		projectionMaster.setProductHierarchySid(dataSelectionDTO.getProdHierSid().equals(DASH) ? null
-				: String.valueOf(dataSelectionDTO.getProdHierSid()));
-		projectionMaster.setCustomerHierarchyLevel(Integer.parseInt(dataSelectionDTO.getCustomerHierarchyLevel()));
-		projectionMaster.setProductHierarchyLevel(Integer.parseInt(dataSelectionDTO.getProductHierarchyLevel()));
-		projectionMaster
-				.setCustomerHierarchyInnerLevel(Integer.parseInt(dataSelectionDTO.getCustomerHierarchyInnerLevel()));
-		projectionMaster
-				.setProductHierarchyInnerLevel(Integer.parseInt(dataSelectionDTO.getProductHierarchyInnerLevel()));
-		projectionMaster.setCustomerHierVersionNo(dataSelectionDTO.getCustomerHierVersionNo());
-		projectionMaster.setProductHierVersionNo(dataSelectionDTO.getProductHierVersionNo());
-		projectionMaster.setCompanyGroupSid(dataSelectionDTO.getCustomerGrpSid().equals(DASH) ? null
-				: String.valueOf(dataSelectionDTO.getCustomerGrpSid()));
-		projectionMaster.setItemGroupSid(dataSelectionDTO.getProdGrpSid().equals(DASH) ? null
-				: String.valueOf(dataSelectionDTO.getProdGrpSid()));
-		projectionMaster.setCompanyMasterSid(dataSelectionDTO.getCompanySid().equals(DASH) ? null
-				: String.valueOf(dataSelectionDTO.getCompanySid()));
-		projectionMaster.setFromDate(dataSelectionDTO.getFromDate()); // Obtain
-																		// from
-																		// Admin
-																		// Console
-		projectionMaster.setToDate(dataSelectionDTO.getToDate());
-		projectionMaster.setSaveFlag(false);
-		projectionMaster.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid().equals(DASH)
-				? null : String.valueOf(dataSelectionDTO.getCustRelationshipBuilderSid()));
-		projectionMaster.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid().equals(DASH)
-				? null : String.valueOf(dataSelectionDTO.getProdRelationshipBuilderSid()));
-		projectionMaster.setDiscountType(dataSelectionDTO.getDiscountSid());
-		projectionMaster.setForecastingType(screenName);
-		projectionMaster.setBusinessUnit(dataSelectionDTO.getBusinessUnitSystemId());
-		projectionMaster.setProjectionCustVersionNo(dataSelectionDTO.getCustomerRelationShipVersionNo());
-		projectionMaster.setProjectionProdVersionNo(dataSelectionDTO.getProductRelationShipVersionNo());
-		Object[] obj = null;
-		if (CommonUtil.isValueEligibleForLoading()) {
-                    obj = deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
+    /**
+     * Generates Saves a projection.
+     *
+     * @param dataSelectionDTO the data selection dto
+     * @return the projection ID
+     * @throws SystemException the system exception
+     * @throws Exception the exception
+     */
+    public int saveProjection(final DataSelectionDTO dataSelectionDTO, String screenName) throws SystemException {
+        int projectionId = 0;
+        SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
+        String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
+        String customSql = SQlUtil.getQuery("projectionMasterInsert");
+        customSql = customSql.replace("@PROJECTION_NAME", dataSelectionDTO.getProjectionName());
+        customSql = customSql.replace("@PROJECTION_DESCRIPTION", dataSelectionDTO.getDescription());
+        customSql = customSql.replace("@FORECASTING_TYPE", screenName);
+        customSql = customSql.replace("@CREATED_BY", userId);
+        customSql = customSql.replace("@CREATED_DATE", DBDate.format(new Date()));
 
-                    projectionMaster.setDedRelationshipBuilderSid(String.valueOf(obj[0]));
-                    projectionMaster.setDeductionHierarchySid(String.valueOf(obj[1]));
-                    projectionMaster.setForecastEligibleDate(dataSelectionDTO.getForecastEligibleDate());
-                    List<Integer> versionNoList = getDeductionVersionNoList(obj[0].toString());
-                    projectionMaster.setProjectionDedVersionNo(versionNoList.get(0));
-                }
-                projectionMaster = dataSelection.addProjectionMaster(projectionMaster);
-		return projectionMaster.getProjectionMasterSid();
+        customSql = customSql.replace("@CUSTOMER_HIERARCHY_SID", dataSelectionDTO.getCustomerHierSid().equals(DASH) ? null
+                : String.valueOf(dataSelectionDTO.getCustomerHierSid()));
+        customSql = customSql.replace("@PRODUCT_HIERARCHY_SID", dataSelectionDTO.getProdHierSid().equals(DASH) ? null
+                : String.valueOf(dataSelectionDTO.getProdHierSid()));
 
-	}
+        customSql = customSql.replace("@CUSTOMER_HIERARCHY_LEVEL", dataSelectionDTO.getCustomerHierarchyLevel());
+        customSql = customSql.replace("@PRODUCT_HIERARCHY_LEVEL", dataSelectionDTO.getProductHierarchyLevel());
+        customSql = customSql.replace("@CUSTOMER_HIERARCHY_INNER_LEVEL", dataSelectionDTO.getCustomerHierarchyInnerLevel());
+        customSql = customSql.replace("@PRODUCT_HIERARCHY_INNER_LEVEL", dataSelectionDTO.getProductHierarchyInnerLevel());
 
-	public Object[] deductionRelationBuilderId(String prdRelSid) {
-		List<String> input = new ArrayList<>();
-		input.add(prdRelSid);
-		String sql = QueryUtils.getQuery(input, "DeductionRelationshipId");
-		List list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
-		return list == null || list.isEmpty() ? null : (Object[]) list.get(0);
-	}
+        customSql = customSql.replace("@CUSTOMER_HIER_VERSION_NO", String.valueOf(dataSelectionDTO.getCustomerHierVersionNo()));
+        customSql = customSql.replace("@PRODUCT_HIER_VERSION_NO", String.valueOf(dataSelectionDTO.getProductHierVersionNo()));
+        customSql = customSql.replace("@COMPANY_GROUP_SID", dataSelectionDTO.getCustomerGrpSid().equals(DASH) ? "null"
+                : String.valueOf(dataSelectionDTO.getCustomerGrpSid()));
+        customSql = customSql.replace("@ITEM_GROUP_SID", dataSelectionDTO.getProdGrpSid().equals(DASH) ? "null"
+                : String.valueOf(dataSelectionDTO.getProdGrpSid()));
 
-        
-	 public List<Integer> getDeductionVersionNoList(Object relationShipBuilderSid) {
-		List<Object> input = new ArrayList<>();
-		input.add(relationShipBuilderSid);
-		return QueryUtils.getAppData(input, "getDedRelationshipVersionNo", null);
-	}
-	/**
-	 * Search for projections.
-	 *
-	 * @param dataSelectionDTO
-	 *            the dataSelectionDTO
-	 * @return the projection master result list
+        customSql = customSql.replace("@COMPANY_MASTER_SID", dataSelectionDTO.getCompanySid().equals(DASH) ? "null"
+                : String.valueOf(dataSelectionDTO.getCompanySid()));
+        customSql = customSql.replace("@FROM_DATE", DBDate.format(dataSelectionDTO.getFromDate()));
+        customSql = customSql.replace("@TO_DATE", DBDate.format(dataSelectionDTO.getToDate()));
+
+        customSql = customSql.replace("@CUST_RELATIONSHIP_BUILDER_SID", dataSelectionDTO.getCustRelationshipBuilderSid().equals(DASH)
+                ? "0" : String.valueOf(dataSelectionDTO.getCustRelationshipBuilderSid()));
+        customSql = customSql.replace("@PROD_RELATIONSHIP_BUILDER_SID", dataSelectionDTO.getProdRelationshipBuilderSid().equals(DASH)
+                ? "0" : String.valueOf(dataSelectionDTO.getProdRelationshipBuilderSid()));
+        customSql = customSql.replace("@DISCOUNT_TYPE", String.valueOf(dataSelectionDTO.getDiscountSid()));
+        customSql = customSql.replace("@BUSINESS_UNIT", dataSelectionDTO.getBusinessUnitSystemId() + "");
+        customSql = customSql.replace("@PROJECTION_CUST_VERSION", dataSelectionDTO.getCustomerRelationShipVersionNo() + StringUtils.EMPTY);
+        customSql = customSql.replace("@PROJECTION_PROD_VERSION", dataSelectionDTO.getProductRelationShipVersionNo() + StringUtils.EMPTY);
+        customSql = customSql.replace("@DEDUCTION_ADDITION", CommonUtil.isValueEligibleForLoading() ? " ,DED_RELATIONSHIP_BULDER_SID,DEDUCTION_HIERARCHY_SID,PROJECTION_DED_VERSION,FORECAST_ELIGIBLE_DATE " : StringUtils.EMPTY);
+        customSql = customSql.replace("@DED_ADD_VALUES", CommonUtil.isValueEligibleForLoading() ? " ,@DED_RELATIONSHIP_BULDER_SID,@DEDUCTION_HIERARCHY_SID,@PROJECTION_DED_VERSION ,@FORECAST_ELIGIBLE_DATE " : StringUtils.EMPTY);
+        Object[] obj1 = null;
+        List<Integer> versionNoList = null;
+        if (CommonUtil.isValueEligibleForLoading()) {
+            obj1 = deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
+            versionNoList = getDeductionVersionNoList(obj1[0].toString());
+            customSql = customSql.replace("@DED_RELATIONSHIP_BULDER_SID", String.valueOf(obj1[0]));
+            customSql = customSql.replace("@DEDUCTION_HIERARCHY_SID", String.valueOf(obj1[1]));
+            customSql = customSql.replace("@PROJECTION_DED_VERSION", String.valueOf(versionNoList.get(0)));
+            customSql = customSql.replace("@FORECAST_ELIGIBLE_DATE", DBDate.format(dataSelectionDTO.getForecastEligibleDate()));
+             }
+        HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
+       
+            String cffQuery = "select IDENT_CURRENT( 'PROJECTION_MASTER' )";
+            List list = HelperTableLocalServiceUtil.executeSelectQuery(cffQuery);
+            if (list != null && !list.isEmpty()) {
+                Object projMasterSid = list.get(0);
+                String projMasterId = String.valueOf(projMasterSid);
+                projectionId = Integer.parseInt(projMasterId);
+           
+            
+        }
+            return projectionId;
+
+    }
+
+    public Object[] deductionRelationBuilderId(String prdRelSid) {
+        List<String> input = new ArrayList<>();
+        input.add(prdRelSid);
+        String sql = QueryUtils.getQuery(input, "DeductionRelationshipId");
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
+        return list == null || list.isEmpty() ? null : (Object[]) list.get(0);
+    }
+
+    public List<Integer> getDeductionVersionNoList(Object relationShipBuilderSid) {
+        List<Object> input = new ArrayList<>();
+        input.add(relationShipBuilderSid);
+        return QueryUtils.getAppData(input, "getDedRelationshipVersionNo", null);
+    }
+    /**
+     * Search for projections.
+     *
+     * @param dataSelectionDTO the dataSelectionDTO
+     * @return the projection master result list
 	 * @throws com.liferay.portal.kernel.exception.SystemException
 	 */
 	public List<DataSelectionDTO> searchDSProjections(final DataSelectionDTO dataSelectionDTO)

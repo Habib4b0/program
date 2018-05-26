@@ -70,20 +70,21 @@ public class Utility {
         }
         int customId = session.getCustomId();
         if (!session.getCustomHierarchyMap().containsKey(customId)) {
-            List<CustomViewDetails> customDetailsList = null;
+            List<Object[]> customDetailsList = null;
             List<Leveldto> listValue = new ArrayList<>();
             if (customId != 0) {
                 if (session.getCustomDetailMap().get(customId) != null) {
                     customDetailsList = session.getCustomDetailMap().get(customId);
                 } else {
-                    customDetailsList = getCustomViewDetails(customId);
+                    getCustomViewDetails(customId);
+                    customDetailsList = CommonLogic.getCustomViewDetailsDiscount(customId);
                     session.getCustomDetailMap().put(customId, customDetailsList);
                 }
                 if (customDetailsList != null && !customDetailsList.isEmpty()) {
                     StringBuilder relationShipLevelQry = new StringBuilder();
                     relationShipLevelQry.append("select DISTINCT LEVEL_NAME,LEVEL_NO,HIERARCHY_LEVEL_DEFINITION_SID from dbo.RELATIONSHIP_LEVEL_DEFINITION where HIERARCHY_LEVEL_DEFINITION_SID in (");
                     for (int i = 0; i < customDetailsList.size(); i++) {
-                        relationShipLevelQry.append(customDetailsList.get(i).getHierarchyId());
+                        relationShipLevelQry.append(customDetailsList.get(i)[2]);
                         if (i != customDetailsList.size() - 1) {
                             relationShipLevelQry.append(',');
                         }
@@ -94,15 +95,15 @@ public class Utility {
                     /**
                      * assign null to Object , To be destroyed By JVM *
                      */
-                    for (CustomViewDetails ob : customDetailsList) {
+                    for (Object[] ob : customDetailsList) {
                         for (Object[] obj : list) {
-                            if ((obj.length > 1) && (String.valueOf(obj[NumericConstants.TWO]).trim().equals(String.valueOf(ob.getHierarchyId()).trim()))) {
+                            if ((obj.length > 1) && (String.valueOf(obj[NumericConstants.TWO]).trim().equals(String.valueOf(ob[2]).trim()))) {
                                     Leveldto dto = new Leveldto();
-                                    dto.setHierarchyId(ob.getHierarchyId());
+                                    dto.setHierarchyId((Integer) ob[2]);
                                     dto.setLevelNo(Integer.valueOf(String.valueOf((obj[1].toString()).trim())));
                                     dto.setLevel(String.valueOf(obj[0]));
-                                    dto.setTreeLevelNo(ob.getLevelNo());
-                                    dto.setHierarchyIndicator(ob.getHierarchyIndicator());
+                                    dto.setTreeLevelNo((Integer) ob[4]);
+                                    dto.setHierarchyIndicator(ob[3].toString());
                                     listValue.add(dto);
                             }
                         }

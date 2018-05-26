@@ -24,46 +24,62 @@ public class RelationshipLevelValuesMasterBean {
 
 	public static final String DEFAULT_QUESTION = " ?DEFAULT ";
 	private List<Object[]> tempList = null;
-	private final String relationshipBuilderSid;
-	private final String hierarchyNoType;
-	private final List<RelationshipLevelValuesBean> queryList = new ArrayList<>();
-	private int defaultCount = 0;
-	private final GtnDisplayFormatMasterBean masterBean = new GtnDisplayFormatMasterBean();
-	private final StringBuilder finalQry = new StringBuilder();
-	public static final String HT_DESC = "HT.DESCRIPTION";
-	public static final String FIELD_VALUE = "?FIELD_VALUE";
+	   private final String relationshipBuilderSid;
+    private final String hierarchyNoType;
+    private final List<RelationshipLevelValuesBean> queryList = new ArrayList<>();
+    private int defaultCount = 0;
+    private final GtnDisplayFormatMasterBean masterBean = new GtnDisplayFormatMasterBean();
+    private final StringBuilder finalQry = new StringBuilder();
+    public static final String HT_DESC = "HT.DESCRIPTION";
+    public static final String FIELD_VALUE = "?FIELD_VALUE";
+    private static final String DISPLAYFORMATCOLUMN = "?DISPLAYFORMATCOLUMN";
 
-	public RelationshipLevelValuesMasterBean(List<Object[]> tempList, String relationshipBuilderSid,
-			String hierarchyNoType, SessionDTO sessionDTO) {
-		this.tempList = tempList == null ? tempList : new ArrayList<>(tempList);
-		this.relationshipBuilderSid = relationshipBuilderSid;
-		this.hierarchyNoType = hierarchyNoType;
-		if (!"D".equals(hierarchyNoType)) {
-			createQuery(sessionDTO);
-		} else {
-			createDeductionQuery(sessionDTO);
-		}
-	}
+    public RelationshipLevelValuesMasterBean(List<Object[]> tempList, String relationshipBuilderSid,
+            String hierarchyNoType, SessionDTO sessionDTO) {
+        this.tempList = tempList == null ? tempList : new ArrayList<>(tempList);
+        this.relationshipBuilderSid = relationshipBuilderSid;
+        this.hierarchyNoType = hierarchyNoType;
+        if ("CUST_HIERARCHY_NO".equals(hierarchyNoType) || "PROD_HIERARCHY_NO".equals(hierarchyNoType)) {
+            createQuery(sessionDTO);
+        } else if ("D".equals(hierarchyNoType)) {
+            createDeductionQuery(sessionDTO);
+        } else if ("customSalesCP".equals(hierarchyNoType)) {
+            createQuerySalesCustomCP();
+        } else if ("customSalesDed".equals(hierarchyNoType)) {
+            createQueryDiscountCustomDeduction();
+        }
+    }
 
-	public String getFinalQuery() {
-		for (int i = 0; i < queryList.size(); i++) {
-			RelationshipLevelValuesBean query = queryList.get(i);
-			if (i != 0) {
-				finalQry.append(UNION_ALL);
-			}
-			finalQry.append(
+    public String getFinalQuery() {
+        for (int i = 0; i < queryList.size(); i++) {
+            RelationshipLevelValuesBean query = queryList.get(i);
+            if (i != 0) {
+                finalQry.append(UNION_ALL);
+            }
+            finalQry.append(
+                    query.getQuery().replace(DEFAULT_QUESTION, generateDefaultSelect(query.getNoOfSelectFormed())));
+        }
+        finalQry.append("ORDER BY LEVEL_NO,VALUE DESC");
+        return finalQry.toString();
+    }
+    public String getDeductionFinalQuery() {
+        for (int i = 0; i < queryList.size(); i++) {
+            RelationshipLevelValuesBean query = queryList.get(i);
+            if (i != 0) {
+                finalQry.append(UNION_ALL);
+            }
+            finalQry.append(
 					query.getQuery().replace(DEFAULT_QUESTION, generateDefaultSelect(query.getNoOfSelectFormed())));
 		}
-		finalQry.append("ORDER BY LEVEL_NO,VALUE DESC");
-             	return finalQry.toString();
+		return finalQry.toString();
 	}
-	public String getDeductionFinalQuery() {
-		for (int i = 0; i < queryList.size(); i++) {
-			RelationshipLevelValuesBean query = queryList.get(i);
-			if (i != 0) {
-				finalQry.append(UNION_ALL);
-			}
-			finalQry.append(
+    public String getCustomFinalQuery() {
+        for (int i = 0; i < queryList.size(); i++) {
+            RelationshipLevelValuesBean query = queryList.get(i);
+            if (i != 0) {
+                finalQry.append(UNION_ALL);
+            }
+            finalQry.append(
 					query.getQuery().replace(DEFAULT_QUESTION, generateDefaultSelect(query.getNoOfSelectFormed())));
 		}
 		return finalQry.toString();
@@ -74,10 +90,20 @@ public class RelationshipLevelValuesMasterBean {
 			queryList.add(getCustomisedQuery((Object[]) tempList.get(i), sessionDTO));
 		}
 	}
+	private void createQuerySalesCustomCP() {
+		for (int i = 0; i < tempList.size(); i++) {
+			queryList.add(getCustomisedQuerySalesCP((Object[]) tempList.get(i)));
+		}
+	}
+	private void createQueryDiscountCustomDeduction() {
+		for (int i = 0; i < tempList.size(); i++) {
+			queryList.add(getDeductionCustomisedQueryCustom());
+		}
+	}
 
 	private void createDeductionQuery(SessionDTO sessionDTO) {
 		for (int i = 0; i < tempList.size(); i++) {
-			queryList.add(getDeductionCustomisedQuery((Object[]) tempList.get(i), sessionDTO));
+			queryList.add(getDeductionCustomisedQuery((Object[]) tempList.get(i),sessionDTO));
 		}
 	}
 
@@ -93,7 +119,20 @@ public class RelationshipLevelValuesMasterBean {
 		customSql = customSql.replace("?RLDV",
 				isCustomer() ? sessionDTO.getCustomerRelationVersion() + StringUtils.EMPTY
 						: sessionDTO.getProductRelationVersion() + StringUtils.EMPTY);
-		customSql = customSql.replace("?DISPLAYFORMATCOLUMN",
+		customSql = customSql.replace(DISPLAYFORMATCOLUMN,
+				getDisplayFormatColumn(masterBean.getDisplayFormatList(), String.valueOf(tempListObject[0]), bean));
+		bean.setQuery(customSql);
+		return bean;
+	}
+	private RelationshipLevelValuesBean getCustomisedQuerySalesCP(Object[] tempListObject) {
+		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
+		String customSql = SQlUtil.getQuery("getRelationshipLevelValuesSalesCustomCP");
+		customSql = customSql.replace("?FIELD", String.valueOf(tempListObject[0]));
+		customSql = customSql.replace("?TABLE", String.valueOf(tempListObject[1]));
+		customSql = customSql.replace("?IDCOL", String.valueOf(tempListObject[NumericConstants.TWO]));
+		customSql = customSql.replace("?LNO", String.valueOf(tempListObject[NumericConstants.THREE]));
+		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+		customSql = customSql.replace(DISPLAYFORMATCOLUMN,
 				getDisplayFormatColumn(masterBean.getDisplayFormatList(), String.valueOf(tempListObject[0]), bean));
 		bean.setQuery(customSql);
 		return bean;
@@ -103,7 +142,6 @@ public class RelationshipLevelValuesMasterBean {
 		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
                 String customSql;
 		customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeductionCustom");
-		customSql = customSql.replace("?LNO", String.valueOf(tempListObject[NumericConstants.ZERO]));
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
                 customSql = customSql.replace("?RLDV",sessionDTO.getDeductionRelationVersion() + StringUtils.EMPTY);
 		boolean isUDC = tempListObject[2].equals(1) && tempListObject[3].equals(1);
@@ -137,9 +175,20 @@ public class RelationshipLevelValuesMasterBean {
 			customSql = customSql.replace("?HTDESCRIPTION", isHelperTableJoin ? HT_DESC : "RS.RS_ID");
 			customSql = customSql.replace("?DEDGROUPBY", isHelperTableJoin ? HT_DESC : "RS.RS_ID");
 		}
-		customSql = customSql.replace("?DISPLAYFORMATCOLUMN",
+		customSql = customSql.replace(DISPLAYFORMATCOLUMN,
 				getDisplayFormatColumnRS(masterBean.getDisplayFormatList(), String.valueOf(tempListObject[1]), bean));
 		customSql = customSql.replace("?DEFGRPBY", bean.getDefaultGroupBy());
+		bean.setQuery(customSql);
+		return bean;
+	}
+    
+	
+        
+        private RelationshipLevelValuesBean getDeductionCustomisedQueryCustom() {
+		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
+                String customSql;
+		customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeductionCustomDiscount");
+		customSql = customSql.replace(RBSID, relationshipBuilderSid);
 		bean.setQuery(customSql);
 		return bean;
 	}

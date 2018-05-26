@@ -655,7 +655,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
            getSessionDTO().setCustomerViewList(customViewList);
             }
             if (customViewList != null) {
-
+   
                 Object select = null;
                 for (CustomViewMaster obj : customViewList) {
                     int customSid = obj.getCustomViewMasterSid();

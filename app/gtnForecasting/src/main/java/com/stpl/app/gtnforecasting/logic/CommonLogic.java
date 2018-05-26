@@ -45,6 +45,7 @@ import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
 import com.stpl.app.gtnforecasting.service.finderImpl.CustomViewMasterImpl;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.tree.node.TreeNode;
+import com.stpl.app.gtnforecasting.ui.form.ForecastForm;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -108,6 +109,7 @@ public class CommonLogic {
     public static final String RELATIONSHIPVERSION = " AND RLD1.VERSION_NO=";
     private static final String PRPARENT_HIERARCHY_LIKE = " AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";
     private static final String SMALL_SALES = "sales";
+    private static final String DISCOUNT = "Discount";
     
     protected RelationShipFilterLogic relationShipFilterLogic=RelationShipFilterLogic.getInstance();
     
@@ -299,7 +301,7 @@ public class CommonLogic {
                         customId = customViewMaster.getCustomViewMasterSid();
                         List<CustomViewDetails> detailsList = null;
                         if (session.getCustomDetailMap().containsKey(customId)) {
-                            detailsList = session.getCustomDetailMap().get(customId);
+                            detailsList = null;
                         } else {
                             detailsList = getCustomViewDetails(customId);
                         }
@@ -392,6 +394,13 @@ public class CommonLogic {
         }
         return list;
     }
+    
+    public static List<Object[]> getCustomViewDetailsDiscount(int customId) {
+        StringBuilder relationShipLevelQry = new StringBuilder();
+        relationShipLevelQry.append("select * from dbo.CUST_VIEW_DETAILS where custom_View_Master_Sid ="+customId+" ORDER BY LEVEL_NO ASC");
+        List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(relationShipLevelQry.toString());
+        return list;
+    }
 
     /**
      * Get the Custom Tree
@@ -402,12 +411,12 @@ public class CommonLogic {
     public static List<Leveldto> getCustomTree(int customId) {
         List<Leveldto> listValue = new ArrayList<>();
         if (customId != 0) {
-            List<CustomViewDetails> customDetailsList = getCustomViewDetails(customId);
+            List<Object[]> customDetailsList = getCustomViewDetailsDiscount(customId);
             if (customDetailsList != null && !customDetailsList.isEmpty()) {
                 StringBuilder relationShipLevelQry = new StringBuilder();
                 relationShipLevelQry.append("select DISTINCT LEVEL_NAME,LEVEL_NO,HIERARCHY_LEVEL_DEFINITION_SID from dbo.RELATIONSHIP_LEVEL_DEFINITION where HIERARCHY_LEVEL_DEFINITION_SID in (");
                 for (int i = 0; i < customDetailsList.size(); i++) {
-                    relationShipLevelQry.append(customDetailsList.get(i).getHierarchyId());
+                    relationShipLevelQry.append(customDetailsList.get(i)[2]);
                     if (i != customDetailsList.size() - 1) {
                         relationShipLevelQry.append(',');
                     }
@@ -415,15 +424,15 @@ public class CommonLogic {
                 relationShipLevelQry.append(')');
                 List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(relationShipLevelQry.toString());
 
-                for (CustomViewDetails ob : customDetailsList) {
+                for (Object[] ob : customDetailsList) {
                     for (Object[] obj : list) {
-                        if ((obj.length > 1) && (String.valueOf(obj[2]).trim().equals(String.valueOf(ob.getHierarchyId()).trim()))) {
+                        if ((obj.length > 1) && (String.valueOf(obj[2]).trim().equals(String.valueOf(ob[2]).trim()))) {
                             Leveldto dto = new Leveldto();
-                            dto.setHierarchyId(ob.getHierarchyId());
+                            dto.setHierarchyId((Integer) ob[2]);
                             dto.setLevelNo(Integer.valueOf(String.valueOf((obj[1].toString()).trim())));
                             dto.setLevel(String.valueOf(obj[0]));
-                            dto.setTreeLevelNo(ob.getLevelNo());
-                            dto.setHierarchyIndicator(ob.getHierarchyIndicator());
+                            dto.setTreeLevelNo((Integer) ob[4]);
+                            dto.setHierarchyIndicator(ob[3].toString());
                             listValue.add(dto);
                         }
                     }
@@ -4854,6 +4863,14 @@ public class CommonLogic {
                 query.append(oldProductQuery);
             }
             query.append(" GROUP BY ").append(selectClause);
+            if (Integer.parseInt(type) == 1) {
+                String scheduleCategoryQuery = "SELECT HT.DESCRIPTION ,HT.HELPER_TABLE_SID FROM HELPER_TABLE HT WHERE HELPER_TABLE_SID IN ("
+                        + "SELECT RS.RS_CATEGORY FROM ST_NM_DISCOUNT_PROJ_MASTER DPM INNER JOIN ST_CCP_HIERARCHY CCP\n"
+                        + "ON CCP.CCP_DETAILS_SID = DPM.CCP_DETAILS_SID INNER JOIN RS_CONTRACT RS ON DPM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID )"
+                        + "GROUP BY HT.HELPER_TABLE_SID, HT.DESCRIPTION ";
+                query.delete(0, query.length());
+                query.append(scheduleCategoryQuery);
+            }
             deductionValuesList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(),projectionDto.getSessionDTO().getCurrentTableNames()));
 
         } catch (SystemException | PortalException ex) {
@@ -5332,14 +5349,16 @@ public class CommonLogic {
         LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
         procedureCompletionCheck(projectionDTO,SMALL_SALES,Constants.CUSTOMER);
         procedureCompletionCheck(projectionDTO,SMALL_SALES,Constants.PRODUCT);
+        procedureCompletionCheck(projectionDTO,SMALL_SALES,Constants.CUSTOM);
     }
     public static void viewProceduresCompletionCheckDiscount(ProjectionSelectionDTO projectionDTO) {
         LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
-        procedureCompletionCheck(projectionDTO,"Discount",Constants.CUSTOMER);
-        procedureCompletionCheck(projectionDTO,"Discount",Constants.PRODUCT);
+        procedureCompletionCheck(projectionDTO, DISCOUNT,Constants.CUSTOMER);
+        procedureCompletionCheck(projectionDTO, DISCOUNT,Constants.PRODUCT);
+        procedureCompletionCheck(projectionDTO, DISCOUNT,Constants.CUSTOM);
     }
-    
-    
+   
+
     public static String getFrequency(String frequency) {
         String tempFrequency;
     if (frequency.equals(Constant.QUARTERLY)) {
