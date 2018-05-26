@@ -22,6 +22,7 @@ public class HeaderUtils {
     boolean projection = false;
     public static String ANNUAL = "Annual";
     public static String SEMI_ANNUAL = "semi-Annual";
+    public static String SEMI_ANNUAL_C = "Semi-Annual";
     public static String MONTH = "monthly";
     public static String QUARTER = "quarterly";
     public static String Actual_sales = "Actuals";

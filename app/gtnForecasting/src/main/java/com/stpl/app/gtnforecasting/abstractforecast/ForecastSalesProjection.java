@@ -2301,7 +2301,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     salesLogic.saveOnMassUpdate(projectionDTO, inputParameters);
                     String startPeriodMassUpdate = salesLogic.getPeriodSid(startPeriodValue, projectionDTO.getFrequency(), "Min");
                     String endPeriodMassUpdate = salesLogic.getPeriodSid(endPeriodValue, projectionDTO.getFrequency(), "Max");
-                    new DataSelectionLogic().callViewInsertProceduresThread(projectionDTO.getSessionDTO(),"Q", Constant.SALES1,startPeriodMassUpdate,endPeriodMassUpdate,updateVariable);
+                    new DataSelectionLogic().callViewInsertProceduresThread(projectionDTO.getSessionDTO(), Constant.SALES1,startPeriodMassUpdate,endPeriodMassUpdate,updateVariable);
                     CommonUtil.getInstance().waitForSeconds();
                     CommonLogic.procedureCompletionCheck(projectionDTO,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
                     isUpdated = true;
@@ -3014,7 +3014,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         frequency.addItem(SEMI_ANNUAL.getConstant());
 
         frequency.addItem(ANNUAL);
-        frequency.select(session.getDsFrequency());
+        frequency.setValue(session.getDsFrequency());
         frequency.setNullSelectionAllowed(false);
         frequency.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -3944,7 +3944,7 @@ public void setCustomContainer(ExtTreeContainer<SalesRowDto> customContainer) {
 }
 
 public void loadCustomViewDDdlb(boolean isDataSelection) {
-    LOGGER.info("Inside Loading Custom VIew");
+    LOGGER.info("Inside Loading Custom View");
         dataMap.put("custSid", session.getCustRelationshipBuilderSid());
         dataMap.put("custVer",  String.valueOf(session.getCustomerRelationVersion()));
         dataMap.put("prodVer", String.valueOf(session.getProductHierarchyVersion()));

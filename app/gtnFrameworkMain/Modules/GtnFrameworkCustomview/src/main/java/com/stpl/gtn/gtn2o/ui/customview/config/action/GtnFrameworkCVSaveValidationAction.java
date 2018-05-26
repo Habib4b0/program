@@ -99,12 +99,13 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
         GtnWsCustomViewResponse cvResponse = response.getGtnWsCustomViewResponse();
         if (cvResponse.isSuccess()) {
             saveCustomView(componentId, paramList, customViewName, cvRequest);
+        } else {
+            GtnUIFrameWorkActionConfig cvSaveAlertAction = new GtnUIFrameWorkActionConfig(
+                    GtnUIFrameworkActionType.ALERT_ACTION);
+            cvSaveAlertAction.addActionParameter(cvResponse.getMessageType());
+            cvSaveAlertAction.addActionParameter(cvResponse.getMessage());
+            GtnUIFrameworkActionExecutor.executeSingleAction(componentId, cvSaveAlertAction);
         }
-        GtnUIFrameWorkActionConfig cvSaveAlertAction = new GtnUIFrameWorkActionConfig(
-                GtnUIFrameworkActionType.ALERT_ACTION);
-        cvSaveAlertAction.addActionParameter(cvResponse.getMessageType());
-        cvSaveAlertAction.addActionParameter(cvResponse.getMessage());
-        GtnUIFrameworkActionExecutor.executeSingleAction(componentId, cvSaveAlertAction);
     }
 
     private void saveCustomView(String componentId, List<Object> parameters, String customViewName,

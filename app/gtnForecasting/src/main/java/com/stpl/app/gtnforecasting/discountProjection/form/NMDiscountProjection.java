@@ -726,6 +726,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         @Override
         public void blur(FieldEvents.BlurEvent event) {
             Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
+            session.setFunctionMode("R");
             if ("left".equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))) {
                 blurValue = String
                         .valueOf(tableLogic.getContainerDataSource().getContainerProperty(obj[0], obj[1]).getValue())
@@ -1154,7 +1155,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             Object[] orderedArg = {session.getProjectionId(), session.getUserId(),
                                 session.getSessionId()};
                             CommonLogic.callProcedure("PRC_NM_DISCOUNT_REFRESH", orderedArg);
-                            new DataSelectionLogic().callViewInsertProceduresThread(session, "Q", Constant.DISCOUNT3, "", "", "");
+                            new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3, "", "", "");
                             try {
                                 TimeUnit.SECONDS.sleep(3);
                             } catch (InterruptedException ex) {
@@ -2395,7 +2396,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                             String.valueOf(level.getValue()));
                                                 }
                                                 logic.callDPProcedure(session, projectionSelection);
-                                                new DataSelectionLogic().callViewInsertProceduresThread(session,"Q", Constant.DISCOUNT3,"","","");
+                                                new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,"","","");
                                                 CommonLogic.procedureCompletionCheck(projectionSelection, DISCOUNT, String.valueOf(projectionSelection.getViewOption()));
                                                 refreshTableData(getCheckedRecordsHierarchyNo());
                                                 final Notification notif = new Notification(
@@ -4347,9 +4348,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         if (!session.getCustomDetailMap().containsKey(customId)) {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
-        }
-        if (CommonUtil.isValueEligibleForLoading()) {
-            session.setDeductionLevelDetails(dsLogic.getRelationshipDetailsDeduction(session, session.getDedRelationshipBuilderSid(), true));
         }
         currentHierarchy = session.getCustomHierarchyMap().get(customId);
         LOGGER.debug(" customId= {} ", customId);

@@ -2119,7 +2119,7 @@ public class SalesLogic {
             }
 
             CommonLogic commonLogic = new CommonLogic();
-            String hierarchyInserQuery = SQlUtil.getQuery("selected-hierarchy-no-update");
+            String hierarchyInserQuery = projectionSelectionDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-update-Sales_custom") :SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + salesDTO.getHierarchyNo() + "')");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_CUSTOMERPARENT, salesDTO.getSecHierarchyNo());
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_PRODUCTPARENT, salesDTO.getHierarchyNo());
@@ -2160,10 +2160,10 @@ public class SalesLogic {
             }else{
                 updatedField = column;
             }
-            
-            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(),"Q", Constant.SALES1,"C",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,updatedField);
-            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(),"Q", Constant.SALES1,"P",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,updatedField);
-            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(),"Q", Constant.SALES1,"U",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,updatedField);
+            projectionSelectionDTO.getSessionDTO().setFunctionMode("R");
+            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"C",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,updatedField);
+            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"P",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,updatedField);
+            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"U",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,updatedField);
             projectionSelectionDTO.getUpdateQueryMap().put(key+","+changedValue,QueryUtil.replaceTableNames(finalQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
             if (column.equals(PROJECTED_SALES) || column.equals(Constant.PROJECTED_UNITS1)) {
                 checkMultiVariables(key.trim(), column, projectionSelectionDTO);
@@ -2560,7 +2560,7 @@ public class SalesLogic {
         inputList.add(adsVar);
         inputList.add(projectionPeriods);
         com.stpl.app.utils.QueryUtils.updateAppDataUsingSessionTables(inputList, "sales-adjustment-query", projectionSelectionDTO.getSessionDTO());
-        new DataSelectionLogic().callViewInsertProceduresThread(projectionSelectionDTO.getSessionDTO(),"Q", Constant.SALES1,"","","");
+        new DataSelectionLogic().callViewInsertProceduresThread(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"","","");
     }
     public boolean adjustSalesProjectionValidation(ProjectionSelectionDTO projectionSelectionDTO) {
         try {
@@ -2837,7 +2837,7 @@ public class SalesLogic {
                 Thread thread = new Thread(createDiscountProcedureRunnable(projectionSelectionDTO));
                 thread.start();
             }
-          new DataSelectionLogic().callViewInsertProceduresThread(projectionSelectionDTO.getSessionDTO(),"Q", Constant.SALES1,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,endPeriod.equals("0")?StringUtils.EMPTY:endPeriod,"");
+          new DataSelectionLogic().callViewInsertProceduresThread(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,endPeriod.equals("0")?StringUtils.EMPTY:endPeriod,"");
         } catch (PortalException | SystemException | SQLException | NamingException ex) {
             LOGGER.error(ex.getMessage());
         }

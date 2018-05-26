@@ -134,6 +134,10 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	protected Label customerRelationVersionLabel;
 	@UiField("customerRelationVersion")
 	protected ComboBox customerRelationVersionComboBox;
+        @UiField("customRelationDdlb")
+	protected ComboBox customRelationDdlb;
+        @UiField("customRelationDdlbDeduction")
+	protected ComboBox customRelationDdlbDeduction;
 
 	/**
 	 * The level.
@@ -195,10 +199,6 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	protected ComboBox productRelation;
 	@UiField("productRelationVersion")
 	protected ComboBox productRelationVersionComboBox;
-	@UiField("customRelationDdlb")
-	protected ComboBox customRelationDdlb;
-	@UiField("customRelationDdlbDeduction")
-	protected ComboBox customRelationDdlbDeduction;
 
 	/**
 	 * The product group.
@@ -1811,17 +1811,16 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
             });
         }
         
-        private void configureFrequency() {
+       private void configureFrequency() {
         frequency.addItem(HeaderUtils.MONTHLY);
         frequency.addItem(HeaderUtils.QUARTERLY);
-        frequency.addItem(HeaderUtils.SEMI_ANNUALLY);
-        frequency.addItem(HeaderUtils.ANNUALLY);
+        frequency.addItem(HeaderUtils.SEMI_ANNUAL_C);
+        frequency.addItem(HeaderUtils.ANNUAL);
         frequency.select(HeaderUtils.QUARTERLY);
         frequency.setNullSelectionAllowed(false);
         frequency.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-//                session.setDsFrequency(String.valueOf(frequency.getValue()));
             }
         });
     }
@@ -1833,6 +1832,5 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
         customRelationDdlb.setInputPrompt(SELECT_ONE);
         customRelationDdlb.select(SELECT_ONE);
         }
-     
 
 	}

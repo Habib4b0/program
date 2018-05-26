@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -425,11 +426,11 @@ public class CommonUtil {
                         break;
                     case Constant.PRC_VIEWS_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
-                        new DataSelectionLogic().callViewInsertProcedureForNm((SessionDTO)inputs[NumericConstants.EIGHT], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,inputs[6].toString() ,inputs[7].toString());
+                        new DataSelectionLogic().callViewInsertProcedureForNm((SessionDTO)inputs[NumericConstants.SEVEN], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,inputs[6].toString());
                         break;
                     case Constant.FUNCTION_PRC_VIEWS_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
-                        new DataSelectionLogic().callViewInsertProcedures((SessionDTO)inputs[NumericConstants.ONE], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,inputs[6].toString() ,inputs[7].toString());
+                        new DataSelectionLogic().callViewInsertProcedures((SessionDTO)inputs[NumericConstants.ONE],inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,inputs[6].toString());
                         break;
                     default:
                         break;
@@ -570,7 +571,7 @@ public class CommonUtil {
     private static String setLevelNameValues(int index, List<Object> levelName, Object[] displayFormatIndex) {
         String formattedName = StringUtils.EMPTY;
         int indexFrom = (int) displayFormatIndex[index];
-        Object value = levelName.get(indexFrom + 1);
+        Object value = levelName.get(indexFrom);
         if (!getLevelName(value)) {
             if (index != 0) {
                 formattedName += " - ";

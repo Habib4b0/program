@@ -14,6 +14,7 @@ public class CustViewDetails  implements java.io.Serializable {
      private Integer hierarchyId;
      private Character hierarchyIndicator;
      private Integer levelNo;
+     private String levelName;
 
     public CustViewDetails() {
     }
@@ -22,12 +23,13 @@ public class CustViewDetails  implements java.io.Serializable {
     public CustViewDetails(int customViewDetailsSid) {
         this.customViewDetailsSid = customViewDetailsSid;
     }
-    public CustViewDetails(int customViewDetailsSid, Integer customViewMasterSid, Integer hierarchyId, Character hierarchyIndicator, Integer levelNo) {
+    public CustViewDetails(int customViewDetailsSid, Integer customViewMasterSid, Integer hierarchyId, Character hierarchyIndicator, Integer levelNo,String levelName) {
        this.customViewDetailsSid = customViewDetailsSid;
        this.customViewMasterSid = customViewMasterSid;
        this.hierarchyId = hierarchyId;
        this.hierarchyIndicator = hierarchyIndicator;
        this.levelNo = levelNo;
+       this.levelName = levelName;
     }
    
     public int getCustomViewDetailsSid() {
@@ -64,6 +66,14 @@ public class CustViewDetails  implements java.io.Serializable {
     
     public void setLevelNo(Integer levelNo) {
         this.levelNo = levelNo;
+    }
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
     }
 
 

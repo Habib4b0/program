@@ -327,7 +327,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 && !Constant.NULL.equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))
                 && !SELECT_ONE.getConstant().equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))
                 && !DASH.equalsIgnoreCase(String.valueOf(viewDdlb.getValue()))) {
-            editBtn.setEnabled(true);
+            editBtn.setEnabled(false);
         } else {
             editBtn.setEnabled(false);
         }
