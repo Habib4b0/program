@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -61,11 +63,20 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 		componentList.add(producthierarchyLayout);
 
 		GtnUIFrameworkComponentConfig hierarchyName = new GtnUIFrameworkComponentConfig();
-		hierarchyName.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELD);
+		hierarchyName.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		hierarchyName.setComponentId(nameSpace + "_" + "prodhierarchyName");
 		hierarchyName.setComponentName("Hierarchy");
 		hierarchyName.setAddToParent(Boolean.TRUE);
 		hierarchyName.setParentComponentId(nameSpace + "_" + "producthierarchyLayout");
+		
+		GtnUIFrameWorkActionConfig hierarchyPopupAction = new GtnUIFrameWorkActionConfig();
+		hierarchyPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+		hierarchyPopupAction.addActionParameter("forecastLandingScreen_productHierarchyLookup");
+		hierarchyPopupAction.addActionParameter("Forecast Product Hierarchy LookUp");
+		hierarchyPopupAction.addActionParameter("720");
+		hierarchyPopupAction.addActionParameter("875");
+		hierarchyName.addGtnUIFrameWorkActionConfig(hierarchyPopupAction);
+		
 		componentList.add(hierarchyName);
 	}
 

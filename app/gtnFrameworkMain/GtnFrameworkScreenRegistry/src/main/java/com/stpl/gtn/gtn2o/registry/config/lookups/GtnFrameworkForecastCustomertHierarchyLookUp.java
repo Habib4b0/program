@@ -18,7 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationT
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
-import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
+import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastConstants;
 
 public class GtnFrameworkForecastCustomertHierarchyLookUp {
 
@@ -273,7 +273,7 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		tableStyle.add("table-header-normal");
 		customerHierarchyPagedTableComponent.setComponentWidth("100%");
 		customerHierarchyPagedTableComponent.setComponentStyle(tableStyle);
-		customerHierarchyPagedTableComponent.setModuleName("forecast");
+		customerHierarchyPagedTableComponent.setModuleName("report");
 		
 		componentList.add(customerHierarchyPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig customerHierarchyPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
@@ -290,10 +290,10 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 		customerHierarchyPagedTableConfig.setTableColumnMappingId(
 				GtnFrameworkForecastingStringConstants.getForecastCustomerHierarchyTableColumnsMappingId());
 
-		customerHierarchyPagedTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
-				+ GtnWsReportConstants.GTN_REPORT_CUSTOMERHIERARCHY_SEARCHSERVICE);
-		customerHierarchyPagedTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
-				+ GtnWsReportConstants.GTN_REPORT_CUSTOMERHIERARCHY_SEARCHSERVICE);
+		customerHierarchyPagedTableConfig.setCountUrl(GtnWsForecastConstants.GTN_FORECAST_SERVICE
+				+ GtnWsForecastConstants.GTN_FORECAST_CUSTOMERHIERARCHY_SEARCHSERVICE);
+		customerHierarchyPagedTableConfig.setResultSetUrl(GtnWsForecastConstants.GTN_FORECAST_SERVICE
+				+ GtnWsForecastConstants.GTN_FORECAST_CUSTOMERHIERARCHY_SEARCHSERVICE);
 		customerHierarchyPagedTableComponent.setGtnPagedTableConfig(customerHierarchyPagedTableConfig);
 	}
 	
