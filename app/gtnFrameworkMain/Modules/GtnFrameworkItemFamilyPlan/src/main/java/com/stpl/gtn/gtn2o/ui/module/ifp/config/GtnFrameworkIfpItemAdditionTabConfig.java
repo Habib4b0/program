@@ -264,16 +264,6 @@ public class GtnFrameworkIfpItemAdditionTabConfig {
 		attachButtonConfig.setAuthorizationIncluded(true);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
-		alertActionConfig.setActionType(GtnUIFrameworkActionType.TABLE_ALERT_ACTION);
-
-		List<Object> alertParamsList = new ArrayList<>();
-		alertParamsList.add("ifprightResultTable");
-		alertParamsList.add(GtnFrameworkCommonStringConstants.ERROR);
-		alertParamsList.add("There are no items to remove");
-
-		alertActionConfig.setActionParameterList(alertParamsList);
-		actionConfigList.add(alertActionConfig);
 
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
