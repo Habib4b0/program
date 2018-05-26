@@ -154,6 +154,7 @@ public class DataSelection extends ForecastDataSelection {
 			}
                         configureDataSelectionDeductionLevel();
 		} catch (Exception e) {
+                    e.printStackTrace();
 			LOGGER.error(e.getMessage());
 		}
 	}
@@ -439,7 +440,7 @@ public class DataSelection extends ForecastDataSelection {
 			String selectedLevel = String.valueOf(event.getProperty().getValue());
 			setSelectedProductLevel(selectedLevel);
 			int hierarchyId = 0;
-			String hierarchyName = StringUtils.EMPTY;
+			String hierarchyName;
 			if (productHierarchyDto != null && !StringUtils.isBlank(productHierarchyDto.getHierarchyName())) {
 				hierarchyName = productHierarchyDto.getHierarchyName();
 			}
@@ -496,8 +497,7 @@ public class DataSelection extends ForecastDataSelection {
 		setFirstTimeLoad(false);
 		if (!CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
 			session.setCustomerHierarchyId(Integer.parseInt(dataSelectionDTO.getCustomerHierSid()));
-			initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()),
-					dataSelectionDTO.getCustRelationshipBuilderSid());
+			initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()));
 		}
 	}
 
@@ -509,8 +509,7 @@ public class DataSelection extends ForecastDataSelection {
 			initializeFromDto();
 			setFirstTimeLoad(false);
 			if (!CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
-				initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()),
-						dataSelectionDTO.getCustRelationshipBuilderSid());
+				initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()));
 			}
 			initializeProductHierarchy(projectionId, String.valueOf(dataSelectionDTO.getProductHierarchyLevel()));
 		} catch (Exception e) {
@@ -593,8 +592,7 @@ public class DataSelection extends ForecastDataSelection {
 	 * @param projectionId
 	 * @throws java.lang.Exception
 	 */
-	private void initializeCustomerHierarchy(final int projectionId, final String customerLevel,
-			String relationShipBuilderSid) {
+	private void initializeCustomerHierarchy(final int projectionId, final String customerLevel) {
 		LOGGER.debug("Initializing Customer Hierarchy...");
 		List<Leveldto> initialCustomerHierarchy = getInitialHierarchy(projectionId, Boolean.TRUE, customerLevel,
 				session.getCustomerDescription());
@@ -744,7 +742,6 @@ public class DataSelection extends ForecastDataSelection {
 
 	private void initializeFromDto() {
 		try {
-                    DataSelectionLogic logic = new DataSelectionLogic();
 			if (selectionDTO != null) {
 				description.setValue(selectionDTO.getDescription());
 				projectionName.setValue(selectionDTO.getProjectionName());
@@ -1659,29 +1656,31 @@ public class DataSelection extends ForecastDataSelection {
 			String selectedLevel = String.valueOf(value);
 			String relationshipSid = String.valueOf(customerRelationComboBox.getValue());
 			String[] val = selectedLevel.split(" ");
-			forecastLevel = Integer.parseInt(val[1]);
+                        if (val.length > 1) {
+                        forecastLevel = Integer.parseInt(val[1]);
                         dataSelectionDTO.setSelectedCustomerLevelNo(selectedLevel);
-			List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic
-					.getHierarchyLevelDefinition(customerHierarchyDto.getHierarchyId(), hierarchyVersionNo);
-			Leveldto selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
-			List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String> emptyList()
-					: groupFilteredCompanies;
-			List<Leveldto> resultedLevelsList = null;
-			resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
-					Integer.parseInt(relationshipSid), tempGroupFileter, 
-					dedLevel,
-					dedValue, relationVersionNo, forecastEligibleDate.getValue(), customerDescriptionMap);
-			if (selectedHierarchyLevelDto.getLevel() != null) {
-				levelName = selectedHierarchyLevelDto.getLevel();
-			}
+                        List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic
+                                .getHierarchyLevelDefinition(customerHierarchyDto.getHierarchyId(), hierarchyVersionNo);
+                        Leveldto selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
+                        List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String>emptyList()
+                                : groupFilteredCompanies;
+                        List<Leveldto> resultedLevelsList = null;
+                        resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
+                                Integer.parseInt(relationshipSid), tempGroupFileter,
+                                dedLevel,
+                                dedValue, relationVersionNo, forecastEligibleDate.getValue(), customerDescriptionMap);
+                        if (selectedHierarchyLevelDto.getLevel() != null) {
+                            levelName = selectedHierarchyLevelDto.getLevel();
+                        }
 
-			availableCustomerContainer.addAll(resultedLevelsList);
-			availableCustomer.setContainerDataSource(availableCustomerContainer);
-			availableCustomer.setVisibleColumns(Constant.DISPLAY_VALUE);
-			availableCustomer.setColumnHeaders(levelName);
-			availableCustomer.setFilterBarVisible(true);
-			availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
-			availableCustomer.setStyleName(Constant.FILTER_TABLE);
+                        availableCustomerContainer.addAll(resultedLevelsList);
+                        availableCustomer.setContainerDataSource(availableCustomerContainer);
+                        availableCustomer.setVisibleColumns(Constant.DISPLAY_VALUE);
+                        availableCustomer.setColumnHeaders(levelName);
+                        availableCustomer.setFilterBarVisible(true);
+                        availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
+                        availableCustomer.setStyleName(Constant.FILTER_TABLE);
+                    }
 
 		} catch (CloneNotSupportedException | NumberFormatException ex) {
 			LOGGER.error(" level  ValueChangeListener3= {} ", ex);
