@@ -797,7 +797,7 @@ public class SalesLogic {
                 key = monthName.toLowerCase(Locale.ENGLISH) + "-" + String.valueOf(obj[NumericConstants.SIX]);
             }
             if (CommonUtil.isValueEligibleForLoading()) {
-                salesRowDto.setSalesInclusion(obj[NumericConstants.NINETEEN] != null ? String.valueOf(BooleanUtils.toInteger((boolean) obj[NumericConstants.NINETEEN])) : StringUtils.EMPTY);
+                salesRowDto.setSalesInclusion(projectionSelectionDTO.isIsCustomHierarchy() ? String.valueOf(obj[NumericConstants.NINETEEN]) : String.valueOf(BooleanUtils.toInteger((boolean) obj[NumericConstants.NINETEEN])));
             }
 
             salesProjectionTableCustomization(projectionSelectionDTO, salesProjectionDoubleColumnList, salesRowDto, headerMapValue, obj,

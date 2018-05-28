@@ -87,6 +87,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.ComboBox;
+import java.util.HashMap;
 
 /**
  *
@@ -117,6 +118,7 @@ public class DataSelection extends ForecastDataSelection {
 	private final List<String> productHierarchyNos = new ArrayList<>();
 	private final DataSelectionLogic dsLogic = new DataSelectionLogic();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
+        Map<String,String> customViewInput=new HashMap<>();
 
 	private final ExecutorService service = ThreadPool.getInstance().getService();
 
@@ -135,6 +137,8 @@ public class DataSelection extends ForecastDataSelection {
 		customerGroup.setValue(dataSelectionDTO.getCustomerGroup());
 		productGroup.setValue(dataSelectionDTO.getProductGroup());
                 frequency.select(session.getDsFrequency());
+                customRelationDdlb.setValue(session.getCustomRelationShipSid());
+                customRelationDdlbDeduction.setValue(session.getCustomDeductionRelationShipSid());
 		LOGGER.debug("Inside Constructor= {}" , form);
 	}
 
@@ -1713,6 +1717,8 @@ public class DataSelection extends ForecastDataSelection {
 			selectedCustomerContainer.removeAllItems();
 			setCustomerForecastLevelNullSelection();
 			setCustomerLevelNullSelection();
+                        setNullSelectionCustomDdlb(customRelationDdlb);
+                        setNullSelectionCustomDdlb(customRelationDdlbDeduction);
 			if (!isFirstTimeLoad()) {
 				customerDescriptionMap = null;
 			}
@@ -1728,6 +1734,10 @@ public class DataSelection extends ForecastDataSelection {
 				setCustomerForecastLevelNullSelection();
 				setCustomerLevelNullSelection();
 				loadCustomerVersionNo(customerRelationComboBox.getValue());
+                                customViewInput.put("custVer", customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
+                                customViewInput.put("custSid", String.valueOf(customerRelationComboBox.getValue()));
+                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
+                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
 			} catch (Exception ex) {
 
 				LOGGER.error(" in customerRelation value change= {}", ex);
@@ -1755,6 +1765,8 @@ public class DataSelection extends ForecastDataSelection {
 			productInnerLevelContainer.removeAllItems();
 			setProductForecastLevelNullSelection();
 			setProductLevelNullSelection();
+                        setNullSelectionCustomDdlb(customRelationDdlb);
+                        setNullSelectionCustomDdlb(customRelationDdlbDeduction);
 			if (!isFirstTimeLoad()) {
 				productDescriptionMap = null;
 			}
@@ -1792,6 +1804,10 @@ public class DataSelection extends ForecastDataSelection {
 					}
 				}
 				loadProductVersionNo(productRelation.getValue());
+                                customViewInput.put("prodVer", productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
+                                customViewInput.put("prodSid", String.valueOf(productRelation.getValue()));
+                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
+                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
 			} catch (NumberFormatException ex) {
 				LOGGER.error(" in productRelation value change= {}",ex);
 			}
@@ -4402,5 +4418,16 @@ public class DataSelection extends ForecastDataSelection {
 		List<String[]> newDeductionLevelList = CommonLogic.getDataselectionDeductionLevel();
 		Utility.loadDdlbForDeduction(dataSelectionDeductionLevel, newDeductionLevelList,session);
 	}
+        
+        private void loadCustomViewDropDown(ComboBox customRelationDdlb,Map<String,String> inputData) {
+            setNullSelectionCustomDdlb(customRelationDdlb);
+            dsLogic.loadCustomViewValues(customRelationDdlb,inputData,true);
+        }
+
+        private void loadCustomViewDeductionDropDown(ComboBox customRelationDdlb,Map<String,String> inputData) {
+            setNullSelectionCustomDdlb(customRelationDdlb);
+            dsLogic.loadCustomViewDeductionValues(customRelationDdlb,inputData,true);
+
+        }
 
 }
