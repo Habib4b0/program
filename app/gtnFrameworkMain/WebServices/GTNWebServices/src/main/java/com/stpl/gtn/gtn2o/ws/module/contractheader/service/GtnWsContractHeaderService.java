@@ -240,9 +240,8 @@ public class GtnWsContractHeaderService {
 			GtnWsContractHeaderResponse gtnConResponse = new GtnWsContractHeaderResponse();
 			gtnConResponse.setGtnWsContractMasterBean(bean);
 			gtnConResponse.setGtnwsContractAliasMasterBeanList(aliasList);
-			gtnResponse.setGtnWsContractHeaderResponse(gtnConResponse);
+			gtnResponse.setGtnWsContractHeaderResponse(gtnConResponse);			
 			tx.commit();
-			automaticRelationService.checkAndUpdateAllRelationShip("");
 			return contractMasterSid;
 		} catch (Exception e) {
 			tx.rollback();
