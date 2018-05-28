@@ -1432,7 +1432,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             levelFilter.setValue(SELECT_ONE);
             levelFilter.setEnabled(false);
             loadCustomDDLB();
-            viewDdlb.setValue(SELECT_ONE);
             getTableLogic().clearAll();
             ((NMSalesProjectionTableLogic) getTableLogic()).setProjectionResultsData(projectionDTO);
         } else if ((PRODUCT.getConstant()).equals(view.getValue())) {
@@ -1499,6 +1498,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         viewDdlb.setEnabled(true);
         newBtn.setEnabled(false);
         editBtn.setEnabled(false);
+        viewDdlb.setEnabled(false);
         loadCustomViewDDdlb(false);
         viewDdlb.select(session.getCustomRelationShipSid());
         customId = session.getCustomRelationShipSid();
@@ -3947,7 +3947,7 @@ public void loadCustomViewDDdlb(boolean isDataSelection) {
     LOGGER.info("Inside Loading Custom View");
         dataMap.put("custSid", session.getCustRelationshipBuilderSid());
         dataMap.put("custVer",  String.valueOf(session.getCustomerRelationVersion()));
-        dataMap.put("prodVer", String.valueOf(session.getProductHierarchyVersion()));
+        dataMap.put("prodVer", String.valueOf(session.getProductRelationVersion()));
         dataMap.put("prodSid", session.getProdRelationshipBuilderSid());
         new DataSelectionLogic().loadCustomViewValues(viewDdlb, dataMap,isDataSelection);
 }
