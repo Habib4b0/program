@@ -462,6 +462,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 viewChange(true);
+                customDdlbChangeOption();
             }
         });
 
@@ -646,39 +647,10 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         editViewBtn.setEnabled(false);
         addViewBtn.setEnabled(false);
         if (!generated) {
-//            customDdlb.removeAllItems();
-//            customDdlb.addItem(SELECT_ONE);
-//            customDdlb.setNullSelectionItemId(SELECT_ONE);
-//            if(!getSessionDTO().getCustomerViewList().isEmpty()){
-//              customViewList= getSessionDTO().getCustomerViewList();
-//            }
-//            else{
-//            customViewList = CommonLogic.getCustomViewList(getSessionDTO().getProjectionId());
-//           getSessionDTO().setCustomerViewList(customViewList);
-//            }
-//            if (customViewList != null) {
-//
-//                Object select = null;
-//                for (CustomViewMaster obj : customViewList) {
-//                    int customSid = obj.getCustomViewMasterSid();
-//                    Object itemId = customSid;
-//                    if (customIdToSelect == customSid) {
-//                        select = itemId;
-//                    }
-//                    customDdlb.addItem(itemId);
-//                    customDdlb.setItemCaption(itemId, obj.getViewName());
-//                }
-//                if (select == null) {
-//                    levelDdlb.setEnabled(false);
-//                    customDdlb.setValue(SELECT_ONE);
-//                } else {
-//                    levelDdlb.setEnabled(true);
-//                    customDdlb.select(customIdToSelect);
-//                }
-//            }
             loadCustomViewDDdlb(false);
             customDdlb.select(getSessionDTO().getCustomDeductionRelationShipSid());
             customId = getSessionDTO().getCustomDeductionRelationShipSid();
+            customDdlb.setEnabled(false);
 
         }
         LOGGER.debug("projection variance  loadCustomDDLB ends ");

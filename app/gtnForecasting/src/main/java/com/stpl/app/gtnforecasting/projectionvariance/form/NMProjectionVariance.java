@@ -898,9 +898,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
         }
-        if (CommonUtil.isValueEligibleForLoading()) {
-            session.setDeductionLevelDetails(dsLogic.getRelationshipDetailsDeduction(session, session.getDedRelationshipBuilderSid(), true));
-        }
         viewChangeHierarchy = session.getCustomHierarchyMap().get(customId);
         if (customId != 0) {
             callGenerateLogic();
@@ -1329,7 +1326,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         addViewBtn.setEnabled(false);
         if (view.getValue() != null) {
             if (CUSTOM.getConstant().equals(String.valueOf(view.getValue()))) {
-                pvSelectionDTO.setHierarchyIndicator("D");
                 pvSelectionDTO.setIsCustomHierarchy(true);
                 if (firstGenerated && !generated) {
                     tableLogic.clearAll();

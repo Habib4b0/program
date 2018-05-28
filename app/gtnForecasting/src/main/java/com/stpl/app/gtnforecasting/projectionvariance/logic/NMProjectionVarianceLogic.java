@@ -1047,7 +1047,7 @@ public class NMProjectionVarianceLogic {
             }
 
             String hierarchyIndicator = commonLogicForConfigureLevels.getHiearchyIndicatorFromCustomView(projSelDTO);
-            Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
+            Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getDiscountHierarchyLevelDetails();
             List<String> hierarchyNoList = getHiearchyNoForCustomView(projSelDTO, resultStart, offset);
             for (String hierarchyNo : hierarchyNoList) {
                 String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
@@ -1079,10 +1079,10 @@ public class NMProjectionVarianceLogic {
         dto.setLevelNo(Integer.valueOf(detailsList.get(NumericConstants.TWO).toString()));
         dto.setTreeLevelNo(levelNo);
         String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
-        dto.setGroup(CommonUtil.getDisplayFormattedName(hierarchy, hierarchyIndicator, projSelDTO.getSessionDTO().getHierarchyLevelDetails(), projSelDTO.getSessionDTO(), projSelDTO.getDisplayFormat()));
+        dto.setGroup(CommonUtil.getDisplayFormattedName(hierarchy, hierarchyIndicator,projSelDTO.isIsCustomHierarchy()? projSelDTO.getSessionDTO().getDiscountHierarchyLevelDetails():projSelDTO.getSessionDTO().getHierarchyLevelDetails(), projSelDTO.getSessionDTO(), projSelDTO.getDisplayFormat()));
         dto.setLevelValue(detailsList.get(0).toString());
         dto.setHierarchyNo(hierarchyNo);
-        dto.setHierarchyIndicator(hierarchyIndicator);
+        dto.setHierarchyIndicator(hierarchyIndicator); 
         if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
             dto.setCustomerHierarchyNo(dto.getHierarchyNo());
             dto.setProductHierarchyNo(projSelDTO.getProductHierarchyNo());
@@ -2772,21 +2772,7 @@ public class NMProjectionVarianceLogic {
         String sql;
         sql = SQlUtil.getQuery(Constant.SELECTED_HIERARCHY_CUSTOM);
         if (projSelDTO.isIsCustomHierarchy()) {
-            String currentHierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
-            int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
-            switch (String.valueOf(currentHierarchyIndicator)) {
-                case Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY:
-                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getCustomerHierarchyNo(), currentHierarchyIndicator, levelNo));
-                    break;
-                case Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY:
-                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
-                    break;
-                case Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY:
-                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchyDeduction(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), currentHierarchyIndicator, levelNo,false));
-                    break;
-                default:
-                    LOGGER.warn("Invalid Hierarchy Indicator= {}" , currentHierarchyIndicator);
-            }
+           sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchyCustom(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), projSelDTO.getTreeLevelNo(),false));
         } else {
             sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
         }
@@ -3009,17 +2995,11 @@ public class NMProjectionVarianceLogic {
         String countQuery = SQlUtil.getQuery(Constant.CUSTOM_VIEW_DECLARATION);
         countQuery = countQuery.replace(Constant.CUSTOM_VIEW_MASTER_SID, String.valueOf(projSelDTO.getCustomId()));
         countQuery += insertAvailableHierarchyNo(projSelDTO);
-        countQuery += commonLogic.getDedCustomJoinGenerate(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), levelNo);
-        String selectedHierarchy = getHierarchyJoinQuery(projSelDTO);
-        if (!selectedHierarchy.equals(StringUtils.EMPTY)) {
-            countQuery = countQuery.replace(Constant.SELECTED_HIERARCHY_JOIN, selectedHierarchy);
             countQuery += SQlUtil.getQuery("custom-view-count-condition-query-forPV");
-//            countQuery = countQuery.replace(Constant.RELJOIN, CommonLogic.getRelJoinGenerate(commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO),projSelDTO.getSessionDTO()));
             List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(countQuery, projSelDTO.getSessionDTO().getCurrentTableNames()));
             if (list != null && !list.isEmpty()) {
                 count = Integer.parseInt(list.get(0).toString());
             }
-        }
         LOGGER.debug("ending getCountForCustomView");
         return count;
     }
@@ -3027,14 +3007,10 @@ public class NMProjectionVarianceLogic {
     public List getHiearchyNoForCustomView(final ProjectionSelectionDTO projSelDTO, int start, int end) {
 
         int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
-        String query = SQlUtil.getQuery(Constant.PARENTVALIDATE);
-        query = query.replace(Constant.RELVALUE, projSelDTO.getSessionDTO().getDedRelationshipBuilderSid());
-        query = query.replace(Constant.RELVERSION, String.valueOf(projSelDTO.getSessionDTO().getDeductionRelationVersion()));
+        String query = SQlUtil.getQuery(Constant.CUSTOM_VIEW_DECLARATION);
+        query = query.replace(Constant.CUSTOM_VIEW_MASTER_SID, String.valueOf(projSelDTO.getCustomId()));
         query += insertAvailableHierarchyNo(projSelDTO);
-        query += commonLogic.getDedCustomJoinGenerate(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), levelNo);
-        query = query.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
-        query += SQlUtil.getQuery("custom-view-condition-query");
-        query = query.replace(Constant.RELJOIN, CommonLogic.getRelJoinGenerate(commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), projSelDTO.getSessionDTO()));
+        query += SQlUtil.getQuery("custom-view-count-condition-query-forPVLoad");
         query = query.replace(Constant.START_QUESTION, String.valueOf(start));
         query = query.replace(Constant.END_QUESTION, String.valueOf(end));
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
@@ -3156,4 +3132,39 @@ public class NMProjectionVarianceLogic {
         }
         return stringBuilder.toString();
     }
+    
+    public String getSelectedHierarchyCustom(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo,boolean isCount) {
+
+        if (levelNo == 0) {
+            throw new IllegalArgumentException("Invalid Level No:" + levelNo);
+        }
+
+        Map<String, List> relationshipLevelDetailsMap = sessionDTO.getDiscountHierarchyLevelDetails();
+        StringBuilder stringBuilder = new StringBuilder();
+
+		boolean isNotFirstElement = false;
+		boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo)
+				|| "D".equals(hierarchyIndicator);
+		int i = 1;
+		for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
+			if ((Integer.parseInt(entry.getValue().get(2).toString()) == levelNo
+					&& hierarchyIndicator.equals(entry.getValue().get(4).toString()))
+					&& (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
+
+				if (isNotFirstElement) {
+					stringBuilder.append(",\n");
+				}
+				stringBuilder.append("('");
+				stringBuilder.append(entry.getKey());
+				stringBuilder.append(isCount ? "')" : "'," + i++ + ")");
+
+				isNotFirstElement = true;
+			}
+		}
+		if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
+			stringBuilder.append("('");
+			stringBuilder.append("')");
+		}
+		return stringBuilder.toString();
+	}
 }
