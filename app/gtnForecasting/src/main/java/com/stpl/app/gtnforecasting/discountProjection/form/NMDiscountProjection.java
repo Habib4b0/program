@@ -177,6 +177,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     public static final String DISCOUNT = "Discount";
     public static final String PRODUCT1 = "PRODUCT";
     public static final String CUSTOMER1 = "CUSTOMER";
+    public static final String STRING_ONE = "1";
     /* To enable or disable level filter listener */
     private boolean enableLevelFilterListener = true;
     /* The bean used to load the Mass Update - value Ddlb */
@@ -431,6 +432,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     public void getContent() {
         LOGGER.debug("Inside getContent= {} ", session.getAction());
         configureFeildsForNm();
+         if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
+            loadDeductionLevelFilter(session.getDataSelectionDeductionLevel(), false);
+            deductionFilterValues.getChildren().get(1).setChecked(true);
+            String deductionMenuItemValue = deductionFilterValues.getChildren().get(1).getMenuItem().getCaption();
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
+            generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
+            generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
+        }
         if (ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             setDiscountViewOnly();
         }
@@ -3562,7 +3571,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             List<String> checkedValues = getCheckedDeductionInclusionValues();
             session.setDeductionInclusion("ALL");
             if (checkedValues.size() == 1) {
-                session.setDeductionInclusion(checkedValues.get(0).equalsIgnoreCase("Yes") ? "1" : "0");
+                session.setDeductionInclusion(checkedValues.get(0).equalsIgnoreCase("Yes") ? STRING_ONE : "0");
             }
             session.setDiscountUom(uomDdlb.getValue() != null ? String.valueOf(uomDdlb.getValue()) : "EACH");
             session.setSelectedDeductionLevelNo(Integer.parseInt(String.valueOf(deductionlevelDdlb.getValue())));
