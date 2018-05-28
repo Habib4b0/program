@@ -2396,6 +2396,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 if (event.getProperty().getValue() != null) {
+                    session.setDataSelectionDeductionLevelCaption(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
                     String deductionLevelDdlbValue = String.valueOf(event.getProperty().getValue());
                     pvSelectionDTO.setSelectedDeductionLevelName(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
                     deductionLevelDdlbValue = Constant.NULL.equals(deductionLevelDdlbValue) ? StringUtils.EMPTY : deductionLevelDdlbValue;

@@ -592,6 +592,11 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     @UiHandler("generateBtn")
     public void generate(Button.ClickEvent event)  {
         try {
+            if (!sessionDTO.getDsFrequency().equals(frequency.getValue()) || !sessionDTO.getDeductionLevel().equals(deductionlevelDdlb.getValue())) {
+                    new DataSelectionLogic().nmSalesViewsPopulationProcedure(sessionDTO);
+                    new DataSelectionLogic().nmDiscountViewsPopulationProcedure(sessionDTO);
+                    CommonUtil.getInstance().waitForSeconds();
+                }
 
             LOGGER.debug("------ Inside generate security Projection Variance Tab and generate Button");
        
