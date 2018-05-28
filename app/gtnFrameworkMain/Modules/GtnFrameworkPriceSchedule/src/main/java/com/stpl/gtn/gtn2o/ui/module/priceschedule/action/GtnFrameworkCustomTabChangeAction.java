@@ -54,7 +54,7 @@ public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction, 
 						GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 			}
 			String mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode").toString();
-			if (mode != null && "view".equalsIgnoreCase(mode)) {
+			if (mode != null && !"view".equalsIgnoreCase(mode)) {
 				boolean checkValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(previousTable).getExtPagedTable()
 						.getColumnCheckBox(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(currentTable).getExtPagedTable()
