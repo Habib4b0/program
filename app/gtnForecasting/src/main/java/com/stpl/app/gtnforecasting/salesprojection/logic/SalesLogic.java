@@ -4457,7 +4457,7 @@ public class SalesLogic {
     }
     public String getPeriodSid(String period, String fre, String order) throws SystemException, PortalException {
         List periodSid = (List) salesAllocationDAO.executeSelectQuery(utils.periodQuery(period, fre, order));
-        return periodSid.get(0).toString();
+        return !periodSid.isEmpty() ? periodSid.get(0).toString() : null; 
     }
     
     public List getHistoryColumn(CustomTableHeaderDTO rightTableHeader) {
