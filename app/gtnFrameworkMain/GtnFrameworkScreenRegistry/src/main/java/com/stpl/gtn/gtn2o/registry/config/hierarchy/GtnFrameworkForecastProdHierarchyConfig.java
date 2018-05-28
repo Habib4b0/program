@@ -18,7 +18,7 @@ public class GtnFrameworkForecastProdHierarchyConfig {
 
 	GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
-	public List<GtnUIFrameworkComponentConfig> getProductSelectionLayoutCompoents(String nameSpace) {
+	public List<GtnUIFrameworkComponentConfig> getProductSelectionLayoutComponents(String nameSpace) {
 
 		List<GtnUIFrameworkComponentConfig> componentList = new ArrayList<>();
 		addProductSelectionLayout(componentList, nameSpace);

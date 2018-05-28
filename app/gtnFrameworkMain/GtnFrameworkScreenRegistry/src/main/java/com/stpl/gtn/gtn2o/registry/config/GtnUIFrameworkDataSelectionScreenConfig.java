@@ -54,7 +54,7 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		addProductSelectionPanel(componentList, nameSpace);
 
 		GtnFrameworkForecastProdHierarchyConfig productSelectionConfig = new GtnFrameworkForecastProdHierarchyConfig();
-		componentList.addAll(productSelectionConfig.getProductSelectionLayoutCompoents(nameSpace));
+		componentList.addAll(productSelectionConfig.getProductSelectionLayoutComponents(nameSpace));
 
 		addActionButtonLayout(componentList,mainLayout.getComponentId(), nameSpace);
 		addProjectionResultsPanel(componentList,mainLayout.getComponentId(), nameSpace);

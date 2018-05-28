@@ -621,6 +621,8 @@ public class GtnFrameworkCommonConstants {
 	public static final String MODIFIED_DATE_HEADER = "Modified Date";
 	public static final String COMPANY_RETURNS = "Company";
 	public static final String CREATED_DATE_HEADER = "Created Date";
+	public static final String HIGHEST_LEVEL = "Highest_Level";
+	public static final String LOWEST_LEVEL = "Lowest_Level";
 
 	public static final String PRIVATE_VIEW_NAME = "privateViewName";
 	public static final String PUBLIC_VIEW_NAME = "publicViewName";
