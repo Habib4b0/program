@@ -88,7 +88,7 @@ public class GtnFrameworkFSPagedTreeTableGetCountAction
 			GtnWsRecordBean parentDto = (GtnWsRecordBean) parentId;
 			List<Object> parentDetails = parentDto.getAdditionalProperties();
 			gtnForecastBean.setHierarchyNo(String.valueOf(parentDetails.get(0)));
-			gtnForecastBean.setLevelNo(Integer.valueOf(String.valueOf(parentDetails.get(1))));
+			gtnForecastBean.setLevelNo(Integer.parseInt(String.valueOf(parentDetails.get(1))));
 		} else {
 			gtnForecastBean.setHierarchyNo("");
 			gtnForecastBean.setLevelNo(1);

@@ -2,6 +2,10 @@ package com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean;
 
 public class GtnWsDiscountBean {
 
+	public GtnWsDiscountBean() {
+		super();
+	}
+
 	private int rsId;
 	private Double discountActuals;
 	private Double discountProjection;

@@ -52,7 +52,7 @@ public class GtnUIFrameWorkV8DualListBoxLoadLeftTableAction implements GtnUIFram
 		GtnUIFrameworkWebserviceResponse response = callWebService(
 				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE + dualListBoxConfig.getLeftTableURL(),
 				createLeftTableRequest(dualListBoxBean, dualListBoxConfig), dualListBoxConfig);
-		List<GtnWsRecordBean> outputList = new ArrayList<>();
+		List<GtnWsRecordBean> outputList = new ArrayList<>(10);
 		for (GtnUIFrameworkDataRow record : response.getGtnSerachResponse().getResultSet().getDataTable()) {
 			GtnWsRecordBean recordBean = new GtnWsRecordBean();
 			recordBean.setProperties(record.getColList());
@@ -61,9 +61,7 @@ public class GtnUIFrameWorkV8DualListBoxLoadLeftTableAction implements GtnUIFram
 			outputList.add(recordBean);
 		}
 		ListDataProvider<GtnWsRecordBean> dataProvider = DataProvider.ofCollection(outputList);
-		if (outputList != null) {
-			leftTable.setDataProvider(dataProvider);
-		}
+		leftTable.setDataProvider(dataProvider);
 	}
 
 	private GtnUIFrameworkWebserviceRequest createLeftTableRequest(final GtnFrameworkV8DualListBoxBean dualListBoxBean,
@@ -92,15 +90,13 @@ public class GtnUIFrameWorkV8DualListBoxLoadLeftTableAction implements GtnUIFram
 	private GtnUIFrameworkWebserviceResponse callWebService(final String webServiceUrl,
 			final GtnUIFrameworkWebserviceRequest request, GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig) {
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		if (dualListBoxConfig.getModuleType().equals("forecast")) {
-			response = client.callGtnWebServiceUrl(webServiceUrl, "forecast", request,
+			return client.callGtnWebServiceUrl(webServiceUrl, "forecast", request,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		} else {
-			response = client.callGtnWebServiceUrl(webServiceUrl, request,
+			return client.callGtnWebServiceUrl(webServiceUrl, request,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		}
-		return response;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Projections.include;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -17,6 +18,7 @@ import com.mongodb.Block;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoIterable;
+import com.mongodb.client.model.UpdateOptions;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoDBConnectionService;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
@@ -86,8 +88,13 @@ public class GtnWsReportCustomViewService {
 	public void saveCustomViewTree(GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
 		MongoCollection<GtnWsReportCustomViewDataBean> collection = connection.getDBInstance()
 				.getCollection(MongoStringConstants.CUSTOM_VIEW_COLLECTION, GtnWsReportCustomViewDataBean.class);
-		collection.insertOne(
-				gtnWsRequestF.getGtnWsReportRequest().getReportBean().getCustomViewBean().getCustomViewDataBean());
+		GtnWsReportCustomViewDataBean viewDataBean = gtnWsRequestF.getGtnWsReportRequest().getReportBean()
+				.getCustomViewBean().getCustomViewDataBean();
+		if (gtnWsRequestF.getGtnWsReportRequest().getReportBean().getCustomViewBean().isEdit()) {
+			collection.replaceOne(eq("customViewName", viewDataBean.getCustomViewName()), viewDataBean);
+		} else {
+			collection.insertOne(viewDataBean);
+		}
 	}
 
 	public List<String> loadCustomViewString() {

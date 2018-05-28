@@ -68,21 +68,21 @@ public class GtnReportCCPTableLoadAction
 	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
-		GtnUIFrameworkComponentData gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI
+		GtnUIFrameworkComponentData selectedTableComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(tableComponentId, componentId);
-		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) gtnUIFrameworkComponentData
+		GtnFrameworkV8DualListBoxBean selectedDualListBoxBean = (GtnFrameworkV8DualListBoxBean) selectedTableComponentData
 				.getCustomData();
-		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
-		rightTable.expand(rightTable.getTreeData().getRootItems());
-		List<GtnWsRecordBean> selectedvalues = rightTable.getTreeData().getRootItems();
+		TreeGrid<GtnWsRecordBean> selectedRightTable = selectedDualListBoxBean.getRightTable();
+		selectedRightTable.expand(selectedRightTable.getTreeData().getRootItems());
+		List<GtnWsRecordBean> selectedValues = selectedRightTable.getTreeData().getRootItems();
 
-		List<GtnWsRecordBean> selectedList = new ArrayList<>();
-		for (GtnWsRecordBean gtnWsRecordBean : selectedvalues) {
+		List<GtnWsRecordBean> selectedRecordList = new ArrayList<>(10);
+		for (GtnWsRecordBean gtnWsRecordBean : selectedValues) {
 
-			selectedList.add(gtnWsRecordBean);
-			addSelectedValues(rightTable, gtnWsRecordBean, selectedList);
+			selectedRecordList.add(gtnWsRecordBean);
+			addSelectedValues(selectedRightTable, gtnWsRecordBean, selectedRecordList);
 		}
-		return selectedList;
+		return selectedRecordList;
 	}
 
 	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList,
@@ -105,37 +105,37 @@ public class GtnReportCCPTableLoadAction
 			forecastEligibleDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		}
 		dto.setCustomerHierarchyForecastLevel(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(6).toString()).getValueFromComponent())));
+				.getVaadinBaseComponent(actionParamList.get(6).toString()).getCaptionFromV8ComboBox())));
 		dto.setCustomerHierarchySid(
 				(Integer) customerRecordBean.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1));
 		dto.setCustomerHierarchyVersionNo(Integer.parseInt(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(5).toString()).getCaptionFromComboBox()));
+				.getVaadinBaseComponent(actionParamList.get(5).toString()).getStringCaptionFromV8ComboBox()));
 		dto.setCustomerRelationshipBuilderSid(Integer.parseInt(String.valueOf(
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(relationshipComponentId).getValueFromComponent())));
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(relationshipComponentId).getCaptionFromV8ComboBox())));
 		dto.setCustomerRelationshipVersionNo(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(5).toString()).getValueFromComponent())));
+				.getVaadinBaseComponent(actionParamList.get(5).toString()).getCaptionFromV8ComboBox())));
 
 		dto.setForecastEligibleDate(forecastEligibleDate);
 
 		dto.setProductHierarchyForecastLevel(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(10).toString()).getValueFromComponent())));
+				.getVaadinBaseComponent(actionParamList.get(10).toString()).getCaptionFromV8ComboBox())));
 		dto.setProductHierarchySid(
 				(Integer) productRecordBean.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1));
 		dto.setProductHierarchyVersionNo(Integer.parseInt(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(11).toString()).getCaptionFromComboBox()));
+				.getVaadinBaseComponent(actionParamList.get(11).toString()).getStringCaptionFromV8ComboBox()));
 		dto.setProductRelationshipBuilderSid(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(9).toString()).getValueFromComponent())));
+				.getVaadinBaseComponent(actionParamList.get(9).toString()).getCaptionFromV8ComboBox())));
 		dto.setProductRelationshipVersionNo(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(11).toString()).getValueFromComponent())));
+				.getVaadinBaseComponent(actionParamList.get(11).toString()).getCaptionFromV8ComboBox())));
 		dto.setReportDataSource(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(12).toString()).getCaptionFromV8ComboBox()));
 
-		dto.setCompanyReport(Integer.valueOf(GtnUIFrameworkGlobalUI
+		dto.setCompanyReport(Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox()));
-		dto.setBusinessUnitReport(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(14).toString())
-				.getIntegerFromField());
-		dto.setFromPeriodReport(Integer.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(15).toString()).getCaptionFromV8ComboBox()));
+		dto.setBusinessUnitReport(Integer.parseInt(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(14).toString())
+				.getCaptionFromV8ComboBox()));
+		//dto.setFromPeriodReport(Integer.parseInt(GtnUIFrameworkGlobalUI
+				//.getVaadinBaseComponent(actionParamList.get(15).toString()).getCaptionFromV8ComboBox()));
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);
 		dto.setProductHierarchyRecordBean(productRecordBean);
 		dto.setSelectedCustomerHierarchyList(selectedCustomerList);
@@ -205,7 +205,7 @@ public class GtnReportCCPTableLoadAction
 	private List<GtnFrameworkRelationshipLevelDefintionBean> relationBeanList(
 			List<GtnWsRecordBean> selectedCustomerContractList, GtnWsReportDataSelectionBean dataSelectionDto,
 			boolean isProduct) {
-		List<GtnFrameworkRelationshipLevelDefintionBean> relationBeanList = new ArrayList<>();
+		List<GtnFrameworkRelationshipLevelDefintionBean> relationBeanList = new ArrayList<>(selectedCustomerContractList.size());
 		for (GtnWsRecordBean recordBean : selectedCustomerContractList) {
 
 			GtnFrameworkRelationshipLevelDefintionBean forecast = new GtnFrameworkRelationshipLevelDefintionBean();

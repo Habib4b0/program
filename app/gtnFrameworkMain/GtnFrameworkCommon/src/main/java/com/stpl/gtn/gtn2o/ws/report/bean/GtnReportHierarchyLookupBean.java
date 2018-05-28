@@ -3,6 +3,10 @@ package com.stpl.gtn.gtn2o.ws.report.bean;
 import java.util.Date;
 
 public class GtnReportHierarchyLookupBean {
+	
+	public GtnReportHierarchyLookupBean(){
+		super();
+	}
 
 	private String hierarchyName;
 	private String hierarchyType;
@@ -47,7 +51,7 @@ public class GtnReportHierarchyLookupBean {
 	}
 
 	public Date getCreatedDate() {
-		return createdDate;
+		return this.createdDate;
 	}
 
 	public void setCreatedDate(Date createdDate) {
@@ -55,7 +59,7 @@ public class GtnReportHierarchyLookupBean {
 	}
 
 	public Date getModifiedDate() {
-		return modifiedDate;
+		return this.modifiedDate;
 	}
 
 	public void setModifiedDate(Date modifiedDate) {

@@ -10,10 +10,8 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
-import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkConfigMap;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
-import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -51,7 +49,7 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 			String id = sourceComponentId + "_" + "reportingDashboardTab_displaySelectionTabVariable";
 			ComboBoxMultiselect multiSelect = (ComboBoxMultiselect<?>) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(id)
 					.getComponent();
-			List<Object[]> selectedVariables = (List<Object[]>) multiSelect.getSelectedItems().stream().map((value) -> {
+			List<Object[]> selectedVariables = (List<Object[]>) multiSelect.getSelectedItems().stream().map(value -> {
 				Object[] dataArray = new Object[3];
 				dataArray[0] = value.toString();
 				dataArray[1] = 1;

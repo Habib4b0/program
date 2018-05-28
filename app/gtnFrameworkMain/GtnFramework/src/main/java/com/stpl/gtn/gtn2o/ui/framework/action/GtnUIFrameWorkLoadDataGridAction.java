@@ -27,13 +27,16 @@ public class GtnUIFrameWorkLoadDataGridAction implements GtnUIFrameWorkAction {
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData((String) params.get(0), componentId);
 		if (componentData != null) {
+
 			GtnUIFrameworkPagedTableConfig tableConfig = componentData.getTableConfig();
-			GtnUIFrameworkPagedGridLogic tableLogic = componentData.getCurrentPageGridLogic();
-			
+			GtnUIFrameworkPagedGridLogic gridLogic = componentData.getCurrentPageGridLogic();
+
 			if (gtnUIFrameWorkActionConfig.getFieldDescription() == null) {
-				tableLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
+				gridLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
 			} else {
-				tableLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(),gtnUIFrameWorkActionConfig.getFieldDescription(), true);
+
+				gridLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(),gtnUIFrameWorkActionConfig.getFieldDescription(), true);
+
 			}
 		}
 	}

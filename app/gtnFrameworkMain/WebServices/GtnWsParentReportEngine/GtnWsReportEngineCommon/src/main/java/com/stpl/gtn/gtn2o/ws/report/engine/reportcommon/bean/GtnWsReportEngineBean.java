@@ -1,9 +1,14 @@
 package com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GtnWsReportEngineBean {
+
+	public GtnWsReportEngineBean() {
+		super();
+	}
 
 	private List<String> comparisonTableName = new ArrayList<>();
 
@@ -20,7 +25,7 @@ public class GtnWsReportEngineBean {
 	private int deductionInclusion;
 
 	public List<String> getComparisonTableName() {
-		return comparisonTableName;
+		return comparisonTableName.isEmpty() ? comparisonTableName : Collections.unmodifiableList(comparisonTableName);
 	}
 
 	public void addComparisonTableName(String collection) {

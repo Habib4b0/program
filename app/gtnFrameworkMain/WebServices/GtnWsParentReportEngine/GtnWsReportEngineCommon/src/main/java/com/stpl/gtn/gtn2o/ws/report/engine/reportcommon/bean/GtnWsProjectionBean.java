@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GtnWsProjectionBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private int ccpId;
 
@@ -25,7 +28,8 @@ public class GtnWsProjectionBean implements Serializable {
 	}
 
 	public List<GtnWsProjectionDetailsValuesBean> getProjectionDetailsValues() {
-		return projectionDetailsValues;
+		return projectionDetailsValues != null ? Collections.unmodifiableList(projectionDetailsValues)
+				: projectionDetailsValues;
 	}
 
 	public void addProjectionDetailsValues(GtnWsProjectionDetailsValuesBean projectionDetailsValues) {
@@ -43,5 +47,4 @@ public class GtnWsProjectionBean implements Serializable {
 	private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
 		ois.defaultReadObject();
 	}
-
 }

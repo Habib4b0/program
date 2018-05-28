@@ -472,7 +472,9 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 		Container.Hierarchical container = (Container.Hierarchical) tree.getContainerDataSource();
 		container.addItem(itemId);
 		container.setChildrenAllowed(itemId, childrenAllowed);
-		container.setParent(itemId, parentItemId);
+                if (parentItemId != null) {
+                    container.setParent(itemId, parentItemId);
+                }
 	}
 
 	public void addItemsToTreeDataTable(AbstractSelect tree, Object parentItemId, Collection<?> items,

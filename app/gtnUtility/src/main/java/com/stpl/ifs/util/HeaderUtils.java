@@ -22,6 +22,7 @@ public class HeaderUtils {
     boolean projection = false;
     public static String ANNUAL = "Annual";
     public static String SEMI_ANNUAL = "semi-Annual";
+    public static String SEMI_ANNUAL_C = "Semi-Annual";
     public static String MONTH = "monthly";
     public static String QUARTER = "quarterly";
     public static String Actual_sales = "Actuals";
@@ -122,6 +123,12 @@ public class HeaderUtils {
     public static final String ONE_FIVE_FIVE_PX = "155px";
     public static final String TWO_ZERO_FIVE_PX = "205px";
     public static final String TWO_THIRTY_FIVE_PX = "235px";
+    public static String ANNUALLY = "Annually";
+    public static String SEMI_ANNUALLY = "Semi-Annually";
+    public static String MONTHLY = "Monthly";
+    public static String QUARTERLY = "Quarterly";
+    public static final String FREQUENCY = "Frequency: ";
+    public static final String DATASELECTION_DEDUCTIONLEVEL = "Deduction Level: ";
 
    public static class NonMantaded {
 

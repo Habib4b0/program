@@ -55,6 +55,10 @@
      <bean id="gtnWsForecastController" class="com.stpl.gtn.gtn2o.ws.report.controller.GtnWsForecastController">
         <property name="sessionFactory" ref="sessionFactory"></property>
         <property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+     </bean>
+     
+    <bean id="gtnReportJsonService"
+    	class="com.stpl.gtn.gtn2o.ws.report.service.GtnReportJsonService">
     </bean>
     
 </beans>

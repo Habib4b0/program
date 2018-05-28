@@ -40,6 +40,7 @@
 		<module>GtnFrameworkUDCConfiguration</module>
 		<module>GtnUIFrameworkCommercialForecasting</module>
 		<module>GtnFrameworkReport</module>
+		<module>GtnFrameworkCustomview</module>
 	</modules>
 
 	<dependencies>

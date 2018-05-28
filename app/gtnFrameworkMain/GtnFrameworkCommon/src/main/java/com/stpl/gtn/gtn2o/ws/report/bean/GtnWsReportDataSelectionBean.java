@@ -1,12 +1,15 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 
 public class GtnWsReportDataSelectionBean {
+	
+	public GtnWsReportDataSelectionBean(){
+		super();
+	}
 
 	private long customerHierarchySid;
 	private long productHierarchySid;
@@ -34,7 +37,12 @@ public class GtnWsReportDataSelectionBean {
 	private GtnWsRecordBean productHierarchyRecordBean;
 	private List<GtnWsRecordBean> selectedCustomerHierarchyList;
 	private List<GtnWsRecordBean> selectedProductHierarchyList;
-	private LocalDate v8forecastEligibilityDate;
+	private Date fromPeriod;
+	private Date toPeriodReport;
+
+	private String viewName;
+	private String viewType;
+	private Integer viewId;
 
 	public int getProductRelationshipBuilderSid() {
 		return productRelationshipBuilderSid;
@@ -85,7 +93,7 @@ public class GtnWsReportDataSelectionBean {
 	}
 
 	public Date getForecastEligibleDate() {
-		return forecastEligibleDate;
+		return this.forecastEligibleDate;
 	}
 
 	public void setForecastEligibleDate(Date forecastEligibleDate) {
@@ -250,12 +258,44 @@ public class GtnWsReportDataSelectionBean {
 		this.availableProductHierarchyList = availableProductHierarchyList;
 	}
 
-	public LocalDate getv8ForecastEligibilityDate() {
-		return v8forecastEligibilityDate;
+	public String getViewName() {
+		return viewName;
 	}
 
-	public void setv8ForecastEligibilityDate(LocalDate forecastEligibilityDate) {
-		this.v8forecastEligibilityDate = forecastEligibilityDate;
+	public void setViewName(String viewName) {
+		this.viewName = viewName;
 	}
 
+	public String getViewType() {
+		return viewType;
+	}
+
+	public void setViewType(String viewType) {
+		this.viewType = viewType;
+	}
+
+	public Date getFromPeriod() {
+		return this.fromPeriod;
+	}
+
+	public void setFromPeriod(Date fromPeriod) {
+		this.fromPeriod = fromPeriod;
+	}
+
+	public Date getToPeriodReport() {
+		return this.toPeriodReport;
+	}
+
+	public void setToPeriodReport(Date toPeriodReport) {
+		this.toPeriodReport = toPeriodReport;
+	}
+
+	public Integer getViewId() {
+		return viewId;
+	}
+
+	public void setViewId(Integer viewId) {
+		this.viewId = viewId;
+	}
+	
 }

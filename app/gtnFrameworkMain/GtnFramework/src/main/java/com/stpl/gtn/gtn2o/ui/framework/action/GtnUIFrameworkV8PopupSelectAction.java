@@ -39,7 +39,7 @@ public class GtnUIFrameworkV8PopupSelectAction implements GtnUIFrameWorkAction {
 	}
 
 	/*
-	 * Param 0 - Result table Id , Param 1 - popup source compoent id, Param2 -
+	 * Param 0 - Result table Id , Param 1 - popup source component id, Param2 -
 	 * input column idList(property id of table), Param3 - component id list of
 	 * parant view (param 2 and 3 sholud be same size), Param4 - Close Action
 	 * class, Param5 - PopUpSharedData *
@@ -50,36 +50,34 @@ public class GtnUIFrameworkV8PopupSelectAction implements GtnUIFrameWorkAction {
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
-		List<Object> selectParam = gtnUIFrameWorkActionConfig.getActionParameterList();
-		String resultTableId = (String) selectParam.get(0);
-		String idComponent = (String) selectParam.get(1);
-		List<String> inputColumIds = (List<String>) selectParam.get(2);
-		List<String> outputFieldIds = (List<String>) selectParam.get(3);
+		List<Object> paramsList = gtnUIFrameWorkActionConfig.getActionParameterList();
+		String resultGridId = (String) paramsList.get(0);
+		String sourceComponentId = (String) paramsList.get(1);
+		List<String> inputColumnIds = (List<String>) paramsList.get(2);
+		List<String> outputFieldId = (List<String>) paramsList.get(3);
 
-		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(resultTableId, componentId);
+		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(resultGridId, componentId);
 		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) abstractComponent.getData();
 		Set<GtnWsRecordBean> rows = componentData.getPagedGrid().getValue();
 		GtnWsRecordBean selectedRow = rows.isEmpty() ? null : rows.iterator().next();
 		GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponentFromParent(idComponent, componentId).getComponentData();
+				.getVaadinBaseComponentFromParent(sourceComponentId, componentId).getComponentData();
 		idComponentData.setCustomData(selectedRow);
 
-		// GtnWsRecordBean dto = (GtnWsRecordBean) resultTable.getValue();
-
-		for (int i = 0; i < inputColumIds.size(); i++) {
+		for (int i = 0; i < inputColumnIds.size(); i++) {
 			GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId);
+					.getVaadinBaseComponentFromParent(outputFieldId.get(i), componentId);
 			HasValue<Object> vaadinField;
-			if (baseComponent.getComponentConfig().getComponentType()
-					.equals(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8)) {
+			if (baseComponent.getComponentConfig()
+					.getComponentType() == GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8) {
 				HorizontalLayout layout = (HorizontalLayout) baseComponent.getComponent();
 				vaadinField = (HasValue<Object>) layout.getComponent(0);
 			} else {
 				vaadinField = (HasValue<Object>) baseComponent.getComponent();
 			}
 			Object newValue = null;
-			if (selectedRow != null && selectedRow.getPropertyValue(inputColumIds.get(i)) != null) {
-				newValue = selectedRow.getPropertyValue(inputColumIds.get(i));
+			if (selectedRow != null && selectedRow.getPropertyValue(inputColumnIds.get(i)) != null) {
+				newValue = selectedRow.getPropertyValue(inputColumnIds.get(i));
 			} else if (selectedRow == null) {
 				GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 				alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
@@ -91,9 +89,9 @@ public class GtnUIFrameworkV8PopupSelectAction implements GtnUIFrameWorkAction {
 
 				throw new GtnFrameworkValidationFailedException("IsRecordSelected  validation Failed");
 			} else {
-				newValue = selectedRow.getPropertyValueByIndex(Integer.parseInt(inputColumIds.get(i)));
+				newValue = selectedRow.getPropertyValueByIndex(Integer.parseInt(inputColumnIds.get(i)));
 			}
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId)
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(outputFieldId.get(i), componentId)
 					.getComponentData().setCustomData(selectedRow);
 			if (vaadinField != null && newValue != null && !"null".equals(String.valueOf(newValue))) {
 				boolean isReadOnly = vaadinField.isReadOnly();
@@ -117,9 +115,10 @@ public class GtnUIFrameworkV8PopupSelectAction implements GtnUIFrameWorkAction {
 				GtnUIFrameworkComponent gtnUIFrameworkComponent = reloadComponentConfig.getComponentType()
 						.getGtnComponent();
 				List<Object> comboboxWhereClauseParamList = new ArrayList<>();
-				comboboxWhereClauseParamList
-						.add(selectedRow.getPropertyValueByIndex(selectedRow.getProperties().size() - 1));
-
+				if (selectedRow != null) {
+					comboboxWhereClauseParamList
+							.add(selectedRow.getPropertyValueByIndex(selectedRow.getProperties().size() - 1));
+				}
 				gtnUIFrameworkComponent.reloadComponent(GtnUIFrameworkActionType.VALUE_CHANGE_ACTION, reloadComponentId,
 						getParentViewId(customData, componentId), comboboxWhereClauseParamList);
 			}
