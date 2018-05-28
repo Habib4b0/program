@@ -2599,7 +2599,7 @@ public class DataSelectionLogic {
                                 .append(',').append("null")
                                 .append(',').append("null")
                                 .append(',').append("null")
-                                .append(",'").append("Schedule Category")
+                                .append(",'").append(session.getDataSelectionDeductionLevelCaption())
                                 .append('\'');
                                 LOGGER.info("before: {}", query.toString());
 				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
@@ -2929,7 +2929,7 @@ public class DataSelectionLogic {
         }
     }
     
-      private void nmSalesViewsPopulationProcedure(SessionDTO session) {
+      public void nmSalesViewsPopulationProcedure(SessionDTO session) {
         String query = SQlUtil.getQuery("ViewTableTruncationSales");
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,

@@ -278,6 +278,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     @Override
     protected void calculateLogic() {
         try {
+            setSalesValueChange(true);
             calculateButtonLogic();
         } catch (Exception ex) {
             LoggerFactory.getLogger(NMSalesProjection.class.getName()).error(StringUtils.EMPTY, ex);
@@ -499,7 +500,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     @Override
     public void generateBtnLogic(Button.ClickEvent event) {
-        CommonLogic.procedureCompletionCheck(projectionDTO,"sales",String.valueOf(view.getValue()));
+        CommonLogic.procedureCompletionCheck(session,"sales",String.valueOf(view.getValue()));
         try {
             projectionDTO.setCustomerLevelFilter(generateCustomerToBeLoaded);
             projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
