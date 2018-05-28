@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -39,6 +40,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
@@ -424,11 +426,11 @@ public class CommonUtil {
                         break;
                     case Constant.PRC_VIEWS_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
-                        new DataSelectionLogic().callViewInsertProcedureForNm((SessionDTO)inputs[NumericConstants.EIGHT], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,inputs[6].toString() ,inputs[7].toString());
+                        new DataSelectionLogic().callViewInsertProcedureForNm((SessionDTO)inputs[NumericConstants.SEVEN], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,inputs[6].toString());
                         break;
                     case Constant.FUNCTION_PRC_VIEWS_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
-                        new DataSelectionLogic().callViewInsertProcedures((SessionDTO)inputs[NumericConstants.ONE], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,inputs[6].toString() ,inputs[7].toString());
+                        new DataSelectionLogic().callViewInsertProcedures((SessionDTO)inputs[NumericConstants.ONE],inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,inputs[6].toString());
                         break;
                     default:
                         break;
@@ -569,7 +571,7 @@ public class CommonUtil {
     private static String setLevelNameValues(int index, List<Object> levelName, Object[] displayFormatIndex) {
         String formattedName = StringUtils.EMPTY;
         int indexFrom = (int) displayFormatIndex[index];
-        Object value = levelName.get(indexFrom + 1);
+        Object value = levelName.get(indexFrom);
         if (!getLevelName(value)) {
             if (index != 0) {
                 formattedName += " - ";
@@ -778,7 +780,7 @@ public class CommonUtil {
         return formattedNameList;
     }
     
-    public void isProcedureCompleted(String screenName, String viewName, SessionDTO session) {
+      public void isProcedureCompleted(String screenName, String viewName, SessionDTO session) {
         List inputList = new ArrayList<>();
         inputList.add(screenName);
         inputList.add(viewName);
@@ -786,12 +788,22 @@ public class CommonUtil {
         for (int i = 0; i < resultList.size(); i++) {
             Object[] obj = (Object[]) resultList.get(i);
             if (!"C".equalsIgnoreCase((String.valueOf(obj[2])).trim())) {
+                waitForSeconds();
                 isProcedureCompleted(String.valueOf(obj[0]), String.valueOf(obj[1]), session);
             } else {
                 return ;
             }
         }
         return ;
+    }
+    
+    public void waitForSeconds() {
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException ex) {
+            LOGGER.error( "Interrupted!", ex);
+            Thread.currentThread().interrupt();
+        }
     }
     
 }
