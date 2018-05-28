@@ -64,6 +64,7 @@
 		<GtnFrameworkHierarchyRouteBuilder>1.0</GtnFrameworkHierarchyRouteBuilder>
 		<GtnFramworkQueryGenerator>1.0</GtnFramworkQueryGenerator>
 		<osgi.annotation.version>6.0.0</osgi.annotation.version>
+		<gtnFrameworkScreenRegistry.version>1.0</gtnFrameworkScreenRegistry.version>
 
 	</properties>
 	<parent>
@@ -87,6 +88,7 @@
 				<module>WebServices/GtnWsHibernateHbm</module>
 				<module>WebServices/GtnQueryEngine</module>
 				<module>GtnFramworkQueryGenerator</module>
+				<module>GtnFrameworkScreenRegistry</module>
 			</modules>
 			<build>
 				<defaultGoal>clean install</defaultGoal>
@@ -115,6 +117,7 @@
 				<module>GtnFrameworkCommon</module>
 				<module>GtnFramework</module>
 				<module>GtnFrameworkComponentRepository</module>
+				<module>GtnFrameworkScreenRegistry</module>
 				<module>GtnFrameworkHierarchyRouteBuilder</module>
 				<module>Modules</module>
 			</modules>
@@ -175,7 +178,8 @@
 				<module>GtnFrameworkHierarchyRouteBuilder</module>
 				<module>GtnFramworkQueryGenerator</module>
 				<module>Modules</module>
-				<module>WebServices</module>
+				<!-- <module>WebServices</module> -->
+				<module>GtnFrameworkScreenRegistry</module>
 			</modules>
 			<activation>
 				<property>

@@ -21,6 +21,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
@@ -39,7 +40,8 @@ import java.util.Locale;
  * @author Karthik.Raja
  */
 public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
-
+    
+    GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPagedTreeGridComponent.class);
     @Override
     public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) throws GtnFrameworkGeneralException {
         VerticalLayout resultLayout = new VerticalLayout();
