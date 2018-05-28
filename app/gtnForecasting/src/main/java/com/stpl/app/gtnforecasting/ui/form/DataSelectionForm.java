@@ -4277,7 +4277,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 					VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
 					projectionId.setValue(String.valueOf(projectionIdValue));
 					dataSelectionDTO.setProjectionId(projectionIdValue);
-                                        dataSelectionDTO.setCustomRelationShipSid(Integer.valueOf(String.valueOf(customRelationDdlb.getValue())));
 					relationshipBuilderSids.clear();
 					setRelationshipBuilderSids(String.valueOf(customerRelationComboBox.getValue()));
 					setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
