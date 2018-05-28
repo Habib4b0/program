@@ -5310,17 +5310,17 @@ public class CommonLogic {
             }
         }
     }
-    public static void procedureCompletionCheck(ProjectionSelectionDTO projectionDTO,String screenName,String view) {
+    public static void procedureCompletionCheck(SessionDTO session,String screenName,String view) {
         LOGGER.info("procedureCompletionCheck---------------------------------------------------{}", view);
         switch (view) {
             case Constants.CUSTOMER:
-                CommonUtil.getInstance().isProcedureCompleted(screenName, Constants.CUSTOMER, projectionDTO.getSessionDTO());
+                CommonUtil.getInstance().isProcedureCompleted(screenName, Constants.CUSTOMER, session);
                 break;
             case Constants.PRODUCT:
-                CommonUtil.getInstance().isProcedureCompleted(screenName, Constants.PRODUCT, projectionDTO.getSessionDTO());
+                CommonUtil.getInstance().isProcedureCompleted(screenName, Constants.PRODUCT, session);
                 break;
             case Constants.CUSTOM:
-                CommonUtil.getInstance().isProcedureCompleted(screenName, Constants.CUSTOM, projectionDTO.getSessionDTO());
+                CommonUtil.getInstance().isProcedureCompleted(screenName, Constants.CUSTOM, session);
                 break;
             default:
                 LOGGER.warn("screenName is not valid= {} ", screenName);
@@ -5329,17 +5329,17 @@ public class CommonLogic {
         LOGGER.info("procedureCompletionCheck-----------------END----------------------------------");
     }
     
-    public static void viewProceduresCompletionCheck(ProjectionSelectionDTO projectionDTO) {
+    public static void viewProceduresCompletionCheck(SessionDTO session) {
         LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
-        procedureCompletionCheck(projectionDTO,SMALL_SALES,Constants.CUSTOMER);
-        procedureCompletionCheck(projectionDTO,SMALL_SALES,Constants.PRODUCT);
-        procedureCompletionCheck(projectionDTO,SMALL_SALES,Constants.CUSTOM);
+        procedureCompletionCheck(session,SMALL_SALES,Constants.CUSTOMER);
+        procedureCompletionCheck(session,SMALL_SALES,Constants.PRODUCT);
+        procedureCompletionCheck(session,SMALL_SALES,Constants.CUSTOM);
     }
-    public static void viewProceduresCompletionCheckDiscount(ProjectionSelectionDTO projectionDTO) {
+    public static void viewProceduresCompletionCheckDiscount(SessionDTO session) {
         LOGGER.info("viewProceduresCompletionCheck---------------------------------------------------");
-        procedureCompletionCheck(projectionDTO, DISCOUNT,Constants.CUSTOMER);
-        procedureCompletionCheck(projectionDTO, DISCOUNT,Constants.PRODUCT);
-        procedureCompletionCheck(projectionDTO, DISCOUNT,Constants.CUSTOM);
+        procedureCompletionCheck(session, DISCOUNT,Constants.CUSTOMER);
+        procedureCompletionCheck(session, DISCOUNT,Constants.PRODUCT);
+        procedureCompletionCheck(session, DISCOUNT,Constants.CUSTOM);
     }
    
 

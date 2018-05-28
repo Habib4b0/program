@@ -391,7 +391,7 @@ JOIN (SELECT PR.*
                 INSERT INTO #SELECTED_HIERARCHY_NO
                 (HIERARCHY_NO,INSTR,
                 CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES)
-                SELECT DISTINCT A.HIERARCHY_NO,INSTR,CH.CCP_DETAILS_SID,RLD1.RELATIONSHIP_LEVEL_VALUES
+                SELECT DISTINCT A.HIERARCHY_NO,INSTR,CH.CCP_DETAILS_SID,RLD1.RELATIONSHIP_LEVEL_VALES
                 FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO,INSTR)                
                 [?SELECTED_HIERARCHY_JOIN]
             ]]>
@@ -2568,6 +2568,14 @@ INNER JOIN CCP_DETAILS B
         <query>
             <![CDATA[  
               SELECT COUNT(DISTINCT HIERARCHY_NO)  
+FROM #SELECTED_HIERARCHY_NO A
+            ]]>
+        </query>
+    </entity>
+    <entity id="custom-view-count-condition-query-forPVLoad">
+        <query>
+            <![CDATA[  
+              SELECT DISTINCT HIERARCHY_NO  
 FROM #SELECTED_HIERARCHY_NO A
             ]]>
         </query>
