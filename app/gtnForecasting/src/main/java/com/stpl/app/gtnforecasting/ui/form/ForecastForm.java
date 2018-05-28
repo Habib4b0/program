@@ -534,8 +534,6 @@ public class ForecastForm extends AbstractForm {
                                     }
                                 }
                                 if (tabPosition == NumericConstants.FOUR && discountValidationFlag){
-                                CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_PROJECTION_LABEL));
-                                nmDiscountViewsPopulationProcedure();
                                 discountValidationFlag = false;
                                 }
                                 if (tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.FIVE
@@ -1105,6 +1103,7 @@ public class ForecastForm extends AbstractForm {
 	 */
 	@Override
 	protected void btnSaveLogic() {
+             if (NonMandatedLogic.isProjectionSavedSuccessFully(session)) return;
 		MessageBox.showPlain(Icon.QUESTION, "Save Confirmation", "Are you sure you want to save the projection?",
 				new MessageBoxListener() {
                                         @Override
@@ -1112,9 +1111,9 @@ public class ForecastForm extends AbstractForm {
 						if (buttonId.name().equals(Constant.YES)) {
 							try {
 								saveProjection();
-								final Notification notif = new Notification(
-										session.getProjectionName() + " has been successfully Saved",
-										Notification.Type.HUMANIZED_MESSAGE);
+								final Notification notif = new Notification("For Projection "+
+										session.getProjectionName() + " ,Save has been successfully Intiated",
+ 										Notification.Type.HUMANIZED_MESSAGE);
 								notif.setPosition(Position.TOP_CENTER);
 								notif.setStyleName(ConstantsUtils.MY_STYLE);
 								notif.show(Page.getCurrent());
@@ -1208,7 +1207,8 @@ public class ForecastForm extends AbstractForm {
 								|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
 							try {
 								NonMandatedLogic nmLogic = new NonMandatedLogic();
-								saveProjection();
+								if (NonMandatedLogic.isProjectionSavedSuccessFully(session)) return;
+                                                                saveProjection();
 								nmLogic.deleteTempBySession();
 
 								if (editWindow != null) {
@@ -1458,7 +1458,7 @@ public class ForecastForm extends AbstractForm {
 		LOGGER.debug("Entering SaveProjection method---->>= {} " , session.getProjectionId());
 		try {
 			if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-
+                                logic.updateFlagForSaveCount(session);
 				Future discountListView = service.submit(
 						CommonUtil.getInstance().createRunnable(Constant.DISCOUNT_LIST_VIEW_SAVE, discountProjection));
 				checkRunningThreads();
@@ -1477,9 +1477,7 @@ public class ForecastForm extends AbstractForm {
 				dsLogic.saveCurrenctActiveFile(session);
 				// Below code will wait for the temp to main insertion to get
 				// complete
-				for (Future future : saveFutureList) {
-					CommonUtil.getInstance().waitsForOtherThreadsToComplete(future);
-				}
+				
 			} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
 				List<Future> saveFutureList = new ArrayList<>();
 				// To save data from temp to main. threads used
@@ -2338,11 +2336,13 @@ public class ForecastForm extends AbstractForm {
                     dataSelectionDTO.getProjectionId(), session.getCurrentTableNames(), Boolean.FALSE))});
                 // Call sales Insert Procedure
                 nmSalesInsertDiscMasterProcedure();
-                DataSelectionLogic.nmDiscountActProjInsertProcedure(session);
                 // sales threads need to be completed before calling discound thread
                 nmSalesViewsPopulationProcedure();
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SALES_PROCEDURE_CALL));
-		CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL));
+                CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL));
+                DataSelectionLogic.nmDiscountActProjInsertProcedure(session);
+                CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_PROJECTION_LABEL));
+                nmDiscountViewsPopulationProcedure();
                 break;
             case Constant.EDIT_SMALL:
                 // Main to temp insert
@@ -2354,11 +2354,13 @@ public class ForecastForm extends AbstractForm {
                     service.submit(CommonUtil.getInstance().createRunnable(Constant.DATA_SELECTION_TAB_LOAD, data))});
                 // Call sales Insert Procedure
                 nmSalesInsertDiscMasterProcedure();
-                DataSelectionLogic.nmDiscountActProjInsertProcedure(session);
                 // sales threads need to be completed before calling discound thread
                 nmSalesViewsPopulationProcedure();
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SALES_PROCEDURE_CALL));
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL));
+                DataSelectionLogic.nmDiscountActProjInsertProcedure(session);
+                CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_PROJECTION_LABEL));
+                nmDiscountViewsPopulationProcedure();
                 break;
 
             case Constant.VIEW:
@@ -2527,19 +2529,24 @@ public class ForecastForm extends AbstractForm {
         private void nmSalesViewsPopulationProcedure() {
         	session.addFutureMap(Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL,
 				new Future[] {service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
-                Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), "Q", Constant.SALES1, "C", "", "", session))});
+                Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "C", "", "", session))});
                 
                 service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
-                Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), "Q", Constant.SALES1, "P", "", "", session));
+                Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "P", "", "", session));
+                
+                service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
     }
 
     private void nmDiscountViewsPopulationProcedure() {
 
         session.addFutureMap(Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL,
 				new Future[] {service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
-                Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), "Q", Constant.DISCOUNT3, "C", "null", "null", session))});
+                Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "C", "null", "null", session))});
         service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
-                Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL,session.getFunctionMode(), "Q", Constant.DISCOUNT3, "P", "null", "null", session));
+                Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL,session.getFunctionMode(), Constant.DISCOUNT3, "P", "null", "null", session));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL,session.getFunctionMode(), Constant.DISCOUNT3, "U", "null", "null", session));
     }
         
         private void nmSalesInsertProcedure() {
