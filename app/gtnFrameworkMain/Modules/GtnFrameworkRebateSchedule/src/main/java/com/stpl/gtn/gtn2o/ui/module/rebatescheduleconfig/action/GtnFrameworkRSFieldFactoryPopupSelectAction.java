@@ -78,6 +78,19 @@ public class GtnFrameworkRSFieldFactoryPopupSelectAction implements GtnUIFrameWo
 				rsActionParameter.add(Arrays.asList(componentId));
 				psSelectAction.setActionParameterList(rsActionParameter);
 				rsActionConfigList.add(psSelectAction);
+                                
+                                psSelectAction = new GtnUIFrameWorkActionConfig();
+                                rsActionParameter = new ArrayList<>();
+                                psSelectAction.setActionType(GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
+
+				rsActionParameter.add(tableId);
+				rsActionParameter.add(componentId);
+				rsActionParameter.add(Arrays.asList(sourceId,"secondaryRebatePlanName"));
+				rsActionParameter.add(Arrays.asList(componentId,componentId.replace(GtnFrameworkRSConstants.REBATE_PLAN_NO1, "rebatePlanName")));
+				psSelectAction.setActionParameterList(rsActionParameter);
+				rsActionConfigList.add(psSelectAction);
+                                
+                                
 
 			} else {
 				psSelectAction.setActionType(GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
