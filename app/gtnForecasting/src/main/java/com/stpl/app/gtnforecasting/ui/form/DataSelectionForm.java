@@ -4162,8 +4162,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 				loadCustomerVersionNo(customerRelationComboBox.getValue());
                                 customViewInput.put("custVer", customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
                                 customViewInput.put("custSid", String.valueOf(customerRelationComboBox.getValue()));
-                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
-                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
 				loadForecastLevels(innerCustLevels, customerForecastLevelContainer, customerLevel,
 						customerHierarchyDto.getHierarchyId(),
 						Integer.parseInt(customerRelationVersionComboBox.getValue().toString()));
@@ -4176,7 +4174,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 					}
 					level.setContainerDataSource(customerForecastLevelContainer);
 				}
-
+                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
+                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
 			} catch (NumberFormatException ex) {
 				
 				LOGGER.error(" in customerRelation value change= {}",ex);
@@ -4215,8 +4214,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 				loadProductVersionNo(productRelation.getValue());
                                 customViewInput.put("prodVer", productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
                                 customViewInput.put("prodSid", String.valueOf(productRelation.getValue()));
-                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
-                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
 				loadForecastLevels(innerProdLevels, productForecastLevelContainer, productLevel,
 						productHierarchyDto.getHierarchyId(),
 						Integer.parseInt(productRelationVersionComboBox.getValue().toString()));
@@ -4229,6 +4226,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 					}
 					productlevelDdlb.setContainerDataSource(productForecastLevelContainer);
 				}
+                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
+                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
 
 			} catch (NumberFormatException ex) {
 				LOGGER.error(" in productRelation value change= {}",ex);
@@ -4278,7 +4277,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 					VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
 					projectionId.setValue(String.valueOf(projectionIdValue));
 					dataSelectionDTO.setProjectionId(projectionIdValue);
-                                        dataSelectionDTO.setCustomRelationShipSid(Integer.valueOf(String.valueOf(customRelationDdlb.getValue())));
 					relationshipBuilderSids.clear();
 					setRelationshipBuilderSids(String.valueOf(customerRelationComboBox.getValue()));
 					setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
