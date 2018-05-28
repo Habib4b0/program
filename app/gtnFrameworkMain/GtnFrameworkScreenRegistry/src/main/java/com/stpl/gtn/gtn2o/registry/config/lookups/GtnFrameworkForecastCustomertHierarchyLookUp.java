@@ -322,8 +322,8 @@ public class GtnFrameworkForecastCustomertHierarchyLookUp {
 				.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		forecastCustomerHierarchySelectButton.setAddToParent(true);
-		forecastCustomerHierarchySelectButton.addDependentComponent("forecastLandingScreen_customerSelectionRelationship");
-		forecastCustomerHierarchySelectButton.addDependentComponent("forecastLandingScreen_customerSelectionLevel");
+		forecastCustomerHierarchySelectButton.addDependentComponent("Commercial_Forecasting_customerSelectionRelationship");
+		
 		componentList.add(forecastCustomerHierarchySelectButton);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();

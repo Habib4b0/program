@@ -65,8 +65,8 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		componentList.add(hierarchyLayout);
 
 		GtnUIFrameworkComponentConfig hierarchyName = new GtnUIFrameworkComponentConfig();
-		hierarchyName.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELD);
-		hierarchyName.setComponentId(nameSpace + "_" + "hierarchyName");
+		hierarchyName.setComponentType(GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
+		hierarchyName.setComponentId("forecastLandingScreen_customerHierarchy");
 		hierarchyName.setComponentName("Hierarchy");
 		hierarchyName.setAddToParent(Boolean.TRUE);
 		hierarchyName.setParentComponentId(nameSpace + "_" + "hierarchyLayout");
@@ -74,8 +74,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		// Added Customer Hierarchy Lookup
 		GtnUIFrameWorkActionConfig forecastCustomerSelectionHierarchypopupAction = new GtnUIFrameWorkActionConfig();
 		forecastCustomerSelectionHierarchypopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		forecastCustomerSelectionHierarchypopupAction.addActionParameter(
-				"forecastingLandingScreen_customerHierarchyLookup");
+		forecastCustomerSelectionHierarchypopupAction.addActionParameter("forecastingLandingScreen_customerHierarchyLookup");
 		forecastCustomerSelectionHierarchypopupAction.addActionParameter("Forecast Customer Hierarchy LookUp");
 		forecastCustomerSelectionHierarchypopupAction.addActionParameter("720");
 		forecastCustomerSelectionHierarchypopupAction.addActionParameter("875");
@@ -90,7 +89,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig relationship = new GtnUIFrameworkComponentConfig();
 		relationship.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		relationship.setComponentId(nameSpace + "_" + "relationship");
+		relationship.setComponentId("Commercial_Forecasting_customerSelectionRelationship");
 		relationship.setComponentName("Relationship");
 		relationship.setAddToParent(Boolean.TRUE);
 		relationship.setParentComponentId(nameSpace + "_" + "relationshipLayout");
@@ -179,7 +178,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig level = new GtnUIFrameworkComponentConfig();
 		level.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		level.setComponentId(nameSpace + "_" + "level");
+		level.setComponentId("Commercial_Forecasting_customerSelectionLevel");
 		level.setComponentName("Level");
 		level.setAddToParent(Boolean.TRUE);
 		level.setParentComponentId(nameSpace + "_" + "levelLayout");
