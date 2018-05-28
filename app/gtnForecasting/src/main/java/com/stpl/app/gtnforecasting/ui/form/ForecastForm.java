@@ -208,7 +208,6 @@ public class ForecastForm extends AbstractForm {
 	 */
 
 	private boolean validationFlag = true;
-	private boolean discountValidationFlag = true;
 	/**
 	 * Map for lazy loading.
 	 */
@@ -533,8 +532,12 @@ public class ForecastForm extends AbstractForm {
                                         nmSalesProjection.generateBtnLogic(null);
                                     }
                                 }
-                                if (tabPosition == NumericConstants.FOUR && discountValidationFlag){
-                                discountValidationFlag = false;
+                                if (tabPosition == NumericConstants.FOUR){
+                                    if (nmSalesProjection.isSalesValueChange()) {
+                                    CommonLogic.viewProceduresCompletionCheckDiscount(session);
+                                    session.setFunctionMode("UPS");
+                                    dsLogic.nmDiscountViewsPopulationProcedure(session);
+                                    }
                                 }
                                 if (tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.FIVE
                                         || tabPosition == NumericConstants.EIGHT) {
@@ -2546,7 +2549,7 @@ public class ForecastForm extends AbstractForm {
         service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL,session.getFunctionMode(), Constant.DISCOUNT3, "P", "null", "null", session));
         service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
-                Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL,session.getFunctionMode(), Constant.DISCOUNT3, "U", "null", "null", session));
+                Constant.CUSTOM_VIEW_DISCOUNT_POPULATION_CALL,session.getFunctionMode(), Constant.DISCOUNT3, "U", "null", "null", session));
     }
         
         private void nmSalesInsertProcedure() {
