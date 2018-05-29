@@ -797,7 +797,7 @@ public class SalesLogic {
                 key = monthName.toLowerCase(Locale.ENGLISH) + "-" + String.valueOf(obj[NumericConstants.SIX]);
             }
             if (CommonUtil.isValueEligibleForLoading()) {
-                salesRowDto.setSalesInclusion(obj[NumericConstants.NINETEEN] != null ? String.valueOf(BooleanUtils.toInteger((boolean) obj[NumericConstants.NINETEEN])) : StringUtils.EMPTY);
+                salesRowDto.setSalesInclusion(projectionSelectionDTO.isIsCustomHierarchy() ? String.valueOf(obj[NumericConstants.NINETEEN]) : String.valueOf(BooleanUtils.toInteger((boolean) obj[NumericConstants.NINETEEN])));
             }
 
             salesProjectionTableCustomization(projectionSelectionDTO, salesProjectionDoubleColumnList, salesRowDto, headerMapValue, obj,
@@ -4457,7 +4457,7 @@ public class SalesLogic {
     }
     public String getPeriodSid(String period, String fre, String order) throws SystemException, PortalException {
         List periodSid = (List) salesAllocationDAO.executeSelectQuery(utils.periodQuery(period, fre, order));
-        return periodSid.get(0).toString();
+        return !periodSid.isEmpty() ? periodSid.get(0).toString() : null; 
     }
     
     public List getHistoryColumn(CustomTableHeaderDTO rightTableHeader) {

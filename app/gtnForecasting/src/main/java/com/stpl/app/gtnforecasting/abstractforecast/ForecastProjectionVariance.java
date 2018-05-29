@@ -591,6 +591,11 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     @UiHandler("generateBtn")
     public void generate(Button.ClickEvent event)  {
         try {
+            if (!sessionDTO.getDsFrequency().equals(frequency.getValue()) || !sessionDTO.getDeductionLevel().equals(deductionlevelDdlb.getValue())) {
+                    new DataSelectionLogic().nmSalesViewsPopulationProcedure(sessionDTO);
+                    new DataSelectionLogic().nmDiscountViewsPopulationProcedure(sessionDTO);
+                    CommonUtil.getInstance().waitForSeconds();
+                }
 
             LOGGER.debug("------ Inside generate security Projection Variance Tab and generate Button");
        
@@ -641,49 +646,22 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     }
 
     protected void loadCustomDDLB() {
-        LOGGER.debug("projection variance loadCustomDDLB initiated ");
-        customDdlb.setEnabled(true);
-        editViewBtn.setEnabled(false);
-        addViewBtn.setEnabled(false);
-        if (!generated) {
-//            customDdlb.removeAllItems();
-//            customDdlb.addItem(SELECT_ONE);
-//            customDdlb.setNullSelectionItemId(SELECT_ONE);
-//            if(!getSessionDTO().getCustomerViewList().isEmpty()){
-//              customViewList= getSessionDTO().getCustomerViewList();
-//            }
-//            else{
-//            customViewList = CommonLogic.getCustomViewList(getSessionDTO().getProjectionId());
-//           getSessionDTO().setCustomerViewList(customViewList);
-//            }
-//            if (customViewList != null) {
-//
-//                Object select = null;
-//                for (CustomViewMaster obj : customViewList) {
-//                    int customSid = obj.getCustomViewMasterSid();
-//                    Object itemId = customSid;
-//                    if (customIdToSelect == customSid) {
-//                        select = itemId;
-//                    }
-//                    customDdlb.addItem(itemId);
-//                    customDdlb.setItemCaption(itemId, obj.getViewName());
-//                }
-//                if (select == null) {
-//                    levelDdlb.setEnabled(false);
-//                    customDdlb.setValue(SELECT_ONE);
-//                } else {
-//                    levelDdlb.setEnabled(true);
-//                    customDdlb.select(customIdToSelect);
-//                }
-//            }
             loadCustomViewDDdlb(false);
-            customDdlb.select(getSessionDTO().getCustomDeductionRelationShipSid());
             customId = getSessionDTO().getCustomDeductionRelationShipSid();
-
-        }
+            customDdlb.setEnabled(false);
         LOGGER.debug("projection variance  loadCustomDDLB ends ");
     }
-
+     public void loadCustomViewDDdlb(boolean isDataSelection) {
+         LOGGER.debug("loadCustomDDLB initiated ");
+        Map<String,String> dataMap=new HashMap<>();
+        dataMap.put("custSid", sessionDTO.getCustRelationshipBuilderSid());
+        dataMap.put("custVer", String.valueOf(sessionDTO.getCustomerRelationVersion()));
+        dataMap.put("prodSid", sessionDTO.getProdRelationshipBuilderSid());
+        dataMap.put("prodVer", String.valueOf(sessionDTO.getProductRelationVersion()));
+        new DataSelectionLogic().loadCustomViewDeductionValues(customDdlb, dataMap,false);
+        customDdlb.setValue(sessionDTO.getCustomDeductionRelationShipSid());
+        LOGGER.debug("loadCustomDDLB ends ");
+    }
     protected void customTreeViewLogic() {
         LOGGER.debug("projection variance customTreeViewLogic initiated ");
         final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(getSessionDTO());
@@ -941,12 +919,5 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
 		this.sessionDTO = sessionDTO;
 	}
         
-        public void loadCustomViewDDdlb(boolean isDataSelection) {
-        LOGGER.info("Inside Loading Custom VIew");
-        dataMap.put("custSid", getSessionDTO().getCustRelationshipBuilderSid());
-        dataMap.put("custVer", String.valueOf(getSessionDTO().getCustomerRelationVersion()));
-        dataMap.put("prodVer", String.valueOf(getSessionDTO().getProductHierarchyVersion()));
-        dataMap.put("prodSid", getSessionDTO().getProdRelationshipBuilderSid());
-        new DataSelectionLogic().loadCustomViewValues(customDdlb, dataMap, isDataSelection);
-    }
+        
 }

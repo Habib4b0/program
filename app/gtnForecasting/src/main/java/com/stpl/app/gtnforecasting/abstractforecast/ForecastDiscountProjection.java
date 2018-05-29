@@ -866,6 +866,10 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 }
                 break;
             case "generateBtn":
+                if (!session.getDsFrequency().equals(frequencyDdlb.getValue()) || !session.getDeductionLevel().equals(deductionlevelDdlb.getValue())) {
+                    logic.nmDiscountViewsPopulationProcedure(session);
+                    CommonUtil.getInstance().waitForSeconds();
+                }
                 generateBtnClickLogic(BooleanConstant.getTrueFlag());
                 break;
             case "resetBtn":
