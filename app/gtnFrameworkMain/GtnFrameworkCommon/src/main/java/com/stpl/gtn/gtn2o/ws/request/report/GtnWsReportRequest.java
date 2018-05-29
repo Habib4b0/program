@@ -25,7 +25,16 @@ public class GtnWsReportRequest {
 	private List<GtnWsRecordBean> recordBean;
 	private List<GtnReportHierarchyLevelBean> hierarchyLevelList;
 	private Date forecastEligibleDate;
+        private int projectionMasterSid;
 
+    public int getProjectionMasterSid() {
+        return projectionMasterSid;
+    }
+
+    public void setProjectionMasterSid(int projectionMasterSid) {
+        this.projectionMasterSid = projectionMasterSid;
+    }
+        
 	public List<Object[]> getResultList() {
 		return resultList;
 	}

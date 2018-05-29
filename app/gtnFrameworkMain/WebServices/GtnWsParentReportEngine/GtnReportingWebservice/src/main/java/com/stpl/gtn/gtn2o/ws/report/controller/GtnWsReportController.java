@@ -234,6 +234,35 @@ public class GtnWsReportController {
 		return wsResponse;
 	}
 
+        @RequestMapping(value = "/gtnWsReportLoadDataAssumptionsMultipleTabs", method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getDataAssumptionsMultipleTabResults(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		GtnUIFrameworkWebserviceResponse wsResponse = new GtnUIFrameworkWebserviceResponse();
+		GtnWsGeneralResponse wsGeneralResponse = new GtnWsGeneralResponse();
+		GtnSerachResponse wsSearchResponse = new GtnSerachResponse();
+		List<Object[]> resultList = null;
+		wsGeneralResponse.setSucess(true);
+		try {
+			
+                                
+				String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS;
+                                finalQuery = finalQuery.replace("@projectionMasterSid",String.valueOf(gtnWsRequest.getGtnWsReportRequest().getProjectionMasterSid()));
+				//String filter = gtnWsReportWebsevice.setFilterValueList(gtnWsRequest);
+
+				//finalQuery = finalQuery.replace("@filter", filter);
+				resultList = executeQuery(finalQuery);
+				resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
+				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
+				gtnUIFrameworkDataTable.addData(resultList);
+				wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
+			
+		} catch (GtnFrameworkGeneralException e) {
+			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + e);
+		}
+		wsResponse.setGtnSerachResponse(wsSearchResponse);
+		return wsResponse;
+	}
+        
 	@SuppressWarnings({ "rawtypes" })
 	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 		gtnSqlQueryEngine.setSessionFactory(sessionFactory);

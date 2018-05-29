@@ -77,7 +77,7 @@ public class GtnFrameworkReportGenerateLookUp {
 
 		GtnUIFrameworkComponentConfig tabSheetConfig = new GtnUIFrameworkComponentConfig();
 		tabSheetConfig.setComponentType(GtnUIFrameworkComponentType.TABSHEET);
-		tabSheetConfig.setComponentId(GtnFrameworkCommonConstants.TAB_SHEET+"report");
+		tabSheetConfig.setComponentId(GtnFrameworkCommonConstants.TAB_SHEET);
 		tabSheetConfig.setComponentName("Tab Sheet");
 		tabSheetConfig.setComponentWidth("100%");
 		tabSheetConfig.setAddToParent(true);
@@ -111,16 +111,18 @@ public class GtnFrameworkReportGenerateLookUp {
 		tabConfigList.add(dataAssumptions);
 		tabConfigList.add(reportingDashboard);
 
-		tabSheetConfig.setGtnTabSheetConfigList(tabConfigList);
-
-                  List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+                tabSheetConfig.setGtnTabSheetConfigList(tabConfigList);
+                
+                List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
                 
                 GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+                actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
                 actionConfig.setActionParameterList(Arrays.asList(
 				GtnReportDataAssumptionsTabLoadAction.class.getName(),
-                       GtnFrameworkReportStringConstants.TAB_SHEET, GtnFrameworkReportStringConstants.CURRENT_TAB));
+                       GtnFrameworkReportStringConstants.TAB_SHEET+"dataAssump", GtnFrameworkReportStringConstants.CURRENT_TAB,
+                       GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_LOAD));
 		
-		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		
 		actionConfigList.add(actionConfig);
 		tabSheetConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		componentList.add(tabSheetConfig);
