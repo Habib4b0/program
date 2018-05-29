@@ -73,7 +73,7 @@ public class GtnFrameworkUICustomTreeRemoveAction
 			invalidButtonNotificationConfig.addActionParameter(message);
 			invalidButtonNotificationConfig.addActionParameter("Illegal level");
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, invalidButtonNotificationConfig);
-			throw new GtnFrameworkSkipActionException("Empty Selection");
+			throw new GtnFrameworkSkipActionException(GtnFrameworkReportStringConstants.EMPTY_SELECTION);
 		}
 	}
 
@@ -88,7 +88,7 @@ public class GtnFrameworkUICustomTreeRemoveAction
 			invalidButtonNotificationConfig.addActionParameter(message);
 			invalidButtonNotificationConfig.addActionParameter("Illegal level");
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, invalidButtonNotificationConfig);
-			throw new GtnFrameworkSkipActionException("Empty Selection");
+			throw new GtnFrameworkSkipActionException(GtnFrameworkReportStringConstants.EMPTY_SELECTION);
 		}
 	}
 
@@ -100,7 +100,7 @@ public class GtnFrameworkUICustomTreeRemoveAction
 			notificationConfig.addActionParameter(GtnFrameworkReportStringConstants.NO_LEVEL_SELECTED_MSG);
 			notificationConfig.addActionParameter(GtnFrameworkReportStringConstants.NO_LEVEL_SELECTED_CAPTION);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationConfig);
-			throw new GtnFrameworkSkipActionException("Empty Selection");
+			throw new GtnFrameworkSkipActionException(GtnFrameworkReportStringConstants.EMPTY_SELECTION);
 		}
 
 	}

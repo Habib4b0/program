@@ -25,17 +25,17 @@ public class GtnUIFrameWorkLoadGridAction implements GtnUIFrameWorkAction {
 			throws GtnFrameworkGeneralException {
 
 		List<Object> params = (gtnUIFrameWorkActionConfig.getActionParameterList());
-		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
+		GtnUIFrameworkComponentData gridComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData((String) params.get(0), componentId);
-		if (componentData != null) {
-			GtnUIFrameworkPagedGridLogic tableLogic = componentData.getCurrentPageGridLogic();
+		if (gridComponentData != null) {
+			GtnUIFrameworkPagedGridLogic pagedGridLogic = gridComponentData.getCurrentPageGridLogic();
 			if (params.size() > 1) {
-				tableLogic.setExtraParameter(params.get(1));
+				pagedGridLogic.setExtraParameter(params.get(1));
 			}
 			if (gtnUIFrameWorkActionConfig.getFieldDescription() == null) {
-				tableLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
+				pagedGridLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), true);
 			} else {
-				tableLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(),
+				pagedGridLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(),
 						gtnUIFrameWorkActionConfig.getFieldDescription(), true);
 			}
 		}

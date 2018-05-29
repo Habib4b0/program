@@ -9,7 +9,7 @@ import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.constants.CalculationCon
 
 public class GtnWsCalculationValidationService {
 
-	private static GtnWsCalculationValidationService VALIDATION_INSTANCE = null;
+	private static volatile GtnWsCalculationValidationService gtnWsCalculationInstance = null;
 
 	private static final Map<String, List<String[]>> COMPARISON_BASIS = new HashMap<>();
 
@@ -18,11 +18,17 @@ public class GtnWsCalculationValidationService {
 	}
 
 	public static GtnWsCalculationValidationService getInstance() {
-		if (VALIDATION_INSTANCE == null) {
-			VALIDATION_INSTANCE = new GtnWsCalculationValidationService();
-			VALIDATION_INSTANCE.loadComparisonBasisMap();
+		GtnWsCalculationValidationService instance = GtnWsCalculationValidationService.gtnWsCalculationInstance;
+		if (instance == null) {
+			synchronized (GtnWsCalculationValidationService.class) {
+				instance = GtnWsCalculationValidationService.gtnWsCalculationInstance;
+				if (instance == null) {
+					GtnWsCalculationValidationService.gtnWsCalculationInstance = instance = new GtnWsCalculationValidationService();
+					instance.loadComparisonBasisMap();
+				}
+			}
 		}
-		return VALIDATION_INSTANCE;
+		return instance;
 	}
 
 	public boolean doubleValidation(Double value) {
@@ -42,7 +48,7 @@ public class GtnWsCalculationValidationService {
 		}
 		String doubleValue = String.valueOf(value);
 		try {
-			if (Double.isInfinite(Double.valueOf(doubleValue))) {
+			if (Double.isInfinite(Double.parseDouble(doubleValue))) {
 				return CalculationConstants.DECIMAL_DEFAULT;
 			}
 			return doubleValue;

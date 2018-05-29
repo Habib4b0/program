@@ -111,9 +111,10 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 			availableDeductionVisibleColumns = GtnFrameworkNSFConstants.getAvailableDeductionsVisibleColumns();
 			availableDeductionExtraColumns = new Object[] { GtnFrameworkNSFConstants.getDeductionType(),
 					GtnFrameworkNSFConstants.getDeductionSubType(), GtnFrameworkNSFConstants.getDeductionCategory(), };
-			availableDeductionExtraColumnsDataTypes = GtnFrameworkNSFConstants.getAvailableDeductionExtraColumnsDataTypesPa();
+			availableDeductionExtraColumnsDataTypes =GtnFrameworkNSFConstants.getTableColumnDataType();
+			availableDeductionQueryName = GtnWsNsfCommonConstants.GTN_NSF_AVAILABLE_DEDUCTIONS_SEARCH_QUERY_NAME;
 
-			selectedDeductionTableColumnDataTypes = GtnFrameworkNSFConstants.getSelectedDeductionTableColDataTypes();
+			selectedDeductionTableColumnDataTypes = GtnFrameworkNSFConstants.getSelectedDeductionTableColumnDataTypes();
 			selectedDeductionVisibleHeaders = GtnFrameworkNSFConstants.getSelectedDeductionsVisibleHeaders();
 			selectedDeductionVisibleColumns = GtnFrameworkNSFConstants.getSelectedDeductionsVisibleColumns();
 			selectedDeductionExtraColumns = new Object[] { GtnFrameworkNSFConstants.getSystemid() };

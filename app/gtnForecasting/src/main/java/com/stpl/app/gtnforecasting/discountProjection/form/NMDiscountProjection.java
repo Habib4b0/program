@@ -177,6 +177,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     public static final String DISCOUNT = "Discount";
     public static final String PRODUCT1 = "PRODUCT";
     public static final String CUSTOMER1 = "CUSTOMER";
+    public static final String STRING_ONE = "1";
     /* To enable or disable level filter listener */
     private boolean enableLevelFilterListener = true;
     /* The bean used to load the Mass Update - value Ddlb */
@@ -415,7 +416,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             loadDeductionInclusion();
             loadDisplayFormatDdlb();
             commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
-            deductionlevelDdlb.select(Integer.valueOf(session.getDataSelectionDeductionLevel()));
+            deductionlevelDdlb.setValue(Integer.valueOf(session.getDataSelectionDeductionLevel()));
 
         }
         securityForButton();
@@ -431,6 +432,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     public void getContent() {
         LOGGER.debug("Inside getContent= {} ", session.getAction());
         configureFeildsForNm();
+         if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
+            loadDeductionLevelFilter(session.getDataSelectionDeductionLevel(), false);
+            deductionFilterValues.getChildren().get(1).setChecked(true);
+            String deductionMenuItemValue = deductionFilterValues.getChildren().get(1).getMenuItem().getCaption();
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
+            generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
+            generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
+        }
         if (ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             setDiscountViewOnly();
         }
@@ -551,6 +560,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         programSelection.setNullSelectionAllowed(true);
         programSelection.setNullSelectionItemId(SELECT_ONE.getConstant());
         programSelection.setValue(SELECT_ONE.getConstant());
+        editBtn.setEnabled(false);
+        newBtn.setEnabled(false);
 
         level.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -724,6 +735,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         @Override
         public void blur(FieldEvents.BlurEvent event) {
             Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
+            session.setFunctionMode("R");
             if ("left".equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))) {
                 blurValue = String
                         .valueOf(tableLogic.getContainerDataSource().getContainerProperty(obj[0], obj[1]).getValue())
@@ -1139,7 +1151,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             refreshBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    CommonLogic.viewProceduresCompletionCheck(projectionSelection);
+                    CommonLogic.viewProceduresCompletionCheck(session);
                     session.setFunctionMode("R");
                     if (!isMultipleVariablesUpdated) {
                         if (isRateUpdatedManually || isRPUUpdatedManually
@@ -1152,14 +1164,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             Object[] orderedArg = {session.getProjectionId(), session.getUserId(),
                                 session.getSessionId()};
                             CommonLogic.callProcedure("PRC_NM_DISCOUNT_REFRESH", orderedArg);
-                            new DataSelectionLogic().callViewInsertProceduresThread(session, "Q", Constant.DISCOUNT3, "", "", "");
+                            new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3, "", "", "");
                             try {
                                 TimeUnit.SECONDS.sleep(3);
                             } catch (InterruptedException ex) {
                                 LOGGER.error(" Procedure Error -- {}",ex);
                                 Thread.currentThread().interrupt();
                             }
-                            CommonLogic.procedureCompletionCheck(projectionSelection, Constant.DISCOUNT3, String.valueOf(projectionSelection.getViewOption()));
+                            CommonLogic.procedureCompletionCheck(session, Constant.DISCOUNT3, String.valueOf(projectionSelection.getViewOption()));
                             refreshTableData(getCheckedRecordsHierarchyNo());
                             manualEntryMap.clear();
                             final Notification notif = new Notification(Constant.CALCULATION_COMPLETE,
@@ -1922,36 +1934,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      */
     public void loadCustomDDLB() {
         LOGGER.debug("loadCustomDDLB initiated ");
-        viewDdlb.setEnabled(true);
-        newBtn.setEnabled(true);
-        if (session.getCustomerViewList().isEmpty()) {
-            customViewList = CommonLogic.getCustomViewList(session.getProjectionId());
-            session.setCustomerViewList(customViewList);
-        } else {
-            customViewList = session.getCustomerViewList();
-        }
-        if (customViewList != null) {
-            viewDdlb.removeAllItems();
-            viewDdlb.addItem(SELECT_ONE);
-            viewDdlb.setNullSelectionItemId(SELECT_ONE);
-            Object select = null;
-            for (CustomViewMaster obj : customViewList) {
-                int customSid = obj.getCustomViewMasterSid();
-                Object itemId = customSid;
-                if (customIdToSelect == customSid) {
-                    select = itemId;
-                }
-                viewDdlb.addItem(itemId);
-                viewDdlb.setItemCaption(itemId, obj.getViewName());
-            }
-            if (select != null) {
-                levelDdlb.setEnabled(true);
-                viewDdlb.select(customIdToSelect);
-            } else {
-                levelDdlb.setEnabled(false);
-                viewDdlb.setValue(SELECT_ONE);
-            }
-        }
+        Map<String,String> dataMap=new HashMap<>();
+        dataMap.put("custSid", session.getCustRelationshipBuilderSid());
+        dataMap.put("custVer", String.valueOf(session.getCustomerRelationVersion()));
+        dataMap.put("prodSid", session.getProdRelationshipBuilderSid());
+        dataMap.put("prodVer", String.valueOf(session.getProductRelationVersion()));
+        new DataSelectionLogic().loadCustomViewDeductionValues(viewDdlb, dataMap,false);
+        viewDdlb.setValue(session.getCustomDeductionRelationShipSid());
         LOGGER.debug("loadCustomDDLB ends ");
     }
 
@@ -2038,7 +2027,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
      @Override
     protected void populateBtnClickLogic() {
-        CommonLogic.viewProceduresCompletionCheckDiscount(projectionSelection);
+        CommonLogic.viewProceduresCompletionCheckDiscount(session);
         session.setFunctionMode("M");
         if (isGroupUpdatedManually) {
             NotificationUtils.getAlertNotification(Constant.GROUP_FILTER_CONFLICT, Constant.GROUP_VALUE_VERIFICATION);
@@ -2227,7 +2216,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 tableLogic.setCurrentPage(1);
                 isGroupUpdatedManually = false;
             } else {
-                CommonLogic.procedureCompletionCheck(projectionSelection,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
+                CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
                 refreshTableData(getCheckedRecordsHierarchyNo());
             }
         } else if ("Discount Rate".equals(selectedField)) {
@@ -2236,7 +2225,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             logic.massUpdate(session, projectionSelection, massUpdatePeriods, selectedField, value,
                     checkedDiscountNames, PROGRAM.getConstant().equals(level.getValue()),
                     getCheckedRecordsForMassUpdate(), selectedPeriods, isCustomHierarchy);
-            CommonLogic.procedureCompletionCheck(projectionSelection,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
+            CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
         } else if ("RPU".equals(selectedField)) {
             saveDiscountProjectionListview();
@@ -2244,7 +2233,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             logic.massUpdate(session, projectionSelection, massUpdatePeriods, selectedField, value,
                     checkedDiscountNames, PROGRAM.getConstant().equals(level.getValue()),
                     getCheckedRecordsForMassUpdate(), selectedPeriods, isCustomHierarchy);
-            CommonLogic.procedureCompletionCheck(projectionSelection,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
+            CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
         } else if (Constant.DISCOUNT_AMOUNT_LABEL.equals(selectedField)) {
             ccpsCount = 0;
@@ -2262,7 +2251,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             logic.massUpdate(session, projectionSelection, massUpdatePeriods, selectedField,
                     String.valueOf(value), checkedDiscountNames, PROGRAM.getConstant().equals(level.getValue()),
                     getCheckedRecordsForMassUpdate(), selectedPeriods, isCustomHierarchy);
-            CommonLogic.procedureCompletionCheck(projectionSelection,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
+            CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
         } else if ("Growth".equals(selectedField)) {
             saveDiscountProjectionListview();
@@ -2270,7 +2259,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             logic.massUpdate(session, projectionSelection, massUpdatePeriods, selectedField, value,
                     checkedDiscountNames, PROGRAM.getConstant().equals(level.getValue()),
                     getCheckedRecordsForMassUpdate(), selectedPeriods, isCustomHierarchy);
-            CommonLogic.procedureCompletionCheck(projectionSelection,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
+            CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
         }
 
@@ -2279,7 +2268,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     @Override
     protected void calculateBtnClickLogic() {
         try {
-            CommonLogic.viewProceduresCompletionCheckDiscount(projectionSelection);
+            CommonLogic.viewProceduresCompletionCheckDiscount(session);
             session.setFunctionMode("CALC");
 
             if (CONTRACT_DETAILS.getConstant().equals(methodologyDdlb.getValue())) {
@@ -2416,8 +2405,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                             String.valueOf(level.getValue()));
                                                 }
                                                 logic.callDPProcedure(session, projectionSelection);
-                                                new DataSelectionLogic().callViewInsertProceduresThread(session,"Q", Constant.DISCOUNT3,"","","");
-                                                CommonLogic.procedureCompletionCheck(projectionSelection, DISCOUNT, String.valueOf(projectionSelection.getViewOption()));
+                                                new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,"","","");
+                                                CommonLogic.procedureCompletionCheck(session, DISCOUNT, String.valueOf(projectionSelection.getViewOption()));
                                                 refreshTableData(getCheckedRecordsHierarchyNo());
                                                 final Notification notif = new Notification(
                                                         Constant.CALCULATION_COMPLETE,
@@ -2707,7 +2696,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     @Override
     protected void adjustBtnClickLogic() {
-        CommonLogic.viewProceduresCompletionCheckDiscount(projectionSelection);
+        CommonLogic.viewProceduresCompletionCheckDiscount(session);
         session.setFunctionMode("ADJ");
         if (isGroupUpdatedManually) {
             NotificationUtils.getAlertNotification(Constant.GROUP_FILTER_CONFLICT, Constant.GROUP_VALUE_VERIFICATION);
@@ -2842,7 +2831,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                             LOGGER.error(" Procedure Error {}",ex); 
                                            Thread.currentThread().interrupt();
                                         }
-                                        CommonLogic.procedureCompletionCheck(projectionSelection, DISCOUNT, String.valueOf(projectionSelection.getViewOption()));
+                                        CommonLogic.procedureCompletionCheck(session, DISCOUNT, String.valueOf(projectionSelection.getViewOption()));
                                         refreshTableData(getCheckedRecordsHierarchyNo());
                                     } else {
                                         logic.checkUncheckRebateBeforeAdjust(true, selectedDiscountList, session, false,
@@ -2876,7 +2865,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     @Override
     protected void adjustBtnClickLogicCustom() {
-        CommonLogic.viewProceduresCompletionCheckDiscount(projectionSelection);
+        CommonLogic.viewProceduresCompletionCheckDiscount(session);
         session.setFunctionMode("ADJ");
 
         try {
@@ -3506,7 +3495,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     @Override
     protected void generateBtnClickLogic(Boolean isGenerate) {
         CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL));
-        CommonLogic.procedureCompletionCheck(projectionSelection,"Discount",String.valueOf(view.getValue()));
+        CommonLogic.procedureCompletionCheck(session,"Discount",String.valueOf(view.getValue()));
         isRateUpdatedManually = false;
         isRPUUpdatedManually = false;
         isAmountUpdatedManually = false;
@@ -3582,7 +3571,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             List<String> checkedValues = getCheckedDeductionInclusionValues();
             session.setDeductionInclusion("ALL");
             if (checkedValues.size() == 1) {
-                session.setDeductionInclusion(checkedValues.get(0).equalsIgnoreCase("Yes") ? "1" : "0");
+                session.setDeductionInclusion(checkedValues.get(0).equalsIgnoreCase("Yes") ? STRING_ONE : "0");
             }
             session.setDiscountUom(uomDdlb.getValue() != null ? String.valueOf(uomDdlb.getValue()) : "EACH");
             session.setSelectedDeductionLevelNo(Integer.parseInt(String.valueOf(deductionlevelDdlb.getValue())));
@@ -4368,9 +4357,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         if (!session.getCustomDetailMap().containsKey(customId)) {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
-        }
-        if (CommonUtil.isValueEligibleForLoading()) {
-            session.setDeductionLevelDetails(dsLogic.getRelationshipDetailsDeduction(session, session.getDedRelationshipBuilderSid(), true));
         }
         currentHierarchy = session.getCustomHierarchyMap().get(customId);
         LOGGER.debug(" customId= {} ", customId);
@@ -5420,6 +5406,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 if (event.getProperty().getValue() != null) {
+                    session.setDataSelectionDeductionLevelCaption(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
                     String deductionLevelDdlbValue = String.valueOf(event.getProperty().getValue());
                     deductionLevelDdlbValue = ANULL.equals(deductionLevelDdlbValue) ? StringUtils.EMPTY
                             : deductionLevelDdlbValue;

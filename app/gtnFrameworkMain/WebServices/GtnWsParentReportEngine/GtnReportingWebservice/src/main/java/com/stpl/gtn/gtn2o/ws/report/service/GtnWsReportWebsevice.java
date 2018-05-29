@@ -7,9 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.type.DateType;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -17,6 +23,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 @Service
 public class GtnWsReportWebsevice {
@@ -89,6 +96,7 @@ public class GtnWsReportWebsevice {
 
 	public List<Object[]> loadViewResults(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest,
 			boolean viewMode) throws GtnFrameworkGeneralException, IOException {
+		Session session = sessionFactory.openSession();
 		List<Object> inputList = new ArrayList<>();
 		String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
 		String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
@@ -109,19 +117,81 @@ public class GtnWsReportWebsevice {
 		}
 		inputList.add(userId);
 		String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
-		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(viewQuery);
-		for (Object[] objects : resultList) {
-			System.out.println("objects[0]------->" + String.valueOf(objects[0]));
-			System.out.println("objects[1]------->" + String.valueOf(objects[1]));
-			System.out.println("objects[2]------->" + String.valueOf(objects[2]));
-			System.out.println("objects[3]------->" + String.valueOf(objects[3]));
-			System.out.println("objects[4]------->" + String.valueOf(objects[4]));
-			System.out.println("objects[5]------->" + String.valueOf(objects[5]));
-			Object bean = gtnReportJsonService.convertJsonToObject(GtnWsReportDataSelectionBean.class,
-					String.valueOf(objects[5]));
-			resultList.remove(5);
-			resultList.add((Object[]) bean);
+		SQLQuery query = session.createSQLQuery(viewQuery).addScalar("VIEW_NAME", new StringType())
+				.addScalar("CREATED_DATE", new DateType()).addScalar("MODIFIED_DATE", new DateType())
+				.addScalar("CREATED_BY", new IntegerType()).addScalar("VIEW_ID", new IntegerType())
+				.addScalar("VIEW_DATA", new StringType());
+		List<Object[]> resultList = query.list();
+		return resultList;
+	}
+
+	public List<Object[]> loadComparisonAvailableTable(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
+		Map<String, String> criteriaMap = new HashMap<>();
+		List<Object[]> comparisonResults = null;
+		for (GtnWebServiceSearchCriteria searchCriteria : gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest()
+				.getGtnWebServiceSearchCriteriaList()) {
+			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
+				criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
+			}
 		}
+		if (criteriaMap.get("projectionType").equals("Contract")) {
+			comparisonResults = loadProjectionComparisonResults(criteriaMap);
+		}else{
+			comparisonResults = loadCFFComparisonResults(criteriaMap);
+		}
+		return comparisonResults;
+	}
+
+	private List<Object[]> loadProjectionComparisonResults(Map<String, String> criteriaMap) throws GtnFrameworkGeneralException {
+		List<String> inputList = getInputList(criteriaMap);
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.NULL_ALLOWED, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING };
+		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
+				.executeSelectQuery(sqlService.getQuery(inputList, "loadProjectionComparisonResults"));
+		return resultList;
+	}
+	
+	private List<String> getInputList(Map<String, String> criteriaMap){
+		List<String> inputList = new ArrayList<>();
+		boolean isProjectionStatus = false;
+		if (criteriaMap.get("workflowStatus").equals("Saved")) {
+			isProjectionStatus = true;
+		}
+		String workflowJoinQuery = isProjectionStatus ? "" : ("'" + sqlService.getQuery("workflowJoinQuery") + "'");
+		String marketType = criteriaMap.get("marketType") == null ? "%" : criteriaMap.get("marketType");
+		String comparisonBrand = criteriaMap.get("comparisonBrand") == null ? "%" : criteriaMap.get("comparisonBrand");
+		String projectionName = criteriaMap.get("projectionName") == null ? "%" : criteriaMap.get("projectionName");
+		String contractHolder = criteriaMap.get("contractHolder") == null ? "%" : criteriaMap.get("contractHolder");
+		String ndcName = criteriaMap.get("ndcName") == null ? "%" : criteriaMap.get("ndcName");
+		String comparisonNDC = criteriaMap.get("comparisonNDC") == null ? "%" : criteriaMap.get("comparisonNDC");
+		String contract = criteriaMap.get("contract") == null ? "%" : criteriaMap.get("contract");
+		String projectionDescription = criteriaMap.get("projectionDescription") == null ? "%"
+				: criteriaMap.get("projectionDescription");
+		Object[] params = { workflowJoinQuery, marketType, comparisonBrand, projectionName, contractHolder, ndcName,
+				comparisonNDC, contract, projectionDescription };
+		inputList.add(workflowJoinQuery);
+		inputList.add("'" + marketType +"'");
+		inputList.add("'" + comparisonBrand + "'");
+		inputList.add("'" + projectionName + "'");
+		inputList.add("'" + contractHolder + "'");
+		inputList.add("'" + ndcName + "'");
+		inputList.add("'" + comparisonNDC + "'");
+		inputList.add("'" + contract + "'");
+		inputList.add("'"+ projectionDescription + "'");
+		return inputList;
+	}
+	
+	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap) throws GtnFrameworkGeneralException{
+		List<String> inputList = getInputList(criteriaMap);
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.NULL_ALLOWED, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING };
+		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
+				.executeSelectQuery(sqlService.getQuery(inputList, "loadCFFComparisonResults"));
 		return resultList;
 	}
 
@@ -135,10 +205,46 @@ public class GtnWsReportWebsevice {
 			return searchCriteria.getFilterValue1().replace("*", "%");
 		case "hierarchyType":
 			return searchCriteria.getFilterValue1();
+		case "projectionType":
+			return searchCriteria.getFilterValue1();
+		case "workflowStatus":
+			return searchCriteria.getFilterValue1();
+		case "projectionName":
+			return searchCriteria.getFilterValue1().replace("*", "%");
+		case "marketType":
+			return searchCriteria.getFilterValue1().replace("*", "%");
+		case "comparisonBrand":
+			return searchCriteria.getFilterValue1().replace("*", "%");
+		case "contractHolder":
+			return searchCriteria.getFilterValue1().replace("*", "%");
+		case "comparisonNDC":
+			return searchCriteria.getFilterValue1().replace("*", "%");
+		case "projectionDescription":
+			return searchCriteria.getFilterValue1().replace("*", "%");
+		case "contract":
+			return searchCriteria.getFilterValue1().replace("*", "%");
+		case "ndcName":
+			return searchCriteria.getFilterValue1().replace("*", "%");
+		case "fromPeriod":
+			return searchCriteria.getFilterValue1();
+		case "toPeriod":
+			return searchCriteria.getFilterValue1();
 		default:
 			return null;
 		}
 
+	}
+
+	public int checkViewRecordCount(GtnWsReportDataSelectionBean dataSelectionBean, int userId)
+			throws GtnFrameworkGeneralException {
+		int recordCount = 0;
+		String query = sqlService.getQuery("getViewCount");
+		Object[] params = { dataSelectionBean.getViewName(), dataSelectionBean.getViewType(), userId };
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.INTEGER };
+		List<Integer> resultList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query, params, paramsType);
+		recordCount = resultList.get(0);
+		return recordCount;
 	}
 
 	public int saveReportingMaster(GtnWsReportDataSelectionBean dataSelectionBean, int userId)
@@ -267,4 +373,20 @@ public class GtnWsReportWebsevice {
 		}
 		return customizedResultList;
 	}
+
+	public GtnUIFrameworkWebserviceResponse deleteView(GtnWsReportDataSelectionBean dataSelectionBean, int userId) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		String query = sqlService.getQuery("deleteView");
+		Object[] params = { dataSelectionBean.getViewId(), userId };
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
+		try {
+			gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, paramsType);
+			response.getGtnWsGeneralResponse().setSucess(true);
+		} catch (GtnFrameworkGeneralException e) {
+			response.getGtnWsGeneralResponse().setSucess(false);
+			e.printStackTrace();
+		}
+		return response;
+	}
+
 }

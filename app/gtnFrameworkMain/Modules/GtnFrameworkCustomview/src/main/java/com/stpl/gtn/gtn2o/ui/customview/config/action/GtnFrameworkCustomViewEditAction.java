@@ -86,9 +86,9 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
                 .getVaadinBaseComponent(nameSpacePrefix+GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION);
         GtnUIFrameworkBaseComponent viewTypeField= GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(nameSpacePrefix+GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE);
-        GtnUIFrameworkBaseComponent customerRaltionSidField= GtnUIFrameworkGlobalUI
+        GtnUIFrameworkBaseComponent customerRelationSidField= GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(nameSpacePrefix+GtnFrameworkCommonConstants.CUTOMER_RELATION);
-        GtnUIFrameworkBaseComponent productRealtionSidField= GtnUIFrameworkGlobalUI
+        GtnUIFrameworkBaseComponent productRelationSidField= GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(nameSpacePrefix+GtnFrameworkCommonConstants.PRODUCT_RELATION);
         GtnUIFrameworkBaseComponent saveBtn= GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent("customViewAddSaveButton");
@@ -105,11 +105,12 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
         descriptionField.loadFieldValue(description);
         viewTypeField.selectOptionGroupValue(viewType);
         getTreeData(customSid,parameters,nameSpacePrefix);
-        
-        customerRaltionSidField.loadComboBoxComponentValue(customerRaltionSid);
+        customerRelationSidField.setEnable(false);
+        productRelationSidField.setEnable(false);
+        customerRelationSidField.loadComboBoxComponentValue(customerRaltionSid);
         getTreeData(customSid,parameters,nameSpacePrefix);
         
-        productRealtionSidField.loadComboBoxComponentValue(productRealtionSid);
+        productRelationSidField.loadComboBoxComponentValue(productRealtionSid);
         getTreeData(customSid,parameters,nameSpacePrefix);
         
         boolean isEnable=String.valueOf(parameters.get(2)).equalsIgnoreCase("VIEW");
@@ -117,8 +118,6 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
         baseViewName.setEnable(!isEnable);
         descriptionField.setEnable(!isEnable);
         viewTypeField.setEnable(!isEnable);
-        customerRaltionSidField.setEnable(!isEnable);
-        productRealtionSidField.setEnable(!isEnable);
         saveBtn.setVisible(!isEnable);
         gtnCustomerGreaterButton.setEnable(!isEnable);
         gtnCustomerLesserButton.setEnable(!isEnable);
@@ -155,7 +154,7 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
                     tableTreeComponent.expandTreeItem(parent);
                 }
             } else {
-                tableTreeComponent.addItemToTreeDataTable(parent, object, false);
+                tableTreeComponent.addItemToTreeDataTable(parent, object, true);
                     tableTreeComponent.expandTreeItem(parent);
             }
             i++;

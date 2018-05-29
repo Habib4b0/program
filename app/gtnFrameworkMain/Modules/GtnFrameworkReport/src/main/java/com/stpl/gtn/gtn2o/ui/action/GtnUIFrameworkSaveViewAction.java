@@ -37,7 +37,7 @@ public class GtnUIFrameworkSaveViewAction
 		GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
 		String company = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(1).toString())
 				.getCaptionFromV8ComboBox();
-		dataSelectionBean.setCompanyReport(Integer.parseInt(company));
+		dataSelectionBean.setCompanyReport(Integer.valueOf(company));
 		Integer businessUnit = (Integer) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(2).toString()).getValueFromComponent();
 		dataSelectionBean.setBusinessUnitReport(businessUnit);
@@ -46,10 +46,10 @@ public class GtnUIFrameworkSaveViewAction
 		dataSelectionBean.setReportDataSource(reportDataSource);
 		String fromPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(4).toString())
 				.getCaptionFromV8ComboBox();
-		dataSelectionBean.setFromPeriodReport(Integer.parseInt(fromPeriod));
+		dataSelectionBean.setFromPeriodReport(Integer.valueOf(fromPeriod));
 		String toPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(5).toString())
 				.getCaptionFromV8ComboBox();
-		dataSelectionBean.setToPeriod(Integer.parseInt(toPeriod));
+		dataSelectionBean.setToPeriod(Integer.valueOf(toPeriod));
 		GtnWsRecordBean customerHierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(6).toString()).getComponentData().getCustomData();
 		dataSelectionBean.setCustomerHierarchyRecordBean(customerHierarchyBean);
@@ -93,8 +93,8 @@ public class GtnUIFrameworkSaveViewAction
 		List<Object> params = new ArrayList<>();
 		params.add("dsSaveViewLookUp");
 		params.add("Save view");
-		params.add("795");
-		params.add("875");
+		params.add(null);
+		params.add(null);
 		params.add(null);
 		params.add(dataSelectionBean);
 		popupAction.setActionParameterList(params);
@@ -111,7 +111,7 @@ public class GtnUIFrameworkSaveViewAction
 		rightTable.expand(rightTable.getTreeData().getRootItems());
 		List<GtnWsRecordBean> selectedvalues = rightTable.getTreeData().getRootItems();
 
-		List<GtnWsRecordBean> selectedList = new ArrayList<>();
+		List<GtnWsRecordBean> selectedList = new ArrayList<>(10);
 		for (GtnWsRecordBean gtnWsRecordBean : selectedvalues) {
 
 			selectedList.add(gtnWsRecordBean);

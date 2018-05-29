@@ -19,7 +19,6 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewDataBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.vaadin.ui.AbstractComponent;
 
 public class GtnFrameworkCustomTreeConfirmedSaveAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -44,6 +43,12 @@ public class GtnFrameworkCustomTreeConfirmedSaveAction
 				.setCustomViewName((String) gtnUIFrameWorkActionConfig.getActionParameterList().get(1));
 		request.getGtnWsReportRequest().getReportBean().getCustomViewBean().getCustomViewDataBean()
 				.setCustomTreeData((GtnWsCustomTreeData) gtnUIFrameWorkActionConfig.getActionParameterList().get(2));
+
+		boolean isEdit = (boolean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookupcustomViewSave")
+				.getComponentData().getCustomData();
+
+		request.getGtnWsReportRequest().getReportBean().getCustomViewBean().setEdit(isEdit);
+
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportEndPointUrlConstants.SAVE_CUSTOM_TREE, GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
@@ -55,6 +60,9 @@ public class GtnFrameworkCustomTreeConfirmedSaveAction
 		actionConfig.addActionParameter((String) gtnUIFrameWorkActionConfig.getActionParameterList().get(1));
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
 
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookupcustomViewSave").getComponentData()
+		.setCustomData(true);
+		
 		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
 		String id = sourceComponentId + "_" + "reportingDashboardTab_displaySelectionTabCustomView";
 		GtnUIFrameworkBaseComponent baseComboBoxComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(id);

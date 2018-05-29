@@ -9,8 +9,8 @@ import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 
 public class GtnUIFrameworkWebServiceReportRequestBuilder implements Builder<GtnUIFrameworkWebserviceRequest> {
 
-	GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-	GtnWsReportRequest reportRequest = new GtnWsReportRequest();
+	private GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+	private GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 
 	public GtnUIFrameworkWebServiceReportRequestBuilder withDataSelectionBean() {
 		GtnWsReportDataSelectionBean bean = new GtnWsReportDataSelectionBean();

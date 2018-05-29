@@ -36,30 +36,30 @@ public class GtnUIFrameworkMoveRightButtonClickListener implements Button.ClickL
 	}
 
 	public static GtnUIFrameworkMoveRightButtonClickListener getInstance() {
-		GtnUIFrameworkMoveRightButtonClickListener buttonClickListener = GtnUIFrameworkMoveRightButtonClickListener.moveRightButtonClickListener;
-		if (buttonClickListener == null) {
+		GtnUIFrameworkMoveRightButtonClickListener moveRightBtnClickListener = GtnUIFrameworkMoveRightButtonClickListener.moveRightButtonClickListener;
+		if (moveRightBtnClickListener == null) {
 			synchronized (GtnUIFrameworkMoveRightButtonClickListener.class) {
-				buttonClickListener = GtnUIFrameworkMoveRightButtonClickListener.moveRightButtonClickListener;
-				if (buttonClickListener == null) {
-					GtnUIFrameworkMoveRightButtonClickListener.moveRightButtonClickListener = buttonClickListener = new GtnUIFrameworkMoveRightButtonClickListener();
+				moveRightBtnClickListener = GtnUIFrameworkMoveRightButtonClickListener.moveRightButtonClickListener;
+				if (moveRightBtnClickListener == null) {
+					GtnUIFrameworkMoveRightButtonClickListener.moveRightButtonClickListener = moveRightBtnClickListener = new GtnUIFrameworkMoveRightButtonClickListener();
 				}
 			}
 		}
-		return buttonClickListener;
+		return moveRightBtnClickListener;
 	}
 
 	@Override
 	public void buttonClick(Button.ClickEvent event) {
 		LOGGER.info("Inside MoveRightButtonClickListener:");
 		GtnUIFrameworkComponentData dualListBoxData = (GtnUIFrameworkComponentData) event.getButton().getData();
-		GtnUIFrameWorkActionConfig loadRightTableActionConfig = new GtnUIFrameWorkActionConfig();
-		loadRightTableActionConfig.setActionType(GtnUIFrameworkActionType.V8DUAL_LISTBOX_RIGHT_TABLE_LOADACTION);
+		GtnUIFrameWorkActionConfig loadV8RightTableActionConfig = new GtnUIFrameWorkActionConfig();
+		loadV8RightTableActionConfig.setActionType(GtnUIFrameworkActionType.V8DUAL_LISTBOX_RIGHT_TABLE_LOADACTION);
 		List<Object> actionParametersList = new ArrayList<>(2);
 		actionParametersList.add(dualListBoxData);
 		actionParametersList.add(Boolean.FALSE);
-		loadRightTableActionConfig.setActionParameterList(actionParametersList);
+		loadV8RightTableActionConfig.setActionParameterList(actionParametersList);
 		try {
-			GtnUIFrameworkActionExecutor.executeSingleAction(event.getButton().getId(), loadRightTableActionConfig);
+			GtnUIFrameworkActionExecutor.executeSingleAction(event.getButton().getId(), loadV8RightTableActionConfig);
 		} catch (GtnFrameworkGeneralException e) {
 			LOGGER.error("Exception in MoveRightButtonClickListener", e);
 		}

@@ -134,6 +134,10 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	protected Label customerRelationVersionLabel;
 	@UiField("customerRelationVersion")
 	protected ComboBox customerRelationVersionComboBox;
+        @UiField("customRelationDdlb")
+	protected ComboBox customRelationDdlb;
+        @UiField("customRelationDdlbDeduction")
+	protected ComboBox customRelationDdlbDeduction;
 
 	/**
 	 * The level.
@@ -634,6 +638,8 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 				configureCustomerVersionDdlb();
 				configureProductVersionDdlb();
                                 configureFrequency();
+                                setNullSelectionCustomDdlb(customRelationDdlb);
+                                setNullSelectionCustomDdlb(customRelationDdlbDeduction);
 			}
 
 			deleteViewBtn.setEnabled(false);
@@ -1818,5 +1824,13 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
             }
         });
     }
+        
+        public void setNullSelectionCustomDdlb(ComboBox customRelationDdlb) {
+        customRelationDdlb.removeAllItems();
+        customRelationDdlb.setImmediate(true);
+        customRelationDdlb.setNullSelectionAllowed(true);
+        customRelationDdlb.setInputPrompt(SELECT_ONE);
+        customRelationDdlb.select(SELECT_ONE);
+        }
 
 	}

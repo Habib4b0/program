@@ -19,7 +19,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ui.module.ifp.constants.GtnFrameworkIfpClassContants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.itemfamilyplan.constants.GtnWsIFamilyPlanContants;
@@ -264,16 +263,6 @@ public class GtnFrameworkIfpItemAdditionTabConfig {
 		attachButtonConfig.setAuthorizationIncluded(true);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
-		alertActionConfig.setActionType(GtnUIFrameworkActionType.TABLE_ALERT_ACTION);
-
-		List<Object> alertParamsList = new ArrayList<>();
-		alertParamsList.add("ifprightResultTable");
-		alertParamsList.add(GtnFrameworkCommonStringConstants.ERROR);
-		alertParamsList.add("There are no items to remove");
-
-		alertActionConfig.setActionParameterList(alertParamsList);
-		actionConfigList.add(alertActionConfig);
 
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);

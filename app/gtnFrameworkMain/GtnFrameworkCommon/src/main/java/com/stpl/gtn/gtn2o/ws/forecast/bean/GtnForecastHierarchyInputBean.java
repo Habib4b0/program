@@ -47,7 +47,7 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	private String businessUnitValue;
 	private String hierarchyIndicator;
 	private Map<String, String> tempTableMap;
-	List<GtnReportHierarchyLevelBean> levelList;
+	private List<GtnReportHierarchyLevelBean> levelList;
 
 	private List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerList;
 	private List<GtnFrameworkRelationshipLevelDefintionBean> selectedProductList;

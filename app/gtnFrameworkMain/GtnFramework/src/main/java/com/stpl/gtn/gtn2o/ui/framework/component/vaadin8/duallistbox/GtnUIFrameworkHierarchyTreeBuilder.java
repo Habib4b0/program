@@ -20,69 +20,69 @@ public class GtnUIFrameworkHierarchyTreeBuilder {
 
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnUIFrameworkHierarchyTreeBuilder.class);
 
-	private GtnWSTreeNode rootTreeNode;
+	private GtnWSTreeNode gtnWsRootTreeNode;
 
 	public GtnUIFrameworkHierarchyTreeBuilder() {
 		super();
 	}
 
 	public GtnWSTreeNode buildTree(List<GtnWsRecordBean> inputDataList) {
-		if (this.rootTreeNode == null) {
+		if (this.gtnWsRootTreeNode == null) {
 			this.createRootNode();
 		}
 		for (GtnWsRecordBean data : inputDataList) {
 			List<Object> record = data.getProperties();
-			GtnWSTreeNode treeNode = new GtnWSTreeNode();
-			treeNode.setTreeCode(record.get(8).toString());
-			treeNode.setLevel(Integer.valueOf(record.get(0).toString()));
-			treeNode.setNodeData(data);
-			if (treeNode.getLevel() == rootTreeNode.getLevel() + 1) {
-				rootTreeNode.addChildren(treeNode);
+			GtnWSTreeNode gtnWsTreeNode = new GtnWSTreeNode();
+			gtnWsTreeNode.setTreeCode(record.get(8).toString());
+			gtnWsTreeNode.setLevel(Integer.valueOf(record.get(0).toString()));
+			gtnWsTreeNode.setNodeData(data);
+			if (gtnWsTreeNode.getLevel() == gtnWsRootTreeNode.getLevel() + 1) {
+				gtnWsRootTreeNode.addChildren(gtnWsTreeNode);
 			} else {
-				addChildrenRecursively(rootTreeNode, treeNode);
+				addChildrenRecursively(gtnWsRootTreeNode, gtnWsTreeNode);
 			}
 		}
-		return rootTreeNode;
+		return gtnWsRootTreeNode;
 	}
 
-	private void addChildrenRecursively(GtnWSTreeNode parentNode, GtnWSTreeNode treeNode) {
-		if (treeNode.getLevel() == parentNode.getLevel() + 1) {
-			if (treeNode.getTreeCode().startsWith(parentNode.getTreeCode())) {
-				parentNode.addChildren(treeNode);
+	private void addChildrenRecursively(GtnWSTreeNode parentNode, GtnWSTreeNode gtnWsTreeNode) {
+		if (gtnWsTreeNode.getLevel() == parentNode.getLevel() + 1) {
+			if (gtnWsTreeNode.getTreeCode().startsWith(parentNode.getTreeCode())) {
+				parentNode.addChildren(gtnWsTreeNode);
 			}
 		} else {
 			if (parentNode.getChildren() != null) {
-				for (GtnWSTreeNode childNode : parentNode.getChildren()) {
-					addChildrenRecursively(childNode, treeNode);
+				for (GtnWSTreeNode childTreeNode : parentNode.getChildren()) {
+					addChildrenRecursively(childTreeNode, gtnWsTreeNode);
 				}
 			}
 		}
 	}
 
 	private void createRootNode() {
-		this.rootTreeNode = new GtnWSTreeNode();
-		this.rootTreeNode.setLevel(0);
-		this.rootTreeNode.setTreeCode(null);
-		this.rootTreeNode.setNodeData(null);
+		this.gtnWsRootTreeNode = new GtnWSTreeNode();
+		this.gtnWsRootTreeNode.setLevel(0);
+		this.gtnWsRootTreeNode.setTreeCode(null);
+		this.gtnWsRootTreeNode.setNodeData(null);
 	}
 
-	public boolean deleteNode(GtnWSTreeNode node) {
+	public boolean deleteNode(GtnWSTreeNode treeRootNode) {
 		LOGGER.info("Entering  into deleteNode(TreeNode node) of TreeBuilder ");
 
 		try {
-			if (node == null || node.getNodeData() == null) {
+			if (treeRootNode == null || treeRootNode.getNodeData() == null) {
 				return false;
 			}
-			List<GtnWSTreeNode> childNodeList = node.getParent().getChildren();
+			List<GtnWSTreeNode> childNodeList = treeRootNode.getParent().getChildren();
 			if (childNodeList == null) {
 				return false;
 			}
-			childNodeList.remove(node);
+			childNodeList.remove(treeRootNode);
 
 			if (childNodeList.isEmpty()) {
-				deleteNode(node.getParent());
+				deleteNode(treeRootNode.getParent());
 			}
-			node.setParent(null);
+			treeRootNode.setParent(null);
 
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
@@ -96,15 +96,15 @@ public class GtnUIFrameworkHierarchyTreeBuilder {
 
 	public boolean deleteNode(GtnWsRecordBean gtnWsRecordBean) {
 		return deleteNode(
-				readTreeNodeRecursively(rootTreeNode, gtnWsRecordBean.getAdditionalProperties().get(1).toString()));
+				readTreeNodeRecursively(gtnWsRootTreeNode, gtnWsRecordBean.getAdditionalProperties().get(1).toString()));
 	}
 
-	private GtnWSTreeNode readTreeNodeRecursively(final GtnWSTreeNode rootNode, final String hierarchyNo) {
+	private GtnWSTreeNode readTreeNodeRecursively(final GtnWSTreeNode treeRootNode, final String hierarchyNo) {
 
 		GtnWSTreeNode node = null;
 
-		if (rootNode.getChildren() != null) {
-			for (GtnWSTreeNode treeNode : rootNode.getChildren()) {
+		if (treeRootNode.getChildren() != null) {
+			for (GtnWSTreeNode treeNode : treeRootNode.getChildren()) {
 				if (hierarchyNo.equals(treeNode.getTreeCode())) {
 					return treeNode;
 				} else {
@@ -116,19 +116,19 @@ public class GtnUIFrameworkHierarchyTreeBuilder {
 	}
 
 	public GtnWSTreeNode getRootTreeNode() {
-		return rootTreeNode;
+		return gtnWsRootTreeNode;
 	}
 
 	public void clearTree() {
-		if (rootTreeNode != null && rootTreeNode.getChildren() != null) {
-			rootTreeNode.getChildren().clear();
+		if (gtnWsRootTreeNode != null && gtnWsRootTreeNode.getChildren() != null) {
+			gtnWsRootTreeNode.getChildren().clear();
 		}
 	}
 
 	public List<GtnWsRecordBean> getAllNodeDataAsList() {
 		List<GtnWsRecordBean> list = new ArrayList<>();
-		if (rootTreeNode != null && rootTreeNode.getChildren() != null) {
-			for (GtnWSTreeNode treeNode : rootTreeNode.getChildren()) {
+		if (gtnWsRootTreeNode != null && gtnWsRootTreeNode.getChildren() != null) {
+			for (GtnWSTreeNode treeNode : gtnWsRootTreeNode.getChildren()) {
 				addTreeNodeDataRecursively(treeNode, list);
 			}
 		}
@@ -146,40 +146,35 @@ public class GtnUIFrameworkHierarchyTreeBuilder {
 
 	@SuppressWarnings("unchecked")
 	public void loadRightTreeTable(TreeGrid<GtnWsRecordBean> treeTable, int loadingLevel) {
-		// ExtTreeContainer<GtnWsRecordBean> container =
-		// (ExtTreeContainer<GtnWsRecordBean>) treeTable
-		// .getDataProvider();
 		treeTable.getTreeData().clear();
-		recursiveLoad(rootTreeNode, treeTable, loadingLevel);
+		recursiveLoad(gtnWsRootTreeNode, treeTable, loadingLevel);
 	}
 
-	private void recursiveLoad(GtnWSTreeNode node, TreeGrid<GtnWsRecordBean> treeTable, int loadingLevel) {
+	private void recursiveLoad(GtnWSTreeNode node, TreeGrid<GtnWsRecordBean> treeGrid, int loadingLevel) {
 
 		if (node == null) {
 			return;
 		}
 		List<GtnWSTreeNode> childeren = node.getChildren();
 		if (childeren == null) {
-			// container.setChildrenAllowed(node.getNodeData(), false);
 			return;
 		}
-		// container.setChildrenAllowed(node.getNodeData(), true);
 		for (GtnWSTreeNode childNode : childeren) {
 			if (node.getLevel() == 0) {
-				treeTable.getTreeData().addItem(null, childNode.getNodeData());
+				treeGrid.getTreeData().addItem(null, childNode.getNodeData());
 			} else {
-				treeTable.getTreeData().addItem(node.getNodeData(), childNode.getNodeData());
+				treeGrid.getTreeData().addItem(node.getNodeData(), childNode.getNodeData());
 
 			}
-			recursiveLoad(childNode, treeTable, loadingLevel);
+			recursiveLoad(childNode, treeGrid, loadingLevel);
 		}
 	}
 
 	public void clearRootNode() {
-		if ((rootTreeNode != null) && (rootTreeNode.getChildren() != null)) {
-			rootTreeNode.getChildren().clear();
+		if ((gtnWsRootTreeNode != null) && (gtnWsRootTreeNode.getChildren() != null)) {
+			gtnWsRootTreeNode.getChildren().clear();
 		}
-		rootTreeNode = null;
+		gtnWsRootTreeNode = null;
 	}
 
 }

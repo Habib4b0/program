@@ -30,6 +30,9 @@ public class GtnFrameworkCustomerAddAction implements GtnUIFrameWorkAction, GtnU
 
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
+        GtnUIFrameworkGlobalUI.addSessionProperty("mode", "Add");
+        GtnUIFrameworkGlobalUI.addSessionProperty("customSid", 0);
+        GtnUIFrameworkGlobalUI.addSessionProperty("customViewBean", "");
         List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
         GtnUIFrameworkBaseComponent cvTreeBaseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString());
         GtnUIFrameworkBaseComponent table = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1).toString());

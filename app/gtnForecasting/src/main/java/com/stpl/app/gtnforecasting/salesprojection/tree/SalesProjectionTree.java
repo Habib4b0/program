@@ -59,7 +59,7 @@ public class SalesProjectionTree {
 
     private void buildCustomTree(ProjectionSelectionDTO projSelDTO) {
         List<Object[]> customViewList = getAvailableHierarchiesCustom(projSelDTO);
-        SalesBaseNode customApex = generateCustomTree(customViewList);
+        SalesBaseNode customApex = generateCPTree(customViewList);
         sortTree(customApex.getAllChildHierarchies(), projSelDTO);
         setCurrentApex(customApex);
     }
@@ -94,12 +94,19 @@ public class SalesProjectionTree {
 
     private List<Object[]> getAvailableHierarchiesCustom(ProjectionSelectionDTO projSelDTO) {
         String query = SQlUtil.getQuery("custom-relationship-hierarchy");
-        query = query.replace("[?CUST_RELATIONSHIP_BUILDER_SID]", projSelDTO.getSessionDTO().getCustRelationshipBuilderSid());
-        query = query.replace("[?PROD_RELATIONSHIP_BUILDER_SID]", projSelDTO.getSessionDTO().getProdRelationshipBuilderSid());
-        query = query.replace("[?Custom_View_Master_SID]", String.valueOf(projSelDTO.getCustomId()));
-        query = query.replace("[?Custom_Relation_Version]", String.valueOf(projSelDTO.getSessionDTO().getCustomerRelationVersion()));
-        query = query.replace("[?Product_Relation_Version]", String.valueOf(projSelDTO.getSessionDTO().getProductRelationVersion()));
-        query = query.replace("[?UserGroup]","");
+        query = query.replace("@CUSTMASTERSID",String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid()));
+        StringBuilder stringBuilder=new StringBuilder();
+        
+       
+        Map<String,List> hierarchyMap=projSelDTO.getSessionDTO().getSalesHierarchyLevelDetails();
+        int i=1;
+        for (Map.Entry<String, List> entry : hierarchyMap.entrySet()) {
+             stringBuilder.append("('");
+             stringBuilder.append(entry.getKey());
+             stringBuilder.append("'," ).append( i++ ).append("),");
+        }
+        stringBuilder.replace(stringBuilder.lastIndexOf(","), stringBuilder.length(), StringUtils.EMPTY);
+        query = query.replace("[?HIER_VALUES]",stringBuilder);
         if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
             query = query.replace("[?FILTERCCP]"," AND PPA.FILTER_CCP=1");
         }else{
@@ -174,6 +181,7 @@ public class SalesProjectionTree {
     }
 
     private void sortTree(List<TreeNode> treeNodeList, final ProjectionSelectionDTO session) {
+        Map<String, List> hierarchyDetailsMap = session.isIsCustomHierarchy() ? session.getSessionDTO().getSalesHierarchyLevelDetails() : session.getSessionDTO().getHierarchyLevelDetails();
         if (treeNodeList != null) {
             Collections.sort(treeNodeList, new Comparator<TreeNode>() {
 
@@ -182,8 +190,8 @@ public class SalesProjectionTree {
                     String hierarchyNo = o1.getHierachyNo().contains(",") ? o1.getHierachyNo().split(",")[0] : o1.getHierachyNo();
                     String hierarchyNo1 = o2.getHierachyNo().contains(",") ? o2.getHierachyNo().split(",")[0] : o2.getHierachyNo();
                     return String
-                            .valueOf(session.getSessionDTO().getHierarchyLevelDetails().get(hierarchyNo.trim()).get(0))
-                            .compareToIgnoreCase((String) session.getSessionDTO().getHierarchyLevelDetails()
+                            .valueOf(hierarchyDetailsMap.get(hierarchyNo.trim()).get(0))
+                            .compareToIgnoreCase((String) hierarchyDetailsMap
                                     .get(hierarchyNo1.trim()).get(0));
                 }
             });

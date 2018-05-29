@@ -20,10 +20,8 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 public class GtnFrameworkDataAssumptionsTabConfig {
-	private GtnWSLogger logger=GtnWSLogger.getGTNLogger(GtnFrameworkDataAssumptionsTabConfig.class);
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public void addDataAssumptionsLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -156,41 +154,43 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 	}
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { "file", "company", "businessUnit",
-				"type", "version", "activeFrom", "fromPeriod", "toPeriod"  };
+		String[] dataAssumptionsPropertyIDs = GtnFrameworkReportStringConstants
+				.getReportDataAssumptionsFilterPropertyId();
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> dataAssumptionsFilterConfigMap = new HashMap<>(
+				dataAssumptionsPropertyIDs.length);
 		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-				GtnUIFrameworkComponentType.CALENDAR_FIELD,GtnUIFrameworkComponentType.CALENDAR_FIELD,
-				GtnUIFrameworkComponentType.CALENDAR_FIELD};
-		
-		String[] comboboxIds={""};
-		String[] comboboxType={""};
-		int comboboxStart=0;
-		for (int i = 0; i < propertyIds.length; i++) {
-			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			pagedTableCustomFilterConfig.setPropertId(propertyIds[i]);
-			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
-			if((comboboxStart<comboboxIds.length) && propertyIds[i].equals(comboboxIds[comboboxStart])){
-				GtnUIFrameworkComponentConfig companyMasterSearchFilterComponentConfig = new GtnUIFrameworkComponentConfig();
-				companyMasterSearchFilterComponentConfig.setComponentId("customFilterComboBox");
-				companyMasterSearchFilterComponentConfig.setComponentName("customFilterComboBox");
-				companyMasterSearchFilterComponentConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
-				companyMasterSearchFilterComponentConfig.getGtnComboboxConfig().setComboBoxType(comboboxType[comboboxStart]);
-				companyMasterSearchFilterComponentConfig.getGtnComboboxConfig()
+				GtnUIFrameworkComponentType.CALENDAR_FIELD, GtnUIFrameworkComponentType.CALENDAR_FIELD,
+				GtnUIFrameworkComponentType.CALENDAR_FIELD };
+
+		String[] dataAssumptionsComboboxIds = { "" };
+		String[] dataAssumptionsComboBoxType = { "" };
+		int comboboxStartIndex = 0;
+		for (int i = 0; i < dataAssumptionsPropertyIDs.length; i++) {
+			GtnUIFrameworkPagedTableCustomFilterConfig dataAssumptionsTableFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
+			dataAssumptionsTableFilterConfig.setPropertId(dataAssumptionsPropertyIDs[i]);
+			dataAssumptionsTableFilterConfig.setGtnComponentType(componentType[i]);
+			if ((comboboxStartIndex < dataAssumptionsComboboxIds.length)
+					&& dataAssumptionsPropertyIDs[i].equals(dataAssumptionsComboboxIds[comboboxStartIndex])) {
+				GtnUIFrameworkComponentConfig dataAssumptionsSearchFilterConfig = new GtnUIFrameworkComponentConfig();
+				dataAssumptionsSearchFilterConfig.setComponentId("customFilterComboBox");
+				dataAssumptionsSearchFilterConfig.setComponentName("customFilterComboBox");
+				dataAssumptionsSearchFilterConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
+				dataAssumptionsSearchFilterConfig.getGtnComboboxConfig()
+						.setComboBoxType(dataAssumptionsComboBoxType[comboboxStartIndex]);
+				dataAssumptionsSearchFilterConfig.getGtnComboboxConfig()
 						.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-				pagedTableCustomFilterConfig.setGtnComponentConfig(companyMasterSearchFilterComponentConfig);
-				comboboxStart++;
+				dataAssumptionsTableFilterConfig.setGtnComponentConfig(dataAssumptionsSearchFilterConfig);
+				comboboxStartIndex++;
 			}
-			logger.info("------pagedTableCustomFilterConfig.getPropertId()-----------"+pagedTableCustomFilterConfig.getPropertId());
-			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
+			dataAssumptionsFilterConfigMap.put(dataAssumptionsTableFilterConfig.getPropertId(),
+					dataAssumptionsTableFilterConfig);
 		}
-		return customFilterConfigMap;
+		return dataAssumptionsFilterConfigMap;
 	}
-	
-	
+
 	private void addNavigationButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace,
 			String parentId) {
 

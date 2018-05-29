@@ -34,14 +34,20 @@ public class GtnUIFrameWorkPopUpAction implements GtnUIFrameWorkAction {
 	@Override
 	public void doAction(String sourceComponentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		
+		logger.info("------------Inside  popUp  action");
+		
 		try {
 			List<Object> configList = gtnUIFrameWorkActionConfig.getActionParameterList();
 			CustomWindow popUpWindow = new CustomWindow((String) configList.get(1));
 			configWindowStyles(popUpWindow, configList);
-
+	
 			GtnUIFrameworkView view = (GtnUIFrameworkView) GtnUIFrameworkGlobalUI
 					.getVaadinComponent((String) configList.get(0));
+			
+	
 			if (view == null) {
+				
 				view = new GtnUIFrameworkView((String) configList.get(0), sourceComponentId);
 				configureReplicableWindow(popUpWindow);
 				GtnUIFrameworkGlobalUI.addViewToNavigator(view.getGeneratedViewId(), view);

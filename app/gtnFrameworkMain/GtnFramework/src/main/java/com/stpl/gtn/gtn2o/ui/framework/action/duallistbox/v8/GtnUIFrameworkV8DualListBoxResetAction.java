@@ -18,7 +18,7 @@ import com.vaadin.ui.TreeGrid;
 
 public class GtnUIFrameworkV8DualListBoxResetAction implements GtnUIFrameWorkAction {
 	
-	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkV8DualListBoxResetAction.class);
+	private static final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkV8DualListBoxResetAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)

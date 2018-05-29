@@ -11,7 +11,7 @@ public class GtnUIFrameworkWebserviceDateResponse implements GtnWSResponseData {
 	private Date resultValue;
 
 	public Date getResultValue() {
-		return resultValue;
+		return this.resultValue;
 	}
 
 	public void setResultValue(Date resultValue) {

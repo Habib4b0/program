@@ -31,13 +31,13 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String STATUS = "STATUS";
 
 	public static final String REPORT = "report";
-	
+
 	public static final String HIER_NAME = "hierarchyName";
-        
-        public static final String PRODUCT_HIERARCHY_NAME = "landingScreenProductHierName";
-	
-        public static final String HIER_TYPE = "hierarchyType";
-                
+
+	public static final String PRODUCT_HIERARCHY_NAME = "landingScreenProductHierName";
+
+	public static final String HIER_TYPE = "hierarchyType";
+
 	public static final String HIGHEST_LEVEL = "highestLevel";
 
 	public static final String CUSTOMER_HIERARCHY_GROUP_BUILDER = "Customer Hierarchy Group Builder";
@@ -86,7 +86,7 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String PRODUCT_FORCAST_LEVEL = "ProductForecastLevel";
 
-	public static final String CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE = "customerHierarchySearchResultTable";
+	public static final String CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE = "customerHierarchySearchResultTableNEW";
 
 	public static final String CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE = "customViewLookupProductTable";
 
@@ -151,17 +151,17 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String CUST_SELECTION_MAINLAYOUT = "custSelectionMainlayout";
 
 	public static final String CUSTOMER_SELECTION_INNERLAYOUT = "customerSelectionInnerlayout";
-	
+
 	public static final String DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP = "dataSelectionTab_customerSelectionRelationship";
-	
+
 	public static final String DATA_SELECTION_TAB_CUSTOMER_RELATIONSHIP_VERSION = "dataSelectionTab_customerRelationshipVersion";
-	
+
 	public static final String DATA_SELECTION_TAB_CUSTOMER_SELECTION_LEVEL = "dataSelectionTab_customerSelectionLevel";
 
 	public static final String DATA_SELECTION_TAB_RELATIONSHIP = "dataSelectionTab_relationship";
-	
+
 	public static final String DATA_SELECTION_TAB_PRODUCT_RELATIONSHIP_VERSION = "dataSelectionTab_productRelationshipVersion";
-	
+
 	public static final String DATA_SELECTION_TAB_LEVEL = "dataSelectionTab_level";
 
 	public static final String RESULTS_MAIN_LAYOUT_CONFIG = "resultsMainLayoutConfig";
@@ -174,8 +174,8 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT_DATA_SOURCE = "reportDataSource";
 
-        public static final String REPORT_PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE = "productHierarchySearchResultTable";
-                
+	public static final String REPORT_PRODUCT_HIERARCHY_SEARCH_RESULT_TABLE = "productHierarchySearchResultTable";
+
 	public static final String CONTROL_BUTTON_LAYOUT = "controlButtonLayout";
 
 	public static final String DATA_ASSUMPTIONS_TAB_SHEET_LAYOUT = "dataAssumptionsTabSheetlayout";
@@ -344,6 +344,8 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String BUSINESS_UNIT_GLCOMP = "BusinessUnitGLcomp";
 
+	public static final String WORKFLOW_STATUS_LOADCOMBOBOX = "WorkFlowStatus";
+
 	public static final String TIME_PERIOD_FROM_DATE = "TimePeriodFromDate";
 
 	public static final String TIME_PERIOD_FROM_HISTORY_INTERVAL = "TimePeriodFromHistoryInterval";
@@ -368,8 +370,39 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String VARIABLE_TYPE_OPTION_GROUP = "custom_Variable_Type_OptionGroup";
 
+	public static final String PRODUCT_DUALLISTBOX = "product";
+	public static final String PRODUCT_LEVEL = "level";
+	public static final String PRODUCT_HIERARCHYRELATIONSHIP = "relationship";
+	public static final String PRODUCT_RELATIONSHIP_VERSION = "productRelationshipVersion";
+	public static final String CUSTOMER_DUALLISTBOX = "customerDualListBox";
+	public static final String EMPTY_SELECTION = "Empty Selection";
+	public static final String CUSTOM_TREETABLE = "customTreeTable";
+
+	public static final String REPORT_CUSTOMERHIERARCHY_RELATIONSHIP = "reportLandingScreen_customerSelectionRelationship";
+
+	public static final String REPORT_CUSTOMERHIERARCHY_RELATIONSHIPVERSION = "reportLandingScreen_customerRelationshipVersion";
+
+	public static final String REPORT_CUSTOMERHIERARCHY_LEVEL = "reportLandingScreen_customerSelectionLevel";
+
+	public static final String REPORT_PRODUCTHIERARCHY_RELATIONSHIP = "reportLandingScreen_relationship";
+
+	public static final String REPORT_PRODUCTHIERARCHY_RELATIONSHIPVERSION = "reportLandingScreen_productRelationshipVersion";
+
+	public static final String REPORT_PRODUCTHIERARCHY_LEVEL = "reportLandingScreen_level";
+
+	public static final String REPORT_PRIVATEVIEW_SEARCHLOOKUP = "reportLandingScreen_privateViews";
+
+	public static final String PROJECTION_TYPE = "projectionType";
+
+	public static final String WORKFLOW_STATUS = "workflowStatus";
+
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");
+
+	private static final List<String> REPORT_COMPARISON_PROJECTIONTYPE_LOADCOMBOBOX = Arrays.asList("Contract", "CFF");
+
+	private static final List<String> REPORT_COMPARISON_WORKFLOWSTATUS_LOADCOMBOBOX = Arrays.asList("Saved",
+			"Submitted", "Approved", "Rejected");
 
 	private static final Class<?>[] REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE = new Class<?>[] { String.class,
 			Integer.class, Integer.class, Date.class, Date.class };
@@ -380,6 +413,13 @@ public final class GtnFrameworkReportStringConstants {
 	private static final Object[] REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_MAPPING_ID = new Object[] {
 			"custHierarchyLookupHierName", "custHierarchyLookupHighestLevel", "custHierarchyLookupLowestLevel",
 			"custHierarchyLookupCreatedDate", "custHierarchyLookupModifiedDate" };
+
+	private static final String[] REPORT_PRODUCT_FILTER_PROPERTYID = new String[] {
+			GtnFrameworkReportStringConstants.HIER_NAME, GtnFrameworkReportStringConstants.HIGHEST_LEVEL, "lowestLevel",
+			"createdDate", "modifiedDate" };
+
+	private static final String[] REPORT_DATAASSUMPTIONS_FILTER_PROPERTYID = new String[] { "file", "company",
+			"businessUnit", "type", "version", "activeFrom", "fromPeriod", "toPeriod" };
 
 	public static Class<?>[] getReportCustomerHierarchyTableColumnsDataType() {
 		return REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE.clone();
@@ -398,4 +438,21 @@ public final class GtnFrameworkReportStringConstants {
 				: Collections.unmodifiableList(REPORT_DATA_SOURCE_LOAD_COMBOBOX);
 	}
 
+	public static String[] getReportProductFilterPropertyId() {
+		return REPORT_PRODUCT_FILTER_PROPERTYID.clone();
+	}
+
+	public static String[] getReportDataAssumptionsFilterPropertyId() {
+		return REPORT_DATAASSUMPTIONS_FILTER_PROPERTYID.clone();
+	}
+
+	public static List<String> getReportComparisonProjectionTypeLoadCombobox() {
+		return REPORT_COMPARISON_PROJECTIONTYPE_LOADCOMBOBOX == null ? REPORT_COMPARISON_PROJECTIONTYPE_LOADCOMBOBOX
+				: Collections.unmodifiableList(REPORT_COMPARISON_PROJECTIONTYPE_LOADCOMBOBOX);
+	}
+
+	public static List<String> getReportComparisonWorkflowStatusLoadCombobox() {
+		return REPORT_COMPARISON_WORKFLOWSTATUS_LOADCOMBOBOX == null ? REPORT_COMPARISON_WORKFLOWSTATUS_LOADCOMBOBOX
+				: Collections.unmodifiableList(REPORT_COMPARISON_WORKFLOWSTATUS_LOADCOMBOBOX);
+	}
 }

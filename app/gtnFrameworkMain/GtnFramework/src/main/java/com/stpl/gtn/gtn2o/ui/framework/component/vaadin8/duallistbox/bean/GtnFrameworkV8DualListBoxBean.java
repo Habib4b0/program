@@ -14,9 +14,9 @@ import java.util.List;
 public class GtnFrameworkV8DualListBoxBean {
 	private Grid<GtnWsRecordBean> leftTable;
 	private TreeGrid<GtnWsRecordBean> rightTable;
-	private Button moveLeft;
-	private Button moveRight;
-	private Button moveAllRight;
+	private Button moveLeftBtn;
+	private Button moveRightBtn;
+	private Button moveAllRightBtn;
 	private GtnUIFrameworkV8DualListBoxComponent gtnUIFrameworkDualListBoxComponent;
 	private List<Object> gtnDualListBoxqueryParameters;
 	private GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig;
@@ -29,9 +29,9 @@ public class GtnFrameworkV8DualListBoxBean {
 		super();
 		this.leftTable = leftTable;
 		this.rightTable = rightTable;
-		this.moveLeft = moveLeft;
-		this.moveRight = moveRight;
-		this.moveAllRight = moveAllRight;
+		this.moveLeftBtn = moveLeft;
+		this.moveRightBtn = moveRight;
+		this.moveAllRightBtn = moveAllRight;
 		this.gtnUIFrameworkDualListBoxComponent = gtnUIFrameworkDualListBoxComponent;
 		this.dualListBoxConfig = dualListBoxConfig;
 	}
@@ -52,28 +52,28 @@ public class GtnFrameworkV8DualListBoxBean {
 		this.rightTable = rightTable;
 	}
 
-	public Button getMoveLeft() {
-		return moveLeft;
+	public Button getMoveLeftBtn() {
+		return moveLeftBtn;
 	}
 
-	public void setMoveLeft(Button moveLeft) {
-		this.moveLeft = moveLeft;
+	public void setMoveLeftBtn(Button moveLeftBtn) {
+		this.moveLeftBtn = moveLeftBtn;
 	}
 
-	public Button getMoveRight() {
-		return moveRight;
+	public Button getMoveRightBtn() {
+		return moveRightBtn;
 	}
 
-	public void setMoveRight(Button moveRight) {
-		this.moveRight = moveRight;
+	public void setMoveRightBtn(Button moveRightBtn) {
+		this.moveRightBtn = moveRightBtn;
 	}
 
-	public Button getMoveAllRight() {
-		return moveAllRight;
+	public Button getMoveAllRightBtn() {
+		return moveAllRightBtn;
 	}
 
-	public void setMoveAllRight(Button moveAllRight) {
-		this.moveAllRight = moveAllRight;
+	public void setMoveAllRightBtn(Button moveAllRightBtn) {
+		this.moveAllRightBtn = moveAllRightBtn;
 	}
 
 	public GtnUIFrameworkV8DualListBoxComponent getGtnUIFrameworkDualListBoxComponent() {

@@ -34,7 +34,7 @@
 			ref="mongoUri" />
 	</bean>
 	<bean id="sqlPropertyBean"
-		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+	class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="locations" value="classpath:/sqlresource/sqlqueries.xml" />
 	</bean>
 </beans>
