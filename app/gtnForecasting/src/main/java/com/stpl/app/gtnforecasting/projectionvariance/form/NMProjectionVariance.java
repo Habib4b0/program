@@ -889,11 +889,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void customDdlbChangeOption() {
         LOGGER.info("customDdlbChangeOption ValueChangeEvent initiated ");
-        customId = CommonLogic.customDdlbOptionChange(customDdlb, editViewBtn, levelDdlb);
+        customId = (int)customDdlb.getValue();
         pvSelectionDTO.setCustomId(customId);
         levelDdlb.setEnabled(customId != 0);
-        int tpNo = CommonLogic.getTradingPartnerLevelNo(true, customId);
-        pvSelectionDTO.setTpLevel(tpNo);
         if (customId != 0) {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
@@ -1333,6 +1331,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 }
                 loadCustomDDLB();
                 levelFilter.setEnabled(false);
+                customDdlbChangeOption();
             } else {
                 levelFilter.setEnabled(true);
                 level.setEnabled(true);

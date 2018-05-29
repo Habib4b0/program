@@ -200,7 +200,7 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 
 	private void addCMSearchCompanyTradeClass(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig tradeClass = addCMSearchGeneralSearcField(componentList,
-				GtnFrameworkCompanyStringContants.TRADE_CLASS, "Trade Class", GtnUIFrameworkComponentType.COMBOBOX,
+				GtnFrameworkCompanyStringContants.TRADE_CLASS, "Trade   Class", GtnUIFrameworkComponentType.COMBOBOX,
 				GtnUIFrameworkConditionalValidationType.NOT_NULL);
 
 		GtnUIFrameworkComboBoxConfig tradeClassConfig = configProvider.getComboBoxConfig("COMPANY_TRADE_CLASS",
