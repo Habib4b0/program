@@ -150,7 +150,7 @@ public class GtnWsReportWebsevice {
 				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
 				GtnFrameworkDataType.STRING };
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
-				.executeSelectQuery(sqlService.getQuery(inputList, "comparisonResults"));
+				.executeSelectQuery(sqlService.getQuery(inputList, "loadProjectionComparisonResults"));
 		return resultList;
 	}
 	
@@ -184,8 +184,15 @@ public class GtnWsReportWebsevice {
 		return inputList;
 	}
 	
-	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap){
-		return null;
+	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap) throws GtnFrameworkGeneralException{
+		List<String> inputList = getInputList(criteriaMap);
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.NULL_ALLOWED, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING };
+		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
+				.executeSelectQuery(sqlService.getQuery(inputList, "loadCFFComparisonResults"));
+		return resultList;
 	}
 
 	private String getCriteria(GtnWebServiceSearchCriteria searchCriteria) {
