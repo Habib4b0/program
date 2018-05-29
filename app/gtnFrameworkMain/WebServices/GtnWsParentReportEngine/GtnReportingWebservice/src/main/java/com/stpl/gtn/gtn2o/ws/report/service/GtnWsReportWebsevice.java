@@ -136,31 +136,56 @@ public class GtnWsReportWebsevice {
 			}
 		}
 		if (criteriaMap.get("projectionType").equals("Contract")) {
-			comparisonResults = loadComparisonResults(criteriaMap);
+			comparisonResults = loadProjectionComparisonResults(criteriaMap);
+		}else{
+			comparisonResults = loadCFFComparisonResults(criteriaMap);
 		}
 		return comparisonResults;
 	}
 
-	private List<Object[]> loadComparisonResults(Map<String, String> criteriaMap) throws GtnFrameworkGeneralException {
-		boolean isProjectionStatus = false;
-		List<String> inputList = new ArrayList<>();
-		if (criteriaMap.get("workflowStatus").equals("Saved")) {
-			isProjectionStatus = true;
-		}
-		inputList.add(isProjectionStatus ? "" : sqlService.getQuery("workflowJoinQuery"));
-		inputList.add("'" + criteriaMap.get("marketType") == null ? "%" : criteriaMap.get("marketType") + "'");
-		inputList
-				.add("'" + criteriaMap.get("comparisonBrand") == null ? "%" : criteriaMap.get("comparisonBrand") + "'");
-		inputList.add("'" + criteriaMap.get("projectionName") == null ? "%" : criteriaMap.get("projectionName") + "'");
-		inputList.add("'" + criteriaMap.get("contractHolder") == null ? "%" : criteriaMap.get("contractHolder") + "'");
-		inputList.add("'" + criteriaMap.get("ndcName") == null ? "%" : criteriaMap.get("ndcName") + "'");
-		inputList.add("'" + criteriaMap.get("comparisonNDC") == null ? "%" : criteriaMap.get("comparisonNDC") + "'");
-		inputList.add("'" + criteriaMap.get("contract") == null ? "%" : criteriaMap.get("contract") + "'");
-		inputList.add("'" + criteriaMap.get("projectionDescription") == null ? "%"
-				: criteriaMap.get("projectionDescription") + "'");
+	private List<Object[]> loadProjectionComparisonResults(Map<String, String> criteriaMap) throws GtnFrameworkGeneralException {
+		List<String> inputList = getInputList(criteriaMap);
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.NULL_ALLOWED, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING };
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(sqlService.getQuery(inputList, "comparisonResults"));
 		return resultList;
+	}
+	
+	private List<String> getInputList(Map<String, String> criteriaMap){
+		List<String> inputList = new ArrayList<>();
+		boolean isProjectionStatus = false;
+		if (criteriaMap.get("workflowStatus").equals("Saved")) {
+			isProjectionStatus = true;
+		}
+		String workflowJoinQuery = isProjectionStatus ? "" : ("'" + sqlService.getQuery("workflowJoinQuery") + "'");
+		String marketType = criteriaMap.get("marketType") == null ? "%" : criteriaMap.get("marketType");
+		String comparisonBrand = criteriaMap.get("comparisonBrand") == null ? "%" : criteriaMap.get("comparisonBrand");
+		String projectionName = criteriaMap.get("projectionName") == null ? "%" : criteriaMap.get("projectionName");
+		String contractHolder = criteriaMap.get("contractHolder") == null ? "%" : criteriaMap.get("contractHolder");
+		String ndcName = criteriaMap.get("ndcName") == null ? "%" : criteriaMap.get("ndcName");
+		String comparisonNDC = criteriaMap.get("comparisonNDC") == null ? "%" : criteriaMap.get("comparisonNDC");
+		String contract = criteriaMap.get("contract") == null ? "%" : criteriaMap.get("contract");
+		String projectionDescription = criteriaMap.get("projectionDescription") == null ? "%"
+				: criteriaMap.get("projectionDescription");
+		Object[] params = { workflowJoinQuery, marketType, comparisonBrand, projectionName, contractHolder, ndcName,
+				comparisonNDC, contract, projectionDescription };
+		inputList.add(workflowJoinQuery);
+		inputList.add("'" + marketType +"'");
+		inputList.add("'" + comparisonBrand + "'");
+		inputList.add("'" + projectionName + "'");
+		inputList.add("'" + contractHolder + "'");
+		inputList.add("'" + ndcName + "'");
+		inputList.add("'" + comparisonNDC + "'");
+		inputList.add("'" + contract + "'");
+		inputList.add("'"+ projectionDescription + "'");
+		return inputList;
+	}
+	
+	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap){
+		return null;
 	}
 
 	private String getCriteria(GtnWebServiceSearchCriteria searchCriteria) {

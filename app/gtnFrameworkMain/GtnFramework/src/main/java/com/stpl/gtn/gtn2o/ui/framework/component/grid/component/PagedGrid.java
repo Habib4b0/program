@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.data.HasValue;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.data.HasValue.ValueChangeListener;
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
@@ -90,6 +92,21 @@ public class PagedGrid {
 			grid.setItems(dataSet.getRows());
 
 		}
+	}
+	
+	public void addItem(GtnWsRecordBean item) {
+		ListDataProvider<GtnWsRecordBean> dataProvider = (ListDataProvider) grid.getDataProvider();
+		@SuppressWarnings("unchecked")
+		List<GtnWsRecordBean> items = new ArrayList<>(dataProvider.getItems());
+		items.add(item);
+		grid.setItems(items);
+	}
+	
+	public void removeItem(GtnWsRecordBean item){
+		ListDataProvider<GtnWsRecordBean> dataProvider = (ListDataProvider<GtnWsRecordBean>) grid.getDataProvider();
+		List<GtnWsRecordBean> items = new ArrayList<>(dataProvider.getItems());
+		items.remove(item);
+		grid.setItems(items);
 	}
 
 	private int getTotalCount() {
@@ -466,5 +483,4 @@ public class PagedGrid {
 				inlineDateFieldEndDate);
 		return button;
 	}
-
 }
