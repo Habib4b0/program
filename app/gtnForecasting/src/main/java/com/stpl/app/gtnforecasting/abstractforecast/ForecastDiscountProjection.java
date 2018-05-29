@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.abstractforecast;
 
+import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
@@ -73,7 +74,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
@@ -91,6 +91,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     protected final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     protected static final Logger LOGGER = LoggerFactory.getLogger(ForecastDiscountProjection.class);
     protected DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
+    DataSelectionLogic logic = new DataSelectionLogic();
     /**
      * The forecastTab VerticalLayout.
      */
@@ -512,7 +513,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         frequencyDdlb.addItem(QUARTERLY.getConstant());
         frequencyDdlb.addItem(SEMI_ANNUALLY.getConstant());
         frequencyDdlb.addItem(ANNUALLY.getConstant());
-        frequencyDdlb.select(dataSelectionDto.getFrequency());
+        frequencyDdlb.setValue(session.getDsFrequency());
         frequencyDdlb.focus();
 
         loadFrequency(QUARTERLY.getConstant());
@@ -621,7 +622,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         collapseBtn.addClickListener(buttonClickListener);
         adjprogramsLb.setVisible(false);
         adjprograms.setVisible(false);
-
+        customDdlbChangeOption();
 
         screenLoad();
 
@@ -709,9 +710,15 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         return year;
     }
 
-    @UiHandler("viewDdlb")
-    public void customDdlbChangeOption(Property.ValueChangeEvent event) {
-        customDdlbLogic();
+
+     public void customDdlbChangeOption() {
+        viewDdlb.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                customDdlbLogic();
+            }
+        });
+        
     }
 
     /**
@@ -806,6 +813,9 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                     adjPeriodValueChangeLogic(String.valueOf(event.getProperty().getValue()));
                     break;
                 case "frequencyDdlb":
+//                    if(!session.getDsFrequency().equals(String.valueOf(frequencyDdlb.getValue()))){
+//                    logic.nmDiscountViewsPopulationProcedure(session);
+//                    }
                     loadFrequency(String.valueOf(event.getProperty().getValue()));
                     session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
                     break;
@@ -856,6 +866,10 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 }
                 break;
             case "generateBtn":
+                if (!session.getDsFrequency().equals(frequencyDdlb.getValue()) || !session.getDeductionLevel().equals(deductionlevelDdlb.getValue())) {
+                    logic.nmDiscountViewsPopulationProcedure(session);
+                    CommonUtil.getInstance().waitForSeconds();
+                }
                 generateBtnClickLogic(BooleanConstant.getTrueFlag());
                 break;
             case "resetBtn":

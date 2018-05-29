@@ -369,7 +369,13 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             setProjectionSelection(false);
             initialConfig(Boolean.TRUE);
         }
-        frequency.select(dataSelectionDto.getFrequency());
+        frequency.select(session.getDsFrequency());
+        frequency.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                session.setDsFrequency(String.valueOf(frequency.getValue()));
+            }
+        });
         loadDisplayFormatDdlb();
     }
 
@@ -892,9 +898,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
         }
-        if (CommonUtil.isValueEligibleForLoading()) {
-            session.setDeductionLevelDetails(dsLogic.getRelationshipDetailsDeduction(session, session.getDedRelationshipBuilderSid(), true));
-        }
         viewChangeHierarchy = session.getCustomHierarchyMap().get(customId);
         if (customId != 0) {
             callGenerateLogic();
@@ -1323,7 +1326,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         addViewBtn.setEnabled(false);
         if (view.getValue() != null) {
             if (CUSTOM.getConstant().equals(String.valueOf(view.getValue()))) {
-                pvSelectionDTO.setHierarchyIndicator("D");
                 pvSelectionDTO.setIsCustomHierarchy(true);
                 if (firstGenerated && !generated) {
                     tableLogic.clearAll();
@@ -1848,6 +1850,14 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         if (flag) {
             try {
                 configureFields();
+                if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
+                    loadDeductionLevelFilter(session.getDataSelectionDeductionLevel());
+                    deductionFilterValues.getChildren().get(1).setChecked(true);
+                    String deductionMenuItemValue = deductionFilterValues.getChildren().get(1).getMenuItem().getCaption();
+                    ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
+                    generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
+                    generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
+                }
                 security();
                 flag = false;
             } catch (PortalException | SystemException ex) {
@@ -2394,6 +2404,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 if (event.getProperty().getValue() != null) {
+                    session.setDataSelectionDeductionLevelCaption(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
                     String deductionLevelDdlbValue = String.valueOf(event.getProperty().getValue());
                     pvSelectionDTO.setSelectedDeductionLevelName(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
                     deductionLevelDdlbValue = Constant.NULL.equals(deductionLevelDdlbValue) ? StringUtils.EMPTY : deductionLevelDdlbValue;

@@ -139,7 +139,6 @@ import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.ui.themes.Reindeer;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -434,6 +433,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected Label populateLabel;
     protected int customId = 0;
     protected boolean checkAll = false;
+    Map<String,String> dataMap=new HashMap<>();
     /**
      * The excel export image.
      */
@@ -462,6 +462,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     private boolean refresh = false;
     private boolean valueChange = false;
     private static final String SALES_SMALL = "sales";
+    DataSelectionLogic dataLogic = new DataSelectionLogic();
+    private boolean salesValueChange = false;
 
     public boolean isRefresh() {
         return refresh;
@@ -479,7 +481,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         this.valueChange = valueChange;
     }
 
+    public boolean isSalesValueChange() {
+        return salesValueChange;
+    }
 
+    public void setSalesValueChange(boolean salesValueChange) {
+        this.salesValueChange = salesValueChange;
+    }
     /**
      * Level Filter Listener
      */
@@ -624,9 +632,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     private void configurefields() {
         level.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
         levelFilter.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
+        loadCustomViewDDdlb(false);
         viewDdlb.setEnabled(false);
         editBtn.setEnabled(false);
-        newBtn.setEnabled(true);
+        newBtn.setEnabled(false);
         alternateHistoryPanel.setVisible(false);
         valueDdlb.setEnabled(true);
         valueTxt.setEnabled(true);
@@ -637,7 +646,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         historyDdlb.focus();
         historyDdlb.addItem(Constant.SELECT_ONE);
         historyDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
-
         tableLayout.addComponent(resultsTable);
         tableLayout.addComponent(excelTable);
 
@@ -818,14 +826,15 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         refreshBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                CommonLogic.viewProceduresCompletionCheck(projectionDTO);
+                setSalesValueChange(true);
+                CommonLogic.viewProceduresCompletionCheck(session);
                 session.setFunctionMode("R");
                 setRefresh(true);
                 if (!projectionDTO.isMultipleVariablesUpdated()) {
                     salesLogic.executeUpdateQuery(projectionDTO);
                     getTableLogic().setRefresh(false);
-                    waitForSeconds();
-                    CommonLogic.procedureCompletionCheck(projectionDTO,"Sales",String.valueOf(projectionDTO.getViewOption()));
+                    CommonUtil.getInstance().waitForSeconds();
+                    CommonLogic.procedureCompletionCheck(session,"Sales",String.valueOf(projectionDTO.getViewOption()));
                     refreshTableData(getCheckedRecordsHierarchyNo());
                     getTableLogic().setRefresh(true);
                     if (refreshFlag) {
@@ -1111,6 +1120,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     @UiHandler("generateBtn")
     public void generateBtn(Button.ClickEvent event) {
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+            if(!session.getDsFrequency().equals(frequencyDdlb.getValue())){
+            dataLogic.nmSalesViewsPopulationProcedure(session);
+            CommonUtil.getInstance().waitForSeconds();
+            }
             projectionDTO.setGroup(StringUtils.EMPTY);
         }
         checkBoxMap.clear();
@@ -1411,7 +1424,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             leftTable.setColumnCollapsed(Constant.GROUP, false);
         }
         if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
-            newBtn.setEnabled(!ACTION_VIEW.getConstant().equals(session.getAction()));
+            newBtn.setEnabled(false);
             viewDdlb.setEnabled(!ACTION_VIEW.getConstant().equals(session.getAction()));
             projectionDTO.setIsCustomHierarchy(true);
             projectionDTO.setHierarchyIndicator(Constant.CUSTOM_LABEL);
@@ -1432,14 +1445,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             levelFilter.setValue(SELECT_ONE);
             levelFilter.setEnabled(false);
             loadCustomDDLB();
-            viewDdlb.setValue(SELECT_ONE);
             getTableLogic().clearAll();
+            ((NMSalesProjectionTableLogic) getTableLogic()).setProjectionResultsData(projectionDTO);
         } else if ((PRODUCT.getConstant()).equals(view.getValue())) {
             projectionDTO.setIsCustomHierarchy(false);
             projectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
             projectionDTO.setView(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
             projectionDTO.setViewOption(Constant.PRODUCT_LABEL);
-            newBtn.setEnabled(true);
+            newBtn.setEnabled(false);
             editBtn.setEnabled(false);
             viewDdlb.setEnabled(false);
             viewDdlb.setValue(SELECT_ONE);
@@ -1464,7 +1477,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             projectionDTO.setIsCustomHierarchy(false);
             projectionDTO.setView(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
             projectionDTO.setViewOption(Constant.CUSTOMER);
-            newBtn.setEnabled(true);
+            newBtn.setEnabled(false);
             editBtn.setEnabled(false);
             viewDdlb.setEnabled(false);
             viewDdlb.setValue(SELECT_ONE);
@@ -1496,35 +1509,12 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected void loadCustomDDLB() {
         LOGGER.debug("loadCustomDDLB initiated= {} " , customIdToSelect);
         viewDdlb.setEnabled(true);
-        newBtn.setEnabled(true);
+        newBtn.setEnabled(false);
         editBtn.setEnabled(false);
-        if (session.getCustomerViewList().isEmpty()) {
-            customViewList = CommonLogic.getCustomViewList(session.getProjectionId());
-            session.setCustomerViewList(customViewList);
-        } else {
-            customViewList = session.getCustomerViewList();
-        }
-        if (customViewList != null) {
-            viewDdlb.removeAllItems();
-            viewDdlb.addItem(SELECT_ONE);
-            viewDdlb.setNullSelectionItemId(SELECT_ONE);
-            Object select = null;
-            for (CustomViewMaster obj : customViewList) {
-                int customSid = obj.getCustomViewMasterSid();
-                Object itemId = customSid;
-                if (customIdToSelect == customSid) {
-                    select = itemId;
-                }
-                viewDdlb.addItem(itemId);
-                viewDdlb.setItemCaption(itemId, obj.getViewName());
-            }
-            if (select != null) {
-                viewDdlb.select(customIdToSelect);
-            } else {
-                viewDdlb.setValue(SELECT_ONE);
-            }
-        }
-        customId = customIdToSelect;
+        viewDdlb.setEnabled(false);
+        loadCustomViewDDdlb(false);
+        viewDdlb.select(session.getCustomRelationShipSid());
+        customId = session.getCustomRelationShipSid();
         session.setCustomId(customId);
         LOGGER.debug("loadCustomDDLB ends ");
     }
@@ -2117,7 +2107,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      * the logic to check and save the entered values in the Mass Update Field.
      */
     protected void populateButtonLogic() {
-        CommonLogic.viewProceduresCompletionCheck(projectionDTO);
+        setSalesValueChange(true);
+        CommonLogic.viewProceduresCompletionCheck(session);
         
         try {
             session.setFunctionMode("M");
@@ -2324,9 +2315,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     salesLogic.saveOnMassUpdate(projectionDTO, inputParameters);
                     String startPeriodMassUpdate = salesLogic.getPeriodSid(startPeriodValue, projectionDTO.getFrequency(), "Min");
                     String endPeriodMassUpdate = salesLogic.getPeriodSid(endPeriodValue, projectionDTO.getFrequency(), "Max");
-                    new DataSelectionLogic().callViewInsertProceduresThread(projectionDTO.getSessionDTO(),"Q", Constant.SALES1,startPeriodMassUpdate,endPeriodMassUpdate,updateVariable);
-                    waitForSeconds();
-                    CommonLogic.procedureCompletionCheck(projectionDTO,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
+                    dataLogic.callViewInsertProceduresThread(projectionDTO.getSessionDTO(), Constant.SALES1,startPeriodMassUpdate,endPeriodMassUpdate,updateVariable);
+                    CommonUtil.getInstance().waitForSeconds();
+                    CommonLogic.procedureCompletionCheck(session,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
                     isUpdated = true;
                     if (Constant.GROUPFCAPS.equals(String.valueOf(fieldDdlb.getValue()))) {
                         refreshGroupDdlb();
@@ -2346,14 +2337,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
     }
 
-    private void waitForSeconds() {
-        try {
-            TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException ex) {
-            LOGGER.error( "Interrupted!", ex);
-            Thread.currentThread().interrupt();
-        }
-    }
 
     public Map<String, Object> loadInputParameters(int startYear, int endYear, int startQuater, int endQuater, String enteredValue, String updateVariable) {
         Map<String, Object> updateValues = new HashMap<>();
@@ -2391,7 +2374,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      */
     @UiHandler("adjust")
     public void adjustmentLogic(Button.ClickEvent event) {
-        CommonLogic.viewProceduresCompletionCheck(projectionDTO);
+        setSalesValueChange(true);
+        CommonLogic.viewProceduresCompletionCheck(session);
         session.setFunctionMode("ADJ");
         if (!checkForCheckedRecord()) {
             AbstractNotificationUtils.getErrorNotification("No Hierarchy level selected", "Please select a level in the hierarchy.");
@@ -2470,8 +2454,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         getTableLogic().setRefresh(false);
                         salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,
                                 adjMethodology, HISTORY_PERIODS, projectionPeriods);
-                        waitForSeconds();
-                        CommonLogic.procedureCompletionCheck(projectionDTO, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
+                        CommonUtil.getInstance().waitForSeconds();
+                        CommonLogic.procedureCompletionCheck(session, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
                         refreshTableData(getCheckedRecordsHierarchyNo());
                         getTableLogic().setRefresh(true);
                         session.setActualAdjustment(true);
@@ -2584,7 +2568,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 }
                                 getTableLogic().setRefresh(false);
                                 salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable, adjMethodology, historyPeriods, projectionPeriods);
-                                waitForSeconds();
+                                CommonUtil.getInstance().waitForSeconds();
                                 refreshTableData(getCheckedRecordsHierarchyNo());
                                 getTableLogic().setRefresh(true);
                             } catch (PortalException  | SQLException ex) {
@@ -2801,7 +2785,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public void calculateButtonLogic() {
 
         Set<String> setMethodologiesValuesVal = new HashSet();
-        CommonLogic.viewProceduresCompletionCheck(projectionDTO);
+        CommonLogic.viewProceduresCompletionCheck(session);
         session.setFunctionMode("CALC");
 
         if (methodology.getValue() == null) {
@@ -2937,7 +2921,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 commonLogic.insertPFDTemp(session, calcMethodology, String.valueOf(allocationBasis.getValue()), true);
             }
             isSalesCalculated = salesLogic.calculateSalesProjection(projectionDTO, calcMethodology, selectedPeriods, calcBased, String.valueOf(forecastStartPeriod.getValue()), String.valueOf(forecastEndPeriod.getValue()), String.valueOf(allocationBasis.getValue()));
-            CommonLogic.procedureCompletionCheck(projectionDTO,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
+            CommonLogic.procedureCompletionCheck(session,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
 
         } else {
@@ -3045,12 +3029,12 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         frequency.addItem(SEMI_ANNUAL.getConstant());
 
         frequency.addItem(ANNUAL);
-        frequency.setValue(dataSelectionDto.getFrequency());
+        frequency.setValue(session.getDsFrequency());
         frequency.setNullSelectionAllowed(false);
         frequency.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                 session.setDsFrequency(String.valueOf(frequency.getValue()));
+                session.setDsFrequency(String.valueOf(frequency.getValue()));
                 loadFrequency(frequency, history);
             }
         });
@@ -3972,6 +3956,15 @@ public ExtTreeContainer<SalesRowDto> getCustomContainer() {
 
 public void setCustomContainer(ExtTreeContainer<SalesRowDto> customContainer) {
 	this.customContainer = customContainer;
+}
+
+public void loadCustomViewDDdlb(boolean isDataSelection) {
+    LOGGER.info("Inside Loading Custom View");
+        dataMap.put("custSid", session.getCustRelationshipBuilderSid());
+        dataMap.put("custVer",  String.valueOf(session.getCustomerRelationVersion()));
+        dataMap.put("prodVer", String.valueOf(session.getProductRelationVersion()));
+        dataMap.put("prodSid", session.getProdRelationshipBuilderSid());
+        dataLogic.loadCustomViewValues(viewDdlb, dataMap,isDataSelection);
 }
     
 }

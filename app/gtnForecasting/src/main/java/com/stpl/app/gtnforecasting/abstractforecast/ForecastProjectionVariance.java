@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.PPAProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.Utility;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.tablelogic.ProjectionVarianceTableLogic;
@@ -353,6 +354,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     protected List<Object> generateDiscountNamesToBeLoaded = new ArrayList<>();
     protected List<Object> generateProductToBeLoaded = new ArrayList<>();
     protected List<Object> generateCustomerToBeLoaded = new ArrayList<>();
+    Map<String,String> dataMap=new HashMap<>();
     /**
      * Level filter value change listener
      */
@@ -460,6 +462,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 viewChange(true);
+                customDdlbChangeOption();
             }
         });
 
@@ -589,6 +592,11 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     @UiHandler("generateBtn")
     public void generate(Button.ClickEvent event)  {
         try {
+            if (!sessionDTO.getDsFrequency().equals(frequency.getValue()) || !sessionDTO.getDeductionLevel().equals(deductionlevelDdlb.getValue())) {
+                    new DataSelectionLogic().nmSalesViewsPopulationProcedure(sessionDTO);
+                    new DataSelectionLogic().nmDiscountViewsPopulationProcedure(sessionDTO);
+                    CommonUtil.getInstance().waitForSeconds();
+                }
 
             LOGGER.debug("------ Inside generate security Projection Variance Tab and generate Button");
        
@@ -642,38 +650,12 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         LOGGER.debug("projection variance loadCustomDDLB initiated ");
         customDdlb.setEnabled(true);
         editViewBtn.setEnabled(false);
-        addViewBtn.setEnabled(true);
+        addViewBtn.setEnabled(false);
         if (!generated) {
-            customDdlb.removeAllItems();
-            customDdlb.addItem(SELECT_ONE);
-            customDdlb.setNullSelectionItemId(SELECT_ONE);
-            if(!getSessionDTO().getCustomerViewList().isEmpty()){
-              customViewList= getSessionDTO().getCustomerViewList();
-            }
-            else{
-            customViewList = CommonLogic.getCustomViewList(getSessionDTO().getProjectionId());
-           getSessionDTO().setCustomerViewList(customViewList);
-            }
-            if (customViewList != null) {
-
-                Object select = null;
-                for (CustomViewMaster obj : customViewList) {
-                    int customSid = obj.getCustomViewMasterSid();
-                    Object itemId = customSid;
-                    if (customIdToSelect == customSid) {
-                        select = itemId;
-                    }
-                    customDdlb.addItem(itemId);
-                    customDdlb.setItemCaption(itemId, obj.getViewName());
-                }
-                if (select == null) {
-                    levelDdlb.setEnabled(false);
-                    customDdlb.setValue(SELECT_ONE);
-                } else {
-                    levelDdlb.setEnabled(true);
-                    customDdlb.select(customIdToSelect);
-                }
-            }
+            loadCustomViewDDdlb(false);
+            customDdlb.select(getSessionDTO().getCustomDeductionRelationShipSid());
+            customId = getSessionDTO().getCustomDeductionRelationShipSid();
+            customDdlb.setEnabled(false);
 
         }
         LOGGER.debug("projection variance  loadCustomDDLB ends ");
@@ -935,4 +917,13 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
 	public void setSessionDTO(SessionDTO sessionDTO) {
 		this.sessionDTO = sessionDTO;
 	}
+        
+        public void loadCustomViewDDdlb(boolean isDataSelection) {
+        LOGGER.info("Inside Loading Custom VIew");
+        dataMap.put("custSid", getSessionDTO().getCustRelationshipBuilderSid());
+        dataMap.put("custVer", String.valueOf(getSessionDTO().getCustomerRelationVersion()));
+        dataMap.put("prodVer", String.valueOf(getSessionDTO().getProductHierarchyVersion()));
+        dataMap.put("prodSid", getSessionDTO().getProdRelationshipBuilderSid());
+        new DataSelectionLogic().loadCustomViewValues(customDdlb, dataMap, isDataSelection);
+    }
 }
