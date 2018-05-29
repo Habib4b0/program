@@ -776,7 +776,7 @@ public class NMProjectionVarianceLogic {
 
     public List<Object[]> getParameters(PVSelectionDTO projSelDTO, String projectionId, String frequency, String discountId, String ccps,String hierIndicator) {
         Object sIds = projSelDTO.getDeductionLevelFilter().isEmpty() ? null : PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter());
-        String levelName = projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDiscountLevel() : projSelDTO.getSelectedDeductionLevelName();
+        String levelName = projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDiscountLevel() : projSelDTO.getSession().getDataSelectionDeductionLevelCaption();
         String salesInclusion=Constant.ALL.equalsIgnoreCase(projSelDTO.getSalesInclusion()) ? null : projSelDTO.getSalesInclusion();
         Object[] orderedArg = {projectionId, frequency, discountId, Constant.VARIANCE_COLUMN, projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId(), Constant.STRING_ONE, levelName, ccps,salesInclusion , projSelDTO.getSession().getDeductionInclusion(), projSelDTO.getUomCode(), sIds,hierIndicator, projSelDTO.getCustomId(), projSelDTO.getLevelNo()};
         return CommonLogic.callProcedure("PRC_PROJECTION_RESULTS_DISCOUNT", orderedArg);
