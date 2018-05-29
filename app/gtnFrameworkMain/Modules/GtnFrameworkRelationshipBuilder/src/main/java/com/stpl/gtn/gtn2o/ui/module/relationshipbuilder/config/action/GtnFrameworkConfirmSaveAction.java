@@ -28,7 +28,7 @@ import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuild
  *
  * @author Abhiram.Giri
  */
-public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
+public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkConfirmSaveAction.class);
 
 	@Override
@@ -72,8 +72,8 @@ public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction ,GtnU
 				confirmActionConfig.addActionParameter(null);
 				confirmActionConfig.addActionParameter(-1);
 				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, confirmActionConfig);
-                                GtnUIFrameworkGlobalUI.addSessionProperty("mode", String.valueOf(GtnUIFrameworkModeType.EDIT));
-                                
+				GtnUIFrameworkGlobalUI.addSessionProperty("mode", String.valueOf(GtnUIFrameworkModeType.EDIT));
+
 			}
 		} catch (Exception e) {
 			gtnLogger.error("Exception in saveRelationship", e);
