@@ -14,6 +14,8 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomViewHierarchyLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportDasboardTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionSubmitAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataAssumptionsTabLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionDeleteViewAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionLoadViewAction;
@@ -39,6 +41,7 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 
 	@Override
 	public void addDynamicObject() {
+
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
 				GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction.class.getName(),
 				new GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction());
@@ -109,6 +112,10 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnReportDataSelectionDeleteViewAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingVariableBreakdownGridLoadAction.class.getName(),
 				new GtnReportingVariableBreakdownGridLoadAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportComparisonProjectionAddAction.class.getName(),
+				new GtnReportComparisonProjectionAddAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportComparisonProjectionSubmitAction.class.getName(),
+				new GtnReportComparisonProjectionSubmitAction());
 	}
 
 }

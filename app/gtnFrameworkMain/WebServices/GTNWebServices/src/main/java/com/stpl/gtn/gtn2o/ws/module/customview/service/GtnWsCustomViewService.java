@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -106,6 +107,7 @@ public class GtnWsCustomViewService {
         int customViewMasterSid = saveCustViewMaster(cvRequest);
         saveCustomViewDetails(customViewMasterSid, cvRequest);
         customViewSaveLogicCCPDetails(customViewMasterSid, cvRequest);
+        callProcedureForDiscountPopulation(customViewMasterSid);
         return true;
     }
 
@@ -193,6 +195,7 @@ public class GtnWsCustomViewService {
             String indicator = String.valueOf(dto.getAdditionalPropertyByIndex(2));
             details.setHierarchyIndicator(indicator.charAt(0));
             details.setLevelNo(i);
+            details.setLevelName(dto.getStringPropertyByIndex(0));
             i++;
             session.save(details);
         }
@@ -242,6 +245,8 @@ public class GtnWsCustomViewService {
             input.add(String.valueOf(customViewMasterSid));
             input.add(String.valueOf(inputBean.getSelectedCustomerRelationShipBuilderVersionNo()));
             input.add(String.valueOf(inputBean.getSelectedProductRelationShipBuilderVersionNo()));
+            String sql="DELETE FROM CUSTOM_CCP_DETAILS WHERE CUST_VIEW_MASTER_SID= "+customViewMasterSid;
+            gtnSqlQueryEngine.executeInsertOrUpdateQuery(sql);
             String withTableNameQuery = gtnWsSqlService.getQuery(input, "ccpInsertQueryCustom");
             gtnSqlQueryEngine.executeInsertOrUpdateQuery(withTableNameQuery);
         } catch (Exception e) {
@@ -293,4 +298,22 @@ public class GtnWsCustomViewService {
         return recordTreeData;
     }
 
+     private void callProcedureForDiscountPopulation(int customViewMasterSid) {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            
+            SQLQuery query = session.createSQLQuery(" EXEC PRC_CUSTOM_CCPD_POPULATION :param ");
+            query.setParameter("param",customViewMasterSid);
+            
+            query.executeUpdate();
+            transaction.commit();
+        } catch (Exception ex) {
+            transaction.rollback();
+            logger.error(ex.getMessage());
+        } finally {
+            session.close();
+        }
+
+    }
 }

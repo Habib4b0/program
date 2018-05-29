@@ -2124,6 +2124,7 @@ public class Constant {
     public static final String SESSION_ID_WITH_COMMA = " SESSION_ID,\n";
     public static final String QFSS = "QFSS";
     public static final String QNONFAMP = "QNON-FAMP";
+    public static final String CUSTOM_VIEW_DECLARATION = "customViewDeclaration";
 
     /**
      * Enum for Frequency constants

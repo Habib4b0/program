@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionSubmitAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
@@ -25,7 +27,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
-import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkReportComparisonLookup {
@@ -227,9 +228,10 @@ public class GtnFrameworkReportComparisonLookup {
 		workflowStatus.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
 		workflowStatus.setComponentWsFieldId("workflowStatus");
-		
+
 		GtnUIFrameworkComboBoxConfig workflowStatusConfig = new GtnUIFrameworkComboBoxConfig();
-		workflowStatusConfig.setItemValues(GtnFrameworkReportStringConstants.getReportComparisonWorkflowStatusLoadCombobox());
+		workflowStatusConfig
+				.setItemValues(GtnFrameworkReportStringConstants.getReportComparisonWorkflowStatusLoadCombobox());
 		workflowStatus.setGtnComboboxConfig(workflowStatusConfig);
 
 		GtnUIFrameworkValidationConfig workflowStatusValidationConfig = new GtnUIFrameworkValidationConfig();
@@ -262,7 +264,7 @@ public class GtnFrameworkReportComparisonLookup {
 		reportComparisonLookupMarketType.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.BUSINESS_UNIT_LAYOUT);
 		reportComparisonLookupMarketType.setComponentWsFieldId("marketType");
-		
+
 		componentList.add(reportComparisonLookupMarketType);
 		GtnUIFrameworkLayoutConfig reportComparisonLookupBrandLayout = new GtnUIFrameworkLayoutConfig();
 		GtnUIFrameworkComponentConfig reportComparisonLookupBrandLayoutConfig = new GtnUIFrameworkComponentConfig();
@@ -537,8 +539,8 @@ public class GtnFrameworkReportComparisonLookup {
 
 		List<GtnUIFrameWorkActionConfig> searchActionConfigList = new ArrayList<>();
 
-		/*GtnUIFrameWorkActionConfig workflowStatusValidationActionConfig = configProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
+		GtnUIFrameWorkActionConfig workflowStatusValidationActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
 		workflowStatusValidationActionConfig.setFieldValues(Arrays.asList(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.PROJECTION_TYPE,
@@ -554,7 +556,8 @@ public class GtnFrameworkReportComparisonLookup {
 
 		workflowStatusValidationActionConfig.setActionParameterList(
 				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(workFlowStatusAlertActionConfig)));
-		searchActionConfigList.add(workflowStatusValidationActionConfig);*/
+		searchActionConfigList.add(workflowStatusValidationActionConfig);
+		 
 
 		GtnUIFrameWorkActionConfig loadDataGridAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
@@ -597,6 +600,13 @@ public class GtnFrameworkReportComparisonLookup {
 		addButtonConfig.setComponentName("ADD");
 		addButtonConfig.setAuthorizationIncluded(true);
 		componentList.add(addButtonConfig);
+
+		GtnUIFrameWorkActionConfig addProjectionAction = new GtnUIFrameWorkActionConfig();
+		addProjectionAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		addProjectionAction.addActionParameter(GtnReportComparisonProjectionAddAction.class.getName());
+		addProjectionAction.addActionParameter("comparisonLookupResultsPagedTableComponent");
+		addProjectionAction.addActionParameter("comparisonLookupProjectionsResultsPagedTableComponent");
+		addButtonConfig.addGtnUIFrameWorkActionConfig(addProjectionAction);
 	}
 
 	private void addPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
@@ -655,8 +665,9 @@ public class GtnFrameworkReportComparisonLookup {
 
 	private void ruleDetailsResultDataTable(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig comparisonLookupProjectionsPagedTableComponent = new GtnUIFrameworkComponentConfig();
-		comparisonLookupProjectionsPagedTableComponent.setComponentType(GtnUIFrameworkComponentType.PAGEDTABLE);
-		comparisonLookupProjectionsPagedTableComponent.setComponentId("comparisonLookupProjectionsPagedTableComponent");
+		comparisonLookupProjectionsPagedTableComponent.setComponentType(GtnUIFrameworkComponentType.PAGED_GRID);
+		comparisonLookupProjectionsPagedTableComponent
+				.setComponentId("comparisonLookupProjectionsResultsPagedTableComponent");
 		comparisonLookupProjectionsPagedTableComponent.setComponentName("Projections");
 		comparisonLookupProjectionsPagedTableComponent.setParentComponentId(parentId);
 		comparisonLookupProjectionsPagedTableComponent.setAddToParent(true);
@@ -684,8 +695,8 @@ public class GtnFrameworkReportComparisonLookup {
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
 
-		comparisonLookupProjectionsPagedTableConfig.setTableVisibleHeader(new String[] { "Projection Name",
-				"Description", "Market Type", "Contract Holder", "Contract", "Brand" });
+		comparisonLookupProjectionsPagedTableConfig.setColumnHeaders(
+				Arrays.asList("Projection Name", "Description", "Market Type", "Contract Holder", "Contract", "Brand"));
 		comparisonLookupProjectionsPagedTableConfig.setTableColumnMappingId(
 				new Object[] { "projectionName", "description", "marketType", "contractHolder", "contract", "brand" });
 
@@ -711,6 +722,20 @@ public class GtnFrameworkReportComparisonLookup {
 		submitButton.setAuthorizationIncluded(true);
 		submitButton.setComponentName("SUBMIT");
 		componentList.add(submitButton);
+		
+		List<GtnUIFrameWorkActionConfig> submitActionList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig projectionSubmitAction = new GtnUIFrameWorkActionConfig();
+		projectionSubmitAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		projectionSubmitAction.addActionParameter(GtnReportComparisonProjectionSubmitAction.class.getName());
+		projectionSubmitAction.addActionParameter("comparisonLookupProjectionsResultsPagedTableComponent");
+		projectionSubmitAction.addActionParameter("reportLandingScreen_reportingDashboardComparisonConfig");
+		submitActionList.add(projectionSubmitAction);
+		
+		GtnUIFrameWorkActionConfig popupCloseAction = new GtnUIFrameWorkActionConfig();
+		popupCloseAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		popupCloseAction.addActionParameter("comparisonLookupView");
+		submitActionList.add(popupCloseAction);
+		submitButton.setGtnUIFrameWorkActionConfigList(submitActionList);
 	}
 
 	private void addRestButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {

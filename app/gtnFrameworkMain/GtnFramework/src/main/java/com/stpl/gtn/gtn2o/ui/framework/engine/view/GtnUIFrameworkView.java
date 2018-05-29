@@ -62,6 +62,7 @@ public class GtnUIFrameworkView extends CustomComponent implements View {
 
 		this.setData(viewComponentData);
 		GtnUIFrameworkGlobalUI.addVaadinViewComponent(this.generatedViewId, this);
+		
 		loadStyles(rootLayout, gtnViewConfig.getComponentStyle());
 	}
 
@@ -270,6 +271,7 @@ public class GtnUIFrameworkView extends CustomComponent implements View {
 	}
 
 	private void loadStyles(Component component, List<String> styles) {
+		
 		if (styles != null) {
 			for (String style : styles) {
 				component.addStyleName(style);
