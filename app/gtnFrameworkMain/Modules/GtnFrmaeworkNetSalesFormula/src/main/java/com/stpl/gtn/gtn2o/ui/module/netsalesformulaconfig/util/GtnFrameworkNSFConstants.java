@@ -200,6 +200,7 @@ public class GtnFrameworkNSFConstants {
 	private static final String DEDUCTION_CATEGORY = "deductionCategorySysId";
 	public static final String INDICATOR_HEADER = "Indicator";
 	public static final String SELECTED_DEDUCTION_RESULT_TABLE = "selectedDeductionsResultTable";
+	public static final String SELECTED_CUSTOMER_RESULT_TABLE = "selectedCustomersResultTable";
 
 	public static final List<String> POP_UP_TEXT_FIELD_PROPERTIES = Collections
 			.unmodifiableList(Arrays.asList("netSalesRuleNo", GtnFrameworkCommonConstants.RULE_NO));
