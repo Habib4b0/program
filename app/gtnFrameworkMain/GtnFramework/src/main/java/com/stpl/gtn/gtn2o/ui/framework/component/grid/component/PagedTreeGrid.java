@@ -1,19 +1,23 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.DataSet;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.service.FetchData;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.vaadin.data.HasValue;
@@ -21,13 +25,18 @@ import com.vaadin.data.TreeData;
 import com.vaadin.data.provider.TreeDataProvider;
 import com.vaadin.event.ExpandEvent;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
+import com.vaadin.ui.components.grid.HeaderCell;
 import com.vaadin.ui.components.grid.HeaderRow;
 
 public class PagedTreeGrid {
@@ -57,6 +66,7 @@ public class PagedTreeGrid {
 	GtnUIFrameworkComponentConfig componentConfig;
 	private static final String LIKE_OPERATOR = ".*";
 	private static final String CAP_OPERATOR = "^";
+	private boolean shiftLeftSingeHeader=false;
 
 	public PagedTreeGrid(GtnUIFrameworkPagedTreeTableConfig tableConfig,
 			GtnUIFrameworkComponentConfig componentConfig) {
@@ -116,32 +126,123 @@ public class PagedTreeGrid {
 					.setId(column);
 
 		}
-		Iterator<String> iterator = tableConfig.getRightTableDoubleVisibleHeaders().iterator();
-		if (tableConfig.isDoubleHeaderVisible()) {
-			HeaderRow groupingHeader = grid.prependHeaderRow();
-			for (Object property : tableConfig.getRightTableDoubleHeaderVisibleColumns()) {
-				Object joinList[] = tableConfig.getRightTableDoubleHeaderMap().get(property);
-				String[] stringArray = Arrays.copyOf(joinList, joinList.length, String[].class);
-				groupingHeader.join(stringArray).setText(iterator.next());
+		if(tableConfig.getCustomFilterConfigMap()!=null){
+			shiftLeftSingeHeader=true;
+		}
+		// gtnlogger.info("headers size= " +
+		// tableConfig.getVisibleColumns().size());
+
+		// Adding Radio Button to the singleHeader
+		if (tableConfig.isEnableRadioButtonInSingleHeader()) {
+
+			HeaderRow single = grid.getHeaderRow(0);
+			for (int j = 0; j < tableConfig.getRightTableColumnMappingId().length ; j++) {
+				String column = (tableConfig.getRightTableColumnMappingId()[j]).toString();
+				RadioButtonGroup vaadinRadioButtonGroup = new RadioButtonGroup();
+				vaadinRadioButtonGroup.setItems(tableConfig.getRightTableVisibleHeader()[j]);
+				single.getCell(column).setComponent(vaadinRadioButtonGroup);
+
 			}
 		}
+		
+
+		if (tableConfig.isDoubleHeaderVisible()) {
+			HeaderRow groupingHeader = grid.prependHeaderRow();
+			if(shiftLeftSingeHeader){
+				shiftLeftHeader(groupingHeader);
+			}
+			int j = 0;
+			for (Object property : tableConfig.getRightTableDoubleHeaderVisibleColumns()) {
+				if (tableConfig.getRightTableDoubleHeaderMap().get(property) != null) {
+					Object joinList[] = tableConfig.getRightTableDoubleHeaderMap().get(property);
+
+					String[] stringArray = Arrays.copyOf(joinList, joinList.length, String[].class);
+					j = configureDoubleHeaderComponents(groupingHeader, j, joinList, stringArray);
+				}
+			}
+			
+		}
 		if (tableConfig.isTripleHeaderVisible()) {
-			// HeaderRow doubleHeader= grid.getHeaderRow(1);
-			//
-			// HeaderRow groupingHeader = grid.appendHeaderRow();
-			//// for (int j = 1; j < columnCount; j++) {
-			//// Object column = tableConfig.getVisibleColumns().get(j);
-			//// groupingHeader.getCell(column.toString()).setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j));
-			//// }
-			// for(Object property:tableConfig.getRightTableTripleHeaderMap().keySet()){
-			// Object joinList[]=tableConfig.getRightTableTripleHeaderMap().get(property);
-			// List<HeaderCell> columnList=new ArrayList<>();
-			// for (int i = 0; i < joinList.length; i++) {
-			// Object object = joinList[i];
-			// columnList.add(doubleHeader.getCell(object.toString()));
-			// }
-			// groupingHeader.join((HeaderCell[]) columnList.toArray());
-			// }
+			HeaderRow doubleHeader = grid.getHeaderRow(1);
+
+			HeaderRow groupingHeader = grid.prependHeaderRow();
+
+			for (Object property : tableConfig.getRightTableTripleHeaderMap().keySet()) {
+				Object joinList[] = tableConfig.getRightTableTripleHeaderMap().get(property);
+
+				Set<HeaderCell> columnList = new HashSet<>();
+				for (int i = 0; i < joinList.length; i++) {
+					Object object = joinList[i];
+					columnList.add(doubleHeader.getCell(object.toString()));
+				}
+
+				if (tableConfig.isEnableCheckBoxInTripleHeader()) {
+
+					CheckBoxGroup vaadinCheckBoxGroup = new CheckBoxGroup();
+					vaadinCheckBoxGroup.setItems(tableConfig.getRightTableDoubleVisibleHeaders().iterator().next());
+
+					groupingHeader.join(columnList).setComponent(vaadinCheckBoxGroup);
+
+				} else {
+					groupingHeader.join(columnList)
+							.setText(tableConfig.getRightTableTripleVisibleHeaders().iterator().next());
+				}
+
+			}
+		}
+		if(tableConfig.getCustomFilterConfigMap()!=null){
+			setFilterToGrid();
+		}
+		addTableHeaderCheck();
+		
+	
+	shiftLeftSingeHeader=false;
+	}
+	
+	// CheckBox in DoubleColumnHeader
+	private void addTableHeaderCheck() {
+
+		HeaderRow row = grid.getHeaderRowCount() > 2 ? grid.getHeaderRow(1) : grid.getHeaderRow(0);
+		if (tableConfig.getCheckBoxVisibleColoumn() != null) {
+			for (String columnId : tableConfig.getCheckBoxVisibleColoumn()) {
+
+				gtnlogger.info("CID= " + columnId);
+
+				CheckBox vaadinCheckBoxGroup = new CheckBox();
+				row.getCell(columnId).setComponent(vaadinCheckBoxGroup);
+			}
+		}
+	}
+
+	private int configureDoubleHeaderComponents(HeaderRow groupingHeader, int j, Object[] joinList,
+			String[] stringArray) {
+		if (tableConfig.isEnableCheckBoxInDoubleHeader()) {
+			CheckBoxGroup vaadinCheckBoxGroup = new CheckBoxGroup();
+			vaadinCheckBoxGroup.setItems(tableConfig.getRightTableDoubleVisibleHeaders().iterator().next());
+			if (joinList.length > 1) {
+				groupingHeader.join(stringArray).setComponent(vaadinCheckBoxGroup);
+			} else {
+				groupingHeader.getCell((String.valueOf(joinList[0]))).setComponent(vaadinCheckBoxGroup);
+			}
+
+		} else {
+			if (joinList.length > 1) {
+				groupingHeader.join(stringArray)
+						.setText(tableConfig.getRightTableDoubleVisibleHeaders().iterator().next());
+			} else {
+				groupingHeader.getCell((String.valueOf(joinList[0])))
+						.setText(tableConfig.getRightTableDoubleVisibleHeaders().get(j++));
+			}
+		}
+		return j;
+	}
+
+	private void shiftLeftHeader(HeaderRow groupingHeader) {
+		for (int j = 0; j < tableConfig.getLeftTableColumnMappingId().length; j++) {
+			String column = (tableConfig.getLeftTableColumnMappingId()[j]).toString();
+			 gtnlogger.info("column = " + column);
+			groupingHeader.getCell(column).setText(tableConfig.getColumnHeaders().get(j));
+
 		}
 	}
 
@@ -637,6 +738,7 @@ public class PagedTreeGrid {
 
 	public HorizontalLayout getControlLayout() {
 		controlLayout.setWidth("100%");
+		controlLayout.setSpacing(false);
 		pageNoField = new TextField();
 		pageCountLabel = new Label("1");
 		pageNoField.setWidth("50px");
@@ -686,6 +788,75 @@ public class PagedTreeGrid {
 
 	public void setTableConfig(GtnUIFrameworkPagedTreeTableConfig tableConfig) {
 		this.tableConfig = tableConfig;
+	}
+	private HeaderRow setFilterToGrid() {
+		HeaderRow filterRow = grid.getDefaultHeaderRow();
+		Component vaadinComponent = null;
+		Object[] filterColumnIdList = tableConfig.getLeftTableColumnMappingId();
+		for (Object column : filterColumnIdList) {
+		
+			vaadinComponent = getCustomFilterComponent(String.valueOf(column));
+			vaadinComponent.setId(column.toString());
+				filterRow.getCell(String.valueOf(column)).setComponent(vaadinComponent);
+		}
+		
+		return filterRow;
+	}
+	private Component getCustomFilterComponent(String property) {
+		try {
+			gtnlogger.info("-------property------" + property);
+				GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = tableConfig.getCustomFilterConfigMap()
+						.get(property);
+
+				if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.TEXTBOX_VAADIN8) {
+					TextField textField = new TextField();
+					textField.setId(property);
+					textField.addValueChangeListener(this::onFilterTextChange);
+					return textField;
+				} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
+					DateField dateField = new DateField();
+					dateField.setId(property);
+					dateField.addValueChangeListener(this::onFilterDateChange);
+					return dateField;
+				} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.COMBOBOX_VAADIN8) {
+					GtnUIFrameworkComponent component = filterConfig.getGtnComponentType().getGtnComponent();
+					Component vaadinComponent = null;
+					vaadinComponent = component.buildVaadinComponent(filterConfig.getGtnComponentConfig());
+					ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
+					vaadinCombobox.setId(property);
+					vaadinCombobox.addValueChangeListener(this::onFilterTextChange);
+					return vaadinCombobox;
+				} else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
+					Button dateFilterPopupButton = new Button("Show all");
+//					dateFilterPopupButton.setWidth("400px");
+//					DateFilterPopup dateFilterpopup = new DateFilterPopup(dateFilterPopupButton, tableConfig, property,
+//							componentConfig);
+//					Window window = dateFilterpopup.getDateFilterPopup();
+//					dateFilterPopupButton.addClickListener(new Button.ClickListener() {
+//						@Override
+//						public void buttonClick(Button.ClickEvent event) {
+//
+//							window.setPosition(event.getClientX(), event.getClientY());
+//							UI.getCurrent().addWindow(window);
+//						}
+//					});
+
+					return dateFilterPopupButton;
+			}
+
+		} catch (GtnFrameworkGeneralException exception) {
+			gtnlogger.error("Exception while creating the filter component", exception);
+		}
+
+		return null;
+	}
+	private void onFilterTextChange(HasValue.ValueChangeEvent<String> event) {
+//		tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
+		resetGridToInitialState();
+	}
+	public void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event) {
+//		tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
+		resetGridToInitialState();
 	}
 
 }
