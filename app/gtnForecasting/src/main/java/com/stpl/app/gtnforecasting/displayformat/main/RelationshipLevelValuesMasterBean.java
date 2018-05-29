@@ -96,9 +96,7 @@ public class RelationshipLevelValuesMasterBean {
 		}
 	}
 	private void createQueryDiscountCustomDeduction() {
-		for (int i = 0; i < tempList.size(); i++) {
 			queryList.add(getDeductionCustomisedQueryCustom());
-		}
 	}
 
 	private void createDeductionQuery(SessionDTO sessionDTO) {
