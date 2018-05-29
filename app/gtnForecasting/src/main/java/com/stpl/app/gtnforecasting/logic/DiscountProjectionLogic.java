@@ -202,7 +202,7 @@ public class DiscountProjectionLogic {
                 discountProjectionList = queryBuilderAndExecutor.getDiscountProjectionLastLevel(frequency, discountList, session, hierarchyNo,
                         hierarchyIndicator, levelNo, isCustom, customViewDetails, treeLevelNo, start, offset, userGroup, projectionSelection);
             } else {
-                discountProjectionList = queryBuilderAndExecutor.getDiscountProjection(isProgram, frequency, discountList, session, hierarchyNo,
+                discountProjectionList = queryBuilderAndExecutor.getDiscountProjectionCustom(isProgram, frequency, discountList, session, hierarchyNo,
                         hierarchyIndicator, levelNo, isCustom, customViewDetails, treeLevelNo, start, offset, userGroup);
             }
         }
@@ -242,7 +242,12 @@ public class DiscountProjectionLogic {
                                 String hierarchy = discountDto.getHierarchyNo().contains(",") ? discountDto.getHierarchyNo().split(",")[0] : discountDto.getHierarchyNo();
                                 relValue = hierarchy.trim();
                             }
-                            String levelName = CommonUtil.getDisplayFormattedName(relValue, hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
+                            String levelName;
+                            if(isCustom){
+                            levelName = CommonUtil.getDisplayFormattedName(relValue, hierarchyIndicator, session.getDiscountHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
+                            }else{
+                            levelName = CommonUtil.getDisplayFormattedName(relValue, hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
+                                                        }
                             discountDto.setLevelName(levelName);
                             if (levelName.contains("-")) {
                                 String[] tempArr = levelName.split("-");
@@ -281,11 +286,20 @@ public class DiscountProjectionLogic {
                                 discountDto.setTreeLevelNo(Integer.valueOf(session.getHierarchyLevelDetails().get(hierarchy.trim()).get(NumericConstants.TWO).toString()));
                             }
                             String level = "";
+                            if (isCustom) {
+                            if (!Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)) {
+                                String hierarchy = discountDto.getHierarchyNo().contains(",") ? discountDto.getHierarchyNo().split(",")[0] : discountDto.getHierarchyNo();
+                                level = String.valueOf(session.getDiscountHierarchyLevelDetails().get(hierarchy).get(1));
+                            } else {
+                                level = "";
+                            }
+                            }else{
                             if (!Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)) {
                                 String hierarchy = discountDto.getHierarchyNo().contains(",") ? discountDto.getHierarchyNo().split(",")[0] : discountDto.getHierarchyNo();
                                 level = String.valueOf(session.getHierarchyLevelDetails().get(hierarchy).get(1));
                             } else {
                                 level = "";
+                            }
                             }
                             discountDto.setLevel(level);
                             discountDto.setLevelNo(levelNo);
@@ -469,7 +483,7 @@ public class DiscountProjectionLogic {
         inputList.add(ALL.equals(session.getDeductionInclusion()) ? null : session.getDeductionInclusion());
         inputList.add(Constant.STRING_ONE.equals(actualOrSalesUnits) ? StringUtils.join(historyPeriods.iterator(), ",") : session.getActualAdjustmentPeriods());
         com.stpl.app.utils.QueryUtils.updateAppDataUsingSessionTables(inputList, "discount-adjustment-query", session);
-        new DataSelectionLogic().callViewInsertProceduresThread(session,"Q", Constant.DISCOUNT3,"","","");
+        new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,"","","");
         return true;
     }
  public boolean adjustDiscountProjectionValidation(ProjectionSelectionDTO projectionSelectionDTO) {
