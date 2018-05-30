@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroupConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
@@ -25,7 +26,9 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -377,8 +380,9 @@ public class GtnFrameworkCVLandingScreenConfig {
             "Screen Name", "Customer Relationship Name", "Product Relationship Name", "Created Date", "Created By", "Modified Date", "Modified By"});
         cvLandingScreenResultsTable.setTableColumnMappingId(new Object[]{GtnFrameworkCommonConstants.TREE_VIEW_NAME, GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION, GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE,
            GtnFrameworkCommonConstants.CUSTOM_VIEW_SCREEN_NAME, GtnFrameworkCommonConstants.CUTOMER_RELATION, GtnFrameworkCommonConstants.PRODUCT_RELATION , "createdDate", "createdBy", "modifiedDate", "modifiedBy"});
-        cvLandingScreenResultsTable.setExtraColumn(new Object[]{"customViewMasterSId"});
-        cvLandingScreenResultsTable.setExtraColumnDataType(new Class[]{Integer.class});
+        cvLandingScreenResultsTable.setExtraColumn(new Object[]{"customViewMasterSId",GtnFrameworkCommonConstants.CUTOMER_RELATION_SID,GtnFrameworkCommonConstants.PRODUCT_RELATION_SID});
+        cvLandingScreenResultsTable.setExtraColumnDataType(new Class[]{Integer.class,Integer.class,Integer.class});
+        cvLandingScreenResultsTable.setCustomFilterConfigMap(getCVCustomFilterConfig());
         cvLandingScreenResultsTable.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.CUSTOM_SEARCH_CONFIG);
         cvLandingScreenResultsTable.setDoubleClickEnable(true);
         searchResultConfig.setGtnPagedTableConfig(cvLandingScreenResultsTable);
@@ -466,4 +470,27 @@ public class GtnFrameworkCVLandingScreenConfig {
         viewButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
     }
+    private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCVCustomFilterConfig() {
+        
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> ifpCustomFilterConfigMap = new HashMap<>();
+		String[] propertyIds = GtnFrameworkCVConstants.getCvCustomPropertyIds();
+		String[] listNameArray = GtnFrameworkCVConstants.getCvListNameArrays();
+		for (int i = 0; i < propertyIds.length; i++) {
+			GtnUIFrameworkPagedTableCustomFilterConfig ifpCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
+			ifpCustomFilterConfig.setPropertId(propertyIds[i]);
+			ifpCustomFilterConfig.setGtnComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+			GtnUIFrameworkComponentConfig ifpCustomFilterComponentConfig = new GtnUIFrameworkComponentConfig();
+			ifpCustomFilterComponentConfig.setComponentId("customFilterComboBox");
+			ifpCustomFilterComponentConfig.setComponentName("customFilterComboBox");
+			ifpCustomFilterComponentConfig.setGtnComboboxConfig(gtnConfigFactory.getComboBoxConfig(listNameArray[i],
+					GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+							+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX));
+			ifpCustomFilterComponentConfig.getGtnComboboxConfig()
+					.setDefaultValue(GtnFrameworkCommonStringConstants.SHOW_ALL);
+			ifpCustomFilterConfig.setGtnComponentConfig(ifpCustomFilterComponentConfig);
+			ifpCustomFilterConfigMap.put(ifpCustomFilterConfig.getPropertId(), ifpCustomFilterConfig);
+
+		}
+		return ifpCustomFilterConfigMap;
+	}
 }
