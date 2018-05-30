@@ -338,21 +338,6 @@ public class ForecastForm extends AbstractForm {
 		}
 	}
         
-         public void commercialDiscountConfiguration() {
-        if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
-            CommonUtil commonUtil = CommonUtil.getInstance();
-            commonUtil
-                    .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
-            session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
-				new Future[] { service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
-								SalesUtils.PRC_NM_ACTUAL_INSERT, session.getProjectionId(),
-								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)),
-						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
-								SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
-								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)) });
-            }
-	}
-
 	/**
 	 * Adds the content to the screen.
 	 *
@@ -533,6 +518,7 @@ public class ForecastForm extends AbstractForm {
                                     }
                                 }
                                 if (tabPosition == NumericConstants.FOUR){
+                                    DataSelectionLogic.nmDiscountActProjInsertProcedure(session);
                                     if (nmSalesProjection.isSalesValueChange()) {
                                     CommonLogic.viewProceduresCompletionCheckDiscount(session);
                                     session.setFunctionMode("UPS");
@@ -1687,8 +1673,6 @@ public class ForecastForm extends AbstractForm {
                 nmSalesViewsPopulationProcedure();
                 CommonUtil.getInstance().isProcedureCompleted("SALES", "PRC_NM_MASTER_INSERT", session);
                 CommonUtil.getInstance().isProcedureCompleted("SALES", "CUSTOMER", session);
-                DataSelectionLogic.nmDiscountActProjInsertProcedure(session);
-                nmDiscountViewsPopulationProcedure();
                 pushMap.put(INDICATOR_REFRESH_UPDATE.getConstant(), Boolean.TRUE);
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
@@ -2343,9 +2327,6 @@ public class ForecastForm extends AbstractForm {
                 nmSalesViewsPopulationProcedure();
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SALES_PROCEDURE_CALL));
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL));
-                DataSelectionLogic.nmDiscountActProjInsertProcedure(session);
-                CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_PROJECTION_LABEL));
-                nmDiscountViewsPopulationProcedure();
                 break;
             case Constant.EDIT_SMALL:
                 // Main to temp insert
@@ -2361,9 +2342,6 @@ public class ForecastForm extends AbstractForm {
                 nmSalesViewsPopulationProcedure();
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SALES_PROCEDURE_CALL));
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL));
-                DataSelectionLogic.nmDiscountActProjInsertProcedure(session);
-                CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_PROJECTION_LABEL));
-                nmDiscountViewsPopulationProcedure();
                 break;
 
             case Constant.VIEW:
@@ -2374,7 +2352,6 @@ public class ForecastForm extends AbstractForm {
                 logic.mainToTempTableInsert(session, service);
                 session.addFutureMap(Constant.DATA_SELECTION_TAB_LOAD, new Future[]{
                 service.submit(CommonUtil.getInstance().createRunnable(Constant.DATA_SELECTION_TAB_LOAD, data))});
-
                 break;
             default:
                 break;
@@ -2508,7 +2485,6 @@ public class ForecastForm extends AbstractForm {
     }
 
     private void nmSalesInsertDiscMasterProcedure() {
-        LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************");
         CommonUtil salesCommonUtil = CommonUtil.getInstance();
         
 		session.addFutureMap(Constant.SALES_PROCEDURE_CALL,
@@ -2523,7 +2499,7 @@ public class ForecastForm extends AbstractForm {
                                                 
                 session.addFutureMap(Constant.DISCOUNT_MASTER_PROCEDURE_CALL,
 				new Future[] {
-						service.submit(salesCommonUtil.createRunnable(Constant.PROCEDURE_CALL,
+						service.submit(salesCommonUtil.createRunnable(Constant.DISCOUNT_MASTER,
 				SalesUtils.PRC_NM_MASTER_INSERT, dataSelectionDTO.getProjectionId(), session.getUserId(),
 				session.getSessionId(), Constant.DISCOUNT3,session)) });
                                                          
