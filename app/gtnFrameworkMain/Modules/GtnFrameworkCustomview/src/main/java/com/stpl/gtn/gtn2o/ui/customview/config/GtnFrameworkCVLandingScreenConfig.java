@@ -472,25 +472,25 @@ public class GtnFrameworkCVLandingScreenConfig {
     }
     private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCVCustomFilterConfig() {
         
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> ifpCustomFilterConfigMap = new HashMap<>();
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customViewFilterConfigMap = new HashMap<>();
 		String[] propertyIds = GtnFrameworkCVConstants.getCvCustomPropertyIds();
 		String[] listNameArray = GtnFrameworkCVConstants.getCvListNameArrays();
 		for (int i = 0; i < propertyIds.length; i++) {
-			GtnUIFrameworkPagedTableCustomFilterConfig ifpCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			ifpCustomFilterConfig.setPropertId(propertyIds[i]);
-			ifpCustomFilterConfig.setGtnComponentType(GtnUIFrameworkComponentType.COMBOBOX);
-			GtnUIFrameworkComponentConfig ifpCustomFilterComponentConfig = new GtnUIFrameworkComponentConfig();
-			ifpCustomFilterComponentConfig.setComponentId("customFilterComboBox");
-			ifpCustomFilterComponentConfig.setComponentName("customFilterComboBox");
-			ifpCustomFilterComponentConfig.setGtnComboboxConfig(gtnConfigFactory.getComboBoxConfig(listNameArray[i],
+			GtnUIFrameworkPagedTableCustomFilterConfig cvCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
+			cvCustomFilterConfig.setPropertId(propertyIds[i]);
+			cvCustomFilterConfig.setGtnComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+			GtnUIFrameworkComponentConfig cvCustomFilterComponentConfig = new GtnUIFrameworkComponentConfig();
+			cvCustomFilterComponentConfig.setComponentId("customFilterComboBox");
+			cvCustomFilterComponentConfig.setComponentName("customFilterComboBox");
+			cvCustomFilterComponentConfig.setGtnComboboxConfig(gtnConfigFactory.getComboBoxConfig(listNameArray[i],
 					GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 							+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX));
-			ifpCustomFilterComponentConfig.getGtnComboboxConfig()
+			cvCustomFilterComponentConfig.getGtnComboboxConfig()
 					.setDefaultValue(GtnFrameworkCommonStringConstants.SHOW_ALL);
-			ifpCustomFilterConfig.setGtnComponentConfig(ifpCustomFilterComponentConfig);
-			ifpCustomFilterConfigMap.put(ifpCustomFilterConfig.getPropertId(), ifpCustomFilterConfig);
+			cvCustomFilterConfig.setGtnComponentConfig(cvCustomFilterComponentConfig);
+			customViewFilterConfigMap.put(cvCustomFilterConfig.getPropertId(), cvCustomFilterConfig);
 
 		}
-		return ifpCustomFilterConfigMap;
+		return customViewFilterConfigMap;
 	}
 }
