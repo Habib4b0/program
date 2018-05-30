@@ -2670,8 +2670,10 @@ FROM #SELECTED_HIERARCHY_NO A
     <entity id="custom-view-count-condition-query-forPVLoad">
         <query>
             <![CDATA[  
-              SELECT DISTINCT HIERARCHY_NO  
+              SELECT DISTINCT HIERARCHY_NO,INSTR  
 FROM #SELECTED_HIERARCHY_NO A
+ORDER BY INSTR
+                OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;   
             ]]>
         </query>
     </entity>

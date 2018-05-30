@@ -2341,39 +2341,7 @@ public class DataSelectionLogic {
 	}
 	
 
-	/**
-	 *
-	 * @param relationshipBuilderSid
-	 * @return
-	 */
-	public Map<String, List> getRelationshipDetailsDeduction(SessionDTO sessionDTO, String relationshipBuilderSid,
-			boolean isCustomerHierarchy) {
-		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsDeduction");
-		customSql = customSql.replace(RBSID, relationshipBuilderSid);
-		customSql = customSql.replace(RBVERSION, String.valueOf(sessionDTO.getDeductionRelationVersion()));
-		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-
-		Map<String, List> resultMap = new HashMap<>();
-		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
-				"D", sessionDTO);
-		tempList.clear();
-		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
-				QueryUtil.replaceTableNames(bean.getDeductionFinalQuery(), sessionDTO.getCurrentTableNames()));
-		for (int j = tempList.size() - 1; j >= 0; j--) {
-			Object[] object = (Object[]) tempList.get(j);
-			final List detailsList = new ArrayList();
-			detailsList.add(object[1]); // Level Value
-			detailsList.add(object[NumericConstants.TWO]); // Level No
-			detailsList.add(object[NumericConstants.THREE]); // Level Name
-			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
-															// Actual System Id
-			detailsList.add("D"); // HIERARCHY INDICATOR
-			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
-			resultMap.put(String.valueOf(object[0]), detailsList);
-		}
-		return resultMap;
-	}
-	public Map<String, List> getRelationshipDetailsDeductionCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
+	public static Map<String, List> getRelationshipDetailsDeductionCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
 		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsDeductionCustom");
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
 		customSql = customSql.replace(RBVERSION, String.valueOf(sessionDTO.getDeductionRelationVersion()));
@@ -2384,7 +2352,7 @@ public class DataSelectionLogic {
 				"customSalesDed", sessionDTO);
 		tempList.clear();
 		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
-				QueryUtil.replaceTableNames(bean.getCustomFinalQuery(), sessionDTO.getCurrentTableNames()));
+				QueryUtil.replaceTableNames(bean.getDeductionFinalQuery(), sessionDTO.getCurrentTableNames()));
 		for (int j = tempList.size() - 1; j >= 0; j--) {
 			Object[] object = (Object[]) tempList.get(j);
 			final List detailsList = new ArrayList();
@@ -2550,6 +2518,32 @@ public class DataSelectionLogic {
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
+    }
+    
+public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO session, String procedureName,
+            String screenName) {
+        StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
+        try {
+            query.append(procedureName);
+            query.append(' ');
+            query.append(projectionId);
+            query.append(',');
+            query.append(session.getUserId());
+            query.append(",'");
+            query.append(session.getSessionId());
+            if (!screenName.equals(NATIONAL_ASSUMPTIONS.getConstant()) && !screenName.equals(Constant.PPA_SMALL)) {
+
+                query.append("','");
+                query.append(screenName);
+            }
+            query.append('\'')
+            .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
+            .append(",'").append(session.getDataSelectionDeductionLevelCaption()).append('\'');
+            HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
+            LOGGER.info("Normal Procedures: {}", query.toString());
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
 
     }
     public void callInsertProcedureForNmStatus(int projectionId, SessionDTO session, String procedureName,
@@ -2587,7 +2581,7 @@ public class DataSelectionLogic {
 				query.append(' ').append(session.getProjectionId()).append(',');
 				query.append(session.getUserId())
                                 .append(",'").append(session.getSessionId()).append('\'')
-                                .append(",'").append(mode).append('\'')
+                                .append(",'").append(session.getFunctionMode()).append('\'')
                                 .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
                                 .append(",'").append(screenName).append('\'')
                                 .append(",'").append(view).append('\'')
@@ -2601,7 +2595,6 @@ public class DataSelectionLogic {
                                 .append(',').append("null")
                                 .append(",'").append(session.getDataSelectionDeductionLevelCaption())
                                 .append('\'');
-                                LOGGER.info("before: {}", query.toString());
 				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
                                 LOGGER.info("Query callViewInsertProcedureForNm: {}", query.toString());
         } catch (Exception ex) {
@@ -2737,13 +2730,8 @@ public class DataSelectionLogic {
 	}
     
     public static void nmDiscountActProjInsertProcedure(SessionDTO session) {
-        ExecutorService service = ThreadPool.getInstance().getService();
-//        CommonUtil.getInstance().isProcedureCompleted("DISCOUNT", "PRC_NM_MASTER_INSERT", session);
-        if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
-//            service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
-//                    SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
-//                    session.getUserId(), session.getSessionId(), Constant.DISCOUNT3, session));
-        }
+        commonUtil.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
+        session.setDiscountDeductionLevelDetails(getRelationshipDetailsDeductionCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
     }
         
 	/**
@@ -2860,7 +2848,7 @@ public class DataSelectionLogic {
 		QueryUtils.updateAppDataUsingSessionTables(inputList, "PFD_TEMP_INSERT_WHILE_GENERATE", session);
 	}
 
-	private void updateRelationShipLevelList(Object[] object, List<Object> detailsList, String defaultValue) {
+	private static void updateRelationShipLevelList(Object[] object, List<Object> detailsList, String defaultValue) {
 		if (object.length > 5) {
 			List<Object> displayFormat = new ArrayList<>();
 			displayFormat.add(defaultValue);
