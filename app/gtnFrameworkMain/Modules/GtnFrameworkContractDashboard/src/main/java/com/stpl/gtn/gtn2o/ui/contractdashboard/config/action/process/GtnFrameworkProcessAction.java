@@ -231,6 +231,7 @@ public class GtnFrameworkProcessAction implements GtnUIFrameWorkAction ,GtnUIFra
 				GtnWsContractDashboardContants.GTN_WS_CONTRACT_WORKFLOW_SERVICE
 						+ GtnWsContractDashboardContants.GET_WORKFLOW_INFO,
 				GtnFrameworkCommonStringConstants.GTN_BPM, request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		if(response!=null) {
 		GtnWsContractDashboardResponse cdResponse = response.getGtnWsContractDashboardResponse();
 		sharedBean.setWorkflowBean(cdResponse.getWorkflowBean());
 		if (sharedBean.getWorkflowBean() == null) {
@@ -251,6 +252,7 @@ public class GtnFrameworkProcessAction implements GtnUIFrameWorkAction ,GtnUIFra
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnWsContractDashboardContants.CONTRACT_SUBMIT_BTN)
 					.setEnable(!isPending && !sharedBean.isViewMode());
+		}
 		}
 	}
 
