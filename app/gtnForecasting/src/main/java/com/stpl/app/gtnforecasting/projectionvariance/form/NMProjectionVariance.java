@@ -889,11 +889,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void customDdlbChangeOption() {
         LOGGER.info("customDdlbChangeOption ValueChangeEvent initiated ");
-        customId = CommonLogic.customDdlbOptionChange(customDdlb, editViewBtn, levelDdlb);
+        customId = (int)customDdlb.getValue();
         pvSelectionDTO.setCustomId(customId);
         levelDdlb.setEnabled(customId != 0);
-        int tpNo = CommonLogic.getTradingPartnerLevelNo(true, customId);
-        pvSelectionDTO.setTpLevel(tpNo);
         if (customId != 0) {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
@@ -1333,6 +1331,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 }
                 loadCustomDDLB();
                 levelFilter.setEnabled(false);
+                customDdlbChangeOption();
             } else {
                 levelFilter.setEnabled(true);
                 level.setEnabled(true);
@@ -1850,6 +1849,14 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         if (flag) {
             try {
                 configureFields();
+                if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
+                    loadDeductionLevelFilter(session.getDataSelectionDeductionLevel());
+                    deductionFilterValues.getChildren().get(1).setChecked(true);
+                    String deductionMenuItemValue = deductionFilterValues.getChildren().get(1).getMenuItem().getCaption();
+                    ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
+                    generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
+                    generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
+                }
                 security();
                 flag = false;
             } catch (PortalException | SystemException ex) {
