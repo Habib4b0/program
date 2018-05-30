@@ -190,12 +190,12 @@ WHEN NOT MATCHED BY SOURCE AND PROJECTION_MASTER_SID = @PROJECTION_SID THEN
                      ?DISPLAYFORMATCOLUMN ,CM.HIERARCHY_INDICATOR
                FROM
                     CUSTOM_CCP_SALES RLD
-                JOIN ST_CCP_HIERARCHY CH ON CH.CCP_DETAILS_SID=RLD.CCP_DETAILS_SID AND RLD.CUST_VIEW_MASTER_SID=?RBSID
+                JOIN ST_CCP_HIERARCHY CH ON CH.CCP_DETAILS_SID=RLD.CCP_DETAILS_SID AND RLD.CUST_VIEW_MASTER_SID=?RBSID 
                            JOIN CUST_VIEW_DETAILS CM ON CM.CUSTOM_VIEW_MASTER_SID=RLD.CUST_VIEW_MASTER_SID
                           
                 JOIN ?TABLE  TEMP ON
                                 TEMP.?IDCOL = RLD.RELATIONSHIP_LEVEL_VALES
-                                AND CM.LEVEL_NO = ?LNO
+                                AND CM.LEVEL_NO = ?LNO AND RLD.LEVEL_NO=?LNO 
                                 
             ]]>
 		</query>
