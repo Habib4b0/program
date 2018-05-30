@@ -126,7 +126,7 @@ public class GtnFrameworkFormulaPopUpConfig {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider
 				.getCssLayoutConfig(GtnFrameworkCommonConstants.SEARCH_CRITERIALAYOUT, true, "searchCriteriaPanel");
 		List<String> styleList = new ArrayList<>();
-		styleList.add(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
+		styleList.add(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_4);
 		gtnLayout.setComponentStyle(styleList);
 		componentList.add(gtnLayout);
 		addFormulaPopupFieldComponent(componentList);
@@ -225,7 +225,7 @@ public class GtnFrameworkFormulaPopUpConfig {
 				GtnFrameworkCommonConstants.SYSTEM_ID, true, GtnFrameworkCommonConstants.FORMULA_ID_LAYOUT,
 				GtnUIFrameworkComponentType.TEXTBOX);
 		companyNameConfig.setAuthorizationIncluded(true);
-		companyNameConfig.setComponentName("Formula Id");
+		companyNameConfig.setComponentName("Formula ID");
 
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
 				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));

@@ -79,9 +79,13 @@ public class GtnFrameworkNSFConstants {
     private static final Class<?>[] AVAILABLE_DEDUCTION_EXTRA_COLUMNS_DATA_TYPES = new Class<?>[]{String.class, String.class, String.class,
         Integer.class, Integer.class};
     private static final Class<?>[] TABLE_COLUMN_DATA_TYPES = new Class<?>[]{String.class, String.class, String.class};
+    private static final Class<?>[] TABLE_COLUMN_DATA_TYPE = new Class<?>[]{ Integer.class, Integer.class, Integer.class, };
 
     public static Class<?>[] getTableColumnDataTypes() {
         return TABLE_COLUMN_DATA_TYPES.clone();
+    }
+    public static Class<?>[] getTableColumnDataType() {
+        return TABLE_COLUMN_DATA_TYPE.clone();
     }
 
     public static Class<?>[] getAvailableDeductionExtraColumnsDataTypes() {
@@ -103,7 +107,7 @@ public class GtnFrameworkNSFConstants {
     public static Class<?>[] getPerformActionTableColumnDataTypes() {
         return PERFORM_ACTION_TABLE_COLUMN_DATA_TYPES.clone();
     }
-
+    
     public static String[] getLandingScreenListName() {
         return LANDING_SCREEN_LIST_NAME.clone();
     }
@@ -196,6 +200,7 @@ public class GtnFrameworkNSFConstants {
 	private static final String DEDUCTION_CATEGORY = "deductionCategorySysId";
 	public static final String INDICATOR_HEADER = "Indicator";
 	public static final String SELECTED_DEDUCTION_RESULT_TABLE = "selectedDeductionsResultTable";
+	public static final String SELECTED_CUSTOMER_RESULT_TABLE = "selectedCustomersResultTable";
 
 	public static final List<String> POP_UP_TEXT_FIELD_PROPERTIES = Collections
 			.unmodifiableList(Arrays.asList("netSalesRuleNo", GtnFrameworkCommonConstants.RULE_NO));

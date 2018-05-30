@@ -2371,9 +2371,10 @@ public class SalesLogic {
         String lowerMostLevelNo = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? String.valueOf(sessionDto.getCustomerLevelNumber()) : String.valueOf(sessionDto.getProductLevelNumber());
         String prodCustVersion = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? "PROJECTION_CUST_VERSION" : "PROJECTION_PROD_VERSION";
         String prodCustBuilderSid = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? "CUST_RELATIONSHIP_BUILDER_SID" : "PROD_RELATIONSHIP_BUILDER_SID";
-        String sqlQuery = SQlUtil.getQuery("selected-Hierarchy-Query-sales").replace("@HIER_NO", projectionSelectionDTO.getHierarchyIndicator().equals("C") ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO")
+        String CustomQueryString = projectionSelectionDTO.isIsCustomHierarchy() ? "selected-Hierarchy-Query-sales-Custom" : "selected-Hierarchy-Query-sales";
+        String sqlQuery = SQlUtil.getQuery(CustomQueryString).replace("@HIER_NO", projectionSelectionDTO.getHierarchyIndicator().equals("C") ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO")
                 .replace("@LEVEL_NO", lowerMostLevelNo).replace("@PROJ_ID", String.valueOf(sessionDto.getProjectionId())).replace("@CUSTPRODVER", prodCustVersion)
-                .replace("@REL_BUILD_ID", prodCustBuilderSid);
+                .replace("@REL_BUILD_ID", prodCustBuilderSid).replace("@CUSTID", String.valueOf(sessionDto.getCustomRelationShipSid()));
         List<String> hierarchyList = (List<String>) salesProjectionDAO.executeSelectQuery(QueryUtil.replaceTableNames(sqlQuery, sessionDto.getCurrentTableNames()));
 
         for (String hierarchy : hierarchyList) {
@@ -2381,7 +2382,7 @@ public class SalesLogic {
         }
         hierarchyNumber.replace(hierarchyNumber.lastIndexOf(","), hierarchyNumber.length(), "");
         
-        String sqlUnitsQuery = projectionSelectionDTO.isIsCustomHierarchy() ? com.stpl.app.utils.QueryUtils.getQuery(input, "mass-update-sales-units-Custom") : com.stpl.app.utils.QueryUtils.getQuery(input, "mass-update-sales-units");
+        String sqlUnitsQuery = projectionSelectionDTO.isIsCustomHierarchy() ? com.stpl.app.utils.QueryUtils.getQuery(input,"mass-update-sales-units-Custom") : com.stpl.app.utils.QueryUtils.getQuery(input, "mass-update-sales-units");
 
         sqlUnitsQuery = sqlUnitsQuery.replace("@HIERARCHY_NO_VALUES", hierarchyNumber);
         sqlUnitsQuery = sqlUnitsQuery.replace("@CUSTSID", String.valueOf(projectionSelectionDTO.getSessionDTO().getCustomRelationShipSid()));

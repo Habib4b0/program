@@ -138,8 +138,7 @@ public class GtnUIFrameworkCDRLoadAction implements GtnUIFrameWorkAction, GtnUIF
 				attachmentDTO.setDocumentFullPath(tempfilePath);
 
 				attachmentDTO
-						.setDocumentName(filePath.substring(filePath.lastIndexOf("/") + 1, filePath.lastIndexOf("_"))
-								+ filePath.substring(filePath.lastIndexOf(".")));
+						.setDocumentName(filePath.substring(filePath.lastIndexOf("/") + 1));
 				SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
 				TimeZone central = TimeZone.getTimeZone("CST");
 				format.setTimeZone(central);
