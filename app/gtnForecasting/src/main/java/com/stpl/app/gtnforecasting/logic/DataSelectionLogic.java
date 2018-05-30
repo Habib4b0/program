@@ -2610,7 +2610,8 @@ public class DataSelectionLogic {
 
     }
     public String callViewInsertProcedures(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
-     int deductionMasterSid = view.equalsIgnoreCase("Sales") ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
+     int deductionMasterSid = screenName.equalsIgnoreCase("Sales") ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
+     String updateUnitField="Unit Volume".equals(massUpdateField)?"UNITS":massUpdateField;
      LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}");
          StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
@@ -2623,8 +2624,8 @@ public class DataSelectionLogic {
                                 .append(",'").append(screenName).append('\'')
                                 .append(",'").append(view).append('\'')
                                 .append(",'").append(startPeriod).append('\'')
-                                .append(",'").append(endPeriod).append('\'')
-                                .append(",'").append(massUpdateField).append('\'')
+                                .append(",").append(endPeriod).append("")
+                                .append(",'").append(updateUnitField).append('\'')
                                 .append(",'").append(deductionMasterSid).append('\'')
                                 .append(',').append("null")
                                 .append(',').append("null")
