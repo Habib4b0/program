@@ -686,6 +686,8 @@ public class GtnFrameworkCommonConstants {
 	public static final String TREE_VIEW_NAME = "treeViewName";
 	public static final String CUTOMER_RELATION = "customerRelation";
 	public static final String PRODUCT_RELATION = "productRelation";
+	public static final String CUTOMER_RELATION_SID = "customerRelationSid";
+	public static final String PRODUCT_RELATION_SID = "productRelationSid";
 	public static final String CUSTOM_VIEW_TYPE = "customViewType";
 	public static final String RESULTLAYOUT = RESULT_LAYOUT;
 	public static final String SELECTION_OPTIONLAYOUT = "selectionOptionlayout";
