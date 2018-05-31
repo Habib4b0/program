@@ -9,6 +9,7 @@ import java.util.Map;
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastCustomerHierarchyConfig;
 import com.stpl.gtn.gtn2o.registry.config.hierarchy.GtnFrameworkForecastProdHierarchyConfig;
+import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastEligibleDateLoadAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
@@ -36,6 +37,9 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		List<GtnUIFrameworkComponentConfig> componentList = new ArrayList<>();
 		dataSelectionView.setGtnComponentList(componentList);
 		addRootLayout(componentList, nameSpace);
+		
+		dataSelectionView.addViewAction(loadForecastEligibleDate());
+		
 		return dataSelectionView;
 	}
 
@@ -607,6 +611,15 @@ public class GtnUIFrameworkDataSelectionScreenConfig {
 		deleteBtn.setParentComponentId(parentComponentId);
 		deleteBtn.setAddToParent(true);
 		componentList.add(deleteBtn);
+	}
+	
+	// Load Forecast eligible date
+	private GtnUIFrameWorkActionConfig loadForecastEligibleDate() {
+		GtnUIFrameWorkActionConfig loadDateAction = new GtnUIFrameWorkActionConfig();
+		loadDateAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		loadDateAction.addActionParameter(GtnForecastEligibleDateLoadAction.class.getName());
+		loadDateAction.addActionParameter("Commercial_Forecasting_customerSelectionForecastEligibilityDate");
+		return loadDateAction;
 	}
 
 }
