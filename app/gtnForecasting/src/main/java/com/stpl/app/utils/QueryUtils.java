@@ -45,24 +45,27 @@ public class QueryUtils {
      This method will return the period sid for the selected period and frequency
      */
     public String periodQuery(String period, String fre, String order) {
-        String startYearValue = period.substring(period.length() - NumericConstants.FOUR);
-        String startFreqNoValue = period.substring(1, NumericConstants.TWO);
-        int startYear = isInteger(startYearValue) ? Integer.parseInt(startYearValue) : 0;
-        String where;
+        if (period != null) {
+            String startYearValue = period.substring(period.length() - NumericConstants.FOUR);
+            String startFreqNoValue = period.substring(1, NumericConstants.TWO);
+            int startYear = isInteger(startYearValue) ? Integer.parseInt(startYearValue) : 0;
+            String where;
 
-        if (fre.equals(MONTHLY.getConstant())) {
-            String startMonthValue = period.substring(0, period.length() - NumericConstants.FIVE);
-            int startFreqNo = CommonUtils.getIntegerForMonth(startMonthValue);
-            where = "where \"MONTH\" = '" + startFreqNo + AND_YEAR_EQUAL + startYear + "'";
-        } else if (fre.equals(QUARTERLY.getConstant())) {
-            where = "where QUARTER = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
-        } else if (fre.equals(ANNUALLY.getConstant()) || fre.equals(ANNUAL.getConstant())) {
-            where = "where  \"YEAR\" = '" + startYear + "'";
-        } else {
-            where = "where SEMI_ANNUAL = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
+            if (fre.equals(MONTHLY.getConstant())) {
+                String startMonthValue = period.substring(0, period.length() - NumericConstants.FIVE);
+                int startFreqNo = CommonUtils.getIntegerForMonth(startMonthValue);
+                where = "where \"MONTH\" = '" + startFreqNo + AND_YEAR_EQUAL + startYear + "'";
+            } else if (fre.equals(QUARTERLY.getConstant())) {
+                where = "where QUARTER = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
+            } else if (fre.equals(ANNUALLY.getConstant()) || fre.equals(ANNUAL.getConstant())) {
+                where = "where  \"YEAR\" = '" + startYear + "'";
+            } else {
+                where = "where SEMI_ANNUAL = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
+            }
+            String query = "select " + order + "(PERIOD_SID) from \"PERIOD\" " + where;
+            return query;
         }
-        String query = "select " + order + "(PERIOD_SID) from \"PERIOD\" " + where;
-        return query;
+        return StringUtils.EMPTY;
     }
     public static final String AND_YEAR_EQUAL = "' and \"YEAR\" = '";
 

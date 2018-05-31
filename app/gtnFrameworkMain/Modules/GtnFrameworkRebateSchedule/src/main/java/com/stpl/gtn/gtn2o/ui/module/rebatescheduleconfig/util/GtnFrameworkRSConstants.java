@@ -99,15 +99,16 @@ public class GtnFrameworkRSConstants {
 	private static final List<String> DATE_FIELD_PROPERTIES = Arrays.asList(RS_START_DATE, RS_END_DATE1);
 
 	public static final String FORMULA_NAME = "formulaName";
+	public static final String REBATE_PLAN_NAME = "rebatePlanName";
 
-	private static final List<String> NON_EIDTABLE_LIST = Arrays.asList(FORMULA_NAME);
+	private static final List<String> NON_EIDTABLE_LIST = Arrays.asList(FORMULA_NAME,REBATE_PLAN_NAME);
 
 	public static final String DEDUCTION_NO = "deductionNo";
 	public static final String EVALUATION_RULE_BUNDLE1 = "evaluationRuleBundle";
 	public static final String CALCULATION_RULE_BUNDLE1 = "calculationRuleBundle";
 	private static final List<String> TEXT_FIELD_PROPERTIES = Arrays.asList(DEDUCTION_NO,
 			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME, EVALUATION_RULE_BUNDLE1,
-			CALCULATION_RULE_BUNDLE1, FORMULA_NAME, RS_BUNDLE_NO);
+			CALCULATION_RULE_BUNDLE1, FORMULA_NAME, RS_BUNDLE_NO,REBATE_PLAN_NAME);
 	public static final String NET_SALES_FORMULA_NAME = "netSalesFormulaName";
 	public static final String NET_SALES_RULE_NAME = "netSalesRuleName";
 	public static final String EVALUATION_RULE_NAME = "evaluationRuleName";
@@ -141,7 +142,7 @@ public class GtnFrameworkRSConstants {
 	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_REBATE_PLAN_VISIBLECOLUMNS = {
 			GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.ITEM_NO,
 			GtnFrameworkCommonConstants.ITEM_NAME, RS_STATUS, RS_START_DATE, RS_END_DATE1, RS_BUNDLE_NO,
-			REBATE_PLAN_NO1, "rebatePlanName", NET_SALES_FORMULA_NAME, NET_SALES_RULE_NAME, EVALUATION_RULE_NAME,
+			REBATE_PLAN_NO1, REBATE_PLAN_NAME, NET_SALES_FORMULA_NAME, NET_SALES_RULE_NAME, EVALUATION_RULE_NAME,
 			EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1, ATTACHED_DATE1 };
 
 	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_FORMULA_TABLEHEADERS = { " ", ITEM_NO,
@@ -505,7 +506,7 @@ public class GtnFrameworkRSConstants {
 			EVALUATION_RULE_BUNDLE, CALCULATION_RULE1, CALCULATION_RULE_BUNDLE, ATTACHED_DATE };
 	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_REBATE_PLAN_VISIBLECOLUMNS_VIEW = {
 			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME, DESCRIPTION, RS_START_DATE,
-			RS_END_DATE1, RS_BUNDLE_NO, REBATE_PLAN_NO1, "rebatePlanName", NET_SALES_FORMULA_NAME, NET_SALES_RULE_NAME,
+			RS_END_DATE1, RS_BUNDLE_NO, REBATE_PLAN_NO1, REBATE_PLAN_NAME, NET_SALES_FORMULA_NAME, NET_SALES_RULE_NAME,
 			EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1,
 			ATTACHED_DATE1 };
 	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_FORMULA_TABLEHEADERS_VIEW = { ITEM_NO,

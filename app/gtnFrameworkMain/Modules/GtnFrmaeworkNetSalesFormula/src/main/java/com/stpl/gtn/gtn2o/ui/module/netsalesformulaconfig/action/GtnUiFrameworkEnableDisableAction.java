@@ -86,6 +86,13 @@ public class GtnUiFrameworkEnableDisableAction implements GtnUIFrameWorkAction, 
 					.getVaadinBaseComponent(viewId + GtnFrameworkNSFConstants.SELECTED_DEDUCTION_RESULT_TABLE)
 					.setTableColumnHeaders(selectedDeductionHeader);
 		}
+                String checkMode = (String) GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+                if(checkMode.equals("view")){
+                  GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + GtnFrameworkNSFConstants.SELECTED_CUSTOMER_RESULT_TABLE).getExtFilterTable()
+				.setEditable(false);  
+                  GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + GtnFrameworkNSFConstants.SELECTED_DEDUCTION_RESULT_TABLE).getExtFilterTable()
+				.setEditable(false);
+                }
 		if (isAdd) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + "saveButton").setCaption("SAVE");
 		}

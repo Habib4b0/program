@@ -37,6 +37,7 @@ public class GtnWsReportDataSelectionBean {
 	private GtnWsRecordBean productHierarchyRecordBean;
 	private List<GtnWsRecordBean> selectedCustomerHierarchyList;
 	private List<GtnWsRecordBean> selectedProductHierarchyList;
+	private List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList;
 	private Date fromPeriod;
 	private Date toPeriodReport;
 
@@ -296,6 +297,14 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setViewId(Integer viewId) {
 		this.viewId = viewId;
+	}
+
+	public List<GtnReportComparisonProjectionBean> getComparisonProjectionBeanList() {
+		return comparisonProjectionBeanList;
+	}
+
+	public void setComparisonProjectionBeanList(List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
+		this.comparisonProjectionBeanList = comparisonProjectionBeanList;
 	}
 	
 }
