@@ -3156,8 +3156,7 @@ public class NMProjectionVarianceLogic {
         StringBuilder stringBuilder = new StringBuilder();
 
 		boolean isNotFirstElement = false;
-		boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo)
-				|| "D".equals(hierarchyIndicator);
+		boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
 		int i = 1;
 		for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
 			if ((Integer.parseInt(entry.getValue().get(2).toString()) == levelNo
