@@ -2539,6 +2539,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
             query.append('\'')
             .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
             .append(",'").append(session.getDataSelectionDeductionLevelCaption()).append('\'');
+            LOGGER.info("before callInsertProcedureForNmDiscountMaster {}", query.toString());
             HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
             LOGGER.info("Normal Procedures: {}", query.toString());
         } catch (Exception ex) {
@@ -2953,6 +2954,15 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                 customRelationDdlb.setItemCaption(objects[0], String.valueOf(objects[1]));
             }
         }
+    }
+    
+    public void callForDeductionLevelMapQuery(SessionDTO session) {
+        try {
+           session.setDiscountDeductionLevelDetails(getRelationshipDetailsDeductionCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+
     }
    
     

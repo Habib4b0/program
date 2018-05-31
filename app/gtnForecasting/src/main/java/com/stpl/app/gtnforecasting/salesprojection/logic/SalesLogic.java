@@ -568,6 +568,7 @@ public class SalesLogic {
             sql = sql.replace("@REFCOLUMN", !Constant.CUSTOM_LABEL.equals(projSelDTO.getViewOption()) ? "STC" : "CO");
             sql = sql.replace("@CUSTOMCONDITION", !Constant.CUSTOM_LABEL.equals(projSelDTO.getViewOption()) ? StringUtils.EMPTY : "AND CO.CUST_VIEW_MASTER_SID = 87 AND LEVEL_NO = 6");
             sql = sql.replace("@CUSTOMSID", String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid()));
+            sql = sql.replace("@LASTLEVEL", getLastLevelNoCustom(projSelDTO.getSessionDTO().getCustomRelationShipSid()));
         }
         int freqNo = getFrequencyNumber(projSelDTO.getFrequency());
         sql = sql.replaceAll("@FREQDIVISION", String.valueOf(freqNo));
@@ -4489,5 +4490,11 @@ public class SalesLogic {
         salesProjectionExcelHeader.addSingleColumn(Constant.BASELINE, "Base Line", String.class);
         salesProjectionExcelHeader.addSingleColumn(Constant.METHODOLOGY, "Methodology", String.class);
        return HeaderUtils.getSalesProjectionRightTableColumns(projectionSelectionDTO, salesProjectionFullHeader, salesProjectionExcelHeader);
+    }
+
+    private String getLastLevelNoCustom(int custMasterSid) {
+        String queryLevelNo="SELECT MAX(LEVEL_NO) FROM CUST_VIEW_DETAILS WHERE CUSTOM_VIEW_MASTER_SID="+custMasterSid;
+        List<String> resultLevelList= HelperTableLocalServiceUtil.executeSelectQuery(queryLevelNo);
+        return resultLevelList != null ? String.valueOf(resultLevelList.get(0)) : "0";
     }
 }
