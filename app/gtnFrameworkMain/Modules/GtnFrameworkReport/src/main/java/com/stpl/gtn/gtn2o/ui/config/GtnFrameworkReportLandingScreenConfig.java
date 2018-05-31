@@ -92,7 +92,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		addLandingScreenComparisonOptionsComponent(componentList, namespace);
 	}
 
-	private void addLandingScreenVariableComponent(List<GtnUIFrameworkComponentConfig> componentList,
+	private void addLandingScreenComparisonComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
 		GtnUIFrameworkComponentConfig landingScreenVariableComparisonConfig = configProvider
 				.getUIFrameworkComponentConfig(
@@ -123,7 +123,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 	}
 
-	private void addLandingScreenComparisonComponent(List<GtnUIFrameworkComponentConfig> componentList,
+	private void addLandingScreenVariableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
 		GtnUIFrameworkComponentConfig landingScreenComparisonGtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT, true,

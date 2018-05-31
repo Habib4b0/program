@@ -6,6 +6,7 @@ import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkHierarchyTreeBuilder;
@@ -231,6 +232,15 @@ public class GtnReportDataSelectionTabLoadAction
 					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_LEVEL, componentId)
 					.loadV8ComboBoxComponentValue(
 							Integer.valueOf(reportDataSelectionBean.getProductHierarchyForecastLevel()));
+
+                    GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+                    actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+                    actionConfig.setActionParameterList(Arrays.asList(
+                            GtnReportDataAssumptionsTabLoadAction.class.getName(),
+                            GtnFrameworkReportStringConstants.TAB_SHEET + "dataAssump", GtnFrameworkReportStringConstants.CURRENT_TAB,
+                            GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_LOAD,reportDataSelectionBean));
+
+                    GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
 
 		} catch (Exception exception) {
 			logger.error("Error message", exception);

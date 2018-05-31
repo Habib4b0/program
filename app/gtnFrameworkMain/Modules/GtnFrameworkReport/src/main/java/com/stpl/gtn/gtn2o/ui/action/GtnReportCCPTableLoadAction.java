@@ -100,6 +100,9 @@ public class GtnReportCCPTableLoadAction
 		GtnWsRecordBean productRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(8).toString()).getComponentData().getCustomData();
 
+		List<GtnReportComparisonProjectionBean> comparisonOptionLookupBean = (List<GtnReportComparisonProjectionBean>) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(16).toString()).getComponentData().getCustomData();
+
 		LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(7).toString())
 				.getFieldValue();
 		if (date != null) {
@@ -135,13 +138,12 @@ public class GtnReportCCPTableLoadAction
 				.getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox()));
 		dto.setBusinessUnitReport(Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(14).toString()).getCaptionFromV8ComboBox()));
-		// dto.setFromPeriodReport(Integer.parseInt(GtnUIFrameworkGlobalUI
-		// .getVaadinBaseComponent(actionParamList.get(15).toString()).getCaptionFromV8ComboBox()));
 		GtnUIFrameworkComponentData comparisonProjectionData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(actionParamList.get(16).toString());
 		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = (List<GtnReportComparisonProjectionBean>) comparisonProjectionData
 				.getCustomData();
 		dto.setComparisonProjectionBeanList(comparisonProjectionBeanList);
+
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);
 		dto.setProductHierarchyRecordBean(productRecordBean);
 		dto.setSelectedCustomerHierarchyList(selectedCustomerList);
