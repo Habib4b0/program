@@ -719,6 +719,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String CFP_NO = "cfpNo";
 	public static final String CFP_NAME = "cfpName";
 	public static final String PS_NAME = "psName";
+	public static final String CV_MODULE_TYPE = "CV_MODULE_TYPE";
 	/**
 	 *
 	 * END
