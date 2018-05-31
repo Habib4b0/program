@@ -376,6 +376,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 session.setDsFrequency(String.valueOf(frequency.getValue()));
             }
         });
+        boolean isEnabled = Utility.customEnableForRelationFromDS(session.getCustomDeductionRelationShipSid());
+        view.setItemEnabled(Constant.CUSTOM_LABEL, isEnabled);
+       
         loadDisplayFormatDdlb();
     }
 
