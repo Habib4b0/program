@@ -190,7 +190,7 @@ GROUP BY SHN.HIERARCHY_NO,
               SHN.INSTR
 INTO #ST_NM_SALES_PROJECTION_MASTER
                 FROM #SELECTED_HIERARCHY_NO SHN
-				INNER JOIN CUSTOM_CCP_SALES RLD1 ON RLD1.HIERARCHY_NO=SHN.HIERARCHY_NO AND RLD1.CUST_VIEW_MASTER_SID =@CUSTOMSID     
+				INNER JOIN CUSTOM_CCP_SALES RLD1 ON RLD1.HIERARCHY_NO=SHN.HIERARCHY_NO AND RLD1.CUST_VIEW_MASTER_SID =@CUSTOMSID    
                JOIN ST_CCP_HIERARCHY CCP ON CCP.CCP_DETAILS_SID=RLD1.CCP_DETAILS_SID
 JOIN     ST_NM_SALES_PROJECTION_MASTER MSPM 
 ON       MSPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
@@ -258,7 +258,7 @@ GROUP BY SHN.HIERARCHY_NO,
                                                                        
                                                                         FROM ST_CUSTOM_SALES STC JOIN CUSTOM_CCP_SALES CO ON CO.ROWID=STC.HIERARCHY_NO
                                                                          JOIN #SELECTED_HIERARCHY_NO SH ON CO.HIERARCHY_NO LIKE SH.HIERARCHY_NO+'%' AND CO.CUST_VIEW_MASTER_SID=@CUSTOMSID    
-                                                                                                                          ----CHANGE
+                                                                                                                         AND LEVEL_NO=@LASTLEVEL    
                                                                      
                                                                            WHERE INDICATOR=0  @SALESINCLUSION
                                                                            GROUP BY  SH.HIERARCHY_NO,
@@ -283,7 +283,7 @@ GROUP BY SHN.HIERARCHY_NO,
                                                                        
                                                                         FROM ST_CUSTOM_SALES STC JOIN CUSTOM_CCP_SALES CO ON CO.ROWID=STC.HIERARCHY_NO
                                                                          JOIN #SELECTED_HIERARCHY_NO SH ON CO.HIERARCHY_NO LIKE SH.HIERARCHY_NO+'%' AND CO.CUST_VIEW_MASTER_SID=@CUSTOMSID  
-                                                                                                                           ---6---
+                                                                                                                           AND LEVEL_NO=@LASTLEVEL    
                                                                      
                                                                            WHERE INDICATOR=1  @SALESINCLUSION
                                                                            GROUP BY  SH.HIERARCHY_NO,
@@ -1651,28 +1651,19 @@ order by level_no
     <entity id="custom-relationship-hierarchy">
         <query>
             <![CDATA[
-IF OBJECT_ID('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+            IF OBJECT_ID('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
                 DROP TABLE #SELECTED_HIERARCHY_NO
-                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO VARCHAR(50),INSTR INT,CCP_DETAILS_SID INT,RELATIONSHIP_LEVEL_VALUES VARCHAR(50))
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO VARCHAR(50),INSTR INT)
 
-                INSERT INTO #SELECTED_HIERARCHY_NO
-                (HIERARCHY_NO,INSTR,
-                CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES)
-                SELECT DISTINCT A.HIERARCHY_NO,INSTR,CH.CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALES
-                FROM   (VALUES 	[?HIER_VALUES])A(HIERARCHY_NO,INSTR)  
-                 INNER JOIN CUSTOM_CCP_SALES RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO AND RLD1.CUST_VIEW_MASTER_SID =@CUSTMASTERSID         
-                 JOIN ST_CCP_HIERARCHY CH ON CH.CCP_DETAILS_SID  =RLD1.CCP_DETAILS_SID
+                INSERT INTO #SELECTED_HIERARCHY_NO (HIERARCHY_NO,INSTR)
+            
+                SELECT HIERARCHY_NO ,ROW_NUMBER() OVER(ORDER BY LEVEL_NO)as instr  FROM  CUSTOM_CCP_SALES RLD1        
+                 JOIN ST_CCP_HIERARCHY CH ON CH.CCP_DETAILS_SID  =RLD1.CCP_DETAILS_SID  
+		 JOIN ST_NM_SALES_PROJECTION_MASTER SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+            WHERE CUST_VIEW_MASTER_SID =@CUSTMASTERSID
+                and SPM.USER_GROUP LIKE '%' [?FILTERCCP] GROUP BY CUST_VIEW_MASTER_SID,LEVEL_NO,HIERARCHY_NO 
                 
-            
-        
-            
-                JOIN ST_NM_SALES_PROJECTION_MASTER SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
-            
-        
-            
-                WHERE SPM.USER_GROUP LIKE '%'
-            
-         Select  distinct HIERARCHY_NO from #SELECTED_HIERARCHY_NO order by HIERARCHY_NO 
+                 Select  distinct HIERARCHY_NO from #SELECTED_HIERARCHY_NO order by HIERARCHY_NO  
             ]]>
         </query>
     </entity> 
