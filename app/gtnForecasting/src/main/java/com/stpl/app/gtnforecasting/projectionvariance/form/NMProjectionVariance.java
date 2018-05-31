@@ -292,8 +292,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         projectionId = nonMandatedForm.getSessions().getProjectionId();
 
         frequency.addItem(Constant.SELECT_ONE);
-        frequency.addItem(Constant.ANNUALLY);
-        frequency.addItem(Constant.SEMI_ANNUALLY);
+        frequency.addItem(Constant.ANNUAL);
+        frequency.addItem(Constant.SEMI_ANNUAL_1);
         frequency.addItem(Constant.QUARTERLY);
         frequency.addItem(Constant.MONTHLY);
 
@@ -896,6 +896,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
         }
+        CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUST_VIEW_MAP_QUERY));
         viewChangeHierarchy = session.getCustomHierarchyMap().get(customId);
         if (customId != 0) {
             callGenerateLogic();

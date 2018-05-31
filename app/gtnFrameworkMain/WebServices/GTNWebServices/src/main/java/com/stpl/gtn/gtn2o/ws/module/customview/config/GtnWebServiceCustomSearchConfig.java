@@ -47,7 +47,7 @@ public class GtnWebServiceCustomSearchConfig implements GtnWsSearchQueryConfigLo
                 fieldToColumnDetailsMap.put( GtnFrameworkCommonConstants.CUTOMER_RELATION, searchConfigProvider.getColumnStringConfig(GtnWsCustomViewConstants.RELATIONSHIP_NAME, "RBC","CUSTOMER_RELATIONSHIP_SID",GtnWsCustomViewConstants.RELATIONSHIP_BUILDER_SID));
                 fieldToColumnDetailsMap.put( GtnFrameworkCommonConstants.PRODUCT_RELATION, searchConfigProvider.getColumnStringConfig(GtnWsCustomViewConstants.RELATIONSHIP_NAME, "RBP","PRODUCT_RELATIONSHIP_SID",GtnWsCustomViewConstants.RELATIONSHIP_BUILDER_SID));
 		
-                fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.CUSTOM_VIEW_SCREEN_NAME, searchConfigProvider.getColumnStringConfig("SCREEN_NAME", GtnWsCustomViewConstants.CVM));
+                fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.CUSTOM_VIEW_SCREEN_NAME, searchConfigProvider.getColumnHelperConfig("MODULE_TYPE", GtnWsCustomViewConstants.CVM));
 		fieldToColumnDetailsMap.put("createdDate", searchConfigProvider.getColumnDateConfig("CREATED_DATE", GtnWsCustomViewConstants.CVM));
 		fieldToColumnDetailsMap.put("createdBy", searchConfigProvider.getColumnUserConfig("CREATED_BY", GtnWsCustomViewConstants.CVM));
 		fieldToColumnDetailsMap.put("modifiedDate", searchConfigProvider.getColumnDateConfig("MODIFIED_DATE", GtnWsCustomViewConstants.CVM));
