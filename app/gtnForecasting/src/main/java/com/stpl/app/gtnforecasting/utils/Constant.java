@@ -1123,6 +1123,7 @@ public class Constant {
     public static final String YEAR_SPACE = "\"YEAR\"";
     public static final String QUARTER = "QUARTER";
     public static final String SEMI_ANNUAL = "SEMI_ANNUAL";
+    public static final String SEMI_ANNUAL_1 = "Semi-Annual";
     public static final String PD_HIERARCHY_NO = "pd.HIERARCHY_NO,\n";
     public static final String NM_PROJ_DETAILS_SID_QUERY = "getNMProjDetailsSid_Query";
     public static final String SELECT_FROM_PROJECTION_DETAILS = " SELECT * FROM #PROJECTION_DETAILS ";
