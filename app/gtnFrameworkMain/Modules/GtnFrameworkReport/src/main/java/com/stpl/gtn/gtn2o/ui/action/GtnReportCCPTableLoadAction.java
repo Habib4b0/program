@@ -24,6 +24,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -99,6 +100,9 @@ public class GtnReportCCPTableLoadAction
 		GtnWsRecordBean productRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(8).toString()).getComponentData().getCustomData();
 
+		List<GtnReportComparisonProjectionBean> comparisonOptionLookupBean = (List<GtnReportComparisonProjectionBean>) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(16).toString()).getComponentData().getCustomData();
+		
 		LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(7).toString())
 				.getFieldValue();
 		if (date != null) {
@@ -134,8 +138,7 @@ public class GtnReportCCPTableLoadAction
 				.getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox()));
 		dto.setBusinessUnitReport(Integer.parseInt(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(14).toString())
 				.getCaptionFromV8ComboBox()));
-		//dto.setFromPeriodReport(Integer.parseInt(GtnUIFrameworkGlobalUI
-				//.getVaadinBaseComponent(actionParamList.get(15).toString()).getCaptionFromV8ComboBox()));
+		dto.setComparisonProjectionBeanList(comparisonOptionLookupBean);
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);
 		dto.setProductHierarchyRecordBean(productRecordBean);
 		dto.setSelectedCustomerHierarchyList(selectedCustomerList);

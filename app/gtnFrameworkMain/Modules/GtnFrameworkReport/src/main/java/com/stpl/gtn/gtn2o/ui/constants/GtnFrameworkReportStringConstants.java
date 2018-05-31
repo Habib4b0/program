@@ -420,6 +420,14 @@ public final class GtnFrameworkReportStringConstants {
 
 	private static final String[] REPORT_DATAASSUMPTIONS_FILTER_PROPERTYID = new String[] { "file", "company",
 			"businessUnit", "type", "version", "activeFrom", "fromPeriod", "toPeriod" };
+        
+        private static final List<String> REPORT_DATAASSUMPTIONS_TAB_ID = Arrays.asList("dataAssumptionsPagedTableComponentdataAssumptionsTab0dataAssumptionsTab",
+                "dataAssumptionsPagedTableComponentdataAssumptionsTab1dataAssumptionsTab","dataAssumptionsPagedTableComponentdataAssumptionsTab2dataAssumptionsTab",
+                "dataAssumptionsPagedTableComponentdataAssumptionsTab3dataAssumptionsTab","dataAssumptionsPagedTableComponentdataAssumptionsTab4dataAssumptionsTab");
+
+        public static List<String> getReportDataAssumptionsTabId() {
+            return REPORT_DATAASSUMPTIONS_TAB_ID;
+        }
 
 	public static Class<?>[] getReportCustomerHierarchyTableColumnsDataType() {
 		return REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE.clone();
