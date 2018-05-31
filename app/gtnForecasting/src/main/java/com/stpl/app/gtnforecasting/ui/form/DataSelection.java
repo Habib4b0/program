@@ -1644,6 +1644,12 @@ public class DataSelection extends ForecastDataSelection {
 		catch (NumberFormatException ex) {
 			LOGGER.error(" level  ValueChangeListener1= {} ", ex);
 		}
+		setAvailableCustomer(value, dedLevel, dedValue, levelName, relationVersionNo, hierarchyVersionNo);
+	}
+
+	private void setAvailableCustomer(Object value, String dedLevel, String dedValue, String levelName,
+			int relationVersionNo, int hierarchyVersionNo) {
+		int forecastLevel;
 		try {
 
 			if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
