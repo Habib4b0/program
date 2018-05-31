@@ -112,19 +112,6 @@ public class GtnFrameworkReportGenerateLookUp {
 		tabConfigList.add(reportingDashboard);
 
                 tabSheetConfig.setGtnTabSheetConfigList(tabConfigList);
-                
-                List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-                
-                GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
-                actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-                actionConfig.setActionParameterList(Arrays.asList(
-				GtnReportDataAssumptionsTabLoadAction.class.getName(),
-                       GtnFrameworkReportStringConstants.TAB_SHEET+"dataAssump", GtnFrameworkReportStringConstants.CURRENT_TAB,
-                       GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_LOAD));
-		
-		
-		actionConfigList.add(actionConfig);
-		tabSheetConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		componentList.add(tabSheetConfig);
 	}
 	

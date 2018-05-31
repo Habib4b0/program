@@ -7,51 +7,53 @@ IF EXISTS (SELECT 'X'
   END
 
 GO
-CREATE   PROCEDURE [dbo].[PRC_NM_DISCOUNT_PROJECTION] (@PROJECTION INT,
-                                                       @FREQUENCY  VARCHAR(100),
-                                                       @USER_ID    INT,
-                                                       @SESSION_ID VARCHAR(50),
-													   @FORECAST_START_PERIOD_SID INT,
-													   @FORECAST_END_PERIOD_SID INT,
-													   @CALCULATION_BASED VARCHAR(100),
-													   @DEDUCTION_INCLUSION BIT =null)
+
+CREATE PROCEDURE [dbo].[PRC_NM_DISCOUNT_PROJECTION] (@PROJECTION                INT,
+                                                     @FREQUENCY                 VARCHAR(100),
+                                                     @USER_ID                   INT,
+                                                     @SESSION_ID                VARCHAR(50),
+                                                     @FORECAST_START_PERIOD_SID INT,
+                                                     @FORECAST_END_PERIOD_SID   INT,
+                                                     @CALCULATION_BASED         VARCHAR(100),
+                                                     @DEDUCTION_INCLUSION       BIT =NULL)
 AS
   BEGIN
-
-     
       SET NOCOUNT ON
-	  
-   DECLARE        @PROJECTION_START_SID INT,
-                  @PROJECTION_END_SID   INT, 
-                  @METHODOLOGY        VARCHAR(50)
 
+      BEGIN TRY
+  
+          DECLARE @PROJECTION_START_SID INT,
+                  @PROJECTION_END_SID   INT,
+                  @METHODOLOGY          VARCHAR(50)
           DECLARE @MASTER_TABLE       VARCHAR(200) = Concat('ST_NM_DISCOUNT_PROJ_MASTER_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
                   @ACTUAL_TABLE       VARCHAR(200) = Concat('ST_NM_ACTUAL_DISCOUNT_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
                   @PROJECTION_TABLE   VARCHAR(200) = Concat('ST_NM_DISCOUNT_PROJECTION_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
-                  @S_PROJECTION_TABLE VARCHAR(200)=  Concat('ST_NM_SALES_PROJECTION_', @user_id, '_', @session_id, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
-                  @S_ACTUAL_TABLE     VARCHAR(200)=  Concat('ST_NM_ACTUAL_SALES_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
-                  @S_MASTER_TABLE     VARCHAR(200)=  Concat('ST_NM_SALES_PROJECTION_MASTER_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
-                  @GROWTH_TABLE       VARCHAR(200)=  Concat('ST_DISC_GROWTH_FACTOR_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
-                  @PRODUCT_TABLE      VARCHAR(200)=  Concat('ST_PRODUCT_FILE_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', ''))
+                  @S_PROJECTION_TABLE VARCHAR(200)= Concat('ST_NM_SALES_PROJECTION_', @user_id, '_', @session_id, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+                  @S_ACTUAL_TABLE     VARCHAR(200)= Concat('ST_NM_ACTUAL_SALES_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+                  @S_MASTER_TABLE     VARCHAR(200)= Concat('ST_NM_SALES_PROJECTION_MASTER_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+                  @GROWTH_TABLE       VARCHAR(200)= Concat('ST_DISC_GROWTH_FACTOR_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+                  @PRODUCT_TABLE      VARCHAR(200)= Concat('ST_PRODUCT_FILE_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', ''))
 
           SET @FREQUENCY = LEFT(@FREQUENCY, 1)
 
-          DECLARE @X_FACTORY  VARCHAR(50) = '% OF EX-FACTORY SALES',
-                  @INVENTORY  VARCHAR(50) = '% OF INVENTORY WITHDRAWAL',
-                  @DEMAND     VARCHAR(50) = '% OF DEMAND',
-                  @ADJ_DEMAND VARCHAR(50) = '% OF ADJUSTED DEMAND',
-				 @SEASONAL_TREND     VARCHAR(50) = '% OF EX-FACTORY - SEASONAL TREND'
+          DECLARE @X_FACTORY      VARCHAR(50) = '% OF EX-FACTORY SALES',
+                  @INVENTORY      VARCHAR(50) = '% OF INVENTORY WITHDRAWAL',
+                  @DEMAND         VARCHAR(50) = '% OF DEMAND',
+                  @ADJ_DEMAND     VARCHAR(50) = '% OF ADJUSTED DEMAND',
+                  @SEASONAL_TREND VARCHAR(50) = '% OF EX-FACTORY - SEASONAL TREND'
+
           -----PROJECTION_STARTS AND END DATES-------------------------------------
           SELECT @PROJECTION_START_SID = PROJECTION_START_SID,
                  @PROJECTION_END_SID = PROJECTION_END_SID
           FROM   [DBO].[Udf_projection_dates](@PROJECTION, @FREQUENCY)
 
           ----------------------------------------------------
-DECLARE @ACTUAL_PERIOD INT
-		SET @ACTUAL_PERIOD=(SELECT PERIOD_SID
-                            FROM   PERIOD
-                            WHERE  PERIOD_DATE = 
- CONVERT(DATETIME,DATEADD(MM,-1,DATEADD(DD,1,EOMONTH(GETDATE(), 0)))))
+          DECLARE @ACTUAL_PERIOD INT
+
+          SET @ACTUAL_PERIOD=(SELECT PERIOD_SID
+                              FROM   PERIOD
+                              WHERE  PERIOD_DATE = CONVERT(DATETIME, Dateadd(MM, -1, Dateadd(DD, 1, Eomonth(Getdate(), 0)))))
+
           IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
             DROP TABLE #PERIOD;
 
@@ -79,33 +81,33 @@ DECLARE @ACTUAL_PERIOD INT
                        ROLL_PERIOD)
           SELECT PERIOD_SID,
                  PERIOD_DATE,
-                 MONTH AS PERIOD_MONTH,
-                 QUARTER AS PERIOD_QUARTER,
+                 MONTH       AS PERIOD_MONTH,
+                 QUARTER     AS PERIOD_QUARTER,
                  SEMI_ANNUAL AS PERIOD_SEMI,
-                 YEAR AS PERIOD_YEAR,
-                  CASE
-                            WHEN @FREQUENCY = 'M' THEN Concat ('M', MONTH, ' ', YEAR)
-                            WHEN @FREQUENCY = 'Q' THEN Concat ('Q', QUARTER, ' ', YEAR)
-                            WHEN @FREQUENCY = 'S' THEN Concat ('S', SEMI_ANNUAL, ' ', YEAR)
-                            ELSE Cast(YEAR AS CHAR(4))
-                          END AS PERIOD,
-                  CASE
-                                 WHEN @FREQUENCY = 'M' THEN MONTH
-                                 WHEN @FREQUENCY = 'Q' THEN QUARTER
-                                 WHEN @FREQUENCY = 'S' THEN SEMI_ANNUAL
-                                 ELSE 1
-                               END AS ROLL_PERIOD
+                 YEAR        AS PERIOD_YEAR,
+                 CASE
+                   WHEN @FREQUENCY = 'M' THEN Concat ('M', MONTH, ' ', YEAR)
+                   WHEN @FREQUENCY = 'Q' THEN Concat ('Q', QUARTER, ' ', YEAR)
+                   WHEN @FREQUENCY = 'S' THEN Concat ('S', SEMI_ANNUAL, ' ', YEAR)
+                   ELSE Cast(YEAR AS CHAR(4))
+                 END         AS PERIOD,
+                 CASE
+                   WHEN @FREQUENCY = 'M' THEN MONTH
+                   WHEN @FREQUENCY = 'Q' THEN QUARTER
+                   WHEN @FREQUENCY = 'S' THEN SEMI_ANNUAL
+                   ELSE 1
+                 END         AS ROLL_PERIOD
           FROM   PERIOD
 
-                   DECLARE @SQL NVARCHAR(MAX)
+          DECLARE @SQL NVARCHAR(MAX)
 
-                SET @SQL= CONCAT('
+          SET @SQL= Concat('
             IF NOT EXISTS (SELECT 1
                FROM   INFORMATION_SCHEMA.TABLES
-               WHERE  TABLE_NAME =''',@GROWTH_TABLE,'''
+               WHERE  TABLE_NAME =''', @GROWTH_TABLE, '''
                       AND TABLE_SCHEMA = ''DBO'')
                  BEGIN             
-           CREATE TABLE ',@GROWTH_TABLE,'
+           CREATE TABLE ', @GROWTH_TABLE, '
                    (
                               CCP_DETAILS_SID     INT,
                               RS_MODEL_SID        INT,
@@ -113,12 +115,10 @@ DECLARE @ACTUAL_PERIOD INT
                               PERIOD_SID          INT,
                               GROWTH              NUMERIC(22,15)
                    )
-           END'
+           END')
 
-)
-
-EXEC sp_executesql @SQL
-
+          EXEC Sp_executesql
+            @SQL
 
           ----------------------------CCP_DETAILS-----------------------
           IF Object_id('TEMPDB.DBO.#SALES_FREQUENCY_DATE', 'U') IS NOT NULL
@@ -128,15 +128,15 @@ EXEC sp_executesql @SQL
             (
                --CONTRACT_MASTER_SID         INT,
                --COMPANY_MASTER_SID          INT,
-              ITEM_MASTER_SID             INT,
-              -- DISCOUNT_ID                 VARCHAR(50),
+               ITEM_MASTER_SID             INT,
+               -- DISCOUNT_ID                 VARCHAR(50),
                CCP_DETAILS_SID             INT,
                --PROJECTION_MASTER_SID       INT,
                --BUSINESS_UNIT               VARCHAR(50),
                --GL_COMPANY_MASTER_SID       INT,
                RS_MODEL_SID                INT,
-                        RS_CONTRACT_SID             INT,
-              METHODOLOGY                 VARCHAR(50),
+               RS_CONTRACT_SID             INT,
+               METHODOLOGY                 VARCHAR(50),
                FREQUENCY                   CHAR(10),
                CALCULATION_BASED           VARCHAR(20),
                CALCULATION_PERIODS         VARCHAR(MAX),
@@ -149,9 +149,7 @@ EXEC sp_executesql @SQL
                EFFECT_UPD_END_PERIOD_SID   INT
             )
 
-       
-
-          SET @SQL=CONCAT( ' INSERT INTO #SALES_FREQUENCY_DATE
+          SET @SQL=Concat(' INSERT INTO #SALES_FREQUENCY_DATE
                                   (
                                   --CONTRACT_MASTER_SID           ,      
                                   --COMPANY_MASTER_SID            ,
@@ -183,11 +181,11 @@ EXEC sp_executesql @SQL
                                                          SNDPM.METHODOLOGY,
                                   
                                   FREQUENCY=CASE WHEN LEFT(SNSPM.CALCULATION_PERIODS,1) IN (''Q'',''M'',''S'') THEN LEFT(SNSPM.CALCULATION_PERIODS,1) ELSE ''A'' END,
-                                  ''',@CALCULATION_BASED,''',
+                                  ''', @CALCULATION_BASED, ''',
 
                                   SNDPM.CALCULATION_PERIODS,
                                 CALC_START_PERIOD_SID = CASE
-                                                                              WHEN SNDPM.METHODOLOGY IN ( @X_FACTORY, @INVENTORY, @DEMAND,@SEASONAL_TREND ) THEN IIF(',@FORECAST_START_PERIOD_SID,' > SNDPM.EFFECTIVE_START_PERIOD_SID, ',@FORECAST_START_PERIOD_SID,', SNDPM.EFFECTIVE_START_PERIOD_SID)
+                                                                              WHEN SNDPM.METHODOLOGY IN ( @X_FACTORY, @INVENTORY, @DEMAND,@SEASONAL_TREND ) THEN IIF(', @FORECAST_START_PERIOD_SID, ' > SNDPM.EFFECTIVE_START_PERIOD_SID, ', @FORECAST_START_PERIOD_SID, ', SNDPM.EFFECTIVE_START_PERIOD_SID)
                                                                               ELSE SNDPM.FREQ_CAL_START_PERIOD_SID
                                                                            END,
                                   CALC_END_PERIOD_SID =CASE
@@ -203,20 +201,23 @@ EXEC sp_executesql @SQL
           
                        FROM   CCP_DETAILS CCP
                                   
-                                  JOIN ',@MASTER_TABLE,' SNDPM
+                                  JOIN ', @MASTER_TABLE, ' SNDPM
                                      ON CCP.CCP_DETAILS_SID = SNDPM.CCP_DETAILS_SID
 									   AND (EFFECTIVE_START_PERIOD_SID IS NOT NULL OR EFFECTIVE_END_PERIOD_SID IS NOT NULL)
-									  and  FILTER_CCP=1  ',case when @DEDUCTION_INCLUSION is not null then concat('AND DEDUCTION_INCLUSION =',@DEDUCTION_INCLUSION) END,'       
+									  and  FILTER_CCP=1  ', CASE
+                                                      WHEN @DEDUCTION_INCLUSION IS NOT NULL THEN Concat('AND DEDUCTION_INCLUSION =', @DEDUCTION_INCLUSION)
+                                                    END, '       
                                   OUTER APPLY (SELECT TOP 1 P.PERIOD_SID + 1 AS MAX_BASELINE_PERIOD
                                                          FROM   UDF_SPLITSTRING(SNDPM.CALCULATION_PERIODS, '','') FN
                                                                      JOIN #PERIOD P
                                                                         ON PERIOD = FN.TOKEN
                                                          ORDER  BY PERIOD_SID DESC) CS
-                                  INNER JOIN ',@S_MASTER_TABLE,' SNSPM
+                                  INNER JOIN ', @S_MASTER_TABLE, ' SNSPM
                                   ON SNSPM.CCP_DETAILS_SID=SNDPM.CCP_DETAILS_SID
                        WHERE     SNDPM.CHECK_RECORD = 1
                                   AND SNDPM.PRICE_GROUP_TYPE<>''PRICE PROTECTION''  
                                   ')
+
           EXEC Sp_executesql
             @SQL,
             N'@X_FACTORY NVARCHAR(50),@INVENTORY NVARCHAR(50),@DEMAND NVARCHAR(50),@SEASONAL_TREND NVARCHAR(50) ,@PROJECTION_START_SID INT,@PROJECTION_END_SID INT',
@@ -224,20 +225,64 @@ EXEC sp_executesql @SQL
             @X_FACTORY=@X_FACTORY,
             @INVENTORY=@INVENTORY,
             @DEMAND=@DEMAND,
-			@SEASONAL_TREND=@SEASONAL_TREND,
+            @SEASONAL_TREND=@SEASONAL_TREND,
             @PROJECTION_START_SID=@PROJECTION_START_SID
 
-                    -- DECLARE @NUMBER_OF_SELECTED_PERIODS INT
+          -- DECLARE @NUMBER_OF_SELECTED_PERIODS INT
+          IF Object_id('TEMPDB.DBO.#D_ACTUAL_TABLE', 'U') IS NOT NULL
+            DROP TABLE #D_ACTUAL_TABLE
 
+          SELECT AD.CCP_DETAILS_SID,
+                 AD.PERIOD_SID,
+                 RS_CONTRACT_SID,
+                 --AD.RS_MODEL_SID,
+                 Sum(DISCOUNT) ACTUAL_SALES
+          INTO   #D_ACTUAL_TABLE
+          FROM   [ACTUALS_DETAILS] AD
+                 INNER JOIN (SELECT CCP_DETAILS_SID,
+                                    RS_MODEL_SID,
+                                    PERIOD_SID,
+                                    RS_CONTRACT_SID
+                             FROM   #SALES_FREQUENCY_DATE A
+                                    CROSS APPLY (SELECT PERIOD_SID
+                                                 FROM   Udf_splitstring(A.CALCULATION_PERIODS, ',') FN
+                                                        INNER JOIN #PERIOD P
+                                                                ON P.PERIOD = FN.TOKEN) CS) AD1
+                         ON AD1.CCP_DETAILS_SID = AD.CCP_DETAILS_SID
+                            AND AD1.RS_MODEL_SID = AD.RS_MODEL_SID
+                            AND AD1.PERIOD_SID = AD.PERIOD_SID
+          GROUP  BY AD.CCP_DETAILS_SID,
+                    AD.PERIOD_SID,
+                    RS_CONTRACT_SID,
+                    QUANTITY_INCLUSION
+
+          IF Object_id('TEMPDB.DBO.#S_ACTUAL_TABLE', 'U') IS NOT NULL
+            DROP TABLE #S_ACTUAL_TABLE
+
+          SELECT CCP_DETAILS_SID,
+                 PERIOD_SID,
+                 Sum(SALES)    ACTUAL_SALES,
+                 Sum(QUANTITY) ACTUAL_UNITS
+          INTO   #S_ACTUAL_TABLE
+          FROM   [ACTUALS_DETAILS] AD
+          WHERE  QUANTITY_INCLUSION = 'Y'
+                 AND EXISTS (SELECT 1
+                             FROM   #SALES_FREQUENCY_DATE A
+                                    CROSS APPLY (SELECT PERIOD_SID
+                                                 FROM   Udf_splitstring(A.CALCULATION_PERIODS, ',') FN
+                                                        INNER JOIN #PERIOD P
+                                                                ON P.PERIOD = FN.TOKEN) CS
+                             WHERE  A.CCP_DETAILS_SID = AD.CCP_DETAILS_SID
+                                    AND CS.PERIOD_SID = AD.PERIOD_SID)
+          GROUP  BY AD.CCP_DETAILS_SID,
+                    AD.PERIOD_SID
 
           ---------------------------------------------------------------------------------- BASELINE
           IF EXISTS (SELECT 1
                      FROM   #SALES_FREQUENCY_DATE CCP
                      WHERE  METHODOLOGY IN ( 'SINGLE PERIOD', 'AVERAGE', 'ROLLING ANNUAL TREND' ))
             BEGIN
-
-
-                     IF Object_id('TEMPDB.DBO.#ACTUAL_BASELINE', 'U') IS NOT NULL
+                IF Object_id('TEMPDB.DBO.#ACTUAL_BASELINE', 'U') IS NOT NULL
                   DROP TABLE #ACTUAL_BASELINE;
 
                 CREATE TABLE #ACTUAL_BASELINE
@@ -245,12 +290,10 @@ EXEC sp_executesql @SQL
                      ACTUAL_BASELINE           NUMERIC(22, 6),
                      CCP_DETAILS_SID           INT,
                      RS_MODEL_SID              INT,
-					 RS_CONTRACT_SID              INT,
+                     RS_CONTRACT_SID           INT,
                      ROLL_PERIOD               INT,
-                     NUMBER_OF_SELECTED_PERIOD  INT
-                    
+                     NUMBER_OF_SELECTED_PERIOD INT
                   )
-
 
                 DECLARE @PERIOD_COUNT NUMERIC(22, 6)
 
@@ -262,30 +305,22 @@ EXEC sp_executesql @SQL
                                     END
 
                 DECLARE @VAR1 VARCHAR(MAX)
-                        
 
                 SET @methodology=(SELECT TOP 1 METHODOLOGY
-                                  FROM   #SALES_FREQUENCY_DATE ORDER BY METHODOLOGY)
-               
+                                  FROM   #SALES_FREQUENCY_DATE
+                                  ORDER  BY METHODOLOGY)
 
-                  ---      SET @VAR1= (SELECT CASE
-                     ---                WHEN @METHODOLOGY = 'ROLLING ANNUAL TREND' THEN ' NUMBER_OF_SELECTED_PERIOD = 1 '
-
-                      --                                                               + ',FN.TOKEN'
-                      ---               ELSE ' NUMBER_OF_SELECTED_PERIOD = COUNT(1) OVER () / '
-                     ---                     + CONVERT(VARCHAR(MAX), @PERIOD_COUNT)
-
-                      ---             END)
-
-
-
-      IF EXISTS (SELECT 1
-                     FROM   #SALES_FREQUENCY_DATE CCP
-                     WHERE  METHODOLOGY IN ( 'SINGLE PERIOD', 'ROLLING ANNUAL TREND' ))
-            BEGIN	   
-							   
-   SET @SQL=CONCAT( 
-   'INSERT INTO #ACTUAL_BASELINE
+                ---      SET @VAR1= (SELECT CASE
+                ---                WHEN @METHODOLOGY = 'ROLLING ANNUAL TREND' THEN ' NUMBER_OF_SELECTED_PERIOD = 1 '
+                --                                                               + ',FN.TOKEN'
+                ---               ELSE ' NUMBER_OF_SELECTED_PERIOD = COUNT(1) OVER () / '
+                ---                     + CONVERT(VARCHAR(MAX), @PERIOD_COUNT)
+                ---             END)
+                IF EXISTS (SELECT 1
+                           FROM   #SALES_FREQUENCY_DATE CCP
+                           WHERE  METHODOLOGY IN ( 'SINGLE PERIOD', 'ROLLING ANNUAL TREND' ))
+                  BEGIN
+                      SET @SQL=Concat('INSERT INTO #ACTUAL_BASELINE
          (
          
          CCP_DETAILS_SID,
@@ -305,9 +340,11 @@ EXEC sp_executesql @SQL
                 WHEN CALCULATION_BASED = ''AMOUNT'' THEN Sum(SNAD.ACTUAL_SALES)
               END)/NULLIF(NUMBER_OF_SELECTED_PERIOD,0) AS ACTUAL_BASELINE,
               CASE
-                WHEN T_CCP.METHODOLOGY = ''ROLLING ANNUAL TREND'' THEN CASE WHEN '''+@FREQUENCY+''' <> ''A''  THEN CS.ROLL_PERIOD ELSE 1 END ELSE NULL
+                WHEN T_CCP.METHODOLOGY = ''ROLLING ANNUAL TREND'' THEN CASE WHEN '''
+                                      + @FREQUENCY
+                                      + ''' <> ''A''  THEN CS.ROLL_PERIOD ELSE 1 END ELSE NULL
               END,
-                       NUMBER_OF_SELECTED_PERIOD
+               NUMBER_OF_SELECTED_PERIOD
        FROM  #SALES_FREQUENCY_DATE  T_CCP
               CROSS APPLY (SELECT PERIOD_SID,
                                   ROLL_PERIOD,
@@ -315,16 +352,16 @@ EXEC sp_executesql @SQL
                                      WHEN  T_CCP.METHODOLOGY= ''ROLLING ANNUAL TREND'' THEN   1 
                                                                                   
                                      ELSE    COUNT(1) OVER () / 
-                                          NULLIF(',@PERIOD_COUNT,',0)
+                                          NULLIF(', @PERIOD_COUNT, ',0)
                                    END 
                            FROM   Udf_splitstring(T_CCP.CALCULATION_PERIODS, '','') FN
                                   JOIN #PERIOD P
                                     ON P.PERIOD = FN.TOKEN)CS
-              INNER JOIN ',@ACTUAL_TABLE,' SNAD
+              INNER JOIN #D_ACTUAL_TABLE SNAD
                       ON CS.PERIOD_SID = SNAD.PERIOD_SID
                          AND T_CCP.CCP_DETAILS_SID = SNAD.CCP_DETAILS_SID
                          AND T_CCP.RS_CONTRACT_SID = SNAD.RS_CONTRACT_SID
-              INNER JOIN ',@S_ACTUAL_TABLE,' SNA
+              INNER JOIN #S_ACTUAL_TABLE SNA
                       ON CS.PERIOD_SID = SNA.PERIOD_SID
                          AND T_CCP.CCP_DETAILS_SID = SNA.CCP_DETAILS_SID
        GROUP  BY T_CCP.CCP_DETAILS_SID,
@@ -333,18 +370,16 @@ EXEC sp_executesql @SQL
                  CALCULATION_BASED,
                            NUMBER_OF_SELECTED_PERIOD,
                  CASE
-                   WHEN T_CCP.METHODOLOGY = ''ROLLING ANNUAL TREND'' THEN CASE WHEN '''+@FREQUENCY+''' <> ''A''  THEN CS.ROLL_PERIOD ELSE 1 END ELSE NULL
+                   WHEN T_CCP.METHODOLOGY = ''ROLLING ANNUAL TREND'' THEN CASE WHEN '''
+                                                                                                  + @FREQUENCY + ''' <> ''A''  THEN CS.ROLL_PERIOD ELSE 1 END ELSE NULL
                     END ')
- end  
-                 
-      IF EXISTS (SELECT 1
-                     FROM   #SALES_FREQUENCY_DATE CCP
-                     WHERE  METHODOLOGY IN ( 'AVERAGE' ))
+                  END
 
-            BEGIN									
-							   
-   SET @SQL=CONCAT( 
-   'INSERT INTO #ACTUAL_BASELINE
+                IF EXISTS (SELECT 1
+                           FROM   #SALES_FREQUENCY_DATE CCP
+                           WHERE  METHODOLOGY IN ( 'AVERAGE' ))
+                  BEGIN
+                      SET @SQL=Concat('INSERT INTO #ACTUAL_BASELINE
          (
          
          CCP_DETAILS_SID,
@@ -355,7 +390,7 @@ EXEC sp_executesql @SQL
          NUMBER_OF_SELECTED_PERIOD
        )
 
-	   select CCP_DETAILS_SID,RS_MODEL_SID,RS_CONTRACT_SID,sum(ACTUAL_BASELINE)/nullif(NUMBER_OF_SELECTED_PERIOD,0),ROLL_PERIOD,NUMBER_OF_SELECTED_PERIOD from 
+	   SELECT CCP_DETAILS_SID,RS_MODEL_SID,RS_CONTRACT_SID,SUM(ACTUAL_BASELINE)/NULLIF(NUMBER_OF_SELECTED_PERIOD,0),ROLL_PERIOD,NUMBER_OF_SELECTED_PERIOD FROM 
 	   (    
        SELECT T_CCP.CCP_DETAILS_SID,
               T_CCP.RS_MODEL_SID,
@@ -366,28 +401,30 @@ EXEC sp_executesql @SQL
                 WHEN CALCULATION_BASED = ''AMOUNT'' THEN Sum(SNAD.ACTUAL_SALES)
               END) AS ACTUAL_BASELINE,
               CASE
-                WHEN T_CCP.METHODOLOGY = ''ROLLING ANNUAL TREND'' THEN CASE WHEN '''+@FREQUENCY+''' <> ''A''  THEN CS.ROLL_PERIOD ELSE 1 END ELSE NULL
+                WHEN T_CCP.METHODOLOGY = ''ROLLING ANNUAL TREND'' THEN CASE WHEN '''
+                                      + @FREQUENCY
+                                      + ''' <> ''A''  THEN CS.ROLL_PERIOD ELSE 1 END ELSE NULL
               END as ROLL_PERIOD,
                        NUMBER_OF_SELECTED_PERIOD
 					   ,cs.PERIOD
        FROM  #SALES_FREQUENCY_DATE  T_CCP
               CROSS APPLY (SELECT PERIOD_SID,
                                   ROLL_PERIOD,
-								  period,
+								  PERIOD,
                                    NUMBER_OF_SELECTED_PERIOD= CASE
                                      WHEN  T_CCP.METHODOLOGY= ''ROLLING ANNUAL TREND'' THEN   1 
                                                                                   
                                      ELSE    COUNT(1) OVER () / 
-                                          NULLIF(',@PERIOD_COUNT,',0)
+                                          NULLIF(', @PERIOD_COUNT, ',0)
                                    END 
-                           FROM   Udf_splitstring(T_CCP.CALCULATION_PERIODS, '','') FN
+                           FROM   UDF_SPLITSTRING(T_CCP.CALCULATION_PERIODS, '','') FN
                                   JOIN #PERIOD P
                                     ON P.PERIOD = FN.TOKEN)CS
-              INNER JOIN ',@ACTUAL_TABLE,' SNAD
+              INNER JOIN #D_ACTUAL_TABLE SNAD
                       ON CS.PERIOD_SID = SNAD.PERIOD_SID
                          AND T_CCP.CCP_DETAILS_SID = SNAD.CCP_DETAILS_SID
                          AND T_CCP.RS_CONTRACT_SID = SNAD.RS_CONTRACT_SID
-              INNER JOIN ',@S_ACTUAL_TABLE,' SNA
+              INNER JOIN #S_ACTUAL_TABLE SNA
                       ON CS.PERIOD_SID = SNA.PERIOD_SID
                          AND T_CCP.CCP_DETAILS_SID = SNA.CCP_DETAILS_SID
        GROUP  BY T_CCP.CCP_DETAILS_SID,
@@ -396,31 +433,26 @@ EXEC sp_executesql @SQL
                  CALCULATION_BASED,
                            NUMBER_OF_SELECTED_PERIOD,
                  CASE
-                   WHEN T_CCP.METHODOLOGY = ''ROLLING ANNUAL TREND'' THEN CASE WHEN '''+@FREQUENCY+''' <> ''A''  THEN CS.ROLL_PERIOD ELSE 1 END ELSE NULL
+                   WHEN T_CCP.METHODOLOGY = ''ROLLING ANNUAL TREND'' THEN CASE WHEN '''
+                                                                                                  + @FREQUENCY
+                                                                                                  + ''' <> ''A''  THEN CS.ROLL_PERIOD ELSE 1 END ELSE NULL
                     END 
-					 ,cs.PERIOD) a 
-			   group by CCP_DETAILS_SID,RS_MODEL_SID,RS_CONTRACT_SID,ROLL_PERIOD,NUMBER_OF_SELECTED_PERIOD')
-		
-end 
+					 ,CS.PERIOD) A 
+			   GROUP BY CCP_DETAILS_SID,RS_MODEL_SID,RS_CONTRACT_SID,ROLL_PERIOD,NUMBER_OF_SELECTED_PERIOD')
+                  END
 
+                EXEC Sp_executesql
+                  @SQL
 
-
-
-EXEC sp_executesql @SQL
-
-
-                             --------------------------CALCULATION_BASED(1+GROWTH)  STARTS HERE-----------------------------------------------------------------------
+                --------------------------CALCULATION_BASED(1+GROWTH)  STARTS HERE-----------------------------------------------------------------------
                 --IF Object_id('TEMPDB.DBO.#TEMP_FACTOR', 'U') IS NOT NULL
                 --  DROP TABLE #TEMP_FACTOR;
-
                 --CREATE TABLE #TEMP_FACTOR
                 --  (
                 --     CCP_DETAILS_SID   INT,
                 --     RS_MODEL_SID      INT,
-                                  
                 --     METHODOLOGY       VARCHAR(50),
                 --     CALCULATION_BASED VARCHAR(50),
-                     
                 --     GROWTH            NUMERIC(38, 15),
                 --     PERIOD_YEAR       INT,
                 --     PERIOD            VARCHAR(30),
@@ -428,175 +460,149 @@ EXEC sp_executesql @SQL
                 --     FACTOR            NUMERIC(36, 15),
                 --     ROLL_PERIOD       INT
                 --  )
-
-       --         SET @SQL= Concat('
-                                                -- INSERT INTO #TEMP_FACTOR
-                                                -- (
-                                                --  CCP_DETAILS_SID  , 
-                                                --  RS_MODEL_SID           ,
-                                                
-                                                --  PERIOD_SID             ,
-                                                --  CALCULATION_BASED      ,
-                                                --  PERIOD            ,
-                                                --  FACTOR            ,
-                                                --  ROLL_PERIOD                          
-                                                -- )
-                                                
-                                                -- SELECT A.CCP_DETAILS_SID,
-                                                --        A.RS_MODEL_SID,
-                                                              
-                                                --            P.PERIOD_SID,
-                                                --            CALCULATION_BASED,
-                                                --            P.PERIOD,
-                                                              
-                                                --        CASE WHEN CALCULATION_BASED=''RATE''         THEN (A.ACTUAL_BASELINE*ISNULL(B.GROWTH,1))
-                                                --                 WHEN CALCULATION_BASED=''RPU''                     THEN (A.ACTUAL_BASELINE*ISNULL(B.GROWTH,1))
-                                                --                   WHEN CALCULATION_BASED=''AMOUNT''             THEN (A.ACTUAL_BASELINE*ISNULL(B.GROWTH,1))/', @PERIOD_COUNT, '
-                                                --                   END ,
-                                                --                   P.ROLL_PERIOD
-                                                          
-                                                --  FROM #ACTUAL_BASELINE A
-                                                --    JOIN  #SALES_FREQUENCY_DATE M ON A.CCP_DETAILS_SID=M.CCP_DETAILS_SID
-                                                --                 AND A.RS_MODEL_SID=M.RS_MODEL_SID
-
-                                                -- CROSS JOIN #PERIOD P 
-                                                -- LEFT JOIN 
-                                                -- (
-                                                -- SELECT G.CCP_DETAILS_SID,G.RS_MODEL_SID,P.PERIOD_SID,PERIOD,GROWTH 
-                                                -- FROM ', @GROWTH_TABLE, ' G 
-                                                -- JOIN #PERIOD P
-                                                -- ON P.PERIOD_SID=G.PERIOD_SID )B
-                                                -- ON A.CCP_DETAILS_SID=B.CCP_DETAILS_SID
-                                                --    AND A.RS_MODEL_SID=B.RS_MODEL_SID 
-                                                --     AND B.PERIOD=P.PERIOD
-                                                       
-                                                --WHERE P.PERIOD_SID BETWEEN M.CALC_START_PERIOD_SID AND M.CALC_END_PERIOD_SID
-                                                -- ', CASE
-       --                                WHEN @METHODOLOGY = 'ROLLING ANNUAL TREND' THEN 'AND A.ROLL_PERIOD=P.ROLL_PERIOD'
-       --                                ELSE ' '
-       --                              END)
-
-       --         EXEC(@SQL)
-
+                --         SET @SQL= Concat('
+                -- INSERT INTO #TEMP_FACTOR
+                -- (
+                --  CCP_DETAILS_SID  , 
+                --  RS_MODEL_SID           ,
+                --  PERIOD_SID             ,
+                --  CALCULATION_BASED      ,
+                --  PERIOD            ,
+                --  FACTOR            ,
+                --  ROLL_PERIOD                          
+                -- )
+                -- SELECT A.CCP_DETAILS_SID,
+                --        A.RS_MODEL_SID,
+                --            P.PERIOD_SID,
+                --            CALCULATION_BASED,
+                --            P.PERIOD,
+                --        CASE WHEN CALCULATION_BASED=''RATE''         THEN (A.ACTUAL_BASELINE*ISNULL(B.GROWTH,1))
+                --                 WHEN CALCULATION_BASED=''RPU''                     THEN (A.ACTUAL_BASELINE*ISNULL(B.GROWTH,1))
+                --                   WHEN CALCULATION_BASED=''AMOUNT''             THEN (A.ACTUAL_BASELINE*ISNULL(B.GROWTH,1))/', @PERIOD_COUNT, '
+                --                   END ,
+                --                   P.ROLL_PERIOD
+                --  FROM #ACTUAL_BASELINE A
+                --    JOIN  #SALES_FREQUENCY_DATE M ON A.CCP_DETAILS_SID=M.CCP_DETAILS_SID
+                --                 AND A.RS_MODEL_SID=M.RS_MODEL_SID
+                -- CROSS JOIN #PERIOD P 
+                -- LEFT JOIN 
+                -- (
+                -- SELECT G.CCP_DETAILS_SID,G.RS_MODEL_SID,P.PERIOD_SID,PERIOD,GROWTH 
+                -- FROM ', @GROWTH_TABLE, ' G 
+                -- JOIN #PERIOD P
+                -- ON P.PERIOD_SID=G.PERIOD_SID )B
+                -- ON A.CCP_DETAILS_SID=B.CCP_DETAILS_SID
+                --    AND A.RS_MODEL_SID=B.RS_MODEL_SID 
+                --     AND B.PERIOD=P.PERIOD
+                --WHERE P.PERIOD_SID BETWEEN M.CALC_START_PERIOD_SID AND M.CALC_END_PERIOD_SID
+                -- ', CASE
+                --                                WHEN @METHODOLOGY = 'ROLLING ANNUAL TREND' THEN 'AND A.ROLL_PERIOD=P.ROLL_PERIOD'
+                --                                ELSE ' '
+                --                              END)
+                --         EXEC(@SQL)
                 -----------------------------------------------FINAL_RESULTS-------------------------------------------------
                 --IF Object_id('TEMPDB.DBO.#TEMP_FINAL_RESULTS', 'U') IS NOT NULL
                 --  DROP TABLE #TEMP_FINAL_RESULTS;
-
                 --CREATE TABLE #TEMP_FINAL_RESULTS
                 --  (
                 --     CCP_DETAILS_SID            INT,
                 --     PERIOD_SID                 INT,
                 --     RS_MODEL_SID               INT,
-                                  
                 --     PROJECTION_REBATE_PER_UNIT NUMERIC(22, 6),
                 --     PROJECTION_RATE            NUMERIC(22, 6),
                 --     PROJECTION_AMOUNT          NUMERIC(22, 6)
                 --  )
-
-                           ------------------------------------------------------------
---                           set @sql  = ''
---       set @SQL = concat(@SQL ,'
---                                          INSERT #TEMP_FINAL_RESULTS
---                                                          (
---                                                          CCP_DETAILS_SID ,   
---                                                          PERIOD_SID ,   
---                                                          RS_MODEL_SID,     
-                                                              
---                                                          PROJECTION_REBATE_PER_UNIT,
---                                                          PROJECTION_RATE   ,                    
---                                                          PROJECTION_AMOUNT         
---                                                          )
---              SELECT 
---SNSP.CCP_DETAILS_SID,
---SNSP.PERIOD_SID,
---RS_MODEL_SID,
---PROJECTION_AMOUNT=CASE
---     WHEN CALCULATION_BASED = ''RATE'' THEN COALESCE(( FACTOR * NULLIF(PROJECTION_SALES, 0) ), 0)
---     WHEN CALCULATION_BASED = ''RPU'' THEN COALESCE(( FACTOR * PROJECTION_UNITS ), 0)
---     ELSE  FACTOR
---END ,
---PROJECTION_REBATE_PER_UNIT=
---CASE
---WHEN CALCULATION_BASED = ''RATE'' THEN COALESCE(( CASE
---     WHEN CALCULATION_BASED = ''RATE'' THEN COALESCE(( FACTOR * NULLIF(PROJECTION_SALES, 0) ), 0)
---     WHEN CALCULATION_BASED = ''RPU'' THEN COALESCE(( FACTOR * PROJECTION_UNITS ), 0)
---     ELSE  FACTOR
---END / NULLIF(PROJECTION_UNITS, 0) ), 0)
---WHEN CALCULATION_BASED = ''RPU'' THEN FACTOR
---ELSE COALESCE(( CASE
---     WHEN CALCULATION_BASED = ''RATE'' THEN COALESCE(( FACTOR * NULLIF(PROJECTION_SALES, 0) ), 0)
---     WHEN CALCULATION_BASED = ''RPU'' THEN COALESCE(( FACTOR * PROJECTION_UNITS ), 0)
---     ELSE  FACTOR
---END / NULLIF(PROJECTION_UNITS, 0) ), 0)
---END ,
-
---PROJECTION_RATE=CASE
---WHEN CALCULATION_BASED = ''RATE'' THEN FACTOR * 100.0
---WHEN CALCULATION_BASED = ''RPU'' THEN COALESCE(( CASE
---     WHEN CALCULATION_BASED = ''RATE'' THEN COALESCE(( FACTOR * NULLIF(PROJECTION_SALES, 0) ), 0)
---     WHEN CALCULATION_BASED = ''RPU'' THEN COALESCE(( FACTOR * PROJECTION_UNITS ), 0)
---     ELSE  FACTOR
---END * 100 / NULLIF(PROJECTION_SALES, 0) ), 0) --CHANGE
---ELSE COALESCE(( CASE
---     WHEN CALCULATION_BASED = ''RATE'' THEN COALESCE(( FACTOR * NULLIF(PROJECTION_SALES, 0) ), 0)
---     WHEN CALCULATION_BASED = ''RPU'' THEN COALESCE(( FACTOR * PROJECTION_UNITS ), 0)
---     ELSE  FACTOR
---END * 100.0 / NULLIF(PROJECTION_SALES, 0) ), 0)
---END
---FROM   '
---                          + @S_PROJECTION_TABLE
---                          + ' SNSP
---INNER JOIN (
-
---SELECT A.CCP_DETAILS_SID,
---                                                        A.RS_MODEL_SID,
-                                                              
---                                                              P.PERIOD_SID,
---                                                              CALCULATION_BASED,
---                                                              P.PERIOD,
-                                                              
---                                                        CASE WHEN CALCULATION_BASED=''RATE''           THEN (A.ACTUAL_BASELINE*ISNULL(B.GROWTH,1))
---                                                                   WHEN CALCULATION_BASED=''RPU''                     THEN (A.ACTUAL_BASELINE*ISNULL(B.GROWTH,1))
---                                                                     WHEN CALCULATION_BASED=''AMOUNT''             THEN (A.ACTUAL_BASELINE*ISNULL(B.GROWTH,1))/', @PERIOD_COUNT, '
---                                                                     END FACTOR,
---                                                                     P.ROLL_PERIOD
-                                                          
---                                                  FROM #ACTUAL_BASELINE A
---                                                    JOIN  #SALES_FREQUENCY_DATE M ON A.CCP_DETAILS_SID=M.CCP_DETAILS_SID
---                                                                   AND A.RS_MODEL_SID=M.RS_MODEL_SID
-
---                                                  JOIN #PERIOD P on P.PERIOD_SID BETWEEN M.CALC_START_PERIOD_SID AND M.CALC_END_PERIOD_SID
---                                                LEFT JOIN 
---                                                 (
---                                                SELECT G.CCP_DETAILS_SID,G.RS_MODEL_SID,p.PERIOD_SID,PERIOD,GROWTH 
---                                                 FROM '+ @GROWTH_TABLE+ ' G join #PERIOD P
---                                                ON P.PERIOD_SID=G.PERIOD_SID  )B
---                                                ON A.CCP_DETAILS_SID=B.CCP_DETAILS_SID
---                                                    AND A.RS_MODEL_SID=B.RS_MODEL_SID 
---                                                       AND B.PERIOD=P.PERIOD
---                                                ', CASE
---                                       WHEN @METHODOLOGY = 'ROLLING ANNUAL TREND' THEN 'WHERE A.ROLL_PERIOD=P.ROLL_PERIOD'
---                                       ELSE ' '
---                                     END ,'
-
---) TR
---ON SNSP.CCP_DETAILS_SID = TR.CCP_DETAILS_SID
---    AND SNSP.PERIOD_SID = TR.PERIOD_SID')
-
---exec (@sql)
-
-set @sql = ''
-
-
+                ------------------------------------------------------------
+                --                           set @sql  = ''
+                --       set @SQL = concat(@SQL ,'
+                --                                          INSERT #TEMP_FINAL_RESULTS
+                --                                                          (
+                --                                                          CCP_DETAILS_SID ,   
+                --                                                          PERIOD_SID ,   
+                --                                                          RS_MODEL_SID,     
+                --                                                          PROJECTION_REBATE_PER_UNIT,
+                --                                                          PROJECTION_RATE   ,                    
+                --                                                          PROJECTION_AMOUNT         
+                --                                                          )
+                --              SELECT 
+                --SNSP.CCP_DETAILS_SID,
+                --SNSP.PERIOD_SID,
+                --RS_MODEL_SID,
+                --PROJECTION_AMOUNT=CASE
+                --     WHEN CALCULATION_BASED = ''RATE'' THEN COALESCE(( FACTOR * NULLIF(PROJECTION_SALES, 0) ), 0)
+                --     WHEN CALCULATION_BASED = ''RPU'' THEN COALESCE(( FACTOR * PROJECTION_UNITS ), 0)
+                --     ELSE  FACTOR
+                --END ,
+                --PROJECTION_REBATE_PER_UNIT=
+                --CASE
+                --WHEN CALCULATION_BASED = ''RATE'' THEN COALESCE(( CASE
+                --     WHEN CALCULATION_BASED = ''RATE'' THEN COALESCE(( FACTOR * NULLIF(PROJECTION_SALES, 0) ), 0)
+                --     WHEN CALCULATION_BASED = ''RPU'' THEN COALESCE(( FACTOR * PROJECTION_UNITS ), 0)
+                --     ELSE  FACTOR
+                --END / NULLIF(PROJECTION_UNITS, 0) ), 0)
+                --WHEN CALCULATION_BASED = ''RPU'' THEN FACTOR
+                --ELSE COALESCE(( CASE
+                --     WHEN CALCULATION_BASED = ''RATE'' THEN COALESCE(( FACTOR * NULLIF(PROJECTION_SALES, 0) ), 0)
+                --     WHEN CALCULATION_BASED = ''RPU'' THEN COALESCE(( FACTOR * PROJECTION_UNITS ), 0)
+                --     ELSE  FACTOR
+                --END / NULLIF(PROJECTION_UNITS, 0) ), 0)
+                --END ,
+                --PROJECTION_RATE=CASE
+                --WHEN CALCULATION_BASED = ''RATE'' THEN FACTOR * 100.0
+                --WHEN CALCULATION_BASED = ''RPU'' THEN COALESCE(( CASE
+                --     WHEN CALCULATION_BASED = ''RATE'' THEN COALESCE(( FACTOR * NULLIF(PROJECTION_SALES, 0) ), 0)
+                --     WHEN CALCULATION_BASED = ''RPU'' THEN COALESCE(( FACTOR * PROJECTION_UNITS ), 0)
+                --     ELSE  FACTOR
+                --END * 100 / NULLIF(PROJECTION_SALES, 0) ), 0) --CHANGE
+                --ELSE COALESCE(( CASE
+                --     WHEN CALCULATION_BASED = ''RATE'' THEN COALESCE(( FACTOR * NULLIF(PROJECTION_SALES, 0) ), 0)
+                --     WHEN CALCULATION_BASED = ''RPU'' THEN COALESCE(( FACTOR * PROJECTION_UNITS ), 0)
+                --     ELSE  FACTOR
+                --END * 100.0 / NULLIF(PROJECTION_SALES, 0) ), 0)
+                --END
+                --FROM   '
+                --                          + @S_PROJECTION_TABLE
+                --                          + ' SNSP
+                --INNER JOIN (
+                --SELECT A.CCP_DETAILS_SID,
+                --                                                        A.RS_MODEL_SID,
+                --                                                              P.PERIOD_SID,
+                --                                                              CALCULATION_BASED,
+                --                                                              P.PERIOD,
+                --                                                        CASE WHEN CALCULATION_BASED=''RATE''           THEN (A.ACTUAL_BASELINE*ISNULL(B.GROWTH,1))
+                --                                                                   WHEN CALCULATION_BASED=''RPU''                     THEN (A.ACTUAL_BASELINE*ISNULL(B.GROWTH,1))
+                --                                                                     WHEN CALCULATION_BASED=''AMOUNT''             THEN (A.ACTUAL_BASELINE*ISNULL(B.GROWTH,1))/', @PERIOD_COUNT, '
+                --                                                                     END FACTOR,
+                --                                                                     P.ROLL_PERIOD
+                --                                                  FROM #ACTUAL_BASELINE A
+                --                                                    JOIN  #SALES_FREQUENCY_DATE M ON A.CCP_DETAILS_SID=M.CCP_DETAILS_SID
+                --                                                                   AND A.RS_MODEL_SID=M.RS_MODEL_SID
+                --                                                  JOIN #PERIOD P on P.PERIOD_SID BETWEEN M.CALC_START_PERIOD_SID AND M.CALC_END_PERIOD_SID
+                --                                                LEFT JOIN 
+                --                                                 (
+                --                                                SELECT G.CCP_DETAILS_SID,G.RS_MODEL_SID,p.PERIOD_SID,PERIOD,GROWTH 
+                --                                                 FROM '+ @GROWTH_TABLE+ ' G join #PERIOD P
+                --                                                ON P.PERIOD_SID=G.PERIOD_SID  )B
+                --                                                ON A.CCP_DETAILS_SID=B.CCP_DETAILS_SID
+                --                                                    AND A.RS_MODEL_SID=B.RS_MODEL_SID 
+                --                                                       AND B.PERIOD=P.PERIOD
+                --                                                ', CASE
+                --                                       WHEN @METHODOLOGY = 'ROLLING ANNUAL TREND' THEN 'WHERE A.ROLL_PERIOD=P.ROLL_PERIOD'
+                --                                       ELSE ' '
+                --                                     END ,'
+                --) TR
+                --ON SNSP.CCP_DETAILS_SID = TR.CCP_DETAILS_SID
+                --    AND SNSP.PERIOD_SID = TR.PERIOD_SID')
+                --exec (@sql)
+                SET @sql = ''
                 ---------------------------------------- MAIN TABLE UPDATION
-                SET @SQL=CONCAT(@SQL, 'UPDATE SNDP
+                SET @SQL=Concat(@SQL, 'UPDATE SNDP
                                   SET    SNDP.PROJECTION_SALES = TFR.PROJECTION_AMOUNT
 								  --,
                                            -- SNDP.PROJECTION_RPU = TFR.PROJECTION_REBATE_PER_UNIT,
                                            -- SNDP.PROJECTION_RATE = TFR.PROJECTION_RATE
                                   FROM   '
-                          + @PROJECTION_TABLE
-                          + ' SNDP
+                                      + @PROJECTION_TABLE + ' SNDP
                                             INNER JOIN (
 											
 											  SELECT 
@@ -639,8 +645,8 @@ END
 --END * 100.0 / NULLIF(PROJECTION_SALES, 0) ), 0)
 --END
 FROM   '
-                          + @S_PROJECTION_TABLE
-                          + ' SNSP
+                                      + @S_PROJECTION_TABLE
+                                      + ' SNSP
 INNER JOIN (
 
 SELECT A.CCP_DETAILS_SID,
@@ -667,8 +673,10 @@ SELECT A.CCP_DETAILS_SID,
                                          p.ROLL_PERIOD AND M.METHODOLOGY=''ROLLING ANNUAL TREND'') OR (A.ROLL_PERIOD  IS NULL AND  M.METHODOLOGY<>''ROLLING ANNUAL TREND''))
                                                 LEFT JOIN 
                                                  (
-                                              SELECT G.CCP_DETAILS_SID,G.RS_MODEL_SID,G.RS_CONTRACT_SID,p.PERIOD_SID,PERIOD,GROWTH,ROLL_PERIOD 
-                                                 FROM '+ @GROWTH_TABLE+ ' G join #PERIOD P
+                                              SELECT G.CCP_DETAILS_SID,G.RS_MODEL_SID,G.RS_CONTRACT_SID,p.PERIOD_SID,PERIOD,GROWTH 
+                                                 FROM '
+                                                                                                                                                                                                          + @GROWTH_TABLE
+                                                                                                                                                                                                          + ' G join #PERIOD P
                                                 ON P.PERIOD_SID=G.PERIOD_SID  )B
                                                 ON A.CCP_DETAILS_SID=B.CCP_DETAILS_SID
                                                     AND A.RS_CONTRACT_SID=B.RS_CONTRACT_SID 
@@ -678,7 +686,7 @@ SELECT A.CCP_DETAILS_SID,
                                        WHEN m.methodology = ''ROLLING ANNUAL TREND'' THEN  A.ROLL_PERIOD
                                        ELSE '' ''
                                      END )=( CASE
-                                       WHEN m.methodology = ''ROLLING ANNUAL TREND'' THEN  b.ROLL_PERIOD
+                                       WHEN m.methodology = ''ROLLING ANNUAL TREND'' THEN  b.PERIOD
                                        ELSE '' ''
                                      END)
 
@@ -696,45 +704,39 @@ ON SNSP.CCP_DETAILS_SID = TR.CCP_DETAILS_SID
 
                                                                 AND SNDP.PERIOD_SID = TFR.PERIOD_SID')
 
-                EXEC sp_executesql @SQL
+                EXEC Sp_executesql
+                  @SQL
+            END
 
-				    END
-
-                --SET @SQL= ' UPDATE SNDP
-                --                  SET    SNDP.PROJECTION_SALES = 0,
-                --                            SNDP.PROJECTION_RPU = 0,
-                --                            SNDP.PROJECTION_RATE = 0
-                --                  FROM   '
-                --          + @PROJECTION_TABLE
-                --          + ' SNDP
-                --                            JOIN '
-                --          + @MASTER_TABLE
-                --          + ' SNDPM
-                --                                ON SNDP.CCP_DETAILS_SID = SNDPM.CCP_DETAILS_SID
-                --                                       AND SNDP.RS_MODEL_SID = SNDPM.RS_MODEL_SID
-                --                                       AND SNDPM.CHECK_RECORD = 1
-                --                  WHERE  SNDP.PROJECTION_SALES IS NULL
-                --                            AND SNDP.PROJECTION_RPU IS NULL
-                --                            AND SNDP.PROJECTION_RATE IS NULL'
-
-                --EXEC(@SQL)
-
-
-
+          --SET @SQL= ' UPDATE SNDP
+          --                  SET    SNDP.PROJECTION_SALES = 0,
+          --                            SNDP.PROJECTION_RPU = 0,
+          --                            SNDP.PROJECTION_RATE = 0
+          --                  FROM   '
+          --          + @PROJECTION_TABLE
+          --          + ' SNDP
+          --                            JOIN '
+          --          + @MASTER_TABLE
+          --          + ' SNDPM
+          --                                ON SNDP.CCP_DETAILS_SID = SNDPM.CCP_DETAILS_SID
+          --                                       AND SNDP.RS_MODEL_SID = SNDPM.RS_MODEL_SID
+          --                                       AND SNDPM.CHECK_RECORD = 1
+          --                  WHERE  SNDP.PROJECTION_SALES IS NULL
+          --                            AND SNDP.PROJECTION_RPU IS NULL
+          --                            AND SNDP.PROJECTION_RATE IS NULL'
+          --EXEC(@SQL)
           -------------------------------------------------------------------------------------------------------------------------------------
           --DECLARE @ITEM_DETAILS     UDT_ITEM,
           --        @START_PERIOD_SID INT,
           --        @END_PERIOD_SID   INT,
           --        @FORECAST_NAME    VARCHAR(50),
           --        @FORECAST_VERSION VARCHAR(15)
-
           --SET @START_PERIOD_SID = @ACTUAL_START_SID
           --SET @END_PERIOD_SID = @PROJECTION_END_SID
-
           ---------------------------------------------      EX-FACTORY SALES------------------------------------ 
           IF EXISTS (SELECT 1
                      FROM   #SALES_FREQUENCY_DATE CCP
-                     WHERE  METHODOLOGY IN ( @X_FACTORY, @INVENTORY, @ADJ_DEMAND, @DEMAND,@SEASONAL_TREND ))
+                     WHERE  METHODOLOGY IN ( @X_FACTORY, @INVENTORY, @ADJ_DEMAND, @DEMAND, @SEASONAL_TREND ))
             BEGIN
                 IF Object_id('TEMPDB.DBO.#BASELINE', 'U') IS NOT NULL
                   DROP TABLE #BASELINE
@@ -743,17 +745,15 @@ ON SNSP.CCP_DETAILS_SID = TR.CCP_DETAILS_SID
                   (
                      CCP_DETAILS_SID       INT,
                      RS_MODEL_SID          INT,
-                     DISCOUNT			   NUMERIC(22,6),
+                     DISCOUNT              NUMERIC(22, 6),
                      METHODOLOGY           VARCHAR(50),
                      CALC_START_PERIOD_SID INT,
-                     CALC_END_PERIOD_SID   INT,   
+                     CALC_END_PERIOD_SID   INT,
                      PERIOD_SID            INT,
                      RATIO                 NUMERIC(22, 15),
                      ITEM_MASTER_SID       INT,
-					 ROLL_PERIOD            INT
+                     ROLL_PERIOD           INT
                   )
-
-
 
                 SET @SQL=Concat(' ;WITH CTE
                               AS (SELECT T_CCP.CCP_DETAILS_SID,
@@ -776,7 +776,7 @@ ON SNSP.CCP_DETAILS_SID = TR.CCP_DETAILS_SID
                                                                         FROM   UDF_SPLITSTRING(T_CCP.CALCULATION_PERIODS, '','') FN
                                                                                     JOIN #PERIOD P
                                                                                          ON P.PERIOD = FN.TOKEN) CS
-                                                  INNER JOIN ', @ACTUAL_TABLE, ' SNAD
+                                                  INNER JOIN #D_ACTUAL_TABLE SNAD
                                                                 ON CS.PERIOD_SID = SNAD.PERIOD_SID
                                                                      AND T_CCP.CCP_DETAILS_SID = SNAD.CCP_DETAILS_SID
                                                                      AND T_CCP.RS_MODEL_SID = SNAD.RS_MODEL_SID
@@ -827,7 +827,8 @@ ON SNSP.CCP_DETAILS_SID = TR.CCP_DETAILS_SID
                                          METHODOLOGY,
                                          CALC_START_PERIOD_SID,
                                          CALC_END_PERIOD_SID,
-										 case when C.METHODOLOGY<>''', @X_FACTORY, ''' THEN 
+										 case when C.METHODOLOGY<>''', @X_FACTORY,
+                                  ''' THEN 
 														 PERIOD_YEAR END
                                          ,
                                         case when C.METHODOLOGY<>''', @X_FACTORY, ''' THEN 
@@ -837,27 +838,27 @@ ON SNSP.CCP_DETAILS_SID = TR.CCP_DETAILS_SID
 										 ,case when C.METHODOLOGY<>''', @X_FACTORY, ''' THEN 
 														 C.ROLL_PERIOD  END')
 
-                EXEC sp_executesql @SQL
-
+                EXEC Sp_executesql
+                  @SQL
 
                 --------------------------------------------------------#EX_FINAL_RESULTS------------------------------------------------
-            
-				DECLARE @STATIC_SEASON_TREND VARCHAR(50)
-SELECT TOP 1 @STATIC_SEASON_TREND = METHODOLOGY 
-FROM #SALES_FREQUENCY_DATE
-WHERE METHODOLOGY = @SEASONAL_TREND
+                DECLARE @STATIC_SEASON_TREND VARCHAR(50)
+
+                SELECT TOP 1 @STATIC_SEASON_TREND = METHODOLOGY
+                FROM   #SALES_FREQUENCY_DATE
+                WHERE  METHODOLOGY = @SEASONAL_TREND
 
                 IF Object_id('TEMPDB.DBO.#EX_FINAL_RESULTS', 'U') IS NOT NULL
                   DROP TABLE #EX_FINAL_RESULTS;
 
                 CREATE TABLE #EX_FINAL_RESULTS
                   (
-                     CCP_DETAILS_SID            INT,
-                     RS_MODEL_SID               INT,
-                     PERIOD_SID                 INT,
+                     CCP_DETAILS_SID   INT,
+                     RS_MODEL_SID      INT,
+                     PERIOD_SID        INT,
                      --PROJECTION_RATE            NUMERIC(22, 6),
-                    -- PROJECTION_REBATE_PER_UNIT NUMERIC(22, 6),
-                     PROJECTION_AMOUNT          NUMERIC(22, 6)
+                     -- PROJECTION_REBATE_PER_UNIT NUMERIC(22, 6),
+                     PROJECTION_AMOUNT NUMERIC(22, 6)
                   )
 
                 SET @SQL=Concat('INSERT INTO #EX_FINAL_RESULTS
@@ -892,13 +893,16 @@ WHERE METHODOLOGY = @SEASONAL_TREND
                                                                            
                                                                              P.PERIOD_SID,
                                                                            (B.RATIO)* 
-                                                                             (CASE WHEN T_CCP.METHODOLOGY IN (''', @X_FACTORY, ''',''', @SEASONAL_TREND, ''')  THEN  case when P1.period_sid<',@ACTUAL_PERIOD,'  THEN ISNULL(EXFACTORY_ACTUAL_SALES,0) ELSE ISNULL(EXFACTORY_FORECAST_SALES,0) END
+                                                                             (CASE WHEN T_CCP.METHODOLOGY IN (''', @X_FACTORY, ''',''', @SEASONAL_TREND, ''')  THEN  case when P1.period_sid<', @ACTUAL_PERIOD, '  THEN ISNULL(EXFACTORY_ACTUAL_SALES,0) ELSE ISNULL(EXFACTORY_FORECAST_SALES,0) END
                                                                                          WHEN T_CCP.METHODOLOGY=''', @DEMAND, '''    THEN  ISNULL(DEMAND_FORECAST_SALES,DEMAND_ACTUAL_SALES)
                                                                                             WHEN T_CCP.METHODOLOGY=''', @INVENTORY, ''' THEN  ISNULL(INVENTORY_FORECAST_SALES,INVENTORY_ACTUAL_SALES)
                                                                                             WHEN T_CCP.METHODOLOGY=''', @ADJ_DEMAND, ''' THEN ISNULL(ADJUSTED_DEMAND_FORECAST_SALES,ADJUSTED_DEMAND_ACTUAL_SALES)
                                                                                   END) AS PROJECTION_AMOUNT
 
-                                                                           FROM #BASELINE B  ',CASE WHEN @SEASONAL_TREND= @STATIC_SEASON_TREND THEN '    JOIN #PERIOD P ON P.ROLL_PERIOD=B.ROLL_PERIOD' ELSE 'CROSS JOIN #PERIOD P'  END,'
+                                                                           FROM #BASELINE B  ', CASE
+                                                                                                                           WHEN @SEASONAL_TREND = @STATIC_SEASON_TREND THEN '    JOIN #PERIOD P ON P.ROLL_PERIOD=B.ROLL_PERIOD'
+                                                                                                                           ELSE 'CROSS JOIN #PERIOD P'
+                                                                                                                         END, '
 																		   
                                                                            
                                                                             JOIN #SALES_FREQUENCY_DATE T_CCP
@@ -914,9 +918,10 @@ WHERE METHODOLOGY = @SEASONAL_TREND
                                                        AND A.PERIOD_SID = SNAP.PERIOD_SID
                                 
                                   ')
-				
-                EXEC sp_executesql @SQL
-                     
+
+                EXEC Sp_executesql
+                  @SQL
+
                 ---------------------------------------- MAIN TABLE UPDATION
                 SET @SQL= 'UPDATE SNDP
                                   SET    SNDP.PROJECTION_SALES = TFR.PROJECTION_AMOUNT
@@ -931,26 +936,25 @@ WHERE METHODOLOGY = @SEASONAL_TREND
                                                                 AND SNDP.RS_MODEL_SID = TFR.RS_MODEL_SID
                                                                 AND SNDP.PERIOD_SID = TFR.PERIOD_SID'
 
-                EXEC sp_executesql @SQL
-
-                --SET @SQL= ' UPDATE SNDP
-                --                  SET    SNDP.PROJECTION_SALES = 0,
-                --                            SNDP.PROJECTION_RPU = 0,
-                --                            SNDP.PROJECTION_RATE = 0
-                --                  FROM   '
-                --          + @PROJECTION_TABLE
-                --          + ' SNDP
-                --                            JOIN '
-                --          + @MASTER_TABLE
-                --          + ' SNDPM
-                --                                ON SNDP.CCP_DETAILS_SID = SNDPM.CCP_DETAILS_SID
-                --                                       AND SNDP.RS_MODEL_SID = SNDPM.RS_MODEL_SID
-                --                                       AND SNDPM.CHECK_RECORD = 1
-                --                  WHERE  SNDP.PROJECTION_SALES IS NULL
-                --                            AND SNDP.PROJECTION_RPU IS NULL
-                --                            AND SNDP.PROJECTION_RATE IS NULL'
-
-                --EXEC(@SQL)
+                EXEC Sp_executesql
+                  @SQL
+            --SET @SQL= ' UPDATE SNDP
+            --                  SET    SNDP.PROJECTION_SALES = 0,
+            --                            SNDP.PROJECTION_RPU = 0,
+            --                            SNDP.PROJECTION_RATE = 0
+            --                  FROM   '
+            --          + @PROJECTION_TABLE
+            --          + ' SNDP
+            --                            JOIN '
+            --          + @MASTER_TABLE
+            --          + ' SNDPM
+            --                                ON SNDP.CCP_DETAILS_SID = SNDPM.CCP_DETAILS_SID
+            --                                       AND SNDP.RS_MODEL_SID = SNDPM.RS_MODEL_SID
+            --                                       AND SNDPM.CHECK_RECORD = 1
+            --                  WHERE  SNDP.PROJECTION_SALES IS NULL
+            --                            AND SNDP.PROJECTION_RPU IS NULL
+            --                            AND SNDP.PROJECTION_RATE IS NULL'
+            --EXEC(@SQL)
             END
 
           -------------------------------------------------------------------------------------
@@ -963,14 +967,12 @@ WHERE METHODOLOGY = @SEASONAL_TREND
                   @FREQUENCY,
                   @USER_ID,
                   @SESSION_ID,
-				  @FORECAST_START_PERIOD_SID,
-				  @FORECAST_END_PERIOD_SID,
-				  @DEDUCTION_INCLUSION 
+                  @FORECAST_START_PERIOD_SID,
+                  @FORECAST_END_PERIOD_SID,
+                  @DEDUCTION_INCLUSION
             END
 
           ---------------------------------------NEW ADDITION---------------------------------------------------------------------------------------
-
-
           SET @SQL= Concat('   UPDATE SNDP
                                   SET    SNDP.PROJECTION_SALES = 0
 								  --,
@@ -983,9 +985,35 @@ WHERE METHODOLOGY = @SEASONAL_TREND
                                                                            AND SNDP.PERIOD_SID NOT BETWEEN TEF.EFFECT_UPD_START_PERIOD_SID AND TEF.EFFECT_UPD_END_PERIOD_SID)
                                                                                                                              ')
 
-          EXEC sp_executesql @SQL
+          EXEC Sp_executesql
+            @SQL
+      END TRY
 
+      BEGIN CATCH
+          DECLARE @ERRORMESSAGE NVARCHAR(4000);
+          DECLARE @ERRORSEVERITY INT;
+          DECLARE @ERRORSTATE INT;
+          DECLARE @ERRORNUMBER INT;
+          DECLARE @ERRORPROCEDURE VARCHAR(200);
+          DECLARE @ERRORLINE INT;
 
-	      END
+          EXEC Usperrorcollector
 
-GO
+          SELECT @ERRORMESSAGE = Error_message(),
+                 @ERRORSEVERITY = Error_severity(),
+                 @ERRORSTATE = Error_state(),
+                 @ERRORPROCEDURE = Error_procedure(),
+                 @ERRORLINE = Error_line(),
+                 @ERRORNUMBER = Error_number()
+
+          RAISERROR ( @ERRORMESSAGE,-- MESSAGE TEXT.
+                      @ERRORSEVERITY,-- SEVERITY.
+                      @ERRORSTATE,-- STATE.
+                      @ERRORPROCEDURE,-- PROCEDURE_NAME.
+                      @ERRORNUMBER,-- ERRORNUMBER
+                      @ERRORLINE -- ERRORLINE
+          );
+      END CATCH
+  END
+
+GO 

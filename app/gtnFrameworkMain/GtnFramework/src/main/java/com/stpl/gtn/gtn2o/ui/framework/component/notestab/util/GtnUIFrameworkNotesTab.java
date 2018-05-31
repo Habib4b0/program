@@ -827,9 +827,6 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 				StringBuilder sb = new StringBuilder(event.getFilename());
 				int index = sb.lastIndexOf(".");
 				sb.replace(0, index, file);
-				Date date = new Date();
-				long value = date.getTime();
-				sb.insert(sb.lastIndexOf("."), "_" + value);
 				File destFileUpload = GtnFileNameUtils.getFile(fileUploadPath + sb.toString());
 				Files.move(fileUpload.toPath(), Paths.get(destFileUpload.getAbsolutePath()),
 						StandardCopyOption.REPLACE_EXISTING);
@@ -956,8 +953,8 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		gtnRequest.setGtnWsAttachmentRequest(gtnRequest1);
 		if (event.isDoubleClick()) {
 			try {
-                            gtnLogger.info("tableBean.getDocumentFullPath()============================"+tableBean.getDocumentFullPath());
-				File uploadedFile = GtnFileNameUtils.getFile(tableBean.getDocumentFullPath());
+                            gtnLogger.info("tableBean.getDocumentFullPath()============================"+tableBean.getDocumentFullPath());                          
+				File uploadedFile = GtnFileNameUtils.getFile(tableBean.getDocumentFullPath());              
 				Resource res = new FileResource(uploadedFile);
 				fileDownloader.setFileDownloadResource(res);
 				downloadFile(uploadedFile);

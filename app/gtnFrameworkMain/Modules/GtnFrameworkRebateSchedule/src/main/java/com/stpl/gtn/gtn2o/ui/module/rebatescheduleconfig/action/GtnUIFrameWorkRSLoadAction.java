@@ -108,8 +108,7 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 				notesDTO.setDocumentName("--");
 				String tempfilePath = notesTabBean.getFilePath();
 				notesDTO.setDocumentFullPath(tempfilePath);
-				String fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('_'))
-						+ filePath.substring(filePath.lastIndexOf('.'));
+				String fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
 				notesDTO.setDocumentName(fileName);
 				SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
 				TimeZone central = TimeZone.getTimeZone("CST");

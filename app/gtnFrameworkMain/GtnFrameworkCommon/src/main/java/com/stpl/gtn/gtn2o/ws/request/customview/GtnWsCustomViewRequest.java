@@ -33,6 +33,7 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
     private int cvSysId;
     private int productRelVersionNo;
     private int userId;
+    private int moduleType;
     
     private List<GtnWsRecordBean> cvTreeNodeList;
 
@@ -154,6 +155,14 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
 
     public void setCvSysId(int cvSysId) {
         this.cvSysId = cvSysId;
+    }
+
+    public int getModuleType() {
+        return moduleType;
+    }
+
+    public void setModuleType(int moduleType) {
+        this.moduleType = moduleType;
     }
     
 }

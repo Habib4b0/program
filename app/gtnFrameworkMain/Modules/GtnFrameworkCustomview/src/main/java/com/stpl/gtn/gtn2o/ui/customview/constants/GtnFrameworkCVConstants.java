@@ -5,16 +5,24 @@
  */
 package com.stpl.gtn.gtn2o.ui.customview.constants;
 
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+
 /**
  *
  * @author Lokeshwari.Kumarasam
  */
 public class GtnFrameworkCVConstants {
-    private GtnFrameworkCVConstants() {
+
+	public static final String CUSTOMER_ADD_BUTTON_MOVE_LEFT_BUTTON_LAYOUT = "customerAddButtonMoveLeftButtonLayout";
+	public static final String PRODUCT_ADD_BUTTON_MOVE_RIGHT_BUTTON_LAYOUT = "productAddButtonMoveRightButtonLayout";
+	public static final String PRODUCT_ADD_BUTTON_MOVE_LEFT_BUTTON_LAYOUT = "productAddButtonMoveLeftButtonLayout";
+
+	private GtnFrameworkCVConstants() {
 		/**
 		 * empty constructor
 		 */
     }
+
     public static final String CUSTOM_VIEW_LANDING_SCREEN = "CVSearch";
     public static final String CUSTOM_VIEW_OPTION_SALES = "Sales";
     public static final String CUSTOM_VIEW_OPTION_DISCOUNT = "Discount";
@@ -71,4 +79,15 @@ public class GtnFrameworkCVConstants {
     public static final String GTN_PRODUCT_MOVE_LAYOUT = "gtnProductMoveLayout";
     public static final String PRODUCT_TREE_LAYOUT = "productTreeLayout";
     public static final String NO_LEVEL_SELECTED = "No Level Selected";
+    public static final String CUSTOMER_ADD_BTN_MOVE_RIGHT_BTN_LAYOUT = "customerAddButtonMoveRightButtonLayout";
+    private static final String[] CV_CUSTOM_PROPERTY_IDS = { GtnFrameworkCommonConstants.CUSTOM_VIEW_SCREEN_NAME,GtnFrameworkCommonConstants.CUTOMER_RELATION,GtnFrameworkCommonConstants.PRODUCT_RELATION,"createdBy", "modifiedBy"};
+    private static final String[] CV_LIST_NAME_ARRAY = { "CV_MODULE_TYPE",GtnFrameworkCommonConstants.CUTOMER_RELATION,GtnFrameworkCommonConstants.PRODUCT_RELATION,"USERS","USERS" };
+    
+    public static String[] getCvCustomPropertyIds() {
+        return CV_CUSTOM_PROPERTY_IDS.clone();
+    }
+    public static String[] getCvListNameArrays() {
+        return CV_LIST_NAME_ARRAY.clone();
+    }
+    
 }

@@ -223,19 +223,19 @@ public class GtnWsSearchQueryGenerationLogic {
 		}
 		return dbColumnName;
 	}
-
+ 
 	public void generateSqlBasedOnExpression(GtnWebServiceSearchCriteria gtnWebServiceSearchCriteria,
 			StringBuilder whereSqlBuilder, String dbName) throws ParseException {
-		SimpleDateFormat dbDate = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dbDate = new SimpleDateFormat(GtnFrameworkWebserviceConstant.YYYY_MM_DD);
 		switch (gtnWebServiceSearchCriteria.getExpression()) {
 		case "BETWEEN":
 
 			whereSqlBuilder.append(dbName).append(" > '")
-					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.EEE_MMM_DD_KKMMSS_Z_YYYY)
+					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.YYYY_MM_DD)
 							.parse(gtnWebServiceSearchCriteria.getFilterValue1())))
 					.append("' AND ");
 			whereSqlBuilder.append(dbName).append(" < '")
-					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.EEE_MMM_DD_KKMMSS_Z_YYYY)
+					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.YYYY_MM_DD)
 							.parse(gtnWebServiceSearchCriteria.getFilterValue2())))
 					.append("' ");
 			break;
@@ -261,22 +261,22 @@ public class GtnWsSearchQueryGenerationLogic {
 			break;
 		case "GREATER_OR_EQUAL":
 			whereSqlBuilder.append(dbName).append(" > '")
-					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.EEE_MMM_DD_KKMMSS_Z_YYYY)
+					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.YYYY_MM_DD)
 							.parse(gtnWebServiceSearchCriteria.getFilterValue1())))
 					.append("' OR ");
 			whereSqlBuilder.append(dbName).append(" = '")
-					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.EEE_MMM_DD_KKMMSS_Z_YYYY)
+					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.YYYY_MM_DD)
 							.parse(gtnWebServiceSearchCriteria.getFilterValue1())))
 					.append("' ");
 			break;
 
 		case "LESS_OR_EQUAL":
 			whereSqlBuilder.append(dbName).append(" < '")
-					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.EEE_MMM_DD_KKMMSS_Z_YYYY)
+					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.YYYY_MM_DD)
 							.parse(gtnWebServiceSearchCriteria.getFilterValue1())))
 					.append("' OR ");
 			whereSqlBuilder.append(dbName).append(" = '")
-					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.EEE_MMM_DD_KKMMSS_Z_YYYY)
+					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.YYYY_MM_DD)
 							.parse(gtnWebServiceSearchCriteria.getFilterValue1())))
 					.append("' ");
 			break;
