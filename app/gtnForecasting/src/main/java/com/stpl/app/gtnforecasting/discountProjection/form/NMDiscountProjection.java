@@ -13,6 +13,7 @@ import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SaveDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
+import static com.stpl.app.gtnforecasting.logic.DataSelectionLogic.getRelationshipDetailsDeductionCustom;
 import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.Utility;
@@ -4358,6 +4359,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
         }
+        CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUST_VIEW_MAP_QUERY));
         currentHierarchy = session.getCustomHierarchyMap().get(customId);
         LOGGER.debug(" customId= {} ", customId);
         LOGGER.debug(" currentHierarchy= {} ", currentHierarchy.size());

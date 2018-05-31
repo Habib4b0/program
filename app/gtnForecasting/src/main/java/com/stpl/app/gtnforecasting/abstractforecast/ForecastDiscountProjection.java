@@ -15,9 +15,11 @@ import static com.stpl.app.utils.Constants.ButtonConstants.SELECT;
 import static com.stpl.app.utils.Constants.CalendarConstants.CURRENT_YEAR;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.CommonConstantsForChannels.HORIZONTAL;
+import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
+import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUALLY;
 import static com.stpl.app.utils.Constants.LabelConstants.ACCESS;
 import static com.stpl.app.utils.Constants.LabelConstants.ACTUALS;
@@ -511,14 +513,13 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         frequencyDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         frequencyDdlb.addItem(MONTHLY.getConstant());
         frequencyDdlb.addItem(QUARTERLY.getConstant());
-        frequencyDdlb.addItem(SEMI_ANNUALLY.getConstant());
-        frequencyDdlb.addItem(ANNUALLY.getConstant());
+        frequencyDdlb.addItem(SEMI_ANNUAL.getConstant());
+        frequencyDdlb.addItem(ANNUAL.getConstant());
         frequencyDdlb.setValue(session.getDsFrequency());
         frequencyDdlb.focus();
 
-        loadFrequency(QUARTERLY.getConstant());
+        loadFrequency(String.valueOf(frequencyDdlb.getValue()));
         historyDdlb.setNullSelectionAllowed(false);
-        historyDdlb.setValue("4");
         frequencyDdlb.setData("frequencyDdlb");
 
         periodOrder.addItem(ASCENDING.getConstant());

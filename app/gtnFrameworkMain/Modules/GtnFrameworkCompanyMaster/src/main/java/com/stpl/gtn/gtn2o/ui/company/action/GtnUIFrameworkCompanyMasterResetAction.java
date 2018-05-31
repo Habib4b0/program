@@ -378,8 +378,7 @@ public class GtnUIFrameworkCompanyMasterResetAction implements GtnUIFrameWorkAct
 					cmAttachmentDTO.setDocumentName("--");
 					String tempfilePath = cmNotesTabBean.getFilePath();
 					cmAttachmentDTO.setDocumentFullPath(tempfilePath);
-					String fileNameWithId = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('_'))
-							+ filePath.substring(filePath.lastIndexOf('.'));
+					String fileNameWithId = filePath.substring(filePath.lastIndexOf('/') + 1);
 					String fileName = fileNameWithId;
 					cmAttachmentDTO.setDocumentName(fileName);
 					SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");

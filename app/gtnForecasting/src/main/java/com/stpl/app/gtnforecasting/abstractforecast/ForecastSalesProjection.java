@@ -1120,7 +1120,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     @UiHandler("generateBtn")
     public void generateBtn(Button.ClickEvent event) {
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-            if(!session.getDsFrequency().equals(frequencyDdlb.getValue())){
+            if(!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())){
             dataLogic.nmSalesViewsPopulationProcedure(session);
             CommonUtil.getInstance().waitForSeconds();
             }
@@ -1136,20 +1136,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
     }
 
-    /**
-     * value change of view.
-     *
-     * @param event the event
-     */
-    @UiHandler("viewDdlb")
-    public void viewDdlb(Property.ValueChangeEvent event) {
-        LOGGER.debug("customDdlbChangeOption ValueChangeEvent initiated ");
-        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-            projectionDTO.setGroup(StringUtils.EMPTY);
-        }
-        customDdlbChangeOption();
-        LOGGER.debug("customDdlbChangeOption ValueChangeEvent ends ");
-    }
 
     public int getTabNumber() {
         return Constant.ONE;
@@ -1446,6 +1432,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             levelFilter.setEnabled(false);
             loadCustomDDLB();
             getTableLogic().clearAll();
+            customId = Integer.valueOf(String.valueOf(viewDdlb.getValue()));
+            LOGGER.info(" customId= {} ", customId);
+            projectionDTO.setCustomId(customId);
+            session.setCustomId(customId);
             ((NMSalesProjectionTableLogic) getTableLogic()).setProjectionResultsData(projectionDTO);
         } else if ((PRODUCT.getConstant()).equals(view.getValue())) {
             projectionDTO.setIsCustomHierarchy(false);

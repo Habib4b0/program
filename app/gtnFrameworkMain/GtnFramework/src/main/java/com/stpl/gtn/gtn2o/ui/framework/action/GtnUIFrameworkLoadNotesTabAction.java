@@ -42,8 +42,7 @@ public class GtnUIFrameworkLoadNotesTabAction implements GtnUIFrameWorkAction {
 				filePath = notesTabBean.getFilePath();
 				attachmentDTO.setDocDetailsId(notesTabBean.getMasterTableSystemId());
 				attachmentDTO.setDocumentFullPath(filePath);
-                                String fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('_'))
-						+ filePath.substring(filePath.lastIndexOf('.'));
+                                String fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
 				attachmentDTO.setDocumentName(fileName);
 				format.setTimeZone(central);
 				attachmentDTO.setDateAdded(format.format(notesTabBean.getCreatedDate()));

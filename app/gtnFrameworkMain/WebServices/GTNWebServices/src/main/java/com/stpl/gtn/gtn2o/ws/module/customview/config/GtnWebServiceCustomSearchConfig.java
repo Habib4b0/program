@@ -35,6 +35,7 @@ public class GtnWebServiceCustomSearchConfig implements GtnWsSearchQueryConfigLo
 		GtnWsSearchQueryConfig gtnWebServiceCustSearchQueryConfig = new GtnWsSearchQueryConfig();
 		gtnWebServiceCustSearchQueryConfig.setCountQuery(GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SEARCH_QUERY);
 		gtnWebServiceCustSearchQueryConfig.setSearchQuery(GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SEARCH_QUERY);
+                gtnWebServiceCustSearchQueryConfig.setCountQuerySelectClause("Select  count(distinct cvm.CUST_VIEW_MASTER_SID) ");
 		GtnWsSearchQueryConfigProvider searchConfigProvider = GtnWsSearchQueryConfigProvider.getInstance();
 		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
                 
@@ -43,14 +44,17 @@ public class GtnWebServiceCustomSearchConfig implements GtnWsSearchQueryConfigLo
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.TREE_VIEW_NAME, searchConfigProvider.getColumnStringConfig("CUST_VIEW_NAME", GtnWsCustomViewConstants.CVM));
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION, searchConfigProvider.getColumnStringConfig("CUST_VIEW_DESCRIPTION", GtnWsCustomViewConstants.CVM));
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE, searchConfigProvider.getColumnStringConfig("CUST_VIEW_TYPE", GtnWsCustomViewConstants.CVM));
-                fieldToColumnDetailsMap.put( GtnFrameworkCommonConstants.CUTOMER_RELATION, searchConfigProvider.getColumnStringConfig("CUSTOMER_RELATIONSHIP_SID", GtnWsCustomViewConstants.CVM));
-                fieldToColumnDetailsMap.put( GtnFrameworkCommonConstants.PRODUCT_RELATION, searchConfigProvider.getColumnStringConfig("PRODUCT_RELATIONSHIP_SID", GtnWsCustomViewConstants.CVM));
+                fieldToColumnDetailsMap.put( GtnFrameworkCommonConstants.CUTOMER_RELATION, searchConfigProvider.getColumnStringConfig(GtnWsCustomViewConstants.RELATIONSHIP_NAME, "RBC","CUSTOMER_RELATIONSHIP_SID",GtnWsCustomViewConstants.RELATIONSHIP_BUILDER_SID));
+                fieldToColumnDetailsMap.put( GtnFrameworkCommonConstants.PRODUCT_RELATION, searchConfigProvider.getColumnStringConfig(GtnWsCustomViewConstants.RELATIONSHIP_NAME, "RBP","PRODUCT_RELATIONSHIP_SID",GtnWsCustomViewConstants.RELATIONSHIP_BUILDER_SID));
 		
-                fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.CUSTOM_VIEW_SCREEN_NAME, searchConfigProvider.getColumnStringConfig("SCREEN_NAME", GtnWsCustomViewConstants.CVM));
+                fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.CUSTOM_VIEW_SCREEN_NAME, searchConfigProvider.getColumnHelperConfig("MODULE_TYPE", GtnWsCustomViewConstants.CVM));
 		fieldToColumnDetailsMap.put("createdDate", searchConfigProvider.getColumnDateConfig("CREATED_DATE", GtnWsCustomViewConstants.CVM));
 		fieldToColumnDetailsMap.put("createdBy", searchConfigProvider.getColumnUserConfig("CREATED_BY", GtnWsCustomViewConstants.CVM));
 		fieldToColumnDetailsMap.put("modifiedDate", searchConfigProvider.getColumnDateConfig("MODIFIED_DATE", GtnWsCustomViewConstants.CVM));
 		fieldToColumnDetailsMap.put("modifiedBy", searchConfigProvider.getColumnUserConfig("MODIFIED_BY", GtnWsCustomViewConstants.CVM));
+                fieldToColumnDetailsMap.put( GtnFrameworkCommonConstants.CUTOMER_RELATION_SID, searchConfigProvider.getColumnStringConfig("CUSTOMER_RELATIONSHIP_SID", GtnWsCustomViewConstants.CVM));
+                fieldToColumnDetailsMap.put( GtnFrameworkCommonConstants.PRODUCT_RELATION_SID, searchConfigProvider.getColumnStringConfig("PRODUCT_RELATIONSHIP_SID", GtnWsCustomViewConstants.CVM));
+
 		gtnWebServiceCustSearchQueryConfig.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
 
 		List<GtnWebServiceOrderByCriteria> orderByList = new ArrayList<>();

@@ -154,6 +154,22 @@ public class GtnWsCustomViewController {
         logger.info("Exit customViewTreeData");
         return gtnResponse;
     }
+    @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_DELETE, method = RequestMethod.POST)
+    public GtnUIFrameworkWebserviceResponse deleteCustomView(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+        logger.info("Enters customViewTreeData");
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        try {
+            GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
+            logic.deleteRelationship(gtnWsRequest.getGtnWsCustomViewRequest(),cvResponse);
+            gtnResponse.setGtnWsCustomViewResponse(cvResponse);
+        } catch (Exception ex) {
+            logger.error("Exception in customViewDelete", ex);
+        }
+
+        logger.info("Exit customViewDelete");
+        return gtnResponse;
+    }
     
    
 }
