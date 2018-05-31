@@ -220,11 +220,13 @@ public class GtnFrameworkCVAddConfig {
 
         componentList.add(cvScreenNameConfig);
 
-        GtnUIFrameworkComboBoxConfig companyStatusConfig = new GtnUIFrameworkComboBoxConfig();
-        companyStatusConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+        GtnUIFrameworkComboBoxConfig screenNameAddConfig = new GtnUIFrameworkComboBoxConfig();
+        screenNameAddConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
                 + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-        companyStatusConfig.setComboBoxType(GtnFrameworkCommonConstants.CUTOMER_RELATION);
-        cvScreenNameConfig.setGtnComboboxConfig(companyStatusConfig);
+        screenNameAddConfig.setComboBoxType(GtnFrameworkCommonConstants.CV_MODULE_TYPE);
+        screenNameAddConfig.setHasDefaultValue(true);
+	screenNameAddConfig.setDefaultDesc("Forecasting");
+        cvScreenNameConfig.setGtnComboboxConfig(screenNameAddConfig);
 
     }
 
@@ -297,6 +299,7 @@ public class GtnFrameworkCVAddConfig {
             namespacePrefix + GtnFrameworkCommonConstants.CUTOMER_RELATION, namespacePrefix + GtnFrameworkCommonConstants.PRODUCT_RELATION});
         customCommonValidationAction.addActionParameter(namespacePrefix + GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE);
         customCommonValidationAction.addActionParameter(namespacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_TREE);
+        customCommonValidationAction.addActionParameter(namespacePrefix + GtnFrameworkCommonConstants.CUSTOM_VIEW_SCREEN_NAME);
         actionConfigList.add(customCommonValidationAction);
 
         saveButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);

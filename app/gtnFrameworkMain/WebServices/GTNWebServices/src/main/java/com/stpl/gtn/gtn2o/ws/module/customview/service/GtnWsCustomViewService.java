@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ws.module.customview.service;
 
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
+import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkQueryGeneratorService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
@@ -128,6 +129,7 @@ public class GtnWsCustomViewService {
                 master.setModifiedBy(Integer.valueOf(cvRequest.getModifiedBy()));
                 master.setModifiedDate(cvRequest.getModifiedDate());
                 master.setScreenName(cvRequest.getCustomViewType());
+                master.setModuleType(cvRequest.getModuleType());
                 customViewMasterSid = (int) session.save(master);
             } else {
                 CustViewMaster master = session.get(CustViewMaster.class, cvRequest.getCvSysId());
@@ -139,6 +141,7 @@ public class GtnWsCustomViewService {
                 master.setModifiedBy(Integer.valueOf(cvRequest.getModifiedBy()));
                 master.setModifiedDate(cvRequest.getModifiedDate());
                 master.setScreenName(cvRequest.getCustomViewType());
+                master.setModuleType(cvRequest.getModuleType());
                 session.update(master);
             }
             tx.commit();
@@ -316,4 +319,81 @@ public class GtnWsCustomViewService {
         }
 
     }
+     public void deleteRelationship(GtnWsCustomViewRequest cvRequest,
+			GtnWsCustomViewResponse cvResponse) throws GtnFrameworkGeneralException {
+		cvResponse.setSuccess(true);
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			if (checkUsedCustomView(cvRequest.getCvSysId())) {
+				cvResponse.setSuccess(false);
+				cvResponse.setMessageType(GtnFrameworkCommonStringConstants.DELETE);
+				cvResponse.setMessage(
+						"Cannot Delete the custom view which is already associated with existing projection.");
+				return;
+			}
+//			CustViewMaster customViewMaster = session.load(CustViewMaster.class, cvRequest.getCvSysId());
+//			deletAssociatedHierarchy(customViewMaster, session);
+//			session.delete(customViewMaster);
+			tx.commit();
+			cvResponse.setMessageType("success");
+			cvResponse.setMessage(cvRequest.getCustomViewName()+ " has been deleted Successfully.");
+		} catch (Exception e) {
+			tx.rollback();
+			cvResponse.setSuccess(false);
+			cvResponse.setMessageType(GtnFrameworkCommonStringConstants.DELETE);
+			cvResponse.setMessage(cvRequest.getCustomViewName() + " has not been deleted.");
+			logger.error("Exception in deleteRelationship", e);
+			throw new GtnFrameworkGeneralException("Exception in deleteRelationship ", e);
+		} finally {
+			session.close();
+		}
+	}
+     @SuppressWarnings("rawtypes")
+	public boolean checkUsedCustomView(final int customViewMasterSid) throws GtnFrameworkGeneralException {
+		boolean customViewUsed = false;
+		try {
+			if (customViewMasterSid != 0) {
+				int custCount = 0;
+                                Object[] cvQueryParams = { customViewMasterSid, customViewMasterSid };
+		                GtnFrameworkDataType[] cvQueryTypes = { GtnFrameworkDataType.INTEGER,
+				GtnFrameworkDataType.INTEGER };
+                                List<Object> resultList =  getResultValue("getCustomViewDeleteAlreadyUsed", cvQueryParams, cvQueryTypes);
+				if (resultList != null && !resultList.isEmpty()) {
+					Object result = (Object) resultList.get(0);
+                                        custCount = result == null ? 0 :(Integer) result;
+				}
+				if (custCount > 0 ) {
+					customViewUsed = true;
+				}
+			}
+		} catch (Exception e) {
+			throw new GtnFrameworkGeneralException("Exception in checkUsedCustomView", e);
+		}
+		return customViewUsed;
+	}
+        @SuppressWarnings("unchecked")
+	public void deletAssociatedHierarchy(CustViewMaster custViewMaster, Session session)
+			throws GtnFrameworkGeneralException {
+		try {
+			Criteria cr = session.createCriteria(CustViewDetails.class)
+					.add(Restrictions.eq("custViewMaster", custViewMaster));
+			List<CustViewDetails> custDetailsResults = cr.list();
+			if (custDetailsResults != null && !custDetailsResults.isEmpty()) {
+				for (CustViewDetails custDetails : custDetailsResults) {
+					session.delete(custDetails);
+				}
+				session.flush();
+			}
+		} catch (Exception e) {
+			throw new GtnFrameworkGeneralException("Exception in deleting CustViewDetails", e);
+		}
+	}
+        private List<Object> getResultValue(String query, Object[] imtdPsDetailsInsertQueryParams,
+			GtnFrameworkDataType[] imtdPsDetailsInsertQueryTypes) throws GtnFrameworkGeneralException {
+		String psQuery = gtnWsSqlService.getQuery(query);
+		return (List<Object>) gtnSqlQueryEngine.executeSelectQuery(psQuery, imtdPsDetailsInsertQueryParams,
+				imtdPsDetailsInsertQueryTypes);
+
+	}
 }
