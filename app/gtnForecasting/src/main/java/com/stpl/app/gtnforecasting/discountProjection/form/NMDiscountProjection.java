@@ -597,7 +597,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         valueDdlb.setContainerDataSource(valueDdlbBean);
 
         value.addStyleName("txtRightAlign");
-
+        
+        boolean isEnabled = Utility.customEnableForRelationFromDS(session.getCustomDeductionRelationShipSid());
+        view.setItemEnabled(Constant.CUSTOM_LABEL, isEnabled);
+        
         methodologyDdlb.addItem(SELECT_ONE.getConstant());
         methodologyDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         loadMethodologyDdlb(methodologyDdlb);
@@ -4358,7 +4361,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         if (!session.getCustomDetailMap().containsKey(customId)) {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
-        }
+    }
         CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUST_VIEW_MAP_QUERY));
         currentHierarchy = session.getCustomHierarchyMap().get(customId);
         LOGGER.debug(" customId= {} ", customId);
