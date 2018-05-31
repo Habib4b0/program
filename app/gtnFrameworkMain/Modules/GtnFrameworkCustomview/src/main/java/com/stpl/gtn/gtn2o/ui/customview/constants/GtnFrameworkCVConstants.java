@@ -73,8 +73,8 @@ public class GtnFrameworkCVConstants {
     public static final String GTN_PRODUCT_MOVE_LAYOUT = "gtnProductMoveLayout";
     public static final String PRODUCT_TREE_LAYOUT = "productTreeLayout";
     public static final String NO_LEVEL_SELECTED = "No Level Selected";
-    private static final String[] CV_CUSTOM_PROPERTY_IDS = { GtnFrameworkCommonConstants.CUTOMER_RELATION,GtnFrameworkCommonConstants.PRODUCT_RELATION,"createdBy", "modifiedBy"};
-    private static final String[] CV_LIST_NAME_ARRAY = { GtnFrameworkCommonConstants.CUTOMER_RELATION,GtnFrameworkCommonConstants.PRODUCT_RELATION,"USERS","USERS" };
+    private static final String[] CV_CUSTOM_PROPERTY_IDS = { GtnFrameworkCommonConstants.CUSTOM_VIEW_SCREEN_NAME,GtnFrameworkCommonConstants.CUTOMER_RELATION,GtnFrameworkCommonConstants.PRODUCT_RELATION,"createdBy", "modifiedBy"};
+    private static final String[] CV_LIST_NAME_ARRAY = { "CV_MODULE_TYPE",GtnFrameworkCommonConstants.CUTOMER_RELATION,GtnFrameworkCommonConstants.PRODUCT_RELATION,"USERS","USERS" };
     
     public static String[] getCvCustomPropertyIds() {
         return CV_CUSTOM_PROPERTY_IDS.clone();
