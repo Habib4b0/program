@@ -597,7 +597,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         valueDdlb.setContainerDataSource(valueDdlbBean);
 
         value.addStyleName("txtRightAlign");
-
+        
+        boolean isEnabled = Utility.customEnableForRelationFromDS(session.getCustomDeductionRelationShipSid());
+        view.setItemEnabled(Constant.CUSTOM_LABEL, isEnabled);
+        
         methodologyDdlb.addItem(SELECT_ONE.getConstant());
         methodologyDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         loadMethodologyDdlb(methodologyDdlb);
