@@ -479,12 +479,13 @@ public class GtnFrameworkCVLandingScreenConfig {
                 GtnFrameworkCVConstants.ACTION_BUTTON_LAYOUT);
         componentList.add(cvDeleteButtonLayout);
 
-        GtnUIFrameworkComponentConfig viewButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(  "gtnDeleteButton",
+        GtnUIFrameworkComponentConfig deleteButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(  "gtnDeleteButton",
                 true, GtnFrameworkCVConstants.GTN_VIEW_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
-        viewButtonConfig.setAuthorizationIncluded(true);
-        viewButtonConfig.setComponentName("Delete");
+        deleteButtonConfig.setAuthorizationIncluded(true);
+        deleteButtonConfig.setVisible(false);
+        deleteButtonConfig.setComponentName("Delete");
 
-        componentList.add(viewButtonConfig);
+        componentList.add(deleteButtonConfig);
 
         List<GtnUIFrameWorkActionConfig> actionDeleteConfigList = new ArrayList<>();
 
@@ -496,7 +497,7 @@ public class GtnFrameworkCVLandingScreenConfig {
         viewActionConfig.addActionParameter(GtnFrameworkCVConstants.CUSTOM_VIEW_TREE);
         actionDeleteConfigList.add(viewActionConfig);
 
-        viewButtonConfig.setGtnUIFrameWorkActionConfigList(actionDeleteConfigList);
+        deleteButtonConfig.setGtnUIFrameWorkActionConfigList(actionDeleteConfigList);
 
     }
     private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCVCustomFilterConfig() {

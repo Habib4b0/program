@@ -12,7 +12,9 @@ import java.util.Locale;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
@@ -37,11 +39,14 @@ public class GtnWsBcpFileMerger {
 		GTNLOGGER.debug(Boolean.toString(isCreated));
 		long time = System.currentTimeMillis();
 		String[] command;
+                java.util.Properties fetchpath = getPropertyFileForCatCommand(
+				System.getProperty(GtnFrameworkCommonStringConstants.GTNFRAMEWORK_BASE_PATH_PROPERTY));
+		String catCommand = fetchpath.getProperty("catCommandForBCP");
 		if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH).contains("windows")) {
                     command = createCommandForWindows(fileList, finalFile);
 		} else {
 			StringBuilder strb = new StringBuilder();
-			strb.append("cat ");
+			strb.append(catCommand);
                         GTNLOGGER.info("fileList size in mergeFiles ======"+fileList.size());
 			for (String sourceFile : fileList) {
 				strb.append(sourceFile).append(' ');
@@ -68,12 +73,13 @@ public class GtnWsBcpFileMerger {
                 GTNLOGGER.info("mergeFiles command : "+Arrays.toString(command));
 		ProcessBuilder builder = GtnWsProcessService.createProcess(command);
 		Process p = builder.start();
-		p.waitFor();
-
+		int errorCode = p.waitFor();
+                GTNLOGGER.info("errorCode : "+errorCode);
+                
                 for (Closeable closeable : fileOperationList) {
                     closeable.close();
                 }
-                
+               
                 for (String fileName : fileList) {
 			Files.delete(GtnFileNameUtils.getPath(fileName));
 		}
@@ -93,5 +99,17 @@ public class GtnWsBcpFileMerger {
 			command[i + 2] = "type " + fileList.get(i).replace('/', '\\') + " >> " + finalFile;
 		}
 		return command;
+	}
+        
+        public java.util.Properties getPropertyFileForCatCommand(String bpiPropLoc) {
+		java.util.Properties prop = new java.util.Properties();
+		try {
+			FileInputStream fileIn;
+			fileIn = GtnFileNameUtils.getFileInputStream(bpiPropLoc);
+			prop.load(fileIn);
+		} catch (Exception ex) {
+			GTNLOGGER.error("Exception", ex);
+		}
+		return prop;
 	}
 }

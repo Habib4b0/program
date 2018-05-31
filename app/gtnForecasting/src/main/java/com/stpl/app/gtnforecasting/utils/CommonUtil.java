@@ -426,12 +426,16 @@ public class CommonUtil {
                         break;
                     case Constant.PRC_VIEWS_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
-                        new DataSelectionLogic().callViewInsertProcedureForNm((SessionDTO)inputs[NumericConstants.SEVEN], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,inputs[6].toString());
+                        new DataSelectionLogic().callViewInsertProcedureForNm((SessionDTO)inputs[NumericConstants.SEVEN], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,String.valueOf(inputs[6]));
                         break;
                     case Constant.FUNCTION_PRC_VIEWS_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
-                        new DataSelectionLogic().callViewInsertProcedures((SessionDTO)inputs[NumericConstants.ONE],inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,inputs[6].toString());
+                        new DataSelectionLogic().callViewInsertProcedures((SessionDTO)inputs[NumericConstants.ONE],inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,String.valueOf(inputs[5]) ,inputs[6].toString());
                         break;
+                    case Constant.DISCOUNT_MASTER:
+                         Thread.currentThread().setName(inputs[1].toString());
+                         new DataSelectionLogic().callInsertProcedureForNmDiscountMaster(Integer.parseInt(inputs[NumericConstants.TWO].toString()),(SessionDTO)inputs[NumericConstants.SIX], inputs[1].toString() ,inputs[NumericConstants.FIVE].toString());
+                         break;
                     default:
                         break;
                 }

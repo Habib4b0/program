@@ -21,7 +21,7 @@ AS
       SET NOCOUNT ON
 
       BEGIN TRY
-        
+  
           DECLARE @PROJECTION_START_SID INT,
                   @PROJECTION_END_SID   INT,
                   @METHODOLOGY          VARCHAR(50)
