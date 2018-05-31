@@ -896,6 +896,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
         }
+        CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUST_VIEW_MAP_QUERY));
         viewChangeHierarchy = session.getCustomHierarchyMap().get(customId);
         if (customId != 0) {
             callGenerateLogic();

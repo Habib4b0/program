@@ -968,6 +968,7 @@ public class Constant {
     public static final String SALES_PROCEDURE_PROJ = "SALES_PROCEDURE_PROJ";
     public static final String SALES_PROCEDURE_MASTER = "SALES_PROCEDURE_MASTER";
     public static final String DISCOUNT_MASTER = "DISCOUNT_MASTER";
+    public static final String CUST_VIEW_MAP_QUERY = "CUST_VIEW_MAP_QUERY";
 
     /**
      * set height for 390px
