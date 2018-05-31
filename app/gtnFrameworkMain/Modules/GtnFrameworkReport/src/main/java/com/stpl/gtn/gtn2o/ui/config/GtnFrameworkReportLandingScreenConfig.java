@@ -677,6 +677,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.addActionParameter("reportLandingScreen_company");
 		generateAction.addActionParameter("reportLandingScreen_businessUnit");
 		generateAction.addActionParameter("reportLandingScreen_fromPeriod");
+		generateAction.addActionParameter("reportLandingScreen_reportingDashboardComparisonConfig");
 
 		actionList.add(generateAction);
 

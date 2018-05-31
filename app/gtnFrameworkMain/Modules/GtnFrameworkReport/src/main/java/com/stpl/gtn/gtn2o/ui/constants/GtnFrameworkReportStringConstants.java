@@ -198,6 +198,8 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String COMPARISON_LOOKUP = "comparisonLookup";
 
+	public static final String DASHBOARD_COMPARISON_LOOKUP = "dashboardComparisonLookup";
+
 	public static final String REPORT_PROFILE_LOOKUP = "reportProfileLookup";
 
 	public static final String REPORT_CUSTOM_VIEW_LOOKUP = "reportCustomViewLookup";
@@ -209,8 +211,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORT_DS_PRODUCT_HIERARCHY_LOOKUP = "reportDsProductHierarchyLookup";
 
 	public static final String CURRENT_TAB = "currentTab";
-        
-        public static final String DATA_ASSUMPTIONS_TAB_LOAD = "dataAssumptionsTab";
+
+	public static final String DATA_ASSUMPTIONS_TAB_LOAD = "dataAssumptionsTab";
 
 	public static final String SUB_TAB1 = "subTab1";
 

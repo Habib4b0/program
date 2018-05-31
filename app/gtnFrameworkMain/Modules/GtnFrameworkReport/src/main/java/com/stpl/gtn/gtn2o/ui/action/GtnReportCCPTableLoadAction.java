@@ -24,6 +24,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -132,15 +133,20 @@ public class GtnReportCCPTableLoadAction
 
 		dto.setCompanyReport(Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox()));
-		dto.setBusinessUnitReport(Integer.parseInt(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(14).toString())
-				.getCaptionFromV8ComboBox()));
-		//dto.setFromPeriodReport(Integer.parseInt(GtnUIFrameworkGlobalUI
-				//.getVaadinBaseComponent(actionParamList.get(15).toString()).getCaptionFromV8ComboBox()));
+		dto.setBusinessUnitReport(Integer.parseInt(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(14).toString()).getCaptionFromV8ComboBox()));
+		// dto.setFromPeriodReport(Integer.parseInt(GtnUIFrameworkGlobalUI
+		// .getVaadinBaseComponent(actionParamList.get(15).toString()).getCaptionFromV8ComboBox()));
+		GtnUIFrameworkComponentData comparisonProjectionData = GtnUIFrameworkGlobalUI
+				.getVaadinComponentData(actionParamList.get(16).toString());
+		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = (List<GtnReportComparisonProjectionBean>) comparisonProjectionData
+				.getCustomData();
+		dto.setComparisonProjectionBeanList(comparisonProjectionBeanList);
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);
 		dto.setProductHierarchyRecordBean(productRecordBean);
 		dto.setSelectedCustomerHierarchyList(selectedCustomerList);
 		dto.setSelectedProductHierarchyList(selectedProductList);
-		
+
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_");
 		dto.setSessionId(uniqueId);
@@ -205,7 +211,8 @@ public class GtnReportCCPTableLoadAction
 	private List<GtnFrameworkRelationshipLevelDefintionBean> relationBeanList(
 			List<GtnWsRecordBean> selectedCustomerContractList, GtnWsReportDataSelectionBean dataSelectionDto,
 			boolean isProduct) {
-		List<GtnFrameworkRelationshipLevelDefintionBean> relationBeanList = new ArrayList<>(selectedCustomerContractList.size());
+		List<GtnFrameworkRelationshipLevelDefintionBean> relationBeanList = new ArrayList<>(
+				selectedCustomerContractList.size());
 		for (GtnWsRecordBean recordBean : selectedCustomerContractList) {
 
 			GtnFrameworkRelationshipLevelDefintionBean forecast = new GtnFrameworkRelationshipLevelDefintionBean();
