@@ -159,6 +159,109 @@ GROUP BY SHN.HIERARCHY_NO,
         </query>
     </entity>
     
+    
+   <entity id="non-mandated-sales-query-excel">
+        <query>
+            <![CDATA[
+             IF OBJECT_ID('TEMPDB..#ST_NM_SALES_PROJECTION_MASTER') IS NOT NULL
+                             DROP TABLE #ST_NM_SALES_PROJECTION_MASTER
+
+                SELECT  
+         CASE 
+                  WHEN COUNT(DISTINCT MSPM.CALCULATION_PERIODS) > 1 THEN '-' 
+                  ELSE MAX(MSPM.CALCULATION_PERIODS) 
+         END CALCULATION_PERIODS, 
+         CASE 
+                  WHEN COUNT(DISTINCT MSPM.METHODOLOGY) > 1 THEN '-' 
+                  ELSE MAX(MSPM.METHODOLOGY) 
+         END AS METHODOLOGY, 
+         CCP.@HIERARCHY AS HIERARCHY_NO, 
+         COUNT(*) AS RCOUNT, 
+         MIN( 
+         CASE (CHECK_RECORD) 
+                  WHEN 1 THEN 1 
+                  ELSE 0 
+         END) AS CHECKREC, 
+         SUM( 
+         CASE (MSPM.CHECK_RECORD) 
+                  WHEN 1 THEN 0 
+                  ELSE 1 
+         END)                        AS UNCHECK_COUNT, 
+         COUNT(MSPM.CCP_DETAILS_SID) AS CCPCOUNT, 
+         MIN(MSPM.USER_GROUP)        AS USER_GROUP, 
+         CCP.SALES_INCLUSION 
+              
+INTO #ST_NM_SALES_PROJECTION_MASTER
+                FROM ST_CCP_HIERARCHY CCP
+JOIN     ST_NM_SALES_PROJECTION_MASTER MSPM 
+ON       MSPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
+GROUP BY CCP.@HIERARCHY, 
+         CCP.SALES_INCLUSION
+                SELECT SH.HIERARCHY_NO, 
+       PERIOD, 
+       YEAR, 
+       INDICATOR           AS ACTUALPROJ, 
+       NULL AS PARENT_HIERARCHY_NO,
+       Avg(ACCOUNT_GROWTH) ACCOUNT_GROWTH, 
+       Avg(PRODUCT_GROWTH) PRODUCT_GROWTH, 
+       NULL                AS projection_sales, 
+       NULL                AS projection_units, 
+       Sum(SALES)          AS ACTUALSALES, 
+       Sum(UNITS)          ACTUALUNITS, 
+       METHODOLOGY, 
+       USER_GROUP, 
+       CALCULATION_PERIODS, 
+       STC.SALES_INCLUSION 
+FROM   @VIEWTABLE STC 
+       JOIN #ST_NM_SALES_PROJECTION_MASTER SH 
+         ON STC.HIERARCHY_NO = SH.HIERARCHY_NO 
+WHERE  INDICATOR = 0 
+       @SALESINCLUSION 
+GROUP  BY SH.HIERARCHY_NO, 
+          PERIOD, 
+          YEAR, 
+          STC.SALES_INCLUSION, 
+          METHODOLOGY, 
+          USER_GROUP, 
+          CALCULATION_PERIODS, 
+          INDICATOR 
+UNION ALL 
+SELECT SH.HIERARCHY_NO, 
+       PERIOD, 
+       YEAR, 
+       INDICATOR           AS ACTUALPROJ, 
+       NULL AS PARENT_HIERARCHY_NO,
+       Avg(ACCOUNT_GROWTH) ACCOUNT_GROWTH, 
+       Avg(PRODUCT_GROWTH) PRODUCT_GROWTH, 
+       Sum(SALES)          AS PROJECTION_SALES, 
+       Sum(UNITS)          PROJECTION_UNITS, 
+       NULL                AS ACTUALSALES, 
+       NULL                ACTUALUNITS, 
+       METHODOLOGY, 
+       USER_GROUP, 
+       CALCULATION_PERIODS, 
+       STC.SALES_INCLUSION 
+FROM   @VIEWTABLE STC 
+       JOIN #ST_NM_SALES_PROJECTION_MASTER SH 
+         ON STC.hierarchy_no = SH.hierarchy_no 
+WHERE  INDICATOR = 1 
+       @SALESINCLUSION 
+GROUP  BY SH.HIERARCHY_NO, 
+          PERIOD, 
+          YEAR, 
+          STC.SALES_INCLUSION, 
+          METHODOLOGY, 
+          USER_GROUP, 
+          CALCULATION_PERIODS, 
+          INDICATOR 
+          @OPPOSITESINC
+FROM   #ST_NM_SALES_PROJECTION_MASTER 
+@CONDITION 
+
+                ]]>
+        </query>
+    </entity>
+    
     <entity id="non-mandated-sales-query-new-custom">
         <query>
             <![CDATA[

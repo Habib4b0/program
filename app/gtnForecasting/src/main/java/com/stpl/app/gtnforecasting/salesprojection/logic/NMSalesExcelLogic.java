@@ -80,6 +80,11 @@ public class NMSalesExcelLogic {
         if (key.contains(".")) {
             String keyValue = key.substring(0, key.lastIndexOf('.'));
             hierarchyValues.add(keyValue);
+            int count = StringUtils.countMatches(key, ".");
+             int forecastLevel = Integer.valueOf(projectionSelection.getSessionDTO().getCustomerLevelNumber());
+            if (count >= forecastLevel) {
+                hierarchyValues.add(keyValue);
+            }
             getHierarchy(keyValue, projectionSelection);
             return keyValue;
         }
@@ -142,7 +147,7 @@ public class NMSalesExcelLogic {
     
 
     private void setActualsProjForSalesInclution(SalesRowDto salesRowDto, boolean isActuals, String header) {
-        if (isActuals) {
+        if (!isActuals) {
             salesRowDto.addStringProperties(header + ACTUAL_SALES, StringUtils.EMPTY);
             salesRowDto.addStringProperties(header + Constant.ACTUAL_UNITS1, StringUtils.EMPTY);
             salesRowDto.addStringProperties(header + "-HistoryProjectedSales", StringUtils.EMPTY);
@@ -158,7 +163,7 @@ public class NMSalesExcelLogic {
     }
 
     private void setActualsProj(SalesRowDto salesRowDto, boolean isActuals, String header, ProjectionSelectionDTO projectionSelectionDTO, Object[] obj) {
-        if (isActuals) {
+        if (!isActuals) {
             salesRowDto.addStringProperties(header + ACTUAL_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.NINE], true));
             salesRowDto.addStringProperties(header + Constant.ACTUAL_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.TEN] == null ? 0 : obj[NumericConstants.TEN])));
             salesRowDto.addStringProperties(header + "-HistoryProjectedSales", String.valueOf(0));
