@@ -686,6 +686,8 @@ public class GtnFrameworkCommonConstants {
 	public static final String TREE_VIEW_NAME = "treeViewName";
 	public static final String CUTOMER_RELATION = "customerRelation";
 	public static final String PRODUCT_RELATION = "productRelation";
+	public static final String CUTOMER_RELATION_SID = "customerRelationSid";
+	public static final String PRODUCT_RELATION_SID = "productRelationSid";
 	public static final String CUSTOM_VIEW_TYPE = "customViewType";
 	public static final String RESULTLAYOUT = RESULT_LAYOUT;
 	public static final String SELECTION_OPTIONLAYOUT = "selectionOptionlayout";
@@ -717,6 +719,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String CFP_NO = "cfpNo";
 	public static final String CFP_NAME = "cfpName";
 	public static final String PS_NAME = "psName";
+	public static final String CV_MODULE_TYPE = "CV_MODULE_TYPE";
 	/**
 	 *
 	 * END

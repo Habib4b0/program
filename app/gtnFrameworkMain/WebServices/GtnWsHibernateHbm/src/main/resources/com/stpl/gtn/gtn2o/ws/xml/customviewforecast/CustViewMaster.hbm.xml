@@ -37,5 +37,8 @@
     <property name="screenName" type="string">
       <column length="100" name="SCREEN_NAME"/>
     </property>
+    <property name="moduleType" type="java.lang.Integer">
+      <column name="MODULE_TYPE"/>
+    </property>
   </class>
 </hibernate-mapping>

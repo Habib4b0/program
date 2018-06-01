@@ -142,13 +142,15 @@ GROUP BY SHN.HIERARCHY_NO,
                                           PERIOD,
                                           YEAR,
                                                                        STC.SALES_INCLUSION,
-                                          INDICATOR    @OPPOSITESINC )  Q
+                                          INDICATOR    )  Q
                                                                        
                                                                        join #ST_NM_SALES_PROJECTION_MASTER mas on mas.HIERARCHY_NO=q.HIERARCHY_NO
                                                                        
                                                                        ) MAINQ
                 WHERE MAINQ.TEMP_INDEX > @START
                   AND MAINQ.TEMP_INDEX <= (@START+@END)
+                  
+                  @OPPOSITESINC  
                 ORDER BY 
                         MAINQ.INSTR,
                         MAINQ.YEARS,
@@ -190,7 +192,7 @@ GROUP BY SHN.HIERARCHY_NO,
               SHN.INSTR
 INTO #ST_NM_SALES_PROJECTION_MASTER
                 FROM #SELECTED_HIERARCHY_NO SHN
-				INNER JOIN CUSTOM_CCP_SALES RLD1 ON RLD1.HIERARCHY_NO=SHN.HIERARCHY_NO AND RLD1.CUST_VIEW_MASTER_SID =@CUSTOMSID     
+				INNER JOIN CUSTOM_CCP_SALES RLD1 ON RLD1.HIERARCHY_NO=SHN.HIERARCHY_NO AND RLD1.CUST_VIEW_MASTER_SID =@CUSTOMSID    
                JOIN ST_CCP_HIERARCHY CCP ON CCP.CCP_DETAILS_SID=RLD1.CCP_DETAILS_SID
 JOIN     ST_NM_SALES_PROJECTION_MASTER MSPM 
 ON       MSPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
@@ -258,7 +260,7 @@ GROUP BY SHN.HIERARCHY_NO,
                                                                        
                                                                         FROM ST_CUSTOM_SALES STC JOIN CUSTOM_CCP_SALES CO ON CO.ROWID=STC.HIERARCHY_NO
                                                                          JOIN #SELECTED_HIERARCHY_NO SH ON CO.HIERARCHY_NO LIKE SH.HIERARCHY_NO+'%' AND CO.CUST_VIEW_MASTER_SID=@CUSTOMSID    
-                                                                                                                          ----CHANGE
+                                                                                                                         AND LEVEL_NO=@LASTLEVEL    
                                                                      
                                                                            WHERE INDICATOR=0  @SALESINCLUSION
                                                                            GROUP BY  SH.HIERARCHY_NO,
@@ -283,20 +285,22 @@ GROUP BY SHN.HIERARCHY_NO,
                                                                        
                                                                         FROM ST_CUSTOM_SALES STC JOIN CUSTOM_CCP_SALES CO ON CO.ROWID=STC.HIERARCHY_NO
                                                                          JOIN #SELECTED_HIERARCHY_NO SH ON CO.HIERARCHY_NO LIKE SH.HIERARCHY_NO+'%' AND CO.CUST_VIEW_MASTER_SID=@CUSTOMSID  
-                                                                                                                           ---6---
+                                                                                                                           AND LEVEL_NO=@LASTLEVEL    
                                                                      
                                                                            WHERE INDICATOR=1  @SALESINCLUSION
                                                                            GROUP BY  SH.HIERARCHY_NO,
                                           PERIOD,
                                           YEAR,
                                                                        STC.SALES_INCLUSION,
-                                          INDICATOR     @OPPOSITESINC )  Q
+                                          INDICATOR   )  Q
                                                                        
                                                                        join #ST_NM_SALES_PROJECTION_MASTER mas on mas.HIERARCHY_NO=q.HIERARCHY_NO
                                                                        
                                                                        ) MAINQ
                 WHERE MAINQ.TEMP_INDEX >  @START
                   AND MAINQ.TEMP_INDEX <= (@START+@END)
+                  
+                     @OPPOSITESINC 
                 ORDER BY 
                         MAINQ.INSTR,
                         MAINQ.YEARS,
@@ -1651,28 +1655,19 @@ order by level_no
     <entity id="custom-relationship-hierarchy">
         <query>
             <![CDATA[
-IF OBJECT_ID('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+            IF OBJECT_ID('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
                 DROP TABLE #SELECTED_HIERARCHY_NO
-                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO VARCHAR(50),INSTR INT,CCP_DETAILS_SID INT,RELATIONSHIP_LEVEL_VALUES VARCHAR(50))
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO VARCHAR(50),INSTR INT)
 
-                INSERT INTO #SELECTED_HIERARCHY_NO
-                (HIERARCHY_NO,INSTR,
-                CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES)
-                SELECT DISTINCT A.HIERARCHY_NO,INSTR,CH.CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALES
-                FROM   (VALUES 	[?HIER_VALUES])A(HIERARCHY_NO,INSTR)  
-                 INNER JOIN CUSTOM_CCP_SALES RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO AND RLD1.CUST_VIEW_MASTER_SID =@CUSTMASTERSID         
-                 JOIN ST_CCP_HIERARCHY CH ON CH.CCP_DETAILS_SID  =RLD1.CCP_DETAILS_SID
+                INSERT INTO #SELECTED_HIERARCHY_NO (HIERARCHY_NO,INSTR)
+            
+                SELECT HIERARCHY_NO ,ROW_NUMBER() OVER(ORDER BY LEVEL_NO)as instr  FROM  CUSTOM_CCP_SALES RLD1        
+                 JOIN ST_CCP_HIERARCHY CH ON CH.CCP_DETAILS_SID  =RLD1.CCP_DETAILS_SID  
+		 JOIN ST_NM_SALES_PROJECTION_MASTER SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+            WHERE CUST_VIEW_MASTER_SID =@CUSTMASTERSID
+                and SPM.USER_GROUP LIKE '%' [?FILTERCCP] GROUP BY CUST_VIEW_MASTER_SID,LEVEL_NO,HIERARCHY_NO 
                 
-            
-        
-            
-                JOIN ST_NM_SALES_PROJECTION_MASTER SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
-            
-        
-            
-                WHERE SPM.USER_GROUP LIKE '%'
-            
-         Select  distinct HIERARCHY_NO from #SELECTED_HIERARCHY_NO order by HIERARCHY_NO 
+                 Select  distinct HIERARCHY_NO from #SELECTED_HIERARCHY_NO order by HIERARCHY_NO  
             ]]>
         </query>
     </entity> 
@@ -2075,14 +2070,14 @@ INSERT INTO #HIER_NO (
        HIERARCHY_NO,
        CCP_DETAILS_SID
        )
-SELECT DISTINCT HIERARCHY_NO,
-       CCP_DETAILS_SID
+SELECT DISTINCT A.HIERARCHY_NO,
+       B.CCP_DETAILS_SID
 FROM (
        VALUES @HIERARCHY_NO_VALUES
        ) A(HIERARCHY_NO)
 	   JOIN CUSTOM_CCP_SALES RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO AND RLD1.CUST_VIEW_MASTER_SID=@CUSTSID
 INNER JOIN ST_CCP_HIERARCHY B
-       ON B.CCP_DETAILS=RLD1.CCP_DETAILS_SID
+       ON B.CCP_DETAILS_SID=RLD1.CCP_DETAILS_SID
 WHERE EXISTS (
               SELECT 1
               FROM ST_NM_SALES_PROJECTION_MASTER ST
@@ -2091,7 +2086,7 @@ WHERE EXISTS (
               )
  
 UPDATE SP
-SET SP.PROJECTION_SALES = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0)
+SET SP.? = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0)
 FROM ST_NM_SALES_PROJECTION SP
 INNER JOIN ST_NM_SALES_PROJECTION_MASTER SP1
        ON SP.CCP_DETAILS_SID = SP1.CCP_DETAILS_SID
@@ -2173,6 +2168,69 @@ WHERE P.PERIOD_SID BETWEEN @START_PERIOD_SID
 
       SELECT distinct HIERARCHY_NO from #SELECTED_SYSTEM_HIERARCHY_NO
 
+
+   ]]>
+
+        </query>
+    </entity>
+    
+    <entity id="selected-Hierarchy-Query-sales-Custom">
+<query>
+    <![CDATA[
+
+    
+      IF OBJECT_ID('TEMPDB..#SELECTED_SYSTEM_HIERARCHY_NO') IS NOT NULL DROP
+
+        TABLE #SELECTED_SYSTEM_HIERARCHY_NO
+
+        CREATE TABLE #SELECTED_SYSTEM_HIERARCHY_NO(
+
+        HIERARCHY_NO VARCHAR(50),
+
+        LEVEL_NO INT)
+
+    INSERT INTO #SELECTED_SYSTEM_HIERARCHY_NO(HIERARCHY_NO,LEVEL_NO)
+
+ 
+
+                SELECT DISTINCT
+
+                RLD.HIERARCHY_NO,LEVEL_NO
+
+                FROM    CUSTOM_CCP_SALES RLD
+
+                JOIN DBO.ST_CCP_HIERARCHY CCP ON
+
+                CCP.CCP_DETAILS_SID = RLD.CCP_DETAILS_SID  AND   CUST_VIEW_MASTER_SID=@CUSTID
+
+                JOIN DBO.ST_NM_SALES_PROJECTION_MASTER AS TEMP ON
+
+                CCP.CCP_DETAILS_SID = TEMP.CCP_DETAILS_SID
+
+                GROUP BY
+
+                RLD.HIERARCHY_NO,LEVEL_NO
+
+                HAVING
+
+                SUM( CASE( CHECK_RECORD ) WHEN 1 THEN 1 ELSE 0 END )= COUNT( TEMP.CCP_DETAILS_SID )
+
+                ORDER BY RLD.LEVEL_NO
+
+ 
+
+                DELETE M FROM #SELECTED_SYSTEM_HIERARCHY_NO M JOIN
+                (
+                SELECT C.* FROM
+                #SELECTED_SYSTEM_HIERARCHY_NO A
+                CROSS APPLY
+                (
+                SELECT * FROM #SELECTED_SYSTEM_HIERARCHY_NO B  WHERE B.HIERARCHY_NO LIKE A.HIERARCHY_NO+'[0-9]%'
+                )C
+                )B ON M.HIERARCHY_NO=B.HIERARCHY_NO
+
+      SELECT DISTINCT HIERARCHY_NO FROM #SELECTED_SYSTEM_HIERARCHY_NO
+   
 
    ]]>
 
@@ -2607,8 +2665,109 @@ FROM #SELECTED_HIERARCHY_NO A
     <entity id="custom-view-count-condition-query-forPVLoad">
         <query>
             <![CDATA[  
-              SELECT DISTINCT HIERARCHY_NO  
+              SELECT DISTINCT HIERARCHY_NO,INSTR  
 FROM #SELECTED_HIERARCHY_NO A
+ORDER BY INSTR
+                OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;   
+            ]]>
+        </query>
+    </entity>
+    <entity id="non-mandated-sales-query-new-custom-Excel">
+        <query>
+            <![CDATA[  
+    IF Object_id('TEMPDB..#ST_NM_SALES_PROJECTION_MASTER') IS NOT NULL DROP
+	TABLE
+		#st_nm_sales_projection_master SELECT
+			CASE
+				WHEN Count( DISTINCT MSPM.calculation_periods )> 1 THEN '-'
+				ELSE Max( MSPM.calculation_periods )
+			END CALCULATION_PERIODS,
+			CASE
+				WHEN Count( DISTINCT MSPM.methodology )> 1 THEN '-'
+				ELSE Max( MSPM.methodology )
+			END AS METHODOLOGY,
+			CCCP.HIERARCHY_NO AS HIERARCHY_NO,
+			Count(*) AS RCOUNT,
+			Min( CASE( check_record ) WHEN 1 THEN 1 ELSE 0 END ) AS CHECKREC,
+			Sum( CASE( MSPM.check_record ) WHEN 1 THEN 0 ELSE 1 END ) AS UNCHECK_COUNT,
+			Count( MSPM.ccp_details_sid ) AS CCPCOUNT,
+			Min( MSPM.user_group ) AS USER_GROUP,
+			CCP.sales_inclusion INTO
+				#st_nm_sales_projection_master
+			FROM
+				st_ccp_hierarchy CCP join CUSTOM_CCP_SALES CCCP ON
+				CCCP.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+				AND CCCP.CUST_VIEW_MASTER_SID = @CUSTOMSID
+			JOIN st_nm_sales_projection_master MSPM ON
+				MSPM.ccp_details_sid = CCP.ccp_details_sid
+			GROUP BY
+				CCCP.HIERARCHY_NO,
+				CCP.sales_inclusion SELECT
+					SH.hierarchy_no,
+					period,
+					year,
+					indicator AS ACTUALPROJ,
+					Avg( account_growth ) ACCOUNT_GROWTH,
+					Avg( product_growth ) PRODUCT_GROWTH,
+					NULL AS projection_sales,
+					NULL AS projection_units,
+					Sum( sales ) AS ACTUALSALES,
+					Sum( units ) ACTUALUNITS,
+					methodology,
+					user_group,
+					calculation_periods,
+					STC.sales_inclusion
+				FROM
+					ST_CUSTOM_SALES STC join custom_ccp_sales cccp on
+					cccp.CUST_VIEW_MASTER_SID = @CUSTOMSID
+					and stc.HIERARCHY_NO = cccp.ROWID
+				JOIN #st_nm_sales_projection_master SH ON
+					cccp.hierarchy_no = SH.hierarchy_no
+				WHERE
+					INDICATOR = 0 @SALESINCLUSION
+				GROUP BY
+					SH.hierarchy_no,
+					period,
+					year,
+					STC.sales_inclusion,
+					methodology,
+					user_group,
+					calculation_periods,
+					indicator
+			UNION ALL SELECT
+					SH.hierarchy_no,
+					period,
+					year,
+					indicator AS ACTUALPROJ,
+					Avg( account_growth ) ACCOUNT_GROWTH,
+					Avg( product_growth ) PRODUCT_GROWTH,
+					Sum( sales ) AS PROJECTION_SALES,
+					Sum( units ) PROJECTION_UNITS,
+					NULL AS ACTUALSALES,
+					NULL ACTUALUNITS,
+					methodology,
+					user_group,
+					calculation_periods,
+					STC.sales_inclusion
+				FROM
+					ST_CUSTOM_SALES STC
+				JOIN CUSTOM_CCP_SALES CO ON
+					CO.ROWID = STC.HIERARCHY_NO join custom_ccp_sales cccp on
+					cccp.CUST_VIEW_MASTER_SID = @CUSTOMSID
+					and stc.HIERARCHY_NO = cccp.ROWID
+				JOIN #st_nm_sales_projection_master SH ON
+					cccp.hierarchy_no = SH.hierarchy_no
+				WHERE
+					INDICATOR = 1 @SALESINCLUSION
+				GROUP BY
+					SH.HIERARCHY_NO,
+					PERIOD,
+					YEAR,
+					STC.SALES_INCLUSION,
+					methodology,
+					user_group,
+					calculation_periods,
+					INDICATOR @OPPOSITESINC
             ]]>
         </query>
     </entity>

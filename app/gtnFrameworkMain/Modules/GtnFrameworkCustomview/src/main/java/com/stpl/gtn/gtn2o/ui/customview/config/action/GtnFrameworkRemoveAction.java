@@ -49,8 +49,8 @@ public class GtnFrameworkRemoveAction implements GtnUIFrameWorkAction, GtnUIFram
             return;
         }
         if(treeBaseComponent.getChildNodes(selectedTreeBean).isEmpty()) {
-            treeBaseComponent.removeSelectedTreeItems(parameters.get(1).toString(), false);
-            table.removeItemFromDataTable(cutomerValueToRemove);
+            treeBaseComponent.removeSelectedTreeItems(parameters.get(2).toString(), false);
+            table.removeItemFromDataTable(selectedTreeBean);
             List<Object> dataList = selectedTreeBean.getProperties();
             dataList.addAll(selectedTreeBean.getAdditionalProperties());
             selectedTreeBean.setProperties(dataList);
