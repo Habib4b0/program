@@ -432,6 +432,14 @@ public class CommonUtil {
                         Thread.currentThread().setName(inputs[1].toString());
                         new DataSelectionLogic().callViewInsertProcedures((SessionDTO)inputs[NumericConstants.ONE],inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,String.valueOf(inputs[5]) ,inputs[6].toString());
                         break;
+                    case Constant.DISCOUNT_MASTER:
+                         Thread.currentThread().setName(inputs[1].toString());
+                         new DataSelectionLogic().callInsertProcedureForNmDiscountMaster(Integer.parseInt(inputs[NumericConstants.TWO].toString()),(SessionDTO)inputs[NumericConstants.SIX], inputs[1].toString() ,inputs[NumericConstants.FIVE].toString());
+                         break;
+                    case Constant.CUST_VIEW_MAP_QUERY:
+                         Thread.currentThread().setName(inputs[0].toString());
+                         new DataSelectionLogic().callForDeductionLevelMapQuery((SessionDTO)inputs[NumericConstants.ONE]);
+                         break;
                     default:
                         break;
                 }
