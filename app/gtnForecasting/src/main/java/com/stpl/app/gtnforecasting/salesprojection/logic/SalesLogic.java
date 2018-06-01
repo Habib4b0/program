@@ -142,6 +142,8 @@ public class SalesLogic {
     public static final String PROJECTED_UNITS1 = "-ProjectedUnits";
     private String start;
     private String end;
+    public static final String UNION_ALL_ONE = " UNION ALL SELECT   NULL as account_growth,NULL as product_growth,NULL as projection_sales,NULL as projection_units,NULL as actualsales,NULL as actualunits,NULL as YEARS,NULL as PERIODS,NULL as calculation_periods,NULL as methodology,HIERARCHY_NO, ";
+    public static final String UNION_ALL_TWO = " NULL as rcount,NULL as actualproj,NULL as checkrec,NULL as uncheck_count, NULL as ccpcount,NULL as hierarchy_indicator,NULL as user_group,NULL AS SEC_HIERARCHY,NULL as SALES_INCLUSION ,NULL as  INSTR FROM #SELECTED_HIERARCHY_NO WHERE SALES_INCLUSION=  ";
     protected final CommonQueryUtils commonQueryUtils = CommonQueryUtils.getInstance();
     public static final Logger LOGGER = LoggerFactory.getLogger(SalesLogic.class);
     protected SalesProjectionDAO salesAllocationDAO = new SalesProjectionDAOImpl();
@@ -558,7 +560,7 @@ public class SalesLogic {
             String joinQuery = " JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=SHN.CCP_DETAILS_SID LEFT JOIN ST_ITEM_UOM_DETAILS  UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM.UOM_CODE = '" + projSelDTO.getUomCode() + "'";
             sql = sql.replace("@SALESINCLUSIONCC", projSelDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? StringUtils.EMPTY : "and CCP.sales_inclusion=" + projSelDTO.getSessionDTO().getSalesInclusion());
             sql = sql.replace("@SALESINCLUSION", isSalesInclusionNotSelected ? StringUtils.EMPTY : " AND STC.SALES_INCLUSION = " + projSelDTO.getSessionDTO().getSalesInclusion());
-            sql = sql.replace("@OPPOSITESINC", isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #SELECTED_HIERARCHY_NO WHERE SALES_INCLUSION= " + oppositeSalesInc);
+            sql = sql.replace("@OPPOSITESINC", isSalesInclusionNotSelected ? StringUtils.EMPTY : UNION_ALL_ONE + UNION_ALL_TWO + oppositeSalesInc);
             sql = sql.replace("@UOMCODE", projSelDTO.getUomCode().equals("EACH") ? StringUtils.EMPTY : joinQuery);
             sql = sql.replace("@SUMPROJECTEDUNITS", projSelDTO.getUomCode().equals("EACH") ? "SUM(NMSP.PROJECTION_UNITS) AS PROJECTION_UNITS" : "SUM(ISNULL(NMSP.PROJECTION_UNITS,0)*ISNULL(UOM.UOM_VALUE,0)) AS PROJECTION_UNITS");
             sql = sql.replace("@SUMACTUALUNITS", projSelDTO.getUomCode().equals("EACH") ? "Sum(NMSP.ACTUAL_UNITS) AS ACTUAL_UNITS" : "Sum(ISNULL(NMSP.ACTUAL_UNITS,0)*ISNULL(UOM.UOM_VALUE,0)) AS ACTUAL_UNITS");
@@ -636,7 +638,7 @@ public class SalesLogic {
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
         return convertfinalResultLists(list, projSelDTO.isIsCustomHierarchy(), projSelDTO.getTreeLevelNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO);
         }
-
+    
     public List<SalesRowDto> getSalesResults(ProjectionSelectionDTO projSelDTO, int start, int end) {
         /*if no record available in ST_NM_ACTAUL_SALES table, we will show hierarchy in table */
 
@@ -798,7 +800,11 @@ public class SalesLogic {
                 key = monthName.toLowerCase(Locale.ENGLISH) + "-" + String.valueOf(obj[NumericConstants.SIX]);
             }
             if (CommonUtil.isValueEligibleForLoading()) {
-                salesRowDto.setSalesInclusion(projectionSelectionDTO.isIsCustomHierarchy() ? String.valueOf(obj[NumericConstants.NINETEEN]) : String.valueOf(BooleanUtils.toInteger((boolean) obj[NumericConstants.NINETEEN])));
+                if (obj[NumericConstants.NINETEEN] != null) {
+                    salesRowDto.setSalesInclusion(projectionSelectionDTO.isIsCustomHierarchy() ? String.valueOf(obj[NumericConstants.NINETEEN]) : String.valueOf(BooleanUtils.toInteger((boolean) obj[NumericConstants.NINETEEN])));
+                } else {
+                    salesRowDto.setSalesInclusion(StringUtils.EMPTY);
+                }
             }
 
             salesProjectionTableCustomization(projectionSelectionDTO, salesProjectionDoubleColumnList, salesRowDto, headerMapValue, obj,
