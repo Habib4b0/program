@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.ui.constants.GtnForecastReturnsClassConstants;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.button.GtnUIFrameworkButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkbox.GtnUIFrameworkCheckBoxComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkedcombobox.GtnUIFrameworkCheckedComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
@@ -142,11 +143,11 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 	private void addDisplaySelectionTabComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		addReportProfileComponent(componentList, nameSpace);
-                addComparisonComponent(componentList, nameSpace);
+		addComparisonComponent(componentList, nameSpace);
 		addVariableComponent(componentList, nameSpace);
 		addFrequencyComponent(componentList, nameSpace);
 		addPeriodRangeFromComponent(componentList, nameSpace);
-                addCustomViewButtonComponent(componentList, nameSpace);
+		addCustomViewButtonComponent(componentList, nameSpace);
 		addCustomViewComponent(componentList, nameSpace);
 		addComparisonBasisComponent(componentList, nameSpace);
 		addVariableCategoryComponent(componentList, nameSpace);
@@ -154,7 +155,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		addPeriodRangeToComponent(componentList, nameSpace);
 	}
 
-        private void addCustomViewButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+	private void addCustomViewButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig customViewConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_BUTTON,
@@ -201,8 +202,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		customViewComboboxConfig.setGtnComboboxConfig(customViewLoadConfig);
 
 	}
-        
-        private void addVariableComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+
+	private void addVariableComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT, true,
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
@@ -224,8 +225,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		variableConfig.setGtnCheckedComboboxConfig(variableLoadConfig);
 		componentList.add(variableConfig);
 	}
-        
-        private void addComparisonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+
+	private void addComparisonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig reportingDashboardComparisonConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportingDashboardComparisonConfig", true,
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT,
@@ -251,7 +252,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				.setGtnUIFrameWorkActionConfigList(reportingDashboardComparisonPopupActionList);
 
 	}
-        
+
 	private void addReportProfileComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 
 		GtnUIFrameworkComponentConfig reportProfileConfig = new GtnUIFrameworkComponentConfig();
@@ -273,7 +274,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(reportProfileConfig);
 
 	}
-
 
 	private void addFrequencyComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
@@ -320,7 +320,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		periodRangeFromConfig.setGtnComboboxConfig(periodRangeFromLoadConfig);
 
 	}
-
 
 	private void addComparisonBasisComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
@@ -713,16 +712,16 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 	private void addReportOptionsTabComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		addVariableAndVarianceSequencingComponent(componentList, nameSpace);
-                addVariableBreakdownComponent(componentList, nameSpace);
+		addVariableBreakdownComponent(componentList, nameSpace);
 		addViewOptionsComponent(componentList, nameSpace);
 		addUnitOfMeasureComponent(componentList, nameSpace);
 		addHeaderSequencingComponent(componentList, nameSpace);
-                addComparisonOptionsComponent(componentList, nameSpace);
+		addComparisonOptionsComponent(componentList, nameSpace);
 		addDisplayFormatComponent(componentList, nameSpace);
 		addCurrencyDisplayComponent(componentList, nameSpace);
 	}
 
-        private void addComparisonOptionsComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+	private void addComparisonOptionsComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_COMPARISON_OPTIONS_LAYOUT, true,
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_CSS_LAYOUT);
@@ -751,8 +750,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(comparisonOptionsConfig);
 	}
 
-        
-        private void addVariableBreakdownComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+	private void addVariableBreakdownComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VARIABLE_BREAKDOWN_LAYOUT, true,
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_CSS_LAYOUT);
@@ -781,7 +779,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(variableBreakdownConfig);
 	}
 
-        
 	private void addVariableAndVarianceSequencingComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
@@ -806,7 +803,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		variableAndVarianceSequencingConfig.setGtnComboboxConfig(variableAndVarianceSequencingLoadConfig);
 	}
-
 
 	private void addViewOptionsComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
@@ -874,7 +870,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		headerSequencingConfig.setGtnComboboxConfig(headerSequencingLoadConfig);
 	}
 
-	
 	private void addDisplayFormatComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_DISPLAY_FORMAT_LAYOUT, true,
@@ -1023,7 +1018,39 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		resultsLayout.setComponentWidth("100%");
 		componentList.add(resultsLayout);
 		addResultTable(componentList, resultsLayout.getComponentId());
-		addExcelButtonComponent(componentList, nameSpace, resultsLayout.getComponentId());
+		String layoutId = addButtonLayout(componentList, nameSpace, resultsLayout.getComponentId());
+		addChartButtonComponent(componentList, nameSpace, layoutId);
+		addExcelButtonComponent(componentList, nameSpace, layoutId);
+
+	}
+
+	private String addButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace,
+			String componentId) {
+		String buttonLayoutId = nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "buttonLayout";
+		GtnUIFrameworkComponentConfig chartButtonConfig = configProvider.getHorizontalLayoutConfig(buttonLayoutId, true,
+				componentId);
+		chartButtonConfig.setAuthorizationIncluded(true);
+		componentList.add(chartButtonConfig);
+		return buttonLayoutId;
+	}
+
+	private void addChartButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace,
+			String layoutId) {
+		GtnUIFrameworkComponentConfig chartButtonConfig = new GtnUIFrameworkComponentConfig();
+		chartButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		chartButtonConfig
+				.setComponentId(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "chartButtonConfig");
+		chartButtonConfig.setParentComponentId(layoutId);
+		chartButtonConfig.setAddToParent(true);
+		GtnUIFrameworkButtonConfig config = new GtnUIFrameworkButtonConfig();
+		config.setIconUrl(GtnFrameworkCommonStringConstants.CHART_ICON_URL);
+		chartButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		chartButtonConfig.setComponentWidth(GtnFrameworkCssConstants.PIXEL_65);
+		chartButtonConfig.addComponentStyle(GtnFrameworkCssConstants.LINK);
+		chartButtonConfig.setAuthorizationIncluded(true);
+		chartButtonConfig.setButtonConfig(config);
+		componentList.add(chartButtonConfig);
+
 	}
 
 	private void addResultTable(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
@@ -1184,12 +1211,14 @@ public class GtnFrameworkReportingDashboardTabConfig {
 	private void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace,
 			String parentId) {
 
-		GtnUIFrameworkComponentConfig excelButtonConfig = configProvider.getVerticalLayoutConfig(
-				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "excelButtonConfig", true, parentId);
+		GtnUIFrameworkComponentConfig excelButtonConfig = new GtnUIFrameworkComponentConfig();
 		excelButtonConfig.setComponentType(GtnUIFrameworkComponentType.EXCEL_BUTTON);
+		excelButtonConfig
+				.setComponentId(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "excelButtonConfig");
+		excelButtonConfig.setParentComponentId(parentId);
+		excelButtonConfig.setAddToParent(true);
 		excelButtonConfig.setAuthorizationIncluded(true);
 		componentList.add(excelButtonConfig);
-
 	}
 
 }
