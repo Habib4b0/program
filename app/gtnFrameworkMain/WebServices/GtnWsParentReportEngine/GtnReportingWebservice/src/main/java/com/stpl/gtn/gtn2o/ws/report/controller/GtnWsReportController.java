@@ -24,7 +24,7 @@ import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportWebsevice;
-import com.stpl.gtn.gtn2o.ws.report.service.GtnWsTreeService;
+import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsTreeService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
