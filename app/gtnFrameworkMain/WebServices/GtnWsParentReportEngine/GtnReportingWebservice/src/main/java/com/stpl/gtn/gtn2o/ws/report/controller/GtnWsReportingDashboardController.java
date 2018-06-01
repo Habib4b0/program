@@ -176,4 +176,25 @@ public class GtnWsReportingDashboardController {
 			return gtnUIFrameworkWebserviceResponse;
 		}
 	}
+	
+	
+	// comparison breakdown grid Headers
+	@PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_REPORT_COMPARISON_BREAKDOWN_TABLE_HEADERS_SERVICE)
+	public GtnUIFrameworkWebserviceResponse getProjectionVarianceConfigureLeftHeaders(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+			GtnWsPagedTreeTableResponse leftHeader = reportHeaderService.getComparisonBreakdownHeaderColumns();
+			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(leftHeader);
+			return gtnUIFrameworkWebserviceResponse;
+		} catch (GtnFrameworkGeneralException ex) {
+			gtnLogger.error("Error in comparison breakdown controller, " + ex.getMessage(), ex);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			return gtnUIFrameworkWebserviceResponse;
+		}
+	}
 }
