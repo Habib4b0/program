@@ -4,6 +4,7 @@ public class GtnUIFrameworkButtonConfig {
 
 	private GtnUiFrameworkButtonType buttonType = GtnUiFrameworkButtonType.BUTTON;
 	private boolean isButtonCaptionInUpperCase = true;
+	private String iconUrl;
 
 	public GtnUiFrameworkButtonType getButtonType() {
 		return buttonType;
@@ -24,6 +25,14 @@ public class GtnUIFrameworkButtonConfig {
 	 */
 	public void setButtonCaptionInUpperCase(boolean isButtonCaptionInUpperCase) {
 		this.isButtonCaptionInUpperCase = isButtonCaptionInUpperCase;
+	}
+
+	public String getIconUrl() {
+		return iconUrl;
+	}
+
+	public void setIconUrl(String iconUrl) {
+		this.iconUrl = iconUrl;
 	}
 
 }
