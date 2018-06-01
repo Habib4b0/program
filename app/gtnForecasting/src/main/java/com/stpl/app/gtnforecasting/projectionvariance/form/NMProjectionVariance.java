@@ -292,8 +292,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         projectionId = nonMandatedForm.getSessions().getProjectionId();
 
         frequency.addItem(Constant.SELECT_ONE);
-        frequency.addItem(Constant.ANNUALLY);
-        frequency.addItem(Constant.SEMI_ANNUALLY);
+        frequency.addItem(Constant.ANNUAL);
+        frequency.addItem(Constant.SEMI_ANNUAL_1);
         frequency.addItem(Constant.QUARTERLY);
         frequency.addItem(Constant.MONTHLY);
 
@@ -376,6 +376,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 session.setDsFrequency(String.valueOf(frequency.getValue()));
             }
         });
+        boolean isEnabled = Utility.customEnableForRelationFromDS(session.getCustomDeductionRelationShipSid());
+        view.setItemEnabled(Constant.CUSTOM_LABEL, isEnabled);
+       
         loadDisplayFormatDdlb();
     }
 
@@ -889,15 +892,14 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void customDdlbChangeOption() {
         LOGGER.info("customDdlbChangeOption ValueChangeEvent initiated ");
-        customId = CommonLogic.customDdlbOptionChange(customDdlb, editViewBtn, levelDdlb);
+        customId = (int)customDdlb.getValue();
         pvSelectionDTO.setCustomId(customId);
         levelDdlb.setEnabled(customId != 0);
-        int tpNo = CommonLogic.getTradingPartnerLevelNo(true, customId);
-        pvSelectionDTO.setTpLevel(tpNo);
         if (customId != 0) {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
         }
+        CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUST_VIEW_MAP_QUERY));
         viewChangeHierarchy = session.getCustomHierarchyMap().get(customId);
         if (customId != 0) {
             callGenerateLogic();
@@ -1333,6 +1335,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 }
                 loadCustomDDLB();
                 levelFilter.setEnabled(false);
+                customDdlbChangeOption();
             } else {
                 levelFilter.setEnabled(true);
                 level.setEnabled(true);

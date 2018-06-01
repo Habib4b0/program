@@ -967,6 +967,8 @@ public class Constant {
     public static final String SALES_PROCEDURE_ACTUAL = "SALES_PROCEDURE_ACTUAL";
     public static final String SALES_PROCEDURE_PROJ = "SALES_PROCEDURE_PROJ";
     public static final String SALES_PROCEDURE_MASTER = "SALES_PROCEDURE_MASTER";
+    public static final String DISCOUNT_MASTER = "DISCOUNT_MASTER";
+    public static final String CUST_VIEW_MAP_QUERY = "CUST_VIEW_MAP_QUERY";
 
     /**
      * set height for 390px
@@ -1121,6 +1123,7 @@ public class Constant {
     public static final String YEAR_SPACE = "\"YEAR\"";
     public static final String QUARTER = "QUARTER";
     public static final String SEMI_ANNUAL = "SEMI_ANNUAL";
+    public static final String SEMI_ANNUAL_1 = "Semi-Annual";
     public static final String PD_HIERARCHY_NO = "pd.HIERARCHY_NO,\n";
     public static final String NM_PROJ_DETAILS_SID_QUERY = "getNMProjDetailsSid_Query";
     public static final String SELECT_FROM_PROJECTION_DETAILS = " SELECT * FROM #PROJECTION_DETAILS ";

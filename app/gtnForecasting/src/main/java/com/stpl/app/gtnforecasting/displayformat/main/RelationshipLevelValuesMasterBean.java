@@ -65,11 +65,7 @@ public class RelationshipLevelValuesMasterBean {
     public String getDeductionFinalQuery() {
         for (int i = 0; i < queryList.size(); i++) {
             RelationshipLevelValuesBean query = queryList.get(i);
-            if (i != 0) {
-                finalQry.append(UNION_ALL);
-            }
-            finalQry.append(
-					query.getQuery().replace(DEFAULT_QUESTION, generateDefaultSelect(query.getNoOfSelectFormed())));
+            finalQry.append(query.getQuery());
 		}
 		return finalQry.toString();
 	}
@@ -96,9 +92,7 @@ public class RelationshipLevelValuesMasterBean {
 		}
 	}
 	private void createQueryDiscountCustomDeduction() {
-		for (int i = 0; i < tempList.size(); i++) {
 			queryList.add(getDeductionCustomisedQueryCustom());
-		}
 	}
 
 	private void createDeductionQuery(SessionDTO sessionDTO) {

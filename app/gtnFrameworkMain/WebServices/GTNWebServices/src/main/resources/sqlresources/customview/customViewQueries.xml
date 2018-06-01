@@ -136,6 +136,19 @@ INSERT
 		</query>
 	</entity>
         
+ <entity id="getCustomViewDeleteAlreadyUsed">
+		<query> 
+        <![CDATA[
+       SELECT
+	COUNT(*)
+FROM
+	PROJECTION_MASTER
+WHERE
+	CUSTOM_VIEW_MASTER_SID = ?
+	OR CUSTOM_VIEW_MASTER_DEDUCTION_SID = ?
+   ]]>
+		</query>
+	</entity>        
         
         
         

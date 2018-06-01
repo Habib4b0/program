@@ -288,8 +288,8 @@ public class DataSelection extends ForecastDataSelection {
 				productBeanList.clear();
 			}
 		});
-
-	}
+                
+                }
 
 	private void configureForView() {
 		resultsTablePanel.setVisible(false);
@@ -399,6 +399,60 @@ public class DataSelection extends ForecastDataSelection {
 				}
 			}
 		});
+                
+                dataSelectionDeductionLevel.addValueChangeListener(new Property.ValueChangeListener() {
+			@Override
+			public void valueChange(final Property.ValueChangeEvent event) {
+				if (!firstTimeLoad) {
+					if (dataSelectionDeductionLevelListenerFlag) {
+						final String dataSelectionDedLevelValue = getSelectedDataSelectionDeductionLevel();
+						new AbstractNotificationUtils() {
+
+							@Override
+							public void noMethod() {
+								// do nothing
+								if (!StringUtils.isBlank(dataSelectionDedLevelValue)) {
+									dataSelectionDeductionLevelListenerFlag = false;
+									dataSelectionDeductionLevel.select(Integer.valueOf(dataSelectionDedLevelValue));
+									dataSelectionDeductionLevelListenerFlag = true;
+								}
+							}
+
+							@Override
+							/**
+							 * The method is triggered when Yes button of
+							 * themessage box is pressed .
+							 *
+							 *
+							 * @param buttonId
+							 *            The buttonId of the pressed button.
+							 */
+
+							public void yesMethod() {
+								dataSelectionDedLevelValueChange(event);
+								setUpdateOnTabChange(true);
+							}
+						}.getConfirmationMessage("Confirm Change",
+								"You have selected a new Deduction Level. Are you sure you want to proceed? You will lose the current Deduction Level if you continue.");
+					}   else if (dataSelectionDeductionLevelListenerFlag) {
+						dataSelectionDedLevelValueChange(event);
+					}
+				} 
+                                else {
+					dataSelectionDedLevelValueChange(event);
+				}
+			}
+		});
+                
+                customRelationDdlb.addValueChangeListener(new Property.ValueChangeListener() {
+
+			@Override
+			public void valueChange(Property.ValueChangeEvent event) {
+                            int custRelationValue = Integer.parseInt(customRelationDdlb.getValue().toString());
+                            dataSelectionDTO.setCustomRelationShipSid(custRelationValue);
+				setUpdateOnTabChange(true);
+                        }
+                });
 		projectionName.setValue(selectionDTO.getProjectionName());
 		description.setValue(selectionDTO.getDescription());
 	}
@@ -479,6 +533,14 @@ public class DataSelection extends ForecastDataSelection {
 			productBeanList.removeAll(productBeanList);
 			setProductLevelNullSelection();
 		}
+	}
+        
+        private void dataSelectionDedLevelValueChange(Property.ValueChangeEvent event) {
+		if (event.getProperty().getValue() != null
+				&& !SELECT_ONE.equals(String.valueOf(event.getProperty().getValue()))) {
+			String selectedLevel = String.valueOf(event.getProperty().getValue());
+			setSelectedDataSelectionDeductionLevel(selectedLevel);
+		} 
 	}
 
 	public void configureOnLoading(int projectionId, DataSelectionDTO dataSelectionDTO) {
@@ -772,6 +834,7 @@ public class DataSelection extends ForecastDataSelection {
 				}
                                 
                                 forecastEligibleDate.setValue(selectionDTO.getForecastEligibleDate());
+                                dataSelectionDeductionLevel.setValue(selectionDTO.getDataSelectionDeductionLevelSid());
                                
 			}
 
@@ -1058,7 +1121,7 @@ public class DataSelection extends ForecastDataSelection {
 			if (getSelectedCustomers() != null && !getSelectedCustomers().isEmpty() && getSelectedProducts() != null
 					&& !getSelectedProducts().isEmpty()
 					&& (company.getValue() != null && !Constant.SELECT_ONE.equals(company.getValue()))
-					&& (businessUnit.getValue() != null && !Constant.SELECT_ONE.equals(businessUnit.getValue()))) {
+					&& (businessUnit.getValue() != null && !Constant.SELECT_ONE.equals(businessUnit.getValue())) && dataSelectionDeductionLevel.getValue() != null) {
 				setValid(BooleanConstant.getTrueFlag());
 			} else {
 				setValid(BooleanConstant.getFalseFlag());
@@ -1137,6 +1200,7 @@ public class DataSelection extends ForecastDataSelection {
 		session.setProductHierarchyVersion(selectionDTO.getProductHierVersionNo());
 		session.setCustomerRelationVersion(selectionDTO.getCustomerRelationShipVersionNo());
 		session.setProductRelationVersion(selectionDTO.getProductRelationShipVersionNo());
+                session.setCustomRelationShipSid(dataSelectionDTO.getCustomRelationShipSid());
 		selectionDTO.setProjectionId(session.getProjectionId());
 		selectionDTO.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 		selectionDTO.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
@@ -4419,7 +4483,10 @@ public class DataSelection extends ForecastDataSelection {
         private void configureDataSelectionDeductionLevel() {
 
 		List<String[]> newDeductionLevelList = CommonLogic.getDataselectionDeductionLevel();
+                setFirstTimeLoad(true);
 		Utility.loadDdlbForDeduction(dataSelectionDeductionLevel, newDeductionLevelList,session);
+                setFirstTimeLoad(false);
+                setSelectedDataSelectionDeductionLevel(String.valueOf(dataSelectionDeductionLevel.getValue()));
 	}
         
         private void loadCustomViewDropDown(ComboBox customRelationDdlb,Map<String,String> inputData) {
@@ -4432,5 +4499,5 @@ public class DataSelection extends ForecastDataSelection {
             dsLogic.loadCustomViewDeductionValues(customRelationDdlb,inputData,true);
 
         }
-
+        
 }

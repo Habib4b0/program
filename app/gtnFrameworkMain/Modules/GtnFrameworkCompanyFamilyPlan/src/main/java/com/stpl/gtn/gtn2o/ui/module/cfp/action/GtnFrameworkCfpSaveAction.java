@@ -147,8 +147,7 @@ public class GtnFrameworkCfpSaveAction
 				cfpNotesBean.setMasterTableSystemId(note.getDocDetailsId());
 				cfpNotesBean.setFilePath(note.getDocumentFullPath());
                                  String filePath = cfpNotesBean.getFilePath();
-                                String fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('_'))
-						+ filePath.substring(filePath.lastIndexOf('.'));
+                                String fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
 				cfpNotesBean.setFileName(fileName);
 				cfpNotesBean.setCreatedBy(Integer.valueOf(GtnUIFrameworkGlobalUI.getCurrentUser()));
 				cfpNotesBean.setCreatedDate(new Date());

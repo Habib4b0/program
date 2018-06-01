@@ -13,6 +13,7 @@ import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SaveDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
+import static com.stpl.app.gtnforecasting.logic.DataSelectionLogic.getRelationshipDetailsDeductionCustom;
 import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.Utility;
@@ -432,7 +433,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     public void getContent() {
         LOGGER.debug("Inside getContent= {} ", session.getAction());
         configureFeildsForNm();
-         if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
+         if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) || Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())) {
             loadDeductionLevelFilter(session.getDataSelectionDeductionLevel(), false);
             deductionFilterValues.getChildren().get(1).setChecked(true);
             String deductionMenuItemValue = deductionFilterValues.getChildren().get(1).getMenuItem().getCaption();
@@ -596,7 +597,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         valueDdlb.setContainerDataSource(valueDdlbBean);
 
         value.addStyleName("txtRightAlign");
-
+        
+        boolean isEnabled = Utility.customEnableForRelationFromDS(session.getCustomDeductionRelationShipSid());
+        view.setItemEnabled(Constant.CUSTOM_LABEL, isEnabled);
+        
         methodologyDdlb.addItem(SELECT_ONE.getConstant());
         methodologyDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         loadMethodologyDdlb(methodologyDdlb);
@@ -4357,7 +4361,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         if (!session.getCustomDetailMap().containsKey(customId)) {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
-        }
+    }
+        CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUST_VIEW_MAP_QUERY));
         currentHierarchy = session.getCustomHierarchyMap().get(customId);
         LOGGER.debug(" customId= {} ", customId);
         LOGGER.debug(" currentHierarchy= {} ", currentHierarchy.size());
