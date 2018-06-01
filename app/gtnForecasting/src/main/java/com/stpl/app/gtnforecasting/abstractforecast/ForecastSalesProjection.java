@@ -2303,8 +2303,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     Map<String, Object> inputParameters = loadInputParameters(startYear, endYear, startQuater, endQuater, enteredValue, updateVariable);
                     salesLogic.saveOnMassUpdate(projectionDTO, inputParameters);
                     String startPeriodMassUpdate = salesLogic.getPeriodSid(startPeriodValue, projectionDTO.getFrequency(), "Min");
-                    endPeriodValue = endPeriodValue == null ? String.valueOf(projectionDTO.getFrequency().charAt(0)) + endQuater + " " + endYear : endPeriodValue;
+                    endPeriodValue = endPeriodValue == null ? rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1) : endPeriodValue;
                     String endPeriodMassUpdate = salesLogic.getPeriodSid(endPeriodValue, projectionDTO.getFrequency(), "Max");
+                    updateVariable = updateVariable.equalsIgnoreCase(Constant.PRODUCT_GROWTH) ? "PRODUCT_GROWTH" : updateVariable;
+                    updateVariable = updateVariable.equalsIgnoreCase(Constant.ACCOUNT_GROWTH) ? "ACCOUNT_GROWTH" : updateVariable;
                     dataLogic.callViewInsertProceduresThread(projectionDTO.getSessionDTO(), Constant.SALES1,startPeriodMassUpdate,endPeriodMassUpdate,updateVariable);
                     CommonUtil.getInstance().waitForSeconds();
                     CommonLogic.procedureCompletionCheck(session,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));

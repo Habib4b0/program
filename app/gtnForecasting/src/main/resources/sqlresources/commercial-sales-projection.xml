@@ -695,11 +695,7 @@ WHILE ( @I <= @COUNT )
                 (HIERARCHY_NO,
                 INSTR,SALES_INCLUSION)
                 
-                SELECT DISTINCT STUFF(( SELECT DISTINCT ', ' + HIERARCHY_NO
-                           FROM HIERARCHY B
-                           WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES
-                           FOR XML PATH('')
-                           ), 1, 2, '') HIERARCHY_NO,INSTR, A.SALES_INCLUSION
+                SELECT DISTINCT HIERARCHY_NO,INSTR, A.SALES_INCLUSION
                 FROM   HIERARCHY A
                 [?SELECTED_HIERARCHY_JOIN] 
             ]]>
