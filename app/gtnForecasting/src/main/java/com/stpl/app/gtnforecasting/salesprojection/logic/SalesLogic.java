@@ -635,6 +635,23 @@ public class SalesLogic {
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
         return convertfinalResultLists(list, projSelDTO.isIsCustomHierarchy(), projSelDTO.getTreeLevelNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO);
         }
+    
+    
+    
+    
+    public List<Object[]> getSalesExcelResults(ProjectionSelectionDTO projSelDTO) {
+        String sql = SQlUtil.getQuery("non-mandated-sales-query-excel");
+        char oppositeSalesInc = projSelDTO.getSessionDTO().getSalesInclusion().equals("1") ? '0' : '1';
+        boolean isSalesInclusionNotSelected = projSelDTO.getSessionDTO().getSalesInclusion().equals(ALL);
+        sql = sql.replace("@VIEWTABLE", CommonLogic.getViewTableName(projSelDTO));
+        sql = sql.replace("@HIERARCHY", Constant.CUSTOMER_SMALL.equals(projSelDTO.getViewOption()) ?"CUST_HIERARCHY_NO":"PROD_HIERARCHY_NO");
+        sql = sql.replace("@SALESINCLUSION", isSalesInclusionNotSelected ? StringUtils.EMPTY : " AND STC.SALES_INCLUSION = " + projSelDTO.getSessionDTO().getSalesInclusion());
+        sql = sql.replace("@OPPOSITESINC", isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL");
+        sql = sql.replace("@CONDITION",isSalesInclusionNotSelected ? StringUtils.EMPTY :" WHERE SALES_INCLUSION= " + oppositeSalesInc);      
+        String query = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
+        List<Object[]> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
+        return list;
+    }
 
     public List<SalesRowDto> getSalesResults(ProjectionSelectionDTO projSelDTO, int start, int end) {
         /*if no record available in ST_NM_ACTAUL_SALES table, we will show hierarchy in table */
