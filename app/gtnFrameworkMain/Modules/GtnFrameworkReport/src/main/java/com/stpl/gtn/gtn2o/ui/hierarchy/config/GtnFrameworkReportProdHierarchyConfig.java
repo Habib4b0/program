@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportForecastLevelLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
@@ -163,6 +164,17 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		relationshipValueChangeAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PRODUCT_RELATIONSHIP_VERSION);
 		actionConfigList.add(relationshipValueChangeAction);
+
+		GtnUIFrameWorkActionConfig loadForecastLavelAction = new GtnUIFrameWorkActionConfig();
+		loadForecastLavelAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		loadForecastLavelAction.addActionParameter(GtnReportForecastLevelLoadAction.class.getName());
+		loadForecastLavelAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.PRODUCT_RELATIONSHIP_VERSION);
+		loadForecastLavelAction
+				.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy");
+		loadForecastLavelAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.PRODUCT_LEVEL);
+		actionConfigList.add(loadForecastLavelAction);
 		relationship.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		GtnUIFrameworkComponentConfig productSelectionRelationshipVersionLayout = configProvider
@@ -174,7 +186,8 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		GtnUIFrameworkComponentConfig productRelationshipVersion = configProvider.getUIFrameworkComponentConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.PRODUCT_RELATIONSHIP_VERSION,
-				true, productSelectionRelationshipVersionLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+				true, productSelectionRelationshipVersionLayout.getComponentId(),
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		productRelationshipVersion.setComponentName("ProductRelationshipVersion");
 
 		GtnUIFrameworkComboBoxConfig productRelationshipVersionConfig = configProvider.getComboBoxConfig(
@@ -196,7 +209,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		level.setComponentName("Level: ");
 
 		GtnUIFrameworkComboBoxConfig levelLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.PRODUCT_FORCAST_LEVEL,
+				GtnFrameworkForecastConstantCommon.REPORT_FORECAST_LEVEL,
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		level.setGtnComboboxConfig(levelLoadConfig);
@@ -210,7 +223,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				+ GtnFrameworkCommonConstants.DUAL_LIST_BOX_COMP);
 		refreshDualListBoxAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PRODUCT_LEVEL);
-		actionList.add(refreshDualListBoxAction);
+		// actionList.add(refreshDualListBoxAction);
 
 		GtnUIFrameWorkActionConfig loadAvailabletableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadAvailabletableActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);

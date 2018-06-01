@@ -76,6 +76,8 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
                 .getIntegerFromField();
         int productRelationSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[3])
                 .getIntegerFromField();
+        int moduleType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(paramList.get(4).toString())
+                .getIntegerFromField();
         String customViewType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(paramList.get(2).toString())
                 .getStringFromField();
         cvRequest.setCustomViewName(customViewName);
@@ -83,6 +85,7 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
         cvRequest.setCustomerRelationshipSid(customerRelationSid);
         cvRequest.setProductRelationshipSid(productRelationSid);
         cvRequest.setCustomViewType(customViewType);
+        cvRequest.setModuleType(moduleType);
         if(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")).equalsIgnoreCase("Edit")){
          cvRequest.setCvSysId(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("customSid"))));
         }

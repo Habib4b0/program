@@ -2395,6 +2395,7 @@ BEGIN
 		)
 END
 
+GO
 IF NOT EXISTS (
 		SELECT 1
 		FROM HELPER_TABLE
@@ -12062,6 +12063,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -12080,6 +12082,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -12098,6 +12101,7 @@ GO
 					,0
 					)
 			END
+			GO
 					-------------------------------------------
 				IF NOT EXISTS (
 					SELECT 1
@@ -12117,6 +12121,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -12135,6 +12140,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -12153,6 +12159,7 @@ GO
 					,0
 					)
 			END
+			GO
 					---------
 					---GAL-1059
 				IF NOT EXISTS (
@@ -12173,6 +12180,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -12191,6 +12199,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -12209,6 +12218,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -12221,6 +12231,7 @@ GO
 				WHERE DESCRIPTION = 'Contract Details'
 					AND LIST_NAME = 'ARM_RATE_BASIS'
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -12239,6 +12250,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -12257,6 +12269,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -12275,6 +12288,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -12293,6 +12307,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -12311,6 +12326,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -12329,6 +12345,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -12347,7 +12364,7 @@ GO
 					,0
 					)
 			END
-			
+			GO
 			
 			----------------PTF SCREEN--------------------
 			
@@ -13515,6 +13532,7 @@ GO
 				WHERE DESCRIPTION = 'TRANSACTION 1'
 					AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
 			END
+			GO
 				IF EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13527,6 +13545,7 @@ GO
 				WHERE DESCRIPTION = 'TRANSACTION 2'
 					AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
 			END
+			GO
 				IF EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13539,6 +13558,7 @@ GO
 				WHERE DESCRIPTION = 'TRANSACTION 3'
 					AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
 			END
+			GO
 				IF EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13551,6 +13571,7 @@ GO
 				WHERE DESCRIPTION = 'TRANSACTION 4'
 					AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
 			END
+			GO
 				IF EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13563,6 +13584,7 @@ GO
 				WHERE DESCRIPTION = 'TRANSACTION 5'
 					AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
 			END
+			GO
 				IF EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13575,6 +13597,7 @@ GO
 				WHERE DESCRIPTION = 'TRANSACTION 6'
 					AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
 			END
+			GO
 				IF EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13587,6 +13610,7 @@ GO
 				WHERE DESCRIPTION = 'TRANSACTION 7'
 					AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
 			END
+			GO
 				IF EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13599,6 +13623,7 @@ GO
 				WHERE DESCRIPTION = 'TRANSACTION 8'
 					AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13617,6 +13642,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13635,6 +13661,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13653,6 +13680,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13671,6 +13699,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13689,6 +13718,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13707,6 +13737,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13725,6 +13756,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13743,6 +13775,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13761,6 +13794,7 @@ GO
 					,0
 					)
 			END
+			GO
 					-------------------------
 					-------------------------------------------------------
 				IF NOT EXISTS (
@@ -13781,6 +13815,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13799,6 +13834,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13817,6 +13853,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13835,6 +13872,7 @@ GO
 					,0
 					)
 			END
+			GO
 					---GAL-1059
 				IF NOT EXISTS (
 					SELECT 1
@@ -13854,6 +13892,7 @@ GO
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13872,7 +13911,7 @@ GO
 					,0
 					)
 			END
-
+GO
 			---
 
 
@@ -13910,6 +13949,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13928,6 +13968,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13946,6 +13987,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13964,6 +14006,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -13982,6 +14025,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14000,6 +14044,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14018,6 +14063,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14036,6 +14082,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14054,6 +14101,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 					--Supplemental Rebate Schedule
 				IF NOT EXISTS (
 					SELECT 1
@@ -14073,6 +14121,7 @@ IF NOT EXISTS (SELECT 1
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14091,6 +14140,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14109,6 +14159,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14127,6 +14178,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14145,6 +14197,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14163,6 +14216,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 					------------------------------------------------------------RS_TYPE
 				IF NOT EXISTS (
 					SELECT 1
@@ -14182,6 +14236,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14200,6 +14255,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14218,6 +14274,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14236,6 +14293,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14254,6 +14312,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14272,6 +14331,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14290,6 +14350,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14308,6 +14369,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14326,6 +14388,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14344,6 +14407,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14362,6 +14426,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 					--------------------------------------------------------rebate_program_type-----------------------------
 				IF NOT EXISTS (
 					SELECT 1
@@ -14381,6 +14446,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14399,6 +14465,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14417,6 +14484,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14435,6 +14503,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14453,6 +14522,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14471,6 +14541,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14489,6 +14560,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14507,6 +14579,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14525,6 +14598,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14543,6 +14617,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -14561,6 +14636,7 @@ IF NOT EXISTS (SELECT 1
 					,'0'
 					)
 			END
+			GO
 					--------------------ALG-527 Helper entries
 				IF NOT EXISTS (
 					SELECT 1
@@ -15434,6 +15510,7 @@ IF NOT EXISTS (SELECT 1
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -15452,6 +15529,7 @@ IF NOT EXISTS (SELECT 1
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -15470,6 +15548,7 @@ IF NOT EXISTS (SELECT 1
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -15488,6 +15567,7 @@ IF NOT EXISTS (SELECT 1
 					,0
 					)
 			END
+			GO
 				IF NOT EXISTS (
 					SELECT 1
 					FROM HELPER_TABLE
@@ -15506,6 +15586,7 @@ IF NOT EXISTS (SELECT 1
 					,0
 					)
 			END
+			
 				GO
 				 IF NOT EXISTS (
 					SELECT 1
@@ -16857,3 +16938,39 @@ BEGIN
 		AND LIST_NAME = 'CategoryName'
 END
 GO
+
+------------------CUST VIEW MASTER------------------
+
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'CV_MODULE_TYPE'
+                      AND LIST_NAME = 'CategoryName')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'CV_MODULE_TYPE',
+                    'CategoryName',
+                    0 )
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Forecasting'
+                      AND LIST_NAME = 'CV_MODULE_TYPE')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Forecasting',
+                    'CV_MODULE_TYPE',
+                    0 )
+  END
+
+GO 
+
+--------------------------------------------------------

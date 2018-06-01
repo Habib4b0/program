@@ -21,6 +21,7 @@ public class CustViewMaster  implements java.io.Serializable {
      private Integer modifiedBy;
      private Date modifiedDate;
      private String screenName;
+     private Integer moduleType;
 
     public CustViewMaster() {
     }
@@ -122,7 +123,15 @@ public class CustViewMaster  implements java.io.Serializable {
         this.screenName = screenName;
     }
 
+    public Integer getModuleType() {
+        return moduleType;
+    }
 
+    public void setModuleType(Integer moduleType) {
+        this.moduleType = moduleType;
+    }
+   
+    
 
 
 }
