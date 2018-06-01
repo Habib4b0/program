@@ -23,24 +23,27 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportDasboardTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionRemoveAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionSubmitAction;
-import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionDeleteViewAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataAssumptionsTabLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionDeleteViewAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionLoadViewAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionResetAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionTabLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionViewAddAction;
-import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionLoadViewAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkSaveViewAction;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnForecastEligibleDateLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportForecastLevelLoadAction;
 
 public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjectFiller {
 
 	@Override
 	public void addDynamicObject() {
-		
+
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
 				GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction.class.getName(),
 				new GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction());
@@ -113,6 +116,12 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnReportComparisonProjectionAddAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportComparisonProjectionSubmitAction.class.getName(),
 				new GtnReportComparisonProjectionSubmitAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportComparisonProjectionRemoveAction.class.getName(),
+				new GtnReportComparisonProjectionRemoveAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportComparisonProjectionResultsLoadAction.class.getName(),
+				new GtnReportComparisonProjectionResultsLoadAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportForecastLevelLoadAction.class.getName(),
+				new GtnReportForecastLevelLoadAction());
 	}
 
 }

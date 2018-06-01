@@ -3,9 +3,11 @@ package com.stpl.gtn.gtn2o.ui.config;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportDasboardTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnForecastReturnsClassConstants;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -30,7 +32,6 @@ import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
-import java.util.stream.Collectors;
 
 public class GtnFrameworkReportingDashboardTabConfig {
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
@@ -243,11 +244,17 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		List<GtnUIFrameWorkActionConfig> reportingDashboardComparisonPopupActionList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig reportingDashboardComparisonPopupConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.POPUP_ACTION);
-		reportingDashboardComparisonPopupConfig.addActionParameter("comparisonLookupView");
+		reportingDashboardComparisonPopupConfig.addActionParameter("dashboardcomparisonLookupView");
 		reportingDashboardComparisonPopupConfig.addActionParameter("Comparison Lookup");
-		reportingDashboardComparisonPopupConfig.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
+		reportingDashboardComparisonPopupConfig.addActionParameter(null);
 		reportingDashboardComparisonPopupConfig.addActionParameter(null);
 		reportingDashboardComparisonPopupActionList.add(reportingDashboardComparisonPopupConfig);
+
+		GtnUIFrameWorkActionConfig selectedGridLoadAction = new GtnUIFrameWorkActionConfig();
+		selectedGridLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		selectedGridLoadAction.addActionParameter(GtnReportComparisonProjectionResultsLoadAction.class.getName());
+		selectedGridLoadAction.addActionParameter("comparisonLookupProjectionsResultsPagedTableComponent");
+		reportingDashboardComparisonPopupActionList.add(selectedGridLoadAction);
 		reportingDashboardComparisonConfig
 				.setGtnUIFrameWorkActionConfigList(reportingDashboardComparisonPopupActionList);
 

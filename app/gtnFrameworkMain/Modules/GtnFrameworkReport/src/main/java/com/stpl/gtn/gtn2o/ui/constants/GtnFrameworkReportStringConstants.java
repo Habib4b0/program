@@ -198,6 +198,8 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String COMPARISON_LOOKUP = "comparisonLookup";
 
+	public static final String DASHBOARD_COMPARISON_LOOKUP = "dashboardComparisonLookup";
+
 	public static final String REPORT_PROFILE_LOOKUP = "reportProfileLookup";
 
 	public static final String REPORT_CUSTOM_VIEW_LOOKUP = "reportCustomViewLookup";
@@ -209,8 +211,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORT_DS_PRODUCT_HIERARCHY_LOOKUP = "reportDsProductHierarchyLookup";
 
 	public static final String CURRENT_TAB = "currentTab";
-        
-        public static final String DATA_ASSUMPTIONS_TAB_LOAD = "dataAssumptionsTab";
+
+	public static final String DATA_ASSUMPTIONS_TAB_LOAD = "dataAssumptionsTab";
 
 	public static final String SUB_TAB1 = "subTab1";
 
@@ -420,6 +422,14 @@ public final class GtnFrameworkReportStringConstants {
 
 	private static final String[] REPORT_DATAASSUMPTIONS_FILTER_PROPERTYID = new String[] { "file", "company",
 			"businessUnit", "type", "version", "activeFrom", "fromPeriod", "toPeriod" };
+        
+        private static final List<String> REPORT_DATAASSUMPTIONS_TAB_ID = Arrays.asList("dataAssumptionsPagedTableComponentdataAssumptionsTab0dataAssumptionsTab",
+                "dataAssumptionsPagedTableComponentdataAssumptionsTab1dataAssumptionsTab","dataAssumptionsPagedTableComponentdataAssumptionsTab2dataAssumptionsTab",
+                "dataAssumptionsPagedTableComponentdataAssumptionsTab3dataAssumptionsTab","dataAssumptionsPagedTableComponentdataAssumptionsTab4dataAssumptionsTab");
+
+        public static List<String> getReportDataAssumptionsTabId() {
+            return REPORT_DATAASSUMPTIONS_TAB_ID;
+        }
 
 	public static Class<?>[] getReportCustomerHierarchyTableColumnsDataType() {
 		return REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE.clone();

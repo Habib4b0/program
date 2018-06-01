@@ -1,5 +1,11 @@
 package com.stpl.gtn.gtn2o.ui.module.lookups;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
@@ -20,12 +26,6 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class GtnFrameworkReportProductHierarchyLookUp {
 
@@ -175,7 +175,8 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 
 		GtnUIFrameworkComponentConfig productHierarchySearchButton = new GtnUIFrameworkComponentConfig();
 		productHierarchySearchButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		productHierarchySearchButton.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "landingScreenProductHierarchySearchButton");
+		productHierarchySearchButton.setComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "landingScreenProductHierarchySearchButton");
 		productHierarchySearchButton.setComponentName("SEARCH");
 		productHierarchySearchButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.SEARCH_AND_RESET_BUTTON_LAYOUT);
@@ -183,7 +184,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
-                GtnUIFrameWorkActionConfig validationActionConfig = new GtnUIFrameWorkActionConfig();
+		GtnUIFrameWorkActionConfig validationActionConfig = new GtnUIFrameWorkActionConfig();
 		validationActionConfig.setActionType(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
 
 		validationActionConfig
@@ -200,7 +201,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		Object validationType = GtnUIFrameworkValidationType.OR;
 		validationActionConfig.setActionParameterList(Arrays.asList(validationType, Arrays.asList(alertActionConfig)));
 		actionConfigList.add(validationActionConfig);
-                
+
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
 
@@ -211,7 +212,8 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 				.setFieldValues(Arrays.asList(new String[] {
 						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 								+ GtnFrameworkCommonConstants.HIERARCHY_TYPE,
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.PRODUCT_HIERARCHY_NAME }));
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkReportStringConstants.PRODUCT_HIERARCHY_NAME }));
 		loadDataTableActionConfig.setActionParameterList(actionParams);
 
 		actionConfigList.add(loadDataTableActionConfig);
@@ -228,20 +230,23 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 				+ GtnFrameworkCommonConstants.SEARCH_AND_RESET_BUTTON_LAYOUT);
 		productHierarchyResetButton.setAddToParent(true);
 
-                List<GtnUIFrameWorkActionConfig> productHierarchyResetActionConfigList = new ArrayList<>();
+		List<GtnUIFrameWorkActionConfig> productHierarchyResetActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig productHierarchyResetActionConfig = new GtnUIFrameWorkActionConfig();
 		productHierarchyResetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
 
 		List<Object> productHierarchyParams = new ArrayList<>();
 		productHierarchyParams.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
 		productHierarchyParams.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
-		productHierarchyParams.add(Arrays.asList(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.HIER_TYPE,
-                        namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.PRODUCT_HIERARCHY_NAME));
-		productHierarchyParams.add(Arrays.asList(new Object[] { "Primary", GtnFrameworkCommonStringConstants.STRING_EMPTY }));
+		productHierarchyParams.add(Arrays.asList(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.HIER_TYPE,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.PRODUCT_HIERARCHY_NAME));
+		productHierarchyParams
+				.add(Arrays.asList(new Object[] { "Primary", GtnFrameworkCommonStringConstants.STRING_EMPTY }));
 		productHierarchyResetActionConfig.setActionParameterList(productHierarchyParams);
 		productHierarchyResetActionConfigList.add(productHierarchyResetActionConfig);
 		productHierarchyResetButton.setGtnUIFrameWorkActionConfigList(productHierarchyResetActionConfigList);
-                
+
 		componentList.add(productHierarchyResetButton);
 	}
 
@@ -371,7 +376,6 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		selectButton.setAddToParent(true);
 		selectButton.addDependentComponent("reportLandingScreen_relationship");
-		selectButton.addDependentComponent("reportLandingScreen_level");
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig selectAction = new GtnUIFrameWorkActionConfig();
 		selectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
@@ -401,7 +405,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		cancelButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		cancelButton.setAddToParent(true);
-                cancelButton.addGtnUIFrameWorkActionConfig(reportProductHierarchyClosepopup);
+		cancelButton.addGtnUIFrameWorkActionConfig(reportProductHierarchyClosepopup);
 		componentList.add(cancelButton);
 
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
@@ -413,7 +417,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);
 		resetButton.setAddToParent(true);
 
-                List<GtnUIFrameWorkActionConfig> productHierarchyConfList = new ArrayList<>();
+		List<GtnUIFrameWorkActionConfig> productHierarchyConfList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig productHierarchyResetActionConfig = new GtnUIFrameWorkActionConfig();
 		productHierarchyResetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
 
@@ -429,7 +433,6 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		productHierarchyConfList.add(productHierarchyResetActionConfig);
 		resetButton.setGtnUIFrameWorkActionConfigList(productHierarchyConfList);
 
-                
 		componentList.add(resetButton);
 	}
 }

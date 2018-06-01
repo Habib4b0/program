@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionRemoveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionSubmitAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -557,7 +558,6 @@ public class GtnFrameworkReportComparisonLookup {
 		workflowStatusValidationActionConfig.setActionParameterList(
 				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(workFlowStatusAlertActionConfig)));
 		searchActionConfigList.add(workflowStatusValidationActionConfig);
-		 
 
 		GtnUIFrameWorkActionConfig loadDataGridAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
@@ -722,7 +722,7 @@ public class GtnFrameworkReportComparisonLookup {
 		submitButton.setAuthorizationIncluded(true);
 		submitButton.setComponentName("SUBMIT");
 		componentList.add(submitButton);
-		
+
 		List<GtnUIFrameWorkActionConfig> submitActionList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig projectionSubmitAction = new GtnUIFrameWorkActionConfig();
 		projectionSubmitAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -730,7 +730,7 @@ public class GtnFrameworkReportComparisonLookup {
 		projectionSubmitAction.addActionParameter("comparisonLookupProjectionsResultsPagedTableComponent");
 		projectionSubmitAction.addActionParameter("reportLandingScreen_reportingDashboardComparisonConfig");
 		submitActionList.add(projectionSubmitAction);
-		
+
 		GtnUIFrameWorkActionConfig popupCloseAction = new GtnUIFrameWorkActionConfig();
 		popupCloseAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		popupCloseAction.addActionParameter("comparisonLookupView");
@@ -758,7 +758,7 @@ public class GtnFrameworkReportComparisonLookup {
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
 		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		closeAction.addActionParameter(GtnFrameworkCommonConstants.CDR_POP_UP_SEARCH_SEARCH_VIEW);
+		closeAction.addActionParameter("comparisonLookupView");
 		actionConfigList.add(closeAction);
 
 		closeButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -772,6 +772,13 @@ public class GtnFrameworkReportComparisonLookup {
 		removeButton.setAuthorizationIncluded(true);
 		removeButton.setComponentName("REMOVE");
 		componentList.add(removeButton);
+
+		GtnUIFrameWorkActionConfig recordRemoveAction = new GtnUIFrameWorkActionConfig();
+		recordRemoveAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		recordRemoveAction.addActionParameter(GtnReportComparisonProjectionRemoveAction.class.getName());
+		recordRemoveAction.addActionParameter("comparisonLookupProjectionsResultsPagedTableComponent");
+		recordRemoveAction.addActionParameter("comparisonLookupResultsPagedTableComponent");
+		removeButton.addGtnUIFrameWorkActionConfig(recordRemoveAction);
 	}
 
 }

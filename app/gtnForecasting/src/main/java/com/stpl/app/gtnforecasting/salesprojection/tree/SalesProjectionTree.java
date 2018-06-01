@@ -95,18 +95,7 @@ public class SalesProjectionTree {
     private List<Object[]> getAvailableHierarchiesCustom(ProjectionSelectionDTO projSelDTO) {
         String query = SQlUtil.getQuery("custom-relationship-hierarchy");
         query = query.replace("@CUSTMASTERSID",String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid()));
-        StringBuilder stringBuilder=new StringBuilder();
-        
        
-        Map<String,List> hierarchyMap=projSelDTO.getSessionDTO().getSalesHierarchyLevelDetails();
-        int i=1;
-        for (Map.Entry<String, List> entry : hierarchyMap.entrySet()) {
-             stringBuilder.append("('");
-             stringBuilder.append(entry.getKey());
-             stringBuilder.append("'," ).append( i++ ).append("),");
-        }
-        stringBuilder.replace(stringBuilder.lastIndexOf(","), stringBuilder.length(), StringUtils.EMPTY);
-        query = query.replace("[?HIER_VALUES]",stringBuilder);
         if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
             query = query.replace("[?FILTERCCP]"," AND PPA.FILTER_CCP=1");
         }else{
@@ -116,30 +105,6 @@ public class SalesProjectionTree {
 
     }
 
-    private SalesBaseNode generateCustomTree(List<Object[]> hierarchyList) {
-        SalesProjectionNodeCustom apexNode = new SalesProjectionNodeCustom("");
-        apexNode.setApex(true);
-        HashMap buildMap = new HashMap<>(hierarchyList.size());
-        for (Object[] object : hierarchyList) {
-            String hiearachy = (String.valueOf(object[0])).trim();
-            SalesProjectionNodeCustom salesNode = new SalesProjectionNodeCustom(hiearachy);
-            String parentHierarchy = (String.valueOf(object[4])).trim();
-            if (parentHierarchy.equals("null")) {
-                apexNode.addChild(salesNode);
-                salesNode.setHierarchyIndicator(String.valueOf(object[3]));
-                salesNode.setLevel(Integer.parseInt(String.valueOf(object[2])));
-                buildMap.put(hiearachy, salesNode);
-            } else {
-                SalesProjectionNodeCustom parent = (SalesProjectionNodeCustom) buildMap.get(parentHierarchy);
-                salesNode.addParentNode(parent);
-                parent.addChild(salesNode);
-                salesNode.setHierarchyIndicator(String .valueOf(object[3]));
-                salesNode.setLevel(Integer.parseInt(String.valueOf(object[2])));
-                buildMap.put(parentHierarchy+"~"+hiearachy, salesNode);
-            }
-        }
-        return apexNode;
-    }
 
     private void setCurrentApex(SalesBaseNode apex) {
         this.apex = apex;

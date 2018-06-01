@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.registry.action.GtnCustomerAvailableTableLoadAction;
+import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnForecastLevelLoadAction;
+import com.stpl.gtn.gtn2o.registry.config.lookups.action.GtnRelationshipVersionLoadAction;
+import com.stpl.gtn.gtn2o.registry.constants.GtnFrameworkForecastingStringConstants;
+//import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
@@ -12,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class GtnFrameworkForecastCustomerHierarchyConfig {
@@ -95,11 +101,59 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		relationship.setParentComponentId(nameSpace + "_" + "relationshipLayout");
 
 		GtnUIFrameworkComboBoxConfig relationshipConfig = new GtnUIFrameworkComboBoxConfig();
-		relationshipConfig.setComboBoxType("CompanyMasterGLcomp");
+		relationshipConfig.setComboBoxType(GtnFrameworkForecastingStringConstants.PRODUCT_RELATIONSHIP);
 		relationshipConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		relationship.setGtnComboboxConfig(relationshipConfig);
+		
+		
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		
+		// Added value change action - Loading relationship version
+		GtnUIFrameWorkActionConfig relationshipValueChangeAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		relationshipValueChangeAction.addActionParameter(GtnRelationshipVersionLoadAction.class.getName());
+		relationshipValueChangeAction.addActionParameter("Commercial_Forecasting_customerSelectionRelationship");
+		relationshipValueChangeAction.addActionParameter("Commercial_Forecasting_customerRelationshipVersion");
+		actionConfigList.add(relationshipValueChangeAction);
+		
+		// Added value change action loading forecast level
+		GtnUIFrameWorkActionConfig relationshipValueChangeAction2 = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		relationshipValueChangeAction2.addActionParameter(GtnForecastLevelLoadAction.class.getName());
+		relationshipValueChangeAction2.addActionParameter("Commercial_Forecasting_customerSelectionRelationship");
+		relationshipValueChangeAction2.addActionParameter("Commercial_Forecasting_customerSelectionForecastLevel");
+		
+		actionConfigList.add(relationshipValueChangeAction2);
+		
+		
+		relationship.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		
+		// Added hidden combo box
+		GtnUIFrameworkComponentConfig customerSelectionRelationshipVersionLayout = configProvider
+				.getHorizontalLayoutConfig("customerSelectionRelationshipVersionLayout", true,
+				relationshipLayout.getComponentId());
+		customerSelectionRelationshipVersionLayout.setVisible(false);
+
+		GtnUIFrameworkComponentConfig customerRelationshipVersion = configProvider.getUIFrameworkComponentConfig(
+				"Commercial_Forecasting_customerRelationshipVersion", true,
+				customerSelectionRelationshipVersionLayout.getComponentId(),
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		customerRelationshipVersion.setComponentName("CustomerRelationshipVersion");
+
+		GtnUIFrameworkComboBoxConfig customerRelationshipVersionConfig = configProvider.getComboBoxConfig(
+				GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION,
+				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		customerRelationshipVersionConfig.setHasDefaultValue(true);
+		customerRelationshipVersionConfig.setDefaultDesc("next");
+		customerRelationshipVersion.setGtnComboboxConfig(customerRelationshipVersionConfig);
+		
 		componentList.add(relationship);
+		
+		//Added
+		componentList.add(customerSelectionRelationshipVersionLayout);
+		componentList.add(customerRelationshipVersion);
 	}
 
 	private void addForecastLevel(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -109,16 +163,46 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig forecastLevel = new GtnUIFrameworkComponentConfig();
 		forecastLevel.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		forecastLevel.setComponentId(nameSpace + "_" + "forecastLevel");
+		forecastLevel.setComponentId("Commercial_Forecasting_customerSelectionForecastLevel");
 		forecastLevel.setComponentName("Forecast Level");
 		forecastLevel.setAddToParent(Boolean.TRUE);
 		forecastLevel.setParentComponentId(nameSpace + "_" + "forecastLevelLayout");
 
 		GtnUIFrameworkComboBoxConfig forecastLevelConfig = new GtnUIFrameworkComboBoxConfig();
-		forecastLevelConfig.setComboBoxType("CompanyMasterGLcomp");
+		forecastLevelConfig.setComboBoxType(GtnFrameworkForecastingStringConstants.PRODUCT_FORCAST_LEVEL);
 		forecastLevelConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		forecastLevel.setGtnComboboxConfig(forecastLevelConfig);
+		
+		
+//		//Added 
+//		List<GtnUIFrameWorkActionConfig> forecastLevelactionConfigList = new ArrayList<>();
+//
+//		GtnUIFrameWorkActionConfig refreshDualListBoxActiion = new GtnUIFrameWorkActionConfig();
+//		refreshDualListBoxActiion.setActionType(GtnUIFrameworkActionType.V8DUAL_LISTBOX_RESET_ACTION);
+//		refreshDualListBoxActiion.addActionParameter("Commercial_Forecasting_customerDualListBox");
+//		refreshDualListBoxActiion.addActionParameter("Commercial_Forecasting_customerSelectionForecastLevel");
+//		forecastLevelactionConfigList.add(refreshDualListBoxActiion);
+//
+//		GtnUIFrameWorkActionConfig forecastLevelValueChangeAction = new GtnUIFrameWorkActionConfig();
+//		forecastLevelValueChangeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+//		forecastLevelValueChangeAction.addActionParameter(GtnCustomerAvailableTableLoadAction.class.getName());
+//		forecastLevelValueChangeAction.addActionParameter("forecastLandingScreen_customerHierarchy");
+//		forecastLevelValueChangeAction.addActionParameter("Commercial_Forecasting_customerSelectionRelationship");
+//		forecastLevelValueChangeAction.addActionParameter("Commercial_Forecasting_customerRelationshipVersion");
+//		forecastLevelValueChangeAction.addActionParameter("Commercial_Forecasting_customerSelectionForecastLevel");
+//		forecastLevelValueChangeAction.addActionParameter("Commercial_Forecasting_customerSelectionForecastEligibilityDate");
+//		forecastLevelValueChangeAction.addActionParameter("Commercial_Forecasting_customerDualListBox");
+//
+//		forecastLevelactionConfigList.add(forecastLevelValueChangeAction);
+//
+//		GtnUIFrameWorkActionConfig loadDualListBoxLeftTableAction = new GtnUIFrameWorkActionConfig();
+//		loadDualListBoxLeftTableAction.setActionType(GtnUIFrameworkActionType.V8DUAL_LISTBOX_LEFT_TABLE_LOADACTION);
+//		loadDualListBoxLeftTableAction.addActionParameter("Commercial_Forecasting_customerDualListBox");
+//		
+//		forecastLevelactionConfigList.add(loadDualListBoxLeftTableAction);
+//		forecastLevel.setGtnUIFrameWorkActionConfigList(forecastLevelactionConfigList);
+		
 		componentList.add(forecastLevel);
 	}
 
@@ -143,7 +227,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		GtnUIFrameworkComponentConfig forecastEligibleDate = new GtnUIFrameworkComponentConfig();
 		forecastEligibleDate.setComponentType(GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
-		forecastEligibleDate.setComponentId(nameSpace + "_" + "forecastEligibleDate");
+		forecastEligibleDate.setComponentId("Commercial_Forecasting_customerSelectionForecastEligibilityDate");
 		forecastEligibleDate.setComponentName("Forecast Eligible Date");
 		forecastEligibleDate.setAddToParent(Boolean.TRUE);
 		forecastEligibleDate.setParentComponentId(nameSpace + "_" + "forecastEligibleDateLayout");
@@ -184,7 +268,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 		level.setParentComponentId(nameSpace + "_" + "levelLayout");
 
 		GtnUIFrameworkComboBoxConfig levelConfig = new GtnUIFrameworkComboBoxConfig();
-		levelConfig.setComboBoxType("CompanyMasterGLcomp");
+		levelConfig.setComboBoxType(GtnFrameworkForecastingStringConstants.PRODUCT_RELATIONSHIP);
 		levelConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		level.setGtnComboboxConfig(levelConfig);
@@ -194,7 +278,7 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 	private void addDualListBoxComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig customerSelectionDualListBoxComponent = new GtnUIFrameworkComponentConfig();
 		customerSelectionDualListBoxComponent.setComponentType(GtnUIFrameworkComponentType.DUALLISTBOX);
-		customerSelectionDualListBoxComponent.setComponentId(nameSpace + "_" + "dualListBoxComp");
+		customerSelectionDualListBoxComponent.setComponentId("Commercial_Forecasting_customerDualListBox");
 		customerSelectionDualListBoxComponent.setComponentName("Customer Selection");
 		customerSelectionDualListBoxComponent.setAddToParent(true);
 		customerSelectionDualListBoxComponent.setParentComponentId(nameSpace + "_" + "customerSelectionInnerLayout");
@@ -209,4 +293,5 @@ public class GtnFrameworkForecastCustomerHierarchyConfig {
 
 		customerSelectionDualListBoxComponent.setGtnUIFrameworkDualListBoxConfig(customerSelectionDualListBoxConfig);
 	}
+	
 }

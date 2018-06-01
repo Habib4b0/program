@@ -243,5 +243,11 @@ public class Utility {
         LOGGER.debug("projectionIdOrCustomId= {}",projectionIdOrCustomId);
         return levelNo;
     }
+    public static boolean customEnableForRelationFromDS(int customMasterSid){
+        if(customMasterSid == 0){
+            return false;
+        }
+        return true;
+    }
 
 }

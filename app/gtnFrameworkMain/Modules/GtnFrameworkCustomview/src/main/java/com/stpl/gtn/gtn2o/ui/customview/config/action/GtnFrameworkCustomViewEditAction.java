@@ -76,8 +76,8 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
         String viewName = String.valueOf(customViewBean.getPropertyValue(GtnFrameworkCommonConstants.TREE_VIEW_NAME));
         String description = (String)customViewBean.getPropertyValue(GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION);
         String viewType =String.valueOf(customViewBean.getPropertyValue(GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE));
-        int customerRaltionSid = Integer.parseInt((String)customViewBean.getPropertyValue(GtnFrameworkCommonConstants.CUTOMER_RELATION));
-        int productRealtionSid = Integer.parseInt((String)customViewBean.getPropertyValue(GtnFrameworkCommonConstants.PRODUCT_RELATION));
+        int customerRaltionSid = Integer.parseInt((String)customViewBean.getPropertyValue(GtnFrameworkCommonConstants.CUTOMER_RELATION_SID));
+        int productRealtionSid = Integer.parseInt((String)customViewBean.getPropertyValue(GtnFrameworkCommonConstants.PRODUCT_RELATION_SID));
         
         
         GtnUIFrameworkBaseComponent baseViewName= GtnUIFrameworkGlobalUI
@@ -95,7 +95,7 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
         GtnUIFrameworkBaseComponent gtnCustomerGreaterButton= GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(nameSpacePrefix + "gtnCustomerGreaterButton");
         GtnUIFrameworkBaseComponent gtnProductGreaterButton= GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(nameSpacePrefix + "gtnCustomerGreaterButton");
+                .getVaadinBaseComponent(nameSpacePrefix + "gtnCustomerLesserButton");
         GtnUIFrameworkBaseComponent gtnCustomerLesserButton= GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(nameSpacePrefix + "gtnProductGreaterButton");
         GtnUIFrameworkBaseComponent gtnProductLesserButton= GtnUIFrameworkGlobalUI
