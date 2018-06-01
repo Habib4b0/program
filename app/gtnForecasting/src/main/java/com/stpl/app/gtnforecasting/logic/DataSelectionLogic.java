@@ -124,6 +124,7 @@ public class DataSelectionLogic {
 	private static final CommonUtil commonUtil = CommonUtil.getInstance();
         private  ExecutorService service = ThreadPool.getInstance().getService();
         public static final String EXEC_WITH_SPACE = "EXEC ";
+        public static final String SALES_SMALL = "Sales";
 
 	/**
 	 * Gets the hierarchy group.
@@ -2574,7 +2575,8 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
     }
     
     public void callViewInsertProcedureForNm(SessionDTO session,String mode,String screenName,String view,String startPeriod,String endPeriod) {
-        int masterSid = screenName.equalsIgnoreCase("Sales") ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
+        int masterSid = screenName.equalsIgnoreCase(SALES_SMALL) ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
+        String frequency = screenName.equalsIgnoreCase(SALES_SMALL) && session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
         StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
              LOGGER.debug(startPeriod);
@@ -2583,7 +2585,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 				query.append(session.getUserId())
                                 .append(",'").append(session.getSessionId()).append('\'')
                                 .append(",'").append(session.getFunctionMode()).append('\'')
-                                .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
+                                .append(",'").append(CommonLogic.getFrequency(frequency)).append('\'')
                                 .append(",'").append(screenName).append('\'')
                                 .append(",'").append(view).append('\'')
                                 .append(',').append("null")
@@ -2604,7 +2606,8 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 
     }
     public String callViewInsertProcedures(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
-     int deductionMasterSid = screenName.equalsIgnoreCase("Sales") ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
+     int deductionMasterSid = screenName.equalsIgnoreCase(SALES_SMALL) ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
+     String frequencyValue = screenName.equalsIgnoreCase(SALES_SMALL) && session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
      String updateUnitField="Unit Volume".equals(massUpdateField)?"UNITS":massUpdateField;
      LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}");
          StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
@@ -2614,7 +2617,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 				query.append(session.getUserId())
                                 .append(",'").append(session.getSessionId()).append('\'')
                                 .append(",'").append(session.getFunctionMode()).append('\'')
-                                .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
+                                .append(",'").append(CommonLogic.getFrequency(frequencyValue)).append('\'')
                                 .append(",'").append(screenName).append('\'')
                                 .append(",'").append(view).append('\'')
                                 .append(",'").append(startPeriod).append('\'')
@@ -2638,6 +2641,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
     
     public String callViewInsertProceduresString(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
         StringBuilder query = new StringBuilder();
+        String frequencyValue = session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
         try {
             query.append(EXEC_WITH_SPACE);
             query.append(Constant.PRC_VIEWS_POPULATION);
@@ -2645,7 +2649,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 				query.append(session.getUserId())
                                 .append(",'").append(session.getSessionId()).append('\'')
                                 .append(",'").append(session.getFunctionMode()).append('\'')
-                                .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
+                                .append(",'").append(CommonLogic.getFrequency(frequencyValue)).append('\'')
                                 .append(",'").append(screenName).append('\'')
                                 .append(",'").append(view).append('\'')
                                 .append(",'").append(startPeriod).append('\'')
