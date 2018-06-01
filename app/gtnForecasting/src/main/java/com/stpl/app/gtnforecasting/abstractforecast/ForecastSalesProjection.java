@@ -1415,6 +1415,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             projectionDTO.setIsCustomHierarchy(true);
             projectionDTO.setHierarchyIndicator(Constant.CUSTOM_LABEL);
             projectionDTO.setViewOption(Constant.CUSTOM_LABEL);
+            loadCustomDDLB();
+            LOGGER.info(" customId= {} ", customId);
+            projectionDTO.setCustomId(customId);
+            Utility.loadCustomHierarchyList(session);
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
                 if (!session.getCustomHierarchyMap().isEmpty() && customId != 0) {
                     Utility.loadLevelValue(level, null, null, session.getCustomHierarchyMap().get(customId), Constant.CUSTOM_LABEL);
@@ -1430,12 +1434,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             level.setEnabled(true);
             levelFilter.setValue(SELECT_ONE);
             levelFilter.setEnabled(false);
-            loadCustomDDLB();
             getTableLogic().clearAll();
-            customId = Integer.valueOf(String.valueOf(viewDdlb.getValue()));
-            LOGGER.info(" customId= {} ", customId);
-            projectionDTO.setCustomId(customId);
-            session.setCustomId(customId);
             ((NMSalesProjectionTableLogic) getTableLogic()).setProjectionResultsData(projectionDTO);
         } else if ((PRODUCT.getConstant()).equals(view.getValue())) {
             projectionDTO.setIsCustomHierarchy(false);
@@ -2304,6 +2303,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     Map<String, Object> inputParameters = loadInputParameters(startYear, endYear, startQuater, endQuater, enteredValue, updateVariable);
                     salesLogic.saveOnMassUpdate(projectionDTO, inputParameters);
                     String startPeriodMassUpdate = salesLogic.getPeriodSid(startPeriodValue, projectionDTO.getFrequency(), "Min");
+                    endPeriodValue = endPeriodValue == null ? String.valueOf(projectionDTO.getFrequency().charAt(0)) + endQuater + " " + endYear : endPeriodValue;
                     String endPeriodMassUpdate = salesLogic.getPeriodSid(endPeriodValue, projectionDTO.getFrequency(), "Max");
                     dataLogic.callViewInsertProceduresThread(projectionDTO.getSessionDTO(), Constant.SALES1,startPeriodMassUpdate,endPeriodMassUpdate,updateVariable);
                     CommonUtil.getInstance().waitForSeconds();
@@ -2317,7 +2317,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 if (isUpdated) {
                     refreshTableData(getCheckedRecordsHierarchyNo());
                     startPeriod.select(startPeriodValue);
-                    endPeriod.select(endPeriodValue);
                 }
             }
             refreshFlag = false;

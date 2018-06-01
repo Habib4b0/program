@@ -142,13 +142,15 @@ GROUP BY SHN.HIERARCHY_NO,
                                           PERIOD,
                                           YEAR,
                                                                        STC.SALES_INCLUSION,
-                                          INDICATOR    @OPPOSITESINC )  Q
+                                          INDICATOR    )  Q
                                                                        
                                                                        join #ST_NM_SALES_PROJECTION_MASTER mas on mas.HIERARCHY_NO=q.HIERARCHY_NO
                                                                        
                                                                        ) MAINQ
                 WHERE MAINQ.TEMP_INDEX > @START
                   AND MAINQ.TEMP_INDEX <= (@START+@END)
+                  
+                  @OPPOSITESINC  
                 ORDER BY 
                         MAINQ.INSTR,
                         MAINQ.YEARS,
@@ -290,13 +292,15 @@ GROUP BY SHN.HIERARCHY_NO,
                                           PERIOD,
                                           YEAR,
                                                                        STC.SALES_INCLUSION,
-                                          INDICATOR     @OPPOSITESINC )  Q
+                                          INDICATOR   )  Q
                                                                        
                                                                        join #ST_NM_SALES_PROJECTION_MASTER mas on mas.HIERARCHY_NO=q.HIERARCHY_NO
                                                                        
                                                                        ) MAINQ
                 WHERE MAINQ.TEMP_INDEX >  @START
                   AND MAINQ.TEMP_INDEX <= (@START+@END)
+                  
+                     @OPPOSITESINC 
                 ORDER BY 
                         MAINQ.INSTR,
                         MAINQ.YEARS,

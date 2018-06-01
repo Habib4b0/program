@@ -287,8 +287,8 @@ public class DataSelection extends ForecastDataSelection {
 				productBeanList.clear();
 			}
 		});
-
-	}
+                
+                }
 
 	private void configureForView() {
 		resultsTablePanel.setVisible(false);
@@ -396,6 +396,15 @@ public class DataSelection extends ForecastDataSelection {
 				} else {
 					productLevelValueChange(event);
 				}
+			}
+		});
+                   customRelationDdlb.addValueChangeListener(new Property.ValueChangeListener() {
+
+			@Override
+			public void valueChange(Property.ValueChangeEvent event) {
+                            int custRelationValue = Integer.parseInt(customRelationDdlb.getValue().toString());
+                            dataSelectionDTO.setCustomRelationShipSid(custRelationValue);
+				setUpdateOnTabChange(true);
 			}
 		});
 		projectionName.setValue(selectionDTO.getProjectionName());
@@ -1136,6 +1145,7 @@ public class DataSelection extends ForecastDataSelection {
 		session.setProductHierarchyVersion(selectionDTO.getProductHierVersionNo());
 		session.setCustomerRelationVersion(selectionDTO.getCustomerRelationShipVersionNo());
 		session.setProductRelationVersion(selectionDTO.getProductRelationShipVersionNo());
+                session.setCustomRelationShipSid(dataSelectionDTO.getCustomRelationShipSid());
 		selectionDTO.setProjectionId(session.getProjectionId());
 		selectionDTO.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 		selectionDTO.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
@@ -4437,5 +4447,5 @@ public class DataSelection extends ForecastDataSelection {
             dsLogic.loadCustomViewDeductionValues(customRelationDdlb,inputData,true);
 
         }
-
+        
 }
