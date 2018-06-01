@@ -2785,6 +2785,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         }
         String calcMethodology = String.valueOf(methodology.getValue());
         String selectedPeriods = getSelectedHistoryPeriods();
+        String endPeriodValue = null;
 
         if (forecastStartPeriod.getValue() == null) {
             AbstractNotificationUtils.getErrorNotification("No Start Period selected", "Please select a Start Period.");
@@ -2911,7 +2912,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                 commonLogic.insertPFDTemp(session, calcMethodology, String.valueOf(allocationBasis.getValue()), true);
             }
-            isSalesCalculated = salesLogic.calculateSalesProjection(projectionDTO, calcMethodology, selectedPeriods, calcBased, String.valueOf(forecastStartPeriod.getValue()), String.valueOf(forecastEndPeriod.getValue()), String.valueOf(allocationBasis.getValue()));
+            endPeriodValue = forecastEndPeriod.getValue() == null ? rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1) : String.valueOf(forecastEndPeriod.getValue());
+            isSalesCalculated = salesLogic.calculateSalesProjection(projectionDTO, calcMethodology, selectedPeriods, calcBased, String.valueOf(forecastStartPeriod.getValue()), endPeriodValue, String.valueOf(allocationBasis.getValue()));
             CommonLogic.procedureCompletionCheck(session,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
 
