@@ -2922,6 +2922,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
       public void nmSalesViewsPopulationProcedure(SessionDTO session) {
         String query = SQlUtil.getQuery("ViewTableTruncationSales");
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+        LOGGER.info("nmSalesViewsPopulationProcedure Truncate Query{}",QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "C", "", "", session));
         service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
@@ -2933,6 +2934,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
     public void nmDiscountViewsPopulationProcedure(SessionDTO session) {
         String query = SQlUtil.getQuery("ViewTableTruncationDiscount");
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+        LOGGER.info("nmDiscountViewsPopulationProcedure Truncate Query{}",QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "C", "null", "null", session));
         service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,

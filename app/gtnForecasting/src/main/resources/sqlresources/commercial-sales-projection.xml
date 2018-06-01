@@ -2668,4 +2668,103 @@ ORDER BY INSTR
             ]]>
         </query>
     </entity>
+    <entity id="non-mandated-sales-query-new-custom-Excel">
+        <query>
+            <![CDATA[  
+    IF Object_id('TEMPDB..#ST_NM_SALES_PROJECTION_MASTER') IS NOT NULL DROP
+	TABLE
+		#st_nm_sales_projection_master SELECT
+			CASE
+				WHEN Count( DISTINCT MSPM.calculation_periods )> 1 THEN '-'
+				ELSE Max( MSPM.calculation_periods )
+			END CALCULATION_PERIODS,
+			CASE
+				WHEN Count( DISTINCT MSPM.methodology )> 1 THEN '-'
+				ELSE Max( MSPM.methodology )
+			END AS METHODOLOGY,
+			CCCP.HIERARCHY_NO AS HIERARCHY_NO,
+			Count(*) AS RCOUNT,
+			Min( CASE( check_record ) WHEN 1 THEN 1 ELSE 0 END ) AS CHECKREC,
+			Sum( CASE( MSPM.check_record ) WHEN 1 THEN 0 ELSE 1 END ) AS UNCHECK_COUNT,
+			Count( MSPM.ccp_details_sid ) AS CCPCOUNT,
+			Min( MSPM.user_group ) AS USER_GROUP,
+			CCP.sales_inclusion INTO
+				#st_nm_sales_projection_master
+			FROM
+				st_ccp_hierarchy CCP join CUSTOM_CCP_SALES CCCP ON
+				CCCP.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+				AND CCCP.CUST_VIEW_MASTER_SID = @CUSTOMSID
+			JOIN st_nm_sales_projection_master MSPM ON
+				MSPM.ccp_details_sid = CCP.ccp_details_sid
+			GROUP BY
+				CCCP.HIERARCHY_NO,
+				CCP.sales_inclusion SELECT
+					SH.hierarchy_no,
+					period,
+					year,
+					indicator AS ACTUALPROJ,
+					Avg( account_growth ) ACCOUNT_GROWTH,
+					Avg( product_growth ) PRODUCT_GROWTH,
+					NULL AS projection_sales,
+					NULL AS projection_units,
+					Sum( sales ) AS ACTUALSALES,
+					Sum( units ) ACTUALUNITS,
+					methodology,
+					user_group,
+					calculation_periods,
+					STC.sales_inclusion
+				FROM
+					ST_CUSTOM_SALES STC join custom_ccp_sales cccp on
+					cccp.CUST_VIEW_MASTER_SID = @CUSTOMSID
+					and stc.HIERARCHY_NO = cccp.ROWID
+				JOIN #st_nm_sales_projection_master SH ON
+					cccp.hierarchy_no = SH.hierarchy_no
+				WHERE
+					INDICATOR = 0 @SALESINCLUSION
+				GROUP BY
+					SH.hierarchy_no,
+					period,
+					year,
+					STC.sales_inclusion,
+					methodology,
+					user_group,
+					calculation_periods,
+					indicator
+			UNION ALL SELECT
+					SH.hierarchy_no,
+					period,
+					year,
+					indicator AS ACTUALPROJ,
+					Avg( account_growth ) ACCOUNT_GROWTH,
+					Avg( product_growth ) PRODUCT_GROWTH,
+					Sum( sales ) AS PROJECTION_SALES,
+					Sum( units ) PROJECTION_UNITS,
+					NULL AS ACTUALSALES,
+					NULL ACTUALUNITS,
+					methodology,
+					user_group,
+					calculation_periods,
+					STC.sales_inclusion
+				FROM
+					ST_CUSTOM_SALES STC
+				JOIN CUSTOM_CCP_SALES CO ON
+					CO.ROWID = STC.HIERARCHY_NO join custom_ccp_sales cccp on
+					cccp.CUST_VIEW_MASTER_SID = @CUSTOMSID
+					and stc.HIERARCHY_NO = cccp.ROWID
+				JOIN #st_nm_sales_projection_master SH ON
+					cccp.hierarchy_no = SH.hierarchy_no
+				WHERE
+					INDICATOR = 1 @SALESINCLUSION
+				GROUP BY
+					SH.HIERARCHY_NO,
+					PERIOD,
+					YEAR,
+					STC.SALES_INCLUSION,
+					methodology,
+					user_group,
+					calculation_periods,
+					INDICATOR @OPPOSITESINC
+            ]]>
+        </query>
+    </entity>
 </sql>
