@@ -671,7 +671,7 @@ public class SalesLogic {
             String joinQuery = " JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=SHN.CCP_DETAILS_SID LEFT JOIN ST_ITEM_UOM_DETAILS  UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM.UOM_CODE = '" + projSelDTO.getUomCode() + "'";
             sql = sql.replace("@SALESINCLUSIONCC", projSelDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? StringUtils.EMPTY : "and CCP.sales_inclusion=" + projSelDTO.getSessionDTO().getSalesInclusion());
             sql = sql.replace("@SALESINCLUSION", isSalesInclusionNotSelected ? StringUtils.EMPTY : " AND STC.SALES_INCLUSION = " + projSelDTO.getSessionDTO().getSalesInclusion());
-            sql = sql.replace("@OPPOSITESINC", isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #SELECTED_HIERARCHY_NO WHERE SALES_INCLUSION= " + oppositeSalesInc);
+            sql = sql.replace("@OPPOSITESINC", isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #st_nm_sales_projection_master WHERE SALES_INCLUSION= " + oppositeSalesInc);
             sql = sql.replace("@UOMCODE", projSelDTO.getUomCode().equals("EACH") ? StringUtils.EMPTY : joinQuery);
             sql = sql.replace("@SUMPROJECTEDUNITS", projSelDTO.getUomCode().equals("EACH") ? "SUM(NMSP.PROJECTION_UNITS) AS PROJECTION_UNITS" : "SUM(ISNULL(NMSP.PROJECTION_UNITS,0)*ISNULL(UOM.UOM_VALUE,0)) AS PROJECTION_UNITS");
             sql = sql.replace("@SUMACTUALUNITS", projSelDTO.getUomCode().equals("EACH") ? "Sum(NMSP.ACTUAL_UNITS) AS ACTUAL_UNITS" : "Sum(ISNULL(NMSP.ACTUAL_UNITS,0)*ISNULL(UOM.UOM_VALUE,0)) AS ACTUAL_UNITS");
@@ -948,7 +948,7 @@ public class SalesLogic {
 
     }
 
-    private void salesProjectionTableCustomization(final ProjectionSelectionDTO projectionSelectionDTO,
+        private void salesProjectionTableCustomization(final ProjectionSelectionDTO projectionSelectionDTO,
             List doubleColumnList, SalesRowDto salesRowDto, List<String> headerMapValue, Object[] obj, String key) {
            int actOrProj = obj[NumericConstants.TWELVE] != null ? BooleanUtils.toInteger((boolean) obj[NumericConstants.TWELVE]) : 0;
         if (!doubleColumnList.contains(key)) {

@@ -742,12 +742,7 @@ public class CommonUtil {
 	public static String getParentItemId(String key, boolean isCustomHierarchy, String parentHierarchyNo) {
 		String parentKey;
 
-		if (!isCustomHierarchy) {
 			parentKey = key.substring(0, key.lastIndexOf('.'));
-		} else {
-			parentKey = getParentHierarchyNumber(parentHierarchyNo, key);
-
-		}
 		if (parentKey.lastIndexOf('.') >= 0) {
 			parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
 		}
