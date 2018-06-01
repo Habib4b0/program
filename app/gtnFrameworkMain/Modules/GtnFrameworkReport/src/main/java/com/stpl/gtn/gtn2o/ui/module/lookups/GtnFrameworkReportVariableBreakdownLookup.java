@@ -377,8 +377,8 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
 
-		variableBreakdownLookupResultsPagedTableConfig.setColumnHeaders(
-				Arrays.asList("Projection Name", "Description", "Market Type", "Contract Holder", "Contract", "Brand"));
+		variableBreakdownLookupResultsPagedTableConfig
+				.setColumnHeaders(GtnFrameworkReportStringConstants.getVariableBreakdownHeader());
 		variableBreakdownLookupResultsPagedTableConfig.setTableColumnMappingId(
 				new Object[] { "projectionName", "description", "marketType", "contractHolder", "contract", "brand" });
 
@@ -388,6 +388,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		GtnUIFrameWorkActionConfig variableBreakDownGridLoad = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		variableBreakDownGridLoad.addActionParameter(GtnReportingVariableBreakdownGridLoadAction.class.getName());
+		variableBreakDownGridLoad.addActionParameter("reportLandingScreen_reportingDashboardComparisonConfig");
 		variableBreakdownLookupResultsPagedTableComponent
 				.setGtnUIFrameWorkActionConfigList(Arrays.asList(variableBreakDownGridLoad));
 	}

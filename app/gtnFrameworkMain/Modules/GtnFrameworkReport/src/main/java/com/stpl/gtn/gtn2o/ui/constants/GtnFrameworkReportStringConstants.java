@@ -419,6 +419,9 @@ public final class GtnFrameworkReportStringConstants {
 	private static final String[] REPORT_DATAASSUMPTIONS_FILTER_PROPERTYID = new String[] { "file", "company",
 			"businessUnit", "type", "version", "activeFrom", "fromPeriod", "toPeriod" };
 
+	private static final List<String> REPORT_VARIABLE_BREAKDOWN_HEADER = Arrays.asList("Projection Name", "Description",
+			"Market Type", "Contract Holder", "Contract", "Brand");
+
 	public static Class<?>[] getReportCustomerHierarchyTableColumnsDataType() {
 		return REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE.clone();
 	}
@@ -452,5 +455,10 @@ public final class GtnFrameworkReportStringConstants {
 	public static List<String> getReportComparisonWorkflowStatusLoadCombobox() {
 		return REPORT_COMPARISON_WORKFLOWSTATUS_LOADCOMBOBOX == null ? REPORT_COMPARISON_WORKFLOWSTATUS_LOADCOMBOBOX
 				: Collections.unmodifiableList(REPORT_COMPARISON_WORKFLOWSTATUS_LOADCOMBOBOX);
+	}
+
+	public static List<String> getVariableBreakdownHeader() {
+		return REPORT_VARIABLE_BREAKDOWN_HEADER == null ? REPORT_VARIABLE_BREAKDOWN_HEADER
+				: Collections.unmodifiableList(REPORT_VARIABLE_BREAKDOWN_HEADER);
 	}
 }
