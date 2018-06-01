@@ -6,7 +6,9 @@
 package com.stpl.gtn.gtn2o.ui.customview.config;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVDeleteAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCustomViewEditAction;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnUIFrameworkCVDeleteConfirmationAction;
 import com.stpl.gtn.gtn2o.ui.customview.constants.GtnFrameworkCVConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -226,7 +228,9 @@ public class GtnFrameworkCVLandingScreenConfig {
         GtnUIFrameworkComboBoxConfig companyStatusConfig = new GtnUIFrameworkComboBoxConfig();
         companyStatusConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
                 + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-        companyStatusConfig.setComboBoxType(GtnFrameworkCommonConstants.PRODUCT_RELATION);
+        companyStatusConfig.setComboBoxType(GtnFrameworkCommonConstants.CV_MODULE_TYPE);
+        companyStatusConfig.setHasDefaultValue(true);
+	companyStatusConfig.setDefaultDesc("Forecasting");
         screenNameConfig.setGtnComboboxConfig(companyStatusConfig);
 
     }
@@ -398,6 +402,7 @@ public class GtnFrameworkCVLandingScreenConfig {
         addAddButtonComponent(componentList );
 	addEditButtonComponent(componentList );
 	addViewButtonComponent(componentList );
+	addDeleteButtonComponent(componentList );
     }
 
     private void addAddButtonComponent(List<GtnUIFrameworkComponentConfig> componentList ) {
@@ -468,6 +473,32 @@ public class GtnFrameworkCVLandingScreenConfig {
         actionConfigList.add(viewActionConfig);
 
         viewButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+
+    }
+    private void addDeleteButtonComponent(List<GtnUIFrameworkComponentConfig> componentList ) {
+        GtnUIFrameworkComponentConfig cvDeleteButtonLayout = gtnConfigFactory.getHorizontalLayoutConfig(GtnFrameworkCVConstants.GTN_VIEW_BUTTON_LAYOUT, true,
+                GtnFrameworkCVConstants.ACTION_BUTTON_LAYOUT);
+        componentList.add(cvDeleteButtonLayout);
+
+        GtnUIFrameworkComponentConfig deleteButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(  "gtnDeleteButton",
+                true, GtnFrameworkCVConstants.GTN_VIEW_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
+        deleteButtonConfig.setAuthorizationIncluded(true);
+        deleteButtonConfig.setVisible(false);
+        deleteButtonConfig.setComponentName("Delete");
+
+        componentList.add(deleteButtonConfig);
+
+        List<GtnUIFrameWorkActionConfig> actionDeleteConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig deleteActionConfig = new GtnUIFrameWorkActionConfig();
+		deleteActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deleteActionConfig.addActionParameter(GtnUIFrameworkCVDeleteConfirmationAction.class.getName());
+		deleteActionConfig.addActionParameter(GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE);
+		deleteActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.ERROR);
+		deleteActionConfig.addActionParameter("No Record has been selected.  Please select a Record and try again.");
+		deleteActionConfig.addActionParameter("Are you sure you want to delete record ");
+		actionDeleteConfigList.add(deleteActionConfig);
+
+        deleteButtonConfig.setGtnUIFrameWorkActionConfigList(actionDeleteConfigList);
 
     }
     private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCVCustomFilterConfig() {

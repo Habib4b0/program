@@ -1120,7 +1120,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     @UiHandler("generateBtn")
     public void generateBtn(Button.ClickEvent event) {
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-            if(!session.getDsFrequency().equals(frequencyDdlb.getValue())){
+            if(!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())){
             dataLogic.nmSalesViewsPopulationProcedure(session);
             CommonUtil.getInstance().waitForSeconds();
             }
@@ -1136,20 +1136,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
     }
 
-    /**
-     * value change of view.
-     *
-     * @param event the event
-     */
-    @UiHandler("viewDdlb")
-    public void viewDdlb(Property.ValueChangeEvent event) {
-        LOGGER.debug("customDdlbChangeOption ValueChangeEvent initiated ");
-        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-            projectionDTO.setGroup(StringUtils.EMPTY);
-        }
-        customDdlbChangeOption();
-        LOGGER.debug("customDdlbChangeOption ValueChangeEvent ends ");
-    }
 
     public int getTabNumber() {
         return Constant.ONE;
@@ -1429,6 +1415,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             projectionDTO.setIsCustomHierarchy(true);
             projectionDTO.setHierarchyIndicator(Constant.CUSTOM_LABEL);
             projectionDTO.setViewOption(Constant.CUSTOM_LABEL);
+            loadCustomDDLB();
+            LOGGER.info(" customId= {} ", customId);
+            projectionDTO.setCustomId(customId);
+            Utility.loadCustomHierarchyList(session);
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
                 if (!session.getCustomHierarchyMap().isEmpty() && customId != 0) {
                     Utility.loadLevelValue(level, null, null, session.getCustomHierarchyMap().get(customId), Constant.CUSTOM_LABEL);
@@ -1444,7 +1434,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             level.setEnabled(true);
             levelFilter.setValue(SELECT_ONE);
             levelFilter.setEnabled(false);
-            loadCustomDDLB();
             getTableLogic().clearAll();
             ((NMSalesProjectionTableLogic) getTableLogic()).setProjectionResultsData(projectionDTO);
         } else if ((PRODUCT.getConstant()).equals(view.getValue())) {
@@ -2314,7 +2303,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     Map<String, Object> inputParameters = loadInputParameters(startYear, endYear, startQuater, endQuater, enteredValue, updateVariable);
                     salesLogic.saveOnMassUpdate(projectionDTO, inputParameters);
                     String startPeriodMassUpdate = salesLogic.getPeriodSid(startPeriodValue, projectionDTO.getFrequency(), "Min");
+                    endPeriodValue = endPeriodValue == null ? rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1) : endPeriodValue;
                     String endPeriodMassUpdate = salesLogic.getPeriodSid(endPeriodValue, projectionDTO.getFrequency(), "Max");
+                    updateVariable = updateVariable.equalsIgnoreCase(Constant.PRODUCT_GROWTH) ? "PRODUCT_GROWTH" : updateVariable;
+                    updateVariable = updateVariable.equalsIgnoreCase(Constant.ACCOUNT_GROWTH) ? "ACCOUNT_GROWTH" : updateVariable;
                     dataLogic.callViewInsertProceduresThread(projectionDTO.getSessionDTO(), Constant.SALES1,startPeriodMassUpdate,endPeriodMassUpdate,updateVariable);
                     CommonUtil.getInstance().waitForSeconds();
                     CommonLogic.procedureCompletionCheck(session,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
@@ -2327,7 +2319,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 if (isUpdated) {
                     refreshTableData(getCheckedRecordsHierarchyNo());
                     startPeriod.select(startPeriodValue);
-                    endPeriod.select(endPeriodValue);
                 }
             }
             refreshFlag = false;

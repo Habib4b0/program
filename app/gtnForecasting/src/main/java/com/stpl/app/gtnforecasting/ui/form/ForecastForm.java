@@ -17,6 +17,7 @@ import com.stpl.app.gtnforecasting.discountprojectionresults.form.ManagedDiscoun
 import com.stpl.app.gtnforecasting.discountprojectionresults.form.NMDiscountProjectionResults;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
+import static com.stpl.app.gtnforecasting.logic.DataSelectionLogic.getRelationshipDetailsDeductionCustom;
 import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.ppaprojection.form.PPAProjection;
@@ -242,6 +243,7 @@ public class ForecastForm extends AbstractForm {
 	private CountDownLatch latch;
 	private boolean isCommercialGovernment = BooleanConstant.getFalseFlag();
 	private ExecutorService service = ThreadPool.getInstance().getService();
+        private boolean discountLoadFlag = true;
       
 	public ForecastForm(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, SessionDTO session,
 			ForecastEditWindow editWindow, final ExtFilterTable resultTable, final String screenName,
@@ -517,12 +519,18 @@ public class ForecastForm extends AbstractForm {
                                         nmSalesProjection.generateBtnLogic(null);
                                     }
                                 }
+                                if (discountLoadFlag && (tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.EIGHT)){
+                                CommonUtil.getInstance().isProcedureCompleted("Discount", "PRC_NM_MASTER_INSERT", session);
+                                session.addFutureMap(Constant.CUST_VIEW_MAP_QUERY,
+				new Future[] {service.submit(CommonUtil.getInstance().createRunnable(Constant.CUST_VIEW_MAP_QUERY,session))});
+                                discountLoadFlag = false;
+                                }
+                                
                                 if (tabPosition == NumericConstants.FOUR){
-                                    DataSelectionLogic.nmDiscountActProjInsertProcedure(session);
                                     if (nmSalesProjection.isSalesValueChange()) {
                                     CommonLogic.viewProceduresCompletionCheckDiscount(session);
                                     session.setFunctionMode("UPS");
-                                    dsLogic.nmDiscountViewsPopulationProcedure(session);
+                                    nmDiscountViewsPopulationProcedure();
                                     }
                                 }
                                 if (tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.FIVE
