@@ -117,7 +117,7 @@ public class GtnWsReportCustomViewControllerTest {
 		request.getGtnWsReportRequest().getReportBean().getCustomViewBean().getCustomViewDataBean()
 				.setCustomViewName("LLRCM");
 		GtnUIFrameworkWebserviceResponse response = controller.loadCustomView(request);
-		System.out.println(response.getGtnReportResponse().getReportBean().getCustomViewBean().getCustomViewDataBean()
+		System.out.println(response.getGtnWsReportResponse().getReportBean().getCustomViewBean().getCustomViewDataBean()
 				.getCustomTreeData());
 	}
 }
