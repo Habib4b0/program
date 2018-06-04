@@ -743,17 +743,23 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		comparisonOptionsConfig.setComponentName("Comparison Options: ");
 		comparisonOptionsConfig.setAuthorizationIncluded(true);
 		comparisonOptionsConfig.addComponentStyle(GtnFrameworkReportStringConstants.LINK);
-
+		
+		
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		
 		GtnUIFrameWorkActionConfig comparisonOptionsPopupActionConfig = new GtnUIFrameWorkActionConfig();
 		comparisonOptionsPopupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		comparisonOptionsPopupActionConfig.addActionParameter("comparisonOptions");
 		comparisonOptionsPopupActionConfig.addActionParameter("Comparison Options");
 		comparisonOptionsPopupActionConfig.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
-
 		actionConfigList.add(comparisonOptionsPopupActionConfig);
+				
+		// load comparison options group values
+//		GtnUIFrameWorkActionConfig loadComparisonOptionValuesActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+//		loadComparisonOptionValuesActionConfig.addActionParameter(GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction.class.getName());
+//		actionConfigList.add(loadComparisonOptionValuesActionConfig);
+		
 		comparisonOptionsConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
-
 		componentList.add(comparisonOptionsConfig);
 	}
 
