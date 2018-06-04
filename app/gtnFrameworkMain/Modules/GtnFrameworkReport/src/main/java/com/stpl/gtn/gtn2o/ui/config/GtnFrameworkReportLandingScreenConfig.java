@@ -209,7 +209,7 @@ public class GtnFrameworkReportLandingScreenConfig {
                 GtnUIFrameWorkActionConfig variableBreakDownGridLoad = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		variableBreakDownGridLoad.addActionParameter(GtnReportingVariableBreakdownGridLoadAction.class.getName());
-		variableBreakDownGridLoad.addActionParameter("variableBreakdownResultsPanelPanel_comparisonLookupResultsPagedTableComponent");                
+		variableBreakDownGridLoad.addActionParameter("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent");                
                
                 landingScreenVariableBreakdownActionConfigList.add(variableBreakDownGridLoad);
                 

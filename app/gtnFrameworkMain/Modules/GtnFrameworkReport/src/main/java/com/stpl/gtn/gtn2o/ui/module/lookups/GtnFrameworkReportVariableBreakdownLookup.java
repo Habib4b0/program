@@ -20,6 +20,8 @@ import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdown
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkReportVariableBreakdownLookup {
 	private GtnFrameworkReportLayoutsConfig layoutsConfig = new GtnFrameworkReportLayoutsConfig();
@@ -354,25 +356,44 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 	}
 
 	private void addVariableBreakdownResultsPanel(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
-		GtnUIFrameworkComponentConfig variableBreakdownResultsPanel = layoutsConfig
-				.getPanelConfig("variableBreakdownResultsPanel", parentId);
+		GtnUIFrameworkComponentConfig variableBreakdownResultsPanel = new GtnUIFrameworkComponentConfig();
+                variableBreakdownResultsPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
+                variableBreakdownResultsPanel.setComponentId("variableBreakdownResultsPanel");
+                variableBreakdownResultsPanel.setParentComponentId(parentId);
+                variableBreakdownResultsPanel.setAddToParent(true);
 		variableBreakdownResultsPanel.setComponentName("Results");
-		variableBreakdownResultsPanel.addComponentStyle(GtnUIFrameworkConstants.GTNFRAMEWORK_12.toString());
+		variableBreakdownResultsPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(variableBreakdownResultsPanel);
 
-		addPagedTableComponent(componentList, variableBreakdownResultsPanel.getComponentId());
+                GtnUIFrameworkLayoutConfig variableBreakdownColLayout=new GtnUIFrameworkLayoutConfig();
+                variableBreakdownColLayout.setLayoutType(GtnUIFrameworkLayoutType.COL2_LAYOUT);
+                GtnUIFrameworkComponentConfig variableBreakdownResultsLayout = new GtnUIFrameworkComponentConfig();
+                variableBreakdownResultsLayout.setComponentId("variableBreakdownResultsLayout");
+                variableBreakdownResultsLayout.setParentComponentId(variableBreakdownResultsPanel.getComponentId());
+                variableBreakdownResultsLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+                variableBreakdownResultsLayout.setGtnLayoutConfig(variableBreakdownColLayout);
+                variableBreakdownResultsLayout.setAddToParent(true);
+                
+                componentList.add(variableBreakdownResultsLayout);
+                
+                addLabelComponent(componentList, "variableBreakdownResultsLayout");
+		addPagedTableComponent(componentList, "variableBreakdownResultsLayout");
 
 	}
 
 	private void addPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
+             GtnUIFrameworkComponentConfig variableBreakdownLookupResultsPagedTableComponentLayout = layoutsConfig.getHorizontalLayoutConfig(
+                "variableBreakdownLookupResultsPagedTableComponentLayout", parentId);
+             variableBreakdownLookupResultsPagedTableComponentLayout.setComponentWidth("70%");
+                componentList.add(variableBreakdownLookupResultsPagedTableComponentLayout);
 		GtnUIFrameworkComponentConfig variableBreakdownLookupResultsPagedTableComponent = new GtnUIFrameworkComponentConfig();
 		variableBreakdownLookupResultsPagedTableComponent.setComponentType(GtnUIFrameworkComponentType.PAGED_GRID);
 		variableBreakdownLookupResultsPagedTableComponent.setComponentId(
 				parentId + GtnFrameworkReportStringConstants.UNDERSCORE + "comparisonLookupResultsPagedTableComponent");
 		variableBreakdownLookupResultsPagedTableComponent.setComponentName("Results");
-		variableBreakdownLookupResultsPagedTableComponent.setParentComponentId(parentId);
+		variableBreakdownLookupResultsPagedTableComponent.setParentComponentId(variableBreakdownLookupResultsPagedTableComponentLayout.getComponentId());
 		variableBreakdownLookupResultsPagedTableComponent.setAddToParent(true);
-
+                variableBreakdownLookupResultsPagedTableComponent.setComponentWidth("1000px");
 		List<String> variableBreakdownLookupTableStyle = new ArrayList<>();
 		variableBreakdownLookupTableStyle.add("filterbar");
 		variableBreakdownLookupTableStyle.add("v-has-width");
@@ -390,7 +411,9 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownLookupResultsPagedTableConfig.setItemPerPage(10);
 		variableBreakdownLookupResultsPagedTableConfig.setSelectable(true);
 		variableBreakdownLookupResultsPagedTableConfig.setSinkItemPerPageWithPageLength(false);
-
+                variableBreakdownLookupResultsPagedTableConfig.setModuleName(GtnFrameworkReportStringConstants.REPORT);
+                variableBreakdownLookupResultsPagedTableConfig.setGridColumnHeader(GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_TABLE_HEADERS_SERVICE);
+                variableBreakdownLookupResultsPagedTableConfig.setEnableCheckBoxInGridHeader(true);
 		variableBreakdownLookupResultsPagedTableConfig.setTableColumnDataType(new Class<?>[] {
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
@@ -406,4 +429,31 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 
 		
 	}
+
+    private void addLabelComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
+        
+        GtnUIFrameworkComponentConfig variableBreakdownLabelLayoutConfig = layoutsConfig.getHorizontalLayoutConfig(
+                "variableBreakdownLabelLayoutConfigEx", parentId);
+        variableBreakdownLabelLayoutConfig.setComponentWidth("30%");
+        componentList.add(variableBreakdownLabelLayoutConfig);
+        
+        GtnUIFrameworkComponentConfig variableBreakdownLabelConfigEx = new GtnUIFrameworkComponentConfig();
+        variableBreakdownLabelConfigEx.setComponentType(GtnUIFrameworkComponentType.LABEL);
+        variableBreakdownLabelConfigEx.setComponentId("variableBreakdownLabelConfig");
+        variableBreakdownLabelConfigEx.setParentComponentId(variableBreakdownLabelLayoutConfig.getComponentId());
+        variableBreakdownLabelConfigEx.setAddToParent(true);
+        variableBreakdownLabelConfigEx.setComponentValue("Ex-Factory Sales");
+        componentList.add(variableBreakdownLabelConfigEx);
+        
+          
+        GtnUIFrameworkComponentConfig variableBreakdownLabelConfiglatestApproved = new GtnUIFrameworkComponentConfig();
+        variableBreakdownLabelConfiglatestApproved.setComponentType(GtnUIFrameworkComponentType.LABEL);
+        variableBreakdownLabelConfiglatestApproved.setComponentId("variableBreakdownLabelConfig");
+        variableBreakdownLabelConfiglatestApproved.setParentComponentId(variableBreakdownLabelLayoutConfig.getComponentId());
+        variableBreakdownLabelConfiglatestApproved.setAddToParent(true);
+        variableBreakdownLabelConfiglatestApproved.setComponentValue("Latest Approved");
+        componentList.add(variableBreakdownLabelConfiglatestApproved);
+        
+        
+    }
 }
