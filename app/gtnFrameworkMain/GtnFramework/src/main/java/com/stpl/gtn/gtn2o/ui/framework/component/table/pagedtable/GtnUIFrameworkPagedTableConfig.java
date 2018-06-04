@@ -75,7 +75,15 @@ public class GtnUIFrameworkPagedTableConfig {
     private String dataQuery;
     private HashMap<String, Object> filterValueMap=new HashMap<>();
     private boolean isRefreshAtStart;
+    private String gridColumnHeader;
 
+    public String getGridColumnHeader() {
+        return gridColumnHeader;
+    }
+
+    public void setGridColumnHeader(String gridColumnHeader) {
+        this.gridColumnHeader = gridColumnHeader;
+    }
 
     public List<String> getColumnHeaders() {
         return columnHeaders;

@@ -143,10 +143,29 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		variableBreakdownHistoryConfig.setGtnComboboxConfig(variableBreakdownHistoryLoadConfig);
 
+                GtnUIFrameworkComponentConfig variableBreakdownGridComboLayoutConfig = layoutsConfig.getHorizontalLayoutConfig(
+				"variableBreakdownGridComboLayoutConfig",
+				variableBreakdownFrequencyAndHistoryResultLayout.getComponentId());
+                
+                GtnUIFrameworkComponentConfig variableBreakdownGridComboConfig = new GtnUIFrameworkComponentConfig();
+		variableBreakdownGridComboConfig.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		variableBreakdownGridComboConfig.setComponentId(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "variableBreakdownGridComboConfig");
+		variableBreakdownGridComboConfig.setComponentName("Hidden: ");
+		variableBreakdownGridComboConfig.setAddToParent(true);
+		variableBreakdownGridComboConfig.setParentComponentId(variableBreakdownGridComboLayoutConfig.getComponentId());
+
+		GtnUIFrameworkComboBoxConfig variableBreakdownGridComboLoadConfig = new GtnUIFrameworkComboBoxConfig();
+		variableBreakdownGridComboLoadConfig.setItemValues(Arrays.asList("Actuals","Projections"));
+                variableBreakdownGridComboLoadConfig.setItemCaptionValues(Arrays.asList("Actuals","Projections"));
+		variableBreakdownGridComboConfig.setGtnComboboxConfig(variableBreakdownGridComboLoadConfig);
+                
 		componentList.add(variableBreakdownFrequencyLayoutConfig);
 		componentList.add(variableBreakdownFrequencyConfig);
 		componentList.add(variableBreakdownHistoryLayoutConfig);
 		componentList.add(variableBreakdownHistoryConfig);
+                componentList.add(variableBreakdownGridComboLayoutConfig);
+                componentList.add(variableBreakdownGridComboConfig);
 
 	}
 
@@ -385,11 +404,6 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownLookupResultsPagedTableComponent
 				.setGtnPagedTableConfig(variableBreakdownLookupResultsPagedTableConfig);
 
-		GtnUIFrameWorkActionConfig variableBreakDownGridLoad = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.CUSTOM_ACTION);
-		variableBreakDownGridLoad.addActionParameter(GtnReportingVariableBreakdownGridLoadAction.class.getName());
-		variableBreakDownGridLoad.addActionParameter("reportLandingScreen_reportingDashboardComparisonConfig");
-		variableBreakdownLookupResultsPagedTableComponent
-				.setGtnUIFrameWorkActionConfigList(Arrays.asList(variableBreakDownGridLoad));
+		
 	}
 }
