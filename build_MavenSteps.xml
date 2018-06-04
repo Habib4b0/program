@@ -1,0 +1,97 @@
+<?xml version="1.0" ?>
+<project name="gtnAntFullBuild" default="newArchFullBuild">
+
+	<condition property="isWindows">
+		<os family="windows" />
+	</condition>
+
+	<condition property="isUnix">
+		<os family="unix" />
+	</condition>
+
+
+	<target name="mvn_windows_setup" if="isWindows">
+		<property name="mvn.executable" value="cmd" />
+		<property name="mvn.args" value="/c" />
+	</target>
+
+	<target name="mvn_unix_setup" if="isUnix">
+		<property name="mvn.executable" value="sh" />
+		<property name="mvn.args" value="-c" />
+	</target>
+
+	<target name="run-mvn-goals" depends="mvn_windows_setup, mvn_unix_setup">
+
+		<echo>Executing mvn command</echo>
+		<echo>mvn ${mvn.args} ${p_goals} </echo>
+		<exec dir="${basedir}" executable="${mvn.executable}">
+			<env key="JAVA_HOME" value="C:\Program Files\Java\jdk1.8.0_131" />
+			<arg line="${mvn.args} 'mvn ${p_goals}'" />
+		</exec>
+
+	</target>
+
+
+	<!-- Steps start here -->
+
+	<property name="repo.dir" location="${basedir}/app/gtnFrameworkMain/Repository" />
+
+	<target name="newArchFullBuild">
+		<antcall target="Step1"/>
+		<antcall target="Step2"/>
+		<antcall target="Step3"/>
+		<antcall target="bpmStep"/>
+		<antcall target="Step4"/>
+		<antcall target="Step5"/>
+		<antcall target="Step6"/>
+	</target>
+
+	<target name="Step1">
+		<antcall target="run-mvn-goals">
+			<param name="p_goals" value="-T 4 -e clean install -DskipTests -Dmaven.repo.local=${repo.dir}"/>
+		</antcall>
+	</target>
+
+	<target name="Step2">
+		<antcall target="run-mvn-goals">
+			<param name="p_goals" value="-T 4 -e -f app/Resources/pom.xml clean install -DskipTests -Dmaven.repo.local=${repo.dir}"/>
+		</antcall>
+	</target>
+
+	<target name="Step3">
+		<antcall target="run-mvn-goals">
+			<param name="p_goals" value="-T 4 -e -f app/Release-Plugin/pom.xml clean install -DskipTests -Dmaven.repo.local=${repo.dir}"/>
+		</antcall>
+	</target>
+
+	<target name="bpmStep">
+		<antcall target="run-mvn-goals">
+			<param name="p_goals" value="-T 4 -e -f app/Release-Plugin/pom.xml clean install -DskipTests -Dmaven.repo.local=${repo.dir}"/>
+		</antcall>
+	</target>
+
+	<target name="Step4">
+		<antcall target="run-mvn-goals">
+			<param name="p_goals" value="-T 4 -e -f app/gtnFrameworkMain/pom.xml -PInstall-Dependency -DskipTests -Dmaven.repo.local=${repo.dir}"/>
+		</antcall>
+	</target>
+
+	<target name="Step5">
+		<antcall target="run-mvn-goals">
+			<param name="p_goals" value="-T 4 -e -f app/gtnFrameworkMain/pom.xml -PRelease-Build-Parallel  -DskipTests -Dmaven.repo.local=${repo.dir}"/>
+		</antcall>
+	</target>
+
+	<target name="Step6">
+		<antcall target="run-mvn-goals">
+			<param name="p_goals" value="-T 4 -e -f app/gtnFrameworkMain/pom.xml -PRelease-Ws-Build  -DskipTests -Dmaven.repo.local=${repo.dir}"/>
+		</antcall>
+	</target>
+
+	<target name="Step7">
+		<antcall target="run-mvn-goals">
+			<param name="p_goals" value="-T 4 -e -f app/gtnFrameworkMain/pom.xml -PBuild-Subsystem -DskipTests -Dmaven.repo.local=${repo.dir}"/>
+		</antcall>
+	</target>
+
+</project>
