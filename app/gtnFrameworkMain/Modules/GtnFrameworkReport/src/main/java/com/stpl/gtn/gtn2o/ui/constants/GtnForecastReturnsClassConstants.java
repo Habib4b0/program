@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.constants;
 
+import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction;
+
 /**
  *
  * @author Nimisha.Rakesh
@@ -19,7 +21,7 @@ public class GtnForecastReturnsClassConstants {
 
 	public static final String RETURNS_FORECAST_VALIDATION_PACKAGE = "com.stpl.gtn.gtn2o.ui.action.validation.";
 
-	public static final String RETURNS_FORECAST_PAGED_TREE_TABLE_PACKAGE = "com.stpl.gtn.gtn2o.ui.action.pagedtreetable.";
+	public static final String RETURNS_FORECAST_PAGED_TREE_TABLE_PACKAGE = "com.stpl.gtn.gtn2o.registry.action.pagedtreetable.";
 
 	public static final String RETURNS_FORECAST_TABS_PACKAGE = "com.stpl.gtn.gtn2o.ui.action.tabs.";
 
@@ -165,8 +167,8 @@ public class GtnForecastReturnsClassConstants {
 	public static final String GTN_WS_RETURNS_FORECAST_COMP_RIGHT_HEADER_FORM_HEADER_CONFIG_ACTION = RETURNS_FORECAST_PAGED_TREE_TABLE_PACKAGE
 			+ "GtnFrameworkFSPTTCompRightHeaderFormHeaderAndConfigAction";
 
-	public static final String GTN_WS_RETURNS_FORECAST_LEFT_HEADER_CONFIG_ACTION = RETURNS_FORECAST_PAGED_TREE_TABLE_PACKAGE
-			+ "GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction";
+	public static final String GTN_WS_RETURNS_FORECAST_LEFT_HEADER_CONFIG_ACTION = GtnFrameworkConfigureLeftTableHeaderForPTTCompoAction.class
+			.getName();
 
 	public static final String GTN_WS_RETURNS_FORECAST_RIGHT_HEADER_CONFIG_ACTION = RETURNS_FORECAST_PAGED_TREE_TABLE_PACKAGE
 			+ "GtnFrameworkConfigureRightTableHeaderForPTTCompoAction";

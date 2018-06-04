@@ -13,7 +13,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 
 @Service
-@Scope(value = "Singleton")
+@Scope(value = "singleton")
 public class GtnReportJsonService {
 
 	private static final GtnWSLogger GTNLOGGER = GtnWSLogger.getGTNLogger(GtnReportJsonService.class);
@@ -56,7 +56,7 @@ public class GtnReportJsonService {
 	}
 
 	private String getFileName(String filename, String sessionId) {
-		return filename + GtnWsQueryConstants.UNDERSCORE + sessionId;
+		return getFolderName() + filename + GtnWsQueryConstants.UNDERSCORE + sessionId;
 	}
 
 	private File getCreateFileWithSessionId(String fileName) {
