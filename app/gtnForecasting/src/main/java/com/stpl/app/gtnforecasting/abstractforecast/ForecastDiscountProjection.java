@@ -93,7 +93,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     protected final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     protected static final Logger LOGGER = LoggerFactory.getLogger(ForecastDiscountProjection.class);
     protected DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
-    DataSelectionLogic logic = new DataSelectionLogic();
+    protected DataSelectionLogic logic = new DataSelectionLogic();
     /**
      * The forecastTab VerticalLayout.
      */

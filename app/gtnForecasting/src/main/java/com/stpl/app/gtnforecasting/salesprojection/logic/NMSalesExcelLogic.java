@@ -75,6 +75,11 @@ public class NMSalesExcelLogic {
         if (key.contains(".")) {
             String keyValue = key.substring(0, key.lastIndexOf('.'));
             hierarchyValues.add(keyValue);
+            int count = StringUtils.countMatches(key, ".");
+             int forecastLevel = Integer.valueOf(projectionSelection.getSessionDTO().getCustomerLevelNumber());
+            if (count >= forecastLevel) {
+                hierarchyValues.add(keyValue);
+            }
             getHierarchy(keyValue, projectionSelection);
             return keyValue;
         }

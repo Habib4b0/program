@@ -120,7 +120,7 @@ public class SessionDTO implements Serializable {
     private List<Leveldto> productHierarchyList;
     private List<Leveldto> customerHierarchyList;
     private Map<Integer, List<Leveldto>> customHierarchyMap = new HashMap<>();
-    private Map<Integer, List<Object[]>> customDetailMap = new HashMap<>();
+    private transient Map<Integer, List<Object[]>> customDetailMap = new HashMap<>();
     private String screenName = StringUtils.EMPTY;
     private int customId;
     private Set<String> salesgroupSet;

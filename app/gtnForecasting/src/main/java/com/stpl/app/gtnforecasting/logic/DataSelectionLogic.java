@@ -122,8 +122,19 @@ public class DataSelectionLogic {
 	private List companiesList = new ArrayList<>();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 	private static final CommonUtil commonUtil = CommonUtil.getInstance();
-        private  ExecutorService service = ThreadPool.getInstance().getService();
-        public static final String EXEC_WITH_SPACE = "EXEC ";
+    private  ExecutorService service = ThreadPool.getInstance().getService();
+    public static final String EXEC_WITH_SPACE = "EXEC ";
+    private static final String QUERY_CALL_VIEW_INSERT_PROCEDURES = "Query callViewInsertProcedures: {}";
+    private static final String CUSTOMER_SID_LITERAL = "custSid";
+    private static final String CUSTVER = "custVer";
+    private static final String PROD_SID_LITERAL = "prodSid";
+    private static final String CUSTOMER_SID_VARIABLE = "@CUSTSID";
+    private static final String PRODUCT_SID_VARIABLE = "@PRODSID";
+    private static final String PRODVER = "prodVer";
+    private static final String CUSTVER_VARIABLE = "@CUSTVER";
+    private static final String PRODVER_VARIABLE = "@PRODVER";
+    public static final String SALES_SMALL = "Sales";
+
 
 	/**
 	 * Gets the hierarchy group.
@@ -2574,7 +2585,8 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
     }
     
     public void callViewInsertProcedureForNm(SessionDTO session,String mode,String screenName,String view,String startPeriod,String endPeriod) {
-        int masterSid = screenName.equalsIgnoreCase("Sales") ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
+        int masterSid = screenName.equalsIgnoreCase(SALES_SMALL) ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
+        String frequency = screenName.equalsIgnoreCase(SALES_SMALL) && session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
         StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
              LOGGER.debug(startPeriod);
@@ -2583,7 +2595,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 				query.append(session.getUserId())
                                 .append(",'").append(session.getSessionId()).append('\'')
                                 .append(",'").append(session.getFunctionMode()).append('\'')
-                                .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
+                                .append(",'").append(CommonLogic.getFrequency(frequency)).append('\'')
                                 .append(",'").append(screenName).append('\'')
                                 .append(",'").append(view).append('\'')
                                 .append(',').append("null")
@@ -2604,7 +2616,8 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 
     }
     public String callViewInsertProcedures(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
-     int deductionMasterSid = screenName.equalsIgnoreCase("Sales") ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
+     int deductionMasterSid = screenName.equalsIgnoreCase(SALES_SMALL) ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
+     String frequencyValue = screenName.equalsIgnoreCase(SALES_SMALL) && session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
      String updateUnitField="Unit Volume".equals(massUpdateField)?"UNITS":massUpdateField;
      LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}");
          StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
@@ -2614,7 +2627,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 				query.append(session.getUserId())
                                 .append(",'").append(session.getSessionId()).append('\'')
                                 .append(",'").append(session.getFunctionMode()).append('\'')
-                                .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
+                                .append(",'").append(CommonLogic.getFrequency(frequencyValue)).append('\'')
                                 .append(",'").append(screenName).append('\'')
                                 .append(",'").append(view).append('\'')
                                 .append(",'").append(startPeriod).append('\'')
@@ -2628,7 +2641,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(",'").append(session.getDataSelectionDeductionLevelCaption()).append('\'')
                                 .append(';');
                                 HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
-                                LOGGER.info("Query callViewInsertProcedures: {}", query.toString());
+                                LOGGER.info(QUERY_CALL_VIEW_INSERT_PROCEDURES, query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -2638,6 +2651,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
     
     public String callViewInsertProceduresString(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
         StringBuilder query = new StringBuilder();
+        String frequencyValue = session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
         try {
             query.append(EXEC_WITH_SPACE);
             query.append(Constant.PRC_VIEWS_POPULATION);
@@ -2645,7 +2659,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 				query.append(session.getUserId())
                                 .append(",'").append(session.getSessionId()).append('\'')
                                 .append(",'").append(session.getFunctionMode()).append('\'')
-                                .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
+                                .append(",'").append(CommonLogic.getFrequency(frequencyValue)).append('\'')
                                 .append(",'").append(screenName).append('\'')
                                 .append(",'").append(view).append('\'')
                                 .append(",'").append(startPeriod).append('\'')
@@ -2658,7 +2672,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(',').append("null")
                                 .append(",'").append("Schedule Category").append('\'')
                                 .append(';');
-                                LOGGER.info("Query callViewInsertProcedures: {}", query.toString());
+                                LOGGER.info(QUERY_CALL_VIEW_INSERT_PROCEDURES, query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -2690,7 +2704,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(',').append("null")
                                 .append(",'").append("Schedule Category").append('\'')
                                 .append(';');
-                                LOGGER.info("Query callViewInsertProcedures: {}", query.toString());
+                                LOGGER.info(QUERY_CALL_VIEW_INSERT_PROCEDURES, query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -2884,12 +2898,12 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
         List workflowforecastEligibleDate = (List) salesProjectionDAO.executeSelectQuery(datequery, null, null);
         return workflowforecastEligibleDate != null ? (Date) workflowforecastEligibleDate.get(0) : null;
     }
-    
+
     public void loadCustomViewValues(ComboBox customRelationDdlb, Map<String, String> dataMap,boolean isDataSelection) {
-        if (dataMap.get("custSid") != null && dataMap.get("custVer") != null && dataMap.size()>3) {
+        if (dataMap.get(CUSTOMER_SID_LITERAL) != null && dataMap.get(CUSTVER) != null && dataMap.size()>3) {
             String sqlQuery = QueryUtils.getQuery(Collections.emptyList(),"loadCustomRelationValues");
-            sqlQuery = sqlQuery.replace("@CUSTSID", dataMap.get("custSid")).replace("@PRODSID", dataMap.get("prodSid"))
-                    .replace("@CUSTVER", dataMap.get("custVer")).replace("@PRODVER", dataMap.get("prodVer"));
+            sqlQuery = sqlQuery.replace(CUSTOMER_SID_VARIABLE, dataMap.get(CUSTOMER_SID_LITERAL)).replace(PRODUCT_SID_VARIABLE, dataMap.get(PROD_SID_LITERAL))
+                    .replace(CUSTVER_VARIABLE, dataMap.get(CUSTVER)).replace(PRODVER_VARIABLE, dataMap.get(PRODVER));
             List<Object[]> queryList = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
 
             for (Object[] objects : queryList) {
@@ -2903,10 +2917,10 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
     }
     
     public void loadCustomViewDeductionValues(ComboBox customDeductionRelationDdlb, Map<String, String> dataDeductionMap,boolean isDataSelection) {
-        if (dataDeductionMap.get("custSid") != null && dataDeductionMap.get("custVer") != null && dataDeductionMap.size()>3) {
+        if (dataDeductionMap.get(CUSTOMER_SID_LITERAL) != null && dataDeductionMap.get(CUSTVER) != null && dataDeductionMap.size()>3) {
             String discountSqlQuery = QueryUtils.getQuery(Collections.emptyList(),"loadCustomDeductionRelationValues");
-            discountSqlQuery = discountSqlQuery.replace("@CUSTSID", dataDeductionMap.get("custSid")).replace("@PRODSID", dataDeductionMap.get("prodSid"))
-                    .replace("@CUSTVER", dataDeductionMap.get("custVer")).replace("@PRODVER", dataDeductionMap.get("prodVer"));
+            discountSqlQuery = discountSqlQuery.replace(CUSTOMER_SID_VARIABLE, dataDeductionMap.get(CUSTOMER_SID_LITERAL)).replace(PRODUCT_SID_VARIABLE, dataDeductionMap.get(PROD_SID_LITERAL))
+                    .replace(CUSTVER_VARIABLE, dataDeductionMap.get(CUSTVER)).replace(PRODVER_VARIABLE, dataDeductionMap.get(PRODVER));
             List<Object[]> queryDiscountList = HelperTableLocalServiceUtil.executeSelectQuery(discountSqlQuery);
 
             for (Object[] objects : queryDiscountList) {
@@ -2944,10 +2958,10 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
     }
     
     public void loadCustomViewValuesDeduction(ComboBox customRelationDdlb, Map<String, String> dataMap) {
-        if (dataMap.get("custSid") != null && dataMap.get("custVer") != null) {
+        if (dataMap.get(CUSTOMER_SID_LITERAL) != null && dataMap.get(CUSTVER) != null) {
             String sqlQuery = QueryUtils.getQuery(Collections.emptyList(),"loadCustomDeductionRelationValues");
-            sqlQuery = sqlQuery.replace("@CUSTSID", dataMap.get("custSid")).replace("@PRODSID", dataMap.get("prodSid"))
-                    .replace("@CUSTVER", dataMap.get("custVer")).replace("@PRODVER", dataMap.get("prodVer"));
+            sqlQuery = sqlQuery.replace(CUSTOMER_SID_VARIABLE, dataMap.get(CUSTOMER_SID_LITERAL)).replace(PRODUCT_SID_VARIABLE, dataMap.get(PROD_SID_LITERAL))
+                    .replace(CUSTVER_VARIABLE, dataMap.get(CUSTVER)).replace(PRODVER_VARIABLE, dataMap.get(PRODVER));
             List<Object[]> queryList = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
 
             for (Object[] objects : queryList) {

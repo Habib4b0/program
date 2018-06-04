@@ -1028,12 +1028,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     private List<Object[]> getSalesExcelResults(ProjectionSelectionDTO projectionSelectionDTO) {
         if (!projectionSelectionDTO.isIsCustomHierarchy()) {
-            int customMasterSid = Integer.parseInt(viewDdlb.getValue() == null ? "0" : viewDdlb.getValue().toString());
-            Object[] orderedArg = {projectionSelectionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionDTO().getSessionId(), projectionSelectionDTO.getLevelNo(),
-                projectionSelectionDTO.getFrequency().substring(0, 1), projectionSelectionDTO.isIsCustomHierarchy() ? "D" : projectionSelectionDTO.getHierarchyIndicator(),
-                SALES, "0", projectionSelectionDTO.getHierarchyNo(),
-                projectionSelectionDTO.getLevelNo(), null, customMasterSid, null, projectionSelectionDTO.getUomCode(), ALL.equals(projectionSelectionDTO.getSessionDTO().getSalesInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion(), ALL.equals(projectionSelectionDTO.getSessionDTO().getDeductionInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getDeductionInclusion(), null, SALES};
-            return CommonLogic.callProcedure("PRC_PROJECTION_VARIANCE", orderedArg);
+            return salesLogic.getSalesExcelResults(projectionDTO);
         } else {
             return salesLogic.getSalesResultsExcelCustom(projectionSelectionDTO);
         }
