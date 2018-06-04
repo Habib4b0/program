@@ -76,7 +76,15 @@ public class GtnUIFrameworkPagedTableConfig {
     private HashMap<String, Object> filterValueMap=new HashMap<>();
     private boolean isRefreshAtStart;
     private String gridColumnHeader;
+    private boolean enableCheckBoxInGridHeader=false;
 
+    public boolean isEnableCheckBoxInGridHeader() {
+        return enableCheckBoxInGridHeader;
+    }
+
+    public void setEnableCheckBoxInGridHeader(boolean enableCheckBoxInGridHeader) {
+        this.enableCheckBoxInGridHeader = enableCheckBoxInGridHeader;
+    }
     public String getGridColumnHeader() {
         return gridColumnHeader;
     }
