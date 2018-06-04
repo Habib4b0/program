@@ -6,13 +6,14 @@
 package com.stpl.gtn.gtn2o.ui.customview.dynamicclasses;
 
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCRValueChangeAction;
-import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVDeleteValidationAction;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVDeleteAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVSaveValidationAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkConfirmSaveAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCustomerAddAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkOptionGroupChangeAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkRemoveAction;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnUIFrameworkCVDeleteConfirmationAction;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 
@@ -38,8 +39,10 @@ public class GtnFrameworkCVDynamicFiller implements GtnUIDynamicObjectFiller {
 				new GtnFrameworkConfirmSaveAction());
         GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCustomViewEditAction.class.getName(),
 				new GtnFrameworkCustomViewEditAction());
-        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCVDeleteValidationAction.class.getName(),
-				new GtnFrameworkCVDeleteValidationAction());
+        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCVDeleteAction.class.getName(),
+				new GtnFrameworkCVDeleteAction());
+        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkCVDeleteConfirmationAction.class.getName(),
+				new GtnUIFrameworkCVDeleteConfirmationAction());
     }
     
 }

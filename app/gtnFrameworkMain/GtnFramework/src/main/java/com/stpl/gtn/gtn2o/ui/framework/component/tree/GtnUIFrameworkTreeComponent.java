@@ -288,7 +288,6 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 						: "";
 				GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(initialTableId + treeLevelNo);
-				tableBaseComponent.addItemToDataTable(item);
 				tableBaseComponent.setTableValue(null);
 				listIterator.remove();
 			}

@@ -332,9 +332,6 @@ public class GtnWsCustomViewService {
 						"Cannot Delete the custom view which is already associated with existing projection.");
 				return;
 			}
-//			CustViewMaster customViewMaster = session.load(CustViewMaster.class, cvRequest.getCvSysId());
-//			deletAssociatedHierarchy(customViewMaster, session);
-//			session.delete(customViewMaster);
 			tx.commit();
 			cvResponse.setMessageType("success");
 			cvResponse.setMessage(cvRequest.getCustomViewName()+ " has been deleted Successfully.");
@@ -343,8 +340,8 @@ public class GtnWsCustomViewService {
 			cvResponse.setSuccess(false);
 			cvResponse.setMessageType(GtnFrameworkCommonStringConstants.DELETE);
 			cvResponse.setMessage(cvRequest.getCustomViewName() + " has not been deleted.");
-			logger.error("Exception in deleteRelationship", e);
-			throw new GtnFrameworkGeneralException("Exception in deleteRelationship ", e);
+			logger.error("Exception in deleteCustomView", e);
+			throw new GtnFrameworkGeneralException("Exception in deleteCustomView ", e);
 		} finally {
 			session.close();
 		}
@@ -360,7 +357,7 @@ public class GtnWsCustomViewService {
 				GtnFrameworkDataType.INTEGER };
                                 List<Object> resultList =  getResultValue("getCustomViewDeleteAlreadyUsed", cvQueryParams, cvQueryTypes);
 				if (resultList != null && !resultList.isEmpty()) {
-					Object result = (Object) resultList.get(0);
+					Object result = resultList.get(0);
                                         custCount = result == null ? 0 :(Integer) result;
 				}
 				if (custCount > 0 ) {
