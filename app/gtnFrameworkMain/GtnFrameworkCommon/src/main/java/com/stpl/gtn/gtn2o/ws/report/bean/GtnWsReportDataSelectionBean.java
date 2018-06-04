@@ -4,11 +4,10 @@ import java.util.Date;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import java.util.ArrayList;
 
 public class GtnWsReportDataSelectionBean {
-	
-	public GtnWsReportDataSelectionBean(){
+
+	public GtnWsReportDataSelectionBean() {
 		super();
 	}
 
@@ -38,7 +37,7 @@ public class GtnWsReportDataSelectionBean {
 	private GtnWsRecordBean productHierarchyRecordBean;
 	private List<GtnWsRecordBean> selectedCustomerHierarchyList;
 	private List<GtnWsRecordBean> selectedProductHierarchyList;
-	private List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = new ArrayList<>();
+	private List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList;
 	private Date fromPeriod;
 	private Date toPeriodReport;
 
@@ -307,5 +306,5 @@ public class GtnWsReportDataSelectionBean {
 	public void setComparisonProjectionBeanList(List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
 		this.comparisonProjectionBeanList = comparisonProjectionBeanList;
 	}
-	
+
 }

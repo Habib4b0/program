@@ -27,7 +27,7 @@ import com.stpl.gtn.gtn2o.ws.report.service.displayformat.service.RelationshipLe
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
 @Service("reportDataSelectionMongo")
-@Scope(value = "Singleton")
+@Scope(value = "singleton")
 public class GtnWsReportDataSelectionMongoGenerateServiceImpl implements GtnWsReportDataSelectionGenerate {
 
 	@Autowired
