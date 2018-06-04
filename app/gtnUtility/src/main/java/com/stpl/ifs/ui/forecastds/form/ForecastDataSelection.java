@@ -560,9 +560,11 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	boolean resetFlag = false;
 	protected boolean customerLevelListenerFlag = true;
 	protected boolean productLevelListenerFlag = true;
+	protected boolean dataSelectionDeductionLevelListenerFlag = true;
 
 	protected String selectedCustomerLevel = StringUtils.EMPTY;
 	protected String selectedProductLevel = StringUtils.EMPTY;
+	protected String selectedDataSelectionDeductionLevel = StringUtils.EMPTY;
 
 	protected Map<String, String> customerDescriptionMap = null;
 	protected Map<String, String> productDescriptionMap = null;
@@ -822,6 +824,14 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 		this.selectedProductLevel = selectedProductLevel;
 	}
 
+        public String getSelectedDataSelectionDeductionLevel() {
+            return selectedDataSelectionDeductionLevel;
+        }
+
+        public void setSelectedDataSelectionDeductionLevel(String selectedDataSelectionDeductionLevel) {
+            this.selectedDataSelectionDeductionLevel = selectedDataSelectionDeductionLevel;
+        }
+        
 	private void configureCustomerDdlb() {
 		LOGGER.debug("configureDdlb called");
 		defaultCustomerForecastLevelContainer.addItem(UIUtil.SELECT_ONE);

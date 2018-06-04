@@ -93,7 +93,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     protected final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     protected static final Logger LOGGER = LoggerFactory.getLogger(ForecastDiscountProjection.class);
     protected DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
-    DataSelectionLogic logic = new DataSelectionLogic();
+    protected DataSelectionLogic logic = new DataSelectionLogic();
     /**
      * The forecastTab VerticalLayout.
      */
@@ -814,9 +814,6 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                     adjPeriodValueChangeLogic(String.valueOf(event.getProperty().getValue()));
                     break;
                 case "frequencyDdlb":
-//                    if(!session.getDsFrequency().equals(String.valueOf(frequencyDdlb.getValue()))){
-//                    logic.nmDiscountViewsPopulationProcedure(session);
-//                    }
                     loadFrequency(String.valueOf(event.getProperty().getValue()));
                     session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
                     break;
@@ -867,7 +864,11 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 }
                 break;
             case "generateBtn":
-                if (!session.getDsFrequency().equals(frequencyDdlb.getValue()) || !session.getDeductionLevel().equals(deductionlevelDdlb.getValue())) {
+                LOGGER.info("session.getDsFrequency() {}",session.getDsFrequency(),"frequencyDdlb.getValue()------",frequencyDdlb.getValue());
+                LOGGER.info("session.getDeductionLevel()-{}",session.getDataSelectionDeductionLevel(),"deductionlevelDdlb.getValue()-----",deductionlevelDdlb.getValue());
+                if (!session.getDsFrequency().equals(String.valueOf(frequencyDdlb.getValue())) || !session.getDataSelectionDeductionLevel().equals(String.valueOf(deductionlevelDdlb.getValue()))) {
+                    session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
+                    session.setDataSelectionDeductionLevel(String.valueOf(deductionlevelDdlb.getValue()));
                     logic.nmDiscountViewsPopulationProcedure(session);
                     CommonUtil.getInstance().waitForSeconds();
                 }

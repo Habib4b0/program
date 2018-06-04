@@ -354,7 +354,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     protected List<Object> generateDiscountNamesToBeLoaded = new ArrayList<>();
     protected List<Object> generateProductToBeLoaded = new ArrayList<>();
     protected List<Object> generateCustomerToBeLoaded = new ArrayList<>();
-    Map<String,String> dataMap=new HashMap<>();
+    protected Map<String,String> dataMap=new HashMap<>();
     /**
      * Level filter value change listener
      */

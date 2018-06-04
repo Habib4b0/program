@@ -293,7 +293,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
         frequency.addItem(Constant.SELECT_ONE);
         frequency.addItem(Constant.ANNUAL);
-        frequency.addItem(Constant.SEMI_ANNUAL_1);
+        frequency.addItem(Constant.SEMI_ANNUALY);
         frequency.addItem(Constant.QUARTERLY);
         frequency.addItem(Constant.MONTHLY);
 
