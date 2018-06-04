@@ -219,6 +219,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
                      Map<String, String> formatterMap = new HashMap<>();
                      formatterMap.put("currencyNoDecimal", SALES);
                      formatterMap.put("unitNoDecimal", "Units");
+                     formatterMap.put("UNITTWODECIMAL", "AccountGrowth");
+                     formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
                     if (i == 0) {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap);

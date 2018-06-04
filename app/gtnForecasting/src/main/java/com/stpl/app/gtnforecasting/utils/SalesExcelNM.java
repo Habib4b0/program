@@ -148,6 +148,22 @@ public class SalesExcelNM extends ExcelExport{
                 sheetCell.setCellStyle(style3);
                 sheetCell.setCellFormula("SUM("+formula+")");
             }
+        }else if (formatter.get("UNITTWODECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNITTWODECIMAL"))) {
+            sheetCell.setCellStyle(style3);
+            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+                String formula = getFormula(sheetCell, rootItemId);
+                LOGGER.info("column formula{}" , formula);
+                sheetCell.setCellStyle(style3);
+                sheetCell.setCellFormula("SUM("+formula+")");
+            }
+        }else if (formatter.get("UNIT_DECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNIT_DECIMAL"))) {
+            sheetCell.setCellStyle(style3);
+            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+                String formula = getFormula(sheetCell, rootItemId);
+                LOGGER.info("column formula{}" , formula);
+                sheetCell.setCellStyle(style3);
+                sheetCell.setCellFormula("SUM("+formula+")");
+            }
         }
     }
 
