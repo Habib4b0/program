@@ -134,6 +134,10 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	protected Label customerRelationVersionLabel;
 	@UiField("customerRelationVersion")
 	protected ComboBox customerRelationVersionComboBox;
+        @UiField("customRelationDdlb")
+	protected ComboBox customRelationDdlb;
+        @UiField("customRelationDdlbDeduction")
+	protected ComboBox customRelationDdlbDeduction;
 
 	/**
 	 * The level.
@@ -175,7 +179,9 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 
 	protected ComboBox businessUnit = new ComboBox();
 
-	/**
+        protected ComboBox frequency = new ComboBox();
+        protected ComboBox dataSelectionDeductionLevel = new ComboBox();
+        /**
 	 * The product hierarchy.
 	 */
 	@UiField("productHierarchy")
@@ -554,9 +560,11 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	boolean resetFlag = false;
 	protected boolean customerLevelListenerFlag = true;
 	protected boolean productLevelListenerFlag = true;
+	protected boolean dataSelectionDeductionLevelListenerFlag = true;
 
 	protected String selectedCustomerLevel = StringUtils.EMPTY;
 	protected String selectedProductLevel = StringUtils.EMPTY;
+	protected String selectedDataSelectionDeductionLevel = StringUtils.EMPTY;
 
 	protected Map<String, String> customerDescriptionMap = null;
 	protected Map<String, String> productDescriptionMap = null;
@@ -631,6 +639,9 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 				configureCustomerDdlb();
 				configureCustomerVersionDdlb();
 				configureProductVersionDdlb();
+                                configureFrequency();
+                                setNullSelectionCustomDdlb(customRelationDdlb);
+                                setNullSelectionCustomDdlb(customRelationDdlbDeduction);
 			}
 
 			deleteViewBtn.setEnabled(false);
@@ -731,6 +742,8 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 		productRelation.setWidth(HeaderUtils.TWO_THIRTY_FIVE_PX);
 		company.setWidth(HeaderUtils.TWO_ZERO_FIVE_PX);
 		businessUnit.setWidth(HeaderUtils.TWO_ZERO_FIVE_PX);
+                frequency.setWidth(HeaderUtils.TWO_ZERO_FIVE_PX);
+                dataSelectionDeductionLevel.setWidth(HeaderUtils.TWO_ZERO_FIVE_PX);
 	}
 
 	protected abstract void resetTwo();
@@ -811,6 +824,14 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 		this.selectedProductLevel = selectedProductLevel;
 	}
 
+        public String getSelectedDataSelectionDeductionLevel() {
+            return selectedDataSelectionDeductionLevel;
+        }
+
+        public void setSelectedDataSelectionDeductionLevel(String selectedDataSelectionDeductionLevel) {
+            this.selectedDataSelectionDeductionLevel = selectedDataSelectionDeductionLevel;
+        }
+        
 	private void configureCustomerDdlb() {
 		LOGGER.debug("configureDdlb called");
 		defaultCustomerForecastLevelContainer.addItem(UIUtil.SELECT_ONE);
@@ -926,6 +947,8 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			configureCustomerDdlb();
 			configureProductDdlb();
 		}
+                frequency.select(HeaderUtils.QUARTERLY);
+                dataSelectionDeductionLevel.select(1);
 		configureTimeDdlb(fromPeriod, toPeriod, null, null, UIUtil.MODE_ADD, screenName);
 
 	}
@@ -1472,7 +1495,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			});
 			modeOption.setStyleName(HeaderUtils.HORIZONTAL);
 			layoutG1.addComponent(modeOption);
-			GridLayout layoutG2 = new GridLayout(NumericConstants.SIX, NumericConstants.TWO);
+			GridLayout layoutG2 = new GridLayout(NumericConstants.SIX, NumericConstants.THREE);
                         layoutG2.setSpacing(true);
 			layoutG2.addComponent(new Label(HeaderUtils.PRIVATE_VIEWS) {
 				{
@@ -1525,6 +1548,20 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 				}
 			});
 			layoutG2.addComponent(description);
+                        layoutG2.addComponent(new Label(HeaderUtils.FREQUENCY) {
+				{
+					setContentMode(ContentMode.HTML);
+					setStyleName(HeaderUtils.LABEL_RESULT_ALIGN);
+				}
+			});
+                        layoutG2.addComponent(frequency);
+                        layoutG2.addComponent(new Label(HeaderUtils.DATASELECTION_DEDUCTIONLEVEL) {
+				{
+					setContentMode(ContentMode.HTML);
+					setStyleName(HeaderUtils.LABEL_RESULT_ALIGN);
+				}
+			});
+                        layoutG2.addComponent(dataSelectionDeductionLevel);
 			verticalLayout.addComponent(layoutG1);
 			verticalLayout.addComponent(layoutG2);
 		}
@@ -1784,6 +1821,28 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
                     }
                 }
             });
+        }
+        
+       private void configureFrequency() {
+        frequency.addItem(HeaderUtils.MONTHLY);
+        frequency.addItem(HeaderUtils.QUARTERLY);
+        frequency.addItem(HeaderUtils.SEMI_ANNUAL_C);
+        frequency.addItem(HeaderUtils.ANNUAL);
+        frequency.select(HeaderUtils.QUARTERLY);
+        frequency.setNullSelectionAllowed(false);
+        frequency.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+            }
+        });
+    }
+        
+        public void setNullSelectionCustomDdlb(ComboBox customRelationDdlb) {
+        customRelationDdlb.removeAllItems();
+        customRelationDdlb.setImmediate(true);
+        customRelationDdlb.setNullSelectionAllowed(true);
+        customRelationDdlb.setInputPrompt(SELECT_ONE);
+        customRelationDdlb.select(SELECT_ONE);
         }
 
 	}

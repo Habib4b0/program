@@ -35,6 +35,7 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
     private int productRelVersionNo;
     private int userId;
       private  boolean isDelete;
+        private int moduleType;
     
     private List<GtnWsRecordBean> cvTreeNodeList;
     
@@ -174,6 +175,14 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
 
     public void setIsDelete(boolean isDelete) {
         this.isDelete = isDelete;
+    }
+    
+    public int getModuleType() {
+        return moduleType;
+    }
+
+    public void setModuleType(int moduleType) {
+        this.moduleType = moduleType;
     }
     
 }

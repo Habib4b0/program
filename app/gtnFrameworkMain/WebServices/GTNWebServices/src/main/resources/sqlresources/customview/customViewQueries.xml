@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <sql>
-    <entity id="getCustomViewCustomerHierarchyCount">
-        <query> 
+	<entity id="getCustomViewCustomerHierarchyCount">
+		<query> 
         <![CDATA[
 		SELECT
                     count(DISTINCT RLD.LEVEL_NO)
@@ -11,10 +11,10 @@
                     RLD.VERSION_NO = RB.VERSION_NO
                     AND RB.RELATIONSHIP_BUILDER_SID = ?
       ]]>
-        </query>
-    </entity>
-    <entity id="getCustomViewCustomerHierarchyData">
-        <query> 
+		</query>
+	</entity>
+        <entity id="getCustomViewCustomerHierarchyData">
+		<query> 
         <![CDATA[
             SELECT
                     DISTINCT RLD.LEVEL_NAME,RLD.LEVEL_NO,
@@ -28,10 +28,10 @@
                     order by convert(int, RLD.level_no) ;
         ]]>
 
-        </query>
-    </entity>
-    <entity id="getCustomViewDeductionHierarchyCount">
-        <query> 
+		</query>
+	</entity>
+        <entity id="getCustomViewDeductionHierarchyCount">
+		<query> 
         <![CDATA[
 		SELECT
                     count(DISTINCT RLD.LEVEL_NO)
@@ -40,10 +40,10 @@
                     RLD.VERSION_NO = RB.VERSION_NO
                     AND RB.DEDUCTION_RELATION = ?
       ]]>
-        </query>
-    </entity>
-    <entity id="getCustomViewDeductionHierarchyData">
-        <query> 
+		</query>
+	</entity>
+        <entity id="getCustomViewDeductionHierarchyData">
+		<query> 
         <![CDATA[
             SELECT
                     DISTINCT RLD.LEVEL_NAME,RLD.LEVEL_NO,
@@ -57,10 +57,10 @@
                     order by convert(int, RLD.level_no) ;
         ]]>
 
-        </query>
-    </entity>
-    <entity id="getCustomViewNameDuplicateCheck">
-        <query> 
+		</query>
+	</entity>
+        <entity id="getCustomViewNameDuplicateCheck">
+		<query> 
         <![CDATA[
         SELECT
 		count( distinct CV.CUST_VIEW_MASTER_SID )
@@ -69,8 +69,8 @@
 	where
 		CV.CUST_VIEW_NAME = ?;
    ]]>
-        </query>
-    </entity>
+		</query>
+	</entity>
     <entity id="getCustomViewNameDuplicateCheckReport">
         <query> 
         <![CDATA[
@@ -84,8 +84,8 @@
         </query>
     </entity>
         
-    <entity id="ccpInsertQueryCustom">
-        <query> 
+        <entity id="ccpInsertQueryCustom">
+		<query> 
         <![CDATA[    
   IF Object_id('tempdb..#COMP_CONT') IS NOT NULL DROP
 						TABLE
@@ -145,10 +145,23 @@ INSERT
 	
 
          ]]>
-        </query>
-    </entity>
+		</query>
+	</entity>
         
-    <entity id="getCustomViewVariables">
+ <entity id="getCustomViewDeleteAlreadyUsed">
+		<query> 
+        <![CDATA[
+       SELECT
+	COUNT(*)
+FROM
+	PROJECTION_MASTER
+WHERE
+	CUSTOM_VIEW_MASTER_SID = ?
+	OR CUSTOM_VIEW_MASTER_DEDUCTION_SID = ?
+   ]]>
+		</query>
+	</entity>        
+            <entity id="getCustomViewVariables">
         <query> 
         <![CDATA[
 select CV.VARIABLE_SID,HT.DESCRIPTION from  CUSTOM_VIEW_VARIABLES CV 

@@ -48,6 +48,17 @@ public class GtnUIFrameWorkPSInfoBean {
 
 	private List<Object> ifpDataList;
 
+	private String mode;
+	private boolean psCopyMode = false;
+
+	public boolean isPsCopyMode() {
+		return psCopyMode;
+	}
+
+	public void setPsCopyMode(boolean psCopyMode) {
+		this.psCopyMode = psCopyMode;
+	}
+
 	public String getPsName() {
 		return psName;
 	}
@@ -105,19 +116,19 @@ public class GtnUIFrameWorkPSInfoBean {
 	}
 
 	public Date getPsStartDate() {
-		return  psStartDate==null ? null :(Date)psStartDate.clone();
+		return psStartDate == null ? null : (Date) psStartDate.clone();
 	}
 
 	public void setPsStartDate(Date psStartDate) {
-		this.psStartDate = psStartDate==null ? null :(Date)psStartDate.clone();
+		this.psStartDate = psStartDate == null ? null : (Date) psStartDate.clone();
 	}
 
 	public Date getPsEndDate() {
-		return  psEndDate==null ? null :(Date)psEndDate.clone();
+		return psEndDate == null ? null : (Date) psEndDate.clone();
 	}
 
 	public void setPsEndDate(Date psEndDate) {
-		this.psEndDate = psEndDate==null ? null :(Date)psEndDate.clone();
+		this.psEndDate = psEndDate == null ? null : (Date) psEndDate.clone();
 	}
 
 	public Integer getPsTradeClass() {
@@ -198,6 +209,14 @@ public class GtnUIFrameWorkPSInfoBean {
 
 	public void setIfpDataList(List<Object> ifpDataList) {
 		this.ifpDataList = (ifpDataList != null ? Collections.unmodifiableList(ifpDataList) : ifpDataList);
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
 
 }

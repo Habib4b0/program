@@ -17,7 +17,6 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -38,6 +37,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.data.HasValue;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.server.BrowserWindowOpener;
@@ -62,6 +62,8 @@ import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.Tree;
 
 public class GtnUIFrameworkBaseComponent {
+	
+	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkBaseComponent.class);
 
 	private final AbstractComponent component;
 
@@ -277,12 +279,13 @@ public class GtnUIFrameworkBaseComponent {
 		return (Collection<GtnWsRecordBean>) customData.getContainerDataSource().getItemIds();
 	}
 
+
 	public int getTableSize() {
 		GtnUIFrameworkComponentData customData = (GtnUIFrameworkComponentData) component.getData();
 		GtnUIFrameworkPagedTableLogic tableLogic = customData.getCurrentPageTableLogic();
 		return tableLogic.getCount();
 	}
-
+ 
 	public Set<Container.Filter> getFiltersFromPagedDataTable() {
 		return getLogicFromPagedDataTable().getFilters();
 	}
@@ -385,6 +388,23 @@ public class GtnUIFrameworkBaseComponent {
 		try {
 			AbstractSelect tree = (AbstractSelect) getComponentData().getCustomData();
 			tree.getContainerDataSource().addItem(item);
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+       public void clearTree() throws GtnFrameworkValidationFailedException {
+		try {
+			AbstractSelect tree = (AbstractSelect) getComponentData().getCustomData();
+			tree.getContainerDataSource().removeAllItems();
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+       
+       public Object getTreeItemIds() throws GtnFrameworkValidationFailedException {
+		try {
+			AbstractSelect tree = (AbstractSelect) getComponentData().getCustomData();
+			return !tree.getItemIds().isEmpty() ? tree.getItemIds() : null;
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
@@ -676,8 +696,9 @@ public class GtnUIFrameworkBaseComponent {
 		GtnUIFrameworkPagedTreeTableLogic tableLogic = (GtnUIFrameworkPagedTreeTableLogic) resultsTable
 				.getLeftFreezeAsTable().getContainerLogic();
 		Set<String> hierarchyNo = (Set<String>) componentData.getCustomDataList().get(1);
+                int currentPage = tableLogic.getCurrentPage();
 		tableLogic.forRefresh(hierarchyNo);
-		tableLogic.setCurrentPage(tableLogic.getCurrentPage());
+		tableLogic.setCurrentPage(currentPage);
 	}
 
 	public void setTabVisible(String tabComponentId, boolean visibleFlag) throws GtnFrameworkValidationFailedException {
@@ -804,7 +825,7 @@ public class GtnUIFrameworkBaseComponent {
 	public void loadFieldValue(Object newValue) {
 		((Field<Object>) this.component).setValue(getString(newValue));
 	}
-	
+
 	@SuppressWarnings({ "unchecked" })
 	public void loadV8FieldValue(Object newValue) {
 		((HasValue<Object>) this.component).setValue(getString(newValue));
@@ -827,7 +848,7 @@ public class GtnUIFrameworkBaseComponent {
 	public void loadDateValue(Object newValue) {
 		((Field<Object>) this.component).setValue(newValue);
 	}
-	
+
 	@SuppressWarnings({ "unchecked" })
 	public void loadV8DateValue(Object newValue) {
 		((HasValue<Object>) this.component).setValue(newValue);
@@ -850,21 +871,21 @@ public class GtnUIFrameworkBaseComponent {
 	}
 
 	public void setComponentReadOnly(boolean newValue) {
-		if (this.component instanceof Field<?>) {
-			((Field<?>) this.component).setReadOnly(newValue);
-		} else if (this.component instanceof DateField) {
-			((DateField) this.component).setReadOnly(newValue);
+		if(this.component instanceof  Field<?>) {
+			(( Field<?>)this.component).setReadOnly(newValue);
+		}else if(this.component instanceof  DateField) {
+		((DateField)this.component).setReadOnly(newValue);
 		}
-
+		
 	}
 
 	public boolean isReadOnly() {
-		boolean isReadable = true;
-		if (this.component instanceof Field<?>) {
-			isReadable = ((Field<?>) this.component).isReadOnly();
-		} else if (this.component instanceof DateField) {
-			isReadable = ((DateField) this.component).isReadOnly();
-		}
+		boolean isReadable=true;
+		if(this.component instanceof  Field<?>) {
+			isReadable=(( Field<?>)this.component).isReadOnly();
+		}else if(this.component instanceof  DateField) {
+			isReadable=((DateField)this.component).isReadOnly();
+			}
 		return isReadable;
 	}
 
@@ -890,6 +911,10 @@ public class GtnUIFrameworkBaseComponent {
 	public void clearAllCalendarValue() {
 		((CalendarField) getComponent()).clearAllValue();
 	}
+	
+	public void clearSelectedCalendarValue() {
+		((CalendarField) getComponent()).clearSelectedValue();
+	}
 
 	public void setSelectedWeekDays(int... days) {
 		if (getComponent() instanceof CalendarField) {
@@ -897,6 +922,7 @@ public class GtnUIFrameworkBaseComponent {
 					.setSelectedWeekDays((CalendarField) getComponent(), days);
 		}
 	}
+
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void loadContainer(String componentId, List<GtnWsRecordBean> resultLiist) {
@@ -1087,19 +1113,19 @@ public class GtnUIFrameworkBaseComponent {
 	}
 
 	public void removeTreeItems(GtnWsRecordBean treeSelectedBean) {
-		if (getComponentData().getCustomData() instanceof Tree) {
+			if (getComponentData().getCustomData() instanceof Tree) {
 			((GtnUIFrameworkTreeComponent) (getComponentConfig().getComponentType().getGtnComponent()))
-					.removeChildItems((Tree) (getComponentData().getCustomData()), treeSelectedBean);
+						.removeChildItems((Tree) (getComponentData().getCustomData()),treeSelectedBean);
+			}
 		}
-	}
 
 	public GtnWsRecordBean getParent(Object childItemId) {
-		return (GtnWsRecordBean) ((Tree) getComponentData().getCustomData()).getParent(childItemId);
-	}
+			return (GtnWsRecordBean) ((Tree)getComponentData().getCustomData()).getParent(childItemId);
+		}
 
 	public Set<GtnWsRecordBean> getSelectedValues() {
-		return (Set<GtnWsRecordBean>) ((Tree) getComponentData().getCustomData()).getValue();
-	}
+			return (Set<GtnWsRecordBean>) ((Tree) getComponentData().getCustomData()).getValue();
+		}
 
 	public Object getFieldValue() {
 
@@ -1107,7 +1133,7 @@ public class GtnUIFrameworkBaseComponent {
 
 		return field.getValue();
 	}
-
+	
 	public void setV8PopupFieldValue(Object value) {
 		HorizontalLayout layout = (HorizontalLayout) this.component;
 		HasValue<Object> field = (HasValue) layout.getComponent(0);

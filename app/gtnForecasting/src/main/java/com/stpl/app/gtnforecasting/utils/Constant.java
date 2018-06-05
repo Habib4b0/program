@@ -955,6 +955,20 @@ public class Constant {
     public static final String ACTUALS_AND_PROJECTIONS = "Actuals and Projections";
     public static final String PHS_RESULTS = "PHS Results";
     public static final String PERC_OF_EX_FACTORY_SEASONAL_TREND = "% OF Ex-Factory - Seasonal Trend";
+    public static final String CUSTOMER_VIEW_SALES_POPULATION_CALL = "CUSTOMER_VIEW_SALES_POPULATION_CALL";
+    public static final String PRODUCT_VIEW_SALES_POPULATION_CALL = "PRODUCT_VIEW_SALES_POPULATION_CALL";
+    public static final String CUSTOM_VIEW_SALES_POPULATION_CALL = "CUSTOM_VIEW_SALES_POPULATION_CALL";
+    public static final String CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL = "CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL";
+    public static final String PRODUCT_VIEW_DISCOUNT_POPULATION_CALL = "PRODUCT_VIEW_DISCOUNT_POPULATION_CALL";
+    public static final String CUSTOM_VIEW_DISCOUNT_POPULATION_CALL = "CUSTOM_VIEW_DISCOUNT_POPULATION_CALL";
+    public static final String PRC_VIEWS_POPULATION = "PRC_VIEWS_POPULATION";
+    public static final String PRC_VIEWS_CALL = "PRC_VIEWS_CALL";
+    public static final String FUNCTION_PRC_VIEWS_CALL = "FUNCTION_PRC_VIEWS_CALL";
+    public static final String SALES_PROCEDURE_ACTUAL = "SALES_PROCEDURE_ACTUAL";
+    public static final String SALES_PROCEDURE_PROJ = "SALES_PROCEDURE_PROJ";
+    public static final String SALES_PROCEDURE_MASTER = "SALES_PROCEDURE_MASTER";
+    public static final String DISCOUNT_MASTER = "DISCOUNT_MASTER";
+    public static final String CUST_VIEW_MAP_QUERY = "CUST_VIEW_MAP_QUERY";
 
     /**
      * set height for 390px
@@ -2112,6 +2126,7 @@ public class Constant {
     public static final String SESSION_ID_WITH_COMMA = " SESSION_ID,\n";
     public static final String QFSS = "QFSS";
     public static final String QNONFAMP = "QNON-FAMP";
+    public static final String CUSTOM_VIEW_DECLARATION = "customViewDeclaration";
 
     /**
      * Enum for Frequency constants

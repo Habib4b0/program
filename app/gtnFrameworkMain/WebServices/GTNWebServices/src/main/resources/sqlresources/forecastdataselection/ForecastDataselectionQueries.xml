@@ -13,14 +13,16 @@
 									   
 										COMPANY_MASTER_SID INT,
 										CONTRACT_MASTER_SID INT,
-										HIERARCHY_NO VARCHAR(50)
+										HIERARCHY_NO VARCHAR(50),
+                                                                                SALES_INCLUSION INT
 									) INSERT
 										INTO
 											#COMP_CONT(
 											   
 												COMPANY_MASTER_SID,
 												CONTRACT_MASTER_SID,
-												HIERARCHY_NO
+												HIERARCHY_NO,
+                                                                                                SALES_INCLUSION
 											)?
 		
 		
@@ -48,11 +50,16 @@ INSERT
 		ST_CCP_HIERARCHY(
 			CCP_DETAILS_SID,
 			CUST_HIERARCHY_NO,
-			PROD_HIERARCHY_NO
+			PROD_HIERARCHY_NO,
+                        SALES_INCLUSION
 		) SELECT Distinct
 			CD.CCP_DETAILS_SID,
 			CC.HIERARCHY_NO,
-			I.HIERARCHY_NO
+			I.HIERARCHY_NO,
+                        CASE
+                            WHEN HT.DESCRIPTION = 'YES' THEN 1
+                            ELSE 0
+                        END
 		FROM 
 			#COMP_CONT CC
 		JOIN CCP_DETAILS CD ON
@@ -60,6 +67,7 @@ INSERT
 			AND CC.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
 		JOIN #ITEM I ON
 			I.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CC.SALES_INCLUSION
 	
 
          ]]>
@@ -260,7 +268,7 @@ where
         		 ]]>
 		</query>
 </entity>
-
+        
   <entity id="childLevelsHierarchyNo">
             <query> 
             <![CDATA[ 
@@ -290,6 +298,6 @@ where
             ]]>
             </query>
         </entity>
-     
+
 
 </sql>

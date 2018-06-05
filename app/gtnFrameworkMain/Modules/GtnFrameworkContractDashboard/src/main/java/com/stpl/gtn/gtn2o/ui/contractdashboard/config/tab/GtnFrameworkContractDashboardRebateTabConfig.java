@@ -789,9 +789,9 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
 		comboBoxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		comboBoxConfig.setComboBoxType(GtnWsContractDashboardContants.RS_UDC1);
-		comboBoxConfig.setHasDefaultValue(true);
+		comboBoxConfig.setHasDefaultValue(true);		
 		comboBoxConfig.setDefaultDesc("UDC1");
 		componentConfig.setGtnComboboxConfig(comboBoxConfig);
 		componentIdList.add(componentConfig.getComponentId());
@@ -973,8 +973,8 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
 		comboBoxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		comboBoxConfig.setComboBoxType(GtnWsContractDashboardContants.PAYMENT_LEVEL);
+						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		comboBoxConfig.setComboBoxType("Payment_Level");
 		componentConfig.setGtnComboboxConfig(comboBoxConfig);
 		componentIdList.add(componentConfig.getComponentId());
 	}
@@ -1114,7 +1114,7 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 		GtnUIFrameworkComboBoxConfig evaluationRuleLevelComboBoxConfig = new GtnUIFrameworkComboBoxConfig();
 		evaluationRuleLevelComboBoxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		evaluationRuleLevelComboBoxConfig.setComboBoxType(GtnWsContractDashboardContants.RULE_LEVEL);
+		evaluationRuleLevelComboBoxConfig.setComboBoxType("Evaluation_Rule_Level");
 		evaluationRuleLevelConfig.setGtnComboboxConfig(evaluationRuleLevelComboBoxConfig);
 		componentIdList.add(evaluationRuleLevelConfig.getComponentId());
 	}
@@ -1208,7 +1208,7 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 		GtnUIFrameworkComboBoxConfig calculationRuleLevelComboBoxConfig = new GtnUIFrameworkComboBoxConfig();
 		calculationRuleLevelComboBoxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		calculationRuleLevelComboBoxConfig.setComboBoxType(GtnWsContractDashboardContants.RULE_LEVEL);
+		calculationRuleLevelComboBoxConfig.setComboBoxType("Calculation_Rule_Level");
 		calculationRuleLevelConfig.setGtnComboboxConfig(calculationRuleLevelComboBoxConfig);
 		componentIdList.add(calculationRuleLevelConfig.getComponentId());
 	}

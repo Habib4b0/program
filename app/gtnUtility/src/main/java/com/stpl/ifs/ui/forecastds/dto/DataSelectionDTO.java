@@ -177,6 +177,7 @@ public class DataSelectionDTO implements Serializable {
 	private String customerGrpSid = StringUtils.EMPTY;
 
 	private String prodGrpSid = StringUtils.EMPTY;
+        private String frequency = StringUtils.EMPTY;
 	/**
 	 * product hierarchy level number
 	 */
@@ -214,7 +215,10 @@ public class DataSelectionDTO implements Serializable {
 	private int customerRelationShipVersionNo;
 	private int productRelationShipVersionNo;
 	private int deductionRelationShipVersionNo;
+	private int customRelationShipSid;
+	private int customDeductionRelationShipSid;
         private Date forecastEligibleDate;
+        private int dataSelectionDeductionLevelSid;
 
 	public Integer getFileEndMonth() {
 		return fileEndMonth;
@@ -1082,4 +1086,36 @@ public class DataSelectionDTO implements Serializable {
        public void setDeductionRelationShipVersionNo(int deductionRelationShipVersionNo) {
         this.deductionRelationShipVersionNo = deductionRelationShipVersionNo;
        }
+
+        public String getFrequency() {
+        return frequency;
+        }
+
+        public void setFrequency(String frequency) {
+        this.frequency = frequency;
+        }
+
+    public int getCustomRelationShipSid() {
+        return customRelationShipSid;
+    }
+
+    public void setCustomRelationShipSid(int customRelationShipSid) {
+        this.customRelationShipSid = customRelationShipSid;
+    }
+
+    public int getCustomDeductionRelationShipSid() {
+        return customDeductionRelationShipSid;
+    }
+
+    public void setCustomDeductionRelationShipSid(int customDeductionRelationShipSid) {
+        this.customDeductionRelationShipSid = customDeductionRelationShipSid;
+    }
+
+    public int getDataSelectionDeductionLevelSid() {
+        return dataSelectionDeductionLevelSid;
+    }
+
+    public void setDataSelectionDeductionLevelSid(int dataSelectionDeductionLevelSid) {
+        this.dataSelectionDeductionLevelSid = dataSelectionDeductionLevelSid;
+    }
 }

@@ -53,6 +53,7 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -427,6 +428,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                 LOGGER.debug("In configureFields selectedResultsExcelExport.addClickListener started");
                 try {
                     configureExcelResultTable();
+                    VaadinSession.getCurrent().setAttribute(ConstantsUtils.EXCEL_CLOSE, "true");
                     loadExcelTable(CommonUtil.getSelectedFileType(fileType), String.valueOf(country.getValue()), String.valueOf(businessUnit.getValue()));
                     ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(fileHistoryTable), "File Management History", "File Management History", "FileManagementHistory.xls", false);
                     excel.export();
@@ -446,15 +448,15 @@ public class FileManagementIndex extends CustomComponent implements View {
             public void buttonClick(final Button.ClickEvent event) {
                 final Emailer email = new Emailer();
 
-                final FileManagementDTO fileMgtDTO;
+                final FileManagementDTO fileManagementDto;
                 try {
                     if (fileHistoryTable.getValue() == null) {
                         AbstractNotificationUtils.getErrorNotification(CommonUtil.ERROR, "Please select a File to Auto-Update the Projection");
                     } else {
 
-                        fileMgtDTO = logic.getCurrentFileInfo(CommonUtil.getSelectedFileType(fileType), String.valueOf(businessUnit.getValue()), company.getValue());
-                        String file = fileMgtDTO.getCurrentFile();
-                        String version = fileMgtDTO.getForecastVersion();
+                    	fileManagementDto = logic.getCurrentFileInfo(CommonUtil.getSelectedFileType(fileType), String.valueOf(businessUnit.getValue()), company.getValue());
+                        String file = fileManagementDto.getCurrentFile();
+                        String version = fileManagementDto.getForecastVersion();
                         FileMananagementResultDTO dto = (FileMananagementResultDTO) fileHistoryTable.getValue();
                         if (dto.getFile().equals(file) && dto.getVersion().equals(version)) {
                             MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, "Do you want to Activate the file and automatically recalculate Forecasting Projections in Pending or Approved?", new MessageBoxListener() {
@@ -604,6 +606,12 @@ public class FileManagementIndex extends CustomComponent implements View {
                     fileHistoryTable.setFilterDecorator(new ExtDemoFilterDecorator());
                     setTableDefaultConfig();
                 }
+                if (ConstantsUtils.PR.equals(country.getValue())) {
+                    currentFile.setValue(ConstantsUtils.EMPTY);
+                    effectiveDateStr.setValue(ConstantsUtils.EMPTY);
+                } else {
+                    loadCurrentFile();
+                }
                 if (fileType.getValue() == null
                         || ConstantsUtils.SELECT_ONE.equals(fileType.getValue())
                         || "null".equals(fileType.getValue().toString().trim())
@@ -656,7 +664,13 @@ public class FileManagementIndex extends CustomComponent implements View {
         fileType.addValueChangeListener(new Property.ValueChangeListener() {
 
             public void valueChange(final Property.ValueChangeEvent event) {
-                LOGGER.debug("In configureFields fileType.addValueChangeListener started= {}" , fileType.getValue());
+                LOGGER.debug("In configureFields fileType.addValueChangeListener started= {}" , fileType.getValue());    
+                if (ConstantsUtils.PR.equals(country.getValue())) {
+                    currentFile.setValue(ConstantsUtils.EMPTY);
+                    effectiveDateStr.setValue(ConstantsUtils.EMPTY);
+                } else {
+                    loadCurrentFile();
+                }
                 if (fileType.getValue() == null
                         || ConstantsUtils.SELECT_ONE.equals(fileType.getValue())
                         || "null".equals(fileType.getValue().toString().trim())
@@ -667,7 +681,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                     effectiveDateStr.setValue(ConstantsUtils.EMPTY);
                     selectFile.setValue(ConstantsUtils.EMPTY);
                 } else {
-                    
+
                     try {
                         fileString[1] = String.valueOf(country.getValue());
                         tableLogic.configureSearchData(CommonUtil.getSelectedFileType(fileType), fileString[1], String.valueOf(businessUnit.getValue()), company.getValue());
@@ -678,14 +692,15 @@ public class FileManagementIndex extends CustomComponent implements View {
                         fileHistoryTable.addStyleName(CommonUtil.TABLECHECKBOX);
                         fileHistoryTable.setSelectable(true);
                         fileHistoryTable.markAsDirtyRecursive();
-
-                        loadCurrentFile();
-
+                        if (!ConstantsUtils.PR.equals(country.getValue())) {
+                            loadCurrentFile();
+                        }
+                     
                     } catch (SystemException e) {
 
-                        final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
+                        final String errorMessage = ErrorCodeUtil.getErrorMessage(e);
                         LOGGER.error(e.getMessage());
-                        AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
+                        AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMessage);
                     } catch (Exception e) {
 
                         LOGGER.error(e.getMessage());
@@ -764,9 +779,9 @@ public class FileManagementIndex extends CustomComponent implements View {
                             fileMgtLogic.updateAutoModeProcess(gtsDate);
                             sendMailOnFileActivation();
                         } catch (SystemException e) {
-                            final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
+                            final String errorMessage = ErrorCodeUtil.getErrorMessage(e);
                             LOGGER.error(e.getMessage());
-                            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
+                            AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMessage);
                         } catch (Exception e) {
                             LOGGER.error(e.getMessage());
                             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4002));
