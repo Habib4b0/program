@@ -602,7 +602,7 @@ public class SalesLogic {
         sql = sql.replace("@VIEWTABLE", CommonLogic.getViewTableName(projSelDTO));
         sql = sql.replace("@HIERARCHY", Constant.CUSTOMER_SMALL.equals(projSelDTO.getViewOption()) ?"CUST_HIERARCHY_NO":"PROD_HIERARCHY_NO");
         sql = sql.replace("@SALESINCLUSION", isSalesInclusionNotSelected ? StringUtils.EMPTY : " AND STC.SALES_INCLUSION = " + projSelDTO.getSessionDTO().getSalesInclusion());
-        sql = sql.replace("@OPPOSITESINC", isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL");
+        sql = sql.replace("@OPPOSITESINC", isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL");
         sql = sql.replace("@CONDITION",isSalesInclusionNotSelected ? StringUtils.EMPTY :" WHERE SALES_INCLUSION= " + oppositeSalesInc);      
         String query = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List<Object[]> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -743,7 +743,7 @@ public class SalesLogic {
 	}
 
 	private String getCustomCondition(ProjectionSelectionDTO projSelDTO) {
-		return !Constant.CUSTOM_LABEL.equals(projSelDTO.getViewOption()) ? StringUtils.EMPTY : "AND CO.CUST_VIEW_MASTER_SID = 87 AND LEVEL_NO = 6";
+		return !Constant.CUSTOM_LABEL.equals(projSelDTO.getViewOption()) ? StringUtils.EMPTY : "AND CO.CUST_VIEW_MASTER_SID = " +projSelDTO.getSessionDTO().getCustomDeductionRelationShipSid()+" AND LEVEL_NO = @LEVEL_NO ";
 	}
 
 	private String getRefColumn(ProjectionSelectionDTO projSelDTO) {
@@ -767,7 +767,7 @@ public class SalesLogic {
 	}
 
 	private String getOppositeSalesInc(char oppositeSalesInc, boolean isSalesInclusionNotSelected) {
-		return isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #SELECTED_HIERARCHY_NO WHERE SALES_INCLUSION= " + oppositeSalesInc;
+		return isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #st_nm_sales_projection_master WHERE SALES_INCLUSION= " + oppositeSalesInc;
 	}
 
 	private String getSalesInclusion(ProjectionSelectionDTO projSelDTO,
@@ -980,7 +980,7 @@ public class SalesLogic {
 
     }
 
-    private void salesProjectionTableCustomization(final ProjectionSelectionDTO projectionSelectionDTO,
+        private void salesProjectionTableCustomization(final ProjectionSelectionDTO projectionSelectionDTO,
             List doubleColumnList, SalesRowDto salesRowDto, List<String> headerMapValue, Object[] obj, String key) {
            int actOrProj = obj[NumericConstants.TWELVE] != null ? BooleanUtils.toInteger((boolean) obj[NumericConstants.TWELVE]) : 0;
         if (!doubleColumnList.contains(key)) {

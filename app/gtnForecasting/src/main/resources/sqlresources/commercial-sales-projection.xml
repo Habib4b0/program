@@ -201,7 +201,6 @@ GROUP BY CCP.@HIERARCHY,
        PERIOD, 
        YEAR, 
        INDICATOR           AS ACTUALPROJ, 
-       NULL AS PARENT_HIERARCHY_NO,
        Avg(ACCOUNT_GROWTH) ACCOUNT_GROWTH, 
        Avg(PRODUCT_GROWTH) PRODUCT_GROWTH, 
        NULL                AS projection_sales, 
@@ -230,7 +229,6 @@ SELECT SH.HIERARCHY_NO,
        PERIOD, 
        YEAR, 
        INDICATOR           AS ACTUALPROJ, 
-       NULL AS PARENT_HIERARCHY_NO,
        Avg(ACCOUNT_GROWTH) ACCOUNT_GROWTH, 
        Avg(PRODUCT_GROWTH) PRODUCT_GROWTH, 
        Sum(SALES)          AS PROJECTION_SALES, 
@@ -2801,7 +2799,9 @@ ORDER BY INSTR
 				MSPM.ccp_details_sid = CCP.ccp_details_sid
 			GROUP BY
 				CCCP.HIERARCHY_NO,
-				CCP.sales_inclusion SELECT
+				CCP.sales_inclusion 
+                            
+                                    SELECT
 					SH.hierarchy_no,
 					period,
 					year,
@@ -2840,8 +2840,8 @@ ORDER BY INSTR
 					indicator AS ACTUALPROJ,
 					Avg( account_growth ) ACCOUNT_GROWTH,
 					Avg( product_growth ) PRODUCT_GROWTH,
-					Sum( sales ) AS PROJECTION_SALES,
-					Sum( units ) PROJECTION_UNITS,
+					convert(numeric(22,6),Sum( sales )) AS PROJECTION_SALES,
+					convert(numeric(22,6),Sum( units )) PROJECTION_UNITS,
 					NULL AS ACTUALSALES,
 					NULL ACTUALUNITS,
 					methodology,
@@ -2850,8 +2850,7 @@ ORDER BY INSTR
 					STC.sales_inclusion
 				FROM
 					ST_CUSTOM_SALES STC
-				JOIN CUSTOM_CCP_SALES CO ON
-					CO.ROWID = STC.HIERARCHY_NO join custom_ccp_sales cccp on
+				join custom_ccp_sales cccp on
 					cccp.CUST_VIEW_MASTER_SID = @CUSTOMSID
 					and stc.HIERARCHY_NO = cccp.ROWID
 				JOIN #st_nm_sales_projection_master SH ON
@@ -2867,6 +2866,10 @@ ORDER BY INSTR
 					user_group,
 					calculation_periods,
 					INDICATOR @OPPOSITESINC
+                                        ORDER BY 
+					SH.HIERARCHY_NO
+					,YEAR
+					,PERIOD 
             ]]>
         </query>
     </entity>
