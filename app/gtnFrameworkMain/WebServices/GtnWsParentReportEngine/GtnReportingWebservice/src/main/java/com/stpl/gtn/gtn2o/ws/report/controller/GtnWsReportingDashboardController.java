@@ -179,7 +179,6 @@ public class GtnWsReportingDashboardController {
 	}
 	
 	
-	// comparison breakdown grid Headers
         @PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_TABLE_HEADERS_SERVICE)
 	public GtnUIFrameworkWebserviceResponse getVariableBreakdownGridHeaders(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
@@ -192,7 +191,7 @@ public class GtnWsReportingDashboardController {
 			gtnUIFrameworkWebserviceResponse.setGtnWsPagedTableResponse(leftHeader);
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (GtnFrameworkGeneralException ex) {
-			gtnLogger.error("Error in comparison breakdown controller, " + ex.getMessage(), ex);
+			gtnLogger.error("Error in variable breakdown controller, " + ex.getMessage(), ex);
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
 			return gtnUIFrameworkWebserviceResponse;
@@ -200,16 +199,16 @@ public class GtnWsReportingDashboardController {
 	}
         
         
-	@PostMapping(value = GtnWsForecastReturnsConstants.GTN_WS_REPORT_COMPARISON_BREAKDOWN_TABLE_HEADERS_SERVICE)
-	public GtnUIFrameworkWebserviceResponse getProjectionVarianceConfigureLeftHeaders(
+	@PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_COMPARISON_BREAKDOWN_TABLE_HEADERS_SERVICE)
+	public GtnUIFrameworkWebserviceResponse getComparisonBreakdownGridHeaders(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
 			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
-			GtnWsPagedTreeTableResponse leftHeader = reportHeaderService.getComparisonBreakdownHeaderColumns();
-			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(leftHeader);
+			GtnWsPagedTableResponse leftHeader = reportHeaderService.getComparisonBreakdownHeaderColumns();
+			gtnUIFrameworkWebserviceResponse.setGtnWsPagedTableResponse(leftHeader);
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (GtnFrameworkGeneralException ex) {
 			gtnLogger.error("Error in comparison breakdown controller, " + ex.getMessage(), ex);

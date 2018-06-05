@@ -433,7 +433,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
     private void addLabelComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
         
         GtnUIFrameworkComponentConfig variableBreakdownLabelLayoutConfig = layoutsConfig.getHorizontalLayoutConfig(
-                "variableBreakdownLabelLayoutConfigEx", parentId);
+                "variableBreakdownLabelLayoutConfig", parentId);
         variableBreakdownLabelLayoutConfig.setComponentWidth("30%");
         componentList.add(variableBreakdownLabelLayoutConfig);
         

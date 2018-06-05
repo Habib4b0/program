@@ -414,6 +414,19 @@ public class HeaderGeneratorService {
 		return periodColumnHeader;
 	}
 	
+	public GtnWsPagedTableResponse getComparisonBreakdownHeaderColumns()
+			throws GtnFrameworkGeneralException {
+
+		GtnWsPagedTableResponse tableHeaderDTO = new GtnWsPagedTableResponse();
+		
+		tableHeaderDTO.addSingleColumn("q12017", "Q1 2017", String.class);
+		tableHeaderDTO.addSingleColumn("q22017", "Q2 2017", String.class);
+		tableHeaderDTO.addSingleColumn("q32017", "Q3 2017", String.class);
+		tableHeaderDTO.addSingleColumn("q42017", "Q4 2017", String.class);
+
+		return tableHeaderDTO;
+	}
+	
 	
         public GtnWsPagedTableResponse getVariableBreakdownHeaderColumns()
 			throws GtnFrameworkGeneralException {
@@ -427,18 +440,7 @@ public class HeaderGeneratorService {
 
 		return tableHeaderDTO;
 	}
-        // comparison breakdown grid Header service
-	public GtnWsPagedTreeTableResponse getComparisonBreakdownHeaderColumns()
-			throws GtnFrameworkGeneralException {
 
-		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
-		
-		tableHeaderDTO.addSingleColumn("q12017", "Q1 2017", String.class);
-		tableHeaderDTO.addSingleColumn("q22017", "Q2 2017", String.class);
-		tableHeaderDTO.addSingleColumn("q32017", "Q3 2017", String.class);
-		tableHeaderDTO.addSingleColumn("q42017", "Q4 2017", String.class);
-
-		return tableHeaderDTO;
-	}
+	
 
 }

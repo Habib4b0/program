@@ -433,6 +433,9 @@ public final class GtnFrameworkReportStringConstants {
 
 	private static final List<String> REPORT_VARIABLE_BREAKDOWN_HEADER = Arrays.asList("Projection Name", "Description",
 			"Market Type", "Contract Holder", "Contract", "Brand");
+	
+	private static final List<String> REPORT_COMPARISON_BREAKDOWN_HEADER = Arrays.asList("Projection Name", "Description",
+			"Market Type", "Contract Holder", "Contract", "Brand");
 
 	public static Class<?>[] getReportCustomerHierarchyTableColumnsDataType() {
 		return REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE.clone();
@@ -472,5 +475,9 @@ public final class GtnFrameworkReportStringConstants {
 	public static List<String> getVariableBreakdownHeader() {
 		return REPORT_VARIABLE_BREAKDOWN_HEADER == null ? REPORT_VARIABLE_BREAKDOWN_HEADER
 				: Collections.unmodifiableList(REPORT_VARIABLE_BREAKDOWN_HEADER);
+	}
+	public static List<String> getComparisonBreakdownHeader() {
+		return REPORT_COMPARISON_BREAKDOWN_HEADER == null ? REPORT_COMPARISON_BREAKDOWN_HEADER
+				: Collections.unmodifiableList(REPORT_COMPARISON_BREAKDOWN_HEADER);
 	}
 }
