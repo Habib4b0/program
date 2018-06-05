@@ -257,8 +257,13 @@ public class NMSalesProjection extends ForecastSalesProjection {
                             }
                         }
                     }
+                    Map<String, String> formatterMap = new HashMap<>();
+                     formatterMap.put("currencyNoDecimal", SALES);
+                     formatterMap.put("unitNoDecimal", "Units");
+                     formatterMap.put("UNITTWODECIMAL", "AccountGrowth");
+                     formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
                 securityForListView(visibleColumns.toArray(), Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class), excelTable);
-                exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false);
+                exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap);
                 exp.export();
             }
         } catch (Exception e) {
