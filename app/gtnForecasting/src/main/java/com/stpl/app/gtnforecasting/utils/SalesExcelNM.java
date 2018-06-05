@@ -12,8 +12,10 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.formula.FormulaParseException;
@@ -138,31 +140,32 @@ public class SalesExcelNM extends ExcelExport{
                 String formula = getFormula(sheetCell, rootItemId);
                 LOGGER.info("column formula{}" , formula);
                 sheetCell.setCellStyle(style1);
-                sheetCell.setCellFormula("SUM("+formula+")");
+              LOGGER.info("column formula{}" , getAppendedFormula(formula.split(",")));
+                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
         } else if (formatter.get("unitNoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("unitNoDecimal"))) {
             sheetCell.setCellStyle(style3);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId);
-                LOGGER.info("column formula{}" , formula);
                 sheetCell.setCellStyle(style3);
-                sheetCell.setCellFormula("SUM("+formula+")");
+                LOGGER.info("column formula{}" , getAppendedFormula(formula.split(",")));
+                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
         }else if (formatter.get("UNITTWODECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNITTWODECIMAL"))) {
             sheetCell.setCellStyle(style3);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId);
-                LOGGER.info("column formula{}" , formula);
                 sheetCell.setCellStyle(style3);
-                sheetCell.setCellFormula("SUM("+formula+")");
+                LOGGER.info("column formula{}" , formula);
+                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
         }else if (formatter.get("UNIT_DECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNIT_DECIMAL"))) {
             sheetCell.setCellStyle(style3);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId);
-                LOGGER.info("column formula{}" , formula);
                 sheetCell.setCellStyle(style3);
-                sheetCell.setCellFormula("SUM("+formula+")");
+                LOGGER.info("column formula{}" , getAppendedFormula(formula.split(",")));
+                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
         }
     }
@@ -252,6 +255,36 @@ public class SalesExcelNM extends ExcelExport{
             }
         } 
         return tempRowNum;
+    }
+    public String getAppendedFormula(String[] value){
+       boolean isappend = true;
+        List<String> str=new ArrayList<>();
+        String s="";
+        for (int i = 0; i < value.length; i++) {
+            s = s + "," + value[i];
+            if ((i+1) % 30 == 0 && i != 0) {
+                str.add(s);
+                s="";
+            }
+        }
+        if(!s.equals("")){
+        str.add(s);
+        }
+        String formula ="";
+         for (int j = 0; j < str.size(); j++) {
+             
+             String string = str.get(j);
+             string = string.replaceFirst(",", "");
+             
+             if(isappend){
+                 formula = "SUM("+string+")";
+             }else{
+                 formula += "+SUM("+string+")";
+             }
+             isappend= false;
+             
+         }
+         return formula;
     }
     
 }

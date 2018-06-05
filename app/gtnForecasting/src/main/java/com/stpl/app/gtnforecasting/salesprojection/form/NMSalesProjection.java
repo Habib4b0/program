@@ -180,6 +180,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     @Override
     protected void excelExportLogic() {
+       long startTime = System.currentTimeMillis(); 
         try {
             configureExcelResultTable();
             getExcelSalesCommercial();
@@ -262,7 +263,10 @@ public class NMSalesProjection extends ForecastSalesProjection {
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
+            LOGGER.info(e.getMessage(),e);
         }
+        long endTime = System.currentTimeMillis();
+        LOGGER.info("Excel Export time--------------------------------------------------------------"+(endTime-startTime)/1000);
     }
     public static final String SALES_PROJECTION_XLS = "Sales_Projection.xls";
 
