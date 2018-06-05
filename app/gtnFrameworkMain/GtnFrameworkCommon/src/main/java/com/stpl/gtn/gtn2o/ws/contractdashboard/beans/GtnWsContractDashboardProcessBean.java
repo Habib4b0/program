@@ -5,7 +5,9 @@
  */
 package com.stpl.gtn.gtn2o.ws.contractdashboard.beans;
 
+import java.util.Collections;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 
@@ -112,11 +114,11 @@ public class GtnWsContractDashboardProcessBean {
 	}
 
 	public SortedSet<String> getVisibleTabIndexSet() {
-		return visibleTabIndexSet;
+		return visibleTabIndexSet!=null ? new TreeSet<String>() : visibleTabIndexSet  ;
 	}
 
 	public void setVisibleTabIndexSet(SortedSet<String> visibleTabIndexSet) {
-		this.visibleTabIndexSet = visibleTabIndexSet;
+		this.visibleTabIndexSet = visibleTabIndexSet != null ? visibleTabIndexSet : null ;
 	}
 
 }
