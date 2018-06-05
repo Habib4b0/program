@@ -27,11 +27,9 @@ import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -107,6 +105,8 @@ public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkCompo
 
     /**
      * Initialize Result Table.
+     * @param resultsTable
+     * @param tableConfig
      */
     protected void initializeResultTable(PagedTreeGrid resultsTable,
             GtnUIFrameworkPagedTreeTableConfig tableConfig) {
@@ -121,7 +121,6 @@ public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkCompo
     /**
      * Configuration method to fire required tables headers
      *
-     * @param resultsTable
      * @param tableConfig
      */
     @SuppressWarnings("rawtypes")

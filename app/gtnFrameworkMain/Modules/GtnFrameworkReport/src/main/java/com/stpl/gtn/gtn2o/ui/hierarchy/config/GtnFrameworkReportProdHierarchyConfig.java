@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
-import com.stpl.gtn.gtn2o.ui.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -19,13 +18,15 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkReportProdHierarchyConfig {
-
+private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 	public List<GtnUIFrameworkComponentConfig> getProductSelectionLayoutComponents(String namespace) {
 
 		List<GtnUIFrameworkComponentConfig> componentList = new ArrayList<>();
@@ -101,7 +102,10 @@ public class GtnFrameworkReportProdHierarchyConfig {
 
 	private void addProductSelectionComponents(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		addHierarchyRelationshipComponent(componentList, namespace);
+                addCustomViewButtonComponent(componentList, namespace);
+		addCustomViewComponent(componentList, namespace);
 		addDualListBoxComponent(componentList, namespace);
+
 	}
 
 	private void addHierarchyRelationshipComponent(List<GtnUIFrameworkComponentConfig> componentList,
@@ -277,5 +281,51 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		productSelectionDualListBoxConfig
 				.setMoveAllDataURL(GtnWsReportConstants.GTN_REPORT_PRODHIERARCHY_ALL_DATA_TABLELOAD_SERVICE);
 		productSelectionDualListBoxComponent.setGtnUIFrameworkV8DualListBoxConfig(productSelectionDualListBoxConfig);
+	}
+        private void addCustomViewButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+		GtnUIFrameworkComponentConfig customViewConfig = configProvider.getUIFrameworkComponentConfig(
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_BUTTON,
+				true, nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "hierarchyRelationshipLayout",
+				GtnUIFrameworkComponentType.BUTTON);
+		customViewConfig.setComponentName("Custom View: ");
+		customViewConfig.addComponentStyle(GtnFrameworkReportStringConstants.LINK);
+		customViewConfig.setAuthorizationIncluded(true);
+
+		componentList.add(customViewConfig);
+
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig customViewPopupAction = new GtnUIFrameWorkActionConfig();
+		customViewPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+		customViewPopupAction.addActionParameter("reportCustomViewLookup");
+		customViewPopupAction.addActionParameter("reportCustomViewLookup");
+		customViewPopupAction.addActionParameter("75%");
+		customViewPopupAction.addActionParameter(null);
+		actionConfigList.add(customViewPopupAction);
+
+		customViewConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+	}
+
+	private void addCustomViewComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
+				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT, true,
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "hierarchyRelationshipLayout");
+		gtnLayout.setComponentWidth("13%");
+		componentList.add(gtnLayout);
+
+		GtnUIFrameworkComponentConfig customViewComboboxConfig = configProvider.getUIFrameworkComponentConfig(
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW,
+				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT,
+				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		customViewComboboxConfig.setAuthorizationIncluded(true);
+
+		componentList.add(customViewComboboxConfig);
+
+		GtnUIFrameworkComboBoxConfig customViewLoadConfig = configProvider.getComboBoxConfig(
+				"REPORT_CUSTOM_VIEW", GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		customViewComboboxConfig.setGtnComboboxConfig(customViewLoadConfig);
+
 	}
 }

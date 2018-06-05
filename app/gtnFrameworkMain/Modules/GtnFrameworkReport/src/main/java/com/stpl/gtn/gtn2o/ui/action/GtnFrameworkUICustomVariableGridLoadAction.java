@@ -1,77 +1,89 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.vaadin.addons.ComboBoxMultiselect;
-
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
-import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkConfigMap;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
-import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GtnFrameworkUICustomVariableGridLoadAction
-		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+        implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	@Override
-	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		return;
+    @Override
+    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
+        return;
 
-	}
+    }
 
-	@Override
-	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		List<Object> parameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		String variableTypeId = (String) parameterList.get(1);
-		String variableGridId = (String) parameterList.get(2);
+    @Override
+    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
+        List<Object> parameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
+        String variableTypeId = (String) parameterList.get(1);
+        String variableGridId = (String) parameterList.get(2);
 
-		String rowType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(variableTypeId, componentId)
-				.getV8StringFromField();
-		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
-		if (rowType.equals("Expandable")) {
-			Object[] dataArray = new Object[3];
-			dataArray[0] = GtnWsReportVariablesType.VARIABLES.toString();
-			dataArray[1] = 1;
-			dataArray[2] = GtnWsHierarchyType.VARIABLES.toString();
-			dataTable.addData(Arrays.<Object[]>asList(dataArray));
-		} else {
-			String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
-			String id = sourceComponentId + "_" + "reportingDashboardTab_displaySelectionTabVariable";
-			ComboBoxMultiselect multiSelect = (ComboBoxMultiselect<?>) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(id)
-					.getComponent();
-			List<Object[]> selectedVariables = (List<Object[]>) multiSelect.getSelectedItems().stream().map((value) -> {
-				Object[] dataArray = new Object[3];
-				dataArray[0] = value.toString();
-				dataArray[1] = 1;
-				dataArray[2] = GtnWsHierarchyType.VARIABLES.toString();
-				return dataArray;
-			}).collect(Collectors.toList());
-			dataTable.addData(selectedVariables);
+        String rowType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(variableTypeId, componentId)
+                .getV8StringFromField();
+        GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+        GtnUIFrameworkWebserviceComboBoxResponse response;
+        if (rowType.equals("Expandable")) {
+            response = getHelperValues("REPORT_VARIABLES");
+        } else {
+            response = getHelperValues("REPORT_VARIABLES_STATIC");
+        }
 
-		}
-		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.GRID_STATIC_LOAD_ACTION);
-		actionConfig.addActionParameter(variableGridId);
-		actionConfig.addActionParameter(dataTable);
-		GtnUIFrameworkActionExecutor.executeSingleAction(variableGridId, actionConfig);
-	}
+        List<String> itemIdlist = response.getItemCodeList();
+        List<String> itemValueList = response.getItemValueList();
+        List<Object[]> selectedVariables = new ArrayList<>();
+        for (int i = 0; i < itemIdlist.size(); i++) {
+            Object[] dataArray = new Object[5];
+            dataArray[0] = itemValueList.get(i);
+            dataArray[1] = i;
+            dataArray[2] = (65+i); 
+            dataArray[3]= GtnWsHierarchyType.VARIABLES.toString();
+            dataArray[4] = itemIdlist.get(i);
+            selectedVariables.add(dataArray);
+        }
 
-	@Override
-	public GtnUIFrameWorkAction createInstance() {
+        dataTable.addData(selectedVariables);
+        GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig(
+                GtnUIFrameworkActionType.GRID_STATIC_LOAD_ACTION);
+        actionConfig.addActionParameter(variableGridId);
+        actionConfig.addActionParameter(dataTable);
+        GtnUIFrameworkActionExecutor.executeSingleAction(variableGridId, actionConfig);
+    }
 
-		return this;
-	}
+    @Override
+    public GtnUIFrameWorkAction createInstance() {
 
+        return this;
+    }
+
+    public GtnUIFrameworkWebserviceComboBoxResponse getHelperValues(String type) {
+        GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+        GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
+        generalWSRequest.setComboBoxType(type);
+
+        request.setGtnWsGeneralRequest(generalWSRequest);
+        return wsclient
+                .callGtnWebServiceUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+                        + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX, request,
+                        GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
+                .getGtnUIFrameworkWebserviceComboBoxResponse();
+
+    }
 }

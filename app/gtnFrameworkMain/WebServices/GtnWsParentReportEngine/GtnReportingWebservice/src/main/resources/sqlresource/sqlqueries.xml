@@ -4,17 +4,17 @@
 <properties>
 	<entry key="getHierarchyLevels">
     <![CDATA[
-        select
-        LEVEl_NAME,
-	LEVEL_NO,
-	?
-from
-	HIERARCHY_DEFINITION HD
-join HIERARCHY_LEVEL_DEFINITION HLD on
-	HD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
-where
-	HD.HIERARCHY_DEFINITION_SID = ?
-	and LEVEL_NO >= ?     
+          SELECT
+                    DISTINCT RLD.LEVEL_NAME,RLD.LEVEL_NO,
+                    convert(int,RLD.LEVEL_NO) as TREE_LEVEL_NO,
+                    ? as HIERARCHY_INDICATOR,
+                    RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                FROM RELATIONSHIP_BUILDER RB
+                JOIN RELATIONSHIP_LEVEL_DEFINITION RLD on RLD.RELATIONSHIP_BUILDER_SID = RB.RELATIONSHIP_BUILDER_SID WHERE
+                    RLD.VERSION_NO = RB.VERSION_NO
+                    AND RB.RELATIONSHIP_BUILDER_SID = ?
+                    order by convert(int, RLD.level_no) ;
+        
     ]]>
 
 	</entry>

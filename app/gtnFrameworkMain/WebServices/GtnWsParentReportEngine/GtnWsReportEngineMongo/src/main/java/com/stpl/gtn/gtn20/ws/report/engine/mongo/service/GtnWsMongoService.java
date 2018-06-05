@@ -76,7 +76,7 @@ public class GtnWsMongoService {
 			MongoCollection<GtnWsReportComputedResultsBean> collection = (MongoCollection<GtnWsReportComputedResultsBean>) getCollectionForCustomClass(
 					collectionName, GtnWsReportComputedResultsBean.class);
 			insertComputedResults(collection, output, "");
-                         nodeIndex=0;
+                         nodeIndex=1;
 		} catch (Exception ex) {
 			GTNLOGGER.error(ex.getMessage());
 		}
@@ -476,9 +476,9 @@ public class GtnWsMongoService {
 				}
 			}
                         //Do not delete ,will be uncommented once pagination completed
-//                        if(rowIndexFieldName!=null&& !rowIndexFieldName.isEmpty()){
-//                            whereQuery.put(rowIndexFieldName, new BasicDBObject("$gte", start).append("$lte", limit));
-//                        }
+                        if(rowIndexFieldName!=null&& !rowIndexFieldName.isEmpty()){
+                            whereQuery.put(rowIndexFieldName, new BasicDBObject("$gte", start).append("$lte", limit));
+                        }
 			@SuppressWarnings("unchecked")
 			FindIterable<Document> itr = getCollection(collectionName).find(whereQuery);
 			// Bson filter = Filters.regex(collectionName, collectionName);

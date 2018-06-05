@@ -49,7 +49,7 @@ public class GtnFrameworkUICustomViewEditAction
 		if (!"".equals(selectedItem) && !"0".equals(selectedItem)) {
 			loadScreen(selectedItem, componentId, gtnUIFrameWorkActionConfig);
 
-		}
+	}
 	}
 
 	private void loadScreen(String selectedItem, String componentId,

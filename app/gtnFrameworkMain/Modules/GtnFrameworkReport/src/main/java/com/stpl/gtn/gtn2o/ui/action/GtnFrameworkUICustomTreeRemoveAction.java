@@ -80,11 +80,11 @@ public class GtnFrameworkUICustomTreeRemoveAction
 	private void validateSameLevelToBeRemoved(TreeGrid<GtnWsRecordBean> rightGrid, GtnWsHierarchyType type,
 			String componentId) throws GtnFrameworkGeneralException {
 		GtnWsRecordBean selectedBean = rightGrid.getSelectedItems().iterator().next();
-		if (!selectedBean.getStringPropertyByIndex(2).equals(type.toString())) {
+		if (!selectedBean.getStringPropertyByIndex(3).equals(type.toString())) {
 			GtnUIFrameWorkActionConfig invalidButtonNotificationConfig = new GtnUIFrameWorkActionConfig(
 					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 			String message = String.format("Level which is selected belogs to %s Hierarchy",
-					selectedBean.getStringPropertyByIndex(2));
+					selectedBean.getStringPropertyByIndex(3));
 			invalidButtonNotificationConfig.addActionParameter(message);
 			invalidButtonNotificationConfig.addActionParameter("Illegal level");
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, invalidButtonNotificationConfig);

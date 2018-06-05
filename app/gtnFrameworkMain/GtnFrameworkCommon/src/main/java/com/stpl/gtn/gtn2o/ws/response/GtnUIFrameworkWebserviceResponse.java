@@ -90,6 +90,7 @@ public class GtnUIFrameworkWebserviceResponse {
 
 	private GtnFrameworkAutomaticRelationshipResponse automaticRelationResponse;
 	private GtnWsReportResponse gtnWsReportResponse;
+        private GtnWsCustomViewResponse gtnWsCustomViewResponse;
 	public GtnWsReportResponse getGtnWsReportResponse() {
 		return gtnWsReportResponse;
 	}
@@ -451,5 +452,13 @@ public class GtnUIFrameworkWebserviceResponse {
 	public void setGtnReportResponse(GtnWsReportResponse gtnReportResponse) {
 		this.gtnReportResponse = gtnReportResponse;
 	}
+
+    public GtnWsCustomViewResponse getGtnWsCustomViewResponse() {
+        return gtnWsCustomViewResponse;
+    }
+
+    public void setGtnWsCustomViewResponse(GtnWsCustomViewResponse gtnWsCustomViewResponse) {
+        this.gtnWsCustomViewResponse = gtnWsCustomViewResponse;
+    }
 
 }
