@@ -118,7 +118,7 @@ public class DataSelection extends ForecastDataSelection {
 	private final List<String> productHierarchyNos = new ArrayList<>();
 	private final DataSelectionLogic dsLogic = new DataSelectionLogic();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
-        Map<String,String> customViewInput=new HashMap<>();
+	private Map<String,String> customViewInput=new HashMap<>();
 
 	private final ExecutorService service = ThreadPool.getInstance().getService();
 
@@ -158,7 +158,6 @@ public class DataSelection extends ForecastDataSelection {
 			}
                         configureDataSelectionDeductionLevel();
 		} catch (Exception e) {
-                    e.printStackTrace();
 			LOGGER.error(e.getMessage());
 		}
 	}
@@ -1708,6 +1707,12 @@ public class DataSelection extends ForecastDataSelection {
 		catch (NumberFormatException ex) {
 			LOGGER.error(" level  ValueChangeListener1= {} ", ex);
 		}
+		setAvailableCustomer(value, dedLevel, dedValue, levelName, relationVersionNo, hierarchyVersionNo);
+	}
+
+	private void setAvailableCustomer(Object value, String dedLevel, String dedValue, String levelName,
+			int relationVersionNo, int hierarchyVersionNo) {
+		int forecastLevel;
 		try {
 
 			if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {

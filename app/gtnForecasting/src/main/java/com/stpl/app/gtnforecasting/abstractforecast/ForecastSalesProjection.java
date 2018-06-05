@@ -433,7 +433,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected Label populateLabel;
     protected int customId = 0;
     protected boolean checkAll = false;
-    Map<String,String> dataMap=new HashMap<>();
+    protected Map<String,String> dataMap=new HashMap<>();
     /**
      * The excel export image.
      */
@@ -462,7 +462,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     private boolean refresh = false;
     private boolean valueChange = false;
     private static final String SALES_SMALL = "sales";
-    DataSelectionLogic dataLogic = new DataSelectionLogic();
+    protected DataSelectionLogic dataLogic = new DataSelectionLogic();
     private boolean salesValueChange = false;
 
     public boolean isRefresh() {

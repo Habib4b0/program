@@ -150,7 +150,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 	private final NonMandatedLogic nmLogic = new NonMandatedLogic();
 	private boolean editnotif = false;
 	private List<Object[]> businessUnitlist;
-	Map<String,String> customViewInput=new HashMap<>();
+	private Map<String,String> customViewInput=new HashMap<>();
 	private List<Leveldto> productHierarchyLevelDefinitionList = Collections.emptyList();
 	private List<Leveldto> customerHierarchyLevelDefinitionList = Collections.emptyList();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();

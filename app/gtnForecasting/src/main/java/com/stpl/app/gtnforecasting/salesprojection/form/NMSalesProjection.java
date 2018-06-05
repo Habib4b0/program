@@ -180,6 +180,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     @Override
     protected void excelExportLogic() {
+       long startTime = System.currentTimeMillis(); 
         try {
             configureExcelResultTable();
             getExcelSalesCommercial();
@@ -216,8 +217,14 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     excelTable.setRefresh(true);
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
                     ForecastUI.setEXCEL_CLOSE(true);
+                     Map<String, String> formatterMap = new HashMap<>();
+                     formatterMap.put("currencyNoDecimal", SALES);
+                     formatterMap.put("unitNoDecimal", "Units");
+                     formatterMap.put("UNITTWODECIMAL", "AccountGrowth");
+                     formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
                     if (i == 0) {
-                        exp = new ExcelExport(new ExtCustomTableHolder(excelTable), sheetName, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false);
+                        exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
+                                Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap);
                     } else {
                         exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                 }
@@ -250,13 +257,21 @@ public class NMSalesProjection extends ForecastSalesProjection {
                             }
                         }
                     }
+                    Map<String, String> formatterMap = new HashMap<>();
+                     formatterMap.put("currencyNoDecimal", SALES);
+                     formatterMap.put("unitNoDecimal", "Units");
+                     formatterMap.put("UNITTWODECIMAL", "AccountGrowth");
+                     formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
                 securityForListView(visibleColumns.toArray(), Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class), excelTable);
-                exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false);
+                exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap);
                 exp.export();
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
+            LOGGER.info(e.getMessage(),e);
         }
+        long endTime = System.currentTimeMillis();
+        LOGGER.info("Excel Export time--------------------------------------------------------------"+(endTime-startTime)/1000);
     }
     public static final String SALES_PROJECTION_XLS = "Sales_Projection.xls";
 
@@ -1006,14 +1021,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 Object parentItemId;
                 key = key.contains("$") ? key.substring(0, key.indexOf('$')) : key;
                 tempKey = key.trim();
-                if (projectionDTO.isIsCustomHierarchy()) {
-                    parentKey = itemId.getParentHierarchyNo();
-                    if (!(itemId.getParentHierarchyNo() == null || "null".equals(itemId.getParentHierarchyNo()))) {
-                        tempKey = itemId.getParentHierarchyNo().trim() + "~" + key.trim();
-                    }
-                } else {
                     parentKey = CommonUtil.getParentItemId(key, projectionDTO.isIsCustomHierarchy(), itemId.getParentHierarchyNo());
-                }
                 parentItemId = excelParentRecords.get(parentKey);
                 if (parentItemId != null) {
                     excelContainer.setParent(itemId, parentItemId);
@@ -1028,12 +1036,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
     }
 
     private List<Object[]> getSalesExcelResults(ProjectionSelectionDTO projectionSelectionDTO) {
-        int customMasterSid = Integer.parseInt(viewDdlb.getValue() == null ? "0" : viewDdlb.getValue().toString());
-        Object[] orderedArg = {projectionSelectionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionDTO().getSessionId(), projectionSelectionDTO.getLevelNo(),
-            projectionSelectionDTO.getFrequency().substring(0, 1), projectionSelectionDTO.isIsCustomHierarchy() ? "D" : projectionSelectionDTO.getHierarchyIndicator(),
-            SALES, "0", projectionSelectionDTO.getHierarchyNo(),
-            projectionSelectionDTO.getLevelNo(), null, customMasterSid, null, projectionSelectionDTO.getUomCode(), ALL.equals(projectionSelectionDTO.getSessionDTO().getSalesInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion(), ALL.equals(projectionSelectionDTO.getSessionDTO().getDeductionInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getDeductionInclusion(), null, SALES};
-        return CommonLogic.callProcedure("PRC_PROJECTION_VARIANCE", orderedArg);
+        if (!projectionSelectionDTO.isIsCustomHierarchy()) {
+            return salesLogic.getSalesExcelResults(projectionDTO);
+        } else {
+            return salesLogic.getSalesResultsExcelCustom(projectionSelectionDTO);
+        }
     }
 
     @Override
