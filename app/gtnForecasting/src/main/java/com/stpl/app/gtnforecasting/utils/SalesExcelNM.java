@@ -138,9 +138,8 @@ public class SalesExcelNM extends ExcelExport{
             sheetCell.setCellStyle(style1);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId);
-                LOGGER.info("column formula{}" , formula);
                 sheetCell.setCellStyle(style1);
-              LOGGER.info("column formula{}" , getAppendedFormula(formula.split(",")));
+                LOGGER.info("column formula{}" , getAppendedFormula(formula.split(",")));
                 sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
         } else if (formatter.get("unitNoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("unitNoDecimal"))) {
@@ -216,10 +215,8 @@ public class SalesExcelNM extends ExcelExport{
 
     private String getFormula(Cell sheetCell, final Object rootItemId) {
         String columnLetter = CellReference.convertNumToColString(sheetCell.getColumnIndex());
-        LOGGER.info("*columnLetter: {}" , columnLetter);
         final Collection<?> children = ((Container.Hierarchical) getTableHolder().getContainerDataSource())
                 .getChildren(rootItemId);
-        LOGGER.info("ROOT ITEM ID: {}" , ((SalesRowDto) rootItemId).getLevelName());
         int rowNo = sheetCell.getRowIndex() + 2;
         StringBuilder formula = new StringBuilder();
         int i = 0;
@@ -239,7 +236,6 @@ public class SalesExcelNM extends ExcelExport{
             formula.append(columnLetter).append(rowNo);
             i++;
         }
-        LOGGER.info("FORMULA: {}" , formula.toString());
         return formula.toString();
     }
 
