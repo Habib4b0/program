@@ -47,6 +47,7 @@ public class GtnWsBcpFileMerger {
 		} else {
 			StringBuilder strb = new StringBuilder();
 			strb.append(catCommand);
+			strb.append(' ');
                         GTNLOGGER.info("fileList size in mergeFiles ======"+fileList.size());
 			for (String sourceFile : fileList) {
 				strb.append(sourceFile).append(' ');

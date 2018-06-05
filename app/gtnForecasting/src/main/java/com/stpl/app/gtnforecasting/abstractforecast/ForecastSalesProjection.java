@@ -433,7 +433,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected Label populateLabel;
     protected int customId = 0;
     protected boolean checkAll = false;
-    Map<String,String> dataMap=new HashMap<>();
+    protected Map<String,String> dataMap=new HashMap<>();
     /**
      * The excel export image.
      */
@@ -462,7 +462,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     private boolean refresh = false;
     private boolean valueChange = false;
     private static final String SALES_SMALL = "sales";
-    DataSelectionLogic dataLogic = new DataSelectionLogic();
+    protected DataSelectionLogic dataLogic = new DataSelectionLogic();
     private boolean salesValueChange = false;
 
     public boolean isRefresh() {
@@ -1415,6 +1415,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             projectionDTO.setIsCustomHierarchy(true);
             projectionDTO.setHierarchyIndicator(Constant.CUSTOM_LABEL);
             projectionDTO.setViewOption(Constant.CUSTOM_LABEL);
+            loadCustomDDLB();
+            LOGGER.info(" customId= {} ", customId);
+            projectionDTO.setCustomId(customId);
+            Utility.loadCustomHierarchyList(session);
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)) {
                 if (!session.getCustomHierarchyMap().isEmpty() && customId != 0) {
                     Utility.loadLevelValue(level, null, null, session.getCustomHierarchyMap().get(customId), Constant.CUSTOM_LABEL);
@@ -1430,12 +1434,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             level.setEnabled(true);
             levelFilter.setValue(SELECT_ONE);
             levelFilter.setEnabled(false);
-            loadCustomDDLB();
             getTableLogic().clearAll();
-            customId = Integer.valueOf(String.valueOf(viewDdlb.getValue()));
-            LOGGER.info(" customId= {} ", customId);
-            projectionDTO.setCustomId(customId);
-            session.setCustomId(customId);
             ((NMSalesProjectionTableLogic) getTableLogic()).setProjectionResultsData(projectionDTO);
         } else if ((PRODUCT.getConstant()).equals(view.getValue())) {
             projectionDTO.setIsCustomHierarchy(false);
@@ -2304,7 +2303,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     Map<String, Object> inputParameters = loadInputParameters(startYear, endYear, startQuater, endQuater, enteredValue, updateVariable);
                     salesLogic.saveOnMassUpdate(projectionDTO, inputParameters);
                     String startPeriodMassUpdate = salesLogic.getPeriodSid(startPeriodValue, projectionDTO.getFrequency(), "Min");
+                    endPeriodValue = endPeriodValue == null ? rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1) : endPeriodValue;
                     String endPeriodMassUpdate = salesLogic.getPeriodSid(endPeriodValue, projectionDTO.getFrequency(), "Max");
+                    updateVariable = updateVariable.equalsIgnoreCase(Constant.PRODUCT_GROWTH) ? "PRODUCT_GROWTH" : updateVariable;
+                    updateVariable = updateVariable.equalsIgnoreCase(Constant.ACCOUNT_GROWTH) ? "ACCOUNT_GROWTH" : updateVariable;
                     dataLogic.callViewInsertProceduresThread(projectionDTO.getSessionDTO(), Constant.SALES1,startPeriodMassUpdate,endPeriodMassUpdate,updateVariable);
                     CommonUtil.getInstance().waitForSeconds();
                     CommonLogic.procedureCompletionCheck(session,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
@@ -2317,7 +2319,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 if (isUpdated) {
                     refreshTableData(getCheckedRecordsHierarchyNo());
                     startPeriod.select(startPeriodValue);
-                    endPeriod.select(endPeriodValue);
                 }
             }
             refreshFlag = false;
@@ -2784,6 +2785,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         }
         String calcMethodology = String.valueOf(methodology.getValue());
         String selectedPeriods = getSelectedHistoryPeriods();
+        String endPeriodValue = null;
 
         if (forecastStartPeriod.getValue() == null) {
             AbstractNotificationUtils.getErrorNotification("No Start Period selected", "Please select a Start Period.");
@@ -2910,7 +2912,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                 commonLogic.insertPFDTemp(session, calcMethodology, String.valueOf(allocationBasis.getValue()), true);
             }
-            isSalesCalculated = salesLogic.calculateSalesProjection(projectionDTO, calcMethodology, selectedPeriods, calcBased, String.valueOf(forecastStartPeriod.getValue()), String.valueOf(forecastEndPeriod.getValue()), String.valueOf(allocationBasis.getValue()));
+            endPeriodValue = forecastEndPeriod.getValue() == null ? rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1) : String.valueOf(forecastEndPeriod.getValue());
+            isSalesCalculated = salesLogic.calculateSalesProjection(projectionDTO, calcMethodology, selectedPeriods, calcBased, String.valueOf(forecastStartPeriod.getValue()), endPeriodValue, String.valueOf(allocationBasis.getValue()));
             CommonLogic.procedureCompletionCheck(session,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
 

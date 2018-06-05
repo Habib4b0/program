@@ -227,20 +227,56 @@ public class Converters {
 			dataSelectionDTO.setProductHierVersionNo((Integer) objects[NumericConstants.THIRTY]);
 
             if (channelsFlag) {
-                dataSelectionDTO.setDiscountSid(Integer.parseInt(objects[NumericConstants.TWENTY_ONE] == null ? DASH : objects[NumericConstants.TWENTY_ONE].toString()));
+                dataSelectionDTO.setDiscountSid(getDiscountSid(objects));
                 dataSelectionDTO.setDiscount(DataSelectionUtil.getDiscountName(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_ONE]))));
-                dataSelectionDTO.setDeductionLevel(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_SEVEN])));
-                dataSelectionDTO.setDeductionValue(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_EIGHT])));
+                dataSelectionDTO.setDeductionLevel(getDeductionLevel(objects));
+                dataSelectionDTO.setDeductionValue(getDeductionValue(objects));
             }
             dataSelectionDTO.setForecastEligibleDate(parsetDate(convertNullToEmpty(String.valueOf(objects[NumericConstants.THIRTY_ONE]))));
-            dataSelectionDTO.setDeductionRelationShipVersionNo(Integer.parseInt(objects[NumericConstants.THIRTY_TWO] == null ? DASH : objects[NumericConstants.THIRTY_TWO].toString()));
-            dataSelectionDTO.setCustomRelationShipSid(Integer.parseInt(objects[NumericConstants.THIRTY_THREE] == null ? DASH : objects[NumericConstants.THIRTY_THREE].toString()));
-            dataSelectionDTO.setCustomDeductionRelationShipSid(Integer.parseInt(objects[NumericConstants.THIRTY_FOUR] == null ? DASH : objects[NumericConstants.THIRTY_FOUR].toString()));
+            dataSelectionDTO.setDeductionRelationShipVersionNo(getDeductionRelationShipVersionNo(objects));
+            dataSelectionDTO.setCustomRelationShipSid(getCustomRelationShipSid(objects));
+            dataSelectionDTO.setCustomDeductionRelationShipSid(getCustomDeductionRelationShipSid(objects));
 
             dataSelectionDTOs.add(dataSelectionDTO);
         }
 
         return dataSelectionDTOs;
+    }
+    
+    private static Integer getDiscountSid(Object[] objects) {
+    	String Twenty_one =  objects[NumericConstants.TWENTY_ONE].toString();
+    	String final_String = objects[NumericConstants.TWENTY_ONE] == null ? DASH : Twenty_one;
+    	return Integer.parseInt(final_String);
+    }
+    
+    private static Integer getDeductionRelationShipVersionNo(Object[] objects) {
+    	String thirty_Two = objects[NumericConstants.THIRTY_TWO].toString();
+    	String to_be_parsed_String = objects[NumericConstants.THIRTY_TWO] == null ? DASH : thirty_Two;
+    	return Integer.parseInt(to_be_parsed_String);
+    }
+    
+    private static Integer getCustomRelationShipSid(Object[] objects) {
+    	String THIRTY_THREE = objects[NumericConstants.THIRTY_THREE].toString();
+    	String thirty_three_null_checked = objects[NumericConstants.THIRTY_THREE] == null ? DASH : THIRTY_THREE;
+    	return Integer.parseInt(thirty_three_null_checked);
+    }
+    
+    private static Integer getCustomDeductionRelationShipSid(Object[] objects) {
+    	String THIRTY_FOUR = objects[NumericConstants.THIRTY_FOUR].toString();
+    	String thirty_four_null_checked = objects[NumericConstants.THIRTY_FOUR] == null ? DASH : THIRTY_FOUR;
+    	return Integer.parseInt(thirty_four_null_checked);
+    }
+    
+    private static String getDeductionLevel(Object[] objects) {
+    	String twenty_Seven_Value = String.valueOf(objects[NumericConstants.TWENTY_SEVEN]);
+    	String last_String = convertNullToEmpty(twenty_Seven_Value);
+    	return last_String;
+    }
+    
+    private static String getDeductionValue(Object[] objects) {
+    	String twenty_Eight_Value = String.valueOf(objects[NumericConstants.TWENTY_EIGHT]);
+    	String converted_String = convertNullToEmpty(twenty_Eight_Value);
+    	return converted_String;
     }
 
     public static DataSelectionDTO getProjection(List resultList) throws ParseException {

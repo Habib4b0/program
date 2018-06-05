@@ -12,11 +12,17 @@ import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.QueryBean;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.config.PagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
+import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.VerticalLayout;
@@ -51,6 +57,11 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
 //    	catch(Exception e){
 //    		gtnLogger.info("Exception in grid"+e);
 //    	}
+
+        if (tableConfig.getGridColumnHeader() != null) {
+            this.configureLeftTablHeader(tableConfig, componentConfig.getSourceViewId());
+        }
+
         PagedGrid pagedGrid = new PagedGrid(tableConfig,componentConfig);
         pagedGrid.getGrid().setId(componentConfig.getComponentId());
         resultLayout.setSizeFull();
@@ -178,7 +189,18 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
         return resultLayout;
     }
 
-  
+   private void configureLeftTablHeader(GtnUIFrameworkPagedTableConfig tableConfig, String sourceViewId)
+            throws GtnFrameworkGeneralException {
+
+        GtnUIFrameworkWebserviceRequest headerRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+        GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(tableConfig.getGridColumnHeader(),
+                tableConfig.getModuleName(), headerRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+        GtnWsPagedTableResponse tableHeadersResponse = response.getGtnWsPagedTableResponse();
+
+        tableConfig.setTableColumnMappingId(tableHeadersResponse.getSingleColumns().toArray());
+        tableConfig.setColumnHeaders(tableHeadersResponse.getSingleHeaders());
+    }
 
     @Override
     public void reloadComponent(GtnUIFrameworkActionType actionType, String dependentComponentId, String componentId, Object reloadInput) {

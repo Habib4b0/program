@@ -6,8 +6,9 @@
 package com.stpl.gtn.gtn2o.ui.customview.config;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
-import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVDeleteValidationAction;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVDeleteAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCustomViewEditAction;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnUIFrameworkCVDeleteConfirmationAction;
 import com.stpl.gtn.gtn2o.ui.customview.constants.GtnFrameworkCVConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -488,14 +489,14 @@ public class GtnFrameworkCVLandingScreenConfig {
         componentList.add(deleteButtonConfig);
 
         List<GtnUIFrameWorkActionConfig> actionDeleteConfigList = new ArrayList<>();
-
-	GtnUIFrameWorkActionConfig viewActionConfig = new GtnUIFrameWorkActionConfig();
-        viewActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-	viewActionConfig.addActionParameter(GtnFrameworkCVDeleteValidationAction.class.getName());
-	viewActionConfig.addActionParameter(GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE);
-	viewActionConfig.addActionParameter("Delete");
-        viewActionConfig.addActionParameter(GtnFrameworkCVConstants.CUSTOM_VIEW_TREE);
-        actionDeleteConfigList.add(viewActionConfig);
+		GtnUIFrameWorkActionConfig deleteActionConfig = new GtnUIFrameWorkActionConfig();
+		deleteActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deleteActionConfig.addActionParameter(GtnUIFrameworkCVDeleteConfirmationAction.class.getName());
+		deleteActionConfig.addActionParameter(GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE);
+		deleteActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.ERROR);
+		deleteActionConfig.addActionParameter("No Record has been selected.  Please select a Record and try again.");
+		deleteActionConfig.addActionParameter("Are you sure you want to delete record ");
+		actionDeleteConfigList.add(deleteActionConfig);
 
         deleteButtonConfig.setGtnUIFrameWorkActionConfigList(actionDeleteConfigList);
 

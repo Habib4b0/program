@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ws.response.filemanagement.GtnWsFileManagementResponse
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastProjectionSubmitResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecastconfiguration.GtnWsForecastConfigurationResponse;
+import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
 import com.stpl.gtn.gtn2o.ws.response.ifpresponse.GtnWsIfpReponse;
 import com.stpl.gtn.gtn2o.ws.response.itemgroupreponse.GtnWsItemGroupResponse;
 import com.stpl.gtn.gtn2o.ws.response.itemmaster.GtnWsItemMasterResponse;
@@ -91,7 +92,16 @@ public class GtnUIFrameworkWebserviceResponse {
     private GtnFrameworkAutomaticRelationshipResponse automaticRelationResponse;
     private GtnWsReportResponse gtnWsReportResponse;
     private GtnWsReportResponse gtnReportResponse;
+    private GtnWsPagedTableResponse gtnWsPagedTableResponse;
 
+    public GtnWsPagedTableResponse getGtnWsPagedTableResponse() {
+        return gtnWsPagedTableResponse;
+    }
+
+    public void setGtnWsPagedTableResponse(GtnWsPagedTableResponse gtnWsPagedTableResponse) {
+        this.gtnWsPagedTableResponse = gtnWsPagedTableResponse;
+    }
+    
     public GtnWsReportResponse getGtnReportResponse() {
 		return gtnReportResponse;
 	}

@@ -9,6 +9,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
@@ -20,15 +21,16 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
 import java.util.List;
 
 /**
  *
  * @author Mohamed.Shahul
  */
-public class GtnFrameworkCVDeleteValidationAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+public class GtnFrameworkCVDeleteAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-    private final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkCVDeleteValidationAction.class);
+    private final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkCVDeleteAction.class);
 
     @Override
     public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
@@ -43,14 +45,6 @@ public class GtnFrameworkCVDeleteValidationAction implements GtnUIFrameWorkActio
         Object value = GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(parameters.get(1).toString())
                 .getValueFromComponent();
-        if (value == null) {
-            GtnUIFrameWorkActionConfig cvDeleteAlertAction = new GtnUIFrameWorkActionConfig(
-                    GtnUIFrameworkActionType.ALERT_ACTION);
-            cvDeleteAlertAction.addActionParameter("Delete Error");
-            cvDeleteAlertAction.addActionParameter("Please select a record to " + parameters.get(2));
-            GtnUIFrameworkActionExecutor.executeSingleAction(componentId, cvDeleteAlertAction);
-            return;
-        }
         GtnWsCustomViewRequest cvRequest = new GtnWsCustomViewRequest();
         GtnWsRecordBean customViewBean = (GtnWsRecordBean) value;
         int customSid = (int) customViewBean.getPropertyValue("customViewMasterSId");
@@ -63,10 +57,25 @@ public class GtnFrameworkCVDeleteValidationAction implements GtnUIFrameWorkActio
         cvRequest.setCustomViewDescription(custViewDesc);
         cvRequest.setCustomViewType(custViewType);
         request.setGtnWsCustomViewRequest(cvRequest);
-        wsclient.callGtnWebServiceUrl(
+        GtnUIFrameworkWebserviceResponse newResponse = wsclient.callGtnWebServiceUrl(
                 GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE
                 + GtnWsCustomViewConstants.CUSTOM_VIEW_DELETE,
                 request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+         GtnWsCustomViewResponse rbNewResponse = newResponse.getGtnWsCustomViewResponse();
+		if (rbNewResponse.isSuccess()) {
+			GtnUIFrameworkBaseComponent removeItem = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(parameters.get(2).toString());
+			removeItem.removeItemFromDataTable(parameters.get(1));
+			removeItem.setTableValue(null);
+			GtnUIFrameworkGlobalUI.showMessageBox(componentId, GtnUIFrameworkActionType.NOTIFICATION_ACTION,
+					rbNewResponse.getMessage(), null);
+			return;
+		}
+		GtnUIFrameWorkActionConfig rbDeleteSuccessAlertAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.ALERT_ACTION);
+		rbDeleteSuccessAlertAction.addActionParameter(rbNewResponse.getMessageType());
+		rbDeleteSuccessAlertAction.addActionParameter(rbNewResponse.getMessage());
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbDeleteSuccessAlertAction);
     }
 
     @Override
