@@ -169,7 +169,7 @@ public class GtnWsPagedTreeTableResponse {
 	 * @return the single columns
 	 */
 	public List<Object> getSingleColumns() {
-		return singleColumn;
+		return singleColumn!= null ? new ArrayList<>(singleColumn) : singleColumn;
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class GtnWsPagedTreeTableResponse {
 	 * @return the single headers
 	 */
 	public List<String> getSingleHeaders() {
-		return singleHeader;
+		return singleHeader!= null ? new ArrayList<>(singleHeader) : singleHeader;
 	}
 
 	/**
@@ -187,7 +187,7 @@ public class GtnWsPagedTreeTableResponse {
 	 * @return the double columns
 	 */
 	public List<Object> getDoubleColumns() {
-		return doubleColumn;
+		return doubleColumn!= null ? new ArrayList<>(doubleColumn) : doubleColumn;
 	}
 
 	/**
@@ -196,7 +196,7 @@ public class GtnWsPagedTreeTableResponse {
 	 * @return the double headers
 	 */
 	public List<String> getDoubleHeaders() {
-		return doubleHeader;
+		return doubleHeader!= null ? new ArrayList<>(doubleHeader) : doubleHeader;
 	}
 
 	/**
@@ -225,11 +225,11 @@ public class GtnWsPagedTreeTableResponse {
 	}
 
 	public List<String> getEditablePeriods() {
-		return editablePeriods;
+		return editablePeriods!= null ? new ArrayList<>(editablePeriods) : editablePeriods;
 	}
 
 	public void setEditablePeriods(List<String> editablePeriods) {
-		this.editablePeriods = editablePeriods;
+		this.editablePeriods = editablePeriods!= null ? new ArrayList<>(editablePeriods) : editablePeriods;
 	}
 
 	public Map<String, Integer> getCountMap() {
@@ -257,11 +257,11 @@ public class GtnWsPagedTreeTableResponse {
 	}
 
 	public List<GtnWsRecordBean> getGtnWsRecordBeanList() {
-		return gtnWsRecordBeanList;
+		return gtnWsRecordBeanList!= null ? new ArrayList<>(gtnWsRecordBeanList) : gtnWsRecordBeanList;
 	}
 
 	public void setGtnWsRecordBeanList(List<GtnWsRecordBean> gtnWsRecordBeanList) {
-		this.gtnWsRecordBeanList = gtnWsRecordBeanList;
+		this.gtnWsRecordBeanList = gtnWsRecordBeanList!= null ? new ArrayList<>(gtnWsRecordBeanList) : gtnWsRecordBeanList;
 	}
 
 	public boolean isCheckAll() {
