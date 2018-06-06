@@ -947,6 +947,8 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			configureCustomerDdlb();
 			configureProductDdlb();
 		}
+                frequency.select(HeaderUtils.QUARTERLY);
+                dataSelectionDeductionLevel.select(1);
 		configureTimeDdlb(fromPeriod, toPeriod, null, null, UIUtil.MODE_ADD, screenName);
 
 	}

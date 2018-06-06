@@ -256,7 +256,10 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
                 dsLogic.saveCustomerHierarchyLogic(selectedCustomersList, customerListEndSids, projectionIdValue, null, Constant.SAVE);
                 dsLogic.saveProductHierarchyLogic(selectedProductsList, productListEndSids, projectionIdValue, null, Constant.SAVE,dataselectionDtoToSave);
                 dsLogic.saveCcp(customerHierarchyEndLevels, productHierarchyEndLevelsHierNos, "customer", String.valueOf(projectionIdValue));
-
+                
+            }
+            if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(screenName)) {
+                    dsLogic.saveFreqAndDedLevel(projectionIdValue, dataselectionDtoToSave);
             }
             viewBinder.commit();
 

@@ -8,10 +8,12 @@ package com.stpl.app.gtnforecasting.utils;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
+import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.model.CompanyGroup;
 import com.stpl.app.utils.Constants.CommonConstants;
 import com.stpl.app.utils.Constants.DateFormatConstants;
+import static com.stpl.app.utils.Constants.LabelConstants.DATA_SELECTION_LANDING_SCREEN;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
@@ -21,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,6 +107,11 @@ public class Converters {
                 result.setBusinessUnitSystemName((String) obj[NumericConstants.TWENTY_EIGHT]);
                 result.setCustHierarchyVersion((Integer) obj[NumericConstants. TWENTY_NINE]);
                 result.setProdHierarchyVersion((Integer) obj[NumericConstants.THIRTY]);
+            }
+            Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(Integer.parseInt(result.getProjectionId()), DATA_SELECTION_LANDING_SCREEN.getConstant());
+            if (map != null && !map.isEmpty()) {
+                result.setDataSelectionFrequency(String.valueOf(map.get(Constant.FREQUENCY)));
+                result.setDataSelectionDedLevel(Integer.parseInt(String.valueOf(map.get(Constant.DATA_SELECTION_DED_LEVEL))));
             }
             results.add(result);
         }
