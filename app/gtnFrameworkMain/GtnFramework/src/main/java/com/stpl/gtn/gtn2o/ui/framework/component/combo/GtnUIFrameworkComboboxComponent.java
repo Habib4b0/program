@@ -114,26 +114,20 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 	@SuppressWarnings("unchecked")
 	private void reloadComboBoxComponent(String dependentComponentId, String componentId, Object reloadInput,
 			String sourceViewId, GtnUIFrameworkComponentConfig componentConfig) {
-		List<Object> parameterList = new ArrayList<>();
-		parameterList.add(dependentComponentId);
-		parameterList.add(componentId);
-		parameterList.add(reloadInput);
-		parameterList.add(sourceViewId);
-		parameterList.add(componentConfig);
-		LOGGER.info("Triggered reload with reload input " + parameterList.get(2));
-		List<Object> requestInputList = (List<Object>) parameterList.get(2);
+		LOGGER.info("Triggered reload with reload input " + reloadInput);
+		List<Object> requestInputList = (List<Object>) reloadInput;
 		String simpleReload = String.valueOf(requestInputList.get(0));
 		if (!"simpleReload".equals(simpleReload)) {
-			if (((GtnUIFrameworkComponentConfig)parameterList.get(4)).getReloadLogicActionClassName() != null) {
+			if (componentConfig.getReloadLogicActionClassName() != null) {
 				try {
 					GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
 					GtnUIFrameWorkAction customAction = (GtnUIFrameWorkAction) classLoader
-							.loadDynamicClass(((GtnUIFrameworkComponentConfig)parameterList.get(4)).getReloadLogicActionClassName());
+							.loadDynamicClass(componentConfig.getReloadLogicActionClassName());
 					GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
-					actionConfig.addActionParameter(parameterList.get(2));
-					customAction.doAction((String)parameterList.get(1), actionConfig);
+					actionConfig.addActionParameter(reloadInput);
+					customAction.doAction(componentId, actionConfig);
 				} catch (GtnFrameworkGeneralException ex) {
-					LOGGER.error((String)parameterList.get(1), ex);
+					LOGGER.error(componentId, ex);
 				}
 				return;
 			}
@@ -141,7 +135,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 		} else {
 			requestInputList.set(0, "");
 		}
-		GtnUIFrameworkComboBoxConfig comboboxConfig = ((GtnUIFrameworkComponentConfig)parameterList.get(4)).getGtnComboboxConfig();
+		GtnUIFrameworkComboBoxConfig comboboxConfig = componentConfig.getGtnComboboxConfig();
 
 		ComboBox vaadinComboBox = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinComponent(dependentComponentId,
 				componentId);

@@ -129,26 +129,20 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 	@SuppressWarnings("unchecked")
 	private void reloadComboBoxComponent(String dependentComponentId, String componentId, Object reloadInput,
 			String sourceViewId, GtnUIFrameworkComponentConfig componentConfig) {
-		List<Object> parameterList = new ArrayList<>();
-		parameterList.add(dependentComponentId);
-		parameterList.add(componentId);
-		parameterList.add(reloadInput);
-		parameterList.add(sourceViewId);
-		parameterList.add(componentConfig);
-		gtnLogger.info("Triggered reload with reload input " + parameterList.get(2));
-		List<Object> comboBoxRequestInputList = (List<Object>) parameterList.get(2);
+		gtnLogger.info("Triggered reload with reload input " + reloadInput);
+		List<Object> comboBoxRequestInputList = (List<Object>) reloadInput;
 		String simpleComboBoxReload = String.valueOf(comboBoxRequestInputList.get(0));
 		if (!"simpleReload".equals(simpleComboBoxReload)) {
-			if (((GtnUIFrameworkComponentConfig)parameterList.get(4)).getReloadLogicActionClassName() != null) {
+			if (componentConfig.getReloadLogicActionClassName() != null) {
 				try {
 					GtnUIFrameworkClassLoader comboBoxClassLoader = new GtnUIFrameworkClassLoader();
 					GtnUIFrameWorkAction comboBoxCustomAction = (GtnUIFrameWorkAction) comboBoxClassLoader
-							.loadDynamicClass(((GtnUIFrameworkComponentConfig)parameterList.get(4)).getReloadLogicActionClassName());
+							.loadDynamicClass(componentConfig.getReloadLogicActionClassName());
 					GtnUIFrameWorkActionConfig comboBoxActionConfig = new GtnUIFrameWorkActionConfig();
-					comboBoxActionConfig.addActionParameter(parameterList.get(2));
-					comboBoxCustomAction.doAction((String)parameterList.get(1), comboBoxActionConfig);
+					comboBoxActionConfig.addActionParameter(reloadInput);
+					comboBoxCustomAction.doAction(componentId, comboBoxActionConfig);
 				} catch (GtnFrameworkGeneralException ex) {
-					gtnLogger.error((String)parameterList.get(1), ex);
+					gtnLogger.error(componentId, ex);
 				}
 				return;
 			}
@@ -156,13 +150,13 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 		} else {
 			comboBoxRequestInputList.set(0, "");
 		}
-		GtnUIFrameworkComboBoxConfig comboboxComponentConfig = ((GtnUIFrameworkComponentConfig)parameterList.get(4)).getGtnComboboxConfig();
+		GtnUIFrameworkComboBoxConfig comboboxComponentConfig = componentConfig.getGtnComboboxConfig();
 
-		ComboBox vaadinComboBoxComponent = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinComponent((String)parameterList.get(0),
-				(String)parameterList.get(1));
+		ComboBox vaadinComboBoxComponent = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinComponent(dependentComponentId,
+				componentId);
 		vaadinComboBoxComponent.setItems(new ArrayList<>());
 
-		vaadinComboBoxComponent = fillComboBox(comboboxComponentConfig, comboBoxRequestInputList, (String) parameterList.get(3),
+		vaadinComboBoxComponent = fillComboBox(comboboxComponentConfig, comboBoxRequestInputList, sourceViewId,
 				vaadinComboBoxComponent);
 		gtnLogger.info("Reloaded vaadin combobox" + vaadinComboBoxComponent);
 
