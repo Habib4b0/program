@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import java.util.List;
 
@@ -34,9 +35,28 @@ public class GtnFrameworkOptionGroupChangeAction implements GtnUIFrameWorkAction
                 .getVaadinBaseComponent(parameters.get(2).toString());
         GtnUIFrameworkBaseComponent tableBaseLayout = GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(parameters.get(1).toString());
+        
+        
+         GtnUIFrameworkBaseComponent customTreePanel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(4).toString());
+         
+         
+         GtnUIFrameworkBaseComponent customTreeLayout = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(5).toString());
+         
+         
+         GtnUIFrameworkBaseComponent customTreeVerticalLayout = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(6).toString());
+         
+          GtnUIFrameworkBaseComponent customTreeConstructPanel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(7).toString());
+          
+           GtnUIFrameworkBaseComponent customTreeV001Layout = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(8).toString());
+           
         if (GtnFrameworkCVConstants.CUSTOM_VIEW_OPTION_DISCOUNT.equals(optionValue)) {
             tableBaseComponent.setVisible(true);
             tableBaseLayout.setVisible(true);
+            customTreePanel.getComponent().setHeight(GtnFrameworkCssConstants.PIXEL_1500);
+            customTreeLayout.getComponent().setHeight(GtnFrameworkCssConstants.PIXEL_1500);
+            customTreeVerticalLayout.getComponent().setHeight(GtnFrameworkCssConstants.PIXEL_1500);
+            customTreeConstructPanel.getComponent().setHeight("1457px");
+            customTreeV001Layout.getComponent().setHeight(GtnFrameworkCssConstants.PIXEL_1500);
         } else {
             tableBaseComponent.setVisible(false);
             tableBaseLayout.setVisible(false);

@@ -67,9 +67,15 @@ public class GtnFrameworkCVConstants {
     public static final String CV_ADD_SAVE_BTN_LAYOUT = "customViewAddSaveButtonLayout";
     public static final String CV_ADD_BACK_BTN_LAYOUT = "customViewAddBackButtonLayout";
     public static final String CV_TREE_PANEL = "customViewTreePanel";
+     public static final String CV_VIEW_TREE_LAYOUT = "customViewTreeLayout";
     public static final String CV_TREE_VERTICAL_LAYOUT = "customViewTreeVerticallayout";
+    public static final String CV_TREE_CONSTRUCT_PANEL = "customViewTreeConstructPanel";
     public static final String CUSTOMER_TREE_LAYOUT = "customerTreeLayout";
+    public static final String V002_CUSTOMER_TREE_LAYOUT = "V002_customTreeLayout";
+    public static final String DEDUCTION_ADD_BUTTON_MOVE_RIGHT_BUTTON_LAYOUT = "deductionAddButtonMoveRightButtonLayout";
+    public static final String DEDUCTION_ADD_BUTTON_MOVE_LEFT_BUTTON_LAYOUT = "deductionAddButtonMoveLeftButtonLayout";
     public static final String LEVEL_NAME = "levelName";
+    public static final String CUSTOM_TREE_LAYOUT = "customTreeLayout";
     public static final String LEVEL_NAME_HEADER = "Level Name";
     public static final String LEVEL_NO_COLUMN = "levelNo";
     public static final String TREE_LEVEL_NO_COLUMN = "treeLevelNo";

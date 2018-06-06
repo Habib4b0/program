@@ -260,6 +260,11 @@ public class GtnFrameworkCVAddConfig {
         cvTypeAction.addActionParameter(namspacePrefix + GtnFrameworkCVConstants.DEDUCTION_HIER_LAYOUT);
         cvTypeAction.addActionParameter(namspacePrefix + GtnFrameworkCVConstants.DEDUCTION_MOVE_LAYOUT);
         cvTypeAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.PRODUCT_RELATION);
+        cvTypeAction.addActionParameter(GtnFrameworkCVConstants.CV_TREE_PANEL);
+        cvTypeAction.addActionParameter(GtnFrameworkCVConstants.CV_VIEW_TREE_LAYOUT);
+        cvTypeAction.addActionParameter(GtnFrameworkCVConstants.CV_TREE_VERTICAL_LAYOUT);
+        cvTypeAction.addActionParameter(GtnFrameworkCVConstants.CV_TREE_CONSTRUCT_PANEL);
+        cvTypeAction.addActionParameter(GtnFrameworkCVConstants.V002_CUSTOMER_TREE_LAYOUT);
         actionConfigList.add(cvTypeAction);
         customViewTypeOptionGroup.setGtnUIFrameWorkActionConfigList(actionConfigList);
     }
@@ -570,7 +575,7 @@ public class GtnFrameworkCVAddConfig {
 
     private void addCustomViewTree(List<GtnUIFrameworkComponentConfig> componentList, String namespacePrefix) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider
-				.getHorizontalLayoutConfig(namespacePrefix + "customTreeLayout", true, "customViewTreeConstructPanel");
+				.getHorizontalLayoutConfig(namespacePrefix + GtnFrameworkCVConstants.CUSTOM_TREE_LAYOUT, true, GtnFrameworkCVConstants.CV_TREE_CONSTRUCT_PANEL);
         gtnLayout.setMargin(true);
         gtnLayout.setSpacing(true);
         gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_50);
@@ -582,7 +587,7 @@ public class GtnFrameworkCVAddConfig {
         treeComponentConfig.setComponentType(GtnUIFrameworkComponentType.TREE);
         treeComponentConfig.setAuthorizationIncluded(true);
         treeComponentConfig.setComponentId(namespacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_TREE);
-        treeComponentConfig.setParentComponentId(namespacePrefix + "customTreeLayout");
+        treeComponentConfig.setParentComponentId(namespacePrefix + GtnFrameworkCVConstants.CUSTOM_TREE_LAYOUT);
         treeComponentConfig.setAddToParent(true);
 
         GtnUIFrameworkTreeConfig treeConfig = new GtnUIFrameworkTreeConfig();
@@ -594,7 +599,7 @@ public class GtnFrameworkCVAddConfig {
 
     private void addCustomViewTreePanel(List<GtnUIFrameworkComponentConfig> componentList, String namespacePrefix) {
 		GtnUIFrameworkComponentConfig panel = configProvider.getUIFrameworkComponentConfig(
-				"customViewTreeConstructPanel", true, GtnFrameworkCVConstants.CUSTOM_VIEW_TREE_LAYOUT,
+				GtnFrameworkCVConstants.CV_TREE_CONSTRUCT_PANEL, true, GtnFrameworkCVConstants.CUSTOM_VIEW_TREE_LAYOUT,
 				GtnUIFrameworkComponentType.PANEL);
         panel.setComponentName("Tree Structure");
         panel.setAuthorizationIncluded(true);
@@ -623,7 +628,7 @@ public class GtnFrameworkCVAddConfig {
         tableStyle.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
         deductionTableConfig.setComponentStyle(tableStyle);
         deductionTableConfig.setComponentWidth(GtnFrameworkCssConstants.PIXEL_400);
-        deductionTableConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_300);
+        deductionTableConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_450);
 
         componentList.add(deductionTableConfig);
 
@@ -641,12 +646,23 @@ public class GtnFrameworkCVAddConfig {
     }
 
     private void addDeductionMoveButtonsComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
-        GtnUIFrameworkComponentConfig gtnLayout = configProvider.getVerticalLayoutConfig(
+        
+        GtnUIFrameworkComponentConfig gtnLayout = configProvider.getCssLayoutConfig(
                 namspacePrefix + GtnFrameworkCVConstants.DEDUCTION_MOVE_LAYOUT, true,
                 namspacePrefix + GtnFrameworkCVConstants.DEDUCTION_HIER_LAYOUT);
+		gtnLayout.setSpacing(true);
+		gtnLayout.setMargin(true);
+		gtnLayout.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_DUAL_LIST_BOX_BUTTON));
         componentList.add(gtnLayout);
+
+		GtnUIFrameworkComponentConfig deductionAddButtonMoveRightButtonLayout = configProvider.getHorizontalLayoutConfig(
+				GtnFrameworkCVConstants.DEDUCTION_ADD_BUTTON_MOVE_RIGHT_BUTTON_LAYOUT, true,
+				namspacePrefix + GtnFrameworkCVConstants.DEDUCTION_MOVE_LAYOUT);
+		componentList.add(deductionAddButtonMoveRightButtonLayout);
+                
+         
         GtnUIFrameworkComponentConfig customerAddButtonConfig = configProvider.getUIFrameworkComponentConfig(
-                namspacePrefix + "gtnDeductionGreaterButton", true, namspacePrefix + GtnFrameworkCVConstants.DEDUCTION_MOVE_LAYOUT,
+                namspacePrefix + "gtnDeductionGreaterButton", true, GtnFrameworkCVConstants.DEDUCTION_ADD_BUTTON_MOVE_RIGHT_BUTTON_LAYOUT,
                 GtnUIFrameworkComponentType.BUTTON);
         customerAddButtonConfig.setAuthorizationIncluded(true);
         customerAddButtonConfig.setComponentName(">");
@@ -661,8 +677,13 @@ public class GtnFrameworkCVAddConfig {
         actionConfigList.add(addToTreeAction);
         customerAddButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
+        GtnUIFrameworkComponentConfig deductionAddButtonMoveLeftButtonLayout = configProvider.getHorizontalLayoutConfig(
+				GtnFrameworkCVConstants.DEDUCTION_ADD_BUTTON_MOVE_LEFT_BUTTON_LAYOUT, true,
+				namspacePrefix + GtnFrameworkCVConstants.DEDUCTION_MOVE_LAYOUT);
+		componentList.add(deductionAddButtonMoveLeftButtonLayout);
+                
         GtnUIFrameworkComponentConfig customerRemoveButtonConfig = configProvider.getUIFrameworkComponentConfig(
-                namspacePrefix + "gtnDeductionLesserButton", true, namspacePrefix + GtnFrameworkCVConstants.DEDUCTION_MOVE_LAYOUT,
+                namspacePrefix + "gtnDeductionLesserButton", true, GtnFrameworkCVConstants.DEDUCTION_ADD_BUTTON_MOVE_LEFT_BUTTON_LAYOUT,
                 GtnUIFrameworkComponentType.BUTTON);
         customerRemoveButtonConfig.setAuthorizationIncluded(true);
         customerRemoveButtonConfig.setComponentName("<");

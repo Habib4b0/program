@@ -124,7 +124,7 @@ public class GtnUIFrameWorkAddDataTableAction implements GtnUIFrameWorkAction, G
 
 	}
 
-	private void setTableEnableDisable(boolean isEditable) throws GtnFrameworkValidationFailedException {
+	private void setTableEnableDisable(boolean isEditable)  {
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE)
 				.getExtPagedTable().setReadOnly(!isEditable);
