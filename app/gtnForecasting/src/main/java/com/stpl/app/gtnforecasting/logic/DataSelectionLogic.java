@@ -2631,7 +2631,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(",'").append(screenName).append('\'')
                                 .append(",'").append(view).append('\'')
                                 .append(",'").append(startPeriod).append('\'')
-                                .append(",").append(endPeriod).append("")
+                                .append(",'").append(endPeriod).append('\'')
                                 .append(",'").append(updateUnitField).append('\'')
                                 .append(",'").append(deductionMasterSid).append('\'')
                                 .append(',').append("null")

@@ -82,7 +82,7 @@ public class GtnCsvExportService {
         csvPath.append(exportName);
         csvPath.append('/');
         Path path = Paths.get(csvPath.toString());
-        if (!Files.exists(path)) {
+        if (!path.toFile().exists()) {
             try {
                 Files.createDirectories(path);
             } catch (IOException e) {

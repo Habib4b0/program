@@ -165,7 +165,7 @@ public class GtnWsForecastResponse {
 	 * @return the single columns
 	 */
 	public List<Object> getSingleColumns() {
-		return singleColumn;
+		return singleColumn != null ? new ArrayList<>(singleColumn) : singleColumn;
 	}
 
 	/**
@@ -174,7 +174,7 @@ public class GtnWsForecastResponse {
 	 * @return the single headers
 	 */
 	public List<String> getSingleHeaders() {
-		return singleHeader;
+		return singleHeader!= null ? new ArrayList<>(singleHeader) : singleHeader;
 	}
 
 	/**
@@ -183,7 +183,7 @@ public class GtnWsForecastResponse {
 	 * @return the double columns
 	 */
 	public List<Object> getDoubleColumns() {
-		return doubleColumn;
+		return doubleColumn!= null ? new ArrayList<>(doubleColumn) : doubleColumn;
 	}
 
 	/**
