@@ -44,6 +44,15 @@ public class GtnWsReportDataSelectionBean {
 	private String viewName;
 	private String viewType;
 	private Integer viewId;
+        private List variableBreakdownHeaderLoadList;
+
+         public List getVariableBreakdownHeaderLoadList() {
+             return variableBreakdownHeaderLoadList;
+           }
+
+        public void setVariableBreakdownHeaderLoadList(List variableBreakdownHeaderLoadList) {
+             this.variableBreakdownHeaderLoadList = variableBreakdownHeaderLoadList;
+        }
 
 	public int getProductRelationshipBuilderSid() {
 		return productRelationshipBuilderSid;
