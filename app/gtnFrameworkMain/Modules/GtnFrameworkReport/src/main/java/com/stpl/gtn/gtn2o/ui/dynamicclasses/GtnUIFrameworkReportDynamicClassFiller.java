@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkFSPagedTree
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkReturnCheckAllAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCustomTreeConfirmedSaveAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIBuildCustomTreeAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomSelectAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeAddAction;
@@ -123,8 +124,11 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnReportComparisonProjectionResultsLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportForecastLevelLoadAction.class.getName(),
 				new GtnReportForecastLevelLoadAction());
-                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingVariableBreakdownGridLoadAction.class.getName(),
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingVariableBreakdownGridLoadAction.class.getName(),
 				new GtnReportingVariableBreakdownGridLoadAction());
+		
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction.class.getName(),
+				new GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction());
 	}
 
 }

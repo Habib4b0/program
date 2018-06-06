@@ -119,7 +119,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 
 		GtnUIFrameworkComponentConfig comparisonBasis = new GtnUIFrameworkComponentConfig();
 		comparisonBasis.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
-		comparisonBasis.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"comparisonBasis");
+		comparisonBasis.setComponentId("comparisonOptionsLookup_comparisonBasis");
 		comparisonBasis.setComponentName("Comparison Basis: ");
 		comparisonBasis.setAddToParent(true);
 		comparisonBasis.setParentComponentId(comparisonBasisConfig.getComponentId());
@@ -135,7 +135,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 
 		GtnUIFrameworkComponentConfig frequency = new GtnUIFrameworkComponentConfig();
 		frequency.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
-		frequency.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"frequencyConfig");
+		frequency.setComponentId("comparisonOptionsLookup_frequencyConfig");
 		frequency.setComponentName("Frequency: ");
 		frequency.setAddToParent(true);
 		frequency.setParentComponentId(frequencyConfig.getComponentId());
@@ -151,7 +151,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 
 		GtnUIFrameworkComponentConfig periodRangeFrom = new GtnUIFrameworkComponentConfig();
 		periodRangeFrom.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
-		periodRangeFrom.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"periodRangeFrom");
+		periodRangeFrom.setComponentId("comparisonOptionsLookup_periodRangeFrom");
 		periodRangeFrom.setComponentName("Period Range From: ");
 		periodRangeFrom.setAddToParent(true);
 		periodRangeFrom.setParentComponentId(periodRangeFromConfig.getComponentId());
@@ -167,7 +167,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 
 		GtnUIFrameworkComponentConfig periodRangeTo = new GtnUIFrameworkComponentConfig();
 		periodRangeTo.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
-		periodRangeTo.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"periodRangeTo");
+		periodRangeTo.setComponentId("comparisonOptionsLookup_periodRangeTo");
 		periodRangeTo.setComponentName("Period Range To: ");
 		periodRangeTo.setAddToParent(true);
 		periodRangeTo.setParentComponentId(periodRangeToConfig.getComponentId());
