@@ -78,7 +78,7 @@ public class GtnWsRecordBean implements Serializable {
 	}
 
 	public List<Object> getProperties() {
-		return properties;
+		return properties != null ? new ArrayList<>(properties) : properties ;
 	}
 
 	public Object removeProperties(String propertyId) {
