@@ -747,6 +747,13 @@ public class NMSalesProjection extends ForecastSalesProjection {
         valueDdlb.setTextInputAllowed(true);
         boolean isEnabled = Utility.customEnableForRelationFromDS(session.getCustomRelationShipSid());
         view.setItemEnabled(Constant.CUSTOM_LABEL, isEnabled);
+        if(session.getCustomRelationShipSid()==0){
+            viewDdlb.setValue(null);
+           newBtn.setEnabled(false); 
+        }
+        else{
+        newBtn.setEnabled(true);
+        }
         if (CommonUtil.isValueEligibleForLoading()) {
             salesProjectionSelection.setVisible(false);
             tabsheet1.addTab(salesProjectionSelectionLayout, "Display Selection");
