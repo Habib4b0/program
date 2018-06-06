@@ -1425,6 +1425,10 @@ public class HeaderUtils {
                     Object actAmtColumn;
                     Object prjAmtColumn;
                     Object growthColumn;
+                    Object actSales;
+                    Object actUnits;
+                    Object projSales;
+                    Object projUnits;
 
                     if (i >= projSelDTO.getHistoryStartIndex() && i <= projSelDTO.getHistoryEndIndex()) {
                         historyFlag = true;
@@ -1433,7 +1437,7 @@ public class HeaderUtils {
                             singleColumn = commonColumn + "ActualRate";
                             actualRPColumn = commonColumn + Constant.ACTUALRPU;
                             actAmtColumn = commonColumn + ACTUAL_AMOUNT1;
-
+              
                             if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
                                 tableHeader.addSingleColumn(singleColumn, ACTUAL_RATE1, String.class);
                                 excelHeader.addSingleColumn(singleColumn, " Actual Rate", String.class);
@@ -1458,6 +1462,23 @@ public class HeaderUtils {
                                 singleHeaderForExcel.add(ACTUAL_AMOUNT_LABEL);// Ends here
                                 dmap.add(actAmtColumn);
                             }
+                            if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
+                                actSales = commonColumn + "ActualSales";
+                                excelHeader.addSingleColumn(actSales, "ActualSales", String.class);
+                                //Added for tabwise excel export
+                                singleColumnForExcel.add(actSales);
+                                singleHeaderForExcel.add("ActualSales");// Ends here
+                                dmap.add(actSales);
+                            }
+                            if (projSelDTO.getdPVariablesList().contains(REBATE_PER_UNIT.getConstant())) {
+                                actUnits = commonColumn + "ActualUnits";
+                                excelHeader.addSingleColumn(actUnits, "ActualUnits", String.class);
+                                //Added for tabwise excel export
+                                singleColumnForExcel.add(actUnits);
+                                singleHeaderForExcel.add("ActualUnits");// Ends here
+                                dmap.add(actUnits);
+                            }
+//                         
 
                         }
                     }
@@ -1484,7 +1505,7 @@ public class HeaderUtils {
                         prjRPColumn = commonColumn + Constant.PROJECTEDRPU;
                         prjAmtColumn = commonColumn + Constant.PROJECTED_AMOUNT1;
                         growthColumn = commonColumn + Constant.GROWTH;
-
+                        
                         if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
                             tableHeader.addSingleColumn(singleColumn, PROJECTED_RATE1, String.class);
                             excelHeader.addSingleColumn(singleColumn, PROJECTED_RATE1, String.class);
@@ -1509,8 +1530,23 @@ public class HeaderUtils {
                             singleHeaderForExcel.add(Constant.PROJECTED_AMOUNT_LABEL);//Ends here
                             dmap.add(prjAmtColumn);
                         }
-
-                        if (projSelDTO.getdPVariablesList().contains(GROWTH.getConstant())) {
+                        if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
+                            projSales = commonColumn + "ProjectedSales";
+                            excelHeader.addSingleColumn(projSales, "ProjectedSales", String.class);
+                            //Added for tabwise excel export
+                            singleColumnForExcel.add(projSales);
+                            singleHeaderForExcel.add("ProjectedSales");//Ends here
+                            dmap.add(projSales);
+                        }
+                        if (projSelDTO.getdPVariablesList().contains(REBATE_PER_UNIT.getConstant())) {
+                            projUnits = commonColumn + "ProjectedUnits";
+                            excelHeader.addSingleColumn(projUnits, "ProjectedUnits", String.class);
+                            //Added for tabwise excel export
+                            singleColumnForExcel.add(projUnits);
+                            singleHeaderForExcel.add("ProjectedUnits");//Ends here
+                            dmap.add(projUnits);
+                        }
+                         if (projSelDTO.getdPVariablesList().contains(GROWTH.getConstant())) {
                             tableHeader.addSingleColumn(growthColumn, Constant.GROWTH, String.class);
                             excelHeader.addSingleColumn(growthColumn, Constant.GROWTH, String.class);
                             //Added for tabwise excel export

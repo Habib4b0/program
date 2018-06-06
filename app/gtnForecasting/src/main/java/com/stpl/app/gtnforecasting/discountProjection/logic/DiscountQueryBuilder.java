@@ -79,6 +79,7 @@ public class DiscountQueryBuilder {
     public static final String SELCOLDED = "@SELCOLDED";
     public static final String DPM_DEDUCTION_INCLUSION = " ,DPM.DEDUCTION_INCLUSION ";
     public static final String AND_USER_GROUP = " AND USER_GROUP = '";
+    public static final String NINE_LEVELS_DED ="UNION ALL SELECT SH.HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL";
 
 
    
