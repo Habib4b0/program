@@ -42,6 +42,7 @@ import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.queryUtils.CommonQueryUtils;
 import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
+import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.LOGGER;
 import com.stpl.app.gtnforecasting.service.finderImpl.CustomViewMasterImpl;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.tree.node.TreeNode;
@@ -5378,4 +5379,25 @@ public class CommonLogic {
         }
         return deductionList;
     }
+    public static void updateFlagStatusToR(SessionDTO session, String screenName, String view) {
+        LOGGER.info("updateFlagStatusToR---------------------------------------------------{}" + view);
+
+        switch (view) {
+            case Constants.CUSTOMER:
+                CommonUtil.getInstance().updateStatusTable(screenName, session, view);
+                break;
+            case Constants.PRODUCT:
+                CommonUtil.getInstance().updateStatusTable(screenName, session, view);
+                break;
+            case Constants.CUSTOM:
+                CommonUtil.getInstance().updateStatusTable(screenName, session, view);
+                break;
+            default:
+                LOGGER.warn("screenName is not valid= {} ", screenName);
+                break;
+        }
+        LOGGER.info("updateFlagStatusToR-----------------END----------------------------------");
+    }
 }
+    
+
