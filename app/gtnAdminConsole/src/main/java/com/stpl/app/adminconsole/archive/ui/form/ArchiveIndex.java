@@ -47,13 +47,13 @@ public class ArchiveIndex extends CustomComponent implements View {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ArchiveIndex.class);
 
-    public final Object[] archiveTable = new Object[]{"fieldName"};
+    public static final Object[] archiveTable = new Object[]{"fieldName"};
 
-    public final String[] archiveHeader = new String[]{"Field Name"};
+    public static final String[] archiveHeader = new String[]{"Field Name"};
 
-    public final Object[] archiveColumns = new Object[]{"value"};
+    public static final Object[] archiveColumns = new Object[]{"value"};
 
-    public final String[] archiveHeader1 = new String[]{"Value"};
+    public static final String[] archiveHeader1 = new String[]{"Value"};
 
     private final ErrorLabel errorMsg = new ErrorLabel();
 

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
+import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
 import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
 
 @Service
@@ -70,7 +71,7 @@ public class HeaderGeneratorService {
 	}
 
 	public GtnWsPagedTreeTableResponse getReportRightTableColumnsDummy() {
-		HeaderGeneratorService header = new HeaderGeneratorService();
+		// HeaderGeneratorService header = new HeaderGeneratorService();
 		GtnForecastBean gtnForecastBean = new GtnForecastBean();
 
 		// gtnForecastBean.setHistoryStartYear(2014);
@@ -96,7 +97,7 @@ public class HeaderGeneratorService {
 		gtnForecastBean.setAscending(true);
 		gtnForecastBean.setColumn(true);
 		gtnForecastBean.setVariablesVariances(true);
-		GtnWsPagedTreeTableResponse response = header.getReportRightTableColumns(gtnForecastBean);
+		GtnWsPagedTreeTableResponse response = this.getReportRightTableColumns(gtnForecastBean);
 		return response;
 
 	}
@@ -114,29 +115,26 @@ public class HeaderGeneratorService {
 		// "Prior Projection1", "Prior Projection2", "Prior Projection3", "Prior
 		// Projection4", "Prior Projection5"};
 
-		String[] variablesHeader = new String[] { "Gross Contract Sales", "Weighted GTN Contribution" };
+//		String[] variablesHeader = new String[] { "Gross Contract Sales", "Weighted GTN Contribution" };
 
-		// String[] variablesHeader = new String[]{"Ex-Factory Sales", "Gross Contract
-		// Sales % of Ex-Factory", "Gross Contract Sales", "Contract Units",
-		// "Contract Sales % of Total Contract Sales", "Deduction $", "Deduction %",
-		// "RPU", "Deduction % of Ex-Factory", "Net Contract Sales",
-		// "Net Contract Sales % of Ex-Factory", "Net Ex-Factory Sales", "Net Ex-Factory
-		// Sales % of Total Ex-Factory",
-		// "Weighted GTN Contribution"};
+		 String[] variablesHeader = new String[]{"Ex-Factory Sales", "Gross Contract  Sales % of Ex-Factory", "Gross Contract Sales", "Contract Units",
+		 "Contract Sales % of Total Contract Sales", "Deduction $", "Deduction %",
+		 "RPU", "Deduction % of Ex-Factory", "Net Contract Sales",
+		 "Net Contract Sales % of Ex-Factory", "Net Ex-Factory Sales", "Net Ex-Factory Sales % of Total Ex-Factory",
+		 "Weighted GTN Contribution"};
 
-		String[] variablesColumn = new String[] { "contractSales", "weightedGtn" };
-		// String[] variablesColumn = new String[]{"exfactory",
-		// "grossContractSalesPerExFactory", "contractSales", "contractUnits",
-		// "contractSalesPerTotalContractSales",
-		// "discountAmount", "discountPercent", "rpu", "deductionPerExfactory",
-		// "netContractSales", "netContractSalesPerExfactory", "netExfactorySales",
-		// "netExfactorySalesPerTotalExfactory", "weightedGtn"};
-		String[] variableCategoryColumn = new String[] { "Value", "Variance", "PerChange" };
-		String[] variableCategoryHeader = new String[] { "Value", "Variance", "% Change" };
-		// String[] variableCategoryColumn = new String[]{"Value", "Variance",
-		// "PerChange", "Volume", "Rate", "ChangeInChange"};
-		// String[] variableCategoryHeader = new String[]{"Value", "Variance", "%
-		// Change", "Volume", "Rate", "Change in Change"};
+//		String[] variablesColumn = new String[] { "contractSales", "weightedGtn" };
+		 String[] variablesColumn = new String[]{"exfactory",
+		 "grossContractSalesPerExFactory", "contractSales", "contractUnits",
+		 "contractSalesPerTotalContractSales",
+		 "discountAmount", "discountPercent", "rpu", "deductionPerExfactory",
+		 "netContractSales", "netContractSalesPerExfactory", "netExfactorySales",
+		 "netExfactorySalesPerTotalExfactory", "weightedGtn"};
+//		String[] variableCategoryColumn = new String[] { "Value", "Variance", "PerChange" };
+//		String[] variableCategoryHeader = new String[] { "Value", "Variance", "% Change" };
+		 String[] variableCategoryColumn = new String[]{"Value", "Variance",
+		 "PerChange", "Volume", "Rate", "ChangeInChange"};
+		 String[] variableCategoryHeader = new String[]{"Value", "Variance", "% Change", "Volume", "Rate", "Change in Change"};
 
 		List<Object[]> periods = getTimeRange(gtnForecastBean);
 		Object[] periodColumn = periods.get(0);
@@ -219,19 +217,19 @@ public class HeaderGeneratorService {
 			break;
 		case QUARTERLY:
 			period = calculatePeriod(month, 3);
-			commonColumn = "Q" + period + "-" + year;
+			commonColumn =  period + "_" + year;
 			commonHeader = "Q" + period + " " + year;
 			period *= 3;
 			break;
 		case SEMIANNUAL:
 			period = calculatePeriod(month, 6);
-			commonColumn = "S" + period + "-" + year;
+			commonColumn =  period + "_" + year;
 			commonHeader = "S" + period + " " + year;
 			period *= 6;
 			break;
 		case MONTHLY:
 			String monthName = getMonthForInt(month);
-			commonColumn = "M" + month + "-" + year;
+			commonColumn =   month + "_" + year;
 			commonHeader = monthName + " " + year;
 			period = ++month;
 			break;
@@ -413,7 +411,20 @@ public class HeaderGeneratorService {
 		return periodColumnHeader;
 	}
 	
-	// comparison breakdown grid Header service
+	
+        public GtnWsPagedTableResponse getVariableBreakdownHeaderColumns()
+			throws GtnFrameworkGeneralException {
+
+		GtnWsPagedTableResponse tableHeaderDTO = new GtnWsPagedTableResponse();
+		
+		tableHeaderDTO.addSingleColumn("q12017", "Q1 2017", String.class);
+		tableHeaderDTO.addSingleColumn("q22017", "Q2 2017", String.class);
+		tableHeaderDTO.addSingleColumn("q32017", "Q3 2017", String.class);
+		tableHeaderDTO.addSingleColumn("q42017", "Q4 2017", String.class);
+
+		return tableHeaderDTO;
+	}
+        // comparison breakdown grid Header service
 	public GtnWsPagedTreeTableResponse getComparisonBreakdownHeaderColumns()
 			throws GtnFrameworkGeneralException {
 

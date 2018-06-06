@@ -14,6 +14,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projection;
+import org.hibernate.transform.ResultTransformer;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -153,6 +155,26 @@ public class GtnFrameworkSqlQueryEngine {
 			queyValuelist = query.list();
 			queryLogger.endQueryLog(startTime, sqlQuery);
 			createQueryFile(fileName, query.toString());
+		} catch (Exception ex) {
+			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
+			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,
+					ex);
+		} finally {
+			session.close();
+		}
+		return queyValuelist;
+	}
+
+	public List<?> executeSelectQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type,
+			ResultTransformer transformer) throws GtnFrameworkGeneralException {
+		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
+		Session session = getSessionFactory().openSession();
+		List<?> queyValuelist = null;
+		try {
+			long startTime = queryLogger.startQueryLog(sqlQuery);
+			Query query = generateSQLQuery(session, sqlQuery, params, type);
+			queyValuelist = query.setResultTransformer(transformer).list();
+			queryLogger.endQueryLog(startTime, sqlQuery);
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
 			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,
@@ -370,6 +392,8 @@ public class GtnFrameworkSqlQueryEngine {
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
 			Query query = session.createSQLQuery(sqlQuery);
+
+			query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 			for (int i = 0; i < paramList.size(); i++) {
 				query.setParameter(i, paramList.get(i));
 			}
@@ -418,6 +442,12 @@ public class GtnFrameworkSqlQueryEngine {
 					ex);
 		}
 		return count;
+	}
+
+	public List<?> executeProcedure(String procedureName, List<Object> parameter) throws GtnFrameworkGeneralException {
+		String procedure = "EXEC " + procedureName;
+		return executeSelectQuery(procedure, parameter);
+
 	}
 
 }
