@@ -632,7 +632,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         variables.select(DISCOUNT_AMT.getConstant());     
         projectionSelection.setdPVariablesList(Arrays.asList(new String[]{ DISCOUNT_AMT.getConstant()}));
         }
+        if(session.getCustomDeductionRelationShipSid()==0){
+           viewDdlb.setValue(null);
+           newBtn.setEnabled(false); 
+        }
+        else{
         newBtn.setEnabled(true);
+        }
 
         startPeriodForecastTab.addItem(SELECT_ONE.getConstant());
         startPeriodForecastTab.setNullSelectionItemId(SELECT_ONE.getConstant());
