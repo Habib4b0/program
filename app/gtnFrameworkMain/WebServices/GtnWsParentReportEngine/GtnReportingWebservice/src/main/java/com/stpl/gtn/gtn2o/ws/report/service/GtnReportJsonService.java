@@ -2,10 +2,14 @@ package com.stpl.gtn.gtn2o.ws.report.service;
 
 import java.io.IOException;
 
+import org.springframework.stereotype.Service;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 
+
+@Service
 public class GtnReportJsonService {
 
 	public String convertObjectToJson(Object value) {
