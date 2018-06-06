@@ -421,6 +421,24 @@ public class GtnUIFrameworkBaseComponent {
 		}
 	}
 
+        public void clearTree() throws GtnFrameworkValidationFailedException {
+		try {
+			AbstractSelect tree = (AbstractSelect) getComponentData().getCustomData();
+			tree.getContainerDataSource().removeAllItems();
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+       
+       public Object getTreeItemIds() throws GtnFrameworkValidationFailedException {
+		try {
+			AbstractSelect tree = (AbstractSelect) getComponentData().getCustomData();
+			return !tree.getItemIds().isEmpty() ? tree.getItemIds() : null;
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+       
 	public void addItemToTreeDataTable(Object item, boolean childrenAllowed)
 			throws GtnFrameworkValidationFailedException {
 		try {
@@ -920,6 +938,10 @@ public class GtnUIFrameworkBaseComponent {
 
 	public void clearAllCalendarValue() {
 		((CalendarField) getComponent()).clearAllValue();
+	}
+
+        public void clearSelectedCalendarValue() {
+		((CalendarField) getComponent()).clearSelectedValue();
 	}
 
 	public void setSelectedWeekDays(int... days) {

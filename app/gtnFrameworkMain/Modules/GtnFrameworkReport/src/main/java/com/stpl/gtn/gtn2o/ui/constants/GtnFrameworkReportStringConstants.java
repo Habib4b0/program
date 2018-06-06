@@ -51,6 +51,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String RESET_CONFIRMATION_TABLE_MESSAGE = "Are you sure you want to reset the values in the table ?";
 
 	public static final String RETURNS = "returns";
+        
+        public static final String REPORT_CONFIG_FREQUENCY = "forecastConfigFrequency";
 
 	public static final String NDC_LAYOUT = "ndcLayout";
 
@@ -426,6 +428,10 @@ public final class GtnFrameworkReportStringConstants {
         private static final List<String> REPORT_DATAASSUMPTIONS_TAB_ID = Arrays.asList("dataAssumptionsPagedTableComponentdataAssumptionsTab0dataAssumptionsTab",
                 "dataAssumptionsPagedTableComponentdataAssumptionsTab1dataAssumptionsTab","dataAssumptionsPagedTableComponentdataAssumptionsTab2dataAssumptionsTab",
                 "dataAssumptionsPagedTableComponentdataAssumptionsTab3dataAssumptionsTab","dataAssumptionsPagedTableComponentdataAssumptionsTab4dataAssumptionsTab");
+
+        public static final String REPORT_LOOKUP_ACTION_PACKAGE = "com.stpl.gtn.gtn2o.ui.module.lookups.action.";
+        
+        public static final String REPORT_VARIABLE_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE+"GtnReportingVariableBreakdownHeaderLoadAction";
 
         public static List<String> getReportDataAssumptionsTabId() {
             return REPORT_DATAASSUMPTIONS_TAB_ID;

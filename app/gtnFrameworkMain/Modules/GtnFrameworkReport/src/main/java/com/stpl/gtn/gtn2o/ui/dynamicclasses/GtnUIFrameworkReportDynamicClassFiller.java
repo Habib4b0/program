@@ -40,6 +40,7 @@ import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnForecastEligibleDateLoadAc
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportForecastLevelLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownHeaderLoadAction;
 
 public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjectFiller {
 
@@ -126,9 +127,13 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnReportForecastLevelLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingVariableBreakdownGridLoadAction.class.getName(),
 				new GtnReportingVariableBreakdownGridLoadAction());
-		
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction.class.getName(),
+
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
+				GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction.class.getName(),
 				new GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction());
+
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingVariableBreakdownHeaderLoadAction.class.getName(),
+				new GtnReportingVariableBreakdownHeaderLoadAction());
 	}
 
 }
