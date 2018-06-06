@@ -106,14 +106,11 @@ public class NMDiscountExcelLogic {
                 LOGGER.info("-----------if-------------" + hierKeyValue);
                 discountProjectionDTO = new DiscountProjectionDTO();
                 String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(keyValue.trim()).get(4));
-//                setActualsProjectionValues(discountProjectionDTO, freq, obj, projectionSelection, hierarchyLevelDetails, doubleProjectedAndHistoryCombinedUniqueList);
                 LOGGER.info("-----------if---keyValue----------" + keyValue);
                 excelFormattedColumns(discountProjectionDTO, projectionSelection, keyValue, hierarchyIndicator, hierarchyLevelDetails);
                 resultMap.put(hierKeyValue.trim(), discountProjectionDTO);
                 hierarchykeys(hierKeyValue.trim());
-            } else {
-//                setActualsProjectionValues(discountProjectionDTO, freq, obj, projectionSelection, hierarchyLevelDetails, doubleProjectedAndHistoryCombinedUniqueList);
-            }
+            } 
         }
     }
     
