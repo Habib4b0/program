@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.report.service;
+package com.stpl.gtn.gtn2o.ws.report.serviceimpl;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;

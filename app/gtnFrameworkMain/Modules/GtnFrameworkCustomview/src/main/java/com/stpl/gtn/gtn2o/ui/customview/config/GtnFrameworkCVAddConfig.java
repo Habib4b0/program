@@ -401,7 +401,7 @@ public class GtnFrameworkCVAddConfig {
         tableStyle.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
         searchResultConfig.setComponentStyle(tableStyle);
         searchResultConfig.setComponentWidth(GtnFrameworkCssConstants.PIXEL_400);
-		searchResultConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_450);
+	searchResultConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_450);
 
         componentList.add(searchResultConfig);
 
@@ -494,7 +494,7 @@ public class GtnFrameworkCVAddConfig {
         tableStyle.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
         productTableConfig.setComponentStyle(tableStyle);
         productTableConfig.setComponentWidth(GtnFrameworkCssConstants.PIXEL_400);
-		productTableConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_450);
+	productTableConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_450);
 
         componentList.add(productTableConfig);
 

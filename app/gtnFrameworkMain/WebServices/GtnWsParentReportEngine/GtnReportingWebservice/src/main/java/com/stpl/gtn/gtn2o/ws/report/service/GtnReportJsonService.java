@@ -1,41 +1,72 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
+import java.io.File;
 import java.io.IOException;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
-
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 
 @Service
+@Scope(value = "singleton")
 public class GtnReportJsonService {
 
-	public String convertObjectToJson(Object value) {
+	private static final GtnWSLogger GTNLOGGER = GtnWSLogger.getGTNLogger(GtnReportJsonService.class);
+
+	public String convertObjectAsJsonString(Object value) {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			return mapper.writeValueAsString(value);
 		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+			GTNLOGGER.error(e.getMessage());
 		}
 
 		return "";
 	}
 
-	public Object convertJsonToObject(Class<?> classObj, String jsonInput) throws IOException {
+	public void writeObjectAsJson(Object input, File file) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		return mapper.readValue(jsonInput, classObj);
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+		mapper.writeValue(file, input);
 	}
 
-	public GtnWsReportDataSelectionBean buildCommandFromJson(String jsonInput) throws IOException {
+	public Object convertJsonToObject(String filePath, Class<?> classObj) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		return mapper.readValue(jsonInput, GtnWsReportDataSelectionBean.class);
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+		return mapper.readValue(new File(filePath), classObj);
 	}
 
-	public static GtnWsReportDataSelectionBean buildEventFromJson(String jsonInput) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		return mapper.readValue(jsonInput, GtnWsReportDataSelectionBean.class);
+	public File createJsonFilePath(String fileName, String sessionId) {
+		String folderName = getFolderName();
+		File folder = new File(folderName);
+		folder.mkdir();
+		String newFileName = getFileName(fileName, sessionId);
+		return getCreateFileWithSessionId(newFileName);
+	}
+
+	private String getFolderName() {
+		return getFilePath() + GtnWsQueryConstants.REPORTING;
+	}
+
+	private String getFileName(String filename, String sessionId) {
+		return getFolderName() + filename + GtnWsQueryConstants.UNDERSCORE + sessionId;
+	}
+
+	private File getCreateFileWithSessionId(String fileName) {
+		File file = new File(fileName);
+		file.deleteOnExit();
+		return file;
+	}
+
+	private String getFilePath() {
+		return System.getProperty("gtn.app.data.path");
 	}
 
 }

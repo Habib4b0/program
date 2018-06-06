@@ -137,13 +137,14 @@ public class GtnWsReportWebsevice {
 		}
 		if (criteriaMap.get("projectionType").equals("Contract")) {
 			comparisonResults = loadProjectionComparisonResults(criteriaMap);
-		}else{
+		} else {
 			comparisonResults = loadCFFComparisonResults(criteriaMap);
 		}
 		return comparisonResults;
 	}
 
-	private List<Object[]> loadProjectionComparisonResults(Map<String, String> criteriaMap) throws GtnFrameworkGeneralException {
+	private List<Object[]> loadProjectionComparisonResults(Map<String, String> criteriaMap)
+			throws GtnFrameworkGeneralException {
 		List<String> inputList = getInputList(criteriaMap);
 		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.NULL_ALLOWED, GtnFrameworkDataType.STRING,
 				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
@@ -153,8 +154,8 @@ public class GtnWsReportWebsevice {
 				.executeSelectQuery(sqlService.getQuery(inputList, "loadProjectionComparisonResults"));
 		return resultList;
 	}
-	
-	private List<String> getInputList(Map<String, String> criteriaMap){
+
+	private List<String> getInputList(Map<String, String> criteriaMap) {
 		List<String> inputList = new ArrayList<>();
 		boolean isProjectionStatus = false;
 		if (criteriaMap.get("workflowStatus").equals("Saved")) {
@@ -173,18 +174,19 @@ public class GtnWsReportWebsevice {
 		Object[] params = { workflowJoinQuery, marketType, comparisonBrand, projectionName, contractHolder, ndcName,
 				comparisonNDC, contract, projectionDescription };
 		inputList.add(workflowJoinQuery);
-		inputList.add("'" + marketType +"'");
+		inputList.add("'" + marketType + "'");
 		inputList.add("'" + comparisonBrand + "'");
 		inputList.add("'" + projectionName + "'");
 		inputList.add("'" + contractHolder + "'");
 		inputList.add("'" + ndcName + "'");
 		inputList.add("'" + comparisonNDC + "'");
 		inputList.add("'" + contract + "'");
-		inputList.add("'"+ projectionDescription + "'");
+		inputList.add("'" + projectionDescription + "'");
 		return inputList;
 	}
-	
-	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap) throws GtnFrameworkGeneralException{
+
+	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap)
+			throws GtnFrameworkGeneralException {
 		List<String> inputList = getInputList(criteriaMap);
 		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.NULL_ALLOWED, GtnFrameworkDataType.STRING,
 				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
@@ -254,7 +256,7 @@ public class GtnWsReportWebsevice {
 		inputList.add("'" + dataSelectionBean.getViewType() + "'");
 		inputList.add(userId);
 		inputList.add(userId);
-		inputList.add("'" + gtnReportJsonService.convertObjectToJson(dataSelectionBean) + "'");
+		inputList.add("'" + gtnReportJsonService.convertObjectAsJsonString(dataSelectionBean) + "'");
 		String query = sqlService.getQuery(inputList, "insertView");
 		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
 		return count;

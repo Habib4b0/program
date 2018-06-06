@@ -93,7 +93,7 @@ public class GtnReportComparisonProjectionBean {
 	}
 
 	public void setCreatedDate(Date createdDate) {
-		this.createdDate = (Date) createdDate.clone();
+		this.createdDate = createdDate;
 	}
 
 	public int getCreatedBy() {
