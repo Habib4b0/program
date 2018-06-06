@@ -24,16 +24,18 @@ import java.util.Map;
  *
  * @author Deepika.krishnakumar
  */
-public class GtnFrameworkPSDeleteAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass{
+public class GtnFrameworkPSDeleteAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        return;
-    }
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		return;
+	}
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-      List<Object> parametersList = gtnUIFrameWorkActionConfig.getActionParameterList();
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		List<Object> parametersList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String psDeleteUrl = (String) parametersList.get(1);
 		String psTableId = (String) parametersList.get(2);
 		String psPropertyId = (String) parametersList.get(3);
@@ -51,8 +53,9 @@ public class GtnFrameworkPSDeleteAction implements GtnUIFrameWorkAction, GtnUIFr
 		if (!isAdditionalProp) {
 			psSystemId = (Integer) gtnWsRecordBeanData.getPropertyValue(psPropertyId);
 		} else {
-			psSystemId = gtnWsRecordBeanData != null ? Integer.valueOf(String.valueOf(gtnWsRecordBeanData.getProperties().get(indexVal)))
-                                : (Integer) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID);
+			psSystemId = gtnWsRecordBeanData != null
+					? Integer.valueOf(String.valueOf(gtnWsRecordBeanData.getProperties().get(indexVal)))
+					: (Integer) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID);
 		}
 
 		callWebService(psSystemId, psDeleteUrl);
@@ -67,7 +70,8 @@ public class GtnFrameworkPSDeleteAction implements GtnUIFrameWorkAction, GtnUIFr
 
 		if ((Integer) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID) != null
 				|| (Integer) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID) != 0) {
-			inputMapValues.put("sysId", GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID));
+			inputMapValues.put("sysId",
+					GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID));
 		} else {
 			inputMapValues.put("sysId", psSysId);
 
@@ -81,9 +85,9 @@ public class GtnFrameworkPSDeleteAction implements GtnUIFrameWorkAction, GtnUIFr
 
 	}
 
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-      return this;
-    }
-    
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
+
 }

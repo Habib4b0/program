@@ -21,51 +21,55 @@ import java.util.List;
  */
 public class GtnFrameworkOptionGroupChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        // No Need to Implement. Its an unused method.
-    }
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		// No Need to Implement. Its an unused method.
+	}
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
-        GtnUIFrameworkBaseComponent component = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId);
-        String optionValue = component.getStringFromField();
-        GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(parameters.get(2).toString());
-        GtnUIFrameworkBaseComponent tableBaseLayout = GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(parameters.get(1).toString());
-        
-        
-         GtnUIFrameworkBaseComponent customTreePanel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(4).toString());
-         
-         
-         GtnUIFrameworkBaseComponent customTreeLayout = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(5).toString());
-         
-         
-         GtnUIFrameworkBaseComponent customTreeVerticalLayout = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(6).toString());
-         
-          GtnUIFrameworkBaseComponent customTreeConstructPanel = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(7).toString());
-          
-           GtnUIFrameworkBaseComponent customTreeV001Layout = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(8).toString());
-           
-        if (GtnFrameworkCVConstants.CUSTOM_VIEW_OPTION_DISCOUNT.equals(optionValue)) {
-            tableBaseComponent.setVisible(true);
-            tableBaseLayout.setVisible(true);
-            customTreePanel.getComponent().setHeight(GtnFrameworkCssConstants.PIXEL_1500);
-            customTreeLayout.getComponent().setHeight(GtnFrameworkCssConstants.PIXEL_1500);
-            customTreeVerticalLayout.getComponent().setHeight(GtnFrameworkCssConstants.PIXEL_1500);
-            customTreeConstructPanel.getComponent().setHeight("1457px");
-            customTreeV001Layout.getComponent().setHeight(GtnFrameworkCssConstants.PIXEL_1500);
-        } else {
-            tableBaseComponent.setVisible(false);
-            tableBaseLayout.setVisible(false);
-        }
-    }
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
+		GtnUIFrameworkBaseComponent component = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId);
+		String optionValue = component.getStringFromField();
+		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(parameters.get(2).toString());
+		GtnUIFrameworkBaseComponent tableBaseLayout = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(parameters.get(1).toString());
 
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-        return this;
-    }
+		GtnUIFrameworkBaseComponent customTreePanel = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(parameters.get(4).toString());
+
+		GtnUIFrameworkBaseComponent customTreeLayout = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(parameters.get(5).toString());
+
+		GtnUIFrameworkBaseComponent customTreeVerticalLayout = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(parameters.get(6).toString());
+
+		GtnUIFrameworkBaseComponent customTreeConstructPanel = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(parameters.get(7).toString());
+
+		GtnUIFrameworkBaseComponent customTreeV001Layout = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(parameters.get(8).toString());
+
+		if (GtnFrameworkCVConstants.CUSTOM_VIEW_OPTION_DISCOUNT.equals(optionValue)) {
+			tableBaseComponent.setVisible(true);
+			tableBaseLayout.setVisible(true);
+			customTreePanel.getComponent().setHeight(GtnFrameworkCssConstants.PIXEL_1500);
+			customTreeLayout.getComponent().setHeight(GtnFrameworkCssConstants.PIXEL_1500);
+			customTreeVerticalLayout.getComponent().setHeight(GtnFrameworkCssConstants.PIXEL_1500);
+			customTreeConstructPanel.getComponent().setHeight("1457px");
+			customTreeV001Layout.getComponent().setHeight(GtnFrameworkCssConstants.PIXEL_1500);
+		} else {
+			tableBaseComponent.setVisible(false);
+			tableBaseLayout.setVisible(false);
+		}
+	}
+
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
 
 }

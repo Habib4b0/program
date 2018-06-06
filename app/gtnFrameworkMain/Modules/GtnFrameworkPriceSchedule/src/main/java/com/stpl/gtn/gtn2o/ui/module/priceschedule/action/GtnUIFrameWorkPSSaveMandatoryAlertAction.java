@@ -39,7 +39,7 @@ public class GtnUIFrameWorkPSSaveMandatoryAlertAction implements GtnUIFrameWorkA
 			throws GtnFrameworkGeneralException {
 
 		StringBuilder fieldMsg = new StringBuilder();
-		
+
 		GtnUIFrameworkGlobalUI.validateFields(GtnFrameworkPSConstants.getFields(), fieldMsg);
 
 		Date psStartDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleStartDate")
@@ -60,9 +60,9 @@ public class GtnUIFrameWorkPSSaveMandatoryAlertAction implements GtnUIFrameWorkA
 			infoBean.setPsId(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleId1").getStringFromField());
 			infoBean.setPsNo(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleNo1").getStringFromField());
 			Integer systemId = (Integer) GtnUIFrameworkGlobalUI.getSessionProperty("systemId");
-                         String copyMode = GtnUIFrameworkGlobalUI.getSessionProperty("mode").toString();
-			infoBean.setSystemId(systemId == null ? Integer.valueOf(0): systemId);
-                        infoBean.setMode(copyMode);
+			String copyMode = GtnUIFrameworkGlobalUI.getSessionProperty("mode").toString();
+			infoBean.setSystemId(systemId == null ? Integer.valueOf(0) : systemId);
+			infoBean.setMode(copyMode);
 
 			imRequest.setPsInfoBean(infoBean);
 

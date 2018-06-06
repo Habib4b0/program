@@ -19,7 +19,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import java.util.List;
 
 /**
@@ -28,7 +27,7 @@ import java.util.List;
  */
 public class GtnFrameworkCVDeleteValidationAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-    private final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkCVDeleteValidationAction.class);
+    private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkCVDeleteValidationAction.class);
 
     @Override
     public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
