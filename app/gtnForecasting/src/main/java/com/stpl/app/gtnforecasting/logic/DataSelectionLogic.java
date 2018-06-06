@@ -47,7 +47,6 @@ import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.displayformat.main.RelationshipLevelValuesMasterBean;
 import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
 import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
 import com.stpl.app.gtnforecasting.salesprojectionresults.logic.SPRCommonLogic;
@@ -80,6 +79,7 @@ import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.app.utils.Constants.IndicatorConstants;
+import static com.stpl.app.utils.Constants.LabelConstants.DATA_SELECTION_LANDING_SCREEN;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
@@ -2631,7 +2631,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(",'").append(screenName).append('\'')
                                 .append(",'").append(view).append('\'')
                                 .append(",'").append(startPeriod).append('\'')
-                                .append(",").append(endPeriod).append("")
+                                .append(",'").append(endPeriod).append('\'')
                                 .append(",'").append(updateUnitField).append('\'')
                                 .append(",'").append(deductionMasterSid).append('\'')
                                 .append(',').append("null")
@@ -2980,6 +2980,11 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
         }
 
     }
-   
     
+    public void saveFreqAndDedLevel(int projectionIdValue, DataSelectionDTO dataselectionDtoToSave) {
+        Map map = new HashMap();
+        map.put(Constant.FREQUENCY, dataselectionDtoToSave.getFrequency());
+        map.put(Constant.DATA_SELECTION_DED_LEVEL, dataselectionDtoToSave.getDataSelectionDeductionLevelSid());
+        CommonLogic.saveProjectionSelection(map, projectionIdValue, DATA_SELECTION_LANDING_SCREEN.getConstant());
+    }
 }

@@ -103,10 +103,7 @@ public class BpmProcessBean {
 	}
 
 	public List<String> getPotentialOwners(long taskId, List<String> roleList, String moduleName) {
-		List<String> rolesNameList = roleList;
-		if (rolesNameList == null) {
-			rolesNameList = new ArrayList<>();
-		}
+		List<String> rolesNameList = roleList!= null ? new ArrayList<>(roleList) : roleList;
 		List<OrganizationalEntity> list = bpmManagerBean.getRuntimeEngine(moduleName).getTaskService()
 				.getTaskById(taskId).getPeopleAssignments().getPotentialOwners();
 		LOGGER.info("OrganizationalEntity list  :" + list);

@@ -359,9 +359,20 @@ GROUP BY SHN.HIERARCHY_NO,
                                           AVG(PRODUCT_GROWTH)  PRODUCT_GROWTH
 
                                                                        
-                                                                        FROM ST_CUSTOM_SALES STC JOIN CUSTOM_CCP_SALES CO ON CO.ROWID=STC.HIERARCHY_NO
-                                                                         JOIN #SELECTED_HIERARCHY_NO SH ON CO.HIERARCHY_NO LIKE SH.HIERARCHY_NO+'%' AND CO.CUST_VIEW_MASTER_SID=@CUSTOMSID    
-                                                                                                                         AND LEVEL_NO=@LASTLEVEL    
+                                                                        FROM ST_CUSTOM_SALES STC JOIN (SELECT LEVEL_NO,
+                                    CUST_VIEW_MASTER_SID,
+                                    ROWID,
+                                    HIERARCHY_NO
+                             FROM   CUSTOM_CCP_SALES
+                             WHERE  CUST_VIEW_MASTER_SID = @CUSTOMSID
+                                    AND LEVEL_NO = @LASTLEVEL
+                             GROUP  BY LEVEL_NO,
+                                       CUST_VIEW_MASTER_SID,
+                                       ROWID,
+                                       HIERARCHY_NO) CO ON CO.ROWID=STC.HIERARCHY_NO
+                                                                         JOIN #SELECTED_HIERARCHY_NO SH ON CO.HIERARCHY_NO LIKE SH.HIERARCHY_NO+'%' 
+
+                                                                                                                         
                                                                      
                                                                            WHERE INDICATOR=0  @SALESINCLUSION
                                                                            GROUP BY  SH.HIERARCHY_NO,
@@ -384,9 +395,20 @@ GROUP BY SHN.HIERARCHY_NO,
                                           AVG(PRODUCT_GROWTH)  PRODUCT_GROWTH
 
                                                                        
-                                                                        FROM ST_CUSTOM_SALES STC JOIN CUSTOM_CCP_SALES CO ON CO.ROWID=STC.HIERARCHY_NO
-                                                                         JOIN #SELECTED_HIERARCHY_NO SH ON CO.HIERARCHY_NO LIKE SH.HIERARCHY_NO+'%' AND CO.CUST_VIEW_MASTER_SID=@CUSTOMSID  
-                                                                                                                           AND LEVEL_NO=@LASTLEVEL    
+                                                                        FROM ST_CUSTOM_SALES STC JOIN (SELECT LEVEL_NO,
+                                    CUST_VIEW_MASTER_SID,
+                                    ROWID,
+                                    HIERARCHY_NO
+                             FROM   CUSTOM_CCP_SALES
+                             WHERE  CUST_VIEW_MASTER_SID = @CUSTOMSID
+                                    AND LEVEL_NO = @LASTLEVEL
+                             GROUP  BY LEVEL_NO,
+                                       CUST_VIEW_MASTER_SID,
+                                       ROWID,
+                                       HIERARCHY_NO) CO ON CO.ROWID=STC.HIERARCHY_NO
+                                                                         JOIN #SELECTED_HIERARCHY_NO SH ON CO.HIERARCHY_NO LIKE SH.HIERARCHY_NO+'%' 
+
+                                                                                                                           
                                                                      
                                                                            WHERE INDICATOR=1  @SALESINCLUSION
                                                                            GROUP BY  SH.HIERARCHY_NO,
