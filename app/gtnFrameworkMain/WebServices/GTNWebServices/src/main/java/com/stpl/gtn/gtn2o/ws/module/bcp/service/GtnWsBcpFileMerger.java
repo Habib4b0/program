@@ -29,7 +29,7 @@ public class GtnWsBcpFileMerger {
 			String folderName) throws IOException, InterruptedException {
         try {
 		Path path = GtnFileNameUtils.getPath(finalFile.substring(0, finalFile.lastIndexOf('/')));
-		if (!Files.exists(path)) {
+		if (!path.toFile().exists()) {
                     GTNLOGGER.info("path ====="+path.toString());
 			Files.createDirectories(path);
 		}

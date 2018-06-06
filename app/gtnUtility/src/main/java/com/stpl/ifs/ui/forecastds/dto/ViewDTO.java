@@ -125,6 +125,8 @@ public class ViewDTO {
     private String businessUnitSystemName = StringUtils.EMPTY;
     private Integer custHierarchyVersion ;
     private Integer prodHierarchyVersion ;
+    private String dataSelectionFrequency ;
+    private Integer dataSelectionDedLevel ;
 
     /**
      * Gets the view name.
@@ -620,6 +622,22 @@ public class ViewDTO {
 
     public void setProdHierarchyVersion(Integer prodHierarchyVersion) {
         this.prodHierarchyVersion = prodHierarchyVersion;
+    }
+
+    public String getDataSelectionFrequency() {
+        return dataSelectionFrequency;
+    }
+
+    public void setDataSelectionFrequency(String dataSelectionFrequency) {
+        this.dataSelectionFrequency = dataSelectionFrequency;
+    }
+
+    public Integer getDataSelectionDedLevel() {
+        return dataSelectionDedLevel;
+    }
+
+    public void setDataSelectionDedLevel(Integer dataSelectionDedLevel) {
+        this.dataSelectionDedLevel = dataSelectionDedLevel;
     }
     
 }

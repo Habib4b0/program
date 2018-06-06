@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportCustHierarchyCon
 import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnForecastEligibleDateLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownHeaderLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -110,7 +111,7 @@ public class GtnFrameworkReportLandingScreenConfig {
         landingScreenVariableBreakdownFrequencyConfig.setParentComponentId(landingScreenVariableBreakdownFrequencyLayoutConfig.getComponentId());
 
         GtnUIFrameworkComboBoxConfig landingScreenVariableBreakdownLoadConfig = new GtnUIFrameworkComboBoxConfig();
-        landingScreenVariableBreakdownLoadConfig.setComboBoxType(GtnFrameworkReportStringConstants.STATUS);
+        landingScreenVariableBreakdownLoadConfig.setComboBoxType(GtnFrameworkReportStringConstants.REPORT_CONFIG_FREQUENCY);
         landingScreenVariableBreakdownLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
                 + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
         landingScreenVariableBreakdownFrequencyConfig.setGtnComboboxConfig(landingScreenVariableBreakdownLoadConfig);
@@ -210,7 +211,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		variableBreakDownGridLoad.addActionParameter(GtnReportingVariableBreakdownGridLoadAction.class.getName());
 		variableBreakDownGridLoad.addActionParameter("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent");                
-               
+            
                 landingScreenVariableBreakdownActionConfigList.add(variableBreakDownGridLoad);
                 
 		landingScreenVariableBreakdownConfig

@@ -187,8 +187,7 @@ public class GtnWsReportingDashboardController {
 		try {
 			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
-			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
-			GtnWsPagedTableResponse leftHeader = reportHeaderService.getVariableBreakdownHeaderColumns();
+			GtnWsPagedTableResponse leftHeader = reportHeaderService.getVariableBreakdownHeaderColumns(gtnUIFrameworkWebserviceRequest);
 			gtnUIFrameworkWebserviceResponse.setGtnWsPagedTableResponse(leftHeader);
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (GtnFrameworkGeneralException ex) {

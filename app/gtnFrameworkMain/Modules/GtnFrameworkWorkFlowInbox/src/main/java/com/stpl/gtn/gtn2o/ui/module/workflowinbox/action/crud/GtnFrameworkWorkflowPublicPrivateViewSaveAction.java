@@ -119,7 +119,7 @@ public class GtnFrameworkWorkflowPublicPrivateViewSaveAction
 				if (combocomponent.equals(GtnFrameworkCommonStringConstants.ARM)) {
 					workflowViewId = Integer.parseInt((String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(6))));
 				} else {
-					workflowViewId = Integer.parseInt((String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(11))));
+					workflowViewId = Integer.parseInt((String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(10))));
 				}
 
 				projMasterBean.setWorkflowSid(workflowViewId);
@@ -305,7 +305,7 @@ public class GtnFrameworkWorkflowPublicPrivateViewSaveAction
 		projMasterBean.setBusinessProcess(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getFieldValues().get(48), componentId)
 				.getStringFromField());
-		projMasterBean.setCreatedByPrivate(GtnUIFrameworkGlobalUI
+		projMasterBean.setCreatedBy(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getFieldValues().get(49), componentId)
 				.getStringFromField());
 		projMasterBean.setApprovedBy(GtnUIFrameworkGlobalUI
