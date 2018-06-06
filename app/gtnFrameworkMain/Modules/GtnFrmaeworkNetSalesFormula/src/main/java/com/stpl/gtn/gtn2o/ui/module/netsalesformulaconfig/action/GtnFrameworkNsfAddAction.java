@@ -11,9 +11,7 @@ public class GtnFrameworkNsfAddAction implements GtnUIFrameWorkAction, GtnUIFram
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		/*
-		 * No need Implementation
-		 */
+		// Empty method
 		
 	}
 
@@ -25,10 +23,7 @@ public class GtnFrameworkNsfAddAction implements GtnUIFrameWorkAction, GtnUIFram
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		/*
-		 * No need Implementation
-		 */
-		return null;
+		return this;
 	}
 	
 }
