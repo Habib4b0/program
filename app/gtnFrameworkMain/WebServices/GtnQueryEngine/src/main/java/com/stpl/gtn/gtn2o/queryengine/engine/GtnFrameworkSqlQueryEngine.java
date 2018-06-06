@@ -15,7 +15,6 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projection;
 import org.hibernate.transform.ResultTransformer;
-import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -392,8 +391,6 @@ public class GtnFrameworkSqlQueryEngine {
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
 			Query query = session.createSQLQuery(sqlQuery);
-
-			query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 			for (int i = 0; i < paramList.size(); i++) {
 				query.setParameter(i, paramList.get(i));
 			}
@@ -448,6 +445,12 @@ public class GtnFrameworkSqlQueryEngine {
 		String procedure = "EXEC " + procedureName;
 		return executeSelectQuery(procedure, parameter);
 
+	}
+
+	public void executeProcedure(String procedureName, Object[] params, GtnFrameworkDataType[] type)
+			throws GtnFrameworkGeneralException {
+		String procedureCall = " EXEC " + procedureName;
+		executeInsertOrUpdateQuery(procedureCall, params, type);
 	}
 
 }

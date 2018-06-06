@@ -661,10 +661,14 @@ where
                      INNER JOIN CUSTOM_VIEW_VARIABLES CVV
                              ON CVD.CUSTOM_VIEW_DETAILS_SID = CVV.CUSTOM_VIEW_DETAILS_SID
                                      AND CUSTOM_VIEW_MASTER_SID = ?
+                                     AND CVD.HIERARCHY_INDICATOR = 'V'
                      INNER JOIN HELPER_TABLE HT
                              ON HT.HELPER_TABLE_SID = CVV.VARIABLE_SID
                      INNER JOIN CUSTOM_VARIABLE_HIERARCHY CVH
                              ON CVH.CUSTOM_VIEW_DETAILS_SID = CVD.CUSTOM_VIEW_DETAILS_SID
+                             AND CVH.LEVEL_NO = CVD.LEVEL_NO
+							 AND CVH.RELATIONSHIP_LEVEL_VALUES=CVV.VARIABLE_SID
+                             
             ]]>
 	</entry>
 		

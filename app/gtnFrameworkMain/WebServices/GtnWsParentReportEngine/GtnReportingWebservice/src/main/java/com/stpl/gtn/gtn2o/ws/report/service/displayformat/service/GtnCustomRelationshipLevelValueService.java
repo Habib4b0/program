@@ -62,8 +62,7 @@ public class GtnCustomRelationshipLevelValueService {
 		input.add(String.valueOf(tempListObject[0]));
 		input.add(getDisplayFormatColumnClause(gtnDisplayFormatMasterBean.getDisplayFormatList(),
 				String.valueOf(tempListObject[NumericConstants.ZERO]), bean));
-		// input.add(dataSelectionBean.getCustomViewMasterSid);
-		input.add("24");
+		input.add(dataSelectionBean.getCustomViewMasterSid());
 		input.add(String.valueOf(tempListObject[NumericConstants.ONE]));
 		input.add(String.valueOf(tempListObject[NumericConstants.TWO]));
 		input.add(String.valueOf(tempListObject[NumericConstants.FOUR]));
@@ -80,8 +79,7 @@ public class GtnCustomRelationshipLevelValueService {
 		input.add(isRsId ? " TEMP.RS_ID " : " HT.DESCRIPTION ");
 		input.add(getDisplayFormatColumnClause(gtnDisplayFormatMasterBean.getDisplayFormatList(),
 				String.valueOf(tempListObject[NumericConstants.ZERO]), bean));
-		// input.add(dataSelectionBean.getCustomViewMasterSid);
-		input.add("24");
+		input.add(dataSelectionBean.getCustomViewMasterSid());
 		input.add(isUdc ? " TEMP.RS_CONTRACT_SID=U.MASTER_SID AND U.MASTER_TYPE='RS_CONTRACT' "
 				: " TEMP." + tempListObject[NumericConstants.THREE] + " = CVH.RELATIONSHIP_LEVEL_VALUES ");
 		if (isUdc) {
@@ -100,7 +98,7 @@ public class GtnCustomRelationshipLevelValueService {
 		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
 		List<Object> input = new ArrayList<>();
 		input.add(RelationshipLevelValuesMasterBean.DEFAULT_QUESTION);
-		input.add(24);
+		input.add(dataSelectionBean.getCustomViewMasterSid());
 		bean.setQuery(sqlService.getQuery(input, "getCustomViewRelationshipLevelValuesVariable"));
 		return bean;
 	}
@@ -150,7 +148,7 @@ public class GtnCustomRelationshipLevelValueService {
 			finalQry.append(query.getQuery().replace(RelationshipLevelValuesMasterBean.DEFAULT_QUESTION,
 					generateDefaultSelectClause(query.getNoOfSelectFormed())));
 		}
-		finalQry.append("ORDER BY LEVEL_NO DESC");
+		finalQry.append("ORDER BY LEVEL_NO ");
 		return finalQry.toString();
 	}
 
