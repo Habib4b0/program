@@ -44,6 +44,7 @@ public class GtnWsReportDataSelectionBean {
 	private String viewName;
 	private String viewType;
 	private Integer viewId;
+	private int customViewMasterSid;
 
 	public int getProductRelationshipBuilderSid() {
 		return productRelationshipBuilderSid;
@@ -305,6 +306,14 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setComparisonProjectionBeanList(List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
 		this.comparisonProjectionBeanList = comparisonProjectionBeanList;
+	}
+
+	public int getCustomViewMasterSid() {
+		return customViewMasterSid;
+	}
+
+	public void setCustomViewMasterSid(int customViewMasterSid) {
+		this.customViewMasterSid = customViewMasterSid;
 	}
 
 }
