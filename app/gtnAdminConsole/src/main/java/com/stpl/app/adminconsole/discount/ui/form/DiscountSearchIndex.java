@@ -927,9 +927,9 @@ public class DiscountSearchIndex extends CustomComponent implements View {
                                     deductionGroupSid = 0;
 
                                 } catch (SystemException e) {
-                                    final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
+                                    final String errorMessage = ErrorCodeUtil.getErrorMessage(e);
                                     LOGGER.error(e.getMessage());
-                                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
+                                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMessage);
                                 } catch (PortalException e) {
                                     LOGGER.error(e.getMessage());
                                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));

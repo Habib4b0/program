@@ -376,44 +376,44 @@ public class GtnFrameworkCVAddConfig {
 	private void addCustomViewTableLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespacePrefix) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getVerticalLayoutConfig(
 				GtnFrameworkCVConstants.CV_TREE_VERTICAL_LAYOUT, true, GtnFrameworkCVConstants.CUSTOM_VIEW_TREE_LAYOUT);
-		gtnLayout.setMargin(true);
-		gtnLayout.setSpacing(true);
-		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_50);
-		gtnLayout.setComponentHight(GtnFrameworkCssConstants.PIXEL_1000);
-		componentList.add(gtnLayout);
-		addCustomViewTreeStructureComponent(componentList, namespacePrefix);
-	}
+        gtnLayout.setMargin(true);
+        gtnLayout.setSpacing(true);
+        gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_50);
+        gtnLayout.setComponentHight(GtnFrameworkCssConstants.PIXEL_1000);
+        componentList.add(gtnLayout);
+        addCustomViewTreeStructureComponent(componentList, namespacePrefix);
+    }
 
 	private void addCustomViewTreeStructureComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespacePrefix) {
-		addCustomerTreeComponent(componentList, namespacePrefix);
-		addCustomerMoveButtonsComponent(componentList, namespacePrefix);
-		addProductTreeComponent(componentList, namespacePrefix);
-		addProductMoveButtonsComponent(componentList, namespacePrefix);
-		addDeductionHierarchyTable(componentList, namespacePrefix);
-		addDeductionMoveButtonsComponent(componentList, namespacePrefix);
-	}
+        addCustomerTreeComponent(componentList, namespacePrefix);
+        addCustomerMoveButtonsComponent(componentList, namespacePrefix);
+        addProductTreeComponent(componentList, namespacePrefix);
+        addProductMoveButtonsComponent(componentList, namespacePrefix);
+        addDeductionHierarchyTable(componentList, namespacePrefix);
+        addDeductionMoveButtonsComponent(componentList, namespacePrefix);
+    }
 
-	private void addCustomerTreeComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
-		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
-				namspacePrefix + GtnFrameworkCVConstants.CUSTOMER_TREE_LAYOUT, true,
-				GtnFrameworkCVConstants.CV_TREE_VERTICAL_LAYOUT);
-		componentList.add(gtnLayout);
+    private void addCustomerTreeComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+        GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
+                namspacePrefix + GtnFrameworkCVConstants.CUSTOMER_TREE_LAYOUT, true,
+                GtnFrameworkCVConstants.CV_TREE_VERTICAL_LAYOUT);
+        componentList.add(gtnLayout);
 
-		GtnUIFrameworkComponentConfig searchResultConfig = configProvider.getUIFrameworkComponentConfig(
-				namspacePrefix + GtnFrameworkCVConstants.CUSTOMER_LEVEL, true,
-				namspacePrefix + GtnFrameworkCVConstants.CUSTOMER_TREE_LAYOUT, GtnUIFrameworkComponentType.DATATABLE);
-		searchResultConfig.setAuthorizationIncluded(true);
-		searchResultConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		searchResultConfig.setComponentName("Customer Hierarchy");
-		List<String> tableStyle = new ArrayList<>();
-		tableStyle.add(GtnFrameworkCssConstants.FILTERBAR);
-		tableStyle.add(GtnFrameworkCssConstants.V_HAS_WIDTH);
-		tableStyle.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
-		tableStyle.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
-		searchResultConfig.setComponentStyle(tableStyle);
-		searchResultConfig.setComponentWidth(GtnFrameworkCssConstants.PIXEL_400);
-		searchResultConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_450);
+        GtnUIFrameworkComponentConfig searchResultConfig = configProvider.getUIFrameworkComponentConfig(
+                namspacePrefix + GtnFrameworkCVConstants.CUSTOMER_LEVEL, true,
+                namspacePrefix + GtnFrameworkCVConstants.CUSTOMER_TREE_LAYOUT, GtnUIFrameworkComponentType.DATATABLE);
+        searchResultConfig.setAuthorizationIncluded(true);
+        searchResultConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+        searchResultConfig.setComponentName("Customer Hierarchy");
+        List<String> tableStyle = new ArrayList<>();
+        tableStyle.add(GtnFrameworkCssConstants.FILTERBAR);
+        tableStyle.add(GtnFrameworkCssConstants.V_HAS_WIDTH);
+        tableStyle.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
+        tableStyle.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
+        searchResultConfig.setComponentStyle(tableStyle);
+        searchResultConfig.setComponentWidth(GtnFrameworkCssConstants.PIXEL_400);
+	searchResultConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_450);
 
 		componentList.add(searchResultConfig);
 
@@ -474,42 +474,42 @@ public class GtnFrameworkCVAddConfig {
 		GtnUIFrameworkComponentConfig customerRemoveButtonConfig = configProvider.getUIFrameworkComponentConfig(
 				namspacePrefix + "gtnCustomerLesserButton", true,
 				GtnFrameworkCVConstants.CUSTOMER_ADD_BUTTON_MOVE_LEFT_BUTTON_LAYOUT,
-				GtnUIFrameworkComponentType.BUTTON);
-		customerRemoveButtonConfig.setAuthorizationIncluded(true);
-		customerRemoveButtonConfig.setComponentName("<");
-		componentList.add(customerRemoveButtonConfig);
+                GtnUIFrameworkComponentType.BUTTON);
+        customerRemoveButtonConfig.setAuthorizationIncluded(true);
+        customerRemoveButtonConfig.setComponentName("<");
+        componentList.add(customerRemoveButtonConfig);
 
-		GtnUIFrameWorkActionConfig removeFromTreeAction = configProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		removeFromTreeAction.addActionParameter(GtnFrameworkRemoveAction.class.getName());
-		removeFromTreeAction.addActionParameter(namspacePrefix + GtnFrameworkCVConstants.CUSTOMER_LEVEL);
-		removeFromTreeAction.addActionParameter(namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_TREE);
-		removeFromTreeAction.addActionParameter("C");
-		List<GtnUIFrameWorkActionConfig> removeActionConfigList = new ArrayList<>();
-		removeActionConfigList.add(removeFromTreeAction);
-		customerRemoveButtonConfig.setGtnUIFrameWorkActionConfigList(removeActionConfigList);
-	}
+        GtnUIFrameWorkActionConfig removeFromTreeAction = configProvider
+                .getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+        removeFromTreeAction.addActionParameter(GtnFrameworkRemoveAction.class.getName());
+        removeFromTreeAction.addActionParameter(namspacePrefix + GtnFrameworkCVConstants.CUSTOMER_LEVEL);
+        removeFromTreeAction.addActionParameter(namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_TREE);
+        removeFromTreeAction.addActionParameter("C");
+        List<GtnUIFrameWorkActionConfig> removeActionConfigList = new ArrayList<>();
+        removeActionConfigList.add(removeFromTreeAction);
+        customerRemoveButtonConfig.setGtnUIFrameWorkActionConfigList(removeActionConfigList);
+    }
 
-	private void addProductTreeComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
-		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
-				namspacePrefix + GtnFrameworkCVConstants.PRODUCT_TREE_LAYOUT, true,
-				GtnFrameworkCVConstants.CV_TREE_VERTICAL_LAYOUT);
-		componentList.add(gtnLayout);
+    private void addProductTreeComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
+        GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
+                namspacePrefix + GtnFrameworkCVConstants.PRODUCT_TREE_LAYOUT, true,
+                GtnFrameworkCVConstants.CV_TREE_VERTICAL_LAYOUT);
+        componentList.add(gtnLayout);
 
-		GtnUIFrameworkComponentConfig productTableConfig = configProvider.getUIFrameworkComponentConfig(
-				namspacePrefix + GtnFrameworkCVConstants.PRODUCT_LEVEL, true,
-				namspacePrefix + GtnFrameworkCVConstants.PRODUCT_TREE_LAYOUT, GtnUIFrameworkComponentType.DATATABLE);
-		productTableConfig.setAuthorizationIncluded(true);
-		productTableConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		productTableConfig.setComponentName("Product Hierarchy");
-		List<String> tableStyle = new ArrayList<>();
-		tableStyle.add(GtnFrameworkCssConstants.FILTERBAR);
-		tableStyle.add(GtnFrameworkCssConstants.V_HAS_WIDTH);
-		tableStyle.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
-		tableStyle.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
-		productTableConfig.setComponentStyle(tableStyle);
-		productTableConfig.setComponentWidth(GtnFrameworkCssConstants.PIXEL_400);
-		productTableConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_450);
+        GtnUIFrameworkComponentConfig productTableConfig = configProvider.getUIFrameworkComponentConfig(
+                namspacePrefix + GtnFrameworkCVConstants.PRODUCT_LEVEL, true,
+                namspacePrefix + GtnFrameworkCVConstants.PRODUCT_TREE_LAYOUT, GtnUIFrameworkComponentType.DATATABLE);
+        productTableConfig.setAuthorizationIncluded(true);
+        productTableConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+        productTableConfig.setComponentName("Product Hierarchy");
+        List<String> tableStyle = new ArrayList<>();
+        tableStyle.add(GtnFrameworkCssConstants.FILTERBAR);
+        tableStyle.add(GtnFrameworkCssConstants.V_HAS_WIDTH);
+        tableStyle.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
+        tableStyle.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
+        productTableConfig.setComponentStyle(tableStyle);
+        productTableConfig.setComponentWidth(GtnFrameworkCssConstants.PIXEL_400);
+	productTableConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_450);
 
 		componentList.add(productTableConfig);
 

@@ -4178,14 +4178,17 @@ public class CommonLogic {
         int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             int entryLevel = Integer.parseInt(entry.getValue().get(2).toString());
-            if ((entryLevel >= levelNo) && (hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
+            boolean checkHierarchy = hierarchyCheck(hierarchyNo, hierarchyIndicator, levelNo, isHierarchyNoNotAvailable, entry, entryLevel);
+            if (checkHierarchy) {
                 if (isNotFirstElement) {
                     stringBuilder.append(",\n");
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
                 if(!flag){
-                stringBuilder.append("'," ).append( i++ ).append( ')');
+                stringBuilder.append("'," );
+                stringBuilder.append( i++ );
+                stringBuilder.append( ')');
                 }else{
                 stringBuilder.append("')");
                 }
@@ -4198,6 +4201,11 @@ public class CommonLogic {
         }
         return stringBuilder.toString();
     }
+
+	private boolean hierarchyCheck(String hierarchyNo, String hierarchyIndicator, int levelNo,
+			boolean isHierarchyNoNotAvailable, Map.Entry<String, List> entry, int entryLevel) {
+		return (entryLevel >= levelNo) && (hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo));
+	}
 
     public String getGroupFilterJoinQuery(ProjectionSelectionDTO projSelDTO) {
         String ccpQuery = StringUtils.EMPTY;
