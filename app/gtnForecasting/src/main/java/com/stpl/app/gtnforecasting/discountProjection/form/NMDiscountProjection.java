@@ -13,7 +13,6 @@ import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SaveDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
-import static com.stpl.app.gtnforecasting.logic.DataSelectionLogic.getRelationshipDetailsDeductionCustom;
 import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.Utility;
@@ -137,7 +136,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
@@ -632,7 +630,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         variables.select(DISCOUNT_AMT.getConstant());     
         projectionSelection.setdPVariablesList(Arrays.asList(new String[]{ DISCOUNT_AMT.getConstant()}));
         }
+        if(session.getCustomDeductionRelationShipSid()==0){
+           viewDdlb.setValue(null);
+           newBtn.setEnabled(false); 
+        }
+        else{
         newBtn.setEnabled(true);
+        }
 
         startPeriodForecastTab.addItem(SELECT_ONE.getConstant());
         startPeriodForecastTab.setNullSelectionItemId(SELECT_ONE.getConstant());

@@ -3172,8 +3172,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 				tempSession.setDeductionRelationVersion(dto.getDeductionRelationShipVersionNo());
                                 tempSession.setDataSelectionDeductionLevel(String.valueOf(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE : DataTypeConverter.convertObjectToInt(mapValue)));
                                 dto.setDataSelectionDeductionLevelSid(Integer.parseInt(tempSession.getDataSelectionDeductionLevel()));
-                                tempSession.setDataSelectionDeductionLevelCaption(dataSelectionDeductionLevel.getItemCaption(dataSelectionDeductionLevel.getValue()));
-                                tempSession.setDeductionLevel(String.valueOf(dataSelectionDeductionLevel.getValue()));
+                                tempSession.setDataSelectionDeductionLevelCaption(dataSelectionDeductionLevel.getItemCaption(Integer.parseInt(tempSession.getDataSelectionDeductionLevel())));
+                                tempSession.setDeductionLevel(String.valueOf(tempSession.getDataSelectionDeductionLevel()));
 				tempCustomerDescriptionMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
 						Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo(),
 						dto.getCustomerRelationShipVersionNo());
@@ -3380,6 +3380,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 			try {
 				DataSelectionDTO dto = (DataSelectionDTO) resultTable.getValue();
 				int projectionIdValue = dto.getProjectionId();
+                                Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(projectionIdValue, TAB_DISCOUNT_PROJECTION.getConstant());
+                                Object mapValue = map.get(Constant.DEDUCTION_LEVEL_DDLB);
 				SessionDTO session = SessionUtil.createSession();
 				session.setProjectionId(projectionIdValue);
 				session.setBusineesUnit(businessUnitlist);
@@ -3394,7 +3396,10 @@ public class DataSelectionForm extends ForecastDataSelection {
                                 session.setDsFrequency(String.valueOf(frequency.getValue()));
                                 session.setCustomRelationShipSid(dto.getCustomRelationShipSid());
                                 session.setCustomDeductionRelationShipSid(dto.getCustomDeductionRelationShipSid());
-                                session.setDataSelectionDeductionLevelCaption(dataSelectionDeductionLevel.getItemCaption(dataSelectionDeductionLevel.getValue()));
+                                session.setDataSelectionDeductionLevel(String.valueOf(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE : DataTypeConverter.convertObjectToInt(mapValue)));
+                                dto.setDataSelectionDeductionLevelSid(Integer.parseInt(session.getDataSelectionDeductionLevel()));
+                                session.setDataSelectionDeductionLevelCaption(dataSelectionDeductionLevel.getItemCaption(Integer.parseInt(session.getDataSelectionDeductionLevel())));
+                                session.setDeductionLevel(String.valueOf(session.getDataSelectionDeductionLevel()));
 				customerDescMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
 						Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo(),
 						dto.getCustomerRelationShipVersionNo());
