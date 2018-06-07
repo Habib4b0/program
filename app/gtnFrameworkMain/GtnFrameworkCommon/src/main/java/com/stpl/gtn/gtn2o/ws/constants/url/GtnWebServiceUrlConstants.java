@@ -89,6 +89,7 @@ public final class GtnWebServiceUrlConstants {
 	public static final String GTN_REPORTDATASELECTION_LOAD_LEVELVALUE_MAP = "/reportDataSelectionLevelValueMap";
 	public static final String GTN_REPORTCUSTOMER_HIERARCHYLEVEL_VALUES = "/reportCustomerHierarchyLevelValues";
 	public static final String GTN_REPORT_LOAD_CUSTOMER_LEVEL = "/reportLoadCustomerLevel";
+	public static final String GTN_REPORT_LOAD_MULTISELECT_DDLB = "/reportLoadMultiselectDdlb";
 
 	private GtnWebServiceUrlConstants() {
 		super();

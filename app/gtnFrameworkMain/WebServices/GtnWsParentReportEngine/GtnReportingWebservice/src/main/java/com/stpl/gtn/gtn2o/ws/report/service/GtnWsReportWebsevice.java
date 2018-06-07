@@ -146,10 +146,6 @@ public class GtnWsReportWebsevice {
 	private List<Object[]> loadProjectionComparisonResults(Map<String, String> criteriaMap)
 			throws GtnFrameworkGeneralException {
 		List<String> inputList = getInputList(criteriaMap);
-		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.NULL_ALLOWED, GtnFrameworkDataType.STRING,
-				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
-				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
-				GtnFrameworkDataType.STRING };
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(sqlService.getQuery(inputList, "loadProjectionComparisonResults"));
 		return resultList;
@@ -171,8 +167,6 @@ public class GtnWsReportWebsevice {
 		String contract = criteriaMap.get("contract") == null ? "%" : criteriaMap.get("contract");
 		String projectionDescription = criteriaMap.get("projectionDescription") == null ? "%"
 				: criteriaMap.get("projectionDescription");
-		Object[] params = { workflowJoinQuery, marketType, comparisonBrand, projectionName, contractHolder, ndcName,
-				comparisonNDC, contract, projectionDescription };
 		inputList.add(workflowJoinQuery);
 		inputList.add("'" + marketType + "'");
 		inputList.add("'" + comparisonBrand + "'");
@@ -188,10 +182,6 @@ public class GtnWsReportWebsevice {
 	private List<Object[]> loadCFFComparisonResults(Map<String, String> criteriaMap)
 			throws GtnFrameworkGeneralException {
 		List<String> inputList = getInputList(criteriaMap);
-		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.NULL_ALLOWED, GtnFrameworkDataType.STRING,
-				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
-				GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
-				GtnFrameworkDataType.STRING };
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(sqlService.getQuery(inputList, "loadCFFComparisonResults"));
 		return resultList;

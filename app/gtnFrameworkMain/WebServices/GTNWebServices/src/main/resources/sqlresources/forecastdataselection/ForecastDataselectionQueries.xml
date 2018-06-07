@@ -245,4 +245,59 @@ where
          ]]>
 		</query>
 	</entity>
+      <entity id="getHierarchyLevelVlaues">
+		<query> 
+       		 <![CDATA[            
+					SELECT
+						distinct LEVEL_NO,
+						LEVEL_VALUE_REFERENCE,
+						"TABLE_NAME",
+						FIELD_NAME,
+						LEVEL_NAME,
+						HLD.HIERARCHY_LEVEL_DEFINITION_SID,
+						HLD.HIERARCHY_DEFINITION_SID,
+						HT.DESCRIPTION
+					from
+						HIERARCHY_LEVEL_DEFINITION HLD
+					JOIN dbo.HIERARCHY_DEFINITION HD on
+						HD.HIERARCHY_DEFINITION_SID = hld.HIERARCHY_DEFINITION_SID
+					JOIN dbo.HELPER_TABLE HT on
+						HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY
+					where
+						hld.HIERARCHY_DEFINITION_SID =? and HLD.VERSION_NO =?;
+        		 ]]>
+		</query>
+</entity>
+        
+  <entity id="childLevelsHierarchyNo">
+            <query> 
+            <![CDATA[ 
+                SELECT
+                    DISTINCT RLD.LEVEL_NO,
+                    RLD.RELATIONSHIP_LEVEL_VALUES,
+                    RLD.PARENT_NODE,
+                    RLD.LEVEL_NAME,
+                    HLD.LEVEL_VALUE_REFERENCE,
+                    HLD.TABLE_NAME,
+                    HLD.FIELD_NAME,
+                    RLD.RELATIONSHIP_LEVEL_SID,
+                    RLD.HIERARCHY_NO,
+                    RLD.RELATIONSHIP_BUILDER_SID,
+                   HLD.HIERARCHY_LEVEL_DEFINITION_SID,
+                    HLD.HIERARCHY_DEFINITION_SID,
+                    HLD.VERSION_NO
+                FROM
+                    dbo.RELATIONSHIP_LEVEL_DEFINITION RLD JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD
+                        ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                    AND RLD.hierarchy_No IN (?)
+                    AND RLD.level_No <= ?
+                    AND RLD.VERSION_NO = ?
+                    AND HLD.VERSION_NO = ?
+                ORDER BY
+                    RLD.LEVEL_NO ASC              
+            ]]>
+            </query>
+        </entity>
+
+
 </sql>

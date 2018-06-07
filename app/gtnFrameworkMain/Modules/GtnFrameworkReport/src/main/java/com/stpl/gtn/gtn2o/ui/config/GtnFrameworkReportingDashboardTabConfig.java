@@ -149,8 +149,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		addVariableComponent(componentList, nameSpace);
 		addFrequencyComponent(componentList, nameSpace);
 		addPeriodRangeFromComponent(componentList, nameSpace);
-		addCustomViewButtonComponent(componentList, nameSpace);
-		addCustomViewComponent(componentList, nameSpace);
+//		addCustomViewButtonComponent(componentList, nameSpace);
+//		addCustomViewComponent(componentList, nameSpace);
 		addComparisonBasisComponent(componentList, nameSpace);
 		addVariableCategoryComponent(componentList, nameSpace);
 		addAnnualTotalsComponent(componentList, nameSpace);
@@ -740,10 +740,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		comparisonOptionsConfig.setComponentName("Comparison Options: ");
 		comparisonOptionsConfig.setAuthorizationIncluded(true);
 		comparisonOptionsConfig.addComponentStyle(GtnFrameworkReportStringConstants.LINK);
-		
-		
+
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		
 		GtnUIFrameWorkActionConfig comparisonOptionsPopupActionConfig = new GtnUIFrameWorkActionConfig();
 		comparisonOptionsPopupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		comparisonOptionsPopupActionConfig.addActionParameter("comparisonOptions");

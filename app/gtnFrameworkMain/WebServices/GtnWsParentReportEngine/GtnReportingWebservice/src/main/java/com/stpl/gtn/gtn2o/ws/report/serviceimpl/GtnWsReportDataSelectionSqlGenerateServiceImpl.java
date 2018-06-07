@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ws.report.serviceimpl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,14 @@ import org.springframework.stereotype.Service;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomCCPList;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomCCPListDetails;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnReportJsonService;
@@ -156,5 +159,46 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		wsToken.setSessionId(sessionId);
 		return wsToken;
 	}
+
+	   
+           public List<GtnWsRecordBean> getDashboardLeftData(
+            GtnWsReportDashboardBean reportDashboardBean,GtnUIFrameworkWebserviceRequest gtnWsRequest)  {
+
+            try {
+                // Object inputs[] = gtnWsSearchRequest.getQueryInput().toArray();
+                GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
+                Object values[] = gtnWsRequest.getGtnWsSearchRequest().getQueryInputList().toArray();
+                int levelNo=Integer.parseInt(values[0].toString()) ;
+                String hierarchyNo=values[1].toString();
+                String fileName=gtnReportJsonService.getFileName("CustomViewCCP", dataSelectionBean.getSessionId());
+                GtnWsReportCustomCCPList ccpList = (GtnWsReportCustomCCPList) gtnReportJsonService.convertJsonToObject(fileName, GtnWsReportCustomCCPList.class);
+                List<GtnWsReportCustomCCPListDetails> gtnWsReportCustomCCPListDetails = ccpList.getGtnWsReportCustomCCPListDetails();
+                
+                return   gtnWsReportCustomCCPListDetails.stream()
+                        .filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo))
+                        .map(row -> convertToRecordbean(row, gtnWsRequest.getGtnWsSearchRequest().getRecordHeader())).collect(Collectors.toList());
+            } catch (Exception ex) {
+                GTNLOGGER.error(ex.getMessage(), ex);
+            }
+             return new ArrayList<>();
+    }
+         private GtnWsRecordBean convertToRecordbean(GtnWsReportCustomCCPListDetails bean,List<Object> recordHeader){
+        
+		GtnWsRecordBean recordBean = new GtnWsRecordBean();
+		if (recordHeader == null || recordHeader.isEmpty()) {
+			recordHeader.add("levelNumber");
+			recordHeader.add("hierarchyNo");
+			recordHeader.add("levelName");
+			recordHeader.add("levelValue");
+		        recordHeader.add("generatedHierarchyNo");
+		}
+		recordBean.setRecordHeader(recordHeader);
+		recordBean.addProperties("levelNumber", bean.getLevelNo());
+		recordBean.addProperties("hierarchyNo", bean.getHierarchyNo());
+		recordBean.addProperties("levelName", bean.getData()[2]);
+		recordBean.addProperties("levelValue", bean.getData()[1]);
+		//recordBean.addProperties("generatedHierarchyNo", document.get("generatedHierarchyNo"));
+		return recordBean;
+    }
 
 }

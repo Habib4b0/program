@@ -25,17 +25,17 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 public class GtnFrameworkUICustomViewHierarchyLoadAction
-		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+        implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	private static final GtnWSLogger GTNLOGGER = GtnWSLogger
-			.getGTNLogger(GtnFrameworkUICustomViewHierarchyLoadAction.class);
+    private static final GtnWSLogger GTNLOGGER = GtnWSLogger
+            .getGTNLogger(GtnFrameworkUICustomViewHierarchyLoadAction.class);
 
-	@Override
-	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		return;
+    @Override
+    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
+        return;
 
-	}
+    }
 
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -50,14 +50,20 @@ public class GtnFrameworkUICustomViewHierarchyLoadAction
 			String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
 			GTNLOGGER.info("component Id = = = " + componentId);
 			GTNLOGGER.info("sourceComponentId = = =" + sourceComponentId);
-			GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+            GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
+            int relationSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_customerSelectionRelationship")
+                    .getIntegerFromV8ComboBox();
+            dataSelectionBean.setCustomerRelationshipBuilderSid(relationSid);
+            dataSelectionBean.setCustomerHierarchySid(relationSid);
+            relationSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_relationship").getIntegerFromV8ComboBox();
+            dataSelectionBean.setProductRelationshipBuilderSid(relationSid);
+            dataSelectionBean.setProductHierarchySid(relationSid);
 			request.getGtnWsReportRequest().getReportBean().setDataSelectionBean(dataSelectionBean);
 			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 					GtnWsReportEndPointUrlConstants.LOAD_HIERARCHY,
 					GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, request,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-			dataTable = response.getGtnWsReportResponse().getReportBean().getCustomViewBean().getGridData();
+            dataTable = response.getGtnWsReportResponse().getReportBean().getCustomViewBean().getGridData();
 		} else {
 			dataTable = loadDeductionHierarchy();
 		}
@@ -68,23 +74,25 @@ public class GtnFrameworkUICustomViewHierarchyLoadAction
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
 	}
 
-	private GtnUIFrameworkDataTable loadDeductionHierarchy() {
-		GtnWsReportDeductionType[] values = GtnWsReportDeductionType.values();
-		List deductionList = Arrays.stream(values).map(value -> {
-			Object[] dataArray = new Object[3];
-			dataArray[0] = value.toString();
-			dataArray[1] = value.getLevelNo();
-			dataArray[2] = GtnWsHierarchyType.DEDUCTION.toString();
-			return dataArray;
-		}).collect(Collectors.toList());
-		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
-		dataTable.addData(deductionList);
-		return dataTable;
-	}
+    private GtnUIFrameworkDataTable loadDeductionHierarchy() {
+        GtnWsReportDeductionType[] values = GtnWsReportDeductionType.values();
+        List deductionList = Arrays.stream(values).map(value -> {
+            Object[] dataArray = new Object[5];
+            dataArray[0] = value.toString();
+            dataArray[1] = value.getLevelNo();
+            dataArray[2] = value.getLevelNo();
+            dataArray[3] = GtnWsHierarchyType.DEDUCTION.toString();
+            dataArray[4]= -1;
+            return dataArray;
+        }).collect(Collectors.toList());
+        GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+        dataTable.addData(deductionList);
+        return dataTable;
+    }
 
-	@Override
-	public GtnUIFrameWorkAction createInstance() {
-		return this;
-	}
+    @Override
+    public GtnUIFrameWorkAction createInstance() {
+        return this;
+    }
 
 }
