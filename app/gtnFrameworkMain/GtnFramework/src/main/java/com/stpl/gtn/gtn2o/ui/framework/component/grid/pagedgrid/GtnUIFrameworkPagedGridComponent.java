@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentActionab
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkClassLoader;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
@@ -189,6 +190,7 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
 
    private void configureLeftTablHeader(GtnUIFrameworkPagedTableConfig tableConfig, String sourceViewId)
             throws GtnFrameworkGeneralException {
+
 
        String classPath = tableConfig.getGridHeaderCustomClassLoadUrl();
         classLoader(tableConfig.getGtnUIFrameWorkActionConfig(), classPath, sourceViewId);
