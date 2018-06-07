@@ -2168,6 +2168,7 @@ public class Constant {
     public static final DecimalFormat UNIT_FORMAT = new DecimalFormat("#,##0");
     public static final String PROJ_PER_OF_BUISNESS = "Forecast % of Business";
     public static final String SHOW_ALL_GROUPS = "Show All Groups";
+    public static final String DATA_SELECTION_DED_LEVEL = "Deduction Level";
 
     public enum ProjectionConstants {
 
