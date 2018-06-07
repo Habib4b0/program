@@ -1,11 +1,13 @@
 package com.stpl.gtn.gtn2o.ws.report.service.transform;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.hibernate.transform.ResultTransformer;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -23,24 +25,30 @@ public class GtnWsReportRightTableResultTransformer implements ResultTransformer
 		rowData.setProjectionName((String) tuple[1]);
 		rowData.setYear((int) tuple[2]);
 		rowData.setPeriod((int) tuple[3]);
-		Map<String, Double> rowDataMap = new HashMap<>((aliases.length - 4));
+		Pair<List<String>, List<Double>> dataAliasPair;
+		List<String> aliasString = new ArrayList<>((aliases.length - 4));
+		List<Double> dataList = new ArrayList<>((aliases.length - 4));
+
 		for (int k = 4; k < aliases.length; k++) {
-			rowDataMap.put(rowData.getPeriod() + "" + rowData.getYear() + aliases[k] + rowData.getProjectionName(),
-					((BigDecimal) tuple[k]).doubleValue());
+			aliasString.add(rowData.getPeriod() + "" + rowData.getYear() + aliases[k] + rowData.getProjectionName());
+			dataList.add(((BigDecimal) tuple[k]).doubleValue());
 		}
-		rowData.setDataMap(rowDataMap);
+		rowData.setDataAliasPair(Pair.of(aliasString, dataList));
 		return rowData;
 	}
 
 	@Override
 	public List transformList(List collection) {
-		Map<String, Map<String, Double>> hierarchyDataMap = new HashMap<>();
+
+		Map<String, Pair<List<String>, List<Double>>> hierarchyDataMap = new HashMap<>();
 		for (Object data : collection) {
 			GtnWsReportRightTableData rowData = (GtnWsReportRightTableData) data;
 			if (hierarchyDataMap.get(rowData.getHierarchyNo()) == null) {
-				hierarchyDataMap.put(rowData.getHierarchyNo(), new HashMap<>());
+
+				hierarchyDataMap.put(rowData.getHierarchyNo(), Pair.of(new ArrayList<>(), new ArrayList<>()));
 			}
-			hierarchyDataMap.get(rowData.getHierarchyNo()).putAll(rowData.getDataMap());
+			hierarchyDataMap.get(rowData.getHierarchyNo()).getLeft().addAll(rowData.getDataAliasPair().getLeft());
+			hierarchyDataMap.get(rowData.getHierarchyNo()).getRight().addAll(rowData.getDataAliasPair().getRight());
 		}
 		return Arrays.asList(hierarchyDataMap);
 	}
