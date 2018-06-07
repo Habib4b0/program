@@ -269,9 +269,9 @@ public class CommonUtils {
                 finalVersion = selectedVersion;
             }
             List<Object[]> list = getForecastYear(finalVersion, forecastName, fileType);
-            Object[] object = list.get(0);
-            year = object[0] != null ? Integer.parseInt(object[0].toString()) : 0;
-            month = object[1] != null ? Integer.parseInt(object[1].toString()) : 0;
+            Object[] objectArray = list.get(0);
+            year = objectArray[0] != null ? Integer.parseInt(objectArray[0].toString()) : 0;
+            month = objectArray[1] != null ? Integer.parseInt(objectArray[1].toString()) : 0;
             Calendar cal = Calendar.getInstance();
 
             date.setMonth(month - 1);
