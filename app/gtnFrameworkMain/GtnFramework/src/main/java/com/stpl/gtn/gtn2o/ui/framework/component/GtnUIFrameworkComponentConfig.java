@@ -417,7 +417,6 @@ public class GtnUIFrameworkComponentConfig {
 		this.margin = margin;
 	}
 
-
 	public List<Object> getQueryInputs() {
 		return queryInputs == null ? queryInputs : Collections.unmodifiableList(queryInputs);
 	}
