@@ -132,6 +132,7 @@ public class PagedTreeGrid {
         totalColumns.setReadOnly(false);
         totalColumns.setValue(tableConfig.getColumnHeaders().size() + "");
         totalColumns.setReadOnly(true);
+        columnsPerPage.setValue(10);
     }
 
     private void configureGridColumns(int columnStart, int columnEnd) {
@@ -152,10 +153,6 @@ public class PagedTreeGrid {
         if (tableConfig.getCustomFilterConfigMap() != null) {
             shiftLeftSingeHeader = true;
         }
-		// gtnlogger.info("headers size= " +
-        // tableConfig.getVisibleColumns().size());
-
-        // Adding Radio Button to the singleHeader
         if (tableConfig.isEnableRadioButtonInSingleHeader()) {
 
             HeaderRow single = grid.getHeaderRow(0);
@@ -787,7 +784,7 @@ public class PagedTreeGrid {
         columnPageNumber = newPageNumber;
         int start = columnPageNumber == 0 ? 0 : (getColumnsPerPage() * columnPageNumber) + 1;
         int end = start + getColumnsPerPage() - 1;
-        configureGridColumns(start, end);
+        configureGridColumns(start, end <=0?10:end);
 
     }
 

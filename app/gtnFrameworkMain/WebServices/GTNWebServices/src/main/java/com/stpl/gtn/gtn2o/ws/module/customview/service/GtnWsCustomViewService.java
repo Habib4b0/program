@@ -108,12 +108,17 @@ public class GtnWsCustomViewService {
     }
 
     @SuppressWarnings("rawtypes")
-    public boolean saveCustomView(GtnWsCustomViewRequest cvRequest) {
+    public GtnWsCustomViewResponse saveCustomView(GtnWsCustomViewRequest cvRequest) {
+         GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
         int customViewMasterSid = saveCustViewMaster(cvRequest);
         saveCustomViewDetails(customViewMasterSid, cvRequest);
         customViewSaveLogicCCPDetails(customViewMasterSid, cvRequest);
-        callProcedureForDiscountPopulation(customViewMasterSid);
-        return true;
+        if (!cvRequest.getCustomViewType().startsWith("report")) {
+            callProcedureForDiscountPopulation(customViewMasterSid);
+        }
+             cvResponse.setSuccess(true);
+             cvResponse.setCvSysId(customViewMasterSid);
+        return cvResponse;
     }
 
     private int saveCustViewMaster(GtnWsCustomViewRequest cvRequest) {
