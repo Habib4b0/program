@@ -31,11 +31,6 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 		
 	}
 
-	public GtnUIFrameworkPopupTextBox(HorizontalLayout popupTextBoxHorizontalComponent) {
-		super();
-		this.popupTextBoxHorizontalComponent = popupTextBoxHorizontalComponent;
-	}
-
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPopupTextBox.class);
 
 

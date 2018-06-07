@@ -138,7 +138,7 @@ public class GtnFrameworkCCPInsertService {
 	}
 
 	public void insertToCPPTableReporting(GtnForecastHierarchyInputBean inputBean,
-			GtnWsReportDataSelectionBean dataSelectionBean) throws GtnFrameworkGeneralException {
+			GtnWsReportDataSelectionBean dataSelectionBean, boolean isSql) throws GtnFrameworkGeneralException {
 		try {
 			List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList = relationUpdateService
 					.getHierarchyBuilder(inputBean.getSelectedCustomerHierarcySid(),
@@ -154,14 +154,16 @@ public class GtnFrameworkCCPInsertService {
 					customerHierarchyLevelDefinitionList, selectedCustomerRelationLevelList, false);
 			String productHierarchyQuery = getCustomerAndContractHierarchyQueryForReporting(inputBean,
 					productHierarchyLevelDefinitionList, selectedProductRelationLevelList, true);
-			String tableName = dataSelectionBean.getTableNameWithUniqueId("ST_CCPD_HIERARCHY");
+			String tableName = dataSelectionBean
+					.getTableNameWithUniqueId(isSql ? "ST_CCP_HIERARCHY" : "ST_CCPD_HIERARCHY");
 			List<String> input = new ArrayList<>();
 			input.add(tableName);
 			input.add(tableName);
 			input.add(customerHierarchyQuery);
 			input.add(productHierarchyQuery);
 			input.add(tableName);
-			String withTableNameQuery = gtnWsSqlService.getQuery(input, "ccpInsertQueryForReporting");
+			String withTableNameQuery = gtnWsSqlService.getQuery(input,
+					isSql ? "ccpInsertQueryForReportingSql" : "ccpInsertQueryForReportingMongo");
 			gtnSqlQueryEngine.executeInsertOrUpdateQuery(withTableNameQuery);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());

@@ -5,15 +5,16 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedgrid;
 
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentActionable;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.grid.bean.QueryBean;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedGrid;
-import com.stpl.gtn.gtn2o.ui.framework.component.grid.config.PagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkClassLoader;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
@@ -22,11 +23,9 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
-import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.VerticalLayout;
-import java.util.Arrays;
 
 /**
  *
@@ -59,7 +58,7 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
 //    	}
 
         if (tableConfig.getGridColumnHeader() != null) {
-            this.configureLeftTablHeader(tableConfig, componentConfig.getSourceViewId());
+            //this.configureLeftTablHeader(tableConfig, componentConfig.getSourceViewId());
         }
 
         PagedGrid pagedGrid = new PagedGrid(tableConfig,componentConfig);
@@ -192,7 +191,12 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
    private void configureLeftTablHeader(GtnUIFrameworkPagedTableConfig tableConfig, String sourceViewId)
             throws GtnFrameworkGeneralException {
 
-        GtnUIFrameworkWebserviceRequest headerRequest = new GtnUIFrameworkWebserviceRequest();
+
+       String classPath = tableConfig.getGridHeaderCustomClassLoadUrl();
+        classLoader(tableConfig.getGtnUIFrameWorkActionConfig(), classPath, sourceViewId);
+        GtnUIFrameworkWebserviceRequest headerRequest = getCustomPagedTableRequest(
+                tableConfig.getGtnUIFrameWorkActionConfig(), sourceViewId);
+        
         GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
         GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(tableConfig.getGridColumnHeader(),
                 tableConfig.getModuleName(), headerRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
@@ -202,6 +206,23 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
         tableConfig.setColumnHeaders(tableHeadersResponse.getSingleHeaders());
     }
 
+   private void classLoader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String classPath,
+            String sourceViewId) throws GtnFrameworkGeneralException {
+        GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
+        GtnUIFrameWorkAction loader = (GtnUIFrameWorkAction) classLoader.loadDynamicClass(classPath);
+        loader.configureParams(gtnUIFrameWorkActionConfig);
+        loader.doAction(sourceViewId, gtnUIFrameWorkActionConfig);
+    }
+
+    private GtnUIFrameworkWebserviceRequest getCustomPagedTableRequest(
+            GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String sourceViewId) {
+        GtnUIFrameworkComponentData resultTableComponentData = GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponentFromParent(
+                            gtnUIFrameWorkActionConfig.getActionParameterList().get(0).toString(), sourceViewId)
+                    .getComponentData();
+        return resultTableComponentData.getCustomPagedTreeTableRequest();
+    }
+    
     @Override
     public void reloadComponent(GtnUIFrameworkActionType actionType, String dependentComponentId, String componentId, Object reloadInput) {
         return;

@@ -60,14 +60,15 @@ public class GtnWsReportDataSelectionMongoGenerateServiceImpl implements GtnWsRe
 			createDataSourceData(MongoConstants.KAFKA_MONGO_COLLECTION_NAME);
 			createUserBasedCcpCollection(dataSelectionBean);
 		} catch (GtnFrameworkGeneralException ex) {
-
+			GTNLOGGER.error(ex.getErrorMessage());
 		}
 	}
 
 	public void callCCPInsertService(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		client.callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_CCP_INSERT_SERVICE + GtnWebServiceUrlConstants.GTN_REPORT_CCP_INSERT,
+				GtnWebServiceUrlConstants.GTN_CCP_INSERT_SERVICE
+						+ GtnWebServiceUrlConstants.GTN_REPORT_CCP_INSERT_MONGO,
 				gtnWsRequest, getGsnWsSecurityToken(gtnWsRequest.getGtnWsGeneralRequest().getUserId(),
 						gtnWsRequest.getGtnWsGeneralRequest().getSessionId()));
 	}
@@ -94,7 +95,7 @@ public class GtnWsReportDataSelectionMongoGenerateServiceImpl implements GtnWsRe
 		List<Object> input = new ArrayList<>();
 		input.add(dataSelectionBean.getCustomerRelationshipBuilderSid());
 		List tempList = gtnSqlQueryEngine.executeSelectQuery(sqlService.getQuery(input, "getHierarchyTableDetails"));
-		RelationshipLevelValuesMasterBean relationshipLevelValueMasterBean = (RelationshipLevelValuesMasterBean) applicationContext
+		RelationshipLevelValuesMasterBean relationshipLevelValueMasterBean = applicationContext
 				.getBean(RelationshipLevelValuesMasterBean.class);
 		relationshipLevelValueMasterBean.createQuery(tempList, dataSelectionBean, "CUST_HIERARCHY_NO");
 		List<Object[]> customerResults = (List<Object[]>) gtnSqlQueryEngine
@@ -110,7 +111,7 @@ public class GtnWsReportDataSelectionMongoGenerateServiceImpl implements GtnWsRe
 		List<Object> input = new ArrayList<>();
 		input.add(dataSelectionBean.getProductRelationshipBuilderSid());
 		List tempList = gtnSqlQueryEngine.executeSelectQuery(sqlService.getQuery(input, "getHierarchyTableDetails"));
-		RelationshipLevelValuesMasterBean relationshipLevelValueMasterBean = (RelationshipLevelValuesMasterBean) applicationContext
+		RelationshipLevelValuesMasterBean relationshipLevelValueMasterBean = applicationContext
 				.getBean(RelationshipLevelValuesMasterBean.class);
 		relationshipLevelValueMasterBean.createQuery(tempList, dataSelectionBean, "PROD_HIERARCHY_NO");
 		List<Object[]> productResults = (List<Object[]>) gtnSqlQueryEngine

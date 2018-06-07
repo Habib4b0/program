@@ -26,6 +26,7 @@ public class GtnWsReportRequest {
 	private List<GtnReportHierarchyLevelBean> hierarchyLevelList;
 	private Date forecastEligibleDate;
         private int projectionMasterSid;
+        private boolean loadTableUsingFile=true;
 
     public int getProjectionMasterSid() {
         return projectionMasterSid;
@@ -122,5 +123,13 @@ public class GtnWsReportRequest {
 	public void setForecastEligibleDate(Date forecastEligibleDate) {
 		this.forecastEligibleDate = forecastEligibleDate;
 	}
+
+    public boolean isLoadTableUsingFile() {
+        return loadTableUsingFile;
+    }
+
+    public void setLoadTableUsingFile(boolean loadTableUsingFile) {
+        this.loadTableUsingFile = loadTableUsingFile;
+    }
 
 }

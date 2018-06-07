@@ -55,8 +55,8 @@ public class GtnWsPerChangeCalculationServiceImpl implements GtnWsCalculationInt
 				.getComparisonBasis(variableCategoryBean.getComparisonBasis());
 		for (String[] basis : comparisonBasis) {
 			for (String selectColumn : this.variableCategoryBean.getComparisonBasisArray()) {
-				this.newAttributes.putAttributes(selectColumn + basis[1] + this.variableCategory + this.projectionId,
-						executeCalculation(selectColumn + basis[1] + "Variance" + this.projectionId,
+				this.newAttributes.putAttributes(selectColumn+ this.variableCategory  + basis[1] + this.projectionId,
+						executeCalculation(selectColumn + "Variance"  + basis[1] + this.projectionId,
 								selectColumn + basis[1]));
 			}
 		}

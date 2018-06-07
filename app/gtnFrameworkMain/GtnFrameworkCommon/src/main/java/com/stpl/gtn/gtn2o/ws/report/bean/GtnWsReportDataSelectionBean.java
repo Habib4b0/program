@@ -45,6 +45,18 @@ public class GtnWsReportDataSelectionBean {
 	private String viewType;
 	private Integer viewId;
 
+        private List variableBreakdownHeaderLoadList;
+
+         public List getVariableBreakdownHeaderLoadList() {
+             return variableBreakdownHeaderLoadList;
+           }
+
+        public void setVariableBreakdownHeaderLoadList(List variableBreakdownHeaderLoadList) {
+             this.variableBreakdownHeaderLoadList = variableBreakdownHeaderLoadList;
+        }
+
+	private int customViewMasterSid;
+
 	public int getProductRelationshipBuilderSid() {
 		return productRelationshipBuilderSid;
 	}
@@ -305,6 +317,14 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setComparisonProjectionBeanList(List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
 		this.comparisonProjectionBeanList = comparisonProjectionBeanList;
+	}
+
+	public int getCustomViewMasterSid() {
+		return customViewMasterSid;
+	}
+
+	public void setCustomViewMasterSid(int customViewMasterSid) {
+		this.customViewMasterSid = customViewMasterSid;
 	}
 
 }

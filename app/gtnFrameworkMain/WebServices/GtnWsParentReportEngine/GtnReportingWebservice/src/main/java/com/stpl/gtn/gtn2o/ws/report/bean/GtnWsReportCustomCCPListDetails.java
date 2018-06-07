@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 @Service
-@Scope(value = "prototype")
+@Scope("prototype")
 public class GtnWsReportCustomCCPListDetails {
 
 	public GtnWsReportCustomCCPListDetails() {
