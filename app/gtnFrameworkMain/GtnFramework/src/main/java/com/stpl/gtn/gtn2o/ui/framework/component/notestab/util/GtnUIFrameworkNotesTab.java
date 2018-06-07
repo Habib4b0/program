@@ -247,6 +247,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		Panel attachment = new Panel();
 		attachment.setCaption("Attachments");
 		attachment.addStyleName("attachmentpanel");
+                attachment.setWidth("473px");
 
 		VerticalLayout attachmentInnerLayout = new VerticalLayout();
 		attachmentInnerLayout.setMargin(true);
