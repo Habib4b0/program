@@ -71,7 +71,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	private void callInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
 		variableInsertProcedure(dataSelectionBean);
-		dataPopulationInsertProcedure();
+		dataPopulationInsertProcedure(dataSelectionBean);
 	}
 
 	private void saveCustomCCPMap(GtnWsReportDataSelectionBean dataSelectionBean) throws GtnFrameworkGeneralException {
@@ -142,8 +142,12 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		gtnSqlQueryEngine.executeProcedure(GtnWsQueryConstants.PRC_CUSTOM_CCPDV_POPULATION, input, type);
 	}
 
-	private void dataPopulationInsertProcedure() {
+	private void dataPopulationInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean) {
 		GTNLOGGER.info("Calling Data Population Insert Procedure");
+		Object[] input = { dataSelectionBean.getSessionId(), "Quarter", 625, 660,
+				dataSelectionBean.getCustomViewMasterSid() };
+		GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
 	}
 
 	public static GtnWsSecurityToken getGsnWsSecurityToken(String userId, String sessionId) {
