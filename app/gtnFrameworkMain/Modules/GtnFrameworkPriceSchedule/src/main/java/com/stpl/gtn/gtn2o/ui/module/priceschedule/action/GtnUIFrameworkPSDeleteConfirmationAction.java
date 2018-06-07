@@ -44,8 +44,9 @@ public class GtnUIFrameworkPSDeleteConfirmationAction implements GtnUIFrameWorkA
 		List<GtnUIFrameWorkActionConfig> onSucessActionConfigList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig editActionConfig = new GtnUIFrameWorkActionConfig();
-		editActionConfig.setActionType(GtnUIFrameworkActionType.DELETE_ACTION);
+		editActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		List<Object> parameters = new ArrayList<>();
+		parameters.add(GtnFrameworkPSDeleteAction.class.getName());
 		parameters.add("/" + GtnWsCDRContants.PS_SERVICE + "/" + GtnWsCDRContants.PS_DELECTE_SERVICE);
 		parameters.add("psSearchResultTable");
 		parameters.add("");
