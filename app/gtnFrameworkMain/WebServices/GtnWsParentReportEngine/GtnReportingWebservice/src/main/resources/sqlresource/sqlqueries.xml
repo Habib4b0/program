@@ -551,4 +551,65 @@ where
 					    rld.level_no ASC;
 		]]>
 	</entry>
+	<entry key="report-customer-filter">
+		<![CDATA[
+		select
+			hld.field_name,
+			hld.table_name
+		from
+			hierarchy_level_definition hld
+		where
+			HLD.HIERARCHY_DEFINITION_SID = ?
+			and LEVEL_NO = ?
+			and VERSION_NO = ?
+		]]>
+	</entry>
+	<entry key="report-customer-userdefinedlevelvalue">
+		<![CDATA[
+		SELECT
+				LEVEL_VALUE_REFERENCE
+			FROM
+				dbo.HIERARCHY_LEVEL_DEFINITION HLD
+			WHERE
+				HLD.HIERARCHY_DEFINITION_SID = ?
+				AND HLD.LEVEL_NO = ?
+		]]>
+	</entry>
+	<entry key="report-customer-userdefinedlevel">
+	<![CDATA[
+		select
+			hlv.level_values,
+			hlv.hierarchy_level_values_sid
+		from
+			RELATIONSHIP_LEVEL_DEFINITION rld join HIERARCHY_LEVEL_VALUES hlv on
+			rld.HIERARCHY_LEVEL_DEFINITION_SID = hlv.HIERARCHY_LEVEL_DEFINITION_SID
+			and rld.RELATIONSHIP_LEVEL_VALUES = hlv.HIERARCHY_LEVEL_VALUES_SID
+			and rld.VERSION_NO = ?
+		where
+			rld.RELATIONSHIP_BUILDER_SID = ?
+			and rld.LEVEL_NO = ?
+	]]>
+	</entry>
+	<entry key="product-dynamic-filter">
+	<![CDATA[
+		 IF OBJECT_ID('TEMPDB..#HIER_PRODUCT') IS NOT NULL
+            DROP TABLE #HIER_PRODUCT
+
+
+            CREATE TABLE #HIER_PRODUCT
+            (
+            HIERARCHY_NO VARCHAR(1000)
+            )
+            INSERT #HIER_PRODUCT
+            (
+            HIERARCHY_NO
+            )
+
+            SELECT HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION WHERE RELATIONSHIP_LEVEL_VALUES IN
+            (
+            @LEVELVALUES
+            )
+            and RELATIONSHIP_BUILDER_SID=@RELBUILDSID 
+	]]>
+	</entry>
 </properties>
