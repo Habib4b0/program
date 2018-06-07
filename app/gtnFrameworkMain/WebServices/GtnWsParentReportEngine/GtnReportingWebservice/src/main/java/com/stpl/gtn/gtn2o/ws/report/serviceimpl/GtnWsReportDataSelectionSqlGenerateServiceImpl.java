@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -116,7 +117,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			throws GtnFrameworkGeneralException {
 		List<Object[]> customViewDetails = getCustomViewDetailsList(dataSelectionBean);
 		if (customViewDetails == null || customViewDetails.isEmpty()) {
-			return "";
+			return StringUtils.EMPTY;
 		}
 		GtnCustomRelationshipLevelValueService customRelationshipLevelValues = applicationContext
 				.getBean(GtnCustomRelationshipLevelValueService.class);
