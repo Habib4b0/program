@@ -62,12 +62,11 @@ public class GtnWsWorkflowSaveService {
 		try {
 			workflowModel.setBrandId(masterbean.getBrandIdArm());
 			workflowModel.setAdjustmentType(String.valueOf(masterbean.getAdjustmentType()));
-			workflowModel.setCreatedBy(userId);
 			Map<Integer, String> map = gtnWebServiceAllListConfig.getUserIdNameMap();
-			String createdBy = getKeyFromValue(map, masterbean.getCreatedByPrivate());
+			String createdBy = getKeyFromValue(map, masterbean.getCreatedBy());
 			String approvedBy = getKeyFromValue(map, masterbean.getApprovedBy());
 			if (createdBy != null) {
-				workflowModel.setWfCreatedBy(Integer.valueOf(createdBy));
+				workflowModel.setCreatedBy(Integer.valueOf(createdBy));
 			}
 			if (approvedBy != null) {
 				workflowModel.setApprovedBy(Integer.valueOf(approvedBy));
@@ -75,7 +74,6 @@ public class GtnWsWorkflowSaveService {
 			workflowModel.setCreatedDate(new Date());
 			workflowModel.setModifiedBy(userId);
 			workflowModel.setModifiedDate(new Date());
-			workflowModel.setApprovedBy(userId);
 			setWorkFlowInboxModel(workflowModel, masterbean, session);
 
 		} catch (Exception ex) {
@@ -112,12 +110,11 @@ public class GtnWsWorkflowSaveService {
 
 			workflowModel.setBrandId(masterbean.getBrandIdArm());
 			workflowModel.setAdjustmentType(String.valueOf(masterbean.getAdjustmentType()));
-			workflowModel.setCreatedBy(Integer.parseInt(generalWSRequest.getGtnWsGeneralRequest().getUserId()));
 			Map<Integer, String> map = gtnWebServiceAllListConfig.getUserIdNameMap();
-			String createdBy = getKeyFromValue(map, masterbean.getCreatedByPrivate());
+			String createdBy = getKeyFromValue(map, masterbean.getCreatedBy());
 			String approvedBy = getKeyFromValue(map, masterbean.getApprovedBy());
 			if (createdBy != null) {
-				workflowModel.setWfCreatedBy(Integer.valueOf(createdBy));
+				workflowModel.setCreatedBy(Integer.valueOf(createdBy));
 			}
 			if (approvedBy != null) {
 				workflowModel.setApprovedBy(Integer.valueOf(approvedBy));
@@ -125,7 +122,6 @@ public class GtnWsWorkflowSaveService {
 			workflowModel.setCreatedDate(new Date());
 			workflowModel.setModifiedBy(Integer.valueOf(generalWSRequest.getGtnWsGeneralRequest().getUserId()));
 			workflowModel.setModifiedDate(new Date());
-			workflowModel.setApprovedBy(Integer.valueOf(generalWSRequest.getGtnWsGeneralRequest().getUserId()));
 			setWorkFlowInboxModel(workflowModel, masterbean, session);
 			session.saveOrUpdate(workflowModel);
 			tx.commit();

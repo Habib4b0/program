@@ -55,6 +55,7 @@ public class GtnFrameworkIfpAddAction
 		GtnUIFrameworkGlobalUI.addSessionProperty("userName", userName);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpInformationTabCreatedBy", componentId)
 				.loadFieldValue(userName);
+                GtnUIFrameworkGlobalUI.addSessionProperty("ifpModelSid", 0);
 		GtnFrameworkIfpValueChangeManager.setValueChangeAllowed(true);
 	}
 

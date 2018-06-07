@@ -180,6 +180,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     @Override
     protected void excelExportLogic() {
+       long startTime = System.currentTimeMillis(); 
         try {
             configureExcelResultTable();
             getExcelSalesCommercial();
@@ -216,13 +217,15 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     excelTable.setRefresh(true);
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
                     ForecastUI.setEXCEL_CLOSE(true);
-                   Map<String, String> formatterMap = new HashMap<>();
+                     Map<String, String> formatterMap = new HashMap<>();
                      formatterMap.put("currencyNoDecimal", SALES);
                      formatterMap.put("unitNoDecimal", "Units");
+                     formatterMap.put("UNITTWODECIMAL", "AccountGrowth");
+                     formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
                     if (i == 0) {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap);
-                    }  else {
+                    } else {
                         exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                 }
                     if (i == exportAt) {
@@ -254,13 +257,21 @@ public class NMSalesProjection extends ForecastSalesProjection {
                             }
                         }
                     }
+                    Map<String, String> formatterMap = new HashMap<>();
+                     formatterMap.put("currencyNoDecimal", SALES);
+                     formatterMap.put("unitNoDecimal", "Units");
+                     formatterMap.put("UNITTWODECIMAL", "AccountGrowth");
+                     formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
                 securityForListView(visibleColumns.toArray(), Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class), excelTable);
-                exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false);
+                exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap);
                 exp.export();
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
+            LOGGER.info(e.getMessage(),e);
         }
+        long endTime = System.currentTimeMillis();
+        LOGGER.info("Excel Export time--------------------------------------------------------------"+(endTime-startTime)/1000);
     }
     public static final String SALES_PROJECTION_XLS = "Sales_Projection.xls";
 
@@ -736,6 +747,13 @@ public class NMSalesProjection extends ForecastSalesProjection {
         valueDdlb.setTextInputAllowed(true);
         boolean isEnabled = Utility.customEnableForRelationFromDS(session.getCustomRelationShipSid());
         view.setItemEnabled(Constant.CUSTOM_LABEL, isEnabled);
+        if(session.getCustomRelationShipSid()==0){
+            viewDdlb.setValue(null);
+           newBtn.setEnabled(false); 
+        }
+        else{
+        newBtn.setEnabled(true);
+        }
         if (CommonUtil.isValueEligibleForLoading()) {
             salesProjectionSelection.setVisible(false);
             tabsheet1.addTab(salesProjectionSelectionLayout, "Display Selection");
@@ -994,7 +1012,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         try {
             String parentKey;
             String tempKey;
-            List<Object[]> salesExcelList = salesLogic.getSalesExcelResults(projectionDTO);
+            List<Object[]> salesExcelList = getSalesExcelResults(projectionDTO);
             NMSalesExcelLogic nmSalesExcelLogic = new NMSalesExcelLogic();
             List historyColumn = salesLogic.getHistoryColumn(salesLogic.getHeader(projectionDTO));
             nmSalesExcelLogic.getCustomizedExcelData(salesExcelList, projectionDTO, historyColumn);
@@ -1010,14 +1028,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 Object parentItemId;
                 key = key.contains("$") ? key.substring(0, key.indexOf('$')) : key;
                 tempKey = key.trim();
-                if (projectionDTO.isIsCustomHierarchy()) {
-                    parentKey = itemId.getParentHierarchyNo();
-                    if (!(itemId.getParentHierarchyNo() == null || "null".equals(itemId.getParentHierarchyNo()))) {
-                        tempKey = itemId.getParentHierarchyNo().trim() + "~" + key.trim();
-                    }
-                } else {
                     parentKey = CommonUtil.getParentItemId(key, projectionDTO.isIsCustomHierarchy(), itemId.getParentHierarchyNo());
-                }
                 parentItemId = excelParentRecords.get(parentKey);
                 if (parentItemId != null) {
                     excelContainer.setParent(itemId, parentItemId);
@@ -1028,6 +1039,14 @@ public class NMSalesProjection extends ForecastSalesProjection {
             excelContainer.sort(new Object[]{"levelName"}, new boolean[]{true});
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
+        }
+    }
+
+    private List<Object[]> getSalesExcelResults(ProjectionSelectionDTO projectionSelectionDTO) {
+        if (!projectionSelectionDTO.isIsCustomHierarchy()) {
+            return salesLogic.getSalesExcelResults(projectionDTO);
+        } else {
+            return salesLogic.getSalesResultsExcelCustom(projectionSelectionDTO);
         }
     }
 

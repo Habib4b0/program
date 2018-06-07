@@ -122,60 +122,57 @@ public class GtnUIFrameworkWebserviceRequest {
     private GtnWsCsvExportRequest gtnWsCsvExportRequest;
 
     private GtnWsBcpServiceRequest gtnWsBcpServiceRequest;
+   private GtnWsUdcRequest gtnWsUdcRequest;
 
-	private GtnWsUdcRequest gtnWsUdcRequest;
-
-	private GtnWsAttachmentRequest gtnWsAttachmentRequest;
-
-	private GtnWsReportRequest gtnWsReportRequest;
-
-	public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
-		return gtnWshirarchyInsertRequest;
-	}
-
-	public void setGtnWshirarchyInsertRequest(GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest) {
-		this.gtnWshirarchyInsertRequest = gtnWshirarchyInsertRequest;
-	}
-
-	public GtnBSTimePeriodRequest getGtnBSTimePeriodRequest() {
-		return gtnBSTimePeriodRequest;
-	}
-
-	public void setGtnBSTimePeriodRequest(GtnBSTimePeriodRequest gtnBSTimePeriodRequest) {
-		this.gtnBSTimePeriodRequest = gtnBSTimePeriodRequest;
-	}
-
-	public GTNUIFrameworkDualListBoxRequest getgTNUIFrameworkDualListBoxRequest() {
-		return gTNUIFrameworkDualListBoxRequest;
-	}
-
-	public void setgTNUIFrameworkDualListBoxRequest(GTNUIFrameworkDualListBoxRequest gTNUIFrameworkDualListBoxRequest) {
-		this.gTNUIFrameworkDualListBoxRequest = gTNUIFrameworkDualListBoxRequest;
-	}
-
-	public GtnWsGeneralRequest getGtnWsGeneralRequest() {
-		return gtnWsGeneralRequest;
-	}
-
-	public void setGtnWsGeneralRequest(GtnWsGeneralRequest gtnWsGeneralRequest) {
-		this.gtnWsGeneralRequest = gtnWsGeneralRequest;
-	}
-
-	public GtnCMasterRequest getGtnCMasterRequest() {
-		return gtnCMasterRequest;
-	}
-
-	public void setGtnCMasterRequest(GtnCMasterRequest gtnCMasterRequest) {
-		this.gtnCMasterRequest = gtnCMasterRequest;
-	}
-
-	public GtnWsSearchRequest getGtnWsSearchRequest() {
+  public GtnWsSearchRequest getGtnWsSearchRequest() {
 		return gtnWsSearchRequest;
 	}
     private GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest;
 
+    private GtnWsAttachmentRequest gtnWsAttachmentRequest;
 
+	private GtnWsReportRequest gtnWsReportRequest;
     private GtnWsCustomViewRequest gtnWsCustomViewRequest;
+
+    public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
+        return gtnWshirarchyInsertRequest;
+    }
+
+    public void setGtnWshirarchyInsertRequest(GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest) {
+        this.gtnWshirarchyInsertRequest = gtnWshirarchyInsertRequest;
+    }
+
+    public GtnBSTimePeriodRequest getGtnBSTimePeriodRequest() {
+        return gtnBSTimePeriodRequest;
+    }
+
+    public void setGtnBSTimePeriodRequest(GtnBSTimePeriodRequest gtnBSTimePeriodRequest) {
+        this.gtnBSTimePeriodRequest = gtnBSTimePeriodRequest;
+    }
+
+    public GTNUIFrameworkDualListBoxRequest getgTNUIFrameworkDualListBoxRequest() {
+        return gTNUIFrameworkDualListBoxRequest;
+    }
+
+    public void setgTNUIFrameworkDualListBoxRequest(GTNUIFrameworkDualListBoxRequest gTNUIFrameworkDualListBoxRequest) {
+        this.gTNUIFrameworkDualListBoxRequest = gTNUIFrameworkDualListBoxRequest;
+    }
+
+    public GtnWsGeneralRequest getGtnWsGeneralRequest() {
+        return gtnWsGeneralRequest;
+    }
+
+    public void setGtnWsGeneralRequest(GtnWsGeneralRequest gtnWsGeneralRequest) {
+        this.gtnWsGeneralRequest = gtnWsGeneralRequest;
+    }
+
+    public GtnCMasterRequest getGtnCMasterRequest() {
+        return gtnCMasterRequest;
+    }
+
+    public void setGtnCMasterRequest(GtnCMasterRequest gtnCMasterRequest) {
+        this.gtnCMasterRequest = gtnCMasterRequest;
+    }
 
     public void setGtnWsSearchRequest(GtnWsSearchRequest gtnWsSearchRequest) {
         this.gtnWsSearchRequest = gtnWsSearchRequest;
@@ -471,6 +468,15 @@ public class GtnUIFrameworkWebserviceRequest {
         this.gtnWsUdcRequest = gtnWsUdcRequest;
     }
 
+
+    public GtnWsAttachmentRequest getGtnWsAttachmentRequest() {
+        return gtnWsAttachmentRequest;
+    }
+
+    public void setGtnWsAttachmentRequest(GtnWsAttachmentRequest gtnWsAttachmentRequest) {
+        this.gtnWsAttachmentRequest = gtnWsAttachmentRequest;
+    }
+
     public GtnWsCustomViewRequest getGtnWsCustomViewRequest() {
         return gtnWsCustomViewRequest;
     }
@@ -479,12 +485,5 @@ public class GtnUIFrameworkWebserviceRequest {
         this.gtnWsCustomViewRequest = gtnWsCustomViewRequest;
     }
 
-	public GtnWsAttachmentRequest getGtnWsAttachmentRequest() {
-		return gtnWsAttachmentRequest;
-	}
-
-	public void setGtnWsAttachmentRequest(GtnWsAttachmentRequest gtnWsAttachmentRequest) {
-		this.gtnWsAttachmentRequest = gtnWsAttachmentRequest;
-	}
 
 }
