@@ -62,7 +62,6 @@ import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.Tree;
-import java.util.Optional;
 
 public class GtnUIFrameworkBaseComponent {
 	

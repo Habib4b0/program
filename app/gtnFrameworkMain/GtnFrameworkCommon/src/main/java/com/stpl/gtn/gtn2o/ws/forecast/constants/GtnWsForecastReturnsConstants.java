@@ -120,7 +120,6 @@ public final class GtnWsForecastReturnsConstants {
 
 	public static final String GTN_WS_FORECAST_DISCOUNT_PROJECTION_TAB_RIGHT_HEADERS_SERVICE = "/getDiscountProjectionRightHeaders";
 	
-	public static final String GTN_WS_REPORT_COMPARISON_BREAKDOWN_TABLE_HEADERS_SERVICE = "/getReportComparisonBreakdownTableHeaders";
 	
 	
 	

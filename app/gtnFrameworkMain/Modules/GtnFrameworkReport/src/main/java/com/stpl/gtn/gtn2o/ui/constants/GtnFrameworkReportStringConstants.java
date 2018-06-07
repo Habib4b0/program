@@ -51,6 +51,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String RESET_CONFIRMATION_TABLE_MESSAGE = "Are you sure you want to reset the values in the table ?";
 
 	public static final String RETURNS = "returns";
+        
+        public static final String REPORT_CONFIG_FREQUENCY = "forecastConfigFrequency";
 
 	public static final String NDC_LAYOUT = "ndcLayout";
 
@@ -427,11 +429,18 @@ public final class GtnFrameworkReportStringConstants {
                 "dataAssumptionsPagedTableComponentdataAssumptionsTab1dataAssumptionsTab","dataAssumptionsPagedTableComponentdataAssumptionsTab2dataAssumptionsTab",
                 "dataAssumptionsPagedTableComponentdataAssumptionsTab3dataAssumptionsTab","dataAssumptionsPagedTableComponentdataAssumptionsTab4dataAssumptionsTab");
 
+        public static final String REPORT_LOOKUP_ACTION_PACKAGE = "com.stpl.gtn.gtn2o.ui.module.lookups.action.";
+        
+        public static final String REPORT_VARIABLE_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE+"GtnReportingVariableBreakdownHeaderLoadAction";
+
         public static List<String> getReportDataAssumptionsTabId() {
             return REPORT_DATAASSUMPTIONS_TAB_ID;
         }
 
 	private static final List<String> REPORT_VARIABLE_BREAKDOWN_HEADER = Arrays.asList("Projection Name", "Description",
+			"Market Type", "Contract Holder", "Contract", "Brand");
+	
+	private static final List<String> REPORT_COMPARISON_BREAKDOWN_HEADER = Arrays.asList("Projection Name", "Description",
 			"Market Type", "Contract Holder", "Contract", "Brand");
 
 	public static Class<?>[] getReportCustomerHierarchyTableColumnsDataType() {
@@ -472,5 +481,9 @@ public final class GtnFrameworkReportStringConstants {
 	public static List<String> getVariableBreakdownHeader() {
 		return REPORT_VARIABLE_BREAKDOWN_HEADER == null ? REPORT_VARIABLE_BREAKDOWN_HEADER
 				: Collections.unmodifiableList(REPORT_VARIABLE_BREAKDOWN_HEADER);
+	}
+	public static List<String> getComparisonBreakdownHeader() {
+		return REPORT_COMPARISON_BREAKDOWN_HEADER == null ? REPORT_COMPARISON_BREAKDOWN_HEADER
+				: Collections.unmodifiableList(REPORT_COMPARISON_BREAKDOWN_HEADER);
 	}
 }

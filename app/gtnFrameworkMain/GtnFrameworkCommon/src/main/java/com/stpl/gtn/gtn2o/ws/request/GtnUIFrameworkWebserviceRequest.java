@@ -122,58 +122,12 @@ public class GtnUIFrameworkWebserviceRequest {
     private GtnWsCsvExportRequest gtnWsCsvExportRequest;
 
     private GtnWsBcpServiceRequest gtnWsBcpServiceRequest;
+   private GtnWsUdcRequest gtnWsUdcRequest;
 
+  public GtnWsSearchRequest getGtnWsSearchRequest() {
+		return gtnWsSearchRequest;
+	}
     private GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	private GtnWsUdcRequest gtnWsUdcRequest;
 
     private GtnWsAttachmentRequest gtnWsAttachmentRequest;
 
@@ -219,10 +173,6 @@ public class GtnUIFrameworkWebserviceRequest {
     public void setGtnCMasterRequest(GtnCMasterRequest gtnCMasterRequest) {
         this.gtnCMasterRequest = gtnCMasterRequest;
     }
-
-	public GtnWsSearchRequest getGtnWsSearchRequest() {
-		return gtnWsSearchRequest;
-	}
 
     public void setGtnWsSearchRequest(GtnWsSearchRequest gtnWsSearchRequest) {
         this.gtnWsSearchRequest = gtnWsSearchRequest;
@@ -534,5 +484,6 @@ public class GtnUIFrameworkWebserviceRequest {
     public void setGtnWsCustomViewRequest(GtnWsCustomViewRequest gtnWsCustomViewRequest) {
         this.gtnWsCustomViewRequest = gtnWsCustomViewRequest;
     }
+
 
 }

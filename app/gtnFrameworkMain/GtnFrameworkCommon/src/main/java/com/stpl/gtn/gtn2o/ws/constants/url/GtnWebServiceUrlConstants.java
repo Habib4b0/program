@@ -68,7 +68,7 @@ public final class GtnWebServiceUrlConstants {
 	public static final String GTN_CSV_EXPORT_FILE_SERVICE = "/gtnCsvExportFileService";
 	public static final String GTN_BCP_SERVICE = "/gtnBcpService";
 	public static final String CALCULATE = "/calulate";
-	public static final String GTN_DOWNLOAD_FILE_SERVICE="/gtnDownloadAttachmentService";
+	public static final String GTN_DOWNLOAD_FILE_SERVICE = "/gtnDownloadAttachmentService";
 
 	/**
 	 * Forecast dataselection Constants
@@ -78,7 +78,8 @@ public final class GtnWebServiceUrlConstants {
 	public static final String GTN_HIERARCHY_CONTROL = "/GtnHierarchyQueryGenerator";
 	public static final String GTN_DATASELECTION_EDIT_CUSTHIERARCHY_INSERT = "/relationShipCustHierarchyInsert";
 	public static final String GTN_CCP_INSERT = "/forecastCCPInsert";
-	public static final String GTN_REPORT_CCP_INSERT = "/reportCCPInsert";
+	public static final String GTN_REPORT_CCP_INSERT_SQL = "/reportCCPInsertSql";
+	public static final String GTN_REPORT_CCP_INSERT_MONGO = "/reportCCPInsertMongo";
 	public static final String GTN_QUERY_FOR_TABLENAME_HIERARCHY_TYPE = "/getQueryByTableNameAndHierarchyTypeForMultiLevel";
 	public static final String GTN_DATASELECTION_LOAD_CUSTOMER_LEVEL = "/dataSelectionLoadCustomerHierarcy";
 	public static final String GTN_DATASELECTION_LOAD_PRODUCT_LEVEL = "/dataSelectionLoadProductHierarcy";

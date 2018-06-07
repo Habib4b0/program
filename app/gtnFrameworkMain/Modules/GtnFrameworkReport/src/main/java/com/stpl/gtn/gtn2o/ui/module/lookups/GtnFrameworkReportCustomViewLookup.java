@@ -6,12 +6,9 @@
 package com.stpl.gtn.gtn2o.ui.module.lookups;
 
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCVSaveValidationAction;
-import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewDeleteAction;
-import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomSelectAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeAddAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeRemoveAction;
-import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomTreeSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomVariableGridLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomVariablePositionChangeAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomViewEditAction;
@@ -49,8 +46,8 @@ public class GtnFrameworkReportCustomViewLookup {
 		view.setResetAllowed(true);
 		GtnUIFrameWorkActionConfig treeLoadActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
-        treeLoadActionConfig.addActionParameter(GtnFrameworkReportCustomViewEditAction.class.getName());
-        treeLoadActionConfig.addActionParameter(tabName + "customTreeTable");
+		treeLoadActionConfig.addActionParameter(GtnFrameworkUICustomViewEditAction.class.getName());
+		treeLoadActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
 		view.addViewAction(treeLoadActionConfig);
 		addComponentList(view);
 		return view;

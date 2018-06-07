@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.common.AppDataUtils;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
 import com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder;
+import static com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder.NINE_LEVELS_DED;
 import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountExcelLogic;
 import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.NMDiscountTableLoadLogic;
@@ -630,7 +631,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         variables.select(DISCOUNT_AMT.getConstant());     
         projectionSelection.setdPVariablesList(Arrays.asList(new String[]{ DISCOUNT_AMT.getConstant()}));
         }
+        if(session.getCustomDeductionRelationShipSid()==0){
+           viewDdlb.setValue(null);
+           newBtn.setEnabled(false); 
+        }
+        else{
         newBtn.setEnabled(true);
+        }
 
         startPeriodForecastTab.addItem(SELECT_ONE.getConstant());
         startPeriodForecastTab.setNullSelectionItemId(SELECT_ONE.getConstant());
@@ -3089,7 +3096,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             excelTable.setRefresh(BooleanConstant.getFalseFlag());
             excelContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class, ExtContainer.DataStructureMode.MAP);
             excelContainer.setColumnProperties(excelHeaderLeft.getProperties());
-            excelContainer.setColumnProperties(rightHeader.getProperties());
+            excelContainer.setColumnProperties(excelHeader.getProperties());
             excelTable.setContainerDataSource(excelContainer);
             ExtFilterTreeTable leftResultTable = resultsTable.getLeftFreezeAsTable();
 
@@ -3167,6 +3174,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             formatterMap.put("percentThreeDecimal", "Rate");
             formatterMap.put("currencyTwoDecimal", "RPU");
             formatterMap.put("amountTwoDecimal", AMOUNT);
+            formatterMap.put("sales", "Sales");
+            formatterMap.put("units", "Units");
+            formatterMap.put("Growth", "Growth");
             excelTable.setRefresh(BooleanConstant.getTrueFlag());
             ForecastUI.setEXCEL_CLOSE(true);
             CustomExcelNM excel = null;
@@ -5650,7 +5660,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     : Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant()
                             .equals(hierarchyIndicator);
             projectionSelection.setIsCustomHierarchy(isCustomHierarchy);
-            List<Object[]> discountExcelList = getDiscountExcelResults(projectionSelection);
+            List<Object[]> discountExcelList = getDiscountProjectionExcelResults();
             NMDiscountExcelLogic nmDiscountExcelLogic = new NMDiscountExcelLogic();
             List doubleProjectedAndHistoryCombinedUniqueList = discountProjectionLogic.getDoubleProjectedAndHistoryCombinedUniqueList(rightHeader);
             nmDiscountExcelLogic.getCustomizedExcelData(discountExcelList, projectionSelection, doubleProjectedAndHistoryCombinedUniqueList);
@@ -5756,6 +5766,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             formatter.put("percentThreeDecimal", "Rate");
             formatter.put("currencyTwoDecimal", "RPU");
             formatter.put("amountTwoDecimal", AMOUNT);
+            formatter.put("amountTwoDecimal", AMOUNT);
             excelTable.setRefresh(BooleanConstant.getTrueFlag());
             ForecastUI.setEXCEL_CLOSE(true);
             CustomExcelNM excel = null;
@@ -5825,5 +5836,20 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             this.tempSingleHeaderArray = doubleHeader.get(GROUP_PROPERTY_ID);
         }
         return this.tempSingleHeaderArray;
+    }
+    
+    public List getDiscountProjectionExcelResults() {
+        String queryBuilder=StringUtils.EMPTY;
+        String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
+        String deducQuery = NINE_LEVELS_DED;
+        queryBuilder = SQlUtil.getQuery("discount-customerproduct-excelQuery");
+        queryBuilder = queryBuilder.replace("@CUSTORPROD","P".equals(hierarchyIndicator)?"PROD_HIERARCHY_NO":"CUST_HIERARCHY_NO")
+                .replace("@VIEWTABLE","P".equals(hierarchyIndicator)?"ST_PRODUCT_DISCOUNT":"ST_CUSTOMER_DISCOUNT")
+                .replace("@DEDINCLUSION", (session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY:" and STC.DEDUCTION_INCLUSION= "+session.getDeductionInclusion())
+                .replace("@UNIONALL", deducQuery)
+                .replace("@ENDDEDINCLUSION", (session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY:" STC.DEDUCTION_INCLUSION= "+oppositeDed)
+                .replace("@DEDUCTIONLEVEL", (deductionlevelDdlb.getValue()==null || "ALL".equals(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()))? StringUtils.EMPTY:deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())));
+        queryBuilder = QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames());
+        return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder);
     }
 }

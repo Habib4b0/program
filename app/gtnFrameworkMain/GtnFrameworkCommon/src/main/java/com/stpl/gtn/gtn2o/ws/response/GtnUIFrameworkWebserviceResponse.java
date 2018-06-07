@@ -129,7 +129,7 @@ public class GtnUIFrameworkWebserviceResponse {
 		this.gtnWsReportResponse = gtnWsReportResponse;
 	} 
     
-
+    
     public String getResponseStatus() {
         return responseStatus;
     }
