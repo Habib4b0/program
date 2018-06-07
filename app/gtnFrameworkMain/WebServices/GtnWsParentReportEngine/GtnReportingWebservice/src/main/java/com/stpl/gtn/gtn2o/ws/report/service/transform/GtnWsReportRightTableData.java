@@ -8,6 +8,7 @@ public class GtnWsReportRightTableData {
 	private int period;
 	private String projectionName;
 	private Map<String, Double> dataMap;
+	private String variableName;
 
 	public String getHierarchyNo() {
 		return hierarchyNo;
@@ -49,8 +50,17 @@ public class GtnWsReportRightTableData {
 		this.dataMap = dataMap;
 	}
 
+	public String getVariableName() {
+		return variableName;
+	}
+
+	public void setVariableName(String variableName) {
+		this.variableName = variableName;
+	}
+
 	@Override
 	public String toString() {
 		return hierarchyNo + "-" + projectionName + dataMap;
 	}
+
 }

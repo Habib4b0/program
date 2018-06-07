@@ -349,7 +349,7 @@ public class GtnUIFrameworkBaseComponent {
         public Integer getIntegerFromV8ComboBox() throws GtnFrameworkValidationFailedException {
 		try {
 			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
-                        
+	
                        if (isEmpty(comboBox.getValue())) {
 				return 0;
 			}
@@ -929,7 +929,7 @@ public class GtnUIFrameworkBaseComponent {
 			isReadable=(( Field<?>)this.component).isReadOnly();
 		}else if(this.component instanceof  DateField) {
 			isReadable=((DateField)this.component).isReadOnly();
-			}
+		}
 		return isReadable;
 	}
 
@@ -1157,19 +1157,19 @@ public class GtnUIFrameworkBaseComponent {
 	}
 
 	public void removeTreeItems(GtnWsRecordBean treeSelectedBean) {
-			if (getComponentData().getCustomData() instanceof Tree) {
+		if (getComponentData().getCustomData() instanceof Tree) {
 			((GtnUIFrameworkTreeComponent) (getComponentConfig().getComponentType().getGtnComponent()))
 						.removeChildItems((Tree) (getComponentData().getCustomData()),treeSelectedBean);
-			}
 		}
+	}
 
 	public GtnWsRecordBean getParent(Object childItemId) {
 			return (GtnWsRecordBean) ((Tree)getComponentData().getCustomData()).getParent(childItemId);
-		}
+	}
 
 	public Set<GtnWsRecordBean> getSelectedValues() {
-			return (Set<GtnWsRecordBean>) ((Tree) getComponentData().getCustomData()).getValue();
-		}
+		return (Set<GtnWsRecordBean>) ((Tree) getComponentData().getCustomData()).getValue();
+	}
 
 	public Object getFieldValue() {
 
