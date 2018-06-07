@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.List;
@@ -18,6 +17,8 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
@@ -27,38 +28,46 @@ import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
  * @author Karthik.Raja
  */
 public class GtnFrameworkUIReportDasboardTableLoadAction
-		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+        implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	@Override
-	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		return;
-	}
+    @Override
+    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
+        return;
+    }
 
-	@Override
-	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
+    @Override
+    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
 
-		List<Object> params = (gtnUIFrameWorkActionConfig.getActionParameterList());
-		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
-				.getVaadinComponentData((String) params.get(1), componentId);
-		PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
+        List<Object> params = (gtnUIFrameWorkActionConfig.getActionParameterList());
+        GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
+                .getVaadinComponentData((String) params.get(1), componentId);
+        PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
+       String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
+       GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+       GtnWsReportDashboardBean dashBoardBean = new GtnWsReportDashboardBean();
+       dashBoardBean.setSessionId(dataSelectionBean.getSessionId());
+       grid.getTableConfig().setGtnWsReportDashboardBean(dashBoardBean);
+//        GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+//        GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
+//        GtnWsReportRequest reportRequest = new GtnWsReportRequest();
+//        GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
+//        dataSelectionBean.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
+//        reportRequest.setDataSelectionBean(dataSelectionBean);
+//        serviceRequest.setGtnWsReportRequest(reportRequest);
+//        reportRequest.setGtnWsReportDashboardBean(grid.getTableConfig().getGtnWsReportDashboardBean());
+//        wsclient.callGtnWebServiceUrl(GtnWsReportConstants.GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT,
+//                GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, serviceRequest,
+//                GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
-		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
-		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-		serviceRequest.setGtnWsReportRequest(reportRequest);
-		reportRequest.setGtnWsReportDashboardBean(grid.getTableConfig().getGtnWsReportDashboardBean());
-		wsclient.callGtnWebServiceUrl(GtnWsReportConstants.GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT,
-				GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, serviceRequest,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+        grid.initializeGrid();
+    }
 
-		grid.initializeGrid();
-	}
-
-	@Override
-	public GtnUIFrameWorkAction createInstance() {
-		return this;
-	}
+    @Override
+    public GtnUIFrameWorkAction createInstance() {
+        return this;
+    }
 
 }

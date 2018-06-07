@@ -55,7 +55,7 @@ public class GtnReportJsonService {
 		return getFilePath() + GtnWsQueryConstants.REPORTING;
 	}
 
-	private String getFileName(String filename, String sessionId) {
+	public String getFileName(String filename, String sessionId) {
 		return getFolderName() + filename + GtnWsQueryConstants.UNDERSCORE + sessionId;
 	}
 

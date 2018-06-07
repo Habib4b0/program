@@ -213,20 +213,22 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		return result;
 }
         
-           public List<GtnWsRecordBean> getDashboardLeftData(GtnWsSearchRequest gtnWsSearchRequest,
-            GtnWsReportDashboardBean reportDashboardBean)  {
+           public List<GtnWsRecordBean> getDashboardLeftData(
+            GtnWsReportDashboardBean reportDashboardBean,GtnUIFrameworkWebserviceRequest gtnWsRequest)  {
 
             try {
                 // Object inputs[] = gtnWsSearchRequest.getQueryInput().toArray();
-                Object values[] = gtnWsSearchRequest.getQueryInputList().toArray();
+                GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
+                Object values[] = gtnWsRequest.getGtnWsSearchRequest().getQueryInputList().toArray();
                 int levelNo=Integer.parseInt(values[0].toString()) ;
                 String hierarchyNo=values[1].toString();
-                GtnWsReportCustomCCPList ccpList = (GtnWsReportCustomCCPList) gtnReportJsonService.convertJsonToObject("C:\\Users\\Karthik.Raja\\Documents\\My Received Files\\map.json", GtnWsReportCustomCCPList.class);
+                String fileName=gtnReportJsonService.getFileName("CustomViewCCP", dataSelectionBean.getSessionId());
+                GtnWsReportCustomCCPList ccpList = (GtnWsReportCustomCCPList) gtnReportJsonService.convertJsonToObject(fileName, GtnWsReportCustomCCPList.class);
                 List<GtnWsReportCustomCCPListDetails> gtnWsReportCustomCCPListDetails = ccpList.getGtnWsReportCustomCCPListDetails();
                 
                 return   gtnWsReportCustomCCPListDetails.stream()
                         .filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo))
-                        .map(row -> convertToRecordbean(row, gtnWsSearchRequest.getRecordHeader())).collect(Collectors.toList());
+                        .map(row -> convertToRecordbean(row, gtnWsRequest.getGtnWsSearchRequest().getRecordHeader())).collect(Collectors.toList());
             } catch (Exception ex) {
                 GTNLOGGER.error(ex.getMessage(), ex);
             }
