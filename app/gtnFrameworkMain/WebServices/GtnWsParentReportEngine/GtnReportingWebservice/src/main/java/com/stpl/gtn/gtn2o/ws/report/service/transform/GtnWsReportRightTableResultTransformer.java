@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.service.transform;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class GtnWsReportRightTableResultTransformer implements ResultTransformer
 		rowData.setPeriod((int) tuple[3]);
 		Map<String, Double> rowDataMap = new HashMap<>((aliases.length - 4));
 		for (int k = 4; k < aliases.length; k++) {
-			rowDataMap.put(rowData.getProjectionName() + rowData.getYear() + rowData.getPeriod() + aliases[k],
+			rowDataMap.put(rowData.getPeriod() + "" + rowData.getYear() + aliases[k] + rowData.getProjectionName(),
 					((BigDecimal) tuple[k]).doubleValue());
 		}
 		rowData.setDataMap(rowDataMap);
@@ -33,7 +34,15 @@ public class GtnWsReportRightTableResultTransformer implements ResultTransformer
 
 	@Override
 	public List transformList(List collection) {
-		return collection;
+		Map<String, Map<String, Double>> hierarchyDataMap = new HashMap<>();
+		for (Object data : collection) {
+			GtnWsReportRightTableData rowData = (GtnWsReportRightTableData) data;
+			if (hierarchyDataMap.get(rowData.getHierarchyNo()) == null) {
+				hierarchyDataMap.put(rowData.getHierarchyNo(), new HashMap<>());
+			}
+			hierarchyDataMap.get(rowData.getHierarchyNo()).putAll(rowData.getDataMap());
+		}
+		return Arrays.asList(hierarchyDataMap);
 	}
 
 }

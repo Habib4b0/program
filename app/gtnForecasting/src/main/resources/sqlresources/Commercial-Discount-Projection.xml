@@ -1931,7 +1931,7 @@ SELECT
 FROM @VIEWTABLE STC
 INNER JOIN #SELECTED_HIERARCHY_NO SH
        ON STC.HIERARCHY_NO LIKE SH.HIERARCHY_NO + '%' and stc.RS_CONTRACT_SID=SH.DISCOUNT 
-WHERE INDICATOR = 0
+WHERE INDICATOR = 1
        @DEDINCLUSION
        GROUP BY SH.HIERARCHY_NO,
        SH.DISCOUNT,
@@ -2780,5 +2780,161 @@ WHERE  P.PERIOD_DATE BETWEEN Datefromparts(@START_YEAR, @START_MONTH, 1) AND Dat
    ]]>
        </query>
    </entity>
+   
+   <entity id="discount-customerproduct-excelQuery">
+       <query>
+            <![CDATA[   
+        
+ DECLARE @PROGRAM VARCHAR(500)='@DEDUCTIONLEVEL'
+ 
+IF Object_id('TEMPDB..#DISCOUNT_PROJECTION_MASTER') IS NOT NULL
+  DROP TABLE #DISCOUNT_PROJECTION_MASTER
+ 
+SELECT USER_GROUP = Max(MSPM.USER_GROUP),
+       @CUSTORPROD                AS HIERARCHY_NO,  
+       CASE @PROGRAM
+         WHEN 'SCHEDULE ID' THEN R.RS_CONTRACT_SID
+         WHEN 'PROGRAM' THEN R.RS_CONTRACT_SID
+         WHEN 'SCHEDULE TYPE' THEN RS_TYPE
+         WHEN 'PROGRAM CATEGORY' THEN REBATE_PROGRAM_TYPE
+         WHEN 'PROGRAM TYPE' THEN REBATE_PROGRAM_TYPE
+         WHEN 'SCHEDULE CATEGORY' THEN RS_CATEGORY
+         WHEN 'UDC1' THEN UD.UDC1
+         WHEN 'UDC2' THEN UD.UDC2
+         WHEN 'UDC3' THEN UD.UDC3
+         WHEN 'UDC4' THEN UD.UDC4
+         WHEN 'UDC5' THEN UD.UDC5
+         WHEN 'UDC6' THEN UD.UDC6
+       END                              DISCOUNT,
+       Row_number()
+         OVER(
+           ORDER BY @CUSTORPROD ) AS INSTR
+INTO   #DISCOUNT_PROJECTION_MASTER
+FROM   ST_CCP_HIERARCHY CCP
+       INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER MSPM
+               ON MSPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+       JOIN RS_CONTRACT R
+         ON R.RS_CONTRACT_SID = MSPM.RS_CONTRACT_SID
+       LEFT JOIN UDCS UD
+              ON UD.MASTER_SID = R.RS_CONTRACT_SID
+                 AND MASTER_TYPE = 'RS_CONTRACT'
+GROUP  BY CASE @PROGRAM
+            WHEN 'SCHEDULE ID' THEN R.RS_CONTRACT_SID
+            WHEN 'PROGRAM' THEN R.RS_CONTRACT_SID
+            WHEN 'SCHEDULE TYPE' THEN RS_TYPE
+            WHEN 'PROGRAM CATEGORY' THEN REBATE_PROGRAM_TYPE
+            WHEN 'PROGRAM TYPE' THEN REBATE_PROGRAM_TYPE
+            WHEN 'SCHEDULE CATEGORY' THEN RS_CATEGORY
+            WHEN 'UDC1' THEN UD.UDC1
+            WHEN 'UDC2' THEN UD.UDC2
+            WHEN 'UDC3' THEN UD.UDC3
+            WHEN 'UDC4' THEN UD.UDC4
+            WHEN 'UDC5' THEN UD.UDC5
+            WHEN 'UDC6' THEN UD.UDC6
+          END,
+          @CUSTORPROD
+ 
+SELECT --DPM.CHECK_RECORD,
+A.HIERARCHY_NO,
+PERIOD,
+YEAR,
+AP_TABLE_INDICATOR,
+NULL PARENT_HIERARCHY_NO,
+A.DISCOUNT,
+ACTUAL_SALES,
+ACTUAL_RATE,
+ACTUAL_RPU,
+PROJECTION_SALES,
+PROJECTION_RATE,
+PROJECTION_RPU,
+A.DEDUCTION_INCLUSION,
+LEVEL_NAME=NULL,
+GROWTH,
+USER_GROUP,
+LEVEL_NO=NULL,
+SALES_ACTUAL_SALES,
+SALES_ACTUAL_UNITS,
+SALES_PROJECTION_SALES,
+SALES_PROJECTION_UNITS
+FROM   (SELECT SH.HIERARCHY_NO,
+               STC.YEAR,
+               STC.PERIOD,
+               SH.DISCOUNT,
+               COALESCE(Sum(STC.DISCOUNT) / NULLIF(Sum(SALES), 0), 0) * 100 AS ACTUAL_RATE,
+               NULL                                                         PROJECTION_RATE,
+               0                                                            AS AP_TABLE_INDICATOR,
+               Sum(STC.DISCOUNT)                                            AS ACTUAL_SALES,
+               COALESCE(Sum(STC.DISCOUNT) / NULLIF(Sum(UNITS), 0), 0)       AS ACTUAL_RPU,
+               NULL                                                         AS PROJECTION_SALES,
+               NULL                                                         AS PROJECTION_RPU,
+               NULL                                                         AS GROWTH,
+               STC.DEDUCTION_INCLUSION,
+               Sum(SALES)                                                   AS SALES_ACTUAL_SALES,
+               Sum(UNITS)                                                   AS SALES_ACTUAL_UNITS,
+               NULL                                                         AS SALES_PROJECTION_SALES,
+               NULL                                                         AS SALES_PROJECTION_UNITS
+       FROM   @VIEWTABLE STC
+               INNER JOIN #DISCOUNT_PROJECTION_MASTER SH
+                       ON STC.HIERARCHY_NO LIKE SH.HIERARCHY_NO-- + '%'
+                          AND STC.RS_CONTRACT_SID = SH.DISCOUNT
+        WHERE  INDICATOR = 0
+               @DEDINCLUSION
+        GROUP  BY SH.HIERARCHY_NO,
+                  SH.DISCOUNT,
+                  PERIOD,
+                  YEAR,
+                  STC.DEDUCTION_INCLUSION
+                  --,INSTR
+        UNION ALL
+        SELECT SH.HIERARCHY_NO,
+               STC.YEAR,
+               STC.PERIOD,
+               SH.DISCOUNT,
+               NULL                                                         AS ACTUAL_RATE,
+               COALESCE(Sum(STC.DISCOUNT) / NULLIF(Sum(SALES), 0), 0) * 100 AS PROJECTION_RATE,
+               1                                                            AS AP_TABLE_INDICATOR,
+               NULL                                                         AS ACTUAL_SALES,
+               NULL                                                         AS ACTUAL_RPU,
+               Sum(STC.DISCOUNT)                                            AS PROJECTION_SALES,
+               COALESCE(Sum(STC.DISCOUNT) / NULLIF(Sum(UNITS), 0), 0)       AS PROJECTION_RPU,
+               Avg(GROWTH),
+               STC.DEDUCTION_INCLUSION,
+               NULL                                                         AS SALES_ACTUAL_SALES,
+               NULL                                                         AS SALES_ACTUAL_UNITS,
+               Sum(SALES)                                                   AS SALES_PROJECTION_SALES,
+               Sum(UNITS)                                                   AS SALES_PROJECTION_UNITS
+        FROM   @VIEWTABLE STC
+               INNER JOIN #DISCOUNT_PROJECTION_MASTER SH
+                       ON STC.HIERARCHY_NO LIKE SH.HIERARCHY_NO-- + '%'
+                          AND STC.RS_CONTRACT_SID = SH.DISCOUNT
+        WHERE  INDICATOR = 1
+               @DEDINCLUSION
+        GROUP  BY SH.HIERARCHY_NO,
+                  SH.DISCOUNT,
+                  PERIOD,
+                  YEAR,
+                  STC.DEDUCTION_INCLUSION,
+                  INDICATOR
+                  --,INSTR
+                             )A
+       JOIN #DISCOUNT_PROJECTION_MASTER DPM
+         ON DPM.HIERARCHY_NO = A.HIERARCHY_NO
+@UNIONALL
+FROM   @VIEWTABLE STC
+       INNER JOIN #DISCOUNT_PROJECTION_MASTER SH
+               ON STC.HIERARCHY_NO LIKE SH.HIERARCHY_NO-- + '%'
+                  AND STC.RS_CONTRACT_SID = SH.DISCOUNT
+WHERE  @ENDDEDINCLUSION
+ORDER  BY HIERARCHY_NO,
+          DISCOUNT,
+          YEAR,
+          PERIOD,
+          AP_TABLE_INDICATOR
+            
+   
+   ]]>
+       </query>
+   </entity>
+   
 </sql>
 

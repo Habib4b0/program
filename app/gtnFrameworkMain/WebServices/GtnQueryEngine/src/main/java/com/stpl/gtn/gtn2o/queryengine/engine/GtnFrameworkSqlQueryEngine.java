@@ -392,8 +392,6 @@ public class GtnFrameworkSqlQueryEngine {
 		try {
 			long startTime = queryLogger.startQueryLog(sqlQuery);
 			Query query = session.createSQLQuery(sqlQuery);
-
-			query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 			for (int i = 0; i < paramList.size(); i++) {
 				query.setParameter(i, paramList.get(i));
 			}

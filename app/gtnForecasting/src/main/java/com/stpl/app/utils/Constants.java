@@ -218,6 +218,7 @@ public class Constants {
         ACTUAL_UNITS("Actual Units"),
         PROJECTED_UNITS("Projected Units"),
         DISCOUNT_PROJ("discount projection"),
+        DATA_SELECTION_LANDING_SCREEN("Data Selection Landing Screen"),
         SALES_PROJ("sales projection");
         
         private final String constant;

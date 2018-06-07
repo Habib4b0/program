@@ -447,11 +447,33 @@ public class DataSelection extends ForecastDataSelection {
 
 			@Override
 			public void valueChange(Property.ValueChangeEvent event) {
+                                        if(customRelationDdlb.getValue()!=null ){
                             int custRelationValue = Integer.parseInt(customRelationDdlb.getValue().toString());
                             dataSelectionDTO.setCustomRelationShipSid(custRelationValue);
 				setUpdateOnTabChange(true);
+			}
+                        else{
+                        dataSelectionDTO.setCustomRelationShipSid(0);
+                        setUpdateOnTabChange(true);                       
+                   }
                         }
-                });
+		});
+                        customRelationDdlbDeduction.addValueChangeListener(new Property.ValueChangeListener() {
+
+			@Override
+			public void valueChange(Property.ValueChangeEvent event) {
+                            if(customRelationDdlbDeduction.getValue()!=null ){
+                            int custDeductionRelationValue = Integer.parseInt(customRelationDdlbDeduction.getValue().toString());
+                            dataSelectionDTO.setCustomDeductionRelationShipSid(custDeductionRelationValue);
+                            setUpdateOnTabChange(true);
+			}
+                            else{
+                                dataSelectionDTO.setCustomDeductionRelationShipSid(0);
+                                setUpdateOnTabChange(true);                                
+                            }
+                        }
+
+		});
 		projectionName.setValue(selectionDTO.getProjectionName());
 		description.setValue(selectionDTO.getDescription());
 	}
@@ -1200,6 +1222,7 @@ public class DataSelection extends ForecastDataSelection {
 		session.setCustomerRelationVersion(selectionDTO.getCustomerRelationShipVersionNo());
 		session.setProductRelationVersion(selectionDTO.getProductRelationShipVersionNo());
                 session.setCustomRelationShipSid(dataSelectionDTO.getCustomRelationShipSid());
+                session.setCustomDeductionRelationShipSid(dataSelectionDTO.getCustomDeductionRelationShipSid());
 		selectionDTO.setProjectionId(session.getProjectionId());
 		selectionDTO.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 		selectionDTO.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
@@ -4497,11 +4520,19 @@ public class DataSelection extends ForecastDataSelection {
         private void loadCustomViewDropDown(ComboBox customRelationDdlb,Map<String,String> inputData) {
             setNullSelectionCustomDdlb(customRelationDdlb);
             dsLogic.loadCustomViewValues(customRelationDdlb,inputData,true);
+            if(session.getCustomRelationShipSid()==0){
+                customRelationDdlb.select(null);
+            }
+            customRelationDdlb.select(session.getCustomRelationShipSid());
         }
 
         private void loadCustomViewDeductionDropDown(ComboBox customRelationDdlb,Map<String,String> inputData) {
             setNullSelectionCustomDdlb(customRelationDdlb);
             dsLogic.loadCustomViewDeductionValues(customRelationDdlb,inputData,true);
+            if(session.getCustomDeductionRelationShipSid()==0){
+                customRelationDdlb.select(null);
+            }
+            customRelationDdlb.select(session.getCustomDeductionRelationShipSid());
 
         }
         
