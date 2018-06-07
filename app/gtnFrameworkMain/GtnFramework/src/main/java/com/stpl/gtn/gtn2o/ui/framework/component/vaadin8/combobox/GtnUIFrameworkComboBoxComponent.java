@@ -76,13 +76,12 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 				&& !componentConfig.getGtnUIFrameWorkActionConfigList().isEmpty()) {
 			vaadinComboBox.addValueChangeListener(event -> {
 				try {
-					GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
-							comboboxConfig.getSourceComboboxId(), componentConfig.getSourceViewId());
-					AbstractComponent sourceComponent = baseComponent.getComponent();
-					GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) sourceComponent.getData();
-					GtnUIFrameworkComponentConfig sourceComponentConfig = componentData.getCurrentComponentConfig();
-					GtnUIFrameworkActionExecutor.executeActionList(componentData.getComponentIdInMap(),
-							sourceComponentConfig.getGtnUIFrameWorkActionConfigList());
+					 AbstractComponent component = (AbstractComponent) event.getComponent();
+						GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) component.getData();
+						GtnUIFrameworkComponentConfig valueChangeComponentConfig = componentData.getCurrentComponentConfig();
+						GtnUIFrameworkActionExecutor.executeActionList(componentData.getComponentIdInMap(),
+								valueChangeComponentConfig.getGtnUIFrameWorkActionConfigList());
+
 
 				} catch (GtnFrameworkGeneralException e) {
 					gtnLogger.error(e.getMessage(), e);

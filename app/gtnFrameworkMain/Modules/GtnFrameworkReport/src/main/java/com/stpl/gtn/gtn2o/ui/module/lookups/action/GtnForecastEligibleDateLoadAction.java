@@ -12,14 +12,12 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 public class GtnForecastEligibleDateLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
-	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnForecastEligibleDateLoadAction.class);
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -33,7 +31,6 @@ public class GtnForecastEligibleDateLoadAction
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_REPORT_LOADELIGIBLEDATE_SERVICE,
 				"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		gtnLogger.info("date from response---->"+response.getGtnUIFrameworkWebserviceDateResponse().getResultValue());
 		Date date = response.getGtnUIFrameworkWebserviceDateResponse().getResultValue();
 		LocalDateTime local = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 		LocalDate localDate = local.toLocalDate();

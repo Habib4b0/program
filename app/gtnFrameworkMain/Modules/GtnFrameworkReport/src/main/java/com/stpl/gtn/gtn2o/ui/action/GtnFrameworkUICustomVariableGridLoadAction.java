@@ -68,7 +68,6 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 
     @Override
     public GtnUIFrameWorkAction createInstance() {
-
         return this;
     }
 

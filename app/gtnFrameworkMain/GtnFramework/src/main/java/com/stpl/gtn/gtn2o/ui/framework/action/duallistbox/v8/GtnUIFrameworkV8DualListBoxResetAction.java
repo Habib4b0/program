@@ -18,7 +18,7 @@ import com.vaadin.ui.TreeGrid;
 
 public class GtnUIFrameworkV8DualListBoxResetAction implements GtnUIFrameWorkAction {
 	
-	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkV8DualListBoxResetAction.class);
+	private static final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkV8DualListBoxResetAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -34,7 +34,7 @@ public class GtnUIFrameworkV8DualListBoxResetAction implements GtnUIFrameWorkAct
 				.getVaadinComponentData(String.valueOf(actionParamList.get(0)), componentId);
 		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) gtnUIFrameworkComponentData
 				.getCustomData();
-                String selectedLevelName = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(1).toString()).getCaptionFromComboBox();
+                String selectedLevelName = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(1).toString()).getStringCaptionFromV8ComboBox();
 		Grid<GtnWsRecordBean> leftTable = dualListBoxBean.getLeftTable();
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
 		gtnLogger.info("boolean value is ------>" + rightTable.getTreeData().getRootItems().iterator().hasNext());

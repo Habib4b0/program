@@ -1,13 +1,14 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.Arrays;
-import java.util.Collection;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboboxComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkHierarchyTreeBuilder;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -20,20 +21,18 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
-import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.Grid;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnReportDataSelectionTabLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportDataSelectionTabLoadAction.class);
+	private static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportDataSelectionTabLoadAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-
+		return;
 	}
 
 	@Override
@@ -50,10 +49,11 @@ public class GtnReportDataSelectionTabLoadAction
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getCompanyReport());
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_businessUnit", componentId)
-					.loadComboBoxComponentValue(reportDataSelectionBean.getBusinessUnitReport());
+					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getBusinessUnitReport());
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId)
-					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getFromPeriodReport());
+			// GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod",
+			// componentId)
+			// .loadV8ComboBoxComponentValue(reportDataSelectionBean.getFromPeriodReport());
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_dsTabProjectionName", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getReportDataSource());
@@ -81,22 +81,6 @@ public class GtnReportDataSelectionTabLoadAction
 			rightTable.getDataProvider().refreshAll();
 			rightTable.markAsDirty();
 
-			AbstractComponent abstractComponentLeftTable = GtnUIFrameworkGlobalUI
-					.getVaadinComponent("reportLandingScreen_customerDualListBox");
-			GtnUIFrameworkComponentData dualListBoxDataLeftTable = (GtnUIFrameworkComponentData) abstractComponentLeftTable
-					.getData();
-
-			GtnFrameworkV8DualListBoxBean dualListBoxBeanLeftTable = (GtnFrameworkV8DualListBoxBean) dualListBoxDataLeftTable
-					.getCustomData();
-
-			Grid<GtnWsRecordBean> leftTable = dualListBoxBeanLeftTable.getLeftTable();
-			ListDataProvider listContainer = (ListDataProvider) leftTable.getDataProvider();
-			Collection items = listContainer.getItems();
-
-			Grid<GtnWsRecordBean> dsLeftTable = dualListBoxBean.getLeftTable();
-
-			dsLeftTable.setItems(items);
-
 			GtnUIFrameworkComponentData productHierarchyData = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId).getComponentData();
 			productHierarchyData.setCustomData(productRecordBean);
@@ -122,48 +106,33 @@ public class GtnReportDataSelectionTabLoadAction
 			dsProductRightTable.getDataProvider().refreshAll();
 			dsProductRightTable.markAsDirty();
 
-			AbstractComponent dsProductAbstractComponentLeftTable = GtnUIFrameworkGlobalUI
-					.getVaadinComponent("reportLandingScreen_productdualListBoxComp");
-			GtnUIFrameworkComponentData reportDualListBoxDataLeftTable = (GtnUIFrameworkComponentData) dsProductAbstractComponentLeftTable
-					.getData();
-
-			GtnFrameworkV8DualListBoxBean dsProductDualListBoxBeanLeftTable = (GtnFrameworkV8DualListBoxBean) reportDualListBoxDataLeftTable
-					.getCustomData();
-
-			Grid<GtnWsRecordBean> reportLandingScreenProductLeftTable = dsProductDualListBoxBeanLeftTable
-					.getLeftTable();
-			ListDataProvider dsProductListContainer = (ListDataProvider) reportLandingScreenProductLeftTable
-					.getDataProvider();
-			Collection dsProductItems = dsProductListContainer.getItems();
-
-			Grid<GtnWsRecordBean> dsProductLeftTable = dsProductDualListBoxBean.getLeftTable();
-
-			dsProductLeftTable.setItems(dsProductItems);
-
 			Integer hierarchyDefinitionSid = (Integer) customerRecordBean
 					.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1);
 
-			GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_customerSelectionRelationship", componentId)
+			GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId)
 					.getComponentConfig().getGtnComboboxConfig();
 
 			relationComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 					+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 			relationComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.PRODUCT_RELATIONSHIP);
 
-			GtnUIFrameworkComboboxComponent customerRelationshipCombobox = new GtnUIFrameworkComboboxComponent();
-			customerRelationshipCombobox.reloadComponent(GtnUIFrameworkActionType.VALUE_CHANGE_ACTION,
-					"dataSelectionTab_customerSelectionRelationship", componentId,
+			GtnUIFrameworkComboBoxComponent customerRelationshipCombobox = new GtnUIFrameworkComboBoxComponent();
+			customerRelationshipCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId,
 					Arrays.asList(hierarchyDefinitionSid));
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_customerSelectionRelationship", componentId)
-					.loadComboBoxComponentValue(reportDataSelectionBean.getCustomerRelationshipBuilderSid());
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId)
+					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getCustomerRelationshipBuilderSid());
 
-			String relationshipValue = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_customerSelectionRelationship", componentId)
-					.getCaptionFromComboBox();
+			int relationshipValue = Integer.parseInt(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId)
+					.getCaptionFromV8ComboBox());
 
 			GtnUIFrameworkComboBoxConfig customerRelationshipVersionComboboxConfig = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_customerRelationshipVersion", componentId)
+					.getVaadinBaseComponent(
+							GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_RELATIONSHIP_VERSION,
+							componentId)
 					.getComponentConfig().getGtnComboboxConfig();
 
 			customerRelationshipVersionComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -171,50 +140,65 @@ public class GtnReportDataSelectionTabLoadAction
 			customerRelationshipVersionComboboxConfig
 					.setComboBoxType(GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION);
 
-			GtnUIFrameworkComboboxComponent customerRelationshipVersionCombobox = new GtnUIFrameworkComboboxComponent();
-			customerRelationshipVersionCombobox.reloadComponent(GtnUIFrameworkActionType.VALUE_CHANGE_ACTION,
-					"dataSelectionTab_customerRelationshipVersion", componentId, Arrays.asList(relationshipValue));
-
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_customerRelationshipVersion", componentId)
-					.loadComboBoxComponentValue(reportDataSelectionBean.getCustomerHierarchyVersionNo());
+			GtnUIFrameworkComboBoxComponent customerRelationshipVersionCombobox = new GtnUIFrameworkComboBoxComponent();
+			customerRelationshipVersionCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_RELATIONSHIP_VERSION, componentId,
+					Arrays.asList(relationshipValue));
 
 			GtnUIFrameworkComboBoxConfig customerLevelComboboxConfig = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_customerSelectionLevel", componentId).getComponentConfig()
-					.getGtnComboboxConfig();
+					.getVaadinBaseComponent(
+							GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_LEVEL, componentId)
+					.getComponentConfig().getGtnComboboxConfig();
 
 			customerLevelComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 					+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-			customerLevelComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.PRODUCT_FORCAST_LEVEL);
+			customerLevelComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.REPORT_FORECAST_LEVEL);
 
-			GtnUIFrameworkComboboxComponent customerLevelCombobox = new GtnUIFrameworkComboboxComponent();
-			customerLevelCombobox.reloadComponent(GtnUIFrameworkActionType.VALUE_CHANGE_ACTION,
-					"dataSelectionTab_customerSelectionLevel", componentId, Arrays.asList(hierarchyDefinitionSid));
+			int hierarchyVersion = Integer.parseInt(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_RELATIONSHIP_VERSION, componentId)
+					.getCaptionFromV8ComboBox());
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_customerSelectionLevel", componentId)
-					.loadComboBoxComponentValue(reportDataSelectionBean.getCustomerHierarchyForecastLevel());
+			GtnUIFrameworkComboBoxComponent customerLevelCombobox = new GtnUIFrameworkComboBoxComponent();
+			customerLevelCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_LEVEL, componentId,
+					Arrays.asList(hierarchyDefinitionSid, hierarchyVersion));
+
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(
+							GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_LEVEL, componentId)
+					.loadV8ComboBoxComponentValue(
+							Integer.valueOf(reportDataSelectionBean.getCustomerHierarchyForecastLevel()));
 
 			Integer productHierarchyDefinitionSid = (Integer) productRecordBean
 					.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1);
 
 			GtnUIFrameworkComboBoxConfig productRelationComboboxConfig = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_relationship", componentId).getComponentConfig()
-					.getGtnComboboxConfig();
+					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_RELATIONSHIP,
+							componentId)
+					.getComponentConfig().getGtnComboboxConfig();
 
 			productRelationComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 					+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 			productRelationComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.PRODUCT_RELATIONSHIP);
 
-			GtnUIFrameworkComboboxComponent productRelationshipCombobox = new GtnUIFrameworkComboboxComponent();
-			productRelationshipCombobox.reloadComponent(GtnUIFrameworkActionType.VALUE_CHANGE_ACTION,
-					"dataSelectionTab_relationship", componentId, Arrays.asList(productHierarchyDefinitionSid));
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_relationship", componentId)
-					.loadComboBoxComponentValue(reportDataSelectionBean.getProductRelationshipBuilderSid());
+			GtnUIFrameworkComboBoxComponent productRelationshipCombobox = new GtnUIFrameworkComboBoxComponent();
+			productRelationshipCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_RELATIONSHIP, componentId,
+					Arrays.asList(productHierarchyDefinitionSid));
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_RELATIONSHIP,
+							componentId)
+					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getProductRelationshipBuilderSid());
 
-			String productrelationshipValue = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_relationship", componentId).getCaptionFromComboBox();
+			int productrelationshipValue = Integer.parseInt(GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_RELATIONSHIP,
+							componentId)
+					.getCaptionFromV8ComboBox());
 
 			GtnUIFrameworkComboBoxConfig productRelationshipVersionComboboxConfig = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_productRelationshipVersion", componentId)
+					.getVaadinBaseComponent(
+							GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_PRODUCT_RELATIONSHIP_VERSION,
+							componentId)
 					.getComponentConfig().getGtnComboboxConfig();
 
 			productRelationshipVersionComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -222,28 +206,42 @@ public class GtnReportDataSelectionTabLoadAction
 			productRelationshipVersionComboboxConfig
 					.setComboBoxType(GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION);
 
-			GtnUIFrameworkComboboxComponent productRelationshipVersionCombobox = new GtnUIFrameworkComboboxComponent();
-			productRelationshipVersionCombobox.reloadComponent(GtnUIFrameworkActionType.VALUE_CHANGE_ACTION,
-					"dataSelectionTab_productRelationshipVersion", componentId,
+			GtnUIFrameworkComboBoxComponent productRelationshipVersionCombobox = new GtnUIFrameworkComboBoxComponent();
+			productRelationshipVersionCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_PRODUCT_RELATIONSHIP_VERSION, componentId,
 					Arrays.asList(productrelationshipValue));
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_productRelationshipVersion", componentId)
-					.loadComboBoxComponentValue(reportDataSelectionBean.getProductHierarchyVersionNo());
-
 			GtnUIFrameworkComboBoxConfig productLevelComboboxConfig = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_level", componentId).getComponentConfig()
-					.getGtnComboboxConfig();
+					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_LEVEL, componentId)
+					.getComponentConfig().getGtnComboboxConfig();
+
+			int productHierarchyVersion = Integer.parseInt(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_PRODUCT_RELATIONSHIP_VERSION, componentId)
+					.getCaptionFromV8ComboBox());
 
 			productLevelComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 					+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-			productLevelComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.PRODUCT_FORCAST_LEVEL);
+			productLevelComboboxConfig.setComboBoxType(GtnFrameworkForecastConstantCommon.REPORT_FORECAST_LEVEL);
 
-			GtnUIFrameworkComboboxComponent productLevelCombobox = new GtnUIFrameworkComboboxComponent();
-			productLevelCombobox.reloadComponent(GtnUIFrameworkActionType.VALUE_CHANGE_ACTION, "dataSelectionTab_level",
-					componentId, Arrays.asList(hierarchyDefinitionSid));
+			GtnUIFrameworkComboBoxComponent productLevelCombobox = new GtnUIFrameworkComboBoxComponent();
+			productLevelCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_LEVEL, componentId,
+					Arrays.asList(productHierarchyDefinitionSid, productHierarchyVersion));
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_level", componentId)
-					.loadComboBoxComponentValue(reportDataSelectionBean.getProductHierarchyForecastLevel());
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_LEVEL, componentId)
+					.loadV8ComboBoxComponentValue(
+							Integer.valueOf(reportDataSelectionBean.getProductHierarchyForecastLevel()));
+
+                    GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+                    actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+                    actionConfig.setActionParameterList(Arrays.asList(
+                            GtnReportDataAssumptionsTabLoadAction.class.getName(),
+                            GtnFrameworkReportStringConstants.TAB_SHEET + "dataAssump", GtnFrameworkReportStringConstants.CURRENT_TAB,
+                            GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_LOAD,reportDataSelectionBean));
+
+                    GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
+
 		} catch (Exception exception) {
 			logger.error("Error message", exception);
 		}

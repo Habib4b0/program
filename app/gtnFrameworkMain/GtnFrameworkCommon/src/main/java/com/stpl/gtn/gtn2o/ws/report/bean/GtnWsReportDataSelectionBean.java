@@ -7,6 +7,10 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 
 public class GtnWsReportDataSelectionBean {
 
+	public GtnWsReportDataSelectionBean() {
+		super();
+	}
+
 	private long customerHierarchySid;
 	private long productHierarchySid;
 	private int customerHierarchyForecastLevel;
@@ -33,6 +37,13 @@ public class GtnWsReportDataSelectionBean {
 	private GtnWsRecordBean productHierarchyRecordBean;
 	private List<GtnWsRecordBean> selectedCustomerHierarchyList;
 	private List<GtnWsRecordBean> selectedProductHierarchyList;
+	private List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList;
+	private Date fromPeriod;
+	private Date toPeriodReport;
+
+	private String viewName;
+	private String viewType;
+	private Integer viewId;
 
 	public int getProductRelationshipBuilderSid() {
 		return productRelationshipBuilderSid;
@@ -83,7 +94,7 @@ public class GtnWsReportDataSelectionBean {
 	}
 
 	public Date getForecastEligibleDate() {
-		return forecastEligibleDate;
+		return this.forecastEligibleDate;
 	}
 
 	public void setForecastEligibleDate(Date forecastEligibleDate) {
@@ -246,6 +257,54 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setAvailableProductHierarchyList(List<GtnWsRecordBean> availableProductHierarchyList) {
 		this.availableProductHierarchyList = availableProductHierarchyList;
+	}
+
+	public String getViewName() {
+		return viewName;
+	}
+
+	public void setViewName(String viewName) {
+		this.viewName = viewName;
+	}
+
+	public String getViewType() {
+		return viewType;
+	}
+
+	public void setViewType(String viewType) {
+		this.viewType = viewType;
+	}
+
+	public Date getFromPeriod() {
+		return this.fromPeriod;
+	}
+
+	public void setFromPeriod(Date fromPeriod) {
+		this.fromPeriod = fromPeriod;
+	}
+
+	public Date getToPeriodReport() {
+		return this.toPeriodReport;
+	}
+
+	public void setToPeriodReport(Date toPeriodReport) {
+		this.toPeriodReport = toPeriodReport;
+	}
+
+	public Integer getViewId() {
+		return viewId;
+	}
+
+	public void setViewId(Integer viewId) {
+		this.viewId = viewId;
+	}
+
+	public List<GtnReportComparisonProjectionBean> getComparisonProjectionBeanList() {
+		return comparisonProjectionBeanList;
+	}
+
+	public void setComparisonProjectionBeanList(List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
+		this.comparisonProjectionBeanList = comparisonProjectionBeanList;
 	}
 
 }

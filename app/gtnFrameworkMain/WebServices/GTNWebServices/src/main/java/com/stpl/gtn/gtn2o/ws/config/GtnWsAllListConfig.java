@@ -283,12 +283,14 @@ public class GtnWsAllListConfig {
 				"select distinct rld.level_no,'Level '+rld.level_no+' - '+rld.level_name from relationship_level_definition rld, relationship_builder rb, hierarchy_level_definition hld where rld.relationship_builder_sid in (select rbt.relationship_builder_sid from relationship_builder rbt where rbt.hierarchy_definition_sid = ?) and rld.hierarchy_level_definition_sid = hld.hierarchy_level_definition_sid order by rld.level_no asc");
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.PRODUCT_INNER_LEVEL,
 				"select distinct rld.level_no,'Level '+rld.level_no+' - '+rld.level_name from relationship_level_definition rld, relationship_builder rb, hierarchy_level_definition hld where rld.relationship_builder_sid in (select rbt.relationship_builder_sid from relationship_builder rbt where rbt.hierarchy_definition_sid = ?) and rld.level_no <=? and rld.hierarchy_level_definition_sid = hld.hierarchy_level_definition_sid order by rld.level_no asc");
-		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION,
-				"select version_no,hierarchy_version from Relationship_builder where relationship_builder_sid = ? order by version_no desc");
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.TIME_PERIOD_FROM_DATE,
 				GtnFrameworkForecastConstantCommon.LOAD_QUERY_FROM_XML);
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.TIME_PERIOD_TO_DATE,
 				GtnFrameworkForecastConstantCommon.LOAD_QUERY_FROM_XML);
+		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.RELATIONSHIP_VERSION,
+				"select version_no,hierarchy_version from Relationship_builder where relationship_builder_sid = ? order by version_no desc");
+		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.REPORT_FORECAST_LEVEL,
+				"select distinct hld.level_no , ' Level '+ cast(hld.LEVEL_NO  as varchar)+ ' - ' + hld.level_name from HIERARCHY_LEVEL_DEFINITION hld where HIERARCHY_DEFINITION_SID = ? and hld.VERSION_NO = ? and Exists(SELECT 1 from dbo.RELATIONSHIP_BUILDER RLD where RLD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID) order by LEVEL_NO asc;");
 		comboBoxQueryMap.put("ItemPricingQualifier",
 				"SELECT ITEM_PRICING_QUALIFIER_SID,ITEM_PRICING_QUALIFIER_NAME FROM ITEM_PRICING_QUALIFIER WHERE ITEM_PRICING_QUALIFIER_NAME IS NOT NULL AND ITEM_PRICING_QUALIFIER_NAME <> ''");
 		comboBoxQueryMap.put("Brands",

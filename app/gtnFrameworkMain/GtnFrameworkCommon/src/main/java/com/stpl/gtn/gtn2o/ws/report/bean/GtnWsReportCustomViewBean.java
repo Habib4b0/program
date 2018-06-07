@@ -6,6 +6,7 @@ public class GtnWsReportCustomViewBean {
 	private GtnWsHierarchyType hierarchyType;
 	private GtnUIFrameworkDataTable gridData;
 	private GtnWsReportCustomViewDataBean customViewDataBean;
+	private boolean isEdit;
 
 	public GtnWsHierarchyType getHierarchyType() {
 		return hierarchyType;
@@ -29,6 +30,14 @@ public class GtnWsReportCustomViewBean {
 
 	public void setCustomViewDataBean(GtnWsReportCustomViewDataBean customViewDataBean) {
 		this.customViewDataBean = customViewDataBean;
+	}
+
+	public boolean isEdit() {
+		return isEdit;
+	}
+
+	public void setEdit(boolean isEdit) {
+		this.isEdit = isEdit;
 	}
 
 }

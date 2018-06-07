@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.module.lookups;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataAssumptionsTabLoadAction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import java.util.Arrays;
 
 public class GtnFrameworkReportGenerateLookUp {
 
@@ -109,8 +111,7 @@ public class GtnFrameworkReportGenerateLookUp {
 		tabConfigList.add(dataAssumptions);
 		tabConfigList.add(reportingDashboard);
 
-		tabSheetConfig.setGtnTabSheetConfigList(tabConfigList);
-
+                tabSheetConfig.setGtnTabSheetConfigList(tabConfigList);
 		componentList.add(tabSheetConfig);
 	}
 	

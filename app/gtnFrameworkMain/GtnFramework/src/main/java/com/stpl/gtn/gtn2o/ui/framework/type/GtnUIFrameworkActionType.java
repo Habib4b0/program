@@ -50,6 +50,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkSetDataAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkTreeTableCollapseAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkTreeTableExpandAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkTreeTableLevelFilterAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkV8AddRecordAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkV8PopupSelectAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkVisibleAction;
@@ -65,6 +66,10 @@ import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameworkV8Con
 import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameworkV8DualListBoxResetAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnFrameworkDateCompareValidationAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameWorkValidationAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.validation.v8.GtnUIFrameWorkV8ConfirmedResetAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.validation.v8.GtnUIFrameWorkV8ResetAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.validation.v8.GtnUIFrameWorkV8ValidationAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.validation.v8.GtnUIFrameworkV8ValueChangeAction;
 
 public enum GtnUIFrameworkActionType {
 
@@ -192,7 +197,17 @@ public enum GtnUIFrameworkActionType {
 	
 	V8DUAL_LISTBOX_RESET_ACTION(new GtnUIFrameworkV8DualListBoxResetAction()),
 	
-	V8CONFIRMED_DUALLISTBOX_RESET_ACTION(new GtnUIFrameworkV8ConfirmedDualListBoxResetAction());
+	V8CONFIRMED_DUALLISTBOX_RESET_ACTION(new GtnUIFrameworkV8ConfirmedDualListBoxResetAction()),
+	
+	V8_VALIDATION_ACTION(new GtnUIFrameWorkV8ValidationAction()),
+
+	V8_RESET_ACTION(new GtnUIFrameWorkV8ResetAction()),
+
+	V8_CONFIRMED_RESET_ACTION(new GtnUIFrameWorkV8ConfirmedResetAction()), 
+	
+	V8_VALUE_CHANGE_ACTION(new GtnUIFrameworkV8ValueChangeAction()),
+	
+	V8_ADD_RECORD_ACTION(new GtnUIFrameworkV8AddRecordAction());
 
 	private final GtnUIFrameWorkAction gtnUIFrameWorkAction;
 

@@ -41,7 +41,7 @@ public class GtnWsReportingDashBoardSevice {
 //				reportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.COMPUTED_TREE_RESULTS), inputs,
 //				values);
                 FindIterable<Document> documents = gtnMongoService.fetchDataFromMongo(reportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.COMPUTED_TREE_RESULTS), inputs,
-				values,gtnWsSearchRequest.getTableRecordStart(),gtnWsSearchRequest.getTableRecordOffset(),"levelIndex");
+				values);
 		List<GtnWsRecordBean> data = new ArrayList<>();
 		displayNodeValues(documents, data, gtnWsSearchRequest.getRecordHeader(),"S");
 		return data;

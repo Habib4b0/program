@@ -37,42 +37,42 @@ public class GtnFrameworkUICustomViewHierarchyLoadAction
 
     }
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-            throws GtnFrameworkGeneralException {
-        List<Object> parameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
-        GtnWsHierarchyType hierarchyType = (GtnWsHierarchyType) parameterList.get(1);
-        GtnUIFrameworkDataTable dataTable = null;
-        if (hierarchyType == GtnWsHierarchyType.CUSTOMER || hierarchyType == GtnWsHierarchyType.PRODUCT) {
-            GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebServiceReportRequestBuilder()
-                    .withCustomViewBean().withDataSelectionBean().build();
-            request.getGtnWsReportRequest().getReportBean().getCustomViewBean().setHierarchyType(hierarchyType);
-            String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
-            GTNLOGGER.info("component Id = = = " + componentId);
-            GTNLOGGER.info("sourceComponentId = = =" + sourceComponentId);
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		List<Object> parameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
+		GtnWsHierarchyType hierarchyType = (GtnWsHierarchyType) parameterList.get(1);
+		GtnUIFrameworkDataTable dataTable = null;
+		if (hierarchyType == GtnWsHierarchyType.CUSTOMER || hierarchyType == GtnWsHierarchyType.PRODUCT) {
+			GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebServiceReportRequestBuilder()
+					.withCustomViewBean().withDataSelectionBean().build();
+			request.getGtnWsReportRequest().getReportBean().getCustomViewBean().setHierarchyType(hierarchyType);
+			String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
+			GTNLOGGER.info("component Id = = = " + componentId);
+			GTNLOGGER.info("sourceComponentId = = =" + sourceComponentId);
             GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
             int relationSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_customerSelectionRelationship")
-                    .getIntegerFromField();
+                    .getIntegerFromV8ComboBox();
             dataSelectionBean.setCustomerRelationshipBuilderSid(relationSid);
             dataSelectionBean.setCustomerHierarchySid(relationSid);
-            relationSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_relationship").getIntegerFromField();
+            relationSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_relationship").getIntegerFromV8ComboBox();
             dataSelectionBean.setProductRelationshipBuilderSid(relationSid);
             dataSelectionBean.setProductHierarchySid(relationSid);
-            request.getGtnWsReportRequest().getReportBean().setDataSelectionBean(dataSelectionBean);
-            GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-                    GtnWsReportEndPointUrlConstants.LOAD_HIERARCHY,
-                    GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, request,
-                    GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-            dataTable = response.getGtnReportResponse().getReportBean().getCustomViewBean().getGridData();
-        } else {
-            dataTable = loadDeductionHierarchy();
-        }
-        GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig(
-                GtnUIFrameworkActionType.GRID_STATIC_LOAD_ACTION);
-        actionConfig.addActionParameter(componentId);
-        actionConfig.addActionParameter(dataTable);
-        GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
-    }
+			request.getGtnWsReportRequest().getReportBean().setDataSelectionBean(dataSelectionBean);
+			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+					GtnWsReportEndPointUrlConstants.LOAD_HIERARCHY,
+					GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, request,
+					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+            dataTable = response.getGtnWsReportResponse().getReportBean().getCustomViewBean().getGridData();
+		} else {
+			dataTable = loadDeductionHierarchy();
+		}
+		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.GRID_STATIC_LOAD_ACTION);
+		actionConfig.addActionParameter(componentId);
+		actionConfig.addActionParameter(dataTable);
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
+	}
 
     private GtnUIFrameworkDataTable loadDeductionHierarchy() {
         GtnWsReportDeductionType[] values = GtnWsReportDeductionType.values();

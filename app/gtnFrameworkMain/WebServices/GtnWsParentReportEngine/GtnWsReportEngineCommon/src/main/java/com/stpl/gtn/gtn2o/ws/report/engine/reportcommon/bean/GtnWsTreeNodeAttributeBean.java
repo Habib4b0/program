@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GtnWsTreeNodeAttributeBean implements Serializable {
@@ -12,15 +13,16 @@ public class GtnWsTreeNodeAttributeBean implements Serializable {
 		super();
 	}
 
-	List<GtnWsAttributeBean> attributeBeanList;
+	private List<GtnWsAttributeBean> attributeBeanList = null;
 
-    public List<GtnWsAttributeBean> getAttributeBeanList() {
-        return attributeBeanList;
-    }
+	public List<GtnWsAttributeBean> getAttributeBeanList() {
+		return attributeBeanList == null ? attributeBeanList : Collections.unmodifiableList(attributeBeanList);
+	}
 
-    public void setAttributeBeanList(List<GtnWsAttributeBean> attributeBeanList) {
-        this.attributeBeanList = attributeBeanList;
-    }
+	public void setAttributeBeanList(List<GtnWsAttributeBean> attributeBeanList) {
+		this.attributeBeanList = attributeBeanList == null ? attributeBeanList
+				: Collections.unmodifiableList(attributeBeanList);
+	}
 
 	public void addAttributeBeanToList(GtnWsAttributeBean attributeBean) {
 		if (attributeBeanList == null) {

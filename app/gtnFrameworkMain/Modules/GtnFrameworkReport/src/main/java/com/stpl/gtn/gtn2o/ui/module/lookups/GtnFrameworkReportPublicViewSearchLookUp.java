@@ -227,7 +227,7 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 		tableStyle.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
 		tableStyle.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
 		publicViewPagedTableComponent.setComponentStyle(tableStyle);
-
+		publicViewPagedTableComponent.setModuleName(GtnFrameworkReportStringConstants.REPORT);
 		componentList.add(publicViewPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig publicViewPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
 		publicViewPagedTableConfig.setEditable(false);

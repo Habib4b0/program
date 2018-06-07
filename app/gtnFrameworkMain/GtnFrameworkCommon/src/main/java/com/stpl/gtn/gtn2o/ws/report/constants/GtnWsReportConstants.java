@@ -23,4 +23,9 @@ public class GtnWsReportConstants {
 	public static final String GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_SERVICE = "/loadPrivateViewResults";
 	public static final String GTN_REPORT_LOAD_PUBLICVIEWLOOKUP_SERVICE = "/loadPublicViewResults";
 	public static final String GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT = "/generateReportCalculationInsert";
+	public static final String GTN_REPORT_SAVEVIEW_SERVICE = "/reportSaveViewService";
+	public static final String GTN_REPORRT_DELETEVIEW_SERVICE = "/reportDeleteViewService";
+	public static final String GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_LOADSERVICE = "/reportComparisonAvailableTableLoadService";
+        public static final String GTN_WS_REPORT_VARIABLE_BREAKDOWN_TABLE_HEADERS_SERVICE = "/getReportVariableBreakdownTableHeaders";
+
 }

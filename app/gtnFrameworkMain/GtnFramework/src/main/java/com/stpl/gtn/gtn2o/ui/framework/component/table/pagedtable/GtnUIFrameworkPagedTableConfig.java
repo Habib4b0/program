@@ -75,7 +75,23 @@ public class GtnUIFrameworkPagedTableConfig {
     private String dataQuery;
     private HashMap<String, Object> filterValueMap=new HashMap<>();
     private boolean isRefreshAtStart;
+    private String gridColumnHeader;
+    private boolean enableCheckBoxInGridHeader=false;
 
+    public boolean isEnableCheckBoxInGridHeader() {
+        return enableCheckBoxInGridHeader;
+    }
+
+    public void setEnableCheckBoxInGridHeader(boolean enableCheckBoxInGridHeader) {
+        this.enableCheckBoxInGridHeader = enableCheckBoxInGridHeader;
+    }
+    public String getGridColumnHeader() {
+        return gridColumnHeader;
+    }
+
+    public void setGridColumnHeader(String gridColumnHeader) {
+        this.gridColumnHeader = gridColumnHeader;
+    }
 
     public List<String> getColumnHeaders() {
         return columnHeaders;
@@ -562,8 +578,8 @@ public class GtnUIFrameworkPagedTableConfig {
     public void setDataQuery(String dataQuery) {
         this.dataQuery = dataQuery;
     }
-    Object[] dataQueryInputs=null;
-    Object[] countQueryInputs=null;
+    private Object[] dataQueryInputs=null;
+    private Object[] countQueryInputs=null;
 
     public Object[] getCountQueryInputs() {
         return countQueryInputs;

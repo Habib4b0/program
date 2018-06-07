@@ -56,14 +56,18 @@ public class GtnFrameworkUICustomTreeSaveAction
 		customSaveActionConfig.addActionParameter(customViewName);
 		customSaveActionConfig.addActionParameter(apexBean);
 
-		GtnUIFrameWorkActionConfig confirmationActionConfig = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.CONFIRMATION_ACTION);
-		confirmationActionConfig.addActionParameter("Confirmation");
+		if (gtnUIFrameWorkActionConfig.getActionParameterList().size() > 3) {
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, customSaveActionConfig);
+		} else {
+			GtnUIFrameWorkActionConfig confirmationActionConfig = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+			confirmationActionConfig.addActionParameter("Confirmation");
 
-		String saveMsg = "Save record " + customViewName + " ?";
-		confirmationActionConfig.addActionParameter(saveMsg);
-		confirmationActionConfig.addActionParameter(Arrays.asList(customSaveActionConfig));
-		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, confirmationActionConfig);
+			String saveMsg = "Save record " + customViewName + " ?";
+			confirmationActionConfig.addActionParameter(saveMsg);
+			confirmationActionConfig.addActionParameter(Arrays.asList(customSaveActionConfig));
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, confirmationActionConfig);
+		}
 
 	}
 
@@ -75,21 +79,26 @@ public class GtnFrameworkUICustomTreeSaveAction
 	}
 
 	private void validateIsNameTaken(String customViewName, String componentId) throws GtnFrameworkGeneralException {
-		List<String> savedCustomViewList = new GtnUIFrameworkWebServiceClient()
-				.callGtnWebServiceUrl(GtnWsReportEndPointUrlConstants.LOAD_CUSTOM_VIEW,
-						GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, new GtnUIFrameworkWebserviceRequest(),
-						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
-				.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList();
-		Optional<String> sameCustomView = savedCustomViewList.stream()
-				.filter(viewName -> viewName.equals(customViewName)).findFirst();
-		if (sameCustomView.isPresent()) {
-			GtnUIFrameWorkActionConfig noLevelChoosedAction = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
-			noLevelChoosedAction
-					.addActionParameter("That view name is taken. Please enter a new Custom Tree View Name");
-			noLevelChoosedAction.addActionParameter("Name Already Taken");
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, noLevelChoosedAction);
-			throw new GtnFrameworkSkipActionException("Name Already available");
+		boolean isEdit = (boolean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookupcustomViewSave")
+				.getComponentData().getCustomData();
+		if (!isEdit) {
+			List<String> savedCustomViewList = new GtnUIFrameworkWebServiceClient()
+					.callGtnWebServiceUrl(GtnWsReportEndPointUrlConstants.LOAD_CUSTOM_VIEW,
+							GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, new GtnUIFrameworkWebserviceRequest(),
+							GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
+					.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList();
+			Optional<String> sameCustomView = savedCustomViewList.stream()
+					.filter(viewName -> viewName.equals(customViewName)).findFirst();
+
+			if (sameCustomView.isPresent()) {
+				GtnUIFrameWorkActionConfig noLevelChoosedAction = new GtnUIFrameWorkActionConfig(
+						GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+				noLevelChoosedAction
+						.addActionParameter("That view name is taken. Please enter a new Custom Tree View Name");
+				noLevelChoosedAction.addActionParameter("Name Already Taken");
+				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, noLevelChoosedAction);
+				throw new GtnFrameworkSkipActionException("Name Already available");
+			}
 		}
 	}
 

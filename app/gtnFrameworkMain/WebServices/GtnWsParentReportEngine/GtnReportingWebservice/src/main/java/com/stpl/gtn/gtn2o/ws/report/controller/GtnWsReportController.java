@@ -1,8 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.controller;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,17 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
-import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportWebsevice;
-import com.stpl.gtn.gtn2o.ws.report.service.GtnWsTreeService;
+import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsTreeService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
@@ -101,7 +101,7 @@ public class GtnWsReportController {
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadViewResults(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
-			throws GtnFrameworkGeneralException {
+			throws GtnFrameworkGeneralException, IOException {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 		List<Object[]> resultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest, true);
@@ -115,7 +115,7 @@ public class GtnWsReportController {
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_PUBLICVIEWLOOKUP_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadPublicViewResults(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
-			throws GtnFrameworkGeneralException {
+			throws GtnFrameworkGeneralException, IOException {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 		List<Object[]> publicViewResultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest,
@@ -159,7 +159,6 @@ public class GtnWsReportController {
 	@RequestMapping(value = "/gtnWsReportComboboxLoad", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getComboBoxResultSet(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		System.out.println("----inside-GtnWsGeneralController-----------");
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		GtnWsGeneralResponse generalWSResponse = new GtnWsGeneralResponse();
 		generalWSResponse.setSucess(true);
@@ -180,7 +179,7 @@ public class GtnWsReportController {
 			}
 
 		} catch (Exception exception) {
-			gtnLogger.error("Exception in " + exception);
+			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + exception);
 		}
 		gtnResponse.setGtnWsGeneralResponse(generalWSResponse);
 		return gtnResponse;
@@ -189,34 +188,13 @@ public class GtnWsReportController {
 	private String getComboboxTypeForReportFromAndToDate(String comboBoxType) {
 		List<Object[]> resultList = null;
 		String subQuery = "";
-		String mainQuery = ";WITH cte AS "
-				+ "(SELECT TOP 1 FROM_DATE AS FROM_DATE, TO_DATE AS  TO_DATE FROM   forecast_config f JOIN HELPER_TABLE h ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE' AND DESCRIPTION = 'Commercial' ORDER BY VERSION_NO DESC) SELECT    DESCRIPTION  FROM   forecast_config f JOIN HELPER_TABLE h ON f.HIST_FREQ = h.HELPER_TABLE_SID WHERE  FROM_DATE=(SELECT FROM_DATE FROM   cte c)";
+		String mainQuery = GtnWsQueryConstants.MAIN_QUERY_REPORT_FROM_AND_TO_DATE;
 		try {
 			resultList = executeQuery(mainQuery);
 			String frequency = String.valueOf(resultList.get(0));
-			if (comboBoxType.equals("FROM")) {
-				if (frequency.startsWith("Mon")) {
-					subQuery = ";WITH cte AS (SELECT TOP 1 FROM_DATE AS FROM_DATE, TO_DATE AS  TO_DATE FROM   forecast_config f JOIN HELPER_TABLE h ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE' AND DESCRIPTION = 'Commercial' ORDER BY VERSION_NO DESC) SELECT Min(period_sid) AS PERIOD_SID, CONCAT(SUBSTRING(DATENAME(mm,PERIOD_DATE),1,3),' ',YEAR) FROM   PERIOD p WHERE  EXISTS (SELECT 1 FROM   cte c  WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE) GROUP  BY YEAR,PERIOD_DATE ORDER  BY YEAR,PERIOD_DATE";
-				} else if (frequency.startsWith("Quar")) {
-					subQuery = ";WITH cte AS (SELECT TOP 1 FROM_DATE AS FROM_DATE, TO_DATE   TO_DATE FROM   forecast_config f JOIN HELPER_TABLE h ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE' AND DESCRIPTION = 'Commercial' ORDER  BY VERSION_NO DESC) SELECT Min(period_sid) AS PERIOD_SID, Concat('Q', QUARTER, ' - ', YEAR) FROM   PERIOD p WHERE  EXISTS (SELECT 1 FROM   cte c WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE) GROUP  BY Concat('Q', QUARTER, ' - ', YEAR), year, QUARTER ORDER  BY YEAR, QUARTER, Concat('Q', QUARTER, ' - ', YEAR) ";
-				} else if (frequency.startsWith("Semi")) {
-					subQuery = ";WITH cte AS (SELECT TOP 1 FROM_DATE AS FROM_DATE, TO_DATE AS  TO_DATE FROM   forecast_config f JOIN HELPER_TABLE h ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE' AND DESCRIPTION = 'Commercial' ORDER BY VERSION_NO DESC) SELECT Min(period_sid) AS PERIOD_SID, CONCAT('S',SEMI_ANNUAL,'-',YEAR) FROM   PERIOD p WHERE  EXISTS (SELECT 1 FROM   cte c WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE) GROUP  BY YEAR,SEMI_ANNUAL ORDER  BY YEAR,SEMI_ANNUAL";
-				} else {
-					subQuery = ";WITH cte AS (SELECT TOP 1 FROM_DATE AS FROM_DATE, TO_DATE   TO_DATE FROM   forecast_config f JOIN HELPER_TABLE h ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE' AND DESCRIPTION = 'Commercial' ORDER  BY VERSION_NO DESC) SELECT Min(period_sid) AS PERIOD_SID,YEAR FROM   PERIOD p WHERE  EXISTS (SELECT 1 FROM   cte c WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE) GROUP  BY YEAR ORDER  BY YEAR";
-				}
-			} else {
-				if (frequency.startsWith("Mon")) {
-					subQuery = "     	;WITH cte     AS (SELECT TOP 1 FROM_DATE AS FROM_DATE,               TO_DATE AS  TO_DATE  		FROM   forecast_config f         		JOIN HELPER_TABLE h           			ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID  		WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'        	   AND DESCRIPTION = 'Commercial'  		ORDER BY VERSION_NO DESC) 	SELECT TOP 1 Min(period_sid) AS PERIOD_SID,      	CONCAT(SUBSTRING(DATENAME(mm,PERIOD_DATE),1,3),' ',YEAR) 	FROM   PERIOD p 	WHERE  EXISTS (SELECT 1                FROM   cte c                WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE) 	GROUP  BY YEAR,PERIOD_DATE 	ORDER  BY PERIOD_SID DESC";
-				} else if (frequency.startsWith("Quar")) {
-					subQuery = ";WITH cte AS (SELECT TOP 1 FROM_DATE AS FROM_DATE, TO_DATE   TO_DATE FROM   forecast_config f JOIN HELPER_TABLE h ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE' AND DESCRIPTION = 'Commercial' ORDER  BY VERSION_NO DESC) SELECT TOP 1 Min(period_sid) AS PERIOD_SID, Concat('Q', QUARTER, ' - ', YEAR) FROM   PERIOD p WHERE  EXISTS (SELECT 1 FROM   cte c WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE) GROUP  BY Concat('Q', QUARTER, ' - ', YEAR), year, QUARTER ORDER  BY PERIOD_SID DESC ";
-				} else if (frequency.startsWith("Semi")) {
-					subQuery = "          	;WITH cte     AS (SELECT TOP 1 FROM_DATE AS FROM_DATE,               TO_DATE AS  TO_DATE  		FROM   forecast_config f         		JOIN HELPER_TABLE h           			ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID  		WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'        	   AND DESCRIPTION = 'Commercial'  		ORDER BY VERSION_NO DESC) 	SELECT TOP 1 Min(period_sid) AS PERIOD_SID,      	CONCAT('S',SEMI_ANNUAL,'-',YEAR) 	FROM   PERIOD p 	WHERE  EXISTS (SELECT 1                FROM   cte c                WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE) 	GROUP  BY YEAR,SEMI_ANNUAL 	ORDER  BY PERIOD_SID DESC";
-				} else {
-					subQuery = ";WITH cte     AS (SELECT TOP 1 FROM_DATE AS FROM_DATE,                      TO_DATE   TO_DATE         FROM   forecast_config f                JOIN HELPER_TABLE h                  ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID         WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'                AND DESCRIPTION = 'Commercial'         ORDER  BY VERSION_NO DESC)	SELECT TOP 1 Min(period_sid) AS PERIOD_SID,YEAR	FROM   PERIOD p	WHERE  EXISTS (SELECT 1	               FROM   cte c	               WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE)	GROUP  BY YEAR	ORDER  BY PERIOD_SID DESC";
-				}
-			}
+			subQuery = gtnWsReportWebsevice.getFromAndToDateLoadQuery(comboBoxType, frequency);
 		} catch (Exception e) {
-			gtnLogger.error("Exception in " + e);
+			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + e);
 		}
 		return subQuery;
 	}
@@ -240,80 +218,51 @@ public class GtnWsReportController {
 			else {
 				String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY;
 
-				String filter = setFilterValueList(gtnWsRequest);
+				String filter = gtnWsReportWebsevice.setFilterValueList(gtnWsRequest);
 
 				finalQuery = finalQuery.replace("@filter", filter);
 				resultList = executeQuery(finalQuery);
-				resultList = resultListCustomization(resultList);
+				resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData(resultList);
 				wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
 			}
 		} catch (GtnFrameworkGeneralException e) {
-			gtnLogger.error("Exception in " + e);
+			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + e);
 		}
 		wsResponse.setGtnSerachResponse(wsSearchResponse);
 		return wsResponse;
 	}
 
-	private String setFilterValueList(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		String filter = "";
-		Map<String, String> dbColumnIdMap = getDataBaseColumnIdName();
-		Map<String, String> dbColumnDataTypeMap = getDataBaseColumnDatatype();
-		List<GtnWebServiceSearchCriteria> searchCriteriaList = gtnWsRequest.getGtnWsSearchRequest()
-				.getGtnWebServiceSearchCriteriaList();
-		if (!searchCriteriaList.isEmpty()) {
-			for (GtnWebServiceSearchCriteria searchCriteria : searchCriteriaList) {
-				String filterId = dbColumnIdMap.get(searchCriteria.getFieldId());
-				String filterValue = searchCriteria.getFilterValue1();
-				String filterExpression = searchCriteria.getExpression();
-				filter = filter + "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue + "%'";
-				if (dbColumnDataTypeMap.get(searchCriteria.getFieldId()).equals("Date")) {
-					filter = "AND" + " (CONVERT(CHAR(10)," + filterId + "120) >=" + " " + "'" + filterValue + "'";
-				}
-			}
+        @RequestMapping(value = "/gtnWsReportLoadDataAssumptionsMultipleTabs", method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getDataAssumptionsMultipleTabResults(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		GtnUIFrameworkWebserviceResponse wsResponse = new GtnUIFrameworkWebserviceResponse();
+		GtnWsGeneralResponse wsGeneralResponse = new GtnWsGeneralResponse();
+		GtnSerachResponse wsSearchResponse = new GtnSerachResponse();
+		List<Object[]> resultList = null;
+		wsGeneralResponse.setSucess(true);
+		try {
+			
+                                
+				String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS;
+                                finalQuery = finalQuery.replace("@projectionMasterSid",String.valueOf(gtnWsRequest.getGtnWsReportRequest().getProjectionMasterSid()));
+				//String filter = gtnWsReportWebsevice.setFilterValueList(gtnWsRequest);
+
+				//finalQuery = finalQuery.replace("@filter", filter);
+				resultList = executeQuery(finalQuery);
+				resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
+				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
+				gtnUIFrameworkDataTable.addData(resultList);
+				wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
+			
+		} catch (GtnFrameworkGeneralException e) {
+			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + e);
 		}
-		return filter;
+		wsResponse.setGtnSerachResponse(wsSearchResponse);
+		return wsResponse;
 	}
-
-	private Map<String, String> getDataBaseColumnIdName() {
-		Map<String, String> dbColumnIdMap = new HashMap<>();
-		dbColumnIdMap.put("file", "FORECAST_NAME");
-		dbColumnIdMap.put("company", "company.COMPANY_NAME");
-		dbColumnIdMap.put("businessUnit", "businessunit.COMPANY_NAME");
-		dbColumnIdMap.put("type", "ht.DESCRIPTION");
-		dbColumnIdMap.put("version", "VERSION");
-		dbColumnIdMap.put("activeFrom", "ACTIVE_FROM");
-		dbColumnIdMap.put("fromPeriod", "FROM_PERIOD");
-		dbColumnIdMap.put("toPeriod", "TO_PERIOD");
-		return dbColumnIdMap;
-	}
-
-	private Map<String, String> getDataBaseColumnDatatype() {
-		Map<String, String> dbColumnDataTypeMap = new HashMap<>();
-		dbColumnDataTypeMap.put("file", "String");
-		dbColumnDataTypeMap.put("company", "String");
-		dbColumnDataTypeMap.put("businessUnit", "String");
-		dbColumnDataTypeMap.put("type", "String");
-		dbColumnDataTypeMap.put("version", "String");
-		dbColumnDataTypeMap.put("activeFrom", "Date");
-		dbColumnDataTypeMap.put("fromPeriod", "Date");
-		dbColumnDataTypeMap.put("toPeriod", "Date");
-		return dbColumnDataTypeMap;
-	}
-
-	public List<Object[]> resultListCustomization(List<Object[]> resultList) {
-		List<Object[]> customizedResultList = new ArrayList<>();
-		for (Object[] object : resultList) {
-			Object[] obj = object;
-			for (int i = 0; i < obj.length; i++) {
-				obj[i] = String.valueOf(obj[i]);
-			}
-			customizedResultList.add(object);
-		}
-		return customizedResultList;
-	}
-
+        
 	@SuppressWarnings({ "rawtypes" })
 	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 		gtnSqlQueryEngine.setSessionFactory(sessionFactory);
@@ -352,6 +301,51 @@ public class GtnWsReportController {
 		gtnWsTreeService.saveCustomTree(root,
 				gtnWsReportDashboardBean.getTableNameWithUniqueId(gtnWsReportDashboardBean.getCustomViewName()));
 		return new GtnUIFrameworkWebserviceResponse();
+	}
+
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_SAVEVIEW_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse saveView(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnWsReportRequest reportRequest = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest();
+		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
+		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
+		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
+		int userId = Integer.valueOf(generalRequest.getUserId());
+		int recordCount = gtnWsReportWebsevice.checkViewRecordCount(dataSelectionBean, userId);
+		if (recordCount == 0) {
+			gtnWsReportWebsevice.saveReportingMaster(dataSelectionBean, userId);
+			generalResponse.setSucess(true);
+		} else {
+			generalResponse.setSucess(false);
+		}
+		response.setGtnWsGeneralResponse(generalResponse);
+		return response;
+	}
+
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORRT_DELETEVIEW_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse deleteView(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		GtnWsReportRequest reportRequest = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest();
+		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
+		int userId = Integer.valueOf(generalRequest.getUserId());
+		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
+		return gtnWsReportWebsevice.deleteView(dataSelectionBean, userId);
+	}
+	
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_LOADSERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadComparisonAvailableTable(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnSerachResponse searchResponse = new GtnSerachResponse();
+		List<Object[]> resultList = gtnWsReportWebsevice.loadComparisonAvailableTable(gtnUIFrameworkWebserviceRequest);
+		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+		dataTable.addData(resultList);
+		searchResponse.setResultSet(dataTable);
+		response.setGtnSerachResponse(searchResponse);
+		return response;
 	}
 
 }

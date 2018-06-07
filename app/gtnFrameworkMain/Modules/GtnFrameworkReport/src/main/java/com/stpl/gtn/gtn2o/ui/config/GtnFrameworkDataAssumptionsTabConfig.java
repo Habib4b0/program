@@ -7,21 +7,21 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataAssumptionsTabLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfig;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
-import com.stpl.gtn.gtn2o.ui.module.lookups.Query;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 public class GtnFrameworkDataAssumptionsTabConfig {
-	GtnWSLogger logger=GtnWSLogger.getGTNLogger(GtnFrameworkDataAssumptionsTabConfig.class);
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public void addDataAssumptionsLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -40,7 +40,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 
 	private void addTabSheet(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig tabSheetConfig = configProvider.getUIFrameworkComponentConfig(
-				GtnFrameworkReportStringConstants.TAB_SHEET, true,
+				GtnFrameworkReportStringConstants.TAB_SHEET+"dataAssump", true,
 				GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_SHEET_LAYOUT,
 				GtnUIFrameworkComponentType.TABSHEET);
 		tabSheetConfig.setComponentName("Tab Sheet");
@@ -53,26 +53,70 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		currentTab.setTabCaption("Current");
 		List<GtnUIFrameworkComponentConfig> currentTabTabConfigList = new ArrayList<>();
 		currentTab.setTabLayoutComponentConfigList(currentTabTabConfigList);
-		addCurrentTab(currentTabTabConfigList, nameSpace);
-
+		addCurrentTab(currentTabTabConfigList,currentTab.getComponentId()+ nameSpace);
+                
+                GtnUIFrameworkTabConfig dataAssumptionsTab0 = new GtnUIFrameworkTabConfig();
+		dataAssumptionsTab0.setComponentId(GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_LOAD+"0");
+		dataAssumptionsTab0.setTabCaption("dataAssumptionsTab0");
+		List<GtnUIFrameworkComponentConfig> dataAssumptionsTab0ConfigList = new ArrayList<>();
+		dataAssumptionsTab0.setTabLayoutComponentConfigList(dataAssumptionsTab0ConfigList);
+		addCurrentTab(dataAssumptionsTab0ConfigList, dataAssumptionsTab0.getComponentId()+nameSpace);
+                
+                GtnUIFrameworkTabConfig dataAssumptionsTab1 = new GtnUIFrameworkTabConfig();
+		dataAssumptionsTab1.setComponentId(GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_LOAD+"1");
+		dataAssumptionsTab1.setTabCaption("dataAssumptionsTab1");
+		List<GtnUIFrameworkComponentConfig> dataAssumptionsTab1ConfigList = new ArrayList<>();
+		dataAssumptionsTab1.setTabLayoutComponentConfigList(dataAssumptionsTab1ConfigList);
+		addCurrentTab(dataAssumptionsTab1ConfigList, dataAssumptionsTab1.getComponentId()+nameSpace);
+                
+                
+                GtnUIFrameworkTabConfig dataAssumptionsTab2 = new GtnUIFrameworkTabConfig();
+		dataAssumptionsTab2.setComponentId(GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_LOAD+"2");
+		dataAssumptionsTab2.setTabCaption("dataAssumptionsTab2");
+		List<GtnUIFrameworkComponentConfig> dataAssumptionsTab2ConfigList = new ArrayList<>();
+		dataAssumptionsTab2.setTabLayoutComponentConfigList(dataAssumptionsTab2ConfigList);
+		addCurrentTab(dataAssumptionsTab2ConfigList, dataAssumptionsTab2.getComponentId()+nameSpace);
+                
+                GtnUIFrameworkTabConfig dataAssumptionsTab3 = new GtnUIFrameworkTabConfig();
+		dataAssumptionsTab3.setComponentId(GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_LOAD+"3");
+		dataAssumptionsTab3.setTabCaption("dataAssumptionsTab3");
+		List<GtnUIFrameworkComponentConfig> dataAssumptionsTab3ConfigList = new ArrayList<>();
+		dataAssumptionsTab3.setTabLayoutComponentConfigList(dataAssumptionsTab3ConfigList);
+		addCurrentTab(dataAssumptionsTab3ConfigList, dataAssumptionsTab3.getComponentId()+nameSpace);
+                
+                GtnUIFrameworkTabConfig dataAssumptionsTab4 = new GtnUIFrameworkTabConfig();
+		dataAssumptionsTab4.setComponentId(GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_LOAD+"4");
+		dataAssumptionsTab4.setTabCaption("dataAssumptionsTab4");
+		List<GtnUIFrameworkComponentConfig> dataAssumptionsTab4ConfigList = new ArrayList<>();
+		dataAssumptionsTab4.setTabLayoutComponentConfigList(dataAssumptionsTab4ConfigList);
+		addCurrentTab(dataAssumptionsTab4ConfigList, dataAssumptionsTab4.getComponentId()+nameSpace);
+                
+               
+                
 		List<GtnUIFrameworkTabConfig> tabConfigList = new ArrayList<>();
 		tabConfigList.add(currentTab);
-
+                tabConfigList.add(dataAssumptionsTab0);
+                tabConfigList.add(dataAssumptionsTab1);
+                tabConfigList.add(dataAssumptionsTab2);
+                tabConfigList.add(dataAssumptionsTab3);
+                tabConfigList.add(dataAssumptionsTab4);
 		tabSheetConfig.setGtnTabSheetConfigList(tabConfigList);
+                
+
 
 	}
 
 	private void addCurrentTab(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider
-				.getVerticalLayoutConfig(GtnFrameworkReportStringConstants.CURRENT_TAB, false, null);
+				.getVerticalLayoutConfig(nameSpace, false, null);
 		gtnLayout.setTabComponent(true);
 		gtnLayout.setComponentWidth(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		componentList.add(gtnLayout);
 		addDataAssumptionsPagedTableComponent(componentList, gtnLayout.getComponentId());
 
 		GtnUIFrameworkComponentConfig currentTabNavigationButtonLayout = configProvider.getHorizontalLayoutConfig(
-				"currentTabNavigationButtonLayout", true, GtnFrameworkReportStringConstants.CURRENT_TAB);
+				"currentTabNavigationButtonLayout", true, nameSpace);
 		componentList.add(currentTabNavigationButtonLayout);
 		addNavigationButtonLayout(componentList, nameSpace + GtnFrameworkReportStringConstants.CURRENT_TAB,
 				currentTabNavigationButtonLayout.getComponentId());
@@ -82,22 +126,13 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 			String parentId) {
 
 		GtnUIFrameworkComponentConfig dataAssumptionsPagedTableComponent = configProvider.getUIFrameworkComponentConfig(
-				"dataAssumptionsPagedTableComponent", true, parentId, GtnUIFrameworkComponentType.PAGED_GRID);
+				"dataAssumptionsPagedTableComponent"+parentId, true, parentId, GtnUIFrameworkComponentType.PAGED_GRID);
 		dataAssumptionsPagedTableComponent.setAuthorizationIncluded(true);
 		dataAssumptionsPagedTableComponent.setComponentName(GtnFrameworkCommonConstants.RESULTS);
 		dataAssumptionsPagedTableComponent.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 
-		dataAssumptionsPagedTableComponent.setModuleName("report");
+		dataAssumptionsPagedTableComponent.setModuleName(GtnFrameworkReportStringConstants.REPORT);
 		componentList.add(dataAssumptionsPagedTableComponent);
-
-		// GtnUIFrameworkPagedTableConfig dataAssumptionsPagedTableConfig = new
-		// GtnUIFrameworkPagedTableConfig();
-		// dataAssumptionsPagedTableConfig.setEditable(false);
-		// dataAssumptionsPagedTableConfig.setFilterBar(true);
-		// dataAssumptionsPagedTableConfig.setSelectable(true);
-		// dataAssumptionsPagedTableConfig.setItemPerPage(5);
-		// dataAssumptionsPagedTableConfig.setPageLength(5);
-		// dataAssumptionsPagedTableConfig.setSinkItemPerPageWithPageLength(false);
 
 		GtnUIFrameworkPagedTableConfig dataAssumptionsPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
 
@@ -119,41 +154,43 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 	}
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
-		String[] propertyIds = { "file", "company", "businessUnit",
-				"type", "version", "activeFrom", "fromPeriod", "toPeriod"  };
+		String[] dataAssumptionsPropertyIDs = GtnFrameworkReportStringConstants
+				.getReportDataAssumptionsFilterPropertyId();
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> dataAssumptionsFilterConfigMap = new HashMap<>(
+				dataAssumptionsPropertyIDs.length);
 		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-				GtnUIFrameworkComponentType.CALENDAR_FIELD,GtnUIFrameworkComponentType.CALENDAR_FIELD,
-				GtnUIFrameworkComponentType.CALENDAR_FIELD};
-		
-		String[] comboboxIds={""};
-		String[] comboboxType={""};
-		int comboboxStart=0;
-		for (int i = 0; i < propertyIds.length; i++) {
-			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			pagedTableCustomFilterConfig.setPropertId(propertyIds[i]);
-			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
-			if((comboboxStart<comboboxIds.length) && propertyIds[i].equals(comboboxIds[comboboxStart])){
-				GtnUIFrameworkComponentConfig companyMasterSearchFilterComponentConfig = new GtnUIFrameworkComponentConfig();
-				companyMasterSearchFilterComponentConfig.setComponentId("customFilterComboBox");
-				companyMasterSearchFilterComponentConfig.setComponentName("customFilterComboBox");
-				companyMasterSearchFilterComponentConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
-				companyMasterSearchFilterComponentConfig.getGtnComboboxConfig().setComboBoxType(comboboxType[comboboxStart]);
-				companyMasterSearchFilterComponentConfig.getGtnComboboxConfig()
+				GtnUIFrameworkComponentType.CALENDAR_FIELD, GtnUIFrameworkComponentType.CALENDAR_FIELD,
+				GtnUIFrameworkComponentType.CALENDAR_FIELD };
+
+		String[] dataAssumptionsComboboxIds = { "" };
+		String[] dataAssumptionsComboBoxType = { "" };
+		int comboboxStartIndex = 0;
+		for (int i = 0; i < dataAssumptionsPropertyIDs.length; i++) {
+			GtnUIFrameworkPagedTableCustomFilterConfig dataAssumptionsTableFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
+			dataAssumptionsTableFilterConfig.setPropertId(dataAssumptionsPropertyIDs[i]);
+			dataAssumptionsTableFilterConfig.setGtnComponentType(componentType[i]);
+			if ((comboboxStartIndex < dataAssumptionsComboboxIds.length)
+					&& dataAssumptionsPropertyIDs[i].equals(dataAssumptionsComboboxIds[comboboxStartIndex])) {
+				GtnUIFrameworkComponentConfig dataAssumptionsSearchFilterConfig = new GtnUIFrameworkComponentConfig();
+				dataAssumptionsSearchFilterConfig.setComponentId("customFilterComboBox");
+				dataAssumptionsSearchFilterConfig.setComponentName("customFilterComboBox");
+				dataAssumptionsSearchFilterConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
+				dataAssumptionsSearchFilterConfig.getGtnComboboxConfig()
+						.setComboBoxType(dataAssumptionsComboBoxType[comboboxStartIndex]);
+				dataAssumptionsSearchFilterConfig.getGtnComboboxConfig()
 						.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-				pagedTableCustomFilterConfig.setGtnComponentConfig(companyMasterSearchFilterComponentConfig);
-				comboboxStart++;
+				dataAssumptionsTableFilterConfig.setGtnComponentConfig(dataAssumptionsSearchFilterConfig);
+				comboboxStartIndex++;
 			}
-			logger.info("------pagedTableCustomFilterConfig.getPropertId()-----------"+pagedTableCustomFilterConfig.getPropertId());
-			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
+			dataAssumptionsFilterConfigMap.put(dataAssumptionsTableFilterConfig.getPropertId(),
+					dataAssumptionsTableFilterConfig);
 		}
-		return customFilterConfigMap;
+		return dataAssumptionsFilterConfigMap;
 	}
-	
-	
+
 	private void addNavigationButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace,
 			String parentId) {
 

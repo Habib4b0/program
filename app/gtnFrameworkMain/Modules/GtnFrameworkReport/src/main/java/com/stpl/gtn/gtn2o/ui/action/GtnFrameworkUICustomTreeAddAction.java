@@ -59,7 +59,7 @@ public class GtnFrameworkUICustomTreeAddAction
 		GtnWsRecordBean parentBean = isEmpty ? null : grid.getSelectedItems().iterator().next();
                  
 		GtnWsRecordBean beanTobeAdded = selectedBean.iterator().next();
-                if(isVariableOrDiscount(parentBean)){
+                if(isVariable(parentBean)){
                      parentBean=grid.getTreeData().getParent(parentBean);
                  }
 		addToTree(leftGrid, grid, parentBean, beanTobeAdded);
@@ -87,10 +87,7 @@ public class GtnFrameworkUICustomTreeAddAction
 
 	private void isAddingToVariable(GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded)
 			throws GtnFrameworkSkipActionException {
-//		if (parentBean != null && GtnWsHierarchyType.VARIABLES.toString().equals(parentBean.getStringPropertyByIndex(3))
-//				&& !(beanTobeAdded.getStringPropertyByIndex(3).equals(GtnWsReportVariablesType.VARIABLES.toString()))) {
-//			throw new GtnFrameworkSkipActionException("Can't add to Variables");
-//		}
+//		
 		if (parentBean == null
 				&& GtnWsHierarchyType.VARIABLES.toString().equals(beanTobeAdded.getStringPropertyByIndex(3))
 				&& !beanTobeAdded.getStringPropertyByIndex(3).equals(GtnWsReportVariablesType.VARIABLES.toString())) {
@@ -127,7 +124,7 @@ public class GtnFrameworkUICustomTreeAddAction
 			int currentLevel = beanTobeAdded.getIntegerPropertyByIndex(1);
 			if (next.getPropertyValueByIndex(3).equals(beanTobeAdded.getStringPropertyByIndex(3))
 					&& next.getIntegerPropertyByIndex(1) > currentLevel
-					&& !isVariableOrDiscount(beanTobeAdded)) {
+					&& !isVariable(beanTobeAdded) && !isDiscount(beanTobeAdded)) {
 				GtnUIFrameWorkActionConfig notificationConfig = new GtnUIFrameWorkActionConfig(
 						GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 				String errorMsg = String.format(INVALID_MSG, beanTobeAdded.getStringPropertyByIndex(0),
@@ -141,9 +138,11 @@ public class GtnFrameworkUICustomTreeAddAction
                        
 		}
 	}
-        private static boolean isVariableOrDiscount(GtnWsRecordBean bean){
-           return bean != null && (GtnWsHierarchyType.VARIABLES.toString().equals(bean.getStringPropertyByIndex(3))
-                   ||GtnWsHierarchyType.DEDUCTION.toString().equals(bean.getStringPropertyByIndex(3)));
+        private static boolean isVariable(GtnWsRecordBean bean){
+           return bean != null && GtnWsHierarchyType.VARIABLES.toString().equals(bean.getStringPropertyByIndex(3));
+        }
+       private static boolean isDiscount(GtnWsRecordBean bean){
+           return bean != null && GtnWsHierarchyType.DEDUCTION.toString().equals(bean.getStringPropertyByIndex(3));
         }
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

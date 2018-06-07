@@ -15,12 +15,16 @@ import com.stpl.gtn.gtn20.ws.report.engine.mongo.constants.MongoConstants;
 @Scope(value = "singleton")
 public class GtnWsMongoDBConnectionService {
 
+	public GtnWsMongoDBConnectionService() {
+		super();
+	}
+
 	@Autowired
 	@Qualifier("mongoCLientFactory")
 	private MongoClient client;
 
 	@Autowired
-	GtnCodeRegistery registery;
+	private GtnCodeRegistery registery;
 
 	private MongoDatabase mongoDBInstance = null;
 

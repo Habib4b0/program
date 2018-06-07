@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
+import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
 import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
 
 @Service
@@ -411,6 +412,33 @@ public class HeaderGeneratorService {
 		periodColumnHeader.add(periodColumn);
 		periodColumnHeader.add(periodHeader);
 		return periodColumnHeader;
+	}
+	
+	
+        public GtnWsPagedTableResponse getVariableBreakdownHeaderColumns()
+			throws GtnFrameworkGeneralException {
+
+		GtnWsPagedTableResponse tableHeaderDTO = new GtnWsPagedTableResponse();
+		
+		tableHeaderDTO.addSingleColumn("q12017", "Q1 2017", String.class);
+		tableHeaderDTO.addSingleColumn("q22017", "Q2 2017", String.class);
+		tableHeaderDTO.addSingleColumn("q32017", "Q3 2017", String.class);
+		tableHeaderDTO.addSingleColumn("q42017", "Q4 2017", String.class);
+
+		return tableHeaderDTO;
+	}
+        // comparison breakdown grid Header service
+	public GtnWsPagedTreeTableResponse getComparisonBreakdownHeaderColumns()
+			throws GtnFrameworkGeneralException {
+
+		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
+		
+		tableHeaderDTO.addSingleColumn("q12017", "Q1 2017", String.class);
+		tableHeaderDTO.addSingleColumn("q22017", "Q2 2017", String.class);
+		tableHeaderDTO.addSingleColumn("q32017", "Q3 2017", String.class);
+		tableHeaderDTO.addSingleColumn("q42017", "Q4 2017", String.class);
+
+		return tableHeaderDTO;
 	}
 
 }

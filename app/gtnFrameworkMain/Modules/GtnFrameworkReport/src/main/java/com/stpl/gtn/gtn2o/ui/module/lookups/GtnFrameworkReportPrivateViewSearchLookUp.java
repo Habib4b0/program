@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionLoadViewAction;
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -243,7 +244,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		tableStyle.add(GtnFrameworkCssConstants.V_TABLE_FILTERBAR);
 		tableStyle.add(GtnFrameworkCssConstants.TABLE_HEADER_NORMAL);
 		privateViewPagedTableComponent.setComponentStyle(tableStyle);
-
+		privateViewPagedTableComponent.setModuleName(GtnFrameworkReportStringConstants.REPORT);
 		componentList.add(privateViewPagedTableComponent);
 		GtnUIFrameworkPagedTableConfig privateViewPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
 		privateViewPagedTableConfig.setEditable(false);
@@ -263,15 +264,11 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
-		privateViewPagedTableConfig.setColumnHeaders(Arrays.asList("View Name", "Description", "Time Period:From",
-				"Time Period:To", "Company", GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_HEADER,
-				GtnFrameworkCommonConstants.PRODUCT_LEVEL_HEADER, "Product Group",
+		privateViewPagedTableConfig.setColumnHeaders(Arrays.asList("View Name",
 				GtnFrameworkCommonConstants.CREATED_DATE_HEADER, GtnFrameworkCommonConstants.MODIFIED_DATE_HEADER,
-				GtnFrameworkCommonConstants.CREATED_BY_HEADER, GtnFrameworkCommonConstants.BUSINESS_UNIT_HEADER));
+				GtnFrameworkCommonConstants.CREATED_BY_HEADER, "viewId", "viewData"));
 		privateViewPagedTableConfig.setTableColumnMappingId(
-				new Object[] { "viewNameFilter", "viewDescriptionFilter", "fromTimePeriodFilter", "toTimePeriodFilter",
-						"companyFilter", "productHierarchyFilter", "productLevelFilter", "productGroupFilter",
-						"createdDateFilter", "modifiedByFilter", "createdByFilter", "businessUnitFilter" });
+				new Object[] { "viewNameFilter", "createdDateFilter", "modifiedDateFilter", "createdByFilter" });
 		privateViewPagedTableConfig.setQueryName("Private");
 
 		privateViewPagedTableComponent.setGtnPagedTableConfig(privateViewPagedTableConfig);
@@ -312,9 +309,9 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		List<Object> actionParameter = new ArrayList<>();
 		actionParameter.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
-		actionParameter.add("reportLandingScreen_privateViews");
+		actionParameter.add(GtnFrameworkReportStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP);
 		actionParameter.add(Arrays.asList("viewNameFilter"));
-		actionParameter.add(Arrays.asList("reportLandingScreen_privateViews"));
+		actionParameter.add(Arrays.asList(GtnFrameworkReportStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP));
 		reportCustomerHierarchySelectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(reportCustomerHierarchySelectAction);
 
@@ -322,6 +319,17 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		reportCustomHierarchyClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		reportCustomHierarchyClosepopup.addActionParameter(GtnFrameworkCommonConstants.PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
 		actionConfigList.add(reportCustomHierarchyClosepopup);
+
+		GtnUIFrameWorkActionConfig loadViewAction = new GtnUIFrameWorkActionConfig();
+		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		loadViewAction.addActionParameter(GtnReportDataSelectionLoadViewAction.class.getName());
+		loadViewAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP);
+		actionConfigList.add(loadViewAction);
+
+		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
+		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
+		enableAction.addActionParameter("reportLandingScreen_dsDeleteView");
+		actionConfigList.add(enableAction);
 		privateViewSearchLookupSelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		GtnUIFrameworkComponentConfig privateViewSearchLookupCloseButton = new GtnUIFrameworkComponentConfig();

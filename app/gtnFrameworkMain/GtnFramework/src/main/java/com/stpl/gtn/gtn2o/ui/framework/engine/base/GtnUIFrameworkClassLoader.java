@@ -15,7 +15,7 @@ public class GtnUIFrameworkClassLoader {
 
 		} else {
 			throw new GtnFrameworkGeneralException(
-					"Error in loading " + className + "class please add the action to filler.");
+					"Error in loading " + className + " class please add the action to filler.");
 		}
 	}
 }

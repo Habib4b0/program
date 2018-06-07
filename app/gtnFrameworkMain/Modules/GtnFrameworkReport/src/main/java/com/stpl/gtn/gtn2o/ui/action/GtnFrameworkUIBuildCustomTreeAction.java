@@ -16,7 +16,6 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 public class GtnFrameworkUIBuildCustomTreeAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -44,14 +43,10 @@ public class GtnFrameworkUIBuildCustomTreeAction
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(
 				"reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE, sourceComponentId);
 		if (componentData != null) {
-			// QueryBean
-			// querybean=GtnUIFrameworkGlobalUI.setQueryBean(componentData.getTableConfig());
-			// componentData.getPagedGrid().getTableConfig().setQueryBean(querybean);
-
 			PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
 			grid.getTableConfig().setGtnWsReportDashboardBean(dashBoardBean);
 		}
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+		new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_REPORT_BUILD_CUSTOM_TREE,
 				GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());

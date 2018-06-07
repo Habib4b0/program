@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang.StringUtils;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -19,6 +20,7 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.constants.MongoConstants;
+import com.stpl.gtn.gtn20.ws.report.engine.mongo.constants.MongoDBOperators;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsAttributeBean;
 import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportComputedResultsBean;
@@ -32,20 +34,23 @@ import net.sourceforge.jeval.EvaluationException;
 @Scope(value = "singleton")
 public class GtnWsMongoService {
 
-	@Autowired
-	GtnWsMongoDBConnectionService mongoDBInstance;
+	public GtnWsMongoService() {
+		super();
+	}
 
 	@Autowired
-	GtnWsCommonCalculationService gtnWsCommonCalculation;
-        int nodeIndex=1;
+	private GtnWsMongoDBConnectionService mongoDBInstance;
 
-	private static final GtnWSLogger GTNLOGGER = GtnWSLogger.getGTNLogger(GtnWsMongoService.class);
+	@Autowired
+	private GtnWsCommonCalculationService gtnWsCommonCalculation;
+
+	private static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsMongoService.class);
 
 	public void createCollection(String collectionName) {
 		try {
 			mongoDBInstance.getDBInstance().createCollection(collectionName);
 		} catch (MongoCommandException ex) {
-			GTNLOGGER.error(ex.getErrorMessage());
+			logger.error(ex.getErrorMessage());
 		}
 	}
 
@@ -53,11 +58,11 @@ public class GtnWsMongoService {
 		return mongoDBInstance.getDBInstance().getCollection(collectionName);
 	}
 
-	public MongoCollection<?> getCollectionForCustomClass(String collectionName, Class<?> clazz) {
+	public MongoCollection getCollectionForCustomClass(String collectionName, Class clazz) {
 		return mongoDBInstance.getDBInstance().getCollection(collectionName, clazz);
 	}
 
-	public void insertManyRecordsToMongoDbUsingCustomClass(MongoCollection collection, List<?> dataList) {
+	public void insertManyRecordsToMongoDbUsingCustomClass(MongoCollection collection, List dataList) {
 		collection.insertMany(dataList);
 	}
 
@@ -73,12 +78,12 @@ public class GtnWsMongoService {
 
 	public void updateFinalResultsToMongo(String collectionName, GtnWsReportEngineTreeNode output) {
 		try {
+			@SuppressWarnings("unchecked")
 			MongoCollection<GtnWsReportComputedResultsBean> collection = (MongoCollection<GtnWsReportComputedResultsBean>) getCollectionForCustomClass(
 					collectionName, GtnWsReportComputedResultsBean.class);
-			insertComputedResults(collection, output, "");
-                         nodeIndex=1;
+			insertComputedResults(collection, output, StringUtils.EMPTY);
 		} catch (Exception ex) {
-			GTNLOGGER.error(ex.getMessage());
+			logger.error(ex.getMessage());
 		}
 	}
 
@@ -93,7 +98,7 @@ public class GtnWsMongoService {
 			}
 			collection.insertOne(tree);
 		} catch (Exception ex) {
-			GTNLOGGER.error(ex.getMessage());
+			logger.error(ex.getMessage());
 		}
 	}
 
@@ -107,11 +112,6 @@ public class GtnWsMongoService {
 			finalBean.setLevelValue(gtnWsTreeNode.getLevelValue());
 			finalBean.setHierarchyNo(gtnWsTreeNode.getHierarchyNo());
 			finalBean.setGeneratedHierarchyNo(newParentHierarchyNo);
-                        
-                        int childCount=gtnWsTreeNode.getChildren()==null?0:gtnWsTreeNode.getChildren().size();
-                        finalBean.setNodeIndex(nodeIndex++);
-                        finalBean.setChildCount(childCount);
-                        finalBean.setLevelIndex(hierarchyIndex);
 			finalBean.setAttributes(((GtnWsTreeNodeAttributeBean) gtnWsTreeNode.getNodeData()).getAttributeBeanList());
 			collection.insertOne(finalBean);
 			if (gtnWsTreeNode.getChildren() != null) {
@@ -128,16 +128,18 @@ public class GtnWsMongoService {
 		Document matchCondition = new Document();
 		boolean matchConditionFlag = false;
 		if (ccpNode.getCcpIds() != null && !ccpNode.getCcpIds().isEmpty()) {
-			matchCondition.append("ccpId", new Document("$in", ccpNode.getCcpIds()));
+			matchCondition.append(MongoConstants.CCP_ID,
+					new Document(MongoDBOperators.IN.getMongoOperators(), ccpNode.getCcpIds()));
 			matchConditionFlag = true;
 		}
 		if (ccpNode.getRsIds() != null && !ccpNode.getRsIds().isEmpty()) {
-			matchCondition.append("projectionDetailsValues.discountBean.rsId", new Document("$in", ccpNode.getRsIds()));
+			matchCondition.append("projectionDetailsValues.discountBean.rsId",
+					new Document(MongoDBOperators.IN.getMongoOperators(), ccpNode.getRsIds()));
 			matchConditionFlag = true;
 		}
 		Document match = null;
 		if (matchConditionFlag) {
-			match = new Document("$match", matchCondition);
+			match = new Document(MongoDBOperators.MATCH.getMongoOperators(), matchCondition);
 		}
 		Document groupFields = new Document("_id", new Document("semiAnnual", "$projectionDetailsValues.semiAnnual")
 				.append("year", "$projectionDetailsValues.year"));
@@ -155,15 +157,16 @@ public class GtnWsMongoService {
 		selectClause.append("totalContractSalesActuals", 1);
 		selectClause.append("totalContractSalesProjection", 1);
 
-		Document group = new Document("$group", groupFields);
-		Document project = new Document("$project", selectClause);
-		Document sort = new Document("$sort", new Document("_id.year", 1).append("_id.semiAnnual", 1));
+		Document group = new Document(MongoDBOperators.GROUP.getMongoOperators(), groupFields);
+		Document project = new Document(MongoDBOperators.PROJECT.getMongoOperators(), selectClause);
+		Document sort = new Document(MongoDBOperators.SORT.getMongoOperators(),
+				new Document("_id.year", 1).append("_id.semiAnnual", 1));
 
 		List<Document> conditions = new ArrayList<>();
 		if (match != null) {
 			conditions.add(match);
 		}
-		conditions.add(new Document("$unwind", "$projectionDetailsValues"));
+		conditions.add(new Document(MongoDBOperators.UNWIND.getMongoOperators(), "$projectionDetailsValues"));
 		conditions.add(group);
 		conditions.add(project);
 		conditions.add(sort);
@@ -193,25 +196,31 @@ public class GtnWsMongoService {
 			matchConditionFlag = true;
 		}
 		if (ccpNode.getRsIds() != null && !ccpNode.getRsIds().isEmpty()) {
-			matchCondition.append("projectionDetailsValues.discountBean.rsId", new Document("$in", ccpNode.getRsIds()));
+			matchCondition.append("projectionDetailsValues.discountBean.rsId",
+					new Document(MongoDBOperators.IN.getMongoOperators(), ccpNode.getRsIds()));
 		}
 		Document match = null;
 		if (matchConditionFlag) {
-			match = new Document("$match", matchCondition);
+			match = new Document(MongoDBOperators.MATCH.getMongoOperators(), matchCondition);
 		}
 		Document groupFields = new Document("_id", new Document("semiAnnual", "$projectionDetailsValues.semiAnnual")
 				.append("year", "$projectionDetailsValues.year"));
-		groupFields.append("exfactoryActuals", new Document("$sum", "$projectionDetailsValues.exfactoryActuals"));
-		groupFields.append("exfactoryProjection", new Document("$sum", "$projectionDetailsValues.exfactoryProjection"));
-		groupFields.append("contractSalesActuals", new Document("$sum", "$projectionDetailsValues.salesActuals"));
-		groupFields.append("contractSalesProjection", new Document("$sum", "$projectionDetailsValues.salesProjection"));
-		groupFields.append("contractUnitsActuals", new Document("$sum", "$projectionDetailsValues.salesUnitsActuals"));
-		groupFields.append("contractUnitsProjection",
-				new Document("$sum", "$projectionDetailsValues.salesUnitsProjection"));
-		groupFields.append("discountAmountActuals",
-				new Document("$sum", "$projectionDetailsValues.discountBean.discountActuals"));
-		groupFields.append("discountAmountProjection",
-				new Document("$sum", "$projectionDetailsValues.discountBean.discountProjection"));
+		groupFields.append("exfactoryActuals",
+				new Document(MongoDBOperators.SUM.getMongoOperators(), "$projectionDetailsValues.exfactoryActuals"));
+		groupFields.append("exfactoryProjection",
+				new Document(MongoDBOperators.SUM.getMongoOperators(), "$projectionDetailsValues.exfactoryProjection"));
+		groupFields.append("contractSalesActuals",
+				new Document(MongoDBOperators.SUM.getMongoOperators(), "$projectionDetailsValues.salesActuals"));
+		groupFields.append("contractSalesProjection",
+				new Document(MongoDBOperators.SUM.getMongoOperators(), "$projectionDetailsValues.salesProjection"));
+		groupFields.append("contractUnitsActuals",
+				new Document(MongoDBOperators.SUM.getMongoOperators(), "$projectionDetailsValues.salesUnitsActuals"));
+		groupFields.append("contractUnitsProjection", new Document(MongoDBOperators.SUM.getMongoOperators(),
+				"$projectionDetailsValues.salesUnitsProjection"));
+		groupFields.append("discountAmountActuals", new Document(MongoDBOperators.SUM.getMongoOperators(),
+				"$projectionDetailsValues.discountBean.discountActuals"));
+		groupFields.append("discountAmountProjection", new Document(MongoDBOperators.SUM.getMongoOperators(),
+				"$projectionDetailsValues.discountBean.discountProjection"));
 
 		Document selectClause = new Document("_id.semiAnnual", 1);
 		selectClause.append("_id.year", 1);
@@ -240,23 +249,26 @@ public class GtnWsMongoService {
 				dividedResult("$discountAmountActuals", "$exfactoryActuals"));
 		selectClause.append("deductionPerExfactoryProjection",
 				dividedResult("$discountAmountProjection", "$exfactoryProjection"));
-		selectClause.append("netContractSalesPerExfactoryActuals",
-				dividedResult(
-						new Document("$subtract", Arrays.asList("$contractSalesActuals", "$discountAmountActuals")),
-						"$exfactoryActual"));
+		selectClause
+				.append("netContractSalesPerExfactoryActuals",
+						dividedResult(
+								new Document(MongoDBOperators.SUBTRACT.getMongoOperators(),
+										Arrays.asList("$contractSalesActuals", "$discountAmountActuals")),
+								"$exfactoryActual"));
 		selectClause.append("netContractSalesPerExfactoryProjection",
 				dividedResult(
-						new Document("$subtract",
+						new Document(MongoDBOperators.SUBTRACT.getMongoOperators(),
 								Arrays.asList("$contractSalesProjection", "$discountAmountProjection")),
 						"$exfactoryProjection"));
-		selectClause.append("netExfactorySalesActuals",
-				new Document("$subtract", Arrays.asList("$exfactoryActuals", "$discountAmountActuals")));
-		selectClause.append("netExfactorySalesProjection",
-				new Document("$subtract", Arrays.asList("$exfactoryProjection", "$discountAmountProjection")));
+		selectClause.append("netExfactorySalesActuals", new Document(MongoDBOperators.SUBTRACT.getMongoOperators(),
+				Arrays.asList("$exfactoryActuals", "$discountAmountActuals")));
+		selectClause.append("netExfactorySalesProjection", new Document(MongoDBOperators.SUBTRACT.getMongoOperators(),
+				Arrays.asList("$exfactoryProjection", "$discountAmountProjection")));
 
-		Document group = new Document("$group", groupFields);
-		Document project = new Document("$project", selectClause);
-		Document sort = new Document("$sort", new Document("_id.year", 1).append("_id.semiAnnual", 1));
+		Document group = new Document(MongoDBOperators.GROUP.getMongoOperators(), groupFields);
+		Document project = new Document(MongoDBOperators.PROJECT.getMongoOperators(), selectClause);
+		Document sort = new Document(MongoDBOperators.SORT.getMongoOperators(),
+				new Document("_id.year", 1).append("_id.semiAnnual", 1));
 
 		List<Document> conditions = new ArrayList<>();
 		if (match != null) {
@@ -296,7 +308,7 @@ public class GtnWsMongoService {
 
 	private void totalLevelCalculation(GtnWsTreeNodeAttributeBean rootNodeAtrributeBean,
 			GtnWsTreeNodeAttributeBean currentNodeData) {
-		if (rootNodeAtrributeBean != null && rootNodeAtrributeBean.getAttributeBeanList() != null && !rootNodeAtrributeBean.getAttributeBeanList().isEmpty()
+		if (rootNodeAtrributeBean != null && !rootNodeAtrributeBean.getAttributeBeanList().isEmpty()
 				&& currentNodeData != null && currentNodeData.getAttributeBeanList() != null
 				&& !currentNodeData.getAttributeBeanList().isEmpty()) {
 			try {
@@ -346,7 +358,7 @@ public class GtnWsMongoService {
 					}
 				}
 			} catch (EvaluationException ex) {
-				GTNLOGGER.error(ex.getMessage());
+				logger.info(ex.getMessage());
 			}
 		}
 
@@ -354,35 +366,21 @@ public class GtnWsMongoService {
 
 	public Document dividedResult(Object numerator, Object denominator) {
 		List<Object> condition = new ArrayList<>();
-		condition.add(new Document("$gt", Arrays.asList(denominator, 0)));
-		condition.add(new Document("$multiply",
-				Arrays.asList(new Document("$divide", Arrays.asList(numerator, denominator)), 100)));
+		condition.add(new Document(MongoDBOperators.GT.getMongoOperators(), Arrays.asList(denominator, 0)));
+		condition.add(new Document(MongoDBOperators.MULTIPLY.getMongoOperators(), Arrays.asList(
+				new Document(MongoDBOperators.DIVIDE.getMongoOperators(), Arrays.asList(numerator, denominator)),
+				100)));
 		condition.add(0.0);
-		return new Document("$cond", condition);
-	}
-
-	private List<Document> convertGtnWsTreeNodeAttributeToDocument(GtnWsTreeNodeAttributeBean nodeData) {
-		if (nodeData != null) {
-			List<GtnWsAttributeBean> attributeBeanList = nodeData.getAttributeBeanList();
-			List<Document> documentList = null;
-			for (GtnWsAttributeBean gtnWsAttributeBean : attributeBeanList) {
-				if (documentList == null) {
-					documentList = new ArrayList<>();
-				}
-				documentList.add(new Document(gtnWsAttributeBean.getAttributes()));
-			}
-			return documentList;
-		}
-		return null;
+		return new Document(MongoDBOperators.COND.getMongoOperators(), condition);
 	}
 
 	// GtnWsReportEngineTreeNode
-	public Object getTreeFromMongo(String collectionName, Class<?> className, String input[], Object values[]) {
+	public Object getTreeFromMongo(String collectionName, Class<?> className, String[] input, Object[] values) {
 		BasicDBObject whereQuery = new BasicDBObject();
 		if (input != null && values != null && values.length == input.length) {
 			for (int i = 0; i < input.length; i++) {
-				System.out.println("i =input " + input[i]);
-				System.out.println("i =values " + values[i]);
+				logger.info("i =input " + input[i]);
+				logger.info("i =values " + values[i]);
 				whereQuery.put(input[i], values[i]);
 			}
 		}
@@ -452,22 +450,23 @@ public class GtnWsMongoService {
 	}
 
 	public void createUserBasedCcpCollection(List ccpIdList, String uniqueId) {
-		Document matchCondition = new Document("ccpId", new Document("$in", ccpIdList));
-		FindIterable filteredResult = getCollection(MongoConstants.KAFKA_COLLECTION_ID).find(matchCondition);
-		MongoCursor cr = filteredResult.iterator();
+		Document matchCondition = new Document(MongoConstants.CCP_ID,
+				new Document(MongoDBOperators.IN.getMongoOperators(), ccpIdList));
+		FindIterable<Document> filteredResult = getCollection(MongoConstants.KAFKA_COLLECTION_ID).find(matchCondition);
+		MongoCursor<Document> cr = filteredResult.iterator();
 		while (cr.hasNext()) {
-			Document doc = (Document) cr.next();
+			Document doc = cr.next();
 			getCollection(MongoConstants.USER_BASED_CCP_COLLECTION + "_" + uniqueId).insertOne(doc);
 		}
 	}
 
-	public FindIterable<Document> fetchDataFromMongo(String collectionName, Object input[], Object values[],int start,int limit,String rowIndexFieldName) {
+	public FindIterable<Document> fetchDataFromMongo(String collectionName, Object[] input, Object[] values) {
 		try {
 			BasicDBObject whereQuery = new BasicDBObject();
 			if (input != null && values != null && values.length == input.length) {
 				for (int i = 0; i < input.length; i++) {
-					System.out.println("fetchDataFromMongo =input " + input[i]);
-					System.out.println("fetchDataFromMongo=values " + values[i]);
+					logger.info("fetchDataFromMongo =input " + input[i]);
+					logger.info("fetchDataFromMongo=values " + values[i]);
 					String value = values[i].toString();
 					if (!value.equals(".*")) {
 						Object filterValue = new BasicDBObject("$regex", values[i]);
@@ -475,18 +474,12 @@ public class GtnWsMongoService {
 					}
 				}
 			}
-                        //Do not delete ,will be uncommented once pagination completed
-                        if(rowIndexFieldName!=null&& !rowIndexFieldName.isEmpty()){
-                            whereQuery.put(rowIndexFieldName, new BasicDBObject("$gte", start).append("$lte", limit));
-                        }
 			@SuppressWarnings("unchecked")
 			FindIterable<Document> itr = getCollection(collectionName).find(whereQuery);
-			// Bson filter = Filters.regex(collectionName, collectionName);
-			// getCollection(collectionName).find(filter);
 
 			return itr;
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.info(ex.getMessage());
 			return null;
 		}
 

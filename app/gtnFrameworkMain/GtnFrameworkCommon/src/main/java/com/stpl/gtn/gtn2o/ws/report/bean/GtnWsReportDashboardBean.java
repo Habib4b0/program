@@ -16,6 +16,7 @@ public class GtnWsReportDashboardBean {
 	private Object[] values;
 	private String customViewName;
 	private String sessionId;
+	private GtnWsHierarchyType hierarchyType;
 
 	public String[] getInput() {
 		return input;
@@ -51,6 +52,14 @@ public class GtnWsReportDashboardBean {
 
 	public String getTableNameWithUniqueId(String tableName) {
 		return tableName + "_" + sessionId;
+	}
+
+	public GtnWsHierarchyType getHierarchyType() {
+		return hierarchyType;
+	}
+
+	public void setHierarchyType(GtnWsHierarchyType hierarchyType) {
+		this.hierarchyType = hierarchyType;
 	}
 
 }

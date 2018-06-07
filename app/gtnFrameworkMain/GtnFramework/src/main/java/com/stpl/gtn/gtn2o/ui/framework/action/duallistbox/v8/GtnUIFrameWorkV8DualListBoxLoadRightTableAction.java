@@ -69,17 +69,10 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 	public void loadRightTable(GtnFrameworkV8DualListBoxBean dualListBoxBean, boolean isMoveAll, String componentId)
 			throws GtnFrameworkGeneralException {
 		Grid<GtnWsRecordBean> leftTable = dualListBoxBean.getLeftTable();
-		Set<GtnWsRecordBean> recordBean = leftTable.getSelectedItems();
-		Map<String, String> levelValueMap = (Map<String, String>) dualListBoxBean.getGtnDualListBoxqueryParameters()
-				.get(1);
-		boolean isProduct = (boolean) dualListBoxBean.getGtnDualListBoxqueryParameters().get(8);
-		if (!isProduct) {
-			Date forecastEligibleDate = (Date) dualListBoxBean.getGtnDualListBoxqueryParameters().get(7);
-		}
 		GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig = dualListBoxBean.getDualListBoxConfig();
 		GtnUIFrameworkHierarchyTreeBuilder treeBuilder = dualListBoxBean.getTreeBuilder();
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
-		if (!isMoveAll && leftTable.getSelectedItems() == null) {
+		if (!leftTable.getSelectedItems().iterator().hasNext()) {
 			GtnUIFrameWorkActionConfig gtnUIFrameAlertWorkActionConfig = new GtnUIFrameWorkActionConfig();
 			gtnUIFrameAlertWorkActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 			List<Object> alertMsgList = new ArrayList<>(2);
@@ -89,20 +82,13 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameAlertWorkActionConfig);
 			return;
 		} else {
-			List<Object> inputPutList = new ArrayList<>(4);
-			inputPutList.add("loaddata");
-
-			List<String> hierarchyNoList = new ArrayList<>();
-			if (isMoveAll) {
-				hierarchyNoList.add("");
-			} else {
-				hierarchyNoList
-						.add(leftTable.getSelectedItems().iterator().next().getPropertyValueByIndex(4).toString());
+			Set<GtnWsRecordBean> recordBean = leftTable.getSelectedItems();
+			Map<String, String> levelValueMap = (Map<String, String>) dualListBoxBean.getGtnDualListBoxqueryParameters()
+					.get(1);
+			boolean isProduct = (boolean) dualListBoxBean.getGtnDualListBoxqueryParameters().get(8);
+			if (!isProduct) {
+				Date forecastEligibleDate = (Date) dualListBoxBean.getGtnDualListBoxqueryParameters().get(7);
 			}
-			inputPutList.add(hierarchyNoList);
-
-			inputPutList.add(dualListBoxConfig.getFileName());
-			inputPutList.add(isMoveAll);
 			List<Object> queryParameters = dualListBoxBean.getGtnDualListBoxqueryParametersList();
 			GtnWsRecordBean record = recordBean.iterator().next();
 			GtnUIFrameworkWebserviceRequest request = createRightTableRequest(queryParameters, record,

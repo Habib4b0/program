@@ -79,7 +79,8 @@ public class GtnUIFrameworkWebserviceRequest {
 
     private GtnWsItemMasterRequest gtnWsItemMasterRequest;
 
-    private GtnWsForecastProjectionSubmitRequest gtnWsForecastProjectionSubmitRequest;
+    
+	private GtnWsForecastProjectionSubmitRequest gtnWsForecastProjectionSubmitRequest;
 
     private GtnWsCFFSubmitRequest gtnCffsubmitRequest;
 
@@ -172,7 +173,7 @@ public class GtnUIFrameworkWebserviceRequest {
 
 
 
-    private GtnWsUdcRequest gtnWsUdcRequest;
+	private GtnWsUdcRequest gtnWsUdcRequest;
 
     private GtnWsAttachmentRequest gtnWsAttachmentRequest;
 
@@ -219,9 +220,9 @@ public class GtnUIFrameworkWebserviceRequest {
         this.gtnCMasterRequest = gtnCMasterRequest;
     }
 
-    public GtnWsSearchRequest getGtnWsSearchRequest() {
-        return gtnWsSearchRequest;
-    }
+	public GtnWsSearchRequest getGtnWsSearchRequest() {
+		return gtnWsSearchRequest;
+	}
 
     public void setGtnWsSearchRequest(GtnWsSearchRequest gtnWsSearchRequest) {
         this.gtnWsSearchRequest = gtnWsSearchRequest;
@@ -303,6 +304,21 @@ public class GtnUIFrameworkWebserviceRequest {
         return gtnWsContractDashboardRequest;
     }
 
+	public GtnWsCFFSubmitRequest getGtnCffsubmitRequest() {
+		return gtnCffsubmitRequest;
+	}
+
+	public void setGtnCffsubmitRequest(GtnWsCFFSubmitRequest gtnCffsubmitRequest) {
+		this.gtnCffsubmitRequest = gtnCffsubmitRequest;
+	}
+
+	public GtnWsReportRequest getGtnWsReportRequest() {
+		return gtnWsReportRequest;
+	}
+
+	public void setGtnWsReportRequest(GtnWsReportRequest gtnWsReportRequest) {
+		this.gtnWsReportRequest = gtnWsReportRequest;
+	}
     public void setGtnWsContractDashboardRequest(GtnWsContractDashboardRequest gtnWsContractDashboardRequest) {
         this.gtnWsContractDashboardRequest = gtnWsContractDashboardRequest;
     }
@@ -502,13 +518,6 @@ public class GtnUIFrameworkWebserviceRequest {
         this.gtnWsUdcRequest = gtnWsUdcRequest;
     }
 
-    public GtnWsCFFSubmitRequest getGtnCffsubmitRequest() {
-        return gtnCffsubmitRequest;
-    }
-
-    public void setGtnCffsubmitRequest(GtnWsCFFSubmitRequest gtnCffsubmitRequest) {
-        this.gtnCffsubmitRequest = gtnCffsubmitRequest;
-    }
 
     public GtnWsAttachmentRequest getGtnWsAttachmentRequest() {
         return gtnWsAttachmentRequest;
@@ -517,14 +526,6 @@ public class GtnUIFrameworkWebserviceRequest {
     public void setGtnWsAttachmentRequest(GtnWsAttachmentRequest gtnWsAttachmentRequest) {
         this.gtnWsAttachmentRequest = gtnWsAttachmentRequest;
     }
-
-	public GtnWsReportRequest getGtnWsReportRequest() {
-		return gtnWsReportRequest;
-	}
-
-	public void setGtnWsReportRequest(GtnWsReportRequest gtnWsReportRequest) {
-		this.gtnWsReportRequest = gtnWsReportRequest;
-	}
 
     public GtnWsCustomViewRequest getGtnWsCustomViewRequest() {
         return gtnWsCustomViewRequest;

@@ -32,13 +32,12 @@ public class GtnReportDataSelectionResetAction
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(1).toString())
 				.loadV8ComboBoxComponentValue(0);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(2).toString()).loadComboBoxComponentValue(0);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(2).toString()).loadV8ComboBoxComponentValue(0);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
 				.loadV8ComboBoxComponentValue(0);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(6).toString()).setV8PopupFieldValue("");
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(7).toString()).loadComboBoxComponentValue(0);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(8).toString()).loadComboBoxComponentValue(0);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(9).toString()).loadComboBoxComponentValue(0);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(7).toString()).loadV8ComboBoxComponentValue(0);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(8).toString()).loadV8ComboBoxComponentValue(0);
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(11).toString()).getComponentData();
 		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) componentData.getCustomData();
@@ -50,17 +49,15 @@ public class GtnReportDataSelectionResetAction
 		leftTable.setItems(new ArrayList<>());
 
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
-		GtnWsRecordBean recordBean = rightTable.getTreeData().getRootItems().iterator().next();
+		GtnWsRecordBean recordBean = rightTable.getTreeData().getRootItems().get(0);
 		rightTable.getTreeData().removeItem(recordBean);
 		rightTable.getDataProvider().refreshAll();
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(12).toString()).setV8PopupFieldValue("");
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(13).toString())
-				.loadComboBoxComponentValue(0);
+				.loadV8ComboBoxComponentValue(0);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(14).toString())
-				.loadComboBoxComponentValue(0);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(15).toString())
-				.loadComboBoxComponentValue(0);
+				.loadV8ComboBoxComponentValue(0);
 
 		GtnUIFrameworkComponentData productComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(16).toString()).getComponentData();
@@ -74,7 +71,7 @@ public class GtnReportDataSelectionResetAction
 		productLeftTable.setItems(new ArrayList<>());
 
 		TreeGrid<GtnWsRecordBean> productRightTable = productDualListBoxBean.getRightTable();
-		GtnWsRecordBean productRecordBean = productRightTable.getTreeData().getRootItems().iterator().next();
+		GtnWsRecordBean productRecordBean = productRightTable.getTreeData().getRootItems().get(0);
 		productRightTable.getTreeData().removeItem(productRecordBean);
 		productRightTable.getDataProvider().refreshAll();
 

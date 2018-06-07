@@ -36,16 +36,16 @@ public class GtnUIFrameworkMoveAllRightButtonClickListener implements Button.Cli
 	}
 
 	public static GtnUIFrameworkMoveAllRightButtonClickListener getInstance() {
-		GtnUIFrameworkMoveAllRightButtonClickListener buttonClickListener = GtnUIFrameworkMoveAllRightButtonClickListener.moveAllRightButtonClickListener;
-		if (buttonClickListener == null) {
+		GtnUIFrameworkMoveAllRightButtonClickListener moveAllbuttonClickListener = GtnUIFrameworkMoveAllRightButtonClickListener.moveAllRightButtonClickListener;
+		if (moveAllbuttonClickListener == null) {
 			synchronized (GtnUIFrameworkMoveAllRightButtonClickListener.class) {
-				buttonClickListener = GtnUIFrameworkMoveAllRightButtonClickListener.moveAllRightButtonClickListener;
-				if (buttonClickListener == null) {
-					GtnUIFrameworkMoveAllRightButtonClickListener.moveAllRightButtonClickListener = buttonClickListener = new GtnUIFrameworkMoveAllRightButtonClickListener();
+				moveAllbuttonClickListener = GtnUIFrameworkMoveAllRightButtonClickListener.moveAllRightButtonClickListener;
+				if (moveAllbuttonClickListener == null) {
+					GtnUIFrameworkMoveAllRightButtonClickListener.moveAllRightButtonClickListener = moveAllbuttonClickListener = new GtnUIFrameworkMoveAllRightButtonClickListener();
 				}
 			}
 		}
-		return buttonClickListener;
+		return moveAllbuttonClickListener;
 	}
 
 	@Override

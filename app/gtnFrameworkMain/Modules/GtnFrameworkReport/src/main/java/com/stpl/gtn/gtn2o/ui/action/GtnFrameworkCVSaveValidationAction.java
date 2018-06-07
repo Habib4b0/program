@@ -85,9 +85,9 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 //        String customViewDescription = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[1])
 //                .getStringFromField();
         int customerRelationSid = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[1])
-                .getIntegerFromField();
+                .getIntegerFromV8ComboBox();
         int productRelationSid = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[2])
-                .getIntegerFromField();
+                .getIntegerFromV8ComboBox();
         String rowType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[3])
                 .getV8StringFromField();
         String customViewType = "report"+rowType;

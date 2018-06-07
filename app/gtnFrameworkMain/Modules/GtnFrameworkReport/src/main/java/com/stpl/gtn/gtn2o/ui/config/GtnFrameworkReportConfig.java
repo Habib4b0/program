@@ -6,23 +6,24 @@ import java.util.List;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkRootConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
-import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportPrivateViewSearchLookUp;
-import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportProductHierarchyLookUp;
-import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportGenerateLookUp;
-import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportProfileLookUp;
-import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDashboardSaveProfileViewLookUp;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportComparisonLookup;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportComparisonOptionsLookup;
-import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportPublicViewSearchLookUp;
-import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDataSelectionSaveViewLookUp;
-import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportVariableBreakdownLookup;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportCustomViewLookup;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportCustomertHierarchyLookUp;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDSCustomertHierarchyLookUp;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDSProductHierarchyLookUp;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDashboardComparisonLookup;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDashboardSaveProfileViewLookUp;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDataSelectionSaveViewLookUp;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportGenerateLookUp;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportPrivateViewSearchLookUp;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportProductHierarchyLookUp;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportProfileLookUp;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportPublicViewSearchLookUp;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportVariableBreakdownLookup;
 
 public class GtnFrameworkReportConfig {
-	public GtnUIFrameworkRootConfig getGtnReportRootConfig(){
+	public GtnUIFrameworkRootConfig getGtnReportRootConfig() {
 
 		GtnUIFrameworkRootConfig rootConfig = new GtnUIFrameworkRootConfig();
 
@@ -43,8 +44,8 @@ public class GtnFrameworkReportConfig {
 		viewList.add(new GtnFrameworkReportDataSelectionSaveViewLookUp()
 				.getSaveViewLookUpView(GtnFrameworkReportStringConstants.REPORT_SAVE_VIEW_LOOKUP));
 
-		viewList.add(new GtnFrameworkReportGenerateLookUp().getGtnReportGenerateLookUpView(
-				GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP));
+		viewList.add(new GtnFrameworkReportGenerateLookUp()
+				.getGtnReportGenerateLookUpView(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP));
 
 		viewList.add(new GtnFrameworkReportComparisonLookup().getReportComparisonLookupView());
 
@@ -56,13 +57,13 @@ public class GtnFrameworkReportConfig {
 
 		viewList.add(new GtnFrameworkReportCustomertHierarchyLookUp()
 				.getCustHierarchyLookUpView(GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_LOOKUP));
-		
+
 		viewList.add(new GtnFrameworkReportDSCustomertHierarchyLookUp()
 				.getCustHierarchyLookUpView(GtnFrameworkReportStringConstants.REPORT_DS_CUSTOMER_HIERARCHY_LOOKUP));
 
 		viewList.add(new GtnFrameworkReportDSProductHierarchyLookUp()
 				.getProdHierarchyLookUpView(GtnFrameworkReportStringConstants.REPORT_DS_PRODUCT_HIERARCHY_LOOKUP));
-		
+
 		viewList.add(new GtnFrameworkReportVariableBreakdownLookup()
 				.getVariableBreakdownLookUpView(GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB));
 
@@ -71,6 +72,8 @@ public class GtnFrameworkReportConfig {
 
 		viewList.add(new GtnFrameworkReportDashboardSaveProfileViewLookUp()
 				.getSaveViewLookUpView(GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_SAVE_PROFILE));
+
+		viewList.add(new GtnFrameworkReportDashboardComparisonLookup().getReportComparisonLookupView());
 
 		rootConfig.setGtnViewConfigList(viewList);
 

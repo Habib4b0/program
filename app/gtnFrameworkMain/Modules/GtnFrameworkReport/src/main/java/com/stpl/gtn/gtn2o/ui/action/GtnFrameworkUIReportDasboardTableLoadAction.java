@@ -21,7 +21,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 /**
  *
@@ -50,8 +49,7 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 		serviceRequest.setGtnWsReportRequest(reportRequest);
 		reportRequest.setGtnWsReportDashboardBean(grid.getTableConfig().getGtnWsReportDashboardBean());
-		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-				GtnWsReportConstants.GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT,
+		wsclient.callGtnWebServiceUrl(GtnWsReportConstants.GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT,
 				GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, serviceRequest,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
