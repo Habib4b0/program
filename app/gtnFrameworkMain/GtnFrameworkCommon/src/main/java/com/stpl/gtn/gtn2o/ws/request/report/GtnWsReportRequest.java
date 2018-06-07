@@ -28,6 +28,7 @@ public class GtnWsReportRequest {
 	private GtnWsReportDashboardFilterBean filterBean;
 	private Date forecastEligibleDate;
 	private int projectionMasterSid;
+	private boolean loadTableUsingFile = true;
 
 	public int getProjectionMasterSid() {
 		return projectionMasterSid;
@@ -131,6 +132,14 @@ public class GtnWsReportRequest {
 
 	public void setFilterBean(GtnWsReportDashboardFilterBean filterBean) {
 		this.filterBean = filterBean;
+	}
+
+	public boolean isLoadTableUsingFile() {
+		return loadTableUsingFile;
+	}
+
+	public void setLoadTableUsingFile(boolean loadTableUsingFile) {
+		this.loadTableUsingFile = loadTableUsingFile;
 	}
 
 }

@@ -1379,5 +1379,19 @@ VALUES ('@PROJECTION_NAME','@PROJECTION_DESCRIPTION','@FORECASTING_TYPE',@CREATE
 ]]> 
         </query>
     </entity> 
+    
+     <entity id="updateStatusTable">
+        <query>
+    		<![CDATA[
+      UPDATE
+	ST_STATUS_TABLE
+SET
+	FLAG = 'R'
+WHERE
+	SCREEN_NAME = '?'
+        AND VIEW_NAME = '?'
+		]]>
+        </query>
+    </entity> 
    
 </sql>

@@ -63,7 +63,7 @@ public class DroolsProperties {
         } catch (IOException e) {
             logger.error(ERROR_READING_PROPERTY_FILE+e.getMessage());
         }
-         return properties;
+         return (Properties) properties.clone();
     }
 
     /**
@@ -105,7 +105,7 @@ public class DroolsProperties {
         } catch (IOException e) {
             logger.error(ERROR_READING_PROPERTY_FILE+e.getMessage());
         }
-        return cffProperties;
+        return (Properties) cffProperties.clone();
     }
 
 }

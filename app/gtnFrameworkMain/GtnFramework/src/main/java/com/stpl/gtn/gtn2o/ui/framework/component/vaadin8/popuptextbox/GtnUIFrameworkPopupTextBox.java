@@ -26,6 +26,10 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 
 public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
+	
+	public GtnUIFrameworkPopupTextBox() {
+		
+	}
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPopupTextBox.class);
 

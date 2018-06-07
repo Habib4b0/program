@@ -77,7 +77,25 @@ public class GtnUIFrameworkPagedTableConfig {
     private boolean isRefreshAtStart;
     private String gridColumnHeader;
     private boolean enableCheckBoxInGridHeader=false;
+    private String GridHeaderCustomClassLoadUrl;
+    private GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = null;
 
+    public GtnUIFrameWorkActionConfig getGtnUIFrameWorkActionConfig() {
+        return gtnUIFrameWorkActionConfig;
+    }
+
+    public void setGtnUIFrameWorkActionConfig(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) {
+        this.gtnUIFrameWorkActionConfig = gtnUIFrameWorkActionConfig;
+    }
+    
+    public String getGridHeaderCustomClassLoadUrl() {
+        return GridHeaderCustomClassLoadUrl;
+    }
+
+    public void setGridHeaderCustomClassLoadUrl(String GridHeaderCustomClassLoadUrl) {
+        this.GridHeaderCustomClassLoadUrl = GridHeaderCustomClassLoadUrl;
+    }
+    
     public boolean isEnableCheckBoxInGridHeader() {
         return enableCheckBoxInGridHeader;
     }

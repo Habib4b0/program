@@ -742,12 +742,7 @@ public class CommonUtil {
 	public static String getParentItemId(String key, boolean isCustomHierarchy, String parentHierarchyNo) {
 		String parentKey;
 
-		if (!isCustomHierarchy) {
 			parentKey = key.substring(0, key.lastIndexOf('.'));
-		} else {
-			parentKey = getParentHierarchyNumber(parentHierarchyNo, key);
-
-		}
 		if (parentKey.lastIndexOf('.') >= 0) {
 			parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
 		}
@@ -758,9 +753,11 @@ public class CommonUtil {
     private static String setLevelNameValuesForDP(int index, List<Object> levelNameList, Object[] displayFormatIndex) {
         String formattedNameValue = StringUtils.EMPTY;
         int fromIndex = (int) displayFormatIndex[index];
+        if(fromIndex<=0){
         Object objValue = levelNameList.get(fromIndex + 1);
         if (!getLevelName(objValue)) {
             formattedNameValue = String.valueOf(objValue);
+        }
         }
         return formattedNameValue;
     }
@@ -784,6 +781,7 @@ public class CommonUtil {
             }
         } catch (Exception ex) {
             logger.error(ex.getMessage());
+            logger.info(ex.getMessage(),ex);
         }
         return formattedNameList;
     }
@@ -814,4 +812,10 @@ public class CommonUtil {
         }
     }
     
+    public void updateStatusTable(String screenName, SessionDTO session, String viewName) {
+        List inputList = new ArrayList<>();
+        inputList.add(screenName);
+        inputList.add(viewName);
+        HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(inputList, "updateStatusTable"), session.getCurrentTableNames()));
+    }
 }
