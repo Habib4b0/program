@@ -812,4 +812,10 @@ public class CommonUtil {
         }
     }
     
+    public void updateStatusTable(String screenName, SessionDTO session, String viewName) {
+        List inputList = new ArrayList<>();
+        inputList.add(screenName);
+        inputList.add(viewName);
+        HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(inputList, "updateStatusTable"), session.getCurrentTableNames()));
+    }
 }

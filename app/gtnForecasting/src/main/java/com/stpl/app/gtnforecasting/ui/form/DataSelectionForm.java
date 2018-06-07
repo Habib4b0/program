@@ -571,6 +571,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 			dataSelectionDTO.setProdGrpSid(viewDTO.getProductGroupSid());
 			selectedProductGroupDTO.setProductGroupSid(String.valueOf(viewDTO.getProductGroupSid()));
 		}
+                frequency.select(viewDTO.getDataSelectionFrequency() != null ? viewDTO.getDataSelectionFrequency() : "Quarterly");
+                dataSelectionDeductionLevel.select(viewDTO.getDataSelectionDedLevel() != null ? viewDTO.getDataSelectionDedLevel() : 1);
 
 	}
 
@@ -670,6 +672,13 @@ public class DataSelectionForm extends ForecastDataSelection {
 				dataSelectionDTO.setDataSelectionDeductionLevelSid(Integer.parseInt(String.valueOf(dataSelectionDeductionLevel.getValue())));
 			} else {
 				dataSelectionDTO.setDataSelectionDeductionLevelSid(0);
+			}
+                        if (frequency.getValue() != null
+					&& !SELECT_ONE.equals(frequency.getValue())) {
+
+				dataSelectionDTO.setFrequency(String.valueOf(frequency.getValue()));
+			} else {
+				dataSelectionDTO.setFrequency("0");
 			}
 
 			int customerForecastLevel = 0;
@@ -3388,6 +3397,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				session.setProjectionName(dto.getProjectionName());
 				session.setScreenName(scrName);
 				session.setAction(Constant.VIEW);
+                                session.setFunctionMode("E");
 				session.setCustomerHierarchyVersion(dto.getCustomerHierVersionNo());
 				session.setProductHierarchyVersion(dto.getProductHierVersionNo());
 				session.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());

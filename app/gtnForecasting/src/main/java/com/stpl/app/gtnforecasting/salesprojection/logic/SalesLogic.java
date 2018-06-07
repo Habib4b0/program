@@ -15,6 +15,7 @@ import com.stpl.app.gtnforecasting.dto.ContractBrandDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.getCustomViewDetails;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.DataSourceConnection;
@@ -172,6 +173,7 @@ public class SalesLogic {
     public static final String P_QUATER = "p.QUARTER";
     public static final String P_MONTH = "p.MONTH,";
     public static final String MONTH = "MONTH";
+    private static final String SALES_SMALL = "sales";
     
     
               
@@ -2968,7 +2970,7 @@ public class SalesLogic {
      * @param allocationBasis
      */
     public boolean calculateSalesProjection(final ProjectionSelectionDTO projectionSelectionDTO, final String methodology, final String calcPeriods, final String calcBased,
-            final String startPeriodSID, final String endPeriodSID, final String allocationBasis) {
+            final String startPeriodSID, final String endPeriodSID, final String allocationBasis,SessionDTO session,ProjectionSelectionDTO projectionDTO) {
         boolean isSalesCalculated = false;
         projectionSelectionDTO.setTabName(SALES_PROJ.getConstant());
         String startPeriod = CommonLogic.getPeriodSID(projectionSelectionDTO.getFrequency(), startPeriodSID, true);
@@ -2985,6 +2987,7 @@ public class SalesLogic {
                 Thread thread = new Thread(createDiscountProcedureRunnable(projectionSelectionDTO));
                 thread.start();
             }
+            CommonLogic.updateFlagStatusToR(session, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
           new DataSelectionLogic().callViewInsertProceduresThread(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,endPeriod.equals("0")?StringUtils.EMPTY:endPeriod,"");
         } catch (PortalException | SystemException | SQLException | NamingException ex) {
             LOGGER.error(ex.getMessage());

@@ -358,6 +358,9 @@ public class FileManagementLogic {
 	public FileManagementDTO getCurrentFileInfo(final HelperDTO fileType, String businessUnit,
 			Object companyMasterSystemId) throws SystemException {
 
+		if(fileType==null) {
+			return null;
+		}
 		final FileManagementDTO fileMgtDTO = new FileManagementDTO();
 		LOGGER.debug("getCurrentFileInfo started with P1:String fileType= {}, Business Unit= {}" , fileType, businessUnit);
 		List<FileManagement> resultsList;
