@@ -4851,7 +4851,7 @@ public class CommonLogic {
             if (!customerFilter.isEmpty()) {
                 String oldProductQuery=query.toString();
                 query=new StringBuilder();
-                oldProductQuery= SQlUtil.getQuery("customer-dynamic-filter")+oldProductQuery+" JOIN ST_CCP_HIERARCHY CCP ON CCP.CCP_DETAILS_SID =DPM.CCP_DETAILS_SID JOIN #HIER_CUST HC ON CCP.CUST_HIERARCHY_NO LIKE HC.HIERARCHY_NO+'%' ";
+                oldProductQuery= SQlUtil.getQuery("customer-dynamic-filter")+oldProductQuery+" JOIN ST_CCP_HIERARCHY CCP1 ON CCP1.CCP_DETAILS_SID =DPM.CCP_DETAILS_SID JOIN #HIER_CUST HC ON CCP1.CUST_HIERARCHY_NO LIKE HC.HIERARCHY_NO+'%' ";
                 oldProductQuery= oldProductQuery.replace(Constant.LEVEL_VALUES,customerFilter.toString().replace("[", "").replace("]", "")).replace(Constant.RELBUILD_SID, projectionDto.getSessionDTO().getCustRelationshipBuilderSid());
                 query.append(oldProductQuery);
             }
