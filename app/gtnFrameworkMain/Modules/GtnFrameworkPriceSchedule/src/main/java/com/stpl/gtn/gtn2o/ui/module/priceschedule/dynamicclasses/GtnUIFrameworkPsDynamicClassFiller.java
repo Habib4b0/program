@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.module.priceschedule.dynamicclasses;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnFrameworkCustomTabChangeAction;
+import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnFrameworkPSDeleteAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnFrameworkPSDesignationChangeAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnFrameworkPSPriceProtecTabMassFieldValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnFrameworkPSPriceProtectionTabTableCheckAction;
@@ -95,6 +96,8 @@ public class GtnUIFrameworkPsDynamicClassFiller implements GtnUIDynamicObjectFil
 				new GtnFrameworkPsFieldFactoryPopupSelectAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkPSPriceProtectionTabAlertAction.class.getName(),
 				new GtnFrameworkPSPriceProtectionTabAlertAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkPSDeleteAction.class.getName(),
+				new GtnFrameworkPSDeleteAction());
 
 	}
 

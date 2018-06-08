@@ -152,12 +152,12 @@ public class Summary extends CustomComponent {
     private void loadSelectionCriteria() {
         try {
             if (selecteditemList != null && selecteditemList.size() == 1) {
-                ItemIndexDto dto = selecteditemList.get(0);
-                itemNo.setValue(dto.getItemNo());
-                itemName.setValue(dto.getItemName());
-                itemDesc.setValue(dto.getItemDesc());
-                therapeuticClass.setValue(dto.getTherapeuticClass());
-                brand.setValue(dto.getBrand());
+                ItemIndexDto itemIndexDto = selecteditemList.get(0);
+                itemNo.setValue(itemIndexDto.getItemNo());
+                itemName.setValue(itemIndexDto.getItemName());
+                itemDesc.setValue(itemIndexDto.getItemDesc());
+                therapeuticClass.setValue(itemIndexDto.getTherapeuticClass());
+                brand.setValue(itemIndexDto.getBrand());
             }
             itemNo.setReadOnly(BooleanConstant.getTrueFlag());
             itemName.setReadOnly(BooleanConstant.getTrueFlag());
@@ -232,9 +232,9 @@ public class Summary extends CustomComponent {
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
-                        HelperDTO dto = (HelperDTO) originatingField.getValue();
+                        HelperDTO helperDto = (HelperDTO) originatingField.getValue();
 
-                        return new SimpleStringFilter(propertyId, String.valueOf(dto.getId()), false, false);
+                        return new SimpleStringFilter(propertyId, String.valueOf(helperDto.getId()), false, false);
                     } else {
                         return null;
                     }
@@ -365,13 +365,13 @@ public class Summary extends CustomComponent {
     }
 
     ContractDashboardDTO loadTempId() {
-        ContractDashboardDTO dto = new ContractDashboardDTO();
-        dto.setContractSid("2");
-        dto.setCfpSid("1");
-        dto.setIfpSid("1");
-        dto.setPsSid("1");
-        dto.setRsSid("1");
-        return dto;
+        ContractDashboardDTO contractDashboardDto = new ContractDashboardDTO();
+        contractDashboardDto.setContractSid("2");
+        contractDashboardDto.setCfpSid("1");
+        contractDashboardDto.setIfpSid("1");
+        contractDashboardDto.setPsSid("1");
+        contractDashboardDto.setRsSid("1");
+        return contractDashboardDto;
     }
 
     ContractDashboardDTO loadDashBoardSid() {
@@ -477,11 +477,11 @@ public class Summary extends CustomComponent {
 
     private void configureSecurityPermissions() {
         try {
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selection.getUserId()), "GCM-Item Management", "Item Add", "Summary Tab");
-            setFunctionHM(functionHM);
-            remove.setVisible(CommonLogic.isButtonVisibleAccess("remove", functionHM));
-            remove1.setVisible(CommonLogic.isButtonVisibleAccess("remove1", functionHM));
-            populate.setVisible(CommonLogic.isButtonVisibleAccess("populate", functionHM));
+            Map<String, AppPermission> functionHMMap = stplSecurity.getBusinessFunctionPermission(String.valueOf(selection.getUserId()), "GCM-Item Management", "Item Add", "Summary Tab");
+            setFunctionHM(functionHMMap);
+            remove.setVisible(CommonLogic.isButtonVisibleAccess("remove", functionHMMap));
+            remove1.setVisible(CommonLogic.isButtonVisibleAccess("remove1", functionHMMap));
+            populate.setVisible(CommonLogic.isButtonVisibleAccess("populate", functionHMMap));
         } catch (Exception ex) {
             LOGGER.error("",ex);
         }

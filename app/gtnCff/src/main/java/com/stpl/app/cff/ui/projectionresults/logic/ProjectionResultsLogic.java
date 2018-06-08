@@ -536,15 +536,15 @@ public class ProjectionResultsLogic {
         }
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat format, String value) {
         if (value.contains("null")) {
             value = "0";
         } 
             Double newValue = Double.valueOf(value);
-            if (FORMAT.toPattern().contains("%")) {
+            if (format.toPattern().contains("%")) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = FORMAT.format(newValue);
+            value = format.format(newValue);
                 return value;
     }
 
@@ -2435,32 +2435,32 @@ public class ProjectionResultsLogic {
 
         selectClause += "\n select ";
         String customQuery = "";
-        String ppa_actuals = "";
-        String ppa_projection = "";
+        String ppaActuals = "";
+        String ppaProjection = "";
         List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(StringConstantsUtil.TODIS, "SALE", "PPA", "on", projSelDTO.isPpa());
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         String orderBy = list.get(NumericConstants.THREE);
         if (projSelDTO.isPpa()) {
-            ppa_actuals = NULL_PPAACTUAL_SALES;
-            ppa_projection = "+Isnull(PPA.PROJECTION_SALES, 0)";
+            ppaActuals = NULL_PPAACTUAL_SALES;
+            ppaProjection = "+Isnull(PPA.PROJECTION_SALES, 0)";
         }
         selectClause += " SALE.SALES_ACTUAL_SALES as CONTRACT_ACTUAL_SALES \n"
                 + ", SALE.SALES_PROJECTION_SALES as CONTRACT_PROJECTION_SALES \n"
                 + ", SALE.ACTUAL_UNITS as CONTRACT_ACTUAL_UNITS \n"
                 + ", SALE.PROJECTION_UNITS as CONTRACT_PROJECTION_UNITS \n"
-                + ", TOTAL_ACTUAL_RATE=Isnull((Isnull(TODIS.ACTUAL_SALES, 0)" + ppa_actuals + "+Isnull(SALE.RETURNS_ACTUAL, 0))/ NULLIF(SALE.SALES_ACTUAL_SALES, 0), 0) * 100 \n"
-                + ", TOTAL_PROJECTION_RATE=Isnull(Isnull(TODIS.PROJECTION_SALES, 0)" + ppa_projection + "+Isnull(SALE.RETURNS_PROJECTED, 0) / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n"
-                + ", TOTAL_ACTUAL_DOLAR=(Isnull(TODIS.ACTUAL_SALES, 0)" + ppa_actuals + "+Isnull(SALE.RETURNS_ACTUAL, 0)) \n"
-                + ", TOTAL_PROJECTION_DOLAR=(Isnull(TODIS.PROJECTION_SALES, 0)" + ppa_projection + "+Isnull(SALE.RETURNS_PROJECTED, 0)) \n"
-                + ", NET_ACTUAL_SALES=(Isnull(SALE.SALES_ACTUAL_SALES, 0)-(Isnull(TODIS.ACTUAL_SALES, 0)" + ppa_actuals + "))  \n "
-                + ", NET_PROJECTION_SALES=(Isnull(SALE.SALES_PROJECTION_SALES, 0)-(Isnull(TODIS.PROJECTION_SALES, 0)" + ppa_projection + ")) \n"
-                + ", TOTAL_ACTUAL_RPU = Isnull(( Isnull(TODIS.ACTUAL_SALES, 0) " + ppa_actuals + " +Isnull(SALE.RETURNS_ACTUAL, 0)) / NULLIF(SALE.ACTUAL_UNITS, 0), 0),\n"
-                + "       TOTAL_PROJECTION_RPU = Isnull(( Isnull(TODIS.PROJECTION_SALES, 0) " + ppa_projection + " +Isnull(SALE.RETURNS_PROJECTED, 0) ) / NULLIF(SALE.PROJECTION_UNITS, 0), 0)\n"
+                + ", TOTAL_ACTUAL_RATE=Isnull((Isnull(TODIS.ACTUAL_SALES, 0)" + ppaActuals + "+Isnull(SALE.RETURNS_ACTUAL, 0))/ NULLIF(SALE.SALES_ACTUAL_SALES, 0), 0) * 100 \n"
+                + ", TOTAL_PROJECTION_RATE=Isnull(Isnull(TODIS.PROJECTION_SALES, 0)" + ppaProjection + "+Isnull(SALE.RETURNS_PROJECTED, 0) / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n"
+                + ", TOTAL_ACTUAL_DOLAR=(Isnull(TODIS.ACTUAL_SALES, 0)" + ppaActuals + "+Isnull(SALE.RETURNS_ACTUAL, 0)) \n"
+                + ", TOTAL_PROJECTION_DOLAR=(Isnull(TODIS.PROJECTION_SALES, 0)" + ppaProjection + "+Isnull(SALE.RETURNS_PROJECTED, 0)) \n"
+                + ", NET_ACTUAL_SALES=(Isnull(SALE.SALES_ACTUAL_SALES, 0)-(Isnull(TODIS.ACTUAL_SALES, 0)" + ppaActuals + "))  \n "
+                + ", NET_PROJECTION_SALES=(Isnull(SALE.SALES_PROJECTION_SALES, 0)-(Isnull(TODIS.PROJECTION_SALES, 0)" + ppaProjection + ")) \n"
+                + ", TOTAL_ACTUAL_RPU = Isnull(( Isnull(TODIS.ACTUAL_SALES, 0) " + ppaActuals + " +Isnull(SALE.RETURNS_ACTUAL, 0)) / NULLIF(SALE.ACTUAL_UNITS, 0), 0),\n"
+                + "       TOTAL_PROJECTION_RPU = Isnull(( Isnull(TODIS.PROJECTION_SALES, 0) " + ppaProjection + " +Isnull(SALE.RETURNS_PROJECTED, 0) ) / NULLIF(SALE.PROJECTION_UNITS, 0), 0)\n"
                 + ", COGS_ACTUAL = ISNULL(SALE.COGS_ACTUAL, 0) \n"
                 + "       , COGS_PROJECTED = ISNULL(SALE.COGS_PROJECTED, 0) \n"
-                + "       , NET_PROFIT_ACTUAL = ((Isnull(SALE.SALES_ACTUAL_SALES, 0) - (Isnull(TODIS.ACTUAL_SALES, 0)" + ppa_actuals + ")) - ISNULL(SALE.COGS_ACTUAL, 0))\n"
-                + "       , NET_PROFIT_PROJECTED = ((Isnull(SALE.SALES_PROJECTION_SALES, 0) - (Isnull(TODIS.PROJECTION_SALES, 0)" + ppa_projection + ")) - ISNULL(SALE.COGS_PROJECTED, 0))\n"
+                + "       , NET_PROFIT_ACTUAL = ((Isnull(SALE.SALES_ACTUAL_SALES, 0) - (Isnull(TODIS.ACTUAL_SALES, 0)" + ppaActuals + ")) - ISNULL(SALE.COGS_ACTUAL, 0))\n"
+                + "       , NET_PROFIT_PROJECTED = ((Isnull(SALE.SALES_PROJECTION_SALES, 0) - (Isnull(TODIS.PROJECTION_SALES, 0)" + ppaProjection + ")) - ISNULL(SALE.COGS_PROJECTED, 0))\n"
                 + ", RETURNS_ACTUAL_AMOUNT = (Isnull(SALE.RETURNS_ACTUAL, 0))\n"
                 + "       , RETURNS_PROJECTED_AMOUNT = (Isnull(SALE.RETURNS_PROJECTED, 0))\n"
                 + "       , RETURNS_ACTUAL_PERCENT = (Isnull(SALE.RETURNS_ACTUAL_PERCENT, 0))\n"
@@ -2845,26 +2845,26 @@ public class ProjectionResultsLogic {
         projSelDTO.setIsTotal(true);
         String selectClause = StringConstantsUtil.SPACE_SELECT;
         String customQuery = "";
-        String ppa_actuals = "";
-        String ppa_projection = "";
+        String ppaActuals = "";
+        String ppaProjection = "";
         List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(StringConstantsUtil.TODIS, "SALE", "PPA", "on", projSelDTO.isPpa());
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         String orderBy = list.get(NumericConstants.THREE);
         if (projSelDTO.isPpa()) {
-            ppa_actuals = NULL_PPAACTUAL_SALES;
-            ppa_projection = "+Isnull(PPA.PROJECTION_SALES,  0)";
+            ppaActuals = NULL_PPAACTUAL_SALES;
+            ppaProjection = "+Isnull(PPA.PROJECTION_SALES,  0)";
         }
         selectClause += " SALE.SALES_ACTUAL_SALES as CONTRACT_ACTUAL_SALES \n"
                 + ", SALE.SALES_PROJECTION_SALES as CONTRACT_PROJECTION_SALES \n"
                 + ", SALE.ACTUAL_UNITS as CONTRACT_ACTUAL_UNITS \n"
                 + ", SALE.PROJECTION_UNITS as CONTRACT_PROJECTION_UNITS \n"
-                + ", TOTAL_ACTUAL_RATE=Isnull((Isnull(TODIS.ACTUAL_SALES, 0)" + ppa_actuals + ") / NULLIF(SALE.SALES_ACTUAL_SALES, 0), 0) * 100 \n"
-                + ", TOTAL_PROJECTION_RATE=Isnull((Isnull(TODIS.PROJECTION_SALES, 0)" + ppa_projection + ") / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n"
-                + ", TOTAL_ACTUAL_DOLAR=(Isnull(TODIS.ACTUAL_SALES, 0)" + ppa_actuals + ") \n"
-                + ", TOTAL_PROJECTION_DOLAR=(Isnull(TODIS.PROJECTION_SALES, 0)" + ppa_projection + ") \n"
-                + ", NET_ACTUAL_SALES=(Isnull(SALE.SALES_ACTUAL_SALES, 0)-(Isnull(TODIS.ACTUAL_SALES, 0)" + ppa_actuals + "))  \n"
-                + ", NET_PROJECTION_SALES=(Isnull(SALE.SALES_PROJECTION_SALES, 0)-(Isnull(TODIS.PROJECTION_SALES, 0)" + ppa_projection + ")) \n"
+                + ", TOTAL_ACTUAL_RATE=Isnull((Isnull(TODIS.ACTUAL_SALES, 0)" + ppaActuals + ") / NULLIF(SALE.SALES_ACTUAL_SALES, 0), 0) * 100 \n"
+                + ", TOTAL_PROJECTION_RATE=Isnull((Isnull(TODIS.PROJECTION_SALES, 0)" + ppaProjection + ") / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n"
+                + ", TOTAL_ACTUAL_DOLAR=(Isnull(TODIS.ACTUAL_SALES, 0)" + ppaActuals + ") \n"
+                + ", TOTAL_PROJECTION_DOLAR=(Isnull(TODIS.PROJECTION_SALES, 0)" + ppaProjection + ") \n"
+                + ", NET_ACTUAL_SALES=(Isnull(SALE.SALES_ACTUAL_SALES, 0)-(Isnull(TODIS.ACTUAL_SALES, 0)" + ppaActuals + "))  \n"
+                + ", NET_PROJECTION_SALES=(Isnull(SALE.SALES_PROJECTION_SALES, 0)-(Isnull(TODIS.PROJECTION_SALES, 0)" + ppaProjection + ")) \n"
                 + ", TOTAL_ACTUAL_RPU = Isnull(( Isnull(TODIS.ACTUAL_SALES, 0) ) / NULLIF(SALE.ACTUAL_UNITS, 0), 0),\n"
                 + "       TOTAL_PROJECTION_RPU = Isnull(( Isnull(TODIS.PROJECTION_SALES, 0) ) / NULLIF(SALE.PROJECTION_UNITS, 0), 0),\n"
                 + "          COGS_ACTUAL = (ISNULL(SALE.ACTUAL_UNITS, 0) * ISNULL(COGS.ITEM_PRICE, 0))\n"
@@ -3041,14 +3041,14 @@ public class ProjectionResultsLogic {
         return customQuery;
     }
 
-    public String getFormatTwoDecimalValue(DecimalFormat FORMAT, String value, String appendChar) {
+    public String getFormatTwoDecimalValue(DecimalFormat format, String value, String appendChar) {
         if (value.contains("null")) {
             value = "0";
         }
         if (CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(FORMAT.format(Double.valueOf(value)));
+            value = appendChar.concat(format.format(Double.valueOf(value)));
         } else {
-            value = FORMAT.format(Double.valueOf(value)).concat(appendChar);
+            value = format.format(Double.valueOf(value)).concat(appendChar);
         }
 
         return value;

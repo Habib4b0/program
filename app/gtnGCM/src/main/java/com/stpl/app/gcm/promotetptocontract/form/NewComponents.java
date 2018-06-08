@@ -980,7 +980,7 @@ public class NewComponents extends CustomComponent implements View {
         }
         if (componentType.getValue().toString().equalsIgnoreCase(REBATE_SCHEDULE.toString())) {
             try {
-                Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
+                Map<Integer, HelperDTO> iDHelperDTOMap = helperListUtil.getIdHelperDTOMap();
                 String query = queryUtils.getItemInfo(ids, ifps);
                 List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (itemList != null && itemList.size() > 0) {
@@ -997,7 +997,7 @@ public class NewComponents extends CustomComponent implements View {
                         }
                         itemInfoDTO.setBrand((obje[NumericConstants.FIVE] != null) ? String.valueOf(obje[NumericConstants.FIVE]) : Constants.EMPTY);
                         if (obje[NumericConstants.SIX] != null) {
-                            itemInfoDTO.setStatusId(idHelperDTOMap.get((int) obje[NumericConstants.SIX]) == null || idHelperDTOMap.get((int) obje[NumericConstants.SIX]).getDescription().trim().equals(Constants.SELECT_ONE) ? new HelperDTO(0, SELECT_ONE_VALUE) : idHelperDTOMap.get((int) obje[NumericConstants.SIX]));
+                            itemInfoDTO.setStatusId(iDHelperDTOMap.get((int) obje[NumericConstants.SIX]) == null || iDHelperDTOMap.get((int) obje[NumericConstants.SIX]).getDescription().trim().equals(Constants.SELECT_ONE) ? new HelperDTO(0, SELECT_ONE_VALUE) : iDHelperDTOMap.get((int) obje[NumericConstants.SIX]));
                         }
                         if (obje[NumericConstants.SEVEN] != null) {
                             String date = df.format(obje[NumericConstants.SEVEN]);
@@ -1029,7 +1029,7 @@ public class NewComponents extends CustomComponent implements View {
         } else if (componentType.getValue().toString().equalsIgnoreCase(ITEM_FAMILY_PLAN.toString())) {
             try {
                 String query = queryUtils.getIFPInformation(ids);
-                Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
+                Map<Integer, HelperDTO> iDHelperDTOMap = helperListUtil.getIdHelperDTOMap();
                 List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (itemList != null && itemList.size() > 0) {
                     for (int i = 0; i < itemList.size(); i++) {
@@ -1048,7 +1048,7 @@ public class NewComponents extends CustomComponent implements View {
                         itemInfoDTO.setForm((obje[NumericConstants.SIX] != null) ? String.valueOf(obje[NumericConstants.SIX]) : Constants.EMPTY);
                         itemInfoDTO.setStrength((obje[NumericConstants.SEVEN] != null) ? String.valueOf(obje[NumericConstants.SEVEN]) : Constants.EMPTY);
                         if (obje[NumericConstants.EIGHT] != null) {
-                            itemInfoDTO.setStatusId(idHelperDTOMap.get((int) obje[NumericConstants.EIGHT]) == null || idHelperDTOMap.get((int) obje[NumericConstants.EIGHT]).getDescription().trim().equals(Constants.SELECT_ONE) ? new HelperDTO(0, SELECT_ONE_VALUE) : idHelperDTOMap.get((int) obje[NumericConstants.EIGHT]));
+                            itemInfoDTO.setStatusId(iDHelperDTOMap.get((int) obje[NumericConstants.EIGHT]) == null || iDHelperDTOMap.get((int) obje[NumericConstants.EIGHT]).getDescription().trim().equals(Constants.SELECT_ONE) ? new HelperDTO(0, SELECT_ONE_VALUE) : iDHelperDTOMap.get((int) obje[NumericConstants.EIGHT]));
                         }
                         if (obje[NumericConstants.NINE] != null) {
                             String date = df.format(obje[NumericConstants.NINE]);
@@ -1082,7 +1082,7 @@ public class NewComponents extends CustomComponent implements View {
                 String query = queryUtils.getIFPInformation(ids);
                 List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (itemList != null && itemList.size() > 0) {
-                    Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
+                    Map<Integer, HelperDTO> iDHelperDTOMap = helperListUtil.getIdHelperDTOMap();
                     for (int i = 0; i < itemList.size(); i++) {
                         ComponentInfoDTO itemInfoDTO = new ComponentInfoDTO();
                         Object[] obje = (Object[]) itemList.get(i);
@@ -1099,7 +1099,7 @@ public class NewComponents extends CustomComponent implements View {
                         itemInfoDTO.setForm((obje[NumericConstants.SIX] != null) ? String.valueOf(obje[NumericConstants.SIX]) : Constants.EMPTY);
                         itemInfoDTO.setStrength((obje[NumericConstants.SEVEN] != null) ? String.valueOf(obje[NumericConstants.SEVEN]) : Constants.EMPTY);
                         if (obje[NumericConstants.EIGHT] != null) {
-                            itemInfoDTO.setStatusId(idHelperDTOMap.get((int) obje[NumericConstants.EIGHT]) == null || idHelperDTOMap.get((int) obje[NumericConstants.EIGHT]).getDescription().trim().equals(Constants.SELECT_ONE) ? new HelperDTO(0, SELECT_ONE_VALUE) : idHelperDTOMap.get((int) obje[NumericConstants.EIGHT]));
+                            itemInfoDTO.setStatusId(iDHelperDTOMap.get((int) obje[NumericConstants.EIGHT]) == null || iDHelperDTOMap.get((int) obje[NumericConstants.EIGHT]).getDescription().trim().equals(Constants.SELECT_ONE) ? new HelperDTO(0, SELECT_ONE_VALUE) : iDHelperDTOMap.get((int) obje[NumericConstants.EIGHT]));
                         }
                         if (obje[NumericConstants.NINE] != null) {
                             String date = df.format(obje[NumericConstants.NINE]);
@@ -1733,11 +1733,11 @@ public class NewComponents extends CustomComponent implements View {
                     cfpcontractDetails.setRecordLockStatus(false);
                     CfpContractDetailsLocalServiceUtil.addCfpContractDetails(cfpcontractDetails);
                 } else if (level.equals(Constants.TWO)) {
-                    String ifpModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
+                    String ifpModelID = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
                     IfpModel ifpmodel;
                     ifpmodel = IfpModelLocalServiceUtil.createIfpModel(0);
                     /*below query is used to get cfp value from temp table */
-                    String query = "select COMPONENT_NAME,COMPONENT_ID,COMPONENT_NO,START_DATE,END_DATE,COMPONENT_TYPE,COMPONENT_STATUS from dbo.GCM_CONTRACT_DETAILS WHERE GCM_CONTRACT_DETAILS_SID='" + ifpModelId + "'";
+                    String query = "select COMPONENT_NAME,COMPONENT_ID,COMPONENT_NO,START_DATE,END_DATE,COMPONENT_TYPE,COMPONENT_STATUS from dbo.GCM_CONTRACT_DETAILS WHERE GCM_CONTRACT_DETAILS_SID='" + ifpModelID + "'";
                     List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
                     /*below loop is used to save value to ifp_model table */
@@ -1765,7 +1765,7 @@ public class NewComponents extends CustomComponent implements View {
                         }
 
                         /*Below Mentioned query is used to get selected item for this particular ifp from temp table */
-                        String itemQuery = "select ITEM_MASTER_SID from dbo.GCM_GLOBAL_DETAILS where IFP_MODEL_SID='" + ifpModelId + "'";
+                        String itemQuery = "select ITEM_MASTER_SID from dbo.GCM_GLOBAL_DETAILS where IFP_MODEL_SID='" + ifpModelID + "'";
                         List itemList = HelperTableLocalServiceUtil.executeSelectQuery(itemQuery);
 
                         /*Below loop is used to save the details in ifp_Details table */

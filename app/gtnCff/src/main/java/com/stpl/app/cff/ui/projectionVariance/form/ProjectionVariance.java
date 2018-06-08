@@ -449,9 +449,9 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             fullHeader = new CustomTableHeaderDTO();
             leftHeader = HeaderUtils.getVarianceLeftTableColumns(fullHeader);
             pvSelectionDTO.setForecastDTO(getHistoricalPeriods(dataSelectionDTO));
-            List<Object> HeaderPropertyIds = HeaderUtils.getVarianceRightTableColumns(pvSelectionDTO, fullHeader);
-            rightHeader = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
-            rightHeaderPeriod = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
+            List<Object> headerPropertyIds = HeaderUtils.getVarianceRightTableColumns(pvSelectionDTO, fullHeader);
+            rightHeader = (CustomTableHeaderDTO) headerPropertyIds.get(0);
+            rightHeaderPeriod = (CustomTableHeaderDTO) headerPropertyIds.get(0);
             pvSelectionDTO.setRightHeaderPeriod(rightHeaderPeriod);
             alignRight();
             resultBeanContainerDto = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
@@ -1027,8 +1027,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             excelForCFFProjectionVariance();
             excelTable.setRefresh(BooleanConstant.getTrueFlag());
             int leftcolumnsize = NumericConstants.ONE;
-            int ColSize = 252;
-            int maxColSize = ColSize % columnSize == NumericConstants.ZERO ? 252 : 250;
+            int colSize = 252;
+            int maxColSize = colSize % columnSize == NumericConstants.ZERO ? 252 : 250;
             Object[] leftColumns = new Object[leftcolumnsize + maxColSize];
             String[] leftHeaders = new String[leftcolumnsize + maxColSize];
             System.arraycopy(fullHeader.getSingleColumns().toArray(), NumericConstants.ZERO, leftColumns, NumericConstants.ZERO, NumericConstants.ONE);
