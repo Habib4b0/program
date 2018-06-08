@@ -3413,7 +3413,7 @@ public class NMProjectionVarianceLogic {
     public List<String> getHiearchyNoForCustomView(final ProjectionSelectionDTO projSelDTO, int start, int end) {
 
         int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
-        List<String> resultSet = new ArrayList<>();
+        List<String> resultSet = new ArrayList();
         String query = SQlUtil.getQuery(Constant.CUSTOM_VIEW_DECLARATION);
         query = query.replace(Constant.CUSTOM_VIEW_MASTER_SID, String.valueOf(projSelDTO.getCustomId()));
         query += insertAvailableHierarchyNo(projSelDTO);
