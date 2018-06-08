@@ -120,6 +120,9 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 					GtnUIFrameWorkAction comboBoxCustomAction = (GtnUIFrameWorkAction) comboBoxClassLoader
 							.loadDynamicClass(componentConfig.getReloadLogicActionClassName());
 					GtnUIFrameWorkActionConfig comboBoxActionConfig = new GtnUIFrameWorkActionConfig();
+					if (componentConfig.getReloadActionConfig() != null) {
+						comboBoxActionConfig = componentConfig.getReloadActionConfig();
+					}
 					comboBoxActionConfig.addActionParameter(reloadInput);
 					comboBoxCustomAction.doAction(componentId, comboBoxActionConfig);
 				} catch (GtnFrameworkGeneralException ex) {
@@ -208,8 +211,7 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 				vaadinMultiSelect.setValue(new HashSet<>(Arrays.asList(defaultValue)));
 			} else {
 				for (int i = 0; i < captionList.size(); i++) {
-					if (comboboxConfig.getDefaultDesc().equals(captionList.get(i))
-							|| comboboxConfig.getDefaultDesc().equals("next")) {
+					if (comboboxConfig.getDefaultDesc().equals(captionList.get(i))) {
 						vaadinMultiSelect.setValue(new HashSet<>(Arrays.asList(valueList.get(i))));
 						break;
 					}
