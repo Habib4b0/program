@@ -732,5 +732,26 @@
                              
             ]]>
 	</entry>
+	<entry key="customViewCCPMapFinalSelect">
+            <![CDATA[ 
+               WITH CTE AS(
+               		?
+               ) SELECT
+				    A.*,
+				    CS.CC CHILD_COUNT
+				FROM
+				    CTE A CROSS APPLY(
+				        SELECT
+				            COUNT(LEVEL_NO) CC
+				        FROM
+				            CTE B
+				        WHERE
+				            B.LEVEL_NO = A.LEVEL_NO + 1
+				            AND B.HIERARCHY_NO like A.HIERARCHY_NO+'%'
+				    ) CS
+				ORDER BY
+				    LEVEL_NO
+            ]]>
+	</entry>
 		
 </properties>

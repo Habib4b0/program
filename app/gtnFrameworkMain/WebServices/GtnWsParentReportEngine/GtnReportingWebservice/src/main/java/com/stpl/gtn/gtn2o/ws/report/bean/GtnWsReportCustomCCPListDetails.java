@@ -13,6 +13,7 @@ public class GtnWsReportCustomCCPListDetails {
 
 	private int levelNo;
 	private String hierarchyNo;
+	private int childCount;
 	private Object[] data;
 
 	public String getHierarchyNo() {
@@ -37,6 +38,14 @@ public class GtnWsReportCustomCCPListDetails {
 
 	public void setLevelNo(int levelNo) {
 		this.levelNo = levelNo;
+	}
+
+	public int getChildCount() {
+		return childCount;
+	}
+
+	public void setChildCount(int childCount) {
+		this.childCount = childCount;
 	}
 
 }

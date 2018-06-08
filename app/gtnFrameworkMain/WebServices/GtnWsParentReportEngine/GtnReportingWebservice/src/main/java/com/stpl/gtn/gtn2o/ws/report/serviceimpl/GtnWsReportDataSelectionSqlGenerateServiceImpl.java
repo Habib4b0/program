@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -32,7 +31,6 @@ import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportRightTableLoadDataService
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportSqlService;
 import com.stpl.gtn.gtn2o.ws.report.service.displayformat.service.GtnCustomRelationshipLevelValueService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 
 @Service("reportDataSelectionSql")
 @Scope(value = "singleton")
@@ -117,6 +115,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			GtnWsReportCustomCCPListDetails data = applicationContext.getBean(GtnWsReportCustomCCPListDetails.class);
 			data.setLevelNo(Integer.parseInt(result[3].toString()));
 			data.setHierarchyNo(result[0].toString());
+			data.setChildCount(Integer.parseInt(result[8].toString()));
 			data.setData(result);
 			ccpList.add(data);
 		}
@@ -161,65 +160,6 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		wsToken.setUserId(userId);
 		wsToken.setSessionId(sessionId);
 		return wsToken;
-	}
-
-	private List<Object[]> getCustomHierarchyResults() {
-		List<Object[]> result = new ArrayList<>();
-		result.add(new Object[] { "390-116.", "Closed Plan", "Segment", "1", "116", null, null, 0 });
-		result.add(new Object[] { "390-116.222.", "Mc Commercial", "Market Type", "2", "222", null, null, 1 });
-		result.add(new Object[] { "390-116.222.44.", "TEST-R-MODIFIEDTEST", "Contract", "3", "44",
-				"TEST-R-MODIFIEDTEST", "TEST-R-MODIFIEDTEST", 2 });
-		result.add(new Object[] { "390-116.222.60.", "Contract762017", "Contract", "3", "60", "Contract762017",
-				"Contract762017", 2 });
-		result.add(
-				new Object[] { "390-116.222.25.", "CONTRACT_4", "Contract", "3", "25", "CONTRACT_4", "CONTRACT_4", 2 });
-		result.add(
-				new Object[] { "390-116.222.24.", "CONTRACT_3", "Contract", "3", "24", "CONTRACT_3", "CONTRACT_3", 2 });
-		result.add(
-				new Object[] { "390-116.222.23.", "CONTRACT_2", "Contract", "3", "23", "CONTRACT_2", "CONTRACT_2", 2 });
-		result.add(
-				new Object[] { "390-116.222.22.", "CONTRACT_1", "Contract", "3", "22", "CONTRACT_1", "CONTRACT_1", 2 });
-		result.add(new Object[] { "390-116.222.61.", "CH772017", "Contract", "3", "61", "CH772017", "CH772017", 2 });
-		result.add(new Object[] { "390-116.222.1083.", "CD2607", "Contract", "3", "1083", "CD2607", "CD2607", 2 });
-		result.add(new Object[] { "390-116.222.61.58318.", "MNGD & CLSD 1 OF MANY", "Trading Partner", "4", "58318",
-				"MNGD & CLSD 1 OF MANY", "10000-Customer", 3 });
-		result.add(new Object[] { "390-116.222.61.58319.", "MNGD & CLSD 1 OF MANY", "Trading Partner", "4", "58319",
-				"MNGD & CLSD 1 OF MANY", "10001-Customer", 3 });
-		result.add(new Object[] { "390-116.222.61.58320.", "LILETTA UPM - $350", "Trading Partner", "4", "58320",
-				"LILETTA UPM - $350", "10002-Customer", 3 });
-		result.add(new Object[] { "390-116.222.25.92.", "COMPANY_8", "Trading Partner", "4", "92", "COMPANY_8",
-				"COMPANY_8", 3 });
-		result.add(new Object[] { "390-116.222.25.91.", "COMPANY_7", "Trading Partner", "4", "91", "COMPANY_7",
-				"COMPANY_7", 3 });
-		result.add(new Object[] { "390-116.222.24.90.", "COMPANY_6", "Trading Partner", "4", "90", "COMPANY_6",
-				"COMPANY_6", 3 });
-		result.add(new Object[] { "390-116.222.24.89.", "COMPANY_5", "Trading Partner", "4", "89", "COMPANY_5",
-				"COMPANY_5", 3 });
-		result.add(new Object[] { "390-116.222.24.88.", "COMPANY_4", "Trading Partner", "4", "88", "COMPANY_4",
-				"COMPANY_4", 3 });
-		result.add(new Object[] { "390-116.222.44.87.", "COMPANY_3", "Trading Partner", "4", "87", "COMPANY_3",
-				"COMPANY_3", 3 });
-		result.add(new Object[] { "390-116.222.23.86.", "COMPANY_2", "Trading Partner", "4", "86", "COMPANY_2",
-				"COMPANY_2", 3 });
-		result.add(new Object[] { "390-116.222.44.86.", "COMPANY_2", "Trading Partner", "4", "86", "COMPANY_2",
-				"COMPANY_2", 3 });
-		result.add(new Object[] { "390-116.222.1083.84.", "COMPANY_1", "Trading Partner", "4", "84", "COMPANY_1",
-				"COMPANY_1", 3 });
-		result.add(new Object[] { "390-116.222.22.84.", "COMPANY_1", "Trading Partner", "4", "84", "COMPANY_1",
-				"COMPANY_1", 3 });
-		result.add(new Object[] { "390-116.222.44.84.", "COMPANY_1", "Trading Partner", "4", "84", "COMPANY_1",
-				"COMPANY_1", 3 });
-		result.add(new Object[] { "390-116.222.60.84.", "COMPANY_1", "Trading Partner", "4", "84", "COMPANY_1",
-				"COMPANY_1", 3 });
-		result.add(new Object[] { "390-116.222.61.84.", "COMPANY_1", "Trading Partner", "4", "84", "COMPANY_1",
-				"COMPANY_1", 3 });
-		result.add(new Object[] { "390-116.222.61.58322.", "1 of 3 Preferred", "Trading Partner", "4", "58322",
-				"1 of 3 Preferred", "10003-PP-Customer", 3 });
-		result.add(new Object[] { "390-116.222.61.58325.", "1 of 3 Preferred", "Trading Partner", "4", "58325",
-				"1 of 3 Preferred", "10005-Customer", 3 });
-		result.add(new Object[] { "390-116.222.61.58323.", "1 of 2 Preferred", "Trading Partner", "4", "58323",
-				"1 of 2 Preferred", "10004-Customer", 3 });
-		return result;
 	}
 
 	public List<GtnWsRecordBean> getDashboardLeftData(GtnWsReportDashboardBean reportDashboardBean,
