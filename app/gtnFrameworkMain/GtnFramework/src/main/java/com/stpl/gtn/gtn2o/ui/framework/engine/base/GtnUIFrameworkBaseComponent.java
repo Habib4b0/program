@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,10 +19,13 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.vaadin.addons.ComboBoxMultiselect;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.calendarfield.GtnUIFrameworkCalendarComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.bean.GtnFrameworkDualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.GtnUIFrameworkNotesTab;
@@ -64,7 +68,7 @@ import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.Tree;
 
 public class GtnUIFrameworkBaseComponent {
-	
+
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkBaseComponent.class);
 
 	private final AbstractComponent component;
@@ -180,13 +184,13 @@ public class GtnUIFrameworkBaseComponent {
 
 	public LocalDate getV8DateFromDateField() throws GtnFrameworkValidationFailedException {
 		try {
-			 com.vaadin.ui.DateField dateField = (com.vaadin.ui.DateField) this.component;
+			com.vaadin.ui.DateField dateField = (com.vaadin.ui.DateField) this.component;
 			return dateField.getValue();
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
 	}
-	
+
 	public GtnWsRecordBean getValueFromDataTable() throws GtnFrameworkValidationFailedException {
 		try {
 			AbstractSelect resultTable = (AbstractSelect) this.getComponentData().getCustomData();
@@ -290,13 +294,12 @@ public class GtnUIFrameworkBaseComponent {
 		return (Collection<GtnWsRecordBean>) customData.getContainerDataSource().getItemIds();
 	}
 
-
 	public int getTableSize() {
 		GtnUIFrameworkComponentData customData = (GtnUIFrameworkComponentData) component.getData();
 		GtnUIFrameworkPagedTableLogic tableLogic = customData.getCurrentPageTableLogic();
 		return tableLogic.getCount();
 	}
- 
+
 	public Set<Container.Filter> getFiltersFromPagedDataTable() {
 		return getLogicFromPagedDataTable().getFilters();
 	}
@@ -346,11 +349,12 @@ public class GtnUIFrameworkBaseComponent {
 		}
 
 	}
-        public Integer getIntegerFromV8ComboBox() throws GtnFrameworkValidationFailedException {
+
+	public Integer getIntegerFromV8ComboBox() throws GtnFrameworkValidationFailedException {
 		try {
 			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
-	
-                       if (isEmpty(comboBox.getValue())) {
+
+			if (isEmpty(comboBox.getValue())) {
 				return 0;
 			}
 			return Integer.valueOf(getString(comboBox.getValue()).trim());
@@ -359,7 +363,50 @@ public class GtnUIFrameworkBaseComponent {
 		}
 
 	}
-	
+
+	public List<Object> getIntegerListFromV8MultiSelect() throws GtnFrameworkValidationFailedException {
+		try {
+			ComboBoxMultiselect multiSelect = (ComboBoxMultiselect) this.getComponent();
+
+			if (isEmpty(multiSelect.getValue())) {
+				return null;
+			}
+			return Arrays.asList(multiSelect.getValue().toArray());
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+
+	}
+
+	public void addAllItemsToMultiSelect(List<String> valueList, List<String> idList)
+			throws GtnFrameworkValidationFailedException {
+		try {
+			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
+			vaadinMultiSelect.setItems(idList);
+			vaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
+
+			GtnUIFrameworkComboBoxConfig comboboxConfig = this.getComponentConfig().getGtnComboboxConfig();
+			if (!comboboxConfig.isHasDefaultValue()) {
+				String defaultValue = comboboxConfig.getDefaultValue() != null
+						? String.valueOf(comboboxConfig.getDefaultValue())
+						: GtnFrameworkCommonStringConstants.SELECT_ONE;
+				idList.add(0, "0");
+				valueList.add(0, defaultValue);
+				vaadinMultiSelect.setValue(new HashSet<>(Arrays.asList(defaultValue)));
+			} else {
+				for (int i = 0; i < valueList.size(); i++) {
+					if (comboboxConfig.getDefaultDesc().equals(valueList.get(i))) {
+						vaadinMultiSelect.setValue(new HashSet<>(Arrays.asList(valueList.get(i))));
+						break;
+					}
+				}
+			}
+
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+
 	private static String getString(Object value) {
 		if (isNull(value)) {
 			return "";
@@ -405,14 +452,14 @@ public class GtnUIFrameworkBaseComponent {
 
 	public Object getV8ValueFromComponent() throws GtnFrameworkValidationFailedException {
 		try {
-		
-				return ((HasValue<Object>) getComponentData().getCustomData()).getValue();
-			
+
+			return ((HasValue<Object>) getComponentData().getCustomData()).getValue();
+
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
 	}
-	
+
 	public Object validateAndGetValue() throws GtnFrameworkValidationFailedException {
 		validate();
 		return getObjectFromField();
@@ -436,7 +483,8 @@ public class GtnUIFrameworkBaseComponent {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
 	}
-       public void clearTree() throws GtnFrameworkValidationFailedException {
+
+	public void clearTree() throws GtnFrameworkValidationFailedException {
 		try {
 			AbstractSelect tree = (AbstractSelect) getComponentData().getCustomData();
 			tree.getContainerDataSource().removeAllItems();
@@ -444,8 +492,8 @@ public class GtnUIFrameworkBaseComponent {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
 	}
-       
-       public Object getTreeItemIds() throws GtnFrameworkValidationFailedException {
+
+	public Object getTreeItemIds() throws GtnFrameworkValidationFailedException {
 		try {
 			AbstractSelect tree = (AbstractSelect) getComponentData().getCustomData();
 			return !tree.getItemIds().isEmpty() ? tree.getItemIds() : null;
@@ -740,7 +788,7 @@ public class GtnUIFrameworkBaseComponent {
 		GtnUIFrameworkPagedTreeTableLogic tableLogic = (GtnUIFrameworkPagedTreeTableLogic) resultsTable
 				.getLeftFreezeAsTable().getContainerLogic();
 		Set<String> hierarchyNo = (Set<String>) componentData.getCustomDataList().get(1);
-                int currentPage = tableLogic.getCurrentPage();
+		int currentPage = tableLogic.getCurrentPage();
 		tableLogic.forRefresh(hierarchyNo);
 		tableLogic.setCurrentPage(currentPage);
 	}
@@ -897,7 +945,7 @@ public class GtnUIFrameworkBaseComponent {
 	public void loadV8DateValue(Object newValue) {
 		((HasValue<Object>) this.component).setValue(newValue);
 	}
-	
+
 	@SuppressWarnings({ "unchecked" })
 	public void loadComboBoxComponentValue(Integer newValue) {
 		((Field<Object>) this.component).setValue(newValue);
@@ -915,20 +963,20 @@ public class GtnUIFrameworkBaseComponent {
 	}
 
 	public void setComponentReadOnly(boolean newValue) {
-		if(this.component instanceof  Field<?>) {
-			(( Field<?>)this.component).setReadOnly(newValue);
-		}else if(this.component instanceof  DateField) {
-		((DateField)this.component).setReadOnly(newValue);
+		if (this.component instanceof Field<?>) {
+			((Field<?>) this.component).setReadOnly(newValue);
+		} else if (this.component instanceof DateField) {
+			((DateField) this.component).setReadOnly(newValue);
 		}
-		
+
 	}
 
 	public boolean isReadOnly() {
-		boolean isReadable=true;
-		if(this.component instanceof  Field<?>) {
-			isReadable=(( Field<?>)this.component).isReadOnly();
-		}else if(this.component instanceof  DateField) {
-			isReadable=((DateField)this.component).isReadOnly();
+		boolean isReadable = true;
+		if (this.component instanceof Field<?>) {
+			isReadable = ((Field<?>) this.component).isReadOnly();
+		} else if (this.component instanceof DateField) {
+			isReadable = ((DateField) this.component).isReadOnly();
 		}
 		return isReadable;
 	}
@@ -955,7 +1003,7 @@ public class GtnUIFrameworkBaseComponent {
 	public void clearAllCalendarValue() {
 		((CalendarField) getComponent()).clearAllValue();
 	}
-	
+
 	public void clearSelectedCalendarValue() {
 		((CalendarField) getComponent()).clearSelectedValue();
 	}
@@ -966,7 +1014,6 @@ public class GtnUIFrameworkBaseComponent {
 					.setSelectedWeekDays((CalendarField) getComponent(), days);
 		}
 	}
-
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void loadContainer(String componentId, List<GtnWsRecordBean> resultLiist) {
@@ -1159,12 +1206,12 @@ public class GtnUIFrameworkBaseComponent {
 	public void removeTreeItems(GtnWsRecordBean treeSelectedBean) {
 		if (getComponentData().getCustomData() instanceof Tree) {
 			((GtnUIFrameworkTreeComponent) (getComponentConfig().getComponentType().getGtnComponent()))
-						.removeChildItems((Tree) (getComponentData().getCustomData()),treeSelectedBean);
+					.removeChildItems((Tree) (getComponentData().getCustomData()), treeSelectedBean);
 		}
 	}
 
 	public GtnWsRecordBean getParent(Object childItemId) {
-			return (GtnWsRecordBean) ((Tree)getComponentData().getCustomData()).getParent(childItemId);
+		return (GtnWsRecordBean) ((Tree) getComponentData().getCustomData()).getParent(childItemId);
 	}
 
 	public Set<GtnWsRecordBean> getSelectedValues() {
@@ -1177,7 +1224,7 @@ public class GtnUIFrameworkBaseComponent {
 
 		return field.getValue();
 	}
-	
+
 	public void setV8PopupFieldValue(Object value) {
 		HorizontalLayout layout = (HorizontalLayout) this.component;
 		HasValue<Object> field = (HasValue) layout.getComponent(0);
@@ -1185,13 +1232,13 @@ public class GtnUIFrameworkBaseComponent {
 		field.setValue(value);
 	}
 
-        public void setV8GridItems(List<GtnWsRecordBean> value) {
+	public void setV8GridItems(List<GtnWsRecordBean> value) {
 		VerticalLayout layout = (VerticalLayout) this.component;
 		Grid<GtnWsRecordBean> field = (Grid) layout.getComponent(0);
 
 		field.setItems(value);
 	}
-        
+
 	public void setGridItems(List<GtnWsRecordBean> recordBeanList) {
 		((Grid) this.component).setItems(recordBeanList);
 	}

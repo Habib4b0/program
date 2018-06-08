@@ -1,7 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -76,12 +75,12 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 				&& !componentConfig.getGtnUIFrameWorkActionConfigList().isEmpty()) {
 			vaadinComboBox.addValueChangeListener(event -> {
 				try {
-					 AbstractComponent component = (AbstractComponent) event.getComponent();
-						GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) component.getData();
-						GtnUIFrameworkComponentConfig valueChangeComponentConfig = componentData.getCurrentComponentConfig();
-						GtnUIFrameworkActionExecutor.executeActionList(componentData.getComponentIdInMap(),
-								valueChangeComponentConfig.getGtnUIFrameWorkActionConfigList());
-
+					AbstractComponent component = (AbstractComponent) event.getComponent();
+					GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) component.getData();
+					GtnUIFrameworkComponentConfig valueChangeComponentConfig = componentData
+							.getCurrentComponentConfig();
+					GtnUIFrameworkActionExecutor.executeActionList(componentData.getComponentIdInMap(),
+							valueChangeComponentConfig.getGtnUIFrameWorkActionConfigList());
 
 				} catch (GtnFrameworkGeneralException e) {
 					gtnLogger.error(e.getMessage(), e);
