@@ -10,7 +10,7 @@ public class GtnWsReportRightTableData {
 	private int year;
 	private int period;
 	private String projectionName;
-	private Pair<List<String>, List<Double>> dataAliasPair;
+	private Map<String, Double> dataMap;
 	private String variableName;
 
 	public String getHierarchyNo() {
@@ -53,17 +53,17 @@ public class GtnWsReportRightTableData {
 		this.variableName = variableName;
 	}
 
-	public Pair<List<String>, List<Double>> getDataAliasPair() {
-		return dataAliasPair;
+	public Map<String, Double> getDataMap() {
+		return dataMap;
 	}
 
-	public void setDataAliasPair(Pair<List<String>, List<Double>> dataAliasPair) {
-		this.dataAliasPair = dataAliasPair;
+	public void setDataMap(Map<String, Double> dataMap) {
+		this.dataMap = dataMap;
 	}
 
 	@Override
 	public String toString() {
-		return hierarchyNo + "-" + projectionName + dataAliasPair;
+		return hierarchyNo + "-" + projectionName + dataMap;
 	}
 
 }

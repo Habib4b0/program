@@ -24,12 +24,12 @@ public class GtnWsReportRightTableLoadDataService {
 	// GtnWsReportVaribleRowResultTransformer transFormer;
 	GtnWsReportRightTableResultTransformer transFormer;
 
-	public Map<String, Pair<List<String>, List<Double>>> getDataFromBackend() {
+	public Map<String, Map<String, Double>> getDataFromBackend() {
 		try {
 			String query = getQueryFromProcedure();
 			List<?> object = gtnSqlQueryEngine.executeSelectQuery(query, new Object[] {}, new GtnFrameworkDataType[] {},
 					transFormer);
-			return (Map<String, Pair<List<String>, List<Double>>>) object.get(0);
+			return (Map<String, Map<String, Double>>) object.get(0);
 		} catch (GtnFrameworkGeneralException e) {
 			e.printStackTrace();
 		}

@@ -97,7 +97,7 @@ public class GtnWsReportingDashboardController {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnWsReportDashboardBean reportDashboardBean = request.getGtnWsReportRequest().getGtnWsReportDashboardBean();
 	        if (request.getGtnWsReportRequest().isLoadTableUsingFile()) {
-                resultList = dataSelectionServiceImpl.getDashboardLeftData(gtnWsSearchRequest, reportDashboardBean);
+                resultList = dataSelectionServiceImpl.getDashboardLeftData(reportDashboardBean,request);
                 } else {
                 resultList = gtnWsReportingDashBoardSevice.getDashboardLeftData(gtnWsSearchRequest, reportDashboardBean);
                 }

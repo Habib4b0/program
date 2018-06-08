@@ -330,7 +330,7 @@ public class GtnWsRecordBean implements Serializable {
 		return this.properties.add(value);
 	}
 
-	public boolean addProperties(List<Object> valueList) {
+	public boolean addPropertiesAsList(List<?> valueList) {
 		if (properties == null) {
 			this.properties = new ArrayList<>();
 		}

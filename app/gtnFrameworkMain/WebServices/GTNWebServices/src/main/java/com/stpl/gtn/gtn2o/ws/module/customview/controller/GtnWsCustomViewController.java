@@ -129,10 +129,7 @@ public class GtnWsCustomViewController {
         logger.info("Enters customViewSaveLogic");
         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         try {
-             GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
-      
-               cvResponse.setSuccess(logic.saveCustomView(gtnWsRequest.getGtnWsCustomViewRequest()));
-            gtnResponse.setGtnWsCustomViewResponse(cvResponse);
+            gtnResponse.setGtnWsCustomViewResponse(logic.saveCustomView(gtnWsRequest.getGtnWsCustomViewRequest()));
         } catch (Exception ex) {
             logger.error("Exception in customViewSaveLogic", ex);
         }

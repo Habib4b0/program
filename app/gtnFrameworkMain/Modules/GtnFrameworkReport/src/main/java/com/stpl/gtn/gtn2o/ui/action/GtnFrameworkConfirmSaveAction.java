@@ -8,7 +8,9 @@ package com.stpl.gtn.gtn2o.ui.action;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
@@ -40,13 +42,20 @@ public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction, GtnU
                 GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE
                 + GtnWsCustomViewConstants.CUSTOM_VIEW_SAVE_LOGIC,
                 request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-        GtnWsCustomViewResponse cvResponse = response.getGtnWsCustomViewResponse();
-
+         GtnWsCustomViewResponse cvResponse = response.getGtnWsCustomViewResponse();
+        
         if (cvResponse.isSuccess()) {
             GtnUIFrameWorkActionConfig notification = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
             notification.addActionParameter(reportCvRequest.getCustomViewName() + " has been successfully saved");
             notification.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
             GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notification);
+            
+            GtnUIFrameworkActionExecutor.executeSingleAction(componentId, new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.RELOAD_HELPER_TABLE_ACTION));
+            GtnUIFrameworkBaseComponent customView = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_displaySelectionTabCustomView");
+            GtnUIFrameworkComboBoxComponent customViewField = new GtnUIFrameworkComboBoxComponent();
+            customViewField.resetToDefault("reportLandingScreen_displaySelectionTabCustomView", customView.getComponentConfig());
+            customView.loadV8ComboBoxComponentValue(cvResponse.getCvSysId());
+
         }
     }
 
