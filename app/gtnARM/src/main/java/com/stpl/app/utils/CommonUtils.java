@@ -15,6 +15,8 @@ import com.stpl.app.arm.utils.CommonConstant;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.arm.utils.ReserveSelection;
+import com.stpl.app.model.MasterDataFiles;
+import com.stpl.app.service.MasterDataFilesLocalServiceUtil;
 
 import com.stpl.app.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.NotesDTO;
@@ -828,26 +830,26 @@ public class CommonUtils {
         try {
             if (availableUploadedInformation != null && !availableUploadedInformation.isEmpty()) {
 
-//                for (NotesDTO uploadDetails : availableUploadedInformation) {
-//                    MasterDataFiles masterDataFiles;
-//                    if (uploadDetails.getDocDetailsId() == 0) {
-//                        masterDataFiles = MasterDataFilesLocalServiceUtil.createMasterDataFiles(0);
-//                        masterDataFiles.setMasterTableName(moduleName);
-//                        masterDataFiles.setMasterTableSid(moduleSystemId);
-//                        masterDataFiles.setFilePath(uploadDetails.getDocumentFullPath());
-//                        masterDataFiles.setCreatedBy(uploadDetails.getUserId());
-//                        masterDataFiles.setCreatedDate(new Date());
-//                        MasterDataFilesLocalServiceUtil.addMasterDataFiles(masterDataFiles);
-//                    } else {
-//                        masterDataFiles = MasterDataFilesLocalServiceUtil.getMasterDataFiles(uploadDetails.getDocDetailsId());
-//                        masterDataFiles.setMasterTableName(moduleName);
-//                        masterDataFiles.setMasterTableSid(moduleSystemId);
-//                        masterDataFiles.setFilePath(uploadDetails.getDocumentFullPath());
-//                        masterDataFiles.setCreatedBy(uploadDetails.getUserId());
-//                        masterDataFiles.setCreatedDate(new Date());
-//                        MasterDataFilesLocalServiceUtil.updateMasterDataFiles(masterDataFiles);
-//                    }
-//                }
+                for (NotesDTO uploadDetails : availableUploadedInformation) {
+                    MasterDataFiles masterDataFiles;
+                    if (uploadDetails.getDocDetailsId() == 0) {
+                        masterDataFiles = MasterDataFilesLocalServiceUtil.createMasterDataFiles(0);
+                        masterDataFiles.setMasterTableName(moduleName);
+                        masterDataFiles.setMasterTableSid(moduleSystemId);
+                        masterDataFiles.setFilePath(uploadDetails.getDocumentFullPath());
+                        masterDataFiles.setCreatedBy(uploadDetails.getUserId());
+                        masterDataFiles.setCreatedDate(new Date());
+                        MasterDataFilesLocalServiceUtil.addMasterDataFiles(masterDataFiles);
+                    } else {
+                        masterDataFiles = MasterDataFilesLocalServiceUtil.getMasterDataFiles(uploadDetails.getDocDetailsId());
+                        masterDataFiles.setMasterTableName(moduleName);
+                        masterDataFiles.setMasterTableSid(moduleSystemId);
+                        masterDataFiles.setFilePath(uploadDetails.getDocumentFullPath());
+                        masterDataFiles.setCreatedBy(uploadDetails.getUserId());
+                        masterDataFiles.setCreatedDate(new Date());
+                        MasterDataFilesLocalServiceUtil.updateMasterDataFiles(masterDataFiles);
+                    }
+                }
 
             }
         } catch (Exception ex) {

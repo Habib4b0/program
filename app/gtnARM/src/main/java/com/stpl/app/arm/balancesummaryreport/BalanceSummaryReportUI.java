@@ -13,18 +13,26 @@ import com.stpl.app.arm.security.StplSecurity;
 import com.stpl.app.arm.supercode.CommonUI;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.utils.ConstantsUtils;
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.UI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author Mohamed.Shahul
- */
+@Theme("stpl")
+@Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet")
+@Component(service = UI.class, property = {
+    "com.liferay.portlet.display-category=ARM",
+    "javax.portlet.name=Balance Summary Report",
+    "javax.portlet.display-name=Balance Summary Report",
+    "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class BalanceSummaryReportUI extends CommonUI {
 
     private static final Logger LOGGERBALSUMMARYUI = LoggerFactory.getLogger(BalanceSummaryReportUI.class);

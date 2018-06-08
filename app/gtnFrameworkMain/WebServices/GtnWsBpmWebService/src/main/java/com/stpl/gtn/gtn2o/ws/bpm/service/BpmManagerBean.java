@@ -33,6 +33,7 @@ public class BpmManagerBean {
 	private Map<String, RuntimeEngine> runtimeEngineMap = new HashMap<>();
 	private Properties properties = DroolsProperties.getPropertiesData();
 	private Properties cffproperties = DroolsProperties.getCffPropertiesData();
+	private Properties armproperties = DroolsProperties.getArmPropertiesData();
 	protected RuntimeManagerRegistry registry = RuntimeManagerRegistry.get();
 
 	@Autowired
@@ -78,6 +79,7 @@ public class BpmManagerBean {
 			initContractRuntimeEngine();
 			initReturnsRuntimeEngine();
 			initCFFRuntimeEngine();
+			initARMRuntimeEngine();
 		} catch (Exception e) {
 			LOGGER.error("Exception in initialising runtime ", e);
 		}
@@ -162,6 +164,23 @@ public class BpmManagerBean {
 		RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
 				.newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
 		runtimeEngineMap.put(GtnWsBpmCommonConstants.CFF, runtimeEngine);
+		LOGGER.info("init CffRuntime RuntimeEngine End ");
+	}
+	public void initARMRuntimeEngine() {
+		LOGGER.info("Init CffRuntime Engine Started ");
+		String identifier = "com.sample:example:1.0";
+		releaseId = new ReleaseIdImpl(cffproperties.getProperty("ARM_groupId", COM_STPL_APP_BPM),
+				cffproperties.getProperty("ARM_artifactId", "ARMWorkflow"),
+				cffproperties.getProperty("ARM_version", "1.0"));
+		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
+				.entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
+                getContainerAndSetToEnvironment(builder, releaseId);
+		if (registry.isRegistered(identifier)) {
+			registry.remove(identifier);
+		}
+		RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
+				.newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
+		runtimeEngineMap.put(GtnWsBpmCommonConstants.ARM, runtimeEngine);
 		LOGGER.info("init CffRuntime RuntimeEngine End ");
 	}
 

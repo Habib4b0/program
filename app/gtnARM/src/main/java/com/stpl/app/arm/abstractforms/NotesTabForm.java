@@ -328,7 +328,6 @@ public class NotesTabForm extends AbstractNotesTab implements DefaultFocusable {
             }
             LOGGER.debug("masterTableSid :" + masterTableSid);
             LOGGER.debug("masterTableSidValue :" + masterTableSidValue);
-            int systemId = Integer.valueOf(masterTableSidValue.replace(",", StringUtils.EMPTY));
         } catch (FieldGroup.CommitException e) {
             LOGGER.error("Error in refreshTable :" + e);
         }

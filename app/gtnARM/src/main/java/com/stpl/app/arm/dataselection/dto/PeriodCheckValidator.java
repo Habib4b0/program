@@ -11,8 +11,6 @@ import com.vaadin.v7.data.validator.AbstractValidator;
 import com.vaadin.v7.ui.ComboBox;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.logging.Level;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**

@@ -33,7 +33,6 @@ import com.vaadin.v7.data.util.converter.StringToDateConverter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.logging.Logger;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.slf4j.LoggerFactory;
 

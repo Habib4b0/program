@@ -15,6 +15,7 @@ import com.stpl.app.arm.dataselection.logic.DataSelectionLogic;
 import static com.stpl.app.arm.dataselection.ui.form.DataSelection.getBeanFromId;
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.CommonConstant;
+import com.stpl.app.arm.utils.DataSelectionQueryUtils;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -326,8 +327,12 @@ public class DataSelectionTab extends AbstractDataSelection {
             CommonLogic.loadCompanyAndBusinessUnit(businessUnit, "getBusinessQueryForDS");
             company.select(selection.getCompanyMasterSid());
             businessUnit.select(selection.getBucompanyMasterSid());
-//            customerDescriptionMap = logic.getLevelValueMap(String.valueOf(selection.getCustRelationshipBuilderSid()));
-//            productDescriptionMap = logic.getLevelValueMap(String.valueOf(selection.getProdRelationshipBuilderSid()));
+            custVersionMap = logic.loadCustomerRelation(customerRelation, selection.getCustomerHierarchySid());
+            prodVersionMap = logic.loadCustomerRelation(customerRelation, selection.getProductHierarchySid());
+            customerDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(selection.getCustRelationshipBuilderSid(), custVersionMap.get(selection.getCustRelationshipBuilderSid()), customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());
+            productDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(selection.getProdRelationshipBuilderSid(),
+                        prodVersionMap.get(selection.getProdRelationshipBuilderSid()), productHierarchyLookup.getHierarchyDto().getHierarchyId(),
+                        productHierarchyLookup.getHierarchyDto().getVersionNo());
             initializeCustomerHierarchy(selection.getProjectionId(), Integer.valueOf(selection.getCustomerHierarchyLevel()));
             initializeProductHierarchy(selection.getProjectionId(), Integer.valueOf(selection.getProductHierarchyLevel()));
 

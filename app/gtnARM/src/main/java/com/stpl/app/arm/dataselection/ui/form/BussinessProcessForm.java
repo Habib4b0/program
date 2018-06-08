@@ -141,6 +141,7 @@ public class BussinessProcessForm extends Window {
         this.adjustmentType = adjustmentType;
         this.sessionDTO = sessionDTO;
         this.dataselectionDTO = dataselectionDTO;
+        sessionDTO.setProjectionId(dataselectionDTO.getProjectionId());
         configureWindowHeader(sessionDTO);
         getBinder();
         nextBtn.focus();
@@ -427,7 +428,7 @@ public class BussinessProcessForm extends Window {
             if (processList != null && !(processList.isEmpty())) {
                 processId = Long.valueOf(processList.get(0).toString());
             }
-            VarianceCalculationLogic.submitWorkflow(processId,sessionDTO, GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+            VarianceCalculationLogic.submitWorkflow(processId,sessionDTO, GtnWsBpmCommonConstants.ARM);
             String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId,"NoOfUsers");
             LOGGER.debug("no of users : " + noOfUsers);
             if (!noOfUsers.isEmpty()) {
@@ -475,7 +476,7 @@ public class BussinessProcessForm extends Window {
     public String getWorkflowStatus(int projectionId) {
         String workflowStatus = StringUtils.EMPTY;
         try {
-            String query = SQlUtil.getQuery("");
+            String query = SQlUtil.getQuery("checkWorkFlowStatus");
             query = query.replace("@PROJECTION_MASTER_SID", String.valueOf(projectionId));
             List<Object> result = HelperTableLocalServiceUtil.executeSelectQuery(query);
             workflowStatus = result != null && !ARMUtils.NULL.equals(String.valueOf(result.get(0))) ? String.valueOf(result.get(0)) : StringUtils.EMPTY;

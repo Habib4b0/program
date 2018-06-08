@@ -18,11 +18,6 @@ public class VarianceCalculationLogic {
          */
     }
 
-    /**
-     * The Constant LOGGER.
-     */
-    private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(VarianceCalculationLogic.class);
-
     public static void submitWorkflow(final Long processInstanceId, final SessionDTO session,String moduleName) {
         GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
         GtnWsForecastProjectionSubmitRequest submitRequest = new GtnWsForecastProjectionSubmitRequest();

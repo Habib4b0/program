@@ -570,7 +570,7 @@ public abstract class AbstractReserve extends CustomWindow {
         adjustmentSummaryTable.setFilterDecorator(new ExtDemoFilterDecorator());
         adjustmentSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), !selection.isIsViewMode() ? Boolean.TRUE : Boolean.FALSE);
 
-//        setWidth(adjustmentSummaryTable.getVisibleColumns());
+        setWidth(adjustmentSummaryTable.getVisibleColumns());
         if (!selection.isIsViewMode()) {
             adjustmentSummaryTable.setColumnCheckBox(ARMUtils.ADJUSTMENT_RESERVE_CONSTANTS.CHECK_RECORD.getConstant(), true);
             adjustmentSummaryTable.setSelectable(true);
@@ -751,7 +751,7 @@ public abstract class AbstractReserve extends CustomWindow {
             adjustmentSummaryTable.setColumnHeaders(ARMUtils.getAdjustmentReserveTx1Header());
             adjustmentSummaryTableLogic.loadSetData(false, selection);
         }
-//        setWidth(adjustmentSummaryTable.getVisibleColumns());
+        setWidth(adjustmentSummaryTable.getVisibleColumns());
         adjustmentSummaryTable.setFilterGenerator(new AdjustmentAndBalSummaryTableGenerator(selection));
         adjustmentSummaryTable.setFilterDecorator(new ExtDemoFilterDecorator());
 

@@ -27,16 +27,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class GtnFrameworkDataSelectionAvailableController {
 
     @Autowired
-    GtnFrameworkDataSelectionAvailableCustomers customerLevelService;
+    private GtnFrameworkDataSelectionAvailableCustomers customerLevelService;
    
     @Autowired
-    GtnFrameworkArmDataSelectionAvailableProducts productLevelService;
+    private GtnFrameworkArmDataSelectionAvailableProducts productLevelService;
     
     @Autowired
-    GtnFrameworkARMLoadLevelMap levelValueMapQueryService;
+    private GtnFrameworkARMLoadLevelMap levelValueMapQueryService;
     
     @Autowired
-    GtnFrameworkInsertCcpArm ccpInsertService;
+    private GtnFrameworkInsertCcpArm ccpInsertService;
 
     @RequestMapping(value = GtnWebServiceUrlConstants.GTN_DATASELECTION_ARM_LOAD_CUSTOMER_LEVEL, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse loadCustomerHierarcyLevel(
@@ -82,7 +82,7 @@ public class GtnFrameworkDataSelectionAvailableController {
         
         @RequestMapping(value = GtnWebServiceUrlConstants.GTN_CCP_INSERT, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse ccpInsertToForecasting(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
             GtnWsArmRequest armRequest = gtnWsRequest.getGtnWsArmRequest();
             GtnARMHierarchyInputBean inputBean = armRequest.getInputBean();
             ccpInsertService.insertToCPPTable(inputBean);

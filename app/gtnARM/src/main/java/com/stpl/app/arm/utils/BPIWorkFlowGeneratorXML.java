@@ -78,10 +78,9 @@ public class BPIWorkFlowGeneratorXML {
         HashMap hm = new HashMap();
 
         try {
-            File file = new CommonUtil().getFileName(fileWithPath);
+            File file = com.stpl.ifs.util.CommonUtil.getFilePath(fileWithPath);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(file);
             doc.getDocumentElement().normalize();
@@ -89,7 +88,7 @@ public class BPIWorkFlowGeneratorXML {
             String updateDate = "NA";
             String counterValue = "NA";
 
-            NodeList nodeLstTop = doc.getElementsByTagName("BPIWorkflowID");
+            NodeList nodeLstTop = doc.getElementsByTagName("gtnWsBPIGeneratorIDs");
             for (int s1 = 0; s1 < nodeLstTop.getLength(); s1++) {
 
                 NodeList nodeLst = doc.getElementsByTagName("row");

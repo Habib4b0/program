@@ -19,6 +19,7 @@ import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.io.IOException;
@@ -53,6 +54,8 @@ public class ReturnsReserveData extends VerticalLayout {
     
     @UiField("dataSelecionGrid")
     private GridLayout dataSelecionGrid;
+    @UiField("checkBoxLayout")
+    private HorizontalLayout checkBoxLayout;
 
     private final CheckBox removeClosedBatches = new CheckBox();
 
@@ -84,6 +87,8 @@ public class ReturnsReserveData extends VerticalLayout {
         addComponent(Clara.create(ReturnsReserveData.class.getResourceAsStream("/bussinessprocess/returnsReserve/returnsreservedata.xml"), this));
         searchResults.getResults();
         addComponent(searchResults);
+        checkBoxLayout.addComponent(excudeBasedOnLoeDate);
+        checkBoxLayout.addComponent(removeClosedBatches);
         configureFields();
     }
 

@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ws.arm.dataselection.bean;
 
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -144,19 +145,19 @@ public class GtnARMHierarchyInputBean {
     }
 
     public List<GtnFrameworkRelationshipLevelDefintionBean> getSelectedCustomerList() {
-        return selectedCustomerList;
+        return new ArrayList<>(selectedCustomerList);
     }
 
     public void setSelectedCustomerList(List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerList) {
-        this.selectedCustomerList = selectedCustomerList;
+        this.selectedCustomerList = new ArrayList<>(selectedCustomerList);
     }
 
     public List<GtnFrameworkRelationshipLevelDefintionBean> getSelectedProductList() {
-        return selectedProductList;
+        return new ArrayList<>(selectedProductList);
     }
 
     public void setSelectedProductList(List<GtnFrameworkRelationshipLevelDefintionBean> selectedProductList) {
-        this.selectedProductList = selectedProductList;
+        this.selectedProductList = new ArrayList<>(selectedProductList);
     }
 
     public int getSelectedCustomerRelationShipBuilderVersionNo() {

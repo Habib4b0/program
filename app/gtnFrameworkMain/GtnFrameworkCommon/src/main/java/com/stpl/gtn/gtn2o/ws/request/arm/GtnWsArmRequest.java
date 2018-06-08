@@ -14,8 +14,12 @@ import java.io.Serializable;
  */
 public class GtnWsArmRequest implements Serializable {
 
-    GtnARMHierarchyInputBean inputBean;
+    private GtnARMHierarchyInputBean inputBean;
 
+    public GtnWsArmRequest() {
+        super();
+    }
+    
     public GtnARMHierarchyInputBean getInputBean() {
         return inputBean;
     }

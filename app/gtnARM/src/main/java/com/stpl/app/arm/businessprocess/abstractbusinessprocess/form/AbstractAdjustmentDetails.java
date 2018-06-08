@@ -244,8 +244,6 @@ public abstract class AbstractAdjustmentDetails extends VerticalLayout implement
                 try {
                     // Generate Logic
                     generateFlag = true;
-                    String text1 = level.getValue().toString();
-                    String text2 = level.getId().toString();
                     generateBtn();
                 } catch (Exception e) {
                     LOGGER.error("Error in generate" + e);

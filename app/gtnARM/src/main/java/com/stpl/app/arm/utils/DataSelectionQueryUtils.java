@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 public class DataSelectionQueryUtils {
 
     public DataSelectionQueryUtils() {
-
+        super();
     }
     private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionQueryUtils.class);
 

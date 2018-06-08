@@ -52,9 +52,7 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.arm.GtnWsArmRequest;
-import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.ui.util.dto.Pairs;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.v7.data.Container;
@@ -1111,13 +1109,13 @@ public class DataSelectionLogic {
         List resultss;
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("projectionId", projectionId);
-        parameters.put("indicator", indicator);
+        parameters.put(INDICATOR, indicator);
         if (levelNo == null) {
-            parameters.put("restrictLevelNumber", null);
-            parameters.put("levelNo", null);
+            parameters.put(RESTRICT_LEVEL_NUMBER, null);
+            parameters.put(LEVEL_NO, null);
         } else {
-            parameters.put("restrictLevelNumber", Boolean.TRUE);
-            parameters.put("levelNo", String.valueOf(levelNo));
+            parameters.put(RESTRICT_LEVEL_NUMBER, Boolean.TRUE);
+            parameters.put(LEVEL_NO, String.valueOf(levelNo));
         }
 
         List<LevelDTO> resultList = new ArrayList<>();
@@ -1142,6 +1140,9 @@ public class DataSelectionLogic {
         }
         return resultList;
     }
+    private static final String INDICATOR = "indicator";
+    private static final String LEVEL_NO = "levelNo";
+    private static final String RESTRICT_LEVEL_NUMBER = "restrictLevelNumber";
 
     public List<Integer> getRSContractMasterSid(int projectionSid) {
         List<Integer> rsModelSid = new ArrayList<>();
@@ -1359,8 +1360,8 @@ public class DataSelectionLogic {
         int endMonth = endCal.get(Calendar.MONTH);
         int endYear = endCal.get(Calendar.YEAR);
         boolean isNotEnd = true;
-        String item = StringUtils.EMPTY;
-        String caption = StringUtils.EMPTY;
+        String item;
+        String caption;
         while (isNotEnd) {
 
             tempCal.set(Calendar.MONTH, startmonth);
@@ -1583,16 +1584,16 @@ public class DataSelectionLogic {
         try {
             LOGGER.debug("Entering getRelationShipValues method");
             queryString.append(SQlUtil.getQuery("getRelationshipValues"));
-            if ("customer".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
+            if ("customer".equalsIgnoreCase(String.valueOf(parameters.get(INDICATOR)))) {
                 queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, " Projection_Cust_Hierarchy ");
-            } else if ("product".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
+            } else if ("product".equalsIgnoreCase(String.valueOf(parameters.get(INDICATOR)))) {
                 queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, " Projection_Prod_Hierarchy ");
             }
             queryString.append(" WHERE PH.PROJECTION_MASTER_SID='");
             queryString.append(String.valueOf(parameters.get("projectionId")));
-            if (parameters.get("restrictLevelNumber") != null && "true".equalsIgnoreCase(String.valueOf(parameters.get("restrictLevelNumber")))) {
+            if (parameters.get(RESTRICT_LEVEL_NUMBER) != null && "true".equalsIgnoreCase(String.valueOf(parameters.get(RESTRICT_LEVEL_NUMBER)))) {
                 queryString.append("' AND RLD.LEVEL_NO <= '");
-                queryString.append(String.valueOf(parameters.get("levelNo")));
+                queryString.append(String.valueOf(parameters.get(LEVEL_NO)));
             }
             queryString.append("' ORDER by RLD.level_No");
             return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());

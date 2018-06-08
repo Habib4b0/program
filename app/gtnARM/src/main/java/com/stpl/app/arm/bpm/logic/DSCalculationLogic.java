@@ -4,13 +4,13 @@ import com.stpl.app.arm.common.dto.SessionDTO;
 import com.stpl.app.arm.utils.DataSelectionQueryUtils;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
-import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastProjectionSubmitRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsForecastProjectionSubmitBean;
+import com.stpl.gtn.gtn2o.ws.workflow.bean.constants.GtnWsWorkFlowConstants;
 
 public class DSCalculationLogic {
 
@@ -32,8 +32,8 @@ public class DSCalculationLogic {
         submitRequest.setGtnWsGeneralRequest(generalRequest);
         gtnUIFrameworkWebserviceRequest.setGtnWsForecastProjectionSubmitRequest(submitRequest);
         GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-                GtnWsForecastConstants.GTN_WS_FORECAST_WORKFLOW_SERVICE
-                + GtnWsForecastConstants.GTN_WS_FORECAST_START_TASK,
+                GtnWsWorkFlowConstants.GTN_WS_ARM_WORKFLOW_SERVICE
+                + GtnWsWorkFlowConstants.GTN_WS_ARM_START_TASK,
                 GtnFrameworkCommonStringConstants.GTN_BPM, gtnUIFrameworkWebserviceRequest, DataSelectionQueryUtils.getGsnWsSecurityToken());
         GtnWsCommonWorkflowResponse workFlowResponse = response.getGtnWSCommonWorkflowResponse();
         session.setProcessId(workFlowResponse.getProcessInstanceId());
@@ -53,8 +53,8 @@ public class DSCalculationLogic {
         submitRequest.setGtnWsGeneralRequest(generalRequest);
         gtnUIFrameworkWebserviceRequest.setGtnWsForecastProjectionSubmitRequest(submitRequest);
         GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-                GtnWsForecastConstants.GTN_WS_FORECAST_WORKFLOW_SERVICE
-                + GtnWsForecastConstants.GTN_WS_FORECAST_COMPLETE_TASK,
+                GtnWsWorkFlowConstants.GTN_WS_ARM_WORKFLOW_SERVICE
+                + GtnWsWorkFlowConstants.GTN_WS_ARM_COMPLETE_TASK,
                 GtnFrameworkCommonStringConstants.GTN_BPM, gtnUIFrameworkWebserviceRequest, DataSelectionQueryUtils.getGsnWsSecurityToken());
         GtnWsCommonWorkflowResponse workFlowResponse = response.getGtnWSCommonWorkflowResponse();
         session.setProcessId(workFlowResponse.getProcessInstanceId());
@@ -72,8 +72,8 @@ public class DSCalculationLogic {
         submitRequest.setGtnWsGeneralRequest(generalRequest);
         gtnUIFrameworkWebserviceRequest.setGtnWsForecastProjectionSubmitRequest(submitRequest);
         GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-                GtnWsForecastConstants.GTN_WS_FORECAST_WORKFLOW_SERVICE
-                + GtnWsForecastConstants.GTN_WS_FORECAST_GET_VARIABLE,
+                GtnWsWorkFlowConstants.GTN_WS_ARM_WORKFLOW_SERVICE
+                + GtnWsWorkFlowConstants.GTN_WS_ARM_GET_VARIABLE,
                 GtnFrameworkCommonStringConstants.GTN_BPM, gtnUIFrameworkWebserviceRequest, DataSelectionQueryUtils.getGsnWsSecurityToken());
         GtnWsCommonWorkflowResponse workFlowResponse = response.getGtnWSCommonWorkflowResponse();
         return workFlowResponse.getProcessVariable();

@@ -16,7 +16,6 @@ import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.ReserveSelection;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
-import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import java.io.IOException;

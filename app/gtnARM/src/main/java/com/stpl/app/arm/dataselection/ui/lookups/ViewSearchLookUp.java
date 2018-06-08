@@ -22,6 +22,7 @@ import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.ui.HorizontalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -59,9 +60,10 @@ public class ViewSearchLookUp extends Window {
 
     @UiField("resultsTableLayout")
     private VerticalLayout resultsTableLayout;
-
-    @UiField("viewTypeOptionGroup")
-    private OptionGroup viewTypeOptionGroup;
+    @UiField("viewLayout")
+    private HorizontalLayout viewLayout;
+    
+    private OptionGroup viewTypeOptionGroup = new OptionGroup();
 
     private PrivatePublicViewtableLogic tableLogic = new PrivatePublicViewtableLogic();
 
@@ -229,9 +231,11 @@ public class ViewSearchLookUp extends Window {
     }
 
     private void configuerFields() {
+        viewLayout.addComponent(viewTypeOptionGroup);
         viewTypeOptionGroup.addItem(ARMUtils.PUBLIC);
         viewTypeOptionGroup.addItem(ARMUtils.PRIVATE);
         viewTypeOptionGroup.select(ARMUtils.PUBLIC);
+        viewTypeOptionGroup.addStyleName("horizontal");
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

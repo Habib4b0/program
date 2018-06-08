@@ -214,10 +214,6 @@ public class StplSecurity {
     public String getBusinessRoleIds(final Collection<Object> userGroupId) {
         try {
             String businessRoleIds = StringUtils.EMPTY;
-//            final DynamicQuery ugBusRoleDynamicQuery = DynamicQueryFactoryUtil
-//                    .forClass(UsergroupBusinessrole.class);
-//            ugBusRoleDynamicQuery.add(RestrictionsFactoryUtil.in("usergroupId", userGroupId));
-//            final List<UsergroupBusinessrole> list = dao.getUsergroupBusinessroleMasterList(ugBusRoleDynamicQuery);
             String query = "SELECT BUSINESSROLE_MASTER_SID FROM dbo.USERGROUP_BUSINESSROLE WHERE USERGROUP_ID IN (" + StringUtils.join(userGroupId, ARMUtils.COMMA) + ")";
             final List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
             for (int i = 0; i < list.size(); i++) {

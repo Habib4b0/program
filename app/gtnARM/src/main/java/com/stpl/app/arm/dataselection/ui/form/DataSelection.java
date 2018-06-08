@@ -35,7 +35,6 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.ConstantsUtils;
 import com.stpl.app.utils.VariableConstants;
 import com.stpl.gtn.gtn2o.ws.arm.dataselection.bean.GtnARMHierarchyInputBean;
-import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -210,7 +209,7 @@ public class DataSelection extends AbstractDataSelection {
                     List<LevelDTO> customerHierarchyLevelDefinitionList  = dslogic.getHierarchyLevelDefinition(customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());;
                     LevelDTO selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
                     custVlues = dslogic.loadCustomerInnerLevel(createInputBean(customerHierarchyLookup.getHierarchyDto(), relationshipSid,
-                            customerVersionMap.get(relationshipSid), tempDto.getLevelNo(), customerHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), false), customerDescriptionMap,selectedHierarchyLevelDto);
+                            customerVersionMap.get(relationshipSid), tempDto.getLevelNo(), customerHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), false, rsContractSids), customerDescriptionMap, selectedHierarchyLevelDto);
                     availableCustomerContainer.addAll(custVlues);
                 }
 
@@ -225,21 +224,6 @@ public class DataSelection extends AbstractDataSelection {
         } catch (Exception ex) {
             LOGGER.error(ex + " Customer level ValueChangeListener ");
         }
-    }
-
-    private GtnARMHierarchyInputBean createInputBean(HierarchyLookupDTO selectedHierarchyLevelDto, int relationshipSid, int relationVersionNo, int levelNo, int hierLevelDefnSid, boolean isNdc) {
-        GtnARMHierarchyInputBean inputBean = new GtnARMHierarchyInputBean();
-        inputBean.setDeductionValues(StringUtils.join(rsContractSids, ARMUtils.COMMA));
-        inputBean.setRelationShipBuilderSid(relationshipSid);
-        inputBean.setRelationVersionNo(relationVersionNo);
-        inputBean.setHierarchyDefinitionSid(selectedHierarchyLevelDto.getHierarchyId());
-        inputBean.setHierarchyLevelDefinitionSid(hierLevelDefnSid);
-        inputBean.setHierarchyVersionNo(selectedHierarchyLevelDto.getVersionNo());
-        inputBean.setLevelNo(levelNo);
-        inputBean.setIsNdc(isNdc);
-        inputBean.setBusinessUnit(businessUnit.getValue() != null ? Integer.valueOf(String.valueOf(businessUnit.getValue())) : NumericConstants.ZERO);
-        inputBean.setGlCompany(company.getValue() != null ? Integer.valueOf(String.valueOf(company.getValue())) : NumericConstants.ZERO);
-        return inputBean;
     }
 
     @Override
@@ -362,7 +346,6 @@ public class DataSelection extends AbstractDataSelection {
                     && productRelation.getValue() != null && !GlobalConstants.getSelectOne().equals(productRelation.getValue())) && (productRelation.getValue() != null && !GlobalConstants.getSelectOne().equals(productRelation.getValue()) && !innerProdLevels.isEmpty())) {
 
                 int prodRelationshipSid = (Integer) productRelation.getValue();
-                String custRelSid = String.valueOf(customerRelation.getValue());
                 DataSelectionLogic loadAvailableDsLogic = new DataSelectionLogic();
                 prodforecastLevel = Integer.parseInt(selectedLevel);
                 LevelDTO tempDto = innerProdLevels.get(prodforecastLevel - 1);
@@ -377,7 +360,7 @@ public class DataSelection extends AbstractDataSelection {
                 List<LevelDTO> selectedCustomerContractList = getSelectedCustomerContractList();
                 GtnARMHierarchyInputBean bean = createInputBean(productHierarchyLookup.getHierarchyDto(), prodRelationshipSid,
                         productVersionMap.get(prodRelationshipSid), tempDto.getLevelNo(),
-                        productHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), isNdc);
+                        productHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), isNdc,rsContractSids);
                 GtnARMHierarchyInputBean inputBean = loadCustomersInInputbean(bean, customerVersionMap.get((Integer) customerRelation.getValue())
                         ,selectedCustomerContractList,custhierarchyId,customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 innerLevelValues = loadAvailableDsLogic.loadProductInnerLevel(inputBean, productDescriptionMap);
@@ -1280,9 +1263,9 @@ public class DataSelection extends AbstractDataSelection {
                 }
                 int currentLevel = CommonLogic.parseStringToInteger(levelInString);
                 if ((currentLevel != 0 && selectedLevel.getLevelNo() == currentLevel) && ARMUtils.NDC.equalsIgnoreCase(selectedLevel.getLevel())) {
-//                    listValue = DataSelectionUtils.getFSValue(selectedLevel.getRelationshipLevelValue(), selectedLevel.getFieldName());
-//                    selectedLevel.setForm(StringUtils.EMPTY + listValue.get(0).getForm());
-//                    selectedLevel.setStrength(StringUtils.EMPTY + listValue.get(0).getStrength());
+                    listValue = DataSelectionUtils.getFSValue(selectedLevel.getRelationshipLevelValue(), selectedLevel.getFieldName());
+                    selectedLevel.setForm(StringUtils.EMPTY + listValue.get(0).getForm());
+                    selectedLevel.setStrength(StringUtils.EMPTY + listValue.get(0).getStrength());
                 }
 
                 DataSelectionUtils.removeItemsRecursively(selectedItem, selectedProduct, availableProduct, selectedProductContainer, availableProductContainer, currentLevel);
@@ -3059,31 +3042,5 @@ public class DataSelection extends AbstractDataSelection {
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-    }
-
-    private List<LevelDTO> getSelectedCustomerContractList() {
-        List<LevelDTO> ccList = Collections.emptyList();
-        if (selectedCustomerContainer != null && !selectedCustomerContainer.getItemIds().isEmpty()) {
-            LevelDTO selectedCurrentDto;
-            ccList = new ArrayList<>();
-            for (Object item : selectedCustomerContainer.getItemIds()) {
-                selectedCurrentDto = DataSelectionUtils.getBeanFromId(item);
-                if (selectedCurrentDto != null && !StringUtils.isBlank(selectedCurrentDto.getTableName())) {
-                    ccList.add(selectedCurrentDto);
-                }
-            }
-        }
-        return ccList;
-    }
-
-    private GtnARMHierarchyInputBean loadCustomersInInputbean(GtnARMHierarchyInputBean inputBean,int customerRelationVersionNo,
-            List<LevelDTO> selectedCustomerContractList,int custHierSid,int customerVersionNo) {
-        inputBean.setSelectedCustomerRelationShipBuilderVersionNo(customerRelationVersionNo);
-        if (selectedCustomerContractList != null && !selectedCustomerContractList.isEmpty()) {
-            inputBean.setSelectedCustomerList(DataSelectionLogic.convetToRelationBean(selectedCustomerContractList));
-            inputBean.setSelectedCustomerHierarcySid(custHierSid);
-            inputBean.setSelectedCustomerHierarchyVersionNo(customerVersionNo);
-        }
-        return inputBean;
     }
 }

@@ -100,11 +100,12 @@ public class GtnFrameworkArmDataSelectionAvailableProducts {
     }
 
     private String getDeductionJoin(GtnARMHierarchyInputBean inputBean, String query) {
+        String queryVal = query;
         if (inputBean.getDeductionValues() != null && !inputBean.getDeductionValues().isEmpty()) {
             String createDeductionTableQuery = gtnWsSqlService.getQuery("createTempDeduction");
             createDeductionTableQuery = createDeductionTableQuery.replace("@RS_CON_IDS", inputBean.getDeductionValues());
-            query = createDeductionTableQuery + query;
-            return query.replace("@JOINTEMPDEDUCTION", gtnWsSqlService.getQuery("joinTempDeductionProduct"));
+            queryVal = createDeductionTableQuery + queryVal;
+            return queryVal.replace("@JOINTEMPDEDUCTION", gtnWsSqlService.getQuery("joinTempDeductionProduct"));
         }
         return query.replace("@JOINTEMPDEDUCTION", StringUtils.EMPTY);
     }

@@ -567,5 +567,13 @@ FROM   @TEMP_MIN_MAX
 		]]> 
         </query> 
     </entity>
+    <entity id="checkWorkFlowStatus">
+        <query> 
+		<![CDATA[
+                SELECT IS_APPROVED FROM PROJECTION_MASTER WHERE PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
+		]]> 
+        </query> 
+    </entity>
+    
     
 </sql>

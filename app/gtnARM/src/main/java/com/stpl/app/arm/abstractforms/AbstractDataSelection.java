@@ -26,10 +26,15 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 import com.stpl.app.arm.common.CommonLogic;
 import com.stpl.app.arm.dataselection.dto.DeductionLevelDTO;
+import com.stpl.app.arm.dataselection.dto.HierarchyLookupDTO;
 import com.stpl.app.arm.dataselection.dto.LevelDTO;
+import com.stpl.app.arm.dataselection.logic.DataSelectionLogic;
 import com.stpl.app.arm.dataselection.ui.lookups.HierarchyLookup;
 import com.stpl.app.arm.dataselection.ui.lookups.PrivatePublicLookUp;
 import com.stpl.app.arm.dataselection.ui.lookups.ViewSearchLookUp;
+import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.DataSelectionUtils;
+import com.stpl.gtn.gtn2o.ws.arm.dataselection.bean.GtnARMHierarchyInputBean;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.v7.data.Property;
@@ -389,7 +394,9 @@ public abstract class AbstractDataSelection extends CustomComponent {
     protected HorizontalLayout horizontalLayout;
     @UiField("selectionVerticalLayout")
     protected VerticalLayout selectionVerticalLayout;
-
+    
+    protected Map<Integer, Integer> custVersionMap = new HashMap<>();
+    protected Map<Integer, Integer> prodVersionMap = new HashMap<>();
     /**
      * Initialization Of UI Fields.
      */
@@ -767,5 +774,44 @@ public abstract class AbstractDataSelection extends CustomComponent {
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
+    }
+
+    protected GtnARMHierarchyInputBean createInputBean(HierarchyLookupDTO selectedHierarchyLevelDto, int relationshipSid, int relationVersionNo, int levelNo, int hierLevelDefnSid, boolean isNdc, Set<Integer> rsContractSids) {
+        GtnARMHierarchyInputBean inputBean = new GtnARMHierarchyInputBean();
+        inputBean.setDeductionValues(StringUtils.join(rsContractSids, ARMUtils.COMMA));
+        inputBean.setRelationShipBuilderSid(relationshipSid);
+        inputBean.setRelationVersionNo(relationVersionNo);
+        inputBean.setHierarchyDefinitionSid(selectedHierarchyLevelDto.getHierarchyId());
+        inputBean.setHierarchyLevelDefinitionSid(hierLevelDefnSid);
+        inputBean.setHierarchyVersionNo(selectedHierarchyLevelDto.getVersionNo());
+        inputBean.setLevelNo(levelNo);
+        inputBean.setIsNdc(isNdc);
+        inputBean.setBusinessUnit(businessUnit.getValue() != null ? Integer.valueOf(String.valueOf(businessUnit.getValue())) : NumericConstants.ZERO);
+        inputBean.setGlCompany(company.getValue() != null ? Integer.valueOf(String.valueOf(company.getValue())) : NumericConstants.ZERO);
+        return inputBean;
+    }
+    protected List<LevelDTO> getSelectedCustomerContractList() {
+        List<LevelDTO> ccList = Collections.emptyList();
+        if (selectedCustomerContainer != null && !selectedCustomerContainer.getItemIds().isEmpty()) {
+            LevelDTO selectedCurrentDto;
+            ccList = new ArrayList<>();
+            for (Object item : selectedCustomerContainer.getItemIds()) {
+                selectedCurrentDto = DataSelectionUtils.getBeanFromId(item);
+                if (selectedCurrentDto != null && !StringUtils.isBlank(selectedCurrentDto.getTableName())) {
+                    ccList.add(selectedCurrentDto);
+                }
+            }
+        }
+        return ccList;
+    }
+    protected GtnARMHierarchyInputBean loadCustomersInInputbean(GtnARMHierarchyInputBean inputBean,int customerRelationVersionNo,
+            List<LevelDTO> selectedCustomerContractList,int custHierSid,int customerVersionNo) {
+        inputBean.setSelectedCustomerRelationShipBuilderVersionNo(customerRelationVersionNo);
+        if (selectedCustomerContractList != null && !selectedCustomerContractList.isEmpty()) {
+            inputBean.setSelectedCustomerList(DataSelectionLogic.convetToRelationBean(selectedCustomerContractList));
+            inputBean.setSelectedCustomerHierarcySid(custHierSid);
+            inputBean.setSelectedCustomerHierarchyVersionNo(customerVersionNo);
+        }
+        return inputBean;
     }
 }

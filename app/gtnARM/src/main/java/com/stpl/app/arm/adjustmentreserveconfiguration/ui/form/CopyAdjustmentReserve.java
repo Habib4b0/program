@@ -19,8 +19,6 @@ import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.arm.utils.ReserveSelection;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
-;
-import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.stpl.ifs.util.constants.ARMMessages;

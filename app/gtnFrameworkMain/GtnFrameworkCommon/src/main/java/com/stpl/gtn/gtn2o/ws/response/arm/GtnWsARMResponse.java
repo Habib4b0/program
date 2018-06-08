@@ -10,7 +10,12 @@ import com.stpl.gtn.gtn2o.ws.arm.dataselection.bean.GtnARMHierarchyInputBean;
 @SuppressWarnings("rawtypes")
 public class GtnWsARMResponse {
 
-    GtnARMHierarchyInputBean inputBean;
+    private GtnARMHierarchyInputBean inputBean;
+
+    public GtnWsARMResponse() {
+        super();
+    }
+    
 
     public GtnARMHierarchyInputBean getInputBean() {
         return inputBean;

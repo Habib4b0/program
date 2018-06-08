@@ -7,6 +7,7 @@
                 <d:CustomMenuBar id="variables" styleName="custommenumulticheck" />
                 <Label caption="Original Sale Limiter : " id="deductionLevel" contentMode="HTML" />
                 <PopupDateField id="originalSaleLimiter" dateFormat="MM/dd/yyyy" immediate="true" enable="true" styleName = "align-center" />
+                <HorizontalLayout id="checkBoxLayout"/>
 <!--                <CheckBox id="removeClosedBatches" enable="true" styleName = "horizontal"/>
                 <CheckBox id="excudeBasedOnLoeDate" enable="true" styleName = "horizontal"/>-->
                 <Button id="reset" caption="RESET" />

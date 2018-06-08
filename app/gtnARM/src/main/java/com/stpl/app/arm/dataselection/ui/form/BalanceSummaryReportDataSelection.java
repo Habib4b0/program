@@ -25,6 +25,7 @@ import com.stpl.app.arm.dataselection.view.DataSelectionView;
 import com.stpl.app.arm.security.StplSecurity;
 import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.arm.utils.CommonConstant;
+import com.stpl.app.arm.utils.DataSelectionQueryUtils;
 import com.stpl.app.arm.utils.DataSelectionUtils;
 import com.stpl.app.arm.utils.HelperListUtil;
 import com.stpl.app.arm.utils.QueryUtils;
@@ -32,6 +33,7 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.ConstantsUtils;
 
 import com.stpl.app.utils.VariableConstants;
+import com.stpl.gtn.gtn2o.ws.arm.dataselection.bean.GtnARMHierarchyInputBean;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -57,6 +59,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -98,6 +101,10 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
     //Used for CCP_HIERARCHY_INSERT query formation
     private String topLevelName = StringUtils.EMPTY;
     private String periodView = StringUtils.EMPTY;
+    private List<Integer> customerHierarchyLevelDefnList = new ArrayList<>();
+    private Map<Integer, Integer> customerVersionMap = new HashMap<>();
+    private Map<Integer, Integer> productVersionMap = new HashMap<>();
+    private List<Integer> productHierarchyLevelDefnList = new ArrayList<>();
 
     public BalanceSummaryReportDataSelection(String screenName, SessionDTO sessionDTO) {
         super();
@@ -134,15 +141,15 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
 
     @Override
     public void loadCustRelationAndLevel(int custHierSid, CustomTextField.ClickEvent event) {
-        logic.loadCustomerRelation(customerRelation, custHierSid);
-        logic.loadCustoProdLevels(customerLevel, custHierSid);
+        customerVersionMap = logic.loadCustomerRelation(customerRelation, custHierSid);
+        customerHierarchyLevelDefnList = logic.loadCustoProdLevels(customerLevel, custHierSid);
         customerBeanList.clear();
     }
 
     @Override
     public void loadProdRelationAndLevel(int prodHierSid, int glComp, CustomTextField.ClickEvent event) {
-        logic.loadProductRelation(productRelation, prodHierSid, glComp);
-        logic.loadCustoProdLevels(productLevel, prodHierSid);
+        productVersionMap = logic.loadProductRelation(productRelation, prodHierSid, glComp);
+        productHierarchyLevelDefnList = logic.loadCustoProdLevels(productLevel, prodHierSid);
         productBeanList.clear();
     }
 
@@ -160,6 +167,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 if (customerRelation.getValue() != null && !GlobalConstants.getSelectOne().equals(customerRelation.getValue()) && !innerCustLevels.isEmpty()) {
 
                     String relationshipSid = String.valueOf(customerRelation.getValue());
+                    int relSid = relationshipSid.isEmpty() || "null".equals(relationshipSid) ? 0 : Integer.valueOf(relationshipSid);
                     DataSelectionLogic logicVal = new DataSelectionLogic();
                     String[] val = selectedLevel.split(" ");
                     forecastLevel = Integer.parseInt(val[1]);
@@ -168,9 +176,10 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                         levelName = tempDto.getLevel();
                         tempDto.getLevelNo();
                     }
-
-//                    custVlues = logicVal.loadCustomerInnerLevel(relationshipSid, tempDto.getLevelNo(), customerHierarchyLookup.getHierarchyDto(), new ArrayList<>(rsContractSids),
-//                            customerDescriptionMap);
+                    List<LevelDTO> customerHierarchyLevelDefinitionList  = logicVal.getHierarchyLevelDefinition(customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());;
+                    LevelDTO selectedHierarchyLevelDto = customerHierarchyLevelDefinitionList.get(forecastLevel - 1);
+                    custVlues = logicVal.loadCustomerInnerLevel(createInputBean(customerHierarchyLookup.getHierarchyDto(), relSid,
+                            customerVersionMap.get(relSid), tempDto.getLevelNo(), customerHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), false, rsContractSids), customerDescriptionMap, selectedHierarchyLevelDto);
                     availableCustomerContainer.addAll(custVlues);
                 }
 
@@ -226,13 +235,13 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         if (custLevelListenerFlag) {
             if (value != null) {
                 try {
-                    final DataSelectionLogic logicVal = new DataSelectionLogic();
                     availableCustomer.removeAllItems();
                     availableCustomerContainer.removeAllItems();
                     selectedCustomer.removeAllItems();
                     selectedCustomerContainer.removeAllItems();
                     customerLevel.select(null);
-//                    customerDescriptionMap = logicVal.getLevelValueMap(String.valueOf(customerRelation.getValue()));
+                    int relationshipSid = (Integer) customerRelation.getValue();
+                    customerDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(relationshipSid, customerVersionMap.get(relationshipSid), customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());
                     customerBeanList.clear();
                 } catch (Exception ex) {
                     LOGGER.error(ex + " in customerRelation value change");
@@ -253,13 +262,15 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
         if (prodLevelListenerFlag) {
             if (value != null) {
                 try {
-                    DataSelectionLogic logicVal = new DataSelectionLogic();
                     availableProduct.removeAllItems();
                     availableProductContainer.removeAllItems();
                     selectedProduct.removeAllItems();
                     selectedProductContainer.removeAllItems();
                     productLevel.select(null);
-//                    productDescriptionMap = logicVal.getLevelValueMap(String.valueOf(productRelation.getValue()));
+                    int relationshipSid = (Integer) productRelation.getValue();
+                    productDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(relationshipSid,
+                            productVersionMap.get(relationshipSid), productHierarchyLookup.getHierarchyDto().getHierarchyId(),
+                            productHierarchyLookup.getHierarchyDto().getVersionNo());
                     productBeanList.clear();
                 } catch (Exception ex) {
                     LOGGER.error(ex + " in customerRelation value change");
@@ -305,8 +316,7 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
             if ((selectedLevel != null && !selectedLevel.equalsIgnoreCase(StringUtils.EMPTY) && !ARMUtils.NULL.equals(selectedLevel) && !GlobalConstants.getSelectOne().equals(selectedLevel)
                     && productRelation.getValue() != null && !GlobalConstants.getSelectOne().equals(productRelation.getValue())) && (productRelation.getValue() != null && !GlobalConstants.getSelectOne().equals(productRelation.getValue()) && !innerProdLevels.isEmpty())) {
 
-                String prodRelationshipSid = String.valueOf(productRelation.getValue());
-                String custRelSid = String.valueOf(customerRelation.getValue());
+                int prodRelationshipSid = (Integer) productRelation.getValue();
                 DataSelectionLogic logicVal = new DataSelectionLogic();
                 prodforecastLevel = Integer.parseInt(selectedLevel);
                 LevelDTO tempDto = innerProdLevels.get(prodforecastLevel - 1);
@@ -314,28 +324,22 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     levelName = tempDto.getLevel();
                 }
 
-//                if ((tempDto.getLevel() != null && (ARMUtils.NDC.equalsIgnoreCase(tempDto.getLevel()) || "Item".equalsIgnoreCase(tempDto.getLevel()) || ARMUtils.PRODUCT.equalsIgnoreCase(tempDto.getLevel()))) && ARMUtils.ITEM_MASTER.equals(tempDto.getTableName())) {
-//
-//                    isNdc = true;
-//                } else {
-//                    isNdc = false;
-//                }
+                if ((tempDto.getLevel() != null && (ARMUtils.NDC.equalsIgnoreCase(tempDto.getLevel()) || "Item".equalsIgnoreCase(tempDto.getLevel()) || ARMUtils.PRODUCT.equalsIgnoreCase(tempDto.getLevel()))) && ARMUtils.ITEM_MASTER.equals(tempDto.getTableName())) {
 
-                int businessUnitVal = 0;
-                businessUnitVal = Integer.valueOf(businessUnit.getValue().toString());
-                int glCompId = 0;
-                glCompId = Integer.valueOf(company.getValue().toString());
+                    isNdc = true;
+                } else {
+                    isNdc = false;
+                }
                 customerSidList.clear();
                 getChildIds(selectedCustomerContainer, customerSidList);
                 int custhierarchyId = customerHierarchyLookup.getHierarchyDto().getHierarchyId();
-                List<Integer> prodInnerLevelValues = new ArrayList<>();
-                prodInnerLevelValues.add(0, tempDto.getLevelNo());
-                prodInnerLevelValues.add(1, productHierarchyLookup.getHierarchyDto().getHierarchyId());
-                prodInnerLevelValues.add(2, businessUnitVal);
-                prodInnerLevelValues.add(3, glCompId);
-                prodInnerLevelValues.add(4, custhierarchyId);
-//                innerLevelValues = logicVal.loadProductInnerLevel(prodInnerLevelValues, prodRelationshipSid, new ArrayList<>(rsContractSids),
-//                        customerSidList, isNdc, custRelSid, productDescriptionMap);
+                List<LevelDTO> selectedCustomerContractList = getSelectedCustomerContractList();
+                GtnARMHierarchyInputBean bean = createInputBean(productHierarchyLookup.getHierarchyDto(), prodRelationshipSid,
+                        productVersionMap.get(prodRelationshipSid), tempDto.getLevelNo(),
+                        productHierarchyLevelDefnList.get(tempDto.getLevelNo() - 1), isNdc,rsContractSids);
+                GtnARMHierarchyInputBean inputBean = loadCustomersInInputbean(bean, customerVersionMap.get((Integer) customerRelation.getValue())
+                        ,selectedCustomerContractList,custhierarchyId,customerHierarchyLookup.getHierarchyDto().getVersionNo());
+                innerLevelValues = logicVal.loadProductInnerLevel(inputBean, productDescriptionMap);
                 availableProductContainer.addAll(innerLevelValues);
                 availableProduct.setContainerDataSource(availableProductContainer);
                 if (isNdc) {
@@ -1239,9 +1243,9 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 }
                 int currentLevel = CommonLogic.parseStringToInteger(levelInString);
                 if ((currentLevel != 0 && selectedLevel.getLevelNo() == currentLevel) && ARMUtils.NDC.equalsIgnoreCase(selectedLevel.getLevel())) {
-//                    listValue = DataSelectionUtils.getFSValue(selectedLevel.getRelationshipLevelValue(), selectedLevel.getFieldName());
-//                    selectedLevel.setForm(StringUtils.EMPTY + listValue.get(0).getForm());
-//                    selectedLevel.setStrength(StringUtils.EMPTY + listValue.get(0).getStrength());
+                    listValue = DataSelectionUtils.getFSValue(selectedLevel.getRelationshipLevelValue(), selectedLevel.getFieldName());
+                    selectedLevel.setForm(StringUtils.EMPTY + listValue.get(0).getForm());
+                    selectedLevel.setStrength(StringUtils.EMPTY + listValue.get(0).getStrength());
                 }
 
                 DataSelectionUtils.removeItemsRecursively(selectedItem, selectedProduct, availableProduct, selectedProductContainer, availableProductContainer, currentLevel);
@@ -2110,7 +2114,6 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                     || CommonLogic.checkInt(Integer.valueOf(productRelation.getValue().toString()))
                     || rsContractSids.isEmpty() || selectedCustomerContainer.size() == 0 || selectedProductContainer.size() == 0
                     || selectedDeductionContainer.size() == 0)) {
-//                    || calculationProfile.getValue().isEmpty()
                 AbstractNotificationUtils.getErrorNotification(msgHeader, msg);
             } else {
                 boolean mandatory = false;
@@ -2158,8 +2161,8 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 dataSelectionDTO.setSaveFlag(false);
                 dataSelectionDTO.setCustRelationshipBuilderSid(Integer.valueOf(customerRelation.getValue().toString()));
                 dataSelectionDTO.setProdRelationshipBuilderSid(Integer.valueOf(productRelation.getValue().toString()));
-//                dataSelectionDTO.setCustomerRelationshipVersionNo(customerVersionMap.get(Integer.valueOf(customerRelation.getValue().toString())));
-//                dataSelectionDTO.setProductRelationshipVersionNo(productVersionMap.get(Integer.valueOf(productRelation.getValue().toString())));
+                dataSelectionDTO.setCustomerRelationshipVersionNo(customerVersionMap.get(Integer.valueOf(customerRelation.getValue().toString())));
+                dataSelectionDTO.setProductRelationshipVersionNo(productVersionMap.get(Integer.valueOf(productRelation.getValue().toString())));
                 dataSelectionDTO.setForecastingType("Balance Summary Report");
                 dataSelectionDTO.setAdjustmentType(screenName);
                 dataSelectionDTO.setAdjustmentCaption(summaryTypeDdlb.getItemCaption(summaryTypeDdlb.getValue()));
@@ -2337,23 +2340,24 @@ public class BalanceSummaryReportDataSelection extends AbstractDataSelection {
                 selectedDeductionContainer.removeAllItems();
                 setDeductionTree(levelKeys);
                 customerHierarchy.setValue(dto.getCustomerHierarchyName());
-
-                logic.loadCustomerRelation(customerRelation, dto.getCustomerHierarchySid());
+                customerVersionMap = logic.loadCustomerRelation(customerRelation, dto.getCustomerHierarchySid());
                 customerRelation.select(dto.getCustRelationshipBuilderSid());
                 loadCustomerLevel();
                 logic.loadCustoProdLevels(customerLevel, dto.getCustomerHierarchySid());
-
-//                customerDescriptionMap = logic.getLevelValueMap(String.valueOf(dto.getCustRelationshipBuilderSid()));
+                
+                customerDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(dto.getCustRelationshipBuilderSid(), customerVersionMap.get(dto.getCustRelationshipBuilderSid()), customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());
                 customerLevel.select(dto.getCustomerHierarchyLevel());
                 initializeCustomerHierarchy(dto.getProjectionId(), dto.getCustomerHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getCustomerHierarchyLevel()));
 
                 productHierarchy.setValue(dto.getProductHierarchyName());
-                logic.loadProductRelation(productRelation, dto.getProductHierarchySid(), dto.getCompanyMasterSid());
+                productVersionMap = logic.loadProductRelation(productRelation, dto.getProductHierarchySid(), dto.getCompanyMasterSid());
                 productRelation.select(dto.getProdRelationshipBuilderSid());
                 loadProductLevel();
                 logic.loadCustoProdLevels(productLevel, dto.getProductHierarchySid());
                 productLevel.select(dto.getProductHierarchyLevel());
-//                productDescriptionMap = logic.getLevelValueMap(String.valueOf(dto.getProdRelationshipBuilderSid()));
+                productDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(dto.getProdRelationshipBuilderSid(),
+                        productVersionMap.get(dto.getProdRelationshipBuilderSid()), productHierarchyLookup.getHierarchyDto().getHierarchyId(),
+                        productHierarchyLookup.getHierarchyDto().getVersionNo());
                 initializeProductHierarchy(dto.getProjectionId(), dto.getProductHierarchyLevel().isEmpty() ? 0 : Integer.valueOf(dto.getProductHierarchyLevel()));
             } catch (Property.ReadOnlyException | NumberFormatException e) {
                 LOGGER.error("Error in setViewDetails :" + e);
