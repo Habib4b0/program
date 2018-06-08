@@ -799,24 +799,7 @@ public class NMProjectionVarianceLogic {
 			String discountId = null;
 			List<String> projectionIdList = new ArrayList<>();
 			pivotDiscountList = new ArrayList<>();
-			switch (frequency) {
-			case Constant.QUARTERLY: {
-				frequency = Constant.QUARTERLY1;
-				break;
-			}
-			case Constant.SEMI_ANNUALLY: {
-				frequency = Constant.SEMIANNUAL_CAPS;
-				break;
-			}
-			case Constant.MONTHLY: {
-				frequency = Constant.MONTHLY_COLUMN;
-				break;
-			}
-			default: {
-				frequency = Constant.ANNUAL_CAPS;
-				break;
-			}
-			}
+			frequency = getFrequency(frequency);
 			projectionIdList.add(String.valueOf(selectionDTO.getCurrentProjId()));
 			List<Integer> projIdList = projSelDTO.getProjIdList();
 			for (Integer projId : projIdList) {
@@ -835,10 +818,9 @@ public class NMProjectionVarianceLogic {
 				String hierarchyIndicator = projSelDTO.getHierarchyIndicator();
 				String hierarchyNumber = projSelDTO.getHierarchyNo();
 				int levelNo = projSelDTO.getLevelNo();
-				discountId = (D.equals(hierarchyIndicator)
-						&& levelNo == NumericConstants.TEN) ? hierarchyNumber : rsIdsFinal;
+				discountId = getDiscountId(rsIdsFinal, hierarchyIndicator, hierarchyNumber, levelNo);
 			    boolean isIsCustomHierarchy = projSelDTO.isIsCustomHierarchy();
-				hierIndicator =  isIsCustomHierarchy ? "D" : hierarchyIndicator;
+				hierIndicator =  getHierarchyIndicator(hierarchyIndicator, isIsCustomHierarchy);
 			} else {
 				hierIndicator = "C";
 			}
@@ -846,6 +828,37 @@ public class NMProjectionVarianceLogic {
 			pivotDiscountList.addAll(discountsList);
 		}
 		return Collections.unmodifiableList(pivotDiscountList);
+	}
+
+	private String getFrequency(String frequency) {
+		switch (frequency) {
+		case Constant.QUARTERLY: {
+			frequency = Constant.QUARTERLY1;
+			break;
+		}
+		case Constant.SEMI_ANNUALLY: {
+			frequency = Constant.SEMIANNUAL_CAPS;
+			break;
+		}
+		case Constant.MONTHLY: {
+			frequency = Constant.MONTHLY_COLUMN;
+			break;
+		}
+		default: {
+			frequency = Constant.ANNUAL_CAPS;
+			break;
+		}
+		}
+		return frequency;
+	}
+
+	private String getHierarchyIndicator(String hierarchyIndicator, boolean isIsCustomHierarchy) {
+		return isIsCustomHierarchy ? "D" : hierarchyIndicator;
+	}
+
+	private String getDiscountId(String rsIdsFinal, String hierarchyIndicator, String hierarchyNumber, int levelNo) {
+		return (D.equals(hierarchyIndicator)
+				&& levelNo == NumericConstants.TEN) ? hierarchyNumber : rsIdsFinal;
 	}
 
 	public List<Object[]> getParameters(PVSelectionDTO projSelDTO, String projectionId, String frequency,

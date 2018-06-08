@@ -793,7 +793,7 @@ public class ExistingDiscountTab extends CustomComponent {
         } else {
 
             treeBean = dashboardTreeTable.getValue() == null ? null : getBeanFromID(dashboardTreeTable.getValue());
-            Object treeBeanId = dashboardTreeTable.getValue() == null ? null : dashboardTreeTable.getValue();
+            Object treeBeanID = dashboardTreeTable.getValue() == null ? null : dashboardTreeTable.getValue();
             if (treeBean == null) {
                 if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.CONTRACT.toString())) {
 
@@ -826,8 +826,8 @@ public class ExistingDiscountTab extends CustomComponent {
                         id = treeBean.getModelSysId();
                     }
                     if (psSystem.equals(String.valueOf(id).trim())) {
-                        if (dashBoardTreeContainer.hasChildren(treeBeanId)) {
-                            final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(treeBeanId);
+                        if (dashBoardTreeContainer.hasChildren(treeBeanID)) {
+                            final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(treeBeanID);
                             for (final Iterator<Object> iterator = collection.iterator(); iterator.hasNext();) {
                                 final Object childId = iterator.next();
                                 final ContractsDetailsDto object = getBeanFromID(childId);
@@ -857,8 +857,8 @@ public class ExistingDiscountTab extends CustomComponent {
                 } else {
                     final String rsSystem = String.valueOf(rebateScheduleDetailsList.get(0)).trim();
                     if (rsSystem.equals(String.valueOf(treeBean.getPsSid()).trim())) {
-                        if (dashBoardTreeContainer.hasChildren(treeBeanId)) {
-                            final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(treeBeanId);
+                        if (dashBoardTreeContainer.hasChildren(treeBeanID)) {
+                            final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(treeBeanID);
                             for (final Object id : collection) {
                                 final ContractsDetailsDto object = getBeanFromID(id);
                                 if (srcTableBean.getInternalId() == object.getModelSysId()) {
@@ -896,8 +896,8 @@ public class ExistingDiscountTab extends CustomComponent {
                         psDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(StringConstantsUtil.IFP_MODEL_SID)));
                         final List<PsDetails> priceScheduleDetailsList = PsDetailsLocalServiceUtil.dynamicQuery(psDynamicQuery);
                         if (rsSystem.equals(String.valueOf(priceScheduleDetailsList.get(0)).trim())) {
-                            if (dashBoardTreeContainer.hasChildren(treeBeanId)) {
-                                final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(treeBeanId);
+                            if (dashBoardTreeContainer.hasChildren(treeBeanID)) {
+                                final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(treeBeanID);
                                 for (final Object id : collection) {
                                     final ContractsDetailsDto object = getBeanFromID(id);
                                     if (srcTableBean.getInternalId().equals(object.getModelSysId())) {
@@ -909,7 +909,7 @@ public class ExistingDiscountTab extends CustomComponent {
                             }
                             newlyAddedRebates.add(srcTableBean.getInternalId());
                             srcTableBean.addStringProperties(treeBean.getId() + treeBean.getName() + treeBean.getNumber(), rsListforMap);
-                            setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBeanId);
+                            setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBeanID);
                             returnFlag = true;
                         } else {
                             final String message = srcTableBean.getCategory() + StringConstantsUtil.DOES_NOT_ASSOCIATE_WITH + treeBean.getCategory();
@@ -918,8 +918,8 @@ public class ExistingDiscountTab extends CustomComponent {
                     }
                 }
             } else {
-                if (dashBoardTreeContainer.hasChildren(treeBeanId)) {
-                    final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(treeBeanId);
+                if (dashBoardTreeContainer.hasChildren(treeBeanID)) {
+                    final Collection<Object> collection = (Collection<Object>) dashBoardTreeContainer.getChildren(treeBeanID);
                     for (final Object id : collection) {
                         final ContractsDetailsDto object = getBeanFromID(id);
                         if (srcTableBean.getInternalId() == object.getModelSysId()) {
@@ -932,7 +932,7 @@ public class ExistingDiscountTab extends CustomComponent {
                 if ("IFP".equals(srcTableBean.getCategory())) {
                     srcTableBean.addStringProperties(treeBean.getId() + treeBean.getName() + treeBean.getNumber(), ifpListforMap);
                 }
-                setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBeanId);
+                setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBeanID);
                 returnFlag = true;
             }
         }

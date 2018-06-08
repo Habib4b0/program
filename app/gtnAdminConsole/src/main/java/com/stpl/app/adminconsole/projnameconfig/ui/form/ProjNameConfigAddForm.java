@@ -565,8 +565,8 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
                                 try {
                                     saveButtonLogic();
                                 } catch (SystemException ex) {
-                                    final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
+                                    final String errorMessage = ErrorCodeUtil.getErrorMessage(ex);
+                                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMessage);
                                    LOGGER.error(ex.getMessage());
                                 } 
 
