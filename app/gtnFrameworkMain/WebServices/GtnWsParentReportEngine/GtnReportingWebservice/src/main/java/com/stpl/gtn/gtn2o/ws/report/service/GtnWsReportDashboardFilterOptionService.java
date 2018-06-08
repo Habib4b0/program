@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,7 +80,7 @@ public class GtnWsReportDashboardFilterOptionService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String loadCustomerLevelFilter(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+	public List<Object[]> loadCustomerLevelFilter(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
 			throws GtnFrameworkGeneralException {
 		GtnWsReportRequest reportRequest = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest();
 		GtnWsReportDashboardFilterBean filterBean = reportRequest.getFilterBean();
@@ -97,17 +98,52 @@ public class GtnWsReportDashboardFilterOptionService {
 				gtnUIFrameworkWebserviceRequest.setGtnWsForecastRequest(forecastRequest);
 				finalQuery = getQueryForLoadingFilterDdlb(gtnUIFrameworkWebserviceRequest);
 			}
-			finalQuery = getDynamicLoadQuery(dataSelectionBean, filterBean, isUserDefined, finalQuery);
+			if (filterBean.getHierarchyType().equals("C")) {
+				finalQuery = getDynamicProductLoadQuery(dataSelectionBean, filterBean, isUserDefined, finalQuery);
+			} else {
+				finalQuery = getDynamicCustomerLoadQuery(dataSelectionBean, filterBean, isUserDefined, finalQuery);
+			}
+			finalQuery = replaceTableNames(finalQuery, dataSelectionBean, filterBean, isUserDefined);
 		}
-		return finalQuery;
+		List<Object[]> finalResultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(finalQuery);
+		System.out.println("size" + finalResultList.size());
+		for (Object[] object : finalResultList) {
+			System.out.println("name" + object[0]);
+			System.out.println("sid" + object[1]);
+		}
+		return (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(finalQuery);
+	}
+
+	private String replaceTableNames(String finalQuery, GtnWsReportDataSelectionBean dataSelectionBean,
+			GtnWsReportDashboardFilterBean filterBean, boolean isUserDefined) {
+		StringBuilder queryString = new StringBuilder(finalQuery);
+		System.out.println("selectedProduct" + filterBean.getSelectedProductList().isEmpty());
+		System.out.println("isUserDefined" + isUserDefined);
+		if (!filterBean.getSelectedProductList().isEmpty() || isUserDefined) {
+			queryString.insert(finalQuery.lastIndexOf("WHERE"),
+					" JOIN #HIER_PRODUCT HP ON ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%'  ");
+		}
+		System.out.println("--------------->" + queryString.toString().replace("ST_CCP_HIERARCHY",
+				"ST_CCP_HIERARCHY_" + dataSelectionBean.getSessionId()));
+		return queryString.toString().replace("ST_CCP_HIERARCHY",
+				"ST_CCP_HIERARCHY_" + dataSelectionBean.getSessionId());
 	}
 
 	@SuppressWarnings("unchecked")
 	private List<Object[]> getTableForSelectedLevel(GtnWsReportDataSelectionBean dataSelectionBean,
 			GtnWsReportDashboardFilterBean filterBean) throws GtnFrameworkGeneralException {
-		int hierarchyDefinitionSid = (int) dataSelectionBean.getCustomerHierarchySid();
-		int levelNo = filterBean.getCustomerLevelNo();
-		int hierarchyVersionNo = dataSelectionBean.getCustomerHierarchyVersionNo();
+		int hierarchyDefinitionSid = 0;
+		int levelNo = 0;
+		int hierarchyVersionNo = 0;
+		if (filterBean.getHierarchyType().equals("C")) {
+			hierarchyDefinitionSid = (int) dataSelectionBean.getCustomerHierarchySid();
+			levelNo = filterBean.getCustomerLevelNo();
+			hierarchyVersionNo = dataSelectionBean.getCustomerHierarchyVersionNo();
+		} else {
+			hierarchyDefinitionSid = (int) dataSelectionBean.getProductHierarchySid();
+			levelNo = filterBean.getProductLevelNo();
+			hierarchyVersionNo = dataSelectionBean.getProductHierarchyVersionNo();
+		}
 		Object[] params = { hierarchyDefinitionSid, levelNo, hierarchyVersionNo };
 		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER,
 				GtnFrameworkDataType.INTEGER };
@@ -116,18 +152,39 @@ public class GtnWsReportDashboardFilterOptionService {
 		return resultList;
 	}
 
-	private String getDynamicLoadQuery(GtnWsReportDataSelectionBean dataSelectionBean,
+	private String getDynamicCustomerLoadQuery(GtnWsReportDataSelectionBean dataSelectionBean,
 			GtnWsReportDashboardFilterBean filterBean, boolean isUserDefined, String query) {
 		query = (filterBean.getSelectedProductList().isEmpty() || filterBean.getSelectedProductList() == null
-				|| isUserDefined) ? query : getProductFilterQuery(filterBean, dataSelectionBean) + query;
+				|| isUserDefined) ? query : getFilterQuery(filterBean, dataSelectionBean) + query;
 		return query;
 	}
 
-	private String getProductFilterQuery(GtnWsReportDashboardFilterBean filterBean,
+	private String getDynamicProductLoadQuery(GtnWsReportDataSelectionBean dataSelectionBean,
+			GtnWsReportDashboardFilterBean filterBean, boolean isUserDefined, String query) {
+		query = (filterBean.getSelectedProductList().isEmpty() || filterBean.getSelectedProductList() == null
+				|| isUserDefined) ? query : getFilterQuery(filterBean, dataSelectionBean) + query;
+		return query;
+	}
+
+	private String getFilterQuery(GtnWsReportDashboardFilterBean filterBean,
 			GtnWsReportDataSelectionBean dataSelectionBean) {
-		String query = reportSqlService.getQuery("product-dynamic-filter");
-		int relationshipBuilderSid = dataSelectionBean.getProductRelationshipBuilderSid();
-		Object[] params = { filterBean.getSelectedProductList(), relationshipBuilderSid };
+		int relationshipBuilderSid = 0;
+		List<Object> selectedList = new ArrayList<>();
+		String query = null;
+		if (filterBean.getHierarchyType().equals("C")) {
+			relationshipBuilderSid = dataSelectionBean.getProductRelationshipBuilderSid();
+			selectedList = filterBean.getSelectedProductList();
+			System.out.println("size" + selectedList.size());
+			System.out.println("item" + selectedList.get(0));
+			query = reportSqlService.getQuery("product-dynamic-filter");
+		} else {
+			relationshipBuilderSid = dataSelectionBean.getCustomerRelationshipBuilderSid();
+			selectedList = filterBean.getSelectedCustomerList();
+			query = reportSqlService.getQuery("customer-dynamic-filter");
+		}
+		Object[] params = { selectedList, relationshipBuilderSid };
+		System.out.println("sid" + relationshipBuilderSid);
+		System.out.println("*****" + params);
 		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.IN_LIST, GtnFrameworkDataType.INTEGER };
 		return gtnSqlQueryEngine.generateSQLQuery(sessionFactory.openSession(), query, params, paramsType)
 				.getQueryString();
@@ -135,9 +192,18 @@ public class GtnWsReportDashboardFilterOptionService {
 
 	private String getUserDefinedQuery(GtnWsReportDataSelectionBean dataSelectionBean,
 			GtnWsReportDashboardFilterBean filterBean) {
-		int relationVersionNo = dataSelectionBean.getCustomerRelationshipVersionNo();
-		int relationshipBuilderSid = dataSelectionBean.getCustomerRelationshipBuilderSid();
-		int relationLevelNo = filterBean.getCustomerLevelNo();
+		int relationVersionNo = 0;
+		int relationshipBuilderSid = 0;
+		int relationLevelNo = 0;
+		if (filterBean.getHierarchyType().equals("C")) {
+			relationVersionNo = dataSelectionBean.getCustomerRelationshipVersionNo();
+			relationshipBuilderSid = dataSelectionBean.getCustomerRelationshipBuilderSid();
+			relationLevelNo = filterBean.getCustomerLevelNo();
+		} else {
+			relationVersionNo = dataSelectionBean.getProductRelationshipVersionNo();
+			relationshipBuilderSid = dataSelectionBean.getProductRelationshipBuilderSid();
+			relationLevelNo = filterBean.getProductLevelNo();
+		}
 		Object[] params = { relationVersionNo, relationshipBuilderSid, relationLevelNo };
 		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER,
 				GtnFrameworkDataType.INTEGER };
@@ -149,11 +215,16 @@ public class GtnWsReportDashboardFilterOptionService {
 
 	public String getQueryForLoadingFilterDdlb(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
-				"http://localhost:8085/GTNWebServices/GtnHierarchyQueryGenerator/reportLoadMultiselectDdlb",
-				gtnUIFrameworkWebserviceRequest,
-				getGsnWsSecurityToken(gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId(),
-						gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getSessionId()));
+		/*
+		 * GtnUIFrameworkWebserviceResponse relationResponse =
+		 * client.callGtnWebServiceUrl(
+		 * "http://localhost:8085/GTNWebServices/GtnHierarchyQueryGenerator/reportLoadMultiselectDdlb",
+		 * gtnUIFrameworkWebserviceRequest,
+		 * getGsnWsSecurityToken(gtnUIFrameworkWebserviceRequest.
+		 * getGtnWsGeneralRequest().getUserId(),
+		 * gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getSessionId
+		 * ()));
+		 */
 		RestTemplate rest = new RestTemplate();
 		GtnUIFrameworkWebserviceResponse relationResponseTest = rest.postForObject(
 				"http://localhost:8085/GTNWebServices/GtnHierarchyQueryGenerator/reportLoadMultiselectDdlb",
@@ -173,18 +244,32 @@ public class GtnWsReportDashboardFilterOptionService {
 	private GtnForecastHierarchyInputBean createInputBean(GtnWsReportDataSelectionBean dataSelectionBean,
 			GtnWsReportDashboardFilterBean filterBean) {
 		GtnForecastHierarchyInputBean forecastInputBean = new GtnForecastHierarchyInputBean();
-		forecastInputBean.setLevelNo(filterBean.getCustomerLevelNo());
-		forecastInputBean.setHierarchyDefinitionSid((int) dataSelectionBean.getCustomerHierarchySid());
-		forecastInputBean.setHierarchyVersionNo(dataSelectionBean.getCustomerHierarchyVersionNo());
-		forecastInputBean.setHierarchyIndicator(filterBean.getHierarchyType());
+		if (filterBean.getHierarchyType().equals("C")) {
+			forecastInputBean.setLevelNo(filterBean.getCustomerLevelNo());
+			forecastInputBean.setHierarchyDefinitionSid((int) dataSelectionBean.getCustomerHierarchySid());
+			forecastInputBean.setHierarchyVersionNo(dataSelectionBean.getCustomerHierarchyVersionNo());
+			forecastInputBean.setHierarchyIndicator(filterBean.getHierarchyType());
+		} else {
+			forecastInputBean.setLevelNo(filterBean.getProductLevelNo());
+			forecastInputBean.setHierarchyDefinitionSid((int) dataSelectionBean.getProductHierarchySid());
+			forecastInputBean.setHierarchyVersionNo(dataSelectionBean.getProductHierarchyVersionNo());
+			forecastInputBean.setHierarchyIndicator(filterBean.getHierarchyType());
+		}
 		return forecastInputBean;
 	}
 
 	@SuppressWarnings("unchecked")
 	public String isDefinedLevel(GtnWsReportDataSelectionBean dataSelectionBean,
 			GtnWsReportDashboardFilterBean filterBean) throws GtnFrameworkGeneralException {
-		int hierarchyDefinitionSid = (int) dataSelectionBean.getCustomerHierarchySid();
-		int levelNo = filterBean.getCustomerLevelNo();
+		int hierarchyDefinitionSid = 0;
+		int levelNo = 0;
+		if (filterBean.getHierarchyType().equals("C")) {
+			hierarchyDefinitionSid = (int) dataSelectionBean.getCustomerHierarchySid();
+			levelNo = filterBean.getCustomerLevelNo();
+		} else {
+			hierarchyDefinitionSid = (int) dataSelectionBean.getProductHierarchySid();
+			levelNo = filterBean.getProductLevelNo();
+		}
 		Object[] params = { hierarchyDefinitionSid, levelNo };
 		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
 		List<String> userDefinedList = (List<String>) gtnSqlQueryEngine.executeSelectQuery(
@@ -192,4 +277,8 @@ public class GtnWsReportDashboardFilterOptionService {
 		return userDefinedList.get(0);
 	}
 
+	public List<Object[]> loadDeductionFilter(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		return null;
+
+	}
 }
