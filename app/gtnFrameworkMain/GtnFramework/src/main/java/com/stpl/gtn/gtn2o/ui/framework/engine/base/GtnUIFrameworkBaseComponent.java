@@ -378,7 +378,7 @@ public class GtnUIFrameworkBaseComponent {
 
 	}
 
-	public void addAllItemsToMultiSelect(List<String> valueList, List<String> idList)
+	public void addAllItemsToMultiSelect(List<String> valueList, List idList)
 			throws GtnFrameworkValidationFailedException {
 		try {
 			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
@@ -390,7 +390,7 @@ public class GtnUIFrameworkBaseComponent {
 				String defaultValue = comboboxConfig.getDefaultValue() != null
 						? String.valueOf(comboboxConfig.getDefaultValue())
 						: GtnFrameworkCommonStringConstants.SELECT_ONE;
-				idList.add(0, "0");
+				idList.add(0, 0);
 				valueList.add(0, defaultValue);
 				vaadinMultiSelect.setValue(new HashSet<>(Arrays.asList(defaultValue)));
 			} else {
@@ -407,7 +407,7 @@ public class GtnUIFrameworkBaseComponent {
 		}
 	}
 
-	public void addAllItemsToComboBox(List<String> valueList, List<Object> idList)
+	public void addAllItemsToComboBox(List<String> valueList, List idList)
 			throws GtnFrameworkValidationFailedException {
 		try {
 			com.vaadin.ui.ComboBox vaadinComboBox = (com.vaadin.ui.ComboBox) this.getComponent();

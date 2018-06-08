@@ -53,7 +53,7 @@ public class GtnReportLevelFilterReloadAction
 
 		GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)))
-				.addAllItemsToMultiSelect(comboBoxResponse.getItemValueList(), comboBoxResponse.getItemCodeList());
+				.addAllItemsToComboBox(comboBoxResponse.getItemValueList(), comboBoxResponse.getItemCodeList());
 	}
 
 	@Override
