@@ -302,16 +302,16 @@ public class FileManagementLogic {
 		final Order defaultOrder = OrderFactoryUtil.desc(ConstantsUtils.CREATE_DATE);
 		dynamicQuery.addOrder(defaultOrder);
 		Criterion criterion;
-		final Criterion Criteria = RestrictionsFactoryUtil.eq(StringConstantUtils.FILE_TYPE, fileType.getId());
+		final Criterion criteria = RestrictionsFactoryUtil.eq(StringConstantUtils.FILE_TYPE, fileType.getId());
 		if (ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription())) {
 			final Criterion criterion1 = RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FORE_SIGHT);
 			final Criterion criterion2 = RestrictionsFactoryUtil.or(criterion1,
 					RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.LE_FORESIGHT));
 			criterion = RestrictionsFactoryUtil.and(RestrictionsFactoryUtil.or(criterion2,
-					RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FF_SALES)), Criteria);
+					RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FF_SALES)), criteria);
 			dynamicQuery.add(criterion);
 		} else {
-			dynamicQuery.add(Criteria);
+			dynamicQuery.add(criteria);
 		}
 		if ((fileMgtDTO.getBusinessUnitSysId()) != 0) {
 			dynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantUtils.BUSINESS_UNIT,
@@ -358,6 +358,9 @@ public class FileManagementLogic {
 	public FileManagementDTO getCurrentFileInfo(final HelperDTO fileType, String businessUnit,
 			Object companyMasterSystemId) throws SystemException {
 
+		if(fileType==null) {
+			return null;
+		}
 		final FileManagementDTO fileMgtDTO = new FileManagementDTO();
 		LOGGER.debug("getCurrentFileInfo started with P1:String fileType= {}, Business Unit= {}" , fileType, businessUnit);
 		List<FileManagement> resultsList;
@@ -1090,13 +1093,13 @@ public class FileManagementLogic {
 				|| ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL.equals(fileType.getDescription())
 				|| ConstantsUtils.ADJUSTED_DEMAND.equals(fileType.getDescription())) {
 			criterion = criteria;
-		} else if (ConstantsUtils.CUSTOMERGTS.equals(fileType.getDescription())) {
+		} else if (ConstantsUtils.CUSTOMERGTS.equals(fileType.getDescription()) && ConstantsUtils.COUNTRY_US.equals(country)) {
 			criterion = criteria;
 
 		} else {
 			criterion = NULLCREATION;
 		}
-		projectionDynamicQuery.add(criterion);
+                projectionDynamicQuery.add(criterion);
 		if (businessUnit != null && !businessUnit.isEmpty() && !businessUnit.equalsIgnoreCase("null")
 				&& !businessUnit.equalsIgnoreCase("0")) {
 			projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantUtils.BUSINESS_UNIT, businessUnit));
@@ -2301,14 +2304,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			String outerSize = String.valueOf(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			String outerSize = String.valueOf(innerArray[0]);
 			int innerSize;
 			for (int i = 1; i <= Integer.parseInt(outerSize); i++) {
 				if (Integer.parseInt(versionArray[0]) > Integer.parseInt(outerSize)) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = 0; j <= innerSize; j++) {
 					String version = String.valueOf(i);
@@ -2444,14 +2447,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			int outerSize = Integer.parseInt(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			int outerSize = Integer.parseInt(innerArray[0]);
 			int innerSize;
 			for (int i = 1; i <= outerSize; i++) {
 				if (Integer.parseInt(versionArray[0]) > outerSize) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = 0; j <= innerSize; j++) {
 
@@ -2584,14 +2587,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(" INW.FORECAST_VER in  ('" + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			int outerSize = Integer.parseInt(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			int outerSize = Integer.parseInt(innerArray[0]);
 			int innerSize;
 			for (int i = x; i <= outerSize; i++) {
 				if (Integer.parseInt(versionArray[0]) > outerSize) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = y; j <= innerSize; j++) {
 					if (j == innerSize && j != NumericConstants.NINE) {
@@ -2721,14 +2724,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(" INW.FORECAST_VER in  ('" + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			int outerSize = Integer.parseInt(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			int outerSize = Integer.parseInt(innerArray[0]);
 			int innerSize;
 			for (int i = x; i <= outerSize; i++) {
 				if (Integer.parseInt(versionArray[0]) > outerSize) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = y; j <= innerSize; j++) {
 					if (j == innerSize && j != NumericConstants.NINE) {
@@ -2938,14 +2941,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			int outerSize = Integer.parseInt(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			int outerSize = Integer.parseInt(innerArray[0]);
 			int innerSize;
 			for (int i = 1; i <= outerSize; i++) {
 				if (Integer.parseInt(versionArray[0]) > outerSize) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = 0; j <= innerSize; j++) {
 
@@ -3354,14 +3357,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			String outerSize = String.valueOf(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			String outerSize = String.valueOf(innerArray[0]);
 			int innerSize;
 			for (int i = 1; i <= Integer.parseInt(outerSize); i++) {
 				if (Integer.parseInt(versionArray[0]) > Integer.parseInt(outerSize)) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = 0; j <= innerSize; j++) {
 					String version = String.valueOf(i);
@@ -3501,14 +3504,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			int outerSize = Integer.parseInt(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			int outerSize = Integer.parseInt(innerArray[0]);
 			int innerSize;
 			for (int i = 1; i <= outerSize; i++) {
 				if (Integer.parseInt(versionArray[0]) > outerSize) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = 0; j <= innerSize; j++) {
 
@@ -3649,14 +3652,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(" INW.FORECAST_VER in ('" + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			int outerSize = Integer.parseInt(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			int outerSize = Integer.parseInt(innerArray[0]);
 			int innerSize;
 			for (int i = x; i <= outerSize; i++) {
 				if (Integer.parseInt(versionArray[0]) > outerSize) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = y; j <= innerSize; j++) {
 					if (j == innerSize && j != NumericConstants.NINE) {
@@ -3791,14 +3794,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(" INW.FORECAST_VER in ('" + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			int outerSize = Integer.parseInt(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			int outerSize = Integer.parseInt(innerArray[0]);
 			int innerSize;
 			for (int i = x; i <= outerSize; i++) {
 				if (Integer.parseInt(versionArray[0]) > outerSize) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = y; j <= innerSize; j++) {
 					if (j == innerSize && j != NumericConstants.NINE) {
@@ -3925,14 +3928,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
 					.concat(StringConstantUtils.DFFORECAST_VER_IN + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			int outerSize = Integer.parseInt(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			int outerSize = Integer.parseInt(innerArray[0]);
 			int innerSize;
 			for (int i = 1; i <= outerSize; i++) {
 				if (Integer.parseInt(versionArray[0]) > outerSize) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = 0; j <= innerSize; j++) {
 

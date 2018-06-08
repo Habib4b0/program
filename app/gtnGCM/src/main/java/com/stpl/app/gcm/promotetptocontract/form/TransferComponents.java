@@ -754,8 +754,8 @@ public class TransferComponents extends CustomComponent implements View {
                         for (Object item : returnList) {
                             Boolean checked = (Boolean) transferCompContainer1.getContainerProperty(item, Constants.CHECK_RECORD).getValue();
                             if (checked) {
-                                String ifpId = String.valueOf(transferCompContainer1.getContainerProperty(item, "ifpContSid").getValue());
-                                setA.add(ifpId);
+                                String ifpID = String.valueOf(transferCompContainer1.getContainerProperty(item, "ifpContSid").getValue());
+                                setA.add(ifpID);
                             }
                         }
 
@@ -811,8 +811,8 @@ public class TransferComponents extends CustomComponent implements View {
                         for (Object item : returnList) {
                             Boolean checked = (Boolean) transferCompContainer1.getContainerProperty(item, Constants.CHECK_RECORD).getValue();
                             if (checked) {
-                                String psId = String.valueOf(transferCompContainer1.getContainerProperty(item, Constants.PS_CONT_SID).getValue());
-                                setA.add(psId);
+                                String psID = String.valueOf(transferCompContainer1.getContainerProperty(item, Constants.PS_CONT_SID).getValue());
+                                setA.add(psID);
                             }
                         }
                         List<String> tmp = new ArrayList<>();
@@ -993,14 +993,14 @@ public class TransferComponents extends CustomComponent implements View {
                 }
 
             } else if (level.equals(Constants.TWO) || level.equals(Constants.THREE) || level.equals(Constants.FOUR)) {
-                String ifpId = String.valueOf(contractDashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
+                String ifpID = String.valueOf(contractDashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
                 String componentQuery = Constants.EMPTY;
                 if (level.equals(Constants.TWO)) {
-                    componentQuery = queryUtils.getItemMasterDetails(ifpId);
+                    componentQuery = queryUtils.getItemMasterDetails(ifpID);
                 } else if (level.equals(Constants.THREE)) {
-                    componentQuery = queryUtils.getPSDetails(ifpId);
+                    componentQuery = queryUtils.getPSDetails(ifpID);
                 } else if (level.equals(Constants.FOUR)) {
-                    componentQuery = queryUtils.getRSDetails(ifpId);
+                    componentQuery = queryUtils.getRSDetails(ifpID);
                 }
                 LOGGER.debug(" Populate button query 2 {} " , componentQuery);
                 List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);

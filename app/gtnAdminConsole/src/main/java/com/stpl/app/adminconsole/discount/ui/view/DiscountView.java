@@ -32,14 +32,9 @@ public class DiscountView extends VerticalLayout implements View{
       /**
      * The selected results bean.
      */
-    private BeanItemContainer<DiscountSearchDTO> resultsBean = new BeanItemContainer<>(DiscountSearchDTO.class);
-    
-     /**
-     * The DiscountLogic.
-     */
-    private DiscountLogic logic=new DiscountLogic();
-    
-        /**
+    private BeanItemContainer<DiscountSearchDTO> resultsBean = new BeanItemContainer<>(DiscountSearchDTO.class);  
+     
+    /**
      * The itemGroupDTO.
      */
     private DiscountSearchDTO deductionGroupDTO = new DiscountSearchDTO(); 

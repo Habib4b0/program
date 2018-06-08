@@ -114,6 +114,10 @@ and open the template in the editor.
                             <!--            <Label caption="" contentMode="HTML" styleName="adjust"/>	 -->
                             <Label caption="Product Group:" contentMode="HTML"  width="110px" />
                             <b:CustomTextField id="productGP" styleName="searchText" inputPrompt="" />
+                            <Label id ="customRelation" caption="Sales Custom View:" contentMode="HTML" width="100px"  ></Label>
+                            <ComboBox id="customRelationDdlb" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
+                            <Label id ="customRelationDiscount" caption="Deduction Custom View:" contentMode="HTML" width="100px"  ></Label>
+                            <ComboBox id="customRelationDdlbDeduction" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
                             <Label id ="productRelationVersionLabel" caption="Relationship version:" contentMode="HTML" width="100px"  ></Label>
                             <ComboBox id="productRelationVersion" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
                         </GridLayout>    

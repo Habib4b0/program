@@ -82,7 +82,8 @@ public class GtnUIFrameworkActionExecutor {
 			} else {
 				actionObj = gtnUIFrameWorkActionMap.get(className);
 			}
-
+			
+			gtnUIFrameWorkActionMap.clear();
 			long startTime = beforeAction(actionConfig);
 
 			actionObj.configureParams(actionConfig);

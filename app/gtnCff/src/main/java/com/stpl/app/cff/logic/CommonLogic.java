@@ -1390,8 +1390,8 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         return user;
     }
 
-    public static String getCCPWhereConditionQuery(String projectionDetails, String CCP) {
-        String ccpWhereCond = StringConstantsUtil.SMALL_AND + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
+    public static String getCCPWhereConditionQuery(String projectionDetails, String ccp) {
+        String ccpWhereCond = StringConstantsUtil.SMALL_AND + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
         return ccpWhereCond;
     }
 
@@ -2878,23 +2878,23 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
                     udcJoinClause=StringUtils.EMPTY;
                     break;
                 case 4:
-                    joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC1 AND HT.HELPER_TABLE_SID <> 0 ";
+                    joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC1 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC1'";
                     break;
 
                 case 5:
-                    joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC2 AND HT.HELPER_TABLE_SID <> 0 ";
+                    joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC2 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC2'";
                     break;
                 case 6:
-                    joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC3 AND HT.HELPER_TABLE_SID <> 0 ";
+                    joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC3 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC3'";
                     break;
                 case 7:
-                    joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC4 AND HT.HELPER_TABLE_SID <> 0 ";
+                    joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC4 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC4'";
                     break;
                 case 8:
-                    joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC5 AND HT.HELPER_TABLE_SID <> 0 ";
+                    joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC5 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC5'";
                     break;
                 case 9:
-                    joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC6 AND HT.HELPER_TABLE_SID <> 0 ";
+                    joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC6 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC6'";
                     break;
                 case 10:
                     selectClause = " RS.RS_ID,RS.RS_NAME,RS.RS_CONTRACT_SID ";
@@ -3106,7 +3106,6 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     }
     
      public static void loadCustomMenuBarFoScheduleID(List<Object[]> listOfLevelFilter,CustomMenuBar.CustomMenuItem filterValues) throws IllegalStateException {
-        String newLevel=StringUtils.EMPTY;
         String oldLevel = StringUtils.EMPTY;
         String listOfSids = StringUtils.EMPTY;
         CustomMenuBar.CustomMenuItem[] customerlevelCustomItem = new CustomMenuBar.CustomMenuItem[listOfLevelFilter.size()];
@@ -3120,7 +3119,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
             Object[] obj = listOfLevelFilter.get(i);
             String firstIndex = obj[0].toString();
             String secondIndex = obj[1].toString();
-            newLevel = firstIndex + " - " + secondIndex;
+            String newLevel = firstIndex + " - " + secondIndex;
          
                 if (i != 1) {
                     dto = new MenuItemDTO(listOfSids, oldLevel);

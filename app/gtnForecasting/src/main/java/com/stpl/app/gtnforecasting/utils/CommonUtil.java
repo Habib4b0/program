@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -19,9 +20,12 @@ import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.util.service.thread.ThreadPool;
+import com.stpl.app.utils.QueryUtils;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.ifs.util.QueryUtil;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -34,7 +38,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
@@ -66,6 +72,7 @@ public class CommonUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
     public static final String COMMA=",";
+    private ExecutorService service = ThreadPool.getInstance().getService();
 
     /**
      * Instantiates a new common util.
@@ -417,6 +424,22 @@ public class CommonUtil {
                         Thread.currentThread().setName(Constant.DISCOUNT_LIST_VIEW_SAVE);
                         ((NMDiscountProjection) inputs[1]).saveDiscountProjectionScreen(false);
                         break;
+                    case Constant.PRC_VIEWS_CALL:
+                        Thread.currentThread().setName(inputs[1].toString());
+                        new DataSelectionLogic().callViewInsertProcedureForNm((SessionDTO)inputs[NumericConstants.SEVEN], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,String.valueOf(inputs[6]));
+                        break;
+                    case Constant.FUNCTION_PRC_VIEWS_CALL:
+                        Thread.currentThread().setName(inputs[1].toString());
+                        new DataSelectionLogic().callViewInsertProcedures((SessionDTO)inputs[NumericConstants.ONE],inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,String.valueOf(inputs[5]) ,inputs[6].toString());
+                        break;
+                    case Constant.DISCOUNT_MASTER:
+                         Thread.currentThread().setName(inputs[1].toString());
+                         new DataSelectionLogic().callInsertProcedureForNmDiscountMaster(Integer.parseInt(inputs[NumericConstants.TWO].toString()),(SessionDTO)inputs[NumericConstants.SIX], inputs[1].toString() ,inputs[NumericConstants.FIVE].toString());
+                         break;
+                    case Constant.CUST_VIEW_MAP_QUERY:
+                         Thread.currentThread().setName(inputs[0].toString());
+                         new DataSelectionLogic().callForDeductionLevelMapQuery((SessionDTO)inputs[NumericConstants.ONE]);
+                         break;
                     default:
                         break;
                 }
@@ -424,8 +447,8 @@ public class CommonUtil {
         };
         return runnable;
     }
-     
-     
+    
+    
     /**
      * Used to wait for the Data Selection thread(Once the Data Selection tab is
      * loaded screen will be visible to the user).
@@ -556,7 +579,7 @@ public class CommonUtil {
     private static String setLevelNameValues(int index, List<Object> levelName, Object[] displayFormatIndex) {
         String formattedName = StringUtils.EMPTY;
         int indexFrom = (int) displayFormatIndex[index];
-        Object value = levelName.get(indexFrom + 1);
+        Object value = levelName.get(indexFrom);
         if (!getLevelName(value)) {
             if (index != 0) {
                 formattedName += " - ";
@@ -719,12 +742,7 @@ public class CommonUtil {
 	public static String getParentItemId(String key, boolean isCustomHierarchy, String parentHierarchyNo) {
 		String parentKey;
 
-		if (!isCustomHierarchy) {
 			parentKey = key.substring(0, key.lastIndexOf('.'));
-		} else {
-			parentKey = getParentHierarchyNumber(parentHierarchyNo, key);
-
-		}
 		if (parentKey.lastIndexOf('.') >= 0) {
 			parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
 		}
@@ -735,9 +753,11 @@ public class CommonUtil {
     private static String setLevelNameValuesForDP(int index, List<Object> levelNameList, Object[] displayFormatIndex) {
         String formattedNameValue = StringUtils.EMPTY;
         int fromIndex = (int) displayFormatIndex[index];
+        if(fromIndex<=0){
         Object objValue = levelNameList.get(fromIndex + 1);
         if (!getLevelName(objValue)) {
             formattedNameValue = String.valueOf(objValue);
+        }
         }
         return formattedNameValue;
     }
@@ -761,8 +781,41 @@ public class CommonUtil {
             }
         } catch (Exception ex) {
             logger.error(ex.getMessage());
+            logger.info(ex.getMessage(),ex);
         }
         return formattedNameList;
     }
     
+      public void isProcedureCompleted(String screenName, String viewName, SessionDTO session) {
+        List inputList = new ArrayList<>();
+        inputList.add(screenName);
+        inputList.add(viewName);
+        List resultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(inputList, "getProcedureStatus"), session.getCurrentTableNames()));
+        for (int i = 0; i < resultList.size(); i++) {
+            Object[] obj = (Object[]) resultList.get(i);
+            if (!"C".equalsIgnoreCase((String.valueOf(obj[2])).trim())) {
+                waitForSeconds();
+                isProcedureCompleted(String.valueOf(obj[0]), String.valueOf(obj[1]), session);
+            } else {
+                return ;
+            }
+        }
+        return ;
+    }
+    
+    public void waitForSeconds() {
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException ex) {
+            LOGGER.error( "Interrupted!", ex);
+            Thread.currentThread().interrupt();
+        }
+    }
+    
+    public void updateStatusTable(String screenName, SessionDTO session, String viewName) {
+        List inputList = new ArrayList<>();
+        inputList.add(screenName);
+        inputList.add(viewName);
+        HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(inputList, "updateStatusTable"), session.getCurrentTableNames()));
+    }
 }

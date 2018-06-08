@@ -881,8 +881,8 @@ public class FileManagementLookup extends Window {
 								return;
 							}
 							if (fieldName.getValue().equals(ConstantsUtils.CAPS_MONTH)) {
-								int forecastMonth = Integer.parseInt(value.getValue());
-								if (forecastMonth > NumericConstants.TWELVE) {
+								int foreCastMonth = Integer.parseInt(value.getValue());
+								if (foreCastMonth > NumericConstants.TWELVE) {
 									AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
 											"Please Enter Valid Month");
 									return;
@@ -964,8 +964,8 @@ public class FileManagementLookup extends Window {
 												.setValue(value.getValue());
 									}
 								} else if (fieldName.getValue().equals(ConstantsUtils.CAPS_MONTH)) {
-									int forecastMonth = Integer.parseInt(value.getValue());
-									if (forecastMonth > NumericConstants.TWELVE) {
+									int foreCastMonth = Integer.parseInt(value.getValue());
+									if (foreCastMonth > NumericConstants.TWELVE) {
 										AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
 												"Please Enter Valid ");
 									}
@@ -2026,28 +2026,28 @@ public class FileManagementLookup extends Window {
 				String month = beanItem.getMonth();
 				String itemName = beanItem.getItemName();
 				String forecastType = beanItem.getForecastType();
-				String forecastYear = beanItem.getForcastYear();
-				String forecastMonth = beanItem.getForecastMonth();
-				String companyId = beanItem.getCompanyId();
-				String itemId = beanItem.getItemId();
+				String foreCastYear = beanItem.getForcastYear();
+				String foreCastMonth = beanItem.getForecastMonth();
+				String compId = beanItem.getCompanyId();
+				String itemID = beanItem.getItemId();
 				String organisationKey = beanItem.getOrganizationKey();
-				String batchId = beanItem.getBatchId();
+				String batchID = beanItem.getBatchId();
 				String week = beanItem.getWeek();
 				String day = beanItem.getDay();
 				for (int j = i + 1; j < itemIds.size(); j++) {
-					final FileMananagementResultDTO dto = itemIds.get(j);
-					String currentYear = dto.getYear();
-					String currentMonth = dto.getMonth();
-					String currentItemName = dto.getItemName();
-					String currentForecastType = dto.getForecastType();
-					String currentForecastYear = dto.getForcastYear();
-					String currentForecastMonth = dto.getForecastMonth();
-					String currentCompanyId = dto.getCompanyId();
-					String currentItemId = dto.getItemId();
-					String currentOrganisationKey = dto.getOrganizationKey();
-					String currentBatchId = dto.getBatchId();
-					String currentWeek = dto.getWeek();
-					String currentDay = dto.getDay();
+					final FileMananagementResultDTO fileManagementResultDTO = itemIds.get(j);
+					String currentYear = fileManagementResultDTO.getYear();
+					String currentMonth = fileManagementResultDTO.getMonth();
+					String currentItemName = fileManagementResultDTO.getItemName();
+					String currentForecastType = fileManagementResultDTO.getForecastType();
+					String currentForecastYear = fileManagementResultDTO.getForcastYear();
+					String currentForecastMonth = fileManagementResultDTO.getForecastMonth();
+					String currentCompanyId = fileManagementResultDTO.getCompanyId();
+					String currentItemId = fileManagementResultDTO.getItemId();
+					String currentOrganisationKey = fileManagementResultDTO.getOrganizationKey();
+					String currentBatchId = fileManagementResultDTO.getBatchId();
+					String currentWeek = fileManagementResultDTO.getWeek();
+					String currentDay = fileManagementResultDTO.getDay();
 					if (year.equals(currentYear)
 							&& (CommonUtil.getSelectedFileType(fmFileType).getDescription()
 									.equals(ConstantsUtils.EX_FACTORY_SALES))
@@ -2061,8 +2061,8 @@ public class FileManagementLookup extends Window {
 									.equals(ConstantsUtils.DEMAND))
 							|| CommonUtil.getSelectedFileType(fmFileType).getDescription()
 									.equals(ConstantsUtils.ADJUSTED_DEMAND))
-							&& currentForecastYear.equals(forecastYear) && currentForecastMonth.equals(forecastMonth)
-							&& currentItemId.equals(itemId) && currentOrganisationKey.equals(organisationKey)) {
+							&& currentForecastYear.equals(foreCastYear) && currentForecastMonth.equals(foreCastMonth)
+							&& currentItemId.equals(itemID) && currentOrganisationKey.equals(organisationKey)) {
 						AbstractNotificationUtils.getErrorNotification(CommonUtils.DETAILS_ERROR,
 								StringConstantUtils.UNIQUE_COMBINATION_ERROR);
 						return;
@@ -2070,8 +2070,8 @@ public class FileManagementLookup extends Window {
 					if (currentForecastType.equals(forecastType)
 							&& CommonUtil.getSelectedFileType(fmFileType).getDescription()
 									.equals(ConstantsUtils.CUSTOMERGTS)
-							&& currentForecastYear.equals(forecastYear) && currentForecastMonth.equals(forecastMonth)
-							&& currentItemId.equals(itemId) && currentOrganisationKey.equals(organisationKey)) {
+							&& currentForecastYear.equals(foreCastYear) && currentForecastMonth.equals(foreCastMonth)
+							&& currentItemId.equals(itemID) && currentOrganisationKey.equals(organisationKey)) {
 						AbstractNotificationUtils.getErrorNotification(CommonUtils.DETAILS_ERROR,
 								StringConstantUtils.UNIQUE_COMBINATION_ERROR);
 						return;
@@ -2080,7 +2080,7 @@ public class FileManagementLookup extends Window {
 							&& CommonUtil.getSelectedFileType(fmFileType).getDescription()
 									.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)
 							&& currentMonth.equals(month) && currentDay.equals(day) && currentWeek.equals(week)
-							&& currentItemId.equals(itemId) && currentBatchId.equals(batchId)
+							&& currentItemId.equals(itemID) && currentBatchId.equals(batchID)
 							&& currentOrganisationKey.equals(organisationKey)) {
 						AbstractNotificationUtils.getErrorNotification(CommonUtils.DETAILS_ERROR,
 								StringConstantUtils.UNIQUE_COMBINATION_ERROR);
@@ -2090,8 +2090,8 @@ public class FileManagementLookup extends Window {
 							&& CommonUtil.getSelectedFileType(fmFileType).getDescription()
 									.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)
 							&& currentMonth.equals(month) && currentDay.equals(day) && currentWeek.equals(week)
-							&& currentCompanyId.equals(companyId) && currentItemId.equals(itemId)
-							&& currentBatchId.equals(batchId) && currentOrganisationKey.equals(organisationKey)) {
+							&& currentCompanyId.equals(compId) && currentItemId.equals(itemID)
+							&& currentBatchId.equals(batchID) && currentOrganisationKey.equals(organisationKey)) {
 						AbstractNotificationUtils.getErrorNotification(CommonUtils.DETAILS_ERROR,
 								StringConstantUtils.UNIQUE_COMBINATION_ERROR);
 						return;
@@ -2356,7 +2356,7 @@ public class FileManagementLookup extends Window {
 											finalVersion = maxVersion;
 											finalVersion = finalVersion + "." + "1";
 										}
-										FileManagementLogic logic = new FileManagementLogic();
+										FileManagementLogic fileManagementLogic = new FileManagementLogic();
 										try {
 											String msg = "fail";
 											if (CommonUtil.getSelectedFileType(fmFileType).getDescription()
@@ -2369,12 +2369,12 @@ public class FileManagementLookup extends Window {
 															.equals(ConstantsUtils.CUSTOMERGTS)
 													|| CommonUtil.getSelectedFileType(fmFileType).getDescription()
 															.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-												msg = logic.saveForecastDetails(insertionItemIds, selectedFile,
+												msg = fileManagementLogic.saveForecastDetails(insertionItemIds, selectedFile,
 														selectedFileCountry, finalVersion, fileNameList.getValue(),
 														CommonUtil.getSelectedFileType(fmFileType), fmbusinessUnit);
 											} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription()
 													.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-												msg = logic.saveForecastDetails(itemIds, selectedFile,
+												msg = fileManagementLogic.saveForecastDetails(itemIds, selectedFile,
 														selectedFileCountry, finalVersion, fileNameList.getValue(),
 														CommonUtil.getSelectedFileType(fmFileType), fmbusinessUnit);
 											}
@@ -2833,8 +2833,8 @@ public class FileManagementLookup extends Window {
 					@Override
 					@SuppressWarnings("PMD")
 					public void itemClick(final ItemClickEvent event) {
-						FileMananagementResultDTO dto = (FileMananagementResultDTO) event.getItemId();
-						systemId = String.valueOf(dto.getForecastSystemId());
+						FileMananagementResultDTO fileManagementResultDto = (FileMananagementResultDTO) event.getItemId();
+						systemId = String.valueOf(fileManagementResultDto.getForecastSystemId());
 					}
 				});
 			}
@@ -2927,17 +2927,17 @@ public class FileManagementLookup extends Window {
 			@Override
 			public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
 					final Component uiContext) {
-				final FileMananagementResultDTO dto = (FileMananagementResultDTO) itemId;
-				final Boolean flag = dto.isRecordLockStatus();
-				final String interfaceFlag = dto.getInterfaceFlag();
+				final FileMananagementResultDTO fileManagementResultDTO = (FileMananagementResultDTO) itemId;
+				final Boolean flag = fileManagementResultDTO.isRecordLockStatus();
+				final String interfaceFlag = fileManagementResultDTO.getInterfaceFlag();
 				if (interfaceFlag.equals(ConstantsUtils.CHAR_N)) {
 					if (flag) {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {
-							final ExtCustomCheckBox select = new ExtCustomCheckBox();
-							select.setImmediate(true);
-							select.setEnabled(false);
-							setExtCustomCheckBoxValue(select, itemId);
-							return select;
+							final ExtCustomCheckBox extCustomCheckBoxSelect = new ExtCustomCheckBox();
+							extCustomCheckBoxSelect.setImmediate(true);
+							extCustomCheckBoxSelect.setEnabled(false);
+							setExtCustomCheckBoxValue(extCustomCheckBoxSelect, itemId);
+							return extCustomCheckBoxSelect;
 						}
 						if (propertyId.equals(ConstantsUtils.UNITS)) {
 							final TextField unit = new TextField();
@@ -2962,11 +2962,11 @@ public class FileManagementLookup extends Window {
 						}
 					} else {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {
-							final CheckBox select = new CheckBox();
-							select.setImmediate(true);
-							select.setEnabled(true);
-							setCheckBoxValue(select, itemId);
-							return select;
+							final CheckBox selectCheckBox = new CheckBox();
+							selectCheckBox.setImmediate(true);
+							selectCheckBox.setEnabled(true);
+							setCheckBoxValue(selectCheckBox, itemId);
+							return selectCheckBox;
 						}
 						if (propertyId.equals(ConstantsUtils.UNITS)) {
 							final TextField unit = new TextField();
@@ -3045,15 +3045,15 @@ public class FileManagementLookup extends Window {
 					}
 				} else {
 					if (propertyId.equals(ConstantsUtils.CHECK)) {
-						final CheckBox select = new CheckBox();
-						select.setImmediate(true);
-						select.setEnabled(true);
-						setCheckBoxValue(select, itemId);
-						select.addListener(new CheckBox.ValueChangeListener() {
+						final CheckBox selectCheckBox = new CheckBox();
+						selectCheckBox.setImmediate(true);
+						selectCheckBox.setEnabled(true);
+						setCheckBoxValue(selectCheckBox, itemId);
+						selectCheckBox.addListener(new CheckBox.ValueChangeListener() {
 
 							@Override
 							public void valueChange(Property.ValueChangeEvent event) {
-								if (select.getValue().equals(Boolean.FALSE)) {
+								if (selectCheckBox.getValue().equals(Boolean.FALSE)) {
 									detailsFilterTable.setColumnCheckBox(ConstantsUtils.CHECK, true, false);
 								} else {
 									List list = new ArrayList();
@@ -3070,7 +3070,7 @@ public class FileManagementLookup extends Window {
 								}
 							}
 						});
-						return select;
+						return selectCheckBox;
 					}
 
 					if (propertyId.equals(ConstantsUtils.UNITS)) {
@@ -3178,8 +3178,8 @@ public class FileManagementLookup extends Window {
 									month.setValue(ConstantsUtils.EMPTY);
 									return;
 								} else {
-									int forecastMonth = Integer.parseInt(enteredMonth);
-									if (forecastMonth > NumericConstants.TWELVE || forecastMonth == 0) {
+									int foreCastMonth = Integer.parseInt(enteredMonth);
+									if (foreCastMonth > NumericConstants.TWELVE || foreCastMonth == 0) {
 										AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
 												"Please Enter valid Month");
 										month.setValue(ConstantsUtils.EMPTY);
@@ -3272,9 +3272,9 @@ public class FileManagementLookup extends Window {
 					}
 
 					if (propertyId.equals(ConstantsUtils.START_DATE)) {
-						final PopupDateField startDate = new PopupDateField();
-						startDate.setImmediate(true);
-						return startDate;
+						final PopupDateField startDatePopUpDateField = new PopupDateField();
+						startDatePopUpDateField.setImmediate(true);
+						return startDatePopUpDateField;
 					}
 
 					if (propertyId.equals(ConstantsUtils.DOLLARS)) {
@@ -3297,17 +3297,17 @@ public class FileManagementLookup extends Window {
 			@Override
 			public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
 					final Component uiContext) {
-				final FileMananagementResultDTO dto = (FileMananagementResultDTO) itemId;
-				final Boolean flag = dto.isRecordLockStatus();
-				final String interfaceFlag = dto.getInterfaceFlag();
+				final FileMananagementResultDTO fileManagementResultDTO = (FileMananagementResultDTO) itemId;
+				final Boolean flag = fileManagementResultDTO.isRecordLockStatus();
+				final String interfaceFlag = fileManagementResultDTO.getInterfaceFlag();
 				if (ConstantsUtils.CHAR_N.equals(interfaceFlag)) {
 					if (flag) {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {
-							final ExtCustomCheckBox select = new ExtCustomCheckBox();
-							select.setImmediate(true);
-							select.setEnabled(false);
-							setExtCustomCheckBoxValue(select, itemId);
-							return select;
+							final ExtCustomCheckBox selectExtCustomCheckBox = new ExtCustomCheckBox();
+							selectExtCustomCheckBox.setImmediate(true);
+							selectExtCustomCheckBox.setEnabled(false);
+							setExtCustomCheckBoxValue(selectExtCustomCheckBox, itemId);
+							return selectExtCustomCheckBox;
 						}
 						if (propertyId.equals(StringConstantUtils.FORECAST_TYPE_PROPERTY)) {
 							final TextField forecastType = new TextField();
@@ -3317,18 +3317,18 @@ public class FileManagementLookup extends Window {
 							return forecastType;
 						}
 						if (propertyId.equals(StringConstantUtils.FORCAST_YEAR)) {
-							final TextField forecastYear = new TextField();
-							forecastYear.setImmediate(true);
-							forecastYear.setReadOnly(true);
-							forecastYear.setEnabled(false);
-							return forecastYear;
+							final TextField forecastYearTextField = new TextField();
+							forecastYearTextField.setImmediate(true);
+							forecastYearTextField.setReadOnly(true);
+							forecastYearTextField.setEnabled(false);
+							return forecastYearTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.FORECAST_MONTH_PROPERTY)) {
-							final TextField forecastMonth = new TextField();
-							forecastMonth.setImmediate(true);
-							forecastMonth.setReadOnly(true);
-							forecastMonth.setEnabled(false);
-							return forecastMonth;
+							final TextField forecastMonthTextField = new TextField();
+							forecastMonthTextField.setImmediate(true);
+							forecastMonthTextField.setReadOnly(true);
+							forecastMonthTextField.setEnabled(false);
+							return forecastMonthTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.ITEM_ID)) {
 							final TextField itemIde = new TextField();
@@ -3476,11 +3476,11 @@ public class FileManagementLookup extends Window {
 							return netSalesAmount;
 						}
 						if (propertyId.equals(StringConstantUtils.BATCH_ID)) {
-							final TextField batchId = new TextField();
-							batchId.setImmediate(true);
-							batchId.setReadOnly(true);
-							batchId.setEnabled(false);
-							return batchId;
+							final TextField batchIdTextField = new TextField();
+							batchIdTextField.setImmediate(true);
+							batchIdTextField.setReadOnly(true);
+							batchIdTextField.setEnabled(false);
+							return batchIdTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.SOURCE_PROPERTY)) {
 							final TextField source = new TextField();
@@ -3490,69 +3490,69 @@ public class FileManagementLookup extends Window {
 							return source;
 						}
 						if (propertyId.equals(StringConstantUtils.FORECAST_NAME_PROPERTY)) {
-							final TextField forecastName = new TextField();
-							forecastName.setImmediate(true);
-							forecastName.setReadOnly(true);
-							forecastName.setEnabled(false);
-							return forecastName;
+							final TextField forecastNameTextField = new TextField();
+							forecastNameTextField.setImmediate(true);
+							forecastNameTextField.setReadOnly(true);
+							forecastNameTextField.setEnabled(false);
+							return forecastNameTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.FORECAST_VERSION_PROPERTY)) {
-							final TextField forecastVersion = new TextField();
-							forecastVersion.setImmediate(true);
-							forecastVersion.setReadOnly(true);
-							forecastVersion.setEnabled(false);
-							return forecastVersion;
+							final TextField forecastVersionTextField = new TextField();
+							forecastVersionTextField.setImmediate(true);
+							forecastVersionTextField.setReadOnly(true);
+							forecastVersionTextField.setEnabled(false);
+							return forecastVersionTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.COUNTRY)) {
-							final TextField country = new TextField();
-							country.setImmediate(true);
-							country.setReadOnly(true);
-							country.setEnabled(false);
-							return country;
+							final TextField countryTextField = new TextField();
+							countryTextField.setImmediate(true);
+							countryTextField.setReadOnly(true);
+							countryTextField.setEnabled(false);
+							return countryTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.ORGANIZATION_KEY)) {
-							final TextField organizationKey = new TextField();
-							organizationKey.setImmediate(true);
-							organizationKey.setReadOnly(true);
-							organizationKey.setEnabled(false);
-							return organizationKey;
+							final TextField organizationKeyTextField = new TextField();
+							organizationKeyTextField.setImmediate(true);
+							organizationKeyTextField.setReadOnly(true);
+							organizationKeyTextField.setEnabled(false);
+							return organizationKeyTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.UNCAPTURED_UNITS)) {
-							final TextField uncapturedUnits = new TextField();
-							uncapturedUnits.setImmediate(true);
-							uncapturedUnits.setReadOnly(true);
-							uncapturedUnits.setEnabled(false);
-							return uncapturedUnits;
+							final TextField uncapturedUnitsTextField = new TextField();
+							uncapturedUnitsTextField.setImmediate(true);
+							uncapturedUnitsTextField.setReadOnly(true);
+							uncapturedUnitsTextField.setEnabled(false);
+							return uncapturedUnitsTextField;
 						}
 
 					} else {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {
-							final ExtCustomCheckBox select = new ExtCustomCheckBox();
-							select.setImmediate(true);
-							select.setEnabled(true);
-							setExtCustomCheckBoxValue(select, itemId);
-							return select;
+							final ExtCustomCheckBox selectExtCustomCheckBox = new ExtCustomCheckBox();
+							selectExtCustomCheckBox.setImmediate(true);
+							selectExtCustomCheckBox.setEnabled(true);
+							setExtCustomCheckBoxValue(selectExtCustomCheckBox, itemId);
+							return selectExtCustomCheckBox;
 						}
 						if (propertyId.equals(StringConstantUtils.FORECAST_TYPE_PROPERTY)) {
-							final TextField forecastType = new TextField();
-							forecastType.setImmediate(true);
-							forecastType.setReadOnly(true);
-							forecastType.setEnabled(false);
-							return forecastType;
+							final TextField forecastTypeTextField = new TextField();
+							forecastTypeTextField.setImmediate(true);
+							forecastTypeTextField.setReadOnly(true);
+							forecastTypeTextField.setEnabled(false);
+							return forecastTypeTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.FORCAST_YEAR)) {
-							final TextField forecastYear = new TextField();
-							forecastYear.setImmediate(true);
-							forecastYear.setReadOnly(true);
-							forecastYear.setEnabled(false);
-							return forecastYear;
+							final TextField forecastYearTextField = new TextField();
+							forecastYearTextField.setImmediate(true);
+							forecastYearTextField.setReadOnly(true);
+							forecastYearTextField.setEnabled(false);
+							return forecastYearTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.FORECAST_MONTH_PROPERTY)) {
-							final TextField forecastMonth = new TextField();
-							forecastMonth.setImmediate(true);
-							forecastMonth.setReadOnly(true);
-							forecastMonth.setEnabled(false);
-							return forecastMonth;
+							final TextField forecastMonthTextField = new TextField();
+							forecastMonthTextField.setImmediate(true);
+							forecastMonthTextField.setReadOnly(true);
+							forecastMonthTextField.setEnabled(false);
+							return forecastMonthTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.ITEM_ID)) {
 							final TextField itemIde = new TextField();
@@ -3700,11 +3700,11 @@ public class FileManagementLookup extends Window {
 							return netSalesAmount;
 						}
 						if (propertyId.equals(StringConstantUtils.BATCH_ID)) {
-							final TextField batchId = new TextField();
-							batchId.setImmediate(true);
-							batchId.setReadOnly(true);
-							batchId.setEnabled(false);
-							return batchId;
+							final TextField batchIdTextField = new TextField();
+							batchIdTextField.setImmediate(true);
+							batchIdTextField.setReadOnly(true);
+							batchIdTextField.setEnabled(false);
+							return batchIdTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.SOURCE_PROPERTY)) {
 							final TextField source = new TextField();
@@ -3714,25 +3714,25 @@ public class FileManagementLookup extends Window {
 							return source;
 						}
 						if (propertyId.equals(StringConstantUtils.FORECAST_NAME_PROPERTY)) {
-							final TextField forecastName = new TextField();
-							forecastName.setImmediate(true);
-							forecastName.setReadOnly(true);
-							forecastName.setEnabled(false);
-							return forecastName;
+							final TextField forecastNameTextField = new TextField();
+							forecastNameTextField.setImmediate(true);
+							forecastNameTextField.setReadOnly(true);
+							forecastNameTextField.setEnabled(false);
+							return forecastNameTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.FORECAST_VERSION_PROPERTY)) {
-							final TextField forecastVersion = new TextField();
-							forecastVersion.setImmediate(true);
-							forecastVersion.setReadOnly(true);
-							forecastVersion.setEnabled(false);
-							return forecastVersion;
+							final TextField forecastVersionTextField = new TextField();
+							forecastVersionTextField.setImmediate(true);
+							forecastVersionTextField.setReadOnly(true);
+							forecastVersionTextField.setEnabled(false);
+							return forecastVersionTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.COUNTRY)) {
-							final TextField country = new TextField();
-							country.setImmediate(true);
-							country.setReadOnly(true);
-							country.setEnabled(false);
-							return country;
+							final TextField countryTextField = new TextField();
+							countryTextField.setImmediate(true);
+							countryTextField.setReadOnly(true);
+							countryTextField.setEnabled(false);
+							return countryTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.ORGANIZATION_KEY)) {
 							final TextField organizationKey = new TextField();
@@ -3751,15 +3751,15 @@ public class FileManagementLookup extends Window {
 					}
 				} else {
 					if (propertyId.equals(ConstantsUtils.CHECK)) {
-						final ExtCustomCheckBox select = new ExtCustomCheckBox();
-						select.setImmediate(true);
-						select.setEnabled(true);
-						setExtCustomCheckBoxValue(select, itemId);
-						select.addClickListener(new ExtCustomCheckBox.ClickListener() {
+						final ExtCustomCheckBox selectExtCustomCheckBox = new ExtCustomCheckBox();
+						selectExtCustomCheckBox.setImmediate(true);
+						selectExtCustomCheckBox.setEnabled(true);
+						setExtCustomCheckBoxValue(selectExtCustomCheckBox, itemId);
+						selectExtCustomCheckBox.addClickListener(new ExtCustomCheckBox.ClickListener() {
 
 							@Override
 							public void click(ExtCustomCheckBox.ClickEvent event) {
-								if (select.getValue().equals(Boolean.FALSE)) {
+								if (selectExtCustomCheckBox.getValue().equals(Boolean.FALSE)) {
 									detailsFilterTable.setColumnCheckBox(ConstantsUtils.CHECK, true, false);
 								} else {
 									List list = new ArrayList();
@@ -3777,7 +3777,7 @@ public class FileManagementLookup extends Window {
 
 							}
 						});
-						return select;
+						return selectExtCustomCheckBox;
 					}
 					if (propertyId.equals(StringConstantUtils.FORECAST_TYPE_PROPERTY)) {
 						final TextField forecastType = new TextField();
@@ -3786,16 +3786,16 @@ public class FileManagementLookup extends Window {
 						return forecastType;
 					}
 					if (propertyId.equals(StringConstantUtils.FORCAST_YEAR)) {
-						final TextField forecastYear = new TextField();
-						forecastYear.setEnabled(true);
-						forecastYear.setImmediate(true);
-						return forecastYear;
+						final TextField forecastYearTextField = new TextField();
+						forecastYearTextField.setEnabled(true);
+						forecastYearTextField.setImmediate(true);
+						return forecastYearTextField;
 					}
 					if (propertyId.equals(StringConstantUtils.FORECAST_MONTH_PROPERTY)) {
-						final TextField forecastMonth = new TextField();
-						forecastMonth.setEnabled(true);
-						forecastMonth.setImmediate(true);
-						return forecastMonth;
+						final TextField forecastMonthTextField = new TextField();
+						forecastMonthTextField.setEnabled(true);
+						forecastMonthTextField.setImmediate(true);
+						return forecastMonthTextField;
 					}
 
 					if (propertyId.equals(StringConstantUtils.ITEM_NAME)) {
@@ -3948,10 +3948,10 @@ public class FileManagementLookup extends Window {
 						return netSalesAmount;
 					}
 					if (propertyId.equals(StringConstantUtils.BATCH_ID)) {
-						final TextField batchId = new TextField();
-						batchId.setEnabled(true);
-						batchId.setImmediate(true);
-						return batchId;
+						final TextField batchIdTextField = new TextField();
+						batchIdTextField.setEnabled(true);
+						batchIdTextField.setImmediate(true);
+						return batchIdTextField;
 					}
 					if (propertyId.equals(StringConstantUtils.SOURCE_PROPERTY)) {
 						final TextField source = new TextField();
@@ -3960,22 +3960,22 @@ public class FileManagementLookup extends Window {
 						return source;
 					}
 					if (propertyId.equals(StringConstantUtils.FORECAST_NAME_PROPERTY)) {
-						final TextField forecastName = new TextField();
-						forecastName.setEnabled(true);
-						forecastName.setImmediate(true);
-						return forecastName;
+						final TextField forecastNameTextField = new TextField();
+						forecastNameTextField.setEnabled(true);
+						forecastNameTextField.setImmediate(true);
+						return forecastNameTextField;
 					}
 					if (propertyId.equals(StringConstantUtils.FORECAST_VERSION_PROPERTY)) {
-						final TextField forecastVersion = new TextField();
-						forecastVersion.setEnabled(true);
-						forecastVersion.setImmediate(true);
-						return forecastVersion;
+						final TextField forecastVersionTextField = new TextField();
+						forecastVersionTextField.setEnabled(true);
+						forecastVersionTextField.setImmediate(true);
+						return forecastVersionTextField;
 					}
 					if (propertyId.equals(StringConstantUtils.COUNTRY)) {
-						final TextField country = new TextField();
-						country.setEnabled(true);
-						country.setImmediate(true);
-						return country;
+						final TextField countryTextField = new TextField();
+						countryTextField.setEnabled(true);
+						countryTextField.setImmediate(true);
+						return countryTextField;
 					}
 					if (propertyId.equals(StringConstantUtils.ORGANIZATION_KEY)) {
 						final TextField organizationKey = new TextField();
@@ -4005,17 +4005,17 @@ public class FileManagementLookup extends Window {
 			@Override
 			public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
 					final Component uiContext) {
-				final FileMananagementResultDTO dto = (FileMananagementResultDTO) itemId;
-				final Boolean flag = dto.isRecordLockStatus();
-				final String interfaceFlag = dto.getInterfaceFlag();
+				final FileMananagementResultDTO fileManagementResultDTO = (FileMananagementResultDTO) itemId;
+				final Boolean flag = fileManagementResultDTO.isRecordLockStatus();
+				final String interfaceFlag = fileManagementResultDTO.getInterfaceFlag();
 				if (interfaceFlag.equals(ConstantsUtils.CHAR_N)) {
 					if (flag) {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {
-							final ExtCustomCheckBox select = new ExtCustomCheckBox();
-							select.setImmediate(true);
-							select.setEnabled(false);
-							setExtCustomCheckBoxValue(select, itemId);
-							return select;
+							final ExtCustomCheckBox selectExtCustomCheckBox = new ExtCustomCheckBox();
+							selectExtCustomCheckBox.setImmediate(true);
+							selectExtCustomCheckBox.setEnabled(false);
+							setExtCustomCheckBoxValue(selectExtCustomCheckBox, itemId);
+							return selectExtCustomCheckBox;
 						}
 						if (propertyId.equals("year")) {
 							final TextField year = new TextField();
@@ -4081,11 +4081,11 @@ public class FileManagementLookup extends Window {
 							return amountWithdrawn;
 						}
 						if (propertyId.equals(StringConstantUtils.BATCH_ID)) {
-							final TextField batchId = new TextField();
-							batchId.setImmediate(true);
-							batchId.setReadOnly(true);
-							batchId.setEnabled(false);
-							return batchId;
+							final TextField batchIdTextField = new TextField();
+							batchIdTextField.setImmediate(true);
+							batchIdTextField.setReadOnly(true);
+							batchIdTextField.setEnabled(false);
+							return batchIdTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.ORGANIZATION_KEY)) {
 							final TextField organizationKey = new TextField();
@@ -4103,11 +4103,11 @@ public class FileManagementLookup extends Window {
 						}
 						if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 							if (propertyId.equals(ConstantsUtils.COMPANY_ID)) {
-								final TextField companyId = new TextField();
-								companyId.setImmediate(true);
-								companyId.setReadOnly(true);
-								companyId.setEnabled(false);
-								return companyId;
+								final TextField companyIdTextField = new TextField();
+								companyIdTextField.setImmediate(true);
+								companyIdTextField.setReadOnly(true);
+								companyIdTextField.setEnabled(false);
+								return companyIdTextField;
 							}
 							if (propertyId.equals(StringConstantUtils.IDENTIFIER_CODE_QUALIFIER1)) {
 								final TextField identifierCodeQualifier = new TextField();
@@ -4127,11 +4127,11 @@ public class FileManagementLookup extends Window {
 
 					} else {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {
-							final ExtCustomCheckBox select = new ExtCustomCheckBox();
-							select.setImmediate(true);
-							select.setEnabled(true);
-							setExtCustomCheckBoxValue(select, itemId);
-							return select;
+							final ExtCustomCheckBox selectExtCustomCheckBox = new ExtCustomCheckBox();
+							selectExtCustomCheckBox.setImmediate(true);
+							selectExtCustomCheckBox.setEnabled(true);
+							setExtCustomCheckBoxValue(selectExtCustomCheckBox, itemId);
+							return selectExtCustomCheckBox;
 						}
 						if (propertyId.equals("year")) {
 							final TextField year = new TextField();
@@ -4197,11 +4197,11 @@ public class FileManagementLookup extends Window {
 							return amountWithdrawn;
 						}
 						if (propertyId.equals(StringConstantUtils.BATCH_ID)) {
-							final TextField batchId = new TextField();
-							batchId.setImmediate(true);
-							batchId.setReadOnly(true);
-							batchId.setEnabled(false);
-							return batchId;
+							final TextField batchIdTextField = new TextField();
+							batchIdTextField.setImmediate(true);
+							batchIdTextField.setReadOnly(true);
+							batchIdTextField.setEnabled(false);
+							return batchIdTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.ORGANIZATION_KEY)) {
 							final TextField organizationKey = new TextField();
@@ -4219,11 +4219,11 @@ public class FileManagementLookup extends Window {
 						}
 						if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 							if (propertyId.equals(ConstantsUtils.COMPANY_ID)) {
-								final TextField companyId = new TextField();
-								companyId.setImmediate(true);
-								companyId.setReadOnly(true);
-								companyId.setEnabled(false);
-								return companyId;
+								final TextField companyIdTextField = new TextField();
+								companyIdTextField.setImmediate(true);
+								companyIdTextField.setReadOnly(true);
+								companyIdTextField.setEnabled(false);
+								return companyIdTextField;
 							}
 							if (propertyId.equals(StringConstantUtils.IDENTIFIER_CODE_QUALIFIER1)) {
 								final TextField identifierCodeQualifier = new TextField();
@@ -4243,15 +4243,15 @@ public class FileManagementLookup extends Window {
 					}
 				} else {
 					if (propertyId.equals(ConstantsUtils.CHECK)) {
-						final ExtCustomCheckBox select = new ExtCustomCheckBox();
-						select.setImmediate(true);
-						select.setEnabled(true);
-						setExtCustomCheckBoxValue(select, itemId);
-						select.addClickListener(new ExtCustomCheckBox.ClickListener() {
+						final ExtCustomCheckBox selectExtCustomCheckBox = new ExtCustomCheckBox();
+						selectExtCustomCheckBox.setImmediate(true);
+						selectExtCustomCheckBox.setEnabled(true);
+						setExtCustomCheckBoxValue(selectExtCustomCheckBox, itemId);
+						selectExtCustomCheckBox.addClickListener(new ExtCustomCheckBox.ClickListener() {
 
 							@Override
 							public void click(ExtCustomCheckBox.ClickEvent event) {
-								if (select.getValue().equals(Boolean.FALSE)) {
+								if (selectExtCustomCheckBox.getValue().equals(Boolean.FALSE)) {
 									detailsFilterTable.setColumnCheckBox(ConstantsUtils.CHECK, true, false);
 								} else {
 									List list = new ArrayList();
@@ -4270,7 +4270,7 @@ public class FileManagementLookup extends Window {
 							}
 						});
 
-						return select;
+						return selectExtCustomCheckBox;
 					}
 					if (propertyId.equals("year")) {
 						final TextField year = new TextField();
@@ -4336,11 +4336,11 @@ public class FileManagementLookup extends Window {
 						return amountWithdrawn;
 					}
 					if (propertyId.equals(StringConstantUtils.BATCH_ID)) {
-						final TextField batchId = new TextField();
-						batchId.setImmediate(true);
-						batchId.setReadOnly(false);
-						batchId.setEnabled(true);
-						return batchId;
+						final TextField batchIdTextField = new TextField();
+						batchIdTextField.setImmediate(true);
+						batchIdTextField.setReadOnly(false);
+						batchIdTextField.setEnabled(true);
+						return batchIdTextField;
 					}
 					if (propertyId.equals(StringConstantUtils.ORGANIZATION_KEY)) {
 						final TextField organizationKey = new TextField();
@@ -4358,11 +4358,11 @@ public class FileManagementLookup extends Window {
 					}
 					if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 						if (propertyId.equals(ConstantsUtils.COMPANY_ID)) {
-							final TextField companyId = new TextField();
-							companyId.setImmediate(true);
-							companyId.setReadOnly(false);
-							companyId.setEnabled(true);
-							return companyId;
+							final TextField companyIdTextField = new TextField();
+							companyIdTextField.setImmediate(true);
+							companyIdTextField.setReadOnly(false);
+							companyIdTextField.setEnabled(true);
+							return companyIdTextField;
 						}
 						if (propertyId.equals(StringConstantUtils.IDENTIFIER_CODE_QUALIFIER1)) {
 							final TextField identifierCodeQualifier = new TextField();

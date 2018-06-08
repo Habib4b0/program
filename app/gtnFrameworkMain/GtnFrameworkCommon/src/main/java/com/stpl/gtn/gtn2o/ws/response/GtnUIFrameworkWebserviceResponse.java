@@ -86,6 +86,7 @@ public class GtnUIFrameworkWebserviceResponse {
     private GtnWsModuleAuthorizationGeneralResponse gtnWsModuleAuthorizationGeneralResponse;
     private GtnWsCsvExportResponse gtnWsCsvExportResponse;
     private GtnWsAttachmentResponse gtnWsAttachmentResponse;
+    private GtnWsCustomViewResponse gtnWsCustomViewResponse;
     private GtnWsARMResponse gtnWsARMResponse;
 
     private GtnFrameworkAutomaticRelationshipResponse automaticRelationResponse;
@@ -423,6 +424,14 @@ public class GtnUIFrameworkWebserviceResponse {
 
     public void setGtnWsAttachmentResponse(GtnWsAttachmentResponse gtnWsAttachmentResponse) {
         this.gtnWsAttachmentResponse = gtnWsAttachmentResponse;
+    }
+
+    public GtnWsCustomViewResponse getGtnWsCustomViewResponse() {
+        return gtnWsCustomViewResponse;
+    }
+
+    public void setGtnWsCustomViewResponse(GtnWsCustomViewResponse gtnWsCustomViewResponse) {
+        this.gtnWsCustomViewResponse = gtnWsCustomViewResponse;
     }
 
     public GtnWsARMResponse getGtnWsARMResponse() {

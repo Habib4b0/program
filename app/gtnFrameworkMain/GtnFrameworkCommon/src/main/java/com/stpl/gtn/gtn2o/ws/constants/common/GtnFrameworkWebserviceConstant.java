@@ -49,6 +49,7 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String EXCEPTION_IN_GET_COMBO_BOX_RESULT_SET = "Exception in getComboBoxResultSet ";
 	public static final String EXIT_GTN_UI_FRAMEWORK_WEBSERVICE_COMBO_BOX_RESP = "Exit GtnUIFrameworkWebserviceComboBoxResponse";
 	public static final String EEE_MMM_DD_KKMMSS_Z_YYYY = "EEE MMM dd kk:mm:ss z yyyy";
+	public static final String YYYY_MM_DD = "yyyy-MM-dd";
 	public static final String AND_ISNULL = " AND ISNULL(";
 	public static final String AND_CAST_ISNULL = " AND CAST(ISNULL(";
 	public static final String CAST = " CAST(";
@@ -344,5 +345,10 @@ public class GtnFrameworkWebserviceConstant {
         /**
          * Price Schedule Constant 
          */
-        public static final String PS_IFP_START_DATE = "IFP_START_DATE";
+	public static final String PS_IFP_START_DATE = "IFP_START_DATE";
+	public static final String CREATION_DATE = "creationDate";
+	public static final String RB_RELATIONSHIP_NAME = "RB.RELATIONSHIP_NAME";
+	public static final String HT_DESCRIPTION_CAPS = "HT.DESCRIPTION";
+	public static final String RB_RELATIONSHIP_DESCRIPTION = "RB.RELATIONSHIP_DESCRIPTION";
+
 }

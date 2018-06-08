@@ -181,9 +181,9 @@ public class Summary extends CustomComponent {
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
-                        HelperDTO dto = (HelperDTO) originatingField.getValue();
+                        HelperDTO helperDto = (HelperDTO) originatingField.getValue();
 
-                        return new SimpleStringFilter(propertyId, String.valueOf(dto.getDescription()), false, false);
+                        return new SimpleStringFilter(propertyId, String.valueOf(helperDto.getDescription()), false, false);
                     } else {
                         return null;
                     }

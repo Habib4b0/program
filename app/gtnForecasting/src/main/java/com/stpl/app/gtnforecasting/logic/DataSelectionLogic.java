@@ -79,6 +79,7 @@ import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.app.utils.Constants.IndicatorConstants;
+import static com.stpl.app.utils.Constants.LabelConstants.DATA_SELECTION_LANDING_SCREEN;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
@@ -91,6 +92,7 @@ import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.vaadin.v7.data.Container;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.TreeTable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -120,6 +122,19 @@ public class DataSelectionLogic {
 	private List companiesList = new ArrayList<>();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 	private static final CommonUtil commonUtil = CommonUtil.getInstance();
+    private  ExecutorService service = ThreadPool.getInstance().getService();
+    public static final String EXEC_WITH_SPACE = "EXEC ";
+    private static final String QUERY_CALL_VIEW_INSERT_PROCEDURES = "Query callViewInsertProcedures: {}";
+    private static final String CUSTOMER_SID_LITERAL = "custSid";
+    private static final String CUSTVER = "custVer";
+    private static final String PROD_SID_LITERAL = "prodSid";
+    private static final String CUSTOMER_SID_VARIABLE = "@CUSTSID";
+    private static final String PRODUCT_SID_VARIABLE = "@PRODSID";
+    private static final String PRODVER = "prodVer";
+    private static final String CUSTVER_VARIABLE = "@CUSTVER";
+    private static final String PRODVER_VARIABLE = "@PRODVER";
+    public static final String SALES_SMALL = "Sales";
+
 
 	/**
 	 * Gets the hierarchy group.
@@ -2285,6 +2300,7 @@ public class DataSelectionLogic {
 															// Actual System Id
 			detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY
 			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
+//                        detailsList.add(object[object.length - 1]); //Sales Inclusion
 			resultMap.put(String.valueOf(object[0]), detailsList);
 
 			if (j == tempList.size() - 1) {
@@ -2298,22 +2314,53 @@ public class DataSelectionLogic {
 		}
 		return resultMap;
 	}
+	public Map<String, List> getRelationshipDetailsCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
+		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsCustom");
+		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 
-	/**
-	 *
-	 * @param relationshipBuilderSid
-	 * @return
-	 */
-	public Map<String, List> getRelationshipDetailsDeduction(SessionDTO sessionDTO, String relationshipBuilderSid,
-			boolean isCustomerHierarchy) {
-		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsDeduction");
+		Map<String, List> resultMap = new LinkedHashMap<>();
+
+		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
+				"customSalesCP", sessionDTO);
+		tempList.clear();
+		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
+				QueryUtil.replaceTableNames(bean.getCustomFinalQuery(), sessionDTO.getCurrentTableNames()));
+		for (int j = tempList.size() - 1; j >= 0; j--) {
+			Object[] object = (Object[]) tempList.get(j);
+			final List<Object> detailsList = new ArrayList<>();
+			detailsList.add(object[1]); // Level Value
+			detailsList.add(object[NumericConstants.TWO]); // Level No
+			detailsList.add(object[NumericConstants.THREE]); // Level Name
+			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
+		        detailsList.add(object[object.length-1]);											// Actual System Id
+			 // HIERARCHY
+			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
+                        
+			resultMap.put(String.valueOf(object[0]), detailsList);
+
+			if (j == tempList.size() - 1) {
+				if (detailsList.get(detailsList.size() - 1).equals("C")) {
+					sessionDTO.setCustomerLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
+				} else {
+					sessionDTO.setProductLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
+				}
+			}
+
+		}
+		return resultMap;
+	}
+	
+
+	public static Map<String, List> getRelationshipDetailsDeductionCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
+		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsDeductionCustom");
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
 		customSql = customSql.replace(RBVERSION, String.valueOf(sessionDTO.getDeductionRelationVersion()));
 		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 
 		Map<String, List> resultMap = new HashMap<>();
 		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
-				"D", sessionDTO);
+				"customSalesDed", sessionDTO);
 		tempList.clear();
 		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
 				QueryUtil.replaceTableNames(bean.getDeductionFinalQuery(), sessionDTO.getCurrentTableNames()));
@@ -2462,8 +2509,7 @@ public class DataSelectionLogic {
 
     public void callInsertProcedureForNm(int projectionId, SessionDTO session, String procedureName,
             String screenName) {
-
-        StringBuilder query = new StringBuilder("EXEC ");
+        StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
             query.append(procedureName);
             query.append(' ');
@@ -2479,46 +2525,229 @@ public class DataSelectionLogic {
             }
             query.append('\'');
             HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
+            LOGGER.info("Normal Procedures: {}", query.toString());
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+    }
+    
+public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO session, String procedureName,
+            String screenName) {
+        StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
+        try {
+            query.append(procedureName);
+            query.append(' ');
+            query.append(projectionId);
+            query.append(',');
+            query.append(session.getUserId());
+            query.append(",'");
+            query.append(session.getSessionId());
+            if (!screenName.equals(NATIONAL_ASSUMPTIONS.getConstant()) && !screenName.equals(Constant.PPA_SMALL)) {
+
+                query.append("','");
+                query.append(screenName);
+            }
+            query.append('\'')
+            .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
+            .append(",'").append(session.getDataSelectionDeductionLevelCaption()).append('\'');
+            LOGGER.info("before callInsertProcedureForNmDiscountMaster {}", query.toString());
+            HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
+            LOGGER.info("Normal Procedures: {}", query.toString());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
 
     }
+    public void callInsertProcedureForNmStatus(int projectionId, SessionDTO session, String procedureName,
+            String screenName) {
 
+        StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
+        try {
+            query.append(procedureName);
+            query.append(' ');
+            query.append(projectionId);
+            query.append(',');
+            query.append(session.getUserId());
+            query.append(",'");
+            query.append(session.getSessionId());
+            if (!screenName.equals(NATIONAL_ASSUMPTIONS.getConstant()) && !screenName.equals(Constant.PPA_SMALL)) {
+
+                query.append("','");
+                query.append(screenName);
+            }
+            query.append('\'');
+            HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
+            LOGGER.info("Query callInsertProcedureForNmStatus: {}", query.toString());
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+
+    }
+    
+    public void callViewInsertProcedureForNm(SessionDTO session,String mode,String screenName,String view,String startPeriod,String endPeriod) {
+        int masterSid = screenName.equalsIgnoreCase(SALES_SMALL) ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
+        String frequency = screenName.equalsIgnoreCase(SALES_SMALL) && session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
+        StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
+        try {
+             LOGGER.debug(startPeriod);
+            query.append(Constant.PRC_VIEWS_POPULATION);
+				query.append(' ').append(session.getProjectionId()).append(',');
+				query.append(session.getUserId())
+                                .append(",'").append(session.getSessionId()).append('\'')
+                                .append(",'").append(session.getFunctionMode()).append('\'')
+                                .append(",'").append(CommonLogic.getFrequency(frequency)).append('\'')
+                                .append(",'").append(screenName).append('\'')
+                                .append(",'").append(view).append('\'')
+                                .append(',').append("null")
+                                .append(',').append("null")
+                                .append(',').append("null")
+                                .append(",'").append(String.valueOf(masterSid)).append('\'')
+                                .append(',').append("null")
+                                .append(',').append("null")
+                                .append(',').append("null")
+                                .append(',').append("null")
+                                .append(",'").append(session.getDataSelectionDeductionLevelCaption())
+                                .append('\'');
+				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
+                                LOGGER.info("Query callViewInsertProcedureForNm: {}", query.toString());
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+
+    }
+    public String callViewInsertProcedures(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
+     int deductionMasterSid = screenName.equalsIgnoreCase(SALES_SMALL) ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
+     String frequencyValue = screenName.equalsIgnoreCase(SALES_SMALL) && session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
+     String updateUnitField="Unit Volume".equals(massUpdateField)?"UNITS":massUpdateField;
+     LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}");
+         StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
+        try {
+            query.append(Constant.PRC_VIEWS_POPULATION);
+				query.append(' ').append(session.getProjectionId()).append(',');
+				query.append(session.getUserId())
+                                .append(",'").append(session.getSessionId()).append('\'')
+                                .append(",'").append(session.getFunctionMode()).append('\'')
+                                .append(",'").append(CommonLogic.getFrequency(frequencyValue)).append('\'')
+                                .append(",'").append(screenName).append('\'')
+                                .append(",'").append(view).append('\'')
+                                .append(",'").append(startPeriod).append('\'')
+                                .append(",'").append(endPeriod).append('\'')
+                                .append(",'").append(updateUnitField).append('\'')
+                                .append(",'").append(deductionMasterSid).append('\'')
+                                .append(',').append("null")
+                                .append(',').append("null")
+                                .append(',').append("null")
+                                .append(',').append("null")
+                                .append(",'").append(session.getDataSelectionDeductionLevelCaption()).append('\'')
+                                .append(';');
+                                HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
+                                LOGGER.info(QUERY_CALL_VIEW_INSERT_PROCEDURES, query.toString());
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return query.toString();
+
+    }
+    
+    public String callViewInsertProceduresString(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
+        StringBuilder query = new StringBuilder();
+        String frequencyValue = session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
+        try {
+            query.append(EXEC_WITH_SPACE);
+            query.append(Constant.PRC_VIEWS_POPULATION);
+				query.append(' ').append(session.getProjectionId()).append(',');
+				query.append(session.getUserId())
+                                .append(",'").append(session.getSessionId()).append('\'')
+                                .append(",'").append(session.getFunctionMode()).append('\'')
+                                .append(",'").append(CommonLogic.getFrequency(frequencyValue)).append('\'')
+                                .append(",'").append(screenName).append('\'')
+                                .append(",'").append(view).append('\'')
+                                .append(",'").append(startPeriod).append('\'')
+                                .append(",'").append(endPeriod).append('\'')
+                                .append(",'").append(massUpdateField).append('\'')
+                                .append(",").append(session.getCustomRelationShipSid()).append("")
+                                .append(",'").append("").append('\'')
+                                .append(",'").append("").append('\'')
+                                .append(",'").append("").append('\'')
+                                .append(',').append("null")
+                                .append(",'").append("Schedule Category").append('\'')
+                                .append(';');
+                                LOGGER.info(QUERY_CALL_VIEW_INSERT_PROCEDURES, query.toString());
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return query.toString();
+
+    }
+    
+    public String callViewInsertProceduresString(SessionDTO session,String frequency,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
+     LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}", frequency);
+        String truncateQuery="TRUNCATE TABLE ST_CUSTOM_SALES";
+        StringBuilder query = new StringBuilder(QueryUtil.replaceTableNames(truncateQuery, session.getCurrentTableNames()));
+        try {
+            query.append(EXEC_WITH_SPACE);
+            query.append(Constant.PRC_VIEWS_POPULATION);
+				query.append(' ').append(session.getProjectionId()).append(',');
+				query.append(session.getUserId())
+                                .append(",'").append(session.getSessionId()).append('\'')
+                                .append(",'").append(session.getFunctionMode()).append('\'')
+                                .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
+                                .append(",'").append(screenName).append('\'')
+                                .append(",'").append(view).append('\'')
+                                .append(",'").append(startPeriod).append('\'')
+                                .append(",'").append(endPeriod).append('\'')
+                                .append(",'").append(massUpdateField).append('\'')
+                                .append(",").append(session.getCustomRelationShipSid()).append("")
+                                .append(",'").append("").append('\'')
+                                .append(",'").append("").append('\'')
+                                .append(",'").append("").append('\'')
+                                .append(',').append("null")
+                                .append(",'").append("Schedule Category").append('\'')
+                                .append(';');
+                                LOGGER.info(QUERY_CALL_VIEW_INSERT_PROCEDURES, query.toString());
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return query.toString();
+
+    }
+
+
+
+    public void callViewInsertProceduresThread(SessionDTO session, String screenName, String startPeriod, String endPeriod, String massUpdateField) {
+        LOGGER.info("callViewInsertProceduresThread************************************{}");
+
+        service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
+               session, screenName, "C", startPeriod, endPeriod, massUpdateField));
+        service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
+                session,screenName, "P", startPeriod, endPeriod, massUpdateField));
+        service.submit(commonUtil.createRunnable(Constant.FUNCTION_PRC_VIEWS_CALL,
+                session,screenName, "U", startPeriod, endPeriod, massUpdateField));
+    }
     public void nmDiscountInsertProcedure(SessionDTO session) {
-        ExecutorService service = ThreadPool.getInstance().getService();
+        ExecutorService discountService = ThreadPool.getInstance().getService();
         if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
             session.addFutureMap(Constant.DISCOUNT_MASTER_PROCEDURE_CALL,
 				new Future[] {
-						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+						discountService.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
 				SalesUtils.PRC_NM_MASTER_INSERT, session.getProjectionId(), session.getUserId(),
 				session.getSessionId(), Constant.DISCOUNT3,session)) });
             commonUtil
                     .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
             session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
-				new Future[] { service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+				new Future[] { discountService.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
 								SalesUtils.PRC_NM_ACTUAL_INSERT, session.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)),
-						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
+						discountService.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
 								SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)) });
             }
 	}
     
     public static void nmDiscountActProjInsertProcedure(SessionDTO session) {
-        ExecutorService service = ThreadPool.getInstance().getService();
-        if (!Constant.VIEW.equalsIgnoreCase(session.getAction())) {
-            commonUtil
-                    .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
-            session.addFutureMap(Constant.DISCOUNT_PROCEDURE_CALL,
-				new Future[] { service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
-								SalesUtils.PRC_NM_ACTUAL_INSERT, session.getProjectionId(),
-								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)),
-						service.submit(commonUtil.createRunnable(Constant.PROCEDURE_CALL,
-								SalesUtils.PRC_NM_PROJECTION_INSERT, session.getProjectionId(),
-								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,session)) });
-            }
-	}
+        commonUtil.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
+        session.setDiscountDeductionLevelDetails(getRelationshipDetailsDeductionCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
+    }
         
 	/**
 	 * To insert the Accural_proj_details table in edit and add mode
@@ -2596,7 +2825,7 @@ public class DataSelectionLogic {
 		HelperTableLocalServiceUtil
 				.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
 	}
-
+        
 	public int isFileChanged(SessionDTO session) {
 		int fileStatus = 1;
 		StringBuilder name = new StringBuilder();
@@ -2634,11 +2863,11 @@ public class DataSelectionLogic {
 		QueryUtils.updateAppDataUsingSessionTables(inputList, "PFD_TEMP_INSERT_WHILE_GENERATE", session);
 	}
 
-	private void updateRelationShipLevelList(Object[] object, List<Object> detailsList, String defaultValue) {
+	private static void updateRelationShipLevelList(Object[] object, List<Object> detailsList, String defaultValue) {
 		if (object.length > 5) {
 			List<Object> displayFormat = new ArrayList<>();
 			displayFormat.add(defaultValue);
-			for (int i = 5; i < object.length; i++) {
+			for (int i = 5; i < object.length - 1; i++) {
 				displayFormat.add(object[i]);
 			}
 			detailsList.add(displayFormat);
@@ -2669,5 +2898,93 @@ public class DataSelectionLogic {
         List workflowforecastEligibleDate = (List) salesProjectionDAO.executeSelectQuery(datequery, null, null);
         return workflowforecastEligibleDate != null ? (Date) workflowforecastEligibleDate.get(0) : null;
     }
-        
+
+    public void loadCustomViewValues(ComboBox customRelationDdlb, Map<String, String> dataMap,boolean isDataSelection) {
+        if (dataMap.get(CUSTOMER_SID_LITERAL) != null && dataMap.get(CUSTVER) != null && dataMap.size()>3) {
+            String sqlQuery = QueryUtils.getQuery(Collections.emptyList(),"loadCustomRelationValues");
+            sqlQuery = sqlQuery.replace(CUSTOMER_SID_VARIABLE, dataMap.get(CUSTOMER_SID_LITERAL)).replace(PRODUCT_SID_VARIABLE, dataMap.get(PROD_SID_LITERAL))
+                    .replace(CUSTVER_VARIABLE, dataMap.get(CUSTVER)).replace(PRODVER_VARIABLE, dataMap.get(PRODVER));
+            List<Object[]> queryList = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
+
+            for (Object[] objects : queryList) {
+                customRelationDdlb.addItem(objects[0]);
+                customRelationDdlb.setItemCaption(objects[0], String.valueOf(objects[1]));
+            }
+            if (queryList != null && isDataSelection) {
+                customRelationDdlb.setValue(queryList.get(0)[0]);
+            }
+        }
+    }
+    
+    public void loadCustomViewDeductionValues(ComboBox customDeductionRelationDdlb, Map<String, String> dataDeductionMap,boolean isDataSelection) {
+        if (dataDeductionMap.get(CUSTOMER_SID_LITERAL) != null && dataDeductionMap.get(CUSTVER) != null && dataDeductionMap.size()>3) {
+            String discountSqlQuery = QueryUtils.getQuery(Collections.emptyList(),"loadCustomDeductionRelationValues");
+            discountSqlQuery = discountSqlQuery.replace(CUSTOMER_SID_VARIABLE, dataDeductionMap.get(CUSTOMER_SID_LITERAL)).replace(PRODUCT_SID_VARIABLE, dataDeductionMap.get(PROD_SID_LITERAL))
+                    .replace(CUSTVER_VARIABLE, dataDeductionMap.get(CUSTVER)).replace(PRODVER_VARIABLE, dataDeductionMap.get(PRODVER));
+            List<Object[]> queryDiscountList = HelperTableLocalServiceUtil.executeSelectQuery(discountSqlQuery);
+
+            for (Object[] objects : queryDiscountList) {
+                customDeductionRelationDdlb.addItem(objects[0]);
+                customDeductionRelationDdlb.setItemCaption(objects[0], String.valueOf(objects[1]));
+            }
+            if (queryDiscountList != null && isDataSelection) {
+                customDeductionRelationDdlb.select(queryDiscountList.get(0)[0]);
+            }
+        }
+    }
+    
+      public void nmSalesViewsPopulationProcedure(SessionDTO session) {
+        String query = SQlUtil.getQuery("ViewTableTruncationSales");
+        HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+        LOGGER.info("nmSalesViewsPopulationProcedure Truncate Query{}",QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "C", "", "", session));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "P", "", "", session));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
+    }
+
+    public void nmDiscountViewsPopulationProcedure(SessionDTO session) {
+        String query = SQlUtil.getQuery("ViewTableTruncationDiscount");
+        HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+        LOGGER.info("nmDiscountViewsPopulationProcedure Truncate Query{}",QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "C", "null", "null", session));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "P", "null", "null", session));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "U", "null", "null", session));
+    }
+    
+    public void loadCustomViewValuesDeduction(ComboBox customRelationDdlb, Map<String, String> dataMap) {
+        if (dataMap.get(CUSTOMER_SID_LITERAL) != null && dataMap.get(CUSTVER) != null) {
+            String sqlQuery = QueryUtils.getQuery(Collections.emptyList(),"loadCustomDeductionRelationValues");
+            sqlQuery = sqlQuery.replace(CUSTOMER_SID_VARIABLE, dataMap.get(CUSTOMER_SID_LITERAL)).replace(PRODUCT_SID_VARIABLE, dataMap.get(PROD_SID_LITERAL))
+                    .replace(CUSTVER_VARIABLE, dataMap.get(CUSTVER)).replace(PRODVER_VARIABLE, dataMap.get(PRODVER));
+            List<Object[]> queryList = HelperTableLocalServiceUtil.executeSelectQuery(sqlQuery);
+
+            for (Object[] objects : queryList) {
+                LOGGER.info(objects[0].toString());
+                customRelationDdlb.addItem(objects[0]);
+                customRelationDdlb.setItemCaption(objects[0], String.valueOf(objects[1]));
+            }
+        }
+    }
+    
+    public void callForDeductionLevelMapQuery(SessionDTO session) {
+        try {
+           session.setDiscountDeductionLevelDetails(getRelationshipDetailsDeductionCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+
+    }
+    
+    public void saveFreqAndDedLevel(int projectionIdValue, DataSelectionDTO dataselectionDtoToSave) {
+        Map map = new HashMap();
+        map.put(Constant.FREQUENCY, dataselectionDtoToSave.getFrequency());
+        map.put(Constant.DATA_SELECTION_DED_LEVEL, dataselectionDtoToSave.getDataSelectionDeductionLevelSid());
+        CommonLogic.saveProjectionSelection(map, projectionIdValue, DATA_SELECTION_LANDING_SCREEN.getConstant());
+    }
 }

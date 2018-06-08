@@ -64,7 +64,7 @@ public class DroolsProperties {
         } catch (IOException e) {
             logger.error(ERROR_READING_PROPERTY_FILE+e.getMessage());
         }
-         return properties;
+         return (Properties) properties.clone();
     }
     private static final String CONFIGURATION = "configuration";
     private static final String BPMCONFIG = "bpmconfig";
@@ -110,7 +110,7 @@ public class DroolsProperties {
         } catch (IOException e) {
             logger.error(ERROR_READING_PROPERTY_FILE + e.getMessage());
         }
-        return cffProperties;
+        return (Properties) cffProperties.clone();
     }
 
     public static Properties getArmPropertiesData() {

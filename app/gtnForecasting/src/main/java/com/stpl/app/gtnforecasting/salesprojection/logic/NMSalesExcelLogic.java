@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.DASH_PROJECTED_SALES;
+import java.util.Collections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -35,25 +38,25 @@ public class NMSalesExcelLogic {
     private final Map<String, SalesRowDto> resultMap = new HashMap<>();
     private final List<String> hierarchyKeys = new ArrayList<>();
     private final CommonLogic commonLogic=new CommonLogic();
+    private final List<String> hierarchyValues = new ArrayList<>();
+    public static final Logger LOGGER = LoggerFactory.getLogger(NMSalesExcelLogic.class);
     
     public void getCustomizedExcelData(List<Object[]> rawList, ProjectionSelectionDTO projectionSelectionDTO, List historyColumn) {
         SessionDTO sessionDTO = projectionSelectionDTO.getSessionDTO();
         Character freq = projectionSelectionDTO.getFrequency().charAt(0);
-        Map<String, List> hierarchyLevelDetails = sessionDTO.getHierarchyLevelDetails();
+        Map<String, List> hierarchyLevelDetails = !projectionSelectionDTO.isIsCustomHierarchy()? sessionDTO.getHierarchyLevelDetails() : sessionDTO.getSalesHierarchyLevelDetails();
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
             String key = obj[NumericConstants.ZERO].toString();
-            if (projectionSelectionDTO.isIsCustomHierarchy()) {
-                String parentId = obj[NumericConstants.FOUR] != null ? obj[NumericConstants.FOUR].toString() : StringUtils.EMPTY;
-                key = obj[NumericConstants.ZERO].toString().concat("$").concat(parentId);
-            } else {
+            String hierKey = key.substring(0,key.lastIndexOf('.'));
                 key = key.substring(key.indexOf('-') + 1);
-            }
             String hierarchyNo=getHierarchyNumber(obj[NumericConstants.ZERO]);
             if(hierarchyLevelDetails.get(hierarchyNo.trim())!=null){
             String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(hierarchyNo.trim()).get(4));
             SalesRowDto salesRowDto = resultMap.get(key);
             if (salesRowDto == null) {
+                 getHierarchy(hierKey,projectionSelectionDTO);
+                 getParentLevels(projectionSelectionDTO);
                 //To check condition total or details values
                 salesRowDto = new SalesRowDto();
                 setActualsProjectionValues(salesRowDto, freq, obj, projectionSelectionDTO, historyColumn, hierarchyLevelDetails,hierarchyIndicator);
@@ -66,16 +69,49 @@ public class NMSalesExcelLogic {
 
         }
     }
+    
+    public String getHierarchy(String key, ProjectionSelectionDTO projectionSelection) {
+
+        if (key.contains(".")) {
+            String keyValue = key.substring(0, key.lastIndexOf('.'));
+            hierarchyValues.add(keyValue);
+            int count = StringUtils.countMatches(key, ".");
+             int forecastLevel = Integer.valueOf(projectionSelection.getSessionDTO().getCustomerLevelNumber());
+            if (count >= forecastLevel) {
+                hierarchyValues.add(keyValue);
+            }
+            getHierarchy(keyValue, projectionSelection);
+            return keyValue;
+        }
+        return StringUtils.EMPTY;
+    }
+
+    public void getParentLevels(ProjectionSelectionDTO projectionSelection) {
+        Map<String, List> hierarchyLevelDetails = !projectionSelection.isIsCustomHierarchy()? projectionSelection.getSessionDTO().getHierarchyLevelDetails() : projectionSelection.getSessionDTO().getSalesHierarchyLevelDetails();
+        Collections.reverse(hierarchyValues);
+        for (int i = 0; i < hierarchyValues.size(); i++) {
+            String keyValue = hierarchyValues.get(i) + ".";
+            String hierKeyValue = hierarchyValues.get(i) + ".";
+            hierKeyValue = hierKeyValue.substring(hierKeyValue.indexOf('-') + 1);
+            SalesRowDto salesRowDto = resultMap.get(hierKeyValue.trim());
+            if (salesRowDto == null) {
+                salesRowDto = new SalesRowDto();
+                String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(keyValue.trim()).get(4));
+                getExcelFormatColumns(keyValue, hierarchyIndicator, hierarchyLevelDetails, projectionSelection, salesRowDto);
+                resultMap.put(hierKeyValue.trim(), salesRowDto);
+                hierarchykeys(hierKeyValue.trim());
+            }
+        }
+    }
 
     private void setActualsProjectionValues(SalesRowDto salesRowDto, Character freq, Object[] obj, ProjectionSelectionDTO projectionSelectionDTO, List historyColumn, Map<String, List> hierarchyLevelDetails, String hierarchyIndicator) {
         try {
             String header = commonLogic.getHeaderForExcel(freq, obj,StringUtils.EMPTY,"-");
             boolean isActuals = (Boolean) obj[NumericConstants.THREE];
             String hierarchyNo=getHierarchyNumber(obj[NumericConstants.ZERO]);
-            salesRowDto.setParentHierarchyNo(String.valueOf(obj[NumericConstants.FOUR]).trim());
             salesRowDto.setHierarchyLevel(String.valueOf(hierarchyLevelDetails.get(hierarchyNo).get(1)));
             if (Constant.TRADINGPARTNER.equalsIgnoreCase(salesRowDto.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(salesRowDto.getHierarchyLevel())) {
-                salesRowDto.setGroup(String.valueOf(obj[NumericConstants.TWELVE]));
+                salesRowDto.setGroup(String.valueOf(obj[NumericConstants.ELEVEN]));
             } else {
                 salesRowDto.setGroup(StringUtils.EMPTY);
             }
@@ -86,10 +122,10 @@ public class NMSalesExcelLogic {
                 salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
 
             }
-            salesRowDto.addStringProperties(Constant.METHODOLOGY, StringUtils.isBlank(String.valueOf(obj[NumericConstants.ELEVEN])) || Constant.NULL.equals(String.valueOf(obj[NumericConstants.ELEVEN])) ? "-" : String.valueOf(obj[NumericConstants.ELEVEN]));
-            salesRowDto.addStringProperties(Constant.BASELINE, StringUtils.isBlank(String.valueOf(obj[NumericConstants.THIRTEEN])) || Constant.NULL.equals(String.valueOf(obj[NumericConstants.THIRTEEN])) ? "-" : String.valueOf(obj[NumericConstants.THIRTEEN]));
+            salesRowDto.addStringProperties(Constant.METHODOLOGY, StringUtils.isBlank(String.valueOf(obj[NumericConstants.TEN])) || Constant.NULL.equals(String.valueOf(obj[NumericConstants.TEN])) ? "-" : String.valueOf(obj[NumericConstants.TEN]));
+            salesRowDto.addStringProperties(Constant.BASELINE, StringUtils.isBlank(String.valueOf(obj[NumericConstants.TWELVE])) || Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWELVE])) ? "-" : String.valueOf(obj[NumericConstants.TWELVE]));
             if (CommonUtil.isValueEligibleForLoading()) {
-                salesRowDto.setSalesInclusion(obj[NumericConstants.FOURTEEN] != null ? String.valueOf(obj[NumericConstants.FOURTEEN]) : StringUtils.EMPTY);
+                salesRowDto.setSalesInclusion(obj[NumericConstants.THIRTEEN] != null ? String.valueOf(obj[NumericConstants.THIRTEEN]) : StringUtils.EMPTY);
             }
 
             if (historyColumn.contains(header) || (CommonUtil.isValueEligibleForLoading() && salesRowDto.getSalesInclusion().isEmpty())) {
@@ -105,7 +141,7 @@ public class NMSalesExcelLogic {
     
 
     private void setActualsProjForSalesInclution(SalesRowDto salesRowDto, boolean isActuals, String header) {
-        if (isActuals) {
+        if (!isActuals) {
             salesRowDto.addStringProperties(header + ACTUAL_SALES, StringUtils.EMPTY);
             salesRowDto.addStringProperties(header + Constant.ACTUAL_UNITS1, StringUtils.EMPTY);
             salesRowDto.addStringProperties(header + "-HistoryProjectedSales", StringUtils.EMPTY);
@@ -121,17 +157,17 @@ public class NMSalesExcelLogic {
     }
 
     private void setActualsProj(SalesRowDto salesRowDto, boolean isActuals, String header, ProjectionSelectionDTO projectionSelectionDTO, Object[] obj) {
-        if (isActuals) {
-            salesRowDto.addStringProperties(header + ACTUAL_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.NINE], true));
-            salesRowDto.addStringProperties(header + Constant.ACTUAL_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.TEN] == null ? 0 : obj[NumericConstants.TEN])));
+        if (!isActuals) {
+            salesRowDto.addStringProperties(header + ACTUAL_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.EIGHT], true));
+            salesRowDto.addStringProperties(header + Constant.ACTUAL_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.NINE] == null ? 0 : obj[NumericConstants.NINE])));
             salesRowDto.addStringProperties(header + "-HistoryProjectedSales", String.valueOf(0));
             salesRowDto.addStringProperties(header + "-HistoryProjectedUnits", String.valueOf(0));
 
         } else {
-            salesRowDto.addStringProperties(header + DASH_PROJECTED_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.SEVEN], true));
-            salesRowDto.addStringProperties(header + PROJECTED_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.EIGHT] == null ? 0 : obj[NumericConstants.EIGHT])));
-            salesRowDto.addStringProperties(header + "-ProductGrowth", String.valueOf(UNITTWODECIMAL.format(obj[NumericConstants.SIX] == null ? 0 : obj[NumericConstants.SIX])) + Constant.PERCENT);
-            salesRowDto.addStringProperties(header + "-AccountGrowth", String.valueOf(UNITTWODECIMAL.format(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE])) + Constant.PERCENT);
+            salesRowDto.addStringProperties(header + DASH_PROJECTED_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.SIX], true));
+            salesRowDto.addStringProperties(header + PROJECTED_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.SEVEN] == null ? 0 : obj[NumericConstants.SEVEN])));
+            salesRowDto.addStringProperties(header + "-ProductGrowth", String.valueOf(UNITTWODECIMAL.format(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE])) + Constant.PERCENT);
+            salesRowDto.addStringProperties(header + "-AccountGrowth", String.valueOf(UNITTWODECIMAL.format(obj[NumericConstants.FOUR] == null ? 0 : obj[NumericConstants.FOUR])) + Constant.PERCENT);
         }
     }
 

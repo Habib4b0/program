@@ -398,6 +398,50 @@ IF EXISTS (SELECT NAME
   END
 
 GO
+---------------------------DROP STATISTICS----------------------------------
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'PAYMENT_LEVEL'
+                  AND OBJECT_NAME(OBJECT_ID) = 'RS_CONTRACT')
+  BEGIN
+      DROP STATISTICS DBO.RS_CONTRACT.PAYMENT_LEVEL
+  END
+
+GO
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'PAYMENT_LEVEL'
+                  AND OBJECT_NAME(OBJECT_ID) = 'HIST_RS_CONTRACT')
+  BEGIN
+      DROP STATISTICS DBO.HIST_RS_CONTRACT.PAYMENT_LEVEL
+  END
+
+GO
+---------------------------ADDITION OF PAYMENT_LEVEL----------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_CONTRACT'
+                      AND COLUMN_NAME = 'PAYMENT_LEVEL'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_CONTRACT
+        ADD PAYMENT_LEVEL INT
+  END
+
+GO
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_CONTRACT'
+                      AND COLUMN_NAME = 'PAYMENT_LEVEL'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_CONTRACT
+        ADD PAYMENT_LEVEL INT
+  END
+
+GO
+----------------------------------------------------------
+
 
 IF NOT EXISTS (SELECT 'X'
                FROM   SYS.TABLES
@@ -1187,7 +1231,8 @@ AS
                      DEDUCTION_INCLUSION,
                      ACTION_FLAG,
 					 DEDUCTION_CALENDAR_NO,
-					 DEDUCTION_CALENDAR_NAME)
+					 DEDUCTION_CALENDAR_NAME,
+					 PAYMENT_LEVEL)
         SELECT RS_CONTRACT_SID,
                RS_MODEL_SID,
                RS_ID,
@@ -1251,7 +1296,8 @@ AS
                DEDUCTION_INCLUSION,
                'A',
 			   DEDUCTION_CALENDAR_NO,
-			   DEDUCTION_CALENDAR_NAME
+			   DEDUCTION_CALENDAR_NAME,
+			   PAYMENT_LEVEL
         FROM   INSERTED
   END
 
@@ -1340,7 +1386,8 @@ AS
                      DEDUCTION_INCLUSION,
                      ACTION_FLAG,
 					 DEDUCTION_CALENDAR_NO,
-					 DEDUCTION_CALENDAR_NAME)
+					 DEDUCTION_CALENDAR_NAME,
+					 PAYMENT_LEVEL)
         SELECT RS_CONTRACT_SID,
                RS_MODEL_SID,
                RS_ID,
@@ -1404,7 +1451,8 @@ AS
                DEDUCTION_INCLUSION,
                'C',
 			   DEDUCTION_CALENDAR_NO,
-			   DEDUCTION_CALENDAR_NAME
+			   DEDUCTION_CALENDAR_NAME,
+			   PAYMENT_LEVEL
         FROM   INSERTED
   END
 
@@ -1491,7 +1539,8 @@ AS
                      DEDUCTION_INCLUSION,
                      ACTION_FLAG,
 					 DEDUCTION_CALENDAR_NO,
-					 DEDUCTION_CALENDAR_NAME)
+					 DEDUCTION_CALENDAR_NAME,
+					 PAYMENT_LEVEL)
         SELECT RS_CONTRACT_SID,
                RS_MODEL_SID,
                RS_ID,
@@ -1555,7 +1604,8 @@ AS
                DEDUCTION_INCLUSION,
                'D',
 			   DEDUCTION_CALENDAR_NO,
-			   DEDUCTION_CALENDAR_NAME
+			   DEDUCTION_CALENDAR_NAME,
+			   PAYMENT_LEVEL
         FROM   DELETED
   END
 

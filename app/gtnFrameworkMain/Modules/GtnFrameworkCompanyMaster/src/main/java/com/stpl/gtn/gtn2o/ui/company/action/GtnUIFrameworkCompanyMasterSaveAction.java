@@ -72,7 +72,7 @@ public class GtnUIFrameworkCompanyMasterSaveAction implements GtnUIFrameWorkActi
 			setIdentifierTabValues(identifierResultList);
 
 			setTradeClassValues(tradeClassResultList);
-
+                      
 			setParentCompanyValues(parentCompanyResult);
 
 			setNotesTabValues(companyInformation, noteBeanList);
@@ -229,10 +229,22 @@ public class GtnUIFrameworkCompanyMasterSaveAction implements GtnUIFrameWorkActi
 			throws GtnFrameworkGeneralException {
 		List<GtnWsRecordBean> parentCompanyList = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("parentCompanyattachResultTable").getItemsFromDataTable();
+                GtnUIFrameworkWebserviceResponse response1 ;
+                GtnUIFrameworkWebServiceClient webServiceCall = new GtnUIFrameworkWebServiceClient();
 		for (GtnWsRecordBean parentCompany1 : parentCompanyList) {
+                       GtnUIFrameworkWebserviceRequest gtnRqst = new GtnUIFrameworkWebserviceRequest();
+		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
+		gtnRqst.setGtnWsGeneralRequest(generalWSRequest);
+                List<Object> inputList = new ArrayList<>();
+                String compannyNo = parentCompany1.getProperties().get(0).toString();
+		inputList.add(compannyNo);
+		generalWSRequest.setComboBoxWhereclauseParamList(inputList);
+		response1= webServiceCall.callGtnWebServiceUrl(
+				GtnWebServiceUrlConstants.GTN_WS_COMPANY_MASTER + "/getCompanyParentDetailsFromTable",
+					gtnRqst, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+                int responseResult = Integer.parseInt(String.valueOf(response1.getOutBountData()[0]));
 			GtnCMasterCompanyParentBean parentCompany = new GtnCMasterCompanyParentBean();
-			parentCompany.setParentCompanyMasterSystemId(Integer.valueOf(
-					String.valueOf(parentCompany1.getPropertyValueByIndex(parentCompany1.getProperties().size() - 1))));
+			parentCompany.setParentCompanyMasterSystemId(responseResult);
 			parentCompany.setCompanyParentStartDate(parentCompany1.getDateProperty("parentCompanyStartDate"));
 			parentCompany.setCompanyParentEndDate(parentCompany1.getDateProperty("parentCompanyEndDate"));
 			parentCompany.setCreatedBy(Integer.valueOf(String.valueOf(parentCompany1

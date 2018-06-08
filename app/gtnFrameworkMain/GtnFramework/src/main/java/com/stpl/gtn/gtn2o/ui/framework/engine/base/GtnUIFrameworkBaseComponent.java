@@ -36,7 +36,6 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Button;
@@ -55,8 +54,6 @@ import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.Tree;
 
 public class GtnUIFrameworkBaseComponent {
-	
-	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkBaseComponent.class);
 
 	private final AbstractComponent component;
 
@@ -362,6 +359,23 @@ public class GtnUIFrameworkBaseComponent {
 		try {
 			AbstractSelect tree = (AbstractSelect) getComponentData().getCustomData();
 			tree.getContainerDataSource().addItem(item);
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+       public void clearTree() throws GtnFrameworkValidationFailedException {
+		try {
+			AbstractSelect tree = (AbstractSelect) getComponentData().getCustomData();
+			tree.getContainerDataSource().removeAllItems();
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+       
+       public Object getTreeItemIds() throws GtnFrameworkValidationFailedException {
+		try {
+			AbstractSelect tree = (AbstractSelect) getComponentData().getCustomData();
+			return !tree.getItemIds().isEmpty() ? tree.getItemIds() : null;
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}

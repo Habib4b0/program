@@ -30,5 +30,5 @@
 	<table-filter match-name="CFP_MODEL" />
 	<table-filter match-name="BRAND_MASTER" />
 	<table-filter match-name="CFP_DETAILS" />
-
+	
 </hibernate-reverse-engineering>

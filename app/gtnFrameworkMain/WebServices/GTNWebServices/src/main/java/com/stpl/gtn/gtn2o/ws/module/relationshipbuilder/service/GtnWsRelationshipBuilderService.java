@@ -66,6 +66,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuilderResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
+import java.util.Locale;
 
 /**
  *
@@ -773,17 +774,17 @@ public class GtnWsRelationshipBuilderService {
 	}
 	private String addInboundStatusForItems(String query) {
 		String inboundStatusQuery = query;
-		if (inboundStatusQuery.toUpperCase().contains(ITEM_MASTER_JOIN_DESCRIPTION)) {
+		if (inboundStatusQuery.toUpperCase(Locale.ENGLISH).contains(ITEM_MASTER_JOIN_DESCRIPTION)) {
 			inboundStatusQuery = inboundStatusQuery.concat(" AND ITEM_MASTER.INBOUND_STATUS <> 'D' ");
 		}
 		return inboundStatusQuery;
 	}
 	private String addInboundStatusForCC(String query) {
 		String inboundStatusCCQuery = query;
-		if (inboundStatusCCQuery.toUpperCase().contains(CONTRACT_MASTER_JOIN_DESCRIPTION)) {
+		if (inboundStatusCCQuery.toUpperCase(Locale.ENGLISH).contains(CONTRACT_MASTER_JOIN_DESCRIPTION)) {
 			inboundStatusCCQuery = inboundStatusCCQuery.concat(" AND CONTRACT_MASTER.INBOUND_STATUS <> 'D' ");
 		}
-		if (inboundStatusCCQuery.toUpperCase().contains(COMPANY_MASTER_JOIN_DESCRIPTION)) {
+		if (inboundStatusCCQuery.toUpperCase(Locale.ENGLISH).contains(COMPANY_MASTER_JOIN_DESCRIPTION)) {
 			inboundStatusCCQuery = inboundStatusCCQuery.concat(" AND COMPANY_MASTER.INBOUND_STATUS <> 'D' ");
 		}
 		return inboundStatusCCQuery;

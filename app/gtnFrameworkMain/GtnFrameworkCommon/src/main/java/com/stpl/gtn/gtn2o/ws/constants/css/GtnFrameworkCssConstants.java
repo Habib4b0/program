@@ -58,6 +58,7 @@ public final class GtnFrameworkCssConstants {
 	public static final String PERCENT_90 = "90%";
 	public static final String PERCENT_44 = "44%";
 	public static final String PIXEL_400 = "400px";
+	public static final String PIXEL_450 = "450px";
 	public static final String PIXEL_650 = "650px";
 	public static final String PIXEL_1250 = "1250px";
 	public static final String PIXEL_1350 = "1350px";
@@ -76,6 +77,7 @@ public final class GtnFrameworkCssConstants {
 	public static final String PIXEL_600 = "600px";
 	public static final String PIXEL_725 = "725px";
 	public static final String PIXEL_1000 = "1000px";
+	public static final String PIXEL_1500 = "1500px";
 	public static final String PIXEL_30 = "30px";
 	public static final String PADDING_LEFT10 = "padding-left10";
 	public static final String IYGDSAYGKHYA = "iygdsaygkhya";
@@ -110,7 +112,7 @@ public final class GtnFrameworkCssConstants {
 	public static final String STPL_MARGIN_TOP_34 = "stpl-margin-top-34";
 	public static final String STPL_MARGIN_TOP_25 = "stpl-margin-top-25";
 	public static final String GTN_DUAL_LIST_BOX_BUTTON = "gtnGrid-DualList-Buttons";
-    public static final String PERCENT_50 = "50%";
+	public static final String PERCENT_50 = "50%";
 
 	private GtnFrameworkCssConstants() {
 		super();

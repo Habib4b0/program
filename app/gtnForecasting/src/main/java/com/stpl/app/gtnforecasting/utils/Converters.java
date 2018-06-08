@@ -8,10 +8,12 @@ package com.stpl.app.gtnforecasting.utils;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
+import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.model.CompanyGroup;
 import com.stpl.app.utils.Constants.CommonConstants;
 import com.stpl.app.utils.Constants.DateFormatConstants;
+import static com.stpl.app.utils.Constants.LabelConstants.DATA_SELECTION_LANDING_SCREEN;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
@@ -21,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,25 +94,34 @@ public class Converters {
             result.setProductInnerLevel(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_FOUR])));
             result.setCustRelationshipBuilderSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_FIVE])));
             result.setProdRelationshipBuilderSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_SIX])));
-            if (flagValue) {
-                result.setDeductionLevel(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_SEVEN])));
-                result.setDeductionValue(obj[NumericConstants.TWENTY_NINE] != null && !StringUtils.isBlank(String.valueOf(obj[NumericConstants.TWENTY_NINE])) && !"-Select One-".equals(String.valueOf(obj[NumericConstants.TWENTY_NINE])) ? convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_NINE])) : StringUtils.EMPTY);
-                if (obj[NumericConstants.TWENTY_EIGHT] != null && !StringUtils.isBlank(String.valueOf(obj[NumericConstants.TWENTY_EIGHT])) && StringUtils.isNumeric(String.valueOf(obj[NumericConstants.TWENTY_EIGHT]))) {
-                    result.setDeductionValueId(Integer.valueOf(String.valueOf(obj[NumericConstants.TWENTY_EIGHT])));
-                }
-                result.setBusinessUnitSystemId((Integer) obj[NumericConstants.THIRTY]);
-                result.setBusinessUnitSystemName((String) obj[NumericConstants.THIRTY_ONE]);
-            } else {
-                result.setBusinessUnitSystemId((Integer) obj[NumericConstants.TWENTY_SEVEN]);
-                result.setBusinessUnitSystemName((String) obj[NumericConstants.TWENTY_EIGHT]);
-                result.setCustHierarchyVersion((Integer) obj[NumericConstants. TWENTY_NINE]);
-                result.setProdHierarchyVersion((Integer) obj[NumericConstants.THIRTY]);
+            resultBasedOnFlagValue(flagValue, obj, result);
+            Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(Integer.parseInt(result.getProjectionId()), DATA_SELECTION_LANDING_SCREEN.getConstant());
+            if (map != null && !map.isEmpty()) {
+                result.setDataSelectionFrequency(String.valueOf(map.get(Constant.FREQUENCY)));
+                result.setDataSelectionDedLevel(Integer.parseInt(String.valueOf(map.get(Constant.DATA_SELECTION_DED_LEVEL))));
             }
             results.add(result);
         }
         LOGGER.debug("End of getCustomizedViews method");
         return results;
     }
+
+	private static void resultBasedOnFlagValue(boolean flagValue, final Object[] obj, final ViewDTO result) {
+		if (flagValue) {
+		    result.setDeductionLevel(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_SEVEN])));
+		    result.setDeductionValue(obj[NumericConstants.TWENTY_NINE] != null && !StringUtils.isBlank(String.valueOf(obj[NumericConstants.TWENTY_NINE])) && !"-Select One-".equals(String.valueOf(obj[NumericConstants.TWENTY_NINE])) ? convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_NINE])) : StringUtils.EMPTY);
+		    if (obj[NumericConstants.TWENTY_EIGHT] != null && !StringUtils.isBlank(String.valueOf(obj[NumericConstants.TWENTY_EIGHT])) && StringUtils.isNumeric(String.valueOf(obj[NumericConstants.TWENTY_EIGHT]))) {
+		        result.setDeductionValueId(Integer.valueOf(String.valueOf(obj[NumericConstants.TWENTY_EIGHT])));
+		    }
+		    result.setBusinessUnitSystemId((Integer) obj[NumericConstants.THIRTY]);
+		    result.setBusinessUnitSystemName((String) obj[NumericConstants.THIRTY_ONE]);
+		} else {
+		    result.setBusinessUnitSystemId((Integer) obj[NumericConstants.TWENTY_SEVEN]);
+		    result.setBusinessUnitSystemName((String) obj[NumericConstants.TWENTY_EIGHT]);
+		    result.setCustHierarchyVersion((Integer) obj[NumericConstants. TWENTY_NINE]);
+		    result.setProdHierarchyVersion((Integer) obj[NumericConstants.THIRTY]);
+		}
+	}
 
     /**
      * Converts list of CompanyGroup to list of GroupDTO
@@ -227,18 +239,56 @@ public class Converters {
 			dataSelectionDTO.setProductHierVersionNo((Integer) objects[NumericConstants.THIRTY]);
 
             if (channelsFlag) {
-                dataSelectionDTO.setDiscountSid(Integer.parseInt(objects[NumericConstants.TWENTY_ONE] == null ? DASH : objects[NumericConstants.TWENTY_ONE].toString()));
+                dataSelectionDTO.setDiscountSid(getDiscountSid(objects));
                 dataSelectionDTO.setDiscount(DataSelectionUtil.getDiscountName(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_ONE]))));
-                dataSelectionDTO.setDeductionLevel(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_SEVEN])));
-                dataSelectionDTO.setDeductionValue(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_EIGHT])));
+                dataSelectionDTO.setDeductionLevel(getDeductionLevel(objects));
+                dataSelectionDTO.setDeductionValue(getDeductionValue(objects));
             }
             dataSelectionDTO.setForecastEligibleDate(parsetDate(convertNullToEmpty(String.valueOf(objects[NumericConstants.THIRTY_ONE]))));
-            dataSelectionDTO.setDeductionRelationShipVersionNo(Integer.parseInt(objects[NumericConstants.THIRTY_TWO] == null ? DASH : objects[NumericConstants.THIRTY_TWO].toString()));
+            dataSelectionDTO.setDeductionRelationShipVersionNo(getDeductionRelationShipVersionNo(objects));
+            dataSelectionDTO.setCustomRelationShipSid(getCustomRelationShipSid(objects));
+            dataSelectionDTO.setCustomDeductionRelationShipSid(getCustomDeductionRelationShipSid(objects));
 
             dataSelectionDTOs.add(dataSelectionDTO);
         }
 
         return dataSelectionDTOs;
+    }
+    
+    private static Integer getDiscountSid(Object[] objects) {
+    	String Twenty_one =  objects[NumericConstants.TWENTY_ONE].toString();
+    	String final_String = objects[NumericConstants.TWENTY_ONE] == null ? DASH : Twenty_one;
+    	return Integer.parseInt(final_String);
+    }
+    
+    private static Integer getDeductionRelationShipVersionNo(Object[] objects) {
+    	String thirty_Two = objects[NumericConstants.THIRTY_TWO].toString();
+    	String to_be_parsed_String = objects[NumericConstants.THIRTY_TWO] == null ? DASH : thirty_Two;
+    	return Integer.parseInt(to_be_parsed_String);
+    }
+    
+    private static Integer getCustomRelationShipSid(Object[] objects) {
+    	String THIRTY_THREE = objects[NumericConstants.THIRTY_THREE].toString();
+    	String thirty_three_null_checked = objects[NumericConstants.THIRTY_THREE] == null ? DASH : THIRTY_THREE;
+    	return Integer.parseInt(thirty_three_null_checked);
+    }
+    
+    private static Integer getCustomDeductionRelationShipSid(Object[] objects) {
+    	String THIRTY_FOUR = objects[NumericConstants.THIRTY_FOUR].toString();
+    	String thirty_four_null_checked = objects[NumericConstants.THIRTY_FOUR] == null ? DASH : THIRTY_FOUR;
+    	return Integer.parseInt(thirty_four_null_checked);
+    }
+    
+    private static String getDeductionLevel(Object[] objects) {
+    	String twenty_Seven_Value = String.valueOf(objects[NumericConstants.TWENTY_SEVEN]);
+    	String last_String = convertNullToEmpty(twenty_Seven_Value);
+    	return last_String;
+    }
+    
+    private static String getDeductionValue(Object[] objects) {
+    	String twenty_Eight_Value = String.valueOf(objects[NumericConstants.TWENTY_EIGHT]);
+    	String converted_String = convertNullToEmpty(twenty_Eight_Value);
+    	return converted_String;
     }
 
     public static DataSelectionDTO getProjection(List resultList) throws ParseException {

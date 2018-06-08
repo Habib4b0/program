@@ -7,7 +7,7 @@
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
-    <directory>&#47;</directory>
+    <directory>&#x2f;</directory>
     <parameters>
     </parameters>
     <log>
@@ -17,7 +17,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -34,6 +34,11 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+<metrics-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -62,21 +67,23 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2013&#47;07&#47;04 23:37:24.192</created_date>
+  <created_date>2013&#x2f;07&#x2f;04 23&#x3a;37&#x3a;24.192</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#47;07&#47;04 23:37:24.192</modified_date>
+  <modified_date>2013&#x2f;07&#x2f;04 23&#x3a;37&#x3a;24.192</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -93,13 +100,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -115,12 +122,95 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>STAG</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>DELETE SORT</to><enabled>Y</enabled> </hop>  <hop> <from>DELETE BATCH DUPLCIATION</from><to>D-INVALID1</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing)</from><to>ADD SORT </to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION </from><to>A-INVALID1</to><enabled>Y</enabled> </hop>  <hop> <from>Database lookup 3 2</from><to>TIER_INSERT</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows</from><to>SRT TIER FORMULA</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Dumm 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>SRT RBT PLAN TIER</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Dumm 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Indicator</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Indicator</from><to>INVALID</to><enabled>Y</enabled> </hop>  <hop> <from>DELETE BATCH DUPLCIATION</from><to>Inbound Status</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Delete</from><to>D-INVALID2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT INSERT WAIT</from><to>Audit Status</to><enabled>N</enabled> </hop>  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Update</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>AUDIT INSERT WAIT</to><enabled>N</enabled> </hop>  <hop> <from>REBATE_PLAN_MASTER lookup</from><to>REBATE_PLAN_MASTER_Insert</to><enabled>N</enabled> </hop>  <hop> <from>REBATE_PLAN_MASTER lookup</from><to>REBATE_PLAN_MASTER_update</to><enabled>N</enabled> </hop>  <hop> <from>AUDIT INSERT WAIT 2</from><to>Audit Status 2</to><enabled>N</enabled> </hop>  <hop> <from>Audit Status 2</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>AUDIT INSERT WAIT 2</to><enabled>N</enabled> </hop>  <hop> <from>TIER_INSERT</from><to>Memory Group by 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Indicator D</from><to>A-INVALID1 2</to><enabled>N</enabled> </hop>  <hop> <from>Inbound Status</from><to>Database lookup</to><enabled>Y</enabled> </hop>  <hop> <from>Database lookup</from><to>Update</to><enabled>Y</enabled> </hop>  <hop> <from>SRT RBT PLAN TIER</from><to>Database lookup 3 2</to><enabled>N</enabled> </hop>  <hop> <from>Sort rows</from><to>REBATE_PLAN_MASTER lookup</to><enabled>N</enabled> </hop>  <hop> <from>Dummy (do nothing) 3</from><to>Sort rows</to><enabled>N</enabled> </hop>  <hop> <from>Update</from><to>Invalid Delete</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Inbound Status 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Inbound Status 2 2 2</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>RP_TYPE</from><to>RP_RANGE_BASED_ON</to><enabled>N</enabled> </hop>  <hop> <from>RP_RANGE_BASED_ON</from><to>RP_STRUCTURE</to><enabled>N</enabled> </hop>  <hop> <from>RP_STRUCTURE</from><to>RP_BASED_ON</to><enabled>N</enabled> </hop>  <hop> <from>RP_BASED_ON</from><to>RP_OPERATOR</to><enabled>N</enabled> </hop>  <hop> <from>RP_OPERATOR</from><to>RP_STATUS</to><enabled>N</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION </from><to>RP_TYPE</to><enabled>N</enabled> </hop>  <hop> <from>Dummy (do nothing) 3</from><to>Sort rows 2</to><enabled>N</enabled> </hop>  <hop> <from>Sort rows 2</from><to>Block this step until steps finish</to><enabled>N</enabled> </hop>  <hop> <from>Block this step until steps finish</from><to>REBATE_PLAN_MASTER lookup 2</to><enabled>N</enabled> </hop>  <hop> <from>Database lookup 3 2</from><to>Update 3</to><enabled>N</enabled> </hop>  <hop> <from>Update 3</from><to>Invalid Indicator D</to><enabled>N</enabled> </hop>  <hop> <from>ADD SORT </from><to>AUDIT INSERT WAIT 3</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT INSERT WAIT 3</from><to>ADD BATCH DUPLCIATION </to><enabled>Y</enabled> </hop>  <hop> <from>Update 3</from><to>Memory Group by 2</to><enabled>N</enabled> </hop>  <hop> <from>RP_STATUS</from><to>FORMULA_TYPE</to><enabled>N</enabled> </hop>  <hop> <from>FORMULA_TYPE</from><to>Dummy (do nothing) 3</to><enabled>N</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Indicator D 2</from><to>A-INVALID1 2 2</to><enabled>N</enabled> </hop>  <hop> <from>REBATE_PLAN_MASTER_update</from><to>Invalid Indicator D 2</to><enabled>N</enabled> </hop>  <hop> <from>REBATE_PLAN_MASTER_Insert</from><to>Invalid Indicator D 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Indicator D 2 3</from><to>A-INVALID1 2 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>DELETE SORT</from><to>Add constants 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3</from><to>DELETE BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  <hop> <from>Database lookup 3 2</from><to>Table output</to><enabled>N</enabled> </hop>  <hop> <from>Table output</from><to>Invalid Indicator D 2 3</to><enabled>N</enabled> </hop>  <hop> <from>Table output</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION </from><to>Dummy (do nothing) 3</to><enabled>N</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION </from><to>Sort rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>Sort rows 2</from><to>Dummy (do nothing) 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>REBATE_PLAN_MASTER lookup 2</from><to>Filter rows 2</to><enabled>N</enabled> </hop>  <hop> <from>REBATE_PLAN_MASTER lookup 2</from><to>Filter rows</to><enabled>N</enabled> </hop>  <hop> <from>Dummy (do nothing) 3 2</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing) 3 2</from><to>Filter rows</to><enabled>Y</enabled> </hop>  <hop> <from>SRT RBT PLAN TIER</from><to>Table output</to><enabled>Y</enabled> </hop>  <hop> <from>Table output</from><to>Database lookup 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database lookup 3 2 2</from><to>Update 3 3</to><enabled>Y</enabled> </hop>  <hop> <from>Database lookup 3 2 2</from><to>Invalid Indicator D 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Update 3 3</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Indicator D 3</from><to>A-INVALID1 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Update 3 3</from><to>Invalid Indicator D 3</to><enabled>Y</enabled> </hop>  <hop> <from>SRT TIER FORMULA</from><to>Table output 2</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 2</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>STAG</from><to>Switch &#x2f; Case</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>DELETE SORT</to><enabled>Y</enabled> </hop>
+  <hop> <from>DELETE BATCH DUPLCIATION</from><to>D-INVALID1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Dummy &#x28;do nothing&#x29;</from><to>ADD SORT </to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION </from><to>A-INVALID1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Database lookup 3 2</from><to>TIER_INSERT</to><enabled>N</enabled> </hop>
+  <hop> <from>Filter rows</from><to>SRT TIER FORMULA</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>Dumm 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2</from><to>SRT RBT PLAN TIER</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2</from><to>Dumm 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Invalid Indicator</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Indicator</from><to>INVALID</to><enabled>Y</enabled> </hop>
+  <hop> <from>DELETE BATCH DUPLCIATION</from><to>Inbound Status</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Delete</from><to>D-INVALID2</to><enabled>Y</enabled> </hop>
+  <hop> <from>AUDIT INSERT WAIT</from><to>Audit Status</to><enabled>N</enabled> </hop>
+  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>AUDIT INSERT WAIT</to><enabled>N</enabled> </hop>
+  <hop> <from>REBATE_PLAN_MASTER lookup</from><to>REBATE_PLAN_MASTER_Insert</to><enabled>N</enabled> </hop>
+  <hop> <from>REBATE_PLAN_MASTER lookup</from><to>REBATE_PLAN_MASTER_update</to><enabled>N</enabled> </hop>
+  <hop> <from>AUDIT INSERT WAIT 2</from><to>Audit Status 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Audit Status 2</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by 2</from><to>AUDIT INSERT WAIT 2</to><enabled>N</enabled> </hop>
+  <hop> <from>TIER_INSERT</from><to>Memory Group by 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Indicator D</from><to>A-INVALID1 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Inbound Status</from><to>Database lookup</to><enabled>Y</enabled> </hop>
+  <hop> <from>Database lookup</from><to>Update</to><enabled>Y</enabled> </hop>
+  <hop> <from>SRT RBT PLAN TIER</from><to>Database lookup 3 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Sort rows</from><to>REBATE_PLAN_MASTER lookup</to><enabled>N</enabled> </hop>
+  <hop> <from>Dummy &#x28;do nothing&#x29; 3</from><to>Sort rows</to><enabled>N</enabled> </hop>
+  <hop> <from>Update</from><to>Invalid Delete</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Inbound Status 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Inbound Status 2 2 2</from><to>Dummy &#x28;do nothing&#x29;</to><enabled>Y</enabled> </hop>
+  <hop> <from>RP_TYPE</from><to>RP_RANGE_BASED_ON</to><enabled>N</enabled> </hop>
+  <hop> <from>RP_RANGE_BASED_ON</from><to>RP_STRUCTURE</to><enabled>N</enabled> </hop>
+  <hop> <from>RP_STRUCTURE</from><to>RP_BASED_ON</to><enabled>N</enabled> </hop>
+  <hop> <from>RP_BASED_ON</from><to>RP_OPERATOR</to><enabled>N</enabled> </hop>
+  <hop> <from>RP_OPERATOR</from><to>RP_STATUS</to><enabled>N</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION </from><to>RP_TYPE</to><enabled>N</enabled> </hop>
+  <hop> <from>Dummy &#x28;do nothing&#x29; 3</from><to>Sort rows 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Sort rows 2</from><to>Block this step until steps finish</to><enabled>N</enabled> </hop>
+  <hop> <from>Block this step until steps finish</from><to>REBATE_PLAN_MASTER lookup 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Database lookup 3 2</from><to>Update 3</to><enabled>N</enabled> </hop>
+  <hop> <from>Update 3</from><to>Invalid Indicator D</to><enabled>N</enabled> </hop>
+  <hop> <from>ADD SORT </from><to>AUDIT INSERT WAIT 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>AUDIT INSERT WAIT 3</from><to>ADD BATCH DUPLCIATION </to><enabled>Y</enabled> </hop>
+  <hop> <from>Update 3</from><to>Memory Group by 2</to><enabled>N</enabled> </hop>
+  <hop> <from>RP_STATUS</from><to>FORMULA_TYPE</to><enabled>N</enabled> </hop>
+  <hop> <from>FORMULA_TYPE</from><to>Dummy &#x28;do nothing&#x29; 3</to><enabled>N</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by 2</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Indicator D 2</from><to>A-INVALID1 2 2</to><enabled>N</enabled> </hop>
+  <hop> <from>REBATE_PLAN_MASTER_update</from><to>Invalid Indicator D 2</to><enabled>N</enabled> </hop>
+  <hop> <from>REBATE_PLAN_MASTER_Insert</from><to>Invalid Indicator D 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Indicator D 2 3</from><to>A-INVALID1 2 2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>DELETE SORT</from><to>Add constants 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3</from><to>DELETE BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>
+  <hop> <from>Database lookup 3 2</from><to>Table output</to><enabled>N</enabled> </hop>
+  <hop> <from>Table output</from><to>Invalid Indicator D 2 3</to><enabled>N</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION </from><to>Dummy &#x28;do nothing&#x29; 3</to><enabled>N</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION </from><to>Sort rows 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows 2</from><to>Dummy &#x28;do nothing&#x29; 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>REBATE_PLAN_MASTER lookup 2</from><to>Filter rows 2</to><enabled>N</enabled> </hop>
+  <hop> <from>REBATE_PLAN_MASTER lookup 2</from><to>Filter rows</to><enabled>N</enabled> </hop>
+  <hop> <from>Dummy &#x28;do nothing&#x29; 3 2</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Dummy &#x28;do nothing&#x29; 3 2</from><to>Filter rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>SRT RBT PLAN TIER</from><to>Table output</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update 3 3</from><to>Memory Group by 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Indicator D 3</from><to>A-INVALID1 2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update 3 3</from><to>Invalid Indicator D 3</to><enabled>N</enabled> </hop>
+  <hop> <from>SRT TIER FORMULA</from><to>Table output 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table output 2</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table output</from><to>Invalid Indicator D 2 3</to><enabled>N</enabled> </hop>
+  <hop> <from>Table output</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table output</from><to>Database lookup 3 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Indicator D 3 2</from><to>A-INVALID1 2 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update 3 3 2</from><to>Invalid Indicator D 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update 3 3 2</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Database lookup 3 2 2</from><to>Update 3 3</to><enabled>N</enabled> </hop>
+  <hop> <from>Database lookup 3 2 2</from><to>Invalid Indicator D 2 3</to><enabled>N</enabled> </hop>
+  <hop> <from>Database lookup 3 2 2</from><to>Invalid Indicator D 2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Database lookup 3 2 2</from><to>Update 3 3 2</to><enabled>Y</enabled> </hop>
+  </order>
   <step>
     <name>A-INVALID1</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -358,6 +448,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -591,6 +682,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -824,6 +916,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1046,8 +1139,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1183</xloc>
-      <yloc>2035</yloc>
+      <xloc>1212</xloc>
+      <yloc>2007</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1057,6 +1150,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1290,6 +1384,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1307,19 +1402,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -1340,6 +1435,7 @@
     <type>Unique</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1366,12 +1462,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -1383,11 +1480,13 @@
         <name>REBATE_PLAN_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>REBATE_PLAN_TIER_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -1403,6 +1502,7 @@
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1423,6 +1523,7 @@
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1443,6 +1544,7 @@
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1467,6 +1569,7 @@
     <type>Constant</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1483,6 +1586,7 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1498,6 +1602,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1514,6 +1619,7 @@
         <nullif>R</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -1525,6 +1631,7 @@
         <nullif>REBATE_PLAN_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1540,6 +1647,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1556,6 +1664,7 @@
         <nullif>R</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -1567,6 +1676,7 @@
         <nullif>REBATE_PLAN_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1582,6 +1692,7 @@
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1610,6 +1721,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1847,6 +1959,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2080,6 +2193,7 @@
     <type>Unique</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2106,12 +2220,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -2123,11 +2238,13 @@
         <name>REBATE_PLAN_ID</name>
         <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>CONTRACT_ID</name>
         <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -2143,6 +2260,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2167,7 +2285,7 @@
       <key>
         <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2190,6 +2308,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2214,7 +2333,7 @@
       <key>
         <name>REBATE_PLAN_MASTER_SID</name>
         <field>REBATE_PLAN_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2236,7 +2355,8 @@
     <name>Database lookup 3 2 2</name>
     <type>DBLookup</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2261,7 +2381,13 @@
       <key>
         <name>REBATE_PLAN_MASTER_SID</name>
         <field>REBATE_PLAN_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>Inbound_Status</name>
+        <field>INBOUND_STATUS</field>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2273,8 +2399,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1098</xloc>
-      <yloc>1902</yloc>
+      <xloc>1061</xloc>
+      <yloc>1866</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2284,6 +2410,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2301,19 +2428,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -2334,6 +2461,7 @@
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2352,6 +2480,7 @@
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2366,10 +2495,11 @@
     </step>
 
   <step>
-    <name>Dummy (do nothing)</name>
+    <name>Dummy &#x28;do nothing&#x29;</name>
     <type>Dummy</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2384,10 +2514,30 @@
     </step>
 
   <step>
-    <name>Dummy (do nothing) 3</name>
+    <name>Dummy &#x28;do nothing&#x29; 2</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1388</xloc>
+      <yloc>1727</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Dummy &#x28;do nothing&#x29; 3</name>
     <type>Dummy</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2402,10 +2552,11 @@
     </step>
 
   <step>
-    <name>Dummy (do nothing) 3 2</name>
+    <name>Dummy &#x28;do nothing&#x29; 3 2</name>
     <type>Dummy</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2424,6 +2575,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2448,7 +2600,7 @@
       <key>
         <name>RP_FORMULATYPE</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2471,6 +2623,7 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2499,6 +2652,7 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2527,6 +2681,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2760,6 +2915,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2776,6 +2932,7 @@
         <nullif>A</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -2791,6 +2948,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2807,6 +2965,7 @@
         <nullif>A</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>inbound D</name>
@@ -2818,6 +2977,7 @@
         <nullif>D</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>RP_TYPE</name>
@@ -2829,6 +2989,7 @@
         <nullif>REBATE_PLAN_TYPE</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>RP_RANGE_BASED_ON</name>
@@ -2840,6 +3001,7 @@
         <nullif>REBATE_RANGE_BASED_ON</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>RP_STRUCTURE</name>
@@ -2851,6 +3013,7 @@
         <nullif>REBATE_STRUCTURE</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>RP_BASED_ON</name>
@@ -2862,6 +3025,7 @@
         <nullif>REBATE_BASED_ON</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>RP_OPERATOR</name>
@@ -2873,6 +3037,7 @@
         <nullif>TIER_OPERATOR</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>RP_STATUS</name>
@@ -2884,6 +3049,7 @@
         <nullif>STATUS</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>RP_FORMULATYPE</name>
@@ -2895,6 +3061,7 @@
         <nullif>FORMULA_TPYE</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ERROR_CODE</name>
@@ -2906,6 +3073,7 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -2921,6 +3089,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2937,6 +3106,7 @@
         <nullif>No record exists to delete</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -2952,6 +3122,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2968,6 +3139,7 @@
         <nullif>Invalid Indicator</nullif>
         <length>30</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -2983,6 +3155,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2999,6 +3172,7 @@
         <nullif>Duplicate Record</nullif>
         <length>0</length>
         <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -3014,6 +3188,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3030,6 +3205,7 @@
         <nullif>Duplicate Record</nullif>
         <length>0</length>
         <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -3045,6 +3221,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3061,12 +3238,13 @@
         <nullif>Duplicate Record</nullif>
         <length>0</length>
         <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1184</xloc>
-      <yloc>1916</yloc>
+      <xloc>1206</xloc>
+      <yloc>1868</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3076,6 +3254,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3092,6 +3271,7 @@
         <nullif>Duplicate Record</nullif>
         <length>0</length>
         <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -3107,6 +3287,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3139,6 +3320,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3171,6 +3353,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3212,6 +3395,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3253,6 +3437,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3398,6 +3583,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3540,6 +3726,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3564,7 +3751,7 @@
       <key>
         <name>RP_BASED_ON</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3587,6 +3774,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3605,13 +3793,13 @@
       <key>
         <name>TIER_OPERATOR</name>
         <field>DESCRIPTION</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>RP_OPERATOR</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3634,6 +3822,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3658,7 +3847,7 @@
       <key>
         <name>RP_RANGE_BASED_ON</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3681,6 +3870,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3705,7 +3895,7 @@
       <key>
         <name>RP_STATUS</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3728,6 +3918,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3752,7 +3943,7 @@
       <key>
         <name>RP_STRUCTURE</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3775,6 +3966,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3799,7 +3991,7 @@
       <key>
         <name>RP_TYPE</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3822,12 +4014,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -3839,11 +4032,13 @@
         <name>REBATE_PLAN_TIER_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>REBATE_PLAN_MASTER_SID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -3859,12 +4054,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -3876,11 +4072,13 @@
         <name>TIER_FORMULA_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>REBATE_PLAN_MASTER_SID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -3896,117 +4094,14 @@
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
     <connection>BPI DB</connection>
-    <sql>------------------------------------------
-
-IF OBJECT_ID(&apos;TEMPDB..#RPLAN&apos;) IS NOT NULL
-DROP TABLE #RPLAN
-	SELECT a.REBATE_PLAN_ID,
-		    REBATE_PLAN_MASTER_SID
-INTO   #RPLAN
-	FROM   (SELECT DISTINCT REBATE_PLAN_ID
-			FROM   STAG_REBATE_PLAN) a
-		   JOIN REBATE_PLAN_MASTER im
-			 ON im.REBATE_PLAN_ID = a.REBATE_PLAN_ID 
-
-
-SELECT
-
-  A.REBATE_PLAN_INTFID
-, A.REBATE_PLAN_ID
-, A.REBATE_PLAN_NO
-, A.REBATE_PLAN_NAME
-, A.REBATE_PLAN_STATUS
-, A.REBATE_PLAN_TYPE
-, A.INTERNAL_NOTES
-, A.FORMULA_TYPE
-, A.BOGO_ELIGIBLE
-, A.SELF_GROWTH_INDICATOR
-, A.SELF_GROWTH_REFERENCE
-, A.SELF_GROWTH_FROM
-, A.SELF_GROWTH_TO
-, A.MARKET_SHARE_INDICATOR
-, A.MARKET_SHARE_REFERENCE
-, A.MARKET_SHAR_EFROM
-, A.MARKET_SHARE_TO
-, A.TIER_FORMULA_ID
-, A.TIER_FORMULA_NO
-, A.TIER_FORMULA_NAME
-, A.REBATE_STRUCTURE
-, A.REBATE_RANGE_BASED_ON
-, A.REBATE_BASED_ON
-, A.REBATE_RULE
-, A.REBATE_PLAN_TIER_ID
-, A.TIER_FROM
-, A.TIER_TO
-, A.TIER_LEVEL
-, A.TIER_OPERATOR
-, A.TIER_VALUE
-, A.FREE_AMOUNT
-, A.TIER_TOLERANCE
-, A.SECONDARY_REBATE_PLAN_ID
-, A.SECONDARY_REBATE_PLAN_NO
-, A.SECONDARY_REBATE_PLAN_NAME
-, A.CONTRACT_ID
-, A.CFP_ID
-, A.MFP_ID
-, A.IFP_ID
-, A.PRICE_SCHEDULE_ID
-, A.REBATE_SCHEDULE_ID
-, A.CREATED_BY
-, A.CREATED_DATE
-, A.MODIFIED_BY
-, A.MODIFIED_DATE
-, A.BATCH_ID
-, A.SOURCE
-, A.ADD_CHG_DEL_INDICATOR
-,E.HELPER_TABLE_SID AS NEW_RP_TYPE
-,F.HELPER_TABLE_SID AS NEW_RP_RANGE_BASED_ON
-,G.HELPER_TABLE_SID AS NEW_RP_STRUCTURE
-,H.HELPER_TABLE_SID AS NEW_RP_BASED_ON
-,I.HELPER_TABLE_SID AS NEW_RP_OPERATOR
-,J.HELPER_TABLE_SID AS NEW_RP_STATUS
-,K.HELPER_TABLE_SID AS NEW_RP_FORMULA_TYPE
-,b.REBATE_PLAN_MASTER_SID
-FROM STAG_REBATE_PLAN A
-inner join #RPLAN  B 
-           ON A.REBATE_PLAN_ID=B.REBATE_PLAN_ID
-    left join HELPER_TABLE E 
-	          ON E.DESCRIPTION=A.REBATE_PLAN_TYPE
-	   	      AND E.LIST_NAME=&apos;REBATE_PLAN_TYPE&apos;
-   left join HELPER_TABLE F
-	          ON F.DESCRIPTION=A.REBATE_RANGE_BASED_ON
-	   	      AND F.LIST_NAME=&apos;REBATE_RANGE_BASED_ON&apos;
-  left join HELPER_TABLE G
-	          ON G.DESCRIPTION=A.REBATE_STRUCTURE
-	   	      AND G.LIST_NAME=&apos;REBATE_STRUCTURE&apos;
-  left join HELPER_TABLE H
-	          ON H.DESCRIPTION=A.REBATE_BASED_ON
-	   	      AND H.LIST_NAME=&apos;REBATE_BASED_ON&apos;
-  left join HELPER_TABLE I
-	          ON I.DESCRIPTION=A.TIER_OPERATOR
-	   	      AND I.LIST_NAME=&apos;TIER_OPERATOR&apos;
-  left join HELPER_TABLE J
-	          ON J.DESCRIPTION=A.REBATE_PLAN_STATUS
-	   	      AND J.LIST_NAME=&apos;STATUS&apos;
-  left join HELPER_TABLE K
-	          ON K.DESCRIPTION=A.FORMULA_TYPE
-	   	      AND K.LIST_NAME=&apos;FORMULA_TPYE&apos;
-			--  WHERE 
-			 -- NOT EXISTS ( SELECT 1 FROM REBATE_PLAN_MASTER RP WHERE RP.REBATE_PLAN_ID=A.REBATE_PLAN_ID )
-			 -- AND
-			 --  A.ADD_CHG_DEL_INDICATOR=&apos;A&apos;
-
-
-
-
-
-</sql>
+    <sql>------------------------------------------&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;RPLAN&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;RPLAN&#xa;	SELECT a.REBATE_PLAN_ID,&#xa;		    REBATE_PLAN_MASTER_SID&#xa;INTO   &#x23;RPLAN&#xa;	FROM   &#x28;SELECT DISTINCT REBATE_PLAN_ID&#xa;			FROM   STAG_REBATE_PLAN&#x29; a&#xa;		   JOIN REBATE_PLAN_MASTER im&#xa;			 ON im.REBATE_PLAN_ID &#x3d; a.REBATE_PLAN_ID &#xa;&#xa;&#xa;SELECT&#xa;&#xa;  A.REBATE_PLAN_INTFID&#xa;, A.REBATE_PLAN_ID&#xa;, A.REBATE_PLAN_NO&#xa;, A.REBATE_PLAN_NAME&#xa;, A.REBATE_PLAN_STATUS&#xa;, A.REBATE_PLAN_TYPE&#xa;, A.INTERNAL_NOTES&#xa;, A.FORMULA_TYPE&#xa;, A.BOGO_ELIGIBLE&#xa;, A.SELF_GROWTH_INDICATOR&#xa;, A.SELF_GROWTH_REFERENCE&#xa;, A.SELF_GROWTH_FROM&#xa;, A.SELF_GROWTH_TO&#xa;, A.MARKET_SHARE_INDICATOR&#xa;, A.MARKET_SHARE_REFERENCE&#xa;, A.MARKET_SHAR_EFROM&#xa;, A.MARKET_SHARE_TO&#xa;, A.TIER_FORMULA_ID&#xa;, A.TIER_FORMULA_NO&#xa;, A.TIER_FORMULA_NAME&#xa;, A.REBATE_STRUCTURE&#xa;, A.REBATE_RANGE_BASED_ON&#xa;, A.REBATE_BASED_ON&#xa;, A.REBATE_RULE&#xa;, A.REBATE_PLAN_TIER_ID&#xa;, A.TIER_FROM&#xa;, A.TIER_TO&#xa;, A.TIER_LEVEL&#xa;, A.TIER_OPERATOR&#xa;, A.TIER_VALUE&#xa;, A.FREE_AMOUNT&#xa;, A.TIER_TOLERANCE&#xa;, A.SECONDARY_REBATE_PLAN_ID&#xa;, A.SECONDARY_REBATE_PLAN_NO&#xa;, A.SECONDARY_REBATE_PLAN_NAME&#xa;, A.CONTRACT_ID&#xa;, A.CFP_ID&#xa;, A.MFP_ID&#xa;, A.IFP_ID&#xa;, A.PRICE_SCHEDULE_ID&#xa;, A.REBATE_SCHEDULE_ID&#xa;, A.CREATED_BY&#xa;, A.CREATED_DATE&#xa;, A.MODIFIED_BY&#xa;, A.MODIFIED_DATE&#xa;, A.BATCH_ID&#xa;, A.SOURCE&#xa;, A.ADD_CHG_DEL_INDICATOR&#xa;,E.HELPER_TABLE_SID AS NEW_RP_TYPE&#xa;,F.HELPER_TABLE_SID AS NEW_RP_RANGE_BASED_ON&#xa;,G.HELPER_TABLE_SID AS NEW_RP_STRUCTURE&#xa;,H.HELPER_TABLE_SID AS NEW_RP_BASED_ON&#xa;,I.HELPER_TABLE_SID AS NEW_RP_OPERATOR&#xa;,J.HELPER_TABLE_SID AS NEW_RP_STATUS&#xa;,K.HELPER_TABLE_SID AS NEW_RP_FORMULA_TYPE&#xa;,b.REBATE_PLAN_MASTER_SID&#xa;FROM STAG_REBATE_PLAN A&#xa;inner join &#x23;RPLAN  B &#xa;           ON A.REBATE_PLAN_ID&#x3d;B.REBATE_PLAN_ID&#xa;    left join HELPER_TABLE E &#xa;	          ON E.DESCRIPTION&#x3d;A.REBATE_PLAN_TYPE&#xa;	   	      AND E.LIST_NAME&#x3d;&#x27;REBATE_PLAN_TYPE&#x27;&#xa;   left join HELPER_TABLE F&#xa;	          ON F.DESCRIPTION&#x3d;A.REBATE_RANGE_BASED_ON&#xa;	   	      AND F.LIST_NAME&#x3d;&#x27;REBATE_RANGE_BASED_ON&#x27;&#xa;  left join HELPER_TABLE G&#xa;	          ON G.DESCRIPTION&#x3d;A.REBATE_STRUCTURE&#xa;	   	      AND G.LIST_NAME&#x3d;&#x27;REBATE_STRUCTURE&#x27;&#xa;  left join HELPER_TABLE H&#xa;	          ON H.DESCRIPTION&#x3d;A.REBATE_BASED_ON&#xa;	   	      AND H.LIST_NAME&#x3d;&#x27;REBATE_BASED_ON&#x27;&#xa;  left join HELPER_TABLE I&#xa;	          ON I.DESCRIPTION&#x3d;A.TIER_OPERATOR&#xa;	   	      AND I.LIST_NAME&#x3d;&#x27;TIER_OPERATOR&#x27;&#xa;  left join HELPER_TABLE J&#xa;	          ON J.DESCRIPTION&#x3d;A.REBATE_PLAN_STATUS&#xa;	   	      AND J.LIST_NAME&#x3d;&#x27;STATUS&#x27;&#xa;  left join HELPER_TABLE K&#xa;	          ON K.DESCRIPTION&#x3d;A.FORMULA_TYPE&#xa;	   	      AND K.LIST_NAME&#x3d;&#x27;FORMULA_TPYE&#x27;&#xa;			--  WHERE &#xa;			 -- NOT EXISTS &#x28; SELECT 1 FROM REBATE_PLAN_MASTER RP WHERE RP.REBATE_PLAN_ID&#x3d;A.REBATE_PLAN_ID &#x29;&#xa;			 -- AND&#xa;			 --  A.ADD_CHG_DEL_INDICATOR&#x3d;&#x27;A&#x27;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -4025,12 +4120,13 @@ inner join #RPLAN  B
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>1000000</sort_size>
       <free_memory/>
@@ -4042,6 +4138,7 @@ inner join #RPLAN  B
         <name>REBATE_PLAN_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -4057,12 +4154,13 @@ inner join #RPLAN  B
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -4074,6 +4172,7 @@ inner join #RPLAN  B
         <name>REBATE_PLAN_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -4085,10 +4184,11 @@ inner join #RPLAN  B
     </step>
 
   <step>
-    <name>Switch &#47; Case</name>
+    <name>Switch &#x2f; Case</name>
     <type>SwitchCase</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4118,6 +4218,7 @@ inner join #RPLAN  B
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4187,6 +4288,7 @@ inner join #RPLAN  B
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4275,7 +4377,8 @@ inner join #RPLAN  B
     <name>Table output</name>
     <type>TableOutput</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4365,6 +4468,7 @@ inner join #RPLAN  B
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4434,6 +4538,7 @@ inner join #RPLAN  B
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4451,13 +4556,13 @@ inner join #RPLAN  B
       <key>
         <name>REBATE_PLAN_MASTER_SID</name>
         <field>REBATE_PLAN_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -4494,6 +4599,7 @@ inner join #RPLAN  B
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4517,13 +4623,13 @@ inner join #RPLAN  B
       <key>
         <name>REBATE_PLAN_MASTER_SID</name>
         <field>REBATE_PLAN_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>inbound D</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -4584,6 +4690,7 @@ inner join #RPLAN  B
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4607,13 +4714,13 @@ inner join #RPLAN  B
       <key>
         <name>REBATE_PLAN_MASTER_SID</name>
         <field>REBATE_PLAN_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
-        <name>inbound D</name>
+        <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -4663,26 +4770,360 @@ inner join #RPLAN  B
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1088</xloc>
-      <yloc>2005</yloc>
+      <xloc>1003</xloc>
+      <yloc>2003</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Dummy (do nothing) 2</name>
-    <type>Dummy</type>
+    <name>Update 3 3 2</name>
+    <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>100</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>REBATE_PLAN_TIER</table>
+      <key>
+        <name>REBATE_PLAN_TIER_ID</name>
+        <field>REBATE_PLAN_TIER_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>REBATE_PLAN_MASTER_SID</name>
+        <field>REBATE_PLAN_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>TIER_FROM</name>
+        <rename>TIER_FROM</rename>
+        </value>
+      <value>
+        <name>TIER_TO</name>
+        <rename>TIER_TO</rename>
+        </value>
+      <value>
+        <name>TIER_LEVEL</name>
+        <rename>TIER_LEVEL</rename>
+        </value>
+      <value>
+        <name>TIER_OPERATOR</name>
+        <rename>NEW_RP_OPERATOR</rename>
+        </value>
+      <value>
+        <name>TIER_VALUE</name>
+        <rename>TIER_VALUE</rename>
+        </value>
+      <value>
+        <name>FREE_AMOUNT</name>
+        <rename>FREE_AMOUNT</rename>
+        </value>
+      <value>
+        <name>TIER_TOLERANCE</name>
+        <rename>TIER_TOLERANCE</rename>
+        </value>
+      <value>
+        <name>BATCH_ID</name>
+        <rename>BATCH_ID</rename>
+        </value>
+      <value>
+        <name>SOURCE</name>
+        <rename>SOURCE</rename>
+        </value>
+      <value>
+        <name>INBOUND_STATUS</name>
+        <rename>Inbound_Status</rename>
+        </value>
+      <value>
+        <name>MODIFIED_BY</name>
+        <rename>CREATED_BY</rename>
+        </value>
+      </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1388</xloc>
-      <yloc>1727</yloc>
+      <xloc>1116</xloc>
+      <yloc>2099</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>A-INVALID1 2 3 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema>dbo</schema>
+    <table>IVLD_REBATE_PLAN</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>REBATE_PLAN_INTFID</column_name>
+          <stream_name>REBATE_PLAN_INTFID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_ID</column_name>
+          <stream_name>REBATE_PLAN_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_NO</column_name>
+          <stream_name>REBATE_PLAN_NO</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_NAME</column_name>
+          <stream_name>REBATE_PLAN_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_STATUS</column_name>
+          <stream_name>REBATE_PLAN_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_TYPE</column_name>
+          <stream_name>REBATE_PLAN_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_TYPE</column_name>
+          <stream_name>FORMULA_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>BOGO_ELIGIBLE</column_name>
+          <stream_name>BOGO_ELIGIBLE</stream_name>
+        </field>
+        <field>
+          <column_name>SELF_GROWTH_INDICATOR</column_name>
+          <stream_name>SELF_GROWTH_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>SELF_GROWTH_REFERENCE</column_name>
+          <stream_name>SELF_GROWTH_REFERENCE</stream_name>
+        </field>
+        <field>
+          <column_name>SELF_GROWTH_FROM</column_name>
+          <stream_name>SELF_GROWTH_FROM</stream_name>
+        </field>
+        <field>
+          <column_name>SELF_GROWTH_TO</column_name>
+          <stream_name>SELF_GROWTH_TO</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_SHARE_INDICATOR</column_name>
+          <stream_name>MARKET_SHARE_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_SHARE_REFERENCE</column_name>
+          <stream_name>MARKET_SHARE_REFERENCE</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_SHARE_TO</column_name>
+          <stream_name>MARKET_SHARE_TO</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_FORMULA_ID</column_name>
+          <stream_name>TIER_FORMULA_ID</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_FORMULA_NO</column_name>
+          <stream_name>TIER_FORMULA_NO</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_FORMULA_NAME</column_name>
+          <stream_name>TIER_FORMULA_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_STRUCTURE</column_name>
+          <stream_name>REBATE_STRUCTURE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_RANGE_BASED_ON</column_name>
+          <stream_name>REBATE_RANGE_BASED_ON</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_BASED_ON</column_name>
+          <stream_name>REBATE_BASED_ON</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_RULE</column_name>
+          <stream_name>REBATE_RULE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_TIER_ID</column_name>
+          <stream_name>REBATE_PLAN_TIER_ID</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_FROM</column_name>
+          <stream_name>TIER_FROM</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_TO</column_name>
+          <stream_name>TIER_TO</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_LEVEL</column_name>
+          <stream_name>TIER_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_OPERATOR</column_name>
+          <stream_name>TIER_OPERATOR</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_VALUE</column_name>
+          <stream_name>TIER_VALUE</stream_name>
+        </field>
+        <field>
+          <column_name>FREE_AMOUNT</column_name>
+          <stream_name>FREE_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>TIER_TOLERANCE</column_name>
+          <stream_name>TIER_TOLERANCE</stream_name>
+        </field>
+        <field>
+          <column_name>SECONDARY_REBATE_PLAN_ID</column_name>
+          <stream_name>SECONDARY_REBATE_PLAN_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SECONDARY_REBATE_PLAN_NO</column_name>
+          <stream_name>SECONDARY_REBATE_PLAN_NO</stream_name>
+        </field>
+        <field>
+          <column_name>SECONDARY_REBATE_PLAN_NAME</column_name>
+          <stream_name>SECONDARY_REBATE_PLAN_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_ID</column_name>
+          <stream_name>CFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>MFP_ID</column_name>
+          <stream_name>MFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_ID</column_name>
+          <stream_name>IFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_ID</column_name>
+          <stream_name>PRICE_SCHEDULE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_ID</column_name>
+          <stream_name>REBATE_SCHEDULE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_SHARE_FROM</column_name>
+          <stream_name>MARKET_SHAR_EFROM</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1300</xloc>
+      <yloc>2376</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Indicator D 3 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Record</nullif>
+        <length>0</length>
+        <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1262</xloc>
+      <yloc>2269</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -4738,7 +5179,7 @@ inner join #RPLAN  B
       </error>
       <error>
         <source_step>Database lookup 3 2 2</source_step>
-        <target_step>Invalid Indicator D 2 3</target_step>
+        <target_step>Update 3 3 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -4798,7 +5239,7 @@ inner join #RPLAN  B
       </error>
       <error>
         <source_step>TIER_FORMULA_INSERT</source_step>
-        <target_step>Invalid Indicator D 2 2</target_step>
+        <target_step/>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -4834,7 +5275,7 @@ inner join #RPLAN  B
       </error>
       <error>
         <source_step>Table output 2</source_step>
-        <target_step>Dummy (do nothing) 2</target_step>
+        <target_step>Dummy &#x28;do nothing&#x29; 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -4880,8 +5321,21 @@ inner join #RPLAN  B
         <max_pct_errors/>
         <min_pct_rows/>
       </error>
+      <error>
+        <source_step>Update 3 3 2</source_step>
+        <target_step>Invalid Indicator D 3 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
   </step_error_handling>
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
+
 </transformation>

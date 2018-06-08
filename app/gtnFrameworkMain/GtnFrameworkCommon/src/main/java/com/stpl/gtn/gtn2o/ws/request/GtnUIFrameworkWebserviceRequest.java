@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ws.request.companygroup.GtnCompanyGroupRequest;
 import com.stpl.gtn.gtn2o.ws.request.compliancededuction.GtnWsComplianceGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractDashboardRequest;
 import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractHeaderRequest;
+import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.request.dataselectionedit.GtnWsForecastHierarchyInsertRequest;
 import com.stpl.gtn.gtn2o.ws.request.deductioncalendar.GtnWsDeductionCalendarRequest;
 import com.stpl.gtn.gtn2o.ws.request.duallistbox.GTNUIFrameworkDualListBoxRequest;
@@ -128,6 +129,8 @@ public class GtnUIFrameworkWebserviceRequest {
     private GtnWsUdcRequest gtnWsUdcRequest;
 
     private GtnWsAttachmentRequest gtnWsAttachmentRequest;
+
+    private GtnWsCustomViewRequest gtnWsCustomViewRequest;
 
     public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
         return gtnWshirarchyInsertRequest;
@@ -466,6 +469,14 @@ public class GtnUIFrameworkWebserviceRequest {
 
     public void setGtnWsAttachmentRequest(GtnWsAttachmentRequest gtnWsAttachmentRequest) {
         this.gtnWsAttachmentRequest = gtnWsAttachmentRequest;
+    }
+
+    public GtnWsCustomViewRequest getGtnWsCustomViewRequest() {
+        return gtnWsCustomViewRequest;
+    }
+
+    public void setGtnWsCustomViewRequest(GtnWsCustomViewRequest gtnWsCustomViewRequest) {
+        this.gtnWsCustomViewRequest = gtnWsCustomViewRequest;
     }
 
     public GtnWsArmRequest getGtnWsArmRequest() {
