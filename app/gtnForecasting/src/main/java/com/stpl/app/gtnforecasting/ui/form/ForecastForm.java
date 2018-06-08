@@ -520,8 +520,8 @@ public class ForecastForm extends AbstractForm {
                                     }
                                 }
                                 if (discountLoadFlag && (tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.EIGHT)){
-                                CommonUtil.getInstance().isProcedureCompleted("Discount", "PRC_NM_MASTER_INSERT", session);
-                                session.addFutureMap(Constant.CUST_VIEW_MAP_QUERY,
+                                    CommonUtil.getInstance().isProcedureCompleted("Discount", "PRC_NM_MASTER_INSERT", session);
+                               session.addFutureMap(Constant.CUST_VIEW_MAP_QUERY,
 				new Future[] {service.submit(CommonUtil.getInstance().createRunnable(Constant.CUST_VIEW_MAP_QUERY,session))});
                                 discountLoadFlag = false;
                                 }
@@ -2360,6 +2360,7 @@ public class ForecastForm extends AbstractForm {
                 logic.mainToTempTableInsert(session, service);
                 session.addFutureMap(Constant.DATA_SELECTION_TAB_LOAD, new Future[]{
                 service.submit(CommonUtil.getInstance().createRunnable(Constant.DATA_SELECTION_TAB_LOAD, data))});
+                nmSalesInsertDiscMasterProcedure();
                 nmSalesViewsPopulationProcedure();
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SALES_PROCEDURE_CALL));
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL));

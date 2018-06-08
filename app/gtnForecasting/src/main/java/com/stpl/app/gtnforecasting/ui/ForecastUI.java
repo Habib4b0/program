@@ -233,7 +233,10 @@ public class ForecastUI extends UI {
                         sessionDto.setProductRelationVersion(dto.getProductRelationShipVersionNo());
                         sessionDto.setScreenName(screenName);
                         sessionDto.setProductRelationId(Integer.parseInt(dto.getProdRelationshipBuilderSid()));
-                        sessionDto.setProductLevelNumber(dto.getProductHierarchyLevel());
+                        sessionDto.setProductLevelNumber(dto.getProductHierarchyLevel());   
+                        sessionDto.setFunctionMode("E");
+                        sessionDto.setCustomRelationShipSid(dto.getCustomRelationShipSid());
+                        sessionDto.setFrequency(dto.getFrequency());
                         QueryUtils.createTempTables(sessionDto);
 
                         Map<String, String> tempCustomerDescriptionMap;
