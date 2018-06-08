@@ -2097,20 +2097,20 @@ public class CommonLogic {
             List<String> relationshipBuilderSids = new ArrayList<>();
             relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
             relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
-            int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
-            LOGGER.debug(" New Projection Id ===== {} " , newProjectionId);
-            insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
-            if (newProjectionId != 0) {
-                setNewProjectionId(newProjectionId);
+            int newProjectionID = cloneProjection(oldProjectionId, session.getUserId());
+            LOGGER.debug(" New Projection Id ===== {} " , newProjectionID);
+            insertIntoNmProjectionSelection(oldProjectionId, newProjectionID);
+            if (newProjectionID != 0) {
+                setNewProjectionId(newProjectionID);
                 setForecastingType(String.valueOf(projectionMasterRow[NumericConstants.TWO]));
-                cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, true, true, session);
+                cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionID, true, true, session);
 //                for (Object relationshipLevelSid : relationshipBuilderSids) {  //  FOREIGN KEY constraint , twice insert is happening in PROJECTION_PROD_HIERARCHY , PROJECTION_CUST_HIERARCHY
 //                    updateCustomerOrProductHierarchy(false, newProjectionId, String.valueOf(relationshipLevelSid));
 //                }
-                if (insertIntoProjectionDetails(oldProjectionId, newProjectionId, session)) {
+                if (insertIntoProjectionDetails(oldProjectionId, newProjectionID, session)) {
                     String marketType = StringUtils.EMPTY;
                     Object[] inputs = new Object[NumericConstants.FOUR];
-                    inputs[0] = newProjectionId;
+                    inputs[0] = newProjectionID;
                     inputs[1] = session.getUserId();
                     inputs[NumericConstants.TWO] = session.getSessionId();
                     boolean flag = false;
@@ -2134,31 +2134,31 @@ public class CommonLogic {
                             definedOrUDValue = getHelperValue(marketType);
                         }
                         callTableInsert(inputs, PRC_MANDATED_SALES_INSERT);
-                        Object[] suppInputs = {newProjectionId, definedOrUDValue, session.getUserId(),
+                        Object[] suppInputs = {newProjectionID, definedOrUDValue, session.getUserId(),
                             session.getSessionId()};
                         callDiscountTableInsert(suppInputs, Constants.PRC_M_SUPP_INSERT);
                         callTableInsert(inputs, Constants.PRC_M_SUPP_PROJECTION);
-                        Object[] discInputs = {newProjectionId, session.getUserId(), "SPAP", session.getSessionId()};
+                        Object[] discInputs = {newProjectionID, session.getUserId(), "SPAP", session.getSessionId()};
                         callDiscountTableInsert(discInputs, Constants.PRC_M_DISCOUNT_INSERT);
-                        mandatedTempToMainSave(session.getUserId(), session.getSessionId(), newProjectionId);
+                        mandatedTempToMainSave(session.getUserId(), session.getSessionId(), newProjectionID);
                         flag = true;
                     }
                     if (flag) {
                         LoadTabLogic loadTabLogic = new LoadTabLogic();
                         if (TRADING_PARTNER_UPDATE.getConstant().equals(session.getModuleName())) {
-                            session.setProjectionId(newProjectionId);
+                            session.setProjectionId(newProjectionID);
                             loadTabLogic.updateSalesAndDiscount(session);
                         } else {
                             if (!session.getModuleName().contains("Item")) {
-                                updateMainTable(masterSids, newProjectionId, session.getContractMasterSid(),
+                                updateMainTable(masterSids, newProjectionID, session.getContractMasterSid(),
                                         String.valueOf(projectionMasterRow[NumericConstants.TWO]),
                                         session.getModuleName());
                             }
                         }
-                        loadTabLogic.setForecastingType(newProjectionId);
+                        loadTabLogic.setForecastingType(newProjectionID);
                         tempList.add(swapForecastingType(LoadTabLogic.getForecatingType()));
-                        tempList.add(loadTabLogic.getProjectionName(newProjectionId));
-                        tempList.add(String.valueOf(newProjectionId));
+                        tempList.add(loadTabLogic.getProjectionName(newProjectionID));
+                        tempList.add(String.valueOf(newProjectionID));
 
                         tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME
                                 + tempList.get(1) + " ");
@@ -2202,19 +2202,19 @@ public class CommonLogic {
         List<String> relationshipBuilderSids = new ArrayList<>();
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
-        int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
-        insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
+        int newProjectionID = cloneProjection(oldProjectionId, session.getUserId());
+        insertIntoNmProjectionSelection(oldProjectionId, newProjectionID);
 
-        LOGGER.debug(" New Projection Id =====>>>>> {} " , newProjectionId);
-        if (newProjectionId != 0) {
-            cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, true, true, sessionDTO);
+        LOGGER.debug(" New Projection Id =====>>>>> {} " , newProjectionID);
+        if (newProjectionID != 0) {
+            cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionID, true, true, sessionDTO);
             LOGGER.debug("String.valueOf(projectionMasterRow[0]) {} " , String.valueOf(projectionMasterRow[0]));
             LOGGER.debug("relationshipBuilderSids.get(0) {}" , relationshipBuilderSids.get(0));
 
-            if (insertIntoProjectionDetails(oldProjectionId, newProjectionId, sessionDTO)) {
+            if (insertIntoProjectionDetails(oldProjectionId, newProjectionID, sessionDTO)) {
                 String marketType = StringUtils.EMPTY;
                 Object[] inputs = new Object[NumericConstants.FOUR];
-                inputs[0] = newProjectionId;
+                inputs[0] = newProjectionID;
                 inputs[1] = session.getUserId();
                 inputs[NumericConstants.TWO] = session.getSessionId();
                 boolean flag = false;
@@ -2237,25 +2237,25 @@ public class CommonLogic {
                     if (isDiscountModule) {
                         callTableInsert(inputs, PRC_MANDATED_SALES_INSERT);
                     }
-                    Object[] suppInputs = {newProjectionId, session.getUserId(), definedOrUDValue,
+                    Object[] suppInputs = {newProjectionID, session.getUserId(), definedOrUDValue,
                         session.getSessionId()};
                     callDiscountTableInsert(suppInputs, Constants.PRC_M_SUPP_INSERT);
                     callTableInsert(inputs, Constants.PRC_M_SUPP_PROJECTION);
-                    Object[] discInputs = {newProjectionId, session.getUserId(), "SPAP", session.getSessionId()};
+                    Object[] discInputs = {newProjectionID, session.getUserId(), "SPAP", session.getSessionId()};
                     callDiscountTableInsert(discInputs, Constants.PRC_M_DISCOUNT_INSERT);
-                    mandatedTempToMainSave(session.getUserId(), session.getSessionId(), newProjectionId);
+                    mandatedTempToMainSave(session.getUserId(), session.getSessionId(), newProjectionID);
                     flag = true;
                 }
                 if (flag) {
                     if (isDiscountModule) {
-                        updateMainTableRemove(companyList, newProjectionId, contractList,
+                        updateMainTableRemove(companyList, newProjectionID, contractList,
                                 String.valueOf(projectionMasterRow[NumericConstants.TWO]), rsList);
                     }
                     LoadTabLogic loadTabLogic = new LoadTabLogic();
-                    loadTabLogic.setForecastingType(newProjectionId);
+                    loadTabLogic.setForecastingType(newProjectionID);
                     tempList.add(swapForecastingType(LoadTabLogic.getForecatingType()));
-                    tempList.add(loadTabLogic.getProjectionName(newProjectionId));
-                    tempList.add(String.valueOf(newProjectionId));
+                    tempList.add(loadTabLogic.getProjectionName(newProjectionID));
+                    tempList.add(String.valueOf(newProjectionID));
                     tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME
                             + tempList.get(1) + " ");
                 }
@@ -2473,19 +2473,19 @@ public class CommonLogic {
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
 
-        int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
-        insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
+        int newProjectionID = cloneProjection(oldProjectionId, session.getUserId());
+        insertIntoNmProjectionSelection(oldProjectionId, newProjectionID);
 
-        LOGGER.debug(" New Projection Id =====>>>>> {} " , newProjectionId);
-        if (newProjectionId != 0) {
-            cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, true, true, sessionDTO);
+        LOGGER.debug(" New Projection Id =====>>>>> {} " , newProjectionID);
+        if (newProjectionID != 0) {
+            cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionID, true, true, sessionDTO);
             LOGGER.debug("String.valueOf(projectionMasterRow[0]) {} " , String.valueOf(projectionMasterRow[0]));
             LOGGER.debug("relationshipBuilderSids.get(0) {}" , relationshipBuilderSids.get(0));
 
-            if (insertIntoProjectionDetails(oldProjectionId, newProjectionId, sessionDTO)) {
+            if (insertIntoProjectionDetails(oldProjectionId, newProjectionID, sessionDTO)) {
                 String marketType = StringUtils.EMPTY;
                 Object[] inputs = new Object[NumericConstants.FOUR];
-                inputs[0] = newProjectionId;
+                inputs[0] = newProjectionID;
                 inputs[1] = session.getUserId();
                 inputs[NumericConstants.TWO] = session.getSessionId();
                 boolean flag = false;
@@ -2508,25 +2508,25 @@ public class CommonLogic {
                     if (isDiscountModule) {
                         callTableInsert(inputs, PRC_MANDATED_SALES_INSERT);
                     }
-                    Object[] suppInputs = {newProjectionId, session.getUserId(), definedOrUDValue,
+                    Object[] suppInputs = {newProjectionID, session.getUserId(), definedOrUDValue,
                         session.getSessionId()};
                     callDiscountTableInsert(suppInputs, Constants.PRC_M_SUPP_INSERT);
                     callTableInsert(inputs, Constants.PRC_M_SUPP_PROJECTION);
-                    Object[] discInputs = {newProjectionId, session.getUserId(), "SPAP", session.getSessionId()};
+                    Object[] discInputs = {newProjectionID, session.getUserId(), "SPAP", session.getSessionId()};
                     callDiscountTableInsert(discInputs, Constants.PRC_M_DISCOUNT_INSERT);
-                    mandatedTempToMainSave(session.getUserId(), session.getSessionId(), newProjectionId);
+                    mandatedTempToMainSave(session.getUserId(), session.getSessionId(), newProjectionID);
                     flag = true;
                 }
                 if (flag) {
                     if (isDiscountModule) {
-                        updateMainTableRemove(companyList, newProjectionId, contractList,
+                        updateMainTableRemove(companyList, newProjectionID, contractList,
                                 String.valueOf(projectionMasterRow[NumericConstants.TWO]), rsList);
                     }
                     LoadTabLogic loadTabLogic = new LoadTabLogic();
-                    loadTabLogic.setForecastingType(newProjectionId);
+                    loadTabLogic.setForecastingType(newProjectionID);
                     tempList.add(swapForecastingType(LoadTabLogic.getForecatingType()));
-                    tempList.add(loadTabLogic.getProjectionName(newProjectionId));
-                    tempList.add(String.valueOf(newProjectionId));
+                    tempList.add(loadTabLogic.getProjectionName(newProjectionID));
+                    tempList.add(String.valueOf(newProjectionID));
                     tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME
                             + tempList.get(1) + " ");
                 }

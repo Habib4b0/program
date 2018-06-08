@@ -371,15 +371,15 @@ public class ItemManagementLookup extends CustomWindow {
                 AbstractLogic.callProcedure("PRC_ACTUAL_DETAILS_POPULATION", new String[]{});
                 close();
                 List list = getCloneProjectionParametrs(ConstantsUtil.SUMMARY);
-                CommonLogic logic = new CommonLogic();
-                String builderType = logic.getRelationBuilderType((Integer) list.get(0));
+                CommonLogic commonLogic = new CommonLogic();
+                String builderType = commonLogic.getRelationBuilderType((Integer) list.get(0));
 
                 if (!builderType.equals(StringUtils.EMPTY) && !builderType.equalsIgnoreCase(StringConstantsUtil.AUTOMATIC_LABEL)) {
                     AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_PROJECTION_CREATED, StringConstantsUtil.SOME_ERROR_IN_CREATING_PROJECTION
                             + StringConstantsUtil.CHECK_WHETHER_THE_SELECTED_PROJECTION_HAS_RELATION);
                 } else {
-                    List<String> tempTransferList = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), (Integer) list.get(0), (List<String>) list.get(1), BooleanConstant.getFalseFlag(), BooleanConstant.getTrueFlag(), session);
-                    int newProjectionId = logic.getNewProjectionId();
+                    List<String> tempTransferList = commonLogic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), (Integer) list.get(0), (List<String>) list.get(1), BooleanConstant.getFalseFlag(), BooleanConstant.getTrueFlag(), session);
+                    int newProjectionId = commonLogic.getNewProjectionId();
                     String msgContent = "The selected Item has been added successfully";
 
                     if (tempTransferList != null && !tempTransferList.isEmpty()) {
@@ -423,15 +423,15 @@ public class ItemManagementLookup extends CustomWindow {
                 ItemQueries.itemUpdate(input, "RS Upadte query");
                 close();
                 List list = getCloneProjectionParametrs(ConstantsUtil.SUMMARY);
-                CommonLogic logic = new CommonLogic();
-                String builderType = logic.getRelationBuilderType((Integer) list.get(0));
+                CommonLogic commonLogic = new CommonLogic();
+                String builderType = commonLogic.getRelationBuilderType((Integer) list.get(0));
                 if (!builderType.equals(StringUtils.EMPTY) && !builderType.equalsIgnoreCase("Automatic")) {
                     AbstractNotificationUtils.getErrorNotification("No Projection Created", "There is some error in creating projection. "
                             + "\n kindly check whether the selected Projection has relationship that is set to Automatic");
                 } else {
-                    List<String> tempTransferList = logic.createNewProjection((Integer) list.get(0), (List<String>) list.get(1), selection.getSessionDTO());
-                    int projectionId = logic.getNewProjectionId();
-                    String forecastType = logic.getForecastingType();
+                    List<String> tempTransferList = commonLogic.createNewProjection((Integer) list.get(0), (List<String>) list.get(1), selection.getSessionDTO());
+                    int projectionId = commonLogic.getNewProjectionId();
+                    String forecastType = commonLogic.getForecastingType();
                     List updateInput = new ArrayList();
                     if ("Mandated".equalsIgnoreCase(forecastType)) {
                         updateInput.add("M_SALES_PROJECTION");
@@ -478,15 +478,15 @@ public class ItemManagementLookup extends CustomWindow {
                 ItemQueries.itemUpdate(input, "Item Remove1");
                 close();
                 List list = getCloneProjectionParametrs(ConstantsUtil.SUMMARY);
-                CommonLogic logic = new CommonLogic();
-                String builderType = logic.getRelationBuilderType((Integer) list.get(0));
+                CommonLogic commonLogic = new CommonLogic();
+                String builderType = commonLogic.getRelationBuilderType((Integer) list.get(0));
                 if (!builderType.equals(StringUtils.EMPTY) && !builderType.equalsIgnoreCase("Automatic")) {
                     AbstractNotificationUtils.getErrorNotification("No Projection Created", "There is some error in creating projection. "
                             + "\n kindly check whether the selected Projection has relationship that is set to Automatic");
                 } else {
-                    List<String> tempTransferList = logic.createNewProjection((Integer) list.get(0), (List<String>) list.get(1), selection.getSessionDTO());
-                    int projectionId = logic.getNewProjectionId();
-                    String forecastType = logic.getForecastingType();
+                    List<String> tempTransferList = commonLogic.createNewProjection((Integer) list.get(0), (List<String>) list.get(1), selection.getSessionDTO());
+                    int projectionId = commonLogic.getNewProjectionId();
+                    String forecastType = commonLogic.getForecastingType();
                     List updateInput = new ArrayList();
                     if ("Mandated".equalsIgnoreCase(forecastType)) {
                         updateInput.add("M_SALES_PROJECTION");
@@ -552,28 +552,28 @@ public class ItemManagementLookup extends CustomWindow {
                     AbstractLogic.callProcedure("PRC_CCP_POPULATION", new String[]{});
                     AbstractLogic.callProcedure("PRC_ACTUAL_DETAILS_POPULATION", new String[]{});
                     List correntTransfer = getCloneProjectionParametrs(ConstantsUtil.CURRENT_SUMMARY);
-                    List transferContract = getCloneProjectionParametrs(ConstantsUtil.TRANSFER_SUMMARY);
-                    CommonLogic logic = new CommonLogic();
+                    List transferContractList = getCloneProjectionParametrs(ConstantsUtil.TRANSFER_SUMMARY);
+                    CommonLogic commonLogic = new CommonLogic();
                     int fromProjection = Integer.parseInt(correntTransfer.get(0).toString());
-                    int toProjection = Integer.parseInt(transferContract.get(0).toString());                    
+                    int toProjection = Integer.parseInt(transferContractList.get(0).toString());                    
                     session.setFromProjectionId(fromProjection);
                     session.setToProjectionId(toProjection);
                     List<String> tempTransferList = new ArrayList<>();
                     List<String> tempTransferList1 = new ArrayList<>();
                     if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
-                        tempTransferList = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), (Integer) correntTransfer.get(0), (List<String>) correntTransfer.get(1), BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), session);
+                        tempTransferList = commonLogic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), (Integer) correntTransfer.get(0), (List<String>) correntTransfer.get(1), BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), session);
                     }
                     if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-                        tempTransferList = logic.copyProjection(fromProjection, false, null, null, null, session);
+                        tempTransferList = commonLogic.copyProjection(fromProjection, false, null, null, null, session);
                     }
 
                     int transferFromProjection = Integer.parseInt(tempTransferList.get(NumericConstants.TWO));
 
                     if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
-                        tempTransferList1 = logic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), toProjection, (List<String>) transferContract.get(1), BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), session);
+                        tempTransferList1 = commonLogic.generateNewProjection(String.valueOf(selection.getUserId()), String.valueOf(selection.getSessionId()), toProjection, (List<String>) transferContractList.get(1), BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag(), session);
                     }
                     if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-                        tempTransferList1 = logic.copyProjection(toProjection, false, null, null, null, session);
+                        tempTransferList1 = commonLogic.copyProjection(toProjection, false, null, null, null, session);
                     }
                     int transferToProjection = Integer.parseInt(tempTransferList1.get(NumericConstants.TWO));
                     List inputForInputTable = getTransferInput(fromProjection, transferFromProjection, toProjection, transferToProjection);

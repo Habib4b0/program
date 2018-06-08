@@ -212,10 +212,10 @@ public class ItemSelection extends CustomComponent {
             ExcelExportforBB.createFileContent(visibleList.toArray(), selecteditemList, printWriter);
         } 
         if(excelName.equals(StringConstantsUtil.ITEM_RESULTS)){
-            ItemLogic logic = new ItemLogic();
+            ItemLogic itemLogic = new ItemLogic();
             List<ItemIndexDto> list = null;
             if (!selection.isReset()) {
-                list = logic.getSearchResults(binderDto, selection, selecteditemList);                
+                list = itemLogic.getSearchResults(binderDto, selection, selecteditemList);                
             }
             List visibleList = Arrays.asList(itemResult.getVisibleColumns()).subList(1, itemResult.getVisibleColumns().length);        
             ExcelExportforBB.createFileContent(visibleList.toArray(), list, printWriter);
@@ -309,9 +309,9 @@ public class ItemSelection extends CustomComponent {
     public void createWorkSheetItemResults(String moduleName) throws   NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = 0;
         binderDto.setIsCount(false);
-        ItemLogic logic = new ItemLogic();
+        ItemLogic itemLogic = new ItemLogic();
         if (!selection.isReset()) {
-           recordCount = logic.getSearchCount(binderDto, selection);           
+           recordCount = itemLogic.getSearchCount(binderDto, selection);           
         }
         List<String> visibleList = Arrays.asList(itemResult.getColumnHeaders()).subList(1, itemResult.getVisibleColumns().length);
         excelName = StringConstantsUtil.ITEM_RESULTS;

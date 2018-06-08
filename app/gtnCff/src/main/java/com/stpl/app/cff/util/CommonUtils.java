@@ -254,13 +254,13 @@ public class CommonUtils {
     }
 
     public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
-        final DataSelectionDAO DAO = new DataSelectionDAOImpl();
+        final DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(StringConstantsUtil.HELPER_TABLE_SID));
-        List result = DAO.getHelperTableList(dynamicQuery);
+        List result = dataSelectionDao.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
             code = Integer.parseInt(result.get(0).toString());
         }

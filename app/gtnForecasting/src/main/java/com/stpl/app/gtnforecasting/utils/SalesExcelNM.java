@@ -47,6 +47,7 @@ public class SalesExcelNM extends ExcelExport{
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesExcelNM.class);
     private TableHolder tableHolder;
 
+    public static final String COLUMN_FORMULA = "column formula{}";
 
     public SalesExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter) {
       
@@ -134,12 +135,12 @@ public class SalesExcelNM extends ExcelExport{
     }
 
     private void formatForCurrencyAndDecimal(Object propId, Cell sheetCell, final Object rootItemId) throws FormulaParseException {
-        if (formatter.get("currencyNoDecimal")!=null && String.valueOf(propId).endsWith(formatter.get("currencyNoDecimal"))) {
+        if (currencyNoDecimalFormat(propId)) {
             sheetCell.setCellStyle(style1);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId);
                 sheetCell.setCellStyle(style1);
-                LOGGER.info("column formula{}" , getAppendedFormula(formula.split(",")));
+                LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
                 sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
         } else if (formatter.get("unitNoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("unitNoDecimal"))) {
@@ -147,7 +148,7 @@ public class SalesExcelNM extends ExcelExport{
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId);
                 sheetCell.setCellStyle(style3);
-                LOGGER.info("column formula{}" , getAppendedFormula(formula.split(",")));
+                LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
                 sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
         }else if (formatter.get("UNITTWODECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNITTWODECIMAL"))) {
@@ -155,7 +156,7 @@ public class SalesExcelNM extends ExcelExport{
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId);
                 sheetCell.setCellStyle(style3);
-                LOGGER.info("column formula{}" , formula);
+                LOGGER.info(COLUMN_FORMULA , formula);
                 sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
         }else if (formatter.get("UNIT_DECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNIT_DECIMAL"))) {
@@ -163,11 +164,15 @@ public class SalesExcelNM extends ExcelExport{
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId);
                 sheetCell.setCellStyle(style3);
-                LOGGER.info("column formula{}" , getAppendedFormula(formula.split(",")));
+                LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
                 sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
         }
     }
+
+	private boolean currencyNoDecimalFormat(Object propId) {
+		return formatter.get("currencyNoDecimal")!=null && String.valueOf(propId).endsWith(formatter.get("currencyNoDecimal"));
+	}
 
     private void nonFormatter(Object value, Property prop, Cell sheetCell) {
         if (null != value) {
