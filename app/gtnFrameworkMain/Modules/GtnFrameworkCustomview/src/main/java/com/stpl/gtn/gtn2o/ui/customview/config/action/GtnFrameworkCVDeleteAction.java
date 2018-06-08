@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class GtnFrameworkCVDeleteAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-    private final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkCVDeleteAction.class);
+    private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkCVDeleteAction.class);
 
     @Override
     public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {

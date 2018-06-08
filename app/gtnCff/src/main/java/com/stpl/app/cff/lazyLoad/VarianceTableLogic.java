@@ -216,7 +216,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
             String prodHierarchyNo = projSelDTO.getProductHierarchyNo();
             String custHierarchyNo = projSelDTO.getCustomerHierarchyNo();
             String dedHierarchyNo = projSelDTO.getDeductionHierarchyNo();
-            String hierarchyNo = projSelDTO.getHierarchyNo();
+            String hierarchyNumber = projSelDTO.getHierarchyNo();
             int currentLevelNo = projSelDTO.getTreeLevelNo();
             String indicator = projSelDTO.getHierarchyIndicator();
             if (expandLevelNo >= currentLevelNo) {
@@ -236,7 +236,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
                                 projSelDTO.setProductHierarchyNo(prodHierarchyNo);
                                 projSelDTO.setCustomerHierarchyNo(custHierarchyNo);
                                 projSelDTO.setDeductionHierarchyNo(dedHierarchyNo);
-                                projSelDTO.setHierarchyNo(hierarchyNo);
+                                projSelDTO.setHierarchyNo(hierarchyNumber);
                                 projSelDTO.setHierarchyIndicator(indicator);
                                 projSelDTO.setTreeLevelNo(currentLevelNo);
                                 String customTreeLevel = treeLevel + (index + j) + ".";
@@ -253,7 +253,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
                                 projSelDTO.setProductHierarchyNo(prodHierarchyNo);
                                 projSelDTO.setCustomerHierarchyNo(custHierarchyNo);
                                 projSelDTO.setDeductionHierarchyNo(dedHierarchyNo);
-                                projSelDTO.setHierarchyNo(hierarchyNo);
+                                projSelDTO.setHierarchyNo(hierarchyNumber);
                                 projSelDTO.setHierarchyIndicator(indicator);
                                 projSelDTO.setTreeLevelNo(currentLevelNo);
                                 String customTreeLevel = treeLevel + (index + j) + ".";

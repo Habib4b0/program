@@ -393,12 +393,12 @@ public class SessionDTO implements Cloneable {
         return FrequencyAndQuater;
     }
 
-    public void setFrequencyAndQuater(Map<String, List> FrequencyAndQuater) {
-        this.FrequencyAndQuater = FrequencyAndQuater;
+    public void setFrequencyAndQuater(Map<String, List> frequencyAndQuater) {
+        this.FrequencyAndQuater = frequencyAndQuater;
     }
 
-    public void addFrequencyAndQuater(String frequency, List HistoryCount) {
-        this.FrequencyAndQuater.put(frequency, HistoryCount);
+    public void addFrequencyAndQuater(String frequency, List historyCount) {
+        this.FrequencyAndQuater.put(frequency, historyCount);
     }
 
     public List getFrequencyAndQuaterValue(String frequency) {
@@ -409,8 +409,8 @@ public class SessionDTO implements Cloneable {
         return HistoryAndStartDate;
     }
 
-    public void setHistoryAndStartDate(Map<String, Date> HistoryAndStartDate) {
-        this.HistoryAndStartDate = HistoryAndStartDate;
+    public void setHistoryAndStartDate(Map<String, Date> historyAndStartDate) {
+        this.HistoryAndStartDate = historyAndStartDate;
     }
 
     public Date getCurrentDate() {

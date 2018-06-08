@@ -270,14 +270,14 @@ public abstract class AbstractLookup extends Window {
 	 * @return The cancel button
 	 */
 	protected Button getCancelButton() {
-		Button cancelBtn = new Button(BTN_CANCEL.getConstant());
-		cancelBtn.addClickListener(new Button.ClickListener() {
+		Button cancelButton = new Button(BTN_CANCEL.getConstant());
+		cancelButton.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				close();
 			}
 		});
-		return cancelBtn;
+		return cancelButton;
 	}
 
 	/**

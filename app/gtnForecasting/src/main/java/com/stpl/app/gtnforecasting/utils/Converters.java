@@ -94,20 +94,7 @@ public class Converters {
             result.setProductInnerLevel(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_FOUR])));
             result.setCustRelationshipBuilderSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_FIVE])));
             result.setProdRelationshipBuilderSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_SIX])));
-            if (flagValue) {
-                result.setDeductionLevel(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_SEVEN])));
-                result.setDeductionValue(obj[NumericConstants.TWENTY_NINE] != null && !StringUtils.isBlank(String.valueOf(obj[NumericConstants.TWENTY_NINE])) && !"-Select One-".equals(String.valueOf(obj[NumericConstants.TWENTY_NINE])) ? convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_NINE])) : StringUtils.EMPTY);
-                if (obj[NumericConstants.TWENTY_EIGHT] != null && !StringUtils.isBlank(String.valueOf(obj[NumericConstants.TWENTY_EIGHT])) && StringUtils.isNumeric(String.valueOf(obj[NumericConstants.TWENTY_EIGHT]))) {
-                    result.setDeductionValueId(Integer.valueOf(String.valueOf(obj[NumericConstants.TWENTY_EIGHT])));
-                }
-                result.setBusinessUnitSystemId((Integer) obj[NumericConstants.THIRTY]);
-                result.setBusinessUnitSystemName((String) obj[NumericConstants.THIRTY_ONE]);
-            } else {
-                result.setBusinessUnitSystemId((Integer) obj[NumericConstants.TWENTY_SEVEN]);
-                result.setBusinessUnitSystemName((String) obj[NumericConstants.TWENTY_EIGHT]);
-                result.setCustHierarchyVersion((Integer) obj[NumericConstants. TWENTY_NINE]);
-                result.setProdHierarchyVersion((Integer) obj[NumericConstants.THIRTY]);
-            }
+            resultBasedOnFlagValue(flagValue, obj, result);
             Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(Integer.parseInt(result.getProjectionId()), DATA_SELECTION_LANDING_SCREEN.getConstant());
             if (map != null && !map.isEmpty()) {
                 result.setDataSelectionFrequency(String.valueOf(map.get(Constant.FREQUENCY)));
@@ -118,6 +105,23 @@ public class Converters {
         LOGGER.debug("End of getCustomizedViews method");
         return results;
     }
+
+	private static void resultBasedOnFlagValue(boolean flagValue, final Object[] obj, final ViewDTO result) {
+		if (flagValue) {
+		    result.setDeductionLevel(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_SEVEN])));
+		    result.setDeductionValue(obj[NumericConstants.TWENTY_NINE] != null && !StringUtils.isBlank(String.valueOf(obj[NumericConstants.TWENTY_NINE])) && !"-Select One-".equals(String.valueOf(obj[NumericConstants.TWENTY_NINE])) ? convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_NINE])) : StringUtils.EMPTY);
+		    if (obj[NumericConstants.TWENTY_EIGHT] != null && !StringUtils.isBlank(String.valueOf(obj[NumericConstants.TWENTY_EIGHT])) && StringUtils.isNumeric(String.valueOf(obj[NumericConstants.TWENTY_EIGHT]))) {
+		        result.setDeductionValueId(Integer.valueOf(String.valueOf(obj[NumericConstants.TWENTY_EIGHT])));
+		    }
+		    result.setBusinessUnitSystemId((Integer) obj[NumericConstants.THIRTY]);
+		    result.setBusinessUnitSystemName((String) obj[NumericConstants.THIRTY_ONE]);
+		} else {
+		    result.setBusinessUnitSystemId((Integer) obj[NumericConstants.TWENTY_SEVEN]);
+		    result.setBusinessUnitSystemName((String) obj[NumericConstants.TWENTY_EIGHT]);
+		    result.setCustHierarchyVersion((Integer) obj[NumericConstants. TWENTY_NINE]);
+		    result.setProdHierarchyVersion((Integer) obj[NumericConstants.THIRTY]);
+		}
+	}
 
     /**
      * Converts list of CompanyGroup to list of GroupDTO
