@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingComparisonOptionsGroupV
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportDasboardTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportFilterReloadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportLevelFilterReloadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnForecastReturnsClassConstants;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -31,6 +32,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
@@ -523,6 +525,10 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		deductionFilterConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
 
+		GtnUIFrameWorkActionConfig reloadAction = new GtnUIFrameWorkActionConfig();
+		reloadAction.setActionType(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION);
+		deductionFilterConfig.addGtnUIFrameWorkActionConfig(reloadAction);
+
 		GtnUIFrameWorkActionConfig reloadActionConfig = getFilterReloadAction(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER,
@@ -569,6 +575,10 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		productFilterConfig.setReloadActionConfig(reloadActionConfig);
 		productFilterConfig.setReloadLogicActionClassName(GtnReportFilterReloadAction.class.getName());
 
+		GtnUIFrameWorkActionConfig reloadAction = new GtnUIFrameWorkActionConfig();
+		reloadAction.setActionType(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION);
+		productFilterConfig.addGtnUIFrameWorkActionConfig(reloadAction);
+
 		GtnUIFrameworkCheckedComboBoxConfig productFilterLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		productFilterLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
@@ -598,6 +608,10 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
 		customerFilterConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
+
+		GtnUIFrameWorkActionConfig reloadAction = new GtnUIFrameWorkActionConfig();
+		reloadAction.setActionType(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION);
+		customerFilterConfig.addGtnUIFrameWorkActionConfig(reloadAction);
 
 		GtnUIFrameworkCheckedComboBoxConfig customerFilterLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		customerFilterLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -653,7 +667,18 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		deductionLevel.setComponentName("Deduction Level: ");
 		deductionLevel.setAuthorizationIncluded(true);
 
+		GtnUIFrameWorkActionConfig reloadAction = new GtnUIFrameWorkActionConfig();
+		reloadAction.setActionType(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION);
+		deductionLevel.addGtnUIFrameWorkActionConfig(reloadAction);
+
 		componentList.add(deductionLevel);
+
+		GtnUIFrameWorkActionConfig reloadActionConfig = getLevelFilterReloadAction(
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_LEVEL,
+				GtnWsHierarchyType.DEDUCTION, nameSpace);
+		deductionLevel.setReloadActionConfig(reloadActionConfig);
+		deductionLevel.setReloadLogicActionClassName(GtnReportLevelFilterReloadAction.class.getName());
 
 		deductionLevel.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER);
@@ -689,6 +714,17 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		productLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
 
+		GtnUIFrameWorkActionConfig reloadActionConfig = getLevelFilterReloadAction(
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_LEVEL,
+				GtnWsHierarchyType.DEDUCTION, nameSpace);
+		productLevelConfig.setReloadActionConfig(reloadActionConfig);
+		productLevelConfig.setReloadLogicActionClassName(GtnReportLevelFilterReloadAction.class.getName());
+
+		GtnUIFrameWorkActionConfig reloadAction = new GtnUIFrameWorkActionConfig();
+		reloadAction.setActionType(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION);
+		productLevelConfig.addGtnUIFrameWorkActionConfig(reloadAction);
+
 		componentList.add(productLevelConfig);
 
 		GtnUIFrameworkComboBoxConfig productLevelLoadConfig = configProvider.getComboBoxConfig(
@@ -703,26 +739,37 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CSS_LAYOUT);
 		componentList.add(gtnLayout);
 
-		GtnUIFrameworkComponentConfig companyStatus = configProvider.getUIFrameworkComponentConfig(
+		GtnUIFrameworkComponentConfig customerLevelConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "companyInformationTabCompanyStatus", true,
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_LEVEL_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		companyStatus.setComponentName("Customer Level: ");
-		companyStatus.setAuthorizationIncluded(true);
+		customerLevelConfig.setComponentName("Customer Level: ");
+		customerLevelConfig.setAuthorizationIncluded(true);
 
-		componentList.add(companyStatus);
+		componentList.add(customerLevelConfig);
 
-		companyStatus.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+		customerLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER);
-		companyStatus.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+		customerLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
-		companyStatus.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+		customerLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
+
+		GtnUIFrameWorkActionConfig reloadActionConfig = getLevelFilterReloadAction(
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_LEVEL,
+				GtnWsHierarchyType.DEDUCTION, nameSpace);
+		customerLevelConfig.setReloadActionConfig(reloadActionConfig);
+		customerLevelConfig.setReloadLogicActionClassName(GtnReportLevelFilterReloadAction.class.getName());
+
+		GtnUIFrameWorkActionConfig reloadAction = new GtnUIFrameWorkActionConfig();
+		reloadAction.setActionType(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION);
+		customerLevelConfig.addGtnUIFrameWorkActionConfig(reloadAction);
 
 		GtnUIFrameworkComboBoxConfig companyStatusConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		companyStatus.setGtnComboboxConfig(companyStatusConfig);
+		customerLevelConfig.setGtnComboboxConfig(companyStatusConfig);
 	}
 
 	private void addReportOptionsTab(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -1292,6 +1339,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 	private GtnUIFrameWorkActionConfig getFilterReloadAction(String componentId, String indicator, String nameSpace) {
 		GtnUIFrameWorkActionConfig filterAction = new GtnUIFrameWorkActionConfig();
 		filterAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		filterAction.addActionParameter(GtnReportFilterReloadAction.class.getName());
 		filterAction.addActionParameter(componentId);
 		filterAction.addActionParameter(indicator);
 
@@ -1307,6 +1355,17 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
 		filterAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
+
+		return filterAction;
+	}
+
+	private GtnUIFrameWorkActionConfig getLevelFilterReloadAction(String componentId, Object indicator,
+			String nameSpace) {
+		GtnUIFrameWorkActionConfig filterAction = new GtnUIFrameWorkActionConfig();
+		filterAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		filterAction.addActionParameter(GtnReportLevelFilterReloadAction.class.getName());
+		filterAction.addActionParameter(componentId);
+		filterAction.addActionParameter(indicator);
 
 		return filterAction;
 	}

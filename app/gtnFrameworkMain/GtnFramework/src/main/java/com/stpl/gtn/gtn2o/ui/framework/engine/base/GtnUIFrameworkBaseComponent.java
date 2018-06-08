@@ -407,6 +407,35 @@ public class GtnUIFrameworkBaseComponent {
 		}
 	}
 
+	public void addAllItemsToComboBox(List<String> valueList, List<Object> idList)
+			throws GtnFrameworkValidationFailedException {
+		try {
+			com.vaadin.ui.ComboBox vaadinComboBox = (com.vaadin.ui.ComboBox) this.getComponent();
+			vaadinComboBox.setItems(idList);
+			vaadinComboBox.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
+
+			GtnUIFrameworkComboBoxConfig comboboxConfig = this.getComponentConfig().getGtnComboboxConfig();
+			if (!comboboxConfig.isHasDefaultValue()) {
+				String defaultValue = comboboxConfig.getDefaultValue() != null
+						? String.valueOf(comboboxConfig.getDefaultValue())
+						: GtnFrameworkCommonStringConstants.SELECT_ONE;
+				idList.add(0, 0);
+				valueList.add(0, defaultValue);
+				vaadinComboBox.setValue(defaultValue);
+			} else {
+				for (int i = 0; i < valueList.size(); i++) {
+					if (comboboxConfig.getDefaultDesc().equals(valueList.get(i))) {
+						vaadinComboBox.setValue(valueList.get(i));
+						break;
+					}
+				}
+			}
+
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+
 	private static String getString(Object value) {
 		if (isNull(value)) {
 			return "";

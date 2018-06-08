@@ -140,6 +140,9 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 					GtnUIFrameWorkAction comboBoxCustomAction = (GtnUIFrameWorkAction) comboBoxClassLoader
 							.loadDynamicClass(componentConfig.getReloadLogicActionClassName());
 					GtnUIFrameWorkActionConfig comboBoxActionConfig = new GtnUIFrameWorkActionConfig();
+					if (componentConfig.getReloadActionConfig() != null) {
+						comboBoxActionConfig = componentConfig.getReloadActionConfig();
+					}
 					comboBoxActionConfig.addActionParameter(reloadInput);
 					comboBoxCustomAction.doAction(componentId, comboBoxActionConfig);
 				} catch (GtnFrameworkGeneralException ex) {
