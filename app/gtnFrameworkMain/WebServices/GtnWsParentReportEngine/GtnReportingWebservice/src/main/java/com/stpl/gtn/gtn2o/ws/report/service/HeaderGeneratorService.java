@@ -377,10 +377,10 @@ public class HeaderGeneratorService {
 		for (int i = 0; i < variablesColumn.length; i++) {
 			for (int j = 0; j < variancesColumn.length; j++) {
 				if (isVariablesAndVariances) {
-					combinedVariableCategoryColumn[index] = variancesColumn[j].trim() + variablesColumn[i].trim();
+					combinedVariableCategoryColumn[index] = variancesColumn[j].trim() + "#" + variablesColumn[i].trim();
 					combinedVariableCategoryHeader[index] = variancesHeader[j] + " " + variablesHeader[i];
 				} else {
-					combinedVariableCategoryColumn[index] = variablesColumn[i].trim() + variancesColumn[j].trim();
+					combinedVariableCategoryColumn[index] = variablesColumn[i].trim() + "#" + variancesColumn[j].trim();
 					combinedVariableCategoryHeader[index] = variablesHeader[i] + " " + variancesHeader[j];
 				}
 				index++;

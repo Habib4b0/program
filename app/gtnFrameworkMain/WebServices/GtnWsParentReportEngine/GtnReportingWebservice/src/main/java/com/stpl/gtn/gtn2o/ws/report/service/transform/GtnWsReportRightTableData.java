@@ -1,6 +1,9 @@
 package com.stpl.gtn.gtn2o.ws.report.service.transform;
 
+import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 public class GtnWsReportRightTableData {
 	private String hierarchyNo;
@@ -42,20 +45,20 @@ public class GtnWsReportRightTableData {
 		this.projectionName = projectionName;
 	}
 
-	public Map<String, Double> getDataMap() {
-		return dataMap;
-	}
-
-	public void setDataMap(Map<String, Double> dataMap) {
-		this.dataMap = dataMap;
-	}
-
 	public String getVariableName() {
 		return variableName;
 	}
 
 	public void setVariableName(String variableName) {
 		this.variableName = variableName;
+	}
+
+	public Map<String, Double> getDataMap() {
+		return dataMap;
+	}
+
+	public void setDataMap(Map<String, Double> dataMap) {
+		this.dataMap = dataMap;
 	}
 
 	@Override
