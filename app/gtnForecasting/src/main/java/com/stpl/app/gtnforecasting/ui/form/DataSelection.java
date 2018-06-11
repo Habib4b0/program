@@ -99,8 +99,7 @@ public class DataSelection extends ForecastDataSelection {
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelection.class);
-        
-	private DataSelectionDTO selectionDTO;
+     	private DataSelectionDTO selectionDTO;
 	private final SessionDTO session;
 	private boolean firstTimeLoad = true;
 	private boolean dismantelCustomerSelection = true;
@@ -1241,7 +1240,7 @@ public class DataSelection extends ForecastDataSelection {
 		selectionDTO.setProjectionId(session.getProjectionId());
 		selectionDTO.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 		selectionDTO.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
-		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)
+                		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)
 				|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)) {
 			updateDataSelectionChanges();
 		}

@@ -244,6 +244,7 @@ public class ForecastForm extends AbstractForm {
 	private boolean isCommercialGovernment = BooleanConstant.getFalseFlag();
 	private ExecutorService service = ThreadPool.getInstance().getService();
         private boolean discountLoadFlag = true;
+        private boolean discountUpsFlag = false;
       
 	public ForecastForm(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, SessionDTO session,
 			ForecastEditWindow editWindow, final ExtFilterTable resultTable, final String screenName,
@@ -520,19 +521,23 @@ public class ForecastForm extends AbstractForm {
                                     }
                                 }
                                 if (discountLoadFlag && (tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.EIGHT)){
-                                CommonUtil.getInstance().isProcedureCompleted("Discount", "PRC_NM_MASTER_INSERT", session);
-                                session.addFutureMap(Constant.CUST_VIEW_MAP_QUERY,
+                                    CommonUtil.getInstance().isProcedureCompleted("Discount", "PRC_NM_MASTER_INSERT", session);
+                               session.addFutureMap(Constant.CUST_VIEW_MAP_QUERY,
 				new Future[] {service.submit(CommonUtil.getInstance().createRunnable(Constant.CUST_VIEW_MAP_QUERY,session))});
                                 discountLoadFlag = false;
                                 }
                                 
-                                if (tabPosition == NumericConstants.FOUR){
+                                if (!discountUpsFlag && tabPosition == NumericConstants.FOUR){
+                                      CommonLogic.viewProceduresCompletionCheckDiscount(session);
+                                    session.setFunctionMode("UPS");
+                                    nmDiscountViewsPopulationProcedure();
+                                     discountUpsFlag=true;
+                                }
                                     if (nmSalesProjection.isSalesValueChange()) {
                                     CommonLogic.viewProceduresCompletionCheckDiscount(session);
                                     session.setFunctionMode("UPS");
-                                    nmDiscountViewsPopulationProcedure();
+                                    nmDiscountViewsPopulationProcedure();                                 
                                     }
-                                }
                                 if (tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.FIVE
                                         || tabPosition == NumericConstants.EIGHT) {
                                     session.setIsDeductionCustom(true);
