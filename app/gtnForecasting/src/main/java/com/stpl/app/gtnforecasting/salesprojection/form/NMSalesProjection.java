@@ -96,6 +96,10 @@ public class NMSalesProjection extends ForecastSalesProjection {
     public static final String SELECT_LEVEL_LABEL = "-Select Level-";
     public static final String SELECT_ALL_LABEL = "Select All";
     public static final String SALES = "Sales";
+    public static final String CURRENCY_NO_DECIMAL = "currencyNoDecimal";
+    public static final String UNIT_NO_DECIMAL = "unitNoDecimal";
+    public static final String UNITS = "Units";
+    
     protected CustomMenuBar.SubMenuCloseListener productListener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
@@ -218,8 +222,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
                     ForecastUI.setEXCEL_CLOSE(true);
                      Map<String, String> formatterMap = new HashMap<>();
-                     formatterMap.put("currencyNoDecimal", SALES);
-                     formatterMap.put("unitNoDecimal", "Units");
+                     formatterMap.put(CURRENCY_NO_DECIMAL, SALES);
+                     formatterMap.put(UNIT_NO_DECIMAL, UNITS);
                      formatterMap.put("UNITTWODECIMAL", "AccountGrowth");
                      formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
                     if (i == 0) {
@@ -258,8 +262,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
                         }
                     }
                     Map<String, String> formatterMap = new HashMap<>();
-                     formatterMap.put("currencyNoDecimal", SALES);
-                     formatterMap.put("unitNoDecimal", "Units");
+                     formatterMap.put(CURRENCY_NO_DECIMAL, SALES);
+                     formatterMap.put(UNIT_NO_DECIMAL, UNITS);
                      formatterMap.put("UNITTWODECIMAL", "AccountGrowth");
                      formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
                 securityForListView(visibleColumns.toArray(), Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class), excelTable);
@@ -747,6 +751,13 @@ public class NMSalesProjection extends ForecastSalesProjection {
         valueDdlb.setTextInputAllowed(true);
         boolean isEnabled = Utility.customEnableForRelationFromDS(session.getCustomRelationShipSid());
         view.setItemEnabled(Constant.CUSTOM_LABEL, isEnabled);
+        if(session.getCustomRelationShipSid()==0){
+            viewDdlb.setValue(null);
+           newBtn.setEnabled(false); 
+        }
+        else{
+        newBtn.setEnabled(true);
+        }
         if (CommonUtil.isValueEligibleForLoading()) {
             salesProjectionSelection.setVisible(false);
             tabsheet1.addTab(salesProjectionSelectionLayout, "Display Selection");
@@ -1063,8 +1074,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
                     ForecastUI.setEXCEL_CLOSE(true);
                     Map<String, String> formatterMap = new HashMap<>();
-                    formatterMap.put("currencyNoDecimal", SALES);
-                    formatterMap.put("unitNoDecimal", "Units");
+                    formatterMap.put(CURRENCY_NO_DECIMAL, SALES);
+                    formatterMap.put(UNIT_NO_DECIMAL, UNITS);
                     if (i == 0) {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap);

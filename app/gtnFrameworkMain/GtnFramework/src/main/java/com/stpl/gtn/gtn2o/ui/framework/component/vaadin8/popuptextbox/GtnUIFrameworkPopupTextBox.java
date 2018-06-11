@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.popuptextbox;
 
-
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -30,6 +29,10 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPopupTextBox.class);
 
 	private HorizontalLayout popupTextBoxHorizontalComponent;
+
+	public GtnUIFrameworkPopupTextBox() {
+
+	}
 
 	@Override
 	public AbstractComponent buildVaadinComponent(final GtnUIFrameworkComponentConfig componentConfig) {
@@ -83,7 +86,8 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 					if (event.getChildComponent() == popupTextField) {
 						for (GtnUIFrameWorkActionConfig popupActionConfig : componentConfig
 								.getGtnUIFrameWorkActionConfigList()) {
-							final GtnUIFrameWorkAction popupAction = popupActionConfig.getActionType().getGtnUIFrameWorkAction();
+							final GtnUIFrameWorkAction popupAction = popupActionConfig.getActionType()
+									.getGtnUIFrameWorkAction();
 							popupAction.configureParams(popupActionConfig);
 							popupAction.doAction(componentId, popupActionConfig);
 						}
@@ -97,8 +101,8 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 	}
 
 	@Override
-	public void reloadComponent(GtnUIFrameworkActionType popupAction, String popupDependentComponentId, String popupComponentId,
-			Object popupReloadInput) {
+	public void reloadComponent(GtnUIFrameworkActionType popupAction, String popupDependentComponentId,
+			String popupComponentId, Object popupReloadInput) {
 		return;
 
 	}
@@ -137,4 +141,3 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 	}
 
 }
-

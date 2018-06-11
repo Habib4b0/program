@@ -1446,14 +1446,15 @@ public class NonMandatedLogic {
      */
     public int saveProjection(final DataSelectionDTO dataSelectionDTO, String screenName) throws SystemException {
         int projectionId = 0;
-        SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd ");
+        SimpleDateFormat hoursMinutes = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
         String customSql = SQlUtil.getQuery("projectionMasterInsert");
         customSql = customSql.replace("@PROJECTION_NAME", dataSelectionDTO.getProjectionName());
         customSql = customSql.replace("@PROJECTION_DESCRIPTION", dataSelectionDTO.getDescription());
         customSql = customSql.replace("@FORECASTING_TYPE", screenName);
         customSql = customSql.replace("@CREATED_BY", userId);
-        customSql = customSql.replace("@CREATED_DATE", DBDate.format(new Date()));
+        customSql = customSql.replace("@CREATED_DATE", hoursMinutes.format(new Date()));
 
         customSql = customSql.replace("@CUSTOMER_HIERARCHY_SID", dataSelectionDTO.getCustomerHierSid().equals(DASH) ? null
                 : String.valueOf(dataSelectionDTO.getCustomerHierSid()));

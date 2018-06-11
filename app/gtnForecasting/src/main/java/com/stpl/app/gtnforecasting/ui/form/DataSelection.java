@@ -50,6 +50,7 @@ import org.slf4j.LoggerFactory;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
 import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
 import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbCriteria;
@@ -99,8 +100,7 @@ public class DataSelection extends ForecastDataSelection {
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelection.class);
-        
-	private DataSelectionDTO selectionDTO;
+     	private DataSelectionDTO selectionDTO;
 	private final SessionDTO session;
 	private boolean firstTimeLoad = true;
 	private boolean dismantelCustomerSelection = true;
@@ -119,6 +119,8 @@ public class DataSelection extends ForecastDataSelection {
 	private final DataSelectionLogic dsLogic = new DataSelectionLogic();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 	private Map<String,String> customViewInput=new HashMap<>();
+	
+	public static final String CONFIRM_CHANGE = "Confirm Change";
 
 	private final ExecutorService service = ThreadPool.getInstance().getService();
 
@@ -348,7 +350,7 @@ public class DataSelection extends ForecastDataSelection {
 								customerLevelValueChange(event);
 								setUpdateOnTabChange(true);
 							}
-						}.getConfirmationMessage("Confirm Change",
+						}.getConfirmationMessage(CONFIRM_CHANGE,
 								"You have selected a new Forecast Level. Are you sure you want to proceed? You will lose the current Customer/Product hierarchies if you continue.");
 					} else if (customerLevelListenerFlag) {
 						customerLevelValueChange(event);
@@ -388,7 +390,7 @@ public class DataSelection extends ForecastDataSelection {
 								productLevelValueChange(event);
 								setUpdateOnTabChange(true);
 							}
-						}.getConfirmationMessage("Confirm Change",
+						}.getConfirmationMessage(CONFIRM_CHANGE,
 								"You have selected a new Forecast Level. Are you sure you want to proceed? You will lose the current Customer/Product hierarchies if you continue.");
 					} else if (productLevelListenerFlag) {
 						productLevelValueChange(event);
@@ -431,7 +433,7 @@ public class DataSelection extends ForecastDataSelection {
 								dataSelectionDedLevelValueChange(event);
 								setUpdateOnTabChange(true);
 							}
-						}.getConfirmationMessage("Confirm Change",
+						}.getConfirmationMessage(CONFIRM_CHANGE,
 								"You have selected a new Deduction Level. Are you sure you want to proceed? You will lose the current Deduction Level if you continue.");
 					}   else if (dataSelectionDeductionLevelListenerFlag) {
 						dataSelectionDedLevelValueChange(event);
@@ -447,11 +449,33 @@ public class DataSelection extends ForecastDataSelection {
 
 			@Override
 			public void valueChange(Property.ValueChangeEvent event) {
+                                        if(customRelationDdlb.getValue()!=null ){
                             int custRelationValue = Integer.parseInt(customRelationDdlb.getValue().toString());
                             dataSelectionDTO.setCustomRelationShipSid(custRelationValue);
 				setUpdateOnTabChange(true);
+			}
+                        else{
+                        dataSelectionDTO.setCustomRelationShipSid(0);
+                        setUpdateOnTabChange(true);                       
+                   }
                         }
-                });
+		});
+                        customRelationDdlbDeduction.addValueChangeListener(new Property.ValueChangeListener() {
+
+			@Override
+			public void valueChange(Property.ValueChangeEvent event) {
+                            if(customRelationDdlbDeduction.getValue()!=null ){
+                            int custDeductionRelationValue = Integer.parseInt(customRelationDdlbDeduction.getValue().toString());
+                            dataSelectionDTO.setCustomDeductionRelationShipSid(custDeductionRelationValue);
+                            setUpdateOnTabChange(true);
+			}
+                            else{
+                                dataSelectionDTO.setCustomDeductionRelationShipSid(0);
+                                setUpdateOnTabChange(true);                                
+                            }
+                        }
+
+		});
 		projectionName.setValue(selectionDTO.getProjectionName());
 		description.setValue(selectionDTO.getDescription());
 	}
@@ -1200,10 +1224,11 @@ public class DataSelection extends ForecastDataSelection {
 		session.setCustomerRelationVersion(selectionDTO.getCustomerRelationShipVersionNo());
 		session.setProductRelationVersion(selectionDTO.getProductRelationShipVersionNo());
                 session.setCustomRelationShipSid(dataSelectionDTO.getCustomRelationShipSid());
+                session.setCustomDeductionRelationShipSid(dataSelectionDTO.getCustomDeductionRelationShipSid());
 		selectionDTO.setProjectionId(session.getProjectionId());
 		selectionDTO.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 		selectionDTO.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
-		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)
+                		if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName)
 				|| CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)) {
 			updateDataSelectionChanges();
 		}
@@ -4497,11 +4522,19 @@ public class DataSelection extends ForecastDataSelection {
         private void loadCustomViewDropDown(ComboBox customRelationDdlb,Map<String,String> inputData) {
             setNullSelectionCustomDdlb(customRelationDdlb);
             dsLogic.loadCustomViewValues(customRelationDdlb,inputData,true);
+            if(session.getCustomRelationShipSid()==0){
+                customRelationDdlb.select(null);
+            }
+            customRelationDdlb.select(session.getCustomRelationShipSid());
         }
 
         private void loadCustomViewDeductionDropDown(ComboBox customRelationDdlb,Map<String,String> inputData) {
             setNullSelectionCustomDdlb(customRelationDdlb);
             dsLogic.loadCustomViewDeductionValues(customRelationDdlb,inputData,true);
+            if(session.getCustomDeductionRelationShipSid()==0){
+                customRelationDdlb.select(null);
+            }
+            customRelationDdlb.select(session.getCustomDeductionRelationShipSid());
 
         }
         

@@ -50,7 +50,7 @@ public class BpmManagerBean {
 		super();
 		this.releaseId = releaseId;
 		this.runtimeEngineMap = runtimeEngineMap;
-		this.properties = properties;
+		this.properties = (Properties) properties.clone();
 		this.registry = registry;
 		this.userGroupCallback = userGroupCallback;
 	}

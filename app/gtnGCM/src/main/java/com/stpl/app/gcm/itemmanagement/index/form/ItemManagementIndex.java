@@ -498,12 +498,12 @@ public class ItemManagementIndex extends CustomComponent {
     @UiHandler("addBtn")
     public void addButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException {
         if (!selecteditemList.isEmpty()) {
-            SelectionDTO selection = createSessionId();
+            SelectionDTO selectionDto = createSessionId();
 
-            if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
-                selection.setWindowName("Add Item");
+            if (selectionDto.getButtonMode().equals(ConstantsUtil.ADD)) {
+                selectionDto.setWindowName("Add Item");
                 if (selecteditemList.size() < NumericConstants.TWO) {
-                    final ItemManagementLookup addWindow = new ItemManagementLookup(selecteditemList, selection);
+                    final ItemManagementLookup addWindow = new ItemManagementLookup(selecteditemList, selectionDto);
                     createWindow(addWindow);
                 } else {
                     MessageBox.showPlain(Icon.INFO, Constants.ERROR, "Please select one item to proceed.", ButtonId.OK);
@@ -524,17 +524,17 @@ public class ItemManagementIndex extends CustomComponent {
     public void transferButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException {
         LOGGER.debug("Entering Transfer Button");
         if (!selecteditemList.isEmpty()) {
-            SelectionDTO selection = createSessionId();
-            if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER) || selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-                if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-                    selection.setWindowName("Projection Details Transfer");
+            SelectionDTO selectionDto = createSessionId();
+            if (selectionDto.getButtonMode().equals(ConstantsUtil.TRANSFER) || selectionDto.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
+                if (selectionDto.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
+                    selectionDto.setWindowName("Projection Details Transfer");
                 } else {
-                    selection.setWindowName("Transfer Item");
+                    selectionDto.setWindowName("Transfer Item");
                 }
                 if (selecteditemList.size() != 1) {
                     if (checkOneContract()) {
 
-                        final ItemManagementLookup projectionTransferWindow = new ItemManagementLookup(selecteditemList, selection);
+                        final ItemManagementLookup projectionTransferWindow = new ItemManagementLookup(selecteditemList, selectionDto);
                         createWindow(projectionTransferWindow);
                     } else {
                         MessageBox.showPlain(Icon.INFO, Constants.ERROR, StringConstantsUtil.SELECTED_ITEMS_NOT_BELONG_SAME_CONTRACT, ButtonId.OK);
@@ -542,7 +542,7 @@ public class ItemManagementIndex extends CustomComponent {
                 } else {
                     if (checkOneContract()) {
 
-                        final ItemManagementLookup itemTransferWindow = new ItemManagementLookup(selecteditemList, selection);
+                        final ItemManagementLookup itemTransferWindow = new ItemManagementLookup(selecteditemList, selectionDto);
                         createWindow(itemTransferWindow);
                     } else {
                         MessageBox.showPlain(Icon.INFO, Constants.ERROR, "The selected Item do not belong to any Contract. \n"
@@ -563,11 +563,11 @@ public class ItemManagementIndex extends CustomComponent {
     @UiHandler("editBtn")
     public void editButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException {
         if (!selecteditemList.isEmpty()) {
-            SelectionDTO selection = createSessionId();
-            if (selection.getButtonMode().equals(ConstantsUtil.EDIT)) {
-                selection.setWindowName("Update Item");
+            SelectionDTO selectionDto = createSessionId();
+            if (selectionDto.getButtonMode().equals(ConstantsUtil.EDIT)) {
+                selectionDto.setWindowName("Update Item");
                 if (true) {
-                    final ItemManagementLookup editWindow = new ItemManagementLookup(selecteditemList, selection);
+                    final ItemManagementLookup editWindow = new ItemManagementLookup(selecteditemList, selectionDto);
                     createWindow(editWindow);
                 } else {
                     MessageBox.showPlain(Icon.INFO, Constants.ERROR, "The selected Items do not belong to the same Contract. Please refine your selection to only include Items that are on the same Contract.", ButtonId.OK);
@@ -586,11 +586,11 @@ public class ItemManagementIndex extends CustomComponent {
     @UiHandler("deleteBtn")
     public void deleteButtonLogic(Button.ClickEvent event) throws CloneNotSupportedException {
         if (!selecteditemList.isEmpty()) {
-            SelectionDTO selection = createSessionId();
-            if (selection.getButtonMode().equals(ConstantsUtil.DELETE)) {
-                selection.setWindowName("Remove Item");
+            SelectionDTO selectionDto = createSessionId();
+            if (selectionDto.getButtonMode().equals(ConstantsUtil.DELETE)) {
+                selectionDto.setWindowName("Remove Item");
                 if (true) {
-                    final ItemManagementLookup removeWidow = new ItemManagementLookup(selecteditemList, selection);
+                    final ItemManagementLookup removeWidow = new ItemManagementLookup(selecteditemList, selectionDto);
                     createWindow(removeWidow);
                 } else {
                     MessageBox.showPlain(Icon.INFO, Constants.ERROR, "The selected Items do not belong to the same Contract. Please refine your selection to only include Items that are on the same Contract.", ButtonId.OK);
@@ -691,23 +691,23 @@ public class ItemManagementIndex extends CustomComponent {
     }
 
     private SelectionDTO createSessionId() throws CloneNotSupportedException {
-        SelectionDTO selection = this.selection.clone();
-        selection.setContractMasterSid(StringUtils.EMPTY);
-        selection.setIfpConteractSid(0);
-        selection.setCfpContractSid(0);
-        selection.setPsContractSid(0);
-        selection.setRsContractSid(0);
-        selection.setTransterTabItemIds(new ArrayList());
-        selection.setContractMasterSid(StringUtils.EMPTY);
+        SelectionDTO selectionDto = this.selection.clone();
+        selectionDto.setContractMasterSid(StringUtils.EMPTY);
+        selectionDto.setIfpConteractSid(0);
+        selectionDto.setCfpContractSid(0);
+        selectionDto.setPsContractSid(0);
+        selectionDto.setRsContractSid(0);
+        selectionDto.setTransterTabItemIds(new ArrayList());
+        selectionDto.setContractMasterSid(StringUtils.EMPTY);
         TabSelectionDTO selectionDTO = new TabSelectionDTO();
         selectionDTO.setItemList(selecteditemList);
-        selection.setItemList(selecteditemList);
-        selection.setTabSelection(selectionDTO);
+        selectionDto.setItemList(selecteditemList);
+        selectionDto.setTabSelection(selectionDTO);
         Date sessionDate = new Date();
-        selection.setSessionId(Integer.valueOf(fmtID.format(sessionDate)));
-        selection.setSessionDate(sessionDate);
-        selection.setUserId(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute("userId"))));
-        return selection;
+        selectionDto.setSessionId(Integer.valueOf(fmtID.format(sessionDate)));
+        selectionDto.setSessionDate(sessionDate);
+        selectionDto.setUserId(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute("userId"))));
+        return selectionDto;
     }
 
     private void loadIdentifierType() {

@@ -172,12 +172,12 @@ public class DataSelectionLogic {
 	 *            the hierarchy name
 	 * @return the list
 	 */
-	public List<Leveldto> loadCustomerForecastLevel(int hierarchyId, int HierarchyVersion) {
+	public List<Leveldto> loadCustomerForecastLevel(int hierarchyId, int hierarchyVersion) {
 		final List<Leveldto> resultList = new ArrayList<>();
 		Leveldto leveldto;
 		List<Object> input = new ArrayList<>();
 		input.add(hierarchyId);
-		input.add(HierarchyVersion);
+		input.add(hierarchyVersion);
 		try {
 			List<Object[]> returnlist = HelperTableLocalServiceUtil
 					.executeSelectQuery(CommonQueryUtils.getAppQuery(input, "selectHierarchyDetails"));
@@ -1672,8 +1672,8 @@ public class DataSelectionLogic {
 		GtnSqlUtil.procedureCallService(procedureName, new Object[] { projectionId, userId, sessionId });
 	}
 
-	public String getMarketTypeValue(int ProjectId) {
-		final List<Object> temp = getMarketType(ProjectId);
+	public String getMarketTypeValue(int projectID) {
+		final List<Object> temp = getMarketType(projectID);
 		String marketType = "";
 		if (!temp.isEmpty()) {
 			final Object[] objects = (Object[]) temp.get(0);

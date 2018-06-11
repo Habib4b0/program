@@ -1173,7 +1173,7 @@ public class DiscountProjectionLogic {
         return 0;
     }
     
-    public Map<Integer, List> configureVisibleColumnMapsForExcel(Map<Integer, List> sourceHeaderMap) {
+     public Map<Integer, List> configureVisibleColumnMapsForExcel(Map<Integer, List> sourceHeaderMap) {
 
         final Map<Integer, List> finalMap = new HashMap<>();
 

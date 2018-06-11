@@ -276,27 +276,27 @@ public class PromoteTP extends VerticalLayout {
                 }
                 if ("companyType".equals(propertyId)) {
                     try {
-                        ComboBox companyType = new ComboBox();
-                        commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, true);
-                        return companyType;
+                        ComboBox companyTypeComboBox = new ComboBox();
+                        commonUtil.loadComboBox(companyTypeComboBox, UiUtils.COMPANY_TYPE, true);
+                        return companyTypeComboBox;
                     } catch (Exception ex) {
                         LoggerFactory.getLogger(CompanySearch.class.getName()).error("", ex);
                     }
                 }
                 if ("companyCategory".equals(propertyId)) {
                     try {
-                        ComboBox companyCategory = new ComboBox();
-                        commonUtil.loadComboBox(companyCategory, UiUtils.COMPANY_CATEGORY, true);
-                        return companyCategory;
+                        ComboBox companyCategoryComboBox = new ComboBox();
+                        commonUtil.loadComboBox(companyCategoryComboBox, UiUtils.COMPANY_CATEGORY, true);
+                        return companyCategoryComboBox;
                     } catch (Exception ex) {
                         LoggerFactory.getLogger(CompanySearch.class.getName()).error("", ex);
                     }
                 }
                 if ("state".equals(propertyId)) {
                     try {
-                        ComboBox state = new ComboBox();
-                        commonUtil.loadComboBox(state, UiUtils.STATE, true);
-                        return state;
+                        ComboBox stateComboBox = new ComboBox();
+                        commonUtil.loadComboBox(stateComboBox, UiUtils.STATE, true);
+                        return stateComboBox;
                     } catch (Exception ex) {
                         LoggerFactory.getLogger(CompanySearch.class.getName()).error("", ex);
                     }
@@ -595,11 +595,11 @@ public class PromoteTP extends VerticalLayout {
     }
     public ErrorfulFieldGroup getBinder() {
         final PromoteTpToChDto bean = new PromoteTpToChDto();
-        final ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(bean));
-        dataSelectionBinder.setBuffered(true);
-        dataSelectionBinder.bindMemberFields(this);
-        dataSelectionBinder.setErrorDisplay(errorMsg);
-        return dataSelectionBinder;
+        final ErrorfulFieldGroup dataSelectionBinderErrorfulFieldGroup = new ErrorfulFieldGroup(new BeanItem<>(bean));
+        dataSelectionBinderErrorfulFieldGroup.setBuffered(true);
+        dataSelectionBinderErrorfulFieldGroup.bindMemberFields(this);
+        dataSelectionBinderErrorfulFieldGroup.setErrorDisplay(errorMsg);
+        return dataSelectionBinderErrorfulFieldGroup;
     }
     
     public void createWorkSheet(String moduleName, ExtPagedTable resultTable,int count) throws   NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
