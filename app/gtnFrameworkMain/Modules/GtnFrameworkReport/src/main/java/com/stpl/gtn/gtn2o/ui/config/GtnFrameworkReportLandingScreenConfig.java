@@ -25,7 +25,6 @@ import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportCustHierarchyCon
 import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnForecastEligibleDateLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridLoadAction;
-import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownHeaderLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -92,7 +91,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 		addLandingScreenVariableComponent(componentList, namespace);
 		addLandingScreenComparisonComponent(componentList, namespace);
 		addLandingScreenVariableBreakdownComponent(componentList, namespace);
-		addLandingScreenComparisonOptionsComponent(componentList, namespace);
                 addLandingScreenFrequencyComponent(componentList,namespace);
 	}
 
@@ -220,40 +218,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 		componentList.add(landingScreenVariableBreakdownConfig);
 	}
 
-	private void addLandingScreenComparisonOptionsComponent(List<GtnUIFrameworkComponentConfig> componentList,
-			String namespace) {
-		GtnUIFrameworkComponentConfig landingScreenComparisonOptionsGtnLayout = configProvider
-				.getHorizontalLayoutConfig(
-						GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_COMPARISON_OPTIONS_LAYOUT, true,
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkReportStringConstants.DATA_SELECTION_MAIN_LAYOUT);
-		landingScreenComparisonOptionsGtnLayout.setComponentWidth("12%");
-		componentList.add(landingScreenComparisonOptionsGtnLayout);
-
-		GtnUIFrameworkComponentConfig landingScreenComparisonOptionsConfig = configProvider
-				.getUIFrameworkComponentConfig(
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_COMPARISON_OPTIONS,
-						true, GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_COMPARISON_OPTIONS_LAYOUT,
-						GtnUIFrameworkComponentType.BUTTON);
-		landingScreenComparisonOptionsConfig.setComponentName("Comparison Options: ");
-		landingScreenComparisonOptionsConfig.setAuthorizationIncluded(true);
-		landingScreenComparisonOptionsConfig.addComponentStyle(GtnFrameworkReportStringConstants.LINK);
-
-		List<GtnUIFrameWorkActionConfig> landingScreenComparisonOptionsActionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig landingScreenComparisonOptionsPopupActionConfig = new GtnUIFrameWorkActionConfig();
-		landingScreenComparisonOptionsPopupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		landingScreenComparisonOptionsPopupActionConfig.addActionParameter("comparisonOptions");
-		landingScreenComparisonOptionsPopupActionConfig.addActionParameter("Comparison Options");
-		landingScreenComparisonOptionsPopupActionConfig
-				.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
-
-		landingScreenComparisonOptionsActionConfigList.add(landingScreenComparisonOptionsPopupActionConfig);
-		landingScreenComparisonOptionsConfig
-				.setGtnUIFrameWorkActionConfigList(landingScreenComparisonOptionsActionConfigList);
-
-		componentList.add(landingScreenComparisonOptionsConfig);
-	}
 
 	private void addLandingScreenCustomViewButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
