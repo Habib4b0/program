@@ -68,13 +68,13 @@ public class CustomViewLogic {
             for (ListIterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
                 Object[] obj = it.next();
                 it.remove();
-                String level_value = obj[1].toString();
-                String level_No = obj[0].toString();
-                if (levelNoSet.add(level_No)) {
+                String levelValue = obj[1].toString();
+                String levelNo = obj[0].toString();
+                if (levelNoSet.add(levelNo)) {
                     ccpMap = new HashMap();
                     levelCcpIds.add(ccpMap);
                 }
-                LevelMapKey key = new LevelMapKey(level_No, level_value);
+                LevelMapKey key = new LevelMapKey(levelNo, levelValue);
 
                 key.setCustomViewDetailsSid(Integer.parseInt(obj[NumericConstants.THREE].toString()));
                 List ccpIds = ccpMap.get(key);
@@ -95,7 +95,7 @@ public class CustomViewLogic {
     private void formHierarchy() throws CloneNotSupportedException {
 
         int levelCount = levelCcpIds.size();
-        String level_values_sid = "";
+        String levelValuesSid = "";
         for (int i = 0; i < levelCount; i++) {
 
             int levelHi = 0;
@@ -122,10 +122,10 @@ public class CustomViewLogic {
                         String parentHierarchyNo = findParentHierarchyNo(ccpId, Integer.parseInt(currentKey.getLevelNo()) - 1);
 
                         if (!parentHierarchy.equals(parentHierarchyNo)) {
-                            if (!level_values_sid.equals(currentKey.getLevelValuesSid())) {
+                            if (!levelValuesSid.equals(currentKey.getLevelValuesSid())) {
                                 levelHi++;
                             }
-                            level_values_sid = currentKey.getLevelValuesSid();
+                            levelValuesSid = currentKey.getLevelValuesSid();
                             String hierarchyN0 = parentHierarchyNo + (levelHi) + DOT;
 
                             LevelMapKey newKey = new LevelMapKey(currentKey.getLevelNo(), currentKey.getLevelValuesSid());

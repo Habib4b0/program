@@ -563,16 +563,16 @@ public class CopyContractform extends CustomComponent implements View {
                     return contractName;
                 }
                 if (Constants.ALIAS_NUMBER.equals(propertyId)) {
-                    final TextField aliasNumber = new TextField();
-                    aliasNumber.setWidth("120px");
-                    aliasNumber.addBlurListener(new BlurListener() {
+                    final TextField aliasNumberTextField = new TextField();
+                    aliasNumberTextField.setWidth("120px");
+                    aliasNumberTextField.addBlurListener(new BlurListener() {
                         @Override
                         public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
-                            String newValue = String.valueOf(aliasNumber.getValue());
-                            specValidation(newValue, aliasNumber);
+                            String newValue = String.valueOf(aliasNumberTextField.getValue());
+                            specValidation(newValue, aliasNumberTextField);
                         }
                     });
-                    return aliasNumber;
+                    return aliasNumberTextField;
                 } else {
                     field = null;
                 }

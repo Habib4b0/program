@@ -42,6 +42,7 @@ import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.queryUtils.CommonQueryUtils;
 import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
+import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.LOGGER;
 import com.stpl.app.gtnforecasting.service.finderImpl.CustomViewMasterImpl;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.tree.node.TreeNode;
@@ -4838,19 +4839,19 @@ public class CommonLogic {
 
             }
             
-            query.append("SELECT ").append(selectClause).append(" FROM (SELECT RS_CONTRACT_SID FROM ST_NM_DISCOUNT_PROJ_MASTER GROUP BY RS_CONTRACT_SID) DPM ");
+            query.append("SELECT ").append(selectClause).append(" FROM (SELECT RS_CONTRACT_SID,CCP_DETAILS_SID FROM ST_NM_DISCOUNT_PROJ_MASTER GROUP BY RS_CONTRACT_SID,CCP_DETAILS_SID) DPM ");
             query.append(" JOIN RS_CONTRACT RS ON DPM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID ").append(udcJoinClause).append(joinClause);
             if (!productFilter.isEmpty()) {
                 String oldCustomerQuery=query.toString();
                 query=new StringBuilder();
-                oldCustomerQuery = SQlUtil.getQuery("product-dynamic-filter") + oldCustomerQuery + " JOIN #HIER_PRODUCT HP ON CCP.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' ";
+                oldCustomerQuery = SQlUtil.getQuery("product-dynamic-filter") + oldCustomerQuery + " JOIN ST_CCP_HIERARCHY CCP ON CCP.CCP_DETAILS_SID =DPM.CCP_DETAILS_SID JOIN #HIER_PRODUCT HP ON CCP.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' ";
                 oldCustomerQuery= oldCustomerQuery.replace(Constant.LEVEL_VALUES,productFilter.toString().replace("[", "").replace("]", "")).replace(Constant.RELBUILD_SID, projectionDto.getSessionDTO().getProdRelationshipBuilderSid());
                 query.append(oldCustomerQuery);
             }
             if (!customerFilter.isEmpty()) {
                 String oldProductQuery=query.toString();
                 query=new StringBuilder();
-                oldProductQuery= SQlUtil.getQuery("customer-dynamic-filter")+oldProductQuery+" JOIN #HIER_CUST HC ON CCP.CUST_HIERARCHY_NO LIKE HC.HIERARCHY_NO+'%' ";
+                oldProductQuery= SQlUtil.getQuery("customer-dynamic-filter")+oldProductQuery+" JOIN ST_CCP_HIERARCHY CCP1 ON CCP1.CCP_DETAILS_SID =DPM.CCP_DETAILS_SID JOIN #HIER_CUST HC ON CCP1.CUST_HIERARCHY_NO LIKE HC.HIERARCHY_NO+'%' ";
                 oldProductQuery= oldProductQuery.replace(Constant.LEVEL_VALUES,customerFilter.toString().replace("[", "").replace("]", "")).replace(Constant.RELBUILD_SID, projectionDto.getSessionDTO().getCustRelationshipBuilderSid());
                 query.append(oldProductQuery);
             }
@@ -5378,4 +5379,25 @@ public class CommonLogic {
         }
         return deductionList;
     }
+    public static void updateFlagStatusToR(SessionDTO session, String screenName, String view) {
+        LOGGER.info("updateFlagStatusToR---------------------------------------------------{}" + view);
+
+        switch (view) {
+            case Constants.CUSTOMER:
+                CommonUtil.getInstance().updateStatusTable(screenName, session, view);
+                break;
+            case Constants.PRODUCT:
+                CommonUtil.getInstance().updateStatusTable(screenName, session, view);
+                break;
+            case Constants.CUSTOM:
+                CommonUtil.getInstance().updateStatusTable(screenName, session, view);
+                break;
+            default:
+                LOGGER.warn("screenName is not valid= {} ", screenName);
+                break;
+        }
+        LOGGER.info("updateFlagStatusToR-----------------END----------------------------------");
+    }
 }
+    
+

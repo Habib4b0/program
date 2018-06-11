@@ -15,6 +15,7 @@ import com.stpl.app.gtnforecasting.dto.ContractBrandDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.getCustomViewDetails;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.DataSourceConnection;
@@ -162,8 +163,8 @@ public class SalesLogic {
     public static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     public static final String DF_LEVEL_NAME = "dfLevelName";
     public static final String AND_FILTER_CCP_JOIN = " AND FILTER_CCP = 1";
-    public static final String _SALES_PROJECTION = "_SALES_PROJECTION";
-    public static final String _ACTUAL_SALES = "_ACTUAL_SALES";
+    public static final String UNDERSCORE_SALES_PROJECTION = "_SALES_PROJECTION";
+    public static final String UNDERSCORE_ACTUAL_SALES = "_ACTUAL_SALES";
     public static final String SALES_PROJECTION_MASTER = "_SALES_PROJECTION_MASTER";
     public static final String PROJECTION_MASTER_SID_VARIABLE = "@PROJECTION_MASTER_SID";
     public static final String CUST_HIERARCHY_NO = "CUST_HIERARCHY_NO";
@@ -172,6 +173,10 @@ public class SalesLogic {
     public static final String P_QUATER = "p.QUARTER";
     public static final String P_MONTH = "p.MONTH,";
     public static final String MONTH = "MONTH";
+    private static final String SALES_SMALL = "sales";
+    public static final String SALESINCLUSION = "@SALESINCLUSION";
+    public static final String OPPOSITESINC = "@OPPOSITESINC";
+    public static final String VIEWTABLE ="@VIEWTABLE";
     
     
               
@@ -555,8 +560,8 @@ public class SalesLogic {
         } else {
             forcastingFlavour = "M";
         }
-        sql = sql.replace("[$TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + _SALES_PROJECTION : forcastingFlavour + _SALES_PROJECTION);
-        sql = sql.replace("[$ACTUAL_TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + _ACTUAL_SALES : forcastingFlavour + _ACTUAL_SALES);
+        sql = sql.replace("[$TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + UNDERSCORE_SALES_PROJECTION : forcastingFlavour + UNDERSCORE_SALES_PROJECTION);
+        sql = sql.replace("[$ACTUAL_TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + UNDERSCORE_ACTUAL_SALES : forcastingFlavour + UNDERSCORE_ACTUAL_SALES);
         sql = sql.replace("[$MASTER_TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + SALES_PROJECTION_MASTER : forcastingFlavour + SALES_PROJECTION_MASTER);
 
         if (!ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) || projSelDTO.getFunctionality().equals(Constant.ALTERNATE_HISTORY)) {
@@ -571,12 +576,12 @@ public class SalesLogic {
         if (CommonUtil.isValueEligibleForLoading()) {
             String joinQuery = " JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=SHN.CCP_DETAILS_SID LEFT JOIN ST_ITEM_UOM_DETAILS  UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM.UOM_CODE = '" + projSelDTO.getUomCode() + "'";
             sql = sql.replace("@SALESINCLUSIONCC", getSalesINCLUSIONCC(projSelDTO));
-            sql = sql.replace("@SALESINCLUSION", getSalesInclusion(projSelDTO, isSalesInclusionNotSelected));
-            sql = sql.replace("@OPPOSITESINC", isSalesInclusionNotSelected ? StringUtils.EMPTY : UNION_ALL_ONE + UNION_ALL_TWO + oppositeSalesInc);
+            sql = sql.replace(SALESINCLUSION, getSalesInclusion(projSelDTO, isSalesInclusionNotSelected));
+            sql = sql.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : UNION_ALL_ONE + UNION_ALL_TWO + oppositeSalesInc);
             sql = sql.replace("@UOMCODE", projSelDTO.getUomCode().equals("EACH") ? StringUtils.EMPTY : joinQuery);
             sql = sql.replace("@SUMPROJECTEDUNITS", getSumProjectedUnits(projSelDTO));
             sql = sql.replace("@SUMACTUALUNITS", getSumActualMethods(projSelDTO));
-            sql = sql.replace("@VIEWTABLE", CommonLogic.getViewTableName(projSelDTO));
+            sql = sql.replace(VIEWTABLE, CommonLogic.getViewTableName(projSelDTO));
             sql = sql.replace("@TABLCOLUMN", getTablColumn(projSelDTO));
             sql = sql.replace("@CUSTOMJOIN", getCustomJoin(projSelDTO));
             sql = sql.replace("@REFCOLUMN", getRefColumn(projSelDTO));
@@ -599,10 +604,10 @@ public class SalesLogic {
         String sql = SQlUtil.getQuery("non-mandated-sales-query-excel");
         char oppositeSalesInc = projSelDTO.getSessionDTO().getSalesInclusion().equals("1") ? '0' : '1';
         boolean isSalesInclusionNotSelected = projSelDTO.getSessionDTO().getSalesInclusion().equals(ALL);
-        sql = sql.replace("@VIEWTABLE", CommonLogic.getViewTableName(projSelDTO));
+        sql = sql.replace(VIEWTABLE, CommonLogic.getViewTableName(projSelDTO));
         sql = sql.replace("@HIERARCHY", Constant.CUSTOMER_SMALL.equals(projSelDTO.getViewOption()) ?"CUST_HIERARCHY_NO":"PROD_HIERARCHY_NO");
-        sql = sql.replace("@SALESINCLUSION", isSalesInclusionNotSelected ? StringUtils.EMPTY : " AND STC.SALES_INCLUSION = " + projSelDTO.getSessionDTO().getSalesInclusion());
-        sql = sql.replace("@OPPOSITESINC", isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL");
+        sql = sql.replace(SALESINCLUSION, isSalesInclusionNotSelected ? StringUtils.EMPTY : " AND STC.SALES_INCLUSION = " + projSelDTO.getSessionDTO().getSalesInclusion());
+        sql = sql.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL");
         sql = sql.replace("@CONDITION",isSalesInclusionNotSelected ? StringUtils.EMPTY :" WHERE SALES_INCLUSION= " + oppositeSalesInc);      
         String query = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List<Object[]> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -628,8 +633,8 @@ public class SalesLogic {
         } else {
             forcastingFlavour = "M";
         }
-        sql = sql.replace("[$TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + _SALES_PROJECTION : forcastingFlavour + _SALES_PROJECTION);
-        sql = sql.replace("[$ACTUAL_TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + _ACTUAL_SALES : forcastingFlavour + _ACTUAL_SALES);
+        sql = sql.replace("[$TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + UNDERSCORE_SALES_PROJECTION : forcastingFlavour + UNDERSCORE_SALES_PROJECTION);
+        sql = sql.replace("[$ACTUAL_TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + UNDERSCORE_ACTUAL_SALES : forcastingFlavour + UNDERSCORE_ACTUAL_SALES);
         sql = sql.replace("[$MASTER_TABLE_NAME]", !ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) ? "ST_" + forcastingFlavour + SALES_PROJECTION_MASTER : forcastingFlavour + SALES_PROJECTION_MASTER);
 
         if (!ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction()) || projSelDTO.getFunctionality().equals(Constant.ALTERNATE_HISTORY)) {
@@ -718,12 +723,12 @@ public class SalesLogic {
 		if (CommonUtil.isValueEligibleForLoading()) {
             String joinQuery = " JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=SHN.CCP_DETAILS_SID LEFT JOIN ST_ITEM_UOM_DETAILS  UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM.UOM_CODE = '" + projSelDTO.getUomCode() + "'";
             sql = sql.replace("@SALESINCLUSIONCC", getSalesINCLUSIONCC(projSelDTO));
-            sql = sql.replace("@SALESINCLUSION", getSalesInclusion(projSelDTO, isSalesInclusionNotSelected));
-            sql = sql.replace("@OPPOSITESINC", getOppositeSalesInc(oppositeSalesInc, isSalesInclusionNotSelected));
+            sql = sql.replace(SALESINCLUSION, getSalesInclusion(projSelDTO, isSalesInclusionNotSelected));
+            sql = sql.replace(OPPOSITESINC, getOppositeSalesInc(oppositeSalesInc, isSalesInclusionNotSelected));
             sql = sql.replace("@UOMCODE", projSelDTO.getUomCode().equals("EACH") ? StringUtils.EMPTY : joinQuery);
             sql = sql.replace("@SUMPROJECTEDUNITS", getSumProjectedUnits(projSelDTO));
             sql = sql.replace("@SUMACTUALUNITS", getSumActualMethods(projSelDTO));
-            sql = sql.replace("@VIEWTABLE", CommonLogic.getViewTableName(projSelDTO));
+            sql = sql.replace(VIEWTABLE, CommonLogic.getViewTableName(projSelDTO));
             sql = sql.replace("@TABLCOLUMN", getTablColumn(projSelDTO));
             sql = sql.replace("@CUSTOMJOIN", getCustomJoin(projSelDTO));
             sql = sql.replace("@REFCOLUMN", getRefColumn(projSelDTO));
@@ -2968,7 +2973,7 @@ public class SalesLogic {
      * @param allocationBasis
      */
     public boolean calculateSalesProjection(final ProjectionSelectionDTO projectionSelectionDTO, final String methodology, final String calcPeriods, final String calcBased,
-            final String startPeriodSID, final String endPeriodSID, final String allocationBasis) {
+            final String startPeriodSID, final String endPeriodSID, final String allocationBasis,SessionDTO session,ProjectionSelectionDTO projectionDTO) {
         boolean isSalesCalculated = false;
         projectionSelectionDTO.setTabName(SALES_PROJ.getConstant());
         String startPeriod = CommonLogic.getPeriodSID(projectionSelectionDTO.getFrequency(), startPeriodSID, true);
@@ -2985,6 +2990,7 @@ public class SalesLogic {
                 Thread thread = new Thread(createDiscountProcedureRunnable(projectionSelectionDTO));
                 thread.start();
             }
+            CommonLogic.updateFlagStatusToR(session, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
           new DataSelectionLogic().callViewInsertProceduresThread(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,endPeriod.equals("0")?StringUtils.EMPTY:endPeriod,"");
         } catch (PortalException | SystemException | SQLException | NamingException ex) {
             LOGGER.error(ex.getMessage());

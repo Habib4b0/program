@@ -2369,6 +2369,7 @@ public class ForecastForm extends AbstractForm {
                 logic.mainToTempTableInsert(session, service);
                 session.addFutureMap(Constant.DATA_SELECTION_TAB_LOAD, new Future[]{
                 service.submit(CommonUtil.getInstance().createRunnable(Constant.DATA_SELECTION_TAB_LOAD, data))});
+                nmSalesInsertDiscMasterProcedure();
                 nmSalesViewsPopulationProcedure();
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SALES_PROCEDURE_CALL));
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL));

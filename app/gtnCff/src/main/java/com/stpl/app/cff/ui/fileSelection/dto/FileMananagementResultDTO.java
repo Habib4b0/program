@@ -1158,8 +1158,8 @@ public class FileMananagementResultDTO implements Serializable {
         return SearchforcastYear;
     }
 
-    public void setSearchforcastYear(String SearchforcastYear) {
-        this.SearchforcastYear = SearchforcastYear;
+    public void setSearchforcastYear(String searchForcastYear) {
+        this.SearchforcastYear = searchForcastYear;
     }
 
     public String getBusinessUnit() {

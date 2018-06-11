@@ -268,15 +268,15 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
 
     @Override
     protected void btnUpdateLogic() {
-        int non_creatoralert = 0;
+        int nonCreatorAlert = 0;
         if (!dataselectionDtoToSave.getViewType().equals("") && dataselectionDtoToSave.getViewType().equals("public") && !sessionDTO.getUserId().equals(viewDTO.getCreatedUserid())) {
-                    non_creatoralert++;
+                    nonCreatorAlert++;
         }
 
         try {
             if (StringUtils.isBlank(viewName.getValue()) || Constants.NULL.equals(String.valueOf(viewName.getValue()))) {
                 AbstractNotificationUtils.getErrorNotification("Invalid view name", "Enter the view name");
-            } else if (non_creatoralert != 0) {
+            } else if (nonCreatorAlert != 0) {
                 AbstractNotificationUtils.getErrorNotification("Cannot update public view", "You cannot update Public View (" + viewDTO.getViewName() + ") because it was created by another user.You can choose to save a new profile under a different profile name");
 
             } else if (!viewName.getValue().equals(viewDTO.getViewName())) {

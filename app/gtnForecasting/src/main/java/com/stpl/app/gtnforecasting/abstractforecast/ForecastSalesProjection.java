@@ -2914,7 +2914,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 commonLogic.insertPFDTemp(session, calcMethodology, String.valueOf(allocationBasis.getValue()), true);
             }
             endPeriodValue = forecastEndPeriod.getValue() == null ? rightHeader.getDoubleHeaders().get(rightHeader.getDoubleHeaders().size() - 1) : String.valueOf(forecastEndPeriod.getValue());
-            isSalesCalculated = salesLogic.calculateSalesProjection(projectionDTO, calcMethodology, selectedPeriods, calcBased, String.valueOf(forecastStartPeriod.getValue()), endPeriodValue, String.valueOf(allocationBasis.getValue()));
+            isSalesCalculated = salesLogic.calculateSalesProjection(projectionDTO, calcMethodology, selectedPeriods, calcBased, String.valueOf(forecastStartPeriod.getValue()), endPeriodValue, String.valueOf(allocationBasis.getValue()),session,projectionDTO);
             CommonLogic.procedureCompletionCheck(session,SALES_SMALL,String.valueOf(projectionDTO.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
 
