@@ -18,7 +18,6 @@ import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportDataSelectionGenerate;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportSqlService;
 import com.stpl.gtn.gtn2o.ws.report.service.displayformat.service.GtnCustomRelationshipLevelValueService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -213,41 +212,38 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		return result;
 }
         
-           public List<GtnWsRecordBean> getDashboardLeftData(
+         public List<GtnWsRecordBean> getDashboardLeftData(
             GtnWsReportDashboardBean reportDashboardBean,GtnUIFrameworkWebserviceRequest gtnWsRequest)  {
 
             try {
                 // Object inputs[] = gtnWsSearchRequest.getQueryInput().toArray();
                 GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
                 Object values[] = gtnWsRequest.getGtnWsSearchRequest().getQueryInputList().toArray();
+                int start=gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart();
+                int limit=gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset();
                 int levelNo=Integer.parseInt(values[0].toString()) ;
                 String hierarchyNo=values[1].toString();
                 String fileName=gtnReportJsonService.getFileName("CustomViewCCP", dataSelectionBean.getSessionId());
                 GtnWsReportCustomCCPList ccpList = (GtnWsReportCustomCCPList) gtnReportJsonService.convertJsonToObject(fileName, GtnWsReportCustomCCPList.class);
                 List<GtnWsReportCustomCCPListDetails> gtnWsReportCustomCCPListDetails = ccpList.getGtnWsReportCustomCCPListDetails();
                 
-                return   gtnWsReportCustomCCPListDetails.stream()
-                        .filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo))
-                        .map(row -> convertToRecordbean(row, gtnWsRequest.getGtnWsSearchRequest().getRecordHeader())).collect(Collectors.toList());
+                return   gtnWsReportCustomCCPListDetails.parallelStream()
+                        .filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo)).skip(start).limit(limit)
+                        .map(row -> convertToRecordbean(row, gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),gtnWsReportCustomCCPListDetails.indexOf(row))).collect(Collectors.toList());
             } catch (Exception ex) {
                 GTNLOGGER.error(ex.getMessage(), ex);
             }
              return new ArrayList<>();
     }
-         private GtnWsRecordBean convertToRecordbean(GtnWsReportCustomCCPListDetails bean,List<Object> recordHeader){
+         private GtnWsRecordBean convertToRecordbean(GtnWsReportCustomCCPListDetails bean,List<Object> recordHeader,int index){
         
 		GtnWsRecordBean recordBean = new GtnWsRecordBean();
-		if (recordHeader == null || recordHeader.isEmpty()) {
-			recordHeader.add("levelNumber");
-			recordHeader.add("hierarchyNo");
-			recordHeader.add("levelName");
-			recordHeader.add("levelValue");
-		        recordHeader.add("generatedHierarchyNo");
-		}
 		recordBean.setRecordHeader(recordHeader);
-		recordBean.addProperties("levelNumber", bean.getLevelNo());
-		recordBean.addProperties("hierarchyNo", bean.getHierarchyNo());
-		recordBean.addProperties("levelName", bean.getData()[2]);
+                recordBean.addAdditionalProperty(0);//for Child Count
+		recordBean.addAdditionalProperty( bean.getLevelNo());//level No
+		recordBean.addAdditionalProperty(bean.getHierarchyNo());
+		recordBean.addAdditionalProperty(index);
+//		recordBean.addProperties("levelName", bean.getData()[2]);
 		recordBean.addProperties("levelValue", bean.getData()[1]);
 		//recordBean.addProperties("generatedHierarchyNo", document.get("generatedHierarchyNo"));
 		return recordBean;

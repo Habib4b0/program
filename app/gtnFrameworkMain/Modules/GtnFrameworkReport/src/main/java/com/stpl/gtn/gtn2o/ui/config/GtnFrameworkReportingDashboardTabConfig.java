@@ -1092,14 +1092,14 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		reportingDashboardGtnPagedTreeTableConfig.setMaxSplitPosition(1000);
 		reportingDashboardGtnPagedTreeTableConfig.setMinSplitPosition(300);
-		reportingDashboardGtnPagedTreeTableConfig.setPageLength(15);
+		reportingDashboardGtnPagedTreeTableConfig.setPageLength(5);
 		reportingDashboardGtnPagedTreeTableConfig.setResultSetUrl("");
 
 		reportingDashboardGtnPagedTreeTableConfig.setSplitPosition(493);
 
 		reportingDashboardGtnPagedTreeTableConfig.setTableHeight("650px");
 		reportingDashboardGtnPagedTreeTableConfig.setDoubleHeaderVisible(true);
-		reportingDashboardGtnPagedTreeTableConfig.setTripleHeaderVisible(true);
+		reportingDashboardGtnPagedTreeTableConfig.setTripleHeaderVisible(false);
 
 		reportingDashboardGtnPagedTreeTableConfig.setLeftTableEditable(true);
 		reportingDashboardGtnPagedTreeTableConfig.setRightTableEditable(true);
@@ -1144,8 +1144,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		reportingDashboardTextFieldConfig.add(reportingDashboardFieldFactoryCustomAction);
 		reportingDashboardGtnPagedTreeTableConfig.setComponentconfigActionlist(reportingDashboardTextFieldConfig);
 
-		reportingDashboardGtnPagedTreeTableConfig
-				.setCheckBoxVisibleColoumn(Arrays.asList(GtnFrameworkCommonConstants.CHECK));
 		List<GtnUIFrameWorkActionConfig> reportingDashboardCheckAllConflist = new ArrayList<>();
 		GtnUIFrameWorkActionConfig reportingDashboardCheckAllActionConfig = new GtnUIFrameWorkActionConfig();
 		reportingDashboardCheckAllActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);

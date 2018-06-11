@@ -50,18 +50,6 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
        GtnWsReportDashboardBean dashBoardBean = new GtnWsReportDashboardBean();
        dashBoardBean.setSessionId(dataSelectionBean.getSessionId());
        grid.getTableConfig().setGtnWsReportDashboardBean(dashBoardBean);
-//        GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-//        GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
-//        GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-//        GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
-//        dataSelectionBean.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
-//        reportRequest.setDataSelectionBean(dataSelectionBean);
-//        serviceRequest.setGtnWsReportRequest(reportRequest);
-//        reportRequest.setGtnWsReportDashboardBean(grid.getTableConfig().getGtnWsReportDashboardBean());
-//        wsclient.callGtnWebServiceUrl(GtnWsReportConstants.GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT,
-//                GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, serviceRequest,
-//                GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-
         grid.initializeGrid();
     }
 

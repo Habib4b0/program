@@ -339,7 +339,7 @@ public class GtnWsRecordBean implements Serializable {
 
 	public void setAdditionalProperties(List<Object> additionalProperties) {
 		this.additionalProperties = additionalProperties == null ? additionalProperties
-				: Collections.unmodifiableList(additionalProperties);
+				: new ArrayList<>(additionalProperties);
 	}
 
 	public List<GtnWsRecordBean> getChildList() {
