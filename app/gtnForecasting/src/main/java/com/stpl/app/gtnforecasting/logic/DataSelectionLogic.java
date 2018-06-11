@@ -2910,7 +2910,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                 customRelationDdlb.addItem(objects[0]);
                 customRelationDdlb.setItemCaption(objects[0], String.valueOf(objects[1]));
             }
-            if (queryList != null && isDataSelection) {
+            if (queryList != null && !queryList.isEmpty()  && isDataSelection) {
                 customRelationDdlb.setValue(queryList.get(0)[0]);
             }
         }

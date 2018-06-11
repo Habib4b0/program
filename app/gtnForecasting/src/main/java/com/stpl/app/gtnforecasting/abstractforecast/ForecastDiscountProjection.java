@@ -905,4 +905,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
            
         }
     }
+    public ComboBox getViewDdlb() {
+        return viewDdlb;
+    }
 }
