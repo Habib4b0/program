@@ -1,16 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.serviceimpl;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
@@ -265,15 +256,13 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		GtnWsRecordBean recordBean = new GtnWsRecordBean();
 		Optional<List> optionalRecordHeader = Optional.of(recordHeader);
 		recordHeader = optionalRecordHeader.orElseGet(ArrayList::new);
-		recordBean.addAdditionalProperty(0);//for Child Count
+		recordBean.addAdditionalProperty(bean.getChildCount());//for Child Count
 		recordBean.addAdditionalProperty( bean.getLevelNo());//level No
 		recordBean.addAdditionalProperty(bean.getHierarchyNo());
 		recordBean.addAdditionalProperty(index);
 		recordBean.addProperties("levelValue", bean.getData()[1]);
 		dataEntry.getValue().entrySet().stream()
 				.forEach(entry -> recordBean.addProperties(entry.getKey(), entry.getValue()));
-		// recordBean.addProperties("generatedHierarchyNo",
-		// document.get("generatedHierarchyNo"));
 		return recordBean;
 	}
 
