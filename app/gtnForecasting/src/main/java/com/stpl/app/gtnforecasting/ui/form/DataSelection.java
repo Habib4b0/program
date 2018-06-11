@@ -50,7 +50,6 @@ import org.slf4j.LoggerFactory;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
 import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
 import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbCriteria;
