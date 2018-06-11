@@ -521,8 +521,8 @@ public class ForecastForm extends AbstractForm {
                                     }
                                 }
                                 if (discountLoadFlag && (tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.EIGHT)){
-                                CommonUtil.getInstance().isProcedureCompleted("Discount", "PRC_NM_MASTER_INSERT", session);
-                                session.addFutureMap(Constant.CUST_VIEW_MAP_QUERY,
+                                    CommonUtil.getInstance().isProcedureCompleted("Discount", "PRC_NM_MASTER_INSERT", session);
+                               session.addFutureMap(Constant.CUST_VIEW_MAP_QUERY,
 				new Future[] {service.submit(CommonUtil.getInstance().createRunnable(Constant.CUST_VIEW_MAP_QUERY,session))});
                                 discountLoadFlag = false;
                                 }
@@ -710,7 +710,7 @@ public class ForecastForm extends AbstractForm {
 		LOGGER.debug("onTabChange starts");
 		try {
 
-			if ((lastPosition == data.getTabNumber()) && ((data.isUpdateOnTabChange() | data.isCustomChange()) && dsFlag)) {
+			if ((lastPosition == data.getTabNumber()) && ((data.isUpdateOnTabChange() || data.isCustomChange()) && dsFlag)) {
 				dsFlag = false;
 				tempTabPosition = tabPosition;
 				tabSheet.setSelectedTab(0);
@@ -933,7 +933,7 @@ public class ForecastForm extends AbstractForm {
 
 		try {
 
-			if ((lastPosition == data.getTabNumber()) && ((data.isUpdateOnTabChange() | data.isCustomChange()) && dsFlag)) {
+			if ((lastPosition == data.getTabNumber()) && ((data.isUpdateOnTabChange() || data.isCustomChange()) && dsFlag)) {
 				dsFlag = false;
 				tempTabPosition = tabPosition;
 				tabSheet.setSelectedTab(0);

@@ -4143,10 +4143,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             } else {
                 historyNum = historyDdlb.getItemIds().size();
             }
+            createProjectSelectionDto(freq,hist,historyNum,yearValue);
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
-
+    }
+private void createProjectSelectionDto(String freq,String hist,int historyNum,String yearValue) {
         projectionSelection.setForecastDTO(session.getForecastDTO());
         projectionSelection.setFrequency(freq);
         projectionSelection.setHistory(hist);
