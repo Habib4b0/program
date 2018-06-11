@@ -398,7 +398,7 @@ public class ArchiveIndex extends CustomComponent implements View {
 
             public void buttonClick(final ClickEvent event) {
                 Object obj = fieldTable.getValue();
-                Object ValueObj = resultsColumnTable.getValue();
+                Object valueObj = resultsColumnTable.getValue();
                 if (businessProcess.getValue() == null || StringUtils.EMPTY.equals(String.valueOf(businessProcess.getValue()))) {
                     AbstractNotificationUtils.getErrorNotification(CommonUtils.ARCHIVE_ERROR, "Business Process should be selected");
                     return;
@@ -407,7 +407,7 @@ public class ArchiveIndex extends CustomComponent implements View {
                     AbstractNotificationUtils.getErrorNotification(CommonUtils.ARCHIVE_ERROR, "Please select Field Name");
                     return;
                 }
-                if (ValueObj == null) {
+                if (valueObj == null) {
                     Date fromdate = from.getValue();
                     Date to = toDate.getValue();
                     if (fromdate == null || to == null) {
@@ -434,12 +434,12 @@ public class ArchiveIndex extends CustomComponent implements View {
 
             public void buttonClick(final ClickEvent event) {
                 Object obj = fieldTable.getValue();
-                Object ValueObj = resultsColumnTable.getValue();
+                Object valueObj = resultsColumnTable.getValue();
                 if (obj == null) {
                     AbstractNotificationUtils.getErrorNotification(CommonUtils.ARCHIVE_ERROR, "Please select Field Name");
                     return;
                 }
-                if (ValueObj == null) {
+                if (valueObj == null) {
                     Date fromdate = from.getValue();
                     Date to = toDate.getValue();
                     if (fromdate == null || to == null) {

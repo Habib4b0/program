@@ -178,6 +178,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     public static final String PRODUCT1 = "PRODUCT";
     public static final String CUSTOMER1 = "CUSTOMER";
     public static final String STRING_ONE = "1";
+    public static final String AMOUNT_TWO_DECIMAL = "amountTwoDecimal";
     /* To enable or disable level filter listener */
     private boolean enableLevelFilterListener = true;
     /* The bean used to load the Mass Update - value Ddlb */
@@ -2262,7 +2263,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     getCheckedRecordsForMassUpdate(), selectedPeriods, isCustomHierarchy);
             CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
-        } else if ("Growth".equals(selectedField)) {
+        } else if (Constant.GROWTH.equals(selectedField)) {
             saveDiscountProjectionListview();
             LOGGER.debug("Growth-->= {}", value);
             discountProjectionLogic.massUpdate(session, projectionSelection, massUpdatePeriods, selectedField, value,
@@ -3173,7 +3174,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             Map<String, String> formatterMap = new HashMap<>();
             formatterMap.put("percentThreeDecimal", "Rate");
             formatterMap.put("currencyTwoDecimal", "RPU");
-            formatterMap.put("amountTwoDecimal", AMOUNT);
+            formatterMap.put(AMOUNT_TWO_DECIMAL, AMOUNT);
             formatterMap.put("sales", "Sales");
             formatterMap.put("units", "Units");
             formatterMap.put("Growth", "Growth");
@@ -5765,8 +5766,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             Map<String, String> formatter = new HashMap<>();
             formatter.put("percentThreeDecimal", "Rate");
             formatter.put("currencyTwoDecimal", "RPU");
-            formatter.put("amountTwoDecimal", AMOUNT);
-            formatter.put("amountTwoDecimal", AMOUNT);
+            formatter.put(AMOUNT_TWO_DECIMAL, AMOUNT);
+            formatter.put(AMOUNT_TWO_DECIMAL, AMOUNT);
             excelTable.setRefresh(BooleanConstant.getTrueFlag());
             ForecastUI.setEXCEL_CLOSE(true);
             CustomExcelNM excel = null;

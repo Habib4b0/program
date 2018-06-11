@@ -2026,28 +2026,28 @@ public class FileManagementLookup extends Window {
 				String month = beanItem.getMonth();
 				String itemName = beanItem.getItemName();
 				String forecastType = beanItem.getForecastType();
-				String forecastYear = beanItem.getForcastYear();
-				String forecastMonth = beanItem.getForecastMonth();
-				String companyId = beanItem.getCompanyId();
-				String itemId = beanItem.getItemId();
+				String foreCastYear = beanItem.getForcastYear();
+				String foreCastMonth = beanItem.getForecastMonth();
+				String compId = beanItem.getCompanyId();
+				String itemID = beanItem.getItemId();
 				String organisationKey = beanItem.getOrganizationKey();
-				String batchId = beanItem.getBatchId();
+				String batchID = beanItem.getBatchId();
 				String week = beanItem.getWeek();
 				String day = beanItem.getDay();
 				for (int j = i + 1; j < itemIds.size(); j++) {
-					final FileMananagementResultDTO dto = itemIds.get(j);
-					String currentYear = dto.getYear();
-					String currentMonth = dto.getMonth();
-					String currentItemName = dto.getItemName();
-					String currentForecastType = dto.getForecastType();
-					String currentForecastYear = dto.getForcastYear();
-					String currentForecastMonth = dto.getForecastMonth();
-					String currentCompanyId = dto.getCompanyId();
-					String currentItemId = dto.getItemId();
-					String currentOrganisationKey = dto.getOrganizationKey();
-					String currentBatchId = dto.getBatchId();
-					String currentWeek = dto.getWeek();
-					String currentDay = dto.getDay();
+					final FileMananagementResultDTO fileManagementResultDTO = itemIds.get(j);
+					String currentYear = fileManagementResultDTO.getYear();
+					String currentMonth = fileManagementResultDTO.getMonth();
+					String currentItemName = fileManagementResultDTO.getItemName();
+					String currentForecastType = fileManagementResultDTO.getForecastType();
+					String currentForecastYear = fileManagementResultDTO.getForcastYear();
+					String currentForecastMonth = fileManagementResultDTO.getForecastMonth();
+					String currentCompanyId = fileManagementResultDTO.getCompanyId();
+					String currentItemId = fileManagementResultDTO.getItemId();
+					String currentOrganisationKey = fileManagementResultDTO.getOrganizationKey();
+					String currentBatchId = fileManagementResultDTO.getBatchId();
+					String currentWeek = fileManagementResultDTO.getWeek();
+					String currentDay = fileManagementResultDTO.getDay();
 					if (year.equals(currentYear)
 							&& (CommonUtil.getSelectedFileType(fmFileType).getDescription()
 									.equals(ConstantsUtils.EX_FACTORY_SALES))
@@ -2061,8 +2061,8 @@ public class FileManagementLookup extends Window {
 									.equals(ConstantsUtils.DEMAND))
 							|| CommonUtil.getSelectedFileType(fmFileType).getDescription()
 									.equals(ConstantsUtils.ADJUSTED_DEMAND))
-							&& currentForecastYear.equals(forecastYear) && currentForecastMonth.equals(forecastMonth)
-							&& currentItemId.equals(itemId) && currentOrganisationKey.equals(organisationKey)) {
+							&& currentForecastYear.equals(foreCastYear) && currentForecastMonth.equals(foreCastMonth)
+							&& currentItemId.equals(itemID) && currentOrganisationKey.equals(organisationKey)) {
 						AbstractNotificationUtils.getErrorNotification(CommonUtils.DETAILS_ERROR,
 								StringConstantUtils.UNIQUE_COMBINATION_ERROR);
 						return;
@@ -2070,8 +2070,8 @@ public class FileManagementLookup extends Window {
 					if (currentForecastType.equals(forecastType)
 							&& CommonUtil.getSelectedFileType(fmFileType).getDescription()
 									.equals(ConstantsUtils.CUSTOMERGTS)
-							&& currentForecastYear.equals(forecastYear) && currentForecastMonth.equals(forecastMonth)
-							&& currentItemId.equals(itemId) && currentOrganisationKey.equals(organisationKey)) {
+							&& currentForecastYear.equals(foreCastYear) && currentForecastMonth.equals(foreCastMonth)
+							&& currentItemId.equals(itemID) && currentOrganisationKey.equals(organisationKey)) {
 						AbstractNotificationUtils.getErrorNotification(CommonUtils.DETAILS_ERROR,
 								StringConstantUtils.UNIQUE_COMBINATION_ERROR);
 						return;
@@ -2080,7 +2080,7 @@ public class FileManagementLookup extends Window {
 							&& CommonUtil.getSelectedFileType(fmFileType).getDescription()
 									.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)
 							&& currentMonth.equals(month) && currentDay.equals(day) && currentWeek.equals(week)
-							&& currentItemId.equals(itemId) && currentBatchId.equals(batchId)
+							&& currentItemId.equals(itemID) && currentBatchId.equals(batchID)
 							&& currentOrganisationKey.equals(organisationKey)) {
 						AbstractNotificationUtils.getErrorNotification(CommonUtils.DETAILS_ERROR,
 								StringConstantUtils.UNIQUE_COMBINATION_ERROR);
@@ -2090,8 +2090,8 @@ public class FileManagementLookup extends Window {
 							&& CommonUtil.getSelectedFileType(fmFileType).getDescription()
 									.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)
 							&& currentMonth.equals(month) && currentDay.equals(day) && currentWeek.equals(week)
-							&& currentCompanyId.equals(companyId) && currentItemId.equals(itemId)
-							&& currentBatchId.equals(batchId) && currentOrganisationKey.equals(organisationKey)) {
+							&& currentCompanyId.equals(compId) && currentItemId.equals(itemID)
+							&& currentBatchId.equals(batchID) && currentOrganisationKey.equals(organisationKey)) {
 						AbstractNotificationUtils.getErrorNotification(CommonUtils.DETAILS_ERROR,
 								StringConstantUtils.UNIQUE_COMBINATION_ERROR);
 						return;
@@ -2356,7 +2356,7 @@ public class FileManagementLookup extends Window {
 											finalVersion = maxVersion;
 											finalVersion = finalVersion + "." + "1";
 										}
-										FileManagementLogic logic = new FileManagementLogic();
+										FileManagementLogic fileManagementLogic = new FileManagementLogic();
 										try {
 											String msg = "fail";
 											if (CommonUtil.getSelectedFileType(fmFileType).getDescription()
@@ -2369,12 +2369,12 @@ public class FileManagementLookup extends Window {
 															.equals(ConstantsUtils.CUSTOMERGTS)
 													|| CommonUtil.getSelectedFileType(fmFileType).getDescription()
 															.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-												msg = logic.saveForecastDetails(insertionItemIds, selectedFile,
+												msg = fileManagementLogic.saveForecastDetails(insertionItemIds, selectedFile,
 														selectedFileCountry, finalVersion, fileNameList.getValue(),
 														CommonUtil.getSelectedFileType(fmFileType), fmbusinessUnit);
 											} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription()
 													.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-												msg = logic.saveForecastDetails(itemIds, selectedFile,
+												msg = fileManagementLogic.saveForecastDetails(itemIds, selectedFile,
 														selectedFileCountry, finalVersion, fileNameList.getValue(),
 														CommonUtil.getSelectedFileType(fmFileType), fmbusinessUnit);
 											}
@@ -2927,9 +2927,9 @@ public class FileManagementLookup extends Window {
 			@Override
 			public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
 					final Component uiContext) {
-				final FileMananagementResultDTO dto = (FileMananagementResultDTO) itemId;
-				final Boolean flag = dto.isRecordLockStatus();
-				final String interfaceFlag = dto.getInterfaceFlag();
+				final FileMananagementResultDTO fileManagementResultDTO = (FileMananagementResultDTO) itemId;
+				final Boolean flag = fileManagementResultDTO.isRecordLockStatus();
+				final String interfaceFlag = fileManagementResultDTO.getInterfaceFlag();
 				if (interfaceFlag.equals(ConstantsUtils.CHAR_N)) {
 					if (flag) {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {
@@ -3297,9 +3297,9 @@ public class FileManagementLookup extends Window {
 			@Override
 			public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
 					final Component uiContext) {
-				final FileMananagementResultDTO dto = (FileMananagementResultDTO) itemId;
-				final Boolean flag = dto.isRecordLockStatus();
-				final String interfaceFlag = dto.getInterfaceFlag();
+				final FileMananagementResultDTO fileManagementResultDTO = (FileMananagementResultDTO) itemId;
+				final Boolean flag = fileManagementResultDTO.isRecordLockStatus();
+				final String interfaceFlag = fileManagementResultDTO.getInterfaceFlag();
 				if (ConstantsUtils.CHAR_N.equals(interfaceFlag)) {
 					if (flag) {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {
@@ -4005,9 +4005,9 @@ public class FileManagementLookup extends Window {
 			@Override
 			public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
 					final Component uiContext) {
-				final FileMananagementResultDTO dto = (FileMananagementResultDTO) itemId;
-				final Boolean flag = dto.isRecordLockStatus();
-				final String interfaceFlag = dto.getInterfaceFlag();
+				final FileMananagementResultDTO fileManagementResultDTO = (FileMananagementResultDTO) itemId;
+				final Boolean flag = fileManagementResultDTO.isRecordLockStatus();
+				final String interfaceFlag = fileManagementResultDTO.getInterfaceFlag();
 				if (interfaceFlag.equals(ConstantsUtils.CHAR_N)) {
 					if (flag) {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {

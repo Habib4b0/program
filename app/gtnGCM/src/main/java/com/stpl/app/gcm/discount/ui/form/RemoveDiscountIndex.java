@@ -252,11 +252,11 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
             @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
-                    ComboBox marketType = new ComboBox();
+                    ComboBox marketTypeComboBox = new ComboBox();
                     List resultList = discountLogic.getMarketType();
-                    new DiscountLogic().setIdDescription(resultList, marketType);
+                    new DiscountLogic().setIdDescription(resultList, marketTypeComboBox);
                     resultList.clear();
-                    return marketType;
+                    return marketTypeComboBox;
                 }
 
                 if (propertyId.equals("checkRecord")) {
