@@ -64,24 +64,28 @@ public class GtnReportingVariableBreakdownGridLoadAction
             List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
             String variableBreakdownTableId = actionParameterList.get(1).toString();
             List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = new ArrayList<>();
+            
             GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
                     .getVaadinBaseComponentFromParent(
                             "reportLandingScreen_reportingDashboardComparisonConfig", componentId)
                     .getComponentData();
+            
             comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData.getCustomData();
            
             if(comparisonLookupBeanList == null){
                 comparisonLookupBeanList = new ArrayList<>();
             }
-            GtnReportComparisonProjectionBean exFactoryBean = new GtnReportComparisonProjectionBean();
-            exFactoryBean.setProjectionName("Ex-Factory Sales");
-            GtnReportComparisonProjectionBean latestApprovedBean = new GtnReportComparisonProjectionBean();
-            latestApprovedBean.setProjectionName("Latest Approved");
+            List<String> projectionNameListFromCustomData = new ArrayList<>();
+            projectionNameListFromCustomData.clear();
+            projectionNameListFromCustomData.add("Ex-Factory Sales");
+            projectionNameListFromCustomData.add("Latest Approved");
             
-            comparisonLookupBeanList.add(0, exFactoryBean);
-            comparisonLookupBeanList.add(1, latestApprovedBean);
+            for(int count=0;count<comparisonLookupBeanList.size();count++){
+                projectionNameListFromCustomData.add(comparisonLookupBeanList.get(count).getProjectionName());
+            }
             
-            int comparisonLookupBeanSize = comparisonLookupBeanList.size();
+            
+            int comparisonLookupBeanSize = projectionNameListFromCustomData.size();
             
             AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(variableBreakdownTableId,
                     componentId);
@@ -91,10 +95,9 @@ public class GtnReportingVariableBreakdownGridLoadAction
 
             
             List projectionList=new ArrayList<>();
-            projectionList.add("Ex-Factory");
-            projectionList.add("Latest Approved");
-            projectionList.add("2016L");
-            projectionList.add("2018L");
+            for(int start=0;start<projectionNameListFromCustomData.size();start++){
+                projectionList.add(projectionNameListFromCustomData.get(start));
+            }     
                    GtnUIFrameworkComboBoxConfig fileOrProjectionComboboxConfig = GtnUIFrameworkGlobalUI
                     .getVaadinBaseComponent("reportOptionsTab_variableBreakdownValueFileorProjection", componentId).getComponentConfig()
                     .getGtnComboboxConfig();
@@ -123,6 +126,18 @@ public class GtnReportingVariableBreakdownGridLoadAction
             GtnUIFrameworkPagedTableConfig tableConfig = setHeaderFromWs(pagedGrid, componentId, grid);
             configureCheckboxHeaderComponents(tableConfig.getTableColumnMappingId(), tableConfig.getColumnHeaders(), grid, tableConfig);
 
+            List<String> startPeriodList = tableConfig.getColumnHeaders();
+            GtnUIFrameworkComboBoxConfig startPeriodComboboxConfig = GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent("reportOptionsTab_variableBreakdownStartPeriod", componentId).getComponentConfig()
+                    .getGtnComboboxConfig();
+            startPeriodComboboxConfig.setItemValues(projectionList);
+            startPeriodComboboxConfig.setItemCaptionValues(projectionList);
+
+            GtnUIFrameworkComboBoxComponent startPeriodCombobox = new GtnUIFrameworkComboBoxComponent();
+            startPeriodCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+                    "reportOptionsTab_variableBreakdownStartPeriod", componentId,
+                    Arrays.asList(""));
+            
             String localDate = String.valueOf(LocalDate.now());
 
             String[] localDateSplit = localDate.split("-");
@@ -139,7 +154,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
                 isDisableColumns = true;
                 for (Object column : filterColumnIdList) {
                    
-                        vaadinComponent = getCustomFilterComponent(String.valueOf(column), componentId, i, currentDateToDisableField , grid,comparisonLookupBeanList.get(i).getProjectionName());
+                        vaadinComponent = getCustomFilterComponent(String.valueOf(column), componentId, i, currentDateToDisableField , grid,projectionNameListFromCustomData.get(i));
                         filterRow.getCell(String.valueOf(column)).setComponent(vaadinComponent); 
                 }
                 i++;
