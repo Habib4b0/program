@@ -1881,8 +1881,8 @@ public class ProjectionSelectionDTO {
         return FilterFlag;
     }
 
-    public void setFilterFlag(boolean FilterFlag) {
-        this.FilterFlag = FilterFlag;
+    public void setFilterFlag(boolean filterFlag) {
+        this.FilterFlag = filterFlag;
     }
 
     public int getStart() {

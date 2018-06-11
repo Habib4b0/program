@@ -214,28 +214,28 @@ public class ProcessSchedulerLogic {
 		}
 	}
 
-	public static void update(ProcessSchedulerDTO ProcessDTO) {
+	public static void update(ProcessSchedulerDTO processDTO) {
 		try {
 			LOGGER.debug("Entering update");
-			if (ProcessDTO.getProcessSid() != 0) {
+			if (processDTO.getProcessSid() != 0) {
 
 				WorkflowProfile profile = WorkflowProfileLocalServiceUtil
-						.getWorkflowProfile(ProcessDTO.getProcessSid());
+						.getWorkflowProfile(processDTO.getProcessSid());
 
-				profile.setProcessName(ProcessDTO.getProcessName());
-				profile.setProcessDisplayName(ProcessDTO.getProcessDisplayName());
-				profile.setFrequency(ProcessDTO.getFrequencyRadio());
-				if (ACTIVE_LABEL.equals(ProcessDTO.getStatus())) {
+				profile.setProcessName(processDTO.getProcessName());
+				profile.setProcessDisplayName(processDTO.getProcessDisplayName());
+				profile.setFrequency(processDTO.getFrequencyRadio());
+				if (ACTIVE_LABEL.equals(processDTO.getStatus())) {
 					profile.setActiveFlag("Y");
 				} else {
 					profile.setActiveFlag("N");
 				}
-				if ("Interval".equals(ProcessDTO.getFrequencyRadio())) {
-					profile.setStartHour(ProcessDTO.getRunHours() == null || "null".equals(ProcessDTO.getRunHours())
-							? NumericConstants.TWENTY_FOUR : Integer.parseInt(ProcessDTO.getRunHours()));
+				if ("Interval".equals(processDTO.getFrequencyRadio())) {
+					profile.setStartHour(processDTO.getRunHours() == null || "null".equals(processDTO.getRunHours())
+							? NumericConstants.TWENTY_FOUR : Integer.parseInt(processDTO.getRunHours()));
 					profile.setStartMinutes(
-							ProcessDTO.getRunMinutes() == null || "null".equals(ProcessDTO.getRunMinutes())
-									? NumericConstants.SIXTY : Integer.parseInt(ProcessDTO.getRunMinutes()));
+							processDTO.getRunMinutes() == null || "null".equals(processDTO.getRunMinutes())
+									? NumericConstants.SIXTY : Integer.parseInt(processDTO.getRunMinutes()));
 					profile.setStartHour1(NumericConstants.TWENTY_FOUR);
 					profile.setStartHour2(NumericConstants.TWENTY_FOUR);
 					profile.setStartHour3(NumericConstants.TWENTY_FOUR);
@@ -244,27 +244,27 @@ public class ProcessSchedulerLogic {
 					profile.setStartMinutes3(NumericConstants.SIXTY);
 
 				} else {
-					profile.setStartHour1(ProcessDTO.getHoursOne() == null || "null".equals(ProcessDTO.getHoursOne())
-							? NumericConstants.TWENTY_FOUR : Integer.parseInt(ProcessDTO.getHoursOne()));
-					profile.setStartHour2(ProcessDTO.getHoursTwo() == null || "null".equals(ProcessDTO.getHoursTwo())
-							? NumericConstants.TWENTY_FOUR : Integer.parseInt(ProcessDTO.getHoursTwo()));
+					profile.setStartHour1(processDTO.getHoursOne() == null || "null".equals(processDTO.getHoursOne())
+							? NumericConstants.TWENTY_FOUR : Integer.parseInt(processDTO.getHoursOne()));
+					profile.setStartHour2(processDTO.getHoursTwo() == null || "null".equals(processDTO.getHoursTwo())
+							? NumericConstants.TWENTY_FOUR : Integer.parseInt(processDTO.getHoursTwo()));
 					profile.setStartHour3(
-							ProcessDTO.getHoursThree() == null || "null".equals(ProcessDTO.getHoursThree())
-									? NumericConstants.TWENTY_FOUR : Integer.parseInt(ProcessDTO.getHoursThree()));
+							processDTO.getHoursThree() == null || "null".equals(processDTO.getHoursThree())
+									? NumericConstants.TWENTY_FOUR : Integer.parseInt(processDTO.getHoursThree()));
 					profile.setStartMinutes1(
-							ProcessDTO.getMinutesOne() == null || "null".equals(ProcessDTO.getMinutesOne())
-									? NumericConstants.SIXTY : Integer.parseInt(ProcessDTO.getMinutesOne()));
+							processDTO.getMinutesOne() == null || "null".equals(processDTO.getMinutesOne())
+									? NumericConstants.SIXTY : Integer.parseInt(processDTO.getMinutesOne()));
 					profile.setStartMinutes2(
-							ProcessDTO.getMinutesTwo() == null || "null".equals(ProcessDTO.getMinutesTwo())
-									? NumericConstants.SIXTY : Integer.parseInt(ProcessDTO.getMinutesTwo()));
+							processDTO.getMinutesTwo() == null || "null".equals(processDTO.getMinutesTwo())
+									? NumericConstants.SIXTY : Integer.parseInt(processDTO.getMinutesTwo()));
 					profile.setStartMinutes3(
-							ProcessDTO.getMinutesThree() == null || "null".equals(ProcessDTO.getMinutesThree())
-									? NumericConstants.SIXTY : Integer.parseInt(ProcessDTO.getMinutesThree()));
+							processDTO.getMinutesThree() == null || "null".equals(processDTO.getMinutesThree())
+									? NumericConstants.SIXTY : Integer.parseInt(processDTO.getMinutesThree()));
 					profile.setStartHour(NumericConstants.TWENTY_FOUR);
 					profile.setStartMinutes(NumericConstants.SIXTY);
 				}
-				profile.setStartDate(ProcessDTO.getStartDate());
-				profile.setEndDate(ProcessDTO.getEndDate());
+				profile.setStartDate(processDTO.getStartDate());
+				profile.setEndDate(processDTO.getEndDate());
 				profile.setModifiedBy(Integer.parseInt(String.valueOf(profile.getModifiedBy())));
 				profile.setModifiedDate(new Date());
 				WorkflowProfileLocalServiceUtil.updateWorkflowProfile(profile);

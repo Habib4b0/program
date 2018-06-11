@@ -916,7 +916,7 @@ public class FileManagementIndex extends CustomComponent implements View {
 		final Emailer email = new Emailer();
 		try {
 			List<FileManagementDTO> processList = logic.getSearchResult(fileType);
-			String msg = email.sendMailonFileActivation(false, processList);
+		    email.sendMailonFileActivation(false, processList);
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
 		}

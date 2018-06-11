@@ -72,8 +72,8 @@ public class PVQueryUtils {
         return query;
     }
 
-    public String getCCPWhereConditionQuery(String projectionDetails, String CCP) {
-        String ccpWhereCond = StringConstantsUtil.SMALL_AND + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
+    public String getCCPWhereConditionQuery(String projectionDetails, String ccp) {
+        String ccpWhereCond = StringConstantsUtil.SMALL_AND + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
         return ccpWhereCond;
     }
 

@@ -165,9 +165,8 @@ public class AdminConsoleImpl {
     public Object executeSelectQuery(List input, String queryName, String quaryName2) {
         List<Object[]> returnList = new ArrayList<Object[]>();
         try {
-            StringBuilder sql = new StringBuilder();
             if (queryName != null && !queryName.isEmpty()) {
-                sql = new StringBuilder(SQlUtil.getQuery(queryName));
+                StringBuilder sql = new StringBuilder(SQlUtil.getQuery(queryName));
                 if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
                     sql.append(' ');
                     sql.append(SQlUtil.getQuery(quaryName2));
