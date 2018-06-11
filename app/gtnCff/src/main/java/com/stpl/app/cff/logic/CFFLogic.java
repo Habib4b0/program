@@ -879,7 +879,7 @@ public class CFFLogic {
         int projectionId = 0;
         Object[] dedRelId = deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid().equals("0") ? "0" : String.valueOf(dataSelectionDTO.getProdRelationshipBuilderSid()));
         List versionNoList = getDeductionVersionNoList(dedRelId[0]);
-        SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dBDate = new SimpleDateFormat("yyyy-MM-dd");
         String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
         String query = "INSERT INTO CFF_MASTER (CFF_ELIGIBLE_DATE,CFF_TYPE, CFF_NAME, ACTIVE_FROM_DATE, ACTIVE_TO_DATE, CFF_OFFICIAL, CUSTOMER_HIERARCHY_SID, CUSTOMER_HIERARCHY_LEVEL,\n"
                 + "    CUSTOMER_HIER_VERSION_NO, COMPANY_GROUP_SID, CUSTOMER_HIERARCHY_INNER_LEVEL, CUST_RELATIONSHIP_BUILDER_SID, COMPANY_MASTER_SID, PRODUCT_HIERARCHY_SID,\n"
@@ -896,7 +896,7 @@ public class CFFLogic {
             query = CommonQueryUtils.getAppQuery(l, "updateProjection");
         }
         query = query.replace("@CFF_TYPE", "0");
-        query = query.replace("@CFFELIGDATE", sessionDTO.getCffEligibleDate() == null || sessionDTO.getCffEligibleDate().equals(ConstantsUtils.NULL) ? ConstantsUtils.NULL : "'" + String.valueOf(DBDate.format(sessionDTO.getCffEligibleDate())) + "'");
+        query = query.replace("@CFFELIGDATE", sessionDTO.getCffEligibleDate() == null || sessionDTO.getCffEligibleDate().equals(ConstantsUtils.NULL) ? ConstantsUtils.NULL : "'" + String.valueOf(dBDate.format(sessionDTO.getCffEligibleDate())) + "'");
         query = query.replace("@CFF_NAME", "");
         query = query.replace("@ACTIVE_FROM_DATE", "null");
         query = query.replace("@ACTIVE_TO_DATE", "null");
@@ -920,8 +920,8 @@ public class CFFLogic {
         query = query.replace("@CREATED_BY", userId);
         query = query.replace("@MODIFIED_BY", userId);
 
-        query = query.replace("@CREATED_DATE", DBDate.format(new Date()));
-        query = query.replace("@MODIFIED_DATE", DBDate.format(new Date()));
+        query = query.replace("@CREATED_DATE", dBDate.format(new Date()));
+        query = query.replace("@MODIFIED_DATE", dBDate.format(new Date()));
         query = query.replace("@BUSINESS_UNIT", dataSelectionDTO.getBusinessUnitSystemId() + "");
         query = query.replace("@PROJCUSTVERSION", dataSelectionDTO.getCustomerRelationShipVersionNo() + StringUtils.EMPTY);
         query = query.replace("@PROJPRODVERSION", dataSelectionDTO.getProductRelationShipVersionNo() + StringUtils.EMPTY);

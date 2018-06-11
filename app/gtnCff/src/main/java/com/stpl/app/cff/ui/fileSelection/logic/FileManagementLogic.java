@@ -331,16 +331,16 @@ public class FileManagementLogic {
 		final Order defaultOrder = OrderFactoryUtil.desc(ConstantsUtils.CREATE_DATE);
 		dynamicQuery.addOrder(defaultOrder);
 		Criterion criterion;
-		final Criterion Criteria = RestrictionsFactoryUtil.eq(StringConstantsUtil.FILE_TYPE, fileType.getId());
+		final Criterion criteria = RestrictionsFactoryUtil.eq(StringConstantsUtil.FILE_TYPE, fileType.getId());
 		if (ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription())) {
 			final Criterion criterion1 = RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FORE_SIGHT);
 			final Criterion criterion2 = RestrictionsFactoryUtil.or(criterion1,
 					RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.LE_FORESIGHT));
 			criterion = RestrictionsFactoryUtil.and(RestrictionsFactoryUtil.or(criterion2,
-					RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FF_SALES)), Criteria);
+					RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FF_SALES)), criteria);
 		} else if (ConstantsUtils.DEMAND.equals(fileType.getDescription())
 				|| ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY.equals(fileType.getDescription())) {
-			criterion = Criteria;
+			criterion = criteria;
 		} else {
 			criterion = NULLCREATION;
 		}
@@ -1338,20 +1338,20 @@ public class FileManagementLogic {
 				order = order + " ROWS ONLY";
 
 			}
-			String GroupBy = "";
+			String groupBy = "";
 			if (ConstantsUtils.EX_FACTORY_SALES.equals(resultDTO.getFileType())) {
-				GroupBy = " GROUP  BY FM.FORECAST_NAME, FM.FORECAST_VER,FM.SOURCE,FM.COUNTRY,FM.FORECAST_DATE ";
+				groupBy = " GROUP  BY FM.FORECAST_NAME, FM.FORECAST_VER,FM.SOURCE,FM.COUNTRY,FM.FORECAST_DATE ";
 			} else if (ConstantsUtils.DEMAND.equals(resultDTO.getFileType())
 					|| ConstantsUtils.ADJUSTED_DEMAND.equals(resultDTO.getFileType())
 					|| ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY.equals(resultDTO.getFileType())
 					|| ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL.equals(resultDTO.getFileType())
 					|| ConstantsUtils.CUSTOMERGTS.equals(resultDTO.getFileType())) {
-				GroupBy = " GROUP BY FM.FORECAST_NAME, FM.FORECAST_VER,FM.SOURCE,FM.COUNTRY ";
+				groupBy = " GROUP BY FM.FORECAST_NAME, FM.FORECAST_VER,FM.SOURCE,FM.COUNTRY ";
 			}
 
-			String finalQuery = query + condition + GroupBy + having + order;
+			String finalQuery = query + condition + groupBy + having + order;
 			if (!filterHaving.isEmpty()) {
-				finalQuery = query + condition + GroupBy + having;
+				finalQuery = query + condition + groupBy + having;
 				finalQuery = " SELECT FORECAST_NAME,FORECAST_VER,SOURCE,COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE,MAX(FT_MAX_DATE),MIN_YEAR,MAX_MONTH,MAX_YEAR from ("
 						+ finalQuery + ") T  WHERE  FORECAST_VER = Floor(T.FORECAST_VER)" + filterHaving
 						+ "GROUP BY FORECAST_NAME, FORECAST_VER,SOURCE,COUNTRY,MIN_YEAR,MAX_MONTH,MAX_YEAR " + order;
@@ -2127,14 +2127,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" DF.FORECAST_VER in ('" + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			int outerSize = Integer.parseInt(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			int outerSize = Integer.parseInt(innerArray[0]);
 			int innerSize;
 			for (int i = 1; i <= outerSize; i++) {
 				if (Integer.parseInt(versionArray[0]) > outerSize) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = 0; j <= innerSize; j++) {
 
@@ -2273,14 +2273,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" INW.FORECAST_VER in ('" + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			int outerSize = Integer.parseInt(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			int outerSize = Integer.parseInt(innerArray[0]);
 			int innerSize;
 			for (int i = x; i <= outerSize; i++) {
 				if (Integer.parseInt(versionArray[0]) > outerSize) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = y; j <= innerSize; j++) {
 					if (j == innerSize && j != NumericConstants.NINE) {
@@ -2406,14 +2406,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat("  INW.FORECAST_VER in ('" + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			int outerSize = Integer.parseInt(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			int outerSize = Integer.parseInt(innerArray[0]);
 			int innerSize;
 			for (int i = x; i <= outerSize; i++) {
 				if (Integer.parseInt(versionArray[0]) > outerSize) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = y; j <= innerSize; j++) {
 					if (j == innerSize && j != NumericConstants.NINE) {
@@ -2613,14 +2613,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" DF.FORECAST_VER in ('" + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			int outerSize = Integer.parseInt(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			int outerSize = Integer.parseInt(innerArray[0]);
 			int innerSize;
 			for (int i = 1; i <= outerSize; i++) {
 				if (Integer.parseInt(versionArray[0]) > outerSize) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = 0; j <= innerSize; j++) {
 
@@ -2766,14 +2766,14 @@ public class FileManagementLogic {
 			sqlString = sqlString.concat(StringConstantsUtil.AND)
 					.concat(" DF.FORECAST_VER  in ('" + versionArray[0] + "',");
 			String tempversionArray = (versionArray[1]).replace('.', '~').trim();
-			String[] InnerArray = tempversionArray.split("~");
-			int outerSize = Integer.parseInt(InnerArray[0]);
+			String[] innerArray = tempversionArray.split("~");
+			int outerSize = Integer.parseInt(innerArray[0]);
 			int innerSize;
 			for (int i = 1; i <= outerSize; i++) {
 				if (Integer.parseInt(versionArray[0]) > outerSize) {
 					innerSize = NumericConstants.NINE;
 				} else {
-					innerSize = Integer.parseInt(InnerArray[1]);
+					innerSize = Integer.parseInt(innerArray[1]);
 				}
 				for (int j = 0; j <= innerSize; j++) {
 

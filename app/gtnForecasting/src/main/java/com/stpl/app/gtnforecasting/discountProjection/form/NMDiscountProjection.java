@@ -54,9 +54,11 @@ import static com.stpl.app.utils.Constants.CommonConstants.PER_EX_FACTORY_SALES;
 import static com.stpl.app.utils.Constants.CommonConstants.ROLLING_ANNUAL_TREND;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.CommonConstantsForChannels.DISABLE;
+import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
+import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUALLY;
 import static com.stpl.app.utils.Constants.LabelConstants.ACTUALS;
 import static com.stpl.app.utils.Constants.LabelConstants.ASCENDING;
@@ -178,6 +180,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     public static final String PRODUCT1 = "PRODUCT";
     public static final String CUSTOMER1 = "CUSTOMER";
     public static final String STRING_ONE = "1";
+    public static final String AMOUNT_TWO_DECIMAL = "amountTwoDecimal";
     /* To enable or disable level filter listener */
     private boolean enableLevelFilterListener = true;
     /* The bean used to load the Mass Update - value Ddlb */
@@ -2262,7 +2265,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     getCheckedRecordsForMassUpdate(), selectedPeriods, isCustomHierarchy);
             CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
-        } else if ("Growth".equals(selectedField)) {
+        } else if (Constant.GROWTH.equals(selectedField)) {
             saveDiscountProjectionListview();
             LOGGER.debug("Growth-->= {}", value);
             discountProjectionLogic.massUpdate(session, projectionSelection, massUpdatePeriods, selectedField, value,
@@ -3173,7 +3176,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             Map<String, String> formatterMap = new HashMap<>();
             formatterMap.put("percentThreeDecimal", "Rate");
             formatterMap.put("currencyTwoDecimal", "RPU");
-            formatterMap.put("amountTwoDecimal", AMOUNT);
+            formatterMap.put(AMOUNT_TWO_DECIMAL, AMOUNT);
             formatterMap.put("sales", "Sales");
             formatterMap.put("units", "Units");
             formatterMap.put("Growth", "Growth");
@@ -4129,12 +4132,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 if (freq.equals(QUARTERLY.getConstant())) {
                     historyNum = Integer.parseInt(hist.replace("Quarter", StringUtils.EMPTY)
                             .replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
+                } else if (freq.equals(SEMI_ANNUALLY.getConstant()) || freq.equals(SEMI_ANNUAL.getConstant())) {
                     historyNum = Integer.parseInt(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
                 } else if (freq.equals(MONTHLY.getConstant())) {
                     historyNum = Integer.parseInt(hist.replace("Month", StringUtils.EMPTY)
                             .replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                } else if (freq.equals(ANNUALLY.getConstant())) {
+                } else if (freq.equals(ANNUALLY.getConstant()) || freq.equals(ANNUAL.getConstant())) {
                     historyNum = Integer.parseInt(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
                 }
             } else {
@@ -5765,8 +5768,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             Map<String, String> formatter = new HashMap<>();
             formatter.put("percentThreeDecimal", "Rate");
             formatter.put("currencyTwoDecimal", "RPU");
-            formatter.put("amountTwoDecimal", AMOUNT);
-            formatter.put("amountTwoDecimal", AMOUNT);
+            formatter.put(AMOUNT_TWO_DECIMAL, AMOUNT);
+            formatter.put(AMOUNT_TWO_DECIMAL, AMOUNT);
             excelTable.setRefresh(BooleanConstant.getTrueFlag());
             ForecastUI.setEXCEL_CLOSE(true);
             CustomExcelNM excel = null;

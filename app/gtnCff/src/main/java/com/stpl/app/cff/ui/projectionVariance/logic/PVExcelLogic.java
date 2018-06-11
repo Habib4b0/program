@@ -2088,7 +2088,7 @@ public class PVExcelLogic {
         return projectionVarianceDTO;
     }
 
-    public ProjectionVarianceDTO getCommonCustomizedDTODetails(String groupName, String varibaleCat, Object[] obj, Object[] dataObj, final int totalListPostion, PVSelectionDTO pvsdto, final DecimalFormat FORMAT, ProjectionVarianceDTO pvDTO, boolean addFlag) {
+    public ProjectionVarianceDTO getCommonCustomizedDTODetails(String groupName, String varibaleCat, Object[] obj, Object[] dataObj, final int totalListPostion, PVSelectionDTO pvsdto, final DecimalFormat format, ProjectionVarianceDTO pvDTO, boolean addFlag) {
         int vFrequencyDiv = pvsdto.getFrequencyDivision();
          
         if (addFlag) {
@@ -2123,9 +2123,9 @@ public class PVExcelLogic {
                 String monthName = HeaderUtils.getMonthForInt(Integer.parseInt(String.valueOf(obj[1])) - 1);
                 commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
             }
-            PVCommonLogic.customizePeriod(commonColumn, varibaleCat, pvsdto, pvDTO, FORMAT, totalListPostion, obj, groupName.contains("%"));
+            PVCommonLogic.customizePeriod(commonColumn, varibaleCat, pvsdto, pvDTO, format, totalListPostion, obj, groupName.contains("%"));
             for (int j = 0; j < vPriorList.size(); j++) {
-                PVCommonLogic.getPriorCommonCustomization(varibaleCat, pvsdto, obj, pvDTO, commonColumn, totalListPostion, j, groupName.contains("%"), COLUMN_COUNT_TOTAL, FORMAT);
+                PVCommonLogic.getPriorCommonCustomization(varibaleCat, pvsdto, obj, pvDTO, commonColumn, totalListPostion, j, groupName.contains("%"), COLUMN_COUNT_TOTAL, format);
             }
         }
         return pvDTO;

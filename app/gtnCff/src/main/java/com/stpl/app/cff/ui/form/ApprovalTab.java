@@ -512,11 +512,11 @@ public class ApprovalTab extends CustomComponent {
             resultTable.addGeneratedColumn("workflowId", new ExtFilterTreeTable.ColumnGenerator() {
                 @Override
                 public Object generateCell(ExtCustomTable source, Object itemId, Object columnId) {
-                    final CFFResultsDTO dto = (CFFResultsDTO) itemId;
+                    final CFFResultsDTO cffResultDTO = (CFFResultsDTO) itemId;
                     Link link = new Link();
-                    link.setCaption(dto.getWorkflowId());
+                    link.setCaption(cffResultDTO.getWorkflowId());
                     link.addStyleName("opener");
-                    navigationForNM(link, dto);
+                    navigationForNM(link, cffResultDTO);
                     return link;
                 }
             });

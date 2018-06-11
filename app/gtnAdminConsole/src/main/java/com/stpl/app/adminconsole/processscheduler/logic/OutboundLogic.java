@@ -628,7 +628,7 @@ public class OutboundLogic {
      */
     private List<OutboundTableDTO> getCustomizedOutboundTableDTO(final List resultList) {
         LOGGER.debug("getCustomizedOutboundTableDTO started :List resultList");
-        final List<OutboundTableDTO> OutboundTableResults = new ArrayList<>();
+        final List<OutboundTableDTO> outboundTableResults = new ArrayList<>();
         try {
             if (resultList != null) {
                 int totalLevel;
@@ -688,14 +688,14 @@ public class OutboundLogic {
                         levelColumn = commonColumn + "ExclusionCondition";
                         outboundTableDTO.addStringProperties(levelColumn, value);
                     }
-                    OutboundTableResults.add(outboundTableDTO);
+                    outboundTableResults.add(outboundTableDTO);
                 }
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
-        LOGGER.debug("getCustomizedOutboundTableDTO return List<OutboundTableDTO> OutboundTableResults= {}" , OutboundTableResults.size());
-        return OutboundTableResults;
+        LOGGER.debug("getCustomizedOutboundTableDTO return List<OutboundTableDTO> OutboundTableResults= {}" , outboundTableResults.size());
+        return outboundTableResults;
     }
     /**
      * To validate a null object value and return a string value  

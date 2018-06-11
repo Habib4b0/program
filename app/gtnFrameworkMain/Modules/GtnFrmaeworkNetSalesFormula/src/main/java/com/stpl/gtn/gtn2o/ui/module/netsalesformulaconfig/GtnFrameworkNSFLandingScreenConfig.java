@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnFrameworkNsfAddAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUIFrameworkTableSearchCompletionAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkEnableDisableAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfCopyAction;
@@ -377,13 +378,18 @@ public class GtnFrameworkNSFLandingScreenConfig {
 		landingScreenAddButtonButtonConfig.setAuthorizationIncluded(true);
 		landingScreenAddButtonButtonConfig.setComponentName("ADD");
 		componentList.add(landingScreenAddButtonButtonConfig);
-
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig navigationActionConfig = componentConfigProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.NAVIGATION_ACTION);
 		navigationActionConfig.addActionParameter(GtnFrameworkNSFConstants.getNsfAddView());
 		actionConfigList.add(navigationActionConfig);
+		
+		GtnUIFrameWorkActionConfig landingScreenAddAction = new GtnUIFrameWorkActionConfig();
+		landingScreenAddAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		landingScreenAddAction.addActionParameter(GtnFrameworkNsfAddAction.class.getName());
+		actionConfigList.add(landingScreenAddAction);
+		
 		GtnUIFrameWorkActionConfig enableDisableAction = new GtnUIFrameWorkActionConfig();
 		enableDisableAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		enableDisableAction.addActionParameter(GtnUiFrameworkEnableDisableAction.class.getName());

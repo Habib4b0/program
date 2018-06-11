@@ -107,6 +107,7 @@ public class DataSelection extends ForecastDataSelection {
 	private boolean dismantelProductSelection = true;
 	private final DataSelectionForm dataSelectionForm;
 	private boolean updateOnTabChange = false;
+	private boolean customChange = false;   
 	private boolean reloadAfterUpdate = false;
 	private boolean valid = true;
 	private LazyContainer discountDdlbLazyContainer;
@@ -119,6 +120,8 @@ public class DataSelection extends ForecastDataSelection {
 	private final DataSelectionLogic dsLogic = new DataSelectionLogic();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 	private Map<String,String> customViewInput=new HashMap<>();
+	
+	public static final String CONFIRM_CHANGE = "Confirm Change";
 
 	private final ExecutorService service = ThreadPool.getInstance().getService();
 
@@ -348,7 +351,7 @@ public class DataSelection extends ForecastDataSelection {
 								customerLevelValueChange(event);
 								setUpdateOnTabChange(true);
 							}
-						}.getConfirmationMessage("Confirm Change",
+						}.getConfirmationMessage(CONFIRM_CHANGE,
 								"You have selected a new Forecast Level. Are you sure you want to proceed? You will lose the current Customer/Product hierarchies if you continue.");
 					} else if (customerLevelListenerFlag) {
 						customerLevelValueChange(event);
@@ -388,7 +391,7 @@ public class DataSelection extends ForecastDataSelection {
 								productLevelValueChange(event);
 								setUpdateOnTabChange(true);
 							}
-						}.getConfirmationMessage("Confirm Change",
+						}.getConfirmationMessage(CONFIRM_CHANGE,
 								"You have selected a new Forecast Level. Are you sure you want to proceed? You will lose the current Customer/Product hierarchies if you continue.");
 					} else if (productLevelListenerFlag) {
 						productLevelValueChange(event);
@@ -431,7 +434,7 @@ public class DataSelection extends ForecastDataSelection {
 								dataSelectionDedLevelValueChange(event);
 								setUpdateOnTabChange(true);
 							}
-						}.getConfirmationMessage("Confirm Change",
+						}.getConfirmationMessage(CONFIRM_CHANGE,
 								"You have selected a new Deduction Level. Are you sure you want to proceed? You will lose the current Deduction Level if you continue.");
 					}   else if (dataSelectionDeductionLevelListenerFlag) {
 						dataSelectionDedLevelValueChange(event);
@@ -450,11 +453,13 @@ public class DataSelection extends ForecastDataSelection {
                                         if(customRelationDdlb.getValue()!=null ){
                             int custRelationValue = Integer.parseInt(customRelationDdlb.getValue().toString());
                             dataSelectionDTO.setCustomRelationShipSid(custRelationValue);
+                                setCustomChange(true);
 				setUpdateOnTabChange(true);
 			}
                         else{
                         dataSelectionDTO.setCustomRelationShipSid(0);
-                        setUpdateOnTabChange(true);                       
+                        setUpdateOnTabChange(true);
+                        setCustomChange(true);
                    }
                         }
 		});
@@ -465,11 +470,13 @@ public class DataSelection extends ForecastDataSelection {
                             if(customRelationDdlbDeduction.getValue()!=null ){
                             int custDeductionRelationValue = Integer.parseInt(customRelationDdlbDeduction.getValue().toString());
                             dataSelectionDTO.setCustomDeductionRelationShipSid(custDeductionRelationValue);
-                            setUpdateOnTabChange(true);
+                            setUpdateOnTabChange(false);
+                            setCustomChange(true);
 			}
                             else{
                                 dataSelectionDTO.setCustomDeductionRelationShipSid(0);
-                                setUpdateOnTabChange(true);                                
+                                setUpdateOnTabChange(false);
+                                setCustomChange(true);
                             }
                         }
 
@@ -1201,6 +1208,14 @@ public class DataSelection extends ForecastDataSelection {
 	public int getTabNumber() {
 		return Constant.ZERO;
 	}
+         public boolean isCustomChange() {
+        return customChange;
+    }
+
+    public void setCustomChange(boolean customChange) {
+        this.customChange = customChange;
+    }
+    
 
 	public void updateBasicsProjectionMaster() throws PortalException, SystemException {
 		NonMandatedLogic logic = new NonMandatedLogic();

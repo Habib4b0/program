@@ -733,7 +733,7 @@ public class DiscountQueryBuilder {
         String queryBuilder = SQlUtil.getQuery("discountGenerateCustom");
         queryBuilder = queryBuilder.replace("?RS", isProgram ? "R" : "P") //Indicator for Program or program category
                 .replace("?F", String.valueOf(frequency.charAt(0))) //Selected Frequency initial char
-                .replace("?P", "D".equals(hierarchyIndicator) ? !(customViewDetails.get(NumericConstants.NINE)).isEmpty() ? customViewDetails.get(NumericConstants.NINE)+"~" : StringUtils.EMPTY : StringUtils.EMPTY) //Selected Frequency initial char
+                .replace("?P", replacePQuery(hierarchyIndicator, customViewDetails)) //Selected Frequency initial char
                 .replaceAll(SELECTED_REBATE_AT, getRSDiscountSids(discountList)) // Selected RS
                 .replace(REBATE_QUERY, isCustom && CommonUtil.isValueEligibleForLoading() ? StringUtils.EMPTY : isProgram ? SQlUtil.getQuery(Constant.GET_COUNT_PROGRAM) : SQlUtil.getQuery(Constant.COUNT_PROGRAM_CATEGORY))
                 .replace(Constant.AT_DISCOUNT, getRebate(discountList))
@@ -754,7 +754,7 @@ public class DiscountQueryBuilder {
                 .replace("@CONDITION3", isProgram ? "  HIERARCHY_NO " : " DPM.HIERARCHY_NO ")
                 .replace(DEDINCLUSION, "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" and m.DEDUCTION_INCLUSION= "+session.getDeductionInclusion()) // Selected RS
                 .replace("@DEDINCLDPM", "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" and DPM.DEDUCTION_INCLUSION= "+session.getDeductionInclusion()) // Selected RS
-                .replace(DPMDEDINCLLUSION, "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" and P.DEDUCTION_INCLUSION= "+session.getDeductionInclusion()) // Selected RS
+                .replace(DPMDEDINCLLUSION, replaceDEDINCLDPM(session)) // Selected RS
                 .replace(DEDINCLNWHR, "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" WHERE DEDUCTION_INCLUSION= "+session.getDeductionInclusion()) // Selected RS
                 .replace(UOMACTUAL,(EACH.equals(session.getDiscountUom()) || session.getDiscountUom().isEmpty()) ?ACTUAL_UNITS_SUM_QUERY_1:ACTUAL_UNITS_SUM_QUERY_2) // Selected RS
                 .replace(UOMPROJ,(EACH.equals(session.getDiscountUom()) || session.getDiscountUom().isEmpty()) ?PROJECTION_UNITS_SUM_QUERY_1:PROJECTION_UNITS_SUM_QUERY_2) // Selected RS
@@ -783,13 +783,13 @@ public class DiscountQueryBuilder {
         String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
         queryBuilder = queryBuilder.replace("?RS", isProgram ? "R" : "P") //Indicator for Program or program category
                 .replace("?F", String.valueOf(frequency.charAt(0))) //Selected Frequency initial char
-                .replace("?P", "D".equals(hierarchyIndicator) ? !(customViewDetails.get(NumericConstants.NINE)).isEmpty() ? customViewDetails.get(NumericConstants.NINE)+"~" : StringUtils.EMPTY : StringUtils.EMPTY) //Selected Frequency initial char
+                .replace("?P", replacePQuery(hierarchyIndicator, customViewDetails)) //Selected Frequency initial char
                 .replaceAll(SELECTED_REBATE_AT, getRSDiscountSids(discountList)) // Selected RS
                 .replace(Constant.AT_DISCOUNT, getRebate(discountList))
                 .replace("@HIERARCHY_QUERY", insertAvailableHierarchyNo(session, hierarchyNo, hierarchyIndicator, isCustom ? treeLevelNo : levelNo, isCustom, isCustom ? Integer.parseInt(customViewDetails.get(0)) : 0, isCustom ? customViewDetails.get(NumericConstants.TWO) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.FOUR) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, start, end, userGroup)) // Selected RS
                 .replace(Constant.AT_COLUMN_NAME, commonLogic.getColumnNameCustom(hierarchyIndicator))
-                .replace("@DEDINCLDPM", "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" and P.DEDUCTION_INCLUSION= "+session.getDeductionInclusion()) // Selected RS
-                .replace(DPMDEDINCLLUSION, "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" and HY.DEDUCTION_INCLUSION= "+session.getDeductionInclusion()) // Selected RS
+                .replace("@DEDINCLDPM", replaceDEDINCLDPM(session)) // Selected RS
+                .replace(DPMDEDINCLLUSION, replaceDPMDEDINCLLUSION(session)) // Selected RS
                 .replace("@PROJECTION_MASTER_SID",String.valueOf(session.getProjectionId()))
                 .replace("@CUST_VIEW_MASTER_SID",String.valueOf(session.getCustomDeductionRelationShipSid()));
         if (StringUtils.isNotBlank(userGroup)) {
@@ -800,6 +800,21 @@ public class DiscountQueryBuilder {
         queryBuilder = queryBuilder.replace(Constant.AT_USER_GROUP, StringUtils.EMPTY);
         return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames()));
     }
+
+
+	private CharSequence replaceDPMDEDINCLLUSION(final SessionDTO session) {
+		return "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" and HY.DEDUCTION_INCLUSION= "+session.getDeductionInclusion();
+	}
+
+
+	private String replaceDEDINCLDPM(final SessionDTO session) {
+		return "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" and P.DEDUCTION_INCLUSION= "+session.getDeductionInclusion();
+	}
+
+
+	private String replacePQuery(final String hierarchyIndicator, final List<String> customViewDetails) {
+		return "D".equals(hierarchyIndicator) ? !(customViewDetails.get(NumericConstants.NINE)).isEmpty() ? customViewDetails.get(NumericConstants.NINE)+"~" : StringUtils.EMPTY : StringUtils.EMPTY;
+	}
     
     public List getDiscountProjectionLastLevel(final String frequency, final List<String> discountList,
             final SessionDTO session, final String hierarchyNo, final String hierarchyIndicator, final int levelNo, final boolean isCustom, final List<String> customViewDetails, final int treeLevelNo,
