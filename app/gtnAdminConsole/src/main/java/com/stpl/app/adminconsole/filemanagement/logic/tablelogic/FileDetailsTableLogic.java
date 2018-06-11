@@ -92,7 +92,7 @@ public class FileDetailsTableLogic extends PageTableLogic {
         return RecordLockCount;
     }
 
-    public void setRecordLockCount(int RecordLockCount) {
-        this.RecordLockCount = RecordLockCount;
+    public void setRecordLockCount(int recordLockCount) {
+        this.RecordLockCount = recordLockCount;
     }
 }

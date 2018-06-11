@@ -382,6 +382,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      */
     @UiField("viewDdlb")
     protected ComboBox viewDdlb;
+   
     /**
      * The forecastStartPeriod
      */
@@ -3941,6 +3942,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
             
             allocationBasis.addItems(outputList);
+    }
+   public ComboBox getViewDdlb() {
+        return viewDdlb;
     }
 
 public ExtTreeContainer<SalesRowDto> getCustomContainer() {

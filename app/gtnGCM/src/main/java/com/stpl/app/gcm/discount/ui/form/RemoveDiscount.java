@@ -257,10 +257,10 @@ public class RemoveDiscount extends CustomComponent {
     protected void configureTables() {
         try {
 
-            for (RemoveDiscountDto remove : selecteditemList) {
-                removeList.add(remove.getContractNo());
-                contractList.add(remove.getContractSid());
-                rebateList.add(remove.getRsSid());
+            for (RemoveDiscountDto removeDiscountDTO : selecteditemList) {
+                removeList.add(removeDiscountDTO.getContractNo());
+                contractList.add(removeDiscountDTO.getContractSid());
+                rebateList.add(removeDiscountDTO.getRsSid());
             }
             componentResultsTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
             componentResultsTable.setHeight(NumericConstants.HUNDRED, Unit.PERCENTAGE);
@@ -325,10 +325,10 @@ public class RemoveDiscount extends CustomComponent {
                 @Override
                 public AbstractField<?> getCustomFilterComponent(Object propertyId) {
 
-                    AbstractLogic logic = AbstractLogic.getInstance();
+                    AbstractLogic abstractLogic = AbstractLogic.getInstance();
                     if ("contractStatus".equals(propertyId)) {
                         ComboBox marketTypeDdlb = new ComboBox();
-                        logic.LazyLoadDdlb(marketTypeDdlb, "Load Contract Status Count", "Load Contract Status", BooleanConstant.getTrueFlag());
+                        abstractLogic.LazyLoadDdlb(marketTypeDdlb, "Load Contract Status Count", "Load Contract Status", BooleanConstant.getTrueFlag());
                         return marketTypeDdlb;
                     }
                     return null;
@@ -649,12 +649,12 @@ public class RemoveDiscount extends CustomComponent {
 
     private void loadComponentTable(List<String> inpuList) {
         infoLogic.loadSetData(userId, sessionId, inpuList, "contract", new ContractsDetailsDto(), false);
-        for (RemoveDiscountDto remove : selecteditemList) {
-            contractNo.setValue(remove.getContractNo());
-            contractName.setValue(remove.getContractName());
-            contractType.setValue(remove.getMarketType());
-            contractStartDate.setValue(remove.getContractstartDate() == null ? StringUtils.EMPTY : DBDate.format((Date) remove.getContractstartDate()));
-            contractEndDate.setValue(remove.getContractendDate() == null ? StringUtils.EMPTY : DBDate.format((Date) remove.getContractendDate()));
+        for (RemoveDiscountDto removeDiscountDto : selecteditemList) {
+            contractNo.setValue(removeDiscountDto.getContractNo());
+            contractName.setValue(removeDiscountDto.getContractName());
+            contractType.setValue(removeDiscountDto.getMarketType());
+            contractStartDate.setValue(removeDiscountDto.getContractstartDate() == null ? StringUtils.EMPTY : DBDate.format((Date) removeDiscountDto.getContractstartDate()));
+            contractEndDate.setValue(removeDiscountDto.getContractendDate() == null ? StringUtils.EMPTY : DBDate.format((Date) removeDiscountDto.getContractendDate()));
         }
     }
 
@@ -674,22 +674,22 @@ public class RemoveDiscount extends CustomComponent {
                 rsInfoTableLogic.loadSetData(discountDto);
                 setEnableFields(Boolean.FALSE);
                 if (!list.isEmpty()) {
-                    RemoveDiscountDto remove = list.get(0);
-                    rsId.setValue(remove.getRsId());
-                    rsName.setValue(remove.getRsName());
-                    rsNumber.setValue(remove.getRsNo());
-                    status.setValue(remove.getRsStatus());
-                    startDate.setValue(DBDate.parse(remove.getRsStartDate()));
-                    if (remove.getRsEndDate() != null && remove.getRsEndDate() != Constants.NULL) {
-                        endDate.setValue(DBDate.parse(remove.getRsEndDate()));
+                    RemoveDiscountDto removeDiscountDTO = list.get(0);
+                    rsId.setValue(removeDiscountDTO.getRsId());
+                    rsName.setValue(removeDiscountDTO.getRsName());
+                    rsNumber.setValue(removeDiscountDTO.getRsNo());
+                    status.setValue(removeDiscountDTO.getRsStatus());
+                    startDate.setValue(DBDate.parse(removeDiscountDTO.getRsStartDate()));
+                    if (removeDiscountDTO.getRsEndDate() != null && removeDiscountDTO.getRsEndDate() != Constants.NULL) {
+                        endDate.setValue(DBDate.parse(removeDiscountDTO.getRsEndDate()));
                     }
-                    rebateFrequency.setValue(remove.getRebateFrequency());
-                    rarType.setValue(remove.getRarType());
-                    rsType.setValue(remove.getRsType());
-                    rsProgramType.setValue(remove.getProgramType());
-                    rsCategory.setValue(remove.getRsCategory());
-                    paymentFrequency.setValue(remove.getPaymentFrequency());
-                    rebatePlanLevel.setValue(remove.getRebatePlanLevel());
+                    rebateFrequency.setValue(removeDiscountDTO.getRebateFrequency());
+                    rarType.setValue(removeDiscountDTO.getRarType());
+                    rsType.setValue(removeDiscountDTO.getRsType());
+                    rsProgramType.setValue(removeDiscountDTO.getProgramType());
+                    rsCategory.setValue(removeDiscountDTO.getRsCategory());
+                    paymentFrequency.setValue(removeDiscountDTO.getPaymentFrequency());
+                    rebatePlanLevel.setValue(removeDiscountDTO.getRebatePlanLevel());
                 }
                 setEnableFields(Boolean.TRUE);
             } else {

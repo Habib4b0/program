@@ -2143,7 +2143,7 @@ public class Newcomponent extends CustomComponent {
                     int rsProgramType= Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.REBATE_PROGRAM_TYPE).getValue().toString());
                     int rsCalculationLevel = Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.CALCULATION_LEVEL).getValue().toString());
                     int rsCalculationType = Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.CALCULATION_TYPE).getValue().toString());
-                    int rebateFrequency = Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.REBATE_SCHEDULE_CATEGORY).getValue().toString());
+                    int reBateFrequency = Integer.parseInt(dashboardResultsTable.getContainerProperty(item, Constants.REBATE_SCHEDULE_CATEGORY).getValue().toString());
                     String rsDeductionInclusion = dashboardResultsTable.getContainerProperty(item, Constants.DEDUCTION_INCLUSION).getValue().toString();
                     String rsRebateCategory = dashboardResultsTable.getContainerProperty(item, Constants.REBATE_PLAN_LEVEL_PROP).getValue().toString();
                     
@@ -2172,7 +2172,7 @@ public class Newcomponent extends CustomComponent {
                     rsContract.setCfpContractSid(cfpContractId);
                     rsContract.setIfpContractSid(ifpContractId);
                     rsContract.setPsContractSid(psContractId);
-                    rsContract.setRebateFrequency(rebateFrequency);
+                    rsContract.setRebateFrequency(reBateFrequency);
                     rsContract.setPaymentFrequency(rsPaymentFrequency);
                     rsContract.setPaymentMethod(rsPaymentMethod);
                     rsContract.setRsCalendar(String.valueOf(calender));
