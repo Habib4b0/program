@@ -2551,7 +2551,7 @@ public class ForecastForm extends AbstractForm {
     }
 
     private void nmDiscountViewsPopulationProcedure() {
-        if(data.isCustomChange()){
+        if(!data.isCustomChange()){
         session.addFutureMap(Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL,
 				new Future[] {service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "C", "null", "null", session))});
