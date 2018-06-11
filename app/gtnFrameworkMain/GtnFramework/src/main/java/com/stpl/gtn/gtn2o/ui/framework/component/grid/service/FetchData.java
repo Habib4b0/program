@@ -24,6 +24,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrame
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
@@ -84,6 +85,9 @@ public class FetchData {
 			String url = request.isCount() ? tableConfig.getCountUrl() : tableConfig.getResultSetUrl();
 			serviceRequest.setGtnWsSearchRequest(request);
 			serviceRequest.setGtnWsReportRequest(reportRequest);
+                        GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
+                        dataSelectionBean.setSessionId(tableConfig.getGtnWsReportDashboardBean().getSessionId());
+                        reportRequest.setDataSelectionBean(dataSelectionBean);
 			reportRequest.setGtnWsReportDashboardBean(tableConfig.getGtnWsReportDashboardBean());
 			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(url, moduleName, serviceRequest,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());

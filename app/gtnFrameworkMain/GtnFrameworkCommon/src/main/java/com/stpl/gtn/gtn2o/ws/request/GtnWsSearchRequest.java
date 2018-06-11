@@ -32,7 +32,7 @@ public class GtnWsSearchRequest implements GtnWSRequestData {
 	private int tableRecordStart;
 	private int tableRecordOffset;
 	private String searchModuleName = "";
-	private List<Object> queryInputList = new ArrayList<>();
+	private List<Object> queryInputList = new ArrayList<>(5);
 	private List<String> queryInput= new ArrayList<>();
         private List<Object> recordHeader = new ArrayList<>();
 	private GtnWsSearchQueryConfigLoaderType searchConfigLodaderType;

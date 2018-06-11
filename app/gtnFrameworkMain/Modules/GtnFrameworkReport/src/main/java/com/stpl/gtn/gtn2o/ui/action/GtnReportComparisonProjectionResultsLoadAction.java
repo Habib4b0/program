@@ -32,6 +32,10 @@ public class GtnReportComparisonProjectionResultsLoadAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+        
+		gtnLogger.info("------------GtnReportingComparisonBreakdownGridLoadAction----------------");
+
+		
 		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId)
 				.getSourceComponentId();
 		gtnLogger.info("component Id = = = " + componentId);

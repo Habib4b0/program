@@ -14,14 +14,10 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFramework
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
-import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
-import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridLoadAction;
-import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownHeaderLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkReportVariableBreakdownLookup {

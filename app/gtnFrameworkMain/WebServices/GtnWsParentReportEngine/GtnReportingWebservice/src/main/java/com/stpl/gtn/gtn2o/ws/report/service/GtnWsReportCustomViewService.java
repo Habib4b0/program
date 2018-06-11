@@ -60,19 +60,15 @@ public class GtnWsReportCustomViewService {
 	private GtnUIFrameworkDataTable getHierarachyLevels(GtnWsReportDataSelectionBean bean,
 			GtnWsReportCustomViewBean gtnWsReportCustomViewBean) throws GtnFrameworkGeneralException {
 		double hierarchySid;
-		int forecastLevel;
 		if (gtnWsReportCustomViewBean.getHierarchyType().equals(GtnWsHierarchyType.CUSTOMER)) {
-			hierarchySid = bean.getCustomerHierarchySid();
-			forecastLevel = bean.getCustomerHierarchyForecastLevel();
+			hierarchySid = bean.getCustomerRelationshipBuilderSid();
 		} else {
-			hierarchySid = bean.getProductHierarchySid();
-			forecastLevel = bean.getProductHierarchyForecastLevel();
+			hierarchySid = bean.getProductRelationshipBuilderSid();
 		}
 		gtnLogger.debug(sqlStringService.getQuery("getHierarchyLevels"));
 		List<?> hierarchyData = gtnSqlQueryEngine.executeSelectQuery(sqlStringService.getQuery("getHierarchyLevels"),
-				new Object[] { gtnWsReportCustomViewBean.getHierarchyType().toString(), hierarchySid, forecastLevel },
-				new GtnFrameworkDataType[] { GtnFrameworkDataType.STRING, GtnFrameworkDataType.DOUBLE,
-						GtnFrameworkDataType.INTEGER });
+				new Object[] { gtnWsReportCustomViewBean.getHierarchyType().toString(), hierarchySid },
+				new GtnFrameworkDataType[] { GtnFrameworkDataType.STRING, GtnFrameworkDataType.DOUBLE});
 		GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 		gtnUIFrameworkDataTable.addData((List<Object[]>) hierarchyData);
 		return gtnUIFrameworkDataTable;

@@ -32,6 +32,8 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.vaadin.ui.TreeGrid;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GtnReportCCPTableLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -167,9 +169,13 @@ public class GtnReportCCPTableLoadAction
 
 	public void ccpHierarchyInsert(List<GtnWsRecordBean> selectedCustomerContractList,
 			List<GtnWsRecordBean> selectedProductList, GtnWsReportDataSelectionBean dataSelectionDto) {
-		GtnForecastHierarchyInputBean inputBean = createInputBeanForCCPInsert(selectedCustomerContractList,
-				selectedProductList, dataSelectionDto);
-		insertToCCp(inputBean, dataSelectionDto);
+            try {
+                GtnForecastHierarchyInputBean inputBean = createInputBeanForCCPInsert(selectedCustomerContractList,
+                        selectedProductList, dataSelectionDto);
+                insertToCCp(inputBean, dataSelectionDto);
+            } catch (GtnFrameworkValidationFailedException ex) {
+                Logger.getLogger(GtnReportCCPTableLoadAction.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 
 	private GtnForecastHierarchyInputBean createInputBeanForCCPInsert(
@@ -191,7 +197,7 @@ public class GtnReportCCPTableLoadAction
 		return inputBean;
 	}
 
-	private void insertToCCp(GtnForecastHierarchyInputBean inputBean, GtnWsReportDataSelectionBean dataSelectionBean) {
+	private void insertToCCp(GtnForecastHierarchyInputBean inputBean, GtnWsReportDataSelectionBean dataSelectionBean) throws GtnFrameworkValidationFailedException {
 		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
@@ -199,6 +205,8 @@ public class GtnReportCCPTableLoadAction
 		generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
 		reportRequest.setReportBean(reportBeanRequest);
+                int customViewMasterSid=  GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_displaySelectionTabCustomView").getIntegerFromV8ComboBox();
+                dataSelectionBean.setCustomViewMasterSid(customViewMasterSid);
 		reportBeanRequest.setDataSelectionBean(dataSelectionBean);
 		forecastRequest.setInputBean(inputBean);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();

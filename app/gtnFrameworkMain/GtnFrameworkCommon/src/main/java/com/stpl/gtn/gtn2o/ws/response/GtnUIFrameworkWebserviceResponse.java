@@ -50,6 +50,7 @@ public class GtnUIFrameworkWebserviceResponse {
     private GtnUIFrameworkWebserviceComboBoxResponse gtnUIFrameworkWebserviceComboBoxResponse = null;
     private GtnUIFrameworkWebserviceDualListBoxResponse gtnUIFrameworkWebserviceDualListBoxResponse = null;
     private GtnUIFrameworkWebserviceTextBoxResponse gtnUIFrameworkWebserviceTextBoxResponse = null;
+	private GtnUIFrameworkWebserviceDateResponse gtnUIFrameworkWebserviceDateResponse = null;
     private GtnWsGeneralResponse gtnWsGeneralResponse = new GtnWsGeneralResponse();
     private GtnCompanyMasterResponse gtnCompanyMasterResponse;
     private GtnSerachResponse gtnSerachResponse;
@@ -110,7 +111,6 @@ public class GtnUIFrameworkWebserviceResponse {
 		this.gtnReportResponse = gtnReportResponse;
 	}
 
-	private GtnUIFrameworkWebserviceDateResponse gtnUIFrameworkWebserviceDateResponse = null; 
     
     public GtnUIFrameworkWebserviceDateResponse getGtnUIFrameworkWebserviceDateResponse() {
 		return gtnUIFrameworkWebserviceDateResponse;
@@ -128,6 +128,7 @@ public class GtnUIFrameworkWebserviceResponse {
 	public void setGtnWsReportResponse(GtnWsReportResponse gtnWsReportResponse) {
 		this.gtnWsReportResponse = gtnWsReportResponse;
 	} 
+    
     
     public String getResponseStatus() {
         return responseStatus;
@@ -463,6 +464,7 @@ public class GtnUIFrameworkWebserviceResponse {
     public void setGtnWsAttachmentResponse(GtnWsAttachmentResponse gtnWsAttachmentResponse) {
         this.gtnWsAttachmentResponse = gtnWsAttachmentResponse;
     }
+
 
     public GtnWsCustomViewResponse getGtnWsCustomViewResponse() {
         return gtnWsCustomViewResponse;

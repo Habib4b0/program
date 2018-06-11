@@ -86,8 +86,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 		reportCssGtnLayout.setGtnLayoutConfig(reportCssLayout);
 		componentList.add(reportCssGtnLayout);
 
-		addLandingScreenCustomViewButtonComponent(componentList, namespace);
-		addLandingScreenCustomViewComponent(componentList, namespace);
 		addLandingScreenVariableComponent(componentList, namespace);
 		addLandingScreenComparisonComponent(componentList, namespace);
 		addLandingScreenVariableBreakdownComponent(componentList, namespace);
@@ -219,58 +217,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 	}
 
 
-	private void addLandingScreenCustomViewButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
-			String namespace) {
-		GtnUIFrameworkComponentConfig customViewConfig = configProvider.getUIFrameworkComponentConfig(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_BUTTON,
-				true,
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT,
-				GtnUIFrameworkComponentType.BUTTON);
-		customViewConfig.setComponentName("Custom View: ");
-		customViewConfig.addComponentStyle(GtnFrameworkReportStringConstants.LINK);
-		customViewConfig.setAuthorizationIncluded(true);
-
-		componentList.add(customViewConfig);
-
-		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig customViewPopupAction = new GtnUIFrameWorkActionConfig();
-		customViewPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		customViewPopupAction.addActionParameter("reportCustomViewLookup");
-		customViewPopupAction.addActionParameter("reportCustomViewLookup");
-		customViewPopupAction.addActionParameter("75%");
-		customViewPopupAction.addActionParameter(null);
-		actionConfigList.add(customViewPopupAction);
-
-		customViewConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
-	}
-
-	private void addLandingScreenCustomViewComponent(List<GtnUIFrameworkComponentConfig> componentList,
-			String namespace) {
-		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
-				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT, true,
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
-		gtnLayout.setComponentWidth("13%");
-		componentList.add(gtnLayout);
-
-		GtnUIFrameworkComponentConfig customViewComboboxConfig = configProvider.getUIFrameworkComponentConfig(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW,
-				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		customViewComboboxConfig.setAuthorizationIncluded(true);
-
-		componentList.add(customViewComboboxConfig);
-
-		GtnUIFrameworkComboBoxConfig customViewLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWsReportEndPointUrlConstants.LOAD_CUSTOM_VIEW);
-		customViewLoadConfig.setIntegerItemCode(false);
-		customViewLoadConfig.setModuleName(GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME);
-		customViewComboboxConfig.setGtnComboboxConfig(customViewLoadConfig);
-
-	}
+	
 
 	private void configureMainLayouts(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 

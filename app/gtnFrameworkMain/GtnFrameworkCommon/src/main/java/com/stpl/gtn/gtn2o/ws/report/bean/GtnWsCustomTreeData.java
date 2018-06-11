@@ -7,6 +7,7 @@ public class GtnWsCustomTreeData {
 	private int levelNo;
 	private int currentTreeLevelNo;
 	private GtnWsHierarchyType hierarchyType;
+	private int hierarchySid;
 	private List<GtnWsReportVariablesType> variableList;
 	private GtnWsCustomTreeData child;
 
@@ -57,5 +58,13 @@ public class GtnWsCustomTreeData {
 	public void setVariableList(List<GtnWsReportVariablesType> variableList) {
 		this.variableList = variableList;
 	}
+
+    public int getHierarchySid() {
+        return hierarchySid;
+    }
+
+    public void setHierarchySid(int hierarchySid) {
+        this.hierarchySid = hierarchySid;
+    }
 
 }

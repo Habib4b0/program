@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ws.request.customview;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
 import com.stpl.gtn.gtn2o.ws.request.GtnWSRequestData;
 import java.util.Collections;
 import java.util.Date;
@@ -33,9 +34,12 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
     private int cvSysId;
     private int productRelVersionNo;
     private int userId;
-    private int moduleType;
+      private  boolean isDelete;
+        private int moduleType;
     
     private List<GtnWsRecordBean> cvTreeNodeList;
+    
+     private GtnWsCustomTreeData gtnWsCustomTreeData;
 
     public String getCustomViewDescription() {
         return customViewDescription;
@@ -157,6 +161,22 @@ public class GtnWsCustomViewRequest implements GtnWSRequestData {
         this.cvSysId = cvSysId;
     }
 
+    public GtnWsCustomTreeData getGtnWsCustomTreeData() {
+        return gtnWsCustomTreeData;
+    }
+
+    public void setGtnWsCustomTreeData(GtnWsCustomTreeData gtnWsCustomTreeData) {
+        this.gtnWsCustomTreeData = gtnWsCustomTreeData;
+    }
+
+    public boolean isIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(boolean isDelete) {
+        this.isDelete = isDelete;
+    }
+    
     public int getModuleType() {
         return moduleType;
     }
