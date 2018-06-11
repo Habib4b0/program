@@ -77,6 +77,7 @@ public final class GtnFrameworkCssConstants {
 	public static final String PIXEL_600 = "600px";
 	public static final String PIXEL_725 = "725px";
 	public static final String PIXEL_1000 = "1000px";
+	public static final String PIXEL_1500 = "1500px";
 	public static final String PIXEL_30 = "30px";
 	public static final String PADDING_LEFT10 = "padding-left10";
 	public static final String IYGDSAYGKHYA = "iygdsaygkhya";

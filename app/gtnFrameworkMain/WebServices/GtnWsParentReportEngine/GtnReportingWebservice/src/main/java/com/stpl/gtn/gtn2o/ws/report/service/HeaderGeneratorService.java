@@ -108,11 +108,16 @@ public class HeaderGeneratorService {
 
 	}
 
+	public static void main(String[] args) {
+		GtnWsPagedTreeTableResponse response = new HeaderGeneratorService().getReportRightTableColumnsDummy();
+		System.out.println("HeaderGeneratorService.main()" + response);
+	}
+
 	public GtnWsPagedTreeTableResponse getReportRightTableColumns(GtnForecastBean gtnForecastBean) {
 
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
-		String[] comparisonBasisColumn = new String[] { "Actuals" };
-		String[] comparisonBasisHeader = new String[] { "Actuals" };
+		String[] comparisonBasisColumn = new String[] { "TEST_PRojection" };
+		String[] comparisonBasisHeader = new String[] { "TEST_PRojection" };
 		// String[] comparisonBasisColumn = new String[]{"Actuals", "Accruals",
 		// "CurrentProjection",
 		// "Projection1", "Projection2", "Projection3", "Projection4",
@@ -123,29 +128,30 @@ public class HeaderGeneratorService {
 		// "Prior Projection1", "Prior Projection2", "Prior Projection3", "Prior
 		// Projection4", "Prior Projection5"};
 
-		// String[] variablesHeader = new String[] { "Gross Contract Sales",
-		// "Weighted GTN Contribution" };
-
 		String[] variablesHeader = new String[] { "Ex-Factory Sales", "Gross Contract  Sales % of Ex-Factory",
 				"Gross Contract Sales", "Contract Units", "Contract Sales % of Total Contract Sales", "Deduction $",
 				"Deduction %", "RPU", "Deduction % of Ex-Factory", "Net Contract Sales",
 				"Net Contract Sales % of Ex-Factory", "Net Ex-Factory Sales",
 				"Net Ex-Factory Sales % of Total Ex-Factory", "Weighted GTN Contribution" };
 
-		// String[] variablesColumn = new String[] { "contractSales",
-		// "weightedGtn" };
-		String[] variablesColumn = new String[] { "exfactory", "grossContractSalesPerExFactory", "contractSales",
-				"contractUnits", "contractSalesPerTotalContractSales", "discountAmount", "discountPercent", "rpu",
-				"deductionPerExfactory", "netContractSales", "netContractSalesPerExfactory", "netExfactorySales",
-				"netExfactorySalesPerTotalExfactory", "weightedGtn" };
+		String[] variablesColumn = new String[variablesHeader.length];
+		// String[] variablesColumn = new String[] { "exfactory",
+		// "grossContractSalesPerExFactory", "contractSales",
+		// "contractUnits", "contractSalesPerTotalContractSales", "discountAmount",
+		// "discountPercent", "rpu",
+		// "deductionPerExfactory", "netContractSales", "netContractSalesPerExfactory",
+		// "netExfactorySales",
+		// "netExfactorySalesPerTotalExfactory", "weightedGtn" };
+
+		// String[] variableCategoryHeader = new String[] { "Value", "Variance", "%
+		// Change" };
 		// String[] variableCategoryColumn = new String[] { "Value", "Variance",
-		// "PerChange" };
-		// String[] variableCategoryHeader = new String[] { "Value", "Variance",
-		// "% Change" };
-		String[] variableCategoryColumn = new String[] { "Value", "Variance", "PerChange", "Volume", "Rate",
-				"ChangeInChange" };
+		// "PerChange", "Volume", "Rate",
+		// "ChangeInChange" };
 		String[] variableCategoryHeader = new String[] { "Value", "Variance", "% Change", "Volume", "Rate",
 				"Change in Change" };
+
+		String[] variableCategoryColumn = new String[variableCategoryHeader.length];
 
 		List<Object[]> periods = getTimeRange(gtnForecastBean);
 		Object[] periodColumn = periods.get(0);
@@ -154,7 +160,8 @@ public class HeaderGeneratorService {
 		List<Object[]> combinedVariableCategoryList = null;
 		Object[] combinedVariableCategoryColumn = null;
 		Object[] combinedVariableCategoryHeader = null;
-
+		generateColumn(variablesHeader, variablesColumn);
+		generateColumn(variableCategoryHeader, variableCategoryColumn);
 		if (gtnForecastBean.isColumn()) {
 			combinedVariableCategoryList = getCombinedVariableCategory(variablesColumn, variableCategoryColumn,
 					variablesHeader, variableCategoryHeader, gtnForecastBean.isVariablesVariances());
@@ -210,6 +217,16 @@ public class HeaderGeneratorService {
 		return tableHeaderDTO;
 	}
 
+	private void generateColumn(String[] variablesHeader, String[] variablesColumn) {
+		for (int i = 0; i < variablesHeader.length; i++) {
+			String tempHeader = variablesHeader[i];
+			tempHeader = tempHeader.replaceAll("-", "_");
+			tempHeader = tempHeader.replaceAll(" ", "_");
+			tempHeader = tempHeader.replaceAll("%", "_percen_");
+			variablesColumn[i] = tempHeader;
+		}
+	}
+
 	private Calendar dateToCalendar(Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
@@ -228,19 +245,19 @@ public class HeaderGeneratorService {
 			break;
 		case QUARTERLY:
 			period = calculatePeriod(month, 3);
-			commonColumn = period + "_" + year;
+			commonColumn = period + "" + year;
 			commonHeader = "Q" + period + " " + year;
 			period *= 3;
 			break;
 		case SEMIANNUAL:
 			period = calculatePeriod(month, 6);
-			commonColumn = period + "_" + year;
+			commonColumn = period + "" + year;
 			commonHeader = "S" + period + " " + year;
 			period *= 6;
 			break;
 		case MONTHLY:
 			String monthName = getMonthForInt(month);
-			commonColumn = month + "_" + year;
+			commonColumn = month + "" + year;
 			commonHeader = monthName + " " + year;
 			period = ++month;
 			break;
@@ -304,7 +321,7 @@ public class HeaderGeneratorService {
 		switch (1) {
 		case 1:// 1. Time/Variable/Comparison
 			singleColumnValue.append(singleColumn);
-			singleColumnValue.append("~");
+			// singleColumnValue.append("~");
 			singleColumnValue.append(doubleColumn);
 			singleColumnValue.append(tripleColumn);
 			break;
@@ -360,10 +377,10 @@ public class HeaderGeneratorService {
 		for (int i = 0; i < variablesColumn.length; i++) {
 			for (int j = 0; j < variancesColumn.length; j++) {
 				if (isVariablesAndVariances) {
-					combinedVariableCategoryColumn[index] = variancesColumn[j].trim() + variablesColumn[i].trim();
+					combinedVariableCategoryColumn[index] = variancesColumn[j].trim() + "#" + variablesColumn[i].trim();
 					combinedVariableCategoryHeader[index] = variancesHeader[j] + " " + variablesHeader[i];
 				} else {
-					combinedVariableCategoryColumn[index] = variablesColumn[i].trim() + variancesColumn[j].trim();
+					combinedVariableCategoryColumn[index] = variablesColumn[i].trim() + "#" + variancesColumn[j].trim();
 					combinedVariableCategoryHeader[index] = variablesHeader[i] + " " + variancesHeader[j];
 				}
 				index++;
@@ -378,7 +395,8 @@ public class HeaderGeneratorService {
 		// To check largest end date wheater
 		List<Object[]> periods = new ArrayList<>();
 		Date date = gtnForecastBean.getProjectionEndDate().after(gtnForecastBean.getForecastEndDate())
-				? gtnForecastBean.getProjectionEndDate() : gtnForecastBean.getForecastEndDate();
+				? gtnForecastBean.getProjectionEndDate()
+				: gtnForecastBean.getForecastEndDate();
 		// Current minus three years
 		// Calendar historyStartDate =
 		// calculateHistoryPeriods(Integer.valueOf(gtnForecastBean.getSelectedHistory()),

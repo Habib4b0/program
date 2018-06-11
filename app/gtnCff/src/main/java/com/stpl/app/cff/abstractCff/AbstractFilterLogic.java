@@ -116,7 +116,7 @@ public class AbstractFilterLogic {
                     if (!queryMap.get(stringFilter.getPropertyId().toString()).isEmpty()) {
                         Compare.Operation operation = stringFilter.getOperation();
                         if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
-                            StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
+                            StringBuilder startstr = new StringBuilder("AND ( * ='?')");
                             StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
                             StringBuilder tempStart;
                             String value;
@@ -130,7 +130,7 @@ public class AbstractFilterLogic {
                                 if (sql.length() == 0) {
                                     tempStart = new StringBuilder(intStartstr);
                                 } else {
-                                    tempStart = new StringBuilder(Startstr);
+                                    tempStart = new StringBuilder(startstr);
                                 }
                                 tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
                                 tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, value);

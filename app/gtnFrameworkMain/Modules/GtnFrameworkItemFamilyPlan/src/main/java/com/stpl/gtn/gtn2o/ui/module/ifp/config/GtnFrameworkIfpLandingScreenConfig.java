@@ -569,6 +569,7 @@ public class GtnFrameworkIfpLandingScreenConfig {
 		visibleAction.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.IFPADD_RESET_BUTTON,
 				GtnFrameworkCommonConstants.IFP_ADD_SAVE_BUTTON, GtnFrameworkCommonConstants.IFP_ADD_DELETE_BUTTON,
 				GtnFrameworkCommonConstants.IFP_ITEM_ADDITION_DUAL_LIST_BOX_LAYOUT,
+				GtnFrameworkCommonConstants.IFP_ITEMSMASS_UPDATE_PANEL_LAYOUT,
 				GtnFrameworkCommonConstants.IFP_ITEM_ADDITION_INFORMATION_LAYOUT));
 		onSucessActionConfigList.add(visibleAction);
 

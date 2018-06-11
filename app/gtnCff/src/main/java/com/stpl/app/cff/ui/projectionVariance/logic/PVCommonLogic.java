@@ -183,11 +183,11 @@ public class PVCommonLogic {
         return (double) Math.round(x * fraction) / fraction;
     }
 
-    public static String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public static String getFormattedValue(DecimalFormat format, String value) {
         if (value.contains(NULL.getConstant())) {
             value = ZERO;
         } else {
-            value = FORMAT.format(Double.valueOf(value));
+            value = format.format(Double.valueOf(value));
         }
         return value;
     }

@@ -120,6 +120,8 @@ public class GtnUIFrameworkComponentConfig {
 	 */
 	private String reloadLogicActionClassName;
 
+	private GtnUIFrameWorkActionConfig reloadActionConfig;
+
 	/**
 	 * This is for custom table logic class should extends
 	 * GtnUIFrameworkPagedTableLogic class for paged table.
@@ -416,7 +418,6 @@ public class GtnUIFrameworkComponentConfig {
 	public void setMargin(boolean margin) {
 		this.margin = margin;
 	}
-
 
 	public List<Object> getQueryInputs() {
 		return queryInputs == null ? queryInputs : Collections.unmodifiableList(queryInputs);
@@ -720,6 +721,14 @@ public class GtnUIFrameworkComponentConfig {
 	public void setGtnUIFrameworkV8DualListBoxConfig(
 			GtnUIFrameworkV8DualListBoxConfig gtnUIFrameworkV8DualListBoxConfig) {
 		this.gtnUIFrameworkV8DualListBoxConfig = gtnUIFrameworkV8DualListBoxConfig;
+	}
+
+	public GtnUIFrameWorkActionConfig getReloadActionConfig() {
+		return reloadActionConfig;
+	}
+
+	public void setReloadActionConfig(GtnUIFrameWorkActionConfig reloadActionConfig) {
+		this.reloadActionConfig = reloadActionConfig;
 	}
 
 }

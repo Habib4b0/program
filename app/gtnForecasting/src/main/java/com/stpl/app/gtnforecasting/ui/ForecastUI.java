@@ -138,7 +138,7 @@ public class ForecastUI extends UI {
         String productHierarchyLevel = StringUtils.EMPTY;
         String prodRelationshipBuilderSid = StringUtils.EMPTY;
         String productHierSid = StringUtils.EMPTY;
-        if (pageParameters != null) {
+                if (pageParameters != null) {
 
             String[] parameters = pageParameters.split("&");
 
@@ -154,7 +154,7 @@ public class ForecastUI extends UI {
             workflowStatus = hm.get("workflowStatus");
             userType = hm.get("userType");
             noOfApprovals = hm.get("noOfApprovals");
-            approvalLevels = hm.get("approvalLevel");
+            approvalLevels = hm.get("approvalLevel");     
             if (getGovernmentConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
                 screenName = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED;
                 CommonLogic.setScreenName(screenName);
@@ -233,7 +233,11 @@ public class ForecastUI extends UI {
                         sessionDto.setProductRelationVersion(dto.getProductRelationShipVersionNo());
                         sessionDto.setScreenName(screenName);
                         sessionDto.setProductRelationId(Integer.parseInt(dto.getProdRelationshipBuilderSid()));
-                        sessionDto.setProductLevelNumber(dto.getProductHierarchyLevel());
+                        sessionDto.setProductLevelNumber(dto.getProductHierarchyLevel());   
+                        sessionDto.setFunctionMode("E");
+                        sessionDto.setCustomRelationShipSid(dto.getCustomRelationShipSid());
+                        sessionDto.setFrequency(dto.getFrequency());
+                        sessionDto.setDataSelectionDeductionLevelCaption("Schedule Category");
                         QueryUtils.createTempTables(sessionDto);
 
                         Map<String, String> tempCustomerDescriptionMap;

@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.service.displayformat.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -148,8 +149,9 @@ public class GtnCustomRelationshipLevelValueService {
 			finalQry.append(query.getQuery().replace(RelationshipLevelValuesMasterBean.DEFAULT_QUESTION,
 					generateDefaultSelectClause(query.getNoOfSelectFormed())));
 		}
-		finalQry.append("ORDER BY LEVEL_NO ");
-		return finalQry.toString();
+		StringBuilder finalSelect = new StringBuilder(
+				sqlService.getQuery(Arrays.asList(finalQry.toString()), "customViewCCPMapFinalSelect"));
+		return finalSelect.toString();
 	}
 
 }

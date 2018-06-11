@@ -164,13 +164,13 @@ public class RelationShipFilterLogic {
 	private String getQueryForCustomer(Leveldto selectedHierarchyLevelDto, int relationshipSid,
 			List<String> groupFilteredCompanies, String dedLevel, String dedValue, int relationVersionNo,
 			Date forecastEligibleDate, List<Leveldto> levelHierarchyLevelDefinitionList, int lastLevelNo) {
-		Leveldto LastHierarchyLevelDto = Leveldto.getLastLinkedLevel(levelHierarchyLevelDefinitionList);
+		Leveldto lastHierarchyLevelDto = Leveldto.getLastLinkedLevel(levelHierarchyLevelDefinitionList);
 		String queryString = getQueryForSelectedCustomer(selectedHierarchyLevelDto, groupFilteredCompanies, dedLevel,
 				dedValue);
 		List<String> inputList = new ArrayList<>();
 		StringBuilder query = new StringBuilder(queryString);
 		inputList.add(String.valueOf(relationshipSid));
-		inputList.add(String.valueOf(LastHierarchyLevelDto.getLevelNo()));
+		inputList.add(String.valueOf(lastHierarchyLevelDto.getLevelNo()));
 		inputList.add(String.valueOf(relationVersionNo));
 		inputList.add(String.valueOf("'" + selectedHierarchyLevelDto.getHierarchyNo() + "%'"));
 		inputList.add(String.valueOf(relationVersionNo));

@@ -789,8 +789,8 @@ public final class CommonUtil {
     public static HelperDTO getSelectedFileType(ComboBox fileType) {
         HelperDTO selectedFileType = null;
         if(fileType.getValue() != null && !String.valueOf(fileType.getValue()).equals("0")) {
-            String Desc = HelperListUtil.getInstance().getIdHelperDTOMap().get(fileType.getValue()).getDescription();
-            selectedFileType = new HelperDTO(Integer.parseInt(String.valueOf(fileType.getValue())),Desc);
+            String desc = HelperListUtil.getInstance().getIdHelperDTOMap().get(fileType.getValue()).getDescription();
+            selectedFileType = new HelperDTO(Integer.parseInt(String.valueOf(fileType.getValue())),desc);
         }
         return selectedFileType;
     }

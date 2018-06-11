@@ -1,5 +1,17 @@
 package com.stpl.gtn.gtn2o.ws.report.serviceimpl;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
@@ -15,6 +27,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnReportJsonService;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportDataSelectionGenerate;
+import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportRightTableLoadDataService;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportSqlService;
 import com.stpl.gtn.gtn2o.ws.report.service.displayformat.service.GtnCustomRelationshipLevelValueService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -42,6 +55,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	@Autowired
 	private GtnWsReportSqlService sqlService;
+
+	@Autowired
+	GtnWsReportRightTableLoadDataService rightTableService;
 
 	private static final GtnWSLogger GTNLOGGER = GtnWSLogger
 			.getGTNLogger(GtnWsReportDataSelectionSqlGenerateServiceImpl.class);
@@ -107,6 +123,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			GtnWsReportCustomCCPListDetails data = applicationContext.getBean(GtnWsReportCustomCCPListDetails.class);
 			data.setLevelNo(Integer.parseInt(result[3].toString()));
 			data.setHierarchyNo(result[0].toString());
+			data.setChildCount(Integer.parseInt(result[8].toString()));
 			data.setData(result);
 			ccpList.add(data);
 		}
@@ -212,41 +229,52 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		return result;
 }
         
-         public List<GtnWsRecordBean> getDashboardLeftData(
-            GtnWsReportDashboardBean reportDashboardBean,GtnUIFrameworkWebserviceRequest gtnWsRequest)  {
+	public List<GtnWsRecordBean> getDashboardLeftData(GtnWsReportDashboardBean reportDashboardBean,
+			GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 
-            try {
-                // Object inputs[] = gtnWsSearchRequest.getQueryInput().toArray();
-                GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
-                Object values[] = gtnWsRequest.getGtnWsSearchRequest().getQueryInputList().toArray();
-                int start=gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart();
-                int limit=gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset();
-                int levelNo=Integer.parseInt(values[0].toString()) ;
-                String hierarchyNo=values[1].toString();
-                String fileName=gtnReportJsonService.getFileName("CustomViewCCP", dataSelectionBean.getSessionId());
-                GtnWsReportCustomCCPList ccpList = (GtnWsReportCustomCCPList) gtnReportJsonService.convertJsonToObject(fileName, GtnWsReportCustomCCPList.class);
-                List<GtnWsReportCustomCCPListDetails> gtnWsReportCustomCCPListDetails = ccpList.getGtnWsReportCustomCCPListDetails();
-                
-                return   gtnWsReportCustomCCPListDetails.parallelStream()
-                        .filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo)).skip(start).limit(limit)
-                        .map(row -> convertToRecordbean(row, gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),gtnWsReportCustomCCPListDetails.indexOf(row))).collect(Collectors.toList());
-            } catch (Exception ex) {
-                GTNLOGGER.error(ex.getMessage(), ex);
-            }
-             return new ArrayList<>();
-    }
-         private GtnWsRecordBean convertToRecordbean(GtnWsReportCustomCCPListDetails bean,List<Object> recordHeader,int index){
-        
+		try {
+			// Object inputs[] = gtnWsSearchRequest.getQueryInput().toArray();
+			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest()
+					.getDataSelectionBean();
+			List<Object> values = gtnWsRequest.getGtnWsSearchRequest().getQueryInputList();
+                        int start=gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart();
+                        int limit=gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset();
+			int levelNo = Integer.parseInt(values.get(0).toString());
+			String hierarchyNo = values.get(1).toString();
+			String fileName = gtnReportJsonService.getFileName("CustomViewCCP", dataSelectionBean.getSessionId());
+			GtnWsReportCustomCCPList ccpList = (GtnWsReportCustomCCPList) gtnReportJsonService
+					.convertJsonToObject(fileName, GtnWsReportCustomCCPList.class);
+			List<GtnWsReportCustomCCPListDetails> gtnWsReportCustomCCPListDetails = ccpList
+					.getGtnWsReportCustomCCPListDetails();
+			Map<String, Map<String, Double>> rightDataMap = rightTableService.getDataFromBackend();
+			return gtnWsReportCustomCCPListDetails.stream()
+					.filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo)).skip(start).limit(limit)
+					.map(row -> convertToRecordbean(row, gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
+							rightDataMap,gtnWsReportCustomCCPListDetails.indexOf(row)))
+					.collect(Collectors.toList());
+
+		} catch (Exception ex) {
+			GTNLOGGER.error(ex.getMessage(), ex);
+		}
+		return new ArrayList<>();
+	}
+
+	private GtnWsRecordBean convertToRecordbean(GtnWsReportCustomCCPListDetails bean, List<Object> recordHeader,
+			Map<String, Map<String, Double>> rightDataMap,int index) {
+		Map.Entry<String, Map<String, Double>> dataEntry = rightDataMap.entrySet().iterator().next();
 		GtnWsRecordBean recordBean = new GtnWsRecordBean();
-		recordBean.setRecordHeader(recordHeader);
-                recordBean.addAdditionalProperty(0);//for Child Count
+		Optional<List> optionalRecordHeader = Optional.of(recordHeader);
+		recordHeader = optionalRecordHeader.orElseGet(ArrayList::new);
+		recordBean.addAdditionalProperty(0);//for Child Count
 		recordBean.addAdditionalProperty( bean.getLevelNo());//level No
 		recordBean.addAdditionalProperty(bean.getHierarchyNo());
 		recordBean.addAdditionalProperty(index);
-//		recordBean.addProperties("levelName", bean.getData()[2]);
 		recordBean.addProperties("levelValue", bean.getData()[1]);
-		//recordBean.addProperties("generatedHierarchyNo", document.get("generatedHierarchyNo"));
+		dataEntry.getValue().entrySet().stream()
+				.forEach(entry -> recordBean.addProperties(entry.getKey(), entry.getValue()));
+		// recordBean.addProperties("generatedHierarchyNo",
+		// document.get("generatedHierarchyNo"));
 		return recordBean;
-    }
+	}
 
 }
