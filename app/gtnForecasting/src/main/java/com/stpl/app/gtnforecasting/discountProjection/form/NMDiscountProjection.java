@@ -54,9 +54,11 @@ import static com.stpl.app.utils.Constants.CommonConstants.PER_EX_FACTORY_SALES;
 import static com.stpl.app.utils.Constants.CommonConstants.ROLLING_ANNUAL_TREND;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.CommonConstantsForChannels.DISABLE;
+import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
+import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUALLY;
 import static com.stpl.app.utils.Constants.LabelConstants.ACTUALS;
 import static com.stpl.app.utils.Constants.LabelConstants.ASCENDING;
@@ -4130,12 +4132,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 if (freq.equals(QUARTERLY.getConstant())) {
                     historyNum = Integer.parseInt(hist.replace("Quarter", StringUtils.EMPTY)
                             .replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
+                } else if (freq.equals(SEMI_ANNUALLY.getConstant()) || freq.equals(SEMI_ANNUAL.getConstant())) {
                     historyNum = Integer.parseInt(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
                 } else if (freq.equals(MONTHLY.getConstant())) {
                     historyNum = Integer.parseInt(hist.replace("Month", StringUtils.EMPTY)
                             .replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                } else if (freq.equals(ANNUALLY.getConstant())) {
+                } else if (freq.equals(ANNUALLY.getConstant()) || freq.equals(ANNUAL.getConstant())) {
                     historyNum = Integer.parseInt(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
                 }
             } else {

@@ -107,6 +107,7 @@ public class DataSelection extends ForecastDataSelection {
 	private boolean dismantelProductSelection = true;
 	private final DataSelectionForm dataSelectionForm;
 	private boolean updateOnTabChange = false;
+	private boolean customChange = false;   
 	private boolean reloadAfterUpdate = false;
 	private boolean valid = true;
 	private LazyContainer discountDdlbLazyContainer;
@@ -452,11 +453,13 @@ public class DataSelection extends ForecastDataSelection {
                                         if(customRelationDdlb.getValue()!=null ){
                             int custRelationValue = Integer.parseInt(customRelationDdlb.getValue().toString());
                             dataSelectionDTO.setCustomRelationShipSid(custRelationValue);
+                                setCustomChange(true);
 				setUpdateOnTabChange(true);
 			}
                         else{
                         dataSelectionDTO.setCustomRelationShipSid(0);
-                        setUpdateOnTabChange(true);                       
+                        setUpdateOnTabChange(true);
+                        setCustomChange(true);
                    }
                         }
 		});
@@ -467,11 +470,13 @@ public class DataSelection extends ForecastDataSelection {
                             if(customRelationDdlbDeduction.getValue()!=null ){
                             int custDeductionRelationValue = Integer.parseInt(customRelationDdlbDeduction.getValue().toString());
                             dataSelectionDTO.setCustomDeductionRelationShipSid(custDeductionRelationValue);
-                            setUpdateOnTabChange(true);
+                            setUpdateOnTabChange(false);
+                            setCustomChange(true);
 			}
                             else{
                                 dataSelectionDTO.setCustomDeductionRelationShipSid(0);
-                                setUpdateOnTabChange(true);                                
+                                setUpdateOnTabChange(false);
+                                setCustomChange(true);
                             }
                         }
 
@@ -1203,6 +1208,14 @@ public class DataSelection extends ForecastDataSelection {
 	public int getTabNumber() {
 		return Constant.ZERO;
 	}
+         public boolean isCustomChange() {
+        return customChange;
+    }
+
+    public void setCustomChange(boolean customChange) {
+        this.customChange = customChange;
+    }
+    
 
 	public void updateBasicsProjectionMaster() throws PortalException, SystemException {
 		NonMandatedLogic logic = new NonMandatedLogic();
