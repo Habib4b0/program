@@ -705,7 +705,7 @@ public class ForecastForm extends AbstractForm {
 		LOGGER.debug("onTabChange starts");
 		try {
 
-			if ((lastPosition == data.getTabNumber()) && ((data.isUpdateOnTabChange() | data.isCustomChange()) && dsFlag)) {
+			if ((lastPosition == data.getTabNumber()) && ((data.isUpdateOnTabChange() || data.isCustomChange()) && dsFlag)) {
 				dsFlag = false;
 				tempTabPosition = tabPosition;
 				tabSheet.setSelectedTab(0);
@@ -928,7 +928,7 @@ public class ForecastForm extends AbstractForm {
 
 		try {
 
-			if ((lastPosition == data.getTabNumber()) && ((data.isUpdateOnTabChange() | data.isCustomChange()) && dsFlag)) {
+			if ((lastPosition == data.getTabNumber()) && ((data.isUpdateOnTabChange() || data.isCustomChange()) && dsFlag)) {
 				dsFlag = false;
 				tempTabPosition = tabPosition;
 				tabSheet.setSelectedTab(0);
