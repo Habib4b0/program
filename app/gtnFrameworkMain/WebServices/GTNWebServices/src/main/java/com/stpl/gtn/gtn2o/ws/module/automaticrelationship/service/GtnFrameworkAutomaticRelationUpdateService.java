@@ -297,10 +297,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		List<Object> inputList = new ArrayList<>();
 		inputList.add(hierarchyDefSid);
 		inputList.add(hierarchyVersionNo);
-		String query = null;
-		if (hierarchyIndicator.equalsIgnoreCase("C")) {
-			query = "reportCustomerLoad";
-		}
+		String query = "reportCustomerLoad";
 		String finalQuery = gtnWsSqlService.getQuery(inputList, query);
 		return executeAndGetCustomizedResult(finalQuery);
 	}

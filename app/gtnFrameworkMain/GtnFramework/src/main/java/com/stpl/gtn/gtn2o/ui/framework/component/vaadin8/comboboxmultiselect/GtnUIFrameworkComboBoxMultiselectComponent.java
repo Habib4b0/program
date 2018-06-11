@@ -64,20 +64,32 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 				gtnLogger.info(e.getMessage());
 			}
 		}
+                
 		if (checkedComboBoxConfig.getLoadingUrl() != null) {
 			GtnUIFrameworkWebserviceComboBoxResponse response = wsClient
 					.callGtnWebServiceUrl(checkedComboBoxConfig.getLoadingUrl(), wsRequest,
 							GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
 					.getGtnUIFrameworkWebserviceComboBoxResponse();
-			if (response.getItemValueList() != null) {
-				comboBoxMultiSelect.setItems((List<String>) response.getItemValueList());
-				comboBoxMultiSelect.setValue(new HashSet<>(Arrays.asList(checkedComboBoxConfig.getDefaultValue())));
-			}
-		} else if (checkedComboBoxConfig.getItemValueList() != null) {
+                       if (response.getItemValueList() != null) {
+                            List idList =new ArrayList<>(response.getItemCodeList());
+                            List<String> valueList = new ArrayList<>(response.getItemValueList());
+                            String defaultValue = checkedComboBoxConfig.getDefaultValue() != null
+						? String.valueOf(checkedComboBoxConfig.getDefaultValue())
+						: "-Select Values-";
+				idList.add(0, "0");
+				valueList.add(0, defaultValue);
+				comboBoxMultiSelect.setValue(new HashSet<>(Arrays.asList(defaultValue)));
+                                comboBoxMultiSelect.setItems(idList);
+                                comboBoxMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
+                        }
+                    return comboBoxMultiSelect;    
+		} 
+                
+                if (checkedComboBoxConfig.getItemValueList() != null) {
 			comboBoxMultiSelect.setItems(checkedComboBoxConfig.getItemValueList());
-
+                        return comboBoxMultiSelect;
 		}
-		return comboBoxMultiSelect;
+ 		return comboBoxMultiSelect;
 	}
 
 	@Override
@@ -124,7 +136,7 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 						comboBoxActionConfig = componentConfig.getReloadActionConfig();
 					}
 					comboBoxActionConfig.addActionParameter(reloadInput);
-					comboBoxCustomAction.doAction(componentId, comboBoxActionConfig);
+					comboBoxCustomAction.doAction(sourceViewId + "_" +componentConfig.getComponentId(), comboBoxActionConfig);
 				} catch (GtnFrameworkGeneralException ex) {
 					gtnLogger.error(componentId, ex);
 				}

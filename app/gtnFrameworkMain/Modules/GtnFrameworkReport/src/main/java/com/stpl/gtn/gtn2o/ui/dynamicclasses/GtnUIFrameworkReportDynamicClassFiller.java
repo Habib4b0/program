@@ -38,6 +38,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionResetAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionTabLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionViewAddAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportFilterReloadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportLevelFilterReloadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkSaveViewAction;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
@@ -149,6 +150,8 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnReportingVariableBreakdownHeaderLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportFilterReloadAction.class.getName(),
 				new GtnReportFilterReloadAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportLevelFilterReloadAction.class.getName(),
+				new GtnReportLevelFilterReloadAction());
 	}
 
 }

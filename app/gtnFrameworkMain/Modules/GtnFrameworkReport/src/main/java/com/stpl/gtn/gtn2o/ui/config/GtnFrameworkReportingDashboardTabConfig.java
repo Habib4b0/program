@@ -716,8 +716,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		GtnUIFrameWorkActionConfig reloadActionConfig = getLevelFilterReloadAction(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_LEVEL,
-				GtnWsHierarchyType.DEDUCTION, nameSpace);
+						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_LEVEL,
+				GtnWsHierarchyType.PRODUCT, nameSpace);
 		productLevelConfig.setReloadActionConfig(reloadActionConfig);
 		productLevelConfig.setReloadLogicActionClassName(GtnReportLevelFilterReloadAction.class.getName());
 
@@ -740,7 +740,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig customerLevelConfig = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "companyInformationTabCompanyStatus", true,
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterTabCustomerLevel", true,
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_LEVEL_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customerLevelConfig.setComponentName("Customer Level: ");
@@ -756,9 +756,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
 
 		GtnUIFrameWorkActionConfig reloadActionConfig = getLevelFilterReloadAction(
-				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_LEVEL,
-				GtnWsHierarchyType.DEDUCTION, nameSpace);
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterTabCustomerLevel",
+				GtnWsHierarchyType.CUSTOMER, nameSpace);
 		customerLevelConfig.setReloadActionConfig(reloadActionConfig);
 		customerLevelConfig.setReloadLogicActionClassName(GtnReportLevelFilterReloadAction.class.getName());
 
@@ -1344,7 +1343,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		filterAction.addActionParameter(indicator);
 
 		filterAction.addActionParameter(
-				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "companyInformationTabCompanyStatus");
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterTabCustomerLevel");
 		filterAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_LEVEL);
 		filterAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE

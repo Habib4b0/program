@@ -7,14 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportDashboardFilterOptionService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
+@RestController
 @RequestMapping(value = GtnWsReportConstants.GTN_REPORT_FILTER_SERVICE)
 public class GtnWsReportDashboardFilterOptionController {
 
@@ -25,9 +28,14 @@ public class GtnWsReportDashboardFilterOptionController {
 	public GtnUIFrameworkWebserviceResponse loadCustProdLevelValues(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
 			throws GtnFrameworkGeneralException {
+		List<Object[]> resultList;
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		List<Object[]> resultList = reportFilterOptionService
-				.getCustAndProdLevelValues(gtnUIFrameworkWebserviceRequest);
+		if (gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean().getHierarchyType()
+				.equals(GtnWsHierarchyType.DEDUCTION)) {
+			resultList = reportFilterOptionService.getDeductionLevelValues();
+		} else {
+			resultList = reportFilterOptionService.getCustAndProdLevelValues(gtnUIFrameworkWebserviceRequest);
+		}
 		List<String> itemCodeList = new ArrayList<>();
 		List<String> itemValueList = new ArrayList<>();
 		for (Object[] object : resultList) {
@@ -45,8 +53,14 @@ public class GtnWsReportDashboardFilterOptionController {
 	public GtnUIFrameworkWebserviceResponse loadCustomerFilter(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
 			throws GtnFrameworkGeneralException {
+		List<Object[]> resultList;
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		List<Object[]> resultList = reportFilterOptionService.loadCustomerLevelFilter(gtnUIFrameworkWebserviceRequest);
+		if (gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean().getHierarchyType()
+				.equals(GtnWsHierarchyType.DEDUCTION)) {
+			resultList = reportFilterOptionService.loadDeductionFilter(gtnUIFrameworkWebserviceRequest);
+		} else {
+			resultList = reportFilterOptionService.loadCustomerLevelFilter(gtnUIFrameworkWebserviceRequest);
+		}
 		List<String> itemCodeList = new ArrayList<>();
 		List<String> itemValueList = new ArrayList<>();
 		for (Object[] object : resultList) {
