@@ -775,6 +775,7 @@ public class ForecastForm extends AbstractForm {
 						Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
 				data.setReloadAfterUpdate(BooleanConstant.getTrueFlag());
 				data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
+                                data.setCustomChange(BooleanConstant.getFalseFlag());
 			}
 
 			/**
