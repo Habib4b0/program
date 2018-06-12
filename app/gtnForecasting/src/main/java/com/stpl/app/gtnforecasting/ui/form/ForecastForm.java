@@ -731,6 +731,10 @@ public class ForecastForm extends AbstractForm {
 								tabSheet.setSelectedTab(tempTabPosition);
 								dsFlag = true;
 								discountFlag = true;
+                                                                session.setSalesHierarchyLevelDetails(
+                                                                dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomRelationShipSid())));
+                                                                session.setDiscountCustomerProductLevelDetails(
+                                                                    dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
 								nmSalesProjection.init();
                                                                 nmSalesProjection.getViewDdlb().select(session.getCustomRelationShipSid());
 								discountProjection.getContent();
