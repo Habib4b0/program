@@ -738,7 +738,8 @@
                		?
                ) SELECT
 				    A.*,
-				    CS.CC CHILD_COUNT
+				    CS.CC CHILD_COUNT,
+				    ROW_NUMBER() OVER (PARTITION BY LEVEL_NO ORDER BY LEVEL_NO) AS ROW_INDEX
 				FROM
 				    CTE A CROSS APPLY(
 				        SELECT
