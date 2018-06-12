@@ -54,9 +54,11 @@ import static com.stpl.app.utils.Constants.CommonConstants.PER_EX_FACTORY_SALES;
 import static com.stpl.app.utils.Constants.CommonConstants.ROLLING_ANNUAL_TREND;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.CommonConstantsForChannels.DISABLE;
+import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
+import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUALLY;
 import static com.stpl.app.utils.Constants.LabelConstants.ACTUALS;
 import static com.stpl.app.utils.Constants.LabelConstants.ASCENDING;
@@ -178,6 +180,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     public static final String PRODUCT1 = "PRODUCT";
     public static final String CUSTOMER1 = "CUSTOMER";
     public static final String STRING_ONE = "1";
+    public static final String AMOUNT_TWO_DECIMAL = "amountTwoDecimal";
     /* To enable or disable level filter listener */
     private boolean enableLevelFilterListener = true;
     /* The bean used to load the Mass Update - value Ddlb */
@@ -2262,7 +2265,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     getCheckedRecordsForMassUpdate(), selectedPeriods, isCustomHierarchy);
             CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(projectionSelection.getViewOption()));
             refreshTableData(getCheckedRecordsHierarchyNo());
-        } else if ("Growth".equals(selectedField)) {
+        } else if (Constant.GROWTH.equals(selectedField)) {
             saveDiscountProjectionListview();
             LOGGER.debug("Growth-->= {}", value);
             discountProjectionLogic.massUpdate(session, projectionSelection, massUpdatePeriods, selectedField, value,
@@ -3173,7 +3176,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             Map<String, String> formatterMap = new HashMap<>();
             formatterMap.put("percentThreeDecimal", "Rate");
             formatterMap.put("currencyTwoDecimal", "RPU");
-            formatterMap.put("amountTwoDecimal", AMOUNT);
+            formatterMap.put(AMOUNT_TWO_DECIMAL, AMOUNT);
             formatterMap.put("sales", "Sales");
             formatterMap.put("units", "Units");
             formatterMap.put("Growth", "Growth");
@@ -4129,21 +4132,23 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 if (freq.equals(QUARTERLY.getConstant())) {
                     historyNum = Integer.parseInt(hist.replace("Quarter", StringUtils.EMPTY)
                             .replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
+                } else if (freq.equals(SEMI_ANNUALLY.getConstant()) || freq.equals(SEMI_ANNUAL.getConstant())) {
                     historyNum = Integer.parseInt(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
                 } else if (freq.equals(MONTHLY.getConstant())) {
                     historyNum = Integer.parseInt(hist.replace("Month", StringUtils.EMPTY)
                             .replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                } else if (freq.equals(ANNUALLY.getConstant())) {
+                } else if (freq.equals(ANNUALLY.getConstant()) || freq.equals(ANNUAL.getConstant())) {
                     historyNum = Integer.parseInt(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
                 }
             } else {
                 historyNum = historyDdlb.getItemIds().size();
             }
+            createProjectSelectionDto(freq,hist,historyNum,yearValue);
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
-
+    }
+private void createProjectSelectionDto(String freq,String hist,int historyNum,String yearValue) {
         projectionSelection.setForecastDTO(session.getForecastDTO());
         projectionSelection.setFrequency(freq);
         projectionSelection.setHistory(hist);
@@ -5663,7 +5668,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             List<Object[]> discountExcelList = getDiscountProjectionExcelResults();
             NMDiscountExcelLogic nmDiscountExcelLogic = new NMDiscountExcelLogic();
             List doubleProjectedAndHistoryCombinedUniqueList = discountProjectionLogic.getDoubleProjectedAndHistoryCombinedUniqueList(rightHeader);
+            if(!isCustomHierarchy){
             nmDiscountExcelLogic.getCustomizedExcelData(discountExcelList, projectionSelection, doubleProjectedAndHistoryCombinedUniqueList);
+            }else{
+            nmDiscountExcelLogic.getCustomizedExcelDataCustom(discountExcelList, projectionSelection, doubleProjectedAndHistoryCombinedUniqueList);
+            }
             DiscountProjectionDTO itemId;
             for (Iterator<String> it = nmDiscountExcelLogic.getHierarchyKeys().listIterator(); it.hasNext();) {
                 String key = it.next();
@@ -5673,14 +5682,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 Object parentItemId;
                 key = key.contains("$") ? key.substring(0, key.indexOf('$')) : key;
                 tempKey = key.trim();
-                if (isCustomHierarchy) {
-                    parentKey = itemId.getParentHierarchyNo();
-                    if (!(itemId.getParentHierarchyNo() == null || "null".equals(itemId.getParentHierarchyNo()))) {
-                        tempKey = itemId.getParentHierarchyNo().trim() + "~" + key.trim();
-                    }
-                } else {
-                    parentKey = CommonUtil.getParentItemId(key, isCustomHierarchy, itemId.getParentHierarchyNo());
-                }
+                parentKey = CommonUtil.getParentItemId(key, isCustomHierarchy, itemId.getParentHierarchyNo());
                 parentItemId = excelParentRecords.get(parentKey);
                 if (parentItemId != null) {
                     excelContainer.setParent(itemId, parentItemId);
@@ -5765,8 +5767,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             Map<String, String> formatter = new HashMap<>();
             formatter.put("percentThreeDecimal", "Rate");
             formatter.put("currencyTwoDecimal", "RPU");
-            formatter.put("amountTwoDecimal", AMOUNT);
-            formatter.put("amountTwoDecimal", AMOUNT);
+            formatter.put(AMOUNT_TWO_DECIMAL, AMOUNT);
+            formatter.put(AMOUNT_TWO_DECIMAL, AMOUNT);
             excelTable.setRefresh(BooleanConstant.getTrueFlag());
             ForecastUI.setEXCEL_CLOSE(true);
             CustomExcelNM excel = null;
@@ -5839,17 +5841,21 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     }
     
     public List getDiscountProjectionExcelResults() {
-        String queryBuilder=StringUtils.EMPTY;
-        String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
-        String deducQuery = NINE_LEVELS_DED;
-        queryBuilder = SQlUtil.getQuery("discount-customerproduct-excelQuery");
-        queryBuilder = queryBuilder.replace("@CUSTORPROD","P".equals(hierarchyIndicator)?"PROD_HIERARCHY_NO":"CUST_HIERARCHY_NO")
-                .replace("@VIEWTABLE","P".equals(hierarchyIndicator)?"ST_PRODUCT_DISCOUNT":"ST_CUSTOMER_DISCOUNT")
-                .replace("@DEDINCLUSION", (session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY:" and STC.DEDUCTION_INCLUSION= "+session.getDeductionInclusion())
-                .replace("@UNIONALL", deducQuery)
-                .replace("@ENDDEDINCLUSION", (session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY:" STC.DEDUCTION_INCLUSION= "+oppositeDed)
-                .replace("@DEDUCTIONLEVEL", (deductionlevelDdlb.getValue()==null || "ALL".equals(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()))? StringUtils.EMPTY:deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())));
-        queryBuilder = QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames());
-        return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder);
+        if (!projectionSelection.isIsCustomHierarchy()) {
+            String queryBuilder = StringUtils.EMPTY;
+            String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
+            String deducQuery = NINE_LEVELS_DED;
+            queryBuilder = SQlUtil.getQuery("discount-customerproduct-excelQuery");
+            queryBuilder = queryBuilder.replace("@CUSTORPROD", "P".equals(hierarchyIndicator) ? "PROD_HIERARCHY_NO" : "CUST_HIERARCHY_NO")
+                    .replace("@VIEWTABLE", "P".equals(hierarchyIndicator) ? "ST_PRODUCT_DISCOUNT" : "ST_CUSTOMER_DISCOUNT")
+                    .replace("@DEDINCLUSION", (session.getDeductionInclusion() == null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY : " and STC.DEDUCTION_INCLUSION= " + session.getDeductionInclusion())
+                    .replace("@UNIONALL", deducQuery)
+                    .replace("@ENDDEDINCLUSION", (session.getDeductionInclusion() == null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY : " STC.DEDUCTION_INCLUSION= " + oppositeDed)
+                    .replace("@DEDUCTIONLEVEL", (deductionlevelDdlb.getValue() == null || "ALL".equals(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())) ? StringUtils.EMPTY : deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())));
+            queryBuilder = QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames());
+            return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder);
+        } else {
+            return DiscountQueryBuilder.getDiscountProjectionCustomExcel(session,PROGRAM.getConstant().equals(level.getValue()),projectionSelection);
+        }
     }
 }

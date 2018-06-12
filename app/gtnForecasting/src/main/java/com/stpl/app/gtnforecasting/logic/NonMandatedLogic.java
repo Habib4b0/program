@@ -1446,14 +1446,15 @@ public class NonMandatedLogic {
      */
     public int saveProjection(final DataSelectionDTO dataSelectionDTO, String screenName) throws SystemException {
         int projectionId = 0;
-        SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd ");
+        SimpleDateFormat hoursMinutes = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
         String customSql = SQlUtil.getQuery("projectionMasterInsert");
         customSql = customSql.replace("@PROJECTION_NAME", dataSelectionDTO.getProjectionName());
         customSql = customSql.replace("@PROJECTION_DESCRIPTION", dataSelectionDTO.getDescription());
         customSql = customSql.replace("@FORECASTING_TYPE", screenName);
         customSql = customSql.replace("@CREATED_BY", userId);
-        customSql = customSql.replace("@CREATED_DATE", DBDate.format(new Date()));
+        customSql = customSql.replace("@CREATED_DATE", hoursMinutes.format(new Date()));
 
         customSql = customSql.replace("@CUSTOMER_HIERARCHY_SID", dataSelectionDTO.getCustomerHierSid().equals(DASH) ? null
                 : String.valueOf(dataSelectionDTO.getCustomerHierSid()));
@@ -2551,59 +2552,6 @@ public class NonMandatedLogic {
 	public void mainToTempTableInsert(SessionDTO session, ExecutorService service) {
             CommonUtil commonUtil = CommonUtil.getInstance();
 		List<Future> tempInsertFutureList = new ArrayList<>();
-                 if (Constant.VIEW.equalsIgnoreCase(session.getAction())) {
-		// SALES MASTER TABLE INSERT
-		String query = SQlUtil.getQuery("Sales_Main_Temp_Master_Insert").replace(Constant.AT_PROJECTION_MASTER_SID,
-				String.valueOf(session.getProjectionId()));
-		tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-				QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
-		// SALES PROJECTION INSERT
-		query = SQlUtil.getQuery("Sales_Main_Temp_Proj_Insert").replace(Constant.AT_PROJECTION_MASTER_SID,
-				String.valueOf(session.getProjectionId()));
-		tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-				QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
-               
-                // SALES ACTUAL INSERT
-		query = SQlUtil.getQuery("Sales_Main_Temp_Actual_Insert").replace(Constant.AT_PROJECTION_MASTER_SID,
-				String.valueOf(session.getProjectionId()));
-		tempInsertFutureList.add(service.submit(CommonUtil.getInstance().createRunnable(Constant.INSERTORUPDATE,
-				QueryUtil.replaceTableNames(query, session.getCurrentTableNames()))));
-                
-		for (Future futureObject : tempInsertFutureList) {
-			commonUtil.waitsForOtherThreadsToComplete(futureObject);
-		}
-		session.addFutureMap(Constant.DISCOUNT_LOWER_CASE,
-				new Future[] {
-						// DISCOUNT MASTER INSERT
-						service.submit(
-								commonUtil
-										.createRunnable(
-												Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(
-														SQlUtil.getQuery("Discount_Main_Temp_Master_Insert").replace(
-																Constant.AT_PROJECTION_MASTER_SID,
-																String.valueOf(session.getProjectionId())),
-														session.getCurrentTableNames()))),
-						// DISCOUNT PROJ INSERT
-						service.submit(
-								commonUtil
-										.createRunnable(
-												Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(
-														SQlUtil.getQuery("Discount_Main_Temp_Proj_Insert").replace(
-																Constant.AT_PROJECTION_MASTER_SID,
-																String.valueOf(session.getProjectionId())),
-														session.getCurrentTableNames())))});
-                
-                session.addFutureMap(Constant.DISCOUNT_LOWER_CASE,
-				new Future[] {service.submit(
-								commonUtil
-										.createRunnable(
-												Constant.INSERTORUPDATE, QueryUtil.replaceTableNames(
-														SQlUtil.getQuery("Discount_Main_Temp_Actual_Insert").replace(
-																Constant.AT_PROJECTION_MASTER_SID,
-																String.valueOf(session.getProjectionId())),
-														session.getCurrentTableNames())))});
-                }
-
 		session.addFutureMap(Constant.PPA_SMALL,
 				new Future[] {
 						// PPA MASTER INSERT

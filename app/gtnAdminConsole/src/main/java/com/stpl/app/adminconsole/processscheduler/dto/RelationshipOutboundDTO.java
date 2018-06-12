@@ -48,8 +48,8 @@ public class RelationshipOutboundDTO implements Serializable {
         return SystemID;
     }
 
-    public void setSystemID(int SystemID) {
-        this.SystemID = SystemID;
+    public void setSystemID(int systemID) {
+        this.SystemID = systemID;
     }
     private Date createdDate;
     private Date modifiedDate;
