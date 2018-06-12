@@ -4,9 +4,16 @@ import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkConfigureRi
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
+import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 
 public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -29,41 +36,34 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 
 		gtnWsLogger.info(" inside GtnFrameworkConfigureRightTableHeaderForPTTCompoAction");
 
-		// GtnForecastBean gtnForecastBean = new GtnForecastBean();
-		// GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new
-		// GtnUIFrameworkWebserviceRequest();
-		//
-		// gtnUIFrameworkWebserviceRequest.setGtnWsReportRequest(new
-		// GtnWsReportRequest());
-		//
-		// GtnWsReportDashboardBean reportDashBoardBean = new
-		// GtnWsReportDashboardBean();
-		//
-		// gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().setGtnWsReportDashboardBean(reportDashBoardBean);
-		//
-		// String[] selectedVariable = GtnUIFrameworkGlobalUI
-		// .getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabVariable",
-		// componentId)
-		// .getStringFromMultiselectComboBox();
-		//
-		// reportDashBoardBean.setSelectedVariableType(selectedVariable);
-		//
-		// String[] selectedVariableCategory = GtnUIFrameworkGlobalUI
-		// .getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabVariableCategory",
-		// componentId)
-		// .getStringFromMultiselectComboBox();
-		//
-		// reportDashBoardBean.setSelectedVariableCategoryType(selectedVariableCategory);
-		//
-		// GtnWsForecastRequest gtnWsForecastRequest = new GtnWsForecastRequest();
-		// gtnWsForecastRequest.setGtnForecastBean(gtnForecastBean);
-		// gtnUIFrameworkWebserviceRequest.setGtnWsForecastRequest(gtnWsForecastRequest);
-		//
-		// GtnUIFrameworkComponentData resultTableComponentData =
-		// GtnUIFrameworkGlobalUI.getVaadinComponentData(
-		// gtnUIFrameWorkActionConfig.getActionParameterList().get(0).toString(),
-		// componentId);
-		// resultTableComponentData.setCustomPagedTreeTableRequest(gtnUIFrameworkWebserviceRequest);
+		GtnForecastBean gtnForecastBean = new GtnForecastBean();
+		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
+
+		gtnUIFrameworkWebserviceRequest.setGtnWsReportRequest(new GtnWsReportRequest());
+
+		GtnWsReportDashboardBean reportDashBoardBean = new GtnWsReportDashboardBean();
+
+		gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().setGtnWsReportDashboardBean(reportDashBoardBean);
+
+		String[] selectedVariable = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabVariable", componentId)
+				.getStringFromMultiselectComboBox();
+
+		reportDashBoardBean.setSelectedVariableType(selectedVariable);
+
+		String[] selectedVariableCategory = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabVariableCategory", componentId)
+				.getStringFromMultiselectComboBox();
+
+		reportDashBoardBean.setSelectedVariableCategoryType(selectedVariableCategory);
+
+		GtnWsForecastRequest gtnWsForecastRequest = new GtnWsForecastRequest();
+		gtnWsForecastRequest.setGtnForecastBean(gtnForecastBean);
+		gtnUIFrameworkWebserviceRequest.setGtnWsForecastRequest(gtnWsForecastRequest);
+
+		GtnUIFrameworkComponentData resultTableComponentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(
+				gtnUIFrameWorkActionConfig.getActionParameterList().get(0).toString(), componentId);
+		resultTableComponentData.setCustomPagedTreeTableRequest(gtnUIFrameworkWebserviceRequest);
 	}
 
 	@Override
