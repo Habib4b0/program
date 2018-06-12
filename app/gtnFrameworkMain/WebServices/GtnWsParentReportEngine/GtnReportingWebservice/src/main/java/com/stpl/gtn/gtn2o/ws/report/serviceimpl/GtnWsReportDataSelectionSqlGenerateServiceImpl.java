@@ -256,6 +256,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		GtnWsRecordBean recordBean = new GtnWsRecordBean();
 		Optional<List> optionalRecordHeader = Optional.of(recordHeader);
 		recordHeader = optionalRecordHeader.orElseGet(ArrayList::new);
+                recordBean.setRecordHeader(recordHeader);
 		recordBean.addAdditionalProperty(bean.getChildCount());//for Child Count
 		recordBean.addAdditionalProperty( bean.getLevelNo());//level No
 		recordBean.addAdditionalProperty(bean.getHierarchyNo());
