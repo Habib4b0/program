@@ -38,485 +38,554 @@ import java.util.Locale;
  *
  * @author Karthik.Raja
  */
-public class GtnUIFrameworkPagedTreeGridComponent implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
-    
-    GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPagedTreeGridComponent.class);
-    @Override
-    public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) throws GtnFrameworkGeneralException {
-        VerticalLayout resultLayout = new VerticalLayout();
-        GtnUIFrameworkPagedTreeTableConfig tableConfig = componentConfig.getGtnPagedTreeTableConfig();
+public class GtnUIFrameworkPagedTreeGridComponent
+		implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
 
-//        String columns[] = Arrays.stream(tableConfig.getLeftTableColumnMappingId()).map(Object::toString).toArray(String[]::new);
-//        pagedTreeTableConfig.setVisibleColumns(Arrays.asList(columns));
-//        
-//        
-//        pagedTreeTableConfig.setColumnHeaders(Arrays.asList(tableConfig.getLeftTableVisibleHeader()));
-//        QueryBean queryBean = GtnUIFrameworkGlobalUI.setQueryBean(tableConfig);
-//        pagedTreeTableConfig.setQueryBean(queryBean);
-        if (tableConfig.getLeftHeader() != null) {
-            this.configureLeftTablHeader(tableConfig, componentConfig.getSourceViewId());
-        }
-        if (tableConfig.getRightHeader() != null) {
-            this.configureRightTableHeader(tableConfig, componentConfig.getSourceViewId());
-        }
-        configureTableHeaders(tableConfig);
-        PagedTreeGrid pagedTreeGrid = new PagedTreeGrid(tableConfig, componentConfig);
-        resultLayout.setSizeFull();
-        resultLayout.addComponent(pagedTreeGrid.getGrid());
-        pagedTreeGrid.getGrid().setWidth(componentConfig.getComponentWidth());
-        pagedTreeGrid.getGrid().setHeight(componentConfig.getComponentHight());
+	GtnWSLogger gtnlogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPagedTreeGridComponent.class);
 
-        resultLayout.setComponentAlignment(pagedTreeGrid.getGrid(), Alignment.MIDDLE_CENTER);
-        GtnUIFrameworkComponentData componentData = new GtnUIFrameworkComponentData();
-        componentData.setCustomData(pagedTreeGrid);
+	@Override
+	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig)
+			throws GtnFrameworkGeneralException {
+		VerticalLayout resultLayout = new VerticalLayout();
+		GtnUIFrameworkPagedTreeTableConfig tableConfig = componentConfig.getGtnPagedTreeTableConfig();
 
-        pagedTreeGrid.getGrid().getEditor().setEnabled(true);
-        pagedTreeGrid.getGrid().setData(componentData);
-//        resultLayout.setData(componentData);
+		// String columns[] =
+		// Arrays.stream(tableConfig.getLeftTableColumnMappingId()).map(Object::toString).toArray(String[]::new);
+		// pagedTreeTableConfig.setVisibleColumns(Arrays.asList(columns));
+		//
+		//
+		// pagedTreeTableConfig.setColumnHeaders(Arrays.asList(tableConfig.getLeftTableVisibleHeader()));
+		// QueryBean queryBean = GtnUIFrameworkGlobalUI.setQueryBean(tableConfig);
+		// pagedTreeTableConfig.setQueryBean(queryBean);
 
-        try {
+		configureTableHeaders(tableConfig, componentConfig.getSourceViewId());
+		PagedTreeGrid pagedTreeGrid = new PagedTreeGrid(tableConfig, componentConfig);
+		resultLayout.setSizeFull();
+		resultLayout.addComponent(pagedTreeGrid.getGrid());
+		pagedTreeGrid.getGrid().setWidth(componentConfig.getComponentWidth());
+		pagedTreeGrid.getGrid().setHeight(componentConfig.getComponentHight());
 
-//            GtnUIFrameworkPagedTreeTableLogic tableLogic = getPagedTableLogicClass(componentConfig, componentData);
-//            pagedTreeGrid.addStyleNames(componentConfig.getComponentStyle().toArray(new String[componentConfig.getComponentStyle().size()]));
-            // ConfigureTables
-            initializeResultTable(pagedTreeGrid, tableConfig);
-            pagedTreeGrid.setPageLength(tableConfig.getPageLength());
+		resultLayout.setComponentAlignment(pagedTreeGrid.getGrid(), Alignment.MIDDLE_CENTER);
+		GtnUIFrameworkComponentData componentData = new GtnUIFrameworkComponentData();
+		componentData.setCustomData(pagedTreeGrid);
 
-//			addFieldFactory(pagedTreeGrid, tableConfig, componentData);
-//            componentData.setCurrentComponentConfig(componentConfig);
-//            componentData.getCurrentComponentConfig().setGtnPagedTreeTableConfig(tableConfig);
-//            componentData.setCustomData(this);
-//            componentData.addCustomDataToList(pagedTreeGrid);
-//            componentData.addCustomDataToList(new HashSet<String>());
-//            componentData.addCustomDataToList(new HashSet<String>());
-//            pagedTreeGrid.addStyleNames("filterbar", "v-has-width", "v-table-filterbar", "table-header-normal");
-//            pagedTreeGrid.addStyleNames("filterbar", "v-has-width", "v-table-filterbar", "table-header-normal");
-            resultLayout.setSizeFull();
-            VerticalLayout controls = new VerticalLayout();
-            controls.addComponents(pagedTreeGrid.getControlLayout());
-            controls.setWidth("100%");
-            controls.setHeightUndefined();
-            resultLayout.addComponent(pagedTreeGrid.getGrid());
-            resultLayout.addComponent(controls);
-            resultLayout.setData(componentData);
-        } catch (Exception exception) {
-            throw new GtnFrameworkGeneralException("Exception while loading the table logic", exception);
-        }
-        return resultLayout;
-    }
+		pagedTreeGrid.getGrid().getEditor().setEnabled(true);
+		pagedTreeGrid.getGrid().setData(componentData);
+		// resultLayout.setData(componentData);
+		componentData.setCurrentGtnComponent(this);
+		try {
 
-    /**
-     * Initialize Result Table.
-     * @param resultsTable
-     * @param tableConfig
-     */
-    protected void initializeResultTable(PagedTreeGrid resultsTable,
-            GtnUIFrameworkPagedTreeTableConfig tableConfig) {
-        resultsTable.getGrid().markAsDirty();
-        resultsTable.getGrid().setSelectionMode(Grid.SelectionMode.NONE);
-//		resultsTable.getGrid().setSplitPosition(tableConfig.getSplitPosition(), Sizeable.Unit.PIXELS);
-//		resultsTable.setMinSplitPosition(tableConfig.getMinSplitPosition(), Sizeable.Unit.PIXELS);
-//		resultsTable.setMaxSplitPosition(tableConfig.getMaxSplitPosition(), Sizeable.Unit.PIXELS);
-//		resultsTable.addStyleNames(ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE);
-    }
+			// GtnUIFrameworkPagedTreeTableLogic tableLogic =
+			// getPagedTableLogicClass(componentConfig, componentData);
+			// pagedTreeGrid.addStyleNames(componentConfig.getComponentStyle().toArray(new
+			// String[componentConfig.getComponentStyle().size()]));
+			// ConfigureTables
+			initializeResultTable(pagedTreeGrid, tableConfig);
+			pagedTreeGrid.setPageLength(tableConfig.getPageLength());
 
-    /**
-     * Configuration method to fire required tables headers
-     *
-     * @param tableConfig
-     */
-    @SuppressWarnings("rawtypes")
-    protected void configureTableHeaders(
-            GtnUIFrameworkPagedTreeTableConfig tableConfig) {
+			// addFieldFactory(pagedTreeGrid, tableConfig, componentData);
+			// componentData.setCurrentComponentConfig(componentConfig);
+			// componentData.getCurrentComponentConfig().setGtnPagedTreeTableConfig(tableConfig);
+			// componentData.setCustomData(this);
+			// componentData.addCustomDataToList(pagedTreeGrid);
+			// componentData.addCustomDataToList(new HashSet<String>());
+			// componentData.addCustomDataToList(new HashSet<String>());
+			// pagedTreeGrid.addStyleNames("filterbar", "v-has-width", "v-table-filterbar",
+			// "table-header-normal");
+			// pagedTreeGrid.addStyleNames("filterbar", "v-has-width", "v-table-filterbar",
+			// "table-header-normal");
+			resultLayout.setSizeFull();
+			VerticalLayout controls = new VerticalLayout();
+			controls.addComponents(pagedTreeGrid.getControlLayout());
+			controls.setWidth("100%");
+			controls.setHeightUndefined();
+			resultLayout.addComponent(pagedTreeGrid.getGrid());
+			resultLayout.addComponent(controls);
+			resultLayout.setData(componentData);
+		} catch (Exception exception) {
+			throw new GtnFrameworkGeneralException("Exception while loading the table logic", exception);
+		}
+		return resultLayout;
+	}
 
-//		final ExtTreeContainer<GtnWsRecordBean> container = new ExtTreeContainer<>(GtnWsRecordBean.class,
-//				ExtContainer.DataStructureMode.LIST);
-//		GtnUIFrameworkPagedTreeTableLogic tableLogic = (GtnUIFrameworkPagedTreeTableLogic) pagedTreeGrid
-//				.getLeftFreezeAsTable().getContainerLogic();
-        List<Object> leftVisibleColumnList = new ArrayList<>(Arrays.asList(tableConfig.getLeftTableColumnMappingId()));
-        List<Object> rightVisibleColumnList = new ArrayList<>(Arrays.asList(tableConfig.getRightTableColumnMappingId()));
-        List<Object> recordHeader = new ArrayList<>();
-        recordHeader.addAll(leftVisibleColumnList);
-        recordHeader.addAll(rightVisibleColumnList);
-//		container.setRecordHeader(recordHeader);
-//		Map<Object, Class> dataType = new HashMap<>();
-//		for (int i = 0; i < recordHeader.size(); i++) {
-//			dataType.put(recordHeader.get(i).toString(), String.class);
-//		}
-//		container.setColumnProperties(dataType);
-//		pagedTreeGrid.setRecordHeader(recordHeader);
-//		pagedTreeGrid.setContainerDataSource(container);
+	/**
+	 * Initialize Result Table.
+	 * 
+	 * @param resultsTable
+	 * @param tableConfig
+	 */
+	protected void initializeResultTable(PagedTreeGrid resultsTable, GtnUIFrameworkPagedTreeTableConfig tableConfig) {
+		resultsTable.getGrid().markAsDirty();
+		resultsTable.getGrid().setSelectionMode(Grid.SelectionMode.NONE);
+		// resultsTable.getGrid().setSplitPosition(tableConfig.getSplitPosition(),
+		// Sizeable.Unit.PIXELS);
+		// resultsTable.setMinSplitPosition(tableConfig.getMinSplitPosition(),
+		// Sizeable.Unit.PIXELS);
+		// resultsTable.setMaxSplitPosition(tableConfig.getMaxSplitPosition(),
+		// Sizeable.Unit.PIXELS);
+		// resultsTable.addStyleNames(ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE);
+	}
 
-        List<String> leftHeaderList = new ArrayList<>(Arrays.asList(tableConfig.getLeftTableVisibleHeader()));
-        List<String> rightHeaderList = new ArrayList<>(Arrays.asList(tableConfig.getRightTableVisibleHeader()));
-//		final ExtFilterTreeTable leftTable = resultsTable.getLeftFreezeAsTable();
-//		final ExtFilterTreeTable rightTable = resultsTable.getRightFreezeAsTable();
+	/**
+	 * Configuration method to fire required tables headers
+	 *
+	 * @param tableConfig
+	 * @param componentId
+	 * @param string
+	 * @throws GtnFrameworkGeneralException
+	 */
+	@SuppressWarnings("rawtypes")
+	protected void configureTableHeaders(GtnUIFrameworkPagedTreeTableConfig tableConfig, String sourceViewId)
+			throws GtnFrameworkGeneralException {
 
-//		leftTable.setImmediate(true);
-//		leftTable.reConstruct(true);
-//		resultsTable.setHeight(tableConfig.getTableHeight());
-//		leftTable.setHeight(tableConfig.getTableHeight());
-        leftVisibleColumnList.addAll(rightVisibleColumnList);
-        leftHeaderList.addAll(rightHeaderList);
+		if (tableConfig.getLeftHeader() != null) {
+			this.configureLeftTablHeader(tableConfig, sourceViewId);
+		}
+		if (tableConfig.getRightHeader() != null) {
+			this.configureRightTableHeader(tableConfig, sourceViewId);
+		}
 
-        tableConfig.setVisibleColumns(leftVisibleColumnList);
-        tableConfig.setColumnHeaders(leftHeaderList);
+		// final ExtTreeContainer<GtnWsRecordBean> container = new
+		// ExtTreeContainer<>(GtnWsRecordBean.class,
+		// ExtContainer.DataStructureMode.LIST);
+		// GtnUIFrameworkPagedTreeTableLogic tableLogic =
+		// (GtnUIFrameworkPagedTreeTableLogic) pagedTreeGrid
+		// .getLeftFreezeAsTable().getContainerLogic();
+		List<Object> leftVisibleColumnList = new ArrayList<>(Arrays.asList(tableConfig.getLeftTableColumnMappingId()));
+		List<Object> rightVisibleColumnList = new ArrayList<>(
+				Arrays.asList(tableConfig.getRightTableColumnMappingId()));
+		List<Object> recordHeader = new ArrayList<>();
+		recordHeader.addAll(leftVisibleColumnList);
+		recordHeader.addAll(rightVisibleColumnList);
+		// container.setRecordHeader(recordHeader);
+		// Map<Object, Class> dataType = new HashMap<>();
+		// for (int i = 0; i < recordHeader.size(); i++) {
+		// dataType.put(recordHeader.get(i).toString(), String.class);
+		// }
+		// container.setColumnProperties(dataType);
+		// pagedTreeGrid.setRecordHeader(recordHeader);
+		// pagedTreeGrid.setContainerDataSource(container);
 
-//		leftTable.setColumnHeaders(leftHeaderList.toArray(new String[leftHeaderList.size()]));
-//
-//		rightTable.setImmediate(true);
-//		rightTable.reConstruct(true);
-//		rightTable.setHeight(tableConfig.getTableHeight());
-//		rightTable.setVisibleColumns(.toArray());
-//		rightTable.setColumnHeaders(rightHeaderList.toArray(new String[rightHeaderList.size()]));
-//        if (tableConfig.isDoubleHeaderVisible()) {
-//              List<Object> doubleHeaderVisibleColumns = new ArrayList<>(Arrays.asList(tableConfig.getLeftTableColumnMappingId()));
-//           List<Object> doubleHeaderVisibleHeaders = new ArrayList<>(Arrays.asList(tableConfig.getRightTableColumnMappingId()));
-//            tableConfig.getLeftTableDoubleHeaderVisibleHeaders().addAll(doubleHeaderVisibleHeaders);
-//            tableConfig.getLeftTableDoubleHeaderVisibleColumns().addAll(doubleHeaderVisibleColumns);
-//			leftTable.setDoubleHeaderVisible(true);
-//			leftTable.setDoubleHeaderVisibleColumns(.toArray());
-//			leftTable.setDoubleHeaderColumnHeaders(tableConfig.getLeftTableDoubleHeaderVisibleHeaders()
-//					.toArray(new String[tableConfig.getLeftTableDoubleHeaderVisibleHeaders().size()]));
-//			leftTable.setDoubleHeaderMap(tableConfig.getLeftTableDoubleHeaderMap());
-//
-//			rightTable.setDoubleHeaderVisible(true);
-//			rightTable.setDoubleHeaderVisibleColumns(.toArray());
-//			rightTable.setDoubleHeaderColumnHeaders(
-//					.toArray(new String[tableConfig.getRightTableDoubleVisibleHeaders().size()]));
-//			rightTable.setDoubleHeaderMap(tableConfig.getRightTableDoubleHeaderMap());
-//
-//			List<Object> doubleHeaderColumns = tableConfig.getRightTableDoubleHeaderVisibleColumns();
-//			for (Object doubleHeaderColumn : doubleHeaderColumns) {
-//				rightTable.setDoubleHeaderColumnCheckBox(doubleHeaderColumn, true);
-//				// rightTable.setDoubleHeaderColumnCheckBoxDisable(); need to
-//				// implement
-//			}
-//        }
-    }
+		List<String> leftHeaderList = new ArrayList<>(Arrays.asList(tableConfig.getLeftTableVisibleHeader()));
+		List<String> rightHeaderList = new ArrayList<>(Arrays.asList(tableConfig.getRightTableVisibleHeader()));
+		// final ExtFilterTreeTable leftTable = resultsTable.getLeftFreezeAsTable();
+		// final ExtFilterTreeTable rightTable = resultsTable.getRightFreezeAsTable();
 
-    public void reloadComponent(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String componentId,
-            String sourceComponentId) throws GtnFrameworkGeneralException {
-//		AbstractComponent resultLayoutInMap = GtnUIFrameworkGlobalUI.getVaadinComponent(componentId, sourceComponentId);
-//		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) resultLayoutInMap.getData();
-//		PagedTreeGrid  resultsTable = (PagedTreeGrid ) componentData.getCustomDataList().get(0);
-//		GtnUIFrameworkPagedTreeTableConfig tableConfig = componentData.getCurrentComponentConfig()
-//				.getGtnPagedTreeTableConfig();
-//		GtnUIFrameworkPagedTreeTableLogic tableLogic = (GtnUIFrameworkPagedTreeTableLogic) resultsTable
-//				.getLeftFreezeAsTable().getContainerLogic();
-//		formHeadersAndConfig(gtnUIFrameWorkActionConfig, tableConfig, resultsTable, tableLogic, componentData);
-    }
+		// leftTable.setImmediate(true);
+		// leftTable.reConstruct(true);
+		// resultsTable.setHeight(tableConfig.getTableHeight());
+		// leftTable.setHeight(tableConfig.getTableHeight());
+		leftVisibleColumnList.addAll(rightVisibleColumnList);
+		leftHeaderList.addAll(rightHeaderList);
 
-    /**
-     * This is the method to form Dynamic Header based on the inputs. The input
-     * is List<List<String>>
-     *
-     * 1. Single Header - Visible column list 2. Single Header - Column Values
-     * 3. Double Header - Visible column list 4. Double Header - Column Values
-     *
-     * 4 List should be added in a single List and to be sent as an input to
-     * this method to form dynamic Headers
-     *
-     * @param configureInputList
-     * @throws GtnFrameworkGeneralException
-     */
-    private void formHeadersAndConfig(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig,
-            GtnUIFrameworkPagedTreeTableConfig tableConfig, PagedTreeGrid pagedTreeGrid,
-            GtnUIFrameworkPagedTreeTableLogic tableLogic, GtnUIFrameworkComponentData componentData)
-            throws GtnFrameworkGeneralException {
-        try {
+		tableConfig.setVisibleColumns(leftVisibleColumnList);
+		tableConfig.setColumnHeaders(leftHeaderList);
 
-            GtnWsPagedTreeTableResponse leftTableHeaders = loadLeftHeader(gtnUIFrameWorkActionConfig, tableConfig,
-                    componentData.getComponentIdInMap());
+		// leftTable.setColumnHeaders(leftHeaderList.toArray(new
+		// String[leftHeaderList.size()]));
+		//
+		// rightTable.setImmediate(true);
+		// rightTable.reConstruct(true);
+		// rightTable.setHeight(tableConfig.getTableHeight());
+		// rightTable.setVisibleColumns(.toArray());
+		// rightTable.setColumnHeaders(rightHeaderList.toArray(new
+		// String[rightHeaderList.size()]));
+		// if (tableConfig.isDoubleHeaderVisible()) {
+		// List<Object> doubleHeaderVisibleColumns = new
+		// ArrayList<>(Arrays.asList(tableConfig.getLeftTableColumnMappingId()));
+		// List<Object> doubleHeaderVisibleHeaders = new
+		// ArrayList<>(Arrays.asList(tableConfig.getRightTableColumnMappingId()));
+		// tableConfig.getLeftTableDoubleHeaderVisibleHeaders().addAll(doubleHeaderVisibleHeaders);
+		// tableConfig.getLeftTableDoubleHeaderVisibleColumns().addAll(doubleHeaderVisibleColumns);
+		// leftTable.setDoubleHeaderVisible(true);
+		// leftTable.setDoubleHeaderVisibleColumns(.toArray());
+		// leftTable.setDoubleHeaderColumnHeaders(tableConfig.getLeftTableDoubleHeaderVisibleHeaders()
+		// .toArray(new
+		// String[tableConfig.getLeftTableDoubleHeaderVisibleHeaders().size()]));
+		// leftTable.setDoubleHeaderMap(tableConfig.getLeftTableDoubleHeaderMap());
+		//
+		// rightTable.setDoubleHeaderVisible(true);
+		// rightTable.setDoubleHeaderVisibleColumns(.toArray());
+		// rightTable.setDoubleHeaderColumnHeaders(
+		// .toArray(new
+		// String[tableConfig.getRightTableDoubleVisibleHeaders().size()]));
+		// rightTable.setDoubleHeaderMap(tableConfig.getRightTableDoubleHeaderMap());
+		//
+		// List<Object> doubleHeaderColumns =
+		// tableConfig.getRightTableDoubleHeaderVisibleColumns();
+		// for (Object doubleHeaderColumn : doubleHeaderColumns) {
+		// rightTable.setDoubleHeaderColumnCheckBox(doubleHeaderColumn, true);
+		// // rightTable.setDoubleHeaderColumnCheckBoxDisable(); need to
+		// // implement
+		// }
+		// }
+	}
 
-            GtnWsPagedTreeTableResponse rightTableHeaders = loadRightHeader(gtnUIFrameWorkActionConfig, tableConfig,
-                    componentData.getComponentIdInMap());
+	public void reloadComponent(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String componentId,
+			String sourceComponentId) throws GtnFrameworkGeneralException {
+		// AbstractComponent resultLayoutInMap =
+		// GtnUIFrameworkGlobalUI.getVaadinComponent(componentId, sourceComponentId);
+		// GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData)
+		// resultLayoutInMap.getData();
+		// PagedTreeGrid resultsTable = (PagedTreeGrid )
+		// componentData.getCustomDataList().get(0);
+		// GtnUIFrameworkPagedTreeTableConfig tableConfig =
+		// componentData.getCurrentComponentConfig()
+		// .getGtnPagedTreeTableConfig();
+		// GtnUIFrameworkPagedTreeTableLogic tableLogic =
+		// (GtnUIFrameworkPagedTreeTableLogic) resultsTable
+		// .getLeftFreezeAsTable().getContainerLogic();
+		// formHeadersAndConfig(gtnUIFrameWorkActionConfig, tableConfig, resultsTable,
+		// tableLogic, componentData);
+	}
 
-            setHeaderConfig(leftTableHeaders, rightTableHeaders, pagedTreeGrid, tableLogic, componentData);
-        } catch (GtnFrameworkValidationFailedException e) {
-            throw new GtnFrameworkValidationFailedException("Error in formHeadersAndConfig ", e);
-        }
-    }
+	/**
+	 * This is the method to form Dynamic Header based on the inputs. The input is
+	 * List<List<String>>
+	 *
+	 * 1. Single Header - Visible column list 2. Single Header - Column Values 3.
+	 * Double Header - Visible column list 4. Double Header - Column Values
+	 *
+	 * 4 List should be added in a single List and to be sent as an input to this
+	 * method to form dynamic Headers
+	 *
+	 * @param configureInputList
+	 * @throws GtnFrameworkGeneralException
+	 */
+	private void formHeadersAndConfig(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig,
+			GtnUIFrameworkPagedTreeTableConfig tableConfig, PagedTreeGrid pagedTreeGrid,
+			GtnUIFrameworkPagedTreeTableLogic tableLogic, GtnUIFrameworkComponentData componentData)
+			throws GtnFrameworkGeneralException {
+		try {
 
-    @Override
-    public void reloadComponent(GtnUIFrameworkActionType action, String dependentComponentId, String componentId,
-            Object reloadInput) {
-        return;
+			GtnWsPagedTreeTableResponse leftTableHeaders = loadLeftHeader(gtnUIFrameWorkActionConfig, tableConfig,
+					componentData.getComponentIdInMap(), "");
 
-    }
+			GtnWsPagedTreeTableResponse rightTableHeaders = loadRightHeader(gtnUIFrameWorkActionConfig, tableConfig,
+					componentData.getComponentIdInMap(), "");
 
-    private GtnUIFrameworkPagedTreeTableLogic getPagedTableLogicClass(GtnUIFrameworkComponentConfig componentConfig,
-            GtnUIFrameworkComponentData componentData) throws GtnFrameworkGeneralException {
-        GtnUIFrameworkPagedTreeTableLogic tableLogic;
-        if (componentConfig.getPagedTableLogicClassName() == null) {
-            tableLogic = new GtnUIFrameworkPagedTreeTableLogic(componentData);
-        } else {
-            GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
-            tableLogic = (GtnUIFrameworkPagedTreeTableLogic) classLoader
-                    .loadDynamicClass(componentConfig.getPagedTableLogicClassName());
-        }
-        return tableLogic;
-    }
+			setHeaderConfig(leftTableHeaders, rightTableHeaders, pagedTreeGrid, tableLogic, componentData);
+		} catch (GtnFrameworkValidationFailedException e) {
+			throw new GtnFrameworkValidationFailedException("Error in formHeadersAndConfig ", e);
+		}
+	}
 
-//	private void addFieldFactory(PagedTreeGrid  resultsTable, GtnUIFrameworkPagedTreeTableConfig tableConfig,
-//			GtnUIFrameworkComponentData componentData) {
-//		if (tableConfig.isLeftTableEditable()) {
-//
-//			addTableFieldFactory(resultsTable.getLeftFreezeAsTable(),
-//					tableConfig.getLeftTableCustomFieldFactoryClassname(), tableConfig.getLeftTableEditableColumnList(),
-//					tableConfig.getLeftTableEditableComponentConfig(), componentData);
-//		}
-//		if (tableConfig.isRightTableEditable()) {
-//
-//			addTableFieldFactory(resultsTable.getRightFreezeAsTable(),
-//					tableConfig.getRightTableCustomFieldFactoryClassname(),
-//					tableConfig.getRightTableEditableColumnList(), tableConfig.getRightTableEditableComponentConfig(),
-//					componentData);
-//		}
-//	}
-//	private void addTableFieldFactory(ExtFilterTreeTable resultTable, String customFieldFactoryClassname,
-//			List<String> editableColumnList, List<GtnUIFrameworkComponentConfig> editableField,
-//			GtnUIFrameworkComponentData componentData) {
-//		resultTable.setEditable(true);
-//		if (customFieldFactoryClassname == null) {
-//			resultTable.setTableFieldFactory(
-//					new GtnUIFrameworkCustomFieldFactory(editableColumnList, editableField, componentData));
-//		} else {
-//			try {
-//				GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
-//				DefaultFieldFactory fieldFactory = (DefaultFieldFactory) classLoader
-//						.loadDynamicClass(customFieldFactoryClassname);
-//				if (fieldFactory instanceof GtnUIFrameworkCustomFieldFactory) {
-//					GtnUIFrameworkCustomFieldFactory tempFieldFactory = ((GtnUIFrameworkCustomFieldFactory) fieldFactory);
-//					tempFieldFactory.setEditableColumnList(editableColumnList);
-//					tempFieldFactory.setEditableComponentConfig(editableField);
-//
-//				}
-//				resultTable.setTableFieldFactory(fieldFactory);
-//			} catch (GtnFrameworkGeneralException fieldFactoryException) {
-//				gtnLogger.error("Custom Field Factory : ", fieldFactoryException);
-//			}
-//		}
-//	}
-    @Override
-    public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
-        VerticalLayout resultLayout = (VerticalLayout) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
-        GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) resultLayout.getData();
-//        PagedTreeGrid resultsTable = (PagedTreeGrid) componentData.getCustomDataList().get(0);
-//		GtnUIFrameworkPagedTreeTableLogic tableLogic = (GtnUIFrameworkPagedTreeTableLogic) resultsTable
-//				.getLeftFreezeAsTable().getContainerLogic();
-//		tableLogic.clearAll();
-    }
+	@Override
+	public void reloadComponent(GtnUIFrameworkActionType action, String dependentComponentId, String componentId,
+			Object reloadInput) {
+		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(componentId, dependentComponentId).getComponentData();
+		GtnUIFrameworkPagedTreeTableConfig config = componentData.getCurrentComponentConfig()
+				.getGtnPagedTreeTableConfig();
+		PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
+		grid.getGrid().removeAllColumns();
+		try {
+			configureTableHeaders(config, componentData.getViewId());
+		} catch (GtnFrameworkGeneralException e) {
+			gtnlogger.error("Error in loading headers ", e);
+		}
+		grid.setTableConfig(config);
+		grid.setColumnPageNumber(0);
+		grid.initializeGrid();
+		return;
 
-    /**
-     * @param tableConfig
-     * @throws GtnFrameworkGeneralException GtnUIFrameworkWebserviceRequest
-     * dummy request for initial load
-     */
-    private void configureLeftTablHeader(GtnUIFrameworkPagedTreeTableConfig tableConfig, String sourceViewId)
-            throws GtnFrameworkGeneralException {
+	}
 
-        String classPath = tableConfig.getLeftHeaderCustomClassLoadUrl();
-        classLoader(tableConfig.getGtnUIFrameWorkActionConfig(), classPath, sourceViewId);
-        GtnUIFrameworkWebserviceRequest leftHeaderRequest = getCustomPagedTreeTableRequest(
-                tableConfig.getGtnUIFrameWorkActionConfig(), sourceViewId);
-        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-        GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(tableConfig.getLeftHeader(),
-                tableConfig.getModuleName(), leftHeaderRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-        GtnWsPagedTreeTableResponse leftTableHeaders = response.getGtnWSPagedTreeTableResponse();
+	private GtnUIFrameworkPagedTreeTableLogic getPagedTableLogicClass(GtnUIFrameworkComponentConfig componentConfig,
+			GtnUIFrameworkComponentData componentData) throws GtnFrameworkGeneralException {
+		GtnUIFrameworkPagedTreeTableLogic tableLogic;
+		if (componentConfig.getPagedTableLogicClassName() == null) {
+			tableLogic = new GtnUIFrameworkPagedTreeTableLogic(componentData);
+		} else {
+			GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
+			tableLogic = (GtnUIFrameworkPagedTreeTableLogic) classLoader
+					.loadDynamicClass(componentConfig.getPagedTableLogicClassName());
+		}
+		return tableLogic;
+	}
 
-        tableConfig.setLeftTableColumnMappingId(leftTableHeaders.getSingleColumns().toArray());
-        tableConfig.setLeftTableVisibleHeader(Arrays.copyOf(leftTableHeaders.getSingleHeaders().toArray(),
-                leftTableHeaders.getSingleHeaders().toArray().length, String[].class));
+	// private void addFieldFactory(PagedTreeGrid resultsTable,
+	// GtnUIFrameworkPagedTreeTableConfig tableConfig,
+	// GtnUIFrameworkComponentData componentData) {
+	// if (tableConfig.isLeftTableEditable()) {
+	//
+	// addTableFieldFactory(resultsTable.getLeftFreezeAsTable(),
+	// tableConfig.getLeftTableCustomFieldFactoryClassname(),
+	// tableConfig.getLeftTableEditableColumnList(),
+	// tableConfig.getLeftTableEditableComponentConfig(), componentData);
+	// }
+	// if (tableConfig.isRightTableEditable()) {
+	//
+	// addTableFieldFactory(resultsTable.getRightFreezeAsTable(),
+	// tableConfig.getRightTableCustomFieldFactoryClassname(),
+	// tableConfig.getRightTableEditableColumnList(),
+	// tableConfig.getRightTableEditableComponentConfig(),
+	// componentData);
+	// }
+	// }
+	// private void addTableFieldFactory(ExtFilterTreeTable resultTable, String
+	// customFieldFactoryClassname,
+	// List<String> editableColumnList, List<GtnUIFrameworkComponentConfig>
+	// editableField,
+	// GtnUIFrameworkComponentData componentData) {
+	// resultTable.setEditable(true);
+	// if (customFieldFactoryClassname == null) {
+	// resultTable.setTableFieldFactory(
+	// new GtnUIFrameworkCustomFieldFactory(editableColumnList, editableField,
+	// componentData));
+	// } else {
+	// try {
+	// GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
+	// DefaultFieldFactory fieldFactory = (DefaultFieldFactory) classLoader
+	// .loadDynamicClass(customFieldFactoryClassname);
+	// if (fieldFactory instanceof GtnUIFrameworkCustomFieldFactory) {
+	// GtnUIFrameworkCustomFieldFactory tempFieldFactory =
+	// ((GtnUIFrameworkCustomFieldFactory) fieldFactory);
+	// tempFieldFactory.setEditableColumnList(editableColumnList);
+	// tempFieldFactory.setEditableComponentConfig(editableField);
+	//
+	// }
+	// resultTable.setTableFieldFactory(fieldFactory);
+	// } catch (GtnFrameworkGeneralException fieldFactoryException) {
+	// gtnLogger.error("Custom Field Factory : ", fieldFactoryException);
+	// }
+	// }
+	// }
+	@Override
+	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
+		VerticalLayout resultLayout = (VerticalLayout) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
+		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) resultLayout.getData();
+		// PagedTreeGrid resultsTable = (PagedTreeGrid)
+		// componentData.getCustomDataList().get(0);
+		// GtnUIFrameworkPagedTreeTableLogic tableLogic =
+		// (GtnUIFrameworkPagedTreeTableLogic) resultsTable
+		// .getLeftFreezeAsTable().getContainerLogic();
+		// tableLogic.clearAll();
+	}
 
-        tableConfig.setLeftTableDoubleHeaderVisibleColumns(leftTableHeaders.getDoubleColumns());
-        tableConfig.setLeftTableDoubleHeaderVisibleHeaders(leftTableHeaders.getDoubleHeaders());
-        tableConfig.setLeftTableDoubleHeaderMap(leftTableHeaders.getDoubleHeaderMaps());
+	/**
+	 * @param tableConfig
+	 * @throws GtnFrameworkGeneralException
+	 *             GtnUIFrameworkWebserviceRequest dummy request for initial load
+	 */
+	private void configureLeftTablHeader(GtnUIFrameworkPagedTreeTableConfig tableConfig, String sourceViewId)
+			throws GtnFrameworkGeneralException {
 
-    }
+		String classPath = tableConfig.getLeftHeaderCustomClassLoadUrl();
+		classLoader(tableConfig.getGtnUIFrameWorkActionConfig(), classPath, sourceViewId);
+		GtnUIFrameworkWebserviceRequest leftHeaderRequest = getCustomPagedTreeTableRequest(tableConfig, sourceViewId);
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(tableConfig.getLeftHeader(),
+				tableConfig.getModuleName(), leftHeaderRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnWsPagedTreeTableResponse leftTableHeaders = response.getGtnWSPagedTreeTableResponse();
 
-    private void configureRightTableHeader(GtnUIFrameworkPagedTreeTableConfig tableConfig, String sourceViewId)
-            throws GtnFrameworkGeneralException {
+		tableConfig.setLeftTableColumnMappingId(leftTableHeaders.getSingleColumns().toArray());
+		tableConfig.setLeftTableVisibleHeader(Arrays.copyOf(leftTableHeaders.getSingleHeaders().toArray(),
+				leftTableHeaders.getSingleHeaders().toArray().length, String[].class));
 
-        String classPath = tableConfig.getRightHeaderCustomClassLoadUrl();
-        classLoader(tableConfig.getGtnUIFrameWorkActionConfig(), classPath, sourceViewId);
-        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = getCustomPagedTreeTableRequest(
-                tableConfig.getGtnUIFrameWorkActionConfig(), sourceViewId);
-        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-        GtnUIFrameworkWebserviceResponse responseForRightHeader = client.callGtnWebServiceUrl(
-                tableConfig.getRightHeader(), tableConfig.getModuleName(), gtnUIFrameworkWebserviceRequest,
-                GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-        GtnWsPagedTreeTableResponse rightTableHeaders = responseForRightHeader.getGtnWSPagedTreeTableResponse();
-        tableConfig.setRightTableColumnMappingId(rightTableHeaders.getSingleColumns().toArray());
-        tableConfig.setRightTableVisibleHeader(Arrays.copyOf(rightTableHeaders.getSingleHeaders().toArray(),
-                rightTableHeaders.getSingleHeaders().toArray().length, String[].class));
+		tableConfig.setLeftTableDoubleHeaderVisibleColumns(leftTableHeaders.getDoubleColumns());
+		tableConfig.setLeftTableDoubleHeaderVisibleHeaders(leftTableHeaders.getDoubleHeaders());
+		tableConfig.setLeftTableDoubleHeaderMap(leftTableHeaders.getDoubleHeaderMaps());
 
-        String[] columnDateType = new String[rightTableHeaders.getProperties().size()];
-        for (int i = 0; i < rightTableHeaders.getProperties().size(); i++) {
-            columnDateType[i] = "java.lang.String";
-        }
-        tableConfig.setTableColumnDataType(columnDateType);
-        tableConfig.setRightTableDoubleHeaderVisibleColumns(rightTableHeaders.getDoubleColumns());
-        tableConfig.setRightTableDoubleVisibleHeaders(rightTableHeaders.getDoubleHeaders());
-        tableConfig.setRightTableDoubleHeaderMap(rightTableHeaders.getDoubleHeaderMaps());
+	}
 
-        tableConfig.setRightTableTripleVisibleHeaders(rightTableHeaders.getTripleHeader());
-        tableConfig.setRightTableTripleHeaderMap(rightTableHeaders.getTripleHeaderMap());
+	private void configureRightTableHeader(GtnUIFrameworkPagedTreeTableConfig tableConfig, String sourceViewId)
+			throws GtnFrameworkGeneralException {
 
-        List<GtnUIFrameworkComponentConfig> rightfieldFactoryComponent = new ArrayList<>();
-        if (rightTableHeaders.getEditableFields() != null) {
-            for (String tableFieldFactoryColumns : rightTableHeaders.getEditableFields()) {
-                GtnUIFrameworkComponentConfig fieldFactoryInputComponentConfig = new GtnUIFrameworkComponentConfig();
+		String classPath = tableConfig.getRightHeaderCustomClassLoadUrl();
+		classLoader(tableConfig.getGtnUIFrameWorkActionConfig(), classPath, sourceViewId);
+		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = getCustomPagedTreeTableRequest(tableConfig,sourceViewId);
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceResponse responseForRightHeader = client.callGtnWebServiceUrl(
+				tableConfig.getRightHeader(), tableConfig.getModuleName(), gtnUIFrameworkWebserviceRequest,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnWsPagedTreeTableResponse rightTableHeaders = responseForRightHeader.getGtnWSPagedTreeTableResponse();
+		tableConfig.setRightTableColumnMappingId(rightTableHeaders.getSingleColumns().toArray());
+		tableConfig.setRightTableVisibleHeader(Arrays.copyOf(rightTableHeaders.getSingleHeaders().toArray(),
+				rightTableHeaders.getSingleHeaders().toArray().length, String[].class));
 
-                fieldFactoryInputComponentConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
-                fieldFactoryInputComponentConfig.setComponentId(tableFieldFactoryColumns);
-                fieldFactoryInputComponentConfig.setComponentName(tableFieldFactoryColumns.toUpperCase(Locale.ENGLISH));
-                fieldFactoryInputComponentConfig
-                        .setGtnUIFrameWorkValueChangeActionConfigList(tableConfig.getComponentconfigActionlist());
-                rightfieldFactoryComponent.add(fieldFactoryInputComponentConfig);
+		String[] columnDateType = new String[rightTableHeaders.getProperties().size()];
+		for (int i = 0; i < rightTableHeaders.getProperties().size(); i++) {
+			columnDateType[i] = "java.lang.String";
+		}
+		tableConfig.setTableColumnDataType(columnDateType);
+		tableConfig.setRightTableDoubleHeaderVisibleColumns(rightTableHeaders.getDoubleColumns());
+		tableConfig.setRightTableDoubleVisibleHeaders(rightTableHeaders.getDoubleHeaders());
+		tableConfig.setRightTableDoubleHeaderMap(rightTableHeaders.getDoubleHeaderMaps());
 
-            }
-            tableConfig.setRightTableEditableComponentConfig(rightfieldFactoryComponent);
-            tableConfig.setRightTableEditableColumnList(rightTableHeaders.getEditableFields());
-        }
+		tableConfig.setRightTableTripleVisibleHeaders(rightTableHeaders.getTripleHeader());
+		tableConfig.setRightTableTripleHeaderMap(rightTableHeaders.getTripleHeaderMap());
 
-    }
+		List<GtnUIFrameworkComponentConfig> rightfieldFactoryComponent = new ArrayList<>();
+		if (rightTableHeaders.getEditableFields() != null) {
+			for (String tableFieldFactoryColumns : rightTableHeaders.getEditableFields()) {
+				GtnUIFrameworkComponentConfig fieldFactoryInputComponentConfig = new GtnUIFrameworkComponentConfig();
 
-    private void classLoader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String classPath,
-            String sourceViewId) throws GtnFrameworkGeneralException {
-        GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
-        GtnUIFrameWorkAction loader = (GtnUIFrameWorkAction) classLoader.loadDynamicClass(classPath);
-        loader.configureParams(gtnUIFrameWorkActionConfig);
-        loader.doAction(sourceViewId, gtnUIFrameWorkActionConfig);
-    }
+				fieldFactoryInputComponentConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+				fieldFactoryInputComponentConfig.setComponentId(tableFieldFactoryColumns);
+				fieldFactoryInputComponentConfig.setComponentName(tableFieldFactoryColumns.toUpperCase(Locale.ENGLISH));
+				fieldFactoryInputComponentConfig
+						.setGtnUIFrameWorkValueChangeActionConfigList(tableConfig.getComponentconfigActionlist());
+				rightfieldFactoryComponent.add(fieldFactoryInputComponentConfig);
 
-    private GtnUIFrameworkWebserviceRequest getCustomPagedTreeTableRequest(
-            GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String sourceViewId) {
-        GtnUIFrameworkComponentData resultTableComponentData = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
-                gtnUIFrameWorkActionConfig.getActionParameterList().get(0).toString(), sourceViewId).getComponentData();
-        return resultTableComponentData.getCustomPagedTreeTableRequest();
-    }
+			}
+			tableConfig.setRightTableEditableComponentConfig(rightfieldFactoryComponent);
+			tableConfig.setRightTableEditableColumnList(rightTableHeaders.getEditableFields());
+		}
 
-    private GtnWsPagedTreeTableResponse loadLeftHeader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig,
-            GtnUIFrameworkPagedTreeTableConfig tableConfig, String sourceViewId) throws GtnFrameworkGeneralException {
-        String classPath = tableConfig.getLeftHeaderUrl();
-        classLoader(gtnUIFrameWorkActionConfig, classPath, sourceViewId);
-        GtnUIFrameworkWebserviceRequest leftHeaderRequest = getCustomPagedTreeTableRequest(gtnUIFrameWorkActionConfig,
-                sourceViewId);
-        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-        GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(tableConfig.getLeftWsHeaderUrl(),
-                tableConfig.getModuleName(), leftHeaderRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-        return response.getGtnWSPagedTreeTableResponse();
-    }
+	}
 
-    private GtnWsPagedTreeTableResponse loadRightHeader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig,
-            GtnUIFrameworkPagedTreeTableConfig tableConfig, String sourceViewId) throws GtnFrameworkGeneralException {
-        String classPath = tableConfig.getRighttHeaderUrl();
-        classLoader(gtnUIFrameWorkActionConfig, classPath, sourceViewId);
-        GtnUIFrameworkWebserviceRequest rightHeaderRequest = getCustomPagedTreeTableRequest(gtnUIFrameWorkActionConfig,
-                sourceViewId);
-        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-        GtnUIFrameworkWebserviceResponse responseForRightHeader = client.callGtnWebServiceUrl(
-                tableConfig.getRightWsHeaderUrl(), tableConfig.getModuleName(), rightHeaderRequest,
-                GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-        return responseForRightHeader.getGtnWSPagedTreeTableResponse();
-    }
+	private void classLoader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String classPath,
+			String sourceViewId) throws GtnFrameworkGeneralException {
+		GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
+		GtnUIFrameWorkAction loader = (GtnUIFrameWorkAction) classLoader.loadDynamicClass(classPath);
+		loader.configureParams(gtnUIFrameWorkActionConfig);
+		loader.doAction(sourceViewId, gtnUIFrameWorkActionConfig);
+	}
 
-    private void setHeaderConfig(GtnWsPagedTreeTableResponse leftTableHeaders,
-            GtnWsPagedTreeTableResponse rightTableHeaders, PagedTreeGrid pagedTreeGrid,
-            GtnUIFrameworkPagedTreeTableLogic tableLogic, GtnUIFrameworkComponentData componentData) {
+	private GtnUIFrameworkWebserviceRequest getCustomPagedTreeTableRequest(
+			GtnUIFrameworkPagedTreeTableConfig tableConfig, String componentId) {
+		GtnUIFrameworkComponentData resultTableComponentData = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+				(String) tableConfig.getGtnUIFrameWorkActionConfig().getActionParameterList().get(0), componentId)
+				.getComponentData();
+		return resultTableComponentData.getCustomPagedTreeTableRequest();
+	}
 
-        configureDynamicTreeTableHeaders(pagedTreeGrid,
-                componentData.getCurrentComponentConfig().getGtnPagedTreeTableConfig(), tableLogic, componentData,
-                leftTableHeaders, rightTableHeaders);
-    }
+	private GtnWsPagedTreeTableResponse loadLeftHeader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig,
+			GtnUIFrameworkPagedTreeTableConfig tableConfig, String sourceViewId, String componentId)
+			throws GtnFrameworkGeneralException {
+		String classPath = tableConfig.getLeftHeaderUrl();
+		classLoader(gtnUIFrameWorkActionConfig, classPath, sourceViewId);
+		GtnUIFrameworkWebserviceRequest leftHeaderRequest = getCustomPagedTreeTableRequest(tableConfig,componentId);
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(tableConfig.getLeftWsHeaderUrl(),
+				tableConfig.getModuleName(), leftHeaderRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		return response.getGtnWSPagedTreeTableResponse();
+	}
 
-    public void configureDynamicTreeTableHeaders(PagedTreeGrid pagedTreeGrid,
-            GtnUIFrameworkPagedTreeTableConfig tableConfig, GtnUIFrameworkPagedTreeTableLogic tableLogic,
-            GtnUIFrameworkComponentData componentData, GtnWsPagedTreeTableResponse leftTableHeaders,
-            GtnWsPagedTreeTableResponse rightTableHeaders) {
-        initializeResultTable(pagedTreeGrid, tableConfig);
-//		loadHeaders(pagedTreeGrid, tableConfig, tableLogic, leftTableHeaders, rightTableHeaders, componentData);
-//		addFieldFactory(pagedTreeGrid, tableConfig, componentData);
+	private GtnWsPagedTreeTableResponse loadRightHeader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig,
+			GtnUIFrameworkPagedTreeTableConfig tableConfig, String sourceViewId, String componentId)
+			throws GtnFrameworkGeneralException {
+		String classPath = tableConfig.getRighttHeaderUrl();
+		classLoader(gtnUIFrameWorkActionConfig, classPath, sourceViewId);
+		GtnUIFrameworkWebserviceRequest rightHeaderRequest = getCustomPagedTreeTableRequest(tableConfig,componentId);
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceResponse responseForRightHeader = client.callGtnWebServiceUrl(
+				tableConfig.getRightWsHeaderUrl(), tableConfig.getModuleName(), rightHeaderRequest,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		return responseForRightHeader.getGtnWSPagedTreeTableResponse();
+	}
 
-    }
+	private void setHeaderConfig(GtnWsPagedTreeTableResponse leftTableHeaders,
+			GtnWsPagedTreeTableResponse rightTableHeaders, PagedTreeGrid pagedTreeGrid,
+			GtnUIFrameworkPagedTreeTableLogic tableLogic, GtnUIFrameworkComponentData componentData) {
 
-//	@SuppressWarnings({ "rawtypes", "unchecked" })
-//	private void loadHeaders(PagedTreeGrid  resultsTable, GtnUIFrameworkPagedTreeTableConfig tableConfig,
-//			GtnUIFrameworkPagedTreeTableLogic tableLogic, GtnWsPagedTreeTableResponse leftTableHeaders,
-//			GtnWsPagedTreeTableResponse rightTableHeaders, GtnUIFrameworkComponentData componentData) {
-//
-////		List<Object> recordHeader = new ArrayList<>();
-////		recordHeader.addAll(leftTableHeaders.getSingleColumns());
-////		recordHeader.addAll(rightTableHeaders.getSingleColumns());
-////		Map<String, Class<?>> dataType = new HashMap<>();
-////		for (int i = 0; i < recordHeader.size(); i++) {
-////			dataType.put(recordHeader.get(i).toString(), String.class);
-////		}
-////		resultBeanContainer.setColumnProperties(dataType);
-////		tableLogic.setRecordHeader(recordHeader);
-////		tableLogic.setContainerDataSource(resultBeanContainer);
-//		tableLogic.sinkItemPerPageWithPageLength(false);
-//		tableLogic.setTreeNodeMultiClick(false);
-//		tableLogic.setItemsPerPage(tableConfig.getItemPerPage());
-//		tableLogic.setPageLength(tableConfig.getPageLength());
-//
-//		leftTable.setImmediate(true);
-//		leftTable.reConstruct(true);
-//		leftTable.setVisibleColumns(leftTableHeaders.getSingleColumns().toArray());
-//		leftTable.setColumnHeaders(
-//				leftTableHeaders.getSingleHeaders().toArray(new String[leftTableHeaders.getSingleHeaders().size()]));
-//
-//		for (String column : tableConfig.getCheckBoxVisibleColoumn()) {
-//			leftTable.setColumnCheckBox(column, true, false);
-//		}
-//		if (tableConfig.getCheckBoxVisibleColoumn() != null && !tableConfig.getCheckBoxVisibleColoumn().isEmpty()) {
-//			leftTable.setData(new GtnUIFrameworkActionParameter());
-//			addCheckAllListener(leftTable, tableConfig, componentData);
-//		}
-//		leftTable.setDoubleHeaderVisible(true);
-//		leftTable.setDoubleHeaderVisibleColumns(leftTableHeaders.getDoubleColumns().toArray());
-//		leftTable.setDoubleHeaderColumnHeaders(
-//				leftTableHeaders.getDoubleHeaders().toArray(new String[leftTableHeaders.getDoubleHeaders().size()]));
-//		leftTable.setDoubleHeaderMap(leftTableHeaders.getDoubleHeaderMaps());
-//
-//		rightTable.setImmediate(true);
-//		rightTable.reConstruct(true);
-//		rightTable.setVisibleColumns(rightTableHeaders.getSingleColumns().toArray());
-//		rightTable.setColumnHeaders(
-//				rightTableHeaders.getSingleHeaders().toArray(new String[rightTableHeaders.getSingleHeaders().size()]));
-//		rightTable.setDoubleHeaderVisible(true);
-//		rightTable.setDoubleHeaderVisibleColumns(rightTableHeaders.getDoubleColumns().toArray());
-//		rightTable.setDoubleHeaderColumnHeaders(
-//				rightTableHeaders.getDoubleHeaders().toArray(new String[rightTableHeaders.getDoubleHeaders().size()]));
-//		rightTable.setDoubleHeaderMap(rightTableHeaders.getDoubleHeaderMaps());
-//
-//		List<Object> doubleHeaderColumns = rightTableHeaders.getDoubleColumns();
-//		for (Object doubleHeaderColumn : doubleHeaderColumns) {
-//			rightTable.setDoubleHeaderColumnCheckBox(doubleHeaderColumn, true);
-//		}
-//		List<GtnUIFrameworkComponentConfig> rightfieldFactoryComponent = new ArrayList<>();
-//		for (String tableFieldFactoryColumns : rightTableHeaders.getEditableFields()) {
-//			GtnUIFrameworkComponentConfig fieldFactoryInputComponentConfig = new GtnUIFrameworkComponentConfig();
-//			fieldFactoryInputComponentConfig.setComponentId(tableFieldFactoryColumns);
-//			fieldFactoryInputComponentConfig.setComponentName(tableFieldFactoryColumns.toUpperCase(Locale.ENGLISH));
-//			fieldFactoryInputComponentConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
-//			fieldFactoryInputComponentConfig
-//					.setGtnUIFrameWorkValueChangeActionConfigList(tableConfig.getComponentconfigActionlist());
-//			rightfieldFactoryComponent.add(fieldFactoryInputComponentConfig);
-//		}
-//		tableConfig.setRightTableEditableColumnList(rightTableHeaders.getEditableFields());
-//		tableConfig.setRightTableEditableComponentConfig(rightfieldFactoryComponent);
-//
-//	}
-//	private void addCheckAllListener(final ExtPagedTreeTable<?> leftTable,
-//			GtnUIFrameworkPagedTreeTableConfig tableConfig, GtnUIFrameworkComponentData pagedTreeTableComponentData) {
-//		leftTable.addColumnCheckListener(
-//				new GtnUIFrameworkPagedTreeTableColumnListener(tableConfig, leftTable, pagedTreeTableComponentData));
-//	}
-    @Override
-    public void postCreateComponent(AbstractComponent component, GtnUIFrameworkComponentConfig componentConfig) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+		configureDynamicTreeTableHeaders(pagedTreeGrid,
+				componentData.getCurrentComponentConfig().getGtnPagedTreeTableConfig(), tableLogic, componentData,
+				leftTableHeaders, rightTableHeaders);
+	}
+
+	public void configureDynamicTreeTableHeaders(PagedTreeGrid pagedTreeGrid,
+			GtnUIFrameworkPagedTreeTableConfig tableConfig, GtnUIFrameworkPagedTreeTableLogic tableLogic,
+			GtnUIFrameworkComponentData componentData, GtnWsPagedTreeTableResponse leftTableHeaders,
+			GtnWsPagedTreeTableResponse rightTableHeaders) {
+		initializeResultTable(pagedTreeGrid, tableConfig);
+		// loadHeaders(pagedTreeGrid, tableConfig, tableLogic, leftTableHeaders,
+		// rightTableHeaders, componentData);
+		// addFieldFactory(pagedTreeGrid, tableConfig, componentData);
+
+	}
+
+	// @SuppressWarnings({ "rawtypes", "unchecked" })
+	// private void loadHeaders(PagedTreeGrid resultsTable,
+	// GtnUIFrameworkPagedTreeTableConfig tableConfig,
+	// GtnUIFrameworkPagedTreeTableLogic tableLogic, GtnWsPagedTreeTableResponse
+	// leftTableHeaders,
+	// GtnWsPagedTreeTableResponse rightTableHeaders, GtnUIFrameworkComponentData
+	// componentData) {
+	//
+	//// List<Object> recordHeader = new ArrayList<>();
+	//// recordHeader.addAll(leftTableHeaders.getSingleColumns());
+	//// recordHeader.addAll(rightTableHeaders.getSingleColumns());
+	//// Map<String, Class<?>> dataType = new HashMap<>();
+	//// for (int i = 0; i < recordHeader.size(); i++) {
+	//// dataType.put(recordHeader.get(i).toString(), String.class);
+	//// }
+	//// resultBeanContainer.setColumnProperties(dataType);
+	//// tableLogic.setRecordHeader(recordHeader);
+	//// tableLogic.setContainerDataSource(resultBeanContainer);
+	// tableLogic.sinkItemPerPageWithPageLength(false);
+	// tableLogic.setTreeNodeMultiClick(false);
+	// tableLogic.setItemsPerPage(tableConfig.getItemPerPage());
+	// tableLogic.setPageLength(tableConfig.getPageLength());
+	//
+	// leftTable.setImmediate(true);
+	// leftTable.reConstruct(true);
+	// leftTable.setVisibleColumns(leftTableHeaders.getSingleColumns().toArray());
+	// leftTable.setColumnHeaders(
+	// leftTableHeaders.getSingleHeaders().toArray(new
+	// String[leftTableHeaders.getSingleHeaders().size()]));
+	//
+	// for (String column : tableConfig.getCheckBoxVisibleColoumn()) {
+	// leftTable.setColumnCheckBox(column, true, false);
+	// }
+	// if (tableConfig.getCheckBoxVisibleColoumn() != null &&
+	// !tableConfig.getCheckBoxVisibleColoumn().isEmpty()) {
+	// leftTable.setData(new GtnUIFrameworkActionParameter());
+	// addCheckAllListener(leftTable, tableConfig, componentData);
+	// }
+	// leftTable.setDoubleHeaderVisible(true);
+	// leftTable.setDoubleHeaderVisibleColumns(leftTableHeaders.getDoubleColumns().toArray());
+	// leftTable.setDoubleHeaderColumnHeaders(
+	// leftTableHeaders.getDoubleHeaders().toArray(new
+	// String[leftTableHeaders.getDoubleHeaders().size()]));
+	// leftTable.setDoubleHeaderMap(leftTableHeaders.getDoubleHeaderMaps());
+	//
+	// rightTable.setImmediate(true);
+	// rightTable.reConstruct(true);
+	// rightTable.setVisibleColumns(rightTableHeaders.getSingleColumns().toArray());
+	// rightTable.setColumnHeaders(
+	// rightTableHeaders.getSingleHeaders().toArray(new
+	// String[rightTableHeaders.getSingleHeaders().size()]));
+	// rightTable.setDoubleHeaderVisible(true);
+	// rightTable.setDoubleHeaderVisibleColumns(rightTableHeaders.getDoubleColumns().toArray());
+	// rightTable.setDoubleHeaderColumnHeaders(
+	// rightTableHeaders.getDoubleHeaders().toArray(new
+	// String[rightTableHeaders.getDoubleHeaders().size()]));
+	// rightTable.setDoubleHeaderMap(rightTableHeaders.getDoubleHeaderMaps());
+	//
+	// List<Object> doubleHeaderColumns = rightTableHeaders.getDoubleColumns();
+	// for (Object doubleHeaderColumn : doubleHeaderColumns) {
+	// rightTable.setDoubleHeaderColumnCheckBox(doubleHeaderColumn, true);
+	// }
+	// List<GtnUIFrameworkComponentConfig> rightfieldFactoryComponent = new
+	// ArrayList<>();
+	// for (String tableFieldFactoryColumns : rightTableHeaders.getEditableFields())
+	// {
+	// GtnUIFrameworkComponentConfig fieldFactoryInputComponentConfig = new
+	// GtnUIFrameworkComponentConfig();
+	// fieldFactoryInputComponentConfig.setComponentId(tableFieldFactoryColumns);
+	// fieldFactoryInputComponentConfig.setComponentName(tableFieldFactoryColumns.toUpperCase(Locale.ENGLISH));
+	// fieldFactoryInputComponentConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX);
+	// fieldFactoryInputComponentConfig
+	// .setGtnUIFrameWorkValueChangeActionConfigList(tableConfig.getComponentconfigActionlist());
+	// rightfieldFactoryComponent.add(fieldFactoryInputComponentConfig);
+	// }
+	// tableConfig.setRightTableEditableColumnList(rightTableHeaders.getEditableFields());
+	// tableConfig.setRightTableEditableComponentConfig(rightfieldFactoryComponent);
+	//
+	// }
+	// private void addCheckAllListener(final ExtPagedTreeTable<?> leftTable,
+	// GtnUIFrameworkPagedTreeTableConfig tableConfig, GtnUIFrameworkComponentData
+	// pagedTreeTableComponentData) {
+	// leftTable.addColumnCheckListener(
+	// new GtnUIFrameworkPagedTreeTableColumnListener(tableConfig, leftTable,
+	// pagedTreeTableComponentData));
+	// }
+	@Override
+	public void postCreateComponent(AbstractComponent component, GtnUIFrameworkComponentConfig componentConfig) {
+		// throw new UnsupportedOperationException("Not supported yet."); //To change
+		// body of generated methods, choose Tools | Templates.
+	}
 
 }
