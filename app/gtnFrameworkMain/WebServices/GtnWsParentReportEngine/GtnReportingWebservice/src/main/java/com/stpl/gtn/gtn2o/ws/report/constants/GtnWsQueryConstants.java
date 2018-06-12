@@ -46,4 +46,6 @@ public class GtnWsQueryConstants {
 	public static final String PRC_CUSTOM_CCPDV_POPULATION = " PRC_CUSTOM_CCPDV_POPULATION ? , ? ";
 
 	public static final String PRC_REPORT_DATA_POPULATION = " PRC_REPORTING_DASHBOARD ? , ? , ? , ? , ? , ? , ? , ? ";
+        
+        public static final String VARIABLE_BREAKDOWN_PERIOD_DATAS = "SELECT * FROM PERIOD WHERE PERIOD_DATE >= '@startDate'  AND PERIOD_DATE <= '@endDate'";
 }

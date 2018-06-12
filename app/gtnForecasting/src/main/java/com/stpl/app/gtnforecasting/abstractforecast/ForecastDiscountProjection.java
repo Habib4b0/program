@@ -867,6 +867,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 LOGGER.info("session.getDsFrequency() {}",session.getDsFrequency(),"frequencyDdlb.getValue()------",frequencyDdlb.getValue());
                 LOGGER.info("session.getDeductionLevel()-{}",session.getDataSelectionDeductionLevel(),"deductionlevelDdlb.getValue()-----",deductionlevelDdlb.getValue());
                 if (!session.getDsFrequency().equals(String.valueOf(frequencyDdlb.getValue())) || !session.getDataSelectionDeductionLevel().equals(String.valueOf(deductionlevelDdlb.getValue()))) {
+                    session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
                     session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
                     session.setDataSelectionDeductionLevel(String.valueOf(deductionlevelDdlb.getValue()));
                     logic.nmDiscountViewsPopulationProcedure(session);

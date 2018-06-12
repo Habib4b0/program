@@ -206,6 +206,26 @@ public class GtnWsReportingDashboardController {
 		}
 	}
         
+        @PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_PERIODS_SERVICE)
+	public GtnUIFrameworkWebserviceResponse getVariableBreakdownPeriods(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+			List<Object[]> results= reportHeaderService.getVariableBreakdownPeriods(gtnUIFrameworkWebserviceRequest);
+                        GtnWsReportResponse gtnReportResponse = new GtnWsReportResponse();
+                        gtnReportResponse.setResultList(results);
+			gtnUIFrameworkWebserviceResponse.setGtnReportResponse(gtnReportResponse);
+			return gtnUIFrameworkWebserviceResponse;
+		} catch (GtnFrameworkGeneralException ex) {
+			gtnLogger.error("Error in variable breakdown controller, " + ex.getMessage(), ex);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			return gtnUIFrameworkWebserviceResponse;
+		}
+	}
+        
         
 	@PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_COMPARISON_BREAKDOWN_TABLE_HEADERS_SERVICE)
 	public GtnUIFrameworkWebserviceResponse getComparisonBreakdownGridHeaders(
