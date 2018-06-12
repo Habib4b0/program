@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportDashBoardRightHeaderReques
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportDasboardTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDashboardFrequencyLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportFilterReloadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportLevelFilterReloadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnForecastReturnsClassConstants;
@@ -305,9 +306,16 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(frequencyConfig);
 
 		GtnUIFrameworkComboBoxConfig frequencyLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				GtnFrameworkReportStringConstants.REPORT_CONFIG_FREQUENCY,
+				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		frequencyConfig.setGtnComboboxConfig(frequencyLoadConfig);
+
+		GtnUIFrameWorkActionConfig selectedFrequencyAction = new GtnUIFrameWorkActionConfig();
+		selectedFrequencyAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		selectedFrequencyAction.addActionParameter(GtnReportDashboardFrequencyLoadAction.class.getName());
+		selectedFrequencyAction.addActionParameter(frequencyConfig.getComponentId());
+		frequencyConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(selectedFrequencyAction));
 
 	}
 
@@ -913,9 +921,11 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		componentList.add(variableAndVarianceSequencingConfig);
 
-		GtnUIFrameworkComboBoxConfig variableAndVarianceSequencingLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		GtnUIFrameworkComboBoxConfig variableAndVarianceSequencingLoadConfig = new GtnUIFrameworkComboBoxConfig();
+		variableAndVarianceSequencingLoadConfig.setItemValues(Arrays.asList(1, 2));
+		variableAndVarianceSequencingLoadConfig
+				.setItemCaptionValues(Arrays.asList(GtnFrameworkReportStringConstants.VARIABLE_VARIANCE,
+						GtnFrameworkReportStringConstants.VARIABLES_VARIANCES));
 		variableAndVarianceSequencingConfig.setGtnComboboxConfig(variableAndVarianceSequencingLoadConfig);
 	}
 
@@ -979,9 +989,13 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		componentList.add(headerSequencingConfig);
 
-		GtnUIFrameworkComboBoxConfig headerSequencingLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		GtnUIFrameworkComboBoxConfig headerSequencingLoadConfig = new GtnUIFrameworkComboBoxConfig();
+		headerSequencingLoadConfig.setItemValues(Arrays.asList(1, 2, 3, 4));
+		headerSequencingLoadConfig
+				.setItemCaptionValues(Arrays.asList(GtnFrameworkReportStringConstants.TIME_VARIABLE_COMPARISON,
+						GtnFrameworkReportStringConstants.COMPARISON_VARIABLE_TIME,
+						GtnFrameworkReportStringConstants.COMPARISON_TIME_VARIABLE,
+						GtnFrameworkReportStringConstants.VARIABLE_COMPARISON_TIME));
 		headerSequencingConfig.setGtnComboboxConfig(headerSequencingLoadConfig);
 	}
 
@@ -1002,7 +1016,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(displayFormatConfig);
 
 		GtnUIFrameworkComboBoxConfig displayFormatLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				GtnFrameworkReportStringConstants.DISPLAY_FORMAT, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		displayFormatConfig.setGtnComboboxConfig(displayFormatLoadConfig);
 	}
@@ -1024,8 +1038,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(currencyDisplayConfig);
 
 		GtnUIFrameworkComboBoxConfig currencyDisplayLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				GtnFrameworkReportStringConstants.CURRENCY_DISPLAY, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		currencyDisplayLoadConfig.setDefaultValue("No Conversion");
 		currencyDisplayConfig.setGtnComboboxConfig(currencyDisplayLoadConfig);
 	}
 
