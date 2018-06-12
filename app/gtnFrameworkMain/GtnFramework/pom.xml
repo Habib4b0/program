@@ -195,7 +195,11 @@
 			<artifactId>itextpdf</artifactId>
 			<version>${itextpdf.version}</version>
 		</dependency>
-
+	<!-- 	<dependency>
+			<groupId>com.byteowls</groupId>
+			<artifactId>vaadin-chartjs</artifactId>
+			<version>1.2.0</version>
+		</dependency> -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
@@ -250,6 +254,23 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.portal.tools.bundle.support</artifactId>
+				<version>2.0.1</version>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+						<phase>pre-integration-test</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<liferayHome>${env.LIFERAY_HOME}</liferayHome>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
