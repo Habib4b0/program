@@ -9,6 +9,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardFilterBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 
 public class GtnWsReportRequest {
@@ -24,18 +25,19 @@ public class GtnWsReportRequest {
 	private GtnWsReportCustomViewBean customViewBean;
 	private List<GtnWsRecordBean> recordBean;
 	private List<GtnReportHierarchyLevelBean> hierarchyLevelList;
+	private GtnWsReportDashboardFilterBean filterBean;
 	private Date forecastEligibleDate;
-        private int projectionMasterSid;
-        private boolean loadTableUsingFile=true;
+	private int projectionMasterSid;
+	private boolean loadTableUsingFile = true;
 
-    public int getProjectionMasterSid() {
-        return projectionMasterSid;
-    }
+	public int getProjectionMasterSid() {
+		return projectionMasterSid;
+	}
 
-    public void setProjectionMasterSid(int projectionMasterSid) {
-        this.projectionMasterSid = projectionMasterSid;
-    }
-        
+	public void setProjectionMasterSid(int projectionMasterSid) {
+		this.projectionMasterSid = projectionMasterSid;
+	}
+
 	public List<Object[]> getResultList() {
 		return resultList;
 	}
@@ -124,12 +126,20 @@ public class GtnWsReportRequest {
 		this.forecastEligibleDate = forecastEligibleDate;
 	}
 
-    public boolean isLoadTableUsingFile() {
-        return loadTableUsingFile;
-    }
+	public GtnWsReportDashboardFilterBean getFilterBean() {
+		return filterBean;
+	}
 
-    public void setLoadTableUsingFile(boolean loadTableUsingFile) {
-        this.loadTableUsingFile = loadTableUsingFile;
-    }
+	public void setFilterBean(GtnWsReportDashboardFilterBean filterBean) {
+		this.filterBean = filterBean;
+	}
+
+	public boolean isLoadTableUsingFile() {
+		return loadTableUsingFile;
+	}
+
+	public void setLoadTableUsingFile(boolean loadTableUsingFile) {
+		this.loadTableUsingFile = loadTableUsingFile;
+	}
 
 }

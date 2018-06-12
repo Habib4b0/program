@@ -449,8 +449,11 @@ public class GtnFrameworkSqlQueryEngine {
 
 	public void executeProcedure(String procedureName, Object[] params, GtnFrameworkDataType[] type)
 			throws GtnFrameworkGeneralException {
+		long startTime = System.currentTimeMillis();
 		String procedureCall = " EXEC " + procedureName;
 		executeInsertOrUpdateQuery(procedureCall, params, type);
+		long endTime = System.currentTimeMillis();
+		logger.info("Procedure Execution Time = = = " + (endTime - startTime));
 	}
 
 }

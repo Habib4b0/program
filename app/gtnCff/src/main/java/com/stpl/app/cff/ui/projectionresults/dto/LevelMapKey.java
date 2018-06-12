@@ -96,8 +96,8 @@ public class LevelMapKey implements Serializable, Comparable<LevelMapKey>,Clonea
         return HierarchyNo;
     }
 
-    public void setHierarchyNo(String HierarchyNo) {
-        this.HierarchyNo = HierarchyNo;
+    public void setHierarchyNo(String hierarchyNo) {
+        this.HierarchyNo = hierarchyNo;
     }
 
     @Override

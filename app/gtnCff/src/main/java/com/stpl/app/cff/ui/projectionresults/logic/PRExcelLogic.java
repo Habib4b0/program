@@ -571,11 +571,11 @@ public class PRExcelLogic {
         
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat format, String value) {
         if (value.contains(NULL.getConstant())) {
             value = ZERO;
         } else {
-            value = FORMAT.format(Double.valueOf(value));
+            value = format.format(Double.valueOf(value));
         }
         return value;
     }
@@ -1156,15 +1156,15 @@ public class PRExcelLogic {
         }
     }
 
-    public String getFormattedValuePer(DecimalFormat FORMAT, String value) {
+    public String getFormattedValuePer(DecimalFormat format, String value) {
         if (value.contains("null")) {
             value = "0";
         }
         Double newValue = Double.valueOf(value);
-        if (FORMAT.toPattern().contains("%")) {
+        if (format.toPattern().contains("%")) {
             newValue = newValue / NumericConstants.HUNDRED;
         }
-        value = FORMAT.format(newValue);
+        value = format.format(newValue);
         value = value.replace("$", "");
         value = value + "%";
 

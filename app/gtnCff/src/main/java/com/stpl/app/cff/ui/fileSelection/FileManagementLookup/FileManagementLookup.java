@@ -533,8 +533,8 @@ public class FileManagementLookup extends Window {
 		return SearchForecastddlb;
 	}
 
-	public void setSearchForecastddlb(ComboBox SearchForecastddlb) {
-		this.SearchForecastddlb = SearchForecastddlb;
+	public void setSearchForecastddlb(ComboBox searchForecastddlb) {
+		this.SearchForecastddlb = searchForecastddlb;
 	}
 
 	/**
@@ -978,7 +978,7 @@ public class FileManagementLookup extends Window {
 		fromDate.setValue(CommonUtils.convert2DigitTo4DigitYearFormat(fromDate.getValue()));
 		toDate.setValue(CommonUtils.convert2DigitTo4DigitYearFormat(toDate.getValue()));
 		String forcaste;
-		String SearchforecastYear;
+		String searchForecastYear;
 		if (forecastYearCombo.getValue() == null || ConstantsUtils.SELECT_ONE.equals(forecastYearCombo.getValue().toString())) {
 			forcaste = StringUtils.EMPTY;
 		} else {
@@ -986,14 +986,14 @@ public class FileManagementLookup extends Window {
 		}
 		if (SearchForecastddlb.getValue() == null
 				|| ConstantsUtils.SELECT_ONE.equals(SearchForecastddlb.getValue().toString())) {
-			SearchforecastYear = StringUtils.EMPTY;
+			searchForecastYear = StringUtils.EMPTY;
 		} else {
-			SearchforecastYear = SearchForecastddlb.getValue().toString();
+			searchForecastYear = SearchForecastddlb.getValue().toString();
 		}
 		if (StringUtils.isEmpty(fileName.getValue().trim()) && StringUtils.isEmpty(type.getValue().trim())
 				&& StringUtils.isEmpty(version.getValue().trim())
 				&& (forcaste == null || forcaste.equals(ConstantsUtils.EMPTY)) && fromDate.getValue() == null
-				&& toDate.getValue() == null && SearchforecastYear.equals("")) {
+				&& toDate.getValue() == null && searchForecastYear.equals("")) {
 			MessageBox.showPlain(Icon.ERROR, SEARCH_ERROR,
 					"Please Enter a value within text boxes of the Search Criteria", ButtonId.OK);
 		} else {
@@ -1006,7 +1006,7 @@ public class FileManagementLookup extends Window {
 			resultDTO.setToPeriod(toDate.getValue());
 			resultDTO.setVersion(String.valueOf(version.getValue().trim()));
 			resultDTO.setHelperType(helperFileType);
-			resultDTO.setSearchforcastYear(SearchforecastYear);
+			resultDTO.setSearchforcastYear(searchForecastYear);
 			loadResultsTable();
 
 			if (tableLogic.isResultsEmpty()) {

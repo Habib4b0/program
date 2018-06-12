@@ -92,10 +92,10 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 	private Resource wordRes;
 	private Resource pdfRes;
 	protected FileDownloader wordDownloader;
-	protected FileDownloader pdfDownloader;       
+	protected FileDownloader pdfDownloader;
 
-	protected String basepath = System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH);			
-        
+	protected String basepath = System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH);
+
 	protected Image wordPngImage = new Image(null, new ThemeResource("img/word.png"));
 	protected Image pdfPngImage = new Image(null, new ThemeResource("img/pdf.png"));
 	protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
@@ -122,8 +122,8 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 
 	private List<String> validFormats = Arrays.asList("doc", "docx", "ppt", "xls", "xlsx", "pdf", "txt", "csv", "jpg",
 			"jpeg", "pptx");
-        private static final Object[] obj = new Object[] { "documentName", "dateAdded", "userName" };
-        private static final String[] objHeaders = new String[] { "Document Name", "Date Added", "User Name" };
+	private static final Object[] obj = new Object[] { "documentName", "dateAdded", "userName" };
+	private static final String[] objHeaders = new String[] { "Document Name", "Date Added", "User Name" };
 
 	/**
 	 * constructor for additional information
@@ -247,6 +247,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		Panel attachment = new Panel();
 		attachment.setCaption("Attachments");
 		attachment.addStyleName("attachmentpanel");
+		attachment.setWidth("473px");
 
 		VerticalLayout attachmentInnerLayout = new VerticalLayout();
 		attachmentInnerLayout.setMargin(true);
@@ -311,16 +312,16 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		return vlayout;
 	}
 
-	   public final void configNotesTabForm() {
+	public final void configNotesTabForm() {
 
-        table.setContainerDataSource(attachmentsListBean);
-        table.setVisibleColumns(obj);
-        table.setColumnHeaders(objHeaders);
+		table.setContainerDataSource(attachmentsListBean);
+		table.setVisibleColumns(obj);
+		table.setColumnHeaders(objHeaders);
 
-        removeAndDisablingComponents(isViewMode);
+		removeAndDisablingComponents(isViewMode);
 
-        documentExporter();
-    }
+		documentExporter();
+	}
 
 	private void init() {
 		addToContent();
@@ -425,21 +426,16 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 			 */
 			private static final long serialVersionUID = 1L;
 
-
-
-                    @Override
-                    public void call(JsonArray arguments) {
-                       try {
+			@Override
+			public void call(JsonArray arguments) {
+				try {
 					setFileNameToField(arguments);
 				} catch (Exception ex) {
 					gtnLogger.error("Exception in handling through JSON", ex);
 				}
 				uploader.focus();
-                    }
+			}
 
-                 
-
-                 
 		});
 
 		uploader.addFocusListener(new FocusListener() {
@@ -842,13 +838,13 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 				attachmentsListBean.addBean(attachmentDTO);
 				fileNameField.setValue("");
 				uploader.setValue("");
-                 GtnUIFrameWorkActionConfig notificationAction = new GtnUIFrameWorkActionConfig();
-                 notificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
-                 String filename = event.getFilename();
-                 String message = filename + " Uploaded successfully";
-                 notificationAction.addActionParameter(message);
-                 notificationAction.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-                 GtnUIFrameworkActionExecutor.executeSingleAction(uploadComponent.getId(), notificationAction);
+				GtnUIFrameWorkActionConfig notificationAction = new GtnUIFrameWorkActionConfig();
+				notificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+				String filename = event.getFilename();
+				String message = filename + " Uploaded successfully";
+				notificationAction.addActionParameter(message);
+				notificationAction.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+				GtnUIFrameworkActionExecutor.executeSingleAction(uploadComponent.getId(), notificationAction);
 			} else {
 				AbstractNotificationUtils.getErrorNotification("File Name", "Please Enter a valid File Name");
 				uploader.setValue("");
@@ -947,25 +943,25 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 			return;
 		}
 		tableBean = (NotesDTO) targetItem.getBean();
-		GtnUIFrameworkWebserviceRequest gtnRequest= new GtnUIFrameworkWebserviceRequest();
-		GtnWsAttachmentRequest gtnRequest1= new GtnWsAttachmentRequest();
+		GtnUIFrameworkWebserviceRequest gtnRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsAttachmentRequest gtnRequest1 = new GtnWsAttachmentRequest();
 		gtnRequest1.setDocDetailsSid(tableBean.getDocDetailsId());
 		gtnRequest.setGtnWsAttachmentRequest(gtnRequest1);
 		if (event.isDoubleClick()) {
 			try {
-                            gtnLogger.info("tableBean.getDocumentFullPath()============================"+tableBean.getDocumentFullPath());                          
-				File uploadedFile = GtnFileNameUtils.getFile(tableBean.getDocumentFullPath());              
+				gtnLogger.info("tableBean.getDocumentFullPath()============================"
+						+ tableBean.getDocumentFullPath());
+				File uploadedFile = GtnFileNameUtils.getFile(tableBean.getDocumentFullPath());
 				Resource res = new FileResource(uploadedFile);
 				fileDownloader.setFileDownloadResource(res);
 				downloadFile(uploadedFile);
 			} catch (Exception e) {
-				gtnLogger.error("Error in file is not Found",e);
+				gtnLogger.error("Error in file is not Found", e);
 			}
 
 		}
 
 	}
-	
 
 	public List<String> getValidFormats() {
 		return validFormats == null ? validFormats : Collections.unmodifiableList(validFormats);
@@ -1017,9 +1013,9 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		return String.valueOf(internalNote);
 	}
 
-	private void setFileNameToField(JsonArray arguments)  {
-              elemental.json.impl.JreJsonString jsonstring=arguments.get(0);
-		String value =jsonstring.asString() ;
+	private void setFileNameToField(JsonArray arguments) {
+		elemental.json.impl.JreJsonString jsonstring = arguments.get(0);
+		String value = jsonstring.asString();
 		if (!"".equals(value)) {
 
 			fileUpload = GtnFileNameUtils.getFile(fileUploadPath + value);
