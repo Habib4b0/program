@@ -49,6 +49,7 @@ import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAct
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportForecastLevelLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownHeaderLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownMassUpdateAction;
 
 public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjectFiller {
 
@@ -155,6 +156,8 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnReportDashboardFrequencyLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportLevelFilterReloadAction.class.getName(),
 				new GtnReportLevelFilterReloadAction());
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingVariableBreakdownMassUpdateAction.class.getName(),
+				new GtnReportingVariableBreakdownMassUpdateAction());
 	}
 
 }
