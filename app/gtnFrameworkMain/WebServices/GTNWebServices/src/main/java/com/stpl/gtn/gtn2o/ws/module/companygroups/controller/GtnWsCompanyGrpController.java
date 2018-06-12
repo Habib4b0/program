@@ -154,7 +154,7 @@ public class GtnWsCompanyGrpController {
 			gtnResponse.getGtnWsGeneralResponse().setSucess(true);
 			logger.info("Enter companiesResultTableData");
 			companyGrpWebservice.getCompanyGrpFetchQuery(gtnWsRequest, gtnResponse);
-			companyGrpWebservice.updateCompanyGrpDetails(gtnWsRequest);
+			companyGrpWebservice.updateCompanyGroupDetails(gtnWsRequest, gtnResponse);
 			return gtnResponse;
 		} catch (GtnFrameworkGeneralException ex) {
 			gtnResponse.getGtnWsGeneralResponse().setSucess(false);
