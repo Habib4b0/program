@@ -945,9 +945,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		componentList.add(viewOptionsConfig);
 
-		GtnUIFrameworkComboBoxConfig viewOptionsLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		GtnUIFrameworkComboBoxConfig viewOptionsLoadConfig = new GtnUIFrameworkComboBoxConfig();
+		viewOptionsLoadConfig.setItemValues(Arrays.asList(0, 1));
+		viewOptionsLoadConfig.setItemCaptionValues(Arrays.asList("Standard", "Fully Expanded"));
 		viewOptionsConfig.setGtnComboboxConfig(viewOptionsLoadConfig);
 	}
 
