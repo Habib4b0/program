@@ -78,8 +78,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	private void callInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
+		createSessionTableForReporting(dataSelectionBean.getSessionId());
 		variableHierarchyNoInsertProcedure(dataSelectionBean);
-		dataPopulationInsertProcedure();
+		dataPopulationInsertProcedure(dataSelectionBean);
 	}
 
 	private void saveCustomCCPMap(GtnWsReportDataSelectionBean dataSelectionBean) throws GtnFrameworkGeneralException {
@@ -144,6 +145,10 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 				.executeSelectQuery(sqlService.getQuery(input, "getCustomViewHierarchyTableDetails"));
 	}
 
+	private void createSessionTableForReporting(String sessionId) {
+
+	}
+
 	private void variableHierarchyNoInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
 		GTNLOGGER.info("Calling variable Insert Procedure");
@@ -152,8 +157,18 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		gtnSqlQueryEngine.executeProcedure(GtnWsQueryConstants.PRC_CUSTOM_CCPDV_POPULATION, input, type);
 	}
 
-	private void dataPopulationInsertProcedure() {
+	private void dataPopulationInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
+			throws GtnFrameworkGeneralException {
 		GTNLOGGER.info("Calling Data Population Insert Procedure");
+		Object[] input = { dataSelectionBean.getSessionId(), dataSelectionBean.getFrequencyName(),
+				dataSelectionBean.getFromPeriodReport(), dataSelectionBean.getToPeriodReport(),
+				dataSelectionBean.getCustomViewMasterSid(), dataSelectionBean.getCompanyReport(),
+				dataSelectionBean.getBusinessUnitReport(), dataSelectionBean.getReportDataSource() };
+		GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER,
+				GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
+		// gtnSqlQueryEngine.executeProcedure(GtnWsQueryConstants.PRC_REPORT_DATA_POPULATION,
+		// input, type);
 	}
 
 	public static GtnWsSecurityToken getGsnWsSecurityToken(String userId, String sessionId) {

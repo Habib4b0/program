@@ -263,7 +263,7 @@ public class GtnWsAllListConfig {
 	}
 
 	private void loadcomboBoxTypeMap() {
-            
+
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.ACCRUAL_MASTER_SALES_MASTER_ID,
 				"select distinct sales_master_id as code ,sales_master_id as description from ACCRUAL_MASTER order by sales_master_id Asc");
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.ACCRUAL_MASTER_CATEGORY_ID,
@@ -323,12 +323,11 @@ public class GtnWsAllListConfig {
 				"     select DISTINCT PT.PRIOR_TRADE_CLASS ,HT.DESCRIPTION     from COMPANY_TRADE_CLASS PT      Join HELPER_TABLE HT on HT.HELPER_TABLE_SID=PT.PRIOR_TRADE_CLASS     where PT.PRIOR_TRADE_CLASS IS NOT NULL AND PT.PRIOR_TRADE_CLASS <> 0");
 		comboBoxQueryMap.put("InventoryOrganizationKey",
 				"    select cm.COMPANY_MASTER_SID, cm.company_name from COMPANY_master cm ");
-		comboBoxQueryMap.put("BusinessUnit",
-				"    SELECT  Distinct CM.COMPANY_MASTER_SID,CM.COMPANY_NAME\n"
-						+ "                                            FROM   COMPANY_MASTER CM \n"
-						+ "                                                JOIN HELPER_TABLE HT ON CM.COMPANY_TYPE = HT.HELPER_TABLE_SID\n"
-						+ "                        where  HT.DESCRIPTION = 'GLCOMP'  AND CM.INBOUND_STATUS <> 'D' \n"
-						+ "                                         ORDER BY CM.COMPANY_NAME ");
+		comboBoxQueryMap.put("BusinessUnit", "    SELECT  Distinct CM.COMPANY_MASTER_SID,CM.COMPANY_NAME\n"
+				+ "                                            FROM   COMPANY_MASTER CM \n"
+				+ "                                                JOIN HELPER_TABLE HT ON CM.COMPANY_TYPE = HT.HELPER_TABLE_SID\n"
+				+ "                        where  HT.DESCRIPTION = 'GLCOMP'  AND CM.INBOUND_STATUS <> 'D' \n"
+				+ "                                         ORDER BY CM.COMPANY_NAME ");
 		comboBoxQueryMap.put("processName",
 				"    SELECT WP.PROCESS_SID, WP.PROCESS_DISPLAY_NAME FROM WORKFLOW_PROFILE WP ");
 		comboBoxQueryMap.put("Module",
@@ -336,7 +335,7 @@ public class GtnWsAllListConfig {
 
 		comboBoxQueryMap.put("BUSINESS_PROCESS",
 				"SELECT -1 AS ARM_ADJUSTMENT_CONFIG_SID ,'Adjustment Summary' AS TRANSACTION_NAME UNION ALL SELECT HT.HELPER_TABLE_SID * -1 AS ARM_ADJUSTMENT_CONFIG_SID, CONCAT('Balance Summary Report - ',REPLACE(HT.DESCRIPTION,'Balance Summary','')) AS TRANSACTION_NAME FROM HELPER_TABLE HT where HT.LIST_NAME = 'ARM_REPORT_TYPE' UNION ALL SELECT AC.ARM_ADJUSTMENT_CONFIG_SID,AC.TRANSACTION_NAME FROM ARM_ADJUSTMENT_CONFIG AC");
-                
+
 		comboBoxQueryMap.put("company",
 				"select COMPANY_MASTER_SID,COMPANY_NO+' - '+COMPANY_NAME as company "
 						+ "from COMPANY_MASTER CM JOIN  HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CM.COMPANY_TYPE "
@@ -388,15 +387,17 @@ public class GtnWsAllListConfig {
 		comboBoxQueryMap.put("Ndc8Items",
 				"SELECT DISTINCT IM.ITEM_MASTER_SID,IM.NDC8 FROM ITEM_MASTER IM WHERE INBOUND_STATUS <> 'D'");
 		comboBoxQueryMap.put("customerRelation",
-				"select RB.RELATIONSHIP_BUILDER_SID, RB.RELATIONSHIP_NAME from RELATIONSHIP_BUILDER RB \n" +
-                                "join HIERARCHY_DEFINITION HD on HD.HIERARCHY_DEFINITION_SID =  RB.HIERARCHY_DEFINITION_SID\n" +
-                                "join HELPER_TABLE HT on HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY where HT.LIST_NAME = 'Hierarchy_Category' and HT.DESCRIPTION = 'Customer Hierarchy';");
+				"select RB.RELATIONSHIP_BUILDER_SID, RB.RELATIONSHIP_NAME from RELATIONSHIP_BUILDER RB \n"
+						+ "join HIERARCHY_DEFINITION HD on HD.HIERARCHY_DEFINITION_SID =  RB.HIERARCHY_DEFINITION_SID\n"
+						+ "join HELPER_TABLE HT on HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY where HT.LIST_NAME = 'Hierarchy_Category' and HT.DESCRIPTION = 'Customer Hierarchy';");
 		comboBoxQueryMap.put("productRelation",
-				"select RB.RELATIONSHIP_BUILDER_SID, RB.RELATIONSHIP_NAME from RELATIONSHIP_BUILDER RB \n" +
-                                "join HIERARCHY_DEFINITION HD on HD.HIERARCHY_DEFINITION_SID =  RB.HIERARCHY_DEFINITION_SID\n" +
-                                "join HELPER_TABLE HT on HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY where HT.LIST_NAME = 'Hierarchy_Category' and HT.DESCRIPTION = 'Product Hierarchy';");
-                                comboBoxQueryMap.put("REPORT_CUSTOM_VIEW",
+				"select RB.RELATIONSHIP_BUILDER_SID, RB.RELATIONSHIP_NAME from RELATIONSHIP_BUILDER RB \n"
+						+ "join HIERARCHY_DEFINITION HD on HD.HIERARCHY_DEFINITION_SID =  RB.HIERARCHY_DEFINITION_SID\n"
+						+ "join HELPER_TABLE HT on HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY where HT.LIST_NAME = 'Hierarchy_Category' and HT.DESCRIPTION = 'Product Hierarchy';");
+		comboBoxQueryMap.put("REPORT_CUSTOM_VIEW",
 				"SELECT DISTINCT CUST_VIEW_MASTER_SID,CUST_VIEW_NAME from CUST_VIEW_MASTER");
+		comboBoxQueryMap.put("CONVERSION_FACTOR",
+				" SELECT SUBSTRING(DESCRIPTION,0, CHARINDEX('~', DESCRIPTION)) FROM HELPER_TABLE WHERE LIST_NAME = 'CONVERSION_FACTOR' ORDER BY DESCRIPTION DESC ;");
 	}
 
 	public void loadGLCompany() {
@@ -423,7 +424,6 @@ public class GtnWsAllListConfig {
 				nonHelperComboBoxResponseMap.get(currentRow[0].toString()).addItemCodeList(itemCode);
 				nonHelperComboBoxResponseMap.get(currentRow[0].toString()).addItemValueList(itemValue);
 
-
 			}
 		} catch (GtnFrameworkGeneralException e) {
 			logger.error("Exception in loadGLCompany()----" + e.getMessage());
@@ -446,9 +446,10 @@ public class GtnWsAllListConfig {
 
 			connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
 					.getService(ConnectionProvider.class).getConnection();
-			sqlQuery.append("select userId,ISNULL(firstName, '') +' '+ISNULL(middleName, '')+' '+ISNULL(lastName, '') from ");
-					sqlQuery.append(connection.getCatalog()); 
-                                        sqlQuery.append(".dbo.User_");
+			sqlQuery.append(
+					"select userId,ISNULL(firstName, '') +' '+ISNULL(middleName, '')+' '+ISNULL(lastName, '') from ");
+			sqlQuery.append(connection.getCatalog());
+			sqlQuery.append(".dbo.User_");
 			List<Object[]> resultList = null;
 
 			resultList = gtnSqlQueryEngine.executeSelectQuery(sqlQuery.toString(), session);
