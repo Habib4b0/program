@@ -15,6 +15,8 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GtnReportFilterReloadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -41,34 +43,37 @@ public class GtnReportFilterReloadAction
 		GtnWsReportDashboardFilterBean filterBean = new GtnWsReportDashboardFilterBean();
 		filterBean.setHierarchyType(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(2)));
 		filterBean.setCustomerLevelNo(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(3)))
+				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(3)),componentId)
 				.getIntegerFromV8ComboBox());
 		filterBean.setProductLevelNo(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(4)))
+				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(4)),componentId)
 				.getIntegerFromV8ComboBox());
 		filterBean.setDeductionLevelNo(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(5)))
+				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(5)),componentId)
 				.getIntegerFromV8ComboBox());
 		filterBean.setSelectedCustomerList(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(6)))
-				.getIntegerListFromV8MultiSelect());
+				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(6)),componentId)
+				.getSelectedListFromV8MultiSelect());
 		filterBean.setSelectedProductList(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(7)))
-				.getIntegerListFromV8MultiSelect());
+				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(7)),componentId)
+				.getSelectedListFromV8MultiSelect());
 		filterBean.setSelectedDeductionList(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(8)))
-				.getIntegerListFromV8MultiSelect());
+				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(8)),componentId)
+				.getSelectedListFromV8MultiSelect());
 		reportRequest.setFilterBean(filterBean);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportConstants.GTN_REPORT_FILTER_SERVICE + GtnWsReportConstants.GTN_WS_REPORT_FILTER_LOAD_SERVICE,
 				"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-
+                if(response!=null){
 		GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = response
 				.getGtnUIFrameworkWebserviceComboBoxResponse();
-
-		GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)))
-				.addAllItemsToMultiSelect(comboBoxResponse.getItemValueList(), comboBoxResponse.getItemCodeList());
+                if(comboBoxResponse!=null){
+                    GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)),componentId)
+				.addAllItemsToMultiSelect(new ArrayList<>(comboBoxResponse.getItemValueList()), new ArrayList<>(comboBoxResponse.getItemCodeList()));
+                }
+                }
+                
 	}
 
 	@Override

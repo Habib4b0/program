@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.module.lookups;
 
-import com.stpl.gtn.gtn2o.ui.action.GtnReportDataAssumptionsTabLoadAction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
-import java.util.Arrays;
 
 public class GtnFrameworkReportGenerateLookUp {
 
@@ -28,7 +26,7 @@ public class GtnFrameworkReportGenerateLookUp {
 		view.setViewName("Report Generate Lookup View");
 		view.setViewId(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
 		view.setDefaultView(false);
-		view.setReplicable(true);		
+		view.setReplicable(true);
 		addComponentList(view, namespace);
 		view.addViewAction(getDataSelectionTabAction());
 		return view;
@@ -89,7 +87,8 @@ public class GtnFrameworkReportGenerateLookUp {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "dataSelectionRootLayout");
 		dataSelection.setTabCaption("Data Selection");
 		List<GtnUIFrameworkComponentConfig> dataSelectionTabConfigList = new ArrayList<>();
-		new GtnFrameworkReportDataSelectionTabConfig().addDataSelectionTab(dataSelectionTabConfigList, "dataSelectionTab");
+		new GtnFrameworkReportDataSelectionTabConfig().addDataSelectionTab(dataSelectionTabConfigList,
+				"dataSelectionTab");
 		dataSelection.setTabLayoutComponentConfigList(dataSelectionTabConfigList);
 
 		GtnUIFrameworkTabConfig dataAssumptions = new GtnUIFrameworkTabConfig();
@@ -97,29 +96,32 @@ public class GtnFrameworkReportGenerateLookUp {
 		dataAssumptions.setTabCaption("Data Assumptions");
 		List<GtnUIFrameworkComponentConfig> dataAssumptionsTabConfigList = new ArrayList<>();
 		dataAssumptions.setTabLayoutComponentConfigList(dataAssumptionsTabConfigList);
-		new GtnFrameworkDataAssumptionsTabConfig().addDataAssumptionsLayout(dataAssumptionsTabConfigList,"dataAssumptionsTab");
+		new GtnFrameworkDataAssumptionsTabConfig().addDataAssumptionsLayout(dataAssumptionsTabConfigList,
+				"dataAssumptionsTab");
 
 		GtnUIFrameworkTabConfig reportingDashboard = new GtnUIFrameworkTabConfig();
 		reportingDashboard.setComponentId("reportingDashboardRootLayout");
 		reportingDashboard.setTabCaption("Reporting Dashboard");
 		List<GtnUIFrameworkComponentConfig> reportingDashboardTabConfigList = new ArrayList<>();
 		reportingDashboard.setTabLayoutComponentConfigList(reportingDashboardTabConfigList);
-		new GtnFrameworkReportingDashboardTabConfig().addReportingDashboardLayout(reportingDashboardTabConfigList,"reportingDashboardTab");
+		new GtnFrameworkReportingDashboardTabConfig().addReportingDashboardLayout(reportingDashboardTabConfigList,
+				"reportingDashboardTab");
 
 		List<GtnUIFrameworkTabConfig> tabConfigList = new ArrayList<>();
 		tabConfigList.add(dataSelection);
 		tabConfigList.add(dataAssumptions);
 		tabConfigList.add(reportingDashboard);
 
-                tabSheetConfig.setGtnTabSheetConfigList(tabConfigList);
+		tabSheetConfig.setGtnTabSheetConfigList(tabConfigList);
 		componentList.add(tabSheetConfig);
 	}
-	
+
 	private GtnUIFrameWorkActionConfig getDataSelectionTabAction() {
-	GtnUIFrameWorkActionConfig gtnUIFrameWorkDataSelectionTabAction = new GtnUIFrameWorkActionConfig();
-	gtnUIFrameWorkDataSelectionTabAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-	gtnUIFrameWorkDataSelectionTabAction.addActionParameter(GtnReportDataSelectionTabLoadAction.class.getName());
-	gtnUIFrameWorkDataSelectionTabAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
-	return gtnUIFrameWorkDataSelectionTabAction;
+		GtnUIFrameWorkActionConfig gtnUIFrameWorkDataSelectionTabAction = new GtnUIFrameWorkActionConfig();
+		gtnUIFrameWorkDataSelectionTabAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		gtnUIFrameWorkDataSelectionTabAction.addActionParameter(GtnReportDataSelectionTabLoadAction.class.getName());
+		gtnUIFrameWorkDataSelectionTabAction
+				.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		return gtnUIFrameWorkDataSelectionTabAction;
 	}
 }

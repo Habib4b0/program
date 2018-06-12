@@ -158,8 +158,8 @@ public class GtnWsReportingDashboardController {
 			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
 
-			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
-			GtnWsPagedTreeTableResponse rightHeader = reportHeaderService.getReportRightTableColumnsDummy();
+//			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+			GtnWsPagedTreeTableResponse rightHeader = reportHeaderService.getReportRightTableColumnsDummy(gtnUIFrameworkWebserviceRequest);
 			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(rightHeader);
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (Exception ex) {

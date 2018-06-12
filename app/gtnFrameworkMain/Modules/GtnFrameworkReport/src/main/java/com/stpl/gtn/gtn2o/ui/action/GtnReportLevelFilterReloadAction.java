@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import java.util.ArrayList;
 
 public class GtnReportLevelFilterReloadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -52,8 +53,9 @@ public class GtnReportLevelFilterReloadAction
 				.getGtnUIFrameworkWebserviceComboBoxResponse();
 
 		GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)))
-				.addAllItemsToComboBox(comboBoxResponse.getItemValueList(), comboBoxResponse.getItemCodeList());
+				.getVaadinBaseComponent(sourceComponentId + "_"
+						+ String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)))
+				.addAllItemsToComboBox(new ArrayList<>(comboBoxResponse.getItemValueList()), new ArrayList<>(comboBoxResponse.getItemCodeList()));
 	}
 
 	@Override
