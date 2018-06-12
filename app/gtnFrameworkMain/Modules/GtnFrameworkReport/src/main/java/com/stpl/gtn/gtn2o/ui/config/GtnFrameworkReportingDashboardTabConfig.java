@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportDashBoardRightHeaderRequestAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportDasboardTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadAction;
@@ -34,6 +35,7 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariableCategory;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
@@ -223,10 +225,11 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		variableConfig.setAuthorizationIncluded(true);
 
 		GtnUIFrameworkCheckedComboBoxConfig variableLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		variableLoadConfig.setItemValueList(Arrays.stream(GtnWsReportVariablesType.values())
-				.map(GtnWsReportVariablesType::toString).collect(Collectors.toList()));
+		GtnWsReportVariablesType[] variableType = Arrays.copyOfRange(GtnWsReportVariablesType.values(), 0,
+				GtnWsReportVariablesType.values().length - 1);
+		variableLoadConfig.setItemValueList(
+				Arrays.stream(variableType).map(GtnWsReportVariablesType::toString).collect(Collectors.toList()));
 		variableLoadConfig.setDefaultValue(GtnFrameworkReportStringConstants.SELECT_VALUES);
-		variableLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.STATUS);
 		variableConfig.setGtnCheckedComboboxConfig(variableLoadConfig);
 		componentList.add(variableConfig);
 	}
@@ -365,11 +368,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		variableCategoryConfig.setComponentName("Variable Category: ");
 		variableCategoryConfig.setAuthorizationIncluded(true);
-
 		GtnUIFrameworkCheckedComboBoxConfig variableCategoryLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		variableCategoryLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-
+		variableCategoryLoadConfig.setItemValueList(Arrays.stream(GtnWsReportVariableCategory.values())
+				.map(GtnWsReportVariableCategory::toString).collect(Collectors.toList()));
 		variableCategoryLoadConfig.setDefaultValue(GtnFrameworkReportStringConstants.SELECT_VALUES);
 		variableCategoryLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.STATUS);
 		variableCategoryConfig.setGtnCheckedComboboxConfig(variableCategoryLoadConfig);
@@ -1288,8 +1289,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		reportingDashboardGtnPagedTreeTableConfig.setLeftHeaderCustomClassLoadUrl(
 				GtnForecastReturnsClassConstants.GTN_WS_RETURNS_FORECAST_LEFT_HEADER_CONFIG_ACTION);
 
-		reportingDashboardGtnPagedTreeTableConfig.setRightHeaderCustomClassLoadUrl(
-				GtnForecastReturnsClassConstants.GTN_WS_RETURNS_FORECAST_RIGHT_HEADER_CONFIG_ACTION);
+		reportingDashboardGtnPagedTreeTableConfig
+				.setRightHeaderCustomClassLoadUrl(GtnFrameworkReportDashBoardRightHeaderRequestAction.class.getName());
 
 		reportingDashboardGtnPagedTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME);
 		reportingDashboardGtnPagedTreeTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_DASHBOARD_LEFT_DATA);

@@ -372,12 +372,12 @@ public class GtnUIFrameworkBaseComponent {
 			if (isEmpty(multiSelect.getSelectedItems())) {
 				return null;
 			}
-                        List<Object> selectedItemList = new ArrayList<>();
-                        for (Object object : multiSelect.getSelectedItems()) {
-                        if(!"0".equals(object)){
-                            selectedItemList.add(object);                       
-                        }
-                    }
+			List<Object> selectedItemList = new ArrayList<>();
+			for (Object object : multiSelect.getSelectedItems()) {
+				if (!"0".equals(object)) {
+					selectedItemList.add(object);
+				}
+			}
 			return selectedItemList;
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
@@ -389,18 +389,19 @@ public class GtnUIFrameworkBaseComponent {
 			throws GtnFrameworkValidationFailedException {
 		try {
 			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
-//                         ListDataProvider dataProvider = (ListDataProvider) vaadinMultiSelect.getDataProvider();
-//                        dataProvider.getItems().removeAll(dataProvider.getItems());
+			// ListDataProvider dataProvider = (ListDataProvider)
+			// vaadinMultiSelect.getDataProvider();
+			// dataProvider.getItems().removeAll(dataProvider.getItems());
 			vaadinMultiSelect.setItems(idList);
 			vaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
-//			                 GtnUIFrameworkCheckedComboBoxConfig comboboxConfig = this.getComponentConfig().getGtnCheckedComboboxConfig();
-//			String defaultValue = comboboxConfig.getDefaultValue() != null
-//						? String.valueOf(comboboxConfig.getDefaultValue())
-//						: "-Select Values-";
-//				idList.add(0, "0");
-//				valueList.add(0, defaultValue);
-//				vaadinMultiSelect.setValue(new HashSet<>(Arrays.asList("0")));
-			
+			// GtnUIFrameworkCheckedComboBoxConfig comboboxConfig =
+			// this.getComponentConfig().getGtnCheckedComboboxConfig();
+			// String defaultValue = comboboxConfig.getDefaultValue() != null
+			// ? String.valueOf(comboboxConfig.getDefaultValue())
+			// : "-Select Values-";
+			// idList.add(0, "0");
+			// valueList.add(0, defaultValue);
+			// vaadinMultiSelect.setValue(new HashSet<>(Arrays.asList("0")));
 
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
@@ -415,20 +416,20 @@ public class GtnUIFrameworkBaseComponent {
 			vaadinComboBox.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
 
 			GtnUIFrameworkComboBoxConfig comboboxConfig = this.getComponentConfig().getGtnComboboxConfig();
-//			if (!comboboxConfig.isHasDefaultValue()) {
-//				String defaultValue = comboboxConfig.getDefaultValue() != null
-//						? String.valueOf(comboboxConfig.getDefaultValue())
-//						: GtnFrameworkCommonStringConstants.SELECT_ONE;
-//				idList.add(0, 0);
-//				valueList.add(0, defaultValue);
-//			} else {
-//				for (int i = 0; i < valueList.size(); i++) {
-//					if (comboboxConfig.getDefaultDesc().equals(valueList.get(i))) {
-//						vaadinComboBox.setValue(valueList.get(i));
-//						break;
-//					}
-//				}
-//			}
+			// if (!comboboxConfig.isHasDefaultValue()) {
+			// String defaultValue = comboboxConfig.getDefaultValue() != null
+			// ? String.valueOf(comboboxConfig.getDefaultValue())
+			// : GtnFrameworkCommonStringConstants.SELECT_ONE;
+			// idList.add(0, 0);
+			// valueList.add(0, defaultValue);
+			// } else {
+			// for (int i = 0; i < valueList.size(); i++) {
+			// if (comboboxConfig.getDefaultDesc().equals(valueList.get(i))) {
+			// vaadinComboBox.setValue(valueList.get(i));
+			// break;
+			// }
+			// }
+			// }
 
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
@@ -1292,5 +1293,10 @@ public class GtnUIFrameworkBaseComponent {
 
 	public void setHasValue(String value) {
 		((HasValue) this.component).setValue(value);
+	}
+
+	public String[] getStringFromMultiselectComboBox() {
+		Set<?> selectedData = ((ComboBoxMultiselect) this.component).getValue();
+		return selectedData.stream().toArray(String[]::new);
 	}
 }

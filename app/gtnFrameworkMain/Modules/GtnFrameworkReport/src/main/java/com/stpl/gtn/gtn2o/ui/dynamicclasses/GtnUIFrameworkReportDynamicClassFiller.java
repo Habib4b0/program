@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkConfirmSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCustomTreeConfirmedSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewDeleteAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewEditAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportDashBoardRightHeaderRequestAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIBuildCustomTreeAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomSelectAction;
@@ -117,10 +118,8 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnFrameworkReportCustomViewDeleteAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportCustomViewEditAction.class.getName(),
 				new GtnFrameworkReportCustomViewEditAction());
-
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportDataAssumptionsTabLoadAction.class.getName(),
 				new GtnReportDataAssumptionsTabLoadAction());
-
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportDataSelectionViewAddAction.class.getName(),
 				new GtnReportDataSelectionViewAddAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportDataSelectionLoadViewAction.class.getName(),
@@ -141,13 +140,14 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnReportingVariableBreakdownGridLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUICustomSelectAction.class.getName(),
 				new GtnFrameworkUICustomSelectAction());
-
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
 				GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction.class.getName(),
 				new GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction());
-
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingVariableBreakdownHeaderLoadAction.class.getName(),
 				new GtnReportingVariableBreakdownHeaderLoadAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
+				GtnFrameworkReportDashBoardRightHeaderRequestAction.class.getName(),
+				new GtnFrameworkReportDashBoardRightHeaderRequestAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportFilterReloadAction.class.getName(),
 				new GtnReportFilterReloadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportLevelFilterReloadAction.class.getName(),
