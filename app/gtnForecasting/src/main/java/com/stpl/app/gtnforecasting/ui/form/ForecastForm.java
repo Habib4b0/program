@@ -536,7 +536,7 @@ public class ForecastForm extends AbstractForm {
                                     if (nmSalesProjection.isSalesValueChange()) {
                                     CommonLogic.viewProceduresCompletionCheckDiscount(session);
                                     session.setFunctionMode("UPS");
-                                    nmDiscountViewsPopulationProcedure();                                 
+                                    nmDiscountViewsPopulationProcedure();  
                                     }
                                 if (tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.FIVE
                                         || tabPosition == NumericConstants.EIGHT) {

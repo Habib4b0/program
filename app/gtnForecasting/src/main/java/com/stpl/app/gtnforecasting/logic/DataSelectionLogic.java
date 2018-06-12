@@ -2864,7 +2864,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 	}
 
 	private static void updateRelationShipLevelList(Object[] object, List<Object> detailsList, String defaultValue) {
-		if (object.length > 5) {
+		if (object.length >= 5) {
 			List<Object> displayFormat = new ArrayList<>();
 			displayFormat.add(defaultValue);
 			for (int i = 5; i < object.length - 1; i++) {
