@@ -145,16 +145,16 @@ public class RsLookUp extends Window {
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 try {
                 if (propertyId.equals("rsType")) {
-                    CustomComboBox rsType = new CustomComboBox();
-                    commonUtil.loadComboBox(rsType, UiUtils.RS_TYPE, true);
-                    return rsType;
+                    CustomComboBox rsTypeCustomComboBox = new CustomComboBox();
+                    commonUtil.loadComboBox(rsTypeCustomComboBox, UiUtils.RS_TYPE, true);
+                    return rsTypeCustomComboBox;
                 }
                 if (propertyId.equals("rsCategory")) {
-                    CustomComboBox rsCategory = new CustomComboBox();
+                    CustomComboBox rsCategoryCustomComboBox = new CustomComboBox();
                     
-                        commonUtil.loadComboBox(rsCategory, UiUtils.RS_CATEGORY, true);
+                        commonUtil.loadComboBox(rsCategoryCustomComboBox, UiUtils.RS_CATEGORY, true);
                    
-                    return rsCategory;
+                    return rsCategoryCustomComboBox;
                 }
                 if (propertyId.equals("rsTradeClass")) {
                     CustomComboBox rsTradeClass = new CustomComboBox();
@@ -167,14 +167,14 @@ public class RsLookUp extends Window {
                     return rsDesignation;
                 }
                 if (propertyId.equals("rsStatus")) {
-                    CustomComboBox rsStatus = new CustomComboBox();
-                    commonUtil.loadComboBox(rsStatus, UiUtils.STATUS, true);
-                    return rsStatus;
+                    CustomComboBox rsStatusCustomComboBox = new CustomComboBox();
+                    commonUtil.loadComboBox(rsStatusCustomComboBox, UiUtils.STATUS, true);
+                    return rsStatusCustomComboBox;
                 }
                 if (propertyId.equals("rebateProgramType")) {
-                    CustomComboBox rebateProgramType = new CustomComboBox();
-                     commonUtil.loadComboBox(rebateProgramType, UiUtils.REBATE_PROGRAM_TYPE, true);
-                    return rebateProgramType;
+                    CustomComboBox rebateProgramTypeCustomComboBox = new CustomComboBox();
+                     commonUtil.loadComboBox(rebateProgramTypeCustomComboBox, UiUtils.REBATE_PROGRAM_TYPE, true);
+                    return rebateProgramTypeCustomComboBox;
                 }
                  } catch (Exception ex) {
                      LOGGER.error("",ex);

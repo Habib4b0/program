@@ -531,12 +531,12 @@ public class Copycomponents extends CustomComponent {
                 if (checked) {
                     checkedFlag = true;
                     if (!flag) {
-                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.CFP_ID).getValue());
-                        ids = cfpId;
+                        String cfpID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.CFP_ID).getValue());
+                        ids = cfpID;
                         flag = true;
                     } else {
-                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.CFP_ID).getValue());
-                        ids = ids + Constants.COMMA + cfpId;
+                        String cfpID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.CFP_ID).getValue());
+                        ids = ids + Constants.COMMA + cfpID;
                     }
                 }
             }
@@ -574,12 +574,12 @@ public class Copycomponents extends CustomComponent {
                 if (checked) {
                     checkedFlag = true;
                     if (!flag) {
-                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.IFP_ID_COL).getValue());
-                        ids = cfpId;
+                        String cfpID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.IFP_ID_COL).getValue());
+                        ids = cfpID;
                         flag = true;
                     } else {
-                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.IFP_ID_COL).getValue());
-                        ids = ids + Constants.COMMA + cfpId;
+                        String cfpID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.IFP_ID_COL).getValue());
+                        ids = ids + Constants.COMMA + cfpID;
                     }
                 }
             }
@@ -601,12 +601,12 @@ public class Copycomponents extends CustomComponent {
                 if (checked) {
                     checkedFlag = true;
                     if (!flag) {
-                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.PS_ID).getValue());
-                        ids = cfpId;
+                        String cfpID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.PS_ID).getValue());
+                        ids = cfpID;
                         flag = true;
                     } else {
-                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.PS_ID).getValue());
-                        ids = ids + Constants.COMMA + cfpId;
+                        String cfpID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.PS_ID).getValue());
+                        ids = ids + Constants.COMMA + cfpID;
                     }
                 }
             }
@@ -627,12 +627,12 @@ public class Copycomponents extends CustomComponent {
                 if (checked) {
                     checkedFlag = true;
                     if (!flag) {
-                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.RS_ID).getValue());
-                        ids = cfpId;
+                        String cfpID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.RS_ID).getValue());
+                        ids = cfpID;
                         flag = true;
                     } else {
-                        String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.RS_ID).getValue());
-                        ids = ids + Constants.COMMA + cfpId;
+                        String cfpID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.RS_ID).getValue());
+                        ids = ids + Constants.COMMA + cfpID;
                     }
                 }
             }
@@ -690,8 +690,8 @@ public class Copycomponents extends CustomComponent {
                         for (Object item : returnList) {
                             Boolean checked = (Boolean) contractComponentContainer.getContainerProperty(item, Constants.CHECK).getValue();
                             if (checked) {
-                                String cfpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.CFP_ID).getValue());
-                                setA.add(cfpId);
+                                String cfpID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.CFP_ID).getValue());
+                                setA.add(cfpID);
                             }
                         }
                         List<String> tmp = new ArrayList<>();
@@ -730,8 +730,8 @@ public class Copycomponents extends CustomComponent {
                         for (Object item : returnList) {
                             Boolean checked = (Boolean) contractComponentContainer.getContainerProperty(item, Constants.CHECK).getValue();
                             if (checked) {
-                                String ifpId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.IFP_ID_COL).getValue());
-                                setA.add(ifpId);
+                                String ifpID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.IFP_ID_COL).getValue());
+                                setA.add(ifpID);
                             }
                         }
                         List<String> tmp = new ArrayList<>();
@@ -769,8 +769,8 @@ public class Copycomponents extends CustomComponent {
                         for (Object item : returnList) {
                             Boolean checked = (Boolean) contractComponentContainer.getContainerProperty(item, Constants.CHECK).getValue();
                             if (checked) {
-                                String psId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.PS_ID).getValue());
-                                setA.add(psId);
+                                String psID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.PS_ID).getValue());
+                                setA.add(psID);
                             }
                         }
                         boolean psFlag = true;
@@ -817,8 +817,8 @@ public class Copycomponents extends CustomComponent {
                         for (Object item : returnList) {
                             Boolean checked = (Boolean) contractComponentContainer.getContainerProperty(item, Constants.CHECK).getValue();
                             if (checked) {
-                                String rsId = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.RS_ID).getValue());
-                                setA.add(rsId);
+                                String rsID = String.valueOf(contractComponentContainer.getContainerProperty(item, Constants.RS_ID).getValue());
+                                setA.add(rsID);
                             }
                         }
                         List<String> tmp = new ArrayList<>();
@@ -907,16 +907,16 @@ public class Copycomponents extends CustomComponent {
                     contractInformationTable.setColumnWidth(obj, NumericConstants.ONE_EIGHT_ZERO);
                 }
             } else if (level.equals(Constants.TWO) || level.equals(Constants.THREE) || level.equals(Constants.FOUR)) {
-                String ifpId = String.valueOf(contractDashBoardTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
+                String ifpID = String.valueOf(contractDashBoardTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
                 String componentQuery;
                 if (level.equals(Constants.TWO)) {
-                    componentQuery = queryUtils.getItemMasterDetails(ifpId);
+                    componentQuery = queryUtils.getItemMasterDetails(ifpID);
                     ComponentInfoLogic.setData(Constants.IFP, componentQuery);
                 } else if (level.equals(Constants.THREE)) {
-                    componentQuery = queryUtils.getPSDetails(ifpId);
+                    componentQuery = queryUtils.getPSDetails(ifpID);
                     ComponentInfoLogic.setData(Constants.PS, componentQuery);
                 } else if (level.equals(Constants.FOUR)) {
-                    componentQuery = queryUtils.getRSDetails(ifpId);
+                    componentQuery = queryUtils.getRSDetails(ifpID);
                     ComponentInfoLogic.setData(Constants.RS, componentQuery);
                 }
                 contractInformationTable.setVisibleColumns(Constants.getInstance().componentDetailsItemColumns);

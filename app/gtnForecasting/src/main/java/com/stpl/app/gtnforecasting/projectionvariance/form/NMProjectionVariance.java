@@ -214,6 +214,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             pvSelectionDTO.setIscustomerFirst(!generateCustomerToBeLoaded.isEmpty());
             loadDeductionLevelFilter(ANULL.equals(String.valueOf(deductionlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(deductionlevelDdlb.getValue()));
             loadProductLevelFilter(ANULL.equals(String.valueOf(productlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(productlevelDdlb.getValue()));
+            LOGGER.info("ded value-------------------------"+String.valueOf(deductionlevelDdlb.getValue()));
+            pvSelectionDTO.setSelectedDeductionLevelName(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
         }
     };
     protected CustomMenuBar.SubMenuCloseListener deductionInclusionListener = new CustomMenuBar.SubMenuCloseListener() {
@@ -929,6 +931,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     @Override
     protected void getGenerateCall(boolean excelFlag) {
+        CommonLogic.procedureCompletionCheck(session,"sales",String.valueOf(view.getValue()));
+        CommonLogic.procedureCompletionCheck(session,"Discount",String.valueOf(view.getValue()));
         try {
             Object[] displayValidation = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
             if (displayValidation.length == 0 && !CommonUtil.nullCheck(displayValidation)) {
@@ -2470,6 +2474,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         String deductionMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
         deductionFilterDdlb.addSubMenuCloseListener(deductionlistener);
+        pvSelectionDTO.setSelectedDeductionLevelName(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
     }
     public static final String SELECT_ALL = "Select All";
 

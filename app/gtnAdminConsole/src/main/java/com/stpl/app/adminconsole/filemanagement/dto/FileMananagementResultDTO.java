@@ -1109,7 +1109,7 @@ public class FileMananagementResultDTO implements Serializable {
         this.forecastDate = forecastDate;
     }
 
-    public void setCustomerGtsForecastIntfId(String EMPTY) {
+    public void setCustomerGtsForecastIntfId(String empty) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
