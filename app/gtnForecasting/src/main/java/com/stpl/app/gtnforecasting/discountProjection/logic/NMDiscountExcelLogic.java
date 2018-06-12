@@ -75,6 +75,28 @@ public class NMDiscountExcelLogic {
 
         }
     }
+    public void getCustomizedExcelDataCustom(List<Object[]> discountExcelList, ProjectionSelectionDTO projectionSelection, List doubleProjectedAndHistoryCombinedUniqueList) {
+        SessionDTO sessionDTO = projectionSelection.getSessionDTO();
+        Character freq = projectionSelection.getFrequency().charAt(0);
+        Map<String, List> hierarchyLevelDetails = sessionDTO.getDiscountHierarchyLevelDetails();
+        for (Iterator<Object[]> it = discountExcelList.listIterator(); it.hasNext();) {
+            Object[] obj = it.next();
+            String key = obj[NumericConstants.ZERO].toString();
+            String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(key.trim()).get(4));
+                key = key.substring(key.indexOf('-') + 1);
+           
+            DiscountProjectionDTO discountProjectionDTO = resultMap.get(key);
+            if (discountProjectionDTO == null) {
+                discountProjectionDTO = new DiscountProjectionDTO();
+                setActualsProjectionValues(discountProjectionDTO, freq, obj, projectionSelection, hierarchyLevelDetails, doubleProjectedAndHistoryCombinedUniqueList);
+                resultMap.put(key, discountProjectionDTO);
+                hierarchykeys(key);
+            } else {
+                setActualsProjectionValues(discountProjectionDTO, freq, obj, projectionSelection, hierarchyLevelDetails, doubleProjectedAndHistoryCombinedUniqueList);
+            }
+
+        }
+    }
     
     public String getHierarchy(String key, ProjectionSelectionDTO projectionSelection) {
 
@@ -189,8 +211,8 @@ public class NMDiscountExcelLogic {
           discountProjectionDTO.addStringProperties(header + Constant.PROJECTEDRPU,CommonUtils.forecastConfigDataHide(projectionSelection.getFrequency(), projectionSelection.getForecastConfigPeriods(),
                       column, projectedValue) );
           discountProjectionDTO.addStringProperties(header + Constant.GROWTH, Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]));
-          discountProjectionDTO.addStringProperties(header + "ProjectedSales", Constant.NULL.equals(String.valueOf(obj[NumericConstants.NINETEEN])) ? "1500" : String.valueOf(obj[NumericConstants.NINETEEN]));
-          discountProjectionDTO.addStringProperties(header + "ProjectedUnits", Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWENTY])) ? "100" : String.valueOf(obj[NumericConstants.TWENTY]));
+          discountProjectionDTO.addStringProperties(header + "ProjectedSales", Constant.NULL.equals(String.valueOf(obj[NumericConstants.NINETEEN])) ? DASH : String.valueOf(obj[NumericConstants.NINETEEN]));
+          discountProjectionDTO.addStringProperties(header + "ProjectedUnits", Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWENTY])) ? DASH : String.valueOf(obj[NumericConstants.TWENTY]));
 		
 	}
 	private void setActualsProjForDeductionInclusion(DiscountProjectionDTO discountProjectionDTO, boolean isActuals, String header, ProjectionSelectionDTO projectionSelection, Object[] obj) {
