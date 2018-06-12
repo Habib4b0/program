@@ -7,6 +7,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentActionable;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUiFrameworkComboBoxSourceType;
@@ -27,7 +28,7 @@ import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 
-public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent {
+public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkComboBoxComponent.class);
 
@@ -47,7 +48,8 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 				vaadinComboBox.setCaption(componentConfig.getComponentName());
 			}
 			loadStyles(vaadinComboBox, componentConfig.getComponentStyle());
-			vaadinComboBox = fillComboBox(comboboxConfig, null, componentConfig.getSourceViewId(), vaadinComboBox);
+//			vaadinComboBox = fillComboBox(componentConfig, comboboxConfig, null, componentConfig.getSourceViewId(),
+//					vaadinComboBox, null);
 
 			if (vaadinComboBox != null) {
 				setComponentProperties(componentConfig, vaadinComboBox, comboboxConfig);
@@ -144,7 +146,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 						comboBoxActionConfig = componentConfig.getReloadActionConfig();
 					}
 					comboBoxActionConfig.addActionParameter(reloadInput);
-					comboBoxCustomAction.doAction(componentId, comboBoxActionConfig);
+					 comboBoxCustomAction.doAction(sourceViewId + "_" +componentConfig.getComponentId(), comboBoxActionConfig);
 				} catch (GtnFrameworkGeneralException ex) {
 					gtnLogger.error(componentId, ex);
 				}
@@ -160,18 +162,35 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 				componentId);
 		vaadinComboBoxComponent.setItems(new ArrayList<>());
 
-		vaadinComboBoxComponent = fillComboBox(comboboxComponentConfig, comboBoxRequestInputList, sourceViewId,
-				vaadinComboBoxComponent);
+		vaadinComboBoxComponent = fillComboBox(componentConfig, comboboxComponentConfig, comboBoxRequestInputList,
+				sourceViewId, vaadinComboBoxComponent, reloadInput);
 		gtnLogger.info("Reloaded vaadin combobox" + vaadinComboBoxComponent);
 
 	}
 
-	private ComboBox fillComboBox(GtnUIFrameworkComboBoxConfig comboboxConfig,
-			List<Object> comboBoxWhereClauseParamList, String sourceViewId, ComboBox vaadinCombobox) {
+	private ComboBox fillComboBox(GtnUIFrameworkComponentConfig componentConfig,
+			GtnUIFrameworkComboBoxConfig comboboxConfig, List<Object> comboBoxWhereClauseParamList, String sourceViewId,
+			ComboBox vaadinCombobox, Object reloadInput) {
 		ComboBox vaadinComboBox = vaadinCombobox;
 		GtnUIFrameworkWebserviceComboBoxResponse response = getResponseFromSource(comboboxConfig,
 				comboBoxWhereClauseParamList, sourceViewId);
 		try {
+			if (componentConfig.getReloadLogicActionClassName() != null) {
+				try {
+					GtnUIFrameworkClassLoader comboBoxClassLoader = new GtnUIFrameworkClassLoader();
+					GtnUIFrameWorkAction comboBoxCustomAction = (GtnUIFrameWorkAction) comboBoxClassLoader
+							.loadDynamicClass(componentConfig.getReloadLogicActionClassName());
+					GtnUIFrameWorkActionConfig comboBoxActionConfig = new GtnUIFrameWorkActionConfig();
+					if (componentConfig.getReloadActionConfig() != null) {
+						comboBoxActionConfig = componentConfig.getReloadActionConfig();
+					}
+					comboBoxActionConfig.addActionParameter(reloadInput);
+                                        comboBoxCustomAction.doAction(sourceViewId + "_" +componentConfig.getComponentId(), comboBoxActionConfig);
+				} catch (GtnFrameworkGeneralException ex) {
+					gtnLogger.error(componentConfig.getComponentId(), ex);
+				}
+				return vaadinCombobox;
+			}
 			if (comboboxConfig.getItemValues() != null) {
 				vaadinComboBox.setItems(comboboxConfig.getItemValues());
 				if (comboboxConfig.getItemCaptionValues() != null) {
@@ -309,4 +328,10 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent 
 			vaadinComboBox.focus();
 		}
 	}
+
+    @Override
+    public void postCreateComponent(AbstractComponent component, GtnUIFrameworkComponentConfig componentConfig) {
+        fillComboBox(componentConfig, componentConfig.getGtnComboboxConfig(), null, componentConfig.getSourceViewId(),
+					(ComboBox)component, null);
+    }
 }

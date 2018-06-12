@@ -17,6 +17,8 @@ public class GtnWsReportDashboardBean {
 	private String customViewName;
 	private String sessionId;
 	private GtnWsHierarchyType hierarchyType;
+	private String[] selectedVariableType;
+	private String[] selectedVariableCategoryType;
 
 	public String[] getInput() {
 		return input;
@@ -62,4 +64,19 @@ public class GtnWsReportDashboardBean {
 		this.hierarchyType = hierarchyType;
 	}
 
+	public String[] getSelectedVariableType() {
+		return selectedVariableType;
+	}
+
+	public void setSelectedVariableType(String[] selectedVariableType) {
+		this.selectedVariableType = selectedVariableType;
+	}
+
+	public String[] getSelectedVariableCategoryType() {
+		return selectedVariableCategoryType;
+	}
+
+	public void setSelectedVariableCategoryType(String[] selectedVariableCategoryType) {
+		this.selectedVariableCategoryType = selectedVariableCategoryType;
+	}
 }

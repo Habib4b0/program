@@ -40,7 +40,7 @@
     </bean>
 
     <bean id="mongoCLientFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName" value="java:global/MyMongoClient" />
+        <property name="jndiName" value="java:jboss/MongoClient" />
     </bean>
     <bean id="sqlPropertyBean"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">

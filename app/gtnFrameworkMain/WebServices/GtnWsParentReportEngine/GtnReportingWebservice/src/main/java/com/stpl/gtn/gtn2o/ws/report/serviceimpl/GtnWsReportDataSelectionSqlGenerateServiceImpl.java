@@ -77,7 +77,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	private void callInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
-		variableInsertProcedure(dataSelectionBean);
+		variableHierarchyNoInsertProcedure(dataSelectionBean);
 		dataPopulationInsertProcedure();
 	}
 
@@ -115,6 +115,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			data.setLevelNo(Integer.parseInt(result[3].toString()));
 			data.setHierarchyNo(result[0].toString());
 			data.setChildCount(Integer.parseInt(result[8].toString()));
+			data.setRowIndex(Integer.parseInt(result[9].toString()));
 			data.setData(result);
 			ccpList.add(data);
 		}
@@ -142,7 +143,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 				.executeSelectQuery(sqlService.getQuery(input, "getCustomViewHierarchyTableDetails"));
 	}
 
-	private void variableInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
+	private void variableHierarchyNoInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
 		GTNLOGGER.info("Calling variable Insert Procedure");
 		Object[] input = { dataSelectionBean.getCustomViewMasterSid(), dataSelectionBean.getSessionId() };

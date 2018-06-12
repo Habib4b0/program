@@ -532,7 +532,7 @@
 	<entry key="filterOptionDeductionLevelLoadQuery">
 		<![CDATA[
 					SELECT
-					    DISTINCT rld.level_no,
+					    DISTINCT Cast(rld.level_no as int) as level_no,
 					    'Level ' + rld.level_no + ' - ' + rld.level_name
 					FROM
 					    relationship_level_definition rld,
@@ -545,10 +545,10 @@
 					        FROM
 					            relationship_builder rbt
 					        WHERE
-					            rbt.hierarchy_definition_sid = 15
+					            rbt.hierarchy_definition_sid = 18
 					    )
 					ORDER BY
-					    rld.level_no ASC;
+					    level_no ASC;
 		]]>
 	</entry>
 	<entry key="report-customer-filter">
@@ -738,7 +738,8 @@
                		?
                ) SELECT
 				    A.*,
-				    CS.CC CHILD_COUNT
+				    CS.CC CHILD_COUNT,
+				    ROW_NUMBER() OVER (PARTITION BY LEVEL_NO ORDER BY LEVEL_NO) AS ROW_INDEX
 				FROM
 				    CTE A CROSS APPLY(
 				        SELECT
@@ -752,6 +753,25 @@
 				ORDER BY
 				    LEVEL_NO
             ]]>
+	</entry>
+	<entry key="deductionFilterLoadQuery">
+		<![CDATA[
+		from
+			ST_CCP_HIERARCHY st_ccp_hierarchy 
+		join CCP_DETAILS ccd on
+			ccd.CCP_DETAILS_SID = st_ccp_hierarchy.CCP_DETAILS_SID 
+		join CONTRACT_MASTER cm on
+			cm.CONTRACT_MASTER_SID = ccd.CONTRACT_MASTER_SID 
+		join COMPANY_MASTER com on
+			com.COMPANY_MASTER_SID = ccd.COMPANY_MASTER_SID 
+		join ITEM_MASTER im on
+			im.ITEM_MASTER_SID = ccd.ITEM_MASTER_SID 
+		join RS_CONTRACT rc on
+			rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID 
+		join RS_CONTRACT_DETAILS rcd on
+			rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID
+			and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID
+		]]>
 	</entry>
 		
 </properties>
