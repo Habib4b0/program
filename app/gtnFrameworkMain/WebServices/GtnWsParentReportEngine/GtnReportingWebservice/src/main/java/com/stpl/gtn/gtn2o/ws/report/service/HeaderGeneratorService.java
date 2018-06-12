@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
+import com.stpl.gtn.gtn2o.ws.report.controller.GtnWsReportController;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
@@ -439,6 +441,73 @@ public class HeaderGeneratorService {
 		return periodColumnHeader;
 	}
 
+        public List<Object[]> getVariableBreakdownPeriods(
+	           GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) throws GtnFrameworkGeneralException {
+
+        List variableBreakdown = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getDataSelectionBean()
+                .getVariableBreakdownHeaderLoadList();
+
+        String fromPeriod = variableBreakdown.get(0).toString();
+        String toPeriod = variableBreakdown.get(1).toString();
+        String dateFromPeriodQuery = null;
+        String dateToPeriodQuery = null;
+        String splitParameter = " ";
+        if (fromPeriod.startsWith("Q")) {
+			List<Integer> quarterToDateForFromPeriod = getQuarterToDate(fromPeriod,splitParameter);
+			List<Integer> quarterToDateForToPeriod = getQuarterToDate(toPeriod,splitParameter);
+                        dateFromPeriodQuery = getDateFromFrequency(quarterToDateForFromPeriod);
+                        dateToPeriodQuery = getDateFromFrequency(quarterToDateForToPeriod);
+		} else if (fromPeriod.startsWith("S")) {
+
+			List<Integer> semiAnnualToDateForFromPeriod = getSemiAnnualToDate(fromPeriod,splitParameter);
+			List<Integer> semiAnnualToDateForToPeriod = getSemiAnnualToDate(toPeriod,splitParameter);
+
+                        dateFromPeriodQuery = getDateFromFrequency(semiAnnualToDateForFromPeriod);
+                        dateToPeriodQuery = getDateFromFrequency(semiAnnualToDateForToPeriod);
+		} else if (fromPeriod.matches("[0-9]+")) {
+			List<Integer> yearToDateForFromPeriod = new ArrayList<>();
+			yearToDateForFromPeriod.add(Integer.valueOf(fromPeriod));
+			yearToDateForFromPeriod.add(1);
+			yearToDateForFromPeriod.add(1);
+			List<Integer> yearToDateForToPeriod = new ArrayList<>();
+			yearToDateForToPeriod.add(Integer.valueOf(toPeriod));
+			yearToDateForToPeriod.add(1);
+			yearToDateForToPeriod.add(1);
+
+                        dateFromPeriodQuery = getDateFromFrequency(yearToDateForFromPeriod);
+                        dateToPeriodQuery = getDateFromFrequency(yearToDateForToPeriod);
+		} else {
+			List<Integer> monthToDateForFromPeriod = new ArrayList<>();
+			String[] monthToDateForFromPeriodSplit = fromPeriod.split(" ");
+			monthToDateForFromPeriod.add(Integer.valueOf(monthToDateForFromPeriodSplit[1]));
+			monthToDateForFromPeriod.add(getMonthIntegerFromYear(monthToDateForFromPeriodSplit[0]));
+			monthToDateForFromPeriod.add(1);
+
+			List<Integer> monthToDateForToPeriod = new ArrayList<>();
+			String[] monthToDateForToPeriodSplit = toPeriod.split(" ");
+			monthToDateForToPeriod.add(Integer.valueOf(monthToDateForToPeriodSplit[1]));
+			monthToDateForToPeriod.add(getMonthIntegerFromYear(monthToDateForToPeriodSplit[0]));
+			monthToDateForToPeriod.add(1);
+                        
+                        dateFromPeriodQuery = getDateFromFrequency(monthToDateForFromPeriod);
+                        dateToPeriodQuery = getDateFromFrequency(monthToDateForToPeriod);
+		}
+                String finalQuery = GtnWsQueryConstants.VARIABLE_BREAKDOWN_PERIOD_DATAS;
+                finalQuery.replace("@startDate", dateFromPeriodQuery);
+                finalQuery.replace("@endDate",dateToPeriodQuery);
+                GtnWsReportController gtnWsReportController = new GtnWsReportController();
+                List<Object[]> resultList = gtnWsReportController.executeQuery(finalQuery);
+        
+        return resultList;
+        }
+
+    private String getDateFromFrequency(List<Integer> periodList) {
+        String date = null;
+        for(Integer dateNumeric:periodList){
+            date=date+dateNumeric;
+        }
+        return date;
+    }
 	public GtnWsPagedTableResponse getVariableBreakdownHeaderColumns(
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) throws GtnFrameworkGeneralException {
 
@@ -450,16 +519,16 @@ public class HeaderGeneratorService {
 		String fromPeriod = variableBreakdown.get(0).toString();
 		String toPeriod = variableBreakdown.get(1).toString();
 		String frequency = variableBreakdown.get(2).toString();
-
+                String splitParameter="-"; 
 		if (fromPeriod.startsWith("Q")) {
-			List<Integer> quarterToDateForFromPeriod = getQuarterToDate(fromPeriod);
-			List<Integer> quarterToDateForToPeriod = getQuarterToDate(toPeriod);
+			List<Integer> quarterToDateForFromPeriod = getQuarterToDate(fromPeriod,splitParameter);
+			List<Integer> quarterToDateForToPeriod = getQuarterToDate(toPeriod,splitParameter);
 			tableHeaderDTO = getHeaderBasedOnFrequency(frequency, quarterToDateForFromPeriod, quarterToDateForToPeriod,
 					tableHeaderDTO, fromPeriod);
 		} else if (fromPeriod.startsWith("S")) {
 
-			List<Integer> semiAnnualToDateForFromPeriod = getSemiAnnualToDate(fromPeriod);
-			List<Integer> semiAnnualToDateForToPeriod = getSemiAnnualToDate(toPeriod);
+			List<Integer> semiAnnualToDateForFromPeriod = getSemiAnnualToDate(fromPeriod,splitParameter);
+			List<Integer> semiAnnualToDateForToPeriod = getSemiAnnualToDate(toPeriod,splitParameter);
 			tableHeaderDTO = getHeaderBasedOnFrequency(frequency, semiAnnualToDateForFromPeriod,
 					semiAnnualToDateForToPeriod, tableHeaderDTO, fromPeriod);
 
@@ -630,8 +699,8 @@ public class HeaderGeneratorService {
 		return tableHeaderDTO;
 	}
 
-	private List<Integer> getQuarterToDate(String fromPeriod) throws NumberFormatException {
-		String[] quarterToDateSplit = fromPeriod.trim().split("-");
+	private List<Integer> getQuarterToDate(String fromPeriod,String splitParameter) throws NumberFormatException {
+		String[] quarterToDateSplit = fromPeriod.trim().split(splitParameter);
 		List<Integer> quarterToDate = new ArrayList<>();
 		quarterToDate.add(0, Integer.valueOf(quarterToDateSplit[1]));
 		quarterToDate.add(1, Integer.valueOf(returnMonthOfQuarter(String.valueOf(quarterToDateSplit[0].charAt(1)))));
@@ -639,8 +708,8 @@ public class HeaderGeneratorService {
 		return quarterToDate;
 	}
 
-	private List<Integer> getSemiAnnualToDate(String fromPeriod) throws NumberFormatException {
-		String[] semiAnnual = fromPeriod.trim().split("-");
+	private List<Integer> getSemiAnnualToDate(String fromPeriod,String splitParameter) throws NumberFormatException {
+		String[] semiAnnual = fromPeriod.trim().split(splitParameter);
 		List<Integer> semiAnnualToDate = new ArrayList<>();
 		semiAnnualToDate.add(0, Integer.valueOf(semiAnnual[1]));
 		semiAnnualToDate.add(1, Integer.valueOf(returnMonthOfSemiAnnual(String.valueOf(semiAnnual[0].charAt(1)))));
