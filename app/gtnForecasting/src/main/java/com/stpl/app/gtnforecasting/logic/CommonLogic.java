@@ -4785,7 +4785,7 @@ public class CommonLogic {
 			String hieIndicator) {
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		inputBean.setLevelNo(Integer.parseInt(levelNo));
-		inputBean.setProjectionId(projectionDto.getProjectionId());
+		inputBean.setProjectionId(projectionDto.getSessionDTO().getProjectionId());
 		inputBean.setHierarchyIndicator(hieIndicator);
 		return inputBean;
 	}

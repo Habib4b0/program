@@ -2300,7 +2300,6 @@ public class DataSelectionLogic {
 															// Actual System Id
 			detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY
 			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
-//                        detailsList.add(object[object.length - 1]); //Sales Inclusion
 			resultMap.put(String.valueOf(object[0]), detailsList);
 
 			if (j == tempList.size() - 1) {
@@ -2864,7 +2863,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 	}
 
 	private static void updateRelationShipLevelList(Object[] object, List<Object> detailsList, String defaultValue) {
-		if (object.length > 5) {
+		if (object.length >= 5) {
 			List<Object> displayFormat = new ArrayList<>();
 			displayFormat.add(defaultValue);
 			for (int i = 5; i < object.length - 1; i++) {

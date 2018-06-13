@@ -639,7 +639,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
            newBtn.setEnabled(false); 
         }
         else{
-        newBtn.setEnabled(true);
+        view.setItemEnabled(Constant.CUSTOM_LABEL, true);
+        newBtn.setEnabled(true);        
         }
 
         startPeriodForecastTab.addItem(SELECT_ONE.getConstant());
@@ -4143,10 +4144,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             } else {
                 historyNum = historyDdlb.getItemIds().size();
             }
+            createProjectSelectionDto(freq,hist,historyNum,yearValue);
         } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
-
+    }
+private void createProjectSelectionDto(String freq,String hist,int historyNum,String yearValue) {
         projectionSelection.setForecastDTO(session.getForecastDTO());
         projectionSelection.setFrequency(freq);
         projectionSelection.setHistory(hist);
@@ -5666,7 +5669,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             List<Object[]> discountExcelList = getDiscountProjectionExcelResults();
             NMDiscountExcelLogic nmDiscountExcelLogic = new NMDiscountExcelLogic();
             List doubleProjectedAndHistoryCombinedUniqueList = discountProjectionLogic.getDoubleProjectedAndHistoryCombinedUniqueList(rightHeader);
+            if(!isCustomHierarchy){
             nmDiscountExcelLogic.getCustomizedExcelData(discountExcelList, projectionSelection, doubleProjectedAndHistoryCombinedUniqueList);
+            }else{
+            nmDiscountExcelLogic.getCustomizedExcelDataCustom(discountExcelList, projectionSelection, doubleProjectedAndHistoryCombinedUniqueList);
+            }
             DiscountProjectionDTO itemId;
             for (Iterator<String> it = nmDiscountExcelLogic.getHierarchyKeys().listIterator(); it.hasNext();) {
                 String key = it.next();
@@ -5676,14 +5683,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 Object parentItemId;
                 key = key.contains("$") ? key.substring(0, key.indexOf('$')) : key;
                 tempKey = key.trim();
-                if (isCustomHierarchy) {
-                    parentKey = itemId.getParentHierarchyNo();
-                    if (!(itemId.getParentHierarchyNo() == null || "null".equals(itemId.getParentHierarchyNo()))) {
-                        tempKey = itemId.getParentHierarchyNo().trim() + "~" + key.trim();
-                    }
-                } else {
-                    parentKey = CommonUtil.getParentItemId(key, isCustomHierarchy, itemId.getParentHierarchyNo());
-                }
+                parentKey = CommonUtil.getParentItemId(key, isCustomHierarchy, itemId.getParentHierarchyNo());
                 parentItemId = excelParentRecords.get(parentKey);
                 if (parentItemId != null) {
                     excelContainer.setParent(itemId, parentItemId);
@@ -5842,17 +5842,21 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     }
     
     public List getDiscountProjectionExcelResults() {
-        String queryBuilder=StringUtils.EMPTY;
-        String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
-        String deducQuery = NINE_LEVELS_DED;
-        queryBuilder = SQlUtil.getQuery("discount-customerproduct-excelQuery");
-        queryBuilder = queryBuilder.replace("@CUSTORPROD","P".equals(hierarchyIndicator)?"PROD_HIERARCHY_NO":"CUST_HIERARCHY_NO")
-                .replace("@VIEWTABLE","P".equals(hierarchyIndicator)?"ST_PRODUCT_DISCOUNT":"ST_CUSTOMER_DISCOUNT")
-                .replace("@DEDINCLUSION", (session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY:" and STC.DEDUCTION_INCLUSION= "+session.getDeductionInclusion())
-                .replace("@UNIONALL", deducQuery)
-                .replace("@ENDDEDINCLUSION", (session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY:" STC.DEDUCTION_INCLUSION= "+oppositeDed)
-                .replace("@DEDUCTIONLEVEL", (deductionlevelDdlb.getValue()==null || "ALL".equals(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()))? StringUtils.EMPTY:deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())));
-        queryBuilder = QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames());
-        return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder);
+        if (!projectionSelection.isIsCustomHierarchy()) {
+            String queryBuilder = StringUtils.EMPTY;
+            String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
+            String deducQuery = NINE_LEVELS_DED;
+            queryBuilder = SQlUtil.getQuery("discount-customerproduct-excelQuery");
+            queryBuilder = queryBuilder.replace("@CUSTORPROD", "P".equals(hierarchyIndicator) ? "PROD_HIERARCHY_NO" : "CUST_HIERARCHY_NO")
+                    .replace("@VIEWTABLE", "P".equals(hierarchyIndicator) ? "ST_PRODUCT_DISCOUNT" : "ST_CUSTOMER_DISCOUNT")
+                    .replace("@DEDINCLUSION", (session.getDeductionInclusion() == null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY : " and STC.DEDUCTION_INCLUSION= " + session.getDeductionInclusion())
+                    .replace("@UNIONALL", deducQuery)
+                    .replace("@ENDDEDINCLUSION", (session.getDeductionInclusion() == null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY : " STC.DEDUCTION_INCLUSION= " + oppositeDed)
+                    .replace("@DEDUCTIONLEVEL", (deductionlevelDdlb.getValue() == null || "ALL".equals(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())) ? StringUtils.EMPTY : deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())));
+            queryBuilder = QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames());
+            return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder);
+        } else {
+            return DiscountQueryBuilder.getDiscountProjectionCustomExcel(session,PROGRAM.getConstant().equals(level.getValue()),projectionSelection);
+        }
     }
 }
