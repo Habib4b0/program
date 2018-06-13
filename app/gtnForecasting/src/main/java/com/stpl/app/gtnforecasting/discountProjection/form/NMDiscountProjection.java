@@ -639,7 +639,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
            newBtn.setEnabled(false); 
         }
         else{
-        newBtn.setEnabled(true);
+        view.setItemEnabled(Constant.CUSTOM_LABEL, true);
+        newBtn.setEnabled(true);        
         }
 
         startPeriodForecastTab.addItem(SELECT_ONE.getConstant());
