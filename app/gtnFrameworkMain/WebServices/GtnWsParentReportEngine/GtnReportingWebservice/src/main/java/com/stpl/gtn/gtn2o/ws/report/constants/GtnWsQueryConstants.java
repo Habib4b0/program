@@ -45,5 +45,6 @@ public class GtnWsQueryConstants {
 
 	public static final String PRC_CUSTOM_CCPDV_POPULATION = " PRC_CUSTOM_CCPDV_POPULATION ? , ? ";
         
-        public static final String VARIABLE_BREAKDOWN_PERIOD_DATAS = "SELECT * FROM PERIOD WHERE PERIOD_DATE >= '@startDate'  AND PERIOD_DATE <= '@endDate'";
+        public static final String VARIABLE_BREAKDOWN_PERIOD_DATAS = "	select * from ( select row_number() over (partition by @frequency Year order by year asc) rowno, PERIOD_SID,YEAR from Period where PERIOD_DATE >= '@startDate'  AND PERIOD_DATE <= '@endDate' )A where rowno=1 order by year asc";
+                
 }

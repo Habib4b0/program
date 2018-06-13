@@ -5,6 +5,8 @@
  */
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.util.List;
+
 /**
  *
  * @author gokulkumar.murugesan
@@ -15,7 +17,15 @@ public class GtnReportVariableBreakdownLookupBean {
     private int period;
     private int year;
     private int selectedVariable;
-    
+    private List<Object[]> resultList;
+
+    public List<Object[]> getResultList() {
+        return resultList;
+    }
+
+    public void setResultList(List<Object[]> resultList) {
+        this.resultList = resultList;
+    }
     public int getMasterSid() {
         return masterSid;
     }

@@ -779,7 +779,7 @@ public class PagedTreeGrid {
         return columnsPerCount;
     }
 
-    private void setColumnPageNumber(int newPageNumber) {
+    public void setColumnPageNumber(int newPageNumber) {
         if (newPageNumber < 0) {
             columnPageNumber = 0;
         }

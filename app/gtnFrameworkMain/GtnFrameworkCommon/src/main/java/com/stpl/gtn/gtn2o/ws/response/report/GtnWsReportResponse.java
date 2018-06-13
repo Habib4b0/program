@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnWSRequestData;
@@ -18,6 +19,15 @@ public class GtnWsReportResponse implements GtnWSRequestData {
 	private List<?> resultList;
 	private GtnWsReportDataSelectionBean dataSelectionBean;
 
+    private GtnReportVariableBreakdownLookupBean variableBreakdownLookupBean;
+
+    public GtnReportVariableBreakdownLookupBean getVariableBreakdownLookupBean() {
+        return variableBreakdownLookupBean;
+    }
+
+    public void setVariableBreakdownLookupBean(GtnReportVariableBreakdownLookupBean variableBreakdownLookupBean) {
+        this.variableBreakdownLookupBean = variableBreakdownLookupBean;
+    }
 	public List<?> getResultList() {
 		return resultList;
 	}
