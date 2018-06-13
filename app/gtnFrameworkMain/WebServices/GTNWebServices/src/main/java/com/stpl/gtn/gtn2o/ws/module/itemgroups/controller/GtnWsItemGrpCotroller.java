@@ -126,7 +126,7 @@ public class GtnWsItemGrpCotroller {
 			gtnResponse.getGtnWsGeneralResponse().setSucess(true);
 			logger.info("Enter companiesResultTableData");
 			itemGrpService.getItemGrpFetch(gtnWsRequest, gtnResponse);
-			itemGrpService.updateItemGrpDetails(gtnWsRequest);
+			itemGrpService.updateItemGroupDetails(gtnWsRequest,gtnResponse);
 			return gtnResponse;
 		} catch (GtnFrameworkGeneralException ex) {
 			gtnResponse.getGtnWsGeneralResponse().setSucess(false);
