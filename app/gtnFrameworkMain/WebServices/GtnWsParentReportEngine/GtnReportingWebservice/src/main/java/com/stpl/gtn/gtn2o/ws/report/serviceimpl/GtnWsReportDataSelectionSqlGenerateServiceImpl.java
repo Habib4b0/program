@@ -240,7 +240,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					.getGtnWsReportCustomCCPListDetails();
 			Map<String, Map<String, Double>> rightDataMap = rightTableService.getDataFromBackend();
 			return gtnWsReportCustomCCPListDetails.stream()
-					.filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo)).skip(start).limit(limit)
+					.filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo) &&
+                                                row.getRowIndex()>=start ).limit(limit)
 					.map(row -> convertToRecordbean(row, gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
 							rightDataMap,gtnWsReportCustomCCPListDetails.indexOf(row)))
 					.collect(Collectors.toList());
@@ -262,6 +263,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		recordBean.addAdditionalProperty( bean.getLevelNo());//level No
 		recordBean.addAdditionalProperty(bean.getHierarchyNo());
 		recordBean.addAdditionalProperty(index);
+		recordBean.addAdditionalProperty(bean.getRowIndex());
+		recordBean.addAdditionalProperty(0);
 		recordBean.addProperties("levelValue", bean.getData()[1]);
 		dataEntry.getValue().entrySet().stream()
 				.forEach(entry -> recordBean.addProperties(entry.getKey(), entry.getValue()));
