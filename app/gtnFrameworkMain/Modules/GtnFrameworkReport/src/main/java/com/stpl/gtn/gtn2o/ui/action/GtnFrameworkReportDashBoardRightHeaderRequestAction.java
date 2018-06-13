@@ -5,6 +5,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -54,6 +55,36 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 		String[] selectedVariableCategory = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabVariableCategory", componentId)
 				.getStringFromMultiselectComboBox();
+
+		GtnUIFrameworkBaseComponent variableVarianceComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+				"reportingDashboardTab_reportOptionsTabVariableAndVarianceSequencing", componentId);
+
+		if (variableVarianceComponent.getComponent() != null) {
+			int value = (int) variableVarianceComponent.getFieldValue();
+			if (value == 2) {
+				reportDashBoardBean.setVariablesVariances(true);
+			}
+			int headerSequence = (int) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("reportingDashboardTab_reportOptionsTabHeaderSequencing", componentId)
+					.getFieldValue();
+			reportDashBoardBean.setHeaderSequence(headerSequence);
+		}
+
+		GtnUIFrameworkBaseComponent perioFromComponent = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId);
+
+		GtnUIFrameworkBaseComponent periodToComponent = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeTo", componentId);
+
+		reportDashBoardBean.setPeriodRangeFromSid(perioFromComponent.getIntegerFromV8ComboBox());
+		if (reportDashBoardBean.getPeriodRangeFromSid() != 0) {
+			reportDashBoardBean.setPeriodStart(perioFromComponent.getStringCaptionFromV8ComboBox());
+		}
+
+		reportDashBoardBean.setPeriodRangeToSid(periodToComponent.getIntegerFromV8ComboBox());
+		if (reportDashBoardBean.getPeriodRangeToSid() != 0) {
+			reportDashBoardBean.setPeriodTo(perioFromComponent.getStringCaptionFromV8ComboBox());
+		}
 
 		reportDashBoardBean.setSelectedVariableCategoryType(selectedVariableCategory);
 

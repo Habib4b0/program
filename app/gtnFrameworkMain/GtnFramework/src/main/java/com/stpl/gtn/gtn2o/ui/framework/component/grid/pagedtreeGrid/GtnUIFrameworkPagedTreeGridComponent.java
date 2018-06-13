@@ -394,7 +394,8 @@ public class GtnUIFrameworkPagedTreeGridComponent
 
 		String classPath = tableConfig.getRightHeaderCustomClassLoadUrl();
 		classLoader(tableConfig.getGtnUIFrameWorkActionConfig(), classPath, sourceViewId);
-		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = getCustomPagedTreeTableRequest(tableConfig,sourceViewId);
+		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = getCustomPagedTreeTableRequest(tableConfig,
+				sourceViewId);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceResponse responseForRightHeader = client.callGtnWebServiceUrl(
 				tableConfig.getRightHeader(), tableConfig.getModuleName(), gtnUIFrameworkWebserviceRequest,
@@ -456,7 +457,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 			throws GtnFrameworkGeneralException {
 		String classPath = tableConfig.getLeftHeaderUrl();
 		classLoader(gtnUIFrameWorkActionConfig, classPath, sourceViewId);
-		GtnUIFrameworkWebserviceRequest leftHeaderRequest = getCustomPagedTreeTableRequest(tableConfig,componentId);
+		GtnUIFrameworkWebserviceRequest leftHeaderRequest = getCustomPagedTreeTableRequest(tableConfig, componentId);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(tableConfig.getLeftWsHeaderUrl(),
 				tableConfig.getModuleName(), leftHeaderRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
@@ -468,7 +469,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 			throws GtnFrameworkGeneralException {
 		String classPath = tableConfig.getRighttHeaderUrl();
 		classLoader(gtnUIFrameWorkActionConfig, classPath, sourceViewId);
-		GtnUIFrameworkWebserviceRequest rightHeaderRequest = getCustomPagedTreeTableRequest(tableConfig,componentId);
+		GtnUIFrameworkWebserviceRequest rightHeaderRequest = getCustomPagedTreeTableRequest(tableConfig, componentId);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceResponse responseForRightHeader = client.callGtnWebServiceUrl(
 				tableConfig.getRightWsHeaderUrl(), tableConfig.getModuleName(), rightHeaderRequest,
