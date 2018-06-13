@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownMassUpdateAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownSubmitAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -209,7 +210,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownValue.setParentComponentId(variableBreakdownValueConfig.getComponentId());
                 
                 GtnUIFrameworkComboBoxConfig variableBreakdownValueLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		variableBreakdownValueLoadConfig.setItemValues(Arrays.asList("Actuals","Projections","P & L (Accruals)"));
+		variableBreakdownValueLoadConfig.setItemValues(Arrays.asList(1,2,3));
                 variableBreakdownValueLoadConfig.setItemCaptionValues(Arrays.asList("Actuals","Projections","P & L (Accruals)"));
 		variableBreakdownValue.setGtnComboboxConfig(variableBreakdownValueLoadConfig);
                 
@@ -329,6 +330,12 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownSubmitButton.setAddToParent(true);
 		variableBreakdownSubmitButton.setParentComponentId(variableBreakdownControlButtonConfig.getComponentId());
 
+                GtnUIFrameWorkActionConfig variableBreakDownSubmitAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+                variableBreakDownSubmitAction.addActionParameter(GtnReportingVariableBreakdownSubmitAction.class.getName());
+                
+                variableBreakdownSubmitButton.addGtnUIFrameWorkActionConfig(variableBreakDownSubmitAction);
+                
 		GtnUIFrameworkComponentConfig variableBreakdownResetButton = new GtnUIFrameworkComponentConfig();
 		variableBreakdownResetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		variableBreakdownResetButton.setComponentId(
