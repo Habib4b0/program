@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.abstractforecast;
 
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
@@ -871,7 +872,9 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                     session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
                     session.setDataSelectionDeductionLevel(String.valueOf(deductionlevelDdlb.getValue()));
                     logic.nmDiscountViewsPopulationProcedure(session);
-                    CommonUtil.getInstance().waitForSeconds();
+                    CommonLogic.viewProceduresCompletionCheckDiscount(session);
+                    session.setFunctionMode("UPS");
+                    logic.nmDiscountViewsPopulationProcedureForUPS(session);
                 }
                 generateBtnClickLogic(BooleanConstant.getTrueFlag());
                 break;
