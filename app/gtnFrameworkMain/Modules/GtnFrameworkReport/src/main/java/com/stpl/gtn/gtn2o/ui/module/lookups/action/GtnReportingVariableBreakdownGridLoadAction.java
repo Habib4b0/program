@@ -310,8 +310,10 @@ public class GtnReportingVariableBreakdownGridLoadAction
                     "reportOptionsTab_variableBreakdownValue", componentId);
 
             GtnUIFrameworkComponent component = COMBOBOX_VAADIN8.getGtnComponent();
-            Component vaadinComponent = null;
+            AbstractComponent vaadinComponent = null;
             vaadinComponent = component.buildVaadinComponent(base.getComponentConfig());
+            GtnUIFrameworkComboBoxComponent gtnUIFrameworkComboBoxComponent = new GtnUIFrameworkComboBoxComponent();
+            gtnUIFrameworkComboBoxComponent.postCreateComponent(vaadinComponent,base.getComponentConfig());
             ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
             vaadinCombobox.setId(property + String.valueOf(i));
             if (property.equalsIgnoreCase(currentDateField)) {
