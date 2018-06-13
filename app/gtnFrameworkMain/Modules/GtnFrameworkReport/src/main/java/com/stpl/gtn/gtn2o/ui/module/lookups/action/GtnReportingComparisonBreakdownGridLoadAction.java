@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkClassLoader;
@@ -162,8 +163,10 @@ public class GtnReportingComparisonBreakdownGridLoadAction implements GtnUIFrame
 	                      "reportOptionsTabComparisonOptions_value", componentId);
 
 	              GtnUIFrameworkComponent component = COMBOBOX_VAADIN8.getGtnComponent();
-	              Component vaadinComponent = null;
+	              AbstractComponent vaadinComponent = null;
 	              vaadinComponent = component.buildVaadinComponent(base.getComponentConfig());
+	              GtnUIFrameworkComboBoxComponent gtnUIFrameworkComboBoxComponent = new GtnUIFrameworkComboBoxComponent();
+	              gtnUIFrameworkComboBoxComponent.postCreateComponent(vaadinComponent,base.getComponentConfig());
 	              ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
 	              vaadinCombobox.setId(property + String.valueOf(i));
 	              return vaadinCombobox;
