@@ -457,7 +457,8 @@ public class DiscountQueryBuilder {
             }
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
             CommonLogic.updateFlagStatusToR(session, Constant.DISCOUNT3, String.valueOf(projectionSelection.getViewOption()));
-            new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,endPeriod.equals("0")?StringUtils.EMPTY:endPeriod,"Discount");
+            String updateField = "Growth".equals(selectedField) ? selectedField : "Discount";
+            new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,endPeriod.equals("0")?StringUtils.EMPTY:endPeriod,updateField);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);

@@ -218,6 +218,21 @@ public class GtnWsItemGrpService {
 		}
 
 	}
+	public int updateItemGroupDetails(GtnUIFrameworkWebserviceRequest gtnRequest,GtnUIFrameworkWebserviceResponse response) throws GtnFrameworkGeneralException {
+		try {
+			String itemGrpDetailQuery = gtnWsSqlService.getQuery("getItemGrpDetailsFetchQuery");
+			GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+					GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
+			Object[] objParams = { gtnRequest.getGtnWsGeneralRequest().getUserId(),
+					gtnRequest.getGtnWsGeneralRequest().getSessionId(), gtnRequest.getGtnWsItemGroupRequest()
+							.getGtnWsItemGroupBean().getItemGrpInfoBean().getItemGrpSid(), response.getGtnWsItemGroupResponse()
+							.getGtnItemGrpInformationBean().getVersionNo() };
+			return gtnSqlQueryEngine.executeInsertOrUpdateQuery(itemGrpDetailQuery, objParams, dataType);
+		} catch (Exception ex) {
+			throw new GtnFrameworkGeneralException(ex);
+		}
+
+	}
 
 	public int getItemGrpDeleteQuery(GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
 		int count = 0;
