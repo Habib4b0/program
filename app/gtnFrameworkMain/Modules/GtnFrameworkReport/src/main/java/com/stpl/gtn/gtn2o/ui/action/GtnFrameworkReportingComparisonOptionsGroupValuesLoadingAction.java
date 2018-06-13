@@ -99,7 +99,7 @@ public class GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction
 		
 		
 		GtnUIFrameworkComboBoxComponent valueComboBox = new GtnUIFrameworkComboBoxComponent();
-		valueComboBox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,"reportOptionsTabComparisonOptions_value",componentId,Arrays.asList(""));
+		valueComboBox.reloadComponentFromView(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,"reportOptionsTabComparisonOptions_value",componentId,Arrays.asList(""));
 		//startPeriodCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,"reportOptionsTab_variableBreakdownStartPeriod", componentId,Arrays.asList(""));
 	}
 
