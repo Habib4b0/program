@@ -418,12 +418,14 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 			 comparisonBreakdownHeaderLoadAction.addActionParameter("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig");
 			 comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeFrom");
 			 comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeTo");
+			 comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabFrequency");
+			 
 			 
 			 
 
 			 comparisonBreakdownLookupResultsPagedTableConfig.setGtnUIFrameWorkActionConfig(comparisonBreakdownHeaderLoadAction);
 			 comparisonBreakdownLookupResultsPagedTableConfig.setGridHeaderCustomClassLoadUrl(
-                 GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_HEADER_ACTION);
+                 GtnFrameworkReportStringConstants.REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION);
 			comparisonBreakdownLookupResultsPagedTableComponent
 					.setGtnPagedTableConfig(comparisonBreakdownLookupResultsPagedTableConfig);
 		

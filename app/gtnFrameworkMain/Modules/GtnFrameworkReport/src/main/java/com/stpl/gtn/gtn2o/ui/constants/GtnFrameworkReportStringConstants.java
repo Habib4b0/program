@@ -433,6 +433,7 @@ public final class GtnFrameworkReportStringConstants {
         
         public static final String REPORT_VARIABLE_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE+"GtnReportingVariableBreakdownHeaderLoadAction";
 
+        public static final String REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE+"GtnReportingComparisonBreakdownHeaderLoadAction";
         public static List<String> getReportDataAssumptionsTabId() {
             return REPORT_DATAASSUMPTIONS_TAB_ID;
         }

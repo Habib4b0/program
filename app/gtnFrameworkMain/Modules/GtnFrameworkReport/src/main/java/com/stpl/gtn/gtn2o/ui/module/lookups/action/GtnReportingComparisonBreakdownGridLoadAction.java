@@ -145,8 +145,6 @@ public class GtnReportingComparisonBreakdownGridLoadAction implements GtnUIFrame
 	              vaadinComponent = component.buildVaadinComponent(base.getComponentConfig());
 	              ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
 	              vaadinCombobox.setId(property + String.valueOf(i));
-	              vaadinCombobox.setSelectedItem("Projections");
-	              vaadinCombobox.setReadOnly(true);
 	              return vaadinCombobox;
 	          } catch (Exception e) {
 	              logger.error("Error message" + e);
