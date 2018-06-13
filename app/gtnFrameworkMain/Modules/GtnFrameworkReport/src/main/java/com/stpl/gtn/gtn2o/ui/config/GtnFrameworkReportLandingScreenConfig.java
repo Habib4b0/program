@@ -387,7 +387,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDataSourceLayout");
 
 		GtnUIFrameworkComboBoxConfig reportDataSourceLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		reportDataSourceLoadConfig.setItemValues(Arrays.asList(0, 1, 2));
+		reportDataSourceLoadConfig.setItemValues(Arrays.asList(1, 2, 3));
 		reportDataSourceLoadConfig
 				.setItemCaptionValues(GtnFrameworkReportStringConstants.getReportDataSourceLoadCombobox());
 		reportDataSource.setGtnComboboxConfig(reportDataSourceLoadConfig);
