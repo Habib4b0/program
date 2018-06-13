@@ -87,7 +87,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		addLandingScreenVariableComponent(componentList, namespace);
 		addLandingScreenComparisonComponent(componentList, namespace);
 		addLandingScreenVariableBreakdownComponent(componentList, namespace);
-                addLandingScreenFrequencyComponent(componentList,namespace);
+		addLandingScreenFrequencyComponent(componentList, namespace);
 	}
 
 	private void addLandingScreenFrequencyComponent(List<GtnUIFrameworkComponentConfig> componentList,
@@ -217,7 +217,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 		componentList.add(landingScreenVariableBreakdownConfig);
 	}
-
 
 	private void configureMainLayouts(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 
@@ -388,7 +387,9 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDataSourceLayout");
 
 		GtnUIFrameworkComboBoxConfig reportDataSourceLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		reportDataSourceLoadConfig.setItemValues(GtnFrameworkReportStringConstants.getReportDataSourceLoadCombobox());
+		reportDataSourceLoadConfig.setItemValues(Arrays.asList(1, 2, 3));
+		reportDataSourceLoadConfig
+				.setItemCaptionValues(GtnFrameworkReportStringConstants.getReportDataSourceLoadCombobox());
 		reportDataSource.setGtnComboboxConfig(reportDataSourceLoadConfig);
 
 		componentList.add(reportDataSource);
@@ -620,7 +621,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.addActionParameter("reportLandingScreen_relationship");
 		generateAction.addActionParameter("reportLandingScreen_level");
 		generateAction.addActionParameter("reportLandingScreen_productRelationshipVersion");
-		generateAction.addActionParameter("reportLandingScreen_reportDataSource");
+		generateAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_DATA_SOURCE);
 		generateAction.addActionParameter("reportLandingScreen_company");
 		generateAction.addActionParameter("reportLandingScreen_businessUnit");
 		generateAction.addActionParameter("reportLandingScreen_fromPeriod");
@@ -655,7 +657,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		resetAction.setActionParameterList(Arrays.asList(GtnReportDataSelectionResetAction.class.getName(),
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "company",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnit",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDataSource",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_DATA_SOURCE,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriod",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "STATUS",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchy",
@@ -686,7 +689,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		saveViewAction.setActionParameterList(Arrays.asList(GtnUIFrameworkSaveViewAction.class.getName(),
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "company",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnit",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportDataSource",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_DATA_SOURCE,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriod",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "STATUS",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchy",

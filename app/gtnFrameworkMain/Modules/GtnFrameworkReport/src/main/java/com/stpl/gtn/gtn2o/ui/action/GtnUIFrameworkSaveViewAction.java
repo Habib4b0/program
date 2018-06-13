@@ -41,8 +41,8 @@ public class GtnUIFrameworkSaveViewAction
 		Integer businessUnit = (Integer) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(2).toString()).getValueFromComponent();
 		dataSelectionBean.setBusinessUnitReport(businessUnit);
-		String reportDataSource = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
-				.getCaptionFromV8ComboBox();
+		int reportDataSource = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
+				.getIntegerFromV8ComboBox();
 		dataSelectionBean.setReportDataSource(reportDataSource);
 		String fromPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(4).toString())
 				.getCaptionFromV8ComboBox();
@@ -68,7 +68,7 @@ public class GtnUIFrameworkSaveViewAction
 			date = Date.from(forecastEligibleDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		}
 		dataSelectionBean.setForecastEligibleDate(date);
-		
+
 		List<GtnWsRecordBean> selectedCustomerList = getSelectedList(actionParamsList.get(11).toString(), componentId);
 		List<GtnWsRecordBean> selectedProductList = getSelectedList(actionParamsList.get(16).toString(), componentId);
 
@@ -101,7 +101,7 @@ public class GtnUIFrameworkSaveViewAction
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, popupAction);
 
 	}
-	
+
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
 		GtnUIFrameworkComponentData gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(tableComponentId, componentId);
