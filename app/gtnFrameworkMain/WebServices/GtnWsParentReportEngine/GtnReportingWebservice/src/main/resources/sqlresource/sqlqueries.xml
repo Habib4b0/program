@@ -618,13 +618,14 @@
               HIERARCHY_NO
               )
               SELECT HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION WHERE RELATIONSHIP_BUILDER_SID = ?
-              and RELATIONSHIP_LEVEL_VALES IN (@LEVELVALUES) GROUP BY HIERARCHY_NO
+              and RELATIONSHIP_LEVEL_VALUES IN (@LEVELVALUES) GROUP BY HIERARCHY_NO
             ]]>
 	</entry>     
 	 <entry key="deduction-dynamic-filter">
        <![CDATA[
              IF OBJECT_ID('TEMPDB..#HIER_DEDUCTION_PROD') IS NOT NULL
              DROP TABLE #HIER_DEDUCTION_PROD
+             CREATE TABLE #HIER_DEDUCTION_PROD
              (
               HIERARCHY_NO VARCHAR(1000)
              )
