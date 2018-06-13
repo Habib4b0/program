@@ -689,12 +689,13 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		deductionLevel.setReloadActionConfig(reloadActionConfig);
 		deductionLevel.setReloadLogicActionClassName(GtnReportLevelFilterReloadAction.class.getName());
 
+                deductionLevel.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
 		deductionLevel.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER);
 		deductionLevel.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
-		deductionLevel.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
+		
 
 		GtnUIFrameworkComboBoxConfig deductionLevelConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -716,10 +717,10 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		productLevelConfig.setComponentName("Product Level: ");
 		productLevelConfig.setAuthorizationIncluded(true);
 
+                productLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
 		productLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER);
-		productLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
 		productLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
 
@@ -1214,7 +1215,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		reportingDashboardGtnPagedTreeTableConfig.setMaxSplitPosition(1000);
 		reportingDashboardGtnPagedTreeTableConfig.setMinSplitPosition(300);
-		reportingDashboardGtnPagedTreeTableConfig.setPageLength(5);
+		reportingDashboardGtnPagedTreeTableConfig.setPageLength(15);
 		reportingDashboardGtnPagedTreeTableConfig.setResultSetUrl("");
 
 		reportingDashboardGtnPagedTreeTableConfig.setSplitPosition(493);

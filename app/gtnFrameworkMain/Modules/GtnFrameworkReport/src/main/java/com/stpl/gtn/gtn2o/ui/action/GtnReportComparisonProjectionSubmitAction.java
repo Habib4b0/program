@@ -66,7 +66,7 @@ public class GtnReportComparisonProjectionSubmitAction
 			String displayValue = getRecordDisplayValue(selectedRecords);
 
 			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString(),
+					.getVaadinBaseComponentFromParent(gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString(),
 							componentId)
 					.setV8PopupFieldValue(displayValue);
 		} else {

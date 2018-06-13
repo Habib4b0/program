@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionLoadViewAction;
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -247,15 +248,11 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_UTIL_DATE,
 				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING });
-		publicViewPagedTableConfig.setColumnHeaders(Arrays.asList("View Name", "Description", "Time Period:From",
-				"Time Period:To", "Company", GtnFrameworkCommonConstants.PRODUCT_HIERARCHY_HEADER,
-				GtnFrameworkCommonConstants.PRODUCT_LEVEL_HEADER, "Product Group",
+		publicViewPagedTableConfig.setColumnHeaders(Arrays.asList("View Name",
 				GtnFrameworkCommonConstants.CREATED_DATE_HEADER, GtnFrameworkCommonConstants.MODIFIED_DATE_HEADER,
-				GtnFrameworkCommonConstants.CREATED_BY_HEADER, GtnFrameworkCommonConstants.BUSINESS_UNIT_HEADER));
+				GtnFrameworkCommonConstants.CREATED_BY_HEADER, "viewId", "viewData"));
 		publicViewPagedTableConfig.setTableColumnMappingId(
-				new Object[] { "viewNameFilter", "viewDescriptionFilter", "fromTimePeriodFilter", "toTimePeriodFilter",
-						"companyFilter", "productHierarchyFilter", "productLevelFilter", "productGroupFilter",
-						"createdDateFilter", "modifiedByFilter", "createdByFilter", "businessUnitFilter" });
+				new Object[] { "viewNameFilter", "createdDateFilter", "modifiedDateFilter", "createdByFilter" });
 		publicViewPagedTableConfig.setQueryName("Public");
 
 		publicViewPagedTableComponent.setGtnPagedTableConfig(publicViewPagedTableConfig);
@@ -285,7 +282,7 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "controlPopUpButtonLayout");
 		publicViewLookupcontrolPopUpSelectButton.setAddToParent(true);
 		componentList.add(publicViewLookupcontrolPopUpSelectButton);
-		
+
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig reportCustomerHierarchySelectAction = new GtnUIFrameWorkActionConfig();
@@ -303,6 +300,17 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 		reportCustomHierarchyClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		reportCustomHierarchyClosepopup.addActionParameter(GtnFrameworkCommonConstants.PUBLIC_VIEW_SEARCH_LOOKUP_VIEW);
 		actionConfigList.add(reportCustomHierarchyClosepopup);
+
+		GtnUIFrameWorkActionConfig loadViewAction = new GtnUIFrameWorkActionConfig();
+		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		loadViewAction.addActionParameter(GtnReportDataSelectionLoadViewAction.class.getName());
+		loadViewAction.addActionParameter("reportLandingScreen_publicViews");
+		actionConfigList.add(loadViewAction);
+
+		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
+		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
+		enableAction.addActionParameter("reportLandingScreen_dsDeleteView");
+		actionConfigList.add(enableAction);
 		publicViewLookupcontrolPopUpSelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		GtnUIFrameworkComponentConfig publicViewLookupcontrolPopUpCloseButton = new GtnUIFrameworkComponentConfig();

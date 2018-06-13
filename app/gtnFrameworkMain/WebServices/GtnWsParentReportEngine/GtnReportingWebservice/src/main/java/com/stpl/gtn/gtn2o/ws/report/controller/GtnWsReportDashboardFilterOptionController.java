@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardFilterBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportDashboardFilterOptionService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -32,7 +33,7 @@ public class GtnWsReportDashboardFilterOptionController {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		if (gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean().getHierarchyType()
 				.equals(GtnWsHierarchyType.DEDUCTION)) {
-			resultList = reportFilterOptionService.getDeductionLevelValues();
+			resultList = reportFilterOptionService.getDeductionLevelValues(gtnUIFrameworkWebserviceRequest);
 		} else {
 			resultList = reportFilterOptionService.getCustAndProdLevelValues(gtnUIFrameworkWebserviceRequest);
 		}
@@ -55,31 +56,25 @@ public class GtnWsReportDashboardFilterOptionController {
 			throws GtnFrameworkGeneralException {
 		List<Object[]> resultList;
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		if (gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean().getHierarchyType()
-				.equals(GtnWsHierarchyType.DEDUCTION)) {
+		GtnWsReportDashboardFilterBean filterBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
+				.getFilterBean();
+		if (filterBean.getHierarchyType().equals("D") && filterBean.getDeductionLevelNo() != 0) {
 			resultList = reportFilterOptionService.loadDeductionFilter(gtnUIFrameworkWebserviceRequest);
 		} else {
 			resultList = reportFilterOptionService.loadCustomerLevelFilter(gtnUIFrameworkWebserviceRequest);
 		}
 		List<String> itemCodeList = new ArrayList<>();
 		List<String> itemValueList = new ArrayList<>();
-		for (Object[] object : resultList) {
-			itemCodeList.add(String.valueOf(object[1]));
-			itemValueList.add(String.valueOf(object[0]));
+		if (!resultList.isEmpty()) {
+			for (Object[] object : resultList) {
+				itemCodeList.add(String.valueOf(object[1]));
+				itemValueList.add(String.valueOf(object[0]));
+			}
 		}
 		GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
 		comboBoxResponse.setItemCodeList(itemCodeList);
 		comboBoxResponse.setItemValueList(itemValueList);
 		response.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
 		return response;
-	}
-
-	@RequestMapping(value = GtnWsReportConstants.GTN_WS_REPORT_DEDUCTION_FILTER_LOAD_SERVICE, method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse loadDeductionFilter(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
-			throws GtnFrameworkGeneralException {
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		List<Object[]> resultList = reportFilterOptionService.loadDeductionFilter(gtnUIFrameworkWebserviceRequest);
-		return null;
 	}
 }

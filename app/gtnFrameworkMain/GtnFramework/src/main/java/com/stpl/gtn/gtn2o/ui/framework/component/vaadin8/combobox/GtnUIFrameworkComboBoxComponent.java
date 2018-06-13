@@ -48,8 +48,8 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 				vaadinComboBox.setCaption(componentConfig.getComponentName());
 			}
 			loadStyles(vaadinComboBox, componentConfig.getComponentStyle());
-//			vaadinComboBox = fillComboBox(componentConfig, comboboxConfig, null, componentConfig.getSourceViewId(),
-//					vaadinComboBox, null);
+			//vaadinComboBox = fillComboBox(componentConfig, comboboxConfig, null, componentConfig.getSourceViewId(),
+					//vaadinComboBox, null);
 
 			if (vaadinComboBox != null) {
 				setComponentProperties(componentConfig, vaadinComboBox, comboboxConfig);
