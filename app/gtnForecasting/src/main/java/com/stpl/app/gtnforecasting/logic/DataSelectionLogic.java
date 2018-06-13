@@ -2300,7 +2300,6 @@ public class DataSelectionLogic {
 															// Actual System Id
 			detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY
 			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
-//                        detailsList.add(object[object.length - 1]); //Sales Inclusion
 			resultMap.put(String.valueOf(object[0]), detailsList);
 
 			if (j == tempList.size() - 1) {
@@ -2949,6 +2948,16 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
         String query = SQlUtil.getQuery("ViewTableTruncationDiscount");
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         LOGGER.info("nmDiscountViewsPopulationProcedure Truncate Query{}",QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+        CommonLogic.updateFlagStatusToRForAllViewsDiscount(session,Constant.DISCOUNT3);
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "C", "null", "null", session));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "P", "null", "null", session));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.PRODUCT_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "U", "null", "null", session));
+    }
+    public void nmDiscountViewsPopulationProcedureForUPS(SessionDTO session) {
+        CommonLogic.updateFlagStatusToRForAllViewsDiscount(session,Constant.DISCOUNT3);
         service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "C", "null", "null", session));
         service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,

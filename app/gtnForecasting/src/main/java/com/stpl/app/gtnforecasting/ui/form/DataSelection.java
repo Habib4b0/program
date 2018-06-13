@@ -453,7 +453,8 @@ public class DataSelection extends ForecastDataSelection {
                             int custRelationValue = Integer.parseInt(customRelationDdlb.getValue().toString());
                             dataSelectionDTO.setCustomRelationShipSid(custRelationValue);
                                 setCustomChange(true);
-				setUpdateOnTabChange(true);
+				setUpdateOnTabChange(false);
+                                customDdlb();
 			}
                         else{
                         dataSelectionDTO.setCustomRelationShipSid(0);
@@ -471,6 +472,7 @@ public class DataSelection extends ForecastDataSelection {
                             dataSelectionDTO.setCustomDeductionRelationShipSid(custDeductionRelationValue);
                             setUpdateOnTabChange(false);
                             setCustomChange(true);
+                            customDdlb();
 			}
                             else{
                                 dataSelectionDTO.setCustomDeductionRelationShipSid(0);
@@ -483,6 +485,16 @@ public class DataSelection extends ForecastDataSelection {
 		projectionName.setValue(selectionDTO.getProjectionName());
 		description.setValue(selectionDTO.getDescription());
 	}
+        public void customDdlb(){
+                      if(customRelationDdlb.getValue()!=null ){
+                            int custRelationValue = Integer.parseInt(customRelationDdlb.getValue().toString());
+                            dataSelectionDTO.setCustomRelationShipSid(custRelationValue);
+			}
+                       if(customRelationDdlbDeduction.getValue()!=null ){
+                            int custDeductionRelationValue = Integer.parseInt(customRelationDdlbDeduction.getValue().toString());
+                            dataSelectionDTO.setCustomDeductionRelationShipSid(custDeductionRelationValue);
+			}
+        }
 
 	private void customerLevelValueChange(Property.ValueChangeEvent event) {
 		customerInnerLevelContainer.removeAllItems();

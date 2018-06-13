@@ -32,16 +32,15 @@ public class GtnReportComparisonProjectionResultsLoadAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-        
+
 		gtnLogger.info("------------GtnReportingComparisonBreakdownGridLoadAction----------------");
 
-		
-		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId)
-				.getViewId();
+		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
 		gtnLogger.info("component Id = = = " + componentId);
 		gtnLogger.info("sourceComponentId = = =" + sourceComponentId);
 		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+				.getVaadinBaseComponent(sourceComponentId).getComponentData()
+				.getSharedPopupData();
 		List<GtnReportComparisonProjectionBean> comparisonProjectionsList = dataSelectionBean
 				.getComparisonProjectionBeanList();
 		GtnUIFrameworkBaseComponent selectedGrid = GtnUIFrameworkGlobalUI

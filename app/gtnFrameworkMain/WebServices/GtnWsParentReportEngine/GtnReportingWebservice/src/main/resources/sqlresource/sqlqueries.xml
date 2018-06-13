@@ -531,24 +531,21 @@
 	</entry>
 	<entry key="filterOptionDeductionLevelLoadQuery">
 		<![CDATA[
-					SELECT
-					    DISTINCT Cast(rld.level_no as int) as level_no,
-					    'Level ' + rld.level_no + ' - ' + rld.level_name
-					FROM
-					    relationship_level_definition rld,
-					    relationship_builder rb,
-					    hierarchy_level_definition hld
-					WHERE
-					    rld.relationship_builder_sid IN(
-					        SELECT
-					            rbt.relationship_builder_sid
-					        FROM
-					            relationship_builder rbt
-					        WHERE
-					            rbt.hierarchy_definition_sid = 18
-					    )
-					ORDER BY
-					    level_no ASC;
+				SELECT DISTINCT Cast(rld.level_no AS INT) AS level_no, 
+				    'Level ' + rld.level_no + ' - ' + rld.level_name 
+				FROM   relationship_level_definition rld, 
+				       relationship_builder rb, 
+				       hierarchy_level_definition hld 
+				WHERE  rld.relationship_builder_sid IN(SELECT rbt.relationship_builder_sid 
+				                                       FROM   relationship_builder rbt 
+				                                       WHERE 
+				       rbt.hierarchy_definition_sid IN (SELECT 
+				       hierarchy_definition_sid 
+				                                        FROM 
+				       relationship_builder 
+				                                        WHERE 
+				       deduction_relation = ?)) 
+				ORDER  BY level_no ASC; 
 		]]>
 	</entry>
 	<entry key="report-customer-filter">
@@ -595,7 +592,6 @@
 		 IF OBJECT_ID('TEMPDB..#HIER_PRODUCT') IS NOT NULL
             DROP TABLE #HIER_PRODUCT
 
-
             CREATE TABLE #HIER_PRODUCT
             (
             HIERARCHY_NO VARCHAR(1000)
@@ -605,13 +601,48 @@
             HIERARCHY_NO
             )
 
-            SELECT HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION WHERE RELATIONSHIP_LEVEL_VALUES IN
-            (
-            @LEVELVALUES
-            )
-            and RELATIONSHIP_BUILDER_SID=@RELBUILDSID 
+            SELECT HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION WHERE RELATIONSHIP_BUILDER_SID = ?
+            and RELATIONSHIP_LEVEL_VALUES IN (@LEVELVALUES) GROUP BY HIERARCHY_NO
 	]]>
 	</entry>
+	<entry key="customer-dynamic-filter">
+            <![CDATA[
+             IF OBJECT_ID('TEMPDB..#HIER_CUST') IS NOT NULL
+             DROP TABLE #HIER_CUST
+             CREATE TABLE #HIER_CUST
+                (
+               HIERARCHY_NO VARCHAR(1000)
+                )
+              INSERT #HIER_CUST
+              (
+              HIERARCHY_NO
+              )
+              SELECT HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION WHERE RELATIONSHIP_BUILDER_SID = ?
+              and RELATIONSHIP_LEVEL_VALUES IN (@LEVELVALUES) GROUP BY HIERARCHY_NO
+            ]]>
+	</entry>     
+	 <entry key="deduction-dynamic-filter">
+       <![CDATA[
+             IF OBJECT_ID('TEMPDB..#HIER_DEDUCTION_PROD') IS NOT NULL
+             DROP TABLE #HIER_DEDUCTION_PROD
+             CREATE TABLE #HIER_DEDUCTION_PROD
+             (
+              HIERARCHY_NO VARCHAR(1000)
+             )
+             INSERT #HIER_DEDUCTION_PROD
+             (
+             HIERARCHY_NO
+             )
+             SELECT HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION WHERE 
+             RELATIONSHIP_BUILDER_SID = ? and  RELATIONSHIP_LEVEL_VALUES IN (@LEVELVALUES) GROUP BY HIERARCHY_NO
+              
+            ]]>
+    </entry>   
+    <entry key="deductionRelationSid">
+    	<![CDATA[
+    		select RELATIONSHIP_BUILDER_SID from RELATIONSHIP_BUILDER where DEDUCTION_RELATION = ? ORDER BY VERSION_NO DESC
+    	]]>
+    </entry>
 	<entry key="getCustomViewHierarchyTableDetails">
 		<![CDATA[
 			SELECT
@@ -771,6 +802,162 @@
 		join RS_CONTRACT_DETAILS rcd on
 			rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID
 			and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID
+		]]>
+	</entry>
+	<entry key="createSessionTableForReport">
+		<![CDATA[
+			IF NOT EXISTS (
+				SELECT 1 
+				FROM SYS.TABLES 
+			    WHERE  Object_name(OBJECT_ID) = 'CUSTOM_SALES_REPORT_?'
+                      AND Schema_name(SCHEMA_ID) = 'dbo')
+			 BEGIN
+		      	CREATE TABLE [dbo].[CUSTOM_SALES_REPORT_?]
+				(
+					HIERARCHY_NO		INT NOT NULL,
+					PERIOD				TINYINT NOT NULL,
+					YEAR				SMALLINT NOT NULL,
+					SALES				NUMERIC(22,6) NULL,
+					EXFACTORY_SALES		NUMERIC(22,6) NULL,
+					SALES_INCLUSION		INT  NULL,
+					UNITS				NUMERIC(22,6) NULL,
+					INDICATOR			BIT NOT NULL			
+				)
+			END
+		
+		IF NOT EXISTS 
+					(
+						SELECT 1
+						FROM SYS.KEY_CONSTRAINTS
+						WHERE Object_name(PARENT_OBJECT_ID) = 'CUSTOM_SALES_REPORT_?'
+							AND Schema_name(SCHEMA_ID) = 'dbo'
+							AND NAME = 'PK_CUSTOM_SALES_REPORT_?_HIERARCHY_NO_PERIOD_YEAR_INDICATOR'
+							AND TYPE = 'PK'
+					)
+					BEGIN
+							ALTER TABLE CUSTOM_SALES_REPORT_? ADD CONSTRAINT PK_CUSTOM_SALES_REPORT_?_HIERARCHY_NO_PERIOD_YEAR_INDICATOR PRIMARY KEY 
+							(
+								HIERARCHY_NO,
+								PERIOD,
+								YEAR,
+								INDICATOR
+							)
+						END
+		
+		IF NOT EXISTS 
+					(
+						SELECT 1 
+						FROM SYS.TABLES
+						WHERE object_name(OBJECT_ID) = 'CUSTOM_DISCOUNT_REPORT_?'
+							AND schema_name(SCHEMA_ID) = 'dbo'
+					)
+				BEGIN
+					CREATE TABLE [dbo].[CUSTOM_DISCOUNT_REPORT_?]
+					(
+						HIERARCHY_NO			INT NOT NULL,
+						PERIOD					TINYINT NOT NULL,
+						YEAR					SMALLINT NOT NULL,
+						DISCOUNT				NUMERIC(22,6) NULL,
+						ACCURAL_DISCOUNT		NUMERIC(22,6) NULL,
+						DEDUCTION_INCLUSION		TINYINT  NULL,
+						INDICATOR				BIT NOT NULL
+					)			
+				END
+		
+		IF NOT EXISTS	
+					(
+						SELECT 1 
+						FROM SYS.KEY_CONSTRAINTS
+						WHERE object_name(PARENT_OBJECT_ID) = 'CUSTOM_DISCOUNT_REPORT_?'
+							AND schema_name(SCHEMA_ID) = 'dbo'
+							AND NAME = 'PK_CUSTOM_DISCOUNT_REPORT_?_HIERARCHY_NO_PERIOD_YEAR_INDICATOR'
+							AND TYPE = 'PK'
+					)
+					BEGIN 
+							ALTER TABLE CUSTOM_DISCOUNT_REPORT_? ADD CONSTRAINT PK_CUSTOM_DISCOUNT_REPORT_?_HIERARCHY_NO_PERIOD_YEAR_INDICATOR PRIMARY KEY
+							(
+								HIERARCHY_NO,			
+								PERIOD ,					
+								YEAR ,					
+								INDICATOR				
+							)
+					END
+		
+		IF NOT EXISTS 
+					(
+						SELECT 1 
+						FROM SYS.TABLES
+						WHERE object_name(OBJECT_ID) = 'APPROVED_REPORT_?'
+							AND schema_name(SCHEMA_ID) = 'dbo'
+					)
+				BEGIN
+					CREATE TABLE [dbo].[APPROVED_REPORT_?]
+					(
+						HIERARCHY_NO			INT NOT NULL,
+						PERIOD					TINYINT NOT NULL,
+						YEAR					SMALLINT NOT NULL,
+						PROJECTION_MASTER_SID	INT NOT NULL,
+						SALES					NUMERIC(22,6) NULL,
+						UNITS					NUMERIC(22,6) NULL,
+						DISCOUNT				NUMERIC(22,6) NULL,
+						EXFACTORY_SALES         NUMERIC(22,6) NULL,
+						ACCURAL_DISCOUNT		NUMERIC(22,6) NULL,
+						INDICATOR               BIT NOT NULL
+					)			
+				END
+		
+		IF NOT EXISTS 
+					(
+						SELECT 1 
+						FROM SYS.KEY_CONSTRAINTS
+						WHERE object_name(PARENT_OBJECT_ID) = 'APPROVED_REPORT_?'
+							AND schema_name(SCHEMA_ID) = 'dbo'
+							AND NAME = 'PK_APPROVED_REPORT_?_HIERARCHY_NO_PERIOD_YEAR_PROJECTION_MASTER_SID_INDICATOR'
+							AND TYPE = 'PK'
+					)
+				BEGIN
+						ALTER TABLE APPROVED_REPORT_? ADD CONSTRAINT PK_APPROVED_REPORT_?_HIERARCHY_NO_PERIOD_YEAR_PROJECTION_MASTER_SID_INDICATOR PRIMARY KEY
+						(
+							HIERARCHY_NO ,
+							PERIOD ,
+							YEAR ,
+							PROJECTION_MASTER_SID,
+							INDICATOR
+						)				
+				END
+		
+		
+		IF NOT EXISTS (SELECT 'X'
+		               FROM     SYS.TABLES
+		               WHERE  Object_name(OBJECT_ID) = 'VARIABLE_BR_REPORT_?'
+		                      AND Schema_name(SCHEMA_ID) = 'dbo')
+		  BEGIN
+		      CREATE TABLE [dbo].[VARIABLE_BR_REPORT_?]
+		        (
+		           MASTER_SID           INT NOT NULL ,
+		           PERIOD               TINYINT NOT NULL,
+		           [YEAR]               SMALLINT NOT NULL,
+		           SELECTED_VARIABLE	TINYINT NOT NULL
+		        )
+		  END
+		  
+		IF NOT EXISTS (SELECT 1
+					   FROM SYS.KEY_CONSTRAINTS
+					   WHERE Object_name(PARENT_OBJECT_ID) = 'VARIABLE_BR_REPORT_?'
+					   		AND Schema_name(SCHEMA_ID) = 'DBO'
+							AND NAME = 'PK_VARIABLE_BR_REPORT_?_PERIOD_YEAR'
+							AND TYPE = 'PK'
+					   )
+			BEGIN
+				ALTER TABLE VARIABLE_BR_REPORT_?
+				ADD CONSTRAINT PK_VARIABLE_BR_REPORT_?_PERIOD_YEAR 
+				PRIMARY KEY 
+				(
+					PERIOD,
+					[YEAR]
+				)
+		END
+			
 		]]>
 	</entry>
 		

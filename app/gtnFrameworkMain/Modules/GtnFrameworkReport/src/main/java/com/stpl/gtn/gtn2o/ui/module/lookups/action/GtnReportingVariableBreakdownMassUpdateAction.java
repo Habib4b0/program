@@ -21,6 +21,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -59,7 +60,7 @@ public class GtnReportingVariableBreakdownMassUpdateAction implements GtnUIFrame
             comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData.getCustomData();
             
         String variableBreakdownValues = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(1).toString())
-                .getStringCaptionFromV8ComboBox();
+                .getCaptionFromV8ComboBox();
         String variableBreakdownFileorProjections = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(2).toString())
                 .getStringCaptionFromV8ComboBox();
         String variableBreakdownStartPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(3).toString())
@@ -79,8 +80,9 @@ public class GtnReportingVariableBreakdownMassUpdateAction implements GtnUIFrame
         int startDate = 0;
         int endDate = 0;
         int masterSid = 0;
+        int periodSid = 0;
         int year = 0;
-        String selectedVariable;
+        int selectedVariable;
         for(int j=0;j<startAndEndPeriodItemIdList.size();j++){
             if(startAndEndPeriodItemIdList.get(j).equalsIgnoreCase(variableBreakdownStartPeriod)){
                 startDate=j;
@@ -91,7 +93,6 @@ public class GtnReportingVariableBreakdownMassUpdateAction implements GtnUIFrame
         }
         
         ArrayList<String> gridColumnIdSubList = new ArrayList<String>(startAndEndPeriodItemIdList.subList(startDate, endDate+1));
-        ArrayList<String> gridColumnCaptionSubList = new ArrayList<String>(startAndEndPeriodItemCaptionList.subList(startDate, endDate+1));
 
         String variableBreakdownStartPeriodCaption = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(3).toString())
                 .getStringCaptionFromV8ComboBox();
@@ -113,30 +114,28 @@ public class GtnReportingVariableBreakdownMassUpdateAction implements GtnUIFrame
                 GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_PERIODS_SERVICE,GtnFrameworkReportStringConstants.REPORT,
                 gtnUIFrameworkWebserviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
         
+        List<Object[]> resultList = (List<Object[]>) response.getGtnReportResponse().getVariableBreakdownLookupBean().getResultList();
+        List<GtnReportVariableBreakdownLookupBean> gtnReportVariableBreakdownLookupBeanList = new ArrayList<>();
         for (int i = 1; i < grid.getHeaderRowCount(); i++) {
             Label projectionNames = (Label) grid.getHeaderRow(i).getCell("projectionNames").getComponent();
             if (projectionNames.getValue().equalsIgnoreCase(variableBreakdownFileorProjections)) {
                 for (int k=0;k<gridColumnIdSubList.size();k++) {
                     ComboBox variableBreakdownGridCombo = (ComboBox) grid.getHeaderRow(i).getCell(gridColumnIdSubList.get(k)).getComponent();
-                    variableBreakdownGridCombo.setSelectedItem(variableBreakdownValues);
+                    variableBreakdownGridCombo.setSelectedItem(Integer.valueOf(variableBreakdownValues));
                     masterSid = getMasterSid(projectionNames, comparisonLookupBeanList,masterSid);
-                    year = getYear(gridColumnCaptionSubList,k,year);
-                    selectedVariable = variableBreakdownValues;
+                    selectedVariable = Integer.valueOf(variableBreakdownValues);
+                    periodSid = Integer.valueOf(resultList.get(k)[1].toString());
+                    year = Integer.valueOf(resultList.get(k)[2].toString());
+                    GtnReportVariableBreakdownLookupBean variableBreakdownLookupBean = new GtnReportVariableBreakdownLookupBean();
+                    variableBreakdownLookupBean.setMasterSid(masterSid);
+                    variableBreakdownLookupBean.setPeriod(periodSid);
+                    variableBreakdownLookupBean.setYear(year);
+                    variableBreakdownLookupBean.setSelectedVariable(selectedVariable);
+                    gtnReportVariableBreakdownLookupBeanList.add(k, variableBreakdownLookupBean);
                 }
             }
         }
-    }
-
-    private int getYear(ArrayList<String> gridColumnCaptionSubList, int k,int year) throws NumberFormatException {
-      
-        String[] yearSplit=gridColumnCaptionSubList.get(k).split(" ");
-        if(yearSplit.length>1){
-            year = Integer.valueOf(yearSplit[1]);
-        }
-        else{
-            year = Integer.valueOf(yearSplit[0]);
-        }
-        return year;
+        gridComponent.setCustomData(gtnReportVariableBreakdownLookupBeanList);
     }
 
     private int getMasterSid(Label projectionNames, List<GtnReportComparisonProjectionBean> comparisonLookupBeanList,int masterSid) {
