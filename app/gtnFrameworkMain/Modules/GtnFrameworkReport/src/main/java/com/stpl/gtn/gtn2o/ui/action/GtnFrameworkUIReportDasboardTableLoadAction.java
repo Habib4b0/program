@@ -28,46 +28,50 @@ import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
  * @author Karthik.Raja
  */
 public class GtnFrameworkUIReportDasboardTableLoadAction
-        implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-            throws GtnFrameworkGeneralException {
-        return;
-    }
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		return;
+	}
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-            throws GtnFrameworkGeneralException {
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
 
-        List<Object> params = (gtnUIFrameWorkActionConfig.getActionParameterList());
-        GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
-                .getVaadinComponentData((String) params.get(1), componentId);
-        PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
-       String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
-       GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+		List<Object> params = (gtnUIFrameWorkActionConfig.getActionParameterList());
+		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
+				.getVaadinComponentData((String) params.get(1), componentId);
+		PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
+		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
+		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
-       GtnWsReportDashboardBean dashBoardBean = new GtnWsReportDashboardBean();
-       dashBoardBean.setSessionId(dataSelectionBean.getSessionId());
-       grid.getTableConfig().setGtnWsReportDashboardBean(dashBoardBean);
-//        GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-//        GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
-//        GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-//        GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
-//        dataSelectionBean.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
-//        reportRequest.setDataSelectionBean(dataSelectionBean);
-//        serviceRequest.setGtnWsReportRequest(reportRequest);
-//        reportRequest.setGtnWsReportDashboardBean(grid.getTableConfig().getGtnWsReportDashboardBean());
-//        wsclient.callGtnWebServiceUrl(GtnWsReportConstants.GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT,
-//                GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, serviceRequest,
-//                GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnWsReportDashboardBean dashBoardBean = new GtnWsReportDashboardBean();
+		dashBoardBean.setSessionId(dataSelectionBean.getSessionId());
+		grid.getTableConfig().setGtnWsReportDashboardBean(dashBoardBean);
+		// GtnUIFrameworkWebServiceClient wsclient = new
+		// GtnUIFrameworkWebServiceClient();
+		// GtnUIFrameworkWebserviceRequest serviceRequest = new
+		// GtnUIFrameworkWebserviceRequest();
+		// GtnWsReportRequest reportRequest = new GtnWsReportRequest();
+		// GtnWsReportDataSelectionBean dataSelectionBean = new
+		// GtnWsReportDataSelectionBean();
+		// dataSelectionBean.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
+		// reportRequest.setDataSelectionBean(dataSelectionBean);
+		// serviceRequest.setGtnWsReportRequest(reportRequest);
+		// reportRequest.setGtnWsReportDashboardBean(grid.getTableConfig().getGtnWsReportDashboardBean());
+		// wsclient.callGtnWebServiceUrl(GtnWsReportConstants.GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT,
+		// GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, serviceRequest,
+		// GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
-        grid.initializeGrid();
-    }
+		componentData.getCurrentGtnComponent().reloadComponent(null, componentId,
+				(String) params.get(1), null);
+	}
 
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-        return this;
-    }
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
 
 }

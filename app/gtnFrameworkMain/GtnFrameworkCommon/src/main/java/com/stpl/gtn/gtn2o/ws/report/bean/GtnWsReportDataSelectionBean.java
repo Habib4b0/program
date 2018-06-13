@@ -40,20 +40,23 @@ public class GtnWsReportDataSelectionBean {
 	private List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList;
 	private Date fromPeriod;
 	private Date toPeriodReport;
+	private int frequency;
+	private String frequencyName;
+	private int reportDataSource;
 
 	private String viewName;
 	private String viewType;
 	private Integer viewId;
 
-        private List variableBreakdownHeaderLoadList;
+	private List variableBreakdownHeaderLoadList;
 
-         public List getVariableBreakdownHeaderLoadList() {
-             return variableBreakdownHeaderLoadList;
-           }
+	public List getVariableBreakdownHeaderLoadList() {
+		return variableBreakdownHeaderLoadList;
+	}
 
-        public void setVariableBreakdownHeaderLoadList(List variableBreakdownHeaderLoadList) {
-             this.variableBreakdownHeaderLoadList = variableBreakdownHeaderLoadList;
-        }
+	public void setVariableBreakdownHeaderLoadList(List variableBreakdownHeaderLoadList) {
+		this.variableBreakdownHeaderLoadList = variableBreakdownHeaderLoadList;
+	}
 
 	private int customViewMasterSid;
 
@@ -112,16 +115,6 @@ public class GtnWsReportDataSelectionBean {
 	public void setForecastEligibleDate(Date forecastEligibleDate) {
 		this.forecastEligibleDate = forecastEligibleDate;
 	}
-
-	public String getReportDataSource() {
-		return reportDataSource;
-	}
-
-	public void setReportDataSource(String reportDataSource) {
-		this.reportDataSource = reportDataSource;
-	}
-
-	private String reportDataSource;
 
 	public long getCustomerHierarchySid() {
 		return customerHierarchySid;
@@ -325,6 +318,30 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setCustomViewMasterSid(int customViewMasterSid) {
 		this.customViewMasterSid = customViewMasterSid;
+	}
+
+	public int getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(int frequency) {
+		this.frequency = frequency;
+	}
+
+	public String getFrequencyName() {
+		return frequencyName;
+	}
+
+	public void setFrequencyName(String frequencyName) {
+		this.frequencyName = frequencyName;
+	}
+
+	public int getReportDataSource() {
+		return reportDataSource;
+	}
+
+	public void setReportDataSource(int reportDataSource) {
+		this.reportDataSource = reportDataSource;
 	}
 
 }

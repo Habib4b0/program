@@ -158,8 +158,8 @@ public class GtnWsReportingDashboardController {
 			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
 
-			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
-			GtnWsPagedTreeTableResponse rightHeader = reportHeaderService.getReportRightTableColumnsDummy();
+//			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+			GtnWsPagedTreeTableResponse rightHeader = reportHeaderService.getReportRightTableColumnsDummy(gtnUIFrameworkWebserviceRequest);
 			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(rightHeader);
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (Exception ex) {
@@ -197,6 +197,26 @@ public class GtnWsReportingDashboardController {
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
 			GtnWsPagedTableResponse leftHeader = reportHeaderService.getVariableBreakdownHeaderColumns(gtnUIFrameworkWebserviceRequest);
 			gtnUIFrameworkWebserviceResponse.setGtnWsPagedTableResponse(leftHeader);
+			return gtnUIFrameworkWebserviceResponse;
+		} catch (GtnFrameworkGeneralException ex) {
+			gtnLogger.error("Error in variable breakdown controller, " + ex.getMessage(), ex);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			return gtnUIFrameworkWebserviceResponse;
+		}
+	}
+        
+        @PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_PERIODS_SERVICE)
+	public GtnUIFrameworkWebserviceResponse getVariableBreakdownPeriods(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+			List<Object[]> results= reportHeaderService.getVariableBreakdownPeriods(gtnUIFrameworkWebserviceRequest);
+                        GtnWsReportResponse gtnReportResponse = new GtnWsReportResponse();
+                        gtnReportResponse.setResultList(results);
+			gtnUIFrameworkWebserviceResponse.setGtnReportResponse(gtnReportResponse);
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (GtnFrameworkGeneralException ex) {
 			gtnLogger.error("Error in variable breakdown controller, " + ex.getMessage(), ex);

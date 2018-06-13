@@ -41,8 +41,8 @@ public class GtnUIFrameworkSaveViewAction
 		int businessUnit = Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(2).toString()).getCaptionFromV8ComboBox());
 		dataSelectionBean.setBusinessUnitReport(businessUnit);
-		String reportDataSource = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
-				.getCaptionFromV8ComboBox();
+		int reportDataSource = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
+				.getIntegerFromV8ComboBox();
 		dataSelectionBean.setReportDataSource(reportDataSource);
 		String fromPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(4).toString())
 				.getCaptionFromV8ComboBox();
