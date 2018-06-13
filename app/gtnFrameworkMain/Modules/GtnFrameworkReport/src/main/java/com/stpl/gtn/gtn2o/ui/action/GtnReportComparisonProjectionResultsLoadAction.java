@@ -37,11 +37,11 @@ public class GtnReportComparisonProjectionResultsLoadAction
 
 		
 		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId)
-				.getSourceComponentId();
+				.getViewId();
 		gtnLogger.info("component Id = = = " + componentId);
 		gtnLogger.info("sourceComponentId = = =" + sourceComponentId);
 		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(componentId,"reportGenerateLookupView").getComponentData().getSharedPopupData();
+				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
 		List<GtnReportComparisonProjectionBean> comparisonProjectionsList = dataSelectionBean
 				.getComparisonProjectionBeanList();
 		GtnUIFrameworkBaseComponent selectedGrid = GtnUIFrameworkGlobalUI

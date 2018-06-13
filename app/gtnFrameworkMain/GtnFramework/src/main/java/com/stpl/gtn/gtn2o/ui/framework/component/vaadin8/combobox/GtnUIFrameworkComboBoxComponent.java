@@ -122,8 +122,8 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 	}
 
 	private GtnUIFrameworkComponentConfig getComboBoxComponentConfig(String dependentComponentId, String componentId) {
-		AbstractComponent abstractComboComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(dependentComponentId,
-				componentId);
+		AbstractComponent abstractComboComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(dependentComponentId,
+				componentId).getComponent();
 		GtnUIFrameworkComponentData comboComponentData = (GtnUIFrameworkComponentData) abstractComboComponent.getData();
 		return comboComponentData.getCurrentComponentConfig();
 
@@ -158,8 +158,8 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		}
 		GtnUIFrameworkComboBoxConfig comboboxComponentConfig = componentConfig.getGtnComboboxConfig();
 
-		ComboBox vaadinComboBoxComponent = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinComponent(dependentComponentId,
-				componentId);
+		ComboBox vaadinComboBoxComponent = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(dependentComponentId,
+				componentId).getComponent();
 		vaadinComboBoxComponent.setItems(new ArrayList<>());
 
 		vaadinComboBoxComponent = fillComboBox(componentConfig, comboboxComponentConfig, comboBoxRequestInputList,
