@@ -21,6 +21,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
@@ -213,9 +214,13 @@ public class GtnWsReportingDashboardController {
 		try {
 			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
-			List<Object[]> results= reportHeaderService.getVariableBreakdownPeriods(gtnUIFrameworkWebserviceRequest);
+			String query= reportHeaderService.getVariableBreakdownPeriods(gtnUIFrameworkWebserviceRequest);
+                        List<Object[]> results = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(query);
+                        Object[] ob=results.get(0);
                         GtnWsReportResponse gtnReportResponse = new GtnWsReportResponse();
-                        gtnReportResponse.setResultList(results);
+                        GtnReportVariableBreakdownLookupBean gtnReportVariableBreakdownLookupBean= new GtnReportVariableBreakdownLookupBean();
+                        gtnReportVariableBreakdownLookupBean.setResultList(results);
+                        gtnReportResponse.setVariableBreakdownLookupBean(gtnReportVariableBreakdownLookupBean);
 			gtnUIFrameworkWebserviceResponse.setGtnReportResponse(gtnReportResponse);
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (GtnFrameworkGeneralException ex) {

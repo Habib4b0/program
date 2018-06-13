@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.controller.GtnWsReportController;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
@@ -438,7 +439,7 @@ public class HeaderGeneratorService {
 		return periodColumnHeader;
 	}
 
-        public List<Object[]> getVariableBreakdownPeriods(
+        public String getVariableBreakdownPeriods(
 	           GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) throws GtnFrameworkGeneralException {
 
         List variableBreakdown = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getDataSelectionBean()
@@ -449,11 +450,13 @@ public class HeaderGeneratorService {
         String dateFromPeriodQuery = null;
         String dateToPeriodQuery = null;
         String splitParameter = " ";
+        String frequency = "";
         if (fromPeriod.startsWith("Q")) {
 			List<Integer> quarterToDateForFromPeriod = getQuarterToDate(fromPeriod,splitParameter);
 			List<Integer> quarterToDateForToPeriod = getQuarterToDate(toPeriod,splitParameter);
                         dateFromPeriodQuery = getDateFromFrequency(quarterToDateForFromPeriod);
                         dateToPeriodQuery = getDateFromFrequency(quarterToDateForToPeriod);
+                        frequency = "QUARTER,";
 		} else if (fromPeriod.startsWith("S")) {
 
 			List<Integer> semiAnnualToDateForFromPeriod = getSemiAnnualToDate(fromPeriod,splitParameter);
@@ -461,6 +464,7 @@ public class HeaderGeneratorService {
 
                         dateFromPeriodQuery = getDateFromFrequency(semiAnnualToDateForFromPeriod);
                         dateToPeriodQuery = getDateFromFrequency(semiAnnualToDateForToPeriod);
+                        frequency = "SEMI_ANNUAL,";
 		} else if (fromPeriod.matches("[0-9]+")) {
 			List<Integer> yearToDateForFromPeriod = new ArrayList<>();
 			yearToDateForFromPeriod.add(Integer.valueOf(fromPeriod));
@@ -473,6 +477,7 @@ public class HeaderGeneratorService {
 
                         dateFromPeriodQuery = getDateFromFrequency(yearToDateForFromPeriod);
                         dateToPeriodQuery = getDateFromFrequency(yearToDateForToPeriod);
+                        frequency = "YEAR,";
 		} else {
 			List<Integer> monthToDateForFromPeriod = new ArrayList<>();
 			String[] monthToDateForFromPeriodSplit = fromPeriod.split(" ");
@@ -488,22 +493,26 @@ public class HeaderGeneratorService {
                         
                         dateFromPeriodQuery = getDateFromFrequency(monthToDateForFromPeriod);
                         dateToPeriodQuery = getDateFromFrequency(monthToDateForToPeriod);
+                        frequency = "MONTH,";
 		}
                 String finalQuery = GtnWsQueryConstants.VARIABLE_BREAKDOWN_PERIOD_DATAS;
-                finalQuery.replace("@startDate", dateFromPeriodQuery);
-                finalQuery.replace("@endDate",dateToPeriodQuery);
-                GtnWsReportController gtnWsReportController = new GtnWsReportController();
-                List<Object[]> resultList = gtnWsReportController.executeQuery(finalQuery);
+                finalQuery=finalQuery.replace("@startDate", dateFromPeriodQuery).replace("@endDate",dateToPeriodQuery).replace("@frequency", frequency);
         
-        return resultList;
+        return finalQuery;
         }
 
+    
     private String getDateFromFrequency(List<Integer> periodList) {
-        String date = null;
-        for(Integer dateNumeric:periodList){
-            date=date+dateNumeric;
+        String date = "";
+        for(int i=0;i<periodList.size();i++){
+            if(i<periodList.size()-1){
+            date=date+periodList.get(i)+"-";
+            }
+            else{
+                date=date+periodList.get(i);
+            }
         }
-        return date;
+        return date.trim();
     }
 	public GtnWsPagedTableResponse getVariableBreakdownHeaderColumns(
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) throws GtnFrameworkGeneralException {
