@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.module.lookups.action;
 
 import static com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType.COMBOBOX_VAADIN8;
+import static com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType.V8_LABEL;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -30,6 +32,7 @@ import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.components.grid.HeaderRow;
 
 public class GtnReportingComparisonBreakdownGridLoadAction implements GtnUIFrameworkActionShareable, GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
@@ -78,7 +81,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction implements GtnUIFrame
 	              while (comparisonLookupBeanSize > 0) {
 	                  HeaderRow filterRow = grid.appendHeaderRow();
 	                  for (Object column : filterColumnIdList) {
-	                      vaadinComponent = getCustomFilterComponent(String.valueOf(column), componentId, i);
+	                      vaadinComponent = getCustomFilterComponent(String.valueOf(column), componentId,i,grid,projectionNameListFromCustomData.get(i));
 	                      filterRow.getCell(String.valueOf(column)).setComponent(vaadinComponent);
 
 	                  }
@@ -100,8 +103,12 @@ public class GtnReportingComparisonBreakdownGridLoadAction implements GtnUIFrame
 	          GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(tableConfig.getGridColumnHeader(),
 	                  tableConfig.getModuleName(), headerRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	          GtnWsPagedTableResponse tableHeadersResponse = response.getGtnWsPagedTableResponse();
-	          tableConfig.setTableColumnMappingId(tableHeadersResponse.getSingleColumns().toArray());
-	          tableConfig.setColumnHeaders(tableHeadersResponse.getSingleHeaders());
+	          List<Object> tableHeaderMappingIdList = tableHeadersResponse.getSingleColumns();
+	          tableHeaderMappingIdList.add(0, "projectionNames");
+	          List<String> tableSingleHeaders = tableHeadersResponse.getSingleHeaders();
+	          tableSingleHeaders.add(0,"Projections");
+	          tableConfig.setTableColumnMappingId(tableHeaderMappingIdList.toArray());
+	          tableConfig.setColumnHeaders(tableSingleHeaders);
 	          int j = 0;
 	          for (Object column : tableConfig.getTableColumnMappingId()) {
 	              String property = column.toString();
@@ -135,8 +142,22 @@ public class GtnReportingComparisonBreakdownGridLoadAction implements GtnUIFrame
 	          }
 	      }
 
-	      private Component getCustomFilterComponent(String property, String componentId, int i) {
+	      private Component getCustomFilterComponent(String property, String componentId, int i,Grid<GtnWsRecordBean> grid, String projectionName) {
 	          try {
+	        	  
+	        	  if (property.equals("projectionNames")) {
+	                  GtnUIFrameworkComponentConfig componentConfig = new GtnUIFrameworkComponentConfig();
+	                  componentConfig.setComponentName(projectionName);
+	                  componentConfig.setComponentId(property+projectionName+i);
+
+	                  GtnUIFrameworkComponent componentLabel = V8_LABEL.getGtnComponent();
+	                  Component vaadinComponentLabel = null;
+	                  vaadinComponentLabel = componentLabel.buildVaadinComponent(componentConfig);
+	                  Label vaadinLabel = (Label) vaadinComponentLabel;
+	                  vaadinLabel.setValue(projectionName);
+	                  grid.getColumn(property).setWidth(400);
+	                  return vaadinLabel;
+	        	  }
 	              GtnUIFrameworkBaseComponent base = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(
 	                      "reportOptionsTabComparisonOptions_value", componentId);
 

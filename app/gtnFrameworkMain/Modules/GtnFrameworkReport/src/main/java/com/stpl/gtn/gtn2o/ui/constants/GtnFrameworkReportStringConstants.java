@@ -51,8 +51,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String RESET_CONFIRMATION_TABLE_MESSAGE = "Are you sure you want to reset the values in the table ?";
 
 	public static final String RETURNS = "returns";
-        
-        public static final String REPORT_CONFIG_FREQUENCY = "forecastConfigFrequency";
+
+	public static final String REPORT_CONFIG_FREQUENCY = "forecastConfigFrequency";
 
 	public static final String NDC_LAYOUT = "ndcLayout";
 
@@ -382,6 +382,10 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String EMPTY_SELECTION = "Empty Selection";
 	public static final String CUSTOM_TREETABLE = "customTreeTable";
 
+	public static final String CURRENCY_DISPLAY = "CONVERSION_FACTOR";
+
+	public static final String DISPLAY_FORMAT = "DISPLAY_FORMAT";
+
 	public static final String REPORT_CUSTOMERHIERARCHY_RELATIONSHIP = "reportLandingScreen_customerSelectionRelationship";
 
 	public static final String REPORT_CUSTOMERHIERARCHY_RELATIONSHIPVERSION = "reportLandingScreen_customerRelationshipVersion";
@@ -399,6 +403,18 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String PROJECTION_TYPE = "projectionType";
 
 	public static final String WORKFLOW_STATUS = "workflowStatus";
+
+	public static final String VARIABLE_VARIANCE = "Variable, Variance";
+
+	public static final String VARIABLES_VARIANCES = "Variables, Variances";
+
+	public static final String TIME_VARIABLE_COMPARISON = "Time/Variable/Comparison";
+
+	public static final String COMPARISON_VARIABLE_TIME = "Comparison/Variable/Time";
+
+	public static final String COMPARISON_TIME_VARIABLE = "Comparison/Time/Variable";
+
+	public static final String VARIABLE_COMPARISON_TIME = "Variable/Comparison/Time";
 
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");
@@ -424,25 +440,30 @@ public final class GtnFrameworkReportStringConstants {
 
 	private static final String[] REPORT_DATAASSUMPTIONS_FILTER_PROPERTYID = new String[] { "file", "company",
 			"businessUnit", "type", "version", "activeFrom", "fromPeriod", "toPeriod" };
-        
-        private static final List<String> REPORT_DATAASSUMPTIONS_TAB_ID = Arrays.asList("dataAssumptionsPagedTableComponentdataAssumptionsTab0dataAssumptionsTab",
-                "dataAssumptionsPagedTableComponentdataAssumptionsTab1dataAssumptionsTab","dataAssumptionsPagedTableComponentdataAssumptionsTab2dataAssumptionsTab",
-                "dataAssumptionsPagedTableComponentdataAssumptionsTab3dataAssumptionsTab","dataAssumptionsPagedTableComponentdataAssumptionsTab4dataAssumptionsTab");
 
-        public static final String REPORT_LOOKUP_ACTION_PACKAGE = "com.stpl.gtn.gtn2o.ui.module.lookups.action.";
-        
-        public static final String REPORT_VARIABLE_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE+"GtnReportingVariableBreakdownHeaderLoadAction";
+	private static final List<String> REPORT_DATAASSUMPTIONS_TAB_ID = Arrays.asList(
+			"dataAssumptionsPagedTableComponentdataAssumptionsTab0dataAssumptionsTab",
+			"dataAssumptionsPagedTableComponentdataAssumptionsTab1dataAssumptionsTab",
+			"dataAssumptionsPagedTableComponentdataAssumptionsTab2dataAssumptionsTab",
+			"dataAssumptionsPagedTableComponentdataAssumptionsTab3dataAssumptionsTab",
+			"dataAssumptionsPagedTableComponentdataAssumptionsTab4dataAssumptionsTab");
+
+	public static final String REPORT_LOOKUP_ACTION_PACKAGE = "com.stpl.gtn.gtn2o.ui.module.lookups.action.";
+
 
         public static final String REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE+"GtnReportingComparisonBreakdownHeaderLoadAction";
         public static List<String> getReportDataAssumptionsTabId() {
             return REPORT_DATAASSUMPTIONS_TAB_ID;
         }
 
+	public static final String REPORT_VARIABLE_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE
+			+ "GtnReportingVariableBreakdownHeaderLoadAction";
+
 	private static final List<String> REPORT_VARIABLE_BREAKDOWN_HEADER = Arrays.asList("Projection Name", "Description",
 			"Market Type", "Contract Holder", "Contract", "Brand");
-	
-	private static final List<String> REPORT_COMPARISON_BREAKDOWN_HEADER = Arrays.asList("Projection Name", "Description",
-			"Market Type", "Contract Holder", "Contract", "Brand");
+
+	private static final List<String> REPORT_COMPARISON_BREAKDOWN_HEADER = Arrays.asList("Projection Name",
+			"Description", "Market Type", "Contract Holder", "Contract", "Brand");
 
 	public static Class<?>[] getReportCustomerHierarchyTableColumnsDataType() {
 		return REPORT_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE.clone();
@@ -483,6 +504,7 @@ public final class GtnFrameworkReportStringConstants {
 		return REPORT_VARIABLE_BREAKDOWN_HEADER == null ? REPORT_VARIABLE_BREAKDOWN_HEADER
 				: Collections.unmodifiableList(REPORT_VARIABLE_BREAKDOWN_HEADER);
 	}
+
 	public static List<String> getComparisonBreakdownHeader() {
 		return REPORT_COMPARISON_BREAKDOWN_HEADER == null ? REPORT_COMPARISON_BREAKDOWN_HEADER
 				: Collections.unmodifiableList(REPORT_COMPARISON_BREAKDOWN_HEADER);

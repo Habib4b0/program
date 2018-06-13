@@ -14,6 +14,7 @@ import org.vaadin.addons.ComboBoxMultiselect;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkedcombobox.GtnUIFrameworkCheckedComboBoxConfig;
@@ -31,7 +32,6 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
-import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 
@@ -55,41 +55,33 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 		GtnWsGeneralRequest generalWsRequest = new GtnWsGeneralRequest();
 		generalWsRequest.setComboBoxType(checkedComboBoxConfig.getCheckedComboBoxType());
 		wsRequest.setGtnWsGeneralRequest(generalWsRequest);
-		if (checkedComboBoxConfig.getBlurListenerClassName() != null) {
-			GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
-			try {
-				comboBoxMultiSelect.addBlurListener(
-						(BlurListener) classLoader.loadDynamicClass(checkedComboBoxConfig.getBlurListenerClassName()));
-			} catch (GtnFrameworkGeneralException e) {
-				gtnLogger.info(e.getMessage());
-			}
-		}
-                
+		addblurListener(componentConfig, comboBoxMultiSelect);
+
 		if (checkedComboBoxConfig.getLoadingUrl() != null) {
 			GtnUIFrameworkWebserviceComboBoxResponse response = wsClient
 					.callGtnWebServiceUrl(checkedComboBoxConfig.getLoadingUrl(), wsRequest,
 							GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
 					.getGtnUIFrameworkWebserviceComboBoxResponse();
-                       if (response.getItemValueList() != null) {
-                            List idList =new ArrayList<>(response.getItemCodeList());
-                            List<String> valueList = new ArrayList<>(response.getItemValueList());
-                            String defaultValue = checkedComboBoxConfig.getDefaultValue() != null
+			if (response.getItemValueList() != null) {
+				List idList = new ArrayList<>(response.getItemCodeList());
+				List<String> valueList = new ArrayList<>(response.getItemValueList());
+				String defaultValue = checkedComboBoxConfig.getDefaultValue() != null
 						? String.valueOf(checkedComboBoxConfig.getDefaultValue())
 						: "-Select Values-";
 				idList.add(0, "0");
 				valueList.add(0, defaultValue);
 				comboBoxMultiSelect.setValue(new HashSet<>(Arrays.asList(defaultValue)));
-                                comboBoxMultiSelect.setItems(idList);
-                                comboBoxMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
-                        }
-                    return comboBoxMultiSelect;    
-		} 
-                
-                if (checkedComboBoxConfig.getItemValueList() != null) {
-			comboBoxMultiSelect.setItems(checkedComboBoxConfig.getItemValueList());
-                        return comboBoxMultiSelect;
+				comboBoxMultiSelect.setItems(idList);
+				comboBoxMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
+			}
+			return comboBoxMultiSelect;
 		}
- 		return comboBoxMultiSelect;
+
+		if (checkedComboBoxConfig.getItemValueList() != null) {
+			comboBoxMultiSelect.setItems(checkedComboBoxConfig.getItemValueList());
+			return comboBoxMultiSelect;
+		}
+		return comboBoxMultiSelect;
 	}
 
 	@Override
@@ -136,7 +128,8 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 						comboBoxActionConfig = componentConfig.getReloadActionConfig();
 					}
 					comboBoxActionConfig.addActionParameter(reloadInput);
-					comboBoxCustomAction.doAction(sourceViewId + "_" +componentConfig.getComponentId(), comboBoxActionConfig);
+					comboBoxCustomAction.doAction(sourceViewId + "_" + componentConfig.getComponentId(),
+							comboBoxActionConfig);
 				} catch (GtnFrameworkGeneralException ex) {
 					gtnLogger.error(componentId, ex);
 				}
@@ -290,6 +283,25 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 			for (String style : styles) {
 				checkedComboboxComponent.addStyleName(style);
 			}
+		}
+	}
+
+	private void addblurListener(GtnUIFrameworkComponentConfig componentConfig, ComboBoxMultiselect vaadinComboBoxMultiSelect) {
+		if (componentConfig.getGtnUIFrameWorkActionConfigList() != null
+				&& !componentConfig.getGtnUIFrameWorkActionConfigList().isEmpty()) {
+			vaadinComboBoxMultiSelect.addBlurListener(event -> {
+				try {
+					AbstractComponent component = (AbstractComponent) event.getComponent();
+					GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) component.getData();
+					GtnUIFrameworkComponentConfig blurComponentConfig = componentData
+							.getCurrentComponentConfig();
+					GtnUIFrameworkActionExecutor.executeActionList(componentData.getComponentIdInMap(),
+							blurComponentConfig.getGtnUIFrameWorkActionConfigList());
+
+				} catch (GtnFrameworkGeneralException e) {
+					gtnLogger.error(e.getMessage(), e);
+				}
+			});
 		}
 	}
 

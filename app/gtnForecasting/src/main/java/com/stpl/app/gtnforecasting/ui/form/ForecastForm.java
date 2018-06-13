@@ -536,7 +536,7 @@ public class ForecastForm extends AbstractForm {
                                     if (nmSalesProjection.isSalesValueChange()) {
                                     CommonLogic.viewProceduresCompletionCheckDiscount(session);
                                     session.setFunctionMode("UPS");
-                                    nmDiscountViewsPopulationProcedure();                                 
+                                    nmDiscountViewsPopulationProcedure();  
                                     }
                                 if (tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.FIVE
                                         || tabPosition == NumericConstants.EIGHT) {
@@ -2551,7 +2551,7 @@ public class ForecastForm extends AbstractForm {
     }
 
     private void nmDiscountViewsPopulationProcedure() {
-        if(data.isCustomChange()){
+        if(!data.isCustomChange()){
         session.addFutureMap(Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL,
 				new Future[] {service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "C", "null", "null", session))});
