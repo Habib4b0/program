@@ -133,8 +133,8 @@ public class GtnReportCCPTableLoadAction
 				.getVaadinBaseComponent(actionParamList.get(9).toString()).getCaptionFromV8ComboBox())));
 		dto.setProductRelationshipVersionNo(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(11).toString()).getCaptionFromV8ComboBox())));
-		dto.setReportDataSource(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(12).toString()).getCaptionFromV8ComboBox()));
+		dto.setReportDataSource(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(12).toString())
+				.getIntegerFromV8ComboBox());
 
 		dto.setCompanyReport(Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox()));

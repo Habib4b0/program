@@ -42,6 +42,7 @@ public class GtnWsReportDataSelectionBean {
 	private Date toPeriodReport;
 	private int frequency;
 	private String frequencyName;
+	private int reportDataSource;
 
 	private String viewName;
 	private String viewType;
@@ -114,16 +115,6 @@ public class GtnWsReportDataSelectionBean {
 	public void setForecastEligibleDate(Date forecastEligibleDate) {
 		this.forecastEligibleDate = forecastEligibleDate;
 	}
-
-	public String getReportDataSource() {
-		return reportDataSource;
-	}
-
-	public void setReportDataSource(String reportDataSource) {
-		this.reportDataSource = reportDataSource;
-	}
-
-	private String reportDataSource;
 
 	public long getCustomerHierarchySid() {
 		return customerHierarchySid;
@@ -343,6 +334,14 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setFrequencyName(String frequencyName) {
 		this.frequencyName = frequencyName;
+	}
+
+	public int getReportDataSource() {
+		return reportDataSource;
+	}
+
+	public void setReportDataSource(int reportDataSource) {
+		this.reportDataSource = reportDataSource;
 	}
 
 }

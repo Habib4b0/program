@@ -1,7 +1,16 @@
 package com.stpl.gtn.gtn2o.ws.report.serviceimpl;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
@@ -22,14 +31,6 @@ import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportRightTableLoadDataService
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportSqlService;
 import com.stpl.gtn.gtn2o.ws.report.service.displayformat.service.GtnCustomRelationshipLevelValueService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
 
 @Service("reportDataSelectionSql")
 @Scope(value = "singleton")
@@ -77,8 +78,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	private void callInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
+		createSessionTableForReporting(dataSelectionBean.getSessionId());
 		variableHierarchyNoInsertProcedure(dataSelectionBean);
-		dataPopulationInsertProcedure();
+		dataPopulationInsertProcedure(dataSelectionBean);
 	}
 
 	private void saveCustomCCPMap(GtnWsReportDataSelectionBean dataSelectionBean) throws GtnFrameworkGeneralException {
@@ -143,6 +145,10 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 				.executeSelectQuery(sqlService.getQuery(input, "getCustomViewHierarchyTableDetails"));
 	}
 
+	private void createSessionTableForReporting(String sessionId) {
+
+	}
+
 	private void variableHierarchyNoInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
 		GTNLOGGER.info("Calling variable Insert Procedure");
@@ -151,8 +157,18 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		gtnSqlQueryEngine.executeProcedure(GtnWsQueryConstants.PRC_CUSTOM_CCPDV_POPULATION, input, type);
 	}
 
-	private void dataPopulationInsertProcedure() {
+	private void dataPopulationInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
+			throws GtnFrameworkGeneralException {
 		GTNLOGGER.info("Calling Data Population Insert Procedure");
+		Object[] input = { dataSelectionBean.getSessionId(), dataSelectionBean.getFrequencyName(),
+				dataSelectionBean.getFromPeriodReport(), dataSelectionBean.getToPeriodReport(),
+				dataSelectionBean.getCustomViewMasterSid(), dataSelectionBean.getCompanyReport(),
+				dataSelectionBean.getBusinessUnitReport(), (dataSelectionBean.getReportDataSource() - 1) };
+		GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER,
+				GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
+		// gtnSqlQueryEngine.executeProcedure(GtnWsQueryConstants.PRC_REPORT_DATA_POPULATION,
+		// input, type);
 	}
 
 	public static GtnWsSecurityToken getGsnWsSecurityToken(String userId, String sessionId) {
@@ -219,8 +235,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		result.add(new Object[] { "390-116.222.61.58323.", "1 of 2 Preferred", "Trading Partner", "4", "58323",
 				"1 of 2 Preferred", "10004-Customer", 3 });
 		return result;
-}
-        
+	}
+
 	public List<GtnWsRecordBean> getDashboardLeftData(GtnWsReportDashboardBean reportDashboardBean,
 			GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 
@@ -229,8 +245,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest()
 					.getDataSelectionBean();
 			List<Object> values = gtnWsRequest.getGtnWsSearchRequest().getQueryInputList();
-                        int start=gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart();
-                        int limit=gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset();
+			int start = gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart();
+			int limit = gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset();
 			int levelNo = Integer.parseInt(values.get(0).toString());
 			String hierarchyNo = values.get(1).toString();
 			String fileName = gtnReportJsonService.getFileName("CustomViewCCP", dataSelectionBean.getSessionId());
@@ -243,7 +259,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					.filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo) &&
                                                 row.getRowIndex()>=start ).limit(limit)
 					.map(row -> convertToRecordbean(row, gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
-							rightDataMap,gtnWsReportCustomCCPListDetails.indexOf(row)))
+							rightDataMap, gtnWsReportCustomCCPListDetails.indexOf(row)))
 					.collect(Collectors.toList());
 
 		} catch (Exception ex) {
@@ -253,14 +269,14 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	}
 
 	private GtnWsRecordBean convertToRecordbean(GtnWsReportCustomCCPListDetails bean, List<Object> recordHeader,
-			Map<String, Map<String, Double>> rightDataMap,int index) {
+			Map<String, Map<String, Double>> rightDataMap, int index) {
 		Map.Entry<String, Map<String, Double>> dataEntry = rightDataMap.entrySet().iterator().next();
 		GtnWsRecordBean recordBean = new GtnWsRecordBean();
 		Optional<List> optionalRecordHeader = Optional.of(recordHeader);
 		recordHeader = optionalRecordHeader.orElseGet(ArrayList::new);
-                recordBean.setRecordHeader(recordHeader);
-		recordBean.addAdditionalProperty(bean.getChildCount());//for Child Count
-		recordBean.addAdditionalProperty( bean.getLevelNo());//level No
+		recordBean.setRecordHeader(recordHeader);
+		recordBean.addAdditionalProperty(bean.getChildCount());// for Child Count
+		recordBean.addAdditionalProperty(bean.getLevelNo());// level No
 		recordBean.addAdditionalProperty(bean.getHierarchyNo());
 		recordBean.addAdditionalProperty(index);
 		recordBean.addAdditionalProperty(bean.getRowIndex());

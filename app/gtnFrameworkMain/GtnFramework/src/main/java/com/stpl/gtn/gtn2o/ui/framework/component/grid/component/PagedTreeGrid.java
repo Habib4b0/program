@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,8 +36,8 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
-import com.vaadin.ui.components.grid.HeaderCell;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.components.grid.HeaderCell;
 import com.vaadin.ui.components.grid.HeaderRow;
 
 public class PagedTreeGrid {
@@ -926,38 +927,38 @@ public class PagedTreeGrid {
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
                 Button dateFilterPopupButton = new Button("Show all");
 				// dateFilterPopupButton.setWidth("400px");
-                // DateFilterPopup dateFilterpopup = new DateFilterPopup(dateFilterPopupButton,
-                // tableConfig, property,
-                // componentConfig);
-                // Window window = dateFilterpopup.getDateFilterPopup();
-                // dateFilterPopupButton.addClickListener(new Button.ClickListener() {
-                // @Override
-                // public void buttonClick(Button.ClickEvent event) {
-                //
-                // window.setPosition(event.getClientX(), event.getClientY());
-                // UI.getCurrent().addWindow(window);
-                // }
-                // });
+				// DateFilterPopup dateFilterpopup = new DateFilterPopup(dateFilterPopupButton,
+				// tableConfig, property,
+				// componentConfig);
+				// Window window = dateFilterpopup.getDateFilterPopup();
+				// dateFilterPopupButton.addClickListener(new Button.ClickListener() {
+				// @Override
+				// public void buttonClick(Button.ClickEvent event) {
+				//
+				// window.setPosition(event.getClientX(), event.getClientY());
+				// UI.getCurrent().addWindow(window);
+				// }
+				// });
 
-                return dateFilterPopupButton;
-            }
+				return dateFilterPopupButton;
+			}
 
-        } catch (GtnFrameworkGeneralException exception) {
-            gtnlogger.error("Exception while creating the filter component", exception);
-        }
+		} catch (GtnFrameworkGeneralException exception) {
+			gtnlogger.error("Exception while creating the filter component", exception);
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    private void onFilterTextChange(HasValue.ValueChangeEvent<String> event) {
+	private void onFilterTextChange(HasValue.ValueChangeEvent<String> event) {
 		// tableConfig.getFilterValueMap().put(event.getComponent().getId(),
-        // event.getValue());
-        resetGridToInitialState();
-    }
+		// event.getValue());
+		resetGridToInitialState();
+	}
 
-    public void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event) {
+	public void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event) {
 		// tableConfig.getFilterValueMap().put(event.getComponent().getId(),
-        // event.getValue());
-        resetGridToInitialState();
-    }
+		// event.getValue());
+		resetGridToInitialState();
+	}
 }

@@ -946,7 +946,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(viewOptionsConfig);
 
 		GtnUIFrameworkComboBoxConfig viewOptionsLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		viewOptionsLoadConfig.setItemValues(Arrays.asList(0, 1));
+		viewOptionsLoadConfig.setItemValues(Arrays.asList(1, 2));
 		viewOptionsLoadConfig.setItemCaptionValues(Arrays.asList("Standard", "Fully Expanded"));
 		viewOptionsConfig.setGtnComboboxConfig(viewOptionsLoadConfig);
 	}
