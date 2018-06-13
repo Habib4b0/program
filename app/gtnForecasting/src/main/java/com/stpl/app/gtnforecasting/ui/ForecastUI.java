@@ -32,6 +32,7 @@ import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
+import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
@@ -40,6 +41,7 @@ import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
 import com.stpl.app.gtnforecasting.utils.HelperListUtil;
 import com.stpl.app.model.ProjectionMaster;
 import com.stpl.app.security.StplSecurity;
+import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
@@ -214,6 +216,9 @@ public class ForecastUI extends UI {
                     if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                         DataSelectionLogic dsLogic = new DataSelectionLogic();
                         DataSelectionDTO dto = new DataSelectionDTO();
+                        Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(Integer.parseInt(projectionId), TAB_DISCOUNT_PROJECTION.getConstant());
+                        Object mapValue = map.get("frequency");
+                        Object deductionValue = map.get("DeductionLevel");
                         dto.setCustomerHierSid(customerHierSid);
                         dto.setCustomerHierarchyLevel(customerHierarchyLevel);
                         dto.setCustRelationshipBuilderSid(custRelationshipBuilderSid);
@@ -230,14 +235,14 @@ public class ForecastUI extends UI {
                         sessionDto.setProductHierarchyVersion(dto.getProductHierVersionNo());
                         sessionDto.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
                         sessionDto.setDataSelectionDeductionLevel(String.valueOf(dto.getDataSelectionDeductionLevelSid()));
+                        sessionDto.setDataSelectionDeductionLevelCaption(getDeductionCaptionWithSid(deductionValue,sessionDto));
                         sessionDto.setProductRelationVersion(dto.getProductRelationShipVersionNo());
                         sessionDto.setScreenName(screenName);
                         sessionDto.setProductRelationId(Integer.parseInt(dto.getProdRelationshipBuilderSid()));
                         sessionDto.setProductLevelNumber(dto.getProductHierarchyLevel());   
                         sessionDto.setFunctionMode("E");
                         sessionDto.setCustomRelationShipSid(dto.getCustomRelationShipSid());
-                        sessionDto.setFrequency(dto.getFrequency());
-                        sessionDto.setDataSelectionDeductionLevelCaption("Schedule Category");
+                        sessionDto.setDsFrequency(mapValue.toString());
                         QueryUtils.createTempTables(sessionDto);
 
                         Map<String, String> tempCustomerDescriptionMap;
@@ -379,5 +384,14 @@ public class ForecastUI extends UI {
 	public static void setEXCEL_CLOSE(boolean eXCEL_CLOSE) {
 		EXCEL_CLOSE = eXCEL_CLOSE;
 	}
+
+    private String getDeductionCaptionWithSid(Object deductionValue,SessionDTO session) {
+        Map<String,String> levelCaption=new HashMap<>();
+        List<String[]> deductionLevel = CommonLogic.getDeductionLevel(session.getProjectionId());
+        for (Object[] strings : deductionLevel) {
+            levelCaption.put(String.valueOf(strings[0]), String.valueOf(strings[1]));
+        }
+     return levelCaption.get(String.valueOf(deductionValue));
+    }
 
 }
