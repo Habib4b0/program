@@ -78,6 +78,11 @@ public class GtnWsCustomViewService {
                 cvResponse.setMessageType(GtnFrameworkCommonStringConstants.ERROR);
                 cvResponse.setMessage("Entered Custom View Name already exists.");
                 return;
+            } else if (cvRequest.getCvSysId() != 0 && checkDuplicateCustomViewNameOnEdit(cvRequest)) {
+                cvResponse.setSuccess(false);
+                cvResponse.setMessageType(GtnFrameworkCommonStringConstants.ERROR);
+                cvResponse.setMessage("Entered Custom View Name already exists.");
+                return;
             }
         } catch (Exception e) {
             cvResponse.setSuccess(false);
@@ -393,4 +398,22 @@ public class GtnWsCustomViewService {
 				imtdPsDetailsInsertQueryTypes);
 
 	}
+        
+        @SuppressWarnings("rawtypes")
+    private boolean checkDuplicateCustomViewNameOnEdit(GtnWsCustomViewRequest cvRequest)
+            throws GtnFrameworkGeneralException {
+        int custViewCountOnEdit = 0;
+        try {
+            List<String> inputlist = new ArrayList<>();
+            inputlist.add(cvRequest.getCustomViewName());
+            inputlist.add(String.valueOf(cvRequest.getCvSysId()));
+            List result = executeQuery(getQuery("getCustomViewNameDuplicateCheckOnEdit"), inputlist);
+            if (result != null && !result.isEmpty()) {
+                custViewCountOnEdit = Integer.parseInt(String.valueOf(result.get(0)));
+            }
+        } catch (Exception e) {
+            throw new GtnFrameworkGeneralException("Exception in checkDuplicateRelationshipName", e);
+        }
+        return custViewCountOnEdit != 0;
+    }
 }

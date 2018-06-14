@@ -150,7 +150,18 @@ WHERE
 		</query>
 	</entity>        
         
-        
+        <entity id="getCustomViewNameDuplicateCheckOnEdit">
+		<query> 
+        <![CDATA[
+        SELECT
+		count( distinct CV.CUST_VIEW_MASTER_SID )
+	from
+		dbo.CUST_VIEW_MASTER CV
+	where
+		CV.CUST_VIEW_NAME = ? AND CV.CUST_VIEW_MASTER_SID <> ?;
+   ]]>
+		</query>
+	</entity>
         
         
         
