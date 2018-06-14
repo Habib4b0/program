@@ -1857,7 +1857,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         if (flag) {
             try {
                 configureFields();
-                if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
+                if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) || Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())) {
                     loadDeductionLevelFilter(session.getDataSelectionDeductionLevel());
                     deductionFilterValues.getChildren().get(1).setChecked(true);
                     String deductionMenuItemValue = deductionFilterValues.getChildren().get(1).getMenuItem().getCaption();

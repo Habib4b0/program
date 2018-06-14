@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.constants.MongoConstants;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
+import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
+import static com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType.BYTE;
+import static com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType.INTEGER;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -23,6 +26,7 @@ import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
 import com.stpl.gtn.gtn2o.ws.report.engine.engine.GtnGenerateReportEngine;
@@ -222,6 +226,35 @@ public class GtnWsReportingDashboardController {
                         gtnReportVariableBreakdownLookupBean.setResultList(results);
                         gtnReportResponse.setVariableBreakdownLookupBean(gtnReportVariableBreakdownLookupBean);
 			gtnUIFrameworkWebserviceResponse.setGtnReportResponse(gtnReportResponse);
+			return gtnUIFrameworkWebserviceResponse;
+		} catch (GtnFrameworkGeneralException ex) {
+			gtnLogger.error("Error in variable breakdown controller, " + ex.getMessage(), ex);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			return gtnUIFrameworkWebserviceResponse;
+		}
+	}
+        
+        @PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_SAVE_SERVICE)
+	public GtnUIFrameworkWebserviceResponse variableBreakdownSaveService(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+			
+                         List<GtnReportVariableBreakdownLookupBean> variableBreakdown = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getDataSelectionBean()
+                    .getVariableBreakdownSaveList();
+                         
+                         for(int i=0;i<variableBreakdown.size();i++){
+                              Integer[] obj = new Integer[4];
+                             obj[0] = variableBreakdown.get(i).getMasterSid();
+                             obj[1] = variableBreakdown.get(i).getPeriod();
+                             obj[2] = variableBreakdown.get(i).getYear();
+                             obj[3] = variableBreakdown.get(i).getSelectedVariable();
+                             gtnSqlQueryEngine.executeInsertOrUpdateQuery(GtnWsQueryConstants.VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY, obj, new GtnFrameworkDataType[]{INTEGER,INTEGER,INTEGER,INTEGER});
+                         }
+                       
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (GtnFrameworkGeneralException ex) {
 			gtnLogger.error("Error in variable breakdown controller, " + ex.getMessage(), ex);
