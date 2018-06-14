@@ -29,6 +29,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownGridLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -155,8 +156,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		addVariableComponent(componentList, nameSpace);
 		addFrequencyComponent(componentList, nameSpace);
 		addPeriodRangeFromComponent(componentList, nameSpace);
-		// addCustomViewButtonComponent(componentList, nameSpace);
-		// addCustomViewComponent(componentList, nameSpace);
+	    addCustomViewButtonComponent(componentList, nameSpace);
+		addCustomViewComponent(componentList, nameSpace);
 		addComparisonBasisComponent(componentList, nameSpace);
 		addVariableCategoryComponent(componentList, nameSpace);
 		addAnnualTotalsComponent(componentList, nameSpace);
@@ -335,7 +336,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(periodRangeFromConfig);
 
 		GtnUIFrameworkComboBoxConfig periodRangeFromLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_PERIOD_RANGE_FROM, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		periodRangeFromConfig.setGtnComboboxConfig(periodRangeFromLoadConfig);
 
@@ -357,7 +358,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(comparisonBasisConfig);
 
 		GtnUIFrameworkComboBoxConfig comparisonBasisLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_COMPARISON_BASIS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		comparisonBasisConfig.setGtnComboboxConfig(comparisonBasisLoadConfig);
 
@@ -868,7 +869,12 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadComparisonOptionValuesActionConfig
 				.addActionParameter(GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction.class.getName());
+		GtnUIFrameWorkActionConfig loadGridComparisonActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		loadGridComparisonActionConfig.addActionParameter(GtnReportingComparisonBreakdownGridLoadAction.class.getName());
+		loadGridComparisonActionConfig.addActionParameter("comparisonBreakdownResultsLayout_comparisonBreakdownResultsPagedTableComponent");
 		actionConfigList.add(loadComparisonOptionValuesActionConfig);
+		actionConfigList.add(loadGridComparisonActionConfig);
 
 		comparisonOptionsConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		componentList.add(comparisonOptionsConfig);
