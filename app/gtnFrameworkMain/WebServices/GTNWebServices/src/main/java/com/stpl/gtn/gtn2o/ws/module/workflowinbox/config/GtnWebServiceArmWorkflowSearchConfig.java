@@ -93,5 +93,16 @@ public class GtnWebServiceArmWorkflowSearchConfig implements GtnWsSearchQueryCon
 		fieldToColumnDetailsMap.put("projectionMasterSid",
 				configProvider.getColumnIntegerConfig("PROJECTION_MASTER_SID", "WM"));
 		fieldToColumnDetailsMap.put("createdById", configProvider.getColumnIntegerConfig("CREATED_BY", "WM"));
+		
+		fieldToColumnDetailsMap.put("customerHierSid",
+				configProvider.getColumnIntegerConfig("CUSTOMER_HIERARCHY_SID", "PM"));
+		fieldToColumnDetailsMap.put("customerHierarchyLevel",
+				configProvider.getColumnIntegerConfig("CUSTOMER_HIERARCHY_LEVEL", "PM"));
+		fieldToColumnDetailsMap.put("custRelationshipBuilderSid",
+				configProvider.getColumnIntegerConfig("CUST_RELATIONSHIP_BUILDER_SID", "PM"));
+		fieldToColumnDetailsMap.put("productHierarchyLevel",
+				configProvider.getColumnIntegerConfig("PRODUCT_HIERARCHY_LEVEL", "PM"));
+		fieldToColumnDetailsMap.put("prodRelationshipBuilderSid",
+				configProvider.getColumnIntegerConfig("PROD_RELATIONSHIP_BUILDER_SID", "PM"));
 	}
 }

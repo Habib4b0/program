@@ -70,16 +70,15 @@ public class GtnFrameworkWorkflowResultTableItemClickAction
 
 			}
 			boolean isSubmitter = createdById.equals(userId);
-
 			if (isSubmitter && (GtnFrameworkWorkflowInboxClassConstants.WITHDRAWN.equalsIgnoreCase(status)
 					|| GtnFrameworkWorkflowInboxClassConstants.REJECTED.equalsIgnoreCase(status)
-					|| GtnFrameworkWorkflowInboxClassConstants.PENDING.equals(status))) {
+					|| GtnFrameworkWorkflowInboxClassConstants.PENDING.equalsIgnoreCase(status))) {
 
-				enableDisableButtons(false, true);
+				//enableDisableButtons(false, true);
 
 			} else {
 
-				enableDisableButtons(true, false);
+				//enableDisableButtons(true, false);
 			}
 
 		} catch (Exception e) {

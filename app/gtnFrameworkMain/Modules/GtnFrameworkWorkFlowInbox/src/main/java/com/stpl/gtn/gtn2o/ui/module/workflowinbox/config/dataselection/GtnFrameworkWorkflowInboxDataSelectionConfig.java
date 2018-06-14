@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.checkedcombobox.GtnUIFrameworkCheckedComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
@@ -44,7 +45,7 @@ import com.vaadin.server.Page;
 public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
-	public GtnUIFrameworkViewConfig getSearchView() {
+	public GtnUIFrameworkViewConfig getSearchView() {		
 
 		GtnUIFrameworkViewConfig view = configProvider
 				.getViewConfig(GtnFrameworkWorkflowInboxClassConstants.SEARCH_VIEW, "V001", true);
@@ -534,6 +535,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		searchButtonComponentConfig.setParentComponentId(GtnFrameworkWorkflowInboxClassConstants.BUTTONMAIN_LAYOUT);
 		searchButtonComponentConfig.setAddToParent(true);
 		componentList.add(searchButtonComponentConfig);
+		
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig validationActionConfig = new GtnUIFrameWorkActionConfig();
@@ -682,17 +684,20 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		saveViewBtn.setComponentName(GtnFrameworkWorkflowInboxClassConstants.SAVEPROFILE);
 
 		List<GtnUIFrameWorkActionConfig> list = new ArrayList<>();
+		
 		GtnUIFrameWorkActionConfig viewAlertActionConfig = new GtnUIFrameWorkActionConfig();
 		viewAlertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 		List<Object> viewAlertParams = new ArrayList<>();
 		viewAlertParams.add(GtnFrameworkWorkflowInboxClassConstants.SAVEPROFILENOSEARCH);
 		viewAlertParams.add(GtnFrameworkWorkflowInboxClassConstants.SAVEPROFILENOSEARCHPLEASEENTER);
 		viewAlertActionConfig.setActionParameterList(viewAlertParams);
+		
 		GtnUIFrameWorkActionConfig confi = new GtnUIFrameWorkActionConfig();
 		confi.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		confi.addActionParameter(GtnFrameworkWorkflowInboxClassConstants.DSSAVEVIEWLOOKUP);
 		confi.addActionParameter(GtnFrameworkWorkflowInboxClassConstants.SAVEVIEWPOPUP);
 		list.add(confi);
+		
 		GtnUIFrameWorkActionConfig resetTableConfig = new GtnUIFrameWorkActionConfig();
 		resetTableConfig.setActionType(GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
 		Map<String, Object> resetSelectMap = new HashMap<>();
@@ -702,6 +707,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		selectResetParams.add(resetSelectMap);
 		resetTableConfig.setActionParameterList(selectResetParams);
 		list.add(resetTableConfig);
+		
 		GtnUIFrameWorkActionConfig viewNameAction = new GtnUIFrameWorkActionConfig();
 		viewNameAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		viewNameAction.addActionParameter(GtnFrameworkConfigureSaveProfilelookupAction.class.getName());
@@ -713,6 +719,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 				GtnFrameworkWorkflowInboxClassConstants.SAVEVIEWTYPE, GtnFrameworkWorkflowInboxClassConstants.PUBLIC,
 				GtnFrameworkWorkflowInboxClassConstants.PRIVATE));
 		list.add(viewNameAction);
+		
 		saveViewBtn.setGtnUIFrameWorkActionConfigList(list);
 		componentList.add(saveViewBtn);
 	}
@@ -849,7 +856,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		}
 		searchResultConfig.addGtnUIFrameWorkActionConfig(fetchActionConfig);
 		searchResults.setItemClickListener(true);
-
+		
 		if (projectionMasterSid == null) {
 			GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig(
 					GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -1534,17 +1541,19 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 
 		GtnUIFrameworkComponentConfig adjustmentTypeComponent = configProvider.getUIFrameworkComponentConfig(
 				GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE, true,
-				adjustmentTypeComponentConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+				adjustmentTypeComponentConfig.getComponentId(), GtnUIFrameworkComponentType.CHECKEDCOMBOBOX);
 		adjustmentTypeComponent.setAuthorizationIncluded(true);
 		adjustmentTypeComponent.setComponentName(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENT_TYPE);
-
-		GtnUIFrameworkComboBoxConfig adjustmentTypeComboBoxConfig = new GtnUIFrameworkComboBoxConfig();
+		adjustmentTypeComponent.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
+		
+		GtnUIFrameworkCheckedComboBoxConfig adjustmentTypeComboBoxConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		adjustmentTypeComboBoxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		adjustmentTypeComboBoxConfig.setComboBoxType(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPEDDLB);
+		adjustmentTypeComboBoxConfig.setCheckedComboBoxType(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPEDDLB);
 		adjustmentTypeComboBoxConfig.setDefaultValue("-Select Value-");
-		adjustmentTypeComponent.setGtnComboboxConfig(adjustmentTypeComboBoxConfig);
-		componentList.add(adjustmentTypeComponent);
+		
+		adjustmentTypeComponent.setGtnCheckedComboboxConfig(adjustmentTypeComboBoxConfig);
+		componentList.add(adjustmentTypeComponent);	
 	}
 
 	private void addcontractIdArm(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {

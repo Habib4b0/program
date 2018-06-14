@@ -51,8 +51,8 @@ public class GtnFrameworkConfigureOpenButtonAction
 		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
 		String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
 		String createdById = null;
-		String status = String
-				.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.STATUS));
+		
+		String status=null;
 		String adjustmentTypeName = null;
 		String adjustmentType = null;
 		String workflowSid = null;
@@ -135,9 +135,16 @@ public class GtnFrameworkConfigureOpenButtonAction
 
 			}
 
-			String key = workflowId.replaceAll("\\d", "");
+			String key = workflowId.replaceAll("\\d", GtnFrameworkWorkflowInboxClassConstants.EMPTY);
 			String portletName = GtnFrameworkWorkflowPortletMap.valueOf(key).getInput();
-
+			
+			if(key.equalsIgnoreCase("ARM_TRXF")) {
+				status = String.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUSARM));
+			} else {
+				status = String
+						.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.STATUS));
+			}
+			
 			projMasterBean.setWorkflowId(workflowId);
 
 			boolean isSubmitter = createdById.equals(userId);
@@ -150,10 +157,10 @@ public class GtnFrameworkConfigureOpenButtonAction
 			GtnUIFrameworkWebserviceResponse friendlyUrlresponse = loadWebServiceforFriendlyUrl(generalWSRequest,
 					projMasterBean);
 			String furl = getfUrl(key, friendlyUrlresponse);
-
+			
 			BrowserWindowOpener opener = getBrowserOpener(furl);
-
-			checkSubmitter(isSubmitter, status, opencomponent, opener, viewcomponent);
+			
+			checkSubmitter(isSubmitter, status, opencomponent, opener, viewcomponent); 
 
 			if (projIdfromDataselection.contains(GtnFrameworkWorkflowInboxClassConstants.RECORD_BEAN)) {
 				opener.setParameter(GtnFrameworkWorkflowIdMap.valueOf(key).getInput(), projectionMasterSid);
@@ -199,7 +206,7 @@ public class GtnFrameworkConfigureOpenButtonAction
 							prodRelationshipBuilderSidGcm);
 				}
 			}
-
+			
 			getARM(workflowId, adjustmentTypeName, opener, adjustmentType, configurationType);
 
 		} catch (Exception e) {
@@ -217,15 +224,20 @@ public class GtnFrameworkConfigureOpenButtonAction
 
 	private String getfUrl(String key, GtnUIFrameworkWebserviceResponse friendlyUrlresponse) {
 		String furl;
+		gtnLogger.info("friendlyResponse="+friendlyUrlresponse.getGtnWSCommonWorkflowResponse().getFriendlyUrl());
 		if (Page.getCurrent().getLocation().getPort() == -1) {
-			furl = GtnFrameworkWorkflowInboxClassConstants.HTTPS + Page.getCurrent().getLocation().getHost()
-					+ GtnFrameworkWorkflowInboxClassConstants.WEB_GUEST
-					+ friendlyUrlresponse.getGtnWSCommonWorkflowResponse().getFriendlyUrl()
+			furl = GtnFrameworkWorkflowInboxClassConstants.HTTPS 
+					+ Page.getCurrent().getLocation().getHost()
+					//+ GtnFrameworkWorkflowInboxClassConstants.WEB_GUEST
+					//+ friendlyUrlresponse.getGtnWSCommonWorkflowResponse().getFriendlyUrl()
 					+ GtnFrameworkWorkflowMap.valueOf(key).getInput();
 		} else {
-			furl = GtnFrameworkWorkflowInboxClassConstants.HTTP + Page.getCurrent().getLocation().getHost() + ":"
-					+ Page.getCurrent().getLocation().getPort() + GtnFrameworkWorkflowInboxClassConstants.WEB_GUEST
-					+ friendlyUrlresponse.getGtnWSCommonWorkflowResponse().getFriendlyUrl()
+			furl = GtnFrameworkWorkflowInboxClassConstants.HTTP 
+					+ Page.getCurrent().getLocation().getHost() 
+					+ ":"
+					+ Page.getCurrent().getLocation().getPort() 
+					//+ GtnFrameworkWorkflowInboxClassConstants.WEB_GUEST
+					//+ friendlyUrlresponse.getGtnWSCommonWorkflowResponse().getFriendlyUrl()
 					+ GtnFrameworkWorkflowMap.valueOf(key).getInput();
 		}
 		return furl;

@@ -434,7 +434,8 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	public static final String HTTP = "http://";
 	public static final String HTTPS = "https://";
 	public static final String ARM = "ARM";
-	public static final String WEB_COMMERCIAL = "?nmFlow='true'";
+	//public static final String WEB_COMMERCIAL = "?nmFlow='true'";
+	public static final String WEB_COMMERCIAL = "/web/guest/commercial?mFlow='true'";
 	public static final String WEB_GOVERNMENT = "/web/guest/government?mFlow='true'";
 	public static final String WEB_BASERATE = "/web/guest/base-rate?nmFlow='true'";
 	public static final String WEB_FIXEDDOLLAR = "/web/guest/fixed-dollar-adjustment?nmFlow='true'";
