@@ -156,8 +156,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		addVariableComponent(componentList, nameSpace);
 		addFrequencyComponent(componentList, nameSpace);
 		addPeriodRangeFromComponent(componentList, nameSpace);
-	    addCustomViewButtonComponent(componentList, nameSpace);
-		addCustomViewComponent(componentList, nameSpace);
+	    //addCustomViewButtonComponent(componentList, nameSpace);
+		//addCustomViewComponent(componentList, nameSpace);
 		addComparisonBasisComponent(componentList, nameSpace);
 		addVariableCategoryComponent(componentList, nameSpace);
 		addAnnualTotalsComponent(componentList, nameSpace);
@@ -355,13 +355,12 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		comparisonBasisConfig.setComponentName("Comparison Basis: ");
 		comparisonBasisConfig.setAuthorizationIncluded(true);
 
+		GtnUIFrameworkComboBoxConfig comparisonBasisComponentLoadConfig = new GtnUIFrameworkComboBoxConfig();
+		comparisonBasisComponentLoadConfig.setModuleName("report");
+		comparisonBasisComponentLoadConfig.setItemValues(new ArrayList());
+		comparisonBasisComponentLoadConfig.setItemCaptionValues(new ArrayList());
+		comparisonBasisConfig.setGtnComboboxConfig(comparisonBasisComponentLoadConfig);
 		componentList.add(comparisonBasisConfig);
-
-		GtnUIFrameworkComboBoxConfig comparisonBasisLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_COMPARISON_BASIS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		comparisonBasisConfig.setGtnComboboxConfig(comparisonBasisLoadConfig);
-
 	}
 
 	private void addVariableCategoryComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {

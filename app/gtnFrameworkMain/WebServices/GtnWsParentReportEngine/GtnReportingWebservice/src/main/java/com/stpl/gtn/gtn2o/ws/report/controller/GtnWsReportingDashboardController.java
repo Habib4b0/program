@@ -106,7 +106,14 @@ public class GtnWsReportingDashboardController {
 		response.setGtnWsReportResponse(gtnWsReportRespose);
 		return response;
 	}
-
+	
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_COMPARISON_BREAKDOWN_SAVE_SERVICE , method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse variableBreakdownSaveService(@RequestBody GtnUIFrameworkWebserviceRequest request)
+			throws GtnFrameworkGeneralException, IOException{
+				return null;
+		
+		
+	}
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse generateReportCalculationInsert(
 			@RequestBody GtnUIFrameworkWebserviceRequest request) {

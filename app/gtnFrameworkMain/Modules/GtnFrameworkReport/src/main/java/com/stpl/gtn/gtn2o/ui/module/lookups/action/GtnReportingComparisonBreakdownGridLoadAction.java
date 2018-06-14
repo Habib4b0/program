@@ -4,6 +4,7 @@ import static com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType.C
 import static com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType.V8_LABEL;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -11,6 +12,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
@@ -19,6 +21,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkClassLoader;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -28,6 +31,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.ComboBox;
@@ -66,6 +70,21 @@ public class GtnReportingComparisonBreakdownGridLoadAction implements GtnUIFrame
 	              for(int count=0;count<comparisonLookupBeanList.size();count++){
 	                  projectionNameListFromCustomData.add(comparisonLookupBeanList.get(count).getProjectionName());
 	              }
+	              List projectionList=new ArrayList<>();
+	              for(int start=0;start<projectionNameListFromCustomData.size();start++){
+	                  projectionList.add(projectionNameListFromCustomData.get(start));
+	              }    
+	              
+	              GtnUIFrameworkComboBoxConfig comparisonBasisComboBoxConfig = GtnUIFrameworkGlobalUI
+	                      .getVaadinBaseComponentFromView("reportOptionsTabComparisonOptions_comparison", componentId).getComponentConfig()
+	                      .getGtnComboboxConfig();
+	              comparisonBasisComboBoxConfig.setItemValues(projectionList);
+	              comparisonBasisComboBoxConfig.setItemCaptionValues(projectionList);
+
+	              GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
+	              combobox.reloadComponentFromView(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+	                      "reportOptionsTabComparisonOptions_comparison", componentId,
+	                      Arrays.asList(""));
 	              
 	              int comparisonLookupBeanSize = projectionNameListFromCustomData.size();
 	              
@@ -76,24 +95,63 @@ public class GtnReportingComparisonBreakdownGridLoadAction implements GtnUIFrame
 	              clearGrid(grid);
 	              GtnUIFrameworkPagedTableConfig tableConfig = setHeaderFromWs(pagedGrid, componentId, grid);
 	              configureCheckboxHeaderComponents(tableConfig.getTableColumnMappingId(), tableConfig.getColumnHeaders(), grid, tableConfig);
+	              setStartAndEndPeriodForComparisonBreakdownLookup(tableConfig,componentId);
 	              Component vaadinComponent = null;
 
+	              String comparisonBasisInDisplaySelectionTab = GtnUIFrameworkGlobalUI
+	      				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis", componentId)
+	      				.getStringCaptionFromV8ComboBox();
+	              
 	              Object[] filterColumnIdList = pagedGrid.getTableConfig().getTableColumnMappingId();
 	              while (comparisonLookupBeanSize > 0) {
 	                  HeaderRow filterRow = grid.appendHeaderRow();
 	                  for (Object column : filterColumnIdList) {
+	                	  if(column.toString().equals(comparisonBasisInDisplaySelectionTab))
+	                		  continue;
 	                      vaadinComponent = getCustomFilterComponent(String.valueOf(column), componentId,i,grid,projectionNameListFromCustomData.get(i));
 	                      filterRow.getCell(String.valueOf(column)).setComponent(vaadinComponent);
-
 	                  }
+	                  i++;
 	                  comparisonLookupBeanSize--;
 	              }
 
 	          } catch (Exception e) {
-	              e.printStackTrace();
+	              logger.debug(e.getMessage());
 	          }
 	      }
 
+	private void setStartAndEndPeriodForComparisonBreakdownLookup(GtnUIFrameworkPagedTableConfig tableConfig, String componentId) {
+        List<String> startAndEndPeriodCaptionList = tableConfig.getColumnHeaders();
+        ArrayList<String> startAndEndPeriodItemIdList = new ArrayList(Arrays.asList(tableConfig.getTableColumnMappingId()));
+        
+        startAndEndPeriodCaptionList.remove(0);
+        startAndEndPeriodItemIdList.remove(0);
+        
+        GtnUIFrameworkComboBoxConfig startPeriodComboboxConfig = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponentFromView("reportOptionsTabComparisonOptions_startPeriod", componentId).getComponentConfig()
+                .getGtnComboboxConfig();
+        startPeriodComboboxConfig.setItemValues(startAndEndPeriodItemIdList);
+        startPeriodComboboxConfig.setItemCaptionValues(startAndEndPeriodCaptionList);
+        
+        GtnUIFrameworkComboBoxComponent startPeriodCombobox = new GtnUIFrameworkComboBoxComponent();
+        startPeriodCombobox.reloadComponentFromView(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+                "reportOptionsTabComparisonOptions_startPeriod", componentId,
+                Arrays.asList(""));
+        
+        GtnUIFrameworkComboBoxConfig endPeriodComboboxConfig = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponentFromView("reportOptionsTabComparisonOptions_endPeriod", componentId).getComponentConfig()
+                .getGtnComboboxConfig();
+        endPeriodComboboxConfig.setItemValues(startAndEndPeriodItemIdList);
+        endPeriodComboboxConfig.setItemCaptionValues(startAndEndPeriodCaptionList);
+        
+        GtnUIFrameworkComboBoxComponent endPeriodCombobox = new GtnUIFrameworkComboBoxComponent();
+        endPeriodCombobox.reloadComponentFromView(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+                "reportOptionsTabComparisonOptions_endPeriod", componentId,
+                Arrays.asList(""));
+        
+    }
+	
+	
 	      private GtnUIFrameworkPagedTableConfig setHeaderFromWs(PagedGrid pagedGrid, String componentId, Grid<GtnWsRecordBean> grid) throws GtnFrameworkGeneralException {
 	          GtnUIFrameworkPagedTableConfig tableConfig = pagedGrid.getTableConfig();
 	          String classPath = tableConfig.getGridHeaderCustomClassLoadUrl();
@@ -169,6 +227,15 @@ public class GtnReportingComparisonBreakdownGridLoadAction implements GtnUIFrame
 	              gtnUIFrameworkComboBoxComponent.postCreateComponent(vaadinComponent,base.getComponentConfig());
 	              ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
 	              vaadinCombobox.setId(property + String.valueOf(i));
+	              
+	              vaadinCombobox.addValueChangeListener(new HasValue.ValueChangeListener() {
+	                  @Override
+	                  public void valueChange(HasValue.ValueChangeEvent event) {
+	                  
+	                  }
+	              });
+	              
+	              
 	              return vaadinCombobox;
 	          } catch (Exception e) {
 	              logger.error("Error message" + e);
