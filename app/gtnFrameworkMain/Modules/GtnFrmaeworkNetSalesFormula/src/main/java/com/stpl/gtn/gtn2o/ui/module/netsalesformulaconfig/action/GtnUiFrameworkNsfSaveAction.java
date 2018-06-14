@@ -131,7 +131,7 @@ public class GtnUiFrameworkNsfSaveAction implements GtnUIFrameWorkAction, GtnUIF
 			GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 					"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_SAVE_SERVICE, request,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-
+			GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkNSFConstants.getSystemid(),gtnWsresponse.getGtnWsNetSalesGeneralResponse().getNsfInfoBean().getSystemId());
 			return gtnWsresponse.getGtnWsGeneralResponse().isSucess();
 		} catch (Exception systemExcption) {
 			throw new GtnFrameworkGeneralException("Save Error", systemExcption);
