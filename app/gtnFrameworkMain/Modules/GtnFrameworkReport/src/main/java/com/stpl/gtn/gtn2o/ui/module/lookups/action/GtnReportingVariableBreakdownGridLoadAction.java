@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.module.lookups.action;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -24,7 +25,10 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
 import com.vaadin.data.HasValue;
@@ -58,6 +62,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
         try {
             logger.info("------------GtnReportingVariablBreakdownGridLoadAction---------AA-------");
             int i = 0;
+            List variableBreakdownSaveActionList = new ArrayList<>();
             List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
             String variableBreakdownTableId = actionParameterList.get(1).toString();
             List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = new ArrayList<>();
@@ -136,16 +141,17 @@ public class GtnReportingVariableBreakdownGridLoadAction
 
             Object[] filterColumnIdList = pagedGrid.getTableConfig().getTableColumnMappingId();
 
-            while (comparisonLookupBeanSize > 0) {
+            int rowCount=1;
+            while ( rowCount<=comparisonLookupBeanSize) {
                 HeaderRow filterRow = grid.appendHeaderRow();
                 isDisableColumns = true;
-                for (Object column : filterColumnIdList) {
+                for (int col=0;col<filterColumnIdList.length;col++) {
                    
-                        vaadinComponent = getCustomFilterComponent(String.valueOf(column), componentId, i, currentDateToDisableField , grid,projectionNameListFromCustomData.get(i));
-                        filterRow.getCell(String.valueOf(column)).setComponent(vaadinComponent); 
+                        vaadinComponent = getCustomFilterComponent(String.valueOf(filterColumnIdList[col]), componentId, i,col, currentDateToDisableField , grid,projectionNameListFromCustomData.get(i),tableConfig,variableBreakdownSaveActionList,rowCount,comparisonLookupBeanList,gridComponent);
+                        filterRow.getCell(String.valueOf(filterColumnIdList[col])).setComponent(vaadinComponent); 
                 }
                 i++;
-                comparisonLookupBeanSize--;
+                rowCount++;
             }
 
         } catch (Exception e) {
@@ -290,9 +296,9 @@ public class GtnReportingVariableBreakdownGridLoadAction
         }
     }
 
-    private Component getCustomFilterComponent(String property, String componentId, int i, String currentDateField, Grid<GtnWsRecordBean> grid, String projectionName) {
+    private Component getCustomFilterComponent(String property, String componentId, int i, int col, String currentDateField, Grid<GtnWsRecordBean> grid, String projectionName, GtnUIFrameworkPagedTableConfig tableConfig, List variableBreakdownSaveActionList, int rowCount, List<GtnReportComparisonProjectionBean> comparisonLookupBeanList, GtnUIFrameworkComponentData gridComponent) {
         try {
-            List variableBreakdownSaveActionList = new ArrayList<>();
+           
             if (property.equals("projectionNames")) {
                 GtnUIFrameworkComponentConfig componentConfig = new GtnUIFrameworkComponentConfig();
                 componentConfig.setComponentName(projectionName);
@@ -329,7 +335,17 @@ public class GtnReportingVariableBreakdownGridLoadAction
             vaadinCombobox.addValueChangeListener(new HasValue.ValueChangeListener() {
                 @Override
                 public void valueChange(HasValue.ValueChangeEvent event) {
-                    
+                    int selectedValue = (int) event.getValue();
+                    String columnId = tableConfig.getColumnHeaders().get(col+1);
+                    Label projectionNameForWs = (Label) grid.getHeaderRow(rowCount).getCell("projectionNames").getComponent();
+                    int masterSid = getMasterSid(projectionNameForWs,comparisonLookupBeanList);
+           
+                    Object[] obj = new Object[3];
+                    obj[0] = selectedValue;
+                    obj[1] = columnId;
+                    obj[2] = masterSid;
+                    variableBreakdownSaveActionList.add(obj);
+                    gridComponent.setCustomData(variableBreakdownSaveActionList);
                 }
             });
             
@@ -340,6 +356,22 @@ public class GtnReportingVariableBreakdownGridLoadAction
         return null;
     }
 
+     private int getMasterSid(Label projectionNames, List<GtnReportComparisonProjectionBean> comparisonLookupBeanList) {
+       int masterSid = 0;
+        if(projectionNames.getValue().equalsIgnoreCase("Ex-Factory Sales")){
+            masterSid = -1;
+        }
+        if(projectionNames.getValue().equalsIgnoreCase("Latest Approved")){
+            masterSid = 0;
+        }
+        for(int start=0;start<comparisonLookupBeanList.size();start++){
+            if (projectionNames.getValue().equalsIgnoreCase(comparisonLookupBeanList.get(start).getProjectionName())) {
+                masterSid=comparisonLookupBeanList.get(start).getProjectionMasterSid();
+            }
+        }
+        return masterSid;
+    }
+     
     private void classLoader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String classPath,
             String sourceViewId) throws GtnFrameworkGeneralException {
         GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
