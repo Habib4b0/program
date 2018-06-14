@@ -227,6 +227,23 @@ public class GtnWsCompanyGrpService {
 		}
 
 	}
+	public int updateCompanyGroupDetails(GtnUIFrameworkWebserviceRequest gtnWsRequest, GtnUIFrameworkWebserviceResponse gtnResponse)
+			throws GtnFrameworkGeneralException {
+		try {
+			String cmpnyGrpDetailsQuery = gtnWsSqlService.getQuery("getCompanyGrpDetailsFetchQuery");
+			GtnFrameworkDataType[] dataTypeArray = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+					GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
+			Object[] objParamsArray = { gtnWsRequest.getGtnWsGeneralRequest().getUserId(),
+					gtnWsRequest.getGtnWsGeneralRequest().getSessionId(), gtnResponse.getGtnWsCompanyGroupResponse().
+                                                getGtnCompanyGrpInformationBean().getCompanyGrpSid(), gtnResponse.getGtnWsCompanyGroupResponse()
+							.getGtnCompanyGrpInformationBean().getVersionNo() };
+			return gtnSqlQueryEngine.executeInsertOrUpdateQuery(cmpnyGrpDetailsQuery, objParamsArray, dataTypeArray);
+
+		} catch (Exception e) {
+			throw new GtnFrameworkGeneralException(e);
+		}
+
+	}
 
 	public void getCompanyGrpDeleteQuery(GtnUIFrameworkWebserviceRequest gtnWsRequest)
 			throws GtnFrameworkGeneralException {
