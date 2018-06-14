@@ -41,7 +41,6 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 @Service()
 @Scope(value = "singleton")
 public class GtnWsNsfService {
-
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
@@ -209,8 +208,10 @@ public class GtnWsNsfService {
 		String updatedeductionQuery=gtnWsSqlService.getQuery("getDeductionsRemoveUpdateRecordQuery");
 		String updatedeductionQueryisEmpty=gtnWsSqlService.getQuery("getDeductionsRemoveUpdateRecordQueryisempty");
 		
-		String deleteTempQuery = gtnWsSqlService.getQuery("getNsfDeleteTempTableDataQuery");
-
+	    String deleteTempQuery = gtnWsSqlService.getQuery("getNsfDeleteTempTableDataQuery");
+	    
+	    GtnUIFrameworkWebserviceRequest gtnWsRequest=new GtnUIFrameworkWebserviceRequest();
+	    gtnWsRequest.setGtnWsGeneralRequest(nsfSaveRequest);
 		Object[] params = { nsfSystemId, nsfSaveRequest.getUserId(), nsfSaveRequest.getSessionId() };
 		Object[] deleteQueryParams = { nsfSaveRequest.getUserId(), nsfSaveRequest.getSessionId() };
 		GtnFrameworkDataType[] types = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING,
@@ -237,6 +238,11 @@ public class GtnWsNsfService {
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(salesBasisQuery, params, types, session);
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(deductionQuery, params, types, session);
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(deleteTempQuery, deleteQueryParams, deleteQueryTypes, session);
+		
+		insertIntoTempTables(gtnWsRequest, session,
+				GtnWsNsfCommonConstants.GTN_NSF_SALES_BASIS_TEMP_TABLE_INSERT_QUERY, nsfSystemId);
+		insertIntoTempTables(gtnWsRequest, session,
+				GtnWsNsfCommonConstants.GTN_NSF_DEDUCTIONS_TEMP_TABLE_INSERT_QUERY, nsfSystemId);
 	}
 		public void updateNsfInfo(GtnUIFrameworkWebserviceRequest nsfRequest) throws GtnFrameworkGeneralException {
 
@@ -496,8 +502,8 @@ public class GtnWsNsfService {
 		GtnWsNsfUpdateBean nsfResetBean = gtnWsNsfResetRequest.getNsfUpdateBean();
 		GtnWsGeneralRequest generalWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
 		String query = getResetRecordQuery(nsfResetBean);
-		GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING, };
-		Object[] params = { generalWSRequest.getUserId(), generalWSRequest.getSessionId() };
+		GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,GtnFrameworkDataType.INTEGER };
+		Object[] params = { generalWSRequest.getUserId(), generalWSRequest.getSessionId(),nsfResetBean.getMasterSid() };
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, type);
 	}
 
