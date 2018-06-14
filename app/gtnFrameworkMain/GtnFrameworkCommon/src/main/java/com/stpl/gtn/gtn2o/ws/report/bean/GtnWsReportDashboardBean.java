@@ -25,6 +25,7 @@ public class GtnWsReportDashboardBean {
 	private int periodRangeToSid;
 	private String periodStart;
 	private String periodTo;
+	private String selectFreqString;
 
 	public String[] getInput() {
 		return input;
@@ -133,7 +134,13 @@ public class GtnWsReportDashboardBean {
 	public void setPeriodTo(String periodTo) {
 		this.periodTo = periodTo;
 	}
-	
-	
+
+	public String getSelectFreqString() {
+		return selectFreqString;
+	}
+
+	public void setSelectFreqString(String selectFreqString) {
+		this.selectFreqString = selectFreqString;
+	}
 
 }

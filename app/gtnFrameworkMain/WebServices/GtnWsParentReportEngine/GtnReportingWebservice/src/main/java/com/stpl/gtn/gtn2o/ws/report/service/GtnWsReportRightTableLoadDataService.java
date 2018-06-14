@@ -21,7 +21,6 @@ public class GtnWsReportRightTableLoadDataService {
 	GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	@Autowired
-	// GtnWsReportVaribleRowResultTransformer transFormer;
 	GtnWsReportRightTableResultTransformer transFormer;
 
 	public Map<String, Map<String, Double>> getDataFromBackend() {

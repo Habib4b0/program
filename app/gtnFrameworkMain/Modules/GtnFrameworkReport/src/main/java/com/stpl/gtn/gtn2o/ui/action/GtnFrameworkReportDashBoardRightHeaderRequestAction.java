@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
@@ -51,6 +52,9 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 				.getStringFromMultiselectComboBox();
 
 		reportDashBoardBean.setSelectedVariableType(selectedVariable);
+		String freName = ((GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
+				.getComponentData().getSharedPopupData()).getFrequencyName();
+		reportDashBoardBean.setSelectFreqString(freName);
 
 		String[] selectedVariableCategory = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabVariableCategory", componentId)
@@ -83,7 +87,7 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 
 		reportDashBoardBean.setPeriodRangeToSid(periodToComponent.getIntegerFromV8ComboBox());
 		if (reportDashBoardBean.getPeriodRangeToSid() != 0) {
-			reportDashBoardBean.setPeriodTo(perioFromComponent.getStringCaptionFromV8ComboBox());
+			reportDashBoardBean.setPeriodTo(periodToComponent.getStringCaptionFromV8ComboBox());
 		}
 
 		reportDashBoardBean.setSelectedVariableCategoryType(selectedVariableCategory);
