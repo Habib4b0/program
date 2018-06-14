@@ -5,11 +5,13 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
@@ -224,11 +226,11 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		value.setComponentName("Value: ");
 		value.setAddToParent(true);
 		value.setParentComponentId(valueConfig.getComponentId());
-		GtnUIFrameworkComboBoxConfig valueLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		valueLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		valueLoadConfig.setComboBoxType(GtnFrameworkReportStringConstants.COMPANY_MASTER_GLCOMP);
-		value.setGtnComboboxConfig(valueLoadConfig);
+		GtnUIFrameworkComboBoxConfig comparisonBreakdownValueLoadConfig = new GtnUIFrameworkComboBoxConfig();
+		comparisonBreakdownValueLoadConfig.setModuleName("report");
+		comparisonBreakdownValueLoadConfig.setItemValues(new ArrayList<>());
+		comparisonBreakdownValueLoadConfig.setItemCaptionValues(new ArrayList<>());
+		value.setGtnComboboxConfig(comparisonBreakdownValueLoadConfig);
 		componentList.add(value);
 	}
 
@@ -358,7 +360,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		componentList.add(variableBreakdownResultsLayout);
         
 
-		addLabelComponent(componentList, "comparisonBreakdownResultsLayout");
+		//addLabelComponent(componentList, "comparisonBreakdownResultsLayout");
 		addResultTable(componentList, "comparisonBreakdownResultsLayout");
 
 	}
@@ -408,8 +410,22 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 			comparisonBreakdownLookupResultsPagedTableConfig
 					.setColumnHeaders(GtnFrameworkReportStringConstants.getComparisonBreakdownHeader());
 			comparisonBreakdownLookupResultsPagedTableConfig.setTableColumnMappingId(
-					new Object[] { "projectionName", "description", "marketType", "contractHolder", "contract", "brand" });
+					new Object[] {});
 
+			 GtnUIFrameWorkActionConfig comparisonBreakdownHeaderLoadAction = new GtnUIFrameWorkActionConfig(
+						GtnUIFrameworkActionType.CUSTOM_ACTION);
+			 //comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboardTab_reportOptionsTabDisplayFormat");
+			 comparisonBreakdownHeaderLoadAction.addActionParameter("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig");
+			 comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeFrom");
+			 comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeTo");
+			 comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabFrequency");
+			 
+			 
+			 
+
+			 comparisonBreakdownLookupResultsPagedTableConfig.setGtnUIFrameWorkActionConfig(comparisonBreakdownHeaderLoadAction);
+			 comparisonBreakdownLookupResultsPagedTableConfig.setGridHeaderCustomClassLoadUrl(
+                 GtnFrameworkReportStringConstants.REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION);
 			comparisonBreakdownLookupResultsPagedTableComponent
 					.setGtnPagedTableConfig(comparisonBreakdownLookupResultsPagedTableConfig);
 		

@@ -35,18 +35,23 @@ public class GtnReportingVariableBreakdownHeaderLoadAction implements GtnUIFrame
         List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
         String variableBreakdownTableId = actionParameterList.get(0).toString();
 
-        AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(variableBreakdownTableId,
-                componentId);
+        AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(variableBreakdownTableId, componentId).getComponent();
         GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
 
-        String fromPeriod = GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(actionParameterList.get(1).toString(), componentId)
-                .getStringCaptionFromV8ComboBox();
-        String toPeriod = GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId)
-                .getStringCaptionFromV8ComboBox();
-        String frequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(0).toString())
-                .getStringCaptionFromV8ComboBox();
+        String fromPeriod = "Q1-2017" ;
+        		
+        		//GtnUIFrameworkGlobalUI
+                //.getVaadinBaseComponent(actionParameterList.get(1).toString(), componentId)
+                //.getStringCaptionFromV8ComboBox();
+        String toPeriod = "Q1-2018" ;
+        
+        //GtnUIFrameworkGlobalUI
+                //.getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId)
+                //.getStringCaptionFromV8ComboBox();
+        String frequency = "Semi-Annual";
+        		
+        		//GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(0).toString())
+                //.getStringCaptionFromV8ComboBox();
         List<String> inputList = new ArrayList<>();
         inputList.add(fromPeriod);
         inputList.add(toPeriod);
@@ -58,6 +63,7 @@ public class GtnReportingVariableBreakdownHeaderLoadAction implements GtnUIFrame
         gtnWsReportRequest.setDataSelectionBean(gtnWsReportDataSelectionBean);
         GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
         gtnUIFrameworkWebserviceRequest.setGtnWsReportRequest(gtnWsReportRequest);
+        gridComponent.setCustomData(gtnUIFrameworkWebserviceRequest);
         gridComponent.setCustomPagedTreeTableRequest(gtnUIFrameworkWebserviceRequest);
     }
 

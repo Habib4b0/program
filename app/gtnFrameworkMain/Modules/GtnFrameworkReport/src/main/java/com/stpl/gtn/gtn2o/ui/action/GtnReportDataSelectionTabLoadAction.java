@@ -233,14 +233,14 @@ public class GtnReportDataSelectionTabLoadAction
 					.loadV8ComboBoxComponentValue(
 							Integer.valueOf(reportDataSelectionBean.getProductHierarchyForecastLevel()));
 
-                    GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
-                    actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-                    actionConfig.setActionParameterList(Arrays.asList(
-                            GtnReportDataAssumptionsTabLoadAction.class.getName(),
-                            GtnFrameworkReportStringConstants.TAB_SHEET + "dataAssump", GtnFrameworkReportStringConstants.CURRENT_TAB,
-                            GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_LOAD,reportDataSelectionBean));
+			GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+			actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+			actionConfig.setActionParameterList(Arrays.asList(GtnReportDataAssumptionsTabLoadAction.class.getName(),
+					GtnFrameworkReportStringConstants.TAB_SHEET + "dataAssump",
+					GtnFrameworkReportStringConstants.CURRENT_TAB,
+					GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_LOAD, reportDataSelectionBean));
 
-                    GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
 
 		} catch (Exception exception) {
 			logger.error("Error message", exception);
