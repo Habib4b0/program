@@ -78,8 +78,9 @@ public class GtnFrameworkReportComparisonLookup {
 		projectionType.setComponentWsFieldId("projectionType");
 
 		GtnUIFrameworkComboBoxConfig projectionTypeConfig = new GtnUIFrameworkComboBoxConfig();
-		projectionTypeConfig
-				.setItemValues(GtnFrameworkReportStringConstants.getReportComparisonProjectionTypeLoadCombobox());
+		projectionTypeConfig.setItemValues(Arrays.asList("F", "C"));
+		projectionTypeConfig.setItemCaptionValues(
+				GtnFrameworkReportStringConstants.getReportComparisonProjectionTypeLoadCombobox());
 		projectionType.setGtnComboboxConfig(projectionTypeConfig);
 
 		GtnUIFrameworkValidationConfig projectionTypeValidationConfig = new GtnUIFrameworkValidationConfig();
@@ -606,6 +607,8 @@ public class GtnFrameworkReportComparisonLookup {
 		addProjectionAction.addActionParameter(GtnReportComparisonProjectionAddAction.class.getName());
 		addProjectionAction.addActionParameter("comparisonLookupResultsPagedTableComponent");
 		addProjectionAction.addActionParameter("comparisonLookupProjectionsResultsPagedTableComponent");
+		addProjectionAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.PROJECTION_TYPE);
 		addButtonConfig.addGtnUIFrameWorkActionConfig(addProjectionAction);
 	}
 

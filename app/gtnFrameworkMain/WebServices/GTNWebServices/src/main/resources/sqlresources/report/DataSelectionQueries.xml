@@ -1186,22 +1186,7 @@ ORDER by
 			<query> 
 	        <![CDATA[    
 	        
-	        IF NOT EXISTS (
-			SELECT 'X'
-			FROM SYS.TABLES
-			WHERE OBJECT_NAME(OBJECT_ID) = '?'
-				AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
-			)
-			BEGIN
-				CREATE TABLE [DBO].[?] (
-					CCP_DETAILS_SID INT NOT NULL,
-					CUST_HIERARCHY_NO VARCHAR(8000) NOT NULL,
-					PROD_HIERARCHY_NO VARCHAR(8000) NOT NULL,
-					SALES_INCLUSION SMALLINT NULL
-					)
-			END
-        
-		  IF Object_id('tempdb..#COMP_CONT') IS NOT NULL DROP
+			  IF Object_id('tempdb..#COMP_CONT') IS NOT NULL DROP
 								TABLE
 									#COMP_CONT CREATE
 										TABLE

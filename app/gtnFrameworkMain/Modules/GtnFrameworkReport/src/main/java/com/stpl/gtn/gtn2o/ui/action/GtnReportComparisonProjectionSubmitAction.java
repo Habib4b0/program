@@ -56,6 +56,7 @@ public class GtnReportComparisonProjectionSubmitAction
 				comparisonProjectionBean
 						.setProjectionMasterSid(Integer.parseInt(recordBean.getStringPropertyByIndex(8)));
 				comparisonProjectionBean.setCreatedBy(Integer.parseInt(recordBean.getStringPropertyByIndex(10)));
+				comparisonProjectionBean.setProjectionType(String.valueOf(recordBean.getAdditionalPropertyByIndex(0)));
 				comparisonProjectionBeanList.add(comparisonProjectionBean);
 			}
 			GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
@@ -66,8 +67,8 @@ public class GtnReportComparisonProjectionSubmitAction
 			String displayValue = getRecordDisplayValue(selectedRecords);
 
 			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromParent(gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString(),
-							componentId)
+					.getVaadinBaseComponentFromParent(
+							gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString(), componentId)
 					.setV8PopupFieldValue(displayValue);
 		} else {
 			GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();

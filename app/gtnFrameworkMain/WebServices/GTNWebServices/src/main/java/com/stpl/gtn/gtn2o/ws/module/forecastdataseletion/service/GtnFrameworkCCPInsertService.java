@@ -154,11 +154,15 @@ public class GtnFrameworkCCPInsertService {
 					customerHierarchyLevelDefinitionList, selectedCustomerRelationLevelList, false);
 			String productHierarchyQuery = getCustomerAndContractHierarchyQueryForReporting(inputBean,
 					productHierarchyLevelDefinitionList, selectedProductRelationLevelList, true);
-			String tableName = dataSelectionBean
-					.getTableNameWithUniqueId(isSql ? "ST_CCP_HIERARCHY" : "ST_CCPD_HIERARCHY");
+			String tableName = null;
 			List<String> input = new ArrayList<>();
-			input.add(tableName);
-			input.add(tableName);
+			if (isSql) {
+				tableName = dataSelectionBean.getSessionTable("ST_CCP_HIERARCHY");
+			} else {
+				tableName = dataSelectionBean.getTableNameWithUniqueId("ST_CCPD_HIERARCHY");
+				input.add(tableName);
+				input.add(tableName);
+			}
 			input.add(customerHierarchyQuery);
 			input.add(productHierarchyQuery);
 			input.add(tableName);

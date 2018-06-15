@@ -135,7 +135,7 @@ public class GtnWsReportWebsevice {
 				criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
 			}
 		}
-		if (criteriaMap.get("projectionType").equals("Contract")) {
+		if (criteriaMap.get("projectionType").equals("F")) {
 			comparisonResults = loadProjectionComparisonResults(criteriaMap);
 		} else {
 			comparisonResults = loadCFFComparisonResults(criteriaMap);
