@@ -46,12 +46,10 @@ public class GtnWsQueryConstants {
 	public static final String PRC_CUSTOM_CCPDV_POPULATION = " PRC_CUSTOM_CCPDV_POPULATION ? , ? , ? ";
 
 	public static final String PRC_REPORT_DATA_POPULATION = " PRC_REPORTING_DASHBOARD ? , ? , ? , ? , ? , ? , ? , ? ";
-        
-        public static final String VARIABLE_BREAKDOWN_PERIOD_DATAS = "	select * from ( select row_number() over (partition by @frequency Year order by year asc) rowno, PERIOD_SID,YEAR from Period where @periodDateCondition )A where rowno=1 order by year asc";
-        
-        public static final String VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY = "INSERT INTO VARIABLE_BR_REPORT (MASTER_SID,PERIOD,YEAR,SELECTED_VARIABLE) VALUES (?,?,?,?)";
 
-	public static final String VARIABLE_BREAKDOWN_PERIOD_DATAS = "	select * from ( select row_number() over (partition by @frequency Year order by year asc) rowno, PERIOD_SID,YEAR from Period where PERIOD_DATE >= '@startDate'  AND PERIOD_DATE <= '@endDate' )A where rowno=1 order by year asc";
+	public static final String VARIABLE_BREAKDOWN_PERIOD_DATAS = "	select * from ( select row_number() over (partition by @frequency Year order by year asc) rowno, PERIOD_SID,YEAR from Period where @periodDateCondition )A where rowno=1 order by year asc";
+
+	public static final String VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY = "INSERT INTO VARIABLE_BR_REPORT (MASTER_SID,PERIOD,YEAR,SELECTED_VARIABLE) VALUES (?,?,?,?)";
 
 	public static final String PRC_TEMP_TABLE_CREATION = " PRC_TEMP_TABLE_CREATION ? ? ? ";
 
