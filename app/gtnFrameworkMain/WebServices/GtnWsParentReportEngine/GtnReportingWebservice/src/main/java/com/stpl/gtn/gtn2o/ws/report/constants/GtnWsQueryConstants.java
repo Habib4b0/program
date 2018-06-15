@@ -43,10 +43,15 @@ public class GtnWsQueryConstants {
 
 	public static final String DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS = "select FORECAST_NAME as FORECAST_NAME, company.COMPANY_NAME as COMPANY_NAME, businessunit.COMPANY_NAME as BUSINESS_UNIT, ht.DESCRIPTION as FILE_TYPE, VERSION, FROM_PERIOD as ACTIVE_FROM, FROM_PERIOD, TO_PERIOD from FILE_MANAGEMENT FT inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = FT.COMPANY inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID = FT.BUSINESS_UNIT inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID = FT.FILE_TYPE inner join PROJECTION_FILE_DETAILS pfd ON pfd.FILE_MANAGEMENT_SID=FT.FILE_MANAGEMENT_SID where pfd.PROJECTION_MASTER_SID like '@projectionMasterSid' union ( select FORECAST_NAME as FORECAST_NAME, company.COMPANY_NAME as COMPANY_NAME, businessunit.COMPANY_NAME as BUSINESS_UNIT, ht.DESCRIPTION as FILE_TYPE, VERSION, FROM_PERIOD as ACTIVE_FROM, FROM_PERIOD, TO_PERIOD from FILE_MANAGEMENT inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = COMPANY inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID = BUSINESS_UNIT inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID = FILE_TYPE where TO_PERIOD is null) ";
 
-	public static final String PRC_CUSTOM_CCPDV_POPULATION = " PRC_CUSTOM_CCPDV_POPULATION ? , ? ";
+	public static final String PRC_CUSTOM_CCPDV_POPULATION = " PRC_CUSTOM_CCPDV_POPULATION ? , ? , ? ";
 
 	public static final String PRC_REPORT_DATA_POPULATION = " PRC_REPORTING_DASHBOARD ? , ? , ? , ? , ? , ? , ? , ? ";
-        
-        public static final String VARIABLE_BREAKDOWN_PERIOD_DATAS = "	select * from ( select row_number() over (partition by @frequency Year order by year asc) rowno, PERIOD_SID,YEAR from Period where PERIOD_DATE >= '@startDate'  AND PERIOD_DATE <= '@endDate' )A where rowno=1 order by year asc";
-}
 
+	public static final String VARIABLE_BREAKDOWN_PERIOD_DATAS = "	select * from ( select row_number() over (partition by @frequency Year order by year asc) rowno, PERIOD_SID,YEAR from Period where PERIOD_DATE >= '@startDate'  AND PERIOD_DATE <= '@endDate' )A where rowno=1 order by year asc";
+
+	public static final String PRC_TEMP_TABLE_CREATION = " PRC_TEMP_TABLE_CREATION ? ? ? ";
+
+	public static final String PRC_TEMP_TABLE_LIST = "CCP_HIERARCHY,CUSTOM_CCP_SALES,CUSTOM_VARIABLE_HIERARCHY,CUSTOM_DISCOUNT_REPORT,CUSTOM_SALES_REPORT,APPROVED_REPORT,VARIABLE_BR_REPORT,COMPARISION_REPORT";
+
+	public static final String CUSTOM_VARIABLE_HIERARCHY = "ST_CUSTOM_VARIABLE_HIERARCHY";
+}

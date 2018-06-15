@@ -1,7 +1,9 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 
@@ -47,6 +49,7 @@ public class GtnWsReportDataSelectionBean {
 	private String viewName;
 	private String viewType;
 	private Integer viewId;
+	private Map<String, String> sessionTableMap = null;
 
 	private List variableBreakdownHeaderLoadList;
 
@@ -182,6 +185,10 @@ public class GtnWsReportDataSelectionBean {
 
 	public String getTableNameWithUniqueId(String tableName) {
 		return tableName + "_" + uniqueId;
+	}
+
+	public String getTableNameWithUserIdAndSession(String tableName) {
+		return tableName + "_" + userId + "_" + sessionId;
 	}
 
 	public Integer getCompanyReport() {
@@ -342,6 +349,25 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setReportDataSource(int reportDataSource) {
 		this.reportDataSource = reportDataSource;
+	}
+
+	public Map<String, String> getSessionTableMap() {
+		return sessionTableMap;
+	}
+
+	public void setSessionTableMap(Map<String, String> sessionTableMap) {
+		this.sessionTableMap = sessionTableMap;
+	}
+
+	public void putSessionTableMap(String key, String value) {
+		if (this.sessionTableMap == null) {
+			this.sessionTableMap = new HashMap<>();
+		}
+		this.sessionTableMap.put(key, value);
+	}
+
+	public String getSessionTable(String key) {
+		return this.sessionTableMap.get(key);
 	}
 
 }

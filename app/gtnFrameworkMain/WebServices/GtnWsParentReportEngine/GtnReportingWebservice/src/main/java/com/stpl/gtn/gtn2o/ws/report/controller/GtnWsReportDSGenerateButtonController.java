@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ws.report.service.GtnUIFrameWorkReportResponseBuilder;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportDataSelectionGenerate;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
 
 @RestController
 public class GtnWsReportDSGenerateButtonController {
@@ -23,7 +24,10 @@ public class GtnWsReportDSGenerateButtonController {
 	public GtnUIFrameworkWebserviceResponse generateCCPForReprt(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameWorkReportResponseBuilder().build();
+		GtnWsReportResponse gtnWsReportRespose = new GtnWsReportResponse();
 		generateButtonService.dataSelectionGenerateLogic(gtnWsRequest);
+		gtnWsReportRespose.setReportBean(gtnWsRequest.getGtnWsReportRequest().getReportBean());
+		response.setGtnWsReportResponse(gtnWsReportRespose);
 		return response;
 	}
 
