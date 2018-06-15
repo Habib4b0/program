@@ -456,7 +456,7 @@ public class HeaderGeneratorService {
 			List<Integer> quarterToDateForFromPeriod = getQuarterToDate(fromPeriod,splitParameter);
                         dateFromPeriodQuery = getDateFromFrequency(quarterToDateForFromPeriod);
                         frequency = "QUARTER,";
-		} else if (fromPeriod.startsWith("S")) {
+		} else if (fromPeriod.startsWith("S") && !fromPeriod.toLowerCase().startsWith("sep")) {
 
 			List<Integer> semiAnnualToDateForFromPeriod = getSemiAnnualToDate(fromPeriod,splitParameter);
 
