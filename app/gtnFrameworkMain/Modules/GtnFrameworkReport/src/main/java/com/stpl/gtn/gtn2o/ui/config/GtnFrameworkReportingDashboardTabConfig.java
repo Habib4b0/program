@@ -499,16 +499,15 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_INCLUSION,
 				true, GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_INCLUSION_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		deductionInclusionConfig.setComponentName("Deduction Inclusion: ");
 		deductionInclusionConfig.setAuthorizationIncluded(true);
 
 		componentList.add(deductionInclusionConfig);
 
-		GtnUIFrameworkComboBoxConfig deductionInclusionLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		deductionInclusionConfig.setGtnComboboxConfig(deductionInclusionLoadConfig);
+		GtnUIFrameworkCheckedComboBoxConfig deductionInclusionLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
+		deductionInclusionLoadConfig.setItemValueList(Arrays.asList("Yes","No"));
+		deductionInclusionConfig.setGtnCheckedComboboxConfig(deductionInclusionLoadConfig);
 	}
 
 	private void addDeductionFilterComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -650,16 +649,16 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_SALES_INCLUSION,
 				true, GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_SALES_INCLUSION_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		salesInclusionConfig.setComponentName("Sales Inclusion: ");
 		salesInclusionConfig.setAuthorizationIncluded(true);
 
 		componentList.add(salesInclusionConfig);
 
-		GtnUIFrameworkComboBoxConfig salesInclusionLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		salesInclusionConfig.setGtnComboboxConfig(salesInclusionLoadConfig);
+		GtnUIFrameworkCheckedComboBoxConfig salesInclusionLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
+		salesInclusionLoadConfig.setItemValueList(Arrays.asList("Yes","No"));
+		salesInclusionConfig.setGtnCheckedComboboxConfig(salesInclusionLoadConfig);
+		
 	}
 
 	private void addDeductionLevelComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -717,7 +716,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		productLevelConfig.setComponentName("Product Level: ");
 		productLevelConfig.setAuthorizationIncluded(true);
 
-                productLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+        productLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_FILTER);
 		productLevelConfig.addDependentComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_FILTER);
