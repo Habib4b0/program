@@ -37,8 +37,8 @@ public class GtnWsReportCustomViewControllerTest {
 	@Autowired
 	SessionFactory sessionFactory;
 
-	@Autowired
-	com.mongodb.MongoClient client;
+//	@Autowired
+//	com.mongodb.MongoClient client;
 
 	// @Test
 	public void testDisplay() {
@@ -51,7 +51,7 @@ public class GtnWsReportCustomViewControllerTest {
 	}
 
 	private void deleteData() {
-		client.getDatabase(MongoConstants.DATABSE_NAME).drop();
+//		client.getDatabase(MongoConstants.DATABSE_NAME).drop();
 	}
 
 	private GtnUIFrameworkWebserviceRequest getcustomerHierarchyRequest(GtnUIFrameworkWebserviceRequest request) {
@@ -77,11 +77,11 @@ public class GtnWsReportCustomViewControllerTest {
 	private void prepereData() {
 		CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
 				fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-		MongoCollection<GtnWsReportDataSelectionBean> collection = client.getDatabase(MongoConstants.DATABSE_NAME)
-				.withCodecRegistry(pojoCodecRegistry)
-				.getCollection(MongoStringConstants.REPORT_COLLECTION, GtnWsReportDataSelectionBean.class);
-		GtnWsReportDataSelectionBean bean = createDummyHierarchySelection();
-		collection.insertOne(bean);
+//		MongoCollection<GtnWsReportDataSelectionBean> collection = client.getDatabase(MongoConstants.DATABSE_NAME)
+//				.withCodecRegistry(pojoCodecRegistry)
+//				.getCollection(Mong/oStringConstants.REPORT_COLLECTION, GtnWsReportDataSelectionBean.class);
+//		GtnWsReportDataSe/lectionBean bean = createDummyHierarchySelection();
+//		collection.insertOne(bean);
 	}
 
 	private GtnWsReportDataSelectionBean createDummyHierarchySelection() {
