@@ -621,23 +621,6 @@
               and RELATIONSHIP_LEVEL_VALUES IN (@LEVELVALUES) GROUP BY HIERARCHY_NO
             ]]>
 	</entry>     
-	 <entry key="deduction-dynamic-filter">
-       <![CDATA[
-             IF OBJECT_ID('TEMPDB..#HIER_DEDUCTION_PROD') IS NOT NULL
-             DROP TABLE #HIER_DEDUCTION_PROD
-             CREATE TABLE #HIER_DEDUCTION_PROD
-             (
-              HIERARCHY_NO VARCHAR(1000)
-             )
-             INSERT #HIER_DEDUCTION_PROD
-             (
-             HIERARCHY_NO
-             )
-             SELECT HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION WHERE 
-             RELATIONSHIP_BUILDER_SID = ? and  RELATIONSHIP_LEVEL_VALUES IN (@LEVELVALUES) GROUP BY HIERARCHY_NO
-              
-            ]]>
-    </entry>   
     <entry key="deductionRelationSid">
     	<![CDATA[
     		select RELATIONSHIP_BUILDER_SID from RELATIONSHIP_BUILDER where DEDUCTION_RELATION = ? ORDER BY VERSION_NO DESC
@@ -788,20 +771,48 @@
 	<entry key="deductionFilterLoadQuery">
 		<![CDATA[
 		from
-			ST_CCP_HIERARCHY st_ccp_hierarchy 
+			ST_CCP_HIERARCHY ST_CCP_HIERARCHY 
 		join CCP_DETAILS ccd on
-			ccd.CCP_DETAILS_SID = st_ccp_hierarchy.CCP_DETAILS_SID 
+			ccd.CCP_DETAILS_SID = ST_CCP_HIERARCHY.CCP_DETAILS_SID 
 		join CONTRACT_MASTER cm on
 			cm.CONTRACT_MASTER_SID = ccd.CONTRACT_MASTER_SID 
 		join COMPANY_MASTER com on
 			com.COMPANY_MASTER_SID = ccd.COMPANY_MASTER_SID 
 		join ITEM_MASTER im on
 			im.ITEM_MASTER_SID = ccd.ITEM_MASTER_SID 
-		join RS_CONTRACT rc on
+		left join RS_CONTRACT rc on
 			rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID 
-		join RS_CONTRACT_DETAILS rcd on
+		left join RS_CONTRACT_DETAILS rcd on
 			rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID
 			and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID
+		]]>
+	</entry>
+	<entry key="deduction-dynamic-filter">
+		<![CDATA[
+		join CONTRACT_MASTER cm on
+			cm.CONTRACT_MASTER_SID = CCP_DETAILS.CONTRACT_MASTER_SID 
+		join COMPANY_MASTER com on
+			com.COMPANY_MASTER_SID = CCP_DETAILS.COMPANY_MASTER_SID 
+		join ITEM_MASTER im on
+			im.ITEM_MASTER_SID = CCP_DETAILS.ITEM_MASTER_SID 
+		]]>
+	</entry>
+	<entry key="filterOptionsGenerateQuery">
+		<![CDATA[
+			select
+				distinct ST_CCP_HIERARCHY.ccp_details_sid
+			from
+		    	ST_CCP_HIERARCHY ST_CCP_HIERARCHY
+			JOIN #HIER_PRODUCT HP ON
+				ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO + '%'
+			JOIN #HIER_CUST HC ON
+				ST_CCP_HIERARCHY.CUST_HIERARCHY_NO LIKE HC.HIERARCHY_NO + '%' 
+			join CCP_details CCP_DETAILS on
+				CCP_DETAILS.ccp_details_sid = ST_CCP_HIERARCHY.ccp_details_sid
+			WHERE
+	   		    cm.inbound_status <> 'D'
+				and com.inbound_status <> 'D'
+				and im.inbound_status <> 'D'
 		]]>
 	</entry>
 		
