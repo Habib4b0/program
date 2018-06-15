@@ -330,12 +330,11 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownSubmitButton.setAddToParent(true);
 		variableBreakdownSubmitButton.setParentComponentId(variableBreakdownControlButtonConfig.getComponentId());
 
-                GtnUIFrameWorkActionConfig variableBreakDownSubmitAction = new GtnUIFrameWorkActionConfig(
+		GtnUIFrameWorkActionConfig variableBreakDownSubmitAction = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
-                variableBreakDownSubmitAction.addActionParameter(GtnReportingVariableBreakdownSubmitAction.class.getName());
-                
-                variableBreakdownSubmitButton.addGtnUIFrameWorkActionConfig(variableBreakDownSubmitAction);
-                
+		variableBreakDownSubmitAction.addActionParameter(GtnReportingVariableBreakdownSubmitAction.class.getName());
+		variableBreakdownSubmitButton.addGtnUIFrameWorkActionConfig(variableBreakDownSubmitAction);
+
 		GtnUIFrameworkComponentConfig variableBreakdownResetButton = new GtnUIFrameworkComponentConfig();
 		variableBreakdownResetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		variableBreakdownResetButton.setComponentId(

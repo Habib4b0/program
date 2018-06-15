@@ -61,7 +61,7 @@ public class GtnReportingComparisonBreakdownMassUpdateAction  implements GtnUIFr
 	              AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(actionParameterList.get(5).toString(),
 	                      componentId);
 	              GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
-	              PagedGrid pagedGrid = (PagedGrid) gridComponent.getCustomData();
+	              PagedGrid pagedGrid = (PagedGrid) gridComponent.getPagedGrid();
 	              Grid<GtnWsRecordBean> grid = (Grid<GtnWsRecordBean>) pagedGrid.getGrid();
 	              
 	              ArrayList<String> startAndEndPeriodItemIdList = new ArrayList(Arrays.asList(pagedGrid.getTableConfig().getTableColumnMappingId()));
@@ -90,7 +90,7 @@ public class GtnReportingComparisonBreakdownMassUpdateAction  implements GtnUIFr
 	                    	  String header = gridColumnIdSubList.get(k);
 	                    	  HeaderCell headerCell = headerRow.getCell(header);
 	                    	  Component component = headerCell.getComponent();
-	                    	  ComboBox comboBox = (ComboBox) component ;
+	                    	  ComboBox<String> comboBox = (ComboBox) component ;
 	                          //ComboBox<Integer> variableBreakdownGridCombo = comboBox;
 	                    	  comboBox.setSelectedItem(comparisonBreakdownValues);
 	                          //variableBreakdownGridCombo.set

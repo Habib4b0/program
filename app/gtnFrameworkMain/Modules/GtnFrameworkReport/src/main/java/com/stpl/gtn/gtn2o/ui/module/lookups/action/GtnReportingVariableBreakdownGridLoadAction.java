@@ -358,9 +358,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
 
      private int getMasterSid(Label projectionNames, List<GtnReportComparisonProjectionBean> comparisonLookupBeanList) {
        int masterSid = 0;
-        if(projectionNames.getValue().equalsIgnoreCase("Ex-Factory Sales")){
-            masterSid = -1;
-        }
+       
         if(projectionNames.getValue().equalsIgnoreCase("Latest Approved")){
             masterSid = 0;
         }

@@ -16,7 +16,9 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownMassUpdateAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownSubmitAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownMassUpdateAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownSubmitAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -319,32 +321,50 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 	}
 
 	private void addControlButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId, String namespace) {
+
 		GtnUIFrameworkComponentConfig controlButtonConfig = layoutsConfig
 				.getHorizontalLayoutConfig("controlButtonConfig", parentId);
 		componentList.add(controlButtonConfig);
 
-		GtnUIFrameworkComponentConfig submitButton = new GtnUIFrameworkComponentConfig();
-		submitButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		submitButton.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"submitButton");
-		submitButton.setComponentName("SUBMIT");
-		submitButton.setAddToParent(true);
-		submitButton.setParentComponentId(controlButtonConfig.getComponentId());
+		GtnUIFrameworkComponentConfig comparisonBreakDownSubmitButton = new GtnUIFrameworkComponentConfig();
+		comparisonBreakDownSubmitButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		comparisonBreakDownSubmitButton
+				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "submitButton");
+		comparisonBreakDownSubmitButton.setComponentName("SUBMIT");
+		comparisonBreakDownSubmitButton.setAddToParent(true);
+		comparisonBreakDownSubmitButton.setParentComponentId(controlButtonConfig.getComponentId());
+		List<GtnUIFrameWorkActionConfig> comparisonBreakdownSubmitActionList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig comparisonBreakDownSubmitAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		comparisonBreakDownSubmitAction.addActionParameter(GtnReportingComparisonBreakdownSubmitAction.class.getName());
+		comparisonBreakdownSubmitActionList.add(comparisonBreakDownSubmitAction);
+		GtnUIFrameWorkActionConfig comparisonBreakdownPopupCloseAction = new GtnUIFrameWorkActionConfig();
+		comparisonBreakdownPopupCloseAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		comparisonBreakdownPopupCloseAction.addActionParameter("comparisonOptions");
+		comparisonBreakdownSubmitActionList.add(comparisonBreakdownPopupCloseAction);
+		comparisonBreakDownSubmitButton.setGtnUIFrameWorkActionConfigList(comparisonBreakdownSubmitActionList);
 
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
 		resetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		resetButton.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"resetButton");
+		resetButton.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "resetButton");
 		resetButton.setComponentName("RESET");
 		resetButton.setAddToParent(true);
 		resetButton.setParentComponentId(controlButtonConfig.getComponentId());
 
 		GtnUIFrameworkComponentConfig closeButton = new GtnUIFrameworkComponentConfig();
 		closeButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		closeButton.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"closeButton");
+		closeButton.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "closeButton");
 		closeButton.setComponentName("CLOSE");
 		closeButton.setAddToParent(true);
 		closeButton.setParentComponentId(controlButtonConfig.getComponentId());
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
+		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		closeAction.addActionParameter("comparisonOptions");
+		actionConfigList.add(closeAction);
+		closeButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
-		componentList.add(submitButton);
+		componentList.add(comparisonBreakDownSubmitButton);
 		componentList.add(resetButton);
 		componentList.add(closeButton);
 	}
@@ -429,9 +449,6 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 			 comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeTo");
 			 comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabFrequency");
 			 
-			 
-			 
-
 			 comparisonBreakdownLookupResultsPagedTableConfig.setGtnUIFrameWorkActionConfig(comparisonBreakdownHeaderLoadAction);
 			 comparisonBreakdownLookupResultsPagedTableConfig.setGridHeaderCustomClassLoadUrl(
                  GtnFrameworkReportStringConstants.REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION);

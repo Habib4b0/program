@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.action;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +15,8 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
+import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
@@ -68,6 +71,26 @@ public class GtnReportCCPTableLoadAction
 		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
 
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
+		
+		List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = new ArrayList<>();
+		GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportLandingScreen_reportingDashboardComparisonConfig", componentId)
+				.getComponentData();
+		comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData.getCustomData();
+		List<String> inputForComparisonBasisList = new ArrayList<>();
+		for(GtnReportComparisonProjectionBean comparisonProjectionBeans : comparisonLookupBeanList) {
+			inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
+		}
+		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponentFromChild("reportingDashboard_displaySelectionTabComparisonBasis", componentId).getComponentConfig()
+                .getGtnComboboxConfig();
+		comparisonBasisComboboxConfig.setItemCaptionValues(inputForComparisonBasisList);
+		comparisonBasisComboboxConfig.setItemValues(inputForComparisonBasisList);
+		
+		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
+        combobox.reloadComponentFromChild(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+                "reportingDashboard_displaySelectionTabComparisonBasis", componentId,
+                Arrays.asList(""));
 	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
