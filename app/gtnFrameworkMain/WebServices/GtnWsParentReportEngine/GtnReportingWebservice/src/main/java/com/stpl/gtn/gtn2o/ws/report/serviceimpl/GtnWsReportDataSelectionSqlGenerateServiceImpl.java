@@ -22,6 +22,7 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomCCPList;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomCCPListDetails;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
@@ -33,6 +34,8 @@ import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportRightTableLoadDataService
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportSqlService;
 import com.stpl.gtn.gtn2o.ws.report.service.displayformat.service.GtnCustomRelationshipLevelValueService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import static com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType.BYTE;
+import static com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType.INTEGER;
 
 @Service("reportDataSelectionSql")
 @Scope(value = "singleton")
@@ -65,6 +68,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			callCCPInsertService(gtnWsRequest);
 			callInsertProcedure(dataSelectionBean);
 			saveCustomCCPMap(dataSelectionBean);
+			callVariableBreakdownInsertService(dataSelectionBean);
 		} catch (GtnFrameworkGeneralException e) {
 			GTNLOGGER.error(e.getErrorMessage());
 		}
@@ -296,6 +300,30 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			tempQuery = tempQuery.replaceAll("(?i:\\b" + key.getKey() + "\\b)", key.getValue());
 		}
 		return tempQuery;
+	}
+
+
+	private void callVariableBreakdownInsertService(GtnWsReportDataSelectionBean dataSelectionBean) {
+		try{
+                    
+		Map<String, String> tableMap = dataSelectionBean.getSessionTableMap();
+		List<GtnReportVariableBreakdownLookupBean> variableBreakdown = dataSelectionBean.getVariableBreakdownSaveList();
+                gtnSqlQueryEngine.executeInsertOrUpdateQuery(replaceTableNames(GtnWsQueryConstants.VARIABLE_BREAKDOWN_TRUNCATE_QUERY, tableMap));
+                
+		for (int i = 0; i < variableBreakdown.size(); i++) {
+			Object[] obj = new Object[4];
+			obj[0] = variableBreakdown.get(i).getMasterSid();
+			obj[1] = variableBreakdown.get(i).getPeriod();
+			obj[2] = variableBreakdown.get(i).getYear();
+			obj[3] = new Byte((byte) ((Integer) variableBreakdown.get(i).getSelectedVariable()).intValue());
+			gtnSqlQueryEngine.executeInsertOrUpdateQuery(
+					
+							replaceTableNames(GtnWsQueryConstants.VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY, tableMap),
+					obj, new GtnFrameworkDataType[] {INTEGER,INTEGER,INTEGER,BYTE});
+			}
+		}catch (GtnFrameworkGeneralException ex) {
+			GTNLOGGER.error(ex.getMessage(), ex);
+		}
 	}
 
 }
