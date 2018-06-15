@@ -48,8 +48,6 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 				vaadinComboBox.setCaption(componentConfig.getComponentName());
 			}
 			loadStyles(vaadinComboBox, componentConfig.getComponentStyle());
-//			vaadinComboBox = fillComboBox(componentConfig, comboboxConfig, null, componentConfig.getSourceViewId(),
-//					vaadinComboBox, null);
 
 			if (vaadinComboBox != null) {
 				setComponentProperties(componentConfig, vaadinComboBox, comboboxConfig);
@@ -146,7 +144,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 						comboBoxActionConfig = componentConfig.getReloadActionConfig();
 					}
 					comboBoxActionConfig.addActionParameter(reloadInput);
-					 comboBoxCustomAction.doAction(sourceViewId + "_" +componentConfig.getComponentId(), comboBoxActionConfig);
+					comboBoxCustomAction.doAction(sourceViewId + "_" +componentConfig.getComponentId(), comboBoxActionConfig);
 				} catch (GtnFrameworkGeneralException ex) {
 					gtnLogger.error(componentId, ex);
 				}
@@ -185,7 +183,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 						comboBoxActionConfig = componentConfig.getReloadActionConfig();
 					}
 					comboBoxActionConfig.addActionParameter(reloadInput);
-                                        comboBoxCustomAction.doAction(sourceViewId + "_" +componentConfig.getComponentId(), comboBoxActionConfig);
+                    comboBoxCustomAction.doAction(sourceViewId + "_" +componentConfig.getComponentId(), comboBoxActionConfig);
 				} catch (GtnFrameworkGeneralException ex) {
 					gtnLogger.error(componentConfig.getComponentId(), ex);
 				}
