@@ -402,9 +402,6 @@ public class GtnUIFrameworkBaseComponent {
 			throws GtnFrameworkValidationFailedException {
 		try {
 			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
-			// ListDataProvider dataProvider = (ListDataProvider)
-			// vaadinMultiSelect.getDataProvider();
-			// dataProvider.getItems().removeAll(dataProvider.getItems());
 			vaadinMultiSelect.setItems(idList);
 			vaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
 			// GtnUIFrameworkCheckedComboBoxConfig comboboxConfig =
@@ -413,9 +410,21 @@ public class GtnUIFrameworkBaseComponent {
 			// ? String.valueOf(comboboxConfig.getDefaultValue())
 			// : "-Select Values-";
 			// idList.add(0, "0");
-			// valueList.add(0, defaultValue);
+			// valueList.add(0, defaultValue)
+			;
 			// vaadinMultiSelect.setValue(new HashSet<>(Arrays.asList("0")));
 
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+	
+	public void updateSelection(List itemsToBeSelected) throws GtnFrameworkValidationFailedException {
+		try {
+			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
+			if (!itemsToBeSelected.isEmpty()) {
+				vaadinMultiSelect.select(itemsToBeSelected);
+			}
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}

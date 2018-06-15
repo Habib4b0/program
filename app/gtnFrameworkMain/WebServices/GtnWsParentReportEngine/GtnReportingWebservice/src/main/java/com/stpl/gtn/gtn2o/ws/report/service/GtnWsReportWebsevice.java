@@ -157,7 +157,7 @@ public class GtnWsReportWebsevice {
 		if (criteriaMap.get("workflowStatus").equals("Saved")) {
 			isProjectionStatus = true;
 		}
-		String workflowJoinQuery = isProjectionStatus ? "" : ("'" + sqlService.getQuery("workflowJoinQuery") + "'");
+		String workflowJoinQuery = isProjectionStatus ? "" : (sqlService.getQuery("workflowJoinQuery"));
 		String marketType = criteriaMap.get("marketType") == null ? "%" : criteriaMap.get("marketType");
 		String comparisonBrand = criteriaMap.get("comparisonBrand") == null ? "%" : criteriaMap.get("comparisonBrand");
 		String projectionName = criteriaMap.get("projectionName") == null ? "%" : criteriaMap.get("projectionName");
@@ -380,5 +380,4 @@ public class GtnWsReportWebsevice {
 		}
 		return response;
 	}
-
 }
