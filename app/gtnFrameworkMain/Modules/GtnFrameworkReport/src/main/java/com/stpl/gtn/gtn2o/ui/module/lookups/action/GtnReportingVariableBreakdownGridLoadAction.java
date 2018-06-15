@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.module.lookups.action;
 
-import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -25,10 +24,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
-import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
 import com.vaadin.data.HasValue;
@@ -69,7 +65,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
             
             GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
                     .getVaadinBaseComponentFromParent(
-                            "reportLandingScreen_reportingDashboardComparisonConfig", componentId)
+                            actionParameterList.get(2).toString(), componentId)
                     .getComponentData();
             
             comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData.getCustomData();
@@ -101,26 +97,35 @@ public class GtnReportingVariableBreakdownGridLoadAction
                 projectionList.add(projectionNameListFromCustomData.get(start));
             }     
                    GtnUIFrameworkComboBoxConfig fileOrProjectionComboboxConfig = GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponent("reportOptionsTab_variableBreakdownValueFileorProjection", componentId).getComponentConfig()
+                    .getVaadinBaseComponent(actionParameterList.get(3).toString(), componentId).getComponentConfig()
                     .getGtnComboboxConfig();
             fileOrProjectionComboboxConfig.setItemValues(projectionList);
             fileOrProjectionComboboxConfig.setItemCaptionValues(projectionList);
 
             GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
             combobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-                    "reportOptionsTab_variableBreakdownValueFileorProjection", componentId,
+                    actionParameterList.get(3).toString(), componentId,
                     Arrays.asList(""));
                       
             
-            String frequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig")
+            String frequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(4).toString())
                     .getStringCaptionFromV8ComboBox();
             
-            String frequencyId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig")
+            String frequencyId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(4).toString())
                     .getCaptionFromV8ComboBox();
             
-            GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportOptionsTab_variableBreakdownFrequencyConfig", componentId)
+            if("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig".equals(actionParameterList.get(4).toString())){
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(5).toString(), componentId)
 					.loadV8ComboBoxComponentValue(Integer.valueOf(frequencyId));
-            
+            }
+            else{
+                GtnUIFrameWorkActionConfig variableBreakDownHeaderLoadActionFrequency = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");                
+                variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_fromPeriod");
+                variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_STATUS");
+                pagedGrid.getTableConfig().setGtnUIFrameWorkActionConfig(variableBreakDownHeaderLoadActionFrequency);
+            }
             
             
             clearGrid(grid);
@@ -128,7 +133,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
             GtnUIFrameworkPagedTableConfig tableConfig = setHeaderFromWs(pagedGrid, componentId, grid);
             configureCheckboxHeaderComponents(tableConfig.getTableColumnMappingId(), tableConfig.getColumnHeaders(), grid, tableConfig);
 
-            setStartAndEndPeriodForVariableBreakdwonLookup(tableConfig, componentId);
+            setStartAndEndPeriodForVariableBreakdwonLookup(tableConfig, componentId,actionParameterList);
             
             String localDate = String.valueOf(LocalDate.now());
 
@@ -159,7 +164,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
         }
     }
 
-    private void setStartAndEndPeriodForVariableBreakdwonLookup(GtnUIFrameworkPagedTableConfig tableConfig, String componentId) {
+    private void setStartAndEndPeriodForVariableBreakdwonLookup(GtnUIFrameworkPagedTableConfig tableConfig, String componentId, List<Object> actionParameterList) {
         List<String> startAndEndPeriodCaptionList = tableConfig.getColumnHeaders();
         ArrayList<String> startAndEndPeriodItemIdList = new ArrayList(Arrays.asList(tableConfig.getTableColumnMappingId()));
         
@@ -167,30 +172,30 @@ public class GtnReportingVariableBreakdownGridLoadAction
         startAndEndPeriodItemIdList.remove(0);
         
         GtnUIFrameworkComboBoxConfig startPeriodComboboxConfig = GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent("reportOptionsTab_variableBreakdownStartPeriod", componentId).getComponentConfig()
+                .getVaadinBaseComponent(actionParameterList.get(6).toString(), componentId).getComponentConfig()
                 .getGtnComboboxConfig();
         startPeriodComboboxConfig.setItemValues(startAndEndPeriodItemIdList);
         startPeriodComboboxConfig.setItemCaptionValues(startAndEndPeriodCaptionList);
         
         GtnUIFrameworkComboBoxComponent startPeriodCombobox = new GtnUIFrameworkComboBoxComponent();
         startPeriodCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-                "reportOptionsTab_variableBreakdownStartPeriod", componentId,
+                actionParameterList.get(6).toString(), componentId,
                 Arrays.asList(""));
         
         GtnUIFrameworkComboBoxConfig endPeriodComboboxConfig = GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent("reportOptionsTab_variableBreakdownEndPeriod", componentId).getComponentConfig()
+                .getVaadinBaseComponent(actionParameterList.get(7).toString(), componentId).getComponentConfig()
                 .getGtnComboboxConfig();
         endPeriodComboboxConfig.setItemValues(startAndEndPeriodItemIdList);
         endPeriodComboboxConfig.setItemCaptionValues(startAndEndPeriodCaptionList);
         
         GtnUIFrameworkComboBoxComponent endPeriodCombobox = new GtnUIFrameworkComboBoxComponent();
         endPeriodCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-                "reportOptionsTab_variableBreakdownEndPeriod", componentId,
+                actionParameterList.get(7).toString(), componentId,
                 Arrays.asList(""));
         
     }
 
-    private String getCurrentDateToDisableField(String frequency, String currentYear, String currentmonth) {
+    public String getCurrentDateToDisableField(String frequency, String currentYear, String currentmonth) {
         String currentDate = "";
         if (frequency.startsWith("Ann")) {
 
@@ -340,10 +345,12 @@ public class GtnReportingVariableBreakdownGridLoadAction
                     Label projectionNameForWs = (Label) grid.getHeaderRow(rowCount).getCell("projectionNames").getComponent();
                     int masterSid = getMasterSid(projectionNameForWs,comparisonLookupBeanList);
            
-                    Object[] obj = new Object[3];
+                    Object[] obj = new Object[5];
                     obj[0] = selectedValue;
                     obj[1] = columnId;
                     obj[2] = masterSid;
+                    obj[3] = property;
+                    obj[4] = projectionNameForWs.getValue();
                     variableBreakdownSaveActionList.add(obj);
                     gridComponent.setCustomData(variableBreakdownSaveActionList);
                 }
