@@ -259,7 +259,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 							&& row.getRowIndex() >= start)
 					.limit(limit)
 					.map(row -> convertToRecordbean(row, gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
-							rightDataMap, gtnWsReportCustomCCPListDetails.indexOf(row)))
+							rightDataMap, gtnWsReportCustomCCPListDetails.indexOf(row),
+							reportDashboardBean.getDisplayFormat()))
 					.collect(Collectors.toList());
 
 		} catch (Exception ex) {
@@ -269,7 +270,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	}
 
 	private GtnWsRecordBean convertToRecordbean(GtnWsReportCustomCCPListDetails bean, List<Object> recordHeader,
-			Map<String, Map<String, Double>> rightDataMap, int index) {
+			Map<String, Map<String, Double>> rightDataMap, int index, Object[] displayFormat) {
 		Map.Entry<String, Map<String, Double>> dataEntry = rightDataMap.entrySet().iterator().next();
 		GtnWsRecordBean recordBean = new GtnWsRecordBean();
 		Optional<List> optionalRecordHeader = Optional.of(recordHeader);
@@ -281,10 +282,24 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		recordBean.addAdditionalProperty(index);
 		recordBean.addAdditionalProperty(bean.getRowIndex());
 		recordBean.addAdditionalProperty(0);
-		recordBean.addProperties("levelValue", bean.getData()[1]);
+		recordBean.addProperties("levelValue", setDisplayFormat(bean.getData(), displayFormat));
 		dataEntry.getValue().entrySet().stream()
 				.forEach(entry -> recordBean.addProperties(entry.getKey(), entry.getValue()));
 		return recordBean;
+	}
+
+	private String setDisplayFormat(Object[] data, Object[] displayFormat) {
+		StringBuilder levelName = new StringBuilder();
+		if (displayFormat != null && displayFormat.length != 0) {
+			if (displayFormat.length == 2) {
+				levelName.append(data[6]).append(" - ").append(data[7]);
+			} else {
+				levelName.append(String.valueOf(displayFormat[0]).equals("Name") ? data[6] : data[7]);
+			}
+		} else {
+			levelName.append(data[1]);
+		}
+		return levelName.toString();
 	}
 
 	public static String replaceTableNames(String query, final Map<String, String> tableNameMap) {
