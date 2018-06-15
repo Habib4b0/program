@@ -4785,7 +4785,7 @@ public class CommonLogic {
 			String hieIndicator) {
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		inputBean.setLevelNo(Integer.parseInt(levelNo));
-		inputBean.setProjectionId(projectionDto.getProjectionId());
+		inputBean.setProjectionId(projectionDto.getSessionDTO().getProjectionId());
 		inputBean.setHierarchyIndicator(hieIndicator);
 		return inputBean;
 	}
@@ -5397,6 +5397,13 @@ public class CommonLogic {
                 break;
         }
         LOGGER.info("updateFlagStatusToR-----------------END----------------------------------");
+    }
+    public static void updateFlagStatusToRForAllViewsDiscount(SessionDTO session, String screenName) {
+        LOGGER.info("updateFlagStatusToR------------------AllViewsDiscount---------------------------------{}");
+                CommonUtil.getInstance().updateStatusTable(screenName, session, Constants.CUSTOMER);
+                CommonUtil.getInstance().updateStatusTable(screenName, session, Constants.PRODUCT);
+                CommonUtil.getInstance().updateStatusTable(screenName, session, Constants.CUSTOM);
+        LOGGER.info("updateFlagStatusToR------------AllViewsDiscount-----END----------------------------------");
     }
 }
     

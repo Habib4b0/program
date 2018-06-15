@@ -18,19 +18,16 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import static com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType.COMBOBOX_VAADIN8;
-import static com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType.LABEL;
 import static com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType.V8_LABEL;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataRow;
-import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
-import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.ComboBox;
@@ -59,7 +56,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
             throws GtnFrameworkGeneralException {
         try {
-            logger.info("------------GtnReportingVariablBreakdownGridLoadAction----------------");
+            logger.info("------------GtnReportingVariablBreakdownGridLoadAction---------AA-------");
             int i = 0;
             List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
             String variableBreakdownTableId = actionParameterList.get(1).toString();
@@ -126,17 +123,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
             GtnUIFrameworkPagedTableConfig tableConfig = setHeaderFromWs(pagedGrid, componentId, grid);
             configureCheckboxHeaderComponents(tableConfig.getTableColumnMappingId(), tableConfig.getColumnHeaders(), grid, tableConfig);
 
-            List<String> startPeriodList = tableConfig.getColumnHeaders();
-            GtnUIFrameworkComboBoxConfig startPeriodComboboxConfig = GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponent("reportOptionsTab_variableBreakdownStartPeriod", componentId).getComponentConfig()
-                    .getGtnComboboxConfig();
-            startPeriodComboboxConfig.setItemValues(projectionList);
-            startPeriodComboboxConfig.setItemCaptionValues(projectionList);
-
-            GtnUIFrameworkComboBoxComponent startPeriodCombobox = new GtnUIFrameworkComboBoxComponent();
-            startPeriodCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-                    "reportOptionsTab_variableBreakdownStartPeriod", componentId,
-                    Arrays.asList(""));
+            setStartAndEndPeriodForVariableBreakdwonLookup(tableConfig, componentId);
             
             String localDate = String.valueOf(LocalDate.now());
 
@@ -164,6 +151,37 @@ public class GtnReportingVariableBreakdownGridLoadAction
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void setStartAndEndPeriodForVariableBreakdwonLookup(GtnUIFrameworkPagedTableConfig tableConfig, String componentId) {
+        List<String> startAndEndPeriodCaptionList = tableConfig.getColumnHeaders();
+        ArrayList<String> startAndEndPeriodItemIdList = new ArrayList(Arrays.asList(tableConfig.getTableColumnMappingId()));
+        
+        startAndEndPeriodCaptionList.remove(0);
+        startAndEndPeriodItemIdList.remove(0);
+        
+        GtnUIFrameworkComboBoxConfig startPeriodComboboxConfig = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent("reportOptionsTab_variableBreakdownStartPeriod", componentId).getComponentConfig()
+                .getGtnComboboxConfig();
+        startPeriodComboboxConfig.setItemValues(startAndEndPeriodItemIdList);
+        startPeriodComboboxConfig.setItemCaptionValues(startAndEndPeriodCaptionList);
+        
+        GtnUIFrameworkComboBoxComponent startPeriodCombobox = new GtnUIFrameworkComboBoxComponent();
+        startPeriodCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+                "reportOptionsTab_variableBreakdownStartPeriod", componentId,
+                Arrays.asList(""));
+        
+        GtnUIFrameworkComboBoxConfig endPeriodComboboxConfig = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent("reportOptionsTab_variableBreakdownEndPeriod", componentId).getComponentConfig()
+                .getGtnComboboxConfig();
+        endPeriodComboboxConfig.setItemValues(startAndEndPeriodItemIdList);
+        endPeriodComboboxConfig.setItemCaptionValues(startAndEndPeriodCaptionList);
+        
+        GtnUIFrameworkComboBoxComponent endPeriodCombobox = new GtnUIFrameworkComboBoxComponent();
+        endPeriodCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+                "reportOptionsTab_variableBreakdownEndPeriod", componentId,
+                Arrays.asList(""));
+        
     }
 
     private String getCurrentDateToDisableField(String frequency, String currentYear, String currentmonth) {
@@ -274,7 +292,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
 
     private Component getCustomFilterComponent(String property, String componentId, int i, String currentDateField, Grid<GtnWsRecordBean> grid, String projectionName) {
         try {
-
+            List variableBreakdownSaveActionList = new ArrayList<>();
             if (property.equals("projectionNames")) {
                 GtnUIFrameworkComponentConfig componentConfig = new GtnUIFrameworkComponentConfig();
                 componentConfig.setComponentName(projectionName);
@@ -288,12 +306,14 @@ public class GtnReportingVariableBreakdownGridLoadAction
                 grid.getColumn(property).setWidth(400);
                 return vaadinLabel;
             }
-            GtnUIFrameworkBaseComponent base = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+            GtnUIFrameworkBaseComponent base = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(
                     "reportOptionsTab_variableBreakdownValue", componentId);
 
             GtnUIFrameworkComponent component = COMBOBOX_VAADIN8.getGtnComponent();
-            Component vaadinComponent = null;
+            AbstractComponent vaadinComponent = null;
             vaadinComponent = component.buildVaadinComponent(base.getComponentConfig());
+            GtnUIFrameworkComboBoxComponent gtnUIFrameworkComboBoxComponent = new GtnUIFrameworkComboBoxComponent();
+            gtnUIFrameworkComboBoxComponent.postCreateComponent(vaadinComponent,base.getComponentConfig());
             ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
             vaadinCombobox.setId(property + String.valueOf(i));
             if (property.equalsIgnoreCase(currentDateField)) {
@@ -302,10 +322,17 @@ public class GtnReportingVariableBreakdownGridLoadAction
             }
             if (!isDisableColumns) {
                 grid.getHeaderRow(0).getCell(property).getComponent().setEnabled(false);
-                vaadinCombobox.setSelectedItem("Projections");
+                vaadinCombobox.setSelectedItem(2);
                 vaadinCombobox.setReadOnly(true);
             }
 
+            vaadinCombobox.addValueChangeListener(new HasValue.ValueChangeListener() {
+                @Override
+                public void valueChange(HasValue.ValueChangeEvent event) {
+                    
+                }
+            });
+            
             return vaadinCombobox;
         } catch (Exception e) {
             logger.error("Error message" + e);

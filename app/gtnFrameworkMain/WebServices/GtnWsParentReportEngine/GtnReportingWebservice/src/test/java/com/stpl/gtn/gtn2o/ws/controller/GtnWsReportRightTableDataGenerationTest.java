@@ -17,6 +17,6 @@ public class GtnWsReportRightTableDataGenerationTest {
 
 	@Test
 	public void testPRocedureOutput() {
-		System.out.println(service.getDataFromBackend());
+		System.out.println(service.getDataFromBackend(null));
 	}
 }

@@ -457,7 +457,8 @@ public class DiscountQueryBuilder {
             }
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
             CommonLogic.updateFlagStatusToR(session, Constant.DISCOUNT3, String.valueOf(projectionSelection.getViewOption()));
-            new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,endPeriod.equals("0")?StringUtils.EMPTY:endPeriod,"Discount");
+            String updateField = "Growth".equals(selectedField) ? selectedField : "Discount";
+            new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,endPeriod.equals("0")?StringUtils.EMPTY:endPeriod,updateField);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
@@ -800,10 +801,27 @@ public class DiscountQueryBuilder {
         queryBuilder = queryBuilder.replace(Constant.AT_USER_GROUP, StringUtils.EMPTY);
         return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames()));
     }
+    
+    public static List getDiscountProjectionCustomExcel(SessionDTO session,final boolean isProgram,ProjectionSelectionDTO projectionSelection) {
+        String CustExcelQuery = SQlUtil.getQuery("discountGenerateCustomViewExcel");
+        String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
+        CustExcelQuery = CustExcelQuery.replace("?RS", isProgram ? "R" : "P") //Indicator for Program or program category
+                .replace("?F", String.valueOf(projectionSelection.getFrequency().charAt(0))) //Selected Frequency initial char
+                .replace("?P", StringUtils.EMPTY) //Selected Frequency initial char
+                .replace(DPMDEDINCLLUSION, replaceDPMDEDINCLLUSIONEXCEL(session)) // Selected RS
+                .replace("@PROJECTION_MASTER_SID",String.valueOf(session.getProjectionId()))
+                .replace("@CUST_VIEW_MASTER_SID",String.valueOf(session.getCustomDeductionRelationShipSid()))
+                .replace(DEDINCLNWHR, "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" WHERE DEDUCTION_INCLUSION= "+session.getDeductionInclusion()) // Selected RS
+                ;
+        return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(CustExcelQuery, session.getCurrentTableNames()));
+    }
 
 
 	private CharSequence replaceDPMDEDINCLLUSION(final SessionDTO session) {
 		return "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" and HY.DEDUCTION_INCLUSION= "+session.getDeductionInclusion();
+	}
+	private static CharSequence replaceDPMDEDINCLLUSIONEXCEL(final SessionDTO session) {
+		return "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" and dpm.DEDUCTION_INCLUSION= "+session.getDeductionInclusion();
 	}
 
 

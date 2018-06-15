@@ -753,11 +753,9 @@ public class CommonUtil {
     private static String setLevelNameValuesForDP(int index, List<Object> levelNameList, Object[] displayFormatIndex) {
         String formattedNameValue = StringUtils.EMPTY;
         int fromIndex = (int) displayFormatIndex[index];
-        if(fromIndex<=0){
-        Object objValue = levelNameList.get(fromIndex + 1);
+        Object objValue = levelNameList.get(fromIndex);
         if (!getLevelName(objValue)) {
             formattedNameValue = String.valueOf(objValue);
-        }
         }
         return formattedNameValue;
     }

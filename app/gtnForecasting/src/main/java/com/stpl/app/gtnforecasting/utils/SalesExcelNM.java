@@ -73,7 +73,7 @@ public class SalesExcelNM extends ExcelExport{
         Object value = null;
         Cell sheetCell;
        style1.setDataFormat(hssfDataFormat.getFormat("$#,##0_);($#,##0)"));
-       style2.setDataFormat(hssfDataFormat.getFormat("#,##0"));
+       style2.setDataFormat(hssfDataFormat.getFormat("#,##0_);($#,##0)"));
        style3.setDataFormat(hssfDataFormat.getFormat("0.00%"));
        style4.setDataFormat(hssfDataFormat.getFormat("0.000%"));
        style5.setDataFormat(hssfDataFormat.getFormat("$#,##0.00"));
@@ -144,10 +144,10 @@ public class SalesExcelNM extends ExcelExport{
                 sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
         } else if (formatter.get("unitNoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("unitNoDecimal"))) {
-            sheetCell.setCellStyle(style3);
+            sheetCell.setCellStyle(style2);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId);
-                sheetCell.setCellStyle(style3);
+                sheetCell.setCellStyle(style2);
                 LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
                 sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }

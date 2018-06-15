@@ -38,29 +38,29 @@ public class GtnUIFrameworkSaveViewAction
 		String company = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(1).toString())
 				.getCaptionFromV8ComboBox();
 		dataSelectionBean.setCompanyReport(Integer.valueOf(company));
-		Integer businessUnit = (Integer) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(2).toString()).getValueFromComponent();
+		int businessUnit = Integer.parseInt(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(2).toString()).getCaptionFromV8ComboBox());
 		dataSelectionBean.setBusinessUnitReport(businessUnit);
-		String reportDataSource = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
-				.getCaptionFromV8ComboBox();
+		int reportDataSource = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(3).toString())
+				.getIntegerFromV8ComboBox();
 		dataSelectionBean.setReportDataSource(reportDataSource);
 		String fromPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(4).toString())
 				.getCaptionFromV8ComboBox();
-		dataSelectionBean.setFromPeriodReport(Integer.valueOf(fromPeriod));
+		dataSelectionBean.setFromPeriodReport(fromPeriod == "" ? 0 : Integer.valueOf(fromPeriod));
 		String toPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(5).toString())
 				.getCaptionFromV8ComboBox();
-		dataSelectionBean.setToPeriod(Integer.valueOf(toPeriod));
+		dataSelectionBean.setToPeriod(toPeriod == "" ? 0 : Integer.valueOf(toPeriod));
 		GtnWsRecordBean customerHierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(6).toString()).getComponentData().getCustomData();
 		dataSelectionBean.setCustomerHierarchyRecordBean(customerHierarchyBean);
-		int customerRelationshipBuilderSid = (int) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(7).toString()).getValueFromComponent();
+		int customerRelationshipBuilderSid = Integer.parseInt(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(7).toString()).getCaptionFromV8ComboBox());
 		dataSelectionBean.setCustomerRelationshipBuilderSid(customerRelationshipBuilderSid);
-		int customerRelationshipVersion = (int) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(9).toString()).getValueFromComponent();
+		int customerRelationshipVersion = Integer.parseInt(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(9).toString()).getCaptionFromV8ComboBox());
 		dataSelectionBean.setCustomerRelationshipVersionNo(customerRelationshipVersion);
-		int customerLevel = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(8).toString())
-				.getValueFromComponent();
+		int customerLevel = Integer.parseInt(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(8).toString()).getCaptionFromV8ComboBox());
 		dataSelectionBean.setCustomerHierarchyForecastLevel(customerLevel);
 		LocalDate forecastEligibleDate = (LocalDate) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(10).toString()).getFieldValue();
@@ -68,7 +68,7 @@ public class GtnUIFrameworkSaveViewAction
 			date = Date.from(forecastEligibleDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		}
 		dataSelectionBean.setForecastEligibleDate(date);
-		
+
 		List<GtnWsRecordBean> selectedCustomerList = getSelectedList(actionParamsList.get(11).toString(), componentId);
 		List<GtnWsRecordBean> selectedProductList = getSelectedList(actionParamsList.get(16).toString(), componentId);
 
@@ -76,14 +76,14 @@ public class GtnUIFrameworkSaveViewAction
 		GtnWsRecordBean productHierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(12).toString()).getComponentData().getCustomData();
 		dataSelectionBean.setProductHierarchyRecordBean(productHierarchyBean);
-		int productRelationshipBuilderSid = (int) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(13).toString()).getValueFromComponent();
+		int productRelationshipBuilderSid = Integer.parseInt(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(13).toString()).getCaptionFromV8ComboBox());
 		dataSelectionBean.setProductRelationshipBuilderSid(productRelationshipBuilderSid);
-		int productRelationshipVersion = (int) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(15).toString()).getValueFromComponent();
+		int productRelationshipVersion = Integer.parseInt(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(15).toString()).getCaptionFromV8ComboBox());
 		dataSelectionBean.setProductRelationshipVersionNo(productRelationshipVersion);
-		int productLevel = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(14).toString())
-				.getValueFromComponent();
+		int productLevel = Integer.parseInt(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(14).toString()).getCaptionFromV8ComboBox());
 		dataSelectionBean.setProductHierarchyForecastLevel(productLevel);
 
 		dataSelectionBean.setSelectedProductHierarchyList(selectedProductList);
@@ -101,7 +101,7 @@ public class GtnUIFrameworkSaveViewAction
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, popupAction);
 
 	}
-	
+
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
 		GtnUIFrameworkComponentData gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(tableComponentId, componentId);

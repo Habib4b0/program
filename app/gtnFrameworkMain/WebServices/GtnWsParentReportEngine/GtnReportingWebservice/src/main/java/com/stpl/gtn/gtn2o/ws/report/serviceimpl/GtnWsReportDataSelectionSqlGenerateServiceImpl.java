@@ -78,8 +78,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	private void callInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
+		createSessionTableForReporting(dataSelectionBean.getSessionId());
 		variableHierarchyNoInsertProcedure(dataSelectionBean);
-		dataPopulationInsertProcedure();
+		dataPopulationInsertProcedure(dataSelectionBean);
 	}
 
 	private void saveCustomCCPMap(GtnWsReportDataSelectionBean dataSelectionBean) throws GtnFrameworkGeneralException {
@@ -116,6 +117,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			data.setLevelNo(Integer.parseInt(result[3].toString()));
 			data.setHierarchyNo(result[0].toString());
 			data.setChildCount(Integer.parseInt(result[8].toString()));
+			data.setRowIndex(Integer.parseInt(result[9].toString()));
 			data.setData(result);
 			ccpList.add(data);
 		}
@@ -143,6 +145,15 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 				.executeSelectQuery(sqlService.getQuery(input, "getCustomViewHierarchyTableDetails"));
 	}
 
+	private void createSessionTableForReporting(String sessionId) throws GtnFrameworkGeneralException {
+		List<Object> input = new ArrayList<>();
+		for (int i = 0; i < 25; i++) {
+			input.add(sessionId);
+		}
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(sqlService.getQuery(input, "createSessionTableForReport"));
+
+	}
+
 	private void variableHierarchyNoInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
 		GTNLOGGER.info("Calling variable Insert Procedure");
@@ -151,8 +162,18 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		gtnSqlQueryEngine.executeProcedure(GtnWsQueryConstants.PRC_CUSTOM_CCPDV_POPULATION, input, type);
 	}
 
-	private void dataPopulationInsertProcedure() {
+	private void dataPopulationInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
+			throws GtnFrameworkGeneralException {
 		GTNLOGGER.info("Calling Data Population Insert Procedure");
+		Object[] input = { dataSelectionBean.getSessionId(), dataSelectionBean.getFrequencyName(),
+				dataSelectionBean.getFromPeriodReport(), dataSelectionBean.getToPeriodReport(),
+				dataSelectionBean.getCustomViewMasterSid(), dataSelectionBean.getCompanyReport(),
+				dataSelectionBean.getBusinessUnitReport(), (dataSelectionBean.getReportDataSource() - 1) };
+		GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER,
+				GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
+		// gtnSqlQueryEngine.executeProcedure(GtnWsQueryConstants.PRC_REPORT_DATA_POPULATION,
+		// input, type);
 	}
 
 	public static GtnWsSecurityToken getGsnWsSecurityToken(String userId, String sessionId) {
@@ -169,19 +190,22 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			// Object inputs[] = gtnWsSearchRequest.getQueryInput().toArray();
 			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest()
 					.getDataSelectionBean();
-			Object values[] = gtnWsRequest.getGtnWsSearchRequest().getQueryInputList().toArray();
-			int levelNo = Integer.parseInt(values[0].toString());
-			String hierarchyNo = values[1].toString();
+			List<Object> values = gtnWsRequest.getGtnWsSearchRequest().getQueryInputList();
+			int start = gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart();
+			int limit = gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset();
+			int levelNo = Integer.parseInt(values.get(0).toString());
+			String hierarchyNo = values.get(1).toString();
 			String fileName = gtnReportJsonService.getFileName("CustomViewCCP", dataSelectionBean.getSessionId());
 			GtnWsReportCustomCCPList ccpList = (GtnWsReportCustomCCPList) gtnReportJsonService
 					.convertJsonToObject(fileName, GtnWsReportCustomCCPList.class);
 			List<GtnWsReportCustomCCPListDetails> gtnWsReportCustomCCPListDetails = ccpList
 					.getGtnWsReportCustomCCPListDetails();
-			Map<String, Map<String, Double>> rightDataMap = rightTableService.getDataFromBackend();
+			Map<String, Map<String, Double>> rightDataMap = rightTableService.getDataFromBackend(gtnWsRequest);
 			return gtnWsReportCustomCCPListDetails.stream()
-					.filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo))
+					.filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo) &&
+                                                row.getRowIndex()>=start ).limit(limit)
 					.map(row -> convertToRecordbean(row, gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
-							rightDataMap))
+							rightDataMap, gtnWsReportCustomCCPListDetails.indexOf(row)))
 					.collect(Collectors.toList());
 
 		} catch (Exception ex) {
@@ -191,27 +215,21 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	}
 
 	private GtnWsRecordBean convertToRecordbean(GtnWsReportCustomCCPListDetails bean, List<Object> recordHeader,
-			Map<String, Map<String, Double>> rightDataMap) {
+			Map<String, Map<String, Double>> rightDataMap, int index) {
 		Map.Entry<String, Map<String, Double>> dataEntry = rightDataMap.entrySet().iterator().next();
 		GtnWsRecordBean recordBean = new GtnWsRecordBean();
 		Optional<List> optionalRecordHeader = Optional.of(recordHeader);
 		recordHeader = optionalRecordHeader.orElseGet(ArrayList::new);
-		if (recordHeader.isEmpty()) {
-			recordHeader.add("levelNumber");
-			recordHeader.add("hierarchyNo");
-			recordHeader.add("levelName");
-			recordHeader.add("levelValue");
-			recordHeader.add("generatedHierarchyNo");
-		}
 		recordBean.setRecordHeader(recordHeader);
-		// recordBean.addProperties("levelNumber", bean.getLevelNo());
-		// recordBean.addProperties("hierarchyNo", bean.getHierarchyNo());
-		// recordBean.addProperties("levelName", bean.getData()[2]);
+		recordBean.addAdditionalProperty(bean.getChildCount());// for Child Count
+		recordBean.addAdditionalProperty(bean.getLevelNo());// level No
+		recordBean.addAdditionalProperty(bean.getHierarchyNo());
+		recordBean.addAdditionalProperty(index);
+		recordBean.addAdditionalProperty(bean.getRowIndex());
+		recordBean.addAdditionalProperty(0);
 		recordBean.addProperties("levelValue", bean.getData()[1]);
 		dataEntry.getValue().entrySet().stream()
 				.forEach(entry -> recordBean.addProperties(entry.getKey(), entry.getValue()));
-		// recordBean.addProperties("generatedHierarchyNo",
-		// document.get("generatedHierarchyNo"));
 		return recordBean;
 	}
 
