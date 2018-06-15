@@ -450,12 +450,14 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT_LOOKUP_ACTION_PACKAGE = "com.stpl.gtn.gtn2o.ui.module.lookups.action.";
 
+
+        public static final String REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE+"GtnReportingComparisonBreakdownHeaderLoadAction";
+        public static List<String> getReportDataAssumptionsTabId() {
+            return REPORT_DATAASSUMPTIONS_TAB_ID;
+        }
+
 	public static final String REPORT_VARIABLE_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE
 			+ "GtnReportingVariableBreakdownHeaderLoadAction";
-
-	public static List<String> getReportDataAssumptionsTabId() {
-		return REPORT_DATAASSUMPTIONS_TAB_ID;
-	}
 
 	private static final List<String> REPORT_VARIABLE_BREAKDOWN_HEADER = Arrays.asList("Projection Name", "Description",
 			"Market Type", "Contract Holder", "Contract", "Brand");

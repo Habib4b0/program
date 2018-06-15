@@ -4,16 +4,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.service.transform.GtnWsReportRightTableResultTransformer;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
 @Service
 public class GtnWsReportRightTableLoadDataService {
@@ -21,12 +21,16 @@ public class GtnWsReportRightTableLoadDataService {
 	GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	@Autowired
-	// GtnWsReportVaribleRowResultTransformer transFormer;
 	GtnWsReportRightTableResultTransformer transFormer;
 
-	public Map<String, Map<String, Double>> getDataFromBackend() {
+	public Map<String, Map<String, Double>> getDataFromBackend(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		try {
+			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest()
+					.getDataSelectionBean();
+
+			String frequency = dataSelectionBean.getFrequencyName();
 			String query = getQueryFromProcedure();
+
 			List<?> object = gtnSqlQueryEngine.executeSelectQuery(query, new Object[] {}, new GtnFrameworkDataType[] {},
 					transFormer);
 			return (Map<String, Map<String, Double>>) object.get(0);

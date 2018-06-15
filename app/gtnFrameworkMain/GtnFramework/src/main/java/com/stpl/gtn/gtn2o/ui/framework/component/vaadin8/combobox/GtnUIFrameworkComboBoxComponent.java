@@ -119,9 +119,66 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 	}
 
-	private GtnUIFrameworkComponentConfig getComboBoxComponentConfig(String dependentComponentId, String componentId) {
-		AbstractComponent abstractComboComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(dependentComponentId,
+	public void reloadComponentFromView(GtnUIFrameworkActionType action, String dependentComponentId,
+			String componentId, Object reloadInput) {
+
+		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromView(dependentComponentId,
 				componentId);
+		reloadComboBoxComponentFromView(dependentComponentId, componentId, reloadInput,
+				comboComponentConfig.getSourceViewId(), comboComponentConfig);
+
+	}
+
+	private void reloadComboBoxComponentFromView(String dependentComponentId, String componentId, Object reloadInput,
+			String sourceViewId, GtnUIFrameworkComponentConfig componentConfig) {
+		gtnLogger.info("Triggered reload with reload input " + reloadInput);
+		List<Object> comboBoxRequestInputList = (List<Object>) reloadInput;
+		String simpleComboBoxReload = String.valueOf(comboBoxRequestInputList.get(0));
+		if (!"simpleReload".equals(simpleComboBoxReload)) {
+			if (componentConfig.getReloadLogicActionClassName() != null) {
+				try {
+					GtnUIFrameworkClassLoader comboBoxClassLoader = new GtnUIFrameworkClassLoader();
+					GtnUIFrameWorkAction comboBoxCustomAction = (GtnUIFrameWorkAction) comboBoxClassLoader
+							.loadDynamicClass(componentConfig.getReloadLogicActionClassName());
+					GtnUIFrameWorkActionConfig comboBoxActionConfig = new GtnUIFrameWorkActionConfig();
+					if (componentConfig.getReloadActionConfig() != null) {
+						comboBoxActionConfig = componentConfig.getReloadActionConfig();
+					}
+					comboBoxActionConfig.addActionParameter(reloadInput);
+					comboBoxCustomAction.doAction(sourceViewId + "_" + componentConfig.getComponentId(),
+							comboBoxActionConfig);
+				} catch (GtnFrameworkGeneralException ex) {
+					gtnLogger.error(componentId, ex);
+				}
+				return;
+			}
+
+		} else {
+			comboBoxRequestInputList.set(0, "");
+		}
+		GtnUIFrameworkComboBoxConfig comboboxComponentConfig = componentConfig.getGtnComboboxConfig();
+
+		ComboBox vaadinComboBoxComponent = (ComboBox) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponentFromView(dependentComponentId, componentId).getComponent();
+		vaadinComboBoxComponent.setItems(new ArrayList<>());
+
+		vaadinComboBoxComponent = fillComboBox(componentConfig, comboboxComponentConfig, comboBoxRequestInputList,
+				sourceViewId, vaadinComboBoxComponent, reloadInput);
+		gtnLogger.info("Reloaded vaadin combobox" + vaadinComboBoxComponent);
+
+	}
+
+	private GtnUIFrameworkComponentConfig getComboBoxComponentConfigFromView(String dependentComponentId,
+			String componentId) {
+		AbstractComponent abstractComboComponent = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponentFromView(dependentComponentId, componentId).getComponent();
+		GtnUIFrameworkComponentData comboComponentData = (GtnUIFrameworkComponentData) abstractComboComponent.getData();
+		return comboComponentData.getCurrentComponentConfig();
+	}
+
+	private GtnUIFrameworkComponentConfig getComboBoxComponentConfig(String dependentComponentId, String componentId) {
+		AbstractComponent abstractComboComponent = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(dependentComponentId, componentId).getComponent();
 		GtnUIFrameworkComponentData comboComponentData = (GtnUIFrameworkComponentData) abstractComboComponent.getData();
 		return comboComponentData.getCurrentComponentConfig();
 
@@ -144,7 +201,8 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 						comboBoxActionConfig = componentConfig.getReloadActionConfig();
 					}
 					comboBoxActionConfig.addActionParameter(reloadInput);
-					comboBoxCustomAction.doAction(sourceViewId + "_" +componentConfig.getComponentId(), comboBoxActionConfig);
+					comboBoxCustomAction.doAction(sourceViewId + "_" + componentConfig.getComponentId(),
+							comboBoxActionConfig);
 				} catch (GtnFrameworkGeneralException ex) {
 					gtnLogger.error(componentId, ex);
 				}
@@ -156,8 +214,8 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		}
 		GtnUIFrameworkComboBoxConfig comboboxComponentConfig = componentConfig.getGtnComboboxConfig();
 
-		ComboBox vaadinComboBoxComponent = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinComponent(dependentComponentId,
-				componentId);
+		ComboBox vaadinComboBoxComponent = (ComboBox) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(dependentComponentId, componentId).getComponent();
 		vaadinComboBoxComponent.setItems(new ArrayList<>());
 
 		vaadinComboBoxComponent = fillComboBox(componentConfig, comboboxComponentConfig, comboBoxRequestInputList,
@@ -183,7 +241,8 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 						comboBoxActionConfig = componentConfig.getReloadActionConfig();
 					}
 					comboBoxActionConfig.addActionParameter(reloadInput);
-                    comboBoxCustomAction.doAction(sourceViewId + "_" +componentConfig.getComponentId(), comboBoxActionConfig);
+					comboBoxCustomAction.doAction(sourceViewId + "_" + componentConfig.getComponentId(),
+							comboBoxActionConfig);
 				} catch (GtnFrameworkGeneralException ex) {
 					gtnLogger.error(componentConfig.getComponentId(), ex);
 				}
@@ -327,9 +386,9 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		}
 	}
 
-    @Override
-    public void postCreateComponent(AbstractComponent component, GtnUIFrameworkComponentConfig componentConfig) {
-        fillComboBox(componentConfig, componentConfig.getGtnComboboxConfig(), null, componentConfig.getSourceViewId(),
-					(ComboBox)component, null);
-    }
+	@Override
+	public void postCreateComponent(AbstractComponent component, GtnUIFrameworkComponentConfig componentConfig) {
+		fillComboBox(componentConfig, componentConfig.getGtnComboboxConfig(), null, componentConfig.getSourceViewId(),
+				(ComboBox) component, null);
+	}
 }

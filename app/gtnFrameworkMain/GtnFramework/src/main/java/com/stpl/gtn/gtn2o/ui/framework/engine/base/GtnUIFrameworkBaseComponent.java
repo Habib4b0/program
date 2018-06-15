@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.asi.calendarfield.CalendarField;
 import org.asi.container.ExtContainer;
 import org.asi.ui.customtextfield.CustomTextField;
@@ -357,6 +358,20 @@ public class GtnUIFrameworkBaseComponent {
 				return 0;
 			}
 			return Integer.valueOf(getString(comboBox.getValue()).trim());
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+
+	}
+
+	public String getStringFromV8ComboBox() throws GtnFrameworkValidationFailedException {
+		try {
+			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
+
+			if (isEmpty(comboBox.getValue())) {
+				return StringUtils.EMPTY;
+			}
+			return getString(comboBox.getValue()).trim();
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}

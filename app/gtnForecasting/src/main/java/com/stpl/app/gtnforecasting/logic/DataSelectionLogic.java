@@ -2586,6 +2586,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
     public void callViewInsertProcedureForNm(SessionDTO session,String mode,String screenName,String view,String startPeriod,String endPeriod) {
         int masterSid = screenName.equalsIgnoreCase(SALES_SMALL) ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
         String frequency = screenName.equalsIgnoreCase(SALES_SMALL) && session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
+        String deductionCaptionUdc = session.getDataSelectionDeductionLevelCaption().startsWith("UDC") ? session.getDataSelectionDeductionLevelCaption().replace(" ", StringUtils.EMPTY) : session.getDataSelectionDeductionLevelCaption();
         StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
              LOGGER.debug(startPeriod);
@@ -2605,7 +2606,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(',').append("null")
                                 .append(',').append("null")
                                 .append(',').append("null")
-                                .append(",'").append(session.getDataSelectionDeductionLevelCaption())
+                                .append(",'").append(deductionCaptionUdc)
                                 .append('\'');
 				HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
                                 LOGGER.info("Query callViewInsertProcedureForNm: {}", query.toString());

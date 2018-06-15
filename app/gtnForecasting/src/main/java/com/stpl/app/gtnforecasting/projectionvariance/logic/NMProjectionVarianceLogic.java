@@ -714,7 +714,29 @@ public class NMProjectionVarianceLogic {
 					for (int i = started; (i < tobeAddedList.size()) && (neededRecord > 0); neededRecord--, i++) {
 						projDTOList.add(tobeAddedList.get(i));
 					}
-				}
+				} else  if (!pivotDiscountList.isEmpty()) {
+                                if (parentDto.getGroup().contains(CommonUtils.VAR_DIS_PER_EXFAC)) {
+                                    tobeAddedList.addAll(commonCustomizationForTotalDiscount(parentDto,
+                                            pivotDiscountList, pVSelectionDTO, NumericConstants.FOURTEEN,
+                                            BooleanConstant.getTrueFlag(), BooleanConstant.getFalseFlag()).subList(start, start+offset));
+                                } else if (parentDto.getGroup().contains(CommonUtils.VAR_DIS_AMOUNT)) {
+                                    tobeAddedList.addAll(commonCustomizationForTotalDiscount(parentDto,
+                                            pivotDiscountList, pVSelectionDTO, NumericConstants.FIVE,
+                                            BooleanConstant.getFalseFlag(), BooleanConstant.getTrueFlag()).subList(start, start+offset));
+                                } else if (parentDto.getGroup().contains(CommonUtils.VAR_DIS_RATE)) {
+                                    tobeAddedList.addAll(commonCustomizationForTotalDiscount(parentDto,
+                                            pivotDiscountList, pVSelectionDTO, NumericConstants.EIGHT,
+                                            BooleanConstant.getTrueFlag(), BooleanConstant.getFalseFlag()).subList(start, start+offset));
+                                } else {
+                                    tobeAddedList.addAll(commonCustomizationForTotalDiscount(parentDto,
+                                            pivotDiscountList, pVSelectionDTO, NumericConstants.ELEVEN,
+                                            BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag()).subList(start, start+offset-1));
+                                }
+                                    setChartList(tobeAddedList);
+                                    for (int i = 0; (i < tobeAddedList.size()) && (neededRecord > 0); neededRecord--, i++) {
+                                        projDTOList.add(tobeAddedList.get(i));
+                                    }
+                            }
 			}
 		}
 		if (!isDiscountExpand && !pVSelectionDTO.isIslevelFiler() && !pVSelectionDTO.isIsLevel() && neededRecord > 0) {
@@ -812,9 +834,7 @@ public class NMProjectionVarianceLogic {
 			
 			if (projSelDTOLevel.equals(Constant.DETAIL)) {
 				ccps = getCCPIds(projSelDTO);
-				String rsIdsCustom = getRSIdsCustom(projSelDTO);
-				String rsIds = getRSIds(projSelDTO);
-				String rsIdsFinal = projSelDTO.isIsCustomHierarchy() ? rsIdsCustom : rsIds;
+				String rsIdsFinal = projSelDTO.isIsCustomHierarchy() ? getRSIdsCustom(projSelDTO) : getRSIds(projSelDTO);
 				String hierarchyIndicator = projSelDTO.getHierarchyIndicator();
 				String hierarchyNumber = projSelDTO.getHierarchyNo();
 				int levelNo = projSelDTO.getLevelNo();
@@ -3609,4 +3629,4 @@ public class NMProjectionVarianceLogic {
 		}
 		return stringBuilder.toString();
 	}
-}
+        }
