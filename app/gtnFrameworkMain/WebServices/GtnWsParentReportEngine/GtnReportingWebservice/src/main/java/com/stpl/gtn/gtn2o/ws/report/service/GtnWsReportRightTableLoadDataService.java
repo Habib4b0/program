@@ -1,6 +1,10 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.sql.Clob;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -23,13 +27,14 @@ public class GtnWsReportRightTableLoadDataService {
 	@Autowired
 	GtnWsReportRightTableResultTransformer transFormer;
 
-	public Map<String, Map<String, Double>> getDataFromBackend(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+	public Map<String, Map<String, Double>> getDataFromBackend(GtnUIFrameworkWebserviceRequest gtnWsRequest,
+			String hierarchyNo, int levelNo) {
 		try {
 			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest()
 					.getDataSelectionBean();
 
 			String frequency = dataSelectionBean.getFrequencyName();
-			String query = getQueryFromProcedure();
+			String query = getQueryFromProcedure(gtnWsRequest, hierarchyNo, levelNo);
 
 			List<?> object = gtnSqlQueryEngine.executeSelectQuery(query, new Object[] {}, new GtnFrameworkDataType[] {},
 					transFormer);
@@ -42,9 +47,45 @@ public class GtnWsReportRightTableLoadDataService {
 
 	}
 
-	public String getQueryFromProcedure() throws GtnFrameworkGeneralException {
-		List<?> outputFromProcedure = gtnSqlQueryEngine.executeProcedure("getByName ?", Arrays.asList("Name"));
+	public String getQueryFromProcedure(GtnUIFrameworkWebserviceRequest gtnWsRequest, String hierarchyNo, int levelNo)
+			throws GtnFrameworkGeneralException {
+		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
+		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(
+				"PRC_REPORT_DASHBOARD_GENERATE 'QUARTERLY',null,null,null,0,0,null,null,601,672,47,?,?,null,?,?,'Static'",
+				new Object[] { levelNo, gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getSessionId(),
+						Integer.valueOf(gtnWsRequest.getGtnWsGeneralRequest().getUserId()), hierarchy },
+				new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING,
+						GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING });
 		System.out.println(outputFromProcedure);
-		return (String) outputFromProcedure.get(0);
+
+		String declareStatement = "declare @COMPARISION_BASIS varchar(100) = null,@level_no int = " + levelNo;
+		Object[] stringData = outputFromProcedure.get(0);
+		StringBuilder queryBuilder = new StringBuilder(declareStatement);
+		for (Object tempData : stringData) {
+			Clob dataClob = (Clob) tempData;
+			queryBuilder.append(clobToString(dataClob));
+		}
+
+		return queryBuilder.toString();
+
+		// PRC_REPORT_DASHBOARD_GENERATE ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
+		// PRC_REPORT_DASHBOARD_GENERATE
+		// 'QUARTERLY',null,null,null,0,0,null,null,601,672,47,1,'3e5ee4af_57f4_4a',null,189858,'','Static'
+	}
+
+	private String clobToString(Clob data) {
+		StringBuilder sb = new StringBuilder();
+		try {
+			Reader reader = data.getCharacterStream();
+			BufferedReader br = new BufferedReader(reader);
+
+			String line;
+			while (null != (line = br.readLine())) {
+				sb.append(line);
+			}
+			br.close();
+		} catch (SQLException | IOException ex) {
+		}
+		return sb.toString();
 	}
 }

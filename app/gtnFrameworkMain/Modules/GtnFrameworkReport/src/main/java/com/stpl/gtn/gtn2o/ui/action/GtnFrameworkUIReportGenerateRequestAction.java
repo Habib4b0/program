@@ -39,14 +39,16 @@ public class GtnFrameworkUIReportGenerateRequestAction
 		dataSelectionBean.setSessionId(tableConfig.getGtnWsReportDashboardBean().getSessionId());
 		reportRequest.setGtnWsReportDashboardBean(tableConfig.getGtnWsReportDashboardBean());
 
-		serviceRequest.setGtnWsReportRequest(new GtnWsReportRequest());
-
 		GtnWsReportDashboardBean reportDashBoardBean = new GtnWsReportDashboardBean();
 
 		serviceRequest.getGtnWsReportRequest().setGtnWsReportDashboardBean(reportDashBoardBean);
 
-		String freName = ((GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
-				.getComponentData().getSharedPopupData()).getFrequencyName();
+		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getComponentData()
+				.getViewId();
+
+		String freName = ((GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData()).getFrequencyName();
+
 		reportDashBoardBean.setSelectFreqString(freName);
 
 		GtnUIFrameworkBaseComponent perioFromComponent = GtnUIFrameworkGlobalUI
