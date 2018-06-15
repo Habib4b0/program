@@ -223,17 +223,17 @@ public class GtnWsReportingDashboardController {
 		try {
 			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
-			
+			GtnWsReportDataSelectionSqlGenerateServiceImpl gtnWsReportDataSelectionSqlGenerateServiceImpl= new GtnWsReportDataSelectionSqlGenerateServiceImpl();
                          List<GtnReportVariableBreakdownLookupBean> variableBreakdown = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getDataSelectionBean()
                     .getVariableBreakdownSaveList();
                          
                          for(int i=0;i<variableBreakdown.size();i++){
-                              Integer[] obj = new Integer[4];
-                             obj[0] = variableBreakdown.get(i).getMasterSid();
-                             obj[1] = variableBreakdown.get(i).getPeriod();
+                              Object[] obj = new Object[4];        
+                             obj[0] =  variableBreakdown.get(i).getMasterSid();
+                             obj[1] =  variableBreakdown.get(i).getPeriod();
                              obj[2] = variableBreakdown.get(i).getYear();
-                             obj[3] = variableBreakdown.get(i).getSelectedVariable();
-                             gtnSqlQueryEngine.executeInsertOrUpdateQuery(GtnWsQueryConstants.VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY, obj, new GtnFrameworkDataType[]{INTEGER,INTEGER,INTEGER,INTEGER});
+                             obj[3] = new Byte((byte) ((Integer) variableBreakdown.get(i).getSelectedVariable()).intValue());
+                             gtnSqlQueryEngine.executeInsertOrUpdateQuery(GtnWsQueryConstants.VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY, obj, new GtnFrameworkDataType[]{INTEGER,INTEGER,INTEGER,BYTE});
                          }
                        
 			return gtnUIFrameworkWebserviceResponse;

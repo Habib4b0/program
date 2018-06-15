@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.asi.calendarfield.CalendarField;
 import org.asi.container.ExtContainer;
 import org.asi.ui.customtextfield.CustomTextField;
@@ -363,6 +364,20 @@ public class GtnUIFrameworkBaseComponent {
 
 	}
 
+	public String getStringFromV8ComboBox() throws GtnFrameworkValidationFailedException {
+		try {
+			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
+
+			if (isEmpty(comboBox.getValue())) {
+				return StringUtils.EMPTY;
+			}
+			return getString(comboBox.getValue()).trim();
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+
+	}
+
 	public List<Object> getSelectedListFromV8MultiSelect() throws GtnFrameworkValidationFailedException {
 		try {
 			ComboBoxMultiselect multiSelect = (ComboBoxMultiselect) this.getComponent();
@@ -387,9 +402,6 @@ public class GtnUIFrameworkBaseComponent {
 			throws GtnFrameworkValidationFailedException {
 		try {
 			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
-			// ListDataProvider dataProvider = (ListDataProvider)
-			// vaadinMultiSelect.getDataProvider();
-			// dataProvider.getItems().removeAll(dataProvider.getItems());
 			vaadinMultiSelect.setItems(idList);
 			vaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
 			// GtnUIFrameworkCheckedComboBoxConfig comboboxConfig =
@@ -398,9 +410,21 @@ public class GtnUIFrameworkBaseComponent {
 			// ? String.valueOf(comboboxConfig.getDefaultValue())
 			// : "-Select Values-";
 			// idList.add(0, "0");
-			// valueList.add(0, defaultValue);
+			// valueList.add(0, defaultValue)
+			;
 			// vaadinMultiSelect.setValue(new HashSet<>(Arrays.asList("0")));
 
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+	
+	public void updateSelection(List itemsToBeSelected) throws GtnFrameworkValidationFailedException {
+		try {
+			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
+			if (!itemsToBeSelected.isEmpty()) {
+				vaadinMultiSelect.select(itemsToBeSelected);
+			}
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}

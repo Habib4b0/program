@@ -17,6 +17,7 @@ public class GtnReportComparisonProjectionBean {
 	private int projectionMasterSid;
 	private Date createdDate;
 	private int createdBy;
+	private String projectionType;
 
 	public String getProjectionName() {
 		return projectionName;
@@ -104,6 +105,14 @@ public class GtnReportComparisonProjectionBean {
 
 	public void setCreatedBy(int createdBy) {
 		this.createdBy = createdBy;
+	}
+	
+	public String getProjectionType() {
+		return projectionType;
+	}
+
+	public void setProjectionType(String projectionType) {
+		this.projectionType = projectionType;
 	}
 
 	@Override
