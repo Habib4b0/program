@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.NumericConstants;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportSqlService;
 import com.stpl.gtn.gtn2o.ws.report.service.displayformat.bean.GtnFrameworkDisplayFormatBean;
@@ -63,6 +64,7 @@ public class GtnCustomRelationshipLevelValueService {
 		input.add(String.valueOf(tempListObject[0]));
 		input.add(getDisplayFormatColumnClause(gtnDisplayFormatMasterBean.getDisplayFormatList(),
 				String.valueOf(tempListObject[NumericConstants.ZERO]), bean));
+		input.add(this.dataSelectionBean.getSessionTable(GtnWsQueryConstants.CUSTOM_VARIABLE_HIERARCHY));
 		input.add(dataSelectionBean.getCustomViewMasterSid());
 		input.add(String.valueOf(tempListObject[NumericConstants.ONE]));
 		input.add(String.valueOf(tempListObject[NumericConstants.TWO]));
@@ -80,6 +82,7 @@ public class GtnCustomRelationshipLevelValueService {
 		input.add(isRsId ? " TEMP.RS_ID " : " HT.DESCRIPTION ");
 		input.add(getDisplayFormatColumnClause(gtnDisplayFormatMasterBean.getDisplayFormatList(),
 				String.valueOf(tempListObject[NumericConstants.ZERO]), bean));
+		input.add(this.dataSelectionBean.getSessionTable(GtnWsQueryConstants.CUSTOM_VARIABLE_HIERARCHY));
 		input.add(dataSelectionBean.getCustomViewMasterSid());
 		input.add(isUdc ? " TEMP.RS_CONTRACT_SID=U.MASTER_SID AND U.MASTER_TYPE='RS_CONTRACT' "
 				: " TEMP." + tempListObject[NumericConstants.THREE] + " = CVH.RELATIONSHIP_LEVEL_VALUES ");
@@ -100,6 +103,7 @@ public class GtnCustomRelationshipLevelValueService {
 		List<Object> input = new ArrayList<>();
 		input.add(RelationshipLevelValuesMasterBean.DEFAULT_QUESTION);
 		input.add(dataSelectionBean.getCustomViewMasterSid());
+		input.add(this.dataSelectionBean.getSessionTable(GtnWsQueryConstants.CUSTOM_VARIABLE_HIERARCHY));
 		bean.setQuery(sqlService.getQuery(input, "getCustomViewRelationshipLevelValuesVariable"));
 		return bean;
 	}

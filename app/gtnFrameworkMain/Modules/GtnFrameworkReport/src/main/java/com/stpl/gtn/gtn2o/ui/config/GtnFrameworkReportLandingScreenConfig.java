@@ -638,6 +638,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView");
 		generateAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ "landingScreenVariableBreakdownFrequencyConfig");
+		generateAction.addActionParameter("reportLandingScreen_toPeriod");
+		generateAction.addActionParameter("reportLandingScreen_STATUS");
 		actionList.add(generateAction);
 
 		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);
