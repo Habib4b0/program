@@ -33,6 +33,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnReportCCPTableLoadAction
@@ -157,9 +158,13 @@ public class GtnReportCCPTableLoadAction
 		dto.setSelectedProductHierarchyList(selectedProductList);
 
 		dto.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_");
+		String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_").substring(0, 16);
 		dto.setSessionId(uniqueId);
 		dto.setUniqueId(uniqueId);
+		dto.setFromPeriodReport(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(15).toString())
+				.getIntegerFromV8ComboBox());
+		dto.setToPeriod(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(20).toString())
+				.getIntegerFromV8ComboBox());
 
 		return dto;
 	}
@@ -218,8 +223,11 @@ public class GtnReportCCPTableLoadAction
 		request.setGtnWsForecastRequest(forecastRequest);
 		request.setGtnWsReportRequest(reportRequest);
 		request.setGtnWsGeneralRequest(generalRequest);
-		client.callGtnWebServiceUrl("/gtnWsReportCCPGeneration", "report", request,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl("/gtnWsReportCCPGeneration", "report",
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		dataSelectionBean.setSessionTableMap(
+				response.getGtnWsReportResponse().getReportBean().getDataSelectionBean().getSessionTableMap());
+
 	}
 
 	private List<GtnFrameworkRelationshipLevelDefintionBean> relationBeanList(

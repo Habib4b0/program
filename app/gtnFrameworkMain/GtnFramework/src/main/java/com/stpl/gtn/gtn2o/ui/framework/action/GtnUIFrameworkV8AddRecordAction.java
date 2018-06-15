@@ -42,6 +42,13 @@ public class GtnUIFrameworkV8AddRecordAction implements GtnUIFrameWorkAction {
 		recordBean.setRecordHeader(selectedRecord.getRecordHeader());
 		recordBean.setProperties(selectedRecord.getProperties());
 
+		if (parameters.size() > 2) {
+			for (int i = 2; i < parameters.size(); i++) {
+				recordBean.addAdditionalProperty(parameters.get(i));
+			}
+
+		}
+
 		if (grid.getDataProvider() instanceof ListDataProvider) {
 			pagedGrid.addItem(recordBean);
 		} else {
