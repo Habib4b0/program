@@ -52,6 +52,15 @@ public class GtnWsReportDataSelectionBean {
 	private Map<String, String> sessionTableMap = null;
 
 	private List variableBreakdownHeaderLoadList;
+    private List<GtnReportVariableBreakdownLookupBean> variableBreakdownSaveList;
+
+    public List<GtnReportVariableBreakdownLookupBean> getVariableBreakdownSaveList() {
+        return variableBreakdownSaveList;
+    }
+
+    public void setVariableBreakdownSaveList(List<GtnReportVariableBreakdownLookupBean> variableBreakdownSaveList) {
+        this.variableBreakdownSaveList = variableBreakdownSaveList;
+    }
 
 	public List getVariableBreakdownHeaderLoadList() {
 		return variableBreakdownHeaderLoadList;
