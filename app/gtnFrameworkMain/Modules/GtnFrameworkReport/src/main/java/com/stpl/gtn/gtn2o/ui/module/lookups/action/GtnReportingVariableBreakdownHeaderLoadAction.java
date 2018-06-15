@@ -38,20 +38,14 @@ public class GtnReportingVariableBreakdownHeaderLoadAction implements GtnUIFrame
         AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(variableBreakdownTableId, componentId).getComponent();
         GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
 
-        String fromPeriod = "Q1-2017" ;
-        		
-        		//GtnUIFrameworkGlobalUI
-                //.getVaadinBaseComponent(actionParameterList.get(1).toString(), componentId)
-                //.getStringCaptionFromV8ComboBox();
-        String toPeriod = "Q1-2018" ;
-        
-        //GtnUIFrameworkGlobalUI
-                //.getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId)
-                //.getStringCaptionFromV8ComboBox();
-        String frequency = "Semi-Annual";
-        		
-        		//GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(0).toString())
-                //.getStringCaptionFromV8ComboBox();
+        String fromPeriod = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParameterList.get(1).toString(), componentId)
+                .getStringCaptionFromV8ComboBox();
+        String toPeriod = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId)
+                .getStringCaptionFromV8ComboBox();
+        String frequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(0).toString())
+                .getStringCaptionFromV8ComboBox();
         List<String> inputList = new ArrayList<>();
         inputList.add(fromPeriod);
         inputList.add(toPeriod);
