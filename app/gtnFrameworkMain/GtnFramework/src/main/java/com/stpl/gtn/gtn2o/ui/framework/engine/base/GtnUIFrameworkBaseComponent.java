@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -398,12 +399,19 @@ public class GtnUIFrameworkBaseComponent {
 
 	}
 
-	public void addAllItemsToMultiSelect(List<String> valueList, List idList)
+	public void addAllItemsToMultiSelect(List<String> valueList, List idList,List<Integer> itemsToBeSelected)
 			throws GtnFrameworkValidationFailedException {
 		try {
 			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
 			vaadinMultiSelect.setItems(idList);
 			vaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
+			if (!itemsToBeSelected.isEmpty()) {
+				for (Integer integer : itemsToBeSelected) {
+					vaadinMultiSelect.select(integer);
+				}
+			}
+			vaadinMultiSelect.setValue(new HashSet<>(itemsToBeSelected));
+			vaadinMultiSelect.markAsDirty();
 			// GtnUIFrameworkCheckedComboBoxConfig comboboxConfig =
 			// this.getComponentConfig().getGtnCheckedComboboxConfig();
 			// String defaultValue = comboboxConfig.getDefaultValue() != null
