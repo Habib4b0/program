@@ -183,24 +183,6 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	private void dataPopulationInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
 		GTNLOGGER.info("Calling Data Population Insert Procedure");
-		// Object[] input = { Integer.parseInt(dataSelectionBean.getUserId()),
-		// dataSelectionBean.getSessionId(),
-		// dataSelectionBean.getFrequencyName(),
-		// dataSelectionBean.getFromPeriodReport(),
-		// dataSelectionBean.getToPeriod(), dataSelectionBean.getCustomViewMasterSid(),
-		// dataSelectionBean.getCompanyReport(),
-		// dataSelectionBean.getBusinessUnitReport(),
-		// (dataSelectionBean.getReportDataSource() - 1),
-		// getComparisonProjection(dataSelectionBean.getComparisonProjectionBeanList())
-		// };
-		// GtnFrameworkDataType[] type = { GtnFrameworkDataType.INTEGER,
-		// GtnFrameworkDataType.STRING,
-		// GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER,
-		// GtnFrameworkDataType.INTEGER,
-		// GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER,
-		// GtnFrameworkDataType.INTEGER,
-		// GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING };
-
 		StringBuilder dataPopulation = new StringBuilder(" EXEC PRC_REPORTING_DASHBOARD ");
 		dataPopulation.append(Integer.parseInt(dataSelectionBean.getUserId())).append(",'");
 		dataPopulation.append(dataSelectionBean.getSessionId()).append("','");
@@ -213,8 +195,6 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		dataPopulation.append((dataSelectionBean.getReportDataSource() - 1)).append(",");
 		dataPopulation.append(getComparisonProjection(dataSelectionBean.getComparisonProjectionBeanList()));
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(dataPopulation.toString());
-		// gtnSqlQueryEngine.executeProcedure(GtnWsQueryConstants.PRC_REPORT_DATA_POPULATION,
-		// input, type);
 	}
 
 	private String getComparisonProjection(List<GtnReportComparisonProjectionBean> comparisonProjectionList) {
@@ -264,7 +244,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 							&& row.getRowIndex() >= start)
 					.limit(limit)
 					.map(row -> convertToRecordbean(row, gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
-							rightDataMap, gtnWsReportCustomCCPListDetails.indexOf(row)))
+							rightDataMap, gtnWsReportCustomCCPListDetails.indexOf(row),
+							reportDashboardBean.getDisplayFormat()))
 					.collect(Collectors.toList());
 
 		} catch (Exception ex) {
@@ -274,7 +255,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	}
 
 	private GtnWsRecordBean convertToRecordbean(GtnWsReportCustomCCPListDetails bean, List<Object> recordHeader,
-			Map<String, Map<String, Double>> rightDataMap, int index) {
+			Map<String, Map<String, Double>> rightDataMap, int index, Object[] displayFormat) {
 		Map<String, Double> dataForHierarchy = rightDataMap.get(bean.getHierarchyNo());
 		GtnWsRecordBean recordBean = new GtnWsRecordBean();
 		Optional<List> optionalRecordHeader = Optional.of(recordHeader);
@@ -286,12 +267,40 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		recordBean.addAdditionalProperty(index);
 		recordBean.addAdditionalProperty(bean.getRowIndex());
 		recordBean.addAdditionalProperty(0);
-		recordBean.addProperties("levelValue", bean.getData()[1]);
+		recordBean.addProperties("levelValue", setDisplayFormat(bean.getData(), displayFormat));
 		if (dataForHierarchy != null) {
 			dataForHierarchy.entrySet().stream()
 					.forEach(entry -> recordBean.addProperties(entry.getKey(), entry.getValue()));
 		}
 		return recordBean;
+	}
+
+	private String setDisplayFormat(Object[] data, Object[] displayFormat) {
+		StringBuilder levelName = new StringBuilder();
+		if (displayFormat != null && displayFormat.length != 0) {
+			if (displayFormat.length == 2) {
+				levelName.append(setLevelName(data, displayFormat, true));
+			} else {
+				levelName.append(setLevelName(data, displayFormat, false));
+			}
+		} else {
+			levelName.append(data[1]);
+		}
+		return levelName.toString();
+	}
+
+	private String setLevelName(Object[] data, Object[] displayFormat, boolean isBoth) {
+		if (isBoth) {
+			if (data[6] == null && data[7] == null) {
+				return data[1].toString();
+			}
+			return data[6] + " - " + data[7];
+		}
+		if (String.valueOf(displayFormat[0]).equals("Name")) {
+			return data[6] == null ? data[1].toString() : data[6].toString();
+		} else {
+			return data[7] == null ? data[1].toString() : data[7].toString();
+		}
 	}
 
 	public static String replaceTableNames(String query, final Map<String, String> tableNameMap) {

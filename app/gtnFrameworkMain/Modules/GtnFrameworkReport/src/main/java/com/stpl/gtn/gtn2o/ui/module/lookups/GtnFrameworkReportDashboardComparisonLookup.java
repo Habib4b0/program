@@ -600,6 +600,8 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		addComparisonProjectionAction.addActionParameter(GtnReportComparisonProjectionAddAction.class.getName());
 		addComparisonProjectionAction.addActionParameter("comparisonLookupResultsPagedTableComponent");
 		addComparisonProjectionAction.addActionParameter("comparisonLookupProjectionsResultsPagedTableComponent");
+		addProjectionAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.PROJECTION_TYPE);
 		addBtnConfig.addGtnUIFrameWorkActionConfig(addComparisonProjectionAction);
 	}
 

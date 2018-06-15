@@ -514,7 +514,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(deductionInclusionConfig);
 
 		GtnUIFrameworkCheckedComboBoxConfig deductionInclusionLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		deductionInclusionLoadConfig.setItemValueList(Arrays.asList("Yes","No"));
+		deductionInclusionLoadConfig.setItemCodeList(Arrays.asList("1", "2"));
+		deductionInclusionLoadConfig.setItemValueList(Arrays.asList("Yes", "No"));
 		deductionInclusionConfig.setGtnCheckedComboboxConfig(deductionInclusionLoadConfig);
 	}
 
@@ -664,9 +665,10 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(salesInclusionConfig);
 
 		GtnUIFrameworkCheckedComboBoxConfig salesInclusionLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		salesInclusionLoadConfig.setItemValueList(Arrays.asList("Yes","No"));
+		salesInclusionLoadConfig.setItemCodeList(Arrays.asList("1", "2"));
+		salesInclusionLoadConfig.setItemValueList(Arrays.asList("Yes", "No"));
 		salesInclusionConfig.setGtnCheckedComboboxConfig(salesInclusionLoadConfig);
-		
+
 	}
 
 	private void addDeductionLevelComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -1010,16 +1012,17 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_DISPLAY_FORMAT,
 				true, GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_DISPLAY_FORMAT_LAYOUT,
-				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		displayFormatConfig.setComponentName("Display Format: ");
 		displayFormatConfig.setAuthorizationIncluded(true);
 
 		componentList.add(displayFormatConfig);
 
-		GtnUIFrameworkComboBoxConfig displayFormatLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.DISPLAY_FORMAT, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		displayFormatConfig.setGtnComboboxConfig(displayFormatLoadConfig);
+		GtnUIFrameworkCheckedComboBoxConfig displayFormatLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
+		displayFormatLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		displayFormatLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.DISPLAY_FORMAT);
+		displayFormatConfig.setGtnCheckedComboboxConfig(displayFormatLoadConfig);
 	}
 
 	private void addCurrencyDisplayComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -1074,6 +1077,14 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		tableLoadAction.addActionParameter(GtnFrameworkUIReportDasboardTableLoadAction.class.getName());
 		tableLoadAction.addActionParameter("reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE);
+		tableLoadAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_SALES_INCLUSION);
+		tableLoadAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_INCLUSION);
+		tableLoadAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_DISPLAY_FORMAT);
+		tableLoadAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_CURRENCY_DISPLAY);
 		actionConfigList.add(tableLoadAction);
 		generateButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
