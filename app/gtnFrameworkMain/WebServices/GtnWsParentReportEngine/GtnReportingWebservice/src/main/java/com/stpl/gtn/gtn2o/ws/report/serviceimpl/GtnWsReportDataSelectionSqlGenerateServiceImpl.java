@@ -238,15 +238,13 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					.convertJsonToObject(fileName, GtnWsReportCustomCCPList.class);
 			List<GtnWsReportCustomCCPListDetails> gtnWsReportCustomCCPListDetails = ccpList
 					.getGtnWsReportCustomCCPListDetails();
-			Map<String, Map<String, Double>> rightDataMap = rightTableService.getDataFromBackend(gtnWsRequest,
-					hierarchyNo, levelNo);
+
 			return gtnWsReportCustomCCPListDetails.stream()
 					.filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo)
 							&& row.getRowIndex() >= start)
 					.limit(limit)
-					.map(row -> convertToRecordbean(row, gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
-							rightDataMap, gtnWsReportCustomCCPListDetails.indexOf(row),
-							reportDashboardBean.getDisplayFormat()))
+					.map(row -> convertToRecordbean(gtnWsRequest,row, gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
+							gtnWsReportCustomCCPListDetails.indexOf(row), reportDashboardBean.getDisplayFormat()))
 					.collect(Collectors.toList());
 
 		} catch (Exception ex) {
@@ -255,8 +253,12 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		return new ArrayList<>();
 	}
 
-	private GtnWsRecordBean convertToRecordbean(GtnWsReportCustomCCPListDetails bean, List<Object> recordHeader,
-			Map<String, Map<String, Double>> rightDataMap, int index, Object[] displayFormat) {
+	private GtnWsRecordBean convertToRecordbean(GtnUIFrameworkWebserviceRequest gtnWsRequest, GtnWsReportCustomCCPListDetails bean, List<Object> recordHeader,
+			int index, Object[] displayFormat) {
+
+		Map<String, Map<String, Double>> rightDataMap = rightTableService.getDataFromBackend(gtnWsRequest,
+				bean.getHierarchyNo(), bean.getLevelNo());
+
 		Map<String, Double> dataForHierarchy = rightDataMap.get(bean.getHierarchyNo());
 		GtnWsRecordBean recordBean = new GtnWsRecordBean();
 		Optional<List> optionalRecordHeader = Optional.of(recordHeader);
