@@ -803,16 +803,8 @@
 				distinct ST_CCP_HIERARCHY.ccp_details_sid
 			from
 		    	ST_CCP_HIERARCHY ST_CCP_HIERARCHY
-			JOIN #HIER_PRODUCT HP ON
-				ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO + '%'
-			JOIN #HIER_CUST HC ON
-				ST_CCP_HIERARCHY.CUST_HIERARCHY_NO LIKE HC.HIERARCHY_NO + '%' 
 			join CCP_details CCP_DETAILS on
 				CCP_DETAILS.ccp_details_sid = ST_CCP_HIERARCHY.ccp_details_sid
-			WHERE
-	   		    cm.inbound_status <> 'D'
-				and com.inbound_status <> 'D'
-				and im.inbound_status <> 'D'
 		]]>
 	</entry>
 		

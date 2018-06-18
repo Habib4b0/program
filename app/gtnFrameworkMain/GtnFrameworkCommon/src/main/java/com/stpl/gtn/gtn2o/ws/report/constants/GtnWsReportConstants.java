@@ -35,8 +35,7 @@ public class GtnWsReportConstants {
         public static final String GTN_WS_REPORT_COMPARISON_BREAKDOWN_SAVE_SERVICE = "/getReportComparisonBreakdownSaveService";    
 	public static final String GTN_WS_REPORT_COMPARISON_BREAKDOWN_TABLE_HEADERS_SERVICE = "/getReportComparisonBreakdownTableHeaders";
 	public static final String GTN_WS_REPORT_FILTER_LOAD_SERVICE = "/loadReportFilter";
-	public static final String GTN_WS_REPORT_DEDUCTION_FILTER_LOAD_SERVICE = "/loadReportDeductionFilter";
 	public static final String GTN_WS_REPORT_CUST_PRODLEVEL_LOAD_SERVICE = "/loadReportCustProdLevelLoadService";
-	public static final String GTN_WS_REPORT_DEDUCTION_LEVEL_LOAD_SERVICE = "/loadReportDeductionLevelLoadService";
+	public static final String GTN_WS_FILTERCCP_GENERATE_SERVICE = "/reportFilterCCPGenerateService";
 
 }

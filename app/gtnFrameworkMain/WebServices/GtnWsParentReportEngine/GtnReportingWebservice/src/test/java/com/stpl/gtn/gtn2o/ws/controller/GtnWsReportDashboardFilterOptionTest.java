@@ -28,7 +28,7 @@ import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 public class GtnWsReportDashboardFilterOptionTest {
 
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportDashboardFilterOptionTest.class);
-	
+
 	@Autowired
 	private GtnWsReportDashboardFilterOptionService reportDashboardFilterService;
 
@@ -65,7 +65,7 @@ public class GtnWsReportDashboardFilterOptionTest {
 
 		filterBean.setCustomerLevelNo(5);
 		filterBean.setHierarchyType("C");
-		filterBean.setDeductionLevelNo(10);
+		filterBean.setDeductionLevelNo(1);
 		GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
 		dataSelectionBean.setCustomerHierarchySid(21);
 		dataSelectionBean.setCustomerHierarchyVersionNo(1);
@@ -75,6 +75,7 @@ public class GtnWsReportDashboardFilterOptionTest {
 		dataSelectionBean.setSessionId("8f642725_f4ef_4a84_af94_e2820eedd88e");
 
 		filterBean.setSelectedProductList(Arrays.asList(1381, 1382, 1371, 1367, 1278, 1270, 1379, 1325, 1434, 1436));
+		filterBean.setSelectedDeductionList(Arrays.asList(1514));
 		filterBean.setSelectedDeductionList(Arrays.asList(21406, 15713, 21146, 21147, 21148, 21149, 21151, 21145));
 
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
@@ -96,7 +97,7 @@ public class GtnWsReportDashboardFilterOptionTest {
 		GtnWsReportDashboardFilterBean filterBean = new GtnWsReportDashboardFilterBean();
 		filterBean.setProductLevelNo(5);
 		filterBean.setHierarchyType("P");
-		filterBean.setDeductionLevelNo(10);
+		filterBean.setDeductionLevelNo(1);
 		GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
 		dataSelectionBean.setProductHierarchySid(22);
 		dataSelectionBean.setProductHierarchyVersionNo(1);
@@ -106,6 +107,7 @@ public class GtnWsReportDashboardFilterOptionTest {
 		dataSelectionBean.setSessionId("8f642725_f4ef_4a84_af94_e2820eedd88e");
 
 		filterBean.setSelectedCustomerList(Arrays.asList(2924, 2956));
+		filterBean.setSelectedDeductionList(Arrays.asList(1514));
 		filterBean.setSelectedDeductionList(Arrays.asList(21406, 15713, 21146, 21147, 21148, 21149, 21151, 21145));
 
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
@@ -139,14 +141,14 @@ public class GtnWsReportDashboardFilterOptionTest {
 		request.setGtnWsReportRequest(reportRequest);
 		reportDashboardFilterService.loadDeductionFilter(request);
 	}
-	
+
 	@Test
-	public void getFilteredValues() throws GtnFrameworkGeneralException{
+	public void getFilteredValues() throws GtnFrameworkGeneralException {
 		GtnWsReportDashboardFilterBean filterBean = new GtnWsReportDashboardFilterBean();
 		filterBean.setSelectedCustomerList(Arrays.asList(2924, 2956));
 		filterBean.setSelectedProductList(Arrays.asList(1381, 1382, 1371, 1367, 1278, 1270, 1379, 1325, 1434, 1436));
-		filterBean.setSelectedDeductionList(Arrays.asList(21406, 15713, 21146, 21147, 21148));
-		filterBean.setDeductionLevelNo(10);
+		filterBean.setSelectedDeductionList(Arrays.asList(1514));
+		filterBean.setDeductionLevelNo(1);
 		GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
 		dataSelectionBean.setCustomerRelationshipBuilderSid(83);
 		dataSelectionBean.setProductRelationshipBuilderSid(80);
@@ -156,7 +158,7 @@ public class GtnWsReportDashboardFilterOptionTest {
 		reportRequest.setFilterBean(filterBean);
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsReportRequest(reportRequest);
-		String query = reportDashboardFilterService.getFilteredValues(request);
+		reportDashboardFilterService.getFilteredValues(request);
 	}
 
 }
