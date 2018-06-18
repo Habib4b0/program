@@ -2785,30 +2785,16 @@ WHERE  P.PERIOD_DATE BETWEEN Datefromparts(@START_YEAR, @START_MONTH, 1) AND Dat
        <query>
             <![CDATA[   
         
- DECLARE @PROGRAM VARCHAR(500)='@DEDUCTIONLEVEL'
+DECLARE @PROGRAM VARCHAR(500)= '@DEDUCTIONLEVEL'
  
 IF Object_id('TEMPDB..#DISCOUNT_PROJECTION_MASTER') IS NOT NULL
   DROP TABLE #DISCOUNT_PROJECTION_MASTER
  
 SELECT USER_GROUP = Max(MSPM.USER_GROUP),
-       @CUSTORPROD                AS HIERARCHY_NO,  
-       CASE @PROGRAM
-         WHEN 'SCHEDULE ID' THEN R.RS_CONTRACT_SID
-         WHEN 'PROGRAM' THEN R.RS_CONTRACT_SID
-         WHEN 'SCHEDULE TYPE' THEN RS_TYPE
-         WHEN 'PROGRAM CATEGORY' THEN REBATE_PROGRAM_TYPE
-         WHEN 'PROGRAM TYPE' THEN REBATE_PROGRAM_TYPE
-         WHEN 'SCHEDULE CATEGORY' THEN RS_CATEGORY
-         WHEN 'UDC1' THEN UD.UDC1
-         WHEN 'UDC2' THEN UD.UDC2
-         WHEN 'UDC3' THEN UD.UDC3
-         WHEN 'UDC4' THEN UD.UDC4
-         WHEN 'UDC5' THEN UD.UDC5
-         WHEN 'UDC6' THEN UD.UDC6
-       END                              DISCOUNT,
+       @CUSTORPROD                AS HIERARCHY_NO,       
        Row_number()
          OVER(
-           ORDER BY @CUSTORPROD ) AS INSTR
+           ORDER BY @CUSTORPROD ) AS INSTR,MSPM.DEDUCTION_INCLUSION
 INTO   #DISCOUNT_PROJECTION_MASTER
 FROM   ST_CCP_HIERARCHY CCP
        INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER MSPM
@@ -2817,25 +2803,10 @@ FROM   ST_CCP_HIERARCHY CCP
          ON R.RS_CONTRACT_SID = MSPM.RS_CONTRACT_SID
        LEFT JOIN UDCS UD
               ON UD.MASTER_SID = R.RS_CONTRACT_SID
-                 AND MASTER_TYPE = 'RS_CONTRACT'
-GROUP  BY CASE @PROGRAM
-            WHEN 'SCHEDULE ID' THEN R.RS_CONTRACT_SID
-            WHEN 'PROGRAM' THEN R.RS_CONTRACT_SID
-            WHEN 'SCHEDULE TYPE' THEN RS_TYPE
-            WHEN 'PROGRAM CATEGORY' THEN REBATE_PROGRAM_TYPE
-            WHEN 'PROGRAM TYPE' THEN REBATE_PROGRAM_TYPE
-            WHEN 'SCHEDULE CATEGORY' THEN RS_CATEGORY
-            WHEN 'UDC1' THEN UD.UDC1
-            WHEN 'UDC2' THEN UD.UDC2
-            WHEN 'UDC3' THEN UD.UDC3
-            WHEN 'UDC4' THEN UD.UDC4
-            WHEN 'UDC5' THEN UD.UDC5
-            WHEN 'UDC6' THEN UD.UDC6
-          END,
-          @CUSTORPROD
+                 AND MASTER_TYPE = 'RS_CONTRACT'                          
+GROUP  BY @CUSTORPROD,MSPM.DEDUCTION_INCLUSION
  
-SELECT --DPM.CHECK_RECORD,
-A.HIERARCHY_NO,
+SELECT A.HIERARCHY_NO,
 PERIOD,
 YEAR,
 AP_TABLE_INDICATOR,
@@ -2859,7 +2830,7 @@ SALES_PROJECTION_UNITS
 FROM   (SELECT SH.HIERARCHY_NO,
                STC.YEAR,
                STC.PERIOD,
-               SH.DISCOUNT,
+               STC.RS_CONTRACT_SID DISCOUNT,
                COALESCE(Sum(STC.DISCOUNT) / NULLIF(Sum(SALES), 0), 0) * 100 AS ACTUAL_RATE,
                NULL                                                         PROJECTION_RATE,
                0                                                            AS AP_TABLE_INDICATOR,
@@ -2875,21 +2846,20 @@ FROM   (SELECT SH.HIERARCHY_NO,
                NULL                                                         AS SALES_PROJECTION_UNITS
        FROM   @VIEWTABLE STC
                INNER JOIN #DISCOUNT_PROJECTION_MASTER SH
-                       ON STC.HIERARCHY_NO LIKE SH.HIERARCHY_NO-- + '%'
-                          AND STC.RS_CONTRACT_SID = SH.DISCOUNT
+                       ON STC.HIERARCHY_NO = SH.HIERARCHY_NO-- + '%'
+                           AND STC.DEDUCTION_INCLUSION = SH.DEDUCTION_INCLUSION
         WHERE  INDICATOR = 0
                @DEDINCLUSION
         GROUP  BY SH.HIERARCHY_NO,
-                  SH.DISCOUNT,
+                  STC.RS_CONTRACT_SID,
                   PERIOD,
                   YEAR,
                   STC.DEDUCTION_INCLUSION
-                  --,INSTR
         UNION ALL
         SELECT SH.HIERARCHY_NO,
                STC.YEAR,
                STC.PERIOD,
-               SH.DISCOUNT,
+               STC.RS_CONTRACT_SID DISCOUNT,
                NULL                                                         AS ACTUAL_RATE,
                COALESCE(Sum(STC.DISCOUNT) / NULLIF(Sum(SALES), 0), 0) * 100 AS PROJECTION_RATE,
                1                                                            AS AP_TABLE_INDICATOR,
@@ -2905,26 +2875,20 @@ FROM   (SELECT SH.HIERARCHY_NO,
                Sum(UNITS)                                                   AS SALES_PROJECTION_UNITS
         FROM   @VIEWTABLE STC
                INNER JOIN #DISCOUNT_PROJECTION_MASTER SH
-                       ON STC.HIERARCHY_NO LIKE SH.HIERARCHY_NO-- + '%'
-                          AND STC.RS_CONTRACT_SID = SH.DISCOUNT
+                       ON STC.HIERARCHY_NO = SH.HIERARCHY_NO-- + '%'
+                          AND STC.DEDUCTION_INCLUSION = SH.DEDUCTION_INCLUSION
         WHERE  INDICATOR = 1
                @DEDINCLUSION
         GROUP  BY SH.HIERARCHY_NO,
-                  SH.DISCOUNT,
+                  STC.RS_CONTRACT_SID,
                   PERIOD,
                   YEAR,
                   STC.DEDUCTION_INCLUSION,
                   INDICATOR
-                  --,INSTR
-                             )A
+                        )A
        JOIN #DISCOUNT_PROJECTION_MASTER DPM
          ON DPM.HIERARCHY_NO = A.HIERARCHY_NO
 @UNIONALL
-FROM   @VIEWTABLE STC
-       INNER JOIN #DISCOUNT_PROJECTION_MASTER SH
-               ON STC.HIERARCHY_NO LIKE SH.HIERARCHY_NO-- + '%'
-                  AND STC.RS_CONTRACT_SID = SH.DISCOUNT
-WHERE  @ENDDEDINCLUSION
 ORDER  BY HIERARCHY_NO,
           DISCOUNT,
           YEAR,
@@ -3162,38 +3126,8 @@ INNER JOIN #SALES AD
 	   USER_GROUP,
 	   DPM.DEDUCTION_INCLUSION,
        DPM.LEVEL_NO
-
-UNION ALL
-
-SELECT DISTINCT HIERARCHY_NO,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-        NULL,
-        NULL,
-	NULL
-FROM #DISCOUNT_PROJECTION_MASTER
-WHERE DEDUCTION_INCLUSION = 0
-ORDER BY DPM.LEVEL_NO,
-	HIERARCHY_NO,
-	CD.YEAR,
-	CD.PERIOD,
-	AP_TABLE_INDICATOR
-
-            
-            
+@UNIONALL
+ORDER BY DPM.LEVEL_NO,HIERARCHY_NO,CD.YEAR,CD.PERIOD,AP_TABLE_INDICATOR
                  ]]>
         </query>
     </entity>
