@@ -67,7 +67,7 @@ public class GtnWsReportRightTableLoadDataService {
 						GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING });
 		System.out.println(outputFromProcedure);
 
-		String declareStatement = "declare @COMPARISION_BASIS varchar(100) = null,@level_no int = " + levelNo;
+		String declareStatement = "declare @COMPARISION_BASIS varchar(100) = null,@level_no int = " + levelNo +" , @HIERARCHY_NO varchar(100) = null ";
 		Object[] stringData = outputFromProcedure.get(0);
 		StringBuilder queryBuilder = new StringBuilder(declareStatement);
 		for (Object tempData : stringData) {
