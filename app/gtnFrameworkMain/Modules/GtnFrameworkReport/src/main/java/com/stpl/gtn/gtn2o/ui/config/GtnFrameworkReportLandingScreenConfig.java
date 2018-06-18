@@ -198,11 +198,16 @@ public class GtnFrameworkReportLandingScreenConfig {
 		List<GtnUIFrameWorkActionConfig> landingScreenVariableBreakdownActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig landingScreenVariableBreakdownPopupActionConfig = new GtnUIFrameWorkActionConfig();
 		landingScreenVariableBreakdownPopupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		landingScreenVariableBreakdownPopupActionConfig.addActionParameter("variableBreakdown");
-		landingScreenVariableBreakdownPopupActionConfig.addActionParameter("Variable Breakdown");
-		landingScreenVariableBreakdownPopupActionConfig
-				.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
-
+                
+                List<Object> params = new ArrayList<>();
+		params.add("variableBreakdown");
+		params.add("Variable Breakdown");
+		params.add(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
+		params.add(null);
+		params.add(null);
+		params.add("reportingLandingScreen");
+                		
+                landingScreenVariableBreakdownPopupActionConfig.setActionParameterList(params);
 		landingScreenVariableBreakdownActionConfigList.add(landingScreenVariableBreakdownPopupActionConfig);
 
             GtnUIFrameWorkActionConfig variableBreakDownGridLoad = new GtnUIFrameWorkActionConfig(
