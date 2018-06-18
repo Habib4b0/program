@@ -400,9 +400,7 @@ public class ForecastForm extends AbstractForm {
                setButtonSecurity();
                if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                    tabSheet.setSelectedTab(2);
-                   if (!session.getAction().equalsIgnoreCase(Constant.VIEW)) {
-                       callContractDetailsPrcForDiscount();
-                   }
+                   
                } else {
                    tabSheet.setSelectedTab(1);
                }
@@ -529,6 +527,9 @@ public class ForecastForm extends AbstractForm {
                                 
                                 if (!discountUpsFlag && tabPosition == NumericConstants.FOUR){
                                       CommonLogic.viewProceduresCompletionCheckDiscount(session);
+                                    if (!session.getAction().equalsIgnoreCase(Constant.VIEW)) {
+                                    callContractDetailsPrcForDiscount();
+                                    } 
                                     session.setFunctionMode("UPS");
                                     nmDiscountViewsPopulationProcedure();
                                      discountUpsFlag=true;
