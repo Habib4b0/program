@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -398,12 +399,39 @@ public class GtnUIFrameworkBaseComponent {
 
 	}
 
-	public void addAllItemsToMultiSelect(List<String> valueList, List idList)
+	public List<Object> getSelectedCaptionListFromV8MultiSelect() throws GtnFrameworkValidationFailedException {
+		try {
+			ComboBoxMultiselect multiSelect = (ComboBoxMultiselect) this.getComponent();
+
+			if (isEmpty(multiSelect.getSelectedItems())) {
+				return null;
+			}
+			List<Object> selectedItemList = new ArrayList<>();
+			for (Object object : multiSelect.getSelectedItems()) {
+				if (!"0".equals(object)) {
+					selectedItemList.add(multiSelect.getItemCaptionGenerator().apply(object));
+				}
+			}
+			return selectedItemList;
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+
+	}
+
+	public void addAllItemsToMultiSelect(List<String> valueList, List idList,List<Integer> itemsToBeSelected)
 			throws GtnFrameworkValidationFailedException {
 		try {
 			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
 			vaadinMultiSelect.setItems(idList);
 			vaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
+			if (!itemsToBeSelected.isEmpty()) {
+				for (Integer integer : itemsToBeSelected) {
+					vaadinMultiSelect.select(integer);
+				}
+			}
+			vaadinMultiSelect.setValue(new HashSet<>(itemsToBeSelected));
+			vaadinMultiSelect.markAsDirty();
 			// GtnUIFrameworkCheckedComboBoxConfig comboboxConfig =
 			// this.getComponentConfig().getGtnCheckedComboboxConfig();
 			// String defaultValue = comboboxConfig.getDefaultValue() != null
@@ -418,7 +446,7 @@ public class GtnUIFrameworkBaseComponent {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
 	}
-	
+
 	public void updateSelection(List itemsToBeSelected) throws GtnFrameworkValidationFailedException {
 		try {
 			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();

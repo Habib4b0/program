@@ -173,14 +173,14 @@ WHERE
     </entity>         
 <entity id="getCustomViewNameDuplicateCheckReport">
        <query>
-       <![CDATA[
-	       SELECT
-	               count( distinct CV.CUST_VIEW_MASTER_SID )
-	       from
-	               dbo.CUST_VIEW_MASTER CV
-	       where
+        <![CDATA[
+        SELECT
+		count( distinct CV.CUST_VIEW_MASTER_SID )
+	from
+		dbo.CUST_VIEW_MASTER CV
+	where
 	               CV.CUST_VIEW_NAME = ? and CUST_VIEW_TYPE='report';
-  		]]>
-       </query>
+   ]]>
+		</query>
    </entity>        
 </sql>

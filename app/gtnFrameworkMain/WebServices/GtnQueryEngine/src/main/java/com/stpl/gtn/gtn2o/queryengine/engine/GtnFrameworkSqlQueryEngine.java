@@ -441,9 +441,10 @@ public class GtnFrameworkSqlQueryEngine {
 		return count;
 	}
 
-	public List<?> executeProcedure(String procedureName, List<Object> parameter) throws GtnFrameworkGeneralException {
+	public List<?> executeProcedureGet(String procedureName, Object[] params, GtnFrameworkDataType[] type)
+			throws GtnFrameworkGeneralException {
 		String procedure = "EXEC " + procedureName;
-		return executeSelectQuery(procedure, parameter);
+		return executeSelectQuery(procedure, params, type);
 
 	}
 

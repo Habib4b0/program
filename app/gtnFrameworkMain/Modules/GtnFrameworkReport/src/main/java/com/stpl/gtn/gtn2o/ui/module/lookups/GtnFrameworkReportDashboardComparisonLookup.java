@@ -595,7 +595,6 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		addBtnConfig.setComponentName("ADD");
 		addBtnConfig.setAuthorizationIncluded(true);
 		componentList.add(addBtnConfig);
-
 		GtnUIFrameWorkActionConfig addComparisonProjectionAction = new GtnUIFrameWorkActionConfig();
 		addComparisonProjectionAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		addComparisonProjectionAction.addActionParameter(GtnReportComparisonProjectionAddAction.class.getName());

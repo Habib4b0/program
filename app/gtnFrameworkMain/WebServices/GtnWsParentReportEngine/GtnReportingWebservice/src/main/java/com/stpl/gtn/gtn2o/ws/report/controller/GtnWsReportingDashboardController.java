@@ -47,6 +47,7 @@ import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
 import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
 import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  *
@@ -216,34 +217,7 @@ public class GtnWsReportingDashboardController {
         
         
         
-        @PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_SAVE_SERVICE)
-	public GtnUIFrameworkWebserviceResponse variableBreakdownSaveService(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
-		try {
-			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
-			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
-			GtnWsReportDataSelectionSqlGenerateServiceImpl gtnWsReportDataSelectionSqlGenerateServiceImpl= new GtnWsReportDataSelectionSqlGenerateServiceImpl();
-                         List<GtnReportVariableBreakdownLookupBean> variableBreakdown = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getDataSelectionBean()
-                    .getVariableBreakdownSaveList();
-                         
-                         for(int i=0;i<variableBreakdown.size();i++){
-                              Object[] obj = new Object[4];        
-                             obj[0] =  variableBreakdown.get(i).getMasterSid();
-                             obj[1] =  variableBreakdown.get(i).getPeriod();
-                             obj[2] = variableBreakdown.get(i).getYear();
-                             obj[3] = new Byte((byte) ((Integer) variableBreakdown.get(i).getSelectedVariable()).intValue());
-                             gtnSqlQueryEngine.executeInsertOrUpdateQuery(GtnWsQueryConstants.VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY, obj, new GtnFrameworkDataType[]{INTEGER,INTEGER,INTEGER,BYTE});
-                         }
-                       
-			return gtnUIFrameworkWebserviceResponse;
-		} catch (GtnFrameworkGeneralException ex) {
-			gtnLogger.error("Error in variable breakdown controller, " + ex.getMessage(), ex);
-			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
-			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
-			return gtnUIFrameworkWebserviceResponse;
-		}
-	}
+     
         
         @PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_PERIODS_SERVICE)
     	public GtnUIFrameworkWebserviceResponse getVariableBreakdownPeriods(

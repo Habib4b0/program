@@ -30,6 +30,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -37,6 +38,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnReportCCPTableLoadAction
@@ -57,7 +59,7 @@ public class GtnReportCCPTableLoadAction
 		List<GtnWsRecordBean> selectedCustomerList = getSelectedList(actionParamList.get(1).toString(), componentId);
 		List<GtnWsRecordBean> selectedProductList = getSelectedList(actionParamList.get(2).toString(), componentId);
 		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList, selectedCustomerList,
-				selectedProductList);
+				selectedProductList,componentId);
 		ccpHierarchyInsert(selectedCustomerList, selectedProductList, dataSelectionDto);
 
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
@@ -112,8 +114,7 @@ public class GtnReportCCPTableLoadAction
 		return selectedRecordList;
 	}
 
-	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList,
-			List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList)
+	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList, List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList, String componentId)
 			throws GtnFrameworkValidationFailedException {
 
 		GtnWsReportDataSelectionBean dto = new GtnWsReportDataSelectionBean();
@@ -189,7 +190,12 @@ public class GtnReportCCPTableLoadAction
 		dto.setToPeriod(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(20).toString())
 				.getIntegerFromV8ComboBox());
 
-		return dto;
+              AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(actionParamList.get(21).toString(), componentId);
+              GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
+              List<GtnReportVariableBreakdownLookupBean> gtnReportVariableBreakdownLookupBeanList = (List<GtnReportVariableBreakdownLookupBean>) gridComponent.getCustomData();
+              dto.setVariableBreakdownSaveList(gtnReportVariableBreakdownLookupBeanList);
+		
+              return dto;
 	}
 
 	private void addSelectedValues(TreeGrid<GtnWsRecordBean> rightTable, GtnWsRecordBean selectedvalues,
