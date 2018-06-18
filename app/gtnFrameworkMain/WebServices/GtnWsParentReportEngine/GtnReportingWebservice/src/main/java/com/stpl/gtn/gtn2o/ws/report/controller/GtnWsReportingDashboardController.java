@@ -5,6 +5,10 @@
  */
 package com.stpl.gtn.gtn2o.ws.report.controller;
 
+import static com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType.BYTE;
+import static com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType.INTEGER;
+
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.constants.MongoConstants;
 import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
-import static com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType.BYTE;
-import static com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType.INTEGER;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.forecast.bean.DataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonBreakdownLookupBean;
@@ -46,8 +47,6 @@ import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
 import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
 import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
-import java.io.IOException;
-import java.util.Map;
 
 /**
  *
@@ -70,16 +69,16 @@ public class GtnWsReportingDashboardController {
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
 
-	@Autowired
-	GtnGenerateReportEngine gtnGeneralReportEngine;
+	// @Autowired
+	// GtnGenerateReportEngine gtnGeneralReportEngine;
 
 	@Autowired
 	GtnWsMongoService gtnWsMongoService;
 	@Autowired
 	private HeaderGeneratorService reportHeaderService;
-        
-        @Autowired
-        private GtnWsReportDataSelectionSqlGenerateServiceImpl dataSelectionServiceImpl;
+
+	@Autowired
+	private GtnWsReportDataSelectionSqlGenerateServiceImpl dataSelectionServiceImpl;
 
 	public org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -100,21 +99,23 @@ public class GtnWsReportingDashboardController {
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_DASHBOARD_LEFT_DATA, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadDashboardLeftData(@RequestBody GtnUIFrameworkWebserviceRequest request)
 			throws GtnFrameworkGeneralException, IOException {
-		List<GtnWsRecordBean> resultList;
+		List<GtnWsRecordBean> resultList = null;
 		GtnWsSearchRequest gtnWsSearchRequest = request.getGtnWsSearchRequest();
 		GtnWsReportResponse gtnWsReportRespose = new GtnWsReportResponse();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnWsReportDashboardBean reportDashboardBean = request.getGtnWsReportRequest().getGtnWsReportDashboardBean();
-	        if (request.getGtnWsReportRequest().isLoadTableUsingFile()) {
-                resultList = dataSelectionServiceImpl.getDashboardLeftData(reportDashboardBean,request);
-                } else {
-                resultList = gtnWsReportingDashBoardSevice.getDashboardLeftData(gtnWsSearchRequest, reportDashboardBean);
-                }
+		if (request.getGtnWsReportRequest().isLoadTableUsingFile()) {
+			resultList = dataSelectionServiceImpl.getDashboardLeftData(reportDashboardBean, request);
+		} else {
+			// resultList =
+			// gtnWsReportingDashBoardSevice.getDashboardLeftData(gtnWsSearchRequest,
+			// reportDashboardBean);
+		}
 		gtnWsReportRespose.setRecordBeanResultList(resultList);
 		response.setGtnWsReportResponse(gtnWsReportRespose);
 		return response;
 	}
-	
+
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse generateReportCalculationInsert(
 			@RequestBody GtnUIFrameworkWebserviceRequest request) {
@@ -122,7 +123,7 @@ public class GtnWsReportingDashboardController {
 		GtnWsReportDashboardBean reportDashboardBean = request.getGtnWsReportRequest().getGtnWsReportDashboardBean();
 		GtnWsReportEngineTreeNode inputTree = getSavedCustomTree(reportDashboardBean);
 		if (inputTree != null) {
-			GtnWsReportEngineTreeNode root = gtnGeneralReportEngine
+			GtnWsReportEngineTreeNode root = new GtnGenerateReportEngine()
 					.generateReportOutput(getGtnWsReportEngineBean(inputTree, reportDashboardBean));
 			dropComputedResultsInGenerate(reportDashboardBean);
 			saveComputedResults(reportDashboardBean, root);
@@ -167,8 +168,10 @@ public class GtnWsReportingDashboardController {
 			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
 
-//			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
-			GtnWsPagedTreeTableResponse rightHeader = reportHeaderService.getReportRightTableColumnsDummy(gtnUIFrameworkWebserviceRequest);
+			// GtnWsForecastRequest request =
+			// gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+			GtnWsPagedTreeTableResponse rightHeader = reportHeaderService
+					.getReportRightTableColumnsDummy(gtnUIFrameworkWebserviceRequest);
 			gtnUIFrameworkWebserviceResponse.setGtnWSPagedTreeTableResponse(rightHeader);
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (Exception ex) {
@@ -195,16 +198,16 @@ public class GtnWsReportingDashboardController {
 			return gtnUIFrameworkWebserviceResponse;
 		}
 	}
-	
-	
-        @PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_TABLE_HEADERS_SERVICE)
+
+	@PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_TABLE_HEADERS_SERVICE)
 	public GtnUIFrameworkWebserviceResponse getVariableBreakdownGridHeaders(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
-			GtnWsPagedTableResponse leftHeader = reportHeaderService.getVariableBreakdownHeaderColumns(gtnUIFrameworkWebserviceRequest);
+			GtnWsPagedTableResponse leftHeader = reportHeaderService
+					.getVariableBreakdownHeaderColumns(gtnUIFrameworkWebserviceRequest);
 			gtnUIFrameworkWebserviceResponse.setGtnWsPagedTableResponse(leftHeader);
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (GtnFrameworkGeneralException ex) {
@@ -214,35 +217,31 @@ public class GtnWsReportingDashboardController {
 			return gtnUIFrameworkWebserviceResponse;
 		}
 	}
-        
-        
-        
-     
-        
-        @PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_PERIODS_SERVICE)
-    	public GtnUIFrameworkWebserviceResponse getVariableBreakdownPeriods(
-    			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-    		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
-    		try {
-    			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
-    			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
-    			String query= reportHeaderService.getVariableBreakdownPeriods(gtnUIFrameworkWebserviceRequest);
-                            List<Object[]> results = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(query);
-                            Object[] ob=results.get(0);
-                            GtnWsReportResponse gtnReportResponse = new GtnWsReportResponse();
-                            GtnReportVariableBreakdownLookupBean gtnReportVariableBreakdownLookupBean= new GtnReportVariableBreakdownLookupBean();
-                            gtnReportVariableBreakdownLookupBean.setResultList(results);
-                            gtnReportResponse.setVariableBreakdownLookupBean(gtnReportVariableBreakdownLookupBean);
-    			gtnUIFrameworkWebserviceResponse.setGtnReportResponse(gtnReportResponse);
-    			return gtnUIFrameworkWebserviceResponse;
-    		} catch (GtnFrameworkGeneralException ex) {
-    			gtnLogger.error("Error in variable breakdown controller, " + ex.getMessage(), ex);
-    			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
-    			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
-    			return gtnUIFrameworkWebserviceResponse;
-    		}
-    	}
-        
+
+	@PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_PERIODS_SERVICE)
+	public GtnUIFrameworkWebserviceResponse getVariableBreakdownPeriods(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+			String query = reportHeaderService.getVariableBreakdownPeriods(gtnUIFrameworkWebserviceRequest);
+			List<Object[]> results = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(query);
+			Object[] ob = results.get(0);
+			GtnWsReportResponse gtnReportResponse = new GtnWsReportResponse();
+			GtnReportVariableBreakdownLookupBean gtnReportVariableBreakdownLookupBean = new GtnReportVariableBreakdownLookupBean();
+			gtnReportVariableBreakdownLookupBean.setResultList(results);
+			gtnReportResponse.setVariableBreakdownLookupBean(gtnReportVariableBreakdownLookupBean);
+			gtnUIFrameworkWebserviceResponse.setGtnReportResponse(gtnReportResponse);
+			return gtnUIFrameworkWebserviceResponse;
+		} catch (GtnFrameworkGeneralException ex) {
+			gtnLogger.error("Error in variable breakdown controller, " + ex.getMessage(), ex);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			return gtnUIFrameworkWebserviceResponse;
+		}
+	}
+
 	@PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_COMPARISON_BREAKDOWN_TABLE_HEADERS_SERVICE)
 	public GtnUIFrameworkWebserviceResponse getComparisonBreakdownGridHeaders(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
@@ -261,7 +260,7 @@ public class GtnWsReportingDashboardController {
 			return gtnUIFrameworkWebserviceResponse;
 		}
 	}
-	
+
 	@PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_COMPARISON_BREAKDOWN_PERIODS_SERVICE)
 	public GtnUIFrameworkWebserviceResponse getComparisonBreakdownPeriods(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
@@ -269,13 +268,13 @@ public class GtnWsReportingDashboardController {
 		try {
 			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
-			String query= reportHeaderService.getComparisonBreakdownPeriods(gtnUIFrameworkWebserviceRequest);
-                        List<Object[]> results = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(query);
-                        Object[] ob=results.get(0);
-                        GtnWsReportResponse gtnReportResponse = new GtnWsReportResponse();
-                        GtnReportComparisonBreakdownLookupBean gtnReportComparisonBreakdownLookupBean= new GtnReportComparisonBreakdownLookupBean();
-                        gtnReportComparisonBreakdownLookupBean.setResultList(results);
-                        gtnReportResponse.setComparisonBreakdownLookupBean(gtnReportComparisonBreakdownLookupBean);
+			String query = reportHeaderService.getComparisonBreakdownPeriods(gtnUIFrameworkWebserviceRequest);
+			List<Object[]> results = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(query);
+			Object[] ob = results.get(0);
+			GtnWsReportResponse gtnReportResponse = new GtnWsReportResponse();
+			GtnReportComparisonBreakdownLookupBean gtnReportComparisonBreakdownLookupBean = new GtnReportComparisonBreakdownLookupBean();
+			gtnReportComparisonBreakdownLookupBean.setResultList(results);
+			gtnReportResponse.setComparisonBreakdownLookupBean(gtnReportComparisonBreakdownLookupBean);
 			gtnUIFrameworkWebserviceResponse.setGtnReportResponse(gtnReportResponse);
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (GtnFrameworkGeneralException ex) {
@@ -285,34 +284,41 @@ public class GtnWsReportingDashboardController {
 			return gtnUIFrameworkWebserviceResponse;
 		}
 	}
-	
-	 @PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_COMPARISON_BREAKDOWN_SAVE_SERVICE)
-		public GtnUIFrameworkWebserviceResponse comparisonBreakdownSaveService(
-				@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-			GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
-			try {
-				gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
-				gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
-				
-				GtnWsReportDataSelectionBean dataSelectionBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getDataSelectionBean();
-	                         List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdown = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getDataSelectionBean()
-	                    .getComparisonBreakdownSaveList();
-	                         gtnSqlQueryEngine.executeInsertOrUpdateQuery(GtnWsReportDataSelectionSqlGenerateServiceImpl.replaceTableNames(GtnWsQueryConstants.COMPARISON_BREAKDOWN_TRUNCATE_QUERY, dataSelectionBean.getSessionTableMap())); 
-	                         for(int i=0;i<comparisonBreakdown.size();i++){
-	                              Object[] obj = new Object[4];
-	                             obj[0] = comparisonBreakdown.get(i).getMasterSid();	                             
-	                             obj[1] = comparisonBreakdown.get(i).getPeriod();
-	                             obj[2] = comparisonBreakdown.get(i).getYear();
-	                             obj[3] = Integer.valueOf(comparisonBreakdown.get(i).getSelectedVariable());
-	                             gtnSqlQueryEngine.executeInsertOrUpdateQuery(GtnWsReportDataSelectionSqlGenerateServiceImpl.replaceTableNames(GtnWsQueryConstants.COMPARISON_BREAKDOWN_SAVE_SERVICE_QUERY, dataSelectionBean.getSessionTableMap()), obj, new GtnFrameworkDataType[]{INTEGER,BYTE,BYTE,BYTE});
-	                         }
-	                       
-				return gtnUIFrameworkWebserviceResponse;
-			} catch (GtnFrameworkGeneralException ex) {
-				gtnLogger.error("Error in variable breakdown controller, " + ex.getMessage(), ex);
-				gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
-				gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
-				return gtnUIFrameworkWebserviceResponse;
+
+	@PostMapping(value = GtnWsReportConstants.GTN_WS_REPORT_COMPARISON_BREAKDOWN_SAVE_SERVICE)
+	public GtnUIFrameworkWebserviceResponse comparisonBreakdownSaveService(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
+
+			GtnWsReportDataSelectionBean dataSelectionBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
+					.getDataSelectionBean();
+			List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdown = gtnUIFrameworkWebserviceRequest
+					.getGtnWsReportRequest().getDataSelectionBean().getComparisonBreakdownSaveList();
+			gtnSqlQueryEngine.executeInsertOrUpdateQuery(GtnWsReportDataSelectionSqlGenerateServiceImpl
+					.replaceTableNames(GtnWsQueryConstants.COMPARISON_BREAKDOWN_TRUNCATE_QUERY,
+							dataSelectionBean.getSessionTableMap()));
+			for (int i = 0; i < comparisonBreakdown.size(); i++) {
+				Object[] obj = new Object[4];
+				obj[0] = comparisonBreakdown.get(i).getMasterSid();
+				obj[1] = comparisonBreakdown.get(i).getPeriod();
+				obj[2] = comparisonBreakdown.get(i).getYear();
+				obj[3] = Integer.valueOf(comparisonBreakdown.get(i).getSelectedVariable());
+				gtnSqlQueryEngine.executeInsertOrUpdateQuery(
+						GtnWsReportDataSelectionSqlGenerateServiceImpl.replaceTableNames(
+								GtnWsQueryConstants.COMPARISON_BREAKDOWN_SAVE_SERVICE_QUERY,
+								dataSelectionBean.getSessionTableMap()),
+						obj, new GtnFrameworkDataType[] { INTEGER, BYTE, BYTE, BYTE });
 			}
+
+			return gtnUIFrameworkWebserviceResponse;
+		} catch (GtnFrameworkGeneralException ex) {
+			gtnLogger.error("Error in variable breakdown controller, " + ex.getMessage(), ex);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(false);
+			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			return gtnUIFrameworkWebserviceResponse;
 		}
+	}
 }
