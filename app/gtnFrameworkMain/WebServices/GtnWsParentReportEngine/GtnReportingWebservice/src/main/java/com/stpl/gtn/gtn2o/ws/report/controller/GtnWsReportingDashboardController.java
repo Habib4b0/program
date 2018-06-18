@@ -72,8 +72,8 @@ public class GtnWsReportingDashboardController {
 	// @Autowired
 	// GtnGenerateReportEngine gtnGeneralReportEngine;
 
-	@Autowired
-	GtnWsMongoService gtnWsMongoService;
+//	@Autowired
+//	GtnWsMongoService gtnWsMongoService;
 	@Autowired
 	private HeaderGeneratorService reportHeaderService;
 
@@ -116,37 +116,37 @@ public class GtnWsReportingDashboardController {
 		return response;
 	}
 
-	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT, method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse generateReportCalculationInsert(
-			@RequestBody GtnUIFrameworkWebserviceRequest request) {
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-		GtnWsReportDashboardBean reportDashboardBean = request.getGtnWsReportRequest().getGtnWsReportDashboardBean();
-		GtnWsReportEngineTreeNode inputTree = getSavedCustomTree(reportDashboardBean);
-		if (inputTree != null) {
-			GtnWsReportEngineTreeNode root = new GtnGenerateReportEngine()
-					.generateReportOutput(getGtnWsReportEngineBean(inputTree, reportDashboardBean));
-			dropComputedResultsInGenerate(reportDashboardBean);
-			saveComputedResults(reportDashboardBean, root);
-		}
+//	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT, method = RequestMethod.POST)
+//	public GtnUIFrameworkWebserviceResponse generateReportCalculationInsert(
+//			@RequestBody GtnUIFrameworkWebserviceRequest request) {
+//		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+//		GtnWsReportDashboardBean reportDashboardBean = request.getGtnWsReportRequest().getGtnWsReportDashboardBean();
+//		GtnWsReportEngineTreeNode inputTree = getSavedCustomTree(reportDashboardBean);
+//		if (inputTree != null) {
+//			GtnWsReportEngineTreeNode root = new GtnGenerateReportEngine()
+//					.generateReportOutput(getGtnWsReportEngineBean(inputTree, reportDashboardBean));
+//			dropComputedResultsInGenerate(reportDashboardBean);
+//			saveComputedResults(reportDashboardBean, root);
+//		}
+//
+//		return response;
+//	}
 
-		return response;
-	}
+//	private void dropComputedResultsInGenerate(GtnWsReportDashboardBean reportDashboardBean) {
+//		gtnWsMongoService.dropCollection(
+//				reportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.COMPUTED_TREE_RESULTS));
+//	}
 
-	private void dropComputedResultsInGenerate(GtnWsReportDashboardBean reportDashboardBean) {
-		gtnWsMongoService.dropCollection(
-				reportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.COMPUTED_TREE_RESULTS));
-	}
+//	private void saveComputedResults(GtnWsReportDashboardBean reportDashboardBean, GtnWsReportEngineTreeNode root) {
+//		gtnWsMongoService.updateFinalResultsToMongo(
+//				reportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.COMPUTED_TREE_RESULTS), root);
+//	}
 
-	private void saveComputedResults(GtnWsReportDashboardBean reportDashboardBean, GtnWsReportEngineTreeNode root) {
-		gtnWsMongoService.updateFinalResultsToMongo(
-				reportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.COMPUTED_TREE_RESULTS), root);
-	}
-
-	private GtnWsReportEngineTreeNode getSavedCustomTree(GtnWsReportDashboardBean reportDashboardBean) {
-		return (GtnWsReportEngineTreeNode) gtnWsMongoService.getTreeFromMongo(
-				reportDashboardBean.getTableNameWithUniqueId(reportDashboardBean.getCustomViewName()),
-				GtnWsReportEngineTreeNode.class, null, null);
-	}
+//	private GtnWsReportEngineTreeNode getSavedCustomTree(GtnWsReportDashboardBean reportDashboardBean) {
+//		return (GtnWsReportEngineTreeNode) gtnWsMongoService.getTreeFromMongo(
+//				reportDashboardBean.getTableNameWithUniqueId(reportDashboardBean.getCustomViewName()),
+//				GtnWsReportEngineTreeNode.class, null, null);
+//	}
 
 	private GtnWsReportEngineBean getGtnWsReportEngineBean(GtnWsReportEngineTreeNode input,
 			GtnWsReportDashboardBean reportDashboardBean) {
