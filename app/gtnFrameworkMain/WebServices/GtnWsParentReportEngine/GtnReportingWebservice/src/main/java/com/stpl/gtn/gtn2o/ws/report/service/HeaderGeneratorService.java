@@ -698,7 +698,7 @@ public class HeaderGeneratorService {
 
 		return tableHeaderDTO;
 	}
-
+	
 	private GtnWsPagedTableResponse getHeaderBasedOnFrequency(String frequency,
 			List<Integer> quarterToDateForFromPeriod, List<Integer> quarterToDateForToPeriod,
 			GtnWsPagedTableResponse tableHeaderDTO, String fromPeriod) {
@@ -888,19 +888,6 @@ public class HeaderGeneratorService {
 			break;
 		}
 		return quarterMonth;
-	}
-
-	// comparison breakdown grid Header service
-	public GtnWsPagedTableResponse getComparisonBreakdownHeaderColumns() throws GtnFrameworkGeneralException {
-
-		GtnWsPagedTableResponse tableHeaderDTO = new GtnWsPagedTableResponse();
-
-		tableHeaderDTO.addSingleColumn("q12017", "Q1 2017", String.class);
-		tableHeaderDTO.addSingleColumn("q22017", "Q2 2017", String.class);
-		tableHeaderDTO.addSingleColumn("q32017", "Q3 2017", String.class);
-		tableHeaderDTO.addSingleColumn("q42017", "Q4 2017", String.class);
-
-		return tableHeaderDTO;
 	}
 
 	private String getMonthFromYear(int count) {
