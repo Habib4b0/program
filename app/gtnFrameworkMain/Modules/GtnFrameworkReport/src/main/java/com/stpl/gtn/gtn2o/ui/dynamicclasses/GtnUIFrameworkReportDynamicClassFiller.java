@@ -50,6 +50,7 @@ import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnForecastEligibleDateLoadAc
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportForecastLevelLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownGridLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownGridResetAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownHeaderLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownMassUpdateAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownSubmitAction;
@@ -159,12 +160,11 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingComparisonBreakdownHeaderLoadAction.class.getName(),
 				new GtnReportingComparisonBreakdownHeaderLoadAction());
-
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
-				GtnReportingComparisonBreakdownMassUpdateAction.class.getName(),
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingComparisonBreakdownGridResetAction.class.getName(),
+				new GtnReportingComparisonBreakdownGridResetAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingComparisonBreakdownMassUpdateAction.class.getName(),
 				new GtnReportingComparisonBreakdownMassUpdateAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
-				GtnReportingComparisonBreakdownSubmitAction.class.getName(),
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingComparisonBreakdownSubmitAction.class.getName(),
 				new GtnReportingComparisonBreakdownSubmitAction());
 		
 		
