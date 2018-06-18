@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadActi
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDashboardFrequencyLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportFilterReloadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportLevelFilterReloadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportFilterGenerateLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnForecastReturnsClassConstants;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -1070,12 +1071,24 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		generateButton.setAddToParent(true);
 		componentList.add(generateButton);
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		
+		GtnUIFrameWorkActionConfig filterInputLoadAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		filterInputLoadAction.addActionParameter(GtnUIFrameworkReportFilterGenerateLoadAction.class.getName());
+		filterInputLoadAction.addActionParameter("reportingDashboardTab_filterOptionsTabDeductionLevel");
+		filterInputLoadAction.addActionParameter("reportingDashboardTab_filterOptionsTabCustomerFilter");
+		filterInputLoadAction.addActionParameter("reportingDashboardTab_filterOptionsTabProductFilter");
+		filterInputLoadAction.addActionParameter("reportingDashboardTab_filterOptionsTabDeductionFilter");
+		actionConfigList.add(filterInputLoadAction);
+		
 		GtnUIFrameWorkActionConfig tableLoadAction = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		tableLoadAction.addActionParameter(GtnFrameworkUIReportDasboardTableLoadAction.class.getName());
 		tableLoadAction.addActionParameter("reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE);
 		actionConfigList.add(tableLoadAction);
+		
 		generateButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
 		resetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		resetButton.setComponentName("RESET");
