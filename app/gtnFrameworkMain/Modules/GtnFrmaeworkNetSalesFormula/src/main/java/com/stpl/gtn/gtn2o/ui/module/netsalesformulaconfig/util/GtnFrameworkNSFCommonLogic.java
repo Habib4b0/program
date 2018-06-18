@@ -41,7 +41,9 @@ public class GtnFrameworkNSFCommonLogic {
 		nsfUpdateBean.setCheckAll(checkAll);
 		nsfUpdateBean.setPopulate(isPopulate);
 		nsfUpdateBean.setSalesBasis(salesBasis);
-
+                String mode = (String) GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+                nsfUpdateBean.setMode(mode);
+                
 		GtnWsNetSalesFormulaGeneralRequest gtnWsNetSalesGeneralRequest = new GtnWsNetSalesFormulaGeneralRequest();
 		gtnWsNetSalesGeneralRequest.setNsfUpdateBean(nsfUpdateBean);
 		updateRequest.setGtnWsNetSalesGeneralRequest(gtnWsNetSalesGeneralRequest);

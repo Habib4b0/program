@@ -80,5 +80,5 @@ public class GtnWsNsfUpdateBean {
 	public void setPopulate(boolean isPopulate) {
 		this.isPopulate = isPopulate;
 	}
-
-}
+        
+    }

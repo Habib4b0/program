@@ -133,7 +133,7 @@ public class GtnFrameworkNSFConstants {
         "rsName"};
     private static final Object[] AVAILABLE_DEDUCTIONS_VISIBLE_COLUMNS = new Object[]{"deductionType",
         "deductionSubType", "deductionCategory"};
-    private static final String[] AVAILABLE_DEDUCTIONS_VISIBLE_HEADERS = new String[]{"Deduction Type",
+    private static final String[] AVAILABLE_DEDUCTIONS_VISIBLE_HEADERS = new String[]{getFormulaTypeDeductionType(),
         "Deduction Sub Type", "Deduction Category"};
 
     private static final String ADD_SUBTRACT_INDICATOR = "+/- Indicator";
@@ -206,7 +206,7 @@ public class GtnFrameworkNSFConstants {
 			.unmodifiableList(Arrays.asList("netSalesRuleNo", GtnFrameworkCommonConstants.RULE_NO));
 	public static final List<String> TEXT_FIELD_PROPERTIES = Collections
 			.unmodifiableList(Arrays.asList("netSalesRuleName", GtnFrameworkCommonConstants.RULE_NAME));
-
+   
 	private static final String NET_SALES_RULE_POPUP_VIEW = "CDRPopUpSearchSearchView";
 	private static final String POPULATE_BUTTON_CHECK_RECORD_ERROR_HEADER = "No values in the ‘Selected Deductions’ list view are selected";
 	private static final String POPULATE_BUTTON_CHECK_RECORD_ERROR_MSG = "Please select at least one value in the 'Selected Deductions' list view to apply the Mass Update to.";
