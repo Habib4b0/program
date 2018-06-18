@@ -621,23 +621,6 @@
               and RELATIONSHIP_LEVEL_VALUES IN (@LEVELVALUES) GROUP BY HIERARCHY_NO
             ]]>
 	</entry>     
-	 <entry key="deduction-dynamic-filter">
-       <![CDATA[
-             IF OBJECT_ID('TEMPDB..#HIER_DEDUCTION_PROD') IS NOT NULL
-             DROP TABLE #HIER_DEDUCTION_PROD
-             CREATE TABLE #HIER_DEDUCTION_PROD
-             (
-              HIERARCHY_NO VARCHAR(1000)
-             )
-             INSERT #HIER_DEDUCTION_PROD
-             (
-             HIERARCHY_NO
-             )
-             SELECT HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION WHERE 
-             RELATIONSHIP_BUILDER_SID = ? and  RELATIONSHIP_LEVEL_VALUES IN (@LEVELVALUES) GROUP BY HIERARCHY_NO
-              
-            ]]>
-    </entry>   
     <entry key="deductionRelationSid">
     	<![CDATA[
     		select RELATIONSHIP_BUILDER_SID from RELATIONSHIP_BUILDER where DEDUCTION_RELATION = ? ORDER BY VERSION_NO DESC
@@ -713,7 +696,7 @@
 				    CVD.HIERARCHY_INDICATOR
 				    ?
 				FROM
-				    CUSTOM_VARIABLE_HIERARCHY CVH 
+				    ? CVH 
 					JOIN CUST_VIEW_DETAILS CVD 
 				        ON CVD.CUSTOM_VIEW_DETAILS_SID = CVH.CUSTOM_VIEW_DETAILS_SID AND CVD.CUSTOM_VIEW_MASTER_SID = ? 
 				    JOIN ? TEMP
@@ -732,7 +715,7 @@
 				    CVD.HIERARCHY_INDICATOR
 				    ?
 				FROM
-				    CUSTOM_VARIABLE_HIERARCHY CVH 
+				    ? CVH 
 					JOIN CUST_VIEW_DETAILS CVD 
 				        ON CVD.CUSTOM_VIEW_DETAILS_SID = CVH.CUSTOM_VIEW_DETAILS_SID AND CVD.CUSTOM_VIEW_MASTER_SID = ? 
 				    JOIN RS_CONTRACT TEMP ON ? 
@@ -756,7 +739,7 @@
                                      AND CVD.HIERARCHY_INDICATOR = 'V'
                      INNER JOIN HELPER_TABLE HT
                              ON HT.HELPER_TABLE_SID = CVV.VARIABLE_SID
-                     INNER JOIN CUSTOM_VARIABLE_HIERARCHY CVH
+                     INNER JOIN ? CVH
                              ON CVH.CUSTOM_VIEW_DETAILS_SID = CVD.CUSTOM_VIEW_DETAILS_SID
                              AND CVH.LEVEL_NO = CVD.LEVEL_NO
 							 AND CVH.RELATIONSHIP_LEVEL_VALUES=CVV.VARIABLE_SID
@@ -788,176 +771,48 @@
 	<entry key="deductionFilterLoadQuery">
 		<![CDATA[
 		from
-			ST_CCP_HIERARCHY st_ccp_hierarchy 
+			ST_CCP_HIERARCHY ST_CCP_HIERARCHY 
 		join CCP_DETAILS ccd on
-			ccd.CCP_DETAILS_SID = st_ccp_hierarchy.CCP_DETAILS_SID 
+			ccd.CCP_DETAILS_SID = ST_CCP_HIERARCHY.CCP_DETAILS_SID 
 		join CONTRACT_MASTER cm on
 			cm.CONTRACT_MASTER_SID = ccd.CONTRACT_MASTER_SID 
 		join COMPANY_MASTER com on
 			com.COMPANY_MASTER_SID = ccd.COMPANY_MASTER_SID 
 		join ITEM_MASTER im on
 			im.ITEM_MASTER_SID = ccd.ITEM_MASTER_SID 
-		join RS_CONTRACT rc on
+		left join RS_CONTRACT rc on
 			rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID 
-		join RS_CONTRACT_DETAILS rcd on
+		left join RS_CONTRACT_DETAILS rcd on
 			rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID
 			and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID
 		]]>
 	</entry>
-	<entry key="createSessionTableForReport">
+	<entry key="deduction-dynamic-filter">
 		<![CDATA[
-			IF NOT EXISTS (
-				SELECT 1 
-				FROM SYS.TABLES 
-			    WHERE  Object_name(OBJECT_ID) = 'CUSTOM_SALES_REPORT_?'
-                      AND Schema_name(SCHEMA_ID) = 'dbo')
-			 BEGIN
-		      	CREATE TABLE [dbo].[CUSTOM_SALES_REPORT_?]
-				(
-					HIERARCHY_NO		INT NOT NULL,
-					PERIOD				TINYINT NOT NULL,
-					YEAR				SMALLINT NOT NULL,
-					SALES				NUMERIC(22,6) NULL,
-					EXFACTORY_SALES		NUMERIC(22,6) NULL,
-					SALES_INCLUSION		INT  NULL,
-					UNITS				NUMERIC(22,6) NULL,
-					INDICATOR			BIT NOT NULL			
-				)
-			END
-		
-		IF NOT EXISTS 
-					(
-						SELECT 1
-						FROM SYS.KEY_CONSTRAINTS
-						WHERE Object_name(PARENT_OBJECT_ID) = 'CUSTOM_SALES_REPORT_?'
-							AND Schema_name(SCHEMA_ID) = 'dbo'
-							AND NAME = 'PK_CUSTOM_SALES_REPORT_?_HIERARCHY_NO_PERIOD_YEAR_INDICATOR'
-							AND TYPE = 'PK'
-					)
-					BEGIN
-							ALTER TABLE CUSTOM_SALES_REPORT_? ADD CONSTRAINT PK_CUSTOM_SALES_REPORT_?_HIERARCHY_NO_PERIOD_YEAR_INDICATOR PRIMARY KEY 
-							(
-								HIERARCHY_NO,
-								PERIOD,
-								YEAR,
-								INDICATOR
-							)
-						END
-		
-		IF NOT EXISTS 
-					(
-						SELECT 1 
-						FROM SYS.TABLES
-						WHERE object_name(OBJECT_ID) = 'CUSTOM_DISCOUNT_REPORT_?'
-							AND schema_name(SCHEMA_ID) = 'dbo'
-					)
-				BEGIN
-					CREATE TABLE [dbo].[CUSTOM_DISCOUNT_REPORT_?]
-					(
-						HIERARCHY_NO			INT NOT NULL,
-						PERIOD					TINYINT NOT NULL,
-						YEAR					SMALLINT NOT NULL,
-						DISCOUNT				NUMERIC(22,6) NULL,
-						ACCURAL_DISCOUNT		NUMERIC(22,6) NULL,
-						DEDUCTION_INCLUSION		TINYINT  NULL,
-						INDICATOR				BIT NOT NULL
-					)			
-				END
-		
-		IF NOT EXISTS	
-					(
-						SELECT 1 
-						FROM SYS.KEY_CONSTRAINTS
-						WHERE object_name(PARENT_OBJECT_ID) = 'CUSTOM_DISCOUNT_REPORT_?'
-							AND schema_name(SCHEMA_ID) = 'dbo'
-							AND NAME = 'PK_CUSTOM_DISCOUNT_REPORT_?_HIERARCHY_NO_PERIOD_YEAR_INDICATOR'
-							AND TYPE = 'PK'
-					)
-					BEGIN 
-							ALTER TABLE CUSTOM_DISCOUNT_REPORT_? ADD CONSTRAINT PK_CUSTOM_DISCOUNT_REPORT_?_HIERARCHY_NO_PERIOD_YEAR_INDICATOR PRIMARY KEY
-							(
-								HIERARCHY_NO,			
-								PERIOD ,					
-								YEAR ,					
-								INDICATOR				
-							)
-					END
-		
-		IF NOT EXISTS 
-					(
-						SELECT 1 
-						FROM SYS.TABLES
-						WHERE object_name(OBJECT_ID) = 'APPROVED_REPORT_?'
-							AND schema_name(SCHEMA_ID) = 'dbo'
-					)
-				BEGIN
-					CREATE TABLE [dbo].[APPROVED_REPORT_?]
-					(
-						HIERARCHY_NO			INT NOT NULL,
-						PERIOD					TINYINT NOT NULL,
-						YEAR					SMALLINT NOT NULL,
-						PROJECTION_MASTER_SID	INT NOT NULL,
-						SALES					NUMERIC(22,6) NULL,
-						UNITS					NUMERIC(22,6) NULL,
-						DISCOUNT				NUMERIC(22,6) NULL,
-						EXFACTORY_SALES         NUMERIC(22,6) NULL,
-						ACCURAL_DISCOUNT		NUMERIC(22,6) NULL,
-						INDICATOR               BIT NOT NULL
-					)			
-				END
-		
-		IF NOT EXISTS 
-					(
-						SELECT 1 
-						FROM SYS.KEY_CONSTRAINTS
-						WHERE object_name(PARENT_OBJECT_ID) = 'APPROVED_REPORT_?'
-							AND schema_name(SCHEMA_ID) = 'dbo'
-							AND NAME = 'PK_APPROVED_REPORT_?_HIERARCHY_NO_PERIOD_YEAR_PROJECTION_MASTER_SID_INDICATOR'
-							AND TYPE = 'PK'
-					)
-				BEGIN
-						ALTER TABLE APPROVED_REPORT_? ADD CONSTRAINT PK_APPROVED_REPORT_?_HIERARCHY_NO_PERIOD_YEAR_PROJECTION_MASTER_SID_INDICATOR PRIMARY KEY
-						(
-							HIERARCHY_NO ,
-							PERIOD ,
-							YEAR ,
-							PROJECTION_MASTER_SID,
-							INDICATOR
-						)				
-				END
-		
-		
-		IF NOT EXISTS (SELECT 'X'
-		               FROM     SYS.TABLES
-		               WHERE  Object_name(OBJECT_ID) = 'VARIABLE_BR_REPORT_?'
-		                      AND Schema_name(SCHEMA_ID) = 'dbo')
-		  BEGIN
-		      CREATE TABLE [dbo].[VARIABLE_BR_REPORT_?]
-		        (
-		           MASTER_SID           INT NOT NULL ,
-		           PERIOD               TINYINT NOT NULL,
-		           [YEAR]               SMALLINT NOT NULL,
-		           SELECTED_VARIABLE	TINYINT NOT NULL
-		        )
-		  END
-		  
-		IF NOT EXISTS (SELECT 1
-					   FROM SYS.KEY_CONSTRAINTS
-					   WHERE Object_name(PARENT_OBJECT_ID) = 'VARIABLE_BR_REPORT_?'
-					   		AND Schema_name(SCHEMA_ID) = 'DBO'
-							AND NAME = 'PK_VARIABLE_BR_REPORT_?_PERIOD_YEAR'
-							AND TYPE = 'PK'
-					   )
-			BEGIN
-				ALTER TABLE VARIABLE_BR_REPORT_?
-				ADD CONSTRAINT PK_VARIABLE_BR_REPORT_?_PERIOD_YEAR 
-				PRIMARY KEY 
-				(
-					PERIOD,
-					[YEAR]
-				)
-		END
-			
+		join CONTRACT_MASTER cm on
+			cm.CONTRACT_MASTER_SID = CCP_DETAILS.CONTRACT_MASTER_SID 
+		join COMPANY_MASTER com on
+			com.COMPANY_MASTER_SID = CCP_DETAILS.COMPANY_MASTER_SID 
+		join ITEM_MASTER im on
+			im.ITEM_MASTER_SID = CCP_DETAILS.ITEM_MASTER_SID 
+		]]>
+	</entry>
+	<entry key="filterOptionsGenerateQuery">
+		<![CDATA[
+			select
+				distinct ST_CCP_HIERARCHY.ccp_details_sid
+			from
+		    	ST_CCP_HIERARCHY ST_CCP_HIERARCHY
+			JOIN #HIER_PRODUCT HP ON
+				ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO + '%'
+			JOIN #HIER_CUST HC ON
+				ST_CCP_HIERARCHY.CUST_HIERARCHY_NO LIKE HC.HIERARCHY_NO + '%' 
+			join CCP_details CCP_DETAILS on
+				CCP_DETAILS.ccp_details_sid = ST_CCP_HIERARCHY.ccp_details_sid
+			WHERE
+	   		    cm.inbound_status <> 'D'
+				and com.inbound_status <> 'D'
+				and im.inbound_status <> 'D'
 		]]>
 	</entry>
 		

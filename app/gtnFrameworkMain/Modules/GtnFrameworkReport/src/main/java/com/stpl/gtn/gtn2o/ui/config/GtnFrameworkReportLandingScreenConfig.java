@@ -24,6 +24,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportCustHierarchyConfig;
 import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnForecastEligibleDateLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownFrequencyLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -204,13 +205,16 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 		landingScreenVariableBreakdownActionConfigList.add(landingScreenVariableBreakdownPopupActionConfig);
 
-		GtnUIFrameWorkActionConfig variableBreakDownGridLoad = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.CUSTOM_ACTION);
-		variableBreakDownGridLoad.addActionParameter(GtnReportingVariableBreakdownGridLoadAction.class.getName());
-		variableBreakDownGridLoad
-				.addActionParameter("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent");
+            GtnUIFrameWorkActionConfig variableBreakDownGridLoad = new GtnUIFrameWorkActionConfig(
+                    GtnUIFrameworkActionType.CUSTOM_ACTION);
+            variableBreakDownGridLoad.addActionParameter(GtnReportingVariableBreakdownFrequencyLoadAction.class.getName());
+            variableBreakDownGridLoad
+                    .addActionParameter("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig");
+            variableBreakDownGridLoad
+                    .addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
+                        landingScreenVariableBreakdownActionConfigList.add(variableBreakDownGridLoad);
 
-		landingScreenVariableBreakdownActionConfigList.add(variableBreakDownGridLoad);
+                
 
 		landingScreenVariableBreakdownConfig
 				.setGtnUIFrameWorkActionConfigList(landingScreenVariableBreakdownActionConfigList);
@@ -631,6 +635,9 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView");
 		generateAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ "landingScreenVariableBreakdownFrequencyConfig");
+		generateAction.addActionParameter("reportLandingScreen_toPeriod");
+		generateAction.addActionParameter("reportLandingScreen_STATUS");
+                generateAction.addActionParameter("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent");
 		actionList.add(generateAction);
 
 		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);

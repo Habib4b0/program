@@ -20,10 +20,15 @@ import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
@@ -76,21 +81,20 @@ public class FetchData {
 	}
 
 	public static List<GtnWsRecordBean> callWebService(GtnUIFrameworkPagedTreeTableConfig tableConfig,
-			String moduleName, GtnWsSearchRequest request) {
+			String moduleName, GtnWsSearchRequest request, String componentId) {
 		List<GtnWsRecordBean> records = new ArrayList<>();
 		try {
-			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-			GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
-			GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 			String url = request.isCount() ? tableConfig.getCountUrl() : tableConfig.getResultSetUrl();
-			serviceRequest.setGtnWsSearchRequest(request);
-			serviceRequest.setGtnWsReportRequest(reportRequest);
-                        GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
-                        dataSelectionBean.setSessionId(tableConfig.getGtnWsReportDashboardBean().getSessionId());
-                        reportRequest.setDataSelectionBean(dataSelectionBean);
-			reportRequest.setGtnWsReportDashboardBean(tableConfig.getGtnWsReportDashboardBean());
-			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(url, moduleName, serviceRequest,
-					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+			GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+			actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+			GtnUIFrameworkActionExecutor.executeActionClass(componentId,
+					tableConfig.getGridRequestGenerateActionClass(), actionConfig);
+			GtnUIFrameworkWebserviceRequest webserviceRequest = GtnUIFrameworkGlobalUI
+					.getVaadinComponentData(componentId).getCustomPagedTreeTableRequest();
+			webserviceRequest.setGtnWsSearchRequest(request);
+			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(url, moduleName,
+					webserviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			if (response != null && response.getGtnWsReportResponse() != null) {
 				records = mapper.convertValue(response.getGtnWsReportResponse().getRecordBeanResultList(),
 						new TypeReference<List<GtnWsRecordBean>>() {
@@ -105,6 +109,11 @@ public class FetchData {
 			e.printStackTrace();
 		}
 		return records;
+	}
+
+	private static GtnWsReportDashboardBean getDashBoardBean() {
+		GtnWsReportDashboardBean dashBoardBean = new GtnWsReportDashboardBean();
+		return null;
 	}
 
 	public static String replaceParameters(Object[] params, String query) {

@@ -71,18 +71,6 @@
    ]]>
 		</query>
 	</entity>
-    <entity id="getCustomViewNameDuplicateCheckReport">
-        <query> 
-        <![CDATA[
-        SELECT
-		count( distinct CV.CUST_VIEW_MASTER_SID )
-	from
-		dbo.CUST_VIEW_MASTER CV
-	where
-		CV.CUST_VIEW_NAME = ? and CUST_VIEW_TYPE='report';
-   ]]>
-        </query>
-    </entity>
         
         <entity id="ccpInsertQueryCustom">
 		<query> 
@@ -161,16 +149,38 @@ WHERE
    ]]>
 		</query>
 	</entity>        
-            <entity id="getCustomViewVariables">
+        
+        <entity id="getCustomViewNameDuplicateCheckOnEdit">
+		<query> 
+        <![CDATA[
+        SELECT
+		count( distinct CV.CUST_VIEW_MASTER_SID )
+	from
+		dbo.CUST_VIEW_MASTER CV
+	where
+		CV.CUST_VIEW_NAME = ? AND CV.CUST_VIEW_MASTER_SID <> ?;
+   ]]>
+		</query>
+	</entity>
+
+<entity id="getCustomViewVariables">
         <query> 
         <![CDATA[
-select CV.VARIABLE_SID,HT.DESCRIPTION from  CUSTOM_VIEW_VARIABLES CV 
-LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CV.VARIABLE_SID  WHERE CV.CUSTOM_VIEW_DETAILS_SID= ?;
-   ]]>
+			select CV.VARIABLE_SID,HT.DESCRIPTION from  CUSTOM_VIEW_VARIABLES CV 
+			LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CV.VARIABLE_SID  WHERE CV.CUSTOM_VIEW_DETAILS_SID= ?;
+   		]]>
         </query>
-    </entity>
-        
-        
-        
-        
+    </entity>         
+<entity id="getCustomViewNameDuplicateCheckReport">
+       <query>
+        <![CDATA[
+        SELECT
+		count( distinct CV.CUST_VIEW_MASTER_SID )
+	from
+		dbo.CUST_VIEW_MASTER CV
+	where
+	               CV.CUST_VIEW_NAME = ? and CUST_VIEW_TYPE='report';
+   ]]>
+		</query>
+   </entity>        
 </sql>

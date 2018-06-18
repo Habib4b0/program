@@ -70,6 +70,8 @@ public class PagedTreeGrid {
     int fetched = 0;
     boolean levelExpandOn=false;
     int   levelExpandNo=1;
+    
+    String componentIdInMap = null;
 
     public PagedTreeGrid(GtnUIFrameworkPagedTreeTableConfig tableConfig,
             GtnUIFrameworkComponentConfig componentConfig) {
@@ -97,7 +99,8 @@ public class PagedTreeGrid {
         treeDataProvider.refreshAll();
     }
 
-    public void initializeGrid() {
+    public void initializeGrid(String componentId) {
+        componentIdInMap = componentId;
         pageNoField.setValue(1 + EMPTY);
         pageLength=tableConfig.getPageLength();
         clearTempVariables();
@@ -304,7 +307,7 @@ public class PagedTreeGrid {
         if (tableConfig.getCountUrl() != null) {
             GtnWsSearchRequest request = GridUtils.getWsRequest(0, pageLength, true, INPUT, Arrays.asList(1, EMPTY), tableConfig);
             List<GtnWsRecordBean> result = FetchData.callWebService(tableConfig, componentConfig.getModuleName(),
-                    request);
+                    request,componentIdInMap);
 
             return result == null ? 0 : result.size();
         }
@@ -317,7 +320,7 @@ public class PagedTreeGrid {
         if (tableConfig.getCountUrl() != null) {
             GtnWsSearchRequest request = GridUtils.getWsRequest(0, pageLength, true, INPUT, Arrays.asList(GridUtils.getLevelNo(parent) + 1, GridUtils.getHierarchyNo(parent)), tableConfig);
             List<GtnWsRecordBean> result = FetchData.callWebService(tableConfig, componentConfig.getModuleName(),
-                    request);
+                    request,componentIdInMap);
             childCount = result == null ? 0 : result.size();
             parent.addAdditionalProperties(0, childCount);
         }
@@ -327,7 +330,7 @@ public class PagedTreeGrid {
     private List<GtnWsRecordBean> fetchChildren(int start, int limit, GtnWsRecordBean parent) {
 
         GtnWsSearchRequest request = GridUtils.getWsRequest(start, limit, true, INPUT, Arrays.asList(GridUtils.getLevelNo(parent) + 1, GridUtils.getHierarchyNo(parent)), tableConfig);
-        return FetchData.callWebService(tableConfig, componentConfig.getModuleName(), request);
+        return FetchData.callWebService(tableConfig, componentConfig.getModuleName(), request,componentIdInMap);
     }
 
     private DataSet loadData(int start, int limit, int levelNo, String hierarchyNo) {
@@ -335,7 +338,7 @@ public class PagedTreeGrid {
         if (count != 0) {
             GtnWsSearchRequest request = GridUtils.getWsRequest(start, limit, true, INPUT, Arrays.asList(levelNo, hierarchyNo), tableConfig);
             updatedrows = FetchData.callWebService(tableConfig, componentConfig.getModuleName(),
-                    request);
+                    request,componentIdInMap);
 
         }
         return new DataSet(tableColumns.stream().collect(Collectors.toList()), updatedrows);

@@ -35,8 +35,7 @@ public class GtnReportingVariableBreakdownHeaderLoadAction implements GtnUIFrame
         List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
         String variableBreakdownTableId = actionParameterList.get(0).toString();
 
-        AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(variableBreakdownTableId,
-                componentId);
+        AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(variableBreakdownTableId, componentId).getComponent();
         GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
 
         String fromPeriod = GtnUIFrameworkGlobalUI
@@ -58,6 +57,7 @@ public class GtnReportingVariableBreakdownHeaderLoadAction implements GtnUIFrame
         gtnWsReportRequest.setDataSelectionBean(gtnWsReportDataSelectionBean);
         GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
         gtnUIFrameworkWebserviceRequest.setGtnWsReportRequest(gtnWsReportRequest);
+        gridComponent.setCustomData(gtnUIFrameworkWebserviceRequest);
         gridComponent.setCustomPagedTreeTableRequest(gtnUIFrameworkWebserviceRequest);
     }
 

@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ws.report.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardFilterBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsReportDataSelectionSqlGenerateServiceImpl;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
@@ -102,8 +104,9 @@ public class GtnWsReportDashboardFilterOptionService {
 				finalQuery = getDynamicCustomerDeductionLoadQuery(dataSelectionBean, filterBean, isUserDefined,
 						finalQuery);
 			}
-			finalQuery = finalQuery.replace("ST_CCP_HIERARCHY", "ST_CCP_HIERARCHY_" + dataSelectionBean.getSessionId());
-			return (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(finalQuery);
+			Map<String, String> tableNameMap = dataSelectionBean.getSessionTableMap();
+			String replacedQuery = GtnWsReportDataSelectionSqlGenerateServiceImpl.replaceTableNames(finalQuery, tableNameMap);
+			return (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(replacedQuery);
 		}
 		return Collections.emptyList();
 
@@ -137,8 +140,6 @@ public class GtnWsReportDashboardFilterOptionService {
 			throws GtnFrameworkGeneralException {
 		query = (filterBean.getSelectedCustomerList().isEmpty() || isUserDefined) ? query
 				: getProductCustomerFilterQuery(filterBean, dataSelectionBean) + query;
-		query = (filterBean.getSelectedDeductionList().isEmpty() || isUserDefined) ? query
-				: getCustDeductionLoadQuery(filterBean, dataSelectionBean) + query;
 		return getFinalJoinedQuery(query, filterBean, isUserDefined);
 	}
 
@@ -150,9 +151,69 @@ public class GtnWsReportDashboardFilterOptionService {
 					" JOIN #HIER_PRODUCT HP ON ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO + '%'  ");
 		}
 		if (!filterBean.getSelectedDeductionList().isEmpty() && !isUserDefined) {
-
+			List<String> dedQuery = getDeductionLevelQuery(filterBean);
+			queryString.insert(query.lastIndexOf("WHERE"),
+					reportSqlService.getQuery("deduction-dynamic-filter") + dedQuery.get(0));
+			queryString.append(" and ");
+			queryString.append(dedQuery.get(1)).append(
+					"(" + filterBean.getSelectedDeductionList().toString().replace("[", "").replace("]", "") + ")");
 		}
 		return queryString.toString();
+	}
+
+	private List<String> getDeductionLevelQuery(GtnWsReportDashboardFilterBean filterBean) {
+		int deductionLevel = filterBean.getDeductionLevelNo();
+		List<String> clause = new ArrayList<>();
+		String joinClause = "";
+		String whereClause = "";
+		switch (deductionLevel) {
+		case 1:
+			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.RS_CATEGORY  AND HT.HELPER_TABLE_SID <> 0 ";
+			whereClause = "HT.HELPER_TABLE_SID in";
+			break;
+		case 2:
+			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.RS_TYPE AND HT.HELPER_TABLE_SID <> 0 ";
+			whereClause = "HT.HELPER_TABLE_SID in";
+			break;
+		case 3:
+			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.REBATE_PROGRAM_TYPE AND HT.HELPER_TABLE_SID <> 0 ";
+			whereClause = "HT.HELPER_TABLE_SID in";
+			break;
+		case 4:
+			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC1 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC1'";
+			whereClause = "HT.HELPER_TABLE_SID in";
+			break;
+		case 5:
+			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC2 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC2'";
+			whereClause = "HT.HELPER_TABLE_SID in";
+			break;
+		case 6:
+			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC3 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC3'";
+			whereClause = "HT.HELPER_TABLE_SID in";
+			break;
+		case 7:
+			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC4 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC4'";
+			whereClause = "HT.HELPER_TABLE_SID in";
+			break;
+		case 8:
+			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC5 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC5'";
+			whereClause = "HT.HELPER_TABLE_SID in";
+			break;
+		case 9:
+			joinClause = " JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC6 AND HT.HELPER_TABLE_SID <> 0 AND HT.LIST_NAME = 'RS_UDC6'";
+			whereClause = "HT.HELPER_TABLE_SID in";
+			break;
+		case 10:
+			joinClause = "left join RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID left join RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID ";
+			whereClause = "rcd.RS_CONTRACT_SID in";
+			break;
+		default:
+			break;
+
+		}
+		clause.add(joinClause);
+		clause.add(whereClause);
+		return clause;
 	}
 
 	private String getDynamicProductDeductionLoadQuery(GtnWsReportDataSelectionBean dataSelectionBean,
@@ -160,19 +221,22 @@ public class GtnWsReportDashboardFilterOptionService {
 			throws GtnFrameworkGeneralException {
 		query = (filterBean.getSelectedProductList().isEmpty() || isUserDefined) ? query
 				: getCustProductFilterQuery(filterBean, dataSelectionBean) + query;
-		query = (filterBean.getSelectedDeductionList().isEmpty() || isUserDefined) ? query
-				: getCustDeductionLoadQuery(filterBean, dataSelectionBean) + query;
 		return getCustDeductionJoinedQuery(query, filterBean, isUserDefined);
 	}
 
 	private String getFinalJoinedQuery(String query, GtnWsReportDashboardFilterBean filterBean, boolean isUserDefined) {
 		StringBuilder queryString = new StringBuilder(query);
-		if (!filterBean.getSelectedDeductionList().isEmpty() && !isUserDefined) {
-
-		}
 		if (!filterBean.getSelectedCustomerList().isEmpty() && !isUserDefined) {
 			queryString.insert(query.lastIndexOf("WHERE"),
 					"JOIN #HIER_CUST HP ON ST_CCP_HIERARCHY.CUST_HIERARCHY_NO LIKE HP.HIERARCHY_NO + '%'  ");
+		}
+		if (!filterBean.getSelectedDeductionList().isEmpty() && !isUserDefined) {
+			List<String> dedQuery = getDeductionLevelQuery(filterBean);
+			queryString.insert(query.lastIndexOf("WHERE"),
+					reportSqlService.getQuery("deduction-dynamic-filter") + dedQuery.get(0));
+			queryString.append(" and ");
+			queryString.append(dedQuery.get(1)).append(
+					"(" + filterBean.getSelectedDeductionList().toString().replace("[", "").replace("]", "") + ")");
 		}
 		return queryString.toString();
 	}
@@ -185,25 +249,6 @@ public class GtnWsReportDashboardFilterOptionService {
 		query = query.replace("@LEVELVALUES", selectedList.toString().replace("[", "").replace("]", "")).replace("?",
 				String.valueOf(customerRelationBuilderSid));
 		return query;
-	}
-
-	private String getCustDeductionLoadQuery(GtnWsReportDashboardFilterBean filterBean,
-			GtnWsReportDataSelectionBean dataSelectionBean) throws GtnFrameworkGeneralException {
-		String query = reportSqlService.getQuery("deduction-dynamic-filter");
-		int deductionRelationSid = getDeductionRelationSid(dataSelectionBean);
-		List<Object> selectedList = filterBean.getSelectedDeductionList();
-		query = query.replace("@LEVELVALUES", selectedList.toString().replace("[", "").replace("]", "")).replace("?",
-				String.valueOf(deductionRelationSid));
-		return query;
-	}
-
-	private int getDeductionRelationSid(GtnWsReportDataSelectionBean dataSelectionBean)
-			throws GtnFrameworkGeneralException {
-		String dedQuery = reportSqlService.getQuery("deductionRelationSid");
-		Object[] params = { dataSelectionBean.getProductRelationshipBuilderSid() };
-		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER };
-		List resultList = gtnSqlQueryEngine.executeSelectQuery(dedQuery, params, paramsType);
-		return (int) resultList.get(0);
 	}
 
 	private String getCustProductFilterQuery(GtnWsReportDashboardFilterBean filterBean,
@@ -239,12 +284,14 @@ public class GtnWsReportDashboardFilterOptionService {
 
 	public String getQueryForLoadingFilterDdlb(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+
 		GtnUIFrameworkWebserviceResponse relationResponse = client.callGtnWebServiceUrl(
 				GtnWebServiceUrlConstants.GTN_HIERARCHY_CONTROL
 						+ GtnWebServiceUrlConstants.GTN_REPORT_LOAD_MULTISELECT_DDLB,
 				gtnUIFrameworkWebserviceRequest,
 				getGsnWsSecurityToken(gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId(),
 						gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getSessionId()));
+
 		GtnWsForecastResponse foreCastResponse = relationResponse.getGtnWsForecastResponse();
 		GtnForecastHierarchyInputBean outputBean = foreCastResponse.getInputBean();
 		return outputBean.getHieraryQuery();
@@ -293,6 +340,7 @@ public class GtnWsReportDashboardFilterOptionService {
 		return userDefinedList.get(0);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Object[]> loadDeductionFilter(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
 			throws GtnFrameworkGeneralException {
 		GtnWsReportDashboardFilterBean filterBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
@@ -348,9 +396,55 @@ public class GtnWsReportDashboardFilterOptionService {
 		}
 		query.append("SELECT ").append(selectClause).append(reportSqlService.getQuery("deductionFilterLoadQuery"));
 		query.append(udcJoinClause).append(joinClause);
+		if (!filterBean.getSelectedProductList().isEmpty()) {
+			String oldCustomerQuery = query.toString();
+			query = new StringBuilder();
+			oldCustomerQuery = reportSqlService.getQuery("product-dynamic-filter") + oldCustomerQuery
+					+ " JOIN #HIER_PRODUCT HP ON ST_CCP_HIERARCHY.PROD_HIERARCHY_NO LIKE HP.HIERARCHY_NO + '%' ";
+			int prodRelationSid = dataSelectionBean.getProductRelationshipBuilderSid();
+			List<Object> selectedList = filterBean.getSelectedProductList();
+			oldCustomerQuery = oldCustomerQuery
+					.replace("@LEVELVALUES", selectedList.toString().replace("[", "").replace("]", ""))
+					.replace("?", String.valueOf(prodRelationSid));
+			query.append(oldCustomerQuery);
+		}
+		if (!filterBean.getSelectedCustomerList().isEmpty()) {
+			String oldProductQuery = query.toString();
+			query = new StringBuilder();
+			oldProductQuery = reportSqlService.getQuery("customer-dynamic-filter") + oldProductQuery
+					+ " JOIN #HIER_CUST HC ON ST_CCP_HIERARCHY.CUST_HIERARCHY_NO LIKE HC.HIERARCHY_NO + '%'  ";
+			int customerRelationBuilderSid = dataSelectionBean.getCustomerRelationshipBuilderSid();
+			List<Object> selectedList = filterBean.getSelectedCustomerList();
+			oldProductQuery = oldProductQuery
+					.replace("@LEVELVALUES", selectedList.toString().replace("[", "").replace("]", ""))
+					.replace("?", String.valueOf(customerRelationBuilderSid));
+			query.append(oldProductQuery);
+		}
 		query.append(" GROUP BY ").append(selectClause);
-		return (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(
-				query.toString().replace("ST_CCP_HIERARCHY", "ST_CCP_HIERARCHY_" + dataSelectionBean.getSessionId()));
+		Map<String, String> tableNameMap = dataSelectionBean.getSessionTableMap();
+		String replacedQuery = GtnWsReportDataSelectionSqlGenerateServiceImpl.replaceTableNames(query.toString(),
+				tableNameMap);
+		return (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(replacedQuery);
+	}
 
+	public String getFilteredValues(GtnUIFrameworkWebserviceRequest request) {
+		GtnWsReportRequest reportRequest = request.getGtnWsReportRequest();
+		GtnWsReportDashboardFilterBean filterBean = reportRequest.getFilterBean();
+		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
+		String customerLoadQuery = getProductCustomerFilterQuery(filterBean, dataSelectionBean);
+		String productLoadQuery = getCustProductFilterQuery(filterBean, dataSelectionBean);
+		String deductionLoadQuery = reportSqlService.getQuery("filterOptionsGenerateQuery");
+		StringBuilder queryString = new StringBuilder(deductionLoadQuery);
+		List<String> dedQuery = getDeductionLevelQuery(filterBean);
+		queryString.insert(deductionLoadQuery.indexOf("WHERE"),
+				reportSqlService.getQuery("deduction-dynamic-filter") + dedQuery.get(0));
+		queryString.append(" and ");
+		queryString.append(dedQuery.get(1))
+				.append("(" + filterBean.getSelectedDeductionList().toString().replace("[", "").replace("]", "") + ")");
+		String finalGeneratedQuery = customerLoadQuery + productLoadQuery + queryString.toString();
+		Map<String, String> tableNameMap = dataSelectionBean.getSessionTableMap();
+		String replacedQuery = GtnWsReportDataSelectionSqlGenerateServiceImpl.replaceTableNames(finalGeneratedQuery,
+				tableNameMap);
+		return replacedQuery;
 	}
 }

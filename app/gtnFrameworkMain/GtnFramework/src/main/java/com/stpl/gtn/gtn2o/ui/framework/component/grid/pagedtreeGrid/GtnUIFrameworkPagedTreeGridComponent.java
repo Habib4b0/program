@@ -130,7 +130,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 
 	}
 
-	
+
 	@Override
 	public void reloadComponent(GtnUIFrameworkActionType action, String dependentComponentId, String componentId,
 			Object reloadInput) {
@@ -147,8 +147,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		}
 		grid.setTableConfig(config);
 		grid.setColumnPageNumber(0);
-            
-		grid.initializeGrid();
+		grid.initializeGrid(componentData.getViewId() + "_" + componentId);
 		return;
 
 	}
@@ -209,7 +208,8 @@ public class GtnUIFrameworkPagedTreeGridComponent
 
 		String classPath = tableConfig.getRightHeaderCustomClassLoadUrl();
 		classLoader(tableConfig.getGtnUIFrameWorkActionConfig(), classPath, sourceViewId);
-		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = getCustomPagedTreeTableRequest(tableConfig,sourceViewId);
+		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = getCustomPagedTreeTableRequest(tableConfig,
+				sourceViewId);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceResponse responseForRightHeader = client.callGtnWebServiceUrl(
 				tableConfig.getRightHeader(), tableConfig.getModuleName(), gtnUIFrameworkWebserviceRequest,

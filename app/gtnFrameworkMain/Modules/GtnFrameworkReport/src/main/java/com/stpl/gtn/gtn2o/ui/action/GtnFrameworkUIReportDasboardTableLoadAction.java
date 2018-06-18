@@ -14,14 +14,9 @@ import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
-import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
-import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 
 /**
  *
@@ -49,6 +44,20 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
 		GtnWsReportDashboardBean dashBoardBean = new GtnWsReportDashboardBean();
 		dashBoardBean.setSessionId(dataSelectionBean.getSessionId());
+		List<Object> salesInclusion = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(params.get(2).toString(), componentId).getSelectedListFromV8MultiSelect();
+		dashBoardBean.setSalesInclusion(
+				salesInclusion.size() == 1 ? Integer.parseInt(salesInclusion.get(0).toString()) - 1 : null);
+		List<Object> deductionInclusion = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(params.get(3).toString(), componentId).getSelectedListFromV8MultiSelect();
+		dashBoardBean.setDeductionInclusion(
+				salesInclusion.size() == 1 ? Integer.parseInt(deductionInclusion.get(0).toString()) - 1 : null);
+		List<Object> displayFormat = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(params.get(4).toString(), componentId)
+				.getSelectedCaptionListFromV8MultiSelect();
+		dashBoardBean.setDisplayFormat(displayFormat.toArray());
+		dashBoardBean.setCurrencyConversion(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(params.get(5).toString(), componentId).getCaptionFromV8ComboBox());
 		grid.getTableConfig().setGtnWsReportDashboardBean(dashBoardBean);
 		// GtnUIFrameworkWebServiceClient wsclient = new
 		// GtnUIFrameworkWebServiceClient();
@@ -65,8 +74,7 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 		// GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, serviceRequest,
 		// GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
-		componentData.getCurrentGtnComponent().reloadComponent(null, componentId,
-				(String) params.get(1), null);
+		componentData.getCurrentGtnComponent().reloadComponent(null, componentId, (String) params.get(1), null);
 	}
 
 	@Override
