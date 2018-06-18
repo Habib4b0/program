@@ -3,8 +3,19 @@ package com.stpl.gtn.gtn2o.ui.action;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataRow;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardFilterBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 public class GtnUIFrameworkReportFilterGenerateLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -18,8 +29,47 @@ public class GtnUIFrameworkReportFilterGenerateLoadAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		// TODO Auto-generated method stub
-
+		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
+		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+		GtnWsReportDashboardBean dashboardBean = new GtnWsReportDashboardBean();
+		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
+		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+		reportRequest.setDataSelectionBean(dataSelectionBean);
+		generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		request.setGtnWsGeneralRequest(generalRequest);
+		request.setGtnWsReportRequest(reportRequest);
+		GtnWsReportDashboardFilterBean filterBean = new GtnWsReportDashboardFilterBean();
+		filterBean
+				.setDeductionLevelNo(GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(
+								String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)), componentId)
+						.getIntegerFromV8ComboBox());
+		filterBean
+				.setSelectedCustomerList(GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(
+								String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(2)), componentId)
+						.getSelectedListFromV8MultiSelect());
+		filterBean
+				.setSelectedProductList(GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(
+								String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(3)), componentId)
+						.getSelectedListFromV8MultiSelect());
+		filterBean
+				.setSelectedDeductionList(GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(
+								String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(4)), componentId)
+						.getSelectedListFromV8MultiSelect());
+		reportRequest.setFilterBean(filterBean);
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsReportConstants.GTN_REPORT_FILTER_SERVICE + GtnWsReportConstants.GTN_WS_FILTERCCP_GENERATE_SERVICE,
+				"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		if (response != null) {
+			for (GtnUIFrameworkDataRow result : response.getGtnSerachResponse().getResultSet().getDataTable()) {
+				dashboardBean.setCcpDetailsSidList(result.getColList());
+			}
+		}
 	}
 
 	@Override

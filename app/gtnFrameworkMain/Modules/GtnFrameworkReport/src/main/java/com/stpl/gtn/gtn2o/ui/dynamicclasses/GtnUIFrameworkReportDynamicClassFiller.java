@@ -160,14 +160,11 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingComparisonBreakdownHeaderLoadAction.class.getName(),
 				new GtnReportingComparisonBreakdownHeaderLoadAction());
 
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
-				GtnReportingComparisonBreakdownMassUpdateAction.class.getName(),
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingComparisonBreakdownMassUpdateAction.class.getName(),
 				new GtnReportingComparisonBreakdownMassUpdateAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
-				GtnReportingComparisonBreakdownSubmitAction.class.getName(),
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingComparisonBreakdownSubmitAction.class.getName(),
 				new GtnReportingComparisonBreakdownSubmitAction());
-		
-		
+
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingVariableBreakdownHeaderLoadAction.class.getName(),
 				new GtnReportingVariableBreakdownHeaderLoadAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
@@ -192,9 +189,9 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkReportFilterGenerateLoadAction.class.getName(),
 				new GtnUIFrameworkReportFilterGenerateLoadAction());
 
-                	GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingVariableBreakdownFrequencyLoadAction.class.getName(),
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingVariableBreakdownFrequencyLoadAction.class.getName(),
 				new GtnReportingVariableBreakdownFrequencyLoadAction());
-                
+
 	}
 
 }
