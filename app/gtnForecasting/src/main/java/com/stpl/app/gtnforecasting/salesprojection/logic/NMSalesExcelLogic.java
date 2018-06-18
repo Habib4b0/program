@@ -95,10 +95,10 @@ public class NMSalesExcelLogic {
         for (int i = 0; i < hierarchyValues.size(); i++) {
             StringBuilder keyValue = new StringBuilder(hierarchyValues.get(i)).append(".");
             StringBuilder hierKeyValue = new StringBuilder(keyValue.substring(keyValue.indexOf("-") + 1));
-            SalesRowDto salesRowDto = resultMap.get(hierKeyValue);
+            SalesRowDto salesRowDto = resultMap.get(hierKeyValue.toString());
             if (salesRowDto == null) {
                 salesRowDto = new SalesRowDto();
-                String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(keyValue).get(4));
+                String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(keyValue.toString()).get(4));
                 getExcelFormatColumns(keyValue.toString(), hierarchyIndicator, hierarchyLevelDetails, projectionSelection, salesRowDto);
                 salesRowDto.addStringProperties(Constant.METHODOLOGY, StringUtils.isBlank(String.valueOf(obj[NumericConstants.TEN])) || Constant.NULL.equals(String.valueOf(obj[NumericConstants.TEN])) ? "-" : String.valueOf(obj[NumericConstants.TEN]));
                 salesRowDto.addStringProperties(Constant.BASELINE, StringUtils.isBlank(String.valueOf(obj[NumericConstants.TWELVE])) || Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWELVE])) ? "-" : String.valueOf(obj[NumericConstants.TWELVE]));
