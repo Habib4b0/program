@@ -31,7 +31,11 @@ public class GtnFrameworkUIReportGenerateRequestAction
 			throws GtnFrameworkGeneralException {
 		GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-		GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
+
+		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getComponentData()
+				.getViewId();
+		GtnWsReportDataSelectionBean dataSelectionBean = ((GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData());
 		serviceRequest.setGtnWsReportRequest(reportRequest);
 		reportRequest.setDataSelectionBean(dataSelectionBean);
 		GtnUIFrameworkPagedTreeTableConfig tableConfig = GtnUIFrameworkGlobalUI.getVaadinComponentData(componentId)
@@ -43,11 +47,7 @@ public class GtnFrameworkUIReportGenerateRequestAction
 
 		serviceRequest.getGtnWsReportRequest().setGtnWsReportDashboardBean(reportDashBoardBean);
 
-		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getComponentData()
-				.getViewId();
-
-		String freName = ((GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData()).getFrequencyName();
+		String freName = dataSelectionBean.getFrequencyName();
 
 		reportDashBoardBean.setSelectFreqString(freName);
 
