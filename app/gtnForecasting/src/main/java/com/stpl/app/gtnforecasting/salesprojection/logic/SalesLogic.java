@@ -607,7 +607,7 @@ public class SalesLogic {
         sql = sql.replace(VIEWTABLE, CommonLogic.getViewTableName(projSelDTO));
         sql = sql.replace("@HIERARCHY", Constant.CUSTOMER_SMALL.equals(projSelDTO.getViewOption()) ?"CUST_HIERARCHY_NO":"PROD_HIERARCHY_NO");
         sql = sql.replace(SALESINCLUSION, isSalesInclusionNotSelected ? StringUtils.EMPTY : " AND STC.SALES_INCLUSION = " + projSelDTO.getSessionDTO().getSalesInclusion());
-        sql = sql.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL");
+        sql = sql.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : " UNION ALL SELECT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #ST_NM_SALES_PROJECTION_MASTER ");
         sql = sql.replace("@CONDITION",isSalesInclusionNotSelected ? StringUtils.EMPTY :" WHERE SALES_INCLUSION= " + oppositeSalesInc);      
         String query = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List<Object[]> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
