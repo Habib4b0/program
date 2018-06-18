@@ -38,20 +38,23 @@ public class GtnReportingComparisonBreakdownHeaderLoadAction implements GtnUIFra
 	        		GtnUIFrameworkGlobalUI
 	                .getVaadinBaseComponent(actionParameterList.get(1).toString(), componentId)
 	                .getStringCaptionFromV8ComboBox();
-	        		
+	        String[] finalFromPeriodArray = fromPeriod.split(" ");
+	        
+	        String finalFromPeriod = finalFromPeriodArray[0] +"-"+finalFromPeriodArray[1];
 	        		
 	        String toPeriod = GtnUIFrameworkGlobalUI
 	                .getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId)
 	                .getStringCaptionFromV8ComboBox(); 
-	        
+	        String[] finalToPeriodArray = toPeriod.split(" ");
+	        String finalToPeriod = finalToPeriodArray[0] +"-"+finalToPeriodArray[1];
 	       
 	        String frequency =  GtnUIFrameworkGlobalUI
 	                .getVaadinBaseComponent(actionParameterList.get(3).toString(), componentId)
 	                .getStringCaptionFromV8ComboBox();
 	        
 	        List<String> inputList = new ArrayList<>();
-	        inputList.add(fromPeriod);
-	        inputList.add(toPeriod);
+	        inputList.add(finalFromPeriod);
+	        inputList.add(finalToPeriod);
 	        inputList.add(frequency);
 
 	        GtnWsReportDataSelectionBean gtnWsReportDataSelectionBean = new GtnWsReportDataSelectionBean();

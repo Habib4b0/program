@@ -251,7 +251,7 @@ public class GtnWsReportingDashboardController {
 			gtnUIFrameworkWebserviceResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
 			gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
 			GtnWsForecastRequest request = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
-			GtnWsPagedTableResponse leftHeader = reportHeaderService.getComparisonBreakdownHeaderColumns();
+			GtnWsPagedTableResponse leftHeader = reportHeaderService.getVariableBreakdownHeaderColumns(gtnUIFrameworkWebserviceRequest);
 			gtnUIFrameworkWebserviceResponse.setGtnWsPagedTableResponse(leftHeader);
 			return gtnUIFrameworkWebserviceResponse;
 		} catch (GtnFrameworkGeneralException ex) {
@@ -297,14 +297,14 @@ public class GtnWsReportingDashboardController {
 				GtnWsReportDataSelectionBean dataSelectionBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getDataSelectionBean();
 	                         List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdown = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getDataSelectionBean()
 	                    .getComparisonBreakdownSaveList();
-	                         gtnSqlQueryEngine.executeInsertOrUpdateQuery(GtnWsReportDataSelectionSqlGenerateServiceImpl.replaceTableNames(GtnWsQueryConstants.COMPARISON_BREAKDOWN_TRUNCATE_QUERY, dataSelectionBean.getSessionTableMap())); 
+	                         gtnSqlQueryEngine.executeInsertOrUpdateQuery(dataSelectionServiceImpl.replaceTableNames(GtnWsQueryConstants.COMPARISON_BREAKDOWN_TRUNCATE_QUERY, dataSelectionBean.getSessionTableMap())); 
 	                         for(int i=0;i<comparisonBreakdown.size();i++){
 	                              Object[] obj = new Object[4];
 	                             obj[0] = comparisonBreakdown.get(i).getMasterSid();	                             
 	                             obj[1] = comparisonBreakdown.get(i).getPeriod();
 	                             obj[2] = comparisonBreakdown.get(i).getYear();
 	                             obj[3] = Integer.valueOf(comparisonBreakdown.get(i).getSelectedVariable());
-	                             gtnSqlQueryEngine.executeInsertOrUpdateQuery(GtnWsReportDataSelectionSqlGenerateServiceImpl.replaceTableNames(GtnWsQueryConstants.COMPARISON_BREAKDOWN_SAVE_SERVICE_QUERY, dataSelectionBean.getSessionTableMap()), obj, new GtnFrameworkDataType[]{INTEGER,BYTE,BYTE,BYTE});
+	                             gtnSqlQueryEngine.executeInsertOrUpdateQuery(dataSelectionServiceImpl.replaceTableNames(GtnWsQueryConstants.COMPARISON_BREAKDOWN_SAVE_SERVICE_QUERY, dataSelectionBean.getSessionTableMap()), obj, new GtnFrameworkDataType[]{INTEGER,BYTE,BYTE,BYTE});
 	                         }
 	                       
 				return gtnUIFrameworkWebserviceResponse;

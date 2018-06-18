@@ -84,6 +84,10 @@ public class GtnReportCCPTableLoadAction
 		for(GtnReportComparisonProjectionBean comparisonProjectionBeans : comparisonLookupBeanList) {
 			inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
 		}
+		inputForComparisonBasisList.add("Actuals");
+		inputForComparisonBasisList.add("Accruals");
+		inputForComparisonBasisList.add("Projections");
+		
 		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponentFromChild("reportingDashboard_displaySelectionTabComparisonBasis", componentId).getComponentConfig()
                 .getGtnComboboxConfig();

@@ -150,8 +150,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		addComparisonComponent(componentList, nameSpace);
 		addVariableComponent(componentList, nameSpace);
 		addPeriodRangeFromComponent(componentList, nameSpace);
-	    //addCustomViewButtonComponent(componentList, nameSpace);
-		//addCustomViewComponent(componentList, nameSpace);
+	    addCustomViewButtonComponent(componentList, nameSpace);
+		addCustomViewComponent(componentList, nameSpace);
 		addPeriodRangeToComponent(componentList, nameSpace);
 		addFrequencyComponent(componentList, nameSpace);
 		addComparisonBasisComponent(componentList, nameSpace);
