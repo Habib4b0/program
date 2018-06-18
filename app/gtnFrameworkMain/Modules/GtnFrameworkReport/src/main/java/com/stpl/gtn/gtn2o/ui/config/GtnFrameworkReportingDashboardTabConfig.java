@@ -893,9 +893,16 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig variableBreakdownPopupActionConfig = new GtnUIFrameWorkActionConfig();
 		variableBreakdownPopupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		variableBreakdownPopupActionConfig.addActionParameter("variableBreakdown");
-		variableBreakdownPopupActionConfig.addActionParameter("Variable Breakdown");
-		variableBreakdownPopupActionConfig.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
+		
+                 List<Object> params = new ArrayList<>();
+		params.add("variableBreakdown");
+		params.add("Variable Breakdown");
+		params.add(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
+		params.add(null);
+		params.add(null);
+		params.add("reportingDashboardScreen");
+                		
+                variableBreakdownPopupActionConfig.setActionParameterList(params);
 
 		actionConfigList.add(variableBreakdownPopupActionConfig);
 		variableBreakdownConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);

@@ -303,7 +303,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	}
 
 
-	private void callVariableBreakdownInsertService(GtnWsReportDataSelectionBean dataSelectionBean) {
+	public void callVariableBreakdownInsertService(GtnWsReportDataSelectionBean dataSelectionBean) {
 		try{
                     
 		Map<String, String> tableMap = dataSelectionBean.getSessionTableMap();
