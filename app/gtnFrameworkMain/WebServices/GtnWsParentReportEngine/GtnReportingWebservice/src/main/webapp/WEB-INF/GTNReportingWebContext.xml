@@ -39,9 +39,6 @@
         <property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
     </bean>
 
-    <bean id="mongoCLientFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName" value="java:jboss/MongoClient" />
-    </bean>
     <bean id="sqlPropertyBean"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations" value="classpath:/sqlresource/sqlqueries.xml" />

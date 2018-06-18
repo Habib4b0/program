@@ -1,5 +1,8 @@
 package com.stpl.gtn.gtn2o.ws.report.serviceimpl;
 
+import static com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType.BYTE;
+import static com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType.INTEGER;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +37,6 @@ import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportRightTableLoadDataService
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportSqlService;
 import com.stpl.gtn.gtn2o.ws.report.service.displayformat.service.GtnCustomRelationshipLevelValueService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import static com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType.BYTE;
-import static com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType.INTEGER;
 
 @Service("reportDataSelectionSql")
 @Scope(value = "singleton")
@@ -311,26 +312,28 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		return tempQuery;
 	}
 
+	public void callVariableBreakdownInsertService(GtnWsReportDataSelectionBean dataSelectionBean) {
+		try {
 
-	private void callVariableBreakdownInsertService(GtnWsReportDataSelectionBean dataSelectionBean) {
-		try{
-                    
-		Map<String, String> tableMap = dataSelectionBean.getSessionTableMap();
-		List<GtnReportVariableBreakdownLookupBean> variableBreakdown = dataSelectionBean.getVariableBreakdownSaveList();
-                gtnSqlQueryEngine.executeInsertOrUpdateQuery(replaceTableNames(GtnWsQueryConstants.VARIABLE_BREAKDOWN_TRUNCATE_QUERY, tableMap));
-                
-		for (int i = 0; i < variableBreakdown.size(); i++) {
-			Object[] obj = new Object[4];
-			obj[0] = variableBreakdown.get(i).getMasterSid();
-			obj[1] = variableBreakdown.get(i).getPeriod();
-			obj[2] = variableBreakdown.get(i).getYear();
-			obj[3] = new Byte((byte) ((Integer) variableBreakdown.get(i).getSelectedVariable()).intValue());
+			Map<String, String> tableMap = dataSelectionBean.getSessionTableMap();
+			List<GtnReportVariableBreakdownLookupBean> variableBreakdown = dataSelectionBean
+					.getVariableBreakdownSaveList();
 			gtnSqlQueryEngine.executeInsertOrUpdateQuery(
-					
-							replaceTableNames(GtnWsQueryConstants.VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY, tableMap),
-					obj, new GtnFrameworkDataType[] {INTEGER,INTEGER,INTEGER,BYTE});
+					replaceTableNames(GtnWsQueryConstants.VARIABLE_BREAKDOWN_TRUNCATE_QUERY, tableMap));
+			if (variableBreakdown != null) {
+				for (int i = 0; i < variableBreakdown.size(); i++) {
+					Object[] obj = new Object[4];
+					obj[0] = variableBreakdown.get(i).getMasterSid();
+					obj[1] = variableBreakdown.get(i).getPeriod();
+					obj[2] = variableBreakdown.get(i).getYear();
+					obj[3] = new Byte((byte) ((Integer) variableBreakdown.get(i).getSelectedVariable()).intValue());
+					gtnSqlQueryEngine.executeInsertOrUpdateQuery(
+
+							replaceTableNames(GtnWsQueryConstants.VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY, tableMap), obj,
+							new GtnFrameworkDataType[] { INTEGER, INTEGER, INTEGER, BYTE });
+				}
 			}
-		}catch (GtnFrameworkGeneralException ex) {
+		} catch (GtnFrameworkGeneralException ex) {
 			GTNLOGGER.error(ex.getMessage(), ex);
 		}
 	}
