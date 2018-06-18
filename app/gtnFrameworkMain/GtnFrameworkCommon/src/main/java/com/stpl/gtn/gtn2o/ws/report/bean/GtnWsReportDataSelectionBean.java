@@ -53,15 +53,28 @@ public class GtnWsReportDataSelectionBean {
 
 	private List variableBreakdownHeaderLoadList;
     private List<GtnReportVariableBreakdownLookupBean> variableBreakdownSaveList;
+    
+    private List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownSaveList;
 
+    
+
+    public void setComparisonBreakdownSaveList(List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownSaveList) {
+        this.comparisonBreakdownSaveList = comparisonBreakdownSaveList;
+    }
+
+    public List<GtnReportComparisonBreakdownLookupBean> getComparisonBreakdownSaveList() {
+        return comparisonBreakdownSaveList;
+    }
+
+    
     public List<GtnReportVariableBreakdownLookupBean> getVariableBreakdownSaveList() {
         return variableBreakdownSaveList;
     }
-
+    
     public void setVariableBreakdownSaveList(List<GtnReportVariableBreakdownLookupBean> variableBreakdownSaveList) {
         this.variableBreakdownSaveList = variableBreakdownSaveList;
     }
-
+    
 	public List getVariableBreakdownHeaderLoadList() {
 		return variableBreakdownHeaderLoadList;
 	}

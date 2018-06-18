@@ -16,15 +16,10 @@ import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
-import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
-import com.stpl.gtn.gtn2o.ws.report.engine.reportcommon.bean.GtnWsReportEngineTreeNode;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportWebsevice;
-import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsTreeService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
@@ -53,8 +48,8 @@ public class GtnWsReportController {
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
 
-	@Autowired
-	private GtnWsTreeService gtnWsTreeService;
+	// @Autowired
+	// private GtnWsTreeService gtnWsTreeService;
 
 	public org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -234,7 +229,7 @@ public class GtnWsReportController {
 		return wsResponse;
 	}
 
-        @RequestMapping(value = "/gtnWsReportLoadDataAssumptionsMultipleTabs", method = RequestMethod.POST)
+	@RequestMapping(value = "/gtnWsReportLoadDataAssumptionsMultipleTabs", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getDataAssumptionsMultipleTabResults(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		GtnUIFrameworkWebserviceResponse wsResponse = new GtnUIFrameworkWebserviceResponse();
@@ -243,65 +238,75 @@ public class GtnWsReportController {
 		List<Object[]> resultList = null;
 		wsGeneralResponse.setSucess(true);
 		try {
-			
-                                
-				String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS;
-                                finalQuery = finalQuery.replace("@projectionMasterSid",String.valueOf(gtnWsRequest.getGtnWsReportRequest().getProjectionMasterSid()));
-				//String filter = gtnWsReportWebsevice.setFilterValueList(gtnWsRequest);
 
-				//finalQuery = finalQuery.replace("@filter", filter);
-				resultList = executeQuery(finalQuery);
-				resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
-				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
-				gtnUIFrameworkDataTable.addData(resultList);
-				wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
-			
+			String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS;
+			finalQuery = finalQuery.replace("@projectionMasterSid",
+					String.valueOf(gtnWsRequest.getGtnWsReportRequest().getProjectionMasterSid()));
+			// String filter = gtnWsReportWebsevice.setFilterValueList(gtnWsRequest);
+
+			// finalQuery = finalQuery.replace("@filter", filter);
+			resultList = executeQuery(finalQuery);
+			resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
+			GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
+			gtnUIFrameworkDataTable.addData(resultList);
+			wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
+
 		} catch (GtnFrameworkGeneralException e) {
 			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + e);
 		}
 		wsResponse.setGtnSerachResponse(wsSearchResponse);
 		return wsResponse;
 	}
-        
+
 	@SuppressWarnings({ "rawtypes" })
 	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 		gtnSqlQueryEngine.setSessionFactory(sessionFactory);
 		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
 	}
 
-	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_BUILD_CUSTOM_TREE, method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse buildCustomTree(@RequestBody GtnUIFrameworkWebserviceRequest request)
-			throws GtnFrameworkGeneralException {
-
-		GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
-		GtnWsReportDashboardBean gtnWsReportDashboardBean = gtnWsReportRequest.getGtnWsReportDashboardBean();
-
-		GtnWsReportEngineTreeNode root = new GtnWsReportEngineTreeNode();
-
-		GtnWsCustomTreeData customTreeData = gtnWsTreeService.getCustomTreeData(
-				MongoStringConstants.CUSTOM_VIEW_COLLECTION, gtnWsReportDashboardBean.getCustomViewName());
-
-		GtnWsReportEngineTreeNode customerTree = gtnWsTreeService.getCustomerTree(MongoStringConstants.CUSTOMER_TREE,
-				true, gtnWsReportDashboardBean.getSessionId());
-
-		GtnWsReportEngineTreeNode productTree = gtnWsTreeService.getCustomerTree(MongoStringConstants.PRODUCT_TREE,
-				true, gtnWsReportDashboardBean.getSessionId());
-
-		@SuppressWarnings("unchecked")
-		List<Object[]> ccpList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery("Select * from "
-				+ gtnWsReportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.ST_CCPD_SESSION_TABLE_NAME));
-
-		@SuppressWarnings("unchecked")
-		List<Object[]> deductionList = (List<Object[]>) gtnSqlQueryEngine
-				.executeSelectQuery("Select * from " + gtnWsReportDashboardBean
-						.getTableNameWithUniqueId(MongoStringConstants.ST_DEDUCTION_SESSION_TABLE_NAME));
-		long start = System.currentTimeMillis();
-		gtnWsTreeService.buildCustomTree(root, customTreeData, customerTree, productTree, deductionList, ccpList);
-		gtnLogger.info("Time taken to build Tree =" + (System.currentTimeMillis() - start));
-		gtnWsTreeService.saveCustomTree(root,
-				gtnWsReportDashboardBean.getTableNameWithUniqueId(gtnWsReportDashboardBean.getCustomViewName()));
-		return new GtnUIFrameworkWebserviceResponse();
-	}
+	// @RequestMapping(value = GtnWsReportConstants.GTN_REPORT_BUILD_CUSTOM_TREE,
+	// method = RequestMethod.POST)
+	// public GtnUIFrameworkWebserviceResponse buildCustomTree(@RequestBody
+	// GtnUIFrameworkWebserviceRequest request)
+	// throws GtnFrameworkGeneralException {
+	//
+	// GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
+	// GtnWsReportDashboardBean gtnWsReportDashboardBean =
+	// gtnWsReportRequest.getGtnWsReportDashboardBean();
+	//
+	// GtnWsReportEngineTreeNode root = new GtnWsReportEngineTreeNode();
+	//
+	// GtnWsCustomTreeData customTreeData = gtnWsTreeService.getCustomTreeData(
+	// MongoStringConstants.CUSTOM_VIEW_COLLECTION,
+	// gtnWsReportDashboardBean.getCustomViewName());
+	//
+	// GtnWsReportEngineTreeNode customerTree =
+	// gtnWsTreeService.getCustomerTree(MongoStringConstants.CUSTOMER_TREE,
+	// true, gtnWsReportDashboardBean.getSessionId());
+	//
+	// GtnWsReportEngineTreeNode productTree =
+	// gtnWsTreeService.getCustomerTree(MongoStringConstants.PRODUCT_TREE,
+	// true, gtnWsReportDashboardBean.getSessionId());
+	//
+	// @SuppressWarnings("unchecked")
+	// List<Object[]> ccpList = (List<Object[]>)
+	// gtnSqlQueryEngine.executeSelectQuery("Select * from "
+	// +
+	// gtnWsReportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.ST_CCPD_SESSION_TABLE_NAME));
+	//
+	// @SuppressWarnings("unchecked")
+	// List<Object[]> deductionList = (List<Object[]>) gtnSqlQueryEngine
+	// .executeSelectQuery("Select * from " + gtnWsReportDashboardBean
+	// .getTableNameWithUniqueId(MongoStringConstants.ST_DEDUCTION_SESSION_TABLE_NAME));
+	// long start = System.currentTimeMillis();
+	// gtnWsTreeService.buildCustomTree(root, customTreeData, customerTree,
+	// productTree, deductionList, ccpList);
+	// gtnLogger.info("Time taken to build Tree =" + (System.currentTimeMillis() -
+	// start));
+	// gtnWsTreeService.saveCustomTree(root,
+	// gtnWsReportDashboardBean.getTableNameWithUniqueId(gtnWsReportDashboardBean.getCustomViewName()));
+	// return new GtnUIFrameworkWebserviceResponse();
+	// }
 
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_SAVEVIEW_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse saveView(
@@ -333,7 +338,7 @@ public class GtnWsReportController {
 		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
 		return gtnWsReportWebsevice.deleteView(dataSelectionBean, userId);
 	}
-	
+
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_LOADSERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadComparisonAvailableTable(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)

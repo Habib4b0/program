@@ -41,7 +41,7 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 
 	private float minSplitPosition = 200;
 
-	private int pageLength = 0;
+        private int pageLength =10;
 
 	private int itemPerPage = 0;
 

@@ -31,7 +31,10 @@
 	
 	<bean id="reportDashboardFilterService"
 		class="com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportDashboardFilterOptionService">
-		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"/>
-		
 	</bean>
+	
+	<bean id="reportSqlService"
+		class="com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportSqlService">
+	</bean>
+	
 </beans>

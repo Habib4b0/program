@@ -583,6 +583,65 @@ public class HeaderGeneratorService {
 		return date.trim();
 	}
 
+        public String getComparisonBreakdownPeriods(
+ 	           GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) throws GtnFrameworkGeneralException {
+
+             List comnparisonBreakdownList = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getDataSelectionBean()
+                     .getVariableBreakdownHeaderLoadList();
+             String dateFromPeriodQuery = null;
+             String splitParameter = " ";
+             String frequency = "";
+             String whereClauseParameters = "";
+         for(int i=0;i<comnparisonBreakdownList.size();i++){
+         String fromPeriod = comnparisonBreakdownList.get(i).toString();
+        
+         if (fromPeriod.startsWith("Q")) {
+ 			List<Integer> quarterToDateForFromPeriod = getQuarterToDate(fromPeriod,splitParameter);
+                         dateFromPeriodQuery = getDateFromFrequency(quarterToDateForFromPeriod);
+                         frequency = "QUARTER,";
+ 		} else if (fromPeriod.startsWith("S")) {
+
+ 			List<Integer> semiAnnualToDateForFromPeriod = getSemiAnnualToDate(fromPeriod,splitParameter);
+
+                         dateFromPeriodQuery = getDateFromFrequency(semiAnnualToDateForFromPeriod);
+                         frequency = "SEMI_ANNUAL,";
+
+ 		} else if (fromPeriod.matches("[0-9]+")) {
+ 			List<Integer> yearToDateForFromPeriod = new ArrayList<>();
+ 			yearToDateForFromPeriod.add(Integer.valueOf(fromPeriod));
+ 			yearToDateForFromPeriod.add(1);
+ 			yearToDateForFromPeriod.add(1);
+ 			
+
+                         dateFromPeriodQuery = getDateFromFrequency(yearToDateForFromPeriod);
+                         frequency = "YEAR,";
+
+ 		} else {
+ 			List<Integer> monthToDateForFromPeriod = new ArrayList<>();
+ 			String[] monthToDateForFromPeriodSplit = fromPeriod.split(" ");
+ 			monthToDateForFromPeriod.add(Integer.valueOf(monthToDateForFromPeriodSplit[1]));
+ 			monthToDateForFromPeriod.add(getMonthIntegerFromYear(monthToDateForFromPeriodSplit[0]));
+ 			monthToDateForFromPeriod.add(1);
+
+
+ 			
+                         
+                         dateFromPeriodQuery = getDateFromFrequency(monthToDateForFromPeriod);
+                         frequency = "MONTH,";
+ 		}
+         if(i<comnparisonBreakdownList.size()-1){
+                 whereClauseParameters = whereClauseParameters + " PERIOD_DATE = '"+dateFromPeriodQuery+"' OR  ";
+         }
+         else{
+            whereClauseParameters = whereClauseParameters + "PERIOD_DATE = '"+dateFromPeriodQuery+"'"; 
+         }
+         }
+                 String finalQuery = GtnWsQueryConstants.COMPARISON_BREAKDOWN_PERIOD_DATAS;
+                 finalQuery=finalQuery.replace("@periodDateCondition", whereClauseParameters).replace("@frequency", frequency);
+         
+         return finalQuery;
+         }
+
 	public GtnWsPagedTableResponse getVariableBreakdownHeaderColumns(
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) throws GtnFrameworkGeneralException {
 

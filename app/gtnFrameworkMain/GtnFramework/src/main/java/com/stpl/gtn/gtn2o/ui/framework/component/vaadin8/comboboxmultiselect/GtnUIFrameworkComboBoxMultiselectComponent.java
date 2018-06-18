@@ -78,9 +78,15 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 		}
 
 		if (checkedComboBoxConfig.getItemValueList() != null) {
+			if (checkedComboBoxConfig.getItemCodeList() != null) {
+				comboBoxMultiSelect.setItems(checkedComboBoxConfig.getItemCodeList());
+				comboBoxMultiSelect.setItemCaptionGenerator(item -> checkedComboBoxConfig.getItemValueList()
+						.get(checkedComboBoxConfig.getItemCodeList().indexOf(item)));
+				return comboBoxMultiSelect;
+			}
 			comboBoxMultiSelect.setItems(checkedComboBoxConfig.getItemValueList());
-			return comboBoxMultiSelect;
 		}
+
 		return comboBoxMultiSelect;
 	}
 
@@ -286,15 +292,15 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 		}
 	}
 
-	private void addblurListener(GtnUIFrameworkComponentConfig componentConfig, ComboBoxMultiselect vaadinComboBoxMultiSelect) {
+	private void addblurListener(GtnUIFrameworkComponentConfig componentConfig,
+			ComboBoxMultiselect vaadinComboBoxMultiSelect) {
 		if (componentConfig.getGtnUIFrameWorkActionConfigList() != null
 				&& !componentConfig.getGtnUIFrameWorkActionConfigList().isEmpty()) {
 			vaadinComboBoxMultiSelect.addBlurListener(event -> {
 				try {
 					AbstractComponent component = (AbstractComponent) event.getComponent();
 					GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) component.getData();
-					GtnUIFrameworkComponentConfig blurComponentConfig = componentData
-							.getCurrentComponentConfig();
+					GtnUIFrameworkComponentConfig blurComponentConfig = componentData.getCurrentComponentConfig();
 					GtnUIFrameworkActionExecutor.executeActionList(componentData.getComponentIdInMap(),
 							blurComponentConfig.getGtnUIFrameWorkActionConfigList());
 
