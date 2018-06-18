@@ -312,7 +312,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		return tempQuery;
 	}
 
-	private void callVariableBreakdownInsertService(GtnWsReportDataSelectionBean dataSelectionBean) {
+	public void callVariableBreakdownInsertService(GtnWsReportDataSelectionBean dataSelectionBean) {
 		try {
 
 			Map<String, String> tableMap = dataSelectionBean.getSessionTableMap();
