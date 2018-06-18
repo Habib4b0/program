@@ -59,7 +59,7 @@ public class GtnReportCCPTableLoadAction
 		List<GtnWsRecordBean> selectedCustomerList = getSelectedList(actionParamList.get(1).toString(), componentId);
 		List<GtnWsRecordBean> selectedProductList = getSelectedList(actionParamList.get(2).toString(), componentId);
 		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList, selectedCustomerList,
-				selectedProductList,componentId);
+				selectedProductList, componentId);
 		ccpHierarchyInsert(selectedCustomerList, selectedProductList, dataSelectionDto);
 
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
@@ -74,26 +74,25 @@ public class GtnReportCCPTableLoadAction
 		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
 
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
-		
+
 		List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = new ArrayList<>();
 		GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportLandingScreen_reportingDashboardComparisonConfig", componentId)
 				.getComponentData();
 		comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData.getCustomData();
 		List<String> inputForComparisonBasisList = new ArrayList<>();
-		for(GtnReportComparisonProjectionBean comparisonProjectionBeans : comparisonLookupBeanList) {
+		for (GtnReportComparisonProjectionBean comparisonProjectionBeans : comparisonLookupBeanList) {
 			inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
 		}
 		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponentFromChild("reportingDashboard_displaySelectionTabComparisonBasis", componentId).getComponentConfig()
-                .getGtnComboboxConfig();
+				.getVaadinBaseComponentFromChild("reportingDashboard_displaySelectionTabComparisonBasis", componentId)
+				.getComponentConfig().getGtnComboboxConfig();
 		comparisonBasisComboboxConfig.setItemCaptionValues(inputForComparisonBasisList);
 		comparisonBasisComboboxConfig.setItemValues(inputForComparisonBasisList);
-		
+
 		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-        combobox.reloadComponentFromChild(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-                "reportingDashboard_displaySelectionTabComparisonBasis", componentId,
-                Arrays.asList(""));
+		combobox.reloadComponentFromChild(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+				"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
 	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
@@ -114,7 +113,8 @@ public class GtnReportCCPTableLoadAction
 		return selectedRecordList;
 	}
 
-	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList, List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList, String componentId)
+	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList,
+			List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList, String componentId)
 			throws GtnFrameworkValidationFailedException {
 
 		GtnWsReportDataSelectionBean dto = new GtnWsReportDataSelectionBean();
