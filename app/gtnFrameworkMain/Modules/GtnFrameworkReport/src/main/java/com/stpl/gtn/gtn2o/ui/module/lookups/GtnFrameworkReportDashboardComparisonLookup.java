@@ -73,8 +73,9 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		dashboardProjectionType.setComponentWsFieldId("projectionType");
 
 		GtnUIFrameworkComboBoxConfig dashboardprojectionTypeConfig = new GtnUIFrameworkComboBoxConfig();
-		dashboardprojectionTypeConfig
-				.setItemValues(GtnFrameworkReportStringConstants.getReportComparisonProjectionTypeLoadCombobox());
+		dashboardprojectionTypeConfig.setItemValues(Arrays.asList("F", "C"));
+		dashboardprojectionTypeConfig.setItemCaptionValues(
+				GtnFrameworkReportStringConstants.getReportComparisonProjectionTypeLoadCombobox());
 		dashboardProjectionType.setGtnComboboxConfig(dashboardprojectionTypeConfig);
 
 		GtnUIFrameworkValidationConfig dashboardProjectionTypeValidationConfig = new GtnUIFrameworkValidationConfig();
@@ -594,13 +595,12 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		addBtnConfig.setComponentName("ADD");
 		addBtnConfig.setAuthorizationIncluded(true);
 		componentList.add(addBtnConfig);
-
 		GtnUIFrameWorkActionConfig addComparisonProjectionAction = new GtnUIFrameWorkActionConfig();
 		addComparisonProjectionAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		addComparisonProjectionAction.addActionParameter(GtnReportComparisonProjectionAddAction.class.getName());
 		addComparisonProjectionAction.addActionParameter("comparisonLookupResultsPagedTableComponent");
 		addComparisonProjectionAction.addActionParameter("comparisonLookupProjectionsResultsPagedTableComponent");
-		addProjectionAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+		addComparisonProjectionAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PROJECTION_TYPE);
 		addBtnConfig.addGtnUIFrameWorkActionConfig(addComparisonProjectionAction);
 	}

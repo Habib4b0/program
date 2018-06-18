@@ -13,6 +13,7 @@ public class GtnWsReportConstants {
 	public static final String GTN_REPORT_LOADRELATIONSHIP_SERVICE = "/loadRelationshipService";
 	public static final String GTN_REPORT_LOADELIGIBLEDATE_SERVICE = "/loadForecastEligibleDate";
 	public static final String GTN_REPORT_DASHBOARD_LEFT_DATA = "/loadDashboardLeftData";
+	public static final String GTN_REPORT_COMPARISON_BREAKDOWN_SAVE_SERVICE= "/comparisonBreakdownSaveService";
 	public static final String GTN_REPORT_DASHBOARD_RIGHT_DATA = "/loadDashboardRightData";
 	public static final String GTN_REPORT_CUSTHIERARCHY_LEFT_TABLELOAD_SERVICE = "/loadReportCustomerLeftTable";
 	public static final String GTN_REPORT_CUSTHIERARCHY_RIGHT_TABLELOAD_SERVICE = "/loadReportCustomerRightTable";
@@ -30,6 +31,8 @@ public class GtnWsReportConstants {
 	public static final String GTN_WS_REPORT_VARIABLE_BREAKDOWN_TABLE_HEADERS_SERVICE = "/getReportVariableBreakdownTableHeaders";
         public static final String GTN_WS_REPORT_VARIABLE_BREAKDOWN_PERIODS_SERVICE = "/getReportVariableBreakdownPeriods";
         public static final String GTN_WS_REPORT_VARIABLE_BREAKDOWN_SAVE_SERVICE = "/getReportVariableBreakdownSaveService";
+        public static final String GTN_WS_REPORT_COMPARISON_BREAKDOWN_PERIODS_SERVICE = "/getReportComparisonBreakdownPeriods";
+        public static final String GTN_WS_REPORT_COMPARISON_BREAKDOWN_SAVE_SERVICE = "/getReportComparisonBreakdownSaveService";    
 	public static final String GTN_WS_REPORT_COMPARISON_BREAKDOWN_TABLE_HEADERS_SERVICE = "/getReportComparisonBreakdownTableHeaders";
 	public static final String GTN_WS_REPORT_FILTER_LOAD_SERVICE = "/loadReportFilter";
 	public static final String GTN_WS_REPORT_DEDUCTION_FILTER_LOAD_SERVICE = "/loadReportDeductionFilter";

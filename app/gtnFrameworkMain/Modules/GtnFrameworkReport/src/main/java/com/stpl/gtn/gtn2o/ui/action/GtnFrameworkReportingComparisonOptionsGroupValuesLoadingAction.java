@@ -58,7 +58,7 @@ public class GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("comparisonOptionsLookup_periodRangeTo")
 				.loadV8FieldValue(periodRangeTo);
 
-		//loading valueComboBox based on frequency
+		// loading valueComboBox based on frequency
 		List<String> valueList = new ArrayList<String>();
 
 		switch (frequency) {
@@ -84,23 +84,50 @@ public class GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction
 		}
 		}
 
-		/*GtnUIFrameworkComboBoxConfig valueComboboxConfig = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponentFromView("reportOptionsTabComparisonOptions_value", componentId).getComponentConfig()
-				.getGtnComboboxConfig();*/
-		//GtnUIFrameworkComboBoxConfig valueComboboxConfig = new GtnUIFrameworkComboBoxConfig();
-		
+		/*
+		 * GtnUIFrameworkComboBoxConfig valueComboboxConfig = GtnUIFrameworkGlobalUI
+		 * .getVaadinBaseComponentFromView("reportOptionsTabComparisonOptions_value",
+		 * componentId).getComponentConfig() .getGtnComboboxConfig();
+		 */
+		// GtnUIFrameworkComboBoxConfig valueComboboxConfig = new
+		// GtnUIFrameworkComboBoxConfig();
+
 		GtnUIFrameworkBaseComponent vaadinBaseComponentFromView = GtnUIFrameworkGlobalUI
-		.getVaadinBaseComponentFromView("reportOptionsTabComparisonOptions_value", componentId);
+				.getVaadinBaseComponentFromView("reportOptionsTabComparisonOptions_value", componentId);
 		GtnUIFrameworkComponentConfig componentConfig = vaadinBaseComponentFromView.getComponentConfig();
 		GtnUIFrameworkComboBoxConfig config = componentConfig.getGtnComboboxConfig();
 		config.setItemCaptionValues(valueList);
 		config.setItemValues(valueList);
-		
-		
-		
+
 		GtnUIFrameworkComboBoxComponent valueComboBox = new GtnUIFrameworkComboBoxComponent();
-		valueComboBox.reloadComponentFromView(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,"reportOptionsTabComparisonOptions_value",componentId,Arrays.asList(""));
-		//startPeriodCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,"reportOptionsTab_variableBreakdownStartPeriod", componentId,Arrays.asList(""));
+		valueComboBox.reloadComponentFromView(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+				"reportOptionsTabComparisonOptions_value", componentId, Arrays.asList(""));
+
+		GtnUIFrameworkBaseComponent vaadinComparisonBasisBaseComponentFromView = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponentFromView("reportOptionsTabComparisonOptions_comparison", componentId);
+		GtnUIFrameworkComponentConfig comparisonBasiscomponentConfig = vaadinComparisonBasisBaseComponentFromView.getComponentConfig();
+		GtnUIFrameworkComboBoxConfig comparisonBasisConfig = comparisonBasiscomponentConfig.getGtnComboboxConfig();
+		
+		GtnUIFrameworkBaseComponent vaadinComparisonBasisInDisplaySelectionBaseComponent = GtnUIFrameworkGlobalUI
+		.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis", componentId);
+		GtnUIFrameworkComponentConfig comparisonBasisInDisplaySelectionComponentConfig = vaadinComparisonBasisInDisplaySelectionBaseComponent.getComponentConfig();
+		GtnUIFrameworkComboBoxConfig comparisonBasisInDisplaySelectionConfig = comparisonBasisInDisplaySelectionComponentConfig.getGtnComboboxConfig();
+		
+		List<String> projectionsFromComparisonBasisInDisplaySelection = comparisonBasisInDisplaySelectionConfig.getItemCaptionValues();
+		List<String> finalProjectionList = new ArrayList<>();
+		for(String projection : projectionsFromComparisonBasisInDisplaySelection) {
+			if(!projection.equals(comparisonBasis)) {
+				finalProjectionList.add(projection);
+			}
+		}
+		comparisonBasisConfig.setItemCaptionValues(finalProjectionList);
+		comparisonBasisConfig.setItemValues(finalProjectionList);
+
+		
+		GtnUIFrameworkComboBoxComponent comparisonBasisMassUpdateComboBox = new GtnUIFrameworkComboBoxComponent();
+		comparisonBasisMassUpdateComboBox.reloadComponentFromView(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+				"reportOptionsTabComparisonOptions_comparison", componentId, Arrays.asList(""));
+
 	}
 
 	@Override
