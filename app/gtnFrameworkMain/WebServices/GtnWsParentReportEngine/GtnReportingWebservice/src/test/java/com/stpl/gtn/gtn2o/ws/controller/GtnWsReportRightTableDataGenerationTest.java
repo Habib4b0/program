@@ -25,6 +25,6 @@ public class GtnWsReportRightTableDataGenerationTest {
 		request.setGtnWsReportRequest(new GtnWsReportRequest());
 		request.getGtnWsReportRequest().setDataSelectionBean(new GtnWsReportDataSelectionBean());
 		request.getGtnWsReportRequest().getDataSelectionBean().setSessionId("d01b97cd_2dc6_46");
-		System.out.println(service.getDataFromBackend(request));
+		// System.out.println(service.getDataFromBackend(request));
 	}
 }

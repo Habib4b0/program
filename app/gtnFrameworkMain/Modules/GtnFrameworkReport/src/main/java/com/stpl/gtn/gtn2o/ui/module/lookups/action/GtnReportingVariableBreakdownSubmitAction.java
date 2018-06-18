@@ -89,17 +89,7 @@ public class GtnReportingVariableBreakdownSubmitAction implements GtnUIFramework
         }
          
          gridComponent.setCustomData(variableBreakdownLookupBeanSaveList);
-           GtnWsReportDataSelectionBean gtnWsReportDataSelectionBeanSave = new GtnWsReportDataSelectionBean();
-        gtnWsReportDataSelectionBeanSave.setVariableBreakdownSaveList(variableBreakdownLookupBeanSaveList);
-        GtnWsReportRequest gtnWsReportRequestSave = new GtnWsReportRequest();
-        gtnWsReportRequestSave.setDataSelectionBean(gtnWsReportDataSelectionBeanSave);
-        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequestSave = new GtnUIFrameworkWebserviceRequest();
-        gtnUIFrameworkWebserviceRequestSave.setGtnWsReportRequest(gtnWsReportRequestSave);
-        GtnUIFrameworkWebServiceClient clientSave = new GtnUIFrameworkWebServiceClient();
-        GtnUIFrameworkWebserviceResponse saveResponse = clientSave.callGtnWebServiceUrl(
-                GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_SAVE_SERVICE,GtnFrameworkReportStringConstants.REPORT,
-                gtnUIFrameworkWebserviceRequestSave, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-         
+       
     }
 
     @Override

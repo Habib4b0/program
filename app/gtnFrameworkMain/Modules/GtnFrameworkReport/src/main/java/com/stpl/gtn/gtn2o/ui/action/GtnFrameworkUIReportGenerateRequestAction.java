@@ -39,7 +39,7 @@ public class GtnFrameworkUIReportGenerateRequestAction
 		dataSelectionBean.setSessionId(tableConfig.getGtnWsReportDashboardBean().getSessionId());
 		reportRequest.setGtnWsReportDashboardBean(tableConfig.getGtnWsReportDashboardBean());
 
-		GtnWsReportDashboardBean reportDashBoardBean = new GtnWsReportDashboardBean();
+		GtnWsReportDashboardBean reportDashBoardBean = tableConfig.getGtnWsReportDashboardBean();
 
 		serviceRequest.getGtnWsReportRequest().setGtnWsReportDashboardBean(reportDashBoardBean);
 

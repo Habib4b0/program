@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.action;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +15,8 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
+import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
@@ -27,6 +30,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -34,6 +38,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnReportCCPTableLoadAction
@@ -54,7 +59,7 @@ public class GtnReportCCPTableLoadAction
 		List<GtnWsRecordBean> selectedCustomerList = getSelectedList(actionParamList.get(1).toString(), componentId);
 		List<GtnWsRecordBean> selectedProductList = getSelectedList(actionParamList.get(2).toString(), componentId);
 		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList, selectedCustomerList,
-				selectedProductList);
+				selectedProductList,componentId);
 		ccpHierarchyInsert(selectedCustomerList, selectedProductList, dataSelectionDto);
 
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
@@ -69,6 +74,26 @@ public class GtnReportCCPTableLoadAction
 		gtnUIFrameWorkGeneratePopupAction.setActionParameterList(params);
 
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
+		
+		List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = new ArrayList<>();
+		GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportLandingScreen_reportingDashboardComparisonConfig", componentId)
+				.getComponentData();
+		comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData.getCustomData();
+		List<String> inputForComparisonBasisList = new ArrayList<>();
+		for(GtnReportComparisonProjectionBean comparisonProjectionBeans : comparisonLookupBeanList) {
+			inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
+		}
+		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponentFromChild("reportingDashboard_displaySelectionTabComparisonBasis", componentId).getComponentConfig()
+                .getGtnComboboxConfig();
+		comparisonBasisComboboxConfig.setItemCaptionValues(inputForComparisonBasisList);
+		comparisonBasisComboboxConfig.setItemValues(inputForComparisonBasisList);
+		
+		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
+        combobox.reloadComponentFromChild(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+                "reportingDashboard_displaySelectionTabComparisonBasis", componentId,
+                Arrays.asList(""));
 	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
@@ -89,8 +114,7 @@ public class GtnReportCCPTableLoadAction
 		return selectedRecordList;
 	}
 
-	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList,
-			List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList)
+	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList, List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList, String componentId)
 			throws GtnFrameworkValidationFailedException {
 
 		GtnWsReportDataSelectionBean dto = new GtnWsReportDataSelectionBean();
@@ -166,7 +190,12 @@ public class GtnReportCCPTableLoadAction
 		dto.setToPeriod(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(20).toString())
 				.getIntegerFromV8ComboBox());
 
-		return dto;
+              AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(actionParamList.get(21).toString(), componentId);
+              GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
+              List<GtnReportVariableBreakdownLookupBean> gtnReportVariableBreakdownLookupBeanList = (List<GtnReportVariableBreakdownLookupBean>) gridComponent.getCustomData();
+              dto.setVariableBreakdownSaveList(gtnReportVariableBreakdownLookupBeanList);
+		
+              return dto;
 	}
 
 	private void addSelectedValues(TreeGrid<GtnWsRecordBean> rightTable, GtnWsRecordBean selectedvalues,
