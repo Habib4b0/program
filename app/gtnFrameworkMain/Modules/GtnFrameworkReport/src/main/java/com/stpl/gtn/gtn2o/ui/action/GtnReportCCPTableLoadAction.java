@@ -191,7 +191,7 @@ public class GtnReportCCPTableLoadAction
 				.getIntegerFromV8ComboBox());
 
             AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(actionParamList.get(21).toString(), componentId);
-            if (abstractComponent != null) {
+            if (abstractComponent != null && abstractComponent.getData() != null) {
                 GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
                 if (gridComponent.getCustomData() instanceof List) {
                     List<GtnReportVariableBreakdownLookupBean> gtnReportVariableBreakdownLookupBeanList = (List<GtnReportVariableBreakdownLookupBean>) gridComponent.getCustomData();
