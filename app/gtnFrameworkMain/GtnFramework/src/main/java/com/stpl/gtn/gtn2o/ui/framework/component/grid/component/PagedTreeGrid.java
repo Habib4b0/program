@@ -98,11 +98,16 @@ public class PagedTreeGrid {
         addExpandIcon(treeData, dataSet.getRows());
         treeDataProvider.refreshAll();
     }
-
+    
+    /**
+     * resets the grid to initial state
+     *
+     * @param componentId
+     */
     public void initializeGrid(String componentId) {
         componentIdInMap = componentId;
-        pageNoField.setValue(1 + EMPTY);
-        pageLength=tableConfig.getPageLength();
+        setPageNoFieldValue(1);
+        pageLength = tableConfig.getPageLength();
         clearTempVariables();
         clearExpandTempVariables();
         setCount(getTotalCount());
@@ -124,45 +129,50 @@ public class PagedTreeGrid {
         addExpandListener();
         addCollapseListener();
     }
+    /**
+     * Expands all nodes for given Level No
+     * @param levelNo 
+     */
     public void  expandAll(int levelNo){
        levelExpandOn=true;
        levelExpandNo=levelNo;
        paintCurrentPage();
     }
+     /**
+     * Collapses all nodes for given Level No
+     * @param levelNo 
+     */
     public void  collapseAll(int levelNo){
        levelExpandOn=false;
        levelExpandNo=levelNo;
        paintCurrentPage();
     }
-
+   /**
+    * expand listener - called when user expand a row
+    */
     private void addExpandListener() {
-        grid.addExpandListener(new ExpandEvent.ExpandListener<GtnWsRecordBean>() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void itemExpand(ExpandEvent<GtnWsRecordBean> event) {
-                try {
-                    if (event.isUserOriginated()) {
-                        TreeData<GtnWsRecordBean> treeData = treeDataProvider.getTreeData();
-                        GtnWsRecordBean parent = event.getExpandedItem();
-                        int childCount = 0;
-                        expandRow(parent, childCount, treeData, true);
-                    }
-                } catch (Exception ex) {
-                    gtnlogger.error(ex.getMessage(), ex);
+        grid.addExpandListener(event -> {
+            try {
+                if (event.isUserOriginated()) {
+                    TreeData<GtnWsRecordBean> treeData = treeDataProvider.getTreeData();
+                    GtnWsRecordBean parent = event.getExpandedItem();
+                    int childCount = 0;
+                    expandRow(parent, childCount, treeData, true);
                 }
+            } catch (Exception ex) {
+                gtnlogger.error(ex.getMessage(), ex);
             }
-
         });
     }
-
+  /**
+    * collapse listener - called when user expand a row
+    */
     public void addCollapseListener() {
         grid.addCollapseListener(event -> {
             GtnWsRecordBean parent = event.getCollapsedItem();
             int childCount = GridUtils.getChildCount(parent);
             expandedItemIds.remove(parent);
             expandedRowIds.remove(GridUtils.getNodeIndex(parent));
-            
             Set<GtnWsRecordBean> toBeRemoved = expandedItemIds.stream().filter(s -> GridUtils.getHierarchyNo(s).startsWith(GridUtils.getHierarchyNo(parent))).collect(Collectors.toSet());
             for (GtnWsRecordBean bean : toBeRemoved) {
                 expandedItemIds.remove(bean);
@@ -172,13 +182,15 @@ public class PagedTreeGrid {
             setCount(count-childCount);
             removeAlreadyExpanded(GridUtils.getTableIndex(parent));
             
-            //*** Collapse Logic
+            // refresh current page
             paintCurrentPage();
         });
     }
+    /**
+     *   adds Expand Icon if a row has child
+     */
 
     private void addExpandIcon(TreeData<GtnWsRecordBean> data, List<GtnWsRecordBean> rows) {
-        gtnlogger.info("addExpandIcon");
         rows.stream().map((parent) -> {
             if (GridUtils.getLevelNo(parent) != 0 && GridUtils.getChildCount(parent) > 0) {
                 data.addItem(parent, GridUtils.getEmptyRow(this));
@@ -195,7 +207,9 @@ public class PagedTreeGrid {
             }
         });
     }
-
+    /**
+     *  expands the row 
+     */
     public void expandRow(GtnWsRecordBean parent, int childCount, TreeData<GtnWsRecordBean> treeData,
             boolean moveToNextPage) {
 
@@ -210,11 +224,8 @@ public class PagedTreeGrid {
             removeExcessItems(bean, treeDataProvider.getTreeData(), parent, childCount);
             int tableIndex = expandFinalIndex + (pageLength * pageNumber);
             parent.addAdditionalProperties(5, tableIndex);
-          
-            gtnlogger.info("index + " + expandFinalIndex);
-            gtnlogger.info("rowNo" + nodeIndex);
+            
             int limit = pageLength - expandFinalIndex;
-
             if (limit == 0) {
                 if (!moveToNextPage) {
                     treeData.addItem(parent, GridUtils.getEmptyRow(this));
@@ -238,7 +249,9 @@ public class PagedTreeGrid {
             clearExpandTempVariables();
         }
     }
-
+     /**
+      *  saving expanded Items for future reference
+      */
     public void addExpandedItems(GtnWsRecordBean parent, int nodeIndex, int childCount, int tableIndex) {
 
         moveAlreadyExpanded(tableIndex, childCount);
@@ -246,16 +259,20 @@ public class PagedTreeGrid {
         expandedRowIds.add(nodeIndex);
        
     }
+    /**
+     *   removing already expanded items if root node of a hierarchy is collapsed
+     */
     public void removeAlreadyExpanded(int tableIndex) {
-        //remove   already expanded Items
         expandedItemIds.stream().filter((item) -> GridUtils.getTableIndex(item) > tableIndex)
                 .forEach((item) -> {
                     item.addAdditionalProperties(5, tableIndex + 1);
                 });
     }
 
+     /**
+     *   Moving already expanded items if an item before is expanded
+     */
     public void moveAlreadyExpanded(int tableIndex, int childCount) {
-        //Move already expanded Items
         expandedItemIds.stream().filter((item) -> GridUtils.getTableIndex(item) >= tableIndex)
                 .forEach((item) -> {
                     item.addAdditionalProperties(5, GridUtils.getTableIndex(item) + childCount);
