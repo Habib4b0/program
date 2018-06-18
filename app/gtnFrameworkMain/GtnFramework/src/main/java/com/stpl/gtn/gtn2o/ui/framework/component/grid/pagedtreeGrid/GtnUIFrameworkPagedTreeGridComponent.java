@@ -49,14 +49,6 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		VerticalLayout resultLayout = new VerticalLayout();
 		GtnUIFrameworkPagedTreeTableConfig tableConfig = componentConfig.getGtnPagedTreeTableConfig();
 
-		// String columns[] =
-		// Arrays.stream(tableConfig.getLeftTableColumnMappingId()).map(Object::toString).toArray(String[]::new);
-		// pagedTreeTableConfig.setVisibleColumns(Arrays.asList(columns));
-		//
-		//
-		// pagedTreeTableConfig.setColumnHeaders(Arrays.asList(tableConfig.getLeftTableVisibleHeader()));
-		// QueryBean queryBean = GtnUIFrameworkGlobalUI.setQueryBean(tableConfig);
-		// pagedTreeTableConfig.setQueryBean(queryBean);
 
 		configureTableHeaders(tableConfig, componentConfig.getSourceViewId());
 		PagedTreeGrid pagedTreeGrid = new PagedTreeGrid(tableConfig, componentConfig);
@@ -138,37 +130,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 
 	}
 
-	/**
-	 * This is the method to form Dynamic Header based on the inputs. The input is
-	 * List<List<String>>
-	 *
-	 * 1. Single Header - Visible column list 2. Single Header - Column Values 3.
-	 * Double Header - Visible column list 4. Double Header - Column Values
-	 *
-	 * 4 List should be added in a single List and to be sent as an input to this
-	 * method to form dynamic Headers
-	 *
-	 * @param configureInputList
-	 * @throws GtnFrameworkGeneralException
-	 */
-	private void formHeadersAndConfig(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig,
-			GtnUIFrameworkPagedTreeTableConfig tableConfig, PagedTreeGrid pagedTreeGrid,
-			GtnUIFrameworkPagedTreeTableLogic tableLogic, GtnUIFrameworkComponentData componentData)
-			throws GtnFrameworkGeneralException {
-		try {
-
-			GtnWsPagedTreeTableResponse leftTableHeaders = loadLeftHeader(gtnUIFrameWorkActionConfig, tableConfig,
-					componentData.getComponentIdInMap(), "");
-
-			GtnWsPagedTreeTableResponse rightTableHeaders = loadRightHeader(gtnUIFrameWorkActionConfig, tableConfig,
-					componentData.getComponentIdInMap(), "");
-
-			setHeaderConfig(leftTableHeaders, rightTableHeaders, pagedTreeGrid, tableLogic, componentData);
-		} catch (GtnFrameworkValidationFailedException e) {
-			throw new GtnFrameworkValidationFailedException("Error in formHeadersAndConfig ", e);
-		}
-	}
-
+	
 	@Override
 	public void reloadComponent(GtnUIFrameworkActionType action, String dependentComponentId, String componentId,
 			Object reloadInput) {
@@ -185,6 +147,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		}
 		grid.setTableConfig(config);
 		grid.setColumnPageNumber(0);
+            
 		grid.initializeGrid();
 		return;
 
@@ -303,39 +266,6 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		return resultTableComponentData.getCustomPagedTreeTableRequest();
 	}
 
-	private GtnWsPagedTreeTableResponse loadLeftHeader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig,
-			GtnUIFrameworkPagedTreeTableConfig tableConfig, String sourceViewId, String componentId)
-			throws GtnFrameworkGeneralException {
-		String classPath = tableConfig.getLeftHeaderUrl();
-		classLoader(gtnUIFrameWorkActionConfig, classPath, sourceViewId);
-		GtnUIFrameworkWebserviceRequest leftHeaderRequest = getCustomPagedTreeTableRequest(tableConfig,componentId);
-		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(tableConfig.getLeftWsHeaderUrl(),
-				tableConfig.getModuleName(), leftHeaderRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		return response.getGtnWSPagedTreeTableResponse();
-	}
-
-	private GtnWsPagedTreeTableResponse loadRightHeader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig,
-			GtnUIFrameworkPagedTreeTableConfig tableConfig, String sourceViewId, String componentId)
-			throws GtnFrameworkGeneralException {
-		String classPath = tableConfig.getRighttHeaderUrl();
-		classLoader(gtnUIFrameWorkActionConfig, classPath, sourceViewId);
-		GtnUIFrameworkWebserviceRequest rightHeaderRequest = getCustomPagedTreeTableRequest(tableConfig,componentId);
-		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceResponse responseForRightHeader = client.callGtnWebServiceUrl(
-				tableConfig.getRightWsHeaderUrl(), tableConfig.getModuleName(), rightHeaderRequest,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		return responseForRightHeader.getGtnWSPagedTreeTableResponse();
-	}
-
-	private void setHeaderConfig(GtnWsPagedTreeTableResponse leftTableHeaders,
-			GtnWsPagedTreeTableResponse rightTableHeaders, PagedTreeGrid pagedTreeGrid,
-			GtnUIFrameworkPagedTreeTableLogic tableLogic, GtnUIFrameworkComponentData componentData) {
-
-		configureDynamicTreeTableHeaders(pagedTreeGrid,
-				componentData.getCurrentComponentConfig().getGtnPagedTreeTableConfig(), tableLogic, componentData,
-				leftTableHeaders, rightTableHeaders);
-	}
 
 	public void configureDynamicTreeTableHeaders(PagedTreeGrid pagedTreeGrid,
 			GtnUIFrameworkPagedTreeTableConfig tableConfig, GtnUIFrameworkPagedTreeTableLogic tableLogic,
