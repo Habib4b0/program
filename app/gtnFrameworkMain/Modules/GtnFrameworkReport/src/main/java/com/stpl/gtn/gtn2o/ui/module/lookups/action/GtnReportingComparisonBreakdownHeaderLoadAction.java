@@ -33,19 +33,16 @@ public class GtnReportingComparisonBreakdownHeaderLoadAction implements GtnUIFra
 	        AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(variableBreakdownTableId, componentId).getComponent();
 	        GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
 
-	        String fromPeriod = "Q1-2016";
+	        String fromPeriod = 
 	        		
-	        		/*GtnUIFrameworkGlobalUI
-	                .getVaadinBaseComponentFromParent(actionParameterList.get(1).toString(), componentId)
-	                .getStringCaptionFromV8ComboBox();*/
+	        		GtnUIFrameworkGlobalUI
+	                .getVaadinBaseComponent(actionParameterList.get(1).toString(), componentId)
+	                .getStringCaptionFromV8ComboBox();
 	        		
 	        		
-	        String toPeriod = "Q1-2018";
-	        
-	        
-	        /*GtnUIFrameworkGlobalUI
-	                .getVaadinBaseComponentFromParent(actionParameterList.get(2).toString(), componentId)
-	                .getStringCaptionFromV8ComboBox(); */
+	        String toPeriod = GtnUIFrameworkGlobalUI
+	                .getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId)
+	                .getStringCaptionFromV8ComboBox(); 
 	        
 	       
 	        String frequency =  GtnUIFrameworkGlobalUI
