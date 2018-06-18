@@ -1,7 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.report.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewDataBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnUIFrameWorkReportResponseBuilder;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportCustomViewService;
@@ -41,7 +38,7 @@ public class GtnWsReportCustomViewController {
 	public GtnUIFrameworkWebserviceResponse saveCustomTree(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameWorkReportResponseBuilder().withCustomViewBean()
 				.build();
-		service.saveCustomViewTree(gtnWsRequestF);
+		// service.saveCustomViewTree(gtnWsRequestF);
 		return response;
 	}
 
@@ -51,9 +48,9 @@ public class GtnWsReportCustomViewController {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameWorkReportResponseBuilder().withCustomViewBean()
 				.build();
 		GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
-		List<String> customViewList = service.loadCustomViewString();
-		comboBoxResponse.setItemValueList(customViewList);
-		comboBoxResponse.setItemCodeList(customViewList);
+		// List<String> customViewList = service.loadCustomViewString();
+		// comboBoxResponse.setItemValueList(customViewList);
+		// comboBoxResponse.setItemCodeList(customViewList);
 		response.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
 		return response;
 	}
@@ -62,8 +59,9 @@ public class GtnWsReportCustomViewController {
 	public GtnUIFrameworkWebserviceResponse loadCustomView(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameWorkReportResponseBuilder().withCustomViewBean()
 				.build();
-		GtnWsReportCustomViewDataBean viewBean = service.loadCustomView(gtnWsRequestF);
-		response.getGtnWsReportResponse().getReportBean().getCustomViewBean().setCustomViewDataBean(viewBean);
+		// GtnWsReportCustomViewDataBean viewBean =
+		// service.loadCustomView(gtnWsRequestF);
+		// response.getGtnWsReportResponse().getReportBean().getCustomViewBean().setCustomViewDataBean(viewBean);
 		return response;
 	}
 
