@@ -227,6 +227,7 @@ public class GtnWsRecordBean implements Serializable {
 		}
 
 	}
+
 	public String getStringPropertyByIndex(int index) {
 		return getString(getPropertyValueByIndex(index));
 	}
@@ -329,6 +330,13 @@ public class GtnWsRecordBean implements Serializable {
 		return this.properties.add(value);
 	}
 
+	public boolean addPropertiesAsList(List<?> valueList) {
+		if (properties == null) {
+			this.properties = new ArrayList<>();
+		}
+		return this.properties.addAll(valueList);
+	}
+
 	public Boolean getParentFlag() {
 		return parentFlag;
 	}
@@ -339,7 +347,7 @@ public class GtnWsRecordBean implements Serializable {
 
 	public void setAdditionalProperties(List<Object> additionalProperties) {
 		this.additionalProperties = additionalProperties == null ? additionalProperties
-				: Collections.unmodifiableList(additionalProperties);
+				: new ArrayList<>(additionalProperties);
 	}
 
 	public List<GtnWsRecordBean> getChildList() {
@@ -407,7 +415,7 @@ public class GtnWsRecordBean implements Serializable {
 		return Arrays.equals(rawObjectArray, other.rawObjectArray);
 	}
 
-        private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
+	private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
 		s.defaultWriteObject();
 	}
 	// Dont delete. this Method is called during Serialization

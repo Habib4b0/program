@@ -31,6 +31,7 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 
 	@Override
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) {
+		
 		GtnUIFrameworkTextBoxConfig textboxConfig = componentConfig.getGtnTextBoxConfig();
 		TextField textField = generateAbstaractTextField(componentConfig);
 		Binder<ComponentBinderValidatorBean> textBoxBinder = new Binder<>();

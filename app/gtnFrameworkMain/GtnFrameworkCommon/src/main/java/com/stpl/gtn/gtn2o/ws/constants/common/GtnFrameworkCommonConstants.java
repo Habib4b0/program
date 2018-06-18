@@ -624,8 +624,11 @@ public class GtnFrameworkCommonConstants {
 	public static final String MODIFIED_DATE_HEADER = "Modified Date";
 	public static final String COMPANY_RETURNS = "Company";
 	public static final String CREATED_DATE_HEADER = "Created Date";
+	public static final String HIGHEST_LEVEL = "Highest_Level";
+	public static final String LOWEST_LEVEL = "Lowest_Level";
 
 	public static final String PRIVATE_VIEW_NAME = "privateViewName";
+	public static final String PUBLIC_VIEW_NAME = "publicViewName";
 	public static final String PRIVATE_SEARCH_RESULT_TABLE = "privateSearchResultTable";
 	public static final String SAVE_VIEW_NAME = "saveViewName";
 	public static final String SAVE_VIEW_TYPE = "saveViewType";
@@ -652,7 +655,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String PRODUCT_HIERARCHY_SELECT_BUTTON = "productHierarchySelectButton";
 	public static final String RETURNS_FORECAST_TAB_SHEET_PRODUCT_GROUP = "returnsForecastTabSheet_productGroup";
 	public static final String CONTROL_BUTTON_LAYOUT = "controlButtonLayout";
-
+	
 	/**
 	 *
 	 * END

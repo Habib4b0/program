@@ -23,7 +23,6 @@ public class GtnFrameworkLoadDiscountService {
 	@Autowired
 	private GtnFrameworkQueryGeneratorService queryGenerator;
 
-
 	public GtnFrameworkLoadDiscountService() {
 		super();
 	}
@@ -39,8 +38,19 @@ public class GtnFrameworkLoadDiscountService {
 		return getQueryForLoadingDiscount(inputBean, selectedHierarchyLevelDto, hierarchyDefinitionList);
 	}
 
+	public String queryForReportMultiSelectDdlb(GtnForecastHierarchyInputBean inputBean)
+			throws GtnFrameworkGeneralException {
+		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList = relationUpdateService
+				.getHierarchyBuilderBasedOnProjectionId(inputBean.getHierarchyDefinitionSid(),
+						inputBean.getHierarchyVersionNo(), inputBean.getHierarchyIndicator());
+		HierarchyLevelDefinitionBean selectedHierarchyLevelDto = HierarchyLevelDefinitionBean
+				.getBeanByLevelNo(inputBean.getLevelNo(), hierarchyDefinitionList);
+		return getQueryForLoadingDiscount(inputBean, selectedHierarchyLevelDto, hierarchyDefinitionList);
+	}
+
 	public String getQueryForLoadingDiscount(GtnForecastHierarchyInputBean inputBean,
-			HierarchyLevelDefinitionBean selectedHierarchyLevelDto, List<HierarchyLevelDefinitionBean> hierarchyDefinitionList) {
+			HierarchyLevelDefinitionBean selectedHierarchyLevelDto,
+			List<HierarchyLevelDefinitionBean> hierarchyDefinitionList) {
 		String situationName = "LOAD_DISCOUNT_PRODUCT";
 		if (inputBean.getHierarchyIndicator().equals("C")) {
 			situationName = "LOAD_DISCOUNT";

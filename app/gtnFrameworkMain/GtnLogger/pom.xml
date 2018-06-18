@@ -13,7 +13,6 @@
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
 			<type>jar</type>
-                        <scope>provided</scope>
 		</dependency>
 		</dependencies>
                  <build>

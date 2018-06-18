@@ -42,11 +42,9 @@ import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.queryUtils.CommonQueryUtils;
 import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
-import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.LOGGER;
 import com.stpl.app.gtnforecasting.service.finderImpl.CustomViewMasterImpl;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.tree.node.TreeNode;
-import com.stpl.app.gtnforecasting.ui.form.ForecastForm;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -5397,6 +5395,13 @@ public class CommonLogic {
                 break;
         }
         LOGGER.info("updateFlagStatusToR-----------------END----------------------------------");
+    }
+    public static void updateFlagStatusToRForAllViewsDiscount(SessionDTO session, String screenName) {
+        LOGGER.info("updateFlagStatusToR------------------AllViewsDiscount---------------------------------{}");
+                CommonUtil.getInstance().updateStatusTable(screenName, session, Constants.CUSTOMER);
+                CommonUtil.getInstance().updateStatusTable(screenName, session, Constants.PRODUCT);
+                CommonUtil.getInstance().updateStatusTable(screenName, session, Constants.CUSTOM);
+        LOGGER.info("updateFlagStatusToR------------AllViewsDiscount-----END----------------------------------");
     }
 }
     

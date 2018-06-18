@@ -400,9 +400,7 @@ public class ForecastForm extends AbstractForm {
                setButtonSecurity();
                if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                    tabSheet.setSelectedTab(2);
-                   if (!session.getAction().equalsIgnoreCase(Constant.VIEW)) {
-                       callContractDetailsPrcForDiscount();
-                   }
+                   
                } else {
                    tabSheet.setSelectedTab(1);
                }
@@ -529,6 +527,9 @@ public class ForecastForm extends AbstractForm {
                                 
                                 if (!discountUpsFlag && tabPosition == NumericConstants.FOUR){
                                       CommonLogic.viewProceduresCompletionCheckDiscount(session);
+                                    if (!session.getAction().equalsIgnoreCase(Constant.VIEW)) {
+                                    callContractDetailsPrcForDiscount();
+                                    } 
                                     session.setFunctionMode("UPS");
                                     nmDiscountViewsPopulationProcedure();
                                      discountUpsFlag=true;
@@ -731,6 +732,10 @@ public class ForecastForm extends AbstractForm {
 								tabSheet.setSelectedTab(tempTabPosition);
 								dsFlag = true;
 								discountFlag = true;
+                                                                session.setSalesHierarchyLevelDetails(
+                                                                dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomRelationShipSid())));
+                                                                session.setDiscountCustomerProductLevelDetails(
+                                                                    dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
 								nmSalesProjection.init();
                                                                 nmSalesProjection.getViewDdlb().select(session.getCustomRelationShipSid());
 								discountProjection.getContent();
@@ -771,6 +776,7 @@ public class ForecastForm extends AbstractForm {
 						Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
 				data.setReloadAfterUpdate(BooleanConstant.getTrueFlag());
 				data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
+                                data.setCustomChange(BooleanConstant.getFalseFlag());
 			}
 
 			/**
