@@ -17,6 +17,7 @@
 		<module>GtnForecastWebServices</module>
 		<module>GtnWsBpmWebService</module>
 		<module>GtnMethodologyCalculation</module>
+		<module>GtnWsParentReportEngine</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
