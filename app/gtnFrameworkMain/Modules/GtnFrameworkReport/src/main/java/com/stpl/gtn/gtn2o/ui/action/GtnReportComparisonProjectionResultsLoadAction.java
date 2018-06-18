@@ -63,6 +63,7 @@ public class GtnReportComparisonProjectionResultsLoadAction
 			recordBean.addProperties(comparisonBean.getProjectionMasterSid());
 			recordBean.addProperties(comparisonBean.getCreatedDate());
 			recordBean.addProperties(comparisonBean.getCreatedBy());
+			recordBean.addAdditionalProperty(comparisonBean.getProjectionType());
 			recordBeanList.add(recordBean);
 		}
 		grid.setItems(recordBeanList);

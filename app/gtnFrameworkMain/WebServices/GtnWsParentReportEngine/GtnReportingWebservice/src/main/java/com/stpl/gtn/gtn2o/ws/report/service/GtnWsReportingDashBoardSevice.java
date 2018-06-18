@@ -6,19 +6,13 @@
 
 package com.stpl.gtn.gtn2o.ws.report.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mongodb.client.FindIterable;
-import com.stpl.gtn.gtn20.ws.report.engine.mongo.service.GtnWsMongoService;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
-import com.stpl.gtn.gtn2o.ws.report.constants.MongoStringConstants;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 
 /**
  *
@@ -27,24 +21,26 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 @Service
 public class GtnWsReportingDashBoardSevice {
 
-	@Autowired
-	GtnWsMongoService gtnMongoService;
+	// @Autowired
+	// GtnWsMongoService gtnMongoService;
 
 	// public static void main(String[] args) {
 	//// new GtnWsReportingDashBoardSevice().getDashboardLeftData();
 	// }
-	public List<GtnWsRecordBean> getDashboardLeftData(GtnWsSearchRequest gtnWsSearchRequest,
-			GtnWsReportDashboardBean reportDashboardBean) {
-
-		Object inputs[] = gtnWsSearchRequest.getQueryInput().toArray();
-		Object values[] = gtnWsSearchRequest.getQueryInputList().toArray();
-		FindIterable<Document> documents = gtnMongoService.fetchDataFromMongo(
-				reportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.COMPUTED_TREE_RESULTS), inputs,
-				values);
-		List<GtnWsRecordBean> data = new ArrayList<>();
-		displayNodeValues(documents, data, gtnWsSearchRequest.getRecordHeader());
-		return data;
-	}
+	// public List<GtnWsRecordBean> getDashboardLeftData(GtnWsSearchRequest
+	// gtnWsSearchRequest,
+	// GtnWsReportDashboardBean reportDashboardBean) {
+	//
+	// Object inputs[] = gtnWsSearchRequest.getQueryInput().toArray();
+	// Object values[] = gtnWsSearchRequest.getQueryInputList().toArray();
+	// FindIterable<Document> documents = gtnMongoService.fetchDataFromMongo(
+	// reportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.COMPUTED_TREE_RESULTS),
+	// inputs,
+	// values);
+	// List<GtnWsRecordBean> data = new ArrayList<>();
+	// displayNodeValues(documents, data, gtnWsSearchRequest.getRecordHeader());
+	// return data;
+	// }
 
 	public void displayNodeValues(FindIterable<Document> documents, List<GtnWsRecordBean> data,
 			List<Object> recordHeader) {
@@ -67,7 +63,7 @@ public class GtnWsReportingDashBoardSevice {
 			recordHeader.add("hierarchyNo");
 			recordHeader.add("levelName");
 			recordHeader.add("levelValue");
-		        recordHeader.add("generatedHierarchyNo");
+			recordHeader.add("generatedHierarchyNo");
 		}
 		bean.setRecordHeader(recordHeader);
 		bean.addProperties("levelNumber", document.get("levelNumber"));

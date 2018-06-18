@@ -151,8 +151,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		addComparisonComponent(componentList, nameSpace);
 		addVariableComponent(componentList, nameSpace);
 		addPeriodRangeFromComponent(componentList, nameSpace);
-	    //addCustomViewButtonComponent(componentList, nameSpace);
-		//addCustomViewComponent(componentList, nameSpace);
+	    addCustomViewButtonComponent(componentList, nameSpace);
+		addCustomViewComponent(componentList, nameSpace);
 		addPeriodRangeToComponent(componentList, nameSpace);
 		addFrequencyComponent(componentList, nameSpace);
 		addComparisonBasisComponent(componentList, nameSpace);
@@ -896,9 +896,16 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig variableBreakdownPopupActionConfig = new GtnUIFrameWorkActionConfig();
 		variableBreakdownPopupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		variableBreakdownPopupActionConfig.addActionParameter("variableBreakdown");
-		variableBreakdownPopupActionConfig.addActionParameter("Variable Breakdown");
-		variableBreakdownPopupActionConfig.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
+		
+                 List<Object> params = new ArrayList<>();
+		params.add("variableBreakdown");
+		params.add("Variable Breakdown");
+		params.add(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
+		params.add(null);
+		params.add(null);
+		params.add("reportingDashboardScreen");
+                		
+                variableBreakdownPopupActionConfig.setActionParameterList(params);
 
 		actionConfigList.add(variableBreakdownPopupActionConfig);
 		variableBreakdownConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);

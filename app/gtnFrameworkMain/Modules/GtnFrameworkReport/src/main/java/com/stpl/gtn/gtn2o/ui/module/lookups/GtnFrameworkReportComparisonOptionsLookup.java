@@ -15,8 +15,10 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownGridResetAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownMassUpdateAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownSubmitAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridResetAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownMassUpdateAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownSubmitAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -48,7 +50,8 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 
 		GtnUIFrameworkComponentConfig comparisonOptionsLookupVLayout = new GtnUIFrameworkComponentConfig();
 		comparisonOptionsLookupVLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		comparisonOptionsLookupVLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "rootLayout");
+		comparisonOptionsLookupVLayout
+				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "rootLayout");
 		comparisonOptionsLookupVLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		comparisonOptionsLookupVLayout.setComponentHight(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		comparisonOptionsLookupVLayout.setAddToParent(false);
@@ -78,7 +81,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		addComparisonOptionsPanel(componentList, namespace);
 		addMassUpdateRootPanel(componentList, namespace);
 		addResultsPanel(componentList, gtnLayout.getComponentId());
-		addControlButtonComponent(componentList, gtnLayout.getComponentId(),namespace);
+		addControlButtonComponent(componentList, gtnLayout.getComponentId(), namespace);
 	}
 
 	private void addComparisonOptionsPanel(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
@@ -112,13 +115,14 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		comparisonOptionsLayoutConfig.setGtnLayoutConfig(layoutConf);
 		componentList.add(comparisonOptionsLayoutConfig);
 
-		addComparisonBasisComponent(componentList, comparisonOptionsLayoutConfig.getComponentId(),namespace);
-		addFrequencyComponent(componentList, comparisonOptionsLayoutConfig.getComponentId(),namespace);
-		addPeriodRangeFromComponent(componentList, comparisonOptionsLayoutConfig.getComponentId(),namespace);
-		addPeriodRangeToComponent(componentList, comparisonOptionsLayoutConfig.getComponentId(),namespace);
+		addComparisonBasisComponent(componentList, comparisonOptionsLayoutConfig.getComponentId(), namespace);
+		addFrequencyComponent(componentList, comparisonOptionsLayoutConfig.getComponentId(), namespace);
+		addPeriodRangeFromComponent(componentList, comparisonOptionsLayoutConfig.getComponentId(), namespace);
+		addPeriodRangeToComponent(componentList, comparisonOptionsLayoutConfig.getComponentId(), namespace);
 	}
 
-	private void addComparisonBasisComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId, String namespace) {
+	private void addComparisonBasisComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
+			String namespace) {
 		GtnUIFrameworkComponentConfig comparisonBasisConfig = layoutsConfig
 				.getHorizontalLayoutConfig("comparisonBasisConfig", parentId);
 		componentList.add(comparisonBasisConfig);
@@ -133,7 +137,8 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		componentList.add(comparisonBasis);
 	}
 
-	private void addFrequencyComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId, String namespace) {
+	private void addFrequencyComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
+			String namespace) {
 		GtnUIFrameworkComponentConfig frequencyConfig = layoutsConfig.getHorizontalLayoutConfig("frequencyConfig",
 				parentId);
 		componentList.add(frequencyConfig);
@@ -149,7 +154,8 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		componentList.add(frequency);
 	}
 
-	private void addPeriodRangeFromComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId, String namespace) {
+	private void addPeriodRangeFromComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
+			String namespace) {
 		GtnUIFrameworkComponentConfig periodRangeFromConfig = layoutsConfig
 				.getHorizontalLayoutConfig("periodRangeFromConfig", parentId);
 		componentList.add(periodRangeFromConfig);
@@ -165,7 +171,8 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		componentList.add(periodRangeFrom);
 	}
 
-	private void addPeriodRangeToComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId, String namespace) {
+	private void addPeriodRangeToComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
+			String namespace) {
 		GtnUIFrameworkComponentConfig periodRangeToConfig = layoutsConfig
 				.getHorizontalLayoutConfig("periodRangeToConfig", parentId);
 		componentList.add(periodRangeToConfig);
@@ -212,20 +219,21 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		massUpdateLayoutConfig.setGtnLayoutConfig(layoutConf);
 		componentList.add(massUpdateLayoutConfig);
 
-		addValueComponent(componentList, massUpdateLayoutConfig.getComponentId(),namespace);
-		addComparisonComponent(componentList, massUpdateLayoutConfig.getComponentId(),namespace);
-		addStartPeriodComponent(componentList, massUpdateLayoutConfig.getComponentId(),namespace);
-		addEndPeriodComponent(componentList, massUpdateLayoutConfig.getComponentId(),namespace);
-		addPopulateButtonComponent(componentList, massUpdateLayoutConfig.getComponentId(),namespace);
+		addValueComponent(componentList, massUpdateLayoutConfig.getComponentId(), namespace);
+		addComparisonComponent(componentList, massUpdateLayoutConfig.getComponentId(), namespace);
+		addStartPeriodComponent(componentList, massUpdateLayoutConfig.getComponentId(), namespace);
+		addEndPeriodComponent(componentList, massUpdateLayoutConfig.getComponentId(), namespace);
+		addPopulateButtonComponent(componentList, massUpdateLayoutConfig.getComponentId(), namespace);
 	}
 
-	private void addValueComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId, String namespace) {
+	private void addValueComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
+			String namespace) {
 		GtnUIFrameworkComponentConfig valueConfig = layoutsConfig.getHorizontalLayoutConfig("valueConfig", parentId);
 		componentList.add(valueConfig);
 
 		GtnUIFrameworkComponentConfig value = new GtnUIFrameworkComponentConfig();
 		value.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		value.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"value");
+		value.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "value");
 		value.setComponentName("Value: ");
 		value.setAddToParent(true);
 		value.setParentComponentId(valueConfig.getComponentId());
@@ -237,14 +245,15 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		componentList.add(value);
 	}
 
-	private void addComparisonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId, String namespace) {
+	private void addComparisonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
+			String namespace) {
 		GtnUIFrameworkComponentConfig comparisonConfig = layoutsConfig.getHorizontalLayoutConfig("comparisonConfig",
 				parentId);
 		componentList.add(comparisonConfig);
 
 		GtnUIFrameworkComponentConfig comparison = new GtnUIFrameworkComponentConfig();
 		comparison.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		comparison.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"comparison");
+		comparison.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "comparison");
 		comparison.setComponentName("Comparison: ");
 		comparison.setAddToParent(true);
 		comparison.setParentComponentId(comparisonConfig.getComponentId());
@@ -256,14 +265,15 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		componentList.add(comparison);
 	}
 
-	private void addStartPeriodComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId, String namespace) {
+	private void addStartPeriodComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
+			String namespace) {
 		GtnUIFrameworkComponentConfig startPeriodConfig = layoutsConfig.getHorizontalLayoutConfig("startPeriodConfig",
 				parentId);
 		componentList.add(startPeriodConfig);
 
 		GtnUIFrameworkComponentConfig startPeriod = new GtnUIFrameworkComponentConfig();
 		startPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		startPeriod.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"startPeriod");
+		startPeriod.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "startPeriod");
 		startPeriod.setComponentName("Start Period: ");
 		startPeriod.setAddToParent(true);
 		startPeriod.setParentComponentId(startPeriodConfig.getComponentId());
@@ -271,19 +281,20 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		startPeriodLoadConfig.setModuleName("report");
 		startPeriodLoadConfig.setItemValues(new ArrayList());
 		startPeriodLoadConfig.setItemCaptionValues(new ArrayList());
-		
+
 		startPeriod.setGtnComboboxConfig(startPeriodLoadConfig);
 		componentList.add(startPeriod);
 	}
 
-	private void addEndPeriodComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId, String namespace) {
+	private void addEndPeriodComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
+			String namespace) {
 		GtnUIFrameworkComponentConfig endPeriodConfig = layoutsConfig.getHorizontalLayoutConfig("endPeriodConfig",
 				parentId);
 		componentList.add(endPeriodConfig);
 
 		GtnUIFrameworkComponentConfig endPeriod = new GtnUIFrameworkComponentConfig();
 		endPeriod.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		endPeriod.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"endPeriod");
+		endPeriod.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "endPeriod");
 		endPeriod.setComponentName("End Period: ");
 		endPeriod.setAddToParent(true);
 		endPeriod.setParentComponentId(endPeriodConfig.getComponentId());
@@ -295,32 +306,35 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		componentList.add(endPeriod);
 	}
 
-	private void addPopulateButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId, String namespace) {
+	private void addPopulateButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
+			String namespace) {
 		GtnUIFrameworkComponentConfig populateButtonConfig = layoutsConfig
 				.getHorizontalLayoutConfig("populateButtonConfig", parentId);
 		componentList.add(populateButtonConfig);
 
 		GtnUIFrameworkComponentConfig populateButton = new GtnUIFrameworkComponentConfig();
 		populateButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
-		populateButton.setComponentId(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"populateButton");
+		populateButton.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "populateButton");
 		populateButton.setComponentName("POPULATE");
 		populateButton.setAddToParent(true);
 		populateButton.setParentComponentId(populateButtonConfig.getComponentId());
 
-
-        GtnUIFrameWorkActionConfig comparisonBreakDownPopulateLoadAction = new GtnUIFrameWorkActionConfig(
-		GtnUIFrameworkActionType.CUSTOM_ACTION);
-        comparisonBreakDownPopulateLoadAction.addActionParameter(GtnReportingComparisonBreakdownMassUpdateAction.class.getName());
-        comparisonBreakDownPopulateLoadAction.addActionParameter("reportOptionsTabComparisonOptions_value");                
-        comparisonBreakDownPopulateLoadAction.addActionParameter("reportOptionsTabComparisonOptions_comparison");
-        comparisonBreakDownPopulateLoadAction.addActionParameter("reportOptionsTabComparisonOptions_startPeriod");
-        comparisonBreakDownPopulateLoadAction.addActionParameter("reportOptionsTabComparisonOptions_endPeriod");
-        comparisonBreakDownPopulateLoadAction.addActionParameter("comparisonBreakdownResultsLayout_comparisonBreakdownResultsPagedTableComponent");
-        populateButton.addGtnUIFrameWorkActionConfig(comparisonBreakDownPopulateLoadAction);
+		GtnUIFrameWorkActionConfig comparisonBreakDownPopulateLoadAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		comparisonBreakDownPopulateLoadAction
+				.addActionParameter(GtnReportingComparisonBreakdownMassUpdateAction.class.getName());
+		comparisonBreakDownPopulateLoadAction.addActionParameter("reportOptionsTabComparisonOptions_value");
+		comparisonBreakDownPopulateLoadAction.addActionParameter("reportOptionsTabComparisonOptions_comparison");
+		comparisonBreakDownPopulateLoadAction.addActionParameter("reportOptionsTabComparisonOptions_startPeriod");
+		comparisonBreakDownPopulateLoadAction.addActionParameter("reportOptionsTabComparisonOptions_endPeriod");
+		comparisonBreakDownPopulateLoadAction
+				.addActionParameter("comparisonBreakdownResultsLayout_comparisonBreakdownResultsPagedTableComponent");
+		populateButton.addGtnUIFrameWorkActionConfig(comparisonBreakDownPopulateLoadAction);
 		componentList.add(populateButton);
 	}
 
-	private void addControlButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId, String namespace) {
+	private void addControlButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
+			String namespace) {
 
 		GtnUIFrameworkComponentConfig controlButtonConfig = layoutsConfig
 				.getHorizontalLayoutConfig("controlButtonConfig", parentId);
@@ -350,6 +364,28 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		resetButton.setComponentName("RESET");
 		resetButton.setAddToParent(true);
 		resetButton.setParentComponentId(controlButtonConfig.getComponentId());
+
+		List<Object> actionParamForReset = new ArrayList<>();
+		GtnUIFrameWorkActionConfig comparisonBreakdownResetButtonConfirmationActionConfig = new GtnUIFrameWorkActionConfig();
+		comparisonBreakdownResetButtonConfirmationActionConfig
+				.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		actionParamForReset.add("Confirm Reset");
+		actionParamForReset.add("Are you sure you want to reset the page to default values?");
+		List<GtnUIFrameWorkActionConfig> actionConfigListForReset = new ArrayList<>();
+		GtnUIFrameWorkActionConfig comparisonBreakdownResetButtonAction = new GtnUIFrameWorkActionConfig();
+		comparisonBreakdownResetButtonAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		comparisonBreakdownResetButtonAction.addActionParameter(GtnReportingComparisonBreakdownGridResetAction.class.getName());
+		comparisonBreakdownResetButtonAction.addActionParameter("comparisonBreakdownResultsLayout_comparisonBreakdownResultsPagedTableComponent");
+        comparisonBreakdownResetButtonAction.addActionParameter("reportOptionsTabComparisonOptions_value");
+        comparisonBreakdownResetButtonAction.addActionParameter("reportOptionsTabComparisonOptions_comparison");
+        comparisonBreakdownResetButtonAction.addActionParameter("reportOptionsTabComparisonOptions_startPeriod");
+        comparisonBreakdownResetButtonAction.addActionParameter("reportOptionsTabComparisonOptions_endPeriod");
+        actionConfigListForReset.add(comparisonBreakdownResetButtonAction);
+        actionParamForReset.add(actionConfigListForReset);
+        comparisonBreakdownResetButtonConfirmationActionConfig.setActionParameterList(actionParamForReset);
+        resetButton.addGtnUIFrameWorkActionConfig(comparisonBreakdownResetButtonConfirmationActionConfig);
+
+        
 
 		GtnUIFrameworkComponentConfig closeButton = new GtnUIFrameworkComponentConfig();
 		closeButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -396,64 +432,67 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 
 	private void addResultTable(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
-		 	GtnUIFrameworkComponentConfig comparisonBreakdownLookupResultsPagedTableComponentLayout = layoutsConfig.getHorizontalLayoutConfig(
-	                "comparisonBreakdownLookupResultsPagedTableComponentLayout", parentId);
-	             comparisonBreakdownLookupResultsPagedTableComponentLayout.setComponentWidth("100%");
-	                componentList.add(comparisonBreakdownLookupResultsPagedTableComponentLayout);
-	                
-			GtnUIFrameworkComponentConfig comparisonBreakdownLookupResultsPagedTableComponent = new GtnUIFrameworkComponentConfig();
-			comparisonBreakdownLookupResultsPagedTableComponent.setComponentType(GtnUIFrameworkComponentType.PAGED_GRID);
-			comparisonBreakdownLookupResultsPagedTableComponent.setComponentId(
-					parentId + GtnFrameworkReportStringConstants.UNDERSCORE + "comparisonBreakdownResultsPagedTableComponent");
-			comparisonBreakdownLookupResultsPagedTableComponent.setComponentName("Results");
-			comparisonBreakdownLookupResultsPagedTableComponent.setParentComponentId(comparisonBreakdownLookupResultsPagedTableComponentLayout.getComponentId());
-			comparisonBreakdownLookupResultsPagedTableComponent.setAddToParent(true);
-	                comparisonBreakdownLookupResultsPagedTableComponent.setComponentWidth("1000px");
-	                
-			List<String> comparisonBreakdownLookupTableStyle = new ArrayList<>();
-			comparisonBreakdownLookupTableStyle.add("filterbar");
-			comparisonBreakdownLookupTableStyle.add("v-has-width");
-			comparisonBreakdownLookupTableStyle.add("v-table-filterbar");
-			comparisonBreakdownLookupTableStyle.add("table-header-normal");
-			comparisonBreakdownLookupResultsPagedTableComponent.setComponentWidth("100%");
-			comparisonBreakdownLookupResultsPagedTableComponent.setComponentStyle(comparisonBreakdownLookupTableStyle);
+		GtnUIFrameworkComponentConfig comparisonBreakdownLookupResultsPagedTableComponentLayout = layoutsConfig
+				.getHorizontalLayoutConfig("comparisonBreakdownLookupResultsPagedTableComponentLayout", parentId);
+		comparisonBreakdownLookupResultsPagedTableComponentLayout.setComponentWidth("100%");
+		componentList.add(comparisonBreakdownLookupResultsPagedTableComponentLayout);
 
-			componentList.add(comparisonBreakdownLookupResultsPagedTableComponent);
+		GtnUIFrameworkComponentConfig comparisonBreakdownLookupResultsPagedTableComponent = new GtnUIFrameworkComponentConfig();
+		comparisonBreakdownLookupResultsPagedTableComponent.setComponentType(GtnUIFrameworkComponentType.PAGED_GRID);
+		comparisonBreakdownLookupResultsPagedTableComponent.setComponentId(parentId
+				+ GtnFrameworkReportStringConstants.UNDERSCORE + "comparisonBreakdownResultsPagedTableComponent");
+		comparisonBreakdownLookupResultsPagedTableComponent.setComponentName("Results");
+		comparisonBreakdownLookupResultsPagedTableComponent
+				.setParentComponentId(comparisonBreakdownLookupResultsPagedTableComponentLayout.getComponentId());
+		comparisonBreakdownLookupResultsPagedTableComponent.setAddToParent(true);
+		comparisonBreakdownLookupResultsPagedTableComponent.setComponentWidth("1000px");
 
-			GtnUIFrameworkPagedTableConfig comparisonBreakdownLookupResultsPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
-			comparisonBreakdownLookupResultsPagedTableConfig.setEditable(false);
-			comparisonBreakdownLookupResultsPagedTableConfig.setFilterBar(true);
-			comparisonBreakdownLookupResultsPagedTableConfig.setPageLength(10);
-			comparisonBreakdownLookupResultsPagedTableConfig.setItemPerPage(10);
-			comparisonBreakdownLookupResultsPagedTableConfig.setSelectable(true);
-			comparisonBreakdownLookupResultsPagedTableConfig.setSinkItemPerPageWithPageLength(false);
-	                comparisonBreakdownLookupResultsPagedTableConfig.setModuleName(GtnFrameworkReportStringConstants.REPORT);
-	                comparisonBreakdownLookupResultsPagedTableConfig.setGridColumnHeader(GtnWsReportConstants.GTN_WS_REPORT_COMPARISON_BREAKDOWN_TABLE_HEADERS_SERVICE);
-	                comparisonBreakdownLookupResultsPagedTableConfig.setEnableCheckBoxInGridHeader(true);
-	                
-			comparisonBreakdownLookupResultsPagedTableConfig.setTableColumnDataType(new Class<?>[] {
-					GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
-					GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
-					GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
+		List<String> comparisonBreakdownLookupTableStyle = new ArrayList<>();
+		comparisonBreakdownLookupTableStyle.add("filterbar");
+		comparisonBreakdownLookupTableStyle.add("v-has-width");
+		comparisonBreakdownLookupTableStyle.add("v-table-filterbar");
+		comparisonBreakdownLookupTableStyle.add("table-header-normal");
+		comparisonBreakdownLookupResultsPagedTableComponent.setComponentWidth("100%");
+		comparisonBreakdownLookupResultsPagedTableComponent.setComponentStyle(comparisonBreakdownLookupTableStyle);
 
-			comparisonBreakdownLookupResultsPagedTableConfig
-					.setColumnHeaders(GtnFrameworkReportStringConstants.getComparisonBreakdownHeader());
-			comparisonBreakdownLookupResultsPagedTableConfig.setTableColumnMappingId(
-					new Object[] {});
+		componentList.add(comparisonBreakdownLookupResultsPagedTableComponent);
 
-			 GtnUIFrameWorkActionConfig comparisonBreakdownHeaderLoadAction = new GtnUIFrameWorkActionConfig(
-						GtnUIFrameworkActionType.CUSTOM_ACTION);
-			 //comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboardTab_reportOptionsTabDisplayFormat");
-			 comparisonBreakdownHeaderLoadAction.addActionParameter("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig");
-			 comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeFrom");
-			 comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeTo");
-			 comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabFrequency");
-			 
-			 comparisonBreakdownLookupResultsPagedTableConfig.setGtnUIFrameWorkActionConfig(comparisonBreakdownHeaderLoadAction);
-			 comparisonBreakdownLookupResultsPagedTableConfig.setGridHeaderCustomClassLoadUrl(
-                 GtnFrameworkReportStringConstants.REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION);
-			comparisonBreakdownLookupResultsPagedTableComponent
-					.setGtnPagedTableConfig(comparisonBreakdownLookupResultsPagedTableConfig);
-		
+		GtnUIFrameworkPagedTableConfig comparisonBreakdownLookupResultsPagedTableConfig = new GtnUIFrameworkPagedTableConfig();
+		comparisonBreakdownLookupResultsPagedTableConfig.setEditable(false);
+		comparisonBreakdownLookupResultsPagedTableConfig.setFilterBar(true);
+		comparisonBreakdownLookupResultsPagedTableConfig.setPageLength(10);
+		comparisonBreakdownLookupResultsPagedTableConfig.setItemPerPage(10);
+		comparisonBreakdownLookupResultsPagedTableConfig.setSelectable(true);
+		comparisonBreakdownLookupResultsPagedTableConfig.setSinkItemPerPageWithPageLength(false);
+		comparisonBreakdownLookupResultsPagedTableConfig.setModuleName(GtnFrameworkReportStringConstants.REPORT);
+		comparisonBreakdownLookupResultsPagedTableConfig
+				.setGridColumnHeader(GtnWsReportConstants.GTN_WS_REPORT_COMPARISON_BREAKDOWN_TABLE_HEADERS_SERVICE);
+		comparisonBreakdownLookupResultsPagedTableConfig.setEnableCheckBoxInGridHeader(true);
+
+		comparisonBreakdownLookupResultsPagedTableConfig.setTableColumnDataType(new Class<?>[] {
+				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
+				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
+				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
+
+		comparisonBreakdownLookupResultsPagedTableConfig
+				.setColumnHeaders(GtnFrameworkReportStringConstants.getComparisonBreakdownHeader());
+		comparisonBreakdownLookupResultsPagedTableConfig.setTableColumnMappingId(new Object[] {});
+
+		GtnUIFrameWorkActionConfig comparisonBreakdownHeaderLoadAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		// comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboardTab_reportOptionsTabDisplayFormat");
+		comparisonBreakdownHeaderLoadAction
+				.addActionParameter("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig");
+		comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeFrom");
+		comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeTo");
+		comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabFrequency");
+
+		comparisonBreakdownLookupResultsPagedTableConfig
+				.setGtnUIFrameWorkActionConfig(comparisonBreakdownHeaderLoadAction);
+		comparisonBreakdownLookupResultsPagedTableConfig.setGridHeaderCustomClassLoadUrl(
+				GtnFrameworkReportStringConstants.REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION);
+		comparisonBreakdownLookupResultsPagedTableComponent
+				.setGtnPagedTableConfig(comparisonBreakdownLookupResultsPagedTableConfig);
+
 	}
 }

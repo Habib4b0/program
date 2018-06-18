@@ -174,7 +174,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 
 	private void setStartAndEndPeriodForComparisonBreakdownLookup(GtnUIFrameworkPagedTableConfig tableConfig,
 			String componentId) {
-		List<String> startAndEndPeriodCaptionList = tableConfig.getColumnHeaders();
+		List<String> startAndEndPeriodCaptionList = new ArrayList<>(tableConfig.getColumnHeaders());
 		ArrayList<String> startAndEndPeriodItemIdList = new ArrayList(
 				Arrays.asList(tableConfig.getTableColumnMappingId()));
 

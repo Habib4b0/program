@@ -86,7 +86,9 @@ public class GtnReportComparisonProjectionSubmitAction
 		for(GtnReportComparisonProjectionBean comparisonProjectionBeans : comparisonProjectionBeanList) {
 			inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
 		}
-		
+		inputForComparisonBasisList.add("Actuals");
+		inputForComparisonBasisList.add("Accruals");
+		inputForComparisonBasisList.add("Projections");
 		if(componentId.equals("dashboardComparisonLookup_submitButton")) {
 		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponentFromParent("reportingDashboard_displaySelectionTabComparisonBasis", componentId).getComponentConfig()
