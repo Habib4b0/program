@@ -1,11 +1,11 @@
 package com.stpl.gtn.gtn2o.ws.constants.forecast;
 
 public class GtnFrameworkForecastConstantCommon {
-    private GtnFrameworkForecastConstantCommon(){
-        /**
-         * empty constructor
-         */
-    }
+	private GtnFrameworkForecastConstantCommon() {
+		/**
+		 * empty constructor
+		 */
+	}
 
 	public static final String COMPANY_IDENTIFIER = "CompanyIdentifier";
 
@@ -14,6 +14,10 @@ public class GtnFrameworkForecastConstantCommon {
 	public static final String BUSINESS_UNIT_GLCOMP = "BusinessUnitGLcomp";
 
 	public static final String PRODUCT_RELATIONSHIP = "ProductRelationship";
+
+	public static final String RELATIONSHIP_VERSION = "RelationshipVersion";
+
+	public static final String REPORT_FORECAST_LEVEL = "ReportForecastLevel";
 
 	public static final String PRODUCT_FORCAST_LEVEL = "ProductForecastLevel";
 
@@ -92,11 +96,11 @@ public class GtnFrameworkForecastConstantCommon {
 	public static final String TIER_1_METHODOLOGY = "Tier 1";
 
 	public static final String TIER_2_METHODOLOGY = "Tier 2";
-        
-    public static final String ACCRUAL_MASTER_SALES_MASTER_ID = "SalesMasterId";
 
-    public static final String ACCRUAL_MASTER_CATEGORY_ID = "CategoryId";
+	public static final String ACCRUAL_MASTER_SALES_MASTER_ID = "SalesMasterId";
 
-    public static final String ACCRUAL_MASTER_DOC_TYPE = "DocType";
+	public static final String ACCRUAL_MASTER_CATEGORY_ID = "CategoryId";
+
+	public static final String ACCRUAL_MASTER_DOC_TYPE = "DocType";
 
 }

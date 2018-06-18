@@ -407,9 +407,11 @@
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagItemUom.hbm.xml
 				</value>
-				<value>/com/stpl/gtn/gtn2o/ws/xml/customviewforecast/CustViewDetails.hbm.xml
+                                <value>/com/stpl/gtn/gtn2o/ws/xml/customviewforecast/CustViewMaster.hbm.xml
+                                </value>
+                                <value>/com/stpl/gtn/gtn2o/ws/xml/customviewforecast/CustViewDetails.hbm.xml
 				</value>
-				<value>/com/stpl/gtn/gtn2o/ws/xml/customviewforecast/CustViewMaster.hbm.xml
+                                <value>/com/stpl/gtn/gtn2o/ws/xml/customviewforecast/CustomViewVariables.hbm.xml
 				</value>
 			</list>
 		</property>

@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.framework.component.button;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentActionable;
@@ -9,6 +10,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.listener.GtnUIGeneralButtonClickListener;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -23,18 +25,28 @@ public class GtnUIFrameworkButtonComponent implements GtnUIFrameworkComponent, G
 		if (componentConfig.getButtonConfig() == null
 				|| componentConfig.getButtonConfig().isButtonCaptionInUpperCase()) {
 			componentName = componentName.toUpperCase(Locale.ENGLISH);
+
 		}
 		Button vaadinButton = new Button(componentName);
 		vaadinButton.setWidth(componentConfig.getComponentWidth());
 		vaadinButton.setVisible(componentConfig.isVisible());
 		vaadinButton.addStyleName("buttonCustomStyle");
 		if (gtnUIFrameworkButtonConfig != null
-				&& GtnUiFrameworkButtonType.LINK_BUTTON == gtnUIFrameworkButtonConfig.getButtonType()){
+				&& GtnUiFrameworkButtonType.LINK_BUTTON == gtnUIFrameworkButtonConfig.getButtonType()) {
 			vaadinButton.setStyleName(ValoTheme.BUTTON_LINK);
 		}
+		setButtonIcon(vaadinButton, gtnUIFrameworkButtonConfig);
 		loadStyles(vaadinButton, componentConfig.getComponentStyle());
 		vaadinButton.setEnabled(componentConfig.isEnable());
 		return vaadinButton;
+	}
+
+	private void setButtonIcon(Button vaadinButton, GtnUIFrameworkButtonConfig gtnUIFrameworkButtonConfig) {
+		Optional<GtnUIFrameworkButtonConfig> buttonConfigOptional = Optional.ofNullable(gtnUIFrameworkButtonConfig);
+		if (buttonConfigOptional.isPresent()) {
+			Optional<String> excelUrlOptional = Optional.ofNullable(buttonConfigOptional.get().getIconUrl());
+			excelUrlOptional.ifPresent(excelIconUrl -> vaadinButton.setIcon(new ThemeResource(excelIconUrl)));
+		}
 	}
 
 	@Override

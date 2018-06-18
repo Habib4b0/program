@@ -130,8 +130,8 @@ public class CustViewMaster  implements java.io.Serializable {
     public void setModuleType(Integer moduleType) {
         this.moduleType = moduleType;
     }
-   
-    
+
+
 
 
 }

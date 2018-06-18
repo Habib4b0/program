@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data-sources>
+	<data-source id="mssql_jdbc_ms_new-162ce3493a5-62754726ba6c4b6c" provider="mssql" driver="mssql_jdbc_ms_new" name="MS SQL Server - BPIGTN_AGN_APPL7_QA" save-password="true" show-system-objects="true" read-only="false">
+		<connection host="10.4.48.18" port="1433" server="" database="BPIGTN_AGN_APPL7_QA" url="jdbc:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APPL7_QA" user="bpigtn_db" password="LSBCIhNoEVdl8w==" type="dev">
+			<provider-property name="@dbeaver-show-all-schemas@" value="false"/>
+			<provider-property name="@dbeaver-connection-windows-auth@" value="false"/>
+			<network-handler type="TUNNEL" id="ssh_tunnel" enabled="false" save-password="false">
+				<property name="sshConnectTimeout" value="10000"/>
+				<property name="port" value="22"/>
+				<property name="authType" value="PASSWORD"/>
+			</network-handler>
+			<network-handler type="PROXY" id="socks_proxy" enabled="false" save-password="false">
+				<property name="socks-port" value="1080"/>
+			</network-handler>
+		</connection>
+	</data-source>
+	<filters/>
+</data-sources>

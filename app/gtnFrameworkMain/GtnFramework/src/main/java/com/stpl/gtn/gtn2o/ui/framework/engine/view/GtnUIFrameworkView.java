@@ -62,6 +62,7 @@ public class GtnUIFrameworkView extends CustomComponent implements View {
 
 		this.setData(viewComponentData);
 		GtnUIFrameworkGlobalUI.addVaadinViewComponent(this.generatedViewId, this);
+		
 		loadStyles(rootLayout, gtnViewConfig.getComponentStyle());
 	}
 
@@ -118,7 +119,7 @@ public class GtnUIFrameworkView extends CustomComponent implements View {
 		}
 		if (gtnViewConfig.getViewActionList() != null && !gtnViewConfig.getViewActionList().isEmpty()) {
 			gtnLogger.debug("gtnViewConfig.getViewActionList() is going to execute for " + getViewName());
-			GtnUIFrameworkActionExecutor.executeActionList(gtnViewConfig.getViewId(),
+			GtnUIFrameworkActionExecutor.executeActionList(generatedViewId,
 					gtnViewConfig.getViewActionList());
 		}
 		return toBuild;
@@ -270,6 +271,7 @@ public class GtnUIFrameworkView extends CustomComponent implements View {
 	}
 
 	private void loadStyles(Component component, List<String> styles) {
+		
 		if (styles != null) {
 			for (String style : styles) {
 				component.addStyleName(style);
