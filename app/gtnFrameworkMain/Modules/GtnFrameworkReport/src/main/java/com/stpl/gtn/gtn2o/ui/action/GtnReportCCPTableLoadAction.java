@@ -190,15 +190,16 @@ public class GtnReportCCPTableLoadAction
 		dto.setToPeriod(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(20).toString())
 				.getIntegerFromV8ComboBox());
 
-		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI
-				.getVaadinComponent(actionParamList.get(21).toString(), componentId);
-		if (abstractComponent != null && abstractComponent.getData() != null) {
-			GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
-			List<GtnReportVariableBreakdownLookupBean> gtnReportVariableBreakdownLookupBeanList = (List<GtnReportVariableBreakdownLookupBean>) gridComponent
-					.getCustomData();
-			dto.setVariableBreakdownSaveList(gtnReportVariableBreakdownLookupBeanList);
-		}
-		return dto;
+            AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(actionParamList.get(21).toString(), componentId);
+            if (abstractComponent != null && abstractComponent.getData() != null) {
+                GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
+                if (gridComponent.getCustomData() instanceof List) {
+                    List<GtnReportVariableBreakdownLookupBean> gtnReportVariableBreakdownLookupBeanList = (List<GtnReportVariableBreakdownLookupBean>) gridComponent.getCustomData();
+                    dto.setVariableBreakdownSaveList(gtnReportVariableBreakdownLookupBeanList);
+                }
+            }
+		
+              return dto;
 	}
 
 	private void addSelectedValues(TreeGrid<GtnWsRecordBean> rightTable, GtnWsRecordBean selectedvalues,

@@ -44,7 +44,10 @@ public class GtnReportingVariableBreakdownSubmitAction implements GtnUIFramework
 //        obj[0] = selectedValue;
 //        obj[1] = columnId;
 //        obj[2] = masterSid;
-                    
+                  
+
+        String viewIdCheck = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("variableBreakdown", componentId).getComponentData().getSharedPopupData().toString();
+
         AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent",
                 componentId);
         GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
@@ -89,6 +92,22 @@ public class GtnReportingVariableBreakdownSubmitAction implements GtnUIFramework
         }
          
          gridComponent.setCustomData(variableBreakdownLookupBeanSaveList);
+
+         if("reportingDashboardScreen".equals(viewIdCheck)){
+             	String sourceParentComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getParentViewId();
+                String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(sourceParentComponentId).getViewId();
+		GtnWsReportDataSelectionBean gtnWsReportDataSelectionBeanSave = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+             gtnWsReportDataSelectionBeanSave.setVariableBreakdownSaveList(variableBreakdownLookupBeanSaveList);
+             GtnWsReportRequest gtnWsReportRequestSave = new GtnWsReportRequest();
+             gtnWsReportRequestSave.setDataSelectionBean(gtnWsReportDataSelectionBeanSave);
+             GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequestSave = new GtnUIFrameworkWebserviceRequest();
+             gtnUIFrameworkWebserviceRequestSave.setGtnWsReportRequest(gtnWsReportRequestSave);
+             GtnUIFrameworkWebServiceClient clientSave = new GtnUIFrameworkWebServiceClient();
+             GtnUIFrameworkWebserviceResponse saveResponse = clientSave.callGtnWebServiceUrl(
+                     GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_SAVE_SERVICE, GtnFrameworkReportStringConstants.REPORT,
+                     gtnUIFrameworkWebserviceRequestSave, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+         }
        
     }
 
