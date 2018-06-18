@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,15 +76,17 @@ public class GtnReportCCPTableLoadAction
 
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameWorkGeneratePopupAction);
 
-		List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = new ArrayList<>();
 		GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportLandingScreen_reportingDashboardComparisonConfig", componentId)
 				.getComponentData();
-		comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData.getCustomData();
+		List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData
+				.getCustomData();
 		List<String> inputForComparisonBasisList = new ArrayList<>();
-		for (GtnReportComparisonProjectionBean comparisonProjectionBeans : comparisonLookupBeanList) {
-			inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
-		}
+		Optional.ofNullable(comparisonLookupBeanList).ifPresent(e -> {
+			for (GtnReportComparisonProjectionBean comparisonProjectionBeans : e) {
+				inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
+			}
+		});
 		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromChild("reportingDashboard_displaySelectionTabComparisonBasis", componentId)
 				.getComponentConfig().getGtnComboboxConfig();
@@ -190,16 +193,18 @@ public class GtnReportCCPTableLoadAction
 		dto.setToPeriod(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(20).toString())
 				.getIntegerFromV8ComboBox());
 
-            AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(actionParamList.get(21).toString(), componentId);
-            if (abstractComponent != null && abstractComponent.getData() != null) {
-                GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
-                if (gridComponent.getCustomData() instanceof List) {
-                    List<GtnReportVariableBreakdownLookupBean> gtnReportVariableBreakdownLookupBeanList = (List<GtnReportVariableBreakdownLookupBean>) gridComponent.getCustomData();
-                    dto.setVariableBreakdownSaveList(gtnReportVariableBreakdownLookupBeanList);
-                }
-            }
-		
-              return dto;
+		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI
+				.getVaadinComponent(actionParamList.get(21).toString(), componentId);
+		if (abstractComponent != null && abstractComponent.getData() != null) {
+			GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
+			if (gridComponent.getCustomData() instanceof List) {
+				List<GtnReportVariableBreakdownLookupBean> gtnReportVariableBreakdownLookupBeanList = (List<GtnReportVariableBreakdownLookupBean>) gridComponent
+						.getCustomData();
+				dto.setVariableBreakdownSaveList(gtnReportVariableBreakdownLookupBeanList);
+			}
+		}
+
+		return dto;
 	}
 
 	private void addSelectedValues(TreeGrid<GtnWsRecordBean> rightTable, GtnWsRecordBean selectedvalues,
