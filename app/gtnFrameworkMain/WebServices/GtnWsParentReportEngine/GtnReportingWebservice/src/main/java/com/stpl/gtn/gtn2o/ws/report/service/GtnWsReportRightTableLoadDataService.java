@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.service.transform.GtnWsReportRightTableResultTransformer;
@@ -31,10 +32,7 @@ public class GtnWsReportRightTableLoadDataService {
 	public Map<String, Map<String, Double>> getDataFromBackend(GtnUIFrameworkWebserviceRequest gtnWsRequest,
 			String hierarchyNo, int levelNo) {
 		try {
-			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest()
-					.getDataSelectionBean();
 
-			String frequency = dataSelectionBean.getFrequencyName();
 			String query = getQueryFromProcedure(gtnWsRequest, hierarchyNo, levelNo);
 
 			List<?> object = gtnSqlQueryEngine.executeSelectQuery(query, new Object[] {}, new GtnFrameworkDataType[] {},
@@ -57,17 +55,31 @@ public class GtnWsReportRightTableLoadDataService {
 				new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER });
 
 		String customViewType = String.valueOf(customviewData.get(0));
+		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
+
+		String frequency = dataSelectionBean.getFrequencyName();
+		GtnWsReportDashboardBean dashboardBean = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean();
+
+		int salesInClusion = dashboardBean.getSalesInclusion();
+		int deductionInclusion = dashboardBean.getDeductionInclusion();
+
+		String currencyConversion = dashboardBean.getCurrencyConversion().isEmpty() ? null
+				: dashboardBean.getCurrencyConversion();
 
 		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
 		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(
-				"PRC_REPORT_DASHBOARD_GENERATE 'QUARTERLY',null,null,null,0,0,null,null,601,672,47,?,?,null,?,?,?",
-				new Object[] { levelNo, gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getSessionId(),
+				"PRC_REPORT_DASHBOARD_GENERATE ?,null,null,null,?,?,null,?,601,672,47,?,?,null,?,?,?",
+				new Object[] { frequency, salesInClusion, deductionInclusion, currencyConversion, levelNo,
+						gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getSessionId(),
 						Integer.valueOf(gtnWsRequest.getGtnWsGeneralRequest().getUserId()), hierarchy, customViewType },
-				new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING,
-						GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING });
+				new GtnFrameworkDataType[] { GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER,
+						GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER,
+						GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING,
+						GtnFrameworkDataType.STRING });
 		System.out.println(outputFromProcedure);
 
-		String declareStatement = "declare @COMPARISION_BASIS varchar(100) = null,@level_no int = " + levelNo +" , @HIERARCHY_NO varchar(100) = null ";
+		String declareStatement = "declare @COMPARISION_BASIS varchar(100) = null,@level_no int = " + levelNo
+				+ " , @HIERARCHY_NO varchar(100) = null ";
 		Object[] stringData = outputFromProcedure.get(0);
 		StringBuilder queryBuilder = new StringBuilder(declareStatement);
 		for (Object tempData : stringData) {
