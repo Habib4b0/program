@@ -84,6 +84,9 @@ public class GtnCustomRelationshipLevelValueService {
 				String.valueOf(tempListObject[NumericConstants.ZERO]), bean));
 		input.add(this.dataSelectionBean.getSessionTable(GtnWsQueryConstants.CUSTOM_VARIABLE_HIERARCHY));
 		input.add(dataSelectionBean.getCustomViewMasterSid());
+		input.add(isUdc
+				? "JOIN UDCS U on U." + tempListObject[NumericConstants.THREE] + " = CVH.RELATIONSHIP_LEVEL_VALUES"
+				: StringUtils.EMPTY);
 		input.add(isUdc ? " TEMP.RS_CONTRACT_SID=U.MASTER_SID AND U.MASTER_TYPE='RS_CONTRACT' "
 				: " TEMP." + tempListObject[NumericConstants.THREE] + " = CVH.RELATIONSHIP_LEVEL_VALUES ");
 		if (isUdc) {
