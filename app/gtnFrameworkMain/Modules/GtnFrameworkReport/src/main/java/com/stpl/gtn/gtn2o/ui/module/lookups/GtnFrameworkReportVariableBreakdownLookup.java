@@ -32,7 +32,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 
 		GtnUIFrameworkViewConfig variableBreakdownView = new GtnUIFrameworkViewConfig();
 		variableBreakdownView.setViewName("Variable Breakdown");
-		variableBreakdownView.setViewId("variableBreakdown");
+		variableBreakdownView.setViewId(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_LOOKUP_VIEW_ID);
 		variableBreakdownView.setDefaultView(false);
 		addComponentList(variableBreakdownView, namespace);
 		return variableBreakdownView;
@@ -135,13 +135,13 @@ public class GtnFrameworkReportVariableBreakdownLookup {
                 variableBreakdownFrequencyLoadActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
                 variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnReportingVariableBreakdownGridLoadAction.class.getName());
 		variableBreakdownFrequencyLoadActionConfig
-				.addActionParameter("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent");
+				.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT);
                 variableBreakdownFrequencyLoadActionConfig.addActionParameter("reportLandingScreen_reportingDashboardComparisonConfig");
-                variableBreakdownFrequencyLoadActionConfig.addActionParameter("reportOptionsTab_variableBreakdownValueFileorProjection");
-                variableBreakdownFrequencyLoadActionConfig.addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
-                variableBreakdownFrequencyLoadActionConfig.addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
-                variableBreakdownFrequencyLoadActionConfig.addActionParameter("reportOptionsTab_variableBreakdownStartPeriod");
-                variableBreakdownFrequencyLoadActionConfig.addActionParameter("reportOptionsTab_variableBreakdownEndPeriod");
+                variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FILE_OR_PROJECTION);
+                variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
+                variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
+                variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_START_PERIOD);
+                variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_END_PERIOD);
                 
                 frequencyActionConfigList.add(variableBreakdownFrequencyLoadActionConfig);
                 
@@ -151,7 +151,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
                 variableBreakDownHistoryLoadConfig
                         .addActionParameter("reportLandingScreen_fromPeriod");
                 variableBreakDownHistoryLoadConfig
-                        .addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
+                        .addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
                 variableBreakDownHistoryLoadConfig
                         .addActionParameter("reportOptionsTab_variableBreakdownHistoryConfig");
                 frequencyActionConfigList.add(variableBreakDownHistoryLoadConfig);
@@ -339,10 +339,10 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
                 variableBreakDownPopulateLoadAction.addActionParameter(GtnReportingVariableBreakdownMassUpdateAction.class.getName());
 		variableBreakDownPopulateLoadAction.addActionParameter("reportOptionsTab_variableBreakdownValue");                
-                variableBreakDownPopulateLoadAction.addActionParameter("reportOptionsTab_variableBreakdownValueFileorProjection");
-                variableBreakDownPopulateLoadAction.addActionParameter("reportOptionsTab_variableBreakdownStartPeriod");
-                variableBreakDownPopulateLoadAction.addActionParameter("reportOptionsTab_variableBreakdownEndPeriod");
-                variableBreakDownPopulateLoadAction.addActionParameter("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent");
+                variableBreakDownPopulateLoadAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FILE_OR_PROJECTION);
+                variableBreakDownPopulateLoadAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_START_PERIOD);
+                variableBreakDownPopulateLoadAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_END_PERIOD);
+                variableBreakDownPopulateLoadAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT);
                 
                 variableBreakdownPopulateButton.addGtnUIFrameWorkActionConfig(variableBreakDownPopulateLoadAction);
 		componentList.add(variableBreakdownPopulateButton);
@@ -373,7 +373,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
                 
                 GtnUIFrameWorkActionConfig variableBreakDownSubmitClosePopup = new GtnUIFrameWorkActionConfig();
 		variableBreakDownSubmitClosePopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		variableBreakDownSubmitClosePopup.addActionParameter("variableBreakdown");
+		variableBreakDownSubmitClosePopup.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_LOOKUP_VIEW_ID);
 		
                 variableBreakdownSubmitActionConfigList.add(variableBreakDownSubmitClosePopup);
                 
@@ -392,17 +392,23 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownResetButtonConfirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
                 actionParamForReset.add("Confirm Reset");
                 actionParamForReset.add("Are you sure you want to reset the page to default values?");
-                List<GtnUIFrameWorkActionConfig> actionConfigListForReset = new ArrayList<>();
-                 GtnUIFrameWorkActionConfig variableBreakdownResetButtonAction = new GtnUIFrameWorkActionConfig();
+		List<GtnUIFrameWorkActionConfig> actionConfigListForReset = new ArrayList<>();
+		GtnUIFrameWorkActionConfig variableBreakdownResetButtonAction = new GtnUIFrameWorkActionConfig();
 		variableBreakdownResetButtonAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		variableBreakdownResetButtonAction.addActionParameter(GtnReportingVariableBreakdownGridResetAction.class.getName());
-                variableBreakdownResetButtonAction.addActionParameter("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent");
-                variableBreakdownResetButtonAction.addActionParameter("reportOptionsTab_variableBreakdownValue");
-                variableBreakdownResetButtonAction.addActionParameter("reportOptionsTab_variableBreakdownValueFileorProjection");
-                variableBreakdownResetButtonAction.addActionParameter("reportOptionsTab_variableBreakdownStartPeriod");
-                variableBreakdownResetButtonAction.addActionParameter("reportOptionsTab_variableBreakdownEndPeriod");
-                variableBreakdownResetButtonAction.addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
-                variableBreakdownResetButtonAction.addActionParameter("reportOptionsTab_variableBreakdownHistoryConfig");
+		variableBreakdownResetButtonAction
+				.addActionParameter(GtnReportingVariableBreakdownGridResetAction.class.getName());
+		variableBreakdownResetButtonAction.addActionParameter(
+				GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT);
+		variableBreakdownResetButtonAction.addActionParameter("reportOptionsTab_variableBreakdownValue");
+		variableBreakdownResetButtonAction.addActionParameter(
+				GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FILE_OR_PROJECTION);
+		variableBreakdownResetButtonAction.addActionParameter(
+				GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_START_PERIOD);
+		variableBreakdownResetButtonAction.addActionParameter(
+				GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_END_PERIOD);
+		variableBreakdownResetButtonAction.addActionParameter(
+				GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
+		variableBreakdownResetButtonAction.addActionParameter("reportOptionsTab_variableBreakdownHistoryConfig");
                 
                 actionConfigListForReset.add(variableBreakdownResetButtonAction);
                 actionParamForReset.add(actionConfigListForReset);
@@ -421,7 +427,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 
                 GtnUIFrameWorkActionConfig variableBreakdownCloseButtonpopup = new GtnUIFrameWorkActionConfig();
 		variableBreakdownCloseButtonpopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		variableBreakdownCloseButtonpopup.addActionParameter("variableBreakdown");
+		variableBreakdownCloseButtonpopup.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_LOOKUP_VIEW_ID);
                 
                 variableBreakdownCloseButton.addGtnUIFrameWorkActionConfig(variableBreakdownCloseButtonpopup);
                 

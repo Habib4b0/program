@@ -58,7 +58,7 @@ public class Query {
 //"                    ? ? ? ? ? ";
     
     
-  public static final  String  getDataProductHierarchy="SELECT\n" +
+  public static final  String  GET_DATA_PRODUCT_HIERARCHY="SELECT\n" +
 "                	distinct\n" +
 "                    c.HIERARCHY_NAME as hierName,\n" +
 "                    a.LEVEL_NO as highestLevel,\n" +

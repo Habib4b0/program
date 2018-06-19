@@ -37,7 +37,7 @@ public class GtnFrameworkReportComparisonLookup {
 
 	public GtnUIFrameworkViewConfig getReportComparisonLookupView() {
 		GtnUIFrameworkViewConfig comparisonLookupRootView = configProvider.getViewConfig("Comparison Lookup",
-				"comparisonLookupView", false);
+				GtnFrameworkReportStringConstants.REPORT_COMPARISON_LOOKUP_VIEW, false);
 		addComponentList(comparisonLookupRootView);
 		return comparisonLookupRootView;
 	}
@@ -735,7 +735,7 @@ public class GtnFrameworkReportComparisonLookup {
 
 		GtnUIFrameWorkActionConfig popupCloseAction = new GtnUIFrameWorkActionConfig();
 		popupCloseAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		popupCloseAction.addActionParameter("comparisonLookupView");
+		popupCloseAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_COMPARISON_LOOKUP_VIEW);
 		submitActionList.add(popupCloseAction);
 		submitButton.setGtnUIFrameWorkActionConfigList(submitActionList);
 	}
@@ -760,7 +760,7 @@ public class GtnFrameworkReportComparisonLookup {
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
 		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		closeAction.addActionParameter("comparisonLookupView");
+		closeAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_COMPARISON_LOOKUP_VIEW);
 		actionConfigList.add(closeAction);
 
 		closeButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
