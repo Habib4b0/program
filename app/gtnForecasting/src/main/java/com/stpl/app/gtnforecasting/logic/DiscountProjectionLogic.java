@@ -24,6 +24,8 @@ import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.QUARTERLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.SEMI_ANNUALLY;
+import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
+import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUAL;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -335,12 +337,12 @@ public class DiscountProjectionLogic {
                         String column = StringUtils.EMPTY;
                         if (frequency.equals(QUARTERLY.getConstant())) {
                             column = Constant.Q_SMALL + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
-                        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+                        } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                             column = Constant.S_SMALL + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
                         } else if (frequency.equals(MONTHLY.getConstant())) {
                             String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.THREE]) - 1);
                             column = monthName.toLowerCase() + obj[NumericConstants.TWO];
-                        } else if (frequency.equals(ANNUALLY.getConstant())) {
+                        } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                             column = StringUtils.EMPTY + obj[NumericConstants.TWO];
                         }
                         String commonColumn = StringUtils.EMPTY;

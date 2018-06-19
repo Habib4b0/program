@@ -330,7 +330,7 @@ public class DiscountQueryBuilder {
 
                 int startMonth = 0;
                 int endMonth = 0;
-                if (frequency.equals(ANNUALLY.getConstant())) {
+                if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                     startMonth = 1;
                     endMonth = NumericConstants.TWELVE;
                 }
@@ -370,7 +370,7 @@ public class DiscountQueryBuilder {
                             break;
                     }
                 }
-                if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+                if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                     switch (startFreq) {
                         case 1:
                             startMonth = 1;
@@ -479,7 +479,7 @@ public class DiscountQueryBuilder {
 
         if (fre.equals(MONTHLY.getConstant())) {
             String startMonthValue = period.substring(0, period.length() - NumericConstants.FIVE);
-            int startFreqNo = CommonUtils.getIntegerForMonth(startMonthValue);
+            int startFreqNo = Integer.valueOf(startMonthValue.replaceAll("[^\\d.]", StringUtils.EMPTY));
             where = "where \"MONTH\" = '" + startFreqNo + AND_YEAR_EQUAL + startYear + "'";
         } else if (fre.equals(QUARTERLY.getConstant())) {
             where = "where QUARTER = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
