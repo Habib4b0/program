@@ -151,9 +151,14 @@
 			<artifactId>GtnFrameworkCustomview</artifactId>
 			<version>1.0</version>
 		</dependency>
-      <dependency>
+                <dependency>
 			<groupId>com.stpl.gtn.gtn2o</groupId>
 			<artifactId>GtnFrameworkReport</artifactId>
+			<version>1.0</version>
+		</dependency>
+                <dependency>
+			<groupId>com.stpl.gtn.gtn2o</groupId>
+			<artifactId>GtnFrameworkScreenRegistry</artifactId>
 			<version>1.0</version>
 		</dependency>
 	</dependencies>
