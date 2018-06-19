@@ -1,6 +1,12 @@
 package com.stpl.gtn.gtn2o.ui.module.workflowinbox.action;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.custommenubar.CustomMenuBar.CustomMenuItem;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -8,10 +14,15 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.constants.GtnFrameworkWorkflowInboxClassConstants;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 
 public class GtnFrameworkWorkflowPopulateFieldsAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -30,6 +41,7 @@ public class GtnFrameworkWorkflowPopulateFieldsAction
 		GtnWsRecordBean gtnWsRecordBean = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)))
 				.getValueFromPagedDataTable();
+		
 		try {
 			String combocomponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("businessProcess")
 					.getCaptionFromComboBox();
@@ -286,9 +298,9 @@ public class GtnFrameworkWorkflowPopulateFieldsAction
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("workflowStatusArm", componentId)
 					.loadComboBoxComponentValue(getIntValue(workflowStatusArm));
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("adjustmentType", componentId)
-					.loadComboBoxComponentValue(getIntValue(adjustmentType));
-
+		
+			selectComponentOfMultiComboBox("adjustmentType",componentId,adjustmentType);
+			
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("deductionLevelArm", componentId)
 					.loadComboBoxComponentValue(getIntValue(deductionLevelArm));
 
@@ -322,4 +334,48 @@ public class GtnFrameworkWorkflowPopulateFieldsAction
 		return 0;
 	}
 
+	private HashMap<String, String> getCodeAndValueOfComboBox(String comboBoxType) {
+		
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
+		generalWSRequest.setComboBoxType(comboBoxType);
+		request.setGtnWsGeneralRequest(generalWSRequest);
+
+		GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebServiceClient()
+						.callGtnWebServiceUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX, request,
+						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
+				.getGtnUIFrameworkWebserviceComboBoxResponse();
+		
+		return createHashMap(comboBoxResponse.getItemValueList(), comboBoxResponse.getItemCodeList());
+	}
+	
+	private HashMap<String, String> createHashMap(List<String> itemValueList, List<String> itemCodeList) {
+		HashMap<String, String> map = new HashMap<>();
+		
+		for (int valueIndex = 0; valueIndex < itemValueList.size(); valueIndex++) {
+			map.put(itemValueList.get(valueIndex),itemCodeList.get(valueIndex) );
+		}
+		return map;
+	}
+	
+	/*	Basically for business process type='ARM'
+	 *  It will select multiple select combo box components 
+	 */
+	private void selectComponentOfMultiComboBox(String componentId, String sourceComponentId, String value) {
+		
+		CustomMenuBar menuBar = (CustomMenuBar) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId, sourceComponentId).getComponent();		
+		
+		List<CustomMenuItem> menuItems=menuBar.getItems().get(0).getChildren();
+		
+		HashMap<String, String> map=getCodeAndValueOfComboBox(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPEDDLB);
+		List<String> list = Arrays.asList(value.split(","));
+				
+		for(CustomMenuItem menuItem: menuItems) {
+			menuItem.setChecked(false);
+			if(list.contains(map.get(menuItem.getText()))) {
+				menuItem.setChecked(true);
+			}
+		}
+	}
 }
