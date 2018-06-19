@@ -8,6 +8,8 @@ import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 
 /**
  *
@@ -31,6 +33,7 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 	private String[] keyFieldFactory = null;
 	private String[] valueFieldFactory = null;
 	private boolean doubleHeaderVisible = false;
+	private boolean tripleHeaderVisible = false;
 
 	private float splitPosition = 300;
 
@@ -38,9 +41,11 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 
 	private float minSplitPosition = 200;
 
-	private int pageLength = 0;
+        private int pageLength =10;
 
 	private int itemPerPage = 0;
+
+	private String gridRequestGenerateActionClass = null;
 
 	private List<Object> leftTableDoubleHeaderVisibleColumns = new ArrayList<>();
 
@@ -53,6 +58,77 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 	private Map<Object, Object[]> leftTableDoubleHeaderMap = new HashMap<>();
 
 	private Map<Object, Object[]> rightTableDoubleHeaderMap = new HashMap<>();
+	private List<Object> leftTableTripleHeaderVisibleColumns = new ArrayList<>();
+
+	private List<Object> rightTableTripleHeaderVisibleColumns = new ArrayList<>();
+
+	private List<String> leftTableTripleHeaderVisibleHeaders = new ArrayList<>();
+
+	private List<String> rightTableTripleVisibleHeaders = new ArrayList<>();
+
+	private Map<Object, Object[]> leftTableTripleHeaderMap = new HashMap<>();
+
+	private Map<Object, Object[]> rightTableTripleHeaderMap = new HashMap<>();
+
+	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = null;
+
+	private GtnWsReportDashboardBean gtnWsReportDashboardBean;
+
+	public boolean isTripleHeaderVisible() {
+		return tripleHeaderVisible;
+	}
+
+	public void setTripleHeaderVisible(boolean tripleHeaderVisible) {
+		this.tripleHeaderVisible = tripleHeaderVisible;
+	}
+
+	public List<Object> getLeftTableTripleHeaderVisibleColumns() {
+		return leftTableTripleHeaderVisibleColumns;
+	}
+
+	public void setLeftTableTripleHeaderVisibleColumns(List<Object> leftTableTripleHeaderVisibleColumns) {
+		this.leftTableTripleHeaderVisibleColumns = leftTableTripleHeaderVisibleColumns;
+	}
+
+	public List<Object> getRightTableTripleHeaderVisibleColumns() {
+		return rightTableTripleHeaderVisibleColumns;
+	}
+
+	public void setRightTableTripleHeaderVisibleColumns(List<Object> rightTableTripleHeaderVisibleColumns) {
+		this.rightTableTripleHeaderVisibleColumns = rightTableTripleHeaderVisibleColumns;
+	}
+
+	public List<String> getLeftTableTripleHeaderVisibleHeaders() {
+		return leftTableTripleHeaderVisibleHeaders;
+	}
+
+	public void setLeftTableTripleHeaderVisibleHeaders(List<String> leftTableTripleHeaderVisibleHeaders) {
+		this.leftTableTripleHeaderVisibleHeaders = leftTableTripleHeaderVisibleHeaders;
+	}
+
+	public List<String> getRightTableTripleVisibleHeaders() {
+		return rightTableTripleVisibleHeaders;
+	}
+
+	public void setRightTableTripleVisibleHeaders(List<String> rightTableTripleVisibleHeaders) {
+		this.rightTableTripleVisibleHeaders = rightTableTripleVisibleHeaders;
+	}
+
+	public Map<Object, Object[]> getLeftTableTripleHeaderMap() {
+		return leftTableTripleHeaderMap;
+	}
+
+	public void setLeftTableTripleHeaderMap(Map<Object, Object[]> leftTableTripleHeaderMap) {
+		this.leftTableTripleHeaderMap = leftTableTripleHeaderMap;
+	}
+
+	public Map<Object, Object[]> getRightTableTripleHeaderMap() {
+		return rightTableTripleHeaderMap;
+	}
+
+	public void setRightTableTripleHeaderMap(Map<Object, Object[]> rightTableTripleHeaderMap) {
+		this.rightTableTripleHeaderMap = rightTableTripleHeaderMap;
+	}
 
 	private Map<Object, String> singleHeaderMap = new HashMap<>();
 
@@ -99,6 +175,21 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 	private String rightHeaderCustomClassLoadUrl = null;
 
 	private GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = null;
+
+	private String hierarchyNoColumn;
+	private String frequency;
+	private int levelNo = 1;
+	private String levelNoColumn;
+	private int rowsPerLevelItem;
+
+	private String countQuery;
+	private String dataQuery;
+	private String leftDataQuery;
+	Object[] dataQueryInputs;
+	Object[] leftDataQueryInputs;
+	Object[] countQueryInputs;
+	private List<Object> visibleColumns;
+	private List<String> columnHeaders;
 
 	public String getLeftHeader() {
 		return leftHeader;
@@ -504,5 +595,164 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 	public void setGtnUIFrameWorkActionConfig(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) {
 		this.gtnUIFrameWorkActionConfig = gtnUIFrameWorkActionConfig;
 	}
+
+	public String getHierarchyNoColumn() {
+		return hierarchyNoColumn;
+	}
+
+	public void setHierarchyNoColumn(String hierarchyNoColumn) {
+		this.hierarchyNoColumn = hierarchyNoColumn;
+	}
+
+	public String getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
+
+	public int getLevelNo() {
+		return levelNo;
+	}
+
+	public void setLevelNo(int levelNo) {
+		this.levelNo = levelNo;
+	}
+
+	public String getLevelNoColumn() {
+		return levelNoColumn;
+	}
+
+	public void setLevelNoColumn(String levelNoColumn) {
+		this.levelNoColumn = levelNoColumn;
+	}
+
+	public int getRowsPerLevelItem() {
+		return rowsPerLevelItem;
+	}
+
+	public void setRowsPerLevelItem(int rowsPerLevelItem) {
+		this.rowsPerLevelItem = rowsPerLevelItem;
+	}
+
+	public String getCountQuery() {
+		return countQuery;
+	}
+
+	public void setCountQuery(String countQuery) {
+		this.countQuery = countQuery;
+	}
+
+	public String getDataQuery() {
+		return dataQuery;
+	}
+
+	public void setDataQuery(String dataQuery) {
+		this.dataQuery = dataQuery;
+	}
+
+	public Object[] getDataQueryInputs() {
+		return dataQueryInputs;
+	}
+
+	public void setDataQueryInputs(Object[] dataQueryInputs) {
+		this.dataQueryInputs = dataQueryInputs;
+	}
+
+	public Object[] getLeftDataQueryInputs() {
+		return leftDataQueryInputs;
+	}
+
+	public void setLeftDataQueryInputs(Object[] leftDataQueryInputs) {
+		this.leftDataQueryInputs = leftDataQueryInputs;
+	}
+
+	public Object[] getCountQueryInputs() {
+		return countQueryInputs;
+	}
+
+	public void setCountQueryInputs(Object[] countQueryInputs) {
+		this.countQueryInputs = countQueryInputs;
+	}
+
+	public String getLeftDataQuery() {
+		return leftDataQuery;
+	}
+
+	public void setLeftDataQuery(String leftDataQuery) {
+		this.leftDataQuery = leftDataQuery;
+	}
+
+	public List<Object> getVisibleColumns() {
+		return visibleColumns;
+	}
+
+	public void setVisibleColumns(List<Object> visibleColumns) {
+		this.visibleColumns = visibleColumns;
+	}
+
+	public List<String> getColumnHeaders() {
+		return columnHeaders;
+	}
+
+	public void setColumnHeaders(List<String> columnHeaders) {
+		this.columnHeaders = columnHeaders;
+	}
+
+	private boolean enableRadioButtonInSingleHeader;
+	private boolean enableCheckBoxInDoubleHeader;
+	private boolean enableCheckBoxInTripleHeader;
+
+	public boolean isEnableRadioButtonInSingleHeader() {
+		return enableRadioButtonInSingleHeader;
+	}
+
+	public void setEnableRadioButtonInSingleHeader(boolean enableRadioButtonInSingleHeader) {
+		this.enableRadioButtonInSingleHeader = enableRadioButtonInSingleHeader;
+	}
+
+	public boolean isEnableCheckBoxInDoubleHeader() {
+		return enableCheckBoxInDoubleHeader;
+	}
+
+	public void setEnableCheckBoxInDoubleHeader(boolean enableCheckBoxInDoubleHeader) {
+		this.enableCheckBoxInDoubleHeader = enableCheckBoxInDoubleHeader;
+	}
+
+	public boolean isEnableCheckBoxInTripleHeader() {
+		return enableCheckBoxInTripleHeader;
+	}
+
+	public void setEnableCheckBoxInTripleHeader(boolean enableCheckBoxInTripleHeader) {
+		this.enableCheckBoxInTripleHeader = enableCheckBoxInTripleHeader;
+	}
+
+	public Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfigMap() {
+		return customFilterConfigMap;
+	}
+
+	public void setCustomFilterConfigMap(
+			Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap) {
+		this.customFilterConfigMap = customFilterConfigMap;
+	}
+
+	public GtnWsReportDashboardBean getGtnWsReportDashboardBean() {
+		return gtnWsReportDashboardBean;
+	}
+
+	public void setGtnWsReportDashboardBean(GtnWsReportDashboardBean gtnWsReportDashboardBean) {
+		this.gtnWsReportDashboardBean = gtnWsReportDashboardBean;
+	}
+
+	public String getGridRequestGenerateActionClass() {
+		return gridRequestGenerateActionClass;
+	}
+
+	public void setGridRequestGenerateActionClass(String gridRequestGenerateActionClass) {
+		this.gridRequestGenerateActionClass = gridRequestGenerateActionClass;
+	}
+	
+	
 
 }

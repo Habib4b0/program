@@ -13,15 +13,21 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.commercial.constants.GtnWsCommercialForecastingConstants;
+import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.service.duallistbox.GtnWsReturnsDualListBoxService;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.duallistbox.GtnUIFrameworkWebserviceDualListBoxResponse;
@@ -82,7 +88,7 @@ public class GtnWsReturnsDualListBoxController {
 		}
 		return gtnResponse;
 	}
-
+	
 	private boolean checkForData(List<Object> inputList) {
 		for (int i = 0; i < inputList.size(); i++) {
 			if ((inputList.get(i) == null || StringUtils.isBlank(String.valueOf(inputList.get(i))))
@@ -269,5 +275,6 @@ public class GtnWsReturnsDualListBoxController {
 		generalWSResponse.setSucess(isSuccess);
 		return generalWSResponse;
 	}
+	
 
 }

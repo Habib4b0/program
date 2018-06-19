@@ -92,6 +92,18 @@ public class GtnUiFrameworkEnableDisableAction implements GtnUIFrameWorkAction, 
 				.setEditable(false);  
                   GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + GtnFrameworkNSFConstants.SELECTED_DEDUCTION_RESULT_TABLE).getExtFilterTable()
 				.setEditable(false);
+                  
+                   Object[] visibleColumn = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + GtnFrameworkNSFConstants.SELECTED_DEDUCTION_RESULT_TABLE).getExtFilterTable().getVisibleColumns();
+                   int index = 0; 
+                   for(Object visibleColumnTemp :visibleColumn){
+                        if(String.valueOf(visibleColumnTemp).equalsIgnoreCase(GtnFrameworkCommonConstants.INDICATOR)){
+                            visibleColumn[index] = GtnFrameworkCommonConstants.INDICATOR_STRING;
+                   }
+                        index++;
+                }
+                   GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + GtnFrameworkNSFConstants.SELECTED_DEDUCTION_RESULT_TABLE).getExtFilterTable().setVisibleColumns(visibleColumn);
+                   GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + GtnFrameworkNSFConstants.SELECTED_DEDUCTION_RESULT_TABLE).getExtFilterTable().setColumnHeader(GtnFrameworkCommonConstants.INDICATOR_STRING, "Indicator");
+                   GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + GtnFrameworkNSFConstants.SELECTED_DEDUCTION_RESULT_TABLE).getExtFilterTable().resetFilters();
                 }
 		if (isAdd) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + "saveButton").setCaption("SAVE");
@@ -162,13 +174,13 @@ public class GtnUiFrameworkEnableDisableAction implements GtnUIFrameWorkAction, 
 					"startDate", "endDate", GtnFrameworkCommonConstants.CONTRACT_HOLDER,
 					GtnFrameworkCommonConstants.CFP_NO, GtnFrameworkCommonConstants.CFP_NAME,
 					GtnFrameworkCommonConstants.IFP_NUMBER, GtnFrameworkCommonConstants.IFP_NAME, "psNo",
-					GtnFrameworkCommonConstants.PS_NAME, "indicator", GtnFrameworkCommonConstants.RULE_NO,
+					GtnFrameworkCommonConstants.PS_NAME, GtnFrameworkCommonConstants.INDICATOR, GtnFrameworkCommonConstants.RULE_NO,
 					GtnFrameworkCommonConstants.RULE_NAME };
 		} else {
 			return new String[] { GtnFrameworkCommonConstants.CHECK_RECORD_ID,
 					GtnFrameworkCommonConstants.PROPERTY_DEDUCTION_TYPE,
 					GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE_HEADER,
-					GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_PROPERTY, "indicator", "netSalesRuleNo",
+					GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_PROPERTY, GtnFrameworkCommonConstants.INDICATOR, "netSalesRuleNo",
 					"netSalesRuleName" };
 		}
 	}
