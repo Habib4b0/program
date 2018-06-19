@@ -26,11 +26,12 @@ public class GtnWsReportDashboardBean {
 	private String periodStart;
 	private String periodTo;
 	private String selectFreqString;
-	private Integer salesInclusion;
-	private Integer deductionInclusion;
+	private int salesInclusion;
+	private int deductionInclusion;
 	private String itemUom;
 	private String currencyConversion;
 	private Object[] displayFormat;
+	private String annualTotals;
 
 	public String[] getInput() {
 		return input;
@@ -148,19 +149,19 @@ public class GtnWsReportDashboardBean {
 		this.selectFreqString = selectFreqString;
 	}
 
-	public Integer getSalesInclusion() {
+	public int getSalesInclusion() {
 		return salesInclusion;
 	}
 
-	public void setSalesInclusion(Integer salesInclusion) {
+	public void setSalesInclusion(int salesInclusion) {
 		this.salesInclusion = salesInclusion;
 	}
 
-	public Integer getDeductionInclusion() {
+	public int getDeductionInclusion() {
 		return deductionInclusion;
 	}
 
-	public void setDeductionInclusion(Integer deductionInclusion) {
+	public void setDeductionInclusion(int deductionInclusion) {
 		this.deductionInclusion = deductionInclusion;
 	}
 
@@ -186,6 +187,14 @@ public class GtnWsReportDashboardBean {
 
 	public void setDisplayFormat(Object[] displayFormat) {
 		this.displayFormat = displayFormat;
+	}
+
+	public String getAnnualTotals() {
+		return annualTotals;
+	}
+
+	public void setAnnualTotals(String annualTotals) {
+		this.annualTotals = annualTotals;
 	}
 
 }
