@@ -523,6 +523,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String REBATE_PLAN_CALCULATION_FROM_COMPLEX = "rebatePlanCalculationToComplex";
 	public static final String REBATE_PLAN_CALCULATIONS_OPERATOR_COMPLEX = "rebatePlanCalculationsOperatorComplex";
 	public static final String REBATE_PLAN_CALCULATIONS_VALUE_COMPLEX = "rebatePlanCalculationsValueComplex";
+	public static final String REBATE_PLAN_CALCULATIONS_REMOVE_COMPLEX = "gtnRpRemoveComplexButton";
         public static final String PERCENT_650 = "650px";
         public static final String PERCENT_500 = "500px";
         public static final String PERCENT_1680 = "1680px";
