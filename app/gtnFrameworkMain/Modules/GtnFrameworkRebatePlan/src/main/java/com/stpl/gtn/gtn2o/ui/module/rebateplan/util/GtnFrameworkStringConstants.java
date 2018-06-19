@@ -219,6 +219,7 @@ public class GtnFrameworkStringConstants {
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_VALUE,
 				GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX,
 				GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_OPERATOR_COMPLEX,
+				GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_REMOVE_COMPLEX,
 				GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_VALUE_COMPLEX };
         
         private static final Object[] ADD_COPY_DISABLE_FIELD = new String[] { GtnFrameworkStringConstants.REBATE_PLAN_ID_TOP,

@@ -410,7 +410,8 @@
 			CREATED_DATE,
 			MODIFIED_BY,
 			MODIFIED_DATE,
-			RS_CONTRACT_SID
+			RS_CONTRACT_SID,
+                        INDICATOR_STRING
 		) select
 			DD.DEDUCTION_DETAILS_SID,
                         DD.NET_SALES_FORMULA_MASTER_SID,
@@ -434,7 +435,11 @@
 			DD.CREATED_DATE,
 			DD.MODIFIED_BY,
 			DD.MODIFIED_DATE,
-			DD.RS_CONTRACT_SID
+			DD.RS_CONTRACT_SID,
+                        CASE
+                        WHEN DD."INDICATOR" = '+' then 'Add'
+                        ELSE 'Subtract' END
+                        
 		from
 			DEDUCTION_DETAILS DD
 		LEFT JOIN CONTRACT_MASTER CM on

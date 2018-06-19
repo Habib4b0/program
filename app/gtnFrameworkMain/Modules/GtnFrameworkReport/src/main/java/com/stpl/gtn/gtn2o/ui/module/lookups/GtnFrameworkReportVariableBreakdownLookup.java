@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridResetAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownHistoryLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownMassUpdateAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownSubmitAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -143,6 +144,17 @@ public class GtnFrameworkReportVariableBreakdownLookup {
                 variableBreakdownFrequencyLoadActionConfig.addActionParameter("reportOptionsTab_variableBreakdownEndPeriod");
                 
                 frequencyActionConfigList.add(variableBreakdownFrequencyLoadActionConfig);
+                
+                GtnUIFrameWorkActionConfig variableBreakDownHistoryLoadConfig = new GtnUIFrameWorkActionConfig(
+                        GtnUIFrameworkActionType.CUSTOM_ACTION);
+                variableBreakDownHistoryLoadConfig.addActionParameter(GtnReportingVariableBreakdownHistoryLoadAction.class.getName());
+                variableBreakDownHistoryLoadConfig
+                        .addActionParameter("reportLandingScreen_fromPeriod");
+                variableBreakDownHistoryLoadConfig
+                        .addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
+                variableBreakDownHistoryLoadConfig
+                        .addActionParameter("reportOptionsTab_variableBreakdownHistoryConfig");
+                frequencyActionConfigList.add(variableBreakDownHistoryLoadConfig);
                 
                 variableBreakdownFrequencyConfig.setGtnUIFrameWorkActionConfigList(frequencyActionConfigList);
                 

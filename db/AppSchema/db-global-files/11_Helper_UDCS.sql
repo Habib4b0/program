@@ -16974,3 +16974,247 @@ IF NOT EXISTS (SELECT 1
 GO 
 
 --------------------------------------------------------
+
+
+ --- 1. script for  DESCRIPTION = 'Variables' AND LIST_NAME = 'REPORT_VARIABLES' in HELPER_TABLE
+ IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Variables'
+                      AND LIST_NAME = 'REPORT_VARIABLES')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Variables',
+                    'REPORT_VARIABLES',
+                    0 )
+  END
+GO 
+
+--- 2. script for  DESCRIPTION = 'Ex-Factory Sales' AND LIST_NAME = 'REPORT_VARIABLES_STATIC' in HELPER_TABLE
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Ex-Factory Sales'
+                      AND LIST_NAME = 'REPORT_VARIABLES_STATIC')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Ex-Factory Sales',
+                    'REPORT_VARIABLES_STATIC',
+                    0 )
+  END
+GO 
+
+--- 3. script for  DESCRIPTION = 'Gross Contract Sales % of Ex-Factory' AND LIST_NAME = 'REPORT_VARIABLES_STATIC' in HELPER_TABLE
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Gross Contract Sales % of Ex-Factory'
+                      AND LIST_NAME = 'REPORT_VARIABLES_STATIC')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Gross Contract Sales % of Ex-Factory',
+                    'REPORT_VARIABLES_STATIC',
+                    0 )
+  END
+GO 
+
+--- 4. script for  DESCRIPTION = 'Gross Contract Sales' AND LIST_NAME = 'REPORT_VARIABLES_STATIC' in HELPER_TABLE
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Gross Contract Sales'
+                      AND LIST_NAME = 'REPORT_VARIABLES_STATIC')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Gross Contract Sales',
+                    'REPORT_VARIABLES_STATIC',
+                    0 )
+  END
+GO 
+
+--- 5. script for  DESCRIPTION = 'Contract Units' AND LIST_NAME = 'REPORT_VARIABLES_STATIC' in HELPER_TABLE
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Contract Units'
+                      AND LIST_NAME = 'REPORT_VARIABLES_STATIC')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Contract Units',
+                    'REPORT_VARIABLES_STATIC',
+                    0 )
+  END
+GO 
+
+--- 6. script for  DESCRIPTION = 'Contract Sales % of Total Contract Sales' AND LIST_NAME = 'REPORT_VARIABLES_STATIC' in HELPER_TABLE
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Contract Sales % of Total Contract Sales'
+                      AND LIST_NAME = 'REPORT_VARIABLES_STATIC')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Contract Sales % of Total Contract Sales',
+                    'REPORT_VARIABLES_STATIC',
+                    0 )
+  END
+GO
+
+--- 7. script for  DESCRIPTION = 'Deduction $' AND LIST_NAME = 'REPORT_VARIABLES_STATIC' in HELPER_TABLE
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Deduction $'
+                      AND LIST_NAME = 'REPORT_VARIABLES_STATIC')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Deduction $',
+                    'REPORT_VARIABLES_STATIC',
+                    0 )
+  END
+GO
+
+--- 8. script for  DESCRIPTION = 'Deduction %' AND LIST_NAME = 'REPORT_VARIABLES_STATIC' in HELPER_TABLE
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Deduction %'
+                      AND LIST_NAME = 'REPORT_VARIABLES_STATIC')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Deduction %',
+                    'REPORT_VARIABLES_STATIC',
+                    0 )
+  END
+GO
+
+--- 9. script for  DESCRIPTION = 'RPU' AND LIST_NAME = 'REPORT_VARIABLES_STATIC' in HELPER_TABLE
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'RPU'
+                      AND LIST_NAME = 'REPORT_VARIABLES_STATIC')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'RPU',
+                    'REPORT_VARIABLES_STATIC',
+                    0 )
+  END
+GO
+
+--- 10. script for  DESCRIPTION = 'Deduction % of Ex-Factory' AND LIST_NAME = 'REPORT_VARIABLES_STATIC' in HELPER_TABLE
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Deduction % of Ex-Factory'
+                      AND LIST_NAME = 'REPORT_VARIABLES_STATIC')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Deduction % of Ex-Factory',
+                    'REPORT_VARIABLES_STATIC',
+                    0 )
+  END
+GO
+
+
+--- 11. script for  DESCRIPTION = 'Net Contract Sales' AND LIST_NAME = 'REPORT_VARIABLES_STATIC' in HELPER_TABLE
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Net Contract Sales'
+                      AND LIST_NAME = 'REPORT_VARIABLES_STATIC')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Net Contract Sales',
+                    'REPORT_VARIABLES_STATIC',
+                    0 )
+  END
+GO
+
+--- 12. script for  DESCRIPTION = 'Net Contract Sales % of Ex-Factory' AND LIST_NAME = 'REPORT_VARIABLES_STATIC' in HELPER_TABLE
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Net Contract Sales % of Ex-Factory'
+                      AND LIST_NAME = 'REPORT_VARIABLES_STATIC')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Net Contract Sales % of Ex-Factory',
+                    'REPORT_VARIABLES_STATIC',
+                    0 )
+  END
+GO
+
+--- 13. script for  DESCRIPTION = 'Net Ex-Factory Sales' AND LIST_NAME = 'REPORT_VARIABLES_STATIC' in HELPER_TABLE
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Net Ex-Factory Sales'
+                      AND LIST_NAME = 'REPORT_VARIABLES_STATIC')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Net Ex-Factory Sales',
+                    'REPORT_VARIABLES_STATIC',
+                    0 )
+  END
+GO
+
+--- 14. script for  DESCRIPTION = 'Net Ex-Factory Sales % of Total Ex-Factory Sales' AND LIST_NAME = 'REPORT_VARIABLES_STATIC' in HELPER_TABLE
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Net Ex-Factory Sales % of Total Ex-Factory Sales'
+                      AND LIST_NAME = 'REPORT_VARIABLES_STATIC')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Net Ex-Factory Sales % of Total Ex-Factory Sales',
+                    'REPORT_VARIABLES_STATIC',
+                    0 )
+  END
+GO
+
+--- 15. script for  DESCRIPTION = 'Weighted GTN Contribution' AND LIST_NAME = 'REPORT_VARIABLES_STATIC' in HELPER_TABLE
+IF NOT EXISTS (SELECT 1
+               FROM   HELPER_TABLE
+               WHERE  DESCRIPTION = 'Weighted GTN Contribution'
+                      AND LIST_NAME = 'REPORT_VARIABLES_STATIC')
+  BEGIN
+      INSERT INTO HELPER_TABLE
+                  (DESCRIPTION,
+                   LIST_NAME,
+                   REF_COUNT)
+      VALUES      ( 'Weighted GTN Contribution',
+                    'REPORT_VARIABLES_STATIC',
+                    0 )
+  END
+GO
+
+
