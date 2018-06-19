@@ -151,6 +151,11 @@
 			<artifactId>GtnFrameworkCustomview</artifactId>
 			<version>1.0</version>
 		</dependency>
+      <dependency>
+			<groupId>com.stpl.gtn.gtn2o</groupId>
+			<artifactId>GtnFrameworkReport</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${gtn.modules.subsystem.order}.${project.artifactId}</finalName>

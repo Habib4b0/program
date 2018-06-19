@@ -656,7 +656,6 @@ public class GtnFrameworkCommonConstants {
 	public static final String RETURNS_FORECAST_TAB_SHEET_PRODUCT_GROUP = "returnsForecastTabSheet_productGroup";
 	public static final String CONTROL_BUTTON_LAYOUT = "controlButtonLayout";
 	
-
 	/**
 	 *
 	 * END
@@ -1060,6 +1059,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String I_MASTER_SEARCH_ORGANIZATION_KEY = "IMasterSearchOrganizationKey";
 	public static final String PARENT_ITEMACTION_BUTTONLAYOUT = "parentItemactionButtonlayout";
 	public static final String INDICATOR = "indicator";
+	public static final String INDICATOR_STRING = "indicator_string";
 	public static final String VIEW_NAME_CAPS = "VIEW_NAME";
 	public static final String TEMP_COUNT = "tempCount";
 	public static final String TEMP_CHECKED_COUNT = "tempCheckedCount";

@@ -49,7 +49,7 @@ public class GtnUiFrameworkSetSelectionAction implements GtnUIFrameWorkAction ,G
 
 		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
 		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		closeAction.setActionParameterList(Arrays.asList(new Object[] { "CDRPopUpSearchSearchView" }));
+		closeAction.setActionParameterList(Arrays.asList( "CDRPopUpSearchSearchView" ));
 		selectActionConfigList.add(closeAction);
 
 		selectButtonComponentConfig.setGtnUIFrameWorkActionConfigList(selectActionConfigList);
