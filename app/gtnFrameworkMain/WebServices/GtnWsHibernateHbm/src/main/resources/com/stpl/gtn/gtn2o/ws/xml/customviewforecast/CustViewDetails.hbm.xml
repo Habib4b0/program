@@ -22,5 +22,9 @@
     <property name="levelName" type="string">
       <column length="100" name="LEVEL_NAME"/>
     </property>
+    <property name="variableCount" type="int">
+      <column length="5" name="VARIABLE_COUNT"/>
+    </property>
+    
   </class>
 </hibernate-mapping>

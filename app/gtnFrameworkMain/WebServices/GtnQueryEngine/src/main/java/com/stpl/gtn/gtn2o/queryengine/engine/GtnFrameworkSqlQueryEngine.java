@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.queryengine.engine;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projection;
+import org.hibernate.transform.ResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,6 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import java.math.BigDecimal;
 
 /**
  *
@@ -153,6 +154,26 @@ public class GtnFrameworkSqlQueryEngine {
 			queyValuelist = query.list();
 			queryLogger.endQueryLog(startTime, sqlQuery);
 			createQueryFile(fileName, query.toString());
+		} catch (Exception ex) {
+			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
+			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,
+					ex);
+		} finally {
+			session.close();
+		}
+		return queyValuelist;
+	}
+
+	public List<?> executeSelectQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type,
+			ResultTransformer transformer) throws GtnFrameworkGeneralException {
+		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY + sqlQuery);
+		Session session = getSessionFactory().openSession();
+		List<?> queyValuelist = null;
+		try {
+			long startTime = queryLogger.startQueryLog(sqlQuery);
+			Query query = generateSQLQuery(session, sqlQuery, params, type);
+			queyValuelist = query.setResultTransformer(transformer).list();
+			queryLogger.endQueryLog(startTime, sqlQuery);
 		} catch (Exception ex) {
 			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
 			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,
@@ -418,6 +439,22 @@ public class GtnFrameworkSqlQueryEngine {
 					ex);
 		}
 		return count;
+	}
+
+	public List<?> executeProcedureGet(String procedureName, Object[] params, GtnFrameworkDataType[] type)
+			throws GtnFrameworkGeneralException {
+		String procedure = "EXEC " + procedureName;
+		return executeSelectQuery(procedure, params, type);
+
+	}
+
+	public void executeProcedure(String procedureName, Object[] params, GtnFrameworkDataType[] type)
+			throws GtnFrameworkGeneralException {
+		long startTime = System.currentTimeMillis();
+		String procedureCall = " EXEC " + procedureName;
+		executeInsertOrUpdateQuery(procedureCall, params, type);
+		long endTime = System.currentTimeMillis();
+		logger.info("Procedure Execution Time = = = " + (endTime - startTime));
 	}
 
 }

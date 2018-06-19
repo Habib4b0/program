@@ -17,7 +17,6 @@ import com.vaadin.ui.Notification;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
-import de.steinwedel.messagebox.MessageBoxListener;
 
 public class GtnUIFrameworkTableSearchCompletionAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
@@ -51,20 +50,14 @@ public class GtnUIFrameworkTableSearchCompletionAction implements GtnUIFrameWork
 				List<Object> paramsList = gtnUIFrameWorkActionConfig.getActionParameterList();
 				String messageHeader = (String) paramsList.get(2);
 				String messageBody = (String) paramsList.get(3);
-				MessageBox.showPlain(Icon.ERROR, messageHeader, messageBody, new MessageBoxListener() {
-
-					@Override
-					public void buttonClicked(final ButtonId buttonId) {
-						return;
-
-					}
-				}, ButtonId.OK);
+				MessageBox.showPlain(Icon.ERROR, messageHeader, messageBody, buttonId -> {
+                            //nothing 
+                                }, ButtonId.OK);
 				throw new GtnFrameworkSkipActionException("Skip Action");
 			}
 			notificationIfTableNotEmpty(items, msg);
 		} catch (Exception e) {
 			logger.error("Error in GtnUIFrameWorkTableSearchCompletionAction ");
-			new GtnFrameworkGeneralException(e);
 		}
 	}
 

@@ -27,32 +27,37 @@ public class GtnUIFrameWorkPopUpAction implements GtnUIFrameWorkAction {
 
 	}
 	/*
-	 * Param 0 - View Component id , Param 1 - Pop up Window Name, Param2 -
-	 * Width, Param3 - Height, Param4 - Close Action class, Param5 -
-	 * PopUpSharedData *
+	 * Param 0 - View Component id , Param 1 - Pop up Window Name, Param2 - Width,
+	 * Param3 - Height, Param4 - Close Action class, Param5 - PopUpSharedData *
 	 */
 
 	@Override
 	public void doAction(String sourceComponentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		
+		logger.info("------------Inside  popUp  action");
+		
 		try {
 			List<Object> configList = gtnUIFrameWorkActionConfig.getActionParameterList();
 			CustomWindow popUpWindow = new CustomWindow((String) configList.get(1));
 			configWindowStyles(popUpWindow, configList);
-
+	
 			GtnUIFrameworkView view = (GtnUIFrameworkView) GtnUIFrameworkGlobalUI
 					.getVaadinComponent((String) configList.get(0));
+			
+	
 			if (view == null) {
+				
 				view = new GtnUIFrameworkView((String) configList.get(0), sourceComponentId);
 				configureReplicableWindow(popUpWindow);
-
 				GtnUIFrameworkGlobalUI.addViewToNavigator(view.getGeneratedViewId(), view);
 				logger.info("Add to Navigator ::: View Generated Id:" + view.getGeneratedViewId());
 			} else {
+				view.buildScreen(sourceComponentId);
 				configureModalWindow(popUpWindow);
 			}
 			setSharedPopupData(view, configList);
-			view.buildScreen(sourceComponentId);
+			buildPopupScreenView(sourceComponentId, view);
 
 			popUpWindow.setContent(view.getRootLayout());
 			if (configList.size() > 4 && configList.get(4) != null) {
@@ -72,6 +77,14 @@ public class GtnUIFrameWorkPopUpAction implements GtnUIFrameWorkAction {
 			UI.getCurrent().addWindow(popUpWindow);
 
 		} catch (GtnFrameworkGeneralException | IllegalArgumentException | NullPointerException ex) {
+			logger.error("Popup window Error", ex);
+		}
+	}
+
+	private void buildPopupScreenView(String sourceComponentId, GtnUIFrameworkView view) {
+		try {
+			view.buildScreen(sourceComponentId);
+		} catch (Exception ex) {
 			logger.error("Popup window Error", ex);
 		}
 	}

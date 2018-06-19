@@ -79,7 +79,8 @@ public class DiscountQueryBuilder {
     public static final String SELCOLDED = "@SELCOLDED";
     public static final String DPM_DEDUCTION_INCLUSION = " ,DPM.DEDUCTION_INCLUSION ";
     public static final String AND_USER_GROUP = " AND USER_GROUP = '";
-    public static final String NINE_LEVELS_DED ="UNION ALL SELECT SH.HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL";
+    public static final String NINE_LEVELS_DED =" UNION ALL SELECT SH.HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM ";
+    public static final String NINE_LEVELS_DED_EXCEL_CUSTOM =" UNION ALL SELECT DISTINCT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #DISCOUNT_PROJECTION_MASTER WHERE DEDUCTION_INCLUSION = ";
 
 
    
@@ -804,6 +805,7 @@ public class DiscountQueryBuilder {
     
     public static List getDiscountProjectionCustomExcel(SessionDTO session,final boolean isProgram,ProjectionSelectionDTO projectionSelection) {
         String CustExcelQuery = SQlUtil.getQuery("discountGenerateCustomViewExcel");
+        String dedQuery = NINE_LEVELS_DED_EXCEL_CUSTOM;
         String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
         CustExcelQuery = CustExcelQuery.replace("?RS", isProgram ? "R" : "P") //Indicator for Program or program category
                 .replace("?F", String.valueOf(projectionSelection.getFrequency().charAt(0))) //Selected Frequency initial char
@@ -812,6 +814,7 @@ public class DiscountQueryBuilder {
                 .replace("@PROJECTION_MASTER_SID",String.valueOf(session.getProjectionId()))
                 .replace("@CUST_VIEW_MASTER_SID",String.valueOf(session.getCustomDeductionRelationShipSid()))
                 .replace(DEDINCLNWHR, "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" WHERE DEDUCTION_INCLUSION= "+session.getDeductionInclusion()) // Selected RS
+                .replace("@UNIONALL", "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY : dedQuery + oppositeDed)
                 ;
         return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(CustExcelQuery, session.getCurrentTableNames()));
     }

@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ws.response.filemanagement.GtnWsFileManagementResponse
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastProjectionSubmitResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecastconfiguration.GtnWsForecastConfigurationResponse;
+import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
 import com.stpl.gtn.gtn2o.ws.response.ifpresponse.GtnWsIfpReponse;
 import com.stpl.gtn.gtn2o.ws.response.itemgroupreponse.GtnWsItemGroupResponse;
 import com.stpl.gtn.gtn2o.ws.response.itemmaster.GtnWsItemMasterResponse;
@@ -30,6 +31,7 @@ import com.stpl.gtn.gtn2o.ws.response.priceschedule.GtnWsPriceScheduleGeneralRes
 import com.stpl.gtn.gtn2o.ws.response.processmonitor.GtnWsProcessMonitorResponse;
 import com.stpl.gtn.gtn2o.ws.response.rebateplan.GtnWsRebatePlanGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuilderResponse;
+import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
 import com.stpl.gtn.gtn2o.ws.response.transaction.GtnWsTransactionResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 
@@ -48,6 +50,7 @@ public class GtnUIFrameworkWebserviceResponse {
     private GtnUIFrameworkWebserviceComboBoxResponse gtnUIFrameworkWebserviceComboBoxResponse = null;
     private GtnUIFrameworkWebserviceDualListBoxResponse gtnUIFrameworkWebserviceDualListBoxResponse = null;
     private GtnUIFrameworkWebserviceTextBoxResponse gtnUIFrameworkWebserviceTextBoxResponse = null;
+	private GtnUIFrameworkWebserviceDateResponse gtnUIFrameworkWebserviceDateResponse = null;
     private GtnWsGeneralResponse gtnWsGeneralResponse = new GtnWsGeneralResponse();
     private GtnCompanyMasterResponse gtnCompanyMasterResponse;
     private GtnSerachResponse gtnSerachResponse;
@@ -88,7 +91,45 @@ public class GtnUIFrameworkWebserviceResponse {
     private GtnWsCustomViewResponse gtnWsCustomViewResponse;
 
     private GtnFrameworkAutomaticRelationshipResponse automaticRelationResponse;
+    private GtnWsReportResponse gtnWsReportResponse;
+    private GtnWsReportResponse gtnReportResponse;
+    private GtnWsPagedTableResponse gtnWsPagedTableResponse;
 
+    public GtnWsPagedTableResponse getGtnWsPagedTableResponse() {
+        return gtnWsPagedTableResponse;
+    }
+
+    public void setGtnWsPagedTableResponse(GtnWsPagedTableResponse gtnWsPagedTableResponse) {
+        this.gtnWsPagedTableResponse = gtnWsPagedTableResponse;
+    }
+    
+    public GtnWsReportResponse getGtnReportResponse() {
+		return gtnReportResponse;
+	}
+
+	public void setGtnReportResponse(GtnWsReportResponse gtnReportResponse) {
+		this.gtnReportResponse = gtnReportResponse;
+	}
+
+    
+    public GtnUIFrameworkWebserviceDateResponse getGtnUIFrameworkWebserviceDateResponse() {
+		return gtnUIFrameworkWebserviceDateResponse;
+	}
+
+	public void setGtnUIFrameworkWebserviceDateResponse(
+			GtnUIFrameworkWebserviceDateResponse gtnUIFrameworkWebserviceDateResponse) {
+		this.gtnUIFrameworkWebserviceDateResponse = gtnUIFrameworkWebserviceDateResponse;
+	}
+
+	public GtnWsReportResponse getGtnWsReportResponse() {
+		return gtnWsReportResponse;
+	}
+
+	public void setGtnWsReportResponse(GtnWsReportResponse gtnWsReportResponse) {
+		this.gtnWsReportResponse = gtnWsReportResponse;
+	} 
+    
+    
     public String getResponseStatus() {
         return responseStatus;
     }
@@ -423,6 +464,7 @@ public class GtnUIFrameworkWebserviceResponse {
     public void setGtnWsAttachmentResponse(GtnWsAttachmentResponse gtnWsAttachmentResponse) {
         this.gtnWsAttachmentResponse = gtnWsAttachmentResponse;
     }
+
 
     public GtnWsCustomViewResponse getGtnWsCustomViewResponse() {
         return gtnWsCustomViewResponse;

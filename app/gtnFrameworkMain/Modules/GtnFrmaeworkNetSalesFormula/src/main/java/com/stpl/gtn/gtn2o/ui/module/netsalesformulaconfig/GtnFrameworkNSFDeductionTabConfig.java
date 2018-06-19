@@ -1103,8 +1103,8 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				.setTableVisibleHeader(GtnFrameworkNSFConstants.getSelectedDeductionsVisibleHeaders());
 		selectedDeductionsResultTable
 				.setTableColumnMappingId(GtnFrameworkNSFConstants.getSelectedDeductionsVisibleColumns());
-		selectedDeductionsResultTable.setExtraColumn(new Object[] { GtnFrameworkNSFConstants.getSystemid() });
-		selectedDeductionsResultTable.setExtraColumnDataType(new Class<?>[] { Integer.class });
+		selectedDeductionsResultTable.setExtraColumn(new Object[] { GtnFrameworkNSFConstants.getSystemid(),"indicator_string" });
+		selectedDeductionsResultTable.setExtraColumnDataType(new Class<?>[] { Integer.class ,String.class});
 		selectedDeductionsResultTable.setColumnCheckBoxId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 		selectedDeductionsResultTable.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.NET_SALES);
 		selectedDeductionsResultTable.setEditable(true);
@@ -1129,7 +1129,15 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		customFilterConfig.setPropertId(GtnFrameworkCommonConstants.INDICATOR);
 		customFilterConfig.setGtnComponentType(GtnUIFrameworkComponentType.COMBOBOX);
 		customFilterConfig.setGtnComponentConfig(getIndicatorComboBoxConfig());
+                
+                
+                GtnUIFrameworkPagedTableCustomFilterConfig customIndicatorFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
+		customIndicatorFilterConfig.setPropertId(GtnFrameworkCommonConstants.INDICATOR);
+		customIndicatorFilterConfig.setGtnComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+                customIndicatorFilterConfig.setGtnComponentConfig(getIndicatorStringComboBoxConfig());
+                
 		customFilterMap.put(GtnFrameworkCommonConstants.INDICATOR, customFilterConfig);
+		customFilterMap.put(GtnFrameworkCommonConstants.INDICATOR_STRING, customIndicatorFilterConfig);
 		return customFilterMap;
 	}
 
@@ -1279,6 +1287,15 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
 		comboBoxConfig.setItemValues(Arrays.asList("+", "-"));
 		comboBoxConfig.setItemCaptionValues(Arrays.asList("Add", "Subtract"));
+		indicatorFieldConfig.setGtnComboboxConfig(comboBoxConfig);
+		return indicatorFieldConfig;
+	}
+        
+        private GtnUIFrameworkComponentConfig getIndicatorStringComboBoxConfig() {
+		GtnUIFrameworkComponentConfig indicatorFieldConfig = new GtnUIFrameworkComponentConfig();
+		indicatorFieldConfig.setComponentType(GtnUIFrameworkComponentType.COMBOBOX);
+		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
+		comboBoxConfig.setItemValues(Arrays.asList("Add", "Subtract"));
 		indicatorFieldConfig.setGtnComboboxConfig(comboBoxConfig);
 		return indicatorFieldConfig;
 	}

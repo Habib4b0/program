@@ -15,6 +15,7 @@ public class CustViewDetails  implements java.io.Serializable {
      private Character hierarchyIndicator;
      private Integer levelNo;
      private String levelName;
+     private int   variableCount;
 
     public CustViewDetails() {
     }
@@ -23,14 +24,17 @@ public class CustViewDetails  implements java.io.Serializable {
     public CustViewDetails(int customViewDetailsSid) {
         this.customViewDetailsSid = customViewDetailsSid;
     }
-    public CustViewDetails(int customViewDetailsSid, Integer customViewMasterSid, Integer hierarchyId, Character hierarchyIndicator, Integer levelNo,String levelName) {
-       this.customViewDetailsSid = customViewDetailsSid;
-       this.customViewMasterSid = customViewMasterSid;
-       this.hierarchyId = hierarchyId;
-       this.hierarchyIndicator = hierarchyIndicator;
-       this.levelNo = levelNo;
-       this.levelName = levelName;
+
+    public CustViewDetails(int customViewDetailsSid, Integer customViewMasterSid, Integer hierarchyId, Character hierarchyIndicator, Integer levelNo, String levelName, int variableCount) {
+        this.customViewDetailsSid = customViewDetailsSid;
+        this.customViewMasterSid = customViewMasterSid;
+        this.hierarchyId = hierarchyId;
+        this.hierarchyIndicator = hierarchyIndicator;
+        this.levelNo = levelNo;
+        this.levelName = levelName;
+        this.variableCount = variableCount;
     }
+   
    
     public int getCustomViewDetailsSid() {
         return this.customViewDetailsSid;
@@ -74,6 +78,14 @@ public class CustViewDetails  implements java.io.Serializable {
 
     public void setLevelName(String levelName) {
         this.levelName = levelName;
+    }
+
+    public int getVariableCount() {
+        return variableCount;
+    }
+
+    public void setVariableCount(int variableCount) {
+        this.variableCount = variableCount;
     }
 
 

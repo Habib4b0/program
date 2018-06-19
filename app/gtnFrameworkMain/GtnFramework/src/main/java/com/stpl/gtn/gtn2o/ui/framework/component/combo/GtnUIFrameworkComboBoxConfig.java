@@ -30,7 +30,8 @@ public class GtnUIFrameworkComboBoxConfig {
 	private GtnUIFrameWorkActionConfig newItemHandlerActionConfig;
 	private boolean isIntegerItemCode = true;
 	private boolean isReadOnly = false;
-
+	private String moduleName="";
+	
 	public GtnUIFrameworkComboBoxConfig() {
 		super();
 	}
@@ -203,6 +204,14 @@ public class GtnUIFrameworkComboBoxConfig {
 
 	public void setReadOnly(boolean isReadOnly) {
 		this.isReadOnly = isReadOnly;
+	}
+
+	public String getModuleName() {
+		return moduleName;
+	}
+
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
 	}
 
 }

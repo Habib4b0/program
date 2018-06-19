@@ -12,7 +12,7 @@ public class GtnFrameworkNsfAddAction implements GtnUIFrameWorkAction, GtnUIFram
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		
+		return;
 	}
 
 	@Override

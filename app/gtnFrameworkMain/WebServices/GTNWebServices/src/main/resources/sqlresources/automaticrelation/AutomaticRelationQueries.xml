@@ -339,6 +339,47 @@ order by
          ]]>
 		</query>
 	</entity>
+	<entity id="reportCustomerLoad">
+		<query>
+			<![CDATA[
+		 select
+					*
+				from
+					(
+						SELECT
+							HLD.HIERARCHY_LEVEL_DEFINITION_SID,
+							HIERARCHY_DEFINITION_SID,
+							LEVEL_NAME,
+							LEVEL_VALUE_REFERENCE,
+							LEVEL_NO,
+							TABLE_NAME,
+							FIELD_NAME,
+							HLD.VERSION_NO,
+							CASE
+								WHEN HLD.LEVEL_VALUE_REFERENCE = 'User Defined' THEN HLV.HIERARCHY_LEVEL_VALUES_SID
+								ELSE 0
+							END as LEVELVALUEs,
+							ROW_NUMBER() over(
+								PARTITION by HLD.LEVEL_NAME
+							ORDER by
+								HLD.LEVEL_NO ASC
+							) as rowNo
+						from HIERARCHY_LEVEL_DEFINITION HLD 
+						LEFT JOIN dbo.HIERARCHY_LEVEL_VALUES HLV on
+							HLD.HIERARCHY_LEVEL_DEFINITION_SID = HLV.HIERARCHY_LEVEL_DEFINITION_SID
+						where 
+							HLD.HIERARCHY_DEFINITION_SID = ? and 
+							hld.VERSION_NO = ?
+						
+					) a
+				where
+					rowNo = 1
+				order by
+					LEVEL_NO;
+			]]>
+		</query>
+	</entity>
+	
 	<entity id="hierarchyByidandVersionNoBy ProjectionMasterSId Customer CFF">
 		<query> 
         <![CDATA[            
