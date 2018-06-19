@@ -523,6 +523,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String REBATE_PLAN_CALCULATION_FROM_COMPLEX = "rebatePlanCalculationToComplex";
 	public static final String REBATE_PLAN_CALCULATIONS_OPERATOR_COMPLEX = "rebatePlanCalculationsOperatorComplex";
 	public static final String REBATE_PLAN_CALCULATIONS_VALUE_COMPLEX = "rebatePlanCalculationsValueComplex";
+	public static final String REBATE_PLAN_CALCULATIONS_REMOVE_COMPLEX = "gtnRpRemoveComplexButton";
         public static final String PERCENT_650 = "650px";
         public static final String PERCENT_500 = "500px";
         public static final String PERCENT_1680 = "1680px";
@@ -656,7 +657,6 @@ public class GtnFrameworkCommonConstants {
 	public static final String RETURNS_FORECAST_TAB_SHEET_PRODUCT_GROUP = "returnsForecastTabSheet_productGroup";
 	public static final String CONTROL_BUTTON_LAYOUT = "controlButtonLayout";
 	
-
 	/**
 	 *
 	 * END
@@ -1060,6 +1060,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String I_MASTER_SEARCH_ORGANIZATION_KEY = "IMasterSearchOrganizationKey";
 	public static final String PARENT_ITEMACTION_BUTTONLAYOUT = "parentItemactionButtonlayout";
 	public static final String INDICATOR = "indicator";
+	public static final String INDICATOR_STRING = "indicator_string";
 	public static final String VIEW_NAME_CAPS = "VIEW_NAME";
 	public static final String TEMP_COUNT = "tempCount";
 	public static final String TEMP_CHECKED_COUNT = "tempCheckedCount";

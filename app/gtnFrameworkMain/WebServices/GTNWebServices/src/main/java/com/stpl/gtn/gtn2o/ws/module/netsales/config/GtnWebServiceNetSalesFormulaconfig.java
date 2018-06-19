@@ -335,6 +335,7 @@ public class GtnWebServiceNetSalesFormulaconfig implements GtnWsSearchQueryConfi
 				GtnFrameworkWebserviceConstant.STRING, "IMDD");
 		indicatorColumnDetailsConfig.setWhereClauseColumn(GtnFrameworkWebserviceConstant.INDICATOR);
 		fieldToColumnDetailsMap.put("indicator", indicatorColumnDetailsConfig);
+                fieldToColumnDetailsMap.put("indicator_string", configProvider.getColumnStringConfig("INDICATOR_STRING", "IMDD"));
 		fieldToColumnDetailsMap.put(GtnFrameworkWebserviceConstant.RULE_SID,
 				configProvider.getColumnBooleanConfig(GtnFrameworkWebserviceConstant.CDR_MODEL_SID, "IMDD"));
 		fieldToColumnDetailsMap.put("netSalesRuleNo",
@@ -507,6 +508,7 @@ public class GtnWebServiceNetSalesFormulaconfig implements GtnWsSearchQueryConfi
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.SYSTEM_ID,
 				configProvider.getColumnIntegerConfig("IMTD_DEDUCTION_DETAILS_SID", "IMD"));
 		fieldToColumnDetailsMap.put("indicator", configProvider.getColumnStringConfig("INDICATOR", "IMD"));
+                fieldToColumnDetailsMap.put("indicator_string", configProvider.getColumnStringConfig("INDICATOR_STRING", "IMD"));
 		fieldToColumnDetailsMap.put("contractSystemId",
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.CONTRACT_MASTER_SID, "CM"));
 		fieldToColumnDetailsMap.put("rsContractSystemId",

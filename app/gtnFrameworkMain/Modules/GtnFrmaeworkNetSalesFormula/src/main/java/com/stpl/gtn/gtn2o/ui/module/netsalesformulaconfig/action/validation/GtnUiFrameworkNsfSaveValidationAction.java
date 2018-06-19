@@ -79,15 +79,6 @@ public class GtnUiFrameworkNsfSaveValidationAction implements GtnUIFrameWorkActi
 		return msg;
 	}
 
-	private String getValueFromField(final String propertyId) throws GtnFrameworkValidationFailedException {
-
-		return String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(propertyId).getValueFromComponent());
-
-	}
-
-	private boolean checkCondition(final String value) {
-		return "null".equals(value) || "".equals(value) || value == null;
-	}
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
