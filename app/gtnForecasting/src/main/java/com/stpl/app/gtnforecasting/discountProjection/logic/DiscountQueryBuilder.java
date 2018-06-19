@@ -478,7 +478,7 @@ public class DiscountQueryBuilder {
 
         if (fre.equals(MONTHLY.getConstant())) {
             String startMonthValue = period.substring(0, period.length() - NumericConstants.FIVE);
-            int startFreqNo = CommonUtils.getIntegerForMonth(startMonthValue);
+            int startFreqNo = Integer.valueOf(startMonthValue.replaceAll("[^\\d.]", StringUtils.EMPTY));
             where = "where \"MONTH\" = '" + startFreqNo + AND_YEAR_EQUAL + startYear + "'";
         } else if (fre.equals(QUARTERLY.getConstant())) {
             where = "where QUARTER = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
