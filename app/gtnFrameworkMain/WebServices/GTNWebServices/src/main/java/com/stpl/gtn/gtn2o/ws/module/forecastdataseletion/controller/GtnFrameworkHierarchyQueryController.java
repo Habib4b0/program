@@ -22,9 +22,9 @@ public class GtnFrameworkHierarchyQueryController {
 	public GtnFrameworkHierarchyQueryController() {
 		super();
 	}
+
 	@Autowired
 	private GtnFrameworkLoadDiscountService hierarchyQueryGeneratorService;
-
 
 	@RequestMapping(value = GtnWebServiceUrlConstants.GTN_QUERY_FOR_TABLENAME_HIERARCHY_TYPE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getQueryByTableNameAndHierarchyTypeForMultiLevel(
@@ -39,5 +39,20 @@ public class GtnFrameworkHierarchyQueryController {
 		response.setGtnWsForecastResponse(forecastResponse);
 		return response;
 	}
-			
+
+	@RequestMapping(value = GtnWebServiceUrlConstants.GTN_REPORT_LOAD_MULTISELECT_DDLB, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadReportMultiselectDdlb(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
+		GtnWsForecastRequest forecastRequet = gtnUIFrameworkWebserviceRequest.getGtnWsForecastRequest();
+		GtnForecastHierarchyInputBean inputBean = forecastRequet.getInputBean();
+		String finalQuery = hierarchyQueryGeneratorService.queryForReportMultiSelectDdlb(inputBean);
+		inputBean.setHieraryQuery(finalQuery);
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnWsForecastResponse forecastResponse = new GtnWsForecastResponse();
+		forecastResponse.setInputBean(inputBean);
+		response.setGtnWsForecastResponse(forecastResponse);
+		return response;
+	}
+
 }
