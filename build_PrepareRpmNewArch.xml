@@ -48,7 +48,8 @@
 			<fileset dir="${FrameworkDistUI}">
 				<include name="GtnForecastWebServices.war" />
 				<include name="GtnWsBpmWebService.war" />
-				<include name="GTNWebServices.war" />				
+				<include name="GTNWebServices.war" />
+				<include name="GtnReportingWebservice.war"/>
 			</fileset>
 		</move>
 
