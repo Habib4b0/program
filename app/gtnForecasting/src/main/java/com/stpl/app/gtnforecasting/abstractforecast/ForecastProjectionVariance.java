@@ -591,12 +591,17 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     @UiHandler("generateBtn")
     public void generate(Button.ClickEvent event)  {
         try {
+            LOGGER.info("session.getDsFrequency() {}"+sessionDTO.getDsFrequency()+"frequencyDdlb.getValue()------"+frequency.getValue());
+                LOGGER.info("session.getDeductionLevel()-{}"+sessionDTO.getDataSelectionDeductionLevel()+"deductionlevelDdlb.getValue()-----"+deductionlevelDdlb.getValue());
             if (!sessionDTO.getDsFrequency().equals(frequency.getValue()) || !sessionDTO.getDataSelectionDeductionLevel().equals(String.valueOf(deductionlevelDdlb.getValue()))) {
+                sessionDTO.setFunctionMode(sessionDTO.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
                 sessionDTO.setDsFrequency(String.valueOf(frequency.getValue()));
                 sessionDTO.setDataSelectionDeductionLevel(String.valueOf(deductionlevelDdlb.getValue()));
                 new DataSelectionLogic().nmSalesViewsPopulationProcedure(sessionDTO);
                 new DataSelectionLogic().nmDiscountViewsPopulationProcedure(sessionDTO);
-                CommonUtil.getInstance().waitForSeconds();
+                CommonLogic.viewProceduresCompletionCheckDiscount(sessionDTO);
+                sessionDTO.setFunctionMode("UPS");
+                new DataSelectionLogic().nmDiscountViewsPopulationProcedureForUPS(sessionDTO);
                 }
 
             LOGGER.debug("------ Inside generate security Projection Variance Tab and generate Button");
