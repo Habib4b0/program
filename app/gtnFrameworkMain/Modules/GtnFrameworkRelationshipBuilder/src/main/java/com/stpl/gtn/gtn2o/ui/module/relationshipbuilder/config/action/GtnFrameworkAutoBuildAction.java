@@ -6,9 +6,11 @@ import java.util.Set;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.listener.GtnUIMsgBoxTwoButtonListener;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -21,6 +23,9 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuilderResponse;
+import de.steinwedel.messagebox.ButtonId;
+import de.steinwedel.messagebox.Icon;
+import de.steinwedel.messagebox.MessageBox;
 
 public class GtnFrameworkAutoBuildAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
@@ -41,7 +46,7 @@ public class GtnFrameworkAutoBuildAction implements GtnUIFrameWorkAction, GtnUIF
                             .getVaadinBaseComponent("RB001_hierarchyName");
                     GtnUIFrameworkBaseComponent hierarchyVersionNo = GtnUIFrameworkGlobalUI
                             .getVaadinBaseComponent("RB001_versionNo");
-
+                    
                     List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
                     GtnUIFrameworkBaseComponent relationBuilderTreeBaseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3).toString());
                     Set<GtnWsRecordBean> treeValue = relationBuilderTreeBaseComponent.getSelectedValues();
@@ -76,6 +81,18 @@ public class GtnFrameworkAutoBuildAction implements GtnUIFrameWorkAction, GtnUIF
                         GtnWsRelationshipBuilderResponse rbResponse = response.getGtnWsRelationshipBuilderResponse();
                         rbTreeBaseComponent.removeTreeItems(treeSelectedBean);
                         rbTreeBaseComponent.loadTreeFromTreeNode(rbResponse.getRbTreeNodeList(), treeSelectedBean);
+                        List<GtnUIFrameWorkActionConfig> list = new ArrayList();
+                         GtnUIFrameWorkActionConfig messageConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.INFO_ACTION);
+			messageConfig.addActionParameter(" Auto Build Completed");
+			messageConfig.addActionParameter(" Auto Build functionality has successfully completed. ");
+			list.add(messageConfig);
+                        if(rbResponse.isSuccess()){
+                        String messageBody = " Auto Build functionality has been initiated.A message will be displayed when Auto Build has completed. ";
+                        String messageHeader = " Auto Build Started";
+                        MessageBox.showPlain(Icon.INFO, messageHeader, messageBody,new GtnUIMsgBoxTwoButtonListener(list, componentId) , ButtonId.OK);
+                       
+                        }
                     }
 		} catch (Exception e) {
 			gtnLogger.error("Exception in loadFilteredResultLayout", e);
