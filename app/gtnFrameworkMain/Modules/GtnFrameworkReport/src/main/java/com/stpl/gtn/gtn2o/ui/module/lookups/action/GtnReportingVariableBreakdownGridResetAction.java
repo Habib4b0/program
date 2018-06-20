@@ -5,6 +5,8 @@
  */
 package com.stpl.gtn.gtn2o.ui.module.lookups.action;
 
+import java.util.List;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -15,12 +17,11 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Label;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -28,8 +29,11 @@ import java.util.List;
  */
 public class GtnReportingVariableBreakdownGridResetAction implements GtnUIFrameworkActionShareable, GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass{
 
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportingVariableBreakdownGridResetAction.class);
+	
     @Override
     public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
+    	logger.debug("Inside Configure Parameters");
     }
 
     @Override
@@ -38,8 +42,8 @@ public class GtnReportingVariableBreakdownGridResetAction implements GtnUIFramew
         List<Object> actionParam = gtnUIFrameWorkActionConfig.getActionParameterList();
         AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(actionParam.get(1).toString(),componentId);
         GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
-        PagedGrid pagedGrid = (PagedGrid) gridComponent.getPagedGrid();
-        Grid<GtnWsRecordBean> grid = (Grid<GtnWsRecordBean>) pagedGrid.getGrid();
+        PagedGrid pagedGrid = gridComponent.getPagedGrid();
+        Grid<GtnWsRecordBean> grid =  pagedGrid.getGrid();
         List<Object[]> gtnReportVariableBreakdownLookupBeanList = (List<Object[]>) gridComponent.getCustomData();
 
         int variableBreakdownLookupBeanCount = gtnReportVariableBreakdownLookupBeanList.size();
@@ -53,7 +57,7 @@ public class GtnReportingVariableBreakdownGridResetAction implements GtnUIFramew
         for(int i=0;i<variableBreakdownLookupBeanCount;i++){
             for(int j=1;j<rowCount;j++){
                 Label projectionNames = (Label)grid.getHeaderRow(j).getCell("projectionNames").getComponent();
-                if (gtnReportVariableBreakdownLookupBeanList.get(i)[4].toString().equals(projectionNames.getValue().toString())) {
+                if (gtnReportVariableBreakdownLookupBeanList.get(i)[4].toString().equals(projectionNames.getValue())) {
                     ComboBox variableBreakdownResetCombo = (ComboBox) grid.getHeaderRow(j).getCell(gtnReportVariableBreakdownLookupBeanList.get(i)[3].toString()).getComponent();
                     variableBreakdownResetCombo.setSelectedItem(0);
                 }

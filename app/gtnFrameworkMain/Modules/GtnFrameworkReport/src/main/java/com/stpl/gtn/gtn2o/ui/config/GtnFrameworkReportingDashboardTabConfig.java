@@ -150,12 +150,12 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		addReportProfileComponent(componentList, nameSpace);
 		addComparisonComponent(componentList, nameSpace);
 		addVariableComponent(componentList, nameSpace);
-		addPeriodRangeFromComponent(componentList, nameSpace);
+		addPeriodRangeFromComponent(componentList);
 	    addCustomViewButtonComponent(componentList, nameSpace);
 		addCustomViewComponent(componentList, nameSpace);
-		addPeriodRangeToComponent(componentList, nameSpace);
+		addPeriodRangeToComponent(componentList);
 		addFrequencyComponent(componentList, nameSpace);
-		addComparisonBasisComponent(componentList, nameSpace);
+		addComparisonBasisComponent(componentList);
 		addVariableCategoryComponent(componentList, nameSpace);
 		addAnnualTotalsComponent(componentList, nameSpace);
 
@@ -317,7 +317,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 	}
 
-	private void addPeriodRangeFromComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+	private void addPeriodRangeFromComponent(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_PERIOD_RANGE_FROM_LAYOUT, true,
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
@@ -332,16 +332,12 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		componentList.add(periodRangeFromConfig);
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
-		// GtnUIFrameworkComboBoxConfig periodRangeFromLoadConfig =
-		// configProvider.getComboBoxConfig(
-		// GtnFrameworkReportStringConstants.STATUS,
-		// GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-		// + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		
 		periodRangeFromConfig.setGtnComboboxConfig(comboBoxConfig);
 
 	}
 
-	private void addComparisonBasisComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+	private void addComparisonBasisComponent(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_COMPARISON_BASIS_LAYOUT, true,
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
@@ -408,7 +404,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 	}
 
-	private void addPeriodRangeToComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+	private void addPeriodRangeToComponent(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_PERIOD_RANGE_TO_LAYOUT, true,
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
@@ -759,7 +755,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig customerLevelConfig = configProvider.getUIFrameworkComponentConfig(
-				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterTabCustomerLevel", true,
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_FILTER_TAB_CUSTOMER_LEVEL, true,
 				GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_CUSTOMER_LEVEL_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customerLevelConfig.setComponentName("Customer Level: ");
@@ -775,7 +771,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_DEDUCTION_FILTER);
 
 		GtnUIFrameWorkActionConfig reloadActionConfig = getLevelFilterReloadAction(
-				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterTabCustomerLevel",
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_FILTER_TAB_CUSTOMER_LEVEL,
 				GtnWsHierarchyType.CUSTOMER, nameSpace);
 		customerLevelConfig.setReloadActionConfig(reloadActionConfig);
 		customerLevelConfig.setReloadLogicActionClassName(GtnReportLevelFilterReloadAction.class.getName());
@@ -1392,7 +1388,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		filterAction.addActionParameter(indicator);
 
 		filterAction.addActionParameter(
-				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterTabCustomerLevel");
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_FILTER_TAB_CUSTOMER_LEVEL);
 		filterAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB_PRODUCT_LEVEL);
 		filterAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE

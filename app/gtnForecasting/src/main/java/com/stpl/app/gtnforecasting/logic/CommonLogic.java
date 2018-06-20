@@ -5354,7 +5354,7 @@ public class CommonLogic {
         String tempFrequency;
     if (frequency.equals(Constant.QUARTERLY)) {
             tempFrequency = "Q";
-        } else if (frequency.equals(Constant.SEMI_ANNUALLY)) {
+        } else if (frequency.equals(Constant.SEMI_ANNUALLY) || frequency.equals(Constant.SEMI_ANNUALY)) {
             tempFrequency = "S";
         } else if (frequency.equals(Constant.MONTHLY)) {
             tempFrequency = "M";

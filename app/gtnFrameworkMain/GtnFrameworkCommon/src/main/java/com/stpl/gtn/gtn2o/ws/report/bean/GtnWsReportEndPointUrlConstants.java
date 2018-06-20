@@ -6,4 +6,5 @@ public class GtnWsReportEndPointUrlConstants {
 	public static final String LOAD_CUSTOM_VIEW = "/loadCustomViewName";
 	public static final String LOAD_CUSTOM_VIEW_DATA = "/loadCustomView";
 	public static final String DELETE_CUSTOM_VIEW = "/deleteCustomView";
+	public static final String LOAD_DEDUCTION_HIERARCHY = "/loadDeductionHierarchy";
 }
