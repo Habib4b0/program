@@ -569,6 +569,7 @@ public class GtnFrameworkReportCustomViewLookup {
         saveActionConfig.addActionParameter(new String[]{tabName + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_NAME,
             "reportLandingScreen_customerSelectionRelationship", "reportLandingScreen_relationship","reportCustomViewLookup_custom_Variable_Type_OptionGroup"});
         saveActionConfig.addActionParameter(tabName + "customTreeTable");
+        saveActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.UNDERSCORE );
 		saveButton.addGtnUIFrameWorkActionConfig(saveActionConfig);
 
 		GtnUIFrameworkComponentConfig selectButtonConfig = new GtnUIFrameworkComponentConfig();
