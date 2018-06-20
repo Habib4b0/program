@@ -11,36 +11,41 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+
 import java.util.List;
 
 /**
  *
  * @author gokulkumar.murugesan
  */
-public class GtnReportingVariableBreakdownFrequencyLoadAction implements GtnUIFrameworkActionShareable, GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+public class GtnReportingVariableBreakdownFrequencyLoadAction
+		implements GtnUIFrameworkActionShareable, GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportingVariableBreakdownFrequencyLoadAction.class);
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-    }
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		logger.debug("Inside Configure Parameters");
+	}
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
 
-        List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
+		List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
+		String frequencyId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(1).toString())
+				.getCaptionFromV8ComboBox();
 
-        String frequencyId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(1).toString())
-                .getCaptionFromV8ComboBox();
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId)
+				.loadV8ComboBoxComponentValue(Integer.valueOf(frequencyId));
 
+	}
 
-            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId)
-                    .loadV8ComboBoxComponentValue(Integer.valueOf(frequencyId));
-        
-    }
-
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-        return this;
-    }
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
 
 }

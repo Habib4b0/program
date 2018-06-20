@@ -1647,6 +1647,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             setProductCustomerValues(map);
             setDeductionValues(map);
             setInclusionValues(map);
+            deductionlevelDdlb.setValue(Integer.valueOf(session.getDataSelectionDeductionLevel()));
         }
         if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.VIEW.equalsIgnoreCase(session.getAction())) {
             fetchDiscountsFromSave();

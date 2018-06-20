@@ -77,6 +77,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String PUBLIC_VIEW_LOOKUP_SEARCH_AND_RESET_LAYOUT = "publicViewLookUpSearchAndResetLayout";
 
 	public static final String RELATIONSHIP_LEVEL_SID = "relationshipLevelSid";
+	
+	public static final String VB_GRID_LOAD_HEADER_PROJECTION_NAMES = "projectionNames";
 
 	public static final String PROJ_DETAILS_TABSHEET_MAIN_LAYOUT = "projectionDetailsTabsheetMainLayout";
 
@@ -139,6 +141,24 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String SEARCH_QUERY = "searchQuery";
 
 	public static final String REPORT_LANDING_SCREEN = "reportLandingScreen";
+
+	public static final String REPORT_HIERARCHY_RELATIONSHIP_LAYOUT = "hierarchyRelationshipLayout";
+
+	public static final String REPORT_COMPARISON_LOOKUP_VIEW = "comparisonLookupView";
+
+	public static final String REPORT_VARIABLE_BREAKDOWN_LOOKUP_VIEW_ID = "variableBreakdown";
+	
+	public static final String REPORT_FILTER_TAB_CUSTOMER_LEVEL = "filterTabCustomerLevel";
+
+	public static final String REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT = "variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent";
+
+	public static final String REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FILE_OR_PROJECTION = "reportOptionsTab_variableBreakdownValueFileorProjection";
+
+	public static final String REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG = "reportOptionsTab_variableBreakdownFrequencyConfig";
+
+	public static final String REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_START_PERIOD= "reportOptionsTab_variableBreakdownStartPeriod";
+
+	public static final String REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_END_PERIOD = "reportOptionsTab_variableBreakdownEndPeriod";
 
 	public static final String DATA_SELECTION_MAIN_LAYOUT = "dataSelectionMainLayout";
 
@@ -453,11 +473,12 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT_LOOKUP_ACTION_PACKAGE = "com.stpl.gtn.gtn2o.ui.module.lookups.action.";
 
+	public static final String REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE
+			+ "GtnReportingComparisonBreakdownHeaderLoadAction";
 
-        public static final String REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE+"GtnReportingComparisonBreakdownHeaderLoadAction";
-        public static List<String> getReportDataAssumptionsTabId() {
-            return REPORT_DATAASSUMPTIONS_TAB_ID;
-        }
+	public static List<String> getReportDataAssumptionsTabId() {
+		return REPORT_DATAASSUMPTIONS_TAB_ID;
+	}
 
 	public static final String REPORT_VARIABLE_BREAKDOWN_HEADER_ACTION = REPORT_LOOKUP_ACTION_PACKAGE
 			+ "GtnReportingVariableBreakdownHeaderLoadAction";
