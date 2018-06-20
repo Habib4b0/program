@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportDashBoardRightHeaderReques
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportDasboardTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportGenerateRequestAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIUOMLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDashboardFrequencyLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportFilterReloadAction;
@@ -151,7 +152,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		addComparisonComponent(componentList, nameSpace);
 		addVariableComponent(componentList, nameSpace);
 		addPeriodRangeFromComponent(componentList, nameSpace);
-	    addCustomViewButtonComponent(componentList, nameSpace);
+		addCustomViewButtonComponent(componentList, nameSpace);
 		addCustomViewComponent(componentList, nameSpace);
 		addPeriodRangeToComponent(componentList, nameSpace);
 		addFrequencyComponent(componentList, nameSpace);
@@ -332,11 +333,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		componentList.add(periodRangeFromConfig);
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
-		// GtnUIFrameworkComboBoxConfig periodRangeFromLoadConfig =
-		// configProvider.getComboBoxConfig(
-		// GtnFrameworkReportStringConstants.STATUS,
-		// GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-		// + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		periodRangeFromConfig.setGtnComboboxConfig(comboBoxConfig);
 
 	}
@@ -443,29 +439,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComponentConfig filterOptionsTabComponentLayout = configProvider.getHorizontalLayoutConfig(
 				"filterOptionsTabComponentLayout", true, GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB);
 		componentList.add(filterOptionsTabComponentLayout);
-
-		// GtnUIFrameworkComponentConfig filterOptionsTabControlButtonLayout =
-		// configProvider.getHorizontalLayoutConfig(
-		// "filterOptionsTabControlButtonLayout", true,
-		// GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB);
-		// componentList.add(filterOptionsTabControlButtonLayout);
-
-		// GtnUIFrameworkComponentConfig filterOptionsTabPagedTreeTableLayout =
-		// configProvider.getHorizontalLayoutConfig(
-		// "filterOptionsTabPagedTreeTableLayout", true,
-		// GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB);
-		// componentList.add(filterOptionsTabPagedTreeTableLayout);
-
-		// GtnUIFrameworkComponentConfig filterOptionsTabNavigationButtonLayout =
-		// configProvider.getHorizontalLayoutConfig(
-		// "filterOptionsTabNavigationButtonLayout", true,
-		// GtnFrameworkReportStringConstants.FILTER_OPTIONS_TAB);
-		// componentList.add(filterOptionsTabNavigationButtonLayout);
-
 		GtnUIFrameworkComponentConfig filterOptionsTabPanel = configProvider.getPanelConfig("filterOptionsTabPanel",
 				true, "filterOptionsTabComponentLayout");
 		filterOptionsTabPanel.addComponentStyle(GtnUIFrameworkConstants.GTNFRAMEWORK_12.toString());
-		// filterOptionsTabPanel.setComponentHight("100px");
 		componentList.add(filterOptionsTabPanel);
 
 		GtnUIFrameworkComponentConfig filterOptionsTabPanelLayout = configProvider
@@ -481,10 +457,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(cssGtnLayout);
 
 		addFilterOptionsTabComponent(componentList, nameSpace);
-		// addControlButtonLayout(componentList, "filterOptionsTabControlButtonLayout",
-		// nameSpace);
-		// addNavigationButtonLayout(componentList, nameSpace,
-		// "filterOptionsTabNavigationButtonLayout");
 	}
 
 	private void addFilterOptionsTabComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -896,16 +868,16 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig variableBreakdownPopupActionConfig = new GtnUIFrameWorkActionConfig();
 		variableBreakdownPopupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		
-                 List<Object> params = new ArrayList<>();
+
+		List<Object> params = new ArrayList<>();
 		params.add("variableBreakdown");
 		params.add("Variable Breakdown");
 		params.add(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		params.add(null);
 		params.add(null);
 		params.add("reportingDashboardScreen");
-                		
-                variableBreakdownPopupActionConfig.setActionParameterList(params);
+
+		variableBreakdownPopupActionConfig.setActionParameterList(params);
 
 		actionConfigList.add(variableBreakdownPopupActionConfig);
 		variableBreakdownConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -976,12 +948,18 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		unitOfMeasureConfig.setComponentName("Unit Of Measure: ");
 		unitOfMeasureConfig.setAuthorizationIncluded(true);
 
-		componentList.add(unitOfMeasureConfig);
+		GtnUIFrameWorkActionConfig unitOfMeasureLoadConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		unitOfMeasureLoadConfig.addActionParameter(GtnFrameworkUIUOMLoadAction.class.getName());
+		unitOfMeasureLoadConfig
+				.addActionParameter("reportingDashboardTab" + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE);
+		unitOfMeasureConfig.setReloadActionConfig(unitOfMeasureLoadConfig);
+		unitOfMeasureConfig.setReloadLogicActionClassName(GtnFrameworkUIUOMLoadAction.class.getName());
 
-		GtnUIFrameworkComboBoxConfig unitOfMeasureLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		unitOfMeasureConfig.setGtnComboboxConfig(unitOfMeasureLoadConfig);
+		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
+		unitOfMeasureConfig.setGtnComboboxConfig(comboBoxConfig);
+		componentList.add(unitOfMeasureConfig);
 	}
 
 	private void addHeaderSequencingComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -1081,7 +1059,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		generateButton.setAddToParent(true);
 		componentList.add(generateButton);
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		
+
 		GtnUIFrameWorkActionConfig filterInputLoadAction = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		filterInputLoadAction.addActionParameter(GtnUIFrameworkReportFilterGenerateLoadAction.class.getName());
@@ -1090,7 +1068,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		filterInputLoadAction.addActionParameter("reportingDashboardTab_filterOptionsTabProductFilter");
 		filterInputLoadAction.addActionParameter("reportingDashboardTab_filterOptionsTabDeductionFilter");
 		actionConfigList.add(filterInputLoadAction);
-		
+
 		GtnUIFrameWorkActionConfig tableLoadAction = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		tableLoadAction.addActionParameter(GtnFrameworkUIReportDasboardTableLoadAction.class.getName());
@@ -1104,9 +1082,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		tableLoadAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_CURRENCY_DISPLAY);
 		actionConfigList.add(tableLoadAction);
-		
+
 		generateButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
-		
+
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
 		resetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		resetButton.setComponentName("RESET");

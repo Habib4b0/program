@@ -25,7 +25,6 @@ import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportCustHierarchyCon
 import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportProdHierarchyConfig;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnForecastEligibleDateLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownFrequencyLoadAction;
-import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -198,28 +197,25 @@ public class GtnFrameworkReportLandingScreenConfig {
 		List<GtnUIFrameWorkActionConfig> landingScreenVariableBreakdownActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig landingScreenVariableBreakdownPopupActionConfig = new GtnUIFrameWorkActionConfig();
 		landingScreenVariableBreakdownPopupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-                
-                List<Object> params = new ArrayList<>();
+
+		List<Object> params = new ArrayList<>();
 		params.add("variableBreakdown");
 		params.add("Variable Breakdown");
 		params.add(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		params.add(null);
 		params.add(null);
 		params.add("reportingLandingScreen");
-                		
-                landingScreenVariableBreakdownPopupActionConfig.setActionParameterList(params);
+
+		landingScreenVariableBreakdownPopupActionConfig.setActionParameterList(params);
 		landingScreenVariableBreakdownActionConfigList.add(landingScreenVariableBreakdownPopupActionConfig);
 
-            GtnUIFrameWorkActionConfig variableBreakDownGridLoad = new GtnUIFrameWorkActionConfig(
-                    GtnUIFrameworkActionType.CUSTOM_ACTION);
-            variableBreakDownGridLoad.addActionParameter(GtnReportingVariableBreakdownFrequencyLoadAction.class.getName());
-            variableBreakDownGridLoad
-                    .addActionParameter("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig");
-            variableBreakDownGridLoad
-                    .addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
-                        landingScreenVariableBreakdownActionConfigList.add(variableBreakDownGridLoad);
-
-                
+		GtnUIFrameWorkActionConfig variableBreakDownGridLoad = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		variableBreakDownGridLoad.addActionParameter(GtnReportingVariableBreakdownFrequencyLoadAction.class.getName());
+		variableBreakDownGridLoad
+				.addActionParameter("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig");
+		variableBreakDownGridLoad.addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
+		landingScreenVariableBreakdownActionConfigList.add(variableBreakDownGridLoad);
 
 		landingScreenVariableBreakdownConfig
 				.setGtnUIFrameWorkActionConfigList(landingScreenVariableBreakdownActionConfigList);
@@ -642,7 +638,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 				+ "landingScreenVariableBreakdownFrequencyConfig");
 		generateAction.addActionParameter("reportLandingScreen_toPeriod");
 		generateAction.addActionParameter("reportLandingScreen_STATUS");
-                generateAction.addActionParameter("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent");
+		generateAction.addActionParameter("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent");
 		actionList.add(generateAction);
 
 		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);
