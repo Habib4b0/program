@@ -383,6 +383,7 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String CUSTOM_TREETABLE = "customTreeTable";
 
 	public static final String CURRENCY_DISPLAY = "CONVERSION_FACTOR";
+	public static final String REPORT_LANDING_SCREEN_CUSTOM_VIEW = "reportLandingScreen_displaySelectionTabCustomView";
 
 	public static final String DISPLAY_FORMAT = "DISPLAY_FORMAT";
 
