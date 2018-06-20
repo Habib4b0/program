@@ -20,6 +20,8 @@ public class GtnReportJsonService {
 
 	public String convertObjectAsJsonString(Object value) {
 		ObjectMapper mapper = new ObjectMapper();
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 		try {
 			return mapper.writeValueAsString(value);
 		} catch (JsonProcessingException e) {
