@@ -35,7 +35,7 @@ public class GtnReportComparisonProjectionSubmitAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		GtnReportComparisonProjectionBean comparisonProjectionBean;
-		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList= new ArrayList<>();;
+		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList= new ArrayList<>();
 		GtnUIFrameworkBaseComponent selectedGrid = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getActionParameterList().get(1).toString());
 		PagedGrid pagedGrid = (PagedGrid) selectedGrid.getComponentData().getCustomData();
