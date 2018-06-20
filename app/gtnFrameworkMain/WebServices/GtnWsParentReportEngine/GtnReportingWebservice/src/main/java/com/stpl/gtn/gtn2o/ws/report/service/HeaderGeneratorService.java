@@ -599,7 +599,7 @@ public class HeaderGeneratorService {
  			List<Integer> quarterToDateForFromPeriod = getQuarterToDate(fromPeriod,splitParameter);
                          dateFromPeriodQuery = getDateFromFrequency(quarterToDateForFromPeriod);
                          frequency = "QUARTER,";
- 		} else if (fromPeriod.startsWith("S")) {
+ 		} else if (fromPeriod.startsWith("S")&& !fromPeriod.toLowerCase().startsWith("sep")) {
 
  			List<Integer> semiAnnualToDateForFromPeriod = getSemiAnnualToDate(fromPeriod,splitParameter);
 
@@ -680,13 +680,15 @@ public class HeaderGeneratorService {
 					tableHeaderDTO, fromPeriod);
 		} else {
 			List<Integer> monthToDateForFromPeriod = new ArrayList<>();
-			String[] monthToDateForFromPeriodSplit = fromPeriod.split(" ");
+			String[] monthToDateForFromPeriodSplit = new String[3];
+			monthToDateForFromPeriodSplit = fromPeriod.contains("-") ? fromPeriod.split(splitParameter): fromPeriod.split(" ");
 			monthToDateForFromPeriod.add(Integer.valueOf(monthToDateForFromPeriodSplit[1].trim()));
 			monthToDateForFromPeriod.add(getMonthIntegerFromYear(monthToDateForFromPeriodSplit[0].trim()));
 			monthToDateForFromPeriod.add(1);
 
 			List<Integer> monthToDateForToPeriod = new ArrayList<>();
-			String[] monthToDateForToPeriodSplit = toPeriod.split(" ");
+			String[] monthToDateForToPeriodSplit = new String[3];
+			monthToDateForToPeriodSplit = toPeriod.contains("-") ? toPeriod.split(splitParameter):fromPeriod.split(" ");
 			monthToDateForToPeriod.add(Integer.valueOf(monthToDateForToPeriodSplit[1].trim()));
 			monthToDateForToPeriod.add(getMonthIntegerFromYear(monthToDateForToPeriodSplit[0].trim()));
 			monthToDateForToPeriod.add(1);

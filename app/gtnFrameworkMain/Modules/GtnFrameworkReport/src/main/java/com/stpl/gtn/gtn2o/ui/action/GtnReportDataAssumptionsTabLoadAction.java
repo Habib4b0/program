@@ -32,106 +32,115 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.TabSheet;
 
 public class GtnReportDataAssumptionsTabLoadAction
-        implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-    GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportDataAssumptionsTabLoadAction.class);
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportDataAssumptionsTabLoadAction.class);
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-            throws GtnFrameworkGeneralException {
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		logger.debug("Inside Configure Parameters");
+	}
 
-    }
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		try {
+			final List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-            throws GtnFrameworkGeneralException {
-        try {
-            final List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
+			GtnWsReportDataSelectionBean gtnWsReportDataSelectionBean = (GtnWsReportDataSelectionBean) actionParameterList
+					.get(4);
+			addTab(gtnWsReportDataSelectionBean.getComparisonProjectionBeanList(), componentId);
 
-            GtnWsReportDataSelectionBean gtnWsReportDataSelectionBean = (GtnWsReportDataSelectionBean) actionParameterList.get(4);
-            addTab(gtnWsReportDataSelectionBean.getComparisonProjectionBeanList(), componentId);
+		} catch (Exception exception) {
+			logger.error("Error message", exception);
+		}
+	}
 
-        } catch (Exception exception) {
-            logger.error("Error message", exception);
-        }
-    }
+	private void addTab(List<GtnReportComparisonProjectionBean> gtnReportComparisonProjectionBeanList,
+			String sourceComponentId) {
+		try {
+			int projectionNameCount = 0;
+			List<Integer> projectionMasterSidList = new ArrayList<>();
 
-    private void addTab(List<GtnReportComparisonProjectionBean> gtnReportComparisonProjectionBeanList, String sourceComponentId) {
-        int projectionNameCount = 0;
-        List<Integer> projectionMasterSidList = new ArrayList<>();
+			if (gtnReportComparisonProjectionBeanList != null) {
+				for (GtnReportComparisonProjectionBean gtnReportComparisonProjectionBean : gtnReportComparisonProjectionBeanList) {
+					projectionMasterSidList.add(gtnReportComparisonProjectionBean.getProjectionMasterSid());
+				}
+			}
 
-        if(gtnReportComparisonProjectionBeanList !=null){
-            for (GtnReportComparisonProjectionBean gtnReportComparisonProjectionBean : gtnReportComparisonProjectionBeanList) {
-                projectionMasterSidList.add(gtnReportComparisonProjectionBean.getProjectionMasterSid());
-            }
-        }
+			setTabSheetVisible(projectionMasterSidList, sourceComponentId, gtnReportComparisonProjectionBeanList,
+					projectionNameCount);
 
-        setTabSheetVisible(projectionMasterSidList, sourceComponentId, gtnReportComparisonProjectionBeanList, projectionNameCount);
+			setDataAssumptionsGridDataLoad(projectionMasterSidList, sourceComponentId);
+		} catch (Exception ex) {
+			logger.error("Error message ", ex);
+		}
+	}
 
-        setDataAssumptionsGridDataLoad(projectionMasterSidList, sourceComponentId);
-    }
+	private void setDataAssumptionsGridDataLoad(List<Integer> projectionMasterSidList, String sourceComponentId) {
+		for (int i = 0; i < projectionMasterSidList.size(); i++) {
+			Grid<GtnWsRecordBean> dataAssumptionsCurrentTabComponent = getDataAssumptionsGridComponent(
+					GtnFrameworkReportStringConstants.getReportDataAssumptionsTabId().get(i), sourceComponentId);
+			List<GtnWsRecordBean> dsLoadResults = getDataAssumptionGridLoadValues(projectionMasterSidList.get(i));
+			dataAssumptionsCurrentTabComponent.setItems(dsLoadResults);
+		}
+	}
 
-    private void setDataAssumptionsGridDataLoad(List<Integer> projectionMasterSidList, String sourceComponentId) {
-        for (int i = 0; i < projectionMasterSidList.size(); i++) {
-            Grid<GtnWsRecordBean> dataAssumptionsCurrentTabComponent = getDataAssumptionsGridComponent(
-                    GtnFrameworkReportStringConstants.getReportDataAssumptionsTabId().get(i), sourceComponentId);
-            List<GtnWsRecordBean> dsLoadResults = getDataAssumptionGridLoadValues(projectionMasterSidList.get(i));
-            dataAssumptionsCurrentTabComponent.setItems(dsLoadResults);
-        }
-    }
+	private void setTabSheetVisible(List<Integer> projectionMasterSidList, String sourceComponentId,
+			List<GtnReportComparisonProjectionBean> gtnReportComparisonProjectionBeanList, int projectionNameCount) {
+		for (int i = 1; i < 6; i++) {
+			if (i > projectionMasterSidList.size()) {
+				GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(GtnFrameworkReportStringConstants.TAB_SHEET + "dataAssump",
+								sourceComponentId)
+						.setTabComponentVisible(i, false);
+			} else {
+				final TabSheet tabSheet = (TabSheet) getAbstractComponent(
+						GtnFrameworkReportStringConstants.TAB_SHEET + "dataAssump", sourceComponentId);
+				tabSheet.getTab(i)
+						.setCaption(gtnReportComparisonProjectionBeanList.get(projectionNameCount).getProjectionName());
+				projectionNameCount++;
+			}
+		}
+	}
 
-    private void setTabSheetVisible(List<Integer> projectionMasterSidList, String sourceComponentId, List<GtnReportComparisonProjectionBean> gtnReportComparisonProjectionBeanList, int projectionNameCount) {
-        for (int i = 1; i < 6; i++) {
-            if (i > projectionMasterSidList.size()) {
-                GtnUIFrameworkGlobalUI
-                        .getVaadinBaseComponent(GtnFrameworkReportStringConstants.TAB_SHEET + "dataAssump",
-                                sourceComponentId)
-                        .setTabComponentVisible(i, false);
-            } else {
-                final TabSheet tabSheet = (TabSheet) getAbstractComponent(GtnFrameworkReportStringConstants.TAB_SHEET + "dataAssump",
-                        sourceComponentId);
-                tabSheet.getTab(i).setCaption(gtnReportComparisonProjectionBeanList.get(projectionNameCount).getProjectionName());
-                projectionNameCount++;
-            }
-        }
-    }
+	private List<GtnWsRecordBean> getDataAssumptionGridLoadValues(int projectionmasterSid) {
 
-    private List<GtnWsRecordBean> getDataAssumptionGridLoadValues(int projectionmasterSid) {
-        List<GtnWsRecordBean> records = new ArrayList<>();
-        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-        GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-        reportRequest.setProjectionMasterSid(projectionmasterSid);
-        request.setGtnWsReportRequest(reportRequest);
-        GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
-                "/gtnReport/gtnWsReportLoadDataAssumptionsMultipleTabs", "report", request,
-                GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
+		reportRequest.setProjectionMasterSid(projectionmasterSid);
+		request.setGtnWsReportRequest(reportRequest);
+		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
+				"/gtnReport/gtnWsReportLoadDataAssumptionsMultipleTabs", "report", request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		List<GtnWsRecordBean> records = new ArrayList<>(
+				response.getGtnSerachResponse().getResultSet().getDataTable().size());
+		for (GtnUIFrameworkDataRow record : response.getGtnSerachResponse().getResultSet().getDataTable()) {
+			GtnWsRecordBean dto = new GtnWsRecordBean();
+			dto.setProperties(record.getColList());
+			dto.setRecordHeader(Arrays.asList(new Object[] { "file", "company", "businessUnit", "type", "version",
+					"activeFrom", "fromPeriod", "toPeriod" }));
+			records.add(dto);
+		}
+		return records;
+	}
 
-        for (GtnUIFrameworkDataRow record : response.getGtnSerachResponse().getResultSet().getDataTable()) {
-            GtnWsRecordBean dto = new GtnWsRecordBean();
-            dto.setProperties(record.getColList());
-            dto.setRecordHeader(Arrays.asList(new Object[]{"file", "company", "businessUnit", "type", "version",
-                "activeFrom", "fromPeriod", "toPeriod"}));
-            records.add(dto);
-        }
-        return records;
-    }
+	private Grid<GtnWsRecordBean> getDataAssumptionsGridComponent(String gridId, String sourceComponentId) {
+		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(gridId,
+				sourceComponentId);
+		PagedGrid pagedGrid = (PagedGrid) componentData.getCustomData();
+		return pagedGrid.getGrid();
+	}
 
-    private Grid<GtnWsRecordBean> getDataAssumptionsGridComponent(String gridId, String sourceComponentId) {
-        GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(gridId,
-                sourceComponentId);
-        PagedGrid pagedGrid = (PagedGrid) componentData.getCustomData();
-        Grid<GtnWsRecordBean> dataAssumptionsCurrentTabComponent = (Grid<GtnWsRecordBean>) pagedGrid.getGrid();
-        return dataAssumptionsCurrentTabComponent;
-    }
+	private AbstractComponent getAbstractComponent(String componentId, String sourceComponentId) {
+		return GtnUIFrameworkGlobalUI.getVaadinComponent(String.valueOf(componentId), sourceComponentId);
+	}
 
-    private AbstractComponent getAbstractComponent(String componentId, String sourceComponentId) {
-        return GtnUIFrameworkGlobalUI.getVaadinComponent(String.valueOf(componentId), sourceComponentId);
-    }
-
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-        return this;
-    }
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
 
 }

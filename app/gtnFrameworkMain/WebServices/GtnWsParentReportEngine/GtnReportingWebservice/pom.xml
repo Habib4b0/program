@@ -22,7 +22,7 @@
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongodb-driver</artifactId>
 			<version>3.6.3</version>
-			<scope>provided</scope>
+			<!-- <scope>provided</scope> -->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -73,18 +73,5 @@
 	</dependencies>
 	<build>
 		<finalName>GtnReportingWebservice</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifestEntries>
-							<Dependencies>org.mongodb</Dependencies>
-						</manifestEntries>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
 	</build>
 </project>

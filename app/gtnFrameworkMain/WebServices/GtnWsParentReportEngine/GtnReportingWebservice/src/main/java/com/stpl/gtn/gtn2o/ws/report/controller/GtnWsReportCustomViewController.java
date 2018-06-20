@@ -34,6 +34,20 @@ public class GtnWsReportCustomViewController {
 		return response;
 	}
 
+	@RequestMapping(value = GtnWsReportEndPointUrlConstants.LOAD_DEDUCTION_HIERARCHY, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadDeductionHierarchyLevels(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameWorkReportResponseBuilder().withCustomViewBean()
+				.build();
+		try {
+			GtnUIFrameworkDataTable dataTable = service.loadDeductionHierarchy(gtnWsRequestF);
+			response.getGtnWsReportResponse().getReportBean().getCustomViewBean().setGridData(dataTable);
+		} catch (GtnFrameworkGeneralException e) {
+
+		}
+		return response;
+	}
+
 	@RequestMapping(value = GtnWsReportEndPointUrlConstants.SAVE_CUSTOM_TREE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse saveCustomTree(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequestF) {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameWorkReportResponseBuilder().withCustomViewBean()
