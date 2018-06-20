@@ -39,16 +39,14 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariableCategory;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkReportingDashboardTabConfig {
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
-
-	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkReportingDashboardTabConfig.class);
 
 	public void addReportingDashboardLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 
@@ -399,9 +397,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		componentList.add(annualTotalsConfig);
 
-		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = new GtnUIFrameworkComboBoxConfig();
+		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes","No"));
+		annualTotalsLoadConfig.setDefaultValue("Yes");
 		annualTotalsConfig.setGtnComboboxConfig(annualTotalsLoadConfig);
 
 	}
