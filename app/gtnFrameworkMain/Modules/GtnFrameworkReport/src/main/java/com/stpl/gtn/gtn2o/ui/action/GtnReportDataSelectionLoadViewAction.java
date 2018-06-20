@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.action;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,6 +25,7 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
 
@@ -48,7 +50,7 @@ public class GtnReportDataSelectionLoadViewAction
 		GtnWsReportDataSelectionBean dataSelectionBean = new GtnWsReportDataSelectionBean();
 		try {
 			dataSelectionBean = (GtnWsReportDataSelectionBean) convertJsonToObject(GtnWsReportDataSelectionBean.class,
-					viewData);
+					viewData.replaceAll("\\\\", "'"));
 		} catch (IOException e) {
 			gtnLogger.error("Error in converting Bean", e);
 		}
@@ -117,7 +119,7 @@ public class GtnReportDataSelectionLoadViewAction
 		GtnUIFrameworkComboBoxComponent customerLevelCombobox = new GtnUIFrameworkComboBoxComponent();
 		customerLevelCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
 				GtnFrameworkReportStringConstants.REPORT_CUSTOMERHIERARCHY_LEVEL, componentId,
-				Arrays.asList(customerHierarchyVersion));
+				Arrays.asList(hierarchyDefinitionSid, customerHierarchyVersion));
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_customerSelectionLevel")
 				.loadV8ComboBoxComponentValue(Integer.valueOf(dataSelectionBean.getCustomerHierarchyForecastLevel()));
@@ -157,11 +159,11 @@ public class GtnReportDataSelectionLoadViewAction
 		productRelationshipCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
 				GtnFrameworkReportStringConstants.REPORT_PRODUCTHIERARCHY_RELATIONSHIP, componentId,
 				Arrays.asList(productHierarchyDefinitionSid));
-                
-                GtnUIFrameworkGlobalUI
+
+		GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_PRODUCTHIERARCHY_RELATIONSHIP)
 				.loadV8ComboBoxComponentValue(dataSelectionBean.getProductRelationshipBuilderSid());
-		
+
 		int productrelationshipValue = Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_PRODUCTHIERARCHY_RELATIONSHIP)
 				.getCaptionFromV8ComboBox());
@@ -196,7 +198,7 @@ public class GtnReportDataSelectionLoadViewAction
 		GtnUIFrameworkComboBoxComponent productLevelCombobox = new GtnUIFrameworkComboBoxComponent();
 		productLevelCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
 				GtnFrameworkReportStringConstants.REPORT_PRODUCTHIERARCHY_LEVEL, componentId,
-				Arrays.asList(productHierarchyVersion));
+				Arrays.asList(productHierarchyDefinitionSid, productHierarchyVersion));
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_PRODUCTHIERARCHY_LEVEL)
 				.loadV8ComboBoxComponentValue(Integer.valueOf(dataSelectionBean.getProductHierarchyForecastLevel()));
@@ -216,6 +218,38 @@ public class GtnReportDataSelectionLoadViewAction
 		gtnUIFrameworkProductHierarchyTreeBuilder.loadRightTreeTable(dsProductRightTable, 1);
 		dsProductRightTable.getDataProvider().refreshAll();
 		dsProductRightTable.markAsDirty();
+
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_displaySelectionTabCustomView")
+				.loadV8ComboBoxComponentValue(dataSelectionBean.getCustomView());
+
+		GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig")
+				.loadV8ComboBoxComponentValue(dataSelectionBean.getFrequency());
+
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_reportingDashboardComparisonConfig")
+				.getComponentData().setCustomData(dataSelectionBean.getComparisonProjectionBeanList());
+		if (dataSelectionBean.getComparisonProjectionBeanList() != null) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_reportingDashboardComparisonConfig")
+					.setV8PopupFieldValue(getDisplayValue(dataSelectionBean));
+		}
+
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_displaySelectionTabVariable")
+				.addAllItemsToMultiSelect(
+						Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
+								.collect(Collectors.toList()),
+						Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
+								.collect(Collectors.toList()));
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_displaySelectionTabVariable")
+				.updateSelection(dataSelectionBean.getVariablesList());
+
+	}
+
+	private Object getDisplayValue(GtnWsReportDataSelectionBean dataSelectionBean) {
+		if (dataSelectionBean.getComparisonProjectionBeanList().size() > 1) {
+			return "MULTIPLE";
+		} else {
+			return dataSelectionBean.getComparisonProjectionBeanList().get(1).getProjectionName();
+		}
 	}
 
 	private GtnWsReportDataSelectionBean convertJsonToObject(Class<GtnWsReportDataSelectionBean> dataSelectionBean,

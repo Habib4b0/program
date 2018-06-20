@@ -679,7 +679,12 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "relationship",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "level",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productRelationshipVersion",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp"));
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabVariable",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportingDashboardComparisonConfig",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ "landingScreenVariableBreakdownFrequencyConfig"));
 		onSuccessActionConfigList.add(resetAction);
 		resetActionList.add(confirmResetAction);
 		resetButton.setGtnUIFrameWorkActionConfigList(resetActionList);
@@ -711,7 +716,12 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "relationship",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "level",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productRelationshipVersion",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp"));
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabVariable",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportingDashboardComparisonConfig",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ "landingScreenVariableBreakdownFrequencyConfig"));
 		list.add(saveViewAction);
 
 		saveViewBtn.setGtnUIFrameWorkActionConfigList(list);

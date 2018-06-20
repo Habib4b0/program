@@ -247,7 +247,8 @@ public class GtnWsReportWebsevice {
 		inputList.add("'" + dataSelectionBean.getViewType() + "'");
 		inputList.add(userId);
 		inputList.add(userId);
-		inputList.add("'" + gtnReportJsonService.convertObjectAsJsonString(dataSelectionBean) + "'");
+		String viewData = gtnReportJsonService.convertObjectAsJsonString(dataSelectionBean).replaceAll("'", "\\\\");
+		inputList.add("'" + viewData + "'");
 		String query = sqlService.getQuery(inputList, "insertView");
 		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
 		return count;
