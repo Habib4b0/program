@@ -28,6 +28,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomViewHierarchyLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportCustomViewReloadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportDasboardTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportGenerateRequestAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIUOMLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportCCPTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionAddAction;
@@ -61,6 +62,7 @@ import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdown
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridResetAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownHeaderLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownHistoryLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownMassUpdateAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownSubmitAction;
 
@@ -202,7 +204,10 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
                 new GtnUIReportExpandCollapseAction());
         GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUIReportCustomViewReloadAction.class.getName(),
                 new GtnFrameworkUIReportCustomViewReloadAction());
-
-    }
+        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingVariableBreakdownHistoryLoadAction.class.getName(),
+                new GtnReportingVariableBreakdownHistoryLoadAction());
+        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUIUOMLoadAction.class.getName(),
+                new GtnFrameworkUIUOMLoadAction());
+	}
 
 }

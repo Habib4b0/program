@@ -93,18 +93,17 @@ public class NMSalesExcelLogic {
         Map<String, List> hierarchyLevelDetails = !projectionSelection.isIsCustomHierarchy()? projectionSelection.getSessionDTO().getHierarchyLevelDetails() : projectionSelection.getSessionDTO().getSalesHierarchyLevelDetails();
         Collections.reverse(hierarchyValues);
         for (int i = 0; i < hierarchyValues.size(); i++) {
-            String keyValue = hierarchyValues.get(i) + ".";
-            String hierKeyValue = hierarchyValues.get(i) + ".";
-            hierKeyValue = hierKeyValue.substring(hierKeyValue.indexOf('-') + 1);
-            SalesRowDto salesRowDto = resultMap.get(hierKeyValue.trim());
+            StringBuilder keyValue = new StringBuilder(hierarchyValues.get(i)).append(".");
+            StringBuilder hierKeyValue = new StringBuilder(keyValue.substring(keyValue.indexOf("-") + 1));
+            SalesRowDto salesRowDto = resultMap.get(hierKeyValue.toString());
             if (salesRowDto == null) {
                 salesRowDto = new SalesRowDto();
-                String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(keyValue.trim()).get(4));
-                getExcelFormatColumns(keyValue, hierarchyIndicator, hierarchyLevelDetails, projectionSelection, salesRowDto);
+                String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(keyValue.toString()).get(4));
+                getExcelFormatColumns(keyValue.toString(), hierarchyIndicator, hierarchyLevelDetails, projectionSelection, salesRowDto);
                 salesRowDto.addStringProperties(Constant.METHODOLOGY, StringUtils.isBlank(String.valueOf(obj[NumericConstants.TEN])) || Constant.NULL.equals(String.valueOf(obj[NumericConstants.TEN])) ? "-" : String.valueOf(obj[NumericConstants.TEN]));
                 salesRowDto.addStringProperties(Constant.BASELINE, StringUtils.isBlank(String.valueOf(obj[NumericConstants.TWELVE])) || Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWELVE])) ? "-" : String.valueOf(obj[NumericConstants.TWELVE]));
-                resultMap.put(hierKeyValue.trim(), salesRowDto);
-                hierarchykeys(hierKeyValue.trim());
+                resultMap.put(hierKeyValue.toString(), salesRowDto);
+                hierarchykeys(hierKeyValue.toString());
             }
         }
     }

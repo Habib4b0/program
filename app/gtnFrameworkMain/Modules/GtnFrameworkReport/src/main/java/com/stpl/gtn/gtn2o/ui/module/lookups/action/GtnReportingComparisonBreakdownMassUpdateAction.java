@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.CheckBoxGroup;
@@ -27,10 +28,13 @@ import com.vaadin.ui.components.grid.HeaderRow;
 public class GtnReportingComparisonBreakdownMassUpdateAction
 		implements GtnUIFrameworkActionShareable, GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportingComparisonBreakdownMassUpdateAction.class);
+
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
+		logger.debug("Mass Update Action Configure Params");
 	}
 
 	@Override
@@ -38,21 +42,6 @@ public class GtnReportingComparisonBreakdownMassUpdateAction
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
-		List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = new ArrayList<>();
-		GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
-				"reportingDashboardTab_reportingDashboardComparisonConfig", componentId).getComponentData();
-
-		comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData.getCustomData();
-
-		/*
-		 * String sourceComponentId =
-		 * GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId) .getViewId();
-		 * GtnWsReportDataSelectionBean dataSelectionBean =
-		 * (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
-		 * .getVaadinBaseComponent(sourceComponentId).getComponentData().
-		 * getSharedPopupData(); comparisonLookupBeanList =
-		 * dataSelectionBean.getComparisonProjectionBeanList();
-		 */
 		String comparisonBreakdownValues = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParameterList.get(1).toString()).getCaptionFromV8ComboBox();
 		String comparisonBreakdownComparisonComboBox = GtnUIFrameworkGlobalUI
@@ -65,7 +54,7 @@ public class GtnReportingComparisonBreakdownMassUpdateAction
 		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI
 				.getVaadinComponent(actionParameterList.get(5).toString(), componentId);
 		GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
-		PagedGrid pagedGrid = (PagedGrid) gridComponent.getPagedGrid();
+		PagedGrid pagedGrid = gridComponent.getPagedGrid();
 		Grid<GtnWsRecordBean> grid = (Grid<GtnWsRecordBean>) pagedGrid.getGrid();
 
 		ArrayList<String> startAndEndPeriodItemIdList = new ArrayList(
@@ -82,30 +71,20 @@ public class GtnReportingComparisonBreakdownMassUpdateAction
 			}
 		}
 
-		ArrayList<String> gridColumnIdSubList = new ArrayList<String>(
+		ArrayList<String> gridColumnIdSubList = new ArrayList<>(
 				startAndEndPeriodItemIdList.subList(startDate, endDate + 1));
 
 		HeaderRow gridHeaderRow = grid.getHeaderRow(0);
 
-		// List<Object[]> resultList = (List<Object[]>)
-		// response.getGtnReportResponse().getVariableBreakdownLookupBean().getResultList();
 		for (int i = 1; i < grid.getHeaderRowCount(); i++) {
 			Label projectionNames = (Label) grid.getHeaderRow(i).getCell("projectionNames").getComponent();
 			if (projectionNames.getValue().equalsIgnoreCase(comparisonBreakdownComparisonComboBox)) {
 				for (int k = 0; k < gridColumnIdSubList.size(); k++) {
-
 					CheckBoxGroup headerCheckboxGroup = (CheckBoxGroup) gridHeaderRow
 							.getCell(gridColumnIdSubList.get(k)).getComponent();
 					Set<String> headerCheckboxSelectedSet = headerCheckboxGroup.getSelectedItems();
-					boolean isHeaderCheckboxSelected = headerCheckboxSelectedSet.toArray().length == 0 ? false
-							: headerCheckboxGroup.isSelected(headerCheckboxSelectedSet.toArray()[0].toString());
-					if (isHeaderCheckboxSelected) {
-						HeaderRow headerRow = grid.getHeaderRow(i);
-						String header = gridColumnIdSubList.get(k);
-						HeaderCell headerCell = headerRow.getCell(header);
-						Component component = headerCell.getComponent();
-						ComboBox<String> comboBox = (ComboBox) component;
-						comboBox.setSelectedItem(comparisonBreakdownValues);
+					if (headerCheckboxSelectedSet.toArray().length != 0) {
+						massUpdateInGrid(comparisonBreakdownValues, grid, gridColumnIdSubList, i, k);
 					}
 
 				}
@@ -114,9 +93,18 @@ public class GtnReportingComparisonBreakdownMassUpdateAction
 
 	}
 
+	private void massUpdateInGrid(String comparisonBreakdownValues, Grid<GtnWsRecordBean> grid,
+			ArrayList<String> gridColumnIdSubList, int i, int k) {
+		HeaderRow headerRow = grid.getHeaderRow(i);
+		String header = gridColumnIdSubList.get(k);
+		HeaderCell headerCell = headerRow.getCell(header);
+		Component component = headerCell.getComponent();
+		ComboBox<String> comboBox = (ComboBox) component;
+		comboBox.setSelectedItem(comparisonBreakdownValues);
+	}
+
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

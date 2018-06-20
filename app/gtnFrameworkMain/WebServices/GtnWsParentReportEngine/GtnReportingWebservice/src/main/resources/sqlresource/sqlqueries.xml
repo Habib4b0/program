@@ -13,11 +13,13 @@
                 JOIN RELATIONSHIP_LEVEL_DEFINITION RLD on RLD.RELATIONSHIP_BUILDER_SID = RB.RELATIONSHIP_BUILDER_SID WHERE
                     RLD.VERSION_NO = RB.VERSION_NO
                     AND RB.RELATIONSHIP_BUILDER_SID = ?
+                    AND RLD.level_no >= ?
                     order by convert(int, RLD.level_no) ;
         
     ]]>
 
 	</entry>
+	
 	
 	<entry key="loadForecastEligibleDate">
 	<![CDATA[
@@ -640,7 +642,7 @@
 			    ELSE 0
 			  END AS HELPER_TABLE_JOIN_NEEDED,
 			  CASE
-			    WHEN FIELD_NAME LIKE '%UDC%' THEN 1
+			    WHEN HT_FIELD_NAME LIKE '%UDC%' THEN 1
 			    ELSE 0
 			  END AS UDC_JOIN_NEEDED
 			
@@ -718,6 +720,7 @@
 				    ? CVH 
 					JOIN CUST_VIEW_DETAILS CVD 
 				        ON CVD.CUSTOM_VIEW_DETAILS_SID = CVH.CUSTOM_VIEW_DETAILS_SID AND CVD.CUSTOM_VIEW_MASTER_SID = ? 
+				        ?
 				    JOIN RS_CONTRACT TEMP ON ? 
 				    ? 
 				    AND CVD.LEVEL_NO = ? 
@@ -805,6 +808,38 @@
 		    	ST_CCP_HIERARCHY ST_CCP_HIERARCHY
 			join CCP_details CCP_DETAILS on
 				CCP_DETAILS.ccp_details_sid = ST_CCP_HIERARCHY.ccp_details_sid
+		]]>
+	</entry>
+	
+	<entry key="getDeductionHierarchyLevels">
+		<![CDATA[
+			SELECT
+			    DISTINCT hld.level_name,
+			    hld.level_no,
+			    CONVERT(
+			        INT,
+			        hld.LEVEL_NO
+			    ) AS treelevel_no,
+			    ? AS Hierarchyindicator,
+			    hld.hierarchy_level_definition_sid
+			FROM
+			    hierarchy_definition hd JOIN hierarchy_level_definition hld
+			        ON hd.HIERARCHY_DEFINITION_SID = hld.HIERARCHY_DEFINITION_SID
+			WHERE
+			    hld.HIERARCHY_DEFINITION_SID IN(
+			        SELECT
+			            TOP(1) HIERARCHY_DEFINITION_SID
+			        FROM
+			            RELATIONSHIP_BUILDER
+			        WHERE
+			            deduction_relation = ?
+			    )
+		]]>
+	</entry>
+	
+	<entry key="getUOMDetails">
+		<![CDATA[
+			select UOM_CODE from ST_ITEM_UOM_DETAILS
 		]]>
 	</entry>
 		

@@ -3095,6 +3095,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     @Override
     protected void excelExportClickLogic() {
+        long startTime = System.currentTimeMillis(); 
         LOGGER.debug("excel starts");
         try {
             excelTable.setRefresh(BooleanConstant.getFalseFlag());
@@ -3168,9 +3169,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             mapVisibleCols.putAll(excelHeaderLeft.getDoubleHeaderMaps());
             mapVisibleCols.putAll(excelHeader.getDoubleHeaderMaps());
             excelTable.setDoubleHeaderMap(mapVisibleCols);
-            for (Object propertyId : excelTable.getContainerPropertyIds()) {
+             boolean isRate = false;
+             boolean isRPU = false;
+             for (Object propertyId : excelTable.getContainerPropertyIds()) {
                 if (String.valueOf(propertyId).endsWith("Rate")) {
+                    isRate = true;
                     excelTable.setConverter(propertyId, percentFormat);
+                }else if (String.valueOf(propertyId).endsWith("RPU")) {
+                    isRPU = true;
                 }
             }
             getExcelDiscountCommercial();
@@ -3239,7 +3245,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
                         excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
-                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap);
+                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap,isRate,isRPU);
                     } else {
                         excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
@@ -3251,13 +3257,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 }
             } else {
                 excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), Constant.DISCOUNT_PROJECTION_LABEL,
-                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap);
+                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap,isRate,isRPU);
                 excel.export();
             }
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage());
+            LOGGER.info(e.getMessage(),e);
         }
         LOGGER.debug("excel ends");
+        long endTime = System.currentTimeMillis();
+        LOGGER.info("Excel Export time--------------------------------------------------------------"+(endTime-startTime)/1000);
     }
 
     public void generateButtonlogicForExcel() {
@@ -5759,9 +5768,14 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             mapVisibleCols.putAll(excelHeaderLeft.getDoubleHeaderMaps());
             mapVisibleCols.putAll(excelHeader.getDoubleHeaderMaps());
             excelTable.setDoubleHeaderMap(mapVisibleCols);
-            for (Object propertyId : excelTable.getContainerPropertyIds()) {
+             boolean isRate = false;
+             boolean isRPU = false;
+             for (Object propertyId : excelTable.getContainerPropertyIds()) {
                 if (String.valueOf(propertyId).endsWith("Rate")) {
+                    isRate = true;
                     excelTable.setConverter(propertyId, percentFormat);
+                }else if (String.valueOf(propertyId).endsWith("RPU")) {
+                    isRPU = true;
                 }
             }
             getExcelDiscountCommercial();
@@ -5813,7 +5827,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                     ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
                         excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
-                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter);
+                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter,isRate,isRPU);
                     } else {
                         excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
@@ -5825,7 +5839,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 }
             } else {
                 excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), Constant.DISCOUNT_PROJECTION_LABEL,
-                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter);
+                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter,isRate,isRPU);
                 excel.export();
             }
         } catch (IllegalArgumentException e) {
@@ -5846,12 +5860,13 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             String queryBuilder = StringUtils.EMPTY;
             String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
             String deducQuery = NINE_LEVELS_DED;
+            String viewTableJoin = "P".equals(hierarchyIndicator) ? "ST_PRODUCT_DISCOUNT" : "ST_CUSTOMER_DISCOUNT";
             queryBuilder = SQlUtil.getQuery("discount-customerproduct-excelQuery");
             queryBuilder = queryBuilder.replace("@CUSTORPROD", "P".equals(hierarchyIndicator) ? "PROD_HIERARCHY_NO" : "CUST_HIERARCHY_NO")
                     .replace("@VIEWTABLE", "P".equals(hierarchyIndicator) ? "ST_PRODUCT_DISCOUNT" : "ST_CUSTOMER_DISCOUNT")
                     .replace("@DEDINCLUSION", (session.getDeductionInclusion() == null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY : " and STC.DEDUCTION_INCLUSION= " + session.getDeductionInclusion())
-                    .replace("@UNIONALL", deducQuery)
-                    .replace("@ENDDEDINCLUSION", (session.getDeductionInclusion() == null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY : " STC.DEDUCTION_INCLUSION= " + oppositeDed)
+                    .replace("@UNIONALL", (session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY : deducQuery + viewTableJoin +" STC INNER JOIN #DISCOUNT_PROJECTION_MASTER SH ON STC.HIERARCHY_NO = SH.HIERARCHY_NO AND STC.DEDUCTION_INCLUSION = SH.DEDUCTION_INCLUSION @ENDDEDINCLUSION ")
+                    .replace("@ENDDEDINCLUSION", (session.getDeductionInclusion() == null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY : " WHERE STC.DEDUCTION_INCLUSION= " + oppositeDed)
                     .replace("@DEDUCTIONLEVEL", (deductionlevelDdlb.getValue() == null || "ALL".equals(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())) ? StringUtils.EMPTY : deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())));
             queryBuilder = QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames());
             return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder);

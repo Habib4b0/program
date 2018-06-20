@@ -372,12 +372,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             initialConfig(Boolean.TRUE);
         }
         frequency.select(session.getDsFrequency());
-        frequency.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                session.setDsFrequency(String.valueOf(frequency.getValue()));
-            }
-        });
         boolean isEnabled = Utility.customEnableForRelationFromDS(session.getCustomDeductionRelationShipSid());
         view.setItemEnabled(Constant.CUSTOM_LABEL, isEnabled);
        
@@ -1647,6 +1641,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             setProductCustomerValues(map);
             setDeductionValues(map);
             setInclusionValues(map);
+            deductionlevelDdlb.setValue(Integer.valueOf(session.getDataSelectionDeductionLevel()));
         }
         if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.VIEW.equalsIgnoreCase(session.getAction())) {
             fetchDiscountsFromSave();
@@ -2169,11 +2164,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                             resultExcelContainer.addBean(itemId);
                             if (index++ == 0) {
                                 String parentKey = StringUtils.EMPTY;
-                                if (!pvSelectionDTO.isIsCustomHierarchy()) {
                                     parentKey = key.substring(0, key.lastIndexOf('.'));
-                                } else {
-                                    parentKey = getParentKeyforCustom(itemId, key, parentKey);
-                                }
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
                                 }
@@ -2235,11 +2226,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
                             if (index++ == 0) {
                                 String parentKey = StringUtils.EMPTY;
-                                if (!pvSelectionDTO.isIsCustomHierarchy()) {
                                     parentKey = key.substring(0, key.lastIndexOf('.'));
-                                } else {
-                                    parentKey = getParentKeyforCustom(itemId, key, parentKey);
-                                }
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
                                 }
@@ -2287,9 +2274,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                         resultExcelContainer.setChildrenAllowed(itemId, false);
                     }
                 }
-                resultExcelContainer.sort(new Object[]{Constant.GROUP}, new boolean[]{true});
-                resultExcelContainer.sort(new Object[]{Constant.DF_LEVEL_NUMBER}, new boolean[]{true});
-                resultExcelContainer.sort(new Object[]{Constant.DF_LEVEL_NAME}, new boolean[]{true});
             }
 
             excelParentRecords.clear();
@@ -2349,29 +2333,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         return matched;
     }
 
-    private String getParentKeyforCustom(ProjectionVarianceDTO itemId, String key, String parentKey) {
-        if (itemId.getParentHierarchyNo() == null) {
-            parentKey = !key.contains("-") ? key : key.substring(0, key.lastIndexOf('.'));
-        } else {
-            parentKey = itemId.getParentHierarchyNo();
-            if (pvSelectionDTO.isIsCustomHierarchy()) {
-                String var;
-                if (parentKey.contains("~")) {
-                    String[] str = parentKey.split("~");
-                    var = str[str.length - 1] + "$";
-                    parentKey = var + parentKey.substring(0, parentKey.lastIndexOf('~'));
-                } else {
-                    parentKey = key.substring(key.lastIndexOf('$') + 1);
-                }
-            } else if (parentKey.contains("~")) {
-                parentKey = parentKey.substring(parentKey.lastIndexOf('~') + 1);
-                if (!pvSelectionDTO.isIsCustomHierarchy() || !Constants.LabelConstants.PERIOD.toString().equalsIgnoreCase(pvSelectionDTO.getPivotView())) {
-                    parentKey = parentKey.substring(parentKey.indexOf('-') + 1);
-                }
-            }
-        }
-        return parentKey;
-    }
 
     private void loadDisplayFormatDdlb() throws IllegalStateException {
         List<Object[]> displayFormatFilter = new ArrayList<>();
