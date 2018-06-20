@@ -2744,10 +2744,6 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
             }
 	}
     
-    public static void nmDiscountActProjInsertProcedure(SessionDTO session) {
-        commonUtil.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
-        session.setDiscountDeductionLevelDetails(getRelationshipDetailsDeductionCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
-    }
         
 	/**
 	 * To insert the Accural_proj_details table in edit and add mode

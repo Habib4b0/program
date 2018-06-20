@@ -57,4 +57,20 @@ border-radius: 0px;
 .v-menubar > .v-menubar-menuitem:first-child  > .v-menubar-menuitem-caption{
      overflow: hidden;
 }
+
+.v-treegrid-column-header-content,.v-treegrid-column-footer-content {
+ vertical-align: inherit;
+}
+
+.v-grid-column-header-content,.v-grid-column-footer-content {
+ vertical-align: inherit;
+}
+
+	th.v-grid-cell {
+height: auto!important;
+}
+	th.v-treegrid-cell {
+height: auto!important;
+}
+
 }

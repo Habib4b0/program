@@ -511,6 +511,8 @@ public class GtnWsContractDashboardCommonLogic {
 		ruleColumnNameMap.put("CDNSRuleView_RuleName", "cdr.RULE_NAME");
 		ruleColumnNameMap.put("ruleName", "cdr.RULE_NAME");
 		ruleColumnNameMap.put("RSNSRuleView_RuleType", "cdr.RULE_TYPE");
+		ruleColumnNameMap.put("RSNSRuleView_RuleNo", "cdr.RULE_NO");
+		ruleColumnNameMap.put("RSNSRuleView_RuleName", "cdr.RULE_NAME");
 		ruleColumnNameMap.put("CDNSRuleView_RuleType", "cdr.RULE_TYPE");
 		ruleColumnNameMap.put("CDNSRuleView_RuleCategory", "cdr.RULE_CATEGORY");
 		ruleColumnNameMap.put("ruleType", GtnFrameworkWebserviceConstant.HT_DESCRIPTION);

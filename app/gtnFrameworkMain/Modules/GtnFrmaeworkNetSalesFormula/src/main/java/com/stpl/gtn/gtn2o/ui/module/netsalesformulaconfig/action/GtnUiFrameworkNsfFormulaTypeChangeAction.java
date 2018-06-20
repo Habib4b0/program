@@ -100,8 +100,8 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 					.getSelectedDeductionsHeadersFormulaTypeContract();
 			selectedDeductionVisibleColumns = GtnFrameworkNSFConstants
 					.getSelectedDeductionsColumnsFormulaTypeContract();
-			selectedDeductionExtraColumns = new Object[] { GtnFrameworkNSFConstants.getSystemid() };
-			selectedDeductionExtraColumnsDataTypes = new Class<?>[] { Integer.class };
+			selectedDeductionExtraColumns = new Object[] {"indicator_string" , GtnFrameworkNSFConstants.getSystemid()};
+			selectedDeductionExtraColumnsDataTypes = new Class<?>[] {String.class ,Integer.class };
 			selectedDeductionQueryName = GtnWsNsfCommonConstants.GTN_NSF_FORMULA_TYPE_CONTRACT_SELECTED_DEDUCTION_QUERY;
 
 		} else {
@@ -117,8 +117,8 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 			selectedDeductionTableColumnDataTypes = GtnFrameworkNSFConstants.getSelectedDeductionTableColumnDataTypes();
 			selectedDeductionVisibleHeaders = GtnFrameworkNSFConstants.getSelectedDeductionsVisibleHeaders();
 			selectedDeductionVisibleColumns = GtnFrameworkNSFConstants.getSelectedDeductionsVisibleColumns();
-			selectedDeductionExtraColumns = new Object[] { GtnFrameworkNSFConstants.getSystemid() };
-			selectedDeductionExtraColumnsDataTypes = new Class<?>[] { Integer.class };
+			selectedDeductionExtraColumns = new Object[] {"indicator_string" ,GtnFrameworkNSFConstants.getSystemid() };
+			selectedDeductionExtraColumnsDataTypes = new Class<?>[] { String.class,Integer.class };
 			selectedDeductionQueryName = GtnWsNsfCommonConstants.GTN_NSF_SELECTED_DEDUCTIONS_SEARCH_QUERY_NAME;
 		}
 		if (GtnUIFrameworkGlobalUI

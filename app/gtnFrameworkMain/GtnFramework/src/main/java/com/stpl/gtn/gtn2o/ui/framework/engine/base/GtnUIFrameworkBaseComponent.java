@@ -1,14 +1,18 @@
 package com.stpl.gtn.gtn2o.ui.framework.engine.base;
 
 import java.lang.ref.WeakReference;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.asi.calendarfield.CalendarField;
 import org.asi.container.ExtContainer;
 import org.asi.ui.customtextfield.CustomTextField;
@@ -16,10 +20,13 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.vaadin.addons.ComboBoxMultiselect;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.calendarfield.GtnUIFrameworkCalendarComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.bean.GtnFrameworkDualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.GtnUIFrameworkNotesTab;
@@ -36,13 +43,21 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.vaadin.data.HasValue;
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.AbstractSingleSelect;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.HasComponents;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
+import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.ui.AbstractSelect;
@@ -54,6 +69,8 @@ import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.Tree;
 
 public class GtnUIFrameworkBaseComponent {
+
+	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkBaseComponent.class);
 
 	private final AbstractComponent component;
 
@@ -143,6 +160,11 @@ public class GtnUIFrameworkBaseComponent {
 		return getString(field.getValue()).trim();
 	}
 
+	public String getV8StringFromField() {
+		HasValue<?> field = (HasValue<?>) this.component;
+		return getString(field.getValue()).trim();
+	}
+
 	public Object getObjectFromField() throws GtnFrameworkValidationFailedException {
 		try {
 			Field<?> field = (Field<?>) this.component;
@@ -155,6 +177,15 @@ public class GtnUIFrameworkBaseComponent {
 	public Date getDateFromDateField() throws GtnFrameworkValidationFailedException {
 		try {
 			PopupDateField dateField = (PopupDateField) this.component;
+			return dateField.getValue();
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+
+	public LocalDate getV8DateFromDateField() throws GtnFrameworkValidationFailedException {
+		try {
+			com.vaadin.ui.DateField dateField = (com.vaadin.ui.DateField) this.component;
 			return dateField.getValue();
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
@@ -219,6 +250,10 @@ public class GtnUIFrameworkBaseComponent {
 
 	}
 
+	public Grid getGrid() {
+		return (Grid) component;
+	}
+
 	public ExtFilterTable getExtFilterTable() throws GtnFrameworkValidationFailedException {
 		try {
 			return (ExtFilterTable) this.getComponentData().getCustomData();
@@ -260,13 +295,12 @@ public class GtnUIFrameworkBaseComponent {
 		return (Collection<GtnWsRecordBean>) customData.getContainerDataSource().getItemIds();
 	}
 
-
 	public int getTableSize() {
 		GtnUIFrameworkComponentData customData = (GtnUIFrameworkComponentData) component.getData();
 		GtnUIFrameworkPagedTableLogic tableLogic = customData.getCurrentPageTableLogic();
 		return tableLogic.getCount();
 	}
- 
+
 	public Set<Container.Filter> getFiltersFromPagedDataTable() {
 		return getLogicFromPagedDataTable().getFilters();
 	}
@@ -295,6 +329,161 @@ public class GtnUIFrameworkBaseComponent {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
 
+	}
+
+	public String getCaptionFromV8ComboBox() throws GtnFrameworkValidationFailedException {
+		try {
+			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
+			return getString(comboBox.getValue()).trim();
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+
+	}
+
+	public String getStringCaptionFromV8ComboBox() throws GtnFrameworkValidationFailedException {
+		try {
+			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
+			return getString(comboBox.getItemCaptionGenerator().apply(comboBox.getValue())).trim();
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+
+	}
+
+	public Integer getIntegerFromV8ComboBox() throws GtnFrameworkValidationFailedException {
+		try {
+			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
+
+			if (isEmpty(comboBox.getValue())) {
+				return 0;
+			}
+			return Integer.valueOf(getString(comboBox.getValue()).trim());
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+
+	}
+
+	public String getStringFromV8ComboBox() throws GtnFrameworkValidationFailedException {
+		try {
+			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
+
+			if (isEmpty(comboBox.getValue())) {
+				return StringUtils.EMPTY;
+			}
+			return getString(comboBox.getValue()).trim();
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+
+	}
+
+	public List<Object> getSelectedListFromV8MultiSelect() throws GtnFrameworkValidationFailedException {
+		try {
+			ComboBoxMultiselect multiSelect = (ComboBoxMultiselect) this.getComponent();
+
+			if (isEmpty(multiSelect.getSelectedItems())) {
+				return null;
+			}
+			List<Object> selectedItemList = new ArrayList<>();
+			for (Object object : multiSelect.getSelectedItems()) {
+				if (!"0".equals(object)) {
+					selectedItemList.add(object);
+				}
+			}
+			return selectedItemList;
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+
+	}
+
+	public List<Object> getSelectedCaptionListFromV8MultiSelect() throws GtnFrameworkValidationFailedException {
+		try {
+			ComboBoxMultiselect multiSelect = (ComboBoxMultiselect) this.getComponent();
+
+			if (isEmpty(multiSelect.getSelectedItems())) {
+				return null;
+			}
+			List<Object> selectedItemList = new ArrayList<>();
+			for (Object object : multiSelect.getSelectedItems()) {
+				if (!"0".equals(object)) {
+					selectedItemList.add(multiSelect.getItemCaptionGenerator().apply(object));
+				}
+			}
+			return selectedItemList;
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+
+	}
+
+	public void addAllItemsToMultiSelect(List<String> valueList, List idList,List<Integer> itemsToBeSelected)
+			throws GtnFrameworkValidationFailedException {
+		try {
+			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
+			vaadinMultiSelect.setItems(idList);
+			vaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
+			if (!itemsToBeSelected.isEmpty()) {
+				for (Integer integer : itemsToBeSelected) {
+					vaadinMultiSelect.select(integer);
+				}
+			}
+			vaadinMultiSelect.setValue(new HashSet<>(itemsToBeSelected));
+			vaadinMultiSelect.markAsDirty();
+			// GtnUIFrameworkCheckedComboBoxConfig comboboxConfig =
+			// this.getComponentConfig().getGtnCheckedComboboxConfig();
+			// String defaultValue = comboboxConfig.getDefaultValue() != null
+			// ? String.valueOf(comboboxConfig.getDefaultValue())
+			// : "-Select Values-";
+			// idList.add(0, "0");
+			// valueList.add(0, defaultValue)
+			;
+			// vaadinMultiSelect.setValue(new HashSet<>(Arrays.asList("0")));
+
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+
+	public void updateSelection(List itemsToBeSelected) throws GtnFrameworkValidationFailedException {
+		try {
+			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
+			if (!itemsToBeSelected.isEmpty()) {
+				vaadinMultiSelect.select(itemsToBeSelected);
+			}
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+
+	public void addAllItemsToComboBox(List<String> valueList, List idList)
+			throws GtnFrameworkValidationFailedException {
+		try {
+			com.vaadin.ui.ComboBox vaadinComboBox = (com.vaadin.ui.ComboBox) this.component;
+			vaadinComboBox.setItems(idList);
+			vaadinComboBox.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
+
+			GtnUIFrameworkComboBoxConfig comboboxConfig = this.getComponentConfig().getGtnComboboxConfig();
+			// if (!comboboxConfig.isHasDefaultValue()) {
+			// String defaultValue = comboboxConfig.getDefaultValue() != null
+			// ? String.valueOf(comboboxConfig.getDefaultValue())
+			// : GtnFrameworkCommonStringConstants.SELECT_ONE;
+			// idList.add(0, 0);
+			// valueList.add(0, defaultValue);
+			// } else {
+			// for (int i = 0; i < valueList.size(); i++) {
+			// if (comboboxConfig.getDefaultDesc().equals(valueList.get(i))) {
+			// vaadinComboBox.setValue(valueList.get(i));
+			// break;
+			// }
+			// }
+			// }
+
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
 	}
 
 	private static String getString(Object value) {
@@ -340,6 +529,16 @@ public class GtnUIFrameworkBaseComponent {
 		}
 	}
 
+	public Object getV8ValueFromComponent() throws GtnFrameworkValidationFailedException {
+		try {
+
+			return ((HasValue<Object>) getComponentData().getCustomData()).getValue();
+
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+
 	public Object validateAndGetValue() throws GtnFrameworkValidationFailedException {
 		validate();
 		return getObjectFromField();
@@ -363,7 +562,8 @@ public class GtnUIFrameworkBaseComponent {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
 	}
-       public void clearTree() throws GtnFrameworkValidationFailedException {
+
+	public void clearTree() throws GtnFrameworkValidationFailedException {
 		try {
 			AbstractSelect tree = (AbstractSelect) getComponentData().getCustomData();
 			tree.getContainerDataSource().removeAllItems();
@@ -371,8 +571,8 @@ public class GtnUIFrameworkBaseComponent {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
 	}
-       
-       public Object getTreeItemIds() throws GtnFrameworkValidationFailedException {
+
+	public Object getTreeItemIds() throws GtnFrameworkValidationFailedException {
 		try {
 			AbstractSelect tree = (AbstractSelect) getComponentData().getCustomData();
 			return !tree.getItemIds().isEmpty() ? tree.getItemIds() : null;
@@ -667,7 +867,7 @@ public class GtnUIFrameworkBaseComponent {
 		GtnUIFrameworkPagedTreeTableLogic tableLogic = (GtnUIFrameworkPagedTreeTableLogic) resultsTable
 				.getLeftFreezeAsTable().getContainerLogic();
 		Set<String> hierarchyNo = (Set<String>) componentData.getCustomDataList().get(1);
-                int currentPage = tableLogic.getCurrentPage();
+		int currentPage = tableLogic.getCurrentPage();
 		tableLogic.forRefresh(hierarchyNo);
 		tableLogic.setCurrentPage(currentPage);
 	}
@@ -797,6 +997,11 @@ public class GtnUIFrameworkBaseComponent {
 		((Field<Object>) this.component).setValue(getString(newValue));
 	}
 
+	@SuppressWarnings({ "unchecked" })
+	public void loadV8FieldValue(Object newValue) {
+		((HasValue<Object>) this.component).setValue(getString(newValue));
+	}
+
 	public void setComponentEnable(boolean newValue) {
 		this.component.setEnabled(newValue);
 	}
@@ -816,26 +1021,42 @@ public class GtnUIFrameworkBaseComponent {
 	}
 
 	@SuppressWarnings({ "unchecked" })
+	public void loadV8DateValue(Object newValue) {
+		((HasValue<Object>) this.component).setValue(newValue);
+	}
+
+	@SuppressWarnings({ "unchecked" })
 	public void loadComboBoxComponentValue(Integer newValue) {
 		((Field<Object>) this.component).setValue(newValue);
+
+	}
+
+	public void loadV8ComboBoxComponentValue(Integer value) throws GtnFrameworkValidationFailedException {
+		AbstractSingleSelect comboboxSelect = (AbstractSingleSelect) this.component;
+		comboboxSelect.setSelectedItem(value);
+	}
+
+	public void loadV8ComboBoxComponentValue(String value) throws GtnFrameworkValidationFailedException {
+		AbstractSingleSelect comboboxSelect = (AbstractSingleSelect) this.component;
+		comboboxSelect.setSelectedItem(value);
 	}
 
 	public void setComponentReadOnly(boolean newValue) {
-		if(this.component instanceof  Field<?>) {
-			(( Field<?>)this.component).setReadOnly(newValue);
-		}else if(this.component instanceof  DateField) {
-		((DateField)this.component).setReadOnly(newValue);
+		if (this.component instanceof Field<?>) {
+			((Field<?>) this.component).setReadOnly(newValue);
+		} else if (this.component instanceof DateField) {
+			((DateField) this.component).setReadOnly(newValue);
 		}
-		
+
 	}
 
 	public boolean isReadOnly() {
-		boolean isReadable=true;
-		if(this.component instanceof  Field<?>) {
-			isReadable=(( Field<?>)this.component).isReadOnly();
-		}else if(this.component instanceof  DateField) {
-			isReadable=((DateField)this.component).isReadOnly();
-			}
+		boolean isReadable = true;
+		if (this.component instanceof Field<?>) {
+			isReadable = ((Field<?>) this.component).isReadOnly();
+		} else if (this.component instanceof DateField) {
+			isReadable = ((DateField) this.component).isReadOnly();
+		}
 		return isReadable;
 	}
 
@@ -861,17 +1082,17 @@ public class GtnUIFrameworkBaseComponent {
 	public void clearAllCalendarValue() {
 		((CalendarField) getComponent()).clearAllValue();
 	}
-	
+
 	public void clearSelectedCalendarValue() {
 		((CalendarField) getComponent()).clearSelectedValue();
 	}
 
 	public void setSelectedWeekDays(int... days) {
 		if (getComponent() instanceof CalendarField) {
-			((GtnUIFrameworkCalendarComponent) (getComponentConfig().getComponentType().getGtnComponent())).setSelectedWeekDays((CalendarField) getComponent(), days);
+			((GtnUIFrameworkCalendarComponent) (getComponentConfig().getComponentType().getGtnComponent()))
+					.setSelectedWeekDays((CalendarField) getComponent(), days);
 		}
 	}
-
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void loadContainer(String componentId, List<GtnWsRecordBean> resultLiist) {
@@ -1062,18 +1283,70 @@ public class GtnUIFrameworkBaseComponent {
 	}
 
 	public void removeTreeItems(GtnWsRecordBean treeSelectedBean) {
-			if (getComponentData().getCustomData() instanceof Tree) {
+		if (getComponentData().getCustomData() instanceof Tree) {
 			((GtnUIFrameworkTreeComponent) (getComponentConfig().getComponentType().getGtnComponent()))
-						.removeChildItems((Tree) (getComponentData().getCustomData()),treeSelectedBean);
-			}
-		}
-
-	public GtnWsRecordBean getParent(Object childItemId) {
-			return (GtnWsRecordBean) ((Tree)getComponentData().getCustomData()).getParent(childItemId);
-		}
-
-	public Set<GtnWsRecordBean> getSelectedValues() {
-			return (Set<GtnWsRecordBean>) ((Tree) getComponentData().getCustomData()).getValue();
+					.removeChildItems((Tree) (getComponentData().getCustomData()), treeSelectedBean);
 		}
 	}
-	
+
+	public GtnWsRecordBean getParent(Object childItemId) {
+		return (GtnWsRecordBean) ((Tree) getComponentData().getCustomData()).getParent(childItemId);
+	}
+
+	public Set<GtnWsRecordBean> getSelectedValues() {
+		return (Set<GtnWsRecordBean>) ((Tree) getComponentData().getCustomData()).getValue();
+	}
+
+	public Object getFieldValue() {
+
+		HasValue<?> field = (HasValue) this.component;
+
+		return field.getValue();
+	}
+
+	public void setV8PopupFieldValue(Object value) {
+		HorizontalLayout layout = (HorizontalLayout) this.component;
+		HasValue<Object> field = (HasValue) layout.getComponent(0);
+
+		field.setValue(value);
+	}
+
+	public void setV8GridItems(List<GtnWsRecordBean> value) {
+		VerticalLayout layout = (VerticalLayout) this.component;
+		Grid<GtnWsRecordBean> field = (Grid) layout.getComponent(0);
+
+		field.setItems(value);
+	}
+
+	public void setGridItems(List<GtnWsRecordBean> recordBeanList) {
+		((Grid) this.component).setItems(recordBeanList);
+	}
+
+	public Set<GtnWsRecordBean> getValueFromGird() {
+		return ((Grid<GtnWsRecordBean>) this.component).getSelectedItems();
+	}
+
+	public void removeItemsFromGrid(GtnWsRecordBean... itemList) {
+		Grid dataGrid = this.getGrid();
+		((ListDataProvider<GtnWsRecordBean>) dataGrid.getDataProvider()).getItems().removeAll(Arrays.asList(itemList));
+		dataGrid.getDataProvider().refreshAll();
+	}
+
+	public void deSelectItemInGrid(GtnWsRecordBean item) throws GtnFrameworkGeneralException {
+		Grid dataGrid = this.getGrid();
+		dataGrid.deselect(item);
+	}
+
+	public TreeGrid getTreeGrid() {
+		return (TreeGrid) this.component;
+	}
+
+	public void setHasValue(String value) {
+		((HasValue) this.component).setValue(value);
+	}
+
+	public String[] getStringFromMultiselectComboBox() {
+		Set<?> selectedData = ((ComboBoxMultiselect) this.component).getValue();
+		return selectedData.stream().toArray(String[]::new);
+	}
+}

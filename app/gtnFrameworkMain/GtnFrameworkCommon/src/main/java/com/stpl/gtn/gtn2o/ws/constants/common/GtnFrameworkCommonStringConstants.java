@@ -100,6 +100,8 @@ public class GtnFrameworkCommonStringConstants {
 	public static final String CSV_EXPORT_PATH = "GtnCsvExport";
 
 	public static final String EXCEL_ICON_URL = "img/excel.png";
+	
+	public static final String CHART_ICON_URL = "img/chart.png";
 
 	public static final String INBOUND_STATUS_A = "A";
 
@@ -197,6 +199,8 @@ public class GtnFrameworkCommonStringConstants {
 	public static final String CM = "CM";
 	public static final String CMF = "CMF";
 	public static final String GETFRIENDLYURLQUERY = "getfriendlyURLQuery";
+	
+	public static final String REPORT_MODULE_NAME = "report";
 
 	private GtnFrameworkCommonStringConstants() {
 	}
