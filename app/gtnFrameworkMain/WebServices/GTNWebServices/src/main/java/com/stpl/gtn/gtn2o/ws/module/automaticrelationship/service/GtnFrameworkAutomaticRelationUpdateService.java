@@ -71,7 +71,8 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		return gtnFrameworkEntityMasterBean;
 	}
 
-	public synchronized void setGtnFrameworkEntityMasterBean(GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean) {
+	public synchronized void setGtnFrameworkEntityMasterBean(
+			GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean) {
 		this.gtnFrameworkEntityMasterBean = gtnFrameworkEntityMasterBean;
 	}
 
@@ -132,12 +133,12 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 	public int updateRelationShipVersionNo(GtnWsRelationshipBuilderBean relationBean) {
 
 		SessionFactory sessionFactory = gtnSqlQueryEngine.getSessionFactory();
-                int modifiedBy;
+		int modifiedBy;
 		try (Session session = sessionFactory.openSession()) {
 			Transaction tx = session.beginTransaction();
 			RelationshipBuilder relationshipBuilder = session.load(RelationshipBuilder.class,
 					relationBean.getRelationshipBuilderSid());
-                        modifiedBy = relationshipBuilder.getModifiedBy();
+			modifiedBy = relationshipBuilder.getModifiedBy();
 			relationshipBuilder.setModifiedBy(modifiedBy);
 			relationshipBuilder.setModifiedDate(new Date());
 			relationshipBuilder.setVersionNo(relationshipBuilder.getVersionNo() + 1);
@@ -288,6 +289,16 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 			}
 		}
 		String finalQuery = gtnWsSqlService.getQuery(input, queryName);
+		return executeAndGetCustomizedResult(finalQuery);
+	}
+
+	public List<HierarchyLevelDefinitionBean> getHierarchyBuilderBasedOnProjectionId(int hierarchyDefSid,
+			int hierarchyVersionNo, String hierarchyIndicator) throws GtnFrameworkGeneralException {
+		List<Object> inputList = new ArrayList<>();
+		inputList.add(hierarchyDefSid);
+		inputList.add(hierarchyVersionNo);
+		String query = "reportCustomerLoad";
+		String finalQuery = gtnWsSqlService.getQuery(inputList, query);
 		return executeAndGetCustomizedResult(finalQuery);
 	}
 

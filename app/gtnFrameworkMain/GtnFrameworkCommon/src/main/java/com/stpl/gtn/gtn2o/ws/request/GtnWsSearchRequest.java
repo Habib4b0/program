@@ -32,7 +32,9 @@ public class GtnWsSearchRequest implements GtnWSRequestData {
 	private int tableRecordStart;
 	private int tableRecordOffset;
 	private String searchModuleName = "";
-	private List<Object> queryInputList = new ArrayList<>();
+	private List<Object> queryInputList = new ArrayList<>(5);
+	private List<String> queryInput= new ArrayList<>();
+        private List<Object> recordHeader = new ArrayList<>();
 	private GtnWsSearchQueryConfigLoaderType searchConfigLodaderType;
 
 	private GtnWsRecordTypeBean gtnWsRecordTypeBean;
@@ -153,5 +155,21 @@ public class GtnWsSearchRequest implements GtnWSRequestData {
             this.gtnWebServiceSearchCriteriaList.remove(index);
         }
 	}
+
+    public List<String> getQueryInput() {
+        return queryInput;
+    }
+
+    public void setQueryInput(List<String> queryInput) {
+        this.queryInput = queryInput;
+    }
+
+    public List<Object> getRecordHeader() {
+        return recordHeader;
+    }
+
+    public void setRecordHeader(List<Object> recordHeader) {
+        this.recordHeader = recordHeader;
+    }
 
 }

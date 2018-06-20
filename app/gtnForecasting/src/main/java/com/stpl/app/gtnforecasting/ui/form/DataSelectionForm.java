@@ -3172,14 +3172,14 @@ public class DataSelectionForm extends ForecastDataSelection {
 				final SessionDTO tempSession = SessionUtil.createSession();
 				tempSession.setScreenName(scrName);
                                 tempSession.setFunctionMode("E");
-                                tempSession.setDsFrequency(String.valueOf(frequency.getValue()));
+                                tempSession.setDsFrequency(String.valueOf(map.get(Constant.FREQUENCY)));
 				tempSession.setProjectionId(projectionIdValue);
 				tempSession.setCustomerHierarchyVersion(dto.getCustomerHierVersionNo());
 				tempSession.setProductHierarchyVersion(dto.getProductHierVersionNo());
 				tempSession.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
 				tempSession.setProductRelationVersion(dto.getProductRelationShipVersionNo());
 				tempSession.setDeductionRelationVersion(dto.getDeductionRelationShipVersionNo());
-                                tempSession.setDataSelectionDeductionLevel(String.valueOf(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE : DataTypeConverter.convertObjectToInt(mapValue)));
+                                tempSession.setDataSelectionDeductionLevel(String.valueOf(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? 0 : DataTypeConverter.convertObjectToInt(mapValue)));
                                 dto.setDataSelectionDeductionLevelSid(Integer.parseInt(tempSession.getDataSelectionDeductionLevel()));
                                 tempSession.setDataSelectionDeductionLevelCaption(dataSelectionDeductionLevel.getItemCaption(Integer.parseInt(tempSession.getDataSelectionDeductionLevel())));
                                 tempSession.setDeductionLevel(String.valueOf(tempSession.getDataSelectionDeductionLevel()));
@@ -3404,7 +3404,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				session.setProductRelationVersion(dto.getProductRelationShipVersionNo());
                                 session.setDeductionRelationVersion(dto.getDeductionRelationShipVersionNo());
                                 session.setDsFrequency(String.valueOf(frequency.getValue()));
-                                session.setCustomRelationShipSid(dto.getCustomRelationShipSid());
+                                 session.setCustomRelationShipSid(dto.getCustomRelationShipSid());
                                 session.setCustomDeductionRelationShipSid(dto.getCustomDeductionRelationShipSid());
                                 session.setDataSelectionDeductionLevel(String.valueOf(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE : DataTypeConverter.convertObjectToInt(mapValue)));
                                 dto.setDataSelectionDeductionLevelSid(Integer.parseInt(session.getDataSelectionDeductionLevel()));
@@ -3493,6 +3493,14 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 		}
 	}
+
+    public ComboBox getDataSelectionDeductionLevel() {
+        return dataSelectionDeductionLevel;
+    }
+
+    public void setDataSelectionDeductionLevel(ComboBox dataSelectionDeductionLevel) {
+        this.dataSelectionDeductionLevel = dataSelectionDeductionLevel;
+    }
 
 	/**
 	 * Delete btn.

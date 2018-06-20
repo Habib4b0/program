@@ -10,8 +10,10 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkCsvExcelExportAction
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkDeleteAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkEditAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkExcelExportAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkGridStaticLoadAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkInfoAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadCustomAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadDataGridAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadDataTableAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkLoadDataTreeTableAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkManageTableRecordTypeAction;
@@ -48,14 +50,26 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkSetDataAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkTreeTableCollapseAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkTreeTableExpandAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkTreeTableLevelFilterAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkV8AddRecordAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkV8PopupSelectAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkVisibleAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.GtnUIFrameWorkDualListBoxLoadLeftTableAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.GtnUIFrameWorkDualListBoxLoadRightTableAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.GtnUIFrameWorkDualListBoxLoadRightTableBulkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.GtnUIFrameWorkDuallistBoxRightToLeftTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameWorkV8DualListBoxLoadLeftTableAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameWorkV8DualListBoxLoadRightTableAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameWorkV8DuallistBoxRightToLeftTableLoadAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameworkV8ConfirmedDualListBoxResetAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8.GtnUIFrameworkV8DualListBoxResetAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnFrameworkDateCompareValidationAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameWorkValidationAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.validation.v8.GtnUIFrameWorkV8ConfirmedResetAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.validation.v8.GtnUIFrameWorkV8ResetAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.validation.v8.GtnUIFrameWorkV8ValidationAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.validation.v8.GtnUIFrameworkV8ValueChangeAction;
 
 public enum GtnUIFrameworkActionType {
 
@@ -165,9 +179,35 @@ public enum GtnUIFrameworkActionType {
 
 	LOAD_NOTES_TAB(new GtnUIFrameworkLoadNotesTabAction()),
 
-	LOAD_TABLE_ACTION(new GtnUIFrameworkLoadTableAction()),
+	LOAD_TABLE_ACTION(new GtnUIFrameworkLoadTableAction()), LOAD_DATA_GRID_ACTION(
+			new GtnUIFrameWorkLoadDataGridAction()), DATA_TABLE_CHECKALL_ACTION(
+					new GtnUIFrameworkDataTableCheckAllAction()),
 
-	DATA_TABLE_CHECKALL_ACTION(new GtnUIFrameworkDataTableCheckAllAction());
+	V8_POP_UP_SELECT_ACTION(new GtnUIFrameworkV8PopupSelectAction()),
+
+	GRID_STATIC_LOAD_ACTION(new GtnUIFrameWorkGridStaticLoadAction()),
+	
+	V8DUAL_LISTBOX_LEFT_TABLE_LOADACTION(new GtnUIFrameWorkV8DualListBoxLoadLeftTableAction()),
+	
+	V8DUAL_LISTBOX_RIGHT_TABLE_LOADACTION(new GtnUIFrameWorkV8DualListBoxLoadRightTableAction()),
+	
+	V8DUAL_LISTBOX_RIGHT_TO_LEFT_TABLE_LOADACTION(new GtnUIFrameWorkV8DuallistBoxRightToLeftTableLoadAction()),
+	
+	V8DUAL_LISTBOX_ALL_BUTTON_LOADACTION(new GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction()),
+	
+	V8DUAL_LISTBOX_RESET_ACTION(new GtnUIFrameworkV8DualListBoxResetAction()),
+	
+	V8CONFIRMED_DUALLISTBOX_RESET_ACTION(new GtnUIFrameworkV8ConfirmedDualListBoxResetAction()),
+	
+	V8_VALIDATION_ACTION(new GtnUIFrameWorkV8ValidationAction()),
+
+	V8_RESET_ACTION(new GtnUIFrameWorkV8ResetAction()),
+
+	V8_CONFIRMED_RESET_ACTION(new GtnUIFrameWorkV8ConfirmedResetAction()), 
+	
+	V8_VALUE_CHANGE_ACTION(new GtnUIFrameworkV8ValueChangeAction()),
+	
+	V8_ADD_RECORD_ACTION(new GtnUIFrameworkV8AddRecordAction());
 
 	private final GtnUIFrameWorkAction gtnUIFrameWorkAction;
 

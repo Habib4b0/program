@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
+
 /**
  * @author Srithar.Raju
  *
@@ -16,8 +18,7 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	private int relationShipBuilderSid;
 	private int hierarchyDefinitionSid;
 	private int hierarchyLevelDefinitionSid;
@@ -46,6 +47,7 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	private String businessUnitValue;
 	private String hierarchyIndicator;
 	private Map<String, String> tempTableMap;
+	private List<GtnReportHierarchyLevelBean> levelList;
 
 	private List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerList;
 	private List<GtnFrameworkRelationshipLevelDefintionBean> selectedProductList;
@@ -53,7 +55,7 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	private GtnFrameworkRelationshipLevelDefintionBean selectedHierarchyLevelDto;
 
 	private boolean isCff;
-    private boolean forecastInsert;
+	private boolean forecastInsert;
 
 	public GtnForecastHierarchyInputBean() {
 		super();
@@ -204,7 +206,6 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 		this.tempTableMap = tempTableMap;
 	}
 
-
 	public void setSelectedCustomerRelationShipBuilderSid(int selectedCustomerRelationShipBuilderSid) {
 		this.selectedCustomerRelationShipBuilderSid = selectedCustomerRelationShipBuilderSid;
 	}
@@ -216,7 +217,6 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 	public void setSelectedCustomerRelationShipBuilderVersionNo(int selectedCustomerRelationShipBuilderVersionNo) {
 		this.selectedCustomerRelationShipBuilderVersionNo = selectedCustomerRelationShipBuilderVersionNo;
 	}
-
 
 	public String getBusinessUnitValue() {
 		return businessUnitValue;
@@ -324,13 +324,20 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 		this.lowestLevelNo = lowestLevelNo;
 	}
 
-        public boolean isForecastInsert() {
-                return forecastInsert;
-        }
+	public List<GtnReportHierarchyLevelBean> getLevelList() {
+		return levelList;
+	}
 
-        public void setForecastInsert(boolean forecastInsert) {
-                 this.forecastInsert = forecastInsert;
-        }
-        
+	public void setLevelList(List<GtnReportHierarchyLevelBean> levelList) {
+		this.levelList = levelList;
+	}
+
+	public boolean isForecastInsert() {
+		return forecastInsert;
+	}
+
+	public void setForecastInsert(boolean forecastInsert) {
+		this.forecastInsert = forecastInsert;
+	}
 
 }

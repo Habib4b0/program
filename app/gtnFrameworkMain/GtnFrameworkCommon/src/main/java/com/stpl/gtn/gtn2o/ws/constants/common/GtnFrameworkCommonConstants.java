@@ -523,6 +523,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String REBATE_PLAN_CALCULATION_FROM_COMPLEX = "rebatePlanCalculationToComplex";
 	public static final String REBATE_PLAN_CALCULATIONS_OPERATOR_COMPLEX = "rebatePlanCalculationsOperatorComplex";
 	public static final String REBATE_PLAN_CALCULATIONS_VALUE_COMPLEX = "rebatePlanCalculationsValueComplex";
+	public static final String REBATE_PLAN_CALCULATIONS_REMOVE_COMPLEX = "gtnRpRemoveComplexButton";
         public static final String PERCENT_650 = "650px";
         public static final String PERCENT_500 = "500px";
         public static final String PERCENT_1680 = "1680px";
@@ -624,8 +625,11 @@ public class GtnFrameworkCommonConstants {
 	public static final String MODIFIED_DATE_HEADER = "Modified Date";
 	public static final String COMPANY_RETURNS = "Company";
 	public static final String CREATED_DATE_HEADER = "Created Date";
+	public static final String HIGHEST_LEVEL = "Highest_Level";
+	public static final String LOWEST_LEVEL = "Lowest_Level";
 
 	public static final String PRIVATE_VIEW_NAME = "privateViewName";
+	public static final String PUBLIC_VIEW_NAME = "publicViewName";
 	public static final String PRIVATE_SEARCH_RESULT_TABLE = "privateSearchResultTable";
 	public static final String SAVE_VIEW_NAME = "saveViewName";
 	public static final String SAVE_VIEW_TYPE = "saveViewType";
@@ -652,7 +656,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String PRODUCT_HIERARCHY_SELECT_BUTTON = "productHierarchySelectButton";
 	public static final String RETURNS_FORECAST_TAB_SHEET_PRODUCT_GROUP = "returnsForecastTabSheet_productGroup";
 	public static final String CONTROL_BUTTON_LAYOUT = "controlButtonLayout";
-
+	
 	/**
 	 *
 	 * END
@@ -1056,6 +1060,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String I_MASTER_SEARCH_ORGANIZATION_KEY = "IMasterSearchOrganizationKey";
 	public static final String PARENT_ITEMACTION_BUTTONLAYOUT = "parentItemactionButtonlayout";
 	public static final String INDICATOR = "indicator";
+	public static final String INDICATOR_STRING = "indicator_string";
 	public static final String VIEW_NAME_CAPS = "VIEW_NAME";
 	public static final String TEMP_COUNT = "tempCount";
 	public static final String TEMP_CHECKED_COUNT = "tempCheckedCount";

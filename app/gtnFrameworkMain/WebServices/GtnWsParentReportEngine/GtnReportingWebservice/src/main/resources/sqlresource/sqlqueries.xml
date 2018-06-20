@@ -1,0 +1,840 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="getHierarchyLevels">
+    <![CDATA[
+          SELECT
+                    DISTINCT RLD.LEVEL_NAME,RLD.LEVEL_NO,
+                    convert(int,RLD.LEVEL_NO) as TREE_LEVEL_NO,
+                    ? as HIERARCHY_INDICATOR,
+                    RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                FROM RELATIONSHIP_BUILDER RB
+                JOIN RELATIONSHIP_LEVEL_DEFINITION RLD on RLD.RELATIONSHIP_BUILDER_SID = RB.RELATIONSHIP_BUILDER_SID WHERE
+                    RLD.VERSION_NO = RB.VERSION_NO
+                    AND RB.RELATIONSHIP_BUILDER_SID = ?
+                    AND RLD.level_no >= ?
+                    order by convert(int, RLD.level_no) ;
+        
+    ]]>
+
+	</entry>
+	
+	
+	<entry key="loadForecastEligibleDate">
+	<![CDATA[
+		SELECT  PROJECTION_START_DATE FROM   [Udf_na_proj_dates]('Commercial')
+	]]>
+	
+	</entry>
+	
+	<entry key="deductionInsertQuery">
+		<![CDATA[
+		
+		IF NOT EXISTS (
+		SELECT 'X'
+		FROM SYS.TABLES
+		WHERE OBJECT_NAME(OBJECT_ID) = '?'
+			AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+		)
+		BEGIN
+			CREATE TABLE [DBO].[?] (
+				RS_CONTRACT_SID INT  NULL,
+				RS_CATEGORY INT  NULL,
+		        RS_TYPE INT  NULL,
+		        REBATE_PROGRAM_TYPE INT  NULL,
+		        UDC1 INT  NULL,
+		        UDC2 INT  NULL,
+		        UDC3 INT  NULL,
+		        UDC4 INT  NULL,
+		        UDC5 INT  NULL,
+		        UDC6 INT  NULL,
+		        RS_ID VARCHAR(200) NOT NULL
+				)
+		END
+		
+		
+			INSERT
+		    INTO
+		        ? (
+		        	RS_CONTRACT_SID,
+		            RS_CATEGORY,
+		            RS_TYPE,
+		            REBATE_PROGRAM_TYPE,
+		            UDC1,
+		            UDC2,
+		            UDC3,
+		            UDC4,
+		            UDC5,
+		            UDC6,
+		            RS_ID
+		        ) SELECT
+		         	DISTINCT 
+		            RS.RS_CONTRACT_SID,
+		            RS_CATEGORY,
+		            RS_TYPE,
+		            REBATE_PROGRAM_TYPE,
+		            U.UDC1,
+		            U.UDC2,
+		            U.UDC3,
+		            U.UDC4,
+		            U.UDC5,
+		            U.UDC6,
+		            RS.RS_ID
+		        FROM
+		            RS_CONTRACT RS JOIN dbo.UDCS U
+		                ON U.MASTER_SID = RS.RS_CONTRACT_SID
+		            AND U.MASTER_TYPE = 'RS_CONTRACT'
+		            JOIN ? CCP ON
+		            CCP.RS_CONTRACT_SID = RS.RS_CONTRACT_SID ;
+		]]>
+	</entry>
+	
+	<entry key="getHierarchyTableDetails">
+		<![CDATA[
+			SELECT distinct 
+                    CASE WHEN HLD.LEVEL_VALUE_REFERENCE='User Defined'  THEN 'LEVEL_VALUES' ELSE 
+                        CASE WHEN HLD.TABLE_NAME=JVIEW.REFERENCE_TABLE_NAME OR JVIEW.REFERENCE_TABLE_NAME='HELPER_TABLE' THEN JVIEW.REFERENCE_COLUMN_NAME ELSE JVIEW.DESC_COLUMN_NAME END END DISPLAY_COLUMN,
+                    CASE WHEN HLD.LEVEL_VALUE_REFERENCE='User Defined'  THEN 'HIERARCHY_LEVEL_VALUES' ELSE 
+                        CASE WHEN HLD.TABLE_NAME=JVIEW.REFERENCE_TABLE_NAME THEN HLD.TABLE_NAME ELSE JVIEW.REFERENCE_TABLE_NAME  END END H_TABLE_NAME,
+                    CASE WHEN HLD.LEVEL_VALUE_REFERENCE='User Defined'  THEN 'HIERARCHY_LEVEL_VALUES_SID' ELSE 
+                        CASE WHEN JVIEW.MAPPING_COLUMN_NAME is null THEN JVIEW.PRIMARY_KEY_COLUMN_NAME ELSE JVIEW.MAPPING_COLUMN_NAME END END FIELD_NAME,
+                    RLD.LEVEL_NO
+                    FROM RELATIONSHIP_LEVEL_DEFINITION RLD 
+                    JOIN HIERARCHY_LEVEL_DEFINITION HLD ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD.HIERARCHY_LEVEL_DEFINITION_SID AND RLD.RELATIONSHIP_BUILDER_SID = ?
+                    JOIN HIERARCHY_DEFINITION HD ON HD.HIERARCHY_DEFINITION_SID=HLD.HIERARCHY_DEFINITION_SID
+                    LEFT JOIN vw_helper_list JVIEW ON JVIEW.ACTUAL_TABLE_NAME=HLD.TABLE_NAME AND JVIEW.ACTUAL_COLUMN_NAME=HLD.FIELD_NAME
+                    JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=HD.HIERARCHY_CATEGORY ORDER BY RLD.LEVEL_NO;
+		]]>
+	</entry>
+	
+	<entry key="getRelationshipLevelValues">
+            <![CDATA[ 
+                SELECT DISTINCT
+                    RLD.HIERARCHY_NO,
+                    TEMP.? VALUE,
+                    LEVEL_NAME,
+                    LEVEL_NO,
+                    RELATIONSHIP_LEVEL_VALUES
+                    ?
+               FROM
+                    RELATIONSHIP_LEVEL_DEFINITION RLD
+                JOIN ? CH ON CH.? LIKE RLD.HIERARCHY_NO+'%'
+                JOIN ? TEMP ON
+                                TEMP.? = RLD.RELATIONSHIP_LEVEL_VALUES
+                                AND RLD.RELATIONSHIP_BUILDER_SID = ?
+                                AND RLD.LEVEL_NO = ?
+                                AND RLD.VERSION_NO = ?
+                                
+            ]]>
+	</entry>
+	
+	<entry key="getHierarchyResults">
+			<![CDATA[
+				SELECT
+					distinct c.HIERARCHY_NAME,
+					a.LEVEL_NO As HIGH_LEVEL,
+					b.LEVEL_NO As LOW_LEVEL,
+					a.LEVEL_NAME,
+					c.CREATED_DATE,
+					c.MODIFIED_DATE,
+					c.VERSION_NO,
+					c.HIERARCHY_DEFINITION_SID
+				from
+					HIERARCHY_LEVEL_DEFINITION a,
+					HIERARCHY_LEVEL_DEFINITION b,
+					HIERARCHY_DEFINITION c
+				where
+					a.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+					and a.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+					AND c.HIERARCHY_CATEGORY in(
+						select
+							ht.HELPER_TABLE_SID
+						from
+							HELPER_TABLE ht
+						where
+							ht.LIST_NAME = 'HIERARCHY_CATEGORY'
+							and ht.DESCRIPTION like ?
+					)
+					AND b.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+					AND a.LEVEL_NO in(
+						SELECT
+							MAX( h.LEVEL_NO )
+						FROM
+							HIERARCHY_LEVEL_DEFINITION h
+						WHERE
+							h.HIERARCHY_DEFINITION_SID = a.HIERARCHY_DEFINITION_SID
+					)
+					AND b.LEVEL_NO in(
+						SELECT
+							MIN( h.LEVEL_NO )
+						FROM
+							HIERARCHY_LEVEL_DEFINITION h
+						WHERE
+							h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+					)
+					AND c.HIERARCHY_NAME like ?
+					AND c.HIERARCHY_TYPE in(
+						select
+							ht.HELPER_TABLE_SID
+						from
+							HELPER_TABLE ht
+						where
+							ht.DESCRIPTION like ?
+					)
+			]]>
+	</entry>
+	
+	<entry key="loadViewResults">
+			<![CDATA[
+				Select
+						VIEW_NAME,
+						CREATED_DATE,
+						MODIFIED_DATE,
+						CREATED_BY,
+						VIEW_ID,
+						VIEW_DATA
+					from
+						REPORTING_VIEW_MASTER
+					WHERE
+						VIEW_TYPE = ?
+						AND VIEW_NAME LIKE ?
+						AND CREATED_BY = ?
+			]]>
+	</entry>
+	<entry key="filterOptionCustLevelProdLevelLoadQuery">
+			<![CDATA[
+				SELECT
+    				DISTINCT rld.level_no,
+    				'Level ' + rld.level_no + ' - ' + rld.level_name
+				FROM
+				    relationship_level_definition rld,
+				    relationship_builder rb,
+				    hierarchy_level_definition hld
+				WHERE
+				    rld.relationship_builder_sid IN(
+				        SELECT
+				            rbt.relationship_builder_sid
+				        FROM
+				            relationship_builder rbt
+				        WHERE
+				            rbt.hierarchy_definition_sid = ?
+				    )
+				    AND rld.hierarchy_level_definition_sid = hld.hierarchy_level_definition_sid
+				    AND rld.level_no >= ?
+				ORDER BY
+				    rld.level_no ASC;
+	]]>
+</entry>
+	
+	<entry key="insertView">
+		<![CDATA[
+					INSERT
+			INTO
+				REPORTING_VIEW_MASTER(
+					VIEW_NAME,
+					VIEW_TYPE,
+					CREATED_BY,
+					CREATED_DATE,
+					MODIFIED_BY,
+					MODIFIED_DATE,
+					VIEW_DATA
+				)
+			VALUES(
+				?,
+				?,
+				?,
+				getDate(),
+				?,
+				getDate(),
+				?
+			);
+		]]>
+	</entry>
+	
+	<entry key="getViewCount">
+		<![CDATA[
+			SELECT
+				COUNT( VIEW_ID )
+			FROM
+				REPORTING_VIEW_MASTER
+			WHERE
+				VIEW_NAME =?
+				AND VIEW_TYPE =?
+				AND CREATED_BY =?
+		]]>
+	</entry>
+	
+	<entry key="deleteView">
+		<![CDATA[
+			DELETE FROM REPORTING_VIEW_MASTER WHERE VIEW_ID = ? AND CREATED_BY = ?
+		]]>
+	</entry>
+	
+	<entry key="loadProjectionComparisonResults">
+		<![CDATA[
+				IF OBJECT_ID(
+		'TEMPDB.DBO.#PROJECTION_DETAILS',
+		'U'
+		) IS NOT NULL DROP
+		TABLE
+			#PROJECTION_DETAILS;
+	
+		SELECT
+			PROJECTION_DETAILS_SID,
+			CCP_DETAILS_SID INTO
+			#PROJECTION_DETAILS
+		FROM
+			PROJECTION_MASTER PM
+		INNER JOIN PROJECTION_DETAILS PD ON
+			PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID 
+		SELECT
+				*
+			FROM
+				(
+					SELECT
+						PM.PROJECTION_NAME,
+						PM.PROJECTION_DESCRIPTION,
+						CASE
+							WHEN Count( DISTINCT HT.DESCRIPTION )> 1 THEN 'MULTIPLE'
+							ELSE Max( HT.DESCRIPTION )
+						END AS MARKET_TYPE,
+						CASE
+							WHEN Count( DISTINCT CM.COMPANY_NO )> 1 THEN 'MULTIPLE'
+							ELSE Max( CM.COMPANY_NO )
+						END AS CONTRACT_HOLDER,
+						CASE
+							WHEN Count( DISTINCT C.CONTRACT_NO )> 1 THEN 'MULTIPLE'
+							ELSE Max( C.CONTRACT_NO )
+						END AS CONTRACT,
+						CASE
+							WHEN Count( DISTINCT BM.BRAND_NAME )> 1 THEN 'MULTIPLE'
+							ELSE Max( BM.BRAND_NAME )
+						END AS BRAND,
+						CASE
+							WHEN Count( DISTINCT IM.ITEM_NO )> 1 THEN 'MULTIPLE'
+							ELSE Max( IM.ITEM_NO )
+						END AS ITEM_NO,
+						CASE
+							WHEN Count( DISTINCT IM.ITEM_NAME )> 1 THEN 'MULTIPLE'
+							ELSE Max( IM.ITEM_NAME )
+						END AS ITEM_NAME,
+						PM.PROJECTION_MASTER_SID,
+						PM.CREATED_DATE,
+						PM.CREATED_BY
+					FROM
+						PROJECTION_MASTER PM ?
+					INNER JOIN PROJECTION_DETAILS PD ON
+						PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+					INNER JOIN CCP_DETAILS CCP ON
+						CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+					INNER JOIN CONTRACT_MASTER C ON
+						C.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+					JOIN CUSTOM_CCP_DETAILS CCD ON
+						CCD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+					LEFT JOIN HELPER_TABLE HT ON
+						C.CONTRACT_TYPE = HT.HELPER_TABLE_SID
+						AND(
+							HT.LIST_NAME = 'CONTRACT_TYPE'
+						)
+					LEFT JOIN COMPANY_MASTER CM ON
+						C.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+					JOIN ITEM_MASTER IM ON
+						CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+					LEFT JOIN BRAND_MASTER BM ON
+						BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+					WHERE
+						ISNULL(
+							PM.IS_APPROVED,
+							''
+						) NOT IN(
+							'Y',
+							'C',
+							'A',
+							'R'
+						)
+						AND PM.SAVE_FLAG = 1
+						AND(
+							HT.list_name = 'CONTRACT_TYPE'
+							AND HT.DESCRIPTION LIKE ?
+						)
+						AND(
+							BM.BRAND_NAME LIKE ?
+							or BM.BRAND_NAME is null
+						)
+						AND(
+							PM.PROJECTION_NAME LIKE ?
+							or PM.PROJECTION_NAME is null
+						)
+						AND(
+							C.CONTRACT_NO LIKE ?
+							or C.CONTRACT_NO is null
+						)
+						AND(
+							IM.ITEM_NAME LIKE ?
+							or IM.ITEM_NAME is null
+						)
+						AND(
+							IM.ITEM_NO LIKE ?
+							or IM.ITEM_NO is null
+						)
+						AND(
+							CM.COMPANY_NO LIKE ?
+							or CM.COMPANY_NO is null
+						)
+						AND(
+							PM.PROJECTION_DESCRIPTION LIKE ?
+							or PM.PROJECTION_DESCRIPTION is null
+						)
+					group by
+						pm.projection_name,
+						pm.projection_description,
+						pm.projection_master_sid,
+						PM.created_date,
+						PM.created_by
+				) RSLT
+		]]>
+	</entry>
+	
+	<entry key="loadCFFComparisonResults">
+		<![CDATA[
+		IF OBJECT_ID(
+		'TEMPDB.DBO.#PROJECTION_DETAILS',
+		'U'
+		) IS NOT NULL DROP
+		TABLE
+			#PROJECTION_DETAILS;
+	
+		SELECT
+			PROJECTION_DETAILS_SID,
+			CCP_DETAILS_SID INTO
+			#PROJECTION_DETAILS
+		FROM
+			PROJECTION_MASTER PM
+		INNER JOIN PROJECTION_DETAILS PD ON
+			PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID 
+		SELECT
+				*
+			FROM
+				(
+					SELECT
+						PM.PROJECTION_NAME,
+						PM.PROJECTION_DESCRIPTION,
+						CASE
+							WHEN Count( DISTINCT HT.DESCRIPTION )> 1 THEN 'MULTIPLE'
+							ELSE Max( HT.DESCRIPTION )
+						END AS MARKET_TYPE,
+						CASE
+							WHEN Count( DISTINCT CM.COMPANY_NO )> 1 THEN 'MULTIPLE'
+							ELSE Max( CM.COMPANY_NO )
+						END AS CONTRACT_HOLDER,
+						CASE
+							WHEN Count( DISTINCT C.CONTRACT_NO )> 1 THEN 'MULTIPLE'
+							ELSE Max( C.CONTRACT_NO )
+						END AS CONTRACT,
+						CASE
+							WHEN Count( DISTINCT BM.BRAND_NAME )> 1 THEN 'MULTIPLE'
+							ELSE Max( BM.BRAND_NAME )
+						END AS BRAND,
+						CASE
+							WHEN Count( DISTINCT IM.ITEM_NO )> 1 THEN 'MULTIPLE'
+							ELSE Max( IM.ITEM_NO )
+						END AS ITEM_NO,
+						CASE
+							WHEN Count( DISTINCT IM.ITEM_NAME )> 1 THEN 'MULTIPLE'
+							ELSE Max( IM.ITEM_NAME )
+						END AS ITEM_NAME,
+						PM.PROJECTION_MASTER_SID,
+						PM.CREATED_DATE,
+						PM.CREATED_BY
+					FROM
+						CFF_MASTER CFM 
+					JOIN CFF_DETAILS CFD ON
+						CFD.CFF_MASTER_SID = CFM.CFF_MASTER_SID
+					JOIN PROJECTION_MASTER PM ON
+						PM.PROJECTION_MASTER_SID = CFD.PROJECTION_MASTER_SID ?
+					INNER JOIN PROJECTION_DETAILS PD ON
+						PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+					INNER JOIN CCP_DETAILS CCP ON
+						CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+					INNER JOIN CONTRACT_MASTER C ON
+						C.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
+					JOIN CUSTOM_CCP_DETAILS CCD ON
+						CCD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+					LEFT JOIN HELPER_TABLE HT ON
+						C.CONTRACT_TYPE = HT.HELPER_TABLE_SID
+						AND(
+							HT.LIST_NAME = 'CONTRACT_TYPE'
+						)
+					LEFT JOIN COMPANY_MASTER CM ON
+						C.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+					JOIN ITEM_MASTER IM ON
+						CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+					LEFT JOIN BRAND_MASTER BM ON
+						BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+					WHERE
+						ISNULL(
+							PM.IS_APPROVED,
+							''
+						) NOT IN(
+							'Y',
+							'C',
+							'A',
+							'R'
+						)
+						AND PM.SAVE_FLAG = 1
+						AND(
+							HT.list_name = 'CONTRACT_TYPE'
+							AND HT.DESCRIPTION LIKE ?
+						)
+						AND(
+							BM.BRAND_NAME LIKE ?
+							or BM.BRAND_NAME is null
+						)
+						AND(
+							PM.PROJECTION_NAME LIKE ?
+							or PM.PROJECTION_NAME is null
+						)
+						AND(
+							C.CONTRACT_NO LIKE ?
+							or C.CONTRACT_NO is null
+						)
+						AND(
+							IM.ITEM_NAME LIKE ?
+							or IM.ITEM_NAME is null
+						)
+						AND(
+							IM.ITEM_NO LIKE ?
+							or IM.ITEM_NO is null
+						)
+						AND(
+							CM.COMPANY_NO LIKE ?
+							or CM.COMPANY_NO is null
+						)
+						AND(
+							PM.PROJECTION_DESCRIPTION LIKE ?
+							or PM.PROJECTION_DESCRIPTION is null
+						)
+					group by
+						pm.projection_name,
+						pm.projection_description,
+						pm.projection_master_sid,
+						PM.created_date,
+						PM.created_by
+				) RSLT
+		]]>
+	</entry>
+	
+	<entry key="workflowJoinQuery">
+		<![CDATA[
+			INNER JOIN WORKFLOW_MASTER WM ON
+					PM.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID
+		]]>
+	</entry>
+	<entry key="filterOptionDeductionLevelLoadQuery">
+		<![CDATA[
+				SELECT DISTINCT Cast(rld.level_no AS INT) AS level_no, 
+				    'Level ' + rld.level_no + ' - ' + rld.level_name 
+				FROM   relationship_level_definition rld, 
+				       relationship_builder rb, 
+				       hierarchy_level_definition hld 
+				WHERE  rld.relationship_builder_sid IN(SELECT rbt.relationship_builder_sid 
+				                                       FROM   relationship_builder rbt 
+				                                       WHERE 
+				       rbt.hierarchy_definition_sid IN (SELECT 
+				       hierarchy_definition_sid 
+				                                        FROM 
+				       relationship_builder 
+				                                        WHERE 
+				       deduction_relation = ?)) 
+				ORDER  BY level_no ASC; 
+		]]>
+	</entry>
+	<entry key="report-customer-filter">
+		<![CDATA[
+		select
+			hld.field_name,
+			hld.table_name
+		from
+			hierarchy_level_definition hld
+		where
+			HLD.HIERARCHY_DEFINITION_SID = ?
+			and LEVEL_NO = ?
+			and VERSION_NO = ?
+		]]>
+	</entry>
+	<entry key="report-customer-userdefinedlevelvalue">
+		<![CDATA[
+		SELECT
+				LEVEL_VALUE_REFERENCE
+			FROM
+				dbo.HIERARCHY_LEVEL_DEFINITION HLD
+			WHERE
+				HLD.HIERARCHY_DEFINITION_SID = ?
+				AND HLD.LEVEL_NO = ?
+		]]>
+	</entry>
+	<entry key="report-customer-userdefinedlevel">
+	<![CDATA[
+		select
+			hlv.level_values,
+			hlv.hierarchy_level_values_sid
+		from
+			RELATIONSHIP_LEVEL_DEFINITION rld join HIERARCHY_LEVEL_VALUES hlv on
+			rld.HIERARCHY_LEVEL_DEFINITION_SID = hlv.HIERARCHY_LEVEL_DEFINITION_SID
+			and rld.RELATIONSHIP_LEVEL_VALUES = hlv.HIERARCHY_LEVEL_VALUES_SID
+			and rld.VERSION_NO = ?
+		where
+			rld.RELATIONSHIP_BUILDER_SID = ?
+			and rld.LEVEL_NO = ?
+	]]>
+	</entry>
+	<entry key="product-dynamic-filter">
+	<![CDATA[
+		 IF OBJECT_ID('TEMPDB..#HIER_PRODUCT') IS NOT NULL
+            DROP TABLE #HIER_PRODUCT
+
+            CREATE TABLE #HIER_PRODUCT
+            (
+            HIERARCHY_NO VARCHAR(1000)
+            )
+            INSERT #HIER_PRODUCT
+            (
+            HIERARCHY_NO
+            )
+
+            SELECT HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION WHERE RELATIONSHIP_BUILDER_SID = ?
+            and RELATIONSHIP_LEVEL_VALUES IN (@LEVELVALUES) GROUP BY HIERARCHY_NO
+	]]>
+	</entry>
+	<entry key="customer-dynamic-filter">
+            <![CDATA[
+             IF OBJECT_ID('TEMPDB..#HIER_CUST') IS NOT NULL
+             DROP TABLE #HIER_CUST
+             CREATE TABLE #HIER_CUST
+                (
+               HIERARCHY_NO VARCHAR(1000)
+                )
+              INSERT #HIER_CUST
+              (
+              HIERARCHY_NO
+              )
+              SELECT HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION WHERE RELATIONSHIP_BUILDER_SID = ?
+              and RELATIONSHIP_LEVEL_VALUES IN (@LEVELVALUES) GROUP BY HIERARCHY_NO
+            ]]>
+	</entry>     
+    <entry key="deductionRelationSid">
+    	<![CDATA[
+    		select RELATIONSHIP_BUILDER_SID from RELATIONSHIP_BUILDER where DEDUCTION_RELATION = ? ORDER BY VERSION_NO DESC
+    	]]>
+    </entry>
+	<entry key="getCustomViewHierarchyTableDetails">
+		<![CDATA[
+			SELECT
+			  DISPLAY_COLUMN,
+			  H_TABLE_NAME,
+			  FIELD_NAME,
+			  HT_FIELD_NAME,
+			  CUSTOM_VIEW_LEVEL_NO,
+			  HIERARCHY_INDICATOR_INDICATOR,
+			  CASE
+			    WHEN H_TABLE_NAME = 'HELPER_TABLE' THEN 1
+			    ELSE 0
+			  END AS HELPER_TABLE_JOIN_NEEDED,
+			  CASE
+			    WHEN HT_FIELD_NAME LIKE '%UDC%' THEN 1
+			    ELSE 0
+			  END AS UDC_JOIN_NEEDED
+			
+			FROM (SELECT DISTINCT
+			  CASE
+			    WHEN HLD.LEVEL_VALUE_REFERENCE = 'User Defined' THEN 'LEVEL_VALUES'
+			    ELSE CASE
+			        WHEN HLD.TABLE_NAME = JVIEW.REFERENCE_TABLE_NAME OR
+			          JVIEW.REFERENCE_TABLE_NAME = 'HELPER_TABLE' THEN JVIEW.REFERENCE_COLUMN_NAME
+			        ELSE JVIEW.DESC_COLUMN_NAME
+			      END
+			  END DISPLAY_COLUMN,
+			  CASE
+			    WHEN HLD.LEVEL_VALUE_REFERENCE = 'User Defined' THEN 'HIERARCHY_LEVEL_VALUES'
+			    ELSE CASE
+			        WHEN HLD.TABLE_NAME = JVIEW.REFERENCE_TABLE_NAME THEN HLD.TABLE_NAME
+			        ELSE JVIEW.REFERENCE_TABLE_NAME
+			      END
+			  END H_TABLE_NAME,
+			  CASE
+			    WHEN HLD.LEVEL_VALUE_REFERENCE = 'User Defined' THEN 'HIERARCHY_LEVEL_VALUES_SID'
+			    ELSE CASE
+			        WHEN JVIEW.MAPPING_COLUMN_NAME IS NULL THEN JVIEW.PRIMARY_KEY_COLUMN_NAME
+			        ELSE JVIEW.MAPPING_COLUMN_NAME
+			      END
+			  END FIELD_NAME,
+			  HLD.FIELD_NAME as HT_FIELD_NAME,
+			  RLD.LEVEL_NO AS CUSTOM_VIEW_LEVEL_NO,
+			  RLD.HIERARCHY_INDICATOR AS HIERARCHY_INDICATOR_INDICATOR,
+			  HLD.LEVEL_NO AS HIERARCHY_LEVEL_NO
+			FROM CUST_VIEW_DETAILS RLD
+			JOIN HIERARCHY_LEVEL_DEFINITION HLD
+			  ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_ID
+			  AND RLD.CUSTOM_VIEW_MASTER_SID = ?
+			JOIN HIERARCHY_DEFINITION HD
+			  ON HD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
+			LEFT JOIN vw_helper_list JVIEW
+			  ON JVIEW.ACTUAL_TABLE_NAME = HLD.TABLE_NAME
+			  AND JVIEW.ACTUAL_COLUMN_NAME = HLD.FIELD_NAME
+			JOIN HELPER_TABLE HT
+			  ON HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY) AB
+			ORDER BY CUSTOM_VIEW_LEVEL_NO;
+		]]>		
+	</entry>
+	<entry key="getCustomViewRelationshipLevelValues">
+            <![CDATA[ 
+                SELECT
+				    DISTINCT CVH.HIERARCHY_NO,
+				    TEMP.? VALUE,
+				    CVD.LEVEL_NAME,
+				    CVD.LEVEL_NO,
+				    CVH.RELATIONSHIP_LEVEL_VALUES,
+				    CVD.HIERARCHY_INDICATOR
+				    ?
+				FROM
+				    ? CVH 
+					JOIN CUST_VIEW_DETAILS CVD 
+				        ON CVD.CUSTOM_VIEW_DETAILS_SID = CVH.CUSTOM_VIEW_DETAILS_SID AND CVD.CUSTOM_VIEW_MASTER_SID = ? 
+				    JOIN ? TEMP
+				        ON TEMP.? = CVH.RELATIONSHIP_LEVEL_VALUES
+				    AND CVD.LEVEL_NO = ? 
+            ]]>
+	</entry>
+	<entry key="getCustomViewRelationshipLevelValuesDiscount">
+            <![CDATA[ 
+                SELECT
+				    DISTINCT CVH.HIERARCHY_NO,
+				    ? VALUE,
+				    CVD.LEVEL_NAME,
+				    CVD.LEVEL_NO,
+				    CVH.RELATIONSHIP_LEVEL_VALUES,
+				    CVD.HIERARCHY_INDICATOR
+				    ?
+				FROM
+				    ? CVH 
+					JOIN CUST_VIEW_DETAILS CVD 
+				        ON CVD.CUSTOM_VIEW_DETAILS_SID = CVH.CUSTOM_VIEW_DETAILS_SID AND CVD.CUSTOM_VIEW_MASTER_SID = ? 
+				        ?
+				    JOIN RS_CONTRACT TEMP ON ? 
+				    ? 
+				    AND CVD.LEVEL_NO = ? 
+            ]]>
+	</entry>
+	<entry key="getCustomViewRelationshipLevelValuesVariable">
+            <![CDATA[ 
+               SELECT DISTINCT CVH.HIERARCHY_NO,
+                      HT.DESCRIPTION VALUE,
+                      CVD.LEVEL_NAME,
+                      CVD.LEVEL_NO,
+                      CVH.RELATIONSHIP_LEVEL_VALUES,
+                      CVD.HIERARCHY_INDICATOR
+						?
+				FROM CUST_VIEW_DETAILS CVD
+                     INNER JOIN CUSTOM_VIEW_VARIABLES CVV
+                             ON CVD.CUSTOM_VIEW_DETAILS_SID = CVV.CUSTOM_VIEW_DETAILS_SID
+                                     AND CUSTOM_VIEW_MASTER_SID = ?
+                                     AND CVD.HIERARCHY_INDICATOR = 'V'
+                     INNER JOIN HELPER_TABLE HT
+                             ON HT.HELPER_TABLE_SID = CVV.VARIABLE_SID
+                     INNER JOIN ? CVH
+                             ON CVH.CUSTOM_VIEW_DETAILS_SID = CVD.CUSTOM_VIEW_DETAILS_SID
+                             AND CVH.LEVEL_NO = CVD.LEVEL_NO
+							 AND CVH.RELATIONSHIP_LEVEL_VALUES=CVV.VARIABLE_SID
+                             
+            ]]>
+	</entry>
+	<entry key="customViewCCPMapFinalSelect">
+            <![CDATA[ 
+               WITH CTE AS(
+               		?
+               ) SELECT
+				    A.*,
+				    CS.CC CHILD_COUNT,
+				    ROW_NUMBER() OVER (PARTITION BY LEVEL_NO ORDER BY LEVEL_NO) AS ROW_INDEX
+				FROM
+				    CTE A CROSS APPLY(
+				        SELECT
+				            COUNT(LEVEL_NO) CC
+				        FROM
+				            CTE B
+				        WHERE
+				            B.LEVEL_NO = A.LEVEL_NO + 1
+				            AND B.HIERARCHY_NO like A.HIERARCHY_NO+'%'
+				    ) CS
+				ORDER BY
+				    LEVEL_NO
+            ]]>
+	</entry>
+	<entry key="deductionFilterLoadQuery">
+		<![CDATA[
+		from
+			ST_CCP_HIERARCHY ST_CCP_HIERARCHY 
+		join CCP_DETAILS ccd on
+			ccd.CCP_DETAILS_SID = ST_CCP_HIERARCHY.CCP_DETAILS_SID 
+		join CONTRACT_MASTER cm on
+			cm.CONTRACT_MASTER_SID = ccd.CONTRACT_MASTER_SID 
+		join COMPANY_MASTER com on
+			com.COMPANY_MASTER_SID = ccd.COMPANY_MASTER_SID 
+		join ITEM_MASTER im on
+			im.ITEM_MASTER_SID = ccd.ITEM_MASTER_SID 
+		left join RS_CONTRACT rc on
+			rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID 
+		left join RS_CONTRACT_DETAILS rcd on
+			rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID
+			and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID
+		]]>
+	</entry>
+	<entry key="deduction-dynamic-filter">
+		<![CDATA[
+		join CONTRACT_MASTER cm on
+			cm.CONTRACT_MASTER_SID = CCP_DETAILS.CONTRACT_MASTER_SID 
+		join COMPANY_MASTER com on
+			com.COMPANY_MASTER_SID = CCP_DETAILS.COMPANY_MASTER_SID 
+		join ITEM_MASTER im on
+			im.ITEM_MASTER_SID = CCP_DETAILS.ITEM_MASTER_SID 
+		]]>
+	</entry>
+	<entry key="filterOptionsGenerateQuery">
+		<![CDATA[
+			select
+				distinct ST_CCP_HIERARCHY.ccp_details_sid
+			from
+		    	ST_CCP_HIERARCHY ST_CCP_HIERARCHY
+			join CCP_details CCP_DETAILS on
+				CCP_DETAILS.ccp_details_sid = ST_CCP_HIERARCHY.ccp_details_sid
+		]]>
+	</entry>
+	
+	<entry key="getDeductionHierarchyLevels">
+		<![CDATA[
+			SELECT
+			    DISTINCT hld.level_name,
+			    hld.level_no,
+			    CONVERT(
+			        INT,
+			        hld.LEVEL_NO
+			    ) AS treelevel_no,
+			    ? AS Hierarchyindicator,
+			    hld.hierarchy_level_definition_sid
+			FROM
+			    hierarchy_definition hd JOIN hierarchy_level_definition hld
+			        ON hd.HIERARCHY_DEFINITION_SID = hld.HIERARCHY_DEFINITION_SID
+			WHERE
+			    hld.HIERARCHY_DEFINITION_SID IN(
+			        SELECT
+			            TOP(1) HIERARCHY_DEFINITION_SID
+			        FROM
+			            RELATIONSHIP_BUILDER
+			        WHERE
+			            deduction_relation = ?
+			    )
+		]]>
+	</entry>
+		
+</properties>
