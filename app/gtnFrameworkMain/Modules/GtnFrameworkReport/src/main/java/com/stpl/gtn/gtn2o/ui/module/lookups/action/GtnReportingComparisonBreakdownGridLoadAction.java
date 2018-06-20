@@ -287,12 +287,14 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 			vaadinCombobox.addValueChangeListener(new HasValue.ValueChangeListener() {
 				@Override
 				public void valueChange(HasValue.ValueChangeEvent event) {
-					Object[] obj = new Object[3];
-					obj[0] = (String) event.getValue();
+					Object[] obj = new Object[5];
+					obj[0] = event.getValue().toString();
 					obj[1] = tableConfig.getColumnHeaders().get(col);
 					Label projectionNameForWs = (Label) grid.getHeaderRow(rowCount).getCell("projectionNames")
 							.getComponent();
 					obj[2] = getMasterSid(projectionNameForWs, comparisonLookupBeanList);
+					obj[3]=property;
+					obj[4]=projectionNameForWs.getValue();
 					comparisonBreakdownSaveActionList.add(obj);
 					gridComponent.setCustomData(comparisonBreakdownSaveActionList);
 				}
