@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsColumnDetailsConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
+import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
 /**
  *
@@ -55,9 +56,12 @@ public class GtnWebServiceRebatePlanConfig implements GtnWsSearchQueryConfigLoad
 		fieldToColumnDetailsMap.put("rebatePlanBasedOn",
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "RP_BASED", "RP_BASED",
 						GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
-		fieldToColumnDetailsMap.put("rebateStructure",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "RP_STRUCTURE",
-						"RP_STRUCTURE", GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
+
+		GtnWsColumnDetailsConfig rpColumnDetailsMap = configProvider.getColumnHelperConfig("REBATE_STRUCTURE", "RP");
+		rpColumnDetailsMap.setHelperTableAliasName("rpStructureHelper");
+		rpColumnDetailsMap.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("rebateStructure", rpColumnDetailsMap);
+
 		fieldToColumnDetailsMap.put("rangeBasedOn",
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "RP_RANGE_BASED",
 						"RP_RANGE_BASED", GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
@@ -84,7 +88,8 @@ public class GtnWebServiceRebatePlanConfig implements GtnWsSearchQueryConfigLoad
 				+ "JOIN HELPER_TABLE RP_STRUCTURE ON RP_STRUCTURE.HELPER_TABLE_SID=RP.REBATE_STRUCTURE\n"
 				+ "JOIN HELPER_TABLE RP_RANGE_BASED ON RP_RANGE_BASED.HELPER_TABLE_SID=RP.REBATE_RANGE_BASED_ON\n"
 				+ "LEFT JOIN NET_SALES_FORMULA_MASTER NSFM ON NSFM.NET_SALES_FORMULA_MASTER_SID=RP.NET_SALES_FORMULA_MASTER_SID\n"
-				+ "LEFT JOIN CDR_MODEL CDRM ON CDRM.CDR_MODEL_SID=RP.CDR_MODEL_SID ");
+				+ "LEFT JOIN CDR_MODEL CDRM ON CDRM.CDR_MODEL_SID=RP.CDR_MODEL_SID "
+				+ " LEFT JOIN HELPER_TABLE rpStructureHelper on RP.REBATE_STRUCTURE = rpStructureHelper.HELPER_TABLE_SID");
 
 		gtnWebServiceSearchQueryContext.setSearchQuery("  FROM REBATE_PLAN_MASTER RP\n"
 				+ "JOIN HELPER_TABLE STATUS ON STATUS.HELPER_TABLE_SID=RP.REBATE_PLAN_STATUS\n"
@@ -93,7 +98,8 @@ public class GtnWebServiceRebatePlanConfig implements GtnWsSearchQueryConfigLoad
 				+ "JOIN HELPER_TABLE RP_STRUCTURE ON RP_STRUCTURE.HELPER_TABLE_SID=RP.REBATE_STRUCTURE\n"
 				+ "JOIN HELPER_TABLE RP_RANGE_BASED ON RP_RANGE_BASED.HELPER_TABLE_SID=RP.REBATE_RANGE_BASED_ON\n"
 				+ "LEFT JOIN NET_SALES_FORMULA_MASTER NSFM ON NSFM.NET_SALES_FORMULA_MASTER_SID=RP.NET_SALES_FORMULA_MASTER_SID\n"
-				+ "LEFT JOIN CDR_MODEL CDRM ON CDRM.CDR_MODEL_SID=RP.CDR_MODEL_SID ");
+				+ "LEFT JOIN CDR_MODEL CDRM ON CDRM.CDR_MODEL_SID=RP.CDR_MODEL_SID "
+				+ "LEFT JOIN HELPER_TABLE rpStructureHelper on RP.REBATE_STRUCTURE = rpStructureHelper.HELPER_TABLE_SID");
 
 		searchQueryConfigMap.put("rebateplanSearch", gtnWebServiceSearchQueryContext);
 

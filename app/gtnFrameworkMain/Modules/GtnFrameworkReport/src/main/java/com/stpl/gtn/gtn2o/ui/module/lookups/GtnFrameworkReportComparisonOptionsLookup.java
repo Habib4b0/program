@@ -13,17 +13,12 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFramework
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
-import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownGridResetAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownMassUpdateAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownSubmitAction;
-import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridResetAction;
-import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownMassUpdateAction;
-import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownSubmitAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
-import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkReportComparisonOptionsLookup {
@@ -115,14 +110,13 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		comparisonOptionsLayoutConfig.setGtnLayoutConfig(layoutConf);
 		componentList.add(comparisonOptionsLayoutConfig);
 
-		addComparisonBasisComponent(componentList, comparisonOptionsLayoutConfig.getComponentId(), namespace);
-		addFrequencyComponent(componentList, comparisonOptionsLayoutConfig.getComponentId(), namespace);
-		addPeriodRangeFromComponent(componentList, comparisonOptionsLayoutConfig.getComponentId(), namespace);
-		addPeriodRangeToComponent(componentList, comparisonOptionsLayoutConfig.getComponentId(), namespace);
+		addComparisonBasisComponent(componentList, comparisonOptionsLayoutConfig.getComponentId());
+		addFrequencyComponent(componentList, comparisonOptionsLayoutConfig.getComponentId());
+		addPeriodRangeFromComponent(componentList, comparisonOptionsLayoutConfig.getComponentId());
+		addPeriodRangeToComponent(componentList, comparisonOptionsLayoutConfig.getComponentId());
 	}
 
-	private void addComparisonBasisComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
-			String namespace) {
+	private void addComparisonBasisComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig comparisonBasisConfig = layoutsConfig
 				.getHorizontalLayoutConfig("comparisonBasisConfig", parentId);
 		componentList.add(comparisonBasisConfig);
@@ -137,8 +131,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		componentList.add(comparisonBasis);
 	}
 
-	private void addFrequencyComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
-			String namespace) {
+	private void addFrequencyComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig frequencyConfig = layoutsConfig.getHorizontalLayoutConfig("frequencyConfig",
 				parentId);
 		componentList.add(frequencyConfig);
@@ -154,8 +147,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		componentList.add(frequency);
 	}
 
-	private void addPeriodRangeFromComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
-			String namespace) {
+	private void addPeriodRangeFromComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig periodRangeFromConfig = layoutsConfig
 				.getHorizontalLayoutConfig("periodRangeFromConfig", parentId);
 		componentList.add(periodRangeFromConfig);
@@ -171,8 +163,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		componentList.add(periodRangeFrom);
 	}
 
-	private void addPeriodRangeToComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
-			String namespace) {
+	private void addPeriodRangeToComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig periodRangeToConfig = layoutsConfig
 				.getHorizontalLayoutConfig("periodRangeToConfig", parentId);
 		componentList.add(periodRangeToConfig);
@@ -238,7 +229,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		value.setAddToParent(true);
 		value.setParentComponentId(valueConfig.getComponentId());
 		GtnUIFrameworkComboBoxConfig comparisonBreakdownValueLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		comparisonBreakdownValueLoadConfig.setModuleName("report");
+		comparisonBreakdownValueLoadConfig.setModuleName(GtnFrameworkReportStringConstants.REPORT);
 		comparisonBreakdownValueLoadConfig.setItemValues(new ArrayList<>());
 		comparisonBreakdownValueLoadConfig.setItemCaptionValues(new ArrayList<>());
 		value.setGtnComboboxConfig(comparisonBreakdownValueLoadConfig);
@@ -258,7 +249,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		comparison.setAddToParent(true);
 		comparison.setParentComponentId(comparisonConfig.getComponentId());
 		GtnUIFrameworkComboBoxConfig comparisonBreakdownComparisonBreakdownLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		comparisonBreakdownComparisonBreakdownLoadConfig.setModuleName("report");
+		comparisonBreakdownComparisonBreakdownLoadConfig.setModuleName(GtnFrameworkReportStringConstants.REPORT);
 		comparisonBreakdownComparisonBreakdownLoadConfig.setItemValues(new ArrayList<>());
 		comparisonBreakdownComparisonBreakdownLoadConfig.setItemCaptionValues(new ArrayList<>());
 		comparison.setGtnComboboxConfig(comparisonBreakdownComparisonBreakdownLoadConfig);
@@ -278,7 +269,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		startPeriod.setAddToParent(true);
 		startPeriod.setParentComponentId(startPeriodConfig.getComponentId());
 		GtnUIFrameworkComboBoxConfig startPeriodLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		startPeriodLoadConfig.setModuleName("report");
+		startPeriodLoadConfig.setModuleName(GtnFrameworkReportStringConstants.REPORT);
 		startPeriodLoadConfig.setItemValues(new ArrayList());
 		startPeriodLoadConfig.setItemCaptionValues(new ArrayList());
 
@@ -299,7 +290,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		endPeriod.setAddToParent(true);
 		endPeriod.setParentComponentId(endPeriodConfig.getComponentId());
 		GtnUIFrameworkComboBoxConfig endPeriodLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		endPeriodLoadConfig.setModuleName("report");
+		endPeriodLoadConfig.setModuleName(GtnFrameworkReportStringConstants.REPORT);
 		endPeriodLoadConfig.setItemValues(new ArrayList());
 		endPeriodLoadConfig.setItemCaptionValues(new ArrayList());
 		endPeriod.setGtnComboboxConfig(endPeriodLoadConfig);
@@ -480,7 +471,6 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 
 		GtnUIFrameWorkActionConfig comparisonBreakdownHeaderLoadAction = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
-		// comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboardTab_reportOptionsTabDisplayFormat");
 		comparisonBreakdownHeaderLoadAction
 				.addActionParameter("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig");
 		comparisonBreakdownHeaderLoadAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeFrom");

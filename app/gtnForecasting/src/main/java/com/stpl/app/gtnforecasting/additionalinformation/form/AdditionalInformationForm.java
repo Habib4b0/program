@@ -288,11 +288,6 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 tableBean = (NotesDTO) targetItem.getBean();
             }
             if (event.isDoubleClick()) {
-                	attachmentSaveDTO=fetchData(tableBean.getDocDetailsId());
-                    FileOutputStream fileOuputStream = null;
-                    fileOuputStream = GtnFileUtil.getFileOutputStream(tableBean.getDocumentFullPath());
-                    fileOuputStream.write(attachmentSaveDTO.getFileData());
-                    fileOuputStream.close();
                     File uploadedFile = GtnFileUtil.getFile(tableBean.getDocumentFullPath());
                     Resource res = new FileResource(uploadedFile);
                     fileDownloader.setFileDownloadResource(res);
