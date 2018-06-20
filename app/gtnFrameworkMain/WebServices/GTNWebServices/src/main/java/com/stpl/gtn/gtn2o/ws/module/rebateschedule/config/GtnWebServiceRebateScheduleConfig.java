@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.module.rebateschedule.constants.GtnWsRsQueryConstants;
+import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
 /**
  *
@@ -77,10 +78,12 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 		fieldToColumnDetailsMap.put("rebateProgramType", configProvider.getColumnStringConfig(
 				GtnFrameworkWebserviceConstant.DESCRIPTION, GtnFrameworkWebserviceConstant.REBATE_PROGRAM_TYPE,
 				GtnFrameworkWebserviceConstant.REBATE_PROGRAM_TYPE, GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
-		fieldToColumnDetailsMap.put("rebateScheduleCategory",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,
-						GtnFrameworkWebserviceConstant.RS_CATEGORY, GtnFrameworkWebserviceConstant.RS_CATEGORY,
-						GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
+		
+                GtnWsColumnDetailsConfig rsColumnDetailsMap = configProvider.getColumnHelperConfig("RS_CATEGORY", "RSM");
+                rsColumnDetailsMap.setHelperTableAliasName("rsCategoryHelper");
+		rsColumnDetailsMap.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+                fieldToColumnDetailsMap.put("rebateScheduleCategory", rsColumnDetailsMap);
+                
 		fieldToColumnDetailsMap.put("pouUpRebateScheduleCategory",
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,
 						GtnFrameworkWebserviceConstant.RS_CATEGORY, GtnFrameworkWebserviceConstant.RS_CATEGORY,

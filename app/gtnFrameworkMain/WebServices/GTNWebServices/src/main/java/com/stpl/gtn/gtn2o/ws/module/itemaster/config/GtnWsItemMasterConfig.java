@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.module.itemaster.constants.GtnWsItemMasterQueryContants;
+import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
 public class GtnWsItemMasterConfig implements GtnWsSearchQueryConfigLoader {
 
@@ -158,10 +159,18 @@ public class GtnWsItemMasterConfig implements GtnWsSearchQueryConfigLoader {
 				configProvider.getColumnStringConfig("ITEM_NAME", "IM"));
 		itemMasterColumnDetailsMap.put(popUpValue + "IMasterSearchItemDesc",
 				configProvider.getColumnStringConfig("ITEM_DESC", "IM"));
-		itemMasterColumnDetailsMap.put(popUpValue + "IMasterSearchItemStatus",
-				configProvider.getColumnHelperConfig("ITEM_STATUS", "IM"));
+                GtnWsColumnDetailsConfig itemMasterColumnDetailsMapHelper = configProvider.getColumnHelperConfig("ITEM_STATUS", "IM");
+                itemMasterColumnDetailsMapHelper.setHelperTableAliasName("itemStatusHelper");
+		itemMasterColumnDetailsMapHelper.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+                itemMasterColumnDetailsMap.put(popUpValue + "IMasterSearchItemStatus",
+				itemMasterColumnDetailsMapHelper);
+                
+                GtnWsColumnDetailsConfig imDetailsMapItemTypeHelper = configProvider.getColumnHelperConfig("ITEM_TYPE", "IM");
+                imDetailsMapItemTypeHelper.setHelperTableAliasName("itemTypeHelper");
+		imDetailsMapItemTypeHelper.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
 		itemMasterColumnDetailsMap.put(popUpValue + "IMasterSearchItemType",
-				configProvider.getColumnHelperConfig("ITEM_TYPE", "IM"));
+				imDetailsMapItemTypeHelper);
+                
 		itemMasterColumnDetailsMap.put(popUpValue + GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS,
 				configProvider.getColumnBooleanConfig(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS_COLUMN, "IM"));
 		itemMasterColumnDetailsMap.put(popUpValue + "therapeuticClass",
@@ -171,8 +180,17 @@ public class GtnWsItemMasterConfig implements GtnWsSearchQueryConfigLoader {
 				configProvider.getColumnStringConfig("ITEM_ID", "IM1"));
 		itemMasterColumnDetailsMap.put(popUpValue + "IMasterSearchNdc8",
 				configProvider.getColumnStringConfig("NDC8", "IM"));
-		itemMasterColumnDetailsMap.put(popUpValue + "form", configProvider.getColumnHelperConfig("FORM", "IM"));
-		itemMasterColumnDetailsMap.put(popUpValue + "strength", configProvider.getColumnHelperConfig("STRENGTH", "IM"));
+                
+                GtnWsColumnDetailsConfig imColumnDetailsMapForm = configProvider.getColumnHelperConfig("FORM", "IM");
+                imColumnDetailsMapForm.setHelperTableAliasName("formHelper");
+		imColumnDetailsMapForm.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		itemMasterColumnDetailsMap.put(popUpValue + "form", imColumnDetailsMapForm);
+                
+                GtnWsColumnDetailsConfig imColumnDetailsMapStrength = configProvider.getColumnHelperConfig("STRENGTH", "IM");
+                imColumnDetailsMapStrength.setHelperTableAliasName("strengthHelper");
+		imColumnDetailsMapStrength.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		itemMasterColumnDetailsMap.put(popUpValue + "strength", imColumnDetailsMapStrength);
+                
 		itemMasterColumnDetailsMap.put(popUpValue + "IMasterSearchBatchId",
 				configProvider.getColumnStringConfig("BATCH_ID", "IM"));
 		itemMasterColumnDetailsMap.put(popUpValue + "IMasterSearchQualifierName",
