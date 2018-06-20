@@ -115,7 +115,7 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		GtnWsCustomViewResponse cvResponse = response.getGtnWsCustomViewResponse();
 		if (cvResponse.isSuccess()) {
-			saveCustomView(componentId, customViewName, reportCustomViewRequest);
+			saveCustomView(componentId, customViewName, reportCustomViewRequest,(String) paramList.get(3));
 		} else {
 			GtnUIFrameWorkActionConfig cvSaveAlertAction = new GtnUIFrameWorkActionConfig(
 					GtnUIFrameworkActionType.ALERT_ACTION);
@@ -146,7 +146,7 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 		return false;
 	}
 
-	private void saveCustomView(String componentId, String customViewName, GtnWsCustomViewRequest cvRequest)
+	private void saveCustomView(String componentId, String customViewName, GtnWsCustomViewRequest cvRequest,String tabName)
 			throws GtnFrameworkGeneralException {
 		GtnUIFrameWorkActionConfig confirmActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
                 confirmActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.CONFIRMATION);
@@ -156,6 +156,7 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 		saveActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		saveActionConfig.addActionParameter(GtnFrameworkConfirmSaveAction.class.getName());
 		saveActionConfig.addActionParameter(cvRequest);
+		saveActionConfig.addActionParameter(tabName);
 		successActionConfigList.add(saveActionConfig);
 		confirmActionConfig.addActionParameter(successActionConfigList);
                 GtnUIFrameworkActionExecutor.executeSingleAction(componentId,confirmActionConfig);

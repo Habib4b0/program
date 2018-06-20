@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.customview.service.GtnWsCustomViewService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
@@ -175,6 +176,35 @@ public class GtnWsCustomViewController {
         logger.info("Exit customViewTreeData");
         return gtnResponse;
     }
+    @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_LEVEL_DATA, method = RequestMethod.POST)
+    public GtnUIFrameworkWebserviceResponse customViewlevelData(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+        GtnUIFrameworkWebserviceResponse response=new GtnUIFrameworkWebserviceResponse();
+        logger.info("Enters customViewTreeData");
+        try {
+            response.setGtnUIFrameworkWebserviceComboBoxResponse(logic.getCustomViewLevelData(gtnWsRequest.getGtnWsCustomViewRequest()));
+            return response;
+        } catch (Exception ex) {
+            logger.error("Exception in customViewTreeData", ex);
+            return response;
+        }
+    }
+    @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_DATA, method = RequestMethod.POST)
+    public GtnUIFrameworkWebserviceResponse customViewData(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+        GtnUIFrameworkWebserviceResponse response=new GtnUIFrameworkWebserviceResponse();
+        logger.info("Enters customViewTreeData");
+        try {
+            response.setGtnUIFrameworkWebserviceComboBoxResponse(logic.getCustomViewList());
+            return response;
+        } catch (Exception ex) {
+            logger.error("Exception in customViewTreeData", ex);
+            return response;
+        }
+    }
+    
+    
+    
  @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_DELETE, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse deleteCustomView(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
