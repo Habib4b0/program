@@ -3169,9 +3169,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             mapVisibleCols.putAll(excelHeaderLeft.getDoubleHeaderMaps());
             mapVisibleCols.putAll(excelHeader.getDoubleHeaderMaps());
             excelTable.setDoubleHeaderMap(mapVisibleCols);
-            for (Object propertyId : excelTable.getContainerPropertyIds()) {
+             boolean isRate = false;
+             boolean isRPU = false;
+             for (Object propertyId : excelTable.getContainerPropertyIds()) {
                 if (String.valueOf(propertyId).endsWith("Rate")) {
+                    isRate = true;
                     excelTable.setConverter(propertyId, percentFormat);
+                }else if (String.valueOf(propertyId).endsWith("RPU")) {
+                    isRPU = true;
                 }
             }
             getExcelDiscountCommercial();
@@ -3240,7 +3245,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
                         excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
-                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap);
+                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap,isRate,isRPU);
                     } else {
                         excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
@@ -3252,7 +3257,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 }
             } else {
                 excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), Constant.DISCOUNT_PROJECTION_LABEL,
-                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap);
+                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap,isRate,isRPU);
                 excel.export();
             }
         } catch (IllegalArgumentException e) {
@@ -5763,9 +5768,14 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             mapVisibleCols.putAll(excelHeaderLeft.getDoubleHeaderMaps());
             mapVisibleCols.putAll(excelHeader.getDoubleHeaderMaps());
             excelTable.setDoubleHeaderMap(mapVisibleCols);
-            for (Object propertyId : excelTable.getContainerPropertyIds()) {
+             boolean isRate = false;
+             boolean isRPU = false;
+             for (Object propertyId : excelTable.getContainerPropertyIds()) {
                 if (String.valueOf(propertyId).endsWith("Rate")) {
+                    isRate = true;
                     excelTable.setConverter(propertyId, percentFormat);
+                }else if (String.valueOf(propertyId).endsWith("RPU")) {
+                    isRPU = true;
                 }
             }
             getExcelDiscountCommercial();
@@ -5817,7 +5827,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                     ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
                         excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
-                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter);
+                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter,isRate,isRPU);
                     } else {
                         excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
@@ -5829,7 +5839,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 }
             } else {
                 excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), Constant.DISCOUNT_PROJECTION_LABEL,
-                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter);
+                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter,isRate,isRPU);
                 excel.export();
             }
         } catch (IllegalArgumentException e) {
