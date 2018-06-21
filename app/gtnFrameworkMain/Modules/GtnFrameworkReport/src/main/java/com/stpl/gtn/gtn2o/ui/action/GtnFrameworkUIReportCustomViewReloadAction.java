@@ -18,7 +18,6 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -39,17 +38,11 @@ public class GtnFrameworkUIReportCustomViewReloadAction implements GtnUIFrameWor
                 new GtnUIFrameworkWebserviceRequest(), GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
         GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = response
                 .getGtnUIFrameworkWebserviceComboBoxResponse();
-        String withoutViewId = componentId.substring(componentId.replaceAll("_displaySelectionTabCustomView", "").lastIndexOf("_") + 1);
-        String customView = componentId.contains("reportLandingScreen") ? withoutViewId : componentId;
+        String withoutViewId= componentId.substring(componentId.replaceAll("_displaySelectionTabCustomView", "").lastIndexOf("_") + 1);
+        String customView = componentId.contains("reportLandingScreen") ? withoutViewId :componentId;
         GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(customView)
                 .addAllItemsToComboBox(new ArrayList<>(comboBoxResponse.getItemValueList()), new ArrayList<>(comboBoxResponse.getItemCodeList()));
-        if (gtnUIFrameWorkActionConfig.getActionParameterList().size() > 1) {
-            List<Object> params = gtnUIFrameWorkActionConfig.getActionParameterList();
-            String defaultValue = (String) params.get(params.size() - 1);
-            GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponent(customView).setHasValue(defaultValue);
-        }
     }
 
     @Override

@@ -85,7 +85,8 @@ public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction, GtnU
     private void reloadAndSetvalue(String id, String componentId, GtnUIFrameworkBaseComponent customView, GtnWsCustomViewResponse cvResponse) {
         new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
                 id, componentId,
-                Arrays.asList(cvResponse.getCvSysId()));
+                Arrays.asList(""));
+        customView.setHasValue(String.valueOf(cvResponse.getCvSysId()));
     }
 
     public GtnWsCustomViewRequest buildWsRequest(List<Object> paramList, final GtnUIFrameworkWebserviceRequest request)
