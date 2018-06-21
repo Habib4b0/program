@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.module.rebateschedule.constants.GtnWsRsQueryConstants;
+import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
 /**
  *
@@ -77,10 +78,12 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 		fieldToColumnDetailsMap.put("rebateProgramType", configProvider.getColumnStringConfig(
 				GtnFrameworkWebserviceConstant.DESCRIPTION, GtnFrameworkWebserviceConstant.REBATE_PROGRAM_TYPE,
 				GtnFrameworkWebserviceConstant.REBATE_PROGRAM_TYPE, GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
-		fieldToColumnDetailsMap.put("rebateScheduleCategory",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,
-						GtnFrameworkWebserviceConstant.RS_CATEGORY, GtnFrameworkWebserviceConstant.RS_CATEGORY,
-						GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
+
+		GtnWsColumnDetailsConfig rsColumnDetailsMap = configProvider.getColumnHelperConfig("RS_CATEGORY", "RSM");
+		rsColumnDetailsMap.setHelperTableAliasName("rsCategoryHelper");
+		rsColumnDetailsMap.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("rebateScheduleCategory", rsColumnDetailsMap);
+
 		fieldToColumnDetailsMap.put("pouUpRebateScheduleCategory",
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,
 						GtnFrameworkWebserviceConstant.RS_CATEGORY, GtnFrameworkWebserviceConstant.RS_CATEGORY,
@@ -132,12 +135,18 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 				configProvider.getColumnStringConfig("RS_TRANS_REF_ID", "RSM"));
 		fieldToColumnDetailsMap.put("rSTransactionReferenceName",
 				configProvider.getColumnStringConfig("RS_TRANS_REF_NAME", "RSM"));
-		fieldToColumnDetailsMap.put("rsUDC1", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC1"));
-		fieldToColumnDetailsMap.put("rsUDC2", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC2"));
-		fieldToColumnDetailsMap.put("rsUDC3", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC3"));
-		fieldToColumnDetailsMap.put("rsUDC4", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC4"));
-		fieldToColumnDetailsMap.put("rsUDC5", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC5"));
-		fieldToColumnDetailsMap.put("rsUDC6", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC6"));
+		fieldToColumnDetailsMap.put("rsUDC1",
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC1"));
+		fieldToColumnDetailsMap.put("rsUDC2",
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC2"));
+		fieldToColumnDetailsMap.put("rsUDC3",
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC3"));
+		fieldToColumnDetailsMap.put("rsUDC4",
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC4"));
+		fieldToColumnDetailsMap.put("rsUDC5",
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC5"));
+		fieldToColumnDetailsMap.put("rsUDC6",
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC6"));
 
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
 
@@ -198,8 +207,8 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 				.getColumnStringConfig(GtnFrameworkWebserviceConstant.RULE_NAME, "NETSALES_RULE", "NS_RULE_NAME"));
 		fieldToColumnDetailsMap.put("netSalesRuleSysId",
 				configProvider.getColumnStringConfig("NET_SALES_RULE", GtnFrameworkWebserviceConstant.IMTD_RSD));
-		fieldToColumnDetailsMap.put("netSalesFormulaName", configProvider
-				.getColumnStringConfig("NET_SALES_FORMULA_NAME","NET_SALES_FORMULA"));
+		fieldToColumnDetailsMap.put("netSalesFormulaName",
+				configProvider.getColumnStringConfig("NET_SALES_FORMULA_NAME", "NET_SALES_FORMULA"));
 		fieldToColumnDetailsMap.put("netSalesFormulaSysId", configProvider
 				.getColumnStringConfig("NET_SALES_FORMULA_MASTER_SID", GtnFrameworkWebserviceConstant.IMTD_RSD));
 		fieldToColumnDetailsMap.put("formulaSysId",

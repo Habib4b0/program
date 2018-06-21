@@ -5,11 +5,11 @@ import static com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType.V
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -45,7 +45,7 @@ import com.vaadin.ui.components.grid.HeaderRow;
 public class GtnReportingComparisonBreakdownGridLoadAction
 		implements GtnUIFrameworkActionShareable, GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-	GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportingComparisonBreakdownGridLoadAction.class);
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportingComparisonBreakdownGridLoadAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -53,10 +53,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 		return;
 
 	}
-
-	private boolean isDisableColumns;
-	protected GtnUIFrameworkPagedTableConfig tableConfig;
-
+	
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -66,61 +63,68 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 			List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 			List cmoparisonBreakdownSaveActionList = new ArrayList<>();
 			String comparisonBreakdownTableId = actionParameterList.get(1).toString();
-			
+
 			List<GtnReportComparisonProjectionBean> finalArrayListforGrid;
-			
+
 			List<GtnReportComparisonProjectionBean> comparisonLookupBeanListFromDisplaySelectionTab = new ArrayList<>();
 			GtnUIFrameworkComponentData idComponentDataFromDisplaySelectionTab = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("reportingDashboardTab_reportingDashboardComparisonConfig", componentId)
 					.getComponentData();
-			
-			comparisonLookupBeanListFromDisplaySelectionTab = (List<GtnReportComparisonProjectionBean>) idComponentDataFromDisplaySelectionTab.getCustomData();
-			
-			List<GtnReportComparisonProjectionBean> comparisonLookupBeanListFromReportLandingScreen = new ArrayList<>();
-			
+
+			if(idComponentDataFromDisplaySelectionTab
+					.getCustomData()!=null)
+			comparisonLookupBeanListFromDisplaySelectionTab = (List<GtnReportComparisonProjectionBean>) idComponentDataFromDisplaySelectionTab
+					.getCustomData();
+
+			List<GtnReportComparisonProjectionBean> comparisonLookupBeanListFromReportLandingScreen = new ArrayList<>() ;
+
 			GtnUIFrameworkComponentData idComponentDataFromReportingLandingScreen = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromParent("reportLandingScreen_reportingDashboardComparisonConfig", componentId)
+					.getVaadinBaseComponentFromParent("reportLandingScreen_reportingDashboardComparisonConfig",
+							componentId)
 					.getComponentData();
-			
-			comparisonLookupBeanListFromReportLandingScreen = (List<GtnReportComparisonProjectionBean>) idComponentDataFromReportingLandingScreen.getCustomData();
-			
-			if((comparisonLookupBeanListFromDisplaySelectionTab!=null)&&(comparisonLookupBeanListFromReportLandingScreen!=null)) {							
-			finalArrayListforGrid = new ArrayList<GtnReportComparisonProjectionBean>(comparisonLookupBeanListFromDisplaySelectionTab);			
-			finalArrayListforGrid.addAll(comparisonLookupBeanListFromReportLandingScreen);
-			Set<GtnReportComparisonProjectionBean> finalSet = new LinkedHashSet<GtnReportComparisonProjectionBean>(finalArrayListforGrid);
-			finalArrayListforGrid = new ArrayList<GtnReportComparisonProjectionBean>(finalSet);
-			
+
+			if(idComponentDataFromReportingLandingScreen
+					.getCustomData()!=null)
+			comparisonLookupBeanListFromReportLandingScreen = (List<GtnReportComparisonProjectionBean>) idComponentDataFromReportingLandingScreen
+					.getCustomData();
+
+			if ((comparisonLookupBeanListFromDisplaySelectionTab != null)
+					&& (comparisonLookupBeanListFromReportLandingScreen != null)) {
+				finalArrayListforGrid = new ArrayList<>(
+						comparisonLookupBeanListFromDisplaySelectionTab);
+				finalArrayListforGrid.addAll(comparisonLookupBeanListFromReportLandingScreen);
+				Set<GtnReportComparisonProjectionBean> finalSet = new LinkedHashSet<>(
+						finalArrayListforGrid);
+				finalArrayListforGrid = new ArrayList<>(finalSet);
+
 			}
-			
-			else if(comparisonLookupBeanListFromDisplaySelectionTab==null) {
+
+			else if (comparisonLookupBeanListFromDisplaySelectionTab == null) {
 				finalArrayListforGrid = comparisonLookupBeanListFromReportLandingScreen;
-			}
-			else if(comparisonLookupBeanListFromReportLandingScreen==null) {
+			} else if (comparisonLookupBeanListFromReportLandingScreen == null) {
 				finalArrayListforGrid = comparisonLookupBeanListFromDisplaySelectionTab;
-			}
-			else {
+			} else {
 				finalArrayListforGrid = new ArrayList<>();
 			}
-			
+
 			List<String> projectionNameListFromCustomData = new ArrayList<>();
 			projectionNameListFromCustomData.clear();
 			projectionNameListFromCustomData.add("Latest Approved");
 			for (int count = 0; count < finalArrayListforGrid.size(); count++) {
 				projectionNameListFromCustomData.add(finalArrayListforGrid.get(count).getProjectionName());
 			}
-			
+
 			String comparisonBasisInDisplaySelectionTab = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis", componentId)
 					.getStringCaptionFromV8ComboBox();
-			
+
 			List projectionList = new ArrayList<>();
 			for (int start = 0; start < projectionNameListFromCustomData.size(); start++) {
-				if(projectionNameListFromCustomData.get(start).equals(comparisonBasisInDisplaySelectionTab))
+				if (projectionNameListFromCustomData.get(start).equals(comparisonBasisInDisplaySelectionTab))
 					continue;
 				projectionList.add(projectionNameListFromCustomData.get(start));
 			}
-			
-			
+
 			GtnUIFrameworkComboBoxConfig comparisonBasisComboBoxConfig = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromView("reportOptionsTabComparisonOptions_comparison", componentId)
 					.getComponentConfig().getGtnComboboxConfig();
@@ -145,8 +149,6 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 			setStartAndEndPeriodForComparisonBreakdownLookup(tableConfig, componentId);
 			Component vaadinComponent = null;
 
-			
-
 			Object[] filterColumnIdList = pagedGrid.getTableConfig().getTableColumnMappingId();
 
 			int rowCount = 1;
@@ -155,9 +157,10 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 					i++;
 					continue;
 				}
-					
+
 				HeaderRow filterRow = grid.appendHeaderRow();
-				for (int col = 0; col < filterColumnIdList.length; col++) {					
+				for (int col = 0; col < filterColumnIdList.length; col++) {
+					
 					vaadinComponent = getCustomFilterComponent(String.valueOf(filterColumnIdList[col]), componentId, i,
 							col, grid, projectionNameListFromCustomData.get(i), tableConfig,
 							cmoparisonBreakdownSaveActionList, rowCount, finalArrayListforGrid, gridComponent);
@@ -203,32 +206,34 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 
 	}
 
-	private GtnUIFrameworkPagedTableConfig setHeaderFromWs(PagedGrid pagedGrid, String componentId,
-			Grid<GtnWsRecordBean> grid) throws GtnFrameworkGeneralException {
-		GtnUIFrameworkPagedTableConfig tableConfig = pagedGrid.getTableConfig();
-		String classPath = tableConfig.getGridHeaderCustomClassLoadUrl();
-		classLoader(tableConfig.getGtnUIFrameWorkActionConfig(), classPath, componentId);
-		GtnUIFrameworkWebserviceRequest headerRequest = getCustomPagedTableRequest(
-				tableConfig.getGtnUIFrameWorkActionConfig(), componentId);
+	private GtnUIFrameworkPagedTableConfig setHeaderFromWs(PagedGrid comparisonBreakdownPagedGrid, String componentId,
+			Grid<GtnWsRecordBean> comparisonBreakdownGrid) throws GtnFrameworkGeneralException {
+		GtnUIFrameworkPagedTableConfig comparisonBreakdownTableConfig = comparisonBreakdownPagedGrid.getTableConfig();
+		String classPath = comparisonBreakdownTableConfig.getGridHeaderCustomClassLoadUrl();
+		classLoaderForComparisonBreakdown(comparisonBreakdownTableConfig.getGtnUIFrameWorkActionConfig(), classPath,
+				componentId);
+		GtnUIFrameworkWebserviceRequest comparisonBreakdownHeaderRequest = getCustomPagedTableRequestForComparisonBreakdown(
+				comparisonBreakdownTableConfig.getGtnUIFrameWorkActionConfig(), componentId);
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(tableConfig.getGridColumnHeader(),
-				tableConfig.getModuleName(), headerRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
+				comparisonBreakdownTableConfig.getGridColumnHeader(), comparisonBreakdownTableConfig.getModuleName(),
+				comparisonBreakdownHeaderRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		GtnWsPagedTableResponse tableHeadersResponse = response.getGtnWsPagedTableResponse();
 		List<Object> tableHeaderMappingIdList = tableHeadersResponse.getSingleColumns();
-		tableHeaderMappingIdList.add(0, "projectionNames");
+		tableHeaderMappingIdList.add(0, GtnFrameworkReportStringConstants.PROJECTION_NAMES);
 		List<String> tableSingleHeaders = tableHeadersResponse.getSingleHeaders();
 		tableSingleHeaders.add(0, "Projections");
-		tableConfig.setTableColumnMappingId(tableHeaderMappingIdList.toArray());
-		tableConfig.setColumnHeaders(tableSingleHeaders);
+		comparisonBreakdownTableConfig.setTableColumnMappingId(tableHeaderMappingIdList.toArray());
+		comparisonBreakdownTableConfig.setColumnHeaders(tableSingleHeaders);
 		int j = 0;
-		for (Object column : tableConfig.getTableColumnMappingId()) {
+		for (Object column : comparisonBreakdownTableConfig.getTableColumnMappingId()) {
 			String property = column.toString();
-			grid.addColumn(row -> row.getPropertyValue(property)).setCaption(tableConfig.getColumnHeaders().get(j))
-					.setId(property);
+			comparisonBreakdownGrid.addColumn(row -> row.getPropertyValue(property))
+					.setCaption(comparisonBreakdownTableConfig.getColumnHeaders().get(j)).setId(property);
 
 			j++;
 		}
-		return tableConfig;
+		return comparisonBreakdownTableConfig;
 	}
 
 	private void configureCheckboxHeaderComponents(Object[] tableColumnMappingId, List<String> columnHeaders,
@@ -253,50 +258,53 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 		}
 	}
 
-	private Component getCustomFilterComponent(String property, String componentId, int i, int col,
-			Grid<GtnWsRecordBean> grid, String projectionName, GtnUIFrameworkPagedTableConfig tableConfig,
-			List comparisonBreakdownSaveActionList, int rowCount,
-			List<GtnReportComparisonProjectionBean> comparisonLookupBeanList,
-			GtnUIFrameworkComponentData gridComponent) {
+	private Component getCustomFilterComponent(String comparisonBreakdownProperty, String componentId, int i, int col,
+			Grid<GtnWsRecordBean> comparisonProjectiongrid, String projectionNameForComparisonBreakdown,
+			GtnUIFrameworkPagedTableConfig comparisonBreakdownTableConfig, List comparisonBreakdownSaveActionList,
+			int rowCount, List<GtnReportComparisonProjectionBean> comparisonLookupBeanList,
+			GtnUIFrameworkComponentData comparisonBreakdownGridComponent) {
 		try {
 
-			if (property.equals("projectionNames")) {
-				GtnUIFrameworkComponentConfig componentConfig = new GtnUIFrameworkComponentConfig();
-				componentConfig.setComponentName(projectionName);
-				componentConfig.setComponentId(property + projectionName + i);
+			if (comparisonBreakdownProperty.equals(GtnFrameworkReportStringConstants.PROJECTION_NAMES)) {
+				GtnUIFrameworkComponentConfig comparisonBreakdownComponentConfig = new GtnUIFrameworkComponentConfig();
+				comparisonBreakdownComponentConfig.setComponentName(projectionNameForComparisonBreakdown);
+				comparisonBreakdownComponentConfig
+						.setComponentId(comparisonBreakdownProperty + projectionNameForComparisonBreakdown + i);
 
-				GtnUIFrameworkComponent componentLabel = V8_LABEL.getGtnComponent();
+				GtnUIFrameworkComponent componentLabelForGrid = V8_LABEL.getGtnComponent();
 				Component vaadinComponentLabel = null;
-				vaadinComponentLabel = componentLabel.buildVaadinComponent(componentConfig);
+				vaadinComponentLabel = componentLabelForGrid.buildVaadinComponent(comparisonBreakdownComponentConfig);
 				Label vaadinLabel = (Label) vaadinComponentLabel;
-				vaadinLabel.setValue(projectionName);
-				grid.getColumn(property).setWidth(400);
+				vaadinLabel.setValue(projectionNameForComparisonBreakdown);
+				comparisonProjectiongrid.getColumn(comparisonBreakdownProperty).setWidth(400);
 				return vaadinLabel;
 			}
-			GtnUIFrameworkBaseComponent base = GtnUIFrameworkGlobalUI
+			GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromView("reportOptionsTabComparisonOptions_value", componentId);
 
-			GtnUIFrameworkComponent component = COMBOBOX_VAADIN8.getGtnComponent();
-			AbstractComponent vaadinComponent = null;
-			vaadinComponent = component.buildVaadinComponent(base.getComponentConfig());
+			GtnUIFrameworkComponent vaadinGtnComboBoxComponent = COMBOBOX_VAADIN8.getGtnComponent();
+			AbstractComponent abstractVaadinComponent = null;
+			abstractVaadinComponent = vaadinGtnComboBoxComponent
+					.buildVaadinComponent(baseComponent.getComponentConfig());
 			GtnUIFrameworkComboBoxComponent gtnUIFrameworkComboBoxComponent = new GtnUIFrameworkComboBoxComponent();
-			gtnUIFrameworkComboBoxComponent.postCreateComponent(vaadinComponent, base.getComponentConfig());
-			ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
-			vaadinCombobox.setId(property + String.valueOf(i));
+			gtnUIFrameworkComboBoxComponent.postCreateComponent(abstractVaadinComponent,
+					baseComponent.getComponentConfig());
+			ComboBox vaadinCombobox = (ComboBox) abstractVaadinComponent;
+			vaadinCombobox.setId(comparisonBreakdownProperty + String.valueOf(i));
 
 			vaadinCombobox.addValueChangeListener(new HasValue.ValueChangeListener() {
 				@Override
 				public void valueChange(HasValue.ValueChangeEvent event) {
 					Object[] obj = new Object[5];
 					obj[0] = event.getValue().toString();
-					obj[1] = tableConfig.getColumnHeaders().get(col);
-					Label projectionNameForWs = (Label) grid.getHeaderRow(rowCount).getCell("projectionNames")
-							.getComponent();
-					obj[2] = getMasterSid(projectionNameForWs, comparisonLookupBeanList);
-					obj[3]=property;
-					obj[4]=projectionNameForWs.getValue();
+					obj[1] = comparisonBreakdownTableConfig.getColumnHeaders().get(col);
+					Label projectionNameForWebService = (Label) comparisonProjectiongrid.getHeaderRow(rowCount)
+							.getCell(GtnFrameworkReportStringConstants.PROJECTION_NAMES).getComponent();
+					obj[2] = getMasterSidForComparisonBreakdown(projectionNameForWebService, comparisonLookupBeanList);
+					obj[3] = comparisonBreakdownProperty;
+					obj[4] = projectionNameForWebService.getValue();
 					comparisonBreakdownSaveActionList.add(obj);
-					gridComponent.setCustomData(comparisonBreakdownSaveActionList);
+					comparisonBreakdownGridComponent.setCustomData(comparisonBreakdownSaveActionList);
 				}
 			});
 
@@ -307,40 +315,41 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 		return null;
 	}
 
-	private int getMasterSid(Label projectionNames, List<GtnReportComparisonProjectionBean> comparisonLookupBeanList) {
+	private int getMasterSidForComparisonBreakdown(Label projectionNamesInComparisonBreakdown,
+			List<GtnReportComparisonProjectionBean> comparisonLookupBeanList) {
 		int masterSid = 0;
 
-		if (projectionNames.getValue().equalsIgnoreCase("Latest Approved")) {
+		if (projectionNamesInComparisonBreakdown.getValue().equalsIgnoreCase("Latest Approved")) {
 			masterSid = 0;
 		}
 		for (int start = 0; start < comparisonLookupBeanList.size(); start++) {
-			if (projectionNames.getValue().equalsIgnoreCase(comparisonLookupBeanList.get(start).getProjectionName())) {
+			if (projectionNamesInComparisonBreakdown.getValue()
+					.equalsIgnoreCase(comparisonLookupBeanList.get(start).getProjectionName())) {
 				masterSid = comparisonLookupBeanList.get(start).getProjectionMasterSid();
 			}
 		}
 		return masterSid;
 	}
 
-	private void classLoader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String classPath,
-			String sourceViewId) throws GtnFrameworkGeneralException {
-		GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
-		GtnUIFrameWorkAction loader = (GtnUIFrameWorkAction) classLoader.loadDynamicClass(classPath);
-		loader.configureParams(gtnUIFrameWorkActionConfig);
-		loader.doAction(sourceViewId, gtnUIFrameWorkActionConfig);
+	private void classLoaderForComparisonBreakdown(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig,
+			String classPath, String sourceViewId) throws GtnFrameworkGeneralException {
+		GtnUIFrameworkClassLoader gtnClassLoader = new GtnUIFrameworkClassLoader();
+		GtnUIFrameWorkAction loaderAction = (GtnUIFrameWorkAction) gtnClassLoader.loadDynamicClass(classPath);
+		loaderAction.configureParams(gtnUIFrameWorkActionConfig);
+		loaderAction.doAction(sourceViewId, gtnUIFrameWorkActionConfig);
 	}
 
-	private GtnUIFrameworkWebserviceRequest getCustomPagedTableRequest(
+	private GtnUIFrameworkWebserviceRequest getCustomPagedTableRequestForComparisonBreakdown(
 			GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String sourceViewId) {
-		GtnUIFrameworkBaseComponent vaadinBaseComponentFromParent = GtnUIFrameworkGlobalUI
+		GtnUIFrameworkBaseComponent vaadinGtnBaseComponentFromParent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromParent(gtnUIFrameWorkActionConfig.getActionParameterList().get(0).toString(),
 						sourceViewId);
-		GtnUIFrameworkComponentData resultTableComponentData = vaadinBaseComponentFromParent.getComponentData();
+		GtnUIFrameworkComponentData resultTableComponentData = vaadinGtnBaseComponentFromParent.getComponentData();
 		return resultTableComponentData.getCustomPagedTreeTableRequest();
 	}
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

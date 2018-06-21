@@ -816,7 +816,6 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                     break;
                 case "frequencyDdlb":
                     loadFrequency(String.valueOf(event.getProperty().getValue()));
-//                    session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
                     break;
                 case "levelFilterDdlb":
                     levelFilterValueChangeLogic(event);

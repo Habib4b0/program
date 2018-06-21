@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportCustomViewReloadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -19,11 +20,9 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportForecastLevelLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkReportProdHierarchyConfig {
@@ -111,7 +110,6 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 
 	private void addHierarchyRelationshipComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
-		GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 		GtnUIFrameworkLayoutConfig layoutConf = new GtnUIFrameworkLayoutConfig();
 		layoutConf.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
@@ -122,7 +120,7 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 		hierarchyRelationshipConfig.setAddToParent(true);
 		hierarchyRelationshipConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		hierarchyRelationshipConfig.setParentComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "hierarchyRelationshipLayout");
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_HIERARCHY_RELATIONSHIP_LAYOUT);
 		hierarchyRelationshipConfig.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
 		hierarchyRelationshipConfig.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10);
 		hierarchyRelationshipConfig.setGtnLayoutConfig(layoutConf);
@@ -313,7 +311,7 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 		GtnUIFrameworkComponentConfig customViewConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_BUTTON,
-				true, nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "hierarchyRelationshipLayout",
+				true, nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_HIERARCHY_RELATIONSHIP_LAYOUT,
 				GtnUIFrameworkComponentType.BUTTON);
 		customViewConfig.setComponentName("Custom View: ");
 		customViewConfig.addComponentStyle(GtnFrameworkReportStringConstants.LINK);
@@ -336,7 +334,7 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 	private void addCustomViewComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT, true,
-				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "hierarchyRelationshipLayout");
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_HIERARCHY_RELATIONSHIP_LAYOUT);
 		gtnLayout.setComponentWidth("13%");
 		componentList.add(gtnLayout);
 
@@ -353,6 +351,12 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 				"REPORT_CUSTOM_VIEW", GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		customViewComboboxConfig.setGtnComboboxConfig(customViewLoadConfig);
+                
+                GtnUIFrameWorkActionConfig reloadActionConfig = new GtnUIFrameWorkActionConfig();
+		reloadActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reloadActionConfig.addActionParameter(GtnFrameworkUIReportCustomViewReloadAction.class.getName());
+		customViewComboboxConfig.setReloadActionConfig(reloadActionConfig);
+		customViewComboboxConfig.setReloadLogicActionClassName(GtnFrameworkUIReportCustomViewReloadAction.class.getName());
 
 	}
 }
