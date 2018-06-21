@@ -140,11 +140,8 @@ public class GtnWsReportWebsevice {
 		if (criteriaMap.get("customViewName") == null) {
 			return Collections.emptyList();
 		} else {
-			if (criteriaMap.get("projectionType").equals("F")) {
-				comparisonResults = loadProjectionComparisonResults(criteriaMap);
-			} else {
-				comparisonResults = loadCFFComparisonResults(criteriaMap);
-			}
+			comparisonResults = criteriaMap.get("projectionType").equals("F")
+					? loadProjectionComparisonResults(criteriaMap) : loadCFFComparisonResults(criteriaMap);
 			return comparisonResults;
 		}
 	}
