@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportCustomViewReloadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -350,6 +351,12 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 				"REPORT_CUSTOM_VIEW", GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		customViewComboboxConfig.setGtnComboboxConfig(customViewLoadConfig);
+                
+                GtnUIFrameWorkActionConfig reloadActionConfig = new GtnUIFrameWorkActionConfig();
+		reloadActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reloadActionConfig.addActionParameter(GtnFrameworkUIReportCustomViewReloadAction.class.getName());
+		customViewComboboxConfig.setReloadActionConfig(reloadActionConfig);
+		customViewComboboxConfig.setReloadLogicActionClassName(GtnFrameworkUIReportCustomViewReloadAction.class.getName());
 
 	}
 }

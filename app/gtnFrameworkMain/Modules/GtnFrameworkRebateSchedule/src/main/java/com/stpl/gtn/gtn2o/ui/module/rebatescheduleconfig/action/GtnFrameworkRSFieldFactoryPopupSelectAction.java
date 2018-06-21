@@ -66,7 +66,8 @@ public class GtnFrameworkRSFieldFactoryPopupSelectAction implements GtnUIFrameWo
 			rsActionConfigList.add(psSelectAction);
 
 		}
-
+                
+                
 		else {
 			if (propertId.equals(GtnFrameworkRSConstants.REBATE_PLAN_NO1)) {
 				psSelectAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -92,7 +93,19 @@ public class GtnFrameworkRSFieldFactoryPopupSelectAction implements GtnUIFrameWo
                                 
                                 
 
-			} else {
+			}
+                        else if (propertId.equals("deductionName")) {
+                            
+                                psSelectAction.setActionType(GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
+
+				rsActionParameter.add(tableId);
+				rsActionParameter.add(componentId);
+				rsActionParameter.add(Arrays.asList(GtnFrameworkCommonConstants.PROPERTY_DEDUCTION_CALENDAR_NO,"deductionCalendarName"));
+				rsActionParameter.add(Arrays.asList(componentId,componentId.replace(GtnFrameworkCommonConstants.DEDUCTION_NAME_CAL, GtnFrameworkCommonConstants.DEDUCTION_NO_CAL)));
+				psSelectAction.setActionParameterList(rsActionParameter);
+				rsActionConfigList.add(psSelectAction);
+
+		}else {
 				psSelectAction.setActionType(GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
 
 				rsActionParameter.add(tableId);

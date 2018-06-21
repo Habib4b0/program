@@ -5,11 +5,11 @@
  */
 package com.stpl.gtn.gtn2o.ui.action;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
-import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
@@ -37,7 +37,7 @@ public class GtnFrameworkReportCustomViewDeleteAction implements GtnUIFrameWorkA
         final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
         final GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
         GtnWsCustomViewRequest reportCvRequest = new GtnWsCustomViewRequest();
-        String selectedItem = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_displaySelectionTabCustomView").getV8StringFromField();
+        String selectedItem = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_CUSTOM_VIEW).getV8StringFromField();
         if ("".equals(selectedItem) && "0".equals(selectedItem)) {
             return;
         }

@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ui.action;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -38,7 +39,7 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
             throws GtnFrameworkGeneralException {
-        String selectedItem = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_displaySelectionTabCustomView").getV8StringFromField();
+        String selectedItem = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_CUSTOM_VIEW).getV8StringFromField();
         if (!"".equals(selectedItem) && !"0".equals(selectedItem)) {
             loadScreen(selectedItem, componentId, gtnUIFrameWorkActionConfig);
 
