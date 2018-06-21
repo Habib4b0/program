@@ -37,6 +37,8 @@ import org.slf4j.LoggerFactory;
 public class CustomExcelNM extends ExcelExport {
 
     protected Map<String, String> formatter = null;
+    protected boolean isRate;
+    protected boolean isRPU;
     protected final CellStyle style1 = this.workbook.createCellStyle();
     protected final CellStyle style2 = this.workbook.createCellStyle();
     protected final CellStyle style3 = this.workbook.createCellStyle();
@@ -49,11 +51,13 @@ public class CustomExcelNM extends ExcelExport {
     TableHolder tableHolder;
     
 
-    public CustomExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter) {
+    public CustomExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter,boolean isRate,boolean isRPU) {
 
         super(tableHolder, new HSSFWorkbook(), sheetName, reportTitle, exportFileName, hasTotalsRow);
         this.tableHolder = tableHolder;
         this.formatter = formatter;
+        this.isRate = isRate;
+        this.isRPU = isRPU;
     }
 
     /**
@@ -138,16 +142,18 @@ public class CustomExcelNM extends ExcelExport {
             sheetCell.setCellStyle(style4);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String value = ",\"0.000%\")";
-                String form = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 2)+"/"+getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 3);
-                sheetCell.setCellFormula("IF("+getColumnLetter(sheetCell,sheetCell.getColumnIndex()+3)+"<>0,"+form+value);
+                int columnIndex = isRate && isRPU ? sheetCell.getColumnIndex() + 2 : sheetCell.getColumnIndex() + 1;
+                String form = getColumnLetter(sheetCell,columnIndex)+"/"+getColumnLetter(sheetCell,columnIndex + 1);
+                sheetCell.setCellFormula("IF("+getColumnLetter(sheetCell,columnIndex + 1)+"<>0,"+form+value);
                 sheetCell.setCellStyle(style4);
             }
         } else if (formatter.get("currencyTwoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("currencyTwoDecimal"))) {
             sheetCell.setCellStyle(style5);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String value = ",\"0.00$\")";
-                String form = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 1)+"/"+getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 3);
-                sheetCell.setCellFormula("IF("+getColumnLetter(sheetCell,sheetCell.getColumnIndex()+3)+"<>0,"+form+value);
+                int columnIndex = isRate && isRPU ? sheetCell.getColumnIndex() + 3 : sheetCell.getColumnIndex() + 2;
+                String form = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 1)+"/"+getColumnLetter(sheetCell,columnIndex);
+                sheetCell.setCellFormula("IF("+getColumnLetter(sheetCell,columnIndex)+"<>0,"+form+value);
                 sheetCell.setCellStyle(style5);
             }
         } else if (formatter.get("amountTwoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("amountTwoDecimal"))) {

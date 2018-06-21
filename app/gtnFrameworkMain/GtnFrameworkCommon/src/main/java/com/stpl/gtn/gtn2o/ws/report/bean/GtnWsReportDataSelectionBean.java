@@ -52,29 +52,29 @@ public class GtnWsReportDataSelectionBean {
 	private Map<String, String> sessionTableMap = null;
 
 	private List variableBreakdownHeaderLoadList;
-    private List<GtnReportVariableBreakdownLookupBean> variableBreakdownSaveList;
-    
-    private List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownSaveList;
+	private List<GtnReportVariableBreakdownLookupBean> variableBreakdownSaveList;
 
-    
+	private List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownSaveList;
+	private List<Object> variablesList;
+	private int customView;
 
-    public void setComparisonBreakdownSaveList(List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownSaveList) {
-        this.comparisonBreakdownSaveList = comparisonBreakdownSaveList;
-    }
+	public void setComparisonBreakdownSaveList(
+			List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownSaveList) {
+		this.comparisonBreakdownSaveList = comparisonBreakdownSaveList;
+	}
 
-    public List<GtnReportComparisonBreakdownLookupBean> getComparisonBreakdownSaveList() {
-        return comparisonBreakdownSaveList;
-    }
+	public List<GtnReportComparisonBreakdownLookupBean> getComparisonBreakdownSaveList() {
+		return comparisonBreakdownSaveList;
+	}
 
-    
-    public List<GtnReportVariableBreakdownLookupBean> getVariableBreakdownSaveList() {
-        return variableBreakdownSaveList;
-    }
-    
-    public void setVariableBreakdownSaveList(List<GtnReportVariableBreakdownLookupBean> variableBreakdownSaveList) {
-        this.variableBreakdownSaveList = variableBreakdownSaveList;
-    }
-    
+	public List<GtnReportVariableBreakdownLookupBean> getVariableBreakdownSaveList() {
+		return variableBreakdownSaveList;
+	}
+
+	public void setVariableBreakdownSaveList(List<GtnReportVariableBreakdownLookupBean> variableBreakdownSaveList) {
+		this.variableBreakdownSaveList = variableBreakdownSaveList;
+	}
+
 	public List getVariableBreakdownHeaderLoadList() {
 		return variableBreakdownHeaderLoadList;
 	}
@@ -392,4 +392,19 @@ public class GtnWsReportDataSelectionBean {
 		return this.sessionTableMap.get(key);
 	}
 
+	public int getCustomView() {
+		return customView;
+	}
+
+	public void setCustomView(int customView) {
+		this.customView = customView;
+	}
+
+	public List<Object> getVariablesList() {
+		return variablesList;
+	}
+
+	public void setVariablesList(List<Object> variablesList) {
+		this.variablesList = variablesList;
+	}
 }

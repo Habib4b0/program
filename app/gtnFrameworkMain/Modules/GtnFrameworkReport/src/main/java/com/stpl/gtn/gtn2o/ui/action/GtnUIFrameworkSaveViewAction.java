@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.vaadin.ui.TreeGrid;
 
@@ -87,6 +88,23 @@ public class GtnUIFrameworkSaveViewAction
 		dataSelectionBean.setProductHierarchyForecastLevel(productLevel);
 
 		dataSelectionBean.setSelectedProductHierarchyList(selectedProductList);
+
+		int customViewName = Integer.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(17).toString()).getCaptionFromV8ComboBox());
+		List<Object> selectedVariableList = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(18).toString()).getSelectedListFromV8MultiSelect();
+		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = new ArrayList<>();
+		if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(19).toString()).getComponentData()
+				.getCustomData() != null) {
+			comparisonProjectionBeanList = (List<GtnReportComparisonProjectionBean>) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(actionParamsList.get(19).toString()).getComponentData().getCustomData();
+		}
+		int frequency = Integer.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(20).toString()).getCaptionFromV8ComboBox());
+		dataSelectionBean.setCustomView(customViewName);
+		dataSelectionBean.setFrequency(frequency);
+		dataSelectionBean.setComparisonProjectionBeanList(comparisonProjectionBeanList);
+		dataSelectionBean.setVariablesList(selectedVariableList);
 
 		GtnUIFrameWorkActionConfig popupAction = new GtnUIFrameWorkActionConfig();
 		popupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
