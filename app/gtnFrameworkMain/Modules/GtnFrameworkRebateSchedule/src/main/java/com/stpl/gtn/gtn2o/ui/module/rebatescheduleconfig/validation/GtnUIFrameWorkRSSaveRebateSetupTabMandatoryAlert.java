@@ -49,6 +49,7 @@ public class GtnUIFrameWorkRSSaveRebateSetupTabMandatoryAlert
 			throw new GtnFrameworkValidationFailedException(subMessage, componentId);
 
 		}
+                GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
 
 	}
 
@@ -62,7 +63,7 @@ public class GtnUIFrameWorkRSSaveRebateSetupTabMandatoryAlert
 		if(field.isEmpty())
 		{
 			GtnUIFrameWorkActionConfig alertActionConfigForField = new GtnUIFrameWorkActionConfig();
-			alertActionConfigForField.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
+			alertActionConfigForField.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 			List<Object> alertParamsForField = new ArrayList<>();
 			alertParamsForField.add(GtnFrameworkRSConstants.FIELD_ERROR);
 			alertParamsForField.add(GtnFrameworkRSConstants.FIELD_ERROR_MSG);
@@ -72,7 +73,7 @@ public class GtnUIFrameWorkRSSaveRebateSetupTabMandatoryAlert
 		else if(textValue.isEmpty() && dateValue.isEmpty() && comboValue.isEmpty() && customtextValue.isEmpty())
 		{
 			GtnUIFrameWorkActionConfig alertActionConfigForValue = new GtnUIFrameWorkActionConfig();
-			alertActionConfigForValue.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
+			alertActionConfigForValue.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 			List<Object> alertParamsForValue = new ArrayList<>();
 			alertParamsForValue.add(GtnFrameworkRSConstants.VALUE_ERROR);
 			alertParamsForValue.add(GtnFrameworkRSConstants.VALUE_ERROR_MSG + field);

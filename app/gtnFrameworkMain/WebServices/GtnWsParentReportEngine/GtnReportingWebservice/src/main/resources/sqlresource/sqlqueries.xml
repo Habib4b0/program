@@ -204,26 +204,19 @@
 	</entry>
 	<entry key="filterOptionCustLevelProdLevelLoadQuery">
 			<![CDATA[
-				SELECT
-    				DISTINCT rld.level_no,
-    				'Level ' + rld.level_no + ' - ' + rld.level_name
-				FROM
-				    relationship_level_definition rld,
-				    relationship_builder rb,
-				    hierarchy_level_definition hld
-				WHERE
-				    rld.relationship_builder_sid IN(
-				        SELECT
-				            rbt.relationship_builder_sid
-				        FROM
-				            relationship_builder rbt
-				        WHERE
-				            rbt.hierarchy_definition_sid = ?
-				    )
-				    AND rld.hierarchy_level_definition_sid = hld.hierarchy_level_definition_sid
-				    AND rld.level_no >= ?
-				ORDER BY
-				    rld.level_no ASC;
+		select
+			hld.LEVEL_NO,
+			'Level ' + CONVERT(VARCHAR(50),hld.LEVEL_NO) + ' - ' + hld.LEVEL_NAME
+		from
+			HIERARCHY_definition hd 
+		JOIN hierarchy_level_definition hld ON
+			hd.hierarchy_definition_sid = hld.HIERARCHY_DEFINITION_SID
+		WHERE
+			hld.HIERARCHY_DEFINITION_SID = ? AND
+			hld.VERSION_NO = ? AND
+			hld.LEVEL_NO >= ?
+		 ORDER BY
+		    hld.level_no ASC;
 	]]>
 </entry>
 	
@@ -326,12 +319,13 @@
 						PROJECTION_MASTER PM ?
 					INNER JOIN PROJECTION_DETAILS PD ON
 						PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+					JOIN CUSTOM_CCP_DETAILS CCD ON
+						CCD.CUST_VIEW_MASTER_SID = ? AND
+						CCD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
 					INNER JOIN CCP_DETAILS CCP ON
 						CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
 					INNER JOIN CONTRACT_MASTER C ON
 						C.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
-					JOIN CUSTOM_CCP_DETAILS CCD ON
-						CCD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
 					LEFT JOIN HELPER_TABLE HT ON
 						C.CONTRACT_TYPE = HT.HELPER_TABLE_SID
 						AND(
@@ -455,12 +449,13 @@
 						PM.PROJECTION_MASTER_SID = CFD.PROJECTION_MASTER_SID ?
 					INNER JOIN PROJECTION_DETAILS PD ON
 						PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+					JOIN CUSTOM_CCP_DETAILS CCD ON
+						CCD.CUST_VIEW_MASTER_SID = ? AND
+						CCD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
 					INNER JOIN CCP_DETAILS CCP ON
 						CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
 					INNER JOIN CONTRACT_MASTER C ON
 						C.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
-					JOIN CUSTOM_CCP_DETAILS CCD ON
-						CCD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
 					LEFT JOIN HELPER_TABLE HT ON
 						C.CONTRACT_TYPE = HT.HELPER_TABLE_SID
 						AND(
