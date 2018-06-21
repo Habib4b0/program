@@ -482,6 +482,7 @@ public class GtnUIFrameworkBaseComponent {
 					vaadinMultiSelect.select(vaadinMultiSelect.getItemCaptionGenerator().apply(object));
 				}
 			}
+			vaadinMultiSelect.markAsDirty();
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
@@ -492,23 +493,24 @@ public class GtnUIFrameworkBaseComponent {
 		try {
 			com.vaadin.ui.ComboBox vaadinComboBox = (com.vaadin.ui.ComboBox) this.component;
 			vaadinComboBox.setItems(idList);
-			vaadinComboBox.setItemCaptionGenerator(item -> Optional.ofNullable(valueList.get(idList.indexOf(item))).get());
+			vaadinComboBox
+					.setItemCaptionGenerator(item -> Optional.ofNullable(valueList.get(idList.indexOf(item))).get());
 
 			GtnUIFrameworkComboBoxConfig comboboxConfig = this.getComponentConfig().getGtnComboboxConfig();
-			// if (!comboboxConfig.isHasDefaultValue()) {
-			// String defaultValue = comboboxConfig.getDefaultValue() != null
-			// ? String.valueOf(comboboxConfig.getDefaultValue())
-			// : GtnFrameworkCommonStringConstants.SELECT_ONE;
-			// idList.add(0, 0);
-			// valueList.add(0, defaultValue);
-			// } else {
-			// for (int i = 0; i < valueList.size(); i++) {
-			// if (comboboxConfig.getDefaultDesc().equals(valueList.get(i))) {
-			// vaadinComboBox.setValue(valueList.get(i));
-			// break;
-			// }
-			// }
-			// }
+			if (!comboboxConfig.isHasDefaultValue()) {
+				String defaultValue = comboboxConfig.getDefaultValue() != null
+						? String.valueOf(comboboxConfig.getDefaultValue())
+						: GtnFrameworkCommonStringConstants.SELECT_ONE;
+				idList.add(0, 0);
+				valueList.add(0, defaultValue);
+			} else {
+				for (int i = 0; i < valueList.size(); i++) {
+					if (comboboxConfig.getDefaultDesc().equals(valueList.get(i))) {
+						vaadinComboBox.setValue(valueList.get(i));
+						break;
+					}
+				}
+			}
 
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
