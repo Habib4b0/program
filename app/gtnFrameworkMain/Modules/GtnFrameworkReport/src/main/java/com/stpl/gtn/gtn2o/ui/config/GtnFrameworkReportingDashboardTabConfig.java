@@ -37,11 +37,14 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownGridLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownFrequencyLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariableCategory;
@@ -407,9 +410,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		componentList.add(annualTotalsConfig);
 
-		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = new GtnUIFrameworkComboBoxConfig();
+		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes","No"));
+		annualTotalsLoadConfig.setDefaultValue("Yes");
 		annualTotalsConfig.setGtnComboboxConfig(annualTotalsLoadConfig);
 
 	}
@@ -892,6 +895,19 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		variableBreakdownPopupActionConfig.setActionParameterList(params);
 
 		actionConfigList.add(variableBreakdownPopupActionConfig);
+                
+               GtnUIFrameWorkActionConfig variableBreakDownGridLoad = new GtnUIFrameWorkActionConfig(
+                    GtnUIFrameworkActionType.CUSTOM_ACTION);
+            variableBreakDownGridLoad.addActionParameter(GtnReportingVariableBreakdownFrequencyLoadAction.class.getName());
+            variableBreakDownGridLoad
+                    .addActionParameter("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig");
+            variableBreakDownGridLoad
+                    .addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
+            variableBreakDownGridLoad
+                    .addActionParameter("reportingDashboardScreen");
+            actionConfigList.add(variableBreakDownGridLoad);
+                        
+                        
 		variableBreakdownConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		componentList.add(variableBreakdownConfig);
