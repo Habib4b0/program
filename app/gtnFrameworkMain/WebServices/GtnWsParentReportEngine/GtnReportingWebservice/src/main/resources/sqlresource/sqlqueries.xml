@@ -838,5 +838,11 @@
 			    )
 		]]>
 	</entry>
+	
+	<entry key="getUOMDetails">
+		<![CDATA[
+			select UOM_CODE from ST_ITEM_UOM_DETAILS
+		]]>
+	</entry>
 		
 </properties>

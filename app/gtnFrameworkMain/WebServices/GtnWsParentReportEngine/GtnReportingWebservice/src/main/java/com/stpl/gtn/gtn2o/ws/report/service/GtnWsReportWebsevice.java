@@ -23,6 +23,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
+import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsReportDataSelectionSqlGenerateServiceImpl;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
@@ -386,8 +387,15 @@ public class GtnWsReportWebsevice {
 			response.getGtnWsGeneralResponse().setSucess(true);
 		} catch (GtnFrameworkGeneralException e) {
 			response.getGtnWsGeneralResponse().setSucess(false);
-			e.printStackTrace();
 		}
 		return response;
+	}
+
+	public List<Object[]> getUOMDDLBValues(GtnWsReportDataSelectionBean dataSelectionBean)
+			throws GtnFrameworkGeneralException {
+		List<Object[]> uomResultSet = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(
+				GtnWsReportDataSelectionSqlGenerateServiceImpl.replaceTableNames(sqlService.getQuery("getUOMDetails"),
+						dataSelectionBean.getSessionTableMap()));
+		return uomResultSet;
 	}
 }
