@@ -151,7 +151,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		addComparisonComponent(componentList, nameSpace);
 		addVariableComponent(componentList, nameSpace);
 		addPeriodRangeFromComponent(componentList, nameSpace);
-	    addCustomViewButtonComponent(componentList, nameSpace);
+		addCustomViewButtonComponent(componentList, nameSpace);
 		addCustomViewComponent(componentList, nameSpace);
 		addPeriodRangeToComponent(componentList, nameSpace);
 		addFrequencyComponent(componentList, nameSpace);
@@ -401,9 +401,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		componentList.add(annualTotalsConfig);
 
-		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkReportStringConstants.STATUS, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = new GtnUIFrameworkComboBoxConfig();
+		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes", "No"));
+		annualTotalsLoadConfig.setDefaultValue("Yes");
 		annualTotalsConfig.setGtnComboboxConfig(annualTotalsLoadConfig);
 
 	}
@@ -896,16 +896,16 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig variableBreakdownPopupActionConfig = new GtnUIFrameWorkActionConfig();
 		variableBreakdownPopupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		
-                 List<Object> params = new ArrayList<>();
+
+		List<Object> params = new ArrayList<>();
 		params.add("variableBreakdown");
 		params.add("Variable Breakdown");
 		params.add(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		params.add(null);
 		params.add(null);
 		params.add("reportingDashboardScreen");
-                		
-                variableBreakdownPopupActionConfig.setActionParameterList(params);
+
+		variableBreakdownPopupActionConfig.setActionParameterList(params);
 
 		actionConfigList.add(variableBreakdownPopupActionConfig);
 		variableBreakdownConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -1081,7 +1081,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		generateButton.setAddToParent(true);
 		componentList.add(generateButton);
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		
+
 		GtnUIFrameWorkActionConfig filterInputLoadAction = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		filterInputLoadAction.addActionParameter(GtnUIFrameworkReportFilterGenerateLoadAction.class.getName());
@@ -1090,7 +1090,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		filterInputLoadAction.addActionParameter("reportingDashboardTab_filterOptionsTabProductFilter");
 		filterInputLoadAction.addActionParameter("reportingDashboardTab_filterOptionsTabDeductionFilter");
 		actionConfigList.add(filterInputLoadAction);
-		
+
 		GtnUIFrameWorkActionConfig tableLoadAction = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		tableLoadAction.addActionParameter(GtnFrameworkUIReportDasboardTableLoadAction.class.getName());
@@ -1104,9 +1104,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		tableLoadAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_CURRENCY_DISPLAY);
 		actionConfigList.add(tableLoadAction);
-		
+
 		generateButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
-		
+
 		GtnUIFrameworkComponentConfig resetButton = new GtnUIFrameworkComponentConfig();
 		resetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		resetButton.setComponentName("RESET");

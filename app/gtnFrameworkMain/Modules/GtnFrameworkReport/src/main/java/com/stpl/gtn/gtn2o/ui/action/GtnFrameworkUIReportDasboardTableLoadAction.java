@@ -47,15 +47,21 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 		List<Object> salesInclusion = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(2).toString(), componentId).getSelectedListFromV8MultiSelect();
 		dashBoardBean.setSalesInclusion(
-				salesInclusion.size() == 1 ? Integer.parseInt(salesInclusion.get(0).toString()) - 1 : null);
+				salesInclusion.size() == 1 ? Integer.parseInt(salesInclusion.get(0).toString()) - 1 : -1);
 		List<Object> deductionInclusion = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(3).toString(), componentId).getSelectedListFromV8MultiSelect();
 		dashBoardBean.setDeductionInclusion(
-				salesInclusion.size() == 1 ? Integer.parseInt(deductionInclusion.get(0).toString()) - 1 : null);
+				salesInclusion.size() == 1 ? Integer.parseInt(deductionInclusion.get(0).toString()) - 1 : -1);
+		String annualTotalValue = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabAnnualTotals", componentId)
+				.getCaptionFromV8ComboBox();
+		dashBoardBean.setAnnualTotals(annualTotalValue);
+
 		List<Object> displayFormat = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(4).toString(), componentId)
 				.getSelectedCaptionListFromV8MultiSelect();
 		dashBoardBean.setDisplayFormat(displayFormat.toArray());
+
 		dashBoardBean.setCurrencyConversion(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(5).toString(), componentId).getCaptionFromV8ComboBox());
 		grid.getTableConfig().setGtnWsReportDashboardBean(dashBoardBean);
