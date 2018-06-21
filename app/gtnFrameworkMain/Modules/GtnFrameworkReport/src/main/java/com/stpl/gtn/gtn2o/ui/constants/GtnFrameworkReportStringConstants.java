@@ -403,6 +403,7 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String CUSTOM_TREETABLE = "customTreeTable";
 
 	public static final String CURRENCY_DISPLAY = "CONVERSION_FACTOR";
+	public static final String REPORT_LANDING_SCREEN_CUSTOM_VIEW = "reportLandingScreen_displaySelectionTabCustomView";
 
 	public static final String DISPLAY_FORMAT = "DISPLAY_FORMAT";
 
@@ -435,6 +436,9 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String COMPARISON_TIME_VARIABLE = "Comparison/Time/Variable";
 
 	public static final String VARIABLE_COMPARISON_TIME = "Variable/Comparison/Time";
+	
+	public static final String PROJECTION_NAMES = "projectionNames";
+	
 
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");
