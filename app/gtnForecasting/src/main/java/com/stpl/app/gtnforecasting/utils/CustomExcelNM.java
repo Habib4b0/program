@@ -39,6 +39,7 @@ public class CustomExcelNM extends ExcelExport {
     protected Map<String, String> formatter = null;
     protected boolean isRate;
     protected boolean isRPU;
+    protected boolean isCustom;
     protected final CellStyle style1 = this.workbook.createCellStyle();
     protected final CellStyle style2 = this.workbook.createCellStyle();
     protected final CellStyle style3 = this.workbook.createCellStyle();
@@ -51,13 +52,14 @@ public class CustomExcelNM extends ExcelExport {
     TableHolder tableHolder;
     
 
-    public CustomExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter,boolean isRate,boolean isRPU) {
+    public CustomExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter,boolean isRate,boolean isRPU,boolean isCustom) {
 
         super(tableHolder, new HSSFWorkbook(), sheetName, reportTitle, exportFileName, hasTotalsRow);
         this.tableHolder = tableHolder;
         this.formatter = formatter;
         this.isRate = isRate;
         this.isRPU = isRPU;
+        this.isCustom = isCustom;
     }
 
     /**
@@ -110,7 +112,11 @@ public class CustomExcelNM extends ExcelExport {
                 Double cellValue = d;
                 cellValue = getCellValue(propId, d, cellValue);
                 sheetCell.setCellValue(cellValue);
+                if(!isCustom){
                 formatForCurrencyAndDecimal(propId, sheetCell, rootItemId);
+                }else{
+                formatForCurrencyAndDecimalCustom(propId, sheetCell, rootItemId);  
+                }
 
             } else {
                 nonFormatter(value, prop, sheetCell);
@@ -189,6 +195,18 @@ public class CustomExcelNM extends ExcelExport {
             }
         }
          
+    }
+    private void formatForCurrencyAndDecimalCustom(Object propId, Cell sheetCell, final Object rootItemId) throws FormulaParseException {
+        if (formatter.get(Constant.PERCENT_THREE_DECIMAL)!=null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) {
+            sheetCell.setCellStyle(style1);
+        } else if (formatter.get("currencyTwoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("currencyTwoDecimal"))) {
+            sheetCell.setCellStyle(style4);
+        } else if (formatter.get("amountTwoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("amountTwoDecimal"))) {
+            sheetCell.setCellStyle(style6);
+        } else if (formatter.get("Growth") != null && String.valueOf(propId).endsWith(formatter.get("Growth"))) {
+            sheetCell.setCellStyle(style4);
+        } 
+
     }
 
     private void nonFormatter(Object value, Property prop, Cell sheetCell) {
