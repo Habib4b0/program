@@ -51,10 +51,10 @@ public class GtnWebServiceDeductionCalendarConfig implements GtnWsSearchQueryCon
 		deductionCalendarSearchConfigMap.put("category",
 				configProvider.getColumnStringConfig("DESCRIPTION", "catHelper"));
 		deductionCalendarSearchConfigMap.put("createdBy", configProvider.getColumnUserConfig("CREATED_BY", "DSM"));
-		deductionCalendarSearchConfigMap.put("creationDatas",
+		deductionCalendarSearchConfigMap.put("creationDate",
 				configProvider.getColumnStringConfig("CREATED_DATE", "DSM"));
 		deductionCalendarSearchConfigMap.put("modifiedBy", configProvider.getColumnUserConfig("MODIFIED_BY", "DSM"));
-		deductionCalendarSearchConfigMap.put("modifiedDatas",
+		deductionCalendarSearchConfigMap.put("modifiedDate",
 				configProvider.getColumnStringConfig("MODIFIED_DATE", "DSM"));
 
 		deductionCalendarSearchConfig.setFieldToColumnDetailsMap(deductionCalendarSearchConfigMap);

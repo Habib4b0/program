@@ -729,6 +729,7 @@ public class ForecastForm extends AbstractForm {
 									pushUpdate(INDICATOR_TIME_PERIOD_CHANGED.getConstant());
 									session.setFromDateChanged(false);
 								}
+                                                                data.setCustomChange(BooleanConstant.getFalseFlag());
 								tabSheet.setSelectedTab(tempTabPosition);
 								dsFlag = true;
 								discountFlag = true;
@@ -771,12 +772,12 @@ public class ForecastForm extends AbstractForm {
 						}
 						tabSheet.setSelectedTab(0);
 						lastPosition = 0;
+                                                data.setCustomChange(BooleanConstant.getFalseFlag());
 					}
 				}.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT,
 						Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
 				data.setReloadAfterUpdate(BooleanConstant.getTrueFlag());
 				data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
-                                data.setCustomChange(BooleanConstant.getFalseFlag());
 			}
 
 			/**

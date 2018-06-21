@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ws.report.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
+import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsReportDataSelectionSqlGenerateServiceImpl;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
@@ -135,12 +137,13 @@ public class GtnWsReportWebsevice {
 				criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
 			}
 		}
-		if (criteriaMap.get("projectionType").equals("F")) {
-			comparisonResults = loadProjectionComparisonResults(criteriaMap);
+		if (criteriaMap.get("customViewName") == null) {
+			return Collections.emptyList();
 		} else {
-			comparisonResults = loadCFFComparisonResults(criteriaMap);
+			comparisonResults = criteriaMap.get("projectionType").equals("F")
+					? loadProjectionComparisonResults(criteriaMap) : loadCFFComparisonResults(criteriaMap);
+			return comparisonResults;
 		}
-		return comparisonResults;
 	}
 
 	private List<Object[]> loadProjectionComparisonResults(Map<String, String> criteriaMap)
@@ -158,6 +161,7 @@ public class GtnWsReportWebsevice {
 			isProjectionStatus = true;
 		}
 		String workflowJoinQuery = isProjectionStatus ? "" : (sqlService.getQuery("workflowJoinQuery"));
+		String customViewMasterSid = criteriaMap.get("customViewName");
 		String marketType = criteriaMap.get("marketType") == null ? "%" : criteriaMap.get("marketType");
 		String comparisonBrand = criteriaMap.get("comparisonBrand") == null ? "%" : criteriaMap.get("comparisonBrand");
 		String projectionName = criteriaMap.get("projectionName") == null ? "%" : criteriaMap.get("projectionName");
@@ -168,6 +172,7 @@ public class GtnWsReportWebsevice {
 		String projectionDescription = criteriaMap.get("projectionDescription") == null ? "%"
 				: criteriaMap.get("projectionDescription");
 		inputList.add(workflowJoinQuery);
+		inputList.add(customViewMasterSid);
 		inputList.add("'" + marketType + "'");
 		inputList.add("'" + comparisonBrand + "'");
 		inputList.add("'" + projectionName + "'");
@@ -221,6 +226,8 @@ public class GtnWsReportWebsevice {
 			return searchCriteria.getFilterValue1();
 		case "toPeriod":
 			return searchCriteria.getFilterValue1();
+		case "customViewName":
+			return searchCriteria.getFilterValue1();
 		default:
 			return null;
 		}
@@ -246,7 +253,8 @@ public class GtnWsReportWebsevice {
 		inputList.add("'" + dataSelectionBean.getViewType() + "'");
 		inputList.add(userId);
 		inputList.add(userId);
-		inputList.add("'" + gtnReportJsonService.convertObjectAsJsonString(dataSelectionBean) + "'");
+		String viewData = gtnReportJsonService.convertObjectAsJsonString(dataSelectionBean).replaceAll("'", "\\\\");
+		inputList.add("'" + viewData + "'");
 		String query = sqlService.getQuery(inputList, "insertView");
 		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
 		return count;
@@ -376,8 +384,15 @@ public class GtnWsReportWebsevice {
 			response.getGtnWsGeneralResponse().setSucess(true);
 		} catch (GtnFrameworkGeneralException e) {
 			response.getGtnWsGeneralResponse().setSucess(false);
-			e.printStackTrace();
 		}
 		return response;
+	}
+
+	public List<Object[]> getUOMDDLBValues(GtnWsReportDataSelectionBean dataSelectionBean)
+			throws GtnFrameworkGeneralException {
+		List<Object[]> uomResultSet = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(
+				GtnWsReportDataSelectionSqlGenerateServiceImpl.replaceTableNames(sqlService.getQuery("getUOMDetails"),
+						dataSelectionBean.getSessionTableMap()));
+		return uomResultSet;
 	}
 }

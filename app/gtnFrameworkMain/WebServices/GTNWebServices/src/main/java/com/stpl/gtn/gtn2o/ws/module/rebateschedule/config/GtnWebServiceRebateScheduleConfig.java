@@ -181,10 +181,10 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 				configProvider.getColumnDateConfig("ITEM_REBATE_START_DATE", GtnFrameworkWebserviceConstant.IMTD_RSD));
 		fieldToColumnDetailsMap.put("rsEndDate",
 				configProvider.getColumnDateConfig("ITEM_REBATE_END_DATE", GtnFrameworkWebserviceConstant.IMTD_RSD));
-		fieldToColumnDetailsMap.put("deductionName", configProvider.getColumnStringConfig("DEDUCTION_CALENDAR_NAME",
-				GtnFrameworkWebserviceConstant.DEDUCTION_CALENDAR));
-		fieldToColumnDetailsMap.put("deductionNo", configProvider.getColumnStringConfig("DEDUCTION_CALENDAR_NO",
-				GtnFrameworkWebserviceConstant.DEDUCTION_CALENDAR));
+		fieldToColumnDetailsMap.put("deductionName", configProvider.getColumnStringConfig("RS_DETAILS_DEDUCTION_CALENDAR_NAME",
+						GtnFrameworkWebserviceConstant.IMTD_RSD, "DEDUCTION_CALENDAR_NAME"));
+		fieldToColumnDetailsMap.put("deductionNo", configProvider.getColumnStringConfig("RS_DETAILS_DEDUCTION_CALENDAR_NAME",
+						GtnFrameworkWebserviceConstant.IMTD_RSD, "DEDUCTION_CALENDAR_NO"));
 		fieldToColumnDetailsMap.put("deductionSysId", configProvider
 				.getColumnStringConfig("DEDUCTION_CALENDAR_MASTER_SID", GtnFrameworkWebserviceConstant.IMTD_RSD));
 		fieldToColumnDetailsMap.put("evaluationRuleName",
@@ -247,7 +247,6 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 		gtnWebServiceSearchQueryContext.setOrderByClause(cDROrderByClauseList);
 
 		gtnWebServiceSearchQueryContext.setCountQuery(" from dbo.IMTD_RS_DETAILS IMTD_RSD\n"
-				+ "LEFT JOIN dbo.DEDUCTION_CALENDAR_MASTER DEDUCTION_CALENDAR ON DEDUCTION_CALENDAR.DEDUCTION_CALENDAR_MASTER_SID=IMTD_RSD.DEDUCTION_CALENDAR_MASTER_SID\n"
 				+ "LEFT JOIN dbo.CDR_MODEL EVALUATION_RULE ON EVALUATION_RULE.CDR_MODEL_SID=IMTD_RSD.EVALUATION_RULE\n"
 				+ "LEFT JOIN dbo.CDR_MODEL CALCULATION_RULE ON CALCULATION_RULE.CDR_MODEL_SID=IMTD_RSD.CALCULATION_RULE\n"
 				+ "LEFT JOIN dbo.CDR_MODEL NETSALES_RULE ON NETSALES_RULE.CDR_MODEL_SID=IMTD_RSD.NET_SALES_RULE\n"
@@ -257,7 +256,6 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 				+ "LEFT JOIN HELPER_TABLE HT on HT.HELPER_TABLE_SID=IMTD_RSD.RS_DETAILS_ATTACHED_STATUS\n");
 
 		gtnWebServiceSearchQueryContext.setSearchQuery("  from dbo.IMTD_RS_DETAILS IMTD_RSD\n"
-				+ "LEFT JOIN dbo.DEDUCTION_CALENDAR_MASTER DEDUCTION_CALENDAR ON DEDUCTION_CALENDAR.DEDUCTION_CALENDAR_MASTER_SID=IMTD_RSD.DEDUCTION_CALENDAR_MASTER_SID\n"
 				+ "LEFT JOIN dbo.CDR_MODEL EVALUATION_RULE ON EVALUATION_RULE.CDR_MODEL_SID=IMTD_RSD.EVALUATION_RULE\n"
 				+ "LEFT JOIN dbo.CDR_MODEL CALCULATION_RULE ON CALCULATION_RULE.CDR_MODEL_SID=IMTD_RSD.CALCULATION_RULE\n"
 				+ "LEFT JOIN dbo.CDR_MODEL NETSALES_RULE ON NETSALES_RULE.CDR_MODEL_SID=IMTD_RSD.NET_SALES_RULE\n"
@@ -275,10 +273,10 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 
 		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
-		fieldToColumnDetailsMap.put("deductionCalendarName", configProvider
-				.getColumnStringConfig("DEDUCTION_CALENDAR_NAME", GtnFrameworkWebserviceConstant.DEDUCTION_CALENDAR));
-		fieldToColumnDetailsMap.put("deductionCalendarNo", configProvider.getColumnStringConfig("DEDUCTION_CALENDAR_NO",
-				GtnFrameworkWebserviceConstant.DEDUCTION_CALENDAR));
+		fieldToColumnDetailsMap.put("deductionCalendarName", configProvider.getColumnStringConfig("RS_DETAILS_DEDUCTION_CALENDAR_NAME",
+						GtnFrameworkWebserviceConstant.IMTD_RSD, "DEDUCTION_CALENDAR_NAME"));
+		fieldToColumnDetailsMap.put("deductionCalendarNo", configProvider.getColumnStringConfig("RS_DETAILS_DEDUCTION_CALENDAR_NAME",
+						GtnFrameworkWebserviceConstant.IMTD_RSD, "DEDUCTION_CALENDAR_NO"));
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.SYSTEM_ID, configProvider
 				.getColumnStringConfig("DEDUCTION_CALENDAR_MASTER_SID", GtnFrameworkWebserviceConstant.IMTD_RSD));
 

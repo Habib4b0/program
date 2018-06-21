@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import java.util.Date;
 
 public class GtnFrameworkDeductionCalendarPopUpConfig {
 
@@ -197,7 +198,7 @@ public class GtnFrameworkDeductionCalendarPopUpConfig {
 		actionParams.add(GtnFrameworkCommonConstants.DC_POP_UP_SEARCH_RESULT_TABLE);
 
 		loadDataTableActionConfig.setActionParameterList(actionParams);
-		loadDataTableActionConfig.setFieldValues(Arrays.asList(new String[] { "dcId" }));
+		loadDataTableActionConfig.setFieldValues(Arrays.asList(new String[] {  GtnFrameworkCommonConstants.PROPERTY_DEDUCTION_CALENDAR_NO}));
 
 		dcPopUpSearchActionConfigList.add(loadDataTableActionConfig);
 
@@ -266,7 +267,7 @@ public class GtnFrameworkDeductionCalendarPopUpConfig {
 		dcPopUpResetSearchResults.setItemPerPage(10);
 		dcPopUpResetSearchResults.setPageLength(10);
 		dcPopUpResetSearchResults.setTableColumnDataType(new Class<?>[] { String.class, String.class, String.class,
-				String.class, String.class, String.class, String.class, String.class });
+				String.class, Date.class, String.class, Date.class, String.class });
 		dcPopUpResetSearchResults.setTableVisibleHeader(
 				new String[] { "Deduction Calendar No", "Deduction Calendar Name", "Deduction Calendar Desc",
 						"Category", "Creation Date", "Created By", "Modified Date", "Modified By" });
