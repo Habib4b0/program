@@ -220,7 +220,7 @@ public class GtnReportDataSelectionLoadViewAction
 		dsProductRightTable.markAsDirty();
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_displaySelectionTabCustomView")
-				.loadV8ComboBoxComponentValue(dataSelectionBean.getCustomView());
+				.loadV8ComboBoxComponentValue(String.valueOf(dataSelectionBean.getCustomView()));
 
 		GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig")
