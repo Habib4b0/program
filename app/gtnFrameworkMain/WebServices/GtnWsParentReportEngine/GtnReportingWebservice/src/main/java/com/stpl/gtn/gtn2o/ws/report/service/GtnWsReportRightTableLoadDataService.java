@@ -62,20 +62,21 @@ public class GtnWsReportRightTableLoadDataService {
 
 		int salesInClusion = dashboardBean.getSalesInclusion();
 		int deductionInclusion = dashboardBean.getDeductionInclusion();
+		String annualTotals = dashboardBean.getAnnualTotals();
 
 		String currencyConversion = dashboardBean.getCurrencyConversion().isEmpty() ? null
 				: dashboardBean.getCurrencyConversion();
 
 		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
 		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(
-				"PRC_REPORT_DASHBOARD_GENERATE ?,null,null,null,?,?,null,?,601,672,47,?,?,null,?,?,?",
-				new Object[] { frequency, salesInClusion, deductionInclusion, currencyConversion, levelNo,
+				"PRC_REPORT_DASHBOARD_GENERATE ?,?,null,null,?,?,null,?,601,672,47,?,?,null,?,?,?",
+				new Object[] { frequency, annualTotals, salesInClusion, deductionInclusion, currencyConversion, levelNo,
 						gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getSessionId(),
 						Integer.valueOf(gtnWsRequest.getGtnWsGeneralRequest().getUserId()), hierarchy, customViewType },
-				new GtnFrameworkDataType[] { GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER,
+				new GtnFrameworkDataType[] { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+						GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING,
 						GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER,
-						GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING,
-						GtnFrameworkDataType.STRING });
+						GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING });
 		System.out.println(outputFromProcedure);
 
 		String declareStatement = "declare @COMPARISION_BASIS varchar(100) = null,@level_no int = " + levelNo

@@ -9,9 +9,11 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.vaadin.ui.AbstractComponent;
 
 import java.util.List;
 
@@ -38,8 +40,13 @@ public class GtnReportingVariableBreakdownFrequencyLoadAction
 		String frequencyId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(1).toString())
 				.getCaptionFromV8ComboBox();
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId)
+                if("reportingDashboardScreen".equals(actionParameterList.get(3).toString())){
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(actionParameterList.get(2).toString(), componentId)
 				.loadV8ComboBoxComponentValue(Integer.valueOf(frequencyId));
+                }
+                else{
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId).loadV8ComboBoxComponentValue(Integer.valueOf(frequencyId)); 
+                }
 
 	}
 
