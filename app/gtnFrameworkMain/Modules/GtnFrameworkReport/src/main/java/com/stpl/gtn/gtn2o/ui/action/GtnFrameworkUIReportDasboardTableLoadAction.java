@@ -5,18 +5,22 @@
  */
 package com.stpl.gtn.gtn2o.ui.action;
 
-import java.util.List;
-
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -47,15 +51,21 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 		List<Object> salesInclusion = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(2).toString(), componentId).getSelectedListFromV8MultiSelect();
 		dashBoardBean.setSalesInclusion(
-				salesInclusion.size() == 1 ? Integer.parseInt(salesInclusion.get(0).toString()) - 1 : null);
+				salesInclusion.size() == 1 ? Integer.parseInt(salesInclusion.get(0).toString()) - 1 : 0);
 		List<Object> deductionInclusion = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(3).toString(), componentId).getSelectedListFromV8MultiSelect();
 		dashBoardBean.setDeductionInclusion(
-				salesInclusion.size() == 1 ? Integer.parseInt(deductionInclusion.get(0).toString()) - 1 : null);
+				salesInclusion.size() == 1 ? Integer.parseInt(deductionInclusion.get(0).toString()) - 1 : 0);
+		String annualTotalValue = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabAnnualTotals", componentId)
+				.getCaptionFromV8ComboBox();
+		dashBoardBean.setAnnualTotals(annualTotalValue);
+
 		List<Object> displayFormat = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(4).toString(), componentId)
 				.getSelectedCaptionListFromV8MultiSelect();
 		dashBoardBean.setDisplayFormat(displayFormat.toArray());
+
 		dashBoardBean.setCurrencyConversion(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(5).toString(), componentId).getCaptionFromV8ComboBox());
 		grid.getTableConfig().setGtnWsReportDashboardBean(dashBoardBean);

@@ -381,7 +381,8 @@ public class GtnWsRebateScheduleController {
 		try (Session session = sessionFactory.openSession()) {
                     if(rsModelSid==0){
 			 criteria = session.createCriteria(RsModel.class)
-					.add(Restrictions.eq("rsId", rebateScheduleId));
+					.add(Restrictions.eq("rsId", rebateScheduleId))
+					.add(Restrictions.ne("inboundStatus", 'D'));
                     }else{
                          criteria = session.createCriteria(RsModel.class)
 					.add(Restrictions.eq("rsId", rebateScheduleId))

@@ -16,8 +16,8 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonBreakdownLookupBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -28,11 +28,12 @@ import com.vaadin.ui.AbstractComponent;
 public class GtnReportingComparisonBreakdownSubmitAction
 		implements GtnUIFrameworkActionShareable, GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportingComparisonBreakdownSubmitAction.class);
+
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		// TODO Auto-generated method stub
-
+		logger.debug("Submit Action Configure Params");
 	}
 
 	@Override
@@ -45,7 +46,7 @@ public class GtnReportingComparisonBreakdownSubmitAction
 
 		List<Object[]> gtnReportComparisonBreakdownLookupBeanList = (List<Object[]>) gridComponent.getCustomData();
 
-		List<String> inputList = new ArrayList<String>();
+		List<String> inputList = new ArrayList<>();
 		for (int i = 0; i < gtnReportComparisonBreakdownLookupBeanList.size(); i++) {
 			inputList.add(i, gtnReportComparisonBreakdownLookupBeanList.get(i)[1].toString());
 		}
@@ -91,18 +92,13 @@ public class GtnReportingComparisonBreakdownSubmitAction
 				.getViewId();
 		GtnWsReportDataSelectionBean gtnWsReportDataSelectionBeanSave = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
-		// GtnWsReportDataSelectionBean gtnWsReportDataSelectionBeanSave =
-		// (GtnWsReportDataSelectionBean)
-		// GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW,
-		// componentId).getComponentData().getSharedPopupData();
 		gtnWsReportDataSelectionBeanSave.setComparisonBreakdownSaveList(comparisonBreakdownLookupBeanSaveList);
 		GtnWsReportRequest gtnWsReportRequestSave = new GtnWsReportRequest();
 		gtnWsReportRequestSave.setDataSelectionBean(gtnWsReportDataSelectionBeanSave);
 		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequestSave = new GtnUIFrameworkWebserviceRequest();
 		gtnUIFrameworkWebserviceRequestSave.setGtnWsReportRequest(gtnWsReportRequestSave);
 		GtnUIFrameworkWebServiceClient clientSave = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceResponse saveResponse = clientSave.callGtnWebServiceUrl(
-				GtnWsReportConstants.GTN_WS_REPORT_COMPARISON_BREAKDOWN_SAVE_SERVICE,
+		clientSave.callGtnWebServiceUrl(GtnWsReportConstants.GTN_WS_REPORT_COMPARISON_BREAKDOWN_SAVE_SERVICE,
 				GtnFrameworkReportStringConstants.REPORT, gtnUIFrameworkWebserviceRequestSave,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
@@ -110,7 +106,6 @@ public class GtnReportingComparisonBreakdownSubmitAction
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

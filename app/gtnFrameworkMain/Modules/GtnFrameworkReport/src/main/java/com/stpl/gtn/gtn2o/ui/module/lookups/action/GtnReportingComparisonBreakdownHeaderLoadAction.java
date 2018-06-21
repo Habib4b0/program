@@ -10,73 +10,75 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.vaadin.ui.AbstractComponent;
 
-public class GtnReportingComparisonBreakdownHeaderLoadAction implements GtnUIFrameworkActionShareable, GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+public class GtnReportingComparisonBreakdownHeaderLoadAction
+		implements GtnUIFrameworkActionShareable, GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportingComparisonBreakdownHeaderLoadAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		// TODO Auto-generated method stub
-		
+		logger.debug("HeaderLoadACtion Configure Params");
 	}
 
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		 List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
-	        String variableBreakdownTableId = actionParameterList.get(0).toString();
+		List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
+		String variableBreakdownTableId = actionParameterList.get(0).toString();
 
-	        AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(variableBreakdownTableId, componentId).getComponent();
-	        GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
+		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponentFromParent(variableBreakdownTableId, componentId).getComponent();
+		GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
 
-	        String fromPeriod = 
-	        		
-	        		GtnUIFrameworkGlobalUI
-	                .getVaadinBaseComponent(actionParameterList.get(1).toString(), componentId)
-	                .getStringCaptionFromV8ComboBox();
-	        String[] finalFromPeriodArray = fromPeriod.split(" ");
-	        
-	        String finalFromPeriod = finalFromPeriodArray[0] +"-"+finalFromPeriodArray[1];
-	        		
-	        String toPeriod = GtnUIFrameworkGlobalUI
-	                .getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId)
-	                .getStringCaptionFromV8ComboBox(); 
-	        String[] finalToPeriodArray = toPeriod.split(" ");
-	        String finalToPeriod = finalToPeriodArray[0] +"-"+finalToPeriodArray[1];
-	       
-	        String frequency =  GtnUIFrameworkGlobalUI
-	                .getVaadinBaseComponent(actionParameterList.get(3).toString(), componentId)
-	                .getStringCaptionFromV8ComboBox();
-	        
-	        List<String> inputList = new ArrayList<>();
-	        inputList.add(finalFromPeriod);
-	        inputList.add(finalToPeriod);
-	        inputList.add(frequency);
+		String fromPeriod =
 
-	        GtnWsReportDataSelectionBean gtnWsReportDataSelectionBean = new GtnWsReportDataSelectionBean();
-	        gtnWsReportDataSelectionBean.setVariableBreakdownHeaderLoadList(inputList);
-	        GtnWsReportRequest gtnWsReportRequest = new GtnWsReportRequest();
-	        gtnWsReportRequest.setDataSelectionBean(gtnWsReportDataSelectionBean);
-	        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
-	        gtnUIFrameworkWebserviceRequest.setGtnWsReportRequest(gtnWsReportRequest);
-	        gridComponent.setCustomData(gtnUIFrameworkWebserviceRequest);
-	        gridComponent.setCustomPagedTreeTableRequest(gtnUIFrameworkWebserviceRequest);
-		
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(1).toString(), componentId)
+						.getStringCaptionFromV8ComboBox();
+		String[] finalFromPeriodArray = fromPeriod.split(" ");
+
+		String finalFromPeriod = finalFromPeriodArray[0] + "-" + finalFromPeriodArray[1];
+
+		String toPeriod = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId)
+				.getStringCaptionFromV8ComboBox();
+		String[] finalToPeriodArray = toPeriod.split(" ");
+		String finalToPeriod = finalToPeriodArray[0] + "-" + finalToPeriodArray[1];
+
+		String frequency = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParameterList.get(3).toString(), componentId)
+				.getStringCaptionFromV8ComboBox();
+
+		List<String> inputList = new ArrayList<>();
+		inputList.add(finalFromPeriod);
+		inputList.add(finalToPeriod);
+		inputList.add(frequency);
+
+		GtnWsReportDataSelectionBean gtnWsReportDataSelectionBean = new GtnWsReportDataSelectionBean();
+		gtnWsReportDataSelectionBean.setVariableBreakdownHeaderLoadList(inputList);
+		GtnWsReportRequest gtnWsReportRequest = new GtnWsReportRequest();
+		gtnWsReportRequest.setDataSelectionBean(gtnWsReportDataSelectionBean);
+		GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
+		gtnUIFrameworkWebserviceRequest.setGtnWsReportRequest(gtnWsReportRequest);
+		gridComponent.setCustomData(gtnUIFrameworkWebserviceRequest);
+		gridComponent.setCustomPagedTreeTableRequest(gtnUIFrameworkWebserviceRequest);
+
 	}
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 }
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this template file, choose Tools | Templates and open the template
+ * in the editor.
  */
