@@ -480,6 +480,12 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionNextButtonConfig.setAddToParent(true);
 		reportDataSelectionNextButtonConfig
 				.setParentComponentId(reportDataSelectionNavigationButtonConfig.getComponentId());
+	
+		GtnUIFrameWorkActionConfig nextButtonAction = new GtnUIFrameWorkActionConfig();
+		nextButtonAction.setActionType(GtnUIFrameworkActionType.CHANGE_TAB_ACTION);
+		nextButtonAction.addActionParameter("tabSheet");		
+		nextButtonAction.addActionParameter("dataAssumptionsLayout");
+		reportDataSelectionNextButtonConfig.addGtnUIFrameWorkActionConfig(nextButtonAction);
 
 		GtnUIFrameworkComponentConfig reportDataSelectionCloseButtonConfig = new GtnUIFrameworkComponentConfig();
 		reportDataSelectionCloseButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -490,6 +496,13 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionCloseButtonConfig
 				.setParentComponentId(reportDataSelectionNavigationButtonConfig.getComponentId());
 
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
+		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		closeAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		actionConfigList.add(closeAction);
+		reportDataSelectionCloseButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		
 		componentList.add(reportDataSelectionNextButtonConfig);
 		componentList.add(reportDataSelectionCloseButtonConfig);
 	}

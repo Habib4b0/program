@@ -51,9 +51,9 @@ public class GtnReportDataSelectionTabLoadAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_businessUnit", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getBusinessUnitReport());
 
-			// GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod",
-			// componentId)
-			// .loadV8ComboBoxComponentValue(reportDataSelectionBean.getFromPeriodReport());
+			 GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod",
+			 componentId)
+			.loadV8ComboBoxComponentValue(reportDataSelectionBean.getFromPeriodReport());
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_dsTabProjectionName", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getReportDataSource());

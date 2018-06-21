@@ -8,11 +8,13 @@ import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfig;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -198,6 +200,10 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		previousButtonConfig.setComponentName("PREVIOUS");
 		previousButtonConfig.setAddToParent(true);
 		previousButtonConfig.setParentComponentId(parentId);
+		GtnUIFrameWorkActionConfig previousAction = new GtnUIFrameWorkActionConfig();
+		previousAction.setActionType(GtnUIFrameworkActionType.CHANGE_TAB_ACTION);
+		previousAction.addActionParameter("dataSelectionTab_dataSelectionRootLayout");
+		previousButtonConfig.addGtnUIFrameWorkActionConfig(previousAction);
 
 		GtnUIFrameworkComponentConfig nextButtonConfig = new GtnUIFrameworkComponentConfig();
 		nextButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -205,6 +211,10 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		nextButtonConfig.setComponentName("NEXT");
 		nextButtonConfig.setAddToParent(true);
 		nextButtonConfig.setParentComponentId(parentId);
+		GtnUIFrameWorkActionConfig nextAction = new GtnUIFrameWorkActionConfig();
+		nextAction.setActionType(GtnUIFrameworkActionType.CHANGE_TAB_ACTION);
+		nextAction.addActionParameter("reportingDashboardRootLayout");
+		nextButtonConfig.addGtnUIFrameWorkActionConfig(nextAction);
 
 		GtnUIFrameworkComponentConfig closeButtonConfig = new GtnUIFrameworkComponentConfig();
 		closeButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -214,6 +224,13 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		closeButtonConfig.setAddToParent(true);
 		closeButtonConfig.setParentComponentId(parentId);
 
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
+		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		closeAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		actionConfigList.add(closeAction);
+		closeButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		
 		componentList.add(previousButtonConfig);
 		componentList.add(nextButtonConfig);
 		componentList.add(closeButtonConfig);
