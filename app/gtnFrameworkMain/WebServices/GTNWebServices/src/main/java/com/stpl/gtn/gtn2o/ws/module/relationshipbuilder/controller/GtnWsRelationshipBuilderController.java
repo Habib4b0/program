@@ -423,6 +423,7 @@ public class GtnWsRelationshipBuilderController {
 							rbRequest.getSelectedTreeBean(),
 							rbRequest.getHiddenIdList().subList(1, rbRequest.getHiddenIdList().size()));
 			rbResponse.setRbTreeNodeList(relationshipTreeNode);
+                        rbResponse.setSuccess(true);
 		} catch (Exception ex) {
 			logger.error("Exception in loadRelationship", ex);
 		}

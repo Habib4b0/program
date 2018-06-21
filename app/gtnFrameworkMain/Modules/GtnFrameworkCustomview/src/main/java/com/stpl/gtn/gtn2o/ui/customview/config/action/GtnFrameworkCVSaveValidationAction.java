@@ -24,6 +24,7 @@ import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -93,18 +94,28 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
                 .getVaadinBaseComponent(paramList.get(3).toString());
         if (cvTreeBaseComponent != null) {
             List<GtnWsRecordBean> treeNodeList = cvTreeBaseComponent.getItemsFromDataTable();
-            if(cvRequest.getCustomViewType().equals("Sales")&&treeNodeList.size()>2)
+            List<String> cvList=Arrays.asList(GtnFrameworkCVConstants.CV_TREENODE_LIST);
+            if(cvRequest.getCustomViewType().equals("Sales"))
             {
-                 GtnUIFrameWorkActionConfig customViewSaveAlertAction = new GtnUIFrameWorkActionConfig(
-                    GtnUIFrameworkActionType.ALERT_ACTION);
-                 customViewSaveAlertAction.addActionParameter("View type Error");
-                 customViewSaveAlertAction.addActionParameter("Deduction Level not applicable for sales view type.");
-                 GtnUIFrameworkActionExecutor.executeSingleAction(componentId, customViewSaveAlertAction);
-                 return;    
-            }else{
-            cvRequest.setCvTreeNodeList(treeNodeList);
-                 }   
-        }     
+                for(GtnWsRecordBean bean: treeNodeList) {
+                    List<Object> properties=bean.getProperties(); 
+                    for(Object obj: properties) {
+                        if(cvList.contains(obj)) {
+                            GtnUIFrameWorkActionConfig customViewSaveAlertAction = new GtnUIFrameWorkActionConfig(
+                                    GtnUIFrameworkActionType.ALERT_ACTION);
+                            customViewSaveAlertAction.addActionParameter("View type Error");
+                            customViewSaveAlertAction.addActionParameter("Deduction Level not applicable for sales view type.");
+                            GtnUIFrameworkActionExecutor.executeSingleAction(componentId, customViewSaveAlertAction);
+                            return;
+                        }
+                         else   {
+                            cvRequest.setCvTreeNodeList(treeNodeList);
+                        } 
+                    }                
+                }               
+            } 
+        }  
+             
         GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
                 GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE
                 + GtnWsCustomViewConstants.CHECK_CUSTOM_VIEW_SAVE,
