@@ -6,6 +6,8 @@
 
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.util.List;
+
 /**
  *
  * @author Karthik.Raja
@@ -32,6 +34,7 @@ public class GtnWsReportDashboardBean {
 	private String currencyConversion;
 	private Object[] displayFormat;
 	private String annualTotals;
+	private List<Object> ccpDetailsSidList;
 
 	public String[] getInput() {
 		return input;
@@ -195,6 +198,15 @@ public class GtnWsReportDashboardBean {
 
 	public void setAnnualTotals(String annualTotals) {
 		this.annualTotals = annualTotals;
+	}
+
+	public List<Object> getCcpDetailsSidList() {
+		return ccpDetailsSidList;
+	}
+
+	public void setCcpDetailsSidList(List<Object> ccpDetailsSidList) {
+		this.ccpDetailsSidList = ccpDetailsSidList;
+
 	}
 
 }

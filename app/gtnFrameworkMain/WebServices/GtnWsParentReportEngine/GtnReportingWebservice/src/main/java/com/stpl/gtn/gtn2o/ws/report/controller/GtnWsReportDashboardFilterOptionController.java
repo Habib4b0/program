@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardFilterBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportDashboardFilterOptionService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
@@ -75,6 +77,19 @@ public class GtnWsReportDashboardFilterOptionController {
 		comboBoxResponse.setItemCodeList(itemCodeList);
 		comboBoxResponse.setItemValueList(itemValueList);
 		response.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
+		return response;
+	}
+	
+	@RequestMapping(value = GtnWsReportConstants.GTN_WS_FILTERCCP_GENERATE_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getCCPFromFilter(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnSerachResponse searchResponse = new GtnSerachResponse();
+		List<Object[]> resultList = reportFilterOptionService.getFilteredValues(gtnUIFrameworkWebserviceRequest);
+		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+		dataTable.addData(resultList);
+		searchResponse.setResultSet(dataTable);
+		response.setGtnSerachResponse(searchResponse);
 		return response;
 	}
 }
