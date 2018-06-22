@@ -23,6 +23,7 @@ import static com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType.V
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
@@ -59,80 +60,88 @@ public class GtnReportingVariableBreakdownGridLoadAction
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
             throws GtnFrameworkGeneralException {
         try {
-
-            int i = 0;
-           String viewIdCheck = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("variableBreakdown", componentId).getComponentData().getSharedPopupData().toString();
-            String parentComponentId;
-            List variableBreakdownSaveActionList = new ArrayList<>();
-            List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
-            String variableBreakdownTableId = actionParameterList.get(1).toString();
-
-            List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = new ArrayList<>();
-
-            if ("reportingDashboardScreen".equals(viewIdCheck)) {
-                String parentComponentIdForFrequency = GtnUIFrameworkGlobalUI.getVaadinComponentData(componentId).getParentViewId();
-                parentComponentId = GtnUIFrameworkGlobalUI.getVaadinComponentData(parentComponentIdForFrequency).getParentViewId();
-            } else {
-                parentComponentId = componentId;
-            }
-
-                    
-  
-            GtnUIFrameworkBaseComponent idComponentData = GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponentFromParent(
-                            actionParameterList.get(2).toString(), parentComponentId);
-            if(idComponentData.getComponentData().getCustomData()!=null){
-            comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData.getComponentData().getCustomData();
-            }
             
-            if (comparisonLookupBeanList == null) {
-                comparisonLookupBeanList = new ArrayList<>();
-            }
-            List<String> projectionNameListFromCustomData = new ArrayList<>(comparisonLookupBeanList.size()+2);
-            projectionNameListFromCustomData.clear();
-            projectionNameListFromCustomData.add("Ex-Factory Sales");
-            projectionNameListFromCustomData.add("Latest Approved");
+            loadGridAction(componentId, gtnUIFrameWorkActionConfig);
 
-            for (int count = 0; count < comparisonLookupBeanList.size(); count++) {
-                projectionNameListFromCustomData.add(comparisonLookupBeanList.get(count).getProjectionName());
-            }
+        } catch (Exception ex) {
+        	logger.error("Error message", ex);
+        }
+    }
 
-            int comparisonLookupBeanSize = projectionNameListFromCustomData.size();
-
-          AbstractComponent abstractComponent =GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(variableBreakdownTableId,
-                   componentId).getComponent();
-            GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
-            PagedGrid pagedGrid =  gridComponent.getPagedGrid();
-            Grid<GtnWsRecordBean> grid = pagedGrid.getGrid();
-
-            List projectionList = new ArrayList<>(projectionNameListFromCustomData.size());
-            for (int start = 0; start < projectionNameListFromCustomData.size(); start++) {
-                projectionList.add(projectionNameListFromCustomData.get(start));
-            }
-            GtnUIFrameworkComboBoxConfig fileOrProjectionComboboxConfig = GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponent(actionParameterList.get(3).toString(), componentId).getComponentConfig()
-                    .getGtnComboboxConfig();
-            fileOrProjectionComboboxConfig.setItemValues(projectionList);
-            fileOrProjectionComboboxConfig.setItemCaptionValues(projectionList);
-
-            GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-            combobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-                    actionParameterList.get(3).toString(), componentId,
-                    Arrays.asList(""));
-
-            String frequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(4).toString())
-                    .getStringCaptionFromV8ComboBox();
-
-            if("reportingDashboardScreen".equals(viewIdCheck)){
-                GtnUIFrameWorkActionConfig variableBreakDownHeaderLoadActionFrequency = new GtnUIFrameWorkActionConfig(
+    private void loadGridAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException, GtnFrameworkValidationFailedException {
+        int i = 0;
+        String viewIdCheck = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("variableBreakdown", componentId).getComponentData().getSharedPopupData().toString();
+        String parentComponentId;
+        List variableBreakdownSaveActionList = new ArrayList<>();
+        List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
+        String variableBreakdownTableId = actionParameterList.get(1).toString();
+        
+        List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = new ArrayList<>();
+        
+        if ("reportingDashboardScreen".equals(viewIdCheck)) {
+            String parentComponentIdForFrequency = GtnUIFrameworkGlobalUI.getVaadinComponentData(componentId).getParentViewId();
+            parentComponentId = GtnUIFrameworkGlobalUI.getVaadinComponentData(parentComponentIdForFrequency).getParentViewId();
+        } else {
+            parentComponentId = componentId;
+        }
+        
+        
+        
+        GtnUIFrameworkBaseComponent idComponentData = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponentFromParent(
+                        actionParameterList.get(2).toString(), parentComponentId);
+        if(idComponentData.getComponentData().getCustomData()!=null){
+            comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData.getComponentData().getCustomData();
+        }
+        
+        if (comparisonLookupBeanList == null) {
+            comparisonLookupBeanList = new ArrayList<>();
+        }
+        List<String> projectionNameListFromCustomData = new ArrayList<>(comparisonLookupBeanList.size()+2);
+        projectionNameListFromCustomData.clear();
+        projectionNameListFromCustomData.add("Ex-Factory Sales");
+        projectionNameListFromCustomData.add("Latest Approved");
+        
+        for (int count = 0; count < comparisonLookupBeanList.size(); count++) {
+            projectionNameListFromCustomData.add(comparisonLookupBeanList.get(count).getProjectionName());
+        }
+        
+        int comparisonLookupBeanSize = projectionNameListFromCustomData.size();
+        
+        AbstractComponent abstractComponent =GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(variableBreakdownTableId,
+                componentId).getComponent();
+        GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
+        PagedGrid pagedGrid =  gridComponent.getPagedGrid();
+        Grid<GtnWsRecordBean> grid = pagedGrid.getGrid();
+        
+        List projectionList = new ArrayList<>(projectionNameListFromCustomData.size());
+        for (int start = 0; start < projectionNameListFromCustomData.size(); start++) {
+            projectionList.add(projectionNameListFromCustomData.get(start));
+        }
+        GtnUIFrameworkComboBoxConfig fileOrProjectionComboboxConfig = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(actionParameterList.get(3).toString(), componentId).getComponentConfig()
+                .getGtnComboboxConfig();
+        fileOrProjectionComboboxConfig.setItemValues(projectionList);
+        fileOrProjectionComboboxConfig.setItemCaptionValues(projectionList);
+        
+        GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
+        combobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+                actionParameterList.get(3).toString(), componentId,
+                Arrays.asList(""));
+        
+        String frequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(4).toString())
+                .getStringCaptionFromV8ComboBox();
+        
+        if("reportingDashboardScreen".equals(viewIdCheck)){
+            GtnUIFrameWorkActionConfig variableBreakDownHeaderLoadActionFrequency = new GtnUIFrameWorkActionConfig(
                     GtnUIFrameworkActionType.CUSTOM_ACTION);
             variableBreakDownHeaderLoadActionFrequency.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT);
             variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_fromPeriod");
             variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_STATUS");
             variableBreakDownHeaderLoadActionFrequency.addActionParameter(viewIdCheck);
             pagedGrid.getTableConfig().setGtnUIFrameWorkActionConfig(variableBreakDownHeaderLoadActionFrequency);
-            }
-            else{
+        }
+        else{
             GtnUIFrameWorkActionConfig variableBreakDownHeaderLoadActionFrequency = new GtnUIFrameWorkActionConfig(
                     GtnUIFrameworkActionType.CUSTOM_ACTION);
             variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
@@ -140,49 +149,45 @@ public class GtnReportingVariableBreakdownGridLoadAction
             variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_STATUS");
             variableBreakDownHeaderLoadActionFrequency.addActionParameter(viewIdCheck);
             pagedGrid.getTableConfig().setGtnUIFrameWorkActionConfig(variableBreakDownHeaderLoadActionFrequency);
+        }
+        clearGrid(grid);
+        
+        GtnUIFrameworkPagedTableConfig tableConfig = setHeaderFromWs(pagedGrid, componentId, grid,parentComponentId,viewIdCheck);
+        configureCheckboxHeaderComponents(tableConfig.getTableColumnMappingId(), tableConfig.getColumnHeaders(), grid, tableConfig);
+        
+        setStartAndEndPeriodForVariableBreakdwonLookup(tableConfig, componentId, actionParameterList);
+        
+        String localDate = String.valueOf(LocalDate.now());
+        
+        String[] localDateSplit = localDate.split("-");
+        String currentYear = localDateSplit[0];
+        String currentmonth = localDateSplit[1];
+        String currentDateToDisableField = getCurrentDateToDisableField(frequency, currentYear, currentmonth);
+        
+        Component vaadinComponent = null;
+        
+        Object[] filterColumnIdList = pagedGrid.getTableConfig().getTableColumnMappingId();
+        
+        int rowCount = 1;
+        while (rowCount <= comparisonLookupBeanSize) {
+            HeaderRow filterRow = grid.appendHeaderRow();
+            isDisableColumns = true;
+            for (int col = 0; col < filterColumnIdList.length; col++) {
+                GtnReportVariableBreakdownLookupBean variableBreakdownLookupBean = new GtnReportVariableBreakdownLookupBean();
+                variableBreakdownLookupBean.setProperty(String.valueOf(filterColumnIdList[col]));
+                variableBreakdownLookupBean.setComponentId(componentId);
+                variableBreakdownLookupBean.setRowId(i);
+                variableBreakdownLookupBean.setCol(col);
+                variableBreakdownLookupBean.setCurrentDateField(currentDateToDisableField);
+                variableBreakdownLookupBean.setProjectionName(projectionNameListFromCustomData.get(i));
+                variableBreakdownLookupBean.setVariableBreakdownSaveActionList(variableBreakdownSaveActionList);
+                variableBreakdownLookupBean.setRowCount(rowCount);
+                variableBreakdownLookupBean.setComparisonLookupBeanList(comparisonLookupBeanList);
+                vaadinComponent = getCustomFilterComponent(variableBreakdownLookupBean,grid, tableConfig,gridComponent);
+                filterRow.getCell(String.valueOf(filterColumnIdList[col])).setComponent(vaadinComponent);
             }
-            clearGrid(grid);
-
-            GtnUIFrameworkPagedTableConfig tableConfig = setHeaderFromWs(pagedGrid, componentId, grid,parentComponentId,viewIdCheck);
-            configureCheckboxHeaderComponents(tableConfig.getTableColumnMappingId(), tableConfig.getColumnHeaders(), grid, tableConfig);
-
-            setStartAndEndPeriodForVariableBreakdwonLookup(tableConfig, componentId, actionParameterList);
-
-            String localDate = String.valueOf(LocalDate.now());
-
-            String[] localDateSplit = localDate.split("-");
-            String currentYear = localDateSplit[0];
-            String currentmonth = localDateSplit[1];
-            String currentDateToDisableField = getCurrentDateToDisableField(frequency, currentYear, currentmonth);
-
-            Component vaadinComponent = null;
-
-            Object[] filterColumnIdList = pagedGrid.getTableConfig().getTableColumnMappingId();
-
-            int rowCount = 1;
-            while (rowCount <= comparisonLookupBeanSize) {
-                HeaderRow filterRow = grid.appendHeaderRow();
-                isDisableColumns = true;
-                for (int col = 0; col < filterColumnIdList.length; col++) {
-                	GtnReportVariableBreakdownLookupBean variableBreakdownLookupBean = new GtnReportVariableBreakdownLookupBean();
-                	variableBreakdownLookupBean.setProperty(String.valueOf(filterColumnIdList[col]));
-                	variableBreakdownLookupBean.setComponentId(componentId);
-                	variableBreakdownLookupBean.setRowId(i);
-                	variableBreakdownLookupBean.setCol(col);
-                	variableBreakdownLookupBean.setCurrentDateField(currentDateToDisableField);
-                	variableBreakdownLookupBean.setProjectionName(projectionNameListFromCustomData.get(i));
-                	variableBreakdownLookupBean.setVariableBreakdownSaveActionList(variableBreakdownSaveActionList);
-                	variableBreakdownLookupBean.setRowCount(rowCount);
-                	variableBreakdownLookupBean.setComparisonLookupBeanList(comparisonLookupBeanList);
-                    vaadinComponent = getCustomFilterComponent(variableBreakdownLookupBean,grid, tableConfig,gridComponent);
-                    filterRow.getCell(String.valueOf(filterColumnIdList[col])).setComponent(vaadinComponent);
-                }
-                i++;
-                rowCount++;
-            }
-
-        } catch (Exception ex) {
-        	logger.error("Error message", ex);
+            i++;
+            rowCount++;
         }
     }
 
