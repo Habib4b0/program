@@ -1,15 +1,15 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.util.Comparator;
 import java.util.Date;
 
-public class GtnReportComparisonProjectionBean {
+public class GtnReportComparisonProjectionBean implements Comparator<GtnReportComparisonProjectionBean> {
 
 	private String projectionName;
 	private String projectionDescription;
 	private String marketType;
 	private String contractHolder;
 	private String contract;
-	
 
 	private String brand;
 	private String itemNo;
@@ -106,7 +106,7 @@ public class GtnReportComparisonProjectionBean {
 	public void setCreatedBy(int createdBy) {
 		this.createdBy = createdBy;
 	}
-	
+
 	public String getProjectionType() {
 		return projectionType;
 	}
@@ -192,5 +192,11 @@ public class GtnReportComparisonProjectionBean {
 		} else if (!projectionName.equals(other.projectionName))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compare(GtnReportComparisonProjectionBean obj1, GtnReportComparisonProjectionBean obj2) {
+		return (obj1.getProjectionMasterSid() - obj2.getProjectionMasterSid())
+				+ obj1.getProjectionType().compareTo(obj2.getProjectionType());
 	}
 }

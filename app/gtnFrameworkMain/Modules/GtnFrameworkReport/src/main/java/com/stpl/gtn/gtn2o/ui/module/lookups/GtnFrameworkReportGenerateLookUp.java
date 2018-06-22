@@ -75,7 +75,7 @@ public class GtnFrameworkReportGenerateLookUp {
 
 		GtnUIFrameworkComponentConfig tabSheetConfig = new GtnUIFrameworkComponentConfig();
 		tabSheetConfig.setComponentType(GtnUIFrameworkComponentType.TABSHEET);
-		tabSheetConfig.setComponentId(GtnFrameworkCommonConstants.TAB_SHEET);
+		tabSheetConfig.setComponentId(GtnFrameworkCommonConstants.TAB_SHEET+"Main");
 		tabSheetConfig.setComponentName("Tab Sheet");
 		tabSheetConfig.setComponentWidth("100%");
 		tabSheetConfig.setAddToParent(true);
