@@ -564,6 +564,7 @@ public class GtnFrameworkReportComparisonLookup {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
 		loadDataGridAction.setActionParameterList(Arrays.asList("comparisonLookupResultsPagedTableComponent"));
 		loadDataGridAction.setFieldValues(Arrays.asList(new String[] {
+				"reportLandingScreen_displaySelectionTabCustomView",
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.PROJECTION_TYPE,
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE

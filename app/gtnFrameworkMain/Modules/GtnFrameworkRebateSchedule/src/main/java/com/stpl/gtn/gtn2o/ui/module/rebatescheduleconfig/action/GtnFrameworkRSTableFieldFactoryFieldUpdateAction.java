@@ -291,13 +291,19 @@ public class GtnFrameworkRSTableFieldFactoryFieldUpdateAction
 				tempProperty = propertyId.replace("Name", GtnFrameworkRSConstants.SYS_ID);
 				updateField(tempProperty, sysId, Integer
 						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
-			} else {
-				name = dto.getPropertyValue(GtnFrameworkRSConstants.DEDUCTION_CALENDAR_NO).toString();
+			}
+                        else if (GtnFrameworkCommonConstants.DEDUCTION_NO_CAL.equals(propertyId)) {
+				name = dto.getPropertyValue(GtnFrameworkCommonConstants.DEDUCTION_NO_CAL).toString();
+				String rpname = dto.getPropertyValue(GtnFrameworkRSConstants.DEDUCTION_CALENDAR_NO).toString();
+				GtnUIFrameworkBaseComponent itemsTable = GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent("psRebateSetupTabResultDataTable");
+				itemsTable.setContainerProperty(itemId, GtnFrameworkCommonConstants.DEDUCTION_NO_CAL, name);
+				itemsTable.setContainerProperty(itemId, GtnFrameworkCommonConstants.DEDUCTION_NAME_CAL, rpname);
 				tempProperty = propertyId.replace("No", GtnFrameworkRSConstants.SYS_ID);
 				updateField(tempProperty, sysId, Integer
 						.parseInt(String.valueOf(rowdto.getProperties().get(rowdto.getRecordHeader().size() - 1))));
+                                textField.setValue(name);
 			}
-			textField.setValue(name);
 		}
 	}
 

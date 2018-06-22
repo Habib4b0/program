@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -67,7 +67,6 @@ import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.Tree;
-import java.util.Optional;
 
 public class GtnUIFrameworkBaseComponent {
 
@@ -424,49 +423,9 @@ public class GtnUIFrameworkBaseComponent {
 			throws GtnFrameworkValidationFailedException {
 		try {
 			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
-			vaadinMultiSelect.clear();
 			vaadinMultiSelect.setItems(idList);
 			vaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
-			
-			vaadinMultiSelect.getDataProvider().refreshAll();
 			vaadinMultiSelect.markAsDirty();
-			// GtnUIFrameworkCheckedComboBoxConfig comboboxConfig =
-			// this.getComponentConfig().getGtnCheckedComboboxConfig();
-			// String defaultValue = comboboxConfig.getDefaultValue() != null
-			// ? String.valueOf(comboboxConfig.getDefaultValue())
-			// : "-Select Values-";
-			// idList.add(0, "0");
-			// valueList.add(0, defaultValue)
-			;
-			// vaadinMultiSelect.setValue(new HashSet<>(Arrays.asList("0")));
-
-		} catch (Exception typeException) {
-			throw new GtnFrameworkValidationFailedException(componentId, typeException);
-		}
-	}
-	
-	public void addAllItemsToMultiSelect(List<String> valueList, List idList,List<Integer> itemsToBeSelected)
-			throws GtnFrameworkValidationFailedException {
-		try {
-			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
-			vaadinMultiSelect.setItems(idList);
-			vaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
-			if (!itemsToBeSelected.isEmpty()) {
-				for (Integer integer : itemsToBeSelected) {
-					vaadinMultiSelect.select(integer);
-				}
-			}
-			vaadinMultiSelect.setValue(new HashSet<>(itemsToBeSelected));
-			vaadinMultiSelect.markAsDirty();
-			// GtnUIFrameworkCheckedComboBoxConfig comboboxConfig =
-			// this.getComponentConfig().getGtnCheckedComboboxConfig();
-			// String defaultValue = comboboxConfig.getDefaultValue() != null
-			// ? String.valueOf(comboboxConfig.getDefaultValue())
-			// : "-Select Values-";
-			// idList.add(0, "0");
-			// valueList.add(0, defaultValue)
-			;
-			// vaadinMultiSelect.setValue(new HashSet<>(Arrays.asList("0")));
 
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
@@ -476,12 +435,18 @@ public class GtnUIFrameworkBaseComponent {
 	public void updateSelection(List<Object> list) throws GtnFrameworkValidationFailedException {
 		try {
 			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
+
 			if (!list.isEmpty()) {
+				ListDataProvider<?> listDataProvider = ((ListDataProvider) vaadinMultiSelect.getDataProvider());
 				for (Object object : list) {
-					vaadinMultiSelect.select(object);
-					vaadinMultiSelect.select(vaadinMultiSelect.getItemCaptionGenerator().apply(object));
+
+					listDataProvider.getItems().stream().filter(e -> e.toString().equals(object.toString()))
+							.forEach(e -> {
+								vaadinMultiSelect.selectItem(e, true);
+							});
 				}
 			}
+			vaadinMultiSelect.markAsDirty();
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
@@ -492,23 +457,24 @@ public class GtnUIFrameworkBaseComponent {
 		try {
 			com.vaadin.ui.ComboBox vaadinComboBox = (com.vaadin.ui.ComboBox) this.component;
 			vaadinComboBox.setItems(idList);
-			vaadinComboBox.setItemCaptionGenerator(item -> Optional.ofNullable(valueList.get(idList.indexOf(item))).get());
+			vaadinComboBox
+					.setItemCaptionGenerator(item -> Optional.ofNullable(valueList.get(idList.indexOf(item))).get());
 
 			GtnUIFrameworkComboBoxConfig comboboxConfig = this.getComponentConfig().getGtnComboboxConfig();
-			// if (!comboboxConfig.isHasDefaultValue()) {
-			// String defaultValue = comboboxConfig.getDefaultValue() != null
-			// ? String.valueOf(comboboxConfig.getDefaultValue())
-			// : GtnFrameworkCommonStringConstants.SELECT_ONE;
-			// idList.add(0, 0);
-			// valueList.add(0, defaultValue);
-			// } else {
-			// for (int i = 0; i < valueList.size(); i++) {
-			// if (comboboxConfig.getDefaultDesc().equals(valueList.get(i))) {
-			// vaadinComboBox.setValue(valueList.get(i));
-			// break;
-			// }
-			// }
-			// }
+			if (!comboboxConfig.isHasDefaultValue()) {
+				String defaultValue = comboboxConfig.getDefaultValue() != null
+						? String.valueOf(comboboxConfig.getDefaultValue())
+						: GtnFrameworkCommonStringConstants.SELECT_ONE;
+				idList.add(0, 0);
+				valueList.add(0, defaultValue);
+			} else {
+				for (int i = 0; i < valueList.size(); i++) {
+					if (comboboxConfig.getDefaultDesc().equals(valueList.get(i))) {
+						vaadinComboBox.setValue(valueList.get(i));
+						break;
+					}
+				}
+			}
 
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
@@ -1069,7 +1035,7 @@ public class GtnUIFrameworkBaseComponent {
 		AbstractSingleSelect comboboxSelect = (AbstractSingleSelect) this.component;
 		comboboxSelect.setSelectedItem(value);
 	}
-	
+
 	public void loadV8MultiSelectValue() throws GtnFrameworkValidationFailedException {
 		ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.component;
 		vaadinMultiSelect.deselectAll();

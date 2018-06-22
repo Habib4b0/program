@@ -54,6 +54,11 @@ public class GtnUIFrameworkReportLevelDdlbLoadAction implements GtnUIFrameWorkAc
         GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE,componentId)
                 .addAllItemsToComboBox(new ArrayList<>(comboBoxResponse.getItemValueList()), new ArrayList<>(comboBoxResponse.getItemCodeList()));
+           long count=comboBoxResponse.getItemValueList().stream().filter(str -> str.toLowerCase().contains("variable")).count();
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkReportStringConstants.RD_EXPAND_BUTTON, componentId).setComponentEnable(count == 0);
+             GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkReportStringConstants.RD_COLLPSE_BUTTON, componentId).setComponentEnable(count == 0);
         }
     }
 

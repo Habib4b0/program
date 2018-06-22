@@ -215,6 +215,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		variableBreakDownGridLoad
 				.addActionParameter("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig");
 		variableBreakDownGridLoad.addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
+                variableBreakDownGridLoad
+                    .addActionParameter("reportingLandingScreen");
 		landingScreenVariableBreakdownActionConfigList.add(variableBreakDownGridLoad);
 
 		landingScreenVariableBreakdownConfig
