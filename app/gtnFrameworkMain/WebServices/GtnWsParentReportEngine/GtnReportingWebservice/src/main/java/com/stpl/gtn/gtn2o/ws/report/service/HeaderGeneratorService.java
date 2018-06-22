@@ -136,8 +136,8 @@ public class HeaderGeneratorService {
 		generateColumn(variableCategoryHeader, variableCategoryColumn);
 		int headerSequence = dashboardBean.getHeaderSequence() == 0 ? 1 : dashboardBean.getHeaderSequence();
 		if (gtnForecastBean.isColumn()) {
-			combinedVariableCategoryList = getCombinedVariableCategory(variablesColumn, variableCategoryColumn,
-					variablesHeader, variableCategoryHeader, gtnForecastBean.isVariablesVariances());
+			combinedVariableCategoryList = getCombinedVariableCategory(variablesHeader, variableCategoryHeader,
+					gtnForecastBean.isVariablesVariances());
 			combinedVariableCategoryColumn = combinedVariableCategoryList.get(0);
 			combinedVariableCategoryHeader = combinedVariableCategoryList.get(1);
 
@@ -165,8 +165,8 @@ public class HeaderGeneratorService {
 				break;
 			}
 		} else {
-			combinedVariableCategoryList = getCombinedVariableCategory(comparisonBasisColumn, variableCategoryColumn,
-					comparisonBasisHeader, variableCategoryHeader, gtnForecastBean.isVariablesVariances());
+			combinedVariableCategoryList = getCombinedVariableCategory(comparisonBasisHeader, variableCategoryHeader,
+					gtnForecastBean.isVariablesVariances());
 			combinedVariableCategoryColumn = combinedVariableCategoryList.get(0);
 			combinedVariableCategoryHeader = combinedVariableCategoryList.get(1);
 			switch (headerSequence) {
@@ -367,7 +367,7 @@ public class HeaderGeneratorService {
 					Object single = createSingleColumn(singleColumn[k].toString(), doubleColumn[j].toString(),
 							tripleColumn[i].toString(), headerSequence);
 					if (!headerColumnId.add(String.valueOf(single))) {
-						System.out.println("Duplicate data column Id " + single);
+
 					}
 					tableHeaderDTO.addSingleColumn(single, singleHeader[k].toString(), String.class);
 					doubleMap.add(single.toString());
@@ -386,12 +386,12 @@ public class HeaderGeneratorService {
 	private void createTableHeader(Object[] singleColumn, Object[] doubleColumn, Object[] singleHeader,
 			Object[] doubleHeader, GtnWsPagedTreeTableResponse tableHeaderDTO) {
 		List<String> doubleMap = new ArrayList<>();
-		
+
 		for (int j = 0; j < doubleColumn.length; j++) {
 			for (int k = 0; k < singleColumn.length; k++) {
 				Object single = singleColumn[k].toString() + doubleColumn[j];
 				tableHeaderDTO.addSingleColumn(single, singleHeader[k].toString(), String.class);
-				
+
 				doubleMap.add(single.toString());
 			}
 			tableHeaderDTO.addDoubleColumn(doubleColumn[j], doubleHeader[j].toString());
@@ -434,10 +434,27 @@ public class HeaderGeneratorService {
 		return singleColumnValue.toString();
 	}
 
-	private List<Object[]> getCombinedVariableCategory(String[] firstColumn, String[] variableCategoryColumn,
-			String[] firstHeader, String[] variableCategoryHeader, boolean isVariablesAndVariances) {
+	private List<Object[]> getCombinedVariableCategory(String[] firstHeader, String[] variableCategoryHeader,
+			boolean isVariablesAndVariances) {
 		List<Object[]> combinedVariableCategory = new ArrayList<>();
-		int combinedArraySize = firstColumn.length * variableCategoryColumn.length;
+		List<String> categorySeperationList = new ArrayList<>();
+		List<String> categoryWhichWillNotBeUnitedList = new ArrayList<>();
+		List<String> variableCategoryOnlyColumn = Arrays.asList("Volume", "Rate", "Change in Change");
+		for (int i = 0; i < variableCategoryHeader.length; i++) {
+			if (variableCategoryOnlyColumn.contains(variableCategoryHeader[i])) {
+				categoryWhichWillNotBeUnitedList.add(variableCategoryHeader[i]);
+			} else {
+				categorySeperationList.add(variableCategoryHeader[i]);
+			}
+		}
+
+		String[] variableCategoryHeaderCombinationColumOnly = categorySeperationList
+				.toArray(new String[categorySeperationList.size()]);
+		String[] variableOnlyHeader = categoryWhichWillNotBeUnitedList
+				.toArray(new String[categoryWhichWillNotBeUnitedList.size()]);
+
+		int combinedArraySize = (firstHeader.length * variableCategoryHeaderCombinationColumOnly.length)
+				+ variableOnlyHeader.length;
 		Object[] combinedVariableCategoryColumn = new Object[combinedArraySize];
 		Object[] combinedVariableCategoryHeader = new Object[combinedArraySize];
 
@@ -445,25 +462,19 @@ public class HeaderGeneratorService {
 		Map<String, String> variableCategoryMap = getVariableCategorymap();
 		int index = 0;
 
-		String[] variablesColumn = null;
 		String[] variablesHeader = null;
-		String[] variancesColumn = null;
 		String[] variancesHeader = null;
 
 		if (isVariablesAndVariances) {
-			variablesColumn = variableCategoryColumn;
-			variablesHeader = variableCategoryHeader;
-			variancesColumn = firstColumn;
+			variablesHeader = variableCategoryHeaderCombinationColumOnly;
 			variancesHeader = firstHeader;
 		} else {
-			variablesColumn = firstColumn;
 			variablesHeader = firstHeader;
-			variancesColumn = variableCategoryColumn;
-			variancesHeader = variableCategoryHeader;
+			variancesHeader = variableCategoryHeaderCombinationColumOnly;
 		}
 
-		for (int i = 0; i < variablesColumn.length; i++) {
-			for (int j = 0; j < variancesColumn.length; j++) {
+		for (int i = 0; i < variablesHeader.length; i++) {
+			for (int j = 0; j < variancesHeader.length; j++) {
 				if (isVariablesAndVariances) {
 					combinedVariableCategoryColumn[index] = variableMap.get(variancesHeader[j]) + "_"
 							+ variableCategoryMap.get(variablesHeader[i]);
@@ -475,6 +486,12 @@ public class HeaderGeneratorService {
 				}
 				index++;
 			}
+		}
+
+		for (int k = 0; k < variableOnlyHeader.length; k++) {
+			combinedVariableCategoryColumn[index] = variableCategoryMap.get(variableOnlyHeader[k]);
+			combinedVariableCategoryHeader[index] = variableOnlyHeader[k];
+			index++;
 		}
 		combinedVariableCategory.add(combinedVariableCategoryColumn);
 		combinedVariableCategory.add(combinedVariableCategoryHeader);
