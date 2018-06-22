@@ -2533,6 +2533,7 @@ public class DataSelectionLogic {
     
 public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO session, String procedureName,
             String screenName) {
+    String deductionCaptionUdc = session.getDataSelectionDeductionLevelCaption().startsWith("UDC") ? session.getDataSelectionDeductionLevelCaption().replace(" ", StringUtils.EMPTY) : session.getDataSelectionDeductionLevelCaption();
         StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
             query.append(procedureName);
@@ -2549,7 +2550,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
             }
             query.append('\'')
             .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
-            .append(",'").append(session.getDataSelectionDeductionLevelCaption()).append('\'');
+            .append(",'").append(deductionCaptionUdc).append('\'');
             LOGGER.info("before callInsertProcedureForNmDiscountMaster {}", query.toString());
             HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
             LOGGER.info("Normal Procedures: {}", query.toString());

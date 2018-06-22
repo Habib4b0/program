@@ -21,9 +21,6 @@ import com.stpl.gtn.gtn2o.ws.customview.constants.GtnWsCustomViewConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkSkipActionException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsCustomTreeData;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -84,15 +81,14 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 		String[] fields = (String[]) paramList.get(1);
 		reportCustomViewRequest.setUserId(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
 		String customViewName = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[0]).getV8StringFromField();
-		// String customViewDescription =
-		// GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[1])
-		// .getStringFromField();
 		int customerRelationSid = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[1])
 				.getIntegerFromV8ComboBox();
 		int productRelationSid = (int) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[2])
 				.getIntegerFromV8ComboBox();
-		String rowType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[3]).getV8StringFromField();
-		String customViewType = "report" + rowType;
+                String separator="~";
+		String variableType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[3]).getV8StringFromField();
+		String rowType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fields[4]).getV8StringFromField();
+		String customViewType = "report" + separator+variableType+separator+rowType;
 		reportCustomViewRequest.setCustomViewName(customViewName);
 		reportCustomViewRequest.setCustomViewDescription(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		reportCustomViewRequest.setCustomerRelationshipSid(customerRelationSid);
@@ -103,13 +99,9 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 			reportCustomViewRequest.setCvSysId(
 					Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("customSid"))));
 		}
-		// GtnUIFrameworkBaseComponent cvTreeBaseComponent = GtnUIFrameworkGlobalUI
-		// .getVaadinBaseComponent(paramList.get(3).toString());
 		List<GtnWsRecordBean> treeNodeList = new ArrayList<>();
-		// GtnWsCustomTreeData customTreeData = buildCustomTreeData(treeData);
 		getAllTreeNodes(treeData, treeNodeList, treeData.getRootItems());
 		reportCustomViewRequest.setCvTreeNodeList(treeNodeList);
-		// reportCustomViewRequest.setGtnWsCustomTreeData(customTreeData);
 		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
 				GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE + GtnWsCustomViewConstants.CHECK_CUSTOM_VIEW_SAVE,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
@@ -167,32 +159,5 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 		return this;
 	}
 
-	private GtnWsCustomTreeData buildCustomTreeData(TreeData<GtnWsRecordBean> treeData) {
-		GtnWsCustomTreeData apexBean = new GtnWsCustomTreeData();
-		List<GtnWsRecordBean> rootItems = treeData.getRootItems();
-		addChildBeans(rootItems, treeData, apexBean);
-		return apexBean;
-	}
 
-	private void addChildBeans(List<GtnWsRecordBean> childItems, TreeData<GtnWsRecordBean> treeData,
-			GtnWsCustomTreeData parentBean) {
-		List<GtnWsReportVariablesType> variableList = new ArrayList<>();
-		for (GtnWsRecordBean bean : childItems) {
-			if (bean.getStringPropertyByIndex(2).equals(GtnWsHierarchyType.VARIABLES.toString())
-					&& !bean.getStringPropertyByIndex(0).equals(GtnWsReportVariablesType.VARIABLES.toString())) {
-				variableList.add(GtnWsReportVariablesType.fromString(bean.getStringPropertyByIndex(0)));
-			} else {
-				GtnWsCustomTreeData tempBean = new GtnWsCustomTreeData();
-				tempBean.setLevelName(bean.getStringPropertyByIndex(0));
-				tempBean.setLevelNo(bean.getIntegerPropertyByIndex(1));
-				tempBean.setHierarchyType(GtnWsHierarchyType.fromString(bean.getStringPropertyByIndex(2)));
-				tempBean.setCurrentTreeLevelNo(parentBean.getCurrentTreeLevelNo() + 1);
-				tempBean.setHierarchySid(bean.getIntegerPropertyByIndex(3));
-				parentBean.setChild(tempBean);
-				addChildBeans(treeData.getChildren(bean), treeData, tempBean);
-			}
-
-		}
-		parentBean.setVariableList(variableList);
-	}
 }

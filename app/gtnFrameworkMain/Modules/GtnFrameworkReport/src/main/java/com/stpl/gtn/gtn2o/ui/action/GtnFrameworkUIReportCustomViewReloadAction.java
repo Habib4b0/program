@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.stpl.gtn.gtn2o.ui.action;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
@@ -24,14 +23,11 @@ import java.util.ArrayList;
  *
  * @author Karthik.Raja
  */
-public class GtnFrameworkUIReportCustomViewReloadAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass { 
-    
-    
-  
+public class GtnFrameworkUIReportCustomViewReloadAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
     @Override
     public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-      //To change body of generated methods, choose Tools | Templates.
+        //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -42,14 +38,20 @@ public class GtnFrameworkUIReportCustomViewReloadAction implements GtnUIFrameWor
                 new GtnUIFrameworkWebserviceRequest(), GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
         GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = response
                 .getGtnUIFrameworkWebserviceComboBoxResponse();
-      String customView=componentId.substring(componentId.replaceAll("_displaySelectionTabCustomView", "").lastIndexOf("_")+1) ;
+        String withoutViewId= componentId.substring(componentId.replaceAll("_displaySelectionTabCustomView", "").lastIndexOf("_") + 1);
+        String customView = componentId.contains("reportLandingScreen") ? withoutViewId :componentId;
         GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(customView)
                 .addAllItemsToComboBox(new ArrayList<>(comboBoxResponse.getItemValueList()), new ArrayList<>(comboBoxResponse.getItemCodeList()));
+        if(gtnUIFrameWorkActionConfig.getActionParameterList().size()>2){
+        int size=comboBoxResponse.getItemValueList().size();
+        GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(customView).setHasValue(comboBoxResponse.getItemCodeList().get(size-1));
+        }
     }
 
     @Override
     public GtnUIFrameWorkAction createInstance() {
-       return this;
+        return this;
     }
 }

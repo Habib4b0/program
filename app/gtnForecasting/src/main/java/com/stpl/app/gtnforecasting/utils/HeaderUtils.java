@@ -1467,6 +1467,7 @@ public class HeaderUtils {
                                 singleHeaderForExcel.add(ACTUAL_AMOUNT_LABEL);// Ends here
                                 dmap.add(actAmtColumn);
                             }
+                            if(!projSelDTO.isIsCustomHierarchy()){
                             if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
                                 actSales = commonColumn + ACTUALSALESLOWCASE;
                                 excelHeader.addSingleColumn(actSales, ACTUALSALESLOWCASE, String.class);
@@ -1482,6 +1483,7 @@ public class HeaderUtils {
                                 singleColumnForExcel.add(actUnits);
                                 singleHeaderForExcel.add(ACTUALUNITSLOWCASE);// Ends here
                                 dmap.add(actUnits);
+                            }
                             }
 //                         
 
@@ -1535,6 +1537,7 @@ public class HeaderUtils {
                             singleHeaderForExcel.add(Constant.PROJECTED_AMOUNT_LABEL);//Ends here
                             dmap.add(prjAmtColumn);
                         }
+                        if(!projSelDTO.isIsCustomHierarchy()){
                         if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
                             projSales = commonColumn + PROJECTEDSALESLOWCASE;
                             excelHeader.addSingleColumn(projSales, PROJECTEDSALESLOWCASE, String.class);
@@ -1550,6 +1553,7 @@ public class HeaderUtils {
                             singleColumnForExcel.add(projUnits);
                             singleHeaderForExcel.add(PROJECTEDUNITSLOWCASE);//Ends here
                             dmap.add(projUnits);
+                        }
                         }
                          if (projSelDTO.getdPVariablesList().contains(GROWTH.getConstant())) {
                             tableHeader.addSingleColumn(growthColumn, Constant.GROWTH, String.class);

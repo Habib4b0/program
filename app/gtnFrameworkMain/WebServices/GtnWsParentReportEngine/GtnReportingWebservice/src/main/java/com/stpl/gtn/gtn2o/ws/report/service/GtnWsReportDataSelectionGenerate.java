@@ -6,4 +6,8 @@ public interface GtnWsReportDataSelectionGenerate {
 
 	public void dataSelectionGenerateLogic(GtnUIFrameworkWebserviceRequest gtnWsRequest);
 
+	public void dataSelectionRegenerateLogic(GtnUIFrameworkWebserviceRequest gtnWsRequest);
+
+	public void regenerateTreeAndData(GtnUIFrameworkWebserviceRequest gtnWsRequest);
+
 }

@@ -2,6 +2,7 @@ package com.stpl.app.gtnforecasting.discountProjection.form;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.common.AppDataUtils;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
 import com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder;
@@ -3095,7 +3096,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     @Override
     protected void excelExportClickLogic() {
-        long startTime = System.currentTimeMillis(); 
+        long startTime = System.currentTimeMillis();
         LOGGER.debug("excel starts");
         try {
             excelTable.setRefresh(BooleanConstant.getFalseFlag());
@@ -3169,13 +3170,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             mapVisibleCols.putAll(excelHeaderLeft.getDoubleHeaderMaps());
             mapVisibleCols.putAll(excelHeader.getDoubleHeaderMaps());
             excelTable.setDoubleHeaderMap(mapVisibleCols);
-             boolean isRate = false;
-             boolean isRPU = false;
-             for (Object propertyId : excelTable.getContainerPropertyIds()) {
+            boolean isRate = false;
+            boolean isRPU = false;
+            for (Object propertyId : excelTable.getContainerPropertyIds()) {
                 if (String.valueOf(propertyId).endsWith("Rate")) {
                     isRate = true;
                     excelTable.setConverter(propertyId, percentFormat);
-                }else if (String.valueOf(propertyId).endsWith("RPU")) {
+                } else if (String.valueOf(propertyId).endsWith("RPU")) {
                     isRPU = true;
                 }
             }
@@ -3244,8 +3245,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     String sheetName = "Year " + listHeader.get(i);
                     ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
-                        excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
-                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap,isRate,isRPU);
+                            excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
+                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap,isRate,isRPU,projectionSelection.isIsCustomHierarchy());
                     } else {
                         excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
@@ -3257,7 +3258,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 }
             } else {
                 excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), Constant.DISCOUNT_PROJECTION_LABEL,
-                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap,isRate,isRPU);
+                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatterMap,isRate,isRPU,projectionSelection.isIsCustomHierarchy());
                 excel.export();
             }
         } catch (IllegalArgumentException e) {
@@ -5827,7 +5828,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                     ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
                         excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
-                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter,isRate,isRPU);
+                                Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter,isRate,isRPU,projectionSelection.isIsCustomHierarchy());
                     } else {
                         excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
                     }
@@ -5839,7 +5840,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 }
             } else {
                 excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), Constant.DISCOUNT_PROJECTION_LABEL,
-                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter,isRate,isRPU);
+                        Constant.DISCOUNT_PROJECTION_LABEL, DISCOUNT_PROJECTION_XLS, false, formatter,isRate,isRPU,projectionSelection.isIsCustomHierarchy());
                 excel.export();
             }
         } catch (IllegalArgumentException e) {

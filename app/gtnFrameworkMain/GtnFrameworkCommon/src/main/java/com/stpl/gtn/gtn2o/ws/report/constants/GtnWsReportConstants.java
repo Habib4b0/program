@@ -38,5 +38,8 @@ public class GtnWsReportConstants {
 	public static final String GTN_WS_REPORT_CUST_PRODLEVEL_LOAD_SERVICE = "/loadReportCustProdLevelLoadService";
 	public static final String GTN_WS_FILTERCCP_GENERATE_SERVICE = "/reportFilterCCPGenerateService";
 	public static final String GTN_WS_UOM_SERVICE = "/getUOM";
+	public static final String GTN_WS_DATA_SELECTION_GENERATE_SERVICE = "/gtnWsReportCCPGeneration";
+	public static final String GTN_WS_DATA_SELECTION_REGENERATE_SERVICE = "/gtnWsReportCCPReGeneration";
+	public static final String GTN_WS_REPORT_DASHBOARD_CUSTOM_VIEW_AND_DATA_REGENERATION_SERVICE = "/gtnWsCustomViewAndDataRegeneration";
 
 }

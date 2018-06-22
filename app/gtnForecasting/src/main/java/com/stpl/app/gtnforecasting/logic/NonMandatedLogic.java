@@ -1444,17 +1444,26 @@ public class NonMandatedLogic {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public int saveProjection(final DataSelectionDTO dataSelectionDTO, String screenName) throws SystemException {
+    public int saveProjection(final DataSelectionDTO dataSelectionDTO, String screenName, boolean isUpdate) throws SystemException {
         int projectionId = 0;
         SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd ");
         SimpleDateFormat hoursMinutes = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);
-        String customSql = SQlUtil.getQuery("projectionMasterInsert");
+        String customSql = StringUtils.EMPTY;
+        if (isUpdate) {
+            List input = new ArrayList();
+            input.add(dataSelectionDTO.getProjectionId());
+            customSql = QueryUtils.getQuery(input, "projectionMasterUpdate");
+        } else {
+            customSql = SQlUtil.getQuery("projectionMasterInsert");
+        }
         customSql = customSql.replace("@PROJECTION_NAME", dataSelectionDTO.getProjectionName());
         customSql = customSql.replace("@PROJECTION_DESCRIPTION", dataSelectionDTO.getDescription());
         customSql = customSql.replace("@FORECASTING_TYPE", screenName);
         customSql = customSql.replace("@CREATED_BY", userId);
+        customSql = customSql.replace("@MODIFIED_BY", userId);
         customSql = customSql.replace("@CREATED_DATE", hoursMinutes.format(new Date()));
+        customSql = customSql.replace("@MODIFIED_DATE", hoursMinutes.format(new Date()));
 
         customSql = customSql.replace("@CUSTOMER_HIERARCHY_SID", dataSelectionDTO.getCustomerHierSid().equals(DASH) ? null
                 : String.valueOf(dataSelectionDTO.getCustomerHierSid()));
@@ -1499,22 +1508,25 @@ public class NonMandatedLogic {
             customSql = customSql.replace("@FORECAST_ELIGIBLE_DATE", DBDate.format(dataSelectionDTO.getForecastEligibleDate()));
             customSql = customSql.replace("@CUSTSID", String.valueOf(dataSelectionDTO.getCustomRelationShipSid()));
             customSql = customSql.replace("@CUSTDEDSID", String.valueOf(dataSelectionDTO.getCustomDeductionRelationShipSid()));
-             }
-        LOGGER.info("Projection Master Query------------"+customSql);
-        HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
-       
-            String cffQuery = "select IDENT_CURRENT( 'PROJECTION_MASTER' )";
-            List list = HelperTableLocalServiceUtil.executeSelectQuery(cffQuery);
-            if (list != null && !list.isEmpty()) {
-                Object projMasterSid = list.get(0);
-                String projMasterId = String.valueOf(projMasterSid);
-                projectionId = Integer.parseInt(projMasterId);
-           
-            
         }
-            return projectionId;
+        LOGGER.info("Projection Master Query------------" + customSql);
+        HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
 
-	}
+        String cffQuery = "select IDENT_CURRENT( 'PROJECTION_MASTER' )";
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(cffQuery);
+        if (list != null && !list.isEmpty()) {
+            Object projMasterSid = list.get(0);
+            String projMasterId = String.valueOf(projMasterSid);
+            projectionId = Integer.parseInt(projMasterId);
+
+        }
+        if (isUpdate) {
+            return dataSelectionDTO.getProjectionId();
+        } else {
+            return projectionId;
+        }
+
+    }
 
 	public Object[] deductionRelationBuilderId(String prdRelSid) {
 		List<String> input = new ArrayList<>();
