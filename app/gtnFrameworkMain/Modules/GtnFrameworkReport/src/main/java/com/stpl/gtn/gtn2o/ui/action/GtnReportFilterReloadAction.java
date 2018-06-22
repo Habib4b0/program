@@ -81,20 +81,24 @@ public class GtnReportFilterReloadAction
 			GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = response
 					.getGtnUIFrameworkWebserviceComboBoxResponse();
 			if (comboBoxResponse != null) {
-				List<Integer> itemsToBeSelected = getItemCodeList(filterBean, comboBoxResponse);
+				List<Object> itemsToBeSelected = getItemCodeList(filterBean, comboBoxResponse);
 				GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(
 								String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)), componentId)
 						.addAllItemsToMultiSelect(new ArrayList<>(comboBoxResponse.getItemValueList()),
-								new ArrayList<>(comboBoxResponse.getItemCodeList()), itemsToBeSelected);
+								new ArrayList<>(comboBoxResponse.getItemCodeList()));
+				GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(
+								String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)), componentId)
+						.updateSelection(itemsToBeSelected);
 			}
 		}
 
 	}
 
-	private List<Integer> getItemCodeList(GtnWsReportDashboardFilterBean filterBean,
+	private List<Object> getItemCodeList(GtnWsReportDashboardFilterBean filterBean,
 			GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse) {
-		List<Integer> itemsToBeSelected = new ArrayList<>();
+		List<Object> itemsToBeSelected = new ArrayList<>();
 		if (filterBean.getHierarchyType().equals("C")) {
 			for (int i = 0; i < comboBoxResponse.getItemCodeList().size(); i++) {
 				for (int j = 0; j < filterBean.getSelectedCustomerList().size(); j++) {

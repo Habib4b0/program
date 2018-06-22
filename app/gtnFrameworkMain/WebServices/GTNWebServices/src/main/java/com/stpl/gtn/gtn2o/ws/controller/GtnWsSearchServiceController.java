@@ -30,6 +30,8 @@ import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
+import java.sql.Connection;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 
 @RestController
 public class GtnWsSearchServiceController {
@@ -100,7 +102,10 @@ public class GtnWsSearchServiceController {
 
 			String generatedQuery = searchQueryGenerationLogic.generateSearchQuery();
 
-			List<Object[]> resultList = executeQuery(generatedQuery);
+			Connection connection = gtnWebServiceAllListConfig.getSysSessionFactory().getSessionFactoryOptions().
+                                getServiceRegistry().getService(ConnectionProvider.class).getConnection();
+                        String generatedQueryReplaced = generatedQuery.replace("@SYS", connection.getCatalog());
+			List<Object[]> resultList = executeQuery(generatedQueryReplaced); 
 
 			if (!isCount && gtnWebServiceSearchQueryConfig.getFieldToColumnDetailsMap() != null) {
 				getCustomizedSearchFormFromObject(resultList, gtnWebServiceSearchQueryConfig,

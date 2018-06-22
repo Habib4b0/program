@@ -69,9 +69,9 @@ public class GtnWebServiceNetSalesFormulaconfig implements GtnWsSearchQueryConfi
 						GtnFrameworkWebserviceConstant.FORMULA_TYPE, GtnFrameworkWebserviceConstant.FORMULA_TYPE,
 						GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
 		fieldToColumnDetailsMap.put("creationDate", configProvider.getColumnDateConfig("CREATED_DATE", "NSFM"));
-		fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnUserConfig("CREATED_BY", "NSFM"));
+		fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnStringConfig("firstName+' '+userCreated.lastName", "userCreated", "createdCol"));
 		fieldToColumnDetailsMap.put("modifiedDate", configProvider.getColumnDateConfig("MODIFIED_DATE", "NSFM"));
-		fieldToColumnDetailsMap.put("modifiedBy", configProvider.getColumnUserConfig("MODIFIED_BY", "NSFM"));
+		fieldToColumnDetailsMap.put("modifiedBy", configProvider.getColumnStringConfig("firstName+' '+userModified.lastName", "userModified", "modifiedCol"));
 
 		gtnWebServiceSearchQueryConfig.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
 
