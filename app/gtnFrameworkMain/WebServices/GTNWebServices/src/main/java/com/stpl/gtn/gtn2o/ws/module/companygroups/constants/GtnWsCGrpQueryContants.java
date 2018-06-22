@@ -14,7 +14,8 @@ public class GtnWsCGrpQueryContants {
 	private GtnWsCGrpQueryContants() {
 	}
 
-	public static final String GTN_CGRP_SEARCH_QUERY = " FROM DBO.COMPANY_GROUP CG ";
+	public static final String GTN_CGRP_SEARCH_QUERY = " FROM DBO.COMPANY_GROUP CG "
+                        + " JOIN @SYS.dbo.User_ cgCreatedBy on cgCreatedBy.userId = CG.CREATED_BY ";;
 	public static final String GTN_CGRP_COUNT_QUERY = " SELECT COUNT(DISTINCT COMPANY_GROUP_SID)  ";
 	public static final String GTN_AUDIT_CGRP_COUNT_QUERY = " SELECT COUNT(COMPANY_GROUP_SID)  ";
 	public static final String GTN_CGRP_AUDIT_SEARCH_QUERY = " FROM DBO.HIST_COMPANY_GROUP CG ";

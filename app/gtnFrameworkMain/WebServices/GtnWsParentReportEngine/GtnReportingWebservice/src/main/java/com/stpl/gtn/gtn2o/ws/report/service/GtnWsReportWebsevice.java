@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ws.report.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -136,12 +137,13 @@ public class GtnWsReportWebsevice {
 				criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
 			}
 		}
-		if (criteriaMap.get("projectionType").equals("F")) {
-			comparisonResults = loadProjectionComparisonResults(criteriaMap);
+		if (criteriaMap.get("customViewName") == null) {
+			return Collections.emptyList();
 		} else {
-			comparisonResults = loadCFFComparisonResults(criteriaMap);
+			comparisonResults = criteriaMap.get("projectionType").equals("F")
+					? loadProjectionComparisonResults(criteriaMap) : loadCFFComparisonResults(criteriaMap);
+			return comparisonResults;
 		}
-		return comparisonResults;
 	}
 
 	private List<Object[]> loadProjectionComparisonResults(Map<String, String> criteriaMap)
@@ -159,6 +161,7 @@ public class GtnWsReportWebsevice {
 			isProjectionStatus = true;
 		}
 		String workflowJoinQuery = isProjectionStatus ? "" : (sqlService.getQuery("workflowJoinQuery"));
+		String customViewMasterSid = criteriaMap.get("customViewName");
 		String marketType = criteriaMap.get("marketType") == null ? "%" : criteriaMap.get("marketType");
 		String comparisonBrand = criteriaMap.get("comparisonBrand") == null ? "%" : criteriaMap.get("comparisonBrand");
 		String projectionName = criteriaMap.get("projectionName") == null ? "%" : criteriaMap.get("projectionName");
@@ -169,6 +172,7 @@ public class GtnWsReportWebsevice {
 		String projectionDescription = criteriaMap.get("projectionDescription") == null ? "%"
 				: criteriaMap.get("projectionDescription");
 		inputList.add(workflowJoinQuery);
+		inputList.add(customViewMasterSid);
 		inputList.add("'" + marketType + "'");
 		inputList.add("'" + comparisonBrand + "'");
 		inputList.add("'" + projectionName + "'");
@@ -221,6 +225,8 @@ public class GtnWsReportWebsevice {
 		case "fromPeriod":
 			return searchCriteria.getFilterValue1();
 		case "toPeriod":
+			return searchCriteria.getFilterValue1();
+		case "customViewName":
 			return searchCriteria.getFilterValue1();
 		default:
 			return null;

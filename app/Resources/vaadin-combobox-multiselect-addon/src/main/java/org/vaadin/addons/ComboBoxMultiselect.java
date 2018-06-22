@@ -819,6 +819,14 @@ implements FieldEvents.BlurNotifier, FieldEvents.FocusNotifier, HasFilterableDat
 
         updateSelection(set -> set.add(item), userOriginated, true);
     }
+    
+    public void selectItem(final T item, final boolean userOriginated) {
+        if (getSelectedItems().contains(item)) {
+            return;
+        }
+
+        updateSelection(set -> set.add(item), userOriginated, true);
+    }
 
     @Override
     protected void updateSelection(final Set<T> addedItems, final Set<T> removedItems, final boolean userOriginated) {

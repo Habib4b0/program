@@ -230,7 +230,8 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
                     dtoValue.setActionFlag(Constant.UPDATE_SMALL);
                     accLogic.updateRebateValue(dtoValue);
                 } else {
-                    projectionIdValue = logic.updateProjection(dataselectionDtoToSave, projectionId, false, screenName);
+                    dataselectionDtoToSave.setProjectionId(Integer.valueOf(viewDTO.getProjectionId()));
+                    projectionIdValue = logic.saveProjection(dataselectionDtoToSave, screenName,true);
                 }
 
                 dsLogic.updateCustomerHierarchyLogic(selectedCustomersList, customerListEndSids, projectionIdValue);
@@ -250,7 +251,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
                     dtoValue.setActionFlag(StringUtils.EMPTY);
                     accLogic.updateRebateValue(dtoValue);
                 } else {
-                    projectionIdValue = logic.saveProjection(dataselectionDtoToSave, screenName);
+                    projectionIdValue = logic.saveProjection(dataselectionDtoToSave, screenName,false);
                 }
 
                 dsLogic.saveCustomerHierarchyLogic(selectedCustomersList, customerListEndSids, projectionIdValue, null, Constant.SAVE);

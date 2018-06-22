@@ -16,7 +16,8 @@ public class GtnWsItemGrpQueryContants {
 	private GtnWsItemGrpQueryContants() {
 	}
 
-	public static final String GTN_IFP_SEARCH_QUERY = " FROM DBO.ITEM_GROUP IG JOIN COMPANY_MASTER IM ON IG.COMPANY_MASTER_SID=IM.COMPANY_MASTER_SID ";
+	public static final String GTN_IFP_SEARCH_QUERY = " FROM DBO.ITEM_GROUP IG JOIN COMPANY_MASTER IM ON IG.COMPANY_MASTER_SID=IM.COMPANY_MASTER_SID "
+                + "JOIN @SYS.dbo.User_ igCreatedBy on igCreatedBy.userId = IG.CREATED_BY";
 	public static final String GTN_IFP_SEARCH_QUERY_SELECT = " SELECT COUNT(DISTINCT IG.ITEM_GROUP_SID)  ";
 	public static final String GTN_IFP_AUDIT_SEARCH_QUERY_SELECT = " SELECT COUNT(IG.ITEM_GROUP_SID) ";
 	public static final String GTN_IFP_SEARCH_QUERY_WHERE = GtnFrameworkWebserviceConstant.IMINBOUND_STATUS_D;

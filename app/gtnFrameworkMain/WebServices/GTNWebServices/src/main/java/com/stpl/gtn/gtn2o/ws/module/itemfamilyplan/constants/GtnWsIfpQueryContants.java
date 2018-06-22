@@ -26,7 +26,8 @@ public class GtnWsIfpQueryContants {
                 +" LEFT JOIN HELPER_TABLE ifpTypeHelper on\n" +"IFP.IFP_TYPE = ifpTypeHelper.HELPER_TABLE_SID"
                 +" LEFT JOIN HELPER_TABLE ifpStatusHelper on\n" +"IFP.IFP_STATUS = ifpStatusHelper.HELPER_TABLE_SID"
                 +" LEFT JOIN HELPER_TABLE ifpCategoryHelper on\n" +"IFP.IFP_CATEGORY = ifpCategoryHelper.HELPER_TABLE_SID"
-                + " LEFT JOIN HELPER_TABLE ifpDesignationHelper on IFP.IFP_DESIGNATION = ifpDesignationHelper.HELPER_TABLE_SID";
+                + " LEFT JOIN HELPER_TABLE ifpDesignationHelper on IFP.IFP_DESIGNATION = ifpDesignationHelper.HELPER_TABLE_SID"
+                + " JOIN @SYS.dbo.User_ ifpCreatedBy on ifpCreatedBy.userId = IFP.CREATED_BY ";
 	public static final String GTN_IFP_SEARCH_QUERY_WHERE = " IFP.INBOUND_STATUS <> 'D' ";
 
 }

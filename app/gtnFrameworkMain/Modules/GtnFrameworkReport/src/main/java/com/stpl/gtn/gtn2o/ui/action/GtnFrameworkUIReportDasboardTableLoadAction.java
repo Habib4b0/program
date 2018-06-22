@@ -46,16 +46,17 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
 		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
-		GtnWsReportDashboardBean dashBoardBean = new GtnWsReportDashboardBean();
+
+		GtnWsReportDashboardBean dashBoardBean = grid.getTableConfig().getGtnWsReportDashboardBean();
 		dashBoardBean.setSessionId(dataSelectionBean.getSessionId());
 		List<Object> salesInclusion = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(2).toString(), componentId).getSelectedListFromV8MultiSelect();
 		dashBoardBean.setSalesInclusion(
-				salesInclusion.size() == 1 ? Integer.parseInt(salesInclusion.get(0).toString()) - 1 : 0);
+				salesInclusion.size() == 1 ? Integer.parseInt(salesInclusion.get(0).toString()) - 1 : -1);
 		List<Object> deductionInclusion = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(3).toString(), componentId).getSelectedListFromV8MultiSelect();
 		dashBoardBean.setDeductionInclusion(
-				salesInclusion.size() == 1 ? Integer.parseInt(deductionInclusion.get(0).toString()) - 1 : 0);
+				salesInclusion.size() == 1 ? Integer.parseInt(deductionInclusion.get(0).toString()) - 1 : -1);
 		String annualTotalValue = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabAnnualTotals", componentId)
 				.getCaptionFromV8ComboBox();
