@@ -105,7 +105,7 @@ public class GtnWsReportRightTableLoadDataService {
 
 			String line;
 			while (null != (line = br.readLine())) {
-				sb.append(line);
+				sb.append(line).append(" ");
 			}
 			br.close();
 		} catch (SQLException | IOException ex) {
