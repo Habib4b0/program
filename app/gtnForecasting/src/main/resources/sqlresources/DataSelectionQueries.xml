@@ -189,13 +189,24 @@ WHEN NOT MATCHED BY SOURCE AND PROJECTION_MASTER_SID = @PROJECTION_SID THEN
                     RLD.RELATIONSHIP_LEVEL_VALES
                      ?DISPLAYFORMATCOLUMN ,CM.HIERARCHY_INDICATOR
                FROM
-                    CUSTOM_CCP_SALES RLD
-                JOIN ST_CCP_HIERARCHY CH ON CH.CCP_DETAILS_SID=RLD.CCP_DETAILS_SID AND RLD.CUST_VIEW_MASTER_SID=?RBSID 
+                    #CUSTOM_CCP_SALES RLD
                            JOIN CUST_VIEW_DETAILS CM ON CM.CUSTOM_VIEW_MASTER_SID=RLD.CUST_VIEW_MASTER_SID
                           
                 JOIN ?TABLE  TEMP ON
                                 TEMP.?IDCOL = RLD.RELATIONSHIP_LEVEL_VALES
                                 AND CM.LEVEL_NO = ?LNO AND RLD.LEVEL_NO=?LNO 
+                                
+            ]]>
+		</query>
+	</entity>
+	<entity id="getRelationshipCustomCCP">
+		<query> 
+            <![CDATA[ 
+              IF OBJECT_ID('tempdb..#CUSTOM_CCP_SALES') IS NOT NULL
+                            DROP TABLE #CUSTOM_CCP_SALES
+                 SELECT CUST_VIEW_MASTER_SID,RELATIONSHIP_LEVEL_VALES,LEVEL_NO,HIERARCHY_NO INTO #CUSTOM_CCP_SALES FROM CUSTOM_CCP_SALES  CCCP
+                 JOIN  ST_CCP_HIERARCHY CCP ON CCP.CCP_DETAILS_SID=CCCP.CCP_DETAILS_SID WHERE CUST_VIEW_MASTER_SID=?RBSID 
+                 GROUP BY CUST_VIEW_MASTER_SID,RELATIONSHIP_LEVEL_VALES,LEVEL_NO,HIERARCHY_NO
                                 
             ]]>
 		</query>

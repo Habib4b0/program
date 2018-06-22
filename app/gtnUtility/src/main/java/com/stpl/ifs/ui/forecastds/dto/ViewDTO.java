@@ -127,6 +127,8 @@ public class ViewDTO {
     private Integer prodHierarchyVersion ;
     private String dataSelectionFrequency ;
     private Integer dataSelectionDedLevel ;
+    private int customRelationShipSid;
+    private int customDeductionRelationShipSid;
 
     /**
      * Gets the view name.
@@ -638,6 +640,22 @@ public class ViewDTO {
 
     public void setDataSelectionDedLevel(Integer dataSelectionDedLevel) {
         this.dataSelectionDedLevel = dataSelectionDedLevel;
+    }
+
+    public int getCustomRelationShipSid() {
+        return customRelationShipSid;
+    }
+
+    public void setCustomRelationShipSid(int customRelationShipSid) {
+        this.customRelationShipSid = customRelationShipSid;
+    }
+
+    public int getCustomDeductionRelationShipSid() {
+        return customDeductionRelationShipSid;
+    }
+
+    public void setCustomDeductionRelationShipSid(int customDeductionRelationShipSid) {
+        this.customDeductionRelationShipSid = customDeductionRelationShipSid;
     }
     
 }

@@ -344,6 +344,7 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customViewComboboxConfig.setAuthorizationIncluded(true);
+		customViewComboboxConfig.setComponentWsFieldId("customViewName");
 
 		componentList.add(customViewComboboxConfig);
 
