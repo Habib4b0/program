@@ -59,20 +59,30 @@ public class GtnReportingVariableBreakdownGridLoadAction
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
             throws GtnFrameworkGeneralException {
         try {
+
             int i = 0;
+           String viewIdCheck = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("variableBreakdown", componentId).getComponentData().getSharedPopupData().toString();
+            String parentComponentId;
             List variableBreakdownSaveActionList = new ArrayList<>();
             List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
             String variableBreakdownTableId = actionParameterList.get(1).toString();
 
             List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = new ArrayList<>();
 
-            GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponentFromParent(
-                            actionParameterList.get(2).toString(), componentId)
-                    .getComponentData();
+            if ("reportingDashboardScreen".equals(viewIdCheck)) {
+                String parentComponentIdForFrequency = GtnUIFrameworkGlobalUI.getVaadinComponentData(componentId).getParentViewId();
+                parentComponentId = GtnUIFrameworkGlobalUI.getVaadinComponentData(parentComponentIdForFrequency).getParentViewId();
+            } else {
+                parentComponentId = componentId;
+            }
 
-            if(idComponentData.getCustomData()!=null){
-            comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData.getCustomData();
+                    
+  
+            GtnUIFrameworkBaseComponent idComponentData = GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponentFromParent(
+                            actionParameterList.get(2).toString(), parentComponentId);
+            if(idComponentData.getComponentData().getCustomData()!=null){
+            comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData.getComponentData().getCustomData();
             }
             
             if (comparisonLookupBeanList == null) {
@@ -89,8 +99,8 @@ public class GtnReportingVariableBreakdownGridLoadAction
 
             int comparisonLookupBeanSize = projectionNameListFromCustomData.size();
 
-            AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(variableBreakdownTableId,
-                    componentId).getComponent();
+          AbstractComponent abstractComponent =GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(variableBreakdownTableId,
+                   componentId).getComponent();
             GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
             PagedGrid pagedGrid =  gridComponent.getPagedGrid();
             Grid<GtnWsRecordBean> grid = pagedGrid.getGrid();
@@ -113,16 +123,27 @@ public class GtnReportingVariableBreakdownGridLoadAction
             String frequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(4).toString())
                     .getStringCaptionFromV8ComboBox();
 
+            if("reportingDashboardScreen".equals(viewIdCheck)){
+                GtnUIFrameWorkActionConfig variableBreakDownHeaderLoadActionFrequency = new GtnUIFrameWorkActionConfig(
+                    GtnUIFrameworkActionType.CUSTOM_ACTION);
+            variableBreakDownHeaderLoadActionFrequency.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT);
+            variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_fromPeriod");
+            variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_STATUS");
+            variableBreakDownHeaderLoadActionFrequency.addActionParameter(viewIdCheck);
+            pagedGrid.getTableConfig().setGtnUIFrameWorkActionConfig(variableBreakDownHeaderLoadActionFrequency);
+            }
+            else{
             GtnUIFrameWorkActionConfig variableBreakDownHeaderLoadActionFrequency = new GtnUIFrameWorkActionConfig(
                     GtnUIFrameworkActionType.CUSTOM_ACTION);
             variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
             variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_fromPeriod");
             variableBreakDownHeaderLoadActionFrequency.addActionParameter("reportLandingScreen_STATUS");
+            variableBreakDownHeaderLoadActionFrequency.addActionParameter(viewIdCheck);
             pagedGrid.getTableConfig().setGtnUIFrameWorkActionConfig(variableBreakDownHeaderLoadActionFrequency);
-
+            }
             clearGrid(grid);
 
-            GtnUIFrameworkPagedTableConfig tableConfig = setHeaderFromWs(pagedGrid, componentId, grid);
+            GtnUIFrameworkPagedTableConfig tableConfig = setHeaderFromWs(pagedGrid, componentId, grid,parentComponentId,viewIdCheck);
             configureCheckboxHeaderComponents(tableConfig.getTableColumnMappingId(), tableConfig.getColumnHeaders(), grid, tableConfig);
 
             setStartAndEndPeriodForVariableBreakdwonLookup(tableConfig, componentId, actionParameterList);
@@ -164,6 +185,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
         	logger.error("Error message", ex);
         }
     }
+
 
     private void setStartAndEndPeriodForVariableBreakdwonLookup(GtnUIFrameworkPagedTableConfig tableConfig, String componentId, List<Object> actionParameterList) {
         List<String> startAndEndPeriodCaptionList = new ArrayList<>(tableConfig.getColumnHeaders());
@@ -251,12 +273,12 @@ public class GtnReportingVariableBreakdownGridLoadAction
         return currentDate;
     }
 
-    private GtnUIFrameworkPagedTableConfig setHeaderFromWs(PagedGrid pagedGrid, String componentId, Grid<GtnWsRecordBean> grid) throws GtnFrameworkGeneralException {
+    private GtnUIFrameworkPagedTableConfig setHeaderFromWs(PagedGrid pagedGrid, String componentId, Grid<GtnWsRecordBean> grid, String parentComponentId, String viewIdCheck) throws GtnFrameworkGeneralException {
         GtnUIFrameworkPagedTableConfig tableConfig = pagedGrid.getTableConfig();
         String classPath = tableConfig.getGridHeaderCustomClassLoadUrl();
         classLoader(tableConfig.getGtnUIFrameWorkActionConfig(), classPath, componentId);
         GtnUIFrameworkWebserviceRequest headerRequest = getCustomPagedTableRequest(
-                tableConfig.getGtnUIFrameWorkActionConfig(), componentId);
+                tableConfig.getGtnUIFrameWorkActionConfig(), componentId,viewIdCheck,parentComponentId);
         GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
         GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(tableConfig.getGridColumnHeader(),
                 tableConfig.getModuleName(), headerRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
@@ -388,7 +410,14 @@ public class GtnReportingVariableBreakdownGridLoadAction
     }
 
     private GtnUIFrameworkWebserviceRequest getCustomPagedTableRequest(
-            GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String sourceViewId) {
+            GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String sourceViewId, String viewIdCheck, String parentComponentId) {
+        if("reportingDashboardScreen".equals(viewIdCheck)){
+        GtnUIFrameworkComponentData resultTableComponentData = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponentFromParent(
+                        gtnUIFrameWorkActionConfig.getActionParameterList().get(0).toString(), parentComponentId)
+                .getComponentData();
+        return resultTableComponentData.getCustomPagedTreeTableRequest();
+        }
         GtnUIFrameworkComponentData resultTableComponentData = GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponentFromParent(
                         gtnUIFrameWorkActionConfig.getActionParameterList().get(0).toString(), sourceViewId)

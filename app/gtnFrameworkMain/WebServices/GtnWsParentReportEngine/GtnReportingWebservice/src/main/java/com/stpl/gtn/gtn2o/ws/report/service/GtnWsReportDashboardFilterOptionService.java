@@ -53,13 +53,15 @@ public class GtnWsReportDashboardFilterOptionService {
 		String custProdLevelQuery = reportSqlService.getQuery("filterOptionCustLevelProdLevelLoadQuery");
 		gtnLogger.debug(custProdLevelQuery);
 		double hierarchySid = dataSelectionBean.getProductHierarchySid();
+		int hierarchyVersionNo = dataSelectionBean.getProductHierarchyVersionNo();
 		int forecastLevel = dataSelectionBean.getProductHierarchyForecastLevel();
 		if (dashboardBean.getHierarchyType().equals(GtnWsHierarchyType.CUSTOMER)) {
 			hierarchySid = dataSelectionBean.getCustomerHierarchySid();
+			hierarchyVersionNo = dataSelectionBean.getCustomerHierarchyVersionNo();
 			forecastLevel = dataSelectionBean.getCustomerHierarchyForecastLevel();
 		}
-		Object[] parameterValues = { hierarchySid, forecastLevel };
-		GtnFrameworkDataType[] dataTypes = { GtnFrameworkDataType.DOUBLE, GtnFrameworkDataType.INTEGER };
+		Object[] parameterValues = { hierarchySid,hierarchyVersionNo, forecastLevel };
+		GtnFrameworkDataType[] dataTypes = { GtnFrameworkDataType.DOUBLE, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
 		List<Object[]> hierarchyData = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(custProdLevelQuery,
 				parameterValues, dataTypes);
 		return Optional.ofNullable(hierarchyData).get();

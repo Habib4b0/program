@@ -1,11 +1,14 @@
 package com.stpl.gtn.gtn2o.ws.report.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -350,6 +353,33 @@ public class GtnWsReportController {
 		dataTable.addData(resultList);
 		searchResponse.setResultSet(dataTable);
 		response.setGtnSerachResponse(searchResponse);
+		return response;
+	}
+
+	@PostMapping(value = GtnWsReportConstants.GTN_WS_UOM_SERVICE)
+	public GtnUIFrameworkWebserviceResponse getUOMValues(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
+		List<Object[]> resultList = null;
+		try {
+			resultList = gtnWsReportWebsevice.getUOMDDLBValues(
+					gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getReportBean().getDataSelectionBean());
+			Optional.ofNullable(resultList).ifPresent(e -> {
+				List<String> itemCodeList = new ArrayList<>();
+				List<String> itemValueList = new ArrayList<>();
+				for (Object[] object : e) {
+					itemCodeList.add(String.valueOf(object[0]));
+					itemValueList.add(String.valueOf(object[0]));
+				}
+
+				comboBoxResponse.setItemCodeList(itemCodeList);
+				comboBoxResponse.setItemValueList(itemValueList);
+			});
+		} catch (GtnFrameworkGeneralException e) {
+			gtnLogger.error(e.getErrorMessage(), e);
+		}
+		response.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
 		return response;
 	}
 

@@ -240,7 +240,7 @@ public class GtnWebServiceItemGroupConfig implements GtnWsSearchQueryConfigLoade
 		fieldToColumnDetailsMap.put("versionNo", configProvider.getColumnIntegerConfig("VERSION_NO", "IG"));
 		fieldToColumnDetailsMap.put("createdDate", configProvider.getColumnDateConfig("CREATED_DATE", "IG"));
 		fieldToColumnDetailsMap.put("modifiedDate", configProvider.getColumnDateConfig("MODIFIED_DATE", "IG"));
-		fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnUserConfig("CREATED_BY", "IG"));
+		fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnStringConfig("firstName+' '+lastName", "igCreatedBy", "igCreatedByCol"));
 		fieldToColumnDetailsMap.put("iGrpInfoCompany",
 				configProvider.getColumnIntegerConfig("COMPANY_MASTER_SID", "IG"));
 		fieldToColumnDetailsMap.put("companyName", configProvider.getColumnStringConfig("COMPANY_NAME", "IM"));

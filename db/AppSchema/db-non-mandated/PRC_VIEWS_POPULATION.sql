@@ -5137,7 +5137,7 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and  SPM.CCP_DE
 INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and  SPM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID) A
            
               -- AND DP.PERIOD_SID=B.PERIOD_SID		 
-		JOIN (SELECT PERIOD_SID,
+		cross JOIN (SELECT PERIOD_SID,
                                 PERIOD,
                                 YEAR
                          FROM    #PERIOD
@@ -5210,3 +5210,4 @@ WHERE  SCREEN_NAME= ''', @SCREEN_NAME, '''
       END CATCH
   END
 
+GO
