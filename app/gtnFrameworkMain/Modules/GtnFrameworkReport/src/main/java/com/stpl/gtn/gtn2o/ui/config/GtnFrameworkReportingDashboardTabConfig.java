@@ -42,8 +42,6 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportEndPointUrlConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariableCategory;
@@ -209,16 +207,17 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		componentList.add(customViewComboboxConfig);
 
-	        GtnUIFrameworkComboBoxConfig customViewLoadConfig = configProvider.getComboBoxConfig(
-				"REPORT_CUSTOM_VIEW", GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+		GtnUIFrameworkComboBoxConfig customViewLoadConfig = configProvider.getComboBoxConfig("REPORT_CUSTOM_VIEW",
+				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		customViewComboboxConfig.setGtnComboboxConfig(customViewLoadConfig);
-                
-                GtnUIFrameWorkActionConfig reloadActionConfig = new GtnUIFrameWorkActionConfig();
+
+		GtnUIFrameWorkActionConfig reloadActionConfig = new GtnUIFrameWorkActionConfig();
 		reloadActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		reloadActionConfig.addActionParameter(GtnFrameworkUIReportCustomViewReloadAction.class.getName());
 		customViewComboboxConfig.setReloadActionConfig(reloadActionConfig);
-		customViewComboboxConfig.setReloadLogicActionClassName(GtnFrameworkUIReportCustomViewReloadAction.class.getName());
+		customViewComboboxConfig
+				.setReloadLogicActionClassName(GtnFrameworkUIReportCustomViewReloadAction.class.getName());
 
 	}
 
@@ -410,7 +409,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(annualTotalsConfig);
 
 		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes","No"));
+		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes", "No"));
 		annualTotalsLoadConfig.setDefaultValue("Yes");
 		annualTotalsConfig.setGtnComboboxConfig(annualTotalsLoadConfig);
 
@@ -1095,6 +1094,13 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_DISPLAY_FORMAT);
 		tableLoadAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_CURRENCY_DISPLAY);
+		tableLoadAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW);
+		tableLoadAction.addActionParameter(
+				"reportingDashboard_" + GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_FREQUENCY);
+		tableLoadAction.addActionParameter(
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportingDashboardComparisonConfig");
+
 		actionConfigList.add(tableLoadAction);
 
 		generateButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -1141,7 +1147,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		levelConfig.setGtnComboboxConfig(levelLoadConfig);
 
-                GtnUIFrameWorkActionConfig reloadActionConfig = new GtnUIFrameWorkActionConfig();
+		GtnUIFrameWorkActionConfig reloadActionConfig = new GtnUIFrameWorkActionConfig();
 		reloadActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		reloadActionConfig.addActionParameter(GtnUIFrameworkReportLevelDdlbLoadAction.class.getName());
 		levelConfig.setReloadActionConfig(reloadActionConfig);
@@ -1153,10 +1159,11 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		expandButton.setComponentId(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "expandButton");
 		expandButton.setParentComponentId(parentId);
 		expandButton.setAddToParent(true);
-                GtnUIFrameWorkActionConfig expandAction = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-                expandAction.addActionParameter(GtnUIReportExpandCollapseAction.class.getName());
-                expandAction.addActionParameter("reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE);
-                expandButton.addGtnUIFrameWorkActionConfig(expandAction);
+		GtnUIFrameWorkActionConfig expandAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		expandAction.addActionParameter(GtnUIReportExpandCollapseAction.class.getName());
+		expandAction.addActionParameter("reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE);
+		expandButton.addGtnUIFrameWorkActionConfig(expandAction);
 
 		GtnUIFrameworkComponentConfig collapseButton = new GtnUIFrameworkComponentConfig();
 		collapseButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -1164,7 +1171,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		collapseButton.setComponentId(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "collapseButton");
 		collapseButton.setParentComponentId(parentId);
 		collapseButton.setAddToParent(true);
-                collapseButton.addGtnUIFrameWorkActionConfig(expandAction);
+		collapseButton.addGtnUIFrameWorkActionConfig(expandAction);
 
 		componentList.add(expandAndCollapseHorizontalConfig);
 		componentList.add(levelConfig);

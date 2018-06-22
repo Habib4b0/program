@@ -2,6 +2,8 @@ package com.stpl.gtn.gtn2o.ws.report.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -69,6 +71,10 @@ public class GtnReportJsonService {
 
 	private String getFilePath() {
 		return System.getProperty("gtn.app.data.path");
+	}
+
+	public boolean deleteFile(String fileName, String sessionId) throws IOException {
+		return Files.deleteIfExists(Paths.get(getFileName(fileName, sessionId)));
 	}
 
 }
