@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ui.action;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -38,7 +39,7 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
             throws GtnFrameworkGeneralException {
-        String selectedItem = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_displaySelectionTabCustomView").getV8StringFromField();
+        String selectedItem = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_CUSTOM_VIEW).getV8StringFromField();
         if (!"".equals(selectedItem) && !"0".equals(selectedItem)) {
             loadScreen(selectedItem, componentId, gtnUIFrameWorkActionConfig);
 
@@ -56,7 +57,11 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
     }
 
     private void loadVariableType(String viewType) {
-        GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookup_custom_Variable_Type_OptionGroup").setHasValue(viewType.replaceAll("report", ""));
+        String[] list=viewType.split("~");
+        if(list.length==3){
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookup_custom_Variable_Type_OptionGroup").setHasValue(list[1]);
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportCustomViewLookup_custom_Variable_OptionGroup").setHasValue(list[2]);
+        }
     }
 
     private void loadTreeGrid(String selectedItem,
@@ -150,35 +155,38 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 
     public TreeData<GtnWsRecordBean> customizeData(GtnWsCustomViewResponse cvResponse, TreeGrid<GtnWsRecordBean> treeGrid) {
         TreeData<GtnWsRecordBean> treeData = treeGrid.getTreeData();
-        GtnWsRecordBean parent = null;
-        List<GtnWsRecordBean> variables = new ArrayList<>();
-        int j = 0;
-        for (GtnWsRecordBean bean : cvResponse.getCvTreeNodeList()) {
+        Optional.ofNullable(cvResponse.getCvTreeNodeList()).ifPresent(beans-> {
 
-            char indicator = bean.getStringPropertyByIndex(3).toUpperCase().charAt(0);
-            if (parent == null) {
-                treeData.addItem(null, bean);
-            } else {
-                if (indicator == 'V') {
-                    variables.add(bean);
-                      j++;
-                    if (j == cvResponse.getCvTreeNodeList().size() - 1) {
-                        addVariablesToTree(variables, treeData, parent, treeGrid);
-                    }
-                    continue;
+            GtnWsRecordBean parent = null;
+            List<GtnWsRecordBean> variables = new ArrayList<>();
+            int j = 0;
+            for (GtnWsRecordBean bean :beans) {
+
+                char indicator = bean.getStringPropertyByIndex(3).toUpperCase().charAt(0);
+                if (parent == null) {
+                    treeData.addItem(null, bean);
                 } else {
-                    if (!variables.isEmpty()) {
-                        addVariablesToTree(variables, treeData, parent, treeGrid);
+                    if (indicator == 'V') {
+                        variables.add(bean);
+                        j++;
+                        if (j == cvResponse.getCvTreeNodeList().size() - 1) {
+                            addVariablesToTree(variables, treeData, parent, treeGrid);
+                        }
+                        continue;
                     } else {
-                        treeData.addItem(parent, bean);
-                        treeGrid.expand(parent);
+                        if (!variables.isEmpty()) {
+                            addVariablesToTree(variables, treeData, parent, treeGrid);
+                        } else {
+                            treeData.addItem(parent, bean);
+                            treeGrid.expand(parent);
+                        }
                     }
                 }
+                removeFromLeftTable(bean, indicator);
+                parent = bean;
+                j++;
             }
-            removeFromLeftTable(bean, indicator);
-            parent = bean;
-            j++;
-        }
+        });
         return treeData;
     }
 

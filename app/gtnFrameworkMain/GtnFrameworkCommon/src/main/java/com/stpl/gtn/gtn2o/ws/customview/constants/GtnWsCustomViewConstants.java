@@ -19,5 +19,7 @@ public class GtnWsCustomViewConstants {
     public static final String CHECK_CUSTOM_VIEW_SAVE = "/getCustomViewSaveData";
     public static final String CUSTOM_VIEW_SAVE_LOGIC = "/getCustomViewSaveLogic";
     public static final String CUSTOM_VIEW_GET_TREE_DATA = "/getCustomViewGetTreeData";
+    public static final String CUSTOM_VIEW_LEVEL_DATA = "/getCustomViewLevelData";
+    public static final String CUSTOM_VIEW_DATA = "/getCustomViewData";
     public static final String CUSTOM_VIEW_DELETE = "/deleteCustomView";
 }

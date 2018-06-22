@@ -64,6 +64,22 @@ public class GtnReportDataSelectionTabLoadAction
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_customerHierarchy", componentId)
 					.setV8PopupFieldValue(customerRecordBean.getPropertyValueByIndex(0));
+                        
+                        new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					"dataSelectionTab_displaySelectionTabCustomView", componentId,
+					Arrays.asList(""));
+                        GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabCustomView", componentId)
+					.loadV8ComboBoxComponentValue(String.valueOf(reportDataSelectionBean.getCustomViewMasterSid()));
+                       new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					"reportingDashboardTab_displaySelectionTabCustomView", componentId,
+					Arrays.asList(""));
+                        GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView", componentId)
+					.loadV8ComboBoxComponentValue(String.valueOf(reportDataSelectionBean.getCustomViewMasterSid()));
+                        
+                       new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+                            GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE, componentId,
+                            Arrays.asList(""));
+
 
 			String dsCustomerTableId = "dataSelectionTab_customerDualListBox";
 			AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(dsCustomerTableId,

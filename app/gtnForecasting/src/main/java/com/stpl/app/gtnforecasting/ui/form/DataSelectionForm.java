@@ -573,6 +573,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 		}
                 frequency.select(viewDTO.getDataSelectionFrequency() != null ? viewDTO.getDataSelectionFrequency() : "Quarterly");
                 dataSelectionDeductionLevel.select(viewDTO.getDataSelectionDedLevel() != null ? viewDTO.getDataSelectionDedLevel() : 1);
+                customRelationDdlb.select(viewDTO.getCustomRelationShipSid());
+                customRelationDdlbDeduction.select(viewDTO.getCustomDeductionRelationShipSid());
 
 	}
 
@@ -3172,14 +3174,14 @@ public class DataSelectionForm extends ForecastDataSelection {
 				final SessionDTO tempSession = SessionUtil.createSession();
 				tempSession.setScreenName(scrName);
                                 tempSession.setFunctionMode("E");
-                                tempSession.setDsFrequency(String.valueOf(frequency.getValue()));
+                                tempSession.setDsFrequency(String.valueOf(map.get(Constant.FREQUENCY)));
 				tempSession.setProjectionId(projectionIdValue);
 				tempSession.setCustomerHierarchyVersion(dto.getCustomerHierVersionNo());
 				tempSession.setProductHierarchyVersion(dto.getProductHierVersionNo());
 				tempSession.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
 				tempSession.setProductRelationVersion(dto.getProductRelationShipVersionNo());
 				tempSession.setDeductionRelationVersion(dto.getDeductionRelationShipVersionNo());
-                                tempSession.setDataSelectionDeductionLevel(String.valueOf(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE : DataTypeConverter.convertObjectToInt(mapValue)));
+                                tempSession.setDataSelectionDeductionLevel(String.valueOf(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? 0 : DataTypeConverter.convertObjectToInt(mapValue)));
                                 dto.setDataSelectionDeductionLevelSid(Integer.parseInt(tempSession.getDataSelectionDeductionLevel()));
                                 tempSession.setDataSelectionDeductionLevelCaption(dataSelectionDeductionLevel.getItemCaption(Integer.parseInt(tempSession.getDataSelectionDeductionLevel())));
                                 tempSession.setDeductionLevel(String.valueOf(tempSession.getDataSelectionDeductionLevel()));
@@ -4306,7 +4308,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 					bindDataselectionDtoToSave();
                                         dataSelectionDTO.setCustomRelationShipSid(customRelationDdlb.getValue()!=null ? Integer.valueOf(String.valueOf(customRelationDdlb.getValue())) :0 );
                                         dataSelectionDTO.setCustomDeductionRelationShipSid(customRelationDdlbDeduction.getValue()!=null ? Integer.valueOf(String.valueOf(customRelationDdlbDeduction.getValue())): 0);
-					int projectionIdValue = nmLogic.saveProjection(dataSelectionDTO, scrName);
+					int projectionIdValue = nmLogic.saveProjection(dataSelectionDTO, scrName,false);
 					VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
 					projectionId.setValue(String.valueOf(projectionIdValue));
 					dataSelectionDTO.setProjectionId(projectionIdValue);
@@ -4439,7 +4441,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						"The projection can be created for only one Market Type.  Please select only one Market Type and try again.");
 				return;
 			}
-			int projectionIdValue = nmLogic.saveProjection(dataSelectionDTO, scrName);
+			int projectionIdValue = nmLogic.saveProjection(dataSelectionDTO, scrName,false);
 			VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
 			projectionName.setValue(String.valueOf(projectionName.getValue()));
 			dataSelectionDTO.setProjectionId(projectionIdValue);
@@ -4704,7 +4706,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			}
 			List<Leveldto> productList = selectedProductContainer.getItemIds();
 			bindDataselectionDtoToSave();
-			int projectionIdValue = nmLogic.saveProjection(dataSelectionDTO, scrName);
+			int projectionIdValue = nmLogic.saveProjection(dataSelectionDTO, scrName,false);
 			VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
 			projectionName.setValue(String.valueOf(projectionName.getValue()));
 			dataSelectionDTO.setProjectionId(projectionIdValue);

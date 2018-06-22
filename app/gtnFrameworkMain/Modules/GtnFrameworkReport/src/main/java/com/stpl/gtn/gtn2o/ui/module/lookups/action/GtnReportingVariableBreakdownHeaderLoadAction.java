@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ui.module.lookups.action;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -32,33 +33,46 @@ public class GtnReportingVariableBreakdownHeaderLoadAction implements GtnUIFrame
 
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
-        String variableBreakdownTableId = actionParameterList.get(0).toString();
-
-        AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(variableBreakdownTableId, componentId).getComponent();
-        GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
-
-        String fromPeriod = GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(actionParameterList.get(1).toString(), componentId)
+        List<Object> variableBreakdownActionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
+        String variableBreakdownTableId = variableBreakdownActionParameterList.get(0).toString();
+ GtnUIFrameworkComponentData variableBreakdownGridComponentData ;
+        if(variableBreakdownActionParameterList.get(3).toString().equals("reportingDashboardScreen")){
+            AbstractComponent variableBreakdownGridAbstractComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromView(variableBreakdownTableId, componentId).getComponent();
+        variableBreakdownGridComponentData = (GtnUIFrameworkComponentData) variableBreakdownGridAbstractComponent.getData();
+        }
+        else{
+        AbstractComponent variableBreakdownGridAbstractComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(variableBreakdownTableId, componentId).getComponent();
+        
+        variableBreakdownGridComponentData = (GtnUIFrameworkComponentData) variableBreakdownGridAbstractComponent.getData();
+        }
+        String variableBreakdownFrequency="";
+        String variableBreakdownFromPeriod = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(variableBreakdownActionParameterList.get(1).toString(), componentId)
                 .getStringCaptionFromV8ComboBox();
-        String toPeriod = GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId)
+        String variableBreakdownToPeriod = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(variableBreakdownActionParameterList.get(2).toString(), componentId)
                 .getStringCaptionFromV8ComboBox();
-        String frequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(0).toString())
+        if(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT.equals(variableBreakdownTableId)){
+        variableBreakdownFrequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportOptionsTab_variableBreakdownFrequencyConfig")
                 .getStringCaptionFromV8ComboBox();
-        List<String> inputList = new ArrayList<>();
-        inputList.add(fromPeriod);
-        inputList.add(toPeriod);
-        inputList.add(frequency);
+        }
+        else{
+          variableBreakdownFrequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(variableBreakdownActionParameterList.get(0).toString())
+                .getStringCaptionFromV8ComboBox(); 
+        }
+        List<String> variableBreakdownInputList = new ArrayList<>();
+        variableBreakdownInputList.add(variableBreakdownFromPeriod);
+        variableBreakdownInputList.add(variableBreakdownToPeriod);
+        variableBreakdownInputList.add(variableBreakdownFrequency);
 
-        GtnWsReportDataSelectionBean gtnWsReportDataSelectionBean = new GtnWsReportDataSelectionBean();
-        gtnWsReportDataSelectionBean.setVariableBreakdownHeaderLoadList(inputList);
-        GtnWsReportRequest gtnWsReportRequest = new GtnWsReportRequest();
-        gtnWsReportRequest.setDataSelectionBean(gtnWsReportDataSelectionBean);
-        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
-        gtnUIFrameworkWebserviceRequest.setGtnWsReportRequest(gtnWsReportRequest);
-        gridComponent.setCustomData(gtnUIFrameworkWebserviceRequest);
-        gridComponent.setCustomPagedTreeTableRequest(gtnUIFrameworkWebserviceRequest);
+        GtnWsReportDataSelectionBean variableBreakdownReportDataSelectionBean = new GtnWsReportDataSelectionBean();
+        variableBreakdownReportDataSelectionBean.setVariableBreakdownHeaderLoadList(variableBreakdownInputList);
+        GtnWsReportRequest variableBreakdownReportRequest = new GtnWsReportRequest();
+        variableBreakdownReportRequest.setDataSelectionBean(variableBreakdownReportDataSelectionBean);
+        GtnUIFrameworkWebserviceRequest gtnUIFrameworkVariableBreakdownWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
+        gtnUIFrameworkVariableBreakdownWebserviceRequest.setGtnWsReportRequest(variableBreakdownReportRequest);
+        variableBreakdownGridComponentData.setCustomData(gtnUIFrameworkVariableBreakdownWebserviceRequest);
+        variableBreakdownGridComponentData.setCustomPagedTreeTableRequest(gtnUIFrameworkVariableBreakdownWebserviceRequest);
     }
 
     @Override

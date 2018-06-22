@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsColumnDetailsConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
+import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
 /**
  *
@@ -55,9 +56,12 @@ public class GtnWebServiceRebatePlanConfig implements GtnWsSearchQueryConfigLoad
 		fieldToColumnDetailsMap.put("rebatePlanBasedOn",
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "RP_BASED", "RP_BASED",
 						GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
-		fieldToColumnDetailsMap.put("rebateStructure",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "RP_STRUCTURE",
-						"RP_STRUCTURE", GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
+
+		GtnWsColumnDetailsConfig rpColumnDetailsMap = configProvider.getColumnHelperConfig("REBATE_STRUCTURE", "RP");
+		rpColumnDetailsMap.setHelperTableAliasName("rpStructureHelper");
+		rpColumnDetailsMap.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("rebateStructure", rpColumnDetailsMap);
+
 		fieldToColumnDetailsMap.put("rangeBasedOn",
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "RP_RANGE_BASED",
 						"RP_RANGE_BASED", GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
@@ -65,9 +69,11 @@ public class GtnWebServiceRebatePlanConfig implements GtnWsSearchQueryConfigLoad
 				configProvider.getColumnStringConfig("NET_SALES_FORMULA_NAME", "NSFM"));
 		fieldToColumnDetailsMap.put("netSalesRule", configProvider.getColumnStringConfig("RULE_NAME", "CDRM"));
 		fieldToColumnDetailsMap.put("creationDate", configProvider.getColumnDateConfig("CREATED_DATE", "RP"));
-		fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnUserConfig("CREATED_BY", "RP"));
+		fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnStringConfig("firstName+' '+userCreated.lastName", "userCreated", "createdByCol"));
+                
 		fieldToColumnDetailsMap.put("modifiedDate", configProvider.getColumnDateConfig("MODIFIED_DATE", "RP"));
-		fieldToColumnDetailsMap.put("modifiedBy", configProvider.getColumnUserConfig("MODIFIED_BY", "RP"));
+                fieldToColumnDetailsMap.put("modifiedBy", configProvider
+					.getColumnStringConfig("firstName+' '+userModifiedBy.lastName", "userModifiedBy", "modifiedByCol")); 
 		fieldToColumnDetailsMap.put("recordLockStatus",
 				configProvider.getColumnStringConfig("RECORD_LOCK_STATUS", "RP"));
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
@@ -84,7 +90,10 @@ public class GtnWebServiceRebatePlanConfig implements GtnWsSearchQueryConfigLoad
 				+ "JOIN HELPER_TABLE RP_STRUCTURE ON RP_STRUCTURE.HELPER_TABLE_SID=RP.REBATE_STRUCTURE\n"
 				+ "JOIN HELPER_TABLE RP_RANGE_BASED ON RP_RANGE_BASED.HELPER_TABLE_SID=RP.REBATE_RANGE_BASED_ON\n"
 				+ "LEFT JOIN NET_SALES_FORMULA_MASTER NSFM ON NSFM.NET_SALES_FORMULA_MASTER_SID=RP.NET_SALES_FORMULA_MASTER_SID\n"
-				+ "LEFT JOIN CDR_MODEL CDRM ON CDRM.CDR_MODEL_SID=RP.CDR_MODEL_SID ");
+				+ "LEFT JOIN CDR_MODEL CDRM ON CDRM.CDR_MODEL_SID=RP.CDR_MODEL_SID "
+				+ "LEFT JOIN HELPER_TABLE rpStructureHelper on RP.REBATE_STRUCTURE = rpStructureHelper.HELPER_TABLE_SID\n"
+                                + " JOIN @SYS.dbo.User_ userCreated on userCreated.userId = RP.CREATED_BY\n"
+                                + " JOIN @SYS.dbo.User_ userModifiedBy on userCreated.userId = RP.MODIFIED_BY");
 
 		gtnWebServiceSearchQueryContext.setSearchQuery("  FROM REBATE_PLAN_MASTER RP\n"
 				+ "JOIN HELPER_TABLE STATUS ON STATUS.HELPER_TABLE_SID=RP.REBATE_PLAN_STATUS\n"
@@ -93,7 +102,10 @@ public class GtnWebServiceRebatePlanConfig implements GtnWsSearchQueryConfigLoad
 				+ "JOIN HELPER_TABLE RP_STRUCTURE ON RP_STRUCTURE.HELPER_TABLE_SID=RP.REBATE_STRUCTURE\n"
 				+ "JOIN HELPER_TABLE RP_RANGE_BASED ON RP_RANGE_BASED.HELPER_TABLE_SID=RP.REBATE_RANGE_BASED_ON\n"
 				+ "LEFT JOIN NET_SALES_FORMULA_MASTER NSFM ON NSFM.NET_SALES_FORMULA_MASTER_SID=RP.NET_SALES_FORMULA_MASTER_SID\n"
-				+ "LEFT JOIN CDR_MODEL CDRM ON CDRM.CDR_MODEL_SID=RP.CDR_MODEL_SID ");
+				+ "LEFT JOIN CDR_MODEL CDRM ON CDRM.CDR_MODEL_SID=RP.CDR_MODEL_SID "
+				+ "LEFT JOIN HELPER_TABLE rpStructureHelper on RP.REBATE_STRUCTURE = rpStructureHelper.HELPER_TABLE_SID"
+                                + " JOIN @SYS.dbo.User_ userCreated on userCreated.userId = RP.CREATED_BY\n"
+                                + " JOIN @SYS.dbo.User_ userModifiedBy on userCreated.userId = RP.MODIFIED_BY\n");
 
 		searchQueryConfigMap.put("rebateplanSearch", gtnWebServiceSearchQueryContext);
 

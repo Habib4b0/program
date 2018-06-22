@@ -2323,8 +2323,9 @@ public class DataSelectionLogic {
 		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
 				"customSalesCP", sessionDTO);
 		tempList.clear();
+                String customCCPQuery = SQlUtil.getQuery("getRelationshipCustomCCP").replace("?RBSID", relationshipBuilderSid);
 		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
-				QueryUtil.replaceTableNames(bean.getCustomFinalQuery(), sessionDTO.getCurrentTableNames()));
+				QueryUtil.replaceTableNames(customCCPQuery + bean.getCustomFinalQuery(), sessionDTO.getCurrentTableNames()));
 		for (int j = tempList.size() - 1; j >= 0; j--) {
 			Object[] object = (Object[]) tempList.get(j);
 			final List<Object> detailsList = new ArrayList<>();
@@ -2532,6 +2533,7 @@ public class DataSelectionLogic {
     
 public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO session, String procedureName,
             String screenName) {
+    String deductionCaptionUdc = session.getDataSelectionDeductionLevelCaption().startsWith("UDC") ? session.getDataSelectionDeductionLevelCaption().replace(" ", StringUtils.EMPTY) : session.getDataSelectionDeductionLevelCaption();
         StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
             query.append(procedureName);
@@ -2548,7 +2550,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
             }
             query.append('\'')
             .append(",'").append(CommonLogic.getFrequency(session.getDsFrequency())).append('\'')
-            .append(",'").append(session.getDataSelectionDeductionLevelCaption()).append('\'');
+            .append(",'").append(deductionCaptionUdc).append('\'');
             LOGGER.info("before callInsertProcedureForNmDiscountMaster {}", query.toString());
             HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
             LOGGER.info("Normal Procedures: {}", query.toString());
@@ -2744,10 +2746,6 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
             }
 	}
     
-    public static void nmDiscountActProjInsertProcedure(SessionDTO session) {
-        commonUtil.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_MASTER_PROCEDURE_CALL));
-        session.setDiscountDeductionLevelDetails(getRelationshipDetailsDeductionCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
-    }
         
 	/**
 	 * To insert the Accural_proj_details table in edit and add mode

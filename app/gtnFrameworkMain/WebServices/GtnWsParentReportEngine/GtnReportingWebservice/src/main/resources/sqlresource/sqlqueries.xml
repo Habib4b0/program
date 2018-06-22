@@ -13,11 +13,13 @@
                 JOIN RELATIONSHIP_LEVEL_DEFINITION RLD on RLD.RELATIONSHIP_BUILDER_SID = RB.RELATIONSHIP_BUILDER_SID WHERE
                     RLD.VERSION_NO = RB.VERSION_NO
                     AND RB.RELATIONSHIP_BUILDER_SID = ?
+                    AND RLD.level_no >= ?
                     order by convert(int, RLD.level_no) ;
         
     ]]>
 
 	</entry>
+	
 	
 	<entry key="loadForecastEligibleDate">
 	<![CDATA[
@@ -202,26 +204,19 @@
 	</entry>
 	<entry key="filterOptionCustLevelProdLevelLoadQuery">
 			<![CDATA[
-				SELECT
-    				DISTINCT rld.level_no,
-    				'Level ' + rld.level_no + ' - ' + rld.level_name
-				FROM
-				    relationship_level_definition rld,
-				    relationship_builder rb,
-				    hierarchy_level_definition hld
-				WHERE
-				    rld.relationship_builder_sid IN(
-				        SELECT
-				            rbt.relationship_builder_sid
-				        FROM
-				            relationship_builder rbt
-				        WHERE
-				            rbt.hierarchy_definition_sid = ?
-				    )
-				    AND rld.hierarchy_level_definition_sid = hld.hierarchy_level_definition_sid
-				    AND rld.level_no >= ?
-				ORDER BY
-				    rld.level_no ASC;
+		select
+			hld.LEVEL_NO,
+			'Level ' + CONVERT(VARCHAR(50),hld.LEVEL_NO) + ' - ' + hld.LEVEL_NAME
+		from
+			HIERARCHY_definition hd 
+		JOIN hierarchy_level_definition hld ON
+			hd.hierarchy_definition_sid = hld.HIERARCHY_DEFINITION_SID
+		WHERE
+			hld.HIERARCHY_DEFINITION_SID = ? AND
+			hld.VERSION_NO = ? AND
+			hld.LEVEL_NO >= ?
+		 ORDER BY
+		    hld.level_no ASC;
 	]]>
 </entry>
 	
@@ -324,12 +319,13 @@
 						PROJECTION_MASTER PM ?
 					INNER JOIN PROJECTION_DETAILS PD ON
 						PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+					JOIN CUSTOM_CCP_DETAILS CCD ON
+						CCD.CUST_VIEW_MASTER_SID = ? AND
+						CCD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
 					INNER JOIN CCP_DETAILS CCP ON
 						CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
 					INNER JOIN CONTRACT_MASTER C ON
 						C.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
-					JOIN CUSTOM_CCP_DETAILS CCD ON
-						CCD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
 					LEFT JOIN HELPER_TABLE HT ON
 						C.CONTRACT_TYPE = HT.HELPER_TABLE_SID
 						AND(
@@ -453,12 +449,13 @@
 						PM.PROJECTION_MASTER_SID = CFD.PROJECTION_MASTER_SID ?
 					INNER JOIN PROJECTION_DETAILS PD ON
 						PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+					JOIN CUSTOM_CCP_DETAILS CCD ON
+						CCD.CUST_VIEW_MASTER_SID = ? AND
+						CCD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
 					INNER JOIN CCP_DETAILS CCP ON
 						CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
 					INNER JOIN CONTRACT_MASTER C ON
 						C.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
-					JOIN CUSTOM_CCP_DETAILS CCD ON
-						CCD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
 					LEFT JOIN HELPER_TABLE HT ON
 						C.CONTRACT_TYPE = HT.HELPER_TABLE_SID
 						AND(
@@ -640,7 +637,7 @@
 			    ELSE 0
 			  END AS HELPER_TABLE_JOIN_NEEDED,
 			  CASE
-			    WHEN FIELD_NAME LIKE '%UDC%' THEN 1
+			    WHEN HT_FIELD_NAME LIKE '%UDC%' THEN 1
 			    ELSE 0
 			  END AS UDC_JOIN_NEEDED
 			
@@ -718,6 +715,7 @@
 				    ? CVH 
 					JOIN CUST_VIEW_DETAILS CVD 
 				        ON CVD.CUSTOM_VIEW_DETAILS_SID = CVH.CUSTOM_VIEW_DETAILS_SID AND CVD.CUSTOM_VIEW_MASTER_SID = ? 
+				        ?
 				    JOIN RS_CONTRACT TEMP ON ? 
 				    ? 
 				    AND CVD.LEVEL_NO = ? 
@@ -805,6 +803,38 @@
 		    	ST_CCP_HIERARCHY ST_CCP_HIERARCHY
 			join CCP_details CCP_DETAILS on
 				CCP_DETAILS.ccp_details_sid = ST_CCP_HIERARCHY.ccp_details_sid
+		]]>
+	</entry>
+	
+	<entry key="getDeductionHierarchyLevels">
+		<![CDATA[
+			SELECT
+			    DISTINCT hld.level_name,
+			    hld.level_no,
+			    CONVERT(
+			        INT,
+			        hld.LEVEL_NO
+			    ) AS treelevel_no,
+			    ? AS Hierarchyindicator,
+			    hld.hierarchy_level_definition_sid
+			FROM
+			    hierarchy_definition hd JOIN hierarchy_level_definition hld
+			        ON hd.HIERARCHY_DEFINITION_SID = hld.HIERARCHY_DEFINITION_SID
+			WHERE
+			    hld.HIERARCHY_DEFINITION_SID IN(
+			        SELECT
+			            TOP(1) HIERARCHY_DEFINITION_SID
+			        FROM
+			            RELATIONSHIP_BUILDER
+			        WHERE
+			            deduction_relation = ?
+			    )
+		]]>
+	</entry>
+	
+	<entry key="getUOMDetails">
+		<![CDATA[
+			select UOM_CODE from ST_ITEM_UOM_DETAILS
 		]]>
 	</entry>
 		

@@ -23,6 +23,7 @@ import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAu
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -406,7 +408,34 @@ public class GtnWsCustomViewService {
 
         return gtnWsSqlService.getReplacedQuery(input, queryBean.generateQuery());
     }
-
+      @SuppressWarnings("unchecked")
+     public GtnUIFrameworkWebserviceComboBoxResponse getCustomViewLevelData(GtnWsCustomViewRequest cvRequest){
+        Session session = getSessionFactory().openSession();
+        Criteria selectCriteria = session.createCriteria(CustViewDetails.class);
+        GtnUIFrameworkWebserviceComboBoxResponse response=new GtnUIFrameworkWebserviceComboBoxResponse();
+       
+        selectCriteria.add(Restrictions.eq("customViewMasterSid", cvRequest.getCvSysId()));
+        List<CustViewDetails> gtnListOfData = selectCriteria.list();
+           for (CustViewDetails detailsData : gtnListOfData) {
+                response.addItemCodeList(Integer.toString(detailsData.getLevelNo()));
+                response.addItemValueList(detailsData.getLevelNo()+" - "+GtnFrameworkCommonStringConstants.STRING_EMPTY+detailsData.getLevelName());
+           }
+           return response;
+     }
+       @SuppressWarnings("unchecked")
+       public GtnUIFrameworkWebserviceComboBoxResponse getCustomViewList(){
+        Session session = getSessionFactory().openSession();
+        Criteria selectCriteria = session.createCriteria(CustViewMaster.class);
+        GtnUIFrameworkWebserviceComboBoxResponse response=new GtnUIFrameworkWebserviceComboBoxResponse();
+       
+        selectCriteria.add(Restrictions.like("screenName","report",MatchMode.ANYWHERE));
+        List<CustViewMaster> gtnListOfData = selectCriteria.list();
+           for (CustViewMaster detailsData : gtnListOfData) {
+                response.addItemCodeList(Integer.toString(detailsData.getCustViewMasterSid()));
+                response.addItemValueList(detailsData.getCustViewName());
+           }
+           return response;
+     }
     @SuppressWarnings("unchecked")
     public List<GtnWsRecordBean> getSavedTreeData(GtnWsCustomViewRequest cvRequest) throws GtnFrameworkGeneralException {
         Session session = getSessionFactory().openSession();
@@ -423,7 +452,7 @@ public class GtnWsCustomViewService {
                 Criteria relationCriteria = session.createCriteria(RelationshipLevelDefinition.class);
                 relationCriteria.add(Restrictions.eq("hierarchyLevelDefinition.hierarchyLevelDefinitionSid", detailsData.getHierarchyId()));
                 List<RelationshipLevelDefinition> relationData = relationCriteria.list();
-                levelName = relationData.get(0).getLevelName();
+                levelName = relationData.isEmpty()?"":relationData.get(0).getLevelName();
             } else {
                 fetchReportVariables(detailsData, recordTreeData);
                 continue;
