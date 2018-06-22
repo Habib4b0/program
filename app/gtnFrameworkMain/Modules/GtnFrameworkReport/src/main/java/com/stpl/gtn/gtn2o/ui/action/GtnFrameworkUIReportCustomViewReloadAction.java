@@ -43,6 +43,11 @@ public class GtnFrameworkUIReportCustomViewReloadAction implements GtnUIFrameWor
         GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(customView)
                 .addAllItemsToComboBox(new ArrayList<>(comboBoxResponse.getItemValueList()), new ArrayList<>(comboBoxResponse.getItemCodeList()));
+        if(gtnUIFrameWorkActionConfig.getActionParameterList().size()>2){
+        int size=comboBoxResponse.getItemValueList().size();
+        GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(customView).setHasValue(comboBoxResponse.getItemCodeList().get(size-1));
+        }
     }
 
     @Override
