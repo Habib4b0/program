@@ -81,6 +81,9 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 				.getVaadinBaseComponent(params.get(5).toString(), componentId).getCaptionFromV8ComboBox());
 		grid.getTableConfig().setGtnWsReportDashboardBean(dashBoardBean);
 
+		if (!dataSelectionBean.isDataRefreshDone()) {
+			grid.getTableConfig().setGtnReportDataRefreshBean(null);
+		}
 		checkForSelectionChange(dataSelectionBean, componentId, params, grid.getTableConfig());
 
 		componentData.getCurrentGtnComponent().reloadComponent(null, componentId, (String) params.get(1), null);
@@ -138,6 +141,7 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 		refreshBean.setFrequencyName(frequency);
 		refreshBean.setComparisonProjectionBeanList(comparisonProjectionBeanList);
 		tableConfig.setGtnReportDataRefreshBean(refreshBean);
+		dataSelectionBean.setDataRefreshDone(true);
 		logger.info("checkDataRefreshCondition = = = " + refreshNeeded);
 		return refreshNeeded;
 	}
