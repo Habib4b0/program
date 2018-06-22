@@ -42,7 +42,8 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
 		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
-		GtnWsReportDashboardBean dashBoardBean = new GtnWsReportDashboardBean();
+
+		GtnWsReportDashboardBean dashBoardBean = grid.getTableConfig().getGtnWsReportDashboardBean();
 		dashBoardBean.setSessionId(dataSelectionBean.getSessionId());
 		List<Object> salesInclusion = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(2).toString(), componentId).getSelectedListFromV8MultiSelect();

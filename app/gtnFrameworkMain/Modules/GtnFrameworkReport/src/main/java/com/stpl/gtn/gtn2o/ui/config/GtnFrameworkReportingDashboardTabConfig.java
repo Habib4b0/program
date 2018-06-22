@@ -1089,6 +1089,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		filterInputLoadAction.addActionParameter("reportingDashboardTab_filterOptionsTabCustomerFilter");
 		filterInputLoadAction.addActionParameter("reportingDashboardTab_filterOptionsTabProductFilter");
 		filterInputLoadAction.addActionParameter("reportingDashboardTab_filterOptionsTabDeductionFilter");
+		filterInputLoadAction.addActionParameter("reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE);
 		actionConfigList.add(filterInputLoadAction);
 
 		GtnUIFrameWorkActionConfig tableLoadAction = new GtnUIFrameWorkActionConfig(

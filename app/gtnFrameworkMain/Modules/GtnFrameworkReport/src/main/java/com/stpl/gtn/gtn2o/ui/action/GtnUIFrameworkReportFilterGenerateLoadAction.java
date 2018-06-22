@@ -3,8 +3,10 @@ package com.stpl.gtn.gtn2o.ui.action;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataRow;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -33,6 +35,13 @@ public class GtnUIFrameworkReportFilterGenerateLoadAction
 		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
 		GtnWsReportDashboardBean dashboardBean = new GtnWsReportDashboardBean();
+
+		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(
+				(String) gtnUIFrameWorkActionConfig.getActionParameterList().get(5), componentId);
+		PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
+
+		grid.getTableConfig().setGtnWsReportDashboardBean(dashboardBean);
+
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
 		reportRequest.setDataSelectionBean(dataSelectionBean);
