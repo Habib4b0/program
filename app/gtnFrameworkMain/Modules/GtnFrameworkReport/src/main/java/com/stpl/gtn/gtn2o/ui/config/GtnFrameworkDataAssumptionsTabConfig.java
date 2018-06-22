@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFr
 import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnFrameworkReportTabChangeAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -201,10 +202,12 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		previousButtonConfig.setAddToParent(true);
 		previousButtonConfig.setParentComponentId(parentId);
 		GtnUIFrameWorkActionConfig previousAction = new GtnUIFrameWorkActionConfig();
-		previousAction.setActionType(GtnUIFrameworkActionType.CHANGE_TAB_ACTION);
-		previousAction.addActionParameter("dataSelectionTab_dataSelectionRootLayout");
+		previousAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		previousAction.addActionParameter(GtnFrameworkReportTabChangeAction.class.getName());
+		previousAction.addActionParameter("tabSheetMain");
+		previousAction.addActionParameter("0");	
 		previousButtonConfig.addGtnUIFrameWorkActionConfig(previousAction);
-
+		
 		GtnUIFrameworkComponentConfig nextButtonConfig = new GtnUIFrameworkComponentConfig();
 		nextButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		nextButtonConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "nextButtonConfig");
@@ -212,8 +215,10 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		nextButtonConfig.setAddToParent(true);
 		nextButtonConfig.setParentComponentId(parentId);
 		GtnUIFrameWorkActionConfig nextAction = new GtnUIFrameWorkActionConfig();
-		nextAction.setActionType(GtnUIFrameworkActionType.CHANGE_TAB_ACTION);
-		nextAction.addActionParameter("reportingDashboardRootLayout");
+		nextAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		nextAction.addActionParameter(GtnFrameworkReportTabChangeAction.class.getName());
+		nextAction.addActionParameter("tabSheetMain");
+		nextAction.addActionParameter("2");		
 		nextButtonConfig.addGtnUIFrameWorkActionConfig(nextAction);
 
 		GtnUIFrameworkComponentConfig closeButtonConfig = new GtnUIFrameworkComponentConfig();

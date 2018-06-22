@@ -357,6 +357,5 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 		reloadActionConfig.addActionParameter(GtnFrameworkUIReportCustomViewReloadAction.class.getName());
 		customViewComboboxConfig.setReloadActionConfig(reloadActionConfig);
 		customViewComboboxConfig.setReloadLogicActionClassName(GtnFrameworkUIReportCustomViewReloadAction.class.getName());
-
 	}
 }

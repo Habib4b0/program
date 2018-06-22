@@ -36,6 +36,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnFrameworkReportTabChangeAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownGridLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownFrequencyLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -1375,8 +1376,10 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		previousButtonConfig.setAddToParent(true);
 		previousButtonConfig.setParentComponentId(parentId);
 		GtnUIFrameWorkActionConfig previousButtonAction = new GtnUIFrameWorkActionConfig();
-		previousButtonAction.setActionType(GtnUIFrameworkActionType.CHANGE_TAB_ACTION);
-		previousButtonAction.addActionParameter("dataAssumptionsTabSheetLayout");
+		previousButtonAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		previousButtonAction.addActionParameter(GtnFrameworkReportTabChangeAction.class.getName());
+		previousButtonAction.addActionParameter("tabSheetMain");		
+		previousButtonAction.addActionParameter("1");
 		previousButtonConfig.addGtnUIFrameWorkActionConfig(previousButtonAction);
 
 		GtnUIFrameworkComponentConfig closeButtonConfig = new GtnUIFrameworkComponentConfig();
