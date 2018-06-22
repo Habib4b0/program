@@ -163,6 +163,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		addCustomViewButtonComponent(componentList, nameSpace);
 		addCustomViewComponent(componentList, nameSpace);
 		addPeriodRangeToComponent(componentList);
+
 		addFrequencyComponent(componentList, nameSpace);
 		addComparisonBasisComponent(componentList);
 		addVariableCategoryComponent(componentList, nameSpace);
@@ -210,7 +211,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		componentList.add(customViewComboboxConfig);
 
-	        GtnUIFrameworkComboBoxConfig customViewLoadConfig = configProvider.getComboBoxConfig(
+		GtnUIFrameworkComboBoxConfig customViewLoadConfig = configProvider.getComboBoxConfig(
 				"REPORT_CUSTOM_VIEW", GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		customViewComboboxConfig.setGtnComboboxConfig(customViewLoadConfig);
@@ -411,7 +412,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(annualTotalsConfig);
 
 		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes","No"));
+		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes", "No"));
 		annualTotalsLoadConfig.setDefaultValue("Yes");
 		annualTotalsConfig.setGtnComboboxConfig(annualTotalsLoadConfig);
 
@@ -1095,6 +1096,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		filterInputLoadAction.addActionParameter("reportingDashboardTab_filterOptionsTabCustomerFilter");
 		filterInputLoadAction.addActionParameter("reportingDashboardTab_filterOptionsTabProductFilter");
 		filterInputLoadAction.addActionParameter("reportingDashboardTab_filterOptionsTabDeductionFilter");
+		filterInputLoadAction.addActionParameter("reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE);
 		actionConfigList.add(filterInputLoadAction);
 
 		GtnUIFrameWorkActionConfig tableLoadAction = new GtnUIFrameWorkActionConfig(
