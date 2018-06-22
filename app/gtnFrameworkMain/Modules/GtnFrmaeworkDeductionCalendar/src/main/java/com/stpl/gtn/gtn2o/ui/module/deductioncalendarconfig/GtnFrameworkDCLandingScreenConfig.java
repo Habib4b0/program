@@ -358,7 +358,7 @@ public class GtnFrameworkDCLandingScreenConfig {
 		searchResults.setTableVisibleHeader(new String[] { "Deduction Calendar No", "Deduction Calendar Name",
 				"Deduction Calendar Desc", "Category", "Creation Date", "Created By", "Modified Date", "Modified By" });
 		searchResults.setTableColumnMappingId(new Object[] { GtnFrameworkCommonConstants.PROPERTY_DEDUCTION_CALENDAR_NO, GtnFrameworkCommonConstants.DEDUCTION_CALENDAR_NAME,
-				"deductionCalendarDesc", GtnFrameworkCommonConstants.CATEGORY, "creationDatas", "createdBy", "modifiedDatas", "modifiedBy" });
+				"deductionCalendarDesc", GtnFrameworkCommonConstants.CATEGORY, "creationDate", "createdBy", "modifiedDate", "modifiedBy" });
 		searchResults.setCountUrl(
 				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH);
 		searchResults.setResultSetUrl(
