@@ -34,6 +34,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
@@ -99,6 +100,15 @@ public class GtnReportCCPTableLoadAction
 		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
 		combobox.reloadComponentFromChild(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
 				"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
+
+		String defaultValue = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportLandingScreen_displaySelectionTabCustomView")
+				.getStringCaptionFromV8ComboBox();
+
+		if (!defaultValue.contains("Select"))
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponentFromChild("dataSelectionTab_displaySelectionTabCustomView", componentId)
+					.loadV8FieldValue(defaultValue);
 	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
@@ -264,8 +274,9 @@ public class GtnReportCCPTableLoadAction
 		request.setGtnWsForecastRequest(forecastRequest);
 		request.setGtnWsReportRequest(reportRequest);
 		request.setGtnWsGeneralRequest(generalRequest);
-		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl("/gtnWsReportCCPGeneration", "report",
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
+				GtnWsReportConstants.GTN_WS_DATA_SELECTION_GENERATE_SERVICE, "report", request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		dataSelectionBean.setSessionTableMap(
 				response.getGtnWsReportResponse().getReportBean().getDataSelectionBean().getSessionTableMap());
 
