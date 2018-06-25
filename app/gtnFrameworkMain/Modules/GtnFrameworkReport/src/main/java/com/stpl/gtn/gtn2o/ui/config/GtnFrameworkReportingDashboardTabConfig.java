@@ -1279,7 +1279,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		reportingDashboardGtnPagedTreeTableConfig.setTableHeight("650px");
 		reportingDashboardGtnPagedTreeTableConfig.setDoubleHeaderVisible(true);
-		reportingDashboardGtnPagedTreeTableConfig.setTripleHeaderVisible(false);
+		reportingDashboardGtnPagedTreeTableConfig.setTripleHeaderVisible(true);
 
 		reportingDashboardGtnPagedTreeTableConfig.setLeftTableEditable(true);
 		reportingDashboardGtnPagedTreeTableConfig.setRightTableEditable(true);
