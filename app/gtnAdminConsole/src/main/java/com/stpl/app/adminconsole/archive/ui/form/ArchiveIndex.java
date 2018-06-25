@@ -34,7 +34,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -47,13 +46,13 @@ public class ArchiveIndex extends CustomComponent implements View {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ArchiveIndex.class);
 
-    public static final Object[] archiveTable = new Object[]{"fieldName"};
+    public static Object[] archiveTable = new Object[]{"fieldName"};
 
-    public static final String[] archiveHeader = new String[]{"Field Name"};
+    public static String[] archiveHeader = new String[]{"Field Name"};
 
-    public static final Object[] archiveColumns = new Object[]{"value"};
+    public static Object[] archiveColumns = new Object[]{"value"};
 
-    public static final String[] archiveHeader1 = new String[]{"Value"};
+    public static String[] archiveHeader1 = new String[]{"Value"};
 
     private final ErrorLabel errorMsg = new ErrorLabel();
 
@@ -78,7 +77,7 @@ public class ArchiveIndex extends CustomComponent implements View {
     private final BeanItemContainer<ArchiveDTO> resultsBean = new BeanItemContainer<>(ArchiveDTO.class);
 
     private final BeanItemContainer<ArchiveDTO> valueBean = new BeanItemContainer<>(ArchiveDTO.class);
-    private Map<String, String> tableMap = new HashMap<>();
+    private final Map<String, String> tableMap = new HashMap<>();
 
     public PopupDateField getFrom() {
         return from;
