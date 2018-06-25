@@ -35,6 +35,7 @@ public class GtnWsReportDashboardBean {
 	private Object[] displayFormat;
 	private List<Object> ccpDetailsSidList;
 	private String annualTotals;
+	private String comparisonBasis;
 
 	public String[] getInput() {
 		return input;
@@ -198,14 +199,22 @@ public class GtnWsReportDashboardBean {
 
 	public void setCcpDetailsSidList(List<Object> ccpDetailsSidList) {
 		this.ccpDetailsSidList = ccpDetailsSidList;
-        }
-        
-        public String getAnnualTotals() {
+	}
+
+	public String getAnnualTotals() {
 		return annualTotals;
 	}
 
 	public void setAnnualTotals(String annualTotals) {
 		this.annualTotals = annualTotals;
+	}
+
+	public String getComparisonBasis() {
+		return comparisonBasis;
+	}
+
+	public void setComparisonBasis(String comparisonBasis) {
+		this.comparisonBasis = comparisonBasis;
 	}
 
 }
