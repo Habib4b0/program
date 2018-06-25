@@ -267,12 +267,21 @@ public class GtnReportDataSelectionTabLoadAction
 			
 			loadVariableReportingDashboard(componentId);
 			
+			loadForecaseEligibleDateInReportingDashboard(componentId);
+			
 		} catch (Exception exception) {
 			logger.error("Error message", exception);
 		}
 	}
 
 	
+
+	private void loadForecaseEligibleDateInReportingDashboard(String componentId) throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		actionConfig.addActionParameter(GtnReportForecastEligibleDateReloadInReportingDashboardAction.class.getName());
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
+	}
 
 	private void loadFrequencyInReportingDashboard(String componentId) throws GtnFrameworkValidationFailedException {
 		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();	
