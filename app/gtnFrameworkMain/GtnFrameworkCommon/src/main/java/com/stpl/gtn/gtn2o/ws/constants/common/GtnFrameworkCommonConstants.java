@@ -1139,4 +1139,23 @@ public class GtnFrameworkCommonConstants {
 	public static final String HIERARCHY_SITUATION_TABLE_ID = "hierarchySitutationTableSid";
         public static final String CUSTOM_VIEW_DESCRIPTION = "customerViewDescription";
         public static final String CUSTOM_VIEW_SCREEN_NAME = "customerViewScreenName";
+        public static final String ADJUSTMENT_DETAILS_SEARCH_CRITERIA_SUMMARY_LAYOUT = "searchCriteriaSummaryLayout";
+        public static final String ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT = "searchCriteriaDetailsLayout";
+        public static final String ADJUSTMENT_TYPE = "adjustmentType";
+        public static final String GL_COMPANY = "glCompany";
+        public static final String WORKFLOW_ID = "workflowId";
+        public static final String WORKFLOW_NAME = "workflowName";
+        public static final String CUSTOMER_NO = "customerNo";
+        public static final String CUSTOMER_NAME = "customerName";
+        public static final String TRANSACTION_LEVEL = "transactionLevel";
+        public static final String DEDUCTION_LEVEL = "deductionLevel";
+        public static final String DEDUCTION_VALUE = "deductionValue";
+        public static final String GL_DATE = "Gl Date";
+        public static final String ORIGINAL_BATCH_ID = "originalBatchIdLayout";
+        public static final String REDEMPTION_PERIOD = "redemptionPeriod";
+        public static final String ACCOUNT = "account";
+        public static final String POSTING_INDICATOR = "postingIndicator";
+        public static final String ACCOUNT_CATEGORY = "accountCategory";
+        public static final String ACCOUNT_TYPE = "accountType";
+        public static final String ADJUSTMENT_LEVEL = "adjustmentLevel";
 }

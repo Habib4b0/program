@@ -145,19 +145,19 @@ public class GtnARMHierarchyInputBean {
     }
 
     public List<GtnFrameworkRelationshipLevelDefintionBean> getSelectedCustomerList() {
-        return new ArrayList<>(selectedCustomerList);
+        return selectedCustomerList != null ? new ArrayList<>(selectedCustomerList) : null;
     }
 
     public void setSelectedCustomerList(List<GtnFrameworkRelationshipLevelDefintionBean> selectedCustomerList) {
-        this.selectedCustomerList = new ArrayList<>(selectedCustomerList);
+        this.selectedCustomerList = selectedCustomerList != null ? new ArrayList<>(selectedCustomerList) : null;
     }
 
     public List<GtnFrameworkRelationshipLevelDefintionBean> getSelectedProductList() {
-        return new ArrayList<>(selectedProductList);
+        return selectedProductList != null ? new ArrayList<>(selectedProductList) : null;
     }
 
     public void setSelectedProductList(List<GtnFrameworkRelationshipLevelDefintionBean> selectedProductList) {
-        this.selectedProductList = new ArrayList<>(selectedProductList);
+        this.selectedProductList = selectedProductList != null ? new ArrayList<>(selectedProductList) : null;
     }
 
     public int getSelectedCustomerRelationShipBuilderVersionNo() {
