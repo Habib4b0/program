@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.type.DateType;
@@ -113,11 +114,13 @@ public class GtnWsReportWebsevice {
 		if (viewMode) {
 			String privateViewName = criteriaMap.get("privateViewName");
 			inputList.add("'" + privateViewName + "'");
+			inputList.add(" AND CREATED_BY = " + userId);
 		} else {
 			String viewName = criteriaMap.get("publicViewName");
 			inputList.add("'" + viewName + "'");
+			inputList.add(StringUtils.EMPTY);
 		}
-		inputList.add(userId);
+
 		String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
 		SQLQuery query = session.createSQLQuery(viewQuery).addScalar("VIEW_NAME", new StringType())
 				.addScalar("CREATED_DATE", new DateType()).addScalar("MODIFIED_DATE", new DateType())

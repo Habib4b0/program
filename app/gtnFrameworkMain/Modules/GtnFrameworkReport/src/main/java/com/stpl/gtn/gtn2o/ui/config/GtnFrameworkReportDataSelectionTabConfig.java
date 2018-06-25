@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportCustHierarchyConfig;
 import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportProdHierarchyConfig;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnFrameworkReportTabChangeAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -480,7 +481,14 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionNextButtonConfig.setAddToParent(true);
 		reportDataSelectionNextButtonConfig
 				.setParentComponentId(reportDataSelectionNavigationButtonConfig.getComponentId());
-
+	
+		GtnUIFrameWorkActionConfig nextButtonAction = new GtnUIFrameWorkActionConfig();
+		nextButtonAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		nextButtonAction.addActionParameter(GtnFrameworkReportTabChangeAction.class.getName());
+		nextButtonAction.addActionParameter("tabSheetMain");		
+		nextButtonAction.addActionParameter("1");
+		reportDataSelectionNextButtonConfig.addGtnUIFrameWorkActionConfig(nextButtonAction);
+		
 		GtnUIFrameworkComponentConfig reportDataSelectionCloseButtonConfig = new GtnUIFrameworkComponentConfig();
 		reportDataSelectionCloseButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		reportDataSelectionCloseButtonConfig
@@ -490,6 +498,13 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionCloseButtonConfig
 				.setParentComponentId(reportDataSelectionNavigationButtonConfig.getComponentId());
 
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
+		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		closeAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		actionConfigList.add(closeAction);
+		reportDataSelectionCloseButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		
 		componentList.add(reportDataSelectionNextButtonConfig);
 		componentList.add(reportDataSelectionCloseButtonConfig);
 	}

@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 
 public class GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
@@ -34,17 +35,39 @@ public class GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction
 
 		logger.info("----Inside Comparison breakdown group box value loading action class----");
 
-		// getting value from Reporting Dashboard
+		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
+		
+
+		GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
+		.getVaadinBaseComponent("dataSelectionTab_fromPeriod", sourceComponentId);
+		String periodRangeFrom =  baseComponent
+				.getStringCaptionFromV8ComboBox();
+		periodRangeFrom = periodRangeFrom.replaceAll(" ","");
+		GtnUIFrameworkBaseComponent baseComponent2 = GtnUIFrameworkGlobalUI
+		.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId);
+		
+		String periodRangeTo =  GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("dataSelectionTab_STATUS", sourceComponentId)
+				.getStringCaptionFromV8ComboBox();
+		periodRangeTo = periodRangeTo.replaceAll(" ","");
+		
 		String comparisonBasis = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis", componentId)
 				.getStringCaptionFromV8ComboBox();
 		String frequency = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId)
 				.getStringCaptionFromV8ComboBox();
-		String periodRangeFrom = GtnUIFrameworkGlobalUI
+		String displaySelectionTabPeriodRangeFrom = baseComponent2
+		.getStringCaptionFromV8ComboBox();
+		if(!displaySelectionTabPeriodRangeFrom.equals("-Select one-")) {
+		periodRangeFrom = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId)
 				.getStringCaptionFromV8ComboBox();
-		String periodRangeTo = GtnUIFrameworkGlobalUI
+		}
+		if( !GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeTo", componentId)
+				.getStringCaptionFromV8ComboBox().contains("Select"))
+		 periodRangeTo = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeTo", componentId)
 				.getStringCaptionFromV8ComboBox();
 
