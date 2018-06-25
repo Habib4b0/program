@@ -413,6 +413,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes", "No"));
+		annualTotalsLoadConfig.setItemCaptionValues(Arrays.asList("Yes", "No"));
+		annualTotalsLoadConfig.setHasDefaultValue(true);
 		annualTotalsLoadConfig.setDefaultValue("Yes");
 		annualTotalsConfig.setGtnComboboxConfig(annualTotalsLoadConfig);
 
