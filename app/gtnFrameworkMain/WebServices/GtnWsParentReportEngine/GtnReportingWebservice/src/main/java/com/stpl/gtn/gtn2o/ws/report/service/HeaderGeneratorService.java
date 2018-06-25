@@ -366,7 +366,7 @@ public class HeaderGeneratorService {
 				tableHeaderDTO.addDoubleColumn(doubleColumn[j] + "" + tripleColumn[i], doubleHeader[j].toString());
 				tableHeaderDTO.addDoubleHeaderMap(doubleColumn[j] + "" + tripleColumn[i], doubleMap.toArray());
 				doubleMap.clear();
-				tripleMap.add(doubleColumn[j] + "" + tripleColumn[i]);
+				tripleMap.add(doubleColumn[j] + "_" + tripleColumn[i]);
 			}
 			tableHeaderDTO.addTripleColumn(tripleColumn[i], tripleHeader[i].toString());
 			tableHeaderDTO.addTripleHeaderMap(tripleColumn[i], tripleMap.toArray());
