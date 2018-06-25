@@ -47,8 +47,8 @@ public class GtnUiFrameworkNsfSalesBasisDisplayAction implements GtnUIFrameWorkA
 			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 			alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 			alertActionConfig.setActionParameterList(
-					Arrays.asList(new Object[] { GtnFrameworkNSFMessageConstants.GTN_NSF_DISPLAY_BUTTON_MSG_HEADER,
-							GtnFrameworkNSFMessageConstants.GTN_NSF_DISPLAY_BUTTON_MSG_BODY }));
+					Arrays.asList(  GtnFrameworkNSFMessageConstants.GTN_NSF_DISPLAY_BUTTON_MSG_HEADER,
+							GtnFrameworkNSFMessageConstants.GTN_NSF_DISPLAY_BUTTON_MSG_BODY ));
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
 			throw new GtnFrameworkSkipActionException("Display Error ");
 		}

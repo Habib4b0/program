@@ -45,6 +45,8 @@
 			<version>${stpl.portal.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- <dependency> <groupId>com.stpl.addons</groupId> <artifactId>PagedGrid</artifactId> 
+			<version>2.0</version> </dependency> -->
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
 			<artifactId>com.liferay.util.bridges</artifactId>
@@ -193,7 +195,11 @@
 			<artifactId>itextpdf</artifactId>
 			<version>${itextpdf.version}</version>
 		</dependency>
-
+	<!-- 	<dependency>
+			<groupId>com.byteowls</groupId>
+			<artifactId>vaadin-chartjs</artifactId>
+			<version>1.2.0</version>
+		</dependency> -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
@@ -206,13 +212,27 @@
 			<artifactId>GtnFrameworkCommon</artifactId>
 			<version>${gtnFrameworkCommon.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.stpl.addons</groupId>
 			<artifactId>vaadin-combobox-multiselect</artifactId>
 			<version>2.0</version>
 		</dependency>
-
+		<dependency>
+			<groupId>commons-dbutils</groupId>
+			<artifactId>commons-dbutils</artifactId>
+			<version>1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>
@@ -236,9 +256,25 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.portal.tools.bundle.support</artifactId>
+				<version>2.0.1</version>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+						<phase>pre-integration-test</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<liferayHome>${env.LIFERAY_HOME}</liferayHome>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.6</version>
 				<configuration>
 					<archive>
 						<manifestFile>

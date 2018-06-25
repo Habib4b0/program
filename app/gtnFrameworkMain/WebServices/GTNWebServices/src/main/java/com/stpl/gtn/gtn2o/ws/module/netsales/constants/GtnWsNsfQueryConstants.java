@@ -77,9 +77,13 @@ public final class GtnWsNsfQueryConstants {
 
 	public static final String GTN_NSF_LANDING_SEARCH_QUERY_WHERE_CLAUSE = " NSFM.INBOUND_STATUS <> 'D'";
 	public static final String GTN_NSF_LANDING_COUNT_QUERY = " FROM NET_SALES_FORMULA_MASTER NSFM \n"
-			+ "JOIN HELPER_TABLE FORMULA_TYPE ON FORMULA_TYPE.HELPER_TABLE_SID=NSFM.NET_SALES_FORMULA_TYPE ";
+			+ " JOIN HELPER_TABLE FORMULA_TYPE ON FORMULA_TYPE.HELPER_TABLE_SID=NSFM.NET_SALES_FORMULA_TYPE "
+                        + " JOIN @SYS.dbo.User_ userCreated on userCreated.userId = NSFM.CREATED_BY "
+                        + " JOIN @SYS.dbo.User_ userModified on userModified.userId = NSFM.MODIFIED_BY ";
 	public static final String GTN_NSF_LANDING_SEARCH_QUERY = " FROM NET_SALES_FORMULA_MASTER NSFM\n"
-			+ "JOIN HELPER_TABLE FORMULA_TYPE ON FORMULA_TYPE.HELPER_TABLE_SID=NSFM.NET_SALES_FORMULA_TYPE";
+			+ " JOIN HELPER_TABLE FORMULA_TYPE ON FORMULA_TYPE.HELPER_TABLE_SID=NSFM.NET_SALES_FORMULA_TYPE "
+                        + " JOIN @SYS.dbo.User_ userCreated on userCreated.userId = NSFM.CREATED_BY "
+                        + " JOIN @SYS.dbo.User_ userModified on userModified.userId = NSFM.MODIFIED_BY ";
 	public static final String GTN_NSF_LANDING_COUNT_SELECT_CLAUSE = " SELECT COUNT(DISTINCT NSFM.NET_SALES_FORMULA_MASTER_SID)  ";
 
 	public static final String GTN_NSF_AVAILABLE_CUSTOMER_SEARCH_QUERY = " FROM   (SELECT ROW_NUMBER()\n"
@@ -309,6 +313,16 @@ public final class GtnWsNsfQueryConstants {
 			+ "                            JOIN RS_CONTRACT RSC on RSC.RS_CONTRACT_SID=IMD.RS_CONTRACT_SID \n"
 			+ "                            JOIN CONTRACT_MASTER CM on CM.CONTRACT_MASTER_SID=RSC.CONTRACT_MASTER_SID\n"
 			+ "							   JOIN HELPER_TABLE H ON CM.CONTRACT_TYPE = H.HELPER_TABLE_SID\n"
+                
+                        + "                            LEFT JOIN CFP_CONTRACT CFC\n"
+                        + "                            ON CFC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID\n"
+                        + "                            AND CFC.INBOUND_STATUS <> 'D'\n"
+                                    
+                        + "                            LEFT JOIN IFP_CONTRACT IFC\n"
+                        + "                            ON IFC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID\n"
+                        + "                            AND IFC.CFP_CONTRACT_SID = CFC.CFP_CONTRACT_SID\n"
+                        + "                            AND IFC.INBOUND_STATUS <> 'D'\n"
+                
 			+ "                            LEFT JOIN CDR_MODEL NS ON NS.CDR_MODEL_SID=IMD.CDR_MODEL_SID \n"
 			+ "                            LEFT JOIN DBO.COMPANY_MASTER COMP ON CM.CONT_HOLD_COMPANY_MASTER_SID = COMP.COMPANY_MASTER_SID\n"
 			+ "                            LEFT JOIN HELPER_TABLE conTypeHelper on conTypeHelper.HELPER_TABLE_SID=CM.CONTRACT_TYPE\n"
@@ -316,8 +330,14 @@ public final class GtnWsNsfQueryConstants {
 			+ "                            JOIN CFP_MODEL CFPM ON CFPM.CFP_MODEL_SID = CFPC.CFP_MODEL_SID\n"
 			+ "                            LEFT JOIN IFP_CONTRACT IFPC on IFPC.IFP_CONTRACT_SID=RSC.IFP_CONTRACT_SID\n"
 			+ "                            JOIN IFP_MODEL IFPM ON IFPM.IFP_MODEL_SID = IFPC.IFP_MODEL_SID\n"
-			+ "                            LEFT JOIN PS_CONTRACT PSC on PSC.PS_CONTRACT_SID=RSC.RS_CONTRACT_SID\n"
-			+ "                            LEFT JOIN PS_MODEL PS ON PS.PS_MODEL_SID=PSC.PS_MODEL_SID "
+
+                        + "                            LEFT JOIN PS_CONTRACT PSC\n"
+                        + "                            ON PSC.CONTRACT_MASTER_SID = CM.CONTRACT_MASTER_SID\n"
+                        + "                            AND PSC.CFP_CONTRACT_SID = CFC.CFP_CONTRACT_SID\n"
+                        + "                            AND PSC.IFP_CONTRACT_SID = iFC.IFP_CONTRACT_SID\n"
+                        + "                            AND PSC.INBOUND_STATUS <> 'D'\n"
+                        + "                            JOIN PS_MODEL PS\n"
+                        + "                            ON ps.PS_MODEL_SID=PSC.PS_MODEL_SID\n"
 			+ GtnFrameworkWebserviceConstant.LEFT_JOIN_DBO_HELPER_TABLE_RS_TYPE_ON_RSCR
 			+ GtnFrameworkWebserviceConstant.LEFT_JOIN_DBO_HELPER_TABLE_REBATE_PROGRAM
 			+ GtnFrameworkWebserviceConstant.LEFT_JOIN_DBO_HELPER_TABLE_RS_CATEGORY_ON;

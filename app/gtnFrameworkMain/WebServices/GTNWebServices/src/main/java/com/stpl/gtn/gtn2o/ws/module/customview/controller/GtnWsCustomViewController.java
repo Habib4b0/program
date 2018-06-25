@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.customview.service.GtnWsCustomViewService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE)
 public class GtnWsCustomViewController {
+
     public GtnWsCustomViewController() {
         super();
     }
@@ -121,16 +123,14 @@ public class GtnWsCustomViewController {
         logger.info("Exit checkCustomViewSave");
         return gtnResponse;
     }
-    
+
     @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_SAVE_LOGIC, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse customViewSaveLogic(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
         logger.info("Enters customViewSaveLogic");
         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         try {
-            GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
-            cvResponse.setSuccess(logic.saveCustomView(gtnWsRequest.getGtnWsCustomViewRequest()));
-             gtnResponse.setGtnWsCustomViewResponse(cvResponse);
+            gtnResponse.setGtnWsCustomViewResponse(logic.saveCustomView(gtnWsRequest.getGtnWsCustomViewRequest()));
         } catch (Exception ex) {
             logger.error("Exception in customViewSaveLogic", ex);
         }
@@ -138,6 +138,24 @@ public class GtnWsCustomViewController {
         logger.info("Exit customViewSaveLogic");
         return gtnResponse;
     }
+
+    @RequestMapping(value = "deleteCustomViewReport", method = RequestMethod.POST)
+    public GtnUIFrameworkWebserviceResponse deleteCustomViewLogic(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+        logger.info("Enters customViewSaveLogic");
+        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+        try {
+            GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
+            cvResponse.setSuccess(logic.deleteCustViewMaster(gtnWsRequest.getGtnWsCustomViewRequest()));
+            gtnResponse.setGtnWsCustomViewResponse(cvResponse);
+        } catch (Exception ex) {
+            logger.error("Exception in customViewSaveLogic", ex);
+        }
+
+        logger.info("Exit customViewSaveLogic");
+        return gtnResponse;
+    }
+
     @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_GET_TREE_DATA, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse customViewTreeData(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
@@ -145,7 +163,11 @@ public class GtnWsCustomViewController {
         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         try {
             GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
-            cvResponse.setCvTreeNodeList(logic.getSavedTreeData(gtnWsRequest.getGtnWsCustomViewRequest()));
+            if (gtnWsRequest.getGtnWsCustomViewRequest().getCustomViewType().startsWith("report")) {
+                cvResponse = logic.getCustViewMaster(gtnWsRequest.getGtnWsCustomViewRequest());
+            } else {
+                cvResponse.setCvTreeNodeList(logic.getSavedTreeData(gtnWsRequest.getGtnWsCustomViewRequest()));
+            }
             gtnResponse.setGtnWsCustomViewResponse(cvResponse);
         } catch (Exception ex) {
             logger.error("Exception in customViewTreeData", ex);
@@ -154,7 +176,36 @@ public class GtnWsCustomViewController {
         logger.info("Exit customViewTreeData");
         return gtnResponse;
     }
-    @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_DELETE, method = RequestMethod.POST)
+    @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_LEVEL_DATA, method = RequestMethod.POST)
+    public GtnUIFrameworkWebserviceResponse customViewlevelData(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+        GtnUIFrameworkWebserviceResponse response=new GtnUIFrameworkWebserviceResponse();
+        logger.info("Enters customViewTreeData");
+        try {
+            response.setGtnUIFrameworkWebserviceComboBoxResponse(logic.getCustomViewLevelData(gtnWsRequest.getGtnWsCustomViewRequest()));
+            return response;
+        } catch (Exception ex) {
+            logger.error("Exception in customViewTreeData", ex);
+            return response;
+        }
+    }
+    @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_DATA, method = RequestMethod.POST)
+    public GtnUIFrameworkWebserviceResponse customViewData(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+        GtnUIFrameworkWebserviceResponse response=new GtnUIFrameworkWebserviceResponse();
+        logger.info("Enters customViewTreeData");
+        try {
+            response.setGtnUIFrameworkWebserviceComboBoxResponse(logic.getCustomViewList());
+            return response;
+        } catch (Exception ex) {
+            logger.error("Exception in customViewTreeData", ex);
+            return response;
+        }
+    }
+    
+    
+    
+ @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_DELETE, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse deleteCustomView(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
         logger.info("Enters customViewTreeData");
@@ -170,6 +221,4 @@ public class GtnWsCustomViewController {
         logger.info("Exit customViewDelete");
         return gtnResponse;
     }
-    
-   
 }

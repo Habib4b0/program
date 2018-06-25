@@ -714,7 +714,29 @@ public class NMProjectionVarianceLogic {
 					for (int i = started; (i < tobeAddedList.size()) && (neededRecord > 0); neededRecord--, i++) {
 						projDTOList.add(tobeAddedList.get(i));
 					}
-				}
+				} else  if (!pivotDiscountList.isEmpty()) {
+                                if (parentDto.getGroup().contains(CommonUtils.VAR_DIS_PER_EXFAC)) {
+                                    tobeAddedList.addAll(commonCustomizationForTotalDiscount(parentDto,
+                                            pivotDiscountList, pVSelectionDTO, NumericConstants.FOURTEEN,
+                                            BooleanConstant.getTrueFlag(), BooleanConstant.getFalseFlag()).subList(start, start+offset));
+                                } else if (parentDto.getGroup().contains(CommonUtils.VAR_DIS_AMOUNT)) {
+                                    tobeAddedList.addAll(commonCustomizationForTotalDiscount(parentDto,
+                                            pivotDiscountList, pVSelectionDTO, NumericConstants.FIVE,
+                                            BooleanConstant.getFalseFlag(), BooleanConstant.getTrueFlag()).subList(start, start+offset));
+                                } else if (parentDto.getGroup().contains(CommonUtils.VAR_DIS_RATE)) {
+                                    tobeAddedList.addAll(commonCustomizationForTotalDiscount(parentDto,
+                                            pivotDiscountList, pVSelectionDTO, NumericConstants.EIGHT,
+                                            BooleanConstant.getTrueFlag(), BooleanConstant.getFalseFlag()).subList(start, start+offset));
+                                } else {
+                                    tobeAddedList.addAll(commonCustomizationForTotalDiscount(parentDto,
+                                            pivotDiscountList, pVSelectionDTO, NumericConstants.ELEVEN,
+                                            BooleanConstant.getFalseFlag(), BooleanConstant.getFalseFlag()).subList(start, start+offset-1));
+                                }
+                                    setChartList(tobeAddedList);
+                                    for (int i = 0; (i < tobeAddedList.size()) && (neededRecord > 0); neededRecord--, i++) {
+                                        projDTOList.add(tobeAddedList.get(i));
+                                    }
+                            }
 			}
 		}
 		if (!isDiscountExpand && !pVSelectionDTO.isIslevelFiler() && !pVSelectionDTO.isIsLevel() && neededRecord > 0) {
@@ -812,9 +834,7 @@ public class NMProjectionVarianceLogic {
 			
 			if (projSelDTOLevel.equals(Constant.DETAIL)) {
 				ccps = getCCPIds(projSelDTO);
-				String rsIdsCustom = getRSIdsCustom(projSelDTO);
-				String rsIds = getRSIds(projSelDTO);
-				String rsIdsFinal = projSelDTO.isIsCustomHierarchy() ? rsIdsCustom : rsIds;
+				String rsIdsFinal = projSelDTO.isIsCustomHierarchy() ? getRSIdsCustom(projSelDTO) : getRSIds(projSelDTO);
 				String hierarchyIndicator = projSelDTO.getHierarchyIndicator();
 				String hierarchyNumber = projSelDTO.getHierarchyNo();
 				int levelNo = projSelDTO.getLevelNo();
@@ -3400,50 +3420,54 @@ public class NMProjectionVarianceLogic {
 		String countQuery = SQlUtil.getQuery(Constant.CUSTOM_VIEW_DECLARATION);
 		countQuery = countQuery.replace(Constant.CUSTOM_VIEW_MASTER_SID, String.valueOf(projSelDTO.getCustomId()));
 		countQuery += insertAvailableHierarchyNo(projSelDTO);
-		countQuery += SQlUtil.getQuery("custom-view-count-condition-query-forPV");
-		List list = HelperTableLocalServiceUtil.executeSelectQuery(
-				QueryUtil.replaceTableNames(countQuery, projSelDTO.getSessionDTO().getCurrentTableNames()));
-		if (list != null && !list.isEmpty()) {
-			count = Integer.parseInt(list.get(0).toString());
-		}
-		LOGGER.debug("ending getCountForCustomView");
-		return count;
-	}
+	       countQuery += SQlUtil.getQuery("custom-view-count-condition-query-forPV");
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(
+                QueryUtil.replaceTableNames(countQuery, projSelDTO.getSessionDTO().getCurrentTableNames()));
+        if (list != null && !list.isEmpty()) {
+            count = Integer.parseInt(list.get(0).toString());
+        }
+        LOGGER.debug("ending getCountForCustomView");
+        return count;
+    }
 
-	public List getHiearchyNoForCustomView(final ProjectionSelectionDTO projSelDTO, int start, int end) {
+    public List<String> getHiearchyNoForCustomView(final ProjectionSelectionDTO projSelDTO, int start, int end) {
 
-		int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
-		String query = SQlUtil.getQuery(Constant.CUSTOM_VIEW_DECLARATION);
-		query = query.replace(Constant.CUSTOM_VIEW_MASTER_SID, String.valueOf(projSelDTO.getCustomId()));
-		query += insertAvailableHierarchyNo(projSelDTO);
-		query += SQlUtil.getQuery("custom-view-count-condition-query-forPVLoad");
-		query = query.replace(Constant.START_QUESTION, String.valueOf(start));
-		query = query.replace(Constant.END_QUESTION, String.valueOf(end));
-		List list = HelperTableLocalServiceUtil.executeSelectQuery(
-				QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
-		if (list != null && !list.isEmpty()) {
-			return list;
-		} else {
-			return Collections.emptyList();
-		}
+        int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
+        List<String> resultSet = new ArrayList();
+        String query = SQlUtil.getQuery(Constant.CUSTOM_VIEW_DECLARATION);
+        query = query.replace(Constant.CUSTOM_VIEW_MASTER_SID, String.valueOf(projSelDTO.getCustomId()));
+        query += insertAvailableHierarchyNo(projSelDTO);
+        query += SQlUtil.getQuery("custom-view-count-condition-query-forPVLoad");
+        query = query.replace(Constant.START_QUESTION, String.valueOf(start));
+        query = query.replace(Constant.END_QUESTION, String.valueOf(end));
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(
+                QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
+        if (list != null && !list.isEmpty()) {
+            for (int i = 0; i < list.size(); i++) {
+            Object[] object = (Object[]) list.get(i);
+            resultSet.add(String.valueOf(object[0]));
+            }
+        } else {
+            return Collections.emptyList();
+        }
+        return resultSet;
+    }
 
-	}
-
-	private String getQueryForRebatesAndUdcs(final ProjectionSelectionDTO projSelDTO) {
-		String countQuery = SQlUtil.getQuery(Constant.CUSTOM_VIEW_DECLARATION);
-		countQuery = countQuery.replace(Constant.CUSTOM_VIEW_MASTER_SID, String.valueOf(projSelDTO.getCustomId()));
-		String query = !projSelDTO.isIsCustomHierarchy() ? insertAvailableHierarchyNoScheduleId(projSelDTO)
-				: countQuery + insertAvailableHierarchyNoScheduleId(projSelDTO);
-		query += projSelDTO.getLevelNo() == NumericConstants.TEN ? "  AND A.HIERARCHY_NO = RSC.RS_CONTRACT_SID "
-				: StringUtils.EMPTY;
-		query += !projSelDTO.isIsCustomHierarchy()
-				? CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator(), projSelDTO.getSessionDTO())
-				: StringUtils.EMPTY;
-		String joinUdcQuery = " JOIN UDCS UD ON UD.MASTER_SID=RS.RS_CONTRACT_SID AND UD.MASTER_TYPE='RS_CONTRACT' ";
-		query = query.concat(SQlUtil.getQuery("total-Head"));
-		query = query.replace("@SELECTCOLUMN", "HT.DESCRIPTION");
-		switch (projSelDTO.getSessionDTO().getSelectedDeductionLevelNoPv()) {
-		case 1:
+    private String getQueryForRebatesAndUdcs(final ProjectionSelectionDTO projSelDTO) {
+        String countQuery = SQlUtil.getQuery(Constant.CUSTOM_VIEW_DECLARATION);
+        countQuery = countQuery.replace(Constant.CUSTOM_VIEW_MASTER_SID, String.valueOf(projSelDTO.getCustomId()));
+        String query = !projSelDTO.isIsCustomHierarchy() ? insertAvailableHierarchyNoScheduleId(projSelDTO)
+                : countQuery + insertAvailableHierarchyNoScheduleId(projSelDTO);
+        query += projSelDTO.getLevelNo() == NumericConstants.TEN ? "  AND A.HIERARCHY_NO = RSC.RS_CONTRACT_SID "
+                : StringUtils.EMPTY;
+        query += !projSelDTO.isIsCustomHierarchy()
+                ? CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator(), projSelDTO.getSessionDTO())
+                : StringUtils.EMPTY;
+        String joinUdcQuery = " JOIN UDCS UD ON UD.MASTER_SID=RS.RS_CONTRACT_SID AND UD.MASTER_TYPE='RS_CONTRACT' ";
+        query = query.concat(SQlUtil.getQuery("total-Head"));
+        query = query.replace("@SELECTCOLUMN", "HT.DESCRIPTION");
+        switch (projSelDTO.getSessionDTO().getSelectedDeductionLevelNoPv()) {
+            case 1:
 			query = query.replace(Constant.JOINQUERY,
 					" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RS.RS_CATEGORY AND HT.HELPER_TABLE_SID in (")
 					.concat(PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
@@ -3605,4 +3629,4 @@ public class NMProjectionVarianceLogic {
 		}
 		return stringBuilder.toString();
 	}
-}
+        }

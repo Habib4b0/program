@@ -214,6 +214,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             pvSelectionDTO.setIscustomerFirst(!generateCustomerToBeLoaded.isEmpty());
             loadDeductionLevelFilter(ANULL.equals(String.valueOf(deductionlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(deductionlevelDdlb.getValue()));
             loadProductLevelFilter(ANULL.equals(String.valueOf(productlevelDdlb.getValue())) ? StringUtils.EMPTY : String.valueOf(productlevelDdlb.getValue()));
+            LOGGER.info("ded value-------------------------"+String.valueOf(deductionlevelDdlb.getValue()));
+            pvSelectionDTO.setSelectedDeductionLevelName(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
         }
     };
     protected CustomMenuBar.SubMenuCloseListener deductionInclusionListener = new CustomMenuBar.SubMenuCloseListener() {
@@ -370,12 +372,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             initialConfig(Boolean.TRUE);
         }
         frequency.select(session.getDsFrequency());
-        frequency.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                session.setDsFrequency(String.valueOf(frequency.getValue()));
-            }
-        });
         boolean isEnabled = Utility.customEnableForRelationFromDS(session.getCustomDeductionRelationShipSid());
         view.setItemEnabled(Constant.CUSTOM_LABEL, isEnabled);
        
@@ -929,6 +925,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     @Override
     protected void getGenerateCall(boolean excelFlag) {
+        CommonLogic.procedureCompletionCheck(session,"sales",String.valueOf(view.getValue()));
+        CommonLogic.procedureCompletionCheck(session,"Discount",String.valueOf(view.getValue()));
         try {
             Object[] displayValidation = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
             if (displayValidation.length == 0 && !CommonUtil.nullCheck(displayValidation)) {
@@ -1643,6 +1641,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             setProductCustomerValues(map);
             setDeductionValues(map);
             setInclusionValues(map);
+            deductionlevelDdlb.setValue(Integer.valueOf(session.getDataSelectionDeductionLevel()));
         }
         if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.VIEW.equalsIgnoreCase(session.getAction())) {
             fetchDiscountsFromSave();
@@ -1853,7 +1852,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         if (flag) {
             try {
                 configureFields();
-                if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
+                if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) || Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())) {
                     loadDeductionLevelFilter(session.getDataSelectionDeductionLevel());
                     deductionFilterValues.getChildren().get(1).setChecked(true);
                     String deductionMenuItemValue = deductionFilterValues.getChildren().get(1).getMenuItem().getCaption();
@@ -2165,11 +2164,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                             resultExcelContainer.addBean(itemId);
                             if (index++ == 0) {
                                 String parentKey = StringUtils.EMPTY;
-                                if (!pvSelectionDTO.isIsCustomHierarchy()) {
                                     parentKey = key.substring(0, key.lastIndexOf('.'));
-                                } else {
-                                    parentKey = getParentKeyforCustom(itemId, key, parentKey);
-                                }
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
                                 }
@@ -2231,11 +2226,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
                             if (index++ == 0) {
                                 String parentKey = StringUtils.EMPTY;
-                                if (!pvSelectionDTO.isIsCustomHierarchy()) {
                                     parentKey = key.substring(0, key.lastIndexOf('.'));
-                                } else {
-                                    parentKey = getParentKeyforCustom(itemId, key, parentKey);
-                                }
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
                                 }
@@ -2342,29 +2333,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         return matched;
     }
 
-    private String getParentKeyforCustom(ProjectionVarianceDTO itemId, String key, String parentKey) {
-        if (itemId.getParentHierarchyNo() == null) {
-            parentKey = !key.contains("-") ? key : key.substring(0, key.lastIndexOf('.'));
-        } else {
-            parentKey = itemId.getParentHierarchyNo();
-            if (pvSelectionDTO.isIsCustomHierarchy()) {
-                String var;
-                if (parentKey.contains("~")) {
-                    String[] str = parentKey.split("~");
-                    var = str[str.length - 1] + "$";
-                    parentKey = var + parentKey.substring(0, parentKey.lastIndexOf('~'));
-                } else {
-                    parentKey = key.substring(key.lastIndexOf('$') + 1);
-                }
-            } else if (parentKey.contains("~")) {
-                parentKey = parentKey.substring(parentKey.lastIndexOf('~') + 1);
-                if (!pvSelectionDTO.isIsCustomHierarchy() || !Constants.LabelConstants.PERIOD.toString().equalsIgnoreCase(pvSelectionDTO.getPivotView())) {
-                    parentKey = parentKey.substring(parentKey.indexOf('-') + 1);
-                }
-            }
-        }
-        return parentKey;
-    }
 
     private void loadDisplayFormatDdlb() throws IllegalStateException {
         List<Object[]> displayFormatFilter = new ArrayList<>();
@@ -2467,6 +2435,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         String deductionMenuItemValue = ChangeCustomMenuBarValueUtil.getMenuItemToDisplay(deductionFilterValues);
         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
         deductionFilterDdlb.addSubMenuCloseListener(deductionlistener);
+        pvSelectionDTO.setSelectedDeductionLevelName(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()));
     }
     public static final String SELECT_ALL = "Select All";
 

@@ -64,49 +64,38 @@ public class GtnFrameworkCommercialForecastingDPTabConfig {
 		mainLayoutConfig.setMargin(Boolean.TRUE);
 		componentList.add(mainLayoutConfig);
 
-		GtnUIFrameworkComponentConfig discountProjectionSalesProjectionSelectionPanel = layoutConfig
-				.getPanelConfig("discountProjectionSelectionPanel", mainLayoutConfig.getComponentId());
+		GtnUIFrameworkComponentConfig discountProjectionSalesProjectionSelectionPanel = layoutConfig.getPanelConfig("discountProjectionSelectionPanel", mainLayoutConfig.getComponentId());
 		discountProjectionSalesProjectionSelectionPanel.setComponentName("Discount Projection Selection ");
-		discountProjectionSalesProjectionSelectionPanel
-				.addComponentStyle(GtnUIFrameworkConstants.GTNFRAMEWORK_8.toString());
+		discountProjectionSalesProjectionSelectionPanel.addComponentStyle(GtnUIFrameworkConstants.GTNFRAMEWORK_8.toString());
 		componentList.add(discountProjectionSalesProjectionSelectionPanel);
 
-		GtnUIFrameworkComponentConfig discountProjectionProgramLevelPanel = layoutConfig
-				.getPanelConfig("discountProjectionProgramLevelPanel", mainLayoutConfig.getComponentId());
+		GtnUIFrameworkComponentConfig discountProjectionProgramLevelPanel = layoutConfig.getPanelConfig("discountProjectionProgramLevelPanel", mainLayoutConfig.getComponentId());
 		discountProjectionProgramLevelPanel.setComponentName("Program Level ");
 		discountProjectionProgramLevelPanel.addComponentStyle(GtnUIFrameworkConstants.GTNFRAMEWORK_4.toString());
 		componentList.add(discountProjectionProgramLevelPanel);
 
-		GtnUIFrameworkComponentConfig discountProjectionSalesProjectionSelectionPanelLayout = layoutConfig
-				.getVerticalLayoutConfig("discountProjectionSalesProjectionSelectionPanelLayout",
-						discountProjectionSalesProjectionSelectionPanel.getComponentId());
+		GtnUIFrameworkComponentConfig discountProjectionSalesProjectionSelectionPanelLayout = layoutConfig.getVerticalLayoutConfig("discountProjectionSalesProjectionSelectionPanelLayout",
+		discountProjectionSalesProjectionSelectionPanel.getComponentId());
 		componentList.add(discountProjectionSalesProjectionSelectionPanelLayout);
 
-		GtnUIFrameworkComponentConfig discountProjectionProgramLevelPanelLayout = layoutConfig.getVerticalLayoutConfig(
-				"discountProjectionProgramLevelPanel", discountProjectionProgramLevelPanel.getComponentId());
+		GtnUIFrameworkComponentConfig discountProjectionProgramLevelPanelLayout = layoutConfig.getVerticalLayoutConfig("discountProjectionProgramLevelPanel", discountProjectionProgramLevelPanel.getComponentId());
 		componentList.add(discountProjectionProgramLevelPanelLayout);
 
-		GtnUIFrameworkComponentConfig discountProjectionFrequencyActualsProjectionsPeriodOrderCssLayout = layoutConfig
-				.getCssLayoutConfig("discountProjectionFrequencyActualsProjectionsProjectionPeriodOrderCssLayout",
-						discountProjectionSalesProjectionSelectionPanelLayout.getComponentId());
-		discountProjectionFrequencyActualsProjectionsPeriodOrderCssLayout
-				.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_3);
+		GtnUIFrameworkComponentConfig discountProjectionFrequencyActualsProjectionsPeriodOrderCssLayout = layoutConfig.getCssLayoutConfig("discountProjectionFrequencyActualsProjectionsProjectionPeriodOrderCssLayout",
+		discountProjectionSalesProjectionSelectionPanelLayout.getComponentId());
+		discountProjectionFrequencyActualsProjectionsPeriodOrderCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_3);
 		discountProjectionFrequencyActualsProjectionsPeriodOrderCssLayout.setComponentWidth("35%");
 		componentList.add(discountProjectionFrequencyActualsProjectionsPeriodOrderCssLayout);
 
-		GtnUIFrameworkComponentConfig discountProjectionHistoryProjectionVariablesCssLayout = layoutConfig
-				.getCssLayoutConfig("discountProjectionHistoryProjectionVariablesCssLayout",
-						discountProjectionSalesProjectionSelectionPanelLayout.getComponentId());
-		discountProjectionHistoryProjectionVariablesCssLayout
-				.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_3);
+		GtnUIFrameworkComponentConfig discountProjectionHistoryProjectionVariablesCssLayout = layoutConfig.getCssLayoutConfig("discountProjectionHistoryProjectionVariablesCssLayout",
+		discountProjectionSalesProjectionSelectionPanelLayout.getComponentId());
+		discountProjectionHistoryProjectionVariablesCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_3);
 		discountProjectionHistoryProjectionVariablesCssLayout.setComponentWidth("35%");
 		componentList.add(discountProjectionHistoryProjectionVariablesCssLayout);
 
-		GtnUIFrameworkComponentConfig discountProjectionProgramLevelSelectionCssLayout = layoutConfig
-				.getCssLayoutConfig("discountProjectionProgramLevelSelectionCssLayout",
-						discountProjectionProgramLevelPanelLayout.getComponentId());
-		discountProjectionProgramLevelSelectionCssLayout
-				.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
+		GtnUIFrameworkComponentConfig discountProjectionProgramLevelSelectionCssLayout = layoutConfig.getCssLayoutConfig("discountProjectionProgramLevelSelectionCssLayout",
+		discountProjectionProgramLevelPanelLayout.getComponentId());
+		discountProjectionProgramLevelSelectionCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT);
 		discountProjectionProgramLevelSelectionCssLayout.setComponentWidth("45%");
 		componentList.add(discountProjectionProgramLevelSelectionCssLayout);
 

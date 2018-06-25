@@ -42,11 +42,9 @@ import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.queryUtils.CommonQueryUtils;
 import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
-import static com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic.LOGGER;
 import com.stpl.app.gtnforecasting.service.finderImpl.CustomViewMasterImpl;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.tree.node.TreeNode;
-import com.stpl.app.gtnforecasting.ui.form.ForecastForm;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -4785,7 +4783,7 @@ public class CommonLogic {
 			String hieIndicator) {
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 		inputBean.setLevelNo(Integer.parseInt(levelNo));
-		inputBean.setProjectionId(projectionDto.getProjectionId());
+		inputBean.setProjectionId(projectionDto.getSessionDTO().getProjectionId());
 		inputBean.setHierarchyIndicator(hieIndicator);
 		return inputBean;
 	}
@@ -4851,7 +4849,7 @@ public class CommonLogic {
             if (!customerFilter.isEmpty()) {
                 String oldProductQuery=query.toString();
                 query=new StringBuilder();
-                oldProductQuery= SQlUtil.getQuery("customer-dynamic-filter")+oldProductQuery+" JOIN ST_CCP_HIERARCHY CCP ON CCP.CCP_DETAILS_SID =DPM.CCP_DETAILS_SID JOIN #HIER_CUST HC ON CCP.CUST_HIERARCHY_NO LIKE HC.HIERARCHY_NO+'%' ";
+                oldProductQuery= SQlUtil.getQuery("customer-dynamic-filter")+oldProductQuery+" JOIN ST_CCP_HIERARCHY CCP1 ON CCP1.CCP_DETAILS_SID =DPM.CCP_DETAILS_SID JOIN #HIER_CUST HC ON CCP1.CUST_HIERARCHY_NO LIKE HC.HIERARCHY_NO+'%' ";
                 oldProductQuery= oldProductQuery.replace(Constant.LEVEL_VALUES,customerFilter.toString().replace("[", "").replace("]", "")).replace(Constant.RELBUILD_SID, projectionDto.getSessionDTO().getCustRelationshipBuilderSid());
                 query.append(oldProductQuery);
             }
@@ -5356,7 +5354,7 @@ public class CommonLogic {
         String tempFrequency;
     if (frequency.equals(Constant.QUARTERLY)) {
             tempFrequency = "Q";
-        } else if (frequency.equals(Constant.SEMI_ANNUALLY)) {
+        } else if (frequency.equals(Constant.SEMI_ANNUALLY) || frequency.equals(Constant.SEMI_ANNUALY)) {
             tempFrequency = "S";
         } else if (frequency.equals(Constant.MONTHLY)) {
             tempFrequency = "M";
@@ -5397,6 +5395,13 @@ public class CommonLogic {
                 break;
         }
         LOGGER.info("updateFlagStatusToR-----------------END----------------------------------");
+    }
+    public static void updateFlagStatusToRForAllViewsDiscount(SessionDTO session, String screenName) {
+        LOGGER.info("updateFlagStatusToR------------------AllViewsDiscount---------------------------------{}");
+                CommonUtil.getInstance().updateStatusTable(screenName, session, Constants.CUSTOMER);
+                CommonUtil.getInstance().updateStatusTable(screenName, session, Constants.PRODUCT);
+                CommonUtil.getInstance().updateStatusTable(screenName, session, Constants.CUSTOM);
+        LOGGER.info("updateFlagStatusToR------------AllViewsDiscount-----END----------------------------------");
     }
 }
     

@@ -303,9 +303,14 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 				"rebateSetupTabPopulateAllButtonlayout", GtnUIFrameworkComponentType.BUTTON);
 		attachButtonConfig.setComponentName("Populate All");
 		componentList.add(attachButtonConfig);
-		// GtnFrameworkrebateSetupTabPopulateAction
+		
+                List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig validateAction = configProvider.getUIFrameworkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION,
+				GtnUIFrameWorkRSSaveRebateSetupTabMandatoryAlert.class.getName(), "populate");
 
-		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		actionConfigList.add(validateAction);
+
 		GtnUIFrameWorkActionConfig customAction = configProvider.getUIFrameworkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION, GtnFrameworkRSConstants.RS_POPULATE_ACTION, "populateAll");
 
@@ -484,4 +489,4 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 			return null;
 		}
 	}
-}
+		}

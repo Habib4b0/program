@@ -53,13 +53,7 @@ public class NMDiscountExcelLogic {
             String key = obj[NumericConstants.ZERO].toString();
             String hierKey = key.substring(0,key.lastIndexOf('.'));
             String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(key.trim()).get(4));
-            if (projectionSelection.isIsCustomHierarchy()) {
-                String parentId = obj[NumericConstants.FOUR] != null ? obj[NumericConstants.FOUR].toString() : StringUtils.EMPTY;
-                key = "D".equals(hierarchyIndicator)? obj[NumericConstants.ZERO].toString().concat(".") + "$" + parentId
-                        : obj[NumericConstants.ZERO].toString() + "$" + parentId;
-            } else {
-                key = key.substring(key.indexOf('-') + 1);
-            }
+            key = key.substring(key.indexOf('-') + 1);
            
             DiscountProjectionDTO discountProjectionDTO = resultMap.get(key);
             if (discountProjectionDTO == null) {
@@ -75,44 +69,64 @@ public class NMDiscountExcelLogic {
 
         }
     }
+    public void getCustomizedExcelDataCustom(List<Object[]> discountExcelList, ProjectionSelectionDTO projectionSelection, List doubleProjectedAndHistoryCombinedUniqueList) {
+        SessionDTO sessionDTO = projectionSelection.getSessionDTO();
+        Character freq = projectionSelection.getFrequency().charAt(0);
+        Map<String, List> hierarchyLevelDetails = sessionDTO.getDiscountHierarchyLevelDetails();
+        for (Iterator<Object[]> it = discountExcelList.listIterator(); it.hasNext();) {
+            Object[] obj = it.next();
+            String key = obj[NumericConstants.ZERO].toString();
+            String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(key.trim()).get(4));
+                key = key.substring(key.indexOf('-') + 1);
+           
+            DiscountProjectionDTO discountProjectionDTO = resultMap.get(key);
+            if (discountProjectionDTO == null) {
+                discountProjectionDTO = new DiscountProjectionDTO();
+                setActualsProjectionValues(discountProjectionDTO, freq, obj, projectionSelection, hierarchyLevelDetails, doubleProjectedAndHistoryCombinedUniqueList);
+                resultMap.put(key, discountProjectionDTO);
+                hierarchykeys(key);
+            } else {
+                setActualsProjectionValues(discountProjectionDTO, freq, obj, projectionSelection, hierarchyLevelDetails, doubleProjectedAndHistoryCombinedUniqueList);
+            }
+
+        }
+    }
     
     public String getHierarchy(String key, ProjectionSelectionDTO projectionSelection) {
 
-        String keyValue = "";
-        String hierkey = "";
-
         if (key.contains(".")) {
             int count = StringUtils.countMatches(key, ".");
-            keyValue = key.substring(0, key.lastIndexOf('.'));
-
-            int forecastLevel = Integer.valueOf(projectionSelection.getSessionDTO().getCustomerLevelNumber());
+            String keyValue = key.substring(0, key.lastIndexOf('.'));
+            int forecastLevel = projectionSelection.getHierarchyIndicator().equalsIgnoreCase("C") ? Integer.valueOf(projectionSelection.getSessionDTO().getCustomerLevelNumber()) : Integer.valueOf(projectionSelection.getSessionDTO().getProductLevelNumber());
+            if (!projectionSelection.isIsCustomHierarchy()) {
             if (count >= forecastLevel) {
                 hierarchyValues.add(keyValue);
             }
-            hierkey = getHierarchy(keyValue, projectionSelection);
+            }else {
+                hierarchyValues.add(keyValue);
+            }
+            getHierarchy(keyValue, projectionSelection);
+            return keyValue;
         }
-        return keyValue;
+        return StringUtils.EMPTY;
     }
 
     public void getParentLevels(ProjectionSelectionDTO projectionSelection) {
         Map<String, List> hierarchyLevelDetails = projectionSelection.getSessionDTO().getHierarchyLevelDetails();
         Collections.reverse(hierarchyValues);
         for (int i = 0; i < hierarchyValues.size(); i++) {
-            String keyValue = hierarchyValues.get(i) + ".";
-            String hierKeyValue = hierarchyValues.get(i) + ".";
-            hierKeyValue = hierKeyValue.substring(hierKeyValue.indexOf('-') + 1);
-            DiscountProjectionDTO discountProjectionDTO = resultMap.get(hierKeyValue.trim());
+            StringBuilder hierarchy = new StringBuilder(hierarchyValues.get(i)).append(".");
+            StringBuilder hierKeyValue = new StringBuilder(hierarchy.substring(hierarchy.indexOf("-") + 1));
+            DiscountProjectionDTO discountProjectionDTO = resultMap.get(hierKeyValue.toString());
             if (discountProjectionDTO == null) {
-                LOGGER.info("-----------if-------------" + hierKeyValue);
                 discountProjectionDTO = new DiscountProjectionDTO();
-                String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(keyValue.trim()).get(4));
-                LOGGER.info("-----------if---keyValue----------" + keyValue);
-                excelFormattedColumns(discountProjectionDTO, projectionSelection, keyValue, hierarchyIndicator, hierarchyLevelDetails);
-                resultMap.put(hierKeyValue.trim(), discountProjectionDTO);
-                hierarchykeys(hierKeyValue.trim());
+                String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(hierarchy.toString()).get(4));
+                excelFormattedColumns(discountProjectionDTO, projectionSelection, hierarchy.toString(), hierarchyIndicator, hierarchyLevelDetails);
+                resultMap.put(hierKeyValue.toString(), discountProjectionDTO);
+                hierarchykeys(hierKeyValue.toString());
             } 
         }
-    }
+        }
     
      private void hierarchykeys(String key) {
         hierarchyKeys.add(key);
@@ -127,23 +141,24 @@ public class NMDiscountExcelLogic {
     }
 
     private void setActualsProjectionValues(DiscountProjectionDTO discountProjectionDTO, Character freq, Object[] obj, ProjectionSelectionDTO projectionSelection, Map<String, List> hierarchyLevelDetails, List doubleProjectedAndHistoryCombinedUniqueList) {
-            String discountId=projectionSelection.isIsCustomHierarchy()?StringUtils.EMPTY:obj[5].toString();
-            String header = commonLogic.getHeaderForExcel(freq, obj,discountId,StringUtils.EMPTY);
-            String column = commonLogic.getHeaderForExcelDiscount(freq, obj,discountId,StringUtils.EMPTY);
-            boolean isActuals = "0".equals(String.valueOf(obj[NumericConstants.THREE]));
-            String hierarchyNo = String.valueOf(obj[NumericConstants.ZERO]).trim();
-            hierarchyNo = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0].trim() : hierarchyNo;
-            String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(hierarchyNo.trim()).get(4));
-            String parentHierarchy= String.valueOf(obj[NumericConstants.FOUR]).trim();
-            parentHierarchy=parentHierarchy.replaceAll("\\s","");
-            discountProjectionDTO.setParentHierarchyNo(parentHierarchy);
-            discountProjectionDTO.setHierarchyLevel(String.valueOf(hierarchyLevelDetails.get(hierarchyNo).get(1)));
-            if (Constant.TRADINGPARTNER.equalsIgnoreCase(discountProjectionDTO.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(discountProjectionDTO.getHierarchyLevel())) {
-                 discountProjectionDTO.setGroup(String.valueOf(obj[NumericConstants.FIFTEEN]));
-            } else {
-                discountProjectionDTO.setGroup(StringUtils.EMPTY);
-            }
-         if (CommonUtil.isValueEligibleForLoading()) {
+        String discount = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FIVE])) ? StringUtils.EMPTY : String.valueOf(obj[NumericConstants.FIVE]);
+        String discountId = projectionSelection.isIsCustomHierarchy() ? StringUtils.EMPTY : discount;
+        String header = commonLogic.getHeaderForExcel(freq, obj, discountId, StringUtils.EMPTY);
+        String column = commonLogic.getHeaderForExcelDiscount(freq, obj, discountId, StringUtils.EMPTY);
+        boolean isActuals = "0".equals(String.valueOf(obj[NumericConstants.THREE]));
+        String hierarchyNo = String.valueOf(obj[NumericConstants.ZERO]).trim();
+        hierarchyNo = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0].trim() : hierarchyNo;
+        String hierarchyIndicator = String.valueOf(hierarchyLevelDetails.get(hierarchyNo.trim()).get(4));
+        String parentHierarchy = String.valueOf(obj[NumericConstants.FOUR]).trim();
+        parentHierarchy = parentHierarchy.replaceAll("\\s", "");
+        discountProjectionDTO.setParentHierarchyNo(parentHierarchy);
+        discountProjectionDTO.setHierarchyLevel(String.valueOf(hierarchyLevelDetails.get(hierarchyNo).get(1)));
+        if (Constant.TRADINGPARTNER.equalsIgnoreCase(discountProjectionDTO.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(discountProjectionDTO.getHierarchyLevel())) {
+            discountProjectionDTO.setGroup(String.valueOf(obj[NumericConstants.FIFTEEN]));
+        } else {
+            discountProjectionDTO.setGroup(StringUtils.EMPTY);
+        }
+        if (CommonUtil.isValueEligibleForLoading()) {
 
             excelFormattedColumns(discountProjectionDTO, projectionSelection, hierarchyNo, hierarchyIndicator, hierarchyLevelDetails);
 
@@ -151,12 +166,16 @@ public class NMDiscountExcelLogic {
             discountProjectionDTO.setLevelName(CommonUtil.getDisplayFormattedName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat()));
 
         }
-            if (CommonUtil.isValueEligibleForLoading()) {
+          if (CommonUtil.isValueEligibleForLoading()) {
+            if (projectionSelection.isIsCustomHierarchy()) {
+                discountProjectionDTO.setDeductionInclusion(obj[NumericConstants.TWELVE] != null ? String.valueOf(obj[NumericConstants.TWELVE]) : StringUtils.EMPTY);
+            } else {
                 discountProjectionDTO.setDeductionInclusion(obj[NumericConstants.FOURTEEN] != null ? String.valueOf(obj[NumericConstants.FOURTEEN]) : StringUtils.EMPTY);
             }
+        }
         if (doubleProjectedAndHistoryCombinedUniqueList.contains(header) && !Constant.NULL.equals(discountProjectionDTO.getDeductionInclusion())) {
-            setActualsProj(discountProjectionDTO, isActuals, header, projectionSelection, obj,column);
-        }else{
+            setActualsProj(discountProjectionDTO, isActuals, header, projectionSelection, obj, column);
+        } else{
             setActualsProjForDeductionInclusion(discountProjectionDTO, isActuals, header, projectionSelection, obj);
         }
            
@@ -170,8 +189,10 @@ public class NMDiscountExcelLogic {
             discountProjectionDTO.addStringProperties(header + ACTUAL_RATE, commonLogic.getFormattedValue(PERCENTAGE_FORMAT, Constant.NULL.equals(String.valueOf(obj[NumericConstants.SEVEN])) ? DASH : String.valueOf(obj[NumericConstants.SEVEN])));
             discountProjectionDTO.addStringProperties(header + ACTUAL_AMOUNT,Constant.NULL.equals(value)?DASH:value);
             discountProjectionDTO.addStringProperties(header + Constant.ACTUALRPU,Constant.NULL.equals(String.valueOf(obj[NumericConstants.EIGHT])) ? DASH : String.valueOf(obj[NumericConstants.EIGHT]));
-            discountProjectionDTO.addStringProperties(header + "ActualSales",Constant.NULL.equals(String.valueOf(obj[NumericConstants.SEVENTEEN])) ? "1500" : String.valueOf(obj[NumericConstants.SEVENTEEN]));
-            discountProjectionDTO.addStringProperties(header + "ActualUnits",Constant.NULL.equals(String.valueOf(obj[NumericConstants.EIGHTEEN])) ? "100" : String.valueOf(obj[NumericConstants.EIGHTEEN]));
+            if(!projectionSelection.isIsCustomHierarchy()){
+            discountProjectionDTO.addStringProperties(header + "ActualSales",Constant.NULL.equals(String.valueOf(obj[NumericConstants.SEVENTEEN])) ? DASH : String.valueOf(obj[NumericConstants.SEVENTEEN]));
+            discountProjectionDTO.addStringProperties(header + "ActualUnits",Constant.NULL.equals(String.valueOf(obj[NumericConstants.EIGHTEEN])) ? DASH : String.valueOf(obj[NumericConstants.EIGHTEEN]));
+            }
         } else {
           getProjectionData(projectionSelection,obj,discountProjectionDTO,header,column);
         }
@@ -189,8 +210,10 @@ public class NMDiscountExcelLogic {
           discountProjectionDTO.addStringProperties(header + Constant.PROJECTEDRPU,CommonUtils.forecastConfigDataHide(projectionSelection.getFrequency(), projectionSelection.getForecastConfigPeriods(),
                       column, projectedValue) );
           discountProjectionDTO.addStringProperties(header + Constant.GROWTH, Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]));
-          discountProjectionDTO.addStringProperties(header + "ProjectedSales", Constant.NULL.equals(String.valueOf(obj[NumericConstants.NINETEEN])) ? "1500" : String.valueOf(obj[NumericConstants.NINETEEN]));
-          discountProjectionDTO.addStringProperties(header + "ProjectedUnits", Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWENTY])) ? "100" : String.valueOf(obj[NumericConstants.TWENTY]));
+          if(!projectionSelection.isIsCustomHierarchy()){
+          discountProjectionDTO.addStringProperties(header + "ProjectedSales", Constant.NULL.equals(String.valueOf(obj[NumericConstants.NINETEEN])) ? DASH : String.valueOf(obj[NumericConstants.NINETEEN]));
+          discountProjectionDTO.addStringProperties(header + "ProjectedUnits", Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWENTY])) ? DASH : String.valueOf(obj[NumericConstants.TWENTY]));
+          }
 		
 	}
 	private void setActualsProjForDeductionInclusion(DiscountProjectionDTO discountProjectionDTO, boolean isActuals, String header, ProjectionSelectionDTO projectionSelection, Object[] obj) {
@@ -231,7 +254,6 @@ public class NMDiscountExcelLogic {
                 discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
             }
         }
-
     }
      
 }

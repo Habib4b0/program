@@ -149,39 +149,6 @@
       <yloc>1578</yloc>
       </entry>
     <entry>
-      <name>DATAFETCH</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;RP_DATAFETCH.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>1232</xloc>
-      <yloc>603</yloc>
-      </entry>
-    <entry>
       <name>STOP PROCESS</name>
       <description/>
       <type>ABORT</type>
@@ -534,8 +501,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1238</xloc>
-      <yloc>689</yloc>
+      <xloc>1249</xloc>
+      <yloc>585</yloc>
       </entry>
     <entry>
       <name>REBATE PLAN INSERT</name>
@@ -599,8 +566,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1240</xloc>
-      <yloc>773</yloc>
+      <xloc>1254</xloc>
+      <yloc>696</yloc>
       </entry>
     <entry>
       <name>RETENTION_LOGIC</name>
@@ -1092,8 +1059,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>681</xloc>
-      <yloc>632</yloc>
+      <xloc>613</xloc>
+      <yloc>330</yloc>
       </entry>
     <entry>
       <name>SET_STAG_COUNT</name>
@@ -1125,8 +1092,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>676</xloc>
-      <yloc>418</yloc>
+      <xloc>663</xloc>
+      <yloc>203</yloc>
       </entry>
     <entry>
       <name>REBATE PLAN INSERT 2</name>
@@ -1164,17 +1131,293 @@
       <xloc>1061</xloc>
       <yloc>1181</yloc>
       </entry>
+    <entry>
+      <name>SOURCE MODE CHECK INSERT</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>DATABASE</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1042</xloc>
+      <yloc>562</yloc>
+      </entry>
+    <entry>
+      <name>STAG BY BATCH</name>
+      <description/>
+      <type>SQL</type>
+      <sql>&#xa;TRUNCATE TABLE STAG_REBATE_PLAN&#xa;&#xa;&#xa;INSERT INTO STAG_REBATE_PLAN&#x28;&#xa;REBATE_PLAN_ID&#xa;,REBATE_PLAN_NO&#xa;,REBATE_PLAN_NAME&#xa;,REBATE_PLAN_STATUS&#xa;,REBATE_PLAN_TYPE&#xa;,INTERNAL_NOTES&#xa;,FORMULA_TYPE&#xa;,BOGO_ELIGIBLE&#xa;,SELF_GROWTH_INDICATOR&#xa;,SELF_GROWTH_REFERENCE&#xa;,SELF_GROWTH_FROM&#xa;,SELF_GROWTH_TO&#xa;,MARKET_SHARE_INDICATOR&#xa;,MARKET_SHARE_REFERENCE&#xa;,MARKET_SHARE_TO&#xa;,TIER_FORMULA_ID&#xa;,TIER_FORMULA_NO&#xa;,TIER_FORMULA_NAME&#xa;,REBATE_STRUCTURE&#xa;,REBATE_RANGE_BASED_ON&#xa;,REBATE_BASED_ON&#xa;,REBATE_RULE&#xa;,REBATE_PLAN_TIER_ID&#xa;,TIER_FROM&#xa;,TIER_TO&#xa;,TIER_LEVEL&#xa;,TIER_OPERATOR&#xa;,TIER_VALUE&#xa;,FREE_AMOUNT&#xa;,TIER_TOLERANCE&#xa;,SECONDARY_REBATE_PLAN_ID&#xa;,SECONDARY_REBATE_PLAN_NO&#xa;,SECONDARY_REBATE_PLAN_NAME&#xa;,CONTRACT_ID&#xa;,PRICE_SCHEDULE_ID&#xa;,REBATE_SCHEDULE_ID&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,REBATE_PLAN_INTFID&#xa;,MARKET_SHAR_EFROM&#xa;,CFP_ID&#xa;,MFP_ID&#xa;,IFP_ID&#xa;&#xa;&#x29; &#xa;SELECT &#xa;REBATE_PLAN_ID&#xa;,REBATE_PLAN_NO&#xa;,REBATE_PLAN_NAME&#xa;,REBATE_PLAN_STATUS&#xa;,REBATE_PLAN_TYPE&#xa;,INTERNAL_NOTES&#xa;,FORMULA_TYPE&#xa;,BOGO_ELIGIBLE&#xa;,SELF_GROWTH_INDICATOR&#xa;,SELF_GROWTH_REFERENCE&#xa;,SELF_GROWTH_FROM&#xa;,SELF_GROWTH_TO&#xa;,MARKET_SHARE_INDICATOR&#xa;,MARKET_SHARE_REFERENCE&#xa;,MARKET_SHARE_TO&#xa;,TIER_FORMULA_ID&#xa;,TIER_FORMULA_NO&#xa;,TIER_FORMULA_NAME&#xa;,REBATE_STRUCTURE&#xa;,REBATE_RANGE_BASED_ON&#xa;,REBATE_BASED_ON&#xa;,REBATE_RULE&#xa;,REBATE_PLAN_TIER_ID&#xa;,TIER_FROM&#xa;,TIER_TO&#xa;,TIER_LEVEL&#xa;,TIER_OPERATOR&#xa;,TIER_VALUE&#xa;,FREE_AMOUNT&#xa;,TIER_TOLERANCE&#xa;,SECONDARY_REBATE_PLAN_ID&#xa;,SECONDARY_REBATE_PLAN_NO&#xa;,SECONDARY_REBATE_PLAN_NAME&#xa;,CONTRACT_ID&#xa;,PRICE_SCHEDULE_ID&#xa;,REBATE_SCHEDULE_ID&#xa;,CREATED_BY&#xa;,isnull&#x28;CREATED_DATE,getdate&#x28;&#x29;&#x29;&#xa;,MODIFIED_BY&#xa;,isnull&#x28;MODIFIED_DATE,getdate&#x28;&#x29;&#x29;&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,REBATE_PLAN_INTERFACE_ID&#xa;,MARKET_SHARE_FROM&#xa;,COMPANY_FAMILY_PLAN_ID&#xa;,MEMBER_FAMILY_PLAN_ID&#xa;,ITEM_FAMILY_PLAN_ID&#xa;&#xa; FROM &#x24;&#x7b;STAGING_DB&#x7d;..REBATE_PLAN_INTERFACE a order by a.REBATE_PLAN_INTERFACE_ID OFFSET 0  ROWS FETCH NEXT 100000  ROWS ONLY&#x3b;</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1047</xloc>
+      <yloc>665</yloc>
+      </entry>
+    <entry>
+      <name>DATAFETCH 2</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;RP_DATAFETCH.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1258</xloc>
+      <yloc>781</yloc>
+      </entry>
+    <entry>
+      <name>SOURCE MODE CHECK DELETE</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>DATABASE</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>977</xloc>
+      <yloc>1466</yloc>
+      </entry>
+    <entry>
+      <name>TRUNCATE INTF BY BATCH</name>
+      <description/>
+      <type>SQL</type>
+      <sql>&#xd;&#xa;&#x3b;WITH CTE AS&#xd;&#xa;&#x28;&#xd;&#xa;SELECT TOP 100000 &#x2a;&#xd;&#xa;FROM REBATE_PLAN_INTERFACE&#xd;&#xa;ORDER BY rebate_PLAN_interface_ID&#xd;&#xa;&#x29;&#xd;&#xa;DELETE FROM CTE&#xd;&#xa;&#xd;&#xa;SELECT COUNT&#x28;&#x2a;&#x29; FROM REBATE_PLAN_INTERFACE</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>STAGING DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>836</xloc>
+      <yloc>1385</yloc>
+      </entry>
+    <entry>
+      <name>CSV_TO_INTERFACE_DATABASE_RECEIVED_COUNT</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;CSV_TO_INTERFACE_DATABASE_RECEIVED_COUNT.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>681</xloc>
+      <yloc>1140</yloc>
+      </entry>
+    <entry>
+      <name>CSV_TO_INTERFACE_DATABASE_AUDIT 2</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;CSV_TO_INTERFACE_DATABASE_AUDIT.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>684</xloc>
+      <yloc>1223</yloc>
+      </entry>
+    <entry>
+      <name>Simple evaluation 2 4 2 2 4</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>&#x24;&#x7b;ORIGINAL_INTERFACE_TABLE_NAME&#x7d;</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>RETURNS_INTERFACE</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>683</xloc>
+      <yloc>1036</yloc>
+      </entry>
+    <entry>
+      <name>SOURCE TO TARGET 2 2</name>
+      <description/>
+      <type>SQL</type>
+      <sql>&#xa;update &#x24;&#x7b;STAG_TABLE_NAME&#x7d; set created_by&#x3d;&#x27;&#x24;&#x7b;userid&#x7d;&#x27;, modified_by&#x3d;&#x27;&#x24;&#x7b;userid&#x7d;&#x27;</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>T</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>622</xloc>
+      <yloc>928</yloc>
+      </entry>
+    <entry>
+      <name>SOURCE TO TARGET 2</name>
+      <description/>
+      <type>SQL</type>
+      <sql>&#xa;update &#x24;&#x7b;ORIGINAL_INTERFACE_TABLE_NAME&#x7d; set created_by&#x3d;&#x27;&#x24;&#x7b;userid&#x7d;&#x27;&#xa;update &#x24;&#x7b;ORIGINAL_INTERFACE_TABLE_NAME&#x7d; set modified_by&#x3d;&#x27;&#x24;&#x7b;userid&#x7d;&#x27;</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>T</sendOneStatement>
+      <connection>STAGING DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>799</xloc>
+      <yloc>944</yloc>
+      </entry>
+    <entry>
+      <name>CHECK INTF COUNT</name>
+      <description/>
+      <type>EVAL_TABLE_CONTENT</type>
+      <connection>STAGING DB</connection>
+      <schemaname>dbo</schemaname>
+      <tablename>REBATE_PLAN_INTERFACE</tablename>
+      <success_condition>rows_count_greater</success_condition>
+      <limit>0</limit>
+      <is_custom_sql>N</is_custom_sql>
+      <is_usevars>N</is_usevars>
+      <custom_sql/>
+      <add_rows_result>N</add_rows_result>
+      <clear_result_rows>Y</clear_result_rows>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>717</xloc>
+      <yloc>1324</yloc>
+      </entry>
+    <entry>
+      <name>Update Audit Batch 2</name>
+      <description/>
+      <type>SQL</type>
+      <sql>&#xd;&#xa;UPDATE AUDIT_MASTER_INBOUND SET SENT_RECORD_COUNT&#x3d;100000 , RECEIVED_RECORD_COUNT&#x3d;100000 where application_process&#x3d;&#x27;rebate_plan_interface&#x27;&#xd;&#xa;and AUDIT_INBOUND_SID &#x3d;&#x28;&#xd;&#xa;SELECT audit_inbound_sid&#xd;&#xa;FROM AUDIT_MASTER_INBOUND&#xd;&#xa;WHERE audit_inbound_sid &#x3d; &#x28;SELECT MAX&#x28;audit_inbound_sid&#x29; FROM AUDIT_MASTER_INBOUND&#x29;&#x29;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1072</xloc>
+      <yloc>1309</yloc>
+      </entry>
+    <entry>
+      <name>CHECK INTF COUNT 2</name>
+      <description/>
+      <type>EVAL_TABLE_CONTENT</type>
+      <connection>STAGING DB</connection>
+      <schemaname>dbo</schemaname>
+      <tablename>REBATE_PLAN_INTERFACE</tablename>
+      <success_condition>rows_count_greater</success_condition>
+      <limit>100000</limit>
+      <is_custom_sql>N</is_custom_sql>
+      <is_usevars>N</is_usevars>
+      <custom_sql/>
+      <add_rows_result>N</add_rows_result>
+      <clear_result_rows>Y</clear_result_rows>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1127</xloc>
+      <yloc>1205</yloc>
+      </entry>
   </entries>
   <hops>
-    <hop>
-      <from>TRUNCATE STAG TABLE</from>
-      <to>TRUNCATE INTERFACE TABLE</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
     <hop>
       <from>FILE CHECKING</from>
       <to>CSV_TO_INTERFACE</to>
@@ -1191,15 +1434,6 @@
       <to_nr>0</to_nr>
       <enabled>N</enabled>
       <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>DATAFETCH</from>
-      <to>INITIAL_PROCESS_FAIL_MAIL</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
       <unconditional>N</unconditional>
     </hop>
     <hop>
@@ -1294,29 +1528,11 @@
     </hop>
     <hop>
       <from>HANDLING_NEW_AUDIT</from>
-      <to>DATAFETCH</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>HANDLING_NEW_AUDIT</from>
       <to>INITIAL_PROCESS_FAIL_MAIL</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>DATAFETCH</from>
-      <to>STAG</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
     <hop>
@@ -1375,15 +1591,6 @@
     </hop>
     <hop>
       <from>SNAP</from>
-      <to>HELPER TABLE</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>SNAP</from>
       <to>INITIAL_PROCESS_FAIL_MAIL</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1432,7 +1639,7 @@
       <to>RP_VALIDATIONS_AUDIT</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
@@ -1821,6 +2028,204 @@
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>HANDLING_NEW_AUDIT</from>
+      <to>SOURCE MODE CHECK INSERT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SOURCE MODE CHECK INSERT</from>
+      <to>STAG BY BATCH</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SNAP</from>
+      <to>DATAFETCH 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DATAFETCH 2</from>
+      <to>HELPER TABLE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SOURCE MODE CHECK INSERT</from>
+      <to>STAG</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STAG BY BATCH</from>
+      <to>SNAP</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STAG BY BATCH</from>
+      <to>INITIAL_PROCESS_FAIL_MAIL</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TRUNCATE STAG TABLE</from>
+      <to>SOURCE MODE CHECK DELETE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SOURCE MODE CHECK DELETE</from>
+      <to>TRUNCATE INTF BY BATCH</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SOURCE MODE CHECK DELETE</from>
+      <to>TRUNCATE INTERFACE TABLE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>CSV_TO_INTERFACE_DATABASE_AUDIT 2</from>
+      <to>CSV_TO_INTERFACE_DATABASE_RECEIVED_COUNT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>CSV_TO_INTERFACE_DATABASE_RECEIVED_COUNT</from>
+      <to>Simple evaluation 2 4 2 2 4</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 4</from>
+      <to>SOURCE TO TARGET 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Simple evaluation 2 4 2 2 4</from>
+      <to>SOURCE TO TARGET 2 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SOURCE TO TARGET 2 2</from>
+      <to>HANDLING_NEW_AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SOURCE TO TARGET 2</from>
+      <to>HANDLING_NEW_AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>TRUNCATE INTF BY BATCH</from>
+      <to>CHECK INTF COUNT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>CHECK INTF COUNT</from>
+      <to>CSV_TO_INTERFACE_DATABASE_AUDIT 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>VALIDATIONS</from>
+      <to>CHECK INTF COUNT 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>CHECK INTF COUNT 2</from>
+      <to>Update Audit Batch 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Update Audit Batch 2</from>
+      <to>RP_VALIDATIONS_AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>CHECK INTF COUNT 2</from>
+      <to>RP_VALIDATIONS_AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
       <unconditional>N</unconditional>
     </hop>
   </hops>

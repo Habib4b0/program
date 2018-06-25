@@ -146,7 +146,7 @@ import com.vaadin.v7.ui.themes.Reindeer;
  */
 public abstract class ForecastSalesProjection extends CustomComponent implements View {
 
-
+    
     
     
 	private static final String SELECTED_FREQ_IS_NOT_VALID = "selectedFreq is not valid: ";
@@ -382,6 +382,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      */
     @UiField("viewDdlb")
     protected ComboBox viewDdlb;
+   
     /**
      * The forecastStartPeriod
      */
@@ -1121,6 +1122,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public void generateBtn(Button.ClickEvent event) {
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
             if(!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())){
+            session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
+            session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
             dataLogic.nmSalesViewsPopulationProcedure(session);
             CommonUtil.getInstance().waitForSeconds();
             }
@@ -3027,7 +3030,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         frequency.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                session.setDsFrequency(String.valueOf(frequency.getValue()));
                 loadFrequency(frequency, history);
             }
         });
@@ -3941,6 +3943,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
             
             allocationBasis.addItems(outputList);
+    }
+   public ComboBox getViewDdlb() {
+        return viewDdlb;
     }
 
 public ExtTreeContainer<SalesRowDto> getCustomContainer() {

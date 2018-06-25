@@ -1,0 +1,1168 @@
+IF EXISTS (SELECT 'X' 
+           FROM   INFORMATION_SCHEMA.ROUTINES 
+           WHERE  ROUTINE_NAME = 'PRC_REPORTING_DASHBOARD' 
+                  AND ROUTINE_SCHEMA = 'DBO') 
+  BEGIN 
+      DROP PROCEDURE [DBO].[PRC_REPORTING_DASHBOARD] 
+  END 
+
+GO 
+
+CREATE PROCEDURE [dbo].[PRC_REPORTING_DASHBOARD] (@USER_ID INT,
+                                              @SESSION_ID VARCHAR(MAX),
+                                              @PROJ_FREQUENCY VARCHAR(20),
+											  @START_PERIOD_SID INT,
+											  @END_PERIOD_SID INT,
+											  @CUSTOM_VIEW_MASTER_SID INT=NULL,
+											  @COMPANY_ID INT,
+	                                          @BUSINESS_UNIT INT,
+											  @REPORT_DATA_SOURCE TINYINT=0,
+											  @PROJECTION_SID VARCHAR(500)
+											  ) 
+AS
+BEGIN
+      SET NOCOUNT ON
+
+      BEGIN TRY
+
+	DECLARE
+	@STARTFROM DATETIME,
+	@PROJECTION_DATE DATETIME,
+    @UOM_CODE   VARCHAR(10)=NULL,
+	@FORECAST_NAME          VARCHAR(50),
+    @FORECAST_VERSION       VARCHAR(15),
+	@SP                    INT,
+    @SP_PROJ_SID           VARCHAR(500),
+    @TEMP_PROJ_SID         VARCHAR(500),
+	@ACTUAL_PERIOD INT,
+	@PROJECTION_END_PERIOD INT,
+	@COUNT						 INT,
+	@FORECAST_NAME_EXFACTORY        VARCHAR(50),
+    @FORECAST_VERSION_EXFACTORY     VARCHAR(50),
+	@PROJECTION INT,
+    @ITEMID [DBO].[UDT_ITEM],
+	@PROJ_SID INT,
+    @TYPE CHAR(1),
+    @I INT=1
+
+DECLARE @CCP_HIERARCHY VARCHAR(200) = CONCAT (
+		'ST_CCP_HIERARCHY_',@USER_ID, '_',
+		@SESSION_ID,'_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')
+		),
+	@CUSTOM_TABLE_SALES VARCHAR(200) = CONCAT (
+		'ST_CUSTOM_SALES_REPORT_',@USER_ID, '_',
+		@SESSION_ID,'_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')
+		),
+    @CUSTOM_TABLE_DISCOUNT VARCHAR(200) = CONCAT ('ST_CUSTOM_DISCOUNT_REPORT_'
+		,@USER_ID, '_',
+		@SESSION_ID,'_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')
+		),
+    @APPROVED_TABLE VARCHAR(200) = CONCAT (
+		'ST_APPROVED_REPORT_'
+		,@USER_ID, '_',
+		@SESSION_ID,'_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')
+		),
+	@CUSTOM_CCP_SALES VARCHAR(200) =  CONCAT (
+		'ST_CUSTOM_CCP_SALES_'
+		,@USER_ID, '_',
+		@SESSION_ID,'_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')
+		),
+	@ITEM_UOM VARCHAR(200) = CONCAT (
+		'ST_ITEM_UOM_DETAILS_',@USER_ID, '_',
+		@SESSION_ID,'_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')
+		)
+
+
+SELECT @STARTFROM=PERIOD_DATE FROM PERIOD WHERE PERIOD_SID=@START_PERIOD_SID
+
+SELECT @PROJECTION_DATE=PERIOD_DATE FROM PERIOD WHERE PERIOD_SID=@END_PERIOD_SID
+
+ SELECT @ACTUAL_PERIOD = PERIOD_SID
+		  FROM   PERIOD
+		  WHERE  PERIOD_DATE = Dateadd(YY, Datediff(YY, 0, Getdate()) - 3, 0)
+
+-----------------PERIOD CONVERISON--------------------
+IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+	DROP TABLE #PERIOD;
+
+SELECT PERIOD_SID,
+	PERIOD_DATE,
+	MONTH,
+	QUARTER,
+	SEMI_ANNUAL,
+	YEAR,
+	CASE 
+		WHEN LEFT(@PROJ_FREQUENCY, 1) = 'M'
+			THEN MONTH
+		WHEN LEFT(@PROJ_FREQUENCY, 1) = 'Q'
+			THEN QUARTER
+		WHEN LEFT(@PROJ_FREQUENCY, 1) = 'S'
+			THEN SEMI_ANNUAL
+		ELSE 1
+		END AS PERIOD
+INTO #PERIOD
+FROM PERIOD
+WHERE PERIOD_SID BETWEEN @ACTUAL_PERIOD
+		AND @END_PERIOD_SID
+
+   IF Object_id('TEMPDB..#PROJECTION_MASTER') IS NOT NULL
+        TRUNCATE TABLE #PROJECTION_MASTER
+      ELSE
+        CREATE TABLE #PROJECTION_MASTER
+          (
+             ID                    INT IDENTITY(1, 1),
+             PROJECTION_MASTER_SID INT,
+			 [TYPE] CHAR(1)
+          )
+
+      SET @TEMP_PROJ_SID = Replace(@PROJECTION_SID + ',', ',,', ',')
+
+      WHILE Patindex('%,%', @TEMP_PROJ_SID) <> 0
+        BEGIN
+            SELECT @SP = Patindex('%,%', @TEMP_PROJ_SID)
+
+            SELECT @SP_PROJ_SID = LEFT(@TEMP_PROJ_SID, @SP - 1)
+
+			SELECT @PROJ_SID= LEFT(@SP_PROJ_SID,CHARINDEX('_',@SP_PROJ_SID)-1)
+			SELECT @TYPE=RIGHT(@SP_PROJ_SID,1)
+
+            SELECT @TEMP_PROJ_SID = Stuff(@TEMP_PROJ_SID, 1, @SP, '')
+
+            INSERT INTO #PROJECTION_MASTER
+                        (PROJECTION_MASTER_SID,[TYPE])
+            SELECT @PROJ_SID,@TYPE
+        END
+
+
+
+
+
+IF OBJECT_ID('TEMPDB..#FILE_INFO') IS NOT NULL
+			DROP TABLE #FILE_INFO 
+
+SELECT DISTINCT  B.ID,A.PROJECTION_MASTER_SID
+,C.DESCRIPTION,FORECAST_NAME,VERSION as FILE_VERSION
+--,DENSE_RANK() OVER(ORDER BY A.PROJECTION_MASTER_SID) RN
+INTO #FILE_INFO
+FROM PROJECTION_FILE_DETAILS A 
+INNER JOIN #PROJECTION_MASTER B
+ON A.PROJECTION_MASTER_SID=B.PROJECTION_MASTER_SID
+INNER JOIN HELPER_TABLE C ON C.HELPER_TABLE_SID=A.FILE_TYPE
+INNER JOIN  FILE_MANAGEMENT FM ON FM.FILE_MANAGEMENT_SID=A.FILE_MANAGEMENT_SID 
+INNER JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=FM.FILE_TYPE
+AND HT.DESCRIPTION='Ex-Factory Sales'
+
+SELECT  @COUNT=COUNT( DISTINCT ID) FROM #PROJECTION_MASTER 
+
+IF OBJECT_ID('TEMPDB..#PRODUCT_FILE_DATA') IS NOT NULL
+			DROP TABLE #PRODUCT_FILE_DATA 
+
+			CREATE TABLE #PRODUCT_FILE_DATA
+			(PROJECTION_MASTER_SID           INT,
+			 ITEM_MASTER_SID           	     INT,
+             PERIOD_SID					     INT,
+             EXFACTORY_ACTUAL_SALES		     NUMERIC(22,6),
+             EXFACTORY_FORECAST_SALES	     NUMERIC(22,6)
+            )
+
+WHILE (@I<=@COUNT)
+BEGIN
+
+SELECT @PROJECTION =Max(PROJECTION_MASTER_SID),
+
+                 @FORECAST_NAME_EXFACTORY = Max(CASE
+                                                  WHEN DESCRIPTION = 'EX-FACTORY SALES' THEN FORECAST_NAME
+                                                END),
+                 @FORECAST_VERSION_EXFACTORY = Max(CASE
+                                                     WHEN DESCRIPTION = 'EX-FACTORY SALES' THEN FILE_VERSION
+                                                   END)   FROM   #FILE_INFO where ID =@I
+
+
+		
+
+		SELECT * INTO #A FROM(
+		SELECT DISTINCT IM.ITEM_MASTER_SID
+		FROM ITEM_MASTER IM
+		INNER JOIN CCP_DETAILS CD 
+		ON CD.ITEM_MASTER_SID=IM.ITEM_MASTER_SID
+		INNER JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID =CD.CCP_DETAILS_SID
+		INNER JOIN  #FILE_INFO PM ON PD.PROJECTION_MASTER_SID =PM.PROJECTION_MASTER_SID
+		WHERE PM.ID =@I AND EXISTS(
+		SELECT IM1.ITEM_MASTER_SID FROM ITEM_MASTER IM1
+		INNER JOIN CCP_DETAILS CD 
+		ON CD.ITEM_MASTER_SID=IM1.ITEM_MASTER_SID
+		INNER JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID =CD.CCP_DETAILS_SID
+		INNER JOIN #PROJECTION_MASTER PM ON PD.PROJECTION_MASTER_SID =PM.PROJECTION_MASTER_SID
+		WHERE IM.ITEM_MASTER_SID=IM1.ITEM_MASTER_SID))A
+
+		INSERT INTO @ITEMID SELECT * FROM #A
+
+	
+
+ INSERT INTO #PRODUCT_FILE_DATA (PROJECTION_MASTER_SID,
+			 ITEM_MASTER_SID,
+             PERIOD_SID,
+             EXFACTORY_ACTUAL_SALES,
+             EXFACTORY_FORECAST_SALES
+             )
+
+SELECT @PROJECTION AS PROJECTION_MASTER_SID,
+ITEM_MASTER_SID,
+PERIOD_SID,
+ACTUAL_GTS_SALES AS EXFACTORY_ACTUAL_SALES,
+FORECAST_GTS_SALES AS EXFACTORY_FORECAST_SALES
+FROM 
+( SELECT g.ITEM_MASTER_SID,
+       p.PERIOD_SID,
+       A.ACTUAL_GTS_SALES,
+       A.FORECAST_GTS_SALES,
+	   ROW_NUMBER() OVER(PARTITION BY A.ITEM_MASTER_SID,A.PERIOD_SID ORDER BY A.ITEM_MASTER_SID) RNO
+FROM   
+	@ITEMID G 
+	CROSS JOIN PERIOD P 
+	LEFT JOIN 
+UDF_GTS_WAC(@ITEMID, @ACTUAL_PERIOD,@END_PERIOD_SID , @FORECAST_NAME_EXFACTORY, @FORECAST_VERSION_EXFACTORY) A
+   ON A.ITEM_MASTER_SID=G.ITEM_MASTER_SID
+   AND A.PERIOD_SID=P.PERIOD_SID
+		WHERE P.PERIOD_SID BETWEEN @ACTUAL_PERIOD AND @END_PERIOD_SID)A WHERE RNO=1
+
+	SET @I=@I+1
+	DELETE FROM @ITEMID
+	DROP TABLE #A
+	END
+
+IF Object_id('TEMPDB..#APPROVED_CCP_DETAILS') IS NOT NULL
+	DROP TABLE #APPROVED_CCP_DETAILS
+
+CREATE TABLE #APPROVED_CCP_DETAILS (
+	PROJECTION_MASTER_SID INT,
+	PROJECTION_DETAILS_SID INT,
+	CCP_DETAILS_SID INT
+	)
+
+
+IF(@REPORT_DATA_SOURCE=0)
+BEGIN
+DECLARE @D_SQL NVARCHAR(MAX)
+
+SET @D_SQL = CONCAT (
+		' ;WITH CTE
+     AS (SELECT PD.PROJECTION_MASTER_SID,
+                PD.CCP_DETAILS_SID,
+                RN=ROW_NUMBER()
+                     OVER(
+                       PARTITION BY CCP_DETAILS_SID
+                       ORDER BY WM.MODIFIED_DATE DESC),
+                PD.PROJECTION_DETAILS_SID
+         FROM   WORKFLOW_MASTER WM
+                INNER JOIN HELPER_TABLE HT
+                        ON WM.WORKFLOW_STATUS_ID = HT.HELPER_TABLE_SID
+                INNER JOIN PROJECTION_DETAILS PD
+                        ON PD.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID
+         WHERE  HT.DESCRIPTION = ''APPROVED''
+		  AND EXISTS (SELECT 1
+                            FROM   ',
+		@CCP_HIERARCHY,
+		' PD1 WHERE PD1.CCP_DETAILS_SID = PD.CCP_DETAILS_SID)
+               )
+INSERT INTO #APPROVED_CCP_DETAILS(PROJECTION_MASTER_SID,PROJECTION_DETAILS_SID,CCP_DETAILS_SID)
+SELECT PROJECTION_MASTER_SID,
+       PROJECTION_DETAILS_SID,
+       CCP_DETAILS_SID
+FROM   CTE
+WHERE  RN = 1 '
+		)
+EXEC sp_executesql @D_SQL
+
+END
+
+ELSE IF(@REPORT_DATA_SOURCE=1)
+BEGIN
+DECLARE @SQL_CFF NVARCHAR(MAX)
+
+SET @SQL_CFF=CONCAT(' ;WITH CTE
+     AS (
+	 SELECT DISTINCT CD.CFF_MASTER_SID,
+                      CFF_DETAILS_SID,
+                      PD.PROJECTION_MASTER_SID,
+                      PD.PROJECTION_DETAILS_SID,
+					  CD.CCP_DETAILS_SID,
+                      RN=ROW_NUMBER()
+                     OVER(
+                       PARTITION BY CD.CCP_DETAILS_SID
+                       ORDER BY CFA.APPROVED_DATE DESC)
+      FROM   CFF_DETAILS CD
+             JOIN CFF_MASTER C
+               ON CD.CFF_MASTER_SID = C.CFF_MASTER_SID
+             JOIN PROJECTION_DETAILS PD
+               ON PD.PROJECTION_MASTER_SID = CD.PROJECTION_MASTER_SID
+                  AND PD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+			  JOIN CFF_APPROVAL_DETAILS CFA ON CFA.CFF_MASTER_SID=C.CFF_MASTER_SID
+			  INNER JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CFA.APPROVAL_STATUS
+			  WHERE  HT.DESCRIPTION = ''APPROVED''
+			   AND EXISTS (SELECT 1
+                            FROM   ',
+		@CCP_HIERARCHY,
+		' PD1 WHERE PD1.CCP_DETAILS_SID = CD.CCP_DETAILS_SID))
+		INSERT INTO #APPROVED_CCP_DETAILS(PROJECTION_MASTER_SID,PROJECTION_DETAILS_SID,CCP_DETAILS_SID)
+SELECT PROJECTION_MASTER_SID,
+       PROJECTION_DETAILS_SID,
+       CCP_DETAILS_SID
+FROM   CTE
+WHERE  RN = 1 '
+		)
+
+EXEC sp_executesql @SQL_CFF
+		
+END
+
+-------------------------------------------------Current Projection Logic Starts here---------------------------------------------
+INSERT INTO @ITEMID
+SELECT DISTINCT ITEM_MASTER_SID
+FROM ITEM_MASTER IM
+WHERE EXISTS (
+		SELECT 1
+		FROM #APPROVED_CCP_DETAILS A
+		INNER JOIN CCP_DETAILS B
+			ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+		WHERE IM.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+		)
+
+ --------------PULLING @FORECAST_NAME,@FORECAST_VERSION STARTS HERE------------------
+          SELECT TOP 1 @FORECAST_NAME = FT.FORECAST_NAME,
+                       @FORECAST_VERSION = FT.[VERSION]
+          FROM   FILE_MANAGEMENT FT
+                 INNER JOIN HELPER_TABLE HT
+                         ON HT.HELPER_TABLE_SID = FT.FILE_TYPE
+          WHERE  ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, Getdate())
+                   AND FT.FROM_PERIOD IS NOT NULL )
+                 AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, Getdate())
+                        OR FT.TO_PERIOD IS NULL )
+                 AND HT.LIST_NAME = 'FILE_TYPE'
+                 AND HT.[DESCRIPTION] IN ( 'EX-FACTORY SALES' )
+                 AND FT.BUSINESS_UNIT = @BUSINESS_UNIT--------GAL-808
+                 AND FT.COMPANY = @COMPANY_ID
+          ORDER  BY FT.FROM_PERIOD DESC
+-----------------Exfactory Logic
+    IF Object_id('TEMPDB..#TEMP_EXFACTORY') IS NOT NULL
+            DROP TABLE #TEMP_EXFACTORY
+
+          CREATE TABLE #TEMP_EXFACTORY
+            (
+               ITEM_MASTER_SID     INT,
+               PERIOD_SID          INT,
+               ACTUAL_GTS_SALES    NUMERIC(22, 6),
+               FORECAST_GTS_SALES  NUMERIC(22, 6)
+            )
+
+          INSERT INTO #TEMP_EXFACTORY
+                      (
+                       ITEM_MASTER_SID,
+                       PERIOD_SID,
+                       ACTUAL_GTS_SALES,
+                       FORECAST_GTS_SALES
+)
+          SELECT DISTINCT 
+                          U.ITEM_MASTER_SID,
+                          PERIOD_SID,
+                          ACTUAL_GTS_SALES,
+                          FORECAST_GTS_SALES
+          FROM   Udf_gts_wac(@ITEMID, @ACTUAL_PERIOD, @END_PERIOD_SID, @FORECAST_NAME, @FORECAST_VERSION) U
+
+
+DECLARE @SQL NVARCHAR(MAX)
+
+SET @SQL = CONCAT ('IF EXISTS (SELECT 1 FROM ', @CUSTOM_TABLE_SALES, ')  
+					                   BEGIN 
+												TRUNCATE TABLE ', @CUSTOM_TABLE_SALES, '  
+									   END
+		 INSERT INTO ',
+		@CUSTOM_TABLE_SALES,
+		'(CCP_DETAILS_SID,PERIOD,YEAR,SALES,EXFACTORY_SALES,SALES_INCLUSION,UNITS,INDICATOR)
+       SELECT C1.CCP_DETAILS_SID,
+             A.PERIOD,
+             A.YEAR,
+             ISNULL(Sum(SALES),0)    AS SALES,
+			 ISNULL(SUM(TE.ACTUAL_GTS_SALES),0) AS EXFACTORY_SALES,
+			 CASE
+           WHEN HT.DESCRIPTION = ''YES'' THEN 1
+                 ELSE 0
+                 END SALES_INCLUSION ,
+             ISNULL(Sum( QUANTITY ),0) AS  ACTUAL_UNITS,
+             0          AS       INDICATOR
+      FROM  ',
+		@CCP_HIERARCHY,
+		' C1
+			 JOIN CCP_DETAILS CD ON C1.CCP_DETAILS_SID=CD.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                PERIOD,
+                                YEAR
+                         FROM    #PERIOD
+						 WHERE PERIOD_SID BETWEEN ', @ACTUAL_PERIOD ,' AND ',@END_PERIOD_SID,'
+                         
+		)A
+             LEFT JOIN (SELECT AD.CCP_DETAILS_SID,
+                               PERIOD_SID,
+                               SUM(SALES)    SALES,
+                               SUM(QUANTITY) QUANTITY
+                        FROM   [ACTUALS_DETAILS] AD
+                        WHERE  QUANTITY_INCLUSION = ''Y''
+                        GROUP  BY AD.CCP_DETAILS_SID,
+                                  PERIOD_SID) AD
+                    ON A.PERIOD_SID = AD.PERIOD_SID
+                       AND AD.CCP_DETAILS_SID = C1.CCP_DETAILS_SID
+					   LEFT JOIN #TEMP_EXFACTORY TE ON TE.ITEM_MASTER_SID=CD.ITEM_MASTER_SID AND TE.PERIOD_SID=A.PERIOD_SID
+					   LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=C1.SALES_INCLUSION
+      GROUP  BY C1.CCP_DETAILS_SID,
+                PERIOD,
+                YEAR,
+                HT.DESCRIPTION
+      UNION 
+      SELECT C1.CCP_DETAILS_SID,
+             period,
+             YEAR,
+             ISNULL(Sum(PROJECTION_SALES),0) AS SALES,
+			 ISNULL(SUM(TE.FORECAST_GTS_SALES),0)  As EXFACTORY_SALES,
+			 CASE
+           WHEN HT.DESCRIPTION = ''YES'' THEN 1
+                 ELSE 0
+                 END SALES_INCLUSION ,
+            ISNULL(Sum(PROJECTION_UNITS),0) AS PROJECTION_UNITS,
+             1 INDICATOR
+      FROM ',
+		@CCP_HIERARCHY,
+		' C1
+		 JOIN CCP_DETAILS CD ON C1.CCP_DETAILS_SID=CD.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                period,
+                                YEAR
+                         FROM   #PERIOD WHERE PERIOD_SID BETWEEN ', @ACTUAL_PERIOD ,' AND ',@END_PERIOD_SID,'
+                          )B
+             LEFT JOIN (SELECT SPM.PROJECTION_SALES,
+                               SPM.PROJECTION_UNITS,
+                               SPM.PERIOD_SID,
+                               ACD.CCP_DETAILS_SID
+                        FROM   NM_SALES_PROJECTION SPM
+                               INNER JOIN #APPROVED_CCP_DETAILS ACD
+                                      ON SPM.CCP_DETAILS_SID = ACD.CCP_DETAILS_SID AND ACD.PROJECTION_MASTER_SID=SPM.PROJECTION_MASTER_SID
+                                                                  AND (spm.PROJECTION_SALES IS NOT NULL
+                                                 OR spm.PROJECTION_UNITS IS NOT NULL )) A
+                    ON C1.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                       AND B.PERIOD_SID = A.PERIOD_SID
+					LEFT JOIN #TEMP_EXFACTORY TE ON TE.ITEM_MASTER_SID=CD.ITEM_MASTER_SID AND TE.PERIOD_SID=A.PERIOD_SID
+					LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=C1.SALES_INCLUSION                
+      GROUP  BY C1.CCP_DETAILS_SID,
+                period,
+                YEAR,
+                HT.DESCRIPTION'
+		)
+
+		
+EXEC Sp_executesql @sql
+
+
+      DECLARE @SQL_ACC NVARCHAR(max)
+
+         IF Object_id('TEMPDB..#ACCRUAL_DISCOUNT') IS NOT NULL
+        DROP TABLE #ACCRUAL_DISCOUNT;
+
+      CREATE TABLE #ACCRUAL_DISCOUNT
+        (
+           CCP_DETAILS_SID    VARCHAR(8000),
+		   RS_CONTRACT_SID     INT,
+           PERIOD              SMALLINT,
+           YEAR                INT,
+           DISCOUNT_AMOUNT     NUMERIC(33, 8)
+        )
+
+      SET @SQL_ACC= CONCAT(' ;
+WITH CTE
+AS (
+	SELECT DISTINCT COMPANY_MASTER_SID
+		,CONTRACT_MASTER_SID
+		,ITEM_MASTER_SID		
+		,CD.CCP_DETAILS_SID
+		,PERIOD_SID
+		,PERIOD_DATE
+		,PERIOD
+		,YEAR
+		,RS.RS_CONTRACT_SID
+		,RS.RS_MODEL_SID
+	FROM CCP_DETAILS CD JOIN ',@CUSTOM_CCP_SALES,' C ON C.CCP_DETAILS_SID=CD.CCP_DETAILS_SID
+                  join ', @CCP_HIERARCHY, ' ch
+                     on  ch.CCP_DETAILS_SID = c.CCP_DETAILS_SID AND  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
+	JOIN NM_DISCOUNT_PROJ_MASTER RS ON RS.CCP_DETAILS_SID = ch.CCP_DETAILS_SID
+    and (RS.RS_CONTRACT_SID = C.RS_CONTRACT_SID or C.RS_CONTRACT_SID is null)
+	JOIN #PERIOD P on 1=1
+	)
+INSERT INTO #ACCRUAL_DISCOUNT (
+	CCP_DETAILS_SID,RS_CONTRACT_SID,PERIOD,YEAR
+	,DISCOUNT_AMOUNT
+	)
+select CCP_DETAILS_SID,RS_CONTRACT_SID,period,year,SUM(DISCOUNT_AMOUNT) from (SELECT A2.CCP_DETAILS_SID
+	,PERIOD_SID
+	,A2.RS_CONTRACT_SID
+	,SUM(DEDUCTION_AMOUNT) / (DATEDIFF(MM, A1.ACCRUAL_PERIOD_START_DATE, A1.ACCRUAL_PERIOD_END_DATE) + 1) DISCOUNT_AMOUNT,period,year
+FROM ACCRUAL_MASTER A1
+JOIN CTE A2 ON A2.PERIOD_DATE BETWEEN CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(A1.ACCRUAL_PERIOD_START_DATE, 0))))
+		AND CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(A1.ACCRUAL_PERIOD_END_DATE, 0))))
+	AND A1.CONTRACT_MASTER_SID = A2.CONTRACT_MASTER_SID
+	AND A1.COMPANY_MASTER_SID = A2.COMPANY_MASTER_SID
+	AND A1.ITEM_MASTER_SID = A2.ITEM_MASTER_SID
+	AND A2.RS_MODEL_SID = A1.RS_MODEL_SID
+	AND DATEADD(DD, 1, EOMONTH(A1.ACCRUAL_PERIOD_START_DATE, - 1)) >= @STARTFROM
+	AND A1.ACCRUAL_PERIOD_END_DATE <= @PROJECTION_DATE
+GROUP BY A2.CCP_DETAILS_SID
+	,PERIOD_SID
+	,A2.RS_CONTRACT_SID
+	,ACCRUAL_PERIOD_START_DATE
+	,ACCRUAL_PERIOD_END_DATE,period,year)a group by CCP_DETAILS_SID,RS_CONTRACT_SID,period,year')
+
+
+      EXEC Sp_executesql
+        @SQL_ACC,
+        N'@STARTFROM DATETIME,@PROJECTION_DATE DATETIME',
+        @STARTFROM = @STARTFROM,
+        @PROJECTION_DATE = @PROJECTION_DATE
+
+DECLARE @SQL_DISC NVARCHAR(MAX)
+
+	  IF Object_id('TEMPDB..#DEDUCTION_INCLUSION') IS NOT NULL
+                    DROP TABLE #DEDUCTION_INCLUSION
+
+                  SELECT a.PROJECTION_MASTER_SID,
+                         A.PROJECTION_DETAILS_SID,
+                         CD.CCP_DETAILS_SID,
+                         RS.RS_CONTRACT_SID,
+						 RS.RS_MODEL_SID,
+                         CASE
+                           WHEN DESCRIPTION = 'YES' THEN 1
+                           ELSE 0
+                         END DEDUCTION_INCLUSION
+                  INTO   #DEDUCTION_INCLUSION
+                  FROM   NM_DISCOUNT_PROJ_MASTER A
+                         JOIN #APPROVED_CCP_DETAILS CD
+                           ON CD.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                              AND CD.PROJECTION_MASTER_SID = a.PROJECTION_MASTER_SID
+                         JOIN RS_CONTRACT RS
+                           ON A.RS_CONTRACT_SID = RS.RS_CONTRACT_SID  
+                         JOIN HELPER_TABLE HT
+                           ON HT.HELPER_TABLE_SID = RS.DEDUCTION_INCLUSION
+
+
+   SET @SQL_DISC =Concat('IF EXISTS (SELECT 1 FROM ', @CUSTOM_TABLE_DISCOUNT, ')  
+					                   BEGIN 
+												TRUNCATE TABLE ', @CUSTOM_TABLE_DISCOUNT, '  
+									   END  
+       INSERT INTO ', @CUSTOM_TABLE_DISCOUNT, '(CCP_DETAILS_SID
+,RS_CONTRACT_SID
+,PERIOD
+,YEAR
+,DISCOUNT
+,ACCURAL_DISCOUNT
+,DEDUCTION_INCLUSION
+,INDICATOR
+)
+SELECT C.CCP_DETAILS_SID,
+       C.RS_CONTRACT_SID
+,A.PERIOD
+,A.YEAR
+,ISNULL(MAX(DISCOUNT), 0) DISCOUNT
+,ISNULL(SUM(ACD.DISCOUNT_AMOUNT),0) AS ACCRUAL_DISCOUNT,
+       DM.DEDUCTION_INCLUSION,
+       0 INDICATOR
+      FROM ', @CUSTOM_CCP_SALES , ' C
+       INNER JOIN #DEDUCTION_INCLUSION DM
+       ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+       AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
+             CROSS JOIN (SELECT PERIOD_SID,
+                                period,
+                                YEAR
+                         FROM   #PERIOD   WHERE PERIOD_SID BETWEEN ', @ACTUAL_PERIOD ,' AND ',@END_PERIOD_SID,') A
+             LEFT JOIN (
+       SELECT CCP_DETAILS_SID,
+              PERIOD_SID,
+              RS_MODEL_SID,
+              SUM(DISCOUNT) DISCOUNT
+       FROM [ACTUALS_DETAILS] AD
+       GROUP BY CCP_DETAILS_SID,
+              PERIOD_SID,
+              RS_MODEL_SID,
+              QUANTITY_INCLUSION
+       ) AD
+       ON AD.CCP_DETAILS_SID = C.CCP_DETAILS_SID 
+              AND AD.RS_MODEL_SID = DM.RS_MODEL_SID
+              AND A.PERIOD_SID = AD.PERIOD_SID
+LEFT JOIN #ACCRUAL_DISCOUNT ACD ON  ACD.CCP_DETAILS_SID=C.CCP_DETAILS_SID AND ACD.RS_CONTRACT_SID=C.RS_CONTRACT_SID AND
+ACD.PERIOD=A.PERIOD AND ACD.YEAR=A.YEAR
+              WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
+                        AND EXISTS (SELECT 1 FROM ', @CCP_HIERARCHY, ' CCP WHERE CCP.CCP_DETAILS_SID=C.CCP_DETAILS_SID)
+      GROUP  BY C.CCP_DETAILS_SID,
+       C.RS_CONTRACT_SID,
+       A.PERIOD,
+       A.YEAR,
+       DM.DEDUCTION_INCLUSION
+
+	   UNION ALL
+
+      SELECT C.CCP_DETAILS_SID,
+       C.RS_CONTRACT_SID
+,B.PERIOD
+,B.YEAR
+,SUM(PTD.PROJECTION_SALES) DISCOUNT,
+ISNULL(SUM(ACD.DISCOUNT_AMOUNT),0) AS ACCRUAL_DISCOUNT,
+       DM.DEDUCTION_INCLUSION,
+       1 INDICATOR
+      FROM  ' ,@CUSTOM_CCP_SALES, ' C
+       INNER JOIN #DEDUCTION_INCLUSION DM
+       ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+       AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
+             CROSS JOIN (SELECT PERIOD_SID,
+                                period,
+                                YEAR
+                         FROM   #PERIOD  WHERE PERIOD_SID BETWEEN ', @ACTUAL_PERIOD ,' AND ',@END_PERIOD_SID,')B
+LEFT JOIN NM_DISCOUNT_PROJECTION PTD  
+       ON C.CCP_DETAILS_SID = PTD.CCP_DETAILS_SID
+              AND DM.RS_CONTRACT_SID = PTD.RS_CONTRACT_SID
+              AND B.PERIOD_SID = PTD.PERIOD_SID
+LEFT JOIN #ACCRUAL_DISCOUNT ACD ON  ACD.CCP_DETAILS_SID=C.CCP_DETAILS_SID AND ACD.RS_CONTRACT_SID=C.RS_CONTRACT_SID AND
+ACD.PERIOD=B.PERIOD AND ACD.YEAR=B.YEAR
+WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
+                        AND EXISTS (SELECT 1 FROM ', @CCP_HIERARCHY, ' CCP WHERE CCP.CCP_DETAILS_SID=C.CCP_DETAILS_SID)
+      GROUP  BY C.CCP_DETAILS_SID,
+       C.RS_CONTRACT_SID,
+       B.PERIOD,
+       B.YEAR,
+       DM.DEDUCTION_INCLUSION')
+
+                EXEC Sp_executesql @SQL_DISC
+
+	 
+--------------------item_uom temp table insertion
+DECLARE @SQL_UOM NVARCHAR(MAX)
+
+SET @SQL = CONCAT(' INSERT INTO ', @ITEM_UOM , ' (ITEM_MASTER_SID,UOM_VALUE,UOM_CODE) SELECT ITEM_MASTER_SID,UOM_VALUE,UOM_CODE FROM ITEM_UOM_DETAILS WHERE ITEM_MASTER_SID IN (
+SELECT DISTINCT CD.ITEM_MASTER_SID FROM ' ,@CCP_HIERARCHY, ' C JOIN CCP_DETAILS CD ON 
+C.CCP_DETAILS_SID=CD.CCP_DETAILS_SID)')
+
+EXEC Sp_executesql  @SQL_UOM
+
+
+
+-------------------------------------------------------Approved Prior Projection Logic------------------------------------------------
+ IF Object_id('TEMPDB..#PRIOR_TEMP_CCP') IS NOT NULL
+                        DROP TABLE #PRIOR_TEMP_CCP
+
+                      CREATE TABLE #PRIOR_TEMP_CCP
+                        (
+                           COMPANY_MASTER_SID     INT,
+                           CONTRACT_MASTER_SID    INT,
+                           ITEM_MASTER_SID        INT,
+                           CCP_DETAILS_SID        INT,
+                           PROJECTION_MASTER_SID  INT,
+                           PROJECTION_DETAILS_SID INT
+                           PRIMARY KEY (PROJECTION_MASTER_SID, PROJECTION_DETAILS_SID)
+                        )
+
+
+DECLARE @SQL_PRIOR NVARCHAR(MAX)
+
+              SET @SQL_PRIOR = CONCAT('INSERT INTO #PRIOR_TEMP_CCP
+                                  (COMPANY_MASTER_SID,
+                                   CONTRACT_MASTER_SID,
+                                   ITEM_MASTER_SID,
+                                   CCP_DETAILS_SID,
+                                   PROJECTION_MASTER_SID,
+                                   PROJECTION_DETAILS_SID
+								   )
+                      SELECT DISTINCT CD.COMPANY_MASTER_SID,
+                             CD.CONTRACT_MASTER_SID,
+                             CD.ITEM_MASTER_SID,
+                             CD.CCP_DETAILS_SID,
+                             A.PROJECTION_MASTER_SID,
+                             pd.PROJECTION_DETAILS_SID
+                      FROM   #PROJECTION_MASTER A
+                             JOIN PROJECTION_DETAILS PD
+                               ON A.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+							   AND A.TYPE=''F''
+                             JOIN CCP_DETAILS CD
+                               ON PD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+                      AND  EXISTS (SELECT 1
+                            FROM   ',
+		@CCP_HIERARCHY,
+		' PD1 WHERE PD1.CCP_DETAILS_SID = CD.CCP_DETAILS_SID)')
+
+
+		
+		 EXEC Sp_executesql @SQL_PRIOR
+
+         
+
+ DECLARE @SQL_CFF_PRIOR NVARCHAR(MAX)
+
+SET @SQL_CFF_PRIOR=CONCAT('INSERT INTO #PRIOR_TEMP_CCP
+                                  (COMPANY_MASTER_SID,
+                                   CONTRACT_MASTER_SID,
+                                   ITEM_MASTER_SID,
+                                   CCP_DETAILS_SID,
+                                   PROJECTION_MASTER_SID,
+                                   PROJECTION_DETAILS_SID
+								   )
+	 SELECT DISTINCT CCP.COMPANY_MASTER_SID,
+	                 CCP.CONTRACT_MASTER_SID,
+					 CCP.ITEM_MASTER_SID,
+					  CD.CCP_DETAILS_SID,
+                      PD.PROJECTION_MASTER_SID,
+                      PD.PROJECTION_DETAILS_SID
+      FROM   CFF_DETAILS CD
+             JOIN CFF_MASTER C
+               ON CD.CFF_MASTER_SID = C.CFF_MASTER_SID
+             JOIN PROJECTION_DETAILS PD
+               ON PD.PROJECTION_MASTER_SID = CD.PROJECTION_MASTER_SID
+                  AND PD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+			  JOIN #PROJECTION_MASTER PM
+			  ON PM.PROJECTION_MASTER_SID=CD.PROJECTION_MASTER_SID
+			  AND PM.TYPE=''C''
+			   JOIN CCP_DETAILS CCP
+                ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+			  JOIN CFF_APPROVAL_DETAILS CFA ON CFA.CFF_MASTER_SID=C.CFF_MASTER_SID
+			  INNER JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=CFA.APPROVAL_STATUS
+			  WHERE  HT.DESCRIPTION = ''APPROVED''
+			   AND EXISTS (SELECT 1
+                            FROM   ',
+		@CCP_HIERARCHY,
+		' PD1 WHERE PD1.CCP_DETAILS_SID = CD.CCP_DETAILS_SID) '
+		)
+
+
+EXEC sp_executesql @SQL_CFF_PRIOR
+
+
+
+IF Object_id('TEMPDB..#PRIOR_CCPD_TABLE') IS NOT NULL
+DROP TABLE #PRIOR_CCPD_TABLE
+CREATE TABLE #PRIOR_CCPD_TABLE
+(
+CCP_DETAILS_SID INT,
+RS_CONTRACT_SID INT,
+PROJECTION_MASTER_SID INT,
+YEAR INT,
+PERIOD INT,
+ITEM_MASTER_SID INT
+)
+
+DECLARE @SQL_CCPD NVARCHAR(MAX)
+
+SET @SQL_CCPD=CONCAT('INSERT INTO #PRIOR_CCPD_TABLE(CCP_DETAILS_SID,RS_CONTRACT_SID,PROJECTION_MASTER_SID,YEAR,PERIOD,ITEM_MASTER_SID)
+SELECT DISTINCT A.CCP_DETAILS_SID,
+       C.RS_CONTRACT_SID,
+	   A.PROJECTION_MASTER_SID,
+	   P.YEAR,
+	   P.PERIOD,
+	   A.ITEM_MASTER_SID
+FROM #PRIOR_TEMP_CCP A JOIN ',@CUSTOM_CCP_SALES,' C ON C.CCP_DETAILS_SID=A.CCP_DETAILS_SID
+AND C.CUST_VIEW_MASTER_SID= ' ,@CUSTOM_VIEW_MASTER_SID, '
+JOIN NM_DISCOUNT_PROJ_MASTER RS ON RS.CCP_DETAILS_SID = C.CCP_DETAILS_SID AND A.PROJECTION_MASTER_SID=RS.PROJECTION_MASTER_SID
+AND A.PROJECTION_DETAILS_SID=RS.PROJECTION_DETAILS_SID
+    and (RS.RS_CONTRACT_SID = C.RS_CONTRACT_SID or C.RS_CONTRACT_SID is null)
+		JOIN #PERIOD P on 1=1')
+
+		EXEC SP_EXECUTESQL @SQL_CCPD
+
+IF Object_id('TEMPDB..#PRIOR_DATA_TABLE') IS NOT NULL
+                        DROP TABLE #PRIOR_DATA_TABLE
+
+                      SELECT COMPANY_MASTER_SID,
+                             CONTRACT_MASTER_SID,
+                             ITEM_MASTER_SID,
+                             CCP_DETAILS_SID,
+                             PROJECTION_MASTER_SID,
+                             PROJECTION_DETAILS_SID,
+                             YEAR,
+                             PERIOD,
+                             PERIOD_SID
+                      INTO   #PRIOR_DATA_TABLE
+                      FROM   #PRIOR_TEMP_CCP A
+                             CROSS JOIN #PERIOD
+
+		
+ IF Object_id('TEMPDB..#SALES_INCLUSION') IS NOT NULL
+ DROP TABLE #SALES_INCLUSION
+
+                      SELECT DISTINCT A.PROJECTION_MASTER_SID,
+                                      A.PROJECTION_DETAILS_SID,
+                                      CD.CCP_DETAILS_SID,
+                                      CASE
+                                        WHEN DESCRIPTION = 'YES' THEN 1
+                                        ELSE 0
+                                      END SALES_INCLUSION
+                      INTO   #SALES_INCLUSION
+                      FROM   NM_SALES_PROJECTION_MASTER A
+                             JOIN #PRIOR_TEMP_CCP CD
+                               ON CD.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                                  AND CD.PROJECTION_MASTER_SID = A.PROJECTION_MASTER_SID
+                             JOIN CFP_CONTRACT CC1
+                               ON CC1.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+                                  AND INBOUND_STATUS <> 'D'
+                             JOIN CFP_CONTRACT_DETAILS CC
+                               ON CC1.CFP_CONTRACT_SID = CC.CFP_CONTRACT_SID
+                                  AND CC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+                             JOIN HELPER_TABLE HT
+                               ON HT.HELPER_TABLE_SID = CC1.SALES_INCLUSION
+
+	 IF Object_id('TEMPDB..#DEDUCTION_INCLUSION_PRIOR') IS NOT NULL
+                        DROP TABLE #DEDUCTION_INCLUSION_PRIOR
+
+					CREATE TABLE #DEDUCTION_INCLUSION_PRIOR
+					( 
+					   PROJECTION_MASTER_SID INT,
+					   PROJECTION_DETAILS_SID INT,
+					   CCP_DETAILS_SID INT,
+					   RS_CONTRACT_SID INT,
+					   DEDUCTION_INCLUSION BIT
+					)
+
+						DECLARE @SQL_DED NVARCHAR(MAX)
+
+SET @SQL_DED =CONCAT('INSERT INTO #DEDUCTION_INCLUSION_PRIOR(PROJECTION_MASTER_SID,
+                                       PROJECTION_DETAILS_SID,
+									   CCP_DETAILS_SID,
+									   RS_CONTRACT_SID,
+									   DEDUCTION_INCLUSION)
+                      SELECT a.PROJECTION_MASTER_SID,
+                             A.PROJECTION_DETAILS_SID,
+                             CD.CCP_DETAILS_SID,
+                             RS.RS_CONTRACT_SID,
+                             CASE
+                               WHEN DESCRIPTION = ''YES'' THEN 1
+                               ELSE 0
+                             END DEDUCTION_INCLUSION
+                      FROM   NM_DISCOUNT_PROJ_MASTER A
+                             JOIN #PRIOR_TEMP_CCP CD
+                               ON CD.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                                  AND CD.PROJECTION_MASTER_SID = a.PROJECTION_MASTER_SID
+                             JOIN RS_CONTRACT RS
+                               ON A.RS_CONTRACT_SID = RS.RS_CONTRACT_SID
+                             JOIN HELPER_TABLE HT
+                               ON HT.HELPER_TABLE_SID = RS.DEDUCTION_INCLUSION
+                      WHERE  EXISTS (SELECT 1
+                                     FROM   ',@CUSTOM_CCP_SALES,' RD
+                                     WHERE  RD.RS_CONTRACT_SID = RS.RS_CONTRACT_SID
+									 AND RD.CCP_DETAILS_SID=CD.CCP_DETAILS_SID
+									 AND RD.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, ')')
+
+							EXEC SP_EXECUTESQL @SQL_DED
+
+   IF Object_id('TEMPDB..#PRIOR_EXFACTORY') IS NOT NULL
+            DROP TABLE #PRIOR_EXFACTORY
+
+          CREATE TABLE #PRIOR_EXFACTORY
+            (
+			  PROJECTION_MASTER_SID INT,
+               ITEM_MASTER_SID     INT,
+               PERIOD          INT,
+			   YEAR INT,
+               ACTUAL_GTS_SALES    NUMERIC(22, 6),
+               FORECAST_GTS_SALES  NUMERIC(22, 6)
+            )
+
+          INSERT INTO #PRIOR_EXFACTORY
+                      (
+					   PROJECTION_MASTER_SID,
+                       ITEM_MASTER_SID,
+                       PERIOD,
+					   YEAR,
+                       ACTUAL_GTS_SALES,
+                       FORECAST_GTS_SALES
+                       )
+
+			SELECT PM.PROJECTION_MASTER_SID,
+					                 PM.ITEM_MASTER_SID,
+									 P.PERIOD,
+									 P.YEAR,
+                                     Sum(EXFACTORY_ACTUAL_SALES)                                     AS ACTUAL_GTS_SALES,
+                                     Sum(COALESCE(EXFACTORY_FORECAST_SALES, EXFACTORY_ACTUAL_SALES)) AS FORECAST_GTS_SALES
+                              FROM   (SELECT DISTINCT PROJECTION_MASTER_SID,
+                                                      ITEM_MASTER_SID
+                                      FROM   #PRIOR_TEMP_CCP) PM
+                                     JOIN #PERIOD p
+                                       ON 1 = 1
+                                     LEFT JOIN #PRODUCT_FILE_DATA PF
+                                            ON PM.PROJECTION_MASTER_SID = PF.PROJECTION_MASTER_SID
+                                               AND PF.ITEM_MASTER_SID = PM.ITEM_MASTER_SID
+                                               AND PF.period_sid = P.period_sid
+                              GROUP  BY PM.PROJECTION_MASTER_SID,
+							  PM.ITEM_MASTER_SID,
+                                        P.PERIOD,
+                                        P.YEAR
+
+         IF Object_id('TEMPDB..#PRIOR_ACC_DISC') IS NOT NULL
+        DROP TABLE #PRIOR_ACC_DISC;
+
+      CREATE TABLE #PRIOR_ACC_DISC
+        (
+           CCP_DETAILS_SID INT,
+		   RS_CONTRACT_SID INT,
+		   PROJECTION_MASTER_SID INT,
+           PERIOD              SMALLINT,
+           YEAR                INT,
+           DISCOUNT_AMOUNT     NUMERIC(33, 8)
+        )
+
+      SET @SQL_ACC= CONCAT(' ;
+WITH CTE
+AS (
+	SELECT DISTINCT COMPANY_MASTER_SID
+		,CONTRACT_MASTER_SID
+		,ITEM_MASTER_SID		
+		,CD.CCP_DETAILS_SID
+		,PERIOD_SID
+		,PERIOD_DATE
+		,PERIOD
+		,YEAR
+		,RS.RS_CONTRACT_SID
+		,RS.RS_MODEL_SID,C.ROWID AS HIERARCHY_NO,PM.PROJECTION_MASTER_SID
+	FROM CCP_DETAILS CD JOIN ',@CUSTOM_CCP_SALES,' C ON C.CCP_DETAILS_SID=CD.CCP_DETAILS_SID
+                  join ', @CCP_HIERARCHY, ' ch
+                     on  ch.CCP_DETAILS_SID = c.CCP_DETAILS_SID AND  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, ' 
+	JOIN NM_DISCOUNT_PROJ_MASTER RS ON RS.CCP_DETAILS_SID = ch.CCP_DETAILS_SID
+    and (RS.RS_CONTRACT_SID = C.RS_CONTRACT_SID or C.RS_CONTRACT_SID is null)
+	JOIN #PROJECTION_MASTER PM 
+	ON PM.PROJECTION_MASTER_SID=RS.PROJECTION_MASTER_SID
+	JOIN #PERIOD P on 1=1
+	)
+INSERT INTO #PRIOR_ACC_DISC (
+	CCP_DETAILS_SID,RS_CONTRACT_SID,PROJECTION_MASTER_SID,PERIOD,YEAR
+	,DISCOUNT_AMOUNT
+	)
+select CCP_DETAILS_SID,RS_CONTRACT_SID,PROJECTION_MASTER_SID,period,year,SUM(DISCOUNT_AMOUNT) from (SELECT A2.CCP_DETAILS_SID
+	,PERIOD_SID
+	,A2.RS_CONTRACT_SID
+	,SUM(DEDUCTION_AMOUNT) / (DATEDIFF(MM, A1.ACCRUAL_PERIOD_START_DATE, A1.ACCRUAL_PERIOD_END_DATE) + 1) DISCOUNT_AMOUNT,PROJECTION_MASTER_SID,period,year
+FROM ACCRUAL_MASTER A1
+JOIN CTE A2 ON A2.PERIOD_DATE BETWEEN CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(A1.ACCRUAL_PERIOD_START_DATE, 0))))
+		AND CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(A1.ACCRUAL_PERIOD_END_DATE, 0))))
+	AND A1.CONTRACT_MASTER_SID = A2.CONTRACT_MASTER_SID
+	AND A1.COMPANY_MASTER_SID = A2.COMPANY_MASTER_SID
+	AND A1.ITEM_MASTER_SID = A2.ITEM_MASTER_SID
+	AND A2.RS_MODEL_SID = A1.RS_MODEL_SID
+	AND DATEADD(DD, 1, EOMONTH(A1.ACCRUAL_PERIOD_START_DATE, - 1)) >= @STARTFROM
+	AND A1.ACCRUAL_PERIOD_END_DATE <= @PROJECTION_DATE
+GROUP BY A2.CCP_DETAILS_SID
+	,PERIOD_SID
+	,A2.RS_CONTRACT_SID
+	,ACCRUAL_PERIOD_START_DATE
+	,ACCRUAL_PERIOD_END_DATE,PROJECTION_MASTER_SID,period,year)a group by CCP_DETAILS_SID,RS_CONTRACT_SID,PROJECTION_MASTER_SID,period,year')
+
+
+      EXEC Sp_executesql
+        @SQL_ACC,
+        N'@STARTFROM DATETIME,@PROJECTION_DATE DATETIME',
+        @STARTFROM = @STARTFROM,
+        @PROJECTION_DATE = @PROJECTION_DATE
+
+DECLARE @SQL_APP NVARCHAR(MAX)
+
+
+SET @SQL_APP = CONCAT ('TRUNCATE TABLE ', @APPROVED_TABLE, '  
+		 INSERT INTO ',
+		@APPROVED_TABLE,
+		'(CCP_DETAILS_SID,RS_CONTRACT_SID,PROJECTION_MASTER_SID,PERIOD,YEAR,SALES,UNITS,DISCOUNT,EXFACTORY_SALES,ACCURAL_DISCOUNT,INDICATOR)
+
+SELECT 
+PD.CCP_DETAILS_SID,
+PD.RS_CONTRACT_SID,
+PD.PROJECTION_MASTER_SID ,
+                             PD.PERIOD,
+                             PD.[YEAR],
+						ISNULL(ACTUAL_SALES,0) AS SALES,
+						ISNULL(ACTUAL_UNITS,0) AS UNITS, 
+						ISNULL(DISCOUNT,0),
+						ISNULL(TE.ACTUAL_GTS_SALES,0) AS EXFACTORY_SALES,
+						ISNULL(PAD.DISCOUNT_AMOUNT,0) AS ACCRUAL_DISCOUNT,
+						0 AS INDICATOR FROM
+ #PRIOR_CCPD_TABLE PD
+                             LEFT JOIN (SELECT PROJECTION_MASTER_SID,
+							                    CCP_DETAILS_SID,
+                                                A.PERIOD,
+                                                A.YEAR,
+                                               Sum(ACTUAL_SALES) AS ACTUAL_SALES,
+                                               Sum(ACTUAL_UNITS) AS ACTUAL_UNITS
+                                         FROM   (SELECT PT.PROJECTION_MASTER_SID,
+                                                        PT.CCP_DETAILS_SID,
+                                                        PERIOD,
+                                                        YEAR,
+                                                        PT.PERIOD_SID,
+                                                       Isnull(ACTUAL_SALES, 0)                                ACTUAL_SALES,
+                                                    Isnull(ACTUAL_UNITS, 0) ACTUAL_UNITS
+                                                 FROM   #PRIOR_DATA_TABLE PT
+                                                        INNER JOIN #SALES_INCLUSION SI
+                                                                ON SI.PROJECTION_DETAILS_SID = PT.PROJECTION_DETAILS_SID
+                                                        LEFT JOIN NM_ACTUAL_SALES NSP
+                                                               ON NSP.PROJECTION_MASTER_SID = PT.PROJECTION_MASTER_SID
+                                                                  AND NSP.CCP_DETAILS_SID = PT.CCP_DETAILS_SID
+                                                                  AND NSP.PERIOD_SID = PT.PERIOD_SID
+                                                      ) A  
+                                         GROUP  BY PROJECTION_MASTER_SID,
+										           CCP_DETAILS_SID,
+                                                   A.YEAR,
+                                                   A.PERIOD) SALES
+                                     ON PD.CCP_DETAILS_SID=SALES.CCP_DETAILS_SID
+									   AND SALES.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+									    AND SALES.PERIOD = PD.PERIOD
+                                        AND sales.YEAR = PD.YEAR
+                             LEFT JOIN (SELECT PROJECTION_MASTER_SID,
+							                   CCP_DETAILS_SID,
+											   RS_CONTRACT_SID,
+                                               A.PERIOD,
+                                               A.YEAR,
+                                               Sum(ACTUAL_SALES) AS DISCOUNT
+                                        FROM    (SELECT PD.PROJECTION_MASTER_SID,
+                                                       PD.CCP_DETAILS_SID,
+													   PD.RS_CONTRACT_SID,
+                                                       PD.PERIOD,
+                                                       PD.YEAR,
+                                                       PT.PERIOD_SID,
+                                                        Isnull(ACTUAL_SALES, 0) AS ACTUAL_SALES
+                                                FROM    #PRIOR_CCPD_TABLE PD JOIN
+												      #PRIOR_DATA_TABLE PT  ON PD.CCP_DETAILS_SID=PT.CCP_DETAILS_SID
+                                                       INNER JOIN #DEDUCTION_INCLUSION_PRIOR DI
+                                                               ON DI.PROJECTION_DETAILS_SID = PT.PROJECTION_DETAILS_SID
+                                                       LEFT JOIN NM_ACTUAL_DISCOUNT NDP
+                                                              ON NDP.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+                                                                 AND DI.CCP_DETAILS_SID = NDP.CCP_DETAILS_SID
+                                                                 AND DI.RS_CONTRACT_SID = NDP.RS_CONTRACT_SID
+																 AND PD.RS_CONTRACT_SID = NDP.RS_CONTRACT_SID
+                                                                 AND NDP.PERIOD_SID = PT.PERIOD_SID) A
+                                        GROUP  BY PROJECTION_MASTER_SID,
+										           CCP_DETAILS_SID,
+												   RS_CONTRACT_SID,
+                                                  A.PERIOD,
+                                                  A.YEAR) DISC
+                                  ON PD.CCP_DETAILS_SID=DISC.CCP_DETAILS_SID
+								  AND PD.RS_CONTRACT_SID=DISC.RS_CONTRACT_SID
+									   AND DISC.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+									    AND DISC.PERIOD = PD.PERIOD
+                                        AND DISC.YEAR = PD.YEAR
+										LEFT JOIN #PRIOR_EXFACTORY TE ON 
+										TE.ITEM_MASTER_SID=PD.ITEM_MASTER_SID AND TE.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID AND TE.PERIOD=PD.PERIOD AND TE.YEAR=PD.YEAR
+										LEFT JOIN #PRIOR_ACC_DISC PAD ON PAD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND PAD.RS_CONTRACT_SID=PD.RS_CONTRACT_SID
+										AND PAD.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID AND PAD.PERIOD=PD.PERIOD  
+									   AND PAD.YEAR=PD.YEAR 
+UNION 
+SELECT 
+PD.CCP_DETAILS_SID,
+PD.RS_CONTRACT_SID,
+PD.PROJECTION_MASTER_SID ,
+                             PD.PERIOD,
+                             PD.[YEAR],
+						ISNULL(PROJECTION_SALES,0)  AS SALES,
+						ISNULL(PROJECTION_UNITS,0)  AS UNITS,
+						ISNULL(DISCOUNT,0),
+						ISNULL(TE.FORECAST_GTS_SALES,0) AS EXFACTORY_SALES,
+						ISNULL(PAD.DISCOUNT_AMOUNT,0) AS ACCRUAL_DISCOUNT,
+						1 AS INDICATOR FROM
+  #PRIOR_CCPD_TABLE PD
+                             LEFT JOIN (SELECT PROJECTION_MASTER_SID,
+							                    CCP_DETAILS_SID,
+                                                PERIOD,
+                                                YEAR,
+                                               Sum(PROJECTION_SALES) AS PROJECTION_SALES,
+                                               Sum(PROJECTION_UNITS) AS PROJECTION_UNITS
+                                         FROM   (SELECT PT.PROJECTION_MASTER_SID,
+                                                        PT.CCP_DETAILS_SID,
+                                                        PERIOD,
+                                                        YEAR,
+                                                        PT.PERIOD_SID,
+                                                       Isnull(PROJECTION_SALES, 0)                                PROJECTION_SALES,
+                                                    Isnull(PROJECTION_UNITS, 0) PROJECTION_UNITS
+                                                 FROM   #PRIOR_DATA_TABLE PT
+                                                        INNER JOIN #SALES_INCLUSION SI
+                                                                ON SI.PROJECTION_DETAILS_SID = PT.PROJECTION_DETAILS_SID
+                                                        LEFT JOIN NM_SALES_PROJECTION NSP
+                                                               ON NSP.PROJECTION_MASTER_SID = PT.PROJECTION_MASTER_SID
+                                                                  AND NSP.CCP_DETAILS_SID = PT.CCP_DETAILS_SID
+                                                                  AND NSP.PERIOD_SID = PT.PERIOD_SID
+                                                      ) A ')
+
+SET @SQL_APP =  @SQL_APP + ' GROUP  BY PROJECTION_MASTER_SID,
+										           CCP_DETAILS_SID,
+                                                   YEAR,
+                                                   PERIOD) SALES
+                                     ON PD.CCP_DETAILS_SID=SALES.CCP_DETAILS_SID
+									   AND SALES.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+									    AND SALES.PERIOD = PD.PERIOD
+                                        AND sales.YEAR = PD.YEAR
+                             LEFT JOIN (SELECT PROJECTION_MASTER_SID,
+							                   CCP_DETAILS_SID,
+											   RS_CONTRACT_SID,
+                                               PERIOD,
+                                               YEAR,
+                                               Sum(PROJECTION_SALES) AS DISCOUNT
+                                        FROM   (SELECT PD.PROJECTION_MASTER_SID,
+                                                       PD.CCP_DETAILS_SID,
+													   PD.RS_CONTRACT_SID,
+                                                       PD.PERIOD,
+                                                       PD.YEAR,
+                                                       PT.PERIOD_SID,
+                                                        Isnull(PROJECTION_SALES, 0) AS PROJECTION_SALES
+                                                FROM    #PRIOR_CCPD_TABLE PD JOIN
+												      #PRIOR_DATA_TABLE PT  ON PD.CCP_DETAILS_SID=PT.CCP_DETAILS_SID
+													   AND PD.PROJECTION_MASTER_SID=PT.PROJECTION_MASTER_SID AND PT.PERIOD=PD.PERIOD
+													   AND PT.YEAR=PD.YEAR
+                                                       INNER JOIN #DEDUCTION_INCLUSION_PRIOR DI
+                                                               ON DI.PROJECTION_DETAILS_SID = PT.PROJECTION_DETAILS_SID
+                                                       LEFT JOIN NM_DISCOUNT_PROJECTION NDP
+                                                              ON NDP.PROJECTION_MASTER_SID = PT.PROJECTION_MASTER_SID
+                                                                 AND DI.CCP_DETAILS_SID = NDP.CCP_DETAILS_SID
+                                                                 AND DI.RS_CONTRACT_SID = NDP.RS_CONTRACT_SID
+																 AND  NDP.RS_CONTRACT_SID=PD.RS_CONTRACT_SID
+                                                                 AND NDP.PERIOD_SID = PT.PERIOD_SID) A
+                                        GROUP  BY PROJECTION_MASTER_SID,
+										           CCP_DETAILS_SID,
+												   RS_CONTRACT_SID,
+                                                  PERIOD,
+                                                  YEAR) DISC
+                                  ON PD.CCP_DETAILS_SID=DISC.CCP_DETAILS_SID
+								  AND PD.RS_CONTRACT_SID=DISC.RS_CONTRACT_SID
+									   AND DISC.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+									    AND DISC.PERIOD = PD.PERIOD
+                                        AND DISC.YEAR = PD.YEAR
+										LEFT JOIN #PRIOR_EXFACTORY TE ON 
+										TE.ITEM_MASTER_SID=PD.ITEM_MASTER_SID AND TE.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID AND TE.PERIOD=PD.PERIOD AND TE.YEAR=PD.YEAR
+										LEFT JOIN #PRIOR_ACC_DISC PAD ON PAD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND PAD.RS_CONTRACT_SID=PD.RS_CONTRACT_SID
+										AND PAD.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID AND PAD.PERIOD=PD.PERIOD 
+									   AND PAD.YEAR=PD.YEAR
+									   '
+
+						EXEC SP_EXECUTESQL  @SQL_APP
+      END TRY
+
+      BEGIN CATCH
+          DECLARE @ERRORMESSAGE NVARCHAR(4000);
+          DECLARE @ERRORSEVERITY INT;
+          DECLARE @ERRORSTATE INT;
+          DECLARE @ERRORNUMBER INT;
+          DECLARE @ERRORPROCEDURE VARCHAR(200);
+          DECLARE @ERRORLINE INT;
+
+          EXEC Usperrorcollector
+
+          SELECT @ERRORMESSAGE = Error_message(),
+                 @ERRORSEVERITY = Error_severity(),
+                 @ERRORSTATE = Error_state(),
+                 @ERRORPROCEDURE = Error_procedure(),
+                 @ERRORLINE = Error_line(),
+                 @ERRORNUMBER = Error_number()
+
+          RAISERROR ( @ERRORMESSAGE,-- MESSAGE TEXT.                  
+                      @ERRORSEVERITY,-- SEVERITY.                  
+                      @ERRORSTATE,-- STATE.                  
+                      @ERRORPROCEDURE,-- PROCEDURE_NAME.                  
+                      @ERRORNUMBER,-- ERRORNUMBER                  
+                      @ERRORLINE -- ERRORLINE                  
+          );
+      END CATCH
+  END 
+
+GO

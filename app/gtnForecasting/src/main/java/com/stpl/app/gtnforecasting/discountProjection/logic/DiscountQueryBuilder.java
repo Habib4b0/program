@@ -79,7 +79,8 @@ public class DiscountQueryBuilder {
     public static final String SELCOLDED = "@SELCOLDED";
     public static final String DPM_DEDUCTION_INCLUSION = " ,DPM.DEDUCTION_INCLUSION ";
     public static final String AND_USER_GROUP = " AND USER_GROUP = '";
-    public static final String NINE_LEVELS_DED ="UNION ALL SELECT SH.HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL";
+    public static final String NINE_LEVELS_DED =" UNION ALL SELECT SH.HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM ";
+    public static final String NINE_LEVELS_DED_EXCEL_CUSTOM =" UNION ALL SELECT DISTINCT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #DISCOUNT_PROJECTION_MASTER WHERE DEDUCTION_INCLUSION = ";
 
 
    
@@ -293,10 +294,10 @@ public class DiscountQueryBuilder {
             String column2 = "";
             if ("Discount Rate".equals(selectedField)) {
                 column = "DPT.PROJECTION_RATE";
-                column2 = "SET DPT.PROJECTION_SALES = NM.PROJECTION_SALES * (@DISCOUNT_AMOUNT / 100.0)";
+                column2 = "SET DPT.PROJECTION_SALES = NM.PROJECTION_SALES * ((@DISCOUNT_AMOUNT / 100.0)/ NULLIF(x.rs_count, 0) )";
             }
             if ("RPU".equals(selectedField)) {
-                column2 = "SET    DPT.PROJECTION_SALES = @DISCOUNT_AMOUNT  * NM.PROJECTION_UNITS ";
+                column2 = "SET    DPT.PROJECTION_SALES = @DISCOUNT_AMOUNT  * (NM.PROJECTION_UNITS /nullif(x.rs_count,0)) ";
                 column = "DPT.PROJECTION_RPU";
             }
             if ("Discount Amount".equals(selectedField)) {
@@ -329,7 +330,7 @@ public class DiscountQueryBuilder {
 
                 int startMonth = 0;
                 int endMonth = 0;
-                if (frequency.equals(ANNUALLY.getConstant())) {
+                if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                     startMonth = 1;
                     endMonth = NumericConstants.TWELVE;
                 }
@@ -369,7 +370,7 @@ public class DiscountQueryBuilder {
                             break;
                     }
                 }
-                if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+                if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                     switch (startFreq) {
                         case 1:
                             startMonth = 1;
@@ -457,7 +458,8 @@ public class DiscountQueryBuilder {
             }
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
             CommonLogic.updateFlagStatusToR(session, Constant.DISCOUNT3, String.valueOf(projectionSelection.getViewOption()));
-            new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,endPeriod.equals("0")?StringUtils.EMPTY:endPeriod,"Discount");
+            String updateField = "Growth".equals(selectedField) ? selectedField : "Discount";
+            new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,endPeriod.equals("0")?StringUtils.EMPTY:endPeriod,updateField);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
@@ -477,7 +479,7 @@ public class DiscountQueryBuilder {
 
         if (fre.equals(MONTHLY.getConstant())) {
             String startMonthValue = period.substring(0, period.length() - NumericConstants.FIVE);
-            int startFreqNo = CommonUtils.getIntegerForMonth(startMonthValue);
+            int startFreqNo = Integer.valueOf(startMonthValue.replaceAll("[^\\d.]", StringUtils.EMPTY));
             where = "where \"MONTH\" = '" + startFreqNo + AND_YEAR_EQUAL + startYear + "'";
         } else if (fre.equals(QUARTERLY.getConstant())) {
             where = "where QUARTER = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
@@ -800,10 +802,29 @@ public class DiscountQueryBuilder {
         queryBuilder = queryBuilder.replace(Constant.AT_USER_GROUP, StringUtils.EMPTY);
         return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames()));
     }
+    
+    public static List getDiscountProjectionCustomExcel(SessionDTO session,final boolean isProgram,ProjectionSelectionDTO projectionSelection) {
+        String CustExcelQuery = SQlUtil.getQuery("discountGenerateCustomViewExcel");
+        String dedQuery = NINE_LEVELS_DED_EXCEL_CUSTOM;
+        String oppositeDed = session.getDeductionInclusion().equals("1") ? "0" : "1";
+        CustExcelQuery = CustExcelQuery.replace("?RS", isProgram ? "R" : "P") //Indicator for Program or program category
+                .replace("?F", String.valueOf(projectionSelection.getFrequency().charAt(0))) //Selected Frequency initial char
+                .replace("?P", StringUtils.EMPTY) //Selected Frequency initial char
+                .replace(DPMDEDINCLLUSION, replaceDPMDEDINCLLUSIONEXCEL(session)) // Selected RS
+                .replace("@PROJECTION_MASTER_SID",String.valueOf(session.getProjectionId()))
+                .replace("@CUST_VIEW_MASTER_SID",String.valueOf(session.getCustomDeductionRelationShipSid()))
+                .replace(DEDINCLNWHR, "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" WHERE DEDUCTION_INCLUSION= "+session.getDeductionInclusion()) // Selected RS
+                .replace("@UNIONALL", "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY : dedQuery + oppositeDed)
+                ;
+        return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(CustExcelQuery, session.getCurrentTableNames()));
+    }
 
 
 	private CharSequence replaceDPMDEDINCLLUSION(final SessionDTO session) {
 		return "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" and HY.DEDUCTION_INCLUSION= "+session.getDeductionInclusion();
+	}
+	private static CharSequence replaceDPMDEDINCLLUSIONEXCEL(final SessionDTO session) {
+		return "ALL".equals(session.getDeductionInclusion()) ? StringUtils.EMPTY:" and dpm.DEDUCTION_INCLUSION= "+session.getDeductionInclusion();
 	}
 
 

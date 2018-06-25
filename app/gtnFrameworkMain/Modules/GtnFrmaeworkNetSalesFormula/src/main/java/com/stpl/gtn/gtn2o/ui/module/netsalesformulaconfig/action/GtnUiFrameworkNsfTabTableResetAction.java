@@ -21,7 +21,6 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 
 public class GtnUiFrameworkNsfTabTableResetAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
-
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -73,12 +72,11 @@ public class GtnUiFrameworkNsfTabTableResetAction implements GtnUIFrameWorkActio
 		resetRequest.setGtnWsNetSalesGeneralRequest(gtnWsNsfUpdateRequest);
 		GtnWsNsfUpdateBean nsfResetBean = new GtnWsNsfUpdateBean();
 		nsfResetBean.setSalesBasis(isSalesBasis);
+		nsfResetBean.setMasterSid(Integer.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkNSFConstants.getSystemid()).toString()));
 		gtnWsNsfUpdateRequest.setNsfUpdateBean(nsfResetBean);
-
 		generalWSRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		generalWSRequest.setSessionId(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId").toString());
 		resetRequest.setGtnWsGeneralRequest(generalWSRequest);
-
 		return resetRequest;
 	}
 

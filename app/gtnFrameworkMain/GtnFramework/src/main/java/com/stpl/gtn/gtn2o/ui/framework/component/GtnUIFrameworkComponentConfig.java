@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroup
 import com.stpl.gtn.gtn2o.ui.framework.component.date.GtnUIFrameworkDateFieldConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.GtnUIFrameworkGridComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.label.GtnUIFrameworkLabelConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.GtnUIFrameworkNotesTabConfig;
@@ -29,6 +30,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfi
 import com.stpl.gtn.gtn2o.ui.framework.component.textarea.GtnUIFrameworkTextAreaConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.textbox.GtnUIFrameworkTextBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.tree.GtnUIFrameworkTreeConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkV8DualListBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -88,6 +90,7 @@ public class GtnUIFrameworkComponentConfig {
 	private boolean rebuild = false;
 
 	private GtnUIFrameworkDualListBoxConfig gtnUIFrameworkDualListBoxConfig;
+	private GtnUIFrameworkV8DualListBoxConfig gtnUIFrameworkV8DualListBoxConfig;
 
 	private GtnUIFrameworkTreeConfig gtnUIFrameworkTreeConfig;
 	private GtnUIFrameworkDateFieldConfig gtnDateFieldConfig;
@@ -101,6 +104,7 @@ public class GtnUIFrameworkComponentConfig {
 	private GtnUIFrameworkCalendarConfig calendarConfig;
 	private GtnUIFrameworkButtonConfig buttonConfig;
 	private GtnUIFrameWorkActionConfig gtnUIFrameWorkColumnGeneratorConfig;
+	private GtnUIFrameworkGridComponentConfig gtnUIFrameWorkGridConfig;
 	/*
 	 * List of dependent componentIds. For example is combobox1 is changed, then
 	 * combobox2 has to load, then combobox2 will be the dependent component of
@@ -116,18 +120,22 @@ public class GtnUIFrameworkComponentConfig {
 	 */
 	private String reloadLogicActionClassName;
 
+	private GtnUIFrameWorkActionConfig reloadActionConfig;
+
 	/**
 	 * This is for custom table logic class should extends
 	 * GtnUIFrameworkPagedTableLogic class for paged table.
 	 * GtnUIFrameworkPagedTreeTableLogic class for pagedtreetable Override the
 	 * required methods
-	 * 
+	 *
 	 */
 	private String pagedTableLogicClassName;
 
 	private String expressionType;
-	
+
 	private boolean defaultFocus = false;
+
+	private String moduleName = "";
 
 	public GtnUIFrameworkComponentConfig() {
 		super();
@@ -411,14 +419,6 @@ public class GtnUIFrameworkComponentConfig {
 		this.margin = margin;
 	}
 
-	public GtnUIFrameworkDualListBoxConfig getGtnUIFrameworkDualListBoxConfig() {
-		return gtnUIFrameworkDualListBoxConfig;
-	}
-
-	public void setGtnUIFrameworkDualListBoxConfig(GtnUIFrameworkDualListBoxConfig gtnUIFrameworkDualListBoxConfig) {
-		this.gtnUIFrameworkDualListBoxConfig = gtnUIFrameworkDualListBoxConfig;
-	}
-
 	public List<Object> getQueryInputs() {
 		return queryInputs == null ? queryInputs : Collections.unmodifiableList(queryInputs);
 	}
@@ -688,6 +688,47 @@ public class GtnUIFrameworkComponentConfig {
 
 	public void setDefaultFocus(boolean defaultFocus) {
 		this.defaultFocus = defaultFocus;
+	}
+
+	public String getModuleName() {
+		return moduleName;
+	}
+
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
+	}
+
+	public GtnUIFrameworkGridComponentConfig getGtnUIFrameWorkGridConfig() {
+		return gtnUIFrameWorkGridConfig;
+	}
+
+	public void setGtnUIFrameWorkGridConfig(GtnUIFrameworkGridComponentConfig gtnUIFrameWorkGridConfig) {
+		this.gtnUIFrameWorkGridConfig = gtnUIFrameWorkGridConfig;
+	}
+
+	public GtnUIFrameworkDualListBoxConfig getGtnUIFrameworkDualListBoxConfig() {
+		return gtnUIFrameworkDualListBoxConfig;
+	}
+
+	public void setGtnUIFrameworkDualListBoxConfig(GtnUIFrameworkDualListBoxConfig gtnUIFrameworkDualListBoxConfig) {
+		this.gtnUIFrameworkDualListBoxConfig = gtnUIFrameworkDualListBoxConfig;
+	}
+
+	public GtnUIFrameworkV8DualListBoxConfig getGtnUIFrameworkV8DualListBoxConfig() {
+		return gtnUIFrameworkV8DualListBoxConfig;
+	}
+
+	public void setGtnUIFrameworkV8DualListBoxConfig(
+			GtnUIFrameworkV8DualListBoxConfig gtnUIFrameworkV8DualListBoxConfig) {
+		this.gtnUIFrameworkV8DualListBoxConfig = gtnUIFrameworkV8DualListBoxConfig;
+	}
+
+	public GtnUIFrameWorkActionConfig getReloadActionConfig() {
+		return reloadActionConfig;
+	}
+
+	public void setReloadActionConfig(GtnUIFrameWorkActionConfig reloadActionConfig) {
+		this.reloadActionConfig = reloadActionConfig;
 	}
 
 }
