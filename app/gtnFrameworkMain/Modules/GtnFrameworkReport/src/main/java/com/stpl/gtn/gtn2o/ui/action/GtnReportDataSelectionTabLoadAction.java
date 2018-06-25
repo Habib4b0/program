@@ -51,9 +51,9 @@ public class GtnReportDataSelectionTabLoadAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_businessUnit", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getBusinessUnitReport());
 
-			// GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod",
-			// componentId)
-			// .loadV8ComboBoxComponentValue(reportDataSelectionBean.getFromPeriodReport());
+			 GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod",
+			 componentId)
+			.loadV8ComboBoxComponentValue(reportDataSelectionBean.getFromPeriodReport());
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_dsTabProjectionName", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getReportDataSource());
@@ -69,6 +69,11 @@ public class GtnReportDataSelectionTabLoadAction
 					"dataSelectionTab_displaySelectionTabCustomView", componentId,
 					Arrays.asList(""));
                         GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabCustomView", componentId)
+					.loadV8ComboBoxComponentValue(String.valueOf(reportDataSelectionBean.getCustomViewMasterSid()));
+                       new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					"reportingDashboardTab_displaySelectionTabCustomView", componentId,
+					Arrays.asList(""));
+                        GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView", componentId)
 					.loadV8ComboBoxComponentValue(String.valueOf(reportDataSelectionBean.getCustomViewMasterSid()));
                         
                        new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,

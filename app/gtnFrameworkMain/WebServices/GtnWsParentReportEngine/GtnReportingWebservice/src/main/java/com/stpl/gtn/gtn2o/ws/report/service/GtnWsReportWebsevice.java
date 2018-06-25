@@ -2,11 +2,13 @@ package com.stpl.gtn.gtn2o.ws.report.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.type.DateType;
@@ -112,11 +114,13 @@ public class GtnWsReportWebsevice {
 		if (viewMode) {
 			String privateViewName = criteriaMap.get("privateViewName");
 			inputList.add("'" + privateViewName + "'");
+			inputList.add(" AND CREATED_BY = " + userId);
 		} else {
 			String viewName = criteriaMap.get("publicViewName");
 			inputList.add("'" + viewName + "'");
+			inputList.add(StringUtils.EMPTY);
 		}
-		inputList.add(userId);
+
 		String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
 		SQLQuery query = session.createSQLQuery(viewQuery).addScalar("VIEW_NAME", new StringType())
 				.addScalar("CREATED_DATE", new DateType()).addScalar("MODIFIED_DATE", new DateType())
@@ -136,12 +140,13 @@ public class GtnWsReportWebsevice {
 				criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
 			}
 		}
-		if (criteriaMap.get("projectionType").equals("F")) {
-			comparisonResults = loadProjectionComparisonResults(criteriaMap);
+		if (criteriaMap.get("customViewName") == null) {
+			return Collections.emptyList();
 		} else {
-			comparisonResults = loadCFFComparisonResults(criteriaMap);
+			comparisonResults = criteriaMap.get("projectionType").equals("F")
+					? loadProjectionComparisonResults(criteriaMap) : loadCFFComparisonResults(criteriaMap);
+			return comparisonResults;
 		}
-		return comparisonResults;
 	}
 
 	private List<Object[]> loadProjectionComparisonResults(Map<String, String> criteriaMap)
@@ -159,6 +164,7 @@ public class GtnWsReportWebsevice {
 			isProjectionStatus = true;
 		}
 		String workflowJoinQuery = isProjectionStatus ? "" : (sqlService.getQuery("workflowJoinQuery"));
+		String customViewMasterSid = criteriaMap.get("customViewName");
 		String marketType = criteriaMap.get("marketType") == null ? "%" : criteriaMap.get("marketType");
 		String comparisonBrand = criteriaMap.get("comparisonBrand") == null ? "%" : criteriaMap.get("comparisonBrand");
 		String projectionName = criteriaMap.get("projectionName") == null ? "%" : criteriaMap.get("projectionName");
@@ -169,6 +175,7 @@ public class GtnWsReportWebsevice {
 		String projectionDescription = criteriaMap.get("projectionDescription") == null ? "%"
 				: criteriaMap.get("projectionDescription");
 		inputList.add(workflowJoinQuery);
+		inputList.add(customViewMasterSid);
 		inputList.add("'" + marketType + "'");
 		inputList.add("'" + comparisonBrand + "'");
 		inputList.add("'" + projectionName + "'");
@@ -221,6 +228,8 @@ public class GtnWsReportWebsevice {
 		case "fromPeriod":
 			return searchCriteria.getFilterValue1();
 		case "toPeriod":
+			return searchCriteria.getFilterValue1();
+		case "customViewName":
 			return searchCriteria.getFilterValue1();
 		default:
 			return null;

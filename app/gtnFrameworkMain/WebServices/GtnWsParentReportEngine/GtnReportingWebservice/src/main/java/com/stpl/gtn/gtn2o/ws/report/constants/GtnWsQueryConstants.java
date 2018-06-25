@@ -51,7 +51,7 @@ public class GtnWsQueryConstants {
 
 	public static final String COMPARISON_BREAKDOWN_PERIOD_DATAS = "	select * from ( select row_number() over (partition by @frequency Year order by year asc) rowno, PERIOD_SID,YEAR from Period where @periodDateCondition )A where rowno=1 order by year asc";
 
-	public static final String VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY = "INSERT INTO VARIABLE_BR_REPORT (MASTER_SID,PERIOD,YEAR,SELECTED_VARIABLE) VALUES (?,?,?,?)";
+	public static final String VARIABLE_BREAKDOWN_SAVE_SERVICE_QUERY = "INSERT INTO ST_VARIABLE_BR_REPORT (MASTER_SID,PERIOD,YEAR,SELECTED_VARIABLE) VALUES (?,?,?,?)";
 
 	public static final String COMPARISON_BREAKDOWN_SAVE_SERVICE_QUERY = "INSERT INTO ST_COMPARISION_REPORT (PROJECTION_MASTER_SID,PERIOD,YEAR,SELECTED_VARIABLE) VALUES (?,?,?,?)";
 
@@ -64,7 +64,9 @@ public class GtnWsQueryConstants {
 	public static final String PRC_TEMP_TABLE_LIST = "CCP_HIERARCHY,CUSTOM_CCP_SALES,CUSTOM_VARIABLE_HIERARCHY,CUSTOM_DISCOUNT_REPORT,CUSTOM_SALES_REPORT,APPROVED_REPORT,VARIABLE_BR_REPORT,COMPARISION_REPORT,ITEM_UOM_DETAILS";
 
 	public static final String CUSTOM_VARIABLE_HIERARCHY = "ST_CUSTOM_VARIABLE_HIERARCHY";
-	
+
 	public static final String CUSTOM_VIEW_TYPE = "select SUBSTRING(CUST_VIEW_TYPE, 7, LEN(CUST_VIEW_TYPE)) AS typeS from CUST_VIEW_MASTER where CUST_VIEW_MASTER_SID = ?";
+
+	public static final String ST_CCP_HIERARCHY = "ST_CCP_HIERARCHY";
 
 }

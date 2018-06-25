@@ -135,7 +135,7 @@ public class PagedTreeGrid {
     public void  expandAll(int levelNo){
         int level=tableConfig.getLevelNo();
         while(level<=levelNo){
-            setCount(count+ getLevelCount(level++));
+            setCount(count+ getLevelCount(++level));
         }
        
        levelExpandOn=true;
@@ -154,7 +154,7 @@ public class PagedTreeGrid {
         }else{
             levelExpandNo=levelNo-1;
         }
-        while (lastExpandedLevel >= levelNo) {
+        while (lastExpandedLevel >= levelExpandNo) {
             setCount(count - getLevelCount(lastExpandedLevel--));
         }
         expandedItemIds.stream().filter(e -> GridUtils.getLevelNo(e) >= levelNo).forEach(row -> {
@@ -270,7 +270,7 @@ public class PagedTreeGrid {
      /**
       *  saving expanded Items for future reference
       */
-    public void addExpandedItems(GtnWsRecordBean parent, int nodeIndex, int childCount, int tableIndex) {
+    private void addExpandedItems(GtnWsRecordBean parent, int nodeIndex, int childCount, int tableIndex) {
 
         moveAlreadyExpanded(tableIndex, childCount);
         expandedItemIds.add(parent);
@@ -280,7 +280,7 @@ public class PagedTreeGrid {
     /**
      *   removing already expanded items if root node of a hierarchy is collapsed
      */
-    public void removeAlreadyExpanded(int tableIndex) {
+    private void removeAlreadyExpanded(int tableIndex) {
         expandedItemIds.stream().filter((item) -> GridUtils.getTableIndex(item) > tableIndex)
                 .forEach((item) -> {
                     item.addAdditionalProperties(5, tableIndex + 1);
@@ -290,7 +290,7 @@ public class PagedTreeGrid {
      /**
      *   Moving already expanded items if an item before is expanded
      */
-    public void moveAlreadyExpanded(int tableIndex, int childCount) {
+    private void moveAlreadyExpanded(int tableIndex, int childCount) {
         expandedItemIds.stream().filter((item) -> GridUtils.getTableIndex(item) >= tableIndex)
                 .forEach((item) -> {
                     item.addAdditionalProperties(5, GridUtils.getTableIndex(item) + childCount);
@@ -306,7 +306,7 @@ public class PagedTreeGrid {
     /**
      *   removes excess nodes in the current page when a node is expanded
      */
-    public void removeExcessItems(List<GtnWsRecordBean> bean, TreeData<GtnWsRecordBean> treeData, GtnWsRecordBean itemToFind, int childCount) {
+    private void removeExcessItems(List<GtnWsRecordBean> bean, TreeData<GtnWsRecordBean> treeData, GtnWsRecordBean itemToFind, int childCount) {
         bean.stream().map((item) -> {
             if (!removeExcessItems) {
                 expandTempIndex++;
@@ -401,7 +401,7 @@ public class PagedTreeGrid {
             return;
         }
         int currentOffset = pageNumber * pageLength;
-        if (expandedItemIds.isEmpty()) {
+        if (expandedItemIds.isEmpty() && ! levelExpandOn) {
             dataSet = loadData(currentOffset + 1, currentOffset + pageLength, tableConfig.getLevelNo(), EMPTY);
         } else {
             List<GtnWsRecordBean> childRows = null;
