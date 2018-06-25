@@ -59,7 +59,10 @@ public class GtnWsReportRightTableLoadDataService {
 
 		String customViewType = "";
 		if (customViewTypeDataArray.length == 3) {
-			customViewType = customViewTypeDataArray[2];
+			customViewType = customViewTypeDataArray[1];
+			if (customViewTypeDataArray[1].equals("Columns")) {
+				customViewType = "VARIABLE";
+			}
 		}
 
 		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
@@ -99,12 +102,13 @@ public class GtnWsReportRightTableLoadDataService {
 						GtnFrameworkDataType.STRING });
 
 		String declareStatement = "declare @COMPARISION_BASIS varchar(100) = null,@level_no int = " + levelNo
-				+ " , @HIERARCHY_NO varchar(100) = " + hierarchyNo;
+				+ " , @HIERARCHY_NO varchar(100) = '" + hierarchyNo+"'";
 		Object[] stringData = outputFromProcedure.get(0);
 		StringBuilder queryBuilder = new StringBuilder(declareStatement);
 		for (Object tempData : stringData) {
 			Clob dataClob = (Clob) tempData;
-			queryBuilder.append(clobToString(dataClob));
+			queryBuilder.append(clobToString(dataClob)).append(" ");
+			;
 		}
 
 		return queryBuilder.toString();
