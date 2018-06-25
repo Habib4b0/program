@@ -1,13 +1,14 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
-import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkHierarchyTreeBuilder;
@@ -24,6 +25,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
 
@@ -263,12 +265,14 @@ public class GtnReportDataSelectionTabLoadAction
 			
 			loadFrequencyInReportingDashboard(componentId);
 			
+			loadVariableReportingDashboard(componentId);
 			
-
 		} catch (Exception exception) {
 			logger.error("Error message", exception);
 		}
 	}
+
+	
 
 	private void loadFrequencyInReportingDashboard(String componentId) throws GtnFrameworkValidationFailedException {
 		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();	
@@ -278,6 +282,13 @@ public class GtnReportDataSelectionTabLoadAction
 				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency",
 						componentId)
 				.loadV8ComboBoxComponentValue(dataSelectionBean.getFrequency());
+	}
+
+	private void loadVariableReportingDashboard(String componentId) throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		actionConfig.addActionParameter(GtnReportVariableReloadInReportingDashboardAction.class.getName());
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);		
 	}
 
 	@Override
