@@ -54,7 +54,14 @@ public class GtnWsReportRightTableLoadDataService {
 				new Object[] { gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getCustomViewMasterSid() },
 				new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER });
 
-		String customViewType = String.valueOf(customviewData.get(0));
+		String customViewTypeInBackend = String.valueOf(customviewData.get(0));
+		String[] customViewTypeDataArray = customViewTypeInBackend.split("~");
+
+		String customViewType = "";
+		if (customViewTypeDataArray.length == 3) {
+			customViewType = customViewTypeDataArray[2];
+		}
+
 		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
 
 		String frequency = dataSelectionBean.getFrequencyName();
@@ -67,7 +74,7 @@ public class GtnWsReportRightTableLoadDataService {
 		String currencyConversion = dashboardBean.getCurrencyConversion().isEmpty() ? null
 				: dashboardBean.getCurrencyConversion();
 
-		String procedure = "PRC_REPORT_DASHBOARD_GENERATE ?,?,null,:ccpComp:,:salesInclusion:,:deductionIncl:,null,?,601,672,?,?,?,null,?,?,?";
+		String procedure = "PRC_REPORT_DASHBOARD_GENERATE ?,?,:comparisonBasis:,:ccpComp:,:salesInclusion:,:deductionIncl:,null,?,601,672,?,?,?,null,?,?,?";
 		procedure = procedure.replaceAll(":salesInclusion:",
 				salesInClusion == -1 ? "NULL" : String.valueOf(salesInClusion));
 		procedure = procedure.replaceAll(":deductionIncl:",
@@ -77,6 +84,9 @@ public class GtnWsReportRightTableLoadDataService {
 			ccpFilter = String.join(",", dashboardBean.getCcpDetailsSidList().stream().toArray(String[]::new));
 		}
 		procedure = procedure.replaceAll(":ccpComp:", ccpFilter);
+		String comparisonBasis = dashboardBean.getComparisonBasis().isEmpty() ? "NULL"
+				: dashboardBean.getComparisonBasis();
+		procedure = procedure.replaceAll(":comparisonBasis:", comparisonBasis);
 		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
 		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(procedure,
 				new Object[] { frequency, annualTotals, currencyConversion,
@@ -114,7 +124,7 @@ public class GtnWsReportRightTableLoadDataService {
 
 			String line;
 			while (null != (line = br.readLine())) {
-				sb.append(line);
+				sb.append(line).append(" ");
 			}
 			br.close();
 		} catch (SQLException | IOException ex) {

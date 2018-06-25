@@ -65,7 +65,7 @@ public class GtnWsQueryConstants {
 
 	public static final String CUSTOM_VARIABLE_HIERARCHY = "ST_CUSTOM_VARIABLE_HIERARCHY";
 
-	public static final String CUSTOM_VIEW_TYPE = "select SUBSTRING(CUST_VIEW_TYPE, 7, LEN(CUST_VIEW_TYPE)) AS typeS from CUST_VIEW_MASTER where CUST_VIEW_MASTER_SID = ?";
+	public static final String CUSTOM_VIEW_TYPE = "select CUST_VIEW_TYPE from CUST_VIEW_MASTER where CUST_VIEW_MASTER_SID = ?";
 
 	public static final String ST_CCP_HIERARCHY = "ST_CCP_HIERARCHY";
 
