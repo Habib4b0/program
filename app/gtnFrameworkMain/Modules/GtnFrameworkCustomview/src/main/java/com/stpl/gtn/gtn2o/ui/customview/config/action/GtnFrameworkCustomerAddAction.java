@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import java.util.List;
  * @author Lokeshwari.Kumarasam
  */
 public class GtnFrameworkCustomerAddAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+    private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkCustomerAddAction.class);
 
     @Override
     public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
@@ -30,9 +32,13 @@ public class GtnFrameworkCustomerAddAction implements GtnUIFrameWorkAction, GtnU
 
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        GtnUIFrameworkGlobalUI.addSessionProperty("mode", "Add");
-        GtnUIFrameworkGlobalUI.addSessionProperty("customSid", 0);
-        GtnUIFrameworkGlobalUI.addSessionProperty("customViewBean", "");
+       try
+       {
+        if (!"EDIT".equalsIgnoreCase(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")))) {
+            GtnUIFrameworkGlobalUI.addSessionProperty("mode", "Add");
+            GtnUIFrameworkGlobalUI.addSessionProperty("customSid", 0);
+            GtnUIFrameworkGlobalUI.addSessionProperty("customViewBean", "");
+        }
         List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
         GtnUIFrameworkBaseComponent cvTreeBaseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString());
         GtnUIFrameworkBaseComponent table = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1).toString());
@@ -73,6 +79,10 @@ public class GtnFrameworkCustomerAddAction implements GtnUIFrameWorkAction, GtnU
             cvTreeBaseComponent.addItemToTreeDataTable(selectedCustomerBean, true);
         }
         table.setTableValue(null);
+    }catch(Exception ex)
+    {
+        LOGGER.error("message",ex);
+    }
     }
 
     @Override

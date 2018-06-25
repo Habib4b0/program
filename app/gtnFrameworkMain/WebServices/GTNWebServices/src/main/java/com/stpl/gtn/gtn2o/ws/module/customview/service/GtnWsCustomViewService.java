@@ -77,8 +77,8 @@ public class GtnWsCustomViewService {
     public void checkCustomViewSave(GtnWsCustomViewRequest cvRequest,
             GtnWsCustomViewResponse cvResponse) throws GtnFrameworkGeneralException {
         try {
-            cvResponse.setSuccess(true);
-            if (cvRequest.getCvSysId() == 0 && checkDuplicateCustomViewName(cvRequest)) {
+             cvResponse.setSuccess(true);
+            if (cvRequest.getCvSysId() == 0 && checkDuplicateCustomViewName(cvRequest)) {   
                 cvResponse.setSuccess(false);
                 cvResponse.setMessageType(GtnFrameworkCommonStringConstants.ERROR);
                 cvResponse.setMessage("Entered Custom View Name already exists.");

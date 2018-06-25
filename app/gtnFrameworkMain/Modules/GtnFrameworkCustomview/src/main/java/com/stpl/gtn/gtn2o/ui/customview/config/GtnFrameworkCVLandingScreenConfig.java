@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ui.customview.config;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkAddAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVDeleteAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnUIFrameworkCVDeleteConfirmationAction;
@@ -19,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFr
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -423,6 +425,11 @@ public class GtnFrameworkCVLandingScreenConfig {
         navigationActionConfig.setActionType(GtnUIFrameworkActionType.NAVIGATION_ACTION);
         navigationActionConfig.addActionParameter("V002");
         actionConfigList.add(navigationActionConfig);
+        
+        GtnUIFrameWorkActionConfig sessionResetAction = new GtnUIFrameWorkActionConfig();
+        sessionResetAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+        sessionResetAction.addActionParameter(GtnFrameworkAddAction.class.getName());
+        actionConfigList.add(sessionResetAction);
 
         addButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
@@ -436,7 +443,7 @@ public class GtnFrameworkCVLandingScreenConfig {
                 true, GtnFrameworkCVConstants.GTN_EDIT_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
         editButtonConfig.setAuthorizationIncluded(true);
         editButtonConfig.setComponentName("Edit");
-
+  
         componentList.add(editButtonConfig);
 
         List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();

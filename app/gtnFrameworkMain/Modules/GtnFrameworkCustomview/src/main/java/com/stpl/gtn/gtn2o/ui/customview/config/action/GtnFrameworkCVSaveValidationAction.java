@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.customview.constants.GtnWsCustomViewConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -32,6 +33,7 @@ import java.util.List;
  * @author Lokeshwari.Kumarasam
  */
 public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+    private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkCVSaveValidationAction.class);
 
     @Override
     public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
@@ -40,6 +42,8 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
 
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
+        
+        try{
         StringBuilder chErrorMsg = new StringBuilder();
         List<Object> paramList = gtnUIFrameWorkActionConfig.getActionParameterList();
         String[] fields = (String[]) paramList.get(1);
@@ -60,6 +64,10 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
         }
 
         saveCustomView(componentId, paramList);
+    }catch(Exception ex)
+    {
+        LOGGER.error("message",ex);
+    }
     }
 
     private void saveCustomView(String componentId, List<Object> paramList) throws GtnFrameworkGeneralException {
@@ -97,23 +105,24 @@ public class GtnFrameworkCVSaveValidationAction implements GtnUIFrameWorkAction,
             List<String> cvList=Arrays.asList(GtnFrameworkCVConstants.CV_TREENODE_LIST);
             if(cvRequest.getCustomViewType().equals("Sales"))
             {
-                for(GtnWsRecordBean bean: treeNodeList) {
-                    List<Object> properties=bean.getProperties(); 
-                    for(Object obj: properties) {
-                        if(cvList.contains(obj)) {
+                for (GtnWsRecordBean bean : treeNodeList) {
+                    List<Object> properties = bean.getProperties();
+                    for (Object obj : properties) {
+                        if (cvList.contains(obj)) {
                             GtnUIFrameWorkActionConfig customViewSaveAlertAction = new GtnUIFrameWorkActionConfig(
                                     GtnUIFrameworkActionType.ALERT_ACTION);
                             customViewSaveAlertAction.addActionParameter("View type Error");
                             customViewSaveAlertAction.addActionParameter("Deduction Level not applicable for sales view type.");
                             GtnUIFrameworkActionExecutor.executeSingleAction(componentId, customViewSaveAlertAction);
                             return;
-                        }
-                         else   {
+                        } else {
                             cvRequest.setCvTreeNodeList(treeNodeList);
-                        } 
-                    }                
-                }               
-            } 
+                        }
+                    }
+                }
+            } else {
+                cvRequest.setCvTreeNodeList(treeNodeList);
+            }
         }  
              
         GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
