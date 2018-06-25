@@ -4,19 +4,26 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.temporal.IsoFields;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.vaadin.ui.ComboBox;
 
 public class GtnReportDashboardFrequencyLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -29,16 +36,11 @@ public class GtnReportDashboardFrequencyLoadAction
 
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
-		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
-		GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getActionParameterList().get(1).toString(),
-						componentId)
-				.loadV8ComboBoxComponentValue(dataSelectionBean.getFrequency());
-
-		loadFromTo(dataSelectionBean.getFrequencyName(), componentId);
+			throws GtnFrameworkGeneralException {		
+		GtnUIFrameworkBaseComponent vaadinFrequencyInReportingDashboardBaseComponent = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId);	
+				
+		loadFromTo(vaadinFrequencyInReportingDashboardBaseComponent.getStringCaptionFromV8ComboBox(), componentId);
 	}
 
 	private void loadFromTo(String selectedFrequency, String componentId) {
@@ -70,12 +72,31 @@ public class GtnReportDashboardFrequencyLoadAction
 			List dataNew = new ArrayList<>(dateString);
 			List periodSidData = new ArrayList<>(periodSid);
 
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId)
-					.addAllItemsToComboBox(dataNew, periodSidData);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeTo", componentId)
-					.addAllItemsToComboBox(dataNew, periodSidData);
+			GtnUIFrameworkBaseComponent reportingDashboard_displaySelectionTabPeriodRangeFromBaseComponent = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId);
+			GtnUIFrameworkComponentConfig reportingDashboard_displaySelectionTabPeriodRangeFromComponentConfig = reportingDashboard_displaySelectionTabPeriodRangeFromBaseComponent
+					.getComponentConfig();
+			GtnUIFrameworkComboBoxConfig periodRangeFrom = reportingDashboard_displaySelectionTabPeriodRangeFromComponentConfig.getGtnComboboxConfig();
+			periodRangeFrom.setItemCaptionValues(dataNew);
+			periodRangeFrom.setItemValues(periodSidData);
+			
+			GtnUIFrameworkComboBoxComponent periodRangeFromComboBox = new GtnUIFrameworkComboBoxComponent();
+			periodRangeFromComboBox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					"reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId, Arrays.asList(""));
+			
+			GtnUIFrameworkBaseComponent reportingDashboard_displaySelectionTabPeriodRangeToBaseComponent = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeTo", componentId);
+			GtnUIFrameworkComponentConfig reportingDashboard_displaySelectionTabPeriodRangeToComponentConfig = reportingDashboard_displaySelectionTabPeriodRangeToBaseComponent
+					.getComponentConfig();
+			GtnUIFrameworkComboBoxConfig periodRangeTo = reportingDashboard_displaySelectionTabPeriodRangeToComponentConfig.getGtnComboboxConfig();
+			periodRangeTo.setItemCaptionValues(dataNew);
+			periodRangeTo.setItemValues(periodSidData);
+			
+			GtnUIFrameworkComboBoxComponent periodRangeToComboBox = new GtnUIFrameworkComboBoxComponent();
+			periodRangeToComboBox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					"reportingDashboard_displaySelectionTabPeriodRangeTo", componentId, Arrays.asList(""));
+			
+
 		} catch (Exception e) {
 
 		}

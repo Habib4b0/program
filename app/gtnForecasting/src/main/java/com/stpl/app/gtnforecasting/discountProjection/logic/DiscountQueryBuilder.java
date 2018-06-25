@@ -294,10 +294,10 @@ public class DiscountQueryBuilder {
             String column2 = "";
             if ("Discount Rate".equals(selectedField)) {
                 column = "DPT.PROJECTION_RATE";
-                column2 = "SET DPT.PROJECTION_SALES = NM.PROJECTION_SALES * (@DISCOUNT_AMOUNT / 100.0)";
+                column2 = "SET DPT.PROJECTION_SALES = NM.PROJECTION_SALES * ((@DISCOUNT_AMOUNT / 100.0)/ NULLIF(x.rs_count, 0) )";
             }
             if ("RPU".equals(selectedField)) {
-                column2 = "SET    DPT.PROJECTION_SALES = @DISCOUNT_AMOUNT  * NM.PROJECTION_UNITS ";
+                column2 = "SET    DPT.PROJECTION_SALES = @DISCOUNT_AMOUNT  * (NM.PROJECTION_UNITS /nullif(x.rs_count,0)) ";
                 column = "DPT.PROJECTION_RPU";
             }
             if ("Discount Amount".equals(selectedField)) {

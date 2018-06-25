@@ -5,6 +5,7 @@ import static com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType.INTEGER;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -243,7 +244,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					.filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo)
 							&& row.getRowIndex() >= start)
 					.limit(limit)
-					.map(row -> convertToRecordbean(gtnWsRequest,row, gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
+					.map(row -> convertToRecordbean(gtnWsRequest, row,
+							gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
 							gtnWsReportCustomCCPListDetails.indexOf(row), reportDashboardBean.getDisplayFormat()))
 					.collect(Collectors.toList());
 
@@ -253,8 +255,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		return new ArrayList<>();
 	}
 
-	private GtnWsRecordBean convertToRecordbean(GtnUIFrameworkWebserviceRequest gtnWsRequest, GtnWsReportCustomCCPListDetails bean, List<Object> recordHeader,
-			int index, Object[] displayFormat) {
+	private GtnWsRecordBean convertToRecordbean(GtnUIFrameworkWebserviceRequest gtnWsRequest,
+			GtnWsReportCustomCCPListDetails bean, List<Object> recordHeader, int index, Object[] displayFormat) {
 
 		Map<String, Map<String, Double>> rightDataMap = rightTableService.getDataFromBackend(gtnWsRequest,
 				bean.getHierarchyNo(), bean.getLevelNo());
@@ -338,6 +340,50 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		} catch (GtnFrameworkGeneralException ex) {
 			GTNLOGGER.error(ex.getMessage(), ex);
 		}
+	}
+
+	@Override
+	public void dataSelectionRegenerateLogic(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		try {
+			GTNLOGGER.info(" Regenerating Data Selection Logic ");
+			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getReportBean()
+					.getDataSelectionBean();
+			truncateTables(Arrays.asList(dataSelectionBean.getSessionTable(GtnWsQueryConstants.ST_CCP_HIERARCHY)));
+			callCCPInsertService(gtnWsRequest);
+			callInsertProcedure(dataSelectionBean);
+			gtnReportJsonService.deleteFile("CustomViewCCP", dataSelectionBean.getSessionId());
+			saveCustomCCPMap(dataSelectionBean);
+		} catch (GtnFrameworkGeneralException | IOException ex) {
+			GTNLOGGER.error(ex.getMessage(), ex);
+		}
+		GTNLOGGER.info("Ending regeneration of Data Selection Logic ");
+	}
+
+	@Override
+	public void regenerateTreeAndData(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		try {
+			GTNLOGGER.info(" Regenerating Custom view tables and Data ");
+			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getReportBean()
+					.getDataSelectionBean();
+			callInsertProcedure(dataSelectionBean);
+			gtnReportJsonService.deleteFile("CustomViewCCP", dataSelectionBean.getSessionId());
+			saveCustomCCPMap(dataSelectionBean);
+		} catch (GtnFrameworkGeneralException | IOException ex) {
+			GTNLOGGER.error(ex.getMessage(), ex);
+		}
+		GTNLOGGER.info("Ending regeneration of Custom view tables and Data ");
+	}
+
+	private void truncateTables(List<String> tableNameList) {
+		Optional.ofNullable(tableNameList).ifPresent(tableName -> {
+			try {
+				Object[] input = { tableName };
+				GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING };
+				gtnSqlQueryEngine.executeInsertOrUpdateQuery(sqlService.getQuery("getTruncateQuery"), input, type);
+			} catch (GtnFrameworkGeneralException e) {
+				GTNLOGGER.error(e.getErrorMessage(), e);
+			}
+		});
 	}
 
 }

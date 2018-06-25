@@ -50,18 +50,20 @@ public class GtnFrameworkUICustomTreeAddAction
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationConfig);
 			return;
 		}
-               String rowType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) gtnUIFrameWorkActionConfig.getActionParameterList().get(3), componentId)
-                .getV8StringFromField();
-                boolean isStatic=rowType.equalsIgnoreCase("static");
-                @SuppressWarnings("unchecked")
+		String rowType = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent((String) gtnUIFrameWorkActionConfig.getActionParameterList().get(3),
+						componentId)
+				.getV8StringFromField();
+		boolean isStatic = rowType.equalsIgnoreCase("static");
+		@SuppressWarnings("unchecked")
 		TreeGrid<GtnWsRecordBean> grid = ((TreeGrid<GtnWsRecordBean>) rightTree.getComponent());
 		boolean isEmpty = grid.getSelectedItems().isEmpty();
 		GtnWsRecordBean parentBean = isEmpty ? null : grid.getSelectedItems().iterator().next();
-                 
+
 		GtnWsRecordBean beanTobeAdded = selectedBean.iterator().next();
-                if(isVariable(parentBean)){
-                     parentBean=grid.getTreeData().getParent(parentBean);
-                 }
+//		if (isVariable(parentBean)) {
+//			parentBean = grid.getTreeData().getParent(parentBean);
+//		}
 		addToTree(leftGrid, grid, parentBean, beanTobeAdded);
 	}
 
@@ -87,10 +89,10 @@ public class GtnFrameworkUICustomTreeAddAction
 
 	private void isAddingToVariable(GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded)
 			throws GtnFrameworkSkipActionException {
-//		
+		//
 		if (parentBean == null
 				&& GtnWsHierarchyType.VARIABLES.toString().equals(beanTobeAdded.getStringPropertyByIndex(3))
-				&& !beanTobeAdded.getStringPropertyByIndex(3).equals(GtnWsReportVariablesType.VARIABLES.toString())) {
+				&& !beanTobeAdded.getStringPropertyByIndex(1).equals(GtnWsReportVariablesType.VARIABLES.toString())) {
 			throw new GtnFrameworkSkipActionException("Can't add  Variables to root Level");
 		}
 
@@ -123,8 +125,8 @@ public class GtnFrameworkUICustomTreeAddAction
 		if (next != null) {
 			int currentLevel = beanTobeAdded.getIntegerPropertyByIndex(1);
 			if (next.getPropertyValueByIndex(3).equals(beanTobeAdded.getStringPropertyByIndex(3))
-					&& next.getIntegerPropertyByIndex(1) > currentLevel
-					&& !isVariable(beanTobeAdded) && !isDiscount(beanTobeAdded)) {
+					&& next.getIntegerPropertyByIndex(1) > currentLevel && !isVariable(beanTobeAdded)
+					&& !isDiscount(beanTobeAdded)) {
 				GtnUIFrameWorkActionConfig notificationConfig = new GtnUIFrameWorkActionConfig(
 						GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 				String errorMsg = String.format(INVALID_MSG, beanTobeAdded.getStringPropertyByIndex(0),
@@ -135,15 +137,18 @@ public class GtnFrameworkUICustomTreeAddAction
 				throw new GtnFrameworkSkipActionException("Lower Level Already added. Cannot add higher Level");
 			}
 			isLowerValueAlreadyAdded(gridData.getParent(next), beanTobeAdded, gridData);
-                       
+
 		}
 	}
-        private static boolean isVariable(GtnWsRecordBean bean){
-           return bean != null && GtnWsHierarchyType.VARIABLES.toString().equals(bean.getStringPropertyByIndex(3));
-        }
-       private static boolean isDiscount(GtnWsRecordBean bean){
-           return bean != null && GtnWsHierarchyType.DEDUCTION.toString().equals(bean.getStringPropertyByIndex(3));
-        }
+
+	private static boolean isVariable(GtnWsRecordBean bean) {
+		return bean != null && GtnWsHierarchyType.VARIABLES.toString().equals(bean.getStringPropertyByIndex(3));
+	}
+
+	private static boolean isDiscount(GtnWsRecordBean bean) {
+		return bean != null && GtnWsHierarchyType.DEDUCTION.toString().equals(bean.getStringPropertyByIndex(3));
+	}
+
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		return this;
