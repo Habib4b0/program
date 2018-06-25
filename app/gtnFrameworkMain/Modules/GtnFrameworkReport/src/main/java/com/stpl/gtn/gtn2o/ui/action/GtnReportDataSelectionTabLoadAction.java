@@ -1,6 +1,8 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -12,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFramework
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkHierarchyTreeBuilder;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
@@ -19,8 +22,10 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
 
@@ -257,10 +262,33 @@ public class GtnReportDataSelectionTabLoadAction
 					GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_LOAD, reportDataSelectionBean));
 
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
-
+			
+			loadFrequencyInReportingDashboard(componentId);
+			
+			loadVariableReportingDashboard(componentId);
+			
 		} catch (Exception exception) {
 			logger.error("Error message", exception);
 		}
+	}
+
+	
+
+	private void loadFrequencyInReportingDashboard(String componentId) throws GtnFrameworkValidationFailedException {
+		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();	
+		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
+		GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency",
+						componentId)
+				.loadV8ComboBoxComponentValue(dataSelectionBean.getFrequency());
+	}
+
+	private void loadVariableReportingDashboard(String componentId) throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		actionConfig.addActionParameter(GtnReportVariableReloadInReportingDashboardAction.class.getName());
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);		
 	}
 
 	@Override
