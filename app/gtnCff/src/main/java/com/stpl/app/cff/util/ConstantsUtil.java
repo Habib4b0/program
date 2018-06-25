@@ -150,8 +150,6 @@ public class ConstantsUtil {
     public static final String HT_DESCRIPTION = "HT.DESCRIPTION";
     public static final String UNION_ALL = " UNION ALL ";
     public static final String RS_ID_REPLACE = "?RBSID";
-    public static final String LATEST_ESTIMATE = "latestEstimate"; 
-    public static final String UPDATE_CYCLE = "updateCycle"; 
     
 
     public enum PVVariables {
