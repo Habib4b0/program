@@ -67,7 +67,7 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 		List<Object> deductionInclusion = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(3).toString(), componentId).getSelectedListFromV8MultiSelect();
 		dashBoardBean.setDeductionInclusion(
-				salesInclusion.size() == 1 ? Integer.parseInt(deductionInclusion.get(0).toString()) - 1 : -1);
+				deductionInclusion.size() == 1 ? Integer.parseInt(deductionInclusion.get(0).toString()) - 1 : -1);
 		String annualTotalValue = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabAnnualTotals", componentId)
 				.getCaptionFromV8ComboBox();
