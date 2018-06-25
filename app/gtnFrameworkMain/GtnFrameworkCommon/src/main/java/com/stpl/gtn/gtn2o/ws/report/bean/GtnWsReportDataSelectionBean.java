@@ -57,6 +57,7 @@ public class GtnWsReportDataSelectionBean {
 	private List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownSaveList;
 	private List<Object> variablesList;
 	private int customView;
+	private boolean dataRefreshDone = false;
 
 	public void setComparisonBreakdownSaveList(
 			List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownSaveList) {
@@ -407,4 +408,13 @@ public class GtnWsReportDataSelectionBean {
 	public void setVariablesList(List<Object> variablesList) {
 		this.variablesList = variablesList;
 	}
+
+	public boolean isDataRefreshDone() {
+		return dataRefreshDone;
+	}
+
+	public void setDataRefreshDone(boolean dataRefreshDone) {
+		this.dataRefreshDone = dataRefreshDone;
+	}
+
 }

@@ -142,4 +142,14 @@ public class GtnWsReportDataSelectionMongoGenerateServiceImpl implements GtnWsRe
 		}
 	}
 
+	@Override
+	public void dataSelectionRegenerateLogic(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		return;
+	}
+
+	@Override
+	public void regenerateTreeAndData(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		return;
+	}
+
 }
