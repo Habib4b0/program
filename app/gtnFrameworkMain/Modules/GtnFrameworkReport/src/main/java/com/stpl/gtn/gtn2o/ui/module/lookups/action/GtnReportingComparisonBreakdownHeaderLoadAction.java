@@ -7,6 +7,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -37,10 +38,9 @@ public class GtnReportingComparisonBreakdownHeaderLoadAction
 				.getVaadinBaseComponentFromParent(variableBreakdownTableId, componentId).getComponent();
 		GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
 
-		String fromPeriod =
-
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(1).toString(), componentId)
-						.getStringCaptionFromV8ComboBox();
+		String fromPeriod = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParameterList.get(1).toString(), componentId)
+				.getStringCaptionFromV8ComboBox();
 		String[] finalFromPeriodArray = fromPeriod.split(" ");
 
 		String finalFromPeriod = finalFromPeriodArray[0] + "-" + finalFromPeriodArray[1];
@@ -55,7 +55,24 @@ public class GtnReportingComparisonBreakdownHeaderLoadAction
 				.getVaadinBaseComponent(actionParameterList.get(3).toString(), componentId)
 				.getStringCaptionFromV8ComboBox();
 
+		if(finalFromPeriod.equals("-Select-one-")) {
+			String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
+			GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("dataSelectionTab_fromPeriod", sourceComponentId);
+			String periodRangeFrom =  baseComponent
+					.getStringCaptionFromV8ComboBox();
+			finalFromPeriod = periodRangeFrom.replaceAll(" ","");
+		}
+		if(finalToPeriod.equals("-Select-one-")) {
+			String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
+			GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("dataSelectionTab_STATUS", sourceComponentId);
+			String periodRangeTo =  baseComponent
+					.getStringCaptionFromV8ComboBox();
+			finalToPeriod = periodRangeTo.replaceAll(" ","");
+		}
 		List<String> inputList = new ArrayList<>();
+		
 		inputList.add(finalFromPeriod);
 		inputList.add(finalToPeriod);
 		inputList.add(frequency);

@@ -353,7 +353,7 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		customViewComboboxConfig.setGtnComboboxConfig(customViewLoadConfig);
                 
-                GtnUIFrameWorkActionConfig reloadActionConfig = new GtnUIFrameWorkActionConfig();
+		GtnUIFrameWorkActionConfig reloadActionConfig = new GtnUIFrameWorkActionConfig();
 		reloadActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		reloadActionConfig.addActionParameter(GtnFrameworkUIReportCustomViewReloadAction.class.getName());
 		customViewComboboxConfig.setReloadActionConfig(reloadActionConfig);

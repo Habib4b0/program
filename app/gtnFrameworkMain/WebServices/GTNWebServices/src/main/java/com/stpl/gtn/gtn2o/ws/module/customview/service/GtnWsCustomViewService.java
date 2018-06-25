@@ -408,6 +408,7 @@ public class GtnWsCustomViewService {
 
         return gtnWsSqlService.getReplacedQuery(input, queryBean.generateQuery());
     }
+      @SuppressWarnings("unchecked")
      public GtnUIFrameworkWebserviceComboBoxResponse getCustomViewLevelData(GtnWsCustomViewRequest cvRequest){
         Session session = getSessionFactory().openSession();
         Criteria selectCriteria = session.createCriteria(CustViewDetails.class);
@@ -421,6 +422,7 @@ public class GtnWsCustomViewService {
            }
            return response;
      }
+       @SuppressWarnings("unchecked")
        public GtnUIFrameworkWebserviceComboBoxResponse getCustomViewList(){
         Session session = getSessionFactory().openSession();
         Criteria selectCriteria = session.createCriteria(CustViewMaster.class);
@@ -450,7 +452,7 @@ public class GtnWsCustomViewService {
                 Criteria relationCriteria = session.createCriteria(RelationshipLevelDefinition.class);
                 relationCriteria.add(Restrictions.eq("hierarchyLevelDefinition.hierarchyLevelDefinitionSid", detailsData.getHierarchyId()));
                 List<RelationshipLevelDefinition> relationData = relationCriteria.list();
-                levelName = relationData.get(0).getLevelName();
+                levelName = relationData.isEmpty()?"":relationData.get(0).getLevelName();
             } else {
                 fetchReportVariables(detailsData, recordTreeData);
                 continue;

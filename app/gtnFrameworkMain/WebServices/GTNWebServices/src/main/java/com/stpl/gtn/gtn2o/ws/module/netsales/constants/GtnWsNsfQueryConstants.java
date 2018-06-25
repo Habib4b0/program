@@ -77,9 +77,13 @@ public final class GtnWsNsfQueryConstants {
 
 	public static final String GTN_NSF_LANDING_SEARCH_QUERY_WHERE_CLAUSE = " NSFM.INBOUND_STATUS <> 'D'";
 	public static final String GTN_NSF_LANDING_COUNT_QUERY = " FROM NET_SALES_FORMULA_MASTER NSFM \n"
-			+ "JOIN HELPER_TABLE FORMULA_TYPE ON FORMULA_TYPE.HELPER_TABLE_SID=NSFM.NET_SALES_FORMULA_TYPE ";
+			+ " JOIN HELPER_TABLE FORMULA_TYPE ON FORMULA_TYPE.HELPER_TABLE_SID=NSFM.NET_SALES_FORMULA_TYPE "
+                        + " JOIN @SYS.dbo.User_ userCreated on userCreated.userId = NSFM.CREATED_BY "
+                        + " JOIN @SYS.dbo.User_ userModified on userModified.userId = NSFM.MODIFIED_BY ";
 	public static final String GTN_NSF_LANDING_SEARCH_QUERY = " FROM NET_SALES_FORMULA_MASTER NSFM\n"
-			+ "JOIN HELPER_TABLE FORMULA_TYPE ON FORMULA_TYPE.HELPER_TABLE_SID=NSFM.NET_SALES_FORMULA_TYPE";
+			+ " JOIN HELPER_TABLE FORMULA_TYPE ON FORMULA_TYPE.HELPER_TABLE_SID=NSFM.NET_SALES_FORMULA_TYPE "
+                        + " JOIN @SYS.dbo.User_ userCreated on userCreated.userId = NSFM.CREATED_BY "
+                        + " JOIN @SYS.dbo.User_ userModified on userModified.userId = NSFM.MODIFIED_BY ";
 	public static final String GTN_NSF_LANDING_COUNT_SELECT_CLAUSE = " SELECT COUNT(DISTINCT NSFM.NET_SALES_FORMULA_MASTER_SID)  ";
 
 	public static final String GTN_NSF_AVAILABLE_CUSTOMER_SEARCH_QUERY = " FROM   (SELECT ROW_NUMBER()\n"

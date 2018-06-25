@@ -10,10 +10,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -60,7 +62,7 @@ public class HeaderGeneratorService {
 		variableMap.put("Deduction $", "DISCOUNT_AMOUNT");
 		variableMap.put("Deduction %", "DISCOUNT_RATE");
 		variableMap.put("Deduction % of Ex-Factory", "DISC_PER_OF_EX");
-		variableMap.put("Net Contract Sales", "EXFACTORY_SALES");
+		variableMap.put("Net Contract Sales", "NET_SALES");
 		variableMap.put("Net Contract Sales % of Ex-Factory", "NET_CON_SALES_PER_OF_EX");
 		variableMap.put("Net Ex-Factory Sales", "NET_EX_SALES");
 		variableMap.put("Net Ex-Factory Sales % of Total Ex-Factory Sales", "NET_EX_SALES_PER_OF_TOATL_EX");
@@ -132,38 +134,42 @@ public class HeaderGeneratorService {
 		Object[] combinedVariableCategoryHeader = null;
 		generateColumn(variablesHeader, variablesColumn);
 		generateColumn(variableCategoryHeader, variableCategoryColumn);
+		int headerSequence = dashboardBean.getHeaderSequence() == 0 ? 1 : dashboardBean.getHeaderSequence();
 		if (gtnForecastBean.isColumn()) {
-			combinedVariableCategoryList = getCombinedVariableCategory(variablesColumn, variableCategoryColumn,
-					variablesHeader, variableCategoryHeader, gtnForecastBean.isVariablesVariances());
+			combinedVariableCategoryList = getCombinedVariableCategory(variablesHeader, variableCategoryHeader,
+					gtnForecastBean.isVariablesVariances());
 			combinedVariableCategoryColumn = combinedVariableCategoryList.get(0);
 			combinedVariableCategoryHeader = combinedVariableCategoryList.get(1);
-			int headerSequence = dashboardBean.getHeaderSequence() == 0 ? 1 : dashboardBean.getHeaderSequence();
-			switch (1) {
+
+			switch (headerSequence) {
 			case 1:// 1. Time/Variable/Comparison
 				createTableHeader(periodColumn, combinedVariableCategoryColumn, comparisonBasisColumn, periodHeader,
-						combinedVariableCategoryHeader, comparisonBasisHeader, tableHeaderDTO);
+						combinedVariableCategoryHeader, comparisonBasisHeader, tableHeaderDTO, headerSequence);
 				break;
 			case 2:// 2. Comparison/Variable/Time
 				createTableHeader(comparisonBasisColumn, combinedVariableCategoryColumn, periodColumn,
-						comparisonBasisHeader, combinedVariableCategoryHeader, periodHeader, tableHeaderDTO);
+						comparisonBasisHeader, combinedVariableCategoryHeader, periodHeader, tableHeaderDTO,
+						headerSequence);
 				break;
 			case 3:// 3. Comparison/Time/Variable
 				createTableHeader(comparisonBasisColumn, periodColumn, combinedVariableCategoryColumn,
-						comparisonBasisHeader, periodHeader, combinedVariableCategoryHeader, tableHeaderDTO);
+						comparisonBasisHeader, periodHeader, combinedVariableCategoryHeader, tableHeaderDTO,
+						headerSequence);
 				break;
 			case 4:// 4. Variable/Comparison/Time
 				createTableHeader(combinedVariableCategoryColumn, comparisonBasisColumn, periodColumn,
-						combinedVariableCategoryHeader, comparisonBasisHeader, periodHeader, tableHeaderDTO);
+						combinedVariableCategoryHeader, comparisonBasisHeader, periodHeader, tableHeaderDTO,
+						headerSequence);
 				break;
 			default:
 				break;
 			}
 		} else {
-			combinedVariableCategoryList = getCombinedVariableCategory(comparisonBasisColumn, variableCategoryColumn,
-					comparisonBasisHeader, variableCategoryHeader, gtnForecastBean.isVariablesVariances());
+			combinedVariableCategoryList = getCombinedVariableCategory(comparisonBasisHeader, variableCategoryHeader,
+					gtnForecastBean.isVariablesVariances());
 			combinedVariableCategoryColumn = combinedVariableCategoryList.get(0);
 			combinedVariableCategoryHeader = combinedVariableCategoryList.get(1);
-			switch (2) {
+			switch (headerSequence) {
 			case 1:// 1. Time/Variable/Comparison
 				createTableHeader(periodColumn, combinedVariableCategoryColumn, periodHeader,
 						combinedVariableCategoryHeader, tableHeaderDTO);
@@ -184,7 +190,6 @@ public class HeaderGeneratorService {
 				break;
 			}
 		}
-
 		return tableHeaderDTO;
 	}
 
@@ -351,15 +356,19 @@ public class HeaderGeneratorService {
 
 	private void createTableHeader(Object[] singleColumn, Object[] doubleColumn, Object[] tripleColumn,
 			Object[] singleHeader, Object[] doubleHeader, Object[] tripleHeader,
-			GtnWsPagedTreeTableResponse tableHeaderDTO) {
+			GtnWsPagedTreeTableResponse tableHeaderDTO, int headerSequence) {
 
 		List<String> tripleMap = new ArrayList<>();
 		List<String> doubleMap = new ArrayList<>();
+		Set<String> headerColumnId = new HashSet<>();
 		for (int i = 0; i < tripleColumn.length; i++) {
 			for (int j = 0; j < doubleColumn.length; j++) {
 				for (int k = 0; k < singleColumn.length; k++) {
 					Object single = createSingleColumn(singleColumn[k].toString(), doubleColumn[j].toString(),
-							tripleColumn[i].toString());
+							tripleColumn[i].toString(), headerSequence);
+					if (!headerColumnId.add(String.valueOf(single))) {
+
+					}
 					tableHeaderDTO.addSingleColumn(single, singleHeader[k].toString(), String.class);
 					doubleMap.add(single.toString());
 				}
@@ -377,10 +386,12 @@ public class HeaderGeneratorService {
 	private void createTableHeader(Object[] singleColumn, Object[] doubleColumn, Object[] singleHeader,
 			Object[] doubleHeader, GtnWsPagedTreeTableResponse tableHeaderDTO) {
 		List<String> doubleMap = new ArrayList<>();
+
 		for (int j = 0; j < doubleColumn.length; j++) {
 			for (int k = 0; k < singleColumn.length; k++) {
 				Object single = singleColumn[k].toString() + doubleColumn[j];
 				tableHeaderDTO.addSingleColumn(single, singleHeader[k].toString(), String.class);
+
 				doubleMap.add(single.toString());
 			}
 			tableHeaderDTO.addDoubleColumn(doubleColumn[j], doubleHeader[j].toString());
@@ -389,32 +400,32 @@ public class HeaderGeneratorService {
 		}
 	}
 
-	private String createSingleColumn(String singleColumn, String doubleColumn, String tripleColumn) {
+	private String createSingleColumn(String singleColumn, String doubleColumn, String tripleColumn,
+			int headerSequence) {
 		StringBuilder singleColumnValue = new StringBuilder();
-		switch (1) {
+		switch (headerSequence) {
 		case 1:// 1. Time/Variable/Comparison
 			singleColumnValue.append(singleColumn);
-			// singleColumnValue.append("~");
 			singleColumnValue.append(doubleColumn);
 			singleColumnValue.append("_");
 			singleColumnValue.append(tripleColumn);
 			break;
 		case 2:// 2. Comparison/Variable/Time
 			singleColumnValue.append(tripleColumn);
-			singleColumnValue.append("~");
 			singleColumnValue.append(doubleColumn);
+			singleColumnValue.append("_");
 			singleColumnValue.append(singleColumn);
 			break;
 		case 3:// 3. Comparison/Time/Variable
 			singleColumnValue.append(doubleColumn);
-			singleColumnValue.append("~");
 			singleColumnValue.append(tripleColumn);
+			singleColumnValue.append("_");
 			singleColumnValue.append(singleColumn);
 			break;
 		case 4:// 4. Variable/Comparison/Time
 			singleColumnValue.append(tripleColumn);
-			singleColumnValue.append("~");
 			singleColumnValue.append(singleColumn);
+			singleColumnValue.append("_");
 			singleColumnValue.append(doubleColumn);
 			break;
 		default:
@@ -423,10 +434,27 @@ public class HeaderGeneratorService {
 		return singleColumnValue.toString();
 	}
 
-	private List<Object[]> getCombinedVariableCategory(String[] firstColumn, String[] variableCategoryColumn,
-			String[] firstHeader, String[] variableCategoryHeader, boolean isVariablesAndVariances) {
+	private List<Object[]> getCombinedVariableCategory(String[] firstHeader, String[] variableCategoryHeader,
+			boolean isVariablesAndVariances) {
 		List<Object[]> combinedVariableCategory = new ArrayList<>();
-		int combinedArraySize = firstColumn.length * variableCategoryColumn.length;
+		List<String> categorySeperationList = new ArrayList<>();
+		List<String> categoryWhichWillNotBeUnitedList = new ArrayList<>();
+		List<String> variableCategoryOnlyColumn = Arrays.asList("Volume", "Rate", "Change in Change");
+		for (int i = 0; i < variableCategoryHeader.length; i++) {
+			if (variableCategoryOnlyColumn.contains(variableCategoryHeader[i])) {
+				categoryWhichWillNotBeUnitedList.add(variableCategoryHeader[i]);
+			} else {
+				categorySeperationList.add(variableCategoryHeader[i]);
+			}
+		}
+
+		String[] variableCategoryHeaderCombinationColumOnly = categorySeperationList
+				.toArray(new String[categorySeperationList.size()]);
+		String[] variableOnlyHeader = categoryWhichWillNotBeUnitedList
+				.toArray(new String[categoryWhichWillNotBeUnitedList.size()]);
+
+		int combinedArraySize = (firstHeader.length * variableCategoryHeaderCombinationColumOnly.length)
+				+ variableOnlyHeader.length;
 		Object[] combinedVariableCategoryColumn = new Object[combinedArraySize];
 		Object[] combinedVariableCategoryHeader = new Object[combinedArraySize];
 
@@ -434,25 +462,19 @@ public class HeaderGeneratorService {
 		Map<String, String> variableCategoryMap = getVariableCategorymap();
 		int index = 0;
 
-		String[] variablesColumn = null;
 		String[] variablesHeader = null;
-		String[] variancesColumn = null;
 		String[] variancesHeader = null;
 
 		if (isVariablesAndVariances) {
-			variablesColumn = variableCategoryColumn;
-			variablesHeader = variableCategoryHeader;
-			variancesColumn = firstColumn;
+			variablesHeader = variableCategoryHeaderCombinationColumOnly;
 			variancesHeader = firstHeader;
 		} else {
-			variablesColumn = firstColumn;
 			variablesHeader = firstHeader;
-			variancesColumn = variableCategoryColumn;
-			variancesHeader = variableCategoryHeader;
+			variancesHeader = variableCategoryHeaderCombinationColumOnly;
 		}
 
-		for (int i = 0; i < variablesColumn.length; i++) {
-			for (int j = 0; j < variancesColumn.length; j++) {
+		for (int i = 0; i < variablesHeader.length; i++) {
+			for (int j = 0; j < variancesHeader.length; j++) {
 				if (isVariablesAndVariances) {
 					combinedVariableCategoryColumn[index] = variableMap.get(variancesHeader[j]) + "_"
 							+ variableCategoryMap.get(variablesHeader[i]);
@@ -464,6 +486,12 @@ public class HeaderGeneratorService {
 				}
 				index++;
 			}
+		}
+
+		for (int k = 0; k < variableOnlyHeader.length; k++) {
+			combinedVariableCategoryColumn[index] = variableCategoryMap.get(variableOnlyHeader[k]);
+			combinedVariableCategoryHeader[index] = variableOnlyHeader[k];
+			index++;
 		}
 		combinedVariableCategory.add(combinedVariableCategoryColumn);
 		combinedVariableCategory.add(combinedVariableCategoryHeader);
@@ -583,64 +611,59 @@ public class HeaderGeneratorService {
 		return date.trim();
 	}
 
-        public String getComparisonBreakdownPeriods(
- 	           GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) throws GtnFrameworkGeneralException {
+	public String getComparisonBreakdownPeriods(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
 
-             List comnparisonBreakdownList = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getDataSelectionBean()
-                     .getVariableBreakdownHeaderLoadList();
-             String dateFromPeriodQuery = null;
-             String splitParameter = " ";
-             String frequency = "";
-             String whereClauseParameters = "";
-         for(int i=0;i<comnparisonBreakdownList.size();i++){
-         String fromPeriod = comnparisonBreakdownList.get(i).toString();
-        
-         if (fromPeriod.startsWith("Q")) {
- 			List<Integer> quarterToDateForFromPeriod = getQuarterToDate(fromPeriod,splitParameter);
-                         dateFromPeriodQuery = getDateFromFrequency(quarterToDateForFromPeriod);
-                         frequency = "QUARTER,";
- 		} else if (fromPeriod.startsWith("S")&& !fromPeriod.toLowerCase().startsWith("sep")) {
+		List comnparisonBreakdownList = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getDataSelectionBean()
+				.getVariableBreakdownHeaderLoadList();
+		String dateFromPeriodQuery = null;
+		String splitParameter = " ";
+		String frequency = "";
+		String whereClauseParameters = "";
+		for (int i = 0; i < comnparisonBreakdownList.size(); i++) {
+			String fromPeriod = comnparisonBreakdownList.get(i).toString();
 
- 			List<Integer> semiAnnualToDateForFromPeriod = getSemiAnnualToDate(fromPeriod,splitParameter);
+			if (fromPeriod.startsWith("Q")) {
+				List<Integer> quarterToDateForFromPeriod = getQuarterToDate(fromPeriod, splitParameter);
+				dateFromPeriodQuery = getDateFromFrequency(quarterToDateForFromPeriod);
+				frequency = "QUARTER,";
+			} else if (fromPeriod.startsWith("S") && !fromPeriod.toLowerCase().startsWith("sep")) {
 
-                         dateFromPeriodQuery = getDateFromFrequency(semiAnnualToDateForFromPeriod);
-                         frequency = "SEMI_ANNUAL,";
+				List<Integer> semiAnnualToDateForFromPeriod = getSemiAnnualToDate(fromPeriod, splitParameter);
 
- 		} else if (fromPeriod.matches("[0-9]+")) {
- 			List<Integer> yearToDateForFromPeriod = new ArrayList<>();
- 			yearToDateForFromPeriod.add(Integer.valueOf(fromPeriod));
- 			yearToDateForFromPeriod.add(1);
- 			yearToDateForFromPeriod.add(1);
- 			
+				dateFromPeriodQuery = getDateFromFrequency(semiAnnualToDateForFromPeriod);
+				frequency = "SEMI_ANNUAL,";
 
-                         dateFromPeriodQuery = getDateFromFrequency(yearToDateForFromPeriod);
-                         frequency = "YEAR,";
+			} else if (fromPeriod.matches("[0-9]+")) {
+				List<Integer> yearToDateForFromPeriod = new ArrayList<>();
+				yearToDateForFromPeriod.add(Integer.valueOf(fromPeriod));
+				yearToDateForFromPeriod.add(1);
+				yearToDateForFromPeriod.add(1);
 
- 		} else {
- 			List<Integer> monthToDateForFromPeriod = new ArrayList<>();
- 			String[] monthToDateForFromPeriodSplit = fromPeriod.split(" ");
- 			monthToDateForFromPeriod.add(Integer.valueOf(monthToDateForFromPeriodSplit[1]));
- 			monthToDateForFromPeriod.add(getMonthIntegerFromYear(monthToDateForFromPeriodSplit[0]));
- 			monthToDateForFromPeriod.add(1);
+				dateFromPeriodQuery = getDateFromFrequency(yearToDateForFromPeriod);
+				frequency = "YEAR,";
 
+			} else {
+				List<Integer> monthToDateForFromPeriod = new ArrayList<>();
+				String[] monthToDateForFromPeriodSplit = fromPeriod.split(" ");
+				monthToDateForFromPeriod.add(Integer.valueOf(monthToDateForFromPeriodSplit[1]));
+				monthToDateForFromPeriod.add(getMonthIntegerFromYear(monthToDateForFromPeriodSplit[0]));
+				monthToDateForFromPeriod.add(1);
 
- 			
-                         
-                         dateFromPeriodQuery = getDateFromFrequency(monthToDateForFromPeriod);
-                         frequency = "MONTH,";
- 		}
-         if(i<comnparisonBreakdownList.size()-1){
-                 whereClauseParameters = whereClauseParameters + " PERIOD_DATE = '"+dateFromPeriodQuery+"' OR  ";
-         }
-         else{
-            whereClauseParameters = whereClauseParameters + "PERIOD_DATE = '"+dateFromPeriodQuery+"'"; 
-         }
-         }
-                 String finalQuery = GtnWsQueryConstants.COMPARISON_BREAKDOWN_PERIOD_DATAS;
-                 finalQuery=finalQuery.replace("@periodDateCondition", whereClauseParameters).replace("@frequency", frequency);
-         
-         return finalQuery;
-         }
+				dateFromPeriodQuery = getDateFromFrequency(monthToDateForFromPeriod);
+				frequency = "MONTH,";
+			}
+			if (i < comnparisonBreakdownList.size() - 1) {
+				whereClauseParameters = whereClauseParameters + " PERIOD_DATE = '" + dateFromPeriodQuery + "' OR  ";
+			} else {
+				whereClauseParameters = whereClauseParameters + "PERIOD_DATE = '" + dateFromPeriodQuery + "'";
+			}
+		}
+		String finalQuery = GtnWsQueryConstants.COMPARISON_BREAKDOWN_PERIOD_DATAS;
+		finalQuery = finalQuery.replace("@periodDateCondition", whereClauseParameters).replace("@frequency", frequency);
+
+		return finalQuery;
+	}
 
 	public GtnWsPagedTableResponse getVariableBreakdownHeaderColumns(
 			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) throws GtnFrameworkGeneralException {
@@ -681,14 +704,16 @@ public class HeaderGeneratorService {
 		} else {
 			List<Integer> monthToDateForFromPeriod = new ArrayList<>();
 			String[] monthToDateForFromPeriodSplit = new String[3];
-			monthToDateForFromPeriodSplit = fromPeriod.contains("-") ? fromPeriod.split(splitParameter): fromPeriod.split(" ");
+			monthToDateForFromPeriodSplit = fromPeriod.contains("-") ? fromPeriod.split(splitParameter)
+					: fromPeriod.split(" ");
 			monthToDateForFromPeriod.add(Integer.valueOf(monthToDateForFromPeriodSplit[1].trim()));
 			monthToDateForFromPeriod.add(getMonthIntegerFromYear(monthToDateForFromPeriodSplit[0].trim()));
 			monthToDateForFromPeriod.add(1);
 
 			List<Integer> monthToDateForToPeriod = new ArrayList<>();
 			String[] monthToDateForToPeriodSplit = new String[3];
-			monthToDateForToPeriodSplit = toPeriod.contains("-") ? toPeriod.split(splitParameter):fromPeriod.split(" ");
+			monthToDateForToPeriodSplit = toPeriod.contains("-") ? toPeriod.split(splitParameter)
+					: fromPeriod.split(" ");
 			monthToDateForToPeriod.add(Integer.valueOf(monthToDateForToPeriodSplit[1].trim()));
 			monthToDateForToPeriod.add(getMonthIntegerFromYear(monthToDateForToPeriodSplit[0].trim()));
 			monthToDateForToPeriod.add(1);
@@ -700,7 +725,7 @@ public class HeaderGeneratorService {
 
 		return tableHeaderDTO;
 	}
-	
+
 	private GtnWsPagedTableResponse getHeaderBasedOnFrequency(String frequency,
 			List<Integer> quarterToDateForFromPeriod, List<Integer> quarterToDateForToPeriod,
 			GtnWsPagedTableResponse tableHeaderDTO, String fromPeriod) {

@@ -9,6 +9,7 @@ import java.util.Map;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportDataRefreshBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 
 /**
@@ -41,7 +42,7 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 
 	private float minSplitPosition = 200;
 
-        private int pageLength =10;
+	private int pageLength = 10;
 
 	private int itemPerPage = 0;
 
@@ -73,6 +74,8 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = null;
 
 	private GtnWsReportDashboardBean gtnWsReportDashboardBean;
+
+	private GtnReportDataRefreshBean gtnReportDataRefreshBean = null;
 
 	public boolean isTripleHeaderVisible() {
 		return tripleHeaderVisible;
@@ -752,7 +755,13 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 	public void setGridRequestGenerateActionClass(String gridRequestGenerateActionClass) {
 		this.gridRequestGenerateActionClass = gridRequestGenerateActionClass;
 	}
-	
-	
+
+	public GtnReportDataRefreshBean getGtnReportDataRefreshBean() {
+		return gtnReportDataRefreshBean;
+	}
+
+	public void setGtnReportDataRefreshBean(GtnReportDataRefreshBean gtnReportDataRefreshBean) {
+		this.gtnReportDataRefreshBean = gtnReportDataRefreshBean;
+	}
 
 }
