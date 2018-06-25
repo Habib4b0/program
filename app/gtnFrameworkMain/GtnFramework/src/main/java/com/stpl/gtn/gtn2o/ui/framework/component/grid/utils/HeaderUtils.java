@@ -45,7 +45,7 @@ public class HeaderUtils {
         TreeData<GtnWsRecordBean> treedata = null;
         treedata = repaintGrid(treedata, pagedTreeGrid);
         List<Object> currentSingleColumns = pagedTreeGrid.getTableConfig().getVisibleColumns().subList(columnStart, columnEnd);
-        for (int j = 0; j < currentSingleColumns.size() && columnEnd < columnCount; j++) {
+        for (int j = 0; j < currentSingleColumns.size(); j++) {
             String column = (currentSingleColumns.get(j)).toString();
             PagedTreeGrid.gtnlogger.info("column = " + column);
             pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> row.getPropertyValue(column)).setCaption(pagedTreeGrid.getTableConfig().getColumnHeaders().get(columnStart + j)).setId(column).setWidth(170);
@@ -103,7 +103,7 @@ public class HeaderUtils {
         j = 0;
         for (Object property : pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderVisibleColumns()) {
             Object[] joinList = pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(property);
-            String[] stringArray = getSingleColumnsMapping(currentSingleColumns, joinList);
+            String[] stringArray = getSingleColumnsMapping(currentSingleColumns, joinList).toArray(new String[0]);
             if (stringArray.length > 1) {
                 groupingHeader.join(stringArray).setText(pagedTreeGrid.getTableConfig().getRightTableDoubleVisibleHeaders().get(j++));
             } else if (stringArray.length > 0) {
@@ -119,23 +119,17 @@ public class HeaderUtils {
             int j = 0;
             for (Object property : pagedTreeGrid.getTableConfig().getRightTableTripleHeaderMap().keySet()) {
                 Object[] joinList = pagedTreeGrid.getTableConfig().getRightTableTripleHeaderMap().get(property);
-                List<String> stringArray = Arrays.asList(getSingleColumnsMapping(currentSingleColumns, joinList));
-                Set<HeaderCell> columnList = new HashSet<>();
-                for (int i = 0; i < joinList.length; i++) {
-                    Object object = joinList[i];
-                    if (stringArray.contains(object.toString())) {
-                        columnList.add(doubleHeader.getCell(object.toString()));
-                    }
-                }
+                String[] columnList = currentSingleColumns.stream().map(String::valueOf).filter(e -> arrayContains(joinList, e))
+                        .collect(Collectors.toList()).toArray(new String[0]);
                 if (pagedTreeGrid.getTableConfig().isEnableCheckBoxInTripleHeader()) {
                     CheckBoxGroup vaadinCheckBoxGroup = new CheckBoxGroup();
                     vaadinCheckBoxGroup.setItems(pagedTreeGrid.getTableConfig().getRightTableTripleVisibleHeaders().get(j++));
                     groupingHeader.join(columnList).setComponent(vaadinCheckBoxGroup);
                 } else {
-                    if (columnList.size() > 1) {
+                    if (columnList.length > 1) {
                         groupingHeader.join(columnList).setText(pagedTreeGrid.getTableConfig().getRightTableTripleVisibleHeaders().get(j++));
-                    } else if (columnList.size() > 0) {
-                        groupingHeader.getCell(columnList.iterator().next().getColumnId()).setText(pagedTreeGrid.getTableConfig().getRightTableTripleVisibleHeaders().get(j++));
+                    } else if (columnList.length > 0) {
+                        groupingHeader.getCell(columnList[j]).setText(pagedTreeGrid.getTableConfig().getRightTableTripleVisibleHeaders().get(j++));
                     }
                 }
             }
@@ -147,9 +141,14 @@ public class HeaderUtils {
         pagedTreeGrid.shiftLeftSingeHeader = false;
     }
 
-    static String[] getSingleColumnsMapping(List<Object> currentSingleColumns, Object joinList[]) {
-        return Arrays.stream(joinList).filter(e -> currentSingleColumns.contains(e)).
-                map(Object::toString).collect(Collectors.toList()).toArray(new String[0]);
+    private static List<String> getSingleColumnsMapping(List<Object> currentSingleColumns, Object joinList[]) {
+
+        return currentSingleColumns.stream().filter(e -> arrayContains(joinList, String.valueOf(e))).
+                map(Object::toString).collect(Collectors.toList());
+    }
+
+    private static boolean arrayContains(Object[] input, String value) {
+        return Arrays.stream(input).filter(e -> value.contains(e.toString())).count() > 0;
     }
 
     // CheckBox in DoubleColumnHeader
