@@ -34,7 +34,6 @@ public class GtnWsReportRightTableLoadDataService {
 		try {
 
 			String query = getQueryFromProcedure(gtnWsRequest, hierarchyNo, levelNo);
-
 			List<?> object = gtnSqlQueryEngine.executeSelectQuery(query, new Object[] {}, new GtnFrameworkDataType[] {},
 					transFormer);
 			return (Map<String, Map<String, Double>>) object.get(0);
@@ -102,7 +101,7 @@ public class GtnWsReportRightTableLoadDataService {
 						GtnFrameworkDataType.STRING });
 
 		String declareStatement = "declare @COMPARISION_BASIS varchar(100) = null,@level_no int = " + levelNo
-				+ " , @HIERARCHY_NO varchar(100) = '" + hierarchyNo+"'";
+				+ " , @HIERARCHY_NO varchar(100) = '" + hierarchyNo + "'";
 		Object[] stringData = outputFromProcedure.get(0);
 		StringBuilder queryBuilder = new StringBuilder(declareStatement);
 		for (Object tempData : stringData) {

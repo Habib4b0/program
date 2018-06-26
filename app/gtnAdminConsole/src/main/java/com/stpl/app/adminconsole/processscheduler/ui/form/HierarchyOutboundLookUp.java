@@ -167,8 +167,8 @@ public final class HierarchyOutboundLookUp extends Window {
         resultTable.setEditable(true);
         tableLogic.setPageLength(NumericConstants.FIVE);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultTable.setVisibleColumns(CommonUIUtil.getInstance().hierarchyOutboundSearchColumns);
-        resultTable.setColumnHeaders(CommonUIUtil.getInstance().hierarchyOutboundSearchHeader);
+        resultTable.setVisibleColumns(CommonUIUtil.gethierarchyOutboundSearchColumns());
+        resultTable.setColumnHeaders(CommonUIUtil.gethierarchyOutboundSearchHeader());
         resultTable.setFilterBarVisible(true);
         resultTable.setSizeFull();
         resultTable.setImmediate(true);
