@@ -100,15 +100,6 @@ public class GtnReportCCPTableLoadAction
 		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
 		combobox.reloadComponentFromChild(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
 				"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
-
-		String defaultValue = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("reportLandingScreen_displaySelectionTabCustomView")
-				.getStringCaptionFromV8ComboBox();
-
-		if (!defaultValue.contains("Select"))
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromChild("dataSelectionTab_displaySelectionTabCustomView", componentId)
-					.loadV8FieldValue(defaultValue);
 	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {

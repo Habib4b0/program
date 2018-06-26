@@ -69,4 +69,5 @@ public class GtnWsQueryConstants {
 
 	public static final String ST_CCP_HIERARCHY = "ST_CCP_HIERARCHY";
 
+	public static final String CHECK_PROCESS_MODE_FOR_REPORT_FROM_AND_TO_DATE = "select TOP 1 PROCESS_MODE from forecast_config";
 }
