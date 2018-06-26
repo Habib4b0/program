@@ -5,22 +5,31 @@
  */
 package com.stpl.gtn.gtn2o.ui.action;
 
-import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
-import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
-import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
-import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportDataRefreshBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
-import java.util.Arrays;
-import java.util.List;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 
 /**
  *
@@ -28,6 +37,8 @@ import java.util.List;
  */
 public class GtnFrameworkUIReportDasboardTableLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+
+	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkUIReportDasboardTableLoadAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -39,7 +50,7 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
-		List<Object> params = (gtnUIFrameWorkActionConfig.getActionParameterList());
+		List<Object> params = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData((String) params.get(1), componentId);
 		PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
@@ -62,6 +73,13 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 				.getCaptionFromV8ComboBox();
 		dashBoardBean.setAnnualTotals(annualTotalValue);
 
+		String comparisonBasis = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis", componentId)
+				.getCaptionFromV8ComboBox();
+		dashBoardBean.setComparisonBasis(comparisonBasis);
+
+		
+		
 		List<Object> displayFormat = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(4).toString(), componentId)
 				.getSelectedCaptionListFromV8MultiSelect();
@@ -70,22 +88,101 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 		dashBoardBean.setCurrencyConversion(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(5).toString(), componentId).getCaptionFromV8ComboBox());
 		grid.getTableConfig().setGtnWsReportDashboardBean(dashBoardBean);
-		// GtnUIFrameworkWebServiceClient wsclient = new
-		// GtnUIFrameworkWebServiceClient();
-		// GtnUIFrameworkWebserviceRequest serviceRequest = new
-		// GtnUIFrameworkWebserviceRequest();
-		// GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-		// GtnWsReportDataSelectionBean dataSelectionBean = new
-		// GtnWsReportDataSelectionBean();
-		// dataSelectionBean.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
-		// reportRequest.setDataSelectionBean(dataSelectionBean);
-		// serviceRequest.setGtnWsReportRequest(reportRequest);
-		// reportRequest.setGtnWsReportDashboardBean(grid.getTableConfig().getGtnWsReportDashboardBean());
-		// wsclient.callGtnWebServiceUrl(GtnWsReportConstants.GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT,
-		// GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, serviceRequest,
-		// GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+
+		if (!dataSelectionBean.isDataRefreshDone()) {
+			grid.getTableConfig().setGtnReportDataRefreshBean(null);
+		}
+		checkForSelectionChange(dataSelectionBean, componentId, params, grid.getTableConfig());
 
 		componentData.getCurrentGtnComponent().reloadComponent(null, componentId, (String) params.get(1), null);
+	}
+
+	private void checkForSelectionChange(GtnWsReportDataSelectionBean dataSelectionBean, String componentId,
+			List<Object> actionParameterList, GtnUIFrameworkPagedTreeTableConfig tableConfig) {
+		try {
+			if (checkDataRefreshCondition(dataSelectionBean, tableConfig, actionParameterList, componentId)) {
+				GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+				GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
+				GtnWsReportRequest reportRequest = new GtnWsReportRequest();
+				GtnWsReportBean reportBean = new GtnWsReportBean();
+				reportBean.setDataSelectionBean(dataSelectionBean);
+				reportRequest.setReportBean(reportBean);
+				serviceRequest.setGtnWsReportRequest(reportRequest);
+				wsclient.callGtnWebServiceUrl(
+						GtnWsReportConstants.GTN_WS_REPORT_DASHBOARD_CUSTOM_VIEW_AND_DATA_REGENERATION_SERVICE,
+						GtnFrameworkCommonStringConstants.REPORT_MODULE_NAME, serviceRequest,
+						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+
+				dataSelectionBean.setDataRefreshDone(true);
+			}
+		} catch (GtnFrameworkValidationFailedException e) {
+			logger.error(e.getErrorMessage(), e);
+		}
+	}
+
+	private boolean checkDataRefreshCondition(GtnWsReportDataSelectionBean dataSelectionBean,
+			GtnUIFrameworkPagedTreeTableConfig tableConfig, List<Object> actionParameterList, String componentId)
+			throws GtnFrameworkValidationFailedException {
+		int customViewId = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParameterList.get(6).toString(), componentId).getIntegerFromV8ComboBox();
+		String frequency = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParameterList.get(7).toString(), componentId)
+				.getStringCaptionFromV8ComboBox();
+		GtnUIFrameworkComponentData comparisonProjectionData = GtnUIFrameworkGlobalUI
+				.getVaadinComponentData(actionParameterList.get(8).toString(), componentId);
+		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = (List<GtnReportComparisonProjectionBean>) comparisonProjectionData
+				.getCustomData();
+		boolean refreshNeeded = false;
+		GtnReportDataRefreshBean refreshBean = tableConfig.getGtnReportDataRefreshBean();
+		if (refreshBean == null) {
+			refreshBean = new GtnReportDataRefreshBean();
+			refreshNeeded = (customViewId != dataSelectionBean.getCustomViewMasterSid())
+					|| (!frequency.equals(dataSelectionBean.getFrequencyName()))
+					|| (checkComparison(dataSelectionBean.getComparisonProjectionBeanList(),
+							comparisonProjectionBeanList));
+		} else {
+			refreshNeeded = (customViewId != refreshBean.getCustomViewMasterSid())
+					|| (!frequency.equals(refreshBean.getFrequencyName()))
+					|| (checkComparison(refreshBean.getComparisonProjectionBeanList(), comparisonProjectionBeanList));
+		}
+		refreshBean.setCustomViewMasterSid(customViewId);
+		refreshBean.setFrequencyName(frequency);
+		refreshBean.setComparisonProjectionBeanList(comparisonProjectionBeanList);
+		tableConfig.setGtnReportDataRefreshBean(refreshBean);
+		dataSelectionBean.setDataRefreshDone(true);
+		logger.info("checkDataRefreshCondition = = = " + refreshNeeded);
+		return refreshNeeded;
+	}
+
+	private boolean checkComparison(List<GtnReportComparisonProjectionBean> dataselectionComparisonProjectionBeanList,
+			List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
+		boolean dsComparison = Optional.ofNullable(dataselectionComparisonProjectionBeanList).isPresent();
+		boolean rdComparison = Optional.ofNullable(comparisonProjectionBeanList).isPresent();
+		if (!rdComparison) {
+			return false;
+		}
+		if (dataselectionComparisonProjectionBeanList != null && comparisonProjectionBeanList != null) {
+			Collections.sort(dataselectionComparisonProjectionBeanList, new GtnReportComparisonProjectionBean());
+			Collections.sort(comparisonProjectionBeanList, new GtnReportComparisonProjectionBean());
+			return checkBothComparisonList(dataselectionComparisonProjectionBeanList, comparisonProjectionBeanList);
+		} else if ((dsComparison && !rdComparison) || (!dsComparison && rdComparison)) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean checkBothComparisonList(
+			List<GtnReportComparisonProjectionBean> dataselectionComparisonProjectionBeanList,
+			List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
+		for (GtnReportComparisonProjectionBean dsComparison : dataselectionComparisonProjectionBeanList) {
+			for (GtnReportComparisonProjectionBean rdComparison : comparisonProjectionBeanList) {
+				if ((dsComparison.getProjectionMasterSid() != rdComparison.getProjectionMasterSid())
+						|| (!dsComparison.getProjectionType().equals(rdComparison.getProjectionType()))) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override

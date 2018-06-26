@@ -641,6 +641,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.addActionParameter("reportLandingScreen_toPeriod");
 		generateAction.addActionParameter("reportLandingScreen_STATUS");
 		generateAction.addActionParameter("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent");
+		generateAction.addActionParameter("reportLandingScreen_displaySelectionTabVariable");	
 		actionList.add(generateAction);
 
 		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);

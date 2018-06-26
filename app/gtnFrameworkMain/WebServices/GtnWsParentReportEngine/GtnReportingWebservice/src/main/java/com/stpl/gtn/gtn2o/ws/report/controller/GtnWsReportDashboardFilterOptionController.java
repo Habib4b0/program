@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping(value = GtnWsReportConstants.GTN_REPORT_FILTER_SERVICE)
@@ -82,12 +83,21 @@ public class GtnWsReportDashboardFilterOptionController {
 	
 	@RequestMapping(value = GtnWsReportConstants.GTN_WS_FILTERCCP_GENERATE_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getCCPFromFilter(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) throws GtnFrameworkGeneralException {
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse searchResponse = new GtnSerachResponse();
-		List<Object[]> resultList = reportFilterOptionService.getFilteredValues(gtnUIFrameworkWebserviceRequest);
+		List<Object[]> finalList = new ArrayList<>();
+		if (gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getFilterBean().getSelectedDeductionList()
+				.isEmpty()) {
+			List<Object[]> resultList = reportFilterOptionService.getFilteredValues(gtnUIFrameworkWebserviceRequest);
+			Object[] resultObjList = resultList.toArray();
+			finalList.add(resultObjList);
+		} else {
+			finalList = reportFilterOptionService.getFilteredValues(gtnUIFrameworkWebserviceRequest);
+		}
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
-		dataTable.addData(resultList);
+		dataTable.addData(finalList);
 		searchResponse.setResultSet(dataTable);
 		response.setGtnSerachResponse(searchResponse);
 		return response;

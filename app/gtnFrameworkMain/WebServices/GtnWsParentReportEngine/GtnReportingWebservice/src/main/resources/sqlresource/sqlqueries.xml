@@ -199,7 +199,7 @@
 					WHERE
 						VIEW_TYPE = ?
 						AND VIEW_NAME LIKE ?
-						AND CREATED_BY = ?
+						?
 			]]>
 	</entry>
 	<entry key="filterOptionCustLevelProdLevelLoadQuery">
@@ -835,6 +835,12 @@
 	<entry key="getUOMDetails">
 		<![CDATA[
 			select UOM_CODE from ST_ITEM_UOM_DETAILS
+		]]>
+	</entry>
+	
+	<entry key="getTruncateQuery">
+		<![CDATA[
+			TRUNCATE TABLE ?
 		]]>
 	</entry>
 		
