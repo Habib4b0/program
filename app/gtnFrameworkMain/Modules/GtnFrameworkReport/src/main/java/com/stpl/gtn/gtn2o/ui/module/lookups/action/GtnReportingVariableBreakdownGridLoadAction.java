@@ -108,8 +108,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
 
 		}
                  else{
-//                    parentComponentId = GtnUIFrameworkGlobalUI.getVaadinComponentData(componentId)
-//					.getParentViewId();
+                   
                     idComponentData = GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent("reportLandingScreen_reportingDashboardComparisonConfig", parentComponentId); 
                 }
