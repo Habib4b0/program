@@ -6,6 +6,7 @@ import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.common.AppDataUtils;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
 import com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder;
+import static com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder.AND_YEAR_EQUAL;
 import static com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder.NINE_LEVELS_DED;
 import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountExcelLogic;
 import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountProjectionLogic;
@@ -893,6 +894,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         }
                         if (saveList.size() == 1) {
                             saveDiscountProjectionListview();
+                            Object[] orderedArg = {session.getProjectionId(), session.getUserId(),
+                                session.getSessionId()};
+                            CommonLogic.callProcedure("PRC_NM_DISCOUNT_REFRESH", orderedArg);
+                            String startPeriod = getPeriodSid(period, projectionSelection.getFrequency(), "Min");
+                            String endPeriod = getPeriodSid(period, projectionSelection.getFrequency(), "Max");
+                            new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3, startPeriod, endPeriod, "");
                         }
                     } catch (Exception e) {
                         LOGGER.error(e.getMessage());
@@ -920,6 +927,31 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
     };
 
+    public String getPeriodSid(String period, String fre, String order) {
+        List periodSid = (List) HelperTableLocalServiceUtil.executeSelectQuery(periodQuery(period, fre, order));
+        return periodSid.get(0).toString();
+    }
+
+    
+    public String periodQuery(String period, String fre, String order) {
+        String startYearValue = period.substring(period.length() - NumericConstants.FOUR);
+        String startFreqNoValue = period.substring(1, NumericConstants.TWO);
+        int startYear = isInteger(startYearValue) ? Integer.parseInt(startYearValue) : 0;
+        String where;
+
+        if (fre.equals(MONTHLY.getConstant())) {
+            String startMonthValue = period.substring(0, period.length() - NumericConstants.FIVE);
+            int startFreqNo = Integer.valueOf(startMonthValue.replaceAll("[^\\d.]", StringUtils.EMPTY));
+            where = "where \"MONTH\" = '" + startFreqNo + AND_YEAR_EQUAL + startYear + "'";
+        } else if (fre.equals(QUARTERLY.getConstant())) {
+            where = "where QUARTER = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
+        } else if (fre.equals(ANNUALLY.getConstant()) || fre.equals(ANNUAL.getConstant())) {
+            where = "where  \"YEAR\" = '" + startYear + "'";
+        } else {
+            where = "where SEMI_ANNUAL = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
+        }
+        return "select " + order + "(PERIOD_SID) from \"PERIOD\" " + where;
+    }
     private final ExtCustomCheckBox.ClickListener clickListener = new ExtCustomCheckBox.ClickListener() {
         @Override
         public void click(ExtCustomCheckBox.ClickEvent event) {
@@ -1174,11 +1206,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             isRateUpdatedManually = false;
                             isRPUUpdatedManually = false;
                             isAmountUpdatedManually = false;
-                            saveDiscountProjectionListview();
-                            Object[] orderedArg = {session.getProjectionId(), session.getUserId(),
-                                session.getSessionId()};
-                            CommonLogic.callProcedure("PRC_NM_DISCOUNT_REFRESH", orderedArg);
-                            new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3, "", "", "");
                             try {
                                 TimeUnit.SECONDS.sleep(3);
                             } catch (InterruptedException ex) {
