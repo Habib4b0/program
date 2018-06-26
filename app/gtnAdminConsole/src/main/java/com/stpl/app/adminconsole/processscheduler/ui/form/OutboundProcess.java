@@ -137,14 +137,14 @@ public class OutboundProcess {
         try {
             LOGGER.info("Start index of record is= {} ", start);
             if (end != 0 && StringConstantUtils.RELATIONSHIP_BUILDER_OUTBOUND.equalsIgnoreCase(processName)) {
-                    for (int headerCount = 0; headerCount < CommonUIUtil.getRELATIONSHIP_OUTBOUND_EXCEL_HEADER().length; headerCount++) {
-                        if (headerCount < CommonUIUtil.getRELATIONSHIP_OUTBOUND_EXCEL_HEADER().length - 1) {
-                            printWriter.print(CommonUIUtil.getRELATIONSHIP_OUTBOUND_EXCEL_HEADER()[headerCount] + ExcelExportUtil.COMMA);
+                    for (int headerCount = 0; headerCount < CommonUIUtil.getrelationshipOutboundExcelHeader().length; headerCount++) {
+                        if (headerCount < CommonUIUtil.getrelationshipOutboundExcelHeader().length - 1) {
+                            printWriter.print(CommonUIUtil.getrelationshipOutboundExcelHeader()[headerCount] + ExcelExportUtil.COMMA);
                         } else {
-                            printWriter.println(CommonUIUtil.getRELATIONSHIP_OUTBOUND_EXCEL_HEADER()[headerCount]);
+                            printWriter.println(CommonUIUtil.getrelationshipOutboundExcelHeader()[headerCount]);
                         }
                     }
-                    SchedulerCSVEport.createFileContent(CommonUIUtil.getRELATIONSHIP_OUTBOUND_EXCEL_COLUMNS(), rbCsvList, printWriter);
+                    SchedulerCSVEport.createFileContent(CommonUIUtil.getrelationshipOutboundExcelColumns(), rbCsvList, printWriter);
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
