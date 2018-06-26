@@ -5,7 +5,9 @@
  */
 package com.stpl.gtn.gtn2o.ui.module.lookups.action;
 
-import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -18,8 +20,6 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.vaadin.ui.AbstractComponent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -102,31 +102,13 @@ public class GtnReportingVariableBreakdownHeaderLoadAction implements GtnUIFrame
          variableBreakdownToPeriod = GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(variableBreakdownActionParameterList.get(2).toString(), componentId)
                 .getStringCaptionFromV8ComboBox();
-//        if(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT.equals(variableBreakdownTableId)){
-//        variableBreakdownFrequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportOptionsTab_variableBreakdownFrequencyConfig")
-//                .getStringCaptionFromV8ComboBox();
-//        }
-//        else{
+
           variableBreakdownFrequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(variableBreakdownActionParameterList.get(0).toString())
                 .getStringCaptionFromV8ComboBox(); 
-       // }
+       
         
         }
-//        String variableBreakdownFrequency="";
-//        String variableBreakdownFromPeriod = GtnUIFrameworkGlobalUI
-//                .getVaadinBaseComponent(variableBreakdownActionParameterList.get(1).toString(), componentId)
-//                .getStringCaptionFromV8ComboBox();
-//        String variableBreakdownToPeriod = GtnUIFrameworkGlobalUI
-//                .getVaadinBaseComponent(variableBreakdownActionParameterList.get(2).toString(), componentId)
-//                .getStringCaptionFromV8ComboBox();
-//        if(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT.equals(variableBreakdownTableId)){
-//        variableBreakdownFrequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportOptionsTab_variableBreakdownFrequencyConfig")
-//                .getStringCaptionFromV8ComboBox();
-//        }
-//        else{
-//          variableBreakdownFrequency = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(variableBreakdownActionParameterList.get(0).toString())
-//                .getStringCaptionFromV8ComboBox(); 
-//        }
+
         List<String> variableBreakdownInputList = new ArrayList<>();
         variableBreakdownInputList.add(variableBreakdownFromPeriod);
         variableBreakdownInputList.add(variableBreakdownToPeriod);
