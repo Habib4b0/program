@@ -486,6 +486,7 @@ public class GtnWsReportDashboardFilterOptionService {
 	private String getDeductionCCP(StringBuilder getCCPSidQuery, GtnWsReportDashboardFilterBean filterBean) {
 		StringBuilder queryString = getCCPSidQuery.equals("") ? new StringBuilder() : new StringBuilder(getCCPSidQuery);
 		if (!filterBean.getSelectedDeductionList().isEmpty()) {
+			queryString.insert(queryString.lastIndexOf("from"), ",rc.RS_CONTRACT_SID \n");
 			List<String> dedQuery = getDeductionLevelQuery(filterBean);
 			queryString.append("WHERE");
 			queryString.insert(queryString.lastIndexOf("WHERE"),

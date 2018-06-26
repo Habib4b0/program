@@ -73,6 +73,13 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 				.getCaptionFromV8ComboBox();
 		dashBoardBean.setAnnualTotals(annualTotalValue);
 
+		String comparisonBasis = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis", componentId)
+				.getCaptionFromV8ComboBox();
+		dashBoardBean.setComparisonBasis(comparisonBasis);
+
+		
+		
 		List<Object> displayFormat = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(4).toString(), componentId)
 				.getSelectedCaptionListFromV8MultiSelect();

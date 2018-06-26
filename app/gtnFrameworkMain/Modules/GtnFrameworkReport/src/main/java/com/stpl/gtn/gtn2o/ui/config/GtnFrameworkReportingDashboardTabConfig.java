@@ -22,6 +22,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnUIReportExpandCollapseAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnForecastReturnsClassConstants;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.button.GtnUIFrameworkButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkbox.GtnUIFrameworkCheckBoxComponentConfig;
@@ -318,17 +319,16 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		frequencyConfig.setAuthorizationIncluded(true);
 
 		componentList.add(frequencyConfig);
-
+		
 		GtnUIFrameworkComboBoxConfig frequencyLoadConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkReportStringConstants.REPORT_CONFIG_FREQUENCY,
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		frequencyConfig.setGtnComboboxConfig(frequencyLoadConfig);
-
+		
 		GtnUIFrameWorkActionConfig selectedFrequencyAction = new GtnUIFrameWorkActionConfig();
 		selectedFrequencyAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		selectedFrequencyAction.addActionParameter(GtnReportDashboardFrequencyLoadAction.class.getName());
-		selectedFrequencyAction.addActionParameter(frequencyConfig.getComponentId());
 		frequencyConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(selectedFrequencyAction));
 
 	}
@@ -371,7 +371,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		comparisonBasisComponentLoadConfig.setItemCaptionValues(new ArrayList());
 		comparisonBasisConfig.setGtnComboboxConfig(comparisonBasisComponentLoadConfig);
 		componentList.add(comparisonBasisConfig);
-
+		
+	
 	}
 
 	private void addVariableCategoryComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -394,7 +395,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		variableCategoryLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.STATUS);
 		variableCategoryConfig.setGtnCheckedComboboxConfig(variableCategoryLoadConfig);
 		componentList.add(variableCategoryConfig);
-
 	}
 
 	private void addAnnualTotalsComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -415,6 +415,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes", "No"));
+		annualTotalsLoadConfig.setItemCaptionValues(Arrays.asList("Yes", "No"));
+		annualTotalsLoadConfig.setHasDefaultValue(true);
 		annualTotalsLoadConfig.setDefaultValue("Yes");
 		annualTotalsConfig.setGtnComboboxConfig(annualTotalsLoadConfig);
 
@@ -1279,7 +1281,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		reportingDashboardGtnPagedTreeTableConfig.setTableHeight("650px");
 		reportingDashboardGtnPagedTreeTableConfig.setDoubleHeaderVisible(true);
-		reportingDashboardGtnPagedTreeTableConfig.setTripleHeaderVisible(false);
+		reportingDashboardGtnPagedTreeTableConfig.setTripleHeaderVisible(true);
 
 		reportingDashboardGtnPagedTreeTableConfig.setLeftTableEditable(true);
 		reportingDashboardGtnPagedTreeTableConfig.setRightTableEditable(true);

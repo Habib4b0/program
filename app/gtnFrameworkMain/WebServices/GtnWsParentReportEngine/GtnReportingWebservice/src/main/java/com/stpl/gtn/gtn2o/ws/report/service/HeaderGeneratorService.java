@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -100,17 +101,27 @@ public class HeaderGeneratorService {
 		gtnForecastBean.setAscending(true);
 		gtnForecastBean.setColumn(true);
 		gtnForecastBean.setVariablesVariances(true);
-		GtnWsPagedTreeTableResponse response = this.getReportRightTableColumns(gtnForecastBean, dashboardBean);
+		GtnWsPagedTreeTableResponse response = this.getReportRightTableColumns(gtnForecastBean,
+				gtnUIFrameworkWebserviceRequest);
 		return response;
 
 	}
 
 	public GtnWsPagedTreeTableResponse getReportRightTableColumns(GtnForecastBean gtnForecastBean,
-			GtnWsReportDashboardBean dashboardBean) {
+			GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+		GtnWsReportDashboardBean dashboardBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
+				.getGtnWsReportDashboardBean();
 
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
 
-		String[] comparisonBasisHeader = new String[] { "Current", "TEST_PRojection" };
+		List<GtnReportComparisonProjectionBean> beanList = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
+				.getDataSelectionBean().getComparisonProjectionBeanList();
+		List<String> comparsionHeader = new ArrayList<>();
+		comparsionHeader.add("Current");
+		if (beanList != null) {
+			beanList.stream().forEach(bean -> comparsionHeader.add(bean.getProjectionName()));
+		}
+		String[] comparisonBasisHeader = comparsionHeader.stream().toArray(String[]::new);
 		String[] comparisonBasisColumn = new String[comparisonBasisHeader.length];
 		for (int i = 0; i < comparisonBasisHeader.length; i++) {
 			comparisonBasisColumn[i] = String.valueOf(i + 1);
@@ -375,7 +386,7 @@ public class HeaderGeneratorService {
 				tableHeaderDTO.addDoubleColumn(doubleColumn[j] + "" + tripleColumn[i], doubleHeader[j].toString());
 				tableHeaderDTO.addDoubleHeaderMap(doubleColumn[j] + "" + tripleColumn[i], doubleMap.toArray());
 				doubleMap.clear();
-				tripleMap.add(doubleColumn[j] + "" + tripleColumn[i]);
+				tripleMap.add(doubleColumn[j] + "_" + tripleColumn[i]);
 			}
 			tableHeaderDTO.addTripleColumn(tripleColumn[i], tripleHeader[i].toString());
 			tableHeaderDTO.addTripleHeaderMap(tripleColumn[i], tripleMap.toArray());
