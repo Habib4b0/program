@@ -2654,6 +2654,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
     public String callViewInsertProceduresString(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
         StringBuilder query = new StringBuilder();
         String frequencyValue = session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
+        String deductionCaptionUdc = session.getDataSelectionDeductionLevelCaption().startsWith("UDC") ? session.getDataSelectionDeductionLevelCaption().replace(" ", StringUtils.EMPTY) : session.getDataSelectionDeductionLevelCaption();
         try {
             query.append(EXEC_WITH_SPACE);
             query.append(Constant.PRC_VIEWS_POPULATION);
@@ -2672,7 +2673,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
                                 .append(',').append("null")
-                                .append(",'").append("Schedule Category").append('\'')
+                                .append(",'").append(deductionCaptionUdc).append('\'')
                                 .append(';');
                                 LOGGER.info(QUERY_CALL_VIEW_INSERT_PROCEDURES, query.toString());
         } catch (Exception ex) {
@@ -2686,6 +2687,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
      LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}", frequency);
         String truncateQuery="TRUNCATE TABLE ST_CUSTOM_SALES";
         StringBuilder query = new StringBuilder(QueryUtil.replaceTableNames(truncateQuery, session.getCurrentTableNames()));
+        String deductionCaptionUdc = session.getDataSelectionDeductionLevelCaption().startsWith("UDC") ? session.getDataSelectionDeductionLevelCaption().replace(" ", StringUtils.EMPTY) : session.getDataSelectionDeductionLevelCaption();
         try {
             query.append(EXEC_WITH_SPACE);
             query.append(Constant.PRC_VIEWS_POPULATION);
@@ -2704,7 +2706,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
                                 .append(',').append("null")
-                                .append(",'").append("Schedule Category").append('\'')
+                                .append(",'").append(deductionCaptionUdc).append('\'')
                                 .append(';');
                                 LOGGER.info(QUERY_CALL_VIEW_INSERT_PROCEDURES, query.toString());
         } catch (Exception ex) {

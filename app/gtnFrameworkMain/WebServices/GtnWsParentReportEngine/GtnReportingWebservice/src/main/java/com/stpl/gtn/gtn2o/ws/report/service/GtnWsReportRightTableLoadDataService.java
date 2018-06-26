@@ -54,7 +54,17 @@ public class GtnWsReportRightTableLoadDataService {
 				new Object[] { gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getCustomViewMasterSid() },
 				new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER });
 
-		String customViewType = String.valueOf(customviewData.get(0));
+		String customViewTypeInBackend = String.valueOf(customviewData.get(0));
+		String[] customViewTypeDataArray = customViewTypeInBackend.split("~");
+
+		String customViewType = "";
+		if (customViewTypeDataArray.length == 3) {
+			customViewType = customViewTypeDataArray[1];
+			if (customViewTypeDataArray[1].equals("Columns")) {
+				customViewType = "VARIABLE";
+			}
+		}
+
 		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
 
 		String frequency = dataSelectionBean.getFrequencyName();
@@ -67,25 +77,38 @@ public class GtnWsReportRightTableLoadDataService {
 		String currencyConversion = dashboardBean.getCurrencyConversion().isEmpty() ? null
 				: dashboardBean.getCurrencyConversion();
 
+		String procedure = "PRC_REPORT_DASHBOARD_GENERATE ?,?,:comparisonBasis:,:ccpComp:,:salesInclusion:,:deductionIncl:,null,?,601,672,?,?,?,null,?,?,?";
+		procedure = procedure.replaceAll(":salesInclusion:",
+				salesInClusion == -1 ? "NULL" : String.valueOf(salesInClusion));
+		procedure = procedure.replaceAll(":deductionIncl:",
+				deductionInclusion == -1 ? "NULL" : String.valueOf(deductionInclusion));
+		String ccpFilter = "NULL";
+		if (dashboardBean.getCcpDetailsSidList() != null && !dashboardBean.getCcpDetailsSidList().isEmpty()) {
+			ccpFilter = String.join(",", dashboardBean.getCcpDetailsSidList().stream().toArray(String[]::new));
+		}
+		procedure = procedure.replaceAll(":ccpComp:", ccpFilter);
+		String comparisonBasis = dashboardBean.getComparisonBasis().isEmpty() ? "NULL"
+				: dashboardBean.getComparisonBasis();
+		procedure = procedure.replaceAll(":comparisonBasis:", comparisonBasis);
 		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
-		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(
-				"PRC_REPORT_DASHBOARD_GENERATE ?,?,null,null,?,?,null,?,601,672,?,?,?,null,?,?,?",
-				new Object[] { frequency, annualTotals, salesInClusion, deductionInclusion, currencyConversion,
+		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(procedure,
+				new Object[] { frequency, annualTotals, currencyConversion,
 						gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getCustomViewMasterSid(), levelNo,
 						gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getSessionId(),
 						Integer.valueOf(gtnWsRequest.getGtnWsGeneralRequest().getUserId()), hierarchy, customViewType },
 				new GtnFrameworkDataType[] { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
-						GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING,
-						GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING,
-						GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING });
+						GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER,
+						GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING,
+						GtnFrameworkDataType.STRING });
 
 		String declareStatement = "declare @COMPARISION_BASIS varchar(100) = null,@level_no int = " + levelNo
-				+ " , @HIERARCHY_NO varchar(100) = null ";
+				+ " , @HIERARCHY_NO varchar(100) = '" + hierarchyNo+"'";
 		Object[] stringData = outputFromProcedure.get(0);
 		StringBuilder queryBuilder = new StringBuilder(declareStatement);
 		for (Object tempData : stringData) {
 			Clob dataClob = (Clob) tempData;
-			queryBuilder.append(clobToString(dataClob));
+			queryBuilder.append(clobToString(dataClob)).append(" ");
+			;
 		}
 
 		return queryBuilder.toString();

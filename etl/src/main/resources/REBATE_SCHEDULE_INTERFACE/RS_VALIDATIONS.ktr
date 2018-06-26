@@ -213,13 +213,11 @@
   <hop> <from>UDC4</from><to>UDC5</to><enabled>N</enabled> </hop>
   <hop> <from>UDC5</from><to>UDC6</to><enabled>N</enabled> </hop>
   <hop> <from>UDC6</from><to>Dummy &#x28;do nothing&#x29;</to><enabled>N</enabled> </hop>
-  <hop> <from>Update</from><to>Update 5</to><enabled>Y</enabled> </hop>
   <hop> <from>REBATE_PROGRAM_TYPE</from><to>REBATE_ATTACHED_STATUS</to><enabled>N</enabled> </hop>
   <hop> <from>PS CONTRACT lookUp 2</from><to>Filter rows</to><enabled>N</enabled> </hop>
   <hop> <from>Filter rows</from><to>REBATE_PLAN LOOKUP </to><enabled>N</enabled> </hop>
   <hop> <from>REBATE_PLAN LOOKUP </from><to>Invalid Reason 5 2</to><enabled>N</enabled> </hop>
   <hop> <from>Invalid Reason 5 2</from><to>INVALID TABLE 11</to><enabled>N</enabled> </hop>
-  <hop> <from>RS MASTER</from><to>UDCS_INSERT</to><enabled>Y</enabled> </hop>
   <hop> <from>REBATE_ATTACHED_STATUS</from><to>REBATE_RULE_TYPE</to><enabled>N</enabled> </hop>
   <hop> <from>PAYMENT_METHOD</from><to>REBATE_PROCESSING_TYPE</to><enabled>N</enabled> </hop>
   <hop> <from>REBATE_PROCESSING_TYPE</from><to>REBATE_FREQUENCY</to><enabled>N</enabled> </hop>
@@ -231,8 +229,6 @@
   <hop> <from>Filter rows 2</from><to>CFP ID LOOKUP</to><enabled>N</enabled> </hop>
   <hop> <from>GET CFP MODEL SID 2</from><to>GET CFP CONTRACT SID</to><enabled>Y</enabled> </hop>
   <hop> <from>REBATE_RULE_TYPE</from><to>STATE</to><enabled>N</enabled> </hop>
-  <hop> <from>RS CONT INSERT</from><to>UDCS_INSERT 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>UPDATE RS CONT</from><to>Update 5 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Memory Group by 2</from><to>Audit Status</to><enabled>Y</enabled> </hop>
   <hop> <from>Memory Group by</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Invalid Reason 6 2</from><to>INVALID TABLE 10 2</to><enabled>Y</enabled> </hop>
@@ -291,6 +287,18 @@
   <hop> <from>Add constants 4</from><to>NSF</to><enabled>Y</enabled> </hop>
   <hop> <from>NSF</from><to>Add constants 5</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants 5</from><to>Filter rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>UDCS_CHECK</from><to>Update 5 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>RS MASTER</from><to>UDCS_CHECK</to><enabled>Y</enabled> </hop>
+  <hop> <from>UDCS_CHECK</from><to>UDCS_INSERT</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update</from><to>UDCS_CHECK 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>UDCS_CHECK 2</from><to>Update 5</to><enabled>Y</enabled> </hop>
+  <hop> <from>UDCS_CHECK 2</from><to>UDCS_INSERT 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>RS CONT INSERT</from><to>UDCS CHECK CONTRACT</to><enabled>Y</enabled> </hop>
+  <hop> <from>UDCS CHECK CONTRACT</from><to>UDCS_INSERT 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>UDCS CHECK CONTRACT</from><to>Update 5 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>UPDATE RS CONT</from><to>UDCS CHECK CONTRACT 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>UDCS CHECK CONTRACT 2</from><to>Update 5 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>UDCS CHECK CONTRACT 2</from><to>UDCS_INSERT 2 2</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>ADD Audit update</name>
@@ -337,8 +345,8 @@
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1499</xloc>
-      <yloc>3839</yloc>
+      <xloc>1654</xloc>
+      <yloc>3819</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -821,8 +829,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1501</xloc>
-      <yloc>3774</yloc>
+      <xloc>1625</xloc>
+      <yloc>3688</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1263,8 +1271,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>636</xloc>
-      <yloc>3552</yloc>
+      <xloc>420</xloc>
+      <yloc>3667</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1282,8 +1290,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1143</xloc>
-      <yloc>3682</yloc>
+      <xloc>1112</xloc>
+      <yloc>3839</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3491,8 +3499,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1334</xloc>
-      <yloc>3719</yloc>
+      <xloc>1542</xloc>
+      <yloc>3783</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -9987,8 +9995,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1390</xloc>
-      <yloc>3650</yloc>
+      <xloc>1534</xloc>
+      <yloc>3621</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -10155,8 +10163,8 @@
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1498</xloc>
-      <yloc>3604</yloc>
+      <xloc>1611</xloc>
+      <yloc>3539</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -11334,8 +11342,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1498</xloc>
-      <yloc>3518</yloc>
+      <xloc>1509</xloc>
+      <yloc>3496</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -11398,7 +11406,7 @@
     <name>RS CONT INSERT</name>
     <type>TableOutput</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -11836,7 +11844,7 @@
     <name>RS MASTER</name>
     <type>TableOutput</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -12859,6 +12867,192 @@
     </step>
 
   <step>
+    <name>UDCS CHECK CONTRACT</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>UDCS</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>RS_CONTRACT_SID</name>
+        <field>MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>rs_contract_master_type</name>
+        <field>MASTER_TYPE</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1422</xloc>
+      <yloc>3607</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>UDCS CHECK CONTRACT 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>UDCS</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>RS_CONTRACT_SID</name>
+        <field>MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>rs_contract_master_type</name>
+        <field>MASTER_TYPE</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>UDCS_SID</name>
+        <rename>UDCS_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1170</xloc>
+      <yloc>3581</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>UDCS_CHECK</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>UDCS</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>RS_MODEL_SID</name>
+        <field>MASTER_SID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>rs_model_master_type</name>
+        <field>MASTER_TYPE</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>UDCS_SID</name>
+        <rename>UDCS_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>921</xloc>
+      <yloc>3512</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>UDCS_CHECK 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>UDCS</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>RS_MODEL_SID</name>
+        <field>MASTER_SID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>rs_model_master_type</name>
+        <field>MASTER_TYPE</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>UDCS_SID</name>
+        <rename>UDCS_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>639</xloc>
+      <yloc>3513</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>UDCS_INSERT</name>
     <type>TableOutput</type>
     <description/>
@@ -12885,7 +13079,7 @@
     <tablename_field/>
     <tablename_in_table>Y</tablename_in_table>
     <return_keys>N</return_keys>
-    <return_field>COMPANY_SYSTEM_ID</return_field>
+    <return_field/>
     <fields>
         <field>
           <column_name>UDC1</column_name>
@@ -12922,8 +13116,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>925</xloc>
-      <yloc>3513</yloc>
+      <xloc>961</xloc>
+      <yloc>3608</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -12955,7 +13149,7 @@
     <tablename_field/>
     <tablename_in_table>Y</tablename_in_table>
     <return_keys>N</return_keys>
-    <return_field>COMPANY_SYSTEM_ID</return_field>
+    <return_field/>
     <fields>
         <field>
           <column_name>UDC1</column_name>
@@ -12992,8 +13186,148 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1361</xloc>
-      <yloc>3565</yloc>
+      <xloc>1440</xloc>
+      <yloc>3753</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>UDCS_INSERT 2 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>UDCS</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>UDC1</column_name>
+          <stream_name>new_udc1_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC2</column_name>
+          <stream_name>new_udc2_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC3</column_name>
+          <stream_name>new_udc3_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC4</column_name>
+          <stream_name>new_udc4_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC5</column_name>
+          <stream_name>new_udc5_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC6</column_name>
+          <stream_name>new_udc6_code</stream_name>
+        </field>
+        <field>
+          <column_name>MASTER_SID</column_name>
+          <stream_name>RS_CONTRACT_SID</stream_name>
+        </field>
+        <field>
+          <column_name>MASTER_TYPE</column_name>
+          <stream_name>rs_contract_master_type</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1159</xloc>
+      <yloc>3671</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>UDCS_INSERT 3</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>UDCS</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>UDC1</column_name>
+          <stream_name>new_udc1_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC2</column_name>
+          <stream_name>new_udc2_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC3</column_name>
+          <stream_name>new_udc3_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC4</column_name>
+          <stream_name>new_udc4_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC5</column_name>
+          <stream_name>new_udc5_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC6</column_name>
+          <stream_name>new_udc6_code</stream_name>
+        </field>
+        <field>
+          <column_name>MASTER_SID</column_name>
+          <stream_name>RS_MODEL_SID</stream_name>
+        </field>
+        <field>
+          <column_name>MASTER_TYPE</column_name>
+          <stream_name>rs_model_master_type</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>658</xloc>
+      <yloc>3632</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -13760,6 +14094,12 @@
         <condition>&#x3d;</condition>
         <name2/>
         </key>
+      <key>
+        <name>rs_model_master_type</name>
+        <field>MASTER_TYPE</field>
+        <condition>LIKE</condition>
+        <name2/>
+        </key>
       <value>
         <name>UDC1</name>
         <rename>new_udc1_code</rename>
@@ -13787,8 +14127,8 @@
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>625</xloc>
-      <yloc>3471</yloc>
+      <xloc>514</xloc>
+      <yloc>3571</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -13846,8 +14186,138 @@
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1164</xloc>
-      <yloc>3578</yloc>
+      <xloc>1071</xloc>
+      <yloc>3737</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Update 5 2 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>10000000</commit>
+    <use_batch>Y</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema>dbo</schema>
+      <table>UDCS</table>
+      <key>
+        <name>RS_CONTRACT_SID</name>
+        <field>MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>rs_contract_master_type</name>
+        <field>MASTER_TYPE</field>
+        <condition>LIKE</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>UDC1</name>
+        <rename>new_udc1_code</rename>
+        </value>
+      <value>
+        <name>UDC2</name>
+        <rename>new_udc2_code</rename>
+        </value>
+      <value>
+        <name>UDC3</name>
+        <rename>new_udc3_code</rename>
+        </value>
+      <value>
+        <name>UDC4</name>
+        <rename>new_udc4_code</rename>
+        </value>
+      <value>
+        <name>UDC5</name>
+        <rename>new_udc5_code</rename>
+        </value>
+      <value>
+        <name>UDC6</name>
+        <rename>new_udc6_code</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1319</xloc>
+      <yloc>3754</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Update 5 3</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>10000000</commit>
+    <use_batch>Y</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema>dbo</schema>
+      <table>UDCS</table>
+      <key>
+        <name>RS_MODEL_SID</name>
+        <field>MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>rs_model_master_type</name>
+        <field>MASTER_TYPE</field>
+        <condition>LIKE</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>UDC1</name>
+        <rename>new_udc1_code</rename>
+        </value>
+      <value>
+        <name>UDC2</name>
+        <rename>new_udc2_code</rename>
+        </value>
+      <value>
+        <name>UDC3</name>
+        <rename>new_udc3_code</rename>
+        </value>
+      <value>
+        <name>UDC4</name>
+        <rename>new_udc4_code</rename>
+        </value>
+      <value>
+        <name>UDC5</name>
+        <rename>new_udc5_code</rename>
+        </value>
+      <value>
+        <name>UDC6</name>
+        <rename>new_udc6_code</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>797</xloc>
+      <yloc>3692</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -14290,6 +14760,54 @@
       <error>
         <source_step>RS MODEL CHECK</source_step>
         <target_step>RS MASTER</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>UDCS CHECK CONTRACT</source_step>
+        <target_step>UDCS_INSERT 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>UDCS CHECK CONTRACT 2</source_step>
+        <target_step>UDCS_INSERT 2 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>UDCS_CHECK</source_step>
+        <target_step>UDCS_INSERT</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>UDCS_CHECK 2</source_step>
+        <target_step>UDCS_INSERT 3</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>

@@ -192,6 +192,8 @@ public class GtnReportCCPTableLoadAction
 				.getIntegerFromV8ComboBox());
 		dto.setFrequencyName(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(18).toString())
 				.getStringCaptionFromV8ComboBox());
+		dto.setVariablesList(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(22).toString())
+				.getSelectedListFromV8MultiSelect());
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);
 		dto.setProductHierarchyRecordBean(productRecordBean);
 		dto.setSelectedCustomerHierarchyList(selectedCustomerList);
@@ -216,7 +218,7 @@ public class GtnReportCCPTableLoadAction
 				dto.setVariableBreakdownSaveList(gtnReportVariableBreakdownLookupBeanList);
 			}
 		}
-
+		
 		return dto;
 	}
 
