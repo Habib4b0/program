@@ -66,7 +66,7 @@ public class GtnReportCCPTableLoadAction
 
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
 		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		List<Object> params = new ArrayList<>();
+		List<Object> params = new ArrayList<>(6);
 		params.add(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
 		params.add("Report Generate Lookup View");
 		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -82,15 +82,19 @@ public class GtnReportCCPTableLoadAction
 				.getComponentData();
 		List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData
 				.getCustomData();
-		List<String> inputForComparisonBasisList = new ArrayList<>();
+               
+                int initialCapacity= 3 + (comparisonLookupBeanList==null ?0: comparisonLookupBeanList.size());
+		List<String> inputForComparisonBasisList = new ArrayList<>(initialCapacity);
+                
+                inputForComparisonBasisList.add("Actuals");
+		inputForComparisonBasisList.add("Accruals");
+		inputForComparisonBasisList.add("Projections");
 		Optional.ofNullable(comparisonLookupBeanList).ifPresent(e -> {
 			for (GtnReportComparisonProjectionBean comparisonProjectionBeans : e) {
 				inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
 			}
 		});
-		inputForComparisonBasisList.add("Actuals");
-		inputForComparisonBasisList.add("Accruals");
-		inputForComparisonBasisList.add("Projections");
+		
 		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromChild("reportingDashboard_displaySelectionTabComparisonBasis", componentId)
 				.getComponentConfig().getGtnComboboxConfig();
