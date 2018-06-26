@@ -221,111 +221,111 @@ public final class CommonUIUtil {
 		this.sessionDTO = sessionDTO;
 	}
         
-    public static Object[] getFILE_MGMT_HISTORY_RESULT_COLUMNS() {
+    public static Object[] getfileMgmtHistoryResultColumns() {
         return FILE_MGMT_HISTORY_RESULT_COLUMNS.clone();
     }
 
-    public static String[] getFILE_MGMT_HISTORY_RESULT_HEADER() {
+    public static String[] getfileMgmtHistoryResultHeader() {
         return FILE_MGMT_HISTORY_RESULT_HEADER.clone();
     }
 
-    public static Object[] getFILE_MGMT_LOOKUP_RESULT_COLUMNS() {
+    public static Object[] getfileMgmtLookupResultColumns() {
         return FILE_MGMT_LOOKUP_RESULT_COLUMNS.clone();
     }
 
-    public static String[] getFILE_MGMT_LOOKUP_RESULT_HEADER() {
+    public static String[] getfileMgmtLookupResultHeader() {
         return FILE_MGMT_LOOKUP_RESULT_HEADER.clone();
     }
 
-    public static Object[] getFILE_MGMT_LOOKUP_DETAILS_COLUMNS() {
+    public static Object[] getfileMgmtLookupDetailsColumns() {
         return FILE_MGMT_LOOKUP_DETAILS_COLUMNS.clone();
     }
 
-    public static String[] getFILE_MGT_LOOKUP_DEMAND_DETAILS_HEADER() {
+    public static String[] getfileMgtLookupDemandDetailsHeader() {
         return FILE_MGT_LOOKUP_DEMAND_DETAILS_HEADER.clone();
     }
 
-    public static Object[] getFILE_MGMT_LOOKUP_DEMAND_DETAILS_COLUMNS() {
+    public static Object[] getfileMgmtLookupDemandDetailsColumns() {
         return FILE_MGMT_LOOKUP_DEMAND_DETAILS_COLUMNS.clone();
     }
 
-    public static String[] getFILE_MGMT_DETAILS_LOOKUP_HEADER() {
+    public static String[] getfileMgmtDetailsLookupHeader() {
         return FILE_MGMT_DETAILS_LOOKUP_HEADER.clone();
     }
-
-    public static String[] getFILE_MGT_LOOKUP_ADJUSTED_DEMAND_DETAILS_HEADER() {
+    
+    public static String[] getfileMgtLookupAdjustedDemandDetailsHeader() {
         return FILE_MGT_LOOKUP_ADJUSTED_DEMAND_DETAILS_HEADER.clone();
     }
 
-    public static Object[] getFILE_MGT_LOOKUP_ADJUSTED_DEMAND_DETAILS_COLUMNS() {
+    public static Object[] getfileMgtLookupAdjustedDemandDetailsColumns() {
         return FILE_MGT_LOOKUP_ADJUSTED_DEMAND_DETAILS_COLUMNS.clone();
     }
 
-    public static Object[] getFILE_MGMT_LOOKUP_INVENTORY_DETAILA_SUMMARY_COLUMNS() {
+    public static Object[] getfileMgmtLookupInventoryDetailsSummaryColumns() {
         return FILE_MGMT_LOOKUP_INVENTORY_DETAILA_SUMMARY_COLUMNS.clone();
     }
 
-    public static String[] getFILE_MGMT_LOOKUP_INVENTORY_DETAILS_SUMMARY_HEADERS() {
+    public static String[] getfileMgmtLookupInventoryDetailsSummaryHeaders() {
         return FILE_MGMT_LOOKUP_INVENTORY_DETAILS_SUMMARY_HEADERS.clone();
     }
 
-    public static Object[] getFILE_MGMT_LOOKUP_INVENTORY_DETAILS_COLUMNS() {
+    public static Object[] getfileMgmtLookupInventoryDetailsColumns() {
         return FILE_MGMT_LOOKUP_INVENTORY_DETAILS_COLUMNS.clone();
     }
-
-    public static String[] getFILE_MGMT_LOOKUP_INVENTORY_DETAILS_HEADER() {
+    
+    public static String[] getfileMgmtLookupInventoryDetailsHeader() {
         return FILE_MGMT_LOOKUP_INVENTORY_DETAILS_HEADER.clone();
     }
 
-    public static String[] getFILE_MGMT_LOOKUP_CUSTOMER_HEADER() {
+    public static String[] getfileMgmtLookupCustomerHeader() {
         return FILE_MGMT_LOOKUP_CUSTOMER_HEADER.clone();
     }
 
-    public static Object[] getFILE_MGMT_LOOKUP_CUSTOMER_COLUMNS() {
+    public static Object[] getfileMgmtLookupCustomerColumns() {
         return FILE_MGMT_LOOKUP_CUSTOMER_COLUMNS.clone();
     }
 
-    public static String[] getEXCEL_FILEMGT_LOOKUP_ADJUSTED_DEMAND_DETAILS_HEADER() {
+    public static String[] getexcelFileMgtLookupAdjustedDemandDetailsHeader() {
         return EXCEL_FILEMGT_LOOKUP_ADJUSTED_DEMAND_DETAILS_HEADER.clone();
     }
 
-    public static String[] getEXCEL_FILEMGT_LOOKUP_DEMAND_DETAILS_HEADER() {
+    public static String[] getexcelFileMgtLookupDemandDetailsHeader() {
         return EXCEL_FILEMGT_LOOKUP_DEMAND_DETAILS_HEADER.clone();
     }
-
-    public static String[] getEXCEL_FILEMGT_LOOKUP_DETAILS_HEADER() {
+    
+    public static String[] getexcelFileMgtLookupDetailsHeader() {
         return EXCEL_FILEMGT_LOOKUP_DETAILS_HEADER.clone();
     }
 
-    public static String[] getEXCEL_FILEMGT_LOOKUP_INVENTORY_DETAILS_HEADER() {
+    public static String[] getexcelFileMgtLookupInventoryDetailsHeader() {
         return EXCEL_FILEMGT_LOOKUP_INVENTORY_DETAILS_HEADER.clone();
     }
 
-    public static String[] getEXCEL_FILEMGT_LOOKUP_INVENTORY_SUMMARY_HEADER() {
+    public static String[] getexcelFilemgtLookupInventorySummaryHeader() {
         return EXCEL_FILEMGT_LOOKUP_INVENTORY_SUMMARY_HEADER.clone();
     }
 
-    public static Object[] getRELATIONSHIP_OUTBOUND_SEARCH_COLUMNS() {
+    public static Object[] getrelationshipOutboundSearchColumns() {
         return RELATIONSHIP_OUTBOUND_SEARCH_COLUMNS.clone();
     }
 
-    public static String[] getRELATIONSHIP_OUTBOUND_SEARCH_HEADER() {
+    public static String[] getrelationshipOutboundSearchHeader() {
         return RELATIONSHIP_OUTBOUND_SEARCH_HEADER.clone();
     }
-
-    public static Object[] getRELATIONSHIP_OUTBOUND_EXCEL_COLUMNS() {
+    
+    public static Object[] getrelationshipOutboundExcelColumns() {
         return RELATIONSHIP_OUTBOUND_EXCEL_COLUMNS.clone();
     }
 
-    public static String[] getRELATIONSHIP_OUTBOUND_EXCEL_HEADER() {
+    public static String[] getrelationshipOutboundExcelHeader() {
         return RELATIONSHIP_OUTBOUND_EXCEL_HEADER.clone();
     }
 
-    public static Object[] getHIERARCHY_OUTBOUND_SEARCH_COLUMNS() {
+    public static Object[] gethierarchyOutboundSearchColumns() {
         return HIERARCHY_OUTBOUND_SEARCH_COLUMNS.clone();
     }
 
-    public static String[] getHIERARCHY_OUTBOUND_SEARCH_HEADER() {
+    public static String[] gethierarchyOutboundSearchHeader() {
         return HIERARCHY_OUTBOUND_SEARCH_HEADER.clone();
     }
    
