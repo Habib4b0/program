@@ -31,7 +31,15 @@ public class GtnUIFrameworkComboBoxConfig {
 	private boolean isIntegerItemCode = true;
 	private boolean isReadOnly = false;
 	private String moduleName="";
-	
+	private boolean isLoadAtStart = false;
+
+    public boolean isIsLoadAtStart() {
+        return isLoadAtStart;
+    }
+
+    public void setIsLoadAtStart(boolean isLoadAtStart) {
+        this.isLoadAtStart = isLoadAtStart;
+    }
 	public GtnUIFrameworkComboBoxConfig() {
 		super();
 	}
