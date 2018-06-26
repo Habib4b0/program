@@ -816,4 +816,4 @@ public class CommonUtil {
         inputList.add(viewName);
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(inputList, "updateStatusTable"), session.getCurrentTableNames()));
     }
-}
+    }
