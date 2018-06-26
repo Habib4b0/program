@@ -10,6 +10,19 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	private GtnFrameworkWorkflowInboxClassConstants() {
 	}
 
+	public static final String RS_UDC2 = "RS_UDC2";
+	public static final String RS_UDC3 = "RS_UDC3";
+	public static final String RS_UDC4 = "RS_UDC4";
+	public static final String RS_UDC5 = "RS_UDC5";
+	public static final String RS_UDC6 = "RS_UDC6";
+	public static final String DEDUCTION = "Deduction";
+	public static final String DEDUCTION_CATEGORY_2 = "Deduction Category 2";
+	public static final String DEDUCTION_CATEGORY_3 = "Deduction Category 3";
+	public static final String DEDUCTION_CATEGORY_4 = "Deduction Category 4";
+	public static final String DEDUCTION_CATEGORY_5 = "Deduction Category 5";
+	public static final String DEDUCTION_CATEGORY_6 = "Deduction Category 6";
+	public static final String DEDUCTION_PROGRAM = "Deduction Program";
+	public static final String DEDUCTION_TYPE = "Deduction Type";
 	public static final String WORKFLOW_ACTION_PACKAGE_CRUD = "com.stpl.gtn.gtn2o.ui.action.crud.";
 	public static final String WORKFLOW_INBOX_DEDUCTION_LEVEL_VALUE_ACTION = "com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkWorkflowInboxDeductionLevelValueAction";
 	public static final String WORKFLOW_INBOX_ARM_DEDUCTION_LEVEL_VALUE_ACTION = "com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkArmWorkflowInboxDeductionLevelValueAction";

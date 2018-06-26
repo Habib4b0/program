@@ -14,10 +14,13 @@ import com.stpl.gtn.gtn2o.ui.module.workflowinbox.constants.GtnFrameworkWorkflow
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 public class GtnFrameworkWorkflowInboxARMDeductionLevelValueAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkWorkflowInboxARMDeductionLevelValueAction.class);
+	
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -28,7 +31,7 @@ public class GtnFrameworkWorkflowInboxARMDeductionLevelValueAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-
+		logger.debug("Inside GtnFrameworkWorkflowInboxARMDeductionLevelValueAction --> doAction..start");
 		String deductionLevelArm = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONLEVELARM)
 				.getCaptionFromComboBox();
@@ -38,17 +41,35 @@ public class GtnFrameworkWorkflowInboxARMDeductionLevelValueAction
 		case GtnFrameworkWorkflowInboxClassConstants.DEDUCTION_CATEGORY:
 			helperListName = GtnFrameworkWorkflowInboxClassConstants.RS_CATEGORY;
 			break;
-		case GtnFrameworkWorkflowInboxClassConstants.DEDUCTION_PROGRAM_TYPE:
+		case GtnFrameworkWorkflowInboxClassConstants.DEDUCTION_PROGRAM:
 			helperListName = GtnFrameworkWorkflowInboxClassConstants.REBATE_PROGRAM_TYPE;
 			break;
-		case GtnFrameworkWorkflowInboxClassConstants.DEDUCTION_SCHEDULE_TYPE:
+		case GtnFrameworkWorkflowInboxClassConstants.DEDUCTION_TYPE:
 			helperListName = GtnFrameworkWorkflowInboxClassConstants.RS_TYPE;
+			break;
+		case GtnFrameworkWorkflowInboxClassConstants.DEDUCTION_CATEGORY_2:
+			helperListName = GtnFrameworkWorkflowInboxClassConstants.RS_UDC2;
+			break;
+		case GtnFrameworkWorkflowInboxClassConstants.DEDUCTION_CATEGORY_3:
+			helperListName = GtnFrameworkWorkflowInboxClassConstants.RS_UDC3;
+			break;
+		case GtnFrameworkWorkflowInboxClassConstants.DEDUCTION_CATEGORY_4:
+			helperListName = GtnFrameworkWorkflowInboxClassConstants.RS_UDC4;
+			break;
+		case GtnFrameworkWorkflowInboxClassConstants.DEDUCTION_CATEGORY_5:
+			helperListName = GtnFrameworkWorkflowInboxClassConstants.RS_UDC5;
+			break;
+		case GtnFrameworkWorkflowInboxClassConstants.DEDUCTION_CATEGORY_6:
+			helperListName = GtnFrameworkWorkflowInboxClassConstants.RS_UDC6;
+			break;
+		case GtnFrameworkWorkflowInboxClassConstants.DEDUCTION:
+			helperListName = GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONVALUE_ARMDDLB;
 			break;
 		default:
 			helperListName = GtnFrameworkWorkflowInboxClassConstants.RS_CATEGORY;
 			break;
 		}
-
+		
 		GtnUIFrameworkComboBoxConfig companyTypeConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONVALUEARM).getComponentConfig()
 				.getGtnComboboxConfig();
@@ -60,6 +81,8 @@ public class GtnFrameworkWorkflowInboxARMDeductionLevelValueAction
 		reloadcombobox.reloadComponent(GtnUIFrameworkActionType.VALUE_CHANGE_ACTION,
 				GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONVALUEARM, componentId,
 				Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY));
+	
+		logger.debug("Inside GtnFrameworkWorkflowInboxARMDeductionLevelValueAction --> doAction..end");
 	}
 
 	@Override

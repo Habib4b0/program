@@ -1,11 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.crud;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-
-import org.asi.ui.custommenubar.CustomMenuBar;
-import org.asi.ui.custommenubar.CustomMenuBar.CustomMenuItem;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -17,14 +13,11 @@ import com.stpl.gtn.gtn2o.ui.module.workflowinbox.constants.GtnFrameworkWorkflow
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
-import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.workflow.GtnWsCommonWorkflowRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsWorkflowInboxBean;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.constants.GtnWsWorkFlowConstants;
@@ -323,51 +316,31 @@ public class GtnFrameworkWorkflowPublicPrivateViewSaveAction
 		return this;
 	}
 	
-	private HashMap<String, String> getCodeAndValueOfComboBox(String comboBoxType) {
-		
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
-		generalWSRequest.setComboBoxType(comboBoxType);
-		request.setGtnWsGeneralRequest(generalWSRequest);
-
-		GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebServiceClient()
-						.callGtnWebServiceUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX, request,
-						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
-				.getGtnUIFrameworkWebserviceComboBoxResponse();
-		
-		return createHashMap(comboBoxResponse.getItemValueList(), comboBoxResponse.getItemCodeList());
-	}
-	
-	private HashMap<String, String> createHashMap(List<String> itemValueList, List<String> itemCodeList) {
-		HashMap<String, String> map = new HashMap<>();
-		
-		for (int valueIndex = 0; valueIndex < itemValueList.size(); valueIndex++) {
-			map.put(itemValueList.get(valueIndex),itemCodeList.get(valueIndex) );
-		}
-		return map;
-	}
-	
 	/*	Basically for business process type='ARM'
-	 *  It will fetch the corresponding Id of selected multiple value of multi-selected combo box 
+	 *  It will fetch all the selected multiple value from "multi-selected combo box" i.e. customMenu bar in the form of list
+	 *  We have to iterate the list and get the Id's 
 	 *  and all id's will be appended in a string
 	 */
+	@SuppressWarnings("unchecked")
 	private String getIdOfMultipleSelectDropDown(String componentId, String sourceComponentId) {
+		List<String[]> objectList = null;
+		try {
+			objectList = (List<String[]>) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(componentId, sourceComponentId)
+					.getValueFromComponent();
 			
 			StringBuilder listString=new StringBuilder();
-			CustomMenuBar menuBar = (CustomMenuBar) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId, sourceComponentId).getComponent();		
 			
-			List<CustomMenuItem> menuItems=menuBar.getItems().get(0).getChildren();
-			
-			HashMap<String, String> map=getCodeAndValueOfComboBox(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPEDDLB);
-			
-			for(CustomMenuItem menuItem: menuItems) {
-				if(menuItem.isChecked()){
-					listString.append(map.get(menuItem.getText()));
-					listString.append(",");
-				}
+			for(String[] menuItem: objectList) {
+				listString.append(menuItem[0]);
+				listString.append(",");
 			}
 			listString.deleteCharAt(listString.lastIndexOf(","));
 			return listString.toString();
+			
+		} catch (GtnFrameworkValidationFailedException e) {
+			gtnLogger.error("Error in GtnFrameworkWorkflowPublicPrivateViewSaveAction -->getIdOfMultipleSelectDropDown", e);
+			return GtnFrameworkWorkflowInboxClassConstants.EMPTY;
+		}
 	}
 }
