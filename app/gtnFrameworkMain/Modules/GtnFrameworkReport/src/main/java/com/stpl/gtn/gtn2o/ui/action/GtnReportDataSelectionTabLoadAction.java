@@ -56,9 +56,8 @@ public class GtnReportDataSelectionTabLoadAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_businessUnit", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getBusinessUnitReport());
 
-			 GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod",
-			 componentId)
-			.loadV8ComboBoxComponentValue(reportDataSelectionBean.getFromPeriodReport());
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId)
+					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getFromPeriodReport());
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_dsTabProjectionName", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getReportDataSource());
@@ -69,63 +68,21 @@ public class GtnReportDataSelectionTabLoadAction
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_customerHierarchy", componentId)
 					.setV8PopupFieldValue(customerRecordBean.getPropertyValueByIndex(0));
-                        
-                        new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-					"dataSelectionTab_displaySelectionTabCustomView", componentId,
-					Arrays.asList(""));
-                        GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabCustomView", componentId)
+
+			new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					"dataSelectionTab_displaySelectionTabCustomView", componentId, Arrays.asList(""));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabCustomView", componentId)
 					.loadV8ComboBoxComponentValue(String.valueOf(reportDataSelectionBean.getCustomViewMasterSid()));
-                       new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-					"reportingDashboardTab_displaySelectionTabCustomView", componentId,
-					Arrays.asList(""));
-                        GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView", componentId)
+			new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					"reportingDashboardTab_displaySelectionTabCustomView", componentId, Arrays.asList(""));
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView", componentId)
 					.loadV8ComboBoxComponentValue(String.valueOf(reportDataSelectionBean.getCustomViewMasterSid()));
-                        
-                       new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-                            GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE, componentId,
-                            Arrays.asList(""));
 
+			new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE, componentId,
+					Arrays.asList(""));
 
-			String dsCustomerTableId = "dataSelectionTab_customerDualListBox";
-			AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(dsCustomerTableId,
-					componentId);
-			GtnUIFrameworkComponentData dualListBoxData = (GtnUIFrameworkComponentData) abstractComponent.getData();
-
-			GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) dualListBoxData
-					.getCustomData();
-
-			TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
-
-			GtnUIFrameworkHierarchyTreeBuilder gtnUIFrameworkHierarchyTreeBuilder = new GtnUIFrameworkHierarchyTreeBuilder();
-			gtnUIFrameworkHierarchyTreeBuilder.buildTree(reportDataSelectionBean.getSelectedCustomerHierarchyList());
-			gtnUIFrameworkHierarchyTreeBuilder.loadRightTreeTable(rightTable, 1);
-			rightTable.getDataProvider().refreshAll();
-			rightTable.markAsDirty();
-
-			GtnUIFrameworkComponentData productHierarchyData = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId).getComponentData();
-			productHierarchyData.setCustomData(productRecordBean);
-
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId)
-					.setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
-
-			String dsProductTableId = "dataSelectionTab_productdualListBoxComp";
-			AbstractComponent dsProductAbstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(dsProductTableId,
-					componentId);
-			GtnUIFrameworkComponentData dsProductDualListBoxData = (GtnUIFrameworkComponentData) dsProductAbstractComponent
-					.getData();
-
-			GtnFrameworkV8DualListBoxBean dsProductDualListBoxBean = (GtnFrameworkV8DualListBoxBean) dsProductDualListBoxData
-					.getCustomData();
-
-			TreeGrid<GtnWsRecordBean> dsProductRightTable = dsProductDualListBoxBean.getRightTable();
-
-			GtnUIFrameworkHierarchyTreeBuilder gtnUIFrameworkProductHierarchyTreeBuilder = new GtnUIFrameworkHierarchyTreeBuilder();
-			gtnUIFrameworkProductHierarchyTreeBuilder
-					.buildTree(reportDataSelectionBean.getSelectedProductHierarchyList());
-			gtnUIFrameworkProductHierarchyTreeBuilder.loadRightTreeTable(dsProductRightTable, 1);
-			dsProductRightTable.getDataProvider().refreshAll();
-			dsProductRightTable.markAsDirty();
 
 			Integer hierarchyDefinitionSid = (Integer) customerRecordBean
 					.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1);
@@ -189,6 +146,22 @@ public class GtnReportDataSelectionTabLoadAction
 							GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_LEVEL, componentId)
 					.loadV8ComboBoxComponentValue(
 							Integer.valueOf(reportDataSelectionBean.getCustomerHierarchyForecastLevel()));
+                        
+                        String dsCustomerTableId = "dataSelectionTab_customerDualListBox";
+			AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(dsCustomerTableId,
+					componentId);
+			GtnUIFrameworkComponentData dualListBoxData = (GtnUIFrameworkComponentData) abstractComponent.getData();
+
+			GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) dualListBoxData
+					.getCustomData();
+
+			TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
+
+			GtnUIFrameworkHierarchyTreeBuilder gtnUIFrameworkHierarchyTreeBuilder = new GtnUIFrameworkHierarchyTreeBuilder();
+			gtnUIFrameworkHierarchyTreeBuilder.buildTree(reportDataSelectionBean.getSelectedCustomerHierarchyList());
+			gtnUIFrameworkHierarchyTreeBuilder.loadRightTreeTable(rightTable, 1);
+			rightTable.getDataProvider().refreshAll();
+			rightTable.markAsDirty();
 
 			Integer productHierarchyDefinitionSid = (Integer) productRecordBean
 					.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1);
@@ -253,6 +226,32 @@ public class GtnReportDataSelectionTabLoadAction
 					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_LEVEL, componentId)
 					.loadV8ComboBoxComponentValue(
 							Integer.valueOf(reportDataSelectionBean.getProductHierarchyForecastLevel()));
+                        
+                        GtnUIFrameworkComponentData productHierarchyData = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId).getComponentData();
+			productHierarchyData.setCustomData(productRecordBean);
+
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId)
+					.setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
+
+			String dsProductTableId = "dataSelectionTab_productdualListBoxComp";
+			AbstractComponent dsProductAbstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(dsProductTableId,
+					componentId);
+			GtnUIFrameworkComponentData dsProductDualListBoxData = (GtnUIFrameworkComponentData) dsProductAbstractComponent
+					.getData();
+
+			GtnFrameworkV8DualListBoxBean dsProductDualListBoxBean = (GtnFrameworkV8DualListBoxBean) dsProductDualListBoxData
+					.getCustomData();
+
+			TreeGrid<GtnWsRecordBean> dsProductRightTable = dsProductDualListBoxBean.getRightTable();
+
+			GtnUIFrameworkHierarchyTreeBuilder gtnUIFrameworkProductHierarchyTreeBuilder = new GtnUIFrameworkHierarchyTreeBuilder();
+			gtnUIFrameworkProductHierarchyTreeBuilder
+					.buildTree(reportDataSelectionBean.getSelectedProductHierarchyList());
+			gtnUIFrameworkProductHierarchyTreeBuilder.loadRightTreeTable(dsProductRightTable, 1);
+			dsProductRightTable.getDataProvider().refreshAll();
+			dsProductRightTable.markAsDirty();
+
 
 			GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
 			actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);

@@ -71,7 +71,7 @@ public class PagedTreeGrid {
     boolean levelExpandOn=false;
     int   levelExpandNo=1;
     
-    String componentIdInMap = null;
+    public String componentIdInMap = null;
 
     public PagedTreeGrid(GtnUIFrameworkPagedTreeTableConfig tableConfig,
             GtnUIFrameworkComponentConfig componentConfig) {
@@ -167,7 +167,7 @@ public class PagedTreeGrid {
    /**
     * expand listener - called when user expand a row
     */
-    private void addExpandListener() {
+    public void addExpandListener() {
         grid.addExpandListener(event -> {
             try {
                  GtnWsRecordBean parent = event.getExpandedItem();
@@ -233,7 +233,7 @@ public class PagedTreeGrid {
 
         if (parent != null && GridUtils.getLevelNo(parent) != 0 && GridUtils.hasChildren(parent)) {
             childCount = GridUtils.getChildCount(parent);
-            for (int i = 0; i < treeData.getChildren(parent).size(); i++) {
+            for (int i = 0;treeData.contains(parent)&& i < treeData.getChildren(parent).size(); i++) {
                 treeData.removeItem(treeData.getChildren(parent).get(i));
             }
             setCount(count + childCount);
@@ -338,17 +338,21 @@ public class PagedTreeGrid {
         treeDataProvider.refreshAll();
     }
 
-    private int getTotalCount() {
+    public List<GtnWsRecordBean> fetchAll() {
 
         if (tableConfig.getCountUrl() != null) {
-            GtnWsSearchRequest request = GridUtils.getWsRequest(0, pageLength, true, INPUT, Arrays.asList(1, EMPTY), tableConfig);
+            GtnWsSearchRequest request = GridUtils.getWsRequest(0, 0, true, null, null, tableConfig);
             List<GtnWsRecordBean> result = FetchData.callWebService(tableConfig, componentConfig.getModuleName(),
-                    request,componentIdInMap);
+                    request, componentIdInMap);
 
-            return result == null ? 0 : result.size();
+            return result;
         }
-        return 0;
+        return null;
 
+    }
+
+    public int getTotalCount() {
+        return getLevelCount(tableConfig.getLevelNo());
     }
      private int getLevelCount(int levelNo) {
 
@@ -375,7 +379,7 @@ public class PagedTreeGrid {
         return childCount;
     }
 
-    private List<GtnWsRecordBean> fetchChildren(int start, int limit, GtnWsRecordBean parent) {
+    public List<GtnWsRecordBean> fetchChildren(int start, int limit, GtnWsRecordBean parent) {
 
         GtnWsSearchRequest request = GridUtils.getWsRequest(start, limit, true, INPUT, Arrays.asList(GridUtils.getLevelNo(parent) + 1, GridUtils.getHierarchyNo(parent)), tableConfig);
         return FetchData.callWebService(tableConfig, componentConfig.getModuleName(), request,componentIdInMap);
@@ -731,7 +735,7 @@ public class PagedTreeGrid {
     public int getPageNumber() {
         return pageNumber;
     }
-
+ 
     /**
      * Gets the current page length.
      *
@@ -774,4 +778,13 @@ public class PagedTreeGrid {
     public void setComponentConfig(GtnUIFrameworkComponentConfig componentConfig) {
         this.componentConfig = componentConfig;
     }
+
+    public TreeDataProvider<GtnWsRecordBean> getTreeDataProvider() {
+        return treeDataProvider;
+    }
+
+    public void setTreeDataProvider(TreeDataProvider<GtnWsRecordBean> treeDataProvider) {
+        this.treeDataProvider = treeDataProvider;
+    }
+    
 }

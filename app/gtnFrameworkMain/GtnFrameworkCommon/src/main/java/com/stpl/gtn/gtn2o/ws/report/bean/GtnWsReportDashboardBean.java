@@ -34,6 +34,7 @@ public class GtnWsReportDashboardBean {
 	private String currencyConversion;
 	private Object[] displayFormat;
 	private List<Object> ccpDetailsSidList;
+	private List<Object> rsContractSidList;
 	private String annualTotals;
 	private String comparisonBasis;
 
@@ -207,6 +208,14 @@ public class GtnWsReportDashboardBean {
 
 	public void setAnnualTotals(String annualTotals) {
 		this.annualTotals = annualTotals;
+	}
+
+	public List<Object> getRsContractSidList() {
+		return rsContractSidList;
+	}
+
+	public void setRsContractSidList(List<Object> rsContractSidList) {
+		this.rsContractSidList = rsContractSidList;
 	}
 
 	public String getComparisonBasis() {
