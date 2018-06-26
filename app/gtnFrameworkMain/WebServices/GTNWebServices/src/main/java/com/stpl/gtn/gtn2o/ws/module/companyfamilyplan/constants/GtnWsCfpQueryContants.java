@@ -37,8 +37,8 @@ public class GtnWsCfpQueryContants {
 			+ " LEFT JOIN HELPER_TABLE cfpStatusHelper on CFP.CFP_STATUS = cfpStatusHelper.HELPER_TABLE_SID"
 			+ " LEFT JOIN HELPER_TABLE cfpCategoryHelper on CFP.CFP_CATEGORY = cfpCategoryHelper.HELPER_TABLE_SID"
 			+ " LEFT JOIN HELPER_TABLE cfpDesignationHelper on CFP.CFP_DESIGNATION = cfpDesignationHelper.HELPER_TABLE_SID"
-			+ " JOIN BPIGTN_AGN_SYSL7_QA.dbo.User_ users on users.userId  = CFP.MODIFIED_BY"
-			+ " JOIN BPIGTN_AGN_SYSL7_QA.dbo.User_ userCreated on userCreated.userId  = CFP.CREATED_BY";
+			+ " JOIN @SYS.dbo.User_ users on users.userId  = CFP.MODIFIED_BY"
+			+ " JOIN @SYS.dbo.User_ userCreated on userCreated.userId  = CFP.CREATED_BY";
 
 	public static final String GTN_CFP_COMPANIES_SEARCH_QUERY_WHERE_CLAUSE = " CFP.INBOUND_STATUS <> 'D' ";
 	public static final String GTN_CFP_COMPANIES_ADDITION_SEARCH_QUERY_WHERE_CLAUSE = " CTC.COMPANY_TRADE_CLASS =(SELECT TOP 1(CT.COMPANY_TRADE_CLASS) FROM\n"
