@@ -27,7 +27,7 @@ public class GtnWsCfpQueryContants {
 			+ " LEFT JOIN HELPER_TABLE cfpStatusHelper on CFP.CFP_STATUS = cfpStatusHelper.HELPER_TABLE_SID"
 			+ " LEFT JOIN HELPER_TABLE cfpCategoryHelper on CFP.CFP_CATEGORY = cfpCategoryHelper.HELPER_TABLE_SID"
 			+ " LEFT JOIN HELPER_TABLE cfpDesignationHelper on CFP.CFP_DESIGNATION = cfpDesignationHelper.HELPER_TABLE_SID"
-                        + " JOIN @SYS.dbo.User_ cfpUsers on cfpUsers.userId  = CFP.MODIFIED_BY"
+                        + " JOIN @SYS.dbo.User_ cfpModifiedBy on cfpModifiedBy.userId  = CFP.MODIFIED_BY"
                         + " JOIN @SYS.dbo.User_ cfpCreatedBy on cfpCreatedBy.userId  = CFP.CREATED_BY";
         
 	public static final String GTN_CFP_COMPANIES_SEARCH_QUERY = " FROM CFP_MODEL CFP LEFT JOIN CFP_MODEL PARENCFP ON PARENCFP.CFP_MODEL_SID = CFP.PARENT_CFP_ID\n"
@@ -37,7 +37,7 @@ public class GtnWsCfpQueryContants {
 			+ " LEFT JOIN HELPER_TABLE cfpStatusHelper on CFP.CFP_STATUS = cfpStatusHelper.HELPER_TABLE_SID"
 			+ " LEFT JOIN HELPER_TABLE cfpCategoryHelper on CFP.CFP_CATEGORY = cfpCategoryHelper.HELPER_TABLE_SID"
 			+ " LEFT JOIN HELPER_TABLE cfpDesignationHelper on CFP.CFP_DESIGNATION = cfpDesignationHelper.HELPER_TABLE_SID"
-			+ " JOIN @SYS.dbo.User_ cfpUsers on cfpUsers.userId  = CFP.MODIFIED_BY"
+			+ " JOIN @SYS.dbo.User_ cfpModifiedBy on cfpModifiedBy.userId  = CFP.MODIFIED_BY"
 			+ " JOIN @SYS.dbo.User_ cfpCreatedBy on cfpCreatedBy.userId  = CFP.CREATED_BY";
 
 	public static final String GTN_CFP_COMPANIES_SEARCH_QUERY_WHERE_CLAUSE = " CFP.INBOUND_STATUS <> 'D' ";
