@@ -1113,7 +1113,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				"reportingDashboard_" + GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_FREQUENCY);
 		tableLoadAction.addActionParameter(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportingDashboardComparisonConfig");
-
+		tableLoadAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VARIABLE_AND_VARIANCE_SEQUENCING);
 		actionConfigList.add(tableLoadAction);
 
 		generateButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
