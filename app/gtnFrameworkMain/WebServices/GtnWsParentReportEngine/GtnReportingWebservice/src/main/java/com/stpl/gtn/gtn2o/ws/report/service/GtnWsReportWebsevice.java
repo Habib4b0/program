@@ -22,6 +22,7 @@ import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportingDashboardSaveProfileLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsReportDataSelectionSqlGenerateServiceImpl;
@@ -249,6 +250,18 @@ public class GtnWsReportWebsevice {
 		return recordCount;
 	}
 
+	public int checkReportProfileViewRecordCount(GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
+			throws GtnFrameworkGeneralException {
+		int reportProfileCountRecordCount = 0;
+		String reportProfileCountQuery = sqlService.getQuery("getViewCount");
+		Object[] reportProfileCountParams = { reportingDashboardSaveProfileLookupBean.getReportProfileviewName(), reportingDashboardSaveProfileLookupBean.getReportProfileviewType(), userId };
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.INTEGER };
+		List<Integer> reportProfileCountResultList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(reportProfileCountQuery, reportProfileCountParams, paramsType);
+		reportProfileCountRecordCount = reportProfileCountResultList.get(0);
+		return reportProfileCountRecordCount;
+	}
+	
 	public int saveReportingMaster(GtnWsReportDataSelectionBean dataSelectionBean, int userId)
 			throws GtnFrameworkGeneralException {
 		List<Object> inputList = new ArrayList<>();
@@ -261,6 +274,20 @@ public class GtnWsReportWebsevice {
 		String query = sqlService.getQuery(inputList, "insertView");
 		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
 		return count;
+	}
+	
+	public int saveReportProfileMaster(GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
+			throws GtnFrameworkGeneralException {
+		List<Object> reportProfileInputList = new ArrayList<>();
+		reportProfileInputList.add("'" + reportingDashboardSaveProfileLookupBean.getReportProfileviewName() + "'");
+		reportProfileInputList.add("'" + reportingDashboardSaveProfileLookupBean.getReportProfileviewType() + "'");
+		reportProfileInputList.add(userId);
+		reportProfileInputList.add(userId);
+		String reportProfileViewData = gtnReportJsonService.convertObjectAsJsonString(reportingDashboardSaveProfileLookupBean).replaceAll("'", "\\\\");
+		reportProfileInputList.add("'" + reportProfileViewData + "'");
+		String reportProfileQuery = sqlService.getQuery(reportProfileInputList, "insertView");
+		int reportProfileCount = gtnSqlQueryEngine.executeInsertOrUpdateQuery(reportProfileQuery);
+		return reportProfileCount;
 	}
 
 	public String getFromAndToDateLoadQuery(String comboBoxType, String frequency) {
