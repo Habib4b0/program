@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.transform.ResultTransformer;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,16 +54,15 @@ public class GtnWsReportRightTableLoadDataService {
 
 			String customViewTypeInBackend = String.valueOf(customviewData.get(0));
 			String[] customViewTypeDataArray = customViewTypeInBackend.split("~");
-			ResultTransformer transformer = columnTransFormer;
-			if (isVAriableRow) {
-				transformer = rowTransformer;
-			}
+			ResultTransformer transformer = rowTransformer;
+		
 
 			String customViewType = "";
 			if (customViewTypeDataArray.length == 3) {
 				customViewType = customViewTypeDataArray[1];
 				if (customViewTypeDataArray[1].equals("Columns")) {
 					customViewType = "VARIABLE";
+					transformer = columnTransFormer;
 
 				}
 			}
@@ -101,7 +101,7 @@ public class GtnWsReportRightTableLoadDataService {
 				deductionInclusion == -1 ? "NULL" : String.valueOf(deductionInclusion));
 		String ccpFilter = "NULL";
 		if (dashboardBean.getCcpDetailsSidList() != null && !dashboardBean.getCcpDetailsSidList().isEmpty()) {
-			ccpFilter = String.join(",", dashboardBean.getCcpDetailsSidList().stream().toArray(String[]::new));
+			ccpFilter = StringUtils.join(dashboardBean.getCcpDetailsSidList(), ",");
 		}
 		procedure = procedure.replaceAll(":ccpComp:", ccpFilter);
 		String comparisonBasis = dashboardBean.getComparisonBasis().isEmpty() ? "NULL"

@@ -1,5 +1,9 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -74,10 +78,22 @@ public class GtnUIFrameworkReportFilterGenerateLoadAction
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportConstants.GTN_REPORT_FILTER_SERVICE + GtnWsReportConstants.GTN_WS_FILTERCCP_GENERATE_SERVICE,
 				"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		List<Object> ccpDetailsSidList = null;
+		List<Object> rsContractSidList = null;
 		if (response != null) {
 			for (GtnUIFrameworkDataRow result : response.getGtnSerachResponse().getResultSet().getDataTable()) {
-				dashboardBean.setCcpDetailsSidList(result.getColList());
+				if (filterBean.getSelectedDeductionList().isEmpty() && !result.getColList().isEmpty()) {
+					ccpDetailsSidList = Optional.ofNullable(ccpDetailsSidList).orElseGet(ArrayList::new);
+					ccpDetailsSidList.add(result.getColList());
+				} else if (!result.getColList().isEmpty()) {
+					ccpDetailsSidList = Optional.ofNullable(ccpDetailsSidList).orElseGet(ArrayList::new);
+					rsContractSidList = Optional.ofNullable(rsContractSidList).orElseGet(ArrayList::new);
+					ccpDetailsSidList.add(result.getColumnVAlue(0));
+					rsContractSidList.add(result.getColumnVAlue(1));
+				}
 			}
+			dashboardBean.setCcpDetailsSidList(ccpDetailsSidList);
+			dashboardBean.setRsContractSidList(rsContractSidList);
 		}
 	}
 

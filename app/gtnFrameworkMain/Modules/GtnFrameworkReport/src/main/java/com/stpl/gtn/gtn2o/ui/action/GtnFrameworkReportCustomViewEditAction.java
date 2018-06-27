@@ -169,7 +169,7 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
                     if (indicator == 'V') {
                         variables.add(bean);
                         j++;
-                        if (j == cvResponse.getCvTreeNodeList().size() - 1) {
+                        if (j == cvResponse.getCvTreeNodeList().size()) {
                             addVariablesToTree(variables, treeData, parent, treeGrid);
                         }
                         continue;

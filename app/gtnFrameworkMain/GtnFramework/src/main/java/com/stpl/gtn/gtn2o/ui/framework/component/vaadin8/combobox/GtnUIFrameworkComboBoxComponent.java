@@ -144,6 +144,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		gtnLogger.info("Triggered reload with reload input " + reloadInput);
 		List<Object> comboBoxRequestInputList = (List<Object>) reloadInput;
 		String simpleComboBoxReload = String.valueOf(comboBoxRequestInputList.get(0));
+                 comboboxConfigLoadAfterStart(componentConfig, dependentComponentId, componentId,"view");
 		if (!"simpleReload".equals(simpleComboBoxReload)) {
 			if (componentConfig.getReloadLogicActionClassName() != null) {
 				try {
@@ -301,6 +302,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		gtnLogger.info("Triggered reload with reload input " + reloadInput);
 		List<Object> comboBoxRequestInputList = (List<Object>) reloadInput;
 		String simpleComboBoxReload = String.valueOf(comboBoxRequestInputList.get(0));
+                comboboxConfigLoadAfterStart(componentConfig, dependentComponentId, componentId,"notView");
 		if (!"simpleReload".equals(simpleComboBoxReload)) {
 			if (componentConfig.getReloadLogicActionClassName() != null) {
 				try {
@@ -334,6 +336,34 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		gtnLogger.info("Reloaded vaadin combobox" + vaadinComboBoxComponent);
 
 	}
+
+    private void comboboxConfigLoadAfterStart(GtnUIFrameworkComponentConfig componentConfig, String dependentComponentId, String componentId,String viewCheck) {
+        if(componentConfig.getGtnComboboxConfig().isIsLoadAtStart()){
+            ComboBox vaadinComboBox ;
+            if("view".equals(viewCheck)){
+               vaadinComboBox = (ComboBox) GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponentFromView(dependentComponentId, componentId).getComponent(); 
+            }
+            else{
+             vaadinComboBox = (ComboBox) GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(dependentComponentId, componentId).getComponent(); 
+            }
+            
+            vaadinComboBox.addValueChangeListener(event -> {
+                try {
+                    AbstractComponent component = (AbstractComponent) event.getComponent();
+                    GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) component.getData();
+                    GtnUIFrameworkComponentConfig valueChangeComponentConfig = componentData
+                            .getCurrentComponentConfig();
+                    GtnUIFrameworkActionExecutor.executeActionList(componentData.getComponentIdInMap(),
+                            valueChangeComponentConfig.getGtnUIFrameWorkActionConfigList());
+                    
+                } catch (GtnFrameworkGeneralException e) {
+                    gtnLogger.error(e.getMessage(), e);
+                }
+            });
+        }
+    }
 
 	private ComboBox fillComboBox(GtnUIFrameworkComponentConfig componentConfig,
 			GtnUIFrameworkComboBoxConfig comboboxConfig, List<Object> comboBoxWhereClauseParamList, String sourceViewId,
