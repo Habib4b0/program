@@ -3874,7 +3874,7 @@ public class CommonLogic {
 
             switch (String.valueOf(hierarchyIndicator)) {
                 case Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY:
-                    joinQuery.append(" CH.CUST_HIERARCHY_NO LIKE A.HIERARCHY_NO + '%' ");
+                    joinQuery.append(" CH.CUST_HIERARCHY_NO LIKE A.HIERARCHY_NO + '%' AND A.SALES_INCLUSION = CH.SALES_INCLUSION ");
                     if (StringUtils.isNotBlank(productHierarchyNo)) {
                         joinQuery.append("AND CH.PROD_HIERARCHY_NO LIKE '");
                         joinQuery.append(productHierarchyNo);
@@ -3882,7 +3882,7 @@ public class CommonLogic {
                     }
                     break;
                 case Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY:
-                    joinQuery.append(" CH.PROD_HIERARCHY_NO LIKE A.HIERARCHY_NO + '%' ");
+                    joinQuery.append(" CH.PROD_HIERARCHY_NO LIKE A.HIERARCHY_NO + '%' AND A.SALES_INCLUSION = CH.SALES_INCLUSION ");
                     if (StringUtils.isNotBlank(customerHierarchyNo)) {
                         joinQuery.append("AND CH.CUST_HIERARCHY_NO LIKE '");
                         joinQuery.append(customerHierarchyNo);

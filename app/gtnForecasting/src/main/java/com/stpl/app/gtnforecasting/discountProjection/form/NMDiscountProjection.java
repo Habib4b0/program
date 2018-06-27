@@ -437,14 +437,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     public void getContent() {
         LOGGER.debug("Inside getContent= {} ", session.getAction());
         configureFeildsForNm();
-         if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) || Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())) {
-            loadDeductionLevelFilter(session.getDataSelectionDeductionLevel(), false);
-            deductionFilterValues.getChildren().get(1).setChecked(true);
-            String deductionMenuItemValue = deductionFilterValues.getChildren().get(1).getMenuItem().getCaption();
-            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
-            generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
-            generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
-        }
+        loadDeductionLevelFilter(session.getDataSelectionDeductionLevel(), false);
+        deductionFilterValues.getChildren().get(1).setChecked(true);
+        String deductionMenuItemValue = deductionFilterValues.getChildren().get(1).getMenuItem().getCaption();
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
+        generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
+        generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
         if (ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             setDiscountViewOnly();
         }
@@ -3990,7 +3988,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         projectionSelection.setdPVariablesList(l);
         try {
-            map.put(Constant.FREQUENCY, projectionSelection.getFrequency());
+            map.put(Constant.FREQUENCY, projectionSelection.getFrequency().isEmpty() ? Constant.QUARTERLY : projectionSelection.getFrequency());
             map.put(Constant.HISTORY, projectionSelection.getHistory());
             map.put(Constant.PROJECTION_PERIOD_ORDER_LABEL, projectionSelection.getProjectionOrder());
             map.put(Constant.ACTUALS_PROJECTIONS, projectionSelection.getActualsOrProjections());
