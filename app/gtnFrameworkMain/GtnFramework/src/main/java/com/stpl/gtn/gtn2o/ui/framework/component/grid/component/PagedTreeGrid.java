@@ -12,7 +12,10 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.vaadin.data.TreeData;
 import com.vaadin.data.provider.TreeDataProvider;
+import com.vaadin.event.CollapseEvent;
 import com.vaadin.event.ExpandEvent;
+import com.vaadin.event.ExpandEvent.ExpandListener;
+import com.vaadin.shared.Registration;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -23,6 +26,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -70,6 +74,8 @@ public class PagedTreeGrid {
     int fetched = 0;
     boolean levelExpandOn=false;
     int   levelExpandNo=1;
+    Registration expandListner=null;
+    Registration collapseListner=null;
     
     public String componentIdInMap = null;
 
@@ -124,9 +130,13 @@ public class PagedTreeGrid {
 
         treeDataProvider = new TreeDataProvider<>(data);
         grid.setDataProvider(treeDataProvider);
-
+      
+        if(expandListner==null){
         addExpandListener();
+        }
+        if(collapseListner==null){
         addCollapseListener();
+        }
     }
     /**
      * Expands all nodes for given Level No
@@ -168,10 +178,10 @@ public class PagedTreeGrid {
     * expand listener - called when user expand a row
     */
     public void addExpandListener() {
-        grid.addExpandListener(event -> {
+        expandListner = grid.addExpandListener(event -> {
             try {
-                 GtnWsRecordBean parent = event.getExpandedItem();
-                if (event.isUserOriginated() ) {
+                GtnWsRecordBean parent = event.getExpandedItem();
+                if (event.isUserOriginated()) {
                     TreeData<GtnWsRecordBean> treeData = treeDataProvider.getTreeData();
                     int childCount = 0;
                     expandRow(parent, childCount, treeData, true);
@@ -185,7 +195,7 @@ public class PagedTreeGrid {
     * collapse listener - called when user collapse a row
     */
     public void addCollapseListener() {
-        grid.addCollapseListener(event -> {
+        collapseListner = grid.addCollapseListener(event -> {
             GtnWsRecordBean parent = event.getCollapsedItem();
             int childCount = GridUtils.getChildCount(parent);
             expandedItemIds.remove(parent);
@@ -195,11 +205,11 @@ public class PagedTreeGrid {
             for (GtnWsRecordBean bean : toBeRemoved) {
                 expandedItemIds.remove(bean);
                 expandedRowIds.remove(GridUtils.getNodeIndex(bean));
-                childCount+=GridUtils.getChildCount(bean);
+                childCount += GridUtils.getChildCount(bean);
             }
-            setCount(count-childCount);
+            setCount(count - childCount);
             removeAlreadyExpanded(GridUtils.getTableIndex(parent));
-            
+
             // refresh current page
             paintCurrentPage();
         });
