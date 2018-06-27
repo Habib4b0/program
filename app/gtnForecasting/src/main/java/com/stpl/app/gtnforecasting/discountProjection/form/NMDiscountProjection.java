@@ -437,14 +437,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     public void getContent() {
         LOGGER.debug("Inside getContent= {} ", session.getAction());
         configureFeildsForNm();
-         if (Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) || Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())) {
-            loadDeductionLevelFilter(session.getDataSelectionDeductionLevel(), false);
-            deductionFilterValues.getChildren().get(1).setChecked(true);
-            String deductionMenuItemValue = deductionFilterValues.getChildren().get(1).getMenuItem().getCaption();
-            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
-            generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
-            generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
-        }
+        loadDeductionLevelFilter(session.getDataSelectionDeductionLevel(), false);
+        deductionFilterValues.getChildren().get(1).setChecked(true);
+        String deductionMenuItemValue = deductionFilterValues.getChildren().get(1).getMenuItem().getCaption();
+        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
+        generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
+        generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
         if (ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             setDiscountViewOnly();
         }
@@ -3990,7 +3988,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         projectionSelection.setdPVariablesList(l);
         try {
-            map.put(Constant.FREQUENCY, projectionSelection.getFrequency());
+            map.put(Constant.FREQUENCY, projectionSelection.getFrequency().isEmpty() ? Constant.QUARTERLY : projectionSelection.getFrequency());
             map.put(Constant.HISTORY, projectionSelection.getHistory());
             map.put(Constant.PROJECTION_PERIOD_ORDER_LABEL, projectionSelection.getProjectionOrder());
             map.put(Constant.ACTUALS_PROJECTIONS, projectionSelection.getActualsOrProjections());
@@ -5892,14 +5890,18 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             queryBuilder = SQlUtil.getQuery("discount-customerproduct-excelQuery");
             queryBuilder = queryBuilder.replace("@CUSTORPROD", "P".equals(hierarchyIndicator) ? "PROD_HIERARCHY_NO" : "CUST_HIERARCHY_NO")
                     .replace("@VIEWTABLE", "P".equals(hierarchyIndicator) ? "ST_PRODUCT_DISCOUNT" : "ST_CUSTOMER_DISCOUNT")
-                    .replace("@DEDINCLUSION", (session.getDeductionInclusion() == null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY : " and STC.DEDUCTION_INCLUSION= " + session.getDeductionInclusion())
-                    .replace("@UNIONALL", (session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY : deducQuery + viewTableJoin +" STC INNER JOIN #DISCOUNT_PROJECTION_MASTER SH ON STC.HIERARCHY_NO = SH.HIERARCHY_NO AND STC.DEDUCTION_INCLUSION = SH.DEDUCTION_INCLUSION @ENDDEDINCLUSION ")
-                    .replace("@ENDDEDINCLUSION", (session.getDeductionInclusion() == null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY : " WHERE STC.DEDUCTION_INCLUSION= " + oppositeDed)
+                    .replace("@DEDINCLUSION",getValue(session.getDeductionInclusion()," and STC.DEDUCTION_INCLUSION= " + session.getDeductionInclusion()))
+                    .replace("@UNIONALL", getValue(session.getDeductionInclusion(), deducQuery + viewTableJoin +" STC INNER JOIN #DISCOUNT_PROJECTION_MASTER SH ON STC.HIERARCHY_NO = SH.HIERARCHY_NO AND STC.DEDUCTION_INCLUSION = SH.DEDUCTION_INCLUSION @ENDDEDINCLUSION "))
+                    .replace("@ENDDEDINCLUSION", getValue(session.getDeductionInclusion()," WHERE STC.DEDUCTION_INCLUSION= " + oppositeDed))
                     .replace("@DEDUCTIONLEVEL", (deductionlevelDdlb.getValue() == null || "ALL".equals(deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())) ? StringUtils.EMPTY : deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue())));
             queryBuilder = QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames());
             return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder);
         } else {
             return DiscountQueryBuilder.getDiscountProjectionCustomExcel(session,PROGRAM.getConstant().equals(level.getValue()),projectionSelection);
         }
+    }
+   
+    private String getValue(String value, String defaultValue) {
+        return (value == null || "ALL".equals(value)) ? StringUtils.EMPTY : defaultValue;
     }
 }

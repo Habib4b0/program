@@ -27,6 +27,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.button.GtnUIFrameworkButtonConf
 import com.stpl.gtn.gtn2o.ui.framework.component.checkbox.GtnUIFrameworkCheckBoxComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkedcombobox.GtnUIFrameworkCheckedComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfig;
@@ -411,7 +412,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes", "No"));
 		annualTotalsLoadConfig.setItemCaptionValues(Arrays.asList("Yes", "No"));
-		annualTotalsLoadConfig.setHasDefaultValue(true);
 		annualTotalsLoadConfig.setDefaultValue("Yes");
 		annualTotalsConfig.setGtnComboboxConfig(annualTotalsLoadConfig);
 
@@ -1414,6 +1414,18 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		excelButtonConfig.setParentComponentId(parentId);
 		excelButtonConfig.setAddToParent(true);
 		excelButtonConfig.setAuthorizationIncluded(true);
+
+		GtnUIFrameworkExcelButtonConfig gtnUIFrameworkExcelButtonInput = new GtnUIFrameworkExcelButtonConfig();
+		gtnUIFrameworkExcelButtonInput.setIsTreeTable(true);
+		gtnUIFrameworkExcelButtonInput.setExportFileName("Report");
+		gtnUIFrameworkExcelButtonInput.setExportTableId("reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE);
+
+		GtnUIFrameWorkActionConfig resultTableExcelAction = new GtnUIFrameWorkActionConfig();
+		resultTableExcelAction.setActionType(GtnUIFrameworkActionType.TREEGRID_EXCEL_EXPORT_ACTION);
+		resultTableExcelAction.addActionParameter(gtnUIFrameworkExcelButtonInput);
+
+		excelButtonConfig.setGtnUIFrameworkExcelButtonConfig(gtnUIFrameworkExcelButtonInput);
+		excelButtonConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(resultTableExcelAction));
 		componentList.add(excelButtonConfig);
 	}
 

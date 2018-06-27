@@ -140,8 +140,8 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionHierarchypopupAction.addActionParameter(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchyLookup");
 		customerSelectionHierarchypopupAction.addActionParameter("Customer Hierarchy LookUp");
-		customerSelectionHierarchypopupAction.addActionParameter("720");
-		customerSelectionHierarchypopupAction.addActionParameter("875");
+		customerSelectionHierarchypopupAction.addActionParameter("800");
+		customerSelectionHierarchypopupAction.addActionParameter("920");
 		customerSelectionHierarchy.addGtnUIFrameWorkActionConfig(customerSelectionHierarchypopupAction);
 
 		GtnUIFrameworkComponentConfig customerSelectionRelationshipLayout = configProvider.getHorizontalLayoutConfig(
