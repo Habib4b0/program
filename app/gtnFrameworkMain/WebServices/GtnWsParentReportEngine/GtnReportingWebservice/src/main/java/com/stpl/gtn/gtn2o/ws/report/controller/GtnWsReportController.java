@@ -185,15 +185,24 @@ public class GtnWsReportController {
 
 	private String getComboboxTypeForReportFromAndToDate(String comboBoxType) {
 		List<Object[]> resultList = null;
+		List<Boolean> checkList ;
+		String frequency = "Quarter";
 		String subQuery = "";
 		String mainQuery = GtnWsQueryConstants.MAIN_QUERY_REPORT_FROM_AND_TO_DATE;
+		String checkProcessMode = GtnWsQueryConstants.CHECK_PROCESS_MODE_FOR_REPORT_FROM_AND_TO_DATE;
 		try {
-			resultList = executeQuery(mainQuery);
-			String frequency = String.valueOf(resultList.get(0));
+			checkList = executeQuery(checkProcessMode);
+			boolean processMode = (checkList.get(0));
+			if (processMode) {
+				resultList = executeQuery(mainQuery);
+				frequency = String.valueOf(resultList.get(0));
+				} 
 			subQuery = gtnWsReportWebsevice.getFromAndToDateLoadQuery(comboBoxType, frequency);
 		} catch (Exception e) {
 			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + e);
 		}
+		
+		
 		return subQuery;
 	}
 

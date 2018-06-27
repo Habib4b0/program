@@ -137,6 +137,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String SELECT_VALUES = "-Select Values-";
 
 	public static final String TAB_SHEET = "tabSheet";
+	
+	public static final String STPL_PADDING_18_PX="stpl-padding-top-18";
 
 	public static final String SEARCH_QUERY = "searchQuery";
 

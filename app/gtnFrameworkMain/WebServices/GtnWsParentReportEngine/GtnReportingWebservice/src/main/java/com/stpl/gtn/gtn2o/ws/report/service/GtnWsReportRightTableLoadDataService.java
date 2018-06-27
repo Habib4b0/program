@@ -35,7 +35,6 @@ public class GtnWsReportRightTableLoadDataService {
 		try {
 
 			String query = getQueryFromProcedure(gtnWsRequest, hierarchyNo, levelNo);
-
 			List<?> object = gtnSqlQueryEngine.executeSelectQuery(query, new Object[] {}, new GtnFrameworkDataType[] {},
 					transFormer);
 			return (Map<String, Map<String, Double>>) object.get(0);
