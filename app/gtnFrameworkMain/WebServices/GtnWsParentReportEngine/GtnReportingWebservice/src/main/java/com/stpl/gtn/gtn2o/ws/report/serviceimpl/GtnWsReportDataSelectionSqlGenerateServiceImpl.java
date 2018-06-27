@@ -258,9 +258,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	private GtnWsRecordBean convertToRecordbean(GtnUIFrameworkWebserviceRequest gtnWsRequest,
 			GtnWsReportCustomCCPListDetails bean, List<Object> recordHeader, int index, Object[] displayFormat) {
 
-		Map<String, Map<String, Double>> rightDataMap = rightTableService.getDataFromBackend(gtnWsRequest,
-				bean.getHierarchyNo(), bean.getLevelNo());
-
+		// 1-variable name 5-V
+		Map<String, Map<String, Double>> rightDataMap = rightTableService.getDataFromBackend(gtnWsRequest, bean);
 		Map<String, Double> dataForHierarchy = rightDataMap.get(bean.getHierarchyNo());
 		GtnWsRecordBean recordBean = new GtnWsRecordBean();
 		Optional<List> optionalRecordHeader = Optional.of(recordHeader);
