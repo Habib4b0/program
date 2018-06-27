@@ -14,12 +14,9 @@ import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.components.grid.HeaderCell;
 import com.vaadin.ui.components.grid.HeaderRow;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -42,8 +39,7 @@ public class HeaderUtils {
         if (columnEnd > columnCount || columnStart > columnEnd) {
             return;
         }
-        TreeData<GtnWsRecordBean> treedata = null;
-        treedata = repaintGrid(treedata, pagedTreeGrid);
+        repaintGrid( pagedTreeGrid);
         List<Object> currentSingleColumns = pagedTreeGrid.getTableConfig().getVisibleColumns().subList(columnStart, columnEnd);
         for (int j = 0; j < currentSingleColumns.size(); j++) {
             String column = (currentSingleColumns.get(j)).toString();
@@ -66,21 +62,18 @@ public class HeaderUtils {
             addDoubleHeader(currentSingleColumns, pagedTreeGrid);
         }
         addTripleHeader(currentSingleColumns, pagedTreeGrid);
-        if (treedata != null) {
-            pagedTreeGrid.getGrid().setTreeData(treedata);
-        }
     }
 
-    public static TreeData<GtnWsRecordBean> repaintGrid(TreeData<GtnWsRecordBean> treedata, PagedTreeGrid pagedTreeGrid) {
+    public static void repaintGrid( PagedTreeGrid pagedTreeGrid) {
         if (pagedTreeGrid.getGrid().getParent() != null) {
-            treedata = pagedTreeGrid.getGrid().getTreeData();
             VerticalLayout parent = (VerticalLayout) pagedTreeGrid.getGrid().getParent();
             pagedTreeGrid.setGrid(new TreeGrid<>());
             pagedTreeGrid.getGrid().setWidth(pagedTreeGrid.getComponentConfig().getComponentWidth());
             pagedTreeGrid.getGrid().setHeight(pagedTreeGrid.getComponentConfig().getComponentHight());
             parent.replaceComponent(parent.getComponent(0), pagedTreeGrid.getGrid());
+            pagedTreeGrid.initializeGrid(pagedTreeGrid.componentIdInMap);
+            
         }
-        return treedata;
     }
 
     public static void addDoubleHeader(List<Object> currentSingleColumns, PagedTreeGrid pagedTreeGrid) {

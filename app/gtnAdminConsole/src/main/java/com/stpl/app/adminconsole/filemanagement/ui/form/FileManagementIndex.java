@@ -880,8 +880,8 @@ public class FileManagementIndex extends CustomComponent implements View {
 
 	public void setTableDefaultConfig() {
 
-		fileHistoryTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgmtHistoryResultColumns);
-		fileHistoryTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgmtHistoryResultHeader);
+		fileHistoryTable.setVisibleColumns(CommonUIUtil.getfileMgmtHistoryResultColumns());
+		fileHistoryTable.setColumnHeaders(CommonUIUtil.getfileMgmtHistoryResultHeader());
 		fileHistoryTable.markAsDirtyRecursive();
 		fileHistoryTable.setImmediate(true);
 		fileHistoryTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -895,8 +895,8 @@ public class FileManagementIndex extends CustomComponent implements View {
 		tableLayout.addComponent(excelTable);
 		excelTable.setVisible(false);
 		excelTable.setContainerDataSource(excelTableBean);
-		excelTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgmtHistoryResultColumns);
-		excelTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgmtHistoryResultHeader);
+		excelTable.setVisibleColumns(CommonUIUtil.getfileMgmtHistoryResultColumns());
+		excelTable.setColumnHeaders(CommonUIUtil.getfileMgmtHistoryResultHeader());
 		excelTable.markAsDirtyRecursive();
 
 	}

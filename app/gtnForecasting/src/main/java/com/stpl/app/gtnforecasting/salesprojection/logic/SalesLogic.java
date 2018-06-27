@@ -2187,6 +2187,7 @@ public class SalesLogic {
             int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String[] keyarr = propertyId.split("-");
             String startPeriod = "";
+            int endPeriod = 0;
             if (frequencyDivision != 1) {
             key = (keyarr[0])+(keyarr[1])+"~"+salesDTO.getHierarchyNo();
             startPeriod = CommonLogic.getPeriodSID(projectionSelectionDTO.getFrequency(), (keyarr[0])+" "+(keyarr[1]), true);
@@ -2197,14 +2198,18 @@ public class SalesLogic {
             if (frequencyDivision == 1) {
                 year = Integer.parseInt(keyarr[0]);
                 rowcount = rowcount * NumericConstants.TWELVE;
+                endPeriod = Integer.valueOf(startPeriod);
             } else if (frequencyDivision == NumericConstants.FOUR) {
                 keyarr[0] = (keyarr[0]).replace('q', ' ');
                 rowcount = rowcount * NumericConstants.THREE;
+                endPeriod = Integer.valueOf(startPeriod) + 2;
             } else if (frequencyDivision == NumericConstants.TWO) {
                 keyarr[0] = (keyarr[0]).replace('s', ' ');
                 rowcount = rowcount * NumericConstants.SIX;
+                endPeriod = Integer.valueOf(startPeriod) + 5;
             } else if (frequencyDivision == NumericConstants.TWELVE) {
                 keyarr[0] = (keyarr[0]).replace(keyarr[0], String.valueOf(getMonthNo(keyarr[0])));
+                endPeriod = Integer.valueOf(startPeriod) + 11;
             }
 
             String column = frequencyDivision == 1 ? keyarr[1] : keyarr[NumericConstants.TWO];
@@ -2313,9 +2318,9 @@ public class SalesLogic {
                 updatedField = column;
             }
             projectionSelectionDTO.getSessionDTO().setFunctionMode("R");
-            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"C",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,updatedField);
-            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"P",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,updatedField);
-            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"U",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,updatedField);
+            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"C",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,String.valueOf(endPeriod).equals("0")?StringUtils.EMPTY:String.valueOf(endPeriod),updatedField);
+            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"P",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,String.valueOf(endPeriod).equals("0")?StringUtils.EMPTY:String.valueOf(endPeriod),updatedField);
+            finalQuery +=new DataSelectionLogic().callViewInsertProceduresString(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,"U",startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,String.valueOf(endPeriod).equals("0")?StringUtils.EMPTY:String.valueOf(endPeriod),updatedField);
             projectionSelectionDTO.getUpdateQueryMap().put(key+","+changedValue,QueryUtil.replaceTableNames(finalQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
             if (column.equals(PROJECTED_SALES) || column.equals(Constant.PROJECTED_UNITS1)) {
                 checkMultiVariables(key.trim(), column, projectionSelectionDTO);

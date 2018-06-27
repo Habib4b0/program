@@ -38,6 +38,8 @@ public class StplAutoLogin implements AutoLogin {
 	@Override
 	public String[] login(HttpServletRequest request, HttpServletResponse response) throws AutoLoginException {
 		String emailAddress = null;
+
+		LOGGER.info("Initiating AutoLogin");
 		if (SSOConstants.SAML.equals(StplConfigReader.getInstance().getPropertyBean().getSsoType())) {
 			emailAddress = doSamlSSO(request, response);
 		} else {
@@ -67,6 +69,7 @@ public class StplAutoLogin implements AutoLogin {
 		String relayState = request.getParameter("RelayState");
 
 		if (samlResponseString == null) {
+			LOGGER.info("- Redirecting to  Idp Url -");
 			request.setAttribute(AutoLogin.AUTO_LOGIN_REDIRECT,
 					StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBean().getIdpURL());
 			return null;
@@ -74,6 +77,7 @@ public class StplAutoLogin implements AutoLogin {
 
 		if (!StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBean().getRelayState()
 				.equals(relayState)) {
+			LOGGER.info("- Failed for relayState  - {} ", relayState);
 			return null;
 		}
 

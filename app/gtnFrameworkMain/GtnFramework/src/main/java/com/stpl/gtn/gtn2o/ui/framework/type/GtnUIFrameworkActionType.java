@@ -27,6 +27,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkSetDefaultAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkSetModeAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkShowErrorBannerAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkTableAlertAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkTreeGridExcelExportAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkWarningAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkWindowCloseAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkAddRecordAction;
@@ -206,6 +207,7 @@ public enum GtnUIFrameworkActionType {
 	V8_CONFIRMED_RESET_ACTION(new GtnUIFrameWorkV8ConfirmedResetAction()), 
 	
 	V8_VALUE_CHANGE_ACTION(new GtnUIFrameworkV8ValueChangeAction()),
+	TREEGRID_EXCEL_EXPORT_ACTION(new GtnUIFrameWorkTreeGridExcelExportAction()),
 	
 	V8_ADD_RECORD_ACTION(new GtnUIFrameworkV8AddRecordAction());
 

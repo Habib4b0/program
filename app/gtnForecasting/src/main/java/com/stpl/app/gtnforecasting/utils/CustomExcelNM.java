@@ -49,9 +49,12 @@ public class CustomExcelNM extends ExcelExport {
     protected final CellStyle style7 = this.workbook.createCellStyle();
     protected DataFormat hssfDataFormat = this.workbook.createDataFormat();
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomExcelNM.class);
-    TableHolder tableHolder;
+    private final TableHolder tableHolder;
+    public static final String CURRENCY_TWO_DECIMAL = "currencyTwoDecimal";
+    public static final String AMOUNT_TWO_DECIMAL = "amountTwoDecimal";
+    public static final String GROWTH = "Growth";
     
-
+    
     public CustomExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter,boolean isRate,boolean isRPU,boolean isCustom) {
 
         super(tableHolder, new HSSFWorkbook(), sheetName, reportTitle, exportFileName, hasTotalsRow);
@@ -112,15 +115,19 @@ public class CustomExcelNM extends ExcelExport {
                 Double cellValue = d;
                 cellValue = getCellValue(propId, d, cellValue);
                 sheetCell.setCellValue(cellValue);
-                if(!isCustom){
-                formatForCurrencyAndDecimal(propId, sheetCell, rootItemId);
-                }else{
-                formatForCurrencyAndDecimalCustom(propId, sheetCell, rootItemId);  
-                }
+                formatForCurrency(propId, sheetCell, rootItemId);
 
             } else {
                 nonFormatter(value, prop, sheetCell);
             }
+        }
+    }
+
+    private void formatForCurrency(Object propId, Cell sheetCell, final Object rootItemId) throws FormulaParseException {
+        if(!isCustom){
+            formatForCurrencyAndDecimal(propId, sheetCell, rootItemId);
+        }else{
+            formatForCurrencyAndDecimalCustom(propId, sheetCell, rootItemId);
         }
     }
 
@@ -153,7 +160,7 @@ public class CustomExcelNM extends ExcelExport {
                 sheetCell.setCellFormula("IF("+getColumnLetter(sheetCell,columnIndex + 1)+"<>0,"+form+value);
                 sheetCell.setCellStyle(style4);
             }
-        } else if (formatter.get("currencyTwoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("currencyTwoDecimal"))) {
+        } else if (formatter.get(CURRENCY_TWO_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(CURRENCY_TWO_DECIMAL))) {
             sheetCell.setCellStyle(style5);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String value = ",\"0.00$\")";
@@ -162,7 +169,7 @@ public class CustomExcelNM extends ExcelExport {
                 sheetCell.setCellFormula("IF("+getColumnLetter(sheetCell,columnIndex)+"<>0,"+form+value);
                 sheetCell.setCellStyle(style5);
             }
-        } else if (formatter.get("amountTwoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("amountTwoDecimal"))) {
+        } else if (formatter.get(AMOUNT_TWO_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(AMOUNT_TWO_DECIMAL))) {
             sheetCell.setCellStyle(style6);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId,sheetCell.getColumnIndex());
@@ -185,7 +192,7 @@ public class CustomExcelNM extends ExcelExport {
                 sheetCell.setCellStyle(style4);
                 sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
-        } else if (formatter.get("Growth") != null && String.valueOf(propId).endsWith(formatter.get("Growth"))) {
+        } else if (formatter.get(GROWTH) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH))) {
             sheetCell.setCellStyle(style4);
             sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
@@ -199,11 +206,11 @@ public class CustomExcelNM extends ExcelExport {
     private void formatForCurrencyAndDecimalCustom(Object propId, Cell sheetCell, final Object rootItemId) throws FormulaParseException {
         if (formatter.get(Constant.PERCENT_THREE_DECIMAL)!=null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) {
             sheetCell.setCellStyle(style1);
-        } else if (formatter.get("currencyTwoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("currencyTwoDecimal"))) {
+        } else if (formatter.get(CURRENCY_TWO_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(CURRENCY_TWO_DECIMAL))) {
             sheetCell.setCellStyle(style4);
-        } else if (formatter.get("amountTwoDecimal") != null && String.valueOf(propId).endsWith(formatter.get("amountTwoDecimal"))) {
+        } else if (formatter.get(AMOUNT_TWO_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(AMOUNT_TWO_DECIMAL))) {
             sheetCell.setCellStyle(style6);
-        } else if (formatter.get("Growth") != null && String.valueOf(propId).endsWith(formatter.get("Growth"))) {
+        } else if (formatter.get(GROWTH) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH))) {
             sheetCell.setCellStyle(style4);
         } 
 

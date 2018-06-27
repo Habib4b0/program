@@ -101,7 +101,7 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLookUpSearchCriteriaConfig");
 		publicViewLookUpSearchCriteriaConfig.setComponentName("Search Criteria");
 		publicViewLookUpSearchCriteriaConfig.setAddToParent(true);
-		publicViewLookUpSearchCriteriaConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		publicViewLookUpSearchCriteriaConfig.setComponentWidth("90%");
 		publicViewLookUpSearchCriteriaConfig.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLookUpSearchCriteriaPanel");
 		publicViewLookUpSearchCriteriaConfig.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
