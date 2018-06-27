@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.transform.ResultTransformer;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,12 @@ import org.springframework.stereotype.Service;
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomCCPListDetails;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.service.transform.GtnWsReportRightTableResultTransformer;
+import com.stpl.gtn.gtn2o.ws.report.service.transform.GtnWsReportVaribleRowResultTransformer;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
 @Service
@@ -28,15 +31,45 @@ public class GtnWsReportRightTableLoadDataService {
 	GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	@Autowired
-	GtnWsReportRightTableResultTransformer transFormer;
+	GtnWsReportRightTableResultTransformer columnTransFormer;
+
+	@Autowired
+	GtnWsReportVaribleRowResultTransformer rowTransformer;
 
 	public Map<String, Map<String, Double>> getDataFromBackend(GtnUIFrameworkWebserviceRequest gtnWsRequest,
-			String hierarchyNo, int levelNo) {
+			GtnWsReportCustomCCPListDetails bean) {
 		try {
 
-			String query = getQueryFromProcedure(gtnWsRequest, hierarchyNo, levelNo);
+			String hierarchyNo = bean.getHierarchyNo();
+			int levelNo = bean.getLevelNo();
+			boolean isVAriableRow = false;
+			if (bean.getData()[5].equals("V")) {
+				isVAriableRow = true;
+			}
+			List<Object[]> customviewData = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(
+					GtnWsQueryConstants.CUSTOM_VIEW_TYPE,
+					new Object[] {
+							gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getCustomViewMasterSid() },
+					new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER });
+
+			String customViewTypeInBackend = String.valueOf(customviewData.get(0));
+			String[] customViewTypeDataArray = customViewTypeInBackend.split("~");
+			ResultTransformer transformer = rowTransformer;
+		
+
+			String customViewType = "";
+			if (customViewTypeDataArray.length == 3) {
+				customViewType = customViewTypeDataArray[1];
+				if (customViewTypeDataArray[1].equals("Columns")) {
+					customViewType = "VARIABLE";
+					transformer = columnTransFormer;
+
+				}
+			}
+
+			String query = getQueryFromProcedure(gtnWsRequest, hierarchyNo, levelNo, customViewType);
 			List<?> object = gtnSqlQueryEngine.executeSelectQuery(query, new Object[] {}, new GtnFrameworkDataType[] {},
-					transFormer);
+					transformer);
 			return (Map<String, Map<String, Double>>) object.get(0);
 		} catch (GtnFrameworkGeneralException e) {
 			e.printStackTrace();
@@ -46,24 +79,8 @@ public class GtnWsReportRightTableLoadDataService {
 
 	}
 
-	public String getQueryFromProcedure(GtnUIFrameworkWebserviceRequest gtnWsRequest, String hierarchyNo, int levelNo)
-			throws GtnFrameworkGeneralException {
-
-		List<Object[]> customviewData = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(
-				GtnWsQueryConstants.CUSTOM_VIEW_TYPE,
-				new Object[] { gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getCustomViewMasterSid() },
-				new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER });
-
-		String customViewTypeInBackend = String.valueOf(customviewData.get(0));
-		String[] customViewTypeDataArray = customViewTypeInBackend.split("~");
-
-		String customViewType = "";
-		if (customViewTypeDataArray.length == 3) {
-			customViewType = customViewTypeDataArray[1];
-			if (customViewTypeDataArray[1].equals("Columns")) {
-				customViewType = "VARIABLE";
-			}
-		}
+	public String getQueryFromProcedure(GtnUIFrameworkWebserviceRequest gtnWsRequest, String hierarchyNo, int levelNo,
+			String customViewType) throws GtnFrameworkGeneralException {
 
 		GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean();
 
@@ -135,4 +152,5 @@ public class GtnWsReportRightTableLoadDataService {
 		}
 		return sb.toString();
 	}
+
 }
