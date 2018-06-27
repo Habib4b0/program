@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.action;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -39,8 +40,7 @@ public class GtnReportComparisonProjectionResultsLoadAction
 		gtnLogger.info("component Id = = = " + componentId);
 		gtnLogger.info("sourceComponentId = = =" + sourceComponentId);
 		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(sourceComponentId).getComponentData()
-				.getSharedPopupData();
+				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
 		List<GtnReportComparisonProjectionBean> comparisonProjectionsList = dataSelectionBean
 				.getComparisonProjectionBeanList();
 		GtnUIFrameworkBaseComponent selectedGrid = GtnUIFrameworkGlobalUI
@@ -48,24 +48,27 @@ public class GtnReportComparisonProjectionResultsLoadAction
 		PagedGrid pagedGrid = (PagedGrid) selectedGrid.getComponentData().getCustomData();
 		Grid<GtnWsRecordBean> grid = pagedGrid.getGrid();
 		List<GtnWsRecordBean> recordBeanList = new ArrayList<>();
-		for (GtnReportComparisonProjectionBean comparisonBean : comparisonProjectionsList) {
-			GtnWsRecordBean recordBean = new GtnWsRecordBean();
-			recordBean.setRecordHeader(Arrays.asList("projectionName", "description", "marketType", "contractHolder",
-					"contract", "brand"));
-			recordBean.addProperties(comparisonBean.getProjectionName());
-			recordBean.addProperties(comparisonBean.getProjectionDescription());
-			recordBean.addProperties(comparisonBean.getMarketType());
-			recordBean.addProperties(comparisonBean.getContractHolder());
-			recordBean.addProperties(comparisonBean.getContract());
-			recordBean.addProperties(comparisonBean.getBrand());
-			recordBean.addProperties(comparisonBean.getItemNo());
-			recordBean.addProperties(comparisonBean.getItemName());
-			recordBean.addProperties(comparisonBean.getProjectionMasterSid());
-			recordBean.addProperties(comparisonBean.getCreatedDate());
-			recordBean.addProperties(comparisonBean.getCreatedBy());
-			recordBean.addAdditionalProperty(comparisonBean.getProjectionType());
-			recordBeanList.add(recordBean);
-		}
+		Optional.ofNullable(comparisonProjectionsList).ifPresent(e -> {
+			for (GtnReportComparisonProjectionBean comparisonBean : e) {
+				GtnWsRecordBean recordBean = new GtnWsRecordBean();
+				recordBean.setRecordHeader(Arrays.asList("projectionName", "description", "marketType",
+						"contractHolder", "contract", "brand"));
+				recordBean.addProperties(comparisonBean.getProjectionName());
+				recordBean.addProperties(comparisonBean.getProjectionDescription());
+				recordBean.addProperties(comparisonBean.getMarketType());
+				recordBean.addProperties(comparisonBean.getContractHolder());
+				recordBean.addProperties(comparisonBean.getContract());
+				recordBean.addProperties(comparisonBean.getBrand());
+				recordBean.addProperties(comparisonBean.getItemNo());
+				recordBean.addProperties(comparisonBean.getItemName());
+				recordBean.addProperties(comparisonBean.getProjectionMasterSid());
+				recordBean.addProperties(comparisonBean.getCreatedDate());
+				recordBean.addProperties(comparisonBean.getCreatedBy());
+				recordBean.addAdditionalProperty(comparisonBean.getProjectionType());
+				recordBeanList.add(recordBean);
+			}
+		});
+
 		grid.setItems(recordBeanList);
 	}
 

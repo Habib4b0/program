@@ -62,31 +62,33 @@ public class GtnProductLevelAvailableTableLoadAction
 			List<GtnReportHierarchyLevelBean> productHierarchyLevelDefinitionList = getHierarchyLevelDefinition(
 					hierarchyBuilderSid, hierarchyVersionNo);
 
-			GtnReportHierarchyLevelBean selectedHierarchyLevelDto = productHierarchyLevelDefinitionList
-					.get(selectedLevel - 1);
+			if (selectedLevel != 0) {
+				GtnReportHierarchyLevelBean selectedHierarchyLevelDto = productHierarchyLevelDefinitionList
+						.get(selectedLevel - 1);
 
-			String query = loadAvailableProductlevel(selectedHierarchyLevelDto, relationshipBuilderSID, false,
-					relationVersionNo, businessUnit);
-			List<Object> queryParameters = new ArrayList<>();
-			queryParameters.add(query);
-			queryParameters.add(productDescMap);
-			queryParameters.add(selectedHierarchyLevelDto);
-			queryParameters.add(productHierarchyLevelDefinitionList);
-			queryParameters.add(relationVersionNo);
-			queryParameters.add(hierarchyVersionNo);
-			queryParameters.add(selectedLevel);
-			queryParameters.add(businessUnit);
-			queryParameters.add(Boolean.TRUE);
-			AbstractComponent dualListBoxComponent = GtnUIFrameworkGlobalUI
-					.getVaadinComponent(actionParamList.get(7).toString(), componentId);
-			GtnUIFrameworkComponentData dualListBoxComponentData = (GtnUIFrameworkComponentData) dualListBoxComponent
-					.getData();
-			GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) dualListBoxComponentData
-					.getCustomData();
-			dualListBoxBean.setGtnDualListBoxqueryParameters(queryParameters);
-			dualListBoxComponentData.setCustomData(dualListBoxBean);
+				String query = loadAvailableProductlevel(selectedHierarchyLevelDto, relationshipBuilderSID, false,
+						relationVersionNo, businessUnit);
+				List<Object> queryParameters = new ArrayList<>();
+				queryParameters.add(query);
+				queryParameters.add(productDescMap);
+				queryParameters.add(selectedHierarchyLevelDto);
+				queryParameters.add(productHierarchyLevelDefinitionList);
+				queryParameters.add(relationVersionNo);
+				queryParameters.add(hierarchyVersionNo);
+				queryParameters.add(selectedLevel);
+				queryParameters.add(businessUnit);
+				queryParameters.add(Boolean.TRUE);
+				AbstractComponent dualListBoxComponent = GtnUIFrameworkGlobalUI
+						.getVaadinComponent(actionParamList.get(7).toString(), componentId);
+				GtnUIFrameworkComponentData dualListBoxComponentData = (GtnUIFrameworkComponentData) dualListBoxComponent
+						.getData();
+				GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) dualListBoxComponentData
+						.getCustomData();
+				dualListBoxBean.setGtnDualListBoxqueryParameters(queryParameters);
+				dualListBoxComponentData.setCustomData(dualListBoxBean);
+			}
 		} catch (Exception e) {
-			gtnLogger.error("Error in" + e.getMessage());
+			gtnLogger.error("Error in" + e.getMessage(), e);
 		}
 
 	}
