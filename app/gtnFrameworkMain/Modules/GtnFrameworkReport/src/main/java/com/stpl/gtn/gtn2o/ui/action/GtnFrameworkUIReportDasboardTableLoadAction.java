@@ -77,12 +77,13 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 				.getCaptionFromV8ComboBox();
 		dashBoardBean.setComparisonBasis(comparisonBasis);
 
-		
-		
 		List<Object> displayFormat = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(4).toString(), componentId)
 				.getSelectedCaptionListFromV8MultiSelect();
 		dashBoardBean.setDisplayFormat(displayFormat.toArray());
+
+		dashBoardBean.setVariablesVariances(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(params.get(9).toString(), componentId).getIntegerFromV8ComboBox() == 2);
 
 		dashBoardBean.setCurrencyConversion(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(5).toString(), componentId).getCaptionFromV8ComboBox());

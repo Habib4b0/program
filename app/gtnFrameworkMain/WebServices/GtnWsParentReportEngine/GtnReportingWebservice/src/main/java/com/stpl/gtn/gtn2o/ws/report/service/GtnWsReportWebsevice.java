@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -99,36 +98,40 @@ public class GtnWsReportWebsevice {
 	}
 
 	public List<Object[]> loadViewResults(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest,
-			boolean viewMode) throws GtnFrameworkGeneralException, IOException {
-		Session session = sessionFactory.openSession();
-		List<Object> inputList = new ArrayList<>();
-		String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
-		String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
-		Map<String, String> criteriaMap = new HashMap<>();
-		for (GtnWebServiceSearchCriteria searchCriteria : gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest()
-				.getGtnWebServiceSearchCriteriaList()) {
-			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
-				criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
+			boolean viewMode) {
+		try (Session session = sessionFactory.openSession()) {
+			List<Object> inputList = new ArrayList<>();
+			String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
+			String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
+			Map<String, String> criteriaMap = new HashMap<>();
+			for (GtnWebServiceSearchCriteria searchCriteria : gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest()
+					.getGtnWebServiceSearchCriteriaList()) {
+				if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
+					criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
+				}
 			}
-		}
-		inputList.add("'" + viewType + "'");
-		if (viewMode) {
-			String privateViewName = criteriaMap.get("privateViewName");
-			inputList.add("'" + privateViewName + "'");
-			inputList.add(" AND CREATED_BY = " + userId);
-		} else {
-			String viewName = criteriaMap.get("publicViewName");
-			inputList.add("'" + viewName + "'");
-			inputList.add(StringUtils.EMPTY);
-		}
+			inputList.add("'" + viewType + "'");
+			if (viewMode) {
+				String privateViewName = criteriaMap.get("privateViewName");
+				inputList.add("'" + privateViewName + "'");
+				inputList.add(" AND CREATED_BY = " + userId);
+			} else {
+				String viewName = criteriaMap.get("publicViewName");
+				inputList.add("'" + viewName + "'");
+				inputList.add(StringUtils.EMPTY);
+			}
 
-		String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
-		SQLQuery query = session.createSQLQuery(viewQuery).addScalar("VIEW_NAME", new StringType())
-				.addScalar("CREATED_DATE", new DateType()).addScalar("MODIFIED_DATE", new DateType())
-				.addScalar("CREATED_BY", new IntegerType()).addScalar("VIEW_ID", new IntegerType())
-				.addScalar("VIEW_DATA", new StringType());
-		List<Object[]> resultList = query.list();
-		return resultList;
+			String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
+			SQLQuery query = session.createSQLQuery(viewQuery).addScalar("VIEW_NAME", new StringType())
+					.addScalar("CREATED_DATE", new DateType()).addScalar("MODIFIED_DATE", new DateType())
+					.addScalar("CREATED_BY", new IntegerType()).addScalar("VIEW_ID", new IntegerType())
+					.addScalar("VIEW_DATA", new StringType());
+			List<Object[]> resultList = query.list();
+			return resultList;
+		} catch (Exception ex) {
+			gtnLogger.error(ex.getMessage(), ex);
+			return null;
+		}
 	}
 
 	public List<Object[]> loadComparisonAvailableTable(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
@@ -145,7 +148,8 @@ public class GtnWsReportWebsevice {
 			return Collections.emptyList();
 		} else {
 			comparisonResults = criteriaMap.get("projectionType").equals("F")
-					? loadProjectionComparisonResults(criteriaMap) : loadCFFComparisonResults(criteriaMap);
+					? loadProjectionComparisonResults(criteriaMap)
+					: loadCFFComparisonResults(criteriaMap);
 			return comparisonResults;
 		}
 	}

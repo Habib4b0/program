@@ -68,7 +68,8 @@ public class GtnCustomerAvailableTableLoadAction
 		if (date != null) {
 			forecastEligibleDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		}
-		if (!selectedLevel.equals("") && selectedLevelNo != 0) {
+
+		if (selectedLevelNo != 0) {
 			String query = getLevelValueMapQuery(relationshipBuilderSid, hierarchyDefSid, hierarchyVersionNo,
 					relationshipVersionNo);
 			Map<String, String> levelValueMap = getLevelValueMap(query);
