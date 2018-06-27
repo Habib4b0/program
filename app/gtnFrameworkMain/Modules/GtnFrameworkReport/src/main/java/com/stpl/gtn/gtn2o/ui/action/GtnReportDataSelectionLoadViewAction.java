@@ -186,7 +186,7 @@ public class GtnReportDataSelectionLoadViewAction
 				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_PRODUCTHIERARCHY_RELATIONSHIPVERSION,
 						componentId)
 				.getCaptionFromV8ComboBox());
-
+                
 		GtnUIFrameworkComboBoxConfig productLevelComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_PRODUCTHIERARCHY_LEVEL)
 				.getComponentConfig().getGtnComboboxConfig();
@@ -200,7 +200,7 @@ public class GtnReportDataSelectionLoadViewAction
 				GtnFrameworkReportStringConstants.REPORT_PRODUCTHIERARCHY_LEVEL, componentId,
 				Arrays.asList(productHierarchyDefinitionSid, productHierarchyVersion));
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_PRODUCTHIERARCHY_LEVEL)
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_level")
 				.loadV8ComboBoxComponentValue(Integer.valueOf(dataSelectionBean.getProductHierarchyForecastLevel()));
 
 		String productTableComponentId = "reportLandingScreen_productdualListBoxComp";

@@ -24,6 +24,7 @@ import com.vaadin.ui.Grid;
 
 public class GtnReportComparisonProjectionSubmitAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+	
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -35,7 +36,7 @@ public class GtnReportComparisonProjectionSubmitAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		GtnReportComparisonProjectionBean comparisonProjectionBean;
-		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList= new ArrayList<>();
+		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = new ArrayList<>();
 		GtnUIFrameworkBaseComponent selectedGrid = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getActionParameterList().get(1).toString());
 		PagedGrid pagedGrid = (PagedGrid) selectedGrid.getComponentData().getCustomData();
@@ -43,7 +44,7 @@ public class GtnReportComparisonProjectionSubmitAction
 		if (grid.getDataProvider() instanceof ListDataProvider) {
 			ListDataProvider<GtnWsRecordBean> selectedTableItems = (ListDataProvider<GtnWsRecordBean>) grid
 					.getDataProvider();
-			List<GtnWsRecordBean> selectedRecords = (List<GtnWsRecordBean>) selectedTableItems.getItems(); 
+			List<GtnWsRecordBean> selectedRecords = (List<GtnWsRecordBean>) selectedTableItems.getItems();
 			for (GtnWsRecordBean recordBean : selectedRecords) {
 				comparisonProjectionBean = new GtnReportComparisonProjectionBean();
 				comparisonProjectionBean
@@ -63,43 +64,40 @@ public class GtnReportComparisonProjectionSubmitAction
 				comparisonProjectionBean.setProjectionType(String.valueOf(recordBean.getAdditionalPropertyByIndex(0)));
 				comparisonProjectionBeanList.add(comparisonProjectionBean);
 			}
-			GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromParent(
-							gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString(), componentId)
-					.getComponentData();
+			GtnUIFrameworkComponentData idComponentData = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
+					gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString(),
+					componentId).getComponentData();
 			idComponentData.setCustomData(comparisonProjectionBeanList);
-			String displayValue = getRecordDisplayValue(selectedRecords);
-
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromParent(
-							gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString(), componentId)
-					.setV8PopupFieldValue(displayValue);
+			if (comparisonProjectionBeanList.isEmpty()) {
+				validateTableRecords(componentId);
+			} else {
+				String displayValue = getRecordDisplayValue(selectedRecords);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
+						gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString(),
+						componentId).setV8PopupFieldValue(displayValue);
+			}
 		} else {
-			GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
-			alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-			alertAction.addActionParameter("Error");
-			alertAction.addActionParameter("No Data is available to submit");
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);
+			validateTableRecords(componentId);
 		}
-		
+
 		List<String> inputForComparisonBasisList = new ArrayList<>();
-		for(GtnReportComparisonProjectionBean comparisonProjectionBeans : comparisonProjectionBeanList) {
+		for (GtnReportComparisonProjectionBean comparisonProjectionBeans : comparisonProjectionBeanList) {
 			inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
 		}
 		inputForComparisonBasisList.add("Actuals");
 		inputForComparisonBasisList.add("Accruals");
 		inputForComparisonBasisList.add("Projections");
-		if(componentId.equals("dashboardComparisonLookup_submitButton")) {
-		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponentFromParent("reportingDashboard_displaySelectionTabComparisonBasis", componentId).getComponentConfig()
-                .getGtnComboboxConfig();
-		comparisonBasisComboboxConfig.setItemCaptionValues(inputForComparisonBasisList);
-		comparisonBasisComboboxConfig.setItemValues(inputForComparisonBasisList);
-		
-		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-        combobox.reloadComponentFromParent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-                "reportingDashboard_displaySelectionTabComparisonBasis", componentId,
-                Arrays.asList(""));
+		if (componentId.equals("dashboardComparisonLookup_submitButton")) {
+			GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponentFromParent("reportingDashboard_displaySelectionTabComparisonBasis",
+							componentId)
+					.getComponentConfig().getGtnComboboxConfig();
+			comparisonBasisComboboxConfig.setItemCaptionValues(inputForComparisonBasisList);
+			comparisonBasisComboboxConfig.setItemValues(inputForComparisonBasisList);
+
+			GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
+			combobox.reloadComponentFromParent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
 		}
 	}
 
@@ -111,9 +109,14 @@ public class GtnReportComparisonProjectionSubmitAction
 		}
 	}
 
-	
-	
-	
+	private void validateTableRecords(String componentId) throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
+		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		alertAction.addActionParameter("Error");
+		alertAction.addActionParameter("No Data is available to submit");
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);
+	}
+
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		return this;

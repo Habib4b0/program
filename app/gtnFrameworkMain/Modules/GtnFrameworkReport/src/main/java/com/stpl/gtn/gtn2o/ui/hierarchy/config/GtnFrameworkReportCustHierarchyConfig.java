@@ -223,7 +223,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				+ GtnFrameworkReportStringConstants.CUSTOMER_DUALLISTBOX);
 		refreshDualListBoxActiion.addActionParameter(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel");
-		// levelactionConfigList.add(refreshDualListBoxActiion);
+//		levelactionConfigList.add(refreshDualListBoxActiion);
 
 		GtnUIFrameWorkActionConfig levelValueChangeAction = new GtnUIFrameWorkActionConfig();
 		levelValueChangeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);

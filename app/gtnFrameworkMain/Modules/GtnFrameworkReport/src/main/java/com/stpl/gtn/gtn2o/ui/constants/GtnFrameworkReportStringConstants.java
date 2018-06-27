@@ -219,6 +219,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORT_PROFILE = "reportProfile";
 
 	public static final String COMPARISON_LOOKUP = "comparisonLookup";
+	
+	public static final String DATASELECTION_COMPARISON_LOOKUP = "dsComparisonLookup";
 
 	public static final String DASHBOARD_COMPARISON_LOOKUP = "dashboardComparisonLookup";
 
