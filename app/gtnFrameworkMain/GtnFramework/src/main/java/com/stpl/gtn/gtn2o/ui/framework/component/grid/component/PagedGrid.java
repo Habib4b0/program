@@ -29,6 +29,7 @@ import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.InlineDateField;
@@ -261,6 +262,7 @@ public class PagedGrid {
             pageCountLabel = new Label("1");
             pageNoField.setWidth("50px");
             setPageNoFieldValue(0);
+            controlLayout.addComponent(new Label("Items per page:"));
             controlLayout.addComponent(getItemsPerPage());
             controlLayout.addComponent(getControlLayoutButtons("<<", e -> this.setPageNumber(0)));
             controlLayout.addComponent(getControlLayoutButtons("<", e -> this.previousPage()));
@@ -282,10 +284,10 @@ public class PagedGrid {
     }
 
     private Component getItemsPerPage() {
-        ComboBox itemsPerPage = new ComboBox("Items per page:");
+        ComboBox itemsPerPage = new ComboBox();
         itemsPerPage.setItems(new Object[]{5, 10, 15, 20, 25, 50, 100});
         itemsPerPage.setSelectedItem(10);
-        itemsPerPage.setWidth("60px");
+        itemsPerPage.setWidth("90px");
         itemsPerPage.setEmptySelectionAllowed(false);
         itemsPerPage.addValueChangeListener(new HasValue.ValueChangeListener() {
             @Override

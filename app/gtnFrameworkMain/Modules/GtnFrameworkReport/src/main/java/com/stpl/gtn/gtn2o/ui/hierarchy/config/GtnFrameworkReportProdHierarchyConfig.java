@@ -102,8 +102,7 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 
 	private void addProductSelectionComponents(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		addHierarchyRelationshipComponent(componentList, namespace);
-                addCustomViewButtonComponent(componentList, namespace);
-		addCustomViewComponent(componentList, namespace);
+		addCustomViewLayoutComponent(componentList,namespace);
 		addDualListBoxComponent(componentList, namespace);
 
 	}
@@ -132,6 +131,7 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 		GtnUIFrameworkComponentConfig hierarchy = configProvider.getUIFrameworkComponentConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy", true,
 				hierarchyLayout.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
+		hierarchyLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_18_PX);
 		hierarchy.setComponentName("Hierarchy: ");
 
 		GtnUIFrameWorkActionConfig hierarchypopupAction = new GtnUIFrameWorkActionConfig();
@@ -139,8 +139,8 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 		hierarchypopupAction.addActionParameter(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productHierarchyLookup");
 		hierarchypopupAction.addActionParameter("Product Hierarchy LookUp");
-		hierarchypopupAction.addActionParameter("720");
-		hierarchypopupAction.addActionParameter("875");
+		hierarchypopupAction.addActionParameter("800");
+		hierarchypopupAction.addActionParameter("950");
 		hierarchy.addGtnUIFrameWorkActionConfig(hierarchypopupAction);
 
 		GtnUIFrameworkComponentConfig relationshipLayout = configProvider
@@ -150,6 +150,7 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.PRODUCT_HIERARCHYRELATIONSHIP,
 				true, relationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		relationshipLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_18_PX);
 		relationship.setComponentName("Relationship: ");
 
 		GtnUIFrameworkComboBoxConfig relationshipLoadConfig = configProvider.getComboBoxConfig(
@@ -209,6 +210,7 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.PRODUCT_LEVEL,
 				true, levelLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
+		levelLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_18_PX);
 		level.setComponentName("Level: ");
 
 		GtnUIFrameworkComboBoxConfig levelLoadConfig = configProvider.getComboBoxConfig(
@@ -307,11 +309,28 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 				.setMoveAllDataURL(GtnWsReportConstants.GTN_REPORT_PRODHIERARCHY_ALL_DATA_TABLELOAD_SERVICE);
 		productSelectionDualListBoxComponent.setGtnUIFrameworkV8DualListBoxConfig(productSelectionDualListBoxConfig);
 	}
+	private void addCustomViewLayoutComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+		
+				GtnUIFrameworkLayoutConfig reportCssLayout = new GtnUIFrameworkLayoutConfig();
+				reportCssLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
+				GtnUIFrameworkComponentConfig reportCssGtnLayout = configProvider.getUIFrameworkComponentConfig(
+						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT,
+						true,
+						"hierarchyRelationshipConfig",
+						GtnUIFrameworkComponentType.LAYOUT);
+				reportCssGtnLayout.setGtnLayoutConfig(reportCssLayout);
+				componentList.add(reportCssGtnLayout);
+				addCustomViewButtonComponent(componentList,nameSpace);
+				addCustomViewComponent(componentList,nameSpace);
+	}
+	
         private void addCustomViewButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig customViewConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_BUTTON,
-				true, nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_HIERARCHY_RELATIONSHIP_LAYOUT,
+				true, nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT,
 				GtnUIFrameworkComponentType.BUTTON);
 		customViewConfig.setComponentName("Custom View: ");
 		customViewConfig.addComponentStyle(GtnFrameworkReportStringConstants.LINK);
@@ -334,14 +353,15 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 	private void addCustomViewComponent(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT, true,
-				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_HIERARCHY_RELATIONSHIP_LAYOUT);
-		gtnLayout.setComponentWidth("13%");
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
+		gtnLayout.addComponentStyle("stpl-padding-top-13");
 		componentList.add(gtnLayout);
 
 		GtnUIFrameworkComponentConfig customViewComboboxConfig = configProvider.getUIFrameworkComponentConfig(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW,
-				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT,
+				true,GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW_COMBO_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customViewComboboxConfig.setAuthorizationIncluded(true);
 		customViewComboboxConfig.setComponentWsFieldId("customViewName");

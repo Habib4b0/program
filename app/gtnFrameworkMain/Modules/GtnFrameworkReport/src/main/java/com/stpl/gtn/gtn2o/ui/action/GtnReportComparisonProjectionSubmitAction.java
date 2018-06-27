@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -37,7 +38,7 @@ public class GtnReportComparisonProjectionSubmitAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		GtnReportComparisonProjectionBean comparisonProjectionBean;
-		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList= new ArrayList<>();
+		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = new ArrayList<>();
 		GtnUIFrameworkBaseComponent selectedGrid = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getActionParameterList().get(1).toString());
 		PagedGrid pagedGrid = (PagedGrid) selectedGrid.getComponentData().getCustomData();
@@ -45,7 +46,7 @@ public class GtnReportComparisonProjectionSubmitAction
 		if (grid.getDataProvider() instanceof ListDataProvider) {
 			ListDataProvider<GtnWsRecordBean> selectedTableItems = (ListDataProvider<GtnWsRecordBean>) grid
 					.getDataProvider();
-			List<GtnWsRecordBean> selectedRecords = (List<GtnWsRecordBean>) selectedTableItems.getItems(); 
+			List<GtnWsRecordBean> selectedRecords = (List<GtnWsRecordBean>) selectedTableItems.getItems();
 			for (GtnWsRecordBean recordBean : selectedRecords) {
 				comparisonProjectionBean = new GtnReportComparisonProjectionBean();
 				comparisonProjectionBean
@@ -69,6 +70,7 @@ public class GtnReportComparisonProjectionSubmitAction
 					.getVaadinBaseComponentFromParent(
 							gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString(), componentId)
 					.getComponentData();
+			Collections.sort(comparisonProjectionBeanList, new GtnReportComparisonProjectionBean());
 			idComponentData.setCustomData(comparisonProjectionBeanList);
 			String displayValue = getRecordDisplayValue(selectedRecords);
 
@@ -83,26 +85,27 @@ public class GtnReportComparisonProjectionSubmitAction
 			alertAction.addActionParameter("No Data is available to submit");
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);
 		}
-		int initialCapacity= 3+ comparisonProjectionBeanList.size();
-		List<String> inputForComparisonBasisList = new ArrayList<>(initialCapacity);
-                inputForComparisonBasisList.add("Actuals");
-		inputForComparisonBasisList.add("Accruals");
-		inputForComparisonBasisList.add("Projections");
-                comparisonProjectionBeanList.stream().forEach((comparisonProjectionBeans) -> {
-                inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
-                });
-                List idList=IntStream.range(0, initialCapacity).boxed().collect(Collectors.toList());
+	
 		if(componentId.equals("dashboardComparisonLookup_submitButton")) {
-		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponentFromParent("reportingDashboard_displaySelectionTabComparisonBasis", componentId).getComponentConfig()
-                .getGtnComboboxConfig();
-		comparisonBasisComboboxConfig.setItemCaptionValues(inputForComparisonBasisList);
-		comparisonBasisComboboxConfig.setItemValues(idList);
-		
-		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
-        combobox.reloadComponentFromParent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-                "reportingDashboard_displaySelectionTabComparisonBasis", componentId,
-                Arrays.asList(""));
+                    int initialCapacity = 3 + comparisonProjectionBeanList.size();
+                    List<String> inputForComparisonBasisList = new ArrayList<>(initialCapacity);
+                    inputForComparisonBasisList.add("Actuals");
+                    inputForComparisonBasisList.add("Accruals");
+                    inputForComparisonBasisList.add("Projections");
+                    comparisonProjectionBeanList.stream().forEach((comparisonProjectionBeans) -> {
+                        inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
+                    });
+                    List idList = IntStream.range(0, initialCapacity).boxed().collect(Collectors.toList());
+                    GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
+                            .getVaadinBaseComponentFromParent("reportingDashboard_displaySelectionTabComparisonBasis", componentId).getComponentConfig()
+                            .getGtnComboboxConfig();
+                    comparisonBasisComboboxConfig.setItemCaptionValues(inputForComparisonBasisList);
+                    comparisonBasisComboboxConfig.setItemValues(idList);
+
+                    GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
+                    combobox.reloadComponentFromParent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+                            "reportingDashboard_displaySelectionTabComparisonBasis", componentId,
+                            Arrays.asList(""));
 		}
 	}
 
@@ -114,9 +117,6 @@ public class GtnReportComparisonProjectionSubmitAction
 		}
 	}
 
-	
-	
-	
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		return this;

@@ -115,15 +115,19 @@ public class CustomExcelNM extends ExcelExport {
                 Double cellValue = d;
                 cellValue = getCellValue(propId, d, cellValue);
                 sheetCell.setCellValue(cellValue);
-                if(!isCustom){
-                formatForCurrencyAndDecimal(propId, sheetCell, rootItemId);
-                }else{
-                formatForCurrencyAndDecimalCustom(propId, sheetCell, rootItemId);  
-                }
+                formatForCurrency(propId, sheetCell, rootItemId);
 
             } else {
                 nonFormatter(value, prop, sheetCell);
             }
+        }
+    }
+
+    private void formatForCurrency(Object propId, Cell sheetCell, final Object rootItemId) throws FormulaParseException {
+        if(!isCustom){
+            formatForCurrencyAndDecimal(propId, sheetCell, rootItemId);
+        }else{
+            formatForCurrencyAndDecimalCustom(propId, sheetCell, rootItemId);
         }
     }
 
