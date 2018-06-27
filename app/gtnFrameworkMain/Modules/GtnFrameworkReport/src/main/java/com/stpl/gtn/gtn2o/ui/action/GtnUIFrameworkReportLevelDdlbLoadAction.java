@@ -6,11 +6,14 @@
 
 package com.stpl.gtn.gtn2o.ui.action;
 
+import java.util.ArrayList;
+
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.customview.constants.GtnWsCustomViewConstants;
@@ -19,7 +22,6 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import java.util.ArrayList;
 
 /**
  *
@@ -55,10 +57,15 @@ public class GtnUIFrameworkReportLevelDdlbLoadAction implements GtnUIFrameWorkAc
                 .getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE,componentId)
                 .addAllItemsToComboBox(new ArrayList<>(comboBoxResponse.getItemValueList()), new ArrayList<>(comboBoxResponse.getItemCodeList()));
            long count=comboBoxResponse.getItemValueList().stream().filter(str -> str.toLowerCase().contains("variable")).count();
-            GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponent(GtnFrameworkReportStringConstants.RD_EXPAND_BUTTON, componentId).setComponentEnable(count == 0);
-             GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponent(GtnFrameworkReportStringConstants.RD_COLLPSE_BUTTON, componentId).setComponentEnable(count == 0);
+         
+           if(count==0) {
+           GtnUIFrameworkBaseComponent expandButtonBaseComponent =  GtnUIFrameworkGlobalUI
+           .getVaadinBaseComponent(GtnFrameworkReportStringConstants.RD_EXPAND_BUTTON, componentId);
+           GtnUIFrameworkBaseComponent collapseButtonBaseComponent  = GtnUIFrameworkGlobalUI
+           .getVaadinBaseComponent(GtnFrameworkReportStringConstants.RD_COLLPSE_BUTTON, componentId);
+           expandButtonBaseComponent.setComponentEnable(count == 0);
+           collapseButtonBaseComponent.setComponentEnable(count == 0);
+           }
         }
     }
 
