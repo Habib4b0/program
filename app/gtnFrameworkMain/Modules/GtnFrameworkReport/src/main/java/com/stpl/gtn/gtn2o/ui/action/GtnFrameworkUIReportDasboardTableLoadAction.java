@@ -5,7 +5,6 @@
  */
 package com.stpl.gtn.gtn2o.ui.action;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +66,7 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 		List<Object> deductionInclusion = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(3).toString(), componentId).getSelectedListFromV8MultiSelect();
 		dashBoardBean.setDeductionInclusion(
-				salesInclusion.size() == 1 ? Integer.parseInt(deductionInclusion.get(0).toString()) - 1 : -1);
+				deductionInclusion.size() == 1 ? Integer.parseInt(deductionInclusion.get(0).toString()) - 1 : -1);
 		String annualTotalValue = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabAnnualTotals", componentId)
 				.getCaptionFromV8ComboBox();
@@ -158,12 +157,7 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 			List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
 		boolean dsComparison = Optional.ofNullable(dataselectionComparisonProjectionBeanList).isPresent();
 		boolean rdComparison = Optional.ofNullable(comparisonProjectionBeanList).isPresent();
-		if (!rdComparison) {
-			return false;
-		}
 		if (dataselectionComparisonProjectionBeanList != null && comparisonProjectionBeanList != null) {
-			Collections.sort(dataselectionComparisonProjectionBeanList, new GtnReportComparisonProjectionBean());
-			Collections.sort(comparisonProjectionBeanList, new GtnReportComparisonProjectionBean());
 			return checkBothComparisonList(dataselectionComparisonProjectionBeanList, comparisonProjectionBeanList);
 		} else if ((dsComparison && !rdComparison) || (!dsComparison && rdComparison)) {
 			return true;

@@ -2653,8 +2653,8 @@ public class FileManagementLookup extends Window {
 
 	public void setTableDefaultConfig(ExtPagedTable resultsTable) {
 
-		resultsTable.setVisibleColumns(CommonUIUtil.getFILE_MGMT_LOOKUP_RESULT_COLUMNS());
-		resultsTable.setColumnHeaders(CommonUIUtil.getFILE_MGMT_LOOKUP_RESULT_HEADER());
+		resultsTable.setVisibleColumns(CommonUIUtil.getfileMgmtLookupResultColumns());
+		resultsTable.setColumnHeaders(CommonUIUtil.getfileMgmtLookupResultHeader());
 		resultsTable.markAsDirtyRecursive();
 		resultsTable.setImmediate(true);
 		resultsTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -2812,23 +2812,23 @@ public class FileManagementLookup extends Window {
 
 		    resultsTable.removeAllItems();
                     if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-                        resultsTable.setVisibleColumns(CommonUIUtil.getFILE_MGMT_LOOKUP_DETAILS_COLUMNS());
-                        resultsTable.setColumnHeaders(CommonUIUtil.getFILE_MGMT_DETAILS_LOOKUP_HEADER());
+                        resultsTable.setVisibleColumns(CommonUIUtil.getfileMgmtLookupDetailsColumns());
+                        resultsTable.setColumnHeaders(CommonUIUtil.getfileMgmtDetailsLookupHeader());
                     } else if (fileType.equals(ConstantsUtils.DEMAND)) {
-                        resultsTable.setVisibleColumns(CommonUIUtil.getFILE_MGMT_LOOKUP_DEMAND_DETAILS_COLUMNS());
-                        resultsTable.setColumnHeaders(CommonUIUtil.getFILE_MGT_LOOKUP_DEMAND_DETAILS_HEADER());
+                        resultsTable.setVisibleColumns(CommonUIUtil.getfileMgmtLookupDemandDetailsColumns());
+                        resultsTable.setColumnHeaders(CommonUIUtil.getfileMgtLookupDemandDetailsHeader());
                     } else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-                        resultsTable.setVisibleColumns(CommonUIUtil.getFILE_MGT_LOOKUP_ADJUSTED_DEMAND_DETAILS_COLUMNS());
-                        resultsTable.setColumnHeaders(CommonUIUtil.getFILE_MGT_LOOKUP_ADJUSTED_DEMAND_DETAILS_HEADER());
+                        resultsTable.setVisibleColumns(CommonUIUtil.getfileMgtLookupAdjustedDemandDetailsColumns());
+                        resultsTable.setColumnHeaders(CommonUIUtil.getfileMgtLookupAdjustedDemandDetailsHeader());
                     } else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-                        resultsTable.setVisibleColumns(CommonUIUtil.getFILE_MGMT_LOOKUP_INVENTORY_DETAILA_SUMMARY_COLUMNS());
-                        resultsTable.setColumnHeaders(CommonUIUtil.getFILE_MGMT_LOOKUP_INVENTORY_DETAILS_SUMMARY_HEADERS());
+                        resultsTable.setVisibleColumns(CommonUIUtil.getfileMgmtLookupInventoryDetailsSummaryColumns());
+                        resultsTable.setColumnHeaders(CommonUIUtil.getfileMgmtLookupInventoryDetailsSummaryHeaders());
                     } else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-                        resultsTable.setVisibleColumns(CommonUIUtil.getFILE_MGMT_LOOKUP_INVENTORY_DETAILS_COLUMNS());
-                        resultsTable.setColumnHeaders(CommonUIUtil.getFILE_MGMT_LOOKUP_INVENTORY_DETAILS_HEADER());
+                        resultsTable.setVisibleColumns(CommonUIUtil.getfileMgmtLookupInventoryDetailsColumns());
+                        resultsTable.setColumnHeaders(CommonUIUtil.getfileMgmtLookupInventoryDetailsHeader());
                     } else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
-                        resultsTable.setVisibleColumns(CommonUIUtil.getFILE_MGMT_LOOKUP_CUSTOMER_COLUMNS());
-                        resultsTable.setColumnHeaders(CommonUIUtil.getFILE_MGMT_LOOKUP_CUSTOMER_HEADER());
+                        resultsTable.setVisibleColumns(CommonUIUtil.getfileMgmtLookupCustomerColumns());
+                        resultsTable.setColumnHeaders(CommonUIUtil.getfileMgmtLookupCustomerHeader());
                         resultsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 					@Override
 					@SuppressWarnings("PMD")
@@ -2871,8 +2871,8 @@ public class FileManagementLookup extends Window {
 		tableLayout.addComponent(excelTable);
 		excelTable.setVisible(false);
 		excelTable.setContainerDataSource(excelTableBean);
-		excelTable.setVisibleColumns(CommonUIUtil.getFILE_MGMT_LOOKUP_RESULT_COLUMNS());
-		excelTable.setColumnHeaders(CommonUIUtil.getFILE_MGMT_LOOKUP_RESULT_HEADER());
+		excelTable.setVisibleColumns(CommonUIUtil.getfileMgmtLookupResultColumns());
+		excelTable.setColumnHeaders(CommonUIUtil.getfileMgmtLookupResultHeader());
 		excelTable.markAsDirtyRecursive();
 	}
 
@@ -2899,19 +2899,19 @@ public class FileManagementLookup extends Window {
 	private String[] configureExcelDetailsTable() {
 		String[] bcpHeader;
 		if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.EX_FACTORY_SALES)) {
-			bcpHeader = CommonUIUtil.getEXCEL_FILEMGT_LOOKUP_DETAILS_HEADER();
+			bcpHeader = CommonUIUtil.getexcelFileMgtLookupDetailsHeader();
 		} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.DEMAND)) {
-			bcpHeader = CommonUIUtil.getEXCEL_FILEMGT_LOOKUP_DEMAND_DETAILS_HEADER();
+			bcpHeader = CommonUIUtil.getexcelFileMgtLookupDemandDetailsHeader();
 		} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-			bcpHeader = CommonUIUtil.getEXCEL_FILEMGT_LOOKUP_ADJUSTED_DEMAND_DETAILS_HEADER();
+			bcpHeader = CommonUIUtil.getexcelFileMgtLookupAdjustedDemandDetailsHeader();
 		} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription()
 				.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-			bcpHeader = CommonUIUtil.getEXCEL_FILEMGT_LOOKUP_INVENTORY_SUMMARY_HEADER();
+			bcpHeader = CommonUIUtil.getexcelFilemgtLookupInventorySummaryHeader();
 		} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription()
 				.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-			bcpHeader = CommonUIUtil.getEXCEL_FILEMGT_LOOKUP_INVENTORY_DETAILS_HEADER();
+			bcpHeader = CommonUIUtil.getexcelFileMgtLookupInventoryDetailsHeader();
 		} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.CUSTOMERGTS)) {
-			bcpHeader = CommonUIUtil.getFILE_MGMT_LOOKUP_CUSTOMER_HEADER();
+			bcpHeader = CommonUIUtil.getfileMgmtLookupCustomerHeader();
 		} else {
 			bcpHeader = new String[1];
 		}

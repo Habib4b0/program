@@ -45,7 +45,13 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 
 		GtnWsReportDashboardBean reportDashBoardBean = new GtnWsReportDashboardBean();
 
+		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getComponentData()
+				.getViewId();
+		GtnWsReportDataSelectionBean dataSelectionBean = ((GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData());
+
 		gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().setGtnWsReportDashboardBean(reportDashBoardBean);
+		gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().setDataSelectionBean(dataSelectionBean);
 
 		String[] selectedVariable = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabVariable", componentId)
@@ -87,7 +93,8 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 			GtnUIFrameworkBaseComponent dataslectionFrom = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId);
 			reportDashBoardBean.setPeriodRangeFromSid(dataslectionFrom.getIntegerFromV8ComboBox());
-			reportDashBoardBean.setPeriodStart(dataslectionFrom.getStringCaptionFromV8ComboBox().replaceAll(" - ", " "));
+			reportDashBoardBean
+					.setPeriodStart(dataslectionFrom.getStringCaptionFromV8ComboBox().replaceAll(" - ", " "));
 		}
 
 		reportDashBoardBean.setPeriodRangeToSid(periodToComponent.getIntegerFromV8ComboBox());

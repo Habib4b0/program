@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.module.lookups.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -31,6 +32,9 @@ public class GtnReportingComparisonBreakdownHeaderLoadAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		
+		String finalFromPeriod = null;
+		String finalToPeriod = null;
 		List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String variableBreakdownTableId = actionParameterList.get(0).toString();
 
@@ -41,15 +45,24 @@ public class GtnReportingComparisonBreakdownHeaderLoadAction
 		String fromPeriod = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParameterList.get(1).toString(), componentId)
 				.getStringCaptionFromV8ComboBox();
-		String[] finalFromPeriodArray = fromPeriod.split(" ");
-
-		String finalFromPeriod = finalFromPeriodArray[0] + "-" + finalFromPeriodArray[1];
-
+		
 		String toPeriod = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId)
 				.getStringCaptionFromV8ComboBox();
+		
+		if(!Pattern.matches("[0-9]{4}",fromPeriod ) && !Pattern.matches("[0-9]{4}",toPeriod) ) {
+		String[] finalFromPeriodArray = fromPeriod.split(" ");
+
+		finalFromPeriod = finalFromPeriodArray[0] + "-" + finalFromPeriodArray[1];
+		
 		String[] finalToPeriodArray = toPeriod.split(" ");
-		String finalToPeriod = finalToPeriodArray[0] + "-" + finalToPeriodArray[1];
+		
+		finalToPeriod = finalToPeriodArray[0] + "-" + finalToPeriodArray[1];
+		}
+		else {
+			finalFromPeriod = fromPeriod;
+			finalToPeriod = toPeriod;
+		}
 
 		String frequency = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParameterList.get(3).toString(), componentId)

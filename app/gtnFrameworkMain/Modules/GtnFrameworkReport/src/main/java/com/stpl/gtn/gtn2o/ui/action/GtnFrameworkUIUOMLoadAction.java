@@ -45,12 +45,13 @@ public class GtnFrameworkUIUOMLoadAction
 		if (response != null) {
 			GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = response
 					.getGtnUIFrameworkWebserviceComboBoxResponse();
-			if (comboBoxResponse != null) {
+
+				if(comboBoxResponse != null && !comboBoxResponse.getItemCodeList().isEmpty() || !comboBoxResponse.getItemValueList().isEmpty())
 				GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(
 								String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)), componentId)
 						.addAllItemsToComboBox(comboBoxResponse.getItemValueList(), comboBoxResponse.getItemCodeList());
-			}
+			
 		}
 	}
 
