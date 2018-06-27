@@ -6,7 +6,6 @@
 package com.stpl.gtn.gtn2o.ui.customview.config;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
-import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVDeleteAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnUIFrameworkCVDeleteConfirmationAction;
 import com.stpl.gtn.gtn2o.ui.customview.constants.GtnFrameworkCVConstants;
@@ -201,7 +200,7 @@ public class GtnFrameworkCVLandingScreenConfig {
         relationshipTypeConfig.setValuesFromService(false);
         relationshipTypeConfig.setItemValues(Arrays.asList("Sales", "Discount"));
 
-        customViewTypeOptionGroup.setComponentStyle(Arrays.asList(new String[]{"horizontal"}));
+        customViewTypeOptionGroup.setComponentStyle(Arrays.asList("horizontal"));
         customViewTypeOptionGroup.setGtnUIFrameworkOptionGroupConfig(relationshipTypeConfig);
 
         componentList.add(customViewTypeOptionGroup);
@@ -286,11 +285,11 @@ public class GtnFrameworkCVLandingScreenConfig {
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
 		loadDataTableActionConfig.addActionParameter(  GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE);
 		loadDataTableActionConfig.setFieldValues(Arrays.asList(
-				            new String[]{  GtnFrameworkCommonConstants.TREE_VIEW_NAME,
+				              GtnFrameworkCommonConstants.TREE_VIEW_NAME,
                       GtnFrameworkCommonConstants.CUTOMER_RELATION,
                       GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION,
                       GtnFrameworkCommonConstants.PRODUCT_RELATION,
-                      GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE}));
+                      GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE));
 	searchActionConfigList.add(loadDataTableActionConfig);
         GtnUIFrameWorkActionConfig notificationActionConfig = new GtnUIFrameWorkActionConfig();
         notificationActionConfig.setActionType(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
@@ -320,16 +319,16 @@ public class GtnFrameworkCVLandingScreenConfig {
         paramsList.add("Confirmation");
         paramsList.add(GtnFrameworkCVConstants.GTN_CUSTOM_VIEW_SEARCH_CRITERIA_RESET_VALIDATION);
         paramsList.add(Arrays.asList(
-                new String[]{  GtnFrameworkCommonConstants.TREE_VIEW_NAME,
+                 GtnFrameworkCommonConstants.TREE_VIEW_NAME,
                       GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION,
                       GtnFrameworkCommonConstants.CUTOMER_RELATION,
                       GtnFrameworkCommonConstants.PRODUCT_RELATION,
                       GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE
-                }));
+                ));
 
-        paramsList.add(Arrays.asList(new Object[]{GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+        paramsList.add(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
             null, null, GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-            null}));
+            null));
 
         resetActionConfig.setActionParameterList(paramsList);
         resetActionConfigList.add(resetActionConfig);
