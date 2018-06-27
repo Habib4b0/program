@@ -60,7 +60,12 @@ public class GtnFrameworkUIReportGenerateRequestAction
 		List<GtnReportComparisonProjectionBean> selectedProj = (List<GtnReportComparisonProjectionBean>) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboardTab_reportingDashboardComparisonConfig", componentId)
 				.getComponentData().getCustomData();
-
+               GtnUIFrameworkBaseComponent comparisonBasis= GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis", componentId);
+                int id=comparisonBasis.getIntegerFromV8ComboBox();
+                String comparisonBasisValue=id >2 ? "Projection_"+(id-2):comparisonBasis.getStringCaptionFromV8ComboBox();
+                
+                reportDashBoardBean.setComparisonBasis(comparisonBasisValue);
 		reportDashBoardBean.setPeriodRangeFromSid(perioFromComponent.getIntegerFromV8ComboBox());
 
 		if (reportDashBoardBean.getPeriodRangeFromSid() != 0) {

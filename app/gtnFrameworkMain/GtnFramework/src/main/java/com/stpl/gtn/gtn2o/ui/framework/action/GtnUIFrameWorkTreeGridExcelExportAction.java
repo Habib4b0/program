@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -69,9 +70,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 				.getVaadinComponentData(inputBean.getExportTableId(), componentId);
          PagedTreeGrid treeGrid = (PagedTreeGrid) componentData.getCustomData();
         List<Object> propertyIds = new LinkedList<>(treeGrid.getTableConfig().getVisibleColumns());
-//        propertyIds.addAll(Arrays.asList(treeGrid.getTableConfig().getRightTableColumnMappingId()));
         List<String> headers = new LinkedList<>(treeGrid.getTableConfig().getColumnHeaders());
-//        headers.addAll(Arrays.asList(treeGrid.getTableConfig().getRightTableVisibleHeader()));
         excludeColumnList(inputBean, propertyIds, headers);
 
         if (propertyIds.size() < 255) {
@@ -186,12 +185,12 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
      * @param sheet
      * @param resultList
      */
-    private void groupRowsForTreeTable(HSSFSheet sheet, List<GtnWsRecordBean> resultList, boolean collapse) {
+    private void groupRowsForTreeTable(HSSFSheet sheet, List<GtnWsRecordBean> resultList, boolean collapseNeeeded) {
         int start = 0;
         for (GtnWsRecordBean bean : resultList) {
             if (GridUtils.hasChildren(bean)) {
                 int end = GridUtils.getChildCount(bean);
-                groupExcelRow(sheet, start++, start + end, false);
+                groupExcelRow(sheet, start++, start + end, collapseNeeeded);
             }
         }
     }
@@ -297,8 +296,9 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
 
     private int createDataRows(HSSFSheet sheet, List<Object> propertyIds, HSSFWorkbook workBook, PagedTreeGrid resultTable,
             GtnUIFrameworkExcelButtonConfig inputBean) {
-        List<GtnWsRecordBean> resultList = resultTable.fetchAll();
-        int count = resultList.size();
+        List<GtnWsRecordBean> resultList = resultTable.fetchAll().stream().
+                sorted((u,v)  -> GridUtils.getHierarchyNo(u).compareTo(GridUtils.getHierarchyNo(v))).collect(Collectors.toList());
+        int count = 0;
         CellStyle defaultDataCellStyle = defaultDataCellStyle(workBook);
         for (GtnWsRecordBean resultDTO : resultList) {
             Row row = sheet.createRow(count++);

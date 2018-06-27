@@ -84,7 +84,7 @@ public class GtnWsReportRightTableLoadDataService {
 				deductionInclusion == -1 ? "NULL" : String.valueOf(deductionInclusion));
 		String ccpFilter = "NULL";
 		if (dashboardBean.getCcpDetailsSidList() != null && !dashboardBean.getCcpDetailsSidList().isEmpty()) {
-			ccpFilter = String.join(",", dashboardBean.getCcpDetailsSidList().stream().toArray(String[]::new));
+			ccpFilter = String.join(",", dashboardBean.getCcpDetailsSidList().stream().map(String::valueOf).toArray(String[]::new));
 		}
 		procedure = procedure.replaceAll(":ccpComp:", ccpFilter);
 		String comparisonBasis = dashboardBean.getComparisonBasis().isEmpty() ? "NULL"

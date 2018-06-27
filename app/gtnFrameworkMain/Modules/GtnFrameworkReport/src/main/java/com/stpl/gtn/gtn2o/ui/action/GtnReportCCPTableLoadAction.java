@@ -42,6 +42,8 @@ import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class GtnReportCCPTableLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -94,12 +96,13 @@ public class GtnReportCCPTableLoadAction
 				inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
 			}
 		});
+                List idList=IntStream.range(0, initialCapacity).boxed().collect(Collectors.toList());
 		
 		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromChild("reportingDashboard_displaySelectionTabComparisonBasis", componentId)
 				.getComponentConfig().getGtnComboboxConfig();
 		comparisonBasisComboboxConfig.setItemCaptionValues(inputForComparisonBasisList);
-		comparisonBasisComboboxConfig.setItemValues(inputForComparisonBasisList);
+		comparisonBasisComboboxConfig.setItemValues(idList);
 
 		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
 		combobox.reloadComponentFromChild(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
