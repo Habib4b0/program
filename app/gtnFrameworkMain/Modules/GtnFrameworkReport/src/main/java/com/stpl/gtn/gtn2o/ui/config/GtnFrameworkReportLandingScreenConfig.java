@@ -92,11 +92,12 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 	private void addLandingScreenFrequencyComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
+		
 		GtnUIFrameworkComponentConfig landingScreenVariableBreakdownFrequencyLayoutConfig = layoutsConfig
 				.getHorizontalLayoutConfig("variableBreakdownFrequencyLayoutConfig",
 						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 								+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
-
+		landingScreenVariableBreakdownFrequencyLayoutConfig.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_18_PX);
 		GtnUIFrameworkComponentConfig landingScreenVariableBreakdownFrequencyConfig = new GtnUIFrameworkComponentConfig();
 		landingScreenVariableBreakdownFrequencyConfig.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		landingScreenVariableBreakdownFrequencyConfig.setComponentId(namespace
@@ -119,12 +120,15 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 	private void addLandingScreenComparisonComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
+		GtnUIFrameworkComponentConfig hierarchyLayout = configProvider.getHorizontalLayoutConfig("comparisonHierarchyLayout",
+				true, namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
+		hierarchyLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_18_PX);
+		componentList.add(hierarchyLayout);
 		GtnUIFrameworkComponentConfig landingScreenVariableComparisonConfig = configProvider
 				.getUIFrameworkComponentConfig(
 						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportingDashboardComparisonConfig",
-						true,
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT,
+						true,"comparisonHierarchyLayout",
 						GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		landingScreenVariableComparisonConfig.setAuthorizationIncluded(true);
 		landingScreenVariableComparisonConfig.setComponentName("Comparison: ");
@@ -154,6 +158,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT, true,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
+		landingScreenComparisonGtnLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_18_PX);
 		componentList.add(landingScreenComparisonGtnLayout);
 
 		GtnUIFrameworkComponentConfig landingScreenComparisonVariableConfig = configProvider
@@ -339,7 +344,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		Object privateViewLookup = "Private View";
 		GtnUIFrameWorkActionConfig conf = new GtnUIFrameWorkActionConfig();
 		conf.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		conf.setActionParameterList(Arrays.asList("privateViewSearchLookupView", privateViewLookup, "795", "875"));
+		conf.setActionParameterList(Arrays.asList("privateViewSearchLookupView", privateViewLookup, "800", "920"));
 		list.add(conf);
 
 		privateView.setGtnUIFrameWorkActionConfigList(list);
@@ -418,7 +423,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameWorkActionConfig publicViewActionConfig = new GtnUIFrameWorkActionConfig();
 		publicViewActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		publicViewActionConfig
-				.setActionParameterList(Arrays.asList("publicViewSearchLookupView", publicViewLookup, "795", "875"));
+				.setActionParameterList(Arrays.asList("publicViewSearchLookupView", publicViewLookup, "800", "920"));
 		publicViewActionConfigList.add(publicViewActionConfig);
 
 		GtnUIFrameWorkActionConfig publicViewDisableAction = new GtnUIFrameWorkActionConfig();
@@ -641,6 +646,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.addActionParameter("reportLandingScreen_toPeriod");
 		generateAction.addActionParameter("reportLandingScreen_STATUS");
 		generateAction.addActionParameter("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent");
+		generateAction.addActionParameter("reportLandingScreen_displaySelectionTabVariable");	
 		actionList.add(generateAction);
 
 		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);

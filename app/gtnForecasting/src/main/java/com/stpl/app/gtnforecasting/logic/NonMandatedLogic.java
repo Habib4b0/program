@@ -1465,11 +1465,9 @@ public class NonMandatedLogic {
         customSql = customSql.replace("@CREATED_DATE", hoursMinutes.format(new Date()));
         customSql = customSql.replace("@MODIFIED_DATE", hoursMinutes.format(new Date()));
 
-        customSql = customSql.replace("@CUSTOMER_HIERARCHY_SID", dataSelectionDTO.getCustomerHierSid().equals(DASH) ? null
-                : String.valueOf(dataSelectionDTO.getCustomerHierSid()));
-        customSql = customSql.replace("@PRODUCT_HIERARCHY_SID", dataSelectionDTO.getProdHierSid().equals(DASH) ? null
-                : String.valueOf(dataSelectionDTO.getProdHierSid()));
-
+        customSql = customSql.replace("@CUSTOMER_HIERARCHY_SID",getValue(dataSelectionDTO.getCustomerHierSid(),null));
+        customSql = customSql.replace("@PRODUCT_HIERARCHY_SID",  getValue(dataSelectionDTO.getProdHierSid(),null));
+                
         customSql = customSql.replace("@CUSTOMER_HIERARCHY_LEVEL", dataSelectionDTO.getCustomerHierarchyLevel());
         customSql = customSql.replace("@PRODUCT_HIERARCHY_LEVEL", dataSelectionDTO.getProductHierarchyLevel());
         customSql = customSql.replace("@CUSTOMER_HIERARCHY_INNER_LEVEL", dataSelectionDTO.getCustomerHierarchyInnerLevel());
@@ -1477,20 +1475,15 @@ public class NonMandatedLogic {
 
         customSql = customSql.replace("@CUSTOMER_HIER_VERSION_NO", String.valueOf(dataSelectionDTO.getCustomerHierVersionNo()));
         customSql = customSql.replace("@PRODUCT_HIER_VERSION_NO", String.valueOf(dataSelectionDTO.getProductHierVersionNo()));
-        customSql = customSql.replace("@COMPANY_GROUP_SID", dataSelectionDTO.getCustomerGrpSid().equals(DASH) ? "null"
-                : String.valueOf(dataSelectionDTO.getCustomerGrpSid()));
-        customSql = customSql.replace("@ITEM_GROUP_SID", dataSelectionDTO.getProdGrpSid().equals(DASH) ? "null"
-                : String.valueOf(dataSelectionDTO.getProdGrpSid()));
+        customSql = customSql.replace("@COMPANY_GROUP_SID", getValue(dataSelectionDTO.getCustomerGrpSid(), Constant.NULL));
+        customSql = customSql.replace("@ITEM_GROUP_SID",getValue(dataSelectionDTO.getProdGrpSid(),Constant.NULL));
 
-        customSql = customSql.replace("@COMPANY_MASTER_SID", dataSelectionDTO.getCompanySid().equals(DASH) ? "null"
-                : String.valueOf(dataSelectionDTO.getCompanySid()));
+        customSql = customSql.replace("@COMPANY_MASTER_SID",getValue( dataSelectionDTO.getCompanySid(),Constant.NULL));
         customSql = customSql.replace("@FROM_DATE", DBDate.format(dataSelectionDTO.getFromDate()));
         customSql = customSql.replace("@TO_DATE", DBDate.format(dataSelectionDTO.getToDate()));
 
-        customSql = customSql.replace("@CUST_RELATIONSHIP_BUILDER_SID", dataSelectionDTO.getCustRelationshipBuilderSid().equals(DASH)
-                ? "0" : String.valueOf(dataSelectionDTO.getCustRelationshipBuilderSid()));
-        customSql = customSql.replace("@PROD_RELATIONSHIP_BUILDER_SID", dataSelectionDTO.getProdRelationshipBuilderSid().equals(DASH)
-                ? "0" : String.valueOf(dataSelectionDTO.getProdRelationshipBuilderSid()));
+        customSql = customSql.replace("@CUST_RELATIONSHIP_BUILDER_SID", getValue(dataSelectionDTO.getCustRelationshipBuilderSid(),Constant.ZERO_STRING));
+        customSql = customSql.replace("@PROD_RELATIONSHIP_BUILDER_SID",getValue(dataSelectionDTO.getProdRelationshipBuilderSid(),Constant.ZERO_STRING));
         customSql = customSql.replace("@DISCOUNT_TYPE", String.valueOf(dataSelectionDTO.getDiscountSid()));
         customSql = customSql.replace("@BUSINESS_UNIT", dataSelectionDTO.getBusinessUnitSystemId() + "");
         customSql = customSql.replace("@PROJECTION_CUST_VERSION", dataSelectionDTO.getCustomerRelationShipVersionNo() + StringUtils.EMPTY);
@@ -1527,7 +1520,7 @@ public class NonMandatedLogic {
         }
 
     }
-
+    
 	public Object[] deductionRelationBuilderId(String prdRelSid) {
 		List<String> input = new ArrayList<>();
 		input.add(prdRelSid);
@@ -2730,5 +2723,8 @@ public class NonMandatedLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery,session.getCurrentTableNames()));
        
         }
+    private String getValue(String value, String defaultValue) {
+        return value.equals(DASH) ? defaultValue : value;
+    }
  
 }

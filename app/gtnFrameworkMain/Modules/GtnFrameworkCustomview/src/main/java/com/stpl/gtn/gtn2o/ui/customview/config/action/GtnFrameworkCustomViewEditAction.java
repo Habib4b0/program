@@ -137,6 +137,7 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
         GtnWsCustomViewRequest cvRequest = new GtnWsCustomViewRequest();
         cvRequest.setCustomViewType(viewType);
         cvRequest.setCvSysId(customSid);
+        cvRequest.setCustomViewType("");
         generalRequest.setGtnWsCustomViewRequest(cvRequest);
 
         GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
