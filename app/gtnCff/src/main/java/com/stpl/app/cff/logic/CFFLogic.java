@@ -89,6 +89,8 @@ public class CFFLogic {
     private static final CFFDAO DAO = CFFDAOImpl.getInstance();
     private static Map<String, String> userMap = new HashMap<>();
     private final DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
+    public static final String LATEST_ESTIMATE_PROPERTY = "latestEstimate"; 
+    public static final String UPDATE_CYCLE_PROPERTY = "updateCycle";
 
     /**
      * Gets latest approved CCP Projection
@@ -190,15 +192,15 @@ public class CFFLogic {
         String cffName = "";
         String cffType = "";
         String cffMasterSid = String.valueOf(VaadinSession.getCurrent().getAttribute(StringConstantsUtil.PROJECTION_ID));
-        if (!ConstantsUtils.NO.equals(String.valueOf(valueMap.get("latestEstimate"))) && !ConstantsUtils.NULL.equals(String.valueOf(valueMap.get("latestEstimate"))) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(valueMap.get("latestEstimate")))) {
+        if (!ConstantsUtils.NO.equals(String.valueOf(valueMap.get(LATEST_ESTIMATE_PROPERTY))) && !ConstantsUtils.NULL.equals(String.valueOf(valueMap.get(LATEST_ESTIMATE_PROPERTY))) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(valueMap.get(LATEST_ESTIMATE_PROPERTY)))) {
             cffName = valueMap.get("latestEstimateName").toString();
             cffType = String.valueOf(CommonUtils.getHelperTableSId(CommonUtils.LATEST_ESTIMATE, CommonUtils.CFF_TYPE));
         }
-        if (!ConstantsUtils.NO.equals(String.valueOf(valueMap.get("updateCycle"))) && !ConstantsUtils.NULL.equals(String.valueOf(valueMap.get("updateCycle"))) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(valueMap.get("updateCycle")))) {
+        if (!ConstantsUtils.NO.equals(String.valueOf(valueMap.get(UPDATE_CYCLE_PROPERTY))) && !ConstantsUtils.NULL.equals(String.valueOf(valueMap.get(UPDATE_CYCLE_PROPERTY))) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(valueMap.get(UPDATE_CYCLE_PROPERTY)))) {
             cffName = valueMap.get("updateCycleName").toString();
             cffType = String.valueOf(CommonUtils.getHelperTableSId(CommonUtils.UPDATE_CYCLE, CommonUtils.CFF_TYPE));
         }
-        if (!ConstantsUtils.NO.equals(String.valueOf(valueMap.get("latestEstimate"))) && !ConstantsUtils.NO.equals(String.valueOf(valueMap.get("updateCycle"))) && !ConstantsUtils.NULL.equals(String.valueOf(valueMap.get("latestEstimate"))) && !ConstantsUtils.NULL.equals(String.valueOf(valueMap.get("updateCycle"))) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(valueMap.get("latestEstimate"))) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(valueMap.get("updateCycle")))) {
+        if (!ConstantsUtils.NO.equals(String.valueOf(valueMap.get(LATEST_ESTIMATE_PROPERTY))) && !ConstantsUtils.NO.equals(String.valueOf(valueMap.get(UPDATE_CYCLE_PROPERTY))) && !ConstantsUtils.NULL.equals(String.valueOf(valueMap.get(LATEST_ESTIMATE_PROPERTY))) && !ConstantsUtils.NULL.equals(String.valueOf(valueMap.get(UPDATE_CYCLE_PROPERTY))) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(valueMap.get(LATEST_ESTIMATE_PROPERTY))) && !ConstantsUtils.SELECT_ONE.equals(String.valueOf(valueMap.get(UPDATE_CYCLE_PROPERTY)))) {
             cffName = valueMap.get("latestEstimateName") + "-" + valueMap.get("updateCycleName");
             cffType = String.valueOf(CommonUtils.getHelperTableSId(CommonUtils.BOTH, CommonUtils.CFF_TYPE));
         }

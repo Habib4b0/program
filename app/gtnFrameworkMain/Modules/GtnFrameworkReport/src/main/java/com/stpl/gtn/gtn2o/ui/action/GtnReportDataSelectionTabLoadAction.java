@@ -7,13 +7,11 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
-import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkHierarchyTreeBuilder;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
-import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
@@ -54,9 +52,8 @@ public class GtnReportDataSelectionTabLoadAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_businessUnit", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getBusinessUnitReport());
 
-			 GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod",
-			 componentId)
-			.loadV8ComboBoxComponentValue(reportDataSelectionBean.getFromPeriodReport());
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId)
+					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getFromPeriodReport());
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_dsTabProjectionName", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getReportDataSource());
@@ -67,23 +64,20 @@ public class GtnReportDataSelectionTabLoadAction
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_customerHierarchy", componentId)
 					.setV8PopupFieldValue(customerRecordBean.getPropertyValueByIndex(0));
-                        
-                        new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-					"dataSelectionTab_displaySelectionTabCustomView", componentId,
-					Arrays.asList(""));
-                        GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabCustomView", componentId)
-					.loadV8ComboBoxComponentValue(String.valueOf(reportDataSelectionBean.getCustomViewMasterSid()));
-                       new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-					"reportingDashboardTab_displaySelectionTabCustomView", componentId,
-					Arrays.asList(""));
-                        GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView", componentId)
-					.loadV8ComboBoxComponentValue(String.valueOf(reportDataSelectionBean.getCustomViewMasterSid()));
-                        
-                       new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-                            GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE, componentId,
-                            Arrays.asList(""));
 
+			new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					"dataSelectionTab_displaySelectionTabCustomView", componentId, Arrays.asList(""));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabCustomView", componentId)
+					.loadV8ComboBoxComponentValue(String.valueOf(reportDataSelectionBean.getCustomViewMasterSid()));
+			new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					"reportingDashboardTab_displaySelectionTabCustomView", componentId, Arrays.asList(""));
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView", componentId)
+					.loadV8ComboBoxComponentValue(String.valueOf(reportDataSelectionBean.getCustomViewMasterSid()));
 
+			new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+					GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE, componentId,
+					Arrays.asList(""));
 			String dsCustomerTableId = "dataSelectionTab_customerDualListBox";
 			AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(dsCustomerTableId,
 					componentId);
@@ -99,13 +93,6 @@ public class GtnReportDataSelectionTabLoadAction
 			gtnUIFrameworkHierarchyTreeBuilder.loadRightTreeTable(rightTable, 1);
 			rightTable.getDataProvider().refreshAll();
 			rightTable.markAsDirty();
-
-			GtnUIFrameworkComponentData productHierarchyData = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId).getComponentData();
-			productHierarchyData.setCustomData(productRecordBean);
-
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId)
-					.setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
 
 			String dsProductTableId = "dataSelectionTab_productdualListBoxComp";
 			AbstractComponent dsProductAbstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent(dsProductTableId,
@@ -188,6 +175,13 @@ public class GtnReportDataSelectionTabLoadAction
 					.loadV8ComboBoxComponentValue(
 							Integer.valueOf(reportDataSelectionBean.getCustomerHierarchyForecastLevel()));
 
+			GtnUIFrameworkComponentData productHierarchyData = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId).getComponentData();
+			productHierarchyData.setCustomData(productRecordBean);
+
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId)
+					.setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
+
 			Integer productHierarchyDefinitionSid = (Integer) productRecordBean
 					.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1);
 
@@ -260,24 +254,38 @@ public class GtnReportDataSelectionTabLoadAction
 					GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_LOAD, reportDataSelectionBean));
 
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
-			
+
 			loadFrequencyInReportingDashboard(componentId);
-			
-			
+
+			loadVariableReportingDashboard(componentId);
+
+			loadForecaseEligibleDateInReportingDashboard(componentId);
 
 		} catch (Exception exception) {
 			logger.error("Error message", exception);
 		}
 	}
 
+	private void loadForecaseEligibleDateInReportingDashboard(String componentId) throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		actionConfig.addActionParameter(GtnReportForecastEligibleDateReloadInReportingDashboardAction.class.getName());
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
+	}
+
 	private void loadFrequencyInReportingDashboard(String componentId) throws GtnFrameworkValidationFailedException {
-		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();	
+		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
 		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
-		GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency",
-						componentId)
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId)
 				.loadV8ComboBoxComponentValue(dataSelectionBean.getFrequency());
+	}
+
+	private void loadVariableReportingDashboard(String componentId) throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		actionConfig.addActionParameter(GtnReportVariableReloadInReportingDashboardAction.class.getName());
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, actionConfig);
 	}
 
 	@Override

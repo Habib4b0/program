@@ -100,15 +100,6 @@ public class GtnReportCCPTableLoadAction
 		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
 		combobox.reloadComponentFromChild(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
 				"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
-
-		String defaultValue = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("reportLandingScreen_displaySelectionTabCustomView")
-				.getStringCaptionFromV8ComboBox();
-
-		if (!defaultValue.contains("Select"))
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromChild("dataSelectionTab_displaySelectionTabCustomView", componentId)
-					.loadV8FieldValue(defaultValue);
 	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
@@ -192,6 +183,8 @@ public class GtnReportCCPTableLoadAction
 				.getIntegerFromV8ComboBox());
 		dto.setFrequencyName(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(18).toString())
 				.getStringCaptionFromV8ComboBox());
+		dto.setVariablesList(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(22).toString())
+				.getSelectedListFromV8MultiSelect());
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);
 		dto.setProductHierarchyRecordBean(productRecordBean);
 		dto.setSelectedCustomerHierarchyList(selectedCustomerList);
@@ -216,7 +209,7 @@ public class GtnReportCCPTableLoadAction
 				dto.setVariableBreakdownSaveList(gtnReportVariableBreakdownLookupBeanList);
 			}
 		}
-
+		
 		return dto;
 	}
 

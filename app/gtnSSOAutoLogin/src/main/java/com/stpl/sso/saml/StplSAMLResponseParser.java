@@ -52,7 +52,7 @@ public class StplSAMLResponseParser {
 		try {
 			DefaultBootstrap.bootstrap();
 		} catch (ConfigurationException exception) {
-			LOGGER.error("Exception in Bootstraping SAML",exception);
+			LOGGER.error("Exception in Bootstraping SAML", exception);
 		}
 	}
 
@@ -64,8 +64,9 @@ public class StplSAMLResponseParser {
 			Response samlResponse = unMarshallSamlResponse(element);
 			return samlResponse;
 		} catch (ParserConfigurationException | SAXException | IOException | UnmarshallingException exception) {
-			LOGGER.error("Exception in  SAML parsing",exception);
+			LOGGER.error("Exception in  SAML parsing", exception);
 		}
+		LOGGER.info("- SAML  Parse error - ");
 		return null;
 
 	}
@@ -73,8 +74,8 @@ public class StplSAMLResponseParser {
 	private Element buildXMLDocument(String base64DecodedResponse)
 			throws ParserConfigurationException, SAXException, IOException {
 		if (StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBean().isLogSamlResponse()) {
-			LOGGER.info("Response - \n\n " + base64DecodedResponse+"\n\n");
-			System.out.println("Response - \n\n " + base64DecodedResponse +"\n\n");
+			LOGGER.info("Response - \n\n " + base64DecodedResponse + "\n\n");
+			System.out.println("Response - \n\n " + base64DecodedResponse + "\n\n");
 		}
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		documentBuilderFactory.setNamespaceAware(true);
@@ -95,6 +96,7 @@ public class StplSAMLResponseParser {
 	public String validateAndGetUser(Response samlResponse) {
 		NameID name = samlResponse.getAssertions().get(0).getSubject().getNameID();
 		if (!validateResponse(samlResponse) && !validateSignature(samlResponse)) {
+			LOGGER.info("Validation failed in SAML parse :: - returning null ");
 			return null;
 		}
 		String value = name.getValue();

@@ -2653,8 +2653,8 @@ public class FileManagementLookup extends Window {
 
 	public void setTableDefaultConfig(ExtPagedTable resultsTable) {
 
-		resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgmtLookupResultColumns);
-		resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgmtLookupResultHeader);
+		resultsTable.setVisibleColumns(CommonUIUtil.getfileMgmtLookupResultColumns());
+		resultsTable.setColumnHeaders(CommonUIUtil.getfileMgmtLookupResultHeader());
 		resultsTable.markAsDirtyRecursive();
 		resultsTable.setImmediate(true);
 		resultsTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -2810,26 +2810,26 @@ public class FileManagementLookup extends Window {
 	public void setDetailsTableDefaultConfig(String fileType, ExtPagedTable resultsTable) {
 		try {
 
-			resultsTable.removeAllItems();
-			if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgmtLookupDetailsColumns);
-				resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgmtDetailsLookupHeader);
-			} else if (fileType.equals(ConstantsUtils.DEMAND)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgmtLookupDemandDetailsColumns);
-				resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupDemandDetailsHeader);
-			} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupAdjustedDemandDetailsColumns);
-				resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupAdjustedDemandDetailsHeader);
-			} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgmtLookupInventoryDetailaSummaryColumns);
-				resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgmtLookupInventoryDetailaSummaryHeaders);
-			} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgmtLookupInventoryDetailsDetailsColumns);
-				resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgmtLookupInventoryDetailsDetailsHeader);
-			} else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgmtLookupCustomerColumns);
-				resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgmtLookupCustomerHeader);
-				resultsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+		    resultsTable.removeAllItems();
+                    if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
+                        resultsTable.setVisibleColumns(CommonUIUtil.getfileMgmtLookupDetailsColumns());
+                        resultsTable.setColumnHeaders(CommonUIUtil.getfileMgmtDetailsLookupHeader());
+                    } else if (fileType.equals(ConstantsUtils.DEMAND)) {
+                        resultsTable.setVisibleColumns(CommonUIUtil.getfileMgmtLookupDemandDetailsColumns());
+                        resultsTable.setColumnHeaders(CommonUIUtil.getfileMgtLookupDemandDetailsHeader());
+                    } else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
+                        resultsTable.setVisibleColumns(CommonUIUtil.getfileMgtLookupAdjustedDemandDetailsColumns());
+                        resultsTable.setColumnHeaders(CommonUIUtil.getfileMgtLookupAdjustedDemandDetailsHeader());
+                    } else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
+                        resultsTable.setVisibleColumns(CommonUIUtil.getfileMgmtLookupInventoryDetailsSummaryColumns());
+                        resultsTable.setColumnHeaders(CommonUIUtil.getfileMgmtLookupInventoryDetailsSummaryHeaders());
+                    } else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
+                        resultsTable.setVisibleColumns(CommonUIUtil.getfileMgmtLookupInventoryDetailsColumns());
+                        resultsTable.setColumnHeaders(CommonUIUtil.getfileMgmtLookupInventoryDetailsHeader());
+                    } else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
+                        resultsTable.setVisibleColumns(CommonUIUtil.getfileMgmtLookupCustomerColumns());
+                        resultsTable.setColumnHeaders(CommonUIUtil.getfileMgmtLookupCustomerHeader());
+                        resultsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 					@Override
 					@SuppressWarnings("PMD")
 					public void itemClick(final ItemClickEvent event) {
@@ -2838,7 +2838,7 @@ public class FileManagementLookup extends Window {
 					}
 				});
 			}
-
+                        
 			resultsTable.markAsDirtyRecursive();
 			resultsTable.setImmediate(true);
 			resultsTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -2871,8 +2871,8 @@ public class FileManagementLookup extends Window {
 		tableLayout.addComponent(excelTable);
 		excelTable.setVisible(false);
 		excelTable.setContainerDataSource(excelTableBean);
-		excelTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgmtLookupResultColumns);
-		excelTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgmtLookupResultHeader);
+		excelTable.setVisibleColumns(CommonUIUtil.getfileMgmtLookupResultColumns());
+		excelTable.setColumnHeaders(CommonUIUtil.getfileMgmtLookupResultHeader());
 		excelTable.markAsDirtyRecursive();
 	}
 
@@ -2899,19 +2899,19 @@ public class FileManagementLookup extends Window {
 	private String[] configureExcelDetailsTable() {
 		String[] bcpHeader;
 		if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.EX_FACTORY_SALES)) {
-			bcpHeader = CommonUIUtil.getInstance().excelFileMgtLookupDetailsHeader;
+			bcpHeader = CommonUIUtil.getexcelFileMgtLookupDetailsHeader();
 		} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.DEMAND)) {
-			bcpHeader = CommonUIUtil.getInstance().excelFileMgtLookupDemandDetailsHeader;
+			bcpHeader = CommonUIUtil.getexcelFileMgtLookupDemandDetailsHeader();
 		} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-			bcpHeader = CommonUIUtil.getInstance().excelFileMgtLookupAdjustedDemandDetailsHeader;
+			bcpHeader = CommonUIUtil.getexcelFileMgtLookupAdjustedDemandDetailsHeader();
 		} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription()
 				.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-			bcpHeader = CommonUIUtil.getInstance().excelFileMgtLookupInventorySummaryHeader;
+			bcpHeader = CommonUIUtil.getexcelFilemgtLookupInventorySummaryHeader();
 		} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription()
 				.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-			bcpHeader = CommonUIUtil.getInstance().excelFileMgtLookupInventoryDetailsHeader;
+			bcpHeader = CommonUIUtil.getexcelFileMgtLookupInventoryDetailsHeader();
 		} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.CUSTOMERGTS)) {
-			bcpHeader = CommonUIUtil.getInstance().fileMgmtLookupCustomerHeader;
+			bcpHeader = CommonUIUtil.getfileMgmtLookupCustomerHeader();
 		} else {
 			bcpHeader = new String[1];
 		}

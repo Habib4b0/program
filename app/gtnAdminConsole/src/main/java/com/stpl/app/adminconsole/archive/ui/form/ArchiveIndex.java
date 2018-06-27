@@ -34,7 +34,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -46,14 +45,6 @@ import org.slf4j.LoggerFactory;
 public class ArchiveIndex extends CustomComponent implements View {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ArchiveIndex.class);
-
-    public static final Object[] archiveTable = new Object[]{"fieldName"};
-
-    public static final String[] archiveHeader = new String[]{"Field Name"};
-
-    public static final Object[] archiveColumns = new Object[]{"value"};
-
-    public static final String[] archiveHeader1 = new String[]{"Value"};
 
     private final ErrorLabel errorMsg = new ErrorLabel();
 
@@ -78,7 +69,7 @@ public class ArchiveIndex extends CustomComponent implements View {
     private final BeanItemContainer<ArchiveDTO> resultsBean = new BeanItemContainer<>(ArchiveDTO.class);
 
     private final BeanItemContainer<ArchiveDTO> valueBean = new BeanItemContainer<>(ArchiveDTO.class);
-    private Map<String, String> tableMap = new HashMap<>();
+    private final Map<String, String> tableMap = new HashMap<>();
 
     public PopupDateField getFrom() {
         return from;
@@ -114,22 +105,6 @@ public class ArchiveIndex extends CustomComponent implements View {
 
     public static Logger getLogger() {
         return LOGGER;
-    }
-
-    public Object[] getArchiveTable() {
-        return archiveTable;
-    }
-
-    public String[] getArchiveHeader() {
-        return archiveHeader;
-    }
-
-    public Object[] getArchiveColumns() {
-        return archiveColumns;
-    }
-
-    public String[] getArchiveHeader1() {
-        return archiveHeader1;
     }
 
     public ErrorLabel getErrorMsg() {
@@ -233,8 +208,8 @@ public class ArchiveIndex extends CustomComponent implements View {
         fieldTable.setFilterBarVisible(true);
         fieldTable.setFilterDecorator(new ExtDemoFilterDecorator());
         fieldTable.setContainerDataSource(resultsBean);
-        fieldTable.setVisibleColumns(archiveTable);
-        fieldTable.setColumnHeaders(archiveHeader);
+        fieldTable.setVisibleColumns("fieldName");
+        fieldTable.setColumnHeaders("Field Name");
         fieldTable.setPageLength(NumericConstants.FIVE);
         fieldTable.setWidth("450px");
         fieldTable.setImmediate(true);
@@ -273,9 +248,8 @@ public class ArchiveIndex extends CustomComponent implements View {
         resultsColumnTable.setFilterBarVisible(true);
         resultsColumnTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultsColumnTable.setContainerDataSource(valueBean);
-
-        resultsColumnTable.setVisibleColumns(archiveColumns);
-        resultsColumnTable.setColumnHeaders(archiveHeader1);
+        resultsColumnTable.setVisibleColumns("value");
+        resultsColumnTable.setColumnHeaders("Value");
         resultsColumnTable.setPageLength(NumericConstants.FIVE);
         resultsColumnTable.sinkItemPerPageWithPageLength(false);
         resultsColumnTable.setWidth("450px");

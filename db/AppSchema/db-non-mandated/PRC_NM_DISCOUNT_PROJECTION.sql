@@ -232,12 +232,16 @@ AS
           IF Object_id('TEMPDB.DBO.#D_ACTUAL_TABLE', 'U') IS NOT NULL
             DROP TABLE #D_ACTUAL_TABLE
 
-          SELECT AD.CCP_DETAILS_SID,
+          select CCP_DETAILS_SID,
+                 PERIOD_SID,
+                 RS_CONTRACT_SID ,max(ACTUAL_SALES) ACTUAL_SALES
+				 INTO   #D_ACTUAL_TABLE
+				 from (SELECT AD.CCP_DETAILS_SID,
                  AD.PERIOD_SID,
                  RS_CONTRACT_SID,
                  --AD.RS_MODEL_SID,
                  Sum(DISCOUNT) ACTUAL_SALES
-          INTO   #D_ACTUAL_TABLE
+          
           FROM   [ACTUALS_DETAILS] AD
                  INNER JOIN (SELECT CCP_DETAILS_SID,
                                     RS_MODEL_SID,
@@ -254,7 +258,9 @@ AS
           GROUP  BY AD.CCP_DETAILS_SID,
                     AD.PERIOD_SID,
                     RS_CONTRACT_SID,
-                    QUANTITY_INCLUSION
+                    QUANTITY_INCLUSION) a group by CCP_DETAILS_SID,
+                 PERIOD_SID,
+                 RS_CONTRACT_SID
 
           IF Object_id('TEMPDB.DBO.#S_ACTUAL_TABLE', 'U') IS NOT NULL
             DROP TABLE #S_ACTUAL_TABLE
