@@ -847,35 +847,16 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         String data = String.valueOf(event.getButton().getData());
         switch (data) {
             case "calculateBtn":
-                if (CUSTOM.getConstant().equals(String.valueOf(view.getValue())) && CommonUtil.isValueEligibleForLoading()) {
-                    customCalculateBtnClickLogic();
-                } else {
-                    calculateBtnClickLogic();
-                }
+                calculateBtnLogic();
                 break;
             case "populateBtn":
                 populateBtnClickLogic();
                 break;
             case "excelExport":
-                if (CommonUtil.isValueEligibleForLoading()) {
-                    excelExportClickLogic();
-                } else {
-                    excelExportBtnClickLogic();
-                }
+                excelExportLogic();
                 break;
             case "generateBtn":
-                LOGGER.info("session.getDsFrequency() {}"+session.getDsFrequency()+"frequencyDdlb.getValue()------"+frequencyDdlb.getValue());
-                LOGGER.info("session.getDeductionLevel()-{}"+session.getDataSelectionDeductionLevel()+"deductionlevelDdlb.getValue()-----"+deductionlevelDdlb.getValue());
-                if (!session.getDsFrequency().equals(String.valueOf(frequencyDdlb.getValue())) || !session.getDataSelectionDeductionLevel().equals(String.valueOf(deductionlevelDdlb.getValue()))) {
-                    session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
-                    session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
-                    session.setDataSelectionDeductionLevel(String.valueOf(deductionlevelDdlb.getValue()));
-                    logic.nmDiscountViewsPopulationProcedure(session);
-                    CommonLogic.viewProceduresCompletionCheckDiscount(session);
-                    session.setFunctionMode("UPS");
-                    logic.nmDiscountViewsPopulationProcedureForUPS(session);
-                }
-                generateBtnClickLogic(BooleanConstant.getTrueFlag());
+                generateBtnLogic();
                 break;
             case "resetBtn":
                 resetBtnClickLogic();
@@ -890,11 +871,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 newBtnClickLogic();
                 break;
             case "adjustBtn":
-                if (CUSTOM.getConstant().equals(String.valueOf(view.getValue())) && CommonUtil.isValueEligibleForLoading()) {
-                    adjustBtnClickLogicCustom();
-                } else {
-                    adjustBtnClickLogic();
-                }
+                adjustBtnLogic();
                 break;
             case "expandBtn":
                 expandBtnClickLogic();
@@ -906,6 +883,45 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 LOGGER.warn("data is not valid= {} " , data);
                 break;
            
+        }
+    }
+
+    private void calculateBtnLogic() {
+        if (CUSTOM.getConstant().equals(String.valueOf(view.getValue())) && CommonUtil.isValueEligibleForLoading()) {
+            customCalculateBtnClickLogic();
+        } else {
+            calculateBtnClickLogic();
+        }
+    }
+
+    private void adjustBtnLogic() {
+        if (CUSTOM.getConstant().equals(String.valueOf(view.getValue())) && CommonUtil.isValueEligibleForLoading()) {
+            adjustBtnClickLogicCustom();
+        } else {
+            adjustBtnClickLogic();
+        }
+    }
+
+    private void generateBtnLogic() {
+        LOGGER.info("session.getDsFrequency() {}" + session.getDsFrequency() + "frequencyDdlb.getValue()------" + frequencyDdlb.getValue());
+        LOGGER.info("session.getDeductionLevel()-{}" + session.getDataSelectionDeductionLevel() + "deductionlevelDdlb.getValue()-----" + deductionlevelDdlb.getValue());
+        if (!session.getDsFrequency().equals(String.valueOf(frequencyDdlb.getValue())) || !session.getDataSelectionDeductionLevel().equals(String.valueOf(deductionlevelDdlb.getValue()))) {
+            session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
+            session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
+            session.setDataSelectionDeductionLevel(String.valueOf(deductionlevelDdlb.getValue()));
+            logic.nmDiscountViewsPopulationProcedure(session);
+            CommonLogic.viewProceduresCompletionCheckDiscount(session);
+            session.setFunctionMode("UPS");
+            logic.nmDiscountViewsPopulationProcedureForUPS(session);
+        }
+        generateBtnClickLogic(BooleanConstant.getTrueFlag());
+    }
+
+    private void excelExportLogic() {
+        if (CommonUtil.isValueEligibleForLoading()) {
+            excelExportClickLogic();
+        } else {
+            excelExportBtnClickLogic();
         }
     }
     public ComboBox getViewDdlb() {
