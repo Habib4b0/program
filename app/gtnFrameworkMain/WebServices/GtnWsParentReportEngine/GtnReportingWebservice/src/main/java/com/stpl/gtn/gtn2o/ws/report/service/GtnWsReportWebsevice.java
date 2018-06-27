@@ -21,6 +21,7 @@ import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportingDashboardSaveProfileLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsReportDataSelectionSqlGenerateServiceImpl;
@@ -30,7 +31,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 @Service
 public class GtnWsReportWebsevice {
 
-	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportWebsevice.class);
+	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportWebsevice.class);
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
@@ -253,6 +254,18 @@ public class GtnWsReportWebsevice {
 		return recordCount;
 	}
 
+	public int checkReportProfileViewRecordCount(GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
+			throws GtnFrameworkGeneralException {
+		int reportProfileCountRecordCount = 0;
+		String reportProfileCountQuery = sqlService.getQuery("getViewCount");
+		Object[] reportProfileCountParams = { reportingDashboardSaveProfileLookupBean.getReportProfileviewName(), reportingDashboardSaveProfileLookupBean.getReportProfileviewType(), userId };
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.INTEGER };
+		List<Integer> reportProfileCountResultList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(reportProfileCountQuery, reportProfileCountParams, paramsType);
+		reportProfileCountRecordCount = reportProfileCountResultList.get(0);
+		return reportProfileCountRecordCount;
+	}
+	
 	public int saveReportingMaster(GtnWsReportDataSelectionBean dataSelectionBean, int userId)
 			throws GtnFrameworkGeneralException {
 		List<Object> inputList = new ArrayList<>();
@@ -265,6 +278,20 @@ public class GtnWsReportWebsevice {
 		String query = sqlService.getQuery(inputList, "insertView");
 		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
 		return count;
+	}
+	
+	public int saveReportProfileMaster(GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
+			throws GtnFrameworkGeneralException {
+		List<Object> reportProfileInputList = new ArrayList<>();
+		reportProfileInputList.add("'" + reportingDashboardSaveProfileLookupBean.getReportProfileviewName() + "'");
+		reportProfileInputList.add("'" + reportingDashboardSaveProfileLookupBean.getReportProfileviewType() + "'");
+		reportProfileInputList.add(userId);
+		reportProfileInputList.add(userId);
+		String reportProfileViewData = gtnReportJsonService.convertObjectAsJsonString(reportingDashboardSaveProfileLookupBean).replaceAll("'", "\\\\");
+		reportProfileInputList.add("'" + reportProfileViewData + "'");
+		String reportProfileQuery = sqlService.getQuery(reportProfileInputList, "insertView");
+		int reportProfileCount = gtnSqlQueryEngine.executeInsertOrUpdateQuery(reportProfileQuery);
+		return reportProfileCount;
 	}
 
 	public String getFromAndToDateLoadQuery(String comboBoxType, String frequency) {
@@ -309,34 +336,36 @@ public class GtnWsReportWebsevice {
 
 	private String getFilterValuesForDataAssumptions(String filter, Map<String, String> dbColumnIdMap,
 			Map<String, String> dbColumnDataTypeMap, GtnWebServiceSearchCriteria searchCriteria) {
+		String filterString = filter;
 		String filterId = dbColumnIdMap.get(searchCriteria.getFieldId());
 		String filterValue = searchCriteria.getFilterValue1();
 		String filterExpression = searchCriteria.getExpression();
 		if (!dbColumnDataTypeMap.get(searchCriteria.getFieldId()).equals("Date")) {
-			filter = filter + "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue + "%'";
+			filterString = filterString + "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue + "%'";
 		} else {
 			String[] splitedArray = filterValue.split(" ");
-			filter = getFilterValueForDateFields(filter, filterValue, splitedArray);
+			filterString = getFilterValueForDateFields(filterString, filterValue, splitedArray);
 		}
-		return filter;
+		return filterString;
 	}
 
 	private String getFilterValueForDateFields(String filter, String filterValue, String[] splitedArray) {
+		String filterString = filter;
 		if ("Show all".equals(filterValue)) {
-			filter = filter + "";
+			filterString = filterString + "";
 		} else if (!filterValue.startsWith(" ") && splitedArray.length >= 3) {
 
-			filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) >= CONVERT(date, '" + splitedArray[0] + "')"
+			filterString = filterString + " AND" + " CONVERT(date, FROM_PERIOD) >= CONVERT(date, '" + splitedArray[0] + "')"
 					+ " AND" + " CONVERT(date, FROM_PERIOD) <= CONVERT(date, '" + splitedArray[2] + "')";
 
 		} else if (!filterValue.startsWith(" ") && splitedArray.length < 3) {
 
-			filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) >= CONVERT(date, '" + splitedArray[0] + "')";
+			filterString = filterString + " AND" + " CONVERT(date, FROM_PERIOD) >= CONVERT(date, '" + splitedArray[0] + "')";
 
 		} else {
-			filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) <= CONVERT(date, '" + splitedArray[2] + "')";
+			filterString = filterString + " AND" + " CONVERT(date, FROM_PERIOD) <= CONVERT(date, '" + splitedArray[2] + "')";
 		}
-		return filter;
+		return filterString;
 	}
 
 	private Map<String, String> getDataBaseColumnIdName() {

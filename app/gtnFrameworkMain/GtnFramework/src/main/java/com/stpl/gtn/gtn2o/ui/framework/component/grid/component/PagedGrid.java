@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -29,7 +30,6 @@ import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
-import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.InlineDateField;
@@ -39,15 +39,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.components.grid.HeaderRow;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 public class PagedGrid {
 
@@ -59,7 +50,7 @@ public class PagedGrid {
     private int pageLength = 10;
     private int pageNumber = 0;
     private DataSet dataSet;
-    private Label pageCountLabel;
+    
     private GtnUIFrameworkPagedTableConfig gtnUIFrameworkPagedTableConfig;
     Grid<GtnWsRecordBean> grid;
     private HorizontalLayout controlLayout;
@@ -256,6 +247,7 @@ public class PagedGrid {
     }
 
     public HorizontalLayout getControlLayout() {
+    	 Label pageCountLabel;
         if (controlLayout == null) {
             controlLayout = new HorizontalLayout();
             pageNoField = new TextField();
@@ -309,15 +301,15 @@ public class PagedGrid {
     }
 
     String appendFilter(String query) {
-        String filter = "";
+        StringBuilder filter = new StringBuilder();
         String condition = "AND";
         for (Map.Entry<String, Object> entry : tableConfig.getFilterValueMap().entrySet()) {
             String key = getDBColumnName(entry.getKey());
             Object value = entry.getValue();
-            filter += condition + " " + key + "  like '%" + value + "%'";
+            filter.append(condition + " " + key + "  like '%" + value + "%'");
         }
 
-        return query.replace("@filter", filter);
+        return query.replace("@filter", filter.toString());
     }
 
     private String getDBColumnName(String key) {

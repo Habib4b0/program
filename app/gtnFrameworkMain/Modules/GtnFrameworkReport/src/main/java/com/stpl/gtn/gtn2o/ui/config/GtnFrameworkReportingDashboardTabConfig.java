@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportDashBoardRightHeaderRequestAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingDashboardSaveProfileAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportCustomViewReloadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportDasboardTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportGenerateRequestAction;
@@ -1136,11 +1137,35 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		saveProfileButton.setAddToParent(true);
 		componentList.add(saveProfileButton);
 
-		GtnUIFrameWorkActionConfig saveProfileActionConfig = new GtnUIFrameWorkActionConfig();
-		saveProfileActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		saveProfileActionConfig.addActionParameter("saveProfileViewLookUp");
-		saveProfileActionConfig.addActionParameter("Profile Save View");
-		saveProfileButton.addGtnUIFrameWorkActionConfig(saveProfileActionConfig);
+		GtnUIFrameWorkActionConfig saveProfileSetValueActionConfig = new GtnUIFrameWorkActionConfig();
+		saveProfileSetValueActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		saveProfileSetValueActionConfig.addActionParameter(GtnFrameworkReportingDashboardSaveProfileAction.class.getName());
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_displaySelectionTabVariable");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeFrom");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeTo");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboard_displaySelectionTabFrequency");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboard_displaySelectionTabComparisonBasis");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_displaySelectionTabCustomView");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_displaySelectionTabVariableCategory");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_displaySelectionTabAnnualTotals");
+		
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_filterTabCustomerLevel");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_filterOptionsTabCustomerFilter");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_filterOptionsTabProductLevel");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_filterOptionsTabProductFilter");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_filterOptionsTabDeductionLevel");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_filterOptionsTabDeductionFilter");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_filterOptionsTabSalesInclusion");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_filterOptionsTabDeductionInclusion");
+		
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_reportOptionsTabVariableAndVarianceSequencing");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_reportOptionsTabHeaderSequencing");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_reportOptionsTabViewOptions");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_reportOptionsTabDisplayFormat");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_reportOptionsTabUnitOfMeasure");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_reportOptionsTabCurrencyDisplay");
+		saveProfileSetValueActionConfig.addActionParameter("reportingDashboardTab_reportingDashboardComparisonConfig");
+		saveProfileButton.addGtnUIFrameWorkActionConfig(saveProfileSetValueActionConfig);
 
 		addExpandAndCollapseButtonComponent(componentList, controlButtonLayoutConfig.getComponentId(), nameSpace);
 	}
