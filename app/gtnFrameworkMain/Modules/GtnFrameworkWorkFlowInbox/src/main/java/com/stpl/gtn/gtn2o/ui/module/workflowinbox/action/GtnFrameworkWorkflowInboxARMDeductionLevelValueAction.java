@@ -66,9 +66,11 @@ public class GtnFrameworkWorkflowInboxARMDeductionLevelValueAction
 			helperListName = GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONVALUE_ARMDDLB;
 			break;
 		default:
-			helperListName = GtnFrameworkWorkflowInboxClassConstants.RS_CATEGORY;
+			helperListName = GtnFrameworkWorkflowInboxClassConstants.EMPTY;
 			break;
 		}
+		
+		//logger.info(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE).getStringFromField());
 		
 		GtnUIFrameworkComboBoxConfig companyTypeConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONVALUEARM).getComponentConfig()

@@ -317,15 +317,16 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM, GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY, "businessUnitNoReturns", "businessUnitNameReturns",
 			"itemNoReturns", "itemNameReturns", "itemIdReturns" };
+	
 	private static final String[] GTN_WORKFLOW_INBOX_ARM_SEARCH_FIELDVALUES = new String[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME,
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOW_DESC, GtnFrameworkWorkflowInboxClassConstants.CREATEDFROM,
 			GtnFrameworkWorkflowInboxClassConstants.CREATEDTO, GtnFrameworkWorkflowInboxClassConstants.CREATEDBY,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM, GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY, "companyARM", "businessUnitARM", "workflowStatusArm",
-			GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE, "contractIdArm", "contractNoArm", "customerNoArm",
+			/*GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE,*/ "contractIdArm", "contractNoArm", "customerNoArm",
 			"customerNameArm", "brandIdArm", "contractNameArm", "itemNoArm", "itemNameArm", "brandNameArm", "glDateArm",
-			"deductionLevelArm", "deductionValueArm", "deductionNoArm", "deductionNameArm" };
+			/*"deductionLevelArm", "deductionValueArm",*/ "deductionNoArm", "deductionNameArm" };
 
 	private static final Object[] GTN_WORKFLOW_INBOX_CONTRACT_SEARCH_EXTRA_COLUMNS = new Object[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID, GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS,
