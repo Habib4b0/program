@@ -42,6 +42,8 @@ import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class GtnReportCCPTableLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -66,7 +68,7 @@ public class GtnReportCCPTableLoadAction
 
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
 		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		List<Object> params = new ArrayList<>();
+		List<Object> params = new ArrayList<>(6);
 		params.add(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
 		params.add("Report Generate Lookup View");
 		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -82,20 +84,25 @@ public class GtnReportCCPTableLoadAction
 				.getComponentData();
 		List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData
 				.getCustomData();
-		List<String> inputForComparisonBasisList = new ArrayList<>();
+               
+                int initialCapacity= 3 + (comparisonLookupBeanList==null ?0: comparisonLookupBeanList.size());
+		List<String> inputForComparisonBasisList = new ArrayList<>(initialCapacity);
+                
+                inputForComparisonBasisList.add("Actuals");
+		inputForComparisonBasisList.add("Accruals");
+		inputForComparisonBasisList.add("Projections");
 		Optional.ofNullable(comparisonLookupBeanList).ifPresent(e -> {
 			for (GtnReportComparisonProjectionBean comparisonProjectionBeans : e) {
 				inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
 			}
 		});
-		inputForComparisonBasisList.add("Actuals");
-		inputForComparisonBasisList.add("Accruals");
-		inputForComparisonBasisList.add("Projections");
+                List idList=IntStream.range(0, initialCapacity).boxed().collect(Collectors.toList());
+		
 		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromChild("reportingDashboard_displaySelectionTabComparisonBasis", componentId)
 				.getComponentConfig().getGtnComboboxConfig();
 		comparisonBasisComboboxConfig.setItemCaptionValues(inputForComparisonBasisList);
-		comparisonBasisComboboxConfig.setItemValues(inputForComparisonBasisList);
+		comparisonBasisComboboxConfig.setItemValues(idList);
 
 		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
 		combobox.reloadComponentFromChild(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
