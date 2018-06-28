@@ -312,6 +312,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private final Map<String, Object> excelParentRecords = new HashMap();
     private boolean isMultipleVariablesUpdated = false;
     private Object[] tempSingleHeaderArray = null;
+    private boolean isDiscountCustomFirstLoad = true;
 
     private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -425,7 +426,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
         }
         securityForButton();
-        addPropertyValueChangeListeners(frequencyDdlb, viewDdlb, view, adjprograms, adjperiods, massCheck, startPeriod,
+        addPropertyValueChangeListeners(frequencyDdlb,view,adjprograms, adjperiods, massCheck, startPeriod,
                 levelFilterDdlb);
     }
 
@@ -1558,9 +1559,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     fieldDdlb.removeItem(Constant.GROUPFCAPS);
                     fieldDdlb.setValue(Constant.DISCOUNT_RATE_LABEL);
                     projectionSelection.setViewOption(Constant.CUSTOM_LABEL);
-                    if (!projectionSelection.getDeductionLevelFilter().isEmpty()) {
+                    if (!projectionSelection.getDeductionLevelFilter().isEmpty() && !isDiscountCustomFirstLoad) {
                         generateListView(true);
                     }
+                     isDiscountCustomFirstLoad = false;
                     resultsTable.getLeftFreezeAsTable().setColumnCollapsingAllowed(true);
                     resultsTable.getLeftFreezeAsTable().setColumnCollapsed(Constant.GROUP, false);
                     if (CommonUtil.isValueEligibleForLoading()) {
@@ -2499,7 +2501,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     @Override
     protected void customCalculateBtnClickLogic() {
         try {
-
+             session.setFunctionMode("CALC");
             if (CONTRACT_DETAILS.getConstant().equals(methodologyDdlb.getValue())) {
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(
                         session.getFutureValue(Constant.CALL_PRC_CONTRACT_DETAILS_REBATE));
@@ -2627,7 +2629,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                             "st_disc_growth_factor_", session.getSelectedRsForCustom(),
                                                             String.valueOf(level.getValue()));
                                                 }
+                                                
                                                 discountProjectionLogic.callDPProcedure(session, projectionSelection);
+                                                new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,"","","");
+                                                CommonUtil.getInstance().waitForSeconds();
+                                                CommonLogic.procedureCompletionCheck(session, DISCOUNT, com.stpl.app.serviceUtils.Constants.CUSTOM);
                                                 refreshTableData(getCheckedRecordsHierarchyNo());
                                                 final Notification notif = new Notification(
                                                         Constant.CALCULATION_COMPLETE,

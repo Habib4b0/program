@@ -5,22 +5,20 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.action.validation.v8;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.Grid;
 import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -31,37 +29,37 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 
 	@SuppressWarnings({ "unchecked" })
 	@Override
-	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+	public void doAction(String v8ComponentId, GtnUIFrameWorkActionConfig v8GtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
-		List<Object> params = (gtnUIFrameWorkActionConfig.getActionParameterList());
-		Map<String, Object> resetDataMapTemp = null;
-		List<String> resetComponentIdListTemp = null;
-		List<Object> resetComponentValueListTemp = null;
-		if (params.get(0) instanceof List) {
-			resetComponentIdListTemp = (List<String>) params.get(0);
-			resetComponentValueListTemp = (List<Object>) params.get(1);
+		List<Object> v8Params = (v8GtnUIFrameWorkActionConfig.getActionParameterList());
+		Map<String, Object> v8ResetDataMapTemp = null;
+		List<String> v8ResetComponentIdListTemp = null;
+		List<Object> v8ResetComponentValueListTemp = null;
+		if (v8Params.get(0) instanceof List) {
+			v8ResetComponentIdListTemp = (List<String>) v8Params.get(0);
+			v8ResetComponentValueListTemp = (List<Object>) v8Params.get(1);
 		} else {
-			resetDataMapTemp = (Map<String, Object>) params.get(0);
+			v8ResetDataMapTemp = (Map<String, Object>) v8Params.get(0);
 		}
-		Map<String, Object> resetDataMap = resetDataMapTemp;
-		List<String> resetComponentIdList = resetComponentIdListTemp;
-		List<Object> resetComponentValueList = resetComponentValueListTemp;
-		if (resetDataMap != null) {
-			for (Map.Entry<String, Object> propertyId : resetDataMap.entrySet()) {
-				resetComponent(propertyId.getKey(), propertyId.getValue(), componentId);
+		Map<String, Object> v8ResetDataMap = v8ResetDataMapTemp;
+		List<String> v8RresetComponentIdList = v8ResetComponentIdListTemp;
+		List<Object> v8ResetComponentValueList = v8ResetComponentValueListTemp;
+		if (v8ResetDataMap != null) {
+			for (Map.Entry<String, Object> v8PropertyId : v8ResetDataMap.entrySet()) {
+				resetComponent(v8PropertyId.getKey(), v8PropertyId.getValue(), v8ComponentId);
 			}
 			return;
 		}
-		if (resetComponentIdList != null) {
-			for (int i = 0; i < resetComponentIdList.size(); i++) {
-				resetComponent(resetComponentIdList.get(i), resetComponentValueList.get(i), componentId);
+		if (v8RresetComponentIdList != null) {
+			for (int i = 0; i < v8RresetComponentIdList.size(); i++) {
+				resetComponent(v8RresetComponentIdList.get(i), v8ResetComponentValueList.get(i), v8ComponentId);
 			}
 		}
 	}
 
 	@Override
-	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+	public void configureParams(GtnUIFrameWorkActionConfig v8GtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		// No Need to Implement. Its an unused method.
 	}
