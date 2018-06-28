@@ -25,7 +25,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworPopulatefromTableAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkAddJSListenerAction;
-import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkArmAdjustmentTypeDdlbAction;
+import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkAdditionalSearchCriteriaAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkConfigureApprovedByAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkConfigureBusinesLookUpAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkConfigureBusinessProcessDdlbAction;
@@ -555,12 +555,15 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		validationActionConfig.setActionParameterList(
 				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(alertActionConfig)));
 		actionConfigList.add(validationActionConfig);
-		//new Added
+		
+		/*
+		 * Additional Search criteria List
+		 */
 		GtnUIFrameWorkActionConfig customCommonValidationAction = new GtnUIFrameWorkActionConfig();
 		customCommonValidationAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		customCommonValidationAction.addActionParameter(GtnFrameworkArmAdjustmentTypeDdlbAction.class.getName());
+		customCommonValidationAction.addActionParameter(GtnFrameworkAdditionalSearchCriteriaAction.class.getName());
 		actionConfigList.add(customCommonValidationAction);
-		//new Added
+		
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
 		loadDataTableActionConfig.addActionParameter(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSEARCHRESULTTABLE);
@@ -605,7 +608,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		resetActionConfig.setActionType(GtnUIFrameworkActionType.RESET_ACTION);
 		List<Object> params = new ArrayList<>();
 		params.add(GtnFrameworkWorkflowInboxClassConstants.GTN_WORKFLOW_CONFIRMATION_MSG_RESET_HEADER);
-		params.add(GtnFrameworkWorkflowInboxClassConstants.GTN_WORKFLOW_CONFIRMATION_MSG_RESET);
+		params.add(GtnFrameworkWorkflowInboxClassConstants.GTN_CREATED_BY_VALIDATION_MSG_RESET);
 		params.add(Arrays.asList(GtnFrameworkWorkflowInboxClassConstants.BUSINESS_PROCESS,
 				GtnFrameworkWorkflowInboxClassConstants.PRIVATEVIEW, GtnFrameworkWorkflowInboxClassConstants.PUBLICVIEW,
 				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID,
@@ -695,7 +698,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		GtnUIFrameWorkActionConfig viewAlertActionConfig = new GtnUIFrameWorkActionConfig();
 		viewAlertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 		List<Object> viewAlertParams = new ArrayList<>();
-		viewAlertParams.add(GtnFrameworkWorkflowInboxClassConstants.SAVEPROFILENOSEARCH);
+		viewAlertParams.add(GtnFrameworkWorkflowInboxClassConstants.NO_SEARCH_CRITERIA);
 		viewAlertParams.add(GtnFrameworkWorkflowInboxClassConstants.SAVEPROFILENOSEARCHPLEASEENTER);
 		viewAlertActionConfig.setActionParameterList(viewAlertParams);
 		
@@ -845,9 +848,9 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		}
 
 		searchResults.setCountUrl(
-				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE /*GtnWebServiceUrlConstants.GTN_WS_WORFLOW_INBOX_COMMON_URI*/ + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH);
+				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH);
 		searchResults.setResultSetUrl(
-				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE /*GtnWebServiceUrlConstants.GTN_WS_WORFLOW_INBOX_COMMON_URI*/ + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH);
+				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH);
 		searchResults.setModuleName(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWINBOX);
 		searchResults.setQueryName(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSEARCHQUERY);
 		searchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.CONTRACT_WORKFLOW_SEARCH);
@@ -1021,7 +1024,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 
 		GtnUIFrameworkComponentConfig forecastingdetailSearchPanelComponentConfig = new GtnUIFrameworkComponentConfig();
 		forecastingdetailSearchPanelComponentConfig
-				.setComponentName(GtnFrameworkWorkflowInboxClassConstants.DETAILSEARCH);
+				.setComponentName(GtnFrameworkWorkflowInboxClassConstants.DETAIL_SEARCH);
 		forecastingdetailSearchPanelComponentConfig
 				.setComponentId(GtnFrameworkWorkflowInboxClassConstants.FORECASTINGDETAILSEARCHPANEL);
 		forecastingdetailSearchPanelComponentConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -1553,13 +1556,6 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		adjustmentTypeComponent.setComponentName(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENT_TYPE);
 		adjustmentTypeComponent.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
 		
-		//from here
-		/*GtnUIFrameworkValidationConfig validationConfig = new GtnUIFrameworkValidationConfig();
-		validationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		
-		adjustmentTypeComponent.setGtnUIFrameworkValidationConfig(validationConfig);*/
-		//till here
-		
 		GtnUIFrameworkCheckedComboBoxConfig adjustmentTypeComboBoxConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		adjustmentTypeComboBoxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
@@ -1776,12 +1772,6 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 
 		GtnUIFrameworkComboBoxConfig deductionValueComboBoxConfig = new GtnUIFrameworkComboBoxConfig();
 		deductionValueComponent.setGtnComboboxConfig(deductionValueComboBoxConfig);
-
-		/*GtnUIFrameworkComboBoxConfig deductionValueARMComboBoxConfig = new GtnUIFrameworkComboBoxConfig();
-		deductionValueARMComboBoxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		deductionValueARMComboBoxConfig.setComboBoxType(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONVALUE_ARMDDLB);
-		deductionValueComponent.setGtnComboboxConfig(deductionValueARMComboBoxConfig);*/
 
 		componentList.add(deductionValueComponent);
 	}

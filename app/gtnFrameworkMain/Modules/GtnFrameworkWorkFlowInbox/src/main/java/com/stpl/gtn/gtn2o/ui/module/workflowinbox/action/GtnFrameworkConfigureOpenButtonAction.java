@@ -138,7 +138,7 @@ public class GtnFrameworkConfigureOpenButtonAction
 			String key = workflowId.replaceAll("\\d", GtnFrameworkWorkflowInboxClassConstants.EMPTY);
 			String portletName = GtnFrameworkWorkflowPortletMap.valueOf(key).getInput();
 			
-			if(key.equalsIgnoreCase("ARM_TRXF")) {
+			if(key.equalsIgnoreCase(GtnFrameworkWorkflowInboxClassConstants.ARM_TRXF)) {
 				status = String.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUSARM));
 			} else {
 				status = String
@@ -224,20 +224,19 @@ public class GtnFrameworkConfigureOpenButtonAction
 
 	private String getfUrl(String key, GtnUIFrameworkWebserviceResponse friendlyUrlresponse) {
 		String furl;
-		gtnLogger.info("friendlyResponse="+friendlyUrlresponse.getGtnWSCommonWorkflowResponse().getFriendlyUrl());
 		if (Page.getCurrent().getLocation().getPort() == -1) {
 			furl = GtnFrameworkWorkflowInboxClassConstants.HTTPS 
 					+ Page.getCurrent().getLocation().getHost()
-					//+ GtnFrameworkWorkflowInboxClassConstants.WEB_GUEST
-					//+ friendlyUrlresponse.getGtnWSCommonWorkflowResponse().getFriendlyUrl()
+					+ GtnFrameworkWorkflowInboxClassConstants.WEB_GUEST
+					+ friendlyUrlresponse.getGtnWSCommonWorkflowResponse().getFriendlyUrl()
 					+ GtnFrameworkWorkflowMap.valueOf(key).getInput();
 		} else {
 			furl = GtnFrameworkWorkflowInboxClassConstants.HTTP 
 					+ Page.getCurrent().getLocation().getHost() 
 					+ ":"
 					+ Page.getCurrent().getLocation().getPort() 
-					//+ GtnFrameworkWorkflowInboxClassConstants.WEB_GUEST
-					//+ friendlyUrlresponse.getGtnWSCommonWorkflowResponse().getFriendlyUrl()
+					+ GtnFrameworkWorkflowInboxClassConstants.WEB_GUEST
+					+ friendlyUrlresponse.getGtnWSCommonWorkflowResponse().getFriendlyUrl()
 					+ GtnFrameworkWorkflowMap.valueOf(key).getInput();
 		}
 		return furl;

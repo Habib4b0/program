@@ -15,10 +15,13 @@ import com.stpl.gtn.gtn2o.ui.module.workflowinbox.constants.GtnFrameworkWorkflow
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 public class GtnFrameworkConfigureBusinessProcessDdlbAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkConfigureBusinessProcessDdlbAction.class);
+	
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -29,6 +32,7 @@ public class GtnFrameworkConfigureBusinessProcessDdlbAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		LOGGER.debug("Inside GtnFrameworkConfigureBusinessProcessDdlbAction --> doaction -->start");
 		Object[] visibleColumn = null;
 		String[] visibleHeader = null;
 		Class<?>[] dataType = null;
@@ -37,7 +41,7 @@ public class GtnFrameworkConfigureBusinessProcessDdlbAction
 		GtnWsSearchQueryConfigLoaderType searchQueryConfigLoaderType = null;
 
 		List<String> inputList = null;
-
+		
 		List<GtnUIFrameworkComponentConfig> componentList;
 
 		String combocomponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getCaptionFromComboBox();
@@ -175,7 +179,7 @@ public class GtnFrameworkConfigureBusinessProcessDdlbAction
 		}
 
 		else if (combocomponent.equals(GtnFrameworkCommonStringConstants.ARM)) {
-			componentList = new ArrayList<>();
+			componentList = new ArrayList<>();			
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.SUMMARY_SEARCH_PANEL_INNERLAYOUT)
 					.setVisible(true);
@@ -195,6 +199,7 @@ public class GtnFrameworkConfigureBusinessProcessDdlbAction
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.FORECASTINGDETAILSEARCHPANEL)
 					.setVisible(false);
+			
 			dataType = GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxArmSearchTableColumnsDataType();
 			visibleHeader = GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxArmSearchTableHeaders();
 			visibleColumn = GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxArmSearchTableColumns();
@@ -204,7 +209,7 @@ public class GtnFrameworkConfigureBusinessProcessDdlbAction
 			searchQueryConfigLoaderType = GtnWsSearchQueryConfigLoaderType.ARM_WORKFLOW_SEARCH;
 			inputList = Arrays
 					.asList(GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxArmSearchFieldvalues());
-
+			
 		} else {
 			componentList = new ArrayList<>();
 			GtnUIFrameworkGlobalUI
@@ -226,6 +231,7 @@ public class GtnFrameworkConfigureBusinessProcessDdlbAction
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.FORECASTINGDETAILSEARCHPANEL)
 					.setVisible(false);
+			
 			dataType = GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxContractSearchTableColumnsDataType();
 			visibleHeader = GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxContractSearchTableHeaders();
 			visibleColumn = GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxContractSearchTableColumns();
@@ -253,8 +259,9 @@ public class GtnFrameworkConfigureBusinessProcessDdlbAction
 				componentList);
 		GtnUIFrameworkComponentConfig searchbtnConfig = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(GtnFrameworkWorkflowInboxClassConstants.SEARCH_BTN).getCurrentComponentConfig();
-		searchbtnConfig.getGtnUIFrameWorkActionConfigList().get(0).setFieldValues(inputList);
-
+		searchbtnConfig.getGtnUIFrameWorkActionConfigList().get(2).setFieldValues(inputList);
+		
+		LOGGER.debug("Inside GtnFrameworkConfigureBusinessProcessDdlbAction --> doaction -->end");
 	}
 
 	@Override

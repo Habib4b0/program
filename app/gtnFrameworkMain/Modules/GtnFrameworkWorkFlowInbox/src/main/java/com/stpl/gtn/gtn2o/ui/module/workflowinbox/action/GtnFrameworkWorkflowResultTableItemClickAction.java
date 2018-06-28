@@ -71,7 +71,6 @@ public class GtnFrameworkWorkflowResultTableItemClickAction
 
 			} else if (combocomponent.equals(GtnFrameworkCommonStringConstants.ARM)) {
 
-				//createdById = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(22));
 				createdById = String.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID));
 
 			} else {

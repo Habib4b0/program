@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.crud;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -145,7 +146,7 @@ public class GtnFrameworkWorkflowPublicPrivateViewSaveAction
 				} else {
 					msg += GtnFrameworkWorkflowInboxClassConstants.ADDED;
 				}
-				msg += projMasterBean.getViewType().toLowerCase() + " view ( " + projMasterBean.getViewName() + " )";
+				msg += projMasterBean.getViewType().toLowerCase(Locale.ENGLISH) + " view ( " + projMasterBean.getViewName() + " )";
 
 				GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 				GtnUIFrameWorkInfoAction infoAction = new GtnUIFrameWorkInfoAction();

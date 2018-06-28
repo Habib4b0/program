@@ -15,9 +15,9 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
-public class GtnFrameworkArmAdjustmentTypeDdlbAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+public class GtnFrameworkAdditionalSearchCriteriaAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkArmAdjustmentTypeDdlbAction.class);
+	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkAdditionalSearchCriteriaAction.class);
 	
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -66,17 +66,14 @@ public class GtnFrameworkArmAdjustmentTypeDdlbAction implements GtnUIFrameWorkAc
 		
 		if(!listString.toString().isEmpty()) {
 			listString.deleteCharAt(listString.lastIndexOf(","));
-		
-			//List<GtnWebServiceSearchCriteria> additioanlSearchCriteriaList=new ArrayList<>();
-			GtnWebServiceSearchCriteria gtnWebServiceSearchCriteria=new GtnWebServiceSearchCriteria();
-			gtnWebServiceSearchCriteria.setFieldId(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE);
-			gtnWebServiceSearchCriteria.setFilterValue1("("+listString.toString()+")");
-			gtnWebServiceSearchCriteria.setExpression("IN");
+
+			GtnWebServiceSearchCriteria gtnWebServiceSearchCriteria=
+					createInstanceGtnWebServiceSearchCriteria(
+							GtnFrameworkWorkflowInboxClassConstants.SELECTED_ADJUSTMENTTYPE
+							,"("+listString.toString()+")"
+							,"IN");
 			additioanlSearchCriteriaList.add(gtnWebServiceSearchCriteria);
 			
-			/*GtnUIFrameworkGlobalUI
-				.getVaadinComponentData(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSEARCHRESULTTABLE)
-				.getCurrentPageTableLogic().setAdditioanlSearchCriteriaList(additioanlSearchCriteriaList);*/
 		}
 	}
 	
@@ -95,7 +92,7 @@ public class GtnFrameworkArmAdjustmentTypeDdlbAction implements GtnUIFrameWorkAc
 				armAdditionalAdjustmentType(resultList, additioanlSearchCriteriaList);
 			}
 			
-			if(!deductionLevelArm.isEmpty() && !deductionValueArm.isEmpty()) {
+			if(!deductionLevelArm.isEmpty() && !deductionValueArm.equals("0")) {
 				addDeductionLevelSearchComponent(deductionLevelArm, deductionValueArm, additioanlSearchCriteriaList);
 			}
 		} catch (GtnFrameworkValidationFailedException e) {

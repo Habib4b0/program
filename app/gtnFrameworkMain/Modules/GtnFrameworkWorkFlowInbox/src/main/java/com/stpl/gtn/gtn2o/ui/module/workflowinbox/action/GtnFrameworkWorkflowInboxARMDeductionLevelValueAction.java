@@ -19,7 +19,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 public class GtnFrameworkWorkflowInboxARMDeductionLevelValueAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkWorkflowInboxARMDeductionLevelValueAction.class);
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkWorkflowInboxARMDeductionLevelValueAction.class);
 	
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -31,7 +31,7 @@ public class GtnFrameworkWorkflowInboxARMDeductionLevelValueAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		logger.debug("Inside GtnFrameworkWorkflowInboxARMDeductionLevelValueAction --> doAction..start");
+		LOGGER.debug("Inside GtnFrameworkWorkflowInboxARMDeductionLevelValueAction --> doAction..start");
 		String deductionLevelArm = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONLEVELARM)
 				.getCaptionFromComboBox();
@@ -69,9 +69,7 @@ public class GtnFrameworkWorkflowInboxARMDeductionLevelValueAction
 			helperListName = GtnFrameworkWorkflowInboxClassConstants.EMPTY;
 			break;
 		}
-		
-		//logger.info(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE).getStringFromField());
-		
+				
 		GtnUIFrameworkComboBoxConfig companyTypeConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONVALUEARM).getComponentConfig()
 				.getGtnComboboxConfig();
@@ -84,7 +82,7 @@ public class GtnFrameworkWorkflowInboxARMDeductionLevelValueAction
 				GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONVALUEARM, componentId,
 				Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY));
 	
-		logger.debug("Inside GtnFrameworkWorkflowInboxARMDeductionLevelValueAction --> doAction..end");
+		LOGGER.debug("Inside GtnFrameworkWorkflowInboxARMDeductionLevelValueAction --> doAction..end");
 	}
 
 	@Override

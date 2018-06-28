@@ -4,7 +4,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworPopulatefromTableAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkAddJSListenerAction;
-import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkArmAdjustmentTypeDdlbAction;
+import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkAdditionalSearchCriteriaAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkConfigureApprovedByAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkConfigureBusinesLookUpAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkConfigureBusinessProcessDdlbAction;
@@ -70,8 +70,8 @@ public class GtnUIFrameworkWorkflowInboxDynamicClassFiller implements GtnUIDynam
 				new GtnFrameworkAddJSListenerAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUpdateTableJSListenerAction.class.getName(),
 				new GtnFrameworkUpdateTableJSListenerAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkArmAdjustmentTypeDdlbAction.class.getName(),
-				new GtnFrameworkArmAdjustmentTypeDdlbAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkAdditionalSearchCriteriaAction.class.getName(),
+				new GtnFrameworkAdditionalSearchCriteriaAction());
 	}
 
 }
