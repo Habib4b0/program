@@ -51,6 +51,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 @Scope(value = "singleton")
 public class GtnWsCustomViewService {
 
+
 	private static final String REPORT = "report";
 	
 	
@@ -521,6 +522,7 @@ public class GtnWsCustomViewService {
     }
       public void deleteRelationship(GtnWsCustomViewRequest cvRequest,
 			GtnWsCustomViewResponse cvResponse) throws GtnFrameworkGeneralException {
+
 		cvResponse.setSuccess(true);
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();

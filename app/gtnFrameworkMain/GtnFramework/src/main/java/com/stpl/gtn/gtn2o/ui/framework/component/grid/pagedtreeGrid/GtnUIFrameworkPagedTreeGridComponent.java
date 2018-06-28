@@ -49,7 +49,6 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		VerticalLayout resultLayout = new VerticalLayout();
 		GtnUIFrameworkPagedTreeTableConfig tableConfig = componentConfig.getGtnPagedTreeTableConfig();
 
-
 		configureTableHeaders(tableConfig, componentConfig.getSourceViewId());
 		PagedTreeGrid pagedTreeGrid = new PagedTreeGrid(tableConfig, componentConfig);
 		resultLayout.setSizeFull();
@@ -128,7 +127,6 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		tableConfig.setColumnHeaders(leftHeaderList);
 
 	}
-
 
 	@Override
 	public void reloadComponent(GtnUIFrameworkActionType action, String dependentComponentId, String componentId,
@@ -260,13 +258,11 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		return resultTableComponentData.getCustomPagedTreeTableRequest();
 	}
 
-
 	public void configureDynamicTreeTableHeaders(PagedTreeGrid pagedTreeGrid,
 			GtnUIFrameworkPagedTreeTableConfig tableConfig ) {
 		initializeResultTable(pagedTreeGrid, tableConfig);
 
 	}
-
 
 	@Override
 	public void postCreateComponent(AbstractComponent component, GtnUIFrameworkComponentConfig componentConfig) {
