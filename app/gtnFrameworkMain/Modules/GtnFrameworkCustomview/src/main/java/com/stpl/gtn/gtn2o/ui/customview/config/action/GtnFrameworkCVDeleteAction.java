@@ -39,6 +39,7 @@ public class GtnFrameworkCVDeleteAction implements GtnUIFrameWorkAction, GtnUIFr
 
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
+       try{
         final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
         final GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
         List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
@@ -76,6 +77,10 @@ public class GtnFrameworkCVDeleteAction implements GtnUIFrameWorkAction, GtnUIFr
 		rbDeleteSuccessAlertAction.addActionParameter(rbNewResponse.getMessageType());
 		rbDeleteSuccessAlertAction.addActionParameter(rbNewResponse.getMessage());
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbDeleteSuccessAlertAction);
+    }catch(Exception ex)
+    {
+        LOGGER.error("message",ex);
+    }
     }
 
     @Override

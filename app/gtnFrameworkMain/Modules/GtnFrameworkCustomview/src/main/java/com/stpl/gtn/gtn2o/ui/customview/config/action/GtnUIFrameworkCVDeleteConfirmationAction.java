@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,13 +25,14 @@ import java.util.List;
  * @author Mohamed.Shahul
  */
 public class GtnUIFrameworkCVDeleteConfirmationAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
-
+private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnUIFrameworkCVDeleteConfirmationAction.class);
     @Override
     public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
     }
 
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
+     try{
         List<Object> actionParam = gtnUIFrameWorkActionConfig.getActionParameterList();
         Object value = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParam.get(1).toString())
                 .getValueFromComponent();
@@ -61,6 +63,10 @@ public class GtnUIFrameworkCVDeleteConfirmationAction implements GtnUIFrameWorkA
         confirmAction.configureParams(confirmActionConfig);
         confirmAction.doAction(componentId, confirmActionConfig);
         
+    }catch(Exception ex)
+    {
+        LOGGER.error("message",ex);
+    }
     }
 
     @Override
