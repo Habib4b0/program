@@ -10,6 +10,8 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.constants.GtnFrameworkWorkflowInboxClassConstants;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.constants.GtnFrameworkWorkflowInboxTableConstants;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
@@ -29,10 +31,29 @@ public class GtnFrameworkConfigureBusinessProcessDdlbAction
 		return;
 	}
 
+	private void addBusinessProcessComponentAsMandatory() {
+		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
+		alertActionConfig.setActionType(GtnUIFrameworkActionType.WARNING_ACTION);
+		
+		List<Object> alertParamsList = new ArrayList<>();
+				alertParamsList.add(GtnFrameworkWorkflowInboxClassConstants.ERROR);
+				alertParamsList.add(GtnFrameworkWorkflowInboxClassConstants.BUSINESSPROCESS_MANDATORY);
+				alertActionConfig.setActionParameterList(alertParamsList);
+		GtnUIFrameworkGlobalUI
+				.getVaadinComponentData(GtnFrameworkWorkflowInboxClassConstants.SEARCH_BTN).getCurrentComponentConfig()
+				.getGtnUIFrameWorkActionConfigList().get(0)
+				.setFieldValues(Arrays.asList(GtnFrameworkWorkflowInboxClassConstants.BUSINESS_PROCESS));
+		GtnUIFrameworkGlobalUI
+				.getVaadinComponentData(GtnFrameworkWorkflowInboxClassConstants.SEARCH_BTN).getCurrentComponentConfig()
+				.getGtnUIFrameWorkActionConfigList().get(0)
+				.setActionParameterList(Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(alertActionConfig)));
+	}
+	
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		LOGGER.debug("Inside GtnFrameworkConfigureBusinessProcessDdlbAction --> doaction -->start");
+		addBusinessProcessComponentAsMandatory();
 		Object[] visibleColumn = null;
 		String[] visibleHeader = null;
 		Class<?>[] dataType = null;
@@ -144,7 +165,6 @@ public class GtnFrameworkConfigureBusinessProcessDdlbAction
 			inputList = Arrays
 					.asList(GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxArpSearchFieldvalues());
 		}
-
 		else if (combocomponent.equals(GtnFrameworkCommonStringConstants.RETURNS)) {
 			componentList = new ArrayList<>();
 			GtnUIFrameworkGlobalUI
@@ -177,9 +197,28 @@ public class GtnFrameworkConfigureBusinessProcessDdlbAction
 					.asList(GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxReturnsSearchFieldvalues());
 
 		}
-
 		else if (combocomponent.equals(GtnFrameworkCommonStringConstants.ARM)) {
-			componentList = new ArrayList<>();			
+			componentList = new ArrayList<>();
+			/*
+			 * Selecting Adjustment Type is mandatory for 'ARM'
+			 * So, here Validation Action for Adjustment Type will be added to the Search Button
+			 */
+			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
+			alertActionConfig.setActionType(GtnUIFrameworkActionType.WARNING_ACTION);
+			
+			List<Object> alertParamsList = new ArrayList<>();
+					alertParamsList.add(GtnFrameworkWorkflowInboxClassConstants.ERROR);
+					alertParamsList.add(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENT_TYPE_MANDATORY);
+					alertActionConfig.setActionParameterList(alertParamsList);
+			GtnUIFrameworkGlobalUI
+					.getVaadinComponentData(GtnFrameworkWorkflowInboxClassConstants.SEARCH_BTN).getCurrentComponentConfig()
+					.getGtnUIFrameWorkActionConfigList().get(0)
+					.setFieldValues(Arrays.asList(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE));
+			GtnUIFrameworkGlobalUI
+					.getVaadinComponentData(GtnFrameworkWorkflowInboxClassConstants.SEARCH_BTN).getCurrentComponentConfig()
+					.getGtnUIFrameWorkActionConfigList().get(0)
+					.setActionParameterList(Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(alertActionConfig)));
+			
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.SUMMARY_SEARCH_PANEL_INNERLAYOUT)
 					.setVisible(true);

@@ -385,7 +385,10 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.PRODHIERLEVEL,
 			GtnFrameworkWorkflowInboxClassConstants.PRODRELATIONSID,
 			GtnFrameworkWorkflowInboxClassConstants.PROJECTIONMASTER_SID,
-			GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID };
+			GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID,
+			GtnFrameworkWorkflowInboxClassConstants.COMPANY_NO_ARM,
+			GtnFrameworkWorkflowInboxClassConstants.BUSINESS_UNIT_NO_ARM,
+			GtnFrameworkWorkflowInboxClassConstants.WORKFLOW_DESC};
 
 	private static final Object[] GTN_WORKFLOW_INBOX_PRIVATE_NOTARM_SEARCH_EXTRA_COLUMNS = new Object[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID, GtnFrameworkWorkflowInboxClassConstants.CONTRACTID,
@@ -682,8 +685,10 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
-			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER
-
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING
 	};
 	
 	public static Class<?>[] getGtnWorkflowInboxContractSearchTableColumnsDataType() {

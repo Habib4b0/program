@@ -543,7 +543,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		GtnUIFrameWorkActionConfig validationActionConfig = new GtnUIFrameWorkActionConfig();
 		validationActionConfig.setActionType(GtnUIFrameworkActionType.VALIDATION_ACTION);
 		validationActionConfig.setFieldValues(Arrays.asList(GtnFrameworkWorkflowInboxClassConstants.BUSINESS_PROCESS));
-
+		
 		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 		alertActionConfig.setActionType(GtnUIFrameworkActionType.WARNING_ACTION);
 
@@ -558,11 +558,12 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		
 		/*
 		 * Additional Search criteria List
+		 * specially for "checked Combo box"
 		 */
-		GtnUIFrameWorkActionConfig customCommonValidationAction = new GtnUIFrameWorkActionConfig();
-		customCommonValidationAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		customCommonValidationAction.addActionParameter(GtnFrameworkAdditionalSearchCriteriaAction.class.getName());
-		actionConfigList.add(customCommonValidationAction);
+		GtnUIFrameWorkActionConfig additionalSearchCriteriaAction = new GtnUIFrameWorkActionConfig();
+		additionalSearchCriteriaAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		additionalSearchCriteriaAction.addActionParameter(GtnFrameworkAdditionalSearchCriteriaAction.class.getName());
+		actionConfigList.add(additionalSearchCriteriaAction);
 		
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
@@ -1563,6 +1564,10 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		adjustmentTypeComboBoxConfig.setDefaultValue("-Select Value-");
 		
 		adjustmentTypeComponent.setGtnCheckedComboboxConfig(adjustmentTypeComboBoxConfig);
+		
+		GtnUIFrameworkValidationConfig valConfig = new GtnUIFrameworkValidationConfig();
+		valConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		adjustmentTypeComponent.setGtnUIFrameworkValidationConfig(valConfig);
 		componentList.add(adjustmentTypeComponent);
 	}
 

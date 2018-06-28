@@ -10,6 +10,8 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	private GtnFrameworkWorkflowInboxClassConstants() {
 	}
 
+	public static final String COMPANY_NO_ARM = "Company_No_Arm";
+	public static final String BUSINESS_UNIT_NO_ARM = "Business_Unit_No_Arm";
 	public static final String ARM_TRXF = "ARM_TRXF";
 	public static final String RS_UDC2 = "RS_UDC2";
 	public static final String RS_UDC3 = "RS_UDC3";
