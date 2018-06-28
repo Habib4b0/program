@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.report.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -22,6 +21,7 @@ import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportingDashboardSaveProfileLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsReportDataSelectionSqlGenerateServiceImpl;
@@ -31,7 +31,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 @Service
 public class GtnWsReportWebsevice {
 
-	GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportWebsevice.class);
+	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnWsReportWebsevice.class);
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
@@ -98,36 +98,42 @@ public class GtnWsReportWebsevice {
 	}
 
 	public List<Object[]> loadViewResults(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest,
-			boolean viewMode) throws GtnFrameworkGeneralException, IOException {
-		Session session = sessionFactory.openSession();
-		List<Object> inputList = new ArrayList<>();
-		String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
-		String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
-		Map<String, String> criteriaMap = new HashMap<>();
-		for (GtnWebServiceSearchCriteria searchCriteria : gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest()
-				.getGtnWebServiceSearchCriteriaList()) {
-			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
-				criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
+			boolean viewMode) {
+		try (Session session = sessionFactory.openSession()) {
+			List<Object> inputList = new ArrayList<>();
+			String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
+			String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
+			Map<String, String> criteriaMap = new HashMap<>();
+			for (GtnWebServiceSearchCriteria searchCriteria : gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest()
+					.getGtnWebServiceSearchCriteriaList()) {
+				if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
+					criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
+				}
 			}
-		}
-		inputList.add("'" + viewType + "'");
-		if (viewMode) {
-			String privateViewName = criteriaMap.get("privateViewName");
-			inputList.add("'" + privateViewName + "'");
-			inputList.add(" AND CREATED_BY = " + userId);
-		} else {
-			String viewName = criteriaMap.get("publicViewName");
-			inputList.add("'" + viewName + "'");
-			inputList.add(StringUtils.EMPTY);
-		}
+			inputList.add("'" + viewType + "'");
+			if (viewMode) {
+				String privateViewName = criteriaMap.get("privateViewName");
+				inputList.add("'" + privateViewName + "'");
+				inputList.add(" AND CREATED_BY = " + userId);
+                                inputList.add(0);
+			} else {
+				String viewName = criteriaMap.get("publicViewName");
+				inputList.add("'" + viewName + "'");
+				inputList.add(StringUtils.EMPTY);
+                                inputList.add(0);
+			}
 
-		String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
-		SQLQuery query = session.createSQLQuery(viewQuery).addScalar("VIEW_NAME", new StringType())
-				.addScalar("CREATED_DATE", new DateType()).addScalar("MODIFIED_DATE", new DateType())
-				.addScalar("CREATED_BY", new IntegerType()).addScalar("VIEW_ID", new IntegerType())
-				.addScalar("VIEW_DATA", new StringType());
-		List<Object[]> resultList = query.list();
-		return resultList;
+			String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
+			SQLQuery query = session.createSQLQuery(viewQuery).addScalar("VIEW_NAME", new StringType())
+					.addScalar("CREATED_DATE", new DateType()).addScalar("MODIFIED_DATE", new DateType())
+					.addScalar("CREATED_BY", new IntegerType()).addScalar("VIEW_ID", new IntegerType())
+					.addScalar("VIEW_DATA", new StringType());
+			List<Object[]> resultList = query.list();
+			return resultList;
+		} catch (Exception ex) {
+			gtnLogger.error(ex.getMessage(), ex);
+			return null;
+		}
 	}
 
 	public List<Object[]> loadComparisonAvailableTable(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
@@ -144,7 +150,8 @@ public class GtnWsReportWebsevice {
 			return Collections.emptyList();
 		} else {
 			comparisonResults = criteriaMap.get("projectionType").equals("F")
-					? loadProjectionComparisonResults(criteriaMap) : loadCFFComparisonResults(criteriaMap);
+					? loadProjectionComparisonResults(criteriaMap)
+					: loadCFFComparisonResults(criteriaMap);
 			return comparisonResults;
 		}
 	}
@@ -249,6 +256,18 @@ public class GtnWsReportWebsevice {
 		return recordCount;
 	}
 
+	public int checkReportProfileViewRecordCount(GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
+			throws GtnFrameworkGeneralException {
+		int reportProfileCountRecordCount = 0;
+		String reportProfileCountQuery = sqlService.getQuery("getViewCount");
+		Object[] reportProfileCountParams = { reportingDashboardSaveProfileLookupBean.getReportProfileviewName(), reportingDashboardSaveProfileLookupBean.getReportProfileviewType(), userId };
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.INTEGER };
+		List<Integer> reportProfileCountResultList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(reportProfileCountQuery, reportProfileCountParams, paramsType);
+		reportProfileCountRecordCount = reportProfileCountResultList.get(0);
+		return reportProfileCountRecordCount;
+	}
+	
 	public int saveReportingMaster(GtnWsReportDataSelectionBean dataSelectionBean, int userId)
 			throws GtnFrameworkGeneralException {
 		List<Object> inputList = new ArrayList<>();
@@ -258,9 +277,25 @@ public class GtnWsReportWebsevice {
 		inputList.add(userId);
 		String viewData = gtnReportJsonService.convertObjectAsJsonString(dataSelectionBean).replaceAll("'", "\\\\");
 		inputList.add("'" + viewData + "'");
+		inputList.add(0);
 		String query = sqlService.getQuery(inputList, "insertView");
 		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
 		return count;
+	}
+	
+	public int saveReportProfileMaster(GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
+			throws GtnFrameworkGeneralException {
+		List<Object> reportProfileInputList = new ArrayList<>();
+		reportProfileInputList.add("'" + reportingDashboardSaveProfileLookupBean.getReportProfileviewName() + "'");
+		reportProfileInputList.add("'" + reportingDashboardSaveProfileLookupBean.getReportProfileviewType() + "'");
+		reportProfileInputList.add(userId);
+		reportProfileInputList.add(userId);
+		String reportProfileViewData = gtnReportJsonService.convertObjectAsJsonString(reportingDashboardSaveProfileLookupBean).replaceAll("'", "\\\\");
+		reportProfileInputList.add("'" + reportProfileViewData + "'");
+		reportProfileInputList.add(1);
+		String reportProfileQuery = sqlService.getQuery(reportProfileInputList, "insertView");
+		int reportProfileCount = gtnSqlQueryEngine.executeInsertOrUpdateQuery(reportProfileQuery);
+		return reportProfileCount;
 	}
 
 	public String getFromAndToDateLoadQuery(String comboBoxType, String frequency) {
@@ -305,34 +340,36 @@ public class GtnWsReportWebsevice {
 
 	private String getFilterValuesForDataAssumptions(String filter, Map<String, String> dbColumnIdMap,
 			Map<String, String> dbColumnDataTypeMap, GtnWebServiceSearchCriteria searchCriteria) {
+		String filterString = filter;
 		String filterId = dbColumnIdMap.get(searchCriteria.getFieldId());
 		String filterValue = searchCriteria.getFilterValue1();
 		String filterExpression = searchCriteria.getExpression();
 		if (!dbColumnDataTypeMap.get(searchCriteria.getFieldId()).equals("Date")) {
-			filter = filter + "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue + "%'";
+			filterString = filterString + "AND" + " " + filterId + " " + filterExpression + " " + "'%" + filterValue + "%'";
 		} else {
 			String[] splitedArray = filterValue.split(" ");
-			filter = getFilterValueForDateFields(filter, filterValue, splitedArray);
+			filterString = getFilterValueForDateFields(filterString, filterValue, splitedArray);
 		}
-		return filter;
+		return filterString;
 	}
 
 	private String getFilterValueForDateFields(String filter, String filterValue, String[] splitedArray) {
+		String filterString = filter;
 		if ("Show all".equals(filterValue)) {
-			filter = filter + "";
+			filterString = filterString + "";
 		} else if (!filterValue.startsWith(" ") && splitedArray.length >= 3) {
 
-			filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) >= CONVERT(date, '" + splitedArray[0] + "')"
+			filterString = filterString + " AND" + " CONVERT(date, FROM_PERIOD) >= CONVERT(date, '" + splitedArray[0] + "')"
 					+ " AND" + " CONVERT(date, FROM_PERIOD) <= CONVERT(date, '" + splitedArray[2] + "')";
 
 		} else if (!filterValue.startsWith(" ") && splitedArray.length < 3) {
 
-			filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) >= CONVERT(date, '" + splitedArray[0] + "')";
+			filterString = filterString + " AND" + " CONVERT(date, FROM_PERIOD) >= CONVERT(date, '" + splitedArray[0] + "')";
 
 		} else {
-			filter = filter + " AND" + " CONVERT(date, FROM_PERIOD) <= CONVERT(date, '" + splitedArray[2] + "')";
+			filterString = filterString + " AND" + " CONVERT(date, FROM_PERIOD) <= CONVERT(date, '" + splitedArray[2] + "')";
 		}
-		return filter;
+		return filterString;
 	}
 
 	private Map<String, String> getDataBaseColumnIdName() {

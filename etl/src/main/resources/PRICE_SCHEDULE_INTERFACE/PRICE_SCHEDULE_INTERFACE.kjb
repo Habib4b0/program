@@ -225,8 +225,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1212</xloc>
-      <yloc>1030</yloc>
+      <xloc>1218</xloc>
+      <yloc>1004</yloc>
       </entry>
     <entry>
       <name>FILE CHECKING</name>
@@ -437,8 +437,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1428</xloc>
-      <yloc>1874</yloc>
+      <xloc>1481</xloc>
+      <yloc>1871</yloc>
       </entry>
     <entry>
       <name>STOP PROCESS AUDIT</name>
@@ -550,8 +550,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1210</xloc>
-      <yloc>1137</yloc>
+      <xloc>1224</xloc>
+      <yloc>1097</yloc>
       </entry>
     <entry>
       <name>CONTRACT VALIDATION </name>
@@ -566,8 +566,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1214</xloc>
-      <yloc>1232</yloc>
+      <xloc>1228</xloc>
+      <yloc>1178</yloc>
       </entry>
     <entry>
       <name>SNAP</name>

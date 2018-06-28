@@ -49,6 +49,14 @@ public class GtnReportingVariableBreakdownFrequencyLoadAction
 				.getCaptionFromV8ComboBox();
 
                 if("reportingDashboardScreen".equals(actionParameterList.get(3).toString())){
+                	 GtnUIFrameworkBaseComponent   reportingDashboardFrequencyComponent = GtnUIFrameworkGlobalUI
+                             .getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency",componentId);
+                   
+                   
+                   String reportingDashboardFrequency = reportingDashboardFrequencyComponent.getCaptionFromV8ComboBox();
+                   if(!"0".equals(reportingDashboardFrequency)){
+                	   frequencyId=reportingDashboardFrequency;
+                   }
                        GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponentFromView(actionParameterList.get(2).toString(), componentId).getComponentConfig()
 						.getGtnComboboxConfig();

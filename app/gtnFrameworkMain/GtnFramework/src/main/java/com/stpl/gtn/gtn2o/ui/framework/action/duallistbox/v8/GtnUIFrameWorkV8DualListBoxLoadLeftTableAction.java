@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -47,21 +48,22 @@ public class GtnUIFrameWorkV8DualListBoxLoadLeftTableAction implements GtnUIFram
 	public void loadLeftTable(GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig,
 			GtnFrameworkV8DualListBoxBean dualListBoxBean) {
 		Grid<GtnWsRecordBean> leftTable = dualListBoxBean.getLeftTable();
-		Map<String, String> levelValueMap = (Map<String, String>) dualListBoxBean.getGtnDualListBoxqueryParameters()
-				.get(1);
-		GtnUIFrameworkWebserviceResponse response = callWebService(
-				GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE + dualListBoxConfig.getLeftTableURL(),
-				createLeftTableRequest(dualListBoxBean, dualListBoxConfig), dualListBoxConfig);
-		List<GtnWsRecordBean> outputList = new ArrayList<>(10);
-		for (GtnUIFrameworkDataRow record : response.getGtnSerachResponse().getResultSet().getDataTable()) {
-			GtnWsRecordBean recordBean = new GtnWsRecordBean();
-			recordBean.setProperties(record.getColList());
-			recordBean.addProperties(levelValueMap.get(record.getColumnVAlue(4)));
-			recordBean.setRecordHeader(dualListBoxConfig.getRecordHeader());
-			outputList.add(recordBean);
-		}
-		ListDataProvider<GtnWsRecordBean> dataProvider = DataProvider.ofCollection(outputList);
-		leftTable.setDataProvider(dataProvider);
+		Optional.ofNullable(dualListBoxBean.getGtnDualListBoxqueryParameters()).ifPresent(e -> {
+			Map<String, String> levelValueMap = (Map<String, String>) e.get(1);
+			GtnUIFrameworkWebserviceResponse response = callWebService(
+					GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE + dualListBoxConfig.getLeftTableURL(),
+					createLeftTableRequest(dualListBoxBean, dualListBoxConfig), dualListBoxConfig);
+			List<GtnWsRecordBean> outputList = new ArrayList<>(10);
+			for (GtnUIFrameworkDataRow record : response.getGtnSerachResponse().getResultSet().getDataTable()) {
+				GtnWsRecordBean recordBean = new GtnWsRecordBean();
+				recordBean.setProperties(record.getColList());
+				recordBean.addProperties(levelValueMap.get(record.getColumnVAlue(4)));
+				recordBean.setRecordHeader(dualListBoxConfig.getRecordHeader());
+				outputList.add(recordBean);
+			}
+			ListDataProvider<GtnWsRecordBean> dataProvider = DataProvider.ofCollection(outputList);
+			leftTable.setDataProvider(dataProvider);
+		});
 	}
 
 	private GtnUIFrameworkWebserviceRequest createLeftTableRequest(final GtnFrameworkV8DualListBoxBean dualListBoxBean,
@@ -94,8 +96,7 @@ public class GtnUIFrameWorkV8DualListBoxLoadLeftTableAction implements GtnUIFram
 			return client.callGtnWebServiceUrl(webServiceUrl, "forecast", request,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		} else {
-			return client.callGtnWebServiceUrl(webServiceUrl, request,
-					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			return client.callGtnWebServiceUrl(webServiceUrl, request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		}
 	}
 
