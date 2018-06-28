@@ -331,9 +331,9 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.CREATEDTO, GtnFrameworkWorkflowInboxClassConstants.CREATEDBY,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM, GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY, "companyARM", "businessUnitARM", "workflowStatusArm",
-			/*GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE,*/ "contractIdArm", "contractNoArm", "customerNoArm",
+			"contractIdArm", "contractNoArm", "customerNoArm",
 			"customerNameArm", "brandIdArm", "contractNameArm", "itemNoArm", "itemNameArm", "brandNameArm", "glDateArm",
-			/*"deductionLevelArm", "deductionValueArm",*/ "deductionNoArm", "deductionNameArm" };
+			"deductionNoArm", "deductionNameArm" };
 
 	private static final Object[] GTN_WORKFLOW_INBOX_CONTRACT_SEARCH_EXTRA_COLUMNS = new Object[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID, GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS,
