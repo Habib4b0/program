@@ -47,6 +47,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnReportFilterReloadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportForecastEligibleDateReloadInReportingDashboardAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportLevelFilterReloadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportVariableReloadInReportingDashboardAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardReportProfileLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardSaveProfileAddAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportFilterGenerateLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportLevelDdlbLoadAction;
@@ -224,6 +225,8 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
                 new GtnFrameworkReportingDashboardSaveProfileAction()); 
         GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingDashboardSaveProfileAddAction.class.getName(),
                 new GtnReportingDashboardSaveProfileAddAction()); 
+        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingDashboardReportProfileLoadAction.class.getName(),
+                new GtnReportingDashboardReportProfileLoadAction());
 	}
 
 }
