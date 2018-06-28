@@ -333,7 +333,7 @@ public class GtnFrameworkWorkflowPublicPrivateViewSaveAction
 			StringBuilder listString=new StringBuilder();
 			
 			for(String[] menuItem: objectList) {
-				listString.append(menuItem[0]);
+				listString.append(menuItem[2]);
 				listString.append(",");
 			}
 			listString.deleteCharAt(listString.lastIndexOf(","));
