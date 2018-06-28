@@ -65,6 +65,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String PRODUCT_RELATIONSHIP = "ProductRelationship";
 
 	public static final String RELATIONSHIP_VERSION = "RelationshipVersion";
+	
+	public static final String REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID = "saveProfileViewLookUp";
 
 	public static final String PRIVATE_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT = "privateViewSearchLookupSearchAndResetLayout";
 
