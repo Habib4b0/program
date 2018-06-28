@@ -98,11 +98,12 @@ public class GtnWsReportWebsevice {
 	}
 
 	public List<Object[]> loadViewResults(GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest,
-			boolean viewMode) {
+			boolean viewMode , int viewCheck) {
 		try (Session session = sessionFactory.openSession()) {
 			List<Object> inputList = new ArrayList<>();
 			String userId = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest().getUserId();
 			String viewType = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
+                        String viewName = "";
 			Map<String, String> criteriaMap = new HashMap<>();
 			for (GtnWebServiceSearchCriteria searchCriteria : gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest()
 					.getGtnWebServiceSearchCriteriaList()) {
@@ -110,17 +111,31 @@ public class GtnWsReportWebsevice {
 					criteriaMap.put(searchCriteria.getFieldId(), getCriteria(searchCriteria));
 				}
 			}
+			if(viewCheck == 1){
+                            viewType = criteriaMap.get("reportProfileLookup_viewType");
+                            viewName = criteriaMap.get("reportProfileLookup_viewName");
+                            if(viewType.startsWith("Priv")){
+                                viewMode = true;
+                            }
+                            else{
+                                viewMode = false;
+                            }
+                        }
 			inputList.add("'" + viewType + "'");
 			if (viewMode) {
-				String privateViewName = criteriaMap.get("privateViewName");
-				inputList.add("'" + privateViewName + "'");
+                                if(viewCheck == 0){
+				viewName = criteriaMap.get("privateViewName");
+                                }
+				inputList.add("'" + viewName + "'");
 				inputList.add(" AND CREATED_BY = " + userId);
-                                inputList.add(0);
+				inputList.add(viewCheck);
 			} else {
-				String viewName = criteriaMap.get("publicViewName");
+                                if(viewCheck == 0){
+				viewName = criteriaMap.get("publicViewName");
+                                }
 				inputList.add("'" + viewName + "'");
 				inputList.add(StringUtils.EMPTY);
-                                inputList.add(0);
+				inputList.add(viewCheck);
 			}
 
 			String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
@@ -238,6 +253,10 @@ public class GtnWsReportWebsevice {
 			return searchCriteria.getFilterValue1();
 		case "customViewName":
 			return searchCriteria.getFilterValue1();
+		case "reportProfileLookup_viewName":
+			return searchCriteria.getFilterValue1().replace("*", "%");
+		case "reportProfileLookup_viewType":
+			return searchCriteria.getFilterValue1();	
 		default:
 			return null;
 		}
