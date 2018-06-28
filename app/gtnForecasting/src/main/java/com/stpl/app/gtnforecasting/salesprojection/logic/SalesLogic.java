@@ -144,7 +144,7 @@ public class SalesLogic {
     private String start;
     private String end;
     public static final String UNION_ALL_ONE = " UNION ALL SELECT   NULL as account_growth,NULL as product_growth,NULL as projection_sales,NULL as projection_units,NULL as actualsales,NULL as actualunits,NULL as YEARS,NULL as PERIODS,NULL as calculation_periods,NULL as methodology,HIERARCHY_NO, ";
-    public static final String UNION_ALL_TWO = " NULL as rcount,NULL as actualproj,NULL as checkrec,NULL as uncheck_count, NULL as ccpcount,NULL as hierarchy_indicator,NULL as user_group,NULL AS SEC_HIERARCHY,NULL as SALES_INCLUSION ,NULL as  INSTR FROM #SELECTED_HIERARCHY_NO WHERE SALES_INCLUSION=  ";
+    public static final String UNION_ALL_TWO = " NULL as rcount,NULL as actualproj,NULL as checkrec,NULL as uncheck_count, NULL as ccpcount,NULL as hierarchy_indicator,NULL as user_group,NULL AS SEC_HIERARCHY,NULL as SALES_INCLUSION ,INSTR FROM #SELECTED_HIERARCHY_NO WHERE SALES_INCLUSION=  ";
     protected final CommonQueryUtils commonQueryUtils = CommonQueryUtils.getInstance();
     public static final Logger LOGGER = LoggerFactory.getLogger(SalesLogic.class);
     protected SalesProjectionDAO salesAllocationDAO = new SalesProjectionDAOImpl();
