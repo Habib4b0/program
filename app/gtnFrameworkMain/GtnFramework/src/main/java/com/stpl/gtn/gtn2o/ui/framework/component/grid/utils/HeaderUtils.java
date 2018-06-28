@@ -5,20 +5,21 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.utils;
 
-import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
 import static com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid.gtnlogger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.vaadin.data.TreeData;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.components.grid.HeaderRow;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *

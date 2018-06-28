@@ -5,6 +5,14 @@
  */
 package com.stpl.gtn.gtn2o.ws.module.customview.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.customview.constants.GtnWsCustomViewConstants;
@@ -13,17 +21,10 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.customview.service.GtnWsCustomViewService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
@@ -32,7 +33,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE)
 public class GtnWsCustomViewController {
+	private static final String ENTERS_CUSTOM_VIEW_TREE_DATA = "Enters customViewTreeData";
+	private static final String EXCEPTION_IN_CUSTOM_VIEW_TREE_DATA = "Exception in customViewTreeData";
 
+	
     public GtnWsCustomViewController() {
         super();
     }
@@ -159,7 +163,7 @@ public class GtnWsCustomViewController {
     @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_GET_TREE_DATA, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse customViewTreeData(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-        logger.info("Enters customViewTreeData");
+        logger.info(ENTERS_CUSTOM_VIEW_TREE_DATA);
         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         try {
             GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
@@ -170,7 +174,7 @@ public class GtnWsCustomViewController {
             }
             gtnResponse.setGtnWsCustomViewResponse(cvResponse);
         } catch (Exception ex) {
-            logger.error("Exception in customViewTreeData", ex);
+            logger.error(EXCEPTION_IN_CUSTOM_VIEW_TREE_DATA, ex);
         }
 
         logger.info("Exit customViewTreeData");
@@ -180,12 +184,12 @@ public class GtnWsCustomViewController {
     public GtnUIFrameworkWebserviceResponse customViewlevelData(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
         GtnUIFrameworkWebserviceResponse response=new GtnUIFrameworkWebserviceResponse();
-        logger.info("Enters customViewTreeData");
+        logger.info(ENTERS_CUSTOM_VIEW_TREE_DATA);
         try {
             response.setGtnUIFrameworkWebserviceComboBoxResponse(logic.getCustomViewLevelData(gtnWsRequest.getGtnWsCustomViewRequest()));
             return response;
         } catch (Exception ex) {
-            logger.error("Exception in customViewTreeData", ex);
+            logger.error(EXCEPTION_IN_CUSTOM_VIEW_TREE_DATA, ex);
             return response;
         }
     }
@@ -193,12 +197,12 @@ public class GtnWsCustomViewController {
     public GtnUIFrameworkWebserviceResponse customViewData(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
         GtnUIFrameworkWebserviceResponse response=new GtnUIFrameworkWebserviceResponse();
-        logger.info("Enters customViewTreeData");
+        logger.info(ENTERS_CUSTOM_VIEW_TREE_DATA);
         try {
             response.setGtnUIFrameworkWebserviceComboBoxResponse(logic.getCustomViewList());
             return response;
         } catch (Exception ex) {
-            logger.error("Exception in customViewTreeData", ex);
+            logger.error(EXCEPTION_IN_CUSTOM_VIEW_TREE_DATA, ex);
             return response;
         }
     }
@@ -208,7 +212,7 @@ public class GtnWsCustomViewController {
  @RequestMapping(value = GtnWsCustomViewConstants.CUSTOM_VIEW_DELETE, method = RequestMethod.POST)
     public GtnUIFrameworkWebserviceResponse deleteCustomView(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-        logger.info("Enters customViewTreeData");
+        logger.info(ENTERS_CUSTOM_VIEW_TREE_DATA);
         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         try {
             GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();

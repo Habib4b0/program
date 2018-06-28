@@ -27,6 +27,7 @@ import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
  */
 public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfigLoader {
 
+	private static final String RS_DETAILS_DEDUCTION_CALENDAR_NAME = "RS_DETAILS_DEDUCTION_CALENDAR_NAME";
 	private static Map<String, GtnWsSearchQueryConfig> searchQueryConfigMap = new HashMap<>();
 
 	static {
@@ -181,9 +182,9 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 				configProvider.getColumnDateConfig("ITEM_REBATE_START_DATE", GtnFrameworkWebserviceConstant.IMTD_RSD));
 		fieldToColumnDetailsMap.put("rsEndDate",
 				configProvider.getColumnDateConfig("ITEM_REBATE_END_DATE", GtnFrameworkWebserviceConstant.IMTD_RSD));
-		fieldToColumnDetailsMap.put("deductionName", configProvider.getColumnStringConfig("RS_DETAILS_DEDUCTION_CALENDAR_NAME",
+		fieldToColumnDetailsMap.put("deductionName", configProvider.getColumnStringConfig(RS_DETAILS_DEDUCTION_CALENDAR_NAME,
 						GtnFrameworkWebserviceConstant.IMTD_RSD, "DEDUCTION_CALENDAR_NAME"));
-		fieldToColumnDetailsMap.put("deductionNo", configProvider.getColumnStringConfig("RS_DETAILS_DEDUCTION_CALENDAR_NAME",
+		fieldToColumnDetailsMap.put("deductionNo", configProvider.getColumnStringConfig(RS_DETAILS_DEDUCTION_CALENDAR_NAME,
 						GtnFrameworkWebserviceConstant.IMTD_RSD, "DEDUCTION_CALENDAR_NO"));
 		fieldToColumnDetailsMap.put("deductionSysId", configProvider
 				.getColumnStringConfig("DEDUCTION_CALENDAR_MASTER_SID", GtnFrameworkWebserviceConstant.IMTD_RSD));
@@ -273,9 +274,9 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 
 		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
-		fieldToColumnDetailsMap.put("deductionCalendarName", configProvider.getColumnStringConfig("RS_DETAILS_DEDUCTION_CALENDAR_NAME",
+		fieldToColumnDetailsMap.put("deductionCalendarName", configProvider.getColumnStringConfig(RS_DETAILS_DEDUCTION_CALENDAR_NAME,
 						GtnFrameworkWebserviceConstant.IMTD_RSD, "DEDUCTION_CALENDAR_NAME"));
-		fieldToColumnDetailsMap.put("deductionCalendarNo", configProvider.getColumnStringConfig("RS_DETAILS_DEDUCTION_CALENDAR_NAME",
+		fieldToColumnDetailsMap.put("deductionCalendarNo", configProvider.getColumnStringConfig(RS_DETAILS_DEDUCTION_CALENDAR_NAME,
 						GtnFrameworkWebserviceConstant.IMTD_RSD, "DEDUCTION_CALENDAR_NO"));
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.SYSTEM_ID, configProvider
 				.getColumnStringConfig("DEDUCTION_CALENDAR_MASTER_SID", GtnFrameworkWebserviceConstant.IMTD_RSD));

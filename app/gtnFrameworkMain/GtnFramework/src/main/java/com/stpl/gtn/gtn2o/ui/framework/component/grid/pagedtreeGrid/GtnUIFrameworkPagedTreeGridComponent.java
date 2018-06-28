@@ -5,6 +5,11 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedtreeGrid;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
@@ -20,7 +25,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -29,10 +33,6 @@ import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.VerticalLayout;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 
 /**
  *
@@ -63,7 +63,6 @@ public class GtnUIFrameworkPagedTreeGridComponent
 
 		pagedTreeGrid.getGrid().getEditor().setEnabled(true);
 		pagedTreeGrid.getGrid().setData(componentData);
-		// resultLayout.setData(componentData);
 		componentData.setCurrentGtnComponent(this);
 		try {
 
@@ -169,12 +168,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
 		VerticalLayout resultLayout = (VerticalLayout) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
 		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) resultLayout.getData();
-		// PagedTreeGrid resultsTable = (PagedTreeGrid)
-		// componentData.getCustomDataList().get(0);
-		// GtnUIFrameworkPagedTreeTableLogic tableLogic =
-		// (GtnUIFrameworkPagedTreeTableLogic) resultsTable
-		// .getLeftFreezeAsTable().getContainerLogic();
-		// tableLogic.clearAll();
+	
 	}
 
 	/**
@@ -268,9 +262,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 
 
 	public void configureDynamicTreeTableHeaders(PagedTreeGrid pagedTreeGrid,
-			GtnUIFrameworkPagedTreeTableConfig tableConfig, GtnUIFrameworkPagedTreeTableLogic tableLogic,
-			GtnUIFrameworkComponentData componentData, GtnWsPagedTreeTableResponse leftTableHeaders,
-			GtnWsPagedTreeTableResponse rightTableHeaders) {
+			GtnUIFrameworkPagedTreeTableConfig tableConfig ) {
 		initializeResultTable(pagedTreeGrid, tableConfig);
 
 	}

@@ -51,6 +51,9 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 @Scope(value = "singleton")
 public class GtnWsCustomViewService {
 
+	private static final String REPORT = "report";
+	
+	
     public GtnWsCustomViewService() {
         super();
     }
@@ -100,7 +103,7 @@ public class GtnWsCustomViewService {
         try {
             List<String> inputlist = new ArrayList<>();
             inputlist.add(cvRequest.getCustomViewName());
-            String query = cvRequest.getCustomViewType().startsWith("report") ? "getCustomViewNameDuplicateCheckReport" : "getCustomViewNameDuplicateCheck";
+            String query = cvRequest.getCustomViewType().startsWith(REPORT) ? "getCustomViewNameDuplicateCheckReport" : "getCustomViewNameDuplicateCheck";
             List result = executeQuery(getQuery(query), inputlist);
             if (result != null && !result.isEmpty()) {
                 relationCount = Integer.parseInt(String.valueOf(result.get(0)));
@@ -117,7 +120,7 @@ public class GtnWsCustomViewService {
         int customViewMasterSid = saveCustViewMaster(cvRequest);
         saveCustomViewDetails(customViewMasterSid, cvRequest);
         customViewSaveLogicCCPDetails(customViewMasterSid, cvRequest);
-        if (!cvRequest.getCustomViewType().startsWith("report")) {
+        if (!cvRequest.getCustomViewType().startsWith(REPORT)) {
             callProcedureForDiscountPopulation(customViewMasterSid);
         }
              cvResponse.setSuccess(true);
@@ -224,7 +227,7 @@ public class GtnWsCustomViewService {
                 String hql = "delete from CustViewDetails where customViewMasterSid= :classId";
                 session.createQuery(hql).setString("classId", String.valueOf(masterSid)).executeUpdate();
             }
-            if (cvRequest.getCustomViewType().startsWith("report")) {
+            if (cvRequest.getCustomViewType().startsWith(REPORT)) {
                 saveReportCustViewDetailsRecords(cvTreeNodeList, masterId, cvRequest.getCustomViewType(), session);
             } else {
                 saveCustViewDetailsRecords(cvTreeNodeList, masterId, session);
@@ -430,7 +433,7 @@ public class GtnWsCustomViewService {
         Criteria selectCriteria = session.createCriteria(CustViewMaster.class);
         GtnUIFrameworkWebserviceComboBoxResponse response=new GtnUIFrameworkWebserviceComboBoxResponse();
        
-        selectCriteria.add(Restrictions.like("screenName","report",MatchMode.ANYWHERE));
+        selectCriteria.add(Restrictions.like("screenName",REPORT,MatchMode.ANYWHERE));
         List<CustViewMaster> gtnListOfData = selectCriteria.list();
            for (CustViewMaster detailsData : gtnListOfData) {
                 response.addItemCodeList(Integer.toString(detailsData.getCustViewMasterSid()));
@@ -460,7 +463,7 @@ public class GtnWsCustomViewService {
                 continue;
             }
             gtnWsRecordBean = new GtnWsRecordBean();
-            if (cvRequest.getCustomViewType().startsWith("report")) {
+            if (cvRequest.getCustomViewType().startsWith(REPORT)) {
                 configureReportBean(gtnWsRecordBean, levelName, detailsData.getHierarchyId(), detailsData);
             } else {
                 gtnWsRecordBean.addAdditionalProperty(detailsData.getLevelNo());
