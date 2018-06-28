@@ -343,7 +343,7 @@ public class GtnFrameworkCVAddConfig {
 		navigationActionConfig.setActionType(GtnUIFrameworkActionType.NAVIGATION_ACTION);
 		navigationActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		onSucessActionConfigList.add(navigationActionConfig);
-		alertParamsList.add(onSucessActionConfigList);
+                alertParamsList.add(onSucessActionConfigList);
 		cvBackButtonConfirmationActionConfig.setActionParameterList(alertParamsList);
 		actionConfigList.add(cvBackButtonConfirmationActionConfig);
 		cvBackButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
