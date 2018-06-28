@@ -1467,25 +1467,6 @@ public class HeaderUtils {
                                 singleHeaderForExcel.add(ACTUAL_AMOUNT_LABEL);// Ends here
                                 dmap.add(actAmtColumn);
                             }
-                            if(!projSelDTO.isIsCustomHierarchy()){
-                            if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
-                                actSales = commonColumn + ACTUALSALESLOWCASE;
-                                excelHeader.addSingleColumn(actSales, ACTUALSALESLOWCASE, String.class);
-                                //Added for tabwise excel export
-                                singleColumnForExcel.add(actSales);
-                                singleHeaderForExcel.add(ACTUALSALESLOWCASE);// Ends here
-                                dmap.add(actSales);
-                            }
-                            if (projSelDTO.getdPVariablesList().contains(REBATE_PER_UNIT.getConstant())) {
-                                actUnits = commonColumn + ACTUALUNITSLOWCASE;
-                                excelHeader.addSingleColumn(actUnits, ACTUALUNITSLOWCASE, String.class);
-                                //Added for tabwise excel export
-                                singleColumnForExcel.add(actUnits);
-                                singleHeaderForExcel.add(ACTUALUNITSLOWCASE);// Ends here
-                                dmap.add(actUnits);
-                            }
-                            }
-//                         
 
                         }
                     }
@@ -1537,24 +1518,7 @@ public class HeaderUtils {
                             singleHeaderForExcel.add(Constant.PROJECTED_AMOUNT_LABEL);//Ends here
                             dmap.add(prjAmtColumn);
                         }
-                        if(!projSelDTO.isIsCustomHierarchy()){
-                        if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
-                            projSales = commonColumn + PROJECTEDSALESLOWCASE;
-                            excelHeader.addSingleColumn(projSales, PROJECTEDSALESLOWCASE, String.class);
-                            //Added for tabwise excel export
-                            singleColumnForExcel.add(projSales);
-                            singleHeaderForExcel.add(PROJECTEDSALESLOWCASE);//Ends here
-                            dmap.add(projSales);
-                        }
-                        if (projSelDTO.getdPVariablesList().contains(REBATE_PER_UNIT.getConstant())) {
-                            projUnits = commonColumn + PROJECTEDUNITSLOWCASE;
-                            excelHeader.addSingleColumn(projUnits, PROJECTEDUNITSLOWCASE, String.class);
-                            //Added for tabwise excel export
-                            singleColumnForExcel.add(projUnits);
-                            singleHeaderForExcel.add(PROJECTEDUNITSLOWCASE);//Ends here
-                            dmap.add(projUnits);
-                        }
-                        }
+                    
                          if (projSelDTO.getdPVariablesList().contains(GROWTH.getConstant())) {
                             tableHeader.addSingleColumn(growthColumn, Constant.GROWTH, String.class);
                             excelHeader.addSingleColumn(growthColumn, Constant.GROWTH, String.class);
