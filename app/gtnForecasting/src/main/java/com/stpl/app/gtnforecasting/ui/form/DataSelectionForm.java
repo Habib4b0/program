@@ -3181,7 +3181,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				tempSession.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
 				tempSession.setProductRelationVersion(dto.getProductRelationShipVersionNo());
 				tempSession.setDeductionRelationVersion(dto.getDeductionRelationShipVersionNo());
-                                tempSession.setDataSelectionDeductionLevel(String.valueOf(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? 0 : DataTypeConverter.convertObjectToInt(mapValue)));
+                                tempSession.setDataSelectionDeductionLevel(String.valueOf(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? 1 : DataTypeConverter.convertObjectToInt(mapValue)));
                                 dto.setDataSelectionDeductionLevelSid(Integer.parseInt(tempSession.getDataSelectionDeductionLevel()));
                                 tempSession.setDataSelectionDeductionLevelCaption(dataSelectionDeductionLevel.getItemCaption(Integer.parseInt(tempSession.getDataSelectionDeductionLevel())));
                                 tempSession.setDeductionLevel(String.valueOf(tempSession.getDataSelectionDeductionLevel()));
@@ -3408,7 +3408,7 @@ public class DataSelectionForm extends ForecastDataSelection {
                                 session.setDsFrequency(String.valueOf(frequency.getValue()));
                                  session.setCustomRelationShipSid(dto.getCustomRelationShipSid());
                                 session.setCustomDeductionRelationShipSid(dto.getCustomDeductionRelationShipSid());
-                                session.setDataSelectionDeductionLevel(String.valueOf(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? SELECT_ONE : DataTypeConverter.convertObjectToInt(mapValue)));
+                                session.setDataSelectionDeductionLevel(String.valueOf(CommonUtil.nullCheck(mapValue) || CommonUtil.stringNullCheck(mapValue) ? 1 : DataTypeConverter.convertObjectToInt(mapValue)));
                                 dto.setDataSelectionDeductionLevelSid(Integer.parseInt(session.getDataSelectionDeductionLevel()));
                                 session.setDataSelectionDeductionLevelCaption(dataSelectionDeductionLevel.getItemCaption(Integer.parseInt(session.getDataSelectionDeductionLevel())));
                                 session.setDeductionLevel(String.valueOf(session.getDataSelectionDeductionLevel()));

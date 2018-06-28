@@ -5,30 +5,10 @@
  */
 package com.stpl.gtn.gtn2o.ws.module.customview.service;
 
-import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
-import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkQueryGeneratorService;
-import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
-import com.stpl.gtn.gtn2o.ws.entity.customviewforecast.CustViewDetails;
-import com.stpl.gtn.gtn2o.ws.entity.customviewforecast.CustViewMaster;
-import com.stpl.gtn.gtn2o.ws.entity.customviewforecast.CustomViewVariables;
-import com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipBuilder;
-import com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipLevelDefinition;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
-import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
-import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
-import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
-import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
@@ -40,6 +20,28 @@ import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+
+import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
+import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkQueryGeneratorService;
+import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.entity.customviewforecast.CustViewDetails;
+import com.stpl.gtn.gtn2o.ws.entity.customviewforecast.CustViewMaster;
+import com.stpl.gtn.gtn2o.ws.entity.customviewforecast.CustomViewVariables;
+import com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipBuilder;
+import com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipLevelDefinition;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
+import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
+import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 /**
  *
@@ -77,8 +79,8 @@ public class GtnWsCustomViewService {
     public void checkCustomViewSave(GtnWsCustomViewRequest cvRequest,
             GtnWsCustomViewResponse cvResponse) throws GtnFrameworkGeneralException {
         try {
-            cvResponse.setSuccess(true);
-            if (cvRequest.getCvSysId() == 0 && checkDuplicateCustomViewName(cvRequest)) {
+             cvResponse.setSuccess(true);
+            if (cvRequest.getCvSysId() == 0 && checkDuplicateCustomViewName(cvRequest)) {   
                 cvResponse.setSuccess(false);
                 cvResponse.setMessageType(GtnFrameworkCommonStringConstants.ERROR);
                 cvResponse.setMessage("Entered Custom View Name already exists.");
@@ -529,7 +531,7 @@ public class GtnWsCustomViewService {
 			}
 			tx.commit();
 			cvResponse.setMessageType("success");
-			cvResponse.setMessage(cvRequest.getCustomViewName()+ " has been deleted Successfully.");
+			cvResponse.setMessage(cvRequest.getCustomViewName() + " has been deleted Successfully.");
 		} catch (Exception e) {
 			tx.rollback();
 			cvResponse.setSuccess(false);
@@ -541,21 +543,21 @@ public class GtnWsCustomViewService {
 			session.close();
 		}
 	}
-     @SuppressWarnings("rawtypes")
+
+	@SuppressWarnings("rawtypes")
 	public boolean checkUsedCustomView(final int customViewMasterSid) throws GtnFrameworkGeneralException {
 		boolean customViewUsed = false;
 		try {
 			if (customViewMasterSid != 0) {
 				int custCount = 0;
-                                Object[] cvQueryParams = { customViewMasterSid, customViewMasterSid };
-		                GtnFrameworkDataType[] cvQueryTypes = { GtnFrameworkDataType.INTEGER,
-				GtnFrameworkDataType.INTEGER };
-                                List<Object> resultList =  getResultValue("getCustomViewDeleteAlreadyUsed", cvQueryParams, cvQueryTypes);
+				Object[] cvQueryParams = { customViewMasterSid, customViewMasterSid };
+				GtnFrameworkDataType[] cvQueryTypes = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
+				List<Object> resultList = getResultValue("getCustomViewDeleteAlreadyUsed", cvQueryParams, cvQueryTypes);
 				if (resultList != null && !resultList.isEmpty()) {
 					Object result = resultList.get(0);
-                                        custCount = result == null ? 0 :(Integer) result;
+					custCount = result == null ? 0 : (Integer) result;
 				}
-				if (custCount > 0 ) {
+				if (custCount > 0) {
 					customViewUsed = true;
 				}
 			}
@@ -564,7 +566,8 @@ public class GtnWsCustomViewService {
 		}
 		return customViewUsed;
 	}
-        @SuppressWarnings("unchecked")
+
+	@SuppressWarnings("unchecked")
 	public void deletAssociatedHierarchy(CustViewMaster custViewMaster, Session session)
 			throws GtnFrameworkGeneralException {
 		try {
@@ -581,11 +584,26 @@ public class GtnWsCustomViewService {
 			throw new GtnFrameworkGeneralException("Exception in deleting CustViewDetails", e);
 		}
 	}
-        private List<Object> getResultValue(String query, Object[] imtdPsDetailsInsertQueryParams,
+
+	private List<Object> getResultValue(String query, Object[] imtdPsDetailsInsertQueryParams,
 			GtnFrameworkDataType[] imtdPsDetailsInsertQueryTypes) throws GtnFrameworkGeneralException {
 		String psQuery = gtnWsSqlService.getQuery(query);
 		return (List<Object>) gtnSqlQueryEngine.executeSelectQuery(psQuery, imtdPsDetailsInsertQueryParams,
 				imtdPsDetailsInsertQueryTypes);
 
+	}
+
+	private List<GtnWsRecordBean> getRecordBeanFromObjectArray(List<List<Object>> object) {
+		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+		for (List<Object> row : object) {
+			dataTable.addDataRow(row);
+		}
+		List<GtnWsRecordBean> recordBeanList = new ArrayList<>();
+		for (int i = 0; i < dataTable.getDataTable().size(); i++) {
+			GtnWsRecordBean bean = new GtnWsRecordBean();
+			bean.setProperties(dataTable.getDataTable().get(i).getColList());
+			recordBeanList.add(bean);
+		}
+		return recordBeanList;
 	}
 }
