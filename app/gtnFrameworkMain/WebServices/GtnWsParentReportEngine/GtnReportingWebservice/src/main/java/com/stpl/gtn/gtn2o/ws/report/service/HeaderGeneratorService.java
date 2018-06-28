@@ -362,7 +362,7 @@ public class HeaderGeneratorService {
 				tableHeaderDTO.addDoubleColumn(doubleColumn[j] + "" + tripleColumn[i], doubleHeader[j].toString());
 				tableHeaderDTO.addDoubleHeaderMap(doubleColumn[j] + "" + tripleColumn[i], doubleMap.toArray());
 				doubleMap.clear();
-				tripleMap.add(doubleColumn[j] + "_" + tripleColumn[i]);
+				tripleMap.add(doubleColumn[j] + "" + tripleColumn[i]);
 			}
 			tableHeaderDTO.addTripleColumn(tripleColumn[i], tripleHeader[i].toString());
 			tableHeaderDTO.addTripleHeaderMap(tripleColumn[i], tripleMap.toArray());
@@ -463,7 +463,7 @@ public class HeaderGeneratorService {
 		for (int i = 0; i < variablesHeader.length; i++) {
 			for (int j = 0; j < variancesHeader.length; j++) {
 				if (isVariablesAndVariances && isColumn) {
-					combinedVariableCategoryColumn[index] = variableMap.get(variablesHeader[i]) + "_"
+					combinedVariableCategoryColumn[index] = variableMap.get(variablesHeader[i]) + "#"
 							+ variableCategoryMap.get(variancesHeader[j]);
 					combinedVariableCategoryHeader[index] = isColumn ? variablesHeader[i] + " " + variancesHeader[j]
 							: variablesHeader[i];
@@ -471,7 +471,7 @@ public class HeaderGeneratorService {
 					String variable = variableMap.get(variancesHeader[j]);
 					combinedVariableCategoryColumn[index] = variable == null
 							? variableCategoryMap.get(variablesHeader[i])
-							: variableMap.get(variancesHeader[j]) + "_" + variableCategoryMap.get(variablesHeader[i]);
+							: variableMap.get(variancesHeader[j]) + "#" + variableCategoryMap.get(variablesHeader[i]);
 					combinedVariableCategoryHeader[index] = isColumn ? variancesHeader[j] + " " + variablesHeader[i]
 							: variablesHeader[i];
 				}

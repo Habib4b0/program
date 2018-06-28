@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.service.transform;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,23 +19,35 @@ public class GtnWsReportVaribleRowResultTransformer implements ResultTransformer
 	@Override
 	public Object transformTuple(Object[] tuple, String[] aliases) {
 		Map<String, GtnWsReportRightTableData> variableBasedData = new HashMap<>(16);
-
+		
+		String hierarchyNo = (String) tuple[0];
 		for (int k = 4; k < aliases.length; k++) {
 
 			String[] variableVariableCategory = aliases[k].split("#");
-			GtnWsReportRightTableData rowData = variableBasedData.get(variableVariableCategory[0]);
+			String variableName;
+			String variableCategory;
+			if (variableVariableCategory.length == 2) {
+				variableName = variableVariableCategory[0];
+				variableCategory = variableVariableCategory[1];
+			} else {
+				variableName = "";
+				variableCategory = variableVariableCategory[0];
+			}
+
+			GtnWsReportRightTableData rowData = variableBasedData.get(hierarchyNo + variableName);
 			if (rowData == null) {
 				rowData = new GtnWsReportRightTableData();
-				rowData.setHierarchyNo((String) tuple[0]);
-				rowData.setProjectionName((String) tuple[1]);
-				rowData.setYear((int) tuple[2]);
-				rowData.setPeriod((int) tuple[3]);
+				rowData.setHierarchyNo(hierarchyNo);
+				Short year = (Short) tuple[3];
+				Short periodData = (Short) tuple[2];
+				rowData.setYear(year.intValue());
+				rowData.setPeriod(periodData.intValue());
 				Map<String, Double> rowDataMap = new HashMap<>();
-//				rowData.setDataMap(rowDataMap);
-				variableBasedData.put(variableVariableCategory[0], rowData);
+				rowData.setDataMap(rowDataMap);
+				variableBasedData.put(hierarchyNo + variableName, rowData);
 			}
-//			rowData.getDataMap().put(rowData.getPeriod() + "" + rowData.getYear() + variableVariableCategory[1]
-//					+ rowData.getProjectionName(), ((BigDecimal) tuple[k]).doubleValue());
+			Double doubleData = tuple[k] == null ? 0D : ((BigDecimal) tuple[k]).doubleValue();
+			rowData.getDataMap().put(rowData.getPeriod() + "" + rowData.getYear() + variableCategory, doubleData);
 		}
 
 		return variableBasedData;
@@ -42,8 +55,18 @@ public class GtnWsReportVaribleRowResultTransformer implements ResultTransformer
 
 	@Override
 	public List transformList(List collection) {
+		Map<String, Map<String, Double>> hierarchyDataMap = new HashMap<>();
+		for (Object data : collection) {
+			Map<String, GtnWsReportRightTableData> rowData = (Map<String, GtnWsReportRightTableData>) data;
+			for (Map.Entry<String, GtnWsReportRightTableData> variableBasedData : rowData.entrySet()) {
+				if (hierarchyDataMap.get(variableBasedData.getKey()) == null) {
+					hierarchyDataMap.put(variableBasedData.getKey(), new HashMap<>());
+				}
+				hierarchyDataMap.get(variableBasedData.getKey()).putAll(variableBasedData.getValue().getDataMap());
+			}
 
-		return collection;
+		}
+		return Arrays.asList(hierarchyDataMap);
 	}
 
 }
