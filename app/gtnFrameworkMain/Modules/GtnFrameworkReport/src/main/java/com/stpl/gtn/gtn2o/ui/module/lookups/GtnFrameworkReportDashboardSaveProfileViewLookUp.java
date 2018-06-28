@@ -25,7 +25,7 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 
 		GtnUIFrameworkViewConfig reportDashboardSaveProfileView = new GtnUIFrameworkViewConfig();
 		reportDashboardSaveProfileView.setViewName("Profile Save View");
-		reportDashboardSaveProfileView.setViewId("saveProfileViewLookUp");
+		reportDashboardSaveProfileView.setViewId(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
 		reportDashboardSaveProfileView.setDefaultView(false);
 		addReportDashboardSaveProfileComponentList(reportDashboardSaveProfileView, namespace);
 		return reportDashboardSaveProfileView;
@@ -112,7 +112,7 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 		GtnUIFrameWorkActionConfig reportDashboardSaveProfileAddActionConfig = new GtnUIFrameWorkActionConfig();
 		reportDashboardSaveProfileAddActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		reportDashboardSaveProfileAddActionConfig.addActionParameter(GtnReportingDashboardSaveProfileAddAction.class.getName());
-		reportDashboardSaveProfileAddActionConfig.addActionParameter("saveProfileViewLookUp");
+		reportDashboardSaveProfileAddActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
 		reportDashboardSaveProfileAddActionConfig.addActionParameter(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"ReportDashboardSaveProfileNameTextField");
 		reportDashboardSaveProfileAddActionConfig.addActionParameter(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
 		reportDashboardSaveProfileSaveViewAdd.addGtnUIFrameWorkActionConfig(reportDashboardSaveProfileAddActionConfig);
@@ -133,7 +133,11 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 		reportDashboardSaveProfileSaveViewCancel.setComponentName("CLOSE");
 		reportDashboardSaveProfileSaveViewCancel.setParentComponentId(parentId);
 		reportDashboardSaveProfileSaveViewCancel.setAddToParent(true);
-
+		
+		GtnUIFrameWorkActionConfig reportDashboardCloseActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		reportDashboardCloseActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
+		reportDashboardSaveProfileSaveViewCancel.addGtnUIFrameWorkActionConfig(reportDashboardCloseActionConfig);
+		
 		componentList.add(reportDashboardSaveProfileSaveViewCancel);
 
 	}

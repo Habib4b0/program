@@ -115,10 +115,12 @@ public class GtnWsReportWebsevice {
 				String privateViewName = criteriaMap.get("privateViewName");
 				inputList.add("'" + privateViewName + "'");
 				inputList.add(" AND CREATED_BY = " + userId);
+                                inputList.add(0);
 			} else {
 				String viewName = criteriaMap.get("publicViewName");
 				inputList.add("'" + viewName + "'");
 				inputList.add(StringUtils.EMPTY);
+                                inputList.add(0);
 			}
 
 			String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
@@ -275,6 +277,7 @@ public class GtnWsReportWebsevice {
 		inputList.add(userId);
 		String viewData = gtnReportJsonService.convertObjectAsJsonString(dataSelectionBean).replaceAll("'", "\\\\");
 		inputList.add("'" + viewData + "'");
+		inputList.add(0);
 		String query = sqlService.getQuery(inputList, "insertView");
 		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
 		return count;
@@ -289,6 +292,7 @@ public class GtnWsReportWebsevice {
 		reportProfileInputList.add(userId);
 		String reportProfileViewData = gtnReportJsonService.convertObjectAsJsonString(reportingDashboardSaveProfileLookupBean).replaceAll("'", "\\\\");
 		reportProfileInputList.add("'" + reportProfileViewData + "'");
+		reportProfileInputList.add(1);
 		String reportProfileQuery = sqlService.getQuery(reportProfileInputList, "insertView");
 		int reportProfileCount = gtnSqlQueryEngine.executeInsertOrUpdateQuery(reportProfileQuery);
 		return reportProfileCount;
