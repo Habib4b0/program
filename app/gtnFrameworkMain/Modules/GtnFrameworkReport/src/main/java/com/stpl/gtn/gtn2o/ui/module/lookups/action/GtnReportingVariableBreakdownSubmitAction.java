@@ -44,8 +44,9 @@ public class GtnReportingVariableBreakdownSubmitAction implements GtnUIFramework
 
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-                 
-
+    	try {         
+		Map<String, Integer> periodAndYearMap;
+		
         String viewIdCheck = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("variableBreakdown", componentId).getComponentData().getSharedPopupData().toString();
 
         AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinComponent("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent",
@@ -53,40 +54,15 @@ public class GtnReportingVariableBreakdownSubmitAction implements GtnUIFramework
         GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
         
         List<Object[]> gtnReportVariableBreakdownLookupBeanList = (List<Object[]>) gridComponent.getCustomData();
-        
-        
-        List<String> inputList = new ArrayList<>();
-        for(int i=0;i<gtnReportVariableBreakdownLookupBeanList.size();i++){
-            inputList.add(i, gtnReportVariableBreakdownLookupBeanList.get(i)[1].toString());
-        }
-     
-        Set<String> inputSet = new LinkedHashSet<>(inputList);
-        
-        List<String> inputWsList = new ArrayList<>(inputSet);
-
-        GtnWsReportDataSelectionBean gtnWsReportDataSelectionBean = new GtnWsReportDataSelectionBean();
-        gtnWsReportDataSelectionBean.setVariableBreakdownHeaderLoadList(inputWsList);
-        GtnWsReportRequest gtnWsReportRequest = new GtnWsReportRequest();
-        gtnWsReportRequest.setDataSelectionBean(gtnWsReportDataSelectionBean);
-        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
-        gtnUIFrameworkWebserviceRequest.setGtnWsReportRequest(gtnWsReportRequest);
-        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-        GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
-                GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_PERIODS_SERVICE,GtnFrameworkReportStringConstants.REPORT,
-                gtnUIFrameworkWebserviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-
-       List<Object[]> reultList =  response.getGtnReportResponse().getVariableBreakdownLookupBean().getResultList();
-        Map<String,Object[]> periodSidAndYearMap = new HashMap<>(inputWsList.size());
-        for(int k=0;k<inputWsList.size();k++){
-            periodSidAndYearMap.put(inputWsList.get(k),reultList.get(k) );
-        }
+             
         
         List<GtnReportVariableBreakdownLookupBean> variableBreakdownLookupBeanSaveList = new ArrayList<>(gtnReportVariableBreakdownLookupBeanList.size());
          for(int i=0;i<gtnReportVariableBreakdownLookupBeanList.size();i++){
+        	periodAndYearMap = GtnReportingComparisonBreakdownSubmitAction.getPeriodAndYear(gtnReportVariableBreakdownLookupBeanList.get(i)[1].toString());
             GtnReportVariableBreakdownLookupBean variableBreakdownLookupBean = new GtnReportVariableBreakdownLookupBean();
             variableBreakdownLookupBean.setMasterSid((int) gtnReportVariableBreakdownLookupBeanList.get(i)[2]);
-            variableBreakdownLookupBean.setPeriod((int) periodSidAndYearMap.get(gtnReportVariableBreakdownLookupBeanList.get(i)[1])[1]);
-            variableBreakdownLookupBean.setYear((int) periodSidAndYearMap.get(gtnReportVariableBreakdownLookupBeanList.get(i)[1])[2]);
+            variableBreakdownLookupBean.setPeriod(periodAndYearMap.get("period"));
+            variableBreakdownLookupBean.setYear(periodAndYearMap.get("year"));
             variableBreakdownLookupBean.setSelectedVariable((int) gtnReportVariableBreakdownLookupBeanList.get(i)[0]);
             variableBreakdownLookupBeanSaveList.add(variableBreakdownLookupBean);
         }
@@ -108,6 +84,9 @@ public class GtnReportingVariableBreakdownSubmitAction implements GtnUIFramework
                      GtnWsReportConstants.GTN_WS_REPORT_VARIABLE_BREAKDOWN_SAVE_SERVICE, GtnFrameworkReportStringConstants.REPORT,
                      gtnUIFrameworkWebserviceRequestSave, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
          }
+    	} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
        
     }
 
