@@ -103,7 +103,7 @@ public class GtnWsReportController {
 			throws GtnFrameworkGeneralException, IOException {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
-		List<Object[]> resultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest, true);
+		List<Object[]> resultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest, true,0);
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 		dataTable.addData(resultList);
 		gtnSearchResponse.setResultSet(dataTable);
@@ -118,7 +118,7 @@ public class GtnWsReportController {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 		List<Object[]> publicViewResultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest,
-				false);
+				false,0);
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 		dataTable.addData(publicViewResultList);
 		gtnSearchResponse.setResultSet(dataTable);
@@ -126,6 +126,20 @@ public class GtnWsReportController {
 		return response;
 	}
 
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadReportProfileResults(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException, IOException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
+		List<Object[]> resultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest, true ,1);
+		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+		dataTable.addData(resultList);
+		gtnSearchResponse.setResultSet(dataTable);
+		response.setGtnSerachResponse(gtnSearchResponse);
+		return response;
+	}
+	
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOADELIGIBLEDATE_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadForecastEligibleDate(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
