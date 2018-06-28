@@ -67,6 +67,7 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
             
             GtnUIFrameworkGlobalUI.addSessionProperty("customSid", customSid);
             GtnUIFrameworkGlobalUI.addSessionProperty("customViewBean", customViewBean);
+            GtnUIFrameworkGlobalUI.addSessionProperty("mode","Edit");
         } catch (Exception e) {
             gtnLogger.error("Exception in GtnUIFrameworkEditButtonAction", e);
         }

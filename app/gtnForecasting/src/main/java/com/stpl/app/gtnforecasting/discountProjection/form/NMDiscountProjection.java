@@ -2499,7 +2499,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     @Override
     protected void customCalculateBtnClickLogic() {
         try {
-
+             session.setFunctionMode("CALC");
             if (CONTRACT_DETAILS.getConstant().equals(methodologyDdlb.getValue())) {
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(
                         session.getFutureValue(Constant.CALL_PRC_CONTRACT_DETAILS_REBATE));
@@ -2627,7 +2627,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                             "st_disc_growth_factor_", session.getSelectedRsForCustom(),
                                                             String.valueOf(level.getValue()));
                                                 }
+                                                
                                                 discountProjectionLogic.callDPProcedure(session, projectionSelection);
+                                                new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,"","","");
+                                                CommonUtil.getInstance().waitForSeconds();
+                                                CommonLogic.procedureCompletionCheck(session, DISCOUNT, com.stpl.app.serviceUtils.Constants.CUSTOM);
                                                 refreshTableData(getCheckedRecordsHierarchyNo());
                                                 final Notification notif = new Notification(
                                                         Constant.CALCULATION_COMPLETE,
@@ -3988,7 +3992,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         projectionSelection.setdPVariablesList(l);
         try {
-            map.put(Constant.FREQUENCY, projectionSelection.getFrequency());
+            map.put(Constant.FREQUENCY, projectionSelection.getFrequency().isEmpty() ? Constant.QUARTERLY : projectionSelection.getFrequency());
             map.put(Constant.HISTORY, projectionSelection.getHistory());
             map.put(Constant.PROJECTION_PERIOD_ORDER_LABEL, projectionSelection.getProjectionOrder());
             map.put(Constant.ACTUALS_PROJECTIONS, projectionSelection.getActualsOrProjections());
