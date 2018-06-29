@@ -325,11 +325,11 @@ public class GtnFrameworkCVLandingScreenConfig {
                       GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION,
                       GtnFrameworkCommonConstants.CUTOMER_RELATION,
                       GtnFrameworkCommonConstants.PRODUCT_RELATION,
-                      GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE
+                      GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE, GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE
                 ));
 
         paramsList.add(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-            null, null, GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+            null, null, "Sales", GtnFrameworkCommonStringConstants.STRING_EMPTY,
             null));
 
         resetActionConfig.setActionParameterList(paramsList);

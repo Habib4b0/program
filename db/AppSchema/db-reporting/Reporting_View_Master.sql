@@ -35,3 +35,16 @@ BEGIN
         WITH (FillFactor = 80) ON [PRIMARY]
 END
 GO
+
+-----------------------------------------CREATE FLAG COLUMN FOR REPORTING_VIEW_MASTER--------------------
+IF NOT  EXISTS 
+	(	 SELECT 'X'
+         FROM   INFORMATION_SCHEMA.COLUMNS
+         WHERE  TABLE_NAME = 'REPORTING_VIEW_MASTER'
+         AND TABLE_SCHEMA = 'dbo' 
+		 AND COLUMN_NAME = 'FLAG')
+BEGIN
+	ALTER TABLE dbo.REPORTING_VIEW_MASTER 
+	ADD FLAG int
+END
+GO
