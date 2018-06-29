@@ -53,8 +53,11 @@ public class GtnReportingVariableBreakdownSubmitAction implements GtnUIFramework
                 componentId);
         GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
         
-        List<Object[]> gtnReportVariableBreakdownLookupBeanList = (List<Object[]>) gridComponent.getCustomData();
+        List<Object[]> reportVariableBreakdownLookupBeanList = (List<Object[]>) gridComponent.getCustomData();
              
+         Set<Object[]> inputSet = new LinkedHashSet<>(reportVariableBreakdownLookupBeanList);
+        
+        List<Object[]> gtnReportVariableBreakdownLookupBeanList = new ArrayList<>(inputSet);
         
         List<GtnReportVariableBreakdownLookupBean> variableBreakdownLookupBeanSaveList = new ArrayList<>(gtnReportVariableBreakdownLookupBeanList.size());
          for(int i=0;i<gtnReportVariableBreakdownLookupBeanList.size();i++){
@@ -64,6 +67,10 @@ public class GtnReportingVariableBreakdownSubmitAction implements GtnUIFramework
             variableBreakdownLookupBean.setPeriod(periodAndYearMap.get("period"));
             variableBreakdownLookupBean.setYear(periodAndYearMap.get("year"));
             variableBreakdownLookupBean.setSelectedVariable((int) gtnReportVariableBreakdownLookupBeanList.get(i)[0]);
+            variableBreakdownLookupBean.setRowCount((int)gtnReportVariableBreakdownLookupBeanList.get(i)[5]);
+            variableBreakdownLookupBean.setProperty(gtnReportVariableBreakdownLookupBeanList.get(i)[3].toString());
+            variableBreakdownLookupBean.setComponentId(gtnReportVariableBreakdownLookupBeanList.get(i)[6].toString());
+            variableBreakdownLookupBean.setColumnId(gtnReportVariableBreakdownLookupBeanList.get(i)[1].toString());
             variableBreakdownLookupBeanSaveList.add(variableBreakdownLookupBean);
         }
          
