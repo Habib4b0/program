@@ -31,7 +31,7 @@ public class GtnReportingDashboardSaveProfileLookupBean {
 	
 	private List<GtnReportComparisonProjectionBean> displaySelectionComparisonLookupBeanList;
 	private List<GtnReportVariableBreakdownLookupBean> variableBreakdownLookupBeanSaveList;
-	
+	private List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownLookupBeanSaveList;
 	private String reportProfileviewName;
 	private String reportProfileviewType;
 	
@@ -188,7 +188,7 @@ public class GtnReportingDashboardSaveProfileLookupBean {
 			List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownLookupBeanSaveList) {
 		this.comparisonBreakdownLookupBeanSaveList = comparisonBreakdownLookupBeanSaveList;
 	}
-	private List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownLookupBeanSaveList;
+	
 
 	public String getReportProfileviewName() {
 		return reportProfileviewName;
