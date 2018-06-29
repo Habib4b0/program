@@ -4003,6 +4003,9 @@ public class CommonLogic {
         sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchyForExpand(projSelDTO, projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(),flag));
         sql = sql.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
         sql += getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName());
+        if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
+            sql += " AND SPM.FILTER_CCP=1 ";
+        }
         LOGGER.debug("Group Filter Value= {}" , projSelDTO.getGroupFilter());
         return sql;
     }
