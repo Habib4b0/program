@@ -253,7 +253,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
                 variableBreakdownGridCombo.setSelectedItem(variableBreakdownReportProfileBean.get(start).getSelectedVariable());
                 Object[] obj = new Object[7];
                 obj[0] = variableBreakdownReportProfileBean.get(start).getSelectedVariable();
-                obj[1] = variableBreakdownReportProfileBean.get(start).getCol();
+                obj[1] = variableBreakdownReportProfileBean.get(start).getColumnId();
                 obj[2] = variableBreakdownReportProfileBean.get(start).getMasterSid();
                 obj[3] = variableBreakdownReportProfileBean.get(start).getProperty();
                 obj[4] = variableBreakdownReportProfileBean.get(start).getProperty();

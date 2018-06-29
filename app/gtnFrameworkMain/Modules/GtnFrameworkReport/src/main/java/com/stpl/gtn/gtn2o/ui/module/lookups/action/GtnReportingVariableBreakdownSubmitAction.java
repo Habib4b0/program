@@ -70,6 +70,7 @@ public class GtnReportingVariableBreakdownSubmitAction implements GtnUIFramework
             variableBreakdownLookupBean.setRowCount((int)gtnReportVariableBreakdownLookupBeanList.get(i)[5]);
             variableBreakdownLookupBean.setProperty(gtnReportVariableBreakdownLookupBeanList.get(i)[3].toString());
             variableBreakdownLookupBean.setComponentId(gtnReportVariableBreakdownLookupBeanList.get(i)[6].toString());
+            variableBreakdownLookupBean.setColumnId(gtnReportVariableBreakdownLookupBeanList.get(i)[1].toString());
             variableBreakdownLookupBeanSaveList.add(variableBreakdownLookupBean);
         }
          

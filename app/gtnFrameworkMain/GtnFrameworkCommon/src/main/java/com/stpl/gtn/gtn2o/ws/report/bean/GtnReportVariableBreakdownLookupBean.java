@@ -26,7 +26,7 @@ public class GtnReportVariableBreakdownLookupBean {
 	private String currentDateField;
 
 	private String projectionName;
-
+	private String columnId;
 	private List variableBreakdownSaveActionList;
 	private int rowCount;
 	private List<GtnReportComparisonProjectionBean> comparisonLookupBeanList;
@@ -141,6 +141,14 @@ public class GtnReportVariableBreakdownLookupBean {
 
 	public void setComparisonLookupBeanList(List<GtnReportComparisonProjectionBean> comparisonLookupBeanList) {
 		this.comparisonLookupBeanList = comparisonLookupBeanList;
+	}
+
+	public String getColumnId() {
+		return columnId;
+	}
+
+	public void setColumnId(String columnId) {
+		this.columnId = columnId;
 	}
 
 }
