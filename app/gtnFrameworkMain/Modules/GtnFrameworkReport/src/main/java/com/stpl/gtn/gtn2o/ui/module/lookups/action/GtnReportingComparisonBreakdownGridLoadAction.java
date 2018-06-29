@@ -197,7 +197,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 	            for (int start = 0; start < comparisonBreakdownReportProfileBean.size(); start++) {
 	                ComboBox comparisonBreakdownGridCombo = (ComboBox) grid.getHeaderRow(comparisonBreakdownReportProfileBean.get(start).getRowCount())
 	                        .getCell(comparisonBreakdownReportProfileBean.get(start).getProperty()).getComponent();
-	                comparisonBreakdownGridCombo.setSelectedItem(comparisonBreakdownReportProfileBean.get(start).getSelectedVariable());
+	                comparisonBreakdownGridCombo.setSelectedItem(String.valueOf(comparisonBreakdownReportProfileBean.get(start).getSelectedVariable()));
 	                Object[] obj = new Object[7];
 	                obj[0] = comparisonBreakdownReportProfileBean.get(start).getSelectedVariable();
 	                obj[1] = comparisonBreakdownReportProfileBean.get(start).getColumnId();
@@ -327,7 +327,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 					baseComponent.getComponentConfig());
 			ComboBox vaadinCombobox = (ComboBox) abstractVaadinComponent;
 			vaadinCombobox.setId(comparisonLookUpBean.getProperty() + String.valueOf(comparisonLookUpBean.getRowId()));
-
+			vaadinCombobox.setSelectedItem("0");
 			vaadinCombobox.addValueChangeListener(new HasValue.ValueChangeListener() {
 				@Override
 				public void valueChange(HasValue.ValueChangeEvent event) {

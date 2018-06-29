@@ -332,6 +332,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabCurrencyDisplay");
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportingDashboardComparisonConfig");
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabVariableBreakdown");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabComparisonOptions");
 		actionConfigList.add(reportProfileLoadReportingDashboardAction);
 		
 		reportProfileSelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
