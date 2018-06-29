@@ -313,6 +313,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private final Map<String, Object> excelParentRecords = new HashMap();
     private boolean isMultipleVariablesUpdated = false;
     private Object[] tempSingleHeaderArray = null;
+    private boolean isDiscountCustomFirstLoad = true;
 
     private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -426,7 +427,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
         }
         securityForButton();
-        addPropertyValueChangeListeners(frequencyDdlb, viewDdlb, view, adjprograms, adjperiods, massCheck, startPeriod,
+        addPropertyValueChangeListeners(frequencyDdlb,view,adjprograms, adjperiods, massCheck, startPeriod,
                 levelFilterDdlb);
     }
 
@@ -1561,9 +1562,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     fieldDdlb.removeItem(Constant.GROUPFCAPS);
                     fieldDdlb.setValue(Constant.DISCOUNT_RATE_LABEL);
                     projectionSelection.setViewOption(Constant.CUSTOM_LABEL);
-                    if (!projectionSelection.getDeductionLevelFilter().isEmpty()) {
+                    if (!projectionSelection.getDeductionLevelFilter().isEmpty() && !isDiscountCustomFirstLoad) {
                         generateListView(true);
                     }
+                     isDiscountCustomFirstLoad = false;
                     resultsTable.getLeftFreezeAsTable().setColumnCollapsingAllowed(true);
                     resultsTable.getLeftFreezeAsTable().setColumnCollapsed(Constant.GROUP, false);
                     if (CommonUtil.isValueEligibleForLoading()) {

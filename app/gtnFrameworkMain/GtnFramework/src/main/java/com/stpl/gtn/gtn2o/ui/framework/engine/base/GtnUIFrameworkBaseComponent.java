@@ -459,13 +459,13 @@ public class GtnUIFrameworkBaseComponent {
 			vaadinComboBox.setItems(idList);
 			vaadinComboBox
 					.setItemCaptionGenerator(item -> Optional.ofNullable(valueList.get(idList.indexOf(item))).get());
-
+			
 			GtnUIFrameworkComboBoxConfig comboboxConfig = this.getComponentConfig().getGtnComboboxConfig();
 			if (!comboboxConfig.isHasDefaultValue()) {
 				String defaultValue = comboboxConfig.getDefaultValue() != null
 						? String.valueOf(comboboxConfig.getDefaultValue())
 						: GtnFrameworkCommonStringConstants.SELECT_ONE;
-				idList.add(0, 0);
+				idList.add(0, "0");
 				valueList.add(0, defaultValue);
 			} else {
 				for (int i = 0; i < valueList.size(); i++) {
@@ -475,7 +475,6 @@ public class GtnUIFrameworkBaseComponent {
 					}
 				}
 			}
-
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}

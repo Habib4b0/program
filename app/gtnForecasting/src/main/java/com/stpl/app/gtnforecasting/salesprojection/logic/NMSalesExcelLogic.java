@@ -207,8 +207,8 @@ public class NMSalesExcelLogic {
                     salesRowDto.addStringProperties(DF_LEVEL_NAME, levelName.get(0));
                     salesRowDto.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
                      if (levelName.size() == 2) {
-                    salesRowDto.addStringProperties(DF_LEVEL_NAME, levelName.get(1));
-                    salesRowDto.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
+                    salesRowDto.addStringProperties(DF_LEVEL_NAME, levelName.get(0));
+                    salesRowDto.addStringProperties(DF_LEVEL_NUMBER, levelName.get(1));
                      }
                 }
     }
