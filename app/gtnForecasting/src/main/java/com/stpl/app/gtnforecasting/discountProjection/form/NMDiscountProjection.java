@@ -139,6 +139,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.ArrayUtils;
@@ -438,9 +439,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         LOGGER.debug("Inside getContent= {} ", session.getAction());
         configureFeildsForNm();
         loadDeductionLevelFilter(session.getDataSelectionDeductionLevel(), false);
-        deductionFilterValues.getChildren().get(1).setChecked(true);
-        String deductionMenuItemValue = deductionFilterValues.getChildren().get(1).getMenuItem().getCaption();
-        ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
+        Optional.ofNullable(deductionFilterValues.getChildren()).ifPresent(child-> {
+            child.get(1).setChecked(true);
+            String deductionMenuItemValue = child.get(1).getMenuItem().getCaption();
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
+        });        
         generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
         generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
         if (ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
@@ -5508,7 +5511,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         deductionFilterDdlb.removeItems();
         deductionFilterValues = deductionFilterDdlb.addItem(SELECT_LEVEL_LABEL, null);
 
-        if (!levelNo.isEmpty()) {
+        if (!StringUtils.isBlank(levelNo) && !"0".equals(levelNo)) {
             deductionLevelFilter.add(0, new Object[]{0, SELECT_ALL_LABEL});
             deductionLevelFilter.addAll(
                     commonLogic.getDeductionLevelValues(session.getProjectionId(), levelNo, projectionSelection, generateProductToBeLoaded, generateCustomerToBeLoaded));
