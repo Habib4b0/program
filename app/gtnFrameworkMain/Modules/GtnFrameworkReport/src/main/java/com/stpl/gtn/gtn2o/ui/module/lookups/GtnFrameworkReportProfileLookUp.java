@@ -4,16 +4,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionLoadViewAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardReportProfileLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroupConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkReportProfileLookUp {
 
@@ -156,6 +161,17 @@ public class GtnFrameworkReportProfileLookUp {
 
 		componentList.add(reportProfileSearchButton);
 
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
+		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
+		loadDataTableActionConfig.setActionParameterList(
+				Arrays.asList(new Object[] { namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfilePagedTableComponent" }));
+		loadDataTableActionConfig.setFieldValues(Arrays.asList(new String[] { namespace
+				+ GtnFrameworkReportStringConstants.UNDERSCORE + "viewName" ,namespace
+				+ GtnFrameworkReportStringConstants.UNDERSCORE + "viewType"}));
+		actionConfigList.add(loadDataTableActionConfig);
+		reportProfileSearchButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		
 		GtnUIFrameworkComponentConfig reportProfileResetButton = new GtnUIFrameworkComponentConfig();
 		reportProfileResetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		reportProfileResetButton
@@ -202,7 +218,7 @@ public class GtnFrameworkReportProfileLookUp {
 	private void addReportProfilePagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
 		GtnUIFrameworkComponentConfig reportProfilePagedTableComponent = new GtnUIFrameworkComponentConfig();
-		reportProfilePagedTableComponent.setComponentType(GtnUIFrameworkComponentType.PAGEDTABLE);
+		reportProfilePagedTableComponent.setComponentType(GtnUIFrameworkComponentType.PAGED_GRID);
 		reportProfilePagedTableComponent.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfilePagedTableComponent");
 		reportProfilePagedTableComponent.setComponentName("Results");
@@ -216,7 +232,7 @@ public class GtnFrameworkReportProfileLookUp {
 		tableStyle.add("table-header-normal");
 		reportProfilePagedTableComponent.setComponentWidth("100%");
 		reportProfilePagedTableComponent.setComponentStyle(tableStyle);
-
+		reportProfilePagedTableComponent.setModuleName(GtnFrameworkReportStringConstants.REPORT);
 		componentList.add(reportProfilePagedTableComponent);
 
 		GtnUIFrameworkPagedTableConfig reportProfilePagedTableConfig = new GtnUIFrameworkPagedTableConfig();
@@ -227,14 +243,22 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfilePagedTableConfig.setSelectable(true);
 		reportProfilePagedTableConfig.setSinkItemPerPageWithPageLength(false);
 
+		reportProfilePagedTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
+				+ GtnWsReportConstants.GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE);
+		reportProfilePagedTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
+				+ GtnWsReportConstants.GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE);
 		reportProfilePagedTableConfig.setTableColumnDataType(new Class<?>[] {
-				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_UTIL_DATE,
-				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
-
-		reportProfilePagedTableConfig
-				.setTableVisibleHeader(new String[] { "View Name", "Created Date", "Modified Date", "Created By" });
-		reportProfilePagedTableConfig
-				.setTableColumnMappingId(new Object[] { "viewName", "createdDate", "modifiedDate", "createdBy" });
+				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
+				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
+				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
+				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
+				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE,
+				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
+		reportProfilePagedTableConfig.setColumnHeaders(Arrays.asList("View Name",
+				GtnFrameworkCommonConstants.CREATED_DATE_HEADER, GtnFrameworkCommonConstants.MODIFIED_DATE_HEADER,
+				GtnFrameworkCommonConstants.CREATED_BY_HEADER, "viewId", "viewData"));
+		reportProfilePagedTableConfig.setTableColumnMappingId(
+				new Object[] { "viewNameFilter", "createdDateFilter", "modifiedDateFilter", "createdByFilter" });
 
 		reportProfilePagedTableComponent.setGtnPagedTableConfig(reportProfilePagedTableConfig);
 	}
@@ -261,7 +285,59 @@ public class GtnFrameworkReportProfileLookUp {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PROFILE_CONTROL_POPUP_BUTTON_LAYOUT);
 		reportProfileSelectButton.setAddToParent(true);
 
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		
+		GtnUIFrameWorkActionConfig reportProfileSelectAction = new GtnUIFrameWorkActionConfig();
+		reportProfileSelectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
+		List<Object> actionParameter = new ArrayList<>();
+		actionParameter.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfilePagedTableComponent");
+		actionParameter.add("reportingDashboardTab_reportProfileConfig");
+		actionParameter.add(Arrays.asList("viewNameFilter"));
+		actionParameter.add(Arrays.asList("reportingDashboardTab_reportProfileConfig"));
+		reportProfileSelectAction.setActionParameterList(actionParameter);
+		actionConfigList.add(reportProfileSelectAction);
+		
+		GtnUIFrameWorkActionConfig reportProfileClosepopup = new GtnUIFrameWorkActionConfig();
+		reportProfileClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		reportProfileClosepopup.addActionParameter("reportProfileLookupView");
+		actionConfigList.add(reportProfileClosepopup);
+		
+		GtnUIFrameWorkActionConfig reportProfileLoadReportingDashboardAction = new GtnUIFrameWorkActionConfig();
+		reportProfileLoadReportingDashboardAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reportProfileLoadReportingDashboardAction.addActionParameter(GtnReportingDashboardReportProfileLoadAction.class.getName());
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportProfileConfig");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_displaySelectionTabVariable");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeFrom");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeTo");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboard_displaySelectionTabFrequency");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboard_displaySelectionTabComparisonBasis");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_displaySelectionTabCustomView");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_displaySelectionTabVariableCategory");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_displaySelectionTabAnnualTotals");
+		
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_filterTabCustomerLevel");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_filterOptionsTabCustomerFilter");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_filterOptionsTabProductLevel");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_filterOptionsTabProductFilter");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_filterOptionsTabDeductionLevel");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_filterOptionsTabDeductionFilter");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_filterOptionsTabSalesInclusion");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_filterOptionsTabDeductionInclusion");
+		
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabVariableAndVarianceSequencing");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabHeaderSequencing");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabViewOptions");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabDisplayFormat");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabUnitOfMeasure");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabCurrencyDisplay");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportingDashboardComparisonConfig");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabVariableBreakdown");
+		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabComparisonOptions");
+		actionConfigList.add(reportProfileLoadReportingDashboardAction);
+		
+		reportProfileSelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		componentList.add(reportProfileSelectButton);
+		
 
 		GtnUIFrameworkComponentConfig reportProfileCancelButton = new GtnUIFrameworkComponentConfig();
 		reportProfileCancelButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
