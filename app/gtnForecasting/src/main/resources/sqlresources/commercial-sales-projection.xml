@@ -150,8 +150,8 @@ GROUP BY SHN.HIERARCHY_NO,
                                                                        AND mas.SALES_INCLUSION = q.SALES_INCLUSION
                                                                        
                                                                        ) MAINQ
-                WHERE MAINQ.TEMP_INDEX > @START
-                  AND MAINQ.TEMP_INDEX <= (@START+@END)
+                WHERE MAINQ.INSTR > @START
+                  AND MAINQ.INSTR <= (@START+@END)
                   
                   @OPPOSITESINC  
                 ORDER BY 
