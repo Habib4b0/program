@@ -29,6 +29,7 @@ public class GtnWsCDRContants {
 	public static final String PS_PRICE_PROTECTION_TAB_UPDATE_SERVICE = "priceSchedulePriceProtectionTabUpdateService";
 	public static final String PS_PRICE_PROTECTION_TAB_POPULATE_SERVICE = "priceSchedulePriceProtectionTabPopulateService";
 	public static final String PS_ITEM_ADDITION_SERVICE = "priceScheduleItemAddition";
+	public static final String DELETE_ON_RESET = "deleteOnReset";
 	public static final String PS_EDIT_INSERT_SERVICE = "priceScheduleEditInsert";
 	public static final String PS_SAVE_SERVICE = "priceScheduleSave";
 	public static final String PS_DELECTE_SERVICE = "priceScheduleDelete";
