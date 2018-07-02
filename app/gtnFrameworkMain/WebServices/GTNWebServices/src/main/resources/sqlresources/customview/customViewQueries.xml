@@ -182,5 +182,20 @@ WHERE
 	               CV.CUST_VIEW_NAME = ? and CUST_VIEW_TYPE='report';
    ]]>
 		</query>
-   </entity>        
+   </entity>  
+   
+                  <entity id="getCustomViewDeleteNotUsedInProjection">
+		<query> 
+        <![CDATA[
+    
+                  DECLARE @CUST_VIEW_MASTER_SID INT = ? 
+                    DELETE FROM CUSTOM_CCP_SALES WHERE CUST_VIEW_MASTER_SID = @CUST_VIEW_MASTER_SID;
+                        DELETE FROM CUSTOM_CCP_DETAILS WHERE CUST_VIEW_MASTER_SID = @CUST_VIEW_MASTER_SID;
+                        
+                          DELETE FROM CUST_VIEW_DETAILS WHERE CUSTOM_VIEW_MASTER_SID = @CUST_VIEW_MASTER_SID;
+                        DELETE FROM CUST_VIEW_MASTER WHERE CUST_VIEW_MASTER_SID = @CUST_VIEW_MASTER_SID;
+
+   ]]>
+		</query>
+	</entity>           
 </sql>

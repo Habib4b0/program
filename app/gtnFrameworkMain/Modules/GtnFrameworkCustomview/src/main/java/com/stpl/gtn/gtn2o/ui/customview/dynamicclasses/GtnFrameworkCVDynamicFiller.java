@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ui.customview.dynamicclasses;
 
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkAddAction;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkBackAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCRValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVDeleteAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVSaveValidationAction;
@@ -46,6 +47,8 @@ public class GtnFrameworkCVDynamicFiller implements GtnUIDynamicObjectFiller {
 				new GtnUIFrameworkCVDeleteConfirmationAction());
         GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkAddAction.class.getName(),
 				new GtnFrameworkAddAction());
+        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkBackAction.class.getName(),
+				new GtnFrameworkBackAction());
     }
     
 }
