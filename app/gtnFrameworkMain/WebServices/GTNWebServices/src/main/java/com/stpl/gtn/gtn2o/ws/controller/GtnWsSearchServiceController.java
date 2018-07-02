@@ -102,9 +102,8 @@ public class GtnWsSearchServiceController {
 
 			String generatedQuery = searchQueryGenerationLogic.generateSearchQuery();
 
-			Connection connection = gtnWebServiceAllListConfig.getSysSessionFactory().getSessionFactoryOptions().
-                                getServiceRegistry().getService(ConnectionProvider.class).getConnection();
-                        String generatedQueryReplaced = generatedQuery.replace("@SYS", connection.getCatalog());
+
+            String generatedQueryReplaced = generatedQuery.replace("@SYS", gtnWebServiceAllListConfig.getCatalogName());
 			List<Object[]> resultList = executeQuery(generatedQueryReplaced); 
 
 			if (!isCount && gtnWebServiceSearchQueryConfig.getFieldToColumnDetailsMap() != null) {
