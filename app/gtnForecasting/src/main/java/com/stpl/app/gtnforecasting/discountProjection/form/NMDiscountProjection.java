@@ -4423,9 +4423,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         currentHierarchy = session.getCustomHierarchyMap().get(customId);
         LOGGER.debug(" customId= {} ", customId);
         LOGGER.debug(" currentHierarchy= {} ", currentHierarchy.size());
-        if (customId != 0) {
-//            viewChangeGenerate();
-        } else {
+        if (customId == 0) {
             tableLogic.clearAll();
             tableLogic.getControlTable().getContainerDataSource().removeAllItems();
         }
