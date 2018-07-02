@@ -255,6 +255,26 @@ public class GtnWsPriceScheduleController {
 		}
 		return gtnResponse;
 	}
+        
+        @SuppressWarnings("unchecked")
+	@RequestMapping(value = "/" + GtnWsCDRContants.DELETE_ON_RESET, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse deleteOnReset(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		GtnWsGeneralResponse gtnWsGeneralResponse = new GtnWsGeneralResponse();
+		gtnResponse.setGtnWsGeneralResponse(gtnWsGeneralResponse);
+		GtnWsGeneralRequest gtnWsGeneralRequest = gtnWsRequest.getGtnWsGeneralRequest();
+		List<Object> inputList = gtnWsGeneralRequest.getComboBoxWhereclauseParamList();
+		Map<String, String> inputValueMap = (Map<String, String>) inputList.get(0);
+		try {
+			gtnWsPriceScheduleService.deleteOnReset(inputValueMap);
+			gtnWsGeneralResponse.setSucess(true);
+		} catch (GtnFrameworkGeneralException e) {
+			gtnWsGeneralResponse.setSucess(false);
+			gtnWsGeneralResponse.setGtnGeneralException(e);
+		}
+		return gtnResponse;
+	}
 
 	@RequestMapping(value = "/" + GtnWsCDRContants.PS_PRICETAB_UPDATE_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse priceSchedulePriceTabUpdateService(
