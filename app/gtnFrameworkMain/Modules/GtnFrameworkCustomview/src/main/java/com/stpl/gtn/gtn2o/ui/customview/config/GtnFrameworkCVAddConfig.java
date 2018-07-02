@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ui.customview.config;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkBackAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCRValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVSaveValidationAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCustomerAddAction;
@@ -334,8 +335,9 @@ public class GtnFrameworkCVAddConfig {
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig cvBackButtonConfirmationActionConfig = new GtnUIFrameWorkActionConfig();
-		cvBackButtonConfirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		cvBackButtonConfirmationActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		List<Object> alertParamsList = new ArrayList<>();
+		alertParamsList.add(GtnFrameworkBackAction.class.getName());
 		alertParamsList.add(GtnFrameworkCVConstants.GTN_CUSTOM_VIEW_CONFIRMATION_MSG);
 		alertParamsList.add(GtnFrameworkCVConstants.GTN_CUSTOM_VIEW_MSG_BACK);
 		List<GtnUIFrameWorkActionConfig> onSucessActionConfigList = new ArrayList<>();
