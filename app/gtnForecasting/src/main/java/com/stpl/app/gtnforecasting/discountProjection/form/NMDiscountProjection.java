@@ -312,7 +312,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private final Map<String, Object> excelParentRecords = new HashMap();
     private boolean isMultipleVariablesUpdated = false;
     private Object[] tempSingleHeaderArray = null;
-    private boolean isDiscountCustomFirstLoad = true;
 
     private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -1533,6 +1532,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     @Override
     protected void viewValueChangeLogic() {
+        CommonLogic.procedureCompletionCheck(session,"Discount",String.valueOf(view.getValue()));
         try {
             viewDdlb.setEnabled(false);
             editBtn.setEnabled(false);
@@ -1559,10 +1559,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     fieldDdlb.removeItem(Constant.GROUPFCAPS);
                     fieldDdlb.setValue(Constant.DISCOUNT_RATE_LABEL);
                     projectionSelection.setViewOption(Constant.CUSTOM_LABEL);
-                    if (!projectionSelection.getDeductionLevelFilter().isEmpty() && !isDiscountCustomFirstLoad) {
+                    if (!projectionSelection.getDeductionLevelFilter().isEmpty() ) {
                         generateListView(true);
                     }
-                     isDiscountCustomFirstLoad = false;
                     resultsTable.getLeftFreezeAsTable().setColumnCollapsingAllowed(true);
                     resultsTable.getLeftFreezeAsTable().setColumnCollapsed(Constant.GROUP, false);
                     if (CommonUtil.isValueEligibleForLoading()) {
@@ -4422,7 +4421,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         LOGGER.debug(" customId= {} ", customId);
         LOGGER.debug(" currentHierarchy= {} ", currentHierarchy.size());
         if (customId != 0) {
-            viewChangeGenerate();
+//            viewChangeGenerate();
         } else {
             tableLogic.clearAll();
             tableLogic.getControlTable().getContainerDataSource().removeAllItems();
