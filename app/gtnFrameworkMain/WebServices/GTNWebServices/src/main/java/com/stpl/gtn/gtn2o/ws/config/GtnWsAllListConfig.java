@@ -142,6 +142,15 @@ public class GtnWsAllListConfig {
 	private final Map<String, Object> dynamicClassObjectMap = new HashMap<>();
 	private final Map<String, Class<?>> transactionDynamicClassObjectMap = new HashMap<>();
 	private GtnUIFrameworkWebserviceComboBoxResponse userIdNameResponse;
+	private String catalogName;
+	
+	public String getCatalogName() {
+		return catalogName;
+	}
+
+	public void setCatalogName(String catalogName) {
+		this.catalogName = catalogName;
+	}
 
 	public Map<String, GtnUIFrameworkWebserviceComboBoxResponse> getNonHelperComboBoxResponseMap() {
 		return nonHelperComboBoxResponseMap;
@@ -219,6 +228,17 @@ public class GtnWsAllListConfig {
 		loadDynamicClassObjects();
 		loadTransctionDynamicClassObjects();
 		loadUserIdNameMap();
+		getCatalog();
+	}
+
+	public void getCatalog() {
+
+		try (Connection connection = getSysSessionFactory().getSessionFactoryOptions().getServiceRegistry()
+				.getService(ConnectionProvider.class).getConnection()) {
+			catalogName = connection.getCatalog();
+		} catch(Exception e) {
+                    logger.error("Exception in getCatalog()----" + e.getMessage());
+                }
 	}
 
 	@SuppressWarnings("unchecked")
@@ -323,12 +343,11 @@ public class GtnWsAllListConfig {
 				"     select DISTINCT PT.PRIOR_TRADE_CLASS ,HT.DESCRIPTION     from COMPANY_TRADE_CLASS PT      Join HELPER_TABLE HT on HT.HELPER_TABLE_SID=PT.PRIOR_TRADE_CLASS     where PT.PRIOR_TRADE_CLASS IS NOT NULL AND PT.PRIOR_TRADE_CLASS <> 0");
 		comboBoxQueryMap.put("InventoryOrganizationKey",
 				"    select cm.COMPANY_MASTER_SID, cm.company_name from COMPANY_master cm ");
-		comboBoxQueryMap.put("BusinessUnit",
-				"    SELECT  Distinct CM.COMPANY_MASTER_SID,CM.COMPANY_NAME\n"
-						+ "                                            FROM   COMPANY_MASTER CM \n"
-						+ "                                                JOIN HELPER_TABLE HT ON CM.COMPANY_TYPE = HT.HELPER_TABLE_SID\n"
-						+ "                        where  HT.DESCRIPTION = 'GLCOMP'  AND CM.INBOUND_STATUS <> 'D' \n"
-						+ "                                         ORDER BY CM.COMPANY_NAME ");
+		comboBoxQueryMap.put("BusinessUnit", "    SELECT  Distinct CM.COMPANY_MASTER_SID,CM.COMPANY_NAME\n"
+				+ "                                            FROM   COMPANY_MASTER CM \n"
+				+ "                                                JOIN HELPER_TABLE HT ON CM.COMPANY_TYPE = HT.HELPER_TABLE_SID\n"
+				+ "                        where  HT.DESCRIPTION = 'GLCOMP'  AND CM.INBOUND_STATUS <> 'D' \n"
+				+ "                                         ORDER BY CM.COMPANY_NAME ");
 		comboBoxQueryMap.put("processName",
 				"    SELECT WP.PROCESS_SID, WP.PROCESS_DISPLAY_NAME FROM WORKFLOW_PROFILE WP ");
 		comboBoxQueryMap.put("Module",
