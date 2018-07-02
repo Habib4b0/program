@@ -489,7 +489,7 @@ public class GtnFrameworkCVLandingScreenConfig {
         GtnUIFrameworkComponentConfig deleteButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(  "gtnDeleteButton",
                 true, GtnFrameworkCVConstants.GTN_VIEW_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
         deleteButtonConfig.setAuthorizationIncluded(true);
-        deleteButtonConfig.setVisible(false);
+        deleteButtonConfig.setVisible(true);
         deleteButtonConfig.setComponentName("Delete");
 
         componentList.add(deleteButtonConfig);
