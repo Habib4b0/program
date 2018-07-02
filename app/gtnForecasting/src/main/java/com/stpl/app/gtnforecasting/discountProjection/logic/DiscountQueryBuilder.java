@@ -796,7 +796,8 @@ public class DiscountQueryBuilder {
                 .replace("@DEDINCLDPM", replaceDEDINCLDPM(session)) // Selected RS
                 .replace(DPMDEDINCLLUSION, replaceDPMDEDINCLLUSION(session)) // Selected RS
                 .replace("@PROJECTION_MASTER_SID",String.valueOf(session.getProjectionId()))
-                .replace("@CUST_VIEW_MASTER_SID",String.valueOf(session.getCustomDeductionRelationShipSid()));
+                .replace("@CUST_VIEW_MASTER_SID",String.valueOf(session.getCustomDeductionRelationShipSid()))
+                .replace(DEDINCLNWHR,(session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion())) ? StringUtils.EMPTY:" SELECT DISTINCT NULL,HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #HIERARCHY WHERE DEDUCTION_INCLUSION = "+oppositeDed);
         if (StringUtils.isNotBlank(userGroup)) {
             queryBuilder = queryBuilder.replace(Constant.AT_USER_GROUP, AND_USER_GROUP + userGroup + "'");
         }

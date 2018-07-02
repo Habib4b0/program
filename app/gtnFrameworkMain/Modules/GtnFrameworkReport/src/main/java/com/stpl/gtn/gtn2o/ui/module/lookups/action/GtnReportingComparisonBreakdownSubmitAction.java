@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
@@ -49,7 +51,11 @@ public class GtnReportingComparisonBreakdownSubmitAction
 
 			GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
 
-			List<Object[]> gtnReportComparisonBreakdownLookupBeanList = (List<Object[]>) gridComponent.getCustomData();
+			List<Object[]> reportComparisonBreakdownLookupBeanList = (List<Object[]>) gridComponent.getCustomData();
+			
+			Set<Object[]> inputSet = new LinkedHashSet<>(reportComparisonBreakdownLookupBeanList);
+	        
+	        List<Object[]> gtnReportComparisonBreakdownLookupBeanList = new ArrayList<>(inputSet);
 
 			List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownLookupBeanSaveList = new ArrayList<>();
 			for (int i = 0; i < gtnReportComparisonBreakdownLookupBeanList.size(); i++) {
@@ -61,6 +67,10 @@ public class GtnReportingComparisonBreakdownSubmitAction
 				comparisonBreakdownLookupBean.setYear(periodAndYearMap.get("year"));
 				comparisonBreakdownLookupBean.setSelectedVariable(
 						Integer.valueOf((String) gtnReportComparisonBreakdownLookupBeanList.get(i)[0]));
+				comparisonBreakdownLookupBean.setRowCount((int)gtnReportComparisonBreakdownLookupBeanList.get(i)[5]);
+				comparisonBreakdownLookupBean.setProperty(gtnReportComparisonBreakdownLookupBeanList.get(i)[3].toString());
+				comparisonBreakdownLookupBean.setComponentId(gtnReportComparisonBreakdownLookupBeanList.get(i)[6].toString());
+				comparisonBreakdownLookupBean.setColumnId(gtnReportComparisonBreakdownLookupBeanList.get(i)[1].toString());
 				comparisonBreakdownLookupBeanSaveList.add(comparisonBreakdownLookupBean);
 			}
 			String sourceParentComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId)
