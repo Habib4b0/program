@@ -2299,7 +2299,7 @@ public class DataSelectionLogic {
 			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
 															// Actual System Id
 			detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY
-			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
+			updateRelationShipLevelList(object, detailsList, 0);
 			resultMap.put(String.valueOf(object[0]), detailsList);
 
 			if (j == tempList.size() - 1) {
@@ -2335,7 +2335,7 @@ public class DataSelectionLogic {
 			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
 		        detailsList.add(object[object.length-1]);											// Actual System Id
 			 // HIERARCHY
-			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
+			updateRelationShipLevelList(object, detailsList, 1);
                         
 			resultMap.put(String.valueOf(object[0]), detailsList);
 
@@ -2373,7 +2373,7 @@ public class DataSelectionLogic {
 			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
 															// Actual System Id
 			detailsList.add("D"); // HIERARCHY INDICATOR
-			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
+			updateRelationShipLevelList(object, detailsList, 0);
 			resultMap.put(String.valueOf(object[0]), detailsList);
 		}
 		return resultMap;
@@ -2621,6 +2621,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
      int deductionMasterSid = screenName.equalsIgnoreCase(SALES_SMALL) ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
      String frequencyValue = screenName.equalsIgnoreCase(SALES_SMALL) && session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
      String updateUnitField="Unit Volume".equals(massUpdateField)?"UNITS":massUpdateField;
+     String deductionCaptionUdc = session.getDataSelectionDeductionLevelCaption().startsWith("UDC") ? session.getDataSelectionDeductionLevelCaption().replace(" ", StringUtils.EMPTY) : session.getDataSelectionDeductionLevelCaption();
      LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}");
          StringBuilder query = new StringBuilder(EXEC_WITH_SPACE);
         try {
@@ -2640,7 +2641,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(',').append("null")
                                 .append(',').append("null")
                                 .append(',').append("null")
-                                .append(",'").append(session.getDataSelectionDeductionLevelCaption()).append('\'')
+                                .append(",'").append(deductionCaptionUdc).append('\'')
                                 .append(';');
                                 HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
                                 LOGGER.info(QUERY_CALL_VIEW_INSERT_PROCEDURES, query.toString());
@@ -2654,6 +2655,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
     public String callViewInsertProceduresString(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod,String massUpdateField) {
         StringBuilder query = new StringBuilder();
         String frequencyValue = session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
+        String deductionCaptionUdc = session.getDataSelectionDeductionLevelCaption().startsWith("UDC") ? session.getDataSelectionDeductionLevelCaption().replace(" ", StringUtils.EMPTY) : session.getDataSelectionDeductionLevelCaption();
         try {
             query.append(EXEC_WITH_SPACE);
             query.append(Constant.PRC_VIEWS_POPULATION);
@@ -2672,7 +2674,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
                                 .append(',').append("null")
-                                .append(",'").append("Schedule Category").append('\'')
+                                .append(",'").append(deductionCaptionUdc).append('\'')
                                 .append(';');
                                 LOGGER.info(QUERY_CALL_VIEW_INSERT_PROCEDURES, query.toString());
         } catch (Exception ex) {
@@ -2686,6 +2688,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
      LOGGER.info("nmSalesInsertDiscMasterProcedure**************************************{}", frequency);
         String truncateQuery="TRUNCATE TABLE ST_CUSTOM_SALES";
         StringBuilder query = new StringBuilder(QueryUtil.replaceTableNames(truncateQuery, session.getCurrentTableNames()));
+        String deductionCaptionUdc = session.getDataSelectionDeductionLevelCaption().startsWith("UDC") ? session.getDataSelectionDeductionLevelCaption().replace(" ", StringUtils.EMPTY) : session.getDataSelectionDeductionLevelCaption();
         try {
             query.append(EXEC_WITH_SPACE);
             query.append(Constant.PRC_VIEWS_POPULATION);
@@ -2704,7 +2707,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
                                 .append(",'").append("").append('\'')
                                 .append(",'").append("").append('\'')
                                 .append(',').append("null")
-                                .append(",'").append("Schedule Category").append('\'')
+                                .append(",'").append(deductionCaptionUdc).append('\'')
                                 .append(';');
                                 LOGGER.info(QUERY_CALL_VIEW_INSERT_PROCEDURES, query.toString());
         } catch (Exception ex) {
@@ -2861,11 +2864,11 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 		QueryUtils.updateAppDataUsingSessionTables(inputList, "PFD_TEMP_INSERT_WHILE_GENERATE", session);
 	}
 
-	private static void updateRelationShipLevelList(Object[] object, List<Object> detailsList, String defaultValue) {
+	private static void updateRelationShipLevelList(Object[] object, List<Object> detailsList, int extraColumnIndex) {
 		if (object.length >= 5) {
 			List<Object> displayFormat = new ArrayList<>();
-			displayFormat.add(defaultValue);
-			for (int i = 5; i < object.length - 1; i++) {
+//			displayFormat.add(defaultValue);
+			for (int i = 5; i < object.length - extraColumnIndex; i++) {
 				displayFormat.add(object[i]);
 			}
 			detailsList.add(displayFormat);

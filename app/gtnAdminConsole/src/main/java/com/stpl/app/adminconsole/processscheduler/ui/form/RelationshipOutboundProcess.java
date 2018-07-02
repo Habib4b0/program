@@ -175,8 +175,8 @@ public class RelationshipOutboundProcess extends Window {
         resultTable.setValidationVisible(false);
         resultTable.addStyleName("TableCheckBox");
         resultTable.addStyleName("filterbar");
-        resultTable.setVisibleColumns(CommonUIUtil.getRELATIONSHIP_OUTBOUND_SEARCH_COLUMNS());
-        resultTable.setColumnHeaders(CommonUIUtil.getRELATIONSHIP_OUTBOUND_SEARCH_HEADER());
+        resultTable.setVisibleColumns(CommonUIUtil.getrelationshipOutboundSearchColumns());
+        resultTable.setColumnHeaders(CommonUIUtil.getrelationshipOutboundSearchHeader());
         resultTable.setEditable(true);
         resultTable.setColumnCheckBox(CHECK, true);
         resultTable.getFilterField(CHECK).setVisible(false);
@@ -358,14 +358,14 @@ public class RelationshipOutboundProcess extends Window {
            LOGGER.error(ex.getMessage());
         }
         recordCount = rbCsvList.size();
-        ExcelExportforBB.createWorkSheet(CommonUIUtil.getRELATIONSHIP_OUTBOUND_EXCEL_HEADER(), recordCount, this, UI.getCurrent(), csvName);
+        ExcelExportforBB.createWorkSheet(CommonUIUtil.getrelationshipOutboundExcelHeader(), recordCount, this, UI.getCurrent(), csvName);
     }
 
     public void createWorkSheetContent(final Integer start,final Integer end, final PrintWriter printWriter) {
         try {
              LOGGER.info("Start index of record is = {} ", start);
             if (end != 0) {
-                ExcelExportforBB.createFileContent(CommonUIUtil.getRELATIONSHIP_OUTBOUND_EXCEL_COLUMNS(), rbCsvList, printWriter);
+                ExcelExportforBB.createFileContent(CommonUIUtil.getrelationshipOutboundExcelColumns(), rbCsvList, printWriter);
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());

@@ -163,7 +163,7 @@ public class GtnFrameworkCVAddConfig {
 		customAction.addActionParameter(GtnFrameworkCRValueChangeAction.class.getName());
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.RESULTLAYOUT);
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkCVConstants.CUSTOMER_LEVEL);
-		customAction.addActionParameter(Arrays.asList(new String[] { GtnFrameworkCVConstants.LEVEL_NAME }));
+		customAction.addActionParameter(GtnFrameworkCVConstants.LEVEL_NAME);
 		customAction.addActionParameter(Arrays.asList(String.class));
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_TREE);
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkCVConstants.DEDUCTION_LEVEL);
@@ -200,7 +200,7 @@ public class GtnFrameworkCVAddConfig {
 		customAction.addActionParameter(GtnFrameworkCRValueChangeAction.class.getName());
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkCommonConstants.RESULTLAYOUT);
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkCVConstants.PRODUCT_LEVEL);
-		customAction.addActionParameter(Arrays.asList(new String[] { GtnFrameworkCVConstants.LEVEL_NAME }));
+		customAction.addActionParameter(GtnFrameworkCVConstants.LEVEL_NAME);
 		customAction.addActionParameter(Arrays.asList(String.class));
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_TREE);
 		customAction.addActionParameter(namspacePrefix + GtnFrameworkCVConstants.DEDUCTION_LEVEL);
@@ -254,7 +254,7 @@ public class GtnFrameworkCVAddConfig {
 		cvTypeConfig.setValuesFromService(false);
 		cvTypeConfig.setItemValues(Arrays.asList("Sales", "Discount"));
 
-		customViewTypeOptionGroup.setComponentStyle(Arrays.asList(new String[] { "horizontal" }));
+		customViewTypeOptionGroup.setComponentStyle(Arrays.asList("horizontal"));
 		customViewTypeOptionGroup.setGtnUIFrameworkOptionGroupConfig(cvTypeConfig);
 
 		componentList.add(customViewTypeOptionGroup);
@@ -343,7 +343,7 @@ public class GtnFrameworkCVAddConfig {
 		navigationActionConfig.setActionType(GtnUIFrameworkActionType.NAVIGATION_ACTION);
 		navigationActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		onSucessActionConfigList.add(navigationActionConfig);
-		alertParamsList.add(onSucessActionConfigList);
+                alertParamsList.add(onSucessActionConfigList);
 		cvBackButtonConfirmationActionConfig.setActionParameterList(alertParamsList);
 		actionConfigList.add(cvBackButtonConfirmationActionConfig);
 		cvBackButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);

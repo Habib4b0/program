@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportingDashboardSaveProfileLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
@@ -102,7 +103,7 @@ public class GtnWsReportController {
 			throws GtnFrameworkGeneralException, IOException {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
-		List<Object[]> resultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest, true);
+		List<Object[]> resultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest, true,0);
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 		dataTable.addData(resultList);
 		gtnSearchResponse.setResultSet(dataTable);
@@ -117,7 +118,7 @@ public class GtnWsReportController {
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
 		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
 		List<Object[]> publicViewResultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest,
-				false);
+				false,0);
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 		dataTable.addData(publicViewResultList);
 		gtnSearchResponse.setResultSet(dataTable);
@@ -125,6 +126,20 @@ public class GtnWsReportController {
 		return response;
 	}
 
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadReportProfileResults(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException, IOException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnSerachResponse gtnSearchResponse = new GtnSerachResponse();
+		List<Object[]> resultList = gtnWsReportWebsevice.loadViewResults(gtnUIFrameworkWebserviceRequest, true ,1);
+		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+		dataTable.addData(resultList);
+		gtnSearchResponse.setResultSet(dataTable);
+		response.setGtnSerachResponse(gtnSearchResponse);
+		return response;
+	}
+	
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_LOADELIGIBLEDATE_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse loadForecastEligibleDate(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
@@ -185,15 +200,24 @@ public class GtnWsReportController {
 
 	private String getComboboxTypeForReportFromAndToDate(String comboBoxType) {
 		List<Object[]> resultList = null;
+		List<Boolean> checkList ;
+		String frequency = "Quarter";
 		String subQuery = "";
 		String mainQuery = GtnWsQueryConstants.MAIN_QUERY_REPORT_FROM_AND_TO_DATE;
+		String checkProcessMode = GtnWsQueryConstants.CHECK_PROCESS_MODE_FOR_REPORT_FROM_AND_TO_DATE;
 		try {
-			resultList = executeQuery(mainQuery);
-			String frequency = String.valueOf(resultList.get(0));
+			checkList = executeQuery(checkProcessMode);
+			boolean processMode = (checkList.get(0));
+			if (processMode) {
+				resultList = executeQuery(mainQuery);
+				frequency = String.valueOf(resultList.get(0));
+				} 
 			subQuery = gtnWsReportWebsevice.getFromAndToDateLoadQuery(comboBoxType, frequency);
 		} catch (Exception e) {
 			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + e);
 		}
+		
+		
 		return subQuery;
 	}
 
@@ -331,6 +355,28 @@ public class GtnWsReportController {
 		response.setGtnWsGeneralResponse(generalResponse);
 		return response;
 	}
+	
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_PROFILE_SAVE_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getReportProfileSave(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnWsReportRequest reportRequest = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest();
+		GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean = reportRequest.getReportingDashboardSaveProfileLookupBean();
+		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
+		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
+		int userId = Integer.valueOf(generalRequest.getUserId());
+		int recordCount = gtnWsReportWebsevice.checkReportProfileViewRecordCount(reportingDashboardSaveProfileLookupBean, userId);
+		if (recordCount == 0) {
+			gtnWsReportWebsevice.saveReportProfileMaster(reportingDashboardSaveProfileLookupBean, userId);
+			generalResponse.setSucess(true);
+		} else {
+			generalResponse.setSucess(false);
+		}
+		response.setGtnWsGeneralResponse(generalResponse);
+		return response;
+	}
+	
 
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORRT_DELETEVIEW_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse deleteView(

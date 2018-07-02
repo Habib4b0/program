@@ -141,7 +141,7 @@ public class NMDiscountExcelLogic {
     }
 
     private void setActualsProjectionValues(DiscountProjectionDTO discountProjectionDTO, Character freq, Object[] obj, ProjectionSelectionDTO projectionSelection, Map<String, List> hierarchyLevelDetails, List doubleProjectedAndHistoryCombinedUniqueList) {
-        String discount = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FIVE])) ? StringUtils.EMPTY : String.valueOf(obj[NumericConstants.FIVE]);
+        String discount = getValue(String.valueOf(obj[NumericConstants.FIVE]), StringUtils.EMPTY);
         String discountId = projectionSelection.isIsCustomHierarchy() ? StringUtils.EMPTY : discount;
         String header = commonLogic.getHeaderForExcel(freq, obj, discountId, StringUtils.EMPTY);
         String column = commonLogic.getHeaderForExcelDiscount(freq, obj, discountId, StringUtils.EMPTY);
@@ -159,19 +159,12 @@ public class NMDiscountExcelLogic {
             discountProjectionDTO.setGroup(StringUtils.EMPTY);
         }
         if (CommonUtil.isValueEligibleForLoading()) {
-
             excelFormattedColumns(discountProjectionDTO, projectionSelection, hierarchyNo, hierarchyIndicator, hierarchyLevelDetails);
-
+            discountProjectionDTO.setDeductionInclusion(projectionSelection.isIsCustomHierarchy() ? getValue(String.valueOf(obj[NumericConstants.TWELVE]), StringUtils.EMPTY)
+                    : getValue(String.valueOf(obj[NumericConstants.FOURTEEN]), StringUtils.EMPTY));
         } else {
             discountProjectionDTO.setLevelName(CommonUtil.getDisplayFormattedName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat()));
 
-        }
-          if (CommonUtil.isValueEligibleForLoading()) {
-            if (projectionSelection.isIsCustomHierarchy()) {
-                discountProjectionDTO.setDeductionInclusion(obj[NumericConstants.TWELVE] != null ? String.valueOf(obj[NumericConstants.TWELVE]) : StringUtils.EMPTY);
-            } else {
-                discountProjectionDTO.setDeductionInclusion(obj[NumericConstants.FOURTEEN] != null ? String.valueOf(obj[NumericConstants.FOURTEEN]) : StringUtils.EMPTY);
-            }
         }
         if (doubleProjectedAndHistoryCombinedUniqueList.contains(header) && !Constant.NULL.equals(discountProjectionDTO.getDeductionInclusion())) {
             setActualsProj(discountProjectionDTO, isActuals, header, projectionSelection, obj, column);
@@ -180,21 +173,20 @@ public class NMDiscountExcelLogic {
         }
            
     }
-
-    private void setActualsProj(DiscountProjectionDTO discountProjectionDTO, boolean isActuals, String header, ProjectionSelectionDTO projectionSelection, Object[] obj,String column) {
-       String value;
-       
+    
+    private void setActualsProj(DiscountProjectionDTO discountProjectionDTO, boolean isActuals, String header, ProjectionSelectionDTO projectionSelection, Object[] obj, String column) {
+        String value;
         if (isActuals) {
-            value=CommonUtil.getConversionFormattedValue(projectionSelection, obj[NumericConstants.SIX], false);
-            discountProjectionDTO.addStringProperties(header + ACTUAL_RATE, commonLogic.getFormattedValue(PERCENTAGE_FORMAT, Constant.NULL.equals(String.valueOf(obj[NumericConstants.SEVEN])) ? DASH : String.valueOf(obj[NumericConstants.SEVEN])));
-            discountProjectionDTO.addStringProperties(header + ACTUAL_AMOUNT,Constant.NULL.equals(value)?DASH:value);
-            discountProjectionDTO.addStringProperties(header + Constant.ACTUALRPU,Constant.NULL.equals(String.valueOf(obj[NumericConstants.EIGHT])) ? DASH : String.valueOf(obj[NumericConstants.EIGHT]));
-            if(!projectionSelection.isIsCustomHierarchy()){
-            discountProjectionDTO.addStringProperties(header + "ActualSales",Constant.NULL.equals(String.valueOf(obj[NumericConstants.SEVENTEEN])) ? DASH : String.valueOf(obj[NumericConstants.SEVENTEEN]));
-            discountProjectionDTO.addStringProperties(header + "ActualUnits",Constant.NULL.equals(String.valueOf(obj[NumericConstants.EIGHTEEN])) ? DASH : String.valueOf(obj[NumericConstants.EIGHTEEN]));
+            value = CommonUtil.getConversionFormattedValue(projectionSelection, obj[NumericConstants.SIX], false);
+            discountProjectionDTO.addStringProperties(header + ACTUAL_RATE, commonLogic.getFormattedValue(PERCENTAGE_FORMAT, getValue(String.valueOf(obj[NumericConstants.SEVEN]),DASH)));
+            discountProjectionDTO.addStringProperties(header + ACTUAL_AMOUNT, Constant.NULL.equals(value) ? DASH : value);
+            discountProjectionDTO.addStringProperties(header + Constant.ACTUALRPU, getValue(String.valueOf(obj[NumericConstants.EIGHT]),DASH));
+            if (!projectionSelection.isIsCustomHierarchy()) {
+                discountProjectionDTO.addStringProperties(header + "ActualSales", getValue(String.valueOf(obj[NumericConstants.SEVENTEEN]),DASH));
+                discountProjectionDTO.addStringProperties(header + "ActualUnits", getValue(String.valueOf(obj[NumericConstants.EIGHTEEN]),DASH));
             }
         } else {
-          getProjectionData(projectionSelection,obj,discountProjectionDTO,header,column);
+            getProjectionData(projectionSelection, obj, discountProjectionDTO, header, column);
         }
     }
     
@@ -250,10 +242,13 @@ public class NMDiscountExcelLogic {
             discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName.get(0));
             discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
             if (levelName.size() == 2) {
-                discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName.get(1));
-                discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName.get(0));
+                discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName.get(0));
+                discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName.get(1));
             }
         }
     }
-     
+            
+    private String getValue(String value, String defaultValue) {
+        return Constant.NULL.equals(value) ? defaultValue : value;
+    }
 }

@@ -98,5 +98,5 @@ public class GtnFrameworkCVConstants {
 	public static String[] getCvListNameArrays() {
 		return CV_LIST_NAME_ARRAY.clone();
 	}
-
+        public static final String[] CV_TREENODE_LIST={"Schedule Category","Schedule Type","Program Type","UDC 1","UDC 2","UDC 3","UDC 4","UDC 5","UDC 6","Schedule ID"};
 }

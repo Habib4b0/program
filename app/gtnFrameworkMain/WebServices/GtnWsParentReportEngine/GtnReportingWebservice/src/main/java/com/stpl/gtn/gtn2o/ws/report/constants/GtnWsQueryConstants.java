@@ -40,6 +40,8 @@ public class GtnWsQueryConstants {
 	public static final String UNDERSCORE = "_";
 
 	public static final String REPORTING = "/Reporting/";
+	
+	public static final String YEAR_FREQUENCY = "[0-9]+";
 
 	public static final String DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS = "select FORECAST_NAME as FORECAST_NAME, company.COMPANY_NAME as COMPANY_NAME, businessunit.COMPANY_NAME as BUSINESS_UNIT, ht.DESCRIPTION as FILE_TYPE, VERSION, FROM_PERIOD as ACTIVE_FROM, FROM_PERIOD, TO_PERIOD from FILE_MANAGEMENT FT inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = FT.COMPANY inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID = FT.BUSINESS_UNIT inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID = FT.FILE_TYPE inner join PROJECTION_FILE_DETAILS pfd ON pfd.FILE_MANAGEMENT_SID=FT.FILE_MANAGEMENT_SID where pfd.PROJECTION_MASTER_SID like '@projectionMasterSid' union ( select FORECAST_NAME as FORECAST_NAME, company.COMPANY_NAME as COMPANY_NAME, businessunit.COMPANY_NAME as BUSINESS_UNIT, ht.DESCRIPTION as FILE_TYPE, VERSION, FROM_PERIOD as ACTIVE_FROM, FROM_PERIOD, TO_PERIOD from FILE_MANAGEMENT inner join COMPANY_MASTER company ON company.COMPANY_MASTER_SID = COMPANY inner join COMPANY_MASTER businessunit ON businessunit.COMPANY_MASTER_SID = BUSINESS_UNIT inner join HELPER_TABLE ht on ht.HELPER_TABLE_SID = FILE_TYPE where TO_PERIOD is null) ";
 
@@ -69,4 +71,5 @@ public class GtnWsQueryConstants {
 
 	public static final String ST_CCP_HIERARCHY = "ST_CCP_HIERARCHY";
 
+	public static final String CHECK_PROCESS_MODE_FOR_REPORT_FROM_AND_TO_DATE = "select PROCESS_MODE from forecast_config where ACTIVE_END_DATE IS null and BUSINESS_PROCESS_TYPE = 331";
 }
