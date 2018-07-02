@@ -2978,7 +2978,7 @@ public class SalesLogic {
      * @param allocationBasis
      */
     public boolean calculateSalesProjection(final ProjectionSelectionDTO projectionSelectionDTO, final String methodology, final String calcPeriods, final String calcBased,
-            final String startPeriodSID, final String endPeriodSID, final String allocationBasis,SessionDTO session,ProjectionSelectionDTO projectionDTO) {
+            final String startPeriodSID, final String endPeriodSID, final String allocationBasis, SessionDTO session, ProjectionSelectionDTO projectionDTO) {
         boolean isSalesCalculated = false;
         projectionSelectionDTO.setTabName(SALES_PROJ.getConstant());
         String startPeriod = CommonLogic.getPeriodSID(projectionSelectionDTO.getFrequency(), startPeriodSID, true);
@@ -2987,16 +2987,17 @@ public class SalesLogic {
             saveSelectionForCalculation(projectionSelectionDTO, methodology, calcPeriods, calcBased, startPeriodSID, endPeriodSID, allocationBasis);
             if (Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equalsIgnoreCase(methodology)) {
                 callCalculationProcedure(projectionSelectionDTO, calcBased, allocationBasis);
-                return true;
-            }
-            cumulativeCalculation(projectionSelectionDTO, calcBased, methodology, "st_sales_growth_factor_");
-            isSalesCalculated = callCalculationProcedure(projectionSelectionDTO, calcBased, allocationBasis);
-            if (isSalesCalculated && CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
-                Thread thread = new Thread(createDiscountProcedureRunnable(projectionSelectionDTO));
-                thread.start();
+                isSalesCalculated = true;
+            } else {
+                cumulativeCalculation(projectionSelectionDTO, calcBased, methodology, "st_sales_growth_factor_");
+                isSalesCalculated = callCalculationProcedure(projectionSelectionDTO, calcBased, allocationBasis);
+                if (isSalesCalculated && CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
+                    Thread thread = new Thread(createDiscountProcedureRunnable(projectionSelectionDTO));
+                    thread.start();
+                }
             }
             CommonLogic.updateFlagStatusToR(session, SALES_SMALL, String.valueOf(projectionDTO.getViewOption()));
-          new DataSelectionLogic().callViewInsertProceduresThread(projectionSelectionDTO.getSessionDTO(), Constant.SALES1,startPeriod.equals("0")?StringUtils.EMPTY:startPeriod,endPeriod.equals("0")?StringUtils.EMPTY:endPeriod,"");
+            new DataSelectionLogic().callViewInsertProceduresThread(projectionSelectionDTO.getSessionDTO(), Constant.SALES1, startPeriod.equals("0") ? StringUtils.EMPTY : startPeriod, endPeriod.equals("0") ? StringUtils.EMPTY : endPeriod, "");
         } catch (PortalException | SystemException | SQLException | NamingException ex) {
             LOGGER.error(ex.getMessage());
         }
