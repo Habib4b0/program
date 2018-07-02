@@ -7,9 +7,12 @@ package com.stpl.gtn.gtn2o.ui.customview.config.action;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.listener.GtnUIMsgBoxTwoButtonListener;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -37,11 +40,16 @@ public class GtnFrameworkBackAction implements GtnUIFrameWorkAction , GtnUIFrame
             List<GtnUIFrameWorkActionConfig> onSucessActionConfigList = (List<GtnUIFrameWorkActionConfig>) params.get(3);
             List<GtnUIFrameWorkActionConfig> onFailureActionConfigList = params.size() > 4
                     ? (List<GtnUIFrameWorkActionConfig>) params.get(4) : null;
-
+            
             MessageBox.showPlain(Icon.QUESTION, messageHeader, messageBody,
                     new GtnUIMsgBoxTwoButtonListener(onSucessActionConfigList, onFailureActionConfigList, componentId),
                     ButtonId.YES, ButtonId.NO);
-
+            
+        } else {
+            GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
+            navigationActionConfig.setActionType(GtnUIFrameworkActionType.NAVIGATION_ACTION);
+            navigationActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+            GtnUIFrameworkActionExecutor.executeSingleAction(componentId, navigationActionConfig);
         }
 
     }
