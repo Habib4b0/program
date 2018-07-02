@@ -17,6 +17,7 @@ public class GtnWsReportDashboardBean {
 	private String[] input;
 	private Object[] values;
 	private String customViewName;
+	private int customViewMasterSid;
 	private String sessionId;
 	private GtnWsHierarchyType hierarchyType;
 	private String[] selectedVariableType;
@@ -224,6 +225,14 @@ public class GtnWsReportDashboardBean {
 
 	public void setComparisonBasis(String comparisonBasis) {
 		this.comparisonBasis = comparisonBasis;
+	}
+
+	public int getCustomViewMasterSid() {
+		return customViewMasterSid;
+	}
+
+	public void setCustomViewMasterSid(int customViewMasterSid) {
+		this.customViewMasterSid = customViewMasterSid;
 	}
 
 }
