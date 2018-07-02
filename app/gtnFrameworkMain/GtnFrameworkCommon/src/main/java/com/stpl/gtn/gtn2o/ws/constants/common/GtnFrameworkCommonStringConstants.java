@@ -201,7 +201,9 @@ public class GtnFrameworkCommonStringConstants {
 	public static final String GETFRIENDLYURLQUERY = "getfriendlyURLQuery";
 	
 	public static final String REPORT_MODULE_NAME = "report";
-
+	
+	public static final String STPL_PADDING_GRID = "stpl-padding-top-13";
+	public static final String STPL_PADDING_GRID_10 = "stpl-padding-top-10";
 	private GtnFrameworkCommonStringConstants() {
 	}
 

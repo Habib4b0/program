@@ -76,8 +76,11 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
 
         VerticalLayout controls = new VerticalLayout();
         controls.addComponents(pagedGrid.getControlLayout());
+        controls.setMargin(false);
+        controls.setSpacing(false);
         controls.setWidth("100%");
         controls.setHeightUndefined();
+        controls.setId(componentConfig.getComponentId()+"itemsPerPageLayout");
         controls.setComponentAlignment(pagedGrid.getControlLayout(), Alignment.MIDDLE_CENTER);
         resultLayout.addComponent(controls);
 
