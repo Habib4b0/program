@@ -420,12 +420,12 @@ GROUP BY SHN.HIERARCHY_NO,
                                           INDICATOR   )  Q
                                                                        
                                                                        join #ST_NM_SALES_PROJECTION_MASTER mas on mas.HIERARCHY_NO=q.HIERARCHY_NO
-                                                                       
+                                                                       @OPPOSITESINC
                                                                        ) MAINQ
-                WHERE MAINQ.TEMP_INDEX >  @START
-                  AND MAINQ.TEMP_INDEX <= (@START+@END)
+                WHERE MAINQ.INSTR >  @START
+                  AND MAINQ.INSTR <= (@START+@END)
                   
-                     @OPPOSITESINC 
+                      
                 ORDER BY 
                         MAINQ.INSTR,
                         MAINQ.YEARS,

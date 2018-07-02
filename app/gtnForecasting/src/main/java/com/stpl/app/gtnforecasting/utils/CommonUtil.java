@@ -556,10 +556,10 @@ public class CommonUtil {
                         return String.valueOf(levelName.get(NumericConstants.ZERO));
                     }
                 } else {
-                    return String.valueOf(levelName.get(NumericConstants.ZERO));
+                    return String.valueOf(relationshipValues.get(0)); 
                 }
             } else {
-                return session.getLevelValueDiscription(hierarchyNumber, indicator);
+                return String.valueOf(relationshipValues.get(0));
             }
         } catch (Exception ex) {
             logger.error(ex.getMessage());

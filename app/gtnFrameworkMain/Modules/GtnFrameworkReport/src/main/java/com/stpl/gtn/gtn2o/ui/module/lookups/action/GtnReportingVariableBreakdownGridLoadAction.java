@@ -228,7 +228,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
 				variableBreakdownLookupBean.setProjectionName(projectionNameListFromCustomData.get(i));
 				variableBreakdownLookupBean.setVariableBreakdownSaveActionList(variableBreakdownSaveActionList);
 				variableBreakdownLookupBean.setRowCount(rowCount);
-				variableBreakdownLookupBean.setComparisonLookupBeanList(comparisonLookupBeanList);
+				variableBreakdownLookupBean.setComparisonLookupBeanList(finalArrayListforGrid);
 				vaadinComponent = getCustomFilterComponent(variableBreakdownLookupBean, grid, tableConfig,
 						gridComponent);
 				filterRow.getCell(String.valueOf(filterColumnIdList[col])).setComponent(vaadinComponent);
@@ -439,7 +439,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
 			ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
 			vaadinCombobox.setId(
 					variableBreakdownLookupBean.getProperty() + String.valueOf(variableBreakdownLookupBean.getRowId()));
-			
+			vaadinCombobox.setSelectedItem(1);
 			if (variableBreakdownLookupBean.getProperty()
 					.equalsIgnoreCase(variableBreakdownLookupBean.getCurrentDateField())) {
 
