@@ -39,6 +39,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String HIER_TYPE = "hierarchyType";
 
 	public static final String HIGHEST_LEVEL = "highestLevel";
+	
+	public static final String STPL_PADDING_FRAMEWORK = "stpl-padding-top-13";
 
 	public static final String CUSTOMER_HIERARCHY_GROUP_BUILDER = "Customer Hierarchy Group Builder";
 
@@ -141,6 +143,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String TAB_SHEET = "tabSheet";
 	
 	public static final String STPL_PADDING_18_PX="stpl-padding-top-18";
+	
+	public static final String STPL_PADDING_25_PX="stpl-padding-top-25";
 
 	public static final String SEARCH_QUERY = "searchQuery";
 
