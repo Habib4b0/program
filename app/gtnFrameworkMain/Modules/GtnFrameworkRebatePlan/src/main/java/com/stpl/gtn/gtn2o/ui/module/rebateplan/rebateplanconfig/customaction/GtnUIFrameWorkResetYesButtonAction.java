@@ -32,6 +32,7 @@ import com.stpl.gtn.gtn2o.ws.response.rebateplan.GtnWsRebatePlanGeneralResponse;
 
 public class GtnUIFrameWorkResetYesButtonAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+    private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnUIFrameWorkResetYesButtonAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -43,7 +44,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnUIFrameWorkResetYesButtonAction.class);
+		
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnWsRebatePlanInfoBean rebatePlanInfoBean = new GtnWsRebatePlanInfoBean();
 		String mode = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode"));
@@ -333,7 +334,8 @@ public class GtnUIFrameWorkResetYesButtonAction
 			List<Object> recordHeaderComplex = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(resultTableId)
 					.getTableRecordHeader();
 			setValueToDto(dto, ruleDetailsBeanComplex, tierTo, recordHeaderComplex);
-
+                        logger.info("formula type====================="+rebatePlaninfoBean.getFormulaType());
+                        if (rebatePlaninfoBean.getFormulaType().equals("Complex")){
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getFrom());
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getToDesc());
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getOperatorDesc());
@@ -375,14 +377,25 @@ public class GtnUIFrameWorkResetYesButtonAction
 			}
 
 			splitValue(s, dto, recordHeaderComplex, signs, sym, value);
-			resultList.add(dto);
+                        resultList.add(dto);
+                       
 
-		}
+		
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(resultTableId).loadContainer(resultTableId, resultList);
-
-		getToFromTextValue(tierTo, tierFrom, GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_FROM_COMPLEX,
+                getToFromTextValue(tierTo, tierFrom, GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_FROM_COMPLEX,
 				GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_TO_COMPLEX, resultList);
+                        }
+                 
+                        else{
+                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_FROM_COMPLEX).loadFieldValue(null);
+                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_FROM_COMPLEX).setEnable(true);
+                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(resultTableId).removeAllItemsFromTable();
+                            
+                        }
+
+		
 	}
+        }
 
 	public void splitValue(String s, GtnWsRecordBean dto, List<Object> recordHeader, String[] signarray,
 			StringBuilder sym, String value) {

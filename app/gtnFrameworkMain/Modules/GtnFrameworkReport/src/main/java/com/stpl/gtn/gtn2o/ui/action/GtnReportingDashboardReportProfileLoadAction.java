@@ -75,11 +75,14 @@ public class GtnReportingDashboardReportProfileLoadAction
 					.getComponentData().setCustomData(Optional.ofNullable(reportProfileSaveLookupBean.getDisplaySelectionComparisonLookupBeanList()).isPresent() == true ? reportProfileSaveLookupBean.getDisplaySelectionComparisonLookupBeanList() : new ArrayList<>());
 			
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(24).toString(),viewId)
-						.setV8PopupFieldValue(getDisplayValue(reportProfileSaveLookupBean));
+						.setV8PopupFieldValue(Optional.ofNullable(getDisplayValue(reportProfileSaveLookupBean)).isPresent() == true ? getDisplayValue(reportProfileSaveLookupBean) : "");
 	
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(25).toString(),viewId)
 			.getComponentData().setCustomData(Optional.ofNullable(reportProfileSaveLookupBean.getVariableBreakdownLookupBeanSaveList()).isPresent() == true ? reportProfileSaveLookupBean.getVariableBreakdownLookupBeanSaveList() : new ArrayList<>());
 	
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(26).toString(),viewId)
+			.getComponentData().setCustomData(Optional.ofNullable(reportProfileSaveLookupBean.getComparisonBreakdownLookupBeanSaveList()).isPresent() == true ? reportProfileSaveLookupBean.getComparisonBreakdownLookupBeanSaveList() : new ArrayList<>());
+			
 		} catch (Exception ex) {
 			gtnLogger.error("Error message", ex);
 		}
@@ -96,7 +99,7 @@ public class GtnReportingDashboardReportProfileLoadAction
 		if (reportProfileSaveLookupBean.getDisplaySelectionComparisonLookupBeanList().size() > 1) {
 			return "MULTIPLE";
 		} else {
-			return reportProfileSaveLookupBean.getDisplaySelectionComparisonLookupBeanList().get(1).getProjectionName();
+			return reportProfileSaveLookupBean.getDisplaySelectionComparisonLookupBeanList().get(0).getProjectionName();
 		}
 	}
 	
