@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadFromInDataSelectionAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadToInDataSelectionAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -382,13 +384,19 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		GtnUIFrameworkComboBoxConfig reportDataSelectionFromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
 
 		reportDataSelectionFromPeriodConfig.setModuleName("report");
-		reportDataSelectionFromPeriodConfig.setLoadingUrl("/gtnReport/gtnWsReportComboboxLoad");
-		reportDataSelectionFromPeriodConfig.setComboBoxType("timePeriodForReportFromDate");
+		reportDataSelectionFromPeriodConfig.setItemCaptionValues(new ArrayList<>());
+		reportDataSelectionFromPeriodConfig.setItemValues(new ArrayList<>());
 		reportDataSelectionFromPeriodConfig.setHasDefaultValue(true);
 		reportDataSelectionFromPeriodConfig.setDefaultDesc("next");
 		reportDataSelectionFromPeriod.setGtnComboboxConfig(reportDataSelectionFromPeriodConfig);
 
 		componentList.add(reportDataSelectionFromPeriod);
+		
+		GtnUIFrameWorkActionConfig reloadActionConfig = new GtnUIFrameWorkActionConfig();
+		reloadActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reportDataSelectionFromPeriod.setReloadActionConfig(reloadActionConfig);
+		reportDataSelectionFromPeriod.setReloadLogicActionClassName(GtnFrameworkLoadFromInDataSelectionAction.class.getName());
+		
 
 		GtnUIFrameworkLayoutConfig reportDataSelectionToPeriodLayout = new GtnUIFrameworkLayoutConfig();
 		reportDataSelectionToPeriodLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
@@ -419,13 +427,18 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		GtnUIFrameworkComboBoxConfig reportDataSelectionToPeriodTypeConfig = new GtnUIFrameworkComboBoxConfig();
 
 		reportDataSelectionToPeriodTypeConfig.setModuleName("report");
-		reportDataSelectionToPeriodTypeConfig.setLoadingUrl("/gtnReport/gtnWsReportComboboxLoad");
-		reportDataSelectionToPeriodTypeConfig.setComboBoxType("timePeriodForReportToDate");
+		reportDataSelectionToPeriodTypeConfig.setItemCaptionValues(new ArrayList<>());
+		reportDataSelectionToPeriodTypeConfig.setItemValues(new ArrayList<>());
 		reportDataSelectionToPeriodTypeConfig.setHasDefaultValue(true);
 		reportDataSelectionToPeriodTypeConfig.setDefaultDesc("next");
 
 		reportDataSelectionToPeriod.setGtnComboboxConfig(reportDataSelectionToPeriodTypeConfig);
 		componentList.add(reportDataSelectionToPeriod);
+		
+		GtnUIFrameWorkActionConfig reloadToInDataSelectionActionConfig = new GtnUIFrameWorkActionConfig();
+		reloadToInDataSelectionActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reportDataSelectionToPeriod.setReloadActionConfig(reloadToInDataSelectionActionConfig);
+		reportDataSelectionToPeriod.setReloadLogicActionClassName(GtnFrameworkLoadToInDataSelectionAction.class.getName());
 	}
 
 	private void addProductSelectionLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentId,

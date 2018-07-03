@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -22,6 +23,10 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
 
@@ -52,8 +57,6 @@ public class GtnReportDataSelectionTabLoadAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_businessUnit", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getBusinessUnitReport());
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId)
-					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getFromPeriodReport());
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_dsTabProjectionName", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getReportDataSource());
@@ -265,7 +268,7 @@ public class GtnReportDataSelectionTabLoadAction
 			logger.error("Error message", exception);
 		}
 	}
-
+	
 	private void loadForecaseEligibleDateInReportingDashboard(String componentId) throws GtnFrameworkGeneralException {
 		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
 		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
