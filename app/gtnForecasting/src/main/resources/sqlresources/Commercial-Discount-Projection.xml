@@ -2270,7 +2270,7 @@ INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER SPM
 			RLD1.RS_CONTRACT_SID = SPM.RS_CONTRACT_SID
 			OR RLD1.RS_CONTRACT_SID= 0
 			)
-                        ORDER  BY A.HIERARCHY_NO OFFSET
+                        ORDER  BY A.INSTR OFFSET
 @START ROWS FETCH NEXT @OFFSET ROWS ONLY
             ]]>
         </query>
@@ -2597,32 +2597,15 @@ INNER JOIN #SALES AD
 
 UNION ALL
 
-SELECT DISTINCT NULL,HIERARCHY_NO,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL
-FROM #HIERARCHY
-WHERE DEDUCTION_INCLUSION = 0
+@DEDINCLNWHR
+
 ORDER BY INSTR,
 	HY.HIERARCHY_NO,
 	CD.YEAR,
 	CD.PERIOD,
 	AP_TABLE_INDICATOR
 
-            
+                
             
                  ]]>
         </query>
@@ -2630,9 +2613,9 @@ ORDER BY INSTR,
    <entity id="customViewMassUpdate">
         <query> 
             <![CDATA[   
-    DECLARE @FREQUENCY CHAR(1)='?F'
-            DECLARE @RELVALUE VARCHAR(20)='?R'
-            DECLARE @REFRESHED_NAME VARCHAR(10) = '@REFNAME'
+    DECLARE @FREQUENCY CHAR(1)='?Freq'
+            DECLARE @RELVALUE VARCHAR(20)='?Ref'
+            DECLARE @REFRESHED_NAME VARCHAR(10) = '@REFRESHNAME'
              
             IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
             DROP TABLE #PERIOD

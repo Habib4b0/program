@@ -324,6 +324,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadViewAction.addActionParameter(GtnReportDataSelectionLoadViewAction.class.getName());
 		loadViewAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_PRIVATEVIEW_SEARCHLOOKUP);
+		loadViewAction.addActionParameter("reportLandingScreen");
 		actionConfigList.add(loadViewAction);
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();

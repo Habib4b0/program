@@ -11,10 +11,19 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.complianceanddeductionrules.constants.GtnWsCDRContants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.priceschedule.bean.GtnUIFrameWorkPSInfoBean;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.vaadin.server.Page;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class GtnFrameworkPsResetAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
@@ -102,13 +111,37 @@ public class GtnFrameworkPsResetAction implements GtnUIFrameWorkAction, GtnUIFra
 		}
 	}
 
-	private void resetItemAddtionTab(String componentId) {
+	private void resetItemAddtionTab(String componentId) throws GtnFrameworkValidationFailedException {
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psItemAdditionSearchField", componentId).setPropertyValue(null);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psItemAdditionSearchValue", componentId).setPropertyValue("");
+                loadDataFromService();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFPleftResultTable", componentId).resetTable();
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFPrightResultTable", componentId).resetTable();
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFPrightResultTable", componentId).resetTable();                
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPricingTabResultDataTable", componentId).resetTable();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPriceProtectionTabResultDataTable", componentId).resetTable();
+	}
+        
+        private void loadDataFromService() throws GtnFrameworkValidationFailedException {
+            GtnWsRecordBean gtnWsRecordBean = null;
+			gtnWsRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFPleftResultTable")
+					.getValueFromComponent();
+            String ifpId = gtnWsRecordBean.getPropertyValueByIndex(8).toString();
+            Map<String, String> inputValueMap = new HashMap<>();
+			inputValueMap.put("ifpId", ifpId);
+			inputValueMap.put(GtnFrameworkCommonConstants.SESSION_ID,
+					GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SESSION_ID).toString());
+			inputValueMap.put("userId", GtnUIFrameworkGlobalUI.getCurrentUser());
+		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+		List<Object> inputList = new ArrayList<>();
+		inputList.add(inputValueMap);
+		gtnWsGeneralRequest.setComboBoxWhereclauseParamList(inputList);
+
+		wsclient.callGtnWebServiceUrl(
+				"/" + GtnWsCDRContants.PS_SERVICE + "/" + GtnWsCDRContants.DELETE_ON_RESET, request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override

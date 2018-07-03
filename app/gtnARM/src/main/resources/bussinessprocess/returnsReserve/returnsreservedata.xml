@@ -1,0 +1,18 @@
+<VerticalLayout spacing="true"  immediate="true">
+    <Panel  margin="true" immediate="true" spacing="true" caption="Data Selection" xmlns:d="urn:import:org.asi.ui.custommenubar">
+        <VerticalLayout margin="true" immediate="true" spacing="true" styleName = "width-auto">
+            <GridLayout spacing="true" id="dataSelecionGrid"
+                        immediate="true" columns="10" rows="1">
+                <Label caption=" Variables: " contentMode="HTML" />
+                <d:CustomMenuBar id="variables" styleName="custommenumulticheck" />
+                <Label caption="Original Sale Limiter : " id="deductionLevel" contentMode="HTML" />
+                <PopupDateField id="originalSaleLimiter" dateFormat="MM/dd/yyyy" immediate="true" enable="true" styleName = "align-center" />
+                <HorizontalLayout id="checkBoxLayout"/>
+<!--                <CheckBox id="removeClosedBatches" enable="true" styleName = "horizontal"/>
+                <CheckBox id="excudeBasedOnLoeDate" enable="true" styleName = "horizontal"/>-->
+                <Button id="reset" caption="RESET" />
+                <Button id="generate" caption="GENERATE" />
+            </GridLayout>
+        </VerticalLayout>
+    </Panel>  
+</VerticalLayout>

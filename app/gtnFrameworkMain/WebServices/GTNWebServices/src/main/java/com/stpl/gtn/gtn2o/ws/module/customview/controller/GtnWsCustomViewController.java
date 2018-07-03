@@ -216,7 +216,7 @@ public class GtnWsCustomViewController {
         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         try {
             GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
-            logic.deleteRelationship(gtnWsRequest.getGtnWsCustomViewRequest(),cvResponse);
+            logic.deleteCustomViewFromTable(gtnWsRequest.getGtnWsCustomViewRequest(),cvResponse);
             gtnResponse.setGtnWsCustomViewResponse(cvResponse);
         } catch (Exception ex) {
             logger.error("Exception in customViewDelete", ex);

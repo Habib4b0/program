@@ -534,6 +534,8 @@ public class GtnWsCustomViewService {
 						"Cannot Delete the custom view which is already associated with existing projection.");
 				return;
 			}
+                        custViewDelete(cvRequest.getCvSysId());
+                        
 			tx.commit();
 			cvResponse.setMessageType("success");
 			cvResponse.setMessage(cvRequest.getCustomViewName() + " has been deleted Successfully.");
@@ -573,22 +575,6 @@ public class GtnWsCustomViewService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void deletAssociatedHierarchy(CustViewMaster custViewMaster, Session session)
-			throws GtnFrameworkGeneralException {
-		try {
-			Criteria cr = session.createCriteria(CustViewDetails.class)
-					.add(Restrictions.eq("custViewMaster", custViewMaster));
-			List<CustViewDetails> custDetailsResults = cr.list();
-			if (custDetailsResults != null && !custDetailsResults.isEmpty()) {
-				for (CustViewDetails custDetails : custDetailsResults) {
-					session.delete(custDetails);
-				}
-				session.flush();
-			}
-		} catch (Exception e) {
-			throw new GtnFrameworkGeneralException("Exception in deleting CustViewDetails", e);
-		}
-	}
 
 	private List<Object> getResultValue(String query, Object[] imtdPsDetailsInsertQueryParams,
 			GtnFrameworkDataType[] imtdPsDetailsInsertQueryTypes) throws GtnFrameworkGeneralException {
@@ -611,4 +597,11 @@ public class GtnWsCustomViewService {
 		}
 		return recordBeanList;
 	}
+         private void custViewDelete(int systemId) throws GtnFrameworkGeneralException {
+		String custViewDeleteQuery = gtnWsSqlService.getQuery("getCustomViewDeleteNotUsedInProjection");
+		Object[] custViewDeleteQueryParams = { systemId };
+		GtnFrameworkDataType[] custViewDeleteQueryTypes = { GtnFrameworkDataType.INTEGER };
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(custViewDeleteQuery, custViewDeleteQueryParams,
+				custViewDeleteQueryTypes);
+}
 }

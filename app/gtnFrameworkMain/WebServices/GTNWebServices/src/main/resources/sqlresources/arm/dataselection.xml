@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- To change this license header, choose License Headers in Project Properties. 
+To change this template file, choose Tools | Templates and open the template 
+in the editor. -->
+<sql>
+    <entity id="createTempDeduction">
+        <query> 
+     <![CDATA[
+        DECLARE @RS_CON           VARCHAR(MAX)='@RS_CON_IDS'
+            IF OBJECT_ID('TEMPDB..#TEMP_DEDUCTION')IS NOT NULL 
+         DROP TABLE #TEMP_DEDUCTION 
+
+        CREATE TABLE #TEMP_DEDUCTION 
+         ( 
+            RS_CONTRACT_SID INT 
+         ) 
+         
+        INSERT INTO #TEMP_DEDUCTION 
+                   (RS_CONTRACT_SID) 
+        SELECT CAST(TOKEN AS INT) 
+        FROM   UDF_SPLITSTRING(@RS_CON, ',');
+     ]]>    
+        </query>
+    </entity>
+    <entity id="joinTempDeduction">
+        <query> 
+     <![CDATA[
+        JOIN RS_CONTRACT RS_CONTRACT ON RS_CONTRACT.CONTRACT_MASTER_SID = CONTRACT_MASTER.CONTRACT_MASTER_SID
+        JOIN #TEMP_DEDUCTION TEMP_DEDUCTION ON RS_CONTRACT.RS_CONTRACT_SID = TEMP_DEDUCTION.RS_CONTRACT_SID
+     ]]>    
+        </query>
+    </entity>
+    <entity id="joinTempDeductionProduct">
+        <query> 
+     <![CDATA[
+        JOIN #TEMP_DEDUCTION TEMP_DEDUCTION ON RS_CONTRACT.RS_CONTRACT_SID = TEMP_DEDUCTION.RS_CONTRACT_SID
+     ]]>    
+        </query>
+    </entity>
+    <entity id="joinTempProductDeduction">
+        <query> 
+     <![CDATA[
+        JOIN CCP_DETAILS CCP_DETAILS ON 
+            CCP_DETAILS.ITEM_MASTER_SID = ITEM_MASTER.ITEM_MASTER_SID
+        JOIN RS_CONTRACT RS_CONTRACT ON
+            RS_CONTRACT.CONTRACT_MASTER_SID = CCP_DETAILS.CONTRACT_MASTER_SID
+        JOIN RS_CONTRACT_DETAILS RS_CONTRACT_DETAILS
+            ON RS_CONTRACT_DETAILS.RS_CONTRACT_SID = RS_CONTRACT.RS_CONTRACT_SID
+            AND RS_CONTRACT_DETAILS.ITEM_MASTER_SID = CCP_DETAILS.ITEM_MASTER_SID 
+		@JOINTEMPDEDUCTION
+        JOIN IFP_CONTRACT_DETAILS IFP_CONTRACT_DETAILS ON
+            IFP_CONTRACT_DETAILS.IFP_CONTRACT_SID = RS_CONTRACT.IFP_CONTRACT_SID
+            AND CCP_DETAILS.ITEM_MASTER_SID = IFP_CONTRACT_DETAILS.ITEM_MASTER_SID
+            AND CCP_DETAILS.ITEM_MASTER_SID=ITEM_MASTER.ITEM_MASTER_SID
+     ]]>    
+        </query>
+    </entity>
+    <entity id="getDeductionAvailableLevels">
+        <query> 
+            <![CDATA[
+                    SELECT DISTINCT 
+                        @PARAMETERS
+                    FROM   RS_CONTRACT A
+                     JOIN   HELPER_TABLE H1 ON H1.HELPER_TABLE_SID = A.RS_CATEGORY
+                     JOIN   HELPER_TABLE H2 ON H2.HELPER_TABLE_SID = A.RS_TYPE
+                     JOIN   HELPER_TABLE H3 ON H3.HELPER_TABLE_SID = A.REBATE_PROGRAM_TYPE
+                     LEFT JOIN   UDCS U ON U.MASTER_SID=A.RS_CONTRACT_SID AND U.MASTER_TYPE='RS_CONTRACT'
+                     LEFT JOIN   HELPER_TABLE H5 ON H5.HELPER_TABLE_SID = U.UDC2
+                     LEFT JOIN   HELPER_TABLE H6 ON H6.HELPER_TABLE_SID = U.UDC3
+                     LEFT JOIN   HELPER_TABLE H7 ON H7.HELPER_TABLE_SID = U.UDC4
+                     LEFT JOIN   HELPER_TABLE H8 ON H8.HELPER_TABLE_SID = U.UDC5
+                     LEFT JOIN   HELPER_TABLE H9 ON H9.HELPER_TABLE_SID = U.UDC6
+
+                     WHERE  A.RS_CATEGORY NOT IN ( 0)
+                        AND A.RS_TYPE NOT IN ( 0 )
+                        AND A.REBATE_PROGRAM_TYPE NOT IN ( 0 )
+                        AND A.INBOUND_STATUS <> 'D'
+                        --@UDCS NOT IN ( 0 ) 
+
+                    ORDER BY
+            ]]>    
+        </query>
+    </entity>
+</sql>

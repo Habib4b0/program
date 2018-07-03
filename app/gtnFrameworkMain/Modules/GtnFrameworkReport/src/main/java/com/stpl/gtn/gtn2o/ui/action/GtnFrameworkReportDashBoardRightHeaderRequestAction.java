@@ -109,6 +109,10 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 
 		reportDashBoardBean.setSelectedVariableCategoryType(selectedVariableCategory);
 
+		reportDashBoardBean.setCustomViewMasterSid(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView", componentId)
+				.getIntegerFromV8ComboBox());
+
 		GtnWsForecastRequest gtnWsForecastRequest = new GtnWsForecastRequest();
 		gtnWsForecastRequest.setGtnForecastBean(gtnForecastBean);
 		gtnUIFrameworkWebserviceRequest.setGtnWsForecastRequest(gtnWsForecastRequest);

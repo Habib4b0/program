@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.request;
 
+import com.stpl.gtn.gtn2o.ws.request.adjustmentdetails.GtnWsAdjusmentDetailsRequest;
+import com.stpl.gtn.gtn2o.ws.request.arm.GtnWsArmRequest;
 import com.stpl.gtn.gtn2o.ws.request.authorization.GtnWsModuleAuthorizationGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.automaticrelationupdate.GtnFrameworkAutomaticRelationshipRequest;
 import com.stpl.gtn.gtn2o.ws.request.balancesummaryrequest.GtnWSAdjusmentSummaryRequest;
@@ -62,6 +64,8 @@ public class GtnUIFrameworkWebserviceRequest {
     private GtnWsIfpRequest gtnWsIfpRequest;
 
     private GtnWsForecastRequest gtnWsForecastRequest;
+
+    private GtnWsArmRequest gtnWsArmRequest;
 
     private GtnCompanyGroupRequest gtnCompanyGroupRequest;
 
@@ -133,6 +137,8 @@ public class GtnUIFrameworkWebserviceRequest {
 
 	private GtnWsReportRequest gtnWsReportRequest;
     private GtnWsCustomViewRequest gtnWsCustomViewRequest;
+    
+    private GtnWsAdjusmentDetailsRequest gtnWsAdjusmentDetailsRequest;
 
     public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
         return gtnWshirarchyInsertRequest;
@@ -485,5 +491,19 @@ public class GtnUIFrameworkWebserviceRequest {
         this.gtnWsCustomViewRequest = gtnWsCustomViewRequest;
     }
 
+    public GtnWsArmRequest getGtnWsArmRequest() {
+        return gtnWsArmRequest;
+    }
 
+    public void setGtnWsArmRequest(GtnWsArmRequest gtnWsArmRequest) {
+        this.gtnWsArmRequest = gtnWsArmRequest;
+    }
+    
+    public GtnWsAdjusmentDetailsRequest getGtnWsAdjusmentDetailsRequest() {
+        return gtnWsAdjusmentDetailsRequest;
+    }
+
+    public void setGtnWsAdjusmentDetailsRequest(GtnWsAdjusmentDetailsRequest gtnWsAdjusmentDetailsRequest) {
+        this.gtnWsAdjusmentDetailsRequest = gtnWsAdjusmentDetailsRequest;
+    }
 }
