@@ -240,7 +240,7 @@ public class GtnWsReportController {
 			else {
 				String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY;
 
-				String filter = gtnWsReportWebsevice.setFilterValueList(gtnWsRequest);
+				String filter = gtnWsReportWebsevice.setFilterForDataAssumptions(gtnWsRequest);
 
 				finalQuery = finalQuery.replace("@filter", filter);
 				resultList = executeQuery(finalQuery);

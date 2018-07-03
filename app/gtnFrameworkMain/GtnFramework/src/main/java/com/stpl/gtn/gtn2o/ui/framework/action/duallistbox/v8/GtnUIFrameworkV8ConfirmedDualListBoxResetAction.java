@@ -21,9 +21,11 @@ public class GtnUIFrameworkV8ConfirmedDualListBoxResetAction implements GtnUIFra
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		TreeGrid<GtnWsRecordBean> rightTable = (TreeGrid<GtnWsRecordBean>) actionParamsList.get(1);
-		GtnWsRecordBean recordBean = rightTable.getTreeData().getRootItems().get(0);
-		rightTable.getTreeData().removeItem(recordBean);
-		rightTable.getDataProvider().refreshAll();
+		if (rightTable.getTreeData().getRootItems().iterator().hasNext()) {
+			GtnWsRecordBean recordBean = rightTable.getTreeData().getRootItems().get(0);
+			rightTable.getTreeData().removeItem(recordBean);
+			rightTable.getDataProvider().refreshAll();
+		}
 	}
 
 	@Override

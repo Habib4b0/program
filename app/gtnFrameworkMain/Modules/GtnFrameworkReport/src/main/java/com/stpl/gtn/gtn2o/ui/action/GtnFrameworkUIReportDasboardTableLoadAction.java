@@ -87,12 +87,16 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 
 		dashBoardBean.setCurrencyConversion(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(5).toString(), componentId).getCaptionFromV8ComboBox());
+
 		grid.getTableConfig().setGtnWsReportDashboardBean(dashBoardBean);
 
 		if (!dataSelectionBean.isDataRefreshDone()) {
 			grid.getTableConfig().setGtnReportDataRefreshBean(null);
 		}
 		checkForSelectionChange(dataSelectionBean, componentId, params, grid.getTableConfig());
+
+		dashBoardBean
+				.setCustomViewMasterSid(grid.getTableConfig().getGtnReportDataRefreshBean().getCustomViewMasterSid());
 
 		componentData.getCurrentGtnComponent().reloadComponent(null, componentId, (String) params.get(1), null);
 	}
