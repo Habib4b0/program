@@ -297,7 +297,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		Object reportProfileLookup = "Report Profile Lookup";
 		GtnUIFrameWorkActionConfig conf = new GtnUIFrameWorkActionConfig();
 		conf.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		conf.setActionParameterList(Arrays.asList("reportProfileLookupView", reportProfileLookup, "795", "875"));
+		conf.setActionParameterList(Arrays.asList("reportProfileLookupView", reportProfileLookup, "50%", "80%"));
 		list.add(conf);
 
 		reportProfileConfig.setGtnUIFrameWorkActionConfigList(list);

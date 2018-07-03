@@ -374,6 +374,11 @@ public class GtnFrameworkReportProfileLookUp {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PROFILE_CONTROL_POPUP_BUTTON_LAYOUT);
 		reportProfileResetButton.setAddToParent(true);
 
+		GtnUIFrameWorkActionConfig reportProfileCloseAction = new GtnUIFrameWorkActionConfig();
+		reportProfileCloseAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		reportProfileCloseAction.addActionParameter("reportProfileLookupView");
+		
+		reportProfileResetButton.addGtnUIFrameWorkActionConfig(reportProfileCloseAction);
 		componentList.add(reportProfileResetButton);
 	}
 }
