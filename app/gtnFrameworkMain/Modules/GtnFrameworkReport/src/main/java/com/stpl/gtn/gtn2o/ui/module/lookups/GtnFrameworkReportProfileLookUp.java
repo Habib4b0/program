@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionLoadViewAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportReportProfileDeleteAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardReportProfileLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -348,6 +348,21 @@ public class GtnFrameworkReportProfileLookUp {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PROFILE_CONTROL_POPUP_BUTTON_LAYOUT);
 		reportProfileCancelButton.setAddToParent(true);
 
+		GtnUIFrameWorkActionConfig reportProfileConfirmDeleteAction = new GtnUIFrameWorkActionConfig();
+		reportProfileConfirmDeleteAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		reportProfileConfirmDeleteAction.addActionParameter("Confirmation");
+		reportProfileConfirmDeleteAction.addActionParameter("Are you sure you want to delete the view?");
+		List<GtnUIFrameWorkActionConfig> onSuccessDeleteActionConfigList = new ArrayList<>();
+		reportProfileConfirmDeleteAction.addActionParameter(onSuccessDeleteActionConfigList);
+
+		GtnUIFrameWorkActionConfig reportProfileDeleteViewAction = new GtnUIFrameWorkActionConfig();
+		reportProfileDeleteViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reportProfileDeleteViewAction.addActionParameter(GtnReportReportProfileDeleteAction.class.getName());
+		reportProfileDeleteViewAction.addActionParameter(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfilePagedTableComponent");
+		onSuccessDeleteActionConfigList.add(reportProfileDeleteViewAction);
+		reportProfileCancelButton.addGtnUIFrameWorkActionConfig(reportProfileConfirmDeleteAction);
+		
 		componentList.add(reportProfileCancelButton);
 
 		GtnUIFrameworkComponentConfig reportProfileResetButton = new GtnUIFrameworkComponentConfig();
@@ -359,6 +374,11 @@ public class GtnFrameworkReportProfileLookUp {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PROFILE_CONTROL_POPUP_BUTTON_LAYOUT);
 		reportProfileResetButton.setAddToParent(true);
 
+		GtnUIFrameWorkActionConfig reportProfileCloseAction = new GtnUIFrameWorkActionConfig();
+		reportProfileCloseAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		reportProfileCloseAction.addActionParameter("reportProfileLookupView");
+		
+		reportProfileResetButton.addGtnUIFrameWorkActionConfig(reportProfileCloseAction);
 		componentList.add(reportProfileResetButton);
 	}
 }

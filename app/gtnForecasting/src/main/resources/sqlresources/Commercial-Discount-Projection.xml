@@ -2628,9 +2628,9 @@ ORDER BY INSTR,
    <entity id="customViewMassUpdate">
         <query> 
             <![CDATA[   
-    DECLARE @FREQUENCY CHAR(1)='?F'
-            DECLARE @RELVALUE VARCHAR(20)='?R'
-            DECLARE @REFRESHED_NAME VARCHAR(10) = '@REFNAME'
+    DECLARE @FREQUENCY CHAR(1)='?Freq'
+            DECLARE @RELVALUE VARCHAR(20)='?Ref'
+            DECLARE @REFRESHED_NAME VARCHAR(10) = '@REFRESHNAME'
              
             IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
             DROP TABLE #PERIOD

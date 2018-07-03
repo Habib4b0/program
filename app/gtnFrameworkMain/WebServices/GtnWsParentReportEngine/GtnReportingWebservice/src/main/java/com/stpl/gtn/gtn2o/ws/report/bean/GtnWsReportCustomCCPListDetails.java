@@ -16,6 +16,7 @@ public class GtnWsReportCustomCCPListDetails {
 	private int childCount;
 	private Object[] data;
 	private int rowIndex;
+	private int variableCount;
 
 	public String getHierarchyNo() {
 		return hierarchyNo;
@@ -55,6 +56,14 @@ public class GtnWsReportCustomCCPListDetails {
 
 	public void setRowIndex(int rowIndex) {
 		this.rowIndex = rowIndex;
+	}
+
+	public int getVariableCount() {
+		return variableCount;
+	}
+
+	public void setVariableCount(int variableCount) {
+		this.variableCount = variableCount;
 	}
 
 }
