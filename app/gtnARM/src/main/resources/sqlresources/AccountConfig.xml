@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<sql>
+       
+    <entity id="searchAccountConfig-count">
+        <query> 
+            <![CDATA[
+     ;WITH CTE AS ( SELECT
+	CM.COMPANY_NO as GL_COMP_NO,
+	cm.COMPANY_NAME as GL_COMP_NAME,
+	BU.COMPANY_NO as BU_COMP_NO,
+	BU.COMPANY_NAME as BU_COMP_NAME,
+	ACC.ACCOUNT AS ACCOUNT ,
+	ACC.COST_CENTER,
+	BM.BRAND_NAME,
+	(cr.firstName + ' ' + cr.lastName) AS created,
+	 ACC.CREATED_DATE,
+	ACC.MODIFIED_DATE,
+	ACC."SOURCE" AS SOURC,
+	ACC.GL_COMPANY_MASTER_SID AS COMP_SID,
+	ACC.BU_COMPANY_MASTER_SID AS BU_SID,
+	ACC.BRAND_MASTER_SID AS BRAND_SID,
+        ACC.ARM_ACC_CONFIG_SID AS MASTER_SID,
+        (CM.COMPANY_ID + ' - ' + CM.COMPANY_NAME) as COMPANY_WITH_IDNAME,
+        (BU.COMPANY_ID + ' - ' +BU.COMPANY_NAME) as BU_WITH_ID_NAME,
+        (BM.BRAND_ID + ' - ' + BM.BRAND_NAME) as BRAND_WITH_ID_NAME
+FROM
+	ARM_ACC_CONFIG ACC
+JOIN DBO.COMPANY_MASTER CM ON
+	CM.COMPANY_MASTER_SID = ACC.GL_COMPANY_MASTER_SID
+        ?
+JOIN COMPANY_MASTER BU ON
+	BU.COMPANY_MASTER_SID = ACC.BU_COMPANY_MASTER_SID
+        ?
+JOIN BRAND_MASTER BM ON
+	BM.BRAND_MASTER_SID = ACC.BRAND_MASTER_SID
+        ?
+         JOIN ?.dbo.User_ cr ON
+	cr.userId = ACC.CREATED_BY
+       WHERE ACC.ACCOUNT LIKE '?'
+	AND ACC.COST_CENTER LIKE '?'
+        ) SELECT COUNT(*) FROM CTE
+        ?
+                    ]]>    
+        </query>
+    </entity>
+    <entity id="searchAccountConfig-Data">
+        <query> 
+            <![CDATA[
+           SELECT
+	CM.COMPANY_NO as GL_COMP_NO,
+	cm.COMPANY_NAME as GL_COMP_NAME,
+	BU.COMPANY_NO as BU_COMP_NO,
+	BU.COMPANY_NAME as BU_COMP_NAME,
+	ACC.ACCOUNT AS ACCOUNT ,
+	ACC.COST_CENTER,
+	BM.BRAND_NAME,
+	(cr.firstName + ' ' + cr.lastName) AS created,
+	ACC.CREATED_DATE,
+	ACC.MODIFIED_DATE,
+	ACC."SOURCE" AS SOURC,
+	ACC.GL_COMPANY_MASTER_SID AS COMP_SID,
+	ACC.BU_COMPANY_MASTER_SID AS BU_SID,
+	ACC.BRAND_MASTER_SID AS BRAND_SID,
+        ACC.ARM_ACC_CONFIG_SID AS MASTER_SID,
+        (CM.COMPANY_ID + ' - ' + CM.COMPANY_NAME) as COMPANY_WITH_IDNAME,
+        (BU.COMPANY_ID + ' - ' +BU.COMPANY_NAME) as BU_WITH_ID_NAME,
+        (BM.BRAND_ID + ' - ' + BM.BRAND_NAME) as BRAND_WITH_ID_NAME
+FROM
+	ARM_ACC_CONFIG ACC
+JOIN DBO.COMPANY_MASTER CM ON
+	CM.COMPANY_MASTER_SID = ACC.GL_COMPANY_MASTER_SID
+        ?
+JOIN COMPANY_MASTER BU ON
+	BU.COMPANY_MASTER_SID = ACC.BU_COMPANY_MASTER_SID
+        ?
+JOIN BRAND_MASTER BM ON
+	BM.BRAND_MASTER_SID = ACC.BRAND_MASTER_SID
+        ?
+         JOIN ?.dbo.User_ cr ON
+	cr.userId = ACC.CREATED_BY
+       WHERE ACC.ACCOUNT LIKE '?'
+	AND ACC.COST_CENTER LIKE '?'
+        ?
+       ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+                    ]]>    
+        </query>
+       
+    </entity>
+    <entity id="loadAccountDdlb">
+        <query> 
+            <![CDATA[
+           select
+	D.ARM_ADJ_RES_CONFIG_MASTER_SID,
+	D.ACCOUNT,
+	D.ACCOUNT_DESC
+from
+	DBO.ARM_ADJ_RES_CONFIG_MASTER M
+JOIN ARM_ADJ_RES_CONFIG_DETAIL D ON
+	M.ARM_ADJ_RES_CONFIG_MASTER_SID = M.ARM_ADJ_RES_CONFIG_MASTER_SID
+	AND M.GL_COMPANY_MASTER_SID = ?
+	AND M.BU_COMPANY_MASTER_SID = ?
+       ORDER by D.ACCOUNT
+
+                    ]]>    
+        </query>
+    </entity>
+    <entity id="loadAccountFilterDdlb">
+        <query> 
+            <![CDATA[
+           select distinct
+	D.ARM_ADJ_RES_CONFIG_MASTER_SID,
+	D.ACCOUNT,
+	D.ACCOUNT_DESC
+from
+	DBO.ARM_ADJ_RES_CONFIG_MASTER M
+JOIN ARM_ADJ_RES_CONFIG_DETAIL D ON
+	M.ARM_ADJ_RES_CONFIG_MASTER_SID = M.ARM_ADJ_RES_CONFIG_MASTER_SID
+         ORDER by D.ACCOUNT
+
+                    ]]>    
+        </query>
+    </entity>
+    
+    
+    <entity id="ADD_Line_to_Temp_tableFor AccountConfig">
+        <query> 
+            <![CDATA[
+               DECLARE @OutputTb2 TABLE (ID INT)
+insert into ?
+(
+  CREATED_BY, CREATED_DATE,SOURCE
+)
+OUTPUT INSERTED.ARM_ACC_CONFIG_sid into @OutputTb2(ID)
+values(?,getdate(),'BPI')
+select
+Id
+FROM @OutputTb2
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="AccoutConfig-LoadData">
+        <query> 
+            <![CDATA[
+          SELECT
+          ARM_ACC_CONFIG_SID,
+	temp.Check_record,
+	GL_COMPANY_MASTER_SID AS GL_COMP_MASTER_SID,
+	comp.COMPANY_NAME AS GL_COM_NAME,
+	BU_COMPANY_MASTER_SID AS BU_COMP_MASTER_SID,
+	bu.COMPANY_NAME AS BU_COMP_NAME,
+	ACCOUNT,
+	temp.BRAND_MASTER_SID,
+	COST_CENTER,
+	temp.CREATED_BY,
+	temp.CREATED_DATE,
+	temp.MODIFIED_DATE,
+	temp."SOURCE", 
+        (cr.firstName + ' ' + cr.lastName) AS created,
+        comp.COMPANY_NO AS GL_COM_NO,
+        BU.COMPANY_NO AS BU_COM_NO,
+        BM.BRAND_NAME AS BNAME,
+        (comp.COMPANY_ID + ' - ' + comp.COMPANY_NAME) as COMPANY_ID_WITH_NAME,
+        (bu.COMPANY_ID + ' - ' + bu.COMPANY_NAME) as BU_ID_WITH_NAME,
+        (bm.BRAND_ID + ' - ' + bm.BRAND_NAME) as BRAND_WITH_ID_NAME
+FROM
+	? temp
+LEFT JOIN dbo.COMPANY_MASTER comp ON
+	comp.COMPANY_MASTER_SID = temp.GL_COMPANY_MASTER_SID
+LEFT JOIN dbo.COMPANY_MASTER bu ON
+	bu.COMPANY_MASTER_SID = temp.BU_COMPANY_MASTER_SID
+LEFT JOIN dbo.BRAND_MASTER bm ON
+	bm.BRAND_MASTER_SID = temp.BRAND_MASTER_SID
+JOIN ?.dbo.User_ cr ON
+	cr.userId = temp.CREATED_BY
+        WHERE DELETE_RECORD=0
+        ?
+
+	? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="AccoutConfig-Count">
+        <query> 
+            <![CDATA[
+       ;WITH CTE AS ( SELECT
+          ARM_ACC_CONFIG_SID,
+	temp.Check_record,
+	GL_COMPANY_MASTER_SID AS GL_COMP_MASTER_SID,
+	comp.COMPANY_NAME AS GL_COM_NAME,
+	BU_COMPANY_MASTER_SID AS BU_COMP_MASTER_SID,
+	bu.COMPANY_NAME AS BU_COMP_NAME,
+	ACCOUNT,
+	temp.BRAND_MASTER_SID,
+	COST_CENTER,
+	temp.CREATED_BY,
+	temp.CREATED_DATE,
+	temp.MODIFIED_DATE,
+	temp."SOURCE", 
+        (cr.firstName + ' ' + cr.lastName) AS created,
+        comp.COMPANY_NO AS GL_COM_NO,
+        BU.COMPANY_NO AS BU_COM_NO,
+        BM.BRAND_NAME AS BNAME,
+        (comp.COMPANY_ID + ' - ' + comp.COMPANY_NAME) as COMPANY_ID_WITH_NAME,
+        (bu.COMPANY_ID + ' - ' + bu.COMPANY_NAME) as BU_ID_WITH_NAME,
+        (bm.BRAND_ID + ' - ' + bm.BRAND_NAME) as BRAND_WITH_ID_NAME
+	
+FROM
+	? temp
+LEFT JOIN dbo.COMPANY_MASTER comp ON
+	comp.COMPANY_MASTER_SID = temp.GL_COMPANY_MASTER_SID
+LEFT JOIN dbo.COMPANY_MASTER bu ON
+	bu.COMPANY_MASTER_SID = temp.BU_COMPANY_MASTER_SID
+LEFT JOIN dbo.BRAND_MASTER bm ON
+	bm.BRAND_MASTER_SID = temp.BRAND_MASTER_SID
+JOIN ?.dbo.User_ cr ON
+	cr.userId = temp.CREATED_BY
+        WHERE DELETE_RECORD=0
+        ) SELECT COUNT(*) FROM CTE
+        ? 
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="updateFieldFactoryValues">
+        <query> 
+            <![CDATA[
+         UPDATE
+	?
+SET
+	? = '?' ,SAVE_RECORD=0
+WHERE
+	ARM_ACC_CONFIG_SID = ?
+            ]]>
+        </query>
+    </entity>
+    <entity id="MassUpdateFieldFactoryValues">
+        <query> 
+            <![CDATA[
+    UPDATE
+	?
+SET
+	? = '?' ,SAVE_RECORD=0
+WHERE
+	check_record = 1
+        AND DELETE_RECORD=0
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="isCheckedAtleastOneItem">
+        <query> 
+            <![CDATA[
+    SELECT
+	COUNT( * )
+FROM
+	?
+WHERE
+	CHECK_RECORD = 1
+        AND DELETE_RECORD=0
+            ]]>
+        </query>
+    </entity>
+    <entity id="removeLine">
+        <query> 
+            <![CDATA[
+   UPDATE
+	?
+SET
+	DELETE_RECORD = 1
+WHERE
+	check_record = 1
+            ]]>
+        </query>
+    </entity>
+
+    <entity id="copyLine-AccountConfig">
+        <query> 
+            <![CDATA[
+INSERT
+	INTO
+		?(
+			GL_COMPANY_MASTER_SID,
+			BU_COMPANY_MASTER_SID,
+			ACCOUNT,
+			BRAND_MASTER_SID,
+			COST_CENTER,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			"SOURCE",
+			CHECK_RECORD
+		) SELECT
+			GL_COMPANY_MASTER_SID,
+			BU_COMPANY_MASTER_SID,
+			ACCOUNT,
+			BRAND_MASTER_SID,
+			COST_CENTER,
+			?,
+			getdate(),
+			?,
+			getdate(),
+			"SOURCE",
+			CHECK_RECORD
+		FROM
+			?
+		WHERE
+			CHECK_RECORD = 1 
+                        AND DELETE_RECORD=0
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="AccoutConfig-Count-History">
+        <query> 
+            <![CDATA[
+         ;WITH CTE AS (SELECT
+          
+        GL_COMPANY_MASTER_SID,
+        BU_COMPANY_MASTER_SID,
+        ACCOUNT,
+        temp.BRAND_MASTER_SID,
+        COST_CENTER,
+        temp.CREATED_BY,
+        temp.CREATED_DATE,
+        temp.MODIFIED_DATE,
+        temp."SOURCE" AS so,
+        (cr.firstName + ' ' + cr.lastName) AS created,
+        (comp.COMPANY_ID + ' - ' + comp.COMPANY_NAME) as COMPANY_ID_WITH_NAME,
+        (bu.COMPANY_ID + ' - ' + bu.COMPANY_NAME) as BU_ID_WITH_NAME,
+        (bm.BRAND_ID + ' - ' + bm.BRAND_NAME) as BRAND_WITH_ID_NAME
+FROM
+	? temp
+LEFT JOIN dbo.COMPANY_MASTER comp ON
+	comp.COMPANY_MASTER_SID = temp.GL_COMPANY_MASTER_SID
+LEFT JOIN dbo.COMPANY_MASTER bu ON
+	bu.COMPANY_MASTER_SID = temp.BU_COMPANY_MASTER_SID
+LEFT JOIN dbo.BRAND_MASTER bm ON
+	bm.BRAND_MASTER_SID = temp.BRAND_MASTER_SID
+JOIN ?.dbo.User_ cr ON
+	cr.userId = temp.CREATED_BY
+        
+        AND temp.GL_COMPANY_MASTER_SID =? AND temp.BU_COMPANY_MASTER_SID=? AND ACCOUNT in (?)
+        AND temp.BRAND_MASTER_SID in (?)
+	 ) SELECT COUNT(*) FROM CTE
+         ?
+	
+            ]]>
+        </query>
+    </entity>
+    <entity id="AccoutConfig-LoadData-History">
+        <query> 
+            <![CDATA[
+          SELECT
+         null,null,
+	GL_COMPANY_MASTER_SID,
+	comp.COMPANY_NAME as GL_COMP_NAME,
+	BU_COMPANY_MASTER_SID,
+	bu.COMPANY_NAME AS BU_COMP_NAME,
+	ACCOUNT,
+	temp.BRAND_MASTER_SID,
+	COST_CENTER,
+	temp.CREATED_BY,
+	temp.CREATED_DATE,
+	temp.MODIFIED_DATE,
+	temp."SOURCE" AS so, 
+        (cr.firstName + ' ' + cr.lastName) AS created,
+        comp.COMPANY_NO as COM_NO,
+        BU.COMPANY_NO AS BU_NO,
+        bm.BRAND_NAME AS BNAME,
+        (comp.COMPANY_ID + ' - ' + comp.COMPANY_NAME) as COMPANY_ID_WITH_NAME,
+        (bu.COMPANY_ID + ' - ' + bu.COMPANY_NAME) as BU_ID_WITH_NAME,
+        (bm.BRAND_ID + ' - ' + bm.BRAND_NAME) as BRAND_WITH_ID_NAME
+FROM
+	? temp
+LEFT JOIN dbo.COMPANY_MASTER comp ON
+	comp.COMPANY_MASTER_SID = temp.GL_COMPANY_MASTER_SID
+LEFT JOIN dbo.COMPANY_MASTER bu ON
+	bu.COMPANY_MASTER_SID = temp.BU_COMPANY_MASTER_SID
+LEFT JOIN dbo.BRAND_MASTER bm ON
+	bm.BRAND_MASTER_SID = temp.BRAND_MASTER_SID
+JOIN ?.dbo.User_ cr ON
+	cr.userId = temp.CREATED_BY
+        AND temp.GL_COMPANY_MASTER_SID =? AND temp.BU_COMPANY_MASTER_SID=? AND ACCOUNT in  (?)
+        AND temp.BRAND_MASTER_SID in (?)
+        ?
+        
+	? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+	
+            ]]>
+        </query>
+    </entity>
+    <entity id="insertDataOnEditClick">
+        <query> 
+            <![CDATA[
+         INSERT INTO
+		?(
+			GL_COMPANY_MASTER_SID,
+			BU_COMPANY_MASTER_SID,
+			ACCOUNT,
+			BRAND_MASTER_SID,
+			COST_CENTER,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			SOURCE,
+                        ARM_ACC_CONFIG_MASTER_SID
+		) SELECT
+			GL_COMPANY_MASTER_SID,
+			BU_COMPANY_MASTER_SID,
+			ACCOUNT,
+			BRAND_MASTER_SID,
+			COST_CENTER,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			getDate(),
+			SOURCE,
+                        ARM_ACC_CONFIG_SID
+		FROM
+			ARM_ACC_CONFIG
+		WHERE
+			GL_COMPANY_MASTER_SID = ?
+			AND BU_COMPANY_MASTER_SID = ?
+			AND ACCOUNT = '?'
+			AND BRAND_MASTER_SID = ?
+			AND COST_CENTER = '?'
+            ]]>
+        </query>
+    </entity>
+    <entity id="insertDataOnCopyClick">
+        <query> 
+            <![CDATA[
+         INSERT INTO
+		?(
+			ACCOUNT,
+			BRAND_MASTER_SID,
+			COST_CENTER,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			SOURCE
+		) SELECT
+			ACCOUNT,
+			BRAND_MASTER_SID,
+			COST_CENTER,
+			?,
+			getDate(),
+			?,
+			getDate(),
+			SOURCE
+		FROM
+			ARM_ACC_CONFIG
+		WHERE
+			GL_COMPANY_MASTER_SID = ?
+			AND BU_COMPANY_MASTER_SID = ?
+			AND ACCOUNT = '?'
+			AND BRAND_MASTER_SID = ?
+			AND COST_CENTER = '?'
+            ]]>
+        </query>
+    </entity>
+    <entity id="addLine-EditMode">
+        <query> 
+            <![CDATA[
+  INSERT
+	INTO
+		?(
+			GL_COMPANY_MASTER_SID,
+			BU_COMPANY_MASTER_SID,
+                        CREATED_BY,
+                        CREATED_DATE,
+                        SOURCE
+		)
+	VALUES(
+		?,
+		?,
+                ?,
+                GETDATE(),
+                'BPI'
+	)
+            ]]>
+        </query>
+    </entity>
+    <entity id="checkAllUpdate">
+        <query> 
+            <![CDATA[
+         UPDATE
+	?
+SET
+	CHECK_RECORD = '?'
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="deleteAccountConfig">
+        <query> 
+            <![CDATA[
+            
+        DELETE FROM ARM_ACC_CONFIG WHERE ARM_ACC_CONFIG_SID = ?
+           ]]>
+        </query>
+    </entity>
+    <entity id="Temp to Main Save- AccountConfig">
+        <query> 
+            <![CDATA[
+ 
+INSERT INTO   ARM_ACC_CONFIG
+            (GL_COMPANY_MASTER_SID, 
+             BU_COMPANY_MASTER_SID, 
+             ACCOUNT, 
+             BRAND_MASTER_SID, 
+             COST_CENTER, 
+             CREATED_BY, 
+             CREATED_DATE, 
+             MODIFIED_BY,
+             MODIFIED_DATE, 
+             SOURCE) 
+SELECT GL_COMPANY_MASTER_SID, 
+       BU_COMPANY_MASTER_SID, 
+       ACCOUNT, 
+       BRAND_MASTER_SID, 
+       COST_CENTER, 
+       CREATED_BY,
+       CREATED_DATE,
+       MODIFIED_BY,
+       MODIFIED_DATE,
+       SOURCE 
+FROM   ? 
+WHERE  DELETE_RECORD=0
+
+
+UPDATE AC 
+SET    AC.GL_COMPANY_MASTER_SID = ST.GL_COMPANY_MASTER_SID, 
+       AC.BU_COMPANY_MASTER_SID = ST.BU_COMPANY_MASTER_SID, 
+       AC.ACCOUNT = ST.ACCOUNT, 
+       AC.BRAND_MASTER_SID = ST.BRAND_MASTER_SID, 
+       AC.COST_CENTER = ST.COST_CENTER, 
+       AC.CREATED_BY = ST.CREATED_BY, 
+       AC.MODIFIED_BY = ST.MODIFIED_BY,
+	   AC.MODIFIED_DATE=ST.MODIFIED_DATE,
+       AC.SOURCE = ST.SOURCE 
+FROM   ARM_ACC_CONFIG AC 
+       JOIN ? ST 
+         ON AC.ARM_ACC_CONFIG_SID = ST.ARM_ACC_CONFIG_MASTER_SID 
+AND ST.DELETE_RECORD=0
+
+UPDATE ST 
+SET    ST.ARM_ACC_CONFIG_MASTER_SID = AC.ARM_ACC_CONFIG_SID,
+       ST.SAVE_RECORD=1
+FROM   ? ST 
+       JOIN ARM_ACC_CONFIG AC 
+         ON ST.GL_COMPANY_MASTER_SID = AC.GL_COMPANY_MASTER_SID 
+            AND ST.BU_COMPANY_MASTER_SID = AC.BU_COMPANY_MASTER_SID 
+            AND ST.ACCOUNT = AC.ACCOUNT 
+            AND ST.BRAND_MASTER_SID = AC.BRAND_MASTER_SID 
+            AND ST.COST_CENTER = AC.COST_CENTER 
+WHERE ST.ARM_ACC_CONFIG_MASTER_SID IS NULL AND ST.DELETE_RECORD = 0
+
+	DELETE AC 
+FROM   ARM_ACC_CONFIG AC 
+       JOIN ? ST 
+         ON AC.ARM_ACC_CONFIG_SID = ST.ARM_ACC_CONFIG_MASTER_SID 
+            AND ST.DELETE_RECORD = 1 
+            ]]>
+        </query>
+    </entity>
+    <entity id="Mandatory check for save">
+        <query> 
+            <![CDATA[
+ SELECT
+	COUNT( ARM_ACC_CONFIG_SID )
+FROM
+	?
+WHERE
+
+	DELETE_RECORD = 0
+	AND(GL_COMPANY_MASTER_SID IS NULL
+	OR BU_COMPANY_MASTER_SID IS NULL
+	OR ACCOUNT IS NULL
+	OR BRAND_MASTER_SID IS NULL
+	OR COST_CENTER IS NULL)
+            ]]>
+        </query>
+    </entity>
+    <entity id="Duplicatecheck for save">
+        <query> 
+            <![CDATA[
+ IF EXISTS(SELECT GL_COMPANY_MASTER_SID, 
+                 BU_COMPANY_MASTER_SID, 
+                 ACCOUNT, 
+                 BRAND_MASTER_SID,
+                 COST_CENTER,
+                 COUNT(1) AS CNT 
+          FROM   ? 
+          WHERE DELETE_RECORD=0
+          GROUP  BY GL_COMPANY_MASTER_SID, 
+                    BU_COMPANY_MASTER_SID, 
+                    ACCOUNT, 
+                    BRAND_MASTER_SID, 
+                    COST_CENTER 
+                   
+          HAVING COUNT(1) > 1) 
+  SELECT 0
+ELSE 
+  BEGIN 
+  
+  DELETE AC FROM ARM_ACC_CONFIG AC 
+  JOIN ? ST 
+               ON AC.GL_COMPANY_MASTER_SID = ST.GL_COMPANY_MASTER_SID 
+                  AND AC.BU_COMPANY_MASTER_SID = ST.BU_COMPANY_MASTER_SID 
+                  AND AC.ACCOUNT = ST.ACCOUNT 
+                  AND AC.BRAND_MASTER_SID = ST.BRAND_MASTER_SID 
+                  AND AC.COST_CENTER = ST.COST_CENTER
+		  WHERE  ST.SAVE_RECORD = 0 AND ST.DELETE_RECORD=0
+                  
+      UPDATE ST 
+      SET    ST.SAVE_RECORD = 1 
+      FROM   ? ST 
+             JOIN ARM_ACC_CONFIG AC 
+               ON AC.GL_COMPANY_MASTER_SID = ST.GL_COMPANY_MASTER_SID 
+                  AND AC.BU_COMPANY_MASTER_SID = ST.BU_COMPANY_MASTER_SID 
+                  AND AC.ACCOUNT = ST.ACCOUNT 
+                  AND AC.BRAND_MASTER_SID = ST.BRAND_MASTER_SID 
+                  AND AC.COST_CENTER = ST.COST_CENTER 
+                  AND AC.ARM_ACC_CONFIG_SID = ST.ARM_ACC_CONFIG_MASTER_SID 
+      WHERE  ST.SAVE_RECORD = 0 AND ST.DELETE_RECORD=0
+
+      IF EXISTS(SELECT 1 
+                FROM   ? ST 
+                       JOIN ARM_ACC_CONFIG AC 
+                         ON AC.GL_COMPANY_MASTER_SID = ST.GL_COMPANY_MASTER_SID 
+                            AND AC.BU_COMPANY_MASTER_SID = ST.BU_COMPANY_MASTER_SID 
+                            AND AC.ACCOUNT = ST.ACCOUNT 
+                            AND AC.BRAND_MASTER_SID = ST.BRAND_MASTER_SID 
+                            AND AC.COST_CENTER = ST.COST_CENTER
+                            WHERE  SAVE_RECORD = 0 AND ST.DELETE_RECORD=0) 
+        SELECT 0
+      ELSE 
+        BEGIN 
+            SELECT 1 
+        END 
+  END 
+         ]]>
+        </query>
+    </entity>
+    <entity id="resetLine">
+        <query> 
+            <![CDATA[
+DELETE 
+FROM   ? 
+WHERE  ARM_ACC_CONFIG_MASTER_SID IS NULL 
+
+UPDATE ST 
+SET    ST.GL_COMPANY_MASTER_SID = AC.GL_COMPANY_MASTER_SID, 
+       ST.BU_COMPANY_MASTER_SID = AC.BU_COMPANY_MASTER_SID, 
+       ST.ACCOUNT =               AC.ACCOUNT, 
+       ST.BRAND_MASTER_SID =      AC.BRAND_MASTER_SID, 
+       ST.COST_CENTER =        AC.COST_CENTER, 
+       ST.CREATED_BY = AC.CREATED_BY, 
+       ST.MODIFIED_BY = AC.MODIFIED_BY,
+       ST.MODIFIED_DATE=AC.MODIFIED_DATE,
+       ST.SOURCE = AC.SOURCE,
+       ST.DELETE_RECORD=0
+FROM   ? ST 
+       JOIN ARM_ACC_CONFIG AC 
+         ON AC.ARM_ACC_CONFIG_SID = ST.ARM_ACC_CONFIG_MASTER_SID 
+            ]]>
+        </query>
+    </entity>
+    <entity id="loadBrand">
+        <query> 
+            <![CDATA[
+                SELECT
+	BRAND_MASTER_SID,
+	BRAND_ID,
+	BRAND_NAME
+FROM
+	BRAND_MASTER
+WHERE
+	BRAND_ID IS NOT NULL
+	AND BRAND_NAME IS NOT NULL
+ORDER BY
+	BRAND_ID
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="temptable-Account">
+        <query> 
+            <![CDATA[
+                SELECT ACCOUNT FROM ?
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="temptable-Brand">
+        <query> 
+            <![CDATA[
+                SELECT BRAND_MASTER_SID FROM ?
+            ]]>
+        </query>
+    </entity>
+</sql>

@@ -13,20 +13,30 @@ import com.vaadin.v7.data.util.converter.Converter;
  */
 public class DateToStringConverter implements Converter<String, Date> {
 
-	private static final long serialVersionUID = 1L;
-        private String formatValue = "MM/dd/yyyy";
+    private static final long serialVersionUID = 1L;
+    private String formatValue = "MM/dd/yyyy";
 
-	public Date convertToModel(String value, Class<? extends Date> targetType,
-			Locale locale)
-			throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
-		 if (targetType != getModelType()) {
-	            throw new ConversionException("Converter only supports "
-	                    + getModelType().getName() + " (targetType was "
-	                    + targetType.getName() + ")");
-	        }
+    public DateToStringConverter() {
+        /*
+         Empty Comstructor
+         */
+    }
 
-	        if (value == null) {
-	            return null;
+    public DateToStringConverter(String formatValue) {
+        this.formatValue = formatValue;
+    }
+
+    public Date convertToModel(String value, Class<? extends Date> targetType,
+            Locale locale)
+            throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
+        if (targetType != getModelType()) {
+            throw new ConversionException("Converter only supports "
+                    + getModelType().getName() + " (targetType was "
+                    + targetType.getName() + ")");
+        }
+
+        if (value == null) {
+            return null;
 	        }
 
 	        value = value.trim();

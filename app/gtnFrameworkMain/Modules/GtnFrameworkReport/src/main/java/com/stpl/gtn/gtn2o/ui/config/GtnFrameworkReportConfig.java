@@ -14,6 +14,9 @@ import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDSCustomertHierarc
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDSProductHierarchyLookUp;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDashboardComparisonLookup;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDashboardSaveProfileViewLookUp;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDataSelectionComparisonLookup;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDataSelectionPrivateViewLookUp;
+import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDataSelectionPublicViewSearchLookUp;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportDataSelectionSaveViewLookUp;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportGenerateLookUp;
 import com.stpl.gtn.gtn2o.ui.module.lookups.GtnFrameworkReportPrivateViewSearchLookUp;
@@ -74,6 +77,14 @@ public class GtnFrameworkReportConfig {
 				.getSaveViewLookUpView(GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_SAVE_PROFILE));
 
 		viewList.add(new GtnFrameworkReportDashboardComparisonLookup().getReportComparisonLookupView());
+
+		viewList.add(new GtnFrameworkReportDataSelectionComparisonLookup().getReportDSComparisonLookupView());
+
+		viewList.add(new GtnFrameworkReportDataSelectionPrivateViewLookUp()
+				.getDsPrivateViewLookUpView(GtnFrameworkReportStringConstants.REPORT_DATASELECTION_PRIVATEVIEW));
+
+		viewList.add(new GtnFrameworkReportDataSelectionPublicViewSearchLookUp()
+				.getPublicViewLookUpView(GtnFrameworkReportStringConstants.REPORT_DATASELECTION_PUBLICVIEW));
 
 		rootConfig.setGtnViewConfigList(viewList);
 
