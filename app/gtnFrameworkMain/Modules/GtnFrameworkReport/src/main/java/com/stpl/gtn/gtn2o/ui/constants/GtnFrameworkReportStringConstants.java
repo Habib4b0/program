@@ -32,7 +32,7 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT = "report";
 
-	public static final String HIER_NAME = "hierarchyName";
+	public static final String HIER_NAME = "productHierarchyName";
 
 	public static final String PRODUCT_HIERARCHY_NAME = "landingScreenProductHierName";
 
