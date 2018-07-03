@@ -101,8 +101,19 @@ public class WorkflowLogicService {
 
     public ProcessInstance startWorkflow(String moduleKey, String defaultValue, String moduleName) {
         ProcessInstance processInstance = null;
+        Properties properties;
         try {
-            Properties properties = moduleName.equals(GtnWsBpmCommonConstants.CFF)? DroolsProperties.getCffPropertiesData() : DroolsProperties.getPropertiesData();
+            switch (moduleName) {
+                case GtnWsBpmCommonConstants.CFF:
+                    properties = DroolsProperties.getCffPropertiesData();
+                    break;
+                case GtnWsBpmCommonConstants.ARM:
+                    properties = DroolsProperties.getArmPropertiesData();
+                    break;
+                default:
+                    properties = DroolsProperties.getPropertiesData();
+            }
+//            Properties properties = moduleName.equals(GtnWsBpmCommonConstants.CFF) ? DroolsProperties.getCffPropertiesData() : DroolsProperties.getPropertiesData();
             String workflowId = properties.getProperty(moduleKey, defaultValue);
             processInstance = bpmProcessBean.startProcess(workflowId, null, moduleName);
         } catch (Exception e) {
@@ -182,11 +193,11 @@ public class WorkflowLogicService {
     public boolean insertWFInstanceInfo(int projectionId, long processInstanceId, boolean isCffModule) {
         try {
             String customSql = null;
-            if(isCffModule){
+            if (isCffModule) {
                 customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (CFF_MASTER_SID,PROCESS_INSTANCE_ID) VALUES(?,?)";
-            }else{
+            } else {
                 customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (PROJECTION_MASTER_SID,PROCESS_INSTANCE_ID) VALUES(?,?)";
-            }            
+            }
             Object[] queryParams = {projectionId, processInstanceId};
             return databaseService.executeUpdate(customSql, queryParams) > 0;
 
@@ -244,11 +255,11 @@ public class WorkflowLogicService {
 
     }
 
-    public List<ForecastingRulesDTO> getProjectionValues(int projectionId, String screenName,String userId, String sessionId) {
+    public List<ForecastingRulesDTO> getProjectionValues(int projectionId, String screenName, String userId, String sessionId) {
         List<ForecastingRulesDTO> list = new ArrayList<>();
         try {
 
-            List<Object[]> returnList = getProjectionRecords(projectionId, screenName, userId,  sessionId);// ,
+            List<Object[]> returnList = getProjectionRecords(projectionId, screenName, userId, sessionId);// ,
             for (int i = 0; i < returnList.size(); i++) {
                 Object[] obj = returnList.get(i);
                 if (screenName.equals(GtnWsBpmCommonConstants.FORECAST_RETURNS)) {
@@ -258,8 +269,8 @@ public class WorkflowLogicService {
                     retRate.setPercentLowest(Double.parseDouble(String.valueOf(obj[2])));
                     retRate.setPercentGreatest(Double.parseDouble(String.valueOf(obj[3])));
                     list.add(retRate);
-                }else if(screenName.equals(GtnWsBpmCommonConstants.FORECAST_COMMERCIAL)){
-                 ForecastingRulesDTO sales = new ForecastingRulesDTO("Projected_Contract_Sales_Dollars");
+                } else if (screenName.equals(GtnWsBpmCommonConstants.FORECAST_COMMERCIAL)) {
+                    ForecastingRulesDTO sales = new ForecastingRulesDTO("Projected_Contract_Sales_Dollars");
                     sales.setAmountLowest(Double.parseDouble(String.valueOf(obj[0])));
                     sales.setAmountGreatest(Double.parseDouble(String.valueOf(obj[1])));
                     sales.setPercentLowest(Double.parseDouble(String.valueOf(obj[12])));
@@ -321,7 +332,7 @@ public class WorkflowLogicService {
             } else if (screenName.equals(GtnWsBpmCommonConstants.FORECAST_COMMERCIAL)) {
                 String projectionRecordsQuery = SQLUtility.getQuery("getProjectionRecords");
                 Object[] projectionRecordsQueryParams = {projectionId, userId, sessionId};
-                obj = databaseService.executeQuery(projectionRecordsQuery,projectionRecordsQueryParams);
+                obj = databaseService.executeQuery(projectionRecordsQuery, projectionRecordsQueryParams);
             }
         } catch (Exception e) {
             LOGGER.error("Exception in selectWFInstanceInfo() method." + e);

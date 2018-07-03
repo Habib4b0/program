@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
+import org.asi.ui.custommenubar.MenuItemDTO;
 
 public class GtnUIFrameworkCheckedComboboxComponent implements GtnUIFrameworkComponent {
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnUIFrameworkCheckedComboboxComponent.class);
@@ -50,7 +51,8 @@ public class GtnUIFrameworkCheckedComboboxComponent implements GtnUIFrameworkCom
 				CustomMenuBar.CustomMenuItem[] customItem = new CustomMenuBar.CustomMenuItem[response.getItemValueList()
 						.size()];
 				for (int valueIndex = 0; valueIndex < response.getItemValueList().size(); valueIndex++) {
-					customItem[valueIndex] = customMenuItem.addItem(response.getItemValueList().get(valueIndex), null);
+                                        MenuItemDTO dto = new MenuItemDTO(response.getItemCodeList().get(valueIndex), response.getItemValueList().get(valueIndex));
+					customItem[valueIndex] = customMenuItem.addItem(dto, null);
 					customItem[valueIndex].setCheckable(true);
 					customItem[valueIndex].setItemClickable(true);
 					customItem[valueIndex].setItemClickNotClosable(true);

@@ -58,8 +58,9 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 				.getStringFromMultiselectComboBox();
 
 		reportDashBoardBean.setSelectedVariableType(selectedVariable);
-		String freName = ((GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
-				.getComponentData().getSharedPopupData()).getFrequencyName();
+		String freName = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId)
+				.getStringCaptionFromV8ComboBox();
 		reportDashBoardBean.setSelectFreqString(freName);
 
 		String[] selectedVariableCategory = GtnUIFrameworkGlobalUI
@@ -108,6 +109,10 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 		}
 
 		reportDashBoardBean.setSelectedVariableCategoryType(selectedVariableCategory);
+
+		reportDashBoardBean.setCustomViewMasterSid(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView", componentId)
+				.getIntegerFromV8ComboBox());
 
 		GtnWsForecastRequest gtnWsForecastRequest = new GtnWsForecastRequest();
 		gtnWsForecastRequest.setGtnForecastBean(gtnForecastBean);

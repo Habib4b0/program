@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ws.rebateschedule.GtnWsRebateScheduleInfoBean;
+import com.stpl.gtn.gtn2o.ws.response.arm.GtnWsARMResponse;
 import com.stpl.gtn.gtn2o.ws.response.authorization.GtnWsModuleAuthorizationGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.automaticrelationupdate.GtnFrameworkAutomaticRelationshipResponse;
 import com.stpl.gtn.gtn2o.ws.response.calendarconfiguration.GtnWsCalendarConfigurationResponse;
@@ -89,6 +90,7 @@ public class GtnUIFrameworkWebserviceResponse {
     private GtnWsCsvExportResponse gtnWsCsvExportResponse;
     private GtnWsAttachmentResponse gtnWsAttachmentResponse;
     private GtnWsCustomViewResponse gtnWsCustomViewResponse;
+    private GtnWsARMResponse gtnWsARMResponse;
 
     private GtnFrameworkAutomaticRelationshipResponse automaticRelationResponse;
     private GtnWsReportResponse gtnWsReportResponse;
@@ -472,6 +474,14 @@ public class GtnUIFrameworkWebserviceResponse {
 
     public void setGtnWsCustomViewResponse(GtnWsCustomViewResponse gtnWsCustomViewResponse) {
         this.gtnWsCustomViewResponse = gtnWsCustomViewResponse;
+    }
+
+    public GtnWsARMResponse getGtnWsARMResponse() {
+        return gtnWsARMResponse;
+    }
+
+    public void setGtnWsARMResponse(GtnWsARMResponse gtnWsARMResponse) {
+        this.gtnWsARMResponse = gtnWsARMResponse;
     }
 
 }
