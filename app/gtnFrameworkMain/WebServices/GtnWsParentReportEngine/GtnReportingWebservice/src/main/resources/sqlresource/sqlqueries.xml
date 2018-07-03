@@ -173,7 +173,7 @@
 						WHERE
 							h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
 					)
-					AND c.HIERARCHY_NAME like ?
+					AND c.HIERARCHY_NAME like ? @filter
 					AND c.HIERARCHY_TYPE in(
 						select
 							ht.HELPER_TABLE_SID
