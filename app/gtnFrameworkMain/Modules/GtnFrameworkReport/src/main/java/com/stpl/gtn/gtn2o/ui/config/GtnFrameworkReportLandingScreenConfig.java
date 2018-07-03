@@ -115,7 +115,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameworkComponentConfig landingScreenVariableBreakdownFrequencyConfig = new GtnUIFrameworkComponentConfig();
 		landingScreenVariableBreakdownFrequencyConfig.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		landingScreenVariableBreakdownFrequencyConfig.setComponentId(namespace
-				+ GtnFrameworkReportStringConstants.UNDERSCORE + "landingScreenVariableBreakdownFrequencyConfig");
+				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG);
 		landingScreenVariableBreakdownFrequencyConfig.setComponentName("Frequency: ");
 		landingScreenVariableBreakdownFrequencyConfig.setAddToParent(true);
 		landingScreenVariableBreakdownFrequencyConfig
@@ -141,7 +141,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		componentList.add(hierarchyLayout);
 		GtnUIFrameworkComponentConfig landingScreenVariableComparisonConfig = configProvider
 				.getUIFrameworkComponentConfig(
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportingDashboardComparisonConfig",
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_COMPARISON_CONFIG,
 						true,"comparisonHierarchyLayout",
 						GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		landingScreenVariableComparisonConfig.setAuthorizationIncluded(true);
@@ -657,9 +657,9 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.addActionParameter("reportLandingScreen_fromPeriod");
 		generateAction.addActionParameter("reportLandingScreen_reportingDashboardComparisonConfig");
 		generateAction.addActionParameter(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView");
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW);
 		generateAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ "landingScreenVariableBreakdownFrequencyConfig");
+				+ GtnFrameworkReportStringConstants.LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG);
 		generateAction.addActionParameter("reportLandingScreen_toPeriod");
 		generateAction.addActionParameter("reportLandingScreen_STATUS");
 		generateAction.addActionParameter("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent");
@@ -707,9 +707,9 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabVariable",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportingDashboardComparisonConfig",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_COMPARISON_CONFIG,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ "landingScreenVariableBreakdownFrequencyConfig"));
+						+ GtnFrameworkReportStringConstants.LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG));
 		onSuccessActionConfigList.add(resetAction);
 		resetActionList.add(confirmResetAction);
 		resetButton.setGtnUIFrameWorkActionConfigList(resetActionList);
@@ -744,9 +744,9 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabVariable",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportingDashboardComparisonConfig",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_COMPARISON_CONFIG,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ "landingScreenVariableBreakdownFrequencyConfig"));
+						+ GtnFrameworkReportStringConstants.LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG));
 		list.add(saveViewAction);
 
 		saveViewBtn.setGtnUIFrameWorkActionConfigList(list);
