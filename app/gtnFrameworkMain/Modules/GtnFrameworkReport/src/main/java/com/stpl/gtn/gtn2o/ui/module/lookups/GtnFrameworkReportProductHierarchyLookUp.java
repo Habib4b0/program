@@ -309,8 +309,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		searchResults.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_INTEGER,
 				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE });
-		searchResults.setTableColumnMappingId(new Object[] { GtnFrameworkReportStringConstants.HIER_NAME,
-				GtnFrameworkReportStringConstants.HIGHEST_LEVEL, "lowestLevel", "createdDate", "modifiedDate" });
+		searchResults.setTableColumnMappingId(GtnFrameworkReportStringConstants.getReportProductFilterPropertyId());
 
 		searchResults.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_PRODUCTHIERARCHY_SEARCHSERVICE);

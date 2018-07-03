@@ -91,6 +91,14 @@ public final class GtnWebServiceUrlConstants {
 	public static final String GTN_REPORT_LOAD_CUSTOMER_LEVEL = "/reportLoadCustomerLevel";
 	public static final String GTN_REPORT_LOAD_MULTISELECT_DDLB = "/reportLoadMultiselectDdlb";
 
+        public static final String GTN_DATASELECTION_ARM_LOAD_CUSTOMER_LEVEL = "/dataSelectionARMLoadCustomerHierarcy";;
+        public static final String GTN_DATASELCTION_ARM_EDIT_SERVICE = "/GtnDataSelectionARMEdit";
+	public static final String GTN_DATASELECTION_ARM_LOAD_LEVEL_VALUE_MAP = "/dataSelectionARMSelectedLevelValueMap";
+        public static final String GTN_DATASELECTION_ARM_LOAD_PRODUCT_LEVEL = "/dataSelectionARMLoadProductHierarcy";
+        
+        public static final String GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_SERVICE = "/GtnAdjustmentDetailsDeductionValue";
+        public static final String GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_CONTROLLER = "/GtnAdjustmentDetailsDeductionValueController";
+
 	private GtnWebServiceUrlConstants() {
 		super();
 	}

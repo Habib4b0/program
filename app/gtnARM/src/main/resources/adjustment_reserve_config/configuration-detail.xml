@@ -1,0 +1,30 @@
+<Panel>
+    <VerticalLayout id="verticalLayout" margin="true" spacing = "true" width="100%" height="100%">
+        <Panel caption="Configuration Detail" width="100%" height="100%">
+            <VerticalLayout spacing="true">
+                <Panel id="addPanelRes" width="100%" height="100%" >
+                    <HorizontalLayout spacing="true" margin="true">
+                        <Label id="labelConfigurationType" value="Configuration Type"  contentMode="HTML" immediate="true"   />
+                        <OptionGroup id="configurationTypeOpg" enable="true" immediate="true" styleName="horizontal"/>
+            
+                        <Label id="labelMassupdate" value="Mass Update :" immediate="true"   />
+            
+                        <Label id="labelField" value="Field" immediate="true"   />
+                        <ComboBox id="massfieldDdlb" enabled="true" immediate="true" />
+            
+                        <Label id="labelValue" value="Value" immediate="true"  />
+                        <TextField id="massValue" enable="true" immediate="true" />
+                    
+                        <ComboBox id="massValueDdlb" enable="true" immediate="true" />
+                        <Button id="populateBtnres" caption="POPULATE" />
+                        <Label value="" immediate="true" width="100px" />
+                        <Label id="labelView" value="View" immediate="true"  />
+                        <OptionGroup id="viewOpg" enable="true" immediate="true" styleName="horizontal" width="245px"/>
+                    </HorizontalLayout>
+                </Panel>
+                <VerticalLayout  id="resultsTableLayoutRes" width="100%" height="100%">
+                </VerticalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

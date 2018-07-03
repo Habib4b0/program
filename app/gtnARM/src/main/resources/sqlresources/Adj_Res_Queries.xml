@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<sql>
+    <entity id="Reserve_Two_Records_For_Same_Adj_Type">
+        <query> 
+            <![CDATA[
+              IF EXISTS (SELECT
+                   1
+       
+           FROM
+                   ? tmp
+                   JOIN ST_ARM_ADJ_RES_CONFIG_MASTER MAS
+                   ON MAS.ARM_ADJ_RES_CONFIG_MASTER_SID=TMP.ARM_ADJ_RES_CONFIG_MASTER_SID
+                   WHERE MAS.CONFIGURATION_TYPE = 0)
+                   BEGIN
+
+   SELECT CASE WHEN COUNT(*) >=1 THEN 1
+   ELSE 0 END
+from
+   (
+           SELECT
+                   ADJUSTMENT_TYPE,
+                   count(*) as new_count
+           FROM
+                   ? tmp
+                   JOIN ST_ARM_ADJ_RES_CONFIG_MASTER MAS
+                   ON MAS.ARM_ADJ_RES_CONFIG_MASTER_SID=TMP.ARM_ADJ_RES_CONFIG_MASTER_SID
+                   WHERE MAS.CONFIGURATION_TYPE = 0
+           group by
+                   ADJUSTMENT_TYPE
+   ) a
+where
+   new_count <> 2
+   END
+   ELSE
+   SELECT 1 
+            ]]>
+        </query>
+    </entity> 
+    <entity id="GTN_One_Record_For_Same_Adj_Type">
+        <query> 
+            <![CDATA[
+               		SELECT CASE 
+		WHEN COUNT(*) >= 1
+			THEN 1
+		ELSE 0
+		END
+FROM ? TMP
+JOIN ST_ARM_ADJ_RES_CONFIG_MASTER MAS ON MAS.ARM_ADJ_RES_CONFIG_MASTER_SID = TMP.ARM_ADJ_RES_CONFIG_MASTER_SID
+WHERE MAS.CONFIGURATION_TYPE = 0
+	AND ADJUSTMENT_TYPE NOT IN (
+		SELECT ADJUSTMENT_TYPE
+		FROM ?  TMP
+		JOIN ST_ARM_ADJ_RES_CONFIG_MASTER MAS ON MAS.ARM_ADJ_RES_CONFIG_MASTER_SID = TMP.ARM_ADJ_RES_CONFIG_MASTER_SID
+                   WHERE MAS.CONFIGURATION_TYPE = 1
+		) 
+
+            ]]>
+        </query>
+    </entity> 
+    <entity id="Duplicate_Account_For_Same_AdjustmentType">
+        <query> 
+            <![CDATA[
+  select CASE WHEN COUNT(*)  >=1 THEN 1
+   ELSE 0 END from(
+ select ADJUSTMENT_TYPE ,account,count(*) as new_count from ? tmp
+                     JOIN ST_ARM_ADJ_RES_CONFIG_MASTER MAS
+                     ON MAS.ARM_ADJ_RES_CONFIG_MASTER_SID=TMP.ARM_ADJ_RES_CONFIG_MASTER_SID
+                     WHERE MAS.CONFIGURATION_TYPE = 0 
+ group by ADJUSTMENT_TYPE,account)a where new_count <>1 
+            ]]>
+        </query>
+    </entity> 
+    <entity id="Adj_Type_GtnIsNotAvailableInReserve">
+        <query> 
+            <![CDATA[
+                            SELECT case when count(*) >=1 then 1 else 0 end 
+              FROM st_ARM_ADJ_RES_CONFIG_master A
+              JOIN ? B ON a.ARM_ADJ_RES_CONFIG_MASTER_SID = b.ARM_ADJ_RES_CONFIG_MASTER_SID
+              WHERE CONFIGURATION_TYPE=1 and adjustment_type NOT IN (SELECT distinct ADJUSTMENT_TYPE 
+              FROM st_ARM_ADJ_RES_CONFIG_master A
+              JOIN ? B ON a.ARM_ADJ_RES_CONFIG_MASTER_SID = b.ARM_ADJ_RES_CONFIG_MASTER_SID
+              WHERE CONFIGURATION_TYPE = 0 )
+
+            ]]>
+        </query>
+    </entity> 
+    <entity id="Account_GtnIsNotAvailableInReserve">
+        <query> 
+            <![CDATA[
+          SELECT CASE WHEN COUNT(*)>0 THEN 1 ELSE 0 END FROM (
+
+SELECT DISTINCT ADJUSTMENT_TYPE, 
+                        ACCOUNT 
+        FROM   ST_ARM_ADJ_RES_CONFIG_MASTER A 
+               JOIN ? B 
+                 ON A.ARM_ADJ_RES_CONFIG_MASTER_SID = B.ARM_ADJ_RES_CONFIG_MASTER_SID 
+        WHERE  CONFIGURATION_TYPE = 1
+EXCEPT
+SELECT DISTINCT ADJUSTMENT_TYPE, 
+                                  ACCOUNT 
+                  FROM   ST_ARM_ADJ_RES_CONFIG_MASTER A 
+                         JOIN ? B 
+                           ON A.ARM_ADJ_RES_CONFIG_MASTER_SID = B.ARM_ADJ_RES_CONFIG_MASTER_SID
+                  WHERE  CONFIGURATION_TYPE = 0)A
+
+            ]]>
+        </query>
+    </entity> 
+    <entity id="isCreditDebitAreOpposite">
+        <query> 
+            <![CDATA[
+        SELECT CASE 
+         WHEN COUNT(*) > 0 THEN 1 
+         ELSE 0 
+       END 
+FROM   (SELECT ADJUSTMENT_TYPE, 
+               DEBIT, 
+               CREDIT, 
+               COUNT(*) AS QTY 
+        FROM   ? 
+        WHERE ARM_ADJ_RES_CONFIG_MASTER_SID = ? 
+        GROUP  BY ADJUSTMENT_TYPE, 
+                  DEBIT, 
+                  CREDIT 
+        HAVING COUNT(*) > 1) T 
+
+            ]]>
+        </query>
+    </entity> 
+    <entity id="Duplicate_Report_Indicator">
+        <query> 
+            <![CDATA[
+  select CASE WHEN COUNT(*)  >=1 THEN 1
+   ELSE 0 END from(
+ select ADJUSTMENT_TYPE ,REPORT_INDICATOR,count(*) as new_count from ? tmp
+                     JOIN ST_ARM_ADJ_RES_CONFIG_MASTER MAS
+                     ON MAS.ARM_ADJ_RES_CONFIG_MASTER_SID=TMP.ARM_ADJ_RES_CONFIG_MASTER_SID
+                     WHERE MAS.CONFIGURATION_TYPE = 0 
+ group by ADJUSTMENT_TYPE,REPORT_INDICATOR)a where new_count <>1 
+            ]]>
+        </query>
+    </entity> 
+    
+    <entity id="loadAdjustmentTypesExistingInReserve">
+        <query> 
+            <![CDATA[
+              SELECT
+	ARM_ADJUSTMENT_CONFIG_SID,
+	TRANSACTION_NAME
+FROM
+	ARM_ADJUSTMENT_CONFIG AC
+JOIN ST_ARM_ADJ_RES_CONFIG_DETAIL_774425_101904194_170602 temp on
+	TEMP.ADJUSTMENT_TYPE = AC.ARM_ADJUSTMENT_CONFIG_SID
+WHERE
+	TEMP.ACCOUNT IS NOT NULL 
+            ]]>
+        </query>
+    </entity>
+    <entity id="loadAccount_BasedOn_AdjustmentType">
+        <query> 
+            <![CDATA[
+             select
+	TMP1.ARM_ADJ_RES_CONFIG_MASTER_SID,
+	ACCOUNT
+from
+	ST_ARM_ADJ_RES_CONFIG_MASTER TMP1
+JOIN ? TMP2 ON
+	TMP1.ARM_ADJ_RES_CONFIG_MASTER_SID = TMP2.ARM_ADJ_RES_CONFIG_MASTER_SID
+WHERE
+CONFIGURATION_TYPE = 0
+  AND ADJUSTMENT_TYPE = ?
+	AND ACCOUNT IS NOT NULL
+            ]]>
+        </query>
+    </entity>
+    <entity id="loadAccount_Filter_BasedOn_Methodology">
+        <query> 
+            <![CDATA[
+             select
+	 TMP2.ADJUSTMENT_TYPE,
+	ACCOUNT
+from
+	ST_ARM_ADJ_RES_CONFIG_MASTER TMP1
+JOIN ? TMP2 ON
+	TMP1.ARM_ADJ_RES_CONFIG_MASTER_SID = TMP2.ARM_ADJ_RES_CONFIG_MASTER_SID
+WHERE
+CONFIGURATION_TYPE = 0
+	AND ACCOUNT IS NOT NULL
+            ]]>
+        </query>
+    </entity>
+    <entity id="loadAccountInFilter_BasedOn_Methodology">
+        <query> 
+            <![CDATA[
+             select
+	AM.ARM_ADJ_RES_CONFIG_MASTER_SID,AD.ACCOUNT
+from
+	ARM_ADJ_RES_CONFIG_MASTER AM
+JOIN ARM_ADJ_RES_CONFIG_DETAIL AD ON
+	AD.ARM_ADJ_RES_CONFIG_MASTER_SID = AM.ARM_ADJ_RES_CONFIG_MASTER_SID
+WHERE
+	CONFIGURATION_TYPE = 0
+            ]]>
+        </query>
+    </entity>
+ 
+    <entity id="isSummaryRecordsAvailableForMethodolody">
+        <query> 
+            <![CDATA[
+            select
+	count(*)
+from
+	?
+where
+	methodology = ?
+            ]]>
+        </query>
+    </entity>
+    <entity id="insertAdjSummaryToTempTable">
+        <query> 
+            <![CDATA[
+          DECLARE @METHODOGY_SID INT = ? INSERT
+	INTO
+		?(
+			ARM_ADJ_RES_CONFIG_MASTER_SID,
+			METHODOLOGY,
+			ADJUSTMENT_TYPE,
+			VERSION_NO
+		) SELECT DISTINCT
+			ARM.ARM_ADJ_RES_CONFIG_MASTER_SID,
+			@METHODOGY_SID as METHODOLOGY,
+			ARM_ADJUSTMENT_CONFIG_SID AS ADJUSTMENT_TYPE,
+			ARM_ADJUSTMENT_CONFIG_SID AS VERSION_NO
+		FROM
+			ST_ARM_ADJ_RES_CONFIG_MASTER ARM
+		JOIN ? ARC ON
+			ARM.ARM_ADJ_RES_CONFIG_MASTER_SID = ARC.ARM_ADJ_RES_CONFIG_MASTER_SID
+			AND CONFIGURATION_TYPE = 0
+		JOIN ARM_ADJUSTMENT_CONFIG AAC ON
+			AAC.ARM_ADJUSTMENT_CONFIG_SID = ARC.ADJUSTMENT_TYPE
+		WHERE
+			METHODOLGY = @METHODOGY_SID
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="selectAdjSummary_BasedOn_Methodology_COUNT">
+        <query> 
+            <![CDATA[
+        SELECT COUNT(*) FROM (select
+	ARM_ADJ_SUMM_CONFIG_DET_SID,
+	CHECK_RECORD,
+	AM.TRANSACTION_NAME,
+	TEMP.CURRENT_BALANCE,
+	CURRENT_BALANCE_ACC,
+	DEMAND_ACCRUAL,
+	DEMAND_ACCRUAL_ACC,
+	DEMAND_REFORECAST,
+	DEMAND_REFORECAST_ACC,
+	DEMAND_PAYMENT_RECON,
+	DEMAND_PAYMENT_RECON_ACC,
+	METHODOLOGY
+from
+	? TEMP
+JOIN dbo.ARM_ADJUSTMENT_CONFIG AM ON
+	AM.ARM_ADJUSTMENT_CONFIG_SID = TEMP.ADJUSTMENT_TYPE
+         LEFT JOIN dbo.ARM_ADJUSTMENT_CONFIG CU ON
+     CU.ARM_ADJUSTMENT_CONFIG_SID = TEMP.CURRENT_BALANCE
+         LEFT JOIN dbo.ARM_ADJUSTMENT_CONFIG DEM ON
+     DEM.ARM_ADJUSTMENT_CONFIG_SID = DEMAND_ACCRUAL
+         LEFT JOIN dbo.ARM_ADJUSTMENT_CONFIG DEF ON
+     DEF.ARM_ADJUSTMENT_CONFIG_SID = DEMAND_REFORECAST
+         LEFT JOIN dbo.ARM_ADJUSTMENT_CONFIG DER ON
+     DER.ARM_ADJUSTMENT_CONFIG_SID = DEMAND_PAYMENT_RECON
+
+WHERE
+	METHODOLOGY = ? 
+ ?) AS C
+            ]]>
+        </query>
+    </entity>
+    <entity id="selectAdjSummary_BasedOn_Methodology_DATA">
+        <query> 
+            <![CDATA[
+         select
+	ARM_ADJ_SUMM_CONFIG_DET_SID,
+	CHECK_RECORD,
+	AM.TRANSACTION_NAME,
+	TEMP.CURRENT_BALANCE,
+	CURRENT_BALANCE_ACC,
+	DEMAND_ACCRUAL,
+	DEMAND_ACCRUAL_ACC,
+	DEMAND_REFORECAST,
+	DEMAND_REFORECAST_ACC,
+	DEMAND_PAYMENT_RECON,
+	DEMAND_PAYMENT_RECON_ACC,
+	METHODOLOGY,
+        VERSION_NO
+from
+	? TEMP
+JOIN dbo.ARM_ADJUSTMENT_CONFIG AM ON
+	AM.ARM_ADJUSTMENT_CONFIG_SID = TEMP.ADJUSTMENT_TYPE
+         LEFT JOIN dbo.ARM_ADJUSTMENT_CONFIG CU ON
+     CU.ARM_ADJUSTMENT_CONFIG_SID = TEMP.CURRENT_BALANCE
+         LEFT JOIN dbo.ARM_ADJUSTMENT_CONFIG DEM ON
+     DEM.ARM_ADJUSTMENT_CONFIG_SID = DEMAND_ACCRUAL
+         LEFT JOIN dbo.ARM_ADJUSTMENT_CONFIG DEF ON
+     DEF.ARM_ADJUSTMENT_CONFIG_SID = DEMAND_REFORECAST
+         LEFT JOIN dbo.ARM_ADJUSTMENT_CONFIG DER ON
+     DER.ARM_ADJUSTMENT_CONFIG_SID = DEMAND_PAYMENT_RECON
+
+WHERE
+	METHODOLOGY = ?
+        ?
+    ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="selectAdjSummary_BasedOn_Methodology_Excel">
+        <query> 
+            <![CDATA[
+         
+          select
+    ARM_ADJ_SUMM_CONFIG_DET_SID,
+    CHECK_RECORD,
+    AM.TRANSACTION_NAME AS A,
+    CB.TRANSACTION_NAME AS C,
+    CURRENT_BALANCE_ACC,
+    DA.TRANSACTION_NAME,
+    DEMAND_ACCRUAL_ACC,
+    DR.TRANSACTION_NAME,
+    DEMAND_REFORECAST_ACC,
+    DPR.TRANSACTION_NAME,
+    DEMAND_PAYMENT_RECON_ACC,
+    METHODOLOGY,
+         VERSION_NO
+ from
+    ? TEMP
+ JOIN dbo.ARM_ADJUSTMENT_CONFIG AM ON
+    AM.ARM_ADJUSTMENT_CONFIG_SID = TEMP.ADJUSTMENT_TYPE
+    LEFT JOIN ARM_ADJUSTMENT_CONFIG CB
+    ON CB.ARM_ADJUSTMENT_CONFIG_SID = TEMP.CURRENT_BALANCE
+     LEFT JOIN ARM_ADJUSTMENT_CONFIG DA
+    ON DA.ARM_ADJUSTMENT_CONFIG_SID = TEMP.DEMAND_ACCRUAL
+     LEFT JOIN ARM_ADJUSTMENT_CONFIG DR
+    ON DR.ARM_ADJUSTMENT_CONFIG_SID = TEMP.DEMAND_REFORECAST
+     LEFT JOIN ARM_ADJUSTMENT_CONFIG DPR
+    ON DPR.ARM_ADJUSTMENT_CONFIG_SID = TEMP.DEMAND_PAYMENT_RECON
+
+
+WHERE
+	METHODOLOGY = ?
+        ?
+    ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="update_Adjustment_Summary_Temp_TableData">
+        <query> 
+            <![CDATA[
+        UPDATE ? SET ? = ? WHERE ARM_ADJ_SUMM_CONFIG_DET_SID = ? 
+            ]]>
+        </query>
+    </entity>
+    <entity id="isRecordsAreChecked">
+        <query> 
+            <![CDATA[
+      select count(*) from ? where check_record = 1 AND ? = ?
+            ]]>
+        </query>
+    </entity>
+    <entity id="addLine_Adjustment_Summary_Temp_TableData">
+        <query> 
+            <![CDATA[
+INSERT
+    INTO
+            ?(
+                    ARM_ADJ_RES_CONFIG_MASTER_SID,
+                    METHODOLOGY,
+                    ADJUSTMENT_TYPE,
+                    VERSION_NO,
+                    CHECK_RECORD,
+                    PARENT_VERSION_NO
+            ) SELECT ARM_ADJ_RES_CONFIG_MASTER_SID,
+       METHODOLOGY,
+       ADJUSTMENT_TYPE,
+       VERSION_NO,
+       CHECK_RECORD,
+       PARENT_VERSION_NO
+FROM   (SELECT ARM_ADJ_RES_CONFIG_MASTER_SID,
+               METHODOLOGY,
+               ADJUSTMENT_TYPE,
+               Concat(VERSION_NO, '.', Count(parent_version_no) OVER(partition BY ARM_ADJ_RES_CONFIG_MASTER_SID, METHODOLOGY, ADJUSTMENT_TYPE, COALESCE(parent_version_no, VERSION_NO))
+                                       + 1) AS VERSION_NO,
+               CHECK_RECORD,
+               VERSION_NO                   AS parent_version_no
+        FROM   (SELECT DISTINCT ARM_ADJ_RES_CONFIG_MASTER_SID,
+                                METHODOLOGY,
+                                ADJUSTMENT_TYPE,
+                                VERSION_NO AS VERSION_NO,
+                                CHECK_RECORD,
+                                PARENT_VERSION_NO
+                FROM   ? ARC
+                WHERE  METHODOLOGY = ?) A)b
+WHERE  CHECK_RECORD = 1 
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="removeLine_Summary_Temp_TableData">
+        <query> 
+            <![CDATA[
+     DELETE FROM ? WHERE CHECK_RECORD =1 AND ? = ? 
+            ]]>
+        </query>
+    </entity>
+    <entity id="Merge_Insert_To_AdjustmentTemp_From_ConfigDetails">
+        <query> 
+            <![CDATA[
+     DECLARE @METHODOGY_SID INT = ?
+
+MERGE ? AS TARGET
+       USING (
+           SELECT DISTINCT
+                ARM.ARM_ADJ_RES_CONFIG_MASTER_SID,
+                @METHODOGY_SID  AS METHODOLOGY,
+                ARM_ADJUSTMENT_CONFIG_SID AS ADJUSTMENT_TYPE
+        FROM
+                ST_ARM_ADJ_RES_CONFIG_MASTER ARM
+        JOIN ? ARC ON
+                ARM.ARM_ADJ_RES_CONFIG_MASTER_SID = ARC.ARM_ADJ_RES_CONFIG_MASTER_SID
+                AND CONFIGURATION_TYPE = 0
+        JOIN ARM_ADJUSTMENT_CONFIG AAC ON
+                AAC.ARM_ADJUSTMENT_CONFIG_SID = ARC.ADJUSTMENT_TYPE
+        WHERE
+                METHODOLGY = @METHODOGY_SID   ) AS SOURCE
+
+       ON (
+             TARGET.ADJUSTMENT_TYPE = SOURCE.ADJUSTMENT_TYPE 
+                     )
+
+       WHEN NOT MATCHED THEN
+       
+         INSERT ( ARM_ADJ_RES_CONFIG_MASTER_SID,
+                METHODOLOGY,
+                ADJUSTMENT_TYPE
+                 )
+         VALUES (SOURCE.ARM_ADJ_RES_CONFIG_MASTER_SID,
+                 SOURCE.METHODOLOGY,
+                 SOURCE.ADJUSTMENT_TYPE);;
+                           
+ DELETE FROM ? WHERE ADJUSTMENT_TYPE
+NOT IN
+(SELECT DISTINCT ADJUSTMENT_TYPE FROM ? TMP
+ JOIN ST_ARM_ADJ_RES_CONFIG_MASTER M ON M.ARM_ADJ_RES_CONFIG_MASTER_SID = TMP.ARM_ADJ_RES_CONFIG_MASTER_SID WHERE CONFIGURATION_TYPE=0)
+
+ UPDATE ? SET  VERSION_NO = ARM_ADJ_SUMM_CONFIG_DET_SID FROM ?
+              WHERE VERSION_NO IS NULL
+                           
+            ]]>
+        </query>
+    </entity>
+    <entity id="saveTempToMainAdjSummaryData">
+        <query> 
+            <![CDATA[
+       
+ MERGE ARM_ADJ_SUMMARY_CONFIG_DETAILS AS TARGET USING
+ (
+     SELECT ARM_ADJ_RES_CONFIG_MASTER_SID,
+ METHODOLOGY,
+ ADJUSTMENT_TYPE,
+ CURRENT_BALANCE,
+ CURRENT_BALANCE_ACC,
+ DEMAND_ACCRUAL,
+ DEMAND_ACCRUAL_ACC,
+ DEMAND_REFORECAST,
+ DEMAND_REFORECAST_ACC,
+ DEMAND_PAYMENT_RECON,
+ DEMAND_PAYMENT_RECON_ACC,
+ VERSION_NO,
+ PARENT_VERSION_NO
+   FROM ?
+
+ )
+ SOURCE
+
+         ON  TARGET.ARM_ADJ_RES_CONFIG_MASTER_SID = SOURCE.ARM_ADJ_RES_CONFIG_MASTER_SID
+              AND TARGET.ADJUSTMENT_TYPE = SOURCE.ADJUSTMENT_TYPE
+                     AND TARGET.VERSION_NO = SOURCE.VERSION_NO
+                                   WHEN MATCHED THEN
+                                   UPDATE SET TARGET.ARM_ADJ_RES_CONFIG_MASTER_SID = SOURCE.ARM_ADJ_RES_CONFIG_MASTER_SID
+             , TARGET.METHODOLOGY = SOURCE.METHODOLOGY
+              , TARGET.ADJUSTMENT_TYPE = SOURCE.ADJUSTMENT_TYPE
+                  ,  TARGET.CURRENT_BALANCE = SOURCE.CURRENT_BALANCE
+                  ,  TARGET.CURRENT_BALANCE_ACC = SOURCE.CURRENT_BALANCE_ACC
+                  ,  TARGET.DEMAND_ACCRUAL = SOURCE.DEMAND_ACCRUAL
+                  ,  TARGET.DEMAND_ACCRUAL_ACC = SOURCE.DEMAND_ACCRUAL_ACC
+                  ,  TARGET.DEMAND_REFORECAST = SOURCE.DEMAND_REFORECAST
+                  ,  TARGET.DEMAND_REFORECAST_ACC = SOURCE.DEMAND_REFORECAST_ACC
+                  ,  TARGET.DEMAND_PAYMENT_RECON = SOURCE.DEMAND_PAYMENT_RECON
+                  ,  TARGET.DEMAND_PAYMENT_RECON_ACC = SOURCE.DEMAND_PAYMENT_RECON_ACC
+                  ,  TARGET.VERSION_NO = SOURCE.VERSION_NO
+                  ,  TARGET.PARENT_VERSION_NO = SOURCE.PARENT_VERSION_NO
+ WHEN NOT MATCHED BY SOURCE AND TARGET.ARM_ADJ_RES_CONFIG_MASTER_SID = ?  THEN
+ DELETE WHEN NOT MATCHED BY TARGET THEN
+ INSERT
+ (
+    ARM_ADJ_RES_CONFIG_MASTER_SID,
+ METHODOLOGY,
+ ADJUSTMENT_TYPE,
+ CURRENT_BALANCE,
+ CURRENT_BALANCE_ACC,
+ DEMAND_ACCRUAL,
+ DEMAND_ACCRUAL_ACC,
+ DEMAND_REFORECAST,
+ DEMAND_REFORECAST_ACC,
+ DEMAND_PAYMENT_RECON,
+ DEMAND_PAYMENT_RECON_ACC,
+ VERSION_NO,
+ PARENT_VERSION_NO
+ )
+ VALUES
+ (
+ ARM_ADJ_RES_CONFIG_MASTER_SID,
+ METHODOLOGY,
+ ADJUSTMENT_TYPE,
+ CURRENT_BALANCE,
+ CURRENT_BALANCE_ACC,
+ DEMAND_ACCRUAL,
+ DEMAND_ACCRUAL_ACC,
+ DEMAND_REFORECAST,
+ DEMAND_REFORECAST_ACC,
+ DEMAND_PAYMENT_RECON,
+ DEMAND_PAYMENT_RECON_ACC,
+ VERSION_NO,
+ PARENT_VERSION_NO ) ;
+
+
+
+                   
+            ]]>
+        </query>
+    </entity>
+    <entity id="insertAdjSummaryToTempTableFromMainTable">
+        <query> 
+            <![CDATA[
+      INSERT
+	INTO
+		?(
+			ARM_ADJ_RES_CONFIG_MASTER_SID,
+			METHODOLOGY,
+			ADJUSTMENT_TYPE,
+			CURRENT_BALANCE,
+			CURRENT_BALANCE_ACC,
+			DEMAND_ACCRUAL,
+			DEMAND_ACCRUAL_ACC,
+			DEMAND_REFORECAST,
+			DEMAND_REFORECAST_ACC,
+			DEMAND_PAYMENT_RECON,
+			DEMAND_PAYMENT_RECON_ACC,
+			VERSION_NO,
+			CHECK_RECORD,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+                        PARENT_VERSION_NO
+		)
+		
+		SELECT ARM_ADJ_RES_CONFIG_MASTER_SID,
+			METHODOLOGY,
+			ADJUSTMENT_TYPE,
+			CURRENT_BALANCE,
+			CURRENT_BALANCE_ACC,
+			DEMAND_ACCRUAL,
+			DEMAND_ACCRUAL_ACC,
+			DEMAND_REFORECAST,
+			DEMAND_REFORECAST_ACC,
+			DEMAND_PAYMENT_RECON,
+			DEMAND_PAYMENT_RECON_ACC,
+			VERSION_NO,
+			CHECK_RECORD,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+                        PARENT_VERSION_NO 
+                FROM ARM_ADJ_SUMMARY_CONFIG_DETAILS 
+                    WHERE ARM_ADJ_RES_CONFIG_MASTER_SID = ?
+                        ?
+
+                           
+            ]]>
+        </query>
+    </entity>
+    <entity id="Load_Transaction_names_From_Config_Details">
+        <query> 
+            <![CDATA[
+    SELECT
+	ARM_ADJUSTMENT_CONFIG_SID,
+	TRANSACTION_NAME
+FROM
+	ARM_ADJUSTMENT_CONFIG AC
+JOIN ? RD ON
+	AC.ARM_ADJUSTMENT_CONFIG_SID = RD.ADJUSTMENT_TYPE
+            ]]>
+        </query>
+    </entity>
+    <entity id="Load_Transaction_names_From_Config_Details_ForAccounts">
+        <query> 
+            <![CDATA[
+    SELECT
+	ARM_ADJUSTMENT_CONFIG_SID,
+	TRANSACTION_NAME
+FROM
+	ARM_ADJUSTMENT_CONFIG AC
+JOIN ? RD ON
+	AC.ARM_ADJUSTMENT_CONFIG_SID = RD.ADJUSTMENT_TYPE
+        ?
+            ]]>
+        </query>
+    </entity>
+    <entity id="AdjustmentSummary_DeleteAddedLines">
+        <query> 
+            <![CDATA[
+    delete from ? where METHODOLOGY = ? AND VERSION_NO LIKE '%[.]%'
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="deleteTempTableRecords">
+        <query> 
+            <![CDATA[
+    delete from ? where METHODOLOGY = ? 
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="updateReserveMasterSid">
+        <query> 
+            <![CDATA[
+        UPDATE ? SET ARM_ADJ_RES_CONFIG_MASTER_SID = ?;
+        UPDATE ? SET ARM_ADJ_RES_CONFIG_MASTER_SID = ?;
+            ]]>
+        </query>
+    </entity>
+    <entity id="isParentRecord_Available_ForRemoveLine">
+        <query> 
+            <![CDATA[
+select COUNT(*) from ? where CHECK_RECORD= 1 AND ? = ? AND VERSION_NO NOT LIKE '%[.]%'
+            ]]>
+        </query>
+    </entity>
+    <entity id="Update_all_check_record_Summary">
+        <query> 
+            <![CDATA[
+        DECLARE @CHECKRECORD BIT = ?  update ? set CHECK_RECORD=@CHECKRECORD where  ? = ?
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="is_All_Records_Are_Checked">
+        <query> 
+            <![CDATA[
+               Select DISTINCT CHECK_RECORD from ? where  ? = ? AND (CHECK_RECORD IS NOT NULL OR CHECK_RECORD <> '')
+            ]]>
+        </query>
+    </entity>
+    <entity id="Delete_Adjustment_Summary">
+        <query> 
+            <![CDATA[
+               delete from ARM_ADJ_SUMMARY_CONFIG_DETAILS where ARM_ADJ_RES_CONFIG_MASTER_SID = ?
+            ]]>
+        </query>
+    </entity>
+    <entity id="Delete_Balance_Summary">
+        <query> 
+            <![CDATA[
+               delete from ARM_BALANCE_SUMMARY_CONFIG where ARM_ADJ_RES_CONFIG_MASTER_SID = ?
+            ]]>
+        </query>
+    </entity>
+    <entity id="one_row_for_adjustment_type_on_GTN">
+        <query> 
+            <![CDATA[
+                       	IF EXISTS (SELECT
+                   1
+       
+           FROM
+                   ? tmp
+                   JOIN ST_ARM_ADJ_RES_CONFIG_MASTER MAS
+                   ON MAS.ARM_ADJ_RES_CONFIG_MASTER_SID=TMP.ARM_ADJ_RES_CONFIG_MASTER_SID
+                   WHERE MAS.CONFIGURATION_TYPE = 1)
+                   BEGIN
+
+   SELECT CASE WHEN COUNT(*) >=1 THEN 1
+   ELSE 0 END
+from
+   (
+           SELECT
+                   ADJUSTMENT_TYPE,
+                   count(*) as new_count
+           FROM
+                   ? tmp
+                   JOIN ST_ARM_ADJ_RES_CONFIG_MASTER MAS
+                   ON MAS.ARM_ADJ_RES_CONFIG_MASTER_SID=TMP.ARM_ADJ_RES_CONFIG_MASTER_SID
+                   WHERE MAS.CONFIGURATION_TYPE = 1
+           group by
+                   ADJUSTMENT_TYPE
+   ) a
+where
+   new_count <> 1
+   END
+   ELSE
+   SELECT 0 
+            ]]>
+        </query>
+    </entity>
+</sql>
