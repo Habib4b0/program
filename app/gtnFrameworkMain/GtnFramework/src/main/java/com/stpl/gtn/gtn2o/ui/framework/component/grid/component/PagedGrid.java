@@ -18,7 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFramework
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.data.HasValue;
@@ -257,13 +257,13 @@ public class PagedGrid {
             HorizontalLayout pageNoFieldText = new HorizontalLayout();
             pageNoField = new TextField();
             pageCountLabel = new Label("1");
-            pageNoFieldText.addStyleName(GtnFrameworkCommonStringConstants.STPL_PADDING_GRID_10);
-            pageCountLabel.addStyleName(GtnFrameworkCommonStringConstants.STPL_PADDING_GRID);
+            pageNoFieldText.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_10);
+            pageCountLabel.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_13);
             pageNoField.setWidth("50px");
             pageNoFieldText.addComponent(pageNoField);
             setPageNoFieldValue(0);
             Label itemsPerPageLabel = new Label("Items per page:");
-            itemsPerPageLabel.addStyleName(GtnFrameworkCommonStringConstants.STPL_PADDING_GRID_10);
+            itemsPerPageLabel.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_10);
             controlLayout.addComponent(itemsPerPageLabel);
             controlLayout.addComponent(getItemsPerPage());
            
@@ -271,11 +271,11 @@ public class PagedGrid {
             horizontalLayoutForPage.addComponent(getControlLayoutButtons("<<", e -> this.setPageNumber(0)));
             horizontalLayoutForPage.addComponent(getControlLayoutButtons("<", e -> this.previousPage()));
             Label pageNo = new Label("Page No:");
-            pageNo.addStyleName(GtnFrameworkCommonStringConstants.STPL_PADDING_GRID);
+            pageNo.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_13);
             horizontalLayoutForPage.addComponent(pageNo);
             horizontalLayoutForPage.addComponent(pageNoFieldText);
             Label slash = new Label("/");
-            slash.addStyleName(GtnFrameworkCommonStringConstants.STPL_PADDING_GRID);
+            slash.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_13);
             horizontalLayoutForPage.addComponent(slash);
             horizontalLayoutForPage.addComponent(pageCountLabel);
             horizontalLayoutForPage.addComponent(getControlLayoutButtons(">", e -> this.nextPage()));
@@ -291,7 +291,7 @@ public class PagedGrid {
     private Button getControlLayoutButtons(String caption, ClickListener listener) {
         Button button = new Button(caption, listener);
        
-        button.addStyleName(GtnFrameworkCommonStringConstants.STPL_PADDING_GRID);
+        button.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_13);
         button.addStyleName("link");
         return button;
     }
@@ -309,7 +309,7 @@ public class PagedGrid {
                 setPageLength((int) itemsPerPage.getValue());
             }
         });
-        comboHorizontalLayout.addStyleName(GtnFrameworkCommonStringConstants.STPL_PADDING_GRID_10);
+        comboHorizontalLayout.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_10);
         comboHorizontalLayout.addComponent(itemsPerPage);
         return comboHorizontalLayout;
     }
@@ -409,9 +409,13 @@ public class PagedGrid {
     }
 
     private void onFilterTextChange(HasValue.ValueChangeEvent<String> event) {
-        tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
+        tableConfig.getFilterValueMap().put(event.getComponent().getId(), getFilterValueForEventChange(event));
         refreshGrid();
     }
+
+	private String getFilterValueForEventChange(HasValue.ValueChangeEvent<String> event) {
+		return "%"+event.getValue()+"%";
+	}
 
     public void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event) {
         tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());

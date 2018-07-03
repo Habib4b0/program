@@ -36,6 +36,10 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String PRODUCT_HIERARCHY_NAME = "landingScreenProductHierName";
 
+	public static final String LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG = "landingScreenVariableBreakdownFrequencyConfig";
+	
+	public static final String REPORTING_DASHBOARD_COMPARISON_CONFIG = "reportingDashboardComparisonConfig";
+	
 	public static final String HIER_TYPE = "hierarchyType";
 
 	public static final String HIGHEST_LEVEL = "highestLevel";
