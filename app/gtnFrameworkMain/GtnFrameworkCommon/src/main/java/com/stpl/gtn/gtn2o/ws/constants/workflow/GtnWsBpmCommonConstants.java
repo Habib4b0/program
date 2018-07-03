@@ -65,4 +65,5 @@ public class GtnWsBpmCommonConstants {
         public static final String FORECAST_COMMERCIAL = "commercial";
         
         public static final String CFF = "cff";
+        public static final String ARM = "arm";
 }

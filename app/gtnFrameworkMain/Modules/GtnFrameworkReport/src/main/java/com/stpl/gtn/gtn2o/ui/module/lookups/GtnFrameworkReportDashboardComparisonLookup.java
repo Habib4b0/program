@@ -21,6 +21,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportDashboardComparisonResultsSearchAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
@@ -554,11 +555,11 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(alertActionConfig)));
 		searchActionConfigList.add(searchCriteriaValidationActionConfig);
 
-		GtnUIFrameWorkActionConfig loadResultsAction = configProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
-		loadResultsAction.setActionParameterList(Arrays.asList("comparisonLookupResultsPagedTableComponent"));
-		loadResultsAction.setFieldValues(Arrays.asList(new String[] {
-				"reportLandingScreen_displaySelectionTabCustomView",
+		GtnUIFrameWorkActionConfig searchAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		searchAction.setActionParameterList(Arrays.asList(
+				GtnReportDashboardComparisonResultsSearchAction.class.getName(),
+				"comparisonLookupResultsPagedTableComponent", "reportingDashboardTab_displaySelectionTabCustomView",
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.PROJECTION_TYPE,
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -572,8 +573,10 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonContract",
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonNdcName",
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD,
-				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.TO_PERIOD }));
-		searchActionConfigList.add(loadResultsAction);
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.TO_PERIOD,
+				nameSpace));
+		searchActionConfigList.add(searchAction);
+
 		searchBtnConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
 
 	}

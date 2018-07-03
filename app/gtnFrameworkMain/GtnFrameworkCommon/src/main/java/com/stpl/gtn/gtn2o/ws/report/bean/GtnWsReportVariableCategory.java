@@ -1,7 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
 public enum GtnWsReportVariableCategory {
-	VALUE("Value"), VARIANCE("Variance"), PER_CHANGE("Variance"), ACTUALS("Actuals"), ACCRUALS("Accruals"), VOLUME(
+	VALUE("Value"), VARIANCE("Variance"), PER_CHANGE("% Change"), ACTUALS("Actuals"), ACCRUALS("Accruals"), VOLUME(
 			"Volume"), RATE("Rate"), CHANGE_IN_CHANGE("Change in Change");
 
 	private final String type;

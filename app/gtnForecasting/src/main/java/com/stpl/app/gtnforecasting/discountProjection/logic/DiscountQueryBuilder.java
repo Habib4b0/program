@@ -417,7 +417,7 @@ public class DiscountQueryBuilder {
                 levelNo = String.valueOf(session.getSelectedDeductionLevelNo());
                 }
 
-                String rebateHiearachyJoin=getRebateJoin(!hierarIndicator.equals("D") ? selectedDiscounts : relValue,session,levelNo);
+                String rebateHiearachyJoin=getRebateJoin(!hierarIndicator.equals("D") ? selectedDiscounts : relValue,session,hierarIndicator.equals("D") ? levelNo : StringUtils.EMPTY);
                 String declareStatement = " DECLARE @START_MONTH INT=" + startMonth + "\n"
                         + " DECLARE @START_YEAR INT=" + startYear + "\n"
                         + " DECLARE @END_MONTH INT=" + endMonth + "\n"
@@ -602,13 +602,16 @@ public class DiscountQueryBuilder {
                     .replace("?R", session.getDedRelationshipBuilderSid())
                     .replace("@REFNAME", refreshName);
             if (isCustomHierarchy && CommonUtil.isValueEligibleForLoading()) {
-                customSql = SQlUtil.getQuery("customViewMassUpdate").replace(PERIOD_TABLE, queryPeriod)
+                customSql = SQlUtil.getQuery("customViewMassUpdate")
                         .replace("@TEMP_TABLE_DISCOUNT", StringUtils.EMPTY)
                         .replace(RELATION_SID, discountName).replace(BUILDER_SID, session.getDedRelationshipBuilderSid())
                         .replace(Constant.RELVERSION, String.valueOf(session.getDeductionRelationVersion()))
                         .replace(Constant.AT_COLUMN_NAME, commonLogic.getColumnNameCustomRel(hierarchyIndicator,hierarchyNo,session))
                         .replace("?Y", String.valueOf(year)).replace(Constant.AT_RS_COLUMN, isCustomHierarchy ? Constant.RS_CONTRACT_SID : isProgram ? Constant.RS_CONTRACT_SID : Constant.PRICE_GROUP_TYPE)
-                        .replace("@HIERARCHY_NO", hierarchyNo);
+                        .replace("@HIERARCHY_NO", hierarchyNo)
+                        .replace("?Freq", String.valueOf(frequency.charAt(0)))
+                        .replace("?Ref", session.getDedRelationshipBuilderSid())
+                        .replace("@REFRESHNAME", refreshName);
             } else if ("RPU".equalsIgnoreCase(refreshName)) {
                 String uomJoin=EACH.equals(session.getDiscountUom())?StringUtils.EMPTY:LEFT_JOIN_ST_ITEM_UOM_DETAILS_UOM_ON_UOM+session.getDiscountUom()+"' ";
                 String uomDivJoin=EACH.equals(session.getDiscountUom())?StringUtils.EMPTY:"/nullif(uom_value,0) ";
@@ -1183,7 +1186,9 @@ public class DiscountQueryBuilder {
 "              ("+deductionSid+")\n" +
 "              and RELATIONSHIP_BUILDER_SID="+session.getDedRelationshipBuilderSid()+
 "              and VERSION_NO = "+session.getDeductionRelationVersion();
-        joinQuery +=" AND LEVEL_NO = "+levelNo;
+        if(!levelNo.isEmpty()) {
+            joinQuery +=" AND LEVEL_NO = "+levelNo;
+        }
         return joinQuery;
     }
     

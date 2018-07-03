@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sql>
+    <!--
+    To change this license header, choose License Headers in Project Properties.
+    To change this template file, choose Tools | Templates
+    and open the template in the editor.
+    -->
+
+    <entity id="customerGroupSearchCount">
+        <query> 
+		<![CDATA[
+                        select count (distinct CG.company_Group_Sid)
+                                           FROM Company_Group CG
+                                            JOIN Company_Group_Details CGD ON CG.company_Group_Sid = CGD.company_Group_Sid 
+                                            WHERE  CG.company_Group_No like '?' AND CG.company_Group_Name like '?'
+                                             ?
+                 ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="customerGroupSearch">
+        <query> 
+		<![CDATA[
+                            SELECT  CG.COMPANY_GROUP_SID, CG.COMPANY_GROUP_NO, CG.COMPANY_GROUP_NAME,CG.COMPANY_GROUP_DESCRIPTION AS DES
+                            ,ST.CHECK_RECORD,ST."INDICATOR",ISNULL (ST.COMPANY_GROUP_SID,0)  AS SELECTEDFLAG
+                            FROM COMPANY_GROUP CG
+                            LEFT JOIN ? ST ON  ST.COMPANY_GROUP_SID=CG.COMPANY_GROUP_SID
+                            AND  ST.PROJECTION_MASTER_SID = ?
+                            WHERE ISNULL (ST.COMPANY_GROUP_SID,0) = 0 AND CG.COMPANY_GROUP_SID not in(?)
+                                            
+                 ]]>
+        </query>
+    </entity>
+    <entity id="customerGroupSelectedTableSearch">
+        <query> 
+		<![CDATA[
+                            SELECT  CG.COMPANY_GROUP_SID, CG.COMPANY_GROUP_NAME,ST.CHECK_RECORD,ST."INDICATOR"
+                            ,ISNULL (ST.COMPANY_GROUP_SID,0)  AS SELECTEDFLAG
+                            FROM COMPANY_GROUP CG
+                            LEFT JOIN ? ST ON  ST.COMPANY_GROUP_SID=CG.COMPANY_GROUP_SID
+                            AND  ST.PROJECTION_MASTER_SID = ? WHERE CG.COMPANY_GROUP_SID in (?)
+                 ]]>
+        </query>
+    </entity>
+    <entity id="customerViewSearch">
+        <query> 
+		<![CDATA[
+                        SELECT DISTINCT CG.COMPANY_GROUP_SID,CG.COMPANY_GROUP_NO,CG.COMPANY_GROUP_NAME,CG.COMPANY_GROUP_DESCRIPTION AS DES
+                        FROM COMPANY_GROUP CG
+                        LEFT JOIN  ARM_VIEW_DETAILS ST ON ST.COMPANY_GROUP_SID = CG.COMPANY_GROUP_SID AND ST.ARM_VIEW_MASTER_SID=?
+                        WHERE ST.COMPANY_GROUP_SID IS  NULL 
+                                            
+                 ]]>
+        </query>
+    </entity>
+    <entity id="movedCustomerGroup">
+        <query> 
+		<![CDATA[
+                        select  CG.company_Group_Sid, CG.company_Group_No, CG.company_Group_Name,CG.COMPANY_GROUP_DESCRIPTION AS DES
+                                           FROM Company_Group CG
+                                            WHERE  CG.company_Group_No like '?' AND CG.company_Group_Name like '?'
+                 ]]>
+        </query>
+    </entity>
+    <entity id="saveCustomerGroupInventDetails">
+        <query> 
+		<![CDATA[
+                        Delete from ST_ARM_TR_INVENTORY_DETAILS where PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID 
+                        Insert into ST_ARM_TR_INVENTORY_DETAILS (PROJECTION_MASTER_SID,CHECK_RECORD,INDICATOR,COMPANY_GROUP_SID,
+                        COMPANY_MASTER_SID) Values
+                 ]]>
+        </query>
+    </entity>
+    <entity id="resetCustomerGroupInventDetails">
+        <query> 
+		<![CDATA[
+                        Delete from ST_ARM_TR_INVENTORY_DETAILS where PROJECTION_MASTER_SID=@PROJECTION_MASTER_SID and USER_ID = @USER_ID AND 
+                        SESSION_ID = @SESSION_ID;
+                        
+                 ]]>
+        </query>
+    </entity>
+
+</sql>
