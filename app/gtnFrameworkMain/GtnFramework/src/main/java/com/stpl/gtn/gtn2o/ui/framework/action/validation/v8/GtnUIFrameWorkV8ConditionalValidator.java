@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.framework.action.validation.v8;
 
-import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameWorkConditionalValidator;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidator;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -10,17 +9,17 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 
 public class GtnUIFrameWorkV8ConditionalValidator implements GtnUIFrameworkValidator {
 
-	public void isNotNull(Object value) throws GtnFrameworkValidationFailedException {
-		if (value != null) {
+	public void isNotNull(Object v8Value) throws GtnFrameworkValidationFailedException {
+		if (v8Value != null) {
 			return;
 		}
 		throw new GtnFrameworkValidationFailedException("Not Empty validation Failed");
 
 	}
 
-	public void isNotEmpty(Object value) throws GtnFrameworkValidationFailedException {
-		isNotNull(value);
-		if (!"".equals(String.valueOf(value))) {
+	public void isNotEmpty(Object v8Value) throws GtnFrameworkValidationFailedException {
+		isNotNull(v8Value);
+		if (!"".equals(String.valueOf(v8Value))) {
 			return;
 		}
 
@@ -29,23 +28,23 @@ public class GtnUIFrameWorkV8ConditionalValidator implements GtnUIFrameworkValid
 	}
 
 	@Override
-	public void validate(String componentId, String fieldId,
-			GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig)
+	public void validate(String v8ComponentId, String v8FieldId,
+			GtnUIFrameworkValidationConfig v8GtnUIFrameworkValidationConfig)
 			throws GtnFrameworkValidationFailedException {
 
-		if (gtnUIFrameworkValidationConfig != null && gtnUIFrameworkValidationConfig.getConditionList() != null) {
-			GtnUIFrameworkBaseComponent vaadinFieldBaseComponent = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(fieldId, componentId);
-			Object currentValue = vaadinFieldBaseComponent.getV8StringFromField();
-			for (GtnUIFrameworkConditionalValidationType condition : gtnUIFrameworkValidationConfig
+		if (v8GtnUIFrameworkValidationConfig != null && v8GtnUIFrameworkValidationConfig.getConditionList() != null) {
+			GtnUIFrameworkBaseComponent v8VaadinFieldBaseComponent = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(v8FieldId, v8ComponentId);
+			Object v8CurrentValue = v8VaadinFieldBaseComponent.getV8StringFromField();
+			for (GtnUIFrameworkConditionalValidationType v8Condition : v8GtnUIFrameworkValidationConfig
 					.getConditionList()) {
 
-				if (GtnUIFrameworkConditionalValidationType.NOT_NULL == condition) {
-					isNotNull(currentValue);
+				if (GtnUIFrameworkConditionalValidationType.NOT_NULL == v8Condition) {
+					isNotNull(v8CurrentValue);
 
-				} else if (GtnUIFrameworkConditionalValidationType.NOT_EMPTY == condition) {
+				} else if (GtnUIFrameworkConditionalValidationType.NOT_EMPTY == v8Condition) {
 
-					isNotEmpty(currentValue);
+					isNotEmpty(v8CurrentValue);
 				}
 
 			}

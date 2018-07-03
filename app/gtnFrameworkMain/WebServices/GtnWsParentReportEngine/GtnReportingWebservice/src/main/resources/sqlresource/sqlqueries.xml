@@ -135,9 +135,9 @@
 					distinct c.HIERARCHY_NAME,
 					a.LEVEL_NO As HIGH_LEVEL,
 					b.LEVEL_NO As LOW_LEVEL,
-					a.LEVEL_NAME,
 					c.CREATED_DATE,
 					c.MODIFIED_DATE,
+					a.LEVEL_NAME,
 					c.VERSION_NO,
 					c.HIERARCHY_DEFINITION_SID
 				from
@@ -200,6 +200,7 @@
 						VIEW_TYPE = ?
 						AND VIEW_NAME LIKE ?
 						?
+						AND FLAG = ?
 			]]>
 	</entry>
 	<entry key="filterOptionCustLevelProdLevelLoadQuery">
@@ -231,7 +232,8 @@
 					CREATED_DATE,
 					MODIFIED_BY,
 					MODIFIED_DATE,
-					VIEW_DATA
+					VIEW_DATA,
+					FLAG
 				)
 			VALUES(
 				?,
@@ -240,6 +242,7 @@
 				getDate(),
 				?,
 				getDate(),
+				?,
 				?
 			);
 		]]>

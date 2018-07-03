@@ -6,6 +6,8 @@
 package com.stpl.gtn.gtn2o.ui.customview.config;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkAddAction;
+import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCVDeleteAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnFrameworkCustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.customview.config.action.GtnUIFrameworkCVDeleteConfirmationAction;
 import com.stpl.gtn.gtn2o.ui.customview.constants.GtnFrameworkCVConstants;
@@ -323,11 +325,11 @@ public class GtnFrameworkCVLandingScreenConfig {
                       GtnFrameworkCommonConstants.CUSTOM_VIEW_DESCRIPTION,
                       GtnFrameworkCommonConstants.CUTOMER_RELATION,
                       GtnFrameworkCommonConstants.PRODUCT_RELATION,
-                      GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE
+                      GtnFrameworkCommonConstants.CUSTOM_VIEW_TYPE, GtnFrameworkCVConstants.CUSTOM_VIEW_SEARCH_RESULT_TABLE
                 ));
 
         paramsList.add(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-            null, null, GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+            null, null, "Sales", GtnFrameworkCommonStringConstants.STRING_EMPTY,
             null));
 
         resetActionConfig.setActionParameterList(paramsList);
@@ -422,6 +424,11 @@ public class GtnFrameworkCVLandingScreenConfig {
         navigationActionConfig.setActionType(GtnUIFrameworkActionType.NAVIGATION_ACTION);
         navigationActionConfig.addActionParameter("V002");
         actionConfigList.add(navigationActionConfig);
+        
+        GtnUIFrameWorkActionConfig sessionResetAction = new GtnUIFrameWorkActionConfig();
+        sessionResetAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+        sessionResetAction.addActionParameter(GtnFrameworkAddAction.class.getName());
+        actionConfigList.add(sessionResetAction);
 
         addButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
@@ -435,7 +442,7 @@ public class GtnFrameworkCVLandingScreenConfig {
                 true, GtnFrameworkCVConstants.GTN_EDIT_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
         editButtonConfig.setAuthorizationIncluded(true);
         editButtonConfig.setComponentName("Edit");
-
+  
         componentList.add(editButtonConfig);
 
         List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
@@ -482,7 +489,7 @@ public class GtnFrameworkCVLandingScreenConfig {
         GtnUIFrameworkComponentConfig deleteButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(  "gtnDeleteButton",
                 true, GtnFrameworkCVConstants.GTN_VIEW_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
         deleteButtonConfig.setAuthorizationIncluded(true);
-        deleteButtonConfig.setVisible(false);
+        deleteButtonConfig.setVisible(true);
         deleteButtonConfig.setComponentName("Delete");
 
         componentList.add(deleteButtonConfig);
