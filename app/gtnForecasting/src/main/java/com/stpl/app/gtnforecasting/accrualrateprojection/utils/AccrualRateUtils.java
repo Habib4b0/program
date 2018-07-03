@@ -209,7 +209,7 @@ public class AccrualRateUtils {
                 projectionEndIndex = filterEndIndex;
             }
         }        
-        accrualRateSelectionDTO.getFilterList().clear();
+        accrualRateSelectionDTO.clearFilterlist();
 
         for (int i = projectionStartIndex; i < projectionEndIndex; i++) {
             year = calendar.get(Calendar.YEAR);
@@ -224,7 +224,7 @@ public class AccrualRateUtils {
             tableHeaderDTO.addDoubleHeaderMap(column, list.toArray());            
             recordHeaderDTO.addDoubleHeaderMap(column, list.toArray());            
             accrualRateSelectionDTO.addToAvailableVisibleColumns(column.toString());
-            accrualRateSelectionDTO.getFilterList().add(column);
+            accrualRateSelectionDTO.addFilterlist(column);
             list.clear();
             calendar.add(Calendar.MONTH, 1);
             j++;
@@ -307,7 +307,7 @@ public class AccrualRateUtils {
             }
         }
 
-        accrualRateSelectionDTO.getFilterList().clear();
+        accrualRateSelectionDTO.clearFilterlist();
         for (int i = projectionStartIndex; i < projectionEndIndex; i++) {
 
             tableHeaderDTO.addDoubleColumn(M + (calendar.get(Calendar.MONTH) + 1) + DASH + calendar.get(Calendar.YEAR), months[calendar.get(Calendar.MONTH)] + SPACE + calendar.get(Calendar.YEAR));
@@ -326,7 +326,7 @@ public class AccrualRateUtils {
             Object doubleColumn = M + (calendar.get(Calendar.MONTH) + 1) + DASH + calendar.get(Calendar.YEAR);
             tableHeaderDTO.addDoubleHeaderMap(doubleColumn, list.toArray());
             recordHeaderDTO.addDoubleHeaderMap(doubleColumn, list.toArray());
-            accrualRateSelectionDTO.getFilterList().add(doubleColumn);
+            accrualRateSelectionDTO.addFilterlist(doubleColumn);
             calendar.add(Calendar.MONTH, 1);
 
             list.clear();
@@ -410,13 +410,13 @@ public class AccrualRateUtils {
             }
         }
         
-        accrualRateSelectionDTO.getFilterList().clear();        
+        accrualRateSelectionDTO.clearFilterlist();        
         for (int i = projectionStartIndex; i < projectionEndIndex; i++) {
             Object column = M + (calendar.get(Calendar.MONTH) + 1) + DASH + calendar.get(Calendar.YEAR) + DOT + j;
             String header = months[calendar.get(Calendar.MONTH)] + SPACE + calendar.get(Calendar.YEAR);
             tableHeaderDTO.addSingleColumn(column, header, Object.class);
             recordHeaderDTO.addSingleColumn(column, header, Object.class);
-            accrualRateSelectionDTO.getFilterList().add(column);
+            accrualRateSelectionDTO.addFilterlist(column);
             accrualRateSelectionDTO.addToAvailableVisibleColumns(column.toString());
             calendar.add(Calendar.MONTH, 1);
             j++;

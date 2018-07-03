@@ -37,4 +37,9 @@ public class GtnWsWorkFlowConstants {
         public static final String GTN_WS_CFF_WITHDRAW_WORKFLOW = "/GtnWsCffWithDrawWorkflow";
         public static final String GTN_WS_CFF_CANCEL_WORKFLOW = "/GtnWsCffCancelWorkflow";
         public static final String GTN_WS_CFF_IS_VALID_USER = "/GtnWsCffIsValidUser";
+        
+        public static final String GTN_WS_ARM_WORKFLOW_SERVICE = "/GtnWsArmWorkflowService";
+        public static final String GTN_WS_ARM_START_TASK = "/GtnWsArmStartTask";
+        public static final String GTN_WS_ARM_COMPLETE_TASK = "/GtnWsArmCompleteTask";
+        public static final String GTN_WS_ARM_GET_VARIABLE = "/GetArmProcessVariable";
 }
