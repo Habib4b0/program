@@ -20,7 +20,6 @@ public class GtnWsReportRightTableResultTransformer implements ResultTransformer
 	public Object transformTuple(Object[] tuple, String[] aliases) {
 		GtnWsReportRightTableData rowData = new GtnWsReportRightTableData();
 		rowData.setHierarchyNo((String) tuple[0]);
-		// rowData.setProjectionName((String) tuple[1]);
 		Short year = (Short) tuple[3];
 		Short periodData = (Short) tuple[2];
 		rowData.setYear(year.intValue());

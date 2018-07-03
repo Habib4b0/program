@@ -72,6 +72,11 @@ public class GtnWsPriceScheduleService {
 				imtdPsDetailsInsertQueryTypes);
 
 	}
+        public void deleteOnReset(Map<String, String> inputValueMap) throws GtnFrameworkGeneralException {
+		String psUserId = inputValueMap.get(GtnFrameworkWebserviceConstant.USER_ID);
+		String psSessionId = inputValueMap.get("sessionId");
+		deletePsTemptableRecords(psUserId, psSessionId);
+	}
 
 	private void deletePsTemptableRecords(String userId, String sessionId) throws GtnFrameworkGeneralException {
 		String imtdPsDetailsDeleteQuery = gtnWsSqlService.getQuery("getImtdPsDetailsDeleteQuery");

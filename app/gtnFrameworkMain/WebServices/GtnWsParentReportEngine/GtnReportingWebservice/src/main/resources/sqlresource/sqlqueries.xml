@@ -200,6 +200,7 @@
 						VIEW_TYPE = ?
 						AND VIEW_NAME LIKE ?
 						?
+						AND FLAG = ?
 			]]>
 	</entry>
 	<entry key="filterOptionCustLevelProdLevelLoadQuery">
@@ -231,7 +232,8 @@
 					CREATED_DATE,
 					MODIFIED_BY,
 					MODIFIED_DATE,
-					VIEW_DATA
+					VIEW_DATA,
+					FLAG
 				)
 			VALUES(
 				?,
@@ -240,6 +242,7 @@
 				getDate(),
 				?,
 				getDate(),
+				?,
 				?
 			);
 		]]>

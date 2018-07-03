@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -42,8 +44,6 @@ import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class GtnReportCCPTableLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -85,7 +85,7 @@ public class GtnReportCCPTableLoadAction
 		List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData
 				.getCustomData();
 
-		int initialCapacity = 3 + (comparisonLookupBeanList == null ? 0 : comparisonLookupBeanList.size());
+		int initialCapacity = 4 + (comparisonLookupBeanList == null ? 0 : comparisonLookupBeanList.size());
 		List<String> inputForComparisonBasisList = new ArrayList<>(initialCapacity);
 
 		inputForComparisonBasisList.add("Actuals");
@@ -96,7 +96,7 @@ public class GtnReportCCPTableLoadAction
 				inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
 			}
 		});
-		List idList = IntStream.range(0, initialCapacity).boxed().collect(Collectors.toList());
+		List idList = IntStream.range(1, initialCapacity).boxed().collect(Collectors.toList());
 
 		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromChild("reportingDashboard_displaySelectionTabComparisonBasis", componentId)

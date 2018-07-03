@@ -12,6 +12,8 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.vaadin.data.TreeData;
 import com.vaadin.data.provider.TreeDataProvider;
+import com.vaadin.event.CollapseEvent;
+import com.vaadin.event.ExpandEvent;
 import com.vaadin.shared.Registration;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -127,11 +129,12 @@ public class PagedTreeGrid {
         treeDataProvider = new TreeDataProvider<>(data);
         grid.setDataProvider(treeDataProvider);
       
-        if(expandListner==null){
-        addExpandListener();
+        if (expandListner == null || grid.getListeners(ExpandEvent.class).isEmpty()) {
+
+            addExpandListener();
         }
-        if(collapseListner==null){
-        addCollapseListener();
+        if (collapseListner == null || grid.getListeners(CollapseEvent.class).isEmpty()) {
+            addCollapseListener();
         }
     }
     /**

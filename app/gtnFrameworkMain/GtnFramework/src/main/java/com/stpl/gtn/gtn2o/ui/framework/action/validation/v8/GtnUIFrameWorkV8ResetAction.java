@@ -20,33 +20,33 @@ import java.util.List;
 public class GtnUIFrameWorkV8ResetAction implements GtnUIFrameWorkAction {
 
 	@Override
-	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+	public void doAction(String v8ComponentId, GtnUIFrameWorkActionConfig v8GtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
-		List<Object> params = (gtnUIFrameWorkActionConfig.getActionParameterList());
-		String resetMessageHeader = (String) params.get(0);
-		String resetMessageBody = (String) params.get(1);
+		List<Object> v8Params = (v8GtnUIFrameWorkActionConfig.getActionParameterList());
+		String v8ResetMessageHeader = (String) v8Params.get(0);
+		String v8ResetMessageBody = (String) v8Params.get(1);
 
-		configureParams(gtnUIFrameWorkActionConfig);
-		GtnUIFrameWorkActionConfig confirmActionConfig = new GtnUIFrameWorkActionConfig();
-		confirmActionConfig.addActionParameter(resetMessageHeader);
-		confirmActionConfig.addActionParameter(resetMessageBody);
-		confirmActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
-		List<GtnUIFrameWorkActionConfig> successActionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
-		resetActionConfig.setActionType(GtnUIFrameworkActionType.V8_CONFIRMED_RESET_ACTION);
-		resetActionConfig.addActionParameter(params.get(2));
-		if (params.size() > 3) {
-			resetActionConfig.addActionParameter(params.get(3));
+		configureParams(v8GtnUIFrameWorkActionConfig);
+		GtnUIFrameWorkActionConfig v8ConfirmActionConfig = new GtnUIFrameWorkActionConfig();
+		v8ConfirmActionConfig.addActionParameter(v8ResetMessageHeader);
+		v8ConfirmActionConfig.addActionParameter(v8ResetMessageBody);
+		v8ConfirmActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		List<GtnUIFrameWorkActionConfig> v8SuccessActionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig v8ResetActionConfig = new GtnUIFrameWorkActionConfig();
+		v8ResetActionConfig.setActionType(GtnUIFrameworkActionType.V8_CONFIRMED_RESET_ACTION);
+		v8ResetActionConfig.addActionParameter(v8Params.get(2));
+		if (v8Params.size() > 3) {
+			v8ResetActionConfig.addActionParameter(v8Params.get(3));
 		}
-		successActionConfigList.add(resetActionConfig);
-		confirmActionConfig.addActionParameter(successActionConfigList);
-		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, confirmActionConfig);
+		v8SuccessActionConfigList.add(v8ResetActionConfig);
+		v8ConfirmActionConfig.addActionParameter(v8SuccessActionConfigList);
+		GtnUIFrameworkActionExecutor.executeSingleAction(v8ComponentId, v8ConfirmActionConfig);
 
 	}
 
 	@Override
-	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+	public void configureParams(GtnUIFrameWorkActionConfig v8GtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		return;
 

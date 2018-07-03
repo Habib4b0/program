@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ import java.util.List;
  * @author Lokeshwari.Kumarasam
  */
 public class GtnFrameworkOptionGroupChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
-
+ private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkOptionGroupChangeAction.class);
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -30,7 +31,9 @@ public class GtnFrameworkOptionGroupChangeAction implements GtnUIFrameWorkAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
+              try
+              {
+       		List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnUIFrameworkBaseComponent component = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId);
 		String optionValue = component.getStringFromField();
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
@@ -66,6 +69,11 @@ public class GtnFrameworkOptionGroupChangeAction implements GtnUIFrameWorkAction
 			tableBaseLayout.setVisible(false);
 		}
 	}
+              catch(Exception ex)
+    {
+        LOGGER.error("message",ex);
+    }
+    }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

@@ -6,6 +6,7 @@ import java.util.List;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportingDashboardSaveProfileLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomViewBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
@@ -29,7 +30,7 @@ public class GtnWsReportRequest {
 	private Date forecastEligibleDate;
 	private int projectionMasterSid;
 	private boolean loadTableUsingFile = true;
-
+	private GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean;
 	public int getProjectionMasterSid() {
 		return projectionMasterSid;
 	}
@@ -140,6 +141,15 @@ public class GtnWsReportRequest {
 
 	public void setLoadTableUsingFile(boolean loadTableUsingFile) {
 		this.loadTableUsingFile = loadTableUsingFile;
+	}
+
+	public GtnReportingDashboardSaveProfileLookupBean getReportingDashboardSaveProfileLookupBean() {
+		return reportingDashboardSaveProfileLookupBean;
+	}
+
+	public void setReportingDashboardSaveProfileLookupBean(
+			GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean) {
+		this.reportingDashboardSaveProfileLookupBean = reportingDashboardSaveProfileLookupBean;
 	}
 
 }

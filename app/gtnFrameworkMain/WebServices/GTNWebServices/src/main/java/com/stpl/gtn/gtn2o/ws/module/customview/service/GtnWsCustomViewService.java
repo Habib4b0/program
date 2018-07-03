@@ -7,6 +7,7 @@ package com.stpl.gtn.gtn2o.ws.module.customview.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -193,7 +194,6 @@ public class GtnWsCustomViewService {
 				response.setCustomViewName(master.getCustViewName());
 				response.setCustomViewType(master.getCustViewType());
 				response.setCvSysId(cvRequest.getCvSysId());
-				cvRequest.setCustomViewType(master.getCustViewType());
 				response.setCvTreeNodeList(getSavedTreeData(cvRequest));
 
 			}
@@ -279,10 +279,6 @@ public class GtnWsCustomViewService {
 					if (j + 1 < cvTreeNodeList.size()) {
 						continue;
 					}
-				} else if (variableType.toLowerCase().contains("expandable")
-						&& indicator.toLowerCase().startsWith("v")) {
-					variablesList
-							.addAll(getRecordBeanFromObjectArray((List<List<Object>>) dto.getPropertyValueByIndex(5)));
 				}
 				if (!variablesList.isEmpty()) {
 
@@ -348,18 +344,18 @@ public class GtnWsCustomViewService {
 
 	private void customViewSaveLogicCCPDetails(int customViewMasterSid, GtnWsCustomViewRequest cvRequest) {
 		int tempCustomViewMasterSid = 0;
-		try {
+		try (Session session = getSessionFactory().openSession()) {
 			GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 			inputBean.setSelectedCustomerRelationShipBuilderSid(cvRequest.getCustomerRelationshipSid());
 			inputBean.setSelectedProductRelationShipBuilderSid(cvRequest.getProductRelationshipSid());
 
-			RelationshipBuilder customerRb = getSessionFactory().openSession().get(RelationshipBuilder.class,
+			RelationshipBuilder customerRb = session.get(RelationshipBuilder.class,
 					inputBean.getSelectedCustomerRelationShipBuilderSid());
 			inputBean.setSelectedCustomerRelationShipBuilderVersionNo(customerRb.getVersionNo());
 			inputBean.setSelectedCustomerHierarcySid(customerRb.getHierarchyDefinition().getHierarchyDefinitionSid());
 			inputBean.setSelectedCustomerHierarchyVersionNo(customerRb.getHierarchyVersion());
 
-			RelationshipBuilder productRb = getSessionFactory().openSession().get(RelationshipBuilder.class,
+			RelationshipBuilder productRb = session.get(RelationshipBuilder.class,
 					inputBean.getSelectedProductRelationShipBuilderSid());
 			inputBean.setSelectedProductRelationShipBuilderVersionNo(productRb.getVersionNo());
 			inputBean.setSelectedProductHierarcySid(productRb.getHierarchyDefinition().getHierarchyDefinitionSid());
@@ -424,31 +420,35 @@ public class GtnWsCustomViewService {
 
 	@SuppressWarnings("unchecked")
 	public GtnUIFrameworkWebserviceComboBoxResponse getCustomViewLevelData(GtnWsCustomViewRequest cvRequest) {
-		Session session = getSessionFactory().openSession();
-		Criteria selectCriteria = session.createCriteria(CustViewDetails.class);
 		GtnUIFrameworkWebserviceComboBoxResponse response = new GtnUIFrameworkWebserviceComboBoxResponse();
-
-		selectCriteria.add(Restrictions.eq("customViewMasterSid", cvRequest.getCvSysId()));
-		List<CustViewDetails> gtnListOfData = selectCriteria.list();
-		for (CustViewDetails detailsData : gtnListOfData) {
-			response.addItemCodeList(Integer.toString(detailsData.getLevelNo()));
-			response.addItemValueList(detailsData.getLevelNo() + " - " + GtnFrameworkCommonStringConstants.STRING_EMPTY
-					+ detailsData.getLevelName());
+		try (Session session = getSessionFactory().openSession()) {
+			Criteria selectCriteria = session.createCriteria(CustViewDetails.class);
+			selectCriteria.add(Restrictions.eq("customViewMasterSid", cvRequest.getCvSysId()));
+			List<CustViewDetails> gtnListOfData = selectCriteria.list();
+			for (CustViewDetails detailsData : gtnListOfData) {
+				response.addItemCodeList(Integer.toString(detailsData.getLevelNo()));
+				response.addItemValueList(detailsData.getLevelNo() + " - "
+						+ GtnFrameworkCommonStringConstants.STRING_EMPTY + detailsData.getLevelName());
+			}
+		} catch (Exception ex) {
+			logger.error(ex.getMessage());
 		}
 		return response;
 	}
 
 	@SuppressWarnings("unchecked")
 	public GtnUIFrameworkWebserviceComboBoxResponse getCustomViewList() {
-		Session session = getSessionFactory().openSession();
-		Criteria selectCriteria = session.createCriteria(CustViewMaster.class);
 		GtnUIFrameworkWebserviceComboBoxResponse response = new GtnUIFrameworkWebserviceComboBoxResponse();
-
-		selectCriteria.add(Restrictions.like("screenName", "report", MatchMode.ANYWHERE));
-		List<CustViewMaster> gtnListOfData = selectCriteria.list();
-		for (CustViewMaster detailsData : gtnListOfData) {
-			response.addItemCodeList(Integer.toString(detailsData.getCustViewMasterSid()));
-			response.addItemValueList(detailsData.getCustViewName());
+		try (Session session = getSessionFactory().openSession()) {
+			Criteria selectCriteria = session.createCriteria(CustViewMaster.class);
+			selectCriteria.add(Restrictions.like("screenName", "report", MatchMode.ANYWHERE));
+			List<CustViewMaster> gtnListOfData = selectCriteria.list();
+			for (CustViewMaster detailsData : gtnListOfData) {
+				response.addItemCodeList(Integer.toString(detailsData.getCustViewMasterSid()));
+				response.addItemValueList(detailsData.getCustViewName());
+			}
+		} catch (Exception ex) {
+			logger.error(ex.getMessage());
 		}
 		return response;
 	}
@@ -456,43 +456,45 @@ public class GtnWsCustomViewService {
 	@SuppressWarnings("unchecked")
 	public List<GtnWsRecordBean> getSavedTreeData(GtnWsCustomViewRequest cvRequest)
 			throws GtnFrameworkGeneralException {
-		Session session = getSessionFactory().openSession();
-		Criteria selectCriteria = session.createCriteria(CustViewDetails.class);
-		selectCriteria.add(Restrictions.eq("customViewMasterSid", cvRequest.getCvSysId()));
-		List<CustViewDetails> gtnListOfData = selectCriteria.list();
+		try (Session session = getSessionFactory().openSession()) {
+			Criteria selectCriteria = session.createCriteria(CustViewDetails.class);
+			selectCriteria.add(Restrictions.eq("customViewMasterSid", cvRequest.getCvSysId()));
+			List<CustViewDetails> gtnListOfData = selectCriteria.list();
 
-		List<GtnWsRecordBean> recordTreeData = new ArrayList<>();
-		GtnWsRecordBean gtnWsRecordBean;
-		for (CustViewDetails detailsData : gtnListOfData) {
+			List<GtnWsRecordBean> recordTreeData = new ArrayList<>();
+			GtnWsRecordBean gtnWsRecordBean;
+			for (CustViewDetails detailsData : gtnListOfData) {
 
-			String levelName = "";
-			if (detailsData.getHierarchyId() != 0 ) {
-				Criteria relationCriteria = session.createCriteria(RelationshipLevelDefinition.class);
-				relationCriteria.add(Restrictions.eq("hierarchyLevelDefinition.hierarchyLevelDefinitionSid",
-						detailsData.getHierarchyId()));
-				List<RelationshipLevelDefinition> relationData = relationCriteria.list();
-                                levelName = relationData.isEmpty()?"":relationData.get(0).getLevelName();
-                              } else if( cvRequest.getCustomViewType().contains("Expandable")){
-                                  levelName="Variables";
-                              }else {
-				fetchReportVariables(detailsData, recordTreeData);
-				continue;
+				String levelName;
+				if (detailsData.getHierarchyId() != 0) {
+					Criteria relationCriteria = session.createCriteria(RelationshipLevelDefinition.class);
+					relationCriteria.add(Restrictions.eq("hierarchyLevelDefinition.hierarchyLevelDefinitionSid",
+							detailsData.getHierarchyId()));
+					List<RelationshipLevelDefinition> relationData = relationCriteria.list();
+					levelName = relationData.isEmpty() ? "" : relationData.get(0).getLevelName();
+				} else {
+					fetchReportVariables(detailsData, recordTreeData);
+					continue;
+				}
+				gtnWsRecordBean = new GtnWsRecordBean();
+				if (cvRequest.getCustomViewType().startsWith("report")) {
+					configureReportBean(gtnWsRecordBean, levelName, detailsData.getHierarchyId(), detailsData);
+				} else {
+					gtnWsRecordBean.addAdditionalProperty(detailsData.getLevelNo());
+					gtnWsRecordBean.addAdditionalProperty(detailsData.getLevelNo());
+					gtnWsRecordBean.addAdditionalProperty(detailsData.getHierarchyIndicator());
+					gtnWsRecordBean.addAdditionalProperty(detailsData.getHierarchyId());
+					gtnWsRecordBean.addProperties(levelName);
+					gtnWsRecordBean.setRecordHeader(Arrays.asList("levelName"));
+				}
+
+				recordTreeData.add(gtnWsRecordBean);
 			}
-			gtnWsRecordBean = new GtnWsRecordBean();
-			if (cvRequest.getCustomViewType().startsWith("report")) {
-				configureReportBean(gtnWsRecordBean, levelName, detailsData.getHierarchyId(), detailsData);
-			} else {
-				gtnWsRecordBean.addAdditionalProperty(detailsData.getLevelNo());
-				gtnWsRecordBean.addAdditionalProperty(detailsData.getLevelNo());
-				gtnWsRecordBean.addAdditionalProperty(detailsData.getHierarchyIndicator());
-				gtnWsRecordBean.addAdditionalProperty(detailsData.getHierarchyId());
-				gtnWsRecordBean.addProperties(levelName);
-				gtnWsRecordBean.setRecordHeader(Arrays.asList("levelName"));
-			}
-
-			recordTreeData.add(gtnWsRecordBean);
+			return recordTreeData;
+		} catch (Exception ex) {
+			logger.error(ex.getMessage());
+			return Collections.emptyList();
 		}
-		return recordTreeData;
 	}
 
 	public void fetchReportVariables(CustViewDetails detailsData, List<GtnWsRecordBean> recordTreeData)
@@ -540,7 +542,7 @@ public class GtnWsCustomViewService {
 
 	}
 
-	public void deleteRelationship(GtnWsCustomViewRequest cvRequest, GtnWsCustomViewResponse cvResponse)
+	public void deleteCustomViewFromTable(GtnWsCustomViewRequest cvRequest, GtnWsCustomViewResponse cvResponse)
 			throws GtnFrameworkGeneralException {
 		cvResponse.setSuccess(true);
 		Session session = sessionFactory.openSession();
@@ -553,6 +555,9 @@ public class GtnWsCustomViewService {
 						"Cannot Delete the custom view which is already associated with existing projection.");
 				return;
 			}
+                        custViewDelete(cvRequest.getCvSysId());
+                        logger.info("-------------------------cvRequest.getCvSysId()--------------------"+cvRequest.getCvSysId());
+                        
 			tx.commit();
 			cvResponse.setMessageType("success");
 			cvResponse.setMessage(cvRequest.getCustomViewName() + " has been deleted Successfully.");
@@ -592,22 +597,6 @@ public class GtnWsCustomViewService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void deletAssociatedHierarchy(CustViewMaster custViewMaster, Session session)
-			throws GtnFrameworkGeneralException {
-		try {
-			Criteria cr = session.createCriteria(CustViewDetails.class)
-					.add(Restrictions.eq("custViewMaster", custViewMaster));
-			List<CustViewDetails> custDetailsResults = cr.list();
-			if (custDetailsResults != null && !custDetailsResults.isEmpty()) {
-				for (CustViewDetails custDetails : custDetailsResults) {
-					session.delete(custDetails);
-				}
-				session.flush();
-			}
-		} catch (Exception e) {
-			throw new GtnFrameworkGeneralException("Exception in deleting CustViewDetails", e);
-		}
-	}
 
 	private List<Object> getResultValue(String query, Object[] imtdPsDetailsInsertQueryParams,
 			GtnFrameworkDataType[] imtdPsDetailsInsertQueryTypes) throws GtnFrameworkGeneralException {
@@ -630,4 +619,11 @@ public class GtnWsCustomViewService {
 		}
 		return recordBeanList;
 	}
+         private void custViewDelete(int systemId) throws GtnFrameworkGeneralException {
+		String custViewDeleteQuery = gtnWsSqlService.getQuery("getCustomViewDeleteNotUsedInProjection");
+		Object[] custViewDeleteQueryParams = { systemId };
+		GtnFrameworkDataType[] custViewDeleteQueryTypes = { GtnFrameworkDataType.INTEGER };
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(custViewDeleteQuery, custViewDeleteQueryParams,
+				custViewDeleteQueryTypes);
+}
 }
