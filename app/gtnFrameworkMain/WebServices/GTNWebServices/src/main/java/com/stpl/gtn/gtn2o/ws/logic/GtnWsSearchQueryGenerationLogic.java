@@ -82,6 +82,7 @@ public class GtnWsSearchQueryGenerationLogic {
 				finalQuery.append(" as ");
 				finalQuery.append(currentColumn);
 				finalQuery.append(" , ");
+				
 			}
 			appendSelectColumn(visibleColumnList.get(visibleColumnList.size() - 1).toString(), finalQuery);
 			finalQuery.append(" as ");
@@ -196,6 +197,7 @@ public class GtnWsSearchQueryGenerationLogic {
 			Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap, StringBuilder whereSqlBuilder) {
 		try {
 			String uiColumn = gtnWebServiceSearchCriteria.getFieldId();
+			
 			GtnWsColumnDetailsConfig gtnWebServiceColumnDetailsConfig = fieldToColumnDetailsMap.get(uiColumn);
 			String dbName = gtnWebServiceColumnDetailsConfig.getColumnNameForWhereAndOrderByClause();
 			dbName = castDateInQuery(gtnWebServiceColumnDetailsConfig, dbName);
