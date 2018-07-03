@@ -418,6 +418,7 @@ public class DiscountQueryBuilder {
                 }
 
                 String rebateHiearachyJoin=getRebateJoin(!hierarIndicator.equals("D") ? selectedDiscounts : relValue,session,levelNo);
+                rebateHiearachyJoin += hierarIndicator.equals("D") ? " AND LEVEL_NO = "+levelNo : StringUtils.EMPTY;
                 String declareStatement = " DECLARE @START_MONTH INT=" + startMonth + "\n"
                         + " DECLARE @START_YEAR INT=" + startYear + "\n"
                         + " DECLARE @END_MONTH INT=" + endMonth + "\n"
@@ -1186,7 +1187,7 @@ public class DiscountQueryBuilder {
 "              ("+deductionSid+")\n" +
 "              and RELATIONSHIP_BUILDER_SID="+session.getDedRelationshipBuilderSid()+
 "              and VERSION_NO = "+session.getDeductionRelationVersion();
-        joinQuery +=" AND LEVEL_NO = "+levelNo;
+//        joinQuery +=" AND LEVEL_NO = "+levelNo;
         return joinQuery;
     }
     
