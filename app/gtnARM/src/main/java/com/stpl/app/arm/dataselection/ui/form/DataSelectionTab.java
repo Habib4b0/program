@@ -329,10 +329,17 @@ public class DataSelectionTab extends AbstractDataSelection {
             businessUnit.select(selection.getBucompanyMasterSid());
             custVersionMap = logic.loadCustomerRelation(customerRelation, selection.getCustomerHierarchySid());
             prodVersionMap = logic.loadCustomerRelation(customerRelation, selection.getProductHierarchySid());
-            customerDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(selection.getCustRelationshipBuilderSid(), custVersionMap.get(selection.getCustRelationshipBuilderSid()), customerHierarchyLookup.getHierarchyDto().getHierarchyId(), customerHierarchyLookup.getHierarchyDto().getVersionNo());
-            productDescriptionMap = new DataSelectionQueryUtils().loadLevelValuesMap(selection.getProdRelationshipBuilderSid(),
-                        prodVersionMap.get(selection.getProdRelationshipBuilderSid()), productHierarchyLookup.getHierarchyDto().getHierarchyId(),
-                        productHierarchyLookup.getHierarchyDto().getVersionNo());
+            customerDescriptionMap = new DataSelectionQueryUtils()
+					.loadLevelValuesMap(selection.getCustRelationshipBuilderSid()
+					, custVersionMap.get(selection.getCustRelationshipBuilderSid())
+					, selection.getCustomerHierarchySid()
+					, selection.getCustomerHierarchyVersionNo());
+            
+            productDescriptionMap = new DataSelectionQueryUtils()
+            		.loadLevelValuesMap(selection.getProdRelationshipBuilderSid()
+            				,prodVersionMap.get(selection.getProdRelationshipBuilderSid())
+            				, selection.getProductHierarchySid()
+            				, selection.getProductHierarchyVersionNo());
             initializeCustomerHierarchy(selection.getProjectionId(), Integer.valueOf(selection.getCustomerHierarchyLevel()));
             initializeProductHierarchy(selection.getProjectionId(), Integer.valueOf(selection.getProductHierarchyLevel()));
 

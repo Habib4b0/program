@@ -23,7 +23,6 @@ import com.stpl.app.arm.utils.QueryUtils;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.ConstantsUtils;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
-;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.stpl.ifs.util.constants.ARMMessages;
 import com.vaadin.server.Sizeable;
