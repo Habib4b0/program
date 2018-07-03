@@ -117,7 +117,7 @@ public class HeaderGeneratorService {
 				.getGtnWsReportDashboardBean();
 
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
-                boolean isColumn = getColumnFlag(dashboardBean.getCustomViewMasterSid());
+		boolean isColumn = getColumnFlag(dashboardBean.getCustomViewMasterSid());
 		List<GtnReportComparisonProjectionBean> beanList = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
 				.getDataSelectionBean().getComparisonProjectionBeanList();
 		List<String> comparsionHeader = new ArrayList<>();
@@ -1004,7 +1004,7 @@ public class HeaderGeneratorService {
 
 	private boolean getColumnFlag(int customViewMasterSid) {
 		List<Object[]> result = reportDataSelectionSql.getCustomViewType(customViewMasterSid);
-		if (Optional.ofNullable(result).isPresent()) {
+		if (Optional.ofNullable(result).isPresent() && !result.isEmpty()) {
 			String customViewType = String.valueOf(result.get(0));
 			String[] customViewTypeDataArray = customViewType.split("~");
 			return customViewTypeDataArray[2].equals("Columns");
