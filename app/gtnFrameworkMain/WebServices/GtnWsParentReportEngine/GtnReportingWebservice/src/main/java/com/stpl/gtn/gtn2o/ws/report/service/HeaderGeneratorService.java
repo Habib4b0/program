@@ -117,7 +117,7 @@ public class HeaderGeneratorService {
 				.getGtnWsReportDashboardBean();
 
 		GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
-
+                boolean isColumn = getColumnFlag(dashboardBean.getCustomViewMasterSid());
 		List<GtnReportComparisonProjectionBean> beanList = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
 				.getDataSelectionBean().getComparisonProjectionBeanList();
 		List<String> comparsionHeader = new ArrayList<>();
@@ -130,7 +130,7 @@ public class HeaderGeneratorService {
 		for (int i = 0; i < comparisonBasisHeader.length; i++) {
 			comparisonBasisColumn[i] = String.valueOf(i + 1);
 		}
-		if (isMandatoryFieldsAdded(dashboardBean)) {
+		if (isMandatoryFieldsAdded(dashboardBean, isColumn)) {
 			return tableHeaderDTO;
 		}
 		String[] variablesHeader = dashboardBean.getSelectedVariableType();
@@ -149,8 +149,6 @@ public class HeaderGeneratorService {
 		Object[] combinedVariableCategoryHeader = null;
 		generateColumn(variablesHeader, variablesColumn);
 		generateColumn(variableCategoryHeader, variableCategoryColumn);
-
-		boolean isColumn = getColumnFlag(dashboardBean.getCustomViewMasterSid());
 
 		int headerSequence = dashboardBean.getHeaderSequence() == 0 ? 1 : dashboardBean.getHeaderSequence();
 		if (isColumn) {
@@ -274,7 +272,7 @@ public class HeaderGeneratorService {
 			startDate = LocalDate.of(Integer.valueOf(yearData[1]), startMonth, 1);
 			break;
 		case "Annual":
-			startDate = LocalDate.of(Integer.valueOf(yearData[1]), 1, 1);
+			startDate = LocalDate.of(Integer.valueOf(yearData[0]), 1, 1);
 			break;
 		case "Month":
 			startDate = LocalDate.of(Integer.valueOf(yearData[1]), getMonthIntegerFromYear(yearData[0]), 1);
@@ -285,8 +283,8 @@ public class HeaderGeneratorService {
 		return startDate;
 	}
 
-	private boolean isMandatoryFieldsAdded(GtnWsReportDashboardBean dashboardBean) {
-		return dashboardBean.getSelectedVariableType().length == 0
+	private boolean isMandatoryFieldsAdded(GtnWsReportDashboardBean dashboardBean, boolean isColumn) {
+		return (dashboardBean.getSelectedVariableType().length == 0 && isColumn)
 				|| dashboardBean.getSelectedVariableCategoryType().length == 0
 				|| dashboardBean.getPeriodRangeToSid() == 0 || dashboardBean.getPeriodRangeFromSid() == 0;
 	}
