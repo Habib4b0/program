@@ -140,7 +140,7 @@ private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkCompone
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productHierarchyLookup");
 		hierarchypopupAction.addActionParameter("Product Hierarchy LookUp");
 		hierarchypopupAction.addActionParameter("50%");
-		hierarchypopupAction.addActionParameter("85%");
+		hierarchypopupAction.addActionParameter("93%");
 		hierarchy.addGtnUIFrameWorkActionConfig(hierarchypopupAction);
 
 		GtnUIFrameworkComponentConfig relationshipLayout = configProvider
