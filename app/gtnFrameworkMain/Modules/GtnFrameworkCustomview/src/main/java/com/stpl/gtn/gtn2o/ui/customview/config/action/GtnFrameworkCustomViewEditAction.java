@@ -112,10 +112,7 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
         customerRelationSidField.setEnable(false);
         productRelationSidField.setEnable(false);
         customerRelationSidField.loadComboBoxComponentValue(customerRaltionSid);
-        getTreeData(customSid,parameters,nameSpacePrefix,viewType);
-        
         productRelationSidField.loadComboBoxComponentValue(productRealtionSid);
-        getTreeData(customSid,parameters,nameSpacePrefix,viewType);
         
         boolean isEnable=String.valueOf(parameters.get(2)).equalsIgnoreCase("VIEW");
         
