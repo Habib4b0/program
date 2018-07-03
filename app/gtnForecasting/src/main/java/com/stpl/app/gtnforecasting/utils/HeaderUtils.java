@@ -1636,7 +1636,7 @@ public class HeaderUtils {
                     if (!dmapExcel.isEmpty()) {
                         tmapExcel.add(commonColumn);
                         excelHeader.addDoubleColumn(commonColumn, discountName + " " + commonHeader);
-                        excelHeader.addDoubleHeaderMap(commonColumn, dmap.toArray());
+                        excelHeader.addDoubleHeaderMap(commonColumn, dmapExcel.toArray());
                         //Added for tabwise excel export
                         doubleColumnForExcel.add(commonColumn);
                         doubleHeaderForExcel.add(discountName + " " + commonHeader);
