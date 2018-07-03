@@ -45,6 +45,7 @@ public class HeaderGeneratorService {
 	public static final String SEMIANNUAL = "Semi-Annually";
 
 	public static final String ANNUAL = "Annually";
+	public static final String ANNUAL_TOTALS = "Annual Totals";
 
 	private Map<String, String> getVariableCategorymap() {
 		Map<String, String> variableCategoryMap = new HashMap<>();
@@ -144,13 +145,16 @@ public class HeaderGeneratorService {
 		Object[] periodColumn = timePeriodHeaderData.get(1).toArray();
 		Object[] periodHeader = timePeriodHeaderData.get(0).toArray();
 
-		List<Object[]> combinedVariableCategoryList = null;
-		Object[] combinedVariableCategoryColumn = null;
-		Object[] combinedVariableCategoryHeader = null;
+		List<Object[]> combinedVariableCategoryList;
+		Object[] combinedVariableCategoryColumn ;
+		Object[] combinedVariableCategoryHeader ;
 		generateColumn(variablesHeader, variablesColumn);
 		generateColumn(variableCategoryHeader, variableCategoryColumn);
 
 		int headerSequence = dashboardBean.getHeaderSequence() == 0 ? 1 : dashboardBean.getHeaderSequence();
+                boolean annualTotals= Optional.ofNullable(dashboardBean.getAnnualTotals()).get().equalsIgnoreCase("Yes")
+                        && !dashboardBean.getSelectFreqString().equalsIgnoreCase("Annual");
+                System.out.println("annualTotals = " + annualTotals);
 		if (isColumn) {
 			combinedVariableCategoryList = getCombinedVariableCategory(variablesHeader, variableCategoryHeader,
 					dashboardBean.isVariablesVariances(), isColumn);
@@ -166,20 +170,20 @@ public class HeaderGeneratorService {
 		case 1:// 1. Time/Variable/Comparison
 			createTableHeader(comparisonBasisColumn, combinedVariableCategoryColumn, periodColumn,
 					comparisonBasisHeader, combinedVariableCategoryHeader, periodHeader, tableHeaderDTO,
-					headerSequence);
+					headerSequence,annualTotals);
 			break;
 		case 2:// 2. Comparison/Variable/Time
 			createTableHeader(periodColumn, combinedVariableCategoryColumn, comparisonBasisColumn, periodHeader,
-					combinedVariableCategoryHeader, comparisonBasisHeader, tableHeaderDTO, headerSequence);
+					combinedVariableCategoryHeader, comparisonBasisHeader, tableHeaderDTO, headerSequence,annualTotals);
 			break;
 		case 3:// 3. Comparison/Time/Variable
 			createTableHeader(combinedVariableCategoryColumn, periodColumn, comparisonBasisColumn,
 					combinedVariableCategoryHeader, periodHeader, comparisonBasisHeader, tableHeaderDTO,
-					headerSequence);
+					headerSequence,annualTotals);
 			break;
 		case 4:// 4. Variable/Comparison/Time
 			createTableHeader(periodColumn, comparisonBasisColumn, combinedVariableCategoryColumn, periodHeader,
-					comparisonBasisHeader, combinedVariableCategoryHeader, tableHeaderDTO, headerSequence);
+					comparisonBasisHeader, combinedVariableCategoryHeader, tableHeaderDTO, headerSequence,annualTotals);
 			break;
 		default:
 			break;
@@ -350,7 +354,7 @@ public class HeaderGeneratorService {
 
 	private void createTableHeader(Object[] singleColumn, Object[] doubleColumn, Object[] tripleColumn,
 			Object[] singleHeader, Object[] doubleHeader, Object[] tripleHeader,
-			GtnWsPagedTreeTableResponse tableHeaderDTO, int headerSequence) {
+			GtnWsPagedTreeTableResponse tableHeaderDTO, int headerSequence,boolean annualTotals) {
 
 		List<String> tripleMap = new ArrayList<>();
 		List<String> doubleMap = new ArrayList<>();
@@ -360,11 +364,14 @@ public class HeaderGeneratorService {
 				for (int k = 0; k < singleColumn.length; k++) {
 					Object single = createSingleColumn(singleColumn[k].toString(), doubleColumn[j].toString(),
 							tripleColumn[i].toString(), headerSequence);
-					if (!headerColumnId.add(String.valueOf(single))) {
+				    if (!headerColumnId.add(String.valueOf(single))) {
 
-					}
-					tableHeaderDTO.addSingleColumn(single, singleHeader[k].toString(), String.class);
-					doubleMap.add(single.toString());
+                                    }
+                                    tableHeaderDTO.addSingleColumn(single, singleHeader[k].toString(), String.class);
+                                    if (annualTotals && i != 0 && ((String)singleColumn[i - 1]).substring(1).equals(((String)singleColumn[i]).substring(1))) {
+                                        tableHeaderDTO.addSingleColumn(((String)singleColumn[i - 1]).substring(1), ANNUAL_TOTALS, String.class);
+                                    }
+                                    doubleMap.add(single.toString());
 				}
 				tableHeaderDTO.addDoubleColumn(doubleColumn[j] + "" + tripleColumn[i], doubleHeader[j].toString());
 				tableHeaderDTO.addDoubleHeaderMap(doubleColumn[j] + "" + tripleColumn[i], doubleMap.toArray());
