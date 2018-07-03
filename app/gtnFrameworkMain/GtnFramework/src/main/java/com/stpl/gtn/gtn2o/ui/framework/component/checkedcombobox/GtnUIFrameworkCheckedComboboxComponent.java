@@ -88,5 +88,4 @@ public class GtnUIFrameworkCheckedComboboxComponent implements GtnUIFrameworkCom
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig checkedComboboxComponentConfig) {
 		return;
 	}
-
 }

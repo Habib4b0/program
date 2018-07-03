@@ -141,6 +141,11 @@ public class NMDiscountExcelLogic {
     }
 
     private void setActualsProjectionValues(DiscountProjectionDTO discountProjectionDTO, Character freq, Object[] obj, ProjectionSelectionDTO projectionSelection, Map<String, List> hierarchyLevelDetails, List doubleProjectedAndHistoryCombinedUniqueList) {
+        if (obj[NumericConstants.ONE] == null) {
+            String hierarchy = String.valueOf(obj[NumericConstants.ZERO]).trim();
+            excelFormattedColumns(discountProjectionDTO, projectionSelection, hierarchy, String.valueOf(hierarchyLevelDetails.get(hierarchy.trim()).get(4)), hierarchyLevelDetails);
+            return;
+        }
         String discount = getValue(String.valueOf(obj[NumericConstants.FIVE]), StringUtils.EMPTY);
         String discountId = projectionSelection.isIsCustomHierarchy() ? StringUtils.EMPTY : discount;
         String header = commonLogic.getHeaderForExcel(freq, obj, discountId, StringUtils.EMPTY);

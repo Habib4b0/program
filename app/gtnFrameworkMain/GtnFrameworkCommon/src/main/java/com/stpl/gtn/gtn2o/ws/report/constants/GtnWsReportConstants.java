@@ -43,5 +43,5 @@ public class GtnWsReportConstants {
 	public static final String GTN_WS_DATA_SELECTION_GENERATE_SERVICE = "/gtnWsReportCCPGeneration";
 	public static final String GTN_WS_DATA_SELECTION_REGENERATE_SERVICE = "/gtnWsReportCCPReGeneration";
 	public static final String GTN_WS_REPORT_DASHBOARD_CUSTOM_VIEW_AND_DATA_REGENERATION_SERVICE = "/gtnWsCustomViewAndDataRegeneration";
-
+	public static final String GTN_WS_REPORT_DASHBOARD_LOAD_FROM_AND_TO_IN_DATA_SELECTION = "/gtnWsLoadFromAndToInDataSelection";
 }

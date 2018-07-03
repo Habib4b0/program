@@ -49,6 +49,10 @@ public class GtnWsReportDataSelectionBean {
 	private String viewName;
 	private String viewType;
 	private Integer viewId;
+
+	private String fromOrToForDataSelection;
+
+
 	private Map<String, String> sessionTableMap = null;
 
 	private List variableBreakdownHeaderLoadList;
@@ -58,6 +62,18 @@ public class GtnWsReportDataSelectionBean {
 	private List<Object> variablesList;
 	private int customView;
 	private boolean dataRefreshDone = false;
+
+	private String privateViewName;
+	private String publicViewName;
+
+	public String getFromOrToForDataSelection() {
+		return fromOrToForDataSelection;
+	}
+
+	public void setFromOrToForDataSelection(String fromOrToForDataSelection) {
+		this.fromOrToForDataSelection = fromOrToForDataSelection;
+	}
+
 
 	public void setComparisonBreakdownSaveList(
 			List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownSaveList) {
@@ -415,6 +431,22 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setDataRefreshDone(boolean dataRefreshDone) {
 		this.dataRefreshDone = dataRefreshDone;
+	}
+
+	public String getPrivateViewName() {
+		return privateViewName;
+	}
+
+	public void setPrivateViewName(String privateViewName) {
+		this.privateViewName = privateViewName;
+	}
+
+	public String getPublicViewName() {
+		return publicViewName;
+	}
+
+	public void setPublicViewName(String publicViewName) {
+		this.publicViewName = publicViewName;
 	}
 
 }

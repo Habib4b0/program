@@ -7,6 +7,7 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -27,50 +28,53 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
  *
  * @author Karthik.Raja
  */
-public class GtnUIFrameworkReportLevelDdlbLoadAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass { 
-    
-    
-  
+public class GtnUIFrameworkReportLevelDdlbLoadAction
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-      //To change body of generated methods, choose Tools | Templates.
-    }
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		// To change body of generated methods, choose Tools | Templates.
+	}
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        final GtnUIFrameworkWebserviceRequest generalRequest = new GtnUIFrameworkWebserviceRequest();
-        GtnWsCustomViewRequest cvRequest = new GtnWsCustomViewRequest();
-        String selectedItem = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabCustomView"
-        ,componentId).getV8StringFromField();
-        if (!"".equals(selectedItem) && !"0".equals(selectedItem)) {
-        cvRequest.setCvSysId(Integer.parseInt(selectedItem));
-        generalRequest.setGtnWsCustomViewRequest(cvRequest);
-        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-                GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE
-                + GtnWsCustomViewConstants.CUSTOM_VIEW_LEVEL_DATA,
-                generalRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-        GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = response
-                .getGtnUIFrameworkWebserviceComboBoxResponse();
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		final GtnUIFrameworkWebserviceRequest generalRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsCustomViewRequest cvRequest = new GtnWsCustomViewRequest();
+		String selectedItem = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabCustomView", componentId)
+				.getV8StringFromField();
+		if (!"".equals(selectedItem) && !"0".equals(selectedItem)) {
+			cvRequest.setCvSysId(Integer.parseInt(selectedItem));
+			generalRequest.setGtnWsCustomViewRequest(cvRequest);
+			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+					GtnWsCustomViewConstants.GTN_CUSTOM_VIEW_SERVICE + GtnWsCustomViewConstants.CUSTOM_VIEW_LEVEL_DATA,
+					generalRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = response
+					.getGtnUIFrameworkWebserviceComboBoxResponse();
 
-        GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE,componentId)
-                .addAllItemsToComboBox(new ArrayList<>(comboBoxResponse.getItemValueList()), new ArrayList<>(comboBoxResponse.getItemCodeList()));
-           long count=comboBoxResponse.getItemValueList().stream().filter(str -> str.toLowerCase().contains("variable")).count();
-         
-           if(count==0) {
-           GtnUIFrameworkBaseComponent expandButtonBaseComponent =  GtnUIFrameworkGlobalUI
-           .getVaadinBaseComponent(GtnFrameworkReportStringConstants.RD_EXPAND_BUTTON, componentId);
-           GtnUIFrameworkBaseComponent collapseButtonBaseComponent  = GtnUIFrameworkGlobalUI
-           .getVaadinBaseComponent(GtnFrameworkReportStringConstants.RD_COLLPSE_BUTTON, componentId);
-           expandButtonBaseComponent.setComponentEnable(count == 0);
-           collapseButtonBaseComponent.setComponentEnable(count == 0);
-           }
-        }
-    }
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE,
+							componentId)
+					.addAllItemsToComboBox(new ArrayList<>(comboBoxResponse.getItemValueList()),
+							new ArrayList<>(comboBoxResponse.getItemCodeList()));
+			long count = comboBoxResponse.getItemValueList().stream()
+					.filter(str -> str.toLowerCase().contains("variable")).count();
 
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-       return this;
-    }
+			if (count == 0) {
+				GtnUIFrameworkBaseComponent expandButtonBaseComponent = GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(GtnFrameworkReportStringConstants.RD_EXPAND_BUTTON, componentId);
+				GtnUIFrameworkBaseComponent collapseButtonBaseComponent = GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(GtnFrameworkReportStringConstants.RD_COLLPSE_BUTTON, componentId);
+				Optional.ofNullable(expandButtonBaseComponent).ifPresent(e -> e.setComponentEnable(count == 0));
+				Optional.ofNullable(collapseButtonBaseComponent).ifPresent(e -> e.setComponentEnable(count == 0));
+			}
+		}
+	}
+
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
 }

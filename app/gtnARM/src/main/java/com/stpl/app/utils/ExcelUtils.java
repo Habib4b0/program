@@ -1,0 +1,696 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.stpl.app.utils;
+
+import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
+import com.stpl.app.arm.utils.ARMUtils;
+import com.stpl.app.arm.utils.CommonConstant;
+import com.stpl.app.arm.utils.HelperListUtil;
+import com.stpl.app.utils.dto.ExcelSorterDTO;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.constants.ARMConstants;
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.paged.logic.HierarchyString;
+
+/**
+ *
+ * @author Jayaram.LeelaRam
+ */
+public class ExcelUtils {
+
+    protected static final Map<Integer, String> idDescMap = HelperListUtil.getInstance().getIdDescMap();
+
+    public static void setExcelData(final List resultList, final Object[] object, final List<String> visibleColumns, ExtTreeContainer<AdjustmentDTO> excelBeanContainer, final int discountColumnNeeded, final String module, List<Object> listData) throws IllegalAccessException, InvocationTargetException {
+        int interval = (int) listData.get(3);
+        if (module.equals(ARMConstants.getPipelineInventoryTrueUp())) {
+            setExcelHierarchyData(inventoryCustomizer(resultList, object, visibleColumns, true, interval, discountColumnNeeded), excelBeanContainer);
+        } else if (module.equals(ARMConstants.getTransaction8())) {
+            setExcelHierarchyData(returnReserveCustomizer(resultList, object, visibleColumns, interval, discountColumnNeeded, listData), excelBeanContainer);
+        } else if (module.equals("Rates")) {
+            setExcelHierarchyData(customizer(resultList, object, visibleColumns, interval, discountColumnNeeded, listData, true), excelBeanContainer);
+        } else {
+            setExcelHierarchyData(customizer(resultList, object, visibleColumns, interval, discountColumnNeeded, listData, false), excelBeanContainer);
+        }
+    }
+
+    public static List<Map<String, AdjustmentDTO>> customizer(final List resultList, final Object[] object, final List<String> visibleColumns, final int interval, final int discountColumnNeeded, List<Object> list, boolean isTrx3) throws IllegalAccessException, InvocationTargetException {
+
+        int j = 1;
+        int doubleHeaderIndex = 0;
+        int keyParam = j;
+        String oldC = StringUtils.EMPTY;
+        String newC;
+        AdjustmentDTO dto = null;
+        List<Map<String, AdjustmentDTO>> mapList = new ArrayList<>();
+        mapList.add(new HashMap<String, AdjustmentDTO>());
+        int size;
+        if ((Boolean) list.get(2) && (Boolean) list.get(1)) {
+            doubleHeaderIndex = 1;
+        } else {
+            doubleHeaderIndex = object.length * NumericConstants.TWO;
+        }
+        String key = "0.";
+        for (int i = 0; i < resultList.size(); i++) {
+            Object[] obj = (Object[]) resultList.get(i);
+            newC = String.valueOf(obj[j * NumericConstants.TWO]);
+            if (!"0".equals(newC)) {
+                if (!newC.equals("null")) {
+                    if (!oldC.equals(newC) && object.length > keyParam) {
+
+                        keyParam++;
+                        if (String.valueOf(obj[(j + 1) * NumericConstants.TWO]).equalsIgnoreCase("null")) {
+                            j++;
+                        }
+                    }
+
+                } else if (!oldC.equals("null")) {
+
+                    j = 1;
+                    keyParam = 1;
+                }
+                key = getKey(obj, keyParam);
+                newC = String.valueOf(obj[j * NumericConstants.TWO]);
+                oldC = newC;
+            }
+            size = mapList.size();
+            for (int l = 0; l < size; l++) {
+                dto = mapList.get(l).get(key);
+                if (dto != null) {
+                    break;
+                }
+            }
+
+            if (dto == null) {
+                dto = new AdjustmentDTO();
+                Map<String, AdjustmentDTO> map = mapList.get(size - 1);
+                if (map.size() >= NumericConstants.THOUSAND) {
+                    map = new HashMap<>();
+                    mapList.add(map);
+                }
+                map.put(key, dto);
+                for (int k = dto.getVisibleColumnIndex(); k < visibleColumns.size(); k++) {
+                    String column = visibleColumns.get(k).replace(" ", "");
+                    dto.addStringProperties(column, StringUtils.EMPTY);
+                }
+            }
+            int index = 0;
+            int dedIndex = (object.length * NumericConstants.TWO) + discountColumnNeeded;
+            for (int k = dto.getVisibleColumnIndex(); k < visibleColumns.size(); k++) {
+                String column = visibleColumns.get(k).replace(" ", "");
+                boolean columnCheck = true;
+                if (column.contains(ARMUtils.DOUBLE_HIPHEN)) {
+                    String[] newColumn = column.split("\\--");
+                    columnCheck = newColumn[0].equals(obj[dedIndex - 1].toString().replace(" ", "")) || ARMUtils.TOTAL.equalsIgnoreCase(newColumn[0]);
+                }
+                int dataIndex = dedIndex + index;
+                Object value = obj[dataIndex];
+                if (columnCheck) {
+                    if ("0.".equals(key)) {
+                        if (column.startsWith(obj[doubleHeaderIndex].toString().replace(" ", ""))) {
+                            if (column.matches(CommonConstant.ALPHA)) {
+                                if (value instanceof BigInteger) {
+                                    dto.addProperties(column, value);
+                                } else {
+                                    dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                                }
+                                index++;
+                            } else {
+                                BeanUtils.setProperty(dto, column, value);
+                                index++;
+                            }
+                            setTotalDTOValue(dto, value, column);
+                            setTotalValue(newC, value, dto, isTrx3);
+                            dto.setVisibleColumnIndex(0);
+                        }
+                    } else if ((Boolean) list.get(0) && column.startsWith(obj[doubleHeaderIndex].toString().replace(" ", ""))) {
+                        if (column.matches(CommonConstant.ALPHA)) {
+                            if (value instanceof BigInteger) {
+                                dto.addProperties(column, value);
+                            } else {
+                                dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                            }
+                            index++;
+                        } else {
+                            BeanUtils.setProperty(dto, column, value);
+                            index++;
+                        }
+                        setTotalDTOValue(dto, value, column);
+                        if (!"0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+                            dto.setTotalColumnValue(dto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
+                        }
+                        dto.setVisibleColumnIndex(0);
+                    } else if (!(Boolean) list.get(0)) {
+                        if (column.matches("[a-zA-Z0-9-\\s]+\\.\\d+$")) {
+                            if (value instanceof BigInteger) {
+                                dto.addProperties(column, value);
+                            } else {
+                                dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                            }
+                            index++;
+                        } else {
+                            BeanUtils.setProperty(dto, column, value);
+                        }
+                        dto.setVisibleColumnIndex(0);
+                    } else if ((Boolean) list.get(1)) {
+                        dto.addStringProperties(column, StringUtils.EMPTY);
+                    }
+                    if ((Boolean) list.get(0) && interval == index) {
+                        index = 0;
+                    }
+                    setTotalProperity(dto, column);
+                    dto.setTotalColumn(String.valueOf(dto.getTotalColumnValue()));
+                }
+            }
+            dto.setGroup(obj[(keyParam * NumericConstants.TWO) - 1].toString());
+            dto.setMonth(obj[(keyParam * NumericConstants.TWO) - 1].toString());
+        }
+        return mapList;
+    }
+
+    public static List<Map<String, AdjustmentDTO>> returnReserveCustomizer(final List resultList, final Object[] object, final List<String> visibleColumns, final int interval, final int discountColumnNeeded, List<Object> list) throws IllegalAccessException, InvocationTargetException {
+        int j = 1;
+        int doubleHeaderIndex = 0;
+        int keyParam = j;
+        String oldC = StringUtils.EMPTY;
+        String newC;
+        AdjustmentDTO dto = null;
+        List<Map<String, AdjustmentDTO>> mapList = new ArrayList<>();
+        mapList.add(new HashMap<String, AdjustmentDTO>());
+        int size;
+        if ((Boolean) list.get(2) && (Boolean) list.get(1)) {
+            doubleHeaderIndex = 1;
+        } else {
+            doubleHeaderIndex = object.length * NumericConstants.TWO;
+        }
+        String key = "0.";
+        for (int i = 0; i < resultList.size(); i++) {
+            Object[] obj = (Object[]) resultList.get(i);
+            newC = String.valueOf(obj[j * NumericConstants.TWO]);
+            if (!"0".equals(newC)) {
+                if (!newC.equals("null")) {
+                    if (!oldC.equals(newC) && object.length > keyParam) {
+
+                        keyParam++;
+                        if (String.valueOf(obj[(j + 1) * NumericConstants.TWO]).equalsIgnoreCase("null")) {
+                            j++;
+                        }
+                    }
+
+                } else if (!oldC.equals("null")) {
+
+                    j = 1;
+                    keyParam = 1;
+                }
+                key = getKey(obj, keyParam);
+                newC = String.valueOf(obj[j * NumericConstants.TWO]);
+                oldC = newC;
+            }
+            size = mapList.size();
+
+            for (int l = 0; l < size; l++) {
+                dto = mapList.get(l).get(key);
+                if (dto != null) {
+                    break;
+                }
+            }
+
+            if (dto == null) {
+                dto = new AdjustmentDTO();
+                Map<String, AdjustmentDTO> map = mapList.get(size - 1);
+                if (map.size() >= NumericConstants.THOUSAND) {
+                    map = new HashMap<>();
+                    mapList.add(map);
+                }
+                map.put(key, dto);
+            }
+            int index = 0;
+            for (int k = dto.getVisibleColumnIndex(); k < visibleColumns.size(); k++) {
+                String column = visibleColumns.get(k).replace(" ", "");
+                int dataIndex = (object.length * NumericConstants.TWO) + discountColumnNeeded + index;
+                Object value = obj[dataIndex];
+                if ("null".equals(String.valueOf(obj[object.length * NumericConstants.TWO - 1]))) {
+                    dto.addStringProperties(column, StringUtils.EMPTY);
+                    index++;
+                } else if ("0.".equals(key)) {
+                    if (column.startsWith(obj[doubleHeaderIndex].toString().replace(" ", ""))) {
+                        if (column.matches(CommonConstant.ALPHA)) {
+
+                            if (value instanceof BigInteger) {
+                                dto.addProperties(column, value);
+                            } else {
+                                dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                            }
+                            index++;
+                        } else {
+                            BeanUtils.setProperty(dto, column, value);
+                            index++;
+                        }
+                        setTotalDTOValue(dto, value, column);
+                        if ("0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN() && String.valueOf(value).matches("^[\\d.]+$")) {
+                            dto.setTotalColumnValue(dto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
+                        }
+                        dto.setVisibleColumnIndex(0);
+                    }
+                } else if ((Boolean) list.get(0) && column.startsWith(obj[doubleHeaderIndex].toString().replace(" ", ""))) {
+
+                    if (column.matches(CommonConstant.ALPHA)) {
+                        if (value instanceof BigInteger) {
+                            dto.addProperties(column, value);
+                        } else {
+                            dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                        }
+                        index++;
+                    } else {
+                        BeanUtils.setProperty(dto, column, value);
+                        index++;
+                    }
+                    setTotalDTOValue(dto, value, column);
+                    if (!"0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+                        dto.setTotalColumnValue(dto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
+                    }
+                    dto.setVisibleColumnIndex(0);
+                } else if (!(Boolean) list.get(0)) {
+                    if (column.matches("[a-zA-Z0-9-\\s]+\\.\\d+$")) {
+                        if (value instanceof BigInteger) {
+                            dto.addProperties(column, value);
+                        } else {
+                            dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                        }
+                        index++;
+                    } else {
+                        BeanUtils.setProperty(dto, column, value);
+                    }
+                    dto.setVisibleColumnIndex(0);
+                } else if ((Boolean) list.get(1)) {
+                    dto.addStringProperties(column, StringUtils.EMPTY);
+                }
+
+                if ((Boolean) list.get(0) && interval == index) {
+                    index = 0;
+                }
+                setTotalProperity(dto, column);
+                dto.setTotalColumn(String.valueOf(dto.getTotalColumnValue()));
+            }
+            dto.setGroup(obj[(keyParam * NumericConstants.TWO) - 1].toString());
+            dto.setMonth(obj[(keyParam * NumericConstants.TWO) - 1].toString());
+        }
+        return mapList;
+    }
+
+    /**
+     * Method used for returning key from the Object array
+     *
+     * @param obj
+     * @param j
+     * @return
+     */
+    public static String getKey(Object[] obj, int j) {
+        StringBuilder returnValue = new StringBuilder("");
+        for (int i = 0; i < j; i++) {
+            if (!"null".equals(String.valueOf(obj[i * NumericConstants.TWO]))) {
+                returnValue.append(String.valueOf(obj[i * NumericConstants.TWO])).append(".");
+            }
+        }
+        return returnValue.toString();
+    }
+
+    public static void setExcelHierarchyData(List<Map<String, AdjustmentDTO>> mapList, ExtTreeContainer<AdjustmentDTO> excelBeanContainer) {
+        List<String> keyList = new ArrayList<>();
+        for (int i = 0; i < mapList.size(); i++) {
+            keyList.addAll(mapList.get(i).keySet());
+        }
+        boolean hasTotal = keyList.remove("0.");
+        AdjustmentDTO totalDto = null;
+        if (hasTotal) {
+            totalDto = getMapListValue(mapList, "0.");
+        }
+        List<HierarchyString> strkeys = HierarchyString.getHierarchyStringList(keyList, true);
+        List<String> listKey = searchChild("*.", strkeys);
+        setContainerValue(null, excelBeanContainer, mapList, strkeys, listKey);
+        if (totalDto != null) {
+            totalDto.setGroup("Total");
+            totalDto.setMonth("Total");
+            excelBeanContainer.addItem(totalDto);
+        }
+    }
+
+    public static void setContainerValue(AdjustmentDTO parent, ExtTreeContainer<AdjustmentDTO> excelBeanContainer, List<Map<String, AdjustmentDTO>> mapList, List<HierarchyString> hierKeySet, List<String> listKey) {
+        for (String keyValue : listKey) {
+            AdjustmentDTO dto = getMapListValue(mapList, keyValue);
+            if (dto != null) {
+                excelBeanContainer.addItem(dto);
+            }
+            if (parent != null) {
+                excelBeanContainer.setParent(dto, parent);
+            }
+            List<String> listKey1 = searchChild(keyValue + "*.", hierKeySet);
+            setContainerValue(dto, excelBeanContainer, mapList, hierKeySet, listKey1);
+        }
+    }
+
+    public static AdjustmentDTO getMapListValue(List<Map<String, AdjustmentDTO>> mapList, String keyValue) {
+        AdjustmentDTO dto = null;
+        for (int i = 0; i < mapList.size(); i++) {
+            dto = mapList.get(i).remove(keyValue);
+            if (dto != null) {
+                break;
+            }
+        }
+        return dto;
+    }
+
+    public static int getCount(List<String> keySet, String keyValue) {
+        int index = 0;
+        for (String keys : keySet) {
+            if (keys.startsWith(keyValue)) {
+                index += 1;
+            }
+        }
+        return index;
+    }
+
+    //Remember
+    //Hierarchy String Need To Change 
+    public static List<String> searchChild(String queryStr, List<HierarchyString> valuesList) {
+        String queryStrs = queryStr.replaceAll("\\*", "\\\\w*");
+        List< String> list = new ArrayList<>();
+        for (HierarchyString str : valuesList) {
+            if (str.getString().matches(queryStrs)) {
+                list.add(str.getString());
+            }
+        }
+        list = getSortedList(list);
+        return list;
+    }
+
+    public static void setTotalDTOValue(AdjustmentDTO dto, Object value, String column) {
+        if (column.contains("demandAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalDemandAccrual(dto.getExcelTotalDemandAccrual() + Double.valueOf(String.valueOf(value)));
+        }
+        if (column.contains("demandAccrualReforecast.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalDemandAccrualReforecast(dto.getExcelTotalDemandAccrualReforecast() + Double.valueOf(String.valueOf(value)));
+        }
+        if (column.contains("totalDemandAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalTotalDemandAccrual(dto.getExcelTotalTotalDemandAccrual() + Double.valueOf(String.valueOf(value)));
+        }
+        if (column.contains("projectedTotalDemandAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalProjectedTotalDemandAccrual(dto.getExcelTotalProjectedTotalDemandAccrual() + Double.valueOf(String.valueOf(value)));
+        }
+        if (column.contains("variance.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalVariance(dto.getExcelTotalVariance() + Double.valueOf(String.valueOf(value)));
+        }
+        if (column.contains("override.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            if (dto.getExcelTotalOverride() == null) {
+                dto.setExcelTotalOverride(Double.valueOf(String.valueOf(value)));
+            } else {
+                dto.setExcelTotalOverride(dto.getExcelTotalOverride() + Double.valueOf(String.valueOf(value)));
+            }
+        }
+        if (column.contains("adjustment.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalAdjustment(dto.getExcelTotalAdjustment() + Double.valueOf(String.valueOf(value)));
+        }
+        if (column.contains("demandPaymentRecon.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalDemandPaymentRecon(dto.getExcelTotalDemandPaymentRecon() + Double.valueOf(String.valueOf(value)));
+        }
+        if (column.contains("actualPayments.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalActualPayments(dto.getExcelTotalActualPayments() + Double.valueOf(String.valueOf(value)));
+        }
+
+        if (column.contains("cPipelineAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalcPipelineAccrual(dto.getExcelTotalcPipelineAccrual() + Double.valueOf(String.valueOf(value)));
+        }
+        if (column.contains("pPipelineAccrual.") && value != null && !Double.valueOf(String.valueOf(value)).isNaN()) {
+            dto.setExcelTotalpPipelineAccrual(dto.getExcelTotalpPipelineAccrual() + Double.valueOf(String.valueOf(value)));
+        }
+
+    }
+
+    public static void setTotalProperity(AdjustmentDTO dto, String column) {
+        // Case Sensitive. Do not change the case.
+        if (column.contains("Total--demandAccrual.")) {
+            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalDemandAccrual()));
+        }
+        if (column.contains("Total--demandAccrualReforecast.")) {
+            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalDemandAccrualReforecast()));
+        }
+        if (column.contains("Total--totalDemandAccrual.")) {
+            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalTotalDemandAccrual()));
+        }
+        if (column.contains("Total--projectedTotalDemandAccrual.")) {
+            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalProjectedTotalDemandAccrual()));
+        }
+        if (column.contains("Total--demandAccrualRatio.")) {
+            Double demandAccrualRatio = 0.0;
+            if (Double.compare(dto.getExcelTotalProjectedTotalDemandAccrual(), 0.0) != 0) {
+                demandAccrualRatio = dto.getExcelTotalTotalDemandAccrual() / dto.getExcelTotalProjectedTotalDemandAccrual() * NumericConstants.HUNDRED;
+            }
+            dto.addStringProperties(column, "" + new BigDecimal(demandAccrualRatio));
+        }
+        if (column.contains("Total--variance.")) {
+            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalVariance()));
+        }
+        if (column.contains("Total--override.")) {
+            if (dto.getExcelTotalOverride() != null) {
+                dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalOverride()));
+            } else {
+                dto.addStringProperties(column, "");
+            }
+        }
+        if (column.contains("Total--adjustment.")) {
+            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalAdjustment()));
+        }
+        if (column.contains("Total--demandPaymentRecon.")) {
+            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalDemandPaymentRecon()));
+        }
+        if (column.contains("Total--actualPayments.")) {
+            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalActualPayments()));
+        }
+        if (column.contains("Total--cPipelineAccrual.")) {
+            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalcPipelineAccrual()));
+        }
+        if (column.contains("Total--pPipelineAccrual.")) {
+            dto.addStringProperties(column, "" + new BigDecimal(dto.getExcelTotalpPipelineAccrual()));
+        }
+        if (column.contains("Total--pipelineRatio.")) {
+            Double totalpipelineRatio = 0.0;
+            if (Double.compare(dto.getExcelTotalpPipelineAccrual(), 0.0) != 0) {
+                totalpipelineRatio = dto.getExcelTotalcPipelineAccrual() / dto.getExcelTotalpPipelineAccrual();
+            }
+            dto.addStringProperties(column, "" + new BigDecimal(totalpipelineRatio));
+        }
+
+        if (column.contains("Total--paymentRatio.")) {
+            Double totalpaymentRatio = 0.0;
+            if ((Double.compare(dto.getExcelTotalActualPayments(), 0.0) != 0)) {
+                totalpaymentRatio = (dto.getExcelTotalTotalDemandAccrual() / dto.getExcelTotalActualPayments()) * NumericConstants.HUNDRED;
+            }
+            dto.addStringProperties(column, "" + new BigDecimal(totalpaymentRatio));
+        }
+    }
+
+    public static List<Map<String, AdjustmentDTO>> inventoryCustomizer(final List resultList, final Object[] object, final List<String> visibleColumns, final boolean isFixedColumns, final int interval, final int discountColumnNeeded) {
+        int j = 1;
+        int keyParam = j;
+        String oldC = StringUtils.EMPTY;
+        String newC;
+        String column;
+        AdjustmentDTO dto = null;
+        List<Map<String, AdjustmentDTO>> mapList = new ArrayList<>();
+        mapList.add(new HashMap<String, AdjustmentDTO>());
+        int size;
+        if (resultList != null && !resultList.isEmpty()) {
+            for (int i = 0; i < resultList.size(); i++) {
+                Object[] resultSet = (Object[]) resultList.get(i);
+                newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
+                if (!newC.equals("null")) {
+                    if (!oldC.equals(newC) && object.length > keyParam) {
+
+                        keyParam++;
+                        if (String.valueOf(resultSet[(j + 1) * NumericConstants.TWO]).equalsIgnoreCase("null")) {
+                            j++;
+                        }
+                    }
+                } else if (!oldC.equals("null")) {
+
+                    j = 1;
+                    keyParam = 1;
+                }
+
+                newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
+                oldC = newC;
+                String key = getKey(resultSet, keyParam);
+                size = mapList.size();
+                for (int l = 0; l < size; l++) {
+                    dto = mapList.get(l).get(key);
+                    if (dto != null) {
+                        break;
+                    }
+                }
+                if (dto == null) {
+                    dto = new AdjustmentDTO();
+                    Map<String, AdjustmentDTO> map = mapList.get(size - 1);
+                    if (map.size() >= NumericConstants.THOUSAND) {
+                        map = new HashMap<>();
+                        mapList.add(map);
+                    }
+                    map.put(key, dto);
+                }
+                int index = 0;
+                for (int k = 0; k < visibleColumns.size(); k++) {
+                    column = visibleColumns.get(k).replace(" ", "");
+                    int dataIndex = (object.length * NumericConstants.TWO) + discountColumnNeeded + index;
+                    Object value = resultSet[dataIndex];
+                    String company = String.valueOf(resultSet[object.length * NumericConstants.TWO]);
+                    if (column.contains("~" + company)) {
+                        dto.addStringProperties(column, String.valueOf(resultSet[(object.length * NumericConstants.TWO) + 1]));
+                    } else if (!column.contains("~")) {
+                        if (column.matches(CommonConstant.ALPHA)) {
+                            dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                        }
+                        index++;
+                        if (isFixedColumns && interval == index) {
+                            index = 0;
+                        }
+                    }
+                }
+                dto.setGroup(resultSet[(keyParam * NumericConstants.TWO) - 1].toString());
+                dto.setMonth(resultSet[(keyParam * NumericConstants.TWO) - 1].toString());
+            }
+        }
+        return mapList;
+    }
+
+    public static List<Map<String, AdjustmentDTO>> adjustmentSummaryModuleCustomizer(final List resultList, final Object[] object, final List<String> visibleColumns, final boolean isFixedColumns, final int interval, final int discountColumnNeeded) {
+        int j = 1;
+        int keyParam = j;
+        String oldC = StringUtils.EMPTY;
+        String newC;
+        String column;
+        AdjustmentDTO dto = null;
+        List<Map<String, AdjustmentDTO>> mapList = new ArrayList<>();
+        mapList.add(new HashMap<String, AdjustmentDTO>());
+        int size;
+        String key = "0.";
+        if (resultList != null && !resultList.isEmpty()) {
+            for (int i = 0; i < resultList.size(); i++) {
+                Object[] resultSet = (Object[]) resultList.get(i);
+                newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
+                if (!"0".equals(newC)) {
+                    if (!newC.equals("null")) {
+                        if (!oldC.equals(newC) && object.length > keyParam) {
+
+                            keyParam++;
+                            if (String.valueOf(resultSet[(j + 1) * NumericConstants.TWO]).equalsIgnoreCase("null")) {
+                                j++;
+                            }
+                        }
+                    } else if (!oldC.equals("null")) {
+
+                        j = 1;
+                        keyParam = 1;
+                    }
+                    key = getKey(resultSet, keyParam);
+                    newC = String.valueOf(resultSet[j * NumericConstants.TWO]);
+                    oldC = newC;
+                }
+                size = mapList.size();
+                for (int l = 0; l < size; l++) {
+                    dto = mapList.get(l).get(key);
+                    if (dto != null) {
+                        break;
+                    }
+                }
+                if (dto == null) {
+                    dto = new AdjustmentDTO();
+                    Map<String, AdjustmentDTO> map = mapList.get(size - 1);
+                    if (map.size() >= NumericConstants.THOUSAND) {
+                        map = new HashMap<>();
+                        mapList.add(map);
+                    }
+                    map.put(key, dto);
+                }
+                int index = 0;
+                for (int k = 0; k < visibleColumns.size(); k++) {
+
+                    column = visibleColumns.get(k).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY);
+                    int dataIndex = (object.length * NumericConstants.TWO) + discountColumnNeeded + index;
+                    Object value = resultSet[dataIndex];
+                    String company = String.valueOf(resultSet[object.length * NumericConstants.TWO]).replace(" ", "").replace("-", StringUtils.EMPTY) + String.valueOf(resultSet[(object.length * NumericConstants.TWO) + 1]).replace(" ", "").replace("-", StringUtils.EMPTY);
+                    if (column.startsWith(company)) {
+                        if (column.matches(CommonConstant.ALPHA)) {
+                            dto.addStringProperties(column, value == null ? StringUtils.EMPTY : String.valueOf(value));
+                        }
+                        index++;
+                        if (isFixedColumns && interval == index) {
+                            index = 0;
+                        }
+                    }
+                }
+                dto.setGroup(resultSet[(keyParam * NumericConstants.TWO) - 1].toString());
+                dto.setMonth(resultSet[(keyParam * NumericConstants.TWO) - 1].toString());
+            }
+        }
+        return mapList;
+    }
+
+    private static List<String> getSortedList(List<String> list) {
+        boolean flag = false;
+        List<ExcelSorterDTO> dtoList = new ArrayList<>();
+        for (String string : list) {
+            String[] str = string.split("\\.");
+            if (!str[str.length - 1].matches("^(-?[1-9]+\\d*)$|^0$")) {
+                flag = true;
+                Collections.sort(list);
+                break;
+            }
+            ExcelSorterDTO dto = new ExcelSorterDTO();
+            dto.setKey(Integer.valueOf(str[str.length - 1]));
+            dto.setValue(string);
+            dtoList.add(dto);
+        }
+        if (!flag) {
+            Collections.sort(dtoList, new CustomComparator());
+            list.clear();
+            for (ExcelSorterDTO excelSorterDTO : dtoList) {
+                list.add(excelSorterDTO.getValue());
+            }
+        }
+        return list;
+    }
+
+    private static void setTotalValue(String newC, Object value, AdjustmentDTO dto, boolean isTrx3) {
+        if ("0".equals(newC) && value != null && !Double.valueOf(String.valueOf(value)).isNaN() && isTrx3 ? true : String.valueOf(value).matches("^[\\d.]+$")) {
+            dto.setTotalColumnValue(dto.getTotalColumnValue() + Double.valueOf(String.valueOf(value)));
+        }
+    }
+
+    private ExcelUtils() {
+        /*
+        Empty COnstructor
+         */
+    }
+
+    public static class CustomComparator implements Comparator<ExcelSorterDTO> {
+
+        @Override
+        public int compare(ExcelSorterDTO o1, ExcelSorterDTO o2) {
+            return o1.getKey() == o2.getKey() ? o1.getValue().compareTo(o2.getValue()) : ((Integer) o1.getKey()).compareTo((Integer) o2.getKey());
+        }
+
+    }
+
+}

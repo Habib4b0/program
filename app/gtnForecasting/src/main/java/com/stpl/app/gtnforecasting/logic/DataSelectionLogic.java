@@ -2299,7 +2299,7 @@ public class DataSelectionLogic {
 			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
 															// Actual System Id
 			detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY
-			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
+			updateRelationShipLevelList(object, detailsList, 0);
 			resultMap.put(String.valueOf(object[0]), detailsList);
 
 			if (j == tempList.size() - 1) {
@@ -2335,7 +2335,7 @@ public class DataSelectionLogic {
 			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
 		        detailsList.add(object[object.length-1]);											// Actual System Id
 			 // HIERARCHY
-			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
+			updateRelationShipLevelList(object, detailsList, 1);
                         
 			resultMap.put(String.valueOf(object[0]), detailsList);
 
@@ -2373,7 +2373,7 @@ public class DataSelectionLogic {
 			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
 															// Actual System Id
 			detailsList.add("D"); // HIERARCHY INDICATOR
-			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
+			updateRelationShipLevelList(object, detailsList, 0);
 			resultMap.put(String.valueOf(object[0]), detailsList);
 		}
 		return resultMap;
@@ -2864,11 +2864,10 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 		QueryUtils.updateAppDataUsingSessionTables(inputList, "PFD_TEMP_INSERT_WHILE_GENERATE", session);
 	}
 
-	private static void updateRelationShipLevelList(Object[] object, List<Object> detailsList, String defaultValue) {
+	private static void updateRelationShipLevelList(Object[] object, List<Object> detailsList, int extraColumnIndex) {
 		if (object.length >= 5) {
 			List<Object> displayFormat = new ArrayList<>();
-			displayFormat.add(defaultValue);
-			for (int i = 5; i < object.length - 1; i++) {
+			for (int i = 5; i < object.length - extraColumnIndex; i++) {
 				displayFormat.add(object[i]);
 			}
 			detailsList.add(displayFormat);
