@@ -58,8 +58,9 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 				.getStringFromMultiselectComboBox();
 
 		reportDashBoardBean.setSelectedVariableType(selectedVariable);
-		String freName = ((GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
-				.getComponentData().getSharedPopupData()).getFrequencyName();
+		String freName = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId)
+				.getStringCaptionFromV8ComboBox();
 		reportDashBoardBean.setSelectFreqString(freName);
 
 		String[] selectedVariableCategory = GtnUIFrameworkGlobalUI

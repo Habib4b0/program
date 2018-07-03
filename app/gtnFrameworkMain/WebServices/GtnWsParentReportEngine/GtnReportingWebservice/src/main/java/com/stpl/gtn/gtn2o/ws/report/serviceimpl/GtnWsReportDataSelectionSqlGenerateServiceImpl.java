@@ -33,6 +33,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomCCPListDetails;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportDecimalFormat;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnReportJsonService;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportDataSelectionGenerate;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportRightTableLoadDataService;
@@ -319,8 +320,19 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		recordBean.addAdditionalProperty(0);
 		recordBean.addProperties("levelValue", setDisplayFormat(bean.getData(), displayFormat));
 		if (dataForHierarchy != null) {
-			dataForHierarchy.entrySet().stream()
-					.forEach(entry -> recordBean.addProperties(entry.getKey(), entry.getValue()));
+			dataForHierarchy.entrySet().stream().forEach(entry -> {
+				Optional.ofNullable(entry.getValue()).ifPresent(data -> {
+					if (entry.getKey().contains("PER") || entry.getKey().contains("RATE")) {
+						recordBean.addProperties(entry.getKey(),
+								GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data)
+										+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+					} else {
+						recordBean.addProperties(entry.getKey(),
+								GtnWsReportDecimalFormat.DOLLAR.getFormattedValue(data));
+					}
+
+				});
+			});
 		}
 		return recordBean;
 	}
