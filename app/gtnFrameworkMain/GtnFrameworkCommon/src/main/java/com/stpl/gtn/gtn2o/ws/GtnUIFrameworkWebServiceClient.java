@@ -53,6 +53,7 @@ public class GtnUIFrameworkWebServiceClient {
 			if (moduleName.isEmpty()) {
 				return callGtnWebServiceUrl(url, request, securityToken);
 			}
+
 			RestTemplate restTemplate = new RestTemplate();
 			GtnUIFrameworkWebserviceResponse response = restTemplate.postForObject(
 					getWebServiceEndpointBasedOnModule(url, moduleName), request,

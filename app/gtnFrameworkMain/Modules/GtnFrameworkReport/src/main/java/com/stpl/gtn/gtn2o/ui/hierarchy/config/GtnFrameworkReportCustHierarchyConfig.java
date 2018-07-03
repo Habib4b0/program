@@ -141,7 +141,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchyLookup");
 		customerSelectionHierarchypopupAction.addActionParameter("Customer Hierarchy LookUp");
 		customerSelectionHierarchypopupAction.addActionParameter("50%");
-		customerSelectionHierarchypopupAction.addActionParameter("85%");
+		customerSelectionHierarchypopupAction.addActionParameter("88%");
 		customerSelectionHierarchy.addGtnUIFrameWorkActionConfig(customerSelectionHierarchypopupAction);
 
 		GtnUIFrameworkComponentConfig customerSelectionRelationshipLayout = configProvider.getHorizontalLayoutConfig(
@@ -223,7 +223,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				+ GtnFrameworkReportStringConstants.CUSTOMER_DUALLISTBOX);
 		refreshDualListBoxActiion.addActionParameter(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel");
-		// levelactionConfigList.add(refreshDualListBoxActiion);
+		levelactionConfigList.add(refreshDualListBoxActiion);
 
 		GtnUIFrameWorkActionConfig levelValueChangeAction = new GtnUIFrameWorkActionConfig();
 		levelValueChangeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);

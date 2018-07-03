@@ -225,7 +225,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		tableConfig.setRightTableDoubleHeaderVisibleColumns(rightTableHeaders.getDoubleColumns());
 		tableConfig.setRightTableDoubleVisibleHeaders(rightTableHeaders.getDoubleHeaders());
 		tableConfig.setRightTableDoubleHeaderMap(rightTableHeaders.getDoubleHeaderMaps());
-
+                tableConfig.setRightTableTripleHeaderVisibleColumns(rightTableHeaders.getTripleColumn());
 		tableConfig.setRightTableTripleVisibleHeaders(rightTableHeaders.getTripleHeader());
 		tableConfig.setRightTableTripleHeaderMap(rightTableHeaders.getTripleHeaderMap());
 
