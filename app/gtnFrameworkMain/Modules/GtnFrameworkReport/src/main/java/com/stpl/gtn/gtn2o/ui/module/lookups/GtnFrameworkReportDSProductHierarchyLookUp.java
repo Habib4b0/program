@@ -328,38 +328,38 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 	}
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		String[] dsProductPropertyIds = GtnFrameworkReportStringConstants.getReportProductFilterPropertyId();
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> dsProductCustomFilterConfig = new HashMap<>(
-				dsProductPropertyIds.length);
-		GtnUIFrameworkComponentType[] dsProductComponentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.DATEFIELDVAADIN8 };
-		String[] dsProductComboboxIds = { GtnFrameworkReportStringConstants.HIGHEST_LEVEL };
-		String[] dsProductComboboxType = { "STATUS" };
-		int dsProductComboboxStartIndex = 0;
-		for (int i = 0; i < dsProductPropertyIds.length; i++) {
-			GtnUIFrameworkPagedTableCustomFilterConfig dsProductPagedGridFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			dsProductPagedGridFilterConfig.setPropertId(dsProductPropertyIds[i]);
-			dsProductPagedGridFilterConfig.setGtnComponentType(dsProductComponentType[i]);
-			if ((dsProductComboboxStartIndex < dsProductComboboxIds.length)
-					&& dsProductPropertyIds[i].equals(dsProductComboboxIds[dsProductComboboxStartIndex])) {
-				GtnUIFrameworkComponentConfig dsProductSearchFilterConfig = new GtnUIFrameworkComponentConfig();
-				dsProductSearchFilterConfig.setComponentId("customFilterComboBox");
-				dsProductSearchFilterConfig.setComponentName("customFilterComboBox");
-				dsProductSearchFilterConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
-				dsProductSearchFilterConfig.getGtnComboboxConfig()
-						.setComboBoxType(dsProductComboboxType[dsProductComboboxStartIndex]);
-				dsProductSearchFilterConfig.getGtnComboboxConfig()
+		String[] columnPropertyIds = GtnFrameworkReportStringConstants.getReportProductFilterPropertyId();
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> productHierarchyustomFilterConfigMap = new HashMap<>(
+				columnPropertyIds.length);
+		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
+				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
+				GtnUIFrameworkComponentType.DATEFIELDVAADIN8, GtnUIFrameworkComponentType.DATEFIELDVAADIN8 };
+		String[] productComboboxIds = new String[1];
+		String[] productComboBoxType =  new String[1];
+		int startIndex = 0;
+		for (int i = 0; i < columnPropertyIds.length; i++) {
+			GtnUIFrameworkPagedTableCustomFilterConfig prodHierarchyFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
+			prodHierarchyFilterConfig.setPropertId(columnPropertyIds[i]);
+			prodHierarchyFilterConfig.setGtnComponentType(componentType[i]);
+			if ((startIndex < productComboboxIds.length)
+					&& columnPropertyIds[i].equals(productComboboxIds[startIndex])) {
+				GtnUIFrameworkComponentConfig prodHierarchySearchFilterConfig = new GtnUIFrameworkComponentConfig();
+				prodHierarchySearchFilterConfig.setComponentId("customFilterComboBox");
+				prodHierarchySearchFilterConfig.setComponentName("customFilterComboBox");
+				prodHierarchySearchFilterConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
+				prodHierarchySearchFilterConfig.getGtnComboboxConfig().setComboBoxType(productComboBoxType[startIndex]);
+				prodHierarchySearchFilterConfig.getGtnComboboxConfig()
 						.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-				dsProductPagedGridFilterConfig.setGtnComponentConfig(dsProductSearchFilterConfig);
-				dsProductComboboxStartIndex++;
+				prodHierarchyFilterConfig.setGtnComponentConfig(prodHierarchySearchFilterConfig);
+				startIndex++;
 			}
-			dsProductCustomFilterConfig.put(dsProductPagedGridFilterConfig.getPropertId(),
-					dsProductPagedGridFilterConfig);
+			productHierarchyustomFilterConfigMap.put(prodHierarchyFilterConfig.getPropertId(),
+					prodHierarchyFilterConfig);
 		}
-		return dsProductCustomFilterConfig;
+		return productHierarchyustomFilterConfigMap;
 	}
+
 
 	private void addreportProductHierarchyControlPopUpButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
