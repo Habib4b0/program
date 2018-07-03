@@ -305,6 +305,7 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadViewAction.addActionParameter(GtnReportDataSelectionLoadViewAction.class.getName());
 		loadViewAction.addActionParameter("reportLandingScreen_publicViews");
+		loadViewAction.addActionParameter("reportLandingScreen");
 		actionConfigList.add(loadViewAction);
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();

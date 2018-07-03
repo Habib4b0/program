@@ -1310,6 +1310,12 @@ public class GtnUIFrameworkBaseComponent {
 
 		field.setValue(value);
 	}
+	
+	public Object getV8PopupFieldValue(){
+		HorizontalLayout layout = (HorizontalLayout) this.component;
+		HasValue<Object> field = (HasValue) layout.getComponent(0);
+		return field.getValue();
+	}
 
 	public void setV8GridItems(List<GtnWsRecordBean> value) {
 		VerticalLayout layout = (VerticalLayout) this.component;

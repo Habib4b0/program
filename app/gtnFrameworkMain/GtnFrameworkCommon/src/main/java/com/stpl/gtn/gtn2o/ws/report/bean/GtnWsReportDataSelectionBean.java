@@ -59,6 +59,9 @@ public class GtnWsReportDataSelectionBean {
 	private int customView;
 	private boolean dataRefreshDone = false;
 
+	private String privateViewName;
+	private String publicViewName;
+
 	public void setComparisonBreakdownSaveList(
 			List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownSaveList) {
 		this.comparisonBreakdownSaveList = comparisonBreakdownSaveList;
@@ -415,6 +418,22 @@ public class GtnWsReportDataSelectionBean {
 
 	public void setDataRefreshDone(boolean dataRefreshDone) {
 		this.dataRefreshDone = dataRefreshDone;
+	}
+
+	public String getPrivateViewName() {
+		return privateViewName;
+	}
+
+	public void setPrivateViewName(String privateViewName) {
+		this.privateViewName = privateViewName;
+	}
+
+	public String getPublicViewName() {
+		return publicViewName;
+	}
+
+	public void setPublicViewName(String publicViewName) {
+		this.publicViewName = publicViewName;
 	}
 
 }

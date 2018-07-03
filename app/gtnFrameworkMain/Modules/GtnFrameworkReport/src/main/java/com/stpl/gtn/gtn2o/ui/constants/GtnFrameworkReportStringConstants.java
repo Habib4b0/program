@@ -85,6 +85,10 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String PRODUCT_HIERARCHY_LOOKUP_ID = "productHierarchyLookup";
 
 	public static final String REPORT_GENERATE_LOOKUP_VIEW = "reportGenerateLookupView";
+	
+	public static final String REPORT_DATASELECTION_PRIVATEVIEW = "dataSelectionPrivateView";
+	
+	public static final String REPORT_DATASELECTION_PUBLICVIEW = "dataSelectionPublicView";
 
 	public static final String PRODUCT_HIERARCHY_LOOKUP_NAME = "Product Hierarchy LookUp";
 
@@ -424,6 +428,10 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORT_PRODUCTHIERARCHY_LEVEL = "reportLandingScreen_level";
 
 	public static final String REPORT_PRIVATEVIEW_SEARCHLOOKUP = "reportLandingScreen_privateViews";
+	
+	public static final String REPORT_DATASELECTION_PRIVATEVIEW_SEARCHLOOKUP = "dataSelectionTab_dsTabPrivateViews";
+	
+	public static final String REPORT_DATASELECTION_PUBLICVIEW_SEARCHLOOKUP = "dataSelectionTab_dsTabPublicViews";
 
 	public static final String PROJECTION_TYPE = "projectionType";
 

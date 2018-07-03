@@ -378,11 +378,13 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	}
 
 	private void truncateTables(List<String> tableNameList) {
-		Optional.ofNullable(tableNameList).ifPresent(tableName -> {
+		Optional.ofNullable(tableNameList).ifPresent(tableNames -> {
 			try {
-				Object[] input = { tableName };
-				GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING };
-				gtnSqlQueryEngine.executeInsertOrUpdateQuery(sqlService.getQuery("getTruncateQuery"), input, type);
+				for (String tableName : tableNames) {
+					Object[] input = { tableName };
+					GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING };
+					gtnSqlQueryEngine.executeInsertOrUpdateQuery(sqlService.getQuery(Arrays.asList(tableName),"getTruncateQuery"));
+				}				
 			} catch (GtnFrameworkGeneralException e) {
 				GTNLOGGER.error(e.getErrorMessage(), e);
 			}

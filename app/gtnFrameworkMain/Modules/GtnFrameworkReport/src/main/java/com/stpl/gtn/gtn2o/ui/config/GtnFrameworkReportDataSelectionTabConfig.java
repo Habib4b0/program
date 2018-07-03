@@ -193,8 +193,8 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		List<GtnUIFrameWorkActionConfig> list = new ArrayList<>();
 		GtnUIFrameWorkActionConfig reportDataSelectionPrivateViewPopupAction = new GtnUIFrameWorkActionConfig();
 		reportDataSelectionPrivateViewPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		reportDataSelectionPrivateViewPopupAction
-				.setActionParameterList(Arrays.asList("privateViewSearchLookupView", "Private View", "795", "875"));
+		reportDataSelectionPrivateViewPopupAction.setActionParameterList(Arrays.asList(
+				GtnFrameworkReportStringConstants.REPORT_DATASELECTION_PRIVATEVIEW, "Private View", "795", "875"));
 		list.add(reportDataSelectionPrivateViewPopupAction);
 
 		reportDataSelectionPrivateView.setGtnUIFrameWorkActionConfigList(list);
@@ -274,8 +274,8 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		List<GtnUIFrameWorkActionConfig> actionList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig reportDataSelectionPublicViewPopupAction = new GtnUIFrameWorkActionConfig();
 		reportDataSelectionPublicViewPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		reportDataSelectionPublicViewPopupAction
-				.setActionParameterList(Arrays.asList("publicViewSearchLookupView", "Public View", "795", "875"));
+		reportDataSelectionPublicViewPopupAction.setActionParameterList(Arrays.asList(
+				GtnFrameworkReportStringConstants.REPORT_DATASELECTION_PUBLICVIEW, "Public View", "795", "875"));
 		actionList.add(reportDataSelectionPublicViewPopupAction);
 		reportDataSelectionPublicView.setGtnUIFrameWorkActionConfigList(actionList);
 
@@ -476,14 +476,14 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 
 	}
 
-	private void addReportingDataSelectionFields(List<GtnUIFrameworkComponentConfig> componentList, String parentId,String namespace) {
+	private void addReportingDataSelectionFields(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
+			String namespace) {
 		GtnUIFrameworkLayoutConfig reportDSFieldLayou = new GtnUIFrameworkLayoutConfig();
 		reportDSFieldLayou.setLayoutType(GtnUIFrameworkLayoutType.COL4_LAYOUT);
 		GtnUIFrameworkComponentConfig reportDSCssGtnLayout = configProvider.getUIFrameworkComponentConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT,
-				true,
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + parentId,
+				true, namespace + GtnFrameworkReportStringConstants.UNDERSCORE + parentId,
 				GtnUIFrameworkComponentType.LAYOUT);
 		reportDSCssGtnLayout.setGtnLayoutConfig(reportDSFieldLayou);
 		componentList.add(reportDSCssGtnLayout);
@@ -496,23 +496,20 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 
 	private void addReportDataSelectionFrequencyComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
-		GtnUIFrameworkComponentConfig dsFrequencyLayoutConfig = layoutConfig
-				.getHorizontalLayoutConfig("variableBreakdownFrequencyLayoutConfig",
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
+		GtnUIFrameworkComponentConfig dsFrequencyLayoutConfig = layoutConfig.getHorizontalLayoutConfig(
+				"variableBreakdownFrequencyLayoutConfig", namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
 
 		GtnUIFrameworkComponentConfig dsFrequencyConfig = new GtnUIFrameworkComponentConfig();
 		dsFrequencyConfig.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
-		dsFrequencyConfig.setComponentId(namespace
-				+ GtnFrameworkReportStringConstants.UNDERSCORE + "landingScreenVariableBreakdownFrequencyConfig");
+		dsFrequencyConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ "landingScreenVariableBreakdownFrequencyConfig");
 		dsFrequencyConfig.setComponentName("Frequency: ");
 		dsFrequencyConfig.setAddToParent(true);
-		dsFrequencyConfig
-				.setParentComponentId(dsFrequencyLayoutConfig.getComponentId());
+		dsFrequencyConfig.setParentComponentId(dsFrequencyLayoutConfig.getComponentId());
 
 		GtnUIFrameworkComboBoxConfig dsFrequencyLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		dsFrequencyLoadConfig
-				.setComboBoxType(GtnFrameworkReportStringConstants.REPORT_CONFIG_FREQUENCY);
+		dsFrequencyLoadConfig.setComboBoxType(GtnFrameworkReportStringConstants.REPORT_CONFIG_FREQUENCY);
 		dsFrequencyLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		dsFrequencyConfig.setGtnComboboxConfig(dsFrequencyLoadConfig);
@@ -523,18 +520,15 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 
 	private void addReportDataSelectionComparisonComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
-		GtnUIFrameworkComponentConfig dsComparisonLookupConfig = configProvider
-				.getUIFrameworkComponentConfig(
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "comparisonLookup",
-						true,
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT,
-						GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
+		GtnUIFrameworkComponentConfig dsComparisonLookupConfig = configProvider.getUIFrameworkComponentConfig(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "comparisonLookup", true,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT,
+				GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		dsComparisonLookupConfig.setAuthorizationIncluded(true);
 		dsComparisonLookupConfig.setComponentName("Comparison: ");
 
-		GtnUIFrameworkTextBoxConfig dsComparisonConfig = configProvider.getTextBoxConfig(true,
-				true, true);
+		GtnUIFrameworkTextBoxConfig dsComparisonConfig = configProvider.getTextBoxConfig(true, true, true);
 		dsComparisonLookupConfig.setGtnTextBoxConfig(dsComparisonConfig);
 
 		componentList.add(dsComparisonLookupConfig);
@@ -547,15 +541,14 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportingDSComparisonPopupConfig.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		reportingDSComparisonPopupConfig.addActionParameter(null);
 		dsComparisonPopupActionList.add(reportingDSComparisonPopupConfig);
-		
+
 		GtnUIFrameWorkActionConfig selectedGridLoadAction = new GtnUIFrameWorkActionConfig();
 		selectedGridLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		selectedGridLoadAction.addActionParameter(GtnReportComparisonProjectionResultsLoadAction.class.getName());
 		selectedGridLoadAction.addActionParameter("dataSelectionComparisonResultsGrid");
 		dsComparisonPopupActionList.add(selectedGridLoadAction);
-		dsComparisonLookupConfig
-				.setGtnUIFrameWorkActionConfigList(dsComparisonPopupActionList);
-		
+		dsComparisonLookupConfig.setGtnUIFrameWorkActionConfigList(dsComparisonPopupActionList);
+
 	}
 
 	private void addReportDataSelectionVariableComponent(List<GtnUIFrameworkComponentConfig> componentList,
@@ -566,12 +559,11 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
 		componentList.add(dsVariableLayout);
 
-		GtnUIFrameworkComponentConfig dsComparisonVariableConfig = configProvider
-				.getUIFrameworkComponentConfig(
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE,
-						true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT,
-						GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
+		GtnUIFrameworkComponentConfig dsComparisonVariableConfig = configProvider.getUIFrameworkComponentConfig(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE,
+				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT,
+				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
 		dsComparisonVariableConfig.setComponentName("Variable: ");
 		dsComparisonVariableConfig.setAuthorizationIncluded(true);
 
@@ -586,20 +578,18 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 
 	private void addReportDataSelectionVariableBreakdownComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
-		GtnUIFrameworkComponentConfig dsVariableBreakdownGtnLayout = configProvider
-				.getHorizontalLayoutConfig(
-						GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VARIABLE_BREAKDOWN_LAYOUT, true,
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
+		GtnUIFrameworkComponentConfig dsVariableBreakdownGtnLayout = configProvider.getHorizontalLayoutConfig(
+				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VARIABLE_BREAKDOWN_LAYOUT, true,
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
 		dsVariableBreakdownGtnLayout.setComponentWidth("12%");
 		componentList.add(dsVariableBreakdownGtnLayout);
 
-		GtnUIFrameworkComponentConfig dsVariableBreakdownConfig = configProvider
-				.getUIFrameworkComponentConfig(
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VARIABLE_BREAKDOWN,
-						true, GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VARIABLE_BREAKDOWN_LAYOUT,
-						GtnUIFrameworkComponentType.BUTTON);
+		GtnUIFrameworkComponentConfig dsVariableBreakdownConfig = configProvider.getUIFrameworkComponentConfig(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VARIABLE_BREAKDOWN,
+				true, GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VARIABLE_BREAKDOWN_LAYOUT,
+				GtnUIFrameworkComponentType.BUTTON);
 		dsVariableBreakdownConfig.setComponentName("Variable Breakdown: ");
 		dsVariableBreakdownConfig.addComponentStyle(GtnFrameworkReportStringConstants.LINK);
 		dsVariableBreakdownConfig.setAuthorizationIncluded(true);
@@ -621,15 +611,15 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 
 		GtnUIFrameWorkActionConfig reportDSVariableBreakDownGridLoad = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
-		reportDSVariableBreakDownGridLoad.addActionParameter(GtnReportingVariableBreakdownFrequencyLoadAction.class.getName());
+		reportDSVariableBreakDownGridLoad
+				.addActionParameter(GtnReportingVariableBreakdownFrequencyLoadAction.class.getName());
 		reportDSVariableBreakDownGridLoad
 				.addActionParameter("reportLandingScreen_landingScreenVariableBreakdownFrequencyConfig");
 		reportDSVariableBreakDownGridLoad.addActionParameter("reportOptionsTab_variableBreakdownFrequencyConfig");
 		reportDSVariableBreakDownGridLoad.addActionParameter("reportingLandingScreen");
 		dsVariableBreakdownActionConfigList.add(reportDSVariableBreakDownGridLoad);
 
-		dsVariableBreakdownConfig
-				.setGtnUIFrameWorkActionConfigList(dsVariableBreakdownActionConfigList);
+		dsVariableBreakdownConfig.setGtnUIFrameWorkActionConfigList(dsVariableBreakdownActionConfigList);
 
 		componentList.add(dsVariableBreakdownConfig);
 	}
