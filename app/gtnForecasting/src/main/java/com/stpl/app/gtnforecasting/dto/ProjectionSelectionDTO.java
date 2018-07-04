@@ -2421,6 +2421,6 @@ public class ProjectionSelectionDTO {
     public void setViewOption(String viewOption) {
         this.viewOption = viewOption;
     }
-    
+
 
     }
