@@ -51,12 +51,14 @@ public class GtnFrameworkCRValueChangeAction implements GtnUIFrameWorkAction, Gt
         GtnUIFrameworkBaseComponent treeTable = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(5).toString());
         GtnUIFrameworkBaseComponent dedTable = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(deductionTableId);
         boolean isEdit=String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")).equalsIgnoreCase("Edit");
+        boolean isView=String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")).equalsIgnoreCase("View");
         
         addSavedDataFromTree(treeTable, customerAlreadyAddedList, productAlreadyAddedList, deductionAlreadyAddedList);
-        treeTable.clearTree();
-      
-        table.clearTree();
-        
+        if (!isEdit && !isView) {
+                treeTable.clearTree();
+
+                table.clearTree();
+        }
         int relationSid = component.getIntegerFromField();
         dto.setRecordHeader(table.getTableRecordHeader());
         GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();

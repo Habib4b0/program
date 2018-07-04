@@ -12,7 +12,7 @@ public enum GtnWsReportDecimalFormat {
 		this.format = format;
 	}
 
-	public String getFormattedValue(double value) {
+	public String getFormattedValue(Double value) {
 		return format.format(value);
 	}
 

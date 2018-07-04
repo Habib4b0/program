@@ -22,6 +22,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
+import com.vaadin.v7.data.Property;
 import java.util.List;
 
 public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
@@ -112,10 +113,7 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
         customerRelationSidField.setEnable(false);
         productRelationSidField.setEnable(false);
         customerRelationSidField.loadComboBoxComponentValue(customerRaltionSid);
-        getTreeData(customSid,parameters,nameSpacePrefix,viewType);
-        
         productRelationSidField.loadComboBoxComponentValue(productRealtionSid);
-        getTreeData(customSid,parameters,nameSpacePrefix,viewType);
         
         boolean isEnable=String.valueOf(parameters.get(2)).equalsIgnoreCase("VIEW");
         
@@ -148,7 +146,7 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
        
          GtnUIFrameworkBaseComponent tableTreeComponent=GtnUIFrameworkGlobalUI
                     .getVaadinBaseComponent(nameSpacePrefix + String.valueOf(parameters.get(3)));
-         
+         ((Property<Object>) tableTreeComponent.getComponentData().getCustomData()).setValue(null);
         GtnWsRecordBean parent=null;
         int i=0;
         for (GtnWsRecordBean object : cvResponse.getCvTreeNodeList()) {
