@@ -360,7 +360,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		Object privateViewLookup = "Private View";
 		GtnUIFrameWorkActionConfig conf = new GtnUIFrameWorkActionConfig();
 		conf.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		conf.setActionParameterList(Arrays.asList("privateViewSearchLookupView", privateViewLookup, "50%", "88%"));
+		conf.setActionParameterList(Arrays.asList("privateViewSearchLookupView", privateViewLookup, "50%", "94%"));
 		list.add(conf);
 
 		privateView.setGtnUIFrameWorkActionConfigList(list);
@@ -383,7 +383,6 @@ public class GtnFrameworkReportLandingScreenConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.COMPANY);
 		company.setComponentName("Company");
 		company.setAddToParent(true);
-		company.setComponentWidth("100.0f");
 		company.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "companyLayout");
 
 		GtnUIFrameworkComboBoxConfig companyTypeConfig = new GtnUIFrameworkComboBoxConfig();
@@ -440,7 +439,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		GtnUIFrameWorkActionConfig publicViewActionConfig = new GtnUIFrameWorkActionConfig();
 		publicViewActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		publicViewActionConfig
-				.setActionParameterList(Arrays.asList("publicViewSearchLookupView", publicViewLookup, "50%", "88%"));
+				.setActionParameterList(Arrays.asList("publicViewSearchLookupView", publicViewLookup, "50%", "94%"));
 		publicViewActionConfigList.add(publicViewActionConfig);
 
 		GtnUIFrameWorkActionConfig publicViewDisableAction = new GtnUIFrameWorkActionConfig();
