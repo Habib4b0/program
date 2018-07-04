@@ -15,7 +15,6 @@ import org.hibernate.type.DateType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
@@ -28,7 +27,6 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsReportDataSelectionSqlGenerateServiceImpl;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 @Service
@@ -277,6 +275,17 @@ public class GtnWsReportWebsevice {
 		recordCount = resultList.get(0);
 		return recordCount;
 	}
+	
+	public int checkUpdateViewRecordCount(GtnWsReportDataSelectionBean dataSelectionBean, int userId)
+			throws GtnFrameworkGeneralException {
+		int recordCount = 0;
+		String query = sqlService.getQuery("getUpdateViewCount");
+		Object[] params = { dataSelectionBean.getViewId(), dataSelectionBean.getViewType() };
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING};
+		List<Integer> resultList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query, params, paramsType);
+		recordCount = resultList.get(0);
+		return recordCount;
+	}
 
 	public int checkReportProfileViewRecordCount(
 			GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
@@ -308,6 +317,20 @@ public class GtnWsReportWebsevice {
 		return count;
 	}
 
+	public int updateReportingViewMaster(GtnWsReportDataSelectionBean dataSelectionBean, int userId)
+			throws GtnFrameworkGeneralException {
+		List<Object> inputList = new ArrayList<>();
+		inputList.add("'" + dataSelectionBean.getViewName() + "'");
+		inputList.add("'" + dataSelectionBean.getViewType() + "'");
+		inputList.add(userId);
+		String viewData = gtnReportJsonService.convertObjectAsJsonString(dataSelectionBean).replaceAll("'", "\\\\");
+		inputList.add("'" + viewData + "'");
+		inputList.add(dataSelectionBean.getViewId());
+		String query = sqlService.getQuery(inputList, "updatePrivatePublicView");
+		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
+		return count;
+	}
+
 	public int saveReportProfileMaster(
 			GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
 			throws GtnFrameworkGeneralException {
@@ -325,19 +348,21 @@ public class GtnWsReportWebsevice {
 		return reportProfileCount;
 	}
 
-	public int updateReportProfileMaster(GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
+	public int updateReportProfileMaster(
+			GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
 			throws GtnFrameworkGeneralException {
 		List<Object> reportProfileInputList = new ArrayList<>();
 		reportProfileInputList.add(userId);
 		reportProfileInputList.add(userId);
-		String reportProfileViewData = gtnReportJsonService.convertObjectAsJsonString(reportingDashboardSaveProfileLookupBean).replaceAll("'", "\\\\");
+		String reportProfileViewData = gtnReportJsonService
+				.convertObjectAsJsonString(reportingDashboardSaveProfileLookupBean).replaceAll("'", "\\\\");
 		reportProfileInputList.add("'" + reportProfileViewData + "'");
 		reportProfileInputList.add("'" + reportingDashboardSaveProfileLookupBean.getReportProfileviewName() + "'");
 		String reportProfileQuery = sqlService.getQuery(reportProfileInputList, "updateView");
 		int reportProfileCount = gtnSqlQueryEngine.executeInsertOrUpdateQuery(reportProfileQuery);
 		return reportProfileCount;
 	}
-	
+
 	public String getFromAndToDateLoadQuery(String comboBoxType, String frequency) {
 		String subQuery;
 		if (comboBoxType.equals("FROM")) {
@@ -528,4 +553,5 @@ public class GtnWsReportWebsevice {
 						dataSelectionBean.getSessionTableMap()));
 		return uomResultSet;
 	}
+
 }

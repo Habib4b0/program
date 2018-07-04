@@ -136,17 +136,17 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 		fieldToColumnDetailsMap.put("rSTransactionReferenceName",
 				configProvider.getColumnStringConfig("RS_TRANS_REF_NAME", "RSM"));
 		fieldToColumnDetailsMap.put("rsUDC1",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC1"));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,"UDC1", "UDC1",GtnFrameworkWebserviceConstant.HELPER_TABLE_SID ));
 		fieldToColumnDetailsMap.put("rsUDC2",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC2"));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,"UDC2", "UDC2",GtnFrameworkWebserviceConstant.HELPER_TABLE_SID ));
 		fieldToColumnDetailsMap.put("rsUDC3",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC3"));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,"UDC3", "UDC3",GtnFrameworkWebserviceConstant.HELPER_TABLE_SID ));
 		fieldToColumnDetailsMap.put("rsUDC4",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC4"));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,"UDC4", "UDC4",GtnFrameworkWebserviceConstant.HELPER_TABLE_SID ));
 		fieldToColumnDetailsMap.put("rsUDC5",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC5"));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,"UDC5", "UDC5",GtnFrameworkWebserviceConstant.HELPER_TABLE_SID ));
 		fieldToColumnDetailsMap.put("rsUDC6",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC6"));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,"UDC6", "UDC6",GtnFrameworkWebserviceConstant.HELPER_TABLE_SID ));
 
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
 

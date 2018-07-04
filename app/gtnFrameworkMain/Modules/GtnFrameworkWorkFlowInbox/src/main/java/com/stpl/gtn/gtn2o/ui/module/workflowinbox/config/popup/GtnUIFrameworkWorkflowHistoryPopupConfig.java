@@ -446,7 +446,7 @@ public class GtnUIFrameworkWorkflowHistoryPopupConfig {
 		GtnUIFrameWorkActionConfig fetchActionConfig = new GtnUIFrameWorkActionConfig();
 		fetchActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		fetchActionConfig.addActionParameter(GtnFrameworkDownloadattachmentAction.class.getName());
-		fetchActionConfig.addActionParameter(GtnFrameworkWorkflowInboxClassConstants.ATTACHEMENTSEARCHRESULT_TABLE);
+		fetchActionConfig.addActionParameter(GtnFrameworkWorkflowInboxClassConstants.ATTACHMENTSEARCHRESULT_TABLE);
 		fetchActionConfig.addActionParameter(Boolean.TRUE);
 		fetchList.add(fetchActionConfig);
 		wfHistoryPopupResultConfig.setGtnUIFrameWorkActionConfigList(fetchList);

@@ -5,9 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionViewAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionViewUpdateAction;
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroupConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
@@ -128,14 +130,28 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 		saveViewUpdate.setComponentName("UPDATE");
 		saveViewUpdate.setParentComponentId(parentId);
 		saveViewUpdate.setAddToParent(true);
+		saveViewUpdate.setEnable(false);
 		componentList.add(saveViewUpdate);
-
+		
+		GtnUIFrameWorkActionConfig updateViewAction = new GtnUIFrameWorkActionConfig();
+		updateViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		updateViewAction.addActionParameter(GtnReportDataSelectionViewUpdateAction.class.getName());
+		updateViewAction.addActionParameter("dsSaveViewLookUp");
+		updateViewAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_NAME);
+		updateViewAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
+		saveViewUpdate.addGtnUIFrameWorkActionConfig(updateViewAction);
+		
 		GtnUIFrameworkComponentConfig saveViewCancel = new GtnUIFrameworkComponentConfig();
 		saveViewCancel.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		saveViewCancel.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "saveViewCancel");
 		saveViewCancel.setComponentName("CLOSE");
 		saveViewCancel.setParentComponentId(parentId);
 		saveViewCancel.setAddToParent(true);
+		
+		GtnUIFrameWorkActionConfig closePopupAction = new GtnUIFrameWorkActionConfig();
+		closePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		closePopupAction.addActionParameter("dsSaveViewLookUp");
+		saveViewCancel.addGtnUIFrameWorkActionConfig(closePopupAction);
 
 		componentList.add(saveViewCancel);
 
