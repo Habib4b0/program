@@ -48,7 +48,22 @@ public class HeaderUtils {
         for (int j = 0; j < currentSingleColumns.size(); j++) {
             String column = (currentSingleColumns.get(j)).toString();
             PagedTreeGrid.gtnlogger.info("column = " + column);
-            pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> row.getPropertyValue(column)).setCaption(pagedTreeGrid.getTableConfig().getColumnHeaders().get(columnStart + j)).setId(column).setWidth(170);
+            String header=pagedTreeGrid.getTableConfig().getColumnHeaders().get(columnStart + j);
+            if (pagedTreeGrid.getTableConfig().getAggregationColumnHeader() != null && header.contains(pagedTreeGrid.getTableConfig().getAggregationColumnHeader())) {
+               // Aggregation 
+                pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> {
+                    int sum = 0;
+                    sum = row.getReadOnlyPropeties().stream().
+                            filter(e -> e.toString().contains(header))
+                            .map(String::valueOf)
+                            .filter((columns) -> (!columns.equals(header)))
+                            .map((columns) -> GridUtils.getInt(row.getPropertyValue(columns)))
+                            .reduce(sum, Integer::sum);
+                    return sum;
+                }).setCaption(header).setId(column).setWidth(170);
+            } else {
+                pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> row.getPropertyValue(column)).setCaption(header).setId(column).setWidth(170);
+            }
         }
         if (pagedTreeGrid.getTableConfig().getCustomFilterConfigMap() != null) {
             pagedTreeGrid.shiftLeftSingeHeader = true;
