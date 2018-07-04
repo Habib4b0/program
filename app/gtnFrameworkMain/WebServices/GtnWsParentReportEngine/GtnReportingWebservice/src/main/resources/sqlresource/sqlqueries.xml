@@ -248,6 +248,18 @@
 		]]>
 	</entry>
 	
+	<entry key="updateView">
+		<![CDATA[
+			UPDATE REPORTING_VIEW_MASTER
+			SET		CREATED_BY = ? ,
+					CREATED_DATE = getDate() ,
+					MODIFIED_BY = ? ,
+					MODIFIED_DATE = getDate() ,
+					VIEW_DATA = ? 
+			WHERE 	VIEW_NAME = ?	
+		]]>
+	</entry>
+	
 	<entry key="getViewCount">
 		<![CDATA[
 			SELECT

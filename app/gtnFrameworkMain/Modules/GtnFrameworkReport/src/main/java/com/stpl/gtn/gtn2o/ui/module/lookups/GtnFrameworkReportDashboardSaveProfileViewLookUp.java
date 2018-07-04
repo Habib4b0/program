@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardSaveProfileAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardUpdateProfileAddAction;
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -30,6 +31,7 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 		addReportDashboardSaveProfileComponentList(reportDashboardSaveProfileView, namespace);
 		return reportDashboardSaveProfileView;
 	}
+
 
 	private void addReportDashboardSaveProfileComponentList(GtnUIFrameworkViewConfig view, String namespace) {
 		List<GtnUIFrameworkComponentConfig> reportDashboardSaveProfileComponentList = new ArrayList<>();
@@ -125,6 +127,14 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 		reportDashboardSaveProfileSaveViewUpdate.setComponentName("UPDATE");
 		reportDashboardSaveProfileSaveViewUpdate.setParentComponentId(parentId);
 		reportDashboardSaveProfileSaveViewUpdate.setAddToParent(true);
+		
+		GtnUIFrameWorkActionConfig reportDashboardUpdateProfileAddActionConfig = new GtnUIFrameWorkActionConfig();
+		reportDashboardUpdateProfileAddActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reportDashboardUpdateProfileAddActionConfig.addActionParameter(GtnReportingDashboardUpdateProfileAddAction.class.getName());
+		reportDashboardUpdateProfileAddActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
+		reportDashboardUpdateProfileAddActionConfig.addActionParameter(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+"ReportDashboardSaveProfileNameTextField");
+		reportDashboardUpdateProfileAddActionConfig.addActionParameter(namespace+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkCommonConstants.SAVE_VIEW_TYPE);
+		reportDashboardSaveProfileSaveViewUpdate.addGtnUIFrameWorkActionConfig(reportDashboardUpdateProfileAddActionConfig);
 		componentList.add(reportDashboardSaveProfileSaveViewUpdate);
 
 		GtnUIFrameworkComponentConfig reportDashboardSaveProfileSaveViewCancel = new GtnUIFrameworkComponentConfig();

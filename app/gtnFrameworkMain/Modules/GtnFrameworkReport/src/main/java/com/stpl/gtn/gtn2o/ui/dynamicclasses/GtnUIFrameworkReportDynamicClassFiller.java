@@ -46,10 +46,12 @@ import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionViewAddAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportFilterReloadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportForecastEligibleDateReloadInReportingDashboardAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportLevelFilterReloadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportProfileSaveToUpdateAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportReportProfileDeleteAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportVariableReloadInReportingDashboardAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardReportProfileLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardSaveProfileAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardUpdateProfileAddAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportFilterGenerateLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportLevelDdlbLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkSaveViewAction;
@@ -230,6 +232,10 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
                 new GtnReportingDashboardReportProfileLoadAction());
         GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportReportProfileDeleteAction.class.getName(),
                 new GtnReportReportProfileDeleteAction());
+        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingDashboardUpdateProfileAddAction.class.getName(),
+                new GtnReportingDashboardUpdateProfileAddAction());
+        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportProfileSaveToUpdateAction.class.getName(),
+                new GtnReportProfileSaveToUpdateAction());
 	}
 
 }
