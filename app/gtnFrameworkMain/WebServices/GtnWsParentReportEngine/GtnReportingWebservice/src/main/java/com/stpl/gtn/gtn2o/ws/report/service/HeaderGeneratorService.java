@@ -152,8 +152,7 @@ public class HeaderGeneratorService {
 		generateColumn(variableCategoryHeader, variableCategoryColumn);
 
 		int headerSequence = dashboardBean.getHeaderSequence() == 0 ? 1 : dashboardBean.getHeaderSequence();
-                boolean annualTotals= Optional.ofNullable(dashboardBean.getAnnualTotals()).get().equalsIgnoreCase("Yes")
-                        && !dashboardBean.getSelectFreqString().equalsIgnoreCase("Annual");
+                boolean annualTotals= !dashboardBean.getSelectFreqString().equalsIgnoreCase("Annual");
                 System.out.println("annualTotals = " + annualTotals);
 		if (isColumn) {
 			combinedVariableCategoryList = getCombinedVariableCategory(variablesHeader, variableCategoryHeader,
@@ -361,15 +360,21 @@ public class HeaderGeneratorService {
 		Set<String> headerColumnId = new HashSet<>();
 		for (int i = 0; i < tripleColumn.length; i++) {
 			for (int j = 0; j < doubleColumn.length; j++) {
+                            String lastSingle=null;
 				for (int k = 0; k < singleColumn.length; k++) {
 					Object single = createSingleColumn(singleColumn[k].toString(), doubleColumn[j].toString(),
 							tripleColumn[i].toString(), headerSequence);
+                                       
+                                        
 				    if (!headerColumnId.add(String.valueOf(single))) {
 
                                     }
                                     tableHeaderDTO.addSingleColumn(single, singleHeader[k].toString(), String.class);
-                                    if (annualTotals && i != 0 && ((String)singleColumn[i - 1]).substring(1).equals(((String)singleColumn[i]).substring(1))) {
-                                        tableHeaderDTO.addSingleColumn(((String)singleColumn[i - 1]).substring(1), ANNUAL_TOTALS, String.class);
+                                    if (annualTotals && lastSingle !=null) {
+                                        if (lastSingle.substring(1).equals(single.toString().substring(1))) {
+                                            tableHeaderDTO.addSingleColumn(lastSingle.substring(1), ANNUAL_TOTALS, String.class);
+                                        }
+                                          lastSingle=single.toString();
                                     }
                                     doubleMap.add(single.toString());
 				}
