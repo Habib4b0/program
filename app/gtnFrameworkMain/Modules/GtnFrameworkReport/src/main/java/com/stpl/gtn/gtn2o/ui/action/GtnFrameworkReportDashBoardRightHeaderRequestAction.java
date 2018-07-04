@@ -112,7 +112,13 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 		reportDashBoardBean.setCustomViewMasterSid(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView", componentId)
 				.getIntegerFromV8ComboBox());
+		GtnUIFrameworkBaseComponent comparisonBasis = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis", componentId);
+		int id = comparisonBasis.getIntegerFromV8ComboBox();
+		String comparisonBasisValue = id > 2 ? "Projection_" + (id - 2)
+				: comparisonBasis.getStringCaptionFromV8ComboBox();
 
+		reportDashBoardBean.setComparisonBasis(comparisonBasisValue);
 		GtnWsForecastRequest gtnWsForecastRequest = new GtnWsForecastRequest();
 		gtnWsForecastRequest.setGtnForecastBean(gtnForecastBean);
 		gtnUIFrameworkWebserviceRequest.setGtnWsForecastRequest(gtnWsForecastRequest);

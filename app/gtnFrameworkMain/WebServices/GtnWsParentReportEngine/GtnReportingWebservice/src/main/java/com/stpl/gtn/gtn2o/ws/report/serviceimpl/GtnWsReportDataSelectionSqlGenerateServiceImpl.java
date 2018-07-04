@@ -301,6 +301,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 				if (bean.getData()[5].equals("V")) {
 					dataForHierarchy = rightDataMap
 							.get(bean.getHierarchyNo() + getVariableMap().get(bean.getData()[1]));
+					dataForHierarchy.putAll(rightDataMap.get(bean.getHierarchyNo()));
 				} else {
 					dataForHierarchy = rightDataMap.get(bean.getHierarchyNo());
 				}
@@ -444,8 +445,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 				for (String tableName : tableNames) {
 					Object[] input = { tableName };
 					GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING };
-					gtnSqlQueryEngine.executeInsertOrUpdateQuery(sqlService.getQuery(Arrays.asList(tableName),"getTruncateQuery"));
-				}				
+					gtnSqlQueryEngine.executeInsertOrUpdateQuery(
+							sqlService.getQuery(Arrays.asList(tableName), "getTruncateQuery"));
+				}
 			} catch (GtnFrameworkGeneralException e) {
 				GTNLOGGER.error(e.getErrorMessage(), e);
 			}
