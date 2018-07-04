@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -40,7 +38,6 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.server.Page;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.UI;
 
 /**
@@ -299,57 +296,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
         }
         return count;
     }
-
-
-    @SuppressWarnings("unchecked")
-    private int createSplitDataRows(HSSFSheet sheet, List<Object> inputList, int rowCount, HSSFWorkbook workBook,
-            PagedTreeGrid resultTable, GtnUIFrameworkExcelButtonConfig inputBean, GtnWsExcelHeaderBean headerBean) {
-        int count = rowCount;
-        List<GtnWsRecordBean> resultList = (List<GtnWsRecordBean>) inputList.get(0);
-        List<Object> propertyIds = (List<Object>) inputList.get(1);
-        int splitWorksheetIndex = (int) inputList.get(2);
-        List<String> componentMappedPropertyIdList = inputBean.getHelperTableMapedPropertyIdList();
-        CellStyle defaultDataCellStyle = defaultDataCellStyle(workBook);
-
-        int headerStartIndex = headerBean.getExcelSplitIndexList().get(splitWorksheetIndex)[0];
-        int headerEndIndex = headerBean.getExcelSplitIndexList().get(splitWorksheetIndex)[1];
-
-        for (int i = 0; i < resultList.size(); i++) {
-            GtnWsRecordBean resultDTO = resultList.get(i);
-            Row row = sheet.createRow(count++);
-            for (int j = 0; j < headerBean.getExcelLeftTableEndIndex(); j++) {
-                String propertyId = String.valueOf(propertyIds.get(j));
-                Object value = resultDTO.getPropertyValue(propertyId);
-                if ((componentMappedPropertyIdList != null) && (componentMappedPropertyIdList.contains(propertyId))) {
-                    String componentId = inputBean.getExportTableId() + 0 + propertyId;
-                    ComboBox component = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
-                            .getComponent();
-                    String componenetIdCaption = component.getValue().toString();
-                    value = getComboBoxValue(componenetIdCaption);
-                }
-                putValueInCell(row, getFormattedValue(value), j, defaultDataCellStyle);
-            }
-            int cellStart = headerBean.getExcelLeftTableEndIndex();
-            for (int j = headerStartIndex; j <= headerEndIndex; j++) {
-                String propertyId = String.valueOf(propertyIds.get(j));
-                Object value = resultDTO.getPropertyValue(propertyId);
-                if ((componentMappedPropertyIdList != null) && (componentMappedPropertyIdList.contains(propertyId))) {
-                    String componentId = inputBean.getExportTableId() + 0 + propertyId;
-                    ComboBox component = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
-                            .getComponent();
-                    String componenetIdCaption = component.getValue().toString();
-                    value = getComboBoxValue(componenetIdCaption);
-                }
-                putValueInCell(row, getFormattedValue(value), cellStart++,
-                        defaultDataCellStyle);
-            }
-
-            row.setHeight((short) 400);
-        	}
-        return count;
-
-        }
-        
+      
     void buildTree( List<GtnWsRecordBean> input,List<GtnWsRecordBean> child,List<GtnWsRecordBean> output){
         for (GtnWsRecordBean bean : child) {
             output.add(bean);
@@ -394,7 +341,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
         return cellStyle;
     }
 
-    protected CellStyle defaultDataCellStyle(HSSFWorkbook workBook) {
+    protected CellStyle defaultDataCellStyle(XSSFWorkbook workBook) {
         CellStyle defaultDataCellStyle = workBook.createCellStyle();
         defaultDataCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
         setAllBordersThin(defaultDataCellStyle);

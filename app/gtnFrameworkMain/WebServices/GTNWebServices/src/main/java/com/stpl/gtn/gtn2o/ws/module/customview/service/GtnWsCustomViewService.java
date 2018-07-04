@@ -520,9 +520,8 @@ public class GtnWsCustomViewService {
         }
 
     }
-      public void deleteRelationship(GtnWsCustomViewRequest cvRequest,
-			GtnWsCustomViewResponse cvResponse) throws GtnFrameworkGeneralException {
-
+	public void deleteCustomViewFromTable(GtnWsCustomViewRequest cvRequest, GtnWsCustomViewResponse cvResponse)
+			throws GtnFrameworkGeneralException {
 		cvResponse.setSuccess(true);
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
