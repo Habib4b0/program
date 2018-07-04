@@ -8,7 +8,7 @@ public enum GtnFrameworkWorkflowIdMap {
 							GtnFrameworkWorkflowInboxClassConstants.PROJECTIONIDWORKFLOW), BR(
 									GtnFrameworkWorkflowInboxClassConstants.ACCCLOSUREIDMASTERSID), FD(
 											GtnFrameworkWorkflowInboxClassConstants.ACCCLOSUREIDMASTERSID), CMF(
-													GtnFrameworkWorkflowInboxClassConstants.CONTRACT_MASTERSID), ARM(
+													GtnFrameworkWorkflowInboxClassConstants.CONTRACT_MASTERSID), ARM_TRXF(
 															GtnFrameworkWorkflowInboxClassConstants.ARM_MASTERSID), CM(
 													GtnFrameworkWorkflowInboxClassConstants.CONTRACT_MASTERSID);
 	private GtnFrameworkWorkflowIdMap(String input) {

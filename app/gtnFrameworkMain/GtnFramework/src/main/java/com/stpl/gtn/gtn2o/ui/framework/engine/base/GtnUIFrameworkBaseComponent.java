@@ -69,6 +69,7 @@ import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.Tree;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.custommenubar.MenuItemDTO;
+import org.asi.ui.custommenubar.CustomMenuBar.CustomMenuItem;
 
 public class GtnUIFrameworkBaseComponent {
 
@@ -541,7 +542,7 @@ public class GtnUIFrameworkBaseComponent {
                 }
             }
         }
-        return result;
+        return result.isEmpty()?null:result;
     }
 
 	public Object getV8ValueFromComponent() throws GtnFrameworkValidationFailedException {
@@ -1316,20 +1317,38 @@ public class GtnUIFrameworkBaseComponent {
 	public Set<GtnWsRecordBean> getSelectedValues() {
 		return (Set<GtnWsRecordBean>) ((Tree) getComponentData().getCustomData()).getValue();
 	   }
-
-        public void loadCheckedCombobox(String defaultValue, List<String> id, List<String> description) throws GtnFrameworkValidationFailedException {
-            CustomMenuBar customMenuBar = (CustomMenuBar) this.getComponent();
-            customMenuBar.removeItems();
-            CustomMenuBar.CustomMenuItem customMenuItem = customMenuBar.addItem(defaultValue, null);
-            CustomMenuBar.CustomMenuItem[] customItem = new CustomMenuBar.CustomMenuItem[description
-                    .size()];
-            for (int valueIndex = 0; valueIndex < description.size(); valueIndex++) {
-                customItem[valueIndex] = customMenuItem.addItem(new MenuItemDTO(id.get(valueIndex), description.get(valueIndex)), null);
-                customItem[valueIndex].setCheckable(true);
-                customItem[valueIndex].setItemClickable(true);
-                customItem[valueIndex].setItemClickNotClosable(true);
-            }
+	
+	public void loadCheckedCombobox(String defaultValue, List<String> id, List<String> description) throws GtnFrameworkValidationFailedException {
+		
+		CustomMenuBar customMenuBar = (CustomMenuBar) this.getComponent();
+        customMenuBar.removeItems();
+        CustomMenuBar.CustomMenuItem customMenuItem = customMenuBar.addItem(defaultValue, null);
+        CustomMenuBar.CustomMenuItem[] customItem = new CustomMenuBar.CustomMenuItem[description.size()];
+        
+        for (int valueIndex = 0; valueIndex < description.size(); valueIndex++) {
+        	MenuItemDTO menuItemDTO=new MenuItemDTO();
+        	menuItemDTO.setId(Integer.valueOf(id.get(valueIndex)));
+        	menuItemDTO.setCaption(description.get(valueIndex));
+        	customItem[valueIndex] = customMenuItem.addItem(menuItemDTO, null);
+        	customItem[valueIndex].setCheckable(true);
+        	customItem[valueIndex].setItemClickable(true);
+        	customItem[valueIndex].setItemClickNotClosable(true);
+       }
+    }
+	
+	public void loadCheckedValueCustomMenuBar(List<Integer> id) {
+		CustomMenuBar customMenuBar = (CustomMenuBar) this.getComponent();
+        List<CustomMenuItem> menuItems=customMenuBar.getItems().get(0).getChildren();
+        
+        for (CustomMenuItem menuItem : menuItems) {
+        	MenuItemDTO menuItemDTO=menuItem.getMenuItem();
+        	menuItem.setChecked(false);
+    		
+        	if(id.contains(menuItemDTO.getId())) {
+        		menuItem.setChecked(true);
+    		}
         }
+   }
 
 	public Object getFieldValue() {
 
