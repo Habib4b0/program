@@ -1,6 +1,9 @@
 package com.stpl.gtn.gtn2o.ui.module.workflowinbox.action;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -30,6 +33,7 @@ public class GtnFrameworkWorkflowPopulateFieldsAction
 		GtnWsRecordBean gtnWsRecordBean = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)))
 				.getValueFromPagedDataTable();
+		
 		try {
 			String combocomponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("businessProcess")
 					.getCaptionFromComboBox();
@@ -286,9 +290,9 @@ public class GtnFrameworkWorkflowPopulateFieldsAction
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("workflowStatusArm", componentId)
 					.loadComboBoxComponentValue(getIntValue(workflowStatusArm));
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("adjustmentType", componentId)
-					.loadComboBoxComponentValue(getIntValue(adjustmentType));
-
+		
+			selectComponentOfMultiComboBox("adjustmentType",componentId,adjustmentType);
+			
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("deductionLevelArm", componentId)
 					.loadComboBoxComponentValue(getIntValue(deductionLevelArm));
 
@@ -322,4 +326,17 @@ public class GtnFrameworkWorkflowPopulateFieldsAction
 		return 0;
 	}
 
+	/*	Basically for business process type='ARM'
+	 *  It will select multiple select combo box components 
+	 */
+	private void selectComponentOfMultiComboBox(String componentId, String sourceComponentId, String value) {
+		List<String> stringList = Arrays.asList(value.split(","));
+		List<Integer> integerList=new ArrayList<>();
+			
+		for(String strValue : stringList) {
+			integerList.add(Integer.valueOf(strValue));
+		}
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId, sourceComponentId).loadCheckedValueCustomMenuBar(integerList);
+		
+	}
 }

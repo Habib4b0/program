@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.framework.component.checkedcombobox;
 import java.util.List;
 
 import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.custommenubar.MenuItemDTO;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -50,7 +51,10 @@ public class GtnUIFrameworkCheckedComboboxComponent implements GtnUIFrameworkCom
 				CustomMenuBar.CustomMenuItem[] customItem = new CustomMenuBar.CustomMenuItem[response.getItemValueList()
 						.size()];
 				for (int valueIndex = 0; valueIndex < response.getItemValueList().size(); valueIndex++) {
-					customItem[valueIndex] = customMenuItem.addItem(response.getItemValueList().get(valueIndex), null);
+					MenuItemDTO dto = new MenuItemDTO();
+					dto.setId(Integer.valueOf(response.getItemCodeList().get(valueIndex)));
+					dto.setCaption(response.getItemValueList().get(valueIndex));
+					customItem[valueIndex] = customMenuItem.addItem(dto, null);
 					customItem[valueIndex].setCheckable(true);
 					customItem[valueIndex].setItemClickable(true);
 					customItem[valueIndex].setItemClickNotClosable(true);
@@ -84,5 +88,4 @@ public class GtnUIFrameworkCheckedComboboxComponent implements GtnUIFrameworkCom
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig checkedComboboxComponentConfig) {
 		return;
 	}
-
 }

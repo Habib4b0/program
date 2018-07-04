@@ -29,15 +29,16 @@ public class GtnFrameworkAddJSListenerAction implements GtnUIFrameWorkAction, Gt
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParams = gtnUIFrameWorkActionConfig.getActionParameterList();
+	
 		final String businessProcess = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParams.get(1).toString())
 				.getCaptionFromComboBox();
-		final GtnUIFrameworkBaseComponent historyBtn = GtnUIFrameworkGlobalUI
+		final GtnUIFrameworkBaseComponent viewBtn = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParams.get(2).toString());
 		final GtnUIFrameworkBaseComponent openBtn = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParams.get(3).toString());
 		final GtnUIFrameworkBaseComponent table = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParams.get(4).toString());
-		historyBtn.setComponentEnable(false);
+		viewBtn.setComponentEnable(false);
 		openBtn.setComponentEnable(false);
 		JavaScript.getCurrent().addFunction("storageEventListener", new JavaScriptFunction() {
 			/**
@@ -52,7 +53,7 @@ public class GtnFrameworkAddJSListenerAction implements GtnUIFrameWorkAction, Gt
 							&& Boolean.parseBoolean(arguments.getString(1))) {
 						table.getLogicFromPagedDataTable()
 								.setCurrentPage(table.getLogicFromPagedDataTable().getCurrentPage());
-						historyBtn.setComponentEnable(false);
+						viewBtn.setComponentEnable(false);
 						openBtn.setComponentEnable(false);
 						JavaScript.getCurrent().execute("localStorage.setItem('" + businessProcess + "', 'false');");
 					}

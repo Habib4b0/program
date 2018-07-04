@@ -111,6 +111,8 @@ public final class GtnFrameworkCssConstants {
 	public static final String AUTO_HEIGHT_FOR_WINDOW = "v-auto-height-window";
 	public static final String STPL_MARGIN_TOP_34 = "stpl-margin-top-34";
 	public static final String STPL_MARGIN_TOP_25 = "stpl-margin-top-25";
+	public static final String STPL_PADDING_TOP_13 = "stpl-padding-top-13";
+	public static final String STPL_PADDING_TOP_10 = "stpl-padding-top-10";
 	public static final String GTN_DUAL_LIST_BOX_BUTTON = "gtnGrid-DualList-Buttons";
 	public static final String PERCENT_50 = "50%";
 

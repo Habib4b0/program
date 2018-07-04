@@ -122,7 +122,8 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID_NAME,
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWCOMPONENT_NAME,
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWDESCRIPTION_NAME,
-			GtnFrameworkWorkflowInboxClassConstants.STATUS_LOWERCASE, GtnFrameworkWorkflowInboxClassConstants.COMPANY,
+			GtnFrameworkWorkflowInboxClassConstants.STATUS_LOWERCASE, 
+			GtnFrameworkWorkflowInboxClassConstants.COMPANY,
 			GtnFrameworkWorkflowInboxClassConstants.BUSINESS_UNIT_NAME,
 			GtnFrameworkWorkflowInboxClassConstants.CREATEDBY_NAME,
 			GtnFrameworkWorkflowInboxClassConstants.CREATION_DATE,
@@ -152,7 +153,8 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 	private static final String[] GTN_WORKFLOW_INBOX_ARM_SEARCH_TABLE_HEADERS = new String[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID_NAME,
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWCOMPONENT_NAME, "Adjustment Type",
-			GtnFrameworkWorkflowInboxClassConstants.COMPANY, GtnFrameworkWorkflowInboxClassConstants.BUSINESS_UNIT_NAME,
+			GtnFrameworkWorkflowInboxClassConstants.COMPANY, 
+			GtnFrameworkWorkflowInboxClassConstants.BUSINESS_UNIT_NAME,
 			GtnFrameworkWorkflowInboxClassConstants.STATUS_LOWERCASE,
 			GtnFrameworkWorkflowInboxClassConstants.CREATEDBY_NAME,
 			GtnFrameworkWorkflowInboxClassConstants.CREATION_DATE,
@@ -160,8 +162,11 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.APPROVED_DATE };
 
 	private static final Object[] GTN_WORKFLOW_INBOX_ARM_SEARCH_TABLE_COLUMNS = new Object[] {
-			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME,
-			GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE, "companyARM, ", "businessUnitARM",
+			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, 
+			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME,
+			GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE, 
+			GtnFrameworkWorkflowInboxClassConstants.COMPANY, 
+			GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAME,
 			"workflowStatusArm", GtnFrameworkWorkflowInboxClassConstants.CREATEDBY,
 			GtnFrameworkWorkflowInboxClassConstants.CREATIONDATE, GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDDATE };
@@ -293,21 +298,23 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.CREATEDTO, GtnFrameworkWorkflowInboxClassConstants.CREATEDBY,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM, GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY };
+	
 	private static final String[] GTN_WORKFLOW_INBOX_FORECASTING_SEARCH_FIELDVALUES = new String[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME,
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOW_DESC, GtnFrameworkWorkflowInboxClassConstants.CREATEDFROM,
 			GtnFrameworkWorkflowInboxClassConstants.CREATEDTO, GtnFrameworkWorkflowInboxClassConstants.CREATEDBY,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM, GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY, "contractId", "contractNo", "companyNo", "companyName",
-			"businessUnitId", "businessUnitNo", "businessUnitName", "contractName", "itemNo", "itemName",
+			"businessUnitId", "businessUnitNo", GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAME, "contractName", "itemNo", "itemName",
 			"forecastdeductionValue", "forecastdeductionLevel", "contractType", "companyID", "itemId" };
+	
 	private static final String[] GTN_WORKFLOW_INBOX_ARP_SEARCH_FIELDVALUES = new String[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME,
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOW_DESC, GtnFrameworkWorkflowInboxClassConstants.CREATEDFROM,
 			GtnFrameworkWorkflowInboxClassConstants.CREATEDTO, GtnFrameworkWorkflowInboxClassConstants.CREATEDBY,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM, GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY, "contractId", "contractNo", "companyNo", "companyName",
-			"businessUnitId", "businessUnitNo", "businessUnitName", "contractName", "itemNo", "itemName",
+			"businessUnitId", "businessUnitNo", GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAME, "contractName", "itemNo", "itemName",
 			"forecastdeductionValue", "forecastdeductionLevel", "contractType", "companyID", "itemId" };
 
 	private static final String[] GTN_WORKFLOW_INBOX_RETURNS_SEARCH_FIELDVALUES = new String[] {
@@ -317,20 +324,22 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM, GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY, "businessUnitNoReturns", "businessUnitNameReturns",
 			"itemNoReturns", "itemNameReturns", "itemIdReturns" };
+	
 	private static final String[] GTN_WORKFLOW_INBOX_ARM_SEARCH_FIELDVALUES = new String[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME,
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOW_DESC, GtnFrameworkWorkflowInboxClassConstants.CREATEDFROM,
 			GtnFrameworkWorkflowInboxClassConstants.CREATEDTO, GtnFrameworkWorkflowInboxClassConstants.CREATEDBY,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM, GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY, "companyARM", "businessUnitARM", "workflowStatusArm",
-			GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE, "contractIdArm", "contractNoArm", "customerNoArm",
+			"contractIdArm", "contractNoArm", "customerNoArm",
 			"customerNameArm", "brandIdArm", "contractNameArm", "itemNoArm", "itemNameArm", "brandNameArm", "glDateArm",
-			"deductionLevelArm", "deductionValueArm", "deductionNoArm", "deductionNameArm" };
+			"deductionNoArm", "deductionNameArm" };
 
 	private static final Object[] GTN_WORKFLOW_INBOX_CONTRACT_SEARCH_EXTRA_COLUMNS = new Object[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID, GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVALLEVEL, GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID,
 			GtnFrameworkWorkflowInboxClassConstants.PROJECTIONMASTER_SID };
+	
 	private static final Object[] GTN_WORKFLOW_INBOX_FORECASTING_SEARCH_EXTRA_COLUMNS = new Object[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID, GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVALLEVEL,
@@ -342,6 +351,7 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.PROJECTIONMASTER_SID,
 			GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID,
 			GtnFrameworkWorkflowInboxClassConstants.PRODUCTHIERSID };
+	
 	private static final Object[] GTN_WORKFLOW_INBOX_ARP_SEARCH_EXTRA_COLUMNS = new Object[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID, GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVALLEVEL,
@@ -365,16 +375,20 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID,
 			GtnFrameworkWorkflowInboxClassConstants.PRODUCTHIERSID };
 	private static final Object[] GTN_WORKFLOW_INBOX_ARM_SEARCH_EXTRA_COLUMNS = new Object[] {
-			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID, GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS,
+			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID, 
+			GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVALLEVEL, "adjustmentTypeName",
-			GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE, "configurationType",
+			"configurationType",
 			GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERSID,
 			GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERLEVEL,
 			GtnFrameworkWorkflowInboxClassConstants.CUSTRELATIONSHIPSID,
 			GtnFrameworkWorkflowInboxClassConstants.PRODHIERLEVEL,
 			GtnFrameworkWorkflowInboxClassConstants.PRODRELATIONSID,
 			GtnFrameworkWorkflowInboxClassConstants.PROJECTIONMASTER_SID,
-			GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID };
+			GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID,
+			GtnFrameworkWorkflowInboxClassConstants.COMPANY_NO_ARM,
+			GtnFrameworkWorkflowInboxClassConstants.BUSINESS_UNIT_NO_ARM,
+			GtnFrameworkWorkflowInboxClassConstants.WORKFLOW_DESC};
 
 	private static final Object[] GTN_WORKFLOW_INBOX_PRIVATE_NOTARM_SEARCH_EXTRA_COLUMNS = new Object[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID, GtnFrameworkWorkflowInboxClassConstants.CONTRACTID,
@@ -665,17 +679,18 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
-			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
-			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
-			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
-			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
-			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
-			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
-			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER
-
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING
 	};
-
+	
 	public static Class<?>[] getGtnWorkflowInboxContractSearchTableColumnsDataType() {
 		return GTN_WORKFLOW_INBOX_CONTRACT_SEARCH_TABLE_COLUMNS_DATA_TYPE.clone();
 	}
@@ -907,5 +922,4 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 	public static Class<?>[] getGtnWorkflowInboxPrivateReturnsSearchTableExtracolumnsDataType() {
 		return GTN_WORKFLOW_INBOX_PRIVATE_RETURNS_SEARCH_TABLE_EXTRACOLUMNS_DATA_TYPE.clone();
 	}
-
 }

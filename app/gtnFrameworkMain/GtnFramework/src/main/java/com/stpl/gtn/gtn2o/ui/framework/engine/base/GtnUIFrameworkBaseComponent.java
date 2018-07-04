@@ -67,6 +67,9 @@ import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.Tree;
+import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.custommenubar.MenuItemDTO;
+import org.asi.ui.custommenubar.CustomMenuBar.CustomMenuItem;
 
 public class GtnUIFrameworkBaseComponent {
 
@@ -508,6 +511,9 @@ public class GtnUIFrameworkBaseComponent {
 	@SuppressWarnings("unchecked")
 	public Object getValueFromComponent() throws GtnFrameworkValidationFailedException {
 		try {
+                        if (getComponent() instanceof CustomMenuBar) {
+                           return getCheckedValues(((CustomMenuBar) getComponent()).getItems());
+			}
 			if (getComponent() instanceof Property) {
 				return ((Property<Object>) getComponent()).getValue();
 			}
@@ -521,7 +527,23 @@ public class GtnUIFrameworkBaseComponent {
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
-	}
+        }
+
+    public List<String[]> getCheckedValues(final List<CustomMenuBar.CustomMenuItem> customMenuItems) {
+
+        List<String[]> result = new ArrayList<>();
+        for (CustomMenuBar.CustomMenuItem customMenuItem : customMenuItems) {
+            if (customMenuItem != null && customMenuItem.getSize() > 0) {
+                List<CustomMenuBar.CustomMenuItem> items = customMenuItem.getChildren();
+                for (CustomMenuBar.CustomMenuItem customMenuItem1 : items) {
+                    if (customMenuItem1.isChecked()) {
+                        result.add(new String[]{(String) customMenuItem1.getMenuItem().getWindow(), customMenuItem1.getMenuItem().getCaption(), String.valueOf(customMenuItem1.getMenuItem().getId())});
+                    }
+                }
+            }
+        }
+        return result.isEmpty()?null:result;
+    }
 
 	public Object getV8ValueFromComponent() throws GtnFrameworkValidationFailedException {
 		try {
@@ -1294,7 +1316,39 @@ public class GtnUIFrameworkBaseComponent {
 
 	public Set<GtnWsRecordBean> getSelectedValues() {
 		return (Set<GtnWsRecordBean>) ((Tree) getComponentData().getCustomData()).getValue();
-	}
+	   }
+	
+	public void loadCheckedCombobox(String defaultValue, List<String> id, List<String> description) throws GtnFrameworkValidationFailedException {
+		
+		CustomMenuBar customMenuBar = (CustomMenuBar) this.getComponent();
+        customMenuBar.removeItems();
+        CustomMenuBar.CustomMenuItem customMenuItem = customMenuBar.addItem(defaultValue, null);
+        CustomMenuBar.CustomMenuItem[] customItem = new CustomMenuBar.CustomMenuItem[description.size()];
+        
+        for (int valueIndex = 0; valueIndex < description.size(); valueIndex++) {
+        	MenuItemDTO menuItemDTO=new MenuItemDTO();
+        	menuItemDTO.setId(Integer.valueOf(id.get(valueIndex)));
+        	menuItemDTO.setCaption(description.get(valueIndex));
+        	customItem[valueIndex] = customMenuItem.addItem(menuItemDTO, null);
+        	customItem[valueIndex].setCheckable(true);
+        	customItem[valueIndex].setItemClickable(true);
+        	customItem[valueIndex].setItemClickNotClosable(true);
+       }
+    }
+	
+	public void loadCheckedValueCustomMenuBar(List<Integer> id) {
+		CustomMenuBar customMenuBar = (CustomMenuBar) this.getComponent();
+        List<CustomMenuItem> menuItems=customMenuBar.getItems().get(0).getChildren();
+        
+        for (CustomMenuItem menuItem : menuItems) {
+        	MenuItemDTO menuItemDTO=menuItem.getMenuItem();
+        	menuItem.setChecked(false);
+    		
+        	if(id.contains(menuItemDTO.getId())) {
+        		menuItem.setChecked(true);
+    		}
+        }
+   }
 
 	public Object getFieldValue() {
 
@@ -1308,6 +1362,12 @@ public class GtnUIFrameworkBaseComponent {
 		HasValue<Object> field = (HasValue) layout.getComponent(0);
 
 		field.setValue(value);
+	}
+	
+	public Object getV8PopupFieldValue(){
+		HorizontalLayout layout = (HorizontalLayout) this.component;
+		HasValue<Object> field = (HasValue) layout.getComponent(0);
+		return field.getValue();
 	}
 
 	public void setV8GridItems(List<GtnWsRecordBean> value) {
