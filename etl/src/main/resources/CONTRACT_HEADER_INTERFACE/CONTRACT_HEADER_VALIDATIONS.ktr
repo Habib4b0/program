@@ -191,7 +191,7 @@
   <hop> <from>Filter rows 2</from><to>master duplicate</to><enabled>Y</enabled> </hop>
   <hop> <from>master duplicate</from><to>Update 3</to><enabled>Y</enabled> </hop>
   <hop> <from>PAYMENT_TERMS 2</from><to>Update</to><enabled>Y</enabled> </hop>
-  <hop> <from>Update</from><to>Add constants 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update</from><to>Add constants 2</to><enabled>N</enabled> </hop>
   <hop> <from>CONTRACT_STATUS</from><to>DOC_TYPE</to><enabled>Y</enabled> </hop>
   <hop> <from>CONTRACT_STATUS 2</from><to>DOC_TYPE 2</to><enabled>Y</enabled> </hop>
   <hop> <from>INVALID COUNT</from><to>Audit Status 3</to><enabled>Y</enabled> </hop>
@@ -250,7 +250,6 @@
   <hop> <from>STAGING AUDIT 2</from><to>Dummy &#x28;do nothing&#x29; 2 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Update 3 2</from><to>Dummy &#x28;do nothing&#x29; 2 2</to><enabled>Y</enabled> </hop>
   <hop> <from>AUDIT_STATUS_UPDATE 2</from><to>Dummy &#x28;do nothing&#x29; 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>ADD BATCH DUPLCIATION </from><to>CONTRACT_TYPE</to><enabled>Y</enabled> </hop>
   <hop> <from>REMOVE FIELDS</from><to>Invalid_wait</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter rows 2 2</from><to>Dummy &#x28;do nothing&#x29; 3</to><enabled>Y</enabled> </hop>
   <hop> <from>OUTBOUND_FLAG</from><to>Filter rows 2 2</to><enabled>Y</enabled> </hop>
@@ -258,10 +257,14 @@
   <hop> <from>Filter rows 2 2</from><to>OUTBOUND PROCESSED 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants 3</from><to>ADD SORT </to><enabled>Y</enabled> </hop>
   <hop> <from>Switch &#x2f; Case</from><to>Add constants 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>CHANGE SORT </from><to>Database lookup 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Database lookup 2 2</from><to>ADD INSERT WAIT</to><enabled>Y</enabled> </hop>
+  <hop> <from>CHANGE SORT </from><to>CONTRACT_MASTER lookup </to><enabled>Y</enabled> </hop>
+  <hop> <from>CONTRACT_MASTER lookup </from><to>ADD INSERT WAIT</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants 2 2</from><to>C-INVALID2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Database lookup 2 2</from><to>Add constants 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>CONTRACT_MASTER lookup </from><to>Add constants 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION </from><to>CONTRACT_MASTER DUP CHECK</to><enabled>Y</enabled> </hop>
+  <hop> <from>CONTRACT_MASTER DUP CHECK</from><to>CONTRACT_TYPE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 4</from><to>Dupliacte Contract ID</to><enabled>Y</enabled> </hop>
+  <hop> <from>CONTRACT_MASTER DUP CHECK</from><to>Add constants 4</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>A-INVALID1</name>
@@ -1537,6 +1540,39 @@
     </step>
 
   <step>
+    <name>Add constants 2 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>No record exists to update</nullif>
+        <length>30</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>428</xloc>
+      <yloc>336</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Add constants 3</name>
     <type>Constant</type>
     <description/>
@@ -2239,6 +2275,308 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>551</xloc>
       <yloc>1500</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>C-INVALID2 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_CONTRACT_HEADER</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_NO</column_name>
+          <stream_name>CONTRACT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_NAME</column_name>
+          <stream_name>CONTRACT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_TYPE</column_name>
+          <stream_name>CONTRACT_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_STATUS</column_name>
+          <stream_name>CONTRACT_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>DOC_TYPE</column_name>
+          <stream_name>DOC_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>DOC_CLASS</column_name>
+          <stream_name>DOC_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_NO</column_name>
+          <stream_name>COMPANY_NO</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_NAME</column_name>
+          <stream_name>COMPANY_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>TP_IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>TP_IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>TRADING_PARTNER_NO</column_name>
+          <stream_name>TRADING_PARTNER_NO</stream_name>
+        </field>
+        <field>
+          <column_name>TRADING_PARTNER_NAME</column_name>
+          <stream_name>TRADING_PARTNER_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>TP_CONTRACT_ID</column_name>
+          <stream_name>TP_CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>TP_CONTRACT_NAME</column_name>
+          <stream_name>TP_CONTRACT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>TRADE_CLASS</column_name>
+          <stream_name>TRADE_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>START_DATE</column_name>
+          <stream_name>START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>END_DATE</column_name>
+          <stream_name>END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>TERM</column_name>
+          <stream_name>TERM</stream_name>
+        </field>
+        <field>
+          <column_name>RENEGOTIATION_START_DATE</column_name>
+          <stream_name>RENEGOTIATION_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>RENEGOTIATION_END_DATE</column_name>
+          <stream_name>RENEGOTIATION_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PRICEPROTECTION_START_DATE</column_name>
+          <stream_name>PRICEPROTECTION_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PRICEPROTECTION_END_DATE</column_name>
+          <stream_name>PRICEPROTECTION_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADVANCE_NOTICE_DAYS</column_name>
+          <stream_name>ADVANCE_NOTICE_DAYS</stream_name>
+        </field>
+        <field>
+          <column_name>INSIDE_OWNER</column_name>
+          <stream_name>INSIDE_OWNER</stream_name>
+        </field>
+        <field>
+          <column_name>INSIDE_PHONE</column_name>
+          <stream_name>INSIDE_PHONE</stream_name>
+        </field>
+        <field>
+          <column_name>INSIDE_AUTHOR</column_name>
+          <stream_name>INSIDE_AUTHOR</stream_name>
+        </field>
+        <field>
+          <column_name>INSIDE_ADDITIONAL</column_name>
+          <stream_name>INSIDE_ADDITIONAL</stream_name>
+        </field>
+        <field>
+          <column_name>INSIDE_ADDITIONAL_NAME</column_name>
+          <stream_name>INSIDE_ADDITIONAL_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>INSIDE_ADDITIONAL_PHONE</column_name>
+          <stream_name>INSIDE_ADDITIONAL_PHONE</stream_name>
+        </field>
+        <field>
+          <column_name>OUTSIDE_OWNER</column_name>
+          <stream_name>OUTSIDE_OWNER</stream_name>
+        </field>
+        <field>
+          <column_name>OUTSIDE_PHONE</column_name>
+          <stream_name>OUTSIDE_PHONE</stream_name>
+        </field>
+        <field>
+          <column_name>OUTSIDE_AUTHOR</column_name>
+          <stream_name>OUTSIDE_AUTHOR</stream_name>
+        </field>
+        <field>
+          <column_name>OUTSIDE_ADDITIONAL</column_name>
+          <stream_name>OUTSIDE_ADDITIONAL</stream_name>
+        </field>
+        <field>
+          <column_name>OUTSIDE_ADDITIONAL_NAME</column_name>
+          <stream_name>OUTSIDE_ADDITIONAL_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>OUTSIDE_ADDITIONAL_PHONE</column_name>
+          <stream_name>OUTSIDE_ADDITIONAL_PHONE</stream_name>
+        </field>
+        <field>
+          <column_name>AFFILIATED_CONTRACT_INFO</column_name>
+          <stream_name>AFFILIATED_CONTRACT_INFO</stream_name>
+        </field>
+        <field>
+          <column_name>SHIPPING_TERMS</column_name>
+          <stream_name>SHIPPING_TERMS</stream_name>
+        </field>
+        <field>
+          <column_name>PROPOSAL_START_DATE</column_name>
+          <stream_name>PROPOSAL_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PROPOSAL_END_DATE</column_name>
+          <stream_name>PROPOSAL_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ORIGINAL_START_DATE</column_name>
+          <stream_name>ORIGINAL_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ORIGINAL_END_DATE</column_name>
+          <stream_name>ORIGINAL_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>AWARD_STATUS</column_name>
+          <stream_name>AWARD_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>LAST_UPDATED_DATE</column_name>
+          <stream_name>LAST_UPDATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_ESCALATION_CLAUSE</column_name>
+          <stream_name>PRICE_ESCALATION_CLAUSE</stream_name>
+        </field>
+        <field>
+          <column_name>EXEMPT_FROM_LOW_PRICE</column_name>
+          <stream_name>EXEMPT_FROM_LOW_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_RESET_INDICATOR</column_name>
+          <stream_name>PRICE_RESET_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>CANCELLATION_CLAUSE</column_name>
+          <stream_name>CANCELLATION_CLAUSE</stream_name>
+        </field>
+        <field>
+          <column_name>MOST_FAVORED_NATION</column_name>
+          <stream_name>MOST_FAVORED_NATION</stream_name>
+        </field>
+        <field>
+          <column_name>CATEGORY</column_name>
+          <stream_name>CATEGORY</stream_name>
+        </field>
+        <field>
+          <column_name>CURRENCY</column_name>
+          <stream_name>CURRENCY</stream_name>
+        </field>
+        <field>
+          <column_name>MINIMUM_ORDER</column_name>
+          <stream_name>MINIMUM_ORDER</stream_name>
+        </field>
+        <field>
+          <column_name>PAYMENT_TERMS</column_name>
+          <stream_name>PAYMENT_TERMS</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ALIAS_NO</column_name>
+          <stream_name>CONTRACT_ALIAS_NO</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ALIAS_NAME</column_name>
+          <stream_name>CONTRACT_ALIAS_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_HEADER_INTFID</column_name>
+          <stream_name>CONTRACT_HEADER_INTFID</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>COMPANY_IDENT_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ELIGIBLE_DATE</column_name>
+          <stream_name>FORECAST_ELIGIBILITY_DATE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>426</xloc>
+      <yloc>486</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3022,6 +3360,48 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>712</xloc>
       <yloc>244</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>CONTRACT_MASTER lookup </name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>CONTRACT_MASTER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>CONTRACT_ID</name>
+        <field>CONTRACT_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>CONTRACT_MASTER_SID</name>
+        <rename>CONTRACT_MASTER_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>549</xloc>
+      <yloc>325</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -8685,7 +9065,7 @@
     </step>
 
   <step>
-    <name>Database lookup 2 2</name>
+    <name>CONTRACT_MASTER DUP CHECK</name>
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
@@ -8720,47 +9100,14 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>549</xloc>
-      <yloc>325</yloc>
+      <xloc>243</xloc>
+      <yloc>555</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Add constants 2 2</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>Reason_For_Failure</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>No record exists to update</nullif>
-        <length>30</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>428</xloc>
-      <yloc>336</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>C-INVALID2 2</name>
+    <name>Dupliacte Contract ID</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -8788,6 +9135,10 @@
     <return_keys>N</return_keys>
     <return_field/>
     <fields>
+        <field>
+          <column_name>CONTRACT_HEADER_INTFID</column_name>
+          <stream_name>CONTRACT_HEADER_INTFID</stream_name>
+        </field>
         <field>
           <column_name>ORGANIZATION_KEY</column_name>
           <stream_name>ORGANIZATION_KEY</stream_name>
@@ -8819,6 +9170,10 @@
         <field>
           <column_name>DOC_CLASS</column_name>
           <stream_name>DOC_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_IDENT_CODE_QUALIFIER</column_name>
+          <stream_name>COMPANY_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
           <column_name>COMPANY_NO</column_name>
@@ -9025,10 +9380,6 @@
           <stream_name>MODIFIED_DATE</stream_name>
         </field>
         <field>
-          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
-          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
-        </field>
-        <field>
           <column_name>BATCH_ID</column_name>
           <stream_name>BATCH_ID</stream_name>
         </field>
@@ -9037,16 +9388,12 @@
           <stream_name>SOURCE</stream_name>
         </field>
         <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
           <column_name>REASON_FOR_FAILURE</column_name>
           <stream_name>Reason_For_Failure</stream_name>
-        </field>
-        <field>
-          <column_name>CONTRACT_HEADER_INTFID</column_name>
-          <stream_name>CONTRACT_HEADER_INTFID</stream_name>
-        </field>
-        <field>
-          <column_name>COMPANY_IDENT_CODE_QUALIFIER</column_name>
-          <stream_name>COMPANY_IDENT_CODE_QUALIFIER</stream_name>
         </field>
         <field>
           <column_name>CONTRACT_ELIGIBLE_DATE</column_name>
@@ -9055,8 +9402,41 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>426</xloc>
-      <yloc>486</yloc>
+      <xloc>402</xloc>
+      <yloc>694</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants 4</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Record</nullif>
+        <length>50</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>403</xloc>
+      <yloc>576</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -9114,6 +9494,18 @@
         <source_step>Database lookup 2</source_step>
         <target_step/>
         <is_enabled>N</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>CONTRACT_MASTER lookup </source_step>
+        <target_step>Add constants 2 2</target_step>
+        <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
         <fields_valuename/>
@@ -9231,8 +9623,8 @@
         <min_pct_rows/>
       </error>
       <error>
-        <source_step>Database lookup 2 2</source_step>
-        <target_step>Add constants 2 2</target_step>
+        <source_step>CONTRACT_MASTER DUP CHECK</source_step>
+        <target_step>CONTRACT_TYPE</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>

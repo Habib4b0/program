@@ -135,7 +135,7 @@
   <hop> <from>CFP_DESIGNATION</from><to>CFP_CATEGORY</to><enabled>N</enabled> </hop>
   <hop> <from>ADD BATCH DUPLCIATION </from><to>InboundStatus  2 2 2</to><enabled>Y</enabled> </hop>
   <hop> <from>CFP_DET_ATT</from><to>Update</to><enabled>Y</enabled> </hop>
-  <hop> <from>Update</from><to>Duplicate Reason</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update</from><to>Duplicate Reason</to><enabled>N</enabled> </hop>
   <hop> <from>COMPANY MASTER LOOK UP 2</from><to>CONTRACT_ID LOOKUP 2</to><enabled>N</enabled> </hop>
   <hop> <from>COMPANY MASTER LOOK UP 2</from><to>Invalid Company</to><enabled>N</enabled> </hop>
   <hop> <from>CFP_CATEGORY</from><to>COMP TRADE CLASS</to><enabled>N</enabled> </hop>
@@ -170,10 +170,15 @@
   <hop> <from>Add constants 3 3</from><to>DELETE SORT</to><enabled>Y</enabled> </hop>
   <hop> <from>DELETE SORT</from><to>DELETE BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>
   <hop> <from>GET CFP CONTRACT SID</from><to>CFP_DET_ATT</to><enabled>Y</enabled> </hop>
-  <hop> <from>InboundStatus  2 2 2</from><to>CFP_DET_ATT 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>CFP_DET_ATT 2</from><to>WAIT 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Duplicate Reason 2</from><to>A-INVALID4 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>CFP_DET_ATT 2</from><to>Duplicate Reason 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>InboundStatus  2 2 2</from><to>CFP_CONTRACT_DETAILS Check</to><enabled>N</enabled> </hop>
+  <hop> <from>Duplicate Reason 2</from><to>CFP_CONTRACT_DUP</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET CFP CONTRACT SID 2</from><to>CFP_CONTRACT_DETAILS Check</to><enabled>Y</enabled> </hop>
+  <hop> <from>InboundStatus  2 2 2</from><to>CFP MODEL LOOKUP 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>CFP MODEL LOOKUP 2</from><to>GET CFP CONTRACT SID 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>CFP_CONTRACT_DETAILS Check</from><to>CFP_CONTRACT_DETAILS Inbound Check </to><enabled>Y</enabled> </hop>
+  <hop> <from>CFP_CONTRACT_DETAILS Check</from><to>WAIT 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>CFP_CONTRACT_DETAILS Inbound Check </from><to>WAIT 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>CFP_CONTRACT_DETAILS Inbound Check </from><to>Duplicate Reason 2</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>A-INVALID1</name>
@@ -903,6 +908,192 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>2049</xloc>
       <yloc>2152</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>CFP_CONTRACT_DUP</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_CFP</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>ATTACHED_DATE</column_name>
+          <stream_name>ATTACHED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ATTACHED_STATUS</column_name>
+          <stream_name>ATTACHED_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_CATEGORY</column_name>
+          <stream_name>CFP_CATEGORY</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_DESIGNATION</column_name>
+          <stream_name>CFP_DESIGNATION</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_END_DATE</column_name>
+          <stream_name>CFP_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_ID</column_name>
+          <stream_name>CFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_INTFID</column_name>
+          <stream_name>CFP_INTFID</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_NAME</column_name>
+          <stream_name>CFP_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_NO</column_name>
+          <stream_name>CFP_NO</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_START_DATE</column_name>
+          <stream_name>CFP_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_STATUS</column_name>
+          <stream_name>CFP_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_TRADE_CLASS</column_name>
+          <stream_name>CFP_TRADE_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_TYPE</column_name>
+          <stream_name>CFP_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>END_DATE</column_name>
+          <stream_name>END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_CFP_ID</column_name>
+          <stream_name>PARENT_CFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_CFP_NAME</column_name>
+          <stream_name>PARENT_CFP_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>START_DATE</column_name>
+          <stream_name>START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>TRADE_CLASS</column_name>
+          <stream_name>TRADE_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>TRADE_CLASS_END_DATE</column_name>
+          <stream_name>TRADE_CLASS_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>TRADE_CLASS_START_DATE</column_name>
+          <stream_name>TRADE_CLASS_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>TRADING_PARTNER_CONTRACT_NO</column_name>
+          <stream_name>TRADING_PARTNER_CONTRACT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>TRADING_PARTNER_ID</column_name>
+          <stream_name>TRADING_PARTNER_ID</stream_name>
+        </field>
+        <field>
+          <column_name>TRADING_PARTNER_NAME</column_name>
+          <stream_name>TRADING_PARTNER_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>TRADING_PARTNER_NO</column_name>
+          <stream_name>TRADING_PARTNER_NO</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_INCLUSION</column_name>
+          <stream_name>SALES_INCLUSION</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_ELIGIBILITY_DATE</column_name>
+          <stream_name>FORECAST_ELIGIBILITY_DATE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1654</xloc>
+      <yloc>671</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2344,8 +2535,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1886</xloc>
-      <yloc>1857</yloc>
+      <xloc>1885</xloc>
+      <yloc>1859</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2400,6 +2591,60 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>2162</xloc>
       <yloc>1897</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>CFP_CONTRACT_DETAILS Check</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>CFP_CONTRACT_DETAILS</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>CFP_CONTRACT_SID</name>
+        <field>CFP_CONTRACT_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>COMPANY_MASTER_SID</name>
+        <field>COMPANY_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>START_DATE</name>
+        <field>COMPANY_START_DATE</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>CFP_CONTRACT_DETAILS_SID</name>
+        <rename>CFP_CONTRACT_DETAILS_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1990</xloc>
+      <yloc>630</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2782,7 +3027,7 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1932</xloc>
+      <xloc>1929</xloc>
       <yloc>1548</yloc>
       <draw>Y</draw>
       </GUI>
@@ -3451,6 +3696,39 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>2047</xloc>
       <yloc>2066</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Duplicate Reason 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Record</nullif>
+        <length>50</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1652</xloc>
+      <yloc>585</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -4513,7 +4791,103 @@
     </step>
 
   <step>
-    <name>CFP_DET_ATT 2</name>
+    <name>GET CFP CONTRACT SID 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>CFP_CONTRACT</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>CFP_MODEL_SID</name>
+        <field>CFP_MODEL_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>CONTRACT_MASTER_SID</name>
+        <field>CONTRACT_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>Inbound_Status</name>
+        <field>INBOUND_STATUS</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>CFP_CONTRACT_SID</name>
+        <rename>CFP_CONTRACT_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2051</xloc>
+      <yloc>544</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>CFP MODEL LOOKUP 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>CFP_MODEL</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>CFP_ID</name>
+        <field>CFP_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>CFP_MODEL_SID</name>
+        <rename>CFP_MODEL_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2063</xloc>
+      <yloc>461</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>CFP_CONTRACT_DETAILS Inbound Check </name>
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
@@ -4566,227 +4940,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1915</xloc>
-      <yloc>629</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>A-INVALID4 2</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <schema/>
-    <table>IVLD_CFP</table>
-    <commit>10000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>N</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
-          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
-        </field>
-        <field>
-          <column_name>ATTACHED_DATE</column_name>
-          <stream_name>ATTACHED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>ATTACHED_STATUS</column_name>
-          <stream_name>ATTACHED_STATUS</stream_name>
-        </field>
-        <field>
-          <column_name>BATCH_ID</column_name>
-          <stream_name>BATCH_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_CATEGORY</column_name>
-          <stream_name>CFP_CATEGORY</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_DESIGNATION</column_name>
-          <stream_name>CFP_DESIGNATION</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_END_DATE</column_name>
-          <stream_name>CFP_END_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_ID</column_name>
-          <stream_name>CFP_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_INTFID</column_name>
-          <stream_name>CFP_INTFID</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_NAME</column_name>
-          <stream_name>CFP_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_NO</column_name>
-          <stream_name>CFP_NO</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_START_DATE</column_name>
-          <stream_name>CFP_START_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_STATUS</column_name>
-          <stream_name>CFP_STATUS</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_TRADE_CLASS</column_name>
-          <stream_name>CFP_TRADE_CLASS</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_TYPE</column_name>
-          <stream_name>CFP_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>CONTRACT_ID</column_name>
-          <stream_name>CONTRACT_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_BY</column_name>
-          <stream_name>CREATED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_DATE</column_name>
-          <stream_name>CREATED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>END_DATE</column_name>
-          <stream_name>END_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>IDENTIFIER_CODE_QUALIFIER</column_name>
-          <stream_name>IDENTIFIER_CODE_QUALIFIER</stream_name>
-        </field>
-        <field>
-          <column_name>INTERNAL_NOTES</column_name>
-          <stream_name>INTERNAL_NOTES</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_BY</column_name>
-          <stream_name>MODIFIED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_DATE</column_name>
-          <stream_name>MODIFIED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>PARENT_CFP_ID</column_name>
-          <stream_name>PARENT_CFP_ID</stream_name>
-        </field>
-        <field>
-          <column_name>PARENT_CFP_NAME</column_name>
-          <stream_name>PARENT_CFP_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>REASON_FOR_FAILURE</column_name>
-          <stream_name>Reason_For_Failure</stream_name>
-        </field>
-        <field>
-          <column_name>SOURCE</column_name>
-          <stream_name>SOURCE</stream_name>
-        </field>
-        <field>
-          <column_name>START_DATE</column_name>
-          <stream_name>START_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>TRADE_CLASS</column_name>
-          <stream_name>TRADE_CLASS</stream_name>
-        </field>
-        <field>
-          <column_name>TRADE_CLASS_END_DATE</column_name>
-          <stream_name>TRADE_CLASS_END_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>TRADE_CLASS_START_DATE</column_name>
-          <stream_name>TRADE_CLASS_START_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>TRADING_PARTNER_CONTRACT_NO</column_name>
-          <stream_name>TRADING_PARTNER_CONTRACT_NO</stream_name>
-        </field>
-        <field>
-          <column_name>TRADING_PARTNER_ID</column_name>
-          <stream_name>TRADING_PARTNER_ID</stream_name>
-        </field>
-        <field>
-          <column_name>TRADING_PARTNER_NAME</column_name>
-          <stream_name>TRADING_PARTNER_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>TRADING_PARTNER_NO</column_name>
-          <stream_name>TRADING_PARTNER_NO</stream_name>
-        </field>
-        <field>
-          <column_name>SALES_INCLUSION</column_name>
-          <stream_name>SALES_INCLUSION</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_ELIGIBILITY_DATE</column_name>
-          <stream_name>FORECAST_ELIGIBILITY_DATE</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1736</xloc>
-      <yloc>719</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Duplicate Reason 2</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>Reason_For_Failure</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>Duplicate Record</nullif>
-        <length>50</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1734</xloc>
-      <yloc>633</yloc>
+      <xloc>1818</xloc>
+      <yloc>667</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -4843,6 +4998,18 @@
       <error>
         <source_step>CFP_DET_ATT</source_step>
         <target_step>CFP op</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>CFP_CONTRACT_DETAILS Check</source_step>
+        <target_step>WAIT 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -4913,8 +5080,8 @@
         <min_pct_rows/>
       </error>
       <error>
-        <source_step>CFP_DET_ATT 2</source_step>
-        <target_step>WAIT 2</target_step>
+        <source_step>CFP_CONTRACT_DETAILS Inbound Check </source_step>
+        <target_step>Duplicate Reason 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>

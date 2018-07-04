@@ -144,7 +144,7 @@
   <hop> <from>Audit Status 2</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
   <hop> <from>Invalid Contract</from><to>A-INVALID2</to><enabled>N</enabled> </hop>
   <hop> <from>Invalid Item</from><to>A-INVALID3</to><enabled>N</enabled> </hop>
-  <hop> <from>Duplicate Reason</from><to>A-INVALID4</to><enabled>Y</enabled> </hop>
+  <hop> <from>Duplicate Reason</from><to>A-INVALID4</to><enabled>N</enabled> </hop>
   <hop> <from>WAIT 2</from><to>ITEM ID CHECK</to><enabled>N</enabled> </hop>
   <hop> <from>GET CFP MODEL SID</from><to>GET CFP CONTRACT SID</to><enabled>Y</enabled> </hop>
   <hop> <from>Sort rows</from><to>IFP_MAS</to><enabled>Y</enabled> </hop>
@@ -178,7 +178,7 @@
   <hop> <from>ADD BATCH DUPLCIATION </from><to>Inbound Status 2 2</to><enabled>Y</enabled> </hop>
   <hop> <from>GET CFP CONTRACT SID</from><to>IFP_STATUS</to><enabled>N</enabled> </hop>
   <hop> <from>IFP_CONT_DET</from><to>Update 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Update 3</from><to>Duplicate Reason</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update 3</from><to>Duplicate Reason</to><enabled>N</enabled> </hop>
   <hop> <from>ITEM ID CHECK</from><to>CONTRACT_ID CHECK</to><enabled>N</enabled> </hop>
   <hop> <from>ITEM ID CHECK</from><to>Invalid Item</to><enabled>N</enabled> </hop>
   <hop> <from>CONTRACT_ID CHECK</from><to>Invalid Contract</to><enabled>N</enabled> </hop>
@@ -197,7 +197,7 @@
   <hop> <from>IFP CONTRACT DET</from><to>Duplicate Reason 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants 3 2</from><to>ADD BATCH DUPLCIATION </to><enabled>N</enabled> </hop>
   <hop> <from>Add constants 3</from><to>DELETE BATCH DUPLCIATION</to><enabled>N</enabled> </hop>
-  <hop> <from>GET CFP CONTRACT SID</from><to>Dummy &#x28;do nothing&#x29; 5</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET CFP CONTRACT SID</from><to>Dummy &#x28;do nothing&#x29; 5</to><enabled>N</enabled> </hop>
   <hop> <from>WAIT 2</from><to>Filter rows</to><enabled>Y</enabled> </hop>
   <hop> <from>Switch &#x2f; Case</from><to>Add constants 3</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants 3</from><to>DELETE SORT</to><enabled>Y</enabled> </hop>
@@ -206,11 +206,14 @@
   <hop> <from>Add constants 3 2</from><to>ADD SORT </to><enabled>Y</enabled> </hop>
   <hop> <from>ADD SORT </from><to>ADD BATCH DUPLCIATION </to><enabled>Y</enabled> </hop>
   <hop> <from>Duplicate Reason 3</from><to>A-INVALID4 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Inbound Status 2 2</from><to>IFP_CONT_DET 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>IFP_CONT_DET 2 2</from><to>WAIT 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>IFP_CONT_DET 2 2</from><to>IFP_CONT_DET 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>IFP_CONT_DET 2</from><to>WAIT 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>IFP_CONT_DET 2</from><to>Duplicate Reason 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_CONTRACT_DETAILS Lookup</from><to>IFP_CONTRACT_DETAILS  2</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_CONTRACT_DETAILS  2</from><to>Duplicate Reason 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Inbound Status 2 2</from><to>WAIT 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET CFP CONTRACT SID</from><to>GET IFP MODEL SID 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET IFP MODEL SID 1</from><to>GET IFP CONTRACT SID 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET IFP CONTRACT SID 1</from><to>IFP_CONTRACT_DETAILS Lookup</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_CONTRACT_DETAILS Lookup</from><to>Dummy &#x28;do nothing&#x29; 5</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_CONTRACT_DETAILS  2</from><to>Dummy &#x28;do nothing&#x29; 5</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>A-INVALID1</name>
@@ -1082,6 +1085,180 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1517</xloc>
       <yloc>2036</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>A-INVALID4 3</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_IFP</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ATTACHED_STATUS</column_name>
+          <stream_name>ATTACHED_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>ATTACHED_DATE</column_name>
+          <stream_name>ATTACHED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>START_DATE</column_name>
+          <stream_name>START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>END_DATE</column_name>
+          <stream_name>END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>TOTAL_VOLUME_COMMITMENT</column_name>
+          <stream_name>TOTAL_VOLUME_COMMITMENT</stream_name>
+        </field>
+        <field>
+          <column_name>TOTAL_DOLLAR_COMMITMENT</column_name>
+          <stream_name>TOTAL_DOLLAR_COMMITMENT</stream_name>
+        </field>
+        <field>
+          <column_name>TOTAL_MARKETSHARE_COMMITMENT</column_name>
+          <stream_name>TOTAL_MARKETSHARE_COMMITMENT</stream_name>
+        </field>
+        <field>
+          <column_name>COMMITMENT_PERIOD</column_name>
+          <stream_name>COMMITMENT_PERIOD</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_INTFID</column_name>
+          <stream_name>IFP_INTFID</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_ID</column_name>
+          <stream_name>IFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_NO</column_name>
+          <stream_name>IFP_NO</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_NAME</column_name>
+          <stream_name>IFP_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_TYPE</column_name>
+          <stream_name>IFP_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_CATEGORY</column_name>
+          <stream_name>IFP_CATEGORY</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_DESIGNATION</column_name>
+          <stream_name>IFP_DESIGNATION</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_IFP_ID</column_name>
+          <stream_name>PARENT_IFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_IFP_NAME</column_name>
+          <stream_name>PARENT_IFP_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_STATUS</column_name>
+          <stream_name>IFP_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_START_DATE</column_name>
+          <stream_name>IFP_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_END_DATE</column_name>
+          <stream_name>IFP_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_ID</column_name>
+          <stream_name>CFP_ID</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1373</xloc>
+      <yloc>1202</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2388,6 +2565,39 @@
     </step>
 
   <step>
+    <name>Duplicate Reason 3</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Record</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1372</xloc>
+      <yloc>1081</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Filter rows</name>
     <type>FilterRows</type>
     <description/>
@@ -3467,6 +3677,120 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1330</xloc>
       <yloc>1780</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>IFP_CONTRACT_DETAILS  2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>IFP_CONTRACT_DETAILS</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>IFP_CONTRACT_SID</name>
+        <field>IFP_CONTRACT_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>ITEM_MASTER_SID</name>
+        <field>ITEM_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>START_DATE</name>
+        <field>ITEM_START_DATE</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>D_INBOUND_STATUS</name>
+        <field>INBOUND_STATUS</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>IFP_CONTRACT_DETAILS_SID</name>
+        <rename>IFP_CONTRACT_DETAILS_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1218</xloc>
+      <yloc>1058</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>IFP_CONTRACT_DETAILS Lookup</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>IFP_CONTRACT_DETAILS</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>IFP_CONTRACT_SID</name>
+        <field>IFP_CONTRACT_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>ITEM_MASTER_SID</name>
+        <field>ITEM_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>START_DATE</name>
+        <field>ITEM_START_DATE</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>IFP_CONTRACT_DETAILS_SID</name>
+        <rename>IFP_CONTRACT_DETAILS_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1029</xloc>
+      <yloc>1058</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -4978,8 +5302,8 @@
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1204</xloc>
-      <yloc>1864</yloc>
+      <xloc>1203</xloc>
+      <yloc>1863</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -5032,8 +5356,8 @@
       </steps>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>968</xloc>
-      <yloc>696</yloc>
+      <xloc>813</xloc>
+      <yloc>599</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -5068,7 +5392,7 @@
     </step>
 
   <step>
-    <name>IFP_CONT_DET 2</name>
+    <name>GET IFP MODEL SID 1</name>
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
@@ -5084,261 +5408,42 @@
     <cache_size>0</cache_size>
     <lookup>
       <schema/>
-      <table>IFP_CONTRACT_DETAILS</table>
+      <table>IFP_MODEL</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
       <eat_row_on_failure>N</eat_row_on_failure>
       <key>
-        <name>IFP_CONTRACT_SID</name>
-        <field>IFP_CONTRACT_SID</field>
-        <condition>&#x3d;</condition>
+        <name>IFP_ID</name>
+        <field>IFP_ID</field>
+        <condition>LIKE</condition>
         <name2/>
       </key>
       <key>
-        <name>ITEM_MASTER_SID</name>
-        <field>ITEM_MASTER_SID</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>START_DATE</name>
-        <field>ITEM_START_DATE</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>D_INBOUND_STATUS</name>
+        <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
-        <name>IFP_CONTRACT_DETAILS_SID</name>
-        <rename>IFP_CONTRACT_DETAILS_SID</rename>
+        <name>IFP_MODEL_SID</name>
+        <rename>IFP_MODEL_SID</rename>
         <default/>
         <type>Integer</type>
       </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1121</xloc>
-      <yloc>525</yloc>
+      <xloc>774</xloc>
+      <yloc>953</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>A-INVALID4 3</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <schema/>
-    <table>IVLD_IFP</table>
-    <commit>10000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>N</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>ITEM_ID</column_name>
-          <stream_name>ITEM_ID</stream_name>
-        </field>
-        <field>
-          <column_name>IDENTIFIER_CODE_QUALIFIER</column_name>
-          <stream_name>IDENTIFIER_CODE_QUALIFIER</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_NO</column_name>
-          <stream_name>ITEM_NO</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_NAME</column_name>
-          <stream_name>ITEM_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>ATTACHED_STATUS</column_name>
-          <stream_name>ATTACHED_STATUS</stream_name>
-        </field>
-        <field>
-          <column_name>ATTACHED_DATE</column_name>
-          <stream_name>ATTACHED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>START_DATE</column_name>
-          <stream_name>START_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>END_DATE</column_name>
-          <stream_name>END_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>TOTAL_VOLUME_COMMITMENT</column_name>
-          <stream_name>TOTAL_VOLUME_COMMITMENT</stream_name>
-        </field>
-        <field>
-          <column_name>TOTAL_DOLLAR_COMMITMENT</column_name>
-          <stream_name>TOTAL_DOLLAR_COMMITMENT</stream_name>
-        </field>
-        <field>
-          <column_name>TOTAL_MARKETSHARE_COMMITMENT</column_name>
-          <stream_name>TOTAL_MARKETSHARE_COMMITMENT</stream_name>
-        </field>
-        <field>
-          <column_name>COMMITMENT_PERIOD</column_name>
-          <stream_name>COMMITMENT_PERIOD</stream_name>
-        </field>
-        <field>
-          <column_name>CONTRACT_ID</column_name>
-          <stream_name>CONTRACT_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_BY</column_name>
-          <stream_name>CREATED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_DATE</column_name>
-          <stream_name>CREATED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_BY</column_name>
-          <stream_name>MODIFIED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_DATE</column_name>
-          <stream_name>MODIFIED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
-          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
-        </field>
-        <field>
-          <column_name>BATCH_ID</column_name>
-          <stream_name>BATCH_ID</stream_name>
-        </field>
-        <field>
-          <column_name>SOURCE</column_name>
-          <stream_name>SOURCE</stream_name>
-        </field>
-        <field>
-          <column_name>REASON_FOR_FAILURE</column_name>
-          <stream_name>Reason_For_Failure</stream_name>
-        </field>
-        <field>
-          <column_name>IFP_INTFID</column_name>
-          <stream_name>IFP_INTFID</stream_name>
-        </field>
-        <field>
-          <column_name>IFP_ID</column_name>
-          <stream_name>IFP_ID</stream_name>
-        </field>
-        <field>
-          <column_name>IFP_NO</column_name>
-          <stream_name>IFP_NO</stream_name>
-        </field>
-        <field>
-          <column_name>IFP_NAME</column_name>
-          <stream_name>IFP_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>IFP_TYPE</column_name>
-          <stream_name>IFP_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>IFP_CATEGORY</column_name>
-          <stream_name>IFP_CATEGORY</stream_name>
-        </field>
-        <field>
-          <column_name>IFP_DESIGNATION</column_name>
-          <stream_name>IFP_DESIGNATION</stream_name>
-        </field>
-        <field>
-          <column_name>PARENT_IFP_ID</column_name>
-          <stream_name>PARENT_IFP_ID</stream_name>
-        </field>
-        <field>
-          <column_name>PARENT_IFP_NAME</column_name>
-          <stream_name>PARENT_IFP_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>IFP_STATUS</column_name>
-          <stream_name>IFP_STATUS</stream_name>
-        </field>
-        <field>
-          <column_name>IFP_START_DATE</column_name>
-          <stream_name>IFP_START_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>IFP_END_DATE</column_name>
-          <stream_name>IFP_END_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_ID</column_name>
-          <stream_name>CFP_ID</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1266</xloc>
-      <yloc>660</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Duplicate Reason 3</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>Reason_For_Failure</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>Duplicate Record</nullif>
-        <length>40</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1265</xloc>
-      <yloc>539</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>IFP_CONT_DET 2 2</name>
+    <name>GET IFP CONTRACT SID 1</name>
     <type>DBLookup</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -5351,39 +5456,45 @@
     <cache_size>0</cache_size>
     <lookup>
       <schema/>
-      <table>IFP_CONTRACT_DETAILS</table>
+      <table>IFP_CONTRACT</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
       <eat_row_on_failure>N</eat_row_on_failure>
       <key>
-        <name>IFP_CONTRACT_SID</name>
-        <field>IFP_CONTRACT_SID</field>
+        <name>CFP_CONTRACT_SID</name>
+        <field>CFP_CONTRACT_SID</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
-        <name>ITEM_MASTER_SID</name>
-        <field>ITEM_MASTER_SID</field>
+        <name>CONTRACT_MASTER_SID</name>
+        <field>CONTRACT_MASTER_SID</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
-        <name>START_DATE</name>
-        <field>ITEM_START_DATE</field>
+        <name>IFP_MODEL_SID</name>
+        <field>IFP_MODEL_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>Inbound_Status</name>
+        <field>INBOUND_STATUS</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
-        <name>IFP_CONTRACT_DETAILS_SID</name>
-        <rename>IFP_CONTRACT_DETAILS_SID</rename>
+        <name>IFP_CONTRACT_SID</name>
+        <rename>IFP_CONTRACT_SID</rename>
         <default/>
         <type>Integer</type>
       </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>917</xloc>
-      <yloc>528</yloc>
+      <xloc>936</xloc>
+      <yloc>964</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -5486,6 +5597,30 @@
         <min_pct_rows/>
       </error>
       <error>
+        <source_step>IFP_CONTRACT_DETAILS  2</source_step>
+        <target_step>Duplicate Reason 3</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>IFP_CONTRACT_DETAILS Lookup</source_step>
+        <target_step>Dummy &#x28;do nothing&#x29; 5</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
         <source_step>IFP_DET</source_step>
         <target_step>IFP DETAILS</target_step>
         <is_enabled>Y</is_enabled>
@@ -5536,30 +5671,6 @@
       <error>
         <source_step>Update 3</source_step>
         <target_step>Duplicate Reason</target_step>
-        <is_enabled>Y</is_enabled>
-        <nr_valuename/>
-        <descriptions_valuename/>
-        <fields_valuename/>
-        <codes_valuename/>
-        <max_errors/>
-        <max_pct_errors/>
-        <min_pct_rows/>
-      </error>
-      <error>
-        <source_step>IFP_CONT_DET 2</source_step>
-        <target_step>Duplicate Reason 3</target_step>
-        <is_enabled>Y</is_enabled>
-        <nr_valuename/>
-        <descriptions_valuename/>
-        <fields_valuename/>
-        <codes_valuename/>
-        <max_errors/>
-        <max_pct_errors/>
-        <min_pct_rows/>
-      </error>
-      <error>
-        <source_step>IFP_CONT_DET 2 2</source_step>
-        <target_step>WAIT 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
