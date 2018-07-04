@@ -24,7 +24,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
  * @author Mahesh.James
  */
 public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigLoader {
-
+	
 	private static Map<String, GtnWsSearchQueryConfig> searchQueryConfigMap = new HashMap<>();
 
 	static {
@@ -237,7 +237,8 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 	}
 
 	public static void loadPSPriceTabViewQueryConfig() {
-
+		
+		
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
 		GtnWsSearchQueryConfig gtnWebServiceSearchQueryContext = new GtnWsSearchQueryConfig();
 
@@ -273,19 +274,20 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 				configProvider.getColumnStringConfig("PS_DETAILS_SID", GtnFrameworkWebserviceConstant.IMPSD));
 		itemPriceTabColumnDetailsMap.put("IMPSD.PS_MODEL_SID", configProvider.getColumnIntegerConfig(
 				GtnFrameworkWebserviceConstant.PS_MODEL_SID, GtnFrameworkWebserviceConstant.IMPSD));
-
+		
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(itemPriceTabColumnDetailsMap);
 
 		List<GtnWebServiceOrderByCriteria> cDROrderByClauseList = new ArrayList<>();
 		cDROrderByClauseList.add(new GtnWebServiceOrderByCriteria("im.ITEM_NO", "ASC"));
 		gtnWebServiceSearchQueryContext.setOrderByClause(cDROrderByClauseList);
-
+		
 		gtnWebServiceSearchQueryContext.setCountQuery(
-				" FROM	PS_DETAILS IMPSD JOIN BRAND_MASTER BM ON	BM.BRAND_MASTER_SID = IMPSD.BRAND_MASTER_SID JOIN item_master im on 	im.ITEM_MASTER_SID = impsd.ITEM_MASTER_SID JOIN dbo.HELPER_TABLE HTStatus on	htstatus.HELPER_TABLE_SID = impsd.ITEM_PS_ATTACHED_STATUS JOIN dbo.ITEM_PRICING_QUALIFIER HTPSTYPE on	HTPSTYPE.ITEM_PRICING_QUALIFIER_SID = impsd.ITEM_PRICING_QUALIFIER_SID  ");
+				" FROM PS_DETAILS IMPSD JOIN BRAND_MASTER BM ON BM.BRAND_MASTER_SID = IMPSD.BRAND_MASTER_SID JOIN item_master im on 	im.ITEM_MASTER_SID = impsd.ITEM_MASTER_SID LEFT JOIN dbo.HELPER_TABLE HTStatus on	htstatus.HELPER_TABLE_SID = impsd.STATUS JOIN dbo.ITEM_PRICING_QUALIFIER HTPSTYPE on	HTPSTYPE.ITEM_PRICING_QUALIFIER_SID = impsd.ITEM_PRICING_QUALIFIER_SID  ");
 
 		gtnWebServiceSearchQueryContext.setSearchQuery(
-				"  FROM	PS_DETAILS IMPSD JOIN BRAND_MASTER BM ON	BM.BRAND_MASTER_SID = IMPSD.BRAND_MASTER_SID JOIN item_master im on 	im.ITEM_MASTER_SID = impsd.ITEM_MASTER_SID JOIN dbo.HELPER_TABLE HTStatus on	htstatus.HELPER_TABLE_SID = impsd.ITEM_PS_ATTACHED_STATUS JOIN dbo.ITEM_PRICING_QUALIFIER HTPSTYPE on	HTPSTYPE.ITEM_PRICING_QUALIFIER_SID = impsd.ITEM_PRICING_QUALIFIER_SID  ");
+				"  FROM	PS_DETAILS IMPSD JOIN BRAND_MASTER BM ON BM.BRAND_MASTER_SID = IMPSD.BRAND_MASTER_SID JOIN item_master im on 	im.ITEM_MASTER_SID = impsd.ITEM_MASTER_SID LEFT JOIN dbo.HELPER_TABLE HTStatus on	htstatus.HELPER_TABLE_SID = impsd.STATUS JOIN dbo.ITEM_PRICING_QUALIFIER HTPSTYPE on	HTPSTYPE.ITEM_PRICING_QUALIFIER_SID = impsd.ITEM_PRICING_QUALIFIER_SID  ");
 		gtnWebServiceSearchQueryContext.setWhereClauseList(Arrays.asList("ADD_COPY_INDICATOR is null"));
+		
 		searchQueryConfigMap.put("priceSchedulePriceView", gtnWebServiceSearchQueryContext);
 
 	}

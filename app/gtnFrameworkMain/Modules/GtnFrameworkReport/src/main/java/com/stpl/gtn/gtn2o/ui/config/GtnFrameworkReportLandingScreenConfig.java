@@ -664,6 +664,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		generateAction.addActionParameter("reportLandingScreen_STATUS");
 		generateAction.addActionParameter("variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent");
 		generateAction.addActionParameter("reportLandingScreen_displaySelectionTabVariable");	
+		generateAction.addActionParameter("reportLandingScreen_privateViews");
+		generateAction.addActionParameter("reportLandingScreen_publicViews");
 		actionList.add(generateAction);
 
 		generateBtn.setGtnUIFrameWorkActionConfigList(actionList);

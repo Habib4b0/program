@@ -1,0 +1,12 @@
+<VerticalLayout>
+        
+    <TabSheet id="abstractTabSheet" immediate="true">
+                       
+    </TabSheet>
+    <HorizontalLayout id="BottomBtnLayout" spacing="true" margin="true" >       
+        <Button id="previousBtn" caption="PREVIOUS"></Button>
+        <Button id="nextBtn" caption="NEXT"></Button>
+        <Button id="closeBtn" caption="CLOSE"></Button>
+    </HorizontalLayout>
+        
+</VerticalLayout>

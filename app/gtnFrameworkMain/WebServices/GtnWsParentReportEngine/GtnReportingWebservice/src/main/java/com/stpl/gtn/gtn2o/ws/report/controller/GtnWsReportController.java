@@ -240,7 +240,7 @@ public class GtnWsReportController {
 			else {
 				String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY;
 
-				String filter = gtnWsReportWebsevice.setFilterValueList(gtnWsRequest);
+				String filter = gtnWsReportWebsevice.setFilterForDataAssumptions(gtnWsRequest);
 
 				finalQuery = finalQuery.replace("@filter", filter);
 				resultList = executeQuery(finalQuery);
@@ -448,5 +448,42 @@ public class GtnWsReportController {
 		response.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
 		return response;
 	}
+	
+	@RequestMapping(value = GtnWsReportConstants.GTN_WS_REPORT_DASHBOARD_LOAD_FROM_AND_TO_IN_DATA_SELECTION, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getComboBoxFromAndToInDataSelectionResultSet(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		GtnWsGeneralResponse generalWSResponse = new GtnWsGeneralResponse();
+		generalWSResponse.setSucess(true);
+
+		try {
+			String frequency = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getFrequencyName();
+			String query = gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getFromOrToForDataSelection();
+			List<Object[]> resultList = null;
+			if (query != null) {
+				String queryToBeExecuted = getComboboxTypeForReportFromAndToDateInDataSelection(query , frequency);
+				resultList = executeQuery(queryToBeExecuted);
+				GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = new GtnUIFrameworkWebserviceComboBoxResponse();
+				comboBoxResponse.setComboBoxList(resultList);
+				gtnResponse.setGtnUIFrameworkWebserviceComboBoxResponse(comboBoxResponse);
+			}
+
+		} catch (Exception exception) {
+			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + exception);
+		}
+		gtnResponse.setGtnWsGeneralResponse(generalWSResponse);
+		return gtnResponse;
+	}
+
+	private String getComboboxTypeForReportFromAndToDateInDataSelection(String comboBoxType, String frequency) {
+		String query = null;
+		try {
+			query = gtnWsReportWebsevice.getFromAndToDateLoadQuery(comboBoxType, frequency);
+		} catch (Exception e) {
+			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + e);
+		}		
+		return query;
+	}
+
 
 }

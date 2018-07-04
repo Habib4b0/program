@@ -1,0 +1,1307 @@
+<sql>
+    <entity id="BSummaryCommonQuery-SingleLiablity">
+        <query> 
+        <![CDATA[      
+    DECLARE @PROJECTION       INT=?, 
+    ---------PASS PROJECTION MASTER SID CREATED FOR ADJUSTMENT SUMMARY 
+    @FREQUENCY        VARCHAR(20)='?',--FREQUENCY USER SELECTED 
+    @VIEW             VARCHAR(50)='?', 
+    @START_PERIOD_SID INT, 
+    @END_PERIOD_SID   INT, 
+    @STRING           CHAR(1), 
+    @FROM_DATE        VARCHAR(50)='?', 
+    @TO_DATE          VARCHAR(50)='?',
+    @USER_ID          INT=?,
+    @SESSION_ID       INT=?
+
+
+ DECLARE @SQL NVARCHAR(MAX)
+ DECLARE @ARM_BSR_SINGLE_LIABILITY VARCHAR(200) = CONCAT ('ST_ARM_BSR_SINGLE_LIABILITY_',@USER_ID,'_',@SESSION_ID,'_',REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', '')),
+		 @ARM_BSR_CUM_SINGLE_LIABILITY VARCHAR(200) = CONCAT ('ST_ARM_BSR_CUM_SINGLE_LIABILITY_',@USER_ID,'_',@SESSION_ID,'_',REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
+SET @STRING=LEFT(@FREQUENCY, 1)
+
+IF OBJECT_ID('TEMPDB..#TEMP_PERIOD') IS NOT NULL
+  DROP TABLE #TEMP_PERIOD
+
+CREATE TABLE #TEMP_PERIOD
+  (
+     PERIOD_SID  INT,
+     PERIODS     VARCHAR(50),
+     PERIOD_DATE DATETIME,
+     MONTH       INT,
+     YEAR        INT,
+     PRIMARY KEY(PERIOD_SID)
+  )
+
+INSERT INTO #TEMP_PERIOD
+            (PERIOD_SID,
+             PERIODS,
+             PERIOD_DATE,
+             MONTH,
+             YEAR)
+SELECT PERIOD_SID,
+       PERIODS = CASE
+                   WHEN @STRING = 'M' THEN CONCAT (LEFT(DATENAME(MM, PERIOD_DATE), 3), ' ', YEAR)
+                   WHEN @STRING = 'Q' THEN CONCAT ('Q', QUARTER, ' ', YEAR)
+                   WHEN @STRING = 'S' THEN CONCAT ('S', SEMI_ANNUAL, ' ', YEAR)
+                   ELSE CAST(YEAR AS CHAR(4))
+                 END,
+       PERIOD_DATE,
+       MONTH,
+       YEAR
+FROM   PERIOD
+
+SELECT @START_PERIOD_SID = MIN(PERIOD_SID)
+FROM   #TEMP_PERIOD
+WHERE  PERIODS = @FROM_DATE
+
+SELECT @END_PERIOD_SID = MAX(PERIOD_SID)
+FROM   #TEMP_PERIOD
+WHERE  PERIODS = @TO_DATE
+
+IF OBJECT_ID('TEMPDB..#TEMP_HELPER') IS NOT NULL
+  DROP TABLE #TEMP_HELPER
+
+CREATE TABLE #TEMP_HELPER
+  (
+     HELPER_TABLE_SID INT,
+     DESCRIPTION      VARCHAR(100),
+     LIST_NAME        VARCHAR(100),
+     PRIMARY KEY (HELPER_TABLE_SID, LIST_NAME, DESCRIPTION)
+  )
+
+INSERT INTO #TEMP_HELPER
+            (HELPER_TABLE_SID,
+             DESCRIPTION,
+             LIST_NAME)
+SELECT HELPER_TABLE_SID,
+       DESCRIPTION,
+       LIST_NAME
+FROM   HELPER_TABLE
+WHERE  LIST_NAME IN ( 'RS_UDC1', 'RS_UDC2', 'RS_UDC3', 'RS_UDC4',
+                      'RS_UDC5', 'RS_UDC6', 'RS_TYPE', 'RS_CATEGORY', 'REBATE_PROGRAM_TYPE' )
+
+IF OBJECT_ID('TEMPDB..#TEMP_PROJ_RS') IS NOT NULL
+  DROP TABLE #TEMP_PROJ_RS
+
+CREATE TABLE #TEMP_PROJ_RS
+  (
+     CCP_DETAILS_SID            INT,
+     RS_MODEL_SID               INT,
+     PROJECTION_MASTER_SID      INT,
+     ARM_ADJUSTMENT_DETAILS_SID INT,
+     CONTRACT_MASTER_SID        INT,
+     COMPANY_MASTER_SID         INT,
+     ITEM_MASTER_SID            INT,
+     RS_CATEGORY                VARCHAR(50),
+     RS_TYPE                    VARCHAR(50),
+     REBATE_PROGRAM_TYPE        VARCHAR(50),
+     RS_ID                      VARCHAR(50),
+     RS_NAME                    VARCHAR(100),
+     RS_CONTRACT_SID            INT,
+     PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID)
+  )
+
+INSERT INTO #TEMP_PROJ_RS
+            (CCP_DETAILS_SID,
+             RS_MODEL_SID,
+             PROJECTION_MASTER_SID,
+             ARM_ADJUSTMENT_DETAILS_SID,
+             CONTRACT_MASTER_SID,
+             COMPANY_MASTER_SID,
+             ITEM_MASTER_SID,
+             RS_CATEGORY,
+             RS_TYPE,
+             REBATE_PROGRAM_TYPE,
+             RS_ID,
+             RS_NAME,
+             RS_CONTRACT_SID)
+SELECT C.CCP_DETAILS_SID,
+       A.RS_MODEL_SID,
+       A.PROJECTION_MASTER_SID,
+       A.ARM_ADJUSTMENT_DETAILS_SID,
+       C.CONTRACT_MASTER_SID,
+       C.COMPANY_MASTER_SID,
+       C.ITEM_MASTER_SID,
+       R.RS_CATEGORY,
+       R.RS_TYPE,
+       R.REBATE_PROGRAM_TYPE,
+       R.RS_ID,
+       R.RS_NAME,
+       R.RS_CONTRACT_SID
+FROM   ARM_ADJUSTMENT_DETAILS A
+       JOIN CCP_DETAILS C
+         ON C.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+       JOIN RS_CONTRACT R
+         ON R.RS_MODEL_SID = A.RS_MODEL_SID
+            AND R.CONTRACT_MASTER_SID = C.CONTRACT_MASTER_SID
+       JOIN RS_CONTRACT_DETAILS RD
+                        ON RD.RS_CONTRACT_SID=R.RS_CONTRACT_SID
+                        AND RD.ITEM_MASTER_SID=C.ITEM_MASTER_SID
+                        AND RD.INBOUND_STATUS <>'D'
+       JOIN ARM_DEDUCTION_SELECTION AD
+         ON AD.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+            AND AD.PROJECTION_MASTER_SID = A.PROJECTION_MASTER_SID
+WHERE  A.PROJECTION_MASTER_SID = @PROJECTION
+
+IF NOT EXISTS (SELECT 1
+               FROM   TEMPDB.SYS.INDEXES
+               WHERE  NAME = 'IX_RS_CAT_TYP_PRGM_TYP')
+  BEGIN
+      CREATE NONCLUSTERED INDEX IX_RS_CAT_TYP_PRGM_TYP
+        ON #TEMP_PROJ_RS (RS_CONTRACT_SID, RS_MODEL_SID, RS_CATEGORY, RS_TYPE, REBATE_PROGRAM_TYPE);
+  END
+
+IF OBJECT_ID('TEMPDB..#PROJ') IS NOT NULL
+  DROP TABLE #PROJ
+
+CREATE TABLE #PROJ
+  (
+     CCP_DETAILS_SID            INT,
+     RS_MODEL_SID               INT,
+     PROJECTION_MASTER_SID      INT,
+     ARM_ADJUSTMENT_DETAILS_SID INT,
+     CONTRACT_MASTER_SID        INT,
+     COMPANY_MASTER_SID         INT,
+     ITEM_MASTER_SID            INT,
+     BRAND_MASTER_SID           INT,
+     ITEM_NO                    VARCHAR(50),
+     ITEM_NAME                  VARCHAR(100),
+     BRAND_ID                   VARCHAR(50),
+     BRAND_NAME                 VARCHAR(100),
+     COMPANY_ID                 VARCHAR(50),
+     COMPANY_NAME               VARCHAR(100),
+     CONTRACT_ID                VARCHAR(50),
+     [CONTRACT_NAME]            VARCHAR(100),
+     RS_CATEGORY                VARCHAR(50),
+     RS_CATEGORY_SID            INT,
+     RS_TYPE                    VARCHAR(50),
+     RS_TYPE_SID                INT,
+     REBATE_PROGRAM_TYPE        VARCHAR(50),
+     REBATE_PROGRAM_TYPE_SID    INT,
+     RS_ID                      VARCHAR(50),
+     RS_NAME                    VARCHAR(100),
+     UDC1                       VARCHAR(50),
+     UDC1_SID                   INT,
+     UDC2                       VARCHAR(50),
+     UDC2_SID                   INT,
+     UDC3                       VARCHAR(50),
+     UDC3_SID                   INT,
+     UDC4                       VARCHAR(50),
+     UDC4_SID                   INT,
+     UDC5                       VARCHAR(50),
+     UDC5_SID                   INT,
+     UDC6                       VARCHAR(50),
+     UDC6_SID                   INT
+     PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID)
+  )
+
+IF NOT EXISTS (SELECT 1
+               FROM   TEMPDB.SYS.INDEXES
+               WHERE  NAME = 'IX_CCP_RS')
+  BEGIN
+      CREATE UNIQUE NONCLUSTERED INDEX IX_CCP_RS
+        ON #PROJ (CCP_DETAILS_SID, RS_MODEL_SID);
+  END
+
+INSERT INTO #PROJ
+            (CCP_DETAILS_SID,
+             RS_MODEL_SID,
+             PROJECTION_MASTER_SID,
+             ARM_ADJUSTMENT_DETAILS_SID,
+             CONTRACT_MASTER_SID,
+             COMPANY_MASTER_SID,
+             ITEM_MASTER_SID,
+             BRAND_MASTER_SID,
+             ITEM_NO,
+             ITEM_NAME,
+             BRAND_ID,
+             BRAND_NAME,
+             COMPANY_ID,
+             COMPANY_NAME,
+             CONTRACT_ID,
+             CONTRACT_NAME,
+             RS_CATEGORY,
+             RS_CATEGORY_SID,
+             RS_TYPE,
+             RS_TYPE_SID,
+             REBATE_PROGRAM_TYPE,
+             REBATE_PROGRAM_TYPE_SID,
+             RS_ID,
+             RS_NAME,
+             UDC1,
+             UDC1_SID,
+             UDC2,
+             UDC2_SID,
+             UDC3,
+             UDC3_SID,
+             UDC4,
+             UDC4_SID,
+             UDC5,
+             UDC5_SID,
+             UDC6,
+             UDC6_SID)
+SELECT B.CCP_DETAILS_SID,
+       B.RS_MODEL_SID,
+       B.PROJECTION_MASTER_SID,
+       B.ARM_ADJUSTMENT_DETAILS_SID,
+       B.CONTRACT_MASTER_SID,
+       B.COMPANY_MASTER_SID,
+       B.ITEM_MASTER_SID,
+       BM.BRAND_MASTER_SID,
+       IM.ITEM_NO,
+       IM.ITEM_NAME,
+       BM.BRAND_ID,
+       BM.BRAND_NAME,
+       CM.COMPANY_ID,
+       CM.COMPANY_NAME,
+       CON.CONTRACT_ID,
+       CON.CONTRACT_NAME,
+       RS_CAT.DESCRIPTION,
+       RS_CAT.HELPER_TABLE_SID,
+       RS_TYP.DESCRIPTION,
+       RS_TYP.HELPER_TABLE_SID,
+       REB_PRGM.DESCRIPTION,
+       REB_PRGM.HELPER_TABLE_SID,
+       B.RS_ID,
+       B.RS_NAME,
+       U1.DESCRIPTION,
+       U1.HELPER_TABLE_SID,
+       U2.DESCRIPTION,
+       U2.HELPER_TABLE_SID,
+       U3.DESCRIPTION,
+       U3.HELPER_TABLE_SID,
+       U4.DESCRIPTION,
+       U4.HELPER_TABLE_SID,
+       U5.DESCRIPTION,
+       U5.HELPER_TABLE_SID,
+       U6.DESCRIPTION,
+       U6.HELPER_TABLE_SID
+FROM   #TEMP_PROJ_RS B
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+       JOIN BRAND_MASTER BM
+         ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+       JOIN COMPANY_MASTER CM
+         ON CM.COMPANY_MASTER_SID = B.COMPANY_MASTER_SID
+       LEFT JOIN UDCS U
+              ON U.MASTER_SID = B.RS_CONTRACT_SID
+                 AND U.MASTER_TYPE = 'RS_CONTRACT'
+       LEFT JOIN #TEMP_HELPER RS_CAT
+              ON RS_CAT.HELPER_TABLE_SID = B.RS_CATEGORY
+       LEFT JOIN #TEMP_HELPER RS_TYP
+              ON RS_TYP.HELPER_TABLE_SID = B.RS_TYPE
+       LEFT JOIN #TEMP_HELPER REB_PRGM
+              ON REB_PRGM.HELPER_TABLE_SID = B.REBATE_PROGRAM_TYPE
+       LEFT JOIN #TEMP_HELPER U1
+              ON U1.HELPER_TABLE_SID = U.UDC1
+       LEFT JOIN #TEMP_HELPER U2
+              ON U2.HELPER_TABLE_SID = U.UDC2
+       LEFT JOIN #TEMP_HELPER U3
+              ON U3.HELPER_TABLE_SID = U.UDC3
+       LEFT JOIN #TEMP_HELPER U4
+              ON U4.HELPER_TABLE_SID = U.UDC4
+       LEFT JOIN #TEMP_HELPER U5
+              ON U5.HELPER_TABLE_SID = U.UDC5
+       LEFT JOIN #TEMP_HELPER U6
+              ON U6.HELPER_TABLE_SID = U.UDC6
+       JOIN CONTRACT_MASTER CON
+         ON CON.CONTRACT_MASTER_SID = B.CONTRACT_MASTER_SID
+            AND BM.BRAND_MASTER_SID LIKE '?' 
+            AND B.CONTRACT_MASTER_SID LIKE '?' 
+            AND B.COMPANY_MASTER_SID LIKE '?' 
+            AND  ?  LIKE '?' 
+            AND B.ITEM_MASTER_SID LIKE '?' 
+
+----------------------------------------------CCP'S WITH PERIOD POPULATION-----------------------------------
+IF OBJECT_ID('TEMPDB..#TEMP_ARM_PROJ_MASTER') IS NOT NULL
+  DROP TABLE #TEMP_ARM_PROJ_MASTER
+
+CREATE TABLE #TEMP_ARM_PROJ_MASTER
+  (
+     ARM_ADJUSTMENT_DETAILS_SID INT,
+     CCP_DETAILS_SID            INT,
+     RS_MODEL_SID               INT,
+     PERIOD_SID                 INT,
+     [YEAR]                     INT,
+     PERIOD                     INT,
+     PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID)
+  )
+
+INSERT INTO #TEMP_ARM_PROJ_MASTER
+            (ARM_ADJUSTMENT_DETAILS_SID,
+             CCP_DETAILS_SID,
+             RS_MODEL_SID,
+             PERIOD_SID,
+             [YEAR],
+             PERIOD)
+SELECT A.ARM_ADJUSTMENT_DETAILS_SID,
+       A.CCP_DETAILS_SID,
+       A.RS_MODEL_SID,
+       P.PERIOD_SID,
+       P.YEAR,
+       PERIOD = CASE
+                  WHEN LEFT(@FREQUENCY, 1) = 'M' THEN MONTH
+                  WHEN LEFT(@FREQUENCY, 1) = 'Q' THEN QUARTER
+                  WHEN LEFT(@FREQUENCY, 1) = 'S' THEN SEMI_ANNUAL
+                  ELSE YEAR
+                END
+FROM   #TEMP_PROJ_RS A
+       CROSS JOIN PERIOD P
+WHERE  P.PERIOD_SID BETWEEN @START_PERIOD_SID AND @END_PERIOD_SID
+
+IF OBJECT_ID('TEMPDB..#TEMP_BALANCE_PIPELINE') IS NOT NULL
+  DROP TABLE #TEMP_BALANCE_PIPELINE
+
+CREATE TABLE #TEMP_BALANCE_PIPELINE
+  (
+      ARM_ADJUSTMENT_DETAILS_SID INT,
+      PERIOD_SID                 INT,
+      FEES_ACCRUAL            NUMERIC(22, 6), 
+      INFLATION_ADJ           NUMERIC(22, 6), 
+      CREDIT_CARD_FEES        NUMERIC(22, 6), 
+      OTHER_FIXED_DOLLAR_FEES NUMERIC(22, 6), 
+      INVENTORY_VALULATION    NUMERIC(22, 6), 
+      DEMAND_PAYMENT_TRUE_UP  NUMERIC(22, 6), 
+      ACTUALS_PAYMENTS        NUMERIC(22, 6),
+      PERIOD_BALANCE NUMERIC(22,6)
+  )
+
+IF NOT EXISTS (SELECT 1
+               FROM   TEMPDB.SYS.INDEXES
+               WHERE  NAME = 'IX_CCP_RS_TRANS_PERIOD_YEAR')
+  BEGIN
+      CREATE UNIQUE NONCLUSTERED INDEX IX_CCP_RS_TRANS_PERIOD_YEAR
+        ON #TEMP_BALANCE_PIPELINE (ARM_ADJUSTMENT_DETAILS_SID,PERIOD_SID);
+  END
+SET @SQL=CONCAT('
+INSERT INTO #TEMP_BALANCE_PIPELINE
+            (ARM_ADJUSTMENT_DETAILS_SID,
+             PERIOD_SID,
+			  FEES_ACCRUAL, 
+             INFLATION_ADJ, 
+             CREDIT_CARD_FEES, 
+             OTHER_FIXED_DOLLAR_FEES, 
+             INVENTORY_VALULATION, 
+             DEMAND_PAYMENT_TRUE_UP, 
+             ACTUALS_PAYMENTS,
+             PERIOD_BALANCE
+             )
+SELECT BRPP.ARM_ADJUSTMENT_DETAILS_SID,
+       BRPP.PERIOD_SID,
+      BRPP.FEES_ACCRUAL, 
+       BRPP.INFLATION_ADJ, 
+       BRPP.CREDIT_CARD_FEES, 
+       BRPP.OTHER_FIXED_DOLLAR_FEES, 
+       BRPP.INVENTORY_VALULATION, 
+       BRPP.DEMAND_PAYMENT_TRUE_UP,
+	   BRPP.ACTUALS_PAYMENTS,
+	   BRPP.PERIOD_BALANCE
+FROM   ',@ARM_BSR_SINGLE_LIABILITY,' BRPP 
+           ')
+EXEC (@SQL)
+
+
+SET @SQL=''
+
+IF OBJECT_ID('TEMPDB..#TEMP_BALANCE_CUM') IS NOT NULL
+  DROP TABLE #TEMP_BALANCE_CUM
+
+CREATE TABLE #TEMP_BALANCE_CUM
+  (
+      ARM_ADJUSTMENT_DETAILS_SID INT,
+	  FEES_ACCRUAL            NUMERIC(22, 6), 
+      INFLATION_ADJ           NUMERIC(22, 6), 
+      CREDIT_CARD_FEES        NUMERIC(22, 6), 
+      OTHER_FIXED_DOLLAR_FEES NUMERIC(22, 6), 
+      INVENTORY_VALULATION    NUMERIC(22, 6), 
+      DEMAND_PAYMENT_TRUE_UP  NUMERIC(22, 6), 
+      ACTUALS_PAYMENTS        NUMERIC(22, 6),
+      PERIOD_BALANCE NUMERIC(22,6)
+  )
+
+IF NOT EXISTS (SELECT 1
+               FROM   TEMPDB.SYS.INDEXES
+               WHERE  NAME = 'IX_CCP_RS_TRANS_PERIOD_YEAR')
+  BEGIN
+      CREATE UNIQUE NONCLUSTERED INDEX IX_CCP_RS_TRANS_PERIOD_YEAR
+        ON #TEMP_BALANCE_CUM (ARM_ADJUSTMENT_DETAILS_SID);
+  END
+SET @SQL=CONCAT('
+INSERT INTO #TEMP_BALANCE_CUM
+            (ARM_ADJUSTMENT_DETAILS_SID,
+            FEES_ACCRUAL, 
+            INFLATION_ADJ, 
+            CREDIT_CARD_FEES, 
+            OTHER_FIXED_DOLLAR_FEES, 
+            INVENTORY_VALULATION, 
+            DEMAND_PAYMENT_TRUE_UP,
+		    ACTUALS_PAYMENTS,
+		    PERIOD_BALANCE
+					   )
+SELECT BRPP.ARM_ADJUSTMENT_DETAILS_SID,
+       BRPP.FEES_ACCRUAL, 
+       BRPP.INFLATION_ADJ, 
+       BRPP.CREDIT_CARD_FEES, 
+       BRPP.OTHER_FIXED_DOLLAR_FEES, 
+       BRPP.INVENTORY_VALULATION, 
+       BRPP.DEMAND_PAYMENT_TRUE_UP,
+	   BRPP.ACTUALS_PAYMENTS,
+	   BRPP.PERIOD_BALANCE
+FROM   ',@ARM_BSR_CUM_SINGLE_LIABILITY,' BRPP')
+EXEC (@SQL)
+
+
+
+------------------------------LEVEL LOGIC STARTS HERE--------------------------------
+IF OBJECT_ID('TEMPDB..#TEMP_ADJ_AMOUNT') IS NOT NULL
+  DROP TABLE #TEMP_ADJ_AMOUNT
+
+CREATE TABLE #TEMP_ADJ_AMOUNT
+  (
+     ARM_ADJUSTMENT_DETAILS_SID INT,
+     PERIOD                     INT,
+     YEAR                       INT,
+     ITEM_NO                    VARCHAR(50),
+     ITEM_NAME                  VARCHAR(100),
+     BRAND_ID                   VARCHAR(50),
+     BRAND_NAME                 VARCHAR(100),
+     COMPANY_ID                 VARCHAR(50),
+     COMPANY_NAME               VARCHAR(100),
+     CONTRACT_ID                VARCHAR(50),
+     [CONTRACT_NAME]            VARCHAR(100),
+     RS_CATEGORY                VARCHAR(50),
+     RS_CATEGORY_SID            INT,
+     RS_TYPE                    VARCHAR(50),
+     RS_TYPE_SID                INT,
+     REBATE_PROGRAM_TYPE        VARCHAR(50),
+     REBATE_PROGRAM_TYPE_SID    INT,
+     RS_ID                      VARCHAR(50),
+     RS_NAME                    VARCHAR(100),
+     UDC1                       VARCHAR(50),
+     UDC1_SID                   INT,
+     UDC2                       VARCHAR(50),
+     UDC2_SID                   INT,
+     UDC3                       VARCHAR(50),
+     UDC3_SID                   INT,
+     UDC4                       VARCHAR(50),
+     UDC4_SID                   INT,
+     UDC5                       VARCHAR(50),
+     UDC5_SID                   INT,
+     UDC6                       VARCHAR(50),
+     UDC6_SID                   INT,
+      FEES_ACCRUAL            NUMERIC(22, 6), 
+      INFLATION_ADJ           NUMERIC(22, 6), 
+      CREDIT_CARD_FEES        NUMERIC(22, 6), 
+      OTHER_FIXED_DOLLAR_FEES NUMERIC(22, 6), 
+      INVENTORY_VALULATION    NUMERIC(22, 6), 
+      DEMAND_PAYMENT_TRUE_UP  NUMERIC(22, 6), 
+      ACTUALS_PAYMENTS        NUMERIC(22, 6),
+      PERIOD_BALANCE NUMERIC(22,6),
+      PAYMENT_RATIO NUMERIC(22,6),
+     DEDUCTION_SET_1            VARCHAR(150),
+     DEDUCTION_SET_2            VARCHAR(150),
+     RANK_VIEW                  INT
+  )
+
+INSERT INTO #TEMP_ADJ_AMOUNT
+            (ARM_ADJUSTMENT_DETAILS_SID,
+             PERIOD,
+             YEAR,
+             ITEM_NO,
+             ITEM_NAME,
+             BRAND_ID,
+             BRAND_NAME,
+             COMPANY_ID,
+             COMPANY_NAME,
+             CONTRACT_ID,
+             [CONTRACT_NAME],
+             RS_CATEGORY,
+             RS_CATEGORY_SID,
+             RS_TYPE,
+             RS_TYPE_SID,
+             REBATE_PROGRAM_TYPE,
+             REBATE_PROGRAM_TYPE_SID,
+             RS_ID,
+             RS_NAME,
+             UDC1,
+             UDC1_SID,
+             UDC2,
+             UDC2_SID,
+             UDC3,
+             UDC3_SID,
+             UDC4,
+             UDC4_SID,
+             UDC5,
+             UDC5_SID,
+             UDC6,
+             UDC6_SID,
+            FEES_ACCRUAL, 
+            INFLATION_ADJ, 
+            CREDIT_CARD_FEES, 
+            OTHER_FIXED_DOLLAR_FEES, 
+            INVENTORY_VALULATION, 
+            DEMAND_PAYMENT_TRUE_UP, 
+             ACTUALS_PAYMENTS,
+             PERIOD_BALANCE,
+             PAYMENT_RATIO,
+                         DEDUCTION_SET_1,
+             DEDUCTION_SET_2,
+             RANK_VIEW)
+SELECT B.ARM_ADJUSTMENT_DETAILS_SID,
+       ARM.PERIOD,
+       ARM.YEAR,
+       B.ITEM_NO,
+       B.ITEM_NAME,
+       B.BRAND_ID,
+       B.BRAND_NAME,
+       B.COMPANY_ID,
+       B.COMPANY_NAME,
+       B.CONTRACT_ID,
+       B.[CONTRACT_NAME],
+       B.RS_CATEGORY,
+       B.RS_CATEGORY_SID,
+       B.RS_TYPE,
+       B.RS_TYPE_SID,
+       B.REBATE_PROGRAM_TYPE,
+       B.REBATE_PROGRAM_TYPE_SID,
+       B.RS_ID,
+       B.RS_NAME,
+       B.UDC1,
+       B.UDC1_SID,
+       B.UDC2,
+       B.UDC2_SID,
+       B.UDC3,
+       B.UDC3_SID,
+       B.UDC4,
+       B.UDC4_SID,
+       B.UDC5,
+       B.UDC5_SID,
+       B.UDC6,
+       B.UDC6_SID,
+       FEES_ACCRUAL, 
+      INFLATION_ADJ, 
+      CREDIT_CARD_FEES, 
+      OTHER_FIXED_DOLLAR_FEES, 
+      INVENTORY_VALULATION, 
+      DEMAND_PAYMENT_TRUE_UP, 
+     ACTUALS_PAYMENTS,
+     PERIOD_BALANCE,
+     COALESCE(PERIOD_BALANCE/NULLIF(ACTUALS_PAYMENTS,0),0) AS PAYMENT_RATIO,
+           DEDUCTION_SET_1= CASE
+                          WHEN @VIEW = 'DEDUCTION PROGRAM' THEN B.REBATE_PROGRAM_TYPE
+                          WHEN @VIEW = 'DEDUCTION CATEGORY' THEN B.RS_CATEGORY
+                          WHEN @VIEW = 'DEDUCTION TYPE' THEN B.RS_TYPE
+                          WHEN @VIEW = 'DEDUCTION' THEN (B.RS_ID + ' - ' + B.RS_NAME)
+                          WHEN @VIEW = 'DEDUCTION CATEGORY' THEN B.UDC1
+                          WHEN @VIEW = 'DEDUCTION CATEGORY 2' THEN B.UDC2
+                          WHEN @VIEW = 'DEDUCTION CATEGORY 3' THEN B.UDC3
+                          WHEN @VIEW = 'DEDUCTION CATEGORY 4' THEN B.UDC4
+                          WHEN @VIEW = 'DEDUCTION CATEGORY 5' THEN B.UDC5
+                          WHEN @VIEW = 'DEDUCTION CATEGORY 6' THEN B.UDC5
+                          WHEN @VIEW = 'PRODUCT' THEN ( B.ITEM_NO + ' - ' + B.ITEM_NAME )
+                          WHEN @VIEW = 'BRAND' THEN ( B.BRAND_ID + ' - ' + B.BRAND_NAME )
+                          WHEN @VIEW = 'CUSTOMER' THEN ( B.COMPANY_ID + ' - ' + B.COMPANY_NAME )
+                          WHEN @VIEW = 'CONTRACT' THEN ( B.CONTRACT_ID + ' - ' + B.CONTRACT_NAME )
+                          ELSE ''
+                        END,
+       DEDUCTION_SET_2=CASE
+                         WHEN @VIEW = 'DEDUCTION PROGRAM' THEN B.REBATE_PROGRAM_TYPE_SID
+                         WHEN @VIEW = 'DEDUCTION CATEGORY' THEN B.RS_CATEGORY_SID
+                         WHEN @VIEW = 'DEDUCTION TYPE' THEN B.RS_TYPE_SID
+                         WHEN @VIEW = 'DEDUCTION' THEN B.RS_MODEL_SID
+                         WHEN @VIEW = 'DEDUCTION CATEGORY' THEN B.UDC1_SID
+                         WHEN @VIEW = 'DEDUCTION CATEGORY 2' THEN B.UDC2_SID
+                         WHEN @VIEW = 'DEDUCTION CATEGORY 3' THEN B.UDC3_SID
+                         WHEN @VIEW = 'DEDUCTION CATEGORY 4' THEN B.UDC4_SID
+                         WHEN @VIEW = 'DEDUCTION CATEGORY 5' THEN B.UDC5_SID
+                         WHEN @VIEW = 'DEDUCTION CATEGORY 6' THEN B.UDC5_SID
+                         WHEN @VIEW = 'PRODUCT' THEN B.ITEM_MASTER_SID
+                         WHEN @VIEW = 'BRAND' THEN B.BRAND_MASTER_SID
+                         WHEN @VIEW = 'CUSTOMER' THEN B.COMPANY_MASTER_SID
+                         WHEN @VIEW = 'CONTRACT' THEN B.CONTRACT_MASTER_SID
+                         ELSE ''
+                       END,
+       RANK_VIEW=DENSE_RANK()
+                   OVER(
+                     ORDER BY CASE WHEN @VIEW = 'PRODUCT' THEN B.ITEM_MASTER_SID WHEN @VIEW = 'BRAND' THEN B.BRAND_MASTER_SID WHEN @VIEW = 'CUSTOMER' THEN B.COMPANY_MASTER_SID WHEN @VIEW = 'CONTRACT' THEN B.CONTRACT_MASTER_SID END )
+FROM   #TEMP_BALANCE_PIPELINE A
+       JOIN #PROJ B
+         ON A.ARM_ADJUSTMENT_DETAILS_SID = B.ARM_ADJUSTMENT_DETAILS_SID 
+		 JOIN #TEMP_ARM_PROJ_MASTER ARM ON ARM.ARM_ADJUSTMENT_DETAILS_SID=B.ARM_ADJUSTMENT_DETAILS_SID
+		 AND A.PERIOD_SID=ARM.PERIOD_SID   
+        ?
+        ]]>    
+        </query>
+    </entity>
+    <entity id="BSummaryCount-SingleLiablity">
+        <query> 
+        <![CDATA[
+                  SELECT  count(DISTINCT DEDUCTION_SET_2)
+    FROM   (
+     SELECT DEDUCTION_SET_1, 
+               DEDUCTION_SET_2, 
+               PERIOD, 
+               YEAR, 
+               ISNULL(SUM(FEES_ACCRUAL),0) AS FEES_ACCRUAL,
+     ISNULL(SUM(INFLATION_ADJ),0) AS INFLATION_ADJ,
+     ISNULL(SUM(CREDIT_CARD_FEES),0) AS CREDIT_CARD_FEES,
+	 ISNULL(SUM(OTHER_FIXED_DOLLAR_FEES),0) AS OTHER_FIXED_DOLLAR_FEES,
+	 ISNULL(SUM(INVENTORY_VALULATION),0) AS INVENTORY_VALULATION,
+	  ISNULL(SUM(DEMAND_PAYMENT_TRUE_UP),0) AS DEMAND_PAYMENT_TRUE_UP,
+     ISNULL(SUM(ACTUALS_PAYMENTS),0) AS ACTUALS_PAYMENTS,
+     ISNULL(SUM(PERIOD_BALANCE),0) AS PERIOD_BALANCE,
+	 COALESCE(ISNULL(SUM(PERIOD_BALANCE),0)/NULLIF(SUM(ACTUALS_PAYMENTS),0),0) AS PAYMENT_RATIO
+               FROM   #TEMP_ADJ_AMOUNT 
+      --  WHERE  DEDUCTION_SET_1 IN ('COMMERICAL') 
+        GROUP  BY DEDUCTION_SET_1, 
+                  DEDUCTION_SET_2, 
+                  PERIOD, 
+                  YEAR 
+                  )A  
+        ]]>    
+        </query>
+    </entity>
+    <entity id="BSummaryLoadData-SingleLiablity">
+        <query> 
+        <![CDATA[
+            ;WITH CTE AS (
+SELECT W.DEDUCTION_SET_1, 
+       CONVERT(INT, W.DEDUCTION_SET_2) AS DEDUCTION_SET_2, 
+       W.PERIOD, 
+       W.YEAR, 
+       W.FEES_ACCRUAL,
+       W.INFLATION_ADJ,
+	   W.CREDIT_CARD_FEES,
+	   W.OTHER_FIXED_DOLLAR_FEES,
+	   W.INVENTORY_VALULATION,
+	   W.DEMAND_PAYMENT_TRUE_UP,
+	   W.ACTUALS_PAYMENTS,
+	   W.PERIOD_BALANCE,
+	   W.PAYMENT_RATIO * 100 AS PAYMENT_RATIO,
+	   0 AS INDICATOR
+FROM   (SELECT DEDUCTION_SET_1, 
+               DEDUCTION_SET_2, 
+               PERIOD, 
+               YEAR, 
+               ISNULL(SUM(FEES_ACCRUAL),0) AS FEES_ACCRUAL,
+     ISNULL(SUM(INFLATION_ADJ),0) AS INFLATION_ADJ,
+     ISNULL(SUM(CREDIT_CARD_FEES),0) AS CREDIT_CARD_FEES,
+	 ISNULL(SUM(OTHER_FIXED_DOLLAR_FEES),0) AS OTHER_FIXED_DOLLAR_FEES,
+	 ISNULL(SUM(INVENTORY_VALULATION),0) AS INVENTORY_VALULATION,
+	  ISNULL(SUM(DEMAND_PAYMENT_TRUE_UP),0) AS DEMAND_PAYMENT_TRUE_UP,
+     ISNULL(SUM(ACTUALS_PAYMENTS),0) AS ACTUALS_PAYMENTS,
+     ISNULL(SUM(PERIOD_BALANCE),0) AS PERIOD_BALANCE,
+	 COALESCE(ISNULL(SUM(PERIOD_BALANCE),0)/NULLIF(SUM(ACTUALS_PAYMENTS),0),0) AS PAYMENT_RATIO,
+               DENSE_RANK() 
+                 OVER( 
+                   ORDER BY DEDUCTION_SET_2 ) AS RANKING 
+        FROM   #TEMP_ADJ_AMOUNT 
+        --WHERE  DEDUCTION_SET_1 IN ('COMMERICAL') 
+        GROUP  BY DEDUCTION_SET_1, 
+                  DEDUCTION_SET_2, 
+                  PERIOD, 
+                  YEAR 
+                  ) W 
+WHERE  W.RANKING BETWEEN ? AND ? )
+
+
+SELECT W1.DEDUCTION_SET_1, 
+       W1.DEDUCTION_SET_2, 
+       0 AS PERIOD, 
+       0 AS YEAR,
+       W1.FEES_ACCRUAL, 
+       W1.INFLATION_ADJ,
+	   W1.CREDIT_CARD_FEES,
+	   W1.OTHER_FIXED_DOLLAR_FEES,
+	   W1.INVENTORY_VALULATION,
+	   W1.DEMAND_PAYMENT_TRUE_UP,
+	   W1.ACTUALS_PAYMENTS,
+	   W1.PERIOD_BALANCE,
+	   W1.PAYMENT_RATIO,
+	   1 AS INDICATOR
+FROM
+(SELECT A.DEDUCTION_SET_1, 
+       A.DEDUCTION_SET_2, 
+     ISNULL(SUM(FEES_ACCRUAL),0) AS FEES_ACCRUAL,
+     ISNULL(SUM(INFLATION_ADJ),0) AS INFLATION_ADJ,
+	 ISNULL(SUM(CREDIT_CARD_FEES),0) AS CREDIT_CARD_FEES,
+	 ISNULL(SUM(OTHER_FIXED_DOLLAR_FEES),0) AS OTHER_FIXED_DOLLAR_FEES,
+	 ISNULL(SUM(INVENTORY_VALULATION),0) AS INVENTORY_VALULATION,
+     ISNULL(SUM(DEMAND_PAYMENT_TRUE_UP),0) AS DEMAND_PAYMENT_TRUE_UP,
+     ISNULL(SUM(ACTUALS_PAYMENTS),0) AS ACTUALS_PAYMENTS,
+     ISNULL(SUM(PERIOD_BALANCE),0) AS PERIOD_BALANCE,
+     COALESCE(ISNULL(SUM(PERIOD_BALANCE),0)/NULLIF(SUM(ACTUALS_PAYMENTS),0),0) * 100 AS  PAYMENT_RATIO,
+       DENSE_RANK() 
+         OVER( 
+           ORDER BY DEDUCTION_SET_2 )            AS RANKING
+FROM   (SELECT DISTINCT ARM_ADJUSTMENT_DETAILS_SID, 
+                        ITEM_NO, 
+                        ITEM_NAME, 
+                        BRAND_ID, 
+                        BRAND_NAME, 
+                        COMPANY_ID, 
+                        COMPANY_NAME, 
+                        CONTRACT_ID, 
+                        [CONTRACT_NAME], 
+                        RS_CATEGORY, 
+                        RS_CATEGORY_SID, 
+                        RS_TYPE, 
+                        RS_TYPE_SID, 
+                        REBATE_PROGRAM_TYPE, 
+                        REBATE_PROGRAM_TYPE_SID, 
+                        RS_ID, 
+                        RS_NAME, 
+                        UDC1, 
+                        UDC1_SID, 
+                        UDC2, 
+                        UDC2_SID, 
+                        UDC3, 
+                        UDC3_SID, 
+                        UDC4, 
+                        UDC4_SID, 
+                        UDC5, 
+                        UDC5_SID, 
+                        UDC6, 
+                        UDC6_SID, 
+                        DEDUCTION_SET_1, 
+                        DEDUCTION_SET_2, 
+                        RANK_VIEW 
+        FROM   #TEMP_ADJ_AMOUNT
+                WHERE RANK_VIEW BETWEEN ? AND ?)A 
+       JOIN #TEMP_BALANCE_CUM B 
+         ON A.ARM_ADJUSTMENT_DETAILS_SID = B.ARM_ADJUSTMENT_DETAILS_SID 
+GROUP  BY DEDUCTION_SET_1, 
+          DEDUCTION_SET_2 
+          )W1
+
+UNION ALL
+
+
+SELECT DEDUCTION_SET_1, 
+	   DEDUCTION_SET_2, 
+	   PERIOD, 
+	   YEAR, 
+	   FEES_ACCRUAL, 
+	   INFLATION_ADJ,
+	   CREDIT_CARD_FEES,
+	   OTHER_FIXED_DOLLAR_FEES,
+	   INVENTORY_VALULATION,
+	   DEMAND_PAYMENT_TRUE_UP,
+	   ACTUALS_PAYMENTS,
+	   PERIOD_BALANCE,
+	   PAYMENT_RATIO,
+	   INDICATOR
+ FROM CTE
+
+ORDER  BY ?,
+          PERIOD, 
+          YEAR 
+        ]]>    
+        </query>
+    </entity>
+    <entity id="BSummaryLoadTotalData-SingleLiablity">
+        <query> 
+        <![CDATA[
+		
+            ;WITH CTE AS (
+SELECT W.DEDUCTION_SET_1, 
+       W.DEDUCTION_SET_2, 
+       W.PERIOD, 
+       W.YEAR, 
+       W.FEES_ACCRUAL,
+       W.INFLATION_ADJ,
+	   W.CREDIT_CARD_FEES,
+	   W.OTHER_FIXED_DOLLAR_FEES,
+	   W.INVENTORY_VALULATION,
+	   W.DEMAND_PAYMENT_TRUE_UP,
+	   W.ACTUALS_PAYMENTS,
+	   W.PERIOD_BALANCE,
+	   W.PAYMENT_RATIO * 100 AS PAYMENT_RATIO,
+	   0 AS INDICATOR
+FROM   (SELECT DEDUCTION_SET_1, 
+               DEDUCTION_SET_2, 
+               PERIOD, 
+               YEAR, 
+               ISNULL(SUM(FEES_ACCRUAL),0) AS FEES_ACCRUAL,
+     ISNULL(SUM(INFLATION_ADJ),0) AS INFLATION_ADJ,
+     ISNULL(SUM(CREDIT_CARD_FEES),0) AS CREDIT_CARD_FEES,
+	 ISNULL(SUM(OTHER_FIXED_DOLLAR_FEES),0) AS OTHER_FIXED_DOLLAR_FEES,
+	 ISNULL(SUM(INVENTORY_VALULATION),0) AS INVENTORY_VALULATION,
+	  ISNULL(SUM(DEMAND_PAYMENT_TRUE_UP),0) AS DEMAND_PAYMENT_TRUE_UP,
+     ISNULL(SUM(ACTUALS_PAYMENTS),0) AS ACTUALS_PAYMENTS,
+     ISNULL(SUM(PERIOD_BALANCE),0) AS PERIOD_BALANCE,
+	 COALESCE(ISNULL(SUM(PERIOD_BALANCE),0)/NULLIF(SUM(ACTUALS_PAYMENTS),0),0) AS PAYMENT_RATIO,
+               DENSE_RANK() 
+                 OVER( 
+                   ORDER BY DEDUCTION_SET_2 ) AS RANKING 
+        FROM   #TEMP_ADJ_AMOUNT 
+        --WHERE  DEDUCTION_SET_1 IN ('COMMERICAL') 
+        GROUP  BY DEDUCTION_SET_1, 
+                  DEDUCTION_SET_2, 
+                  PERIOD, 
+                  YEAR 
+                  ) W 
+)
+
+
+SELECT 'TOTAL'   AS DEDUCTION_SET_1, 
+       'TOTAL'   AS DEDUCTION_SET_2,
+       0 AS PERIOD, 
+       0 AS YEAR,
+       SUM(W1.FEES_ACCRUAL) AS FEES_ACCRUAL, 
+       SUM(W1.INFLATION_ADJ) AS INFLATION_ADJ,
+	   SUM(W1.CREDIT_CARD_FEES) AS CREDIT_CARD_FEES,
+	   SUM(W1.OTHER_FIXED_DOLLAR_FEES) AS OTHER_FIXED_DOLLAR_FEES,
+	   SUM(W1.INVENTORY_VALULATION) AS INVENTORY_VALULATION,
+	   SUM(W1.DEMAND_PAYMENT_TRUE_UP) AS DEMAND_PAYMENT_TRUE_UP,
+	   SUM(W1.ACTUALS_PAYMENTS) AS ACTUALS_PAYMENTS,
+	   SUM(W1.PERIOD_BALANCE) AS PERIOD_BALANCE,
+	   SUM(W1.PAYMENT_RATIO) AS PAYMENT_RATIO,
+	   1 AS INDICATOR
+FROM
+(SELECT 'TOTAL' AS DEDUCTION_SET_1, 
+       'TOTAL' AS DEDUCTION_SET_2, 
+     ISNULL(SUM(FEES_ACCRUAL),0) AS FEES_ACCRUAL,
+     ISNULL(SUM(INFLATION_ADJ),0) AS INFLATION_ADJ,
+	 ISNULL(SUM(CREDIT_CARD_FEES),0) AS CREDIT_CARD_FEES,
+	 ISNULL(SUM(OTHER_FIXED_DOLLAR_FEES),0) AS OTHER_FIXED_DOLLAR_FEES,
+	 ISNULL(SUM(INVENTORY_VALULATION),0) AS INVENTORY_VALULATION,
+     ISNULL(SUM(DEMAND_PAYMENT_TRUE_UP),0) AS DEMAND_PAYMENT_TRUE_UP,
+     ISNULL(SUM(ACTUALS_PAYMENTS),0) AS ACTUALS_PAYMENTS,
+     ISNULL(SUM(PERIOD_BALANCE),0) AS PERIOD_BALANCE,
+     COALESCE(ISNULL(SUM(PERIOD_BALANCE),0)/NULLIF(SUM(ACTUALS_PAYMENTS),0),0) * 100 AS  PAYMENT_RATIO
+FROM   (SELECT DISTINCT ARM_ADJUSTMENT_DETAILS_SID, 
+                        ITEM_NO, 
+                        ITEM_NAME, 
+                        BRAND_ID, 
+                        BRAND_NAME, 
+                        COMPANY_ID, 
+                        COMPANY_NAME, 
+                        CONTRACT_ID, 
+                        [CONTRACT_NAME], 
+                        RS_CATEGORY, 
+                        RS_CATEGORY_SID, 
+                        RS_TYPE, 
+                        RS_TYPE_SID, 
+                        REBATE_PROGRAM_TYPE, 
+                        REBATE_PROGRAM_TYPE_SID, 
+                        RS_ID, 
+                        RS_NAME, 
+                        UDC1, 
+                        UDC1_SID, 
+                        UDC2, 
+                        UDC2_SID, 
+                        UDC3, 
+                        UDC3_SID, 
+                        UDC4, 
+                        UDC4_SID, 
+                        UDC5, 
+                        UDC5_SID, 
+                        UDC6, 
+                        UDC6_SID, 
+                        DEDUCTION_SET_1, 
+                        DEDUCTION_SET_2, 
+                        RANK_VIEW 
+        FROM   #TEMP_ADJ_AMOUNT)A 
+       JOIN #TEMP_BALANCE_CUM B 
+         ON A.ARM_ADJUSTMENT_DETAILS_SID = B.ARM_ADJUSTMENT_DETAILS_SID 
+GROUP  BY DEDUCTION_SET_1, 
+          DEDUCTION_SET_2 
+          )W1
+		   GROUP  BY DEDUCTION_SET_1, 
+                  DEDUCTION_SET_2
+
+UNION ALL
+
+SELECT 'TOTAL'                AS DEDUCTION_SET_1,
+	   'TOTAL'                AS DEDUCTION_SET_2,
+	   W.PERIOD,
+	   W.YEAR,
+	   ISNULL(SUM(W.FEES_ACCRUAL),0), 
+	   ISNULL(SUM(W.INFLATION_ADJ),0),
+	   ISNULL(SUM(W.CREDIT_CARD_FEES),0),
+	   ISNULL(SUM(W.OTHER_FIXED_DOLLAR_FEES),0),
+	   ISNULL(SUM(W.INVENTORY_VALULATION),0),
+	   ISNULL(SUM(W.DEMAND_PAYMENT_TRUE_UP),0),
+	   ISNULL(SUM(W.ACTUALS_PAYMENTS),0),
+	   ISNULL(SUM(W.PERIOD_BALANCE),0),
+	   ISNULL(SUM(W.PAYMENT_RATIO),0),
+	   0 AS INDICATOR
+	   FROM (
+
+SELECT 'TOTAL'                AS DEDUCTION_SET_1,
+	   'TOTAL'                AS DEDUCTION_SET_2,
+	   PERIOD, 
+	   YEAR, 
+	   ISNULL(SUM(FEES_ACCRUAL),0) AS FEES_ACCRUAL, 
+	   ISNULL(SUM(INFLATION_ADJ),0) AS INFLATION_ADJ,
+	   ISNULL(SUM(CREDIT_CARD_FEES),0) AS CREDIT_CARD_FEES,
+	   ISNULL(SUM(OTHER_FIXED_DOLLAR_FEES),0) AS OTHER_FIXED_DOLLAR_FEES,
+	   ISNULL(SUM(INVENTORY_VALULATION),0) AS INVENTORY_VALULATION,
+	   ISNULL(SUM(DEMAND_PAYMENT_TRUE_UP),0) AS DEMAND_PAYMENT_TRUE_UP,
+	   ISNULL(SUM(ACTUALS_PAYMENTS),0) AS ACTUALS_PAYMENTS,
+	   ISNULL(SUM(PERIOD_BALANCE),0) AS PERIOD_BALANCE,
+	   ISNULL(SUM(PAYMENT_RATIO),0) AS PAYMENT_RATIO ,
+	   0 AS INDICATOR
+ FROM CTE
+ GROUP BY DEDUCTION_SET_1, 
+                  DEDUCTION_SET_2, 
+                  YEAR,
+                  PERIOD )W
+		  GROUP  BY DEDUCTION_SET_1, 
+                  DEDUCTION_SET_2, 
+                  PERIOD, 
+                  YEAR
+        ]]>    
+        </query>
+    </entity>
+    <entity id="getBSummaryExcelQuery-SingleLiablity">
+        <query> 
+        <![CDATA[
+DECLARE @LEVEL                 VARCHAR(30)='@LEVEL_VAL', 
+        @MAX_VAL               INT=0, 
+        @I                     INT=1, 
+        @SQL                   NVARCHAR(MAX)='', 
+        @SQL_TEMP              NVARCHAR(MAX)='', 
+        @VAR                   VARCHAR(1000)='', 
+        @VAR_ADD               VARCHAR(1000)='', 
+        @VAR_TEST              VARCHAR(1000)='', 
+        @SQL_GROUP             NVARCHAR(MAX), 
+        @SQL_SELECT            NVARCHAR(MAX), 
+        @SQL_UNION             NVARCHAR(4000), 
+        @SQL_OUTER_SELECT      NVARCHAR(1000)='', 
+        @SQL_COUNT             NVARCHAR(1000)='', 
+        @SQL_ADD_COUNT         NVARCHAR(1000)='', 
+        @CONDITION             VARCHAR(50)='@DEDUCTIONLEVEL', 
+        @CONDITION_VALUE       VARCHAR(1000)='@DEDUCTIONVALUE', 
+        @PROJECTION_MASTER_SID INT = @PROJECTIONMASTERSID, 
+        @USER_ID               INT = @USERID, 
+        @SESSION_ID            INT = @SESSIONID, 
+        @LEV                   VARCHAR(10), 
+        @FREQUENCY             VARCHAR(20)='@FREQUENCYSELECTED', 
+        @START                 VARCHAR(20)='@STARTPERIOD', 
+        @START_SID             INT, 
+        @END                   VARCHAR(20)='@ENDPERIOD', 
+        @END_SID               INT 
+
+ 
+ SELECT @START_SID = MIN(PERIOD_SID)
+ FROM   PERIOD P
+ WHERE  CASE
+          WHEN @FREQUENCY = 'MONTHLY' THEN LEFT(DATENAME( MONTH, DATEADD( MONTH, P.PERIOD_SID, -1 ) ), 3)
+                                           + ' ' + CONVERT(VARCHAR(4), P.YEAR)
+          WHEN @FREQUENCY = 'QUARTERLY' THEN 'Q' + CONVERT(VARCHAR(4), P.QUARTER) + ' '
+                                             + CONVERT(VARCHAR(4), P.YEAR)
+          WHEN @FREQUENCY = 'SEMI-ANNUALLY' THEN 'S' + CONVERT(VARCHAR(4), P.SEMI_ANNUAL) + ' '
+                                                 + CONVERT(VARCHAR(4), P.YEAR)
+          WHEN @FREQUENCY = 'ANNUALLY' THEN CONVERT(VARCHAR(4), P.YEAR)
+        END = @START
+
+ SELECT @END_SID = MAX(PERIOD_SID)
+ FROM   PERIOD P
+ WHERE  CASE
+          WHEN @FREQUENCY = 'MONTHLY' THEN LEFT(DATENAME( MONTH, DATEADD( MONTH, P.PERIOD_SID, -1 ) ), 3)
+                                           + ' ' + CONVERT(VARCHAR(4), P.YEAR)
+          WHEN @FREQUENCY = 'QUARTERLY' THEN 'Q' + CONVERT(VARCHAR(4), P.QUARTER) + ' '
+                                             + CONVERT(VARCHAR(4), P.YEAR)
+          WHEN @FREQUENCY = 'SEMI-ANNUALLY' THEN 'S' + CONVERT(VARCHAR(4), P.SEMI_ANNUAL) + ' '
+                                                 + CONVERT(VARCHAR(4), P.YEAR)
+          WHEN @FREQUENCY = 'ANNUALLY' THEN CONVERT(VARCHAR(4), P.YEAR)
+        END = @END
+
+  DECLARE @ARM_BSR_SINGLE_LIABILITY VARCHAR(200) = CONCAT ('ST_ARM_BSR_SINGLE_LIABILITY_',@USER_ID,'_',@SESSION_ID,'_',REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', '')),
+		 @ARM_BSR_CUM_SINGLE_LIABILITY VARCHAR(200) = CONCAT ('ST_ARM_BSR_CUM_SINGLE_LIABILITY_',@USER_ID,'_',@SESSION_ID,'_',REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', ''))
+ ----------------------------------------------PERIOD POPULATION-----------------------------------
+ IF OBJECT_ID('TEMPDB..#TEMP_PERIOD') IS NOT NULL
+   DROP TABLE #TEMP_PERIOD
+
+ CREATE TABLE #TEMP_PERIOD
+   (
+      PERIOD_SID  INT,
+      [YEAR]      INT,
+      PERIOD      INT,
+      PERIOD_YEAR VARCHAR(50)
+   )
+
+ INSERT INTO #TEMP_PERIOD
+             (PERIOD_SID,
+              [YEAR],
+              PERIOD,
+              PERIOD_YEAR)
+ SELECT P.PERIOD_SID,
+        P.YEAR,
+        PERIOD = CASE
+                   WHEN LEFT(@FREQUENCY, 1) = 'M' THEN MONTH
+                   WHEN LEFT(@FREQUENCY, 1) = 'Q' THEN QUARTER
+                   WHEN LEFT(@FREQUENCY, 1) = 'S' THEN SEMI_ANNUAL
+                   ELSE YEAR
+                 END,
+        PERIOD_YEAR= CASE
+                       WHEN LEFT(@FREQUENCY, 1) = 'M' THEN LEFT(DATENAME( MONTH, DATEADD( MONTH, P.PERIOD_SID, -1 ) ), 3)
+                                                           + ' ' + CONVERT(VARCHAR(4), P.YEAR)
+                       WHEN LEFT(@FREQUENCY, 1) = 'Q' THEN 'Q' + CONVERT(VARCHAR(4), P.QUARTER) + ' '
+                                                           + CONVERT(VARCHAR(4), P.YEAR)
+                       WHEN LEFT(@FREQUENCY, 1) = 'S' THEN 'S' + CONVERT(VARCHAR(4), P.SEMI_ANNUAL) + ' '
+                                                           + CONVERT(VARCHAR(4), P.YEAR)
+                       ELSE CONVERT(VARCHAR(4), P.YEAR)
+                     END
+ FROM   PERIOD P
+ WHERE  P.PERIOD_SID BETWEEN @START_SID AND @END_SID
+
+ SET @SQL=';WITH CTE1
+      AS (SELECT B.CONTRACT_MASTER_SID,
+                 CN.CONTRACT_ID,
+                 CN.CONTRACT_NAME,
+                 B.COMPANY_MASTER_SID,
+                 CM.COMPANY_ID,
+                 CM.COMPANY_NAME,
+                 B.ITEM_MASTER_SID,
+                 IM.ITEM_NO,
+                 IM.ITEM_NAME,
+                 BM.BRAND_MASTER_SID,
+                 BM.BRAND_ID,
+                 BM.BRAND_NAME,
+                 A.RS_MODEL_SID,
+                 RS.RS_ID,
+                 RS_NAME,
+                 ''0'' AS PERIOD_YEAR,
+                 0 AS PERIOD_SID,
+                 ARP.FEES_ACCRUAL, 
+                 ARP.INFLATION_ADJ, 
+                 ARP.CREDIT_CARD_FEES, 
+                 ARP.OTHER_FIXED_DOLLAR_FEES, 
+                 ARP.INVENTORY_VALULATION, 
+                 ARP.DEMAND_PAYMENT_TRUE_UP,
+                 ARP.ACTUALS_PAYMENTS,
+				 ARP.PERIOD_BALANCE,
+                 ARP.ARM_ADJUSTMENT_DETAILS_SID,
+                 2 AS INDICATOR '
+                    SET @SQL+=CASE WHEN @CONDITION='DEDUCTION CATEGORY' THEN ',RS_CAT.DESCRIPTION AS RS_CATEGORY'
+                                                      WHEN @CONDITION='DEDUCTION TYPE' THEN ',RS_TYP.DESCRIPTION AS RS_TYPE'
+                                                                  WHEN @CONDITION='DEDUCTION PROGRAM' THEN ',RS_PGM_TYP.DESCRIPTION AS REBATE_PROGRAM_TYPE'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 2' THEN ',DC2.DESCRIPTION AS DEDUCTION_CATEGORY_2'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 3' THEN ',DC3.DESCRIPTION AS DEDUCTION_CATEGORY_3'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 4' THEN ',DC4.DESCRIPTION AS DEDUCTION_CATEGORY_4'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 5' THEN ',DC5.DESCRIPTION AS DEDUCTION_CATEGORY_5'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 6' THEN ',DC6.DESCRIPTION AS DEDUCTION_CATEGORY_6'
+                                                                  ELSE ''
+                                                         END
+                        SET @SQL+=' FROM   ARM_ADJUSTMENT_DETAILS A
+                 JOIN CCP_DETAILS B
+                   ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+                 JOIN ITEM_MASTER IM
+                   ON IM.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                 JOIN BRAND_MASTER BM
+                   ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+                       JOIN ' + @ARM_BSR_CUM_SINGLE_LIABILITY + ' ARP
+                         ON ARP.ARM_ADJUSTMENT_DETAILS_SID = A.ARM_ADJUSTMENT_DETAILS_SID
+                                       JOIN CONTRACT_MASTER CN
+                                         ON CN.CONTRACT_MASTER_SID=B.CONTRACT_MASTER_SID
+                                       JOIN COMPANY_MASTER CM
+                                         ON CM.COMPANY_MASTER_SID=B.COMPANY_MASTER_SID
+                                       JOIN RS_CONTRACT RS
+                                         ON RS.RS_MODEL_SID=A.RS_MODEL_SID AND RS.CONTRACT_MASTER_SID=B.CONTRACT_MASTER_SID
+                                       JOIN ARM_DEDUCTION_SELECTION ADS
+                                         ON ADS.PROJECTION_MASTER_SID=A.PROJECTION_MASTER_SID AND ADS.RS_CONTRACT_SID=RS.RS_CONTRACT_SID'
+                                       SET @SQL+=CASE WHEN @CONDITION IN ('DEDUCTION CATEGORY 2','DEDUCTION CATEGORY 3','DEDUCTION CATEGORY 4','DEDUCTION CATEGORY 5','DEDUCTION CATEGORY 6') THEN '  LEFT JOIN UDCS U ON U.MASTER_TYPE=''RS_CONTRACT'' AND U.MASTER_SID=RS.RS_CONTRACT_SID' ELSE '' END
+                                       SET @SQL+=CASE WHEN @CONDITION='DEDUCTION CATEGORY' THEN ' JOIN HELPER_TABLE RS_CAT ON RS_CAT.HELPER_TABLE_SID=RS.RS_CATEGORY'
+                                                      WHEN @CONDITION='DEDUCTION TYPE' THEN ' JOIN HELPER_TABLE RS_TYP ON RS_TYP.HELPER_TABLE_SID=RS.RS_TYPE'
+                                                                  WHEN @CONDITION='DEDUCTION PROGRAM' THEN ' JOIN HELPER_TABLE RS_PGM_TYP ON RS_PGM_TYP.HELPER_TABLE_SID=RS.REBATE_PROGRAM_TYPE'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 2' THEN ' JOIN HELPER_TABLE DC2 ON DC2.HELPER_TABLE_SID=U.UDC2'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 3' THEN ' JOIN HELPER_TABLE DC3 ON DC3.HELPER_TABLE_SID=U.UDC3'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 4' THEN ' JOIN HELPER_TABLE DC4 ON DC4.HELPER_TABLE_SID=U.UDC4'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 5' THEN ' JOIN HELPER_TABLE DC5 ON DC5.HELPER_TABLE_SID=U.UDC5'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 6' THEN ' JOIN HELPER_TABLE DC6 ON DC6.HELPER_TABLE_SID=U.UDC6'
+                                                                  ELSE ''
+                                                         END
+            SET @SQL+=' WHERE  A.PROJECTION_MASTER_SID = '+CONVERT(VARCHAR(10),@PROJECTION_MASTER_SID)
+               SET @SQL+=CASE WHEN @CONDITION='DEDUCTION' THEN ' AND RS.RS_ID IN ('+@CONDITION_VALUE+')' WHEN @CONDITION='DEDUCTION CATEGORY' THEN ' AND RS_CAT.DESCRIPTION IN ('+@CONDITION_VALUE+')'
+               WHEN @CONDITION='DEDUCTION TYPE' THEN ' AND RS_TYP.DESCRIPTION IN ('+@CONDITION_VALUE+')'
+                WHEN @CONDITION='DEDUCTION PROGRAM' THEN ' AND RS_PGM_TYP.DESCRIPTION IN ('+@CONDITION_VALUE+')'
+                WHEN @CONDITION='DEDUCTION CATEGORY 2' THEN ' AND DC2.DESCRIPTION IN ('+@CONDITION_VALUE+')'
+                WHEN @CONDITION='DEDUCTION CATEGORY 3' THEN ' AND DC3.DESCRIPTION IN ('+@CONDITION_VALUE+')'
+                WHEN @CONDITION='DEDUCTION CATEGORY 4' THEN ' AND DC4.DESCRIPTION IN ('+@CONDITION_VALUE+')'
+                WHEN @CONDITION='DEDUCTION CATEGORY 5' THEN ' AND DC5.DESCRIPTION IN ('+@CONDITION_VALUE+')'
+                WHEN @CONDITION='DEDUCTION CATEGORY 6' THEN ' AND DC6.DESCRIPTION IN ('+@CONDITION_VALUE+')'
+                ELSE '' END SET @SQL+='),
+      CTE2
+      AS (SELECT B.CONTRACT_MASTER_SID,
+                 B.CONTRACT_ID,
+                 B.CONTRACT_NAME,
+                 B.COMPANY_MASTER_SID,
+                 B.COMPANY_ID,
+                 B.COMPANY_NAME,
+                 B.ITEM_MASTER_SID,
+                 B.ITEM_NO,
+                 B.ITEM_NAME,
+                 B.BRAND_MASTER_SID,
+                 B.BRAND_ID,
+                 B.BRAND_NAME,
+                 B.RS_MODEL_SID,
+                 B.RS_ID,
+                 B.RS_NAME,
+                 P.PERIOD_YEAR,
+                 A.PERIOD_SID,
+				 A.FEES_ACCRUAL, 
+                 A.INFLATION_ADJ, 
+                 A.CREDIT_CARD_FEES, 
+                 A.OTHER_FIXED_DOLLAR_FEES, 
+                 A.INVENTORY_VALULATION, 
+                 A.DEMAND_PAYMENT_TRUE_UP,
+				 A.ACTUALS_PAYMENTS,
+				 A.PERIOD_BALANCE,
+                 A.ARM_ADJUSTMENT_DETAILS_SID,
+                 0 AS INDICATOR'
+                                 SET @SQL+=CASE WHEN @CONDITION='DEDUCTION CATEGORY' THEN ',B.RS_CATEGORY'
+                                                      WHEN @CONDITION='DEDUCTION TYPE' THEN ',B.RS_TYPE'
+                                                                  WHEN @CONDITION='DEDUCTION PROGRAM' THEN ',B.REBATE_PROGRAM_TYPE'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 2' THEN ',B.DEDUCTION_CATEGORY_2'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 3' THEN ',B.DEDUCTION_CATEGORY_3'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 4' THEN ',B.DEDUCTION_CATEGORY_4'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 5' THEN ',B.DEDUCTION_CATEGORY_5'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 6' THEN ',B.DEDUCTION_CATEGORY_6'
+                                                                  ELSE ''
+                                                         END
+          SET @SQL+=' FROM   '+@ARM_BSR_SINGLE_LIABILITY+' A
+                 JOIN CTE1 B
+                   ON A.ARM_ADJUSTMENT_DETAILS_SID = B.ARM_ADJUSTMENT_DETAILS_SID 
+                                   JOIN #TEMP_PERIOD P ON P.PERIOD_SID=A.PERIOD_SID),
+                                   CTE AS (SELECT * FROM CTE2 UNION ALL SELECT * FROM CTE1'
+                                 SET @SQL+='),'
+
+       IF OBJECT_ID('tempdb..#TEMP_TABLE')IS NOT NULL
+       DROP TABLE #TEMP_TABLE
+
+       CREATE TABLE #TEMP_TABLE
+       (
+               ID INT IDENTITY(1,1),
+               STRING CHAR(2),
+               COLUMN_NAME VARCHAR(50),
+               COLUMN_ADD_NAME VARCHAR(50),
+               ALIAS_NAME VARCHAR(50)
+       )
+       --LEFT(@String, LEN(@String) - 1)
+       INSERT INTO #TEMP_TABLE(STRING,COLUMN_NAME,COLUMN_ADD_NAME,ALIAS_NAME)
+       SELECT token,CASE WHEN token='B' THEN 'BRAND_MASTER_SID'
+                                         WHEN token='I' THEN 'ITEM_MASTER_SID'
+                                         WHEN token='T' THEN 'COMPANY_MASTER_SID'
+                                         WHEN token='C' THEN 'CONTRACT_MASTER_SID'
+                                         WHEN token='D' THEN 'RS_MODEL_SID'
+                                         WHEN token='DC' THEN 'RS_CATEGORY'
+                                         WHEN token='DT' THEN 'RS_TYPE'
+                                         WHEN token='DP'  THEN 'REBATE_PROGRAM_TYPE'
+                                         WHEN token='DC2' THEN 'DEDUCTION_CATEGORY_2'
+                                         WHEN token='DC3' THEN 'DEDUCTION_CATEGORY_3'
+                                         WHEN token='DC4' THEN 'DEDUCTION_CATEGORY_4'
+                                         WHEN token='DC5' THEN 'DEDUCTION_CATEGORY_5'
+                                         WHEN token='DC6' THEN 'DEDUCTION_CATEGORY_6'
+                            END AS COLUMN_NAME,
+                                CASE WHEN token='B' THEN 'BRAND_ID+'' - ''+BRAND_NAME'
+                                                WHEN token='I' THEN 'ITEM_NO+'' - ''+ITEM_NAME'
+                                                WHEN token='T' THEN 'COMPANY_ID+'' - ''+COMPANY_NAME'
+                                                WHEN token='C' THEN 'CONTRACT_ID+'' - ''+CONTRACT_NAME'
+                                                WHEN token='D' THEN 'RS_ID+'' - ''+RS_NAME'
+                                                WHEN token='DC' THEN 'RS_CATEGORY'
+                                                WHEN token='DT' THEN 'RS_TYPE'
+                                                WHEN token='DP' THEN 'REBATE_PROGRAM_TYPE'
+                                                WHEN token='DC2' THEN 'DEDUCTION_CATEGORY_2'
+                                                WHEN token='DC3' THEN 'DEDUCTION_CATEGORY_3'
+                                                WHEN token='DC4' THEN 'DEDUCTION_CATEGORY_4'
+                                                WHEN token='DC5' THEN 'DEDUCTION_CATEGORY_5'
+                                                WHEN token='DC6' THEN 'DEDUCTION_CATEGORY_6'
+                                   END AS COLUMN_ADD_NAME,
+                                       CASE WHEN token='B' THEN 'BRAND '
+                                                WHEN token='I' THEN 'ITEM '
+                                                WHEN token='T' THEN 'COMPANY'
+                                                WHEN token='C' THEN 'CONTRACT'
+                                                WHEN token='D' THEN 'DEDUCTION'
+                                                WHEN token='DC' THEN 'DEDUCTION_CATEGORY'
+                                                WHEN token='DT' THEN 'DEDUCTION_TYPE'
+                                                WHEN token='DP' THEN 'DEDUCTION_PROGRAM_TYPE'
+                                                WHEN token='DC2' THEN 'DEDUCTION_CATEGORY2'
+                                                WHEN token='DC3' THEN 'DEDUCTION_CATEGORY3'
+                                                WHEN token='DC4' THEN 'DEDUCTION_CATEGORY4'
+                                                WHEN token='DC5' THEN 'DEDUCTION_CATEGORY5'
+                                                WHEN token='DC6' THEN 'DEDUCTION_CATEGORY6'
+                                   END AS ALIAS_NAME
+       FROM udf_splitstring(@LEVEL,',')
+
+       SELECT  @MAX_VAL=MAX(ID) FROM #TEMP_TABLE
+
+       WHILE(@I<=@MAX_VAL)
+
+       BEGIN
+        SELECT
+           @SQL_SELECT=
+           STUFF((
+               SELECT ', NULL AS ' + U.COLUMN_NAME +', NULL AS ' +U.ALIAS_NAME
+               FROM #TEMP_TABLE U
+               WHERE U.ID = ID AND U.ID>@I
+               ORDER BY U.ID
+               FOR XML PATH('')
+           ),1,1,'') ,
+               @SQL_COUNT=
+     STUFF((
+     SELECT ', ''0'' AS ' + U.COLUMN_NAME +', ''TOTAL'' AS ' +U.ALIAS_NAME
+     FROM #TEMP_TABLE U
+     WHERE U.ID = ID AND U.ID>=1
+     ORDER BY U.ID
+     FOR XML PATH('')),1,1,'') ,
+               @SQL_ADD_COUNT=
+               STUFF((
+               SELECT ', NULL AS ' + U.ALIAS_NAME
+               FROM #TEMP_TABLE U
+               WHERE U.ID = ID AND U.ID>@I
+               ORDER BY U.ID
+               FOR XML PATH('')),1,1,'')
+       FROM #TEMP_TABLE
+        SET   @SQL_SELECT+=','
+        SET   @SQL_ADD_COUNT+=','
+        SET @SQL_SELECT=ISNULL(@SQL_SELECT,'')
+        SET @SQL_ADD_COUNT=ISNULL(@SQL_ADD_COUNT,'')
+        SET @SQL_COUNT=ISNULL(@SQL_COUNT,'')
+
+        SELECT @LEV=STRING FROM #TEMP_TABLE WHERE ID=@I
+        SELECT @VAR=@VAR+COLUMN_NAME+','+COLUMN_ADD_NAME+' AS '+ALIAS_NAME+',', @SQL_UNION=STRING FROM #TEMP_TABLE WHERE ID=@I
+        SELECT @VAR_ADD+=COLUMN_NAME+','+COLUMN_ADD_NAME+',' FROM #TEMP_TABLE WHERE ID=@I
+
+        SELECT @SQL_OUTER_SELECT+='SELECT * FROM '+@SQL_UNION+' UNION ALL '
+        SET @VAR_ADD=LEFT(@VAR_ADD, LEN(@VAR) - 1)
+
+        SET @SQL_TEMP+=',' +@SQL_UNION+' AS (SELECT '+@VAR+@SQL_SELECT+'PERIOD_YEAR,'+   'ISNULL(SUM(FEES_ACCRUAL),0)  AS FEES_ACCRUAL ,ISNULL(SUM(INFLATION_ADJ),0) AS INFLATION_ADJ ,ISNULL(SUM(CREDIT_CARD_FEES),0) AS CREDIT_CARD_FEES,
+		ISNULL(SUM(OTHER_FIXED_DOLLAR_FEES),0) AS OTHER_FIXED_DOLLAR_FEES,ISNULL(SUM(INVENTORY_VALULATION),0) AS INVENTORY_VALULATION,ISNULL(SUM(DEMAND_PAYMENT_TRUE_UP),0) AS DEMAND_PAYMENT_TRUE_UP,
+		ISNULL(SUM(ACTUALS_PAYMENTS),0) AS ACTUALS_PAYMENTS,ISNULL(SUM(PERIOD_BALANCE),0) AS PERIOD_BALANCE,COALESCE(( ISNULL(SUM(PERIOD_BALANCE), 0) / NULLIF(SUM(ACTUALS_PAYMENTS), 0) ), 0) * 100 AS PAYMENT_RATIO,INDICATOR '
+   +' FROM   CTE
+                GROUP  BY '+@VAR_ADD+'INDICATOR,PERIOD_YEAR'+CASE WHEN @CONDITION='DEDUCTION CATEGORY' THEN ',RS_CATEGORY'
+                                                      WHEN @CONDITION='DEDUCTION TYPE' THEN ',RS_TYPE'
+                                                                  WHEN @CONDITION='DEDUCTION PROGRAM' THEN ',REBATE_PROGRAM_TYPE'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 2' THEN ',DEDUCTION_CATEGORY_2'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 3' THEN ',DEDUCTION_CATEGORY_3'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 4' THEN ',DEDUCTION_CATEGORY_4'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 5' THEN ',DEDUCTION_CATEGORY_5'
+                                                                  WHEN @CONDITION='DEDUCTION CATEGORY 6' THEN ',DEDUCTION_CATEGORY_6'
+                                                                  WHEN @CONDITION='DEDUCTION' THEN ',RS_ID'
+                                                                  ELSE ''
+                                                         END+
+                        ')'
+        SET @I+=1
+
+       END
+
+       SET @SQL_OUTER_SELECT=LEFT(@SQL_OUTER_SELECT, LEN(@SQL_OUTER_SELECT) - 10)
+
+               SET @SQL+='TOTAL AS (SELECT '+@SQL_COUNT+',PERIOD_YEAR,'+  'ISNULL(SUM(FEES_ACCRUAL),0)  AS FEES_ACCRUAL ,ISNULL(SUM(INFLATION_ADJ),0) AS INFLATION_ADJ ,ISNULL(SUM(CREDIT_CARD_FEES),0) AS CREDIT_CARD_FEES,
+		ISNULL(SUM(OTHER_FIXED_DOLLAR_FEES),0) AS OTHER_FIXED_DOLLAR_FEES,ISNULL(SUM(INVENTORY_VALULATION),0) AS INVENTORY_VALULATION,ISNULL(SUM(DEMAND_PAYMENT_TRUE_UP),0) AS DEMAND_PAYMENT_TRUE_UP,
+		ISNULL(SUM(ACTUALS_PAYMENTS),0) AS ACTUALS_PAYMENTS,ISNULL(SUM(PERIOD_BALANCE),0) AS PERIOD_BALANCE,COALESCE(( ISNULL(SUM(PERIOD_BALANCE), 0) / NULLIF(SUM(ACTUALS_PAYMENTS), 0) ), 0) * 100 AS PAYMENT_RATIO,INDICATOR '
+   +' FROM   CTE
+      GROUP  BY INDICATOR,PERIOD_YEAR'+
+              ')'+@SQL_TEMP
+
+
+       SET @SQL+=' SELECT * FROM TOTAL UNION ALL '+@SQL_OUTER_SELECT
+     EXEC    (@SQL)
+        ]]>    
+        </query>
+    </entity>
+</sql>
