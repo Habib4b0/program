@@ -81,7 +81,9 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
         controls.setWidth("100%");
         controls.setHeightUndefined();
         controls.setId(componentConfig.getComponentId()+"itemsPerPageLayout");
+        if(tableConfig.isItemsPerPageAlignCentre()){
         controls.setComponentAlignment(pagedGrid.getControlLayout(), Alignment.MIDDLE_CENTER);
+        }
         resultLayout.addComponent(controls);
 
         pagedGrid.getGrid().getEditor().setEnabled(true);
