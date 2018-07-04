@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.crud;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -145,7 +146,7 @@ public class GtnFrameworkWorkflowPublicPrivateViewSaveAction
 				} else {
 					msg += GtnFrameworkWorkflowInboxClassConstants.ADDED;
 				}
-				msg += projMasterBean.getViewType().toLowerCase() + " view ( " + projMasterBean.getViewName() + " )";
+				msg += projMasterBean.getViewType().toLowerCase(Locale.ENGLISH) + " view ( " + projMasterBean.getViewName() + " )";
 
 				GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 				GtnUIFrameWorkInfoAction infoAction = new GtnUIFrameWorkInfoAction();
@@ -235,9 +236,7 @@ public class GtnFrameworkWorkflowPublicPrivateViewSaveAction
 				.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getFieldValues().get(30), componentId)
 				.getIntegerFromField());
 
-		projMasterBean.setAdjustmentType(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getFieldValues().get(31), componentId)
-				.getIntegerFromField());
+		projMasterBean.setAdjustmentType(getIdOfMultipleSelectDropDown(gtnUIFrameWorkActionConfig.getFieldValues().get(31),componentId));
 
 		projMasterBean.setContractIdArm(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getFieldValues().get(32), componentId)
@@ -317,5 +316,32 @@ public class GtnFrameworkWorkflowPublicPrivateViewSaveAction
 	public GtnUIFrameWorkAction createInstance() {
 		return this;
 	}
-
+	
+	/*	Basically for business process type='ARM'
+	 *  It will fetch all the selected multiple value from "multi-selected combo box" i.e. customMenu bar in the form of list
+	 *  We have to iterate the list and get the Id's 
+	 *  and all id's will be appended in a string
+	 */
+	@SuppressWarnings("unchecked")
+	private String getIdOfMultipleSelectDropDown(String componentId, String sourceComponentId) {
+		List<String[]> objectList = null;
+		try {
+			objectList = (List<String[]>) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(componentId, sourceComponentId)
+					.getValueFromComponent();
+			
+			StringBuilder listString=new StringBuilder();
+			
+			for(String[] menuItem: objectList) {
+				listString.append(menuItem[2]);
+				listString.append(",");
+			}
+			listString.deleteCharAt(listString.lastIndexOf(","));
+			return listString.toString();
+			
+		} catch (GtnFrameworkValidationFailedException e) {
+			gtnLogger.error("Error in GtnFrameworkWorkflowPublicPrivateViewSaveAction -->getIdOfMultipleSelectDropDown", e);
+			return GtnFrameworkWorkflowInboxClassConstants.EMPTY;
+		}
+	}
 }

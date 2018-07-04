@@ -5,7 +5,7 @@ public enum GtnFrameworkWorkflowuserTypeMap {
 	GF(GtnFrameworkWorkflowInboxClassConstants.APPROVER), CF(GtnFrameworkWorkflowInboxClassConstants.APPROVER), CMF(
 			GtnFrameworkWorkflowInboxClassConstants.APPROVER), ARF(
 					GtnFrameworkWorkflowInboxClassConstants.APPROVER), REF(
-							GtnFrameworkWorkflowInboxClassConstants.APPROVER), ARM_TRX(
+							GtnFrameworkWorkflowInboxClassConstants.APPROVER), ARM_TRXF(
 									GtnFrameworkWorkflowInboxClassConstants.APPROVER), BR(
 											GtnFrameworkWorkflowInboxClassConstants.YES), FD(
 													GtnFrameworkWorkflowInboxClassConstants.YES), CM(

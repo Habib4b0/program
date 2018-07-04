@@ -70,23 +70,20 @@ public class GtnWsWorkflowOpenViewService {
 		GtnWsWorkflowInboxBean fetchprojMasterBean = gtnWsRequest.getGtnWSCommonWorkflowRequest()
 				.getGtnWorkflowInboxBean();
 		String fetchworkflowId = fetchprojMasterBean.getWorkflowId();
+		
 		java.util.Properties fetchpath = getPropertyFile(
 				System.getProperty(GtnFrameworkCommonStringConstants.GTNFRAMEWORK_BASE_PATH_PROPERTY));
-		String valueforCommercial = fetchpath.getProperty(GtnFrameworkCommonStringConstants.CF);
-		String valueforContractDashboard = fetchpath.getProperty(GtnFrameworkCommonStringConstants.CM);
+	
+		String key = fetchworkflowId.replaceAll("\\d", "");
+		
 		StringBuilder sqlQuery = new StringBuilder();
 		List<Object> portletidList = new ArrayList<>();
+		
 		String bpicatalog = getController().getSysSchemaCatalogs();
 		portletidList.add(bpicatalog);
 		portletidList.add(bpicatalog);
-		if (fetchworkflowId != null) {
-			if ((fetchworkflowId.startsWith(GtnFrameworkCommonStringConstants.CM)
-					|| fetchworkflowId.startsWith(GtnFrameworkCommonStringConstants.CMF))) {
-				portletidList.add(valueforContractDashboard);
-			} else {
-				portletidList.add(valueforCommercial);
-			}
-		}
+		portletidList.add(fetchpath.getProperty(key));
+
 		sqlQuery.append(gtnWsSqlService.getQuery(portletidList, GtnFrameworkCommonStringConstants.GETFRIENDLYURLQUERY));
 		return sqlQuery.toString();
 	}
