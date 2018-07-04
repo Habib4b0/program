@@ -43,7 +43,7 @@ public class GtnFrameworkItemMasterAddAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		gtnLogger.info("Entering GtnFrameworkItemMasterAddAction doAction ");
+		gtnLogger.info("Entering GtnFrameworkItemMasterAddAction doAction ...rrr");
 		try {
 			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 			GtnWsItemMasterInfoBean info = new GtnWsItemMasterInfoBean();
@@ -59,9 +59,8 @@ public class GtnFrameworkItemMasterAddAction
 		} finally {
 			gtnLogger.info("Exit GtnFrameworkItemMasterAddAction doAction ");
 		}
-
 	}
-
+	
 	private void loadNotesTab() {
 		GtnUIFrameworkNotesTab notesTab = (GtnUIFrameworkNotesTab) GtnUIFrameworkGlobalUI
 				.getVaadinComponent("notesTab");
@@ -84,7 +83,7 @@ public class GtnFrameworkItemMasterAddAction
 				info.getForm(), info.getStrength(), info.getFirstSaleDate(), info.getNdc9(), info.getNdc8(),
 				info.getPrimaryUom(), info.getSecondaryUom(), info.getLabelerCode(), info.getItemCode(),
 				info.getPackageSize(), info.getPackageSizeCode(), info.getItemTypeIndication(), info.getItemCategory(),
-				info.getPackageSizeIntroDate(), info.getManufacturerId(), info.getUdc1(), info.getUdc2(),
+				info.getPackageSizeIntroDate(), info.getManufacturerId(), /*info.getUdc1(),*/ info.getUdc2(),
 				info.getUdc3(), info.getUdc4(), info.getUdc5(), info.getUdc6(), info.getCompanyMasterSid(),
 				info.getDosesPerUnit(), info.getShelfLife(), info.getShelfLifeType(), info.getLastLotExpirationDate(),
 				info.getAuthorizedGenericStartDate(), info.getPediatricExclusiveStartDate(),
@@ -132,7 +131,6 @@ public class GtnFrameworkItemMasterAddAction
             itemTypeEditCheck.selectOptionGroupValue("No");
         }
         itemTypeEditCheck.selectOptionGroupValue("Yes", isNDC9);
-   
 	}
 
 	private String getUser() {
@@ -211,7 +209,6 @@ public class GtnFrameworkItemMasterAddAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(visibleFields[i], sourceComponentId)
 					.setComponentVisible(value);
 		}
-
 	}
 
 }

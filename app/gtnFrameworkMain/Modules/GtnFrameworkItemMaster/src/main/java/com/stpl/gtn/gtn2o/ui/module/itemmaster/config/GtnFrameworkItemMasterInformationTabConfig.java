@@ -8,6 +8,7 @@ import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.checkedcombobox.GtnUIFrameworkCheckedComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.date.GtnUIFrameworkDateFieldConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.textbox.GtnUIFrameworkTextBoxConfig;
@@ -15,8 +16,10 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterAddAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterItemTypeAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterClassContants;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterStringContants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkRegexStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -71,8 +74,10 @@ public class GtnFrameworkItemMasterInformationTabConfig {
 		addItemCategory(componentList, componentConfig);
 		addUPPS(componentList, componentConfig);
 		addPackageSizeIntroduction(componentList, componentConfig);
-		addManufacturerID(componentList, componentConfig);
+		addManufacturerID(componentList, componentConfig);	
 		addUDC1(componentList, componentConfig);
+		addUDC1CheckedComboBox(componentList, componentConfig);
+		addUDC1TextBox(componentList,componentConfig);
 		addUDC2(componentList, componentConfig);
 		addUDC3(componentList, componentConfig);
 		addUDC4(componentList, componentConfig);
@@ -802,24 +807,94 @@ public class GtnFrameworkItemMasterInformationTabConfig {
 
 	}
 
+	/*
+	 * Related to method: 
+	 * 		addUDC1(List<GtnUIFrameworkComponentConfig> componentList,
+				GtnFrameworkComponentConfigProvider componentConfig) 
+			and 
+			addUDC1CheckedComboBox(List<GtnUIFrameworkComponentConfig> componentList,
+				GtnFrameworkComponentConfigProvider componentConfig)
+			and
+			addUDC1TextBox(List<GtnUIFrameworkComponentConfig> componentList,
+				GtnFrameworkComponentConfigProvider componentConfig)
+				
+	 * At a time only 1 UDC1 will be visible
+	 * either UDC1 as comboBox or UDC1 as CheckedComboBox
+	 * Initially visibility will be FALSE,
+	 * During View creation its visibility be changed to TRUE based on condition
+	 * 
+	 * addUDC1TextBox is only for View
+	 */
+	
 	private void addUDC1(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 
 		GtnUIFrameworkComponentConfig udc1Layout = componentConfig.getHorizontalLayoutConfig(
-				"itemInformationTabUDC1layout", true, GtnFrameworkCommonConstants.ITEM_INFORMATION_TAB_LAYOUT);
+				GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_LAYOUT, 
+				Boolean.TRUE, 
+				GtnFrameworkCommonConstants.ITEM_INFORMATION_TAB_LAYOUT);
 		componentList.add(udc1Layout);
-
-		GtnUIFrameworkComponentConfig udc1 = componentConfig.getUIFrameworkComponentConfig("itemInformationTabUDC1",
-				true, udc1Layout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
-		udc1.setComponentName("UDC 1");
-		udc1.setAuthorizationIncluded(true);
+		udc1Layout.setVisible(Boolean.FALSE);
+		
+		GtnUIFrameworkComponentConfig udc1 = componentConfig.getUIFrameworkComponentConfig(
+				GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1
+				,Boolean.TRUE
+				,udc1Layout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+		
+		udc1.setComponentName(GtnFrameworkItemMasterStringContants.UDC_1);
+		udc1.setAuthorizationIncluded(Boolean.TRUE);
 		componentList.add(udc1);
 
-		GtnUIFrameworkComboBoxConfig itemGroupConfig = componentConfig.getComboBoxConfig("ITEM_UDC1",
+		GtnUIFrameworkComboBoxConfig itemGroupConfig = componentConfig.getComboBoxConfig(
+				GtnFrameworkItemMasterStringContants.ITEM_UDC1,
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		udc1.setGtnComboboxConfig(itemGroupConfig);
+	}
+	
+	private void addUDC1CheckedComboBox(List<GtnUIFrameworkComponentConfig> componentList,
+			GtnFrameworkComponentConfigProvider componentConfig) {
 
+		GtnUIFrameworkComponentConfig udc1Layout = componentConfig.getHorizontalLayoutConfig(
+				GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX_LAYOUT
+				,Boolean.TRUE
+				,GtnFrameworkCommonConstants.ITEM_INFORMATION_TAB_LAYOUT);
+		udc1Layout.setVisible(Boolean.FALSE);
+		componentList.add(udc1Layout);
+		
+		GtnUIFrameworkComponentConfig udc1 = componentConfig.getUIFrameworkComponentConfig(
+				GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX
+				,Boolean.TRUE
+				,udc1Layout.getComponentId(), GtnUIFrameworkComponentType.CHECKEDCOMBOBOX);
+		udc1.setComponentName(GtnFrameworkItemMasterStringContants.UDC_1);
+		udc1.setAuthorizationIncluded(Boolean.TRUE);
+		componentList.add(udc1);
+
+		GtnUIFrameworkCheckedComboBoxConfig checkedComboBoxConfig = new GtnUIFrameworkCheckedComboBoxConfig();
+		udc1.setGtnCheckedComboboxConfig(checkedComboBoxConfig);
+	}
+	
+	private void addUDC1TextBox(List<GtnUIFrameworkComponentConfig> componentList,
+			GtnFrameworkComponentConfigProvider componentConfig) {
+
+		GtnUIFrameworkComponentConfig udc1Layout = componentConfig.getHorizontalLayoutConfig(
+				GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX_LAYOUT
+				,Boolean.TRUE
+				,GtnFrameworkCommonConstants.ITEM_INFORMATION_TAB_LAYOUT);
+		udc1Layout.setVisible(Boolean.FALSE);
+		componentList.add(udc1Layout);
+		
+		GtnUIFrameworkComponentConfig udc1TextBox = componentConfig.getUIFrameworkComponentConfig(
+				GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX
+				,Boolean.TRUE
+				,udc1Layout.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
+		udc1TextBox.setComponentName(GtnFrameworkItemMasterStringContants.UDC_1);
+		udc1TextBox.setAuthorizationIncluded(Boolean.TRUE);
+		componentList.add(udc1TextBox);
+
+		GtnUIFrameworkTextBoxConfig itemIdMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
+		itemIdMaxLengthConfig.setEnable(Boolean.FALSE);
+		udc1TextBox.setGtnTextBoxConfig(itemIdMaxLengthConfig);
 	}
 
 	private void addUDC2(List<GtnUIFrameworkComponentConfig> componentList,

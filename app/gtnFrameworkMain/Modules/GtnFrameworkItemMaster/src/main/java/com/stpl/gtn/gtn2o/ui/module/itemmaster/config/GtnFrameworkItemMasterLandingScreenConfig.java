@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterClassContants;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterStringContants;
@@ -757,6 +758,12 @@ public class GtnFrameworkItemMasterLandingScreenConfig {
 
 		List<GtnUIFrameWorkActionConfig> addActionConfigList = new ArrayList<>();
                 
+		//
+		GtnUIFrameWorkActionConfig modeChangeActionConfig = componentConfig
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.MODE_CHANGE);
+		modeChangeActionConfig.setActionParameterList(Arrays.asList(GtnUIFrameworkModeType.ADD));
+		addActionConfigList.add(modeChangeActionConfig);
+		//
 		GtnUIFrameWorkActionConfig configurePricingTableActionConfig = componentConfig
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		configurePricingTableActionConfig.addActionParameter(GtnFrameworkItemMasterClassContants.ITEM_MASTER_PRICING_TABLE_CONFIGURE_ACTION);
@@ -765,8 +772,8 @@ public class GtnFrameworkItemMasterLandingScreenConfig {
 		GtnUIFrameWorkActionConfig navigationActionConfig = componentConfig
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.NAVIGATION_ACTION);
 		navigationActionConfig.addActionParameter("V002");
-
 		addActionConfigList.add(navigationActionConfig);
+		
 		GtnUIFrameWorkActionConfig editActionConfig = componentConfig
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		editActionConfig.addActionParameter(GtnFrameworkItemMasterClassContants.ITEM_MASTER_ADD_ACTION);
@@ -796,6 +803,13 @@ public class GtnFrameworkItemMasterLandingScreenConfig {
 		componentList.add(editButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> editBtnActionConfigList = new ArrayList<>();
+		
+		//
+		GtnUIFrameWorkActionConfig modeChangeActionConfig = componentConfig
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.MODE_CHANGE);
+		modeChangeActionConfig.setActionParameterList(Arrays.asList(GtnUIFrameworkModeType.EDIT));
+		editBtnActionConfigList.add(modeChangeActionConfig);
+		//
 		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 		alertActionConfig.setActionType(GtnUIFrameworkActionType.TABLE_ALERT_ACTION);
 
@@ -857,6 +871,14 @@ public class GtnFrameworkItemMasterLandingScreenConfig {
 		componentList.add(viewButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> viewActionConfigList = new ArrayList<>();
+		
+		//New Added
+		GtnUIFrameWorkActionConfig modeChangeActionConfig = componentConfig
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.MODE_CHANGE);
+		modeChangeActionConfig.setActionParameterList(Arrays.asList(GtnUIFrameworkModeType.VIEW));
+		viewActionConfigList.add(modeChangeActionConfig);
+		//New Added
+		
 		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 		alertActionConfig.setActionType(GtnUIFrameworkActionType.TABLE_ALERT_ACTION);
 

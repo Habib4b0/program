@@ -13,7 +13,9 @@ import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecu
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterStringContants;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.util.GtnFrameworkItemMasterArmUdc1Utility;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -127,7 +129,7 @@ public class GtnFrameworkItemMasterResetAction implements GtnUIFrameWorkAction, 
 					info.getForm(), info.getStrength(), info.getFirstSaleDate(), info.getNdc9(), info.getNdc8(),
 					info.getPrimaryUom(), info.getSecondaryUom(), info.getLabelerCode(), info.getItemCode(),
 					info.getPackageSize(), info.getPackageSizeCode(), info.getItemTypeIndication(),
-					info.getItemCategory(), info.getPackageSizeIntroDate(), info.getManufacturerId(), info.getUdc1(),
+					info.getItemCategory(), info.getPackageSizeIntroDate(), info.getManufacturerId(), /*info.getUdc1(),*/
 					info.getUdc2(), info.getUdc3(), info.getUdc4(), info.getUdc5(), info.getUdc6(),
 					info.getCompanyMasterSid(), info.getCreatedDate(), info.getModifiedDate(), info.getItemMasterSid(),
 					info.getBatchId(), info.getUpps() });
@@ -138,7 +140,8 @@ public class GtnFrameworkItemMasterResetAction implements GtnUIFrameWorkAction, 
 					.loadFieldValue(getUserName(info.getCreatedBy()));
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabModifiedBy")
 					.loadFieldValue(getUserName(info.getModifiedBy()));
-
+			
+			resetUDC1(info.getUdc1());
 			break;
 		case 1:
 			imInfoTabFielsValues = Arrays.asList(new Object[] { info.getDosesPerUnit(), info.getShelfLife(),
@@ -186,6 +189,46 @@ public class GtnFrameworkItemMasterResetAction implements GtnUIFrameWorkAction, 
 		default:
 			break;
 		}
+	}
+
+	private void resetUDC1(Integer udc1) {
+		if(udc1==null) {
+			udc1=0;
+		}
+		String udc1Type=(String) GtnUIFrameworkGlobalUI.getSessionProperty("UDC1");
+		if(udc1Type!=null && udc1Type.equals("ARM_UDC1")) {
+			resetUDC1CheckedComboBox(udc1);
+			return;
+		}
+		
+		resetUDC1ComboBox(udc1);
+		
+	}
+	
+	private void resetUDC1ComboBox(Integer udc1) {
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1)
+			.loadComboBoxComponentValue(udc1);
+	}
+
+	private void resetUDC1CheckedComboBox(Integer udc1Id) {
+			
+		String armUdc1=getDescriptionItemValueForArmUdc1(udc1Id);
+		String[] values = armUdc1.split(",");
+		List<Integer> codeList=new ArrayList<>();
+		for(String value:values) {
+			codeList.add(getIdForArmUdc1(value));
+		}
+		
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX)
+			.loadCheckedValueCustomMenuBar(codeList);
+	}
+
+	private int getIdForArmUdc1(String udc1Value) {
+		return GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemCode(udc1Value);
+	}
+	
+	private String getDescriptionItemValueForArmUdc1(Integer udc1Id) {
+		return GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemValue(udc1Id);
 	}
 
 	@SuppressWarnings("unchecked")

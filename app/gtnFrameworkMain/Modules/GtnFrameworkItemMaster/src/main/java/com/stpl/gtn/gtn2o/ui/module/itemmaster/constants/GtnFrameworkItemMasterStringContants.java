@@ -12,6 +12,21 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
  */
 public class GtnFrameworkItemMasterStringContants {
 
+	public static final String EMPTY="";
+	public static final String REGEX_SPACE="\\s";
+	public static final String ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX="itemInformationTabUDC1TextBox";
+	public static final String ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX_LAYOUT="itemInformationTabUDC1TextBoxlayout";
+	public static final String UDC1="UDC1";
+	public static final String ITEM_UDC1="ITEM_UDC1";
+	public static final String MULTI="Multi";
+	public static final String COMMA=",";
+	public static final String SELECT_VALUE="-Select Value-";
+	public static final String ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX="itemInformationTabUDC1CheckedComboBox";
+	public static final String ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX_LAYOUT="itemInformationTabUDC1CheckedComboBoxlayout";
+	public static final String ITEM_INFORMATION_TAB_UDC_1="itemInformationTabUDC1";
+	public static final String ARM_UDC_1="ARM_UDC1";
+	public static final String UDC_1="UDC 1";
+	public static final String ITEM_INFORMATION_TAB_UDC_1_LAYOUT = "itemInformationTabUDC1layout";
 	private static final String ITEM_PRICING_END_DATE = "itemPricingEndDate";
 	private static final String ITEM_PRICING_ENTITY_CODE_NAME = "itemPricingEntityCodeName";
 	private static final String ITEM_PRICING_START_DATE = "itemPricingStartDate";
@@ -175,6 +190,12 @@ public class GtnFrameworkItemMasterStringContants {
 	public static final String GTN_ITEM_MASTER_LANDING_SCREEN_VALIDATION_MSG = "Both item Identifier and item IRT Qualifier Name should be present";
 	public static final String ITEM_MASTER_NEW_FORMULATION = "itemMasterNewFormulation";
 
+	public static final List<String> ITEM_MASTER_ITEM_INFORMATION_TAB_UDC1_COMPONENT_ID=
+			Collections.unmodifiableList(Arrays.asList(
+					ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX_LAYOUT,ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX
+					,ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX_LAYOUT,ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX
+					,ITEM_INFORMATION_TAB_UDC_1_LAYOUT,ITEM_INFORMATION_TAB_UDC_1));
+	
 	private static final String[] IDENTIFIER_VISIBLE_HEADER = new String[] { "Item Qualifier Name", "Item Identifier",
 			"Identifier Status", "Start Date", "End Date", "Entity Code No", "Entity Code Name", "Modified By",
 			"Modified Date", "Created By", "Created Date" };
@@ -222,7 +243,7 @@ public class GtnFrameworkItemMasterStringContants {
 			ITEM_INFORMATION_TAB_PACKAGE_SIZE, ITEM_INFORMATION_TAB_PACKAGE_SIZE_CODE,
 			ITEM_INFORMATION_TAB_ITEM_TYPE_INDICATION, ITEM_INFORMATION_TAB_ITEM_CATEGORY,
 			ITEM_INFORMATION_TAB_PACKAGE_SIZE_INTRODUCTION, ITEM_INFORMATION_TAB_MANUFACTURER_ID,
-			ITEM_INFORMATION_TAB_UDC1, ITEM_INFORMATION_TAB_UDC2, ITEM_INFORMATION_TAB_UDC3, ITEM_INFORMATION_TAB_UDC4,
+			/*ITEM_INFORMATION_TAB_UDC1,*/ ITEM_INFORMATION_TAB_UDC2, ITEM_INFORMATION_TAB_UDC3, ITEM_INFORMATION_TAB_UDC4,
 			ITEM_INFORMATION_TAB_UDC5, ITEM_INFORMATION_TAB_UDC6, ITEM_INFORMATION_TAB_ORGANIZATION_KEY,
 			ADDITIONAL_INFORMATION_TAB_DOSES_PER_UNIT, ADDITIONAL_INFORMATION_TAB_SHELF_LIFE,
 			ADDITIONAL_INFORMATION_TAB_SHELF_LIFE_TYPE, ITEM_INFORMATION_TAB_LAST_LOT_EXPIRATION_DATE,
@@ -256,7 +277,7 @@ public class GtnFrameworkItemMasterStringContants {
 			ITEM_INFORMATION_TAB_LABELER_CODE, ITEM_INFORMATION_TAB_ITEM_CODE, ITEM_INFORMATION_TAB_PACKAGE_SIZE,
 			ITEM_INFORMATION_TAB_PACKAGE_SIZE_CODE, ITEM_INFORMATION_TAB_ITEM_TYPE_INDICATION,
 			ITEM_INFORMATION_TAB_ITEM_CATEGORY, ITEM_INFORMATION_TAB_PACKAGE_SIZE_INTRODUCTION,
-			ITEM_INFORMATION_TAB_MANUFACTURER_ID, ITEM_INFORMATION_TAB_UDC1, ITEM_INFORMATION_TAB_UDC2,
+			ITEM_INFORMATION_TAB_MANUFACTURER_ID, /*ITEM_INFORMATION_TAB_UDC1,*/ ITEM_INFORMATION_TAB_UDC2,
 			ITEM_INFORMATION_TAB_UDC3, ITEM_INFORMATION_TAB_UDC4, ITEM_INFORMATION_TAB_UDC5, ITEM_INFORMATION_TAB_UDC6,
 			ITEM_INFORMATION_TAB_ORGANIZATION_KEY, "itemInformationCreatedDate", "itemInformationModifiedDate",
 			"itemInformationTabSystemId", "itemInformationTabBatchID", ITEM_INFORMATION_TAB_UPPS));

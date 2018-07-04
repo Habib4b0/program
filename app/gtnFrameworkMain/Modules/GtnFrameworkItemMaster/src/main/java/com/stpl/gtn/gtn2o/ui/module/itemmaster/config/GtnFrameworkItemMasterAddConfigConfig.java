@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingTempTableClearAction;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterAddViewCreationAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterClassContants;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterStringContants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -29,6 +30,15 @@ public class GtnFrameworkItemMasterAddConfigConfig {
 		GtnFrameworkComponentConfigProvider componentConfig = GtnFrameworkComponentConfigProvider.getInstance();
 		GtnUIFrameworkViewConfig addView = componentConfig.getViewConfig("Add View", "V002", false);
 		addComponentList(addView, componentConfig);
+		
+		/*
+		 * During View Creation, this Custom Action will be get called
+		 */
+		GtnUIFrameWorkActionConfig actionConfig=new GtnUIFrameWorkActionConfig();
+		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		actionConfig.addActionParameter(GtnFrameworkItemMasterAddViewCreationAction.class.getName());
+		addView.addViewAction(actionConfig);
+		
 		return addView;
 	}
 
@@ -169,7 +179,7 @@ public class GtnFrameworkItemMasterAddConfigConfig {
 		List<GtnUIFrameworkComponentConfig> itemInformationTabConfig = new ArrayList<>();
 		itemInformationTab.setTabLayoutComponentConfigList(itemInformationTabConfig);
 		new GtnFrameworkItemMasterInformationTabConfig().addItemInformationTab(itemInformationTabConfig);
-
+		
 		GtnUIFrameworkTabConfig addressTab = componentConfig.getTabConfig("itemMasterAdditionalInformationTab",
 				"Additional Information");
 		List<GtnUIFrameworkComponentConfig> addressTabConfig = new ArrayList<>();
@@ -334,7 +344,7 @@ public class GtnFrameworkItemMasterAddConfigConfig {
 				"itemInformationTabPackageSize", "itemInformationTabPackageSizeCode",
 				"itemInformationTabItemTypeIndication", "itemInformationTabItemCategory",
 				"itemInformationTabPackageSizeIntroduction", "itemInformationTabManufacturerID",
-				"itemInformationTabUDC1", "itemInformationTabUDC2", "itemInformationTabUDC3", "itemInformationTabUDC4",
+				/*"itemInformationTabUDC1",*/ "itemInformationTabUDC2", "itemInformationTabUDC3", "itemInformationTabUDC4",
 				"itemInformationTabUDC5", "itemInformationTabUDC6", "itemInformationTabOrganizationKey",
 				"additionalInformationTabDosesPerUnit", "additionalInformationTabShelfLife",
 				"additionalInformationTabShelfLifeType", "itemInformationTabLastLotExpirationDate",
@@ -353,13 +363,18 @@ public class GtnFrameworkItemMasterAddConfigConfig {
 				"itemStartDate", "itemEndDate", "itemType", "therapeuticClass", "brandMasterSid", "itemClass", "form",
 				"strength", "firstSaleDate", "ndc8", "primaryUom", "secondaryUom", "labelerCode", "itemCode",
 				"packageSize", "packageSizeCode", "itemTypeIndication", "itemCategory", "packageSizeIntroDate",
-				"manufacturerId", "udc1", "udc2", "udc3", "udc4", "udc5", "udc6", "companyMasterSid", "dosesPerUnit",
+				"manufacturerId", /*"udc1",*/ "udc2", "udc3", "udc4", "udc5", "udc6", "companyMasterSid", "dosesPerUnit",
 				"shelfLife", "shelfLifeType", "lastLotExpirationDate", "authorizedGenericStartDate",
 				"pediatricExclusiveStartDate", "clottingFactorStartDate", "discontinuationDate",
 				"authorizedGenericEndDate", "pediatricExclusiveEndDate", "clottingFactorEndDate", "divestitureDate",
 				"acquisitionDate", "nonFederalExpirationDate", "marketTerminationDate", "newFormulationStartDate",
 				"baseCpiPeriod", "newFormulationEndDate", "authorizedGeneric", "pediatricExclusiveIndicator",
 				"clottingFactorIndicator", "dualPricingIndicator", "newFormulationIndicator", "newFormulation"));
+		
+		customAction.addActionParameter(Arrays.asList(
+				GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX,
+				GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1));
+		
 		onSucessActionConfigList.add(customAction);
 		confirmationActionConfig.setActionParameterList(alertParamsList);
 		saveActionConfigList.add(confirmationActionConfig);
