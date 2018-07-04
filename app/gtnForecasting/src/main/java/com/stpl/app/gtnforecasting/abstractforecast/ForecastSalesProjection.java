@@ -1565,6 +1565,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     checkAll = event.isChecked();
                     if (returnsFlag) {
                         salesLogic.headerCheckALLQuery(session, checkAll ? 1 : 0, true);
+                    }else{
+                        salesLogic.salesheaderCheckALLQuery(session, checkAll ? 1 : 0, true);
                     }
                     checkClearAll(event.isChecked());
                 } catch (PortalException | SystemException ex) {
