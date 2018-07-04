@@ -291,50 +291,6 @@ public class GtnWsReportController {
 		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
 	}
 
-	// @RequestMapping(value = GtnWsReportConstants.GTN_REPORT_BUILD_CUSTOM_TREE,
-	// method = RequestMethod.POST)
-	// public GtnUIFrameworkWebserviceResponse buildCustomTree(@RequestBody
-	// GtnUIFrameworkWebserviceRequest request)
-	// throws GtnFrameworkGeneralException {
-	//
-	// GtnWsReportRequest gtnWsReportRequest = request.getGtnWsReportRequest();
-	// GtnWsReportDashboardBean gtnWsReportDashboardBean =
-	// gtnWsReportRequest.getGtnWsReportDashboardBean();
-	//
-	// GtnWsReportEngineTreeNode root = new GtnWsReportEngineTreeNode();
-	//
-	// GtnWsCustomTreeData customTreeData = gtnWsTreeService.getCustomTreeData(
-	// MongoStringConstants.CUSTOM_VIEW_COLLECTION,
-	// gtnWsReportDashboardBean.getCustomViewName());
-	//
-	// GtnWsReportEngineTreeNode customerTree =
-	// gtnWsTreeService.getCustomerTree(MongoStringConstants.CUSTOMER_TREE,
-	// true, gtnWsReportDashboardBean.getSessionId());
-	//
-	// GtnWsReportEngineTreeNode productTree =
-	// gtnWsTreeService.getCustomerTree(MongoStringConstants.PRODUCT_TREE,
-	// true, gtnWsReportDashboardBean.getSessionId());
-	//
-	// @SuppressWarnings("unchecked")
-	// List<Object[]> ccpList = (List<Object[]>)
-	// gtnSqlQueryEngine.executeSelectQuery("Select * from "
-	// +
-	// gtnWsReportDashboardBean.getTableNameWithUniqueId(MongoStringConstants.ST_CCPD_SESSION_TABLE_NAME));
-	//
-	// @SuppressWarnings("unchecked")
-	// List<Object[]> deductionList = (List<Object[]>) gtnSqlQueryEngine
-	// .executeSelectQuery("Select * from " + gtnWsReportDashboardBean
-	// .getTableNameWithUniqueId(MongoStringConstants.ST_DEDUCTION_SESSION_TABLE_NAME));
-	// long start = System.currentTimeMillis();
-	// gtnWsTreeService.buildCustomTree(root, customTreeData, customerTree,
-	// productTree, deductionList, ccpList);
-	// gtnLogger.info("Time taken to build Tree =" + (System.currentTimeMillis() -
-	// start));
-	// gtnWsTreeService.saveCustomTree(root,
-	// gtnWsReportDashboardBean.getTableNameWithUniqueId(gtnWsReportDashboardBean.getCustomViewName()));
-	// return new GtnUIFrameworkWebserviceResponse();
-	// }
-
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_SAVEVIEW_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse saveView(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
@@ -353,6 +309,16 @@ public class GtnWsReportController {
 			generalResponse.setSucess(false);
 		}
 		response.setGtnWsGeneralResponse(generalResponse);
+		return response;
+	}
+	
+	@RequestMapping(value = GtnWsReportConstants.GTN_WS_REPORT_UPDATEVIEW_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse updateView(@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest){
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnWsReportRequest reportRequest = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest();
+		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
+		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
+		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
 		return response;
 	}
 	
