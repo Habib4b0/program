@@ -319,19 +319,12 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		recordBean.addAdditionalProperty(index);
 		recordBean.addAdditionalProperty(bean.getRowIndex());
 		recordBean.addAdditionalProperty(0);
-		recordBean.addProperties("levelValue", setDisplayFormat(bean.getData(), displayFormat));
+		String levelName = setDisplayFormat(bean.getData(), displayFormat);
+		recordBean.addProperties("levelValue", levelName);
 		if (dataForHierarchy != null) {
 			dataForHierarchy.entrySet().stream().forEach(entry -> {
 				Optional.ofNullable(entry.getValue()).ifPresent(data -> {
-					if (entry.getKey().contains("PER") || entry.getKey().contains("RATE")) {
-						recordBean.addProperties(entry.getKey(),
-								GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data)
-										+ GtnWsQueryConstants.PERCENTAGE_OPERATOR);
-					} else {
-						recordBean.addProperties(entry.getKey(),
-								GtnWsReportDecimalFormat.DOLLAR.getFormattedValue(data));
-					}
-
+					dataConvertors(recordBean, entry.getKey(), data, bean.getData()[5].toString(), levelName);
 				});
 			});
 		}
@@ -339,7 +332,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	}
 
 	private static Map<String, String> getVariableMap() {
-		Map<String, String> variableMap = new HashMap<String, String>();
+		Map<String, String> variableMap = new HashMap<>();
 		variableMap.put("Ex-Factory Sales", "EXFACTORY_SALES");
 		variableMap.put("Gross Contract Sales % of Ex-Factory", "CON_SALES_PER_FO_EX");
 		variableMap.put("Gross Contract Sales", "CONTRACT_SALES");
@@ -507,6 +500,19 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		} catch (GtnFrameworkGeneralException e) {
 			GTNLOGGER.error(e.getErrorMessage(), e);
 			return Collections.emptyList();
+		}
+	}
+
+	private void dataConvertors(GtnWsRecordBean recordBean, String key, Double data, String indicator,
+			String levelName) {
+		if (("V".equals(indicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
+				|| key.contains("PER") || key.contains("RATE")) {
+			recordBean.addProperties(key,
+					GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+		} else if ("V".equals(indicator) && levelName.contains("Unit")) {
+			recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
+		} else {
+			recordBean.addProperties(key, GtnWsReportDecimalFormat.DOLLAR.getFormattedValue(data));
 		}
 	}
 
