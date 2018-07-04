@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
@@ -181,6 +182,22 @@ public class GtnFrameworkReportProfileLookUp {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PROFILE_SEARCH_AND_RESET_BUTTON_LAYOUT);
 		reportProfileResetButton.setAddToParent(true);
 
+		
+		List<GtnUIFrameWorkActionConfig> resetActionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
+		resetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
+
+		List<Object> params = new ArrayList<>();
+		params.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
+		params.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
+		params.add(Arrays.asList(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName"));
+		params.add(Arrays.asList(new Object[] { "Public", GtnFrameworkCommonStringConstants.STRING_EMPTY }));
+		resetActionConfig.setActionParameterList(params);
+		resetActionConfigList.add(resetActionConfig);
+		reportProfileResetButton.setGtnUIFrameWorkActionConfigList(resetActionConfigList);
+		
 		componentList.add(reportProfileResetButton);
 	}
 

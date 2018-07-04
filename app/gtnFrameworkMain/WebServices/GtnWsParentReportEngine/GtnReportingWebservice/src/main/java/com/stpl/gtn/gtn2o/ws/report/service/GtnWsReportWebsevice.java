@@ -325,6 +325,19 @@ public class GtnWsReportWebsevice {
 		return reportProfileCount;
 	}
 
+	public int updateReportProfileMaster(GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
+			throws GtnFrameworkGeneralException {
+		List<Object> reportProfileInputList = new ArrayList<>();
+		reportProfileInputList.add(userId);
+		reportProfileInputList.add(userId);
+		String reportProfileViewData = gtnReportJsonService.convertObjectAsJsonString(reportingDashboardSaveProfileLookupBean).replaceAll("'", "\\\\");
+		reportProfileInputList.add("'" + reportProfileViewData + "'");
+		reportProfileInputList.add("'" + reportingDashboardSaveProfileLookupBean.getReportProfileviewName() + "'");
+		String reportProfileQuery = sqlService.getQuery(reportProfileInputList, "updateView");
+		int reportProfileCount = gtnSqlQueryEngine.executeInsertOrUpdateQuery(reportProfileQuery);
+		return reportProfileCount;
+	}
+	
 	public String getFromAndToDateLoadQuery(String comboBoxType, String frequency) {
 		String subQuery;
 		if (comboBoxType.equals("FROM")) {
