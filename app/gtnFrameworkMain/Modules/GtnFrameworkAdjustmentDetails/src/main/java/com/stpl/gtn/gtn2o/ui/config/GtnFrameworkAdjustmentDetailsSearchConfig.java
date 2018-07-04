@@ -227,18 +227,13 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
 
         GtnUIFrameWorkActionConfig searchValidationActionConfig = componentConfig
                 .getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
-        searchValidationActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.ITEM_SYSTEM_ID,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_ID,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NO,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NAME,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_DESC,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_STATUS,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_TYPE, GtnFrameworkCommonConstants.THERAPEUTIC_CLASS,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC9, "form",
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_QUALIFIER_NAME,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_IDENTIFIER, GtnFrameworkCommonConstants.BRAND,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC8, GtnFrameworkCommonConstants.STRENGTH,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_BATCH_ID));
+        searchValidationActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.ADJUSTMENT_TYPE,
+                GtnFrameworkCommonConstants.GL_COMPANY,
+                GtnFrameworkCommonConstants.WORKFLOW_ID,
+                GtnFrameworkCommonConstants.BUSINESS_UNIT,
+                GtnFrameworkCommonConstants.WORKFLOW_NAME,
+                GtnFrameworkCommonConstants.ORIGINAL_BATCH_ID,
+                GtnFrameworkCommonConstants.BRAND_NAME));
 
         GtnUIFrameWorkActionConfig alertActionConfig = componentConfig
                 .getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
@@ -252,27 +247,19 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
                 Arrays.asList(GtnUIFrameworkValidationType.OR, Arrays.asList(alertActionConfig)));
         searchActionConfigList.add(searchValidationActionConfig);
 
-//        GtnUIFrameWorkActionConfig itemQualifierValidationActionConfig = componentConfig
-//                .getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-//        itemQualifierValidationActionConfig
-//                .addActionParameter(GtnFrameworkItemMasterClassContants.ITEM_MASTER_LANDING_SCREEN_VALIDATION_ACTION);
-//        searchActionConfigList.add(itemQualifierValidationActionConfig);
         GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
         loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
 
-        loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_MASTERSEARCH_RESULT_TABLE);
-        loadDataTableActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.ITEM_SYSTEM_ID,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_ID,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NO,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NAME,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_DESC,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_STATUS,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_TYPE, GtnFrameworkCommonConstants.THERAPEUTIC_CLASS,
-                "form", GtnFrameworkCommonConstants.I_MASTER_SEARCH_QUALIFIER_NAME,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_IDENTIFIER, GtnFrameworkCommonConstants.STRENGTH,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_BATCH_ID));
-        loadDataTableActionConfig.setFieldDescription(Arrays.asList(GtnFrameworkCommonConstants.BRAND,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC8, GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC9));
+        loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_RESULT_TABLE);
+        loadDataTableActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.ADJUSTMENT_TYPE,
+                GtnFrameworkCommonConstants.GL_COMPANY,
+                GtnFrameworkCommonConstants.WORKFLOW_ID,
+                GtnFrameworkCommonConstants.BUSINESS_UNIT,
+                GtnFrameworkCommonConstants.WORKFLOW_NAME,
+                GtnFrameworkCommonConstants.ORIGINAL_BATCH_ID,
+                GtnFrameworkCommonConstants.BRAND_NAME));
+//        loadDataTableActionConfig.setFieldDescription(Arrays.asList(GtnFrameworkCommonConstants.BRAND,
+//                GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC8, GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC9));
         searchActionConfigList.add(loadDataTableActionConfig);
 
         GtnUIFrameWorkActionConfig notificationActionConfig = componentConfig
@@ -469,7 +456,7 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
     private void addResultPanel(List<GtnUIFrameworkComponentConfig> componentList,
             GtnFrameworkComponentConfigProvider componentConfig) {
 
-        GtnUIFrameworkComponentConfig itemMasterResultPanelConfig = componentConfig.getPanelConfig("ItemResultPanel",
+        GtnUIFrameworkComponentConfig itemMasterResultPanelConfig = componentConfig.getPanelConfig("ResultPanel",
                 false, null);
         itemMasterResultPanelConfig.setComponentName("Results");
         itemMasterResultPanelConfig.setAuthorizationIncluded(true);
@@ -481,8 +468,8 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
     private void addResultLayout(List<GtnUIFrameworkComponentConfig> componentList,
             GtnFrameworkComponentConfigProvider componentConfig) {
 
-        GtnUIFrameworkComponentConfig resultTableLayout = componentConfig.getHorizontalLayoutConfig("ItemResultlayout",
-                true, "ItemResultPanel");
+        GtnUIFrameworkComponentConfig resultTableLayout = componentConfig.getHorizontalLayoutConfig("Resultlayout",
+                true, "ResultPanel");
         resultTableLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
         componentList.add(resultTableLayout);
 
@@ -493,7 +480,7 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
             GtnFrameworkComponentConfigProvider componentConfig) {
 
         GtnUIFrameworkComponentConfig searchResultConfig = componentConfig.getUIFrameworkComponentConfig(
-                GtnFrameworkCommonConstants.ITEM_MASTERSEARCH_RESULT_TABLE, true, "ItemResultlayout",
+                GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_RESULT_TABLE, true, "Resultlayout",
                 GtnUIFrameworkComponentType.PAGEDTABLE);
         searchResultConfig.setAuthorizationIncluded(true);
         searchResultConfig.setComponentName("Results");
@@ -502,33 +489,64 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
         componentList.add(searchResultConfig);
 
         GtnUIFrameworkPagedTableConfig searchResults = componentConfig.getPagedTableConfig(true, true,
-                GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
-                GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
+                GtnWebServiceUrlConstants.GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_CONTROLLER + GtnWebServiceUrlConstants.GTN_ADJUSTMENT_DETAILS_TABLE_LOAD_SERVICE,
+                GtnWebServiceUrlConstants.GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_CONTROLLER + GtnWebServiceUrlConstants.GTN_ADJUSTMENT_DETAILS_TABLE_LOAD_SERVICE,
                 "itemMaster", "SearchQuery");
         searchResults.setSinkItemPerPageWithPageLength(false);
-        searchResults.setTableColumnDataType(new Class<?>[]{GtnFrameworkCommonConstants.JAVALANG_INTEGER,
-            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
-            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
-            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
-            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
-            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
-            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+        searchResults.setTableColumnDataType(new Class<?>[]{GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
+            GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
             GtnFrameworkCommonConstants.JAVALANG_STRING});
         searchResults.setTableVisibleHeader(
-                new String[]{"System ID", "Item ID", "Item No", "Item Name", "Item Desc", "Item Status", "Item Type",
-                    "Therapy Class", "Brand", "NDC 9", "NDC 8", "Form", "Strength", "Batch ID"});
-        searchResults.setTableColumnMappingId(new Object[]{GtnFrameworkCommonConstants.ITEM_SYSTEM_ID,
-            GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_ID,
-            GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NO,
-            GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NAME,
-            GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_DESC,
-            GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_STATUS,
-            GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_TYPE, GtnFrameworkCommonConstants.THERAPEUTIC_CLASS,
-            GtnFrameworkCommonConstants.BRAND, GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC9,
-            GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC8, "form", GtnFrameworkCommonConstants.STRENGTH,
-            GtnFrameworkCommonConstants.I_MASTER_SEARCH_BATCH_ID});
+                new String[]{"Company", "Division", "Cost Center", "Account", "Brand", "Project", "Future 1",
+                    "Future 2", "Debit", "Credit", "Line Description", "Balance Type", "Database", "Data Access Set", "Chart of Accounts",
+                    "Ledger", "Category", "Source", "Currency", "Accounting Date", "Batch Name", "Journal Name", "Journal Description",
+                    "Reverse Journal", "Reversal Period Date", "Business Unit", "Adjustment Type", "Adjustment Level", "Account Category",
+                    "Account Type", "Account Description", "Account Indicator", "UDC 1", "UDC 2", "UDC 3", "UDC 4", "UDC 5", "UDC 6",
+                    "Redemption Period", "Calculation Period", "Posting Indicator", "Workflow ID", "Workflow Name", "Workflow Created By",
+                    "Workflow Created Date", "Workflow Approved By", "Workflow Approved  Date", "Batch ID", "Original Batch ID", "Adjustment Reserve Detail SID "});
+        searchResults.setTableColumnMappingId(new Object[]{GtnFrameworkCommonConstants.RESERVE_DETAILS_COMPANY,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_DIVISION, GtnFrameworkCommonConstants.RESERVE_DETAILS_COST_CENTER,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_ACCOUNT, GtnFrameworkCommonConstants.RESERVE_DETAILS_BRAND,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_PROJECT, GtnFrameworkCommonConstants.RESERVE_DETAILS_FUTURE_1,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_FUTURE_2, GtnFrameworkCommonConstants.RESERVE_DETAILS_DEBIT,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_CREDIT, GtnFrameworkCommonConstants.RESERVE_DETAILS_LINE_DESCRIPTION,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_BALANCE_TYPE, GtnFrameworkCommonConstants.RESERVE_DETAILS_DATABASE,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_DATA_ACCESS_SET, GtnFrameworkCommonConstants.RESERVE_DETAILS_CHART_OF_ACCOUNTS,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_LEDGER, GtnFrameworkCommonConstants.RESERVE_DETAILS_CATEGORY,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_SOURCE, GtnFrameworkCommonConstants.RESERVE_DETAILS_CURRENCY,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_ACCOUNTING_DATE, GtnFrameworkCommonConstants.RESERVE_DETAILS_BATCH_NAME,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_JOURNAL_NAME, GtnFrameworkCommonConstants.RESERVE_DETAILS_JOURNAL_DESCRIPTION,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_REVERSE_JOURNAL, GtnFrameworkCommonConstants.RESERVE_DETAILS_REVERSAL_PERIOD_DATE,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_BUSINESS_UNIT, GtnFrameworkCommonConstants.RESERVE_DETAILS_ADJUSTMENT_TYPE,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_ADJUSTMENT_LEVEL, GtnFrameworkCommonConstants.RESERVE_DETAILS_ACCOUNT_CATEGORY,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_ACCOUNT_TYPE, GtnFrameworkCommonConstants.RESERVE_DETAILS_ACCOUNT_DESCRIPTION,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_ACCOUNT_INDICATOR, GtnFrameworkCommonConstants.RESERVE_DETAILS_UDC_1,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_UDC_2, GtnFrameworkCommonConstants.RESERVE_DETAILS_UDC_3,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_UDC_4, GtnFrameworkCommonConstants.RESERVE_DETAILS_UDC_5,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_UDC_6, GtnFrameworkCommonConstants.RESERVE_DETAILS_REDEMPTION_PERIOD,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_CALCULATION_PERIOD, GtnFrameworkCommonConstants.RESERVE_DETAILS_POSTING_INDICATOR,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_WORKFLOW_ID, GtnFrameworkCommonConstants.RESERVE_DETAILS_WORKFLOW_NAME,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_WORKFLOW_CREATED_BY, GtnFrameworkCommonConstants.RESERVE_DETAILS_WORKFLOW_CREATED_DATE,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_WORKFLOW_APPROVED_BY, GtnFrameworkCommonConstants.RESERVE_DETAILS_WORKFLOW_APPROVED__DATE,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_BATCH_ID, GtnFrameworkCommonConstants.RESERVE_DETAILS_ORIGINAL_BATCH_ID,
+            GtnFrameworkCommonConstants.RESERVE_DETAILS_ADJUSTMENT_RESERVE_DETAIL_SID});
 
-        searchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.ITEM_MASTER);
+        searchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.ADJUSTMENT_DETAILS);
 
         searchResults.setCustomFilterConfigMap(getCustomFilterConfig(componentConfig));
         searchResults.setDoubleClickEnable(true);
@@ -539,13 +557,6 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
         navigationActionConfig.addActionParameter("V002");
         actionConfigList.add(navigationActionConfig);
 
-//        GtnUIFrameWorkActionConfig editActionConfig = componentConfig
-//                .getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-//        editActionConfig.addActionParameter(GtnFrameworkItemMasterClassContants.ITEM_MASTER_EDIT_ACTION);
-//        editActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_MASTERSEARCH_RESULT_TABLE);
-//        editActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_SYSTEM_ID);
-//        editActionConfig.addActionParameter(Boolean.TRUE);
-//        actionConfigList.add(editActionConfig);
         searchResults.setGtnUIFrameWorkActionConfigList(actionConfigList);
         searchResultConfig.setGtnPagedTableConfig(searchResults);
     }
@@ -577,74 +588,6 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
 
     private void addSaveViewButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
 
-        GtnUIFrameworkComponentConfig searchBtnLayout = componentConfig.getHorizontalLayoutConfig("gtnSearch01layout",
-                true, GtnFrameworkCommonConstants.ITEM_SEARCH_BUTTONLAYOUT);
-        componentList.add(searchBtnLayout);
-
-        GtnUIFrameworkComponentConfig searchButtonConfig = componentConfig.getUIFrameworkComponentConfig("gtnSearch01",
-                true, searchBtnLayout.getComponentId(), GtnUIFrameworkComponentType.BUTTON);
-        searchButtonConfig.setComponentName("SAVE VIEW");
-        searchButtonConfig.setAuthorizationIncluded(true);
-        componentList.add(searchButtonConfig);
-
-        List<GtnUIFrameWorkActionConfig> searchActionConfigList = new ArrayList<>();
-
-        GtnUIFrameWorkActionConfig searchValidationActionConfig = componentConfig
-                .getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
-        searchValidationActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.ITEM_SYSTEM_ID,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_ID,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NO,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NAME,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_DESC,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_STATUS,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_TYPE, GtnFrameworkCommonConstants.THERAPEUTIC_CLASS,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC9, "form",
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_QUALIFIER_NAME,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_IDENTIFIER, GtnFrameworkCommonConstants.BRAND,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC8, GtnFrameworkCommonConstants.STRENGTH,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_BATCH_ID));
-
-        GtnUIFrameWorkActionConfig alertActionConfig = componentConfig
-                .getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
-
-        List<Object> alertParamsList = new ArrayList<>();
-        alertParamsList.add("Search Criteria ");
-        alertParamsList.add("Please enter Search Criteria");
-
-        alertActionConfig.setActionParameterList(alertParamsList);
-        searchValidationActionConfig.setActionParameterList(
-                Arrays.asList(GtnUIFrameworkValidationType.OR, Arrays.asList(alertActionConfig)));
-        searchActionConfigList.add(searchValidationActionConfig);
-
-//        GtnUIFrameWorkActionConfig itemQualifierValidationActionConfig = componentConfig
-//                .getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-//        itemQualifierValidationActionConfig
-//                .addActionParameter(GtnFrameworkItemMasterClassContants.ITEM_MASTER_LANDING_SCREEN_VALIDATION_ACTION);
-//        searchActionConfigList.add(itemQualifierValidationActionConfig);
-        GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
-        loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
-
-        loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_MASTERSEARCH_RESULT_TABLE);
-        loadDataTableActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.ITEM_SYSTEM_ID,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_ID,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NO,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NAME,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_DESC,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_STATUS,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_TYPE, GtnFrameworkCommonConstants.THERAPEUTIC_CLASS,
-                "form", GtnFrameworkCommonConstants.I_MASTER_SEARCH_QUALIFIER_NAME,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_IDENTIFIER, GtnFrameworkCommonConstants.STRENGTH,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_BATCH_ID));
-        loadDataTableActionConfig.setFieldDescription(Arrays.asList(GtnFrameworkCommonConstants.BRAND,
-                GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC8, GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC9));
-        searchActionConfigList.add(loadDataTableActionConfig);
-
-        GtnUIFrameWorkActionConfig notificationActionConfig = componentConfig
-                .getUIFrameworkActionConfig(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
-        notificationActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_MASTERSEARCH_RESULT_TABLE);
-        searchActionConfigList.add(notificationActionConfig);
-
-        searchButtonConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
     }
 
     private List<GtnUIFrameWorkActionConfig> getDeductionLevelActionConfig() {

@@ -98,6 +98,7 @@ public final class GtnWebServiceUrlConstants {
         
         public static final String GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_SERVICE = "/GtnAdjustmentDetailsDeductionValue";
         public static final String GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_CONTROLLER = "/GtnAdjustmentDetailsDeductionValueController";
+        public static final String GTN_ADJUSTMENT_DETAILS_TABLE_LOAD_SERVICE = "/gtnAdjustmentDetailsTableLoadService";
 
 	private GtnWebServiceUrlConstants() {
 		super();
