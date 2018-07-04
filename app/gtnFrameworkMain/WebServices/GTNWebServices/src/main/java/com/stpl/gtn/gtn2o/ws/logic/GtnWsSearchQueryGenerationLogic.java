@@ -282,6 +282,10 @@ public class GtnWsSearchQueryGenerationLogic {
 							.parse(gtnWebServiceSearchCriteria.getFilterValue1())))
 					.append("' ");
 			break;
+		case "IN":
+			whereSqlBuilder.append(dbName).append(' ').append("IN ")
+					.append(gtnWebServiceSearchCriteria.getFilterValue1());
+			break;
 
 		default:
 			whereSqlBuilder.append(dbName).append(' ').append(gtnWebServiceSearchCriteria.getExpression()).append(" '")
