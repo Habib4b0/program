@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.customview.constants.GtnWsCustomViewConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -24,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+    private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkCVSaveValidationAction.class);
 
     @Override
     public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
@@ -32,6 +34,7 @@ public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction, GtnU
 
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
+       try{
         final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
         final GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
         List<Object> paramList = gtnUIFrameWorkActionConfig.getActionParameterList();
@@ -59,6 +62,10 @@ public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction, GtnU
             notif.setDelayMsec(3000);
             notif.show(Page.getCurrent());
         }
+    }catch(Exception ex)
+    {
+        LOGGER.error("message",ex);
+    }
     }
 
     @Override

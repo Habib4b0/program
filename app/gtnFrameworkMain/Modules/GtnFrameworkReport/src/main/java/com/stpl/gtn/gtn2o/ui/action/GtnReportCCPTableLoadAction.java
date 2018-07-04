@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -66,7 +68,7 @@ public class GtnReportCCPTableLoadAction
 
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
 		gtnUIFrameWorkGeneratePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		List<Object> params = new ArrayList<>();
+		List<Object> params = new ArrayList<>(6);
 		params.add(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
 		params.add("Report Generate Lookup View");
 		params.add(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -82,33 +84,29 @@ public class GtnReportCCPTableLoadAction
 				.getComponentData();
 		List<GtnReportComparisonProjectionBean> comparisonLookupBeanList = (List<GtnReportComparisonProjectionBean>) idComponentData
 				.getCustomData();
-		List<String> inputForComparisonBasisList = new ArrayList<>();
+
+		int initialCapacity = 4 + (comparisonLookupBeanList == null ? 0 : comparisonLookupBeanList.size());
+		List<String> inputForComparisonBasisList = new ArrayList<>(initialCapacity);
+
+		inputForComparisonBasisList.add("Actuals");
+		inputForComparisonBasisList.add("Accruals");
+		inputForComparisonBasisList.add("Projections");
 		Optional.ofNullable(comparisonLookupBeanList).ifPresent(e -> {
 			for (GtnReportComparisonProjectionBean comparisonProjectionBeans : e) {
 				inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
 			}
 		});
-		inputForComparisonBasisList.add("Actuals");
-		inputForComparisonBasisList.add("Accruals");
-		inputForComparisonBasisList.add("Projections");
+		List idList = IntStream.range(1, initialCapacity).boxed().collect(Collectors.toList());
+
 		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromChild("reportingDashboard_displaySelectionTabComparisonBasis", componentId)
 				.getComponentConfig().getGtnComboboxConfig();
 		comparisonBasisComboboxConfig.setItemCaptionValues(inputForComparisonBasisList);
-		comparisonBasisComboboxConfig.setItemValues(inputForComparisonBasisList);
+		comparisonBasisComboboxConfig.setItemValues(idList);
 
 		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
 		combobox.reloadComponentFromChild(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
 				"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
-
-		String defaultValue = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("reportLandingScreen_displaySelectionTabCustomView")
-				.getStringCaptionFromV8ComboBox();
-
-		if (!defaultValue.contains("Select"))
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromChild("dataSelectionTab_displaySelectionTabCustomView", componentId)
-					.loadV8FieldValue(defaultValue);
 	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
@@ -186,12 +184,24 @@ public class GtnReportCCPTableLoadAction
 		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = (List<GtnReportComparisonProjectionBean>) comparisonProjectionData
 				.getCustomData();
 		dto.setComparisonProjectionBeanList(comparisonProjectionBeanList);
-		dto.setCustomViewMasterSid(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(17).toString())
-				.getIntegerFromV8ComboBox());
+		dto.setCustomViewMasterSid(Integer.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(17).toString()).getCaptionFromV8ComboBox()));
 		dto.setFrequency(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(18).toString())
 				.getIntegerFromV8ComboBox());
 		dto.setFrequencyName(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(18).toString())
 				.getStringCaptionFromV8ComboBox());
+		dto.setVariablesList(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(22).toString())
+				.getSelectedListFromV8MultiSelect());
+		String privateView = String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(23).toString(), componentId).getV8PopupFieldValue());
+		if (privateView != null) {
+			dto.setPrivateViewName(privateView);
+		}
+		String publicViewName = String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(24).toString(), componentId).getV8PopupFieldValue());
+		if (publicViewName != null) {
+			dto.setPublicViewName(publicViewName);
+		}
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);
 		dto.setProductHierarchyRecordBean(productRecordBean);
 		dto.setSelectedCustomerHierarchyList(selectedCustomerList);

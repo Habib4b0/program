@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.module.customview.constants.GtnWsCustomViewConstants;
+import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
 public class GtnWebServiceCustomSearchConfig implements GtnWsSearchQueryConfigLoader {
 
@@ -47,7 +48,11 @@ public class GtnWebServiceCustomSearchConfig implements GtnWsSearchQueryConfigLo
                 fieldToColumnDetailsMap.put( GtnFrameworkCommonConstants.CUTOMER_RELATION, searchConfigProvider.getColumnStringConfig(GtnWsCustomViewConstants.RELATIONSHIP_NAME, "RBC","CUSTOMER_RELATIONSHIP_SID",GtnWsCustomViewConstants.RELATIONSHIP_BUILDER_SID));
                 fieldToColumnDetailsMap.put( GtnFrameworkCommonConstants.PRODUCT_RELATION, searchConfigProvider.getColumnStringConfig(GtnWsCustomViewConstants.RELATIONSHIP_NAME, "RBP","PRODUCT_RELATIONSHIP_SID",GtnWsCustomViewConstants.RELATIONSHIP_BUILDER_SID));
 		
-                fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.CUSTOM_VIEW_SCREEN_NAME, searchConfigProvider.getColumnHelperConfig("MODULE_TYPE", GtnWsCustomViewConstants.CVM));
+                GtnWsColumnDetailsConfig customVwScreenConfig = searchConfigProvider
+					.getColumnHelperConfig("MODULE_TYPE", GtnWsCustomViewConstants.CVM);
+			customVwScreenConfig.setHelperTableAliasName("customVwScreen");
+			customVwScreenConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+			fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.CUSTOM_VIEW_SCREEN_NAME, customVwScreenConfig); 
 		fieldToColumnDetailsMap.put("createdDate", searchConfigProvider.getColumnDateConfig("CREATED_DATE", GtnWsCustomViewConstants.CVM));
 		fieldToColumnDetailsMap.put("createdBy", searchConfigProvider.getColumnUserConfig("CREATED_BY", GtnWsCustomViewConstants.CVM));
 		fieldToColumnDetailsMap.put("modifiedDate", searchConfigProvider.getColumnDateConfig("MODIFIED_DATE", GtnWsCustomViewConstants.CVM));

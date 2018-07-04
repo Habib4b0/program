@@ -5,6 +5,11 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.pagedtreeGrid;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
@@ -20,7 +25,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -29,10 +33,6 @@ import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.VerticalLayout;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 
 /**
  *
@@ -48,7 +48,6 @@ public class GtnUIFrameworkPagedTreeGridComponent
 			throws GtnFrameworkGeneralException {
 		VerticalLayout resultLayout = new VerticalLayout();
 		GtnUIFrameworkPagedTreeTableConfig tableConfig = componentConfig.getGtnPagedTreeTableConfig();
-
 
 		configureTableHeaders(tableConfig, componentConfig.getSourceViewId());
 		PagedTreeGrid pagedTreeGrid = new PagedTreeGrid(tableConfig, componentConfig);
@@ -129,7 +128,6 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		tableConfig.setColumnHeaders(leftHeaderList);
 
 	}
-
 
 	@Override
 	public void reloadComponent(GtnUIFrameworkActionType action, String dependentComponentId, String componentId,
@@ -227,7 +225,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		tableConfig.setRightTableDoubleHeaderVisibleColumns(rightTableHeaders.getDoubleColumns());
 		tableConfig.setRightTableDoubleVisibleHeaders(rightTableHeaders.getDoubleHeaders());
 		tableConfig.setRightTableDoubleHeaderMap(rightTableHeaders.getDoubleHeaderMaps());
-
+                tableConfig.setRightTableTripleHeaderVisibleColumns(rightTableHeaders.getTripleColumn());
 		tableConfig.setRightTableTripleVisibleHeaders(rightTableHeaders.getTripleHeader());
 		tableConfig.setRightTableTripleHeaderMap(rightTableHeaders.getTripleHeaderMap());
 
@@ -266,7 +264,6 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		return resultTableComponentData.getCustomPagedTreeTableRequest();
 	}
 
-
 	public void configureDynamicTreeTableHeaders(PagedTreeGrid pagedTreeGrid,
 			GtnUIFrameworkPagedTreeTableConfig tableConfig, GtnUIFrameworkPagedTreeTableLogic tableLogic,
 			GtnUIFrameworkComponentData componentData, GtnWsPagedTreeTableResponse leftTableHeaders,
@@ -274,7 +271,6 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		initializeResultTable(pagedTreeGrid, tableConfig);
 
 	}
-
 
 	@Override
 	public void postCreateComponent(AbstractComponent component, GtnUIFrameworkComponentConfig componentConfig) {

@@ -14,12 +14,10 @@ import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.components.grid.HeaderCell;
 import com.vaadin.ui.components.grid.HeaderRow;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -39,11 +37,13 @@ public class HeaderUtils {
 
     public static void configureGridColumns(int columnStart, int columnEnd, PagedTreeGrid pagedTreeGrid) {
         int columnCount = pagedTreeGrid.getTableConfig().getColumnHeaders().size();
-        if (columnEnd > columnCount || columnStart > columnEnd) {
+        if (columnStart > columnEnd) {
             return;
         }
-        TreeData<GtnWsRecordBean> treedata = null;
-        treedata = repaintGrid(treedata, pagedTreeGrid);
+        if (columnEnd > columnCount) {
+            columnEnd = columnCount;
+        }
+        repaintGrid( pagedTreeGrid);
         List<Object> currentSingleColumns = pagedTreeGrid.getTableConfig().getVisibleColumns().subList(columnStart, columnEnd);
         for (int j = 0; j < currentSingleColumns.size(); j++) {
             String column = (currentSingleColumns.get(j)).toString();
@@ -66,21 +66,18 @@ public class HeaderUtils {
             addDoubleHeader(currentSingleColumns, pagedTreeGrid);
         }
         addTripleHeader(currentSingleColumns, pagedTreeGrid);
-        if (treedata != null) {
-            pagedTreeGrid.getGrid().setTreeData(treedata);
-        }
     }
 
-    public static TreeData<GtnWsRecordBean> repaintGrid(TreeData<GtnWsRecordBean> treedata, PagedTreeGrid pagedTreeGrid) {
+    public static void repaintGrid( PagedTreeGrid pagedTreeGrid) {
         if (pagedTreeGrid.getGrid().getParent() != null) {
-            treedata = pagedTreeGrid.getGrid().getTreeData();
             VerticalLayout parent = (VerticalLayout) pagedTreeGrid.getGrid().getParent();
             pagedTreeGrid.setGrid(new TreeGrid<>());
             pagedTreeGrid.getGrid().setWidth(pagedTreeGrid.getComponentConfig().getComponentWidth());
             pagedTreeGrid.getGrid().setHeight(pagedTreeGrid.getComponentConfig().getComponentHight());
             parent.replaceComponent(parent.getComponent(0), pagedTreeGrid.getGrid());
+            pagedTreeGrid.initializeGrid(pagedTreeGrid.componentIdInMap);
+            
         }
-        return treedata;
     }
 
     public static void addDoubleHeader(List<Object> currentSingleColumns, PagedTreeGrid pagedTreeGrid) {
@@ -118,8 +115,16 @@ public class HeaderUtils {
             HeaderRow groupingHeader = pagedTreeGrid.getGrid().prependHeaderRow();
             int j = 0;
             for (Object property : pagedTreeGrid.getTableConfig().getRightTableTripleHeaderMap().keySet()) {
-                Object[] joinList = pagedTreeGrid.getTableConfig().getRightTableTripleHeaderMap().get(property);
-                String[] columnList = currentSingleColumns.stream().map(String::valueOf).filter(e -> arrayContains(joinList, e))
+                Object[] doubleHeaders = pagedTreeGrid.getTableConfig().getRightTableTripleHeaderMap().get(property);
+                List<Object> singleList=new ArrayList<>();
+                for (Object dbl : doubleHeaders) {
+                    if(pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(dbl)!=null){
+                       singleList.addAll(Arrays.stream(pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(dbl))
+                             .collect(Collectors.toList())) ;
+                    }
+                }
+                
+                String[] columnList = currentSingleColumns.stream().map(String::valueOf).filter(e -> arrayContains(singleList.toArray(), e))
                         .collect(Collectors.toList()).toArray(new String[0]);
                 if (pagedTreeGrid.getTableConfig().isEnableCheckBoxInTripleHeader()) {
                     CheckBoxGroup vaadinCheckBoxGroup = new CheckBoxGroup();
@@ -129,7 +134,7 @@ public class HeaderUtils {
                     if (columnList.length > 1) {
                         groupingHeader.join(columnList).setText(pagedTreeGrid.getTableConfig().getRightTableTripleVisibleHeaders().get(j++));
                     } else if (columnList.length > 0) {
-                        groupingHeader.getCell(columnList[j]).setText(pagedTreeGrid.getTableConfig().getRightTableTripleVisibleHeaders().get(j++));
+                        groupingHeader.getCell(columnList[columnList.length-1]).setText(pagedTreeGrid.getTableConfig().getRightTableTripleVisibleHeaders().get(j++));
                     }
                 }
             }

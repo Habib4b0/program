@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import java.util.List;
  */
 
 public class GtnFrameworkRemoveAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+    private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkRemoveAction.class);
 
     @Override
     public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
@@ -30,6 +32,8 @@ public class GtnFrameworkRemoveAction implements GtnUIFrameWorkAction, GtnUIFram
 
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
+      try
+      {
         List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
         GtnUIFrameworkBaseComponent treeBaseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString());
         GtnUIFrameworkBaseComponent table = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1).toString());
@@ -57,6 +61,10 @@ public class GtnFrameworkRemoveAction implements GtnUIFrameWorkAction, GtnUIFram
             selectedTreeBean.setRecordHeader(Arrays.asList("levelName","levelNo","treeLevelNo","hierarchyIndicator","hierarchyLevelDefinitionSid"));
             table.addItemToDataTable(selectedTreeBean);
         }
+    }catch(Exception ex)
+    {
+        LOGGER.error("message",ex);
+    }
     }
 
     @Override

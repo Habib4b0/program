@@ -5,7 +5,6 @@
  */
 package com.stpl.gtn.gtn2o.ui.action;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,25 +66,37 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 		List<Object> deductionInclusion = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(3).toString(), componentId).getSelectedListFromV8MultiSelect();
 		dashBoardBean.setDeductionInclusion(
-				salesInclusion.size() == 1 ? Integer.parseInt(deductionInclusion.get(0).toString()) - 1 : -1);
+				deductionInclusion.size() == 1 ? Integer.parseInt(deductionInclusion.get(0).toString()) - 1 : -1);
 		String annualTotalValue = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabAnnualTotals", componentId)
 				.getCaptionFromV8ComboBox();
 		dashBoardBean.setAnnualTotals(annualTotalValue);
+
+		String comparisonBasis = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis", componentId)
+				.getCaptionFromV8ComboBox();
+		dashBoardBean.setComparisonBasis(comparisonBasis);
 
 		List<Object> displayFormat = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(4).toString(), componentId)
 				.getSelectedCaptionListFromV8MultiSelect();
 		dashBoardBean.setDisplayFormat(displayFormat.toArray());
 
+		dashBoardBean.setVariablesVariances(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(params.get(9).toString(), componentId).getIntegerFromV8ComboBox() == 2);
+
 		dashBoardBean.setCurrencyConversion(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(5).toString(), componentId).getCaptionFromV8ComboBox());
+
 		grid.getTableConfig().setGtnWsReportDashboardBean(dashBoardBean);
 
 		if (!dataSelectionBean.isDataRefreshDone()) {
 			grid.getTableConfig().setGtnReportDataRefreshBean(null);
 		}
 		checkForSelectionChange(dataSelectionBean, componentId, params, grid.getTableConfig());
+
+		dashBoardBean
+				.setCustomViewMasterSid(grid.getTableConfig().getGtnReportDataRefreshBean().getCustomViewMasterSid());
 
 		componentData.getCurrentGtnComponent().reloadComponent(null, componentId, (String) params.get(1), null);
 	}
@@ -151,12 +162,7 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 			List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
 		boolean dsComparison = Optional.ofNullable(dataselectionComparisonProjectionBeanList).isPresent();
 		boolean rdComparison = Optional.ofNullable(comparisonProjectionBeanList).isPresent();
-		if (!rdComparison) {
-			return false;
-		}
 		if (dataselectionComparisonProjectionBeanList != null && comparisonProjectionBeanList != null) {
-			Collections.sort(dataselectionComparisonProjectionBeanList, new GtnReportComparisonProjectionBean());
-			Collections.sort(comparisonProjectionBeanList, new GtnReportComparisonProjectionBean());
 			return checkBothComparisonList(dataselectionComparisonProjectionBeanList, comparisonProjectionBeanList);
 		} else if ((dsComparison && !rdComparison) || (!dsComparison && rdComparison)) {
 			return true;

@@ -26,6 +26,9 @@ public class GtnWsReportConstants {
 	public static final String GTN_REPORT_LOAD_PUBLICVIEWLOOKUP_SERVICE = "/loadPublicViewResults";
 	public static final String GTN_REPORT_DASHBOARD_GENERATE_REPORT_CALCULATION_INSERT = "/generateReportCalculationInsert";
 	public static final String GTN_REPORT_SAVEVIEW_SERVICE = "/reportSaveViewService";
+	public static final String GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE = "/loadReportProfileLookupResults";
+	public static final String GTN_REPORT_PROFILE_SAVE_SERVICE = "/reportProfileSaveService";
+	public static final String GTN_REPORT_PROFILE_UPDATE_SERVICE = "/reportProfileUpdateService";
 	public static final String GTN_REPORRT_DELETEVIEW_SERVICE = "/reportDeleteViewService";
 	public static final String GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_LOADSERVICE = "/reportComparisonAvailableTableLoadService";
 	public static final String GTN_WS_REPORT_VARIABLE_BREAKDOWN_TABLE_HEADERS_SERVICE = "/getReportVariableBreakdownTableHeaders";
@@ -41,5 +44,5 @@ public class GtnWsReportConstants {
 	public static final String GTN_WS_DATA_SELECTION_GENERATE_SERVICE = "/gtnWsReportCCPGeneration";
 	public static final String GTN_WS_DATA_SELECTION_REGENERATE_SERVICE = "/gtnWsReportCCPReGeneration";
 	public static final String GTN_WS_REPORT_DASHBOARD_CUSTOM_VIEW_AND_DATA_REGENERATION_SERVICE = "/gtnWsCustomViewAndDataRegeneration";
-
+	public static final String GTN_WS_REPORT_DASHBOARD_LOAD_FROM_AND_TO_IN_DATA_SELECTION = "/gtnWsLoadFromAndToInDataSelection";
 }

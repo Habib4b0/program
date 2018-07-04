@@ -89,35 +89,35 @@ public class GtnWsSearchServiceController {
 			generalWSResponse.setSucess(true);
 			String queryName = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
 			boolean isCount = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().isCount();
-
 			GtnWsSearchQueryConfigLoaderType searchQueryconfigLoaderType = gtnUIFrameworkWebserviceRequest
 					.getGtnWsSearchRequest().getSearchConfigLodaderType();
 			GtnWsSearchQueryConfigLoader searchQueryConfigLoader = (GtnWsSearchQueryConfigLoader) searchQueryconfigLoaderType
 					.returnSearchQueryConfigLoader(gtnWebServiceAllListConfig.getDynamicClassObjectMap());
 			GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = searchQueryConfigLoader.getSearchQueryConfigMap()
 					.get(queryName);
-
 			GtnWsSearchQueryGenerationLogic searchQueryGenerationLogic = new GtnWsSearchQueryGenerationLogic(
 					gtnWebServiceSearchQueryConfig, gtnUIFrameworkWebserviceRequest);
 
 			String generatedQuery = searchQueryGenerationLogic.generateSearchQuery();
 
-			Connection connection = gtnWebServiceAllListConfig.getSysSessionFactory().getSessionFactoryOptions().
-                                getServiceRegistry().getService(ConnectionProvider.class).getConnection();
-                        String generatedQueryReplaced = generatedQuery.replace("@SYS", connection.getCatalog());
+
+            String generatedQueryReplaced = generatedQuery.replace("@SYS", gtnWebServiceAllListConfig.getCatalogName());
 			List<Object[]> resultList = executeQuery(generatedQueryReplaced); 
 
 			if (!isCount && gtnWebServiceSearchQueryConfig.getFieldToColumnDetailsMap() != null) {
+	
 				getCustomizedSearchFormFromObject(resultList, gtnWebServiceSearchQueryConfig,
 						gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchColumnNameList());
 
 			}
 			GtnSerachResponse gtnSerachResponse = new GtnSerachResponse();
 			if (isCount) {
-
+				
+		
 				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 
 			} else {
+				
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData(resultList);
 				gtnSerachResponse.setResultSet(gtnUIFrameworkDataTable);

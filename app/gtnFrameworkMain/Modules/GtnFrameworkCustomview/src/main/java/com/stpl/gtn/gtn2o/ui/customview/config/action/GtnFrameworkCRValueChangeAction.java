@@ -1,4 +1,4 @@
-/*
+                                                                            /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataRow;
 import com.stpl.gtn.gtn2o.ws.customview.constants.GtnWsCustomViewConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -28,7 +29,7 @@ import java.util.List;
  * @author Lokeshwari.Kumarasam
  */
 public class GtnFrameworkCRValueChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
-
+ private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkCRValueChangeAction.class);
     @Override
     public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
         // No Need to Implement. Its an unused method.
@@ -36,6 +37,8 @@ public class GtnFrameworkCRValueChangeAction implements GtnUIFrameWorkAction, Gt
 
     @Override
     public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
+        try
+        {
         List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
         List<Integer> customerAlreadyAddedList=new ArrayList<>();
         List<Integer> productAlreadyAddedList=new ArrayList<>();
@@ -48,12 +51,14 @@ public class GtnFrameworkCRValueChangeAction implements GtnUIFrameWorkAction, Gt
         GtnUIFrameworkBaseComponent treeTable = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(5).toString());
         GtnUIFrameworkBaseComponent dedTable = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(deductionTableId);
         boolean isEdit=String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")).equalsIgnoreCase("Edit");
+        boolean isView=String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode")).equalsIgnoreCase("View");
         
         addSavedDataFromTree(treeTable, customerAlreadyAddedList, productAlreadyAddedList, deductionAlreadyAddedList);
-        treeTable.clearTree();
-      
-        table.clearTree();
-        
+        if (!isEdit && !isView) {
+                treeTable.clearTree();
+
+                table.clearTree();
+        }
         int relationSid = component.getIntegerFromField();
         dto.setRecordHeader(table.getTableRecordHeader());
         GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
@@ -93,7 +98,11 @@ public class GtnFrameworkCRValueChangeAction implements GtnUIFrameWorkAction, Gt
             loadDeductionTable(responseForDed, isEdit, deductionAlreadyAddedList, table, dedTableComponent);
         }
     }
-
+  catch(Exception ex)
+ {
+     LOGGER.error("message",ex);
+ }
+    }
     private void loadDeductionTable(GtnUIFrameworkWebserviceResponse responseForDed, boolean isEdit, List<Integer> deductionAlreadyAddedList, GtnUIFrameworkBaseComponent table, GtnUIFrameworkBaseComponent dedTableComponent) throws GtnFrameworkValidationFailedException {
         GtnWsRecordBean dto;
         for (GtnUIFrameworkDataRow record : responseForDed.getGtnSerachResponse().getResultSet().getDataTable()) {

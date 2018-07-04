@@ -101,7 +101,7 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLookUpSearchCriteriaConfig");
 		publicViewLookUpSearchCriteriaConfig.setComponentName("Search Criteria");
 		publicViewLookUpSearchCriteriaConfig.setAddToParent(true);
-		publicViewLookUpSearchCriteriaConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		publicViewLookUpSearchCriteriaConfig.setComponentWidth("90%");
 		publicViewLookUpSearchCriteriaConfig.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "publicViewLookUpSearchCriteriaPanel");
 		publicViewLookUpSearchCriteriaConfig.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
@@ -305,6 +305,7 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadViewAction.addActionParameter(GtnReportDataSelectionLoadViewAction.class.getName());
 		loadViewAction.addActionParameter("reportLandingScreen_publicViews");
+		loadViewAction.addActionParameter("reportLandingScreen");
 		actionConfigList.add(loadViewAction);
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();

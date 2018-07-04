@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -17,12 +18,14 @@ import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFramework
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.data.HasValue;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.data.HasValue.ValueChangeListener;
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBoxGroup;
@@ -38,15 +41,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.components.grid.HeaderRow;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 public class PagedGrid {
 
@@ -58,7 +52,7 @@ public class PagedGrid {
     private int pageLength = 10;
     private int pageNumber = 0;
     private DataSet dataSet;
-    private Label pageCountLabel;
+    
     private GtnUIFrameworkPagedTableConfig gtnUIFrameworkPagedTableConfig;
     Grid<GtnWsRecordBean> grid;
     private HorizontalLayout controlLayout;
@@ -255,37 +249,59 @@ public class PagedGrid {
     }
 
     public HorizontalLayout getControlLayout() {
+    	 Label pageCountLabel;
         if (controlLayout == null) {
             controlLayout = new HorizontalLayout();
+            controlLayout.setSpacing(false);
+            controlLayout.setMargin(false);
+            HorizontalLayout pageNoFieldText = new HorizontalLayout();
             pageNoField = new TextField();
             pageCountLabel = new Label("1");
+            pageNoFieldText.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_10);
+            pageCountLabel.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_13);
             pageNoField.setWidth("50px");
+            pageNoFieldText.addComponent(pageNoField);
             setPageNoFieldValue(0);
+            Label itemsPerPageLabel = new Label("Items per page:");
+            itemsPerPageLabel.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_10);
+            controlLayout.addComponent(itemsPerPageLabel);
             controlLayout.addComponent(getItemsPerPage());
-            controlLayout.addComponent(getControlLayoutButtons("<<", e -> this.setPageNumber(0)));
-            controlLayout.addComponent(getControlLayoutButtons("<", e -> this.previousPage()));
-            controlLayout.addComponent(new Label("Page No:"));
-            controlLayout.addComponent(pageNoField);
-            controlLayout.addComponent(new Label("/"));
-            controlLayout.addComponent(pageCountLabel);
-            controlLayout.addComponent(getControlLayoutButtons(">", e -> this.nextPage()));
-            controlLayout.addComponent(getControlLayoutButtons(">>", e -> this.setPageNumber(this.getPageCount() - 1)));
+           
+            HorizontalLayout horizontalLayoutForPage = new HorizontalLayout();
+            horizontalLayoutForPage.addComponent(getControlLayoutButtons("<<", e -> this.setPageNumber(0)));
+            horizontalLayoutForPage.addComponent(getControlLayoutButtons("<", e -> this.previousPage()));
+            Label pageNo = new Label("Page No:");
+            pageNo.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_13);
+            horizontalLayoutForPage.addComponent(pageNo);
+            horizontalLayoutForPage.addComponent(pageNoFieldText);
+            Label slash = new Label("/");
+            slash.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_13);
+            horizontalLayoutForPage.addComponent(slash);
+            horizontalLayoutForPage.addComponent(pageCountLabel);
+            horizontalLayoutForPage.addComponent(getControlLayoutButtons(">", e -> this.nextPage()));
+            horizontalLayoutForPage.addComponent(getControlLayoutButtons(">>", e -> this.setPageNumber(this.getPageCount() - 1)));
             pageNoField.addBlurListener(e -> setPageNumber((Integer.parseInt(pageNoField.getValue())) - 1));
+            controlLayout.addComponent(horizontalLayoutForPage);
+            controlLayout.setComponentAlignment(horizontalLayoutForPage,Alignment.MIDDLE_CENTER);
+           
         }
         return controlLayout;
     }
 
     private Button getControlLayoutButtons(String caption, ClickListener listener) {
         Button button = new Button(caption, listener);
-        button.setStyleName("link");
+       
+        button.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_13);
+        button.addStyleName("link");
         return button;
     }
 
     private Component getItemsPerPage() {
-        ComboBox itemsPerPage = new ComboBox("Items per page:");
+    	HorizontalLayout comboHorizontalLayout = new HorizontalLayout();
+        ComboBox itemsPerPage = new ComboBox();
         itemsPerPage.setItems(new Object[]{5, 10, 15, 20, 25, 50, 100});
         itemsPerPage.setSelectedItem(10);
-        itemsPerPage.setWidth("60px");
+        itemsPerPage.setWidth("90px");
         itemsPerPage.setEmptySelectionAllowed(false);
         itemsPerPage.addValueChangeListener(new HasValue.ValueChangeListener() {
             @Override
@@ -293,7 +309,9 @@ public class PagedGrid {
                 setPageLength((int) itemsPerPage.getValue());
             }
         });
-        return itemsPerPage;
+        comboHorizontalLayout.addStyleName(GtnFrameworkCssConstants.STPL_PADDING_TOP_10);
+        comboHorizontalLayout.addComponent(itemsPerPage);
+        return comboHorizontalLayout;
     }
 
     private void setFilterToGrid() {
@@ -307,15 +325,15 @@ public class PagedGrid {
     }
 
     String appendFilter(String query) {
-        String filter = "";
+        StringBuilder filter = new StringBuilder();
         String condition = "AND";
         for (Map.Entry<String, Object> entry : tableConfig.getFilterValueMap().entrySet()) {
             String key = getDBColumnName(entry.getKey());
             Object value = entry.getValue();
-            filter += condition + " " + key + "  like '%" + value + "%'";
+            filter.append(condition + " " + key + "  like '%" + value + "%'");
         }
 
-        return query.replace("@filter", filter);
+        return query.replace("@filter", filter.toString());
     }
 
     private String getDBColumnName(String key) {
@@ -391,9 +409,13 @@ public class PagedGrid {
     }
 
     private void onFilterTextChange(HasValue.ValueChangeEvent<String> event) {
-        tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
+        tableConfig.getFilterValueMap().put(event.getComponent().getId(), getFilterValueForEventChange(event));
         refreshGrid();
     }
+
+	private String getFilterValueForEventChange(HasValue.ValueChangeEvent<String> event) {
+		return "%"+event.getValue()+"%";
+	}
 
     public void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event) {
         tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());

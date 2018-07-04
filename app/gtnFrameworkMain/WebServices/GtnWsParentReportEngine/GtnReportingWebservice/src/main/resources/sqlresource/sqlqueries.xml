@@ -135,9 +135,9 @@
 					distinct c.HIERARCHY_NAME,
 					a.LEVEL_NO As HIGH_LEVEL,
 					b.LEVEL_NO As LOW_LEVEL,
-					a.LEVEL_NAME,
 					c.CREATED_DATE,
 					c.MODIFIED_DATE,
+					a.LEVEL_NAME,
 					c.VERSION_NO,
 					c.HIERARCHY_DEFINITION_SID
 				from
@@ -173,7 +173,7 @@
 						WHERE
 							h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
 					)
-					AND c.HIERARCHY_NAME like ?
+					AND c.HIERARCHY_NAME like ? @filter
 					AND c.HIERARCHY_TYPE in(
 						select
 							ht.HELPER_TABLE_SID
@@ -200,6 +200,7 @@
 						VIEW_TYPE = ?
 						AND VIEW_NAME LIKE ?
 						?
+						AND FLAG = ?
 			]]>
 	</entry>
 	<entry key="filterOptionCustLevelProdLevelLoadQuery">
@@ -231,7 +232,8 @@
 					CREATED_DATE,
 					MODIFIED_BY,
 					MODIFIED_DATE,
-					VIEW_DATA
+					VIEW_DATA,
+					FLAG
 				)
 			VALUES(
 				?,
@@ -240,8 +242,21 @@
 				getDate(),
 				?,
 				getDate(),
+				?,
 				?
 			);
+		]]>
+	</entry>
+	
+	<entry key="updateView">
+		<![CDATA[
+			UPDATE REPORTING_VIEW_MASTER
+			SET		CREATED_BY = ? ,
+					CREATED_DATE = getDate() ,
+					MODIFIED_BY = ? ,
+					MODIFIED_DATE = getDate() ,
+					VIEW_DATA = ? 
+			WHERE 	VIEW_NAME = ?	
 		]]>
 	</entry>
 	
@@ -841,6 +856,12 @@
 	<entry key="getTruncateQuery">
 		<![CDATA[
 			TRUNCATE TABLE ?
+		]]>
+	</entry>
+	
+	<entry key="getQueryForCustomViewVariableCount">
+		<![CDATA[
+			SELECT HIERARCHY_ID,HIERARCHY_INDICATOR,LEVEL_NO,VARIABLE_COUNT FROM CUST_VIEW_DETAILS where CUSTOM_VIEW_MASTER_SID = ?
 		]]>
 	</entry>
 		

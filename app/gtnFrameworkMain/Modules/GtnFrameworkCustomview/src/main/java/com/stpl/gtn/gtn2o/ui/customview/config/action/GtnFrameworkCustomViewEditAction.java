@@ -100,18 +100,19 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
                 .getVaadinBaseComponent(nameSpacePrefix + "gtnProductGreaterButton");
         GtnUIFrameworkBaseComponent gtnProductLesserButton= GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent(nameSpacePrefix + "gtnProductLesserButton");
+        GtnUIFrameworkBaseComponent gtnDeductionGreaterButton= GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(nameSpacePrefix + "gtnDeductionGreaterButton");
+        GtnUIFrameworkBaseComponent gtnDeductionLesserButton= GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(nameSpacePrefix + "gtnDeductionLesserButton");
         
         baseViewName.loadFieldValue(viewName);
         descriptionField.loadFieldValue(description);
         viewTypeField.selectOptionGroupValue(viewType);
-        getTreeData(customSid,parameters,nameSpacePrefix);
+        getTreeData(customSid,parameters,nameSpacePrefix,viewType);
         customerRelationSidField.setEnable(false);
         productRelationSidField.setEnable(false);
         customerRelationSidField.loadComboBoxComponentValue(customerRaltionSid);
-        getTreeData(customSid,parameters,nameSpacePrefix);
-        
         productRelationSidField.loadComboBoxComponentValue(productRealtionSid);
-        getTreeData(customSid,parameters,nameSpacePrefix);
         
         boolean isEnable=String.valueOf(parameters.get(2)).equalsIgnoreCase("VIEW");
         
@@ -123,15 +124,17 @@ public class GtnFrameworkCustomViewEditAction implements GtnUIFrameWorkAction, G
         gtnCustomerLesserButton.setEnable(!isEnable);
         gtnProductGreaterButton.setEnable(!isEnable);
         gtnProductLesserButton.setEnable(!isEnable);
-            
+        gtnDeductionGreaterButton.setEnable(!isEnable); 
+        gtnDeductionLesserButton.setEnable(!isEnable);
     }
 
-    private void getTreeData(int customSid,List<Object> parameters,String nameSpacePrefix) throws GtnFrameworkGeneralException {
+    private void getTreeData(int customSid,List<Object> parameters,String nameSpacePrefix,String viewType) throws GtnFrameworkGeneralException {
         final GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
         final GtnUIFrameworkWebserviceRequest generalRequest = new GtnUIFrameworkWebserviceRequest();
         GtnWsCustomViewRequest cvRequest = new GtnWsCustomViewRequest();
-
+        cvRequest.setCustomViewType(viewType);
         cvRequest.setCvSysId(customSid);
+        cvRequest.setCustomViewType("");
         generalRequest.setGtnWsCustomViewRequest(cvRequest);
 
         GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(

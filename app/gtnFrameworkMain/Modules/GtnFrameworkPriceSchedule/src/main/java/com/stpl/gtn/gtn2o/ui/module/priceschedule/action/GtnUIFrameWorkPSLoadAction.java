@@ -17,6 +17,7 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkPopUpAction;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.GtnUIFrameworkNotesTab;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.NotesDTO;
@@ -52,6 +53,8 @@ import com.vaadin.ui.Component;
  * @author Mahesh.James
  */
 public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+	
+	
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -106,10 +109,11 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleNameTop")
 						.setPropertyValue(priceScheduleInfoBean.getPsName());
 			}
-                         if (mode == GtnUIFrameworkModeType.COPY) {
-                            Component delComponent = GtnUIFrameworkGlobalUI.getVaadinComponent("priceScheduleAddViewAAddDeleteButton");
-                            delComponent.setEnabled(false);
-                        }
+                         
+			if (mode == GtnUIFrameworkModeType.COPY) {
+				Component delComponent = GtnUIFrameworkGlobalUI.getVaadinComponent("priceScheduleAddViewAAddDeleteButton");
+                delComponent.setEnabled(false);
+            }
 			checkCopyModeAction(componentId);
 			resetNotesTab();
 			loadNotesTab(priceScheduleInfoBean, noteBeanList);
@@ -229,6 +233,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 	}
 
 	public void loadPriceTabsForView(int systemId, boolean isEditable) throws GtnFrameworkGeneralException {
+		
 		String pSDesignation = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleDesignation")
 				.getCaptionFromComboBox();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("parentPriceScheduleID").setEnable(false);
@@ -255,6 +260,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		loadTableMetaData(visibleColumnsPricingArray, tableHeaderPricingArray, tableHeaderPricingDataTypeArray,
 				pricingTabPagedTableConfig);
 		String moduleQueryName = isEditable ? "priceSchedulePrice" : "priceSchedulePriceView";
+		
 		configureDataLoadingType(moduleQueryName, GtnFrameworkPSConstants.getPricingEditableFieldPropertiesArray(),
 				GtnFrameworkCommonConstants.CHECK_RECORD_ID, pricingTabPagedTableConfig, isEditable);
 		configureTableURL(pricingTabPagedTableConfig);
@@ -264,6 +270,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 
 	private void loadPriceProtectionTable(GtnUIFrameworkBaseComponent priceProtectionResultDataTable,
 			boolean isEditable, int systemId) throws GtnFrameworkGeneralException {
+		
 		GtnUIFrameworkPagedTableConfig pricingTabPagedTableConfig = getPagedTable(priceProtectionResultDataTable);
 		String[] tableHeaderPricingArray = getPriceProtectionViewHeaderArray(isEditable);
 		Object[] visibleColumnsPricingArray = getPriceProtectionViewColumnIdArray(isEditable);
@@ -277,8 +284,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		configureDataLoadingType(moduleQueryName, GtnFrameworkPSConstants.getPriceProtectionEditableList(),
 				GtnFrameworkCommonConstants.CHECK_RECORD_ID, pricingTabPagedTableConfig, isEditable);
 		configureTableURL(pricingTabPagedTableConfig);
-		resetTable(systemId, "psPriceProtectionTabResultLayout", isEditable,
-				priceProtectionResultDataTable.getComponentConfig(), pricingTabPagedTableConfig);
+		resetTable(systemId, "psPriceProtectionTabResultLayout", isEditable,priceProtectionResultDataTable.getComponentConfig(), pricingTabPagedTableConfig);
 		String tableID = priceProtectionResultDataTable.getComponentConfig().getComponentId();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableID)
 				.setTableColumns(getPriceProtectionColumnIdArray(isEditable));
@@ -286,10 +292,8 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 				.setTableColumnHeaders(getPriceProtectionHeaderArray(isEditable));
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableID);
 		if (isEditable)
-			tableBaseComponent.setFilterFieldVisible(
-					GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[0], false);
-		tableBaseComponent.setFilterFieldVisible(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[12],
-				false);
+			tableBaseComponent.setFilterFieldVisible(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[0], false);
+		tableBaseComponent.setFilterFieldVisible(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[12],false);
 	}
 
 	private Class<?>[] getPricingTableDataTypeArray(boolean isEditable) {
@@ -328,7 +332,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 					"Status", "CP Start Date", "CP End Date", "Price Type", "Price", "Suggested Price", "Source",
 					"Created By", "Created Date", "Attached Date" };
 		} else {
-
+				
 			return new String[] { "Item ID", "Item NO", GtnFrameworkCommonConstants.LABEL_ITEM_NAME, "Brand Name",
 					"Status", "CP Start Date", "CP End Date", "Price Type", "Price", "Suggested Price", "Source",
 					"Created By", "Created Date", "Attached Date" };
@@ -438,8 +442,10 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 			pricingTabPagedTableConfig.setColumnCheckBoxId("");
 		}
 		pricingTabPagedTableConfig.setModuleName(moduleAndQueryName);
+		
 		pricingTabPagedTableConfig.setQueryName(moduleAndQueryName);
 		pricingTabPagedTableConfig.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.PRICE_SCHEDULE);
+		
 	}
 
 	private void loadTableMetaData(Object[] visibleColumnsPricingArray, String[] tableHeaderPricingArray,

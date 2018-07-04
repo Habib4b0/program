@@ -17,6 +17,7 @@ public class GtnWsReportDashboardBean {
 	private String[] input;
 	private Object[] values;
 	private String customViewName;
+	private int customViewMasterSid;
 	private String sessionId;
 	private GtnWsHierarchyType hierarchyType;
 	private String[] selectedVariableType;
@@ -34,7 +35,9 @@ public class GtnWsReportDashboardBean {
 	private String currencyConversion;
 	private Object[] displayFormat;
 	private List<Object> ccpDetailsSidList;
+	private List<Object> rsContractSidList;
 	private String annualTotals;
+	private String comparisonBasis;
 
 	public String[] getInput() {
 		return input;
@@ -198,14 +201,38 @@ public class GtnWsReportDashboardBean {
 
 	public void setCcpDetailsSidList(List<Object> ccpDetailsSidList) {
 		this.ccpDetailsSidList = ccpDetailsSidList;
-        }
-        
-        public String getAnnualTotals() {
+	}
+
+	public String getAnnualTotals() {
 		return annualTotals;
 	}
 
 	public void setAnnualTotals(String annualTotals) {
 		this.annualTotals = annualTotals;
+	}
+
+	public List<Object> getRsContractSidList() {
+		return rsContractSidList;
+	}
+
+	public void setRsContractSidList(List<Object> rsContractSidList) {
+		this.rsContractSidList = rsContractSidList;
+	}
+
+	public String getComparisonBasis() {
+		return comparisonBasis;
+	}
+
+	public void setComparisonBasis(String comparisonBasis) {
+		this.comparisonBasis = comparisonBasis;
+	}
+
+	public int getCustomViewMasterSid() {
+		return customViewMasterSid;
+	}
+
+	public void setCustomViewMasterSid(int customViewMasterSid) {
+		this.customViewMasterSid = customViewMasterSid;
 	}
 
 }
