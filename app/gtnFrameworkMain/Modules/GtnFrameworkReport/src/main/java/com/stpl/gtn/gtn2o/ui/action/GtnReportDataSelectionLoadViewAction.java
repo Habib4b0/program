@@ -27,7 +27,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
-import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnReportDataSelectionLoadViewAction
@@ -203,9 +202,11 @@ public class GtnReportDataSelectionLoadViewAction
 								.collect(Collectors.toList()),
 						Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
 								.collect(Collectors.toList()));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
+		if(dataSelectionBean.getVariablesList() != null){
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabVariable", componentId)
 				.updateSelection(dataSelectionBean.getVariablesList());
+                }
 
 	}
 
