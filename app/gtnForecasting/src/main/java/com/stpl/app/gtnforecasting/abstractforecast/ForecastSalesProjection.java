@@ -1636,6 +1636,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                     List<Integer> listStr = salesLogic.headerCheckALLQuery(session, 0, false);
                                     leftTable.setColumnCheckBox(Constant.CHECK, true, listStr.size() != 1 ? false : (String.valueOf(listStr.get(0)) == "true"));
                                     resultsTable.getLeftFreezeAsTable().setRefresh(false);
+                                } else {
+                                    List<Integer> listSalesStr = salesLogic.salesheaderCheckALLQuery(session, 0, false);
+                                    leftTable.setColumnCheckBox(Constant.CHECK, true, listSalesStr.size() != 1 ? false : (String.valueOf(listSalesStr.get(0)) == "true"));
+                                    resultsTable.getLeftFreezeAsTable().setRefresh(false);
                                 }
                                 resultsTable.getLeftFreezeAsTable().setRefresh(true);
                             } catch (PortalException | SystemException ex) {
