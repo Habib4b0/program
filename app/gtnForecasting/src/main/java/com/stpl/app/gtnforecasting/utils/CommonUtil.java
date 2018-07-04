@@ -774,8 +774,10 @@ public class CommonUtil {
                         formattedNameList.add(String.valueOf(listOfLevelName.get(NumericConstants.ZERO)));
                     }
                 } else {
-                    formattedNameList.add(String.valueOf(listOfLevelName.get(NumericConstants.ZERO)));
+                    formattedNameList.add(String.valueOf(relationshipListValues.get(0)));
                 }
+            }else {
+                  formattedNameList.add(String.valueOf(relationshipListValues.get(0)));
             }
         } catch (Exception ex) {
             logger.error(ex.getMessage());

@@ -122,7 +122,6 @@
   <hop> <from>Add constants 5</from><to>ADD INSERT WAIT</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants 6 2 2</from><to>D-INVALID 5</to><enabled>Y</enabled> </hop>
   <hop> <from>Update 2</from><to>Add constants 7</to><enabled>Y</enabled> </hop>
-  <hop> <from>COMPANY PARENT DELETE</from><to>Add constants 2 3 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>
   <hop> <from>Audit Status 2</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
   <hop> <from>Audit Status 3</from><to>CHANGE Audit update</to><enabled>Y</enabled> </hop>
@@ -148,8 +147,8 @@
   <hop> <from>PRIOR_COMPANY_ID CHECK</from><to>Add constants 6 2</to><enabled>Y</enabled> </hop>
   <hop> <from>COMPANY_ID CHECK 2 2</from><to>Add constants 2 2</to><enabled>N</enabled> </hop>
   <hop> <from>COMPANY_ID CHECK 3</from><to>Add constants 6</to><enabled>N</enabled> </hop>
-  <hop> <from>Add constants 4 2</from><to>A-INVALID 4</to><enabled>Y</enabled> </hop>
-  <hop> <from>COMPANY_PARENT_DETAILS_update</from><to>Add constants 4 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 4 2</from><to>A-INVALID 4</to><enabled>N</enabled> </hop>
+  <hop> <from>COMPANY_PARENT_DETAILS_update</from><to>Add constants 4 2</to><enabled>N</enabled> </hop>
   <hop> <from>Duplicate Check</from><to>COMPANY_PARENT_INSERT</to><enabled>Y</enabled> </hop>
   <hop> <from>Duplicate Check</from><to>COMPANY_PARENT_DETAILS_update</to><enabled>Y</enabled> </hop>
   <hop> <from>COMPANY_PARENT_DETAILS_update</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>
@@ -160,7 +159,6 @@
   <hop> <from>Add constants 2 3 2 2</from><to>C-INVALID 5</to><enabled>N</enabled> </hop>
   <hop> <from>COMPANY_MASTER_INBOUND_CHECK</from><to>COMPANY_ID CHECK 3</to><enabled>N</enabled> </hop>
   <hop> <from>Add constants 8</from><to>PRIOR_COMPANY_ID CHECK 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants 3</from><to>Duplicate Check</to><enabled>Y</enabled> </hop>
   <hop> <from>ADD INSERT WAIT</from><to>PRIOR_COMPANY_ID CHECK</to><enabled>Y</enabled> </hop>
   <hop> <from>Switch &#x2f; Case</from><to>Add constants 3 2 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants 3 2 2</from><to>DEL SORT</to><enabled>Y</enabled> </hop>
@@ -169,6 +167,13 @@
   <hop> <from>DELETE INSERT WAIT </from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants 3 3</from><to>ADD SORT</to><enabled>Y</enabled> </hop>
   <hop> <from>ADD SORT</from><to>DELETE INSERT WAIT </to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3</from><to>Duplicate Check 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Duplicate Check 2</from><to>Duplicate Check</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 4 2 3</from><to>A-INVALID 4 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Duplicate Check 2</from><to>Add constants 4 2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY PARENT DELETE</from><to>COMPANY PARENT DELETE 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY PARENT DELETE 2</from><to>Add constants 2 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY PARENT DELETE 2</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>A-INVALID</name>
@@ -1002,8 +1007,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>554</xloc>
-      <yloc>953</yloc>
+      <xloc>511</xloc>
+      <yloc>1017</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1415,6 +1420,18 @@
         <decimal/>
         <group/>
         <nullif>A</nullif>
+        <length>10</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>INBOUND_STATUS_C</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>C</nullif>
         <length>10</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -3212,8 +3229,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>438</xloc>
-      <yloc>1005</yloc>
+      <xloc>450</xloc>
+      <yloc>1155</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3895,13 +3912,13 @@
       <schema/>
       <table>COMPANY_PARENT_DETAILS</table>
       <key>
-        <name>COM_SYS_ID</name>
+        <name>PRIOR_PER_COM_SYS_ID</name>
         <field>COMPANY_MASTER_SID</field>
         <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
-        <name>PRIOR_PER_COM_SYS_ID</name>
+        <name>COM_SYS_ID</name>
         <field>PRIOR_PARENT_CMPY_MASTER_SID</field>
         <condition>&#x3d;</condition>
         <name2/>
@@ -3969,6 +3986,274 @@
       </GUI>
     </step>
 
+  <step>
+    <name>Duplicate Check 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>COMPANY_PARENT_DETAILS</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>COMPANY_MASTER_SID</name>
+        <field>COMPANY_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>PARENT_COM_SYS_ID</name>
+        <field>PARENT_COMPANY_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>PARENT_START_DATE</name>
+        <field>PARENT_START_DATE</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>INBOUND_STATUS</name>
+        <field>INBOUND_STATUS</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>COMPANY_PARENT_DETAILS_SID</name>
+        <rename>COMPANY_PARENT_DETAILS_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>965</xloc>
+      <yloc>620</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>A-INVALID 4 3</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_COMPANY_PARENT</table>
+    <commit>10000000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>COMPANY_ID</column_name>
+          <stream_name>COMPANY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_COMPANY_ID</column_name>
+          <stream_name>PARENT_COMPANY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_START_DATE</column_name>
+          <stream_name>PARENT_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_END_DATE</column_name>
+          <stream_name>PARENT_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PRIOR_PARENT_COMPANY_ID</column_name>
+          <stream_name>PRIOR_PARENT_COMPANY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PRIOR_PARENT_START_DATE</column_name>
+          <stream_name>PRIOR_PARENT_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>LAST_UPDATED_DATE</column_name>
+          <stream_name>LAST_UPDATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_DETAILS_INTFID</column_name>
+          <stream_name>PARENT_DETAILS_INTFID</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>837</xloc>
+      <yloc>849</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants 4 2 3</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Record</nullif>
+        <length>100</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>836</xloc>
+      <yloc>706</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>COMPANY PARENT DELETE 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>1000000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>COMPANY_PARENT_DETAILS</table>
+      <key>
+        <name>COMPANY_MASTER_SID</name>
+        <field>COMPANY_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>PRIOR_PARENT_COMPANY_SYSTEM_ID</name>
+        <field>PRIOR_PARENT_CMPY_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>PRIOR_PARENT_START_DATE</name>
+        <field>PRIOR_PARENT_START_DATE</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>INBOUND_STATUS_C</name>
+        <field>INBOUND_STATUS</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>INBOUND_STATUS</name>
+        <rename>ADD_CHG_DEL_INDICATOR</rename>
+        </value>
+      <value>
+        <name>BATCH_ID</name>
+        <rename>BATCH_ID</rename>
+        </value>
+      <value>
+        <name>MODIFIED_BY</name>
+        <rename>CREATED_BY</rename>
+        </value>
+      <value>
+        <name>CREATED_DATE</name>
+        <rename>CREATED_DATE</rename>
+        </value>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>MODIFIED_DATE</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>578</xloc>
+      <yloc>926</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
   <step_error_handling>
       <error>
         <source_step>ADD BATCH DUPLCIATION</source_step>
@@ -3984,7 +4269,7 @@
       </error>
       <error>
         <source_step>COMPANY PARENT DELETE</source_step>
-        <target_step>Add constants 2 3 2</target_step>
+        <target_step>COMPANY PARENT DELETE 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -4153,6 +4438,30 @@
       <error>
         <source_step>Update 2</source_step>
         <target_step>Add constants 7</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>Duplicate Check 2</source_step>
+        <target_step>Duplicate Check</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>COMPANY PARENT DELETE 2</source_step>
+        <target_step>Add constants 2 3 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>

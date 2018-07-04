@@ -32,7 +32,7 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT = "report";
 
-	public static final String HIER_NAME = "hierarchyName";
+	public static final String HIER_NAME = "productHierarchyName";
 
 	public static final String PRODUCT_HIERARCHY_NAME = "landingScreenProductHierName";
 
@@ -216,6 +216,8 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String CONTROL_BUTTON_LAYOUT = "controlButtonLayout";
 
+	public static final String DATA_ASSUMPTIONS_TAB_SHEET_MAIN_LAYOUT = "dataAssumptionsTabSheetVerticallayout";
+	
 	public static final String DATA_ASSUMPTIONS_TAB_SHEET_LAYOUT = "dataAssumptionsTabSheetlayout";
 
 	public static final String REPORTING_DASHBOARD_TAB_SHEET_LAYOUT = "reportingDashboardTabSheetlayout";
@@ -261,6 +263,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String DISPLAY_SELECTION_TAB = "displaySelectionTab";
 
 	public static final String DISPLAY_SELECTION_TAB_CSS_LAYOUT = "displaySelectionTabCssLayout";
+	
+	public static final String DISPLAY_SELECTION_TAB_CSS_LAYOUT_BOTTOM = "displaySelectionTabCssLayoutBottom";
 
 	public static final String DISPLAY_SELECTION_TAB_REPORT_PROFILE_LAYOUT = "displaySelectionTabReportProfileLayout";
 

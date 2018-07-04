@@ -151,8 +151,8 @@ public class GtnReportCCPTableLoadAction
 		}
 		dto.setCustomerHierarchyForecastLevel(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(6).toString()).getCaptionFromV8ComboBox())));
-		dto.setCustomerHierarchySid(
-				(Integer) customerRecordBean.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1));
+		dto.setCustomerHierarchySid(Integer.valueOf(String
+				.valueOf(customerRecordBean.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1))));
 		dto.setCustomerHierarchyVersionNo(Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(5).toString()).getStringCaptionFromV8ComboBox()));
 		dto.setCustomerRelationshipBuilderSid(Integer.parseInt(String.valueOf(
@@ -164,8 +164,8 @@ public class GtnReportCCPTableLoadAction
 
 		dto.setProductHierarchyForecastLevel(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(10).toString()).getCaptionFromV8ComboBox())));
-		dto.setProductHierarchySid(
-				(Integer) productRecordBean.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1));
+		dto.setProductHierarchySid(Integer.valueOf(String
+				.valueOf(productRecordBean.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1))));
 		dto.setProductHierarchyVersionNo(Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(11).toString()).getStringCaptionFromV8ComboBox()));
 		dto.setProductRelationshipBuilderSid(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI

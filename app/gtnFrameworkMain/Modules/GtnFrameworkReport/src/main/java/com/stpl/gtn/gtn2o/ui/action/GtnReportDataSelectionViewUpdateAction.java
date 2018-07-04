@@ -17,7 +17,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
-public class GtnReportDataSelectionViewAddAction
+public class GtnReportDataSelectionViewUpdateAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
 	@Override
@@ -41,28 +41,25 @@ public class GtnReportDataSelectionViewAddAction
 		reportRequest.setDataSelectionBean(reportDataSelectionBean);
 		request.setGtnWsReportRequest(reportRequest);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_REPORT_SAVEVIEW_SERVICE, "report",
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		GtnUIFrameWorkActionConfig gtnUIFrameAlertWorkActionConfig = new GtnUIFrameWorkActionConfig();
-		gtnUIFrameAlertWorkActionConfig.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
+				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_WS_REPORT_UPDATEVIEW_SERVICE,
+				"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameWorkActionConfig infoAction = new GtnUIFrameWorkActionConfig();
+		infoAction.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
 		if (response.getGtnWsGeneralResponse().isSucess()) {
-
-			GtnUIFrameWorkActionConfig closePopupAction = new GtnUIFrameWorkActionConfig();
-			closePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-			closePopupAction.addActionParameter("dsSaveViewLookUp");
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, closePopupAction);
-			
-			gtnUIFrameAlertWorkActionConfig.addActionParameter("View Added Successfully");
-			gtnUIFrameAlertWorkActionConfig.addActionParameter("You have successfully added " + reportDataSelectionBean.getViewType() + " View "
-					+ reportDataSelectionBean.getViewName());
-			
+			infoAction.addActionParameter("Information");
+			infoAction.addActionParameter("You have successfully updated " + reportDataSelectionBean.getViewType()
+					+ " View " + reportDataSelectionBean.getViewName());
 		} else {
-			gtnUIFrameAlertWorkActionConfig.addActionParameter("Duplicate View Name");
-			gtnUIFrameAlertWorkActionConfig.addActionParameter("The" + reportDataSelectionBean.getViewType()
-					+ "View name you have attempted to save is a duplicate of an existing view name."
-					+ "Please enter a different view name");
+			infoAction.addActionParameter("Information");
+			infoAction.addActionParameter("You have successfully added " + reportDataSelectionBean.getViewType()
+					+ " View " + reportDataSelectionBean.getViewName());
 		}
-		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameAlertWorkActionConfig);
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, infoAction);
+		
+		GtnUIFrameWorkActionConfig closePopupAction = new GtnUIFrameWorkActionConfig();
+		closePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		closePopupAction.addActionParameter("dsSaveViewLookUp");
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, closePopupAction);
 	}
 
 	@Override

@@ -62,13 +62,24 @@ border-radius: 0px;
  vertical-align: inherit;
 }
 
-.v-grid-column-header-content,.v-grid-column-footer-content {
+.v-grid-column-header-content {
  vertical-align: inherit;
+ font-weight: bold;
+ font-size: 12px;
 }
+
+.v-grid-column-footer-content {
+ vertical-align: inherit;
+ }
 
 	th.v-grid-cell {
 height: auto!important;
 }
+
+.v-grid-cell {
+ font-size: 12px !important;
+ }
+
 	th.v-treegrid-cell {
 height: auto!important;
 }
