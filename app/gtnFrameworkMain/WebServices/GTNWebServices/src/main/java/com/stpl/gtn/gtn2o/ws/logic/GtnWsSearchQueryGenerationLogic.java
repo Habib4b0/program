@@ -82,6 +82,7 @@ public class GtnWsSearchQueryGenerationLogic {
 				finalQuery.append(" as ");
 				finalQuery.append(currentColumn);
 				finalQuery.append(" , ");
+				
 			}
 			appendSelectColumn(visibleColumnList.get(visibleColumnList.size() - 1).toString(), finalQuery);
 			finalQuery.append(" as ");
@@ -196,6 +197,7 @@ public class GtnWsSearchQueryGenerationLogic {
 			Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap, StringBuilder whereSqlBuilder) {
 		try {
 			String uiColumn = gtnWebServiceSearchCriteria.getFieldId();
+			
 			GtnWsColumnDetailsConfig gtnWebServiceColumnDetailsConfig = fieldToColumnDetailsMap.get(uiColumn);
 			String dbName = gtnWebServiceColumnDetailsConfig.getColumnNameForWhereAndOrderByClause();
 			dbName = castDateInQuery(gtnWebServiceColumnDetailsConfig, dbName);
@@ -279,6 +281,10 @@ public class GtnWsSearchQueryGenerationLogic {
 					.append(dbDate.format(new SimpleDateFormat(GtnFrameworkWebserviceConstant.YYYY_MM_DD)
 							.parse(gtnWebServiceSearchCriteria.getFilterValue1())))
 					.append("' ");
+			break;
+		case "IN":
+			whereSqlBuilder.append(dbName).append(' ').append("IN ")
+					.append(gtnWebServiceSearchCriteria.getFilterValue1());
 			break;
 
 		default:
