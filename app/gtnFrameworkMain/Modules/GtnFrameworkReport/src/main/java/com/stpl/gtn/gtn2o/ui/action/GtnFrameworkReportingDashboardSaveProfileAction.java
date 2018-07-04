@@ -2,13 +2,16 @@ package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonBreakdownLookupBean;
@@ -174,7 +177,12 @@ public class GtnFrameworkReportingDashboardSaveProfileAction
 		
 		reportingDashboardSaveProfileLookupBean.setComparisonBreakdownLookupBeanSaveList(comparisonBreakdownLookupBeanSaveList);
 		
-		
+		GtnWsRecordBean recordBean = (GtnWsRecordBean)GtnUIFrameworkGlobalUI
+		.getVaadinBaseComponent("reportingDashboardTab_reportProfileConfig", componentId).getComponentData()
+		.getCustomData();
+		if(recordBean != null){
+		reportingDashboardSaveProfileLookupBean.setRecordBean(recordBean);
+		}
 			GtnUIFrameWorkActionConfig saveProfileAction = new GtnUIFrameWorkActionConfig();
 			saveProfileAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 			List<Object> params = new ArrayList<>();
@@ -187,7 +195,15 @@ public class GtnFrameworkReportingDashboardSaveProfileAction
 
 			saveProfileAction.setActionParameterList(params);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, saveProfileAction);
-		
+			
+			GtnUIFrameWorkActionConfig saveToUpdateActionConfig = new GtnUIFrameWorkActionConfig();
+			saveToUpdateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+			saveToUpdateActionConfig.addActionParameter(GtnReportProfileSaveToUpdateAction.class.getName());
+			saveToUpdateActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
+			saveToUpdateActionConfig.addActionParameter("reportDashboardSaveProfile_ReportDashboardSaveProfileNameTextField");
+			saveToUpdateActionConfig.addActionParameter("reportDashboardSaveProfile_reportDashboardSaveProfileSaveViewAdd");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, saveToUpdateActionConfig);
+
 		}
 		catch(Exception ex){
 			logger.error("Error message ",ex);
