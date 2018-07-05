@@ -894,6 +894,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             checkMultiVariables(period + "~" + dto.getHierarchyNo(), refreshName);
                         }
                         if (saveList.size() == 1) {
+                            CommonLogic.viewProceduresCompletionCheckDiscount(session);
                             saveDiscountProjectionListview();
                             Object[] orderedArg = {session.getProjectionId(), session.getUserId(),
                                 session.getSessionId()};
@@ -1198,7 +1199,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             refreshBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    CommonLogic.viewProceduresCompletionCheck(session);
                     session.setFunctionMode("R");
                     if (!isMultipleVariablesUpdated) {
                         if (isRateUpdatedManually || isRPUUpdatedManually

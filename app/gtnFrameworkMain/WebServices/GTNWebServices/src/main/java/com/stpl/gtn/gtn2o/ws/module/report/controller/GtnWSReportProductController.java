@@ -1,46 +1,21 @@
 package com.stpl.gtn.gtn2o.ws.module.report.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
-import com.stpl.gtn.gtn2o.queryengine.config.GtnFrameworkQueryConfig;
-import com.stpl.gtn.gtn2o.queryengine.config.GtnFrameworkQueryEngineConfig;
-import com.stpl.gtn.gtn2o.queryengine.config.GtnFrameworkQueryEngineMainConfig;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkQueryEngineMain;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
-import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
-import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnCMasterBean;
-import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
-import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnCMasterCompanyParentBean;
-import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnCMasterCompanyTradeClassBean;
-import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnCMasterCompanyUdcInfoBean;
-import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnCMasterIdentifierInfoBean;
-import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnCMasterInformationBean;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
-import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.gtn.gtn2o.ws.entity.companymaster.Attachment;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLookupBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
-import com.stpl.gtn.gtn2o.ws.response.cmresponse.GtnCompanyMasterResponse;
 import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 

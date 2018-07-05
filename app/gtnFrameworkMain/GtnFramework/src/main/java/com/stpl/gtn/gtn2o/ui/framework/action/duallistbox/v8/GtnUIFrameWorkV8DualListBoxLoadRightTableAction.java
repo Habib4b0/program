@@ -56,9 +56,8 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParametersList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnUIFrameworkComponentData dualListBoxData = (GtnUIFrameworkComponentData) actionParametersList.get(0);
-		boolean isMoveAll = (boolean) actionParametersList.get(1);
 		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) dualListBoxData.getCustomData();
-		loadRightTable(dualListBoxBean, isMoveAll, componentId);
+		loadRightTable(dualListBoxBean, componentId);
 	}
 
 	@Override
@@ -66,7 +65,7 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 		return this;
 	}
 
-	public void loadRightTable(GtnFrameworkV8DualListBoxBean dualListBoxBean, boolean isMoveAll, String componentId)
+	public void loadRightTable(GtnFrameworkV8DualListBoxBean dualListBoxBean , String componentId)
 			throws GtnFrameworkGeneralException {
 		Grid<GtnWsRecordBean> leftTable = dualListBoxBean.getLeftTable();
 		GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig = dualListBoxBean.getDualListBoxConfig();

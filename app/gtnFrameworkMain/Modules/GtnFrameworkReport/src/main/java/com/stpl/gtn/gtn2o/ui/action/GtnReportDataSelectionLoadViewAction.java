@@ -1,8 +1,10 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -27,7 +29,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
-import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnReportDataSelectionLoadViewAction
@@ -203,10 +204,14 @@ public class GtnReportDataSelectionLoadViewAction
 								.collect(Collectors.toList()),
 						Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
 								.collect(Collectors.toList()));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
+		if(dataSelectionBean.getVariablesList() != null){
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabVariable", componentId)
 				.updateSelection(dataSelectionBean.getVariablesList());
+                }
 
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_reportOptionsTabVariableBreakdown")
+		.getComponentData().setCustomData(Optional.ofNullable(dataSelectionBean.getVariableBreakdownSaveList()).isPresent() == true ? dataSelectionBean.getVariableBreakdownSaveList() : new ArrayList<>());
 	}
 
 	private Object getDisplayValue(GtnWsReportDataSelectionBean dataSelectionBean) {

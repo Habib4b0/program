@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadFromInDataSelectionAction;
-import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadToInDataSelectionAction;
+
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionReGenerateAction;
@@ -393,18 +392,13 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		GtnUIFrameworkComboBoxConfig reportDataSelectionFromPeriodConfig = new GtnUIFrameworkComboBoxConfig();
 
 		reportDataSelectionFromPeriodConfig.setModuleName("report");
-		reportDataSelectionFromPeriodConfig.setItemCaptionValues(new ArrayList<>());
-		reportDataSelectionFromPeriodConfig.setItemValues(new ArrayList<>());
+		reportDataSelectionFromPeriodConfig.setLoadingUrl("/gtnReport/gtnWsReportComboboxLoad");
+		reportDataSelectionFromPeriodConfig.setComboBoxType("timePeriodForReportFromDate");
 		reportDataSelectionFromPeriodConfig.setHasDefaultValue(true);
 		reportDataSelectionFromPeriodConfig.setDefaultDesc("next");
 		reportDataSelectionFromPeriod.setGtnComboboxConfig(reportDataSelectionFromPeriodConfig);
 
 		componentList.add(reportDataSelectionFromPeriod);
-		
-		GtnUIFrameWorkActionConfig reloadActionConfig = new GtnUIFrameWorkActionConfig();
-		reloadActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		reportDataSelectionFromPeriod.setReloadActionConfig(reloadActionConfig);
-		reportDataSelectionFromPeriod.setReloadLogicActionClassName(GtnFrameworkLoadFromInDataSelectionAction.class.getName());
 		
 
 		GtnUIFrameworkLayoutConfig reportDataSelectionToPeriodLayout = new GtnUIFrameworkLayoutConfig();
@@ -436,18 +430,14 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		GtnUIFrameworkComboBoxConfig reportDataSelectionToPeriodTypeConfig = new GtnUIFrameworkComboBoxConfig();
 
 		reportDataSelectionToPeriodTypeConfig.setModuleName("report");
-		reportDataSelectionToPeriodTypeConfig.setItemCaptionValues(new ArrayList<>());
-		reportDataSelectionToPeriodTypeConfig.setItemValues(new ArrayList<>());
+		reportDataSelectionToPeriodTypeConfig.setLoadingUrl("/gtnReport/gtnWsReportComboboxLoad");
+		reportDataSelectionToPeriodTypeConfig.setComboBoxType("timePeriodForReportToDate");
 		reportDataSelectionToPeriodTypeConfig.setHasDefaultValue(true);
 		reportDataSelectionToPeriodTypeConfig.setDefaultDesc("next");
 
 		reportDataSelectionToPeriod.setGtnComboboxConfig(reportDataSelectionToPeriodTypeConfig);
 		componentList.add(reportDataSelectionToPeriod);
 		
-		GtnUIFrameWorkActionConfig reloadToInDataSelectionActionConfig = new GtnUIFrameWorkActionConfig();
-		reloadToInDataSelectionActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		reportDataSelectionToPeriod.setReloadActionConfig(reloadToInDataSelectionActionConfig);
-		reportDataSelectionToPeriod.setReloadLogicActionClassName(GtnFrameworkLoadToInDataSelectionAction.class.getName());
 	}
 
 	private void addProductSelectionLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
@@ -490,16 +480,32 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 
 	private void addReportingDataSelectionFields(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
 			String namespace) {
-		GtnUIFrameworkLayoutConfig reportDSFieldLayou = new GtnUIFrameworkLayoutConfig();
-		reportDSFieldLayou.setLayoutType(GtnUIFrameworkLayoutType.COL4_LAYOUT);
+		
+		GtnUIFrameworkLayoutConfig reportHorizontalCssLayout = new GtnUIFrameworkLayoutConfig();
+		reportHorizontalCssLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
+		GtnUIFrameworkComponentConfig reportHorizontalCssGtnLayout = configProvider.getUIFrameworkComponentConfig(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ "reportHorizontalCssLayout",
+				true,"dataSelectionTab_prodSelectionMainlayout",
+				GtnUIFrameworkComponentType.LAYOUT);
+		
+		reportHorizontalCssGtnLayout.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
+		reportHorizontalCssGtnLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10);
+		reportHorizontalCssGtnLayout.setGtnLayoutConfig(reportHorizontalCssLayout);
+		
+		GtnUIFrameworkLayoutConfig reportCssLayout = new GtnUIFrameworkLayoutConfig();
+		reportCssLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
 		GtnUIFrameworkComponentConfig reportDSCssGtnLayout = configProvider.getUIFrameworkComponentConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT,
-				true, namespace + GtnFrameworkReportStringConstants.UNDERSCORE + parentId,
+				true,namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ "reportHorizontalCssLayout",
 				GtnUIFrameworkComponentType.LAYOUT);
-		reportDSCssGtnLayout.setGtnLayoutConfig(reportDSFieldLayou);
-		componentList.add(reportDSCssGtnLayout);
 
+		reportDSCssGtnLayout.setGtnLayoutConfig(reportCssLayout);
+		componentList.add(reportHorizontalCssGtnLayout);
+		componentList.add(reportDSCssGtnLayout);
+		
 		addReportDataSelectionVariableComponent(componentList, namespace);
 		addReportDataSelectionComparisonComponent(componentList, namespace);
 		addReportDataSelectionVariableBreakdownComponent(componentList, namespace);
@@ -511,6 +517,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		GtnUIFrameworkComponentConfig dsFrequencyLayoutConfig = layoutConfig.getHorizontalLayoutConfig(
 				"variableBreakdownFrequencyLayoutConfig", namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
+		dsFrequencyLayoutConfig.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_25_PX);
 
 		GtnUIFrameworkComponentConfig dsFrequencyConfig = new GtnUIFrameworkComponentConfig();
 		dsFrequencyConfig.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
@@ -532,10 +539,15 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 
 	private void addReportDataSelectionComparisonComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
+		GtnUIFrameworkComponentConfig hierarchyLayout = configProvider.getHorizontalLayoutConfig("comparisonHierarchyLayout",
+				true, namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
+		hierarchyLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_25_PX);
+		componentList.add(hierarchyLayout);
+		
 		GtnUIFrameworkComponentConfig dsComparisonLookupConfig = configProvider.getUIFrameworkComponentConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "comparisonLookup", true,
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT,
+				"comparisonHierarchyLayout",
 				GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		dsComparisonLookupConfig.setAuthorizationIncluded(true);
 		dsComparisonLookupConfig.setComponentName("Comparison: ");
@@ -569,6 +581,9 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 				GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT, true,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
+		dsVariableLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_25_PX);
+		dsVariableLayout.setMargin(true);
+		dsVariableLayout.setSpacing(true);
 		componentList.add(dsVariableLayout);
 
 		GtnUIFrameworkComponentConfig dsComparisonVariableConfig = configProvider.getUIFrameworkComponentConfig(
@@ -594,7 +609,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_VARIABLE_BREAKDOWN_LAYOUT, true,
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CSS_LAYOUT);
-		dsVariableBreakdownGtnLayout.setComponentWidth("12%");
+		dsVariableBreakdownGtnLayout.addComponentStyle("stpl-padding-top-12");
 		componentList.add(dsVariableBreakdownGtnLayout);
 
 		GtnUIFrameworkComponentConfig dsVariableBreakdownConfig = configProvider.getUIFrameworkComponentConfig(

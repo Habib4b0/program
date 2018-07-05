@@ -7,7 +7,7 @@
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
-    <directory>&#47;</directory>
+    <directory>&#x2f;</directory>
     <parameters>
     </parameters>
     <log>
@@ -17,7 +17,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -34,6 +34,11 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+<metrics-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -62,21 +67,23 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2014&#47;07&#47;21 12:42:24.091</created_date>
+  <created_date>2014&#x2f;07&#x2f;21 12&#x3a;42&#x3a;24.091</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2014&#47;07&#47;21 12:42:24.091</modified_date>
+  <modified_date>2014&#x2f;07&#x2f;21 12&#x3a;42&#x3a;24.091</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -93,13 +100,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -115,12 +122,103 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Table input</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>A-INVALID1</to><enabled>Y</enabled> </hop>  <hop> <from>DEL SORT</from><to>DEL UNIQUE</to><enabled>Y</enabled> </hop>  <hop> <from>DEL UNIQUE</from><to>D-INVALID</to><enabled>Y</enabled> </hop>  <hop> <from>DEL UNIQUE</from><to>Add constants 3</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY MASTER DELETE</from><to>Add constants 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2 3</from><to>D-INVALID 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3</from><to>COMPANY MASTER DELETE</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2 3 2</from><to>C-INVALID2</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Indicator</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Indicator</from><to>INVALID</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status 2</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status 2 2</from><to>CHANGE Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY MASTER DELETE</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY MASTER UPDATE</from><to>Memory Group by 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2</from><to>Audit Status 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY_MASTER_INSERT</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 5</from><to>Company Type Check</to><enabled>N</enabled> </hop>  <hop> <from>Company Category Check</from><to>Company Group Check</to><enabled>N</enabled> </hop>  <hop> <from>Company Group Check</from><to>Company Status Check</to><enabled>N</enabled> </hop>  <hop> <from>Company Org Key Check</from><to>State Check</to><enabled>N</enabled> </hop>  <hop> <from>Company Status Check</from><to>Company Org Key Check</to><enabled>N</enabled> </hop>  <hop> <from>Company Type Check</from><to>Company Category Check</to><enabled>N</enabled> </hop>  <hop> <from>State Check</from><to>Country Check</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 6</from><to>Company Type Check 2</to><enabled>N</enabled> </hop>  <hop> <from>Company Category Check 2</from><to>Company Group Check 2</to><enabled>N</enabled> </hop>  <hop> <from>Company Group Check 2</from><to>Company Status Check 2</to><enabled>N</enabled> </hop>  <hop> <from>Company Org Key Check 2</from><to>State Check 2</to><enabled>N</enabled> </hop>  <hop> <from>Company Status Check 2</from><to>Company Org Key Check 2</to><enabled>N</enabled> </hop>  <hop> <from>Company Type Check 2</from><to>Company Category Check 2</to><enabled>N</enabled> </hop>  <hop> <from>State Check 2</from><to>Country Check 2</to><enabled>N</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>Add constants 5</to><enabled>Y</enabled> </hop>  <hop> <from>UDC1</from><to>UDC2</to><enabled>N</enabled> </hop>  <hop> <from>UDC2</from><to>UDC3</to><enabled>N</enabled> </hop>  <hop> <from>UDC3</from><to>UDC4</to><enabled>N</enabled> </hop>  <hop> <from>UDC4</from><to>UDC5</to><enabled>N</enabled> </hop>  <hop> <from>UDC5</from><to>UDC6</to><enabled>N</enabled> </hop>  <hop> <from>Country Check</from><to>UDC1</to><enabled>N</enabled> </hop>  <hop> <from>UDC1 2</from><to>UDC2 2</to><enabled>N</enabled> </hop>  <hop> <from>UDC2 2</from><to>UDC3 2</to><enabled>N</enabled> </hop>  <hop> <from>UDC3 2</from><to>UDC4 2</to><enabled>N</enabled> </hop>  <hop> <from>UDC4 2</from><to>UDC5 2</to><enabled>N</enabled> </hop>  <hop> <from>UDC5 2</from><to>UDC6 2</to><enabled>N</enabled> </hop>  <hop> <from>Country Check 2</from><to>UDC1 2</to><enabled>N</enabled> </hop>  <hop> <from>UDC6</from><to>COMPANY_MASTER_lookup</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_MASTER_lookup</from><to>COMPANY_MASTER_INSERT</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY_MASTER_lookup</from><to>Update 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2 3 3</from><to>D-INVALID 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY MASTER UPDATE</from><to>Database lookup 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database lookup 2</from><to>Update 2</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY MASTER UPDATE</from><to>Add constants 2 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Update 3</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Filter rows 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2</from><to>Filter rows 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 3</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 3</from><to>Filter rows 2 4</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 4</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 4</from><to>Filter rows 2 5</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 5</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 5</from><to>Filter rows 2 6</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 6</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 6</from><to>Filter rows</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY_MASTER_INSERT</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>UDCS</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Update 2</from><to>Dummy (do nothing) 3</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>DEL SORT</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 3</to><enabled>Y</enabled> </hop>  <hop> <from>Update 3</from><to>Add constants 2 3 3</to><enabled>Y</enabled> </hop>  <hop> <from>UDC6 2</from><to>COMPANY_MASTER_INBOUND_CHECK</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 2 3 2 2</from><to>C-INVALID2 2</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY_MASTER_INBOUND_CHECK</from><to>Add constants 2 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY_MASTER_INBOUND_CHECK</from><to>COMPANY MASTER UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 5</from><to>COMPANY_MASTER_lookup</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 6</from><to>COMPANY_MASTER_INBOUND_CHECK</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 3</from><to>ADD SORT</to><enabled>Y</enabled> </hop>  <hop> <from>ADD SORT</from><to>DELETE INSERT WAIT </to><enabled>Y</enabled> </hop>  <hop> <from>DELETE INSERT WAIT </from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>CHANGE SORT</to><enabled>Y</enabled> </hop>  <hop> <from>CHANGE SORT</from><to>ADD INSERT WAIT</to><enabled>Y</enabled> </hop>  <hop> <from>ADD INSERT WAIT</from><to>Add constants 6</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>Table input</from><to>Switch &#x2f; Case</to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION</from><to>A-INVALID1</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEL SORT</from><to>DEL UNIQUE</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEL UNIQUE</from><to>D-INVALID</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEL UNIQUE</from><to>Add constants 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY MASTER DELETE</from><to>Add constants 2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2 3</from><to>D-INVALID 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3</from><to>COMPANY MASTER DELETE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2 3 2</from><to>C-INVALID2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Invalid Indicator</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Indicator</from><to>INVALID</to><enabled>Y</enabled> </hop>
+  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Audit Status 2</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Audit Status 2 2</from><to>CHANGE Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY MASTER DELETE</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by 2</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY MASTER UPDATE</from><to>Memory Group by 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by 2 2</from><to>Audit Status 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY_MASTER_INSERT</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 5</from><to>Company Type Check</to><enabled>N</enabled> </hop>
+  <hop> <from>Company Category Check</from><to>Company Group Check</to><enabled>N</enabled> </hop>
+  <hop> <from>Company Group Check</from><to>Company Status Check</to><enabled>N</enabled> </hop>
+  <hop> <from>Company Org Key Check</from><to>State Check</to><enabled>N</enabled> </hop>
+  <hop> <from>Company Status Check</from><to>Company Org Key Check</to><enabled>N</enabled> </hop>
+  <hop> <from>Company Type Check</from><to>Company Category Check</to><enabled>N</enabled> </hop>
+  <hop> <from>State Check</from><to>Country Check</to><enabled>N</enabled> </hop>
+  <hop> <from>Add constants 6</from><to>Company Type Check 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Company Category Check 2</from><to>Company Group Check 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Company Group Check 2</from><to>Company Status Check 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Company Org Key Check 2</from><to>State Check 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Company Status Check 2</from><to>Company Org Key Check 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Company Type Check 2</from><to>Company Category Check 2</to><enabled>N</enabled> </hop>
+  <hop> <from>State Check 2</from><to>Country Check 2</to><enabled>N</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION</from><to>Add constants 5</to><enabled>Y</enabled> </hop>
+  <hop> <from>UDC1</from><to>UDC2</to><enabled>N</enabled> </hop>
+  <hop> <from>UDC2</from><to>UDC3</to><enabled>N</enabled> </hop>
+  <hop> <from>UDC3</from><to>UDC4</to><enabled>N</enabled> </hop>
+  <hop> <from>UDC4</from><to>UDC5</to><enabled>N</enabled> </hop>
+  <hop> <from>UDC5</from><to>UDC6</to><enabled>N</enabled> </hop>
+  <hop> <from>Country Check</from><to>UDC1</to><enabled>N</enabled> </hop>
+  <hop> <from>UDC1 2</from><to>UDC2 2</to><enabled>N</enabled> </hop>
+  <hop> <from>UDC2 2</from><to>UDC3 2</to><enabled>N</enabled> </hop>
+  <hop> <from>UDC3 2</from><to>UDC4 2</to><enabled>N</enabled> </hop>
+  <hop> <from>UDC4 2</from><to>UDC5 2</to><enabled>N</enabled> </hop>
+  <hop> <from>UDC5 2</from><to>UDC6 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Country Check 2</from><to>UDC1 2</to><enabled>N</enabled> </hop>
+  <hop> <from>UDC6</from><to>COMPANY_MASTER_lookup</to><enabled>N</enabled> </hop>
+  <hop> <from>COMPANY_MASTER_lookup</from><to>COMPANY_MASTER_INSERT</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY_MASTER_lookup</from><to>Update 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2 3 3</from><to>D-INVALID 3 2</to><enabled>N</enabled> </hop>
+  <hop> <from>COMPANY MASTER UPDATE</from><to>Database lookup 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Database lookup 2</from><to>Update 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY MASTER UPDATE</from><to>Add constants 2 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update 3</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2</from><to>Filter rows 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2 2</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2 2</from><to>Filter rows 2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2 3</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2 3</from><to>Filter rows 2 4</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2 4</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2 4</from><to>Filter rows 2 5</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2 5</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2 5</from><to>Filter rows 2 6</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2 6</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2 6</from><to>Filter rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY_MASTER_INSERT</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>UDCS</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update 2</from><to>Dummy &#x28;do nothing&#x29; 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3 2</from><to>DEL SORT</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Add constants 3 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update 3</from><to>Add constants 2 3 3</to><enabled>N</enabled> </hop>
+  <hop> <from>UDC6 2</from><to>COMPANY_MASTER_INBOUND_CHECK</to><enabled>N</enabled> </hop>
+  <hop> <from>Add constants 2 3 2 2</from><to>C-INVALID2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY_MASTER_INBOUND_CHECK</from><to>Add constants 2 3 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY_MASTER_INBOUND_CHECK</from><to>COMPANY MASTER UPDATE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 6</from><to>COMPANY_MASTER_INBOUND_CHECK</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3 3</from><to>ADD SORT</to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD SORT</from><to>DELETE INSERT WAIT </to><enabled>Y</enabled> </hop>
+  <hop> <from>DELETE INSERT WAIT </from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>CHANGE SORT</to><enabled>Y</enabled> </hop>
+  <hop> <from>CHANGE SORT</from><to>ADD INSERT WAIT</to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD INSERT WAIT</from><to>Add constants 6</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 5</from><to>COMPANY_MASTER_lookup 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 2 3 3 2</from><to>D-INVALID 3 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY_MASTER_lookup 2</from><to>Add constants 2 3 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY_MASTER_lookup 2</from><to>COMPANY_MASTER_lookup</to><enabled>Y</enabled> </hop>
+  </order>
   <step>
     <name>A-INVALID1</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -295,8 +393,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>843</xloc>
-      <yloc>566</yloc>
+      <xloc>790</xloc>
+      <yloc>565</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -306,6 +404,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -323,19 +422,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -356,6 +455,7 @@
     <type>Unique</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -380,6 +480,7 @@
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -408,12 +509,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>50000</sort_size>
       <free_memory/>
@@ -425,6 +527,7 @@
         <name>COMPANY_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -440,6 +543,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -456,6 +560,7 @@
         <nullif>No records exist to delete</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -471,6 +576,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -487,6 +593,7 @@
         <nullif>No records exist to update</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -502,6 +609,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -518,6 +626,7 @@
         <nullif>Invalid CompanyId</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -533,6 +642,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -549,6 +659,7 @@
         <nullif>Duplicate Records</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>error_code_name</name>
@@ -560,6 +671,7 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -571,10 +683,56 @@
     </step>
 
   <step>
+    <name>Add constants 2 3 3 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Records</nullif>
+        <length>100</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>error_code_name</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E04</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>422</xloc>
+      <yloc>1141</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Add constants 3</name>
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -591,6 +749,7 @@
         <nullif>A</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -606,6 +765,7 @@
     <type>Constant</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -622,6 +782,7 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -637,6 +798,7 @@
     <type>Constant</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -653,6 +815,7 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -668,6 +831,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -684,6 +848,7 @@
         <nullif>A</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_Cat</name>
@@ -695,6 +860,7 @@
         <nullif>COMPANY_CATEGORY</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_Grp</name>
@@ -706,6 +872,7 @@
         <nullif>COMPANY_GROUP</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>master_type</name>
@@ -717,6 +884,7 @@
         <nullif>COMPANY_MASTER</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_Type</name>
@@ -728,6 +896,7 @@
         <nullif>COMPANY_TYPE</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc1</name>
@@ -739,6 +908,7 @@
         <nullif>COMP_UDC1</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc2</name>
@@ -750,6 +920,7 @@
         <nullif>COMP_UDC2</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc3</name>
@@ -761,6 +932,7 @@
         <nullif>COMP_UDC3</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc4</name>
@@ -772,6 +944,7 @@
         <nullif>COMP_UDC4</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc5</name>
@@ -783,6 +956,7 @@
         <nullif>COMP_UDC5</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc6</name>
@@ -794,6 +968,7 @@
         <nullif>COMP_UDC6</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_Country</name>
@@ -805,6 +980,7 @@
         <nullif>COUNTRY</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_Country</name>
@@ -816,6 +992,7 @@
         <nullif>COUNTRY</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>INBOUND_STATUS_D</name>
@@ -827,6 +1004,7 @@
         <nullif>D</nullif>
         <length>5</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_Org_Key</name>
@@ -838,6 +1016,7 @@
         <nullif>ORGANIZATION_KEY</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_State</name>
@@ -849,6 +1028,7 @@
         <nullif>STATE</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_Status</name>
@@ -860,6 +1040,7 @@
         <nullif>STATUS</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -875,6 +1056,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -891,6 +1073,7 @@
         <nullif>COMPANY_CATEGORY</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_Country</name>
@@ -902,6 +1085,7 @@
         <nullif>COUNTRY</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_Grp</name>
@@ -913,6 +1097,7 @@
         <nullif>COMPANY_GROUP</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_Org_Key</name>
@@ -924,6 +1109,7 @@
         <nullif>ORGANIZATION_KEY</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_State</name>
@@ -935,6 +1121,7 @@
         <nullif>STATE</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_Status</name>
@@ -946,6 +1133,7 @@
         <nullif>STATUS</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_Type</name>
@@ -957,6 +1145,7 @@
         <nullif>COMPANY_TYPE</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Comp_Udcs</name>
@@ -968,6 +1157,7 @@
         <nullif>COMPANY_MASTER</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>INBOUND_STATUS</name>
@@ -979,6 +1169,7 @@
         <nullif>A</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc1</name>
@@ -990,6 +1181,7 @@
         <nullif>COMP_UDC1</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc2</name>
@@ -1001,6 +1193,7 @@
         <nullif>COMP_UDC2</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc3</name>
@@ -1012,6 +1205,7 @@
         <nullif>COMP_UDC3</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc4</name>
@@ -1023,6 +1217,7 @@
         <nullif>COMP_UDC4</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc5</name>
@@ -1034,6 +1229,7 @@
         <nullif>COMP_UDC5</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc6</name>
@@ -1045,6 +1241,7 @@
         <nullif>COMP_UDC6</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>master_type</name>
@@ -1056,6 +1253,7 @@
         <nullif>COMPANY_MASTER</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>INBOUND_STATUS_D</name>
@@ -1067,6 +1265,7 @@
         <nullif>D</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1082,6 +1281,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1098,6 +1298,7 @@
         <nullif>R</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -1109,6 +1310,7 @@
         <nullif>COMPANY_MASTER_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1124,6 +1326,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1140,6 +1343,7 @@
         <nullif>R</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -1151,6 +1355,7 @@
         <nullif>COMPANY_MASTER_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1166,6 +1371,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1182,6 +1388,7 @@
         <nullif>R</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -1193,6 +1400,7 @@
         <nullif>COMPANY_MASTER_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1208,6 +1416,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1389,6 +1598,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1570,6 +1780,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1587,19 +1798,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -1620,12 +1831,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -1637,6 +1849,7 @@
         <name>COMPANY_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -1652,6 +1865,7 @@
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1675,7 +1889,7 @@
       <key>
         <name>INBOUND_STATUS</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -1712,6 +1926,7 @@
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1838,6 +2053,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1862,7 +2078,7 @@
       <key>
         <name>INBOUND_STATUS_D</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
     </lookup>
@@ -1879,6 +2095,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2012,6 +2229,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2030,7 +2248,7 @@
       <key>
         <name>COMPANY_ID</name>
         <field>COMPANY_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2049,10 +2267,59 @@
     </step>
 
   <step>
+    <name>COMPANY_MASTER_lookup 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>dbo</schema>
+      <table>COMPANY_MASTER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>COMPANY_ID</name>
+        <field>COMPANY_ID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>INBOUND_STATUS</name>
+        <field>INBOUND_STATUS</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>COMPANY_MASTER_SID</name>
+        <rename>COMPANY_MASTER_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>551</xloc>
+      <yloc>1099</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Company Category Check</name>
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2077,7 +2344,7 @@
       <key>
         <name>Comp_Cat</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2100,6 +2367,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2124,7 +2392,7 @@
       <key>
         <name>Comp_Cat</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2147,6 +2415,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2171,7 +2440,7 @@
       <key>
         <name>Comp_Grp</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2194,6 +2463,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2218,7 +2488,7 @@
       <key>
         <name>Comp_Grp</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2241,6 +2511,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2265,7 +2536,7 @@
       <key>
         <name>Comp_Org_Key</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2288,6 +2559,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2312,7 +2584,7 @@
       <key>
         <name>Comp_Org_Key</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2335,6 +2607,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2359,7 +2632,7 @@
       <key>
         <name>Comp_Status</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2382,6 +2655,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2406,7 +2680,7 @@
       <key>
         <name>Comp_Status</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2429,6 +2703,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2453,7 +2728,7 @@
       <key>
         <name>Comp_Type</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2476,6 +2751,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2500,7 +2776,7 @@
       <key>
         <name>Comp_Type</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2523,6 +2799,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2547,7 +2824,7 @@
       <key>
         <name>Comp_Country</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2570,6 +2847,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2594,7 +2872,7 @@
       <key>
         <name>Comp_Country</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2617,6 +2895,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2802,6 +3081,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2983,6 +3263,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3164,16 +3445,203 @@
     </step>
 
   <step>
-    <name>DEL SORT</name>
-    <type>SortRows</type>
+    <name>D-INVALID 3 2 2</name>
+    <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_COMPANY_MASTER</table>
+    <commit>10000000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ADDRESS_1</column_name>
+          <stream_name>ADDRESS_1</stream_name>
+        </field>
+        <field>
+          <column_name>ADDRESS_2</column_name>
+          <stream_name>ADDRESS_2</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CITY</column_name>
+          <stream_name>CITY</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_CATEGORY</column_name>
+          <stream_name>COMPANY_CATEGORY</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_END_DATE</column_name>
+          <stream_name>COMPANY_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_GROUP</column_name>
+          <stream_name>COMPANY_GROUP</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_ID</column_name>
+          <stream_name>COMPANY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_MASTER_INTFID</column_name>
+          <stream_name>COMPANY_MASTER_INTFID</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_NAME</column_name>
+          <stream_name>COMPANY_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_NO</column_name>
+          <stream_name>COMPANY_NO</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_START_DATE</column_name>
+          <stream_name>COMPANY_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_STATUS</column_name>
+          <stream_name>COMPANY_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_TYPE</column_name>
+          <stream_name>COMPANY_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>COUNTRY</column_name>
+          <stream_name>COUNTRY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>error_code_name</stream_name>
+        </field>
+        <field>
+          <column_name>FINANCIAL_SYSTEM</column_name>
+          <stream_name>FINANCIAL_SYSTEM</stream_name>
+        </field>
+        <field>
+          <column_name>LAST_UPDATED_DATE</column_name>
+          <stream_name>LAST_UPDATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>LIVES</column_name>
+          <stream_name>LIVES</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>REGION_CODE</column_name>
+          <stream_name>REGION_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>STATE</column_name>
+          <stream_name>STATE</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS</column_name>
+          <stream_name>STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>UDC1</column_name>
+          <stream_name>UDC1</stream_name>
+        </field>
+        <field>
+          <column_name>UDC2</column_name>
+          <stream_name>UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>UDC3</column_name>
+          <stream_name>UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>UDC4</column_name>
+          <stream_name>UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>UDC5</column_name>
+          <stream_name>UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>UDC6</column_name>
+          <stream_name>UDC6</stream_name>
+        </field>
+        <field>
+          <column_name>ZIP_CODE</column_name>
+          <stream_name>ZIP_CODE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>418</xloc>
+      <yloc>1274</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>DEL SORT</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -3185,6 +3653,7 @@
         <name>COMPANY_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -3200,6 +3669,7 @@
     <type>Unique</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3224,6 +3694,7 @@
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3248,6 +3719,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3289,6 +3761,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3306,19 +3779,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -3335,10 +3808,11 @@
     </step>
 
   <step>
-    <name>Dummy (do nothing) 2</name>
+    <name>Dummy &#x28;do nothing&#x29; 2</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3353,10 +3827,11 @@
     </step>
 
   <step>
-    <name>Dummy (do nothing) 3</name>
+    <name>Dummy &#x28;do nothing&#x29; 3</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3375,13 +3850,14 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
 <send_true_to>UDCS</send_true_to>
-<send_false_to>Dummy (do nothing) 2</send_false_to>
+<send_false_to>Dummy &#x28;do nothing&#x29; 2</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
@@ -3463,18 +3939,19 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy (do nothing) 2</send_true_to>
+<send_true_to>Dummy &#x28;do nothing&#x29; 2</send_true_to>
 <send_false_to>Filter rows 2 2</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC1</leftvalue>
- <function>=</function>
+ <function>&#x3d;</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -3491,18 +3968,19 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy (do nothing) 2</send_true_to>
+<send_true_to>Dummy &#x28;do nothing&#x29; 2</send_true_to>
 <send_false_to>Filter rows 2 3</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC2</leftvalue>
- <function>=</function>
+ <function>&#x3d;</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -3519,18 +3997,19 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy (do nothing) 2</send_true_to>
+<send_true_to>Dummy &#x28;do nothing&#x29; 2</send_true_to>
 <send_false_to>Filter rows 2 4</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC3</leftvalue>
- <function>=</function>
+ <function>&#x3d;</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -3547,18 +4026,19 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy (do nothing) 2</send_true_to>
+<send_true_to>Dummy &#x28;do nothing&#x29; 2</send_true_to>
 <send_false_to>Filter rows 2 5</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC4</leftvalue>
- <function>=</function>
+ <function>&#x3d;</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -3575,18 +4055,19 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy (do nothing) 2</send_true_to>
+<send_true_to>Dummy &#x28;do nothing&#x29; 2</send_true_to>
 <send_false_to>Filter rows 2 6</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC5</leftvalue>
- <function>=</function>
+ <function>&#x3d;</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -3603,18 +4084,19 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy (do nothing) 2</send_true_to>
+<send_true_to>Dummy &#x28;do nothing&#x29; 2</send_true_to>
 <send_false_to>Filter rows</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC6</leftvalue>
- <function>=</function>
+ <function>&#x3d;</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -3631,6 +4113,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3812,6 +4295,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3828,6 +4312,7 @@
         <nullif>Invalid Indicator</nullif>
         <length>50</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -3843,6 +4328,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3875,6 +4361,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3907,6 +4394,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3939,6 +4427,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3963,7 +4452,7 @@
       <key>
         <name>Comp_State</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3986,6 +4475,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4010,7 +4500,7 @@
       <key>
         <name>Comp_State</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -4029,10 +4519,11 @@
     </step>
 
   <step>
-    <name>Switch &#47; Case</name>
+    <name>Switch &#x2f; Case</name>
     <type>SwitchCase</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4064,117 +4555,14 @@
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
     <connection>BPI DB</connection>
-    <sql>
-
-
-
- 
-SELECT 
-  A.COMPANY_MASTER_INTFID
-, A.ORGANIZATION_KEY
-, A.COMPANY_ID
-, A.COMPANY_NO
-, A.COMPANY_NAME
-, A.COMPANY_TYPE
-, A.COMPANY_STATUS
-, A.LIVES
-, A.COMPANY_END_DATE
-, A.UDC1
-, A.UDC2
-, A.UDC3
-, A.UDC4
-, A.UDC5
-, A.UDC6
-, A.COMPANY_GROUP
-, A.FINANCIAL_SYSTEM
-, A.ADDRESS_1
-, A.ADDRESS_2
-, A.CITY
-, A.&quot;STATE&quot;
-, A.ZIP_CODE
-, A.COUNTRY
-, A.REGION_CODE
-, A.LAST_UPDATED_DATE
-, A.COMPANY_START_DATE
-, A.STATUS
-, A.COMPANY_CATEGORY
-, A.CREATED_BY
-, A.CREATED_DATE
-, A.MODIFIED_BY
-, A.MODIFIED_DATE
-, A.BATCH_ID
-, A.SOURCE
-, A.ADD_CHG_DEL_INDICATOR
-
-,D.HELPER_TABLE_SID AS Comp_Type_Code
-,H.HELPER_TABLE_SID AS Comp_Cat_Code
-,G.HELPER_TABLE_SID AS Comp_Group_Code
-,F.HELPER_TABLE_SID AS Comp_Status_Code
-,I.HELPER_TABLE_SID AS Comp_Org_key_Code
-,l.HELPER_TABLE_SID AS Comp_State_Code
-,m.HELPER_TABLE_SID AS Comp_Country_Code
-
-,ud1.HELPER_TABLE_SID AS new_udc1_code
-,ud2.HELPER_TABLE_SID AS new_udc2_code
-,ud3.HELPER_TABLE_SID AS new_udc3_code
-,ud4.HELPER_TABLE_SID AS new_udc4_code
-,ud5.HELPER_TABLE_SID AS new_udc5_code
-,ud6.HELPER_TABLE_SID AS new_udc6_code
-
-
-FROM STAG_COMPANY_MASTER A
-
-		   Left join HELPER_TABLE D 
-	          ON D.DESCRIPTION=A.COMPANY_TYPE
-			  AND D.LIST_NAME=&apos;COMPANY_TYPE&apos;
-        left join HELPER_TABLE H 
-	          ON H.DESCRIPTION=A.COMPANY_CATEGORY
-	   	      AND H.LIST_NAME=&apos;COMPANY_CATEGORY&apos;
-	    left join HELPER_TABLE G 
-	          ON G.DESCRIPTION=A.COMPANY_GROUP
-	   	      AND G.LIST_NAME=&apos;COMPANY_GROUP&apos;
-        left join HELPER_TABLE F 
-	          ON F.DESCRIPTION=A.COMPANY_STATUS
-	   	      AND F.LIST_NAME=&apos;STATUS&apos;  
-
-        left join HELPER_TABLE I
-	          ON I.DESCRIPTION=A.ORGANIZATION_KEY
-	   	      AND I.LIST_NAME=&apos;ORGANIZATION_KEY&apos;
-        left join HELPER_TABLE l
-	          ON l.DESCRIPTION=A.STATE
-	   	      AND l.LIST_NAME=&apos;STATE&apos;
-	    left join HELPER_TABLE m
-	          ON m.DESCRIPTION=A.COUNTRY
-	   	      AND m.LIST_NAME=&apos;COUNTRY&apos;
-
-		 left join HELPER_TABLE ud1
-	        ON ud1.DESCRIPTION=A.UDC1
-	   	    AND ud1.LIST_NAME=&apos;COMP_UDC1&apos;
-		      left join HELPER_TABLE ud2
-	        ON ud2.DESCRIPTION=A.UDC2
-	   	    AND ud2.LIST_NAME=&apos;COMP_UDC2&apos;
-		      left join HELPER_TABLE ud3
-	        ON ud3.DESCRIPTION=A.UDC3
-	   	    AND ud3.LIST_NAME=&apos;COMP_UDC3&apos;
-		      left join HELPER_TABLE ud4
-	        ON ud4.DESCRIPTION=A.UDC4
-	   	    AND ud4.LIST_NAME=&apos;COMP_UDC4&apos;
-		      left join HELPER_TABLE ud5
-	        ON ud5.DESCRIPTION=A.UDC5
-	   	    AND ud5.LIST_NAME=&apos;COMP_UDC5&apos;
-		      left join HELPER_TABLE ud6
-	        ON ud6.DESCRIPTION=A.UDC6
-	   	    AND ud6.LIST_NAME=&apos;COMP_UDC6&apos;
-
-
-
-</sql>
+    <sql>&#xa;&#xa;&#xa;&#xa; &#xa;SELECT &#xa;  A.COMPANY_MASTER_INTFID&#xa;, A.ORGANIZATION_KEY&#xa;, A.COMPANY_ID&#xa;, A.COMPANY_NO&#xa;, A.COMPANY_NAME&#xa;, A.COMPANY_TYPE&#xa;, A.COMPANY_STATUS&#xa;, A.LIVES&#xa;, A.COMPANY_END_DATE&#xa;, A.UDC1&#xa;, A.UDC2&#xa;, A.UDC3&#xa;, A.UDC4&#xa;, A.UDC5&#xa;, A.UDC6&#xa;, A.COMPANY_GROUP&#xa;, A.FINANCIAL_SYSTEM&#xa;, A.ADDRESS_1&#xa;, A.ADDRESS_2&#xa;, A.CITY&#xa;, A.&#x22;STATE&#x22;&#xa;, A.ZIP_CODE&#xa;, A.COUNTRY&#xa;, A.REGION_CODE&#xa;, A.LAST_UPDATED_DATE&#xa;, A.COMPANY_START_DATE&#xa;, A.STATUS&#xa;, A.COMPANY_CATEGORY&#xa;, A.CREATED_BY&#xa;, A.CREATED_DATE&#xa;, A.MODIFIED_BY&#xa;, A.MODIFIED_DATE&#xa;, A.BATCH_ID&#xa;, A.SOURCE&#xa;, A.ADD_CHG_DEL_INDICATOR&#xa;&#xa;,D.HELPER_TABLE_SID AS Comp_Type_Code&#xa;,H.HELPER_TABLE_SID AS Comp_Cat_Code&#xa;,G.HELPER_TABLE_SID AS Comp_Group_Code&#xa;,F.HELPER_TABLE_SID AS Comp_Status_Code&#xa;,I.HELPER_TABLE_SID AS Comp_Org_key_Code&#xa;,l.HELPER_TABLE_SID AS Comp_State_Code&#xa;,m.HELPER_TABLE_SID AS Comp_Country_Code&#xa;&#xa;,ud1.HELPER_TABLE_SID AS new_udc1_code&#xa;,ud2.HELPER_TABLE_SID AS new_udc2_code&#xa;,ud3.HELPER_TABLE_SID AS new_udc3_code&#xa;,ud4.HELPER_TABLE_SID AS new_udc4_code&#xa;,ud5.HELPER_TABLE_SID AS new_udc5_code&#xa;,ud6.HELPER_TABLE_SID AS new_udc6_code&#xa;&#xa;&#xa;FROM STAG_COMPANY_MASTER A&#xa;&#xa;		   Left join HELPER_TABLE D &#xa;	          ON D.DESCRIPTION&#x3d;A.COMPANY_TYPE&#xa;			  AND D.LIST_NAME&#x3d;&#x27;COMPANY_TYPE&#x27;&#xa;        left join HELPER_TABLE H &#xa;	          ON H.DESCRIPTION&#x3d;A.COMPANY_CATEGORY&#xa;	   	      AND H.LIST_NAME&#x3d;&#x27;COMPANY_CATEGORY&#x27;&#xa;	    left join HELPER_TABLE G &#xa;	          ON G.DESCRIPTION&#x3d;A.COMPANY_GROUP&#xa;	   	      AND G.LIST_NAME&#x3d;&#x27;COMPANY_GROUP&#x27;&#xa;        left join HELPER_TABLE F &#xa;	          ON F.DESCRIPTION&#x3d;A.COMPANY_STATUS&#xa;	   	      AND F.LIST_NAME&#x3d;&#x27;STATUS&#x27;  &#xa;&#xa;        left join HELPER_TABLE I&#xa;	          ON I.DESCRIPTION&#x3d;A.ORGANIZATION_KEY&#xa;	   	      AND I.LIST_NAME&#x3d;&#x27;ORGANIZATION_KEY&#x27;&#xa;        left join HELPER_TABLE l&#xa;	          ON l.DESCRIPTION&#x3d;A.STATE&#xa;	   	      AND l.LIST_NAME&#x3d;&#x27;STATE&#x27;&#xa;	    left join HELPER_TABLE m&#xa;	          ON m.DESCRIPTION&#x3d;A.COUNTRY&#xa;	   	      AND m.LIST_NAME&#x3d;&#x27;COUNTRY&#x27;&#xa;&#xa;		 left join HELPER_TABLE ud1&#xa;	        ON ud1.DESCRIPTION&#x3d;A.UDC1&#xa;	   	    AND ud1.LIST_NAME&#x3d;&#x27;COMP_UDC1&#x27;&#xa;		      left join HELPER_TABLE ud2&#xa;	        ON ud2.DESCRIPTION&#x3d;A.UDC2&#xa;	   	    AND ud2.LIST_NAME&#x3d;&#x27;COMP_UDC2&#x27;&#xa;		      left join HELPER_TABLE ud3&#xa;	        ON ud3.DESCRIPTION&#x3d;A.UDC3&#xa;	   	    AND ud3.LIST_NAME&#x3d;&#x27;COMP_UDC3&#x27;&#xa;		      left join HELPER_TABLE ud4&#xa;	        ON ud4.DESCRIPTION&#x3d;A.UDC4&#xa;	   	    AND ud4.LIST_NAME&#x3d;&#x27;COMP_UDC4&#x27;&#xa;		      left join HELPER_TABLE ud5&#xa;	        ON ud5.DESCRIPTION&#x3d;A.UDC5&#xa;	   	    AND ud5.LIST_NAME&#x3d;&#x27;COMP_UDC5&#x27;&#xa;		      left join HELPER_TABLE ud6&#xa;	        ON ud6.DESCRIPTION&#x3d;A.UDC6&#xa;	   	    AND ud6.LIST_NAME&#x3d;&#x27;COMP_UDC6&#x27;&#xa;&#xa;&#xa;&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -4193,6 +4581,7 @@ FROM STAG_COMPANY_MASTER A
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4217,7 +4606,7 @@ FROM STAG_COMPANY_MASTER A
       <key>
         <name>list_name_udc1</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -4240,6 +4629,7 @@ FROM STAG_COMPANY_MASTER A
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4264,7 +4654,7 @@ FROM STAG_COMPANY_MASTER A
       <key>
         <name>list_name_udc1</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -4287,6 +4677,7 @@ FROM STAG_COMPANY_MASTER A
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4311,7 +4702,7 @@ FROM STAG_COMPANY_MASTER A
       <key>
         <name>list_name_udc2</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -4334,6 +4725,7 @@ FROM STAG_COMPANY_MASTER A
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4358,7 +4750,7 @@ FROM STAG_COMPANY_MASTER A
       <key>
         <name>list_name_udc2</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -4381,6 +4773,7 @@ FROM STAG_COMPANY_MASTER A
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4405,7 +4798,7 @@ FROM STAG_COMPANY_MASTER A
       <key>
         <name>list_name_udc3</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -4428,6 +4821,7 @@ FROM STAG_COMPANY_MASTER A
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4452,7 +4846,7 @@ FROM STAG_COMPANY_MASTER A
       <key>
         <name>list_name_udc3</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -4475,6 +4869,7 @@ FROM STAG_COMPANY_MASTER A
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4499,7 +4894,7 @@ FROM STAG_COMPANY_MASTER A
       <key>
         <name>list_name_udc4</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -4522,6 +4917,7 @@ FROM STAG_COMPANY_MASTER A
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4546,7 +4942,7 @@ FROM STAG_COMPANY_MASTER A
       <key>
         <name>list_name_udc4</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -4569,6 +4965,7 @@ FROM STAG_COMPANY_MASTER A
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4593,7 +4990,7 @@ FROM STAG_COMPANY_MASTER A
       <key>
         <name>list_name_udc5</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -4616,6 +5013,7 @@ FROM STAG_COMPANY_MASTER A
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4640,7 +5038,7 @@ FROM STAG_COMPANY_MASTER A
       <key>
         <name>list_name_udc5</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -4663,6 +5061,7 @@ FROM STAG_COMPANY_MASTER A
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4687,7 +5086,7 @@ FROM STAG_COMPANY_MASTER A
       <key>
         <name>list_name_udc6</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -4710,6 +5109,7 @@ FROM STAG_COMPANY_MASTER A
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4734,7 +5134,7 @@ FROM STAG_COMPANY_MASTER A
       <key>
         <name>list_name_udc6</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -4757,6 +5157,7 @@ FROM STAG_COMPANY_MASTER A
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4826,6 +5227,7 @@ FROM STAG_COMPANY_MASTER A
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4843,7 +5245,7 @@ FROM STAG_COMPANY_MASTER A
       <key>
         <name>COMPANY_MASTER_SID</name>
         <field>MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -4884,6 +5286,7 @@ FROM STAG_COMPANY_MASTER A
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4907,7 +5310,7 @@ FROM STAG_COMPANY_MASTER A
       <key>
         <name>INBOUND_STATUS_D</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -5077,6 +5480,18 @@ FROM STAG_COMPANY_MASTER A
         <min_pct_rows/>
       </error>
       <error>
+        <source_step>COMPANY_MASTER_lookup 2</source_step>
+        <target_step>COMPANY_MASTER_lookup</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
         <source_step>DEL UNIQUE</source_step>
         <target_step>D-INVALID</target_step>
         <is_enabled>Y</is_enabled>
@@ -5090,7 +5505,7 @@ FROM STAG_COMPANY_MASTER A
       </error>
       <error>
         <source_step>Update 2</source_step>
-        <target_step>Dummy (do nothing) 3</target_step>
+        <target_step>Dummy &#x28;do nothing&#x29; 3</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -5116,4 +5531,5 @@ FROM STAG_COMPANY_MASTER A
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
+
 </transformation>
