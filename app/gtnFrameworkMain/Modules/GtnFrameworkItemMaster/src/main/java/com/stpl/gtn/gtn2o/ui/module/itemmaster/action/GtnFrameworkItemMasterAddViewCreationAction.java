@@ -8,7 +8,6 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
-import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterStringContants;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.util.GtnFrameworkItemMasterArmUdc1Utility;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -33,16 +32,7 @@ public class GtnFrameworkItemMasterAddViewCreationAction implements GtnUIFrameWo
 		checkUDC1Type();
 		String udc1Type=(String) GtnUIFrameworkGlobalUI.getSessionProperty("UDC1");
 		
-		/*if(GtnUIFrameworkGlobalUI.getSessionProperty("mode").equals(GtnUIFrameworkModeType.VIEW)) {
-			activeUdc1TextBox();
-			return;
-		}*/
-		
 		if(udc1Type!=null && udc1Type.equalsIgnoreCase(GtnFrameworkItemMasterStringContants.ARM_UDC_1)) {
-			if(GtnUIFrameworkGlobalUI.getSessionProperty("mode").equals(GtnUIFrameworkModeType.VIEW)) {
-				activeUdc1TextBox();
-				return;
-			}
 			activeCheckedComboBoxUdc1();
 			return;
 		}
@@ -56,17 +46,8 @@ public class GtnFrameworkItemMasterAddViewCreationAction implements GtnUIFrameWo
 		return this;
 	}
 	
-	private void activeUdc1TextBox() {
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX_LAYOUT)
-			.setVisible(Boolean.TRUE);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_LAYOUT)
-			.setVisible(Boolean.FALSE);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX_LAYOUT)
-			.setVisible(Boolean.FALSE);
-	}
-	
 	private void checkUDC1Type() {
-		String udc1Type = System.getProperty(GtnFrameworkItemMasterStringContants.UDC1);
+		String udc1Type = System.getProperty(GtnFrameworkItemMasterStringContants.UDC1+"gjh");
 		GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkItemMasterStringContants.UDC1, udc1Type);
 	}
 	
@@ -94,7 +75,9 @@ public class GtnFrameworkItemMasterAddViewCreationAction implements GtnUIFrameWo
 					itemCodeList.remove(i);
 				}
 			}
-			
+			/*
+			 * Setting Values in checked combo box for udc1
+			 */
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX)
 				.loadCheckedCombobox(GtnFrameworkItemMasterStringContants.SELECT_VALUE, itemCodeList, itemValueList);
 			/*

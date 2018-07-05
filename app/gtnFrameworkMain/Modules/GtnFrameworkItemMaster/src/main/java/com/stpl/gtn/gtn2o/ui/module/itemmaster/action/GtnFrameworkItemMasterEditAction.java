@@ -15,7 +15,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
-import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterStringContants;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.util.GtnFrameworkItemMasterArmUdc1Utility;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
@@ -46,7 +45,6 @@ public class GtnFrameworkItemMasterEditAction
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		return;
-
 	}
 
 	public GtnWsRecordBean getValueFromTable(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -122,7 +120,7 @@ public class GtnFrameworkItemMasterEditAction
 				imEditBean.getNdc8(), imEditBean.getPrimaryUom(), imEditBean.getSecondaryUom(),
 				imEditBean.getLabelerCode(), imEditBean.getItemCode(), imEditBean.getPackageSize(),
 				imEditBean.getPackageSizeCode(), imEditBean.getItemTypeIndication(), imEditBean.getItemCategory(),
-				imEditBean.getPackageSizeIntroDate(), imEditBean.getManufacturerId(), /*imEditBean.getUdc1(),*/
+				imEditBean.getPackageSizeIntroDate(), imEditBean.getManufacturerId(), imEditBean.getUdc1(),
 				imEditBean.getUdc2(), imEditBean.getUdc3(), imEditBean.getUdc4(), imEditBean.getUdc5(),
 				imEditBean.getUdc6(), imEditBean.getCompanyMasterSid(), imEditBean.getDosesPerUnit(),
 				imEditBean.getShelfLife(), imEditBean.getShelfLifeType(), imEditBean.getLastLotExpirationDate(),
@@ -166,64 +164,69 @@ public class GtnFrameworkItemMasterEditAction
 				GtnUIFrameworkActionType.DISABLE_ACTION);
 		imEditDisableAction.setActionParameterList(disabledFields);
 		GtnUIFrameworkActionExecutor.executeSingleAction(sourceComponentId, imEditDisableAction);
-		
-		setValuesForUdc1(imEditBean.getUdc1());
 	}
 
-	private void setValuesForUdc1(Integer udc1) {
-		gtnLogger.info("Id="+udc1);
-		
-		/*if(GtnUIFrameworkGlobalUI.getSessionProperty("mode").equals(GtnUIFrameworkModeType.VIEW)) {
-			setValueForUdc1ForTextBox(udc1);
-			return;
-		}*/
-		
-		String udc1Type=(String) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkItemMasterStringContants.UDC1);
-		if (udc1Type!=null && udc1Type.equals(GtnFrameworkItemMasterStringContants.ARM_UDC_1)) {
-			if(GtnUIFrameworkGlobalUI.getSessionProperty("mode").equals(GtnUIFrameworkModeType.VIEW)) {
+	private void setValuesForUdc1(Integer udc1, boolean isEditable) {
+		gtnLogger.info("Id=" + udc1);
+
+		String udc1Type = (String) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkItemMasterStringContants.UDC1);
+		if (udc1Type != null && udc1Type.equals(GtnFrameworkItemMasterStringContants.ARM_UDC_1)) {
+			if (!isEditable) {
 				setValueForUdc1ForTextBox(udc1);
+				GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(
+								GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX_LAYOUT)
+						.setVisible(!isEditable);
+				GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(
+								GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX_LAYOUT)
+						.setVisible(isEditable);
+				GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_LAYOUT)
+						.setVisible(isEditable);
 				return;
 			}
 			setValuesForUdc1CheckedComboBox(udc1);
 			return;
 		}
-		
+
 		setValuesForUdc1ComboBox(udc1);
-		
 	}
 
 	private void setValuesForUdc1ComboBox(Integer udc1) {
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1)
-			.loadComboBoxComponentValue(udc1);
+				.loadComboBoxComponentValue(udc1);
 	}
 
 	private void setValueForUdc1ForTextBox(Integer itemCode) {
-		String itemValue=GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemValue(itemCode);
-		
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX)
-			.loadFieldValue(itemValue);
+		String itemValue = GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemValue(itemCode);
+
+		GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX)
+				.loadFieldValue(itemValue);
 	}
 
 	private void setValuesForUdc1CheckedComboBox(Integer udc1Id) {
-		//if(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkItemMasterStringContants.UDC1)
-		//		.equals(GtnFrameworkItemMasterStringContants.ARM_UDC_1)){
-			
-			String armUdc1=getDescriptionItemValueForArmUdc1(udc1Id);
-			String[] values = armUdc1.split(",");
-			List<Integer> codeList=new ArrayList<>();
-			for(String value:values) {
-				codeList.add(getIdForArmUdc1(value));
-			}
-			
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX)
+		String armUdc1 = getDescriptionItemValueForArmUdc1(udc1Id);
+		String[] values = armUdc1.split(",");
+		List<Integer> codeList = new ArrayList<>();
+		for (String value : values) {
+			gtnLogger.info("Value=" + value);
+			gtnLogger.info("Code=" + getIdForArmUdc1(value));
+			codeList.add(getIdForArmUdc1(value));
+		}
+
+		GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(
+						GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX)
 				.loadCheckedValueCustomMenuBar(codeList);
-		//}
+
 	}
 
 	private int getIdForArmUdc1(String udc1Value) {
 		return GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemCode(udc1Value);
 	}
-	
+
 	private String getDescriptionItemValueForArmUdc1(Integer udc1Id) {
 		return GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemValue(udc1Id);
 	}
@@ -262,6 +265,7 @@ public class GtnFrameworkItemMasterEditAction
 		try {
 			GtnWsItemMasterInfoBean info = bean.getGtnWsItemMasterInfoBean();
 			configureInformationTabComponents(sourceComponentId, info);
+			setValuesForUdc1(info.getUdc1(), isEditable);
 			configureIdentifierTab(isEditable);
 			configurePricingTab(isEditable);
 			configureButton(sourceComponentId, isEditable);
@@ -294,37 +298,49 @@ public class GtnFrameworkItemMasterEditAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(editVisibleFields[i], sourceComponentId)
 					.setComponentVisible(value);
 		}
-		
-		//setUdc1Visibility(value);
-
 	}
 
 	private void setUdc1Visibility(boolean value) {
-		if(!value) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX_LAYOUT)
-				.setVisible(value);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX_LAYOUT)
-				.setVisible(!value);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_LAYOUT)
-				.setVisible(!value);
+
+		if (!value) {
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(
+							GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX_LAYOUT)
+					.setVisible(value);
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(
+							GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX_LAYOUT)
+					.setVisible(!value);
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_LAYOUT)
+					.setVisible(!value);
 			return;
 		}
-		if(GtnUIFrameworkGlobalUI.getSessionProperty("UDC1").equals("ARM_UDC1")) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX_LAYOUT)
-				.setVisible(value);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_LAYOUT)
-				.setVisible(!value);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX_LAYOUT)
-				.setVisible(!value);
+		if (GtnUIFrameworkGlobalUI.getSessionProperty("UDC1").equals("ARM_UDC1")) {
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(
+							GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX_LAYOUT)
+					.setVisible(value);
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_LAYOUT)
+					.setVisible(!value);
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(
+							GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX_LAYOUT)
+					.setVisible(!value);
 			return;
 		}
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_LAYOUT)
-			.setVisible(value);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX_LAYOUT)
-			.setVisible(!value);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX_LAYOUT)
-			.setVisible(!value);
-		
+		GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_LAYOUT)
+				.setVisible(value);
+		GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(
+						GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX_LAYOUT)
+				.setVisible(!value);
+		GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX_LAYOUT)
+				.setVisible(!value);
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -332,9 +348,11 @@ public class GtnFrameworkItemMasterEditAction
 			throws GtnFrameworkGeneralException {
 		GtnUIFrameworkBaseComponent imIdentifierTable = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCommonConstants.ITEM_MASTER_IDENTIFIERATTACH_RESULT_TABLE);
+
 		ExtContainer<GtnWsRecordBean> identifierContainer = (ExtContainer<GtnWsRecordBean>) imIdentifierTable
 				.getExtFilterTable().getContainerDataSource();
 		identifierContainer.removeAllItems();
+
 		setTableHeaderAndVisibleColumnForIdentifier(isEditable);
 		imIdentifierTable.getExtFilterTable().resetFilters();
 		loadIdentifierTab(reponseBean.getGtnWsItemIdentifierBeanList(), identifierContainer);

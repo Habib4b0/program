@@ -84,7 +84,7 @@ public class GtnFrameworkItemMasterArmUdc1Utility {
 		initialize();
 		return (codeValueArmUdc1HashMap.get(itemCode)==null)?"":codeValueArmUdc1HashMap.get(itemCode);
 	}
-
+	
 	public static List<String> getArmUdc1ValueList() {
 		initialize();
 		return Collections.unmodifiableList(armUdc1ValueList);
@@ -96,18 +96,18 @@ public class GtnFrameworkItemMasterArmUdc1Utility {
 	}
 	
 	private static String checkItemPresentInHashMap(String itemValue) {
-		List<String> itemValueArray=
+		List<String> itemValueList=
 				Arrays.asList(itemValue.replaceAll(GtnFrameworkItemMasterStringContants.REGEX_SPACE
 						,GtnFrameworkItemMasterStringContants.EMPTY)
 						.split(GtnFrameworkItemMasterStringContants.COMMA));
 		
 		for(String armUdc1Value: armUdc1ValueList) {
-			List<String> armUdc1ValueArray=
+			List<String> armUdc1ValueList=
 					Arrays.asList(armUdc1Value.replaceAll(GtnFrameworkItemMasterStringContants.REGEX_SPACE
 							,GtnFrameworkItemMasterStringContants.EMPTY)
 					.split(GtnFrameworkItemMasterStringContants.COMMA));
 			
-			if((armUdc1ValueArray.size()==itemValueArray.size()) && (armUdc1ValueArray.containsAll(itemValueArray))) {
+			if((armUdc1ValueList.size()==itemValueList.size()) && (armUdc1ValueList.containsAll(itemValueList))) {
 					gtnLogger.info("Equal");
 					return armUdc1Value;
 			}

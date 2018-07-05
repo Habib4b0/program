@@ -59,7 +59,6 @@ public class GtnFrameworkItemMasterSaveAction
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-
 	}
 
 	private void cpDetailsInsert(int itemMasterSid) {
@@ -135,13 +134,11 @@ public class GtnFrameworkItemMasterSaveAction
 	}
 
 	private void getValueForUdc1(GtnWsItemMasterInfoBean gtnWsItemMasterInfoBean, List<String> udc1Fields) {
-		logger.info("Type UDC1="+GtnUIFrameworkGlobalUI.getSessionProperty("UDC1"));
-		String parentId=GtnUIFrameworkGlobalUI.getVaadinBaseComponent(udc1Fields.get(0)).getComponentConfig().getParentComponentId();
-		if(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parentId).isVisible()) {
+		String udc1=(String) GtnUIFrameworkGlobalUI.getSessionProperty("UDC1");
+		if(udc1 !=null && udc1.equals("ARM_UDC1")) {
 			getSelectedUdc1ItemFromCheckedComboBox(gtnWsItemMasterInfoBean, udc1Fields.get(0));
 			return;
 		}
-		
 		getSelectedUdc1ItemFromComboBox(gtnWsItemMasterInfoBean, udc1Fields.get(1));
 	}
 
@@ -186,26 +183,6 @@ public class GtnFrameworkItemMasterSaveAction
 	
 	private int getIdForArmUdc1(String descriptionValue) {
 		return GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemCode(descriptionValue);
-		/*GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
-		generalWSRequest.setComboBoxType(GtnFrameworkItemMasterStringContants.ARM_UDC_1);
-		
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		request.setGtnWsGeneralRequest(generalWSRequest);
-		
-		GtnUIFrameworkWebserviceComboBoxResponse response = 
-				new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-						GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX, request,
-						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken())
-				.getGtnUIFrameworkWebserviceComboBoxResponse();
-		
-		List<String> itemValueList=new ArrayList<>(response.getItemValueList());
-		List<String> itemCodeList=new ArrayList<>(response.getItemCodeList());
-		
-		if(itemValueList.contains(descriptionValue)) {
-			return itemCodeList.get(itemValueList.indexOf(descriptionValue));
-		}
-		return GtnFrameworkCommonStringConstants.STRING_EMPTY;*/
 	}
 
 	private GtnWsItemMasterBean setProperties(List<String> fields, List<String> beanFields)
@@ -384,62 +361,18 @@ public class GtnFrameworkItemMasterSaveAction
 				.getVaadinBaseComponent("itemMasterIdentifierattachResultTable").getExtFilterTable()
 				.getContainerDataSource();
 		imIdentifierContainer.removeAllItems();
-
+		
 		loadIdentifierTab(reponseBean.getGtnWsItemIdentifierBeanList(), imIdentifierContainer);
 
 		ExtContainer<GtnWsRecordBean> imPricingContainer = (ExtContainer<GtnWsRecordBean>) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("itemMasterPricingattachResultTable").getExtFilterTable()
+				//.getVaadinBaseComponent("itemMasterPricingattachResultTable").getExtFilterTable()
+				.getVaadinBaseComponent(GtnFrameworkCommonConstants.ITEM_MASTER_PRICINGATTACH_RESULT_TABLE).getExtFilterTable()
 				.getContainerDataSource();
 		imPricingContainer.removeAllItems();
-
+		
 		loadPricingTab();
-		//loadPricingTab(reponseBean.getGntWsItemPricingBean(),imPricingContainer);
 	}
-	
-	/*private void loadPricingTab(GntWsItemPricingBean gntWsItemPricingBean, ExtContainer<GtnWsRecordBean> imPricingContainer) throws GtnFrameworkGeneralException {
-	{
-		try {
-			GtnWsRecordBean imIdentifierBean;
-			//for (GntWsItemPricingBean dto : identifierSaveList) {
-				imIdentifierBean = new GtnWsRecordBean();
-				imIdentifierBean.setRecordHeader(imPricingContainer.getRecordHeader());
-				imIdentifierBean.addProperties(GtnFrameworkCommonConstants.PRICING_QUALIFIER_NAME
-						, gntWsItemPricingBean.getItemPricingQualifierName());
-				imIdentifierBean.addProperties(GtnFrameworkCommonConstants.ITEM_PRICE
-						, gntWsItemPricingBean.getItemPrice());
-				imIdentifierBean.addProperties(GtnFrameworkCommonConstants.PRICING_STATUS_ID
-						, gntWsItemPricingBean.getPricingCodeStatus());
-				imIdentifierBean.addProperties(GtnFrameworkCommonConstants.ITEM_UOM_PARAM
-						, gntWsItemPricingBean.getItemUom());
-				imIdentifierBean.addProperties(GtnFrameworkCommonConstants.START_DATE
-						, gntWsItemPricingBean.getStartDate());
-				imIdentifierBean.addProperties(GtnFrameworkCommonConstants.END_DATE
-						, gntWsItemPricingBean.getEndDate());
-				imIdentifierBean.addProperties(GtnFrameworkCommonConstants.ENTITY_CODE
-						, gntWsItemPricingBean.getEntityCode());
-				imIdentifierBean.addProperties("source"
-						, gntWsItemPricingBean.getSource());
-				imIdentifierBean.addProperties("modifiedBy"
-						, String.valueOf(gntWsItemPricingBean.getModifiedBy()));
-				imIdentifierBean.addProperties("modifiedDate"
-						, gntWsItemPricingBean.getModifiedDate());
-				imIdentifierBean.addProperties("createdBy"
-						, String.valueOf(gntWsItemPricingBean.getCreatedBy()));
-				imIdentifierBean.addProperties("createdDate"
-						, gntWsItemPricingBean.getCreatedDate());
-				imIdentifierBean.addProperties("pricingStatusDes"
-						, gntWsItemPricingBean.getPricingCodeStatusDes());
-				imIdentifierBean.addProperties("itemUOMDes"
-						, gntWsItemPricingBean.getItemUomDes());
-				imIdentifierBean.getProperties().add(gntWsItemPricingBean.getItemMasterSid());
-				imIdentifierBean.getProperties().add(gntWsItemPricingBean.getItemPricingQualifierSid());
-				imPricingContainer.addBean(imIdentifierBean);
-			//}
-		} catch (Exception systemExcption) {
-			throw new GtnFrameworkGeneralException(GtnFrameworkCommonConstants.SAVE_ERROR, systemExcption);
-		}}
-	}
-*/
+
 	private void loadIdentifierTab(List<GtnWsItemIdentifierBean> identifierSaveList,
 			ExtContainer<GtnWsRecordBean> container) throws GtnFrameworkGeneralException {
 		try {

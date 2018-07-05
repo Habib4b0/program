@@ -129,7 +129,7 @@ public class GtnFrameworkItemMasterResetAction implements GtnUIFrameWorkAction, 
 					info.getForm(), info.getStrength(), info.getFirstSaleDate(), info.getNdc9(), info.getNdc8(),
 					info.getPrimaryUom(), info.getSecondaryUom(), info.getLabelerCode(), info.getItemCode(),
 					info.getPackageSize(), info.getPackageSizeCode(), info.getItemTypeIndication(),
-					info.getItemCategory(), info.getPackageSizeIntroDate(), info.getManufacturerId(), /*info.getUdc1(),*/
+					info.getItemCategory(), info.getPackageSizeIntroDate(), info.getManufacturerId(), info.getUdc1(),
 					info.getUdc2(), info.getUdc3(), info.getUdc4(), info.getUdc5(), info.getUdc6(),
 					info.getCompanyMasterSid(), info.getCreatedDate(), info.getModifiedDate(), info.getItemMasterSid(),
 					info.getBatchId(), info.getUpps() });
