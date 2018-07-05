@@ -21,9 +21,12 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 public class GtnReportDashboardFrequencyLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+
+	private GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnReportDashboardFrequencyLoadAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -67,37 +70,22 @@ public class GtnReportDashboardFrequencyLoadAction
 			}
 			getFormat(periodSid, endSid, dateString, selectedFrequency, endDate);
 
-			List dataNew = new ArrayList<>(dateString);
-			List periodSidData = new ArrayList<>(periodSid);
+			List<String> dataNew = new ArrayList<>(dateString);
+			List<Integer> periodSidData = new ArrayList<>(periodSid);
 
-			GtnUIFrameworkBaseComponent reportingDashboard_displaySelectionTabPeriodRangeFromBaseComponent = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId);
-			GtnUIFrameworkComponentConfig reportingDashboard_displaySelectionTabPeriodRangeFromComponentConfig = reportingDashboard_displaySelectionTabPeriodRangeFromBaseComponent
-					.getComponentConfig();
-			GtnUIFrameworkComboBoxConfig periodRangeFrom = reportingDashboard_displaySelectionTabPeriodRangeFromComponentConfig
-					.getGtnComboboxConfig();
-			periodRangeFrom.setItemCaptionValues(dataNew);
-			periodRangeFrom.setItemValues(periodSidData);
+			
+			GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId)
+			.addAllItemsToComboBox(dataNew, periodSidData);
+						
+			GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeTo", componentId)
+			.addAllItemsToComboBox(dataNew, periodSidData);
 
-			GtnUIFrameworkComboBoxComponent periodRangeFromComboBox = new GtnUIFrameworkComboBoxComponent();
-			periodRangeFromComboBox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-					"reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId, Arrays.asList(""));
-
-			GtnUIFrameworkBaseComponent reportingDashboard_displaySelectionTabPeriodRangeToBaseComponent = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeTo", componentId);
-			GtnUIFrameworkComponentConfig reportingDashboard_displaySelectionTabPeriodRangeToComponentConfig = reportingDashboard_displaySelectionTabPeriodRangeToBaseComponent
-					.getComponentConfig();
-			GtnUIFrameworkComboBoxConfig periodRangeTo = reportingDashboard_displaySelectionTabPeriodRangeToComponentConfig
-					.getGtnComboboxConfig();
-			periodRangeTo.setItemCaptionValues(dataNew);
-			periodRangeTo.setItemValues(periodSidData);
-
-			GtnUIFrameworkComboBoxComponent periodRangeToComboBox = new GtnUIFrameworkComboBoxComponent();
-			periodRangeToComboBox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-					"reportingDashboard_displaySelectionTabPeriodRangeTo", componentId, Arrays.asList(""));
+			
 
 		} catch (Exception e) {
-
+			logger.debug(e.getMessage());
 		}
 
 	}
@@ -177,14 +165,13 @@ public class GtnReportDashboardFrequencyLoadAction
 	}
 
 	private String getFrequency(String startString) {
-		Pattern quaterPattern = Pattern.compile("^([Q])([1-4])*");
 		Pattern semiAnnualPattern = Pattern.compile("^([S])([1-2])*");
-		Pattern yearPattern = Pattern.compile("^([0-9])*");
-		if (quaterPattern.matcher(startString).find()) {
+		
+		if (Pattern.matches("[A-Z&&[Q]]{1}\\d*",startString)) {
 			return "Quarter";
 		} else if (semiAnnualPattern.matcher(startString).find()) {
 			return "Semi-Annual";
-		} else if (yearPattern.matcher(startString).find()) {
+		} else if (Pattern.matches("[0-9]{4}", startString)) {
 			return "Annual";
 		}
 		return "Month";
