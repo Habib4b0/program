@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -351,6 +352,24 @@ public class GtnUIFrameworkBaseComponent {
 
 	}
 
+	public String getNthStringCaptionFromV8ComboBox(int position) throws GtnFrameworkValidationFailedException {
+		try {
+			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
+			Iterator comboBoxValueIterator = ((ListDataProvider) (comboBox.getDataProvider())).getItems().iterator();
+			for (int i = 0; i < position; i++) {
+				comboBoxValueIterator.next();
+			}
+			return getString(comboBox.getItemCaptionGenerator().apply(comboBoxValueIterator.next())).trim();
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+
+	public int totalItemsInComboBox() {
+		com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
+		return ((ListDataProvider) (comboBox.getDataProvider())).getItems().size();
+	}
+
 	public Integer getIntegerFromV8ComboBox() throws GtnFrameworkValidationFailedException {
 		try {
 			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
@@ -359,6 +378,24 @@ public class GtnUIFrameworkBaseComponent {
 				return 0;
 			}
 			return Integer.valueOf(getString(comboBox.getValue()).trim());
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+
+	}
+
+	public Integer getNthIntegerFromV8ComboBox(int position) throws GtnFrameworkValidationFailedException {
+		try {
+			com.vaadin.ui.ComboBox comboBox = (com.vaadin.ui.ComboBox) this.getComponent();
+			Iterator comboBoxValueIterator = ((ListDataProvider) (comboBox.getDataProvider())).getItems().iterator();
+			for (int i = 0; i < position; i++) {
+				comboBoxValueIterator.next();
+			}
+			Object nthData = comboBoxValueIterator.next();
+			if (isEmpty(nthData)) {
+				return 0;
+			}
+			return Integer.valueOf(getString(nthData).trim());
 		} catch (Exception typeException) {
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
@@ -459,7 +496,7 @@ public class GtnUIFrameworkBaseComponent {
 			vaadinComboBox.setItems(idList);
 			vaadinComboBox
 					.setItemCaptionGenerator(item -> Optional.ofNullable(valueList.get(idList.indexOf(item))).get());
-			
+
 			GtnUIFrameworkComboBoxConfig comboboxConfig = this.getComponentConfig().getGtnComboboxConfig();
 			if (!comboboxConfig.isHasDefaultValue()) {
 				String defaultValue = comboboxConfig.getDefaultValue() != null
@@ -1309,8 +1346,8 @@ public class GtnUIFrameworkBaseComponent {
 
 		field.setValue(value);
 	}
-	
-	public Object getV8PopupFieldValue(){
+
+	public Object getV8PopupFieldValue() {
 		HorizontalLayout layout = (HorizontalLayout) this.component;
 		HasValue<Object> field = (HasValue) layout.getComponent(0);
 		return field.getValue();

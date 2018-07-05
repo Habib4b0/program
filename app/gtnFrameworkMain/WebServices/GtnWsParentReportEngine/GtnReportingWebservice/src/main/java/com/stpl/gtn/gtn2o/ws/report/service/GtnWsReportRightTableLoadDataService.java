@@ -41,10 +41,6 @@ public class GtnWsReportRightTableLoadDataService {
 
 			String hierarchyNo = bean.getHierarchyNo();
 			int levelNo = bean.getLevelNo();
-			boolean isVAriableRow = false;
-			if (bean.getData()[5].equals("V")) {
-				isVAriableRow = true;
-			}
 			// List<Object[]> customviewData = (List<Object[]>)
 			// gtnSqlQueryEngine.executeSelectQuery(
 			// GtnWsQueryConstants.CUSTOM_VIEW_TYPE,
@@ -104,7 +100,7 @@ public class GtnWsReportRightTableLoadDataService {
 			ccpFilter = StringUtils.join(dashboardBean.getCcpDetailsSidList(), ",");
 		}
 		procedure = procedure.replaceAll(":ccpComp:", ccpFilter);
-		String comparisonBasis = dashboardBean.getComparisonBasis().isEmpty() ? "NULL"
+		String comparisonBasis = dashboardBean.getComparisonBasis().contains("Select") ? "NULL"
 				: dashboardBean.getComparisonBasis();
 		procedure = procedure.replaceAll(":comparisonBasis:", comparisonBasis);
 		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
