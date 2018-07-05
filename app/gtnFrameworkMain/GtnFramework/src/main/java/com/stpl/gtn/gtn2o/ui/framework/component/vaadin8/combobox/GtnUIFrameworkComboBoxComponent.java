@@ -29,7 +29,11 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 
 public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
-
+	private static final String TRIGGERED_RELOAD_WITH_RELOAD_INPUT = "Triggered reload with reload input ";
+	private static final String SIMPLE_RELOAD = "simpleReload";
+	
+	private static final String RELOADED_VAADIN_COMBOBOX = "Reloaded vaadin combobox";
+	
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkComboBoxComponent.class);
 
 	@Override
@@ -58,7 +62,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 							.loadDynamicClass(comboboxConfig.getValueChangeListenerClassName())));
 				}
 
-				addValueChangeListener(componentConfig, vaadinComboBox, comboboxConfig);
+				addValueChangeListener(componentConfig, vaadinComboBox);
 
 				setDefaultFocus(vaadinComboBox, componentConfig);
 				return vaadinComboBox;
@@ -69,8 +73,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		return vaadinComboBox;
 	}
 
-	private void addValueChangeListener(GtnUIFrameworkComponentConfig componentConfig, ComboBox<?> vaadinComboBox,
-			final GtnUIFrameworkComboBoxConfig comboboxConfig) {
+	private void addValueChangeListener(GtnUIFrameworkComponentConfig componentConfig, ComboBox<?> vaadinComboBox) {
 		if (componentConfig.getGtnUIFrameWorkActionConfigList() != null
 				&& !componentConfig.getGtnUIFrameWorkActionConfigList().isEmpty()) {
 			vaadinComboBox.addValueChangeListener(event -> {
@@ -112,14 +115,14 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 	public void reloadComponent(GtnUIFrameworkActionType action, String dependentComponentId, String componentId,
 			String sourceViewId, Object reloadInput) {
 
-		gtnLogger.info("Triggered reload with reload input " + reloadInput + "--Action--" + action);
+		gtnLogger.info(TRIGGERED_RELOAD_WITH_RELOAD_INPUT + reloadInput + "--Action--" + action);
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfig(dependentComponentId,
 				componentId);
 		reloadComboBoxComponent(dependentComponentId, componentId, reloadInput, sourceViewId, comboComponentConfig);
 
 	}
 
-	public void reloadComponentFromView(GtnUIFrameworkActionType action, String dependentComponentId,
+	public void reloadComponentFromView(String dependentComponentId,
 			String componentId, Object reloadInput) {
 
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromView(dependentComponentId,
@@ -128,9 +131,10 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 				comboComponentConfig.getSourceViewId(), comboComponentConfig);
 
 	}
+	
+	public void reloadComponentFromChild(String dependentComponentId, String componentId,
+			 Object reloadInput) {
 
-	public void reloadComponentFromChild(GtnUIFrameworkActionType action, String dependentComponentId,
-			String componentId, Object reloadInput) {
 
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromChild(dependentComponentId,
 				componentId);
@@ -141,11 +145,12 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 	private void reloadComboBoxComponentFromView(String dependentComponentId, String componentId, Object reloadInput,
 			String sourceViewId, GtnUIFrameworkComponentConfig componentConfig) {
-		gtnLogger.info("Triggered reload with reload input " + reloadInput);
+		gtnLogger.info(TRIGGERED_RELOAD_WITH_RELOAD_INPUT + reloadInput);
 		List<Object> comboBoxRequestInputList = (List<Object>) reloadInput;
 		String simpleComboBoxReload = String.valueOf(comboBoxRequestInputList.get(0));
-		comboboxConfigLoadAfterStart(componentConfig, dependentComponentId, componentId, "view");
-		if (!"simpleReload".equals(simpleComboBoxReload)) {
+                 comboboxConfigLoadAfterStart(componentConfig, dependentComponentId, componentId,"view");
+		if (!SIMPLE_RELOAD.equals(simpleComboBoxReload)) {
+
 			if (componentConfig.getReloadLogicActionClassName() != null) {
 				try {
 					GtnUIFrameworkClassLoader comboBoxClassLoader = new GtnUIFrameworkClassLoader();
@@ -175,15 +180,15 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 		vaadinComboBoxComponent = fillComboBox(componentConfig, comboboxComponentConfig, comboBoxRequestInputList,
 				sourceViewId, vaadinComboBoxComponent, reloadInput);
-		gtnLogger.info("Reloaded vaadin combobox" + vaadinComboBoxComponent);
+		gtnLogger.info(RELOADED_VAADIN_COMBOBOX + vaadinComboBoxComponent);
 	}
 
 	private void reloadComboBoxComponentFromChild(String dependentComponentId, String componentId, Object reloadInput,
 			String sourceViewId, GtnUIFrameworkComponentConfig componentConfig) {
-		gtnLogger.info("Triggered reload with reload input " + reloadInput);
+		gtnLogger.info(TRIGGERED_RELOAD_WITH_RELOAD_INPUT + reloadInput);
 		List<Object> comboBoxRequestInputList = (List<Object>) reloadInput;
 		String simpleComboBoxReload = String.valueOf(comboBoxRequestInputList.get(0));
-		if (!"simpleReload".equals(simpleComboBoxReload)) {
+		if (!SIMPLE_RELOAD.equals(simpleComboBoxReload)) {
 			if (componentConfig.getReloadLogicActionClassName() != null) {
 				try {
 					GtnUIFrameworkClassLoader comboBoxClassLoader = new GtnUIFrameworkClassLoader();
@@ -213,7 +218,8 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 		vaadinComboBoxComponent = fillComboBox(componentConfig, comboboxComponentConfig, comboBoxRequestInputList,
 				sourceViewId, vaadinComboBoxComponent, reloadInput);
-		gtnLogger.info("Reloaded vaadin combobox" + vaadinComboBoxComponent);
+		gtnLogger.info(RELOADED_VAADIN_COMBOBOX + vaadinComboBoxComponent);
+		
 
 	}
 
@@ -224,9 +230,10 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		GtnUIFrameworkComponentData comboComponentData = (GtnUIFrameworkComponentData) abstractComboComponent.getData();
 		return comboComponentData.getCurrentComponentConfig();
 	}
+	
+	public void reloadComponentFromParent(String dependentComponentId, String componentId,
+			 Object reloadInput) {
 
-	public void reloadComponentFromParent(GtnUIFrameworkActionType action, String dependentComponentId,
-			String componentId, Object reloadInput) {
 
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromParent(dependentComponentId,
 				componentId);
@@ -245,10 +252,10 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 	private void reloadComboBoxComponentFromParent(String dependentComponentId, String componentId, Object reloadInput,
 			String sourceViewId, GtnUIFrameworkComponentConfig componentConfig) {
-		gtnLogger.info("Triggered reload with reload input " + reloadInput);
+		gtnLogger.info(TRIGGERED_RELOAD_WITH_RELOAD_INPUT + reloadInput);
 		List<Object> comboBoxRequestInputList = (List<Object>) reloadInput;
 		String simpleComboBoxReload = String.valueOf(comboBoxRequestInputList.get(0));
-		if (!"simpleReload".equals(simpleComboBoxReload)) {
+		if (!SIMPLE_RELOAD.equals(simpleComboBoxReload)) {
 			if (componentConfig.getReloadLogicActionClassName() != null) {
 				try {
 					GtnUIFrameworkClassLoader comboBoxClassLoader = new GtnUIFrameworkClassLoader();
@@ -278,7 +285,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 		vaadinComboBoxComponent = fillComboBox(componentConfig, comboboxComponentConfig, comboBoxRequestInputList,
 				sourceViewId, vaadinComboBoxComponent, reloadInput);
-		gtnLogger.info("Reloaded vaadin combobox" + vaadinComboBoxComponent);
+		gtnLogger.info(RELOADED_VAADIN_COMBOBOX + vaadinComboBoxComponent);
 
 	}
 
@@ -301,11 +308,12 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 	@SuppressWarnings("unchecked")
 	private void reloadComboBoxComponent(String dependentComponentId, String componentId, Object reloadInput,
 			String sourceViewId, GtnUIFrameworkComponentConfig componentConfig) {
-		gtnLogger.info("Triggered reload with reload input " + reloadInput);
+		gtnLogger.info(TRIGGERED_RELOAD_WITH_RELOAD_INPUT + reloadInput);
 		List<Object> comboBoxRequestInputList = (List<Object>) reloadInput;
 		String simpleComboBoxReload = String.valueOf(comboBoxRequestInputList.get(0));
-		comboboxConfigLoadAfterStart(componentConfig, dependentComponentId, componentId, "notView");
-		if (!"simpleReload".equals(simpleComboBoxReload)) {
+                comboboxConfigLoadAfterStart(componentConfig, dependentComponentId, componentId,"notView");
+		if (!SIMPLE_RELOAD.equals(simpleComboBoxReload)) {
+
 			if (componentConfig.getReloadLogicActionClassName() != null) {
 				try {
 					GtnUIFrameworkClassLoader comboBoxClassLoader = new GtnUIFrameworkClassLoader();
@@ -335,7 +343,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 		vaadinComboBoxComponent = fillComboBox(componentConfig, comboboxComponentConfig, comboBoxRequestInputList,
 				sourceViewId, vaadinComboBoxComponent, reloadInput);
-		gtnLogger.info("Reloaded vaadin combobox" + vaadinComboBoxComponent);
+		gtnLogger.info(RELOADED_VAADIN_COMBOBOX + vaadinComboBoxComponent);
 
 	}
 
