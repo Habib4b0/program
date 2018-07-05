@@ -52,10 +52,10 @@ public class GtnReportDashboardFrequencyLoadAction
 					.getIntegerFromV8ComboBox();
 
 			String endString = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_STATUS", componentId)
-					.getStringCaptionFromV8ComboBox();
+					.getStringCaptionFromV8ComboBox().replaceAll(" - ", " ");
 			String startString = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId)
-					.getStringCaptionFromV8ComboBox();
+					.getStringCaptionFromV8ComboBox().replaceAll(" - ", " ");
 			String frequency = getFrequency(startString);
 
 			LocalDate startDate = parseDate(startString, frequency);

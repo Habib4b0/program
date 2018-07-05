@@ -156,26 +156,7 @@ public class GtnWsGeneralController {
 	}
 
 	private String getComboboxTypeForReportFromAndToDate(String comboBoxType) throws GtnFrameworkGeneralException {
-//		if (GtnFrameworkCommonConstants.REPORT_TIME_PERIOD_INTERVAL_FOR_FROM_DATE.equals(comboBoxType)
-//				|| GtnFrameworkCommonConstants.REPORT_TIME_PERIOD_INTERVAL_FOR_TO_DATE.equals(comboBoxType)) {
-//			List<String> result;
-//			HashMap<String, String> reportTimePeriodMap = new HashMap<>();
-//			reportTimePeriodMap.put("Quarter", "TimePeriodDateInQuarters");
-//			reportTimePeriodMap.put("Month", "TimePeriodDateInMonth");
-//			reportTimePeriodMap.put("Annual", "TimePeriodDateInYears");
-//			reportTimePeriodMap.put("Semi-Annual", "TimePeriodDateInSemiAnnual");
-//
-//			result = executeQuery(gtnWsSqlService.getQuery(null, GtnFrameworkCommonConstants.REPORT_TIME_PERIOD_HISTORY_FREQUENCY_DATE));
-//
-//			String historyFreq = result.get(0);
-//
-//			if (GtnFrameworkCommonConstants.REPORT_TIME_PERIOD_INTERVAL_FOR_FROM_DATE.equals(comboBoxType)) {
-//				comboBoxType = reportTimePeriodMap.get(historyFreq).replace("Period", "PeriodFrom");
-//				return comboBoxType;
-//			}
-//			comboBoxType = reportTimePeriodMap.get(historyFreq).replace("Period", "PeriodTo");
-//			return comboBoxType;
-//		}
+
 		return comboBoxType;
 	}
 	
