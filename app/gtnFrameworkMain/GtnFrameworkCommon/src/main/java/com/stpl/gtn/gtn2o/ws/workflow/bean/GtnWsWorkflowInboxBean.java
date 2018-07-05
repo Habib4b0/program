@@ -85,7 +85,7 @@ public class GtnWsWorkflowInboxBean implements Serializable {
 
 	private int workflowStatusArm;
 
-	private int adjustmentType;
+	private String adjustmentType;
 
 	private String contractIdArm;
 
@@ -400,11 +400,11 @@ public class GtnWsWorkflowInboxBean implements Serializable {
 		this.workflowStatusArm = workflowStatusArm;
 	}
 
-	public int getAdjustmentType() {
+	public String getAdjustmentType() {
 		return adjustmentType;
 	}
 
-	public void setAdjustmentType(int adjustmentType) {
+	public void setAdjustmentType(String adjustmentType) {
 		this.adjustmentType = adjustmentType;
 	}
 

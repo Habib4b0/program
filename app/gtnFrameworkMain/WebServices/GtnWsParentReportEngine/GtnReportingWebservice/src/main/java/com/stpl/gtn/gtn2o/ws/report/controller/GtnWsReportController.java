@@ -377,7 +377,27 @@ public class GtnWsReportController {
 		return response;
 	}
 	
-
+	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_PROFILE_UPDATE_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getReportProfileUpdate(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest)
+			throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnWsReportRequest reportRequest = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest();
+		GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean = reportRequest.getReportingDashboardSaveProfileLookupBean();
+		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
+		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
+		int userId = Integer.valueOf(generalRequest.getUserId());
+		int recordCount = gtnWsReportWebsevice.checkReportProfileViewRecordCount(reportingDashboardSaveProfileLookupBean, userId);
+		if (recordCount == 0) {
+			generalResponse.setSucess(false);
+		} else {
+			gtnWsReportWebsevice.updateReportProfileMaster(reportingDashboardSaveProfileLookupBean, userId);
+			generalResponse.setSucess(true);
+		}
+		response.setGtnWsGeneralResponse(generalResponse);
+		return response;
+	}
+	
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORRT_DELETEVIEW_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse deleteView(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {

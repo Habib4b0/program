@@ -3974,6 +3974,23 @@ public class SalesLogic {
         }
         return Collections.emptyList();
     }
+    
+    public List<Integer> salesheaderCheckALLQuery(SessionDTO sessionDTO, int checkValue, boolean isSalesUpdate) {
+        StringBuilder salesqueryBuilder = new StringBuilder();
+        try {
+            if (isSalesUpdate) {
+                salesqueryBuilder.append(" Update ST_NM_SALES_PROJECTION_MASTER SET CHECK_RECORD =").append(checkValue).append(' ');
+                salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(salesqueryBuilder.toString(), sessionDTO.getCurrentTableNames()));
+            } else {
+                salesqueryBuilder.append(" SELECT DISTINCT CHECK_RECORD from ST_NM_SALES_PROJECTION_MASTER where  (CHECK_RECORD IS NOT NULL OR CHECK_RECORD <> '')");
+
+                return (List<Integer>) salesAllocationDAO.executeSelectQuery(QueryUtil.replaceTableNames(salesqueryBuilder.toString(), sessionDTO.getCurrentTableNames()));
+            }
+        } catch (PortalException | SystemException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return Collections.emptyList();
+    }
 
     public List<SalesRowDto> configureLevels(int start, int offset, int started, ProjectionSelectionDTO projSelDTO) {
         int neededRecord = offset;

@@ -15,7 +15,6 @@ import org.hibernate.type.DateType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
@@ -28,7 +27,6 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.serviceimpl.GtnWsReportDataSelectionSqlGenerateServiceImpl;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 @Service
@@ -325,6 +323,19 @@ public class GtnWsReportWebsevice {
 		return reportProfileCount;
 	}
 
+	public int updateReportProfileMaster(GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
+			throws GtnFrameworkGeneralException {
+		List<Object> reportProfileInputList = new ArrayList<>();
+		reportProfileInputList.add(userId);
+		reportProfileInputList.add(userId);
+		String reportProfileViewData = gtnReportJsonService.convertObjectAsJsonString(reportingDashboardSaveProfileLookupBean).replaceAll("'", "\\\\");
+		reportProfileInputList.add("'" + reportProfileViewData + "'");
+		reportProfileInputList.add("'" + reportingDashboardSaveProfileLookupBean.getReportProfileviewName() + "'");
+		String reportProfileQuery = sqlService.getQuery(reportProfileInputList, "updateView");
+		int reportProfileCount = gtnSqlQueryEngine.executeInsertOrUpdateQuery(reportProfileQuery);
+		return reportProfileCount;
+	}
+	
 	public String getFromAndToDateLoadQuery(String comboBoxType, String frequency) {
 		String subQuery;
 		if (comboBoxType.equals("FROM")) {
