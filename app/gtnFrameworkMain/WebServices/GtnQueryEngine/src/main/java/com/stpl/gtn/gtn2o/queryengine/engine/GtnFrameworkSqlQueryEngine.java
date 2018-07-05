@@ -187,6 +187,7 @@ public class GtnFrameworkSqlQueryEngine {
 	@SuppressWarnings("unchecked")
 	public Query generateSQLQuery(Session session, String sqlQuery, Object[] params, GtnFrameworkDataType[] type) {
 		Query query = session.createSQLQuery(sqlQuery);
+		debugQuery(sqlQuery, params, type);
 		for (int i = 0; i < params.length; i++) {
 
 			switch (type[i]) {
@@ -221,6 +222,40 @@ public class GtnFrameworkSqlQueryEngine {
 			}
 		}
 		return query;
+	}
+
+	private void debugQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type) {
+		for (int i = 0; i < params.length; i++) {
+			switch (type[i]) {
+			case STRING:
+				sqlQuery = sqlQuery.replace("?", "'" + params[i] + "'");
+				break;
+			case DATE:
+				java.sql.Date sql = new java.sql.Date(((Date) params[i]).getTime());
+				sqlQuery = sqlQuery.replace("?", "'" + sql.toString() + "'");
+				break;
+			case INTEGER:
+				sqlQuery = sqlQuery.replace("?", String.valueOf(params[i]));
+				break;
+			case DOUBLE:
+				sqlQuery = sqlQuery.replace("?", String.valueOf(params[i]));
+				break;
+			case NULL_ALLOWED:
+				sqlQuery = sqlQuery.replace("?", String.valueOf(params[i]));
+				break;
+
+			case IN_LIST:
+				sqlQuery = sqlQuery.replace("inParameter", String.valueOf(params[i]));
+				break;
+			case BIG_DECIMAL:
+				sqlQuery = sqlQuery.replace("?", String.valueOf(params[i]));
+				break;
+
+			default:
+				sqlQuery = sqlQuery.replace("?", String.valueOf(params[i]));
+			}
+		}
+		logger.debug(sqlQuery);
 	}
 
 	public int executeInsertOrUpdateQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type)
