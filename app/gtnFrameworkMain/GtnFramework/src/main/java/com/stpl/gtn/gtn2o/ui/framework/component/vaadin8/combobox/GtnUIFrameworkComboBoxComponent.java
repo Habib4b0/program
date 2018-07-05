@@ -31,9 +31,9 @@ import com.vaadin.ui.Component;
 public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
 	private static final String TRIGGERED_RELOAD_WITH_RELOAD_INPUT = "Triggered reload with reload input ";
 	private static final String SIMPLE_RELOAD = "simpleReload";
-	
+
 	private static final String RELOADED_VAADIN_COMBOBOX = "Reloaded vaadin combobox";
-	
+
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkComboBoxComponent.class);
 
 	@Override
@@ -122,7 +122,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 	}
 
-	public void reloadComponentFromView(String dependentComponentId,
+	public void reloadComponentFromView(GtnUIFrameworkActionType action, String dependentComponentId,
 			String componentId, Object reloadInput) {
 
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromView(dependentComponentId,
@@ -131,14 +131,23 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 				comboComponentConfig.getSourceViewId(), comboComponentConfig);
 
 	}
-	
-	public void reloadComponentFromChild(String dependentComponentId, String componentId,
-			 Object reloadInput) {
 
+	public void reloadComponentFromChild(GtnUIFrameworkActionType action, String dependentComponentId,
+			String componentId, Object reloadInput) {
 
 		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromChild(dependentComponentId,
 				componentId);
 		reloadComboBoxComponentFromChild(dependentComponentId, componentId, reloadInput,
+				comboComponentConfig.getSourceViewId(), comboComponentConfig);
+
+	}
+
+	public void reloadComponentFromParent(GtnUIFrameworkActionType action, String dependentComponentId,
+			String componentId, Object reloadInput) {
+
+		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromParent(dependentComponentId,
+				componentId);
+		reloadComboBoxComponentFromParent(dependentComponentId, componentId, reloadInput,
 				comboComponentConfig.getSourceViewId(), comboComponentConfig);
 
 	}
@@ -148,7 +157,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		gtnLogger.info(TRIGGERED_RELOAD_WITH_RELOAD_INPUT + reloadInput);
 		List<Object> comboBoxRequestInputList = (List<Object>) reloadInput;
 		String simpleComboBoxReload = String.valueOf(comboBoxRequestInputList.get(0));
-                 comboboxConfigLoadAfterStart(componentConfig, dependentComponentId, componentId,"view");
+		comboboxConfigLoadAfterStart(componentConfig, dependentComponentId, componentId, "view");
 		if (!SIMPLE_RELOAD.equals(simpleComboBoxReload)) {
 
 			if (componentConfig.getReloadLogicActionClassName() != null) {
@@ -219,7 +228,6 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		vaadinComboBoxComponent = fillComboBox(componentConfig, comboboxComponentConfig, comboBoxRequestInputList,
 				sourceViewId, vaadinComboBoxComponent, reloadInput);
 		gtnLogger.info(RELOADED_VAADIN_COMBOBOX + vaadinComboBoxComponent);
-		
 
 	}
 
@@ -229,17 +237,6 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 				.getVaadinBaseComponentFromView(dependentComponentId, componentId).getComponent();
 		GtnUIFrameworkComponentData comboComponentData = (GtnUIFrameworkComponentData) abstractComboComponent.getData();
 		return comboComponentData.getCurrentComponentConfig();
-	}
-	
-	public void reloadComponentFromParent(String dependentComponentId, String componentId,
-			 Object reloadInput) {
-
-
-		GtnUIFrameworkComponentConfig comboComponentConfig = getComboBoxComponentConfigFromParent(dependentComponentId,
-				componentId);
-		reloadComboBoxComponentFromParent(dependentComponentId, componentId, reloadInput,
-				comboComponentConfig.getSourceViewId(), comboComponentConfig);
-
 	}
 
 	private GtnUIFrameworkComponentConfig getComboBoxComponentConfigFromChild(String dependentComponentId,
@@ -311,7 +308,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		gtnLogger.info(TRIGGERED_RELOAD_WITH_RELOAD_INPUT + reloadInput);
 		List<Object> comboBoxRequestInputList = (List<Object>) reloadInput;
 		String simpleComboBoxReload = String.valueOf(comboBoxRequestInputList.get(0));
-                comboboxConfigLoadAfterStart(componentConfig, dependentComponentId, componentId,"notView");
+		comboboxConfigLoadAfterStart(componentConfig, dependentComponentId, componentId, "notView");
 		if (!SIMPLE_RELOAD.equals(simpleComboBoxReload)) {
 
 			if (componentConfig.getReloadLogicActionClassName() != null) {
