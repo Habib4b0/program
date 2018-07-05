@@ -2,13 +2,16 @@ package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonBreakdownLookupBean;
@@ -174,7 +177,7 @@ public class GtnFrameworkReportingDashboardSaveProfileAction
 		
 		reportingDashboardSaveProfileLookupBean.setComparisonBreakdownLookupBeanSaveList(comparisonBreakdownLookupBeanSaveList);
 		
-		
+
 			GtnUIFrameWorkActionConfig saveProfileAction = new GtnUIFrameWorkActionConfig();
 			saveProfileAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 			List<Object> params = new ArrayList<>();
@@ -187,13 +190,30 @@ public class GtnFrameworkReportingDashboardSaveProfileAction
 
 			saveProfileAction.setActionParameterList(params);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, saveProfileAction);
-		
+			
+			GtnWsRecordBean recordBean = (GtnWsRecordBean)GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("reportingDashboardTab_reportProfileConfig", componentId).getComponentData()
+					.getCustomData();
+					if(recordBean != null){
+						for(int i=0;i<recordBean.getProperties().size();i++){
+							logger.info("------"+recordBean.getPropertyValueByIndex(i));
+						}
+							reportingDashboardSaveProfileLookupBean.setRecordBean(recordBean);
+							reportingDashboardSaveProfileLookupBean.setReportProfileViewId((int)recordBean.getPropertyValueByIndex(4));
+							GtnUIFrameworkGlobalUI
+									.getVaadinBaseComponent("reportDashboardSaveProfile_ReportDashboardSaveProfileNameTextField")
+									.loadV8FieldValue(recordBean.getPropertyValueByIndex(0));
+
+							GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportDashboardSaveProfile_reportDashboardSaveProfileSaveViewAdd").setEnable(false);
+					}
+
 		}
 		catch(Exception ex){
 			logger.error("Error message ",ex);
 		}
 		
 	}
+	
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -32,10 +33,10 @@ public class GtnReportDashboardFrequencyLoadAction
 
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {		
+			throws GtnFrameworkGeneralException {
 		GtnUIFrameworkBaseComponent vaadinFrequencyInReportingDashboardBaseComponent = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId);	
-				
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId);
+
 		loadFromTo(vaadinFrequencyInReportingDashboardBaseComponent.getStringCaptionFromV8ComboBox(), componentId);
 	}
 
@@ -46,15 +47,16 @@ public class GtnReportDashboardFrequencyLoadAction
 					.getIntegerFromV8ComboBox();
 			int endSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_STATUS", componentId)
 					.getIntegerFromV8ComboBox();
-			String[] start = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId)
-					.getStringCaptionFromV8ComboBox().split("\\s+");
-			String[] end = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_STATUS", componentId)
-					.getStringCaptionFromV8ComboBox().split("\\s+");
-			int previousQuaterLastMonth = (Character.getNumericValue(start[0].charAt(1)) - 1) * 3;
-			Month startMonth = Month.of(previousQuaterLastMonth + 1);
-			LocalDate startDate = LocalDate.of(Integer.valueOf(start[2]), startMonth, 1);
-			Month endMonth = Month.of(Character.getNumericValue(end[0].charAt(1)) * 3);
-			LocalDate endDate = LocalDate.of(Integer.valueOf(end[2]), endMonth, 1);
+
+			String endString = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_STATUS", componentId)
+					.getStringCaptionFromV8ComboBox();
+			String startString = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId)
+					.getStringCaptionFromV8ComboBox();
+			String frequency = getFrequency(startString);
+
+			LocalDate startDate = parseDate(startString, frequency);
+			LocalDate endDate = parseDate(endString, frequency);
 
 			Set<String> dateString = new LinkedHashSet<>();
 			Set<Integer> periodSid = new LinkedHashSet<>();
@@ -72,31 +74,126 @@ public class GtnReportDashboardFrequencyLoadAction
 					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId);
 			GtnUIFrameworkComponentConfig reportingDashboard_displaySelectionTabPeriodRangeFromComponentConfig = reportingDashboard_displaySelectionTabPeriodRangeFromBaseComponent
 					.getComponentConfig();
-			GtnUIFrameworkComboBoxConfig periodRangeFrom = reportingDashboard_displaySelectionTabPeriodRangeFromComponentConfig.getGtnComboboxConfig();
+			GtnUIFrameworkComboBoxConfig periodRangeFrom = reportingDashboard_displaySelectionTabPeriodRangeFromComponentConfig
+					.getGtnComboboxConfig();
 			periodRangeFrom.setItemCaptionValues(dataNew);
 			periodRangeFrom.setItemValues(periodSidData);
-			
+
 			GtnUIFrameworkComboBoxComponent periodRangeFromComboBox = new GtnUIFrameworkComboBoxComponent();
 			periodRangeFromComboBox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
 					"reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId, Arrays.asList(""));
-			
+
 			GtnUIFrameworkBaseComponent reportingDashboard_displaySelectionTabPeriodRangeToBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeTo", componentId);
 			GtnUIFrameworkComponentConfig reportingDashboard_displaySelectionTabPeriodRangeToComponentConfig = reportingDashboard_displaySelectionTabPeriodRangeToBaseComponent
 					.getComponentConfig();
-			GtnUIFrameworkComboBoxConfig periodRangeTo = reportingDashboard_displaySelectionTabPeriodRangeToComponentConfig.getGtnComboboxConfig();
+			GtnUIFrameworkComboBoxConfig periodRangeTo = reportingDashboard_displaySelectionTabPeriodRangeToComponentConfig
+					.getGtnComboboxConfig();
 			periodRangeTo.setItemCaptionValues(dataNew);
 			periodRangeTo.setItemValues(periodSidData);
-			
+
 			GtnUIFrameworkComboBoxComponent periodRangeToComboBox = new GtnUIFrameworkComboBoxComponent();
 			periodRangeToComboBox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
 					"reportingDashboard_displaySelectionTabPeriodRangeTo", componentId, Arrays.asList(""));
-			
 
 		} catch (Exception e) {
 
 		}
 
+	}
+
+	private LocalDate parseDate(String periodStart, String selectedFreq) {
+		LocalDate startDate = null;
+		int previousQuaterLastMonth = 0;
+		String[] yearData = periodStart.split("\\s+");
+		Month startMonth = null;
+
+		switch (selectedFreq) {
+
+		case "Quarter":
+			previousQuaterLastMonth = (Character.getNumericValue(yearData[0].charAt(1)) - 1) * 3;
+			startMonth = Month.of(previousQuaterLastMonth + 1);
+			startDate = LocalDate.of(Integer.valueOf(yearData[1]), startMonth, 1);
+			break;
+		case "Semi-Annual":
+			previousQuaterLastMonth = (Character.getNumericValue(yearData[0].charAt(1))) > 1 ? 6 : 1;
+			startMonth = Month.of(previousQuaterLastMonth);
+			startDate = LocalDate.of(Integer.valueOf(yearData[1]), startMonth, 1);
+			break;
+		case "Annual":
+			startDate = LocalDate.of(Integer.valueOf(yearData[0]), 1, 1);
+			break;
+		case "Month":
+			startDate = LocalDate.of(Integer.valueOf(yearData[1]), getMonthIntegerFromYear(yearData[0]), 1);
+			break;
+		default:
+			break;
+		}
+		return startDate;
+	}
+	
+	private int getMonthIntegerFromYear(String month) {
+		int monthCount = 0;
+		switch (month.toUpperCase()) {
+		case "JAN":
+			monthCount = 1;
+			break;
+		case "FEB":
+			monthCount = 2;
+			break;
+		case "MAR":
+			monthCount = 3;
+			break;
+		case "APR":
+			monthCount = 4;
+			break;
+		case "MAY":
+			monthCount = 5;
+			break;
+		case "JUN":
+			monthCount = 6;
+			break;
+		case "JUL":
+			monthCount = 7;
+			break;
+		case "AUG":
+			monthCount = 8;
+			break;
+		case "SEP":
+			monthCount = 9;
+			break;
+		case "OCT":
+			monthCount = 10;
+			break;
+		case "NOV":
+			monthCount = 11;
+			break;
+		case "DEC":
+			monthCount = 12;
+			break;
+
+		}
+		return monthCount;
+	}
+
+	private String getFrequency(String startString) {
+		Pattern quaterPattern = Pattern.compile("^([Q])([1-4])*");
+		Pattern semiAnnualPattern = Pattern.compile("^([S])([1-2])*");
+		Pattern yearPattern = Pattern.compile("^([0-9])*");
+		if (quaterPattern.matcher(startString).find()) {
+			return "Quarter";
+		} else if (semiAnnualPattern.matcher(startString).find()) {
+			return "Semi-Annual";
+		} else if (yearPattern.matcher(startString).find()) {
+			return "Annual";
+		}
+		return "Month";
+	}
+
+	private Month getStartMonth(String[] start) {
+		int previousQuaterLastMonth = (Character.getNumericValue(start[0].charAt(1)) - 1) * 3;
+		Month startMonth = Month.of(previousQuaterLastMonth + 1);
+		return startMonth;
 	}
 
 	private static void getFormat(Set<Integer> periodSid, int startSid, Set<String> dateString2,

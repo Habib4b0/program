@@ -20,13 +20,9 @@ public class GtnUIFrameWorkV8ValidationAction implements GtnUIFrameWorkAction {
 	private static List<GtnUIFrameworkV8SupportedValidationType> supportedValidationList = new ArrayList<>();
 
 	static {
-		//supportedValidationList.add(GtnUIFrameworkSupportedValidationType.LENGTH);
-		//supportedValidationList.add(GtnUIFrameworkSupportedValidationType.SIZE);
-		//supportedValidationList.add(GtnUIFrameworkSupportedValidationType.FORMAT);
+
 		supportedValidationList.add(GtnUIFrameworkV8SupportedValidationType.CONDITION);
 		
-		//supportedValidationList.add(GtnUIFrameworkSupportedValidationType.CUSTOM);
-
 	}
 
 	@SuppressWarnings("unchecked")

@@ -40,6 +40,8 @@ import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
 @RequestMapping(value = GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE)
 public class GtnWsDataSelectionEditController {
 
+	private static final String FINAL_QUERY = "finalQuery is ------->";
+	
 	@Autowired
 	private GtnFrameworkCustomerLevelLoadService customerLevelService;
 	@Autowired
@@ -241,7 +243,7 @@ public class GtnWsDataSelectionEditController {
 				convertParametersToRelation(inputList, recordBean, selectedHierarchyBean));
 		String finalQuery = productSelectedLoadService.getQueryForSelectedCustomer(inputBean);
 		StringBuilder inputQuery = new StringBuilder(finalQuery);
-		LOGGER.info("finalQuery is ------->" + finalQuery);
+		LOGGER.info(FINAL_QUERY + finalQuery);
 
 		List<Object> inputValuesList = new ArrayList<>();
 		GtnFrameworkRelationshipLevelDefintionBean selectedHierarchyLevelDto = inputBean.getSelectedHierarchyLevelDto();
@@ -297,7 +299,7 @@ public class GtnWsDataSelectionEditController {
 		inputBean.setLevelNo(Integer.parseInt(String.valueOf(inputList.get(6))));
 		String finalQuery = productSelectedLoadService.getChildLevelQueryForReportProduct(inputBean);
 		StringBuilder inputQuery = new StringBuilder(finalQuery);
-		LOGGER.info("finalQuery is ------->" + finalQuery);
+		LOGGER.info(FINAL_QUERY + finalQuery);
 
 		GtnFrameworkRelationshipLevelDefintionBean selectedHierarchyLevelDto = inputBean.getSelectedHierarchyLevelDto();
 		
@@ -360,7 +362,7 @@ public class GtnWsDataSelectionEditController {
 				convertParametersToRelation(inputList, beanList, allDataSelectedHierarchyBean));
 		String finalQuery = productSelectedLoadService.getQueryForSelectedCustomer(inputBean);
 		StringBuilder inputQuery = new StringBuilder(finalQuery);
-		LOGGER.info("finalQuery is ------->" + finalQuery);
+		LOGGER.info(FINAL_QUERY + finalQuery);
 		GtnFrameworkRelationshipLevelDefintionBean selectedHierarchyLevelDto = inputBean.getSelectedHierarchyLevelDto();
 		List<Object> inputValuesList = new ArrayList<>();
 		inputValuesList.add(selectedHierarchyLevelDto.getRelationshipBuilderSid());
@@ -426,7 +428,7 @@ public class GtnWsDataSelectionEditController {
 		inputBean.setLevelNo(Integer.parseInt(String.valueOf(inputList.get(6))));
 		String finalQuery = productSelectedLoadService.getChildLevelQueryForReportProduct(inputBean);
 		StringBuilder inputQuery = new StringBuilder(finalQuery);
-		LOGGER.info("finalQuery is ------->" + finalQuery);
+		LOGGER.info(FINAL_QUERY + finalQuery);
 
 		GtnFrameworkRelationshipLevelDefintionBean selectedHierarchyLevelDto = inputBean.getSelectedHierarchyLevelDto();
 		

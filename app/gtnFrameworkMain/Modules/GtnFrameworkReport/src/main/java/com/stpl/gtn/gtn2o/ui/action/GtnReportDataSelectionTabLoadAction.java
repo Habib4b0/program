@@ -59,7 +59,7 @@ public class GtnReportDataSelectionTabLoadAction
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_dsTabPrivateViews", componentId)
 						.setV8PopupFieldValue(reportDataSelectionBean.getPrivateViewName());
 			}
-			
+
 			if (reportDataSelectionBean.getPublicViewName() != null) {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_dsTabPublicViews", componentId)
 						.setV8PopupFieldValue(reportDataSelectionBean.getPublicViewName());
@@ -96,8 +96,8 @@ public class GtnReportDataSelectionTabLoadAction
 					GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE, componentId,
 					Arrays.asList(""));
 
-			Integer hierarchyDefinitionSid = (Integer) customerRecordBean
-					.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1);
+			Integer hierarchyDefinitionSid = Integer.valueOf(String.valueOf(
+					customerRecordBean.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1)));
 
 			GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
 					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId)
@@ -164,8 +164,8 @@ public class GtnReportDataSelectionTabLoadAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId)
 					.setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
 
-			Integer productHierarchyDefinitionSid = (Integer) productRecordBean
-					.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1);
+			Integer productHierarchyDefinitionSid = Integer.valueOf(String
+					.valueOf(productRecordBean.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1)));
 
 			GtnUIFrameworkComboBoxConfig productRelationComboboxConfig = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_RELATIONSHIP,
@@ -263,10 +263,28 @@ public class GtnReportDataSelectionTabLoadAction
 
 			loadComparisonInReportingDashboard("reportingDashboardTab_reportingDashboardComparisonConfig", componentId,
 					reportDataSelectionBean);
+			
+			loadPeriodRangeFrom(componentId);
+			
+			loadPeriodRangeTo(componentId);
 
 		} catch (Exception exception) {
 			gtnLogger.error("Error message", exception);
 		}
+	}
+
+	private void loadPeriodRangeTo(String componentId) throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkActionConfig toPeriodLoadAction = new GtnUIFrameWorkActionConfig();
+		toPeriodLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		toPeriodLoadAction.addActionParameter(GtnFrameworkLoadToInDataSelectionAction.class.getName());
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, toPeriodLoadAction);
+	}
+
+	private void loadPeriodRangeFrom(String componentId) throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkActionConfig fromPeriodLoadAction = new GtnUIFrameWorkActionConfig();
+		fromPeriodLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		fromPeriodLoadAction.addActionParameter(GtnFrameworkLoadFromInDataSelectionAction.class.getName());
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, fromPeriodLoadAction);
 	}
 
 	private String getDisplayValue(List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
