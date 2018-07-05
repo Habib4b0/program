@@ -177,12 +177,7 @@ public class GtnFrameworkReportingDashboardSaveProfileAction
 		
 		reportingDashboardSaveProfileLookupBean.setComparisonBreakdownLookupBeanSaveList(comparisonBreakdownLookupBeanSaveList);
 		
-		GtnWsRecordBean recordBean = (GtnWsRecordBean)GtnUIFrameworkGlobalUI
-		.getVaadinBaseComponent("reportingDashboardTab_reportProfileConfig", componentId).getComponentData()
-		.getCustomData();
-		if(recordBean != null){
-		reportingDashboardSaveProfileLookupBean.setRecordBean(recordBean);
-		}
+
 			GtnUIFrameWorkActionConfig saveProfileAction = new GtnUIFrameWorkActionConfig();
 			saveProfileAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 			List<Object> params = new ArrayList<>();
@@ -196,13 +191,21 @@ public class GtnFrameworkReportingDashboardSaveProfileAction
 			saveProfileAction.setActionParameterList(params);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, saveProfileAction);
 			
-			GtnUIFrameWorkActionConfig saveToUpdateActionConfig = new GtnUIFrameWorkActionConfig();
-			saveToUpdateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-			saveToUpdateActionConfig.addActionParameter(GtnReportProfileSaveToUpdateAction.class.getName());
-			saveToUpdateActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
-			saveToUpdateActionConfig.addActionParameter("reportDashboardSaveProfile_ReportDashboardSaveProfileNameTextField");
-			saveToUpdateActionConfig.addActionParameter("reportDashboardSaveProfile_reportDashboardSaveProfileSaveViewAdd");
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, saveToUpdateActionConfig);
+			GtnWsRecordBean recordBean = (GtnWsRecordBean)GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("reportingDashboardTab_reportProfileConfig", componentId).getComponentData()
+					.getCustomData();
+					if(recordBean != null){
+						for(int i=0;i<recordBean.getProperties().size();i++){
+							logger.info("------"+recordBean.getPropertyValueByIndex(i));
+						}
+							reportingDashboardSaveProfileLookupBean.setRecordBean(recordBean);
+							reportingDashboardSaveProfileLookupBean.setReportProfileViewId((int)recordBean.getPropertyValueByIndex(4));
+							GtnUIFrameworkGlobalUI
+									.getVaadinBaseComponent("reportDashboardSaveProfile_ReportDashboardSaveProfileNameTextField")
+									.loadV8FieldValue(recordBean.getPropertyValueByIndex(0));
+
+							GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportDashboardSaveProfile_reportDashboardSaveProfileSaveViewAdd").setEnable(false);
+					}
 
 		}
 		catch(Exception ex){
@@ -210,6 +213,7 @@ public class GtnFrameworkReportingDashboardSaveProfileAction
 		}
 		
 	}
+	
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
