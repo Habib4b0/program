@@ -46,7 +46,8 @@ public class GtnProductLevelAvailableTableLoadAction
 					.getCustomData();
 			int relationshipBuilderSID = Integer.parseInt(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(actionParamList.get(2).toString(), componentId).getCaptionFromV8ComboBox());
-			int hierarchyBuilderSid = (int) recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
+			int hierarchyBuilderSid = Integer
+					.valueOf(String.valueOf(recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1)));
 			int hierarchyVersionNo = Integer.parseInt(
 					GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(3).toString(), componentId)
 							.getStringCaptionFromV8ComboBox());

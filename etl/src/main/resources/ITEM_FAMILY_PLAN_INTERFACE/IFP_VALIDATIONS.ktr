@@ -7,7 +7,7 @@
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
-    <directory>&#47;</directory>
+    <directory>&#x2f;</directory>
     <parameters>
     </parameters>
     <log>
@@ -17,7 +17,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -34,6 +34,11 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+<metrics-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -62,21 +67,23 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2013&#47;07&#47;04 14:22:11.290</created_date>
+  <created_date>2013&#x2f;07&#x2f;04 14&#x3a;22&#x3a;11.290</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#47;07&#47;04 14:22:11.290</modified_date>
+  <modified_date>2013&#x2f;07&#x2f;04 14&#x3a;22&#x3a;11.290</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -93,13 +100,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -115,12 +122,105 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>DELETE BATCH DUPLCIATION</from><to>D-INVALID1</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy </to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION </from><to>A-INVALID1</to><enabled>Y</enabled> </hop>  <hop> <from>IFP_DET</from><to>IFP DETAILS</to><enabled>Y</enabled> </hop>  <hop> <from>IFP_MAS</from><to>IFP_MAS_INS</to><enabled>Y</enabled> </hop>  <hop> <from>Sort rows 3</from><to>IFP_MAS_ATT</to><enabled>Y</enabled> </hop>  <hop> <from>Sort rows 3 2</from><to>IFP_DET</to><enabled>Y</enabled> </hop>  <hop> <from>IFP_MAS</from><to>Update</to><enabled>Y</enabled> </hop>  <hop> <from>IFP_DET</from><to>IFP DETAILS UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>IFP_MAS_ATT</from><to>IFP CONT UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Indicator</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Indicator</from><to>INVALID</to><enabled>Y</enabled> </hop>  <hop> <from>DELETE BATCH DUPLCIATION</from><to>Inbound Status</to><enabled>Y</enabled> </hop>  <hop> <from>IFP CONT DETAILS UPDATE</from><to>Invalid Delete</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Delete</from><to>D-INVALID2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT INSERT WAIT</from><to>Audit Status</to><enabled>N</enabled> </hop>  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT INSERT WAIT 2</from><to>Audit Status 2</to><enabled>N</enabled> </hop>  <hop> <from>Audit Status 2</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Contract</from><to>A-INVALID2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Item</from><to>A-INVALID3</to><enabled>N</enabled> </hop>  <hop> <from>Duplicate Reason</from><to>A-INVALID4</to><enabled>Y</enabled> </hop>  <hop> <from>WAIT 2</from><to>ITEM ID CHECK</to><enabled>N</enabled> </hop>  <hop> <from>GET CFP MODEL SID</from><to>GET CFP CONTRACT SID</to><enabled>Y</enabled> </hop>  <hop> <from>Sort rows</from><to>IFP_MAS</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing) 5</from><to>Sort rows</to><enabled>Y</enabled> </hop>  <hop> <from>WAIT</from><to>GET IFP MODEL SID</to><enabled>Y</enabled> </hop>  <hop> <from>GET IFP CONTRACT SID</from><to>IFP_CONT_DET</to><enabled>Y</enabled> </hop>  <hop> <from>IFP_CONT_DET</from><to>IFP CONTRACT DET</to><enabled>Y</enabled> </hop>  <hop> <from>WAIT 3</from><to>GET IFP CONTRACT SID</to><enabled>Y</enabled> </hop>  <hop> <from>IFP CONTRACT DET</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>AUDIT INSERT WAIT 2</to><enabled>N</enabled> </hop>  <hop> <from>IFP CONT DETAILS UPDATE</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>AUDIT INSERT WAIT</to><enabled>N</enabled> </hop>  <hop> <from>Inbound Status</from><to>ITEM_MASTER</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM_MASTER</from><to>CONTRACT SID CHECK</to><enabled>Y</enabled> </hop>  <hop> <from>CONTRACT SID CHECK</from><to>CFP MODEL CHECK</to><enabled>Y</enabled> </hop>  <hop> <from>IFP MODEL CHECK</from><to>IFP CONTRACT CHECK</to><enabled>Y</enabled> </hop>  <hop> <from>CFP MODEL CHECK</from><to>CFP CONTRACT CHECK </to><enabled>Y</enabled> </hop>  <hop> <from>CFP CONTRACT CHECK </from><to>IFP MODEL CHECK</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing) 5</from><to>Sort rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>Sort rows 2</from><to>WAIT</to><enabled>Y</enabled> </hop>  <hop> <from>Sort rows 2 2</from><to>WAIT 3</to><enabled>Y</enabled> </hop>  <hop> <from>GET IFP MODEL SID</from><to>Dummy (do nothing) 5 2</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing) 5 2</from><to>Sort rows 3</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing) 5 2</from><to>Sort rows 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing) 5 2</from><to>Sort rows 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid CFP</from><to>A-INVALID7</to><enabled>Y</enabled> </hop>  <hop> <from>GET CFP MODEL SID</from><to>Invalid CFP</to><enabled>Y</enabled> </hop>  <hop> <from>IFP_STATUS</from><to>IFP_TYPE</to><enabled>N</enabled> </hop>  <hop> <from>IFP_TYPE</from><to>IFP_DESIGNATION</to><enabled>N</enabled> </hop>  <hop> <from>IFP_DESIGNATION</from><to>IFP_CATEGORY</to><enabled>N</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION </from><to>Inbound Status 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Inbound Status 2 2</from><to>WAIT 2</to><enabled>Y</enabled> </hop>  <hop> <from>GET CFP CONTRACT SID</from><to>IFP_STATUS</to><enabled>N</enabled> </hop>  <hop> <from>IFP_CONT_DET</from><to>Update 3</to><enabled>Y</enabled> </hop>  <hop> <from>Update 3</from><to>Duplicate Reason</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM ID CHECK</from><to>CONTRACT_ID CHECK</to><enabled>N</enabled> </hop>  <hop> <from>ITEM ID CHECK</from><to>Invalid Item</to><enabled>N</enabled> </hop>  <hop> <from>CONTRACT_ID CHECK</from><to>Invalid Contract</to><enabled>N</enabled> </hop>  <hop> <from>IFP_CATEGORY</from><to>IFP_ATT_STATUS</to><enabled>N</enabled> </hop>  <hop> <from>IFP_ATT_STATUS</from><to>Dummy (do nothing) 5</to><enabled>N</enabled> </hop>  <hop> <from>IFP_MAS_ATT</from><to>IFP CONTRACT</to><enabled>Y</enabled> </hop>  <hop> <from>Update 3</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>GET CFP MODEL SID 2</to><enabled>Y</enabled> </hop>  <hop> <from>CONTRACT_ID CHECK</from><to>Filter rows</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows</from><to>GET CFP MODEL SID</to><enabled>Y</enabled> </hop>  <hop> <from>GET CFP MODEL SID 2</from><to>GET CFP CONTRACT SID</to><enabled>Y</enabled> </hop>  <hop> <from>IFP CONTRACT CHECK</from><to>IFP CONT DETAILS UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>  <hop> <from>Duplicate Reason 2</from><to>A-INVALID4 2</to><enabled>Y</enabled> </hop>  <hop> <from>IFP CONTRACT DET</from><to>Duplicate Reason 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>ADD BATCH DUPLCIATION </to><enabled>N</enabled> </hop>  <hop> <from>Add constants 3</from><to>DELETE BATCH DUPLCIATION</to><enabled>N</enabled> </hop>  <hop> <from>GET CFP CONTRACT SID</from><to>Dummy (do nothing) 5</to><enabled>Y</enabled> </hop>  <hop> <from>WAIT 2</from><to>Filter rows</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3</from><to>DELETE SORT</to><enabled>Y</enabled> </hop>  <hop> <from>DELETE SORT</from><to>DELETE BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy </from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>ADD SORT </to><enabled>Y</enabled> </hop>  <hop> <from>ADD SORT </from><to>ADD BATCH DUPLCIATION </to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>TEMP</from><to>Switch &#x2f; Case</to><enabled>Y</enabled> </hop>
+  <hop> <from>DELETE BATCH DUPLCIATION</from><to>D-INVALID1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Dummy </to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION </from><to>A-INVALID1</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_DET</from><to>IFP DETAILS</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_MAS</from><to>IFP_MAS_INS</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows 3</from><to>IFP_MAS_ATT</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows 3 2</from><to>IFP_DET</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_MAS</from><to>Update</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_DET</from><to>IFP DETAILS UPDATE</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_MAS_ATT</from><to>IFP CONT UPDATE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Invalid Indicator</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Indicator</from><to>INVALID</to><enabled>Y</enabled> </hop>
+  <hop> <from>DELETE BATCH DUPLCIATION</from><to>Inbound Status</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP CONT DETAILS UPDATE</from><to>Invalid Delete</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Delete</from><to>D-INVALID2</to><enabled>Y</enabled> </hop>
+  <hop> <from>AUDIT INSERT WAIT</from><to>Audit Status</to><enabled>N</enabled> </hop>
+  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>AUDIT INSERT WAIT 2</from><to>Audit Status 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Audit Status 2</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Contract</from><to>A-INVALID2</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Item</from><to>A-INVALID3</to><enabled>N</enabled> </hop>
+  <hop> <from>Duplicate Reason</from><to>A-INVALID4</to><enabled>N</enabled> </hop>
+  <hop> <from>WAIT 2</from><to>ITEM ID CHECK</to><enabled>N</enabled> </hop>
+  <hop> <from>GET CFP MODEL SID</from><to>GET CFP CONTRACT SID</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows</from><to>IFP_MAS</to><enabled>Y</enabled> </hop>
+  <hop> <from>Dummy &#x28;do nothing&#x29; 5</from><to>Sort rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>WAIT</from><to>GET IFP MODEL SID</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET IFP CONTRACT SID</from><to>IFP_CONT_DET</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_CONT_DET</from><to>IFP CONTRACT DET</to><enabled>Y</enabled> </hop>
+  <hop> <from>WAIT 3</from><to>GET IFP CONTRACT SID</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP CONTRACT DET</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>AUDIT INSERT WAIT 2</to><enabled>N</enabled> </hop>
+  <hop> <from>IFP CONT DETAILS UPDATE</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by 2</from><to>AUDIT INSERT WAIT</to><enabled>N</enabled> </hop>
+  <hop> <from>Inbound Status</from><to>ITEM_MASTER</to><enabled>Y</enabled> </hop>
+  <hop> <from>ITEM_MASTER</from><to>CONTRACT SID CHECK</to><enabled>Y</enabled> </hop>
+  <hop> <from>CONTRACT SID CHECK</from><to>CFP MODEL CHECK</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP MODEL CHECK</from><to>IFP CONTRACT CHECK</to><enabled>Y</enabled> </hop>
+  <hop> <from>CFP MODEL CHECK</from><to>CFP CONTRACT CHECK </to><enabled>Y</enabled> </hop>
+  <hop> <from>CFP CONTRACT CHECK </from><to>IFP MODEL CHECK</to><enabled>Y</enabled> </hop>
+  <hop> <from>Dummy &#x28;do nothing&#x29; 5</from><to>Sort rows 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows 2</from><to>WAIT</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows 2 2</from><to>WAIT 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET IFP MODEL SID</from><to>Dummy &#x28;do nothing&#x29; 5 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Dummy &#x28;do nothing&#x29; 5 2</from><to>Sort rows 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Dummy &#x28;do nothing&#x29; 5 2</from><to>Sort rows 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Dummy &#x28;do nothing&#x29; 5 2</from><to>Sort rows 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid CFP</from><to>A-INVALID7</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET CFP MODEL SID</from><to>Invalid CFP</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_STATUS</from><to>IFP_TYPE</to><enabled>N</enabled> </hop>
+  <hop> <from>IFP_TYPE</from><to>IFP_DESIGNATION</to><enabled>N</enabled> </hop>
+  <hop> <from>IFP_DESIGNATION</from><to>IFP_CATEGORY</to><enabled>N</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION </from><to>Inbound Status 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET CFP CONTRACT SID</from><to>IFP_STATUS</to><enabled>N</enabled> </hop>
+  <hop> <from>IFP_CONT_DET</from><to>Update 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update 3</from><to>Duplicate Reason</to><enabled>N</enabled> </hop>
+  <hop> <from>ITEM ID CHECK</from><to>CONTRACT_ID CHECK</to><enabled>N</enabled> </hop>
+  <hop> <from>ITEM ID CHECK</from><to>Invalid Item</to><enabled>N</enabled> </hop>
+  <hop> <from>CONTRACT_ID CHECK</from><to>Invalid Contract</to><enabled>N</enabled> </hop>
+  <hop> <from>IFP_CATEGORY</from><to>IFP_ATT_STATUS</to><enabled>N</enabled> </hop>
+  <hop> <from>IFP_ATT_STATUS</from><to>Dummy &#x28;do nothing&#x29; 5</to><enabled>N</enabled> </hop>
+  <hop> <from>IFP_MAS_ATT</from><to>IFP CONTRACT</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update 3</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>GET CFP MODEL SID 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>CONTRACT_ID CHECK</from><to>Filter rows</to><enabled>N</enabled> </hop>
+  <hop> <from>Filter rows</from><to>GET CFP MODEL SID</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET CFP MODEL SID 2</from><to>GET CFP CONTRACT SID</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP CONTRACT CHECK</from><to>IFP CONT DETAILS UPDATE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by 2</from><to>Audit Status</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Duplicate Reason 2</from><to>A-INVALID4 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP CONTRACT DET</from><to>Duplicate Reason 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3 2</from><to>ADD BATCH DUPLCIATION </to><enabled>N</enabled> </hop>
+  <hop> <from>Add constants 3</from><to>DELETE BATCH DUPLCIATION</to><enabled>N</enabled> </hop>
+  <hop> <from>GET CFP CONTRACT SID</from><to>Dummy &#x28;do nothing&#x29; 5</to><enabled>N</enabled> </hop>
+  <hop> <from>WAIT 2</from><to>Filter rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Add constants 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3</from><to>DELETE SORT</to><enabled>Y</enabled> </hop>
+  <hop> <from>DELETE SORT</from><to>DELETE BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>
+  <hop> <from>Dummy </from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3 2</from><to>ADD SORT </to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD SORT </from><to>ADD BATCH DUPLCIATION </to><enabled>Y</enabled> </hop>
+  <hop> <from>Duplicate Reason 3</from><to>A-INVALID4 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_CONTRACT_DETAILS Lookup</from><to>IFP_CONTRACT_DETAILS  2</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_CONTRACT_DETAILS  2</from><to>Duplicate Reason 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Inbound Status 2 2</from><to>WAIT 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET CFP CONTRACT SID</from><to>GET IFP MODEL SID 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET IFP MODEL SID 1</from><to>GET IFP CONTRACT SID 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET IFP CONTRACT SID 1</from><to>IFP_CONTRACT_DETAILS Lookup</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_CONTRACT_DETAILS Lookup</from><to>Dummy &#x28;do nothing&#x29; 5</to><enabled>Y</enabled> </hop>
+  <hop> <from>IFP_CONTRACT_DETAILS  2</from><to>Dummy &#x28;do nothing&#x29; 5</to><enabled>Y</enabled> </hop>
+  </order>
   <step>
     <name>A-INVALID1</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -298,6 +398,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -471,6 +572,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -644,6 +746,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -817,6 +920,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -986,10 +1090,185 @@
     </step>
 
   <step>
+    <name>A-INVALID4 3</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_IFP</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ATTACHED_STATUS</column_name>
+          <stream_name>ATTACHED_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>ATTACHED_DATE</column_name>
+          <stream_name>ATTACHED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>START_DATE</column_name>
+          <stream_name>START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>END_DATE</column_name>
+          <stream_name>END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>TOTAL_VOLUME_COMMITMENT</column_name>
+          <stream_name>TOTAL_VOLUME_COMMITMENT</stream_name>
+        </field>
+        <field>
+          <column_name>TOTAL_DOLLAR_COMMITMENT</column_name>
+          <stream_name>TOTAL_DOLLAR_COMMITMENT</stream_name>
+        </field>
+        <field>
+          <column_name>TOTAL_MARKETSHARE_COMMITMENT</column_name>
+          <stream_name>TOTAL_MARKETSHARE_COMMITMENT</stream_name>
+        </field>
+        <field>
+          <column_name>COMMITMENT_PERIOD</column_name>
+          <stream_name>COMMITMENT_PERIOD</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_INTFID</column_name>
+          <stream_name>IFP_INTFID</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_ID</column_name>
+          <stream_name>IFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_NO</column_name>
+          <stream_name>IFP_NO</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_NAME</column_name>
+          <stream_name>IFP_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_TYPE</column_name>
+          <stream_name>IFP_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_CATEGORY</column_name>
+          <stream_name>IFP_CATEGORY</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_DESIGNATION</column_name>
+          <stream_name>IFP_DESIGNATION</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_IFP_ID</column_name>
+          <stream_name>PARENT_IFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_IFP_NAME</column_name>
+          <stream_name>PARENT_IFP_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_STATUS</column_name>
+          <stream_name>IFP_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_START_DATE</column_name>
+          <stream_name>IFP_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_END_DATE</column_name>
+          <stream_name>IFP_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_ID</column_name>
+          <stream_name>CFP_ID</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1373</xloc>
+      <yloc>1202</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>A-INVALID7</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1167,6 +1446,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1184,19 +1464,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -1217,6 +1497,7 @@
     <type>Unique</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1249,12 +1530,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -1266,26 +1548,31 @@
         <name>IFP_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>ITEM_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>START_DATE</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>CFP_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>CONTRACT_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -1301,6 +1588,7 @@
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1321,6 +1609,7 @@
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1341,6 +1630,7 @@
     <type>Constant</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1357,6 +1647,7 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1372,6 +1663,7 @@
     <type>Constant</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1388,6 +1680,7 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1403,6 +1696,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1419,6 +1713,7 @@
         <nullif>R</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -1430,6 +1725,7 @@
         <nullif>ITEM_FAMILY_PLAN_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1445,6 +1741,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1461,6 +1758,7 @@
         <nullif>R</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -1472,6 +1770,7 @@
         <nullif>ITEM_FAMILY_PLAN_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1487,6 +1786,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1505,13 +1805,13 @@
       <key>
         <name>CFP_MODEL_SID</name>
         <field>CFP_MODEL_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>CONTRACT_MASTER_SID</name>
         <field>CONTRACT_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -1534,6 +1834,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1575,6 +1876,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1616,6 +1918,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1657,6 +1960,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1834,6 +2138,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2007,6 +2312,7 @@
     <type>Unique</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2037,12 +2343,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -2054,21 +2361,25 @@
         <name>IFP_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>ITEM_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>CFP_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>CONTRACT_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -2084,6 +2395,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2101,19 +2413,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -2134,6 +2446,7 @@
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2148,10 +2461,11 @@
     </step>
 
   <step>
-    <name>Dummy (do nothing) 5</name>
+    <name>Dummy &#x28;do nothing&#x29; 5</name>
     <type>Dummy</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2166,10 +2480,11 @@
     </step>
 
   <step>
-    <name>Dummy (do nothing) 5 2</name>
+    <name>Dummy &#x28;do nothing&#x29; 5 2</name>
     <type>Dummy</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2188,6 +2503,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2204,6 +2520,7 @@
         <nullif>Duplicate Record</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -2219,6 +2536,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2235,6 +2553,7 @@
         <nullif>Duplicate Record</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -2246,10 +2565,44 @@
     </step>
 
   <step>
+    <name>Duplicate Reason 3</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Record</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1372</xloc>
+      <yloc>1081</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Filter rows</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2278,6 +2631,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2296,19 +2650,19 @@
       <key>
         <name>CFP_MODEL_SID</name>
         <field>CFP_MODEL_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>CONTRACT_MASTER_SID</name>
         <field>CONTRACT_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2331,6 +2685,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2355,7 +2710,7 @@
       <key>
         <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2378,6 +2733,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2396,13 +2752,13 @@
       <key>
         <name>CFP_ID</name>
         <field>CFP_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2425,6 +2781,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2443,25 +2800,25 @@
       <key>
         <name>CFP_CONTRACT_SID</name>
         <field>CFP_CONTRACT_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>CONTRACT_MASTER_SID</name>
         <field>CONTRACT_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>IFP_MODEL_SID</name>
         <field>IFP_MODEL_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2484,6 +2841,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2508,7 +2866,7 @@
       <key>
         <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2531,6 +2889,7 @@
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2548,19 +2907,19 @@
       <key>
         <name>IFP_CONTRACT_SID</name>
         <field>IFP_CONTRACT_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>ITEM_MASTER_SID</name>
         <field>ITEM_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -2597,6 +2956,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2614,19 +2974,19 @@
       <key>
         <name>IFP_MODEL_SID</name>
         <field>IFP_MODEL_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>CONTRACT_MASTER_SID</name>
         <field>CONTRACT_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>CFP_CONTRACT_SID</name>
         <field>CFP_CONTRACT_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -2703,6 +3063,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2816,6 +3177,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2834,25 +3196,25 @@
       <key>
         <name>CFP_CONTRACT_SID</name>
         <field>CFP_CONTRACT_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>CONTRACT_MASTER_SID</name>
         <field>CONTRACT_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>IFP_MODEL_SID</name>
         <field>IFP_MODEL_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2875,6 +3237,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2968,6 +3331,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3045,6 +3409,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3062,19 +3427,19 @@
       <key>
         <name>IFP_MODEL_SID</name>
         <field>IFP_MODEL_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>ITEM_MASTER_SID</name>
         <field>ITEM_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -3123,6 +3488,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3147,7 +3513,7 @@
       <key>
         <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3170,6 +3536,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3194,7 +3561,7 @@
       <key>
         <name>ifp_att_status_LN</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3217,6 +3584,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3241,7 +3609,7 @@
       <key>
         <name>ifp_category_LN</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3264,6 +3632,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3282,19 +3651,19 @@
       <key>
         <name>IFP_CONTRACT_SID</name>
         <field>IFP_CONTRACT_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>ITEM_MASTER_SID</name>
         <field>ITEM_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>START_DATE</name>
         <field>ITEM_START_DATE</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3313,10 +3682,125 @@
     </step>
 
   <step>
+    <name>IFP_CONTRACT_DETAILS  2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>IFP_CONTRACT_DETAILS</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>IFP_CONTRACT_SID</name>
+        <field>IFP_CONTRACT_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>ITEM_MASTER_SID</name>
+        <field>ITEM_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>START_DATE</name>
+        <field>ITEM_START_DATE</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>D_INBOUND_STATUS</name>
+        <field>INBOUND_STATUS</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>IFP_CONTRACT_DETAILS_SID</name>
+        <rename>IFP_CONTRACT_DETAILS_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1218</xloc>
+      <yloc>1058</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>IFP_CONTRACT_DETAILS Lookup</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>IFP_CONTRACT_DETAILS</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>IFP_CONTRACT_SID</name>
+        <field>IFP_CONTRACT_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>ITEM_MASTER_SID</name>
+        <field>ITEM_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>START_DATE</name>
+        <field>ITEM_START_DATE</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>IFP_CONTRACT_DETAILS_SID</name>
+        <rename>IFP_CONTRACT_DETAILS_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1029</xloc>
+      <yloc>1058</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>IFP_DESIGNATION</name>
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3341,7 +3825,7 @@
       <key>
         <name>ifp_desig_LN</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3364,6 +3848,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3382,13 +3867,13 @@
       <key>
         <name>IFP_MODEL_SID</name>
         <field>IFP_MODEL_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>ITEM_MASTER_SID</name>
         <field>ITEM_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3411,6 +3896,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3452,6 +3938,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3470,19 +3957,19 @@
       <key>
         <name>IFP_MODEL_SID</name>
         <field>IFP_MODEL_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>CONTRACT_MASTER_SID</name>
         <field>CONTRACT_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>CFP_CONTRACT_SID</name>
         <field>CFP_CONTRACT_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3505,6 +3992,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3618,6 +4106,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3642,7 +4131,7 @@
       <key>
         <name>ifp_status_LN</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3665,6 +4154,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3689,7 +4179,7 @@
       <key>
         <name>ifp_type_LN</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3712,6 +4202,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3885,6 +4376,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3909,7 +4401,7 @@
       <key>
         <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3932,6 +4424,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3956,7 +4449,7 @@
       <key>
         <name>Inbound_Status</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3979,6 +4472,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3995,6 +4489,7 @@
         <nullif>A</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -4010,6 +4505,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4026,6 +4522,7 @@
         <nullif>A</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>D_INBOUND_STATUS</name>
@@ -4037,6 +4534,7 @@
         <nullif>D</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ifp_status_LN</name>
@@ -4048,6 +4546,7 @@
         <nullif>STATUS</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ifp_type_LN</name>
@@ -4059,6 +4558,7 @@
         <nullif>IFP_TYPE</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ifp_desig_LN</name>
@@ -4070,6 +4570,7 @@
         <nullif>IFP_DESIGNATION</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ifp_category_LN</name>
@@ -4081,6 +4582,7 @@
         <nullif>IFP_CATEGORY</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ifp_att_status_LN</name>
@@ -4092,6 +4594,7 @@
         <nullif>STATUS</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>PROCESS_STATUS_NEW</name>
@@ -4103,6 +4606,7 @@
         <nullif>1</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -4118,6 +4622,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4134,6 +4639,7 @@
         <nullif>Invalid CompanyFamilyPlanId</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -4149,6 +4655,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4165,6 +4672,7 @@
         <nullif>Invalid ContractId</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -4180,6 +4688,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4196,6 +4705,7 @@
         <nullif>No record exists to delete</nullif>
         <length>50</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -4211,6 +4721,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4227,6 +4738,7 @@
         <nullif>Invalid Indicator</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -4242,6 +4754,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4258,6 +4771,7 @@
         <nullif>Invalid ItemId</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -4273,6 +4787,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4305,6 +4820,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4337,12 +4853,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -4354,6 +4871,7 @@
         <name>IFP_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -4369,12 +4887,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -4386,6 +4905,7 @@
         <name>IFP_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -4401,12 +4921,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -4418,6 +4939,7 @@
         <name>IFP_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -4433,12 +4955,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -4450,16 +4973,19 @@
         <name>IFP_MODEL_SID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>CONTRACT_MASTER_SID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>CFP_CONTRACT_SID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -4475,12 +5001,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -4492,11 +5019,13 @@
         <name>IFP_MODEL_SID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>ITEM_MASTER_SID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -4508,10 +5037,11 @@
     </step>
 
   <step>
-    <name>Switch &#47; Case</name>
+    <name>Switch &#x2f; Case</name>
     <type>SwitchCase</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4541,103 +5071,14 @@
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
     <connection>BPI DB</connection>
-    <sql>
-IF OBJECT_ID(&apos;TEMPDB..#ITEM&apos;) IS NOT NULL
-DROP TABLE #ITEM
-	SELECT a.ITEM_ID,
-		    ITEM_MASTER_SID
-INTO   #ITEM
-	FROM   (SELECT DISTINCT ITEM_ID
-			FROM   STAG_IFP) a
-		   JOIN ITEM_MASTER im
-			 ON im.ITEM_ID = a.ITEM_ID WHERE IM.INBOUND_STATUS&lt;&gt;&apos;D&apos;
-
-
-
-IF OBJECT_ID(&apos;TEMPDB..#contract&apos;) IS NOT NULL
-DROP TABLE #contract
-	SELECT a.CONTRACT_ID,
-		   CONTRACT_MASTER_SID
-INTO   #contract
-	FROM   (SELECT DISTINCT CONTRACT_ID
-			FROM   STAG_IFP) a
-		   JOIN CONTRACT_MASTER im
-			 ON im.CONTRACT_ID = a.CONTRACT_ID
-
-
-SELECT
-A.IFP_INTFID
-,A.IFP_ID
-,A.IFP_NO
-,A.IFP_NAME
-,A.IFP_TYPE
-,A.IFP_CATEGORY
-,A.IFP_DESIGNATION
-,A.PARENT_IFP_ID
-,A.PARENT_IFP_NAME
-,A.IFP_STATUS
-,A.IFP_START_DATE
-,A.IFP_END_DATE
-,A.ITEM_ID
-,A.IDENTIFIER_CODE_QUALIFIER
-,A.ITEM_NO
-,A.ITEM_NAME
-,A.ATTACHED_STATUS
-,A.ATTACHED_DATE
-,A.START_DATE
-,A.END_DATE
-,A.TOTAL_VOLUME_COMMITMENT
-,A.TOTAL_DOLLAR_COMMITMENT
-,A.TOTAL_MARKETSHARE_COMMITMENT
-,A.COMMITMENT_PERIOD
-,A.CONTRACT_ID
-,A.CFP_ID
-,A.MFP_ID
-,A.CREATED_BY
-,A.CREATED_DATE
-,A.MODIFIED_BY
-,A.MODIFIED_DATE
-,A.BATCH_ID
-,A.SOURCE
-,A.ADD_CHG_DEL_INDICATOR
-,B.ITEM_MASTER_SID
-,CM.CONTRACT_MASTER_SID
-,D.HELPER_TABLE_SID AS new_ifp_status_code
-,E.HELPER_TABLE_SID AS new_ifp_type_code
-,G.HELPER_TABLE_SID AS new_ifp_designation_code
-,H.HELPER_TABLE_SID AS new_ifp_category_code
-,J.HELPER_TABLE_SID AS new_ifp_att_status_code
-
-
-
-
-FROM STAG_IFP A
-inner join #ITEM  B 
-           ON A.ITEM_ID=B.ITEM_ID
-INNER JOIN #contract CM
-           ON CM.CONTRACT_ID= A.CONTRACT_ID
-	    Left join HELPER_TABLE D 
-	          ON D.DESCRIPTION=A.IFP_STATUS
-			  AND D.LIST_NAME=&apos;STATUS&apos;
-	    left join HELPER_TABLE E 
-	          ON E.DESCRIPTION=A.IFP_TYPE
-	   	      AND E.LIST_NAME=&apos;IFP_TYPE&apos;
-	    left join HELPER_TABLE G 
-	          ON G.DESCRIPTION=A.IFP_DESIGNATION
-	   	      AND G.LIST_NAME=&apos;IFP_DESIGNATION&apos;
-        left join HELPER_TABLE H 
-	          ON H.DESCRIPTION=A.IFP_CATEGORY
-	   	      AND H.LIST_NAME=&apos;IFP_CATEGORY&apos;
-        left join HELPER_TABLE J
-	          ON J.DESCRIPTION=A.ATTACHED_STATUS
-	   	      AND J.LIST_NAME=&apos;STATUS&apos;
-</sql>
+    <sql>&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;ITEM&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;ITEM&#xa;	SELECT a.ITEM_ID,&#xa;		    ITEM_MASTER_SID&#xa;INTO   &#x23;ITEM&#xa;	FROM   &#x28;SELECT DISTINCT ITEM_ID&#xa;			FROM   STAG_IFP&#x29; a&#xa;		   JOIN ITEM_MASTER im&#xa;			 ON im.ITEM_ID &#x3d; a.ITEM_ID WHERE IM.INBOUND_STATUS&#x3c;&#x3e;&#x27;D&#x27;&#xa;&#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;contract&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;contract&#xa;	SELECT a.CONTRACT_ID,&#xa;		   CONTRACT_MASTER_SID&#xa;INTO   &#x23;contract&#xa;	FROM   &#x28;SELECT DISTINCT CONTRACT_ID&#xa;			FROM   STAG_IFP&#x29; a&#xa;		   JOIN CONTRACT_MASTER im&#xa;			 ON im.CONTRACT_ID &#x3d; a.CONTRACT_ID&#xa;&#xa;&#xa;SELECT&#xa;A.IFP_INTFID&#xa;,A.IFP_ID&#xa;,A.IFP_NO&#xa;,A.IFP_NAME&#xa;,A.IFP_TYPE&#xa;,A.IFP_CATEGORY&#xa;,A.IFP_DESIGNATION&#xa;,A.PARENT_IFP_ID&#xa;,A.PARENT_IFP_NAME&#xa;,A.IFP_STATUS&#xa;,A.IFP_START_DATE&#xa;,A.IFP_END_DATE&#xa;,A.ITEM_ID&#xa;,A.IDENTIFIER_CODE_QUALIFIER&#xa;,A.ITEM_NO&#xa;,A.ITEM_NAME&#xa;,A.ATTACHED_STATUS&#xa;,A.ATTACHED_DATE&#xa;,A.START_DATE&#xa;,A.END_DATE&#xa;,A.TOTAL_VOLUME_COMMITMENT&#xa;,A.TOTAL_DOLLAR_COMMITMENT&#xa;,A.TOTAL_MARKETSHARE_COMMITMENT&#xa;,A.COMMITMENT_PERIOD&#xa;,A.CONTRACT_ID&#xa;,A.CFP_ID&#xa;,A.MFP_ID&#xa;,A.CREATED_BY&#xa;,A.CREATED_DATE&#xa;,A.MODIFIED_BY&#xa;,A.MODIFIED_DATE&#xa;,A.BATCH_ID&#xa;,A.SOURCE&#xa;,A.ADD_CHG_DEL_INDICATOR&#xa;,B.ITEM_MASTER_SID&#xa;,CM.CONTRACT_MASTER_SID&#xa;,D.HELPER_TABLE_SID AS new_ifp_status_code&#xa;,E.HELPER_TABLE_SID AS new_ifp_type_code&#xa;,G.HELPER_TABLE_SID AS new_ifp_designation_code&#xa;,H.HELPER_TABLE_SID AS new_ifp_category_code&#xa;,J.HELPER_TABLE_SID AS new_ifp_att_status_code&#xa;&#xa;&#xa;&#xa;&#xa;FROM STAG_IFP A&#xa;inner join &#x23;ITEM  B &#xa;           ON A.ITEM_ID&#x3d;B.ITEM_ID&#xa;INNER JOIN &#x23;contract CM&#xa;           ON CM.CONTRACT_ID&#x3d; A.CONTRACT_ID&#xa;	    Left join HELPER_TABLE D &#xa;	          ON D.DESCRIPTION&#x3d;A.IFP_STATUS&#xa;			  AND D.LIST_NAME&#x3d;&#x27;STATUS&#x27;&#xa;	    left join HELPER_TABLE E &#xa;	          ON E.DESCRIPTION&#x3d;A.IFP_TYPE&#xa;	   	      AND E.LIST_NAME&#x3d;&#x27;IFP_TYPE&#x27;&#xa;	    left join HELPER_TABLE G &#xa;	          ON G.DESCRIPTION&#x3d;A.IFP_DESIGNATION&#xa;	   	      AND G.LIST_NAME&#x3d;&#x27;IFP_DESIGNATION&#x27;&#xa;        left join HELPER_TABLE H &#xa;	          ON H.DESCRIPTION&#x3d;A.IFP_CATEGORY&#xa;	   	      AND H.LIST_NAME&#x3d;&#x27;IFP_CATEGORY&#x27;&#xa;        left join HELPER_TABLE J&#xa;	          ON J.DESCRIPTION&#x3d;A.ATTACHED_STATUS&#xa;	   	      AND J.LIST_NAME&#x3d;&#x27;STATUS&#x27;&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -4656,6 +5097,7 @@ INNER JOIN #contract CM
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4673,7 +5115,7 @@ INNER JOIN #contract CM
       <key>
         <name>IFP_ID</name>
         <field>IFP_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -4762,6 +5204,7 @@ INNER JOIN #contract CM
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4779,25 +5222,25 @@ INNER JOIN #contract CM
       <key>
         <name>IFP_CONTRACT_SID</name>
         <field>IFP_CONTRACT_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>ITEM_MASTER_SID</name>
         <field>ITEM_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>START_DATE</name>
         <field>ITEM_START_DATE</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>D_INBOUND_STATUS</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -4859,8 +5302,8 @@ INNER JOIN #contract CM
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1204</xloc>
-      <yloc>1864</yloc>
+      <xloc>1203</xloc>
+      <yloc>1863</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -4870,6 +5313,7 @@ INNER JOIN #contract CM
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4898,6 +5342,7 @@ INNER JOIN #contract CM
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4911,8 +5356,8 @@ INNER JOIN #contract CM
       </steps>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>778</xloc>
-      <yloc>511</yloc>
+      <xloc>813</xloc>
+      <yloc>599</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -4922,6 +5367,7 @@ INNER JOIN #contract CM
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4941,6 +5387,114 @@ INNER JOIN #contract CM
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1332</xloc>
       <yloc>1585</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>GET IFP MODEL SID 1</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>IFP_MODEL</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>IFP_ID</name>
+        <field>IFP_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>Inbound_Status</name>
+        <field>INBOUND_STATUS</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>IFP_MODEL_SID</name>
+        <rename>IFP_MODEL_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>774</xloc>
+      <yloc>953</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>GET IFP CONTRACT SID 1</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>IFP_CONTRACT</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>CFP_CONTRACT_SID</name>
+        <field>CFP_CONTRACT_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>CONTRACT_MASTER_SID</name>
+        <field>CONTRACT_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>IFP_MODEL_SID</name>
+        <field>IFP_MODEL_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>Inbound_Status</name>
+        <field>INBOUND_STATUS</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>IFP_CONTRACT_SID</name>
+        <rename>IFP_CONTRACT_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>936</xloc>
+      <yloc>964</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -5043,6 +5597,30 @@ INNER JOIN #contract CM
         <min_pct_rows/>
       </error>
       <error>
+        <source_step>IFP_CONTRACT_DETAILS  2</source_step>
+        <target_step>Duplicate Reason 3</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>IFP_CONTRACT_DETAILS Lookup</source_step>
+        <target_step>Dummy &#x28;do nothing&#x29; 5</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
         <source_step>IFP_DET</source_step>
         <target_step>IFP DETAILS</target_step>
         <is_enabled>Y</is_enabled>
@@ -5106,4 +5684,5 @@ INNER JOIN #contract CM
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
+
 </transformation>

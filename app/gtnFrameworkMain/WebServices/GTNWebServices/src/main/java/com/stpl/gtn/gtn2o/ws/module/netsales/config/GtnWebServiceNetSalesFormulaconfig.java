@@ -566,9 +566,9 @@ public class GtnWebServiceNetSalesFormulaconfig implements GtnWsSearchQueryConfi
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.IFP_NUMBER,
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.IFP_NO, "IFPM"));
 		fieldToColumnDetailsMap.put("psNo",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.PS_NO, "PS"));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.PS_NO, "PSC"));
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.PS_NAME,
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.PS_NAME, "PS"));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.PS_NAME, "PSC"));
 		fieldToColumnDetailsMap.put(GtnFrameworkWebserviceConstant.RULE_SID,
 				configProvider.getColumnBooleanConfig(GtnFrameworkWebserviceConstant.CDR_MODEL_SID, "IMD"));
 		fieldToColumnDetailsMap.put("ruleNo",
