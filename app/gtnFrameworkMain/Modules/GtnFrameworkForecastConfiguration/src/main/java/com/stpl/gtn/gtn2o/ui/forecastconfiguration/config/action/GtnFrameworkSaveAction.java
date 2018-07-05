@@ -69,9 +69,10 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 				.getStringFromField();
 		String modeValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(14).toString())
 				.getStringFromField();
+		String processType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(8).toString())
+				.getStringFromField();
                 String historyfrequencyCaption = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("FCView_dataFrequency")
 				.getCaptionFromComboBox();
-                LOGGER.info("processTypeValue======================================"+historyfrequencyCaption);
 		Date toDate;
 		Date fromDate;
 		if ("Period".equals(modeValue)) {
@@ -92,7 +93,8 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 			Calendar cal1 = Calendar.getInstance();
 			Date fromdateInterval;
 			Date todateInterval;
-			if (splitFromDate[0].startsWith("Q") && "Quarter".equals(historyfrequencyCaption)) {
+			if (splitFromDate[0].startsWith("Q") && "Quarter".equals(historyfrequencyCaption)&& !"Auto Update".equals(processType)) {
+                            LOGGER.info("processType-in first if--"+processType);
 				String fromMonthName = splitFromDate[0].substring(1, 2);
 				frommonth = returnQuarterMonth(fromMonthName);
 				String toMonthName = splitToDate[0].substring(1, 2);
@@ -103,7 +105,18 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 				todateInterval = new SimpleDateFormat("MMMM").parse(tomonth);
 				cal1.setTime(todateInterval);
 				cal1.set(Integer.parseInt(splitToDate[1]), cal1.get(Calendar.MONTH), 1);
-			} else if (splitFromDate[0].startsWith("S") && "Semi-Annual".equals(historyfrequencyCaption)) {
+			}
+                        if (splitFromDate[0].startsWith("Q") && "Quarter".equals(historyfrequencyCaption) && "Auto Update".equals(processType)) {
+                                LOGGER.info("processType---"+processType);
+				String fromMonthName = splitFromDate[0].substring(1, 2);
+				frommonth = returnQuarterMonth(fromMonthName);
+				fromdateInterval = new SimpleDateFormat("MMMM").parse(frommonth);
+				cal.setTime(fromdateInterval);
+				cal.set(Integer.parseInt(splitFromDate[1]), cal.get(Calendar.MONTH), 1);
+				todateInterval = new SimpleDateFormat("MMMM").parse(splitToDate[0]);
+				cal1.setTime(todateInterval);
+				cal1.set(Integer.parseInt(splitToDate[1]), cal1.get(Calendar.MONTH), 1);
+			}else if (splitFromDate[0].startsWith("S") && "Semi-Annual".equals(historyfrequencyCaption)&& !"Auto Update".equals(processType)) {
 				String fromMonthName = splitFromDate[0].substring(1, 2);
 				frommonth = returnSemmiAnnualMonth(fromMonthName);
 				String toMonthName = splitToDate[0].substring(1, 2);
@@ -115,10 +128,27 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 				cal1.setTime(todateInterval);
 				cal1.set(Integer.parseInt(splitToDate[1]), cal1.get(Calendar.MONTH), 1);
 			}
-			if ("Annual".equals(historyfrequencyCaption)) {
+                        else if (splitFromDate[0].startsWith("S") && "Semi-Annual".equals(historyfrequencyCaption) && "Auto Update".equals(processType)) {
+				String fromMonthName = splitFromDate[0].substring(1, 2);
+				frommonth = returnSemmiAnnualMonth(fromMonthName);
+				fromdateInterval = new SimpleDateFormat("MMMM").parse(frommonth);
+				cal.setTime(fromdateInterval);
+				cal.set(Integer.parseInt(splitFromDate[1]), cal.get(Calendar.MONTH), 1);
+				todateInterval = new SimpleDateFormat("MMMM").parse(splitToDate[0]);
+				cal1.setTime(todateInterval);
+				cal1.set(Integer.parseInt(splitToDate[1]), cal1.get(Calendar.MONTH), 1);
+			}
+			if ("Annual".equals(historyfrequencyCaption) && !"Auto Update".equals(processType)) {
 				cal.set(Integer.parseInt(fromDateString), 0, 1);
 				cal1.set(Integer.parseInt(toDateString), 0, 1);
-			} else if ("Month".equals(historyfrequencyCaption)) {
+			} 
+                        else if ("Annual".equals(historyfrequencyCaption) && "Auto Update".equals(processType)) {
+				cal.set(Integer.parseInt(fromDateString), 0, 1);
+				todateInterval = new SimpleDateFormat("MMMM").parse(splitToDate[0]);
+				cal1.setTime(todateInterval);
+				cal1.set(Integer.parseInt(splitToDate[1]), cal1.get(Calendar.MONTH), 1);
+			}
+                        else if ("Month".equals(historyfrequencyCaption)) {
 				fromdateInterval = new SimpleDateFormat("MMMM").parse(splitFromDate[0]);
 				cal.setTime(fromdateInterval);
 				cal.set(Integer.parseInt(splitFromDate[1]), cal.get(Calendar.MONTH), 1);
@@ -132,8 +162,7 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 		}
 		int businessProcess = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(7).toString())
 				.getIntegerFromField();
-		String processType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(8).toString())
-				.getStringFromField();
+		
 		String mode = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(9).toString()).getStringFromField();
 
 		fcRequest.setBusinessProcess(businessProcess);

@@ -17,12 +17,17 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnUIFrameworkSaveViewAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkSaveViewAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -105,7 +110,25 @@ public class GtnUIFrameworkSaveViewAction
 		dataSelectionBean.setFrequency(frequency);
 		dataSelectionBean.setComparisonProjectionBeanList(comparisonProjectionBeanList);
 		dataSelectionBean.setVariablesList(selectedVariableList);
+		String privateViewName = String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportLandingScreen_privateViews").getV8PopupFieldValue());
+		dataSelectionBean.setPrivateViewName(privateViewName);
+		String publicViewName = String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportLandingScreen_publicViews").getV8PopupFieldValue());
+		dataSelectionBean.setPublicViewName(publicViewName);
 
+                  String viewId = GtnUIFrameworkGlobalUI.getVaadinComponentData(componentId).getViewId();
+			AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
+					"variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent", viewId).getComponent();
+			if (abstractComponent != null && abstractComponent.getData() != null) {
+				GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
+				if (gridComponent.getCustomData() instanceof List) {
+					List<GtnReportVariableBreakdownLookupBean> gtnReportVariableBreakdownLookupBeanList = (List<GtnReportVariableBreakdownLookupBean>) gridComponent
+							.getCustomData();
+					dataSelectionBean.setVariableBreakdownSaveList(gtnReportVariableBreakdownLookupBeanList);
+				}
+			}
+                        
 		GtnUIFrameWorkActionConfig popupAction = new GtnUIFrameWorkActionConfig();
 		popupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		List<Object> params = new ArrayList<>();
@@ -117,7 +140,36 @@ public class GtnUIFrameworkSaveViewAction
 		params.add(dataSelectionBean);
 		popupAction.setActionParameterList(params);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, popupAction);
+		gtnLogger.info("privateViewName--------->" + privateViewName);
+		gtnLogger.info("publicViewName----------->" + publicViewName);
+		if (!"".equals(privateViewName) || !"".equals(publicViewName)) {
+			String viewName = !"".equals(privateViewName) ? privateViewName : "";
+			viewName = !"".equals(viewName) ? viewName : publicViewName;
+			dataSelectionBean.setViewId(getViewId(privateViewName));
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportSaveViewLookUp_saveViewName", componentId)
+					.loadV8FieldValue(viewName);
+			GtnUIFrameWorkActionConfig updateEnableAction = new GtnUIFrameWorkActionConfig();
+			updateEnableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
+			updateEnableAction.addActionParameter("reportSaveViewLookUp_saveViewUpdate");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateEnableAction);
+			
+			GtnUIFrameWorkActionConfig updateDisableAction = new GtnUIFrameWorkActionConfig();
+			updateDisableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
+			updateDisableAction.addActionParameter("reportSaveViewLookUp_saveViewAdd");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateDisableAction);
+		} 
+	}
 
+	private int getViewId(String privateViewName) {
+		GtnWsRecordBean viewRecord;
+		if (!"".equals(privateViewName))
+			viewRecord = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("reportLandingScreen_privateViews").getComponentData().getCustomData();
+		else
+			viewRecord = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("reportLandingScreen_publicViews").getComponentData().getCustomData();
+		return Integer
+				.valueOf(String.valueOf(viewRecord.getPropertyValueByIndex(viewRecord.getProperties().size() - 2)));
 	}
 
 	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {

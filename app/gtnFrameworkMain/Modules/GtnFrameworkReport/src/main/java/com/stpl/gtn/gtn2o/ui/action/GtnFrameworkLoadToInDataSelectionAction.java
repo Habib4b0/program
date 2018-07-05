@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -18,13 +19,14 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
-public class GtnFrameworkLoadToInDataSelectionAction  implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass  {
+public class GtnFrameworkLoadToInDataSelectionAction
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -39,10 +41,13 @@ public class GtnFrameworkLoadToInDataSelectionAction  implements GtnUIFrameWorkA
 		reportRequest.setDataSelectionBean(dataSelectionBean);
 		request.setGtnWsReportRequest(reportRequest);
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_WS_REPORT_DASHBOARD_LOAD_FROM_AND_TO_IN_DATA_SELECTION,
+				GtnWsReportConstants.GTN_REPORT_SERVICE
+						+ GtnWsReportConstants.GTN_WS_REPORT_DASHBOARD_LOAD_FROM_AND_TO_IN_DATA_SELECTION,
 				"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_STATUS", componentId).addAllItemsToComboBox(response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList(), response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList());
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_STATUS", componentId).loadV8ComboBoxComponentValue(response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList().get(0));	
+		GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeTo", componentId)
+				.addAllItemsToComboBox(new ArrayList<>(response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemValueList()),
+						new ArrayList<>(response.getGtnUIFrameworkWebserviceComboBoxResponse().getItemCodeList()));
 	}
 
 	@Override
