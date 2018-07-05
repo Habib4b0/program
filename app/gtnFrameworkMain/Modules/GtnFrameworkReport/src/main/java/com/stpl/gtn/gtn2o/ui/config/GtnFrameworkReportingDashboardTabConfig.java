@@ -387,6 +387,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		periodRangeFromComponentLoadConfig.setItemCaptionValues(new ArrayList<>());
 		periodRangeFromConfig.setGtnComboboxConfig(periodRangeFromComponentLoadConfig);
 		componentList.add(periodRangeFromConfig);
+		
 	}
 
 	private void addComparisonBasisComponent(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -476,7 +477,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		periodRangeToComponentLoadConfig.setItemCaptionValues(new ArrayList<>());
 		periodRangeToConfig.setGtnComboboxConfig(periodRangeToComponentLoadConfig);
 		componentList.add(periodRangeToConfig);
-
+		
 	}
 
 	private void addFilterOptionsTab(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {

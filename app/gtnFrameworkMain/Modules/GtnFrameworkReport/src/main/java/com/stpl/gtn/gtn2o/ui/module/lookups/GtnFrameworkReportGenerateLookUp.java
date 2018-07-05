@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.module.lookups;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionReGenerateAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionTabLoadAction;
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkDataAssumptionsTabConfig;
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportDataSelectionTabConfig;
@@ -114,6 +115,11 @@ public class GtnFrameworkReportGenerateLookUp {
 
 		tabSheetConfig.setGtnTabSheetConfigList(tabConfigList);
 		componentList.add(tabSheetConfig);
+		
+		GtnUIFrameWorkActionConfig regenerateAction = new GtnUIFrameWorkActionConfig();
+		regenerateAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		regenerateAction.addActionParameter(GtnReportDataSelectionReGenerateAction.class.getName());
+		tabSheetConfig.addGtnUIFrameWorkActionConfig(regenerateAction);
 	}
 
 	private GtnUIFrameWorkActionConfig getDataSelectionTabAction() {
