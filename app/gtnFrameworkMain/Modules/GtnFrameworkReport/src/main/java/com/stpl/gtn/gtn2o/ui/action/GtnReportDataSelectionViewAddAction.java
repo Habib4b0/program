@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -44,34 +43,26 @@ public class GtnReportDataSelectionViewAddAction
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_REPORT_SAVEVIEW_SERVICE, "report",
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameWorkActionConfig gtnUIFrameAlertWorkActionConfig = new GtnUIFrameWorkActionConfig();
+		gtnUIFrameAlertWorkActionConfig.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
 		if (response.getGtnWsGeneralResponse().isSucess()) {
 
 			GtnUIFrameWorkActionConfig closePopupAction = new GtnUIFrameWorkActionConfig();
 			closePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 			closePopupAction.addActionParameter("dsSaveViewLookUp");
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, closePopupAction);
-
-			GtnUIFrameWorkActionConfig gtnUIFrameAlertWorkActionConfig = new GtnUIFrameWorkActionConfig();
-			gtnUIFrameAlertWorkActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-			List<Object> alertMsgList = new ArrayList<>(2);
-			alertMsgList.add("View Added Successfully");
-			alertMsgList.add("You have successfully added" + reportDataSelectionBean.getViewType() + "view"
+			
+			gtnUIFrameAlertWorkActionConfig.addActionParameter("View Added Successfully");
+			gtnUIFrameAlertWorkActionConfig.addActionParameter("You have successfully added " + reportDataSelectionBean.getViewType() + " View "
 					+ reportDataSelectionBean.getViewName());
-			gtnUIFrameAlertWorkActionConfig.setActionParameterList(alertMsgList);
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameAlertWorkActionConfig);
-			return;
+			
 		} else {
-			GtnUIFrameWorkActionConfig gtnUIFrameAlertWorkActionConfig = new GtnUIFrameWorkActionConfig();
-			gtnUIFrameAlertWorkActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-			List<Object> alertMsgList = new ArrayList<>(2);
-			alertMsgList.add("Duplicate View Name");
-			alertMsgList.add("The" + reportDataSelectionBean.getViewType()
+			gtnUIFrameAlertWorkActionConfig.addActionParameter("Duplicate View Name");
+			gtnUIFrameAlertWorkActionConfig.addActionParameter("The" + reportDataSelectionBean.getViewType()
 					+ "View name you have attempted to save is a duplicate of an existing view name."
 					+ "Please enter a different view name");
-			gtnUIFrameAlertWorkActionConfig.setActionParameterList(alertMsgList);
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameAlertWorkActionConfig);
-			return;
 		}
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameAlertWorkActionConfig);
 	}
 
 	@Override

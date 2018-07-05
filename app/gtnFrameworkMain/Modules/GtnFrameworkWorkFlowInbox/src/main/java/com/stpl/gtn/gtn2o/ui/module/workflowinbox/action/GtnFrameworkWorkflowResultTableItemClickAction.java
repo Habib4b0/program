@@ -43,8 +43,17 @@ public class GtnFrameworkWorkflowResultTableItemClickAction
 			GtnWsRecordBean gtnWsRecordBean = (GtnWsRecordBean) gtnUIFrameWorkActionConfig.getActionParameterList()
 					.get(1);
 
-			String status = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.STATUS));
+			String status;
+			String workflowId = String.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID));
+			String key = workflowId.replaceAll("\\d", GtnFrameworkWorkflowInboxClassConstants.EMPTY);
+			
+			if(key.equalsIgnoreCase("ARM_TRXF")) {
+				status = String.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUSARM));
+			} else {
+				status = String
+						.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.STATUS));
+			}
+			
 			if (combocomponent.equals(GtnFrameworkCommonStringConstants.CONTRACT_MANAGEMENT)) {
 
 				createdById = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(11));
@@ -62,7 +71,7 @@ public class GtnFrameworkWorkflowResultTableItemClickAction
 
 			} else if (combocomponent.equals(GtnFrameworkCommonStringConstants.ARM)) {
 
-				createdById = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(22));
+				createdById = String.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID));
 
 			} else {
 
@@ -70,15 +79,13 @@ public class GtnFrameworkWorkflowResultTableItemClickAction
 
 			}
 			boolean isSubmitter = createdById.equals(userId);
-
 			if (isSubmitter && (GtnFrameworkWorkflowInboxClassConstants.WITHDRAWN.equalsIgnoreCase(status)
 					|| GtnFrameworkWorkflowInboxClassConstants.REJECTED.equalsIgnoreCase(status)
-					|| GtnFrameworkWorkflowInboxClassConstants.PENDING.equals(status))) {
+					|| GtnFrameworkWorkflowInboxClassConstants.PENDING.equalsIgnoreCase(status))) {
 
 				enableDisableButtons(false, true);
 
 			} else {
-
 				enableDisableButtons(true, false);
 			}
 

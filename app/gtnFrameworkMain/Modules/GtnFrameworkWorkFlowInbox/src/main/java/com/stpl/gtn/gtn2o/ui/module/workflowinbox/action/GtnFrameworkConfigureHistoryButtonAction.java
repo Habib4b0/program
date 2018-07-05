@@ -69,9 +69,9 @@ public class GtnFrameworkConfigureHistoryButtonAction implements GtnUIFrameWorkA
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWDESCONELAYOUT)
 					.setVisible(true);
+			
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWDESCONE)
-					.setVisible(true);
-
+					.setVisible(false);
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ATTACHMENTRESULT_PANEL)
 					.setVisible(false);

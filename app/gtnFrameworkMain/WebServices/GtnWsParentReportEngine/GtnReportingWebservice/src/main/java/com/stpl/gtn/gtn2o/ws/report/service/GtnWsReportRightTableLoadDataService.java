@@ -100,8 +100,9 @@ public class GtnWsReportRightTableLoadDataService {
 			ccpFilter = StringUtils.join(dashboardBean.getCcpDetailsSidList(), ",");
 		}
 		procedure = procedure.replaceAll(":ccpComp:", ccpFilter);
-		String comparisonBasis = dashboardBean.getComparisonBasis().contains("Select") ? "NULL"
-				: dashboardBean.getComparisonBasis();
+		String comparisonBasis = dashboardBean.getComparisonBasis().isEmpty()
+				|| "-Select one-".equals(dashboardBean.getComparisonBasis()) ? "NULL"
+						: dashboardBean.getComparisonBasis();
 		procedure = procedure.replaceAll(":comparisonBasis:", comparisonBasis);
 		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
 		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(procedure,

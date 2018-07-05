@@ -33,6 +33,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomCCPListDetails;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportDecimalFormat;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnReportJsonService;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportDataSelectionGenerate;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportRightTableLoadDataService;
@@ -318,16 +319,20 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		recordBean.addAdditionalProperty(index);
 		recordBean.addAdditionalProperty(bean.getRowIndex());
 		recordBean.addAdditionalProperty(0);
-		recordBean.addProperties("levelValue", setDisplayFormat(bean.getData(), displayFormat));
+		String levelName = setDisplayFormat(bean.getData(), displayFormat);
+		recordBean.addProperties("levelValue", levelName);
 		if (dataForHierarchy != null) {
-			dataForHierarchy.entrySet().stream()
-					.forEach(entry -> recordBean.addProperties(entry.getKey(), entry.getValue()));
+			dataForHierarchy.entrySet().stream().forEach(entry -> {
+				Optional.ofNullable(entry.getValue()).ifPresent(data -> {
+					dataConvertors(recordBean, entry.getKey(), data, bean.getData()[5].toString(), levelName);
+				});
+			});
 		}
 		return recordBean;
 	}
 
 	private static Map<String, String> getVariableMap() {
-		Map<String, String> variableMap = new HashMap<String, String>();
+		Map<String, String> variableMap = new HashMap<>();
 		variableMap.put("Ex-Factory Sales", "EXFACTORY_SALES");
 		variableMap.put("Gross Contract Sales % of Ex-Factory", "CON_SALES_PER_FO_EX");
 		variableMap.put("Gross Contract Sales", "CONTRACT_SALES");
@@ -495,6 +500,19 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		} catch (GtnFrameworkGeneralException e) {
 			GTNLOGGER.error(e.getErrorMessage(), e);
 			return Collections.emptyList();
+		}
+	}
+
+	private void dataConvertors(GtnWsRecordBean recordBean, String key, Double data, String indicator,
+			String levelName) {
+		if (("V".equals(indicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
+				|| key.contains("PER") || key.contains("RATE")) {
+			recordBean.addProperties(key,
+					GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+		} else if ("V".equals(indicator) && levelName.contains("Unit")) {
+			recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
+		} else {
+			recordBean.addProperties(key, GtnWsReportDecimalFormat.DOLLAR.getFormattedValue(data));
 		}
 	}
 

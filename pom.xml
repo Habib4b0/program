@@ -63,6 +63,7 @@
 				<module>app/gtnAdminConsole</module>
 				<module>app/gtnGCM</module>
 				<module>app/gtnCff</module>
+				<module>app/gtnARM</module>
 				<module>app/gtnBpmSSOLoginHook</module>
 			</modules>
 			<activation>
@@ -149,6 +150,7 @@
 				<module>app/gtnAdminConsole</module>
 				<module>app/gtnGCM</module>
 				<module>app/gtnCff</module>
+				<module>app/gtnARM</module>
                                 <module>app/gtnBpmSSOLoginHook</module>
 			</modules>
 			<build>

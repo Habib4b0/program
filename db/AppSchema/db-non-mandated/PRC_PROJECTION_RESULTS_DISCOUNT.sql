@@ -1492,7 +1492,7 @@ GROUP  BY DT.YEAR,
                                       TOTAL_DISCOUNT_ACCRUAL
                       FROM   #RESULT_DETAILS_INFO RD
                              JOIN RS_CONTRACT RC
-                               ON RC.RS_CONTRACT_SID = RD.RS_NAME
+                               ON RC.RS_CONTRACT_SID = RD.RS_CONTRACT_SID
                   END
                 ELSE
                   BEGIN

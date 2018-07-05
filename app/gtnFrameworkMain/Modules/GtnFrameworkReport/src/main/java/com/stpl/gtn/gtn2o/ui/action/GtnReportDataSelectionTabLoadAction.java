@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -25,6 +26,10 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
@@ -54,7 +59,7 @@ public class GtnReportDataSelectionTabLoadAction
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_dsTabPrivateViews", componentId)
 						.setV8PopupFieldValue(reportDataSelectionBean.getPrivateViewName());
 			}
-			
+
 			if (reportDataSelectionBean.getPublicViewName() != null) {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_dsTabPublicViews", componentId)
 						.setV8PopupFieldValue(reportDataSelectionBean.getPublicViewName());
@@ -66,8 +71,6 @@ public class GtnReportDataSelectionTabLoadAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_businessUnit", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getBusinessUnitReport());
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId)
-					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getFromPeriodReport());
 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_dsTabProjectionName", componentId)
 					.loadV8ComboBoxComponentValue(reportDataSelectionBean.getReportDataSource());
@@ -93,8 +96,8 @@ public class GtnReportDataSelectionTabLoadAction
 					GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB_UNIT_OF_MEASURE, componentId,
 					Arrays.asList(""));
 
-			Integer hierarchyDefinitionSid = (Integer) customerRecordBean
-					.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1);
+			Integer hierarchyDefinitionSid = Integer.valueOf(String.valueOf(
+					customerRecordBean.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1)));
 
 			GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
 					GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId)
@@ -161,8 +164,8 @@ public class GtnReportDataSelectionTabLoadAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId)
 					.setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
 
-			Integer productHierarchyDefinitionSid = (Integer) productRecordBean
-					.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1);
+			Integer productHierarchyDefinitionSid = Integer.valueOf(String
+					.valueOf(productRecordBean.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1)));
 
 			GtnUIFrameworkComboBoxConfig productRelationComboboxConfig = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_RELATIONSHIP,

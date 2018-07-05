@@ -2,6 +2,8 @@ package com.stpl.gtn.gtn2o.ws.report.bean;
 
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+
 public class GtnReportingDashboardSaveProfileLookupBean {
 
 	private List<Object> displaySelectionTabVariable;
@@ -34,6 +36,9 @@ public class GtnReportingDashboardSaveProfileLookupBean {
 	private List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownLookupBeanSaveList;
 	private String reportProfileviewName;
 	private String reportProfileviewType;
+	private GtnWsRecordBean recordBean;
+	private Integer reportProfileViewId;
+	
 	
 	public List<Object> getDisplaySelectionTabVariable() {
 		return displaySelectionTabVariable;
@@ -202,6 +207,19 @@ public class GtnReportingDashboardSaveProfileLookupBean {
 	public void setReportProfileviewType(String reportProfileviewType) {
 		this.reportProfileviewType = reportProfileviewType;
 	}
+	public GtnWsRecordBean getRecordBean() {
+		return recordBean;
+	}
+	public void setRecordBean(GtnWsRecordBean recordBean) {
+		this.recordBean = recordBean;
+	}
+	public Integer getReportProfileViewId() {
+		return reportProfileViewId;
+	}
+	public void setReportProfileViewId(Integer reportProfileViewId) {
+		this.reportProfileViewId = reportProfileViewId;
+	}
+
 	
 	
 }

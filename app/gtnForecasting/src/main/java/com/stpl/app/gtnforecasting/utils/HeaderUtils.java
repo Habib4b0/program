@@ -1381,9 +1381,11 @@ public class HeaderUtils {
 
                 String discountColumnName = discountProperties.get(l);
                 List<Object> tmap = new ArrayList<>();
+                List<Object> tmapExcel = new ArrayList<>();
 
                 for (int i = 0; i < columnsList.size(); i++) {
                     List<Object> dmap = new ArrayList<>();
+                    List<Object> dmapExcel = new ArrayList<>();
                     String column = columnsList.get(i);
                     //Added for tabwise excel export
                     boolean excelTab = projSelDTO.getFrequencyDivision() == NumericConstants.FOUR || projSelDTO.getFrequencyDivision() == NumericConstants.TWELVE;
@@ -1450,6 +1452,7 @@ public class HeaderUtils {
                                 singleColumnForExcel.add(singleColumn);
                                 singleHeaderForExcel.add(ACTUAL_RATE1);// Ends here
                                 dmap.add(singleColumn);
+                                dmapExcel.add(singleColumn);
                             }
                             if (projSelDTO.getdPVariablesList().contains(REBATE_PER_UNIT.getConstant())) {
                                 tableHeader.addSingleColumn(actualRPColumn, ACTUAL_RPU1, String.class);
@@ -1458,6 +1461,7 @@ public class HeaderUtils {
                                 singleColumnForExcel.add(actualRPColumn);
                                 singleHeaderForExcel.add(ACTUAL_RPU1);//Ends here
                                 dmap.add(actualRPColumn);
+                                dmapExcel.add(actualRPColumn);
                             }
                             if (projSelDTO.getdPVariablesList().contains(DISCOUNT_AMT.getConstant())) {
                                 tableHeader.addSingleColumn(actAmtColumn, ACTUAL_AMOUNT_LABEL, String.class);
@@ -1466,6 +1470,25 @@ public class HeaderUtils {
                                 singleColumnForExcel.add(actAmtColumn);
                                 singleHeaderForExcel.add(ACTUAL_AMOUNT_LABEL);// Ends here
                                 dmap.add(actAmtColumn);
+                                dmapExcel.add(actAmtColumn);
+                            }
+                            if(!projSelDTO.isIsCustomHierarchy()){
+                            if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
+                                actSales = commonColumn + ACTUALSALESLOWCASE;
+                                excelHeader.addSingleColumn(actSales, ACTUALSALESLOWCASE, String.class);
+                                //Added for tabwise excel export
+                                singleColumnForExcel.add(actSales);
+                                singleHeaderForExcel.add(ACTUALSALESLOWCASE);// Ends here
+                                dmapExcel.add(actSales);
+                            }
+                            if (projSelDTO.getdPVariablesList().contains(REBATE_PER_UNIT.getConstant())) {
+                                actUnits = commonColumn + ACTUALUNITSLOWCASE;
+                                excelHeader.addSingleColumn(actUnits, ACTUALUNITSLOWCASE, String.class);
+                                //Added for tabwise excel export
+                                singleColumnForExcel.add(actUnits);
+                                singleHeaderForExcel.add(ACTUALUNITSLOWCASE);// Ends here
+                                dmapExcel.add(actUnits);
+                            }
                             }
 
                         }
@@ -1501,6 +1524,7 @@ public class HeaderUtils {
                             singleColumnForExcel.add(singleColumn);
                             singleHeaderForExcel.add(PROJECTED_RATE1);//Ends here
                             dmap.add(singleColumn);
+                            dmapExcel.add(singleColumn);
                         }
                         if (projSelDTO.getdPVariablesList().contains(REBATE_PER_UNIT.getConstant())) {
                             tableHeader.addSingleColumn(prjRPColumn, Constant.PROJECTED_RPU1, String.class);
@@ -1509,6 +1533,7 @@ public class HeaderUtils {
                             singleColumnForExcel.add(prjRPColumn);
                             singleHeaderForExcel.add(Constant.PROJECTED_RPU1);//Ends here
                             dmap.add(prjRPColumn);
+                            dmapExcel.add(prjRPColumn);
                         }
                         if (projSelDTO.getdPVariablesList().contains(DISCOUNT_AMT.getConstant())) {
                             tableHeader.addSingleColumn(prjAmtColumn, Constant.PROJECTED_AMOUNT_LABEL, String.class);
@@ -1517,15 +1542,34 @@ public class HeaderUtils {
                             singleColumnForExcel.add(prjAmtColumn);
                             singleHeaderForExcel.add(Constant.PROJECTED_AMOUNT_LABEL);//Ends here
                             dmap.add(prjAmtColumn);
+                            dmapExcel.add(prjAmtColumn);
                         }
-                    
-                         if (projSelDTO.getdPVariablesList().contains(GROWTH.getConstant())) {
+                        if (!projSelDTO.isIsCustomHierarchy()) {
+                            if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
+                                projSales = commonColumn + PROJECTEDSALESLOWCASE;
+                                excelHeader.addSingleColumn(projSales, PROJECTEDSALESLOWCASE, String.class);
+                                //Added for tabwise excel export
+                                singleColumnForExcel.add(projSales);
+                                singleHeaderForExcel.add(PROJECTEDSALESLOWCASE);//Ends here
+                                dmapExcel.add(projSales);
+                            }
+                            if (projSelDTO.getdPVariablesList().contains(REBATE_PER_UNIT.getConstant())) {
+                                projUnits = commonColumn + PROJECTEDUNITSLOWCASE;
+                                excelHeader.addSingleColumn(projUnits, PROJECTEDUNITSLOWCASE, String.class);
+                                //Added for tabwise excel export
+                                singleColumnForExcel.add(projUnits);
+                                singleHeaderForExcel.add(PROJECTEDUNITSLOWCASE);//Ends here
+                                dmapExcel.add(projUnits);
+                            }
+                        }
+                        if (projSelDTO.getdPVariablesList().contains(GROWTH.getConstant())) {
                             tableHeader.addSingleColumn(growthColumn, Constant.GROWTH, String.class);
                             excelHeader.addSingleColumn(growthColumn, Constant.GROWTH, String.class);
                             //Added for tabwise excel export
                             singleColumnForExcel.add(growthColumn);
                             singleHeaderForExcel.add(Constant.GROWTH);//Ends here
                             dmap.add(growthColumn);
+                            dmapExcel.add(growthColumn);
                         }
 
                         if (historyFlag) {
@@ -1575,14 +1619,6 @@ public class HeaderUtils {
                         tmap.add(commonColumn);
                         tableHeader.addDoubleColumn(commonColumn, commonHeader);
                         tableHeader.addDoubleHeaderMap(commonColumn, dmap.toArray());
-
-                        excelHeader.addDoubleColumn(commonColumn, discountName + " " + commonHeader);
-
-                        excelHeader.addDoubleHeaderMap(commonColumn, dmap.toArray());
-                        //Added for tabwise excel export
-                        doubleColumnForExcel.add(commonColumn);
-                        doubleHeaderForExcel.add(discountName + " " + commonHeader);
-                        doubleHeaderMap.put(commonColumn, dmap.toArray());//Ends here
                         if (historyFlag) {
                             tableHeader.addDoubleHistoryColumn(commonColumn, commonHeader);
                             tableHeader.addDoubleHistoryHeaderMap(commonColumn, dmap.toArray());
@@ -1597,11 +1633,22 @@ public class HeaderUtils {
                         }
 
                     }
+                    if (!dmapExcel.isEmpty()) {
+                        tmapExcel.add(commonColumn);
+                        excelHeader.addDoubleColumn(commonColumn, discountName + " " + commonHeader);
+                        excelHeader.addDoubleHeaderMap(commonColumn, dmapExcel.toArray());
+                        //Added for tabwise excel export
+                        doubleColumnForExcel.add(commonColumn);
+                        doubleHeaderForExcel.add(discountName + " " + commonHeader);
+                        doubleHeaderMap.put(commonColumn, dmapExcel.toArray());//Ends here
+                    }
                 }
 
                 if (!tmap.isEmpty() && !isCustom) {
                     tableHeader.addTripleColumn(discountColumnName, discountName.contains("-") ? discountName.split("-")[0] : discountName);
                     tableHeader.addTripleHeaderMap(discountColumnName, tmap.toArray());
+                }
+                if (!tmapExcel.isEmpty() && !isCustom) {
                     excelHeader.addTripleColumn(discountColumnName, discountName.contains("-") ? discountName.split("-")[0] : discountName);
                     excelHeader.addTripleHeaderMap(discountColumnName, tmap.toArray());
                 }
