@@ -1,8 +1,10 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -208,6 +210,8 @@ public class GtnReportDataSelectionLoadViewAction
 				.updateSelection(dataSelectionBean.getVariablesList());
                 }
 
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_reportOptionsTabVariableBreakdown")
+		.getComponentData().setCustomData(Optional.ofNullable(dataSelectionBean.getVariableBreakdownSaveList()).isPresent() == true ? dataSelectionBean.getVariableBreakdownSaveList() : new ArrayList<>());
 	}
 
 	private Object getDisplayValue(GtnWsReportDataSelectionBean dataSelectionBean) {
