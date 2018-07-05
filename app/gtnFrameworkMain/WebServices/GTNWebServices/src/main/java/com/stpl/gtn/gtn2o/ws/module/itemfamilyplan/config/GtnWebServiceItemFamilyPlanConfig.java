@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsColumnDetailsConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.module.itemfamilyplan.constants.GtnWsIfpQueryContants;
 import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
@@ -76,7 +77,7 @@ public class GtnWebServiceItemFamilyPlanConfig implements GtnWsSearchQueryConfig
 					configProvider.getColumnStringConfig("TOTAL_VOLUME_COMMITMENT", "IFP"));
 			ifpColumnDetailsMap.put("totalMarketshareCommitment",
 					configProvider.getColumnStringConfig("TOTAL_MARKETSHARE_COMMITMENT", "IFP"));
-			ifpColumnDetailsMap.put("ifpcreatedBy", configProvider.getColumnStringConfig("firstName+' '+lastName", "ifpCreatedBy", "ifpCreatedByCol"));
+			ifpColumnDetailsMap.put("ifpcreatedBy", configProvider.getColumnStringConfig("firstName+' '+ifpCreatedBy.lastName", "ifpCreatedBy", "ifpCreatedBy",GtnFrameworkWebserviceConstant.USER_ID));
 			ifpColumnDetailsMap.put("ifpcreatedDate", configProvider.getColumnDateConfig("CREATED_DATE", "IFP"));
 			ifpColumnDetailsMap.put("parentItemFamilyplanId",
 					configProvider.getColumnStringConfig("PARENT_IFP_ID", "IFP", "parenCfpId"));
