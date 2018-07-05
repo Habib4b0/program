@@ -369,10 +369,11 @@ public class GtnWsReportController {
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
 		int userId = Integer.valueOf(generalRequest.getUserId());
 		int recordCount = gtnWsReportWebsevice
-				.checkReportProfileViewRecordCount(reportingDashboardSaveProfileLookupBean, userId);
+				.checkUpdateViewRecordCountForReportProfile(reportingDashboardSaveProfileLookupBean, userId);
 		if (recordCount == 0) {
+			gtnWsReportWebsevice.saveReportProfileMaster(reportingDashboardSaveProfileLookupBean, userId);
 			generalResponse.setSucess(false);
-		} else {
+		} else{
 			gtnWsReportWebsevice.updateReportProfileMaster(reportingDashboardSaveProfileLookupBean, userId);
 			generalResponse.setSucess(true);
 		}
