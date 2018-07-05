@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -210,8 +211,8 @@ public class GtnReportDataSelectionReGenerateAction
 			GtnWsRecordBean customerHierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_customerHierarchy", componentId).getComponentData()
 					.getCustomData();
-			dataSelectionBean.setCustomerHierarchySid((Integer) customerHierarchyBean
-					.getPropertyValueByIndex(customerHierarchyBean.getProperties().size() - 1));
+			dataSelectionBean.setCustomerHierarchySid(Integer.valueOf(String.valueOf(customerHierarchyBean
+					.getPropertyValueByIndex(customerHierarchyBean.getProperties().size() - 1))));
 			dataSelectionBean.setCustomerRelationshipBuilderSid(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_customerSelectionRelationship", componentId)
 					.getCaptionFromV8ComboBox())));
@@ -245,8 +246,8 @@ public class GtnReportDataSelectionReGenerateAction
 			GtnWsRecordBean productHierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId).getComponentData()
 					.getCustomData();
-			dataSelectionBean.setProductHierarchySid((Integer) productHierarchyBean
-					.getPropertyValueByIndex(productHierarchyBean.getProperties().size() - 1));
+			dataSelectionBean.setProductHierarchySid(Integer.valueOf(String.valueOf(productHierarchyBean
+					.getPropertyValueByIndex(productHierarchyBean.getProperties().size() - 1))));
 			dataSelectionBean.setProductRelationshipBuilderSid(Integer.valueOf(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_relationship", componentId).getCaptionFromV8ComboBox()));
 			dataSelectionBean.setProductHierarchyVersionNo(Integer.valueOf(GtnUIFrameworkGlobalUI
@@ -356,13 +357,26 @@ public class GtnReportDataSelectionReGenerateAction
 
 	private void updateFromPeriod(boolean isFromPeriodChanged, String fromPeriod,
 			GtnWsReportDataSelectionBean dataSelectionBean, String componentId)
-			throws GtnFrameworkValidationFailedException {
+			throws GtnFrameworkGeneralException {
 		if (isFromPeriodChanged) {
 			dataSelectionBean.setFromPeriodReport(Integer.valueOf(fromPeriod));
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId)
-					.loadV8ComboBoxComponentValue(dataSelectionBean.getFrequency());
+			loadPeriodRangeFrom(componentId);
+			loadPeriodRangeTo(componentId);
 		}
+	}
+	
+	private void loadPeriodRangeTo(String componentId) throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkActionConfig toPeriodLoadAction = new GtnUIFrameWorkActionConfig();
+		toPeriodLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		toPeriodLoadAction.addActionParameter(GtnFrameworkLoadToInDataSelectionAction.class.getName());
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, toPeriodLoadAction);
+	}
+
+	private void loadPeriodRangeFrom(String componentId) throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkActionConfig fromPeriodLoadAction = new GtnUIFrameWorkActionConfig();
+		fromPeriodLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		fromPeriodLoadAction.addActionParameter(GtnFrameworkLoadFromInDataSelectionAction.class.getName());
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, fromPeriodLoadAction);
 	}
 
 	private void callRegenerate(GtnWsReportDataSelectionBean dataSelectionBean)

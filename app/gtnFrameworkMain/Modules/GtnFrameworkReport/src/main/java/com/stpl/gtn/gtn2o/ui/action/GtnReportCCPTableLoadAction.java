@@ -194,12 +194,12 @@ public class GtnReportCCPTableLoadAction
 				.getSelectedListFromV8MultiSelect());
 		String privateView = String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(23).toString(), componentId).getV8PopupFieldValue());
-		if (privateView != null) {
+		if (privateView != "") {
 			dto.setPrivateViewName(privateView);
 		}
 		String publicViewName = String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(24).toString(), componentId).getV8PopupFieldValue());
-		if (publicViewName != null) {
+		if (publicViewName != "") {
 			dto.setPublicViewName(publicViewName);
 		}
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);
