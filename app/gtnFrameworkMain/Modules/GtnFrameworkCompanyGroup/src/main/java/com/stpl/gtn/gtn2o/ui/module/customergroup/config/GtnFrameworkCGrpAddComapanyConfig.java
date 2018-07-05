@@ -910,10 +910,20 @@ public class GtnFrameworkCGrpAddComapanyConfig {
 		GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
 		navigationActionConfig.setActionType(GtnUIFrameworkActionType.NAVIGATION_ACTION);
 		navigationActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		
+		GtnUIFrameWorkActionConfig customSaveAction = new GtnUIFrameWorkActionConfig();
+		customSaveAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		customSaveAction.addActionParameter(GtnFrameworkCGrpClassContants.COMPANY_GRP_SAVE_ACTION);
+		onSucessActionConfigList.add(customSaveAction);		
 		onSucessActionConfigList.add(navigationActionConfig);
-		backBtnConfirmationActionConfig.addActionParameter(onSucessActionConfigList);
-		backBtnActionConfigList.add(backBtnConfirmationActionConfig);
+		
+		List<GtnUIFrameWorkActionConfig> onFailureActionConfigList = new ArrayList<>();
+		onFailureActionConfigList.add(navigationActionConfig);		
 
+		backBtnConfirmationActionConfig.addActionParameter(onSucessActionConfigList);
+		backBtnConfirmationActionConfig.addActionParameter(onFailureActionConfigList);
+		
+		backBtnActionConfigList.add(backBtnConfirmationActionConfig);
 		backButtonConfig.setGtnUIFrameWorkActionConfigList(backBtnActionConfigList);
 
 	}
