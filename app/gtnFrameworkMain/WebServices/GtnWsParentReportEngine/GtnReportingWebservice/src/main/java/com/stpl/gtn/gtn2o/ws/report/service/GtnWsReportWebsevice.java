@@ -287,6 +287,17 @@ public class GtnWsReportWebsevice {
 		return recordCount;
 	}
 
+	public int checkUpdateViewRecordCountForReportProfile(GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
+			throws GtnFrameworkGeneralException {
+		int recordCount = 0;
+		String query = sqlService.getQuery("getUpdateViewCount");
+		Object[] params = { reportingDashboardSaveProfileLookupBean.getReportProfileViewId(), reportingDashboardSaveProfileLookupBean.getReportProfileviewType() };
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING};
+		List<Integer> resultList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query, params, paramsType);
+		recordCount = resultList.get(0);
+		return recordCount;
+	}
+	
 	public int checkReportProfileViewRecordCount(
 			GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
 			throws GtnFrameworkGeneralException {
@@ -351,16 +362,16 @@ public class GtnWsReportWebsevice {
 	public int updateReportProfileMaster(
 			GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean, int userId)
 			throws GtnFrameworkGeneralException {
-		List<Object> reportProfileInputList = new ArrayList<>();
-		reportProfileInputList.add(userId);
-		reportProfileInputList.add(userId);
-		String reportProfileViewData = gtnReportJsonService
-				.convertObjectAsJsonString(reportingDashboardSaveProfileLookupBean).replaceAll("'", "\\\\");
-		reportProfileInputList.add("'" + reportProfileViewData + "'");
-		reportProfileInputList.add("'" + reportingDashboardSaveProfileLookupBean.getReportProfileviewName() + "'");
-		String reportProfileQuery = sqlService.getQuery(reportProfileInputList, "updateView");
-		int reportProfileCount = gtnSqlQueryEngine.executeInsertOrUpdateQuery(reportProfileQuery);
-		return reportProfileCount;
+		List<Object> reportProfileUpdateInputList = new ArrayList<>();
+		reportProfileUpdateInputList.add("'" + reportingDashboardSaveProfileLookupBean.getReportProfileviewName() + "'");
+		reportProfileUpdateInputList.add("'" + reportingDashboardSaveProfileLookupBean.getReportProfileviewType()+ "'");
+		reportProfileUpdateInputList.add(userId);
+		String viewData = gtnReportJsonService.convertObjectAsJsonString(reportingDashboardSaveProfileLookupBean).replaceAll("'", "\\\\");
+		reportProfileUpdateInputList.add("'" + viewData + "'");
+		reportProfileUpdateInputList.add(reportingDashboardSaveProfileLookupBean.getReportProfileViewId());
+		String query = sqlService.getQuery(reportProfileUpdateInputList, "updatePrivatePublicView");
+		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
+		return count;
 	}
 
 	public String getFromAndToDateLoadQuery(String comboBoxType, String frequency) {

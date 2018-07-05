@@ -41,10 +41,6 @@ public class GtnWsReportRightTableLoadDataService {
 
 			String hierarchyNo = bean.getHierarchyNo();
 			int levelNo = bean.getLevelNo();
-			boolean isVAriableRow = false;
-			if (bean.getData()[5].equals("V")) {
-				isVAriableRow = true;
-			}
 			// List<Object[]> customviewData = (List<Object[]>)
 			// gtnSqlQueryEngine.executeSelectQuery(
 			// GtnWsQueryConstants.CUSTOM_VIEW_TYPE,

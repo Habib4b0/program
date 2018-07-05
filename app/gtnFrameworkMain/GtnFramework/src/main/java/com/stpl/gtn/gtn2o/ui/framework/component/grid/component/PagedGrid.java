@@ -354,6 +354,7 @@ public class PagedGrid {
             if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.TEXTBOX_VAADIN8) {
                 TextField textField = new TextField();
                 textField.setId(property);
+                textField.setWidth("70%");
                 textField.addValueChangeListener(this::onFilterTextChange);
                 return textField;
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
@@ -371,7 +372,7 @@ public class PagedGrid {
                 return vaadinCombobox;
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
                 Button dateFilterPopupButton = new Button("Show all");
-                dateFilterPopupButton.setWidth("400px");
+                dateFilterPopupButton.setWidth("100%");
                 Window window = getDateFilterPopup(dateFilterPopupButton, property);
                 dateFilterPopupButton.addClickListener(new Button.ClickListener() {
                     @Override
