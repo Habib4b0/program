@@ -1009,10 +1009,7 @@ public class GtnFrameworkCGrpAddComapanyConfig {
 		/**
 		 * To clear Temp Table
 		 */
-//		GtnUIFrameWorkActionConfig tempclearActionConfig = new GtnUIFrameWorkActionConfig();
-//		tempclearActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-//		tempclearActionConfig.addActionParameter(GtnFrameworkCGrpClassContants.COMPANY_GRP_TEMP_TABLE_CLEAR_ACTION);
-//		resetOnSucessActionConfigList.add(tempclearActionConfig);
+
 		resetAlertParamsList.add(resetOnSucessActionConfigList);
 
 		resetConfirmationActionConfig.setActionParameterList(resetAlertParamsList);

@@ -19,7 +19,9 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnUIFrameworkSaveViewAction
@@ -115,6 +117,18 @@ public class GtnUIFrameworkSaveViewAction
 				.getVaadinBaseComponent("reportLandingScreen_publicViews").getV8PopupFieldValue());
 		dataSelectionBean.setPublicViewName(publicViewName);
 
+                  String viewId = GtnUIFrameworkGlobalUI.getVaadinComponentData(componentId).getViewId();
+			AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
+					"variableBreakdownResultsLayout_comparisonLookupResultsPagedTableComponent", viewId).getComponent();
+			if (abstractComponent != null && abstractComponent.getData() != null) {
+				GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
+				if (gridComponent.getCustomData() instanceof List) {
+					List<GtnReportVariableBreakdownLookupBean> gtnReportVariableBreakdownLookupBeanList = (List<GtnReportVariableBreakdownLookupBean>) gridComponent
+							.getCustomData();
+					dataSelectionBean.setVariableBreakdownSaveList(gtnReportVariableBreakdownLookupBeanList);
+				}
+			}
+                        
 		GtnUIFrameWorkActionConfig popupAction = new GtnUIFrameWorkActionConfig();
 		popupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		List<Object> params = new ArrayList<>();

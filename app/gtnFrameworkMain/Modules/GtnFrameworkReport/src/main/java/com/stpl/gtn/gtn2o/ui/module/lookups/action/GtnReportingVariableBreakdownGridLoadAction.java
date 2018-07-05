@@ -243,28 +243,45 @@ public class GtnReportingVariableBreakdownGridLoadAction
 
     private void setReportProfileVariableBreakdown(GtnUIFrameworkComponentData gridComponent,Grid<GtnWsRecordBean> grid,String componentId) {
         List<Object[]> reportProfileSubmitBeanList = new ArrayList<>();
+        
+        GtnUIFrameworkBaseComponent landingScreenVariableBreakdownLookupCustomData = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponentFromParent("reportLandingScreen_reportOptionsTabVariableBreakdown", componentId);
+        
         GtnUIFrameworkBaseComponent variableBreakdownLookupCustomData = GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponentFromParent("reportingDashboardTab_reportOptionsTabVariableBreakdown", componentId);
+        if (Optional.ofNullable(landingScreenVariableBreakdownLookupCustomData.getComponentData().getCustomData()).isPresent()) {
+            List<GtnReportVariableBreakdownLookupBean> variableBreakdownReportProfileBean = (List<GtnReportVariableBreakdownLookupBean>) landingScreenVariableBreakdownLookupCustomData.getComponentData().getCustomData();
+            setVariableBreakdownFromView(gridComponent, grid, reportProfileSubmitBeanList,
+					variableBreakdownReportProfileBean);
+        }
         if (Optional.ofNullable(variableBreakdownLookupCustomData.getComponentData().getCustomData()).isPresent()) {
             List<GtnReportVariableBreakdownLookupBean> variableBreakdownReportProfileBean = (List<GtnReportVariableBreakdownLookupBean>) variableBreakdownLookupCustomData.getComponentData().getCustomData();
-            for (int start = 0; start < variableBreakdownReportProfileBean.size(); start++) {
-                ComboBox variableBreakdownGridCombo = (ComboBox) grid.getHeaderRow(variableBreakdownReportProfileBean.get(start).getRowCount())
-                        .getCell(variableBreakdownReportProfileBean.get(start).getProperty()).getComponent();
-                variableBreakdownGridCombo.setSelectedItem(variableBreakdownReportProfileBean.get(start).getSelectedVariable());
-                Object[] obj = new Object[7];
-                obj[0] = variableBreakdownReportProfileBean.get(start).getSelectedVariable();
-                obj[1] = variableBreakdownReportProfileBean.get(start).getColumnId();
-                obj[2] = variableBreakdownReportProfileBean.get(start).getMasterSid();
-                obj[3] = variableBreakdownReportProfileBean.get(start).getProperty();
-                obj[4] = variableBreakdownReportProfileBean.get(start).getProperty();
-                obj[5] = variableBreakdownReportProfileBean.get(start).getRowCount();
-                obj[6] = variableBreakdownReportProfileBean.get(start).getComponentId();
-                reportProfileSubmitBeanList.add(obj);
-            }
-
-            gridComponent.setCustomData(reportProfileSubmitBeanList);
+            setVariableBreakdownFromView(gridComponent, grid, reportProfileSubmitBeanList,
+					variableBreakdownReportProfileBean);
         }
+        
     }
+
+	private void setVariableBreakdownFromView(GtnUIFrameworkComponentData gridComponent, Grid<GtnWsRecordBean> grid,
+			List<Object[]> reportProfileSubmitBeanList,
+			List<GtnReportVariableBreakdownLookupBean> variableBreakdownReportProfileBean) {
+		for (int start = 0; start < variableBreakdownReportProfileBean.size(); start++) {
+		    ComboBox variableBreakdownGridCombo = (ComboBox) grid.getHeaderRow(variableBreakdownReportProfileBean.get(start).getRowCount())
+		            .getCell(variableBreakdownReportProfileBean.get(start).getProperty()).getComponent();
+		    variableBreakdownGridCombo.setSelectedItem(variableBreakdownReportProfileBean.get(start).getSelectedVariable());
+		    Object[] obj = new Object[7];
+		    obj[0] = variableBreakdownReportProfileBean.get(start).getSelectedVariable();
+		    obj[1] = variableBreakdownReportProfileBean.get(start).getColumnId();
+		    obj[2] = variableBreakdownReportProfileBean.get(start).getMasterSid();
+		    obj[3] = variableBreakdownReportProfileBean.get(start).getProperty();
+		    obj[4] = variableBreakdownReportProfileBean.get(start).getProperty();
+		    obj[5] = variableBreakdownReportProfileBean.get(start).getRowCount();
+		    obj[6] = variableBreakdownReportProfileBean.get(start).getComponentId();
+		    reportProfileSubmitBeanList.add(obj);
+		}
+
+		gridComponent.setCustomData(reportProfileSubmitBeanList);
+	}
 
     
 

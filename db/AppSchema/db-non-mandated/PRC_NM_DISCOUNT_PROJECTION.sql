@@ -367,7 +367,7 @@ AS
                       ON CS.PERIOD_SID = SNAD.PERIOD_SID
                          AND T_CCP.CCP_DETAILS_SID = SNAD.CCP_DETAILS_SID
                          AND T_CCP.RS_CONTRACT_SID = SNAD.RS_CONTRACT_SID
-              INNER JOIN #S_ACTUAL_TABLE SNA
+             ',case when @CALCULATION_BASED='AMOUNT' then ' left ' else ' INNER ' end,' JOIN #S_ACTUAL_TABLE SNA
                       ON CS.PERIOD_SID = SNA.PERIOD_SID
                          AND T_CCP.CCP_DETAILS_SID = SNA.CCP_DETAILS_SID
        GROUP  BY T_CCP.CCP_DETAILS_SID,
@@ -1022,4 +1022,4 @@ ON SNSP.CCP_DETAILS_SID = TR.CCP_DETAILS_SID
       END CATCH
   END
 
-GO 
+  GO
