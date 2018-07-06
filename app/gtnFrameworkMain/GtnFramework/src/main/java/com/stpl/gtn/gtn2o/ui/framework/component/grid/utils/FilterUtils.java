@@ -41,12 +41,12 @@ final public class FilterUtils {
             if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.TEXTBOX_VAADIN8) {
                 TextField textField = new TextField();
                 textField.setId(property);
-                textField.addValueChangeListener(e -> onFilterTextChange(e, pagedTreeGrid));
+                textField.addValueChangeListener(e -> onFilterTextChange(pagedTreeGrid));
                 return textField;
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
                 DateField dateField = new DateField();
                 dateField.setId(property);
-                dateField.addValueChangeListener(e -> onFilterDateChange(e, pagedTreeGrid));
+                dateField.addValueChangeListener(e -> onFilterDateChange(pagedTreeGrid));
                 return dateField;
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.COMBOBOX_VAADIN8) {
                 GtnUIFrameworkComponent component = filterConfig.getGtnComponentType().getGtnComponent();
@@ -54,7 +54,7 @@ final public class FilterUtils {
                 vaadinComponent = component.buildVaadinComponent(filterConfig.getGtnComponentConfig());
                 ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
                 vaadinCombobox.setId(property);
-                vaadinCombobox.addValueChangeListener(e -> onFilterTextChange(e, pagedTreeGrid));
+                vaadinCombobox.addValueChangeListener(e -> onFilterTextChange(pagedTreeGrid));
                 return vaadinCombobox;
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
                 Button dateFilterPopupButton = new Button("Show all");
@@ -66,11 +66,11 @@ final public class FilterUtils {
         return null;
     }
 
-    private static void onFilterTextChange(HasValue.ValueChangeEvent<String> event, PagedTreeGrid pagedTreeGrid) {
+    private static void onFilterTextChange(PagedTreeGrid pagedTreeGrid) {
         pagedTreeGrid.resetGridToInitialState();
     }
 
-    private static void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event, PagedTreeGrid pagedTreeGrid) {
+    private static void onFilterDateChange(PagedTreeGrid pagedTreeGrid) {
         pagedTreeGrid.resetGridToInitialState();
     }
 

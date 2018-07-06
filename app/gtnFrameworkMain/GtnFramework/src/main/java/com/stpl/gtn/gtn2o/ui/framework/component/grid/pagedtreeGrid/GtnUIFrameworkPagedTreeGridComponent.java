@@ -62,7 +62,6 @@ public class GtnUIFrameworkPagedTreeGridComponent
 
 		pagedTreeGrid.getGrid().getEditor().setEnabled(true);
 		pagedTreeGrid.getGrid().setData(componentData);
-		// resultLayout.setData(componentData);
 		componentData.setCurrentGtnComponent(this);
 		try {
 
@@ -167,12 +166,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
 		VerticalLayout resultLayout = (VerticalLayout) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
 		GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) resultLayout.getData();
-		// PagedTreeGrid resultsTable = (PagedTreeGrid)
-		// componentData.getCustomDataList().get(0);
-		// GtnUIFrameworkPagedTreeTableLogic tableLogic =
-		// (GtnUIFrameworkPagedTreeTableLogic) resultsTable
-		// .getLeftFreezeAsTable().getContainerLogic();
-		// tableLogic.clearAll();
+	
 	}
 
 	/**
@@ -265,9 +259,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 	}
 
 	public void configureDynamicTreeTableHeaders(PagedTreeGrid pagedTreeGrid,
-			GtnUIFrameworkPagedTreeTableConfig tableConfig, GtnUIFrameworkPagedTreeTableLogic tableLogic,
-			GtnUIFrameworkComponentData componentData, GtnWsPagedTreeTableResponse leftTableHeaders,
-			GtnWsPagedTreeTableResponse rightTableHeaders) {
+			GtnUIFrameworkPagedTreeTableConfig tableConfig ) {
 		initializeResultTable(pagedTreeGrid, tableConfig);
 
 	}

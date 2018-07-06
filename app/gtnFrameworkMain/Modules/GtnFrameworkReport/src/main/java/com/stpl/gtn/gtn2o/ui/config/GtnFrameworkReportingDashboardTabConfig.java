@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadFromInDataSelectionAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadToInDataSelectionAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportDashBoardRightHeaderRequestAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingDashboardSaveProfileAction;
@@ -387,6 +389,12 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		periodRangeFromComponentLoadConfig.setItemCaptionValues(new ArrayList<>());
 		periodRangeFromConfig.setGtnComboboxConfig(periodRangeFromComponentLoadConfig);
 		componentList.add(periodRangeFromConfig);
+		
+		GtnUIFrameWorkActionConfig loadAction = new GtnUIFrameWorkActionConfig();
+		loadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		periodRangeFromConfig.setReloadActionConfig(loadAction);
+		periodRangeFromConfig.setReloadLogicActionClassName(GtnFrameworkLoadFromInDataSelectionAction.class.getName());
+		
 	}
 
 	private void addComparisonBasisComponent(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -475,8 +483,12 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		periodRangeToComponentLoadConfig.setItemValues(new ArrayList<>());
 		periodRangeToComponentLoadConfig.setItemCaptionValues(new ArrayList<>());
 		periodRangeToConfig.setGtnComboboxConfig(periodRangeToComponentLoadConfig);
-		componentList.add(periodRangeToConfig);
-
+		componentList.add(periodRangeToConfig);		
+		
+		GtnUIFrameWorkActionConfig loadAction = new GtnUIFrameWorkActionConfig();
+		loadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		periodRangeToConfig.setReloadActionConfig(loadAction);
+		periodRangeToConfig.setReloadLogicActionClassName(GtnFrameworkLoadToInDataSelectionAction.class.getName());
 	}
 
 	private void addFilterOptionsTab(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {

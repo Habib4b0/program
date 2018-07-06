@@ -72,7 +72,7 @@ public class HeaderGeneratorService {
 		variableMap.put("Net Contract Sales", "NET_SALES");
 		variableMap.put("Net Contract Sales % of Ex-Factory", "NET_CON_SALES_PER_OF_EX");
 		variableMap.put("Net Ex-Factory Sales", "NET_EX_SALES");
-		variableMap.put("Net Ex-Factory Sales % of Total Ex-Factory Sales", "NET_EX_SALES_PER_OF_TOATL_EX");
+		variableMap.put("Net Ex-Factory Sales % of Total Ex-Factory Sales", "NET_EXP_SALES_PER_OF_TOATL_EX");
 		variableMap.put("Weighted GTN Contribution", "WEIGHTED_GTN_CONTRIBUTION");
 		variableMap.put("RPU", "RPU");
 		return variableMap;
@@ -263,11 +263,16 @@ public class HeaderGeneratorService {
 
 	}
 
+//^([Q])([0-9])*
+//^([S])([0-9])*
+//^([0-9])
+
 	private LocalDate parseDate(String periodStart, String selectedFreq) {
 		LocalDate startDate = null;
 		int previousQuaterLastMonth = 0;
 		String[] yearData = periodStart.split("\\s+");
 		Month startMonth = null;
+
 		switch (selectedFreq) {
 
 		case "Quarter":
@@ -589,7 +594,7 @@ public class HeaderGeneratorService {
 			} else if (fromPeriod.matches(GtnWsQueryConstants.YEAR_FREQUENCY)) {
 				List<Integer> yearToDateForFromPeriod = new ArrayList<>();
 				yearToDateForFromPeriod.add(Integer.valueOf(fromPeriod));
-				yearToDateForFromPeriod.add(1); 
+				yearToDateForFromPeriod.add(1);
 				yearToDateForFromPeriod.add(1);
 
 				dateFromPeriodQuery = getDateFromFrequency(yearToDateForFromPeriod);

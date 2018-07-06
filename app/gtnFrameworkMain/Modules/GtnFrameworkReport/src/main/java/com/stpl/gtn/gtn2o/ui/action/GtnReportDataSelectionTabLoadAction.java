@@ -264,6 +264,8 @@ public class GtnReportDataSelectionTabLoadAction
 			loadComparisonInReportingDashboard("reportingDashboardTab_reportingDashboardComparisonConfig", componentId,
 					reportDataSelectionBean);
 
+
+
 		} catch (Exception exception) {
 			gtnLogger.error("Error message", exception);
 		}
