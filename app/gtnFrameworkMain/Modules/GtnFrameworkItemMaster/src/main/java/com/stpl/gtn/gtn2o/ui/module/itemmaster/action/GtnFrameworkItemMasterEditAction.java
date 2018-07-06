@@ -45,7 +45,6 @@ public class GtnFrameworkItemMasterEditAction
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		return;
-
 	}
 
 	public GtnWsRecordBean getValueFromTable(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -274,7 +273,6 @@ public class GtnFrameworkItemMasterEditAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(editVisibleFields[i], sourceComponentId)
 					.setComponentVisible(value);
 		}
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -282,9 +280,11 @@ public class GtnFrameworkItemMasterEditAction
 			throws GtnFrameworkGeneralException {
 		GtnUIFrameworkBaseComponent imIdentifierTable = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCommonConstants.ITEM_MASTER_IDENTIFIERATTACH_RESULT_TABLE);
+
 		ExtContainer<GtnWsRecordBean> identifierContainer = (ExtContainer<GtnWsRecordBean>) imIdentifierTable
 				.getExtFilterTable().getContainerDataSource();
 		identifierContainer.removeAllItems();
+
 		setTableHeaderAndVisibleColumnForIdentifier(isEditable);
 		imIdentifierTable.getExtFilterTable().resetFilters();
 		loadIdentifierTab(reponseBean.getGtnWsItemIdentifierBeanList(), identifierContainer);

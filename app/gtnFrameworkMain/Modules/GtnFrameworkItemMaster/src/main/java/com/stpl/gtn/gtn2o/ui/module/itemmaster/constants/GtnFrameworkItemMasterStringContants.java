@@ -11,7 +11,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
  * @author Karthikeyan.Subraman
  */
 public class GtnFrameworkItemMasterStringContants {
-
+	
 	public static final String UDC_1="UDC 1";
 	public static final String EMPTY="";
 	public static final String UDC1="UDC1";
@@ -180,7 +180,7 @@ public class GtnFrameworkItemMasterStringContants {
 	public static final String GTN_ITEM_PRICING_DELETE_SAVE_CONFIRMATION_MSG = "Are you sure you want to save the identifiers?";
 	public static final String GTN_ITEM_MASTER_LANDING_SCREEN_VALIDATION_MSG = "Both item Identifier and item IRT Qualifier Name should be present";
 	public static final String ITEM_MASTER_NEW_FORMULATION = "itemMasterNewFormulation";
-
+	
 	private static final String[] IDENTIFIER_VISIBLE_HEADER = new String[] { "Item Qualifier Name", "Item Identifier",
 			"Identifier Status", "Start Date", "End Date", "Entity Code No", "Entity Code Name", "Modified By",
 			"Modified Date", "Created By", "Created Date" };

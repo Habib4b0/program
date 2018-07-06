@@ -43,7 +43,7 @@ public class GtnFrameworkItemMasterAddAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		gtnLogger.info("Entering GtnFrameworkItemMasterAddAction doAction ");
+		gtnLogger.info("Entering GtnFrameworkItemMasterAddAction doAction ...rrr");
 		try {
 			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 			GtnWsItemMasterInfoBean info = new GtnWsItemMasterInfoBean();
@@ -59,9 +59,8 @@ public class GtnFrameworkItemMasterAddAction
 		} finally {
 			gtnLogger.info("Exit GtnFrameworkItemMasterAddAction doAction ");
 		}
-
 	}
-
+	
 	private void loadNotesTab() {
 		GtnUIFrameworkNotesTab notesTab = (GtnUIFrameworkNotesTab) GtnUIFrameworkGlobalUI
 				.getVaadinComponent("notesTab");
@@ -132,7 +131,6 @@ public class GtnFrameworkItemMasterAddAction
             itemTypeEditCheck.selectOptionGroupValue("No");
         }
         itemTypeEditCheck.selectOptionGroupValue("Yes", isNDC9);
-   
 	}
 
 	private String getUser() {
@@ -211,7 +209,6 @@ public class GtnFrameworkItemMasterAddAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(visibleFields[i], sourceComponentId)
 					.setComponentVisible(value);
 		}
-
 	}
 
 }

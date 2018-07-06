@@ -32,8 +32,7 @@ public class GtnFrameworkItemMasterAddConfigConfig {
 		addComponentList(addView, componentConfig);
 		
 		/*
-		 * During View creation, It will check for UDC1 type
-		 * Based on UDC1 some components visibility will be setted
+		 * During View Creation, this Custom Action will be get called
 		 */
 		GtnUIFrameWorkActionConfig actionConfig=new GtnUIFrameWorkActionConfig();
 		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -179,7 +178,7 @@ public class GtnFrameworkItemMasterAddConfigConfig {
 		List<GtnUIFrameworkComponentConfig> itemInformationTabConfig = new ArrayList<>();
 		itemInformationTab.setTabLayoutComponentConfigList(itemInformationTabConfig);
 		new GtnFrameworkItemMasterInformationTabConfig().addItemInformationTab(itemInformationTabConfig);
-
+		
 		GtnUIFrameworkTabConfig addressTab = componentConfig.getTabConfig("itemMasterAdditionalInformationTab",
 				"Additional Information");
 		List<GtnUIFrameworkComponentConfig> addressTabConfig = new ArrayList<>();
@@ -370,6 +369,11 @@ public class GtnFrameworkItemMasterAddConfigConfig {
 				"acquisitionDate", "nonFederalExpirationDate", "marketTerminationDate", "newFormulationStartDate",
 				"baseCpiPeriod", "newFormulationEndDate", "authorizedGeneric", "pediatricExclusiveIndicator",
 				"clottingFactorIndicator", "dualPricingIndicator", "newFormulationIndicator", "newFormulation"));
+		
+		customAction.addActionParameter(Arrays.asList(
+				GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX,
+				GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1));
+		
 		onSucessActionConfigList.add(customAction);
 		confirmationActionConfig.setActionParameterList(alertParamsList);
 		saveActionConfigList.add(confirmationActionConfig);

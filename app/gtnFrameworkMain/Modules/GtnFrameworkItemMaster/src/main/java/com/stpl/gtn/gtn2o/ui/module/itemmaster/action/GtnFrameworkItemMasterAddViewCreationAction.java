@@ -1,7 +1,10 @@
 package com.stpl.gtn.gtn2o.ui.module.itemmaster.action;
 
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.Iterator;
+=======
+>>>>>>> 02a0d23e1644ed31a7eec8346c7d739e9887aeac
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -15,8 +18,12 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
+<<<<<<< HEAD
 public class GtnFrameworkItemMasterAddViewCreationAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+=======
+public class GtnFrameworkItemMasterAddViewCreationAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass  {
+>>>>>>> 02a0d23e1644ed31a7eec8346c7d739e9887aeac
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkItemMasterAddViewCreationAction.class);
 
 	@Override
@@ -32,19 +39,30 @@ public class GtnFrameworkItemMasterAddViewCreationAction
 			throws GtnFrameworkGeneralException {
 		gtnLogger.debug("Inside GtnFrameworkItemMasterAddViewCreationAction --> doAction... start");
 		checkUDC1Type();
+<<<<<<< HEAD
 
 		String udc1Type = (String) GtnUIFrameworkGlobalUI.getSessionProperty("UDC1");
 		if (udc1Type != null && udc1Type.equalsIgnoreCase(GtnFrameworkItemMasterStringContants.ARM_UDC_1)) {
+=======
+		String udc1Type=(String) GtnUIFrameworkGlobalUI.getSessionProperty("UDC1");
+		
+		if(udc1Type!=null && udc1Type.equalsIgnoreCase(GtnFrameworkItemMasterStringContants.ARM_UDC_1)) {
+>>>>>>> 02a0d23e1644ed31a7eec8346c7d739e9887aeac
 			activeCheckedComboBoxUdc1();
 			return;
 		}
 		activeComboBoxUdc1();
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> 02a0d23e1644ed31a7eec8346c7d739e9887aeac
 		gtnLogger.debug("Inside GtnFrameworkItemMasterAddViewCreationAction --> doAction... end");
 	}
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
+<<<<<<< HEAD
 		return new GtnFrameworkItemMasterAddViewCreationAction();
 	}
 
@@ -53,18 +71,39 @@ public class GtnFrameworkItemMasterAddViewCreationAction
 		GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkItemMasterStringContants.UDC1, udc1Type);
 	}
 
+=======
+		return this;
+	}
+	
+	private void checkUDC1Type() {
+		String udc1Type = System.getProperty(GtnFrameworkItemMasterStringContants.UDC1+"gjh");
+		GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkItemMasterStringContants.UDC1, udc1Type);
+	}
+	
+>>>>>>> 02a0d23e1644ed31a7eec8346c7d739e9887aeac
 	private void activeComboBoxUdc1() {
 		/*
 		 * Visibility Of Udc1 Component
 		 */
+<<<<<<< HEAD
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabUDC1layout").setVisible(Boolean.TRUE);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBoxLayout").setVisible(Boolean.FALSE);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1TextBoxLayout").setVisible(Boolean.FALSE);
+=======
+		
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_LAYOUT)
+			.setVisible(Boolean.TRUE);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX_LAYOUT)
+			.setVisible(Boolean.FALSE);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX_LAYOUT)
+			.setVisible(Boolean.FALSE);
+>>>>>>> 02a0d23e1644ed31a7eec8346c7d739e9887aeac
 	}
 
 	private void activeCheckedComboBoxUdc1() {
 		try {
+<<<<<<< HEAD
 			GtnFrameworkItemMasterArmUdc1Utility.initialize();
 			List<String> itemValueList = new ArrayList<>(GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ValueList());
 			List<String> itemCodeList = new ArrayList<>(GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1CodeList());
@@ -78,11 +117,21 @@ public class GtnFrameworkItemMasterAddViewCreationAction
 				if (itemValue.contains(",")) {
 					itemValueListIterator.remove();
 					itemCodeListIterator.remove();
+=======
+			List<String> itemValueList=new ArrayList<>(GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ValueList());
+			List<String> itemCodeList=new ArrayList<>(GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1CodeList());
+			
+			for(int i=0;i<itemValueList.size();i++) {
+				if (itemValueList.get(i).contains(GtnFrameworkItemMasterStringContants.COMMA)) {
+					itemValueList.remove(i);
+					itemCodeList.remove(i);
+>>>>>>> 02a0d23e1644ed31a7eec8346c7d739e9887aeac
 				}
 			}
 			/*
 			 * Setting Values in checked combo box for udc1
 			 */
+<<<<<<< HEAD
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBox").loadCheckedCombobox(
 					GtnFrameworkItemMasterStringContants.SELECT_VALUE, itemCodeList, itemValueList);
 			/*
@@ -92,6 +141,19 @@ public class GtnFrameworkItemMasterAddViewCreationAction
 					.setVisible(Boolean.TRUE);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabUDC1layout").setVisible(Boolean.FALSE);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1TextBoxLayout").setVisible(Boolean.FALSE);
+=======
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX)
+				.loadCheckedCombobox(GtnFrameworkItemMasterStringContants.SELECT_VALUE, itemCodeList, itemValueList);
+			/*
+			 * Visibility Of Udc1 Component
+			 */
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX_LAYOUT)
+				.setVisible(Boolean.TRUE);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_LAYOUT)
+				.setVisible(Boolean.FALSE);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_TEXT_BOX_LAYOUT)
+				.setVisible(Boolean.FALSE);
+>>>>>>> 02a0d23e1644ed31a7eec8346c7d739e9887aeac
 		} catch (GtnFrameworkValidationFailedException e) {
 			gtnLogger.error("Error in GtnFrameworkItemMasterAddViewCreationAction --> activeCheckedComboBoxUdc1", e);
 		}

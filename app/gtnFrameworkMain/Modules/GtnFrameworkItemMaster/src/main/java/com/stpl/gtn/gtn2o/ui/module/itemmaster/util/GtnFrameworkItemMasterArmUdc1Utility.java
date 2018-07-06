@@ -19,7 +19,6 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 
 public class GtnFrameworkItemMasterArmUdc1Utility {
-
 	private static GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkItemMasterArmUdc1Utility.class);
 	private static List<String> armUdc1ValueList = null;
 	private static List<String> armUdc1CodeList = null;
@@ -30,6 +29,7 @@ public class GtnFrameworkItemMasterArmUdc1Utility {
 		 * Singleton Class
 		 */
 	}
+
 
 	private static synchronized void createValueCodeHashMap() {
 		if (codeValueArmUdc1HashMap != null) {
