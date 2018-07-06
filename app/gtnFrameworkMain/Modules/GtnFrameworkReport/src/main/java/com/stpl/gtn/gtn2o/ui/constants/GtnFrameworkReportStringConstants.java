@@ -45,6 +45,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String HIGHEST_LEVEL = "highestLevel";
 	
 	public static final String STPL_PADDING_FRAMEWORK = "stpl-padding-top-13";
+	
+	public static final String STPL_PADDING_TOP_17 = "stpl-padding-top-17";
 
 	public static final String CUSTOMER_HIERARCHY_GROUP_BUILDER = "Customer Hierarchy Group Builder";
 
