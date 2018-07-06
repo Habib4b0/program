@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterAddViewCreationAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingTempTableClearAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterClassContants;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterStringContants;
@@ -29,6 +30,15 @@ public class GtnFrameworkItemMasterAddConfigConfig {
 		GtnFrameworkComponentConfigProvider componentConfig = GtnFrameworkComponentConfigProvider.getInstance();
 		GtnUIFrameworkViewConfig addView = componentConfig.getViewConfig("Add View", "V002", false);
 		addComponentList(addView, componentConfig);
+		
+		/*
+		 * During View creation, It will check for UDC1 type
+		 * Based on UDC1 some components visibility will be setted
+		 */
+		GtnUIFrameWorkActionConfig actionConfig=new GtnUIFrameWorkActionConfig();
+		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		actionConfig.addActionParameter(GtnFrameworkItemMasterAddViewCreationAction.class.getName());
+		addView.addViewAction(actionConfig);
 		return addView;
 	}
 

@@ -12,6 +12,12 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
  */
 public class GtnFrameworkItemMasterStringContants {
 
+	public static final String UDC_1="UDC 1";
+	public static final String EMPTY="";
+	public static final String UDC1="UDC1";
+	public static final String COMMA=",";
+	public static final String SELECT_VALUE="-Select Value-";
+	public static final String ARM_UDC_1="ARM_UDC1";
 	private static final String ITEM_PRICING_END_DATE = "itemPricingEndDate";
 	private static final String ITEM_PRICING_ENTITY_CODE_NAME = "itemPricingEntityCodeName";
 	private static final String ITEM_PRICING_START_DATE = "itemPricingStartDate";
@@ -395,7 +401,7 @@ public class GtnFrameworkItemMasterStringContants {
 	}
 
 	public static List<String> getItemMasterItemIdentifierDatefieldproperties() {
-		return ITEM_MASTER_ITEM_IDENTIFIER_DATEFIELDPROPERTIES;
+		return Collections.unmodifiableList(ITEM_MASTER_ITEM_IDENTIFIER_DATEFIELDPROPERTIES);
 	}
 
 	public static List<String> getItemMasterItemIdentifierEditablefieldlist() {

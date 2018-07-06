@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterStringContants;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.util.GtnFrameworkItemMasterArmUdc1Utility;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -164,6 +165,46 @@ public class GtnFrameworkItemMasterEditAction
 				GtnUIFrameworkActionType.DISABLE_ACTION);
 		imEditDisableAction.setActionParameterList(disabledFields);
 		GtnUIFrameworkActionExecutor.executeSingleAction(sourceComponentId, imEditDisableAction);
+
+	}
+
+	/*
+	 * It will check UDC1 type, if it is ARM_UDC1 
+	 * and the mode is EDIT then it must be checked combo box
+	 * and In View mode, it will be Text Box
+	 */
+	private void checkARMUDC1(Integer udc1, boolean isEditable) {
+		String udc1Type = (String) GtnUIFrameworkGlobalUI.getSessionProperty("UDC1");
+		if (udc1Type != null && udc1Type.equalsIgnoreCase(GtnFrameworkItemMasterStringContants.ARM_UDC_1)) {
+			if (isEditable) {
+				setValuesForUdc1CheckedComboBox(udc1);
+				return;
+			}
+			setValuesForUDC1TextBox(udc1);
+			return;
+		}
+	}
+
+	private void setValuesForUDC1TextBox(Integer udc1Code) {
+		String itemValue = GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemValue(udc1Code);
+
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1TextBox").loadFieldValue(itemValue);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1TextBoxLayout").setVisible(Boolean.TRUE);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabUDC1layout").setVisible(Boolean.FALSE);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBoxLayout").setVisible(Boolean.FALSE);
+	}
+
+	private void setValuesForUdc1CheckedComboBox(Integer udc1Id) {
+		String armUdc1 = GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemValue(udc1Id);
+		String[] values = armUdc1.split(",");
+		List<Integer> codeList = new ArrayList<>();
+		for (String value : values) {
+			codeList.add(GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemCode(value));
+		}
+
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBox")
+				.loadCheckedValueCustomMenuBar(codeList);
+
 	}
 
 	private void configureIdentifierTab(boolean isEditable) throws GtnFrameworkValidationFailedException {
@@ -200,6 +241,7 @@ public class GtnFrameworkItemMasterEditAction
 		try {
 			GtnWsItemMasterInfoBean info = bean.getGtnWsItemMasterInfoBean();
 			configureInformationTabComponents(sourceComponentId, info);
+			checkARMUDC1(info.getUdc1(), isEditable);
 			configureIdentifierTab(isEditable);
 			configurePricingTab(isEditable);
 			configureButton(sourceComponentId, isEditable);
