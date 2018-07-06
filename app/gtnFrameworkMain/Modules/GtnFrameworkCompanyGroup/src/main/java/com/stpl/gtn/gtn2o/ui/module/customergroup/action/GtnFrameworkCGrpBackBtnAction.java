@@ -39,7 +39,7 @@ public class GtnFrameworkCGrpBackBtnAction
 			throws GtnFrameworkGeneralException {
 
 		List<Object> actionConfigList = new ArrayList<>(
-				gtnUIFrameWorkActionConfig.getActionParameterList().subList(1, 4));
+				gtnUIFrameWorkActionConfig.getActionParameterList().subList(1, 5));
 
 		GtnUIFrameWorkActionConfig conformationAction = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CONFIRMATION_ACTION);
