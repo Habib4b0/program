@@ -5,6 +5,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -94,8 +95,16 @@ public class GtnUIFrameworkSaveViewAction
 
 		dataSelectionBean.setSelectedProductHierarchyList(selectedProductList);
 
-		int customViewName = Integer.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(17).toString()).getCaptionFromV8ComboBox());
+		Optional.ofNullable(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(17).toString()).getCaptionFromV8ComboBox()).ifPresent(e->{
+					try {
+						dataSelectionBean.setCustomView(Integer.valueOf(GtnUIFrameworkGlobalUI
+								.getVaadinBaseComponent(actionParamsList.get(17).toString()).getCaptionFromV8ComboBox()));
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				});
+		
 		List<Object> selectedVariableList = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(18).toString()).getSelectedListFromV8MultiSelect();
 		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = new ArrayList<>();
@@ -106,7 +115,7 @@ public class GtnUIFrameworkSaveViewAction
 		}
 		int frequency = Integer.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(20).toString()).getCaptionFromV8ComboBox());
-		dataSelectionBean.setCustomView(customViewName);
+		
 		dataSelectionBean.setFrequency(frequency);
 		dataSelectionBean.setComparisonProjectionBeanList(comparisonProjectionBeanList);
 		dataSelectionBean.setVariablesList(selectedVariableList);
