@@ -211,8 +211,8 @@ public class GtnReportDataSelectionReGenerateAction
 			GtnWsRecordBean customerHierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_customerHierarchy", componentId).getComponentData()
 					.getCustomData();
-			dataSelectionBean.setCustomerHierarchySid((Integer) customerHierarchyBean
-					.getPropertyValueByIndex(customerHierarchyBean.getProperties().size() - 1));
+			dataSelectionBean.setCustomerHierarchySid(Integer.valueOf(String.valueOf(customerHierarchyBean
+					.getPropertyValueByIndex(customerHierarchyBean.getProperties().size() - 1))));
 			dataSelectionBean.setCustomerRelationshipBuilderSid(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_customerSelectionRelationship", componentId)
 					.getCaptionFromV8ComboBox())));
@@ -246,8 +246,8 @@ public class GtnReportDataSelectionReGenerateAction
 			GtnWsRecordBean productHierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId).getComponentData()
 					.getCustomData();
-			dataSelectionBean.setProductHierarchySid((Integer) productHierarchyBean
-					.getPropertyValueByIndex(productHierarchyBean.getProperties().size() - 1));
+			dataSelectionBean.setProductHierarchySid(Integer.valueOf(String.valueOf(productHierarchyBean
+					.getPropertyValueByIndex(productHierarchyBean.getProperties().size() - 1))));
 			dataSelectionBean.setProductRelationshipBuilderSid(Integer.valueOf(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_relationship", componentId).getCaptionFromV8ComboBox()));
 			dataSelectionBean.setProductHierarchyVersionNo(Integer.valueOf(GtnUIFrameworkGlobalUI

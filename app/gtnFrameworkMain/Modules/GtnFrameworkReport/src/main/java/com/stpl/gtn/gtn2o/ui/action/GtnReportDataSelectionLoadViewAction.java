@@ -45,6 +45,7 @@ public class GtnReportDataSelectionLoadViewAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		try{
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromParent(actionParamList.get(1).toString(), componentId).getComponentData()
@@ -87,8 +88,8 @@ public class GtnReportDataSelectionLoadViewAction
 						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchy", componentId)
 				.setV8PopupFieldValue(customerHierarchyRecordBean.getPropertyValueByIndex(0));
 
-		Integer hierarchyDefinitionSid = (Integer) customerHierarchyRecordBean
-				.getPropertyValueByIndex(customerHierarchyRecordBean.getProperties().size() - 1);
+		Integer hierarchyDefinitionSid = (Integer.valueOf(String.valueOf(customerHierarchyRecordBean
+				.getPropertyValueByIndex(customerHierarchyRecordBean.getProperties().size() - 1))));
 
 		String relationshipId = nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ "customerSelectionRelationship";
@@ -134,8 +135,8 @@ public class GtnReportDataSelectionLoadViewAction
 						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy", componentId)
 				.setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
 
-		Integer productHierarchyDefinitionSid = (Integer) productRecordBean
-				.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1);
+		Integer productHierarchyDefinitionSid = (Integer.valueOf(String.valueOf(productRecordBean
+				.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1))));
 
 		String productRelationshipId = nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "relationship";
 		GtnUIFrameworkComboBoxConfig productRelationComboboxConfig = GtnUIFrameworkGlobalUI
@@ -212,6 +213,10 @@ public class GtnReportDataSelectionLoadViewAction
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_reportOptionsTabVariableBreakdown")
 		.getComponentData().setCustomData(Optional.ofNullable(dataSelectionBean.getVariableBreakdownSaveList()).isPresent() == true ? dataSelectionBean.getVariableBreakdownSaveList() : new ArrayList<>());
+		}
+		catch(Exception ex){
+			gtnLogger.error("Error message", ex);
+		}
 	}
 
 	private Object getDisplayValue(GtnWsReportDataSelectionBean dataSelectionBean) {
