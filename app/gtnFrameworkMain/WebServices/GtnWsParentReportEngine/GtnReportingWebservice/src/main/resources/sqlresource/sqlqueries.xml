@@ -810,28 +810,28 @@
 		<![CDATA[
 		from
 			ST_CCP_HIERARCHY ST_CCP_HIERARCHY 
-		join CCP_DETAILS ccd on
+		JOIN CCP_DETAILS ccd on
 			ccd.CCP_DETAILS_SID = ST_CCP_HIERARCHY.CCP_DETAILS_SID 
-		join CONTRACT_MASTER cm on
+		JOIN CONTRACT_MASTER cm on
 			cm.CONTRACT_MASTER_SID = ccd.CONTRACT_MASTER_SID 
-		join COMPANY_MASTER com on
+		JOIN COMPANY_MASTER com on
 			com.COMPANY_MASTER_SID = ccd.COMPANY_MASTER_SID 
-		join ITEM_MASTER im on
+		JOIN ITEM_MASTER im on
 			im.ITEM_MASTER_SID = ccd.ITEM_MASTER_SID 
-		left join RS_CONTRACT rc on
+		JOIN RS_CONTRACT rc on
 			rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID 
-		left join RS_CONTRACT_DETAILS rcd on
+		JOIN RS_CONTRACT_DETAILS rcd on
 			rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID
 			and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID
 		]]>
 	</entry>
 	<entry key="deduction-dynamic-filter">
 		<![CDATA[
-		join CONTRACT_MASTER cm on
+		JOIN CONTRACT_MASTER cm on
 			cm.CONTRACT_MASTER_SID = CCP_DETAILS.CONTRACT_MASTER_SID 
-		join COMPANY_MASTER com on
+		JOIN COMPANY_MASTER com on
 			com.COMPANY_MASTER_SID = CCP_DETAILS.COMPANY_MASTER_SID 
-		join ITEM_MASTER im on
+		JOIN ITEM_MASTER im on
 			im.ITEM_MASTER_SID = CCP_DETAILS.ITEM_MASTER_SID 
 		]]>
 	</entry>
@@ -841,7 +841,7 @@
 				distinct ST_CCP_HIERARCHY.ccp_details_sid
 			from
 		    	ST_CCP_HIERARCHY ST_CCP_HIERARCHY
-			join CCP_details CCP_DETAILS on
+			JOIN CCP_details CCP_DETAILS on
 				CCP_DETAILS.ccp_details_sid = ST_CCP_HIERARCHY.ccp_details_sid
 		]]>
 	</entry>
