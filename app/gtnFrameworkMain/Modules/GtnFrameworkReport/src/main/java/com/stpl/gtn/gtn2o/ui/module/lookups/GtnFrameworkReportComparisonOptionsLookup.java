@@ -480,7 +480,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		comparisonBreakdownHeaderLoadAction.addActionParameter("dataSelectionTab_STATUS");				
 		comparisonBreakdownLookupResultsPagedTableConfig
 				.setGtnUIFrameWorkActionConfig(comparisonBreakdownHeaderLoadAction);
-		comparisonBreakdownLookupResultsPagedTableConfig.setGridHeaderCustomClassLoadUrl(
+		comparisonBreakdownLookupResultsPagedTableConfig.setGridHeaderCustomClassLoadURL(
 				GtnFrameworkReportStringConstants.REPORT_COMPARISON_BREAKDOWN_HEADER_ACTION);
 		comparisonBreakdownLookupResultsPagedTableComponent
 				.setGtnPagedTableConfig(comparisonBreakdownLookupResultsPagedTableConfig);
