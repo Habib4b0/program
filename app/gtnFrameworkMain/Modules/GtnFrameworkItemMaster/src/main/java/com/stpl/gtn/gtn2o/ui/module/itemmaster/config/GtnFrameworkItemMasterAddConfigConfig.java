@@ -370,10 +370,6 @@ public class GtnFrameworkItemMasterAddConfigConfig {
 				"baseCpiPeriod", "newFormulationEndDate", "authorizedGeneric", "pediatricExclusiveIndicator",
 				"clottingFactorIndicator", "dualPricingIndicator", "newFormulationIndicator", "newFormulation"));
 		
-		customAction.addActionParameter(Arrays.asList(
-				GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_CHECKED_COMBO_BOX,
-				GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1));
-		
 		onSucessActionConfigList.add(customAction);
 		confirmationActionConfig.setActionParameterList(alertParamsList);
 		saveActionConfigList.add(confirmationActionConfig);

@@ -62,7 +62,7 @@ public class GtnFrameworkItemMasterArmUdc1Utility {
 		armUdc1CodeList = new ArrayList<>(response.getItemCodeList());
 	}
 	
-	private static void reset() {
+	private static synchronized void reset() {
 		armUdc1ValueList=null;
 		armUdc1CodeList=null;
 		codeValueArmUdc1HashMap=null;

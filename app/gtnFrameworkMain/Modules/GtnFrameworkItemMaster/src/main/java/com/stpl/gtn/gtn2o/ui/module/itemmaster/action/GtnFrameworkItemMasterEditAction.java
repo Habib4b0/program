@@ -168,9 +168,8 @@ public class GtnFrameworkItemMasterEditAction
 	}
 
 	/*
-	 * It will check UDC1 type, if it is ARM_UDC1 
-	 * and the mode is EDIT then it must be checked combo box
-	 * and In View mode, it will be Text Box
+	 * It will check UDC1 type, if it is ARM_UDC1 and the mode is EDIT then it
+	 * must be checked combo box and In View mode, it will be Text Box
 	 */
 	private void checkARMUDC1(Integer udc1, boolean isEditable) {
 		String udc1Type = (String) GtnUIFrameworkGlobalUI.getSessionProperty("UDC1");

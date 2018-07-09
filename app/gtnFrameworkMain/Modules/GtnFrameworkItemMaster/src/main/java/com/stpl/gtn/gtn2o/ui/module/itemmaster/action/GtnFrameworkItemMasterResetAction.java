@@ -14,7 +14,6 @@ import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecu
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
-import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterStringContants;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.util.GtnFrameworkItemMasterArmUdc1Utility;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
@@ -143,8 +142,8 @@ public class GtnFrameworkItemMasterResetAction implements GtnUIFrameWorkAction, 
 					.loadFieldValue(getUserName(info.getModifiedBy()));
 
 			/*
-			 * It will check whether UDC1 is ARM_UDC1 or not
-			 * If it will be ARM_UDC1, it reset UDC1 checked combo box
+			 * It will check whether UDC1 is ARM_UDC1 or not If it will be
+			 * ARM_UDC1, it reset UDC1 checked combo box
 			 */
 			checkARMUDC1(info.getUdc1());
 			break;
@@ -198,19 +197,23 @@ public class GtnFrameworkItemMasterResetAction implements GtnUIFrameWorkAction, 
 
 	private void checkARMUDC1(Integer udc1Code) {
 		String udc1Type = (String) GtnUIFrameworkGlobalUI.getSessionProperty("UDC1");
-		if (udc1Type != null && udc1Type.equals("ARM_UDC1") && udc1Code != null) {
-			setARMUDC1Value(udc1Code);
+		if (udc1Code == null && udc1Type!=null && udc1Type.equals("ARM_UDC1")) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBox")
+					.loadCheckedValueCustomMenuBar(Collections.emptyList());
 			return;
 		}
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBox")
-				.loadCheckedValueCustomMenuBar(Collections.emptyList());
+		if (udc1Type != null && udc1Type.equals("ARM_UDC1")) {
+			setARMUDC1Value(udc1Code);
+			return;
+		}
 	}
 
 	private void setARMUDC1Value(Integer udc1Code) {
 		String armUdc1 = GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemValue(udc1Code);
 		String[] values = armUdc1.split(",");
 		List<Integer> codeList = new ArrayList<>();
+
 		for (String value : values) {
 			codeList.add(GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemCode(value));
 		}

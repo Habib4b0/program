@@ -16,7 +16,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
-import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterAddAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterItemTypeAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterClassContants;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterStringContants;
@@ -830,7 +829,7 @@ public class GtnFrameworkItemMasterInformationTabConfig {
 			GtnFrameworkComponentConfigProvider componentConfig) {
 
 		GtnUIFrameworkComponentConfig udc1Layout = componentConfig.getHorizontalLayoutConfig(
-				GtnFrameworkItemMasterStringContants.ITEM_INFORMATION_TAB_UDC_1_LAYOUT, 
+				"itemInformationTabUDC1layout", 
 				Boolean.TRUE, 
 				GtnFrameworkCommonConstants.ITEM_INFORMATION_TAB_LAYOUT);
 		componentList.add(udc1Layout);
@@ -842,7 +841,7 @@ public class GtnFrameworkItemMasterInformationTabConfig {
 		componentList.add(udc1);
 
 		GtnUIFrameworkComboBoxConfig itemGroupConfig = componentConfig.getComboBoxConfig(
-				GtnFrameworkItemMasterStringContants.ITEM_UDC1,
+				"ITEM_UDC1",
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		udc1.setGtnComboboxConfig(itemGroupConfig);

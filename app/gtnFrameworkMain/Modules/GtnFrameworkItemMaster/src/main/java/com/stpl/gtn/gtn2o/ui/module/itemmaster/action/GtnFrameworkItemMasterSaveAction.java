@@ -112,10 +112,10 @@ public class GtnFrameworkItemMasterSaveAction
 			throws GtnFrameworkGeneralException {
 		List<String> fields = (List<String>) gtnUIFrameWorkActionConfig.getActionParameterList().get(1);
 		List<String> beanFields = (List<String>) gtnUIFrameWorkActionConfig.getActionParameterList().get(2);
-		List<String> udc1Fields = (List<String>) gtnUIFrameWorkActionConfig.getActionParameterList().get(3);
+
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsItemMasterBean cfpBean = setProperties(fields, beanFields);
-		getValueForUdc1(cfpBean.getGtnWsItemMasterInfoBean(), udc1Fields);
+		getValueForUdc1(cfpBean.getGtnWsItemMasterInfoBean());
 
 		GtnWsItemMasterRequest cfpRequest = new GtnWsItemMasterRequest();
 		cfpRequest.setGtnWsItemMasterBean(cfpBean);
@@ -132,54 +132,54 @@ public class GtnFrameworkItemMasterSaveAction
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
-	private void getValueForUdc1(GtnWsItemMasterInfoBean gtnWsItemMasterInfoBean, List<String> udc1Fields) {
-		String udc1=(String) GtnUIFrameworkGlobalUI.getSessionProperty("UDC1");
-		if(udc1 !=null && udc1.equals("ARM_UDC1")) {
-			getSelectedUdc1ItemFromCheckedComboBox(gtnWsItemMasterInfoBean, udc1Fields.get(0));
+	private void getValueForUdc1(GtnWsItemMasterInfoBean gtnWsItemMasterInfoBean) {
+		String udc1 = (String) GtnUIFrameworkGlobalUI.getSessionProperty("UDC1");
+		if (udc1 != null && udc1.equals("ARM_UDC1")) {
+			getSelectedUdc1ItemFromCheckedComboBox(gtnWsItemMasterInfoBean);
 			return;
 		}
-		getSelectedUdc1ItemFromComboBox(gtnWsItemMasterInfoBean, udc1Fields.get(1));
+		getSelectedUdc1ItemFromComboBox(gtnWsItemMasterInfoBean);
 	}
 
-	private void getSelectedUdc1ItemFromComboBox(GtnWsItemMasterInfoBean gtnWsItemMasterInfoBean, String componentId) {
+	private void getSelectedUdc1ItemFromComboBox(GtnWsItemMasterInfoBean gtnWsItemMasterInfoBean) {
 		try {
-			gtnWsItemMasterInfoBean.setUdc1(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getIntegerFromField());
+			gtnWsItemMasterInfoBean.setUdc1(
+					GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabUDC1").getIntegerFromField());
 		} catch (GtnFrameworkValidationFailedException e) {
-			logger.error("Error in GtnFrameworkItemMasterSaveAction --> getSelectedUdc1ItemFromComboBox" , e);
+			logger.error("Error in GtnFrameworkItemMasterSaveAction --> getSelectedUdc1ItemFromComboBox", e);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private void getSelectedUdc1ItemFromCheckedComboBox(GtnWsItemMasterInfoBean gtnWsItemMasterInfoBean, String checkedComboBoxId) {
+	private void getSelectedUdc1ItemFromCheckedComboBox(GtnWsItemMasterInfoBean gtnWsItemMasterInfoBean) {
 		try {
-			List<String[]> selectedValue=
-					(List<String[]>) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(checkedComboBoxId).getValueFromComponent();
+			List<String[]> selectedValue = (List<String[]>) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBox").getValueFromComponent();
 
-			if(selectedValue != null && selectedValue.size() > 1) {
-				StringBuilder stringBuilder=new StringBuilder();
-				for(String[] stringArray : selectedValue) {
+			if (selectedValue != null && selectedValue.size() > 1) {
+				StringBuilder stringBuilder = new StringBuilder();
+				for (String[] stringArray : selectedValue) {
 					stringBuilder.append(stringArray[1]);
 					stringBuilder.append(GtnFrameworkItemMasterStringContants.COMMA);
 				}
 				stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(GtnFrameworkItemMasterStringContants.COMMA));
-				int componentId=getIdForArmUdc1(stringBuilder.toString());
-				logger.info("component Id:"+componentId);
+				int componentId = getIdForArmUdc1(stringBuilder.toString());
 				gtnWsItemMasterInfoBean.setUdc1(componentId);
 				return;
 			}
-			
-			if(selectedValue != null) {
-				String[] value=selectedValue.get(0);
+
+			if (selectedValue != null) {
+				String[] value = selectedValue.get(0);
 				gtnWsItemMasterInfoBean.setUdc1(Integer.parseInt(value[2]));
 				return;
 			}
-			
+
 			gtnWsItemMasterInfoBean.setUdc1(GtnWsNumericConstants.ZERO);
 		} catch (GtnFrameworkValidationFailedException e) {
-			logger.error("Error in GtnFrameworkItemMasterSaveAction --> getSelectedUdc1ItemCheckedComboBox" , e);
+			logger.error("Error in GtnFrameworkItemMasterSaveAction --> getSelectedUdc1ItemCheckedComboBox", e);
 		}
 	}
-	
+
 	private int getIdForArmUdc1(String descriptionValue) {
 		return GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemCode(descriptionValue);
 	}
@@ -235,14 +235,14 @@ public class GtnFrameworkItemMasterSaveAction
 		}
 
 		itemMasterBean.setGtnWsItemIdentifierBeanList(identifierSaveList);
-		
+
 		checkARMUDC1(infoBean);
 		return itemMasterBean;
 	}
 
 	/*
-	 * It will check, if UDC1 type is ARM_UDC1 or not
-	 * If it is ARM_UDC1, then udc1 value will be taken from UDC1 checked combo box
+	 * It will check, if UDC1 type is ARM_UDC1 or not If it is ARM_UDC1, then
+	 * udc1 value will be taken from UDC1 checked combo box
 	 */
 	private void checkARMUDC1(GtnWsItemMasterInfoBean infoBean) {
 		String udc1Type = (String) GtnUIFrameworkGlobalUI.getSessionProperty("UDC1");
@@ -395,15 +395,15 @@ public class GtnFrameworkItemMasterSaveAction
 				.getVaadinBaseComponent("itemMasterIdentifierattachResultTable").getExtFilterTable()
 				.getContainerDataSource();
 		imIdentifierContainer.removeAllItems();
-		
+
 		loadIdentifierTab(reponseBean.getGtnWsItemIdentifierBeanList(), imIdentifierContainer);
 
 		ExtContainer<GtnWsRecordBean> imPricingContainer = (ExtContainer<GtnWsRecordBean>) GtnUIFrameworkGlobalUI
-				//.getVaadinBaseComponent("itemMasterPricingattachResultTable").getExtFilterTable()
-				.getVaadinBaseComponent(GtnFrameworkCommonConstants.ITEM_MASTER_PRICINGATTACH_RESULT_TABLE).getExtFilterTable()
-				.getContainerDataSource();
+				// .getVaadinBaseComponent("itemMasterPricingattachResultTable").getExtFilterTable()
+				.getVaadinBaseComponent(GtnFrameworkCommonConstants.ITEM_MASTER_PRICINGATTACH_RESULT_TABLE)
+				.getExtFilterTable().getContainerDataSource();
 		imPricingContainer.removeAllItems();
-		
+
 		loadPricingTab();
 	}
 

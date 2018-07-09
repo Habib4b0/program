@@ -43,7 +43,7 @@ public class GtnFrameworkItemMasterAddAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		gtnLogger.info("Entering GtnFrameworkItemMasterAddAction doAction ...rrr");
+		gtnLogger.info("Entering GtnFrameworkItemMasterAddAction doAction");
 		try {
 			GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 			GtnWsItemMasterInfoBean info = new GtnWsItemMasterInfoBean();
@@ -60,7 +60,7 @@ public class GtnFrameworkItemMasterAddAction
 			gtnLogger.info("Exit GtnFrameworkItemMasterAddAction doAction ");
 		}
 	}
-	
+
 	private void loadNotesTab() {
 		GtnUIFrameworkNotesTab notesTab = (GtnUIFrameworkNotesTab) GtnUIFrameworkGlobalUI
 				.getVaadinComponent("notesTab");
@@ -97,7 +97,8 @@ public class GtnFrameworkItemMasterAddAction
 				info.getNewFormulation(), null, GtnFrameworkCommonStringConstants.STRING_EMPTY, null, null, null,
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
 				GtnFrameworkCommonStringConstants.STRING_EMPTY, null, null, null,
-				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,null });
+				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
+				null });
 
 		GtnUIFrameWorkActionConfig imAddDefaultValueActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
@@ -121,16 +122,18 @@ public class GtnFrameworkItemMasterAddAction
 				GtnUIFrameworkActionType.DISABLE_ACTION);
 		imDisableAction.setActionParameterList(disabledFields);
 		GtnUIFrameworkActionExecutor.executeSingleAction(sourceComponentId, imDisableAction);
-                
-      boolean isNDC9 = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ITEM_INFORMATION_TAB_ITEM_TYPE)
-                .getCaptionFromComboBox().equals("NDC 9");
-        GtnUIFrameworkBaseComponent itemTypeEditCheck = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabNewFormulationIndicator", sourceComponentId);
-        if (isNDC9) {
-            itemTypeEditCheck.selectOptionGroupValue("Yes");
-        } else {
-            itemTypeEditCheck.selectOptionGroupValue("No");
-        }
-        itemTypeEditCheck.selectOptionGroupValue("Yes", isNDC9);
+
+		boolean isNDC9 = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkCommonConstants.ITEM_INFORMATION_TAB_ITEM_TYPE)
+				.getCaptionFromComboBox().equals("NDC 9");
+		GtnUIFrameworkBaseComponent itemTypeEditCheck = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("itemInformationTabNewFormulationIndicator", sourceComponentId);
+		if (isNDC9) {
+			itemTypeEditCheck.selectOptionGroupValue("Yes");
+		} else {
+			itemTypeEditCheck.selectOptionGroupValue("No");
+		}
+		itemTypeEditCheck.selectOptionGroupValue("Yes", isNDC9);
 	}
 
 	private String getUser() {
