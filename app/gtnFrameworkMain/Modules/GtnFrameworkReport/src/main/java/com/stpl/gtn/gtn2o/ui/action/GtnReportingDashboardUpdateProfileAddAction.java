@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
