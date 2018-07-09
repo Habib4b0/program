@@ -13,17 +13,17 @@ public class GtnWsReportDataSelectionBean {
 		super();
 	}
 
-	private long customerHierarchySid;
-	private long productHierarchySid;
-	private int customerHierarchyForecastLevel;
-	private int productHierarchyForecastLevel;
+	private Integer customerHierarchySid;
+	private Integer productHierarchySid;
+	private Integer customerHierarchyForecastLevel;
+	private Integer productHierarchyForecastLevel;
 	private String name;
-	private int productRelationshipBuilderSid;
-	private int customerRelationshipBuilderSid;
-	private int customerHierarchyVersionNo;
-	private int productHierarchyVersionNo;
-	private int customerRelationshipVersionNo;
-	private int productRelationshipVersionNo;
+	private Integer productRelationshipBuilderSid;
+	private Integer customerRelationshipBuilderSid;
+	private Integer customerHierarchyVersionNo;
+	private Integer productHierarchyVersionNo;
+	private Integer customerRelationshipVersionNo;
+	private Integer productRelationshipVersionNo;
 	private Date forecastEligibleDate;
 	private String userId;
 	private String sessionId;
@@ -42,9 +42,9 @@ public class GtnWsReportDataSelectionBean {
 	private List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList;
 	private Date fromPeriod;
 	private Date toPeriodReport;
-	private int frequency;
+	private Integer frequency;
 	private String frequencyName;
-	private int reportDataSource;
+	private Integer reportDataSource;
 
 	private String viewName;
 	private String viewType;
@@ -60,7 +60,7 @@ public class GtnWsReportDataSelectionBean {
 
 	private List<GtnReportComparisonBreakdownLookupBean> comparisonBreakdownSaveList;
 	private List<Object> variablesList;
-	private int customView;
+	private Integer customView;
 	private boolean dataRefreshDone = false;
 
 	private String privateViewName;
@@ -100,53 +100,53 @@ public class GtnWsReportDataSelectionBean {
 		this.variableBreakdownHeaderLoadList = variableBreakdownHeaderLoadList;
 	}
 
-	private int customViewMasterSid;
+	private Integer customViewMasterSid;
 
-	public int getProductRelationshipBuilderSid() {
+	public Integer getProductRelationshipBuilderSid() {
 		return productRelationshipBuilderSid;
 	}
 
-	public void setProductRelationshipBuilderSid(int productRelationshipBuilderSid) {
+	public void setProductRelationshipBuilderSid(Integer productRelationshipBuilderSid) {
 		this.productRelationshipBuilderSid = productRelationshipBuilderSid;
 	}
 
-	public int getCustomerRelationshipBuilderSid() {
+	public Integer getCustomerRelationshipBuilderSid() {
 		return customerRelationshipBuilderSid;
 	}
 
-	public void setCustomerRelationshipBuilderSid(int customerRelationshipBuilderSid) {
+	public void setCustomerRelationshipBuilderSid(Integer customerRelationshipBuilderSid) {
 		this.customerRelationshipBuilderSid = customerRelationshipBuilderSid;
 	}
 
-	public int getCustomerHierarchyVersionNo() {
+	public Integer getCustomerHierarchyVersionNo() {
 		return customerHierarchyVersionNo;
 	}
 
-	public void setCustomerHierarchyVersionNo(int customerHierarchyVersionNo) {
+	public void setCustomerHierarchyVersionNo(Integer customerHierarchyVersionNo) {
 		this.customerHierarchyVersionNo = customerHierarchyVersionNo;
 	}
 
-	public int getProductHierarchyVersionNo() {
+	public Integer getProductHierarchyVersionNo() {
 		return productHierarchyVersionNo;
 	}
 
-	public void setProductHierarchyVersionNo(int productHierarchyVersionNo) {
+	public void setProductHierarchyVersionNo(Integer productHierarchyVersionNo) {
 		this.productHierarchyVersionNo = productHierarchyVersionNo;
 	}
 
-	public int getCustomerRelationshipVersionNo() {
+	public Integer getCustomerRelationshipVersionNo() {
 		return customerRelationshipVersionNo;
 	}
 
-	public void setCustomerRelationshipVersionNo(int customerRelationshipVersionNo) {
+	public void setCustomerRelationshipVersionNo(Integer customerRelationshipVersionNo) {
 		this.customerRelationshipVersionNo = customerRelationshipVersionNo;
 	}
 
-	public int getProductRelationshipVersionNo() {
+	public Integer getProductRelationshipVersionNo() {
 		return productRelationshipVersionNo;
 	}
 
-	public void setProductRelationshipVersionNo(int productRelationshipVersionNo) {
+	public void setProductRelationshipVersionNo(Integer productRelationshipVersionNo) {
 		this.productRelationshipVersionNo = productRelationshipVersionNo;
 	}
 
@@ -158,35 +158,35 @@ public class GtnWsReportDataSelectionBean {
 		this.forecastEligibleDate = forecastEligibleDate;
 	}
 
-	public long getCustomerHierarchySid() {
+	public Integer getCustomerHierarchySid() {
 		return customerHierarchySid;
 	}
 
-	public void setCustomerHierarchySid(long customerHierarchySid) {
+	public void setCustomerHierarchySid(Integer customerHierarchySid) {
 		this.customerHierarchySid = customerHierarchySid;
 	}
 
-	public long getProductHierarchySid() {
+	public Integer getProductHierarchySid() {
 		return productHierarchySid;
 	}
 
-	public void setProductHierarchySid(long productHierarchySid) {
+	public void setProductHierarchySid(Integer productHierarchySid) {
 		this.productHierarchySid = productHierarchySid;
 	}
 
-	public int getCustomerHierarchyForecastLevel() {
+	public Integer getCustomerHierarchyForecastLevel() {
 		return customerHierarchyForecastLevel;
 	}
 
-	public void setCustomerHierarchyForecastLevel(int customerHierarchyForecastLevel) {
+	public void setCustomerHierarchyForecastLevel(Integer customerHierarchyForecastLevel) {
 		this.customerHierarchyForecastLevel = customerHierarchyForecastLevel;
 	}
 
-	public int getProductHierarchyForecastLevel() {
+	public Integer getProductHierarchyForecastLevel() {
 		return productHierarchyForecastLevel;
 	}
 
-	public void setProductHierarchyForecastLevel(int productHierarchyForecastLevel) {
+	public void setProductHierarchyForecastLevel(Integer productHierarchyForecastLevel) {
 		this.productHierarchyForecastLevel = productHierarchyForecastLevel;
 	}
 
@@ -358,19 +358,19 @@ public class GtnWsReportDataSelectionBean {
 		this.comparisonProjectionBeanList = comparisonProjectionBeanList;
 	}
 
-	public int getCustomViewMasterSid() {
+	public Integer getCustomViewMasterSid() {
 		return customViewMasterSid;
 	}
 
-	public void setCustomViewMasterSid(int customViewMasterSid) {
+	public void setCustomViewMasterSid(Integer customViewMasterSid) {
 		this.customViewMasterSid = customViewMasterSid;
 	}
 
-	public int getFrequency() {
+	public Integer getFrequency() {
 		return frequency;
 	}
 
-	public void setFrequency(int frequency) {
+	public void setFrequency(Integer frequency) {
 		this.frequency = frequency;
 	}
 
@@ -382,11 +382,11 @@ public class GtnWsReportDataSelectionBean {
 		this.frequencyName = frequencyName;
 	}
 
-	public int getReportDataSource() {
+	public Integer getReportDataSource() {
 		return reportDataSource;
 	}
 
-	public void setReportDataSource(int reportDataSource) {
+	public void setReportDataSource(Integer reportDataSource) {
 		this.reportDataSource = reportDataSource;
 	}
 
@@ -409,11 +409,11 @@ public class GtnWsReportDataSelectionBean {
 		return this.sessionTableMap.get(key);
 	}
 
-	public int getCustomView() {
+	public Integer getCustomView() {
 		return customView;
 	}
 
-	public void setCustomView(int customView) {
+	public void setCustomView(Integer customView) {
 		this.customView = customView;
 	}
 
