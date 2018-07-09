@@ -269,8 +269,6 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 							gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
 							gtnWsReportCustomCCPListDetails.indexOf(row), reportDashboardBean.getDisplayFormat())))
 					.collect(Collectors.toList());
-                        result.forEach(this::aggregate);
-                        return result;
 
 		} catch (IOException | NumberFormatException ex) {
 			GTNLOGGER.error(ex.getMessage(), ex);
