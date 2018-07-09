@@ -104,6 +104,8 @@ public class GtnWsWorkflowQueryContants {
 	public static final String YYYYSSS = "yyyy-MM-dd hh:mm:ss.SSS";
 	public static final String MMYYYYSS = "MM/dd/yyyy hh:mm:ss";
 	public static final String WORKFLOWLOOKUPSLASH = "/workFlowLookup";
+	public static final String BU_COMP = "BU_COMp";
+	public static final String COMPANY_NO = "COMPANY_NO";
         
         
     

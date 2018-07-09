@@ -89,10 +89,6 @@ public class GtnUIFrameworkPagedGridLogic {
 					componentConfig.getGtnPagedTableConfig().getColumnCheckBoxId());
 			searchCriteriaList.add(searchCriteria);
 			serviceRequest.getGtnWsSearchRequest().setGtnWebServiceSearchCriteriaList(searchCriteriaList);
-			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-			GtnUIFrameworkWebserviceResponse checkedRecordCountresponse = wsclient.callGtnWebServiceUrl(countUrl,
-					componentConfig.getModuleName(), serviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-
 		}
 
 	}
