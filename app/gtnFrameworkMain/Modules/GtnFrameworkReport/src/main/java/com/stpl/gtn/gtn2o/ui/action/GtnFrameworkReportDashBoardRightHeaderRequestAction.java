@@ -92,16 +92,16 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 			reportDashBoardBean.setPeriodStart(perioFromComponent.getStringCaptionFromV8ComboBox());
 		} else {
 			reportDashBoardBean.setPeriodRangeFromSid(perioFromComponent.getNthIntegerFromV8ComboBox(1));
-			reportDashBoardBean.setPeriodStart(
-					perioFromComponent.getNthStringCaptionFromV8ComboBox(1)
-							.replaceAll(" - ", " "));
+			reportDashBoardBean
+					.setPeriodStart(perioFromComponent.getNthStringCaptionFromV8ComboBox(1).replaceAll(" - ", " "));
 		}
 
 		reportDashBoardBean.setPeriodRangeToSid(periodToComponent.getIntegerFromV8ComboBox());
 		if (reportDashBoardBean.getPeriodRangeToSid() != 0) {
 			reportDashBoardBean.setPeriodTo(periodToComponent.getStringCaptionFromV8ComboBox());
 		} else {
-			reportDashBoardBean.setPeriodRangeToSid(periodToComponent.getNthIntegerFromV8ComboBox(periodToComponent.totalItemsInComboBox()-1));
+			reportDashBoardBean.setPeriodRangeToSid(
+					periodToComponent.getNthIntegerFromV8ComboBox(periodToComponent.totalItemsInComboBox() - 1));
 			reportDashBoardBean.setPeriodTo(
 					periodToComponent.getNthStringCaptionFromV8ComboBox(periodToComponent.totalItemsInComboBox() - 1)
 							.replaceAll(" - ", " "));
