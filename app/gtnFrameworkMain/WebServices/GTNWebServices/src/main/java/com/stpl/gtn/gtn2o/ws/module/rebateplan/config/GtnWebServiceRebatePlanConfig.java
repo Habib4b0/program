@@ -69,11 +69,11 @@ public class GtnWebServiceRebatePlanConfig implements GtnWsSearchQueryConfigLoad
 				configProvider.getColumnStringConfig("NET_SALES_FORMULA_NAME", "NSFM"));
 		fieldToColumnDetailsMap.put("netSalesRule", configProvider.getColumnStringConfig("RULE_NAME", "CDRM"));
 		fieldToColumnDetailsMap.put("creationDate", configProvider.getColumnDateConfig("CREATED_DATE", "RP"));
-		fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnStringConfig("firstName+' '+rpCreatedBy.lastName", "rpCreatedBy", "rpCreatedByCol"));
+		fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnStringConfig("firstName+' '+rpCreatedBy.lastName", "rpCreatedBy", "rpCreatedBy",GtnFrameworkWebserviceConstant.USER_ID));
                 
 		fieldToColumnDetailsMap.put("modifiedDate", configProvider.getColumnDateConfig("MODIFIED_DATE", "RP"));
                 fieldToColumnDetailsMap.put("modifiedBy", configProvider
-					.getColumnStringConfig("firstName+' '+rpModifiedBy.lastName", "rpModifiedBy", "rpModifiedByCol")); 
+					.getColumnStringConfig("firstName+' '+rpModifiedBy.lastName", "rpModifiedBy", "rpModifiedBy",GtnFrameworkWebserviceConstant.USER_ID)); 
 		fieldToColumnDetailsMap.put("recordLockStatus",
 				configProvider.getColumnStringConfig("RECORD_LOCK_STATUS", "RP"));
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);

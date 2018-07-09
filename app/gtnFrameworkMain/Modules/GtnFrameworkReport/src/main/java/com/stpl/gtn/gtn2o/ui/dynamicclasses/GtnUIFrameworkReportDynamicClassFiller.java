@@ -41,8 +41,8 @@ import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionSubmitAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDashboardFrequencyLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataAssumptionsTabLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionDeleteViewAction;
-import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionReGenerateAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionLoadViewAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionReGenerateAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionResetAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionTabLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionViewAddAction;
@@ -240,11 +240,10 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
         GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportingDashboardUpdateProfileAddAction.class.getName(),
                 new GtnReportingDashboardUpdateProfileAddAction());
        
-
-        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkLoadToInDataSelectionAction.class.getName(),
-                new GtnFrameworkLoadToInDataSelectionAction());
         GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkLoadFromInDataSelectionAction.class.getName(),
                 new GtnFrameworkLoadFromInDataSelectionAction());        
+        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkLoadToInDataSelectionAction.class.getName(),
+                new GtnFrameworkLoadToInDataSelectionAction());  
         GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportDashboardComparisonResultsSearchAction.class.getName(),
 				new GtnReportDashboardComparisonResultsSearchAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportDataSelectionReGenerateAction.class.getName(),
