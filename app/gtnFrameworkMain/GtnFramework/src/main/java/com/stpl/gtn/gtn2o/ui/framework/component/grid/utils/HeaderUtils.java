@@ -125,7 +125,6 @@ public class HeaderUtils {
 
 	public static void addTripleHeader(List<Object> currentSingleColumns, PagedTreeGrid pagedTreeGrid) {
 		if (pagedTreeGrid.getTableConfig().isTripleHeaderVisible()) {
-			HeaderRow doubleHeader = pagedTreeGrid.getGrid().getHeaderRow(1);
 			HeaderRow groupingHeader = pagedTreeGrid.getGrid().prependHeaderRow();
 			int j = 0;
 			for (Object property : pagedTreeGrid.getTableConfig().getRightTableTripleHeaderVisibleColumns()) {
@@ -182,7 +181,7 @@ public class HeaderUtils {
 		if (pagedTreeGrid.getTableConfig().getCheckBoxVisibleColoumn() != null) {
 			pagedTreeGrid.getTableConfig().getCheckBoxVisibleColoumn().stream().map((columnId) -> {
 				return columnId;
-			}).forEach((columnId) -> {
+			}).forEach(columnId -> {
 				CheckBox vaadinCheckBoxGroup = new CheckBox();
 				row.getCell(columnId).setComponent(vaadinCheckBoxGroup);
 			});

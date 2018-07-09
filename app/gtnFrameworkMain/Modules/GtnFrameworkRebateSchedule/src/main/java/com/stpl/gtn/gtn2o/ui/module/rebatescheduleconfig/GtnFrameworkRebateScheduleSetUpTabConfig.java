@@ -278,11 +278,11 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig validateAction = configProvider.getUIFrameworkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION,
-				GtnUIFrameWorkRSSaveRebateSetupTabMandatoryAlert.class.getName(), "populate");
+				GtnUIFrameWorkRSSaveRebateSetupTabMandatoryAlert.class.getName(), GtnFrameworkRSConstants.POPULATE);
 
 		actionConfigList.add(validateAction);
 		GtnUIFrameWorkActionConfig customAction = configProvider.getUIFrameworkActionConfig(
-				GtnUIFrameworkActionType.CUSTOM_ACTION, GtnFrameworkRSConstants.RS_POPULATE_ACTION, "populate");
+				GtnUIFrameworkActionType.CUSTOM_ACTION, GtnFrameworkRSConstants.RS_POPULATE_ACTION, GtnFrameworkRSConstants.POPULATE);
 
 		customAction.setFieldValues(Arrays.asList("CFPCompanyAdditionSearchField", "CFPCompanyAdditionSearchValue",
 				GtnFrameworkRSConstants.REBATE_SETUP_TAB_RECORD_TYPE));
@@ -307,7 +307,7 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
                 List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig validateAction = configProvider.getUIFrameworkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION,
-				GtnUIFrameWorkRSSaveRebateSetupTabMandatoryAlert.class.getName(), "populate");
+				GtnUIFrameWorkRSSaveRebateSetupTabMandatoryAlert.class.getName(), GtnFrameworkRSConstants.POPULATE);
 
 		actionConfigList.add(validateAction);
 

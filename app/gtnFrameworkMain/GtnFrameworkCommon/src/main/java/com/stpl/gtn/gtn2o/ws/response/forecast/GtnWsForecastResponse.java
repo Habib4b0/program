@@ -70,7 +70,7 @@ public class GtnWsForecastResponse {
 	private List<String> excelSplitWorksheetName;
 
 	private int excelLeftTableEndIndex;
-
+       
 	public GtnForecastBean getGtnForecastBean() {
 		return gtnForecastBean;
 	}
@@ -165,7 +165,7 @@ public class GtnWsForecastResponse {
 	 * @return the single columns
 	 */
 	public List<Object> getSingleColumns() {
-		return singleColumn != null ? singleColumn : new ArrayList<Object>();
+		return singleColumn != null ? singleColumn : new ArrayList<>();
 	}
 
 	/**
@@ -174,7 +174,11 @@ public class GtnWsForecastResponse {
 	 * @return the single headers
 	 */
 	public List<String> getSingleHeaders() {
-		return singleHeader!= null ? singleHeader : new ArrayList<String>();
+            if (singleHeader != null) {
+                return singleHeader;
+            } else {
+                return new ArrayList<>();
+            }
 	}
 
 	/**
@@ -183,7 +187,7 @@ public class GtnWsForecastResponse {
 	 * @return the double columns
 	 */
 	public List<Object> getDoubleColumns() {
-		return doubleColumn!= null ? doubleColumn : new ArrayList<Object>();
+		return doubleColumn!= null ? doubleColumn : new ArrayList<>();
 	}
 
 	/**

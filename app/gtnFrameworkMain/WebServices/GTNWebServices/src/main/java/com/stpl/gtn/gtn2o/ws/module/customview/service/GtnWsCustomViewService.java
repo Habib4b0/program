@@ -43,6 +43,7 @@ import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import java.util.Locale;
 
 /**
  *
@@ -277,7 +278,7 @@ public class GtnWsCustomViewService {
                 CustViewDetails details = new CustViewDetails();
                 GtnWsRecordBean dto = cvTreeNodeList.get(j);
                 String indicator = dto.getStringPropertyByIndex(3);
-                if (variableType.toLowerCase().contains("static") && indicator.toLowerCase().startsWith("v")) {
+                if (variableType.toLowerCase(Locale.ENGLISH).contains("static") && indicator.toLowerCase(Locale.ENGLISH).startsWith("v")) {
                     variablesList.add(dto);
                     if (j + 1 < cvTreeNodeList.size()) {
                         continue;
@@ -315,7 +316,7 @@ public class GtnWsCustomViewService {
                     details.setCustomViewMasterSid(customViewMasterSid);
                     details.setHierarchyId(dto.getIntegerPropertyByIndex(4));
 
-                    details.setHierarchyIndicator(indicator.toUpperCase().charAt(0));
+                    details.setHierarchyIndicator(indicator.toUpperCase(Locale.ENGLISH).charAt(0));
                     details.setLevelName(dto.getStringPropertyByIndex(0));
                     levelCount++;
                     details.setLevelNo(levelCount);
