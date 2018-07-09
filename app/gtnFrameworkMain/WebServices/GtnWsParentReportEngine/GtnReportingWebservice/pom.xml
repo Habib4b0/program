@@ -73,24 +73,5 @@
 	</dependencies>
 	<build>
 		<finalName>GtnReportingWebservice</finalName>
-                <plugins>
-                <plugin>
-                    <artifactId>maven-antrun-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <phase>install</phase>
-                            <configuration>
-                                <tasks>
-                                 <property name="antProperty" value="${project.build.directory}/${project.build.finalName}.${project.packaging}"/>
-                                 <copy file="${antProperty}" todir="D:\Karthik\26-dec\wildflly_ws\bpigtn_ws\wildfly-10.0.0\standalone\deployments"/>
-                                </tasks>
-                            </configuration>
-                            <goals>
-                                <goal>run</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-           </plugins>
 	</build>
 </project>
