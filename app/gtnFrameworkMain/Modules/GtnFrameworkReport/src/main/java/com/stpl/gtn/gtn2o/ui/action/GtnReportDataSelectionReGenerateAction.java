@@ -103,6 +103,8 @@ public class GtnReportDataSelectionReGenerateAction
 
 		String fromPeriod = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId)
 				.getCaptionFromV8ComboBox();
+		String fromPeriodValue = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId).getStringCaptionFromV8ComboBox();
 		boolean isFromPeriodChanged = isUpdated(fromPeriod, String.valueOf(dataSelectionBean.getFromPeriodReport()));
 
 		updateCustomer(isCustomerChanged, dataSelectionBean, selectedCustomerList, componentId);
@@ -115,7 +117,7 @@ public class GtnReportDataSelectionReGenerateAction
 		updateCompany(isCompanyChanged, company, dataSelectionBean);
 		updateBusinessUnit(isBusinessUnitChanged, businessUnit, dataSelectionBean);
 		updateReportDataSource(isReportDataSourceChanged, reportDataSource, dataSelectionBean);
-		updateFromPeriod(isFromPeriodChanged, fromPeriod, dataSelectionBean, componentId);
+		updateFromPeriod(isFromPeriodChanged, fromPeriod, dataSelectionBean, componentId, fromPeriodValue);
 		if (isCustomerChanged || isProductChanged || isComparisonProjectionChanged || isCustomView || isFrequencyChanged
 				|| isReportDataSourceChanged || isFromPeriodChanged) {
 			callRegenerate(dataSelectionBean);
@@ -211,8 +213,8 @@ public class GtnReportDataSelectionReGenerateAction
 			GtnWsRecordBean customerHierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_customerHierarchy", componentId).getComponentData()
 					.getCustomData();
-			dataSelectionBean.setCustomerHierarchySid((Integer) customerHierarchyBean
-					.getPropertyValueByIndex(customerHierarchyBean.getProperties().size() - 1));
+			dataSelectionBean.setCustomerHierarchySid(Integer.valueOf(String.valueOf(
+					customerHierarchyBean.getPropertyValueByIndex(customerHierarchyBean.getProperties().size() - 1))));
 			dataSelectionBean.setCustomerRelationshipBuilderSid(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_customerSelectionRelationship", componentId)
 					.getCaptionFromV8ComboBox())));
@@ -246,8 +248,8 @@ public class GtnReportDataSelectionReGenerateAction
 			GtnWsRecordBean productHierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId).getComponentData()
 					.getCustomData();
-			dataSelectionBean.setProductHierarchySid((Integer) productHierarchyBean
-					.getPropertyValueByIndex(productHierarchyBean.getProperties().size() - 1));
+			dataSelectionBean.setProductHierarchySid(Integer.valueOf(String.valueOf(
+					productHierarchyBean.getPropertyValueByIndex(productHierarchyBean.getProperties().size() - 1))));
 			dataSelectionBean.setProductRelationshipBuilderSid(Integer.valueOf(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_relationship", componentId).getCaptionFromV8ComboBox()));
 			dataSelectionBean.setProductHierarchyVersionNo(Integer.valueOf(GtnUIFrameworkGlobalUI
@@ -356,26 +358,27 @@ public class GtnReportDataSelectionReGenerateAction
 	}
 
 	private void updateFromPeriod(boolean isFromPeriodChanged, String fromPeriod,
-			GtnWsReportDataSelectionBean dataSelectionBean, String componentId)
-			throws GtnFrameworkGeneralException {
+			GtnWsReportDataSelectionBean dataSelectionBean, String componentId, String fromPeriodValue) throws GtnFrameworkGeneralException {
 		if (isFromPeriodChanged) {
 			dataSelectionBean.setFromPeriodReport(Integer.valueOf(fromPeriod));
-			loadPeriodRangeFrom(componentId);
-			loadPeriodRangeTo(componentId);
+			 loadPeriodRangeFrom(componentId, fromPeriodValue);
+			 loadPeriodRangeTo(componentId, fromPeriodValue);
 		}
 	}
-	
-	private void loadPeriodRangeTo(String componentId) throws GtnFrameworkGeneralException {
+
+	private void loadPeriodRangeTo(String componentId, String fromPeriodValue) throws GtnFrameworkGeneralException {
 		GtnUIFrameWorkActionConfig toPeriodLoadAction = new GtnUIFrameWorkActionConfig();
 		toPeriodLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		toPeriodLoadAction.addActionParameter(GtnFrameworkLoadToInDataSelectionAction.class.getName());
+		toPeriodLoadAction.addActionParameter(fromPeriodValue);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, toPeriodLoadAction);
 	}
 
-	private void loadPeriodRangeFrom(String componentId) throws GtnFrameworkGeneralException {
+	private void loadPeriodRangeFrom(String componentId, String fromPeriodValue) throws GtnFrameworkGeneralException {
 		GtnUIFrameWorkActionConfig fromPeriodLoadAction = new GtnUIFrameWorkActionConfig();
 		fromPeriodLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		fromPeriodLoadAction.addActionParameter(GtnFrameworkLoadFromInDataSelectionAction.class.getName());
+		fromPeriodLoadAction.addActionParameter(fromPeriodValue);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, fromPeriodLoadAction);
 	}
 

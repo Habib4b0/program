@@ -20,7 +20,8 @@ public class GtnWsIfpQueryContants {
                 +" LEFT JOIN HELPER_TABLE ifpTypeHelper on\n" +"IFP.IFP_TYPE = ifpTypeHelper.HELPER_TABLE_SID"
                 +" LEFT JOIN HELPER_TABLE ifpStatusHelper on\n" +"IFP.IFP_STATUS = ifpStatusHelper.HELPER_TABLE_SID"
                 +" LEFT JOIN HELPER_TABLE ifpCategoryHelper on\n" +"IFP.IFP_CATEGORY = ifpCategoryHelper.HELPER_TABLE_SID"
-                + " LEFT JOIN HELPER_TABLE ifpDesignationHelper on IFP.IFP_DESIGNATION = ifpDesignationHelper.HELPER_TABLE_SID";
+                + " LEFT JOIN HELPER_TABLE ifpDesignationHelper on IFP.IFP_DESIGNATION = ifpDesignationHelper.HELPER_TABLE_SID"
+                + " JOIN @SYS.dbo.User_ ifpCreatedBy on ifpCreatedBy.userId  = IFP.CREATED_BY";
 	public static final String GTN_IFP_SEARCH_QUERY = " FROM IFP_MODEL IFP JOIN IFP_DETAILS IFD ON IFP.IFP_MODEL_SID=IFD.IFP_MODEL_SID "
 			+ "JOIN ITEM_MASTER IM ON IFD.ITEM_MASTER_SID=IM.ITEM_MASTER_SID"                
                 +" LEFT JOIN HELPER_TABLE ifpTypeHelper on\n" +"IFP.IFP_TYPE = ifpTypeHelper.HELPER_TABLE_SID"

@@ -263,28 +263,12 @@ public class GtnReportDataSelectionTabLoadAction
 
 			loadComparisonInReportingDashboard("reportingDashboardTab_reportingDashboardComparisonConfig", componentId,
 					reportDataSelectionBean);
-			
-			loadPeriodRangeFrom(componentId);
-			
-			loadPeriodRangeTo(componentId);
+
+
 
 		} catch (Exception exception) {
 			gtnLogger.error("Error message", exception);
 		}
-	}
-
-	private void loadPeriodRangeTo(String componentId) throws GtnFrameworkGeneralException {
-		GtnUIFrameWorkActionConfig toPeriodLoadAction = new GtnUIFrameWorkActionConfig();
-		toPeriodLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		toPeriodLoadAction.addActionParameter(GtnFrameworkLoadToInDataSelectionAction.class.getName());
-		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, toPeriodLoadAction);
-	}
-
-	private void loadPeriodRangeFrom(String componentId) throws GtnFrameworkGeneralException {
-		GtnUIFrameWorkActionConfig fromPeriodLoadAction = new GtnUIFrameWorkActionConfig();
-		fromPeriodLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		fromPeriodLoadAction.addActionParameter(GtnFrameworkLoadFromInDataSelectionAction.class.getName());
-		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, fromPeriodLoadAction);
 	}
 
 	private String getDisplayValue(List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {

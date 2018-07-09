@@ -41,10 +41,7 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 			String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
 			GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
-			String frequency = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_landingScreenVariableBreakdownFrequencyConfig",
-							componentId)
-					.getStringCaptionFromV8ComboBox();
+			String frequency = dataSelectionBean.getFrequencyName();
 			dataSelectionBean.setFromOrToForDataSelection("FROM");
 			GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 			GtnWsReportRequest reportRequest = new GtnWsReportRequest();
@@ -54,9 +51,11 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 					GtnWsReportConstants.GTN_REPORT_SERVICE
 							+ GtnWsReportConstants.GTN_WS_REPORT_DASHBOARD_LOAD_FROM_AND_TO_IN_DATA_SELECTION,
 					"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-			String periodAndYearInLandingScreen = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponentFromParent("dataSelectionTab_fromPeriod", componentId)
-					.getStringCaptionFromV8ComboBox();
+			String periodAndYearInLandingScreen = gtnUIFrameWorkActionConfig.getActionParameterList().get(1) != null
+					? gtnUIFrameWorkActionConfig.getActionParameterList().get(1).toString()
+					: GtnUIFrameworkGlobalUI
+							.getVaadinBaseComponentFromParent("reportLandingScreen_fromPeriod", componentId)
+							.getStringCaptionFromV8ComboBox();
 
 			periodAndYearInLandingScreen = periodAndYearInLandingScreen.replaceAll(" ", "");
 
@@ -81,13 +80,18 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId)
 					.addAllItemsToComboBox(itemValueList, itemCodeList);
+
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId)
+					.loadV8ComboBoxComponentValue(itemCodeList.get(0));
+
 		} catch (ParseException e) {
 			logger.error(e.getMessage());
 		}
 
 	}
 
-	private int getRangeToBeRemoved(List<String> itemValueList, String stringToBeCompared) {
+	public static int getRangeToBeRemoved(List<String> itemValueList, String stringToBeCompared) {
 		int count = 0;
 		for (String s : itemValueList) {
 			if (s.equals(stringToBeCompared))
@@ -98,7 +102,7 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 		return count;
 	}
 
-	private String getTheStringToBeCompared(String frequency, String periodAndYearInLandingScreen)
+	public static String getTheStringToBeCompared(String frequency, String periodAndYearInLandingScreen)
 			throws ParseException {
 		String stringToBeCompared = null;
 
@@ -117,7 +121,7 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 		return stringToBeCompared;
 	}
 
-	private String convertFromMonthBasedOnSelectedFrequency(String frequency, String periodAndYearInLandingScreen)
+	public static String convertFromMonthBasedOnSelectedFrequency(String frequency, String periodAndYearInLandingScreen)
 			throws ParseException {
 		String stringToBeCompared;
 		Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(periodAndYearInLandingScreen.substring(0, 3));
@@ -140,7 +144,7 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 		return stringToBeCompared;
 	}
 
-	private String convertFromSemiAnnualToSelectedFrequency(String frequency, String periodAndYearInLandingScreen,
+	public static String convertFromSemiAnnualToSelectedFrequency(String frequency, String periodAndYearInLandingScreen,
 			String stringToBeCompared) {
 		if (frequency.startsWith("M")) {
 			int semiAnnualIdForMonth = Character.getNumericValue(periodAndYearInLandingScreen.charAt(1));
@@ -164,7 +168,7 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 		return stringToBeCompared;
 	}
 
-	private String convertFromQuarterToSelectedFrequency(String frequency, String periodAndYearInLandingScreen,
+	public static String convertFromQuarterToSelectedFrequency(String frequency, String periodAndYearInLandingScreen,
 			String stringToBeCompared) {
 		if (frequency.startsWith("M")) {
 			int quarterIdForMonth = Character.getNumericValue(periodAndYearInLandingScreen.charAt(1));
@@ -194,7 +198,7 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 		return stringToBeCompared;
 	}
 
-	private String convertFromYearToSelectedFrequency(String frequency, String periodAndYearInLandingScreen,
+	public static String convertFromYearToSelectedFrequency(String frequency, String periodAndYearInLandingScreen,
 			String stringToBeCompared) {
 
 		if (frequency.startsWith("M")) {
