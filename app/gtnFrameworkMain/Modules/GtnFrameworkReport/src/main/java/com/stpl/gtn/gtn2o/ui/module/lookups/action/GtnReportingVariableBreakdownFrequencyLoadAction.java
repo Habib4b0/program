@@ -5,6 +5,10 @@
  */
 package com.stpl.gtn.gtn2o.ui.module.lookups.action;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -19,11 +23,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.ui.AbstractComponent;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import java.util.List;
 
 /**
  *

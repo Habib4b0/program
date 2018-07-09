@@ -199,6 +199,7 @@ public class GtnWsCustomViewService {
                 response.setCustomViewName(master.getCustViewName());
                 response.setCustomViewType(master.getCustViewType());
                 response.setCvSysId(cvRequest.getCvSysId());
+                cvRequest.setCustomViewType(master.getCustViewType());
                 response.setCvTreeNodeList(getSavedTreeData(cvRequest));
 
             }
@@ -282,7 +283,12 @@ public class GtnWsCustomViewService {
                     if (j + 1 < cvTreeNodeList.size()) {
                         continue;
                     }
+                }else if (variableType.toLowerCase().contains("expandable")
+                        && indicator.toLowerCase().startsWith("v")) {
+                    variablesList
+                            .addAll(getRecordBeanFromObjectArray((List<List<Object>>) dto.getPropertyValueByIndex(5)));
                 }
+                
                 if (!variablesList.isEmpty()) {
 
                     // Variable Level Insert
@@ -463,13 +469,15 @@ public class GtnWsCustomViewService {
         GtnWsRecordBean gtnWsRecordBean;
         for (CustViewDetails detailsData : gtnListOfData) {
 
-            String levelName;
+            String levelName = "";
             if (detailsData.getHierarchyId() != 0) {
                 Criteria relationCriteria = session.createCriteria(RelationshipLevelDefinition.class);
                 relationCriteria.add(Restrictions.eq("hierarchyLevelDefinition.hierarchyLevelDefinitionSid", detailsData.getHierarchyId()));
                 List<RelationshipLevelDefinition> relationData = relationCriteria.list();
                 levelName = relationData.isEmpty()?"":relationData.get(0).getLevelName();
-            } else {
+            }  else if( cvRequest.getCustomViewType().contains("Expandable")){
+                levelName="Variables";
+            }  else {
                 fetchReportVariables(detailsData, recordTreeData);
                 continue;
             }
