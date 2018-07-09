@@ -61,9 +61,6 @@ public class GtnCustomerAvailableTableLoadAction
 		Integer selectedLevelNo = Integer.valueOf(
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)), componentId)
 						.getCaptionFromV8ComboBox());
-		String selectedLevel = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)), componentId)
-				.getStringCaptionFromV8ComboBox();
 		LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(String.valueOf(actionParamList.get(5)), componentId).getFieldValue();
 		if (date != null) {

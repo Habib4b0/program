@@ -111,6 +111,9 @@
 		<move todir="${DB_Script}/App_Schema/Sql_Script/09_Future_events">
 			<fileset dir="${DB_Script}/App_Schema/db-future-events" />
 		</move>
+		<move todir="${DB_Script}/App_Schema/Sql_Script/10_Reporting">
+			<fileset dir="${DB_Script}/App_Schema/db-reporting" />
+		</move>
 		<move todir="${DB_Script}/Staging_Schema/Sql_Script/01_Staging">
 			<fileset dir="${DB_Script}/Staging_Schema/db-staging" />
 		</move>
