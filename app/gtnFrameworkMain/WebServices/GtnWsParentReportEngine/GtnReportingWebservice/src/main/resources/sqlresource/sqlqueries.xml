@@ -838,11 +838,12 @@
 	<entry key="filterOptionsGenerateQuery">
 		<![CDATA[
 			select
-				distinct ST_CCP_HIERARCHY.ccp_details_sid
+				distinct ST_CCP_HIERARCHY.ccp_details_sid, CCS.HIERARCHY_NO
 			from
 		    	ST_CCP_HIERARCHY ST_CCP_HIERARCHY
 			JOIN CCP_details CCP_DETAILS on
 				CCP_DETAILS.ccp_details_sid = ST_CCP_HIERARCHY.ccp_details_sid
+			JOIN ST_CUSTOM_CCP_SALES CCS ON CCS.CCP_DETAILS_SID=CCP_DETAILS.CCP_DETAILS_SID
 		]]>
 	</entry>
 	
