@@ -399,9 +399,8 @@ public class GtnFrameworkItemMasterSaveAction
 		loadIdentifierTab(reponseBean.getGtnWsItemIdentifierBeanList(), imIdentifierContainer);
 
 		ExtContainer<GtnWsRecordBean> imPricingContainer = (ExtContainer<GtnWsRecordBean>) GtnUIFrameworkGlobalUI
-				// .getVaadinBaseComponent("itemMasterPricingattachResultTable").getExtFilterTable()
-				.getVaadinBaseComponent(GtnFrameworkCommonConstants.ITEM_MASTER_PRICINGATTACH_RESULT_TABLE)
-				.getExtFilterTable().getContainerDataSource();
+				 .getVaadinBaseComponent("itemMasterPricingattachResultTable").getExtFilterTable()
+				 .getContainerDataSource();
 		imPricingContainer.removeAllItems();
 
 		loadPricingTab();
