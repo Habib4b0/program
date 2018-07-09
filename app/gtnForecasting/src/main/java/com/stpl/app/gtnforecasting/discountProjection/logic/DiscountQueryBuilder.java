@@ -427,7 +427,8 @@ public class DiscountQueryBuilder {
                         + "DECLARE @FREQUENCY CHAR(1)='" + frequency.charAt(0) + "'";
 
                 if ("Discount Rate".equals(selectedField) || "RPU".equals(selectedField)) {
-                    customSql = declareStatement +rebateHiearachyJoin + SQlUtil.getQuery("discRatemassPopulate");
+                    String rateQuery = SQlUtil.getQuery("discRatemassPopulate");
+                    customSql = declareStatement +rebateHiearachyJoin + rateQuery;
                     customSql = customSql.replaceAll("@SELDISC", "" + selectedDiscounts);
                     customSql = customSql.replace("@COL2", column2);
                     customSql = customSql.replace("@DISCTYPE ", discountType + " IN ");
