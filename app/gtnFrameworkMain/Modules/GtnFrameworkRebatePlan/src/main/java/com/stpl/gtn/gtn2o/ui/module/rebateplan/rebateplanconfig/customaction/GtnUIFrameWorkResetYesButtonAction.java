@@ -33,6 +33,7 @@ import com.stpl.gtn.gtn2o.ws.response.rebateplan.GtnWsRebatePlanGeneralResponse;
 public class GtnUIFrameWorkResetYesButtonAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
     private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnUIFrameWorkResetYesButtonAction.class);
+    String actionType ;
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -49,7 +50,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 		GtnWsRebatePlanInfoBean rebatePlanInfoBean = new GtnWsRebatePlanInfoBean();
 		String mode = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode"));
 		Integer rebatePlanSid = (Integer) GtnUIFrameworkGlobalUI.getSessionProperty("systemId");
-		String actionType = String.valueOf(actionParamList.get(1));
+		 actionType = String.valueOf(actionParamList.get(1));
 		int position = 0;
 		if (actionType.equalsIgnoreCase("RESET_ALL")) {
 			position = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanAddViewtabSheet")
@@ -257,6 +258,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 		Double tierFrom = 0d;
 		List<GtnWsRecordBean> resultLiist = new ArrayList<>();
 		GtnWsRecordBean dto;
+                 resetOnAddMode(resultTableId);
 		for (GtnWsRebatePlanRuleDetailBean ruleDetailsBean : rebatePlaninfoBean.getRebatePlanRuleDetailBean()) {
 			tierFrom = ruleDetailsBean.getFromDesc();
 			tierTo = ruleDetailsBean.getToDesc();
@@ -264,6 +266,8 @@ public class GtnUIFrameWorkResetYesButtonAction
 			List<Object> recordHeader = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(resultTableId)
 					.getTableRecordHeader();
 			setValueToDto(dto, ruleDetailsBean, tierTo, recordHeader);
+                                                if (rebatePlaninfoBean.getFormulaType().equals("Simple")){
+
 			dto.addProperties(String.valueOf(recordHeader.get(2)), ruleDetailsBean.getOperatorDesc());
 			dto.addProperties(String.valueOf(recordHeader.get(3)), ruleDetailsBean.getValueDesc());
 
@@ -276,14 +280,19 @@ public class GtnUIFrameWorkResetYesButtonAction
 				dto.addAdditionalProperty(ruleDetailsBean.getValue());
 			}
 			resultLiist.add(dto);
-		}
 		getToFromTextValue(tierTo, tierFrom, GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_FROM,
 				GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_TO, resultLiist);
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(resultTableId).loadContainer(resultTableId, resultLiist);
+                }
+                else{
+                      GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_FROM).loadFieldValue(null);
+                      GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_FROM).setEnable(true);
+                      GtnUIFrameworkGlobalUI.getVaadinBaseComponent(resultTableId).removeAllItemsFromTable();   
+                        }
 
 	}
-
+        }
 	private void setValueToDto(GtnWsRecordBean dto, GtnWsRebatePlanRuleDetailBean ruleDetailsBean, Double tierTo,
 			List<Object> recordHeader) {
 		dto.setRecordHeader(recordHeader);
@@ -327,6 +336,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 		Double tierFrom = 0d;
 		List<GtnWsRecordBean> resultList = new ArrayList<>();
 		GtnWsRecordBean dto;
+                resetOnAddMode(resultTableId);
 		for (GtnWsRebatePlanRuleDetailBean ruleDetailsBeanComplex : rebatePlaninfoBean.getRebatePlanRuleDetailBean()) {
 			tierFrom = ruleDetailsBeanComplex.getFromDesc();
 			tierTo = ruleDetailsBeanComplex.getToDesc();
@@ -497,4 +507,14 @@ public class GtnUIFrameWorkResetYesButtonAction
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationsAdjustmentValue5").loadDateValue(null);
 
 	}
+
+    private void resetOnAddMode(String resultTableId) {
+        String getMode = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode"));
+                logger.info("in complex-------------"+getMode+"actionType------"+actionType);
+                if (actionType.equalsIgnoreCase("RESET_ALL") && "ADD".equals(getMode)) {
+                    GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_FROM_COMPLEX).loadFieldValue(null);
+                    GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_FROM_COMPLEX).setEnable(true);
+                    GtnUIFrameworkGlobalUI.getVaadinBaseComponent(resultTableId).removeAllItemsFromTable();
+                }
+    }
 }
