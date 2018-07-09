@@ -229,10 +229,10 @@ public class HeaderGeneratorService {
                         if (!prevoius.equals(year)) {
                             int index=i+added++;
                             if (index != headerId.size()) {
-                                headerId.add(index, prevoius);
+                                headerId.add(index, prevoius+"Total");
                                 headers.add(index, prevoius + " Total");
                             } else {
-                                headerId.add(prevoius);
+                                headerId.add(prevoius+"Total");
                                 headers.add(prevoius + " Total");
                             }
                         }
@@ -408,9 +408,7 @@ public class HeaderGeneratorService {
 		List<String> tripleMap = new ArrayList<>();
 		List<String> doubleMap = new ArrayList<>();
 		Set<String> headerColumnId = new HashSet<>();
-//                System.out.println("tripleColumn = " + Arrays.toString(tripleColumn));
-//                System.out.println("doubleColumn = " + Arrays.toString(doubleColumn));
-//                System.out.println("singleColumn = " + Arrays.toString(singleColumn));
+
 		for (int i = 0; i < tripleColumn.length; i++) {
 			for (int j = 0; j < doubleColumn.length; j++) {
 				for (int k = 0; k < singleColumn.length; k++) {

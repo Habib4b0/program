@@ -256,20 +256,34 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			int limit = gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset();
 			int levelNo = Integer.parseInt(values.get(0).toString());
 			String hierarchyNo = values.get(1).toString();
-			return gtnWsReportCustomCCPListDetails.stream()
+			List<GtnWsRecordBean> result= gtnWsReportCustomCCPListDetails.stream()
 					.filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo)
 							&& row.getRowIndex() >= start)
 					.limit(limit)
-					.map(row -> convertToRecordbean(gtnWsRequest, row,
+					.map(row -> aggregate(convertToRecordbean(gtnWsRequest, row,
 							gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
-							gtnWsReportCustomCCPListDetails.indexOf(row), reportDashboardBean.getDisplayFormat()))
+							gtnWsReportCustomCCPListDetails.indexOf(row), reportDashboardBean.getDisplayFormat())))
 					.collect(Collectors.toList());
+                        result.forEach(this::aggregate);
+                        return result;
 
-		} catch (Exception ex) {
+		} catch (IOException | NumberFormatException ex) {
 			GTNLOGGER.error(ex.getMessage(), ex);
 		}
 		return new ArrayList<>();
 	}
+        
+        @SuppressWarnings("unchecked")
+        GtnWsRecordBean aggregate(GtnWsRecordBean bean){
+            bean.getRecordHeader().stream().filter(e -> e!=null && e.toString().contains("Total")).forEach(object -> {
+                  
+                  Double total =  bean.getRecordHeader().stream().
+                            filter(e -> e!=null && e.toString().contains(object.toString().replace("Total","")))
+                            .mapToDouble(columns-> extractDouble(bean.getPropertyValue(columns.toString()))).sum();
+                  bean.addProperties(object.toString(), total);
+            });
+            return bean;
+        }
 
 	private GtnWsRecordBean convertToRecordbean(GtnUIFrameworkWebserviceRequest gtnWsRequest,
 			GtnWsReportCustomCCPListDetails bean, List<Object> recordHeader, int index, Object[] displayFormat) {
@@ -505,7 +519,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	private void dataConvertors(GtnWsRecordBean recordBean, String key, Double data, String indicator,
 			String levelName) {
-		if (("V".equals(indicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
+ 		if (("V".equals(indicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
 				|| key.contains("PER") || key.contains("RATE")) {
 			recordBean.addProperties(key,
 					GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
@@ -514,6 +528,11 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		} else {
 			recordBean.addProperties(key, GtnWsReportDecimalFormat.DOLLAR.getFormattedValue(data));
 		}
-	}
+           
+                
+    }
+    public static Double extractDouble(Object value) {
+        return Optional.ofNullable(value).isPresent() ? Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]", "")) : 0.0;
+    }
 
 }

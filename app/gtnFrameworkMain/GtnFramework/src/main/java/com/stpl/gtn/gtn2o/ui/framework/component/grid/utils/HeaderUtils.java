@@ -50,21 +50,7 @@ public class HeaderUtils {
 			String column = (currentSingleColumns.get(j)).toString();
 			PagedTreeGrid.gtnlogger.info("column = " + column);
             String header=pagedTreeGrid.getTableConfig().getColumnHeaders().get(columnStart + j);
-            if (pagedTreeGrid.getTableConfig().getAggregationColumnHeader() != null && header.contains(pagedTreeGrid.getTableConfig().getAggregationColumnHeader())) {
-               // Aggregation 
-                pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> {
-                    int sum = 0;
-                    sum = row.getReadOnlyPropeties().stream().
-                            filter(e -> e.toString().contains(header))
-                            .map(String::valueOf)
-                            .filter((columns) -> (!columns.equals(header)))
-                            .map((columns) -> GridUtils.getInt(row.getPropertyValue(columns)))
-                            .reduce(sum, Integer::sum);
-                    return sum;
-                }).setCaption(header).setId(column).setWidth(170);
-            } else {
                 pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> row.getPropertyValue(column)).setCaption(header).setId(column).setWidth(170);
-		}
         }
 		if (pagedTreeGrid.getTableConfig().getCustomFilterConfigMap() != null) {
 			pagedTreeGrid.shiftLeftSingeHeader = true;
@@ -123,8 +109,13 @@ public class HeaderUtils {
                 Object[] joinList = pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(property);
                 String[] stringArray = getSingleColumnsMapping(currentSingleColumns, joinList).toArray(new String[0]);
                 if (stringArray.length > 1) {
-                    groupingHeader.join(stringArray)
-                            .setText(douleHeaders.next());
+                    String header = douleHeaders.next();
+                    if (property.toString().contains(pagedTreeGrid.getTableConfig().getAggregationColumnHeader())) {
+                        groupingHeader.getCell(stringArray[stringArray.length - 1]).setText(header);
+                    } else {
+                        groupingHeader.join(stringArray)
+                                .setText(header);
+                    }
                 } else if (stringArray.length > 0) {
                     groupingHeader.getCell(stringArray[0])
                             .setText(douleHeaders.next());
