@@ -115,7 +115,6 @@ public class GtnFrameworkItemMasterSaveAction
 
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsItemMasterBean cfpBean = setProperties(fields, beanFields);
-		getValueForUdc1(cfpBean.getGtnWsItemMasterInfoBean());
 
 		GtnWsItemMasterRequest cfpRequest = new GtnWsItemMasterRequest();
 		cfpRequest.setGtnWsItemMasterBean(cfpBean);
@@ -130,58 +129,6 @@ public class GtnFrameworkItemMasterSaveAction
 				GtnWsItemMasterContants.GTN_WS_ITEM_MASTER_SERVICE
 						+ GtnWsItemMasterContants.GTN_WS_ITEM_MASTER_SAVE_SERVICE,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-	}
-
-	private void getValueForUdc1(GtnWsItemMasterInfoBean gtnWsItemMasterInfoBean) {
-		String udc1 = (String) GtnUIFrameworkGlobalUI.getSessionProperty("UDC1");
-		if (udc1 != null && udc1.equals("ARM_UDC1")) {
-			getSelectedUdc1ItemFromCheckedComboBox(gtnWsItemMasterInfoBean);
-			return;
-		}
-		getSelectedUdc1ItemFromComboBox(gtnWsItemMasterInfoBean);
-	}
-
-	private void getSelectedUdc1ItemFromComboBox(GtnWsItemMasterInfoBean gtnWsItemMasterInfoBean) {
-		try {
-			gtnWsItemMasterInfoBean.setUdc1(
-					GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabUDC1").getIntegerFromField());
-		} catch (GtnFrameworkValidationFailedException e) {
-			logger.error("Error in GtnFrameworkItemMasterSaveAction --> getSelectedUdc1ItemFromComboBox", e);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private void getSelectedUdc1ItemFromCheckedComboBox(GtnWsItemMasterInfoBean gtnWsItemMasterInfoBean) {
-		try {
-			List<String[]> selectedValue = (List<String[]>) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBox").getValueFromComponent();
-
-			if (selectedValue != null && selectedValue.size() > 1) {
-				StringBuilder stringBuilder = new StringBuilder();
-				for (String[] stringArray : selectedValue) {
-					stringBuilder.append(stringArray[1]);
-					stringBuilder.append(GtnFrameworkItemMasterStringContants.COMMA);
-				}
-				stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(GtnFrameworkItemMasterStringContants.COMMA));
-				int componentId = getIdForArmUdc1(stringBuilder.toString());
-				gtnWsItemMasterInfoBean.setUdc1(componentId);
-				return;
-			}
-
-			if (selectedValue != null) {
-				String[] value = selectedValue.get(0);
-				gtnWsItemMasterInfoBean.setUdc1(Integer.parseInt(value[2]));
-				return;
-			}
-
-			gtnWsItemMasterInfoBean.setUdc1(GtnWsNumericConstants.ZERO);
-		} catch (GtnFrameworkValidationFailedException e) {
-			logger.error("Error in GtnFrameworkItemMasterSaveAction --> getSelectedUdc1ItemCheckedComboBox", e);
-		}
-	}
-
-	private int getIdForArmUdc1(String descriptionValue) {
-		return GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemCode(descriptionValue);
 	}
 
 	private GtnWsItemMasterBean setProperties(List<String> fields, List<String> beanFields)
@@ -269,6 +216,7 @@ public class GtnFrameworkItemMasterSaveAction
 				infoBean.setUdc1(componentId);
 				return;
 			}
+			infoBean.setUdc1(GtnWsNumericConstants.ZERO);
 		} catch (GtnFrameworkValidationFailedException e) {
 			logger.error("Error in GtnFrameworkItemMasterSaveAction --> getSelectedUdc1ItemCheckedComboBox", e);
 		}
