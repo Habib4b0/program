@@ -5,12 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
 /**
-*
-* @author sooriya.lakshmanan
-*/
-public class LevelDto implements Cloneable, Comparable<LevelDto> {
+ *
+ * @author sooriya.lakshmanan
+ */
+public class LevelDto implements Comparable<LevelDto> {
 
 	/**
 	 * The level.
@@ -437,11 +436,6 @@ public class LevelDto implements Cloneable, Comparable<LevelDto> {
 	}
 
 	@Override
-	public Object clone() throws CloneNotSupportedException {
-		return super.clone();
-	}
-
-	@Override
 	public int compareTo(LevelDto obj) {
 		return this.levelNo.compareTo(obj.levelNo);
 	}
@@ -502,19 +496,18 @@ public class LevelDto implements Cloneable, Comparable<LevelDto> {
 	public void setHierarchyVersionNo(Integer hierarchyVersionNo) {
 		this.hierarchyVersionNo = hierarchyVersionNo;
 	}
-       
-    	public static LevelDto getPreviousLinkedLevel(
-           List<LevelDto> hierarchyLevelDefinitionList,
-           LevelDto currnetHierarchyLevelBean) {
-       for (int i = currnetHierarchyLevelBean.getLevelNo() - 2; i >= 0; i--) {
-           if (!hierarchyLevelDefinitionList.get(i).isUserDefined()) {
-               return hierarchyLevelDefinitionList.get(i);
-           }
-       }
-       return null;
-   }
-       public static LevelDto getBeanByLevelNo(int levelNo,
-			List<LevelDto> hierarchyList) {
+
+	public static LevelDto getPreviousLinkedLevel(List<LevelDto> hierarchyLevelDefinitionList,
+			LevelDto currnetHierarchyLevelBean) {
+		for (int i = currnetHierarchyLevelBean.getLevelNo() - 2; i >= 0; i--) {
+			if (!hierarchyLevelDefinitionList.get(i).isUserDefined()) {
+				return hierarchyLevelDefinitionList.get(i);
+			}
+		}
+		return null;
+	}
+
+	public static LevelDto getBeanByLevelNo(int levelNo, List<LevelDto> hierarchyList) {
 		if (levelNo > 1 && hierarchyList.get(levelNo - 1).levelNo == levelNo)
 			return hierarchyList.get(levelNo - 1);
 		for (LevelDto hierarchyLevelDefinitionBean : hierarchyList) {
@@ -524,6 +517,5 @@ public class LevelDto implements Cloneable, Comparable<LevelDto> {
 		}
 		return null;
 	}
-
 
 }
