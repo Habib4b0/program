@@ -79,6 +79,7 @@ public class GtnFrameworkReportGenerateLookUp {
 		tabSheetConfig.setComponentId(GtnFrameworkCommonConstants.TAB_SHEET+"Main");
 		tabSheetConfig.setComponentName("Tab Sheet");
 		tabSheetConfig.setComponentWidth("100%");
+		tabSheetConfig.setComponentHight("1010px");
 		tabSheetConfig.setAddToParent(true);
 		tabSheetConfig.setParentComponentId("projectionDetailsTabsheetLayout");
 		tabSheetConfig.setSpacing(true);
