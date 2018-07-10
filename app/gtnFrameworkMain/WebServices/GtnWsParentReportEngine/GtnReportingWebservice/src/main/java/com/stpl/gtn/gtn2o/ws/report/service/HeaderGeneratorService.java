@@ -758,7 +758,7 @@ public class HeaderGeneratorService {
 			for (int i = startYear; i <= endYear; i++) {
 				tableHeaderDTO.addSingleColumn(String.valueOf(i) + "year", String.valueOf(i), String.class);
 			}
-		} else if (frequency.startsWith("Quar")) {
+		} else if (frequency.startsWith("Quar") || frequency.startsWith("-Sel")) {
 			Map<Integer, Integer> newQuarterMap = new HashMap<>();
 			newQuarterMap.put(1, 1);
 			newQuarterMap.put(2, 1);
