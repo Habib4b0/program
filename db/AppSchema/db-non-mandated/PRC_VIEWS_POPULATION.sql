@@ -209,8 +209,8 @@ AS
                          ELSE ''CUSTOM''
                        END ')
 
-          EXEC Sp_executesql
-            @sql
+        --  EXEC Sp_executesql
+         --   @sql
 
           ----TO IDENTIFY THE LEVEL SELECTED BY USER
           IF Object_id('TEMPDB..#RS_INFO') IS NOT NULL
