@@ -465,6 +465,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     private static final String SALES_SMALL = "sales";
     protected DataSelectionLogic dataLogic = new DataSelectionLogic();
     private boolean salesValueChange = false;
+    private boolean uomValueChange = false;
 
     public boolean isRefresh() {
         return refresh;
@@ -1112,7 +1113,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public void calculate(Button.ClickEvent event) {
         calculateLogic();
     }
-
+    
     /**
      * Generate Button Logic
      *
@@ -1127,6 +1128,15 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             dataLogic.nmSalesViewsPopulationProcedure(session);
             CommonUtil.getInstance().waitForSeconds();
             }
+            if(uomValueChange){
+            session.setFunctionMode("UOM");
+            session.setUomCode(unitOfMeasureDdlb.getValue() == null ? "EACH" : String.valueOf(unitOfMeasureDdlb.getValue()));
+            dataLogic.nmSalesViewsPopulationProcedureUOM(session);
+            uomValueChange = false;
+            session.setFunctionMode("");
+            session.setUomCode("");
+            }
+                    
             projectionDTO.setGroup(StringUtils.EMPTY);
         }
         checkBoxMap.clear();
@@ -1192,6 +1202,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         LOGGER.debug("fieldDdlb value change listener starts");
         fieldDdlbLogic();
         LOGGER.debug("fieldDdlb value change listener ends");
+    }
+    
+    @UiHandler("unitOfMeasureDdlb")
+    public void unitOfMeasureDdlb(Property.ValueChangeEvent event) {
+       uomValueChange = true;
     }
 
     private void addComponent() {
