@@ -55,6 +55,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnReportVariableReloadInReportingDashboardA
 import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardReportProfileLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardSaveProfileAddAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardUpdateProfileAddAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportConfirmedDeleteButtonAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportFilterGenerateLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportLevelDdlbLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkSaveViewAction;
@@ -259,6 +260,9 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 				new GtnReportReportProfileDeleteAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportDataSelectionViewUpdateAction.class.getName(),
 				new GtnReportDataSelectionViewUpdateAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkReportConfirmedDeleteButtonAction.class.getName(),
+				new GtnUIFrameworkReportConfirmedDeleteButtonAction());
+		
 	}
 
 }

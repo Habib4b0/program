@@ -354,6 +354,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		reportProfileConfig.setComponentName("Report Profile: ");
 		reportProfileConfig.setAddToParent(true);
 		reportProfileConfig.setParentComponentId(reportProfileConfigHorizontalLayout.getComponentId());
+		reportProfileConfig.setDefaultFocus(true);
 
 		List<GtnUIFrameWorkActionConfig> list = new ArrayList<>();
 		Object reportProfileLookup = "Report Profile Lookup";

@@ -103,6 +103,8 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 
 	private void reportCustomerHierarchySearchCriteriaLayout(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
+		
+		
 		GtnUIFrameworkComponentConfig reportCustomerHierarchySearchCriteriaLayout = new GtnUIFrameworkComponentConfig();
 		reportCustomerHierarchySearchCriteriaLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportCustomerHierarchySearchCriteriaLayout
@@ -124,23 +126,36 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 	}
 
 	private void addReportCustomerHierarchyTypeOptionGroup(List<GtnUIFrameworkComponentConfig> componentList,
-			String namespace) {
+			String namespace) {	
+		GtnUIFrameworkComponentConfig addReportCustomerHierarchyTypeOptionGroupLayout = new GtnUIFrameworkComponentConfig();
+		addReportCustomerHierarchyTypeOptionGroupLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		addReportCustomerHierarchyTypeOptionGroupLayout
+		.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ "reportCustomerHierarchyTypeOptionGroupVerticalLayout");
+		addReportCustomerHierarchyTypeOptionGroupLayout.setAddToParent(true);
+		addReportCustomerHierarchyTypeOptionGroupLayout.setParentComponentId(namespace
+				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_SEARCH_CRITERIA_LAYOUT);
+		
+		GtnUIFrameworkLayoutConfig reportCustomerHierarchyTypeOptionGroupainLayout = new GtnUIFrameworkLayoutConfig();
+		reportCustomerHierarchyTypeOptionGroupainLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
+		addReportCustomerHierarchyTypeOptionGroupLayout.setGtnLayoutConfig(reportCustomerHierarchyTypeOptionGroupainLayout);
+		
 		GtnUIFrameworkComponentConfig reportCustomerHierarchyTypeOptionGroup = new GtnUIFrameworkComponentConfig();
 		reportCustomerHierarchyTypeOptionGroup.setComponentType(GtnUIFrameworkComponentType.RADIOBUTTON_VAADIN8);
 		reportCustomerHierarchyTypeOptionGroup.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_TYPE_OPTIONGROUP);
-		reportCustomerHierarchyTypeOptionGroup.setComponentName("Hierarchy Type");
+		reportCustomerHierarchyTypeOptionGroup.setComponentName("Hierarchy Type:  ");
 		reportCustomerHierarchyTypeOptionGroup.setAddToParent(true);
 		reportCustomerHierarchyTypeOptionGroup
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_SEARCH_CRITERIA_LAYOUT);
+						+ "reportCustomerHierarchyTypeOptionGroupVerticalLayout");
 		GtnUIFrameworkOptionGroupConfig reportCustomerHierarchyTypeOptionGroupConfig = new GtnUIFrameworkOptionGroupConfig();
 		reportCustomerHierarchyTypeOptionGroupConfig.setItemValues(Arrays.asList("Primary", "Secondary"));
 		reportCustomerHierarchyTypeOptionGroupConfig.setValuesFromService(false);
 		reportCustomerHierarchyTypeOptionGroup.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_TYPE);
-		reportCustomerHierarchyTypeOptionGroup.addComponentStyle(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE);
 		reportCustomerHierarchyTypeOptionGroup
 				.setGtnUIFrameworkOptionGroupConfig(reportCustomerHierarchyTypeOptionGroupConfig);
+		componentList.add(addReportCustomerHierarchyTypeOptionGroupLayout);
 		componentList.add(reportCustomerHierarchyTypeOptionGroup);
 	}
 
@@ -258,7 +273,7 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		reportCustomerHierarchyResultsPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		reportCustomerHierarchyResultsPanel.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportCustomerHierarchyResultsPanel");
-		reportCustomerHierarchyResultsPanel.setComponentName("Results");
+		reportCustomerHierarchyResultsPanel.setComponentName("RESULTS");
 		reportCustomerHierarchyResultsPanel.setParentComponentId(namespace
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		reportCustomerHierarchyResultsPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);

@@ -14859,6 +14859,10 @@ div.v-layout.v-horizontal.v-widget {
 	height: auto !important;
 }
 
+.stpl .v-panel {
+	margin-left: 9px;
+}
+
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;

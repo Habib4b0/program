@@ -25,6 +25,10 @@ import com.vaadin.data.HasValue;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.data.HasValue.ValueChangeListener;
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.LayoutEvents.LayoutClickEvent;
+import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
@@ -352,11 +356,34 @@ public class PagedGrid {
             GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = tableConfig.getCustomFilterConfigMap()
                     .get(property);
             if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.TEXTBOX_VAADIN8) {
+            	HorizontalLayout hl = new HorizontalLayout();
                 TextField textField = new TextField();
+                textField.setPlaceholder("Show all");
                 textField.setId(property);
-                textField.setWidth("70%");
+                textField.setWidth("118%");
+                hl.setMargin(true);
                 textField.addValueChangeListener(this::onFilterTextChange);
-                return textField;
+                hl.addComponent(textField);
+                hl.addLayoutClickListener(new LayoutClickListener() {
+    			@Override
+    			public void layoutClick(LayoutClickEvent event) {
+    				
+    					if (event.getChildComponent() == textField) {
+    						textField.setPlaceholder("");
+    						}
+    					}
+                });
+                textField.addBlurListener(new BlurListener(){
+						@Override
+						public void blur(BlurEvent event) {
+							if (event.getComponent() == textField){
+                                                            String value = textField.getValue();
+								if(value.equals(""))
+									textField.setPlaceholder("Show all");
+							}
+						} 
+                });         
+                return hl;
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
                 DateField dateField = new DateField();
                 dateField.setId(property);
