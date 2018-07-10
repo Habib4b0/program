@@ -2944,6 +2944,15 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
         service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
     }
+    public void nmSalesViewsPopulationProcedureWithoutTruncation(SessionDTO session) {
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "C", "", "", session));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "P", "", "", session));
+        service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
+    }  
+      
       public void nmSalesViewsPopulationProcedureUOM(SessionDTO session) {
         LOGGER.info("nmSalesViewsPopulationProcedure For UOM");
         CommonLogic.updateFlagStatusToRForAllViewsDiscount(session,Constant.SALES);
