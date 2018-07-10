@@ -165,18 +165,59 @@ public class GtnFrameworkProcessMonitorValidationAction
 		String run2Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run2Ddlb").getCaptionFromComboBox();
 		String run3Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run3Ddlb").getCaptionFromComboBox();
 		String hours1Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_RUNONEHOURDDLB).getCaptionFromComboBox();
+		String hours2Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_RUNTWOHOURDDLB).getCaptionFromComboBox();
+		String hours3Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_RUNTHREEHOURDDLB).getCaptionFromComboBox();
+	
 		if (((processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_AUTOMATIC))||
 				(processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_BOTH)))
-				&& (run1Ddlb.isEmpty()||hours1Ddlb.isEmpty())) {
+				&& (run1Ddlb.isEmpty()&& hours1Ddlb.isEmpty())
+				&& (run2Ddlb.isEmpty()&& hours2Ddlb.isEmpty())
+				&& (run3Ddlb.isEmpty() && hours3Ddlb.isEmpty())) {
 			callAlertAction(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_ATLEAST_ONE_RUN_TIME,
 					componentId);
 			return;
 		}
-		if (processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_AUTOMATIC)
-				&& run1Ddlb.isEmpty() && run2Ddlb.isEmpty() && run3Ddlb.isEmpty()) {
-			callAlertAction(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_ATLEAST_ONE_RUN_TIME,
+		if (((processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_AUTOMATIC))||
+				(processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_BOTH)))
+				&& (run1Ddlb.isEmpty()||hours1Ddlb.isEmpty())) {
+			if(run1Ddlb.isEmpty()) {
+			callAlertAction(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_RUN1_HOURS,
 					componentId);
 			return;
+			}
+			if(hours1Ddlb.isEmpty()) {
+				callAlertAction(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_RUN1_MINUTES,
+						componentId);
+				return;
+			}
+		}
+		if(((processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_AUTOMATIC)) ||
+				(processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_BOTH)))
+				&& (!run1Ddlb.isEmpty()||!hours1Ddlb.isEmpty()) && ((!run2Ddlb.isEmpty() && hours2Ddlb.isEmpty()) || (run2Ddlb.isEmpty() && !hours2Ddlb.isEmpty())) ) {
+			if(run2Ddlb.isEmpty()) {
+				callAlertAction(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_RUN2_HOURS,
+						componentId);
+				return;
+				}
+				if(hours2Ddlb.isEmpty()) {
+					callAlertAction(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_RUN2_MINUTES,
+							componentId);
+					return;
+				}
+		}
+		if(((processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_AUTOMATIC)) ||
+				(processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_BOTH)))
+				&& (!run1Ddlb.isEmpty()||!hours1Ddlb.isEmpty()) && ((!run3Ddlb.isEmpty() && hours3Ddlb.isEmpty()) || (run3Ddlb.isEmpty() && !hours3Ddlb.isEmpty())) ) {
+			if(run3Ddlb.isEmpty()) {
+				callAlertAction(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_RUN3_HOURS,
+						componentId);
+				return;
+				}
+				if(hours3Ddlb.isEmpty()) {
+					callAlertAction(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_RUN3_MINUTES,
+							componentId);
+					return;
+				}
 		}
 	}
 

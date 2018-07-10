@@ -539,6 +539,14 @@ public class NMSalesProjection extends ForecastSalesProjection {
                         dataLogic.nmSalesViewsPopulationProcedure(session);
                         CommonUtil.getInstance().waitForSeconds();
                     }
+                    if (uomValueChange) {
+                        session.setFunctionMode("UOM");
+                        session.setUomCode(unitOfMeasureDdlb.getValue() == null ? "EACH" : String.valueOf(unitOfMeasureDdlb.getValue()));
+                        dataLogic.nmSalesViewsPopulationProcedureUOM(session);
+                        uomValueChange = false;
+                        session.setFunctionMode("");
+                        session.setUomCode("");
+                    }
                     if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty())) {
                         LOGGER.info("generateBtn :Inside Filter Option");
                         session.setFunctionMode("F");
@@ -778,7 +786,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
         }
         else{
         view.setItemEnabled(Constant.CUSTOM_LABEL, true);
-        newBtn.setEnabled(!session.getAction().equalsIgnoreCase(ACTION_VIEW.getConstant()));
         }
         if (CommonUtil.isValueEligibleForLoading()) {
             salesProjectionSelection.setVisible(false);
