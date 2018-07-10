@@ -211,6 +211,7 @@ public class GtnFrameworkPSConstants {
 	public static final String PS_PRICEPROTECTION_RESULTPANEL = "psPriceProtectionTabResultPanel";
 	public static final String PS_PRICINGTAB_RESULTPANEL = "psPricingTabTabResultPanel";
 	public static final String PS_PRICINGTAB_RESULT_LAYOUT = "psPricingTabTabResultLayout";
+        public static final String CFP_LEFT_RESULT_TABLE = "CFPleftResultTable";
 	private static final String[] PRICE_PROTECTION_HEADER = { "", "Item ID", "Item No", "Item Name", "Brand",
 
 			"Price Protection Status", "Price Protection Start Date", "Price Protection End Date", "Measurement Price",

@@ -93,7 +93,7 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 			Calendar cal1 = Calendar.getInstance();
 			Date fromdateInterval;
 			Date todateInterval;
-			if (splitFromDate[0].startsWith("Q") && "Quarter".equals(historyfrequencyCaption)&& !"Auto Update".equals(processType)) {
+			if (splitFromDate[0].startsWith("Q") && "Quarter".equals(historyfrequencyCaption)&& !GtnWsForecastConfigurationConstants.PROCESS_TYPE_VALUE_AUTO_UPDATE.equals(processType)) {
                             LOGGER.info("processType-in first if--"+processType);
 				String fromMonthName = splitFromDate[0].substring(1, 2);
 				frommonth = returnQuarterMonth(fromMonthName);
@@ -106,7 +106,7 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 				cal1.setTime(todateInterval);
 				cal1.set(Integer.parseInt(splitToDate[1]), cal1.get(Calendar.MONTH), 1);
 			}
-                        if (splitFromDate[0].startsWith("Q") && "Quarter".equals(historyfrequencyCaption) && "Auto Update".equals(processType)) {
+                        if (splitFromDate[0].startsWith("Q") && "Quarter".equals(historyfrequencyCaption) && GtnWsForecastConfigurationConstants.PROCESS_TYPE_VALUE_AUTO_UPDATE.equals(processType)) {
                                 LOGGER.info("processType---"+processType);
 				String fromMonthName = splitFromDate[0].substring(1, 2);
 				frommonth = returnQuarterMonth(fromMonthName);
@@ -116,7 +116,7 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 				todateInterval = new SimpleDateFormat("MMMM").parse(splitToDate[0]);
 				cal1.setTime(todateInterval);
 				cal1.set(Integer.parseInt(splitToDate[1]), cal1.get(Calendar.MONTH), 1);
-			}else if (splitFromDate[0].startsWith("S") && "Semi-Annual".equals(historyfrequencyCaption)&& !"Auto Update".equals(processType)) {
+			}else if (splitFromDate[0].startsWith("S") && "Semi-Annual".equals(historyfrequencyCaption)&& !GtnWsForecastConfigurationConstants.PROCESS_TYPE_VALUE_AUTO_UPDATE.equals(processType)) {
 				String fromMonthName = splitFromDate[0].substring(1, 2);
 				frommonth = returnSemmiAnnualMonth(fromMonthName);
 				String toMonthName = splitToDate[0].substring(1, 2);
@@ -128,7 +128,7 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 				cal1.setTime(todateInterval);
 				cal1.set(Integer.parseInt(splitToDate[1]), cal1.get(Calendar.MONTH), 1);
 			}
-                        else if (splitFromDate[0].startsWith("S") && "Semi-Annual".equals(historyfrequencyCaption) && "Auto Update".equals(processType)) {
+                        else if (splitFromDate[0].startsWith("S") && "Semi-Annual".equals(historyfrequencyCaption) && GtnWsForecastConfigurationConstants.PROCESS_TYPE_VALUE_AUTO_UPDATE.equals(processType)) {
 				String fromMonthName = splitFromDate[0].substring(1, 2);
 				frommonth = returnSemmiAnnualMonth(fromMonthName);
 				fromdateInterval = new SimpleDateFormat("MMMM").parse(frommonth);
@@ -138,11 +138,11 @@ public class GtnFrameworkSaveAction implements GtnUIFrameWorkAction, GtnUIFramew
 				cal1.setTime(todateInterval);
 				cal1.set(Integer.parseInt(splitToDate[1]), cal1.get(Calendar.MONTH), 1);
 			}
-			if ("Annual".equals(historyfrequencyCaption) && !"Auto Update".equals(processType)) {
+			if ("Annual".equals(historyfrequencyCaption) && !GtnWsForecastConfigurationConstants.PROCESS_TYPE_VALUE_AUTO_UPDATE.equals(processType)) {
 				cal.set(Integer.parseInt(fromDateString), 0, 1);
 				cal1.set(Integer.parseInt(toDateString), 0, 1);
 			} 
-                        else if ("Annual".equals(historyfrequencyCaption) && "Auto Update".equals(processType)) {
+                        else if ("Annual".equals(historyfrequencyCaption) && GtnWsForecastConfigurationConstants.PROCESS_TYPE_VALUE_AUTO_UPDATE.equals(processType)) {
 				cal.set(Integer.parseInt(fromDateString), 0, 1);
 				todateInterval = new SimpleDateFormat("MMMM").parse(splitToDate[0]);
 				cal1.setTime(todateInterval);

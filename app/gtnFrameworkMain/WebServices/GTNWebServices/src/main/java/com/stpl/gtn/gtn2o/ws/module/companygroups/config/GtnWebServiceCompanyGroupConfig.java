@@ -98,7 +98,7 @@ public class GtnWebServiceCompanyGroupConfig implements GtnWsSearchQueryConfigLo
 		fieldToColumnDetailsMap.put("versionNo", configProvider.getColumnIntegerConfig("VERSION_NO", "CG"));
 		fieldToColumnDetailsMap.put("createdDate", configProvider.getColumnDateConfig("CREATED_DATE", "CG"));
 		fieldToColumnDetailsMap.put("modifiedDate", configProvider.getColumnDateConfig("MODIFIED_DATE", "CG"));
-		fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnStringConfig("firstName+' '+lastName", "cgCreatedBy", "cgCreatedByCol"));
+		fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnStringConfig("firstName+' '+lastName", "cgCreatedBy", "cgCreatedBy",GtnFrameworkWebserviceConstant.USER_ID));
 
 		gtnWebServiceSearchQueryConfig.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
 

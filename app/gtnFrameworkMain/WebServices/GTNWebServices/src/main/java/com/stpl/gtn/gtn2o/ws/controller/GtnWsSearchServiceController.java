@@ -30,8 +30,6 @@ import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
-import java.sql.Connection;
-import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 
 @RestController
 public class GtnWsSearchServiceController {

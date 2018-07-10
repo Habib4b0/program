@@ -37,7 +37,7 @@ and open the template in the editor.
          END)                        AS UNCHECK_COUNT, 
          COUNT(MSPM.CCP_DETAILS_SID) AS CCPCOUNT, 
          MIN(MSPM.USER_GROUP)        AS USER_GROUP, 
-         CCP.SALES_INCLUSION ,
+         @CCP_SALES_INCLUSION
               SHN.INSTR
 INTO #ST_NM_SALES_PROJECTION_MASTER
                 FROM #SELECTED_HIERARCHY_NO SHN
@@ -46,7 +46,7 @@ JOIN     ST_NM_SALES_PROJECTION_MASTER MSPM
 ON       MSPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
 @SALESINCLUSIONCC
 GROUP BY SHN.HIERARCHY_NO, 
-         CCP.SALES_INCLUSION,
+         @CCP_SALES_INCLUSION
               SHN.INSTR
                 
                    
@@ -69,7 +69,7 @@ GROUP BY SHN.HIERARCHY_NO,
                        MAINQ.ccpcount,
                        MAINQ.hierarchy_indicator,
                        MAINQ.user_group,
-                       '' AS SEC_HIERARCHY,SALES_INCLUSION   , MAINQ.INSTR
+                       '' AS SEC_HIERARCHY,@SALES_INCLUSION_ALL   , MAINQ.INSTR
                 FROM
                   (SELECT Q.account_growth,
                           Q.product_growth,
@@ -91,7 +91,7 @@ GROUP BY SHN.HIERARCHY_NO,
                           mas.user_group,
                           Dense_rank() OVER(
                                             ORDER BY mas.INSTR ASC) AS TEMP_INDEX,
-                                                                            Q.SALES_INCLUSION,mas.INSTR
+                                                                            @Q_SALES_INCLUSION mas.INSTR
                    FROM 
                      ( SELECT SH.HIERARCHY_NO,
                                           PERIOD AS PERIODS,
@@ -100,7 +100,7 @@ GROUP BY SHN.HIERARCHY_NO,
                                           SUM(UNITS) ACTUALUNITS,
                                                                         NULL AS projection_sales,
                                        NULL AS projection_units,
-                                          STC.SALES_INCLUSION,
+                                           @STC_SALES_INCLUSION
                                           INDICATOR  as ACTUALPROJ,
                                           AVG(ACCOUNT_GROWTH)  ACCOUNT_GROWTH,
                                           AVG(PRODUCT_GROWTH)  PRODUCT_GROWTH
@@ -116,7 +116,7 @@ GROUP BY SHN.HIERARCHY_NO,
                                                                            GROUP BY  SH.HIERARCHY_NO,
                                           PERIOD,
                                           YEAR,
-                                                                       STC.SALES_INCLUSION,
+                                                                        @STC_SALES_INCLUSION
                                           INDICATOR
 
                                            UNION ALL 
@@ -127,7 +127,7 @@ GROUP BY SHN.HIERARCHY_NO,
                                           NULL ACTUALUNITS,
                                           SUM(SALES) AS PROJECTION_SALES,
                                           SUM(UNITS) PROJECTION_UNITS,
-                                          STC.SALES_INCLUSION,
+                                           @STC_SALES_INCLUSION
                                           INDICATOR  as ACTUALPROJ,
                                           AVG(ACCOUNT_GROWTH)  ACCOUNT_GROWTH,
                                           AVG(PRODUCT_GROWTH)  PRODUCT_GROWTH
@@ -143,11 +143,11 @@ GROUP BY SHN.HIERARCHY_NO,
                                                                            GROUP BY  SH.HIERARCHY_NO,
                                           PERIOD,
                                           YEAR,
-                                                                       STC.SALES_INCLUSION,
+                                                                        @STC_SALES_INCLUSION
                                           INDICATOR    )  Q
                                                                        
                                                                        join #ST_NM_SALES_PROJECTION_MASTER mas on mas.HIERARCHY_NO=q.HIERARCHY_NO
-                                                                       AND mas.SALES_INCLUSION = q.SALES_INCLUSION
+                                                                       @SALES_CONDITION
                                                                        
                                                                        ) MAINQ
                 WHERE MAINQ.INSTR > @START
@@ -374,7 +374,7 @@ GROUP BY SHN.HIERARCHY_NO,
                                        HIERARCHY_NO) CO ON CO.ROWID=STC.HIERARCHY_NO
                                                                          JOIN #SELECTED_HIERARCHY_NO SH ON CO.HIERARCHY_NO LIKE SH.HIERARCHY_NO+'%' 
 
-                                                                                                                         
+                                                                          AND STC.SALES_INCLUSION=SH.SALES_INCLUSION                                               
                                                                      
                                                                            WHERE INDICATOR=0  @SALESINCLUSION
                                                                            GROUP BY  SH.HIERARCHY_NO,
@@ -410,7 +410,7 @@ GROUP BY SHN.HIERARCHY_NO,
                                        HIERARCHY_NO) CO ON CO.ROWID=STC.HIERARCHY_NO
                                                                          JOIN #SELECTED_HIERARCHY_NO SH ON CO.HIERARCHY_NO LIKE SH.HIERARCHY_NO+'%' 
 
-                                                                                                                           
+                                                                            AND STC.SALES_INCLUSION=SH.SALES_INCLUSION                                               
                                                                      
                                                                            WHERE INDICATOR=1  @SALESINCLUSION
                                                                            GROUP BY  SH.HIERARCHY_NO,
@@ -2086,6 +2086,7 @@ WHERE EXISTS (
               FROM ST_NM_SALES_PROJECTION_MASTER ST
               WHERE CHECK_RECORD = 1
                      AND ST.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+                     @SALES_INCLUSION_ST
               )
  
 UPDATE SP
@@ -2104,6 +2105,7 @@ INNER JOIN (
        ON CC.CCP_DETAILS_SID = SP1.CCP_DETAILS_SID
 WHERE P.PERIOD_SID BETWEEN @START_PERIOD_SID
               AND @END_PERIOD_SID
+              @SALES_INCLUSION
  
  
    ]]>
@@ -2204,6 +2206,7 @@ WHERE EXISTS (
               FROM ST_NM_SALES_PROJECTION_MASTER ST
               WHERE CHECK_RECORD = 1
                      AND ST.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+                     @SALES_INCLUSION_ST
               )
  
 UPDATE SP
@@ -2222,6 +2225,7 @@ INNER JOIN (
        ON CC.CCP_DETAILS_SID = SP1.CCP_DETAILS_SID
 WHERE P.PERIOD_SID BETWEEN @START_PERIOD_SID
               AND @END_PERIOD_SID
+               @SALES_INCLUSION
  
  
    

@@ -85,9 +85,6 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 			Map<String, String> levelValueMap = (Map<String, String>) dualListBoxBean.getGtnDualListBoxqueryParameters()
 					.get(1);
 			boolean isProduct = (boolean) dualListBoxBean.getGtnDualListBoxqueryParameters().get(8);
-			if (!isProduct) {
-				Date forecastEligibleDate = (Date) dualListBoxBean.getGtnDualListBoxqueryParameters().get(7);
-			}
 			List<Object> queryParameters = dualListBoxBean.getGtnDualListBoxqueryParametersList();
 			GtnWsRecordBean record = recordBean.iterator().next();
 			GtnUIFrameworkWebserviceRequest request = createRightTableRequest(queryParameters, record,
