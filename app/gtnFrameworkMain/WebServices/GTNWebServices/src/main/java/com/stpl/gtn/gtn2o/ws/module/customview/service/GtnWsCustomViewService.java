@@ -43,6 +43,7 @@ import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import java.util.Locale;
 
 /**
  *
@@ -53,305 +54,303 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 public class GtnWsCustomViewService {
 
 	private static final String REPORT = "report";
+	
+    public GtnWsCustomViewService() {
+        super();
+    }
 
-	public GtnWsCustomViewService() {
-		super();
-	}
+    private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsCustomViewService.class);
 
-	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsCustomViewService.class);
+    @Autowired
+    private GtnWsSqlService gtnWsSqlService;
 
-	@Autowired
-	private GtnWsSqlService gtnWsSqlService;
+    @Autowired
+    private GtnFrameworkQueryGeneratorService queryGeneratorService;
 
-	@Autowired
-	private GtnFrameworkQueryGeneratorService queryGeneratorService;
+    @Autowired
+    private GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
 
-	@Autowired
-	private GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
+    @Autowired
+    private org.hibernate.SessionFactory sessionFactory;
 
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
+    @Autowired
+    private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
-	@Autowired
-	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+    public org.hibernate.SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
 
-	public org.hibernate.SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
+    public void checkCustomViewSave(GtnWsCustomViewRequest cvRequest,
+            GtnWsCustomViewResponse cvResponse) throws GtnFrameworkGeneralException {
+        try {
+             cvResponse.setSuccess(true);
+            if (cvRequest.getCvSysId() == 0 && checkDuplicateCustomViewName(cvRequest)) {   
+                cvResponse.setSuccess(false);
+                cvResponse.setMessageType(GtnFrameworkCommonStringConstants.ERROR);
+                cvResponse.setMessage("Entered Custom View Name already exists.");
+                return;
+            }
+        } catch (Exception e) {
+            cvResponse.setSuccess(false);
+            throw new GtnFrameworkGeneralException("Exception in checkSaveRelationship", e);
+        }
 
-	public void checkCustomViewSave(GtnWsCustomViewRequest cvRequest, GtnWsCustomViewResponse cvResponse)
-			throws GtnFrameworkGeneralException {
-		try {
-			cvResponse.setSuccess(true);
-			if (cvRequest.getCvSysId() == 0 && checkDuplicateCustomViewName(cvRequest)) {
-				cvResponse.setSuccess(false);
-				cvResponse.setMessageType(GtnFrameworkCommonStringConstants.ERROR);
-				cvResponse.setMessage("Entered Custom View Name already exists.");
-				return;
-			}
-		} catch (Exception e) {
-			cvResponse.setSuccess(false);
-			throw new GtnFrameworkGeneralException("Exception in checkSaveRelationship", e);
-		}
+    }
 
-	}
+    @SuppressWarnings("rawtypes")
+    private boolean checkDuplicateCustomViewName(GtnWsCustomViewRequest cvRequest)
+            throws GtnFrameworkGeneralException {
+        int relationCount = 0;
+        try {
+            List<String> inputlist = new ArrayList<>();
+            inputlist.add(cvRequest.getCustomViewName());
+            String query = cvRequest.getCustomViewType().startsWith(REPORT) ? "getCustomViewNameDuplicateCheckReport" : "getCustomViewNameDuplicateCheck";
+            List result = executeQuery(getQuery(query), inputlist);
+            if (result != null && !result.isEmpty()) {
+                relationCount = Integer.parseInt(String.valueOf(result.get(0)));
+            }
+        } catch (Exception e) {
+            throw new GtnFrameworkGeneralException("Exception in checkDuplicateRelationshipName", e);
+        }
+        return relationCount != 0;
+    }
 
-	@SuppressWarnings("rawtypes")
-	private boolean checkDuplicateCustomViewName(GtnWsCustomViewRequest cvRequest) throws GtnFrameworkGeneralException {
-		int relationCount = 0;
-		try {
-			List<String> inputlist = new ArrayList<>();
-			inputlist.add(cvRequest.getCustomViewName());
-			String query = cvRequest.getCustomViewType().startsWith(REPORT) ? "getCustomViewNameDuplicateCheckReport"
-					: "getCustomViewNameDuplicateCheck";
-			List result = executeQuery(getQuery(query), inputlist);
-			if (result != null && !result.isEmpty()) {
-				relationCount = Integer.parseInt(String.valueOf(result.get(0)));
-			}
-		} catch (Exception e) {
-			throw new GtnFrameworkGeneralException("Exception in checkDuplicateRelationshipName", e);
-		}
-		return relationCount != 0;
-	}
+    @SuppressWarnings("rawtypes")
+    public GtnWsCustomViewResponse saveCustomView(GtnWsCustomViewRequest cvRequest) {
+         GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
+        int customViewMasterSid = saveCustViewMaster(cvRequest);
+        saveCustomViewDetails(customViewMasterSid, cvRequest);
+        customViewSaveLogicCCPDetails(customViewMasterSid, cvRequest);
+        if (!cvRequest.getCustomViewType().startsWith(REPORT)) {
+            callProcedureForDiscountPopulation(customViewMasterSid);
+        }
+             cvResponse.setSuccess(true);
+             cvResponse.setCvSysId(customViewMasterSid);
+        return cvResponse;
+    }
 
-	@SuppressWarnings("rawtypes")
-	public GtnWsCustomViewResponse saveCustomView(GtnWsCustomViewRequest cvRequest) {
-		GtnWsCustomViewResponse cvResponse = new GtnWsCustomViewResponse();
-		int customViewMasterSid = saveCustViewMaster(cvRequest);
-		saveCustomViewDetails(customViewMasterSid, cvRequest);
-		customViewSaveLogicCCPDetails(customViewMasterSid, cvRequest);
-		if (!cvRequest.getCustomViewType().startsWith(REPORT)) {
-			callProcedureForDiscountPopulation(customViewMasterSid);
-		}
-		cvResponse.setSuccess(true);
-		cvResponse.setCvSysId(customViewMasterSid);
-		return cvResponse;
-	}
+    private int saveCustViewMaster(GtnWsCustomViewRequest cvRequest) {
+        Session session = getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        int customViewMasterSid = 0;
+        try {
+            if (cvRequest.getCvSysId() == 0) {
+                CustViewMaster master = new CustViewMaster();
+                master.setCustViewName(cvRequest.getCustomViewName());
+                master.setCustViewDescription(cvRequest.getCustomViewDescription());
+                master.setCustViewType(cvRequest.getCustomViewType());
+                master.setCustomerRelationshipSid(cvRequest.getCustomerRelationshipSid());
+                master.setProductRelationshipSid(cvRequest.getProductRelationshipSid());
+                master.setCreatedBy(Integer.valueOf(cvRequest.getCreatedBy()));
+                master.setCreatedDate(cvRequest.getCreatedDate());
+                master.setModifiedBy(Integer.valueOf(cvRequest.getModifiedBy()));
+                master.setModuleType(cvRequest.getModuleType());
+                master.setModifiedDate(cvRequest.getModifiedDate());
+                master.setScreenName(cvRequest.getCustomViewType());
+                customViewMasterSid = (int) session.save(master);
+            } else {
+                CustViewMaster master = session.get(CustViewMaster.class, cvRequest.getCvSysId());
+                master.setCustViewName(cvRequest.getCustomViewName());
+                master.setCustViewDescription(cvRequest.getCustomViewDescription());
+                master.setCustViewType(cvRequest.getCustomViewType());
+                master.setCustomerRelationshipSid(cvRequest.getCustomerRelationshipSid());
+                master.setProductRelationshipSid(cvRequest.getProductRelationshipSid());
+                master.setModifiedBy(Integer.valueOf(cvRequest.getModifiedBy()));
+                master.setModifiedDate(cvRequest.getModifiedDate());
+                master.setModuleType(cvRequest.getModuleType());
+                master.setScreenName(cvRequest.getCustomViewType());
+                session.update(master);
+            }
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+            logger.error(e.getMessage(), e);
+        } finally {
+            session.close();
+        }
+        return customViewMasterSid;
+    }
 
-	private int saveCustViewMaster(GtnWsCustomViewRequest cvRequest) {
-		Session session = getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		int customViewMasterSid = 0;
-		try {
-			if (cvRequest.getCvSysId() == 0) {
-				CustViewMaster master = new CustViewMaster();
-				master.setCustViewName(cvRequest.getCustomViewName());
-				master.setCustViewDescription(cvRequest.getCustomViewDescription());
-				master.setCustViewType(cvRequest.getCustomViewType());
-				master.setCustomerRelationshipSid(cvRequest.getCustomerRelationshipSid());
-				master.setProductRelationshipSid(cvRequest.getProductRelationshipSid());
-				master.setCreatedBy(Integer.valueOf(cvRequest.getCreatedBy()));
-				master.setCreatedDate(cvRequest.getCreatedDate());
-				master.setModifiedBy(Integer.valueOf(cvRequest.getModifiedBy()));
-				master.setModuleType(cvRequest.getModuleType());
-				master.setModifiedDate(cvRequest.getModifiedDate());
-				master.setScreenName(cvRequest.getCustomViewType());
-				customViewMasterSid = (int) session.save(master);
-			} else {
-				CustViewMaster master = session.get(CustViewMaster.class, cvRequest.getCvSysId());
-				master.setCustViewName(cvRequest.getCustomViewName());
-				master.setCustViewDescription(cvRequest.getCustomViewDescription());
-				master.setCustViewType(cvRequest.getCustomViewType());
-				master.setCustomerRelationshipSid(cvRequest.getCustomerRelationshipSid());
-				master.setProductRelationshipSid(cvRequest.getProductRelationshipSid());
-				master.setModifiedBy(Integer.valueOf(cvRequest.getModifiedBy()));
-				master.setModifiedDate(cvRequest.getModifiedDate());
-				master.setModuleType(cvRequest.getModuleType());
-				master.setScreenName(cvRequest.getCustomViewType());
-				session.update(master);
-			}
-			tx.commit();
-		} catch (Exception e) {
-			tx.rollback();
-			logger.error(e.getMessage(), e);
-		} finally {
-			session.close();
-		}
-		return customViewMasterSid;
-	}
+    public boolean deleteCustViewMaster(GtnWsCustomViewRequest cvRequest) {
+        Transaction tx = null;
+        try (Session session = getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            CustViewMaster master = session.load(CustViewMaster.class, cvRequest.getCvSysId());
+            if (master != null) {
+                session.delete(master);
+            }
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            tx.rollback();
+            logger.error(e.getMessage(), e);
+            return false;
+        }
+    }
 
-	public boolean deleteCustViewMaster(GtnWsCustomViewRequest cvRequest) {
-		Transaction tx = null;
-		try (Session session = getSessionFactory().openSession()) {
-			tx = session.beginTransaction();
-			CustViewMaster master = session.load(CustViewMaster.class, cvRequest.getCvSysId());
-			if (master != null) {
-				session.delete(master);
-			}
-			tx.commit();
-			return true;
-		} catch (Exception e) {
-			tx.rollback();
-			logger.error(e.getMessage(), e);
-			return false;
-		}
-	}
+    public GtnWsCustomViewResponse getCustViewMaster(GtnWsCustomViewRequest cvRequest) {
+        GtnWsCustomViewResponse response = null;
+        try (Session session = getSessionFactory().openSession()) {
+            CustViewMaster master = session.load(CustViewMaster.class, cvRequest.getCvSysId());
+            if (master != null) {
+                response = new GtnWsCustomViewResponse();
+                response.setCustomViewName(master.getCustViewName());
+                response.setCustomViewType(master.getCustViewType());
+                response.setCvSysId(cvRequest.getCvSysId());
+                cvRequest.setCustomViewType(master.getCustViewType());
+                response.setCvTreeNodeList(getSavedTreeData(cvRequest));
 
-	public GtnWsCustomViewResponse getCustViewMaster(GtnWsCustomViewRequest cvRequest) {
-		GtnWsCustomViewResponse response = null;
-		try (Session session = getSessionFactory().openSession()) {
-			CustViewMaster master = session.load(CustViewMaster.class, cvRequest.getCvSysId());
-			if (master != null) {
-				response = new GtnWsCustomViewResponse();
-				response.setCustomViewName(master.getCustViewName());
-				response.setCustomViewType(master.getCustViewType());
-				response.setCvSysId(cvRequest.getCvSysId());
-				cvRequest.setCustomViewType(master.getCustViewType());
-				response.setCvTreeNodeList(getSavedTreeData(cvRequest));
+            }
+            return response;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return response;
+        }
+    }
 
-			}
-			return response;
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return response;
-		}
-	}
+    @SuppressWarnings("rawtypes")
+    public List executeQuery(String sqlQuery, List paramList) throws GtnFrameworkGeneralException {
+        return gtnSqlQueryEngine.executeSelectQuery(sqlQuery, paramList);
+    }
 
-	@SuppressWarnings("rawtypes")
-	public List executeQuery(String sqlQuery, List paramList) throws GtnFrameworkGeneralException {
-		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery, paramList);
-	}
+    public String getQuery(String sqlId) {
+        return gtnWsSqlService.getQuery(sqlId);
+    }
 
-	public String getQuery(String sqlId) {
-		return gtnWsSqlService.getQuery(sqlId);
-	}
+    private void saveCustomViewDetails(int customViewMasterSid, GtnWsCustomViewRequest cvRequest) {
+        List<GtnWsRecordBean> cvTreeNodeList = cvRequest.getCvTreeNodeList();
+        int masterSid = cvRequest.getCvSysId();
 
-	private void saveCustomViewDetails(int customViewMasterSid, GtnWsCustomViewRequest cvRequest) {
-		List<GtnWsRecordBean> cvTreeNodeList = cvRequest.getCvTreeNodeList();
-		int masterSid = cvRequest.getCvSysId();
+        Transaction tx = null;
+        int masterId = masterSid == 0 ? customViewMasterSid : cvRequest.getCvSysId();
+        try (Session session = getSessionFactory().openSession()) {
+            tx = session.getTransaction();
+            if (masterSid != 0) {
+                String hql = "delete from CustViewDetails where customViewMasterSid= :classId";
+                session.createQuery(hql).setString("classId", String.valueOf(masterSid)).executeUpdate();
+            }
+            if (cvRequest.getCustomViewType().startsWith(REPORT)) {
+                saveReportCustViewDetailsRecords(cvTreeNodeList, masterId, cvRequest.getCustomViewType(), session);
+            } else {
+                saveCustViewDetailsRecords(cvTreeNodeList, masterId, session);
+            }
+            commitTrans(tx);
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            logger.error(e.getMessage(), e);
+        }
+    }
 
-		Transaction tx = null;
-		int masterId = masterSid == 0 ? customViewMasterSid : cvRequest.getCvSysId();
-		try (Session session = getSessionFactory().openSession()) {
-			tx = session.getTransaction();
-			if (masterSid != 0) {
-				String hql = "delete from CustViewDetails where customViewMasterSid= :classId";
-				session.createQuery(hql).setString("classId", String.valueOf(masterSid)).executeUpdate();
-			}
-			if (cvRequest.getCustomViewType().startsWith(REPORT)) {
-				saveReportCustViewDetailsRecords(cvTreeNodeList, masterId, cvRequest.getCustomViewType(), session);
-			} else {
-				saveCustViewDetailsRecords(cvTreeNodeList, masterId, session);
-			}
-			commitTrans(tx);
-		} catch (Exception e) {
-			if (tx != null) {
-				tx.rollback();
-			}
-			logger.error(e.getMessage(), e);
-		}
-	}
+    private void saveCustViewDetailsRecords(List<GtnWsRecordBean> cvTreeNodeList, int customViewMasterSid, Session session) {
+        CustViewDetails details;
+        int i = 1;
 
-	private void saveCustViewDetailsRecords(List<GtnWsRecordBean> cvTreeNodeList, int customViewMasterSid,
-			Session session) {
-		CustViewDetails details;
-		int i = 1;
+        for (Object ob : cvTreeNodeList) {
+            GtnWsRecordBean dto = (GtnWsRecordBean) ob;
+            String indicator = String.valueOf(dto.getAdditionalPropertyByIndex(2));
 
-		for (Object ob : cvTreeNodeList) {
-			GtnWsRecordBean dto = (GtnWsRecordBean) ob;
-			String indicator = String.valueOf(dto.getAdditionalPropertyByIndex(2));
+            details = new CustViewDetails();
+            details.setCustomViewMasterSid(customViewMasterSid);
+            details.setHierarchyId((Integer) dto.getAdditionalPropertyByIndex(3));
 
-			details = new CustViewDetails();
-			details.setCustomViewMasterSid(customViewMasterSid);
-			details.setHierarchyId((Integer) dto.getAdditionalPropertyByIndex(3));
+            details.setHierarchyIndicator(indicator.charAt(0));
+            details.setLevelNo(i);
+            details.setLevelName(dto.getStringPropertyByIndex(0));
+            i++;
+            session.save(details);
+        }
 
-			details.setHierarchyIndicator(indicator.charAt(0));
-			details.setLevelNo(i);
-			details.setLevelName(dto.getStringPropertyByIndex(0));
-			i++;
-			session.save(details);
-		}
+    }
 
-	}
+    private void saveReportCustViewDetailsRecords(List<GtnWsRecordBean> cvTreeNodeList, int customViewMasterSid, String variableType, Session session) {
+        int levelCount = 0;
 
-	private void saveReportCustViewDetailsRecords(List<GtnWsRecordBean> cvTreeNodeList, int customViewMasterSid,
-			String variableType, Session session) {
-		int levelCount = 0;
+        List<GtnWsRecordBean> variablesList = new ArrayList<>();
+        int lastCustomViewMasterSid = 0;
+        try {
+            int j = 0;
+            for (j = 0; j < cvTreeNodeList.size(); j++) {
 
-		List<GtnWsRecordBean> variablesList = new ArrayList<>();
-		int lastCustomViewMasterSid = 0;
-		try {
-			int j = 0;
-			for (j = 0; j < cvTreeNodeList.size(); j++) {
+                CustViewDetails details = new CustViewDetails();
+                GtnWsRecordBean dto = cvTreeNodeList.get(j);
+                String indicator = dto.getStringPropertyByIndex(3);
+                if (variableType.toLowerCase(Locale.ENGLISH).contains("static") && indicator.toLowerCase(Locale.ENGLISH).startsWith("v")) {
+                    variablesList.add(dto);
+                    if (j + 1 < cvTreeNodeList.size()) {
+                        continue;
+                    }
+                }else if (variableType.toLowerCase().contains("expandable")
+                        && indicator.toLowerCase().startsWith("v")) {
+                    variablesList
+                            .addAll(getRecordBeanFromObjectArray((List<List<Object>>) dto.getPropertyValueByIndex(5)));
+                }
+                
+                if (!variablesList.isEmpty()) {
 
-				CustViewDetails details = new CustViewDetails();
-				GtnWsRecordBean dto = cvTreeNodeList.get(j);
-				String indicator = dto.getStringPropertyByIndex(3);
-				if (variableType.toLowerCase().contains("static") && indicator.toLowerCase().startsWith("v")) {
-					variablesList.add(dto);
-					if (j + 1 < cvTreeNodeList.size()) {
-						continue;
-					}
-				} else if (variableType.toLowerCase().contains("expandable")
-						&& indicator.toLowerCase().startsWith("v")) {
-					variablesList
-							.addAll(getRecordBeanFromObjectArray((List<List<Object>>) dto.getPropertyValueByIndex(5)));
-				}
+                    // Variable Level Insert
+                    details.setCustomViewMasterSid(customViewMasterSid);
+                    details.setHierarchyId(0);
+                    details.setHierarchyIndicator('V');
+                    details.setLevelName("Variables");
+                    levelCount++;
+                    details.setVariableCount(variablesList.size());
+                    details.setLevelNo(levelCount);
+                    int customViewDetailsSid = (int) session.save(details);
+                    session.flush();
+                    System.out.println("customViewDetailsSid = " + customViewDetailsSid);
+                    // Update Variable count in last level
+                    CustViewDetails lastLevel = session.load(CustViewDetails.class, lastCustomViewMasterSid);
+                    lastLevel.setVariableCount(variablesList.size());
+                    session.update(lastLevel);
+                    session.flush();
 
-				if (!variablesList.isEmpty()) {
+                    //Insert varaibles
+                    insertCustomVariables(variablesList, customViewDetailsSid, session);
 
-					// Variable Level Insert
-					details.setCustomViewMasterSid(customViewMasterSid);
-					details.setHierarchyId(0);
-					details.setHierarchyIndicator('V');
-					details.setLevelName("Variables");
-					levelCount++;
-					details.setVariableCount(variablesList.size());
-					details.setLevelNo(levelCount);
-					int customViewDetailsSid = (int) session.save(details);
-					session.flush();
-					System.out.println("customViewDetailsSid = " + customViewDetailsSid);
-					// Update Variable count in last level
-					CustViewDetails lastLevel = session.load(CustViewDetails.class, lastCustomViewMasterSid);
-					lastLevel.setVariableCount(variablesList.size());
-					session.update(lastLevel);
-					session.flush();
+                } else {
+                    // Insert a Level
+                    details.setCustomViewMasterSid(customViewMasterSid);
+                    details.setHierarchyId(dto.getIntegerPropertyByIndex(4));
 
-					// Insert varaibles
-					insertCustomVariables(variablesList, customViewDetailsSid, session);
+                    details.setHierarchyIndicator(indicator.toUpperCase(Locale.ENGLISH).charAt(0));
+                    details.setLevelName(dto.getStringPropertyByIndex(0));
+                    levelCount++;
+                    details.setLevelNo(levelCount);
+                    lastCustomViewMasterSid = (int) session.save(details);
+                    session.flush();
+                }
+            }
 
-				} else {
-					// Insert a Level
-					details.setCustomViewMasterSid(customViewMasterSid);
-					details.setHierarchyId(dto.getIntegerPropertyByIndex(4));
+        } catch (HibernateException e) {
 
-					details.setHierarchyIndicator(indicator.toUpperCase().charAt(0));
-					details.setLevelName(dto.getStringPropertyByIndex(0));
-					levelCount++;
-					details.setLevelNo(levelCount);
-					lastCustomViewMasterSid = (int) session.save(details);
-					session.flush();
-				}
-			}
+            logger.error(e.getMessage(), e);
+        }
+    }
 
-		} catch (HibernateException e) {
+    public void insertCustomVariables(List<GtnWsRecordBean> variablesList, int customViewDetailsSid, Session session) {
+        for (GtnWsRecordBean gtnWsRecordBean : variablesList) {
 
-			logger.error(e.getMessage(), e);
-		}
-	}
+            CustomViewVariables variable = new CustomViewVariables();
+            variable.setVariableId(gtnWsRecordBean.getIntegerPropertyByIndex(4));
+            variable.setCustomViewDetailsSid(customViewDetailsSid);
 
-	public void insertCustomVariables(List<GtnWsRecordBean> variablesList, int customViewDetailsSid, Session session) {
-		for (GtnWsRecordBean gtnWsRecordBean : variablesList) {
+            variable.setVariableIndicator((char) gtnWsRecordBean.getIntegerPropertyByIndex(2));
+            session.save(variable);
+            session.flush();
+        }
+        variablesList.clear();
+    }
 
-			CustomViewVariables variable = new CustomViewVariables();
-			variable.setVariableId(gtnWsRecordBean.getIntegerPropertyByIndex(4));
-			variable.setCustomViewDetailsSid(customViewDetailsSid);
+    public void commitTrans(Transaction tx) {
+        if (tx.getStatus().equals(TransactionStatus.ACTIVE)) {
+            tx.commit();
+        }
+    }
 
-			variable.setVariableIndicator((char) gtnWsRecordBean.getIntegerPropertyByIndex(2));
-			session.save(variable);
-			session.flush();
-		}
-		variablesList.clear();
-	}
-
-	public void commitTrans(Transaction tx) {
-		if (tx.getStatus().equals(TransactionStatus.ACTIVE)) {
-			tx.commit();
-		}
-	}
-
-	private void customViewSaveLogicCCPDetails(int customViewMasterSid, GtnWsCustomViewRequest cvRequest) {
-		int tempCustomViewMasterSid = 0;
+    private void customViewSaveLogicCCPDetails(int customViewMasterSid, GtnWsCustomViewRequest cvRequest) {
+        int tempCustomViewMasterSid = 0;
 		try (Session session = getSessionFactory().openSession()) {
 			GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
 			inputBean.setSelectedCustomerRelationShipBuilderSid(cvRequest.getCustomerRelationshipSid());

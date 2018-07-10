@@ -32,7 +32,6 @@ import com.stpl.gtn.gtn2o.ui.framework.component.grid.utils.GridUtils;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsExcelHeaderBean;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -62,7 +61,6 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
         GtnUIFrameworkExcelButtonConfig inputBean = (GtnUIFrameworkExcelButtonConfig) gtnUIFrameWorkActionConfig
                 .getActionParameterList().get(0);
         List<GtnWsRecordBean> exportList = new ArrayList<>();
-        GtnWsExcelHeaderBean headerBean = null;
         GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(inputBean.getExportTableId(), componentId);
          PagedTreeGrid treeGrid = (PagedTreeGrid) componentData.getCustomData();

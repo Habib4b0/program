@@ -17,7 +17,6 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
-import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkPopUpAction;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.GtnUIFrameworkNotesTab;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.NotesDTO;

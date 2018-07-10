@@ -482,7 +482,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
                 variableBreakDownHeaderLoadAction.addActionParameter("reportLandingScreen_STATUS");
             
                 variableBreakdownLookupResultsPagedTableConfig.setGtnUIFrameWorkActionConfig(variableBreakDownHeaderLoadAction);
-            variableBreakdownLookupResultsPagedTableConfig.setGridHeaderCustomClassLoadUrl(
+            variableBreakdownLookupResultsPagedTableConfig.setGridHeaderCustomClassLoadURL(
                     GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_HEADER_ACTION);
 		variableBreakdownLookupResultsPagedTableComponent
 				.setGtnPagedTableConfig(variableBreakdownLookupResultsPagedTableConfig);
