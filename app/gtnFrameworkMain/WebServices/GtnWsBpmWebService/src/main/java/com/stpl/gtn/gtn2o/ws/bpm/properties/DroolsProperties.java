@@ -81,7 +81,7 @@ public class DroolsProperties {
         try {
             path = System.getProperty(JBOSS_SERVER_CONFIG_DIR);
             if (!isPrinted) {
-                logger.info("jboss.server.config.dir :" + path);
+                logger.info("jboss.server.config.dir in getCffPropertiesData() :" + path);
             }
             path = path.replace(STANDALONE, BPMCONFIG);
             path = path.replace(CONFIGURATION, "cff_properties.properties");
@@ -90,7 +90,7 @@ public class DroolsProperties {
             }
             File file = new File(path);
             if (!isPrinted) {
-                logger.info("File resources Path :" + file.getAbsolutePath());
+                logger.info("File resources Path in getCffPropertiesData():" + file.getAbsolutePath());
             }
             FileInputStream fileInput = new FileInputStream(file);
             cffProperties.load(fileInput);
@@ -100,7 +100,7 @@ public class DroolsProperties {
                 while (enuKeys.hasMoreElements()) {
                     String key = (String) enuKeys.nextElement();
                     String value = cffProperties.getProperty(key);
-                    logger.info("Data in cffProperties File :Key :" + key + ": Value :" + value);
+                    logger.info("Data in cffProperties File :Key :" + key + ": Value in getCffPropertiesData() :" + value);
                 }
                 isPrinted = true;
             }
@@ -118,7 +118,7 @@ public class DroolsProperties {
         try {
             path = System.getProperty(JBOSS_SERVER_CONFIG_DIR);
             if (!isPrinted) {
-                logger.info("jboss.server.config.dir :" + path);
+                logger.info("jboss.server.config.dir in getArmPropertiesData() :" + path);
             }
             path = path.replace(STANDALONE, BPMCONFIG);
             path = path.replace(CONFIGURATION, "forecasting_properties.properties");
@@ -127,7 +127,7 @@ public class DroolsProperties {
             }
             File file = new File(path);
             if (!isPrinted) {
-                logger.info("File resources Path :" + file.getAbsolutePath());
+                logger.info("File resources Path in getArmPropertiesData() :" + file.getAbsolutePath());
             }
             try (FileInputStream fileInput = new FileInputStream(file)) {
                 armProperties.load(fileInput);
@@ -137,7 +137,7 @@ public class DroolsProperties {
                 while (enuKeys.hasMoreElements()) {
                     String key = (String) enuKeys.nextElement();
                     String value = properties.getProperty(key);
-                    logger.info("Data in armProperties File :Key :" + key + ": Value :" + value);
+                    logger.info("Data in armProperties File :Key :" + key + ": Value in getArmPropertiesData() :" + value);
                 }
                 isPrinted = true;
             }
