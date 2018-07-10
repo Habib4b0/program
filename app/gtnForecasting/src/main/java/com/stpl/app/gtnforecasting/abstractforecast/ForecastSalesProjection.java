@@ -1120,15 +1120,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      */
     @UiHandler("generateBtn")
     public void generateBtn(Button.ClickEvent event) {
-        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-            if(!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())){
-            session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
-            session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
-            dataLogic.nmSalesViewsPopulationProcedure(session);
-            CommonUtil.getInstance().waitForSeconds();
-            }
-            projectionDTO.setGroup(StringUtils.EMPTY);
-        }
+       
         checkBoxMap.clear();
         radioMap.clear();
         generateBtnLogic(event);

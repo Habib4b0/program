@@ -519,10 +519,10 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     @Override
     public void generateBtnLogic(Button.ClickEvent event) {
-        CommonLogic.procedureCompletionCheck(session,"sales",String.valueOf(view.getValue()));
         try {
             projectionDTO.setCustomerLevelFilter(generateCustomerToBeLoaded);
             projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
+             loadAllFilters();
             if (checkSelection()) {
                 LOGGER.debug("generate button click listener starts ");
                 tableLayout.removeAllComponents();
@@ -531,6 +531,26 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 super.initializeResultTable();
                 configureResultTable();
                 addResultTable();
+                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+                    if (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())) {
+                        session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
+                        session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
+                        CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
+                        dataLogic.nmSalesViewsPopulationProcedure(session);
+                        CommonUtil.getInstance().waitForSeconds();
+                    }
+                    if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty())) {
+                        LOGGER.info("generateBtn :Inside Filter Option");
+                        session.setFunctionMode("F");
+                        CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
+                        CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
+                        dataLogic.nmSalesViewsPopulationProcedureWithoutTruncation(session);
+                        CommonUtil.getInstance().waitForSeconds();
+                    }
+                    projectionDTO.setGroup(StringUtils.EMPTY);
+                   
+                }
+                CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
                 generateLogic();
             }
         } catch (Exception e) {
@@ -661,7 +681,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             Utility.loadLevelValue(level, levelFilter, null, session.getCustomerHierarchyList(), view.getValue().toString());
         }
         CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT, 0));
-        loadAllFilters();
+
         nmSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
     }
 
@@ -677,6 +697,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         projectionDTO.setDisplayFormat(CommonUtil.getDisplayFormatSelectedValues(displayFormatValues));
         projectionDTO.setConversionFactor(conversionFactorDdlb.getValue());
         CommonLogic.updateForFilter(projectionDTO, "SALES", false);
+        CommonLogic.updateCustomerProductCustomTables(session);
     }
 
     /**

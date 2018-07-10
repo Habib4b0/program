@@ -5403,6 +5403,11 @@ public class CommonLogic {
                 CommonUtil.getInstance().updateStatusTable(screenName, session, Constants.CUSTOM);
         LOGGER.info("updateFlagStatusToR------------AllViewsDiscount-----END----------------------------------");
     }
+    public static void updateCustomerProductCustomTables(SessionDTO session) {
+                CommonUtil.getInstance().updateTable(session, "ST_CUSTOMER_SALES");
+                CommonUtil.getInstance().updateTable(session, "ST_PRODUCT_SALES");
+                CommonUtil.getInstance().updateTable(session, "ST_CUSTOM_SALES");
+    }
 }
     
 
