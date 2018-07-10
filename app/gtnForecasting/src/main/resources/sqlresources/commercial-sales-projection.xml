@@ -374,7 +374,7 @@ GROUP BY SHN.HIERARCHY_NO,
                                        HIERARCHY_NO) CO ON CO.ROWID=STC.HIERARCHY_NO
                                                                          JOIN #SELECTED_HIERARCHY_NO SH ON CO.HIERARCHY_NO LIKE SH.HIERARCHY_NO+'%' 
 
-                                                                                                                         
+                                                                          AND STC.SALES_INCLUSION=SH.SALES_INCLUSION                                               
                                                                      
                                                                            WHERE INDICATOR=0  @SALESINCLUSION
                                                                            GROUP BY  SH.HIERARCHY_NO,
@@ -410,7 +410,7 @@ GROUP BY SHN.HIERARCHY_NO,
                                        HIERARCHY_NO) CO ON CO.ROWID=STC.HIERARCHY_NO
                                                                          JOIN #SELECTED_HIERARCHY_NO SH ON CO.HIERARCHY_NO LIKE SH.HIERARCHY_NO+'%' 
 
-                                                                                                                           
+                                                                            AND STC.SALES_INCLUSION=SH.SALES_INCLUSION                                               
                                                                      
                                                                            WHERE INDICATOR=1  @SALESINCLUSION
                                                                            GROUP BY  SH.HIERARCHY_NO,
