@@ -32,7 +32,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportVariableBreakdownLookupBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.grid.GtnWsPagedTableResponse;
@@ -248,7 +247,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 	private GtnUIFrameworkPagedTableConfig setHeaderFromWs(PagedGrid comparisonBreakdownPagedGrid, String componentId,
 			Grid<GtnWsRecordBean> comparisonBreakdownGrid) throws GtnFrameworkGeneralException {
 		GtnUIFrameworkPagedTableConfig comparisonBreakdownTableConfig = comparisonBreakdownPagedGrid.getTableConfig();
-		String classPath = comparisonBreakdownTableConfig.getGridHeaderCustomClassLoadUrl();
+		String classPath = comparisonBreakdownTableConfig.getGridHeaderCustomClassLoadURL();
 		classLoaderForComparisonBreakdown(comparisonBreakdownTableConfig.getGtnUIFrameWorkActionConfig(), classPath,
 				componentId);
 		GtnUIFrameworkWebserviceRequest comparisonBreakdownHeaderRequest = getCustomPagedTableRequestForComparisonBreakdown(

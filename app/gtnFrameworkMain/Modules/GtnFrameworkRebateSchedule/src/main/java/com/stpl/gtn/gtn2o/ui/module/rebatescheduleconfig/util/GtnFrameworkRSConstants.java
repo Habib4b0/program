@@ -341,6 +341,7 @@ public class GtnFrameworkRSConstants {
 
 	public static final String ERROR_MESSAGE_COPY_HEADER = "Copy Error";
 	public static final String ERROR_MESSAGE_COPY_MESSAGE = "Please select a record to copy.";
+	public static final String POPULATE = "populate";
 
 	public static String[] getRsLookUpColumn() {
 		return RS_LOOKUP_COLUMN.clone();
