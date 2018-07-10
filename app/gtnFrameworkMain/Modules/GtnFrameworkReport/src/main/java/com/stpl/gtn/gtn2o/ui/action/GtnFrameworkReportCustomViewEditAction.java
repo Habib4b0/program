@@ -169,7 +169,7 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 				char indicator = bean.getStringPropertyByIndex(3).toUpperCase().charAt(0);
 				treeData.addItem(parent, bean);
 				expandTree(treeGrid, parent);
-				if (indicator != 'V' || bean.getStringPropertyByIndex(0).equals("Variables")) {
+				if (indicator != 'V' || bean.getStringPropertyByIndex(0).equalsIgnoreCase("Variables")) {
 					parent = bean;
 				}
 				removeFromLeftTable(bean, indicator);
