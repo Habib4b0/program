@@ -138,11 +138,14 @@
   <hop> <from>CHECK_ITEM_ID_IN_ITEM_MASTER</from><to>Invalid Reason-Item Id</to><enabled>Y</enabled> </hop>
   <hop> <from>Invalid Reason-Item Id</from><to>ITEM_ID_NOT_IN_ITEM_MASTER</to><enabled>Y</enabled> </hop>
   <hop> <from>Invalid Reason-UNIQUE KEY</from><to>UNIQUE_KEY_INVALID</to><enabled>Y</enabled> </hop>
-  <hop> <from>CHECK_ITEM_ID_IN_ITEM_MASTER</from><to>HELPER_TABLE_STATUS</to><enabled>Y</enabled> </hop>
-  <hop> <from>HELPER_TABLE_STATUS</from><to>PRIMARY_UOM_HELPER_TABLE</to><enabled>Y</enabled> </hop>
   <hop> <from>PRIMARY_UOM_HELPER_TABLE</from><to>SECONDARY_UOM_HELPER_TABLE 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>SECONDARY_UOM_HELPER_TABLE 2</from><to>Table output</to><enabled>Y</enabled> </hop>
   <hop> <from>Table output</from><to>Invalid Reason-UNIQUE KEY</to><enabled>Y</enabled> </hop>
+  <hop> <from>CHECK_ITEM_ID_IN_ITEM_MASTER</from><to>PRIMARY_UOM_HELPER_TABLE</to><enabled>Y</enabled> </hop>
+  <hop> <from>SECONDARY_UOM_HELPER_TABLE 2</from><to>CHECK_ITEM_UOM_DUP</to><enabled>Y</enabled> </hop>
+  <hop> <from>CHECK_ITEM_UOM_DUP</from><to>HELPER_TABLE_STATUS</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Reason-UNIQUE KEY 2</from><to>UNIQUE_KEY_INVALID 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>HELPER_TABLE_STATUS</from><to>Table output</to><enabled>Y</enabled> </hop>
+  <hop> <from>CHECK_ITEM_UOM_DUP</from><to>Invalid Reason-UNIQUE KEY 2</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>A-INVALID1</name>
@@ -463,7 +466,7 @@
     <name>CHECK_ITEM_ID_IN_ITEM_MASTER</name>
     <type>DBLookup</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -495,8 +498,62 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>657</xloc>
-      <yloc>704</yloc>
+      <xloc>664</xloc>
+      <yloc>772</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>CHECK_ITEM_UOM_DUP</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>ITEM_UOM</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>ITEM_ID</name>
+        <field>ITEM_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>PRIMARY_UOM__HELPER_TABLE_SID</name>
+        <field>PRIMARY_UOM_CODE</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>SECONDARY_UOM_HELPER_TABLE_SID</name>
+        <field>SECONDARY_UOM_CODE</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>ITEM_UOM_SID</name>
+        <rename>ITEM_UOM_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>691</xloc>
+      <yloc>1088</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -543,8 +600,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>662</xloc>
-      <yloc>844</yloc>
+      <xloc>682</xloc>
+      <yloc>1219</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -669,8 +726,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1056</xloc>
-      <yloc>689</yloc>
+      <xloc>1070</xloc>
+      <yloc>776</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -893,8 +950,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>863</xloc>
-      <yloc>696</yloc>
+      <xloc>893</xloc>
+      <yloc>773</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -952,6 +1009,63 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>871</xloc>
       <yloc>1371</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason-UNIQUE KEY 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Record</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ERROR_CODE_1</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E04</nullif>
+        <length>10</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ERROR_FIELD</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>ITEM_ID,PRIMARY_UOM_CODE,SECONDARY_UOM_CODE</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>875</xloc>
+      <yloc>1107</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1090,8 +1204,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>666</xloc>
-      <yloc>975</yloc>
+      <xloc>681</xloc>
+      <yloc>886</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1138,8 +1252,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>675</xloc>
-      <yloc>1114</yloc>
+      <xloc>685</xloc>
+      <yloc>994</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1442,10 +1556,148 @@
       </GUI>
     </step>
 
+  <step>
+    <name>UNIQUE_KEY_INVALID 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_ITEM_UOM</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ITEM_UOM_CONVERSION_ID</column_name>
+          <stream_name>ITEM_UOM_CONVERSION_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>PRIMARY_UOM_BASELINE_FACTOR</column_name>
+          <stream_name>PRIMARY_UOM_BASELINE_FACTOR</stream_name>
+        </field>
+        <field>
+          <column_name>PRIMARY_UOM_CODE</column_name>
+          <stream_name>PRIMARY_UOM_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>PRIMARY_UOM_NAME</column_name>
+          <stream_name>PRIMARY_UOM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>SECONDARY_UOM_CONVERSION_FACTOR</column_name>
+          <stream_name>SECONDARY_UOM_CONVERSION_FACTOR</stream_name>
+        </field>
+        <field>
+          <column_name>SECONDARY_UOM_CODE</column_name>
+          <stream_name>SECONDARY_UOM_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>SECONDARY_UOM_NAME</column_name>
+          <stream_name>SECONDARY_UOM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS</column_name>
+          <stream_name>STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>UPLOAD_DATE</column_name>
+          <stream_name>UPLOAD_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ERROR_CODE_1</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_FIELD</column_name>
+          <stream_name>ERROR_FIELD</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1070</xloc>
+      <yloc>1100</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
   <step_error_handling>
       <error>
         <source_step>CHECK_ITEM_ID_IN_ITEM_MASTER</source_step>
         <target_step>Invalid Reason-Item Id</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>CHECK_ITEM_UOM_DUP</source_step>
+        <target_step>HELPER_TABLE_STATUS</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>

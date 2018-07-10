@@ -94,7 +94,7 @@ public class GtnWebServiceArmWorkflowSearchConfig implements GtnWsSearchQueryCon
 		fieldToColumnDetailsMap.put("companyARM", 
 				configProvider.getColumnStringConfig(GtnWsWorkflowQueryContants.COMPANY_MASTER_SID, GtnWsWorkflowQueryContants.GL_COMP));
 		fieldToColumnDetailsMap.put("businessUnitARM", 
-				configProvider.getColumnStringConfig(GtnWsWorkflowQueryContants.COMPANY_MASTER_SID, "BU_COMp"));
+				configProvider.getColumnStringConfig(GtnWsWorkflowQueryContants.COMPANY_MASTER_SID, GtnWsWorkflowQueryContants.BU_COMP));
 		fieldToColumnDetailsMap.put("adjustmentType",
 				configProvider.getColumnStringConfig("TRANSACTION_NAME", "ADJ_CONF"));
 		fieldToColumnDetailsMap.put("adjustmentTypeName",
@@ -123,10 +123,10 @@ public class GtnWebServiceArmWorkflowSearchConfig implements GtnWsSearchQueryCon
 		fieldToColumnDetailsMap.put("Company", 
 				configProvider.getColumnStringConfig(GtnWsWorkflowQueryContants.COMPANY_NAME, GtnWsWorkflowQueryContants.GL_COMP));
 		fieldToColumnDetailsMap.put("businessUnitName", 
-				configProvider.getColumnStringConfig(GtnWsWorkflowQueryContants.COMPANY_NAME, "BU_COMp"));
+				configProvider.getColumnStringConfig(GtnWsWorkflowQueryContants.COMPANY_NAME, GtnWsWorkflowQueryContants.BU_COMP));
 		fieldToColumnDetailsMap.put("contractIdArm", configProvider.getColumnIntegerConfig("RS_CONTRACT_SID", "rs"));
 		fieldToColumnDetailsMap.put("contractNoArm", configProvider.getColumnStringConfig("RS_NO", "rs"));
-		fieldToColumnDetailsMap.put("customerNoArm", configProvider.getColumnStringConfig("COMPANY_NO", GtnWsWorkflowQueryContants.GL_COMP));
+		fieldToColumnDetailsMap.put("customerNoArm", configProvider.getColumnStringConfig(GtnWsWorkflowQueryContants.COMPANY_NO, GtnWsWorkflowQueryContants.GL_COMP));
 		fieldToColumnDetailsMap.put("customerNameArm", 
 				configProvider.getColumnStringConfig(GtnWsWorkflowQueryContants.COMPANY_NAME, GtnWsWorkflowQueryContants.GL_COMP));
 		fieldToColumnDetailsMap.put("brandIdArm", configProvider.getColumnStringConfig("BRAND_MASTER_SID", "IM"));
@@ -138,8 +138,8 @@ public class GtnWebServiceArmWorkflowSearchConfig implements GtnWsSearchQueryCon
 		fieldToColumnDetailsMap.put("deductionNoArm", configProvider.getColumnStringConfig("RS_NO", "rs"));
 		fieldToColumnDetailsMap.put("deductionNameArm", configProvider.getColumnStringConfig("RS_NAME", "rs"));
 		
-		fieldToColumnDetailsMap.put("Company_No_Arm", configProvider.getColumnStringConfig("COMPANY_NO", GtnWsWorkflowQueryContants.GL_COMP));
-		fieldToColumnDetailsMap.put("Business_Unit_No_Arm", configProvider.getColumnStringConfig("COMPANY_NO", "BU_COMp"));
+		fieldToColumnDetailsMap.put("Company_No_Arm", configProvider.getColumnStringConfig(GtnWsWorkflowQueryContants.COMPANY_NO, GtnWsWorkflowQueryContants.GL_COMP));
+		fieldToColumnDetailsMap.put("Business_Unit_No_Arm", configProvider.getColumnStringConfig(GtnWsWorkflowQueryContants.COMPANY_NO, GtnWsWorkflowQueryContants.BU_COMP));
 		fieldToColumnDetailsMap.put("selectedAdjustmentType", configProvider.getColumnStringConfig("ARM_ADJUSTMENT_CONFIG_SID", "ADJ_CONF"));
 		fieldToColumnDetailsMap.put("deductionCategory", configProvider.getColumnStringConfig("RS_CATEGORY", "rs"));
 		fieldToColumnDetailsMap.put("deductionProgram", configProvider.getColumnStringConfig("REBATE_PROGRAM_TYPE", "rs"));
