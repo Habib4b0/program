@@ -165,45 +165,26 @@ public class GtnFrameworkReportCustomViewEditAction implements GtnUIFrameWorkAct
 		Optional.ofNullable(cvResponse.getCvTreeNodeList()).ifPresent(beans -> {
 
 			GtnWsRecordBean parent = null;
-			List<GtnWsRecordBean> variables = new ArrayList<>();
-			int j = 0;
 			for (GtnWsRecordBean bean : beans) {
-
 				char indicator = bean.getStringPropertyByIndex(3).toUpperCase().charAt(0);
-				if (parent == null) {
-					treeData.addItem(null, bean);
-				} else {
-					if (indicator == 'V') {
-						variables.add(bean);
-						j++;
-						if (j == cvResponse.getCvTreeNodeList().size()) {
-							addVariablesToTree(variables, treeData, parent, treeGrid);
-						}
-						continue;
-					} else {
-						if (!variables.isEmpty()) {
-							addVariablesToTree(variables, treeData, parent, treeGrid);
-						} else {
-							treeData.addItem(parent, bean);
-							treeGrid.expand(parent);
-						}
-					}
+				treeData.addItem(parent, bean);
+				expandTree(treeGrid, parent);
+				if (indicator != 'V' || bean.getStringPropertyByIndex(0).equalsIgnoreCase("Variables")) {
+					parent = bean;
 				}
 				removeFromLeftTable(bean, indicator);
-				parent = bean;
-				j++;
+
 			}
 		});
 		return treeData;
+
 	}
 
-	public void addVariablesToTree(List<GtnWsRecordBean> variables, TreeData<GtnWsRecordBean> treeData,
-			GtnWsRecordBean parent, TreeGrid<GtnWsRecordBean> treeGrid) {
-		variables.stream().forEach((gtnWsRecordBean) -> {
-			treeData.addItem(parent, gtnWsRecordBean);
-		});
-		treeGrid.expand(parent);
-		variables.clear();
+	private void expandTree(TreeGrid<GtnWsRecordBean> treeGrid, GtnWsRecordBean parent) {
+		if (parent != null) {
+			treeGrid.expand(parent);
+		}
+
 	}
 
 }
