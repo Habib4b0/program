@@ -247,7 +247,7 @@ public class GtnReportingComparisonBreakdownGridLoadAction
 	private GtnUIFrameworkPagedTableConfig setHeaderFromWs(PagedGrid comparisonBreakdownPagedGrid, String componentId,
 			Grid<GtnWsRecordBean> comparisonBreakdownGrid) throws GtnFrameworkGeneralException {
 		GtnUIFrameworkPagedTableConfig comparisonBreakdownTableConfig = comparisonBreakdownPagedGrid.getTableConfig();
-		String classPath = comparisonBreakdownTableConfig.getGridHeaderCustomClassLoadUrl();
+		String classPath = comparisonBreakdownTableConfig.getGridHeaderCustomClassLoadURL();
 		classLoaderForComparisonBreakdown(comparisonBreakdownTableConfig.getGtnUIFrameWorkActionConfig(), classPath,
 				componentId);
 		GtnUIFrameworkWebserviceRequest comparisonBreakdownHeaderRequest = getCustomPagedTableRequestForComparisonBreakdown(

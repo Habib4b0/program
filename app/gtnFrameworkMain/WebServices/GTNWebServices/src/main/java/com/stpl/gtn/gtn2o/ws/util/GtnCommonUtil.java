@@ -101,7 +101,7 @@ public class GtnCommonUtil {
 
 	public static String getDate(String input) throws ParseException {
 
-		DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 		Date date = formatter.parse(input);
 		SimpleDateFormat commonDate = new SimpleDateFormat("MM/dd/yyyy");
 		return commonDate.format(date);
