@@ -76,7 +76,7 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
             throws GtnFrameworkGeneralException {
 
 
-       String classPath = tableConfig.getGridHeaderCustomClassLoadUrl();
+       String classPath = tableConfig.getGridHeaderCustomClassLoadURL();
         classLoader(tableConfig.getGtnUIFrameWorkActionConfig(), classPath, sourceViewId);
         GtnUIFrameworkWebserviceRequest headerRequest = getCustomPagedTableRequest(
                 tableConfig.getGtnUIFrameWorkActionConfig(), sourceViewId);

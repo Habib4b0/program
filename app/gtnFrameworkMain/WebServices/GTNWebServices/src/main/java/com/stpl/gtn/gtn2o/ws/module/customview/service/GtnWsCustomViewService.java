@@ -43,6 +43,7 @@ import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import java.util.Locale;
 
 /**
  *
@@ -52,9 +53,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 @Scope(value = "singleton")
 public class GtnWsCustomViewService {
 
-
 	private static final String REPORT = "report";
-	
 	
     public GtnWsCustomViewService() {
         super();
@@ -277,7 +276,7 @@ public class GtnWsCustomViewService {
                 CustViewDetails details = new CustViewDetails();
                 GtnWsRecordBean dto = cvTreeNodeList.get(j);
                 String indicator = dto.getStringPropertyByIndex(3);
-                if (variableType.toLowerCase().contains("static") && indicator.toLowerCase().startsWith("v")) {
+                if (variableType.toLowerCase(Locale.ENGLISH).contains("static") && indicator.toLowerCase(Locale.ENGLISH).startsWith("v")) {
                     variablesList.add(dto);
                     if (j + 1 < cvTreeNodeList.size()) {
                         continue;
@@ -315,7 +314,7 @@ public class GtnWsCustomViewService {
                     details.setCustomViewMasterSid(customViewMasterSid);
                     details.setHierarchyId(dto.getIntegerPropertyByIndex(4));
 
-                    details.setHierarchyIndicator(indicator.toUpperCase().charAt(0));
+                    details.setHierarchyIndicator(indicator.toUpperCase(Locale.ENGLISH).charAt(0));
                     details.setLevelName(dto.getStringPropertyByIndex(0));
                     levelCount++;
                     details.setLevelNo(levelCount);
@@ -353,194 +352,201 @@ public class GtnWsCustomViewService {
     private void customViewSaveLogicCCPDetails(int customViewMasterSid, GtnWsCustomViewRequest cvRequest) {
         int tempCustomViewMasterSid = 0;
 		try (Session session = getSessionFactory().openSession()) {
-            GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
-            inputBean.setSelectedCustomerRelationShipBuilderSid(cvRequest.getCustomerRelationshipSid());
-            inputBean.setSelectedProductRelationShipBuilderSid(cvRequest.getProductRelationshipSid());
+			GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
+			inputBean.setSelectedCustomerRelationShipBuilderSid(cvRequest.getCustomerRelationshipSid());
+			inputBean.setSelectedProductRelationShipBuilderSid(cvRequest.getProductRelationshipSid());
 
 			RelationshipBuilder customerRb = session.get(RelationshipBuilder.class,
 					inputBean.getSelectedCustomerRelationShipBuilderSid());
-            inputBean.setSelectedCustomerRelationShipBuilderVersionNo(customerRb.getVersionNo());
-            inputBean.setSelectedCustomerHierarcySid(customerRb.getHierarchyDefinition().getHierarchyDefinitionSid());
-            inputBean.setSelectedCustomerHierarchyVersionNo(customerRb.getHierarchyVersion());
+			inputBean.setSelectedCustomerRelationShipBuilderVersionNo(customerRb.getVersionNo());
+			inputBean.setSelectedCustomerHierarcySid(customerRb.getHierarchyDefinition().getHierarchyDefinitionSid());
+			inputBean.setSelectedCustomerHierarchyVersionNo(customerRb.getHierarchyVersion());
 
 			RelationshipBuilder productRb = session.get(RelationshipBuilder.class,
 					inputBean.getSelectedProductRelationShipBuilderSid());
-            inputBean.setSelectedProductRelationShipBuilderVersionNo(productRb.getVersionNo());
-            inputBean.setSelectedProductHierarcySid(productRb.getHierarchyDefinition().getHierarchyDefinitionSid());
-            inputBean.setSelectedProductHierarchyVersionNo(productRb.getHierarchyVersion());
-            int masterSid = cvRequest.getCvSysId();
-            tempCustomViewMasterSid = (masterSid == 0) ? customViewMasterSid : cvRequest.getCvSysId();
-            insertToCCPTable(inputBean, tempCustomViewMasterSid);
-        } catch (GtnFrameworkGeneralException ex) {
-            logger.error(ex.getMessage());
-        }
-    }
+			inputBean.setSelectedProductRelationShipBuilderVersionNo(productRb.getVersionNo());
+			inputBean.setSelectedProductHierarcySid(productRb.getHierarchyDefinition().getHierarchyDefinitionSid());
+			inputBean.setSelectedProductHierarchyVersionNo(productRb.getHierarchyVersion());
+			int masterSid = cvRequest.getCvSysId();
+			tempCustomViewMasterSid = (masterSid == 0) ? customViewMasterSid : cvRequest.getCvSysId();
+			insertToCCPTable(inputBean, tempCustomViewMasterSid);
+		} catch (GtnFrameworkGeneralException ex) {
+			logger.error(ex.getMessage());
+		}
+	}
 
-    public void insertToCCPTable(GtnForecastHierarchyInputBean inputBean, int customViewMasterSid) throws GtnFrameworkGeneralException {
-        try {
-            List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList = relationUpdateService
-                    .getHierarchyBuilder(inputBean.getSelectedCustomerHierarcySid(),
-                            inputBean.getSelectedCustomerHierarchyVersionNo());
-            List<HierarchyLevelDefinitionBean> productHierarchyLevelDefinitionList = relationUpdateService
-                    .getHierarchyBuilder(inputBean.getSelectedProductHierarcySid(),
-                            inputBean.getSelectedProductHierarchyVersionNo());
-            String customerHierarchyQuery = getCustomerAndContractHierarchyQuery(
-                    customerHierarchyLevelDefinitionList, inputBean.getSelectedCustomerRelationShipBuilderVersionNo(), inputBean.getSelectedCustomerRelationShipBuilderSid(), false);
-            String productHierarchyQuery = getCustomerAndContractHierarchyQuery(
-                    productHierarchyLevelDefinitionList, inputBean.getSelectedProductRelationShipBuilderVersionNo(), inputBean.getSelectedProductRelationShipBuilderSid(), true);
-            List<String> input = new ArrayList<>();
-            input.add(customerHierarchyQuery);
-            input.add(productHierarchyQuery);
-            input.add(String.valueOf(inputBean.getSelectedCustomerRelationShipBuilderSid()));
-            input.add(String.valueOf(inputBean.getSelectedProductRelationShipBuilderSid()));
-            input.add(String.valueOf(customViewMasterSid));
-            input.add(String.valueOf(inputBean.getSelectedCustomerRelationShipBuilderVersionNo()));
-            input.add(String.valueOf(inputBean.getSelectedProductRelationShipBuilderVersionNo()));
-            String sql="DELETE FROM CUSTOM_CCP_DETAILS WHERE CUST_VIEW_MASTER_SID= "+customViewMasterSid;
-            gtnSqlQueryEngine.executeInsertOrUpdateQuery(sql);
-            String withTableNameQuery = gtnWsSqlService.getQuery(input, "ccpInsertQueryCustom");
-            gtnSqlQueryEngine.executeInsertOrUpdateQuery(withTableNameQuery);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
-    }
+	public void insertToCCPTable(GtnForecastHierarchyInputBean inputBean, int customViewMasterSid)
+			throws GtnFrameworkGeneralException {
+		try {
+			List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList = relationUpdateService
+					.getHierarchyBuilder(inputBean.getSelectedCustomerHierarcySid(),
+							inputBean.getSelectedCustomerHierarchyVersionNo());
+			List<HierarchyLevelDefinitionBean> productHierarchyLevelDefinitionList = relationUpdateService
+					.getHierarchyBuilder(inputBean.getSelectedProductHierarcySid(),
+							inputBean.getSelectedProductHierarchyVersionNo());
+			String customerHierarchyQuery = getCustomerAndContractHierarchyQuery(customerHierarchyLevelDefinitionList,
+					inputBean.getSelectedCustomerRelationShipBuilderVersionNo(),
+					inputBean.getSelectedCustomerRelationShipBuilderSid(), false);
+			String productHierarchyQuery = getCustomerAndContractHierarchyQuery(productHierarchyLevelDefinitionList,
+					inputBean.getSelectedProductRelationShipBuilderVersionNo(),
+					inputBean.getSelectedProductRelationShipBuilderSid(), true);
+			List<String> input = new ArrayList<>();
+			input.add(customerHierarchyQuery);
+			input.add(productHierarchyQuery);
+			input.add(String.valueOf(inputBean.getSelectedCustomerRelationShipBuilderSid()));
+			input.add(String.valueOf(inputBean.getSelectedProductRelationShipBuilderSid()));
+			input.add(String.valueOf(customViewMasterSid));
+			input.add(String.valueOf(inputBean.getSelectedCustomerRelationShipBuilderVersionNo()));
+			input.add(String.valueOf(inputBean.getSelectedProductRelationShipBuilderVersionNo()));
+			String sql = "DELETE FROM CUSTOM_CCP_DETAILS WHERE CUST_VIEW_MASTER_SID= " + customViewMasterSid;
+			gtnSqlQueryEngine.executeInsertOrUpdateQuery(sql);
+			String withTableNameQuery = gtnWsSqlService.getQuery(input, "ccpInsertQueryCustom");
+			gtnSqlQueryEngine.executeInsertOrUpdateQuery(withTableNameQuery);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
 
-    private String getCustomerAndContractHierarchyQuery(
-            List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
-            int relationVersionNo, int relationSid, boolean isProduct) {
+	private String getCustomerAndContractHierarchyQuery(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
+			int relationVersionNo, int relationSid, boolean isProduct) {
 
-        List<Object> input = new ArrayList<>();
+		List<Object> input = new ArrayList<>();
 
-        HierarchyLevelDefinitionBean lastLevelDto = HierarchyLevelDefinitionBean
-                .getLastLinkedLevel(hierarchyLevelDefinitionList);
-        input.add(relationVersionNo);
-        input.add(lastLevelDto.getLevelNo());
-        input.add(relationSid);
+		HierarchyLevelDefinitionBean lastLevelDto = HierarchyLevelDefinitionBean
+				.getLastLinkedLevel(hierarchyLevelDefinitionList);
+		input.add(relationVersionNo);
+		input.add(lastLevelDto.getLevelNo());
+		input.add(relationSid);
 
-        String beanName = isProduct ? "CCP_INSERT_PRODUCT" : "CCP_INSERT_CUSTOMER";
-        GtnFrameworkQueryGeneratorBean queryBean = queryGeneratorService.getQuerybySituationNameAndLevel(lastLevelDto,
-                beanName, hierarchyLevelDefinitionList);
+		String beanName = isProduct ? "CCP_INSERT_PRODUCT" : "CCP_INSERT_CUSTOMER";
+		GtnFrameworkQueryGeneratorBean queryBean = queryGeneratorService.getQuerybySituationNameAndLevel(lastLevelDto,
+				beanName, hierarchyLevelDefinitionList);
 
-        return gtnWsSqlService.getReplacedQuery(input, queryBean.generateQuery());
-    }
-      @SuppressWarnings("unchecked")
+		return gtnWsSqlService.getReplacedQuery(input, queryBean.generateQuery());
+	}
+
+	@SuppressWarnings("unchecked")
 	public GtnUIFrameworkWebserviceComboBoxResponse getCustomViewLevelData(GtnWsCustomViewRequest cvRequest) {
 		GtnUIFrameworkWebserviceComboBoxResponse response = new GtnUIFrameworkWebserviceComboBoxResponse();
 		try (Session session = getSessionFactory().openSession()) {
-        Criteria selectCriteria = session.createCriteria(CustViewDetails.class);
-        selectCriteria.add(Restrictions.eq("customViewMasterSid", cvRequest.getCvSysId()));
-        List<CustViewDetails> gtnListOfData = selectCriteria.list();
-           for (CustViewDetails detailsData : gtnListOfData) {
-                response.addItemCodeList(Integer.toString(detailsData.getLevelNo()));
-                response.addItemValueList(detailsData.getLevelNo()+" - "+GtnFrameworkCommonStringConstants.STRING_EMPTY+detailsData.getLevelName());
-           }
+			Criteria selectCriteria = session.createCriteria(CustViewDetails.class);
+			selectCriteria.add(Restrictions.eq("customViewMasterSid", cvRequest.getCvSysId()));
+			List<CustViewDetails> gtnListOfData = selectCriteria.list();
+			for (CustViewDetails detailsData : gtnListOfData) {
+				response.addItemCodeList(Integer.toString(detailsData.getLevelNo()));
+				response.addItemValueList(detailsData.getLevelNo() + " - "
+						+ GtnFrameworkCommonStringConstants.STRING_EMPTY + detailsData.getLevelName());
+			}
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
 		}
-           return response;
-     }
-       @SuppressWarnings("unchecked")
+		return response;
+	}
+
+	@SuppressWarnings("unchecked")
 	public GtnUIFrameworkWebserviceComboBoxResponse getCustomViewList() {
 		GtnUIFrameworkWebserviceComboBoxResponse response = new GtnUIFrameworkWebserviceComboBoxResponse();
 		try (Session session = getSessionFactory().openSession()) {
-        Criteria selectCriteria = session.createCriteria(CustViewMaster.class);
-        selectCriteria.add(Restrictions.like("screenName",REPORT,MatchMode.ANYWHERE));
-        List<CustViewMaster> gtnListOfData = selectCriteria.list();
-           for (CustViewMaster detailsData : gtnListOfData) {
-                response.addItemCodeList(Integer.toString(detailsData.getCustViewMasterSid()));
-                response.addItemValueList(detailsData.getCustViewName());
-           }
+			Criteria selectCriteria = session.createCriteria(CustViewMaster.class);
+			selectCriteria.add(Restrictions.like("screenName", REPORT, MatchMode.ANYWHERE));
+			List<CustViewMaster> gtnListOfData = selectCriteria.list();
+			for (CustViewMaster detailsData : gtnListOfData) {
+				response.addItemCodeList(Integer.toString(detailsData.getCustViewMasterSid()));
+				response.addItemValueList(detailsData.getCustViewName());
+			}
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
 		}
-           return response;
-     }
+		return response;
+	}
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public List<GtnWsRecordBean> getSavedTreeData(GtnWsCustomViewRequest cvRequest)
 			throws GtnFrameworkGeneralException {
 		try (Session session = getSessionFactory().openSession()) {
-        Criteria selectCriteria = session.createCriteria(CustViewDetails.class);
-        selectCriteria.add(Restrictions.eq("customViewMasterSid", cvRequest.getCvSysId()));
-        List<CustViewDetails> gtnListOfData = selectCriteria.list();
+			Criteria selectCriteria = session.createCriteria(CustViewDetails.class);
+			selectCriteria.add(Restrictions.eq("customViewMasterSid", cvRequest.getCvSysId()));
+			List<CustViewDetails> gtnListOfData = selectCriteria.list();
 
-        List<GtnWsRecordBean> recordTreeData = new ArrayList<>();
-        GtnWsRecordBean gtnWsRecordBean;
-        for (CustViewDetails detailsData : gtnListOfData) {
+			List<GtnWsRecordBean> recordTreeData = new ArrayList<>();
+			GtnWsRecordBean gtnWsRecordBean;
+			for (CustViewDetails detailsData : gtnListOfData) {
 
-            String levelName = "";
-            if (detailsData.getHierarchyId() != 0) {
-                Criteria relationCriteria = session.createCriteria(RelationshipLevelDefinition.class);
-                relationCriteria.add(Restrictions.eq("hierarchyLevelDefinition.hierarchyLevelDefinitionSid", detailsData.getHierarchyId()));
-                List<RelationshipLevelDefinition> relationData = relationCriteria.list();
-                levelName = relationData.isEmpty()?"":relationData.get(0).getLevelName();
-            }  else if( cvRequest.getCustomViewType().contains("Expandable")){
-                levelName="Variables";
-            }  else {
-                fetchReportVariables(detailsData, recordTreeData);
-                continue;
-            }
-            gtnWsRecordBean = new GtnWsRecordBean();
-            if (cvRequest.getCustomViewType().startsWith(REPORT)) {
-                configureReportBean(gtnWsRecordBean, levelName, detailsData.getHierarchyId(), detailsData);
-            } else {
-                gtnWsRecordBean.addAdditionalProperty(detailsData.getLevelNo());
-                gtnWsRecordBean.addAdditionalProperty(detailsData.getLevelNo());
-                gtnWsRecordBean.addAdditionalProperty(detailsData.getHierarchyIndicator());
-                gtnWsRecordBean.addAdditionalProperty(detailsData.getHierarchyId());
-                gtnWsRecordBean.addProperties(levelName);
-                gtnWsRecordBean.setRecordHeader(Arrays.asList("levelName"));
-            }
+				String levelName = "";
+				if (detailsData.getHierarchyId() != 0) {
+					levelName = detailsData.getLevelName();
+				} else if (cvRequest.getCustomViewType().contains("Expandable")) {
+					levelName = "Variables";
+				} else {
+					fetchReportVariables(detailsData, recordTreeData);
+					continue;
+				}
+				gtnWsRecordBean = new GtnWsRecordBean();
+				if (cvRequest.getCustomViewType().startsWith(REPORT)) {
+					configureReportBean(gtnWsRecordBean, levelName, detailsData.getHierarchyId(), detailsData);
+				} else {
+					gtnWsRecordBean.addAdditionalProperty(detailsData.getLevelNo());
+					gtnWsRecordBean.addAdditionalProperty(detailsData.getLevelNo());
+					gtnWsRecordBean.addAdditionalProperty(detailsData.getHierarchyIndicator());
+					gtnWsRecordBean.addAdditionalProperty(detailsData.getHierarchyId());
+					gtnWsRecordBean.addProperties(levelName);
+					gtnWsRecordBean.setRecordHeader(Arrays.asList("levelName"));
+				}
 
-            recordTreeData.add(gtnWsRecordBean);
-        }
-        return recordTreeData;
-	       } catch (Exception ex) {
-            logger.error(ex.getMessage());
-            return Collections.emptyList();
-        }
-        }
+				recordTreeData.add(gtnWsRecordBean);
+			}
+			return recordTreeData;
+		} catch (Exception ex) {
+			logger.error(ex.getMessage());
+			return Collections.emptyList();
+		}
+	}
 
-    public void fetchReportVariables(CustViewDetails detailsData, List<GtnWsRecordBean> recordTreeData) throws NumberFormatException, GtnFrameworkGeneralException {
-        GtnWsRecordBean gtnWsRecordBean;
-        @SuppressWarnings("unchecked")
-        List<Object[]> variablesData = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(gtnWsSqlService.getQuery("getCustomViewVariables"),
-                new Object[]{detailsData.getCustomViewDetailsSid()},
-                new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
-        for (Object[] object : variablesData) {
-            gtnWsRecordBean = new GtnWsRecordBean();
-            configureReportBean(gtnWsRecordBean, object[1].toString(), Integer.parseInt(object[0].toString()), detailsData);
-            recordTreeData.add(gtnWsRecordBean);
-        }
-    }
+	public void fetchReportVariables(CustViewDetails detailsData, List<GtnWsRecordBean> recordTreeData)
+			throws NumberFormatException, GtnFrameworkGeneralException {
+		GtnWsRecordBean gtnWsRecordBean;
+		@SuppressWarnings("unchecked")
+		List<Object[]> variablesData = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(
+				gtnWsSqlService.getQuery("getCustomViewVariables"),
+				new Object[] { detailsData.getCustomViewDetailsSid() },
+				new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER });
+		for (Object[] object : variablesData) {
+			gtnWsRecordBean = new GtnWsRecordBean();
+			configureReportBean(gtnWsRecordBean, object[1].toString(), Integer.parseInt(object[0].toString()),
+					detailsData);
+			recordTreeData.add(gtnWsRecordBean);
+		}
+	}
 
-    public void configureReportBean(GtnWsRecordBean gtnWsRecordBean, String levelName, int hierarchyId, CustViewDetails detailsData) {
-        gtnWsRecordBean.addProperties(levelName);
-        gtnWsRecordBean.addProperties(detailsData.getLevelNo());
-        gtnWsRecordBean.addProperties(detailsData.getLevelNo());
-        gtnWsRecordBean.addProperties(detailsData.getHierarchyIndicator());
-        gtnWsRecordBean.addProperties(hierarchyId);
-        gtnWsRecordBean.setRecordHeader(Arrays.asList("levelValue"));
-    }
+	public void configureReportBean(GtnWsRecordBean gtnWsRecordBean, String levelName, int hierarchyId,
+			CustViewDetails detailsData) {
+		gtnWsRecordBean.addProperties(levelName);
+		gtnWsRecordBean.addProperties(detailsData.getLevelNo());
+		gtnWsRecordBean.addProperties(detailsData.getLevelNo());
+		gtnWsRecordBean.addProperties(detailsData.getHierarchyIndicator());
+		gtnWsRecordBean.addProperties(hierarchyId);
+		gtnWsRecordBean.setRecordHeader(Arrays.asList("levelValue"));
+	}
 
-    private void callProcedureForDiscountPopulation(int customViewMasterSid) {
-        Session session = getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        try {
+	private void callProcedureForDiscountPopulation(int customViewMasterSid) {
+		Session session = getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
 
-            SQLQuery query = session.createSQLQuery(" EXEC PRC_CUSTOM_CCPD_POPULATION :param ");
-            query.setParameter("param", customViewMasterSid);
+			SQLQuery query = session.createSQLQuery(" EXEC PRC_CUSTOM_CCPD_POPULATION :param ");
+			query.setParameter("param", customViewMasterSid);
 
-            query.executeUpdate();
-            transaction.commit();
-        } catch (Exception ex) {
-            transaction.rollback();
-            logger.error(ex.getMessage());
-        } finally {
-            session.close();
-        }
+			query.executeUpdate();
+			transaction.commit();
+		} catch (Exception ex) {
+			transaction.rollback();
+			logger.error(ex.getMessage());
+		} finally {
+			session.close();
+		}
 
-    }
+	}
+
 	public void deleteCustomViewFromTable(GtnWsCustomViewRequest cvRequest, GtnWsCustomViewResponse cvResponse)
 			throws GtnFrameworkGeneralException {
 		cvResponse.setSuccess(true);
@@ -554,8 +560,8 @@ public class GtnWsCustomViewService {
 						"Cannot Delete the custom view which is already associated with existing projection.");
 				return;
 			}
-                        custViewDelete(cvRequest.getCvSysId());
-                        
+			custViewDelete(cvRequest.getCvSysId());
+
 			tx.commit();
 			cvResponse.setMessageType("success");
 			cvResponse.setMessage(cvRequest.getCustomViewName() + " has been deleted Successfully.");
@@ -617,11 +623,12 @@ public class GtnWsCustomViewService {
 		}
 		return recordBeanList;
 	}
-         private void custViewDelete(int systemId) throws GtnFrameworkGeneralException {
+
+	private void custViewDelete(int systemId) throws GtnFrameworkGeneralException {
 		String custViewDeleteQuery = gtnWsSqlService.getQuery("getCustomViewDeleteNotUsedInProjection");
 		Object[] custViewDeleteQueryParams = { systemId };
 		GtnFrameworkDataType[] custViewDeleteQueryTypes = { GtnFrameworkDataType.INTEGER };
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(custViewDeleteQuery, custViewDeleteQueryParams,
 				custViewDeleteQueryTypes);
-        }
+	}
 }
