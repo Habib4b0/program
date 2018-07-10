@@ -6,7 +6,7 @@
 
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -17,6 +17,7 @@ public class GtnWsReportDashboardBean {
 	private String[] input;
 	private Object[] values;
 	private String customViewName;
+	private int customViewMasterSid;
 	private String sessionId;
 	private GtnWsHierarchyType hierarchyType;
 	private String[] selectedVariableType;
@@ -33,8 +34,9 @@ public class GtnWsReportDashboardBean {
 	private String itemUom;
 	private String currencyConversion;
 	private Object[] displayFormat;
-	private List<Object> ccpDetailsSidList;
-	private List<Object> rsContractSidList;
+	private Set<Object> ccpDetailsSidList;
+	private Set<Object> rsContractSidList;
+	private Set<String> filteredHierarchy;
 	private String annualTotals;
 	private String comparisonBasis;
 
@@ -194,14 +196,6 @@ public class GtnWsReportDashboardBean {
 		this.displayFormat = displayFormat;
 	}
 
-	public List<Object> getCcpDetailsSidList() {
-		return ccpDetailsSidList;
-	}
-
-	public void setCcpDetailsSidList(List<Object> ccpDetailsSidList) {
-		this.ccpDetailsSidList = ccpDetailsSidList;
-	}
-
 	public String getAnnualTotals() {
 		return annualTotals;
 	}
@@ -210,20 +204,44 @@ public class GtnWsReportDashboardBean {
 		this.annualTotals = annualTotals;
 	}
 
-	public List<Object> getRsContractSidList() {
-		return rsContractSidList;
-	}
-
-	public void setRsContractSidList(List<Object> rsContractSidList) {
-		this.rsContractSidList = rsContractSidList;
-	}
-
 	public String getComparisonBasis() {
 		return comparisonBasis;
 	}
 
 	public void setComparisonBasis(String comparisonBasis) {
 		this.comparisonBasis = comparisonBasis;
+	}
+
+	public int getCustomViewMasterSid() {
+		return customViewMasterSid;
+	}
+
+	public void setCustomViewMasterSid(int customViewMasterSid) {
+		this.customViewMasterSid = customViewMasterSid;
+	}
+
+	public Set<Object> getCcpDetailsSidList() {
+		return ccpDetailsSidList;
+	}
+
+	public void setCcpDetailsSidList(Set<Object> ccpDetailsSidList) {
+		this.ccpDetailsSidList = ccpDetailsSidList;
+	}
+
+	public Set<String> getFilteredHierarchy() {
+		return filteredHierarchy;
+	}
+
+	public void setFilteredHierarchy(Set<String> filteredHierarchy) {
+		this.filteredHierarchy = filteredHierarchy;
+	}
+
+	public Set<Object> getRsContractSidList() {
+		return rsContractSidList;
+	}
+
+	public void setRsContractSidList(Set<Object> rsContractSidList) {
+		this.rsContractSidList = rsContractSidList;
 	}
 
 }

@@ -44,6 +44,8 @@ public class GtnWsContractDashboardCommonLogic {
 	private static final String CM_COMPANY_ID = "cm.COMPANY_ID";
 	private static final String CM_COMPANY_NO = "cm.COMPANY_NO";
 	private static final String CM_COMPANY_NAME = "cm.COMPANY_NAME";
+	private static final String CDR_RULE_NO = "cdr.RULE_NO";
+	private static final String CDR_RULE_NAME = "cdr.RULE_NAME";
 
 	public GtnWsContractDashboardCommonLogic() {
 		addValueToMap();
@@ -506,13 +508,13 @@ public class GtnWsContractDashboardCommonLogic {
 
 	private void addRuleColumns() {
 
-		ruleColumnNameMap.put("CDNSRuleView_RuleNo", "cdr.RULE_NO");
-		ruleColumnNameMap.put("ruleNo", "cdr.RULE_NO");
-		ruleColumnNameMap.put("CDNSRuleView_RuleName", "cdr.RULE_NAME");
-		ruleColumnNameMap.put("ruleName", "cdr.RULE_NAME");
+		ruleColumnNameMap.put("CDNSRuleView_RuleNo", CDR_RULE_NO);
+		ruleColumnNameMap.put("ruleNo", CDR_RULE_NO);
+		ruleColumnNameMap.put("CDNSRuleView_RuleName", CDR_RULE_NAME);
+		ruleColumnNameMap.put("ruleName", CDR_RULE_NAME);
 		ruleColumnNameMap.put("RSNSRuleView_RuleType", "cdr.RULE_TYPE");
-		ruleColumnNameMap.put("RSNSRuleView_RuleNo", "cdr.RULE_NO");
-		ruleColumnNameMap.put("RSNSRuleView_RuleName", "cdr.RULE_NAME");
+		ruleColumnNameMap.put("RSNSRuleView_RuleNo", CDR_RULE_NO);
+		ruleColumnNameMap.put("RSNSRuleView_RuleName", CDR_RULE_NAME);
 		ruleColumnNameMap.put("CDNSRuleView_RuleType", "cdr.RULE_TYPE");
 		ruleColumnNameMap.put("CDNSRuleView_RuleCategory", "cdr.RULE_CATEGORY");
 		ruleColumnNameMap.put("ruleType", GtnFrameworkWebserviceConstant.HT_DESCRIPTION);

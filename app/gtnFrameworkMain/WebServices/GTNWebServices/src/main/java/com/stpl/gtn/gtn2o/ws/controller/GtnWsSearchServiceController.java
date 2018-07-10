@@ -30,8 +30,6 @@ import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
-import java.sql.Connection;
-import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 
 @RestController
 public class GtnWsSearchServiceController {
@@ -89,14 +87,12 @@ public class GtnWsSearchServiceController {
 			generalWSResponse.setSucess(true);
 			String queryName = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchQueryName();
 			boolean isCount = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().isCount();
-
 			GtnWsSearchQueryConfigLoaderType searchQueryconfigLoaderType = gtnUIFrameworkWebserviceRequest
 					.getGtnWsSearchRequest().getSearchConfigLodaderType();
 			GtnWsSearchQueryConfigLoader searchQueryConfigLoader = (GtnWsSearchQueryConfigLoader) searchQueryconfigLoaderType
 					.returnSearchQueryConfigLoader(gtnWebServiceAllListConfig.getDynamicClassObjectMap());
 			GtnWsSearchQueryConfig gtnWebServiceSearchQueryConfig = searchQueryConfigLoader.getSearchQueryConfigMap()
 					.get(queryName);
-
 			GtnWsSearchQueryGenerationLogic searchQueryGenerationLogic = new GtnWsSearchQueryGenerationLogic(
 					gtnWebServiceSearchQueryConfig, gtnUIFrameworkWebserviceRequest);
 
@@ -107,16 +103,19 @@ public class GtnWsSearchServiceController {
 			List<Object[]> resultList = executeQuery(generatedQueryReplaced); 
 
 			if (!isCount && gtnWebServiceSearchQueryConfig.getFieldToColumnDetailsMap() != null) {
+	
 				getCustomizedSearchFormFromObject(resultList, gtnWebServiceSearchQueryConfig,
 						gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getSearchColumnNameList());
 
 			}
 			GtnSerachResponse gtnSerachResponse = new GtnSerachResponse();
 			if (isCount) {
-
+				
+		
 				gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
 
 			} else {
+				
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData(resultList);
 				gtnSerachResponse.setResultSet(gtnUIFrameworkDataTable);

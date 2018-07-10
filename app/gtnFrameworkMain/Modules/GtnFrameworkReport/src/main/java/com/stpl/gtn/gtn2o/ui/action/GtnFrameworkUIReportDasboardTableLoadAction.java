@@ -14,6 +14,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
@@ -87,12 +88,16 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 
 		dashBoardBean.setCurrencyConversion(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(params.get(5).toString(), componentId).getCaptionFromV8ComboBox());
+
 		grid.getTableConfig().setGtnWsReportDashboardBean(dashBoardBean);
 
 		if (!dataSelectionBean.isDataRefreshDone()) {
 			grid.getTableConfig().setGtnReportDataRefreshBean(null);
 		}
 		checkForSelectionChange(dataSelectionBean, componentId, params, grid.getTableConfig());
+
+		dashBoardBean
+				.setCustomViewMasterSid(grid.getTableConfig().getGtnReportDataRefreshBean().getCustomViewMasterSid());
 
 		componentData.getCurrentGtnComponent().reloadComponent(null, componentId, (String) params.get(1), null);
 	}

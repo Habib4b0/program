@@ -309,8 +309,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		searchResults.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_INTEGER, GtnFrameworkCommonConstants.JAVA_LANG_INTEGER,
 				GtnFrameworkCommonConstants.JAVA_UTIL_DATE, GtnFrameworkCommonConstants.JAVA_UTIL_DATE });
-		searchResults.setTableColumnMappingId(new Object[] { GtnFrameworkReportStringConstants.HIER_NAME,
-				GtnFrameworkReportStringConstants.HIGHEST_LEVEL, "lowestLevel", "createdDate", "modifiedDate" });
+		searchResults.setTableColumnMappingId(GtnFrameworkReportStringConstants.getReportProductFilterPropertyId());
 
 		searchResults.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_PRODUCTHIERARCHY_SEARCHSERVICE);
@@ -325,10 +324,10 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> productHierarchyustomFilterConfigMap = new HashMap<>(
 				columnPropertyIds.length);
 		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.DATEFIELDVAADIN8 };
-		String[] productComboboxIds = { GtnFrameworkReportStringConstants.HIGHEST_LEVEL };
-		String[] productComboBoxType = { "STATUS" };
+				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
+				GtnUIFrameworkComponentType.DATEFIELDVAADIN8, GtnUIFrameworkComponentType.DATEFIELDVAADIN8 };
+		String[] productComboboxIds = new String[1];
+		String[] productComboBoxType =  new String[1];
 		int startIndex = 0;
 		for (int i = 0; i < columnPropertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig prodHierarchyFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();

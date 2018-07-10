@@ -14837,12 +14837,22 @@ div.v-layout.v-horizontal.v-widget {
 	vertical-align: inherit;
 }
 
-.stpl .v-grid-column-header-content, .stpl .v-grid-column-footer-content {
+.stpl .v-grid-column-header-content {
+	vertical-align: inherit;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.stpl .v-grid-column-footer-content {
 	vertical-align: inherit;
 }
 
 .stpl th.v-grid-cell {
 	height: auto !important;
+}
+
+.stpl .v-grid-cell {
+	font-size: 12px !important;
 }
 
 .stpl th.v-treegrid-cell {

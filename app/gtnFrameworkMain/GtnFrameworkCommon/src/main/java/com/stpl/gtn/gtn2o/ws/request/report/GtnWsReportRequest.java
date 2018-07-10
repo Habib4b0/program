@@ -31,6 +31,7 @@ public class GtnWsReportRequest {
 	private int projectionMasterSid;
 	private boolean loadTableUsingFile = true;
 	private GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean;
+        private String  annualTotals;
 	public int getProjectionMasterSid() {
 		return projectionMasterSid;
 	}
@@ -151,5 +152,13 @@ public class GtnWsReportRequest {
 			GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean) {
 		this.reportingDashboardSaveProfileLookupBean = reportingDashboardSaveProfileLookupBean;
 	}
+
+    public String getAnnualTotals() {
+        return annualTotals;
+    }
+
+    public void setAnnualTotals(String annualTotals) {
+        this.annualTotals = annualTotals;
+    }
 
 }

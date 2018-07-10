@@ -58,8 +58,9 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 				.getStringFromMultiselectComboBox();
 
 		reportDashBoardBean.setSelectedVariableType(selectedVariable);
-		String freName = ((GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
-				.getComponentData().getSharedPopupData()).getFrequencyName();
+		String freName = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId)
+				.getStringCaptionFromV8ComboBox();
 		reportDashBoardBean.setSelectFreqString(freName);
 
 		String[] selectedVariableCategory = GtnUIFrameworkGlobalUI
@@ -90,25 +91,34 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 		if (reportDashBoardBean.getPeriodRangeFromSid() != 0) {
 			reportDashBoardBean.setPeriodStart(perioFromComponent.getStringCaptionFromV8ComboBox());
 		} else {
-			GtnUIFrameworkBaseComponent dataslectionFrom = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId);
-			reportDashBoardBean.setPeriodRangeFromSid(dataslectionFrom.getIntegerFromV8ComboBox());
+			reportDashBoardBean.setPeriodRangeFromSid(perioFromComponent.getNthIntegerFromV8ComboBox(1));
 			reportDashBoardBean
-					.setPeriodStart(dataslectionFrom.getStringCaptionFromV8ComboBox().replaceAll(" - ", " "));
+					.setPeriodStart(perioFromComponent.getNthStringCaptionFromV8ComboBox(1).replaceAll(" - ", " "));
 		}
 
 		reportDashBoardBean.setPeriodRangeToSid(periodToComponent.getIntegerFromV8ComboBox());
 		if (reportDashBoardBean.getPeriodRangeToSid() != 0) {
 			reportDashBoardBean.setPeriodTo(periodToComponent.getStringCaptionFromV8ComboBox());
 		} else {
-			GtnUIFrameworkBaseComponent dataslectionTo = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_STATUS", componentId);
-			reportDashBoardBean.setPeriodRangeToSid(dataslectionTo.getIntegerFromV8ComboBox());
-			reportDashBoardBean.setPeriodTo(dataslectionTo.getStringCaptionFromV8ComboBox().replaceAll(" - ", " "));
+			reportDashBoardBean.setPeriodRangeToSid(
+					periodToComponent.getNthIntegerFromV8ComboBox(periodToComponent.totalItemsInComboBox() - 1));
+			reportDashBoardBean.setPeriodTo(
+					periodToComponent.getNthStringCaptionFromV8ComboBox(periodToComponent.totalItemsInComboBox() - 1)
+							.replaceAll(" - ", " "));
 		}
 
 		reportDashBoardBean.setSelectedVariableCategoryType(selectedVariableCategory);
 
+		reportDashBoardBean.setCustomViewMasterSid(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView", componentId)
+				.getIntegerFromV8ComboBox());
+		GtnUIFrameworkBaseComponent comparisonBasis = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis", componentId);
+		int id = comparisonBasis.getIntegerFromV8ComboBox();
+		String comparisonBasisValue = id > 2 ? "Projection_" + (id - 2)
+				: comparisonBasis.getStringCaptionFromV8ComboBox();
+
+		reportDashBoardBean.setComparisonBasis(comparisonBasisValue);
 		GtnWsForecastRequest gtnWsForecastRequest = new GtnWsForecastRequest();
 		gtnWsForecastRequest.setGtnForecastBean(gtnForecastBean);
 		gtnUIFrameworkWebserviceRequest.setGtnWsForecastRequest(gtnWsForecastRequest);

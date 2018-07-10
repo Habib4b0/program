@@ -7,7 +7,7 @@
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
-    <directory>&#47;</directory>
+    <directory>&#x2f;</directory>
     <parameters>
     </parameters>
     <log>
@@ -17,7 +17,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -34,6 +34,11 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+<metrics-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -62,21 +67,23 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2013&#47;07&#47;05 14:17:49.123</created_date>
+  <created_date>2013&#x2f;07&#x2f;05 14&#x3a;17&#x3a;49.123</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#47;07&#47;05 14:17:49.123</modified_date>
+  <modified_date>2013&#x2f;07&#x2f;05 14&#x3a;17&#x3a;49.123</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -93,13 +100,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -116,13 +123,13 @@
   </connection>
   <connection>
     <name>sys_db</name>
-    <server>${BPI_SYS_HOST}</server>
+    <server>&#x24;&#x7b;BPI_SYS_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_SYS_DB}</database>
+    <database>&#x24;&#x7b;BPI_SYS_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_SYS_USER}</username>
-    <password>${BPI_SYS_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_SYS_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_SYS_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -138,12 +145,33 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Invalid Reason</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>RETURNS_MASTER</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>ITEM MASTER LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5 2</from><to>INVALID TABLE 7 2</to><enabled>N</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>BRAND_MASTER</to><enabled>N</enabled> </hop>  <hop> <from>BRAND_MASTER</from><to>Invalid Reason 5 2</to><enabled>N</enabled> </hop>  <hop> <from>BRAND_MASTER</from><to>RETURNS_MASTER</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5 2 2</from><to>INVALID TABLE 7 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>RETURNS_MASTER</from><to>Invalid Reason 5 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>RETURNS_MASTER</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>Invalid Reason</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>RETURNS_MASTER</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>
+  <hop> <from>Add constants 3 2</from><to>ITEM MASTER LOOKUP</to><enabled>N</enabled> </hop>
+  <hop> <from>ITEM MASTER LOOKUP</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Reason 5 2</from><to>INVALID TABLE 7 2</to><enabled>N</enabled> </hop>
+  <hop> <from>ITEM MASTER LOOKUP</from><to>BRAND_MASTER</to><enabled>N</enabled> </hop>
+  <hop> <from>BRAND_MASTER</from><to>Invalid Reason 5 2</to><enabled>N</enabled> </hop>
+  <hop> <from>BRAND_MASTER</from><to>RETURNS_MASTER</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Reason 5 2 2</from><to>INVALID TABLE 7 2 2</to><enabled>N</enabled> </hop>
+  <hop> <from>RETURNS_MASTER</from><to>Invalid Reason 5 2 2</to><enabled>N</enabled> </hop>
+  <hop> <from>TEMP</from><to>Switch &#x2f; Case</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3 2</from><to>RETURNS_MASTER LOOKUP 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>RETURNS_MASTER LOOKUP 2</from><to>RETURNS_MASTER</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Reason 5 2 2 2</from><to>INVALID TABLE 7 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>RETURNS_MASTER LOOKUP 2</from><to>Invalid Reason 5 2 2 2</to><enabled>Y</enabled> </hop>
+  </order>
   <step>
     <name>ADD Audit update</name>
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -161,19 +189,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -194,6 +222,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -210,6 +239,7 @@
         <nullif>R</nullif>
         <length>5</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -221,6 +251,7 @@
         <nullif>RETURNS_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -236,6 +267,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -252,6 +284,7 @@
         <nullif>A</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ERROR_CODE</name>
@@ -263,6 +296,7 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -278,6 +312,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -319,6 +354,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -512,6 +548,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -705,6 +742,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -898,6 +936,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1095,6 +1134,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1136,6 +1176,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1152,6 +1193,7 @@
         <nullif>Invalid Indicator</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1167,6 +1209,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1183,6 +1226,7 @@
         <nullif>Invalid ItemID</nullif>
         <length>0</length>
         <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1198,6 +1242,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1214,6 +1259,7 @@
         <nullif>Invalid BrandName</nullif>
         <length>0</length>
         <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1229,6 +1275,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1245,6 +1292,7 @@
         <nullif>Duplicate Record</nullif>
         <length>0</length>
         <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1260,6 +1308,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1292,6 +1341,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1485,10 +1535,11 @@
     </step>
 
   <step>
-    <name>Switch &#47; Case</name>
+    <name>Switch &#x2f; Case</name>
     <type>SwitchCase</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1516,100 +1567,14 @@
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
     <connection>BPI DB</connection>
-    <sql>
-
-
-
-IF OBJECT_ID(&apos;TEMPDB..#ITEM&apos;) IS NOT NULL
-DROP TABLE #ITEM
-	SELECT a.sku,
-		    ITEM_MASTER_SID
-INTO   #ITEM
-	FROM   (SELECT DISTINCT sku
-			FROM   STAG_RETURNS) a
-		   JOIN ITEM_MASTER im
-			 ON im.ITEM_ID = a.sku 
-
-
-
-
-IF OBJECT_ID(&apos;TEMPDB..#BRAND&apos;) IS NOT NULL
-DROP TABLE #BRAND
-select BRAND,
-		   BRAND_MASTER_SID
-		    INTO   #BRAND from(
-	SELECT row_number() over(partition by a.brand order by  BRAND_MASTER_SID )rn ,a.BRAND,
-		   BRAND_MASTER_SID
-
-	FROM   (SELECT DISTINCT BRAND
-			FROM   STAG_RETURNS) a
-		   JOIN BRAND_MASTER im
-			 ON im.BRAND_name = a.BRAND
-
-			 )a where rn=1
-
-
- 
-
-
-SELECT
-  a.RRESERVE_INTERFACE_ID
-, a.RRESERVE_ID
-, a.VERSION
-, a.SKU
-, a.BRAND
-, a.DESCRIPTION
-, a.ORIG_SALE_MONTH
-, a.ORIG_SALE_UNITS
-, a.ORIG_SALE_DOLLARS
-, a.ASP
-, a.CUM_RETURN_UNITS
-, a.ACTUAL_RETURN_RATE
-, a.WEIGHTED_AVG_MONTHS
-, a.FIRST_RETURN
-, a.LAST_RETURN
-, a.MAX_EXPIRED_MONTH
-, a.MAX_EXPIRED_MONS_PLUSCUTOFF
-, a.RETURN_COMPLETE
-, a.CALC_USED
-, a.ORIG_SALE_MONTH_CUT_OFF
-, a.EXPECTED_RETURN_RATE
-, a.ESTIMATED_RETURN_UNITS
-, a.ADJ_ESTIMATED_RETURN_UNITS
-, a.ADJ_VALUE_AT_ORIG_ASP
-, a.POS_ESTIMATED_RETURN_UNITS
-, a.VALUE_AT_ORIG_ASP
-, a.LOAD_DATE
-, a.PAST_EXPIRATION
-, a.WITHIN_50QRTILE
-, a.MAXIMUM
-, a.PCT_75TH
-, a.PCT_50TH
-, a.PCT_25TH
-, a.UPPER_LIMIT
-, a.LOWER_LIMIT
-, a.ADD_CHG_DEL_INDICATOR
-, a.BATCH_ID
-, a.SOURCE
-
-,B.ITEM_MASTER_SID
-,D.BRAND_MASTER_SID 
-
-FROM STAG_RETURNS A
-inner join #ITEM  B 
-           ON A.sku=B.sku
-inner join #BRAND  D
-           ON A.BRAND=D.BRAND
-
-
-
-</sql>
+    <sql>&#xa;&#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;ITEM&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;ITEM&#xa;	SELECT a.sku,&#xa;		    ITEM_MASTER_SID&#xa;INTO   &#x23;ITEM&#xa;	FROM   &#x28;SELECT DISTINCT sku&#xa;			FROM   STAG_RETURNS&#x29; a&#xa;		   JOIN ITEM_MASTER im&#xa;			 ON im.ITEM_ID &#x3d; a.sku &#xa;&#xa;&#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;BRAND&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;BRAND&#xa;select BRAND,&#xa;		   BRAND_MASTER_SID&#xa;		    INTO   &#x23;BRAND from&#x28;&#xa;	SELECT row_number&#x28;&#x29; over&#x28;partition by a.brand order by  BRAND_MASTER_SID &#x29;rn ,a.BRAND,&#xa;		   BRAND_MASTER_SID&#xa;&#xa;	FROM   &#x28;SELECT DISTINCT BRAND&#xa;			FROM   STAG_RETURNS&#x29; a&#xa;		   JOIN BRAND_MASTER im&#xa;			 ON im.BRAND_name &#x3d; a.BRAND&#xa;&#xa;			 &#x29;a where rn&#x3d;1&#xa;&#xa;&#xa; &#xa;&#xa;&#xa;SELECT&#xa;  a.RRESERVE_INTERFACE_ID&#xa;, a.RRESERVE_ID&#xa;, a.VERSION&#xa;, a.SKU&#xa;, a.BRAND&#xa;, a.DESCRIPTION&#xa;, a.ORIG_SALE_MONTH&#xa;, a.ORIG_SALE_UNITS&#xa;, a.ORIG_SALE_DOLLARS&#xa;, a.ASP&#xa;, a.CUM_RETURN_UNITS&#xa;, a.ACTUAL_RETURN_RATE&#xa;, a.WEIGHTED_AVG_MONTHS&#xa;, a.FIRST_RETURN&#xa;, a.LAST_RETURN&#xa;, a.MAX_EXPIRED_MONTH&#xa;, a.MAX_EXPIRED_MONS_PLUSCUTOFF&#xa;, a.RETURN_COMPLETE&#xa;, a.CALC_USED&#xa;, a.ORIG_SALE_MONTH_CUT_OFF&#xa;, a.EXPECTED_RETURN_RATE&#xa;, a.ESTIMATED_RETURN_UNITS&#xa;, a.ADJ_ESTIMATED_RETURN_UNITS&#xa;, a.ADJ_VALUE_AT_ORIG_ASP&#xa;, a.POS_ESTIMATED_RETURN_UNITS&#xa;, a.VALUE_AT_ORIG_ASP&#xa;, a.LOAD_DATE&#xa;, a.PAST_EXPIRATION&#xa;, a.WITHIN_50QRTILE&#xa;, a.MAXIMUM&#xa;, a.PCT_75TH&#xa;, a.PCT_50TH&#xa;, a.PCT_25TH&#xa;, a.UPPER_LIMIT&#xa;, a.LOWER_LIMIT&#xa;, a.ADD_CHG_DEL_INDICATOR&#xa;, a.BATCH_ID&#xa;, a.SOURCE&#xa;&#xa;,B.ITEM_MASTER_SID&#xa;,D.BRAND_MASTER_SID &#xa;&#xa;FROM STAG_RETURNS A&#xa;inner join &#x23;ITEM  B &#xa;           ON A.sku&#x3d;B.sku&#xa;inner join &#x23;BRAND  D&#xa;           ON A.BRAND&#x3d;D.BRAND&#xa;&#xa;&#xa;&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -1619,6 +1584,297 @@ inner join #BRAND  D
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>934</xloc>
       <yloc>188</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>RETURNS_MASTER LOOKUP 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>RETURNS_MASTER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>RRESERVE_ID</name>
+        <field>RRESERVE_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>SKU</name>
+        <field>SKU</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>VERSION</name>
+        <field>VERSION</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>ORIG_SALE_MONTH</name>
+        <field>ORIG_SALE_MONTH</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>RETURNS_MASTER_SID</name>
+        <rename>RETURNS_MASTER_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>927</xloc>
+      <yloc>573</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 7 2 2 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_RETURNS</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ACTUAL_RETURN_RATE</column_name>
+          <stream_name>ACTUAL_RETURN_RATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>ADJ_ESTIMATED_RETURN_UNITS</column_name>
+          <stream_name>ADJ_ESTIMATED_RETURN_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>ADJ_VALUE_AT_ORIG_ASP</column_name>
+          <stream_name>ADJ_VALUE_AT_ORIG_ASP</stream_name>
+        </field>
+        <field>
+          <column_name>ASP</column_name>
+          <stream_name>ASP</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND</column_name>
+          <stream_name>BRAND</stream_name>
+        </field>
+        <field>
+          <column_name>CALC_USED</column_name>
+          <stream_name>CALC_USED</stream_name>
+        </field>
+        <field>
+          <column_name>CUM_RETURN_UNITS</column_name>
+          <stream_name>CUM_RETURN_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>DESCRIPTION</column_name>
+          <stream_name>DESCRIPTION</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ERROR_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>ESTIMATED_RETURN_UNITS</column_name>
+          <stream_name>ESTIMATED_RETURN_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>EXPECTED_RETURN_RATE</column_name>
+          <stream_name>EXPECTED_RETURN_RATE</stream_name>
+        </field>
+        <field>
+          <column_name>FIRST_RETURN</column_name>
+          <stream_name>FIRST_RETURN</stream_name>
+        </field>
+        <field>
+          <column_name>LAST_RETURN</column_name>
+          <stream_name>LAST_RETURN</stream_name>
+        </field>
+        <field>
+          <column_name>LOAD_DATE</column_name>
+          <stream_name>LOAD_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>LOWER_LIMIT</column_name>
+          <stream_name>LOWER_LIMIT</stream_name>
+        </field>
+        <field>
+          <column_name>MAXIMUM</column_name>
+          <stream_name>MAXIMUM</stream_name>
+        </field>
+        <field>
+          <column_name>MAX_EXPIRED_MONS_PLUSCUTOFF</column_name>
+          <stream_name>MAX_EXPIRED_MONS_PLUSCUTOFF</stream_name>
+        </field>
+        <field>
+          <column_name>MAX_EXPIRED_MONTH</column_name>
+          <stream_name>MAX_EXPIRED_MONTH</stream_name>
+        </field>
+        <field>
+          <column_name>ORIG_SALE_DOLLARS</column_name>
+          <stream_name>ORIG_SALE_DOLLARS</stream_name>
+        </field>
+        <field>
+          <column_name>ORIG_SALE_MONTH</column_name>
+          <stream_name>ORIG_SALE_MONTH</stream_name>
+        </field>
+        <field>
+          <column_name>ORIG_SALE_MONTH_CUT_OFF</column_name>
+          <stream_name>ORIG_SALE_MONTH_CUT_OFF</stream_name>
+        </field>
+        <field>
+          <column_name>ORIG_SALE_UNITS</column_name>
+          <stream_name>ORIG_SALE_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>PAST_EXPIRATION</column_name>
+          <stream_name>PAST_EXPIRATION</stream_name>
+        </field>
+        <field>
+          <column_name>PCT_25TH</column_name>
+          <stream_name>PCT_25TH</stream_name>
+        </field>
+        <field>
+          <column_name>PCT_50TH</column_name>
+          <stream_name>PCT_50TH</stream_name>
+        </field>
+        <field>
+          <column_name>PCT_75TH</column_name>
+          <stream_name>PCT_75TH</stream_name>
+        </field>
+        <field>
+          <column_name>POS_ESTIMATED_RETURN_UNITS</column_name>
+          <stream_name>POS_ESTIMATED_RETURN_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>RETURN_COMPLETE</column_name>
+          <stream_name>RETURN_COMPLETE</stream_name>
+        </field>
+        <field>
+          <column_name>RRESERVE_ID</column_name>
+          <stream_name>RRESERVE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>RRESERVE_INTERFACE_ID</column_name>
+          <stream_name>RRESERVE_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SKU</column_name>
+          <stream_name>SKU</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>UPPER_LIMIT</column_name>
+          <stream_name>UPPER_LIMIT</stream_name>
+        </field>
+        <field>
+          <column_name>VALUE_AT_ORIG_ASP</column_name>
+          <stream_name>VALUE_AT_ORIG_ASP</stream_name>
+        </field>
+        <field>
+          <column_name>VERSION</column_name>
+          <stream_name>VERSION</stream_name>
+        </field>
+        <field>
+          <column_name>WEIGHTED_AVG_MONTHS</column_name>
+          <stream_name>WEIGHTED_AVG_MONTHS</stream_name>
+        </field>
+        <field>
+          <column_name>WITHIN_50QRTILE</column_name>
+          <stream_name>WITHIN_50QRTILE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1117</xloc>
+      <yloc>762</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 5 2 2 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Record</nullif>
+        <length>0</length>
+        <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1124</xloc>
+      <yloc>571</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1660,8 +1916,21 @@ inner join #BRAND  D
         <max_pct_errors/>
         <min_pct_rows/>
       </error>
+      <error>
+        <source_step>RETURNS_MASTER LOOKUP 2</source_step>
+        <target_step>RETURNS_MASTER</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
   </step_error_handling>
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
+
 </transformation>

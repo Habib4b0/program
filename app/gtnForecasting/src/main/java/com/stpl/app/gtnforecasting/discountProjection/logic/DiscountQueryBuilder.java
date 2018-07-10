@@ -417,7 +417,7 @@ public class DiscountQueryBuilder {
                 levelNo = String.valueOf(session.getSelectedDeductionLevelNo());
                 }
 
-                String rebateHiearachyJoin=getRebateJoin(!hierarIndicator.equals("D") ? selectedDiscounts : relValue,session,levelNo);
+                String rebateHiearachyJoin=getRebateJoin(!hierarIndicator.equals("D") ? selectedDiscounts : relValue,session,hierarIndicator.equals("D") ? levelNo : StringUtils.EMPTY);
                 String declareStatement = " DECLARE @START_MONTH INT=" + startMonth + "\n"
                         + " DECLARE @START_YEAR INT=" + startYear + "\n"
                         + " DECLARE @END_MONTH INT=" + endMonth + "\n"
@@ -427,7 +427,8 @@ public class DiscountQueryBuilder {
                         + "DECLARE @FREQUENCY CHAR(1)='" + frequency.charAt(0) + "'";
 
                 if ("Discount Rate".equals(selectedField) || "RPU".equals(selectedField)) {
-                    customSql = declareStatement +rebateHiearachyJoin + SQlUtil.getQuery("discRatemassPopulate");
+                    String rateQuery = SQlUtil.getQuery("discRatemassPopulate");
+                    customSql = declareStatement +rebateHiearachyJoin + rateQuery;
                     customSql = customSql.replaceAll("@SELDISC", "" + selectedDiscounts);
                     customSql = customSql.replace("@COL2", column2);
                     customSql = customSql.replace("@DISCTYPE ", discountType + " IN ");
@@ -1186,7 +1187,9 @@ public class DiscountQueryBuilder {
 "              ("+deductionSid+")\n" +
 "              and RELATIONSHIP_BUILDER_SID="+session.getDedRelationshipBuilderSid()+
 "              and VERSION_NO = "+session.getDeductionRelationVersion();
-        joinQuery +=" AND LEVEL_NO = "+levelNo;
+        if(!levelNo.isEmpty()) {
+            joinQuery +=" AND LEVEL_NO = "+levelNo;
+        }
         return joinQuery;
     }
     

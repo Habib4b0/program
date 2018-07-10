@@ -32,13 +32,21 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String REPORT = "report";
 
-	public static final String HIER_NAME = "hierarchyName";
+	public static final String HIER_NAME = "productHierarchyName";
 
 	public static final String PRODUCT_HIERARCHY_NAME = "landingScreenProductHierName";
 
+	public static final String LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG = "landingScreenVariableBreakdownFrequencyConfig";
+	
+	public static final String REPORTING_DASHBOARD_COMPARISON_CONFIG = "reportingDashboardComparisonConfig";
+	
 	public static final String HIER_TYPE = "hierarchyType";
 
 	public static final String HIGHEST_LEVEL = "highestLevel";
+	
+	public static final String STPL_PADDING_FRAMEWORK = "stpl-padding-top-13";
+	
+	public static final String STPL_PADDING_TOP_17 = "stpl-padding-top-17";
 
 	public static final String CUSTOMER_HIERARCHY_GROUP_BUILDER = "Customer Hierarchy Group Builder";
 
@@ -87,6 +95,10 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String PRODUCT_HIERARCHY_LOOKUP_ID = "productHierarchyLookup";
 
 	public static final String REPORT_GENERATE_LOOKUP_VIEW = "reportGenerateLookupView";
+	
+	public static final String REPORT_DATASELECTION_PRIVATEVIEW = "dataSelectionPrivateView";
+	
+	public static final String REPORT_DATASELECTION_PUBLICVIEW = "dataSelectionPublicView";
 
 	public static final String PRODUCT_HIERARCHY_LOOKUP_NAME = "Product Hierarchy LookUp";
 
@@ -141,6 +153,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String TAB_SHEET = "tabSheet";
 	
 	public static final String STPL_PADDING_18_PX="stpl-padding-top-18";
+	
+	public static final String STPL_PADDING_25_PX="stpl-padding-top-25";
 
 	public static final String SEARCH_QUERY = "searchQuery";
 
@@ -204,6 +218,8 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String CONTROL_BUTTON_LAYOUT = "controlButtonLayout";
 
+	public static final String DATA_ASSUMPTIONS_TAB_SHEET_MAIN_LAYOUT = "dataAssumptionsTabSheetVerticallayout";
+	
 	public static final String DATA_ASSUMPTIONS_TAB_SHEET_LAYOUT = "dataAssumptionsTabSheetlayout";
 
 	public static final String REPORTING_DASHBOARD_TAB_SHEET_LAYOUT = "reportingDashboardTabSheetlayout";
@@ -223,6 +239,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORT_PROFILE = "reportProfile";
 
 	public static final String COMPARISON_LOOKUP = "comparisonLookup";
+	
+	public static final String DATASELECTION_COMPARISON_LOOKUP = "dsComparisonLookup";
 
 	public static final String DASHBOARD_COMPARISON_LOOKUP = "dashboardComparisonLookup";
 
@@ -247,6 +265,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String DISPLAY_SELECTION_TAB = "displaySelectionTab";
 
 	public static final String DISPLAY_SELECTION_TAB_CSS_LAYOUT = "displaySelectionTabCssLayout";
+	
+	public static final String DISPLAY_SELECTION_TAB_CSS_LAYOUT_BOTTOM = "displaySelectionTabCssLayoutBottom";
 
 	public static final String DISPLAY_SELECTION_TAB_REPORT_PROFILE_LAYOUT = "displaySelectionTabReportProfileLayout";
 
@@ -424,6 +444,10 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORT_PRODUCTHIERARCHY_LEVEL = "reportLandingScreen_level";
 
 	public static final String REPORT_PRIVATEVIEW_SEARCHLOOKUP = "reportLandingScreen_privateViews";
+	
+	public static final String REPORT_DATASELECTION_PRIVATEVIEW_SEARCHLOOKUP = "dataSelectionTab_dsTabPrivateViews";
+	
+	public static final String REPORT_DATASELECTION_PUBLICVIEW_SEARCHLOOKUP = "dataSelectionTab_dsTabPublicViews";
 
 	public static final String PROJECTION_TYPE = "projectionType";
 

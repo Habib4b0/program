@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:p="urn:vaadin:parent" xmlns:b="urn:import:org.asi.ui.customtextfield">
+    <VerticalLayout id="dsLayout" spacing = "true" margin = "true" styleName="forecast-dataselection" >
+        <!--<VerticalLayout spacing = "true" margin = "true">-->
+        <Panel id="panel1" caption="Selection Criteria"  >
+
+            <HorizontalLayout id="horizontalLayout" spacing="true" margin="true" immediate="true">
+                <VerticalLayout>
+                    <GridLayout spacing="true" margin="false" immediate="true" columns="4" rows="2">
+                        
+                        <Label id = "adjustmentTypeLabel" caption="Adjustment Type: " contentMode="HTML" />
+                        <ComboBox id="adjustmentType" width="206px" />
+                        
+                        <Label caption="Company: " contentMode="HTML" width="100px" />
+                        <ComboBox id="companyDDLB" width="206px" />
+
+                        <Label caption="View: " contentMode="HTML" width="100px" styleName="labelresultalign"/>
+                        <b:CustomTextField id="viewText" styleName="searchText" inputPrompt=""/>
+
+                        <Label caption="Business Unit:" contentMode="HTML" width="100px" />
+                        <ComboBox id="businessUnit" width="206px"  />
+
+                    </GridLayout>
+                </VerticalLayout>
+                <Panel id="timeperiod" caption="Time Period">
+                    <VerticalLayout  spacing = "true" margin = "true" >
+                        <GridLayout id="gridLayout" immediate="true" columns="4" rows="1">
+                            <Label caption="From: " contentMode="HTML" width="50px"/>
+                            <ComboBox id="fromDate" width="206px" />
+                            <Label caption="To: " contentMode="HTML" width="40px" styleName="labelresultalign"/>
+                            <ComboBox id="toDate" width="206px" />
+                        </GridLayout>
+                    </VerticalLayout>
+                </Panel>
+                <HorizontalLayout id="calculationProfileLayout" spacing="true" margin="true" immediate="true">
+                    <Label caption="Calculation Profile: " contentMode="HTML" width="100px" />
+                    <b:CustomTextField id="calculationProfile" styleName="searchText" inputPrompt=""/>
+                </HorizontalLayout>
+            </HorizontalLayout>
+        </Panel>
+    </VerticalLayout>
+</Panel>

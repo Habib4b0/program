@@ -151,8 +151,8 @@ public class GtnReportCCPTableLoadAction
 		}
 		dto.setCustomerHierarchyForecastLevel(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(6).toString()).getCaptionFromV8ComboBox())));
-		dto.setCustomerHierarchySid(
-				(Integer) customerRecordBean.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1));
+		dto.setCustomerHierarchySid(Integer.valueOf(String
+				.valueOf(customerRecordBean.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1))));
 		dto.setCustomerHierarchyVersionNo(Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(5).toString()).getStringCaptionFromV8ComboBox()));
 		dto.setCustomerRelationshipBuilderSid(Integer.parseInt(String.valueOf(
@@ -164,8 +164,8 @@ public class GtnReportCCPTableLoadAction
 
 		dto.setProductHierarchyForecastLevel(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(10).toString()).getCaptionFromV8ComboBox())));
-		dto.setProductHierarchySid(
-				(Integer) productRecordBean.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1));
+		dto.setProductHierarchySid(Integer.valueOf(String
+				.valueOf(productRecordBean.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1))));
 		dto.setProductHierarchyVersionNo(Integer.parseInt(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamList.get(11).toString()).getStringCaptionFromV8ComboBox()));
 		dto.setProductRelationshipBuilderSid(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
@@ -184,14 +184,24 @@ public class GtnReportCCPTableLoadAction
 		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = (List<GtnReportComparisonProjectionBean>) comparisonProjectionData
 				.getCustomData();
 		dto.setComparisonProjectionBeanList(comparisonProjectionBeanList);
-		dto.setCustomViewMasterSid(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(17).toString())
-				.getIntegerFromV8ComboBox());
+		dto.setCustomViewMasterSid(Integer.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(17).toString()).getCaptionFromV8ComboBox()));
 		dto.setFrequency(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(18).toString())
 				.getIntegerFromV8ComboBox());
 		dto.setFrequencyName(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(18).toString())
 				.getStringCaptionFromV8ComboBox());
 		dto.setVariablesList(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(22).toString())
 				.getSelectedListFromV8MultiSelect());
+		String privateView = String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(23).toString(), componentId).getV8PopupFieldValue());
+		if (privateView != "") {
+			dto.setPrivateViewName(privateView);
+		}
+		String publicViewName = String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(24).toString(), componentId).getV8PopupFieldValue());
+		if (publicViewName != "") {
+			dto.setPublicViewName(publicViewName);
+		}
 		dto.setCustomerHierarchyRecordBean(customerRecordBean);
 		dto.setProductHierarchyRecordBean(productRecordBean);
 		dto.setSelectedCustomerHierarchyList(selectedCustomerList);

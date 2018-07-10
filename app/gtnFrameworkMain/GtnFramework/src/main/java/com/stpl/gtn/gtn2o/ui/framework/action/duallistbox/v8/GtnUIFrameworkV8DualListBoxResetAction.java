@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -17,8 +16,8 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnUIFrameworkV8DualListBoxResetAction implements GtnUIFrameWorkAction {
-	
-	private static final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkV8DualListBoxResetAction.class);
+
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkV8DualListBoxResetAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -34,28 +33,21 @@ public class GtnUIFrameworkV8DualListBoxResetAction implements GtnUIFrameWorkAct
 				.getVaadinComponentData(String.valueOf(actionParamList.get(0)), componentId);
 		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) gtnUIFrameworkComponentData
 				.getCustomData();
-                String selectedLevelName = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(1).toString()).getStringCaptionFromV8ComboBox();
+		String selectedLevelName = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(1).toString(), componentId)
+				.getStringCaptionFromV8ComboBox();
+		gtnLogger.info("selectedLevelName------->" + selectedLevelName);
 		Grid<GtnWsRecordBean> leftTable = dualListBoxBean.getLeftTable();
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
 		gtnLogger.info("boolean value is ------>" + rightTable.getTreeData().getRootItems().iterator().hasNext());
-		if ( rightTable.getTreeData().getRootItems().iterator().hasNext()  && !selectedLevelName.equals("")) {
-			String resetMessageHeader = "Confirm Change";
-			String resetMessageBody = "You have selected a new Forecast Level. Are you sure you want to proceed? "
-					+ "You will lose the current Customer/Product hierarchies if you continue.";
+		if (rightTable.getTreeData().getRootItems().iterator().hasNext() && !selectedLevelName.equals("-Select one-")) {
 
-			configureParams(gtnUIFrameWorkActionConfig);
-			GtnUIFrameWorkActionConfig confirmActionConfig = new GtnUIFrameWorkActionConfig();
-			confirmActionConfig.addActionParameter(resetMessageHeader);
-			confirmActionConfig.addActionParameter(resetMessageBody);
-			confirmActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
-			List<GtnUIFrameWorkActionConfig> successActionConfigList = new ArrayList<>();
 			GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
 			resetActionConfig.setActionType(GtnUIFrameworkActionType.V8CONFIRMED_DUALLISTBOX_RESET_ACTION);
 			resetActionConfig.addActionParameter(leftTable);
 			resetActionConfig.addActionParameter(rightTable);
-			successActionConfigList.add(resetActionConfig);
-			confirmActionConfig.addActionParameter(successActionConfigList);
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, confirmActionConfig);
+
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, resetActionConfig);
 
 		}
 	}

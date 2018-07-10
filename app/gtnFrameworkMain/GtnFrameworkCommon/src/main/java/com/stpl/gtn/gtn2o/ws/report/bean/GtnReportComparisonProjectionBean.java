@@ -117,19 +117,19 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		final int PRIME = 31;
 		int result = 1;
-		result = prime * result + ((brand == null) ? 0 : brand.hashCode());
-		result = prime * result + ((contract == null) ? 0 : contract.hashCode());
-		result = prime * result + ((contractHolder == null) ? 0 : contractHolder.hashCode());
-		result = prime * result + createdBy;
-		result = prime * result + ((createdDate == null) ? 0 : createdDate.hashCode());
-		result = prime * result + ((itemName == null) ? 0 : itemName.hashCode());
-		result = prime * result + ((itemNo == null) ? 0 : itemNo.hashCode());
-		result = prime * result + ((marketType == null) ? 0 : marketType.hashCode());
-		result = prime * result + ((projectionDescription == null) ? 0 : projectionDescription.hashCode());
-		result = prime * result + projectionMasterSid;
-		result = prime * result + ((projectionName == null) ? 0 : projectionName.hashCode());
+		result = PRIME * result + ((brand == null) ? 0 : brand.hashCode());
+		result = PRIME * result + ((contract == null) ? 0 : contract.hashCode());
+		result = PRIME * result + ((contractHolder == null) ? 0 : contractHolder.hashCode());
+		result = PRIME * result + createdBy;
+		result = PRIME * result + ((createdDate == null) ? 0 : createdDate.hashCode());
+		result = PRIME * result + ((itemName == null) ? 0 : itemName.hashCode());
+		result = PRIME * result + ((itemNo == null) ? 0 : itemNo.hashCode());
+		result = PRIME * result + ((marketType == null) ? 0 : marketType.hashCode());
+		result = PRIME * result + ((projectionDescription == null) ? 0 : projectionDescription.hashCode());
+		result = PRIME * result + projectionMasterSid;
+		result = PRIME * result + ((projectionName == null) ? 0 : projectionName.hashCode());
 		return result;
 	}
 

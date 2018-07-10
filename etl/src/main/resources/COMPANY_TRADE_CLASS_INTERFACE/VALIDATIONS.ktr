@@ -7,7 +7,7 @@
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
-    <directory>&#47;</directory>
+    <directory>&#x2f;</directory>
     <parameters>
     </parameters>
     <log>
@@ -17,7 +17,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -34,6 +34,11 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+<metrics-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -62,21 +67,23 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2014&#47;07&#47;22 19:36:02.589</created_date>
+  <created_date>2014&#x2f;07&#x2f;22 19&#x3a;36&#x3a;02.589</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2014&#47;07&#47;22 19:36:02.589</modified_date>
+  <modified_date>2014&#x2f;07&#x2f;22 19&#x3a;36&#x3a;02.589</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -93,13 +100,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -115,12 +122,76 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Table input</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 9 2</from><to>INVALID</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 9 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEL UNIQUE</from><to>D-INVALID</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 8</from><to>COMPANY_ID CHECK 4</to><enabled>N</enabled> </hop>  <hop> <from>DEL UNIQUE</from><to>Add constants 8</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 9</from><to>D-INVALID 2</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY TRADE CLASS</from><to>Add constants 2 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2 3 2</from><to>D-INVALID 3</to><enabled>Y</enabled> </hop>  <hop> <from>ADD UNIQUE</from><to>A-INVALID</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 8 2</from><to>COMPANY_ID CHECK 4 2</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_ID CHECK 4 2</from><to>Add constants 9 3</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 9 3</from><to>A-INVALID 2</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 4</from><to>A-INVALID 3</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>CHANGE SORT</to><enabled>Y</enabled> </hop>  <hop> <from>CHANGE SORT</from><to>Add constants 5</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 6</from><to>C-INVALID</to><enabled>N</enabled> </hop>  <hop> <from> COMPANY TRADE CLASS UPDATE</from><to>Add constants 7</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 7</from><to>C-INVALID 3</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status 2</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status 3</from><to>CHANGE Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY TRADE CLASS</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY_TRADECLASS_INSERT</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>  <hop> <from> COMPANY TRADE CLASS UPDATE</from><to>Memory Group by 3</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 3</from><to>Audit Status 3</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY_ID CHECK 4 2</from><to>TRADE_CLASS</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_ID CHECK 4</from><to>Add constants 9</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_ID CHECK 4</from><to>COMPANY TRADE CLASS</to><enabled>N</enabled> </hop>  <hop> <from>UPDATE_TRADE_CLASS</from><to>Add constants 4</to><enabled>Y</enabled> </hop>  <hop> <from>Duplicate Check 2</from><to>UPDATE_TRADE_CLASS</to><enabled>N</enabled> </hop>  <hop> <from>Duplicate Check 2</from><to>COMPANY_TRADECLASS_INSERT</to><enabled>N</enabled> </hop>  <hop> <from>ADD UNIQUE</from><to>Block this step until steps finish</to><enabled>Y</enabled> </hop>  <hop> <from>Block this step until steps finish</from><to>Add constants 8 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 5</from><to>Block this step until steps finish 2</to><enabled>Y</enabled> </hop>  <hop> <from>Block this step until steps finish 2</from><to>COMPANY_ID CHECK 3</to><enabled>N</enabled> </hop>  <hop> <from>UPDATE_TRADE_CLASS</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>TRADE_CLASS 2</from><to>PRIOR_TRADE_CLASS 2</to><enabled>N</enabled> </hop>  <hop> <from>TRADE_CLASS</from><to>PRIOR_TRADE_CLASS</to><enabled>N</enabled> </hop>  <hop> <from>PRIOR_TRADE_CLASS</from><to>Duplicate Check 2</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_ID CHECK 3</from><to>Add constants 6</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_ID CHECK 3</from><to>TRADE_CLASS 2</to><enabled>N</enabled> </hop>  <hop> <from>PRIOR_TRADE_CLASS 2</from><to>COMPANY_ID CHECK 3 2</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_ID CHECK 3 2</from><to> COMPANY TRADE CLASS UPDATE</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 8</from><to>COMPANY TRADE CLASS</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 8 2</from><to>Duplicate Check 2</to><enabled>N</enabled> </hop>  <hop> <from>Block this step until steps finish 2</from><to> COMPANY TRADE CLASS UPDATE</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 8 2</from><to>COMPANY_TRADECLASS_INSERT</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY_TRADECLASS_INSERT</from><to>Duplicate Check 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Duplicate Check 2 2</from><to>UPDATE_TRADE_CLASS</to><enabled>Y</enabled> </hop>  <hop> <from>DEL SORT</from><to>DEL UNIQUE</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3</from><to>DEL SORT</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>ADD SORT</to><enabled>Y</enabled> </hop>  <hop> <from>ADD SORT</from><to>ADD UNIQUE</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>Table input</from><to>Switch &#x2f; Case</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 9 2</from><to>INVALID</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Add constants 9 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEL UNIQUE</from><to>D-INVALID</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 8</from><to>COMPANY_ID CHECK 4</to><enabled>N</enabled> </hop>
+  <hop> <from>DEL UNIQUE</from><to>Add constants 8</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 9</from><to>D-INVALID 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Add constants 2 3 2</from><to>D-INVALID 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD UNIQUE</from><to>A-INVALID</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 8 2</from><to>COMPANY_ID CHECK 4 2</to><enabled>N</enabled> </hop>
+  <hop> <from>COMPANY_ID CHECK 4 2</from><to>Add constants 9 3</to><enabled>N</enabled> </hop>
+  <hop> <from>Add constants 9 3</from><to>A-INVALID 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Add constants 4</from><to>A-INVALID 3</to><enabled>N</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>CHANGE SORT</to><enabled>Y</enabled> </hop>
+  <hop> <from>CHANGE SORT</from><to>Add constants 5</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 6</from><to>C-INVALID</to><enabled>N</enabled> </hop>
+  <hop> <from> COMPANY TRADE CLASS UPDATE</from><to>Add constants 7</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 7</from><to>C-INVALID 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Audit Status 2</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Audit Status 3</from><to>CHANGE Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY TRADE CLASS</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY_TRADECLASS_INSERT</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by 2</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>
+  <hop> <from> COMPANY TRADE CLASS UPDATE</from><to>Memory Group by 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by 3</from><to>Audit Status 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY_ID CHECK 4 2</from><to>TRADE_CLASS</to><enabled>N</enabled> </hop>
+  <hop> <from>COMPANY_ID CHECK 4</from><to>Add constants 9</to><enabled>N</enabled> </hop>
+  <hop> <from>COMPANY_ID CHECK 4</from><to>COMPANY TRADE CLASS</to><enabled>N</enabled> </hop>
+  <hop> <from>UPDATE_TRADE_CLASS</from><to>Add constants 4</to><enabled>N</enabled> </hop>
+  <hop> <from>Duplicate Check 2</from><to>UPDATE_TRADE_CLASS</to><enabled>N</enabled> </hop>
+  <hop> <from>Duplicate Check 2</from><to>COMPANY_TRADECLASS_INSERT</to><enabled>N</enabled> </hop>
+  <hop> <from>ADD UNIQUE</from><to>Block this step until steps finish</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block this step until steps finish</from><to>Add constants 8 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 5</from><to>Block this step until steps finish 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block this step until steps finish 2</from><to>COMPANY_ID CHECK 3</to><enabled>N</enabled> </hop>
+  <hop> <from>UPDATE_TRADE_CLASS</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>TRADE_CLASS 2</from><to>PRIOR_TRADE_CLASS 2</to><enabled>N</enabled> </hop>
+  <hop> <from>TRADE_CLASS</from><to>PRIOR_TRADE_CLASS</to><enabled>N</enabled> </hop>
+  <hop> <from>PRIOR_TRADE_CLASS</from><to>Duplicate Check 2</to><enabled>N</enabled> </hop>
+  <hop> <from>COMPANY_ID CHECK 3</from><to>Add constants 6</to><enabled>N</enabled> </hop>
+  <hop> <from>COMPANY_ID CHECK 3</from><to>TRADE_CLASS 2</to><enabled>N</enabled> </hop>
+  <hop> <from>PRIOR_TRADE_CLASS 2</from><to>COMPANY_ID CHECK 3 2</to><enabled>N</enabled> </hop>
+  <hop> <from>COMPANY_ID CHECK 3 2</from><to> COMPANY TRADE CLASS UPDATE</to><enabled>N</enabled> </hop>
+  <hop> <from>Add constants 8</from><to>COMPANY TRADE CLASS</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 8 2</from><to>Duplicate Check 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Block this step until steps finish 2</from><to> COMPANY TRADE CLASS UPDATE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Duplicate Check 2 2</from><to>UPDATE_TRADE_CLASS</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEL SORT</from><to>DEL UNIQUE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Add constants 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3</from><to>DEL SORT</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3 2</from><to>ADD SORT</to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD SORT</from><to>ADD UNIQUE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 8 2</from><to>Duplicate Check 2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 4 2</from><to>A-INVALID 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Duplicate Check 2 3</from><to>Add constants 4 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY TRADE CLASS</from><to>COMPANY TRADE CLASS 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY TRADE CLASS 2</from><to>Add constants 2 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY TRADE CLASS 2</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>Duplicate Check 2 3</from><to>Duplicate Check 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Duplicate Check 2 2</from><to>COMPANY_TRADECLASS_INSERT</to><enabled>Y</enabled> </hop>
+  </order>
   <step>
     <name> COMPANY TRADE CLASS UPDATE</name>
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -138,13 +209,13 @@
       <key>
         <name>COMPANY_MASTER_SID</name>
         <field>COMPANY_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>PRIOR_TRADE_CLASS_START_DATE</name>
         <field>TRADE_CLASS_START_DATE</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -209,6 +280,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -314,6 +386,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -415,6 +488,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -516,10 +590,117 @@
     </step>
 
   <step>
+    <name>A-INVALID 3 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_COMPANY_TRADE_CLASS</table>
+    <commit>10000000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>COMPANY_ID</column_name>
+          <stream_name>COMPANY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>LAST_UPDATED_DATE</column_name>
+          <stream_name>LAST_UPDATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PRIOR_TRADE_CLASS</column_name>
+          <stream_name>PRIOR_TRADE_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>PRIOR_TRADE_CLASS_START_DATE</column_name>
+          <stream_name>PRIOR_TRADE_CLASS_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>TRADE_CLASS</column_name>
+          <stream_name>TRADE_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>TRADE_CLASS_END_DATE</column_name>
+          <stream_name>TRADE_CLASS_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>TRADE_CLASS_INTFID</column_name>
+          <stream_name>TRADE_CLASS_INTFID</stream_name>
+        </field>
+        <field>
+          <column_name>TRADE_CLASS_START_DATE</column_name>
+          <stream_name>TRADE_CLASS_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ERROR_CODE_NAME</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>958</xloc>
+      <yloc>822</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>ADD Audit update</name>
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -537,19 +718,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -570,12 +751,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -587,16 +769,19 @@
         <name>COMPANY_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>TRADE_CLASS</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>TRADE_CLASS_START_DATE</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -612,6 +797,7 @@
     <type>Unique</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -640,6 +826,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -656,12 +843,13 @@
         <nullif>No record exist to delete</nullif>
         <length>0</length>
         <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>307</xloc>
-      <yloc>726</yloc>
+      <xloc>215</xloc>
+      <yloc>846</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -671,6 +859,7 @@
     <type>Constant</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -687,6 +876,7 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -702,6 +892,7 @@
     <type>Constant</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -718,6 +909,7 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -733,6 +925,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -749,6 +942,7 @@
         <nullif>Duplicate Record</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ERROR_CODE_NAME</name>
@@ -760,6 +954,7 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -771,10 +966,56 @@
     </step>
 
   <step>
+    <name>Add constants 4 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Record</nullif>
+        <length>100</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ERROR_CODE_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E04</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>958</xloc>
+      <yloc>649</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Add constants 5</name>
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -791,6 +1032,7 @@
         <nullif>A</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>comp_tradeclass</name>
@@ -802,6 +1044,7 @@
         <nullif>COMPANY_TRADE_CLASS</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>comp_priortradeclass</name>
@@ -813,6 +1056,7 @@
         <nullif>COMPANY_TRADE_CLASS</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>INBOUND_STATUS_D</name>
@@ -824,6 +1068,7 @@
         <nullif>D</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>INBOUND_STATUS_C</name>
@@ -835,6 +1080,7 @@
         <nullif>C</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -850,6 +1096,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -866,6 +1113,7 @@
         <nullif>Invalid Company Id</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -881,6 +1129,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -897,12 +1146,13 @@
         <nullif>No record exist to update</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1075</xloc>
-      <yloc>690</yloc>
+      <xloc>1091</xloc>
+      <yloc>773</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -912,6 +1162,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -928,6 +1179,19 @@
         <nullif>A</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>INBOUND_STATUS_C</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>C</nullif>
+        <length>10</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -943,6 +1207,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -959,6 +1224,7 @@
         <nullif>A</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>comp_tradeclass</name>
@@ -970,6 +1236,7 @@
         <nullif>COMPANY_TRADE_CLASS</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>INBOUND_STATUS_D</name>
@@ -981,6 +1248,7 @@
         <nullif>D</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>comp_priortradeclass</name>
@@ -992,6 +1260,7 @@
         <nullif>COMPANY_TRADE_CLASS</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1007,6 +1276,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1023,6 +1293,7 @@
         <nullif>Invalid Company Id</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1038,6 +1309,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1054,6 +1326,7 @@
         <nullif>Invalid Indicator</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1069,6 +1342,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1085,6 +1359,7 @@
         <nullif>Invalid Company Id</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1100,6 +1375,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1116,6 +1392,7 @@
         <nullif>R</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -1127,6 +1404,7 @@
         <nullif>COMPANY_TRADE_CLASS_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1142,6 +1420,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1158,6 +1437,7 @@
         <nullif>R</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -1169,6 +1449,7 @@
         <nullif>COMPANY_TRADE_CLASS_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1184,6 +1465,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1200,6 +1482,7 @@
         <nullif>R</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -1211,6 +1494,7 @@
         <nullif>COMPANY_TRADE_CLASS_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1226,6 +1510,7 @@
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1250,6 +1535,7 @@
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1282,6 +1568,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1383,6 +1670,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1473,8 +1761,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>986</xloc>
-      <yloc>738</yloc>
+      <xloc>1088</xloc>
+      <yloc>895</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1484,6 +1772,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1501,19 +1790,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -1534,12 +1823,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -1551,16 +1841,19 @@
         <name>COMPANY_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>TRADE_CLASS</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>TRADE_CLASS_START_DATE</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -1576,6 +1869,7 @@
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1593,19 +1887,19 @@
       <key>
         <name>COMPANY_MASTER_SID</name>
         <field>COMPANY_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>PRIOR_TRADE_CLASS_START_DATE</name>
         <field>TRADE_CLASS_START_DATE</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>INBOUND_STATUS</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -1638,10 +1932,78 @@
     </step>
 
   <step>
+    <name>COMPANY TRADE CLASS 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>10000000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>COMPANY_TRADE_CLASS</table>
+      <key>
+        <name>COMPANY_MASTER_SID</name>
+        <field>COMPANY_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>PRIOR_TRADE_CLASS_START_DATE</name>
+        <field>TRADE_CLASS_START_DATE</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+        </key>
+      <key>
+        <name>INBOUND_STATUS_C</name>
+        <field>INBOUND_STATUS</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>BATCH_ID</name>
+        <rename>BATCH_ID</rename>
+        </value>
+      <value>
+        <name>INBOUND_STATUS</name>
+        <rename>ADD_CHG_DEL_INDICATOR</rename>
+        </value>
+      <value>
+        <name>MODIFIED_BY</name>
+        <rename>CREATED_BY</rename>
+        </value>
+      <value>
+        <name>CREATED_DATE</name>
+        <rename>CREATED_DATE</rename>
+        </value>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>MODIFIED_DATE</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>309</xloc>
+      <yloc>768</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>COMPANY_ID CHECK 3</name>
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1660,13 +2022,13 @@
       <key>
         <name>COMPANY_ID</name>
         <field>COMPANY_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>INBOUND_STATUS_D</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -1689,6 +2051,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1707,7 +2070,7 @@
       <key>
         <name>COMPANY_ID</name>
         <field>COMPANY_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -1730,6 +2093,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1754,7 +2118,7 @@
       <key>
         <name>INBOUND_STATUS</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -1777,6 +2141,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1801,7 +2166,7 @@
       <key>
         <name>INBOUND_STATUS</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -1824,6 +2189,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1905,6 +2271,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2010,6 +2377,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2111,6 +2479,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2201,8 +2570,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>197</xloc>
-      <yloc>771</yloc>
+      <xloc>226</xloc>
+      <yloc>998</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2212,12 +2581,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -2229,11 +2599,13 @@
         <name>COMPANY_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>PRIOR_TRADE_CLASS_START_DATE</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -2249,6 +2621,7 @@
     <type>Unique</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2275,6 +2648,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2292,19 +2666,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -2325,6 +2699,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2343,19 +2718,19 @@
       <key>
         <name>COMPANY_MASTER_SID</name>
         <field>COMPANY_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>new_comp_tradeclass_code</name>
         <field>COMPANY_TRADE_CLASS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>TRADE_CLASS_START_DATE</name>
         <field>TRADE_CLASS_START_DATE</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2378,6 +2753,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2396,19 +2772,19 @@
       <key>
         <name>COMPANY_MASTER_SID</name>
         <field>COMPANY_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>new_comp_tradeclass_code</name>
         <field>COMPANY_TRADE_CLASS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>TRADE_CLASS_START_DATE</name>
         <field>TRADE_CLASS_START_DATE</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2420,8 +2796,68 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>704</xloc>
-      <yloc>983</yloc>
+      <xloc>849</xloc>
+      <yloc>858</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Duplicate Check 2 3</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>dbo</schema>
+      <table>COMPANY_TRADE_CLASS</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>COMPANY_MASTER_SID</name>
+        <field>COMPANY_MASTER_SID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>INBOUND_STATUS</name>
+        <field>INBOUND_STATUS</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>new_comp_tradeclass_code</name>
+        <field>COMPANY_TRADE_CLASS</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>TRADE_CLASS_START_DATE</name>
+        <field>TRADE_CLASS_START_DATE</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>COMPANY_TRADE_CLASS_SID</name>
+        <rename>COMPANY_TRADE_CLASS_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>839</xloc>
+      <yloc>652</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2431,6 +2867,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2532,6 +2969,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2564,6 +3002,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2596,6 +3035,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2628,6 +3068,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2652,7 +3093,7 @@
       <key>
         <name>comp_priortradeclass</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2675,6 +3116,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2699,7 +3141,7 @@
       <key>
         <name>comp_priortradeclass</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2718,10 +3160,11 @@
     </step>
 
   <step>
-    <name>Switch &#47; Case</name>
+    <name>Switch &#x2f; Case</name>
     <type>SwitchCase</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2753,6 +3196,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2777,7 +3221,7 @@
       <key>
         <name>comp_tradeclass</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2800,6 +3244,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2824,7 +3269,7 @@
       <key>
         <name>comp_tradeclass</name>
         <field>LIST_NAME</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -2847,75 +3292,14 @@
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
     <connection>BPI DB</connection>
-    <sql>
-IF OBJECT_ID(&apos;TEMPDB..#comp1&apos;) IS NOT NULL
-DROP TABLE #comp1
-	SELECT a.company_id,
-		    company_MASTER_SID
-INTO   #comp1
-	FROM   (SELECT DISTINCT company_id
-			FROM   STAG_COMPANY_TRADE_CLASS) a
-		   JOIN company_MASTER im
-			 ON im.company_id = a.company_id WHERE IM.INBOUND_STATUS=&apos;A&apos;
-
-
-
-
-IF OBJECT_ID(&apos;TEMPDB..#comp3&apos;) IS NOT NULL
-DROP TABLE #comp3
-	SELECT a.company_id,
-		    company_MASTER_SID
-INTO   #comp3
-	FROM   (SELECT DISTINCT company_id
-			FROM   STAG_COMPANY_TRADE_CLASS) a
-		   JOIN company_MASTER im
-			 ON im.company_id = a.company_id 
-
-
-
-SELECT
-  a.TRADE_CLASS_INTFID
-, a.COMPANY_ID
-, a.TRADE_CLASS_START_DATE
-, a.TRADE_CLASS_END_DATE
-, a.TRADE_CLASS
-, a.PRIOR_TRADE_CLASS
-, a.PRIOR_TRADE_CLASS_START_DATE
-, a.LAST_UPDATED_DATE
-, a.CREATED_BY
-, a.CREATED_DATE
-, a.MODIFIED_BY
-, a.MODIFIED_DATE
-, a.BATCH_ID
-, a.SOURCE
-, a.ADD_CHG_DEL_INDICATOR
-,B.COMPANY_MASTER_SID as COMPANY_MASTER_SID
-,d.COMPANY_MASTER_SID as COM_SYS_ID
-
-,L.HELPER_TABLE_SID AS new_comp_tradeclass_code
-,M.HELPER_TABLE_SID AS new_comp_priortradeclass_code
-
-FROM STAG_COMPANY_TRADE_CLASS a 
-inner join #comp1  B 
-           ON A.COMPANY_ID=B.COMPANY_ID
-INNER JOIN #comp3 d
-           ON d.COMPANY_ID= A.COMPANY_ID
-
-		left join HELPER_TABLE L
-	          ON L.DESCRIPTION=A.TRADE_CLASS
-	   	      AND L.LIST_NAME=&apos;COMPANY_TRADE_CLASS&apos;
-		left join HELPER_TABLE M
-	          ON M.DESCRIPTION=A.PRIOR_TRADE_CLASS
-	   	      AND M.LIST_NAME=&apos;COMPANY_TRADE_CLASS&apos;
-
-
-</sql>
+    <sql>&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;comp1&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;comp1&#xa;	SELECT a.company_id,&#xa;		    company_MASTER_SID&#xa;INTO   &#x23;comp1&#xa;	FROM   &#x28;SELECT DISTINCT company_id&#xa;			FROM   STAG_COMPANY_TRADE_CLASS&#x29; a&#xa;		   JOIN company_MASTER im&#xa;			 ON im.company_id &#x3d; a.company_id WHERE IM.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#xa;&#xa;&#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;comp3&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;comp3&#xa;	SELECT a.company_id,&#xa;		    company_MASTER_SID&#xa;INTO   &#x23;comp3&#xa;	FROM   &#x28;SELECT DISTINCT company_id&#xa;			FROM   STAG_COMPANY_TRADE_CLASS&#x29; a&#xa;		   JOIN company_MASTER im&#xa;			 ON im.company_id &#x3d; a.company_id &#xa;&#xa;&#xa;&#xa;SELECT&#xa;  a.TRADE_CLASS_INTFID&#xa;, a.COMPANY_ID&#xa;, a.TRADE_CLASS_START_DATE&#xa;, a.TRADE_CLASS_END_DATE&#xa;, a.TRADE_CLASS&#xa;, a.PRIOR_TRADE_CLASS&#xa;, a.PRIOR_TRADE_CLASS_START_DATE&#xa;, a.LAST_UPDATED_DATE&#xa;, a.CREATED_BY&#xa;, a.CREATED_DATE&#xa;, a.MODIFIED_BY&#xa;, a.MODIFIED_DATE&#xa;, a.BATCH_ID&#xa;, a.SOURCE&#xa;, a.ADD_CHG_DEL_INDICATOR&#xa;,B.COMPANY_MASTER_SID as COMPANY_MASTER_SID&#xa;,d.COMPANY_MASTER_SID as COM_SYS_ID&#xa;&#xa;,L.HELPER_TABLE_SID AS new_comp_tradeclass_code&#xa;,M.HELPER_TABLE_SID AS new_comp_priortradeclass_code&#xa;&#xa;FROM STAG_COMPANY_TRADE_CLASS a &#xa;inner join &#x23;comp1  B &#xa;           ON A.COMPANY_ID&#x3d;B.COMPANY_ID&#xa;INNER JOIN &#x23;comp3 d&#xa;           ON d.COMPANY_ID&#x3d; A.COMPANY_ID&#xa;&#xa;		left join HELPER_TABLE L&#xa;	          ON L.DESCRIPTION&#x3d;A.TRADE_CLASS&#xa;	   	      AND L.LIST_NAME&#x3d;&#x27;COMPANY_TRADE_CLASS&#x27;&#xa;		left join HELPER_TABLE M&#xa;	          ON M.DESCRIPTION&#x3d;A.PRIOR_TRADE_CLASS&#xa;	   	      AND M.LIST_NAME&#x3d;&#x27;COMPANY_TRADE_CLASS&#x27;&#xa;&#xa;&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -2934,6 +3318,7 @@ INNER JOIN #comp3 d
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2951,25 +3336,25 @@ INNER JOIN #comp3 d
       <key>
         <name>INBOUND_STATUS_D</name>
         <field>INBOUND_STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>new_comp_tradeclass_code</name>
         <field>COMPANY_TRADE_CLASS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>TRADE_CLASS_START_DATE</name>
         <field>TRADE_CLASS_START_DATE</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>COMPANY_MASTER_SID</name>
         <field>COMPANY_MASTER_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -3048,6 +3433,18 @@ INNER JOIN #comp3 d
       </error>
       <error>
         <source_step>COMPANY TRADE CLASS</source_step>
+        <target_step>COMPANY TRADE CLASS 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>COMPANY TRADE CLASS 2</source_step>
         <target_step>Add constants 2 3 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
@@ -3097,7 +3494,7 @@ INNER JOIN #comp3 d
       <error>
         <source_step>COMPANY_TRADECLASS_INSERT</source_step>
         <target_step>Duplicate Check 2 2</target_step>
-        <is_enabled>Y</is_enabled>
+        <is_enabled>N</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
         <fields_valuename/>
@@ -3131,6 +3528,30 @@ INNER JOIN #comp3 d
         <min_pct_rows/>
       </error>
       <error>
+        <source_step>Duplicate Check 2 2</source_step>
+        <target_step>COMPANY_TRADECLASS_INSERT</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>Duplicate Check 2 3</source_step>
+        <target_step>Duplicate Check 2 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
         <source_step>UPDATE_TRADE_CLASS</source_step>
         <target_step>Add constants 4</target_step>
         <is_enabled>Y</is_enabled>
@@ -3146,4 +3567,5 @@ INNER JOIN #comp3 d
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
+
 </transformation>

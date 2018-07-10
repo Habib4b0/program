@@ -27,16 +27,22 @@ public class GtnFrameworPopulatefromTableAction
 		GtnWsRecordBean gtnWsRecordBean = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSEARCHRESULTTABLE)
 				.getValueFromPagedDataTable();
-
+		
 		try {
-
-			String workflowId = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID));
-			String workflowName = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME));
 			String businessProcess = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESS_PROCESS)
 					.getCaptionFromComboBox();
+			
+			if(businessProcess.equalsIgnoreCase(GtnFrameworkWorkflowInboxClassConstants.ARM)) {
+				loadArmComponentToHistoryPopup(gtnWsRecordBean, componentId);
+			} else {
+				
+			String workflowId = String
+						.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID));
+			String workflowName = String
+						.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME));
+			
+				
 			String companyID = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.COMPANYID).getStringFromField();
 			String businessUnitId = GtnUIFrameworkGlobalUI
@@ -70,6 +76,9 @@ public class GtnFrameworPopulatefromTableAction
 					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.COMPANYID, componentId)
 					.loadFieldValue(companyID);
 			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.COMPANYID_HISTORY, componentId)
+					.loadFieldValue(companyID);
+			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITID, componentId)
 					.loadFieldValue(businessUnitId);
 			GtnUIFrameworkGlobalUI
@@ -87,12 +96,55 @@ public class GtnFrameworPopulatefromTableAction
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.WORKFLOW_DESC, componentId)
 					.loadFieldValue(workflowDesc);
+			}
 
 		} catch (
 
 		Exception e) {
 			gtnLogger.error(e.getMessage(), e);
 		}
+	}
+
+	private void loadArmComponentToHistoryPopup(GtnWsRecordBean gtnWsRecordBean, String componentId) {
+		String companyNo = String
+				.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.COMPANY_NO_ARM));
+		String companyName = String
+				.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.COMPANY));
+		String businessUnitNo =String
+				.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESS_UNIT_NO_ARM));
+		String businessUnitName =String
+				.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAME));
+		String workflowId = String
+				.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID));
+		String workflowName = String
+				.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME));
+		String projectionDescription =String
+				.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOW_DESC));
+
+		GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.COMPANYNO,componentId)
+			.loadFieldValue(companyNo);
+		GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.COMPANYNAME, componentId)
+			.loadFieldValue(companyName);
+		GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNO, componentId)
+			.loadFieldValue(businessUnitNo);
+		GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAME, componentId)
+			.loadFieldValue(businessUnitName);
+		GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSPROCESSTEXT_FIELD,componentId)
+			.loadFieldValue(GtnFrameworkWorkflowInboxClassConstants.ARM);
+		GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID_POPUP, componentId)
+			.loadFieldValue(workflowId);
+		GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME_POPUP, componentId)
+			.loadFieldValue(workflowName);
+		GtnUIFrameworkGlobalUI
+			.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.WORKFLOW_DESC, componentId)
+			.loadFieldValue(projectionDescription);
 	}
 
 	@Override

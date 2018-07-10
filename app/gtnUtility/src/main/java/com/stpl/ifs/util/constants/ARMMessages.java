@@ -448,6 +448,14 @@ public class ARMMessages {
         return properties.getProperty("CLOSE_MESSAGE_MSGID_014");
     }
 
+    public static String getCloseMessageID015() {
+        return properties.getProperty("CLOSE_MESSAGE_MSGID_015");
+    }
+
+    public static String getCloseMessageID016() {
+        return properties.getProperty("CLOSE_MESSAGE_MSGID_016");
+    }
+
     public static String getSaveErrorMsg() {
         return properties.getProperty("ADJ_RATE_SAVE_ERROR_MSG");
     }
@@ -503,7 +511,7 @@ public class ARMMessages {
     public static String getGenerateMessageMsgHeader003() {
         return properties.getProperty("GENERATE_MESSAGE_NAME_003");
     }
-    
+
     public static String getHistoryListViewCheck() {
         return properties.getProperty("HISTORY_LIST_VIEW_CHECK");
     }

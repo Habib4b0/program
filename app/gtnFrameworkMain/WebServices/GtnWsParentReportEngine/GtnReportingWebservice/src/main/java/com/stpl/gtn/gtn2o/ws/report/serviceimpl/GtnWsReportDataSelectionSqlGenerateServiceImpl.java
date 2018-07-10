@@ -6,10 +6,13 @@ import static com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType.INTEGER;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,6 +35,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportCustomCCPListDetails;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
+import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportDecimalFormat;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnReportJsonService;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportDataSelectionGenerate;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportRightTableLoadDataService;
@@ -93,8 +97,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	private void saveCustomCCPMap(GtnWsReportDataSelectionBean dataSelectionBean) throws GtnFrameworkGeneralException {
 		GTNLOGGER.info("Calling Save Custom Map");
 		try {
-			gtnReportJsonService.writeObjectAsJson(buildCustomCCP(dataSelectionBean),
-					gtnReportJsonService.createJsonFilePath("CustomViewCCP", dataSelectionBean.getSessionId()));
+			gtnReportJsonService.writeObjectAsJson(buildCustomCCP(dataSelectionBean), gtnReportJsonService
+					.createJsonFilePath(GtnWsQueryConstants.CUSTOM_CCP_FILE_NAME, dataSelectionBean.getSessionId()));
 		} catch (IOException e) {
 			GTNLOGGER.error(e.getMessage());
 		}
@@ -106,10 +110,13 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		@SuppressWarnings("unchecked")
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(
 				replaceTableNames(getCustomCCPQuery(dataSelectionBean), dataSelectionBean.getSessionTableMap()));
+		Map<Integer, Integer> customViewDetails = getCustomViewDetailsVariableCount(
+				dataSelectionBean.getCustomViewMasterSid());
 		if (resultList != null && !resultList.isEmpty()) {
 			GtnWsReportCustomCCPList gtnWsReportCustomCCPList = applicationContext
 					.getBean(GtnWsReportCustomCCPList.class);
-			gtnWsReportCustomCCPList.setGtnWsReportCustomCCPListDetails(customizeCustomCCP(resultList));
+			gtnWsReportCustomCCPList
+					.setGtnWsReportCustomCCPListDetails(customizeCustomCCP(resultList, customViewDetails));
 			return gtnWsReportCustomCCPList;
 		}
 		GTNLOGGER.info("File for CCP doesn't generate");
@@ -117,7 +124,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	}
 
-	private List<GtnWsReportCustomCCPListDetails> customizeCustomCCP(List<Object[]> resultList) {
+	private List<GtnWsReportCustomCCPListDetails> customizeCustomCCP(List<Object[]> resultList,
+			Map<Integer, Integer> customViewDetails) {
 		List<GtnWsReportCustomCCPListDetails> ccpList = new ArrayList<>();
 		for (Object[] result : resultList) {
 			GtnWsReportCustomCCPListDetails data = applicationContext.getBean(GtnWsReportCustomCCPListDetails.class);
@@ -126,6 +134,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			data.setChildCount(Integer.parseInt(result[8].toString()));
 			data.setRowIndex(Integer.parseInt(result[9].toString()));
 			data.setData(result);
+			Optional.ofNullable(customViewDetails.get(data.getLevelNo()))
+					.ifPresent(e -> data.setVariableCount(customViewDetails.get(data.getLevelNo())));
 			ccpList.add(data);
 		}
 		return ccpList;
@@ -226,18 +236,21 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 
 		try {
-			// Object inputs[] = gtnWsSearchRequest.getQueryInput().toArray();
 			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest()
 					.getDataSelectionBean();
 			List<Object> values = gtnWsRequest.getGtnWsSearchRequest().getQueryInputList();
 
-			String fileName = gtnReportJsonService.getFileName("CustomViewCCP", dataSelectionBean.getSessionId());
+			String fileName = gtnReportJsonService.getFileName(GtnWsQueryConstants.CUSTOM_CCP_FILE_NAME,
+					dataSelectionBean.getSessionId());
 			GtnWsReportCustomCCPList ccpList = (GtnWsReportCustomCCPList) gtnReportJsonService
 					.convertJsonToObject(fileName, GtnWsReportCustomCCPList.class);
 			List<GtnWsReportCustomCCPListDetails> gtnWsReportCustomCCPListDetails = ccpList
 					.getGtnWsReportCustomCCPListDetails();
+			Set<String> filteredHierarchy = Optional.ofNullable(reportDashboardBean.getFilteredHierarchy())
+					.orElseGet(HashSet::new);
 			if (values == null) {
 				return gtnWsReportCustomCCPListDetails.stream()
+						.filter(row -> filteredHierarchy.isEmpty() || filteredHierarchy.contains(row.getHierarchyNo()))
 						.map(row -> convertToRecordbean(gtnWsRequest, row,
 								gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
 								gtnWsReportCustomCCPListDetails.indexOf(row), reportDashboardBean.getDisplayFormat()))
@@ -248,31 +261,60 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			int levelNo = Integer.parseInt(values.get(0).toString());
 			String hierarchyNo = values.get(1).toString();
 			return gtnWsReportCustomCCPListDetails.stream()
-					.filter(row -> row.getLevelNo() == levelNo && row.getHierarchyNo().startsWith(hierarchyNo)
-							&& row.getRowIndex() >= start)
+					.filter(row -> row.getLevelNo() == levelNo
+							&& matchedFilteredHierarchyNo(filteredHierarchy, row.getHierarchyNo())
+							&& row.getHierarchyNo().startsWith(hierarchyNo) && row.getRowIndex() >= start)
 					.limit(limit)
-					.map(row -> convertToRecordbean(gtnWsRequest, row,
+					.map(row -> aggregate(convertToRecordbean(gtnWsRequest, row,
 							gtnWsRequest.getGtnWsSearchRequest().getRecordHeader(),
-							gtnWsReportCustomCCPListDetails.indexOf(row), reportDashboardBean.getDisplayFormat()))
+							gtnWsReportCustomCCPListDetails.indexOf(row), reportDashboardBean.getDisplayFormat())))
 					.collect(Collectors.toList());
 
-		} catch (Exception ex) {
+		} catch (IOException | NumberFormatException ex) {
 			GTNLOGGER.error(ex.getMessage(), ex);
 		}
 		return new ArrayList<>();
 	}
+        
+        @SuppressWarnings("unchecked")
+        GtnWsRecordBean aggregate(GtnWsRecordBean bean){
+            bean.getRecordHeader().stream().filter(e -> e!=null && e.toString().contains("Total")).forEach(object -> {
+                  
+                  Double total =  bean.getRecordHeader().stream().
+                            filter(e -> e!=null && e.toString().contains(object.toString().replace("Total","")))
+                            .mapToDouble(columns-> extractDouble(bean.getPropertyValue(columns.toString()))).sum();
+                  bean.addProperties(object.toString(), total);
+            });
+            return bean;
+        }
 
 	private GtnWsRecordBean convertToRecordbean(GtnUIFrameworkWebserviceRequest gtnWsRequest,
 			GtnWsReportCustomCCPListDetails bean, List<Object> recordHeader, int index, Object[] displayFormat) {
 
-		// 1-variable name 5-V
-		Map<String, Map<String, Double>> rightDataMap = rightTableService.getDataFromBackend(gtnWsRequest, bean);
-		Map<String, Double> dataForHierarchy;
-		if (bean.getData()[5].equals("V")) {
-			dataForHierarchy = rightDataMap.get(bean.getHierarchyNo() + getVariableMap().get(bean.getData()[1]));
-		} else {
-			dataForHierarchy = rightDataMap.get(bean.getHierarchyNo());
+		List<Object[]> customviewData = getCustomViewType(
+				gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getCustomViewMasterSid());
+
+		String customViewTypeInBackend;
+		String[] customViewTypeDataArray;
+		Map<String, Double> dataForHierarchy = null;
+		if (Optional.ofNullable(customviewData).isPresent()) {
+			customViewTypeInBackend = String.valueOf(customviewData.get(0));
+			customViewTypeDataArray = customViewTypeInBackend.split("~");
+
+			if (bean.getVariableCount() == 1 || bean.getData()[5].equals("V")
+					|| customViewTypeDataArray[2].equals("Columns")) {
+				Map<String, Map<String, Double>> rightDataMap = rightTableService.getDataFromBackend(gtnWsRequest, bean,
+						customViewTypeDataArray);
+				if (bean.getData()[5].equals("V")) {
+					dataForHierarchy = rightDataMap
+							.get(bean.getHierarchyNo() + getVariableMap().get(bean.getData()[1]));
+					dataForHierarchy.putAll(rightDataMap.get(bean.getHierarchyNo()));
+				} else {
+					dataForHierarchy = rightDataMap.get(bean.getHierarchyNo());
+				}
+			}
 		}
+
 		GtnWsRecordBean recordBean = new GtnWsRecordBean();
 		Optional<List> optionalRecordHeader = Optional.of(recordHeader);
 		recordHeader = optionalRecordHeader.orElseGet(ArrayList::new);
@@ -283,16 +325,17 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		recordBean.addAdditionalProperty(index);
 		recordBean.addAdditionalProperty(bean.getRowIndex());
 		recordBean.addAdditionalProperty(0);
-		recordBean.addProperties("levelValue", setDisplayFormat(bean.getData(), displayFormat));
+		String levelName = setDisplayFormat(bean.getData(), displayFormat);
+		recordBean.addProperties("levelValue", levelName);
 		if (dataForHierarchy != null) {
-			dataForHierarchy.entrySet().stream()
-					.forEach(entry -> recordBean.addProperties(entry.getKey(), entry.getValue()));
+			dataForHierarchy.entrySet().stream().forEach(entry -> Optional.ofNullable(entry.getValue()).ifPresent(
+					data -> dataConvertors(recordBean, entry.getKey(), data, bean.getData()[5].toString(), levelName)));
 		}
 		return recordBean;
 	}
 
 	private static Map<String, String> getVariableMap() {
-		Map<String, String> variableMap = new HashMap<String, String>();
+		Map<String, String> variableMap = new HashMap<>();
 		variableMap.put("Ex-Factory Sales", "EXFACTORY_SALES");
 		variableMap.put("Gross Contract Sales % of Ex-Factory", "CON_SALES_PER_FO_EX");
 		variableMap.put("Gross Contract Sales", "CONTRACT_SALES");
@@ -381,7 +424,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			truncateTables(Arrays.asList(dataSelectionBean.getSessionTable(GtnWsQueryConstants.ST_CCP_HIERARCHY)));
 			callCCPInsertService(gtnWsRequest);
 			callInsertProcedure(dataSelectionBean);
-			gtnReportJsonService.deleteFile("CustomViewCCP", dataSelectionBean.getSessionId());
+			gtnReportJsonService.deleteFile(GtnWsQueryConstants.CUSTOM_CCP_FILE_NAME, dataSelectionBean.getSessionId());
 			saveCustomCCPMap(dataSelectionBean);
 		} catch (GtnFrameworkGeneralException | IOException ex) {
 			GTNLOGGER.error(ex.getMessage(), ex);
@@ -396,7 +439,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getReportBean()
 					.getDataSelectionBean();
 			callInsertProcedure(dataSelectionBean);
-			gtnReportJsonService.deleteFile("CustomViewCCP", dataSelectionBean.getSessionId());
+			gtnReportJsonService.deleteFile(GtnWsQueryConstants.CUSTOM_CCP_FILE_NAME, dataSelectionBean.getSessionId());
 			saveCustomCCPMap(dataSelectionBean);
 		} catch (GtnFrameworkGeneralException | IOException ex) {
 			GTNLOGGER.error(ex.getMessage(), ex);
@@ -405,15 +448,88 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	}
 
 	private void truncateTables(List<String> tableNameList) {
-		Optional.ofNullable(tableNameList).ifPresent(tableName -> {
+		Optional.ofNullable(tableNameList).ifPresent(tableNames -> {
 			try {
-				Object[] input = { tableName };
-				GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING };
-				gtnSqlQueryEngine.executeInsertOrUpdateQuery(sqlService.getQuery("getTruncateQuery"), input, type);
+				for (String tableName : tableNames) {
+					gtnSqlQueryEngine.executeInsertOrUpdateQuery(
+							sqlService.getQuery(Arrays.asList(tableName), "getTruncateQuery"));
+				}
 			} catch (GtnFrameworkGeneralException e) {
 				GTNLOGGER.error(e.getErrorMessage(), e);
 			}
 		});
+	}
+
+	private Map<Integer, Integer> getCustomViewDetailsVariableCount(int customViewMasterSid) {
+		Object[] input = { customViewMasterSid };
+		GtnFrameworkDataType[] type = { GtnFrameworkDataType.INTEGER };
+		Map<Integer, Integer> customViewDetails = new HashMap<>();
+		try {
+			List<Object[]> resultResult = (List<Object[]>) gtnSqlQueryEngine
+					.executeSelectQuery(sqlService.getQuery("getQueryForCustomViewVariableCount"), input, type);
+			getCustomViewDetailsVariableCount(resultResult, customViewDetails);
+		} catch (GtnFrameworkGeneralException e) {
+			GTNLOGGER.error(e.getErrorMessage(), e);
+		}
+		return customViewDetails;
+	}
+
+	private void getCustomViewDetailsVariableCount(List<Object[]> resultResult,
+			Map<Integer, Integer> customViewDetails) {
+		if (Optional.ofNullable(resultResult).isPresent()) {
+			setVariableCount(resultResult, customViewDetails);
+		}
+	}
+
+	private void setVariableCount(List<Object[]> resultResult, Map<Integer, Integer> customViewDetails) {
+		int lastOccurance = 0;
+		for (int i = 0; i < resultResult.size(); i++) {
+			Object[] obj = resultResult.get(i);
+			if (!"V".equals(obj[1].toString()) && Integer.parseInt(obj[3].toString()) != 0) {
+				for (int j = Integer.parseInt(obj[2].toString()); j > lastOccurance; j--) {
+					customViewDetails.put(j, Integer.parseInt(obj[3].toString()));
+				}
+				lastOccurance = Integer.parseInt(obj[2].toString());
+			}
+		}
+	}
+
+	public List<Object[]> getCustomViewType(int customViewMasterSid) {
+		try {
+			return (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(GtnWsQueryConstants.CUSTOM_VIEW_TYPE,
+					new Object[] { customViewMasterSid }, new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER });
+		} catch (GtnFrameworkGeneralException e) {
+			GTNLOGGER.error(e.getErrorMessage(), e);
+			return Collections.emptyList();
+		}
+	}
+
+	private void dataConvertors(GtnWsRecordBean recordBean, String key, Double data, String indicator,
+			String levelName) {
+ 		if (("V".equals(indicator) && levelName.contains(GtnWsQueryConstants.PERCENTAGE_OPERATOR))
+				|| key.contains("PER") || key.contains("RATE")) {
+			recordBean.addProperties(key,
+					GtnWsReportDecimalFormat.PERCENT.getFormattedValue(data) + GtnWsQueryConstants.PERCENTAGE_OPERATOR);
+		} else if ("V".equals(indicator) && levelName.contains("Unit")) {
+			recordBean.addProperties(key, GtnWsReportDecimalFormat.UNITS.getFormattedValue(data));
+		} else {
+			recordBean.addProperties(key, GtnWsReportDecimalFormat.DOLLAR.getFormattedValue(data));
+		}
+           
+                
+    }
+    public static Double extractDouble(Object value) {
+        return Optional.ofNullable(value).isPresent() ? Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]", "")) : 0.0;
+    }
+
+	private boolean matchedFilteredHierarchyNo(Set<String> filteredHierarchyNo, String hierarchyNoFromFile) {
+		boolean result;
+		if (filteredHierarchyNo.isEmpty() || filteredHierarchyNo.contains(hierarchyNoFromFile)) {
+			result = true;
+		} else {
+			result = filteredHierarchyNo.parallelStream().filter(hierarchyNoFromFile::startsWith).count() > 0;
+		}
+		return result;
 	}
 
 }
