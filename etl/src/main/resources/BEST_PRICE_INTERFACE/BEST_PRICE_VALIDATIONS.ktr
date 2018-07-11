@@ -7,7 +7,7 @@
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
-    <directory>&#47;</directory>
+    <directory>&#x2f;</directory>
     <parameters>
     </parameters>
     <log>
@@ -17,7 +17,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -34,6 +34,11 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+<metrics-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -62,21 +67,23 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2013&#47;07&#47;05 18:01:09.225</created_date>
+  <created_date>2013&#x2f;07&#x2f;05 18&#x3a;01&#x3a;09.225</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#47;07&#47;05 18:01:09.225</modified_date>
+  <modified_date>2013&#x2f;07&#x2f;05 18&#x3a;01&#x3a;09.225</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -93,13 +100,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -115,12 +122,43 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Switch &#47; Case</from><to>ADD SORT</to><enabled>N</enabled> </hop>  <hop> <from>TEMP </from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM ID CHECK</from><to>Contract Id Check</to><enabled>N</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>Contract Id Check</from><to>COMPANY LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>ITEM ID CHECK</to><enabled>N</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason</from><to>INVALID TABLE 5</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM ID CHECK</from><to>Invalid Reason 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 2</from><to>INVALID TABLE 2</to><enabled>N</enabled> </hop>  <hop> <from>Contract Id Check</from><to>Invalid Reason 3</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 3</from><to>INVALID TABLE 3</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY LOOKUP</from><to>Invalid Reason 4</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 4</from><to>INVALID TABLE 6</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 4</to><enabled>Y</enabled> </hop>  <hop> <from>BEST PRICE INSERT</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>AUDIT INSERT WAIT</to><enabled>N</enabled> </hop>  <hop> <from>AUDIT INSERT WAIT</from><to>Add constants</to><enabled>N</enabled> </hop>  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY LOOKUP</from><to>BEST PRICE INSERT</to><enabled>N</enabled> </hop>  <hop> <from>BEST PRICE INSERT</from><to>Invalid Reason 5</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>BEST PRICE INSERT</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3</from><to>ADD SORT</to><enabled>Y</enabled> </hop>  <hop> <from>ADD SORT</from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>Switch &#x2f; Case</from><to>ADD SORT</to><enabled>N</enabled> </hop>
+  <hop> <from>TEMP </from><to>Switch &#x2f; Case</to><enabled>Y</enabled> </hop>
+  <hop> <from>ITEM ID CHECK</from><to>Contract Id Check</to><enabled>N</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Contract Id Check</from><to>COMPANY LOOKUP</to><enabled>N</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION</from><to>ITEM ID CHECK</to><enabled>N</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Reason</from><to>INVALID TABLE 5</to><enabled>Y</enabled> </hop>
+  <hop> <from>ITEM ID CHECK</from><to>Invalid Reason 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Reason 2</from><to>INVALID TABLE 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Contract Id Check</from><to>Invalid Reason 3</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Reason 3</from><to>INVALID TABLE 3</to><enabled>N</enabled> </hop>
+  <hop> <from>COMPANY LOOKUP</from><to>Invalid Reason 4</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Reason 4</from><to>INVALID TABLE 6</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 4</to><enabled>N</enabled> </hop>
+  <hop> <from>BEST PRICE INSERT</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>AUDIT INSERT WAIT</to><enabled>N</enabled> </hop>
+  <hop> <from>AUDIT INSERT WAIT</from><to>Add constants</to><enabled>N</enabled> </hop>
+  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY LOOKUP</from><to>BEST PRICE INSERT</to><enabled>N</enabled> </hop>
+  <hop> <from>BEST PRICE INSERT</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION</from><to>BEST PRICE INSERT</to><enabled>N</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Add constants 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3</from><to>ADD SORT</to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD SORT</from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION</from><to>BEST PRICE INSERT DUP CHECK</to><enabled>Y</enabled> </hop>
+  <hop> <from>BEST PRICE INSERT DUP CHECK</from><to>BEST PRICE INSERT</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Reason 5 2</from><to>INVALID TABLE 4 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>BEST PRICE INSERT DUP CHECK</from><to>Invalid Reason 5 2</to><enabled>Y</enabled> </hop>
+  </order>
   <step>
     <name>ADD Audit update</name>
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -138,19 +176,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -171,6 +209,7 @@
     <type>Unique</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -201,12 +240,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -218,21 +258,25 @@
         <name>ITEM_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>CONTRACT_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>ACCOUNT_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>PERIOD</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -248,6 +292,7 @@
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -268,6 +313,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -284,6 +330,7 @@
         <nullif>R</nullif>
         <length>5</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -295,6 +342,7 @@
         <nullif>BESTPRICE_MASTER_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -310,6 +358,7 @@
     <type>Constant</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -326,6 +375,7 @@
         <nullif>A</nullif>
         <length>5</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ERROR_CODE</name>
@@ -337,6 +387,7 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -352,6 +403,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -457,6 +509,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -498,6 +551,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -539,6 +593,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -668,6 +723,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -793,6 +849,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -918,6 +975,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1047,6 +1105,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1172,6 +1231,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1297,6 +1357,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1338,6 +1399,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1354,6 +1416,7 @@
         <nullif>Invalid Indicator</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1369,6 +1432,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1385,6 +1449,7 @@
         <nullif>Invalid ItemId</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1400,6 +1465,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1416,6 +1482,7 @@
         <nullif>Invalid ContractId</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1431,6 +1498,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1447,6 +1515,7 @@
         <nullif>Invalid AccountId</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1462,6 +1531,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1478,6 +1548,7 @@
         <nullif>Duplicate Record</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ERROR_CODE_NAME</name>
@@ -1489,6 +1560,7 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1504,6 +1576,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1532,10 +1605,11 @@
     </step>
 
   <step>
-    <name>Switch &#47; Case</name>
+    <name>Switch &#x2f; Case</name>
     <type>SwitchCase</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1563,88 +1637,14 @@
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
     <connection>BPI DB</connection>
-    <sql>
-
-
-
-IF OBJECT_ID(&apos;TEMPDB..#ITEM&apos;) IS NOT NULL
-DROP TABLE #ITEM
-	SELECT a.ITEM_ID,
-		    ITEM_MASTER_SID
-INTO   #ITEM
-	FROM   (SELECT DISTINCT ITEM_ID
-			FROM   STAG_BEST_PRICE) a
-		   JOIN ITEM_MASTER im
-			 ON im.ITEM_ID = a.ITEM_ID 
-
-
-IF OBJECT_ID(&apos;TEMPDB..#COMPANY&apos;) IS NOT NULL
-DROP TABLE #COMPANY
-	SELECT a.ACCOUNT_ID,
-		   COMPANY_MASTER_SID
-INTO   #COMPANY
-	FROM   (SELECT DISTINCT ACCOUNT_ID
-			FROM   STAG_BEST_PRICE) a
-		   JOIN COMPANY_MASTER im
-			 ON im.COMPANY_NO = a.ACCOUNT_ID
-
-IF OBJECT_ID(&apos;TEMPDB..#CONTRACT&apos;) IS NOT NULL
-DROP TABLE #CONTRACT
-	SELECT a.CONTRACT_ID,
-		   CONTRACT_MASTER_SID
-INTO   #CONTRACT
-	FROM   (SELECT DISTINCT CONTRACT_ID
-			FROM   STAG_BEST_PRICE) a
-		   JOIN CONTRACT_MASTER im
-			 ON im.CONTRACT_ID = a.CONTRACT_ID
-
-
-
-
-SELECT
- A.BEST_PRICE_INTFID
-,A.ITEM_ID
-,A.ITEM_NO
-,A.ITEM_DESC
-,A.BEGINNING_WAC_PACKAGE
-,A.SELLING_PRICE
-,A.INITIAL_BEST_PRICE
-,A.INITIAL_DISCOUNT
-,A.CONTRACT_NO
-,A.CONTRACT_ID
-,A.ACCOUNT_ID
-,A.CONTRACT_START_DATE
-,A.CONTRACT_END_DATE
-,A.PERIOD
-,A.CREATED_BY
-,A.CREATED_DATE
-,A.MODIFIED_BY
-,A.MODIFIED_DATE
-,A.BATCH_ID
-,A.SOURCE
-,A.ADD_CHG_DEL_INDICATOR
-
-,B.ITEM_MASTER_SID
-,C.COMPANY_MASTER_SID
-,D.CONTRACT_MASTER_SID 
-
-FROM STAG_BEST_PRICE A
-inner join #ITEM  B 
-           ON A.ITEM_ID=B.ITEM_ID
-inner join #COMPANY  C 
-           ON A.ACCOUNT_ID=C.ACCOUNT_ID
-inner join #CONTRACT  D
-           ON A.CONTRACT_ID=D.CONTRACT_ID
-
-
-
-</sql>
+    <sql>&#xa;&#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;ITEM&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;ITEM&#xa;	SELECT a.ITEM_ID,&#xa;		    ITEM_MASTER_SID&#xa;INTO   &#x23;ITEM&#xa;	FROM   &#x28;SELECT DISTINCT ITEM_ID&#xa;			FROM   STAG_BEST_PRICE&#x29; a&#xa;		   JOIN ITEM_MASTER im&#xa;			 ON im.ITEM_ID &#x3d; a.ITEM_ID &#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;COMPANY&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;COMPANY&#xa;	SELECT a.ACCOUNT_ID,&#xa;		   COMPANY_MASTER_SID&#xa;INTO   &#x23;COMPANY&#xa;	FROM   &#x28;SELECT DISTINCT ACCOUNT_ID&#xa;			FROM   STAG_BEST_PRICE&#x29; a&#xa;		   JOIN COMPANY_MASTER im&#xa;			 ON im.COMPANY_NO &#x3d; a.ACCOUNT_ID&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;CONTRACT&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;CONTRACT&#xa;	SELECT a.CONTRACT_ID,&#xa;		   CONTRACT_MASTER_SID&#xa;INTO   &#x23;CONTRACT&#xa;	FROM   &#x28;SELECT DISTINCT CONTRACT_ID&#xa;			FROM   STAG_BEST_PRICE&#x29; a&#xa;		   JOIN CONTRACT_MASTER im&#xa;			 ON im.CONTRACT_ID &#x3d; a.CONTRACT_ID&#xa;&#xa;&#xa;&#xa;&#xa;SELECT&#xa; A.BEST_PRICE_INTFID&#xa;,A.ITEM_ID&#xa;,A.ITEM_NO&#xa;,A.ITEM_DESC&#xa;,A.BEGINNING_WAC_PACKAGE&#xa;,A.SELLING_PRICE&#xa;,A.INITIAL_BEST_PRICE&#xa;,A.INITIAL_DISCOUNT&#xa;,A.CONTRACT_NO&#xa;,A.CONTRACT_ID&#xa;,A.ACCOUNT_ID&#xa;,A.CONTRACT_START_DATE&#xa;,A.CONTRACT_END_DATE&#xa;,A.PERIOD&#xa;,A.CREATED_BY&#xa;,A.CREATED_DATE&#xa;,A.MODIFIED_BY&#xa;,A.MODIFIED_DATE&#xa;,A.BATCH_ID&#xa;,A.SOURCE&#xa;,A.ADD_CHG_DEL_INDICATOR&#xa;&#xa;,B.ITEM_MASTER_SID&#xa;,C.COMPANY_MASTER_SID&#xa;,D.CONTRACT_MASTER_SID &#xa;&#xa;FROM STAG_BEST_PRICE A&#xa;inner join &#x23;ITEM  B &#xa;           ON A.ITEM_ID&#x3d;B.ITEM_ID&#xa;inner join &#x23;COMPANY  C &#xa;           ON A.ACCOUNT_ID&#x3d;C.ACCOUNT_ID&#xa;inner join &#x23;CONTRACT  D&#xa;           ON A.CONTRACT_ID&#x3d;D.CONTRACT_ID&#xa;&#xa;&#xa;&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -1654,6 +1654,241 @@ inner join #CONTRACT  D
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>927</xloc>
       <yloc>148</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>BEST PRICE INSERT DUP CHECK</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>BEST_PRICE_MASTER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>ITEM_ID</name>
+        <field>ITEM_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>ACCOUNT_ID</name>
+        <field>ACCOUNT_ID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>PERIOD</name>
+        <field>PERIOD</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>CONTRACT_ID</name>
+        <field>CONTRACT_ID</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>BEST_PRICE_MASTER_SID</name>
+        <rename>BEST_PRICE_MASTER_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>966</xloc>
+      <yloc>695</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 4 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_BEST_PRICE</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ACCOUNT_ID</column_name>
+          <stream_name>ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BEGINNING_WAC_PACKAGE</column_name>
+          <stream_name>BEGINNING_WAC_PACKAGE</stream_name>
+        </field>
+        <field>
+          <column_name>BEST_PRICE_INTFID</column_name>
+          <stream_name>BEST_PRICE_INTFID</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_END_DATE</column_name>
+          <stream_name>CONTRACT_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_NO</column_name>
+          <stream_name>CONTRACT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_START_DATE</column_name>
+          <stream_name>CONTRACT_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>INITIAL_BEST_PRICE</column_name>
+          <stream_name>INITIAL_BEST_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>INITIAL_DISCOUNT</column_name>
+          <stream_name>INITIAL_DISCOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_DESC</column_name>
+          <stream_name>ITEM_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PERIOD</column_name>
+          <stream_name>PERIOD</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>SELLING_PRICE</column_name>
+          <stream_name>SELLING_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ERROR_CODE_NAME</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1164</xloc>
+      <yloc>908</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 5 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Record</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ERROR_CODE_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E04</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1164</xloc>
+      <yloc>704</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1719,8 +1954,21 @@ inner join #CONTRACT  D
         <max_pct_errors/>
         <min_pct_rows/>
       </error>
+      <error>
+        <source_step>BEST PRICE INSERT DUP CHECK</source_step>
+        <target_step>BEST PRICE INSERT</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
   </step_error_handling>
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
+
 </transformation>
