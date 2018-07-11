@@ -7,7 +7,7 @@
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
-    <directory>&#47;</directory>
+    <directory>&#x2f;</directory>
     <parameters>
     </parameters>
     <log>
@@ -17,7 +17,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -34,6 +34,11 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+<metrics-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -62,21 +67,23 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2013&#47;07&#47;05 14:17:49.123</created_date>
+  <created_date>2013&#x2f;07&#x2f;05 14&#x3a;17&#x3a;49.123</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#47;07&#47;05 14:17:49.123</modified_date>
+  <modified_date>2013&#x2f;07&#x2f;05 14&#x3a;17&#x3a;49.123</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -93,13 +100,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -115,12 +122,78 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>TEMP</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>INVALID TABLE 2</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>BRAND_MASTER</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>ITEM MASTER LOOKUP</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 6</from><to>INVALID TABLE 8</to><enabled>N</enabled> </hop>  <hop> <from>BRAND_MASTER</from><to>Invalid Reason 6</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 7</from><to>INVALID TABLE 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_FORECAST</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>ADD BATCH DUPLCIATION</to><enabled>N</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>ITEM MASTER LOOKUP</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 6 2</from><to>INVALID TABLE 8 2</to><enabled>N</enabled> </hop>  <hop> <from>BRAND_MASTER</from><to>COMPANY_MASTER</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_MASTER</from><to>Invalid Reason 6 2</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 3 3 2</from><to>ADD Audit update 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2 2</from><to>Add constants 3 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 3 2 2</from><to>ADD Audit update 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2 2 2</from><to>Add constants 3 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_FORECAST</from><to>Memory Group by 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_FORECAST</from><to>Memory Group by 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Status 2</from><to>Change Audit update 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADJUSTED_DEMAND_FORECAST</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_FORECAST 3</from><to>Memory Group by 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason</from><to>D-INVALID2</to><enabled>Y</enabled> </hop>  <hop> <from>Delete Reason 2</from><to>D-INVALID2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>ADJUSTED_DEMAND_FORECAST</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>DEMAND_FORECAST 3</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by 2 2</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>  <hop> <from>COMPANY_MASTER</from><to>Filter rows</to><enabled>N</enabled> </hop>  <hop> <from>ADJUSTED_DEMAND_FORECAST</from><to>Delete Reason</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_FORECAST 3</from><to>Delete Reason 2</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Dummy (do nothing) 3</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing) 3</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Dummy (do nothing)</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 7 2</from><to>DEMAND_FORECAST 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_FORECAST 2</from><to>Invalid Reason 7 2</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_FORECAST 2</from><to>Invalid Reason 7</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>DEMAND_FORECAST</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_FORECAST 3 2</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_FORECAST</from><to>Invalid Reason 7 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 7 2 2</from><to>DEMAND_FORECAST 2</to><enabled>Y</enabled> </hop>  <hop> <from>ADD BATCH DUPLCIATION</from><to>Filter rows</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 3 2</from><to>Sort rows</to><enabled>Y</enabled> </hop>  <hop> <from>Sort rows</from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>TEMP</from><to>Switch &#x2f; Case</to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION</from><to>INVALID TABLE 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>ITEM MASTER LOOKUP</from><to>BRAND_MASTER</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Reason</from><to>INVALID TABLE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>
+  <hop> <from>ITEM MASTER LOOKUP</from><to>Invalid Reason 5</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Reason 5</from><to>INVALID TABLE 7</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Reason 6</from><to>INVALID TABLE 8</to><enabled>N</enabled> </hop>
+  <hop> <from>BRAND_MASTER</from><to>Invalid Reason 6</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Reason 7</from><to>INVALID TABLE 3</to><enabled>N</enabled> </hop>
+  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3 2</from><to>ADD BATCH DUPLCIATION</to><enabled>N</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION</from><to>ITEM MASTER LOOKUP</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Reason 6 2</from><to>INVALID TABLE 8 2</to><enabled>N</enabled> </hop>
+  <hop> <from>BRAND_MASTER</from><to>COMPANY_MASTER</to><enabled>N</enabled> </hop>
+  <hop> <from>COMPANY_MASTER</from><to>Invalid Reason 6 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Add constants 3 3 2</from><to>ADD Audit update 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by 2 2 2</from><to>Add constants 3 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants 3 3 2 2</from><to>ADD Audit update 2 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by 2 2 2 2</from><to>Add constants 3 3 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST</from><to>Memory Group by 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST</from><to>Memory Group by 2 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Audit Status</from><to>Delete Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Audit Status 2</from><to>Change Audit update 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>ADJUSTED_DEMAND_FORECAST</from><to>Memory Group by 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST 3</from><to>Memory Group by 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Delete Reason</from><to>D-INVALID2</to><enabled>N</enabled> </hop>
+  <hop> <from>Delete Reason 2</from><to>D-INVALID2 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Filter rows 2</from><to>ADJUSTED_DEMAND_FORECAST</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2</from><to>Filter rows 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 3</from><to>DEMAND_FORECAST 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by 2</from><to>Audit Status</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by 2 2</from><to>Audit Status 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>COMPANY_MASTER</from><to>Filter rows 2</to><enabled>N</enabled> </hop>
+  <hop> <from>ADJUSTED_DEMAND_FORECAST</from><to>Delete Reason</to><enabled>N</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST 3</from><to>Delete Reason 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Dummy &#x28;do nothing&#x29;</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Dummy &#x28;do nothing&#x29; 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Dummy &#x28;do nothing&#x29; 3</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Dummy &#x28;do nothing&#x29;</from><to>Add constants 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Reason 7 2</from><to>DEMAND_FORECAST 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST 2</from><to>Invalid Reason 7 2</to><enabled>N</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST 2</from><to>Invalid Reason 7</to><enabled>N</enabled> </hop>
+  <hop> <from>Filter rows 3</from><to>DEMAND_FORECAST</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST 3 2</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST</from><to>Invalid Reason 7 2 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Invalid Reason 7 2 2</from><to>DEMAND_FORECAST 2</to><enabled>N</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION</from><to>Filter rows 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Add constants 3 2</from><to>Sort rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows</from><to>ADD BATCH DUPLCIATION</to><enabled>Y</enabled> </hop>
+  <hop> <from>ADD BATCH DUPLCIATION</from><to>Filter rows </to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows </from><to>DEMAND_FORECAST 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows </from><to>DEMAND_FORECAST 2 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST 2 3 2</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST 2 2</from><to>Invalid Reason 7 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Reason 7 2 2 2</from><to>DEMAND_FORECAST 2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST 2 2</from><to>DEMAND_FORECAST</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST 2 3</from><to>Invalid Reason 7 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Reason 7 3</from><to>INVALID TABLE 3 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST 2 3</from><to>Invalid Reason 7 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Delete Reason 3</from><to>D-INVALID2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEMAND_FORECAST 2 3 2</from><to>Delete Reason 3</to><enabled>Y</enabled> </hop>
+  </order>
   <step>
     <name>ADD Audit update</name>
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -138,19 +211,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -171,6 +244,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -188,19 +262,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -221,6 +295,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -238,19 +313,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -271,6 +346,7 @@
     <type>Unique</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -311,6 +387,7 @@
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -413,6 +490,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -429,6 +507,7 @@
         <nullif>R</nullif>
         <length>5</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -440,6 +519,7 @@
         <nullif>DEMAND_FORECAST_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -455,6 +535,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -471,6 +552,7 @@
         <nullif>A</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ERROR_CODE</name>
@@ -482,6 +564,7 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -497,6 +580,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -513,6 +597,7 @@
         <nullif>R</nullif>
         <length>5</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -524,6 +609,7 @@
         <nullif>DEMAND_FORECAST_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -539,6 +625,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -555,6 +642,7 @@
         <nullif>R</nullif>
         <length>5</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -566,6 +654,7 @@
         <nullif>DEMAND_FORECAST_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -581,6 +670,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -597,6 +687,7 @@
         <nullif>R</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -608,6 +699,7 @@
         <nullif>DEMAND_FORECAST_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -623,6 +715,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -639,6 +732,7 @@
         <nullif>R</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -650,6 +744,7 @@
         <nullif>DEMAND_FORECAST_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -665,6 +760,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -683,7 +779,7 @@
       <key>
         <name>BRAND_ID</name>
         <field>BRAND_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -706,6 +802,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -747,6 +844,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -764,19 +862,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -797,6 +895,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -970,6 +1069,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1143,6 +1243,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1293,8 +1394,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>661</xloc>
-      <yloc>1459</yloc>
+      <xloc>687</xloc>
+      <yloc>1257</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1304,6 +1405,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1388,8 +1490,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>418</xloc>
-      <yloc>1587</yloc>
+      <xloc>344</xloc>
+      <yloc>1406</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1399,6 +1501,7 @@
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1617,6 +1720,7 @@
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1835,6 +1939,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1852,19 +1957,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -1885,6 +1990,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1901,6 +2007,7 @@
         <nullif>No record exist to delete</nullif>
         <length>50</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1916,6 +2023,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1932,6 +2040,7 @@
         <nullif>No record exist to Update</nullif>
         <length>50</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1943,10 +2052,11 @@
     </step>
 
   <step>
-    <name>Dummy (do nothing)</name>
+    <name>Dummy &#x28;do nothing&#x29;</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1961,10 +2071,11 @@
     </step>
 
   <step>
-    <name>Dummy (do nothing) 3</name>
+    <name>Dummy &#x28;do nothing&#x29; 3</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1979,22 +2090,23 @@
     </step>
 
   <step>
-    <name>Filter rows</name>
+    <name>Filter rows 2</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
 <send_true_to>ADJUSTED_DEMAND_FORECAST</send_true_to>
-<send_false_to>Filter rows 2</send_false_to>
+<send_false_to>Filter rows 3</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>ADD_CHG_DEL_INDICATOR</leftvalue>
- <function>=</function>
+ <function>&#x3d;</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>D</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -2007,10 +2119,11 @@
     </step>
 
   <step>
-    <name>Filter rows 2</name>
+    <name>Filter rows 3</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2022,7 +2135,7 @@
 <condition>
  <negated>N</negated>
  <leftvalue>ADD_CHG_DEL_INDICATOR</leftvalue>
- <function>=</function>
+ <function>&#x3d;</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>C</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -2039,6 +2152,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2212,6 +2326,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2389,6 +2504,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2566,6 +2682,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2739,6 +2856,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2912,6 +3030,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3085,6 +3204,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3132,6 +3252,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3148,6 +3269,7 @@
         <nullif>Invalid Indicator</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -3163,6 +3285,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3179,6 +3302,7 @@
         <nullif>Invalid ItemId</nullif>
         <length>0</length>
         <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -3194,6 +3318,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3210,6 +3335,7 @@
         <nullif>Invalid Brand_Id</nullif>
         <length>0</length>
         <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -3225,6 +3351,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3241,6 +3368,7 @@
         <nullif>Invalid OrganizationKey</nullif>
         <length>0</length>
         <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -3256,6 +3384,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3272,6 +3401,7 @@
         <nullif>Duplicate Record</nullif>
         <length>0</length>
         <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>error_code_name</name>
@@ -3283,12 +3413,13 @@
         <nullif>E04</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>305</xloc>
-      <yloc>1568</yloc>
+      <xloc>229</xloc>
+      <yloc>1435</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3298,6 +3429,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3314,12 +3446,13 @@
         <nullif>A</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>249</xloc>
-      <yloc>1742</yloc>
+      <xloc>516</xloc>
+      <yloc>1485</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3329,6 +3462,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3345,12 +3479,13 @@
         <nullif>D</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>462</xloc>
-      <yloc>1478</yloc>
+      <xloc>434</xloc>
+      <yloc>1303</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3360,6 +3495,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3392,6 +3528,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3424,6 +3561,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3456,6 +3594,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3488,6 +3627,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3520,12 +3660,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -3537,46 +3678,55 @@
         <name>FORECAST_TYPE</name>
         <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>FORECAST_YEAR</name>
         <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>FORECAST_MONTH</name>
         <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>ITEM_ID</name>
         <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>COUNTRY</name>
         <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>ORGANIZATION_KEY</name>
         <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>SOURCE</name>
         <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>FORECAST_NAME</name>
         <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
       <field>
         <name>FORECAST_VER</name>
         <ascending>N</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -3588,10 +3738,11 @@
     </step>
 
   <step>
-    <name>Switch &#47; Case</name>
+    <name>Switch &#x2f; Case</name>
     <type>SwitchCase</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3607,9 +3758,9 @@
 <cases><case><value>A</value>
 <target_step>Add constants 3 2</target_step>
 </case><case><value>C</value>
-<target_step>Dummy (do nothing)</target_step>
+<target_step>Dummy &#x28;do nothing&#x29;</target_step>
 </case><case><value>D</value>
-<target_step>Dummy (do nothing) 3</target_step>
+<target_step>Dummy &#x28;do nothing&#x29; 3</target_step>
 </case></cases>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>643</xloc>
@@ -3623,101 +3774,14 @@
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
     <connection>BPI DB</connection>
-    <sql>
-
-
-
-IF OBJECT_ID(&apos;TEMPDB..#ITEM&apos;) IS NOT NULL
-DROP TABLE #ITEM
-	SELECT a.ITEM_ID,im.ORGANIZATION_KEY,
-		    ITEM_MASTER_SID
-INTO   #ITEM
-	FROM   (SELECT DISTINCT ITEM_ID,ORGANIZATION_KEY
-			FROM   STAG_DEMAND_FORECAST) a
-		   JOIN ITEM_MASTER im
-			 ON im.ITEM_ID = a.ITEM_ID 
-
-
-IF OBJECT_ID(&apos;TEMPDB..#COMPANY&apos;) IS NOT NULL
-DROP TABLE #COMPANY
-	SELECT a.ORGANIZATION_KEY,
-		   COMPANY_MASTER_SID
-INTO   #COMPANY
-	FROM   (SELECT DISTINCT ORGANIZATION_KEY
-			FROM   STAG_DEMAND_FORECAST) a
-		   JOIN COMPANY_MASTER im
-			 ON im.COMPANY_ID = a.ORGANIZATION_KEY
-
-IF OBJECT_ID(&apos;TEMPDB..#BRAND&apos;) IS NOT NULL
-DROP TABLE #BRAND
-	SELECT a.BRAND_ID,
-		   BRAND_MASTER_SID
-INTO   #BRAND
-	FROM   (SELECT DISTINCT BRAND_ID
-			FROM   STAG_DEMAND_FORECAST) a
-		   JOIN BRAND_MASTER im
-			 ON im.BRAND_ID = a.BRAND_ID
-
-
-
-
-SELECT
-  A.DEMAND_FORECAST_INTERFACE_ID
-, A.FORECAST_TYPE
-, A.FORECAST_YEAR
-, A.FORECAST_MONTH
-, A.ITEM_ID
-, A.ITEM_IDENTIFIER_CODE_QUALIFIER
-, A.ITEM_IDENTIFIER
-, A.BRAND_ID
-, A.SEGMENT
-, A.MARKET_SIZE_UNITS
-, A.MARKET_SHARE_RATIO
-, A.MARKET_SHARE_UNITS
-, A.UNCAPTURED_UNITS
-, A.UNCAPTURED_UNITS_RATIO
-, A.TOTAL_DEMAND_UNITS
-, A.TOTAL_DEMAND_AMOUNT
-, A.INVENTORY_UNIT_CHANGE
-, A.GROSS_UNITS
-, A.GROSS_PRICE
-, A.GROSS_AMOUNT
-, A.NET_SALES_PRICE
-, A.NET_SALES_AMOUNT
-, A.CREATED_BY
-, A.CREATED_DATE
-, A.MODIFIED_BY
-, A.MODIFIED_DATE
-, A.ADD_CHG_DEL_INDICATOR
-, A.BATCH_ID
-, A.SOURCE
-, A.FORECAST_NAME
-, A.FORECAST_VER
-, A.COUNTRY
-, A.ORGANIZATION_KEY
-
-,B.ITEM_MASTER_SID
-,B.ORGANIZATION_KEY AS NEW_ORGANIZATION_KEY
-,C.COMPANY_MASTER_SID
-,D.BRAND_MASTER_SID 
-
-FROM STAG_DEMAND_FORECAST A
-inner join #ITEM  B 
-           ON A.ITEM_ID=B.ITEM_ID
-inner join #COMPANY  C 
-           ON A.ORGANIZATION_KEY=C.ORGANIZATION_KEY
-inner join #BRAND  D
-           ON A.BRAND_ID=D.BRAND_ID
-
-
-
-</sql>
+    <sql>&#xa;&#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;ITEM&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;ITEM&#xa;	SELECT a.ITEM_ID,im.ORGANIZATION_KEY,&#xa;		    ITEM_MASTER_SID&#xa;INTO   &#x23;ITEM&#xa;	FROM   &#x28;SELECT DISTINCT ITEM_ID,ORGANIZATION_KEY&#xa;			FROM   STAG_DEMAND_FORECAST&#x29; a&#xa;		   JOIN ITEM_MASTER im&#xa;			 ON im.ITEM_ID &#x3d; a.ITEM_ID &#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;COMPANY&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;COMPANY&#xa;	SELECT a.ORGANIZATION_KEY,&#xa;		   COMPANY_MASTER_SID&#xa;INTO   &#x23;COMPANY&#xa;	FROM   &#x28;SELECT DISTINCT ORGANIZATION_KEY&#xa;			FROM   STAG_DEMAND_FORECAST&#x29; a&#xa;		   JOIN COMPANY_MASTER im&#xa;			 ON im.COMPANY_ID &#x3d; a.ORGANIZATION_KEY&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;BRAND&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;BRAND&#xa;	SELECT a.BRAND_ID,&#xa;		   BRAND_MASTER_SID&#xa;INTO   &#x23;BRAND&#xa;	FROM   &#x28;SELECT DISTINCT BRAND_ID&#xa;			FROM   STAG_DEMAND_FORECAST&#x29; a&#xa;		   JOIN BRAND_MASTER im&#xa;			 ON im.BRAND_ID &#x3d; a.BRAND_ID&#xa;&#xa;&#xa;&#xa;&#xa;SELECT&#xa;  A.DEMAND_FORECAST_INTERFACE_ID&#xa;, A.FORECAST_TYPE&#xa;, A.FORECAST_YEAR&#xa;, A.FORECAST_MONTH&#xa;, A.ITEM_ID&#xa;, A.ITEM_IDENTIFIER_CODE_QUALIFIER&#xa;, A.ITEM_IDENTIFIER&#xa;, A.BRAND_ID&#xa;, A.SEGMENT&#xa;, A.MARKET_SIZE_UNITS&#xa;, A.MARKET_SHARE_RATIO&#xa;, A.MARKET_SHARE_UNITS&#xa;, A.UNCAPTURED_UNITS&#xa;, A.UNCAPTURED_UNITS_RATIO&#xa;, A.TOTAL_DEMAND_UNITS&#xa;, A.TOTAL_DEMAND_AMOUNT&#xa;, A.INVENTORY_UNIT_CHANGE&#xa;, A.GROSS_UNITS&#xa;, A.GROSS_PRICE&#xa;, A.GROSS_AMOUNT&#xa;, A.NET_SALES_PRICE&#xa;, A.NET_SALES_AMOUNT&#xa;, A.CREATED_BY&#xa;, A.CREATED_DATE&#xa;, A.MODIFIED_BY&#xa;, A.MODIFIED_DATE&#xa;, A.ADD_CHG_DEL_INDICATOR&#xa;, A.BATCH_ID&#xa;, A.SOURCE&#xa;, A.FORECAST_NAME&#xa;, A.FORECAST_VER&#xa;, A.COUNTRY&#xa;, A.ORGANIZATION_KEY&#xa;&#xa;,B.ITEM_MASTER_SID&#xa;,B.ORGANIZATION_KEY AS NEW_ORGANIZATION_KEY&#xa;,C.COMPANY_MASTER_SID&#xa;,D.BRAND_MASTER_SID &#xa;&#xa;FROM STAG_DEMAND_FORECAST A&#xa;inner join &#x23;ITEM  B &#xa;           ON A.ITEM_ID&#x3d;B.ITEM_ID&#xa;inner join &#x23;COMPANY  C &#xa;           ON A.ORGANIZATION_KEY&#x3d;C.ORGANIZATION_KEY&#xa;inner join &#x23;BRAND  D&#xa;           ON A.BRAND_ID&#x3d;D.BRAND_ID&#xa;&#xa;&#xa;&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -3727,6 +3791,774 @@ inner join #BRAND  D
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>646</xloc>
       <yloc>1</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows </name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>DEMAND_FORECAST 2 2</send_true_to>
+<send_false_to>DEMAND_FORECAST 2 3 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>ADD_CHG_DEL_INDICATOR</leftvalue>
+ <function>&#x3d;</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>A</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>863</xloc>
+      <yloc>474</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>DEMAND_FORECAST 2 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>DEMAND_FORECAST</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>FORECAST_YEAR</name>
+        <field>FORECAST_YEAR</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_MONTH</name>
+        <field>FORECAST_MONTH</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_TYPE</name>
+        <field>FORECAST_TYPE</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>ITEM_ID</name>
+        <field>ITEM_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>SOURCE</name>
+        <field>SOURCE</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_NAME</name>
+        <field>FORECAST_NAME</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_VER</name>
+        <field>FORECAST_VER</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>COUNTRY</name>
+        <field>COUNTRY</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>ORGANIZATION_KEY</name>
+        <field>ORGANIZATION_KEY</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>INBOUND_STATUS</name>
+        <rename>new_status</rename>
+        <default/>
+        <type>String</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>947</xloc>
+      <yloc>565</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>DEMAND_FORECAST 2 3</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>DEMAND_FORECAST</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>FORECAST_YEAR</name>
+        <field>FORECAST_YEAR</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_MONTH</name>
+        <field>FORECAST_MONTH</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_TYPE</name>
+        <field>FORECAST_TYPE</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>ITEM_ID</name>
+        <field>ITEM_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>SOURCE</name>
+        <field>SOURCE</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_NAME</name>
+        <field>FORECAST_NAME</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_VER</name>
+        <field>FORECAST_VER</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>COUNTRY</name>
+        <field>COUNTRY</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>ORGANIZATION_KEY</name>
+        <field>ORGANIZATION_KEY</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>D_STATUS</name>
+        <field>INBOUND_STATUS</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>INBOUND_STATUS</name>
+        <rename>new_status</rename>
+        <default/>
+        <type>String</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1136</xloc>
+      <yloc>821</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 7 2 2 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>D_STATUS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>D</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1058</xloc>
+      <yloc>673</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>DEMAND_FORECAST 2 3 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>DEMAND_FORECAST</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>FORECAST_YEAR</name>
+        <field>FORECAST_YEAR</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_MONTH</name>
+        <field>FORECAST_MONTH</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_TYPE</name>
+        <field>FORECAST_TYPE</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>ITEM_ID</name>
+        <field>ITEM_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>SOURCE</name>
+        <field>SOURCE</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_NAME</name>
+        <field>FORECAST_NAME</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_VER</name>
+        <field>FORECAST_VER</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>COUNTRY</name>
+        <field>COUNTRY</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>ORGANIZATION_KEY</name>
+        <field>ORGANIZATION_KEY</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>INBOUND_STATUS</name>
+        <rename>new_status</rename>
+        <default/>
+        <type>String</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>759</xloc>
+      <yloc>592</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 3 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_DEMAND_FORECAST</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_ID</column_name>
+          <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>COUNTRY</column_name>
+          <stream_name>COUNTRY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DEMAND_FORECAST_INTERFACE_ID</column_name>
+          <stream_name>DEMAND_FORECAST_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ERROR_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_MONTH</column_name>
+          <stream_name>FORECAST_MONTH</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_NAME</column_name>
+          <stream_name>FORECAST_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_TYPE</column_name>
+          <stream_name>FORECAST_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_VER</column_name>
+          <stream_name>FORECAST_VER</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_YEAR</column_name>
+          <stream_name>FORECAST_YEAR</stream_name>
+        </field>
+        <field>
+          <column_name>GROSS_AMOUNT</column_name>
+          <stream_name>GROSS_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>GROSS_PRICE</column_name>
+          <stream_name>GROSS_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>GROSS_UNITS</column_name>
+          <stream_name>GROSS_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>INVENTORY_UNIT_CHANGE</column_name>
+          <stream_name>INVENTORY_UNIT_CHANGE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_IDENTIFIER</column_name>
+          <stream_name>ITEM_IDENTIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>ITEM_IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_SHARE_RATIO</column_name>
+          <stream_name>MARKET_SHARE_RATIO</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_SHARE_UNITS</column_name>
+          <stream_name>MARKET_SHARE_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_SIZE_UNITS</column_name>
+          <stream_name>MARKET_SIZE_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SALES_AMOUNT</column_name>
+          <stream_name>NET_SALES_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SALES_PRICE</column_name>
+          <stream_name>NET_SALES_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>SEGMENT</column_name>
+          <stream_name>SEGMENT</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>TOTAL_DEMAND_AMOUNT</column_name>
+          <stream_name>TOTAL_DEMAND_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>TOTAL_DEMAND_UNITS</column_name>
+          <stream_name>TOTAL_DEMAND_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>UNCAPTURED_UNITS</column_name>
+          <stream_name>UNCAPTURED_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>UNCAPTURED_UNITS_RATIO</column_name>
+          <stream_name>UNCAPTURED_UNITS_RATIO</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1183</xloc>
+      <yloc>1136</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 7 3</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Record</nullif>
+        <length>0</length>
+        <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>error_code_name</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E04</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1167</xloc>
+      <yloc>974</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>D-INVALID2 3</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_DEMAND_FORECAST</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>FORECAST_TYPE</column_name>
+          <stream_name>FORECAST_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_YEAR</column_name>
+          <stream_name>FORECAST_YEAR</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_MONTH</column_name>
+          <stream_name>FORECAST_MONTH</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>ITEM_IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_IDENTIFIER</column_name>
+          <stream_name>ITEM_IDENTIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_ID</column_name>
+          <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SEGMENT</column_name>
+          <stream_name>SEGMENT</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_SIZE_UNITS</column_name>
+          <stream_name>MARKET_SIZE_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_SHARE_RATIO</column_name>
+          <stream_name>MARKET_SHARE_RATIO</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_SHARE_UNITS</column_name>
+          <stream_name>MARKET_SHARE_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>TOTAL_DEMAND_UNITS</column_name>
+          <stream_name>TOTAL_DEMAND_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>TOTAL_DEMAND_AMOUNT</column_name>
+          <stream_name>TOTAL_DEMAND_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>GROSS_UNITS</column_name>
+          <stream_name>GROSS_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>GROSS_PRICE</column_name>
+          <stream_name>GROSS_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>GROSS_AMOUNT</column_name>
+          <stream_name>GROSS_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SALES_PRICE</column_name>
+          <stream_name>NET_SALES_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SALES_AMOUNT</column_name>
+          <stream_name>NET_SALES_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>COUNTRY</column_name>
+          <stream_name>COUNTRY</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>INVENTORY_UNIT_CHANGE</column_name>
+          <stream_name>INVENTORY_UNIT_CHANGE</stream_name>
+        </field>
+        <field>
+          <column_name>UNCAPTURED_UNITS_RATIO</column_name>
+          <stream_name>UNCAPTURED_UNITS_RATIO</stream_name>
+        </field>
+        <field>
+          <column_name>UNCAPTURED_UNITS</column_name>
+          <stream_name>UNCAPTURED_UNITS</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_NAME</column_name>
+          <stream_name>FORECAST_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_VER</column_name>
+          <stream_name>FORECAST_VER</stream_name>
+        </field>
+        <field>
+          <column_name>DEMAND_FORECAST_INTERFACE_ID</column_name>
+          <stream_name>DEMAND_FORECAST_INTERFACE_ID</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>734</xloc>
+      <yloc>907</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Delete Reason 3</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>No record exist to delete&#x2f;update</nullif>
+        <length>50</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>787</xloc>
+      <yloc>724</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3828,8 +4660,45 @@ inner join #BRAND  D
         <max_pct_errors/>
         <min_pct_rows/>
       </error>
+      <error>
+        <source_step>DEMAND_FORECAST 2 2</source_step>
+        <target_step>DEMAND_FORECAST</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>DEMAND_FORECAST 2 3</source_step>
+        <target_step>Invalid Reason 7 3</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>DEMAND_FORECAST 2 3 2</source_step>
+        <target_step>Delete Reason 3</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
   </step_error_handling>
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
+
 </transformation>

@@ -322,3 +322,42 @@ IF NOT EXISTS (SELECT 'X'
   END
 
 GO 
+
+----------------------As per ALG-4740 ALG-4918 ALG-4919--------------------
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'CUSTOMER_SALES'
+                      AND COLUMN_NAME = 'FILTER_CCP'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE CUSTOMER_SALES
+        ADD FILTER_CCP bit NULL
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'PRODUCT_SALES'
+                      AND COLUMN_NAME = 'FILTER_CCP'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE PRODUCT_SALES
+        ADD FILTER_CCP bit NULL
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'CUSTOM_SALES'
+                      AND COLUMN_NAME = 'FILTER_CCP'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE CUSTOM_SALES
+        ADD FILTER_CCP bit NULL
+  END
+
+GO
+

@@ -51,11 +51,12 @@ public class GtnFrameworkLoadFromInDataSelectionAction
 					GtnWsReportConstants.GTN_REPORT_SERVICE
 							+ GtnWsReportConstants.GTN_WS_REPORT_DASHBOARD_LOAD_FROM_AND_TO_IN_DATA_SELECTION,
 					"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-			String periodAndYearInLandingScreen = gtnUIFrameWorkActionConfig.getActionParameterList().get(1) != null
-					? gtnUIFrameWorkActionConfig.getActionParameterList().get(1).toString()
-					: GtnUIFrameworkGlobalUI
-							.getVaadinBaseComponentFromParent("reportLandingScreen_fromPeriod", componentId)
-							.getStringCaptionFromV8ComboBox();
+			String periodAndYearInLandingScreen = gtnUIFrameWorkActionConfig.getActionParameterList().size() > 1
+					&& !"null".equals(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)))
+							? gtnUIFrameWorkActionConfig.getActionParameterList().get(1).toString()
+							: GtnUIFrameworkGlobalUI
+									.getVaadinBaseComponentFromParent("reportLandingScreen_fromPeriod", componentId)
+									.getStringCaptionFromV8ComboBox();
 
 			periodAndYearInLandingScreen = periodAndYearInLandingScreen.replaceAll(" ", "");
 

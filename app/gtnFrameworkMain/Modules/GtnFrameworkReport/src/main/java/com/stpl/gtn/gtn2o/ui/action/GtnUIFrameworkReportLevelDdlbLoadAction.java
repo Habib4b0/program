@@ -67,8 +67,13 @@ public class GtnUIFrameworkReportLevelDdlbLoadAction
 						.getVaadinBaseComponent(GtnFrameworkReportStringConstants.RD_EXPAND_BUTTON, componentId);
 				GtnUIFrameworkBaseComponent collapseButtonBaseComponent = GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(GtnFrameworkReportStringConstants.RD_COLLPSE_BUTTON, componentId);
-				Optional.ofNullable(expandButtonBaseComponent).ifPresent(e -> e.setComponentEnable(count == 0));
-				Optional.ofNullable(collapseButtonBaseComponent).ifPresent(e -> e.setComponentEnable(count == 0));
+
+				if (Optional.ofNullable(expandButtonBaseComponent.getComponent()).isPresent()) {
+					expandButtonBaseComponent.setComponentEnable(count == 0);
+				}
+				if (Optional.ofNullable(collapseButtonBaseComponent.getComponent()).isPresent()) {
+					collapseButtonBaseComponent.setComponentEnable(count == 0);
+				}
 			}
 		}
 	}

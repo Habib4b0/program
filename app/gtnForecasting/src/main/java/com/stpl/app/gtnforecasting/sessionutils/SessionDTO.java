@@ -180,6 +180,7 @@ public class SessionDTO implements Serializable {
     private String functionMode = StringUtils.EMPTY;
     private String dataSelectionDeductionLevel;
     private String dataSelectionDeductionLevelCaption;
+    private String uomCode = StringUtils.EMPTY;
 
     public SessionDTO() {
         super();
@@ -1520,6 +1521,14 @@ public class SessionDTO implements Serializable {
 
     public void setCustomDeductionRelationShipSid(int customDeductionRelationShipSid) {
         this.customDeductionRelationShipSid = customDeductionRelationShipSid;
+    }
+
+    public String getUomCode() {
+        return uomCode;
+    }
+
+    public void setUomCode(String uomCode) {
+        this.uomCode = uomCode;
     }
 
     
