@@ -50,6 +50,7 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 		loadStyles(comboBoxMultiSelect, componentConfig.getComponentStyle());
 
 		final GtnUIFrameworkCheckedComboBoxConfig checkedComboBoxConfig = componentConfig.getGtnCheckedComboboxConfig();
+		comboBoxMultiSelect.setPlaceholder(checkedComboBoxConfig.getDefaultValue());
 		GtnUIFrameworkWebServiceClient wsClient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest wsRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsGeneralRequest generalWsRequest = new GtnWsGeneralRequest();

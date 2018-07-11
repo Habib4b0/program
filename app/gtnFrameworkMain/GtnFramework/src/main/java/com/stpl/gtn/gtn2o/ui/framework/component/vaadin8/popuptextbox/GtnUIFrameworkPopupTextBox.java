@@ -28,7 +28,6 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPopupTextBox.class);
 
-
 	public GtnUIFrameworkPopupTextBox() {
 
 	}
@@ -40,8 +39,8 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 		TextField popupTextField = new TextField();
 		popupTextField.setId(componentConfig.getComponentId());
 		HorizontalLayout popupTextBoxHorizontalComponent = new HorizontalLayout();
-                GtnUIFrameworkComponentData componentData = new GtnUIFrameworkComponentData();
-          
+		GtnUIFrameworkComponentData componentData = new GtnUIFrameworkComponentData();
+
 		if (componentConfig.getComponentName() != null && !componentConfig.getComponentName().isEmpty()) {
 			popupTextField.setCaption(componentConfig.getComponentName());
 		}
@@ -65,11 +64,11 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 		}
 
 		popupTextField.addStyleName(GtnFrameworkCssConstants.SEARCHICON);
-		loadStyles(popupTextField, componentConfig.getComponentStyle());
+		loadStyles(popupTextBoxHorizontalComponent, componentConfig.getComponentStyle());
 		popupTextBoxHorizontalComponent.addComponent(popupTextField);
-                
-                popupTextBoxHorizontalComponent.setData(componentData);
-                popupTextField.setData(componentData);
+
+		popupTextBoxHorizontalComponent.setData(componentData);
+		popupTextField.setData(componentData);
 		gtnLogger.info("End into the buildVaadinComponent () of GtnUIFrameworkPopupTextField ");
 		return popupTextBoxHorizontalComponent;
 	}
