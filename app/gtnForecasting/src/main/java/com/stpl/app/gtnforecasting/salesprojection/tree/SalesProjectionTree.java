@@ -97,7 +97,7 @@ public class SalesProjectionTree {
         query = query.replace("@CUSTMASTERSID",String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid()));
        
         if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
-            query = query.replace("[?FILTERCCP]"," AND PPA.FILTER_CCP=1");
+            query = query.replace("[?FILTERCCP]"," AND SPM.FILTER_CCP=1");
         }else{
              query = query.replace("[?FILTERCCP]",StringUtils.EMPTY);
         }

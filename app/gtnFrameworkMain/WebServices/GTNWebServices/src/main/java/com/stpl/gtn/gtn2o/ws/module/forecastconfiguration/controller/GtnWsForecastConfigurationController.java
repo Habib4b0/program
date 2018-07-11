@@ -431,10 +431,13 @@ public class GtnWsForecastConfigurationController {
 
 				if (forecastConfigurationSearchCriteria.isFilter()) {
 
-					StringBuilder value = new StringBuilder(forecastConfigurationSearchCriteria.getFilterValue1());
+					StringBuilder value = new StringBuilder();
 					if ("LIKE".equalsIgnoreCase(forecastConfigurationSearchCriteria.getExpression())) {
-						value.append('%').append(value).append('%');
+						 value.append('%').append(forecastConfigurationSearchCriteria.getFilterValue1()).append('%');
 					}
+                                        if(value.toString().isEmpty()) {
+                                            value.append(forecastConfigurationSearchCriteria.getFilterValue1());
+                                        }
 					inputWhereConditions.append(where).append(and)
 							.append(GtnCommonUtil.getWhereClauseForAColumn(
 									forecastConfigurationSearchCriteria.getExpression(),

@@ -375,7 +375,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
 			Grid<GtnWsRecordBean> grid, String parentComponentId, String viewIdCheck)
 			throws GtnFrameworkGeneralException {
 		GtnUIFrameworkPagedTableConfig tableConfig = pagedGrid.getTableConfig();
-		String classPath = tableConfig.getGridHeaderCustomClassLoadUrl();
+		String classPath = tableConfig.getGridHeaderCustomClassLoadURL();
 		classLoader(tableConfig.getGtnUIFrameWorkActionConfig(), classPath, componentId);
 		GtnUIFrameworkWebserviceRequest headerRequest = getCustomPagedTableRequest(
 				tableConfig.getGtnUIFrameWorkActionConfig(), componentId, viewIdCheck, parentComponentId);

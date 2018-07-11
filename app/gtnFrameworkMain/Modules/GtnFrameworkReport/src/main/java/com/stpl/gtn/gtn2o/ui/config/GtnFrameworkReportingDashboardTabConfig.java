@@ -490,10 +490,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(annualTotalsConfig);
 
 		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes", "No"));
-		annualTotalsLoadConfig.setItemCaptionValues(Arrays.asList("Yes", "No"));
-		annualTotalsLoadConfig.setHasDefaultValue(true);
-		annualTotalsLoadConfig.setDefaultDesc("Yes");
+		annualTotalsLoadConfig.setItemValues(Arrays.asList("No"));
+		annualTotalsLoadConfig.setItemCaptionValues(Arrays.asList( "No"));
+		annualTotalsLoadConfig.setDefaultValue("Yes");
 		annualTotalsConfig.setGtnComboboxConfig(annualTotalsLoadConfig);
 
 	}
@@ -1396,6 +1395,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		reportingDashboardGtnPagedTreeTableConfig.setLeftTableEditable(true);
 		reportingDashboardGtnPagedTreeTableConfig.setRightTableEditable(true);
+		reportingDashboardGtnPagedTreeTableConfig.setAggregationColumnHeader("Total");
 
 		List<String> reportingDashboardFieldFactoryColum = Arrays.asList(GtnFrameworkCommonConstants.CHECK);
 		List<GtnUIFrameworkComponentConfig> reportingDashboardFieldFactoryComponent = new ArrayList<>();

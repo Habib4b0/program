@@ -193,6 +193,7 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 	Object[] countQueryInputs;
 	private List<Object> visibleColumns;
 	private List<String> columnHeaders;
+        private String aggregationColumnHeader;
 
 	public String getLeftHeader() {
 		return leftHeader;
@@ -763,5 +764,13 @@ public class GtnUIFrameworkPagedTreeTableConfig {
 	public void setGtnReportDataRefreshBean(GtnReportDataRefreshBean gtnReportDataRefreshBean) {
 		this.gtnReportDataRefreshBean = gtnReportDataRefreshBean;
 	}
+
+    public String getAggregationColumnHeader() {
+        return aggregationColumnHeader;
+    }
+
+    public void setAggregationColumnHeader(String aggregationColumnHeader) {
+        this.aggregationColumnHeader = aggregationColumnHeader;
+    }
 
 }

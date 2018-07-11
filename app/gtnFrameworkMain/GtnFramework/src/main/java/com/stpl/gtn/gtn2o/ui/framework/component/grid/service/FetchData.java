@@ -27,7 +27,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -50,7 +49,7 @@ public class FetchData {
 		try {
 			return queryRunner.query(conn, query, resultSetHandler);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 
@@ -68,8 +67,7 @@ public class FetchData {
 
 			return result;
 		} catch (Exception e) {
-			logger.info("in callWebService Error= " + e.getMessage());
-			e.printStackTrace();
+			logger.error("in callWebService Error= " + e.getMessage());
 			return null;
 		}
 
@@ -99,15 +97,9 @@ public class FetchData {
 
 			logger.info("result size= " + records.size());
 		} catch (Exception e) {
-			logger.info("in fetchResultAsRow Error= ", e);
-			e.printStackTrace();
+			logger.error("in fetchResultAsRow Error= ", e);
 		}
 		return records;
-	}
-
-	private static GtnWsReportDashboardBean getDashBoardBean() {
-		GtnWsReportDashboardBean dashBoardBean = new GtnWsReportDashboardBean();
-		return null;
 	}
 
 	public static String replaceParameters(Object[] params, String query) {

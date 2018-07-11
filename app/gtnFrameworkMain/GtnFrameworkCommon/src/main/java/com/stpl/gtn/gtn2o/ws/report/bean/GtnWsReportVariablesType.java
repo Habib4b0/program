@@ -3,7 +3,7 @@ package com.stpl.gtn.gtn2o.ws.report.bean;
 public enum GtnWsReportVariablesType {
 	EX_FACTORY_SALES("Ex-Factory Sales"), GCS_EX_FACTORY("Gross Contract Sales % of Ex-Factory"), GCS(
 			"Gross Contract Sales"), CONTRACT_UNITS("Contract Units"), CS_TOTAL_CONTRACT_SALES(
-					"Contract Sales % of Total Contract Sales"), DEDUCTION_$(
+					"Contract Sales % of Total Contract Sales"), DEDUCTION_DOLLAR(
 							"Deduction $"), DEDUCTION_PERCENTAGE("Deduction %"), RPU("RPU"), DEDUCTION_EX_FACTORY(
 									"Deduction % of Ex-Factory"), NET_CONTRACT_SALES(
 											"Net Contract Sales"), NCS_EX_FACTORY(
