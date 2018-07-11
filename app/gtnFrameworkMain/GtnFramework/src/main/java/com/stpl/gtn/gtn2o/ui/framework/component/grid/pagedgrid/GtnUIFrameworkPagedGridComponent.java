@@ -65,7 +65,7 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
         }
         resultLayout.addComponent(controls);
 
-        pagedGrid.getGrid().getEditor().setEnabled(true);
+        pagedGrid.getGrid().getEditor().setEnabled(false);
 
             resultLayout.setData(componentData);
     	

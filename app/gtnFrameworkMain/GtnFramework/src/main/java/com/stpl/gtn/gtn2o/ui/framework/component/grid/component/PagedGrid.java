@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
@@ -62,6 +63,8 @@ public class PagedGrid {
     private HorizontalLayout controlLayout;
     private TextField pageNoField;
     GtnUIFrameworkPagedGridLogic pagedTableLogic;
+    
+    private final String show_all = "Show all";
 
     public PagedGrid(GtnUIFrameworkPagedTableConfig tableConfig, GtnUIFrameworkComponentConfig componentConfig) {
         this.tableConfig = tableConfig;
@@ -357,13 +360,15 @@ public class PagedGrid {
                     .get(property);
             if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.TEXTBOX_VAADIN8) {
             	HorizontalLayout hl = new HorizontalLayout();
+            	hl.setMargin(false);
+            	hl.setWidth("105%");
                 TextField textField = new TextField();
-                textField.setPlaceholder("Show all");
+                textField.setPlaceholder(show_all);
+                textField.setWidth("100%");
                 textField.setId(property);
-                textField.setWidth("118%");
-                hl.setMargin(true);
                 textField.addValueChangeListener(this::onFilterTextChange);
                 hl.addComponent(textField);
+                
                 hl.addLayoutClickListener(new LayoutClickListener() {
     			@Override
     			public void layoutClick(LayoutClickEvent event) {
@@ -377,28 +382,77 @@ public class PagedGrid {
 						@Override
 						public void blur(BlurEvent event) {
 							if (event.getComponent() == textField){
-                                                            String value = textField.getValue();
+                                    String value = textField.getValue();
 								if(value.equals(""))
-									textField.setPlaceholder("Show all");
+									textField.setPlaceholder(show_all);
 							}
 						} 
                 });         
                 return hl;
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
+            	HorizontalLayout h2 = new HorizontalLayout();
+            	h2.setMargin(false);
+            	h2.setWidth("105%");
                 DateField dateField = new DateField();
+                dateField.setPlaceholder(show_all);
+                dateField.setWidth("100%");
+                dateField.setSizeFull();
                 dateField.setId(property);
                 dateField.addValueChangeListener(this::onFilterDateChange);
-                return dateField;
+                h2.addComponent(dateField);
+                h2.addLayoutClickListener(new LayoutClickListener() {
+        			@Override
+        			public void layoutClick(LayoutClickEvent event) {
+        				
+        					if (event.getChildComponent() == dateField) {
+        						dateField.setPlaceholder("");
+        						}
+        					}
+                    });
+                dateField.addBlurListener(new BlurListener(){
+    						@Override
+    						public void blur(BlurEvent event) {
+    							if (event.getComponent() == dateField){
+                                        LocalDate localDate = dateField.getValue();
+    								Optional<LocalDate> opt = Optional.ofNullable(localDate);
+    								if(!opt.isPresent())
+    									dateField.setPlaceholder(show_all);
+    							}
+    						} 
+                    });         
+                    return h2;
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.COMBOBOX_VAADIN8) {
+            	HorizontalLayout h3 = new HorizontalLayout();
                 GtnUIFrameworkComponent component = filterConfig.getGtnComponentType().getGtnComponent();
                 Component vaadinComponent = null;
                 vaadinComponent = component.buildVaadinComponent(filterConfig.getGtnComponentConfig());
                 ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
+                vaadinCombobox.setPlaceholder(show_all);
                 vaadinCombobox.setId(property);
                 vaadinCombobox.addValueChangeListener(this::onFilterTextChange);
-                return vaadinCombobox;
+                h3.addComponent(vaadinCombobox);
+                h3.addLayoutClickListener(new LayoutClickListener() {
+        			@Override
+        			public void layoutClick(LayoutClickEvent event) {
+        				
+        					if (event.getChildComponent() == vaadinCombobox) {
+        						vaadinCombobox.setPlaceholder("");
+        						}
+        					}
+                    });
+                vaadinCombobox.addBlurListener(new BlurListener(){
+    						@Override
+    						public void blur(BlurEvent event) {
+    							if (event.getComponent() == vaadinCombobox){
+                                        String value = String.valueOf(vaadinCombobox.getItemCaptionGenerator().apply(vaadinCombobox.getValue())).trim();
+    								if(value.equals(""))
+    									vaadinCombobox.setPlaceholder(show_all);
+    							}
+    						} 
+                    });         
+                    return h3;
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
-                Button dateFilterPopupButton = new Button("Show all");
+                Button dateFilterPopupButton = new Button(show_all);
                 dateFilterPopupButton.setWidth("100%");
                 Window window = getDateFilterPopup(dateFilterPopupButton, property);
                 dateFilterPopupButton.addClickListener(new Button.ClickListener() {
@@ -530,7 +584,7 @@ public class PagedGrid {
                     tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);
                     refreshGrid();
                 } else {
-                    buttonFromGrid.setCaption("Show all");
+                    buttonFromGrid.setCaption(show_all);
                     tableConfig.getFilterValueMap().put(property, buttonFromGrid.getCaption());
                     refreshGrid();
                 }

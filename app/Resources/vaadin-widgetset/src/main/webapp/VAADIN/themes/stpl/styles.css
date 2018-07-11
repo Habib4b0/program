@@ -14863,6 +14863,10 @@ div.v-layout.v-horizontal.v-widget {
 	margin-left: 9px;
 }
 
+.stpl .v-widget.v-select-optiongroup {
+	margin-left: 10px;
+}
+
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;
