@@ -863,7 +863,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     private void loadProductLevel() {
 
         int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.parseInt(session.getProductLevelNumber()) : 0;
-        currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid());
+        currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid(), session.getProductRelationVersion());
         Utility.loadDdlbForLevelFilterOption(productlevelDdlb, currentHierarchy, NAME);
         productlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -901,7 +901,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     private void loadCustomerLevel() {
         int hierarchyNo = isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
-        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo, session.getCustRelationshipBuilderSid());
+        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo, session.getCustRelationshipBuilderSid(), session.getCustomerRelationVersion());
         Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, NAME);
 
         customerlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {

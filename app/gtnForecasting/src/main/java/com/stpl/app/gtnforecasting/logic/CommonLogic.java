@@ -1913,9 +1913,9 @@ public class CommonLogic {
      * @param projectionId
      * @return list
      */
-    public static List<Leveldto> getCustomerHierarchy(int projectionId, final int levelNo, final Object rbID) {
+    public static List<Leveldto> getCustomerHierarchy(int projectionId, final int levelNo, final Object rbID, final int versionNo) {
         LOGGER.debug(Constant.PROJECTION_ID_FLOWER_BRACES, projectionId);
-        return getHierarchy(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, levelNo, rbID);
+        return getHierarchy(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY, levelNo, rbID, versionNo);
     }
 
     /**
@@ -1924,9 +1924,9 @@ public class CommonLogic {
      * @param projectionId
      * @return list
      */
-    public static List<Leveldto> getProductHierarchy(int projectionId, final int levelNo, final Object rbID) {
+    public static List<Leveldto> getProductHierarchy(int projectionId, final int levelNo, final Object rbID, final int versionNo) {
         LOGGER.debug(Constant.PROJECTION_ID_FLOWER_BRACES, projectionId);
-        return getHierarchy(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY, levelNo, rbID);
+        return getHierarchy(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY, levelNo, rbID, versionNo);
     }
     /**
      * Get DEDUCTION 
@@ -1985,10 +1985,10 @@ public class CommonLogic {
      * @param hierarchyIndicator
      * @return
      */
-    public static List<Leveldto> getHierarchy(String hierarchyIndicator, final int levelNo, final Object rbID) {
+    public static List<Leveldto> getHierarchy(String hierarchyIndicator, final int levelNo, final Object rbID, final int versionNo) {
         List<Leveldto> listValue = new ArrayList<>();
         try {
-            String query = getHierarchyTreeQuery(hierarchyIndicator, levelNo, rbID);
+            String query = getHierarchyTreeQuery(hierarchyIndicator, levelNo, rbID, versionNo);
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
             if (list != null && !list.isEmpty()) {
                 int count = 0;
@@ -2006,7 +2006,7 @@ public class CommonLogic {
         return listValue;
     }
 
-    public static String getHierarchyTreeQuery(String hierarchyIndicator, final int levelNo, final Object rbID) {
+    public static String getHierarchyTreeQuery(String hierarchyIndicator, final int levelNo, final Object rbID, final int versionNo) {
         String selectClause = "select distinct RLD.LEVEL_NO, "
                 + " RLD.LEVEL_NO as TREE_LEVEL_NO,"
                 + "'" + hierarchyIndicator + Constant.AS_HIERARCHY_INDICATOR_COMMA
@@ -2015,7 +2015,7 @@ public class CommonLogic {
         String customSql = selectClause + from
                 + " RELATIONSHIP_LEVEL_DEFINITION as RLD "
                 + "where "
-                + "RLD.LEVEL_NO >=" + levelNo + " AND RLD.RELATIONSHIP_BUILDER_SID=" + rbID + ";";
+                + "RLD.LEVEL_NO >=" + levelNo + " AND RLD.RELATIONSHIP_BUILDER_SID=" + rbID + " AND RLD.VERSION_NO = "+ versionNo +";";
         return customSql;
     }
 

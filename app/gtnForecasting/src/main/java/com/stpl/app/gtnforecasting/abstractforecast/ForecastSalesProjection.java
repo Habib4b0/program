@@ -1246,13 +1246,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
         if (view.equalsIgnoreCase(PRODUCT_HIERARCHY.getConstant())) {
             int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.parseInt(session.getProductLevelNumber()) : 0;
-            currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid());
+            currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid(), session.getProductRelationVersion());
             CommonUtils.loadLevelDdlb(level, true, currentHierarchy);
             CommonUtils.loadLevelDdlb(levelFilter, false, currentHierarchy);
             CommonUtils.loadLevelDdlb(populateLevel, false, currentHierarchy);
         } else if (view.equalsIgnoreCase(CUSTOMER_HIERARCHY.getConstant())) {
             int hierarchyLevelNo = isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
-            currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getCustRelationshipBuilderSid());
+            currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getCustRelationshipBuilderSid(), session.getCustomerRelationVersion());
             CommonUtils.loadLevelDdlb(level, true, currentHierarchy);
             CommonUtils.loadLevelDdlb(levelFilter, false, currentHierarchy);
         } else if (view.equalsIgnoreCase(CUSTOM_HIERARCHY.getConstant())) {
