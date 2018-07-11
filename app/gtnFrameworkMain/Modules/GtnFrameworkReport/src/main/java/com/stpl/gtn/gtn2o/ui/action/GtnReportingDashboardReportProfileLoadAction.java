@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportingDashboardSaveProfileLookupBean;
 
@@ -51,15 +52,8 @@ public class GtnReportingDashboardReportProfileLoadAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(7).toString(),viewId).loadV8ComboBoxComponentValue(Optional.ofNullable(reportProfileSaveLookupBean.getDisplaySelectionTabCustomViewCombobox()).isPresent() == true ? reportProfileSaveLookupBean.getDisplaySelectionTabCustomViewCombobox() : "-Select one-");
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(8).toString(),viewId).updateSelection(Optional.ofNullable(reportProfileSaveLookupBean.getDisplaySelectionTabVariableCategory()).isPresent() == true ? reportProfileSaveLookupBean.getDisplaySelectionTabVariableCategory() : new ArrayList<>());
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(9).toString(),viewId).loadV8ComboBoxComponentValue(Optional.ofNullable(reportProfileSaveLookupBean.getDisplaySelectionTabAnnualTotals()).isPresent() == true ? reportProfileSaveLookupBean.getDisplaySelectionTabAnnualTotals() : "Yes");
-                    if (reportProfileSaveLookupBean.getDisplaySelectionTabPeriodRangeFrom() != null) {
-                        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(3).toString(), viewId).loadV8ComboBoxComponentValue(Integer.valueOf(reportProfileSaveLookupBean.getDisplaySelectionTabPeriodRangeFrom()));
-
-                    }
-                    if (reportProfileSaveLookupBean.getDisplaySelectionTabPeriodRangeTo() != null) {
-                        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString(), viewId).loadV8ComboBoxComponentValue(Integer.valueOf(reportProfileSaveLookupBean.getDisplaySelectionTabPeriodRangeTo()));
-
-                    }
-                        
+			setPeriodRangeFromAndTo(reportProfileSaveLookupBean, actionParamList, viewId);
+  
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(10).toString(),viewId).loadV8ComboBoxComponentValue(Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabCustomerLevel()).isPresent() == true ? reportProfileSaveLookupBean.getFilterOptionsTabCustomerLevel() : "0");
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(11).toString(),viewId).updateSelection(Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabCustomerFilter()).isPresent() == true ?reportProfileSaveLookupBean.getFilterOptionsTabCustomerFilter():new ArrayList<>() );
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(12).toString(),viewId).loadV8ComboBoxComponentValue(Optional.ofNullable(reportProfileSaveLookupBean.getFilterOptionsTabProductLevel()).isPresent() == true ? reportProfileSaveLookupBean.getFilterOptionsTabProductLevel() : "0");
@@ -90,6 +84,22 @@ public class GtnReportingDashboardReportProfileLoadAction
 			
 		} catch (Exception ex) {
 			gtnLogger.error("Error message", ex);
+		}
+	}
+
+	private void setPeriodRangeFromAndTo(GtnReportingDashboardSaveProfileLookupBean reportProfileSaveLookupBean,
+			List<Object> actionParamList, String viewId) throws GtnFrameworkValidationFailedException {
+		if (reportProfileSaveLookupBean.getDisplaySelectionTabPeriodRangeFrom() != null) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(3).toString(), viewId)
+					.loadV8ComboBoxComponentValue(
+							Integer.valueOf(reportProfileSaveLookupBean.getDisplaySelectionTabPeriodRangeFrom()));
+
+		}
+		if (reportProfileSaveLookupBean.getDisplaySelectionTabPeriodRangeTo() != null) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(4).toString(), viewId)
+					.loadV8ComboBoxComponentValue(
+							Integer.valueOf(reportProfileSaveLookupBean.getDisplaySelectionTabPeriodRangeTo()));
+
 		}
 	}
 

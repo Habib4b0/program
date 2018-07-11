@@ -25,7 +25,7 @@ public class GtnFrameworkProcessMonitorStringContants {
 			GtnFrameworkCommonConstants.JAVA_LANG_STRING };
 
 	public static final String GTN_PROCESS_MONITOR_VALIDATION_MSG = "Please enter ";
-
+	
 	public static final String GTN_PROCESS_MONITOR_VALIDATION_EQUAL_MSG = "Start date and End date should not be equal";
 
 	public static final String GTN_PROCESS_MONITOR_VALIDATION_GREATER_MSG = "End date should be after Start date";
@@ -60,6 +60,13 @@ public class GtnFrameworkProcessMonitorStringContants {
 	public static final String GTN_PROCESS_MONITOR_INBOUND_STATUS_CHANGE = "C";
 
 	public static final String GTN_PROCESS_MONITOR_ATLEAST_ONE_RUN_TIME = "atleast one run time";
+	
+	public static final String GTN_PROCESS_MONITOR_RUN1_HOURS = "Run 1 (Hours)";
+	public static final String GTN_PROCESS_MONITOR_RUN1_MINUTES = "Run 1 (Minutes)";
+	public static final String GTN_PROCESS_MONITOR_RUN2_HOURS = "Run 2 (Hours)";
+	public static final String GTN_PROCESS_MONITOR_RUN2_MINUTES = "Run 2 (Minutes)";
+	public static final String GTN_PROCESS_MONITOR_RUN3_HOURS = "Run 3 (Hours)";
+	public static final String GTN_PROCESS_MONITOR_RUN3_MINUTES = "Run 3 (Minutes)";
 
 	public static final String GTN_PROCESS_MONITOR_PROCESS_NAMES = "process Name";
 
@@ -76,6 +83,8 @@ public class GtnFrameworkProcessMonitorStringContants {
 	public static final String GTN_PROCESS_MONITOR_RUNTWODDLB = "run2Ddlb";
 	public static final String GTN_PROCESS_MONITOR_RUNTHREEDDLB = "run3Ddlb";
 	public static final String GTN_PROCESS_MONITOR_RUNONEHOURDDLB = "hours1Ddlb";
+	public static final String GTN_PROCESS_MONITOR_RUNTWOHOURDDLB = "hours2Ddlb";
+	public static final String GTN_PROCESS_MONITOR_RUNTHREEHOURDDLB = "hours3Ddlb";
 	
 	public static final List<String> PROCESS_MONITOR_FIELDS = Collections.unmodifiableList(
 			Arrays.asList(GtnFrameworkCommonConstants.PROCESS_NAME, PROCESS_TYPE, "calender", "startDate", "endDate",

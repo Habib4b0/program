@@ -220,7 +220,6 @@ public class CommonLogic {
         String value = String.valueOf(customDdlb.getValue());
         if (!Constant.NULL.equals(value) && !SELECT_ONE.equals(value)) {
             int selectedId = Integer.parseInt(value);
-            editBtn.setEnabled(true);
             level.setEnabled(true);
             return selectedId;
         }
@@ -5397,11 +5396,16 @@ public class CommonLogic {
         LOGGER.info("updateFlagStatusToR-----------------END----------------------------------");
     }
     public static void updateFlagStatusToRForAllViewsDiscount(SessionDTO session, String screenName) {
-        LOGGER.info("updateFlagStatusToR------------------AllViewsDiscount---------------------------------{}");
+        LOGGER.info("updateFlagStatusToR------------------AllViews---------------------------------{}",screenName);
                 CommonUtil.getInstance().updateStatusTable(screenName, session, Constants.CUSTOMER);
                 CommonUtil.getInstance().updateStatusTable(screenName, session, Constants.PRODUCT);
                 CommonUtil.getInstance().updateStatusTable(screenName, session, Constants.CUSTOM);
-        LOGGER.info("updateFlagStatusToR------------AllViewsDiscount-----END----------------------------------");
+        LOGGER.info("updateFlagStatusToR------------AllViews-----END----------------------------------");
+    }
+    public static void updateCustomerProductCustomTables(SessionDTO session) {
+                CommonUtil.getInstance().updateTable(session, "ST_CUSTOMER_SALES");
+                CommonUtil.getInstance().updateTable(session, "ST_PRODUCT_SALES");
+                CommonUtil.getInstance().updateTable(session, "ST_CUSTOM_SALES");
     }
 }
     
