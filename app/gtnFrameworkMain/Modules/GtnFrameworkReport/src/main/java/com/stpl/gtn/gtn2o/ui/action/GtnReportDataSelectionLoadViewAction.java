@@ -223,7 +223,7 @@ public class GtnReportDataSelectionLoadViewAction
 		if (dataSelectionBean.getComparisonProjectionBeanList().size() > 1) {
 			return "MULTIPLE";
 		} else {
-			return dataSelectionBean.getComparisonProjectionBeanList().get(1).getProjectionName();
+			return dataSelectionBean.getComparisonProjectionBeanList().get(0).getProjectionName();
 		}
 	}
 
