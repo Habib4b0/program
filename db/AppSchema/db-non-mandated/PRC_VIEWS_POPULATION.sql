@@ -1845,22 +1845,24 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
                   @sql
             END
 
-          IF @FLAG = 'M'
+         IF @FLAG = 'M'
              AND @SCREEN_NAME = 'SALES'
              AND @VIEW IN ( 'C' )
             BEGIN
                 SET @SQL =Concat('
-                UPDATE      B SET B.', @MASS_UPDATEFIELD, '=A.MASSUPDATE_FIELD
+              UPDATE      B SET         B.ACCOUNT_GROWTH=A.ACCOUNT_GROWTH
+                           ,B.PRODUCT_GROWTH=A.PRODUCT_GROWTH
+                           ,B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
                 FROM 
        (SELECT C.CUST_HIERARCHY_NO as HIERARCHY_NO,
              PERIOD,
-             YEAR,
-                     ', CASE @MASS_UPDATEFIELD
-                                                    WHEN 'ACCOUNT_GROWTH' THEN 'AVG(ACCOUNT_GROWTH)'
-                                                    WHEN 'PRODUCT_GROWTH' THEN 'AVG(PRODUCT_GROWTH)'
-                                                    WHEN 'SALES' THEN 'SUM(PROJECTION_SALES)'
-                                                    WHEN 'UNITS' THEN 'SUM(PROJECTION_UNITS / COALESCE(NULLIF(UOM_VALUE, 0),1))'
-                                                  END, ' AS MASSUPDATE_FIELD, C.SALES_INCLUSION,
+             YEAR,                
+               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
+               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               SALES=SUM(PROJECTION_SALES),
+               UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
+                       C.SALES_INCLUSION,
              1 INDICATOR
       FROM    ', @CCP_HIERARCHY, ' C
              CROSS JOIN (SELECT PERIOD_SID,
@@ -1891,26 +1893,28 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
                   @sql
             END
 
-          IF @FLAG = 'M'
+           IF @FLAG = 'M'
              AND @SCREEN_NAME = 'SALES'
              AND @VIEW IN ( 'P' )
             BEGIN
                 SET @SQL =Concat('
-                UPDATE      B SET B.', @MASS_UPDATEFIELD, '=A.MASSUPDATE_FIELD
+                UPDATE      B SET  B.ACCOUNT_GROWTH=A.ACCOUNT_GROWTH
+                           ,B.PRODUCT_GROWTH=A.PRODUCT_GROWTH
+                           ,B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
                 FROM 
        (SELECT C.PROD_HIERARCHY_NO as HIERARCHY_NO,
              PERIOD,
-             YEAR,
-                     ', CASE @MASS_UPDATEFIELD
-                                                    WHEN 'ACCOUNT_GROWTH' THEN 'AVG(ACCOUNT_GROWTH)'
-                                                    WHEN 'PRODUCT_GROWTH' THEN 'AVG(PRODUCT_GROWTH)'
-                                                    WHEN 'SALES' THEN 'SUM(PROJECTION_SALES)'
-                                                    WHEN 'UNITS' THEN 'SUM(PROJECTION_UNITS / COALESCE(NULLIF(UOM_VALUE, 0),1))'
-                                                  END, ' AS MASSUPDATE_FIELD, C.SALES_INCLUSION,
+             YEAR,                
+               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
+               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               SALES=SUM(PROJECTION_SALES),
+               UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
+                       C.SALES_INCLUSION,
              1 INDICATOR
       FROM    ', @CCP_HIERARCHY, ' C
              CROSS JOIN (SELECT PERIOD_SID,
-                               PERIOD,
+                                PERIOD,
                                 YEAR
                          FROM    #PERIOD
                           WHERE PERIOD_SID BETWEEN ', @START_PERIOD, 'AND ', @END_PERIOD, ')B
@@ -1936,31 +1940,34 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
                   @sql
             END
 
-          IF @FLAG = 'M'
+
+IF @FLAG = 'M'
              AND @SCREEN_NAME = 'SALES'
              AND @VIEW NOT IN ( 'C', 'P' )
             BEGIN
                 SET @SQL =Concat('
-                UPDATE      B SET B.', @MASS_UPDATEFIELD, '=A.MASSUPDATE_FIELD
+               UPDATE      B SET         B.ACCOUNT_GROWTH=A.ACCOUNT_GROWTH
+                           ,B.PRODUCT_GROWTH=A.PRODUCT_GROWTH
+                           ,B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
                 FROM 
        (SELECT C.ROWID ,
              PERIOD,
-             YEAR,
-                     ', CASE @MASS_UPDATEFIELD
-                                                    WHEN 'ACCOUNT_GROWTH' THEN 'AVG(ACCOUNT_GROWTH)'
-                                                    WHEN 'PRODUCT_GROWTH' THEN 'AVG(PRODUCT_GROWTH)'
-                                                    WHEN 'SALES' THEN 'SUM(PROJECTION_SALES)'
-                                                    WHEN 'UNITS' THEN 'SUM(PROJECTION_UNITS / COALESCE(NULLIF(UOM_VALUE, 0),1) )'
-                                                  END, ' AS MASSUPDATE_FIELD, C1.SALES_INCLUSION,
+             YEAR,                
+               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
+               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               SALES=SUM(PROJECTION_SALES),
+               UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
+                       C1.SALES_INCLUSION,
              1 INDICATOR
-      FROM   CUSTOM_CCP_SALES  C
+      FROM    CUSTOM_CCP_SALES  C
                   JOIN ', @CCP_HIERARCHY, ' C1
-                     ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+                             ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
                                 PERIOD,
                                 YEAR
                          FROM    #PERIOD
-                           WHERE PERIOD_SID BETWEEN ', @START_PERIOD, 'AND ', @END_PERIOD, ')B
+                          WHERE PERIOD_SID BETWEEN ', @START_PERIOD, 'AND ', @END_PERIOD, ')B
           JOIN ', @S_MASTER_TABLE, ' SPM
          ON SPM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
             AND CHECK_RECORD = 1
@@ -2003,7 +2010,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
                ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
                PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
                SALES=SUM(PROJECTION_SALES),
-               UNITS=SUM(PROJECTION_UNITS / COALESCE(NULLIF(UOM_VALUE, 0),1)),
+               UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C.SALES_INCLUSION,
              1 INDICATOR
       FROM    ', @CCP_HIERARCHY, ' C
@@ -2047,7 +2054,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
                ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
                PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
                SALES=SUM(PROJECTION_SALES),
-               UNITS=SUM(PROJECTION_UNITS / COALESCE(NULLIF(UOM_VALUE, 0),1)),
+               UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C.SALES_INCLUSION,
              1 INDICATOR
       FROM    ', @CCP_HIERARCHY, ' C
@@ -2091,7 +2098,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
                ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
                PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
                SALES=SUM(PROJECTION_SALES),
-               UNITS=SUM(PROJECTION_UNITS / COALESCE(NULLIF(UOM_VALUE, 0),1)),
+               UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C1.SALES_INCLUSION,
              1 INDICATOR
       FROM    CUSTOM_CCP_SALES  C
