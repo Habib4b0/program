@@ -605,12 +605,12 @@ public class AlternateSummery extends CustomComponent {
     protected void loadLevelFilterValue(final String view) {
         if (view.equalsIgnoreCase(PRODUCT_HIERARCHY.getConstant())) {
             int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.parseInt(session.getProductLevelNumber()) : 0;
-            currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid());
+            currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid(), session.getProductRelationVersion());
             loadLevelDdlb(level, true, currentHierarchy);
             loadLevelDdlb(levelFilter, false, currentHierarchy);
         } else if (view.equalsIgnoreCase(CUSTOMER_HIERARCHY.getConstant())) {
             int hierarchyLevelNo = isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
-            currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getCustRelationshipBuilderSid());
+            currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getCustRelationshipBuilderSid(), session.getCustomerRelationVersion());
             loadLevelDdlb(level, true, currentHierarchy);
             loadLevelDdlb(levelFilter, false, currentHierarchy);
         } else if (view.equalsIgnoreCase(CUSTOM_HIERARCHY.getConstant())) {
@@ -1483,9 +1483,9 @@ public class AlternateSummery extends CustomComponent {
         if (projectionDTO.isIsCustomHierarchy()) {
             hierarchy = CommonLogic.getCustomTree(customId);
         } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projectionDTO.getHierarchyIndicator())) {
-            hierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), projectionDTO.getCustomerLevelNo(), projectionDTO.getCustRelationshipBuilderSid());
+            hierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), projectionDTO.getCustomerLevelNo(), projectionDTO.getCustRelationshipBuilderSid(), session.getCustomerRelationVersion());
         } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(projectionDTO.getHierarchyIndicator())) {
-            hierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), projectionDTO.getProductLevelNo(), projectionDTO.getProdRelationshipBuilderSid());
+            hierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), projectionDTO.getProductLevelNo(), projectionDTO.getProdRelationshipBuilderSid(), session.getProductRelationVersion());
         }
 
         if (hierarchy != null) {
