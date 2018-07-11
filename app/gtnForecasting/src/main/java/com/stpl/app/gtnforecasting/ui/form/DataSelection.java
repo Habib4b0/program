@@ -1238,7 +1238,7 @@ public class DataSelection extends ForecastDataSelection {
 		LOGGER.debug("updateDataSelection starts");
 		selectionDTO = bindDataselectionDtoToSave();
 		NonMandatedLogic logic = new NonMandatedLogic();
-		logic.updateProjection(selectionDTO, session.getProjectionId(), true, screenName);
+		logic.saveProjection(selectionDTO, screenName,true);
 		session.setCustRelationshipBuilderSid(selectionDTO.getCustRelationshipBuilderSid());
 		session.setProdRelationshipBuilderSid(selectionDTO.getProdRelationshipBuilderSid());
 		session.setCustomerDescription(customerDescriptionMap);
@@ -1247,8 +1247,8 @@ public class DataSelection extends ForecastDataSelection {
 		session.setProductHierarchyVersion(selectionDTO.getProductHierVersionNo());
 		session.setCustomerRelationVersion(selectionDTO.getCustomerRelationShipVersionNo());
 		session.setProductRelationVersion(selectionDTO.getProductRelationShipVersionNo());
-                session.setCustomRelationShipSid(dataSelectionDTO.getCustomRelationShipSid());
-                session.setCustomDeductionRelationShipSid(dataSelectionDTO.getCustomDeductionRelationShipSid());
+                session.setCustomRelationShipSid(selectionDTO.getCustomRelationShipSid());
+                session.setCustomDeductionRelationShipSid(selectionDTO.getCustomDeductionRelationShipSid());
 		selectionDTO.setProjectionId(session.getProjectionId());
 		selectionDTO.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 		selectionDTO.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
@@ -1491,6 +1491,8 @@ public class DataSelection extends ForecastDataSelection {
 			selectionDTO.setProjectionName(projectionName.getValue());
 			selectionDTO.setDescription(description.getValue());
                         selectionDTO.setForecastEligibleDate(forecastEligibleDate.getValue());
+                        selectionDTO.setCustomRelationShipSid(customRelationDdlb.getValue()!=null ? Integer.valueOf(String.valueOf(customRelationDdlb.getValue())): 0 );
+                        selectionDTO.setCustomDeductionRelationShipSid(customRelationDdlbDeduction.getValue()!=null ? Integer.valueOf(String.valueOf(customRelationDdlbDeduction.getValue())):0 );
 
 		} catch (ParseException ex) {
 			LOGGER.error(" in binding for save, can't parse dates= {}",ex);
@@ -4477,6 +4479,10 @@ public class DataSelection extends ForecastDataSelection {
 				dsLogic.getLevelValueDetails(session, selectionDTO.getCustRelationshipBuilderSid(), true));
 		session.setProductLevelDetails(
 				dsLogic.getLevelValueDetails(session, selectionDTO.getProdRelationshipBuilderSid(), false));
+                session.setSalesHierarchyLevelDetails(
+                                        dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomRelationShipSid())));
+                session.setDiscountCustomerProductLevelDetails(
+                                        dsLogic.getRelationshipDetailsCustom(session, String.valueOf(session.getCustomDeductionRelationShipSid())));
 
 	}
 

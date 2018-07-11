@@ -32,7 +32,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 	private void addTabLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		
 		GtnUIFrameworkComponentConfig verticalLayoutConfig = configProvider.getVerticalLayoutConfig(
-				GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_SHEET_MAIN_LAYOUT, false, null);
+				GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_SHEET_MAIN_LAYOUT, true, "projectionDetailsTabsheetLayout");
 		verticalLayoutConfig.setComponentWidth(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		componentList.add(verticalLayoutConfig);
 		

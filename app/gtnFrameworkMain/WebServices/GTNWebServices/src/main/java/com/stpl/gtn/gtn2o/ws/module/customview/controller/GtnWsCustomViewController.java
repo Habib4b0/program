@@ -132,7 +132,7 @@ public class GtnWsCustomViewController {
     public GtnUIFrameworkWebserviceResponse customViewSaveLogic(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
         logger.info("Enters customViewSaveLogic");
-        GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+         GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
         try {
             gtnResponse.setGtnWsCustomViewResponse(logic.saveCustomView(gtnWsRequest.getGtnWsCustomViewRequest()));
         } catch (Exception ex) {

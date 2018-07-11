@@ -86,8 +86,8 @@ public class GtnWebServiceCompanyFamilyPlanSearchConfig implements GtnWsSearchQu
 					.getColumnStringConfig(GtnFrameworkWebserviceConstant.CFP_NO, "parenCfp", "parenCfpNo"));
 			fieldToColumnDetailsMap.put("cfpmodifiedDate", configProvider.getColumnDateConfig("MODIFIED_DATE", "CFP"));
 			fieldToColumnDetailsMap.put("cfpmodifiedBy", configProvider
-					.getColumnStringConfig("firstName+' '+cfpModifiedBy.lastName", "cfpModifiedBy", "name")); 
-			fieldToColumnDetailsMap.put("cfpcreatedBy", configProvider.getColumnStringConfig("firstName+' '+cfpCreatedBy.lastName", "cfpCreatedBy", "name"));
+					.getColumnStringConfig("firstName+' '+cfpModifiedBy.lastName", "cfpModifiedBy", "cfpModifiedBy",GtnFrameworkWebserviceConstant.USER_ID)); 
+			fieldToColumnDetailsMap.put("cfpcreatedBy", configProvider.getColumnStringConfig("firstName+' '+cfpCreatedBy.lastName", "cfpCreatedBy", "cfpCreatedBy",GtnFrameworkWebserviceConstant.USER_ID));
 			fieldToColumnDetailsMap.put("cfpcreatedDate", configProvider.getColumnDateConfig("CREATED_DATE", "CFP"));
 			fieldToColumnDetailsMap.put("companyId",
 					configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.COMPANY_ID, "CM"));

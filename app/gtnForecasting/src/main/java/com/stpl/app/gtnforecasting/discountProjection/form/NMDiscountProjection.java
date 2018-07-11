@@ -643,7 +643,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         else{
         view.setItemEnabled(Constant.CUSTOM_LABEL, true);
-        newBtn.setEnabled(!session.getAction().equalsIgnoreCase(ACTION_VIEW.getConstant()));        
         }
 
         startPeriodForecastTab.addItem(SELECT_ONE.getConstant());
@@ -1977,12 +1976,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      */
     public void loadCustomDDLB() {
         LOGGER.debug("loadCustomDDLB initiated ");
-        Map<String,String> dataMap=new HashMap<>();
+        editBtn.setEnabled(false);
+        newBtn.setEnabled(false);
+        Map<String, String> dataMap = new HashMap<>();
         dataMap.put("custSid", session.getCustRelationshipBuilderSid());
         dataMap.put("custVer", String.valueOf(session.getCustomerRelationVersion()));
         dataMap.put("prodSid", session.getProdRelationshipBuilderSid());
         dataMap.put("prodVer", String.valueOf(session.getProductRelationVersion()));
-        new DataSelectionLogic().loadCustomViewDeductionValues(viewDdlb, dataMap,false);
+        new DataSelectionLogic().loadCustomViewDeductionValues(viewDdlb, dataMap, false);
         viewDdlb.setValue(session.getCustomDeductionRelationShipSid());
         LOGGER.debug("loadCustomDDLB ends ");
     }

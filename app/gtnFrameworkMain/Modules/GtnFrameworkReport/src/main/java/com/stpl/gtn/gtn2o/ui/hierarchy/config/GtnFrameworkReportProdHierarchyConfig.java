@@ -343,7 +343,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		GtnUIFrameWorkActionConfig customViewPopupAction = new GtnUIFrameWorkActionConfig();
 		customViewPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		customViewPopupAction.addActionParameter("reportCustomViewLookup");
-		customViewPopupAction.addActionParameter("reportCustomViewLookup");
+		customViewPopupAction.addActionParameter("Custom Tree View Popup");
 		customViewPopupAction.addActionParameter("75%");
 		customViewPopupAction.addActionParameter(null);
 		actionConfigList.add(customViewPopupAction);

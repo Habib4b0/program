@@ -90,6 +90,7 @@ public class GtnUIFrameworkPagedTreeGridComponent
 	protected void initializeResultTable(PagedTreeGrid resultsTable, GtnUIFrameworkPagedTreeTableConfig tableConfig) {
 		resultsTable.getGrid().markAsDirty();
 		resultsTable.getGrid().setSelectionMode(Grid.SelectionMode.NONE);
+		resultsTable.getGrid().removeAllColumns();
 	}
 
 	/**
