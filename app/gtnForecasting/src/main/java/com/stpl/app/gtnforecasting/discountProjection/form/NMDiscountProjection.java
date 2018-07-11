@@ -439,6 +439,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         LOGGER.debug("Inside getContent= {} ", session.getAction());
         configureFeildsForNm();
         loadDeductionLevelFilter(session.getDataSelectionDeductionLevel(), false);
+       frequencyDdlb.setValue(session.getDsFrequency());
+       deductionlevelDdlb.setValue(Integer.valueOf(session.getDataSelectionDeductionLevel()));
         Optional.ofNullable(deductionFilterValues.getChildren()).ifPresent(child-> {
             child.get(1).setChecked(true);
             String deductionMenuItemValue = child.get(1).getMenuItem().getCaption();
