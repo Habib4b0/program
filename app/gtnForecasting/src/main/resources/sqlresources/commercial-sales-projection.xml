@@ -43,7 +43,8 @@ INTO #ST_NM_SALES_PROJECTION_MASTER
                 FROM #SELECTED_HIERARCHY_NO SHN
                 JOIN ST_CCP_HIERARCHY CCP ON CCP.@TABLCOLUMN LIKE SHN.HIERARCHY_NO  +'%' AND CCP.SALES_INCLUSION = SHN.SALES_INCLUSION
 JOIN     ST_NM_SALES_PROJECTION_MASTER MSPM 
-ON       MSPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
+ON       MSPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID  
+WHERE MSPM.FILTER_CCP = 1 
 @SALESINCLUSIONCC
 GROUP BY SHN.HIERARCHY_NO, 
          @CCP_SALES_INCLUSION
@@ -112,7 +113,8 @@ GROUP BY SHN.HIERARCHY_NO,
                                                                          AND STC.SALES_INCLUSION = SH.SALES_INCLUSION    
                                                                          @CUSTOMCONDITION                                                  
                                                                      
-                                                                           WHERE INDICATOR=0 @SALESINCLUSION
+                                                                           WHERE INDICATOR=0 
+                                                                           AND STC.FILTER_CCP = 1  @SALESINCLUSION
                                                                            GROUP BY  SH.HIERARCHY_NO,
                                           PERIOD,
                                           YEAR,
@@ -139,7 +141,8 @@ GROUP BY SHN.HIERARCHY_NO,
                                                                           AND STC.SALES_INCLUSION = SH.SALES_INCLUSION   
                                                                          @CUSTOMCONDITION
                                                                                                                            
-                                                                           WHERE INDICATOR=1 @SALESINCLUSION
+                                                                           WHERE INDICATOR=1 
+                                                                           AND STC.FILTER_CCP = 1  @SALESINCLUSION
                                                                            GROUP BY  SH.HIERARCHY_NO,
                                           PERIOD,
                                           YEAR,
@@ -198,6 +201,7 @@ INTO #ST_NM_SALES_PROJECTION_MASTER
                 FROM ST_CCP_HIERARCHY CCP
 JOIN     ST_NM_SALES_PROJECTION_MASTER MSPM 
 ON       MSPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
+WHERE MSPM.FILTER_CCP = 1 
 GROUP BY CCP.@HIERARCHY, 
          CCP.SALES_INCLUSION
                 SELECT SH.HIERARCHY_NO, 
@@ -218,6 +222,7 @@ FROM   @VIEWTABLE STC
        JOIN #ST_NM_SALES_PROJECTION_MASTER SH 
          ON STC.HIERARCHY_NO = SH.HIERARCHY_NO 
 WHERE  INDICATOR = 0 
+       AND STC.FILTER_CCP = 1 
        @SALESINCLUSION 
 GROUP  BY SH.HIERARCHY_NO, 
           PERIOD, 
@@ -246,6 +251,7 @@ FROM   @VIEWTABLE STC
        JOIN #ST_NM_SALES_PROJECTION_MASTER SH 
          ON STC.hierarchy_no = SH.hierarchy_no 
 WHERE  INDICATOR = 1 
+       AND STC.FILTER_CCP = 1 
        @SALESINCLUSION 
 GROUP  BY SH.HIERARCHY_NO, 
           PERIOD, 
@@ -299,6 +305,7 @@ INTO #ST_NM_SALES_PROJECTION_MASTER
                JOIN ST_CCP_HIERARCHY CCP ON CCP.CCP_DETAILS_SID=RLD1.CCP_DETAILS_SID
 JOIN     ST_NM_SALES_PROJECTION_MASTER MSPM 
 ON       MSPM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID 
+WHERE MSPM.FILTER_CCP = 1  
 @SALESINCLUSIONCC
 GROUP BY SHN.HIERARCHY_NO, 
          CCP.SALES_INCLUSION,
@@ -376,7 +383,8 @@ GROUP BY SHN.HIERARCHY_NO,
 
                                                                           AND STC.SALES_INCLUSION=SH.SALES_INCLUSION                                               
                                                                      
-                                                                           WHERE INDICATOR=0  @SALESINCLUSION
+                                                                           WHERE INDICATOR=0  
+                                                                           AND STC.FILTER_CCP = 1  @SALESINCLUSION
                                                                            GROUP BY  SH.HIERARCHY_NO,
                                           PERIOD,
                                           YEAR,
@@ -412,7 +420,8 @@ GROUP BY SHN.HIERARCHY_NO,
 
                                                                             AND STC.SALES_INCLUSION=SH.SALES_INCLUSION                                               
                                                                      
-                                                                           WHERE INDICATOR=1  @SALESINCLUSION
+                                                                           WHERE INDICATOR=1 
+                                                                           AND STC.FILTER_CCP = 1  @SALESINCLUSION
                                                                            GROUP BY  SH.HIERARCHY_NO,
                                           PERIOD,
                                           YEAR,
@@ -1786,7 +1795,7 @@ order by level_no
                  JOIN ST_CCP_HIERARCHY CH ON CH.CCP_DETAILS_SID  =RLD1.CCP_DETAILS_SID  
 		 JOIN ST_NM_SALES_PROJECTION_MASTER SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
             WHERE CUST_VIEW_MASTER_SID =@CUSTMASTERSID
-                and SPM.USER_GROUP LIKE '%' GROUP BY CUST_VIEW_MASTER_SID,LEVEL_NO,HIERARCHY_NO 
+                and SPM.USER_GROUP LIKE '%' [?FILTERCCP] GROUP BY CUST_VIEW_MASTER_SID,LEVEL_NO,HIERARCHY_NO 
                 
                  Select  distinct HIERARCHY_NO from #SELECTED_HIERARCHY_NO order by HIERARCHY_NO  
             ]]>
@@ -2866,6 +2875,7 @@ ORDER BY INSTR
 				AND CCCP.CUST_VIEW_MASTER_SID = @CUSTOMSID
 			JOIN st_nm_sales_projection_master MSPM ON
 				MSPM.ccp_details_sid = CCP.ccp_details_sid
+                                WHERE MSPM.FILTER_CCP = 1
 			GROUP BY
 				CCCP.HIERARCHY_NO,
 				CCP.sales_inclusion 
@@ -2892,7 +2902,8 @@ ORDER BY INSTR
 				JOIN #st_nm_sales_projection_master SH ON
 					cccp.hierarchy_no = SH.hierarchy_no
 				WHERE
-					INDICATOR = 0 @SALESINCLUSION
+					INDICATOR = 0 
+                                        AND STC.FILTER_CCP = 1  @SALESINCLUSION
 				GROUP BY
 					SH.hierarchy_no,
 					period,
@@ -2925,7 +2936,8 @@ ORDER BY INSTR
 				JOIN #st_nm_sales_projection_master SH ON
 					cccp.hierarchy_no = SH.hierarchy_no
 				WHERE
-					INDICATOR = 1 @SALESINCLUSION
+					INDICATOR = 1 
+                                        AND STC.FILTER_CCP = 1  @SALESINCLUSION
 				GROUP BY
 					SH.HIERARCHY_NO,
 					PERIOD,
@@ -2942,4 +2954,17 @@ ORDER BY INSTR
             ]]>
         </query>
     </entity>
+    
+    <entity id="updateTable">
+        <query>
+    		<![CDATA[
+     UPDATE
+	?
+SET
+	FILTER_CCP = 1
+WHERE FILTER_CCP = 0 ;
+		]]>
+        </query>
+    </entity> 
+    
 </sql>

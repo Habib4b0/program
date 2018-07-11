@@ -465,7 +465,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     private static final String SALES_SMALL = "sales";
     protected DataSelectionLogic dataLogic = new DataSelectionLogic();
     private boolean salesValueChange = false;
-    private boolean uomValueChange = false;
+    protected boolean uomValueChange = false;
 
     public boolean isRefresh() {
         return refresh;
@@ -1121,24 +1121,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      */
     @UiHandler("generateBtn")
     public void generateBtn(Button.ClickEvent event) {
-        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-            if(!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())){
-            session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
-            session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
-            dataLogic.nmSalesViewsPopulationProcedure(session);
-            CommonUtil.getInstance().waitForSeconds();
-            }
-            if(uomValueChange){
-            session.setFunctionMode("UOM");
-            session.setUomCode(unitOfMeasureDdlb.getValue() == null ? "EACH" : String.valueOf(unitOfMeasureDdlb.getValue()));
-            dataLogic.nmSalesViewsPopulationProcedureUOM(session);
-            uomValueChange = false;
-            session.setFunctionMode("");
-            session.setUomCode("");
-            }
-                    
-            projectionDTO.setGroup(StringUtils.EMPTY);
-        }
+            
         checkBoxMap.clear();
         radioMap.clear();
         generateBtnLogic(event);
