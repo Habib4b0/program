@@ -81,7 +81,7 @@ public class GtnWsReportRightTableLoadDataService {
 		String currencyConversion = dashboardBean.getCurrencyConversion().isEmpty()
 				|| "0".equals(dashboardBean.getCurrencyConversion()) ? null : dashboardBean.getCurrencyConversion();
 
-		String procedure = "PRC_REPORT_DASHBOARD_GENERATE ?,?,:comparisonBasis:,:ccpComp:,:salesInclusion:,:deductionIncl:,null,?,601,672,?,?,?,null,?,?,?";
+		String procedure = "PRC_REPORT_DASHBOARD_GENERATE ?,?,:comparisonBasis:,:ccpComp:,:salesInclusion:,:deductionIncl:,null,?,:startPerioSid:,:endPeriodSid:,?,?,?,null,?,?,?";
 		procedure = procedure.replaceAll(":salesInclusion:",
 				salesInClusion == -1 ? "NULL" : String.valueOf(salesInClusion));
 		procedure = procedure.replaceAll(":deductionIncl:",
@@ -92,6 +92,8 @@ public class GtnWsReportRightTableLoadDataService {
 		}
 		ccpFilter = !ccpFilter.equals("NULL") ? "'" + ccpFilter + "'" : "NULL";
 		procedure = procedure.replaceAll(":ccpComp:", ccpFilter);
+		procedure = procedure.replaceAll(":startPerioSid:", String.valueOf(dashboardBean.getPeriodRangeFromSid()));
+		procedure = procedure.replaceAll(":endPeriodSid:", String.valueOf(dashboardBean.getPeriodRangeToSid()));
 		String comparisonBasis = dashboardBean.getComparisonBasis().isEmpty()
 				|| "-Select one-".equals(dashboardBean.getComparisonBasis()) ? "NULL"
 						: dashboardBean.getComparisonBasis();
