@@ -94,8 +94,8 @@ public class Converters {
             result.setProductInnerLevel(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_FOUR])));
             result.setCustRelationshipBuilderSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_FIVE])));
             result.setProdRelationshipBuilderSid(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_SIX])));
-            result.setCustomRelationShipSid(obj[NumericConstants.THIRTY_ONE] !=null ? Integer.valueOf(String.valueOf(obj[NumericConstants.THIRTY_ONE])) : 0);
-            result.setCustomDeductionRelationShipSid(obj[NumericConstants.THIRTY_TWO] !=null ? Integer.valueOf(String.valueOf(obj[NumericConstants.THIRTY_TWO])) : 0);
+//            result.setCustomRelationShipSid(obj[NumericConstants.THIRTY_ONE] !=null ? Integer.valueOf(String.valueOf(obj[NumericConstants.THIRTY_ONE])) : 0);
+//            result.setCustomDeductionRelationShipSid(obj[NumericConstants.THIRTY_TWO] !=null ? Integer.valueOf(String.valueOf(obj[NumericConstants.THIRTY_TWO])) : 0);
             resultBasedOnFlagValue(flagValue, obj, result);
             Map<Object, Object> map = new NMProjectionVarianceLogic().getNMProjectionSelection(Integer.parseInt(result.getProjectionId()), DATA_SELECTION_LANDING_SCREEN.getConstant());
             if (map != null && !map.isEmpty()) {
@@ -117,11 +117,16 @@ public class Converters {
 		    }
 		    result.setBusinessUnitSystemId((Integer) obj[NumericConstants.THIRTY]);
 		    result.setBusinessUnitSystemName((String) obj[NumericConstants.THIRTY_ONE]);
+                    //New Added By Vishal
+                    result.setCustHierarchyVersion((Integer) obj[NumericConstants.THIRTY_TWO]);
+		    result.setProdHierarchyVersion((Integer) obj[NumericConstants.THIRTY_THREE]);
 		} else {
 		    result.setBusinessUnitSystemId((Integer) obj[NumericConstants.TWENTY_SEVEN]);
 		    result.setBusinessUnitSystemName((String) obj[NumericConstants.TWENTY_EIGHT]);
 		    result.setCustHierarchyVersion((Integer) obj[NumericConstants. TWENTY_NINE]);
 		    result.setProdHierarchyVersion((Integer) obj[NumericConstants.THIRTY]);
+                    result.setCustomRelationShipSid(obj[NumericConstants.THIRTY_ONE] !=null ? Integer.valueOf(String.valueOf(obj[NumericConstants.THIRTY_ONE])) : 0);
+                    result.setCustomDeductionRelationShipSid(obj[NumericConstants.THIRTY_TWO] !=null ? Integer.valueOf(String.valueOf(obj[NumericConstants.THIRTY_TWO])) : 0);
 		}
 	}
 

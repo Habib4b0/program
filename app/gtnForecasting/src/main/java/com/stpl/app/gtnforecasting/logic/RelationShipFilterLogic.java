@@ -307,7 +307,8 @@ public class RelationShipFilterLogic {
 				selectedCustomerContractList, selectedProductList, dto);
 		inputBean.setDeductionLevel(deductionLevel);
 		inputBean.setDeductionValue(dedValue);
-		insertToCCp(inputBean);
+		//insertToCCp(inputBean);
+                insertToCCpARP(inputBean);
 	}
 
 
@@ -477,6 +478,17 @@ public class RelationShipFilterLogic {
 		request.setGtnWsForecastRequest(forecastRequest);
 		client.callGtnWebServiceUrl(
 				GtnWebServiceUrlConstants.GTN_CCP_INSERT_SERVICE + GtnWebServiceUrlConstants.GTN_CCP_INSERT, request,
+				getGsnWsSecurityToken());
+	}
+        
+        private void insertToCCpARP(GtnForecastHierarchyInputBean inputBean) {
+		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
+		forecastRequest.setInputBean(inputBean);
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		request.setGtnWsForecastRequest(forecastRequest);
+		client.callGtnWebServiceUrl(
+				GtnWebServiceUrlConstants.GTN_CCP_INSERT_SERVICE + "/forecastCCPInsert", request,
 				getGsnWsSecurityToken());
 	}
 

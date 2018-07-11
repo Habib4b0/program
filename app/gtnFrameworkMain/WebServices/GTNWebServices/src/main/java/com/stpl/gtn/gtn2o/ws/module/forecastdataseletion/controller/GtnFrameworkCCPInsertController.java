@@ -56,5 +56,14 @@ public class GtnFrameworkCCPInsertController {
 		service.insertToCPPTableReporting(inputBean, dataSelectionBean, false);
 		return new GtnUIFrameworkWebserviceResponse();
 	}
-
+        
+        //check added for ARP CCP insert
+        @RequestMapping(value = "/forecastCCPInsert", method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse ccpInsertToARP(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+		GtnWsForecastRequest reportRequest = gtnWsRequest.getGtnWsForecastRequest();
+		GtnForecastHierarchyInputBean inputBean = reportRequest.getInputBean();
+		service.insertToCPPTableForARP(inputBean);
+		return new GtnUIFrameworkWebserviceResponse();
+	}
 }

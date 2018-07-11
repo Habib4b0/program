@@ -1769,8 +1769,9 @@ public class DataSelection extends ForecastDataSelection {
 			if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
 				{
 					dedLevel = getDedutionLevel();
-					dedValue = deductionValue.getValue() == null ? StringUtils.EMPTY
-							: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
+//					dedValue = deductionValue.getValue() == null ? StringUtils.EMPTY
+//							: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
+                                        dedValue=String.valueOf(deductionValue.getValue());
 				}
 			}
 		} catch (NumberFormatException ex) {
@@ -1929,8 +1930,11 @@ public class DataSelection extends ForecastDataSelection {
 				loadProductVersionNo(productRelation.getValue());
                                 customViewInput.put("prodVer", productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
                                 customViewInput.put("prodSid", String.valueOf(productRelation.getValue()));
-                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
-                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
+                                //No custom relationship in ARP
+                                if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
+                                    loadCustomViewDropDown(customRelationDdlb,customViewInput);
+                                    loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
+                                }
 			} catch (NumberFormatException ex) {
 				LOGGER.error(" in productRelation value change= {}",ex);
 			}
@@ -2054,8 +2058,9 @@ public class DataSelection extends ForecastDataSelection {
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
 					{
 						dedLevel = getDedutionLevel();
-						dedValue = deductionValue.getValue() == null ? StringUtils.EMPTY
-								: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
+//						dedValue = deductionValue.getValue() == null ? StringUtils.EMPTY
+//								: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
+                                                dedValue = String.valueOf(deductionValue.getValue());
 					}
 				}
 				String relationshipSid = String.valueOf(productRelation.getValue());
