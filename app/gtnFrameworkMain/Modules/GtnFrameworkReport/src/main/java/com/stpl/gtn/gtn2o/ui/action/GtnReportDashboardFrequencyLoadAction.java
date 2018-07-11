@@ -48,9 +48,11 @@ public class GtnReportDashboardFrequencyLoadAction
 
 			String endString = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_STATUS", componentId)
 					.getStringCaptionFromV8ComboBox().replaceAll(" - ", " ");
+			endString = endString.replaceAll("-", " ");
 			String startString = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId)
-					.getStringCaptionFromV8ComboBox().replaceAll(" - ", " ");
+					.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId).getStringCaptionFromV8ComboBox()
+					.replaceAll(" - ", " ");
+			startString = startString.replaceAll("-", " ");
 			String frequency = getFrequency(startString);
 
 			LocalDate startDate = parseDate(startString, frequency);
@@ -68,16 +70,15 @@ public class GtnReportDashboardFrequencyLoadAction
 			List<String> dataNew = new ArrayList<>(dateString);
 			List<Integer> periodSidData = new ArrayList<>(periodSid);
 
-			
-			GtnUIFrameworkGlobalUI
-			.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId)
-			.addAllItemsToComboBox(dataNew, periodSidData);
-						
-			GtnUIFrameworkGlobalUI
-			.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeTo", componentId)
-			.addAllItemsToComboBox(dataNew, periodSidData);
+			GtnUIFrameworkBaseComponent componentFrom = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId);
+			componentFrom.addAllItemsToComboBox(dataNew, periodSidData);
+			componentFrom.loadV8ComboBoxComponentValue("0");
 
-			
+			GtnUIFrameworkBaseComponent componentTo = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeTo", componentId);
+			componentTo.addAllItemsToComboBox(dataNew, periodSidData);
+			componentTo.loadV8ComboBoxComponentValue("0");
 
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
@@ -114,7 +115,7 @@ public class GtnReportDashboardFrequencyLoadAction
 		}
 		return startDate;
 	}
-	
+
 	private int getMonthIntegerFromYear(String month) {
 		int monthCount = 0;
 		switch (month.toUpperCase()) {
@@ -161,8 +162,8 @@ public class GtnReportDashboardFrequencyLoadAction
 
 	private String getFrequency(String startString) {
 		Pattern semiAnnualPattern = Pattern.compile("^([S])([1-2])*");
-		
-		if (Pattern.matches("[A-Z&&[Q]]{1}\\d*",startString)) {
+
+		if (Pattern.matches("[A-Z&&[Q]]{1}..\\d*", startString)) {
 			return "Quarter";
 		} else if (semiAnnualPattern.matcher(startString).find()) {
 			return "Semi-Annual";
@@ -212,11 +213,11 @@ public class GtnReportDashboardFrequencyLoadAction
 	}
 
 	private static String getSemiAnnual(LocalDate date) {
-		return "S" + (date.get(IsoFields.QUARTER_OF_YEAR) > 2 ? 2 : 1) + " " + date.getYear();
+		return "S" + (date.get(IsoFields.QUARTER_OF_YEAR) > 2 ? 2 : 1) + " - " + date.getYear();
 	}
 
 	private static String getQuaterly(LocalDate date) {
-		return "Q" + date.get(IsoFields.QUARTER_OF_YEAR) + " " + date.getYear();
+		return "Q" + date.get(IsoFields.QUARTER_OF_YEAR) + " - " + date.getYear();
 	}
 
 	@Override
