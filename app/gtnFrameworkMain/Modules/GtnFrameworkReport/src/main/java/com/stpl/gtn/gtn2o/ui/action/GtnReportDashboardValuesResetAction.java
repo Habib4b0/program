@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
@@ -56,19 +54,39 @@ public class GtnReportDashboardValuesResetAction
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView", componentId)
 				.loadV8ComboBoxComponentValue(String.valueOf(dataSelectionBean.getCustomViewMasterSid()));
 
-//		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
-//				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabFrequency", componentId)
-//				.loadV8ComboBoxComponentValue(dataSelectionBean.getFrequency());
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+				"reportingDashboard_displaySelectionTabFrequency", componentId)
+				.loadV8ComboBoxComponentValue(dataSelectionBean.getFrequency());
 
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ "reportOptionsTabVariableAndVarianceSequencing", componentId).loadV8ComboBoxComponentValue(0);
+
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptionsTabViewOptions", componentId)
+				.loadV8ComboBoxComponentValue(0);
+
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptionsTabHeaderSequencing",
+				componentId).loadV8ComboBoxComponentValue(0);
+
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptionsTabCurrencyDisplay",
+				componentId).loadV8ComboBoxComponentValue(0);
+
+		 GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis",
+				componentId).loadV8ComboBoxComponentValue(0);
+		 
+		GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabAnnualTotals", componentId)
+				.loadV8ComboBoxComponentValue(0);
+		
 		GtnUIFrameWorkActionConfig resetAction = new GtnUIFrameWorkActionConfig();
 		resetAction.setActionType(GtnUIFrameworkActionType.V8_CONFIRMED_RESET_ACTION);
 		resetAction.addActionParameter(Arrays
-				.asList(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabPeriodRangeFrom",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabPeriodRangeTo",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabComparisonBasis",
+				.asList("reportingDashboard_displaySelectionTabPeriodRangeFrom",
+						"reportingDashboard_displaySelectionTabPeriodRangeTo",
 						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 								+ "displaySelectionTabVariableCategory",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabAnnualTotals",
 						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterTabCustomerLevel",
 						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabProductLevel",
 						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabDeductionLevel",
@@ -77,14 +95,9 @@ public class GtnReportDashboardValuesResetAction
 						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabDeductionFilter",
 						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabSalesInclusion",
 						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "filterOptionsTabDeductionInclusion",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ "reportOptionsTabVariableAndVarianceSequencing",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptionsTabViewOptions",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptionsTabHeaderSequencing",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptionsTabDisplayFormat",
-						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptionsTabCurrencyDisplay"));
+						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportOptionsTabDisplayFormat"));
 		resetAction.addActionParameter(
-				Arrays.asList(new Object[] { "0", "0", "0", "", 0, "0", "0", "0", "", "", "", "", "", "0", "0", "0", "", "0" }));
+				Arrays.asList(new Object[] { "0", "0", "", "0", "0", "0", "", "", "", "", "", "" }));
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, resetAction);
 	}
 
