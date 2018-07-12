@@ -6,6 +6,7 @@
 
 package com.stpl.gtn.gtn2o.ws.report.bean;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -39,6 +40,7 @@ public class GtnWsReportDashboardBean {
 	private Set<String> filteredHierarchy;
 	private String annualTotals;
 	private String comparisonBasis;
+	private List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList;
 
 	public String[] getInput() {
 		return input;
@@ -242,6 +244,14 @@ public class GtnWsReportDashboardBean {
 
 	public void setRsContractSidList(Set<Object> rsContractSidList) {
 		this.rsContractSidList = rsContractSidList;
+	}
+
+	public List<GtnReportComparisonProjectionBean> getComparisonProjectionBeanList() {
+		return comparisonProjectionBeanList;
+	}
+
+	public void setComparisonProjectionBeanList(List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
+		this.comparisonProjectionBeanList = comparisonProjectionBeanList;
 	}
 
 }
