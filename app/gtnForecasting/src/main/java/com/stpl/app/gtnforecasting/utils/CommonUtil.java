@@ -818,4 +818,9 @@ public class CommonUtil {
         inputList.add(viewName);
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(inputList, "updateStatusTable"), session.getCurrentTableNames()));
     }
+    public void updateTable(SessionDTO session, String tableName) {
+        List inputList = new ArrayList<>();
+        inputList.add(tableName);
+        HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(inputList, "updateTable"), session.getCurrentTableNames()));
+    }
     }

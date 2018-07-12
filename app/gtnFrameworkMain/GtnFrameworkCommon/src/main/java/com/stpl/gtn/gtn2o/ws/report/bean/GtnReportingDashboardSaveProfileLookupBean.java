@@ -37,6 +37,8 @@ public class GtnReportingDashboardSaveProfileLookupBean {
 	private String reportProfileviewName;
 	private String reportProfileviewType;
 	private GtnWsRecordBean recordBean;
+	private Integer reportProfileViewId;
+	
 	
 	public List<Object> getDisplaySelectionTabVariable() {
 		return displaySelectionTabVariable;
@@ -211,6 +213,13 @@ public class GtnReportingDashboardSaveProfileLookupBean {
 	public void setRecordBean(GtnWsRecordBean recordBean) {
 		this.recordBean = recordBean;
 	}
+	public Integer getReportProfileViewId() {
+		return reportProfileViewId;
+	}
+	public void setReportProfileViewId(Integer reportProfileViewId) {
+		this.reportProfileViewId = reportProfileViewId;
+	}
+
 	
 	
 }

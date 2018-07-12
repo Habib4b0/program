@@ -1,8 +1,8 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -78,22 +78,28 @@ public class GtnUIFrameworkReportFilterGenerateLoadAction
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportConstants.GTN_REPORT_FILTER_SERVICE + GtnWsReportConstants.GTN_WS_FILTERCCP_GENERATE_SERVICE,
 				"report", request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		List<Object> ccpDetailsSidList = null;
-		List<Object> rsContractSidList = null;
+		Set<Object> ccpDetailsSidList = null;
+		Set<Object> rsContractSidList = null;
+		Set<String> filteredHierarchy = null;
 		if (response != null) {
 			for (GtnUIFrameworkDataRow result : response.getGtnSerachResponse().getResultSet().getDataTable()) {
 				if (filterBean.getSelectedDeductionList().isEmpty() && !result.getColList().isEmpty()) {
-					ccpDetailsSidList = Optional.ofNullable(ccpDetailsSidList).orElseGet(ArrayList::new);
-					ccpDetailsSidList.add(result.getColList());
-				} else if (!result.getColList().isEmpty()) {
-					ccpDetailsSidList = Optional.ofNullable(ccpDetailsSidList).orElseGet(ArrayList::new);
-					rsContractSidList = Optional.ofNullable(rsContractSidList).orElseGet(ArrayList::new);
+					ccpDetailsSidList = Optional.ofNullable(ccpDetailsSidList).orElseGet(HashSet::new);
+					filteredHierarchy = Optional.ofNullable(filteredHierarchy).orElseGet(HashSet::new);
 					ccpDetailsSidList.add(result.getColumnVAlue(0));
-					rsContractSidList.add(result.getColumnVAlue(1));
+					filteredHierarchy.add(result.getColumnVAlue(1).toString());
+				} else if (!result.getColList().isEmpty()) {
+					ccpDetailsSidList = Optional.ofNullable(ccpDetailsSidList).orElseGet(HashSet::new);
+					rsContractSidList = Optional.ofNullable(rsContractSidList).orElseGet(HashSet::new);
+					filteredHierarchy = Optional.ofNullable(filteredHierarchy).orElseGet(HashSet::new);
+					ccpDetailsSidList.add(result.getColumnVAlue(0));
+					filteredHierarchy.add(result.getColumnVAlue(1).toString());
+					rsContractSidList.add(result.getColumnVAlue(2));
 				}
 			}
 			dashboardBean.setCcpDetailsSidList(ccpDetailsSidList);
 			dashboardBean.setRsContractSidList(rsContractSidList);
+			dashboardBean.setFilteredHierarchy(filteredHierarchy);
 		}
 	}
 

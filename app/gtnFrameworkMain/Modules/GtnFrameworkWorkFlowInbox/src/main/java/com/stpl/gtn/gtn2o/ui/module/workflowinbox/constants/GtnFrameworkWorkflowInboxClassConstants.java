@@ -10,6 +10,23 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	private GtnFrameworkWorkflowInboxClassConstants() {
 	}
 
+	public static final String COMPANY_NO_ARM = "Company_No_Arm";
+	public static final String BUSINESS_UNIT_NO_ARM = "Business_Unit_No_Arm";
+	public static final String ARM_TRXF = "ARM_TRXF";
+	public static final String RS_UDC2 = "RS_UDC2";
+	public static final String RS_UDC3 = "RS_UDC3";
+	public static final String RS_UDC4 = "RS_UDC4";
+	public static final String RS_UDC5 = "RS_UDC5";
+	public static final String RS_UDC6 = "RS_UDC6";
+	public static final String DEDUCTION = "Deduction";
+	public static final String DEDUCTION_CATEGORY_2 = "Deduction Category 2";
+	public static final String DEDUCTION_CATEGORY_3 = "Deduction Category 3";
+	public static final String DEDUCTION_CATEGORY_4 = "Deduction Category 4";
+	public static final String DEDUCTION_CATEGORY_5 = "Deduction Category 5";
+	public static final String DEDUCTION_CATEGORY_6 = "Deduction Category 6";
+	public static final String DEDUCTION_PROGRAM = "Deduction Program";
+	public static final String DEDUCTION_TYPE = "Deduction Type";
+	public static final String ADJUSTMENT_TYPE_MANDATORY = "Adjustment Type is mandatory. Please select Adjustment Type.";
 	public static final String WORKFLOW_ACTION_PACKAGE_CRUD = "com.stpl.gtn.gtn2o.ui.action.crud.";
 	public static final String WORKFLOW_INBOX_DEDUCTION_LEVEL_VALUE_ACTION = "com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkWorkflowInboxDeductionLevelValueAction";
 	public static final String WORKFLOW_INBOX_ARM_DEDUCTION_LEVEL_VALUE_ACTION = "com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkArmWorkflowInboxDeductionLevelValueAction";
@@ -22,7 +39,6 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	public static final String WORKFLOW_VIEW_SAVE_ACTION = WORKFLOW_ACTION_PACKAGE_CRUD
 			+ "GtnFrameworkWorkFlowPublicPrivateViewSaveAction";
 	public static final String GTN_WORKFLOW_CONFIRMATION_MSG_RESET_HEADER = "Confirmation";
-	public static final String GTN_WORKFLOW_CONFIRMATION_MSG_RESET = "Are you sure you want to reset the page to default/previous values?";
 	public static final String EMPTY = "";
 	public static final String SEARCH_VIEW = "Search View";
 	public static final String WORKFLOWROOTLAYOUT = "workFlowRootLayout";
@@ -130,7 +146,6 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	public static final String ARMDETAILSEARCHPANEL = "armDetailSearchPanel";
 	public static final String DSSAVEVIEW = "dsSaveView";
 	public static final String SAVEPROFILE = "SAVE PROFILE";
-	public static final String SAVEPROFILENOSEARCH = "No Search Criteria";
 	public static final String SAVEPROFILENOSEARCHPLEASEENTER = "No search criteria were found. Please enter search criteria and try again.";
 	public static final String DSSAVEVIEWLOOKUP = "dsSaveViewLookUp";
 	public static final String SAVEVIEWPOPUP = "Save View Popup";
@@ -161,7 +176,6 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	public static final String VIEWBTN = "viewBtn";
 	public static final String VIEW = "VIEW";
 	public static final String WORKFLOW_DETAILS = "WorkFlow_Details";
-	public static final String DETAILSEARCH = "Detail Search";
 	public static final String FORECASTINGDETAILSEARCHPANEL_INNERLAYOUT = "forecastingDetailSearchPanelInnerLayout";
 	public static final String CONTRACTIDLAYOUT = "contractIdLayout";
 	public static final String CONTRACT_ID = "Contract ID";
@@ -344,7 +358,6 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	public static final String DATEADDED = "dateAdded";
 	public static final String USERNAME = "userName";
 	public static final String ATTACHEMENTSEARCHQUERY = "attachmentSearchQuery";
-	public static final String ATTACHEMENTSEARCHRESULT_TABLE = "attachmentsearchResultTable";
 	public static final String HISTORYACTIONBUTTON_LAYOUT = "historyactionButtonlayout";
 	public static final String WORKFLOWHISTORY = "WorkFlow_History";
 	public static final String HISTORYCLOSEBUTTON_LAYOUT = "historyCloseButtonlayout";
@@ -374,7 +387,6 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	public static final String CREATEDBYPRIVATE = "createdByPrivate";
 	public static final String CREATEDDATEPRIVATE = "createdDatePrivate";
 	public static final String APPROVEDBYPRIVATE = "approvedByPrivate";
-	public static final String APPROVEDDATETOPRIVATE = "approvedDateToPrivate";
 	public static final String SEARCHQUERY = "SearchQuery";
 	public static final String VIEWACTIONBUTTON_LAYOUT = "ViewactionButtonlayout";
 	public static final String VIEWGTNRESET_LAYOUT = "ViewgtnReset01layout";
@@ -441,7 +453,7 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	public static final String WEB_ARP = "/web/guest/accrual-rate-projection?arFlow='true'";
 	public static final String WEB_CONTRACT_DASHBOARD = "?cwFlow='true'";
 	public static final String WEB_FORECAST_RETURNS = "/web/guest/forecast-returns?reFlow='true'";
-	public static final String WEB_FIXEDDOLLAR_ARMFLOW = "/web/guest/fixed-dollar-adjustment?armFlow='true'";
+	public static final String WEB_FIXEDDOLLAR_ARMFLOW = "?armFlow='true'";
 	public static final String WEB_GOVERNMENT_NMFLOW = "/web/guest/government?nmFlow='true'";
 	public static final String WEB_FORECAST_RETURNS_RETFLOW = "/web/guest/forecast-returns?retFlow='true'";
 	public static final String WITHDRAWN = "Withdrawn";
@@ -502,15 +514,15 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 			CONTRACTNAMEARM, ITEMNOARM, ITEMNAMEARM, BRANDNAMEARM, GLDATEARM, DEDUCTIONLEVELARM, DEDUCTIONVALUEARM,
 			DEDUCTIONNOARM, DEDUCTIONNAMEARM, SAVEVIEWNAME, SAVEVIEWTYPE, BUSINESS_PROCESS, CREATEDBY, APPROVEDBY);
         
-private static final String[] ADDRESS_VISIBLE_FIELDS = new String[] { GtnFrameworkWorkflowInboxClassConstants.FORECASTINGDETAILSEARCHPANEL,
+	private static final String[] ADDRESS_VISIBLE_FIELDS = new String[] { GtnFrameworkWorkflowInboxClassConstants.FORECASTINGDETAILSEARCHPANEL,
 				GtnFrameworkWorkflowInboxClassConstants.RETURNDETAILSEARCHPANEL,
 				GtnFrameworkWorkflowInboxClassConstants.ARMDETAILSEARCHPANEL };
 
-private static final String[] CUSTOM_PROPERTY_IDS = { GtnFrameworkWorkflowInboxClassConstants.STATUS,
+	private static final String[] CUSTOM_PROPERTY_IDS = { GtnFrameworkWorkflowInboxClassConstants.STATUS,
 				GtnFrameworkWorkflowInboxClassConstants.CREATEDBY, GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY,
 				GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE,
 				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUSARM };
-private static final String[] CUSTOM_LIST_NAME_ARRAY = { GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUS,
+	private static final String[] CUSTOM_LIST_NAME_ARRAY = { GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUS,
 				GtnFrameworkWorkflowInboxClassConstants.USERS, GtnFrameworkWorkflowInboxClassConstants.USERS,
 				GtnFrameworkWorkflowInboxClassConstants.ARM_ADJUSTMENT_TYPE,
 				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUS };

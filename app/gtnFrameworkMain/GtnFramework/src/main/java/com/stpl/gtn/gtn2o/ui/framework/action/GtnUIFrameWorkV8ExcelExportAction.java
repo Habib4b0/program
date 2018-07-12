@@ -397,7 +397,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
                         value = componenetIdCaption.equalsIgnoreCase(GtnFrameworkCommonStringConstants.SELECT_ONE)
                                 ? GtnFrameworkCommonStringConstants.STRING_EMPTY : componenetIdCaption;
                     }
-                    putValueInCell(row, getFormattedValue(value, propertyId, resultTable), j, defaultDataCellStyle);
+                    putValueInCell(row, getFormattedValue(value), j, defaultDataCellStyle);
                 }
                 row.setHeight((short) 400);
             }
@@ -430,7 +430,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 					String componenetIdCaption = component.getValue().toString();
 					value = getComboBoxValue(componenetIdCaption);
 				}
-				putValueInCell(row, getFormattedValue(value, propertyId, resultTable), j, defaultDataCellStyle);
+				putValueInCell(row, getFormattedValue(value), j, defaultDataCellStyle);
 			}
 			int cellStart = headerBean.getExcelLeftTableEndIndex();
 			for (int j = headerStartIndex; j <= headerEndIndex; j++) {
@@ -443,7 +443,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 					String componenetIdCaption = component.getValue().toString();
 					value = getComboBoxValue(componenetIdCaption);
 				}
-				putValueInCell(row, getFormattedValue(value, propertyId, resultTable), cellStart++,
+				putValueInCell(row, getFormattedValue(value), cellStart++,
 						defaultDataCellStyle);
 			}
 
@@ -452,13 +452,7 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 		return count;
 	}
 
-	public Object getFormattedValue(Object value, String propertyId, PagedGrid resultTable) {
-//		if (resultTable != null) {
-//			Converter<String, Object> converter = resultTable.getGrid().getConverter(propertyId);
-//			if (converter != null) {
-//				return converter.convertToPresentation(value, String.class, resultTable.getLocale());
-//			}
-//		}
+	public Object getFormattedValue(Object value ) {
 
 		return value;
 
@@ -525,13 +519,11 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 	private List<GtnWsRecordBean> setFilters(List<GtnWsRecordBean> exportList, GtnUIFrameworkComponentData customData) {
 		List<GtnWsRecordBean> localExportList = new ArrayList<>(exportList);
 		GtnUIFrameworkPagedTableLogic tableLogic = customData.getCurrentPageTableLogic();
-//		Set<Container.Filter> filters = tableLogic.getFilters();
 		tableLogic.clearFilters();
 		int count = tableLogic.getCount();
 		if (count > 0) {
 			localExportList = tableLogic.loadData(0, count);
 		}
-//		tableLogic.setFilters(filters);
 		return localExportList;
 	}
 

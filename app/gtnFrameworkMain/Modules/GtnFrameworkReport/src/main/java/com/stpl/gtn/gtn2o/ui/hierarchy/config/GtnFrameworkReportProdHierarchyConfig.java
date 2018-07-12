@@ -141,7 +141,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productHierarchyLookup");
 		hierarchypopupAction.addActionParameter("Product Hierarchy LookUp");
 		hierarchypopupAction.addActionParameter("50%");
-		hierarchypopupAction.addActionParameter("93%");
+		hierarchypopupAction.addActionParameter("100%");
 		hierarchy.addGtnUIFrameWorkActionConfig(hierarchypopupAction);
 
 		GtnUIFrameworkComponentConfig relationshipLayout = configProvider
@@ -343,7 +343,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		GtnUIFrameWorkActionConfig customViewPopupAction = new GtnUIFrameWorkActionConfig();
 		customViewPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		customViewPopupAction.addActionParameter("reportCustomViewLookup");
-		customViewPopupAction.addActionParameter("reportCustomViewLookup");
+		customViewPopupAction.addActionParameter("Custom Tree View Popup");
 		customViewPopupAction.addActionParameter("75%");
 		customViewPopupAction.addActionParameter(null);
 		actionConfigList.add(customViewPopupAction);

@@ -293,7 +293,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 	}
 
 	public List<HierarchyLevelDefinitionBean> getHierarchyBuilderBasedOnProjectionId(int hierarchyDefSid,
-			int hierarchyVersionNo, String hierarchyIndicator) throws GtnFrameworkGeneralException {
+			int hierarchyVersionNo ) throws GtnFrameworkGeneralException {
 		List<Object> inputList = new ArrayList<>();
 		inputList.add(hierarchyDefSid);
 		inputList.add(hierarchyVersionNo);

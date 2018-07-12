@@ -7,6 +7,7 @@ IF EXISTS (SELECT 'X'
   END
 
 GO
+
 CREATE PROCEDURE [dbo].[PRC_PROJECTION_RESULTS_DISCOUNT] (@PROJECTION_SID         VARCHAR(500),
                                                           @PROJ_FREQUENCY         VARCHAR(20),
                                                           @DISCOUNT_ID            NVARCHAR(MAX),---INPUT IS  RS_CONTRACT_SID --GAL-1163
@@ -27,8 +28,7 @@ AS
   BEGIN
       SET NOCOUNT ON
 
-      BEGIN TRY
-       DECLARE @SP                    INT,
+           DECLARE @SP                    INT,
                   @SP_PROJ_SID           INT,
                   @TEMP_PROJ_SID         VARCHAR(500),
                   @START_PERIOD_SID      INT,
@@ -227,7 +227,7 @@ INNER JOIN ' + @CCP_HIERARCHY + ' CH ON CH.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
 	,CCP_DETAILS_SID
 	,HIERARCHY_NO,RS_CONTRACT_SID
 	)
-SELECT CCP.COMPANY_MASTER_SID
+SELECT distinct CCP.COMPANY_MASTER_SID
 	,CCP.CONTRACT_MASTER_SID
 	,CCP.ITEM_MASTER_SID
 	,CCP.CCP_DETAILS_SID ,c.rowid,c.RS_CONTRACT_SID
@@ -243,7 +243,9 @@ FROM  CUSTOM_CCP_sales C
 			WHERE HIERARCHY_NO like U.TOKEN+''%''
 			)
 		OR @CCP IS NULL
-		)  ')
+		) where CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID)
+
+
 
                 EXEC Sp_executesql
                   @SQL,
@@ -251,6 +253,7 @@ FROM  CUSTOM_CCP_sales C
                   @CCP = @CCP,
                   @FIRST_PROJ_SID=@FIRST_PROJ_SID
             END
+
 
           IF Object_id('TEMPDB..#SPLIT_TABLE') IS NOT NULL
             DROP TABLE #SPLIT_TABLE
@@ -302,7 +305,7 @@ WHERE IU.UOM_CODE = @UOM_CODE
                SELECTED_LEVEL_DESC VARCHAR(100)
             )
 
-          SET @SQL=Concat('SELECT RS_CONTRACT_SID,SELECTED_LEVEL,SELECTED_LEVEL_DESC FROM 
+          SET @SQL=Concat('SELECT distinct RS_CONTRACT_SID,SELECTED_LEVEL,SELECTED_LEVEL_DESC FROM 
 	  (SELECT DISTINCT RS_CONTRACT_SID,SELECTED_LEVEL,SELECTED_LEVEL_DESC FROM 
 	  (SELECT DISTINCT --CCP_DETAILS_SID,
 		R.RS_CONTRACT_SID
@@ -422,7 +425,7 @@ WHERE IU.UOM_CODE = @UOM_CODE
 	,HIERARCHY_NO	,SELECTED_LEVEL
 	,SELECTED_LEVEL_DESC
 	)
-SELECT A.CCP_DETAILS_SID
+SELECT distinct A.CCP_DETAILS_SID
 	,A.RS_CONTRACT_SID
 	,A.RS_MODEL_SID
 	,b.item_master_Sid
@@ -430,12 +433,17 @@ SELECT A.CCP_DETAILS_SID
 	,RI.SELECTED_LEVEL
 	,RI.SELECTED_LEVEL_DESC
 FROM ', @DISC_MASTER_TABLE, ' A
-JOIN #TEMP_CCP B ON A.CCP_DETAILS_SID=B.CCP_DETAILS_SID
+JOIN #TEMP_CCP B ON A.CCP_DETAILS_SID=B.CCP_DETAILS_SID and( B.RS_CONTRACT_sID=A.RS_CONTRACT_sID or nullif(B.RS_CONTRACT_sID,0) is null)
 JOIN #RS_INFO RI ON RI.RS_CONTRACT_sID=A.RS_CONTRACT_sID
 WHERE --PV_FILTERS = 1 and 
-EXISTS (SELECT 1 FROM #TEMP_CCP B WHERE A.CCP_DETAILS_SID=B.CCP_DETAILS_SID and (A.RS_CONTRACT_SID=B.RS_CONTRACT_SID or B.RS_CONTRACT_SID is null)) 
-', CASE
-                          WHEN @DISCOUNT_ID IS NOT NULL THEN ' AND  (EXISTS ( SELECT 1 FROM #SPLIT_TABLE C WHERE C.TOKEN = A.RS_CONTRACT_SID ))'
+',CASE
+                          WHEN  @INDICATOR NOT IN ( 'C', 'P' ) THEN 
+						  'EXISTS (SELECT 1 FROM #TEMP_CCP B WHERE A.CCP_DETAILS_SID=B.CCP_DETAILS_SID and (A.RS_CONTRACT_SID=B.RS_CONTRACT_SID or B.RS_CONTRACT_SID = 0)) '
+						  end 
+						  ,CASE
+                          WHEN  @INDICATOR NOT IN ( 'C', 'P' ) and  @DISCOUNT_ID IS NOT NULL then ' AND ' end
+, CASE
+                          WHEN @DISCOUNT_ID IS NOT NULL THEN '   (EXISTS ( SELECT 1 FROM #SPLIT_TABLE C WHERE C.TOKEN = A.RS_CONTRACT_SID ))'
                           ELSE ''
                         END)
 
@@ -443,6 +451,10 @@ EXISTS (SELECT 1 FROM #TEMP_CCP B WHERE A.CCP_DETAILS_SID=B.CCP_DETAILS_SID and 
             @SQL,
             N'@DISCOUNT_ID NVARCHAR(MAX)',
             @DISCOUNT_ID=@DISCOUNT_ID
+
+
+
+
 
           IF Object_id('TEMPDB..#PIVOT_RESULT') IS NOT NULL
             TRUNCATE TABLE #PIVOT_RESULT
@@ -922,16 +934,16 @@ GROUP  BY DT.YEAR,
         MSD.SELECTED_LEVEL,
         p.PERIOD,
         p.YEAR,
-        Sum(SALES.DISCOUNT) DISCOUNT
+        Sum(SALES.Projection_sales) DISCOUNT
  FROM   (SELECT DISTINCT HIERARCHY_NO,
-                         SELECTED_LEVEL
+                         SELECTED_LEVEL,rs_contract_sid,ccp_details_sid
          FROM   #MULTISELECT_DISCOUNTS) MSD
-        JOIN ', @CUSTOM_TABLE_DISCOUNT, ' SALES
-          ON SALES.HIERARCHY_NO = MSD.HIERARCHY_NO
+        JOIN ', @DISC_PROJECTION_TABLE, ' SALES
+          ON SALES.rs_contract_sid = MSD.rs_contract_sid
+		  and SALES.ccp_details_sid = MSD.ccp_details_sid
         JOIN #PERIOD P
-          ON P.period = SALES.period
-		  and P.YEAR = SALES.YEAR
-		  where sales.INDICATOR=1
+          ON P.period_sid = SALES.period_sid
+		  where p.period_Sid between ', @PROJ_START_PERIOD_SID, ' and ', @END_PERIOD_SID, '
 		  group by MSD.HIERARCHY_NO,
         MSD.SELECTED_LEVEL,
         p.PERIOD,
@@ -1711,32 +1723,4 @@ GROUP  BY DT.YEAR,
                                                                ORDER BY RS_NAME,RS_CONTRACT_SID,[YEAR],PERIOD'*/
           EXEC Sp_executesql
             @SQL1
-      END TRY
-
-      BEGIN CATCH
-          DECLARE @ERRORMESSAGE NVARCHAR(4000);
-          DECLARE @ERRORSEVERITY INT;
-          DECLARE @ERRORSTATE INT;
-          DECLARE @ERRORNUMBER INT;
-          DECLARE @ERRORPROCEDURE VARCHAR(200);
-          DECLARE @ERRORLINE INT;
-
-          EXEC Usperrorcollector
-
-          SELECT @ERRORMESSAGE = Error_message(),
-                 @ERRORSEVERITY = Error_severity(),
-                 @ERRORSTATE = Error_state(),
-                 @ERRORPROCEDURE = Error_procedure(),
-                 @ERRORLINE = Error_line(),
-                 @ERRORNUMBER = Error_number()
-
-          RAISERROR ( @ERRORMESSAGE,-- MESSAGE TEXT.
-                      @ERRORSEVERITY,-- SEVERITY.
-                      @ERRORSTATE,-- STATE.
-                      @ERRORPROCEDURE,-- PROCEDURE_NAME.
-                      @ERRORNUMBER,-- ERRORNUMBER
-                      @ERRORLINE -- ERRORLINE
-          );
-      END CATCH
-  END
-
+			END

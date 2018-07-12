@@ -60,31 +60,32 @@ public class GtnFrameworkUIReportGenerateRequestAction
 		List<GtnReportComparisonProjectionBean> selectedProj = (List<GtnReportComparisonProjectionBean>) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboardTab_reportingDashboardComparisonConfig", componentId)
 				.getComponentData().getCustomData();
-               GtnUIFrameworkBaseComponent comparisonBasis= GtnUIFrameworkGlobalUI
+		GtnUIFrameworkBaseComponent comparisonBasis = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis", componentId);
-                int id=comparisonBasis.getIntegerFromV8ComboBox();
-                String comparisonBasisValue=id >2 ? "Projection_"+(id-2):comparisonBasis.getStringCaptionFromV8ComboBox();
-                
-                reportDashBoardBean.setComparisonBasis(comparisonBasisValue);
+		int id = comparisonBasis.getIntegerFromV8ComboBox();
+		String comparisonBasisValue = id > 2 ? "Projection_" + (id - 2)
+				: comparisonBasis.getStringCaptionFromV8ComboBox();
+
+		reportDashBoardBean.setComparisonBasis(comparisonBasisValue);
 		reportDashBoardBean.setPeriodRangeFromSid(perioFromComponent.getIntegerFromV8ComboBox());
 
 		if (reportDashBoardBean.getPeriodRangeFromSid() != 0) {
 			reportDashBoardBean.setPeriodStart(perioFromComponent.getStringCaptionFromV8ComboBox());
 		} else {
-			GtnUIFrameworkBaseComponent dataslectionFrom = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId);
-			reportDashBoardBean.setPeriodRangeFromSid(dataslectionFrom.getIntegerFromV8ComboBox());
-			reportDashBoardBean.setPeriodStart(dataslectionFrom.getStringCaptionFromV8ComboBox().replaceAll(" - ", " "));
+			reportDashBoardBean.setPeriodRangeFromSid(perioFromComponent.getNthIntegerFromV8ComboBox(1));
+			reportDashBoardBean
+					.setPeriodStart(perioFromComponent.getNthStringCaptionFromV8ComboBox(1).replaceAll(" - ", " "));
 		}
 
 		reportDashBoardBean.setPeriodRangeToSid(periodToComponent.getIntegerFromV8ComboBox());
 		if (reportDashBoardBean.getPeriodRangeToSid() != 0) {
 			reportDashBoardBean.setPeriodTo(periodToComponent.getStringCaptionFromV8ComboBox());
 		} else {
-			GtnUIFrameworkBaseComponent dataslectionTo = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_STATUS", componentId);
-			reportDashBoardBean.setPeriodRangeToSid(dataslectionTo.getIntegerFromV8ComboBox());
-			reportDashBoardBean.setPeriodTo(dataslectionTo.getStringCaptionFromV8ComboBox().replaceAll(" - ", " "));
+			reportDashBoardBean.setPeriodRangeToSid(
+					periodToComponent.getNthIntegerFromV8ComboBox(periodToComponent.totalItemsInComboBox() - 1));
+			reportDashBoardBean.setPeriodTo(
+					periodToComponent.getNthStringCaptionFromV8ComboBox(periodToComponent.totalItemsInComboBox() - 1)
+							.replaceAll(" - ", " "));
 		}
 
 		GtnUIFrameworkGlobalUI.getVaadinComponentData(componentId).setCustomPagedTreeTableRequest(serviceRequest);

@@ -71,12 +71,7 @@ public class GtnUIFrameworkPagedGridLogic {
 			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(countUrl,
 					componentConfig.getModuleName(), serviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			if (response != null && response.getGtnSerachResponse() != null) {
-				if (response.getGtnSerachResponse().getCount() == 0) {
-					/*GtnUIFrameworkGlobalUI
-							.getVaadinBaseComponent(componentConfig.getComponentId(), componentConfig.getSourceViewId())
-							.getGrid().setItems();
-					return 0;*/
-				}
+				
 				getCheckedRecordCount(serviceRequest, response.getGtnSerachResponse().getCount() > 0);
 				return response.getGtnSerachResponse().getCount();
 			}
@@ -94,22 +89,15 @@ public class GtnUIFrameworkPagedGridLogic {
 					componentConfig.getGtnPagedTableConfig().getColumnCheckBoxId());
 			searchCriteriaList.add(searchCriteria);
 			serviceRequest.getGtnWsSearchRequest().setGtnWebServiceSearchCriteriaList(searchCriteriaList);
-			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-			GtnUIFrameworkWebserviceResponse checkedRecordCountresponse = wsclient.callGtnWebServiceUrl(countUrl,
-					componentConfig.getModuleName(), serviceRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-			// clearCheckedRecordCount();
-			// incrementCheckedRecordCount(checkedRecordCountresponse.getGtnSerachResponse().getCount());
 		}
 
 	}
 
 	public void getCheckedRecordCount() {
-		// Set<Container.Filter> filterSet = new HashSet<>(getFilters());
-		// clearFilters();
+
 		GtnUIFrameworkWebserviceRequest serviceRequest = getWSRequest();
 		serviceRequest.getGtnWsSearchRequest().setCount(true);
 		getCheckedRecordCount(serviceRequest, true);
-		// setFilters(filterSet);
 	}
 
 	private GtnWebServiceSearchCriteria generateSearchCriteriaListForColumnCheckBoxId(String columnCheckBoxId) {
@@ -123,12 +111,7 @@ public class GtnUIFrameworkPagedGridLogic {
 	}
 
 	public void handleCheckBoxOnItem(Object propertyId, boolean value) {
-		// if (value) {
-		// incrementCheckedRecordCount(1);
-		// } else {
-		// decrementCheckedRecordCount(1);
-		// }
-		// perFormCheckAll(propertyId);
+		//This method hasn't been used
 	}
 
 	// @Override
@@ -137,7 +120,6 @@ public class GtnUIFrameworkPagedGridLogic {
 		active = true;
 		List<GtnWsRecordBean> records = new ArrayList<>();
 		if (active) {
-			// perFormCheckAll(componentConfig.getGtnPagedTableConfig().getColumnCheckBoxId());
 			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 			GtnUIFrameworkWebserviceRequest serviceRequest = getWSRequest();
 			serviceRequest.getGtnWsSearchRequest().setTableRecordOffset(offset);
@@ -153,31 +135,13 @@ public class GtnUIFrameworkPagedGridLogic {
 					records.add(dto);
 				}
 			}
-			// try {
-			// GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
-			// .getVaadinBaseComponent(componentConfig.getComponentId(),
-			// componentConfig.getSourceViewId());
-			// tableBaseComponent.setTableValue(null);
-			// tableBaseComponent.getComponentData().setDataTableRecordList(records);
-			// GtnUIFrameworkActionExecutor.executeSingleAction(componentConfig.getComponentId(),
-			// componentConfig.getGtnPagedTableConfig().getRecordTypeManageActionConfig());
-			// } catch (GtnFrameworkGeneralException ex) {
-			// gtnLogger.info("Error While executing RecordTypeManageAction for " +
-			// componentConfig.getComponentId());
-			// }
-			// return records;
+
 		}
 
 		return records;
 	}
 
-	// @SuppressWarnings("unchecked")
-	// @Override
-	// public Object configureContainer(Object object, Container container) {
-	// GtnWsRecordBean dto = (GtnWsRecordBean) object;
-	// ((ExtContainer<GtnWsRecordBean>) container).addBean(dto);
-	// return dto;
-	// }
+
 
 	public List<Object> getRecordHeader() {
 		return recordHeader == null ? recordHeader : Collections.unmodifiableList(recordHeader);
@@ -207,19 +171,7 @@ public class GtnUIFrameworkPagedGridLogic {
 		tableBaseComponent.getComponentData().getPagedGrid().refreshGrid();
 	}
 
-	// public List<GtnWsRecordBean> generateExcel() {
-	// Set<Container.Filter> addedFilters = new HashSet<>();
-	// addedFilters.addAll(getFilters());
-	// super.getFilters().clear();
-	// int totalRecords = (int) getRecordCount();
-	// if (!addedFilters.isEmpty()) {
-	// totalRecords = getCount();
-	// }
-	// List<GtnWsRecordBean> excelData = loadData(0, totalRecords);
-	// super.setFilters(addedFilters);
-	// return excelData;
-	//
-	// }
+
 
 	public void startSearchProcess(final List<String> vaadinFieldValues, final List<String> vaadinFieldDescriptionList,
 			boolean isActive) throws GtnFrameworkValidationFailedException {
@@ -228,19 +180,8 @@ public class GtnUIFrameworkPagedGridLogic {
 		GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(componentConfig.getComponentId(), componentConfig.getSourceViewId());
 		tableBaseComponent.getComponentData().getPagedGrid().refreshGrid();
-		// resetAndInit();
 	}
 
-	// private void resetAndInit() {
-	//
-	//
-	//// resetFilter();
-	//// super.clearAll();
-	//// super.getFilters().clear();
-	//// super.removeAllContainerFilters();
-	//// super.setRequiredCount(true);
-	//// super.setCurrentPage(1);
-	// }
 
 	public void addCurrentSearchCriteria(List<String> vaadinFieldValues, List<String> vaadinFieldDescriptionList)
 			throws GtnFrameworkValidationFailedException {
@@ -338,14 +279,10 @@ public class GtnUIFrameworkPagedGridLogic {
 				gtnLogger.info("---------tableConfig.getFilterValueMap() --------" + property);
 				searchCriteria = new GtnWebServiceSearchCriteria();
 				searchCriteria.setFilter(true);
-				// if (filter instanceof SimpleStringFilter) {
 				searchCriteria.setFieldId(property);
 				searchCriteria.setFilterValue1(String.valueOf(tableConfig.getFilterValueMap().get(property)));
 				searchCriteria.setExpression("LIKE");
-				// }
-				// setBetweenFilter(filter, searchCriteria);
-				// setCompareFilter(filter, searchCriteria);
-				// setAddFilter(filter, searchCriteria);
+	
 				gtnWebServiceSearchCriteriaList.add(searchCriteria);
 			}
 		}
@@ -353,23 +290,6 @@ public class GtnUIFrameworkPagedGridLogic {
 		return gtnWebServiceSearchCriteriaList;
 	}
 
-	// public List<GtnWebServiceOrderByCriteria>
-	// getOrderByCriteria(List<SortByColumn> sortByColumns) {
-	// List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList = new
-	// ArrayList<>();
-	// GtnWebServiceOrderByCriteria gtnWebServiceOrderByCriteria;
-	// if (sortByColumns != null && !sortByColumns.isEmpty()) {
-	// for (final Iterator<SortByColumn> iterator = sortByColumns.iterator();
-	// iterator.hasNext();) {
-	// gtnWebServiceOrderByCriteria = new GtnWebServiceOrderByCriteria();
-	// SortByColumn sortByColumn = iterator.next();
-	// gtnWebServiceOrderByCriteria.setPropertyId(sortByColumn.getName());
-	// gtnWebServiceOrderByCriteria.setOrderByCriteria(sortByColumn.getType().toString());
-	// gtnWebServiceOrderByCriteriaList.add(gtnWebServiceOrderByCriteria);
-	// }
-	// }
-	// return gtnWebServiceOrderByCriteriaList;
-	// }
 
 	private boolean isNull(Object value) {
 		return value == null;
@@ -423,18 +343,7 @@ public class GtnUIFrameworkPagedGridLogic {
 		additioanlSearchCriteriaList = new ArrayList<>();
 
 	}
-	//
-	// public void resetFilter() {
-	// for (int i = 0; i < getTables().size(); i++) {
-	// getTables().get(i).resetFilters();
-	// }
-	// }
-	//
-	// public void resetValues() {
-	// for (int i = 0; i < getTables().size(); i++) {
-	// getTables().get(i).setValue(null);
-	// }
-	// }
+
 
 	public Object getExtraParameter() {
 		return extraParameter;
@@ -444,16 +353,7 @@ public class GtnUIFrameworkPagedGridLogic {
 		this.extraParameter = extraParameter;
 	}
 
-	// @Override
-	// protected void createCurrentPageStart() {
-	// resetValues();
-	// setRefresh(false);
-	// }
-	//
-	// @Override
-	// protected void createCurrentPageEnd() {
-	// setRefresh(true);
-	// }
+
 
 	public String loadDataForExcel(int start, int offset, List<String> headers, List<String> tableColumnFormatList) {
 
@@ -493,7 +393,6 @@ public class GtnUIFrameworkPagedGridLogic {
 		serviceRequest.setGtnWsGeneralRequest(generalWSRequest);
 		request.setSearchColumnNameList(requestRecordHeader);
 		request.setGtnWebServiceSearchCriteriaList(getSearchCriteriaList());
-		// request.setGtnWebServiceOrderByCriteriaList(getOrderByCriteria(getSortByColumns()));
 		request.setQueryInputList(componentConfig.getQueryInputs());
 		setRecordTypeBean();
 		request.setGtnWsRecordTypeBean(gtnWsRecordTypeBean);
@@ -506,48 +405,7 @@ public class GtnUIFrameworkPagedGridLogic {
 		return currentValue.contains("*") ? "LIKE" : GtnFrameworkCommonConstants.PROPERTY_EQUALS;
 	}
 
-	// private void setAddFilter(Container.Filter filter,
-	// GtnWebServiceSearchCriteria searchCriteria) {
-	// if (filter instanceof And) {
-	// And stringFilter = (And) filter;
-	// Collection<Container.Filter> value = stringFilter.getFilters();
-	// for (Container.Filter filter1 : value) {
-	// if (filter1 instanceof Compare.Less) {
-	// Compare.Less less = (Compare.Less) filter1;
-	// searchCriteria.setFieldId(less.getPropertyId().toString());
-	// searchCriteria.setFilterValue1(less.getValue().toString());
-	// }
-	// if (filter1 instanceof Compare.Greater) {
-	// Compare.Greater greater = (Compare.Greater) filter1;
-	// searchCriteria.setFieldId(greater.getPropertyId().toString());
-	// searchCriteria.setFilterValue2(greater.getValue().toString());
-	// }
-	// searchCriteria.setExpression("AND");
-	// }
-	// }
-	// }
-	//
-	// private void setCompareFilter(Container.Filter filter,
-	// GtnWebServiceSearchCriteria searchCriteria) {
-	// if (filter instanceof Compare) {
-	// Compare stringFilter = (Compare) filter;
-	// Compare.Operation operation = stringFilter.getOperation();
-	// searchCriteria.setFieldId(stringFilter.getPropertyId().toString());
-	// searchCriteria.setFilterValue1(stringFilter.getValue().toString());
-	// searchCriteria.setExpression(operation.name());
-	// }
-	// }
-	//
-	// private void setBetweenFilter(Container.Filter filter,
-	// GtnWebServiceSearchCriteria searchCriteria) {
-	// if (filter instanceof Between) {
-	// searchCriteria.setFieldId(((Between) filter).getPropertyId().toString());
-	// searchCriteria.setFilterValue1(((Between)
-	// filter).getStartValue().toString());
-	// searchCriteria.setFilterValue2(((Between) filter).getEndValue().toString());
-	// searchCriteria.setExpression("BETWEEN");
-	// }
-	// }
+
 
 	private void getFieldValues(List<String> vaadinFieldValues) {
 		if (vaadinFieldValues != null) {

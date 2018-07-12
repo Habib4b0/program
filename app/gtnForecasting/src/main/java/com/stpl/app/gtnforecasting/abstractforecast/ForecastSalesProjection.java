@@ -465,6 +465,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     private static final String SALES_SMALL = "sales";
     protected DataSelectionLogic dataLogic = new DataSelectionLogic();
     private boolean salesValueChange = false;
+    protected boolean uomValueChange = false;
 
     public boolean isRefresh() {
         return refresh;
@@ -1112,7 +1113,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public void calculate(Button.ClickEvent event) {
         calculateLogic();
     }
-
+    
     /**
      * Generate Button Logic
      *
@@ -1120,15 +1121,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      */
     @UiHandler("generateBtn")
     public void generateBtn(Button.ClickEvent event) {
-        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-            if(!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())){
-            session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
-            session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
-            dataLogic.nmSalesViewsPopulationProcedure(session);
-            CommonUtil.getInstance().waitForSeconds();
-            }
-            projectionDTO.setGroup(StringUtils.EMPTY);
-        }
+            
         checkBoxMap.clear();
         radioMap.clear();
         generateBtnLogic(event);
@@ -1193,6 +1186,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         fieldDdlbLogic();
         LOGGER.debug("fieldDdlb value change listener ends");
     }
+    
+    @UiHandler("unitOfMeasureDdlb")
+    public void unitOfMeasureDdlb(Property.ValueChangeEvent event) {
+       uomValueChange = true;
+    }
 
     private void addComponent() {
 
@@ -1246,13 +1244,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
         if (view.equalsIgnoreCase(PRODUCT_HIERARCHY.getConstant())) {
             int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.parseInt(session.getProductLevelNumber()) : 0;
-            currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid());
+            currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid(), session.getProductRelationVersion());
             CommonUtils.loadLevelDdlb(level, true, currentHierarchy);
             CommonUtils.loadLevelDdlb(levelFilter, false, currentHierarchy);
             CommonUtils.loadLevelDdlb(populateLevel, false, currentHierarchy);
         } else if (view.equalsIgnoreCase(CUSTOMER_HIERARCHY.getConstant())) {
             int hierarchyLevelNo = isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
-            currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getCustRelationshipBuilderSid());
+            currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getCustRelationshipBuilderSid(), session.getCustomerRelationVersion());
             CommonUtils.loadLevelDdlb(level, true, currentHierarchy);
             CommonUtils.loadLevelDdlb(levelFilter, false, currentHierarchy);
         } else if (view.equalsIgnoreCase(CUSTOM_HIERARCHY.getConstant())) {
@@ -1565,6 +1563,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     checkAll = event.isChecked();
                     if (returnsFlag) {
                         salesLogic.headerCheckALLQuery(session, checkAll ? 1 : 0, true);
+                    }else{
+                        salesLogic.salesheaderCheckALLQuery(session, checkAll ? 1 : 0, true);
                     }
                     checkClearAll(event.isChecked());
                 } catch (PortalException | SystemException ex) {
@@ -1635,6 +1635,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 if (returnsFlag == true) {
                                     List<Integer> listStr = salesLogic.headerCheckALLQuery(session, 0, false);
                                     leftTable.setColumnCheckBox(Constant.CHECK, true, listStr.size() != 1 ? false : (String.valueOf(listStr.get(0)) == "true"));
+                                    resultsTable.getLeftFreezeAsTable().setRefresh(false);
+                                } else {
+                                    List<Integer> listSalesStr = salesLogic.salesheaderCheckALLQuery(session, 0, false);
+                                    leftTable.setColumnCheckBox(Constant.CHECK, true, listSalesStr.size() != 1 ? false : (String.valueOf(listSalesStr.get(0)) == "true"));
                                     resultsTable.getLeftFreezeAsTable().setRefresh(false);
                                 }
                                 resultsTable.getLeftFreezeAsTable().setRefresh(true);

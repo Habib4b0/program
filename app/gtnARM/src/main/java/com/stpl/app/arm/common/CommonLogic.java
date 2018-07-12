@@ -902,6 +902,8 @@ public class CommonLogic {
         //Dont Delete
         result.setFromDate(CommonLogic.parseDate(CommonLogic.convertNullToEmpty(String.valueOf(obj[NumericConstants.THIRTEEN]))));
         result.setToDate(CommonLogic.parseDate(CommonLogic.convertNullToEmpty(String.valueOf(obj[NumericConstants.FOURTEEN]))));
+        result.setCustomerHierarchyVersionNo((int) obj[NumericConstants.FIFTEEN]);
+        result.setProductHierarchyVersionNo((int) obj[NumericConstants.SIXTEEN]);
     }
 
     public static List<Object[]> loadPipelineAccrual(int projectionId) {

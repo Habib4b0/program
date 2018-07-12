@@ -8,7 +8,7 @@ public enum GtnFrameworkWorkflowMap {
 							GtnFrameworkWorkflowInboxClassConstants.WEB_FIXEDDOLLAR), ARF(
 									GtnFrameworkWorkflowInboxClassConstants.WEB_ARP), CMF(
 											GtnFrameworkWorkflowInboxClassConstants.WEB_CONTRACT_DASHBOARD), REF(
-													GtnFrameworkWorkflowInboxClassConstants.WEB_FORECAST_RETURNS), ARM(
+													GtnFrameworkWorkflowInboxClassConstants.WEB_FORECAST_RETURNS), ARM_TRXF(
 															GtnFrameworkWorkflowInboxClassConstants.WEB_FIXEDDOLLAR_ARMFLOW), CM(
 											GtnFrameworkWorkflowInboxClassConstants.WEB_CONTRACT_DASHBOARD);
 

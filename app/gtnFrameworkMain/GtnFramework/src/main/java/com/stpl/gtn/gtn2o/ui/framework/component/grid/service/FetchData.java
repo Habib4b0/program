@@ -24,15 +24,11 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
-import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
-import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 public class FetchData {
@@ -45,7 +41,6 @@ public class FetchData {
 	}
 
 	public static List<Object[]> fetchResult(String query, Object... params) {
-		// System.out.println("Count query" + query);
 		logger.info(" fetchResult query" + query);
 		query = replaceParameters(params, query);
 		QueryRunner queryRunner = new QueryRunner();
@@ -54,14 +49,13 @@ public class FetchData {
 		try {
 			return queryRunner.query(conn, query, resultSetHandler);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}
 
 	}
 
 	public static List<GtnWsRecordBean> fetchResultAsRow(Object[] visibleColumns, String query, Object... params) {
-		// if (params.length == 1) {
 		logger.info(" callWebService query" + query);
 		query = replaceParameters(params, query);
 		QueryRunner queryRunner = new QueryRunner();
@@ -73,8 +67,7 @@ public class FetchData {
 
 			return result;
 		} catch (Exception e) {
-			logger.info("in callWebService Error= " + e.getMessage());
-			e.printStackTrace();
+			logger.error("in callWebService Error= " + e.getMessage());
 			return null;
 		}
 
@@ -101,19 +94,12 @@ public class FetchData {
 						});
 			}
 
-			// List<GtnWsRecordBean> result = (List<GtnWsRecordBean>)
-			// response.getGtnReportResponse().getResultList();
+
 			logger.info("result size= " + records.size());
 		} catch (Exception e) {
-			logger.info("in fetchResultAsRow Error= ", e);
-			e.printStackTrace();
+			logger.error("in fetchResultAsRow Error= ", e);
 		}
 		return records;
-	}
-
-	private static GtnWsReportDashboardBean getDashBoardBean() {
-		GtnWsReportDashboardBean dashBoardBean = new GtnWsReportDashboardBean();
-		return null;
 	}
 
 	public static String replaceParameters(Object[] params, String query) {
@@ -135,8 +121,7 @@ public class FetchData {
 				GtnWsRecordBean row = new GtnWsRecordBean();
 				row.setRecordHeader(Arrays.asList(visibleColumns));
 				for (int i = 0; i < cols; i++) {
-					// System.out.println("column" + meta.getColumnName(i + 1));
-					// System.out.println("value" + rs.getObject(i + 1));
+	
 					row.addProperties(meta.getColumnName(i + 1), rs.getObject(i + 1));
 				}
 				rows.add(row);
@@ -179,21 +164,5 @@ public class FetchData {
 		}
 		return connection;
 	}
-	// static Connection getDbConnection() {
-	// try {
-	// String userName = "bpigtn_db";
-	// String password = "^D$b2K5!";
-	//
-	// String url =
-	// "jdbc:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APPL7_QA";
-	//
-	// Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-	//
-	// return DriverManager.getConnection(url, userName, password);
-	// } catch (Exception e) {
-	// logger.error("in getDbConnection Error= " ,e);
-	// e.printStackTrace();
-	// return null;
-	// }
-	// }
+
 }

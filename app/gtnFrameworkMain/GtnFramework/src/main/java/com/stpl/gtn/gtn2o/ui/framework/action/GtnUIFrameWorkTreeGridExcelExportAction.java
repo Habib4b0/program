@@ -5,20 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.action;
 
-import com.stpl.addons.tableexport.TemporaryFileDownloadResource;
-import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
-import com.stpl.gtn.gtn2o.ui.framework.component.grid.utils.GridUtils;
-import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
-import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
-import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsExcelHeaderBean;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.server.Page;
-import com.vaadin.ui.UI;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -36,6 +24,20 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import com.stpl.addons.tableexport.TemporaryFileDownloadResource;
+import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedTreeGrid;
+import com.stpl.gtn.gtn2o.ui.framework.component.grid.utils.GridUtils;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.vaadin.server.Page;
+import com.vaadin.ui.UI;
 
 /**
  *
@@ -59,16 +61,14 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
         GtnUIFrameworkExcelButtonConfig inputBean = (GtnUIFrameworkExcelButtonConfig) gtnUIFrameWorkActionConfig
                 .getActionParameterList().get(0);
         List<GtnWsRecordBean> exportList = new ArrayList<>();
-        GtnWsExcelHeaderBean headerBean = null;
         GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(inputBean.getExportTableId(), componentId);
          PagedTreeGrid treeGrid = (PagedTreeGrid) componentData.getCustomData();
         List<Object> propertyIds = new LinkedList<>(treeGrid.getTableConfig().getVisibleColumns());
         List<String> headers = new LinkedList<>(treeGrid.getTableConfig().getColumnHeaders());
         excludeColumnList(inputBean, propertyIds, headers);
-//
-//        if (propertyIds.size() < 255) {
-//            // Write Result List in Excel
+
+
           gtnLogger.info(propertyIds.size()+"");
             XSSFWorkbook workBook = writeInExcel(inputBean, exportList, propertyIds, headers, treeGrid);
             sendTheExcelToUser(inputBean.getExportFileName(), workBook);
@@ -80,6 +80,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
     public GtnUIFrameWorkAction createInstance() {
         return this;
     }
+
 
     private XSSFWorkbook writeInExcel(GtnUIFrameworkExcelButtonConfig inputBean, List<GtnWsRecordBean> resultList,
             List<Object> visibleColumns, List<String> headers, PagedTreeGrid resultTable) {
@@ -293,6 +294,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
         }
         return count;
     }
+      
     void buildTree( List<GtnWsRecordBean> input,List<GtnWsRecordBean> child,List<GtnWsRecordBean> output){
         for (GtnWsRecordBean bean : child) {
             output.add(bean);
@@ -313,14 +315,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
         }
     }
 
-
-    public Object getFormattedValue(Object value, String propertyId, PagedTreeGrid resultTable) {
-//		if (resultTable != null) {
-//			Converter<String, Object> converter = resultTable.getGrid().getConverter(propertyId);
-//			if (converter != null) {
-//				return converter.convertToPresentation(value, String.class, resultTable.getLocale());
-//			}
-//		}
+    public Object getFormattedValue(Object value) {
 
         return value;
 

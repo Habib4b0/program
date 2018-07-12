@@ -1362,8 +1362,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1074</xloc>
-      <yloc>1337</yloc>
+      <xloc>1073</xloc>
+      <yloc>1335</yloc>
       </entry>
     <entry>
       <name>Update Audit Batch 2</name>
@@ -1380,6 +1380,28 @@
       <nr>0</nr>
       <xloc>994</xloc>
       <yloc>1428</yloc>
+      </entry>
+    <entry>
+      <name>SOURCE MODE CHECK audit</name>
+      <description/>
+      <type>SIMPLE_EVAL</type>
+      <valuetype>variable</valuetype>
+      <fieldname/>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
+      <fieldtype>string</fieldtype>
+      <mask/>
+      <comparevalue>DATABASE</comparevalue>
+      <minvalue/>
+      <maxvalue/>
+      <successcondition>equal</successcondition>
+      <successnumbercondition>equal</successnumbercondition>
+      <successbooleancondition>false</successbooleancondition>
+      <successwhenvarset>N</successwhenvarset>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1123</xloc>
+      <yloc>1239</yloc>
       </entry>
   </entries>
   <hops>
@@ -2131,15 +2153,6 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>VALIDATIONS</from>
-      <to>CHECK INTF COUNT 2</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>CHECK INTF COUNT 2</from>
       <to>Update Audit Batch 2</to>
       <from_nr>0</from_nr>
@@ -2168,6 +2181,33 @@
     </hop>
     <hop>
       <from>CHECK INTF COUNT 2</from>
+      <to>PS_VALIDATIONS_AUDIT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>VALIDATIONS</from>
+      <to>SOURCE MODE CHECK audit</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SOURCE MODE CHECK audit</from>
+      <to>CHECK INTF COUNT 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SOURCE MODE CHECK audit</from>
       <to>PS_VALIDATIONS_AUDIT</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>

@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;

@@ -55,14 +55,12 @@ public class GtnCustomerAvailableTableLoadAction
 
 		String relationshipBuilderSid = String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(relationshipComponentId, componentId).getCaptionFromV8ComboBox());
-		Integer hierarchyDefSid = (Integer) recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
+		Integer hierarchyDefSid = Integer
+				.valueOf(String.valueOf(recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1)));
 
 		Integer selectedLevelNo = Integer.valueOf(
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)), componentId)
 						.getCaptionFromV8ComboBox());
-		String selectedLevel = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(actionParamList.get(4)), componentId)
-				.getStringCaptionFromV8ComboBox();
 		LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(String.valueOf(actionParamList.get(5)), componentId).getFieldValue();
 		if (date != null) {

@@ -589,6 +589,11 @@ public class SalesLogic {
             sql = sql.replace("@CUSTOMCONDITION", getCustomCondition(projSelDTO));
             sql = sql.replace("@CUSTOMSID", getCustomSid(projSelDTO));
             sql = sql.replace("@LASTLEVEL", getLastLevel(projSelDTO));
+            sql = sql.replace("@CCP_SALES_INCLUSION", getSalesInclusion(projSelDTO.getSessionDTO().getSalesInclusion(),"CCP",StringUtils.EMPTY));
+            sql = sql.replace("@Q_SALES_INCLUSION", getSalesInclusion(projSelDTO.getSessionDTO().getSalesInclusion(),"Q",StringUtils.EMPTY));
+            sql = sql.replace("@STC_SALES_INCLUSION", getSalesInclusion(projSelDTO.getSessionDTO().getSalesInclusion(),"STC",StringUtils.EMPTY));
+            sql = sql.replace("@SALES_CONDITION", getSalesInclusion(projSelDTO.getSessionDTO().getSalesInclusion(),StringUtils.EMPTY,"AND mas.SALES_INCLUSION = q.SALES_INCLUSION"));
+            sql = sql.replace("@SALES_INCLUSION_ALL", getSalesInclusionAll(projSelDTO.getSessionDTO().getSalesInclusion(),"cast(1 as bit) SALES_INCLUSION","SALES_INCLUSION"));
         }
         int freqNo = getFrequencyNumber(projSelDTO.getFrequency());
         sql = sql.replaceAll("@FREQDIVISION", String.valueOf(freqNo));
@@ -783,6 +788,24 @@ public class SalesLogic {
 
 	private String getSalesINCLUSIONCC(ProjectionSelectionDTO projSelDTO) {
 		return projSelDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? StringUtils.EMPTY : "and CCP.sales_inclusion=" + projSelDTO.getSessionDTO().getSalesInclusion();
+	}
+	private String getSalesInclusion(ProjectionSelectionDTO projSelDTO,String alias) {
+		return projSelDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? StringUtils.EMPTY : "and "+alias+".sales_inclusion=" + projSelDTO.getSessionDTO().getSalesInclusion();
+	}
+	private String getSalesInclusionAll(String salesInclusion,String replaceString,String fullString) {
+		if (salesInclusion.equals(ALL)) {
+                return replaceString;
+            }
+                return fullString;
+	}
+	private String getSalesInclusion(String salesInclusion,String alias,String fullString) {
+            if (salesInclusion.equals(ALL)) {
+                return StringUtils.EMPTY;
+            }
+            if (alias.isEmpty()) {
+                return fullString;
+            }
+		return alias+".SALES_INCLUSION,";
 	}
 
     public List<SalesRowDto> getSalesResults(ProjectionSelectionDTO projSelDTO, int start, int end) {
@@ -2546,6 +2569,17 @@ public class SalesLogic {
 
         sqlUnitsQuery = sqlUnitsQuery.replace("@HIERARCHY_NO_VALUES", hierarchyNumber);
         sqlUnitsQuery = sqlUnitsQuery.replace("@CUSTSID", getCustomSid(projectionSelectionDTO));
+        sqlUnitsQuery = sqlUnitsQuery.replace("@SALES_INCLUSION_ST", getSalesInclusion(projectionSelectionDTO,"ST"));
+        sqlUnitsQuery = sqlUnitsQuery.replace("@SALES_INCLUSION", getSalesInclusion(projectionSelectionDTO,"SP1"));
+        StringBuilder updateLine = new StringBuilder();
+        if(input.get(4).equals("PROJECTION_SALES")){
+          updateLine.append(" SP.PROJECTION_SALES = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0) ")
+                    .append(" ,SP.PROJECTION_UNITS = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0)/(NULLIF(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0)) "); 
+        }else{
+        updateLine.append(" SP.PROJECTION_UNITS = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0) ")
+                  .append(" ,SP.PROJECTION_SALES = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0) * (NULLIF(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0)) ");
+        }
+        sqlUnitsQuery = sqlUnitsQuery.replace("[UPDATE_LINE]", updateLine.toString());
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(sqlUnitsQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
     }
 
@@ -3971,6 +4005,23 @@ public class SalesLogic {
                 queryBuilder.append(" SELECT DISTINCT CHECK_RECORD from ST_RETURNS_PROJ_MASTER where  (CHECK_RECORD IS NOT NULL OR CHECK_RECORD <> '')");
 
                 return (List<Integer>) salesAllocationDAO.executeSelectQuery(QueryUtil.replaceTableNames(queryBuilder.toString(), sessionDTO.getCurrentTableNames()));
+            }
+        } catch (PortalException | SystemException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return Collections.emptyList();
+    }
+    
+    public List<Integer> salesheaderCheckALLQuery(SessionDTO sessionDTO, int checkValue, boolean isSalesUpdate) {
+        StringBuilder salesqueryBuilder = new StringBuilder();
+        try {
+            if (isSalesUpdate) {
+                salesqueryBuilder.append(" Update ST_NM_SALES_PROJECTION_MASTER SET CHECK_RECORD =").append(checkValue).append(' ');
+                salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(salesqueryBuilder.toString(), sessionDTO.getCurrentTableNames()));
+            } else {
+                salesqueryBuilder.append(" SELECT DISTINCT CHECK_RECORD from ST_NM_SALES_PROJECTION_MASTER where  (CHECK_RECORD IS NOT NULL OR CHECK_RECORD <> '')");
+
+                return (List<Integer>) salesAllocationDAO.executeSelectQuery(QueryUtil.replaceTableNames(salesqueryBuilder.toString(), sessionDTO.getCurrentTableNames()));
             }
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());

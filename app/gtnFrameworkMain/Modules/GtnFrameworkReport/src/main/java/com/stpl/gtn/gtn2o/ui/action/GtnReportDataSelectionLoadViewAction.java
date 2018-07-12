@@ -1,8 +1,10 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -27,7 +29,6 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
-import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnReportDataSelectionLoadViewAction
@@ -44,6 +45,7 @@ public class GtnReportDataSelectionLoadViewAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		try{
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnWsRecordBean recordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponentFromParent(actionParamList.get(1).toString(), componentId).getComponentData()
@@ -86,8 +88,8 @@ public class GtnReportDataSelectionLoadViewAction
 						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchy", componentId)
 				.setV8PopupFieldValue(customerHierarchyRecordBean.getPropertyValueByIndex(0));
 
-		Integer hierarchyDefinitionSid = (Integer) customerHierarchyRecordBean
-				.getPropertyValueByIndex(customerHierarchyRecordBean.getProperties().size() - 1);
+		Integer hierarchyDefinitionSid = (Integer.valueOf(String.valueOf(customerHierarchyRecordBean
+				.getPropertyValueByIndex(customerHierarchyRecordBean.getProperties().size() - 1))));
 
 		String relationshipId = nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ "customerSelectionRelationship";
@@ -133,8 +135,8 @@ public class GtnReportDataSelectionLoadViewAction
 						nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy", componentId)
 				.setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
 
-		Integer productHierarchyDefinitionSid = (Integer) productRecordBean
-				.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1);
+		Integer productHierarchyDefinitionSid = (Integer.valueOf(String.valueOf(productRecordBean
+				.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1))));
 
 		String productRelationshipId = nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "relationship";
 		GtnUIFrameworkComboBoxConfig productRelationComboboxConfig = GtnUIFrameworkGlobalUI
@@ -203,10 +205,18 @@ public class GtnReportDataSelectionLoadViewAction
 								.collect(Collectors.toList()),
 						Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
 								.collect(Collectors.toList()));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
+		if(dataSelectionBean.getVariablesList() != null){
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabVariable", componentId)
 				.updateSelection(dataSelectionBean.getVariablesList());
+                }
 
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportLandingScreen_reportOptionsTabVariableBreakdown")
+		.getComponentData().setCustomData(Optional.ofNullable(dataSelectionBean.getVariableBreakdownSaveList()).isPresent() == true ? dataSelectionBean.getVariableBreakdownSaveList() : new ArrayList<>());
+		}
+		catch(Exception ex){
+			gtnLogger.error("Error message", ex);
+		}
 	}
 
 	private Object getDisplayValue(GtnWsReportDataSelectionBean dataSelectionBean) {

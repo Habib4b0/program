@@ -161,10 +161,14 @@
   <hop> <from>Switch &#x2f; Case</from><to>DEL SORT</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants 3 2 2</from><to>DEL SORT</to><enabled>N</enabled> </hop>
   <hop> <from>DEL SORT</from><to>ITEM MASTER LOOKUP</to><enabled>N</enabled> </hop>
-  <hop> <from>DEL UNIQUE</from><to>ITEM MASTER LOOKUP</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEL UNIQUE</from><to>ITEM MASTER LOOKUP</to><enabled>N</enabled> </hop>
   <hop> <from>DEL UNIQUE</from><to>Invalid Reason 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Invalid Reason 2</from><to>D-INVALID</to><enabled>Y</enabled> </hop>
   <hop> <from>RETURN_RATE_FORECAST</from><to>Invalid Reason 5 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Reason 5 2 2 2</from><to>INVALID TABLE 7 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>DEL UNIQUE</from><to>RETURN_RATE_FORECAST LOOKUP</to><enabled>Y</enabled> </hop>
+  <hop> <from>RETURN_RATE_FORECAST LOOKUP</from><to>Invalid Reason 5 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>RETURN_RATE_FORECAST LOOKUP</from><to>ITEM MASTER LOOKUP</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>ADD Audit update</name>
@@ -211,8 +215,8 @@
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>604</xloc>
-      <yloc>776</yloc>
+      <xloc>490</xloc>
+      <yloc>993</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -256,8 +260,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>615</xloc>
-      <yloc>685</yloc>
+      <xloc>489</xloc>
+      <yloc>874</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -540,7 +544,7 @@
     <name>DEL UNIQUE</name>
     <type>Unique</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -783,8 +787,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>264</xloc>
-      <yloc>205</yloc>
+      <xloc>258</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -897,8 +901,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>166</xloc>
-      <yloc>261</yloc>
+      <xloc>128</xloc>
+      <yloc>445</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -939,8 +943,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>621</xloc>
-      <yloc>374</yloc>
+      <xloc>596</xloc>
+      <yloc>554</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1134,8 +1138,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>453</xloc>
-      <yloc>375</yloc>
+      <xloc>325</xloc>
+      <yloc>349</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1191,8 +1195,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>376</xloc>
-      <yloc>464</yloc>
+      <xloc>291</xloc>
+      <yloc>526</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1224,8 +1228,8 @@
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>627</xloc>
-      <yloc>572</yloc>
+      <xloc>490</xloc>
+      <yloc>757</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1322,8 +1326,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>640</xloc>
-      <yloc>451</yloc>
+      <xloc>602</xloc>
+      <yloc>672</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1382,6 +1386,231 @@
       </GUI>
     </step>
 
+  <step>
+    <name>RETURN_RATE_FORECAST LOOKUP</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>RETURN_RATE_FORECAST</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>ITEM_ID</name>
+        <field>ITEM_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_YEAR</name>
+        <field>FORECAST_YEAR</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FORECAST_MONTH</name>
+        <field>FORECAST_MONTH</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>RETURN_RATE_FORECAST_SID</name>
+        <rename>RETURN_RATE_FORECAST_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>549</xloc>
+      <yloc>359</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID TABLE 7 2 2 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_RETURN_RATE_FORECAST</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>RETURN_RATE_FORECAST_INTERFACE_ID</column_name>
+          <stream_name>RETURN_RATE_FORECAST_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_YEAR</column_name>
+          <stream_name>FORECAST_YEAR</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_MONTH</column_name>
+          <stream_name>FORECAST_MONTH</stream_name>
+        </field>
+        <field>
+          <column_name>RATE</column_name>
+          <stream_name>RATE</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_NAME</column_name>
+          <stream_name>FORECAST_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_VER</column_name>
+          <stream_name>FORECAST_VER</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>Error_Code_E04_duplicate</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure_duplicateRecord</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_FIELD</column_name>
+          <stream_name>Error_Field_Duplicate_record</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>761</xloc>
+      <yloc>609</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 5 2 2 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure_duplicateRecord</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Duplicate Record</nullif>
+        <length>0</length>
+        <precision>0</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>Error_Code_E04_duplicate</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E04</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>Error_Field_Duplicate_record</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>ITEM_ID</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>709</xloc>
+      <yloc>452</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
   <step_error_handling>
       <error>
         <source_step>DEL UNIQUE</source_step>
@@ -1410,6 +1639,18 @@
       <error>
         <source_step>RETURN_RATE_FORECAST</source_step>
         <target_step>Invalid Reason 5 2 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>RETURN_RATE_FORECAST LOOKUP</source_step>
+        <target_step>ITEM MASTER LOOKUP</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>

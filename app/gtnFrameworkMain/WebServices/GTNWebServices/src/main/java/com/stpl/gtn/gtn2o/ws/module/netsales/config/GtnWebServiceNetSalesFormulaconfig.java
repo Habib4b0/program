@@ -69,9 +69,9 @@ public class GtnWebServiceNetSalesFormulaconfig implements GtnWsSearchQueryConfi
 						GtnFrameworkWebserviceConstant.FORMULA_TYPE, GtnFrameworkWebserviceConstant.FORMULA_TYPE,
 						GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
 		fieldToColumnDetailsMap.put("creationDate", configProvider.getColumnDateConfig("CREATED_DATE", "NSFM"));
-		fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnStringConfig("firstName+' '+nsfCreatedBy.lastName", "nsfCreatedBy", "createdCol"));
+		fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnStringConfig("firstName+' '+nsfCreatedBy.lastName", "nsfCreatedBy", "nsfCreatedBy",GtnFrameworkWebserviceConstant.USER_ID));
 		fieldToColumnDetailsMap.put("modifiedDate", configProvider.getColumnDateConfig("MODIFIED_DATE", "NSFM"));
-		fieldToColumnDetailsMap.put("modifiedBy", configProvider.getColumnStringConfig("firstName+' '+nsfModifiedBy.lastName", "nsfModifiedBy", "modifiedCol"));
+		fieldToColumnDetailsMap.put("modifiedBy", configProvider.getColumnStringConfig("firstName+' '+nsfModifiedBy.lastName", "nsfModifiedBy", "nsfModifiedBy",GtnFrameworkWebserviceConstant.USER_ID));
 
 		gtnWebServiceSearchQueryConfig.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
 
@@ -566,9 +566,9 @@ public class GtnWebServiceNetSalesFormulaconfig implements GtnWsSearchQueryConfi
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.IFP_NUMBER,
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.IFP_NO, "IFPM"));
 		fieldToColumnDetailsMap.put("psNo",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.PS_NO, "PS"));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.PS_NO, "PSC"));
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.PS_NAME,
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.PS_NAME, "PS"));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.PS_NAME, "PSC"));
 		fieldToColumnDetailsMap.put(GtnFrameworkWebserviceConstant.RULE_SID,
 				configProvider.getColumnBooleanConfig(GtnFrameworkWebserviceConstant.CDR_MODEL_SID, "IMD"));
 		fieldToColumnDetailsMap.put("ruleNo",
