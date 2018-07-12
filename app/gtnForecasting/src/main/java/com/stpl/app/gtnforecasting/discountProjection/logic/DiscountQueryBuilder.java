@@ -81,7 +81,8 @@ public class DiscountQueryBuilder {
     public static final String AND_USER_GROUP = " AND USER_GROUP = '";
     public static final String NINE_LEVELS_DED =" UNION ALL SELECT SH.HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM ";
     public static final String NINE_LEVELS_DED_EXCEL_CUSTOM =" UNION ALL SELECT DISTINCT HIERARCHY_NO,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL FROM #DISCOUNT_PROJECTION_MASTER WHERE DEDUCTION_INCLUSION = ";
-
+    public static final String CUSTOM_SID = "@SID";
+    public static final String LEFT_JOIN_ST_ITEM_UOM_DETAILS_UOM_ON_UOM = " LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='";
 
    
     public boolean updateInputsForAdjustment(String frequency, String levelType, String adjustmentType, String adjustmentBasis,
@@ -210,7 +211,7 @@ public class DiscountQueryBuilder {
                         .replace(Constant.HIERARCHY_COLUMN, commonLogic.getColumnNameCustomRel(hierarchyIndicator,hierarchyNo,session))
                         .replace(RELVALUE, session.getDedRelationshipBuilderSid())
                         .replace(Constant.RELVERSION, String.valueOf(session.getDeductionRelationVersion()))
-                        .replace(Constant.HIERARCHY_NO, hierarchyNo);
+                        .replace(Constant.HIERARCHY_NO, hierarchyNo).replace(CUSTOM_SID, String.valueOf(session.getCustomDeductionRelationShipSid()));
             } else if (discountList != null && !discountList.isEmpty()) {
                 String selectedDiscounts = getRSDiscountSids(discountList);
                 if (isProgram) {
@@ -432,7 +433,7 @@ public class DiscountQueryBuilder {
                     customSql = customSql.replace("@COL2", column2);
                     customSql = customSql.replace("@DISCTYPE ", discountType + " IN ");
                 } else if ("Discount Amount".equals(selectedField) ){
-                    String csustomSql = isCustomHierarchy ? SQlUtil.getQuery("MASSUPDATE-DISCOUNT-AMOUNT-CUSTOM") : SQlUtil.getQuery("MASSUPDATE-DISCOUNT-AMOUNT");
+                    String csustomSql = isCustomHierarchy ? SQlUtil.getQuery("MASSUPDATE-DISCOUNT-AMOUNT-CUSTOM").replace(CUSTOM_SID, String.valueOf(session.getCustomDeductionRelationShipSid())) : SQlUtil.getQuery("MASSUPDATE-DISCOUNT-AMOUNT");
                     csustomSql = csustomSql.replace("[?Hierarchy-Combination]", isCustomHierarchy? getCustomHierarchiesForCustomView(massUpdateData) : getCustomHierarchies(massUpdateData));
                     customSql = declareStatement + rebateHiearachyJoin +csustomSql;
                     }else {
@@ -611,7 +612,7 @@ public class DiscountQueryBuilder {
                         .replace("@HIERARCHY_NO", hierarchyNo)
                         .replace("?Freq", String.valueOf(frequency.charAt(0)))
                         .replace("?Ref", session.getDedRelationshipBuilderSid())
-                        .replace("@REFRESHNAME", refreshName);
+                        .replace("@REFRESHNAME", refreshName).replace(CUSTOM_SID, String.valueOf(session.getCustomDeductionRelationShipSid()));
             } else if ("RPU".equalsIgnoreCase(refreshName)) {
                 String uomJoin=EACH.equals(session.getDiscountUom())?StringUtils.EMPTY:LEFT_JOIN_ST_ITEM_UOM_DETAILS_UOM_ON_UOM+session.getDiscountUom()+"' ";
                 String uomDivJoin=EACH.equals(session.getDiscountUom())?StringUtils.EMPTY:"/nullif(uom_value,0) ";
@@ -646,7 +647,6 @@ public class DiscountQueryBuilder {
             return BooleanConstant.getFalseFlag();
         }
     }
-    public static final String LEFT_JOIN_ST_ITEM_UOM_DETAILS_UOM_ON_UOM = " LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='";
     
 
     public List<String> getGroupValues(SessionDTO session, List<String> discountList) {
