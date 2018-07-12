@@ -47,6 +47,7 @@ public class GtnReportDashboardFrequencyLoadAction
 					.getIntegerFromV8ComboBox();
 
 			String endString = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_STATUS", componentId)
+
 					.getStringCaptionFromV8ComboBox().replaceAll(" - ", " ");
 			endString = endString.replaceAll("-", " ");
 			String startString = GtnUIFrameworkGlobalUI
@@ -162,7 +163,6 @@ public class GtnReportDashboardFrequencyLoadAction
 
 	private String getFrequency(String startString) {
 		Pattern semiAnnualPattern = Pattern.compile("^([S])([1-2])*");
-
 		if (Pattern.matches("[A-Z&&[Q]]{1}..\\d*", startString)) {
 			return "Quarter";
 		} else if (semiAnnualPattern.matcher(startString).find()) {

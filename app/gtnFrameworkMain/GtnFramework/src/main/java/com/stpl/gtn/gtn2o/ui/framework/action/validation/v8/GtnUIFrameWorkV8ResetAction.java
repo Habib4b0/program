@@ -27,6 +27,23 @@ public class GtnUIFrameWorkV8ResetAction implements GtnUIFrameWorkAction {
 		String v8ResetMessageHeader = (String) v8Params.get(0);
 		String v8ResetMessageBody = (String) v8Params.get(1);
 
+		if(v8ResetMessageHeader.equals("resetAndClose")&&v8ResetMessageBody.isEmpty()) {
+			GtnUIFrameWorkActionConfig v8ResetActionConfig = new GtnUIFrameWorkActionConfig();
+			v8ResetActionConfig.addActionParameter(GtnUIFrameworkActionType.V8_CONFIRMED_RESET_ACTION);
+			v8ResetActionConfig.addActionParameter(v8Params.get(2));
+			if (v8Params.size() > 3) {
+				v8ResetActionConfig.addActionParameter(v8Params.get(3));
+			}
+			List<Object> actionList = new ArrayList<>();
+			actionList.add(v8ResetActionConfig);
+			v8ResetActionConfig.setActionParameterList(actionList);
+			GtnUIFrameWorkActionConfig popupCloseActionConfig = new GtnUIFrameWorkActionConfig();
+			popupCloseActionConfig.addActionParameter(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+			popupCloseActionConfig.addActionParameter(v8Params.get(4).toString());
+			GtnUIFrameworkActionExecutor.executeSingleAction(v8ComponentId, v8ResetActionConfig);
+			GtnUIFrameworkActionExecutor.executeSingleAction(v8ComponentId, popupCloseActionConfig);
+			return;
+		}
 		configureParams(v8GtnUIFrameWorkActionConfig);
 		GtnUIFrameWorkActionConfig v8ConfirmActionConfig = new GtnUIFrameWorkActionConfig();
 		v8ConfirmActionConfig.addActionParameter(v8ResetMessageHeader);

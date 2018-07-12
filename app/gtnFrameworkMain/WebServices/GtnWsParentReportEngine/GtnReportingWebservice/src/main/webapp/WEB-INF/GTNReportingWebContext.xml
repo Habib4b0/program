@@ -18,6 +18,23 @@
         </property>
         
     </bean>
+    
+	<bean id="sysSessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="sysDataSource" />
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+			</props>
+		</property>
+
+	</bean>
     <bean id="queryLogger" class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger">
     </bean>
     <bean id="sessionFactory"
@@ -57,5 +74,14 @@
     <bean id="gtnReportJsonService"
     	class="com.stpl.gtn.gtn2o.ws.report.service.GtnReportJsonService">
     </bean>
+    
+    <bean id="sysDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<!--<property name="jndiName" value="java:comp/env/jdbc/infraDataPool" 
+			/> -->
+		<property name="jndiName" value="java:jboss/datasources/jdbc/infraDataPool" />
+		<property name="lookupOnStartup" value="true" />
+		<!-- <property name="username" value="${jdbc.username}" /> -->
+		<!-- <property name="password" value="${jdbc.password}" /> -->
+	</bean>
     
 </beans>

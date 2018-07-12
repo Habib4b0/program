@@ -348,6 +348,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		reportProfileConfig.setAddToParent(true);
 		reportProfileConfig.setParentComponentId(reportProfileConfigHorizontalLayout.getComponentId());
 		reportProfileConfig.addComponentStyle("stpl-padding-left-34");
+
 		List<GtnUIFrameWorkActionConfig> list = new ArrayList<>();
 		Object reportProfileLookup = "Report Profile Lookup";
 		GtnUIFrameWorkActionConfig conf = new GtnUIFrameWorkActionConfig();

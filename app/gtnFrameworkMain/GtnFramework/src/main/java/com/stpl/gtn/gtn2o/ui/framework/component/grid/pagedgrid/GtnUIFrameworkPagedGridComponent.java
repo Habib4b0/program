@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentActionable;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.fieldfactory.GtnUIFrameworkActionParameter;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -46,26 +47,30 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
         resultLayout.addComponent(pagedGrid.getGrid());
         pagedGrid.getGrid().setWidth(componentConfig.getComponentWidth());
         pagedGrid.getGrid().setHeight(componentConfig.getComponentHight());
-        resultLayout.setComponentAlignment(pagedGrid.getGrid(), Alignment.MIDDLE_CENTER);
-        GtnUIFrameworkComponentData componentData = new GtnUIFrameworkComponentData();
+        resultLayout.setComponentAlignment(pagedGrid.getGrid(), Alignment.MIDDLE_CENTER);        GtnUIFrameworkComponentData componentData = new GtnUIFrameworkComponentData();
         componentData.setTableConfig(tableConfig);
         componentData.setPagedGrid(pagedGrid);
         componentData.setCurrentPageGridLogic(pagedGrid.getPagedTableLogic());
         componentData.setCustomData(pagedGrid);
 
-        VerticalLayout controls = new VerticalLayout();
-        controls.addComponents(pagedGrid.getControlLayout());
-        controls.setMargin(false);
-        controls.setSpacing(false);
-        controls.setWidth("100%");
-        controls.setHeightUndefined();
-        controls.setId(componentConfig.getComponentId()+"itemsPerPageLayout");
-        if(tableConfig.isItemsPerPageAlignCentre()){
-        controls.setComponentAlignment(pagedGrid.getControlLayout(), Alignment.MIDDLE_CENTER);
+       
+		if (!tableConfig.isPaginationOff()) {
+			VerticalLayout controls = new VerticalLayout();
+			controls.addComponents(pagedGrid.getControlLayout());
+			controls.setMargin(false);
+			controls.setSpacing(false);
+			controls.setWidth("100%");
+			controls.setHeightUndefined();
+			controls.setId(componentConfig.getComponentId() + "itemsPerPageLayout");
+			if (tableConfig.isItemsPerPageAlignCentre()) {
+				controls.setComponentAlignment(pagedGrid.getControlLayout(), Alignment.MIDDLE_CENTER);
+			}
+			resultLayout.addComponent(controls);
+		}
+        pagedGrid.getGrid().getEditor().setEnabled(false);
+        if(tableConfig.getSelectionListener()) {
+        	addSelectionListener(componentConfig, pagedGrid);
         }
-        resultLayout.addComponent(controls);
-
-        pagedGrid.getGrid().getEditor().setEnabled(true);
 
             resultLayout.setData(componentData);
     	
@@ -106,6 +111,25 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
                     .getComponentData();
         return resultTableComponentData.getCustomPagedTreeTableRequest();
     }
+    
+    private void addSelectionListener(GtnUIFrameworkComponentConfig componentConfig, PagedGrid pagedGrid) {
+		if (componentConfig.getGtnPagedTableConfig().getItemClickActionConfigList() != null) {
+			pagedGrid.getGrid().addSelectionListener(event -> {
+				for (GtnUIFrameWorkActionConfig actionConfig : componentConfig.getGtnPagedTableConfig()
+						.getItemClickActionConfigList()) {
+					try {
+						final GtnUIFrameWorkAction action = actionConfig.getActionType().getGtnUIFrameWorkAction();
+						action.configureParams(actionConfig);
+						action.doAction(componentConfig.getComponentId(), actionConfig);
+					} catch (Exception e) {
+						gtnLogger.error("message" + e);
+					}
+
+				}
+
+			});
+		}
+	}
     
     @Override
     public void reloadComponent(GtnUIFrameworkActionType actionType, String dependentComponentId, String componentId, Object reloadInput) {
