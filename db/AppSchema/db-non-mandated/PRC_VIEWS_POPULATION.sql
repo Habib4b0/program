@@ -209,8 +209,8 @@ AS
                          ELSE ''CUSTOM''
                        END ')
 
-          EXEC Sp_executesql
-            @sql
+        --  EXEC Sp_executesql
+         --   @sql
 
           ----TO IDENTIFY THE LEVEL SELECTED BY USER
           IF Object_id('TEMPDB..#RS_INFO') IS NOT NULL
@@ -230,7 +230,7 @@ AS
               --WHEN ''SCHEDULE TYPE'' THEN R_TYPE.DESCRIPTION
               --WHEN ''PROGRAM CATEGORY'' THEN RPT.DESCRIPTION
               --WHEN ''PROGRAM TYPE'' THEN RPT.DESCRIPTION
-              --WHEN ''SCHEDULE CATEGORY'' THEN RC.DESCRIPTION			  
+              --WHEN ''SCHEDULE CATEGORY'' THEN RC.DESCRIPTION                                  
               WHEN ''SCHEDULE TYPE'' THEN RS_TYPE
               WHEN ''PROGRAM CATEGORY'' THEN REBATE_PROGRAM_TYPE
               WHEN ''PROGRAM TYPE'' THEN REBATE_PROGRAM_TYPE
@@ -260,7 +260,7 @@ AS
             --                  LEFT JOIN HELPER_TABLE U1
             --                         ON U1.HELPER_TABLE_SID = U.UDC1
             --                  LEFT JOIN HELPER_TABLE U2
-            --                         ON U2.HELPER_TABLE_SID = U.UDC2
+           --                         ON U2.HELPER_TABLE_SID = U.UDC2
             --                  LEFT JOIN HELPER_TABLE U3
             --                         ON U3.HELPER_TABLE_SID = U.UDC3
             --                  LEFT JOIN HELPER_TABLE U4
@@ -270,13 +270,13 @@ AS
             --                  LEFT JOIN HELPER_TABLE U6
             --                         ON U6.HELPER_TABLE_SID = U.UDC6
             --           WHERE  MASTER_TYPE = ''RS_CONTRACT'') UD
-			INNER JOIN ', @D_MASTER_TABLE, ' D
+                                                INNER JOIN ', @D_MASTER_TABLE, ' D
                     on  R.RS_CONTRACT_SID = D.RS_CONTRACT_SID 
-			LEFT JOIN UDCS UD
+                                                LEFT JOIN UDCS UD
                    ON UD.MASTER_SID = R.RS_CONTRACT_SID
-				   and MASTER_TYPE = ''RS_CONTRACT''    
-			WHERE exists (select 1 from [UDF_SPLITSTRING](@DISCOUNT, '','') hd where hd.token=R.RS_CONTRACT_SID
-			) or nullif(@DISCOUNT,'''') is null')
+                                                                   and MASTER_TYPE = ''RS_CONTRACT''    
+                                                WHERE exists (select 1 from [UDF_SPLITSTRING](@DISCOUNT, '','') hd where hd.token=R.RS_CONTRACT_SID
+                                                ) or nullif(@DISCOUNT,'''') is null')
 
           INSERT INTO #RS_INFO
           EXEC Sp_executesql
@@ -300,6 +300,60 @@ AS
                [INDICATOR]           [BIT] NULL
             )
 
+          IF Object_id('TEMPDB..#Filter') IS NOT NULL
+            DROP TABLE #Filter
+
+          CREATE TABLE #Filter
+            (
+               CCP_DETAILS_SID INT,
+               filter_ccp      int
+            )
+
+          DECLARE @customer_values VARCHAR(max)='',
+                  @product_values  VARCHAR(max)=''
+
+          IF @FLAG = 'E'
+             AND @SCREEN_NAME = 'SALES'
+            BEGIN
+                SET @product_values=(SELECT FIELD_VALUES
+                                     FROM   nm_projection_selection
+                                     WHERE  PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                                            AND SCREEN_NAME = 'Sales Projection'
+                                            AND FIELD_NAME = 'productLevelValue'
+                                            AND FIELD_VALUES <> ''
+                                            AND FIELD_VALUES <> 'null')
+                SET @customer_values=(SELECT FIELD_VALUES
+                                      FROM   nm_projection_selection
+                                      WHERE  PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                                             AND SCREEN_NAME = 'Sales Projection'
+                                             AND FIELD_NAME = 'CustomerLevelValue'
+                                             AND FIELD_VALUES <> ''
+                                             AND FIELD_VALUES <> 'null')
+                SET @sql=Concat('
+Insert into #Filter(CCP_DETAILS_SID,filter_ccp)
+select cd.CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, ' A JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID=A.CCP_DETAILS_SID
+where 
+exists (select 1 from udf_splitstring(@customer_values,'','') c where cd.COMPANY_MASTER_SID=c.token)
+and exists (select 1 from udf_splitstring(@product_values,'','') p where cd.ITEM_MASTER_SID=p.token)')
+
+                EXEC Sp_executesql
+                  @sql,
+                  N'@product_values varchar(max),@customer_values varcHar(max)',
+                  @customer_values=@customer_values,
+                  @product_values=@product_values
+
+				  if not exists(select 1 from #Filter)
+				  begin
+				   SET @sql=Concat('
+Insert into #Filter(CCP_DETAILS_SID,filter_ccp)
+select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
+
+                EXEC Sp_executesql
+                  @sql
+
+				  end 
+            END
+			
           -----to identify the selected levels
           IF @FLAG = 'G'
              AND @SCREEN_NAME = 'SALES'
@@ -307,7 +361,7 @@ AS
             BEGIN
                 SET @sql =Concat('
 
-       INSERT INTO ', @CUSTOMER_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR)        
+       INSERT INTO ', @CUSTOMER_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR,FILTER_CCP)        
        SELECT c.CUST_HIERARCHY_NO as HIERARCHY_NO,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
              A.period,
              A.YEAR,
@@ -316,7 +370,8 @@ AS
              Sum(( SALES ))    SALES,
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) ACTUAL_UNITS,
              c.SALES_INCLUSION,
-             0                 INDICATOR
+             0    INDICATOR,
+                                                1  FILTER_CCP
       FROM   ', @CCP_HIERARCHY, ' C
              --JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
              --  ON C.CUST_HIERARCHY_NO = RLD.HIERARCHY_NO 
@@ -352,7 +407,8 @@ AS
              SUM(PROJECTION_SALES),
              SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C.SALES_INCLUSION,
-             1 INDICATOR
+             1 INDICATOR,
+                                                1  FILTER_CCP
       FROM    ', @CCP_HIERARCHY, ' C
              
              CROSS JOIN (SELECT PERIOD_SID,
@@ -391,7 +447,7 @@ AS
              AND @VIEW = 'P'
             BEGIN
                 SET @sql =Concat(' 
-       INSERT INTO ', @PRODUCT_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR)
+       INSERT INTO ', @PRODUCT_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR,FILTER_CCP)
        SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
              A.PERIOD,
              A.YEAR,
@@ -400,7 +456,8 @@ AS
              SUM(( SALES ))    SALES,
              SUM(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) ACTUAL_UNITS,
              C.SALES_INCLUSION,
-             0                 INDICATOR
+             0                 INDICATOR,
+                                                1 FILTER_CCP
       FROM   ', @CCP_HIERARCHY, ' C
              
              --JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
@@ -437,7 +494,8 @@ AS
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C.SALES_INCLUSION,
-             1 INDICATOR
+             1 INDICATOR,
+                                                1  FILTER_CCP
       FROM    ', @CCP_HIERARCHY, ' C
              
             
@@ -476,7 +534,7 @@ AS
              AND @VIEW NOT IN ( 'C', 'P' )
             BEGIN
                 SET @sql =Concat(' 
-       INSERT INTO ', @CUSTOM_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR)
+       INSERT INTO ', @CUSTOM_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR,FILTER_CCP)
        SELECT c.ROWID,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
              A.period,
              A.YEAR,
@@ -485,7 +543,8 @@ AS
              Sum(( SALES ))    SALES,
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) ACTUAL_UNITS,
              C1.SALES_INCLUSION,
-             0                 INDICATOR
+             0                 INDICATOR,
+                                                1 FILTER_CCP
       FROM   CUSTOM_CCP_SALES C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
@@ -521,7 +580,8 @@ AS
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C1.SALES_INCLUSION,
-             1 INDICATOR
+             1 INDICATOR,
+                                                1  FILTER_CCP
       FROM   CUSTOM_CCP_SALES C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
@@ -564,7 +624,7 @@ AS
             BEGIN
                 SET @sql =Concat('
 
-       INSERT INTO ', @CUSTOMER_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR)        
+       INSERT INTO ', @CUSTOMER_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR,FILTER_CCP)        
        SELECT c.CUST_HIERARCHY_NO as HIERARCHY_NO,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
              A.period,
              A.YEAR,
@@ -573,9 +633,10 @@ AS
              Sum(( SALES ))    SALES,
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) ACTUAL_UNITS,
              c.SALES_INCLUSION,
-             0                 INDICATOR
+             0                 INDICATOR,
+                   max(isnull(fccp.filter_ccp,0))        FILTER_CCP
       FROM   ', @CCP_HIERARCHY, ' C
-            
+            left join #Filter fccp on fccp.CCP_DETAILS_SID=c.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
                                 period,
                                 YEAR
@@ -605,10 +666,10 @@ AS
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              c.SALES_INCLUSION,
-             1 INDICATOR
+             1 INDICATOR,
+                  max(isnull(fccp.filter_ccp,0))         FILTER_CCP
       FROM    ', @CCP_HIERARCHY, ' C
-          
-                     
+           left join #Filter fccp on fccp.CCP_DETAILS_SID=c.CCP_DETAILS_SID                     
              CROSS JOIN (SELECT PERIOD_SID,
                                 period,
                                 YEAR
@@ -636,7 +697,7 @@ AS
              AND @VIEW = 'P'
             BEGIN
                 SET @sql =Concat(' 
-       INSERT INTO ', @PRODUCT_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR)
+       INSERT INTO ', @PRODUCT_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR,FILTER_CCP)
        SELECT c.PROD_HIERARCHY_NO as HIERARCHY_NO,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
              A.period,
              A.YEAR,
@@ -645,14 +706,10 @@ AS
              Sum(( SALES ))    SALES,
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) ACTUAL_UNITS,
              c.SALES_INCLUSION,
-             0                 INDICATOR
+             0                 INDICATOR,
+              max(isnull(fccp.filter_ccp,0))         FILTER_CCP
       FROM   ', @CCP_HIERARCHY, ' C
-            
-            -- JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
-            --   ON C.PROD_HIERARCHY_NO = RLD.HIERARCHY_NO 
-            --      AND RELATIONSHIP_BUILDER_SID = ', @PROD_RELATIONSHIP_BUILDER_SID, '
-            --      AND VERSION_NO = ', @PROJECTION_PROD_VERSION, '
-                  --AND LEVEL_NO = 6
+            left join #Filter fccp on fccp.CCP_DETAILS_SID=c.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
                                 period,
                                 YEAR
@@ -682,9 +739,10 @@ AS
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              c.SALES_INCLUSION,
-             1 INDICATOR
+             1 INDICATOR,
+              max(isnull(fccp.filter_ccp,0))         FILTER_CCP
       FROM    ', @CCP_HIERARCHY, ' C
-            
+            left join #Filter fccp on fccp.CCP_DETAILS_SID=c.CCP_DETAILS_SID
              
              CROSS JOIN (SELECT PERIOD_SID,
                                 period,
@@ -713,7 +771,7 @@ AS
              AND @VIEW NOT IN ( 'C', 'P' )
             BEGIN
                 SET @sql =Concat(' 
-       INSERT INTO ', @CUSTOM_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR)
+       INSERT INTO ', @CUSTOM_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR,FILTER_CCP)
        SELECT c.ROWID,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
              A.period,
              A.YEAR,
@@ -722,10 +780,12 @@ AS
              Sum(( SALES ))    SALES,
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) ACTUAL_UNITS,
              c1.SALES_INCLUSION,
-             0                 INDICATOR
+             0                 INDICATOR,
+               max(isnull(fccp.filter_ccp,0))         FILTER_CCP
       FROM   CUSTOM_CCP_SALES C
                   JOIN ', @CCP_HIERARCHY, ' C1
                      ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+				left join #Filter fccp on fccp.CCP_DETAILS_SID=c1.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
                                 period,
                                 YEAR
@@ -759,16 +819,18 @@ AS
              Sum(PROJECTION_SALES),
              SUM(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C1.SALES_INCLUSION,
-             1 INDICATOR
+             1 INDICATOR,
+               max(isnull(fccp.filter_ccp,0))         FILTER_CCP
       FROM    CUSTOM_CCP_SALES C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
+			   left join #Filter fccp on fccp.CCP_DETAILS_SID=c1.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
                                 period,
                                 YEAR
                          FROM   #PERIOD
                           WHERE  PERIOD_SID BETWEEN ', @PROJ_START_SID, ' AND ', @PROJ_END_SID, ')B
-            LEFT JOIN   NM_SALES_PROJECTION SPM
+           LEFT JOIN   NM_SALES_PROJECTION SPM
                               
                     ON C1.CCP_DETAILS_SID = SPM.CCP_DETAILS_SID AND SPM.PROJECTION_MASTER_SID= ', @PROJECTION_MASTER_SID, ' and  ( spm.ACCOUNT_GROWTH IS NOT NULL
                                                  OR spm.PRODUCT_GROWTH IS NOT NULL
@@ -792,10 +854,11 @@ AS
              AND @SCREEN_NAME = 'SALES'
              AND @VIEW IN ( 'C' )
             BEGIN
+			
                 SET @sql =Concat('
 
-       INSERT INTO ', @CUSTOMER_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR)        
-       select HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR from ( SELECT c.CUST_HIERARCHY_NO as HIERARCHY_NO,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
+       INSERT INTO ', @CUSTOMER_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR,filter_ccp)        
+       select HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR,filter_ccp from ( SELECT c.CUST_HIERARCHY_NO as HIERARCHY_NO,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
              A.period,
              A.YEAR,
              NULL ACCOUNT_GROWTH,
@@ -803,13 +866,8 @@ AS
              Sum(( SALES ))    SALES,
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
              c.SALES_INCLUSION,
-             0                 INDICATOR
+             0                 INDICATOR,1 filter_ccp
       FROM   ', @CCP_HIERARCHY, ' C
-             --JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
-              -- ON C.CUST_HIERARCHY_NO = RLD.HIERARCHY_NO 
-              --    AND RELATIONSHIP_BUILDER_SID = ', @CUST_RELATIONSHIP_BUILDER_SID, '
-              --    AND VERSION_NO = ', @PROJECTION_CUST_VERSION, '
-                  --AND LEVEL_NO = 6
              CROSS JOIN (SELECT PERIOD_SID,
                                 period,
                                 YEAR
@@ -820,7 +878,7 @@ AS
                                Sum(SALES)    SALES,
                                Sum(QUANTITY) QUANTITY
                         FROM   [ACTUALS_DETAILS] ad
-                        WHERE  QUANTITY_INCLUSION = ''Y''
+                       WHERE  QUANTITY_INCLUSION = ''Y''
                         GROUP  BY ad.CCP_DETAILS_SID,
                                   PERIOD_SID) ad
                     ON a.PERIOD_SID = ad.PERIOD_SID
@@ -839,13 +897,8 @@ AS
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              c.SALES_INCLUSION,
-             1 INDICATOR
+             1 INDICATOR,1 filter_ccp
       FROM    ', @CCP_HIERARCHY, ' C
-             JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
-               ON C.CUST_HIERARCHY_NO = RLD.HIERARCHY_NO 
-                  AND RELATIONSHIP_BUILDER_SID = ', @CUST_RELATIONSHIP_BUILDER_SID, '
-                  AND VERSION_NO = ', @PROJECTION_CUST_VERSION, '
-                 -- AND LEVEL_NO = 6
              CROSS JOIN (SELECT PERIOD_SID,
                                 period,
                                 YEAR
@@ -896,11 +949,6 @@ AS
              C.SALES_INCLUSION,
              0                 INDICATOR
       FROM   ', @CCP_HIERARCHY, ' C
-             JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
-               ON C.CUST_HIERARCHY_NO = RLD.HIERARCHY_NO 
-                  AND RELATIONSHIP_BUILDER_SID = ', @CUST_RELATIONSHIP_BUILDER_SID, '
-                  AND VERSION_NO = ', @PROJECTION_CUST_VERSION, '
-                  --AND LEVEL_NO = 6
              CROSS JOIN (SELECT PERIOD_SID,
                                 PERIOD,
                                 YEAR
@@ -932,11 +980,6 @@ AS
              C.SALES_INCLUSION,
              1 INDICATOR
       FROM    ', @CCP_HIERARCHY, ' C
-             JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
-               ON C.CUST_HIERARCHY_NO = RLD.HIERARCHY_NO 
-                  AND RELATIONSHIP_BUILDER_SID = ', @CUST_RELATIONSHIP_BUILDER_SID, '
-                  AND VERSION_NO = ', @PROJECTION_CUST_VERSION, '
-                 -- AND LEVEL_NO = 6
              CROSS JOIN (SELECT PERIOD_SID,
                                 PERIOD,
                                 YEAR
@@ -959,7 +1002,7 @@ AS
                        AND B.PERIOD_SID = A.PERIOD_SID
               LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
       GROUP  BY C.CUST_HIERARCHY_NO,
-                PERIOD,
+               PERIOD,
                 YEAR,
                 C.SALES_INCLUSION)A 
                            JOIN  ', @CUSTOM_TABLE_SALES, ' B ON B.HIERARCHY_NO=A.HIERARCHY_NO
@@ -982,8 +1025,8 @@ AS
              AND @VIEW = 'P'
             BEGIN
                 SET @sql =Concat(' 
-       INSERT INTO ', @PRODUCT_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR)
-       select HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR from (SELECT c.PROD_HIERARCHY_NO as HIERARCHY_NO,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
+       INSERT INTO ', @PRODUCT_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR,filter_ccp)
+       select HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR,filter_ccp from (SELECT c.PROD_HIERARCHY_NO as HIERARCHY_NO,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
              A.period,
              A.YEAR,
              NULL ACCOUNT_GROWTH,
@@ -991,14 +1034,9 @@ AS
              Sum(( SALES ))    SALES,
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
              C.SALES_INCLUSION,
-             0                 INDICATOR
+             0                 INDICATOR,1 filter_ccp
       FROM   ', @CCP_HIERARCHY, ' C
              
-           --  JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
-           --    ON C.PROD_HIERARCHY_NO = RLD.HIERARCHY_NO 
-            --      AND RELATIONSHIP_BUILDER_SID = ', @PROD_RELATIONSHIP_BUILDER_SID, '
-            --      AND VERSION_NO = ', @PROJECTION_PROD_VERSION, '
-                  --AND LEVEL_NO = 6
              CROSS JOIN (SELECT PERIOD_SID,
                                 period,
                                 YEAR
@@ -1028,14 +1066,9 @@ AS
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C.SALES_INCLUSION,
-             1 INDICATOR
+             1 INDICATOR,1 filter_ccp
       FROM    ', @CCP_HIERARCHY, ' C
              
-             JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
-               ON C.PROD_HIERARCHY_NO = RLD.HIERARCHY_NO 
-                  AND RELATIONSHIP_BUILDER_SID = ', @PROD_RELATIONSHIP_BUILDER_SID, '
-                  AND VERSION_NO = ', @PROJECTION_PROD_VERSION, '
-                 -- AND LEVEL_NO = 6
              CROSS JOIN (SELECT PERIOD_SID,
                                 period,
                                 YEAR
@@ -1085,12 +1118,6 @@ AS
              C.SALES_INCLUSION,
              0                 INDICATOR
       FROM   ', @CCP_HIERARCHY, ' C
-             
-             JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
-               ON C.PROD_HIERARCHY_NO = RLD.HIERARCHY_NO 
-                  AND RELATIONSHIP_BUILDER_SID = ', @PROD_RELATIONSHIP_BUILDER_SID, '
-                  AND VERSION_NO = ', @PROJECTION_PROD_VERSION, '
-                  --AND LEVEL_NO = 6
              CROSS JOIN (SELECT PERIOD_SID,
                                 period,
                                 YEAR
@@ -1122,12 +1149,6 @@ AS
              C.SALES_INCLUSION,
              1 INDICATOR
       FROM    ', @CCP_HIERARCHY, ' C
-             
-             JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
-               ON C.PROD_HIERARCHY_NO = RLD.HIERARCHY_NO 
-                  AND RELATIONSHIP_BUILDER_SID = ', @PROD_RELATIONSHIP_BUILDER_SID, '
-                  AND VERSION_NO = ', @PROJECTION_PROD_VERSION, '
-                 -- AND LEVEL_NO = 6
              CROSS JOIN (SELECT PERIOD_SID,
                                 period,
                                 YEAR
@@ -1172,8 +1193,8 @@ AS
              AND @VIEW NOT IN ( 'C', 'P' )
             BEGIN
                 SET @sql =Concat(' 
-       INSERT INTO ', @CUSTOM_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR)
-       select HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR from (SELECT c.HIERARCHY_NO,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
+       INSERT INTO ', @CUSTOM_TABLE_SALES, '(HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR,filter_ccp)
+       select HIERARCHY_NO,PERIOD,YEAR,ACCOUNT_GROWTH,PRODUCT_GROWTH,SALES,UNITS,SALES_INCLUSION,INDICATOR,filter_ccp from (SELECT c.ROWID HIERARCHY_NO,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
              A.period,
              A.YEAR,
              NULL ACCOUNT_GROWTH,
@@ -1181,7 +1202,7 @@ AS
              Sum(( SALES ))    SALES,
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
              C1.SALES_INCLUSION,
-             0                 INDICATOR
+             0                 INDICATOR,1 filter_ccp
       FROM   CUSTOM_CCP_SALES C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
@@ -1201,15 +1222,15 @@ AS
                     ON a.PERIOD_SID = ad.PERIOD_SID
                        AND ad.CCP_DETAILS_SID = c.CCP_DETAILS_SID
               LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
-                                     WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
+                                    WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
                      --   AND C.VERSION_NO= ', @CUSTOM_VERSION_NO, '
                         AND C.LEVEL_NO= ', @CUSTOM_LEVEL_NO, '
-      GROUP  BY c.HIERARCHY_NO,
+      GROUP  BY c.ROWID,
                 period,
                 YEAR,
                 C1.SALES_INCLUSION
       UNION ALL
-      SELECT C.HIERARCHY_NO,
+      SELECT C.ROWID,
              period,
              YEAR,
              Avg(ACCOUNT_GROWTH),
@@ -1217,7 +1238,7 @@ AS
              Sum(PROJECTION_SALES),
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C1.SALES_INCLUSION,
-             1 INDICATOR
+             1 INDICATOR,1 filter_ccp
       FROM   CUSTOM_CCP_SALES C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
@@ -1246,7 +1267,7 @@ AS
                                       WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
                       --  AND C.VERSION_NO= ', @CUSTOM_VERSION_NO, '
                         AND C.LEVEL_NO= ', @CUSTOM_LEVEL_NO, '
-      GROUP  BY C.HIERARCHY_NO,
+      GROUP  BY C.ROWID,
                 period,
                 YEAR,
                 C1.SALES_INCLUSION)A WHERE NOT EXISTS (
@@ -1740,7 +1761,7 @@ AS
              Sum(( SALES ))    SALES,
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
              C1.SALES_INCLUSION,
-             0                 INDICATOR
+            0                 INDICATOR
       FROM   CUSTOM_CCP_SALES C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
@@ -1824,22 +1845,24 @@ AS
                   @sql
             END
 
-          IF @FLAG = 'M'
+         IF @FLAG = 'M'
              AND @SCREEN_NAME = 'SALES'
              AND @VIEW IN ( 'C' )
             BEGIN
                 SET @SQL =Concat('
-                UPDATE      B SET B.', @MASS_UPDATEFIELD, '=A.MASSUPDATE_FIELD
+              UPDATE      B SET         B.ACCOUNT_GROWTH=A.ACCOUNT_GROWTH
+                           ,B.PRODUCT_GROWTH=A.PRODUCT_GROWTH
+                           ,B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
                 FROM 
        (SELECT C.CUST_HIERARCHY_NO as HIERARCHY_NO,
              PERIOD,
-             YEAR,
-                     ', CASE @MASS_UPDATEFIELD
-                                                    WHEN 'ACCOUNT_GROWTH' THEN 'AVG(ACCOUNT_GROWTH)'
-                                                    WHEN 'PRODUCT_GROWTH' THEN 'AVG(PRODUCT_GROWTH)'
-                                                    WHEN 'SALES' THEN 'SUM(PROJECTION_SALES)'
-                                                    WHEN 'UNITS' THEN 'SUM(PROJECTION_UNITS / COALESCE(NULLIF(UOM_VALUE, 0),1))'
-                                                  END, ' AS MASSUPDATE_FIELD, C.SALES_INCLUSION,
+             YEAR,                
+               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
+               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               SALES=SUM(PROJECTION_SALES),
+               UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
+                       C.SALES_INCLUSION,
              1 INDICATOR
       FROM    ', @CCP_HIERARCHY, ' C
              CROSS JOIN (SELECT PERIOD_SID,
@@ -1870,22 +1893,24 @@ AS
                   @sql
             END
 
-          IF @FLAG = 'M'
+           IF @FLAG = 'M'
              AND @SCREEN_NAME = 'SALES'
              AND @VIEW IN ( 'P' )
             BEGIN
                 SET @SQL =Concat('
-                UPDATE      B SET B.', @MASS_UPDATEFIELD, '=A.MASSUPDATE_FIELD
+                UPDATE      B SET  B.ACCOUNT_GROWTH=A.ACCOUNT_GROWTH
+                           ,B.PRODUCT_GROWTH=A.PRODUCT_GROWTH
+                           ,B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
                 FROM 
        (SELECT C.PROD_HIERARCHY_NO as HIERARCHY_NO,
              PERIOD,
-             YEAR,
-                     ', CASE @MASS_UPDATEFIELD
-                                                    WHEN 'ACCOUNT_GROWTH' THEN 'AVG(ACCOUNT_GROWTH)'
-                                                    WHEN 'PRODUCT_GROWTH' THEN 'AVG(PRODUCT_GROWTH)'
-                                                    WHEN 'SALES' THEN 'SUM(PROJECTION_SALES)'
-                                                    WHEN 'UNITS' THEN 'SUM(PROJECTION_UNITS / COALESCE(NULLIF(UOM_VALUE, 0),1))'
-                                                  END, ' AS MASSUPDATE_FIELD, C.SALES_INCLUSION,
+             YEAR,                
+               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
+               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               SALES=SUM(PROJECTION_SALES),
+               UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
+                       C.SALES_INCLUSION,
              1 INDICATOR
       FROM    ', @CCP_HIERARCHY, ' C
              CROSS JOIN (SELECT PERIOD_SID,
@@ -1915,31 +1940,34 @@ AS
                   @sql
             END
 
-          IF @FLAG = 'M'
+
+IF @FLAG = 'M'
              AND @SCREEN_NAME = 'SALES'
              AND @VIEW NOT IN ( 'C', 'P' )
             BEGIN
                 SET @SQL =Concat('
-                UPDATE      B SET B.', @MASS_UPDATEFIELD, '=A.MASSUPDATE_FIELD
+               UPDATE      B SET         B.ACCOUNT_GROWTH=A.ACCOUNT_GROWTH
+                           ,B.PRODUCT_GROWTH=A.PRODUCT_GROWTH
+                           ,B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
                 FROM 
        (SELECT C.ROWID ,
              PERIOD,
-             YEAR,
-                     ', CASE @MASS_UPDATEFIELD
-                                                    WHEN 'ACCOUNT_GROWTH' THEN 'AVG(ACCOUNT_GROWTH)'
-                                                    WHEN 'PRODUCT_GROWTH' THEN 'AVG(PRODUCT_GROWTH)'
-                                                    WHEN 'SALES' THEN 'SUM(PROJECTION_SALES)'
-                                                    WHEN 'UNITS' THEN 'SUM(PROJECTION_UNITS / COALESCE(NULLIF(UOM_VALUE, 0),1) )'
-                                                  END, ' AS MASSUPDATE_FIELD, C1.SALES_INCLUSION,
+             YEAR,                
+               ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
+               PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
+               SALES=SUM(PROJECTION_SALES),
+               UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
+                       C1.SALES_INCLUSION,
              1 INDICATOR
-      FROM   CUSTOM_CCP_SALES  C
+      FROM    CUSTOM_CCP_SALES  C
                   JOIN ', @CCP_HIERARCHY, ' C1
-                     ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+                             ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
                                 PERIOD,
                                 YEAR
                          FROM    #PERIOD
-                           WHERE PERIOD_SID BETWEEN ', @START_PERIOD, 'AND ', @END_PERIOD, ')B
+                          WHERE PERIOD_SID BETWEEN ', @START_PERIOD, 'AND ', @END_PERIOD, ')B
           JOIN ', @S_MASTER_TABLE, ' SPM
          ON SPM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
             AND CHECK_RECORD = 1
@@ -1982,7 +2010,7 @@ AS
                ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
                PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
                SALES=SUM(PROJECTION_SALES),
-               UNITS=SUM(PROJECTION_UNITS / COALESCE(NULLIF(UOM_VALUE, 0),1)),
+               UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C.SALES_INCLUSION,
              1 INDICATOR
       FROM    ', @CCP_HIERARCHY, ' C
@@ -2026,7 +2054,7 @@ AS
                ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
                PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
                SALES=SUM(PROJECTION_SALES),
-               UNITS=SUM(PROJECTION_UNITS / COALESCE(NULLIF(UOM_VALUE, 0),1)),
+               UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C.SALES_INCLUSION,
              1 INDICATOR
       FROM    ', @CCP_HIERARCHY, ' C
@@ -2070,7 +2098,7 @@ AS
                ACCOUNT_GROWTH=AVG(ACCOUNT_GROWTH),
                PRODUCT_GROWTH=AVG(PRODUCT_GROWTH),
                SALES=SUM(PROJECTION_SALES),
-               UNITS=SUM(PROJECTION_UNITS / COALESCE(NULLIF(UOM_VALUE, 0),1)),
+               UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C1.SALES_INCLUSION,
              1 INDICATOR
       FROM    CUSTOM_CCP_SALES  C
@@ -2358,7 +2386,7 @@ LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
                            AND B.PERIOD=A.PERIOD
                            AND B.YEAR=A.YEAR
                            AND B.SALES_INCLUSION=A.SALES_INCLUSION
-                           AND A.INDICATOR=B.INDICATOR  
+                          AND A.INDICATOR=B.INDICATOR  
                      ')
 
                 EXEC Sp_executesql
@@ -2439,7 +2467,7 @@ LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
        )
 SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
-	   ri.SELECTED_LEVEL,
+                   ri.SELECTED_LEVEL,
        A.PERIOD,
        A.YEAR,
        ISNULL(sum(DISCOUNT), 0) DISCOUNT,
@@ -2490,7 +2518,7 @@ LEFT JOIN (
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.CUST_HIERARCHY_NO,
        --DM.RS_CONTRACT_SID,
-	   ri.SELECTED_LEVEL,
+                   ri.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION
@@ -2499,7 +2527,7 @@ UNION ALL
 
 SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
       --DM.RS_CONTRACT_SID,
-	   ri.SELECTED_LEVEL,
+                   ri.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        SUM(PTD.PROJECTION_SALES) DISCOUNT,
@@ -2531,7 +2559,7 @@ ON C.CCP_DETAILS_SID = SPT.CCP_DETAILS_SID
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY C.CUST_HIERARCHY_NO,
       --DM.RS_CONTRACT_SID,
-	   ri.SELECTED_LEVEL,
+                   ri.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION
@@ -2560,7 +2588,7 @@ GROUP BY C.CUST_HIERARCHY_NO,
        )
 SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
-	   ri.SELECTED_LEVEL,
+                   ri.SELECTED_LEVEL,
        A.PERIOD,
        A.YEAR,
        ISNULL(sum(DISCOUNT), 0) DISCOUNT,
@@ -2614,7 +2642,7 @@ LEFT JOIN (
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.PROD_HIERARCHY_NO,
       --DM.RS_CONTRACT_SID,
-	   ri.SELECTED_LEVEL,
+                   ri.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION
@@ -2623,7 +2651,7 @@ UNION ALL
 
 SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        SUM(PTD.PROJECTION_SALES) DISCOUNT,
@@ -2656,7 +2684,7 @@ ON C.CCP_DETAILS_SID = SPT.CCP_DETAILS_SID
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.PROD_HIERARCHY_NO,
        --DM.RS_CONTRACT_SID,
-	   ri.SELECTED_LEVEL,
+                   ri.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION')
@@ -2703,7 +2731,7 @@ SELECT C.ROWID
       select CCP_DETAILS_SID,
               PERIOD_SID,
               RS_MODEL_SID,max(DISCOUNT) DISCOUNT--,sum(SALES) SALES, sum(QUANTITY) QUANTITY  
-			  from(SELECT AD.CCP_DETAILS_SID,
+                                                  from(SELECT AD.CCP_DETAILS_SID,
               PERIOD_SID,
               RS_MODEL_SID,
              -- SUM(CASE 
@@ -2799,7 +2827,7 @@ WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '
        
 SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
         --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        A.PERIOD,
        A.YEAR,
        ISNULL(SUM(DISCOUNT), 0) DISCOUNT,
@@ -2852,7 +2880,7 @@ LEFT JOIN (
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.CUST_HIERARCHY_NO,
         --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION
@@ -2862,7 +2890,7 @@ GROUP BY c.CUST_HIERARCHY_NO,
                            
        SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
         --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        B.PERIOD,
        B.YEAR,
        SUM(PTD.PROJECTION_SALES) DISCOUNT,
@@ -2895,7 +2923,7 @@ ON C.CCP_DETAILS_SID = SPT.CCP_DETAILS_SID
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.CUST_HIERARCHY_NO,
         --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION
@@ -2925,7 +2953,7 @@ INSERT INTO ', @PRODUCT_TABLE_DISCOUNT, '(
        )
 SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
         --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL AS RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL AS RS_CONTRACT_SID,
        A.PERIOD,
        A.YEAR,
        ISNULL(sum(DISCOUNT), 0) DISCOUNT,
@@ -2978,7 +3006,7 @@ LEFT JOIN (
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.PROD_HIERARCHY_NO,
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION
@@ -2987,7 +3015,7 @@ UNION ALL
 
 SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        SUM(PTD.PROJECTION_SALES) DISCOUNT,
@@ -3020,7 +3048,7 @@ ON C.CCP_DETAILS_SID = SPT.CCP_DETAILS_SID
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.PROD_HIERARCHY_NO,
         --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION')
@@ -3069,7 +3097,7 @@ GROUP BY c.PROD_HIERARCHY_NO,
        select CCP_DETAILS_SID,
               PERIOD_SID,
               RS_MODEL_SID,max(DISCOUNT) DISCOUNT--,sum(SALES) SALES, sum(QUANTITY) QUANTITY 
-			  from(SELECT AD.CCP_DETAILS_SID,
+                                                  from(SELECT AD.CCP_DETAILS_SID,
               PERIOD_SID,
               RS_MODEL_SID,
               --SUM(CASE 
@@ -3086,7 +3114,7 @@ GROUP BY c.PROD_HIERARCHY_NO,
               PERIOD_SID,
               RS_MODEL_SID,
               QUANTITY_INCLUSION) a group by CCP_DETAILS_SID,
-              PERIOD_SID,
+             PERIOD_SID,
               RS_MODEL_SID
        ) AD
        ON AD.CCP_DETAILS_SID = C.CCP_DETAILS_SID 
@@ -3174,7 +3202,7 @@ SELECT HIERARCHY_NO,
        GROWTH FROM ( 
 SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, 
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL RS_CONTRACT_SID,
        A.PERIOD,
        A.YEAR,
        ISNULL(MAX(DISCOUNT), 0) DISCOUNT,
@@ -3222,7 +3250,7 @@ LEFT JOIN (
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.CUST_HIERARCHY_NO,
         --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION
@@ -3231,7 +3259,7 @@ UNION ALL
 
 SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
         --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL RS_CONTRACT_SID,
        PERIOD,
        YEAR,
        SUM(PTD.PROJECTION_SALES) DISCOUNT,
@@ -3264,7 +3292,7 @@ ON C.CCP_DETAILS_SID = SPT.CCP_DETAILS_SID
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.CUST_HIERARCHY_NO,
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION)A WHERE NOT EXISTS (
@@ -3286,7 +3314,7 @@ GROUP BY c.CUST_HIERARCHY_NO,
                 FROM 
        ( SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, 
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL RS_CONTRACT_SID,
        A.PERIOD,
        A.YEAR,
        ISNULL(MAX(DISCOUNT), 0) DISCOUNT,
@@ -3334,7 +3362,7 @@ LEFT JOIN (
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.CUST_HIERARCHY_NO,
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION
@@ -3343,7 +3371,7 @@ UNION ALL
 
 SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        SUM(PTD.PROJECTION_SALES) DISCOUNT,
@@ -3376,7 +3404,7 @@ ON C.CCP_DETAILS_SID = SPT.CCP_DETAILS_SID
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.CUST_HIERARCHY_NO,
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION)A 
@@ -3426,7 +3454,7 @@ GROUP BY c.CUST_HIERARCHY_NO,
        GROWTH 
        FROM (SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL RS_CONTRACT_SID,
        A.PERIOD,
        A.YEAR,
        ISNULL(MAX(DISCOUNT), 0) DISCOUNT,
@@ -3474,7 +3502,7 @@ LEFT JOIN (
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.PROD_HIERARCHY_NO,
       --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION
@@ -3483,7 +3511,7 @@ UNION ALL
 
 SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        SUM(PTD.PROJECTION_SALES) DISCOUNT,
@@ -3516,7 +3544,7 @@ ON C.CCP_DETAILS_SID = SPT.CCP_DETAILS_SID
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.PROD_HIERARCHY_NO,
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION)A WHERE NOT EXISTS (
@@ -3537,7 +3565,7 @@ GROUP BY c.PROD_HIERARCHY_NO,
                            ,B.UNITS=A.UNITS
                 FROM  (SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL RS_CONTRACT_SID,
        A.PERIOD,
        A.YEAR,
        ISNULL(MAX(DISCOUNT), 0) DISCOUNT,
@@ -3585,7 +3613,7 @@ LEFT JOIN (
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.PROD_HIERARCHY_NO,
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION
@@ -3594,7 +3622,7 @@ UNION ALL
 
 SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        b.PERIOD,
        b.YEAR,
        SUM(PTD.PROJECTION_SALES) DISCOUNT,
@@ -3627,7 +3655,7 @@ ON C.CCP_DETAILS_SID = SPT.CCP_DETAILS_SID
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.PROD_HIERARCHY_NO,
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION)A 
@@ -3686,7 +3714,7 @@ INSERT INTO ', @CUSTOM_TABLE_DISCOUNT, '(HIERARCHY_NO
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
              CROSS JOIN (SELECT PERIOD_SID,
-                                PERIOD,
+                               PERIOD,
                                 YEAR
                          FROM    #PERIOD
                           WHERE  PERIOD_SID BETWEEN ', @STAT_SALES_SID, ' AND ', @END_SALES_SID, ')A
@@ -3896,7 +3924,7 @@ WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '
        DELETE B FROM ', @CUSTOMER_TABLE_DISCOUNT, ' B WHERE NOT EXISTS(
        SELECT 1 FROM  ( SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, 
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL RS_CONTRACT_SID,
        A.PERIOD,
        A.YEAR,
        DM.DEDUCTION_INCLUSION,
@@ -3918,7 +3946,7 @@ CROSS JOIN (
 
 GROUP BY c.CUST_HIERARCHY_NO,
       --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION
@@ -3927,7 +3955,7 @@ UNION ALL
 
 SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL RS_CONTRACT_SID,
        B.PERIOD,
        B.YEAR,
        DM.DEDUCTION_INCLUSION,
@@ -3949,7 +3977,7 @@ CROSS JOIN (
 
 GROUP BY c.CUST_HIERARCHY_NO,
       --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION)A 
@@ -3971,7 +3999,7 @@ GROUP BY c.CUST_HIERARCHY_NO,
                 FROM 
        (SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, 
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL RS_CONTRACT_SID,
        A.PERIOD,
        A.YEAR,
        ISNULL(MAX(DISCOUNT), 0) DISCOUNT,
@@ -4019,8 +4047,8 @@ LEFT JOIN (
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.CUST_HIERARCHY_NO,
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
-       PERIOD,
+                   RI.SELECTED_LEVEL,
+      PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION
 
@@ -4028,7 +4056,7 @@ UNION ALL
 
 SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        SUM(PTD.PROJECTION_SALES) DISCOUNT,
@@ -4061,7 +4089,7 @@ ON C.CCP_DETAILS_SID = SPT.CCP_DETAILS_SID
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.CUST_HIERARCHY_NO,
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION)A 
@@ -4069,7 +4097,7 @@ GROUP BY c.CUST_HIERARCHY_NO,
                            AND  B.RS_CONTRACT_SID=A.RS_CONTRACT_SID
                            AND B.PERIOD=A.PERIOD
                            AND B.YEAR=A.YEAR
-                           AND B.DEDUCTION_INCLUSION=A.DEDUCTION_INCLUSION
+                          AND B.DEDUCTION_INCLUSION=A.DEDUCTION_INCLUSION
                            AND A.INDICATOR=B.INDICATOR
                            WHERE ISNULL(A.GROWTH,0)<>ISNULL(B.GROWTH,0)
                            AND ISNULL(A.DISCOUNT,0)<>ISNULL(B.DISCOUNT,0) 
@@ -4089,7 +4117,7 @@ GROUP BY c.CUST_HIERARCHY_NO,
        DELETE B FROM ', @PRODUCT_TABLE_DISCOUNT, ' B WHERE NOT EXISTS(
        SELECT 1 FROM  (SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
         --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL RS_CONTRACT_SID,
        A.PERIOD,
        A.YEAR,
        DM.DEDUCTION_INCLUSION,
@@ -4110,7 +4138,7 @@ CROSS JOIN (
        ) A
 GROUP BY c.PROD_HIERARCHY_NO,
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION
@@ -4119,7 +4147,7 @@ UNION ALL
 
 SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION,
@@ -4140,7 +4168,7 @@ CROSS JOIN (
        ) B
 GROUP BY c.PROD_HIERARCHY_NO,
       --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION)A 
@@ -4161,7 +4189,7 @@ GROUP BY c.PROD_HIERARCHY_NO,
                            ,B.UNITS=A.UNITS
                 FROM  (SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
         --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL RS_CONTRACT_SID,
        A.PERIOD,
        A.YEAR,
        ISNULL(MAX(DISCOUNT), 0) DISCOUNT,
@@ -4209,7 +4237,7 @@ LEFT JOIN (
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY C.PROD_HIERARCHY_NO,
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION
@@ -4218,7 +4246,7 @@ UNION ALL
 
 SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        SUM(PTD.PROJECTION_SALES) DISCOUNT,
@@ -4251,7 +4279,7 @@ ON C.CCP_DETAILS_SID = SPT.CCP_DETAILS_SID
 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
 GROUP BY c.PROD_HIERARCHY_NO,
        --DM.RS_CONTRACT_SID,
-	   RI.SELECTED_LEVEL,
+                   RI.SELECTED_LEVEL,
        PERIOD,
        YEAR,
        DM.DEDUCTION_INCLUSION)A 
@@ -4540,7 +4568,7 @@ AND SPM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID
          ON SPM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
             AND CHECK_RECORD = 1
 INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and
- RI.CCP_DETAILS_SID = SPM.CCP_DETAILS_SID
+RI.CCP_DETAILS_SID = SPM.CCP_DETAILS_SID
          JOIN ', @D_PROJECTION_TABLE, ' DP
          ON DP.CCP_DETAILS_SID = SPM.CCP_DETAILS_SID 
                AND DP.RS_CONTRACT_SID = SPM.RS_CONTRACT_SID           
@@ -5106,10 +5134,10 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID  AND RI.CCP_DET
                 a.RS_CONTRACT_SID,
                 B.PERIOD,
                 B.YEAR , PROJECTION_SALES=sum(IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(PROJECTION_SALES,0), NULL))
-				,PROJECTION_UNITS=sum(IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(PROJECTION_UNITS,0), NULL))
-				 , SALES=sum(IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(SALES,0), NULL))
-				,units=sum(IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(QUANTITY,0), NULL))
-				FROM (SELECT distinct C.CUST_HIERARCHY_NO as HIERARCHY_NO,
+                                                                ,PROJECTION_UNITS=sum(IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(PROJECTION_UNITS,0), NULL))
+                                                                , SALES=sum(IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(SALES,0), NULL))
+                                                                ,units=sum(IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(QUANTITY,0), NULL))
+                                                                FROM (SELECT distinct C.CUST_HIERARCHY_NO as HIERARCHY_NO,
               RI.SELECTED_LEVEL RS_CONTRACT_SID,c.CCP_DETAILS_SID,sales_inclusion ,          
              1 INDICATOR
       FROM    ', @CCP_HIERARCHY, ' C             
@@ -5117,24 +5145,24 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID  AND RI.CCP_DET
          ON SPM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
 INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and  SPM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID) A
             
-              -- AND DP.PERIOD_SID=B.PERIOD_SID		 
-		cross JOIN (SELECT PERIOD_SID,
+              -- AND DP.PERIOD_SID=B.PERIOD_SID                    
+                                cross JOIN (SELECT PERIOD_SID,
                                 PERIOD,
                                 YEAR
                          FROM    #PERIOD
                WHERE  PERIOD_SID BETWEEN ', Iif(@PROJ_START_SID < @STAT_SALES_SID, @PROJ_START_SID, @STAT_SALES_SID), ' AND ', @PROJ_END_SID, ')B
-			--on  DP.PERIOD_SID=B.PERIOD_SID
-			left  JOIN ', @S_PROJECTION_TABLE, ' DP
+                                                --on  DP.PERIOD_SID=B.PERIOD_SID
+                                                left  JOIN ', @S_PROJECTION_TABLE, ' DP
          ON DP.CCP_DETAILS_SID =  A.CCP_DETAILS_SID   
-		 AND DP.PERIOD_SID=B.PERIOD_SID
-			LEFT JOIN (SELECT AD.CCP_DETAILS_SID,
+                                 AND DP.PERIOD_SID=B.PERIOD_SID
+                                                LEFT JOIN (SELECT AD.CCP_DETAILS_SID,
                                PERIOD_SID,                               
                                SUM(QUANTITY) QUANTITY,sum(SALES) SALES
                         FROM   [ACTUALS_DETAILS] AD
                         WHERE  QUANTITY_INCLUSION = ''Y''
                         GROUP  BY AD.CCP_DETAILS_SID,
                                   PERIOD_SID) NAS ON NAS.CCP_DETAILS_SID =  A.CCP_DETAILS_SID
-			AND B.PERIOD_SID = NAS.PERIOD_SID
+                                                AND B.PERIOD_SID = NAS.PERIOD_SID
       GROUP  BY a.HIERARCHY_NO,
                 a.RS_CONTRACT_SID,
                 B.PERIOD,
@@ -5163,10 +5191,10 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and  SPM.CCP_DE
                 a.RS_CONTRACT_SID,
                 B.PERIOD,
                 B.YEAR , PROJECTION_SALES=sum(IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(PROJECTION_SALES,0), NULL))
-				,PROJECTION_UNITS=sum(IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(PROJECTION_UNITS,0), NULL))
-				 , SALES=sum(IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(SALES,0), NULL))
-				,units=sum(IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(QUANTITY,0), NULL))
-				FROM (SELECT distinct C.PROD_HIERARCHY_NO as HIERARCHY_NO,
+                                                                ,PROJECTION_UNITS=sum(IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(PROJECTION_UNITS,0), NULL))
+                                                                , SALES=sum(IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(SALES,0), NULL))
+                                                                ,units=sum(IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(QUANTITY,0), NULL))
+                                                                FROM (SELECT distinct C.PROD_HIERARCHY_NO as HIERARCHY_NO,
               RI.SELECTED_LEVEL RS_CONTRACT_SID,c.CCP_DETAILS_SID,sales_inclusion ,          
              1 INDICATOR
       FROM    ', @CCP_HIERARCHY, ' C             
@@ -5174,24 +5202,24 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and  SPM.CCP_DE
          ON SPM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
 INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and  SPM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID) A
            
-              -- AND DP.PERIOD_SID=B.PERIOD_SID		 
-		cross JOIN (SELECT PERIOD_SID,
+              -- AND DP.PERIOD_SID=B.PERIOD_SID                    
+                                cross JOIN (SELECT PERIOD_SID,
                                 PERIOD,
                                 YEAR
                          FROM    #PERIOD
                WHERE  PERIOD_SID BETWEEN ', Iif(@PROJ_START_SID < @STAT_SALES_SID, @PROJ_START_SID, @STAT_SALES_SID), ' AND ', @PROJ_END_SID, ')B
-		--	on  DP.PERIOD_SID=B.PERIOD_SID
-		 left JOIN ', @S_PROJECTION_TABLE, ' DP
+                                --             on  DP.PERIOD_SID=B.PERIOD_SID
+                                left JOIN ', @S_PROJECTION_TABLE, ' DP
          ON DP.CCP_DETAILS_SID =  A.CCP_DETAILS_SID    
-		 AND DP.PERIOD_SID=B.PERIOD_SID		 
-			LEFT JOIN (SELECT AD.CCP_DETAILS_SID,
+                                 AND DP.PERIOD_SID=B.PERIOD_SID                       
+                                                LEFT JOIN (SELECT AD.CCP_DETAILS_SID,
                                PERIOD_SID,                               
                                SUM(QUANTITY) QUANTITY,sum(SALES) SALES
                         FROM   [ACTUALS_DETAILS] AD
                         WHERE  QUANTITY_INCLUSION = ''Y''
                         GROUP  BY AD.CCP_DETAILS_SID,
                                   PERIOD_SID) NAS ON NAS.CCP_DETAILS_SID =  A.CCP_DETAILS_SID
-			AND B.PERIOD_SID = NAS.PERIOD_SID
+                                                AND B.PERIOD_SID = NAS.PERIOD_SID
       GROUP  BY a.HIERARCHY_NO,
                 a.RS_CONTRACT_SID,
                 B.PERIOD,
@@ -5208,6 +5236,823 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and  SPM.CCP_DE
                   @SALES_INCLUSION=NULL--@SALES_INCLUSION
             END
 
+          IF @FLAG = 'F'
+             AND @SCREEN_NAME = 'SALES'
+             AND @VIEW IN( 'C' )
+            BEGIN
+                SET @SQL = Concat('UPDATE ', @CUSTOMER_TABLE_SALES, ' 
+SET
+                FILTER_CCP = 0 ')
+
+                EXEC Sp_executesql
+                  @SQL
+
+                SET @SQL = Concat('UPDATE ', @CUSTOMER_TABLE_SALES, ' 
+SET
+                FILTER_CCP = 1
+WHERE
+                HIERARCHY_NO in(
+                                SELECT
+                                                stc.CUST_HIERARCHY_NO
+                                FROM
+                                                ', @S_MASTER_TABLE, ' nms inner join ', @CCP_HIERARCHY, ' stc on
+                                                stc.CCP_DETAILS_SID = nms.CCP_DETAILS_SID
+                                WHERE
+                                                nms.FILTER_CCP = 1 
+                )')
+
+                EXEC Sp_executesql
+                  @SQL
+
+                SET @SQL =Concat('
+                UPDATE      B SET B.ACCOUNT_GROWTH=A.ACCOUNT_GROWTH
+                           ,B.PRODUCT_GROWTH=A.PRODUCT_GROWTH
+                           ,B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
+                FROM 
+       ( SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO,
+             A.PERIOD,
+             A.YEAR,
+             NULL ACCOUNT_GROWTH,
+             NULL PRODUCT_GROWTH,
+             SUM(( SALES )) SALES,
+             SUM(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1) )) UNITS,
+             C.SALES_INCLUSION,
+             0  INDICATOR
+     FROM   ', @CCP_HIERARCHY, ' C           
+             CROSS JOIN (SELECT PERIOD_SID,
+                                PERIOD,
+                                YEAR
+                         FROM   #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @STAT_SALES_SID, ' AND ', @END_SALES_SID, ')A
+             LEFT JOIN (SELECT AD.CCP_DETAILS_SID,
+                               PERIOD_SID,
+                               SUM(SALES)    SALES,
+                               SUM(QUANTITY) QUANTITY
+                        FROM   [ACTUALS_DETAILS] AD JOIN ', @S_MASTER_TABLE, ' NMS ON NMS.CCP_DETAILS_SID=AD.CCP_DETAILS_SID AND NMS.FILTER_CCP=1
+                        WHERE  AD.QUANTITY_INCLUSION = ''Y''
+                        GROUP  BY AD.CCP_DETAILS_SID,
+                                 PERIOD_SID) AD
+                    ON A.PERIOD_SID = AD.PERIOD_SID
+                       AND AD.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+              LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+      GROUP  BY C.CUST_HIERARCHY_NO,
+                PERIOD,
+                YEAR,
+                C.SALES_INCLUSION
+      UNION ALL
+      SELECT C.CUST_HIERARCHY_NO,
+                  PERIOD,
+             YEAR,
+             AVG(ACCOUNT_GROWTH),
+             AVG(PRODUCT_GROWTH),
+             SUM(PROJECTION_SALES),
+             SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
+             C.SALES_INCLUSION,
+             1 INDICATOR
+      FROM    ', @CCP_HIERARCHY, ' C
+             CROSS JOIN (SELECT PERIOD_SID,
+                                PERIOD,
+                                YEAR
+                         FROM    #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @PROJ_START_SID, ' AND ', @PROJ_END_SID, ')B
+             LEFT JOIN (SELECT SPM.ACCOUNT_GROWTH,
+                               SPM.PRODUCT_GROWTH,
+                               SPM.PROJECTION_SALES,
+                               SPM.PROJECTION_UNITS,
+                               SPM.PERIOD_SID,
+                                                                                                                   SPM.CCP_DETAILS_SID
+                           
+                        FROM   ', @S_PROJECTION_TABLE, ' SPM
+                                                                                                JOIN   ', @S_MASTER_TABLE, ' SPMM ON SPM.CCP_DETAILS_SID =SPMM.CCP_DETAILS_SID AND SPMM.FILTER_CCP=1)A
+                    ON C.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                       AND B.PERIOD_SID = A.PERIOD_SID
+              LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+      GROUP  BY C.CUST_HIERARCHY_NO,
+                PERIOD,
+                YEAR,
+                C.SALES_INCLUSION)A 
+                           JOIN  ', @CUSTOMER_TABLE_SALES, ' B ON B.HIERARCHY_NO=A.HIERARCHY_NO
+                           AND B.PERIOD=A.PERIOD
+                           AND B.YEAR=A.YEAR
+                           AND B.SALES_INCLUSION=A.SALES_INCLUSION
+                           AND A.INDICATOR=B.INDICATOR where B.FILTER_CCP=1 
+                     ')
+
+                EXEC Sp_executesql
+                  @sql
+            END
+
+          IF @FLAG = 'F'
+             AND @SCREEN_NAME = 'SALES'
+             AND @VIEW IN( 'p' )
+            BEGIN
+                SET @SQL = Concat('UPDATE ', @PRODUCT_TABLE_SALES, ' 
+SET
+                FILTER_CCP = 0 ')
+
+                EXEC Sp_executesql
+                  @SQL
+
+                SET @SQL = Concat('UPDATE ', @PRODUCT_TABLE_SALES, ' 
+SET
+                FILTER_CCP = 1
+WHERE
+                HIERARCHY_NO in(
+                                SELECT
+                                                stc.PROD_HIERARCHY_NO
+                                FROM
+                                                ', @S_MASTER_TABLE, ' nms inner join ', @CCP_HIERARCHY, ' stc on
+                                                stc.CCP_DETAILS_SID = nms.CCP_DETAILS_SID
+                                WHERE
+                                                nms.FILTER_CCP = 1 
+                )')
+
+                EXEC Sp_executesql
+                  @SQL
+
+                SET @SQL =Concat('
+                UPDATE      B SET B.ACCOUNT_GROWTH=A.ACCOUNT_GROWTH
+                           ,B.PRODUCT_GROWTH=A.PRODUCT_GROWTH
+                           ,B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
+                FROM  (SELECT c.PROD_HIERARCHY_NO as HIERARCHY_NO,-- THOUGH  COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
+             A.period,
+             A.YEAR,
+             NULL ACCOUNT_GROWTH,
+             NULL PRODUCT_GROWTH,
+             Sum(( SALES ))    SALES,
+             Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
+             C.SALES_INCLUSION,
+             0                 INDICATOR
+      FROM   ', @CCP_HIERARCHY, ' C
+            
+             CROSS JOIN (SELECT PERIOD_SID,
+                                period,
+                                YEAR
+                         FROM    #period
+                          WHERE  PERIOD_SID BETWEEN ', @STAT_SALES_SID, ' AND ', @END_SALES_SID, ')A
+             LEFT JOIN (SELECT ad.CCP_DETAILS_SID,
+                               PERIOD_SID,
+                               Sum(SALES)    SALES,
+                               Sum(QUANTITY) QUANTITY
+                        FROM   [ACTUALS_DETAILS] ad 
+                                                                                                JOIN ', @S_MASTER_TABLE, ' NMS ON NMS.CCP_DETAILS_SID=AD.CCP_DETAILS_SID AND NMS.FILTER_CCP=1
+                        WHERE  QUANTITY_INCLUSION = ''Y''
+                        GROUP  BY ad.CCP_DETAILS_SID,
+                                  PERIOD_SID) ad
+                    ON a.PERIOD_SID = ad.PERIOD_SID
+                       AND ad.CCP_DETAILS_SID = c.CCP_DETAILS_SID
+              LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+      GROUP  BY c.PROD_HIERARCHY_NO,
+                period,
+                YEAR,
+                C.SALES_INCLUSION
+      UNION ALL
+      SELECT C.PROD_HIERARCHY_NO,
+             period,
+             YEAR,
+             Avg(ACCOUNT_GROWTH),
+             Avg(PRODUCT_GROWTH),
+             Sum(PROJECTION_SALES),
+             Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
+             C.SALES_INCLUSION,
+             1 INDICATOR
+      FROM    ', @CCP_HIERARCHY, ' C
+             
+           
+             CROSS JOIN (SELECT PERIOD_SID,
+                                period,
+                                YEAR
+                         FROM   #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @PROJ_START_SID, ' AND ', @PROJ_END_SID, ')B
+             LEFT JOIN (SELECT SPM.ACCOUNT_GROWTH,
+                               SPM.PRODUCT_GROWTH,
+                               SPM.PROJECTION_SALES,
+                               SPM.PROJECTION_UNITS,
+                               SPM.PERIOD_SID,
+                                                                                                                   SPM.CCP_DETAILS_SID
+                            FROM   ', @S_PROJECTION_TABLE, ' SPM
+                                                                                                JOIN   ', @S_MASTER_TABLE, ' SPMM ON SPM.CCP_DETAILS_SID =SPMM.CCP_DETAILS_SID AND SPMM.FILTER_CCP=1) A
+                    ON C.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                       AND B.PERIOD_SID = A.PERIOD_SID
+              LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+      GROUP  BY C.PROD_HIERARCHY_NO,
+                period,
+                YEAR,
+                C.SALES_INCLUSION)A 
+                           join ', @PRODUCT_TABLE_SALES, '  B ON B.HIERARCHY_NO=A.HIERARCHY_NO
+                           AND B.PERIOD=A.PERIOD
+                           AND B.YEAR=A.YEAR
+                           AND B.SALES_INCLUSION=A.SALES_INCLUSION
+                           AND A.INDICATOR=B.INDICATOR where B.FILTER_CCP=1 ')
+
+                EXEC Sp_executesql
+                  @sql
+            END
+
+          IF @FLAG = 'F'
+             AND @SCREEN_NAME = 'SALES'
+             AND @VIEW NOT IN ( 'C', 'P' )
+            BEGIN
+                SET @SQL = Concat('UPDATE ', @CUSTOM_TABLE_SALES, ' 
+SET
+                FILTER_CCP = 0 ')
+
+                EXEC Sp_executesql
+                  @SQL
+
+                SET @SQL = Concat('UPDATE ', @CUSTOM_TABLE_SALES, ' 
+SET
+                FILTER_CCP = 1
+WHERE
+                HIERARCHY_NO in(
+                                SELECT
+                                                stc.ROWID
+                                FROM
+                                                ', @S_MASTER_TABLE, ' nms inner join CUSTOM_CCP_SALES stc on
+                                                stc.CCP_DETAILS_SID = nms.CCP_DETAILS_SID AND STC.CUST_VIEW_MASTER_SID =', @CUSTOM_VIEW_MASTER_SID, ' 
+                                                 AND STC.LEVEL_NO= ', @CUSTOM_LEVEL_NO, ' 
+                                WHERE
+                                                nms.FILTER_CCP = 1 
+                )')
+
+                EXEC Sp_executesql
+                  @SQL
+
+                SET @SQL =Concat('
+                UPDATE      B SET B.ACCOUNT_GROWTH=A.ACCOUNT_GROWTH
+                           ,B.PRODUCT_GROWTH=A.PRODUCT_GROWTH
+                           ,B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
+                FROM  (SELECT c.ROWID,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
+             A.period,
+             A.YEAR,
+             NULL ACCOUNT_GROWTH,
+             NULL PRODUCT_GROWTH,
+             Sum(( SALES ))    SALES,
+             Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
+            C1.SALES_INCLUSION,
+             0                 INDICATOR
+      FROM   CUSTOM_CCP_SALES C
+                  join ', @CCP_HIERARCHY, ' C1
+                     on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                period,
+                                YEAR
+                         FROM    #period
+                          WHERE  PERIOD_SID BETWEEN ', @STAT_SALES_SID, ' AND ', @END_SALES_SID, ')A
+             LEFT JOIN (SELECT ad.CCP_DETAILS_SID,
+                               PERIOD_SID,
+                               Sum(SALES)    SALES,
+                               Sum(QUANTITY) QUANTITY
+                        FROM   [ACTUALS_DETAILS] ad
+                                                                                                JOIN ', @S_MASTER_TABLE, ' NMS ON NMS.CCP_DETAILS_SID=AD.CCP_DETAILS_SID AND NMS.FILTER_CCP=1
+                        WHERE  QUANTITY_INCLUSION = ''Y''
+                        GROUP  BY ad.CCP_DETAILS_SID,
+                                  PERIOD_SID) ad
+                    ON a.PERIOD_SID = ad.PERIOD_SID
+                       AND ad.CCP_DETAILS_SID = c.CCP_DETAILS_SID
+              LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+                                     WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
+                                                                                                                                                 AND C.LEVEL_NO= ', @CUSTOM_LEVEL_NO, '
+                       
+      GROUP  BY c.ROWID,
+                period,
+                YEAR,
+                C1.SALES_INCLUSION
+      UNION 
+      SELECT C.ROWID,
+             period,
+             YEAR,
+             Avg(ACCOUNT_GROWTH),
+             Avg(PRODUCT_GROWTH),
+             Sum(PROJECTION_SALES),
+             Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
+             C1.SALES_INCLUSION,
+             1 INDICATOR
+      FROM  CUSTOM_CCP_SALES C
+                  join ', @CCP_HIERARCHY, ' C1
+                     on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                period,
+                                YEAR
+                         FROM   #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @PROJ_START_SID, ' AND ', @PROJ_END_SID, ')B
+             LEFT JOIN (SELECT SPM.ACCOUNT_GROWTH,
+                               SPM.PRODUCT_GROWTH,
+                               SPM.PROJECTION_SALES,
+                               SPM.PROJECTION_UNITS,
+                               SPM.PERIOD_SID,
+                                                                                                                   SPM.CCP_DETAILS_SID
+                            FROM   ', @S_PROJECTION_TABLE, ' SPM
+                                                                                                JOIN   ', @S_MASTER_TABLE, ' SPMM ON SPM.CCP_DETAILS_SID =SPMM.CCP_DETAILS_SID AND SPMM.FILTER_CCP=1) A
+                    ON C.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                       AND B.PERIOD_SID = A.PERIOD_SID
+              LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+                                      WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID,
+                          '  
+                                                                                                                                                  AND C.LEVEL_NO= ', @CUSTOM_LEVEL_NO, '
+                        
+      GROUP  BY C.ROWID,
+                period,
+                YEAR,
+                C1.SALES_INCLUSION)A
+                           join ', @CUSTOM_TABLE_SALES, '  B ON B.HIERARCHY_NO=A.ROWID
+                           AND B.PERIOD=A.PERIOD
+                           AND B.YEAR=A.YEAR
+                           AND B.SALES_INCLUSION=A.SALES_INCLUSION
+                           AND A.INDICATOR=B.INDICATOR where B.FILTER_CCP=1
+                          
+                           ')
+
+                EXEC Sp_executesql
+                  @sql
+            END
+			
+			 IF @FLAG = 'UOM'
+             AND @SCREEN_NAME = 'SALES'
+             AND @VIEW IN ( 'C' )
+            BEGIN
+                SET @SQL =Concat('
+                UPDATE      B SET 
+                           B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
+                FROM 
+       ( SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
+             A.PERIOD,
+             A.YEAR,
+             SUM(( SALES ))    SALES,
+             SUM(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1) )) UNITS,
+             C.SALES_INCLUSION,
+             0                 INDICATOR
+      FROM   ', @CCP_HIERARCHY, ' C
+	   JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                PERIOD,
+                                YEAR
+                         FROM   #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @STAT_SALES_SID, ' AND ', @END_SALES_SID, ')A
+             LEFT JOIN (SELECT AD.CCP_DETAILS_SID,
+                               PERIOD_SID,
+                               SUM(SALES)    SALES,
+                               SUM(QUANTITY) QUANTITY
+                        FROM   [ACTUALS_DETAILS] AD
+                        WHERE  QUANTITY_INCLUSION = ''Y'' 
+						AND EXISTS (SELECT 1 FROM ', @S_MASTER_TABLE, ' MAS WHERE MAS.CCP_DETAILS_SID=AD.CCP_DETAILS_SID AND MAS.FILTER_CCP=1)
+                        GROUP  BY AD.CCP_DETAILS_SID,
+                                  PERIOD_SID) AD
+                    ON A.PERIOD_SID = AD.PERIOD_SID
+                       AND AD.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+              LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+			WHERE MAS.FILTER_CCP=1
+      GROUP  BY C.CUST_HIERARCHY_NO,
+                PERIOD,
+                YEAR,
+                C.SALES_INCLUSION
+      UNION ALL
+      SELECT C.CUST_HIERARCHY_NO,
+             PERIOD,
+             YEAR,
+             SUM(PROJECTION_SALES),
+             SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
+             C.SALES_INCLUSION,
+             1 INDICATOR
+      FROM    ', @CCP_HIERARCHY, ' C
+             JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                PERIOD,
+                                YEAR
+                         FROM    #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @PROJ_START_SID, ' AND ', @PROJ_END_SID, ')B
+             LEFT JOIN (SELECT SPM.PROJECTION_SALES,
+                               SPM.PROJECTION_UNITS,
+                               SPM.PERIOD_SID,
+                               SPM.CCP_DETAILS_SID
+                        FROM   ', @S_PROJECTION_TABLE, ' SPM
+						WHERE EXISTS (SELECT 1 FROM ', @S_MASTER_TABLE, ' MAS WHERE MAS.CCP_DETAILS_SID=SPM.CCP_DETAILS_SID AND MAS.FILTER_CCP=1)) A
+                    ON C.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                       AND B.PERIOD_SID = A.PERIOD_SID
+              LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+			  WHERE MAS.FILTER_CCP=1
+      GROUP  BY C.CUST_HIERARCHY_NO,
+                PERIOD,
+                YEAR,
+                C.SALES_INCLUSION)A 
+                           JOIN  ', @CUSTOMER_TABLE_SALES, ' B ON B.HIERARCHY_NO=A.HIERARCHY_NO
+                           AND B.PERIOD=A.PERIOD
+                           AND B.YEAR=A.YEAR
+                           AND B.SALES_INCLUSION=A.SALES_INCLUSION
+                           AND A.INDICATOR=B.INDICATOR
+                     ')
+
+                EXEC Sp_executesql
+                  @SQL
+
+                SET @SQL =Concat('
+                UPDATE      B SET 
+                           B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
+                FROM 
+       ( SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
+             A.PERIOD,
+             A.YEAR,
+             SUM(( SALES ))    SALES,
+             SUM(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1) )) UNITS,
+             C.SALES_INCLUSION,
+             0                 INDICATOR
+      FROM   ', @CCP_HIERARCHY, ' C
+	   JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                PERIOD,
+                                YEAR
+                         FROM   #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @STAT_SALES_SID, ' AND ', @END_SALES_SID, ')A
+             LEFT JOIN (SELECT AD.CCP_DETAILS_SID,
+                               PERIOD_SID,
+                               SUM(SALES)    SALES,
+                               SUM(QUANTITY) QUANTITY
+                        FROM   [ACTUALS_DETAILS] AD
+                        WHERE  QUANTITY_INCLUSION = ''Y'' 
+						AND EXISTS (SELECT 1 FROM ', @S_MASTER_TABLE, ' MAS WHERE MAS.CCP_DETAILS_SID=AD.CCP_DETAILS_SID AND MAS.FILTER_CCP=0)
+                        GROUP  BY AD.CCP_DETAILS_SID,
+                                  PERIOD_SID) AD
+                    ON A.PERIOD_SID = AD.PERIOD_SID
+                       AND AD.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+              LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+			WHERE MAS.FILTER_CCP=0
+      GROUP  BY C.CUST_HIERARCHY_NO,
+                PERIOD,
+                YEAR,
+                C.SALES_INCLUSION
+      UNION ALL
+      SELECT C.CUST_HIERARCHY_NO,
+             PERIOD,
+             YEAR,
+             SUM(PROJECTION_SALES),
+             SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
+             C.SALES_INCLUSION,
+             1 INDICATOR
+      FROM    ', @CCP_HIERARCHY, ' C
+             JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                PERIOD,
+                                YEAR
+                         FROM    #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @PROJ_START_SID, ' AND ', @PROJ_END_SID, ')B
+             LEFT JOIN (SELECT SPM.PROJECTION_SALES,
+                               SPM.PROJECTION_UNITS,
+                               SPM.PERIOD_SID,
+                               SPM.CCP_DETAILS_SID
+                        FROM   ', @S_PROJECTION_TABLE, ' SPM
+						WHERE EXISTS (SELECT 1 FROM ', @S_MASTER_TABLE, ' MAS WHERE MAS.CCP_DETAILS_SID=SPM.CCP_DETAILS_SID AND MAS.FILTER_CCP=0)) A
+                    ON C.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                       AND B.PERIOD_SID = A.PERIOD_SID
+              LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+			  WHERE MAS.FILTER_CCP=0
+      GROUP  BY C.CUST_HIERARCHY_NO,
+                PERIOD,
+                YEAR,
+                C.SALES_INCLUSION)A 
+                           JOIN  ', @CUSTOMER_TABLE_SALES, ' B ON B.HIERARCHY_NO=A.HIERARCHY_NO
+                           AND B.PERIOD=A.PERIOD
+                           AND B.YEAR=A.YEAR
+                           AND B.SALES_INCLUSION=A.SALES_INCLUSION
+                           AND A.INDICATOR=B.INDICATOR
+                     ')
+
+                EXEC Sp_executesql
+                  @SQL
+            END
+
+          IF @FLAG = 'UOM'
+             AND @SCREEN_NAME = 'SALES'
+             AND @VIEW IN ( 'P' )
+            BEGIN
+                SET @SQL =Concat('
+                UPDATE      B SET 
+                           B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
+                FROM 
+       ( SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
+             A.PERIOD,
+             A.YEAR,
+             SUM(( SALES ))    SALES,
+             SUM(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1) )) UNITS,
+             C.SALES_INCLUSION,
+             0                 INDICATOR
+      FROM   ', @CCP_HIERARCHY, ' C
+	   JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                PERIOD,
+                                YEAR
+                         FROM   #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @STAT_SALES_SID, ' AND ', @END_SALES_SID, ')A
+             LEFT JOIN (SELECT AD.CCP_DETAILS_SID,
+                               PERIOD_SID,
+                               SUM(SALES)    SALES,
+                               SUM(QUANTITY) QUANTITY
+                        FROM   [ACTUALS_DETAILS] AD
+                        WHERE  QUANTITY_INCLUSION = ''Y'' 
+						AND EXISTS (SELECT 1 FROM ', @S_MASTER_TABLE, ' MAS WHERE MAS.CCP_DETAILS_SID=AD.CCP_DETAILS_SID AND MAS.FILTER_CCP=1)
+                        GROUP  BY AD.CCP_DETAILS_SID,
+                                  PERIOD_SID) AD
+                    ON A.PERIOD_SID = AD.PERIOD_SID
+                       AND AD.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+              LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+			WHERE MAS.FILTER_CCP=1
+      GROUP  BY C.PROD_HIERARCHY_NO,
+                PERIOD,
+                YEAR,
+                C.SALES_INCLUSION
+      UNION ALL
+      SELECT C.PROD_HIERARCHY_NO,
+             PERIOD,
+             YEAR,
+             SUM(PROJECTION_SALES),
+             SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
+             C.SALES_INCLUSION,
+             1 INDICATOR
+      FROM    ', @CCP_HIERARCHY, ' C
+             JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                PERIOD,
+                                YEAR
+                         FROM    #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @PROJ_START_SID, ' AND ', @PROJ_END_SID, ')B
+             LEFT JOIN (SELECT SPM.PROJECTION_SALES,
+                               SPM.PROJECTION_UNITS,
+                               SPM.PERIOD_SID,
+                               SPM.CCP_DETAILS_SID
+                        FROM   ', @S_PROJECTION_TABLE, ' SPM
+						WHERE EXISTS (SELECT 1 FROM ', @S_MASTER_TABLE, ' MAS WHERE MAS.CCP_DETAILS_SID=SPM.CCP_DETAILS_SID AND MAS.FILTER_CCP=1)) A
+                    ON C.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                       AND B.PERIOD_SID = A.PERIOD_SID
+              LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+			  WHERE MAS.FILTER_CCP=1
+      GROUP  BY C.PROD_HIERARCHY_NO,
+                PERIOD,
+                YEAR,
+                C.SALES_INCLUSION)A 
+                           JOIN  ', @PRODUCT_TABLE_SALES, ' B ON B.HIERARCHY_NO=A.HIERARCHY_NO
+                           AND B.PERIOD=A.PERIOD
+                           AND B.YEAR=A.YEAR
+                           AND B.SALES_INCLUSION=A.SALES_INCLUSION
+                           AND A.INDICATOR=B.INDICATOR
+                     ')
+
+                EXEC Sp_executesql
+                  @SQL
+
+                SET @SQL =Concat('
+                UPDATE      B SET 
+                           B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
+                FROM 
+       ( SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
+             A.PERIOD,
+             A.YEAR,
+             SUM(( SALES ))    SALES,
+             SUM(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1) )) UNITS,
+             C.SALES_INCLUSION,
+             0                 INDICATOR
+      FROM   ', @CCP_HIERARCHY, ' C
+	   JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                PERIOD,
+                                YEAR
+                         FROM   #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @STAT_SALES_SID, ' AND ', @END_SALES_SID, ')A
+             LEFT JOIN (SELECT AD.CCP_DETAILS_SID,
+                               PERIOD_SID,
+                               SUM(SALES)    SALES,
+                               SUM(QUANTITY) QUANTITY
+                        FROM   [ACTUALS_DETAILS] AD
+                        WHERE  QUANTITY_INCLUSION = ''Y'' 
+						AND EXISTS (SELECT 1 FROM ', @S_MASTER_TABLE, ' MAS WHERE MAS.CCP_DETAILS_SID=AD.CCP_DETAILS_SID AND MAS.FILTER_CCP=0)
+                        GROUP  BY AD.CCP_DETAILS_SID,
+                                  PERIOD_SID) AD
+                    ON A.PERIOD_SID = AD.PERIOD_SID
+                       AND AD.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+              LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+			WHERE MAS.FILTER_CCP=0
+      GROUP  BY C.PROD_HIERARCHY_NO,
+                PERIOD,
+                YEAR,
+                C.SALES_INCLUSION
+      UNION ALL
+      SELECT C.PROD_HIERARCHY_NO,
+             PERIOD,
+             YEAR,
+             SUM(PROJECTION_SALES),
+             SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
+             C.SALES_INCLUSION,
+             1 INDICATOR
+      FROM    ', @CCP_HIERARCHY, ' C
+             JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                PERIOD,
+                                YEAR
+                         FROM    #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @PROJ_START_SID, ' AND ', @PROJ_END_SID, ')B
+             LEFT JOIN (SELECT SPM.PROJECTION_SALES,
+                               SPM.PROJECTION_UNITS,
+                               SPM.PERIOD_SID,
+                               SPM.CCP_DETAILS_SID
+                        FROM   ', @S_PROJECTION_TABLE, ' SPM
+						WHERE EXISTS (SELECT 1 FROM ', @S_MASTER_TABLE, ' MAS WHERE MAS.CCP_DETAILS_SID=SPM.CCP_DETAILS_SID AND MAS.FILTER_CCP=0)) A
+                    ON C.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                       AND B.PERIOD_SID = A.PERIOD_SID
+              LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+			  WHERE MAS.FILTER_CCP=0
+      GROUP  BY C.PROD_HIERARCHY_NO,
+                PERIOD,
+                YEAR,
+                C.SALES_INCLUSION)A 
+                           JOIN  ', @PRODUCT_TABLE_SALES, ' B ON B.HIERARCHY_NO=A.HIERARCHY_NO
+                           AND B.PERIOD=A.PERIOD
+                           AND B.YEAR=A.YEAR
+                           AND B.SALES_INCLUSION=A.SALES_INCLUSION
+                           AND A.INDICATOR=B.INDICATOR
+                     ')
+
+                EXEC Sp_executesql
+                  @SQL
+            END
+
+          IF @FLAG = 'UOM'
+             AND @SCREEN_NAME = 'SALES'
+             AND @VIEW NOT IN ( 'C', 'P' )
+            BEGIN
+                SET @sql =Concat(' 
+      
+         UPDATE      B SET B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
+                FROM  (SELECT c.ROWID,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
+             A.period,
+             A.YEAR,
+             Sum(( SALES ))    SALES,
+             Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
+             C1.SALES_INCLUSION,
+             0                 INDICATOR
+      FROM   CUSTOM_CCP_SALES C
+                  join ', @CCP_HIERARCHY, ' C1
+                     on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
+				JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C1.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                period,
+                                YEAR
+                         FROM    #period
+                          WHERE  PERIOD_SID BETWEEN ', @STAT_SALES_SID, ' AND ', @END_SALES_SID, ')A
+             LEFT JOIN (SELECT ad.CCP_DETAILS_SID,
+                               PERIOD_SID,
+                               Sum(SALES)    SALES,
+                               Sum(QUANTITY) QUANTITY
+                        FROM   [ACTUALS_DETAILS] ad
+                        WHERE  QUANTITY_INCLUSION = ''Y''
+						AND EXISTS (SELECT 1 FROM ', @S_MASTER_TABLE, ' MAS WHERE MAS.CCP_DETAILS_SID=AD.CCP_DETAILS_SID AND MAS.FILTER_CCP=1)
+                        GROUP  BY ad.CCP_DETAILS_SID,
+                                  PERIOD_SID) ad
+                    ON a.PERIOD_SID = ad.PERIOD_SID
+                       AND ad.CCP_DETAILS_SID = c.CCP_DETAILS_SID
+                                  LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+                                     WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
+                     --   AND C.VERSION_NO= ', @CUSTOM_VERSION_NO, '
+                        AND C.LEVEL_NO= ', @CUSTOM_LEVEL_NO, '
+						 AND MAS.FILTER_CCP=1
+
+      GROUP  BY c.ROWID,
+                period,
+                YEAR,
+                c1.SALES_INCLUSION
+      UNION all
+      SELECT C.ROWID,
+             period,
+             YEAR,
+             Sum(PROJECTION_SALES),
+             Sum(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
+             C1.SALES_INCLUSION,
+             1 INDICATOR
+      FROM   CUSTOM_CCP_SALES C
+                  join ', @CCP_HIERARCHY, ' C1
+                     on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
+				  JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C1.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                period,
+                                YEAR
+                         FROM   #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @PROJ_START_SID, ' AND ', @PROJ_END_SID, ')B
+             LEFT JOIN (SELECT SPM.PROJECTION_SALES,
+                               SPM.PROJECTION_UNITS,
+                               SPM.PERIOD_SID,
+                               SPM.CCP_DETAILS_SID
+                        FROM   ', @S_PROJECTION_TABLE, '  SPM
+						where EXISTS (SELECT 1 FROM ', @S_MASTER_TABLE, ' MAS WHERE MAS.CCP_DETAILS_SID=SPM.CCP_DETAILS_SID AND MAS.FILTER_CCP=1)) A
+                    ON C.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                       AND B.PERIOD_SID = A.PERIOD_SID
+                                     LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+                                      WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
+                        AND C.LEVEL_NO= ', @CUSTOM_LEVEL_NO, '
+						AND MAS.FILTER_CCP=1
+      GROUP  BY C.ROWID,
+                period,
+                YEAR,
+                c1.SALES_INCLUSION)A
+                           join ', @CUSTOM_TABLE_SALES,
+                          '  B ON B.HIERARCHY_NO=A.ROWID
+                           AND B.PERIOD=A.PERIOD
+                           AND B.YEAR=A.YEAR
+                           AND B.SALES_INCLUSION=A.SALES_INCLUSION
+                           AND A.INDICATOR=B.INDICATOR')
+
+                EXEC Sp_executesql
+                  @sql
+
+                SET @sql =Concat(' 
+      
+         UPDATE      B SET B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
+                FROM  (SELECT c.ROWID,-- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
+             A.period,
+             A.YEAR,
+             Sum(( SALES ))    SALES,
+             Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
+             C1.SALES_INCLUSION,
+             0                 INDICATOR
+      FROM   CUSTOM_CCP_SALES C
+                  join ', @CCP_HIERARCHY, ' C1
+                     on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
+				JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C1.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                period,
+                                YEAR
+                         FROM    #period
+                          WHERE  PERIOD_SID BETWEEN ', @STAT_SALES_SID, ' AND ', @END_SALES_SID, ')A
+             LEFT JOIN (SELECT ad.CCP_DETAILS_SID,
+                               PERIOD_SID,
+                               Sum(SALES)    SALES,
+                               Sum(QUANTITY) QUANTITY
+                        FROM   [ACTUALS_DETAILS] ad
+                        WHERE  QUANTITY_INCLUSION = ''Y''
+						AND EXISTS (SELECT 1 FROM ', @S_MASTER_TABLE, ' MAS WHERE MAS.CCP_DETAILS_SID=AD.CCP_DETAILS_SID AND MAS.FILTER_CCP=0)
+                        GROUP  BY ad.CCP_DETAILS_SID,
+                                  PERIOD_SID) ad
+                    ON a.PERIOD_SID = ad.PERIOD_SID
+                       AND ad.CCP_DETAILS_SID = c.CCP_DETAILS_SID
+                                  LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+                                     WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
+                     --   AND C.VERSION_NO= ', @CUSTOM_VERSION_NO, '
+                        AND C.LEVEL_NO= ', @CUSTOM_LEVEL_NO, '
+						 AND MAS.FILTER_CCP=0
+
+      GROUP  BY c.ROWID,
+                period,
+                YEAR,
+                c1.SALES_INCLUSION
+      UNION all
+      SELECT C.ROWID,
+             period,
+             YEAR,
+             Sum(PROJECTION_SALES),
+             Sum(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
+             C1.SALES_INCLUSION,
+             1 INDICATOR
+      FROM   CUSTOM_CCP_SALES C
+                  join ', @CCP_HIERARCHY, ' C1
+                     on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
+				  JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C1.CCP_DETAILS_SID
+             CROSS JOIN (SELECT PERIOD_SID,
+                                period,
+                                YEAR
+                         FROM   #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @PROJ_START_SID, ' AND ', @PROJ_END_SID, ')B
+             LEFT JOIN (SELECT SPM.PROJECTION_SALES,
+                               SPM.PROJECTION_UNITS,
+                               SPM.PERIOD_SID,
+                               SPM.CCP_DETAILS_SID
+                        FROM   ', @S_PROJECTION_TABLE, '  SPM
+						where EXISTS (SELECT 1 FROM ', @S_MASTER_TABLE, ' MAS WHERE MAS.CCP_DETAILS_SID=SPM.CCP_DETAILS_SID AND MAS.FILTER_CCP=0)) A
+                    ON C.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                       AND B.PERIOD_SID = A.PERIOD_SID
+                                     LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+                                      WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
+                        AND C.LEVEL_NO= ', @CUSTOM_LEVEL_NO, '
+						AND MAS.FILTER_CCP=0
+      GROUP  BY C.ROWID,
+                period,
+                YEAR,
+                c1.SALES_INCLUSION)A
+                           join ', @CUSTOM_TABLE_SALES,
+                          '  B ON B.HIERARCHY_NO=A.ROWID
+                           AND B.PERIOD=A.PERIOD
+                           AND B.YEAR=A.YEAR
+                           AND B.SALES_INCLUSION=A.SALES_INCLUSION
+                           AND A.INDICATOR=B.INDICATOR')
+
+                EXEC Sp_executesql
+                  @sql
+            END
+
           SET @sql =Concat('UPDATE ', @STATUS_TABLE, '
 SET    FLAG = ''C''
 WHERE  SCREEN_NAME= ''', @SCREEN_NAME, ''' 
@@ -5219,6 +6064,7 @@ WHERE  SCREEN_NAME= ''', @SCREEN_NAME, '''
 
           EXEC Sp_executesql
             @sql
+	
       END TRY
 
       BEGIN CATCH
@@ -5247,4 +6093,5 @@ WHERE  SCREEN_NAME= ''', @SCREEN_NAME, '''
           );
       END CATCH
   END 
+  
   GO
