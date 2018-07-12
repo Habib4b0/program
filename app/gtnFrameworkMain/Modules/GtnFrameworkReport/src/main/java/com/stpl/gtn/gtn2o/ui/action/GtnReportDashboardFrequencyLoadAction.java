@@ -47,10 +47,18 @@ public class GtnReportDashboardFrequencyLoadAction
 					.getIntegerFromV8ComboBox();
 
 			String endString = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_STATUS", componentId)
-					.getStringCaptionFromV8ComboBox().replaceAll(" - ", " ");
+					.getStringCaptionFromV8ComboBox();
+			endString =endString.replaceAll(" - ", " ");
+			endString = endString.replaceAll("-", " ");
+			
+			
+
 			String startString = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId)
-					.getStringCaptionFromV8ComboBox().replaceAll(" - ", " ");
+					.getStringCaptionFromV8ComboBox();
+			startString =startString.replaceAll(" - ", " ");
+			startString =startString.replaceAll("-", " ");
+			
 			String frequency = getFrequency(startString);
 
 			LocalDate startDate = parseDate(startString, frequency);
@@ -162,7 +170,7 @@ public class GtnReportDashboardFrequencyLoadAction
 	private String getFrequency(String startString) {
 		Pattern semiAnnualPattern = Pattern.compile("^([S])([1-2])*");
 		
-		if (Pattern.matches("[A-Z&&[Q]]{1}\\d*",startString)) {
+		if (Pattern.matches("[A-Z&&[Q]]{1}..\\d*",startString)) {
 			return "Quarter";
 		} else if (semiAnnualPattern.matcher(startString).find()) {
 			return "Semi-Annual";

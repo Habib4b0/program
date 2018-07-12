@@ -108,6 +108,7 @@ public class PagedGrid {
 
     public void refreshGrid() {
         count = getTotalCount();
+        pageLength = count;
         gtnlogger.info("count------" + count);
         dataSet = loadData((pageNumber * pageLength), pageLength);
 
@@ -364,9 +365,10 @@ public class PagedGrid {
             	hl.setWidth("105%");
                 TextField textField = new TextField();
                 textField.setPlaceholder(show_all);
-                textField.setWidth("100%");
+                textField.setWidth("118%");
                 textField.setId(property);
                 textField.addValueChangeListener(this::onFilterTextChange);
+                
                 hl.addComponent(textField);
                 
                 hl.addLayoutClickListener(new LayoutClickListener() {
@@ -392,10 +394,10 @@ public class PagedGrid {
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
             	HorizontalLayout h2 = new HorizontalLayout();
             	h2.setMargin(false);
-            	h2.setWidth("105%");
+            	h2.setWidth("118%");
                 DateField dateField = new DateField();
                 dateField.setPlaceholder(show_all);
-                dateField.setWidth("100%");
+                dateField.setWidth("114%");
                 dateField.setSizeFull();
                 dateField.setId(property);
                 dateField.addValueChangeListener(this::onFilterDateChange);

@@ -86,10 +86,29 @@ height: auto!important;
 
 .v-panel  {
 margin-left: 9px;
+margin-top: 11px;
 }
 
 .v-widget.v-select-optiongroup{
 margin-left: 10px;
+}
+.v-window > .popupContent .v-datefield [class*="textfield"] {
+height: 137%!important;
+}
+.v-window > .popupContent .v-datefield [class*="button"] {
+height: 137%!important;
+}
+
+.v-window > .popupContent .v-grid-cell .v-horizontallayout .v-textfield.v-widget.v-has-width{
+margin-left: -18px;
+}
+
+.v-window > .popupContent .v-grid-cell .v-horizontallayout .v-textfield.v-datefield-textfield {
+margin-left: 0px;
+}
+
+.v-window > .popupContent .v-grid-cell .v-horizontallayout .v-datefield.v-datefield-popupcalendar {
+margin-left: -18px;
 }
 
 }

@@ -105,6 +105,7 @@ public class GtnUIFrameworkComponentConfig {
 	private GtnUIFrameworkButtonConfig buttonConfig;
 	private GtnUIFrameWorkActionConfig gtnUIFrameWorkColumnGeneratorConfig;
 	private GtnUIFrameworkGridComponentConfig gtnUIFrameWorkGridConfig;
+	private String customReference;
 	/*
 	 * List of dependent componentIds. For example is combobox1 is changed, then
 	 * combobox2 has to load, then combobox2 will be the dependent component of
@@ -729,6 +730,14 @@ public class GtnUIFrameworkComponentConfig {
 
 	public void setReloadActionConfig(GtnUIFrameWorkActionConfig reloadActionConfig) {
 		this.reloadActionConfig = reloadActionConfig;
+	}
+
+	public String getCustomReference() {
+		return customReference;
+	}
+
+	public void setCustomReference(String customReference) {
+		this.customReference = customReference;
 	}
 
 }
