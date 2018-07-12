@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportGenerateRequestAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIUOMLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDashboardFrequencyLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDashboardValuesResetAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportFilterReloadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportLevelFilterReloadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportFilterGenerateLoadAction;
@@ -1211,6 +1212,20 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		resetButton.setParentComponentId(controlButtonLayoutConfig.getComponentId());
 		resetButton.setAddToParent(true);
 		componentList.add(resetButton);
+
+		GtnUIFrameWorkActionConfig dashboardValuesResetAction = new GtnUIFrameWorkActionConfig();
+		dashboardValuesResetAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		dashboardValuesResetAction.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
+		dashboardValuesResetAction.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
+		List<GtnUIFrameWorkActionConfig> onSuccessConfigList = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig valuesResetAction = new GtnUIFrameWorkActionConfig();
+		valuesResetAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		valuesResetAction.addActionParameter(GtnReportDashboardValuesResetAction.class.getName());
+		valuesResetAction.addActionParameter(nameSpace);
+		onSuccessConfigList.add(valuesResetAction);
+		dashboardValuesResetAction.addActionParameter(onSuccessConfigList);
+		resetButton.addGtnUIFrameWorkActionConfig(dashboardValuesResetAction);
 
 		GtnUIFrameworkComponentConfig saveProfileButton = new GtnUIFrameworkComponentConfig();
 		saveProfileButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);

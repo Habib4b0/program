@@ -68,6 +68,8 @@ public class GtnFrameworkIfpIdAndNoValidationAction
 		ifpBean.setIfpInfo(ifpInfpBean);
 		ifpRequest.setGtnIFamilyPlan(ifpBean);
 		request.setGtnWsIfpRequest(ifpRequest);
+                String checkMode =(String)GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+                if(!"Edit".equals(checkMode)){
 		GtnUIFrameworkWebserviceResponse reponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
 						+ GtnWsIFamilyPlanContants.GTN_WS_IFP_IFPID_IFPNO_VALIDATION_SERVICE,
@@ -86,6 +88,7 @@ public class GtnFrameworkIfpIdAndNoValidationAction
 			}
 			throw new GtnFrameworkValidationFailedException(msg, componentId);
 		}
+                }
 	}
 
 	@Override

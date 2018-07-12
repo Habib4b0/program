@@ -2,7 +2,9 @@ package com.stpl.gtn.gtn2o.ui.module.lookups;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ui.action.GtnReportReportProfileDeleteAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardReportProfileLoadAction;
@@ -10,9 +12,11 @@ import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportConfirmedDeleteButtonAct
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkOptionGroupConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
@@ -20,6 +24,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkReportProfileLookUp {
@@ -279,10 +284,43 @@ public class GtnFrameworkReportProfileLookUp {
 				GtnFrameworkCommonConstants.CREATED_BY_HEADER, "viewId", "viewData"));
 		reportProfilePagedTableConfig.setTableColumnMappingId(
 				new Object[] { "viewNameFilter", "createdDateFilter", "modifiedDateFilter", "createdByFilter" });
+		reportProfilePagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 
 		reportProfilePagedTableComponent.setGtnPagedTableConfig(reportProfilePagedTableConfig);
 	}
 
+	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig(){
+		String[] columnPropertyIds = { "viewNameFilter", "createdDateFilter", "modifiedDateFilter", "createdByFilter" };
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> reportProfileFilterConfigMap = new HashMap<>(
+				columnPropertyIds.length);
+		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
+				GtnUIFrameworkComponentType.DATEFIELDVAADIN8, GtnUIFrameworkComponentType.DATEFIELDVAADIN8,
+				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8 };
+		String[] reportProfileComboboxIds = new String[1];
+		String[] reportProfileComboboxType =  new String[1];
+		int startIndex = 0;
+		for (int i = 0; i < columnPropertyIds.length; i++) {
+			GtnUIFrameworkPagedTableCustomFilterConfig reportProfileFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
+			reportProfileFilterConfig.setPropertId(columnPropertyIds[i]);
+			reportProfileFilterConfig.setGtnComponentType(componentType[i]);
+			if ((startIndex < reportProfileComboboxIds.length)
+					&& columnPropertyIds[i].equals(reportProfileComboboxIds[startIndex])) {
+				GtnUIFrameworkComponentConfig custHierarchySearchFilterConfig = new GtnUIFrameworkComponentConfig();
+				custHierarchySearchFilterConfig.setComponentId("customFilterComboBox");
+				custHierarchySearchFilterConfig.setComponentName("customFilterComboBox");
+				custHierarchySearchFilterConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
+				custHierarchySearchFilterConfig.getGtnComboboxConfig().setComboBoxType(reportProfileComboboxType[startIndex]);
+				custHierarchySearchFilterConfig.getGtnComboboxConfig()
+						.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+				reportProfileFilterConfig.setGtnComponentConfig(custHierarchySearchFilterConfig);
+				startIndex++;
+			}
+			reportProfileFilterConfigMap.put(reportProfileFilterConfig.getPropertId(),
+					reportProfileFilterConfig);
+		}
+		return reportProfileFilterConfigMap;
+	}
 	private void addControlPopUpButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		GtnUIFrameworkComponentConfig reportProfileControlPopUpLayout = new GtnUIFrameworkComponentConfig();
 		GtnUIFrameworkLayoutConfig layoutConf = new GtnUIFrameworkLayoutConfig();

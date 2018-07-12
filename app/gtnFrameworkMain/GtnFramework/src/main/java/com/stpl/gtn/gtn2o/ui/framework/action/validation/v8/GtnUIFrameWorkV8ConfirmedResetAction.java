@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.vaadin.addons.ComboBoxMultiselect;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -16,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -76,13 +79,19 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 			if (baseComponent.getComponent() instanceof TextField) {
 				baseComponent.loadV8FieldValue(value);
 			}
-                        if (baseComponent.getComponent() instanceof RadioButtonGroup) {
+			if (baseComponent.getComponent() instanceof RadioButtonGroup) {
 				baseComponent.loadV8FieldValue(value);
 			}
-                        if (baseComponent.getComponent() instanceof VerticalLayout) {
+			if (baseComponent.getComponent() instanceof VerticalLayout) {
 				baseComponent.setV8GridItems(new ArrayList<>());
 			}
-			
+			if(baseComponent.getComponent() instanceof ComboBoxMultiselect){
+				baseComponent.loadV8MultiSelectValue();
+			}
+			if(baseComponent.getComponent() instanceof ComboBox){
+				baseComponent.loadV8ComboBoxComponentValue(String.valueOf(value));
+			}
+
 		} catch (Exception typeException) {
 			gtnLogger.error("Exception on reset component id=" + componentId, typeException);
 		}
