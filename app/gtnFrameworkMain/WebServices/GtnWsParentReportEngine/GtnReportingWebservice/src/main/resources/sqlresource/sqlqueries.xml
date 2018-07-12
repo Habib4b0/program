@@ -198,7 +198,7 @@
 						REPORTING_VIEW_MASTER
 					WHERE
 						VIEW_TYPE = ?
-						AND VIEW_NAME LIKE ?
+						AND VIEW_NAME LIKE ? @filter
 						?
 						AND FLAG = ?
 			]]>
