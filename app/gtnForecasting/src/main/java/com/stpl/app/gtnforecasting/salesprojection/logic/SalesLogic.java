@@ -2568,6 +2568,15 @@ public class SalesLogic {
         sqlUnitsQuery = sqlUnitsQuery.replace("@CUSTSID", getCustomSid(projectionSelectionDTO));
         sqlUnitsQuery = sqlUnitsQuery.replace("@SALES_INCLUSION_ST", getSalesInclusion(projectionSelectionDTO,"ST"));
         sqlUnitsQuery = sqlUnitsQuery.replace("@SALES_INCLUSION", getSalesInclusion(projectionSelectionDTO,"SP1"));
+        StringBuilder updateLine = new StringBuilder();
+        if(input.get(4).equals("PROJECTION_SALES")){
+          updateLine.append(" SP.PROJECTION_SALES = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0) ")
+                    .append(" ,SP.PROJECTION_UNITS = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0)/(NULLIF(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0)) "); 
+        }else{
+        updateLine.append(" SP.PROJECTION_UNITS = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0) ")
+                  .append(" ,SP.PROJECTION_SALES = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0) * (NULLIF(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0)) ");
+        }
+        sqlUnitsQuery = sqlUnitsQuery.replace("[UPDATE_LINE]", updateLine.toString());
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(sqlUnitsQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
     }
 
