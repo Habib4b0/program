@@ -27,6 +27,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationT
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
@@ -358,7 +359,7 @@ public class GtnFrameworkReportComparisonLookup {
 		ndcConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		ndcConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.NDC_CONFIG);
-		ndcConfig.setComponentName("NDC: ");
+		ndcConfig.setComponentName("NDC #: ");
 		ndcConfig.setAddToParent(true);
 		ndcConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.NDC_LAYOUT);
@@ -553,7 +554,7 @@ public class GtnFrameworkReportComparisonLookup {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
 		List<Object> alertParams = new ArrayList<>();
 		alertParams.add(GtnFrameworkCommonConstants.ERROR);
-		alertParams.add("Enter the Workflow Status");
+		alertParams.add("Please select a Workflow Status");
 		workFlowStatusAlertActionConfig.setActionParameterList(alertParams);
 
 		workflowStatusValidationActionConfig.setActionParameterList(
@@ -591,6 +592,25 @@ public class GtnFrameworkReportComparisonLookup {
 				GtnFrameworkCommonConstants.CONTROL_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
 		resetButtonConfig.setComponentName("RESET");
 		resetButtonConfig.setAuthorizationIncluded(true);
+		
+		List<GtnUIFrameWorkActionConfig> resetActionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
+		resetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
+
+		List<Object> params = new ArrayList<>();
+		params.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
+		params.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
+		params.add(Arrays.asList("comparisonLookup_reportComparisonLookupMarketType","comparisonLookup_reportComparisonLookupBrand","comparisonLookup_projectionName","comparisonLookup_reportComparisonLookupContractHolder",
+				"comparisonLookup_ndcConfig","comparisonLookup_projectionDescription","comparisonLookup_reportComparisonContract","comparisonLookup_reportComparisonNdcName"));
+		params.add(Arrays.asList(new Object[] { GtnFrameworkCommonStringConstants.STRING_EMPTY,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY }));
+		resetActionConfig.setActionParameterList(params);
+		resetActionConfigList.add(resetActionConfig);
+		resetButtonConfig.setGtnUIFrameWorkActionConfigList(resetActionConfigList);
+		
 		componentList.add(resetButtonConfig);
 	}
 
@@ -660,7 +680,7 @@ public class GtnFrameworkReportComparisonLookup {
 		GtnUIFrameworkComponentConfig cdrPopUpRuleDetailsResultPanel = configProvider
 				.getPanelConfig("ruleDetailsResultPanel", false, null);
 		cdrPopUpRuleDetailsResultPanel.setComponentWidth("100%");
-		cdrPopUpRuleDetailsResultPanel.setComponentName("Rule Details");
+		cdrPopUpRuleDetailsResultPanel.setComponentName("Projections");
 		cdrPopUpRuleDetailsResultPanel.setAuthorizationIncluded(true);
 		componentList.add(cdrPopUpRuleDetailsResultPanel);
 		ruleDetailsResultDataTable(componentList, cdrPopUpRuleDetailsResultPanel.getComponentId());
