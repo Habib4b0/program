@@ -1589,6 +1589,10 @@ body[class*="modal-custom-window-"] div[id="wrapper"]{
 	
 }
 
+.buttonCustomStyleForLessSpaceBetweenButtons{
+    margin-left: 9px!important;
+    margin-right: -6px!important;   
+}
 /* Commanded because not required in new theme
 .stpl .bootstrap-forecast .v-textfield {
        height: 30px !important;
@@ -1644,4 +1648,5 @@ background : white
 .portlet-title-text{
 	overflow:inherit;
 }
+
 

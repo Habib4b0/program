@@ -188,14 +188,15 @@
 	<entry key="loadViewResults">
 			<![CDATA[
 				Select
-						VIEW_NAME,
+						VIEW_NAME ,
 						CREATED_DATE,
 						MODIFIED_DATE,
-						CREATED_BY,
+						LASTNAME+', '+FIRSTNAME as CREATED_BY,
 						VIEW_ID,
 						VIEW_DATA
 					from
 						REPORTING_VIEW_MASTER
+						join ?.dbo.User_ sys on sys.userId = REPORTING_VIEW_MASTER.CREATED_BY
 					WHERE
 						VIEW_TYPE = ?
 						AND VIEW_NAME LIKE ? @filter

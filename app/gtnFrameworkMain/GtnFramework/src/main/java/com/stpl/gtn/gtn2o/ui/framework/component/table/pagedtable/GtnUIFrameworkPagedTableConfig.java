@@ -80,7 +80,26 @@ public class GtnUIFrameworkPagedTableConfig {
     private String gridHeaderCustomClassLoadURL;
     private GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = null;
     private boolean itemsPerPageAlignCentre = true;
-    public GtnUIFrameWorkActionConfig getGtnUIFrameWorkActionConfig() {
+    private boolean paginationOff = false;
+    private boolean selectionListener = false;
+    
+    public boolean getSelectionListener() {
+		return selectionListener;
+	}
+
+	public void setSelectionListener(boolean selectionListener) {
+		this.selectionListener = selectionListener;
+	}
+
+	public boolean isPaginationOff() {
+		return paginationOff;
+	}
+
+	public void setPaginationOff(boolean paginationOff) {
+		this.paginationOff = paginationOff;
+	}
+
+	public GtnUIFrameWorkActionConfig getGtnUIFrameWorkActionConfig() {
         return gtnUIFrameWorkActionConfig;
     }
 
