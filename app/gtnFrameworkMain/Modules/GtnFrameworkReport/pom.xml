@@ -32,24 +32,23 @@
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
+			<!-- <plugin>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.portal.tools.bundle.support</artifactId>
+				<version>2.0.1</version>
 				<executions>
 					<execution>
-						<phase>install</phase>
-						<configuration>
-							<tasks>
-								<property name="antProperty"
-									value="${project.build.directory}/${project.build.finalName}.${project.packaging}" />
-								<copy file="${antProperty}" todir="D:\Aadhithya\liferay7_wildfly\osgi\modules" />
-							</tasks>
-						</configuration>
+						<id>default-deploy</id>
 						<goals>
-							<goal>run</goal>
+							<goal>deploy</goal>
 						</goals>
+						<phase>pre-integration-test</phase>
 					</execution>
 				</executions>
-			</plugin>
+				<configuration>
+					<liferayHome>${env.LIFERAY_HOME}</liferayHome>
+				</configuration>
+			</plugin> -->
 		</plugins>
 	</build>
 </project>
