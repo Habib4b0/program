@@ -405,9 +405,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		periodRangeFromConfig.setAuthorizationIncluded(true);
 		GtnUIFrameworkComboBoxConfig periodRangeFromComponentLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		periodRangeFromComponentLoadConfig.setModuleName(GtnFrameworkReportStringConstants.REPORT);
-		// periodRangeFromComponentLoadConfig.setItemValues(new ArrayList<>());
-		// periodRangeFromComponentLoadConfig.setItemCaptionValues(new
-		// ArrayList<>());
+		periodRangeFromComponentLoadConfig.setItemValues(new ArrayList<>());
+		periodRangeFromComponentLoadConfig.setItemCaptionValues(new ArrayList<>());
 		periodRangeFromConfig.setGtnComboboxConfig(periodRangeFromComponentLoadConfig);
 		componentList.add(periodRangeFromConfig);
 
@@ -506,9 +505,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		GtnUIFrameworkComboBoxConfig periodRangeToComponentLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		periodRangeToComponentLoadConfig.setModuleName(GtnFrameworkReportStringConstants.REPORT);
-		// periodRangeToComponentLoadConfig.setItemValues(new ArrayList<>());
-		// periodRangeToComponentLoadConfig.setItemCaptionValues(new
-		// ArrayList<>());
+		periodRangeToComponentLoadConfig.setItemValues(new ArrayList<>());
+		periodRangeToComponentLoadConfig.setItemCaptionValues(new ArrayList<>());
 		periodRangeToConfig.setGtnComboboxConfig(periodRangeToComponentLoadConfig);
 		componentList.add(periodRangeToConfig);
 
