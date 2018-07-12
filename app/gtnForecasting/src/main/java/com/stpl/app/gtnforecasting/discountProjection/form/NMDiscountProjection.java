@@ -439,6 +439,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         LOGGER.debug("Inside getContent= {} ", session.getAction());
         configureFeildsForNm();
         loadDeductionLevelFilter(session.getDataSelectionDeductionLevel(), false);
+       frequencyDdlb.setValue(session.getDsFrequency());
+       deductionlevelDdlb.setValue(Integer.valueOf(session.getDataSelectionDeductionLevel()));
         Optional.ofNullable(deductionFilterValues.getChildren()).ifPresent(child-> {
             child.get(1).setChecked(true);
             String deductionMenuItemValue = child.get(1).getMenuItem().getCaption();
@@ -5436,7 +5438,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         int hierarchyLevelNo = isInteger(session.getProductLevelNumber())
                 ? Integer.parseInt(session.getProductLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo,
-                session.getProdRelationshipBuilderSid());
+                session.getProdRelationshipBuilderSid(), session.getProductRelationVersion());
         Collections.sort(currentHierarchy, new Comparator<Leveldto>() {
             @Override
             public int compare(Leveldto o1, Leveldto o2) {
@@ -5536,7 +5538,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         int hierarchyNo = isInteger(session.getCustomerLevelNumber())
                 ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo,
-                session.getCustRelationshipBuilderSid());
+                session.getCustRelationshipBuilderSid(), session.getCustomerRelationVersion());
         Collections.sort(currentHierarchy, new Comparator<Leveldto>() {
             @Override
             public int compare(Leveldto o1, Leveldto o2) {

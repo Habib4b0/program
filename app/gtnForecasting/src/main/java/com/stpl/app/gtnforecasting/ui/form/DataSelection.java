@@ -422,7 +422,7 @@ public class DataSelection extends ForecastDataSelection {
 							@Override
 							/**
 							 * The method is triggered when Yes button of
-							 * themessage box is pressed .
+							 * the message box is pressed .
 							 *
 							 *
 							 * @param buttonId
@@ -443,6 +443,13 @@ public class DataSelection extends ForecastDataSelection {
 					dataSelectionDedLevelValueChange(event);
 				}
 			}
+		});
+                frequency.addValueChangeListener(new Property.ValueChangeListener() {
+                    
+			@Override
+			public void valueChange(final Property.ValueChangeEvent event) {
+                             setUpdateOnTabChange(true);
+                        }		
 		});
                 
                 customRelationDdlb.addValueChangeListener(new Property.ValueChangeListener() {
@@ -1249,6 +1256,8 @@ public class DataSelection extends ForecastDataSelection {
 		session.setProductRelationVersion(selectionDTO.getProductRelationShipVersionNo());
                 session.setCustomRelationShipSid(selectionDTO.getCustomRelationShipSid());
                 session.setCustomDeductionRelationShipSid(selectionDTO.getCustomDeductionRelationShipSid());
+                session.setDsFrequency(String.valueOf(frequency.getValue()));
+                session.setDataSelectionDeductionLevel(selectedDataSelectionDeductionLevel);
 		selectionDTO.setProjectionId(session.getProjectionId());
 		selectionDTO.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 		selectionDTO.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
