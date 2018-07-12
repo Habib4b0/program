@@ -205,10 +205,10 @@ public class GtnWsReportWebsevice {
 		inputList.add("'" + marketType + "'");
 		inputList.add("'" + comparisonBrand + "'");
 		inputList.add("'" + projectionName + "'");
-		inputList.add("'" + contractHolder + "'");
+		inputList.add("'" + contract + "'");
 		inputList.add("'" + ndcName + "'");
 		inputList.add("'" + comparisonNDC + "'");
-		inputList.add("'" + contract + "'");
+		inputList.add("'" + contractHolder + "'");
 		inputList.add("'" + projectionDescription + "'");
 		return inputList;
 	}
