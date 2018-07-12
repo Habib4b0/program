@@ -57,6 +57,7 @@ AS
           DECLARE @PRODUCT_TABLE_DISCOUNT VARCHAR(200) = Concat ('ST_PRODUCT_DISCOUNT_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
                   @STATUS_TABLE           VARCHAR(200) = Concat ('ST_STATUS_TABLE_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
                   @CUSTOM_TABLE_DISCOUNT  VARCHAR(200) = Concat ('ST_CUSTOM_DISCOUNT_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+			      @CUSTOM_CCP_SALES VARCHAR(200) = CONCAT ('CUSTOM_CCP_SALES_',@CUSTOM_VIEW_MASTER_SID),
                   @sales_table            VARCHAR(200),
                   @discount_table         VARCHAR(200)
 
@@ -231,7 +232,7 @@ SELECT distinct CCP.COMPANY_MASTER_SID
 	,CCP.CONTRACT_MASTER_SID
 	,CCP.ITEM_MASTER_SID
 	,CCP.CCP_DETAILS_SID ,c.rowid,c.RS_CONTRACT_SID
-FROM  CUSTOM_CCP_sales C
+FROM  ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' ch
                      on  ch.CCP_DETAILS_SID = c.CCP_DETAILS_SID
 					 --and ch.RS_CONTRACT_SID = c.RS_CONTRACT_SID
@@ -1724,3 +1725,4 @@ GROUP  BY DT.YEAR,
           EXEC Sp_executesql
             @SQL1
 			END
+GO

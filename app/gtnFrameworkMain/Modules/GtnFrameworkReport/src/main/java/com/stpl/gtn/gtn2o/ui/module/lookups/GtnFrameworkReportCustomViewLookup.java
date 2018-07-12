@@ -269,7 +269,7 @@ public class GtnFrameworkReportCustomViewLookup {
 	private void addCustomerTree(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
 		GtnUIFrameworkComponentConfig mainCustomerCssLayout = layoutsConfig
-				.getCssLayoutConfig(tabName + "mainHorizontalLayout", parentId);
+				.getHorizontalLayoutConfig(tabName + "mainHorizontalLayout", parentId);
 		mainCustomerCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_10);
 		componentList.add(mainCustomerCssLayout);
 
@@ -293,19 +293,16 @@ public class GtnFrameworkReportCustomViewLookup {
 		customerGrid.setGtnUIFrameWorkGridConfig(gridConfig);
 		componentList.add(customerGrid);
 
-		GtnUIFrameworkComponentConfig customerBtnCssLayout = layoutsConfig
-				.getCssLayoutConfig(tabName + "customerBtMain", parentId);
-		customerBtnCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_2);
-		componentList.add(customerBtnCssLayout);
-
-		GtnUIFrameworkComponentConfig customerBtnVerticalLayout = layoutsConfig
-				.getVerticalLayoutConfig(tabName + "customerBtn", customerBtnCssLayout.getComponentId());
-		componentList.add(customerBtnVerticalLayout);
-
+		GtnUIFrameworkComponentConfig customerBtnVerLayout = layoutsConfig
+				.getVerticalLayoutConfig(tabName + "customerBtn", mainCustomerCssLayout.getComponentId());
+		customerBtnVerLayout.setSpacing(true);
+		customerBtnVerLayout.addComponentStyle("stpl-margin-top-100");
+		componentList.add(customerBtnVerLayout);
+		
 		GtnUIFrameworkComponentConfig addCustomerButton = new GtnUIFrameworkComponentConfig();
 		addCustomerButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		addCustomerButton.setAddToParent(true);
-		addCustomerButton.setParentComponentId(customerBtnVerticalLayout.getComponentId());
+		addCustomerButton.setParentComponentId(customerBtnVerLayout.getComponentId());
 		addCustomerButton.setComponentId(tabName + "addCustomerBtn");
 		addCustomerButton.setComponentName(" > ");
 		componentList.add(addCustomerButton);
@@ -322,7 +319,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		GtnUIFrameworkComponentConfig removeCustomerButton = new GtnUIFrameworkComponentConfig();
 		removeCustomerButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		removeCustomerButton.setAddToParent(true);
-		removeCustomerButton.setParentComponentId(customerBtnVerticalLayout.getComponentId());
+		removeCustomerButton.setParentComponentId(customerBtnVerLayout.getComponentId());
 		removeCustomerButton.setComponentId(tabName + "removeCustomerBtn");
 		removeCustomerButton.setComponentName(" < ");
 
@@ -342,7 +339,7 @@ public class GtnFrameworkReportCustomViewLookup {
 	private void addProductTree(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
 		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig
-				.getCssLayoutConfig(tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
+				.getHorizontalLayoutConfig(tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
 		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_10);
 		componentList.add(mainCssLayoutForProduct);
 
@@ -368,13 +365,10 @@ public class GtnFrameworkReportCustomViewLookup {
 
 		componentList.add(productGrid);
 
-		GtnUIFrameworkComponentConfig productBtnCssLayout = layoutsConfig
-				.getCssLayoutConfig(tabName + GtnFrameworkReportStringConstants.PRODUCT_BTN_MAIN, parentId);
-		productBtnCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_2);
-		componentList.add(productBtnCssLayout);
-
 		GtnUIFrameworkComponentConfig productBtnVerticalLayout = layoutsConfig.getVerticalLayoutConfig(
-				tabName + GtnFrameworkReportStringConstants.PRODUCT_BTN, productBtnCssLayout.getComponentId());
+				tabName + GtnFrameworkReportStringConstants.PRODUCT_BTN, mainCssLayoutForProduct.getComponentId());
+		productBtnVerticalLayout.setSpacing(true);
+		productBtnVerticalLayout.addComponentStyle("stpl-margin-top-100");
 		componentList.add(productBtnVerticalLayout);
 
 		GtnUIFrameworkComponentConfig addProductButton = new GtnUIFrameworkComponentConfig();
@@ -416,7 +410,7 @@ public class GtnFrameworkReportCustomViewLookup {
 	private void addDeductionTree(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
 		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig
-				.getCssLayoutConfig(tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
+				.getHorizontalLayoutConfig(tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
 		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_10);
 		componentList.add(mainCssLayoutForProduct);
 
@@ -442,13 +436,10 @@ public class GtnFrameworkReportCustomViewLookup {
 
 		componentList.add(deductionGrid);
 
-		GtnUIFrameworkComponentConfig deductionBtnCssLayout = layoutsConfig
-				.getCssLayoutConfig(tabName + GtnFrameworkReportStringConstants.DEDUCTION_BTN_MAIN, parentId);
-		deductionBtnCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_2);
-		componentList.add(deductionBtnCssLayout);
-
 		GtnUIFrameworkComponentConfig deductionBtnVerticalLayout = layoutsConfig.getVerticalLayoutConfig(
-				tabName + GtnFrameworkReportStringConstants.DEDUCTION_BTN, deductionBtnCssLayout.getComponentId());
+				tabName + GtnFrameworkReportStringConstants.DEDUCTION_BTN, mainCssLayoutForProduct.getComponentId());
+		deductionBtnVerticalLayout.setSpacing(true);
+		deductionBtnVerticalLayout.addComponentStyle("stpl-margin-top-100");
 		componentList.add(deductionBtnVerticalLayout);
 
 		GtnUIFrameworkComponentConfig addDeductionButton = new GtnUIFrameworkComponentConfig();
@@ -491,7 +482,7 @@ public class GtnFrameworkReportCustomViewLookup {
 	private void addVariablesTree(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
 		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig
-				.getCssLayoutConfig(tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
+				.getHorizontalLayoutConfig(tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
 		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_10);
 		componentList.add(mainCssLayoutForProduct);
 
@@ -520,13 +511,10 @@ public class GtnFrameworkReportCustomViewLookup {
 
 		componentList.add(variablesGrid);
 
-		GtnUIFrameworkComponentConfig variablesBtnCssLayout = layoutsConfig
-				.getCssLayoutConfig(tabName + GtnFrameworkReportStringConstants.VARIABLES_BTN_MAIN, parentId);
-		variablesBtnCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_2);
-		componentList.add(variablesBtnCssLayout);
-
 		GtnUIFrameworkComponentConfig variablesBtnVerticalLayout = layoutsConfig.getVerticalLayoutConfig(
-				tabName + GtnFrameworkReportStringConstants.VARIABLES_BTN, variablesBtnCssLayout.getComponentId());
+				tabName + GtnFrameworkReportStringConstants.VARIABLES_BTN, mainCssLayoutForProduct.getComponentId());
+		variablesBtnVerticalLayout.setSpacing(true);
+		variablesBtnVerticalLayout.addComponentStyle("stpl-margin-top-100");
 		componentList.add(variablesBtnVerticalLayout);
 
 		GtnUIFrameworkComponentConfig addVariablesButton = new GtnUIFrameworkComponentConfig();
@@ -568,7 +556,7 @@ public class GtnFrameworkReportCustomViewLookup {
 	private void addCustomTree(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
 		GtnUIFrameworkComponentConfig customTreeMainLayout = layoutsConfig
-				.getCssLayoutConfig(tabName + "customViewLookupCssCustomTableLayout", parentId);
+				.getHorizontalLayoutConfig(tabName + "customViewLookupCssCustomTableLayout", parentId);
 		customTreeMainLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_6);
 		componentList.add(customTreeMainLayout);
 		GtnUIFrameworkComponentConfig customTree = new GtnUIFrameworkComponentConfig();
