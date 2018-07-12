@@ -1851,7 +1851,7 @@ public class SalesLogic {
             String hierarchy = salesDTO.getHierarchyNo().contains(",") ? salesDTO.getHierarchyNo().split(",")[0] : salesDTO.getHierarchyNo();
             String hierarchyInserQuery = projectionSelectionDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-update-Sales_custom") : SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES,"('" + hierarchy.trim() + "')");
-            hierarchyInserQuery = hierarchyInserQuery.replace(MASTERSID,String.valueOf(session.getCustomRelationShipSid()));
+            hierarchyInserQuery = hierarchyInserQuery.replace(MASTERSID,projectionSelectionDTO.getSessionDTO().getCustomRelationShipSid()!=0?String.valueOf(projectionSelectionDTO.getSessionDTO().getCustomRelationShipSid()):StringUtils.EMPTY);
 
             String hiearchyIndicator = salesDTO.getHierarchyIndicator();
             boolean isCustomView = projectionSelectionDTO.isIsCustomHierarchy();
@@ -2305,7 +2305,7 @@ public class SalesLogic {
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + salesDTO.getHierarchyNo() + "')");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_CUSTOMERPARENT, salesDTO.getSecHierarchyNo());
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_PRODUCTPARENT, salesDTO.getHierarchyNo());
-            hierarchyInserQuery = hierarchyInserQuery.replace(MASTERSID,String.valueOf(session.getCustomRelationShipSid()));
+            hierarchyInserQuery = hierarchyInserQuery.replace(MASTERSID,String.valueOf(projectionSelectionDTO.getSessionDTO().getCustomRelationShipSid()));
 
             String hiearchyIndicator = salesDTO.getHierarchyIndicator();
             boolean isCustomView = projectionSelectionDTO.isIsCustomHierarchy();
