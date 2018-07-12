@@ -89,7 +89,12 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 				baseComponent.loadV8MultiSelectValue();
 			}
 			if(baseComponent.getComponent() instanceof ComboBox){
-				baseComponent.loadV8ComboBoxComponentValue(String.valueOf(value));
+				if(baseComponent.getComponentConfig().getCustomReference().equals("integerId")){
+				baseComponent.loadV8ComboBoxComponentValue((int)value);
+				}
+				else{
+					baseComponent.loadV8ComboBoxComponentValue(String.valueOf(value));
+				}
 			}
 
 		} catch (Exception typeException) {

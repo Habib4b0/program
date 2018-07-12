@@ -105,7 +105,8 @@ public class GtnUIFrameworkComponentConfig {
 	private GtnUIFrameworkButtonConfig buttonConfig;
 	private GtnUIFrameWorkActionConfig gtnUIFrameWorkColumnGeneratorConfig;
 	private GtnUIFrameworkGridComponentConfig gtnUIFrameWorkGridConfig;
-	private String customReference;
+	private String customReference = "";
+
 	/*
 	 * List of dependent componentIds. For example is combobox1 is changed, then
 	 * combobox2 has to load, then combobox2 will be the dependent component of

@@ -224,15 +224,17 @@ public class GtnWsReportWebsevice {
 		String contract = criteriaMap.get("contract") == null ? "%" : criteriaMap.get("contract");
 		String projectionDescription = criteriaMap.get("projectionDescription") == null ? "%"
 				: criteriaMap.get("projectionDescription");
+		String whereCondition = isProjectionStatus ? "ISNULL(PM.IS_APPROVED,'') NOT IN('Y','C','A','R') AND PM.SAVE_FLAG = 1" : "HT1.list_name = 'WorkFlowStatus' and HT1.description =" + "'" + criteriaMap.get("workflowStatus") + "'";
 		inputList.add(workflowJoinQuery);
 		inputList.add(customViewMasterSid);
+		inputList.add(whereCondition);
 		inputList.add("'" + marketType + "'");
 		inputList.add("'" + comparisonBrand + "'");
 		inputList.add("'" + projectionName + "'");
-		inputList.add("'" + contractHolder + "'");
+		inputList.add("'" + contract + "'");
 		inputList.add("'" + ndcName + "'");
 		inputList.add("'" + comparisonNDC + "'");
-		inputList.add("'" + contract + "'");
+		inputList.add("'" + contractHolder + "'");
 		inputList.add("'" + projectionDescription + "'");
 		return inputList;
 	}
