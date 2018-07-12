@@ -28,8 +28,7 @@ AS
   BEGIN
       SET NOCOUNT ON
 
-      BEGIN TRY
-          DECLARE @SP                    INT,
+           DECLARE @SP                    INT,
                   @SP_PROJ_SID           INT,
                   @TEMP_PROJ_SID         VARCHAR(500),
                   @START_PERIOD_SID      INT,
@@ -58,6 +57,7 @@ AS
           DECLARE @PRODUCT_TABLE_DISCOUNT VARCHAR(200) = Concat ('ST_PRODUCT_DISCOUNT_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
                   @STATUS_TABLE           VARCHAR(200) = Concat ('ST_STATUS_TABLE_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
                   @CUSTOM_TABLE_DISCOUNT  VARCHAR(200) = Concat ('ST_CUSTOM_DISCOUNT_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+			      @CUSTOM_CCP_SALES VARCHAR(200) = CONCAT ('CUSTOM_CCP_SALES_',@CUSTOM_VIEW_MASTER_SID),
                   @sales_table            VARCHAR(200),
                   @discount_table         VARCHAR(200)
 
@@ -232,7 +232,7 @@ SELECT distinct CCP.COMPANY_MASTER_SID
 	,CCP.CONTRACT_MASTER_SID
 	,CCP.ITEM_MASTER_SID
 	,CCP.CCP_DETAILS_SID ,c.rowid,c.RS_CONTRACT_SID
-FROM  CUSTOM_CCP_sales C
+FROM  ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' ch
                      on  ch.CCP_DETAILS_SID = c.CCP_DETAILS_SID
 					 --and ch.RS_CONTRACT_SID = c.RS_CONTRACT_SID
@@ -246,12 +246,15 @@ FROM  CUSTOM_CCP_sales C
 		OR @CCP IS NULL
 		) where CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID)
 
+
+
                 EXEC Sp_executesql
                   @SQL,
                   N'@CCP VARCHAR(MAX),@FIRST_PROJ_SID INT',
                   @CCP = @CCP,
                   @FIRST_PROJ_SID=@FIRST_PROJ_SID
             END
+
 
           IF Object_id('TEMPDB..#SPLIT_TABLE') IS NOT NULL
             DROP TABLE #SPLIT_TABLE
@@ -434,9 +437,14 @@ FROM ', @DISC_MASTER_TABLE, ' A
 JOIN #TEMP_CCP B ON A.CCP_DETAILS_SID=B.CCP_DETAILS_SID and( B.RS_CONTRACT_sID=A.RS_CONTRACT_sID or nullif(B.RS_CONTRACT_sID,0) is null)
 JOIN #RS_INFO RI ON RI.RS_CONTRACT_sID=A.RS_CONTRACT_sID
 WHERE --PV_FILTERS = 1 and 
-EXISTS (SELECT 1 FROM #TEMP_CCP B WHERE A.CCP_DETAILS_SID=B.CCP_DETAILS_SID and (A.RS_CONTRACT_SID=B.RS_CONTRACT_SID or B.RS_CONTRACT_SID = 0)) 
-', CASE
-                          WHEN @DISCOUNT_ID IS NOT NULL THEN ' AND  (EXISTS ( SELECT 1 FROM #SPLIT_TABLE C WHERE C.TOKEN = A.RS_CONTRACT_SID ))'
+',CASE
+                          WHEN  @INDICATOR NOT IN ( 'C', 'P' ) THEN 
+						  'EXISTS (SELECT 1 FROM #TEMP_CCP B WHERE A.CCP_DETAILS_SID=B.CCP_DETAILS_SID and (A.RS_CONTRACT_SID=B.RS_CONTRACT_SID or B.RS_CONTRACT_SID = 0)) '
+						  end 
+						  ,CASE
+                          WHEN  @INDICATOR NOT IN ( 'C', 'P' ) and  @DISCOUNT_ID IS NOT NULL then ' AND ' end
+, CASE
+                          WHEN @DISCOUNT_ID IS NOT NULL THEN '   (EXISTS ( SELECT 1 FROM #SPLIT_TABLE C WHERE C.TOKEN = A.RS_CONTRACT_SID ))'
                           ELSE ''
                         END)
 
@@ -444,6 +452,10 @@ EXISTS (SELECT 1 FROM #TEMP_CCP B WHERE A.CCP_DETAILS_SID=B.CCP_DETAILS_SID and 
             @SQL,
             N'@DISCOUNT_ID NVARCHAR(MAX)',
             @DISCOUNT_ID=@DISCOUNT_ID
+
+
+
+
 
           IF Object_id('TEMPDB..#PIVOT_RESULT') IS NOT NULL
             TRUNCATE TABLE #PIVOT_RESULT
@@ -1712,33 +1724,5 @@ GROUP  BY DT.YEAR,
                                                                ORDER BY RS_NAME,RS_CONTRACT_SID,[YEAR],PERIOD'*/
           EXEC Sp_executesql
             @SQL1
-      END TRY
-
-      BEGIN CATCH
-          DECLARE @ERRORMESSAGE NVARCHAR(4000);
-          DECLARE @ERRORSEVERITY INT;
-          DECLARE @ERRORSTATE INT;
-          DECLARE @ERRORNUMBER INT;
-          DECLARE @ERRORPROCEDURE VARCHAR(200);
-          DECLARE @ERRORLINE INT;
-
-          EXEC Usperrorcollector
-
-          SELECT @ERRORMESSAGE = Error_message(),
-                 @ERRORSEVERITY = Error_severity(),
-                 @ERRORSTATE = Error_state(),
-                 @ERRORPROCEDURE = Error_procedure(),
-                 @ERRORLINE = Error_line(),
-                 @ERRORNUMBER = Error_number()
-
-          RAISERROR ( @ERRORMESSAGE,-- MESSAGE TEXT.
-                      @ERRORSEVERITY,-- SEVERITY.
-                      @ERRORSTATE,-- STATE.
-                      @ERRORPROCEDURE,-- PROCEDURE_NAME.
-                      @ERRORNUMBER,-- ERRORNUMBER
-                      @ERRORLINE -- ERRORLINE
-          );
-      END CATCH
-  END
-
-GO 
+			END
+GO
