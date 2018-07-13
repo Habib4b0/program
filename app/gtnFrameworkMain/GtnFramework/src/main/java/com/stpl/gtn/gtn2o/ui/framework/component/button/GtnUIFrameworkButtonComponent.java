@@ -30,6 +30,7 @@ public class GtnUIFrameworkButtonComponent implements GtnUIFrameworkComponent, G
 		Button vaadinButton = new Button(componentName);
 		vaadinButton.setWidth(componentConfig.getComponentWidth());
 		vaadinButton.setVisible(componentConfig.isVisible());
+		if(!"doNotAddButtonCustomStyle".equals(componentConfig.getCustomReference()))
 		vaadinButton.addStyleName("buttonCustomStyle");
 		if (gtnUIFrameworkButtonConfig != null
 				&& GtnUiFrameworkButtonType.LINK_BUTTON == gtnUIFrameworkButtonConfig.getButtonType()) {

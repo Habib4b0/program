@@ -14859,6 +14859,35 @@ div.v-layout.v-horizontal.v-widget {
 	height: auto !important;
 }
 
+.stpl .v-panel {
+	margin-left: 9px;
+	margin-top: 11px;
+}
+
+.stpl .v-widget.v-select-optiongroup {
+	margin-left: 10px;
+}
+
+.stpl .v-window > .popupContent .v-datefield [class*="textfield"] {
+	height: 137% !important;
+}
+
+.stpl .v-window > .popupContent .v-datefield [class*="button"] {
+	height: 137% !important;
+}
+
+.stpl .v-window > .popupContent .v-grid-cell .v-horizontallayout .v-textfield.v-widget.v-has-width {
+	margin-left: -18px;
+}
+
+.stpl .v-window > .popupContent .v-grid-cell .v-horizontallayout .v-textfield.v-datefield-textfield {
+	margin-left: 0px;
+}
+
+.stpl .v-window > .popupContent .v-grid-cell .v-horizontallayout .v-datefield.v-datefield-popupcalendar {
+	margin-left: -18px;
+}
+
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;

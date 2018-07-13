@@ -188,17 +188,18 @@
 	<entry key="loadViewResults">
 			<![CDATA[
 				Select
-						VIEW_NAME,
+						VIEW_NAME ,
 						CREATED_DATE,
 						MODIFIED_DATE,
-						CREATED_BY,
+						LASTNAME+', '+FIRSTNAME as CREATED_BY,
 						VIEW_ID,
 						VIEW_DATA
 					from
 						REPORTING_VIEW_MASTER
+						join ?.dbo.User_ sys on sys.userId = REPORTING_VIEW_MASTER.CREATED_BY
 					WHERE
 						VIEW_TYPE = ?
-						AND VIEW_NAME LIKE ?
+						AND VIEW_NAME LIKE ? @filter
 						?
 						AND FLAG = ?
 			]]>
@@ -378,16 +379,7 @@
 					LEFT JOIN BRAND_MASTER BM ON
 						BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
 					WHERE
-						ISNULL(
-							PM.IS_APPROVED,
-							''
-						) NOT IN(
-							'Y',
-							'C',
-							'A',
-							'R'
-						)
-						AND PM.SAVE_FLAG = 1
+						?
 						AND(
 							HT.list_name = 'CONTRACT_TYPE'
 							AND HT.DESCRIPTION LIKE ?
@@ -508,16 +500,7 @@
 					LEFT JOIN BRAND_MASTER BM ON
 						BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
 					WHERE
-						ISNULL(
-							PM.IS_APPROVED,
-							''
-						) NOT IN(
-							'Y',
-							'C',
-							'A',
-							'R'
-						)
-						AND PM.SAVE_FLAG = 1
+						?
 						AND(
 							HT.list_name = 'CONTRACT_TYPE'
 							AND HT.DESCRIPTION LIKE ?
@@ -564,6 +547,9 @@
 		<![CDATA[
 			INNER JOIN WORKFLOW_MASTER WM ON
 					PM.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID
+			LEFT JOIN HELPER_TABLE HT1 ON
+				HT1.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+				AND HT1.LIST_NAME = 'WORKFLOWSTATUS'
 		]]>
 	</entry>
 	<entry key="filterOptionDeductionLevelLoadQuery">
