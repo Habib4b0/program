@@ -18,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewDeleteAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportDashBoardRightHeaderRequestAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingDashboardConfirmUpdateProfileAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingDashboardSaveProfileAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkSelectButtonEnableActionInHierarchyLookup;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIBuildCustomTreeAction;
@@ -270,6 +271,10 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportDashboardValuesResetAction.class.getName(),
 				new GtnReportDashboardValuesResetAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
+				GtnFrameworkReportingDashboardConfirmUpdateProfileAction.class.getName(),
+				new GtnFrameworkReportingDashboardConfirmUpdateProfileAction());
+		
 	}
 
 }
