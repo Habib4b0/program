@@ -116,9 +116,14 @@ public class GtnReportingVariableBreakdownHistoryLoadAction
 	public String getVariableBreakdownPeriods(String fromDate) {
 
 		String dateFromPeriodQuery = "";
-		String splitParameter = "-";
+		
+		String splitParameter = " ";
 
 		String fromPeriod = fromDate;
+		
+		if(fromPeriod.contains("-")){
+			splitParameter = "-";
+		}
 
 		if (fromPeriod.startsWith("Q")) {
 			List<String> quarterToDateForFromPeriod = getQuarterToDate(fromPeriod, splitParameter);
