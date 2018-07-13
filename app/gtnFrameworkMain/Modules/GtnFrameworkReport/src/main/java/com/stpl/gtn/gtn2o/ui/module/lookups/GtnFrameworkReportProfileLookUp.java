@@ -267,6 +267,11 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfilePagedTableConfig.setItemPerPage(10);
 		reportProfilePagedTableConfig.setSelectable(true);
 		reportProfilePagedTableConfig.setSinkItemPerPageWithPageLength(false);
+		
+		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
+		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		alertAction.addActionParameter("No Results Found");
+		alertAction.addActionParameter("No Report Profiles match your search criteria.");
 
 		reportProfilePagedTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE);
@@ -285,6 +290,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfilePagedTableConfig.setTableColumnMappingId(
 				new Object[] { "viewNameFilter", "createdDateFilter", "modifiedDateFilter", "createdByFilter" });
 		reportProfilePagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
+		reportProfilePagedTableConfig.setRecordTypeManageActionConfig(alertAction);
 
 		reportProfilePagedTableComponent.setGtnPagedTableConfig(reportProfilePagedTableConfig);
 	}

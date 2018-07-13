@@ -71,6 +71,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		dashboardProjectionType.setAddToParent(true);
 		dashboardProjectionType.setParentComponentId(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "projectionTypeLayout");
+		dashboardProjectionType.setDefaultFocus(true);
 		dashboardProjectionType.setComponentWsFieldId("projectionType");
 
 		GtnUIFrameworkComboBoxConfig dashboardprojectionTypeConfig = new GtnUIFrameworkComboBoxConfig();
@@ -574,7 +575,8 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonNdcName",
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD,
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.TO_PERIOD,
-				nameSpace));
+				nameSpace,
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "addButtonConfig"));
 		searchActionConfigList.add(searchAction);
 
 		searchBtnConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
@@ -598,6 +600,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 				GtnFrameworkCommonConstants.CONTROL_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
 		addBtnConfig.setComponentName("ADD");
 		addBtnConfig.setAuthorizationIncluded(true);
+		addBtnConfig.setEnable(false);
 		componentList.add(addBtnConfig);
 		GtnUIFrameWorkActionConfig addComparisonProjectionAction = new GtnUIFrameWorkActionConfig();
 		addComparisonProjectionAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
