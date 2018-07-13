@@ -76,6 +76,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		projectionType.setAddToParent(true);
 		projectionType.setParentComponentId(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "projectionTypeLayout");
+		projectionType.setDefaultFocus(true);
 		projectionType.setComponentWsFieldId("projectionType");
 
 		GtnUIFrameworkComboBoxConfig projectionTypeConfig = new GtnUIFrameworkComboBoxConfig();
@@ -580,7 +581,8 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportComparisonNdcName",
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD,
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.TO_PERIOD,
-				nameSpace));
+				nameSpace,
+				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "addButtonConfig"));
 		searchActionConfigList.add(searchAction);
 		
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
@@ -604,6 +606,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 				GtnFrameworkCommonConstants.CONTROL_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
 		addButtonConfig.setComponentName("ADD");
 		addButtonConfig.setAuthorizationIncluded(true);
+		addButtonConfig.setEnable(false);
 		componentList.add(addButtonConfig);
 
 		GtnUIFrameWorkActionConfig addProjectionAction = new GtnUIFrameWorkActionConfig();
