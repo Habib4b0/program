@@ -2637,6 +2637,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                 }
                                                 
                                                 discountProjectionLogic.callDPProcedure(session, projectionSelection);
+                                                CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.DISCOUNT3);
                                                 new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,"","","");
                                                 CommonUtil.getInstance().waitForSeconds();
                                                 CommonLogic.procedureCompletionCheck(session, DISCOUNT, com.stpl.app.serviceUtils.Constants.CUSTOM);
@@ -5438,7 +5439,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         int hierarchyLevelNo = isInteger(session.getProductLevelNumber())
                 ? Integer.parseInt(session.getProductLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo,
-                session.getProdRelationshipBuilderSid());
+                session.getProdRelationshipBuilderSid(), session.getProductRelationVersion());
         Collections.sort(currentHierarchy, new Comparator<Leveldto>() {
             @Override
             public int compare(Leveldto o1, Leveldto o2) {
@@ -5538,7 +5539,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         int hierarchyNo = isInteger(session.getCustomerLevelNumber())
                 ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo,
-                session.getCustRelationshipBuilderSid());
+                session.getCustRelationshipBuilderSid(), session.getCustomerRelationVersion());
         Collections.sort(currentHierarchy, new Comparator<Leveldto>() {
             @Override
             public int compare(Leveldto o1, Leveldto o2) {

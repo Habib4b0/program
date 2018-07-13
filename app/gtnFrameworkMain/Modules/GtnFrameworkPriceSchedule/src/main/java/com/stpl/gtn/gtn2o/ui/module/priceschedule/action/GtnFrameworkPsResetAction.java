@@ -124,6 +124,8 @@ public class GtnFrameworkPsResetAction implements GtnUIFrameWorkAction, GtnUIFra
         
         private void loadDataFromService() throws GtnFrameworkValidationFailedException {
             GtnWsRecordBean gtnWsRecordBean = null;
+            if(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkPSConstants.CFP_LEFT_RESULT_TABLE)
+					.getValueFromComponent()!=null){
 			gtnWsRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkPSConstants.CFP_LEFT_RESULT_TABLE)
 					.getValueFromComponent();
             String ifpId = gtnWsRecordBean.getPropertyValueByIndex(8).toString();
@@ -143,6 +145,7 @@ public class GtnFrameworkPsResetAction implements GtnUIFrameWorkAction, GtnUIFra
 		wsclient.callGtnWebServiceUrl(
 				"/" + GtnWsCDRContants.PS_SERVICE + "/" + GtnWsCDRContants.DELETE_ON_RESET, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+            }
 	}
 
 	@Override

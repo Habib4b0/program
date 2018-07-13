@@ -11,11 +11,13 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
+import java.util.List;
 
 public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -119,6 +121,12 @@ public class GtnFrameworkReportDashBoardRightHeaderRequestAction
 				: comparisonBasis.getStringCaptionFromV8ComboBox();
 
 		reportDashBoardBean.setComparisonBasis(comparisonBasisValue);
+                
+                GtnUIFrameworkComponentData comparisonProjectionData = GtnUIFrameworkGlobalUI
+				.getVaadinComponentData("reportingDashboardTab_reportingDashboardComparisonConfig", componentId);
+		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = (List<GtnReportComparisonProjectionBean>) comparisonProjectionData
+				.getCustomData();
+                reportDashBoardBean.setComparisonProjectionBeanList(comparisonProjectionBeanList);
 		GtnWsForecastRequest gtnWsForecastRequest = new GtnWsForecastRequest();
 		gtnWsForecastRequest.setGtnForecastBean(gtnForecastBean);
 		gtnUIFrameworkWebserviceRequest.setGtnWsForecastRequest(gtnWsForecastRequest);
