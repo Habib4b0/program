@@ -9,10 +9,15 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.ui.Grid;
 
 public class GtnReportDashboardComparisonResultsSearchAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -50,6 +55,20 @@ public class GtnReportDashboardComparisonResultsSearchAction
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD,
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.TO_PERIOD }));
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataGridAction);
+		
+		GtnUIFrameworkBaseComponent availableGrid = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(1).toString());
+		GtnUIFrameworkComponentData availableGridData = (GtnUIFrameworkComponentData) availableGrid.getData();
+		Grid<GtnWsRecordBean> grid = availableGridData.getPagedGrid().getGrid();
+		if (grid.getDataProvider() instanceof ListDataProvider) {
+			ListDataProvider dataProvider = (ListDataProvider) grid.getDataProvider();
+			if (dataProvider.getItems().size() > 0) {
+				GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
+				enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
+				enableAction.addActionParameter(actionParamsList.get(16).toString());
+				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, enableAction);
+			}
+		}
 
 	}
 

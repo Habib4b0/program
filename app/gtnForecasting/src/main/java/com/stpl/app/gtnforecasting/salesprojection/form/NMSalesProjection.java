@@ -541,12 +541,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
                         CommonUtil.getInstance().waitForSeconds();
                     }
                     if (uomValueChange) {
-                        session.setFunctionMode("UOM");
                         session.setUomCode(unitOfMeasureDdlb.getValue() == null ? "EACH" : String.valueOf(unitOfMeasureDdlb.getValue()));
                         dataLogic.nmSalesViewsPopulationProcedureUOM(session);
                         uomValueChange = false;
-                        session.setFunctionMode("");
-                        session.setUomCode("");
                     }
                     if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty())) {
                         LOGGER.info("generateBtn :Inside Filter Option");

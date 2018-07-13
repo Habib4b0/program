@@ -29,6 +29,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportComparisonEnableAddBtnAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -81,6 +82,7 @@ public class GtnFrameworkReportComparisonLookup {
 		projectionType.setCustomReference("integerId");
 		projectionType.setParentComponentId(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "projectionTypeLayout");
+		projectionType.setDefaultFocus(true);
 		projectionType.setComponentWsFieldId("projectionType");
 
 		GtnUIFrameworkComboBoxConfig projectionTypeConfig = new GtnUIFrameworkComboBoxConfig();
@@ -572,6 +574,7 @@ public class GtnFrameworkReportComparisonLookup {
 				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(workFlowStatusAlertActionConfig)));
 		searchActionConfigList.add(workflowStatusValidationActionConfig);
 
+		
 		GtnUIFrameWorkActionConfig loadDataGridAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
 		loadDataGridAction.setActionParameterList(Arrays.asList("comparisonLookupResultsPagedTableComponent"));
@@ -592,6 +595,14 @@ public class GtnFrameworkReportComparisonLookup {
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.FROM_PERIOD,
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.TO_PERIOD }));
 		searchActionConfigList.add(loadDataGridAction);
+		
+		GtnUIFrameWorkActionConfig enableAddAction = new GtnUIFrameWorkActionConfig();
+		enableAddAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		enableAddAction.addActionParameter(GtnReportComparisonEnableAddBtnAction.class.getName());
+		enableAddAction.addActionParameter("comparisonLookupResultsPagedTableComponent");
+		enableAddAction.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "addButtonConfig");
+		searchActionConfigList.add(enableAddAction);
+		
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
 
 	}
@@ -632,6 +643,7 @@ public class GtnFrameworkReportComparisonLookup {
 				GtnFrameworkCommonConstants.CONTROL_BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
 		addButtonConfig.setComponentName("ADD");
 		addButtonConfig.setAuthorizationIncluded(true);
+		addButtonConfig.setEnable(false);
 		componentList.add(addButtonConfig);
 
 		GtnUIFrameWorkActionConfig addProjectionAction = new GtnUIFrameWorkActionConfig();
