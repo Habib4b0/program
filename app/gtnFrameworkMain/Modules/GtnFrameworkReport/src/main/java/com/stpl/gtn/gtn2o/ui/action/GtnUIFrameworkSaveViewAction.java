@@ -67,8 +67,8 @@ public class GtnUIFrameworkSaveViewAction
 			customerHierarchyBean = ((GtnWsRecordBean) GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(actionParamsList.get(6).toString()).getComponentData().getCustomData());
 		dataSelectionBean.setCustomerHierarchyRecordBean(customerHierarchyBean);
-		dataSelectionBean.setCustomerHierarchySid((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(7).toString()).getCaptionFromV8ComboBox()))));
+		dataSelectionBean.setCustomerRelationshipBuilderSid(((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(7).toString()).getCaptionFromV8ComboBox())))));
 		dataSelectionBean.setCustomerRelationshipVersionNo(((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(9).toString()).getCaptionFromV8ComboBox())))));
 		dataSelectionBean.setCustomerHierarchyForecastLevel(((checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI

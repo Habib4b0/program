@@ -43,7 +43,8 @@ AS
                   @S_ACTUAL_TABLE     VARCHAR(200) = Concat ('ST_NM_ACTUAL_SALES_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
                   @S_PROJECTION_TABLE VARCHAR(200) = Concat ('ST_NM_SALES_PROJECTION_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
                   @STATUS_TABLE       VARCHAR(200) = Concat ('ST_STATUS_TABLE_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
-                  @ITEM_UOM_TABLE     VARCHAR(MAX) = Concat ('ST_ITEM_UOM_DETAILS_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', ''))
+                  @ITEM_UOM_TABLE     VARCHAR(MAX) = Concat ('ST_ITEM_UOM_DETAILS_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+				  @CUSTOM_CCP_SALES VARCHAR(200) = CONCAT ('CUSTOM_CCP_SALES_',@CUSTOM_VIEW_MASTER_SID)
           DECLARE @FROM_DATE                     DATE,
                   @STARTFROM                     DATE,
                   @PROJECTION_DATE               DATE,
@@ -545,7 +546,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
              C1.SALES_INCLUSION,
              0                 INDICATOR,
                                                 1 FILTER_CCP
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -582,7 +583,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
              C1.SALES_INCLUSION,
              1 INDICATOR,
                                                 1  FILTER_CCP
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -782,7 +783,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
              c1.SALES_INCLUSION,
              0                 INDICATOR,
                max(isnull(fccp.filter_ccp,0))         FILTER_CCP
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   JOIN ', @CCP_HIERARCHY, ' C1
                      ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
 				left join #Filter fccp on fccp.CCP_DETAILS_SID=c1.CCP_DETAILS_SID
@@ -821,7 +822,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
              C1.SALES_INCLUSION,
              1 INDICATOR,
                max(isnull(fccp.filter_ccp,0))         FILTER_CCP
-      FROM    CUSTOM_CCP_SALES C
+      FROM    ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
 			   left join #Filter fccp on fccp.CCP_DETAILS_SID=c1.CCP_DETAILS_SID
@@ -1203,7 +1204,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
              C1.SALES_INCLUSION,
              0                 INDICATOR,1 filter_ccp
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -1239,7 +1240,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C1.SALES_INCLUSION,
              1 INDICATOR,1 filter_ccp
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -1297,7 +1298,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
             C1.SALES_INCLUSION,
              0                 INDICATOR
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -1333,7 +1334,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C1.SALES_INCLUSION,
              1 INDICATOR
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -1701,7 +1702,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
              A.YEAR,
              C1.SALES_INCLUSION,
              0                 INDICATOR
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   JOIN ', @CCP_HIERARCHY, ' C1
                      ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -1722,7 +1723,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
              YEAR,
              C1.SALES_INCLUSION,
              1 INDICATOR
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   JOIN ', @CCP_HIERARCHY, ' C1
                      ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -1762,7 +1763,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
              C1.SALES_INCLUSION,
             0                 INDICATOR
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -1798,7 +1799,7 @@ select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              c1.SALES_INCLUSION,
              1 INDICATOR
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -1960,7 +1961,7 @@ IF @FLAG = 'M'
                UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C1.SALES_INCLUSION,
              1 INDICATOR
-      FROM    CUSTOM_CCP_SALES  C
+      FROM    ',@CUSTOM_CCP_SALES,'  C
                   JOIN ', @CCP_HIERARCHY, ' C1
                              ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -2101,7 +2102,7 @@ IF @FLAG = 'M'
                UNITS=SUM(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C1.SALES_INCLUSION,
              1 INDICATOR
-      FROM    CUSTOM_CCP_SALES  C
+      FROM    ',@CUSTOM_CCP_SALES,'  C
                   JOIN ', @CCP_HIERARCHY, ' C1
                              ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -2256,7 +2257,7 @@ IF @FLAG = 'M'
                UNITS=SUM(PROJECTION_UNITS/ COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C1.SALES_INCLUSION,
              1 INDICATOR
-      FROM    CUSTOM_CCP_SALES  C
+      FROM    ',@CUSTOM_CCP_SALES,'  C
                   JOIN ', @CCP_HIERARCHY, ' C1
                              ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -2412,7 +2413,7 @@ LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
                UNITS=SUM(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
                        C1.SALES_INCLUSION,
              1 INDICATOR
-      FROM    CUSTOM_CCP_SALES  C
+      FROM    ',@CUSTOM_CCP_SALES,'  C
                   JOIN ', @CCP_HIERARCHY, ' C1
                              ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -2718,7 +2719,7 @@ SELECT C.ROWID
        DM.DEDUCTION_INCLUSION,
        0 INDICATOR,
        NULL AS GROWTH
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
@@ -2777,7 +2778,7 @@ SELECT C.ROWID
        DM.DEDUCTION_INCLUSION,
        1 INDICATOR,
        AVG(PTD.GROWTH) AS GROWTH
-FROM    CUSTOM_CCP_SALES C
+FROM    ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
@@ -3083,7 +3084,7 @@ GROUP BY c.PROD_HIERARCHY_NO,
        DM.DEDUCTION_INCLUSION,
        0 INDICATOR,
        NULL AS GROWTH
-      FROM    CUSTOM_CCP_SALES C
+      FROM    ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
@@ -3143,7 +3144,7 @@ GROUP BY c.PROD_HIERARCHY_NO,
        DM.DEDUCTION_INCLUSION,
        1 INDICATOR,
        AVG(PTD.GROWTH) AS GROWTH
-      FROM    CUSTOM_CCP_SALES C
+      FROM    ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
@@ -3709,7 +3710,7 @@ INSERT INTO ', @CUSTOM_TABLE_DISCOUNT, '(HIERARCHY_NO
        0 INDICATOR,
        NULL AS GROWTH
       FROM   
-          CUSTOM_CCP_SALES C
+          ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
@@ -3763,7 +3764,7 @@ SELECT C.ROWID
        DM.DEDUCTION_INCLUSION,
        1 INDICATOR,
        AVG(PTD.GROWTH) AS GROWTH
-      FROM    CUSTOM_CCP_SALES C
+      FROM    ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
@@ -3819,7 +3820,7 @@ WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '
        DM.DEDUCTION_INCLUSION,
        0 INDICATOR,
        NULL AS GROWTH
-      FROM    CUSTOM_CCP_SALES C
+      FROM    ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
@@ -3873,7 +3874,7 @@ WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '
        DM.DEDUCTION_INCLUSION,
        1 INDICATOR,
        AVG(PTD.GROWTH) AS GROWTH
-      FROM    CUSTOM_CCP_SALES C
+      FROM    ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
@@ -4311,7 +4312,7 @@ GROUP BY c.PROD_HIERARCHY_NO,
 ,DM.DEDUCTION_INCLUSION,
        0 INDICATOR
       FROM   
-          CUSTOM_CCP_SALES C
+          ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
@@ -4338,7 +4339,7 @@ SELECT C.ROWID
 ,YEAR
 ,DM.DEDUCTION_INCLUSION,
        1 INDICATOR
-      FROM    CUSTOM_CCP_SALES C
+      FROM    ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
@@ -4384,7 +4385,7 @@ WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '
        0 INDICATOR,
        NULL AS GROWTH
       FROM   
-          CUSTOM_CCP_SALES C
+          ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
@@ -4438,7 +4439,7 @@ SELECT C.ROWID
        DM.DEDUCTION_INCLUSION,
        1 INDICATOR,
        AVG(PTD.GROWTH) AS GROWTH
-      FROM    CUSTOM_CCP_SALES C
+      FROM    ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
@@ -4623,7 +4624,7 @@ RI.CCP_DETAILS_SID = SPM.CCP_DETAILS_SID
                                                     ELSE 'SUM(PROJECTION_SALES)'
                                                   END, ' AS MASSUPDATE_FIELD, SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
-      FROM   CUSTOM_CCP_SALES  C
+      FROM   ',@CUSTOM_CCP_SALES,'  C
                   JOIN ', @CCP_HIERARCHY, ' C1
                      ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -4769,7 +4770,7 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and RI.CCP_DETA
                DISCOUNT=SUM(PROJECTION_SALES),
                        SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
-      FROM    CUSTOM_CCP_SALES  C
+      FROM    ',@CUSTOM_CCP_SALES,'  C
                   JOIN ', @CCP_HIERARCHY, ' C1
                              ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -4927,7 +4928,7 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID and RI.CCP_DETA
                DISCOUNT=SUM(PROJECTION_SALES),
                        SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
-      FROM    CUSTOM_CCP_SALES  C
+      FROM    ',@CUSTOM_CCP_SALES,'  C
                   JOIN ', @CCP_HIERARCHY, ' C1
                              ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -5084,7 +5085,7 @@ INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID  AND RI.CCP_DET
                DISCOUNT=SUM(PROJECTION_SALES),
                        SPM.DEDUCTION_INCLUSION,
              1 INDICATOR
-      FROM    CUSTOM_CCP_SALES  C
+      FROM    ',@CUSTOM_CCP_SALES,'  C
                   JOIN ', @CCP_HIERARCHY, ' C1
                              ON C1.CCP_DETAILS_SID = C.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -5470,7 +5471,7 @@ WHERE
                                 SELECT
                                                 stc.ROWID
                                 FROM
-                                                ', @S_MASTER_TABLE, ' nms inner join CUSTOM_CCP_SALES stc on
+                                                ', @S_MASTER_TABLE, ' nms inner join ',@CUSTOM_CCP_SALES,' stc on
                                                 stc.CCP_DETAILS_SID = nms.CCP_DETAILS_SID AND STC.CUST_VIEW_MASTER_SID =', @CUSTOM_VIEW_MASTER_SID, ' 
                                                  AND STC.LEVEL_NO= ', @CUSTOM_LEVEL_NO, ' 
                                 WHERE
@@ -5494,7 +5495,7 @@ WHERE
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
             C1.SALES_INCLUSION,
              0                 INDICATOR
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -5531,7 +5532,7 @@ WHERE
              Sum(PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C1.SALES_INCLUSION,
              1 INDICATOR
-      FROM  CUSTOM_CCP_SALES C
+      FROM  ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
              CROSS JOIN (SELECT PERIOD_SID,
@@ -5895,7 +5896,7 @@ WHERE
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
              C1.SALES_INCLUSION,
              0                 INDICATOR
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
 				JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C1.CCP_DETAILS_SID
@@ -5933,7 +5934,7 @@ WHERE
              Sum(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C1.SALES_INCLUSION,
              1 INDICATOR
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
 				  JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C1.CCP_DETAILS_SID
@@ -5979,7 +5980,7 @@ WHERE
              Sum(( QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
              C1.SALES_INCLUSION,
              0                 INDICATOR
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
 				JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C1.CCP_DETAILS_SID
@@ -6017,7 +6018,7 @@ WHERE
              Sum(PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)),
              C1.SALES_INCLUSION,
              1 INDICATOR
-      FROM   CUSTOM_CCP_SALES C
+      FROM   ',@CUSTOM_CCP_SALES,' C
                   join ', @CCP_HIERARCHY, ' C1
                      on c1.CCP_DETAILS_SID = c.CCP_DETAILS_SID
 				  JOIN ', @S_MASTER_TABLE, ' MAS ON MAS.CCP_DETAILS_SID=C1.CCP_DETAILS_SID

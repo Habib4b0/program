@@ -2127,6 +2127,7 @@ public class Constant {
     public static final String QFSS = "QFSS";
     public static final String QNONFAMP = "QNON-FAMP";
     public static final String CUSTOM_VIEW_DECLARATION = "customViewDeclaration";
+    public static final String FUNCTION_PRC_VIEWS_CALL_UOM = "FUNCTION_PRC_VIEWS_CALL_UOM";
 
     /**
      * Enum for Frequency constants

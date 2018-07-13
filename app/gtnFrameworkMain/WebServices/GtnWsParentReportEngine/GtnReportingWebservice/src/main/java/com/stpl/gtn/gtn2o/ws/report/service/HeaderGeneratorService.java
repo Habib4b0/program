@@ -122,8 +122,7 @@ public class HeaderGeneratorService {
 
 			GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
 			boolean isColumn = getColumnFlag(dashboardBean.getCustomViewMasterSid());
-			List<GtnReportComparisonProjectionBean> beanList = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
-					.getDataSelectionBean().getComparisonProjectionBeanList();
+			List<GtnReportComparisonProjectionBean> beanList = dashboardBean.getComparisonProjectionBeanList();
 			List<String> comparsionHeader = new ArrayList<>();
 			comparsionHeader.add("Current");
 			if (beanList != null) {
