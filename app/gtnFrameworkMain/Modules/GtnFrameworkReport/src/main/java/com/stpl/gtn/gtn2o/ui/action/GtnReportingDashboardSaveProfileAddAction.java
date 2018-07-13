@@ -38,8 +38,19 @@ public class GtnReportingDashboardSaveProfileAddAction
 		GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean = (GtnReportingDashboardSaveProfileLookupBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(1).toString(),componentId).getComponentData().getSharedPopupData();
 		
-		reportingDashboardSaveProfileLookupBean.setReportProfileviewName(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(2).toString(), componentId).getV8StringFromField()));
+		String viewName = String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(2).toString(), componentId).getV8StringFromField());
+		
+		if(viewName.isEmpty()) {
+			GtnUIFrameWorkActionConfig reportSaveProfileAlertActionConfig = new GtnUIFrameWorkActionConfig();
+			reportSaveProfileAlertActionConfig.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
+			reportSaveProfileAlertActionConfig.addActionParameter("Missing Fields");
+			reportSaveProfileAlertActionConfig.addActionParameter("Please make sure you give the Report View a name. Then try again. ");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, reportSaveProfileAlertActionConfig);
+			return;
+		}
+		
+		reportingDashboardSaveProfileLookupBean.setReportProfileviewName(viewName);
 		
 		reportingDashboardSaveProfileLookupBean.setReportProfileviewType(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(3).toString(), componentId).getV8StringFromField()));
@@ -67,10 +78,9 @@ public class GtnReportingDashboardSaveProfileAddAction
 					+ reportingDashboardSaveProfileLookupBean.getReportProfileviewName());
 			
 		} else {
-			reportSaveProfileActionConfig.addActionParameter("Duplicate View Name");
-			reportSaveProfileActionConfig.addActionParameter("The" + reportingDashboardSaveProfileLookupBean.getReportProfileviewType()
-					+ "View name you have attempted to save is a duplicate of an existing view name."
-					+ "Please enter a different view name");
+			reportSaveProfileActionConfig.addActionParameter("Report View Already Saved");
+			reportSaveProfileActionConfig.addActionParameter(
+					"The view has already been saved. If you want to save changes made to this view, click the UPDATE command button.");
 		}
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, reportSaveProfileActionConfig);
 	}

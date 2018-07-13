@@ -196,7 +196,7 @@ public class GtnFrameworkReportProfileLookUp {
 
 		List<Object> params = new ArrayList<>();
 		params.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
-		params.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
+		params.add("Are you sure you want to reset?");
 		params.add(Arrays.asList(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType",
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName",
