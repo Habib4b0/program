@@ -674,12 +674,13 @@ public class GtnFrameworkReportComparisonLookup {
 		comparisonLookupResultsPagedTableConfig.setTableColumnDataType(new Class<?>[] {
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
-				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
+				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
+				GtnFrameworkCommonConstants.JAVA_UTIL_DATE , GtnFrameworkCommonConstants.JAVA_LANG_STRING});
 
 		comparisonLookupResultsPagedTableConfig.setColumnHeaders(Arrays.asList(new String[] { "Projection Name",
-				"Description", "Market Type", "Contract Holder", "Contract", "Brand" }));
+				"Description", "Market Type", "Contract Holder", "Contract", "Brand" ,"Created Date" , "Created By" }));
 		comparisonLookupResultsPagedTableConfig.setTableColumnMappingId(
-				new Object[] { "projectionName", "description", "marketType", "contractHolder", "contract", "brand" });
+				new Object[] { "projectionName", "description", "marketType", "contractHolder", "contract", "brand"  ,"createdDate" , "createdBy" });
 		comparisonLookupResultsPagedTableConfig.setCountUrl("");
 		comparisonLookupResultsPagedTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_COMPARISONLOOKUP_AVAILABLETABLE_LOADSERVICE);
@@ -690,12 +691,13 @@ public class GtnFrameworkReportComparisonLookup {
 	}
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		String[] columnPropertyIds = {"projectionName", "description", "marketType", "contractHolder", "contract", "brand" };
+		String[] columnPropertyIds = {"projectionName", "description", "marketType", "contractHolder", "contract", "brand" ,"createdDate" , "createdBy" };
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> comparisonLookupCustomFilterConfigMap = new HashMap<>(
 				columnPropertyIds.length);
 		GtnUIFrameworkComponentType[] comparisonLookupComponentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
 				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8 };
+				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, 
+				GtnUIFrameworkComponentType.DATEFIELDVAADIN8,GtnUIFrameworkComponentType.TEXTBOX_VAADIN8};
 		String[] comparisonLookupComboboxIds = new String[1];
 		String[] comparisonLookupComboBoxType =  new String[1];
 		int startIndex = 0;
@@ -759,16 +761,18 @@ public class GtnFrameworkReportComparisonLookup {
 		comparisonLookupProjectionsPagedTableConfig.setItemPerPage(10);
 		comparisonLookupProjectionsPagedTableConfig.setSelectable(true);
 		comparisonLookupProjectionsPagedTableConfig.setSinkItemPerPageWithPageLength(false);
-
+		comparisonLookupProjectionsPagedTableConfig.setPaginationOff(true);
+		
 		comparisonLookupProjectionsPagedTableConfig.setTableColumnDataType(new Class<?>[] {
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,
-				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING });
+				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING, 
+				GtnFrameworkCommonConstants.JAVA_UTIL_DATE , GtnFrameworkCommonConstants.JAVA_LANG_STRING });
 
 		comparisonLookupProjectionsPagedTableConfig.setColumnHeaders(
-				Arrays.asList("Projection Name", "Description", "Market Type", "Contract Holder", "Contract", "Brand"));
+				Arrays.asList("Projection Name", "Description", "Market Type", "Contract Holder", "Contract", "Brand" ,"Created Date" , "Created By"  ));
 		comparisonLookupProjectionsPagedTableConfig.setTableColumnMappingId(
-				new Object[] { "projectionName", "description", "marketType", "contractHolder", "contract", "brand" });
+				new Object[] { "projectionName", "description", "marketType", "contractHolder", "contract", "brand" ,"createdDate" , "createdBy"});
 		comparisonLookupProjectionsPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		comparisonLookupProjectionsPagedTableComponent
 				.setGtnPagedTableConfig(comparisonLookupProjectionsPagedTableConfig);

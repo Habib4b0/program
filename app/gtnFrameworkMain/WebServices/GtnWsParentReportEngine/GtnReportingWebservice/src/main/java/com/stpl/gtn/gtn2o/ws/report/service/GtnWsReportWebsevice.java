@@ -204,7 +204,7 @@ public class GtnWsReportWebsevice {
 		List<String> inputList = getInputList(criteriaMap);
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(sqlService.getQuery(inputList, "loadProjectionComparisonResults"));
-		return resultList;
+		return resultListCustomization(resultList);
 	}
 
 	private List<String> getInputList(Map<String, String> criteriaMap) {
