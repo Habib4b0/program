@@ -2637,6 +2637,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                 }
                                                 
                                                 discountProjectionLogic.callDPProcedure(session, projectionSelection);
+                                                CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.DISCOUNT3);
                                                 new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,"","","");
                                                 CommonUtil.getInstance().waitForSeconds();
                                                 CommonLogic.procedureCompletionCheck(session, DISCOUNT, com.stpl.app.serviceUtils.Constants.CUSTOM);

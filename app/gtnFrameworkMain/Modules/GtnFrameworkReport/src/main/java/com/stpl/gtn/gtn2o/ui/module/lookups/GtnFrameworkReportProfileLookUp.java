@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ui.action.GtnReportReportProfileDeleteAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardReportProfileLoadAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportConfirmedDeleteButtonAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -30,7 +31,7 @@ public class GtnFrameworkReportProfileLookUp {
 
 	public GtnUIFrameworkViewConfig getReportProfileLookupView(String namespace) {
 		GtnUIFrameworkViewConfig reportProfileLookUpView = new GtnUIFrameworkViewConfig();
-		reportProfileLookUpView.setViewName("Report Profile Lookup");
+		reportProfileLookUpView.setViewName("Report Profile Popup ");
 		reportProfileLookUpView.setViewId("reportProfileLookupView");
 		reportProfileLookUpView.setDefaultView(false);
 		addReportProfileLookUpComponentList(reportProfileLookUpView, namespace);
@@ -140,6 +141,7 @@ public class GtnFrameworkReportProfileLookUp {
 		viewNameTextBoxConfig.setAddToParent(true);
 		viewNameTextBoxConfig.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_VIEW_SEARCH_CRITERIA_LAYOUT);
+		viewNameTextBoxConfig.setDefaultFocus(true);
 		componentList.add(viewNameTextBoxConfig);
 	}
 
@@ -194,11 +196,12 @@ public class GtnFrameworkReportProfileLookUp {
 
 		List<Object> params = new ArrayList<>();
 		params.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
-		params.add(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
+		params.add("Are you sure you want to reset?");
 		params.add(Arrays.asList(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName"));
-		params.add(Arrays.asList(new Object[] { "Public", GtnFrameworkCommonStringConstants.STRING_EMPTY }));
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfilePagedTableComponent"));
+		params.add(Arrays.asList(new Object[] { "Public", GtnFrameworkCommonStringConstants.STRING_EMPTY ,GtnFrameworkCommonStringConstants.STRING_EMPTY }));
 		resetActionConfig.setActionParameterList(params);
 		resetActionConfigList.add(resetActionConfig);
 		reportProfileResetButton.setGtnUIFrameWorkActionConfigList(resetActionConfigList);
@@ -264,6 +267,11 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfilePagedTableConfig.setItemPerPage(10);
 		reportProfilePagedTableConfig.setSelectable(true);
 		reportProfilePagedTableConfig.setSinkItemPerPageWithPageLength(false);
+		
+		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
+		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		alertAction.addActionParameter("No Results Found");
+		alertAction.addActionParameter("No Report Profiles match your search criteria.");
 
 		reportProfilePagedTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_LOAD_REPORT_PROFILE_LOOKUP_SERVICE);
@@ -282,6 +290,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfilePagedTableConfig.setTableColumnMappingId(
 				new Object[] { "viewNameFilter", "createdDateFilter", "modifiedDateFilter", "createdByFilter" });
 		reportProfilePagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
+		reportProfilePagedTableConfig.setRecordTypeManageActionConfig(alertAction);
 
 		reportProfilePagedTableComponent.setGtnPagedTableConfig(reportProfilePagedTableConfig);
 	}
@@ -402,25 +411,23 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfileCancelButton.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PROFILE_CONTROL_POPUP_BUTTON_LAYOUT);
 		reportProfileCancelButton.setAddToParent(true);
-
-		GtnUIFrameWorkActionConfig reportProfileConfirmDeleteAction = new GtnUIFrameWorkActionConfig();
-		reportProfileConfirmDeleteAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
-		reportProfileConfirmDeleteAction.addActionParameter("Confirmation");
-		reportProfileConfirmDeleteAction.addActionParameter("Are you sure you want to delete the view?");
-		List<GtnUIFrameWorkActionConfig> onSuccessDeleteActionConfigList = new ArrayList<>();
-		reportProfileConfirmDeleteAction.addActionParameter(onSuccessDeleteActionConfigList);
-
-		GtnUIFrameWorkActionConfig reportProfileDeleteViewAction = new GtnUIFrameWorkActionConfig();
-		reportProfileDeleteViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		reportProfileDeleteViewAction.addActionParameter(GtnReportReportProfileDeleteAction.class.getName());
-		reportProfileDeleteViewAction.addActionParameter(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfilePagedTableComponent");
-		onSuccessDeleteActionConfigList.add(reportProfileDeleteViewAction);
-		reportProfileCancelButton.addGtnUIFrameWorkActionConfig(reportProfileConfirmDeleteAction);
+		
+		
+		List<GtnUIFrameWorkActionConfig> actionConfigListForDelete = new ArrayList<>();
+		GtnUIFrameWorkActionConfig deleteActionConfig = new GtnUIFrameWorkActionConfig();
+		deleteActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		deleteActionConfig.addActionParameter(GtnUIFrameworkReportConfirmedDeleteButtonAction.class.getName());
+		deleteActionConfig.addActionParameter("reportProfileLookup_reportProfilePagedTableComponent");
+		deleteActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.ERROR);
+		deleteActionConfig.addActionParameter("Please select a Report View to delete.");
+		deleteActionConfig.addActionParameter("Are you sure you want to delete the selected view?");
+		actionConfigListForDelete.add(deleteActionConfig);
+		reportProfileCancelButton.setGtnUIFrameWorkActionConfigList(actionConfigListForDelete);
 		
 		componentList.add(reportProfileCancelButton);
 
 		GtnUIFrameworkComponentConfig reportProfileResetButton = new GtnUIFrameworkComponentConfig();
+		
 		reportProfileResetButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		reportProfileResetButton
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfileResetButton");
@@ -429,11 +436,23 @@ public class GtnFrameworkReportProfileLookUp {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PROFILE_CONTROL_POPUP_BUTTON_LAYOUT);
 		reportProfileResetButton.setAddToParent(true);
 
-		GtnUIFrameWorkActionConfig reportProfileCloseAction = new GtnUIFrameWorkActionConfig();
-		reportProfileCloseAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		reportProfileCloseAction.addActionParameter("reportProfileLookupView");
 		
-		reportProfileResetButton.addGtnUIFrameWorkActionConfig(reportProfileCloseAction);
+		List<GtnUIFrameWorkActionConfig> resetActionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
+		resetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
+
+		List<Object> params = new ArrayList<>();
+		params.add("resetAndClose");
+		params.add(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		params.add(Arrays.asList(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName",
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfilePagedTableComponent"));
+		params.add(Arrays.asList(new Object[] { "Public", GtnFrameworkCommonStringConstants.STRING_EMPTY ,GtnFrameworkCommonStringConstants.STRING_EMPTY }));
+		params.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfileResetButton");
+		resetActionConfig.setActionParameterList(params);
+		resetActionConfigList.add(resetActionConfig);	
+		reportProfileResetButton.setGtnUIFrameWorkActionConfigList(resetActionConfigList);
 		componentList.add(reportProfileResetButton);
 	}
 }
