@@ -44,6 +44,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		prodSelectionMainlayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROD_SELECTION_MAINLAYOUT);
 		prodSelectionMainlayout.setAddToParent(true);
+		prodSelectionMainlayout.setComponentWidth("130%");
 		prodSelectionMainlayout.addComponentStyle(GtnUIFrameworkConstants.PADDING.toString());
 		prodSelectionMainlayout.setGtnLayoutConfig(parentVerticalLayout);
 		prodSelectionMainlayout.setParentComponentId(
@@ -153,6 +154,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				true, relationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		relationshipLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_18_PX);
 		relationship.setComponentName("Relationship: ");
+		relationship.setVaadinComponentPlaceHolder(GtnFrameworkReportStringConstants.SELECT_ONE_PLACE_HOLDER);
 
 		GtnUIFrameworkComboBoxConfig relationshipLoadConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkReportStringConstants.PRODUCT_RELATIONSHIP,
@@ -213,6 +215,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 				true, levelLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		levelLayout.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_18_PX);
 		level.setComponentName("Level: ");
+		level.setVaadinComponentPlaceHolder(GtnFrameworkReportStringConstants.SELECT_ONE_PLACE_HOLDER);
 
 		GtnUIFrameworkComboBoxConfig levelLoadConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkForecastConstantCommon.REPORT_FORECAST_LEVEL,

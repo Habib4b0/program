@@ -50,6 +50,8 @@ import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.UI;
 
 public class GtnUIFrameworkGlobalUI {
+	
+	
 	private GtnUIFrameworkGlobalUI() {
 		/**
 		 * empty constructor
@@ -312,6 +314,8 @@ public class GtnUIFrameworkGlobalUI {
 	public static void addChildComponent(String parentComponentId, List<GtnUIFrameworkComponentConfig> componentConfig)
 			throws GtnFrameworkGeneralException {
 		GtnUIFrameworkComponentData componentData = getVaadinComponentData(parentComponentId);
+		
+		
 		GtnUIFrameworkView gtnUIFrameworkView = (GtnUIFrameworkView) getVaadinComponent(componentData.getViewId());
 		removeAllChildComponent(getVaadinComponent(parentComponentId));
 		gtnUIFrameworkView.addComponentList(componentConfig);

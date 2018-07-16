@@ -138,6 +138,7 @@ public class GtnWsTransactionService {
 				resultList = getResultList(criteria.list(), gtnWsSearchRequest.getSearchColumnNameList(),
 						gtnWebServiceAllListConfig.getUserIdNameMap(), gtnWsSearchRequest.getSearchModuleName());
 			} else {
+				
 				return ((Long) criteria.uniqueResult()).intValue();
 			}
 
@@ -389,9 +390,16 @@ public class GtnWsTransactionService {
 			Criteria criteria = session.createCriteria(gtnWebServiceAllListConfig
 					.getTransctionDynamicClass(GtnFrameworkWebserviceConstant.COMSTPLGTNGTN2OWSENTITYTRANSACTION
 							+ gtnWsTransactionRequest.getTableName()));
+			
+		
 			ClassMetadata classMetadata = sessionFactory.getClassMetadata(gtnWebServiceAllListConfig
 					.getTransctionDynamicClass(GtnFrameworkWebserviceConstant.COMSTPLGTNGTN2OWSENTITYTRANSACTION
 							+ gtnWsTransactionRequest.getTableName()));
+			
+			
+			logger.info("table name and localtion is: " + 
+			GtnFrameworkWebserviceConstant.COMSTPLGTNGTN2OWSENTITYTRANSACTION + gtnWsTransactionRequest.getTableName());
+			
 			ProjectionList projectionList = Projections.projectionList();
 			for (String columns : gtnWsTransactionRequest.getProjectionColumns()) {
 				projectionList.add(Projections.property(columns));
@@ -409,7 +417,9 @@ public class GtnWsTransactionService {
 				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getInventoryLevelColumnName(),
 						gtnWsTransactionRequest.getInventoryLevelColumnValue()));
 			}
+			
 			List<Object> resultList = criteria.list();
+			
 			ob = getViewRecord(resultList, gtnWsTransactionRequest);
 		} catch (Exception ex) {
 			logger.error("Exception in view query-", ex);
