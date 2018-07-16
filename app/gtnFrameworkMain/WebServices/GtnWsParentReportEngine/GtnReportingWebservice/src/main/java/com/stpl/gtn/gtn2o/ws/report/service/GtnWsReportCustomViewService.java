@@ -2,7 +2,6 @@ package com.stpl.gtn.gtn2o.ws.report.service;
 
 import java.util.List;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +22,6 @@ public class GtnWsReportCustomViewService {
 	// @Autowired
 	// GtnWsMongoDBConnectionService connection;
 
-	@Autowired
-	SessionFactory sessionFactory;
 
 	@Autowired
 	GtnWsReportSqlService sqlStringService;
