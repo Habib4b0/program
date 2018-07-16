@@ -157,7 +157,7 @@ public class GtnWsReportDashboardFilterOptionService {
 			List<String> dedQuery = getDeductionLevelQuery(filterBean);
 			queryString.insert(query.lastIndexOf("WHERE"),
 					reportSqlService.getQuery("deduction-dynamic-filter")
-							+ " left join RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID left join RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
+							+ " JOIN RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID JOIN RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
 							+ dedQuery.get(0));
 			queryString.append(" and ").append(dedQuery.get(1)).append(
 					"(" + filterBean.getSelectedDeductionList().toString().replace("[", "").replace("]", "") + ")");
@@ -238,7 +238,7 @@ public class GtnWsReportDashboardFilterOptionService {
 			List<String> dedQuery = getDeductionLevelQuery(filterBean);
 			queryString.insert(query.lastIndexOf("WHERE"),
 					reportSqlService.getQuery("deduction-dynamic-filter")
-							+ "left join RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID left join RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
+							+ " JOIN RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID JOIN RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
 							+ dedQuery.get(0));
 			queryString.append(" and ");
 			queryString.append(dedQuery.get(1)).append(
@@ -491,8 +491,8 @@ public class GtnWsReportDashboardFilterOptionService {
 			queryString.append("WHERE");
 			queryString.insert(queryString.lastIndexOf("WHERE"),
 					reportSqlService.getQuery("deduction-dynamic-filter")
-							+ " left join RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID \n"
-							+ "left join RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
+							+ " JOIN RS_CONTRACT rc on rc.CONTRACT_MASTER_SID = cm.CONTRACT_MASTER_SID \n"
+							+ " JOIN RS_CONTRACT_DETAILS rcd on rcd.RS_CONTRACT_SID = rc.RS_CONTRACT_SID and rcd.ITEM_MASTER_SID = im.ITEM_MASTER_SID "
 							+ dedQuery.get(0));
 			queryString.append(" cm.inbound_status <> 'D' and \n" + " com.inbound_status <> 'D' and \n"
 					+ " im.inbound_status <> 'D' and \n" + "rc.inbound_status <> 'D' and \n"

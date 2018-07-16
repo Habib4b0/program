@@ -439,6 +439,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         LOGGER.debug("Inside getContent= {} ", session.getAction());
         configureFeildsForNm();
         loadDeductionLevelFilter(session.getDataSelectionDeductionLevel(), false);
+       frequencyDdlb.setValue(session.getDsFrequency());
+       deductionlevelDdlb.setValue(Integer.valueOf(session.getDataSelectionDeductionLevel()));
         Optional.ofNullable(deductionFilterValues.getChildren()).ifPresent(child-> {
             child.get(1).setChecked(true);
             String deductionMenuItemValue = child.get(1).getMenuItem().getCaption();
@@ -643,7 +645,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         else{
         view.setItemEnabled(Constant.CUSTOM_LABEL, true);
-        newBtn.setEnabled(!session.getAction().equalsIgnoreCase(ACTION_VIEW.getConstant()));        
         }
 
         startPeriodForecastTab.addItem(SELECT_ONE.getConstant());
@@ -894,6 +895,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             checkMultiVariables(period + "~" + dto.getHierarchyNo(), refreshName);
                         }
                         if (saveList.size() == 1) {
+                            CommonLogic.viewProceduresCompletionCheckDiscount(session);
                             saveDiscountProjectionListview();
                             Object[] orderedArg = {session.getProjectionId(), session.getUserId(),
                                 session.getSessionId()};
@@ -1198,7 +1200,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             refreshBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    CommonLogic.viewProceduresCompletionCheck(session);
                     session.setFunctionMode("R");
                     if (!isMultipleVariablesUpdated) {
                         if (isRateUpdatedManually || isRPUUpdatedManually
@@ -1977,12 +1978,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      */
     public void loadCustomDDLB() {
         LOGGER.debug("loadCustomDDLB initiated ");
-        Map<String,String> dataMap=new HashMap<>();
+        editBtn.setEnabled(false);
+        newBtn.setEnabled(false);
+        Map<String, String> dataMap = new HashMap<>();
         dataMap.put("custSid", session.getCustRelationshipBuilderSid());
         dataMap.put("custVer", String.valueOf(session.getCustomerRelationVersion()));
         dataMap.put("prodSid", session.getProdRelationshipBuilderSid());
         dataMap.put("prodVer", String.valueOf(session.getProductRelationVersion()));
-        new DataSelectionLogic().loadCustomViewDeductionValues(viewDdlb, dataMap,false);
+        new DataSelectionLogic().loadCustomViewDeductionValues(viewDdlb, dataMap, false);
         viewDdlb.setValue(session.getCustomDeductionRelationShipSid());
         LOGGER.debug("loadCustomDDLB ends ");
     }
@@ -2634,6 +2637,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                 }
                                                 
                                                 discountProjectionLogic.callDPProcedure(session, projectionSelection);
+                                                CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.DISCOUNT3);
                                                 new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,"","","");
                                                 CommonUtil.getInstance().waitForSeconds();
                                                 CommonLogic.procedureCompletionCheck(session, DISCOUNT, com.stpl.app.serviceUtils.Constants.CUSTOM);
@@ -5435,7 +5439,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         int hierarchyLevelNo = isInteger(session.getProductLevelNumber())
                 ? Integer.parseInt(session.getProductLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo,
-                session.getProdRelationshipBuilderSid());
+                session.getProdRelationshipBuilderSid(), session.getProductRelationVersion());
         Collections.sort(currentHierarchy, new Comparator<Leveldto>() {
             @Override
             public int compare(Leveldto o1, Leveldto o2) {
@@ -5535,7 +5539,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         int hierarchyNo = isInteger(session.getCustomerLevelNumber())
                 ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo,
-                session.getCustRelationshipBuilderSid());
+                session.getCustRelationshipBuilderSid(), session.getCustomerRelationVersion());
         Collections.sort(currentHierarchy, new Comparator<Leveldto>() {
             @Override
             public int compare(Leveldto o1, Leveldto o2) {

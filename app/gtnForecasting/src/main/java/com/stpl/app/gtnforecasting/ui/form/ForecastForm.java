@@ -520,9 +520,9 @@ public class ForecastForm extends AbstractForm {
                                 }
                                 if (discountLoadFlag && (tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.EIGHT)){
                                     CommonUtil.getInstance().isProcedureCompleted("Discount", "PRC_NM_MASTER_INSERT", session);
-                               session.addFutureMap(Constant.CUST_VIEW_MAP_QUERY,
+                                    session.addFutureMap(Constant.CUST_VIEW_MAP_QUERY,
 				new Future[] {service.submit(CommonUtil.getInstance().createRunnable(Constant.CUST_VIEW_MAP_QUERY,session))});
-                                discountLoadFlag = false;
+                                    discountLoadFlag = false;
                                 }
                                 
                                 if (!discountUpsFlag && tabPosition == NumericConstants.FOUR){
@@ -1693,7 +1693,7 @@ public class ForecastForm extends AbstractForm {
     }
 
     public void pushUpdate(String indicator) {
-        if (INDICATOR_REFRESH_UPDATE.getConstant().equals(indicator) && !data.isCustomChange()) {
+        if (INDICATOR_REFRESH_UPDATE.getConstant().equals(indicator)) {
             try {
                 session.setFunctionMode("UPA");
                 // Call sales Discount Master Insert Procedure
@@ -1706,7 +1706,7 @@ public class ForecastForm extends AbstractForm {
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
             }
-        }
+        } 
         if (INDICATOR_TIME_PERIOD_CHANGED.getConstant().equals(indicator)) {
             try {
 
@@ -2550,8 +2550,7 @@ public class ForecastForm extends AbstractForm {
                 
                 service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
-            }
-            else{
+            } else{
                service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
                 Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session)); 
             }

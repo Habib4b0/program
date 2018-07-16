@@ -341,6 +341,7 @@ public class GtnFrameworkRSConstants {
 
 	public static final String ERROR_MESSAGE_COPY_HEADER = "Copy Error";
 	public static final String ERROR_MESSAGE_COPY_MESSAGE = "Please select a record to copy.";
+	public static final String POPULATE = "populate";
 
 	public static String[] getRsLookUpColumn() {
 		return RS_LOOKUP_COLUMN.clone();
@@ -622,7 +623,7 @@ public class GtnFrameworkRSConstants {
 				GtnFrameworkRSConstants.REBATE_SCHEDULE_CATEGORY, GtnFrameworkRSConstants.REBATE_SCHEDULE_TRADE_CLASS,
 				GtnFrameworkRSConstants.REBATE_SCHEDULE_FREQUENCY, "rebateCalendar",
 				GtnFrameworkRSConstants.REBATE_CALCULATION_TYPE, "rebateCalculationLevel",
-				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.PAYMENT_TERMS,
+				GtnFrameworkRSConstants.REBATE_RULE_TYPE, "rebatePaymentLevel", GtnFrameworkRSConstants.PAYMENT_TERMS,
 				GtnFrameworkRSConstants.PAYMENT_METHOD, GtnFrameworkRSConstants.PAYMENT_FREQUENCY,
 				GtnFrameworkRSConstants.INTEREST_BEARING_INDICATOR, GtnFrameworkRSConstants.INTEREST_BEARING_BASIS,
 				GtnFrameworkRSConstants.REBATE_SCHEDULE_DESIGNATION, GtnFrameworkRSConstants.RS_UDC1,
@@ -630,7 +631,7 @@ public class GtnFrameworkRSConstants {
 				GtnFrameworkRSConstants.RS_UDC5, GtnFrameworkRSConstants.RS_UDC6 };
          
          private static final String[] LIST_NAME_ARRAY = { "RS_TYPE", "STATUS", "REBATE_PROGRAM_TYPE", "RS_CATEGORY", "RS_TRADE_CLASS",
-				"REBATE_FREQUENCY", "RS_CALENDAR", "CALCULATION_TYPE", GtnFrameworkRSConstants.RULE_LEVEL, "REBATE_RULE_TYPE",
+				"REBATE_FREQUENCY", "RS_CALENDAR", "CALCULATION_TYPE", "REBATE_PLAN_LEVEL", "REBATE_RULE_TYPE", "Payment_Level",
 				"PAYMENT_TERMS", "PAYMENT_METHOD", "PAYMENT_FREQUENCY", "INTEREST_BEARING_INDICATOR",
 				"INTEREST_BEARING_BASIS", "RS_DESIGNATION", "RS_UDC1", "RS_UDC2", "RS_UDC3", "RS_UDC4", "RS_UDC5",
 				"RS_UDC6" };

@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
+import com.stpl.gtn.gtn2o.ui.module.priceschedule.constants.GtnFrameworkPSConstants;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.complianceanddeductionrules.constants.GtnWsCDRContants;
@@ -90,7 +91,7 @@ public class GtnFrameworkPsResetAction implements GtnUIFrameWorkAction, GtnUIFra
 						.setPropertyValue(null);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psItemAdditionSearchValue", componentId)
 						.setPropertyValue("");
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFPleftResultTable", componentId).resetTable();
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkPSConstants.CFP_LEFT_RESULT_TABLE, componentId).resetTable();
 				break;
 			case 2:
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPricingTabTabMassField", componentId)
@@ -115,7 +116,7 @@ public class GtnFrameworkPsResetAction implements GtnUIFrameWorkAction, GtnUIFra
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psItemAdditionSearchField", componentId).setPropertyValue(null);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psItemAdditionSearchValue", componentId).setPropertyValue("");
                 loadDataFromService();
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFPleftResultTable", componentId).resetTable();
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkPSConstants.CFP_LEFT_RESULT_TABLE, componentId).resetTable();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFPrightResultTable", componentId).resetTable();                
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPricingTabResultDataTable", componentId).resetTable();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPriceProtectionTabResultDataTable", componentId).resetTable();
@@ -123,7 +124,9 @@ public class GtnFrameworkPsResetAction implements GtnUIFrameWorkAction, GtnUIFra
         
         private void loadDataFromService() throws GtnFrameworkValidationFailedException {
             GtnWsRecordBean gtnWsRecordBean = null;
-			gtnWsRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFPleftResultTable")
+            if(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkPSConstants.CFP_LEFT_RESULT_TABLE)
+					.getValueFromComponent()!=null){
+			gtnWsRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkPSConstants.CFP_LEFT_RESULT_TABLE)
 					.getValueFromComponent();
             String ifpId = gtnWsRecordBean.getPropertyValueByIndex(8).toString();
             Map<String, String> inputValueMap = new HashMap<>();
@@ -142,6 +145,7 @@ public class GtnFrameworkPsResetAction implements GtnUIFrameWorkAction, GtnUIFra
 		wsclient.callGtnWebServiceUrl(
 				"/" + GtnWsCDRContants.PS_SERVICE + "/" + GtnWsCDRContants.DELETE_ON_RESET, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+            }
 	}
 
 	@Override

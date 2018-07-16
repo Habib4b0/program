@@ -1,7 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.controller;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,6 @@ import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsAllListConfig;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -156,26 +154,7 @@ public class GtnWsGeneralController {
 	}
 
 	private String getComboboxTypeForReportFromAndToDate(String comboBoxType) throws GtnFrameworkGeneralException {
-//		if (GtnFrameworkCommonConstants.REPORT_TIME_PERIOD_INTERVAL_FOR_FROM_DATE.equals(comboBoxType)
-//				|| GtnFrameworkCommonConstants.REPORT_TIME_PERIOD_INTERVAL_FOR_TO_DATE.equals(comboBoxType)) {
-//			List<String> result;
-//			HashMap<String, String> reportTimePeriodMap = new HashMap<>();
-//			reportTimePeriodMap.put("Quarter", "TimePeriodDateInQuarters");
-//			reportTimePeriodMap.put("Month", "TimePeriodDateInMonth");
-//			reportTimePeriodMap.put("Annual", "TimePeriodDateInYears");
-//			reportTimePeriodMap.put("Semi-Annual", "TimePeriodDateInSemiAnnual");
-//
-//			result = executeQuery(gtnWsSqlService.getQuery(null, GtnFrameworkCommonConstants.REPORT_TIME_PERIOD_HISTORY_FREQUENCY_DATE));
-//
-//			String historyFreq = result.get(0);
-//
-//			if (GtnFrameworkCommonConstants.REPORT_TIME_PERIOD_INTERVAL_FOR_FROM_DATE.equals(comboBoxType)) {
-//				comboBoxType = reportTimePeriodMap.get(historyFreq).replace("Period", "PeriodFrom");
-//				return comboBoxType;
-//			}
-//			comboBoxType = reportTimePeriodMap.get(historyFreq).replace("Period", "PeriodTo");
-//			return comboBoxType;
-//		}
+
 		return comboBoxType;
 	}
 	

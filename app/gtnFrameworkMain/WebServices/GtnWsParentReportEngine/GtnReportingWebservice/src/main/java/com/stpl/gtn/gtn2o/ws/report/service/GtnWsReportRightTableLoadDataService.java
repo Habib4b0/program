@@ -26,6 +26,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
 @Service
 public class GtnWsReportRightTableLoadDataService {
+
 	@Autowired
 	GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
@@ -41,20 +42,6 @@ public class GtnWsReportRightTableLoadDataService {
 
 			String hierarchyNo = bean.getHierarchyNo();
 			int levelNo = bean.getLevelNo();
-			boolean isVAriableRow = false;
-			if (bean.getData()[5].equals("V")) {
-				isVAriableRow = true;
-			}
-			// List<Object[]> customviewData = (List<Object[]>)
-			// gtnSqlQueryEngine.executeSelectQuery(
-			// GtnWsQueryConstants.CUSTOM_VIEW_TYPE,
-			// new Object[] {
-			// gtnWsRequest.getGtnWsReportRequest().getDataSelectionBean().getCustomViewMasterSid()
-			// },
-			// new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER });
-			//
-			// String customViewTypeInBackend = String.valueOf(customviewData.get(0));
-			// String[] customViewTypeDataArray = customViewTypeInBackend.split("~");
 			ResultTransformer transformer = rowTransformer;
 
 			String customViewType = "";
@@ -94,7 +81,7 @@ public class GtnWsReportRightTableLoadDataService {
 		String currencyConversion = dashboardBean.getCurrencyConversion().isEmpty()
 				|| "0".equals(dashboardBean.getCurrencyConversion()) ? null : dashboardBean.getCurrencyConversion();
 
-		String procedure = "PRC_REPORT_DASHBOARD_GENERATE ?,?,:comparisonBasis:,:ccpComp:,:salesInclusion:,:deductionIncl:,null,?,601,672,?,?,?,null,?,?,?";
+		String procedure = "PRC_REPORT_DASHBOARD_GENERATE ?,?,:comparisonBasis:,:ccpComp:,:salesInclusion:,:deductionIncl:,null,?,:startPerioSid:,:endPeriodSid:,?,?,?,null,?,?,?";
 		procedure = procedure.replaceAll(":salesInclusion:",
 				salesInClusion == -1 ? "NULL" : String.valueOf(salesInClusion));
 		procedure = procedure.replaceAll(":deductionIncl:",
@@ -103,9 +90,13 @@ public class GtnWsReportRightTableLoadDataService {
 		if (dashboardBean.getCcpDetailsSidList() != null && !dashboardBean.getCcpDetailsSidList().isEmpty()) {
 			ccpFilter = StringUtils.join(dashboardBean.getCcpDetailsSidList(), ",");
 		}
+		ccpFilter = !ccpFilter.equals("NULL") ? "'" + ccpFilter + "'" : "NULL";
 		procedure = procedure.replaceAll(":ccpComp:", ccpFilter);
-		String comparisonBasis = dashboardBean.getComparisonBasis().isEmpty() ? "NULL"
-				: dashboardBean.getComparisonBasis();
+		procedure = procedure.replaceAll(":startPerioSid:", String.valueOf(dashboardBean.getPeriodRangeFromSid()));
+		procedure = procedure.replaceAll(":endPeriodSid:", String.valueOf(dashboardBean.getPeriodRangeToSid()));
+		String comparisonBasis = dashboardBean.getComparisonBasis().isEmpty()
+				|| "-Select one-".equals(dashboardBean.getComparisonBasis()) ? "NULL"
+						: dashboardBean.getComparisonBasis();
 		procedure = procedure.replaceAll(":comparisonBasis:", comparisonBasis);
 		String hierarchy = hierarchyNo == null || hierarchyNo.isEmpty() ? null : hierarchyNo;
 		List<Object[]> outputFromProcedure = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(procedure,
@@ -129,12 +120,6 @@ public class GtnWsReportRightTableLoadDataService {
 		}
 
 		return queryBuilder.toString();
-
-		// PRC_REPORT_DASHBOARD_GENERATE ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
-		// PRC_REPORT_DASHBOARD_GENERATE
-		// 'QUARTERLY',null,null,null,0,0,null,null,601,672,47,1,'3e5ee4af_57f4_4a',null,189858,'','Static'
-		// select SUBSTRING(CUST_VIEW_TYPE, 7, LEN(CUST_VIEW_TYPE)) AS typeS from
-		// CUST_VIEW_MASTER where CUST_VIEW_MASTER_SID = 61
 	}
 
 	private String clobToString(Clob data) {

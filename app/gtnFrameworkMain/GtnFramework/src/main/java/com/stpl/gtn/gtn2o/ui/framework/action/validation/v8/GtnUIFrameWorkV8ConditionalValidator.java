@@ -6,6 +6,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
+import com.vaadin.ui.ComboBox;
 
 public class GtnUIFrameWorkV8ConditionalValidator implements GtnUIFrameworkValidator {
 
@@ -35,7 +36,12 @@ public class GtnUIFrameWorkV8ConditionalValidator implements GtnUIFrameworkValid
 		if (v8GtnUIFrameworkValidationConfig != null && v8GtnUIFrameworkValidationConfig.getConditionList() != null) {
 			GtnUIFrameworkBaseComponent v8VaadinFieldBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(v8FieldId, v8ComponentId);
-			Object v8CurrentValue = v8VaadinFieldBaseComponent.getV8StringFromField();
+                       Object v8CurrentValue = v8VaadinFieldBaseComponent.getV8StringFromField();
+                        if(v8VaadinFieldBaseComponent.getComponent() instanceof ComboBox){
+                           v8CurrentValue = v8VaadinFieldBaseComponent.getStringCaptionFromV8ComboBox();
+                            v8CurrentValue = v8CurrentValue.equals("-Select one-")?null:v8CurrentValue;
+                        }
+			
 			for (GtnUIFrameworkConditionalValidationType v8Condition : v8GtnUIFrameworkValidationConfig
 					.getConditionList()) {
 

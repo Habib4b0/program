@@ -97,6 +97,8 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 
 		dashBoardBean
 				.setCustomViewMasterSid(grid.getTableConfig().getGtnReportDataRefreshBean().getCustomViewMasterSid());
+		dashBoardBean.setComparisonProjectionBeanList(
+				grid.getTableConfig().getGtnReportDataRefreshBean().getComparisonProjectionBeanList());
 
 		componentData.getCurrentGtnComponent().reloadComponent(null, componentId, (String) params.get(1), null);
 	}

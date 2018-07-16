@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
@@ -25,6 +26,10 @@ import com.vaadin.data.HasValue;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.data.HasValue.ValueChangeListener;
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.LayoutEvents.LayoutClickEvent;
+import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
@@ -58,6 +63,8 @@ public class PagedGrid {
     private HorizontalLayout controlLayout;
     private TextField pageNoField;
     GtnUIFrameworkPagedGridLogic pagedTableLogic;
+    
+    private final String show_all = "Show all";
 
     public PagedGrid(GtnUIFrameworkPagedTableConfig tableConfig, GtnUIFrameworkComponentConfig componentConfig) {
         this.tableConfig = tableConfig;
@@ -101,6 +108,7 @@ public class PagedGrid {
 
     public void refreshGrid() {
         count = getTotalCount();
+        pageLength = count;
         gtnlogger.info("count------" + count);
         dataSet = loadData((pageNumber * pageLength), pageLength);
 
@@ -352,26 +360,102 @@ public class PagedGrid {
             GtnUIFrameworkPagedTableCustomFilterConfig filterConfig = tableConfig.getCustomFilterConfigMap()
                     .get(property);
             if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.TEXTBOX_VAADIN8) {
+            	HorizontalLayout hl = new HorizontalLayout();
+            	hl.setMargin(false);
+            	hl.setWidth("105%");
                 TextField textField = new TextField();
+                textField.setPlaceholder(show_all);
+                textField.setWidth("118%");
                 textField.setId(property);
                 textField.addValueChangeListener(this::onFilterTextChange);
-                return textField;
+                
+                hl.addComponent(textField);
+                
+                hl.addLayoutClickListener(new LayoutClickListener() {
+    			@Override
+    			public void layoutClick(LayoutClickEvent event) {
+    				
+    					if (event.getChildComponent() == textField) {
+    						textField.setPlaceholder("");
+    						}
+    					}
+                });
+                textField.addBlurListener(new BlurListener(){
+						@Override
+						public void blur(BlurEvent event) {
+							if (event.getComponent() == textField){
+                                    String value = textField.getValue();
+								if(value.equals(""))
+									textField.setPlaceholder(show_all);
+							}
+						} 
+                });         
+                return hl;
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
+            	HorizontalLayout h2 = new HorizontalLayout();
+            	h2.setMargin(false);
+            	h2.setWidth("118%");
                 DateField dateField = new DateField();
+                dateField.setPlaceholder(show_all);
+                dateField.setWidth("114%");
+                dateField.setSizeFull();
                 dateField.setId(property);
                 dateField.addValueChangeListener(this::onFilterDateChange);
-                return dateField;
+                h2.addComponent(dateField);
+                h2.addLayoutClickListener(new LayoutClickListener() {
+        			@Override
+        			public void layoutClick(LayoutClickEvent event) {
+        				
+        					if (event.getChildComponent() == dateField) {
+        						dateField.setPlaceholder("");
+        						}
+        					}
+                    });
+                dateField.addBlurListener(new BlurListener(){
+    						@Override
+    						public void blur(BlurEvent event) {
+    							if (event.getComponent() == dateField){
+                                        LocalDate localDate = dateField.getValue();
+    								Optional<LocalDate> opt = Optional.ofNullable(localDate);
+    								if(!opt.isPresent())
+    									dateField.setPlaceholder(show_all);
+    							}
+    						} 
+                    });         
+                    return h2;
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.COMBOBOX_VAADIN8) {
+            	HorizontalLayout h3 = new HorizontalLayout();
                 GtnUIFrameworkComponent component = filterConfig.getGtnComponentType().getGtnComponent();
                 Component vaadinComponent = null;
                 vaadinComponent = component.buildVaadinComponent(filterConfig.getGtnComponentConfig());
                 ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
+                vaadinCombobox.setPlaceholder(show_all);
                 vaadinCombobox.setId(property);
                 vaadinCombobox.addValueChangeListener(this::onFilterTextChange);
-                return vaadinCombobox;
+                h3.addComponent(vaadinCombobox);
+                h3.addLayoutClickListener(new LayoutClickListener() {
+        			@Override
+        			public void layoutClick(LayoutClickEvent event) {
+        				
+        					if (event.getChildComponent() == vaadinCombobox) {
+        						vaadinCombobox.setPlaceholder("");
+        						}
+        					}
+                    });
+                vaadinCombobox.addBlurListener(new BlurListener(){
+    						@Override
+    						public void blur(BlurEvent event) {
+    							if (event.getComponent() == vaadinCombobox){
+                                        String value = String.valueOf(vaadinCombobox.getItemCaptionGenerator().apply(vaadinCombobox.getValue())).trim();
+    								if(value.equals(""))
+    									vaadinCombobox.setPlaceholder(show_all);
+    							}
+    						} 
+                    });         
+                    return h3;
             } else if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.CALENDAR_FIELD) {
-                Button dateFilterPopupButton = new Button("Show all");
-                dateFilterPopupButton.setWidth("400px");
+                Button dateFilterPopupButton = new Button(show_all);
+                dateFilterPopupButton.setWidth("100%");
                 Window window = getDateFilterPopup(dateFilterPopupButton, property);
                 dateFilterPopupButton.addClickListener(new Button.ClickListener() {
                     @Override
@@ -502,7 +586,7 @@ public class PagedGrid {
                     tableConfig.getFilterValueMap().put(property, startDate + " - " + endDate);
                     refreshGrid();
                 } else {
-                    buttonFromGrid.setCaption("Show all");
+                    buttonFromGrid.setCaption(show_all);
                     tableConfig.getFilterValueMap().put(property, buttonFromGrid.getCaption());
                     refreshGrid();
                 }

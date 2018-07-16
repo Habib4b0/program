@@ -1,8 +1,8 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -38,8 +38,19 @@ public class GtnReportingDashboardSaveProfileAddAction
 		GtnReportingDashboardSaveProfileLookupBean reportingDashboardSaveProfileLookupBean = (GtnReportingDashboardSaveProfileLookupBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(1).toString(),componentId).getComponentData().getSharedPopupData();
 		
-		reportingDashboardSaveProfileLookupBean.setReportProfileviewName(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamsList.get(2).toString(), componentId).getV8StringFromField()));
+		String viewName = String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamsList.get(2).toString(), componentId).getV8StringFromField());
+		
+		if(viewName.isEmpty()) {
+			GtnUIFrameWorkActionConfig reportSaveProfileAlertActionConfig = new GtnUIFrameWorkActionConfig();
+			reportSaveProfileAlertActionConfig.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
+			reportSaveProfileAlertActionConfig.addActionParameter("Missing Fields");
+			reportSaveProfileAlertActionConfig.addActionParameter("Please make sure you give the Report View a name. Then try again. ");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, reportSaveProfileAlertActionConfig);
+			return;
+		}
+		
+		reportingDashboardSaveProfileLookupBean.setReportProfileviewName(viewName);
 		
 		reportingDashboardSaveProfileLookupBean.setReportProfileviewType(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(3).toString(), componentId).getV8StringFromField()));
@@ -53,34 +64,25 @@ public class GtnReportingDashboardSaveProfileAddAction
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsReportConstants.GTN_REPORT_SERVICE + GtnWsReportConstants.GTN_REPORT_PROFILE_SAVE_SERVICE, "report",
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameWorkActionConfig reportSaveProfileActionConfig = new GtnUIFrameWorkActionConfig();
+		reportSaveProfileActionConfig.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
 		if (response.getGtnWsGeneralResponse().isSucess()) {
 
-			GtnUIFrameWorkActionConfig closePopupAction = new GtnUIFrameWorkActionConfig();
-			closePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-			closePopupAction.addActionParameter(actionParamsList.get(1).toString());
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, closePopupAction);
-
-			GtnUIFrameWorkActionConfig gtnUIFrameAlertWorkActionConfig = new GtnUIFrameWorkActionConfig();
-			gtnUIFrameAlertWorkActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-			List<Object> alertMsgList = new ArrayList<>(2);
-			alertMsgList.add("View Added Successfully");
-			alertMsgList.add("You have successfully added" + reportingDashboardSaveProfileLookupBean.getReportProfileviewType() + "view"
+			GtnUIFrameWorkActionConfig reportSaveProfileClosePopupAction = new GtnUIFrameWorkActionConfig();
+			reportSaveProfileClosePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+			reportSaveProfileClosePopupAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_SAVE_PROFILE_LOOKUP_VIEW_ID);
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, reportSaveProfileClosePopupAction);
+			
+			reportSaveProfileActionConfig.addActionParameter("View Added Successfully");
+			reportSaveProfileActionConfig.addActionParameter("You have successfully added " + reportingDashboardSaveProfileLookupBean.getReportProfileviewType() + " View "
 					+ reportingDashboardSaveProfileLookupBean.getReportProfileviewName());
-			gtnUIFrameAlertWorkActionConfig.setActionParameterList(alertMsgList);
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameAlertWorkActionConfig);
-			return;
+			
 		} else {
-			GtnUIFrameWorkActionConfig gtnUIFrameAlertWorkActionConfig = new GtnUIFrameWorkActionConfig();
-			gtnUIFrameAlertWorkActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-			List<Object> alertMsgList = new ArrayList<>(2);
-			alertMsgList.add("Duplicate View Name");
-			alertMsgList.add("The" + reportingDashboardSaveProfileLookupBean.getReportProfileviewType()
-					+ "View name you have attempted to save is a duplicate of an existing view name."
-					+ "Please enter a different view name");
-			gtnUIFrameAlertWorkActionConfig.setActionParameterList(alertMsgList);
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameAlertWorkActionConfig);
-			return;
+			reportSaveProfileActionConfig.addActionParameter("Report View Already Saved");
+			reportSaveProfileActionConfig.addActionParameter(
+					"The view has already been saved. If you want to save changes made to this view, click the UPDATE command button.");
 		}
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, reportSaveProfileActionConfig);
 	}
 
 	@Override

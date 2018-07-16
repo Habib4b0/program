@@ -16,6 +16,8 @@ import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintio
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 @Service
 @Scope(value = "singleton")
@@ -30,6 +32,7 @@ public class GtnFrameworkSelectedTblLoadService {
 	
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnFrameworkSqlQueryEngine;
+        private static final Logger logger = LogManager.getLogger(GtnFrameworkSelectedTblLoadService.class);
 
 	public GtnFrameworkSelectedTblLoadService() {
 		super();
@@ -63,7 +66,7 @@ public class GtnFrameworkSelectedTblLoadService {
             }
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex);
         }
         return sql.toString();
     }

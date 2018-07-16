@@ -33,15 +33,17 @@ public class GtnWsAdjustmentDetailsDeductionsLoadService {
     }
 
     private Map<String, String[]> getLevelMap() {
+    	final int UDCSTART =2;
+		final int UDCEND =7;
+		final int DESCSTART =5;
         Map<String, String[]> levelMap = new HashMap<>();
         levelMap.put("Deduction Category", new String[]{"A.RS_CATEGORY,H1.DESCRIPTION AS CATEGORY", "CATEGORY"});
         levelMap.put("Deduction type", new String[]{"A.RS_TYPE,H2.DESCRIPTION AS TYPE", "TYPE"});
         levelMap.put("Deduction program", new String[]{"A.REBATE_PROGRAM_TYPE,H3.DESCRIPTION AS PROGRAM_TYPE", "PROGRAM_TYPE"});
-        levelMap.put("Deduction Category 2", new String[]{"U.UDC2,H5.DESCRIPTION AS UDC", "UDC", "UDC2"});
-        levelMap.put("Deduction Category 3", new String[]{"U.UDC3,H6.DESCRIPTION AS UDC", "UDC", "UDC3"});
-        levelMap.put("Deduction Category 4", new String[]{"U.UDC4,H7.DESCRIPTION AS UDC", "UDC", "UDC4"});
-        levelMap.put("Deduction Category 5", new String[]{"U.UDC5,H8.DESCRIPTION AS UDC", "UDC", "UDC5"});
-        levelMap.put("Deduction Category 6", new String[]{"U.UDC6,H9.DESCRIPTION AS UDC", "UDC", "UDC6"});
+        for (int i=UDCSTART,j=DESCSTART;i<UDCEND;i++,j++)
+		{
+        	levelMap.put("Deduction Category "+i , new String[] { "U.UDC"+i+",H"+j+".DESCRIPTION AS UDC", "UDC", "UDC"+i });
+		}
         levelMap.put("Deduction", new String[]{"A.RS_MODEL_SID,A.RS_ID + '- ' + A.RS_NAME AS RS_MODEL_ID", "RS_MODEL_ID"});
         return levelMap;
     }

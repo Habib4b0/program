@@ -440,6 +440,10 @@ public class CommonUtil {
                          Thread.currentThread().setName(inputs[0].toString());
                          new DataSelectionLogic().callForDeductionLevelMapQuery((SessionDTO)inputs[NumericConstants.ONE]);
                          break;
+                    case Constant.FUNCTION_PRC_VIEWS_CALL_UOM:
+                        Thread.currentThread().setName(inputs[1].toString());
+                        new DataSelectionLogic().callViewInsertProcedureForUOM((SessionDTO)inputs[NumericConstants.SEVEN], inputs[2].toString() ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,String.valueOf(inputs[6]));
+                        break;
                     default:
                         break;
                 }
@@ -817,5 +821,10 @@ public class CommonUtil {
         inputList.add(screenName);
         inputList.add(viewName);
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(inputList, "updateStatusTable"), session.getCurrentTableNames()));
+    }
+    public void updateTable(SessionDTO session, String tableName) {
+        List inputList = new ArrayList<>();
+        inputList.add(tableName);
+        HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(QueryUtils.getQuery(inputList, "updateTable"), session.getCurrentTableNames()));
     }
     }

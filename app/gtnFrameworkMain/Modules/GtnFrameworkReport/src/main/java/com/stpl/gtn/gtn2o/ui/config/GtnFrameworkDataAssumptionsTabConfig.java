@@ -30,12 +30,19 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 	}
 
 	private void addTabLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
+		
+		GtnUIFrameworkComponentConfig verticalLayoutConfig = configProvider.getVerticalLayoutConfig(
+				GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_SHEET_MAIN_LAYOUT, true, "projectionDetailsTabsheetLayout");
+		verticalLayoutConfig.setComponentWidth(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
+		componentList.add(verticalLayoutConfig);
+		
 		GtnUIFrameworkComponentConfig layoutConfig = configProvider.getHorizontalLayoutConfig(
-				GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_SHEET_LAYOUT, false, null);
+				GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_SHEET_LAYOUT, true, GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_SHEET_MAIN_LAYOUT);
 		layoutConfig.setComponentWidth(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		componentList.add(layoutConfig);
 
 		addTabSheet(componentList, nameSpace);
+		addControlButtonLayout(componentList, nameSpace);
 	}
 
 	private void addTabSheet(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -114,9 +121,12 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		gtnLayout.setComponentWidth(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		componentList.add(gtnLayout);
 		addDataAssumptionsPagedTableComponent(componentList, gtnLayout.getComponentId());
+	}
 
+	private void addControlButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig currentTabNavigationButtonLayout = configProvider.getHorizontalLayoutConfig(
-				"currentTabNavigationButtonLayout", true, nameSpace);
+				"currentTabNavigationButtonLayout", true, GtnFrameworkReportStringConstants.DATA_ASSUMPTIONS_TAB_SHEET_MAIN_LAYOUT);
+		currentTabNavigationButtonLayout.addComponentStyle("stpl-margin-left-30");
 		componentList.add(currentTabNavigationButtonLayout);
 		addNavigationButtonLayout(componentList, nameSpace + GtnFrameworkReportStringConstants.CURRENT_TAB,
 				currentTabNavigationButtonLayout.getComponentId());
@@ -148,6 +158,7 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		dataAssumptionsPagedTableConfig.setCountUrl("/gtnReport/gtnWsReportLoadDataAssumptions");
 		dataAssumptionsPagedTableConfig.setResultSetUrl("/gtnReport/gtnWsReportLoadDataAssumptions");
 		dataAssumptionsPagedTableConfig.setRefreshAtStart(true);
+		dataAssumptionsPagedTableConfig.setItemsPerPageAlignCentre(false);
 		dataAssumptionsPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		dataAssumptionsPagedTableComponent.setGtnPagedTableConfig(dataAssumptionsPagedTableConfig);
 

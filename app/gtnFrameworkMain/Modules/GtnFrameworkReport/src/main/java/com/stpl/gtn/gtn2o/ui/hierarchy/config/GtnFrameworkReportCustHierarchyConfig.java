@@ -140,8 +140,8 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionHierarchypopupAction.addActionParameter(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchyLookup");
 		customerSelectionHierarchypopupAction.addActionParameter("Customer Hierarchy LookUp");
-		customerSelectionHierarchypopupAction.addActionParameter("50%");
-		customerSelectionHierarchypopupAction.addActionParameter("88%");
+		customerSelectionHierarchypopupAction.addActionParameter("1000px");
+		customerSelectionHierarchypopupAction.addActionParameter("845px");
 		customerSelectionHierarchy.addGtnUIFrameWorkActionConfig(customerSelectionHierarchypopupAction);
 
 		GtnUIFrameworkComponentConfig customerSelectionRelationshipLayout = configProvider.getHorizontalLayoutConfig(
@@ -152,7 +152,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship", true,
 				customerSelectionRelationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customerSelectionRelationship.setComponentName("Relationship: ");
-
+		customerSelectionRelationship.setVaadinComponentPlaceHolder(GtnFrameworkReportStringConstants.SELECT_ONE_PLACE_HOLDER);
 		GtnUIFrameworkComboBoxConfig customerSelectionRelationshipLoadConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkReportStringConstants.PRODUCT_RELATIONSHIP,
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -208,7 +208,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel", true,
 				customerSelectionLevelLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customerSelectionLevel.setComponentName("Level: ");
-
+		customerSelectionLevel.setVaadinComponentPlaceHolder(GtnFrameworkReportStringConstants.SELECT_ONE_PLACE_HOLDER);
 		GtnUIFrameworkComboBoxConfig customerSelectionLevelLoadConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkForecastConstantCommon.REPORT_FORECAST_LEVEL,
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE

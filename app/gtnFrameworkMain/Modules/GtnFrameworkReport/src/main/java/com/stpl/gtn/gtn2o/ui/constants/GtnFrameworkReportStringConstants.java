@@ -31,6 +31,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String STATUS = "STATUS";
 
 	public static final String REPORT = "report";
+	
+	public static final String SELECT_ONE_PLACE_HOLDER = "-Select One-";
 
 	public static final String HIER_NAME = "productHierarchyName";
 
@@ -45,6 +47,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String HIGHEST_LEVEL = "highestLevel";
 	
 	public static final String STPL_PADDING_FRAMEWORK = "stpl-padding-top-13";
+	
+	public static final String STPL_PADDING_TOP_17 = "stpl-padding-top-17";
 
 	public static final String CUSTOMER_HIERARCHY_GROUP_BUILDER = "Customer Hierarchy Group Builder";
 
@@ -216,6 +220,8 @@ public final class GtnFrameworkReportStringConstants {
 
 	public static final String CONTROL_BUTTON_LAYOUT = "controlButtonLayout";
 
+	public static final String DATA_ASSUMPTIONS_TAB_SHEET_MAIN_LAYOUT = "dataAssumptionsTabSheetVerticallayout";
+	
 	public static final String DATA_ASSUMPTIONS_TAB_SHEET_LAYOUT = "dataAssumptionsTabSheetlayout";
 
 	public static final String REPORTING_DASHBOARD_TAB_SHEET_LAYOUT = "reportingDashboardTabSheetlayout";
@@ -261,6 +267,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String DISPLAY_SELECTION_TAB = "displaySelectionTab";
 
 	public static final String DISPLAY_SELECTION_TAB_CSS_LAYOUT = "displaySelectionTabCssLayout";
+	
+	public static final String DISPLAY_SELECTION_TAB_CSS_LAYOUT_BOTTOM = "displaySelectionTabCssLayoutBottom";
 
 	public static final String DISPLAY_SELECTION_TAB_REPORT_PROFILE_LAYOUT = "displaySelectionTabReportProfileLayout";
 

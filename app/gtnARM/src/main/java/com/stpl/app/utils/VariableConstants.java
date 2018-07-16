@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class VariableConstants {
 
+	public static final String EMPTY_STRING= "";
     public static final String INVENTORY_DETAILS = "inventoryDetails";
     public static final String INVENTORY_DETAILS_DDLB = "inventoryDetailsDdlb";
     public static final String ADJUSTED_PRICE = "adjustedPrice";

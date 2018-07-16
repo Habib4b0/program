@@ -77,10 +77,29 @@ public class GtnUIFrameworkPagedTableConfig {
     private boolean isRefreshAtStart;
     private String gridColumnHeader;
     private boolean enableCheckBoxInGridHeader=false;
-    private String GridHeaderCustomClassLoadUrl;
+    private String gridHeaderCustomClassLoadURL;
     private GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig = null;
+    private boolean itemsPerPageAlignCentre = true;
+    private boolean paginationOff = false;
+    private boolean selectionListener = false;
+    
+    public boolean getSelectionListener() {
+		return selectionListener;
+	}
 
-    public GtnUIFrameWorkActionConfig getGtnUIFrameWorkActionConfig() {
+	public void setSelectionListener(boolean selectionListener) {
+		this.selectionListener = selectionListener;
+	}
+
+	public boolean isPaginationOff() {
+		return paginationOff;
+	}
+
+	public void setPaginationOff(boolean paginationOff) {
+		this.paginationOff = paginationOff;
+	}
+
+	public GtnUIFrameWorkActionConfig getGtnUIFrameWorkActionConfig() {
         return gtnUIFrameWorkActionConfig;
     }
 
@@ -88,12 +107,12 @@ public class GtnUIFrameworkPagedTableConfig {
         this.gtnUIFrameWorkActionConfig = gtnUIFrameWorkActionConfig;
     }
     
-    public String getGridHeaderCustomClassLoadUrl() {
-        return GridHeaderCustomClassLoadUrl;
+    public String getGridHeaderCustomClassLoadURL() {
+        return gridHeaderCustomClassLoadURL;
     }
 
-    public void setGridHeaderCustomClassLoadUrl(String GridHeaderCustomClassLoadUrl) {
-        this.GridHeaderCustomClassLoadUrl = GridHeaderCustomClassLoadUrl;
+    public void setGridHeaderCustomClassLoadURL(String gridHeaderCustomClassLoadURL) {
+        this.gridHeaderCustomClassLoadURL = gridHeaderCustomClassLoadURL;
     }
     
     public boolean isEnableCheckBoxInGridHeader() {
@@ -629,6 +648,14 @@ public class GtnUIFrameworkPagedTableConfig {
 
 	public void setRefreshAtStart(boolean isRefreshAtStart) {
 		this.isRefreshAtStart = isRefreshAtStart;
+	}
+
+	public boolean isItemsPerPageAlignCentre() {
+		return itemsPerPageAlignCentre;
+	}
+
+	public void setItemsPerPageAlignCentre(boolean itemsPerPageAlignCentre) {
+		this.itemsPerPageAlignCentre = itemsPerPageAlignCentre;
 	}
     
 }

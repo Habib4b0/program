@@ -15,7 +15,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 
 public class GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {

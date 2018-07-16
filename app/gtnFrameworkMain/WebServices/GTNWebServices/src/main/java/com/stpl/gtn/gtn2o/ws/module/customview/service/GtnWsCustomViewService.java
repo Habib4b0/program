@@ -43,6 +43,7 @@ import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
+import java.util.Locale;
 
 /**
  *
@@ -51,6 +52,8 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 @Service
 @Scope(value = "singleton")
 public class GtnWsCustomViewService {
+
+	private static final String REPORT = "report";
 
 	public GtnWsCustomViewService() {
 		super();
@@ -100,7 +103,7 @@ public class GtnWsCustomViewService {
 		try {
 			List<String> inputlist = new ArrayList<>();
 			inputlist.add(cvRequest.getCustomViewName());
-			String query = cvRequest.getCustomViewType().startsWith("report") ? "getCustomViewNameDuplicateCheckReport"
+			String query = cvRequest.getCustomViewType().startsWith(REPORT) ? "getCustomViewNameDuplicateCheckReport"
 					: "getCustomViewNameDuplicateCheck";
 			List result = executeQuery(getQuery(query), inputlist);
 			if (result != null && !result.isEmpty()) {
@@ -118,7 +121,7 @@ public class GtnWsCustomViewService {
 		int customViewMasterSid = saveCustViewMaster(cvRequest);
 		saveCustomViewDetails(customViewMasterSid, cvRequest);
 		customViewSaveLogicCCPDetails(customViewMasterSid, cvRequest);
-		if (!cvRequest.getCustomViewType().startsWith("report")) {
+		if (!cvRequest.getCustomViewType().startsWith(REPORT)) {
 			callProcedureForDiscountPopulation(customViewMasterSid);
 		}
 		cvResponse.setSuccess(true);
@@ -194,6 +197,7 @@ public class GtnWsCustomViewService {
 				response.setCustomViewName(master.getCustViewName());
 				response.setCustomViewType(master.getCustViewType());
 				response.setCvSysId(cvRequest.getCvSysId());
+				cvRequest.setCustomViewType(master.getCustViewType());
 				response.setCvTreeNodeList(getSavedTreeData(cvRequest));
 
 			}
@@ -225,7 +229,7 @@ public class GtnWsCustomViewService {
 				String hql = "delete from CustViewDetails where customViewMasterSid= :classId";
 				session.createQuery(hql).setString("classId", String.valueOf(masterSid)).executeUpdate();
 			}
-			if (cvRequest.getCustomViewType().startsWith("report")) {
+			if (cvRequest.getCustomViewType().startsWith(REPORT)) {
 				saveReportCustViewDetailsRecords(cvTreeNodeList, masterId, cvRequest.getCustomViewType(), session);
 			} else {
 				saveCustViewDetailsRecords(cvTreeNodeList, masterId, session);
@@ -274,12 +278,19 @@ public class GtnWsCustomViewService {
 				CustViewDetails details = new CustViewDetails();
 				GtnWsRecordBean dto = cvTreeNodeList.get(j);
 				String indicator = dto.getStringPropertyByIndex(3);
-				if (variableType.toLowerCase().contains("static") && indicator.toLowerCase().startsWith("v")) {
+				if (variableType.toLowerCase(Locale.ENGLISH).contains("static")
+						&& indicator.toLowerCase(Locale.ENGLISH).startsWith("v")) {
 					variablesList.add(dto);
 					if (j + 1 < cvTreeNodeList.size()) {
 						continue;
 					}
+				} else if (variableType.toLowerCase().contains("expandable")
+						&& indicator.toLowerCase().startsWith("v")) {
+					variablesList
+							.addAll(getRecordBeanFromObjectArray((List<List<Object>>) dto.getPropertyValueByIndex(5)));
+					continue; 
 				}
+
 				if (!variablesList.isEmpty()) {
 
 					// Variable Level Insert
@@ -301,13 +312,13 @@ public class GtnWsCustomViewService {
 
 					// Insert varaibles
 					insertCustomVariables(variablesList, customViewDetailsSid, session);
-
+					j--;
 				} else {
 					// Insert a Level
 					details.setCustomViewMasterSid(customViewMasterSid);
 					details.setHierarchyId(dto.getIntegerPropertyByIndex(4));
 
-					details.setHierarchyIndicator(indicator.toUpperCase().charAt(0));
+					details.setHierarchyIndicator(indicator.toUpperCase(Locale.ENGLISH).charAt(0));
 					details.setLevelName(dto.getStringPropertyByIndex(0));
 					levelCount++;
 					details.setLevelNo(levelCount);
@@ -441,7 +452,7 @@ public class GtnWsCustomViewService {
 		GtnUIFrameworkWebserviceComboBoxResponse response = new GtnUIFrameworkWebserviceComboBoxResponse();
 		try (Session session = getSessionFactory().openSession()) {
 			Criteria selectCriteria = session.createCriteria(CustViewMaster.class);
-			selectCriteria.add(Restrictions.like("screenName", "report", MatchMode.ANYWHERE));
+			selectCriteria.add(Restrictions.like("screenName", REPORT, MatchMode.ANYWHERE));
 			List<CustViewMaster> gtnListOfData = selectCriteria.list();
 			for (CustViewMaster detailsData : gtnListOfData) {
 				response.addItemCodeList(Integer.toString(detailsData.getCustViewMasterSid()));
@@ -465,19 +476,17 @@ public class GtnWsCustomViewService {
 			GtnWsRecordBean gtnWsRecordBean;
 			for (CustViewDetails detailsData : gtnListOfData) {
 
-				String levelName;
+				String levelName = "";
 				if (detailsData.getHierarchyId() != 0) {
-					Criteria relationCriteria = session.createCriteria(RelationshipLevelDefinition.class);
-					relationCriteria.add(Restrictions.eq("hierarchyLevelDefinition.hierarchyLevelDefinitionSid",
-							detailsData.getHierarchyId()));
-					List<RelationshipLevelDefinition> relationData = relationCriteria.list();
-					levelName = relationData.isEmpty() ? "" : relationData.get(0).getLevelName();
+					levelName = detailsData.getLevelName();
+				} else if (cvRequest.getCustomViewType().contains("Expandable")) {
+					levelName = "Variables";
 				} else {
 					fetchReportVariables(detailsData, recordTreeData);
 					continue;
 				}
 				gtnWsRecordBean = new GtnWsRecordBean();
-				if (cvRequest.getCustomViewType().startsWith("report")) {
+				if (cvRequest.getCustomViewType().startsWith(REPORT)) {
 					configureReportBean(gtnWsRecordBean, levelName, detailsData.getHierarchyId(), detailsData);
 				} else {
 					gtnWsRecordBean.addAdditionalProperty(detailsData.getLevelNo());
@@ -555,9 +564,8 @@ public class GtnWsCustomViewService {
 						"Cannot Delete the custom view which is already associated with existing projection.");
 				return;
 			}
-                        custViewDelete(cvRequest.getCvSysId());
-                        logger.info("-------------------------cvRequest.getCvSysId()--------------------"+cvRequest.getCvSysId());
-                        
+			custViewDelete(cvRequest.getCvSysId());
+
 			tx.commit();
 			cvResponse.setMessageType("success");
 			cvResponse.setMessage(cvRequest.getCustomViewName() + " has been deleted Successfully.");
@@ -619,11 +627,12 @@ public class GtnWsCustomViewService {
 		}
 		return recordBeanList;
 	}
-         private void custViewDelete(int systemId) throws GtnFrameworkGeneralException {
+
+	private void custViewDelete(int systemId) throws GtnFrameworkGeneralException {
 		String custViewDeleteQuery = gtnWsSqlService.getQuery("getCustomViewDeleteNotUsedInProjection");
 		Object[] custViewDeleteQueryParams = { systemId };
 		GtnFrameworkDataType[] custViewDeleteQueryTypes = { GtnFrameworkDataType.INTEGER };
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(custViewDeleteQuery, custViewDeleteQueryParams,
 				custViewDeleteQueryTypes);
-}
+	}
 }
