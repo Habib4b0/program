@@ -215,6 +215,7 @@ public class RelationshipLevelValuesMasterBean {
 		String customSql;
 		customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeductionCustomDiscount");
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+		customSql = customSql.replaceAll("@MASTERSID", relationshipBuilderSid);
 		bean.setQuery(customSql);
 		return bean;
 	}

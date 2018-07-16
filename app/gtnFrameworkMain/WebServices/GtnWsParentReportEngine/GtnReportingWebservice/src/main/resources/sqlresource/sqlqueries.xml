@@ -347,6 +347,17 @@
 							WHEN Count( DISTINCT BM.BRAND_NAME )> 1 THEN 'MULTIPLE'
 							ELSE Max( BM.BRAND_NAME )
 						END AS BRAND,
+						PM.CREATED_DATE,
+					ISNULL(
+						USR.lastName,
+						''
+					) + ' ' + ISNULL(
+						USR.middleName,
+						''
+					) + ' ' + ISNULL(
+						USR.firstName,
+						''
+					) AS USER_ID,PM.CREATED_BY,
 						CASE
 							WHEN Count( DISTINCT IM.ITEM_NO )> 1 THEN 'MULTIPLE'
 							ELSE Max( IM.ITEM_NO )
@@ -355,9 +366,8 @@
 							WHEN Count( DISTINCT IM.ITEM_NAME )> 1 THEN 'MULTIPLE'
 							ELSE Max( IM.ITEM_NAME )
 						END AS ITEM_NAME,
-						PM.PROJECTION_MASTER_SID,
-						PM.CREATED_DATE,
-						PM.CREATED_BY
+						PM.PROJECTION_MASTER_SID
+						
 					FROM
 						PROJECTION_MASTER PM ?
 					INNER JOIN PROJECTION_DETAILS PD ON
@@ -380,6 +390,8 @@
 						CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
 					LEFT JOIN BRAND_MASTER BM ON
 						BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+						JOIN BPIGTN_AGN_SYSL7_QA.dbo.User_ USR ON
+					USR.userId = PM.CREATED_BY
 					WHERE
 						?
 						AND(
@@ -419,7 +431,16 @@
 						pm.projection_description,
 						pm.projection_master_sid,
 						PM.created_date,
-						PM.created_by
+						ISNULL(
+						USR.lastName,
+						''
+					) + ' ' + ISNULL(
+						USR.middleName,
+						''
+					) + ' ' + ISNULL(
+						USR.firstName,
+						''
+					),PM.CREATED_BY
 				) RSLT
 		]]>
 	</entry>
@@ -464,6 +485,17 @@
 							WHEN Count( DISTINCT BM.BRAND_NAME )> 1 THEN 'MULTIPLE'
 							ELSE Max( BM.BRAND_NAME )
 						END AS BRAND,
+						PM.CREATED_DATE,
+					ISNULL(
+						USR.lastName,
+						''
+					) + ' ' + ISNULL(
+						USR.middleName,
+						''
+					) + ' ' + ISNULL(
+						USR.firstName,
+						''
+					) AS USER_ID,PM.CREATED_BY,
 						CASE
 							WHEN Count( DISTINCT IM.ITEM_NO )> 1 THEN 'MULTIPLE'
 							ELSE Max( IM.ITEM_NO )
@@ -472,9 +504,8 @@
 							WHEN Count( DISTINCT IM.ITEM_NAME )> 1 THEN 'MULTIPLE'
 							ELSE Max( IM.ITEM_NAME )
 						END AS ITEM_NAME,
-						PM.PROJECTION_MASTER_SID,
-						PM.CREATED_DATE,
-						PM.CREATED_BY
+						PM.PROJECTION_MASTER_SID
+						
 					FROM
 						CFF_MASTER CFM 
 					JOIN CFF_DETAILS CFD ON
@@ -501,6 +532,8 @@
 						CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
 					LEFT JOIN BRAND_MASTER BM ON
 						BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+						JOIN BPIGTN_AGN_SYSL7_QA.dbo.User_ USR ON
+					USR.userId = PM.CREATED_BY
 					WHERE
 						?
 						AND(
@@ -539,8 +572,17 @@
 						pm.projection_name,
 						pm.projection_description,
 						pm.projection_master_sid,
-						PM.created_date,
-						PM.created_by
+							PM.created_date,
+					ISNULL(
+						USR.lastName,
+						''
+					) + ' ' + ISNULL(
+						USR.middleName,
+						''
+					) + ' ' + ISNULL(
+						USR.firstName,
+						''
+					),PM.CREATED_BY
 				) RSLT
 		]]>
 	</entry>

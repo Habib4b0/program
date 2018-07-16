@@ -700,7 +700,7 @@ public class GtnWsContractDashboardItemLogic {
 				if (itemRebateSearchCriteria.isFilter() && !skipCriteria(itemRebateSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(itemRebateSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(itemRebateSearchCriteria.getExpression())) {
-						value.append('%').append(value).append('%');
+						value.append('%');
 					}
 					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(itemRebateSearchCriteria.getExpression(),
                                                 getItemAdditionTabColumns(itemRebateSearchCriteria.getFieldId()), value.toString(),
@@ -831,7 +831,7 @@ public class GtnWsContractDashboardItemLogic {
 				if (cdItemPricingSearchCriteria.isFilter() && !skipCriteria(cdItemPricingSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(cdItemPricingSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(cdItemPricingSearchCriteria.getExpression())) {
-						value.append('%').append(value).append('%');
+						value.append('%');
 					}
 					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(cdItemPricingSearchCriteria.getExpression(),
                                                 getItemAdditionTabColumns(cdItemPricingSearchCriteria.getFieldId()),
@@ -1150,7 +1150,7 @@ public class GtnWsContractDashboardItemLogic {
 				if (itemSearchCriteria.isFilter() && !skipCriteria(itemSearchCriteria.getFieldId())) {
 					StringBuilder value = new StringBuilder(itemSearchCriteria.getFilterValue1());
 					if ("LIKE".equalsIgnoreCase(itemSearchCriteria.getExpression())) {
-						value.append('%').append(value).append('%');
+						value.append('%');
 					}
 					inputWhereConditions.append(GtnFrameworkWebserviceConstant.AND_COLUMN).append(getWhereClauseForAColumn(itemSearchCriteria.getExpression(),
                                                 getItemAdditionTabColumns(itemSearchCriteria.getFieldId()), value.toString(),

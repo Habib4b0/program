@@ -37,7 +37,7 @@ public class GtnCustomRelationshipLevelValueService {
 	private List<Object[]> customViewDetails;
 	private GtnWsReportDataSelectionBean dataSelectionBean;
 	private final List<RelationshipLevelValuesBean> queryList = new ArrayList<>();
-	private int defaultCount = 0;
+	private int defaultCount = 2;
 
 	public void setInputForQueryGeneration(List<Object[]> customViewDetails,
 			GtnWsReportDataSelectionBean dataSelectionBean) {

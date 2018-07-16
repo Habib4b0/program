@@ -2324,7 +2324,7 @@ public class DataSelectionLogic {
 		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
 				"customSalesCP", sessionDTO);
 		tempList.clear();
-                String customCCPQuery = SQlUtil.getQuery("getRelationshipCustomCCP").replace("?RBSID", relationshipBuilderSid);
+                String customCCPQuery = SQlUtil.getQuery("getRelationshipCustomCCP").replace("?RBSID", relationshipBuilderSid).replace("@CUSTOMSID", relationshipBuilderSid);
 		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
 				QueryUtil.replaceTableNames(customCCPQuery + bean.getCustomFinalQuery(), sessionDTO.getCurrentTableNames()));
 		for (int j = tempList.size() - 1; j >= 0; j--) {
