@@ -89,13 +89,14 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 					gtnLogger.error(e.getMessage(), e);
 				}
 			});
+			
 		}
 	}
 
 	private void setComponentProperties(GtnUIFrameworkComponentConfig componentConfig, ComboBox vaadinComboBox,
 			final GtnUIFrameworkComboBoxConfig comboboxConfig) {
 		vaadinComboBox.setEnabled(componentConfig.isEnable());
-
+		vaadinComboBox.setPlaceholder(componentConfig.getVaadinComponentPlaceHolder());
 		vaadinComboBox.setVisible(componentConfig.isVisible());
 		vaadinComboBox.setReadOnly(comboboxConfig.isReadOnly());
 		vaadinComboBox.setRequiredIndicatorVisible(comboboxConfig.isRequired());
