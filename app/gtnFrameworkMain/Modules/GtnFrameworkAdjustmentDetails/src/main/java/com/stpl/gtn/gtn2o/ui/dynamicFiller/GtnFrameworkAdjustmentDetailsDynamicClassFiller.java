@@ -5,8 +5,8 @@
  */
 package com.stpl.gtn.gtn2o.ui.dynamicFiller;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkAdjustmentDetailsSaveViewAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkDeductionLevelValueChange;
-import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkSearchConfig;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkTransactionDetailsValueChange;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
@@ -23,8 +23,8 @@ public class GtnFrameworkAdjustmentDetailsDynamicClassFiller implements GtnUIDyn
                 new GtnFrameworkTransactionDetailsValueChange());
         GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkDeductionLevelValueChange.class.getName(),
                 new GtnFrameworkDeductionLevelValueChange());
-        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkSearchConfig.class.getName(),
-                new GtnFrameworkSearchConfig());
+        GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkAdjustmentDetailsSaveViewAction.class.getName(),
+                new GtnFrameworkAdjustmentDetailsSaveViewAction());
     }
 
 }

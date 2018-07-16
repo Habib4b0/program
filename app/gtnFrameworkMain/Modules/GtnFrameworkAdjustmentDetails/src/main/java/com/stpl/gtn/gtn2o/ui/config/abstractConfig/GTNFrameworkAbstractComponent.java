@@ -50,7 +50,7 @@ public class GTNFrameworkAbstractComponent {
         return uiComponentConfig;
     }
 
-    protected GtnUIFrameworkComponentConfig getComboBoxComponent(GtnFrameworkComponentConfigProvider componentConfig, String objectComponentName, List<GtnUIFrameworkComponentConfig> componentList, String componentName, List listName, String parentLayout) {
+    protected GtnUIFrameworkComponentConfig getComboBoxComponent(GtnFrameworkComponentConfigProvider componentConfig, String objectComponentName, List<GtnUIFrameworkComponentConfig> componentList, String componentName, List listName, String parentLayout, String defaultValue) {
         GtnUIFrameworkComponentConfig comboBoxLayout = componentConfig.getHorizontalLayoutConfig(objectComponentName + "Layout",
                 true, parentLayout);
         componentList.add(comboBoxLayout);
@@ -70,6 +70,7 @@ public class GTNFrameworkAbstractComponent {
                 GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
                 + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
         comboBoxConfig.setItemValues(listName);
+        comboBoxConfig.setDefaultValue(defaultValue);
         uiComponentConfig.setGtnComboboxConfig(comboBoxConfig);
         return uiComponentConfig;
     }
@@ -103,6 +104,7 @@ public class GTNFrameworkAbstractComponent {
     protected void getTextBoxComponent(GtnFrameworkComponentConfigProvider componentConfig, String objectComponentName, List<GtnUIFrameworkComponentConfig> componentList, String componentName, String parentLayout) {
         GtnUIFrameworkComponentConfig textFieldLayout = componentConfig.getHorizontalLayoutConfig(
                 objectComponentName + "layout", true, parentLayout);
+        textFieldLayout.addComponentStyle(GtnFrameworkCssConstants.GRID_SINGLE_IN_LAYOUT);
         componentList.add(textFieldLayout);
 
         GtnUIFrameworkComponentConfig textFieldConfig = componentConfig.getUIFrameworkComponentConfig(
@@ -119,9 +121,7 @@ public class GTNFrameworkAbstractComponent {
     }
 
     protected void getPopupFieldComponent(GtnFrameworkComponentConfigProvider componentConfig, String objectComponentName, List<GtnUIFrameworkComponentConfig> componentList, String componentName, String parentLayout) {
-
-        GtnUIFrameworkComponentConfig identifierStartDateLayout = componentConfig.getHorizontalLayoutConfig(
-                objectComponentName + "layout", true,
+        GtnUIFrameworkComponentConfig identifierStartDateLayout = componentConfig.getHorizontalLayoutConfig(objectComponentName + "layout", true,
                 parentLayout);
         identifierStartDateLayout.addComponentStyle(GtnFrameworkCssConstants.GRID_SINGLE_IN_LAYOUT);
         componentList.add(identifierStartDateLayout);
