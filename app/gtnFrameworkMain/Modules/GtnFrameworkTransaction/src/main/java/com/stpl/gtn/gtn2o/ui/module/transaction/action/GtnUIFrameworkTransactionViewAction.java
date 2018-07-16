@@ -46,7 +46,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		gtnLogger.info("----------Inside doAction ---------------");
+		gtnLogger.info("----------Inside Transaction View doAction ---------------");
 
 		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", Boolean.TRUE);
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
@@ -60,6 +60,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		String inventoryLevelColumnValue = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 		List<String> inventoryType = new ArrayList<>();
 
+		
 		if (wsViewName.contains("InventoryWdActualProjMas")) {
 			List<String> viewColumnList = (List<String>) actionParamList.get(1);
 			List<Object> columnList = (List<Object>) actionParamList.get(4);
@@ -75,6 +76,8 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			inventoryLevelColumnValue = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnTransactionUIConstants.INVENTORY_LEVEL).getValueFromComponent()
 					.toString();
+			
+			
 		} else if (wsViewName.contains(GtnTransactionUIConstants.DEMAND)) {
 			demandTypeColumnName = GtnTransactionUIConstants.DEMAND_TYPE_SID;
 			demandTypeColumnValue = GtnUIFrameworkGlobalUI
@@ -95,7 +98,6 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			for (GtnWSTransactionColumnBean gtnWSTransactionColumnBean : viewModeOrderComponents) {
 				viewModeOrderColumnList.add(gtnWSTransactionColumnBean.getColumnID());
 			}
-
 			if (GtnTransactionUIConstants.ADJUSTED_DEMAND.equals(demandTypeCaption)) {
 
 				componentList = getComponentList(forecastTypeCaption, viewModeOrderComponents, viewModeComponents,
@@ -112,11 +114,16 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		}
 		List<GtnWSTransactionColumnBean> viewDateModeComponents = (List<GtnWSTransactionColumnBean>) actionParamList
 				.get(9);
+		
 		List<String> helpercomponentList = (List<String>) actionParamList.get(3);
+		
 		int systemId = getSystemId(isInvalid, componentId, actionParamList);
+		
+		
+		
 		try {
 			GtnUIFrameworkTransactionComponentTypeListBean gtnUIFrameworkTransactionComponentTypeListBean = new GtnUIFrameworkTransactionComponentTypeListBean();
-
+			
 			if ("VwInventoryWdActualProjMas".equalsIgnoreCase(wsViewName)) {
 				gtnUIFrameworkTransactionComponentTypeListBean.setInventoryType(inventoryType);
 				gtnUIFrameworkTransactionComponentTypeListBean.setViewDateModeComponents(viewDateModeComponents);
@@ -140,7 +147,8 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			GtnUIFrameworkTransactionComponentTypeListBean gtnUIFrameworkTransactionComponentTypeListBean)
 			throws GtnFrameworkGeneralException {
 		gtnLogger.info("--------Inside loadDataFromService----------");
-
+		
+		
 		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsTransactionRequest gtnWsTransactionRequest = new GtnWsTransactionRequest();
@@ -317,14 +325,19 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 	private int getSystemId(boolean isInvalid, String componentId, List<Object> actionParamList) {
 		int systemId;
 		if (isInvalid) {
+			
 			GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 					.getVaadinFieldFactoryComponentData(componentId);
+			
 			GtnUIFrameworkActionParameter actionParam = componentData.getActionParameter();
 			GtnWsRecordBean recordBean = actionParam.getItemId();
-			systemId = (Integer) recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
+			String sysId =String.valueOf(recordBean.getPropertyValueByIndex(recordBean.getProperties().size() - 1));
+			systemId = Integer.parseInt(sysId);
+			
+			
 		} else {
+			
 			GtnWsRecordBean extListDto = (GtnWsRecordBean) actionParamList.get(actionParamList.size() - 1);
-
 			systemId = (Integer) extListDto.getPropertyValueByIndex(extListDto.getProperties().size() - 1);
 		}
 
