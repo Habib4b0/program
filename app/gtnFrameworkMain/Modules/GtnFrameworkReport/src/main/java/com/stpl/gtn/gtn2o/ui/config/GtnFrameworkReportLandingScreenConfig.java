@@ -485,7 +485,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		panel.setComponentName("Time Period");
 		panel.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "timePeriod");
 		panel.setComponentType(GtnUIFrameworkComponentType.PANEL);
-		panel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		panel.setComponentWidth("85%");
+		panel.addComponentStyle("stpl-margin-bottom-15");
 		panel.setAddToParent(true);
 		panel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fromToMainLayout");
 		panel.addComponentStyle(GtnFrameworkCssConstants.PANEL_TIME_PERIOD_RTN_FOR);

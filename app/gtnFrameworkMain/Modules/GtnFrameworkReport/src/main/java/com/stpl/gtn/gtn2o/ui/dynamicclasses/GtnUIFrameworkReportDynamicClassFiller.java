@@ -18,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewDeleteAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportDashBoardRightHeaderRequestAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingDashboardConfirmUpdateProfileAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingDashboardSaveProfileAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkSelectButtonEnableActionInHierarchyLookup;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIBuildCustomTreeAction;
@@ -67,6 +68,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnForecastEligibleDateLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnFrameworkReportTabChangeAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportComparisonEnableAddBtnAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportDashboardComparisonResultsSearchAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportForecastLevelLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingComparisonBreakdownGridLoadAction;
@@ -270,6 +272,12 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportDashboardValuesResetAction.class.getName(),
 				new GtnReportDashboardValuesResetAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnReportComparisonEnableAddBtnAction.class.getName(),
+				new GtnReportComparisonEnableAddBtnAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
+				GtnFrameworkReportingDashboardConfirmUpdateProfileAction.class.getName(),
+				new GtnFrameworkReportingDashboardConfirmUpdateProfileAction());
+		
 	}
 
 }

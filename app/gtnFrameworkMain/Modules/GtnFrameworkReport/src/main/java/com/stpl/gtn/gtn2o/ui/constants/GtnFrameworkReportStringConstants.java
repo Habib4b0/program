@@ -31,6 +31,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String STATUS = "STATUS";
 
 	public static final String REPORT = "report";
+	
+	public static final String SELECT_ONE_PLACE_HOLDER = "-Select One-";
 
 	public static final String HIER_NAME = "productHierarchyName";
 
