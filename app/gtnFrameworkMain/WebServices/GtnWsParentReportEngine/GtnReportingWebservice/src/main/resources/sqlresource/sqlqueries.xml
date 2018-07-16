@@ -188,17 +188,18 @@
 	<entry key="loadViewResults">
 			<![CDATA[
 				Select
-						VIEW_NAME,
+						VIEW_NAME ,
 						CREATED_DATE,
 						MODIFIED_DATE,
-						CREATED_BY,
+						LASTNAME+', '+FIRSTNAME as CREATED_BY,
 						VIEW_ID,
 						VIEW_DATA
 					from
 						REPORTING_VIEW_MASTER
+						join ?.dbo.User_ sys on sys.userId = REPORTING_VIEW_MASTER.CREATED_BY
 					WHERE
 						VIEW_TYPE = ?
-						AND VIEW_NAME LIKE ?
+						AND VIEW_NAME LIKE ? @filter
 						?
 						AND FLAG = ?
 			]]>
@@ -344,6 +345,17 @@
 							WHEN Count( DISTINCT BM.BRAND_NAME )> 1 THEN 'MULTIPLE'
 							ELSE Max( BM.BRAND_NAME )
 						END AS BRAND,
+						PM.CREATED_DATE,
+					ISNULL(
+						USR.lastName,
+						''
+					) + ' ' + ISNULL(
+						USR.middleName,
+						''
+					) + ' ' + ISNULL(
+						USR.firstName,
+						''
+					) AS USER_ID,PM.CREATED_BY,
 						CASE
 							WHEN Count( DISTINCT IM.ITEM_NO )> 1 THEN 'MULTIPLE'
 							ELSE Max( IM.ITEM_NO )
@@ -352,9 +364,8 @@
 							WHEN Count( DISTINCT IM.ITEM_NAME )> 1 THEN 'MULTIPLE'
 							ELSE Max( IM.ITEM_NAME )
 						END AS ITEM_NAME,
-						PM.PROJECTION_MASTER_SID,
-						PM.CREATED_DATE,
-						PM.CREATED_BY
+						PM.PROJECTION_MASTER_SID
+						
 					FROM
 						PROJECTION_MASTER PM ?
 					INNER JOIN PROJECTION_DETAILS PD ON
@@ -377,17 +388,10 @@
 						CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
 					LEFT JOIN BRAND_MASTER BM ON
 						BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+						JOIN BPIGTN_AGN_SYSL7_QA.dbo.User_ USR ON
+					USR.userId = PM.CREATED_BY
 					WHERE
-						ISNULL(
-							PM.IS_APPROVED,
-							''
-						) NOT IN(
-							'Y',
-							'C',
-							'A',
-							'R'
-						)
-						AND PM.SAVE_FLAG = 1
+						?
 						AND(
 							HT.list_name = 'CONTRACT_TYPE'
 							AND HT.DESCRIPTION LIKE ?
@@ -425,7 +429,16 @@
 						pm.projection_description,
 						pm.projection_master_sid,
 						PM.created_date,
-						PM.created_by
+						ISNULL(
+						USR.lastName,
+						''
+					) + ' ' + ISNULL(
+						USR.middleName,
+						''
+					) + ' ' + ISNULL(
+						USR.firstName,
+						''
+					),PM.CREATED_BY
 				) RSLT
 		]]>
 	</entry>
@@ -470,6 +483,17 @@
 							WHEN Count( DISTINCT BM.BRAND_NAME )> 1 THEN 'MULTIPLE'
 							ELSE Max( BM.BRAND_NAME )
 						END AS BRAND,
+						PM.CREATED_DATE,
+					ISNULL(
+						USR.lastName,
+						''
+					) + ' ' + ISNULL(
+						USR.middleName,
+						''
+					) + ' ' + ISNULL(
+						USR.firstName,
+						''
+					) AS USER_ID,PM.CREATED_BY,
 						CASE
 							WHEN Count( DISTINCT IM.ITEM_NO )> 1 THEN 'MULTIPLE'
 							ELSE Max( IM.ITEM_NO )
@@ -478,9 +502,8 @@
 							WHEN Count( DISTINCT IM.ITEM_NAME )> 1 THEN 'MULTIPLE'
 							ELSE Max( IM.ITEM_NAME )
 						END AS ITEM_NAME,
-						PM.PROJECTION_MASTER_SID,
-						PM.CREATED_DATE,
-						PM.CREATED_BY
+						PM.PROJECTION_MASTER_SID
+						
 					FROM
 						CFF_MASTER CFM 
 					JOIN CFF_DETAILS CFD ON
@@ -507,17 +530,10 @@
 						CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
 					LEFT JOIN BRAND_MASTER BM ON
 						BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+						JOIN BPIGTN_AGN_SYSL7_QA.dbo.User_ USR ON
+					USR.userId = PM.CREATED_BY
 					WHERE
-						ISNULL(
-							PM.IS_APPROVED,
-							''
-						) NOT IN(
-							'Y',
-							'C',
-							'A',
-							'R'
-						)
-						AND PM.SAVE_FLAG = 1
+						?
 						AND(
 							HT.list_name = 'CONTRACT_TYPE'
 							AND HT.DESCRIPTION LIKE ?
@@ -554,8 +570,17 @@
 						pm.projection_name,
 						pm.projection_description,
 						pm.projection_master_sid,
-						PM.created_date,
-						PM.created_by
+							PM.created_date,
+					ISNULL(
+						USR.lastName,
+						''
+					) + ' ' + ISNULL(
+						USR.middleName,
+						''
+					) + ' ' + ISNULL(
+						USR.firstName,
+						''
+					),PM.CREATED_BY
 				) RSLT
 		]]>
 	</entry>
@@ -564,6 +589,9 @@
 		<![CDATA[
 			INNER JOIN WORKFLOW_MASTER WM ON
 					PM.PROJECTION_MASTER_SID = WM.PROJECTION_MASTER_SID
+			LEFT JOIN HELPER_TABLE HT1 ON
+				HT1.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+				AND HT1.LIST_NAME = 'WORKFLOWSTATUS'
 		]]>
 	</entry>
 	<entry key="filterOptionDeductionLevelLoadQuery">

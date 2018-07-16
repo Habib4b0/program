@@ -177,6 +177,8 @@ public class SalesLogic {
     public static final String SALESINCLUSION = "@SALESINCLUSION";
     public static final String OPPOSITESINC = "@OPPOSITESINC";
     public static final String VIEWTABLE ="@VIEWTABLE";
+    public static final String WAC_PRICE = " (NULLIF(CASE WHEN P.PERIOD_DATE<CONVERT(DATETIME, DATEADD(MM, -1, DATEADD(DD, 1, EOMONTH(GETDATE(), 0)))) THEN PF.ITEM_PRICE ELSE (EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0)) END,0)) ";
+    public static final String MASTERSID = "@MASTERSID";
     
     
               
@@ -583,7 +585,7 @@ public class SalesLogic {
             sql = sql.replace("@SUMACTUALUNITS", getSumActualMethods(projSelDTO));
             sql = sql.replace(VIEWTABLE, CommonLogic.getViewTableName(projSelDTO));
             sql = sql.replace("@TABLCOLUMN", getTablColumn(projSelDTO));
-            sql = sql.replace("@CUSTOMJOIN", getCustomJoin(projSelDTO));
+            sql = sql.replace("@CUSTOMJOIN", getCustomJoin(projSelDTO).replace("@SID", String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid())));
             sql = sql.replace("@REFCOLUMN", getRefColumn(projSelDTO));
             sql = sql.replace("@CUSTOMCONDITION", getCustomCondition(projSelDTO));
             sql = sql.replace("@CUSTOMSID", getCustomSid(projSelDTO));
@@ -735,7 +737,7 @@ public class SalesLogic {
             sql = sql.replace("@SUMACTUALUNITS", getSumActualMethods(projSelDTO));
             sql = sql.replace(VIEWTABLE, CommonLogic.getViewTableName(projSelDTO));
             sql = sql.replace("@TABLCOLUMN", getTablColumn(projSelDTO));
-            sql = sql.replace("@CUSTOMJOIN", getCustomJoin(projSelDTO));
+            sql = sql.replace("@CUSTOMJOIN", getCustomJoin(projSelDTO).replace("@SID", String.valueOf(projSelDTO.getSessionDTO().getCustomRelationShipSid())));
             sql = sql.replace("@REFCOLUMN", getRefColumn(projSelDTO));
             sql = sql.replace("@CUSTOMCONDITION", getCustomCondition(projSelDTO));
             sql = sql.replace("@CUSTOMSID", getCustomSid(projSelDTO));
@@ -761,7 +763,7 @@ public class SalesLogic {
 	}
 
 	private String getCustomJoin(ProjectionSelectionDTO projSelDTO) {
-		return !Constant.CUSTOM_LABEL.equals(projSelDTO.getViewOption()) ? StringUtils.EMPTY : "JOIN CUSTOM_CCP_SALES CO ON CO.ROWID = STC.HIERARCHY_NO";
+		return !Constant.CUSTOM_LABEL.equals(projSelDTO.getViewOption()) ? StringUtils.EMPTY : "JOIN CUSTOM_CCP_SALES_@SID CO ON CO.ROWID = STC.HIERARCHY_NO";
 	}
 
 	private String getTablColumn(ProjectionSelectionDTO projSelDTO) {
@@ -1850,6 +1852,7 @@ public class SalesLogic {
             String hierarchy = salesDTO.getHierarchyNo().contains(",") ? salesDTO.getHierarchyNo().split(",")[0] : salesDTO.getHierarchyNo();
             String hierarchyInserQuery = projectionSelectionDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-update-Sales_custom") : SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES,"('" + hierarchy.trim() + "')");
+            hierarchyInserQuery = hierarchyInserQuery.replace(MASTERSID,projectionSelectionDTO.getSessionDTO().getCustomRelationShipSid()!=0?String.valueOf(projectionSelectionDTO.getSessionDTO().getCustomRelationShipSid()):StringUtils.EMPTY);
 
             String hiearchyIndicator = salesDTO.getHierarchyIndicator();
             boolean isCustomView = projectionSelectionDTO.isIsCustomHierarchy();
@@ -2255,12 +2258,12 @@ public class SalesLogic {
                         finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
                         updateLine.append(" PROJECTION_SALES = PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue).append(')');
                         updateLine.append(" ,PROJECTION_UNITS = (PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue).append(')').append(')')
-                                  .append(" /(NULLIF(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0)) ");
+                                  .append(WAC_PRICE);
                     } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
                         updateLine.append(" PROJECTION_SALES=").append(finalvalue).append("");
                         updateLine.append(" ,PROJECTION_UNITS= ").append(finalvalue).append("")
-                                  .append(" /(NULLIF(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0)) ");
+                                  .append(WAC_PRICE);
                     }
                     break;
                 case Constant.PROJECTED_UNITS1:
@@ -2268,7 +2271,7 @@ public class SalesLogic {
                         finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
                         if (CommonUtil.isValueEligibleForLoading()) {
                             updateLine.append(" PROJECTION_UNITS= (PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue).append("))/COALESCE(NULLIF(UOM_VALUE,0),1) ");
-                            updateLine.append(" ,PROJECTION_SALES= ((PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue).append("))/COALESCE(NULLIF(UOM_VALUE,0),1)) * (NULLIF(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0)) ");
+                            updateLine.append(" ,PROJECTION_SALES= ((PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue).append("))/COALESCE(NULLIF(UOM_VALUE,0),1)) * ").append(WAC_PRICE);
                         } else {
                             updateLine.append(" PROJECTION_UNITS= PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue).append(')');
                         }
@@ -2276,7 +2279,7 @@ public class SalesLogic {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
                         if (CommonUtil.isValueEligibleForLoading()) {
                             updateLine.append(" PROJECTION_UNITS=").append(finalvalue).append("/COALESCE(NULLIF(UOM_VALUE,0),1) ").append(' ');
-                            updateLine.append(" ,PROJECTION_SALES=").append('(').append(finalvalue).append("/COALESCE(NULLIF(UOM_VALUE,0),1)) * (NULLIF(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0)) ").append(' ');
+                            updateLine.append(" ,PROJECTION_SALES=").append('(').append(finalvalue).append("/COALESCE(NULLIF(UOM_VALUE,0),1)) * ").append(WAC_PRICE);
                         } else {
                             updateLine.append(" PROJECTION_UNITS=").append(finalvalue).append(' ');
                         }
@@ -2303,6 +2306,7 @@ public class SalesLogic {
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + salesDTO.getHierarchyNo() + "')");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_CUSTOMERPARENT, salesDTO.getSecHierarchyNo());
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_PRODUCTPARENT, salesDTO.getHierarchyNo());
+            hierarchyInserQuery = hierarchyInserQuery.replace(MASTERSID,String.valueOf(projectionSelectionDTO.getSessionDTO().getCustomRelationShipSid()));
 
             String hiearchyIndicator = salesDTO.getHierarchyIndicator();
             boolean isCustomView = projectionSelectionDTO.isIsCustomHierarchy();
@@ -2571,10 +2575,13 @@ public class SalesLogic {
         StringBuilder updateLine = new StringBuilder();
         if(input.get(4).equals("PROJECTION_SALES")){
           updateLine.append(" SP.PROJECTION_SALES = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0) ")
-                    .append(" ,SP.PROJECTION_UNITS = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0)/(NULLIF(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0)) "); 
+                    .append(" ,SP.PROJECTION_UNITS = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0)/")
+                    .append(WAC_PRICE);
+                       
         }else{
         updateLine.append(" SP.PROJECTION_UNITS = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0) ")
-                  .append(" ,SP.PROJECTION_SALES = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0) * (NULLIF(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0)) ");
+                  .append(" ,SP.PROJECTION_SALES = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0) * ")
+                  .append(WAC_PRICE);
         }
         sqlUnitsQuery = sqlUnitsQuery.replace("[UPDATE_LINE]", updateLine.toString());
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(sqlUnitsQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
