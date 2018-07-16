@@ -1,12 +1,20 @@
 package com.stpl.gtn.gtn2o.ui.framework.action.validation.v8;
 
+import java.util.ArrayList;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidator;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
+import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.TreeGrid;
+import com.vaadin.ui.HorizontalLayout;
 
 public class GtnUIFrameWorkV8ConditionalValidator implements GtnUIFrameworkValidator {
 
@@ -36,12 +44,22 @@ public class GtnUIFrameWorkV8ConditionalValidator implements GtnUIFrameworkValid
 		if (v8GtnUIFrameworkValidationConfig != null && v8GtnUIFrameworkValidationConfig.getConditionList() != null) {
 			GtnUIFrameworkBaseComponent v8VaadinFieldBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(v8FieldId, v8ComponentId);
-                       Object v8CurrentValue = v8VaadinFieldBaseComponent.getV8StringFromField();
+                       Object v8CurrentValue = null;
+                       
                         if(v8VaadinFieldBaseComponent.getComponent() instanceof ComboBox){
                            v8CurrentValue = v8VaadinFieldBaseComponent.getStringCaptionFromV8ComboBox();
                             v8CurrentValue = v8CurrentValue.equals("-Select one-")?null:v8CurrentValue;
                         }
-			
+                        else if (v8VaadinFieldBaseComponent.getComponent() instanceof HorizontalLayout) {
+                        	GtnUIFrameworkComponentData dualListBoxData = v8VaadinFieldBaseComponent.getComponentData();
+                    		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) dualListBoxData.getCustomData();
+                    		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
+                    		rightTable.getTreeData().getRootItems();
+                        	v8CurrentValue = rightTable.getTreeData().getRootItems().isEmpty() == true ? null : rightTable.getTreeData().getRootItems().get(0);
+            			}
+                        else{
+                            v8CurrentValue=v8VaadinFieldBaseComponent.getV8StringFromField();
+                        }
 			for (GtnUIFrameworkConditionalValidationType v8Condition : v8GtnUIFrameworkValidationConfig
 					.getConditionList()) {
 
