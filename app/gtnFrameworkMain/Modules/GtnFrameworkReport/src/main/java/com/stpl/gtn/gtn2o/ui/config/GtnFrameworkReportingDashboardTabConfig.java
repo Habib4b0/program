@@ -9,6 +9,7 @@ import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadFromInDataSelectionAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadToInDataSelectionAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportDashBoardRightHeaderRequestAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportResetAndCloseAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportingDashboardSaveProfileAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportCustomViewReloadAction;
@@ -279,7 +280,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE,
 				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
-		variableConfig.setComponentName("Variable: ");
+		variableConfig.setComponentName("Variables: ");
 		variableConfig.setAuthorizationIncluded(true);
 
 		GtnUIFrameworkCheckedComboBoxConfig variableLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
@@ -350,10 +351,15 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		reportProfileConfig.addComponentStyle("stpl-padding-left-34");
 
 		List<GtnUIFrameWorkActionConfig> list = new ArrayList<>();
-		Object reportProfileLookup = "Report Profile Lookup";
+		Object reportProfileLookup = "Report Profile Popup";
 		GtnUIFrameWorkActionConfig conf = new GtnUIFrameWorkActionConfig();
 		conf.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		conf.setActionParameterList(Arrays.asList("reportProfileLookupView", reportProfileLookup, "50%", "95%"));
+		conf.setActionParameterList(Arrays.asList("reportProfileLookupView", reportProfileLookup, "1000px", "845px",
+				GtnFrameworkReportResetAndCloseAction.class.getName(),
+				Arrays.asList("reportProfileLookup" + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType",
+						"reportProfileLookup" + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName",
+						"reportProfileLookup" + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ "reportProfilePagedTableComponent"),Arrays.asList(new Object[] { "Public", GtnFrameworkCommonStringConstants.STRING_EMPTY ,GtnFrameworkCommonStringConstants.STRING_EMPTY })));
 		list.add(conf);
 
 		reportProfileConfig.setGtnUIFrameWorkActionConfigList(list);
@@ -434,8 +440,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		comparisonBasisConfig.setAuthorizationIncluded(true);
 		GtnUIFrameworkComboBoxConfig comparisonBasisComponentLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		comparisonBasisComponentLoadConfig.setModuleName("report");
-		comparisonBasisComponentLoadConfig.setItemValues(new ArrayList());
-		comparisonBasisComponentLoadConfig.setItemCaptionValues(new ArrayList());
 		comparisonBasisConfig.setGtnComboboxConfig(comparisonBasisComponentLoadConfig);
 		componentList.add(comparisonBasisConfig);
 
@@ -482,9 +486,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(annualTotalsConfig);
 
 		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		annualTotalsLoadConfig.setItemValues(Arrays.asList("No"));
-		annualTotalsLoadConfig.setItemCaptionValues(Arrays.asList("No"));
-		annualTotalsLoadConfig.setDefaultValue("Yes");
+		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes","No"));
+		annualTotalsLoadConfig.setDefaultDesc("next");
+		annualTotalsLoadConfig.setHasDefaultValue(true);
 		annualTotalsConfig.setGtnComboboxConfig(annualTotalsLoadConfig);
 
 	}

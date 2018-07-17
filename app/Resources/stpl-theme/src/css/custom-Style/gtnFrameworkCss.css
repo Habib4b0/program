@@ -1586,3 +1586,10 @@
 .stpl-margin-top-100{
 	margin-top:100px;
 }
+
+.stpl-margin-left--20 {
+  margin-left: -20px !important;
+}
+.stpl-margin-left-0 {
+  margin-left: 0px !important;
+}

@@ -73,13 +73,17 @@ public class GtnReportDashboardFrequencyLoadAction
 
 			GtnUIFrameworkBaseComponent componentFrom = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId);
-			componentFrom.addAllItemsToComboBox(dataNew, periodSidData);
-			componentFrom.loadV8ComboBoxComponentValue("0");
+			if (componentFrom.getComponent() != null) {
+				componentFrom.addAllItemsToComboBox(dataNew, periodSidData);
+				componentFrom.loadV8ComboBoxComponentValue("0");
+			}
 
 			GtnUIFrameworkBaseComponent componentTo = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeTo", componentId);
-			componentTo.addAllItemsToComboBox(dataNew, periodSidData);
-			componentTo.loadV8ComboBoxComponentValue("0");
+			if (componentTo.getComponent() != null) {
+				componentTo.addAllItemsToComboBox(dataNew, periodSidData);
+				componentTo.loadV8ComboBoxComponentValue("0");
+			}
 
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
