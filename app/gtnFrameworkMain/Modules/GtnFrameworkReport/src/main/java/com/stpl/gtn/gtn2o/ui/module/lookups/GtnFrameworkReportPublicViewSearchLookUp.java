@@ -236,7 +236,13 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 		publicViewPagedTableConfig.setSelectable(true);
 		publicViewPagedTableConfig.setPageLength(10);
 		publicViewPagedTableConfig.setItemPerPage(10);
-
+		
+		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
+		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		alertAction.addActionParameter("Invalid Search");
+		alertAction.addActionParameter("There are no Views that match the search criteria.  Please try again.");
+		publicViewPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
+		
 		publicViewPagedTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_LOAD_PUBLICVIEWLOOKUP_SERVICE);
 		publicViewPagedTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
