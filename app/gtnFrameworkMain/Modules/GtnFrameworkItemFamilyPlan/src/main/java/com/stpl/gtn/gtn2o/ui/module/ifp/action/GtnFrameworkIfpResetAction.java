@@ -50,12 +50,23 @@ public class GtnFrameworkIfpResetAction
 			GtnIFamilyPlanBean ifpBean = new GtnIFamilyPlanBean();
 			GtnIFamilyPlanInformationBean ifpInfoBean = new GtnIFamilyPlanInformationBean();
 			ifpBean.setIfpInfo(ifpInfoBean);
+                          GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
 			if (cfpModelSid == null || cfpModelSid == 0) {
 				switch (position) {
 				case 0:
 					setValueToComponents(ifpBean, componentId);
 					break;
 				case 1:
+                                   
+				generalWSRequest.setUserId(String
+						.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.USER_ID)));
+				generalWSRequest.setSessionId(String.valueOf(
+						GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.SESSION_ID)));
+				gtnRequest.setGtnWsGeneralRequest(generalWSRequest);
+                                    new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+							GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
+									+ GtnWsIFamilyPlanContants.GTN_WS_IFP_TEMP_DELETE_SERVICE,
+							gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 					GtnUIFrameworkBaseComponent pricingTable = GtnUIFrameworkGlobalUI
 							.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFPRIGHT_RESULT_TABLE);
 					pricingTable.resetFilter();
@@ -78,6 +89,16 @@ public class GtnFrameworkIfpResetAction
 
 					break;
 				case 2:
+                                 
+				generalWSRequest.setUserId(String
+						.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.USER_ID)));
+				generalWSRequest.setSessionId(String.valueOf(
+						GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.SESSION_ID)));
+				gtnRequest.setGtnWsGeneralRequest(generalWSRequest);
+                                    new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+							GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
+									+ GtnWsIFamilyPlanContants.GTN_WS_IFP_TEMP_DELETE_SERVICE,
+							gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 					GtnUIFrameworkBaseComponent itemsTable = GtnUIFrameworkGlobalUI
 							.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFP_ITEMS_TAB_RESULT_DATA_TABLE);
 					itemsTable.removeAllGridItems();
@@ -103,9 +124,7 @@ public class GtnFrameworkIfpResetAction
 				default:
 					break;
 				}
-			} else {
-
-				GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
+			} else {				
 				generalWSRequest.setUserId(String
 						.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.USER_ID)));
 				generalWSRequest.setSessionId(String.valueOf(
@@ -114,7 +133,7 @@ public class GtnFrameworkIfpResetAction
 				GtnWsIfpRequest ifpRequest = new GtnWsIfpRequest();
 				ifpRequest.setGtnIFamilyPlan(ifpBean);
 				ifpInfoBean.setIfpSid(cfpModelSid);
-				gtnRequest.setGtnWsIfpRequest(ifpRequest);
+				gtnRequest.setGtnWsIfpRequest(ifpRequest);                              
 				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 						GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
 								+ GtnWsIFamilyPlanContants.GTN_WS_IFP_FETCH_INFORMATION_SERVICE,
