@@ -586,14 +586,15 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE,
 				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
-		dsComparisonVariableConfig.setComponentName("Variable: ");
+		dsComparisonVariableConfig.setComponentName("Variables: ");
 		dsComparisonVariableConfig.setAuthorizationIncluded(true);
 
 		GtnUIFrameworkCheckedComboBoxConfig dsComparisonVariableLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		dsComparisonVariableLoadConfig.setItemValueList(Arrays.stream(GtnWsReportVariablesType.values())
+		GtnWsReportVariablesType[] variableType = Arrays.copyOfRange(GtnWsReportVariablesType.values(), 0,
+				GtnWsReportVariablesType.values().length - 1);
+		dsComparisonVariableLoadConfig.setItemValueList(Arrays.stream(variableType)
 				.map(GtnWsReportVariablesType::toString).collect(Collectors.toList()));
 		dsComparisonVariableLoadConfig.setDefaultValue(GtnFrameworkCommonConstants.SELECT_ONE);
-		dsComparisonVariableLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.STATUS);
 		dsComparisonVariableConfig.setGtnCheckedComboboxConfig(dsComparisonVariableLoadConfig);
 		componentList.add(dsComparisonVariableConfig);
 	}

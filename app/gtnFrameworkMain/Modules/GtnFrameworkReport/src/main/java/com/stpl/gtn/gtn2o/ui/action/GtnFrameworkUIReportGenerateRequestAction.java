@@ -70,7 +70,7 @@ public class GtnFrameworkUIReportGenerateRequestAction
 		reportDashBoardBean.setPeriodRangeFromSid(perioFromComponent.getIntegerFromV8ComboBox());
 
 		if (reportDashBoardBean.getPeriodRangeFromSid() != 0) {
-			reportDashBoardBean.setPeriodStart(perioFromComponent.getStringCaptionFromV8ComboBox());
+			reportDashBoardBean.setPeriodStart(perioFromComponent.getStringCaptionFromV8ComboBox().replaceAll(" - ", " "));
 		} else {
 			reportDashBoardBean.setPeriodRangeFromSid(perioFromComponent.getNthIntegerFromV8ComboBox(1));
 			reportDashBoardBean
@@ -79,7 +79,7 @@ public class GtnFrameworkUIReportGenerateRequestAction
 
 		reportDashBoardBean.setPeriodRangeToSid(periodToComponent.getIntegerFromV8ComboBox());
 		if (reportDashBoardBean.getPeriodRangeToSid() != 0) {
-			reportDashBoardBean.setPeriodTo(periodToComponent.getStringCaptionFromV8ComboBox());
+			reportDashBoardBean.setPeriodTo(periodToComponent.getStringCaptionFromV8ComboBox().replaceAll(" - ", " "));
 		} else {
 			reportDashBoardBean.setPeriodRangeToSid(
 					periodToComponent.getNthIntegerFromV8ComboBox(periodToComponent.totalItemsInComboBox() - 1));
