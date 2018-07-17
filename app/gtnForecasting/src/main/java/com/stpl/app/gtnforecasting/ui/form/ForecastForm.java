@@ -1968,8 +1968,8 @@ public class ForecastForm extends AbstractForm {
 
 				@Override
 				public void noMethod() {
-					try {
-						logic.removeTPOrCustomerFromProjection(session);
+					try {                                                                                     
+						logic.removeTPOrCustomerFromProjection(session,dataSelectionDTO);
 						if (!screenName.equals(Constants.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 							callInsertProcedureOnGenerate(session, screenName);
 						}
@@ -2720,5 +2720,5 @@ public class ForecastForm extends AbstractForm {
 			}
 		}
 	}
-
+        
 }

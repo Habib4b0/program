@@ -289,24 +289,6 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 
 	}
 
-	private void resultLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
-		GtnUIFrameworkLayoutConfig conf = new GtnUIFrameworkLayoutConfig();
-		conf.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
-
-		GtnUIFrameworkComponentConfig resultsLayout = new GtnUIFrameworkComponentConfig();
-		resultsLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		resultsLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "resultLayout");
-
-		resultsLayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "resultsPanel");
-		resultsLayout.setAddToParent(true);
-		resultsLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		resultsLayout.setComponentHight(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		resultsLayout.setGtnLayoutConfig(conf);
-		componentList.add(resultsLayout);
-		addProductHierarchyPagedTableComponent(componentList, namespace);
-		
-	}
-
 	private void addProductHierarchyPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
 		GtnUIFrameworkComponentConfig searchResultConfig = new GtnUIFrameworkComponentConfig();
@@ -442,7 +424,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 
 		GtnUIFrameWorkActionConfig reportProductHierarchyClosepopup = new GtnUIFrameWorkActionConfig();
 		reportProductHierarchyClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		reportProductHierarchyClosepopup.addActionParameter("productHierarchyLookup");
+		reportProductHierarchyClosepopup.addActionParameter("reportLandingScreen_productHierarchyLookup");
 		actionConfigList.add(reportProductHierarchyClosepopup);
 
 		selectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
