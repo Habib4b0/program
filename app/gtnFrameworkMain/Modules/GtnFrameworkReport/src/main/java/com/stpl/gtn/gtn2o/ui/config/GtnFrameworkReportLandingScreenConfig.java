@@ -761,8 +761,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerDualListBox",
 						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "relationship",
 						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "level",
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp",
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView"));
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp"
+						));
 
 		GtnUIFrameWorkActionConfig saveViewDataSelectionAlertActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
