@@ -108,8 +108,11 @@ public class PagedGrid {
 
     public void refreshGrid() {
         count = getTotalCount();
+        if(tableConfig.isPaginationOff()) {
         pageLength = count;
+        }
         gtnlogger.info("count------" + count);
+        gtnlogger.info("pageLength------" + pageLength);
         dataSet = loadData((pageNumber * pageLength), pageLength);
 
         if (dataSet.getRows() != null) {
@@ -154,7 +157,7 @@ public class PagedGrid {
             rows = FetchData.fetchResultAsRow(tableConfig.getTableColumnMappingId(),
                     appendFilter(tableConfig.getDataQuery()), input.toArray());
         } else {
-            rows = pagedTableLogic.loadData(limit, offset);
+            rows = pagedTableLogic.loadData(offset,limit);
         }
         return new DataSet(Arrays.asList(tableConfig.getTableColumnMappingId()), rows);
     }

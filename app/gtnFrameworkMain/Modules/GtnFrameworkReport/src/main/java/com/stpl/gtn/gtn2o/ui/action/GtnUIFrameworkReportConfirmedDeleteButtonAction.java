@@ -50,7 +50,7 @@ public class GtnUIFrameworkReportConfirmedDeleteButtonAction
 		}
 		GtnUIFrameWorkActionConfig reportProfileConfirmDeleteAction = new GtnUIFrameWorkActionConfig();
 		reportProfileConfirmDeleteAction.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
-		reportProfileConfirmDeleteAction.addActionParameter("Confirmation");
+		reportProfileConfirmDeleteAction.addActionParameter("Delete Confirmation");
 		reportProfileConfirmDeleteAction.addActionParameter("Are you sure you want to delete the selected view?");
 		List<GtnUIFrameWorkActionConfig> successActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig reportProfileDeleteViewAction = new GtnUIFrameWorkActionConfig();

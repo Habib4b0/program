@@ -58,11 +58,11 @@ public class GtnReportComparisonProjectionSubmitAction
 						.setContractHolder(String.valueOf(recordBean.getPropertyValue("contractHolder")));
 				comparisonProjectionBean.setContract(String.valueOf(recordBean.getPropertyValue("contract")));
 				comparisonProjectionBean.setBrand(String.valueOf(recordBean.getPropertyValue("brand")));
-				comparisonProjectionBean.setItemNo(String.valueOf(recordBean.getPropertyValueByIndex(6)));
-				comparisonProjectionBean.setItemName(String.valueOf(recordBean.getPropertyValueByIndex(7)));
+				comparisonProjectionBean.setItemNo(String.valueOf(recordBean.getPropertyValueByIndex(9)));
+				comparisonProjectionBean.setItemName(String.valueOf(recordBean.getPropertyValueByIndex(10)));
 				comparisonProjectionBean
-						.setProjectionMasterSid(Integer.parseInt(recordBean.getStringPropertyByIndex(8)));
-				comparisonProjectionBean.setCreatedBy(Integer.parseInt(recordBean.getStringPropertyByIndex(10)));
+						.setProjectionMasterSid(Integer.parseInt(recordBean.getStringPropertyByIndex(11)));
+				comparisonProjectionBean.setCreatedBy(Integer.parseInt(recordBean.getStringPropertyByIndex(8)));
 				comparisonProjectionBean.setProjectionType(String.valueOf(recordBean.getAdditionalPropertyByIndex(0)));
 				comparisonProjectionBeanList.add(comparisonProjectionBean);
 			}

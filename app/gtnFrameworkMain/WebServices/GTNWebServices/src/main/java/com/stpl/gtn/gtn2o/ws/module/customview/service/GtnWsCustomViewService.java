@@ -288,7 +288,7 @@ public class GtnWsCustomViewService {
 						&& indicator.toLowerCase().startsWith("v")) {
 					variablesList
 							.addAll(getRecordBeanFromObjectArray((List<List<Object>>) dto.getPropertyValueByIndex(5)));
-					continue;
+					continue; 
 				}
 
 				if (!variablesList.isEmpty()) {

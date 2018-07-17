@@ -155,6 +155,8 @@ public class GtnWsReportWebsevice {
 				inputList.add(StringUtils.EMPTY);
 				inputList.add(viewCheck);
 			}
+			inputList.add(gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordStart());
+			inputList.add(gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordOffset());
 
 			String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
 			return executeLoadViewResultsQuery(viewQuery,gtnUIFrameworkWebserviceRequest);
@@ -204,7 +206,7 @@ public class GtnWsReportWebsevice {
 		List<String> inputList = getInputList(criteriaMap);
 		List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
 				.executeSelectQuery(sqlService.getQuery(inputList, "loadProjectionComparisonResults"));
-		return resultList;
+		return resultListCustomization(resultList);
 	}
 
 	private List<String> getInputList(Map<String, String> criteriaMap) {
