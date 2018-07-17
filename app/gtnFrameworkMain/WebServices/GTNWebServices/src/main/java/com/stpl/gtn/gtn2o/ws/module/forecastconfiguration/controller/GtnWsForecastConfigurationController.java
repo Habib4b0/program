@@ -881,7 +881,7 @@ public class GtnWsForecastConfigurationController {
 		String[] splittedArrayS1 = arrays1[0].split("");
 		String[] splittedArrayS2 = arrays2[0].split("");
 		if ((Integer.parseInt(arrays1[1]) == Integer.parseInt(arrays2[1]))
-				&& (Integer.parseInt(splittedArrayS1[2]) < Integer.parseInt(splittedArrayS2[2]))) {
+				&& (Integer.parseInt(splittedArrayS1[1]) < Integer.parseInt(splittedArrayS2[1]))) {
 			return s1;
 		}
 		if (Integer.parseInt(arrays1[1]) < Integer.parseInt(arrays2[1])) {

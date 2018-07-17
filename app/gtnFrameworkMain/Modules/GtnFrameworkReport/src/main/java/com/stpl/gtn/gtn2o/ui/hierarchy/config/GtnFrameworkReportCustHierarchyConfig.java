@@ -8,12 +8,14 @@ import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.GtnUIFrameworkV8DualListBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnRelationshipVersionLoadAction;
@@ -159,6 +161,11 @@ public class GtnFrameworkReportCustHierarchyConfig {
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		customerSelectionRelationship.setGtnComboboxConfig(customerSelectionRelationshipLoadConfig);
 
+		GtnUIFrameworkValidationConfig customerSelectionRelationshipValidationConfig = new GtnUIFrameworkValidationConfig();
+		customerSelectionRelationshipValidationConfig
+				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		customerSelectionRelationship.setGtnUIFrameworkValidationConfig(customerSelectionRelationshipValidationConfig);
+		
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig relationshipValueChangeAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -215,6 +222,11 @@ public class GtnFrameworkReportCustHierarchyConfig {
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		customerSelectionLevel.setGtnComboboxConfig(customerSelectionLevelLoadConfig);
 
+		GtnUIFrameworkValidationConfig customerSelectionLevelValidationConfig = new GtnUIFrameworkValidationConfig();
+		customerSelectionLevelValidationConfig
+				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		customerSelectionLevel.setGtnUIFrameworkValidationConfig(customerSelectionLevelValidationConfig);
+		
 		List<GtnUIFrameWorkActionConfig> levelactionConfigList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig refreshDualListBoxActiion = new GtnUIFrameWorkActionConfig();
@@ -286,6 +298,11 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionInnerlayout");
 		customerSelectionDualListBoxComponent.setAddToParent(true);
 
+		GtnUIFrameworkValidationConfig customerSelectionDualListBoxValidationConfig = new GtnUIFrameworkValidationConfig();
+		customerSelectionDualListBoxValidationConfig
+				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
+		customerSelectionDualListBoxComponent.setGtnUIFrameworkValidationConfig(customerSelectionDualListBoxValidationConfig);
+		
 		componentList.add(customerSelectionDualListBoxComponent);
 		GtnUIFrameworkV8DualListBoxConfig customerSelectionDualListBoxConfig = new GtnUIFrameworkV8DualListBoxConfig();
 		customerSelectionDualListBoxConfig

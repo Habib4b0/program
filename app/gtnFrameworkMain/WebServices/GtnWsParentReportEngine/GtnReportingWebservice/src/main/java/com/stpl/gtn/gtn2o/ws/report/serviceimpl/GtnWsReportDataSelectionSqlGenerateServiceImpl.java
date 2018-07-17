@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
@@ -37,6 +39,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportDecimalFormat;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnReportJsonService;
+import com.stpl.gtn.gtn2o.ws.report.service.GtnReportVariableDescriptionIndicatorService;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportDataSelectionGenerate;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportRightTableLoadDataService;
 import com.stpl.gtn.gtn2o.ws.report.service.GtnWsReportSqlService;
@@ -60,6 +63,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	@Autowired
 	GtnWsReportRightTableLoadDataService rightTableService;
+
+	@Autowired
+	GtnReportVariableDescriptionIndicatorService variableDescriptionIndicatorService;
 
 	private static final GtnWSLogger GTNLOGGER = GtnWSLogger
 			.getGTNLogger(GtnWsReportDataSelectionSqlGenerateServiceImpl.class);
@@ -131,8 +137,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			GtnWsReportCustomCCPListDetails data = applicationContext.getBean(GtnWsReportCustomCCPListDetails.class);
 			data.setLevelNo(Integer.parseInt(result[3].toString()));
 			data.setHierarchyNo(result[0].toString());
-			data.setChildCount(Integer.parseInt(result[8].toString()));
-			data.setRowIndex(Integer.parseInt(result[9].toString()));
+			data.setChildCount(Integer.parseInt(result[result.length - 2].toString()));
+			data.setRowIndex(Integer.parseInt(result[result.length - 1].toString()));
 			data.setData(result);
 			Optional.ofNullable(customViewDetails.get(data.getLevelNo()))
 					.ifPresent(e -> data.setVariableCount(customViewDetails.get(data.getLevelNo())));
@@ -300,14 +306,19 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		if (Optional.ofNullable(customviewData).isPresent()) {
 			customViewTypeInBackend = String.valueOf(customviewData.get(0));
 			customViewTypeDataArray = customViewTypeInBackend.split("~");
-
+			Pattern containsOneChar = Pattern.compile("(?=.*[A-Z])");
+			Matcher charMatcher = containsOneChar.matcher(bean.getHierarchyNo());
 			if (bean.getVariableCount() == 1 || bean.getData()[5].equals("V")
-					|| customViewTypeDataArray[2].equals("Columns")) {
+					|| customViewTypeDataArray[2].equals("Columns") || charMatcher.find()) {
 				Map<String, Map<String, Double>> rightDataMap = rightTableService.getDataFromBackend(gtnWsRequest, bean,
 						customViewTypeDataArray);
-				if (bean.getData()[5].equals("V")) {
-					dataForHierarchy = rightDataMap
-							.get(bean.getHierarchyNo() + getVariableMap().get(bean.getData()[1]));
+				if (bean.getData()[5].equals("V") || customViewTypeDataArray[1].equals("Expandable")  && charMatcher.find()) {
+					Pattern indexPattern = Pattern.compile("([A-Z])");
+					Matcher charIndexmatch = indexPattern.matcher(bean.getHierarchyNo());
+					charIndexmatch.find();
+					char variableIndicator = bean.getHierarchyNo().charAt(charIndexmatch.start());
+					String variable = variableDescriptionIndicatorService.getVariable(variableIndicator);
+					dataForHierarchy = rightDataMap.get(bean.getHierarchyNo() + getVariableMap().get(variable));
 					dataForHierarchy.putAll(rightDataMap.get(bean.getHierarchyNo()));
 				} else {
 					dataForHierarchy = rightDataMap.get(bean.getHierarchyNo());
