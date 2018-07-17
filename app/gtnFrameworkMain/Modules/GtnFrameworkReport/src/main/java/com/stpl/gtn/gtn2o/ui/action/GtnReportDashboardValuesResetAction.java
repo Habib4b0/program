@@ -78,7 +78,7 @@ public class GtnReportDashboardValuesResetAction
 		 
 		GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabAnnualTotals", componentId)
-				.loadV8ComboBoxComponentValue(0);
+				.loadV8ComboBoxComponentValue("Yes");
 		
 		GtnUIFrameWorkActionConfig resetAction = new GtnUIFrameWorkActionConfig();
 		resetAction.setActionType(GtnUIFrameworkActionType.V8_CONFIRMED_RESET_ACTION);

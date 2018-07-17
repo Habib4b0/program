@@ -180,7 +180,7 @@ public class GtnFrameworkReportingDashboardSaveProfileAction
 			saveProfileAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 			List<Object> params = new ArrayList<>();
 			params.add("saveProfileViewLookUp");
-			params.add("Profile Save View");
+			params.add("Save View Popup");
 			params.add(null);
 			params.add(null);
 			params.add(null);

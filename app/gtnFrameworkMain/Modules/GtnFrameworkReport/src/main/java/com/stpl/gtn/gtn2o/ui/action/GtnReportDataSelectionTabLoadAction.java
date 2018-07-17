@@ -226,12 +226,14 @@ public class GtnReportDataSelectionTabLoadAction
 
 			loadComparisonInReportingDashboard("dataSelectionTab_comparisonLookup", componentId,
 					reportDataSelectionBean);
-
+			
+			GtnWsReportVariablesType[] variableType = Arrays.copyOfRange(GtnWsReportVariablesType.values(), 0,
+					GtnWsReportVariablesType.values().length - 1);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabVariable", componentId)
 					.addAllItemsToMultiSelect(
-							Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
+							Arrays.stream(variableType).map(GtnWsReportVariablesType::toString)
 									.collect(Collectors.toList()),
-							Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
+							Arrays.stream(variableType).map(GtnWsReportVariablesType::toString)
 									.collect(Collectors.toList()));
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabVariable", componentId)
 					.updateSelection(reportDataSelectionBean.getVariablesList());
