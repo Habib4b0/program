@@ -54,8 +54,7 @@ public class GtnFrameworkOptionGroupChangeAction implements GtnUIFrameWorkAction
 				.getVaadinBaseComponent(parameters.get(7).toString());
 
 		GtnUIFrameworkBaseComponent customTreeV001Layout = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(parameters.get(8).toString());
-                            customTreeV001Layout.getComponent().setWidth("100%");
+				.getVaadinBaseComponent(parameters.get(8).toString());                          
 		if (GtnFrameworkCVConstants.CUSTOM_VIEW_OPTION_DISCOUNT.equals(optionValue)) {
 			tableBaseComponent.setVisible(true);
 			tableBaseLayout.setVisible(true);
