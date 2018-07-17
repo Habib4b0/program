@@ -521,6 +521,10 @@ public class NMSalesProjection extends ForecastSalesProjection {
     @Override
     public void generateBtnLogic(Button.ClickEvent event) {
         try {
+            boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionDTO.getCustomerLevelFilter())
+                    && generateCustomerToBeLoaded.size() == projectionDTO.getCustomerLevelFilter().size());
+            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionDTO.getProductLevelFilter())
+                    && generateProductToBeLoaded.size() == projectionDTO.getProductLevelFilter().size());
             projectionDTO.setCustomerLevelFilter(generateCustomerToBeLoaded);
             projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
              loadAllFilters();
@@ -545,13 +549,15 @@ public class NMSalesProjection extends ForecastSalesProjection {
                         dataLogic.nmSalesViewsPopulationProcedureUOM(session);
                         uomValueChange = false;
                     }
-                    if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty())) {
+                    if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
                         LOGGER.info("generateBtn :Inside Filter Option");
                         session.setFunctionMode("F");
                         CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
                         CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
                         dataLogic.nmSalesViewsPopulationProcedureWithoutTruncation(session);
                         CommonUtil.getInstance().waitForSeconds();
+                        customerFlag = true; 
+                        productFlag = true; 
                     }
                     projectionDTO.setGroup(StringUtils.EMPTY);
                    
