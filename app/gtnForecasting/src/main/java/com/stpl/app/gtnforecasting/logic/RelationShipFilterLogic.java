@@ -481,6 +481,7 @@ public class RelationShipFilterLogic {
 				getGsnWsSecurityToken());
 	}
         
+        //check for ARP
         private void insertToCCpARP(GtnForecastHierarchyInputBean inputBean) {
 		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
 		forecastRequest.setInputBean(inputBean);
@@ -488,7 +489,7 @@ public class RelationShipFilterLogic {
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsForecastRequest(forecastRequest);
 		client.callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_CCP_INSERT_SERVICE + "/forecastCCPInsert", request,
+				GtnWebServiceUrlConstants.GTN_CCP_INSERT_SERVICE + "/forecastCCPInsertForARP", request,
 				getGsnWsSecurityToken());
 	}
 

@@ -58,7 +58,7 @@ public class GtnFrameworkCCPInsertController {
 	}
         
         //check added for ARP CCP insert
-        @RequestMapping(value = "/forecastCCPInsert", method = RequestMethod.POST)
+        @RequestMapping(value = "/forecastCCPInsertForARP", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse ccpInsertToARP(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
 		GtnWsForecastRequest reportRequest = gtnWsRequest.getGtnWsForecastRequest();

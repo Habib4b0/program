@@ -169,9 +169,9 @@ public class BpmManagerBean {
 	public void initARMRuntimeEngine() {
 		LOGGER.info("Init CffRuntime Engine Started ");
 		String identifier = "com.sample:example:1.0";
-		releaseId = new ReleaseIdImpl(armproperties.getProperty("ARM_groupId", COM_STPL_APP_BPM),
-				armproperties.getProperty("ARM_artifactId", "ARMWorkflow"),
-				armproperties.getProperty("ARM_version", "1.0"));
+		releaseId = new ReleaseIdImpl(cffproperties.getProperty("ARM_groupId", COM_STPL_APP_BPM),
+				cffproperties.getProperty("ARM_artifactId", "ARMWorkflow"),
+				cffproperties.getProperty("ARM_version", "1.0"));
 		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
 				.entityManagerFactory(enitiyManagerFactoryBean.getNativeEntityManagerFactory()).userGroupCallback(userGroupCallback);
                 getContainerAndSetToEnvironment(builder, releaseId);
