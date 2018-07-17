@@ -90,7 +90,7 @@ public class GtnReportCCPTableLoadAction
 
 		inputForComparisonBasisList.add("Actuals");
 		inputForComparisonBasisList.add("Accruals");
-		inputForComparisonBasisList.add("Projections");
+		inputForComparisonBasisList.add("Current Projection");
 		Optional.ofNullable(comparisonLookupBeanList).ifPresent(e -> {
 			for (GtnReportComparisonProjectionBean comparisonProjectionBeans : e) {
 				inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());

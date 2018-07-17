@@ -36,10 +36,12 @@ public class GtnReportVariableReloadInReportingDashboardAction implements GtnUIF
 		GtnUIFrameworkBaseComponent variableBaseComponent = GtnUIFrameworkGlobalUI
 		.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabVariable",
 				componentId);
+		GtnWsReportVariablesType[] variableType = Arrays.copyOfRange(GtnWsReportVariablesType.values(), 0,
+				GtnWsReportVariablesType.values().length - 1);
 		variableBaseComponent.addAllItemsToMultiSelect(
-				Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
+				Arrays.stream(variableType).map(GtnWsReportVariablesType::toString)
 				.collect(Collectors.toList()),
-		Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
+		Arrays.stream(variableType).map(GtnWsReportVariablesType::toString)
 				.collect(Collectors.toList()));
 		variableBaseComponent.updateSelection(variableList);
 	}
