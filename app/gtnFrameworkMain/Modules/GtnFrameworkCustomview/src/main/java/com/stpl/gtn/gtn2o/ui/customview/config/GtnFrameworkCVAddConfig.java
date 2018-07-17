@@ -239,7 +239,7 @@ public class GtnFrameworkCVAddConfig {
 	private void addCustomViewType(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
 		GtnUIFrameworkComponentConfig cvTypeLayout = configProvider.getHorizontalLayoutConfig(
 				namspacePrefix + GtnFrameworkCVConstants.CUSTOM_VIEW_TYPE_COMP_LAYOUT, true,
-				GtnFrameworkCVConstants.CUSTOM_VIEW_INFORMATION_LAYOUT);
+				GtnFrameworkCVConstants.CUSTOM_VIEW_INFORMATION_LAYOUT);                 
 		componentList.add(cvTypeLayout);
 
 		GtnUIFrameworkComponentConfig customViewTypeOptionGroup = configProvider.getUIFrameworkComponentConfig(
@@ -256,12 +256,12 @@ public class GtnFrameworkCVAddConfig {
 		cvTypeConfig.setItemValues(Arrays.asList("Sales", "Discount"));
 
 		customViewTypeOptionGroup.setComponentStyle(Arrays.asList("horizontal"));
-		customViewTypeOptionGroup.setGtnUIFrameworkOptionGroupConfig(cvTypeConfig);
-
+		customViewTypeOptionGroup.setGtnUIFrameworkOptionGroupConfig(cvTypeConfig);        
+                
 		componentList.add(customViewTypeOptionGroup);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig cvTypeAction = new GtnUIFrameWorkActionConfig();
+		GtnUIFrameWorkActionConfig cvTypeAction = new GtnUIFrameWorkActionConfig();               
 		cvTypeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		cvTypeAction.addActionParameter(GtnFrameworkOptionGroupChangeAction.class.getName());
 		cvTypeAction.addActionParameter(namspacePrefix + GtnFrameworkCVConstants.DEDUCTION_HIER_LAYOUT);
@@ -618,9 +618,9 @@ public class GtnFrameworkCVAddConfig {
 				GtnFrameworkCVConstants.CV_TREE_CONSTRUCT_PANEL, true, GtnFrameworkCVConstants.CUSTOM_VIEW_TREE_LAYOUT,
 				GtnUIFrameworkComponentType.PANEL);
 		panel.setComponentName("Tree Structure");
-		panel.setAuthorizationIncluded(true);
-		panel.setComponentWidth(GtnFrameworkCssConstants.PERCENT_50);
+		panel.setAuthorizationIncluded(true);	
 		panel.setComponentHight(GtnFrameworkCssConstants.PIXEL_1000);
+                panel.addComponentStyle("stpl-margin-left-0");
 		componentList.add(panel);
 		addCustomViewTree(componentList, namespacePrefix);
 	}

@@ -2408,14 +2408,25 @@ public class NonMandatedLogic {
 	 * @throws PortalException
 	 * @throws Exception
 	 */
-	public void removeTPOrCustomerFromProjection(final SessionDTO session) throws PortalException, SystemException {
+	   public void removeTPOrCustomerFromProjection(final SessionDTO session, final DataSelectionDTO dataSelectionDTO) throws PortalException, SystemException {
 
-		String query = SQlUtil.getQuery("remove-tp-customer-with-no-actuals");
-		query = query.replace("@PROJECTION_ID", String.valueOf(session.getProjectionId()));
-		salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+        List<Integer> levelnoList = null;
+        levelnoList = getMaximumLevelno(session, dataSelectionDTO);
+        String query = SQlUtil.getQuery("remove-tp-customer-with-no-actuals");
+        query = query.replace("@PROJECTION_MASTER_SID", String.valueOf(dataSelectionDTO.getProjectionId()));
+        query = query.replace("@PROJECTION_ID", String.valueOf(session.getProjectionId()));
+        query = query.replace("@LEVEL_NO", String.valueOf(levelnoList.get(0)));
+        salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
 
-	}
+    }
 
+    public List<Integer> getMaximumLevelno(final SessionDTO session, final DataSelectionDTO dataSelectionDTO) {
+        List<Object> input = new ArrayList<>();
+        input.add(String.valueOf(dataSelectionDTO.getCustomerHierSid()));
+        input.add(String.valueOf(dataSelectionDTO.getCustomerHierSid()));
+        return QueryUtils.getAppData(input, "getmaximumlevelnoqueryy", null);
+    }   
+    
 	public void deleteTempData(final SessionDTO inputDto, final String queryName) {
 		String insertQuery = StringUtils.EMPTY;
 		try {
@@ -2727,5 +2738,5 @@ public class NonMandatedLogic {
     private String getValue(String value, String defaultValue) {
         return value.equals(DASH) ? defaultValue : value;
     }
- 
+    
 }

@@ -185,14 +185,15 @@ public class GtnFrameworkReportLandingScreenConfig {
 								+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE,
 						true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT,
 						GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
-		landingScreenComparisonVariableConfig.setComponentName("Variable: ");
+		landingScreenComparisonVariableConfig.setComponentName("Variables: ");
 		landingScreenComparisonVariableConfig.setAuthorizationIncluded(true);
 
 		GtnUIFrameworkCheckedComboBoxConfig landingScreenComparisonVariableLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
-		landingScreenComparisonVariableLoadConfig.setItemValueList(Arrays.stream(GtnWsReportVariablesType.values())
+		GtnWsReportVariablesType[] variableType = Arrays.copyOfRange(GtnWsReportVariablesType.values(), 0,
+				GtnWsReportVariablesType.values().length - 1);
+		landingScreenComparisonVariableLoadConfig.setItemValueList(Arrays.stream(variableType)
 				.map(GtnWsReportVariablesType::toString).collect(Collectors.toList()));
 		landingScreenComparisonVariableLoadConfig.setDefaultValue(GtnFrameworkCommonConstants.SELECT_ONE);
-		landingScreenComparisonVariableLoadConfig.setCheckedComboBoxType(GtnFrameworkReportStringConstants.STATUS);
 		landingScreenComparisonVariableConfig.setGtnCheckedComboboxConfig(landingScreenComparisonVariableLoadConfig);
 		componentList.add(landingScreenComparisonVariableConfig);
 	}
@@ -761,8 +762,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerDualListBox",
 						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "relationship",
 						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "level",
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp",
-						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView"));
+						namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp"
+						));
 
 		GtnUIFrameWorkActionConfig saveViewDataSelectionAlertActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);

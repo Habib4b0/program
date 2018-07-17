@@ -452,6 +452,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             setDiscountViewOnly();
         }
     }
+    
+    public void setFrequency(SessionDTO session)
+    {
+        frequencyDdlb.setValue(session.getDsFrequency());
+}
 
     /**
      * To get the Tab number

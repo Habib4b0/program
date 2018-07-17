@@ -498,6 +498,7 @@ public class ForecastForm extends AbstractForm {
                                 session.setTabNameCaption(tabSheet.getTab(tabPosition).getCaption());
                                 if (tabPosition == 0) {
                                     session.getFutureValue(Constant.DATA_SELECTION_TAB_LOAD, 0).get();
+                                    data.setFrequency(session);
                                 }
                                 checkSalesFlag = checkLastPositionTab(tabPosition);
                                 if (checkSalesFlag) {
@@ -542,6 +543,7 @@ public class ForecastForm extends AbstractForm {
                                 if (tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.FIVE
                                         || tabPosition == NumericConstants.EIGHT) {
                                     session.setIsDeductionCustom(true);
+                                    discountProjection.setFrequency(session);
                                 }
                                 onTabChange(tabPosition);
 
@@ -562,6 +564,9 @@ public class ForecastForm extends AbstractForm {
                                     waitForThread(dsThread);
                                 }
                                 onTabChangeForReturns();
+                            }
+                            if (checkSalesFlag) {
+                                nmSalesProjection.setFrequency(session);
                             }
                         } catch (InterruptedException | ExecutionException ex) {
                             LOGGER.error(ex.getMessage());
@@ -795,6 +800,7 @@ public class ForecastForm extends AbstractForm {
                             discountProjection.configure();
                             discountProjection.saveDiscountProjectionScreen(false);
                             discountFlag = false;
+                            discountProjection.setFrequency(session);
 			}
 			if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == nonmandatedprojectionResults.getTabNumber()
 					&& tabLazyLoadMap.get(nonmandatedprojectionResults.getTabNumber())) {
@@ -815,6 +821,7 @@ public class ForecastForm extends AbstractForm {
 					&& tabLazyLoadMap.get(projectionVariance.getTabNumber())) {
 				projectionVariance.configure();
 				projectionVariance.loadGroupFilterOntabChange();
+                                projectionVariance.setFrequency(session);
 			}
 			if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == discountProjectionResults.getTabNumber()
 					&& tabLazyLoadMap.get(discountProjectionResults.getTabNumber())) {
@@ -1961,8 +1968,8 @@ public class ForecastForm extends AbstractForm {
 
 				@Override
 				public void noMethod() {
-					try {
-						logic.removeTPOrCustomerFromProjection(session);
+					try {                                                                                     
+						logic.removeTPOrCustomerFromProjection(session,dataSelectionDTO);
 						if (!screenName.equals(Constants.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 							callInsertProcedureOnGenerate(session, screenName);
 						}
@@ -2713,5 +2720,5 @@ public class ForecastForm extends AbstractForm {
 			}
 		}
 	}
-
+        
 }
