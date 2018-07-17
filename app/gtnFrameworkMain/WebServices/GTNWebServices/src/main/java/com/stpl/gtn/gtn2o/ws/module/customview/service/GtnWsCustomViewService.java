@@ -305,7 +305,6 @@ public class GtnWsCustomViewService {
 					lastCustomViewMasterSid);
 
 		} catch (HibernateException e) {
-
 			logger.error(e.getMessage(), e);
 		}
 	}
@@ -313,18 +312,13 @@ public class GtnWsCustomViewService {
 	private int saveVariableData(int customViewMasterSid, Session session, int levelCount,
 			List<GtnWsRecordBean> variablesList, int lastCustomViewMasterSid) {
 		if (!variablesList.isEmpty()) {
-
-			// Update Variable count in last level
 			CustViewDetails lastLevel = session.load(CustViewDetails.class, lastCustomViewMasterSid);
 			lastLevel.setVariableCount(variablesList.size());
 			session.update(lastLevel);
 			session.flush();
 			levelCount++;
-			// Variable Level Insert
 			int customViewDetailsSid = saveCustomDetailsForVariable(customViewMasterSid, session, levelCount,
 					variablesList);
-
-			// Insert varaibles
 			insertCustomVariables(variablesList, customViewDetailsSid, session);
 		}
 		return levelCount;
