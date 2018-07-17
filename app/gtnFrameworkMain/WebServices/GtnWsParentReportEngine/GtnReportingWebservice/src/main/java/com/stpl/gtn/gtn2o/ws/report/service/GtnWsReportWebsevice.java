@@ -155,8 +155,11 @@ public class GtnWsReportWebsevice {
 				inputList.add(StringUtils.EMPTY);
 				inputList.add(viewCheck);
 			}
+			int noOfRowsForFetchClause = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordOffset();
+			if(noOfRowsForFetchClause==0)
+				noOfRowsForFetchClause = 10;
 			inputList.add(gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordStart());
-			inputList.add(gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordOffset());
+			inputList.add(noOfRowsForFetchClause);
 
 			String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
 			return executeLoadViewResultsQuery(viewQuery,gtnUIFrameworkWebserviceRequest);
