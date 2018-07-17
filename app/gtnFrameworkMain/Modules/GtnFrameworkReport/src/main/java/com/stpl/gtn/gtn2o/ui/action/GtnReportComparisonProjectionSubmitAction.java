@@ -89,7 +89,7 @@ public class GtnReportComparisonProjectionSubmitAction
 			List<String> inputForComparisonBasisList = new ArrayList<>(initialCapacity);
 			inputForComparisonBasisList.add("Actuals");
 			inputForComparisonBasisList.add("Accruals");
-			inputForComparisonBasisList.add("Projections");
+			inputForComparisonBasisList.add("Current Projection");
 			comparisonProjectionBeanList.stream().forEach((comparisonProjectionBeans) -> {
 				inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
 			});
