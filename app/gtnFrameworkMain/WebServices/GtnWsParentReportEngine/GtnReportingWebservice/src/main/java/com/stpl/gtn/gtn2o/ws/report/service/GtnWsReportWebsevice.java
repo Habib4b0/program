@@ -155,6 +155,8 @@ public class GtnWsReportWebsevice {
 				inputList.add(StringUtils.EMPTY);
 				inputList.add(viewCheck);
 			}
+			inputList.add(gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordStart());
+			inputList.add(gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordOffset());
 
 			String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
 			return executeLoadViewResultsQuery(viewQuery,gtnUIFrameworkWebserviceRequest);
