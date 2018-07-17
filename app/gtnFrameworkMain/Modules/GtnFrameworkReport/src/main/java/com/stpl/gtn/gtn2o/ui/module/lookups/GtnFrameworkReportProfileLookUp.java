@@ -356,6 +356,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfileLoadReportingDashboardAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		reportProfileLoadReportingDashboardAction.addActionParameter(GtnReportingDashboardReportProfileLoadAction.class.getName());
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportProfileConfig");
+		
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_displaySelectionTabVariable");
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeFrom");
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeTo");
@@ -383,6 +384,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportingDashboardComparisonConfig");
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabVariableBreakdown");
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabComparisonOptions");
+		
 		actionConfigList.add(reportProfileLoadReportingDashboardAction);
 		
 		reportProfileSelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
