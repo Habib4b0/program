@@ -56,6 +56,7 @@ public class GtnReportingDashboardReportProfileLoadAction
 			if (validateReportProfile(currentViewData, reportProfileSaveLookupBean, viewId)) {
 				loadDataToComponent(reportProfileSaveLookupBean, actionParamList, viewId);
 			}
+
 		} catch (Exception ex) {
 			gtnLogger.error("Error message", ex);
 		}
@@ -152,9 +153,10 @@ public class GtnReportingDashboardReportProfileLoadAction
 				Optional.ofNullable(reportProfileSaveLookupBean.getReportOptionsDisplayFormat()).isPresent() == true
 						? reportProfileSaveLookupBean.getReportOptionsDisplayFormat()
 						: new ArrayList<>());
-		// GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(22).toString(),viewId).updateSelection(Optional.ofNullable(reportProfileSaveLookupBean.getReportOptionsUnitsOfMeasure()).isPresent()
-		// == true ?reportProfileSaveLookupBean.getReportOptionsUnitsOfMeasure():new
-		// ArrayList<>() );
+// GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(22).toString(),viewId).updateSelection(Optional.ofNullable(reportProfileSaveLookupBean.getReportOptionsUnitsOfMeasure()).isPresent()
+// == true
+// ?reportProfileSaveLookupBean.getReportOptionsUnitsOfMeasure():new
+// ArrayList<>() );
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(23).toString(), viewId)
 				.loadV8ComboBoxComponentValue(Optional
 						.ofNullable(reportProfileSaveLookupBean.getReportOptionsCurrencyDisplay()).isPresent() == true

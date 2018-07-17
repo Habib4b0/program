@@ -322,11 +322,17 @@ from
 	<entity id="remove-tp-customer-with-no-actuals">
 		<query> 
         <![CDATA[
+        
+        INSERT INTO PROJECTION_DETAILS (PROJECTION_MASTER_SID, CCP_DETAILS_SID) 
+           SELECT DISTINCT @PROJECTION_MASTER_SID, 
+                   CCP_DETAILS_SID
+           FROM  ST_CCP_HIERARCHY 
+        
             DELETE PCH
 FROM   PROJECTION_CUST_HIERARCHY PCH
        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
          ON RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID
-            AND LEVEL_NAME IN ( 'Trading Partner', 'Customer' )
+            AND LEVEL_NO = @LEVEL_NO
        JOIN (SELECT DISTINCT CCP.COMPANY_MASTER_SID
              FROM   PROJECTION_DETAILS PD
                     JOIN CCP_DETAILS CCP
@@ -1429,6 +1435,68 @@ GROUP  BY CCP.HIERARCHY_NO,
 order  BY Level_No
               
             ]]>
+		</query>
+	</entity>
+        
+        <entity id="getmaximumlevelnoqueryy">
+		<query> 
+        <![CDATA[            
+        
+DECLARE @LEVEL_NO INT =0;        
+DECLARE @VARCHAR_STRING VARCHAR(50);
+SET
+@LEVEL_NO =(
+	SELECT
+		MAX( level_no )
+	FROM
+		dbo.HIERARCHY_LEVEL_DEFINITION
+	WHERE
+		HIERARCHY_DEFINITION_SID = ?
+)
+SET
+@VARCHAR_STRING =(
+	SELECT
+		TABLE_NAME
+	FROM
+		HIERARCHY_LEVEL_DEFINITION
+	WHERE
+		HIERARCHY_DEFINITION_SID = ?
+		AND LEVEL_NO = @LEVEL_NO
+) IF @VARCHAR_STRING = 'COMPANY_MASTER' BEGIN SELECT
+	@LEVEL_NO
+END
+ELSE BEGIN SELECT
+	0
+END
+        
+         ]]>
+		</query>
+	</entity>
+        
+        <entity id="getmaximumlevelnoquery">
+		<query> 
+        <![CDATA[            
+        
+DECLARE @LEVEL_NO INT =0;        
+DECLARE @VARCHAR_STRING VARCHAR(50);
+
+SET
+@VARCHAR_STRING =(
+	SELECT
+		TABLE_NAME
+	FROM
+		HIERARCHY_LEVEL_DEFINITION
+	WHERE
+		HIERARCHY_DEFINITION_SID = ?
+		AND LEVEL_NO = ? and version_no=?
+) IF @VARCHAR_STRING = 'COMPANY_MASTER' BEGIN 
+	select 1
+END
+ELSE BEGIN SELECT
+	0
+END
+        
+         ]]>
 		</query>
 	</entity>
         
