@@ -231,9 +231,14 @@ public class GtnFrameworkSqlQueryEngine {
 				sqlQuery = sqlQuery.replace("?", "'" + params[i] + "'");
 				break;
 			case DATE:
+                            if(params[i]!="null"){
 				java.sql.Date sql = new java.sql.Date(((Date) params[i]).getTime());
 				sqlQuery = sqlQuery.replace("?", "'" + sql.toString() + "'");
-				break;
+                                return;
+                            }
+                            else{
+                                sqlQuery = null;
+                            }				
 			case INTEGER:
 				sqlQuery = sqlQuery.replace("?", String.valueOf(params[i]));
 				break;
