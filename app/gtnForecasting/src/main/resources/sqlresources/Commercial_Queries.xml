@@ -1716,6 +1716,14 @@ EXEC PRC_FILES_DATA
             ]]>
         </query>
     </entity>
+    <entity id="UPDATE_PROJECTION_NAME_AND_PROJECTION_DESC">
+        <query> 
+             <![CDATA[  
+            UPDATE PROJECTION_MASTER  SET PROJECTION_NAME = '@PROJECTIONMASTER_NAME', PROJECTION_DESCRIPTION = '@PROJECTIONMASTER_DESC' WHERE PROJECTION_MASTER_SID = @PROJECTIONMASTERSID;
+            
+            ]]>
+        </query>
+    </entity>
     <entity id="QUERY_TO_CHECK_ISSALES_CALCULATED_ALREADY">
         <query> 
              <![CDATA[  
