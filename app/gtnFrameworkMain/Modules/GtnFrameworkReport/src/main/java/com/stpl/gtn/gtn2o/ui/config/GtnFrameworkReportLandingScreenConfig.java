@@ -828,6 +828,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		deleteViewAction.addActionParameter(GtnReportDataSelectionDeleteViewAction.class.getName());
 		deleteViewAction.addActionParameter(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PRIVATE_VIEWS);
+		deleteViewAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PUBLIC_VIEWS);
+		deleteViewAction.addActionParameter(namespace);
 		onSuccessDeleteActionConfigList.add(deleteViewAction);
 		deleteViewButton.addGtnUIFrameWorkActionConfig(confirmDeleteAction);
 	}
