@@ -8,17 +8,23 @@ package com.stpl.gtn.gtn2o.ui.framework.action.validation.v8;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.vaadin.addons.ComboBoxMultiselect;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -79,16 +85,17 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 			if (baseComponent.getComponent() instanceof TextField) {
 				baseComponent.loadV8FieldValue(value);
 			}
-			if (baseComponent.getComponent() instanceof RadioButtonGroup) {
+			else if (baseComponent.getComponent() instanceof RadioButtonGroup) {
 				baseComponent.loadV8FieldValue(value);
 			}
-			if (baseComponent.getComponent() instanceof VerticalLayout) {
+			else if (baseComponent.getComponent() instanceof VerticalLayout) {
+				resetFilterComponents(componentId, baseComponent);
 				baseComponent.setV8GridItems(new ArrayList<>());
 			}
-			if(baseComponent.getComponent() instanceof ComboBoxMultiselect){
+			else if(baseComponent.getComponent() instanceof ComboBoxMultiselect){
 				baseComponent.loadV8MultiSelectValue();
 			}
-			if(baseComponent.getComponent() instanceof ComboBox){
+			else if(baseComponent.getComponent() instanceof ComboBox){
 				if(baseComponent.getComponentConfig().getCustomReference().equals("integerId")){
 				baseComponent.loadV8ComboBoxComponentValue((int)value);
 				}
@@ -99,6 +106,31 @@ public class GtnUIFrameWorkV8ConfirmedResetAction implements GtnUIFrameWorkActio
 
 		} catch (Exception typeException) {
 			gtnLogger.error("Exception on reset component id=" + componentId, typeException);
+		}
+	}
+
+	private void resetFilterComponents(String componentId, GtnUIFrameworkBaseComponent baseComponent) {
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> filterMap = baseComponent.getComponentConfig()
+				.getGtnPagedTableConfig().getCustomFilterConfigMap();
+		Set<String> fliterComponents = filterMap.keySet();
+		VerticalLayout verticalLayout = (VerticalLayout) baseComponent.getComponent();
+		Grid grid = (Grid) verticalLayout.getComponent(0);
+		for (String s : fliterComponents) {
+			
+			Component component = grid.getHeaderRow(1).getCell(s).getComponent();
+			HorizontalLayout horizontalLayout = (HorizontalLayout) component;
+			
+			if (horizontalLayout.getComponent(0) instanceof TextField) {
+				
+				TextField textField=(TextField) horizontalLayout.getComponent(0);
+				textField.setValue("");
+				textField.setPlaceholder("Show all");
+			}
+			else if (horizontalLayout.getComponent(0) instanceof DateField) {
+				DateField dateField = (DateField) horizontalLayout.getComponent(0);
+				dateField.setValue(null);
+				dateField.setPlaceholder("Show all");
+			}
 		}
 	}
 
