@@ -76,7 +76,7 @@ public class GtnReportDataSelectionResetAction
 		}
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(17).toString())
-				.loadV8ComboBoxComponentValue(0);
+				.loadV8ComboBoxComponentValue("0");
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(18).toString()).loadV8MultiSelectValue();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(19).toString()).setV8PopupFieldValue(" ");
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(20).toString())

@@ -2,23 +2,31 @@ package com.stpl.gtn.gtn2o.ui.module.lookups;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkSelectButtonEnableActionInHierarchyLookup;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionLoadViewAction;
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 
 public class GtnFrameworkReportDataSelectionPrivateViewLookUp {
@@ -156,6 +164,8 @@ public class GtnFrameworkReportDataSelectionPrivateViewLookUp {
 		dsPrivateViewSearchAndResetLayout.setGtnLayoutConfig(conf);
 		componentList.add(dsPrivateViewSearchAndResetLayout);
 
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		
 		GtnUIFrameworkComponentConfig dsPrivateViewSearchButton = new GtnUIFrameworkComponentConfig();
 		dsPrivateViewSearchButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		dsPrivateViewSearchButton.setComponentId(
@@ -166,9 +176,20 @@ public class GtnFrameworkReportDataSelectionPrivateViewLookUp {
 						+ GtnFrameworkReportStringConstants.PRIVATE_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT);
 		dsPrivateViewSearchButton.setAddToParent(true);
 
+		GtnUIFrameWorkActionConfig dsPrivateViewValidationActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
+		dsPrivateViewValidationActionConfig.setFieldValues(Arrays.asList(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME));
+		
+		GtnUIFrameWorkActionConfig dsPrivateViewValidationAlertActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
+		dsPrivateViewValidationAlertActionConfig.addActionParameter(GtnFrameworkReportStringConstants.INVALID_SEARCH);
+		dsPrivateViewValidationAlertActionConfig.addActionParameter(GtnFrameworkReportStringConstants.VIEW_INVALID_SEARCH_MESSAGE_BODY);
+		
+		dsPrivateViewValidationActionConfig.setActionParameterList(Arrays.asList(GtnUIFrameworkValidationType.AND,Arrays.asList(dsPrivateViewValidationAlertActionConfig)));
+		actionConfigList.add(dsPrivateViewValidationActionConfig);
+		
 		componentList.add(dsPrivateViewSearchButton);
 
-		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		
 		GtnUIFrameWorkActionConfig loadDataGridActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataGridActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
 		loadDataGridActionConfig.setActionParameterList(
@@ -187,6 +208,15 @@ public class GtnFrameworkReportDataSelectionPrivateViewLookUp {
 		dsPrivateViewResetButton.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.PRIVATE_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT);
 		dsPrivateViewResetButton.setAddToParent(true);
+		
+		GtnUIFrameWorkActionConfig dsPrivateViewResetActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.V8_RESET_ACTION);
+		dsPrivateViewResetActionConfig.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION);
+		dsPrivateViewResetActionConfig.addActionParameter(GtnFrameworkReportStringConstants.RESET_CONFIRMATION_MESSAGE);
+		dsPrivateViewResetActionConfig.addActionParameter(Arrays.asList(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME));
+		dsPrivateViewResetActionConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY));
+		dsPrivateViewResetButton.addGtnUIFrameWorkActionConfig(dsPrivateViewResetActionConfig);
+		
 		componentList.add(dsPrivateViewResetButton);
 	}
 
@@ -270,11 +300,64 @@ public class GtnFrameworkReportDataSelectionPrivateViewLookUp {
 		dsPrivateViewPagedGridConfig.setTableColumnMappingId(
 				new Object[] { "viewNameFilter", "createdDateFilter", "modifiedDateFilter", "createdByFilter" });
 		dsPrivateViewPagedGridConfig.setQueryName("Private");
+		dsPrivateViewPagedGridConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 
+		dsPrivateViewPagedGridConfig.setSelectionListener(true);
+
+		List<GtnUIFrameWorkActionConfig> dsPrivateViewItemClickActionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig dsPrivateViewItemClickActionConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		dsPrivateViewItemClickActionConfig
+				.addActionParameter(GtnFrameworkSelectButtonEnableActionInHierarchyLookup.class.getName());
+		dsPrivateViewItemClickActionConfig.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewSearchLookupSelectButton");
+		dsPrivateViewItemClickActionConfig.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
+		dsPrivateViewItemClickActionConfigList.add(dsPrivateViewItemClickActionConfig);
+		dsPrivateViewPagedGridConfig.setItemClickActionConfigList(dsPrivateViewItemClickActionConfigList);
+		
+		GtnUIFrameWorkActionConfig dsPrivateViewRecordNotFoundAlertActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
+		dsPrivateViewRecordNotFoundAlertActionConfig.addActionParameter(GtnFrameworkReportStringConstants.INVALID_SEARCH);
+		dsPrivateViewRecordNotFoundAlertActionConfig.addActionParameter(GtnFrameworkReportStringConstants.VIEW_INVALID_SEARCH_MESSAGE_BODY);
+		dsPrivateViewPagedGridConfig.setRecordTypeManageActionConfig(dsPrivateViewRecordNotFoundAlertActionConfig);
+		
+		
 		dsPrivateViewPagedGridComponent.setGtnPagedTableConfig(dsPrivateViewPagedGridConfig);
 
 	}
 
+	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
+		String[] columnPropertyIds = { "viewNameFilter", "createdDateFilter", "modifiedDateFilter", "createdByFilter" };
+		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> dsPrivateViewCustomFilterConfigMap = new HashMap<>(
+				columnPropertyIds.length);
+		GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
+				GtnUIFrameworkComponentType.DATEFIELDVAADIN8, GtnUIFrameworkComponentType.DATEFIELDVAADIN8,
+				GtnUIFrameworkComponentType.TEXTBOX_VAADIN8 };
+		String[] custComboboxIds = new String[1];
+		String[] custComboBoxType =  new String[1];
+		int startIndex = 0;
+		for (int i = 0; i < columnPropertyIds.length; i++) {
+			GtnUIFrameworkPagedTableCustomFilterConfig dsPrivateViewHierarchyFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
+			dsPrivateViewHierarchyFilterConfig.setPropertId(columnPropertyIds[i]);
+			dsPrivateViewHierarchyFilterConfig.setGtnComponentType(componentType[i]);
+			if ((startIndex < custComboboxIds.length)
+					&& columnPropertyIds[i].equals(custComboboxIds[startIndex])) {
+				GtnUIFrameworkComponentConfig dsPrivateViewSearchFilterConfig = new GtnUIFrameworkComponentConfig();
+				dsPrivateViewSearchFilterConfig.setComponentId("customFilterComboBox");
+				dsPrivateViewSearchFilterConfig.setComponentName("customFilterComboBox");
+				dsPrivateViewSearchFilterConfig.setGtnComboboxConfig(new GtnUIFrameworkComboBoxConfig());
+				dsPrivateViewSearchFilterConfig.getGtnComboboxConfig().setComboBoxType(custComboBoxType[startIndex]);
+				dsPrivateViewSearchFilterConfig.getGtnComboboxConfig()
+						.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+				dsPrivateViewHierarchyFilterConfig.setGtnComponentConfig(dsPrivateViewSearchFilterConfig);
+				startIndex++;
+			}
+			dsPrivateViewCustomFilterConfigMap.put(dsPrivateViewHierarchyFilterConfig.getPropertId(),
+					dsPrivateViewHierarchyFilterConfig);
+		}
+		return dsPrivateViewCustomFilterConfigMap;
+	}
+	
 	private void addPrivateViewSearchLookupControlPopUpButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
 		GtnUIFrameworkComponentConfig dsPrivateViewSearchControlButtonLayout = new GtnUIFrameworkComponentConfig();
@@ -295,6 +378,7 @@ public class GtnFrameworkReportDataSelectionPrivateViewLookUp {
 		dsPrivateViewSelectButton.setComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "privateViewSearchLookupSelectButton");
 		dsPrivateViewSelectButton.setComponentName("SELECT");
+		dsPrivateViewSelectButton.setEnable(false);
 		dsPrivateViewSelectButton
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);

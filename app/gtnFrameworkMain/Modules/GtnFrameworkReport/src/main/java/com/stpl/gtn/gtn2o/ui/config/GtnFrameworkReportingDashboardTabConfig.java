@@ -125,25 +125,16 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 	private void addDisplaySelectionTab(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 
-		GtnUIFrameworkComponentConfig gtnLayout = configProvider
-				.getVerticalLayoutConfig(GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB, false, null);
-		gtnLayout.setTabComponent(true);
-		gtnLayout.setComponentWidth(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
-		componentList.add(gtnLayout);
-
-		GtnUIFrameworkComponentConfig displaySelectionTabComponentLayout = configProvider.getHorizontalLayoutConfig(
-				"displaySelectionTabComponentLayout", true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB);
-		displaySelectionTabComponentLayout.setComponentWidth("120%");
-		componentList.add(displaySelectionTabComponentLayout);
-
 		GtnUIFrameworkComponentConfig displaySelectionTabPanel = configProvider
-				.getPanelConfig("displaySelectionTabPanel", true, "displaySelectionTabComponentLayout");
+				.getPanelConfig("displaySelectionTabPanel", false, null);
 		displaySelectionTabPanel.addComponentStyle(GtnUIFrameworkConstants.GTNFRAMEWORK_12.toString());
 		displaySelectionTabPanel.setComponentHight("180px");
+		displaySelectionTabPanel.setTabComponent(true);
 		componentList.add(displaySelectionTabPanel);
 
 		GtnUIFrameworkComponentConfig displaySelectionTabPanelVerticalLayout = configProvider
 				.getVerticalLayoutConfig("displaySelectionTabPanelVerticalLayout", true, "displaySelectionTabPanel");
+		displaySelectionTabPanelVerticalLayout.setComponentWidth("1700px");
 		componentList.add(displaySelectionTabPanelVerticalLayout);
 
 		GtnUIFrameworkComponentConfig displaySelectionTabPanelLayout = configProvider.getHorizontalLayoutConfig(
