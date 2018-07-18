@@ -271,7 +271,6 @@
 				REPORTING_VIEW_MASTER
 			WHERE
 				VIEW_ID =?
-				AND VIEW_TYPE =?
 		]]>
 	</entry>
 	
@@ -298,6 +297,7 @@
                  VIEW_DATA = ?
              WHERE 
                	 VIEW_ID = ?
+               	 AND CREATED_BY = ?
 		]]>
 	</entry>
 	
