@@ -705,7 +705,7 @@ Net_Subsequent_Price_Formula_Id,
 Reset_Price_Type,
 Net_Reset_Price_Type,
 Net_Reset_Price_Formula_Id,
-STATUS,
+ITEM_PS_ATTACHED_STATUS,
 @ATTACHDATE ATTACH_DATE,
 PPA_INDEX_NO,
 ADD_COPY_INDICATOR
@@ -771,7 +771,7 @@ AND Target.PPA_INDEX_NO=Source.PPA_INDEX_NO)
         Target.Reset_Price_Type = Source.Reset_Price_Type,
         Target.Net_Reset_Price_Type = Source.Net_Reset_Price_Type,
         Target.Net_Reset_Price_Formula_Id = Source.Net_Reset_Price_Formula_Id,
-        Target.PS_CONTRACT_ATTACHED_STATUS = Source.STATUS,
+        Target.PS_CONTRACT_ATTACHED_STATUS = Source.ITEM_PS_ATTACHED_STATUS,
         Target.PS_CONTRACT_ATTACHED_DATE = Source.ATTACH_DATE,
         Target.ADD_COPY_INDICATOR=Source.ADD_COPY_INDICATOR
 
@@ -793,7 +793,7 @@ AND Target.PPA_INDEX_NO=Source.PPA_INDEX_NO)
         Source.CREATED_BY, Source.CREATED_DATE, Source.MODIFIED_BY, Source.MODIFIED_DATE, Source.PRICE,'A', 0,
         Source.BRAND_MASTER_SID,Source.NEP,Source.PRICE_PROTECTION_STATUS,Source.PRICE_PROTECTION_PRICE_TYPE,Source.NEP_FORMULA,Source.MAX_INCREMENTAL_CHANGE,Source.RESET_ELIGIBLE,Source.RESET_TYPE,Source.RESET_DATE,
         Source.RESET_INTERVAL,Source.RESET_FREQUENCY,Source.NET_PRICE_TYPE,Source.NET_PRICE_TYPE_FORMULA,Source.Base_Price_Type,Source.Base_Price_Entry,Source.Base_Price_Date,Source.Net_Base_Price,Source.Base_Price_ddlb,Source.Net_Base_Price_Formula_ID,
-        Source.Subsequent_Period_Price_Type,Source.Net_Subsequent_Period_price,Source.Net_Subsequent_Price_Formula_Id,Source.Reset_Price_Type,Source.Net_Reset_Price_Type,Source.Net_Reset_Price_Formula_Id, Source.STATUS, Source.ATTACH_DATE,Source.PPA_INDEX_NO,Source.ADD_COPY_INDICATOR
+        Source.Subsequent_Period_Price_Type,Source.Net_Subsequent_Period_price,Source.Net_Subsequent_Price_Formula_Id,Source.Reset_Price_Type,Source.Net_Reset_Price_Type,Source.Net_Reset_Price_Formula_Id, Source.ITEM_PS_ATTACHED_STATUS, Source.ATTACH_DATE,Source.PPA_INDEX_NO,Source.ADD_COPY_INDICATOR
         );
 
 
