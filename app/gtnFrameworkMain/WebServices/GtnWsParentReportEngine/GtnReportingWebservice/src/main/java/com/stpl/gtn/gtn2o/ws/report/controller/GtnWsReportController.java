@@ -300,7 +300,7 @@ public class GtnWsReportController {
 		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
 		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-		int userId = Integer.valueOf(generalRequest.getUserId());
+		int userId = Integer.parseInt(generalRequest.getUserId());
 		int recordCount = gtnWsReportWebsevice.checkViewRecordCount(dataSelectionBean, userId);
 		if (recordCount == 0) {
 			gtnWsReportWebsevice.saveReportingMaster(dataSelectionBean, userId);
@@ -321,14 +321,19 @@ public class GtnWsReportController {
 		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
 		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-		int userId = Integer.valueOf(generalRequest.getUserId());
+		int userId = Integer.parseInt(generalRequest.getUserId());
 		int recordCount = gtnWsReportWebsevice.checkUpdateViewRecordCount(dataSelectionBean, userId);
 		if (recordCount == 0) {
 			gtnWsReportWebsevice.saveReportingMaster(dataSelectionBean, userId);
 			generalResponse.setSucess(false);
 		} else{
-			gtnWsReportWebsevice.updateReportingViewMaster(dataSelectionBean, userId);
-			generalResponse.setSucess(true);
+			int count = gtnWsReportWebsevice.updateReportingViewMaster(dataSelectionBean, userId);
+			if(count == 0 ) {
+				generalResponse.setSucess(false);
+			} else {
+				generalResponse.setSucess(true);
+
+			}
 		}
 		response.setGtnWsGeneralResponse(generalResponse);
 		return response;
@@ -344,7 +349,7 @@ public class GtnWsReportController {
 				.getReportingDashboardSaveProfileLookupBean();
 		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-		int userId = Integer.valueOf(generalRequest.getUserId());
+		int userId = Integer.parseInt(generalRequest.getUserId());
 		int recordCount = gtnWsReportWebsevice
 				.checkReportProfileViewRecordCount(reportingDashboardSaveProfileLookupBean, userId);
 		if (recordCount == 0) {
@@ -367,15 +372,20 @@ public class GtnWsReportController {
 				.getReportingDashboardSaveProfileLookupBean();
 		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-		int userId = Integer.valueOf(generalRequest.getUserId());
+		int userId = Integer.parseInt(generalRequest.getUserId());
 		int recordCount = gtnWsReportWebsevice
 				.checkUpdateViewRecordCountForReportProfile(reportingDashboardSaveProfileLookupBean, userId);
 		if (recordCount == 0) {
 			gtnWsReportWebsevice.saveReportProfileMaster(reportingDashboardSaveProfileLookupBean, userId);
 			generalResponse.setSucess(false);
 		} else{
-			gtnWsReportWebsevice.updateReportProfileMaster(reportingDashboardSaveProfileLookupBean, userId);
-			generalResponse.setSucess(true);
+			int count = gtnWsReportWebsevice.updateReportProfileMaster(reportingDashboardSaveProfileLookupBean, userId);
+			if(count == 0 ) {
+				generalResponse.setSucess(false);
+			}
+			else {
+				generalResponse.setSucess(true);
+			}
 		}
 		response.setGtnWsGeneralResponse(generalResponse);
 		return response;
@@ -386,7 +396,7 @@ public class GtnWsReportController {
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnWsReportRequest reportRequest = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest();
 		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
-		int userId = Integer.valueOf(generalRequest.getUserId());
+		int userId = Integer.parseInt(generalRequest.getUserId());
 		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
 		return gtnWsReportWebsevice.deleteView(dataSelectionBean, userId);
 	}
