@@ -90,7 +90,8 @@ public class GtnFrameworkReportProfileLookUp {
 		reportViewSearchCriteriaPanel.setComponentName("Report View Search");
 		reportViewSearchCriteriaPanel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
-		reportViewSearchCriteriaPanel.setMargin(true);
+		reportViewSearchCriteriaPanel.addComponentStyle("stpl-margin-left-10");
+		reportViewSearchCriteriaPanel.addComponentStyle("stpl-margin-top-11");
 		reportViewSearchCriteriaPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportViewSearchCriteriaPanel.setAddToParent(true);
 		componentList.add(reportViewSearchCriteriaPanel);
@@ -221,6 +222,8 @@ public class GtnFrameworkReportProfileLookUp {
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		reportProfileResultPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportProfileResultPanel.setAddToParent(true);
+		reportProfileResultPanel.addComponentStyle("stpl-margin-left-10");
+		reportProfileResultPanel.addComponentStyle("stpl-margin-top-11");
 		componentList.add(reportProfileResultPanel);
 		addReportProfilePagedTableComponent(componentList, namespace);
 	}
