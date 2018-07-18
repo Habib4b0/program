@@ -97,6 +97,8 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		publicViewLookUpSearchCriteriaPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		publicViewLookUpSearchCriteriaPanel.setAddToParent(true);
+		publicViewLookUpSearchCriteriaPanel.addComponentStyle("stpl-margin-left-10");
+		publicViewLookUpSearchCriteriaPanel.addComponentStyle("stpl-margin-top-11");
 		componentList.add(publicViewLookUpSearchCriteriaPanel);
 		publicViewLookUpSearchCriteriaLayout(componentList, namespace);
 	}
@@ -223,6 +225,8 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		publicViewLookUpResultsPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		publicViewLookUpResultsPanel.setAddToParent(true);
+		publicViewLookUpResultsPanel.addComponentStyle("stpl-margin-left-10");
+		publicViewLookUpResultsPanel.addComponentStyle("stpl-margin-top-11");
 		componentList.add(publicViewLookUpResultsPanel);
 		publicViewLookUpResultLayout(componentList, namespace);
 
