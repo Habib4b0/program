@@ -48,6 +48,7 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
         pagedGrid.getGrid().setWidth(componentConfig.getComponentWidth());
         pagedGrid.getGrid().setHeight(componentConfig.getComponentHight());
         resultLayout.setComponentAlignment(pagedGrid.getGrid(), Alignment.MIDDLE_CENTER);
+        
         GtnUIFrameworkComponentData componentData = new GtnUIFrameworkComponentData();
         componentData.setTableConfig(tableConfig);
         componentData.setPagedGrid(pagedGrid);
