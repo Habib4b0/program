@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportConfirmedCloseAction;
 import com.stpl.gtn.gtn2o.ui.config.GtnFrameworkReportLayoutsConfig;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -361,8 +362,8 @@ public class GtnFrameworkReportVariableBreakdownLookup {
                 List<Object> actionParamForReset = new ArrayList<>();
                 GtnUIFrameWorkActionConfig variableBreakdownResetButtonConfirmationActionConfig = new GtnUIFrameWorkActionConfig();
 		variableBreakdownResetButtonConfirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
-                actionParamForReset.add("Confirm Reset");
-                actionParamForReset.add("Are you sure you want to reset the page to default values?");
+                actionParamForReset.add("Reset Confirmation");
+                actionParamForReset.add("Are you sure you want to reset the popup?");
 		List<GtnUIFrameWorkActionConfig> actionConfigListForReset = new ArrayList<>();
 		GtnUIFrameWorkActionConfig variableBreakdownResetButtonAction = new GtnUIFrameWorkActionConfig();
 		variableBreakdownResetButtonAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -397,10 +398,9 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownCloseButton.setParentComponentId(variableBreakdownControlButtonConfig.getComponentId());
 
                 GtnUIFrameWorkActionConfig variableBreakdownCloseButtonpopup = new GtnUIFrameWorkActionConfig();
-		variableBreakdownCloseButtonpopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		variableBreakdownCloseButtonpopup.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_LOOKUP_VIEW_ID);
-                
-                variableBreakdownCloseButton.addGtnUIFrameWorkActionConfig(variableBreakdownCloseButtonpopup);
+		variableBreakdownCloseButtonpopup.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION); 
+		variableBreakdownCloseButtonpopup.addActionParameter(GtnFrameworkReportConfirmedCloseAction.class.getName());
+        variableBreakdownCloseButton.addGtnUIFrameWorkActionConfig(variableBreakdownCloseButtonpopup);
                 
 		componentList.add(variableBreakdownSubmitButton);
 		componentList.add(variableBreakdownResetButton);
