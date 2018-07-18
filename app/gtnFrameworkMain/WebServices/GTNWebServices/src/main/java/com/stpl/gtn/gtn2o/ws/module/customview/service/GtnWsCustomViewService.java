@@ -311,17 +311,18 @@ public class GtnWsCustomViewService {
 
 	private int saveVariableData(int customViewMasterSid, Session session, int levelCount,
 			List<GtnWsRecordBean> variablesList, int lastCustomViewMasterSid) {
+		int levelCountForSaveVariableData = levelCount;
 		if (!variablesList.isEmpty()) {
 			CustViewDetails lastLevel = session.load(CustViewDetails.class, lastCustomViewMasterSid);
 			lastLevel.setVariableCount(variablesList.size());
 			session.update(lastLevel);
 			session.flush();
-			levelCount++;
-			int customViewDetailsSid = saveCustomDetailsForVariable(customViewMasterSid, session, levelCount,
+			levelCountForSaveVariableData++;
+			int customViewDetailsSid = saveCustomDetailsForVariable(customViewMasterSid, session, levelCountForSaveVariableData,
 					variablesList);
 			insertCustomVariables(variablesList, customViewDetailsSid, session);
 		}
-		return levelCount;
+		return levelCountForSaveVariableData;
 	}
 
 	private int saveCustomDetailsForVariable(int customViewMasterSid, Session session, int levelCount,
