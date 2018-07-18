@@ -343,7 +343,12 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		productSearchResults.setItemPerPage(10);
 		productSearchResults.setSelectable(true);
 		productSearchResults.setSinkItemPerPageWithPageLength(false);
-		
+
+		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
+		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		alertAction.addActionParameter("No Results Found");
+		alertAction.addActionParameter("There are no Hierarchies that match the search criteria.");
+		productSearchResults.setRecordTypeManageActionConfig(alertAction);
 		
 		productSearchResults.setColumnHeaders(Arrays.asList("HierarchyName", "Highest Level", "Lowest Level",
 				GtnFrameworkCommonConstants.CREATED_DATE_HEADER, GtnFrameworkCommonConstants.MODIFIED_DATE_HEADER));

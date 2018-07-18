@@ -536,7 +536,10 @@ public class DataSelection extends ForecastDataSelection {
 			setCustomerLevelNullSelection();
 		}
 	}
-
+      public void setFrequency(SessionDTO session)
+    {
+        frequency.setValue(session.getDsFrequency());
+}
 	private void productLevelValueChange(Property.ValueChangeEvent event) {
 		productInnerLevelContainer.removeAllItems();
 		if (event.getProperty().getValue() != null

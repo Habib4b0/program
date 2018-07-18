@@ -271,7 +271,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 						+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE,
 				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_VARIABLE_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOXMULTISELECT);
-		variableConfig.setComponentName("Variable: ");
+		variableConfig.setComponentName("Variables: ");
 		variableConfig.setAuthorizationIncluded(true);
 
 		GtnUIFrameworkCheckedComboBoxConfig variableLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
@@ -431,8 +431,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		comparisonBasisConfig.setAuthorizationIncluded(true);
 		GtnUIFrameworkComboBoxConfig comparisonBasisComponentLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		comparisonBasisComponentLoadConfig.setModuleName("report");
-		comparisonBasisComponentLoadConfig.setItemValues(new ArrayList());
-		comparisonBasisComponentLoadConfig.setItemCaptionValues(new ArrayList());
 		comparisonBasisConfig.setGtnComboboxConfig(comparisonBasisComponentLoadConfig);
 		componentList.add(comparisonBasisConfig);
 
@@ -479,9 +477,9 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		componentList.add(annualTotalsConfig);
 
 		GtnUIFrameworkComboBoxConfig annualTotalsLoadConfig = new GtnUIFrameworkComboBoxConfig();
-		annualTotalsLoadConfig.setItemValues(Arrays.asList("No"));
-		annualTotalsLoadConfig.setItemCaptionValues(Arrays.asList("No"));
-		annualTotalsLoadConfig.setDefaultValue("Yes");
+		annualTotalsLoadConfig.setItemValues(Arrays.asList("Yes","No"));
+		annualTotalsLoadConfig.setDefaultDesc("next");
+		annualTotalsLoadConfig.setHasDefaultValue(true);
 		annualTotalsConfig.setGtnComboboxConfig(annualTotalsLoadConfig);
 
 	}

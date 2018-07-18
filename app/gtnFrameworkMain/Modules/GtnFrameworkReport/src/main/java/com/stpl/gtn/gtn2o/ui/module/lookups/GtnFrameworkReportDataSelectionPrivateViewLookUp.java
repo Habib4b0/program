@@ -282,7 +282,13 @@ public class GtnFrameworkReportDataSelectionPrivateViewLookUp {
 		dsPrivateViewPagedGridConfig.setSelectable(true);
 		dsPrivateViewPagedGridConfig.setPageLength(10);
 		dsPrivateViewPagedGridConfig.setItemPerPage(10);
-
+		
+		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
+		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		alertAction.addActionParameter("Invalid Search");
+		alertAction.addActionParameter("There are no Views that match the search criteria.  Please try again.");
+		dsPrivateViewPagedGridConfig.setRecordTypeManageActionConfig(alertAction);
+		
 		dsPrivateViewPagedGridConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_SERVICE);
 		dsPrivateViewPagedGridConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE

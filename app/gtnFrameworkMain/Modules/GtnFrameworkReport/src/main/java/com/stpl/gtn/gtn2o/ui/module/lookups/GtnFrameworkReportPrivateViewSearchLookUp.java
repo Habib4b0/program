@@ -283,6 +283,11 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewPagedTableConfig.setPageLength(10);
 		privateViewPagedTableConfig.setItemPerPage(10);
 
+		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
+		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		alertAction.addActionParameter("Invalid Search");
+		alertAction.addActionParameter("There are no Views that match the search criteria.  Please try again.");
+		privateViewPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
 		privateViewPagedTableConfig.setCountUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
 				+ GtnWsReportConstants.GTN_REPORT_LOAD_PRIVATEVIEWLOOKUP_SERVICE);
 		privateViewPagedTableConfig.setResultSetUrl(GtnWsReportConstants.GTN_REPORT_SERVICE
@@ -300,6 +305,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		privateViewPagedTableConfig.setTableColumnMappingId(
 				new Object[] { "viewNameFilter", "createdDateFilter", "modifiedDateFilter", "createdByFilter" });
 		privateViewPagedTableConfig.setQueryName("Private");
+
 		privateViewPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		
 		privateViewPagedTableConfig.setSelectionListener(true);
@@ -317,6 +323,7 @@ public class GtnFrameworkReportPrivateViewSearchLookUp {
 		recordNotFoundAlertActionConfig.addActionParameter(GtnFrameworkReportStringConstants.INVALID_SEARCH);
 		recordNotFoundAlertActionConfig.addActionParameter(GtnFrameworkReportStringConstants.VIEW_INVALID_SEARCH_MESSAGE_BODY);
 		privateViewPagedTableConfig.setRecordTypeManageActionConfig(recordNotFoundAlertActionConfig);
+
 		privateViewPagedTableComponent.setGtnPagedTableConfig(privateViewPagedTableConfig);
 
 	}
