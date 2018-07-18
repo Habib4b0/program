@@ -3260,7 +3260,7 @@ public class NMProjectionVarianceLogic {
 
 		if (isCustomHierarchy) {
 			joinQuery.append(
-					"INNER JOIN CUSTOM_CCP_SALES_").append(projSelDTO.getCustomId()).append("RLD1 ON RLD1.HIERARCHY_NO LIKE A.HIERARCHY_NO + '%' AND LEVEL_NO = @LEVEL_NO ")
+					"INNER JOIN CUSTOM_CCP_SALES_").append(projSelDTO.getCustomId()).append(" RLD1 ON RLD1.HIERARCHY_NO LIKE A.HIERARCHY_NO + '%' AND LEVEL_NO = @LEVEL_NO ")
 					.append(" AND RLD1.CUST_VIEW_MASTER_SID = ").append(projSelDTO.getCustomId());
 		}
 
