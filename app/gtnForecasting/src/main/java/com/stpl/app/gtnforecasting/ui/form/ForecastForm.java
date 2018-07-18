@@ -695,6 +695,7 @@ public class ForecastForm extends AbstractForm {
 						}.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT,
 								Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
                                                 data.setCustomChange(BooleanConstant.getFalseFlag());
+                                                data.setDedCustomChange(BooleanConstant.getFalseFlag());
                                                 data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
 					}
 
@@ -736,6 +737,7 @@ public class ForecastForm extends AbstractForm {
 									session.setFromDateChanged(false);
 								}
                                                                 data.setCustomChange(BooleanConstant.getFalseFlag());
+                                                                data.setDedCustomChange(BooleanConstant.getFalseFlag());
 								tabSheet.setSelectedTab(tempTabPosition);
 								dsFlag = true;
 								discountFlag = true;
@@ -779,6 +781,7 @@ public class ForecastForm extends AbstractForm {
 						tabSheet.setSelectedTab(0);
 						lastPosition = 0;
                                                 data.setCustomChange(BooleanConstant.getFalseFlag());
+                                                data.setDedCustomChange(BooleanConstant.getFalseFlag());
 					}
 				}.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT,
 						Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
@@ -1714,6 +1717,15 @@ public class ForecastForm extends AbstractForm {
                 CommonUtil.getInstance().isProcedureCompleted("SALES", "PRC_NM_MASTER_INSERT", session);
                 CommonUtil.getInstance().isProcedureCompleted("SALES", "CUSTOMER", session);
                 pushMap.put(INDICATOR_REFRESH_UPDATE.getConstant(), Boolean.TRUE);
+                if (data.isDedCustomChange()) {
+                    LOGGER.info("Deduction Custom Change {}");
+                    session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
+                    CommonUtil.getInstance().updateStatusTable(Constant.DISCOUNT3, session, Constants.CUSTOM);
+                    String query = SQlUtil.getQuery("ViewTableTruncationDiscountCustom");
+                    HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+                    service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                            Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "U", "", "", session));
+                }
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
             }
