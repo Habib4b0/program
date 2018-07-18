@@ -145,6 +145,7 @@ public class GtnWsForecastWorkFlowController {
             params.put("out_" + forecastingRulesDTO.getVariableName(), forecastingRulesDTO);
         }
         WorkflowRuleDTO dto = new WorkflowRuleDTO();
+        dto.setNoOfUsers(2);//New added By v
         params.put("out_workflowDTO", dto);
         workflowLogicService.updateTaskInBpm(gtnWsGeneralRequest.getUserId(), forecastProjectionSubmitBean.getProcessId(), params,
                 GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);

@@ -742,13 +742,13 @@ public class AccrualRateProjectionForm extends AbstractForm {
 
             String workflowStatus = logic.getWorkflowStatus(session.getProjectionId(), screenName);
             if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
+                List<String> roleList = new ArrayList<>();
                 User userModel = UserLocalServiceUtil.getUser(Long.parseLong(session.getUserId()));
                 GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(session,session.getUserId());
-                List<String> roleList = new ArrayList<>();
                 workflowFlag=response.isHasPermission();
                 if (workflowFlag) {
                     saveLogic(false);
-                    logic.deleteTempBySession();
+                    //logic.deleteTempBySession();
                     try {
                         GtnWsCommonWorkflowResponse workflowResponse=DSCalculationLogic.startAndCompleteTask(session, session.getUserId());
                         session.setProcessId(workflowResponse.getProcessInstanceId());
@@ -756,6 +756,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                         LOGGER.error(e.getMessage());
                     }
                     String workflowId = submitProjToWorkflow(params, notes, screenName, getUploadedData);
+                    logic.deleteTempBySession();
                     showSubmitNotification(workflowId);
                 } else {
                     StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
@@ -786,12 +787,10 @@ public class AccrualRateProjectionForm extends AbstractForm {
                 processId = Long.valueOf(processList.get(0).toString());
             }
             
-            String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId,"NoOfUsers");
-            //till here
-            WorkflowRuleDTO dto = new WorkflowRuleDTO();
-            dto.setNoOfUsers(NumericConstants.TWO);
-            params.put("out_workflowDTO", dto);
+            
+            //till here   
             VarianceCalculationLogic.submitWorkflow( session.getProcessId(),session,screenName);
+            String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId,"NoOfUsers");
             //String noOfUsers = "";
             if (!noOfUsers.isEmpty()) {
                 workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
