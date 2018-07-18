@@ -1128,6 +1128,9 @@ public class ForecastForm extends AbstractForm {
 					public void buttonClicked(ButtonId buttonId) {
 						if (buttonId.name().equals(Constant.YES)) {
 							try {
+                                                                session.setProjectionName(data.getProjectionName());
+                                                                session.setDescription(data.getProjectionDescription());
+                                                                dsLogic.updateProjectionNameAndProjectionDescription(session);
 								saveProjection();
 								final Notification notif = new Notification("For Projection "+
 										session.getProjectionName() + " ,Save has been successfully Intiated",

@@ -4401,6 +4401,9 @@ public class DataSelection extends ForecastDataSelection {
 	public String getProjectionName() {
 		return projectionName.getValue();
 	}
+        public String getProjectionDescription() {
+		return description.getValue();
+	}
 
 	public void updateDataSelectionSelectedProducts() {
 		LOGGER.debug("updateDataSelectionSelectedProducts starts");
@@ -4577,4 +4580,4 @@ public class DataSelection extends ForecastDataSelection {
 
         }
         
-}
+    }
