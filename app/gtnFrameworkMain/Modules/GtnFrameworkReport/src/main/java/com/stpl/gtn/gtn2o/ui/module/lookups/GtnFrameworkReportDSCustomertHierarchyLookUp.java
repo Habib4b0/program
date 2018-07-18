@@ -345,6 +345,13 @@ public class GtnFrameworkReportDSCustomertHierarchyLookUp {
 		dsCustomerHierarchyPagedTableConfig.setPaginationOff(true);
 		dsCustomerHierarchyPagedTableConfig.setSelectable(true);
 		dsCustomerHierarchyPagedTableConfig.setSinkItemPerPageWithPageLength(false);
+		
+		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
+		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		alertAction.addActionParameter("No Results Found");
+		alertAction.addActionParameter("There are no Hierarchies that match the search criteria.");
+		dsCustomerHierarchyPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
+		
 		dsCustomerHierarchyPagedTableConfig.setTableColumnDataType(
 				GtnFrameworkReportStringConstants.getReportCustomerHierarchyTableColumnsDataType());
 		dsCustomerHierarchyPagedTableConfig.setColumnHeaders(

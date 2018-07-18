@@ -82,8 +82,8 @@ public class GtnUIFrameworkV8PopupSelectAction implements GtnUIFrameWorkAction {
 				GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 				alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 				List<Object> alertMsgParamsList = new ArrayList<>();
-				alertMsgParamsList.add("Select Error");
-				alertMsgParamsList.add("Please select a row from the Results list view to proceed");
+				alertMsgParamsList.add("No View Selected");
+				alertMsgParamsList.add("There is no view selected. Please select a saved view and try again");
 				alertActionConfig.setActionParameterList(alertMsgParamsList);
 				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
 
