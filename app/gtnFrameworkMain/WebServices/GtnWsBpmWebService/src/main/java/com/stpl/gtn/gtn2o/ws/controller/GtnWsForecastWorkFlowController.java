@@ -144,9 +144,7 @@ public class GtnWsForecastWorkFlowController {
         for (ForecastingRulesDTO forecastingRulesDTO : list) {
             params.put("out_" + forecastingRulesDTO.getVariableName(), forecastingRulesDTO);
         }
-        WorkflowRuleDTO dto = new WorkflowRuleDTO();
-        dto.setNoOfUsers(2);//New added By v
-        params.put("out_workflowDTO", dto);
+        params.put("out_workflowDTO", setLevelOfApproval(forecastProjectionSubmitBean.getModuleName()));
         workflowLogicService.updateTaskInBpm(gtnWsGeneralRequest.getUserId(), forecastProjectionSubmitBean.getProcessId(), params,
                 GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
         GtnWsCommonWorkflowResponse wfResponse = new GtnWsCommonWorkflowResponse();
@@ -154,6 +152,14 @@ public class GtnWsForecastWorkFlowController {
         gtnWsresponse.setGtnWSCommonWorkflowResponse(wfResponse);
         gtnWsresponse.setGtnWsGeneralResponse(generalResponse);
         return gtnWsresponse;
+    }
+    
+    private WorkflowRuleDTO setLevelOfApproval(String moduleName) {
+        WorkflowRuleDTO workflowRuleDTO = new WorkflowRuleDTO();
+        if(moduleName.equalsIgnoreCase("AccrualRateProjection")) {
+            workflowRuleDTO.setNoOfUsers(2);
+        }
+        return workflowRuleDTO;
     }
     
     @RequestMapping(value = GtnWsForecastConstants.GTN_WS_FORECAST_APPROVE_WORKFLOW)
