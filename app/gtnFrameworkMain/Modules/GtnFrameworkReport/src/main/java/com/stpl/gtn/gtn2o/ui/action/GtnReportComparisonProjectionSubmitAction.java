@@ -62,6 +62,7 @@ public class GtnReportComparisonProjectionSubmitAction
 				comparisonProjectionBean.setItemName(String.valueOf(recordBean.getPropertyValueByIndex(10)));
 				comparisonProjectionBean
 						.setProjectionMasterSid(Integer.parseInt(recordBean.getStringPropertyByIndex(11)));
+				comparisonProjectionBean.setUserId(String.valueOf(recordBean.getStringPropertyByIndex(7)));
 				comparisonProjectionBean.setCreatedBy(Integer.parseInt(recordBean.getStringPropertyByIndex(8)));
 				comparisonProjectionBean.setProjectionType(String.valueOf(recordBean.getAdditionalPropertyByIndex(0)));
 				comparisonProjectionBeanList.add(comparisonProjectionBean);
