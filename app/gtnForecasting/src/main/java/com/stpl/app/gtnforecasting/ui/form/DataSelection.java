@@ -107,6 +107,7 @@ public class DataSelection extends ForecastDataSelection {
 	private final DataSelectionForm dataSelectionForm;
 	private boolean updateOnTabChange = false;
 	private boolean customChange = false;   
+	private boolean dedCustomChange = false;   
 	private boolean reloadAfterUpdate = false;
 	private boolean valid = true;
 	private LazyContainer discountDdlbLazyContainer;
@@ -462,11 +463,10 @@ public class DataSelection extends ForecastDataSelection {
                                 setCustomChange(true);
 				setUpdateOnTabChange(false);
                                 customDdlb();
-			}
-                        else{
+			}else{
                         dataSelectionDTO.setCustomRelationShipSid(0);
-                        setUpdateOnTabChange(true);
-                        setCustomChange(true);
+                        setUpdateOnTabChange(false);
+                        setCustomChange(false);
                    }
                         }
 		});
@@ -479,12 +479,13 @@ public class DataSelection extends ForecastDataSelection {
                             dataSelectionDTO.setCustomDeductionRelationShipSid(custDeductionRelationValue);
                             setUpdateOnTabChange(false);
                             setCustomChange(true);
+                            setDedCustomChange(true);
                             customDdlb();
-			}
-                            else{
+			}else{
                                 dataSelectionDTO.setCustomDeductionRelationShipSid(0);
                                 setUpdateOnTabChange(false);
                                 setCustomChange(true);
+                                setDedCustomChange(false);
                             }
                         }
 
@@ -1236,7 +1237,14 @@ public class DataSelection extends ForecastDataSelection {
     public void setCustomChange(boolean customChange) {
         this.customChange = customChange;
     }
-    
+
+    public boolean isDedCustomChange() {
+        return dedCustomChange;
+    }
+
+    public void setDedCustomChange(boolean dedCustomChange) {
+        this.dedCustomChange = dedCustomChange;
+    }
 
 	public void updateBasicsProjectionMaster() throws PortalException, SystemException {
 		NonMandatedLogic logic = new NonMandatedLogic();
@@ -4404,6 +4412,9 @@ public class DataSelection extends ForecastDataSelection {
 	public String getProjectionName() {
 		return projectionName.getValue();
 	}
+        public String getProjectionDescription() {
+		return description.getValue();
+	}
 
 	public void updateDataSelectionSelectedProducts() {
 		LOGGER.debug("updateDataSelectionSelectedProducts starts");
@@ -4580,4 +4591,4 @@ public class DataSelection extends ForecastDataSelection {
 
         }
         
-}
+    }
