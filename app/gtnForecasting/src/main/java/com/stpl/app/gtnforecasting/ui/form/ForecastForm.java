@@ -80,6 +80,7 @@ import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
@@ -694,6 +695,7 @@ public class ForecastForm extends AbstractForm {
 						}.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT,
 								Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
                                                 data.setCustomChange(BooleanConstant.getFalseFlag());
+                                                data.setDedCustomChange(BooleanConstant.getFalseFlag());
                                                 data.setUpdateOnTabChange(BooleanConstant.getFalseFlag());
 					}
 
@@ -735,6 +737,7 @@ public class ForecastForm extends AbstractForm {
 									session.setFromDateChanged(false);
 								}
                                                                 data.setCustomChange(BooleanConstant.getFalseFlag());
+                                                                data.setDedCustomChange(BooleanConstant.getFalseFlag());
 								tabSheet.setSelectedTab(tempTabPosition);
 								dsFlag = true;
 								discountFlag = true;
@@ -778,6 +781,7 @@ public class ForecastForm extends AbstractForm {
 						tabSheet.setSelectedTab(0);
 						lastPosition = 0;
                                                 data.setCustomChange(BooleanConstant.getFalseFlag());
+                                                data.setDedCustomChange(BooleanConstant.getFalseFlag());
 					}
 				}.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT,
 						Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
@@ -1135,6 +1139,9 @@ public class ForecastForm extends AbstractForm {
 					public void buttonClicked(ButtonId buttonId) {
 						if (buttonId.name().equals(Constant.YES)) {
 							try {
+                                                                session.setProjectionName(data.getProjectionName());
+                                                                session.setDescription(data.getProjectionDescription());
+                                                                dsLogic.updateProjectionNameAndProjectionDescription(session);
 								saveProjection();
 								final Notification notif = new Notification("For Projection "+
 										session.getProjectionName() + " ,Save has been successfully Intiated",
@@ -1706,10 +1713,19 @@ public class ForecastForm extends AbstractForm {
                 // Call sales Discount Master Insert Procedure
                 nmSalesInsertDiscMasterProcedure();
                 // Call sales View Procedures
-                nmSalesViewsPopulationProcedure();
+                nmSalesViewsPopulationProcedureOnDataSelectionTabChange();
                 CommonUtil.getInstance().isProcedureCompleted("SALES", "PRC_NM_MASTER_INSERT", session);
                 CommonUtil.getInstance().isProcedureCompleted("SALES", "CUSTOMER", session);
                 pushMap.put(INDICATOR_REFRESH_UPDATE.getConstant(), Boolean.TRUE);
+                if (data.isDedCustomChange()) {
+                    LOGGER.info("Deduction Custom Change {}");
+                    session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
+                    CommonUtil.getInstance().updateStatusTable(Constant.DISCOUNT3, session, Constants.CUSTOM);
+                    String query = SQlUtil.getQuery("ViewTableTruncationDiscountCustom");
+                    HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+                    service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                            Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.DISCOUNT3, "U", "", "", session));
+                }
             } catch (Exception ex) {
                 LOGGER.error(ex.getMessage());
             }
@@ -2546,21 +2562,41 @@ public class ForecastForm extends AbstractForm {
                                                          
     }
         
-        private void nmSalesViewsPopulationProcedure() {
+       private void nmSalesViewsPopulationProcedure() {
             if(!data.isCustomChange()){
-        	session.addFutureMap(Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL,
+            session.addFutureMap(Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL,
 				new Future[] {service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
-                Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "C", "", "", session))});
-                
-                service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
-                Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "P", "", "", session));
-                
-                service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
-                Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
+                                Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "C", "", "", session))});
+
+            service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                    Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "P", "", "", session));
+
+            service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                    Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
             } else{
-               service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
-                Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session)); 
-            }
+            service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                    Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
+        }
+    }
+       private void nmSalesViewsPopulationProcedureOnDataSelectionTabChange() {
+        if (!data.isCustomChange() && data.isUpdateOnTabChange()) {
+            session.addFutureMap(Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL,
+                    new Future[]{service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                                Constant.CUSTOMER_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "C", "", "", session))});
+
+            service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                    Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "P", "", "", session));
+
+            service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                    Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
+        } else {
+            session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
+            CommonUtil.getInstance().updateStatusTable(Constant.SALES1, session, Constants.CUSTOM);
+            String query = SQlUtil.getQuery("ViewTableTruncationSalesCustom");
+            HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+            service.submit(CommonUtil.getInstance().createRunnable(Constant.PRC_VIEWS_CALL,
+                    Constant.PRODUCT_VIEW_SALES_POPULATION_CALL, session.getFunctionMode(), Constant.SALES1, "U", "", "", session));
+        }
     }
 
     private void nmDiscountViewsPopulationProcedure() {
