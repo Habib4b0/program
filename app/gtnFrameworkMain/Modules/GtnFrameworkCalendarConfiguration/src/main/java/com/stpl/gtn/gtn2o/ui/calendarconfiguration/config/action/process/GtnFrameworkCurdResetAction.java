@@ -83,7 +83,7 @@ public class GtnFrameworkCurdResetAction implements GtnUIFrameWorkAction, GtnUIF
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, resetActionConfig);
 			GtnUIFrameworkBaseComponent calendarComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkCalendarConfigurationContants.CC_CALENDAR_FIELD, componentId);
-			calendarComponent.setPropertyValue(holidayList);
+			calendarComponent.setNewPropertyValue(holidayList);
 		} catch (Exception e) {
 			gtnLogger.error("Exception in GtnFrameworkCurdResetAction", e);
 		}

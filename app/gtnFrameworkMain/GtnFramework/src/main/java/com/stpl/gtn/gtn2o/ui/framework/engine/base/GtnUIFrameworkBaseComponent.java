@@ -52,6 +52,7 @@ import com.vaadin.data.HasValue;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.AbstractSingleSelect;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
@@ -1450,4 +1451,21 @@ public class GtnUIFrameworkBaseComponent {
 
 	}
 
+	public void setNewPropertyValue(Object value) {
+		AbstractField<Object> property = (AbstractField<Object>)getComponent();
+		boolean isReadOnly = property.isReadOnly();
+		 property.setReadOnly(false);
+		 property.setValue(GtnUIFrameworkGlobalUI.getConvertedPropertyValue(property.getStateType(), value));
+		 property.setReadOnly(isReadOnly);
+	}
+	
+	public Object getV8CalenderValue() throws GtnFrameworkValidationFailedException {
+		try {
+
+			return ((CalendarField) this.component).getValue();
+
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
 }
