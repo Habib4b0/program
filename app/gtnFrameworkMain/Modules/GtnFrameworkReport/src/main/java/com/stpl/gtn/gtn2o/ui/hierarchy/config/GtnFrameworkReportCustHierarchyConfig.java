@@ -154,7 +154,8 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship", true,
 				customerSelectionRelationshipLayout.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		customerSelectionRelationship.setComponentName("Relationship: ");
-		customerSelectionRelationship.setVaadinComponentPlaceHolder(GtnFrameworkReportStringConstants.SELECT_ONE_PLACE_HOLDER);
+		customerSelectionRelationship
+				.setVaadinComponentPlaceHolder(GtnFrameworkReportStringConstants.SELECT_ONE_PLACE_HOLDER);
 		GtnUIFrameworkComboBoxConfig customerSelectionRelationshipLoadConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkReportStringConstants.PRODUCT_RELATIONSHIP,
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -165,7 +166,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionRelationshipValidationConfig
 				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		customerSelectionRelationship.setGtnUIFrameworkValidationConfig(customerSelectionRelationshipValidationConfig);
-		
+
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig relationshipValueChangeAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -226,7 +227,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		customerSelectionLevelValidationConfig
 				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		customerSelectionLevel.setGtnUIFrameworkValidationConfig(customerSelectionLevelValidationConfig);
-		
+
 		List<GtnUIFrameWorkActionConfig> levelactionConfigList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig refreshDualListBoxActiion = new GtnUIFrameWorkActionConfig();
@@ -235,6 +236,8 @@ public class GtnFrameworkReportCustHierarchyConfig {
 				+ GtnFrameworkReportStringConstants.CUSTOMER_DUALLISTBOX);
 		refreshDualListBoxActiion.addActionParameter(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel");
+		refreshDualListBoxActiion.addActionParameter(
+				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship");
 		levelactionConfigList.add(refreshDualListBoxActiion);
 
 		GtnUIFrameWorkActionConfig levelValueChangeAction = new GtnUIFrameWorkActionConfig();
@@ -301,8 +304,9 @@ public class GtnFrameworkReportCustHierarchyConfig {
 		GtnUIFrameworkValidationConfig customerSelectionDualListBoxValidationConfig = new GtnUIFrameworkValidationConfig();
 		customerSelectionDualListBoxValidationConfig
 				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
-		customerSelectionDualListBoxComponent.setGtnUIFrameworkValidationConfig(customerSelectionDualListBoxValidationConfig);
-		
+		customerSelectionDualListBoxComponent
+				.setGtnUIFrameworkValidationConfig(customerSelectionDualListBoxValidationConfig);
+
 		componentList.add(customerSelectionDualListBoxComponent);
 		GtnUIFrameworkV8DualListBoxConfig customerSelectionDualListBoxConfig = new GtnUIFrameworkV8DualListBoxConfig();
 		customerSelectionDualListBoxConfig
