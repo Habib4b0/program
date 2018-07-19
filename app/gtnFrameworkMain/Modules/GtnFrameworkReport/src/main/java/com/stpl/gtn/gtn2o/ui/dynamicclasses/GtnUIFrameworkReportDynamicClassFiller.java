@@ -10,6 +10,7 @@ import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkFSPagedTree
 import com.stpl.gtn.gtn2o.registry.action.pagedtreetable.GtnFrameworkReturnCheckAllAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnCustomerAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCVSaveValidationAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkComparisonLookupTextFieldEnableAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkConfirmSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCustomTreeConfirmedSaveAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkLoadFromInDataSelectionAction;
@@ -284,6 +285,9 @@ public class GtnUIFrameworkReportDynamicClassFiller implements GtnUIDynamicObjec
 		
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkReportConfirmedCloseAction.class.getName(),
 				new GtnFrameworkReportConfirmedCloseAction());
+		
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkComparisonLookupTextFieldEnableAction.class.getName(),
+				new GtnFrameworkComparisonLookupTextFieldEnableAction());
 		
 	}
 
