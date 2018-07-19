@@ -9,11 +9,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
+import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -282,6 +284,7 @@ public class GtnReportDataSelectionReGenerateAction
 						.getVaadinBaseComponent("reportingDashboardTab_reportingDashboardComparisonConfig", componentId)
 						.setV8PopupFieldValue(displayValue);
 			}
+			updateComparisonBaasis(comparisonProjectionsList,componentId);
 		}
 	}
 
@@ -309,12 +312,14 @@ public class GtnReportDataSelectionReGenerateAction
 			throws GtnFrameworkValidationFailedException {
 		if (isVariablesChanged) {
 			dataSelectionBean.setVariablesList(variableList);
+			GtnWsReportVariablesType[] variableType = Arrays.copyOfRange(GtnWsReportVariablesType.values(), 0,
+					GtnWsReportVariablesType.values().length - 1);
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabVariable", componentId)
 					.addAllItemsToMultiSelect(
-							Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
+							Arrays.stream(variableType).map(GtnWsReportVariablesType::toString)
 									.collect(Collectors.toList()),
-							Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
+							Arrays.stream(variableType).map(GtnWsReportVariablesType::toString)
 									.collect(Collectors.toList()));
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabVariable", componentId)
@@ -380,6 +385,29 @@ public class GtnReportDataSelectionReGenerateAction
 		fromPeriodLoadAction.addActionParameter(GtnFrameworkLoadFromInDataSelectionAction.class.getName());
 		fromPeriodLoadAction.addActionParameter(fromPeriodValue);
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, fromPeriodLoadAction);
+	}
+	
+	private void updateComparisonBaasis(List<GtnReportComparisonProjectionBean> comparisonProjectionsList,
+			String componentId) {
+		int initialCapacity = 4 + comparisonProjectionsList.size();
+		List<String> inputForComparisonBasisList = new ArrayList<>(initialCapacity);
+		inputForComparisonBasisList.add("Actuals");
+		inputForComparisonBasisList.add("Accruals");
+		inputForComparisonBasisList.add("Current Projection");
+		comparisonProjectionsList.stream().forEach((comparisonProjectionBeans) -> {
+			inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
+		});
+		List idList = IntStream.range(1, initialCapacity).boxed().collect(Collectors.toList());
+		GtnUIFrameworkComboBoxConfig comparisonBasisComboboxConfig = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("reportingDashboard_displaySelectionTabComparisonBasis",
+						componentId)
+				.getComponentConfig().getGtnComboboxConfig();
+		comparisonBasisComboboxConfig.setItemCaptionValues(inputForComparisonBasisList);
+		comparisonBasisComboboxConfig.setItemValues(idList);
+
+		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
+		combobox.reloadComponentFromParent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+				"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
 	}
 
 	private void callRegenerate(GtnWsReportDataSelectionBean dataSelectionBean)
