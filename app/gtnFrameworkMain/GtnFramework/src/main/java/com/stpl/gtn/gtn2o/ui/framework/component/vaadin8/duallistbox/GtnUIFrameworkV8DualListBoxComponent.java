@@ -1,5 +1,9 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
@@ -15,15 +19,19 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.LayoutEvents.LayoutClickEvent;
+import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.VerticalLayout;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.vaadin.ui.components.grid.HeaderRow;
 
 public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkComponent {
 
@@ -108,8 +116,10 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 			String column = dualListBoxConfig.getLeftVisibleColumns()[i].toString();
 			LOGGER.info("column---------->" + column);
 			leftTable.addColumn(row -> row.getPropertyValue(column))
-					.setCaption(dualListBoxConfig.getLeftVisibleHeaders()[i]);
+					.setCaption(dualListBoxConfig.getLeftVisibleHeaders()[i]).setId(column);
+			addFilterToGrid(dualListBoxConfig, leftTable, column);
 		}
+
 		rightTable = new TreeGrid<>();
 		rightTable.setSelectionMode(Grid.SelectionMode.SINGLE);
 		for (int i = 0; i < dualListBoxConfig.getRightVisibleColumns().length; i++) {
@@ -138,6 +148,50 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		LOGGER.info(
 				"End into the createComponents() of VaadinDualListBox with id: " + componentConfig.getComponentId());
 		return dualListBoxBean;
+	}
+
+	private void addFilterToGrid(GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig, Grid grid, String column) {
+		HeaderRow filterRow = grid.appendHeaderRow();
+		HorizontalLayout horizontalLayout = new HorizontalLayout();
+		horizontalLayout.setMargin(false);
+		horizontalLayout.setWidth("300px");
+		horizontalLayout.setHeight("38px");
+		TextField textField = new TextField();
+		textField.setPlaceholder("Show All");
+		textField.setWidth("300px");
+		textField.setHeight("38px");
+		textField.setId(column);
+
+		horizontalLayout.addComponent(textField);
+
+		horizontalLayout.addLayoutClickListener(new LayoutClickListener() {
+			@Override
+			public void layoutClick(LayoutClickEvent event) {
+
+				if (event.getChildComponent() == textField) {
+					textField.setPlaceholder("");
+				}
+			}
+		});
+		textField.addBlurListener(new BlurListener() {
+			@Override
+			public void blur(BlurEvent event) {
+				if (event.getComponent() == textField) {
+					String value = textField.getValue();
+					if (value.equals(""))
+						textField.setPlaceholder("Show All");
+				}
+			}
+		});
+		textField.addValueChangeListener(event -> {
+			String filterText = event.getValue();
+			ListDataProvider<GtnWsRecordBean> dataprovider = (ListDataProvider<GtnWsRecordBean>) grid.getDataProvider();
+			dataprovider.setFilter(s -> {
+				String value = s.getPropertyValue("levelValue").toString().toLowerCase();
+				return value.contains(filterText.toLowerCase());
+			});
+		});
+		filterRow.getCell(String.valueOf(column)).setComponent(horizontalLayout);
 	}
 
 	private HorizontalLayout dualListBoxComponent(GtnFrameworkV8DualListBoxBean dualListBoxBean) {

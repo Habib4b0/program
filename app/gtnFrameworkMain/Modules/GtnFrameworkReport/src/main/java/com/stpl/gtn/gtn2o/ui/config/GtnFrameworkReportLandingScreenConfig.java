@@ -68,7 +68,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		componentList.addAll(customerSelection.getCustomerSelectionLayoutComponents(namespace));
 
 		GtnFrameworkReportProdHierarchyConfig productSelection = new GtnFrameworkReportProdHierarchyConfig();
-		componentList.addAll(productSelection.getProductSelectionLayoutComponents(namespace));
+		componentList.addAll(productSelection.getProductSelectionLayoutComponents(namespace , "landingScreen"));
 
 		addReportingNecessaryFields(componentList, namespace);
 		addControlButtonLayout(componentList, namespace);
@@ -148,9 +148,11 @@ public class GtnFrameworkReportLandingScreenConfig {
 						true, "comparisonHierarchyLayout", GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		landingScreenVariableComparisonConfig.setAuthorizationIncluded(true);
 		landingScreenVariableComparisonConfig.setComponentName("Comparison: ");
-
+		landingScreenVariableComparisonConfig.setEnable(false);
 		GtnUIFrameworkTextBoxConfig landingScreenVariableComparisonTextboxConfig = configProvider.getTextBoxConfig(true,
 				true, true);
+		landingScreenVariableComparisonTextboxConfig.setEnable(false);
+		landingScreenVariableComparisonTextboxConfig.setReadOnly(false);
 		landingScreenVariableComparisonConfig.setGtnTextBoxConfig(landingScreenVariableComparisonTextboxConfig);
 
 		componentList.add(landingScreenVariableComparisonConfig);
@@ -828,6 +830,8 @@ public class GtnFrameworkReportLandingScreenConfig {
 		deleteViewAction.addActionParameter(GtnReportDataSelectionDeleteViewAction.class.getName());
 		deleteViewAction.addActionParameter(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PRIVATE_VIEWS);
+		deleteViewAction.addActionParameter(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PUBLIC_VIEWS);
+		deleteViewAction.addActionParameter(namespace);
 		onSuccessDeleteActionConfigList.add(deleteViewAction);
 		deleteViewButton.addGtnUIFrameWorkActionConfig(confirmDeleteAction);
 	}
