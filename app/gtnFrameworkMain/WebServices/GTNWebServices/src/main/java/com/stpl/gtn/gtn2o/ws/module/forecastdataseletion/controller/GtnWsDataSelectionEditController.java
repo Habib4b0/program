@@ -343,18 +343,7 @@ public class GtnWsDataSelectionEditController {
 		List<Object> inputList = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getQueryInputList();
 		GtnReportHierarchyLevelBean allDataSelectedHierarchyBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
 				.getHierarchyInputBean();
-		List<Object[]> searchResultList = levelValueMapQueryService
-				.loadCustHierarchyAvailableTable(String.valueOf(inputList.get(0)));
-		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
-		dataTable.addData(searchResultList);
-		GtnSerachResponse serachResponse = new GtnSerachResponse();
-		serachResponse.setResultSet(dataTable);
-		List<GtnWsRecordBean> beanList = new ArrayList<>();
-		for (GtnUIFrameworkDataRow record : serachResponse.getResultSet().getDataTable()) {
-			GtnWsRecordBean recordBean = new GtnWsRecordBean();
-			recordBean.setProperties(record.getColList());
-			beanList.add(recordBean);
-		}
+		List<GtnWsRecordBean> beanList = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getRecordBean();
 		GtnReportHierarchyLevelBean lastHierarchyLevelBean = GtnReportHierarchyLevelBean
 				.getLastLinkedLevel(gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getHierarchyLevelList());
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
@@ -405,18 +394,7 @@ public class GtnWsDataSelectionEditController {
 		List<Object> inputList = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getQueryInputList();
 		GtnReportHierarchyLevelBean allDataSelectedHierarchyBean = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
 				.getHierarchyInputBean();
-		List<Object[]> searchResultList = levelValueMapQueryService
-				.loadCustHierarchyAvailableTable(String.valueOf(inputList.get(0)));
-		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
-		dataTable.addData(searchResultList);
-		GtnSerachResponse serachResponse = new GtnSerachResponse();
-		serachResponse.setResultSet(dataTable);
-		List<GtnWsRecordBean> beanList = new ArrayList<>();
-		for (GtnUIFrameworkDataRow record : serachResponse.getResultSet().getDataTable()) {
-			GtnWsRecordBean recordBean = new GtnWsRecordBean();
-			recordBean.setProperties(record.getColList());
-			beanList.add(recordBean);
-		}
+		List<GtnWsRecordBean> beanList = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getRecordBean();
 		GtnReportHierarchyLevelBean lastHierarchyLevelBean = GtnReportHierarchyLevelBean
 				.getLastLinkedLevel(gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest().getHierarchyLevelList());
 		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
@@ -438,7 +416,7 @@ public class GtnWsDataSelectionEditController {
 		input.add( "'%'");
 		input.add(selectedHierarchyLevelDto.getRelationshipBuilderSid());
 		input.add(selectedHierarchyLevelDto.getRelationshipVersionNo());
-		input.add(Integer.parseInt(String.valueOf(inputList.get(6))) + 1);
+		input.add(Integer.parseInt(String.valueOf(inputList.get(6))));
 		input.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
 
 		List<Object[]> resultList = productSelectedLoadService.getResultForSelectedProduct(inputQuery, input);
