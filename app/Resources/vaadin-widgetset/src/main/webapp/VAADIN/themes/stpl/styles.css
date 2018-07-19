@@ -14888,6 +14888,10 @@ div.v-layout.v-horizontal.v-widget {
 	margin-left: -18px;
 }
 
+.stpl .datefieldcentered > input {
+	text-align: center;
+}
+
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;

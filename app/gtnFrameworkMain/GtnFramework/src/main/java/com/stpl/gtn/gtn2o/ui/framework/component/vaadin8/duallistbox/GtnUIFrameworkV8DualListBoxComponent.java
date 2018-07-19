@@ -34,7 +34,7 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 			throws GtnFrameworkGeneralException {
 		try {
 			GtnFrameworkV8DualListBoxBean dualListBoxBean = createComponents(
-					componentConfig.getGtnUIFrameworkV8DualListBoxConfig(),componentConfig);
+					componentConfig.getGtnUIFrameworkV8DualListBoxConfig(), componentConfig);
 			return dualListBoxComponent(dualListBoxBean);
 		} catch (Exception ex) {
 			throw new GtnFrameworkGeneralException(
@@ -82,16 +82,19 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 
 	private void resetDualListBoxHeadersAndColumns(List<Object> visibleColumns, List<String> listViewHeaders,
 			GtnFrameworkV8DualListBoxBean dualListBoxBean) {
-                dualListBoxBean.getLeftTable().removeAllColumns();
-                for (int i = 0; i <  visibleColumns.size(); i++) {
-                String column = visibleColumns.get(i).toString();
-                LOGGER.info("column name is ---->" + column);
-			dualListBoxBean.getLeftTable().addColumn(row -> row.getPropertyValue(column)).setCaption(listViewHeaders.get(i));
+		dualListBoxBean.getLeftTable().removeAllColumns();
+		for (int i = 0; i < visibleColumns.size(); i++) {
+			String column = visibleColumns.get(i).toString();
+			LOGGER.info("column name is ---->" + column);
+			dualListBoxBean.getLeftTable().addColumn(row -> row.getPropertyValue(column))
+					.setCaption(listViewHeaders.get(i));
 		}
 	}
 
-	private GtnFrameworkV8DualListBoxBean createComponents(GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig,GtnUIFrameworkComponentConfig componentConfig) {
-		LOGGER.info("Entering into the createComponents() of VaadinDualListBox with id: "+componentConfig.getComponentId());
+	private GtnFrameworkV8DualListBoxBean createComponents(GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig,
+			GtnUIFrameworkComponentConfig componentConfig) {
+		LOGGER.info("Entering into the createComponents() of VaadinDualListBox with id: "
+				+ componentConfig.getComponentId());
 
 		Grid<GtnWsRecordBean> leftTable;
 		TreeGrid<GtnWsRecordBean> rightTable;
@@ -100,7 +103,7 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		Button moveAllRight;
 
 		leftTable = new Grid<>();
-                leftTable.setSelectionMode(Grid.SelectionMode.SINGLE);
+		leftTable.setSelectionMode(Grid.SelectionMode.SINGLE);
 		for (int i = 0; i < dualListBoxConfig.getLeftVisibleColumns().length; i++) {
 			String column = dualListBoxConfig.getLeftVisibleColumns()[i].toString();
 			LOGGER.info("column---------->" + column);
@@ -129,10 +132,11 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		moveRight.addStyleName(GtnFrameworkCommonConstants.DUALLISTBOXBUTTON);
 		moveAllRight.addStyleName(GtnFrameworkCommonConstants.DUALLISTBOXBUTTON);
 
-		GtnFrameworkV8DualListBoxBean dualListBoxBean = new GtnFrameworkV8DualListBoxBean(leftTable, rightTable, moveLeft,
-				moveRight, moveAllRight, this, dualListBoxConfig);
+		GtnFrameworkV8DualListBoxBean dualListBoxBean = new GtnFrameworkV8DualListBoxBean(leftTable, rightTable,
+				moveLeft, moveRight, moveAllRight, this, dualListBoxConfig);
 
-		LOGGER.info("End into the createComponents() of VaadinDualListBox with id: "+componentConfig.getComponentId());
+		LOGGER.info(
+				"End into the createComponents() of VaadinDualListBox with id: " + componentConfig.getComponentId());
 		return dualListBoxBean;
 	}
 
@@ -146,6 +150,7 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		dualListBoxButtonLayout.addComponent(dualListBoxBean.getMoveLeftBtn());
 		dualListBoxButtonLayout.addComponent(dualListBoxBean.getMoveAllRightBtn());
 		dualListBoxButtonLayout.setSpacing(true);
+		dualListBoxButtonLayout.setMargin(false);
 		dualListBoxButtonLayout.addStyleName("move-buttons");
 		dualListBoxLayout.addComponent(dualListBoxBean.getLeftTable());
 		dualListBoxLayout.addComponent(dualListBoxButtonLayout);
@@ -159,14 +164,15 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		dualListBoxBean.getMoveRightBtn().setData(dualListBoxComponentData);
 		dualListBoxBean.getMoveAllRightBtn().setData(dualListBoxComponentData);
 		dualListBoxLayout.setData(dualListBoxComponentData);
-		LOGGER.info("End into the addComponents() of VaadinDualListBox + "+dualListBoxLayout.getClass());
+		LOGGER.info("End into the addComponents() of VaadinDualListBox + " + dualListBoxLayout.getClass());
 		return dualListBoxLayout;
 	}
 
 	private void addListeners(GtnFrameworkV8DualListBoxBean dualListBoxBean) {
 		dualListBoxBean.getMoveRightBtn().addClickListener(GtnUIFrameworkMoveRightButtonClickListener.getInstance());
 		dualListBoxBean.getMoveLeftBtn().addClickListener(GtnUIFrameworkMoveLeftButtonClickListener.getInstance());
-		dualListBoxBean.getMoveAllRightBtn().addClickListener(GtnUIFrameworkMoveAllRightButtonClickListener.getInstance());
+		dualListBoxBean.getMoveAllRightBtn()
+				.addClickListener(GtnUIFrameworkMoveAllRightButtonClickListener.getInstance());
 	}
 
 	@SuppressWarnings("rawtypes")
