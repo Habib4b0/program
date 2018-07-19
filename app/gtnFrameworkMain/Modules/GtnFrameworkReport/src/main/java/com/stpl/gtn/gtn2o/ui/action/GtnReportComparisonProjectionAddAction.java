@@ -72,7 +72,7 @@ public class GtnReportComparisonProjectionAddAction
 			actionParamsList.add(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(paramsList.get(3).toString(), componentId)
 					.getStringFromV8ComboBox());
 			addRecordAction.setFieldValues(Arrays.asList("projectionName", "description", "marketType",
-					"contractHolder", "contract", "brand"));
+					"contractHolder", "contract", "brand","createdDate","createdBy"));
 			addRecordAction.setActionParameterList(actionParamsList);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, addRecordAction);
 		}

@@ -98,6 +98,8 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		reportCustomerHierarchySearchCriteriaPanel.setMargin(true);
 		reportCustomerHierarchySearchCriteriaPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportCustomerHierarchySearchCriteriaPanel.setAddToParent(true);
+		reportCustomerHierarchySearchCriteriaPanel.addComponentStyle("stpl-margin-left-10");
+		reportCustomerHierarchySearchCriteriaPanel.addComponentStyle("stpl-margin-top-11");
 		componentList.add(reportCustomerHierarchySearchCriteriaPanel);
 		reportCustomerHierarchySearchCriteriaLayout(componentList, namespace);
 	}
@@ -287,6 +289,8 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		reportCustomerHierarchyResultsPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportCustomerHierarchyResultsPanel.setAddToParent(true);
+		reportCustomerHierarchyResultsPanel.addComponentStyle("stpl-margin-left-10");
+		reportCustomerHierarchyResultsPanel.addComponentStyle("stpl-margin-top-11");
 		componentList.add(reportCustomerHierarchyResultsPanel);
 		addCustomerHierarchyPagedTableComponent(componentList, namespace);
 
