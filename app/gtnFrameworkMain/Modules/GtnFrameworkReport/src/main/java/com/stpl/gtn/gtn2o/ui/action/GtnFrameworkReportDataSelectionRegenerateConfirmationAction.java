@@ -257,6 +257,9 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction impleme
 		dsProductRightTable.getDataProvider().refreshAll();
 		dsProductRightTable.markAsDirty();
 		
+		loadComparisonInReportingDashboard("dataSelectionTab_comparisonLookup", componentId,
+				dataSelectionBean);
+		
 		GtnWsReportVariablesType[] variableType = Arrays.copyOfRange(GtnWsReportVariablesType.values(), 0,
 				GtnWsReportVariablesType.values().length - 1);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabVariable", componentId)
@@ -532,5 +535,15 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction impleme
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, fromPeriodLoadAction);
 	}
 
-	
+	private void loadComparisonInReportingDashboard(String sourceComponentId, String componentId,
+			GtnWsReportDataSelectionBean dataSelectionBean) {
+		GtnUIFrameworkComponentData comparisonData = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(sourceComponentId, componentId).getComponentData();
+		comparisonData.setCustomData(dataSelectionBean.getComparisonProjectionBeanList());
+		if (dataSelectionBean.getComparisonProjectionBeanList() != null) {
+			String displayValue = getDisplayValue(dataSelectionBean.getComparisonProjectionBeanList());
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(sourceComponentId, componentId)
+					.setV8PopupFieldValue(displayValue);
+		}
+	}
 }
