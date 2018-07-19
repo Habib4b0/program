@@ -102,5 +102,8 @@ margin-left: 0px;
 .v-window > .popupContent .v-grid-cell .v-horizontallayout .v-datefield.v-datefield-popupcalendar {
 margin-left: -18px;
 }
+.v-grid-scroller::-webkit-scrollbar-thumb {
+border-radius: 0px !important;
+}
 
 }
