@@ -49,7 +49,7 @@ public class GtnFrameworkCurdSaveAction implements GtnUIFrameWorkAction, GtnUIFr
 			String calendarName = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(0)).getStringFromField();
 			String calendarDesc = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1)).getStringFromField();
 			List<Date> holidayList = (List<Date>) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2))
-					.getObjectFromField();
+					.getV8CalenderValue();
 			int countryCode = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3)).getIntegerFromField();
 			String country = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3)).getCaptionFromComboBox();
 			int calendarYear = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(4)).getIntegerFromField();
