@@ -4,6 +4,7 @@ import com.stpl.gtn.gtn2o.config.commonpopup.commonaction.GtnUIFrameworkItemClic
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterAddAction;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterAddViewCreationAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterAttachAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterBrandValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterDeleteAction;
@@ -134,6 +135,8 @@ public class GtnUIFrameworkItemMasterDynamicClassFiller implements GtnUIDynamicO
 				new GtnFrameworkItemMasterBaseCPIBlurAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkItemMasterItemPriceBlurAction.class.getName(),
 				new GtnFrameworkItemMasterItemPriceBlurAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkItemMasterAddViewCreationAction.class.getName(),
+				new GtnFrameworkItemMasterAddViewCreationAction());
 
 	}
 
