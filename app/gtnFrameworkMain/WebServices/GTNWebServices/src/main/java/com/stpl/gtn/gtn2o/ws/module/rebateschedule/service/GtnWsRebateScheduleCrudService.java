@@ -433,7 +433,7 @@ public class GtnWsRebateScheduleCrudService {
 		rsInfoBean.setRebateScheduleStartDate((Date) result[8]);
 		rsInfoBean.setRebateScheduleEndDate((Date) result[9]);
 		rsInfoBean.setRebateScheduleTradeClass(getIntValue(result[10]));
-		rsInfoBean.setParentRebateScheduleID(getStringValue(result[11]));
+		rsInfoBean.setParentRebateScheduleID(getStringValue(result[12]));
 		rsInfoBean.setParentRebateScheduleName(getStringValue(result[12]));
 		rsInfoBean.setRsTransactionRefId(getStringValue(result[13]));
 		rsInfoBean.setRsTransactionRefName(getStringValue(result[14]));
