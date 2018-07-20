@@ -198,12 +198,14 @@ public class GtnReportDataSelectionLoadViewAction
 					.setV8PopupFieldValue(getDisplayValue(dataSelectionBean));
 		}
 
+		GtnWsReportVariablesType[] variableType = Arrays.copyOfRange(GtnWsReportVariablesType.values(), 0,
+				GtnWsReportVariablesType.values().length - 1);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
 				nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabVariable", componentId)
 				.addAllItemsToMultiSelect(
-						Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
+						Arrays.stream(variableType).map(GtnWsReportVariablesType::toString)
 								.collect(Collectors.toList()),
-						Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
+						Arrays.stream(variableType).map(GtnWsReportVariablesType::toString)
 								.collect(Collectors.toList()));
 		if(dataSelectionBean.getVariablesList() != null){
                 GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
@@ -223,7 +225,7 @@ public class GtnReportDataSelectionLoadViewAction
 		if (dataSelectionBean.getComparisonProjectionBeanList().size() > 1) {
 			return "MULTIPLE";
 		} else {
-			return dataSelectionBean.getComparisonProjectionBeanList().get(1).getProjectionName();
+			return dataSelectionBean.getComparisonProjectionBeanList().get(0).getProjectionName();
 		}
 	}
 

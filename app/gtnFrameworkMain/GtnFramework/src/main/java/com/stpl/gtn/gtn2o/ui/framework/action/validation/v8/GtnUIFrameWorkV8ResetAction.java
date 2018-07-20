@@ -26,7 +26,6 @@ public class GtnUIFrameWorkV8ResetAction implements GtnUIFrameWorkAction {
 		List<Object> v8Params = (v8GtnUIFrameWorkActionConfig.getActionParameterList());
 		String v8ResetMessageHeader = (String) v8Params.get(0);
 		String v8ResetMessageBody = (String) v8Params.get(1);
-
 		configureParams(v8GtnUIFrameWorkActionConfig);
 		GtnUIFrameWorkActionConfig v8ConfirmActionConfig = new GtnUIFrameWorkActionConfig();
 		v8ConfirmActionConfig.addActionParameter(v8ResetMessageHeader);

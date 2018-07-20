@@ -460,7 +460,6 @@ public class GtnReportingVariableBreakdownGridLoadAction
 			ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
 			vaadinCombobox.setId(
 					variableBreakdownLookupBean.getProperty() + String.valueOf(variableBreakdownLookupBean.getRowId()));
-			vaadinCombobox.setSelectedItem(1);
 			if (variableBreakdownLookupBean.getProperty()
 					.equalsIgnoreCase(variableBreakdownLookupBean.getCurrentDateField())) {
 
@@ -469,7 +468,6 @@ public class GtnReportingVariableBreakdownGridLoadAction
 			if (!isDisableColumns) {
 				grid.getHeaderRow(0).getCell(variableBreakdownLookupBean.getProperty()).getComponent()
 						.setEnabled(false);
-				vaadinCombobox.setSelectedItem(2);
 				vaadinCombobox.setReadOnly(true);
 			}
 

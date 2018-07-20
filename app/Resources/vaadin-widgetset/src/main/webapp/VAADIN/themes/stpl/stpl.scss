@@ -84,4 +84,30 @@ height: auto!important;
 height: auto!important;
 }
 
+.v-window > .popupContent .v-datefield [class*="textfield"] {
+height: 137%!important;
+}
+.v-window > .popupContent .v-datefield [class*="button"] {
+height: 137%!important;
+}
+
+.v-grid-cell .v-horizontallayout .v-textfield.v-widget.v-has-width{
+margin-left: -18px;
+}
+
+.v-window > .popupContent .v-grid-cell .v-horizontallayout .v-textfield.v-datefield-textfield {
+margin-left: 0px;
+}
+
+.v-window > .popupContent .v-grid-cell .v-horizontallayout .v-datefield.v-datefield-popupcalendar {
+margin-left: -18px;
+}
+.v-grid-scroller::-webkit-scrollbar-thumb {
+border-radius: 0px !important;
+}
+
+.datefieldcentered >input {
+    text-align: center;
+}
+
 }

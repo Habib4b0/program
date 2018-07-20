@@ -122,8 +122,7 @@ public class HeaderGeneratorService {
 
 			GtnWsPagedTreeTableResponse tableHeaderDTO = new GtnWsPagedTreeTableResponse();
 			boolean isColumn = getColumnFlag(dashboardBean.getCustomViewMasterSid());
-			List<GtnReportComparisonProjectionBean> beanList = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest()
-					.getDataSelectionBean().getComparisonProjectionBeanList();
+			List<GtnReportComparisonProjectionBean> beanList = dashboardBean.getComparisonProjectionBeanList();
 			List<String> comparsionHeader = new ArrayList<>();
 			comparsionHeader.add("Current");
 			if (beanList != null) {
@@ -743,6 +742,7 @@ public class HeaderGeneratorService {
 		String toPeriod = variableBreakdown.get(1).toString();
 		String frequency = variableBreakdown.get(2).toString();
 		String splitParameter = "-";
+                
 		if (fromPeriod.startsWith("Q")) {
 			List<Integer> quarterToDateForFromPeriod = getQuarterToDate(fromPeriod, splitParameter);
 			List<Integer> quarterToDateForToPeriod = getQuarterToDate(toPeriod, splitParameter);
@@ -779,7 +779,7 @@ public class HeaderGeneratorService {
 			List<Integer> monthToDateForToPeriod = new ArrayList<>();
 			String[] monthToDateForToPeriodSplit = new String[3];
 			monthToDateForToPeriodSplit = toPeriod.contains("-") ? toPeriod.split(splitParameter)
-					: fromPeriod.split(" ");
+					: toPeriod.split(" ");
 			monthToDateForToPeriod.add(Integer.valueOf(monthToDateForToPeriodSplit[1].trim()));
 			monthToDateForToPeriod.add(getMonthIntegerFromYear(monthToDateForToPeriodSplit[0].trim()));
 			monthToDateForToPeriod.add(1);

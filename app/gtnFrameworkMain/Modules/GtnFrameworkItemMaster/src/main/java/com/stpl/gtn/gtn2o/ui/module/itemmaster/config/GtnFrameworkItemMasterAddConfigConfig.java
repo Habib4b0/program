@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterAddViewCreationAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingTempTableClearAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterClassContants;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterStringContants;
@@ -29,6 +30,14 @@ public class GtnFrameworkItemMasterAddConfigConfig {
 		GtnFrameworkComponentConfigProvider componentConfig = GtnFrameworkComponentConfigProvider.getInstance();
 		GtnUIFrameworkViewConfig addView = componentConfig.getViewConfig("Add View", "V002", false);
 		addComponentList(addView, componentConfig);
+		
+		/*
+		 * During View Creation, this Custom Action will be get called
+		 */
+		GtnUIFrameWorkActionConfig actionConfig=new GtnUIFrameWorkActionConfig();
+		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		actionConfig.addActionParameter(GtnFrameworkItemMasterAddViewCreationAction.class.getName());
+		addView.addViewAction(actionConfig);
 		return addView;
 	}
 
@@ -169,7 +178,7 @@ public class GtnFrameworkItemMasterAddConfigConfig {
 		List<GtnUIFrameworkComponentConfig> itemInformationTabConfig = new ArrayList<>();
 		itemInformationTab.setTabLayoutComponentConfigList(itemInformationTabConfig);
 		new GtnFrameworkItemMasterInformationTabConfig().addItemInformationTab(itemInformationTabConfig);
-
+		
 		GtnUIFrameworkTabConfig addressTab = componentConfig.getTabConfig("itemMasterAdditionalInformationTab",
 				"Additional Information");
 		List<GtnUIFrameworkComponentConfig> addressTabConfig = new ArrayList<>();
@@ -360,6 +369,7 @@ public class GtnFrameworkItemMasterAddConfigConfig {
 				"acquisitionDate", "nonFederalExpirationDate", "marketTerminationDate", "newFormulationStartDate",
 				"baseCpiPeriod", "newFormulationEndDate", "authorizedGeneric", "pediatricExclusiveIndicator",
 				"clottingFactorIndicator", "dualPricingIndicator", "newFormulationIndicator", "newFormulation"));
+		
 		onSucessActionConfigList.add(customAction);
 		confirmationActionConfig.setActionParameterList(alertParamsList);
 		saveActionConfigList.add(confirmationActionConfig);

@@ -6,6 +6,8 @@
 
 package com.stpl.gtn.gtn2o.ui.framework.component.grid.component;
 
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
+
 /**
  *
  * @author Karthik.Raja
@@ -22,6 +24,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordTypeBean;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataRow;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -133,6 +136,15 @@ public class GtnUIFrameworkPagedGridLogic {
 					dto.setRecordHeader(recordHeader);
 					dto.setProperties(record.getColList());
 					records.add(dto);
+				}
+			} if(response.getGtnSerachResponse().getResultSet().getDataTable().size() == 0) {
+				if (componentConfig.getGtnPagedTableConfig().getRecordTypeManageActionConfig() != null) {
+					try{
+					GtnUIFrameworkActionExecutor.executeSingleAction(componentConfig.getComponentId(),
+							componentConfig.getGtnPagedTableConfig().getRecordTypeManageActionConfig());
+					}catch(GtnFrameworkGeneralException e){
+						gtnLogger.error(e.getMessage());
+					}
 				}
 			}
 

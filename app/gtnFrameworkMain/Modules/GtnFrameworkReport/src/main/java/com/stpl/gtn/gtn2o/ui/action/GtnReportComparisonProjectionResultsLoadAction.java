@@ -52,23 +52,24 @@ public class GtnReportComparisonProjectionResultsLoadAction
 			for (GtnReportComparisonProjectionBean comparisonBean : e) {
 				GtnWsRecordBean recordBean = new GtnWsRecordBean();
 				recordBean.setRecordHeader(Arrays.asList("projectionName", "description", "marketType",
-						"contractHolder", "contract", "brand"));
+						"contractHolder", "contract", "brand" , "createdDate" , "createdBy"));
 				recordBean.addProperties(comparisonBean.getProjectionName());
 				recordBean.addProperties(comparisonBean.getProjectionDescription());
 				recordBean.addProperties(comparisonBean.getMarketType());
 				recordBean.addProperties(comparisonBean.getContractHolder());
 				recordBean.addProperties(comparisonBean.getContract());
 				recordBean.addProperties(comparisonBean.getBrand());
+				recordBean.addProperties(comparisonBean.getCreatedDate());
+				recordBean.addProperties(comparisonBean.getUserId());
+				recordBean.addProperties(comparisonBean.getCreatedBy());
 				recordBean.addProperties(comparisonBean.getItemNo());
 				recordBean.addProperties(comparisonBean.getItemName());
 				recordBean.addProperties(comparisonBean.getProjectionMasterSid());
-				recordBean.addProperties(comparisonBean.getCreatedDate());
-				recordBean.addProperties(comparisonBean.getCreatedBy());
 				recordBean.addAdditionalProperty(comparisonBean.getProjectionType());
 				recordBeanList.add(recordBean);
 			}
 		});
-
+			
 		grid.setItems(recordBeanList);
 	}
 

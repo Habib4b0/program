@@ -157,10 +157,16 @@ public class NMSalesProjection extends ForecastSalesProjection {
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             super.setProjectionSelection(false);
         }
+        nmFrequencyDdlb.setValue(session.getDsFrequency());
         generateBtnLogic(null);
         configureGroupDDLB();
         super.configureGraph();
         securityForButton();
+    }
+    
+    public void setFrequency(SessionDTO session)
+    {
+        nmFrequencyDdlb.setValue(session.getDsFrequency());
     }
 
     @Override
@@ -520,6 +526,10 @@ public class NMSalesProjection extends ForecastSalesProjection {
     @Override
     public void generateBtnLogic(Button.ClickEvent event) {
         try {
+            boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionDTO.getCustomerLevelFilter())
+                    && generateCustomerToBeLoaded.size() == projectionDTO.getCustomerLevelFilter().size());
+            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionDTO.getProductLevelFilter())
+                    && generateProductToBeLoaded.size() == projectionDTO.getProductLevelFilter().size());
             projectionDTO.setCustomerLevelFilter(generateCustomerToBeLoaded);
             projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
              loadAllFilters();
@@ -540,20 +550,19 @@ public class NMSalesProjection extends ForecastSalesProjection {
                         CommonUtil.getInstance().waitForSeconds();
                     }
                     if (uomValueChange) {
-                        session.setFunctionMode("UOM");
                         session.setUomCode(unitOfMeasureDdlb.getValue() == null ? "EACH" : String.valueOf(unitOfMeasureDdlb.getValue()));
                         dataLogic.nmSalesViewsPopulationProcedureUOM(session);
                         uomValueChange = false;
-                        session.setFunctionMode("");
-                        session.setUomCode("");
                     }
-                    if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty())) {
+                    if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
                         LOGGER.info("generateBtn :Inside Filter Option");
                         session.setFunctionMode("F");
                         CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
                         CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
                         dataLogic.nmSalesViewsPopulationProcedureWithoutTruncation(session);
                         CommonUtil.getInstance().waitForSeconds();
+                        customerFlag = true; 
+                        productFlag = true; 
                     }
                     projectionDTO.setGroup(StringUtils.EMPTY);
                    
@@ -691,6 +700,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT, 0));
 
         nmSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
+        session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
     }
 
     public void loadAllFilters() {
@@ -891,7 +901,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     private void loadProductLevel() {
 
         int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.parseInt(session.getProductLevelNumber()) : 0;
-        currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid());
+        currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid(), session.getProductRelationVersion());
         Utility.loadDdlbForLevelFilterOption(productlevelDdlb, currentHierarchy, NAME);
         productlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -929,7 +939,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     private void loadCustomerLevel() {
         int hierarchyNo = isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
-        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo, session.getCustRelationshipBuilderSid());
+        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo, session.getCustRelationshipBuilderSid(), session.getCustomerRelationVersion());
         Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, NAME);
 
         customerlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {

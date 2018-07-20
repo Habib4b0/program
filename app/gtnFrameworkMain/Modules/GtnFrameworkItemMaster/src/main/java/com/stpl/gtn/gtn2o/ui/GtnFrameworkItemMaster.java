@@ -22,13 +22,11 @@ import org.osgi.service.component.annotations.ServiceScope;
         "javax.portlet.display-name=Item Master",
         "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class GtnFrameworkItemMaster extends UI {
-
 	private static final long serialVersionUID = 1L;
-
-	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkItemMaster.class);
 
 	@Override
 	protected void init(VaadinRequest request) {
+		GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkItemMaster.class);
 		gtnLogger.info("In Item Master UI");
 		addStyleName(GtnFrameworkCssConstants.BOOTSTRAP);
 		addStyleName(GtnFrameworkCssConstants.BOOTSTRAP_BB);

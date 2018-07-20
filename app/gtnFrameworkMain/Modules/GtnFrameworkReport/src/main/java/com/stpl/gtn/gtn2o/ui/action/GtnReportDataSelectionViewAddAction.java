@@ -58,9 +58,9 @@ public class GtnReportDataSelectionViewAddAction
 			
 		} else {
 			gtnUIFrameAlertWorkActionConfig.addActionParameter("Duplicate View Name");
-			gtnUIFrameAlertWorkActionConfig.addActionParameter("The" + reportDataSelectionBean.getViewType()
-					+ "View name you have attempted to save is a duplicate of an existing view name."
-					+ "Please enter a different view name");
+			gtnUIFrameAlertWorkActionConfig.addActionParameter("The " + reportDataSelectionBean.getViewType().substring(0, 1).toLowerCase()+reportDataSelectionBean.getViewType().substring(1)
+					+ " view name you have attempted to save is a duplicate of an existing view name."
+					+ " Please enter a different view name.");
 		}
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameAlertWorkActionConfig);
 	}

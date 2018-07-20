@@ -10,7 +10,6 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.resetDdlb;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.model.CustomViewDetails;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
@@ -38,9 +37,9 @@ public class Utility {
 
     public static void loadHierarchyList(final SessionDTO session) {
         int producthierarchyLevelNo = CommonUtils.isInteger(session.getProductLevelNumber()) ? Integer.parseInt(session.getProductLevelNumber()) : 0;
-        session.setProductHierarchyList(CommonLogic.getProductHierarchy(session.getProjectionId(), producthierarchyLevelNo, session.getProdRelationshipBuilderSid()));
+        session.setProductHierarchyList(CommonLogic.getProductHierarchy(session.getProjectionId(), producthierarchyLevelNo, session.getProdRelationshipBuilderSid(), session.getProductRelationVersion()));
         int customerhierarchyLevelNo = CommonUtils.isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
-        session.setCustomerHierarchyList(CommonLogic.getCustomerHierarchy(session.getProjectionId(), customerhierarchyLevelNo, session.getCustRelationshipBuilderSid()));
+        session.setCustomerHierarchyList(CommonLogic.getCustomerHierarchy(session.getProjectionId(), customerhierarchyLevelNo, session.getCustRelationshipBuilderSid(), session.getCustomerRelationVersion()));
     }
 
     //Used to just load the level 

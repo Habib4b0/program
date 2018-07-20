@@ -107,6 +107,7 @@ public class DataSelection extends ForecastDataSelection {
 	private final DataSelectionForm dataSelectionForm;
 	private boolean updateOnTabChange = false;
 	private boolean customChange = false;   
+	private boolean dedCustomChange = false;   
 	private boolean reloadAfterUpdate = false;
 	private boolean valid = true;
 	private LazyContainer discountDdlbLazyContainer;
@@ -422,7 +423,7 @@ public class DataSelection extends ForecastDataSelection {
 							@Override
 							/**
 							 * The method is triggered when Yes button of
-							 * themessage box is pressed .
+							 * the message box is pressed .
 							 *
 							 *
 							 * @param buttonId
@@ -444,6 +445,13 @@ public class DataSelection extends ForecastDataSelection {
 				}
 			}
 		});
+                frequency.addValueChangeListener(new Property.ValueChangeListener() {
+                    
+			@Override
+			public void valueChange(final Property.ValueChangeEvent event) {
+                             setUpdateOnTabChange(true);
+                        }		
+		});
                 
                 customRelationDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 
@@ -455,11 +463,10 @@ public class DataSelection extends ForecastDataSelection {
                                 setCustomChange(true);
 				setUpdateOnTabChange(false);
                                 customDdlb();
-			}
-                        else{
+			}else{
                         dataSelectionDTO.setCustomRelationShipSid(0);
-                        setUpdateOnTabChange(true);
-                        setCustomChange(true);
+                        setUpdateOnTabChange(false);
+                        setCustomChange(false);
                    }
                         }
 		});
@@ -472,12 +479,13 @@ public class DataSelection extends ForecastDataSelection {
                             dataSelectionDTO.setCustomDeductionRelationShipSid(custDeductionRelationValue);
                             setUpdateOnTabChange(false);
                             setCustomChange(true);
+                            setDedCustomChange(true);
                             customDdlb();
-			}
-                            else{
+			}else{
                                 dataSelectionDTO.setCustomDeductionRelationShipSid(0);
                                 setUpdateOnTabChange(false);
                                 setCustomChange(true);
+                                setDedCustomChange(false);
                             }
                         }
 
@@ -529,7 +537,10 @@ public class DataSelection extends ForecastDataSelection {
 			setCustomerLevelNullSelection();
 		}
 	}
-
+      public void setFrequency(SessionDTO session)
+    {
+        frequency.setValue(session.getDsFrequency());
+}
 	private void productLevelValueChange(Property.ValueChangeEvent event) {
 		productInnerLevelContainer.removeAllItems();
 		if (event.getProperty().getValue() != null
@@ -1226,7 +1237,14 @@ public class DataSelection extends ForecastDataSelection {
     public void setCustomChange(boolean customChange) {
         this.customChange = customChange;
     }
-    
+
+    public boolean isDedCustomChange() {
+        return dedCustomChange;
+    }
+
+    public void setDedCustomChange(boolean dedCustomChange) {
+        this.dedCustomChange = dedCustomChange;
+    }
 
 	public void updateBasicsProjectionMaster() throws PortalException, SystemException {
 		NonMandatedLogic logic = new NonMandatedLogic();
@@ -1249,6 +1267,8 @@ public class DataSelection extends ForecastDataSelection {
 		session.setProductRelationVersion(selectionDTO.getProductRelationShipVersionNo());
                 session.setCustomRelationShipSid(selectionDTO.getCustomRelationShipSid());
                 session.setCustomDeductionRelationShipSid(selectionDTO.getCustomDeductionRelationShipSid());
+                session.setDsFrequency(String.valueOf(frequency.getValue()));
+                session.setDataSelectionDeductionLevel(selectedDataSelectionDeductionLevel);
 		selectionDTO.setProjectionId(session.getProjectionId());
 		selectionDTO.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 		selectionDTO.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
@@ -4392,6 +4412,9 @@ public class DataSelection extends ForecastDataSelection {
 	public String getProjectionName() {
 		return projectionName.getValue();
 	}
+        public String getProjectionDescription() {
+		return description.getValue();
+	}
 
 	public void updateDataSelectionSelectedProducts() {
 		LOGGER.debug("updateDataSelectionSelectedProducts starts");
@@ -4568,4 +4591,4 @@ public class DataSelection extends ForecastDataSelection {
 
         }
         
-}
+    }

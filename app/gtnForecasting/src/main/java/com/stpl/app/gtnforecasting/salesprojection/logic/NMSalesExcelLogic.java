@@ -105,8 +105,8 @@ public class NMSalesExcelLogic {
                 resultMap.put(hierKeyValue.toString(), salesRowDto);
                 hierarchykeys(hierKeyValue.toString());
             }
+            }
         }
-    }
 
     private void setActualsProjectionValues(SalesRowDto salesRowDto, Character freq, Object[] obj, ProjectionSelectionDTO projectionSelectionDTO, List historyColumn, Map<String, List> hierarchyLevelDetails, String hierarchyIndicator) {
         try {

@@ -47,6 +47,7 @@ public class GtnReportDashboardFrequencyLoadAction
 					.getIntegerFromV8ComboBox();
 
 			String endString = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_STATUS", componentId)
+
 					.getStringCaptionFromV8ComboBox().replaceAll(" - ", " ");
 			endString = endString.replaceAll("-", " ");
 			String startString = GtnUIFrameworkGlobalUI
@@ -72,13 +73,17 @@ public class GtnReportDashboardFrequencyLoadAction
 
 			GtnUIFrameworkBaseComponent componentFrom = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId);
-			componentFrom.addAllItemsToComboBox(dataNew, periodSidData);
-			componentFrom.loadV8ComboBoxComponentValue("0");
+			if (componentFrom.getComponent() != null) {
+				componentFrom.addAllItemsToComboBox(dataNew, periodSidData);
+				componentFrom.loadV8ComboBoxComponentValue("0");
+			}
 
 			GtnUIFrameworkBaseComponent componentTo = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeTo", componentId);
-			componentTo.addAllItemsToComboBox(dataNew, periodSidData);
-			componentTo.loadV8ComboBoxComponentValue("0");
+			if (componentTo.getComponent() != null) {
+				componentTo.addAllItemsToComboBox(dataNew, periodSidData);
+				componentTo.loadV8ComboBoxComponentValue("0");
+			}
 
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
@@ -162,7 +167,6 @@ public class GtnReportDashboardFrequencyLoadAction
 
 	private String getFrequency(String startString) {
 		Pattern semiAnnualPattern = Pattern.compile("^([S])([1-2])*");
-
 		if (Pattern.matches("[A-Z&&[Q]]{1}..\\d*", startString)) {
 			return "Quarter";
 		} else if (semiAnnualPattern.matcher(startString).find()) {
