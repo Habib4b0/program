@@ -254,7 +254,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
             setVariableBreakdownFromView(gridComponent, grid, reportProfileSubmitBeanList,
 					variableBreakdownReportProfileBean);
         }
-        if (Optional.ofNullable(variableBreakdownLookupCustomData.getComponentData().getCustomData()).isPresent()) {
+        if (variableBreakdownLookupCustomData.getComponent()!=null&&variableBreakdownLookupCustomData.getComponentData()!=null&&variableBreakdownLookupCustomData.getComponentData().getCustomData()!=null) {
             List<GtnReportVariableBreakdownLookupBean> variableBreakdownReportProfileBean = (List<GtnReportVariableBreakdownLookupBean>) variableBreakdownLookupCustomData.getComponentData().getCustomData();
             setVariableBreakdownFromView(gridComponent, grid, reportProfileSubmitBeanList,
 					variableBreakdownReportProfileBean);
@@ -321,7 +321,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
 		if (frequency.startsWith("Ann")) {
 
 			currentDate = currentYear + "year";
-		} else if (frequency.startsWith("Qua")) {
+		} else if (frequency.startsWith("Qua")||frequency.startsWith("-Sel")) {
 
 			Map<String, String> monthToQuarter = new HashMap<>();
 			monthToQuarter.put("01", "1");
