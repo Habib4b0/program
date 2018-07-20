@@ -336,8 +336,8 @@
 			MODIFIED_BY,
 			MODIFIED_DATE
 		) select
-			SBD.SALES_BASIS_DETAILS_SID,
-			SBD.NET_SALES_FORMULA_MASTER_SID,
+			0,
+			0,
 			SBD.CONTRACT_MASTER_SID,
 			CM.CONTRACT_NO,
 			CM.CONTRACT_NAME,
@@ -413,8 +413,8 @@
 			RS_CONTRACT_SID,
                         INDICATOR_STRING
 		) select
-			DD.DEDUCTION_DETAILS_SID,
-                        DD.NET_SALES_FORMULA_MASTER_SID,
+			0,
+                        0,
 			DD.CONTRACT_MASTER_SID,
 			CM.CONTRACT_NO,
 			CM.CONTRACT_NAME,
@@ -616,6 +616,15 @@ SELECT DEDUCTION_DETAILS_SID from IMTD_DEDUCTION_DETAILS where  NET_SALES_FORMUL
             @NET_SALES_FORMULA_MASTER_SID INT =?
             delete FROM dbo.IMTD_DEDUCTION_DETAILS WHERE USERS_SID= @USERS_ID AND SESSION_ID=@SESSION_ID AND DEDUCTION_DETAILS_SID not in (select deduction_details_sid from dbo. DEDUCTION_DETAILS where NET_SALES_FORMULA_MASTER_SID = @NET_SALES_FORMULA_MASTER_SID) ;
         ]]>
+		</query>
+	</entity>
+        
+        	<entity id="getSalesNSFItemsCheckAllQuery">
+		<query> 
+            <![CDATA[  
+            UPDATE IMTD_SALES_BASIS_DETAILS SET CHECK_RECORD = ? WHERE USERS_SID = ?  AND SESSION_ID = ?    
+           
+ ]]>
 		</query>
 	</entity>
 

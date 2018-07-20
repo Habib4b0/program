@@ -254,6 +254,26 @@ public class GtnWsNetSalesFormulaAddController {
 			LOGGER.info("Exit deleteIfp and delete the ifp ");
 		}
 	}
+        
+        @PostMapping(value = GtnWsCDRContants.GTN_WS_SALES_NSF_CHECK_ALL_SERVICE)
+	public GtnUIFrameworkWebserviceResponse checkAllForSales(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		LOGGER.info("Enter sales checkAll");
+		GtnUIFrameworkWebserviceResponse salesgtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			salesgtnResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+
+			int checkSuccessforSales = gtnWsNsfService.checkAllItemsForSales(gtnWsRequest);
+			salesgtnResponse.getGtnWsGeneralResponse().setSucess(checkSuccessforSales > 0);
+			return salesgtnResponse;
+		} catch (GtnFrameworkGeneralException ex) {
+			salesgtnResponse.getGtnWsGeneralResponse().setSucess(false);
+			LOGGER.error("Exception while Excuting Sales Query", ex);
+			salesgtnResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			return salesgtnResponse;
+		} finally {
+			LOGGER.info("Exit checkAllForSales");
+		}
+	}
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/" + GtnWsNsfUriConstants.NS_SAVE_UNIQUE_VALIDATION, method = RequestMethod.POST)
