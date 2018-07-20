@@ -347,4 +347,9 @@ public class FcpQueryUtils {
 
         return priceType;
     }
+    
+    public void updateBeforeAdjustment(String queryName, SessionDTO sessionDTO) throws PortalException, SystemException {
+        String customSql = SQlUtil.getQuery(getClass(),queryName);
+        DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, sessionDTO.getCurrentTableNames()));
+    }
 }

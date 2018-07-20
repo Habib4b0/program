@@ -273,6 +273,7 @@ public class GtnFrameworkReportCustHierarchyConfig {
 						true, customerSelectionForecastEligibilityDateLayout.getComponentId(),
 						GtnUIFrameworkComponentType.DATEFIELDVAADIN8);
 		customerSelectionForecastEligibilityDate.setComponentName("Forecast Eligibility Date: ");
+		customerSelectionForecastEligibilityDate.addComponentStyle("datefieldcentered");
 
 		componentList.add(customerSelectionHierarchyLayout);
 		componentList.add(customerSelectionHierarchy);
