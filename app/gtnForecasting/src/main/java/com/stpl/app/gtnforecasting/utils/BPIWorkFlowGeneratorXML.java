@@ -225,7 +225,6 @@ public class BPIWorkFlowGeneratorXML {
             Document doc = db.parse(file);
             doc.getDocumentElement().normalize();
             
-            //NodeList nodeLstTop = doc.getElementsByTagName("BPIWorkflowID");
             NodeList nodeLstTop = doc.getElementsByTagName("gtnWsBPIGeneratorIDs");
             for (int s1 = 0; s1 < nodeLstTop.getLength(); s1++) {
                 

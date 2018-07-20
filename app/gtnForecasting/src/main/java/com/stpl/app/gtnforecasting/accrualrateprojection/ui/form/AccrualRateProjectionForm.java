@@ -64,7 +64,6 @@ import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.vaadin.server.Page;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.Notification;
@@ -743,12 +742,10 @@ public class AccrualRateProjectionForm extends AbstractForm {
             String workflowStatus = logic.getWorkflowStatus(session.getProjectionId(), screenName);
             if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
                 List<String> roleList = new ArrayList<>();
-                User userModel = UserLocalServiceUtil.getUser(Long.parseLong(session.getUserId()));
-                GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(session,session.getUserId());
-                workflowFlag=response.isHasPermission();
+                workflowFlag=DSCalculationLogic.startWorkflow(session,session.getUserId()).isHasPermission();
                 if (workflowFlag) {
                     saveLogic(false);
-                    //logic.deleteTempBySession();
+                    logic.deleteTempBySession();
                     try {
                         GtnWsCommonWorkflowResponse workflowResponse=DSCalculationLogic.startAndCompleteTask(session, session.getUserId());
                         session.setProcessId(workflowResponse.getProcessInstanceId());
@@ -756,10 +753,9 @@ public class AccrualRateProjectionForm extends AbstractForm {
                         LOGGER.error(e.getMessage());
                     }
                     String workflowId = submitProjToWorkflow(params, notes, screenName, getUploadedData);
-                    logic.deleteTempBySession();
                     showSubmitNotification(workflowId);
                 } else {
-                    StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
+                    StringBuilder notiMsg = new StringBuilder("You dont have permission to submit a projection.");
                     if (!roleList.isEmpty()) {
                         notiMsg.append("\n Only " ).append( roleList ).append( " can submit a projection.");
                     }
@@ -780,18 +776,13 @@ public class AccrualRateProjectionForm extends AbstractForm {
     private String submitProjToWorkflow(Map<String, Object> params, final String notes, final String screenName, final List<NotesDTO> getUploadedData) {
         String workflowId = "Not Saved";
         try {
-            //Modification from here
             Long processId = 0L;
             List processList = WorkflowPersistance.selectWFInstanceInfo(session.getProjectionId());
             if (processList != null && !(processList.isEmpty())) {
                 processId = Long.valueOf(processList.get(0).toString());
             }
-            
-            
-            //till here   
             VarianceCalculationLogic.submitWorkflow( session.getProcessId(),session,screenName);
             String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId,"NoOfUsers");
-            //String noOfUsers = "";
             if (!noOfUsers.isEmpty()) {
                 workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
             }

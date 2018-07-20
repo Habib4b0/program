@@ -92,7 +92,6 @@ import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
@@ -4223,8 +4222,6 @@ public class DataSelectionForm extends ForecastDataSelection {
                                     loadCustomViewDropDown(customRelationDdlb,customViewInput);
                                     loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);  
                                 }
-//                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
-//                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
 			} catch (NumberFormatException ex) {
 				
 				LOGGER.error(" in customerRelation value change= {}",ex);
@@ -4280,8 +4277,6 @@ public class DataSelectionForm extends ForecastDataSelection {
                                     loadCustomViewDropDown(customRelationDdlb,customViewInput);
                                     loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
                                 }
-//                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
-//                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
 
 			} catch (NumberFormatException ex) {
 				LOGGER.error(" in productRelation value change= {}",ex);

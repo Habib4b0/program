@@ -1795,8 +1795,6 @@ public class DataSelection extends ForecastDataSelection {
 			if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
 				{
 					dedLevel = getDedutionLevel();
-//					dedValue = deductionValue.getValue() == null ? StringUtils.EMPTY
-//							: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
                                         dedValue=String.valueOf(deductionValue.getValue());
 				}
 			}
@@ -1956,7 +1954,7 @@ public class DataSelection extends ForecastDataSelection {
 				loadProductVersionNo(productRelation.getValue());
                                 customViewInput.put("prodVer", productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
                                 customViewInput.put("prodSid", String.valueOf(productRelation.getValue()));
-                                //No custom relationship in ARP
+
                                 if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
                                     loadCustomViewDropDown(customRelationDdlb,customViewInput);
                                     loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
