@@ -3179,7 +3179,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				 if (isRelationShipIsUpdated) {
 					AbstractNotificationUtils.getInfoNotification("Info",
 							"Relationship used in this projection is updated");
-				 }
+				}
 				final SessionDTO tempSession = SessionUtil.createSession();
 				tempSession.setScreenName(scrName);
                                 tempSession.setFunctionMode("E");
@@ -3227,10 +3227,10 @@ public class DataSelectionForm extends ForecastDataSelection {
 					} else {
 						HelperListUtil helperUtil = HelperListUtil.getInstance();
 						String dedLevel = getDedutionLevel(dto.getDeductionLevel());
-						String deductionValue = String
+						String dedValue = String
 								.valueOf(helperUtil.getIdByDescription(dto.getDeductionValue(), dedLevel));
 						relationLogic.ccpHierarchyInsertARP(tempSession.getCurrentTableNames(), customerItemIds,
-								productItemIds, dto, dedLevel, deductionValue);
+								productItemIds, dto, dedLevel, dedValue);
 					}
 				}
 				tempSession.setProjectionId(projectionIdValue);
@@ -4830,15 +4830,10 @@ public class DataSelectionForm extends ForecastDataSelection {
                                 
                                 HelperListUtil helperUtil = HelperListUtil.getInstance();
 				String dedLevel = getDedutionLevel(dataSelectionDTO.getDeductionLevel());
-				String deductionValue1 = String.valueOf(helperUtil.getIdByDescription(dataSelectionDTO.getDeductionValue(), dedLevel));
+				String dedValue = String.valueOf(helperUtil.getIdByDescription(dataSelectionDTO.getDeductionValue(), dedLevel));
 				relationLogic.ccpHierarchyInsertARP(session.getCurrentTableNames(), selectedCustomerContainer.getItemIds(),
-								selectedProductContainer.getItemIds(), dataSelectionDTO, dedLevel, deductionValue1);
-                                                
-//                                relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(),
-//								selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(),
-//								dataSelectionDTO);
-                                //DataSelectionLogic dsLogic = new DataSelectionLogic();
-                               // dsLogic.ccpInsertForARP(session.getCurrentTableNames(), dataSelectionDTO, selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(), topLevelName, Boolean.FALSE, Boolean.TRUE);
+								selectedProductContainer.getItemIds(), dataSelectionDTO, dedLevel, dedValue);
+                                
 				session.setProjectionId(projectionIdValue);
 				session.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 				session.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
