@@ -38,7 +38,7 @@ public class GtnFrameworkCalendarCurdCommonValidationAction implements GtnUIFram
 		GtnWsCalendarConfigurationRequest calendarConfigurationRequest = new GtnWsCalendarConfigurationRequest();
 		String calendarNameValidate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(param.get(0)).getStringFromField();
 		String calendarDescValidate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(param.get(1)).getStringFromField();
-		List<Date> holidayListValidate = (List<Date>) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(param.get(2)).getObjectFromField();
+		List<Date> holidayListValidate = (List<Date>) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(param.get(2)).getV8CalenderValue();
 		int countryCodeValidate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(param.get(3)).getIntegerFromField();
 		String countryValidate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(param.get(3)).getCaptionFromComboBox();
 		int calendarYearValidate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(param.get(4)).getIntegerFromField();

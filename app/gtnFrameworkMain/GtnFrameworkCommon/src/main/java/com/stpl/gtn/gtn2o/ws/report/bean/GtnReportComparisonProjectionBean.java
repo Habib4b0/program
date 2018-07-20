@@ -18,6 +18,7 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 	private Date createdDate;
 	private int createdBy;
 	private String projectionType;
+	private String userId;
 
 	public String getProjectionName() {
 		return projectionName;
@@ -114,6 +115,14 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 	public void setProjectionType(String projectionType) {
 		this.projectionType = projectionType;
 	}
+	
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
 	@Override
 	public int hashCode() {
@@ -130,6 +139,7 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 		result = PRIME * result + ((projectionDescription == null) ? 0 : projectionDescription.hashCode());
 		result = PRIME * result + projectionMasterSid;
 		result = PRIME * result + ((projectionName == null) ? 0 : projectionName.hashCode());
+		result = PRIME * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
 
@@ -190,6 +200,11 @@ public class GtnReportComparisonProjectionBean implements Comparator<GtnReportCo
 			if (other.projectionName != null)
 				return false;
 		} else if (!projectionName.equals(other.projectionName))
+			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
 			return false;
 		return true;
 	}
