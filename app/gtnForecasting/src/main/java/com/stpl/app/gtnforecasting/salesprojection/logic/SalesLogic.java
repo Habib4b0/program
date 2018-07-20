@@ -2254,37 +2254,19 @@ public class SalesLogic {
                     updateLine.append(" PRODUCT_GROWTH='").append(value).append("' ");
                     break;
                 case PROJECTED_SALES:
-                    if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
-                        finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
-                        updateLine.append(" PROJECTION_SALES = PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue).append(')');
-                        updateLine.append(" ,PROJECTION_UNITS = (PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue).append(')').append(')')
-                                  .append(WAC_PRICE);
-                    } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
                         updateLine.append(" PROJECTION_SALES=").append(finalvalue).append("");
-                        updateLine.append(" ,PROJECTION_UNITS= ").append(finalvalue).append("")
+                        updateLine.append(" ,PROJECTION_UNITS= ").append(finalvalue).append(" /")
                                   .append(WAC_PRICE);
-                    }
                     break;
                 case Constant.PROJECTED_UNITS1:
-                    if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
-                        finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
-                        if (CommonUtil.isValueEligibleForLoading()) {
-                            updateLine.append(" PROJECTION_UNITS= (PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue).append("))/COALESCE(NULLIF(UOM_VALUE,0),1) ");
-                            updateLine.append(" ,PROJECTION_SALES= ((PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue).append("))/COALESCE(NULLIF(UOM_VALUE,0),1)) * ").append(WAC_PRICE);
-                        } else {
-                            updateLine.append(" PROJECTION_UNITS= PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue).append(')');
-                        }
-                    } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
                         if (CommonUtil.isValueEligibleForLoading()) {
-                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue).append("/COALESCE(NULLIF(UOM_VALUE,0),1) ").append(' ');
-                            updateLine.append(" ,PROJECTION_SALES=").append('(').append(finalvalue).append("/COALESCE(NULLIF(UOM_VALUE,0),1)) * ").append(WAC_PRICE);
+                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue).append(' ');
+                            updateLine.append(" ,PROJECTION_SALES=").append('(').append(finalvalue).append(") * ").append(WAC_PRICE);
                         } else {
                             updateLine.append(" PROJECTION_UNITS=").append(finalvalue).append(' ');
                         }
-
-                    }
                     break;
                 default:
                     break;

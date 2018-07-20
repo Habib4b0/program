@@ -528,4 +528,17 @@ public class GtnWsNsfService {
 		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, types);
 
 	}
+        
+        	public int checkAllItemsForSales(GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+
+		String salesquery = gtnWsSqlService.getQuery("getSalesNSFItemsCheckAllQuery");
+		boolean isCheckAllSales = (boolean) gtnWsRequest.getGtnWsNetSalesGeneralRequest().getnSfInfoBean().getValue();
+
+		Object[] salesparams = { isCheckAllSales ? "1" : "0", gtnWsRequest.getGtnWsGeneralRequest().getUserId(),
+				gtnWsRequest.getGtnWsGeneralRequest().getSessionId() };
+		GtnFrameworkDataType[] types = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING };
+		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(salesquery, salesparams, types);
+
+	}
 }
