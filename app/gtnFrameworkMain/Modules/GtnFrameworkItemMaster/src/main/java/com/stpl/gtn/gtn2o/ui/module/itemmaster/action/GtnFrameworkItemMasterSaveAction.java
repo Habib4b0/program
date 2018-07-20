@@ -17,11 +17,14 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterStringContants;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.util.GtnFrameworkItemMasterArmUdc1Utility;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnWsNumericConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.itemmaster.bean.GtnWsItemIdentifierBean;
@@ -56,7 +59,6 @@ public class GtnFrameworkItemMasterSaveAction
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-
 	}
 
 	private void cpDetailsInsert(int itemMasterSid) {
@@ -110,6 +112,7 @@ public class GtnFrameworkItemMasterSaveAction
 			throws GtnFrameworkGeneralException {
 		List<String> fields = (List<String>) gtnUIFrameWorkActionConfig.getActionParameterList().get(1);
 		List<String> beanFields = (List<String>) gtnUIFrameWorkActionConfig.getActionParameterList().get(2);
+
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsItemMasterBean cfpBean = setProperties(fields, beanFields);
 
@@ -126,7 +129,6 @@ public class GtnFrameworkItemMasterSaveAction
 				GtnWsItemMasterContants.GTN_WS_ITEM_MASTER_SERVICE
 						+ GtnWsItemMasterContants.GTN_WS_ITEM_MASTER_SAVE_SERVICE,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-
 	}
 
 	private GtnWsItemMasterBean setProperties(List<String> fields, List<String> beanFields)
@@ -181,7 +183,43 @@ public class GtnFrameworkItemMasterSaveAction
 
 		itemMasterBean.setGtnWsItemIdentifierBeanList(identifierSaveList);
 
+		checkARMUDC1(infoBean);
 		return itemMasterBean;
+	}
+
+	/*
+	 * It will check, if UDC1 type is ARM_UDC1 or not If it is ARM_UDC1, then
+	 * udc1 value will be taken from UDC1 checked combo box
+	 */
+	private void checkARMUDC1(GtnWsItemMasterInfoBean infoBean) {
+		String udc1Type = (String) GtnUIFrameworkGlobalUI.getSessionProperty("UDC1");
+		if (udc1Type != null && udc1Type.equalsIgnoreCase(GtnFrameworkItemMasterStringContants.ARM_UDC_1)) {
+			setARMUDC1Value(infoBean);
+			return;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void setARMUDC1Value(GtnWsItemMasterInfoBean infoBean) {
+		try {
+			List<String[]> selectedValue = (List<String[]>) GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBox").getValueFromComponent();
+
+			if (selectedValue != null && !selectedValue.isEmpty()) {
+				StringBuilder stringBuilder = new StringBuilder();
+				for (String[] stringArray : selectedValue) {
+					stringBuilder.append(stringArray[1]);
+					stringBuilder.append(GtnFrameworkItemMasterStringContants.COMMA);
+				}
+				stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(GtnFrameworkItemMasterStringContants.COMMA));
+				int componentId = GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemCode(stringBuilder.toString());
+				infoBean.setUdc1(componentId);
+				return;
+			}
+			infoBean.setUdc1(GtnWsNumericConstants.ZERO);
+		} catch (GtnFrameworkValidationFailedException e) {
+			logger.error("Error in GtnFrameworkItemMasterSaveAction --> getSelectedUdc1ItemCheckedComboBox", e);
+		}
 	}
 
 	private void setDefaultValues(GtnWsItemMasterInfoBean infoBean) throws GtnFrameworkValidationFailedException {
@@ -309,8 +347,8 @@ public class GtnFrameworkItemMasterSaveAction
 		loadIdentifierTab(reponseBean.getGtnWsItemIdentifierBeanList(), imIdentifierContainer);
 
 		ExtContainer<GtnWsRecordBean> imPricingContainer = (ExtContainer<GtnWsRecordBean>) GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("itemMasterPricingattachResultTable").getExtFilterTable()
-				.getContainerDataSource();
+				 .getVaadinBaseComponent("itemMasterPricingattachResultTable").getExtFilterTable()
+				 .getContainerDataSource();
 		imPricingContainer.removeAllItems();
 
 		loadPricingTab();
