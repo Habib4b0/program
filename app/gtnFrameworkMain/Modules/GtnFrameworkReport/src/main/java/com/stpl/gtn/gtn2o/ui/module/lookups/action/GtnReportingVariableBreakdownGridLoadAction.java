@@ -450,9 +450,13 @@ public class GtnReportingVariableBreakdownGridLoadAction
 
 			GtnUIFrameworkComponent component = COMBOBOX_VAADIN8.getGtnComponent();
 			AbstractComponent vaadinComponent = null;
+                        GtnUIFrameworkComboBoxConfig variableBreakdownValueLoadConfig = new GtnUIFrameworkComboBoxConfig();
+                        getComboBoxConfig(variableBreakdownLookupBean, variableBreakdownValueLoadConfig);
+                        base.getComponentConfig().setGtnComboboxConfig(variableBreakdownValueLoadConfig);
 			vaadinComponent = component.buildVaadinComponent(base.getComponentConfig());
 			GtnUIFrameworkComboBoxComponent gtnUIFrameworkComboBoxComponent = new GtnUIFrameworkComboBoxComponent();
 			gtnUIFrameworkComboBoxComponent.postCreateComponent(vaadinComponent, base.getComponentConfig());
+                        
 			ComboBox vaadinCombobox = (ComboBox) vaadinComponent;
 			vaadinCombobox.setId(
 					variableBreakdownLookupBean.getProperty() + String.valueOf(variableBreakdownLookupBean.getRowId()));
@@ -499,6 +503,16 @@ public class GtnReportingVariableBreakdownGridLoadAction
 		}
 		return null;
 	}
+
+    private void getComboBoxConfig(GtnReportVariableBreakdownLookupBean variableBreakdownLookupBean, GtnUIFrameworkComboBoxConfig variableBreakdownValueLoadConfig) {
+        if ("Ex-Factory Sales".equals(variableBreakdownLookupBean.getProjectionName())) {
+            variableBreakdownValueLoadConfig.setItemValues(Arrays.asList(1, 2));
+            variableBreakdownValueLoadConfig.setItemCaptionValues(Arrays.asList("Actuals", "Projections"));
+        }else{
+            variableBreakdownValueLoadConfig.setItemValues(Arrays.asList(1,2,3));
+            variableBreakdownValueLoadConfig.setItemCaptionValues(Arrays.asList("Actuals","Projections","P & L (Accruals)"));
+        }
+    }
 
 	private int getMasterSid(Label projectionNames, List<GtnReportComparisonProjectionBean> comparisonLookupBeanList) {
 		int masterSid = 0;
