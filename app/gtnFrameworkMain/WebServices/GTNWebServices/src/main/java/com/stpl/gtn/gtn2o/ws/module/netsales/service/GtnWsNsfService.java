@@ -531,14 +531,14 @@ public class GtnWsNsfService {
         
         	public int checkAllItemsForSales(GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
 
-		String query = gtnWsSqlService.getQuery("getSalesNSFItemsCheckAllQuery");
-		boolean isCheckAll = (boolean) gtnWsRequest.getGtnWsNetSalesGeneralRequest().getnSfInfoBean().getValue();
+		String salesquery = gtnWsSqlService.getQuery("getSalesNSFItemsCheckAllQuery");
+		boolean isCheckAllSales = (boolean) gtnWsRequest.getGtnWsNetSalesGeneralRequest().getnSfInfoBean().getValue();
 
-		Object[] params = { isCheckAll ? "1" : "0", gtnWsRequest.getGtnWsGeneralRequest().getUserId(),
+		Object[] salesparams = { isCheckAllSales ? "1" : "0", gtnWsRequest.getGtnWsGeneralRequest().getUserId(),
 				gtnWsRequest.getGtnWsGeneralRequest().getSessionId() };
 		GtnFrameworkDataType[] types = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
 				GtnFrameworkDataType.STRING };
-		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, types);
+		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(salesquery, salesparams, types);
 
 	}
 }

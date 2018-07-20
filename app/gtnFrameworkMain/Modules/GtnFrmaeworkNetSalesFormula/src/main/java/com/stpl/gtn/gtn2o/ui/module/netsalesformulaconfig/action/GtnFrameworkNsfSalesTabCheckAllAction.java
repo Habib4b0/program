@@ -69,12 +69,12 @@ public class GtnFrameworkNsfSalesTabCheckAllAction implements GtnUIFrameWorkActi
 	}
 
 	public void updateField(String componentId) {
-		GtnUIFrameworkWebserviceRequest updateCheckReocrdRequest = new GtnUIFrameworkWebserviceRequest();
-		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
+		GtnUIFrameworkWebserviceRequest updateCheckReocrdRequestForSales = new GtnUIFrameworkWebserviceRequest();
+		GtnWsGeneralRequest generalWSRequestForsales = new GtnWsGeneralRequest();
 
-		generalWSRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		generalWSRequest.setSessionId(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId").toString());
-		updateCheckReocrdRequest.setGtnWsGeneralRequest(generalWSRequest);
+		generalWSRequestForsales.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+		generalWSRequestForsales.setSessionId(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId").toString());
+		updateCheckReocrdRequestForSales.setGtnWsGeneralRequest(generalWSRequestForsales);
 
 		GtnUIFrameworkNsfInfoBean nsfBean = new GtnUIFrameworkNsfInfoBean();
 		nsfBean.setCheckAll(true);
@@ -82,14 +82,14 @@ public class GtnFrameworkNsfSalesTabCheckAllAction implements GtnUIFrameWorkActi
 
 		nsfBean.setValue(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
 				.getTableColumnCheckboxValue(GtnFrameworkCommonConstants.CHECK_RECORD_ID));
-		GtnWsNetSalesFormulaGeneralRequest gtnWsNsfRequest = new GtnWsNetSalesFormulaGeneralRequest();
-		gtnWsNsfRequest.setnSfInfoBean(nsfBean);
-		updateCheckReocrdRequest.setGtnWsNetSalesGeneralRequest(gtnWsNsfRequest);
-		updateCheckReocrdRequest.setGtnWsGeneralRequest(generalWSRequest);
+		GtnWsNetSalesFormulaGeneralRequest gtnWsNsfRequestForSales = new GtnWsNetSalesFormulaGeneralRequest();
+		gtnWsNsfRequestForSales.setnSfInfoBean(nsfBean);
+		updateCheckReocrdRequestForSales.setGtnWsNetSalesGeneralRequest(gtnWsNsfRequestForSales);
+		updateCheckReocrdRequestForSales.setGtnWsGeneralRequest(generalWSRequestForsales);
 
 		new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				"/" + GtnWsNsfUriConstants.NSF_SERVICE + GtnWsCDRContants.GTN_WS_SALES_NSF_CHECK_ALL_SERVICE,
-				updateCheckReocrdRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				updateCheckReocrdRequestForSales, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
 	}
 
