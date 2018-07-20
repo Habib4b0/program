@@ -409,7 +409,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             configure();
     }
         flag = true;
-
+    
         if (CommonUtil.isValueEligibleForLoading()) {
             CommonUtil commonUtils = CommonUtil.getInstance();
             projectionSelection.setSessionDTO(session);
@@ -452,6 +452,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             setDiscountViewOnly();
         }
     }
+    
+    public void setFrequency(SessionDTO session)
+    {
+        frequencyDdlb.setValue(session.getDsFrequency());
+}
 
     /**
      * To get the Tab number
@@ -5506,7 +5511,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         productFilterDdlb.addSubMenuCloseListener(productlistener);
     }
 
-    private void loadDeductionLevelFilter(String levelNo, boolean isResetNeeded) {
+     private void loadDeductionLevelFilter(String levelNo, boolean isResetNeeded) {
         List<Object[]> deductionLevelFilter = new ArrayList<>();
         if (isResetNeeded) {
             generateDiscountToBeLoaded.clear();

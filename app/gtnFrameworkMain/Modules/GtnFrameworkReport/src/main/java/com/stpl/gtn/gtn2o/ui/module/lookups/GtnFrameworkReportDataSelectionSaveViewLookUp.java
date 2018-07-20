@@ -113,7 +113,6 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 		saveViewAdd.setComponentName("ADD");
 		saveViewAdd.setParentComponentId(parentId);
 		saveViewAdd.setAddToParent(true);
-		componentList.add(saveViewAdd);
 		
 		GtnUIFrameWorkActionConfig addViewAction = new GtnUIFrameWorkActionConfig();
 		addViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -130,7 +129,7 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 		saveViewUpdate.setParentComponentId(parentId);
 		saveViewUpdate.setAddToParent(true);
 		saveViewUpdate.setEnable(false);
-		componentList.add(saveViewUpdate);
+		
 		
 		GtnUIFrameWorkActionConfig updateViewAction = new GtnUIFrameWorkActionConfig();
 		updateViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -143,7 +142,7 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 		GtnUIFrameworkComponentConfig saveViewCancel = new GtnUIFrameworkComponentConfig();
 		saveViewCancel.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		saveViewCancel.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "saveViewCancel");
-		saveViewCancel.setComponentName("CLOSE");
+		saveViewCancel.setComponentName("CANCEL");
 		saveViewCancel.setParentComponentId(parentId);
 		saveViewCancel.setAddToParent(true);
 		
@@ -153,6 +152,9 @@ public class GtnFrameworkReportDataSelectionSaveViewLookUp {
 		saveViewCancel.addGtnUIFrameWorkActionConfig(closePopupAction);
 
 		componentList.add(saveViewCancel);
+		componentList.add(saveViewAdd);
+		componentList.add(saveViewUpdate);
+
 
 	}
 	

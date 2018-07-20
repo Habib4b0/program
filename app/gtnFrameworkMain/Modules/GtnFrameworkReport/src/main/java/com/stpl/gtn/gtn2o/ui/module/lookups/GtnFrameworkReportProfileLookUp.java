@@ -90,7 +90,8 @@ public class GtnFrameworkReportProfileLookUp {
 		reportViewSearchCriteriaPanel.setComponentName("Report View Search");
 		reportViewSearchCriteriaPanel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
-		reportViewSearchCriteriaPanel.setMargin(true);
+		reportViewSearchCriteriaPanel.addComponentStyle("stpl-margin-left-10");
+		reportViewSearchCriteriaPanel.addComponentStyle("stpl-margin-top-11");
 		reportViewSearchCriteriaPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportViewSearchCriteriaPanel.setAddToParent(true);
 		componentList.add(reportViewSearchCriteriaPanel);
@@ -221,6 +222,8 @@ public class GtnFrameworkReportProfileLookUp {
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		reportProfileResultPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportProfileResultPanel.setAddToParent(true);
+		reportProfileResultPanel.addComponentStyle("stpl-margin-left-10");
+		reportProfileResultPanel.addComponentStyle("stpl-margin-top-11");
 		componentList.add(reportProfileResultPanel);
 		addReportProfilePagedTableComponent(componentList, namespace);
 	}
@@ -356,6 +359,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfileLoadReportingDashboardAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		reportProfileLoadReportingDashboardAction.addActionParameter(GtnReportingDashboardReportProfileLoadAction.class.getName());
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportProfileConfig");
+		
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_displaySelectionTabVariable");
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeFrom");
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeTo");
@@ -383,6 +387,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportingDashboardComparisonConfig");
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabVariableBreakdown");
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabComparisonOptions");
+		
 		actionConfigList.add(reportProfileLoadReportingDashboardAction);
 		
 		reportProfileSelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
