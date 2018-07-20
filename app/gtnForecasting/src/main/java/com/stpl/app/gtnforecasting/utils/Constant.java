@@ -674,7 +674,9 @@ public class Constant {
     public static final String SALES_SMALL = "Sales";
     public static final String UNITS_SMALL = "Units";
     public static final String PRODUCT_GROWTH = "Product Growth";
+    public static final String PRODUCT_GROWTH_SUM = "Product Growth Sum";
     public static final String ACCOUNT_GROWTH = "Account Growth";
+    public static final String ACCOUNT_GROWTH_SUM = "Account Growth Sum";
     public static final String PROJECTED_RETURN_PER = "Projected Return %";
     public static final String PROJECTED_RPU = "Projected RPU";
     public static final String PROJECTED_RETURN_AMT = "Projected Return Amount";
@@ -1574,7 +1576,9 @@ public class Constant {
     public static final String HISTORY_PROJECTED_RETURN = "-HistoryProjectedReturn%";
     public static final String HISTORY_GROWTH_RATE = "-HistoryGrowthRate";
     public static final String ACCOUNT_GROWTH_TILT = "-AccountGrowth";
+    public static final String ACCOUNT_GROWTH_TILT_SUM = "-AccountGrowthSum";
     public static final String ACCOUNT_GROWTH_1 = " Account Growth";
+    public static final String ACCOUNT_GROWTH_1_SUM = " Account Growth Sum";
     public static final String HISTORY_PROJECTED_UNITS1 = "-HistoryProjectedUnits";
     public static final String PRODUCT_GROWTH_SPACE = "  Product Growth";
     public static final String PROJECTED_SALES_SPACE = "  Projected Sales";
@@ -1592,6 +1596,7 @@ public class Constant {
     public static final String LOE_DATE = "loeDate";
     public static final String LEVEL_NAME_LABEL = "Level Name";
     public static final String PRODUCT_GROWTH_TILT = "-ProductGrowth";
+    public static final String PRODUCT_GROWTH_TILT_SUM = "-ProductGrowthSum";
     public static final String HISTORY_PROJECTED_SALES_DASH = "-HistoryProjectedSales";
     public static final String CLOSED_DATE = "closedDate";
     public static final String RELATIONSHIP_LEVEL_NAME1 = "relationshipLevelName";

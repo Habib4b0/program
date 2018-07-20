@@ -56,6 +56,7 @@ public class HeaderUtils {
      */
     private static final Object[] pmpyColumns = new Object[]{"actuals", "projections"};
     public static final String PRODUCT_GROWTH1 = " Product Growth";
+    public static final String PRODUCT_GROWTH1_SUM = " Product Growth Sum";
     public static final String PROJECTED_UNITS1 = " Projected Units";
     public static final String PROJECTED_SALES1 = "Projected Sales";
 
@@ -77,6 +78,11 @@ public class HeaderUtils {
     private static void columnConfigure(String visibleColumn, String excelheader, String columnHeader, CustomTableHeaderDTO tableHeaderDTO, CustomTableHeaderDTO excelHeader, List<Object> dmap) {
         dmap.add(visibleColumn);
         tableHeaderDTO.addSingleColumn(visibleColumn, columnHeader, String.class);
+        excelHeader.addSingleColumn(visibleColumn, excelheader, String.class);
+    }
+    //Added for sum column
+    private static void columnConfigureSum(String visibleColumn, String excelheader, CustomTableHeaderDTO excelHeader, List<Object> dmapsum) {
+        dmapsum.add(visibleColumn);
         excelHeader.addSingleColumn(visibleColumn, excelheader, String.class);
     }
     
@@ -193,6 +199,7 @@ public class HeaderUtils {
                 int tempYear, j = 0, k = 0;//Ends here
                 for (int i = 0; i < periodList.size(); i++) {
                     List<Object> dmap = new ArrayList<>();
+                    List<Object> dmapsum = new ArrayList<>();
                     String commonColumn = periodList.get(i);
                     String commonHeader = periodListMap.get(commonColumn);
 
@@ -329,12 +336,21 @@ public class HeaderUtils {
                                 columnConfigure(commonColumn + Constant.PRODUCT_GROWTH_TILT, commonHeader + PRODUCT_GROWTH1, Constant.PRODUCT_GROWTH, tableHeaderDTO, excelHeader, dmap);
                                 singleColumnForExcel.add(commonColumn + Constant.PRODUCT_GROWTH_TILT);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + PRODUCT_GROWTH1);//Ends here
+                                
+                                columnConfigureSum(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM, commonHeader + PRODUCT_GROWTH1_SUM, excelHeader, dmapsum);
+                                singleColumnForExcel.add(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM);//Added for tabwise excel export
+                                singleHeaderForExcel.add(commonHeader + PRODUCT_GROWTH1_SUM);//Ends here
                                 break;
                             case Constant.ACCOUNT_GROWTH:
                                 columnConfigure(commonColumn + Constant.ACCOUNT_GROWTH_TILT, commonHeader + Constant.ACCOUNT_GROWTH_1, Constant.ACCOUNT_GROWTH, tableHeaderDTO, excelHeader, dmap);
                                 singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1);//Ends here
+                                
+                                columnConfigureSum(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM, commonHeader + Constant.ACCOUNT_GROWTH_1_SUM, excelHeader, dmapsum);
+                                singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM);//Added for tabwise excel export
+                                singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1_SUM);//Ends here
                                 break;
+                                
                             default:
                                 break;
                         }
@@ -361,12 +377,22 @@ public class HeaderUtils {
                                 columnConfigure(commonColumn + Constant.PRODUCT_GROWTH_TILT, commonHeader + PRODUCT_GROWTH1, Constant.PRODUCT_GROWTH, tableHeaderDTO, excelHeader, dmap);
                                 singleColumnForExcel.add(commonColumn + Constant.PRODUCT_GROWTH_TILT);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + PRODUCT_GROWTH1);//Ends here
+                                
+                                columnConfigureSum(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM, commonHeader + PRODUCT_GROWTH1_SUM, excelHeader, dmapsum);
+                                singleColumnForExcel.add(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM);//Added for tabwise excel export
+                                singleHeaderForExcel.add(commonHeader + PRODUCT_GROWTH1_SUM);//Ends here
                                 break;
+                           
                             case Constant.ACCOUNT_GROWTH:
                                 columnConfigure(commonColumn + Constant.ACCOUNT_GROWTH_TILT, commonHeader + Constant.ACCOUNT_GROWTH_1, Constant.ACCOUNT_GROWTH, tableHeaderDTO, excelHeader, dmap);
                                 singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1);//Ends here
+                                
+                                columnConfigureSum(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM, commonHeader + Constant.ACCOUNT_GROWTH_1_SUM, excelHeader, dmapsum);
+                                singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM);//Added for tabwise excel export
+                                singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1_SUM);//Ends here
                                 break;
+                                
                             default:
                                 break;
                         }
@@ -378,12 +404,23 @@ public class HeaderUtils {
                 tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
                 tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
 
+//                excelHeader.addDoubleColumn(commonColumn, commonHeader);
+//                excelHeader.addDoubleHeaderMap(commonColumn, dmap.toArray());
+//                
+//                doubleColumnForExcel.add(commonColumn);//Added for tabwise excel export
+//                doubleHeaderForExcel.add(commonHeader);
+                doubleHeaderMap.put(commonColumn, dmap.toArray());//Ends here
+            }
+            
+            // Added for AG and PG SUM
+            if (!dmapsum.isEmpty()) {
+
                 excelHeader.addDoubleColumn(commonColumn, commonHeader);
                 excelHeader.addDoubleHeaderMap(commonColumn, dmap.toArray());
                 
                 doubleColumnForExcel.add(commonColumn);//Added for tabwise excel export
                 doubleHeaderForExcel.add(commonHeader);
-                doubleHeaderMap.put(commonColumn, dmap.toArray());//Ends here
+                doubleHeaderMap.put(commonColumn, dmapsum.toArray());//Ends here
             }
         }
         List<String> columnList=CommonUtils.objectListToStringList(tableHeaderDTO.getSingleColumns());
