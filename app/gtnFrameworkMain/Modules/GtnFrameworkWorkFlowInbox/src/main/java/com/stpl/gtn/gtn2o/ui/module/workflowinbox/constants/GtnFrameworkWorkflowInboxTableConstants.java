@@ -292,12 +292,13 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 	private static final Object[] GTN_WORKFLOW_INBOX_HISTORY_NOT_ARM_SEARCH_TABLE_COLUMNS = new Object[] {
 			GtnFrameworkWorkflowInboxClassConstants.STATUS, "modifiedDate", "modifiedBy", "notes", "attachmentLink" };
 
-	private static final String[] GTN_WORKFLOW_INBOX_CONTRACT_SEARCH_FIELDVALUES = new String[] { GtnFrameworkWorkflowInboxClassConstants.BUSINESS_PROCESS,
+	private static final String[] GTN_WORKFLOW_INBOX_CONTRACT_SEARCH_FIELDVALUES = new String[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME,
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOW_DESC, GtnFrameworkWorkflowInboxClassConstants.CREATEDFROM,
 			GtnFrameworkWorkflowInboxClassConstants.CREATEDTO, GtnFrameworkWorkflowInboxClassConstants.CREATEDBY,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM, GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY };
+	
 	
 	private static final String[] GTN_WORKFLOW_INBOX_FORECASTING_SEARCH_FIELDVALUES = new String[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME,
