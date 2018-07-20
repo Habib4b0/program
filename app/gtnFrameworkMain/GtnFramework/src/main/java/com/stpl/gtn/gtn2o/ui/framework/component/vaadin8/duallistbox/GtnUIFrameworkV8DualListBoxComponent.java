@@ -204,6 +204,7 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		dualListBoxButtonLayout.addComponent(dualListBoxBean.getMoveLeftBtn());
 		dualListBoxButtonLayout.addComponent(dualListBoxBean.getMoveAllRightBtn());
 		dualListBoxButtonLayout.setSpacing(true);
+		dualListBoxButtonLayout.setMargin(false);
 		dualListBoxButtonLayout.addStyleName("move-buttons");
 		dualListBoxLayout.addComponent(dualListBoxBean.getLeftTable());
 		dualListBoxLayout.addComponent(dualListBoxButtonLayout);

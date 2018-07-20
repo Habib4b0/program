@@ -171,7 +171,7 @@ public class GtnUIFrameworkContractHeaderStringContants {
 					"contractInformationTabMostFavoredNation", "contractInformationTabCategory",
 					"contractInformationTabCurrency", "contractInformationTabMinimumOrder",
 					"contractHeaderTabCompanyName", "contractHeaderTabTerm", "contractInformationTabPaymentTerms",
-					"contractInformationTabAdvanceNoticeDays"));
+					"contractInformationTabAdvanceNoticeDays","contractHeaderTabForecastEligibleDate"));
         private static final String[] EDIT_VIEW_BUTTONS = new String[] { "contractAliasInformationPanel", "identifierAttachButton",
 				"identifierRemoveButton", "contractHeaderAddResetButton" };
         private static final String[] DO_ACTION_MESAAGES = new String[] {
