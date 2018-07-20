@@ -26,6 +26,7 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import static java.util.Collections.EMPTY_LIST;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -602,9 +603,9 @@ public final class AccrualRateProjectionLogic {
                 StringBuilder procedureBuilder = new StringBuilder("{CALL ");
                 procedureBuilder.append(procedureName).append(args);
                 statement = connection.prepareCall(procedureBuilder.toString());
-                LOGGER.debug("Procedure Name= {} " , procedureName);
+                LOGGER.info("Procedure Name= {} " , procedureName);
                 for (int i = 0; i < parameters.length; i++) {
-                    LOGGER.debug("Parameter= {},  ----={}  " , (i + 1), parameters[i]);
+                    LOGGER.info("Parameter= {},  ----={}  " , (i + 1), parameters[i]);
                     statement.setObject(i + 1, parameters[i]);
                 }
                 statement.execute();
@@ -884,7 +885,8 @@ public final class AccrualRateProjectionLogic {
     }
 
     public static List<String> getSelectedCompanyList() {
-        return selectedCompanyList == null ? selectedCompanyList : Collections.unmodifiableList(selectedCompanyList);
+        //return selectedCompanyList == null ? selectedCompanyList : Collections.unmodifiableList(selectedCompanyList);
+        return selectedCompanyList == null ? Collections.EMPTY_LIST : selectedCompanyList;
     }
 
     public static void setSelectedCompanyList(List<String> selectedCompanyList) {
