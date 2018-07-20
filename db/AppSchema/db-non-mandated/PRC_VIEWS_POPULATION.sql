@@ -310,8 +310,19 @@ AS
                filter_ccp      int
             )
 
+			IF Object_id('TEMPDB..#Filter_CCPD') IS NOT NULL
+            DROP TABLE #Filter_CCPD
+
+          CREATE TABLE #Filter_CCPD
+            (
+               CCP_DETAILS_SID INT,
+			   RS_CONTRACT_SID INT,
+               filter_ccp      int
+            )
+
           DECLARE @customer_values VARCHAR(max)='',
-                  @product_values  VARCHAR(max)=''
+                  @product_values  VARCHAR(max)='',
+				  @DISCOUNT_VALUES VARCHAR(max)=''
 
           IF @FLAG = 'E'
              AND @SCREEN_NAME = 'SALES'
@@ -348,6 +359,65 @@ and exists (select 1 from udf_splitstring(@product_values,'','') p where cd.ITEM
 				   SET @sql=Concat('
 Insert into #Filter(CCP_DETAILS_SID,filter_ccp)
 select CCP_DETAILS_SID,1 as filter_ccp from ', @CCP_HIERARCHY, '')
+
+                EXEC Sp_executesql
+                  @sql
+
+				  end 
+            END
+
+ IF @FLAG = 'E'
+             AND @SCREEN_NAME = 'DISCOUNT'
+            BEGIN
+                SET @product_values=(SELECT FIELD_VALUES
+                                     FROM   nm_projection_selection
+                                     WHERE  PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                                            AND SCREEN_NAME = 'Discount Projection'
+                                            AND FIELD_NAME = 'productLevelValue'
+                                            AND FIELD_VALUES <> ''
+                                            AND FIELD_VALUES <> 'null')
+                SET @customer_values=(SELECT FIELD_VALUES
+                                      FROM   nm_projection_selection
+                                      WHERE  PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                                             AND SCREEN_NAME = 'Discount Projection'
+                                             AND FIELD_NAME = 'CustomerLevelValue'
+                                             AND FIELD_VALUES <> ''
+                                             AND FIELD_VALUES <> 'null')
+				SET @DISCOUNT_VALUES =(SELECT FIELD_VALUES
+                                      FROM   nm_projection_selection
+                                      WHERE  PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID
+                                             AND SCREEN_NAME = 'Discount Projection'
+                                             AND FIELD_NAME = 'DeductionLevelValue'
+                                             AND FIELD_VALUES <> ''
+                                             AND FIELD_VALUES <> 'null')
+                SET @sql=Concat('
+Insert into #Filter_CCPD (CCP_DETAILS_SID,RS_CONTRACT_SID,filter_ccp)
+select cd.CCP_DETAILS_SID,DM.RS_CONTRACT_SID,1 as filter_ccp from ', @CCP_HIERARCHY, ' A JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID=A.CCP_DETAILS_SID
+INNER JOIN ', @D_MASTER_TABLE, ' DM
+       ON DM.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
+AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID   
+where 
+exists (select 1 from udf_splitstring(@customer_values,'','') c where cd.COMPANY_MASTER_SID=c.token)
+and exists (select 1 from udf_splitstring(@product_values,'','') p where cd.ITEM_MASTER_SID=p.token)
+and exists (select 1 from udf_splitstring(@DISCOUNT_VALUES,'','') D where DM.RS_CONTRACT_SID=D.token) ')
+
+                EXEC Sp_executesql
+                  @sql,
+                  N'@product_values varchar(max),@customer_values varcHar(max),@DISCOUNT_VALUES varchar(max)',
+                  @customer_values=@customer_values,
+                  @product_values=@product_values,
+				  @DISCOUNT_VALUES=@DISCOUNT_VALUES
+
+				  if not exists(select 1 from #Filter)
+				  begin
+				   SET @sql=Concat('
+Insert into #Filter_CCPD (CCP_DETAILS_SID,RS_CONTRACT_SID,filter_ccp)
+select A.CCP_DETAILS_SID,DM.RS_CONTRACT_SID,1 as filter_ccp from ', @CCP_HIERARCHY, ' A JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID=A.CCP_DETAILS_SID
+INNER JOIN ', @D_MASTER_TABLE, ' DM
+       ON DM.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
+AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID ')  
 
                 EXEC Sp_executesql
                   @sql
@@ -2464,7 +2534,8 @@ LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
        UNITS,
        DEDUCTION_INCLUSION,
        INDICATOR,
-       GROWTH
+       GROWTH,
+	   FILTER_CCP
        )
 SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
@@ -2476,7 +2547,8 @@ SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_
        SUM((QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
        DM.DEDUCTION_INCLUSION,
        0 INDICATOR,
-       NULL AS GROWTH
+       NULL AS GROWTH,
+	   1  FILTER_CCP
 FROM ', @CCP_HIERARCHY, ' C
 INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
@@ -2536,7 +2608,8 @@ SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_
        SUM(SPT.PROJECTION_UNITS * COALESCE(NULLIF(UOM_VALUE, 0),1)) UNITS,
        DM.DEDUCTION_INCLUSION,
        1 INDICATOR,
-       AVG(PTD.GROWTH) AS GROWTH
+       AVG(PTD.GROWTH) AS GROWTH,
+	   1  FILTER_CCP
 FROM ', @CCP_HIERARCHY, ' C
 INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
@@ -2585,7 +2658,8 @@ GROUP BY C.CUST_HIERARCHY_NO,
        UNITS,
        DEDUCTION_INCLUSION,
        INDICATOR,
-       GROWTH
+       GROWTH,
+	   FILTER_CCP
        )
 SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
        --DM.RS_CONTRACT_SID,
@@ -2597,7 +2671,8 @@ SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_
        SUM((QUANTITY* COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
        DM.DEDUCTION_INCLUSION,
        0 INDICATOR,
-       NULL AS GROWTH
+       NULL AS GROWTH,
+	   1  FILTER_CCP
 FROM ', @CCP_HIERARCHY, ' C
 INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
@@ -2660,7 +2735,8 @@ SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_
        SUM(SPT.PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)) UNITS,
        DM.DEDUCTION_INCLUSION,
        1 INDICATOR,
-       AVG(PTD.GROWTH) AS GROWTH
+       AVG(PTD.GROWTH) AS GROWTH,
+	   1  FILTER_CCP
 FROM ', @CCP_HIERARCHY, ' C
 INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
@@ -2708,7 +2784,8 @@ GROUP BY c.PROD_HIERARCHY_NO,
 --,UNITS
 ,DEDUCTION_INCLUSION
 ,INDICATOR
-,GROWTH)
+,GROWTH
+,FILTER_CCP)
 SELECT C.ROWID 
 --,DM.RS_CONTRACT_SID
 ,A.PERIOD
@@ -2718,7 +2795,8 @@ SELECT C.ROWID
        --SUM((QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
        DM.DEDUCTION_INCLUSION,
        0 INDICATOR,
-       NULL AS GROWTH
+       NULL AS GROWTH,
+	   1  FILTER_CCP
       FROM   ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
@@ -2777,7 +2855,8 @@ SELECT C.ROWID
        --SUM(SPT.PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)) UNITS,
        DM.DEDUCTION_INCLUSION,
        1 INDICATOR,
-       AVG(PTD.GROWTH) AS GROWTH
+       AVG(PTD.GROWTH) AS GROWTH,
+	   1  FILTER_CCP
 FROM    ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
@@ -2824,7 +2903,8 @@ WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '
        UNITS,
        DEDUCTION_INCLUSION,
        INDICATOR,
-       GROWTH)       
+       GROWTH,
+	   FILTER_CCP)       
        
 SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
         --DM.RS_CONTRACT_SID,
@@ -2836,13 +2916,15 @@ SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_
        SUM((QUANTITY* COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
        DM.DEDUCTION_INCLUSION,
        0 INDICATOR,
-       NULL AS GROWTH
+       NULL AS GROWTH,
+	   MAX(ISNULL(FCCP.FILTER_CCP,0))        FILTER_CCP
 FROM ', @CCP_HIERARCHY, ' C
 INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
 INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
 AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID
---AND LEVEL_NO = 6
+LEFT JOIN #Filter_CCPD FCCP ON FCCP.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+AND FCCP.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
 CROSS JOIN (
        SELECT PERIOD_SID,
               period,
@@ -2899,13 +2981,15 @@ GROUP BY c.CUST_HIERARCHY_NO,
        SUM(SPT.PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)) UNITS,
        DM.DEDUCTION_INCLUSION,
        1 INDICATOR,
-       AVG(PTD.GROWTH) AS GROWTH
+       AVG(PTD.GROWTH) AS GROWTH,
+	   MAX(ISNULL(FCCP.FILTER_CCP,0))        FILTER_CCP
 FROM ', @CCP_HIERARCHY, ' C
 INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
 INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
 AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID
--- AND LEVEL_NO = 6
+LEFT JOIN #Filter_CCPD FCCP ON FCCP.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+AND FCCP.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
 CROSS JOIN (
        SELECT PERIOD_SID,
               period,
@@ -2950,7 +3034,8 @@ INSERT INTO ', @PRODUCT_TABLE_DISCOUNT, '(
        UNITS,
        DEDUCTION_INCLUSION,
        INDICATOR,
-       GROWTH
+       GROWTH,
+	   FILTER_CCP
        )
 SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
         --DM.RS_CONTRACT_SID,
@@ -2962,13 +3047,15 @@ SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_
        SUM((QUANTITY * COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
        DM.DEDUCTION_INCLUSION,
        0 INDICATOR,
-       NULL AS GROWTH
+       NULL AS GROWTH,
+	   MAX(ISNULL(FCCP.FILTER_CCP,0))        FILTER_CCP
 FROM ', @CCP_HIERARCHY, ' C
 INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
 INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
 AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID
---AND LEVEL_NO = 6
+LEFT JOIN #Filter_CCPD FCCP ON FCCP.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+AND FCCP.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
 CROSS JOIN (
        SELECT PERIOD_SID,
               period,
@@ -3024,13 +3111,15 @@ SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_
        SUM(SPT.PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)) UNITS,
        DM.DEDUCTION_INCLUSION,
        1 INDICATOR,
-       AVG(PTD.GROWTH) AS GROWTH
+       AVG(PTD.GROWTH) AS GROWTH,
+	   MAX(ISNULL(FCCP.FILTER_CCP,0))        FILTER_CCP
 FROM ', @CCP_HIERARCHY, ' C
 INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
 INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
 AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID
--- AND LEVEL_NO = 6
+LEFT JOIN #Filter_CCPD FCCP ON FCCP.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+AND FCCP.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
 CROSS JOIN (
        SELECT PERIOD_SID,
               period,
@@ -3073,7 +3162,8 @@ GROUP BY c.PROD_HIERARCHY_NO,
 --,UNITS
 ,DEDUCTION_INCLUSION
 ,INDICATOR
-,GROWTH)
+,GROWTH
+,FILTER_CCP)
        SELECT C.ROWID 
 --,DM.RS_CONTRACT_SID
 ,A.PERIOD
@@ -3083,11 +3173,14 @@ GROUP BY c.PROD_HIERARCHY_NO,
        --SUM((QUANTITY* COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
        DM.DEDUCTION_INCLUSION,
        0 INDICATOR,
-       NULL AS GROWTH
+       NULL AS GROWTH,
+	   MAX(ISNULL(FCCP.FILTER_CCP,0))        FILTER_CCP
       FROM    ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
+	   LEFT JOIN #Filter_CCPD FCCP ON FCCP.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+       AND FCCP.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
              CROSS JOIN (SELECT PERIOD_SID,
                                 PERIOD,
                                 YEAR
@@ -3143,11 +3236,14 @@ GROUP BY c.PROD_HIERARCHY_NO,
        --SUM(SPT.PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)) UNITS,
        DM.DEDUCTION_INCLUSION,
        1 INDICATOR,
-       AVG(PTD.GROWTH) AS GROWTH
+       AVG(PTD.GROWTH) AS GROWTH,
+	   MAX(ISNULL(FCCP.FILTER_CCP,0))        FILTER_CCP
       FROM    ',@CUSTOM_CCP_SALES,' C
        INNER JOIN ', @D_MASTER_TABLE, ' DM
        ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
        AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL)
+	   LEFT JOIN #Filter_CCPD FCCP ON FCCP.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+       AND FCCP.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
              CROSS JOIN (SELECT PERIOD_SID,
                                 PERIOD,
                                 YEAR
@@ -5343,7 +5439,6 @@ WHERE
                 EXEC Sp_executesql
                   @sql
             END
-
           IF @FLAG = 'F'
              AND @SCREEN_NAME = 'SALES'
              AND @VIEW IN( 'p' )
@@ -5451,6 +5546,8 @@ WHERE
                 EXEC Sp_executesql
                   @sql
             END
+
+    
 
           IF @FLAG = 'F'
              AND @SCREEN_NAME = 'SALES'
@@ -6053,6 +6150,402 @@ WHERE
                 EXEC Sp_executesql
                   @sql
             END
+--------------------------------------------------Discont Filter CCP Implemenatation---------------------------------------------
+  IF @FLAG = 'F'
+             AND @SCREEN_NAME = 'DISCOUNT'
+             AND @VIEW IN( 'C' )
+            BEGIN
+                SET @SQL = Concat('UPDATE ', @CUSTOMER_TABLE_DISCOUNT, ' 
+SET
+                FILTER_CCP = 0 ')
+
+                EXEC Sp_executesql
+                  @SQL
+
+                SET @SQL = Concat('UPDATE ', @CUSTOMER_TABLE_DISCOUNT, ' 
+SET
+                FILTER_CCP = 1
+WHERE
+                HIERARCHY_NO in(
+                                SELECT
+                                                stc.CUST_HIERARCHY_NO
+                                FROM
+                                                ', @D_MASTER_TABLE , ' nms inner join ', @CCP_HIERARCHY, ' stc on
+                                                stc.CCP_DETAILS_SID = nms.CCP_DETAILS_SID
+												INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=nms.RS_CONTRACT_SID
+                                                AND nms.CCP_DETAILS_SID = RI.CCP_DETAILS_SID
+                                WHERE
+                                                nms.FILTER_CCP = 1 
+                )')
+
+                EXEC Sp_executesql
+                  @SQL
+
+                SET @SQL =Concat('
+                UPDATE      B SET B.GROWTH=A.GROWTH
+				           ,B.DISCOUNT=A.DISCOUNT
+                           ,B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
+                FROM 
+      (SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, 
+                   RI.SELECTED_LEVEL RS_CONTRACT_SID,
+       A.PERIOD,
+       A.YEAR,
+       ISNULL(MAX(DISCOUNT), 0) DISCOUNT,
+       SUM((SALES)) SALES,
+       SUM((QUANTITY* COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
+       DM.DEDUCTION_INCLUSION,
+       0 INDICATOR,
+       NULL AS GROWTH
+FROM ', @CCP_HIERARCHY, ' C
+INNER JOIN ', @D_MASTER_TABLE, ' DM
+       ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
+AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID AND DM.FILTER_CCP=1
+--AND LEVEL_NO = 6
+CROSS JOIN (
+       SELECT PERIOD_SID,
+              period,
+              YEAR
+       FROM #period
+       WHERE PERIOD_SID BETWEEN ', @STAT_SALES_SID, '
+                     AND ', @END_SALES_SID, '
+       ) A
+LEFT JOIN (
+       SELECT AD.CCP_DETAILS_SID,
+              PERIOD_SID,
+              RS_MODEL_SID,
+              SUM(CASE 
+                           WHEN QUANTITY_INCLUSION = '' Y ''
+                                  THEN SALES
+                           END) SALES,
+              SUM(CASE 
+                           WHEN QUANTITY_INCLUSION = '' Y ''
+                                  THEN QUANTITY
+                           END) QUANTITY,
+              SUM(DISCOUNT) DISCOUNT
+       FROM [ACTUALS_DETAILS] AD
+       GROUP BY AD.CCP_DETAILS_SID,
+              PERIOD_SID,
+              RS_MODEL_SID,
+              QUANTITY_INCLUSION
+       ) ad
+       ON A.PERIOD_SID = AD.PERIOD_SID
+              AND AD.RS_MODEL_SID = DM.RS_MODEL_SID
+              AND AD.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+GROUP BY c.CUST_HIERARCHY_NO,
+       RI.SELECTED_LEVEL,
+      PERIOD,
+       YEAR,
+       DM.DEDUCTION_INCLUSION
+      UNION ALL
+     SELECT C.CUST_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
+       --DM.RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL,
+       PERIOD,
+       YEAR,
+       SUM(PTD.PROJECTION_SALES) DISCOUNT,
+       SUM(SPT.PROJECTION_SALES) SALES,
+       SUM(SPT.PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)) UNITS,
+       DM.DEDUCTION_INCLUSION,
+       1 INDICATOR,
+       AVG(PTD.GROWTH) AS GROWTH
+FROM ', @CCP_HIERARCHY, ' C
+INNER JOIN ', @D_MASTER_TABLE, ' DM
+       ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
+AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID  AND DM.FILTER_CCP=1
+CROSS JOIN (
+       SELECT PERIOD_SID,
+              period,
+              YEAR
+       FROM #period
+       WHERE PERIOD_SID BETWEEN ', @PROJ_START_SID, '
+                     AND ', @PROJ_END_SID, '
+       ) B
+LEFT JOIN ', @D_PROJECTION_TABLE, ' PTD  
+       ON C.CCP_DETAILS_SID = PTD.CCP_DETAILS_SID
+              AND DM.RS_CONTRACT_SID = PTD.RS_CONTRACT_SID
+              AND B.PERIOD_SID = PTD.PERIOD_SID
+LEFT JOIN ', @S_PROJECTION_TABLE, ' SPT  
+ON C.CCP_DETAILS_SID = SPT.CCP_DETAILS_SID
+              AND B.PERIOD_SID = SPT.PERIOD_SID
+LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+GROUP BY c.CUST_HIERARCHY_NO,
+       --DM.RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL,
+       PERIOD,
+       YEAR,
+       DM.DEDUCTION_INCLUSION)A 
+                           JOIN  ', @CUSTOMER_TABLE_DISCOUNT, ' B ON B.HIERARCHY_NO=A.HIERARCHY_NO
+                           AND  B.RS_CONTRACT_SID=A.RS_CONTRACT_SID
+                           AND B.PERIOD=A.PERIOD
+                           AND B.YEAR=A.YEAR
+                          AND B.DEDUCTION_INCLUSION=A.DEDUCTION_INCLUSION
+                           AND A.INDICATOR=B.INDICATOR
+                          WHERE B.FILTER_CCP=1 
+                     ')
+                EXEC Sp_executesql
+                  @sql
+            END
+
+    IF @FLAG = 'F'
+             AND @SCREEN_NAME = 'DISCOUNT'
+             AND @VIEW IN( 'P' )
+            BEGIN
+                SET @SQL = Concat('UPDATE ', @PRODUCT_TABLE_DISCOUNT, ' 
+SET
+                FILTER_CCP = 0 ')
+
+                EXEC Sp_executesql
+                  @SQL
+
+                SET @SQL = Concat('UPDATE ', @PRODUCT_TABLE_DISCOUNT, ' 
+SET
+                FILTER_CCP = 1
+WHERE
+                HIERARCHY_NO in(
+                                SELECT
+                                                stc.PROD_HIERARCHY_NO
+                                FROM
+                                                ', @D_MASTER_TABLE , ' nms inner join ', @CCP_HIERARCHY, ' stc on
+                                                stc.CCP_DETAILS_SID = nms.CCP_DETAILS_SID
+												INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=nms.RS_CONTRACT_SID
+                                                AND nms.CCP_DETAILS_SID = RI.CCP_DETAILS_SID
+                                WHERE
+                                                nms.FILTER_CCP = 1 
+                )')
+
+                EXEC Sp_executesql
+                  @SQL
+
+                SET @SQL =Concat('
+              UPDATE      B SET B.GROWTH=A.GROWTH
+                           ,B.DISCOUNT=A.DISCOUNT
+                           ,B.SALES=A.SALES
+                           ,B.UNITS=A.UNITS
+                FROM  (SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
+        --DM.RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL RS_CONTRACT_SID,
+       A.PERIOD,
+       A.YEAR,
+       ISNULL(MAX(DISCOUNT), 0) DISCOUNT,
+       SUM((SALES)) SALES,
+       SUM((QUANTITY* COALESCE(NULLIF(UOM_VALUE, 0),1))) UNITS,
+       DM.DEDUCTION_INCLUSION,
+       0 INDICATOR,
+       NULL AS GROWTH
+FROM ', @CCP_HIERARCHY, ' C
+INNER JOIN ', @D_MASTER_TABLE, ' DM
+       ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
+AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID AND DM.FILTER_CCP=1
+CROSS JOIN (
+       SELECT PERIOD_SID,
+              PERIOD,
+              YEAR
+       FROM #PERIOD
+       WHERE PERIOD_SID BETWEEN ', @STAT_SALES_SID, '
+                     AND ', @END_SALES_SID, '
+       ) A
+LEFT JOIN (
+       SELECT AD.CCP_DETAILS_SID,
+              PERIOD_SID,
+              RS_MODEL_SID,
+              SUM(CASE 
+                           WHEN QUANTITY_INCLUSION = '' Y ''
+                                  THEN SALES
+                           END) SALES,
+              SUM(CASE 
+                           WHEN QUANTITY_INCLUSION = '' Y ''
+                                  THEN QUANTITY
+                           END) QUANTITY,
+              SUM(DISCOUNT) DISCOUNT
+       FROM [ACTUALS_DETAILS] AD
+       GROUP BY AD.CCP_DETAILS_SID,
+              PERIOD_SID,
+              RS_MODEL_SID,
+              QUANTITY_INCLUSION
+       ) AD
+       ON A.PERIOD_SID = AD.PERIOD_SID
+              AND AD.RS_MODEL_SID = DM.RS_MODEL_SID
+              AND AD.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+GROUP BY C.PROD_HIERARCHY_NO,
+       --DM.RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL,
+       PERIOD,
+       YEAR,
+       DM.DEDUCTION_INCLUSION
+
+UNION ALL
+
+SELECT C.PROD_HIERARCHY_NO AS HIERARCHY_NO, -- THOUGH COLUMN NAME IS PROJECTION_DETAILS_SID IT WILL CONTAIN CCP_DETAILS_SID
+       --DM.RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL,
+       PERIOD,
+       YEAR,
+       SUM(PTD.PROJECTION_SALES) DISCOUNT,
+       SUM(SPT.PROJECTION_SALES) SALES,
+       SUM(SPT.PROJECTION_UNITS* COALESCE(NULLIF(UOM_VALUE, 0),1)) UNITS,
+       DM.DEDUCTION_INCLUSION,
+       1 INDICATOR,
+       AVG(PTD.GROWTH) AS GROWTH
+FROM ', @CCP_HIERARCHY, ' C
+INNER JOIN ', @D_MASTER_TABLE, ' DM
+       ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+INNER JOIN #RS_INFO RI ON RI.RS_CONTRACT_SID=DM.RS_CONTRACT_SID
+AND DM.CCP_DETAILS_SID = RI.CCP_DETAILS_SID AND DM.FILTER_CCP=1
+-- AND LEVEL_NO = 6
+CROSS JOIN (
+       SELECT PERIOD_SID,
+              period,
+              YEAR
+       FROM #period
+       WHERE PERIOD_SID BETWEEN ', @PROJ_START_SID, '
+                     AND ', @PROJ_END_SID, '
+       ) B
+LEFT JOIN ', @D_PROJECTION_TABLE, ' PTD  
+       ON C.CCP_DETAILS_SID = PTD.CCP_DETAILS_SID
+              AND DM.RS_CONTRACT_SID = PTD.RS_CONTRACT_SID
+              AND B.PERIOD_SID = PTD.PERIOD_SID
+LEFT JOIN ', @S_PROJECTION_TABLE, ' SPT  
+ON C.CCP_DETAILS_SID = SPT.CCP_DETAILS_SID
+              AND B.PERIOD_SID = SPT.PERIOD_SID
+LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.CCP_DETAILS_SID=C.CCP_DETAILS_SID
+GROUP BY c.PROD_HIERARCHY_NO,
+       --DM.RS_CONTRACT_SID,
+                   RI.SELECTED_LEVEL,
+       PERIOD,
+       YEAR,
+       DM.DEDUCTION_INCLUSION)A 
+                           join ', @PRODUCT_TABLE_DISCOUNT, '  B ON B.HIERARCHY_NO=A.HIERARCHY_NO
+                           AND B.RS_CONTRACT_SID=A.RS_CONTRACT_SID
+                           AND B.PERIOD=A.PERIOD
+                           AND B.YEAR=A.YEAR
+                           AND B.DEDUCTION_INCLUSION=A.DEDUCTION_INCLUSION
+                           AND A.INDICATOR=B.INDICATOR
+                           WHERE B.FILTER_CCP=1  ')
+
+                EXEC Sp_executesql
+                  @sql
+            END
+
+ IF @FLAG = 'F'
+             AND @SCREEN_NAME = 'DISCOUNT'
+             AND @VIEW NOT IN ( 'C', 'P' )
+            BEGIN
+                SET @SQL = Concat('UPDATE ', @CUSTOM_TABLE_DISCOUNT, ' 
+SET
+                FILTER_CCP = 0 ')
+
+                EXEC Sp_executesql
+                  @SQL
+
+                SET @SQL = Concat('UPDATE ', @CUSTOM_TABLE_DISCOUNT, ' 
+SET
+                FILTER_CCP = 1
+WHERE
+                HIERARCHY_NO in(
+                                SELECT
+                                                stc.ROWID
+                                FROM
+                                                ', @D_MASTER_TABLE, ' nms inner join ',@CUSTOM_CCP_SALES,' stc on
+                                                stc.CCP_DETAILS_SID = nms.CCP_DETAILS_SID AND
+												(STC.RS_CONTRACT_SID=NMS.RS_CONTRACT_SID OR STC.RS_CONTRACT_SID=0)
+												 AND STC.CUST_VIEW_MASTER_SID =', @CUSTOM_VIEW_MASTER_SID, ' 
+                                                 AND STC.LEVEL_NO= ', @CUSTOM_LEVEL_NO, ' 
+                                WHERE
+                                                nms.FILTER_CCP = 1 
+                )')
+
+                EXEC Sp_executesql
+                  @SQL
+
+                SET @SQL =Concat('
+                UPDATE      B SET B.GROWTH=A.GROWTH
+                           ,B.DISCOUNT=A.DISCOUNT
+                FROM  (SELECT C.ROWID
+,A.PERIOD
+,A.YEAR
+,ISNULL(MAX(DISCOUNT), 0) DISCOUNT,
+       DM.DEDUCTION_INCLUSION,
+       0 INDICATOR,
+       NULL AS GROWTH
+      FROM   
+          ',@CUSTOM_CCP_SALES,' C
+       INNER JOIN ', @D_MASTER_TABLE, ' DM
+       ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+       AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL) AND DM.FILTER_CCP=1
+             CROSS JOIN (SELECT PERIOD_SID,
+                                PERIOD,
+                                YEAR
+                         FROM    #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @STAT_SALES_SID, ' AND ', @END_SALES_SID, ')A
+             LEFT JOIN (
+       SELECT CCP_DETAILS_SID,
+              PERIOD_SID,
+              RS_MODEL_SID,
+              SUM(DISCOUNT) DISCOUNT
+       FROM [ACTUALS_DETAILS] AD
+       GROUP BY CCP_DETAILS_SID,
+              PERIOD_SID,
+              RS_MODEL_SID,
+              QUANTITY_INCLUSION
+       ) AD
+       ON AD.CCP_DETAILS_SID = C.CCP_DETAILS_SID 
+              AND AD.RS_MODEL_SID = DM.RS_MODEL_SID
+              AND A.PERIOD_SID = AD.PERIOD_SID
+              WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
+                        AND C.LEVEL_NO= ', @CUSTOM_LEVEL_NO, '
+                        AND EXISTS (SELECT 1 FROM ', @CCP_HIERARCHY, ' CCP WHERE CCP.CCP_DETAILS_SID=C.CCP_DETAILS_SID)
+      GROUP  BY C.ROWID,
+       A.PERIOD,
+       A.YEAR,
+       DM.DEDUCTION_INCLUSION
+
+      UNION ALL
+
+SELECT C.ROWID
+,PERIOD
+,YEAR
+,SUM(PTD.PROJECTION_SALES) DISCOUNT,
+       DM.DEDUCTION_INCLUSION,
+       1 INDICATOR,
+       AVG(PTD.GROWTH) AS GROWTH
+      FROM    ',@CUSTOM_CCP_SALES,' C
+       INNER JOIN ', @D_MASTER_TABLE, ' DM
+       ON DM.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+       AND (DM.RS_CONTRACT_SID=C.RS_CONTRACT_SID OR  NULLIF(C.RS_CONTRACT_SID,0) IS NULL) AND DM.FILTER_CCP=1
+             CROSS JOIN (SELECT PERIOD_SID,
+                                PERIOD,
+                                YEAR
+                         FROM    #PERIOD
+                          WHERE  PERIOD_SID BETWEEN ', @STAT_SALES_SID, ' AND ', @END_SALES_SID, ')B
+LEFT JOIN ', @D_PROJECTION_TABLE, ' PTD  
+       ON C.CCP_DETAILS_SID = PTD.CCP_DETAILS_SID
+              AND DM.RS_CONTRACT_SID = PTD.RS_CONTRACT_SID
+              AND B.PERIOD_SID = PTD.PERIOD_SID
+WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
+                        AND C.LEVEL_NO= ', @CUSTOM_LEVEL_NO, '
+                        AND EXISTS (SELECT 1 FROM ', @CCP_HIERARCHY, ' CCP WHERE CCP.CCP_DETAILS_SID=C.CCP_DETAILS_SID)
+      GROUP  BY C.ROWID,
+       PERIOD,
+       YEAR,
+       DM.DEDUCTION_INCLUSION)A
+                           JOIN ', @CUSTOM_TABLE_DISCOUNT, '  B ON B.HIERARCHY_NO=A.ROWID
+                           AND B.PERIOD=A.PERIOD
+                           AND B.YEAR=A.YEAR
+                           AND B.DEDUCTION_INCLUSION=A.DEDUCTION_INCLUSION
+                           AND A.INDICATOR=B.INDICATOR
+                           WHERE B.FILTER_CCP=1
+                           ')
+
+                EXEC Sp_executesql
+                  @sql
+            END
+
 
           SET @sql =Concat('UPDATE ', @STATUS_TABLE, '
 SET    FLAG = ''C''
