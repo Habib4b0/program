@@ -68,23 +68,6 @@ public class GtnReportDashboardFrequencyLoadAction
 			}
 			getFormat(periodSid, endSid, dateString, selectedFrequency, endDate);
 
-			List<String> dataNew = new ArrayList<>(dateString);
-			List<Integer> periodSidData = new ArrayList<>(periodSid);
-
-			GtnUIFrameworkBaseComponent componentFrom = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeFrom", componentId);
-			if (componentFrom.getComponent() != null) {
-				componentFrom.addAllItemsToComboBox(dataNew, periodSidData);
-				componentFrom.loadV8ComboBoxComponentValue("0");
-			}
-
-			GtnUIFrameworkBaseComponent componentTo = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabPeriodRangeTo", componentId);
-			if (componentTo.getComponent() != null) {
-				componentTo.addAllItemsToComboBox(dataNew, periodSidData);
-				componentTo.loadV8ComboBoxComponentValue("0");
-			}
-
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
 		}
