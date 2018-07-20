@@ -14879,6 +14879,14 @@ div.v-layout.v-horizontal.v-widget {
 	margin-left: -18px;
 }
 
+.stpl .datefieldcentered > input {
+	text-align: center;
+}
+.stpl .v-grid-scroller::-webkit-scrollbar-thumb {
+	border-radius: 0px !important;
+
+}
+
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;
