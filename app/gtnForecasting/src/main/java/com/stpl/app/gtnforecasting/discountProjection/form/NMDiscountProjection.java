@@ -3607,7 +3607,24 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         } else {
             if (CommonUtil.isValueEligibleForLoading()) {
                 CommonLogic.updateForFilter(projectionSelection, DEDUCTION, false);
+                CommonLogic.updateDpCustomerProductCustomTables(session);
                 discountProjectionLogic.updateAllToZero(session);
+            }
+            
+            boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionSelection.getCustomerLevelFilter())
+                    && generateCustomerToBeLoaded.size() == projectionSelection.getCustomerLevelFilter().size());
+            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionSelection.getProductLevelFilter())
+                    && generateProductToBeLoaded.size() == projectionSelection.getProductLevelFilter().size());
+
+            if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
+                LOGGER.info("generateBtn :Inside Filter Option");
+                session.setFunctionMode("F");
+                CommonLogic.procedureCompletionCheck(session, "discount", String.valueOf(view.getValue()));
+                CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
+                dsLogic.nmDiscountViewsPopulationProcedureForUPS(session);
+                CommonUtil.getInstance().waitForSeconds();
+                customerFlag = true;
+                productFlag = true;
             }
             hierarchyListForCheckRecord.clear();
             session.setFrequency(projectionSelection.getFrequency());
