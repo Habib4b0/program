@@ -1168,7 +1168,7 @@ public class DiscountProjectionLogic {
 
     public int getDiscountCustomCount(final SessionDTO sessionDTO, final String hierarchyIndicator, final int levelNo,final String userGroup,List<String> customViewDetails,boolean isCustom,List<String> customDetailsList) {
         String query = queryBuilderAndExecutor.getDiscountCustomQueryCount(sessionDTO, hierarchyIndicator, levelNo,userGroup,customViewDetails,isCustom,customDetailsList);
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(qu ery, sessionDTO.getCurrentTableNames()));
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDTO.getCurrentTableNames()));
         if (list != null) {
             return Integer.parseInt(list.get(0).toString());
         }
