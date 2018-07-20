@@ -1141,6 +1141,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 excelTable.setColumnHeaders(Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class));
                 tableLayout.addComponent(excelTable);
                 exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false);
+                
+                LOGGER.info("excel export started: " + exp);
+                
                 exp.export();
             }
         } catch (Exception e) {

@@ -96,9 +96,12 @@ public class SalesExcelNM extends ExcelExport{
                 try {
                     if (value != null) {
                         d = dataConverter(value);
+                        
+                        
                     }
                 } catch (final NumberFormatException nfe) {
-                    sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
+                	
+                	sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
                     continue;
                 }
 
@@ -117,6 +120,12 @@ public class SalesExcelNM extends ExcelExport{
 
     private Double getCellValue(Object propId, Double d, Double cellValue) {
         if ((formatter.get(Constant.PERCENT_THREE_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) && (d > 0)) {
+            cellValue = cellValue / NumericConstants.HUNDRED;
+        }
+        if ((formatter.get("UNIT_DECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNIT_DECIMAL"))) && (d > 0)) {
+            cellValue = cellValue / NumericConstants.HUNDRED;
+        }
+        if ((formatter.get("UNITTWODECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNITTWODECIMAL"))) && (d > 0)) {
             cellValue = cellValue / NumericConstants.HUNDRED;
         }
         return cellValue;
@@ -278,12 +287,11 @@ public class SalesExcelNM extends ExcelExport{
              string = string.replaceFirst(",", "");
              
              if(isappend){
-                 formula = "SUM("+string+")";
+                 formula = "AVERAGE("+string+")";
              }else{
-                 formula += "+SUM("+string+")";
+                 formula += "+AVERAGE("+string+")";
              }
              isappend= false;
-             
          }
          return formula;
     }

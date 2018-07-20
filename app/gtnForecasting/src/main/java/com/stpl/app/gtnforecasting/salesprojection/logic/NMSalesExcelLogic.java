@@ -174,8 +174,15 @@ public class NMSalesExcelLogic {
         } else {
             salesRowDto.addStringProperties(header + DASH_PROJECTED_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.SIX], true));
             salesRowDto.addStringProperties(header + PROJECTED_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.SEVEN] == null ? 0 : obj[NumericConstants.SEVEN])));
-            salesRowDto.addStringProperties(header + "-ProductGrowth", String.valueOf(UNITTWODECIMAL.format(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE])) + Constant.PERCENT);
-            salesRowDto.addStringProperties(header + "-AccountGrowth", String.valueOf(UNITTWODECIMAL.format(obj[NumericConstants.FOUR] == null ? 0 : obj[NumericConstants.FOUR])) + Constant.PERCENT);
+            
+            //salesRowDto.addStringProperties(header + "-ProductGrowth", String.valueOf(UNITTWODECIMAL.format(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE])) + Constant.PERCENT);
+            //salesRowDto.addStringProperties(header + "-AccountGrowth", String.valueOf(UNITTWODECIMAL.format(obj[NumericConstants.FOUR] == null ? 0 : obj[NumericConstants.FOUR])) + Constant.PERCENT);
+
+            
+            //Made some changes here
+            salesRowDto.addStringProperties(header + "-ProductGrowth", String.valueOf(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE]));
+            salesRowDto.addStringProperties(header + "-AccountGrowth", String.valueOf(obj[NumericConstants.FOUR] == null ? 0 : obj[NumericConstants.FOUR]));
+            
         }
     }
 
