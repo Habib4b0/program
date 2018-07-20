@@ -44,6 +44,7 @@ public class GtnFrameworkReportComparisonLookup {
 	public GtnUIFrameworkViewConfig getReportComparisonLookupView() {
 		GtnUIFrameworkViewConfig comparisonLookupRootView = configProvider.getViewConfig("Comparison Lookup",
 				GtnFrameworkReportStringConstants.REPORT_COMPARISON_LOOKUP_VIEW, false);
+		comparisonLookupRootView.setResetAllowed(true);
 		addComponentList(comparisonLookupRootView);
 		return comparisonLookupRootView;
 	}
@@ -674,6 +675,7 @@ public class GtnFrameworkReportComparisonLookup {
 		comparisonLookupResultsPagedTableComponent.setComponentName("Results");
 		comparisonLookupResultsPagedTableComponent.setParentComponentId(parentId);
 		comparisonLookupResultsPagedTableComponent.setAddToParent(true);
+		
 
 		List<String> tableStyle = new ArrayList<>();
 		tableStyle.add("filterbar");
@@ -766,7 +768,8 @@ public class GtnFrameworkReportComparisonLookup {
 		comparisonLookupProjectionsPagedTableComponent.setComponentName("Projections");
 		comparisonLookupProjectionsPagedTableComponent.setParentComponentId(parentId);
 		comparisonLookupProjectionsPagedTableComponent.setAddToParent(true);
-
+		comparisonLookupProjectionsPagedTableComponent.setResetToDefaultAllowed(false);
+	
 		List<String> tableStyle = new ArrayList<>();
 		tableStyle.add("filterbar");
 		tableStyle.add("v-has-width");
