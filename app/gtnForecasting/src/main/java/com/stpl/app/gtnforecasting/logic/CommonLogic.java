@@ -5407,6 +5407,12 @@ public class CommonLogic {
                 CommonUtil.getInstance().updateTable(session, "ST_PRODUCT_SALES");
                 CommonUtil.getInstance().updateTable(session, "ST_CUSTOM_SALES");
     }
+    
+    public static void updateDpCustomerProductCustomTables(SessionDTO session) {
+                CommonUtil.getInstance().updateTable(session, "ST_CUSTOMER_DISCOUNT");
+                CommonUtil.getInstance().updateTable(session, "ST_PRODUCT_DISCOUNT");
+                CommonUtil.getInstance().updateTable(session, "ST_CUSTOM_DISCOUNT");
+    }
 }
     
 
