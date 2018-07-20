@@ -98,6 +98,8 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		reportCustomerHierarchySearchCriteriaPanel.setMargin(true);
 		reportCustomerHierarchySearchCriteriaPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportCustomerHierarchySearchCriteriaPanel.setAddToParent(true);
+		reportCustomerHierarchySearchCriteriaPanel.addComponentStyle("stpl-margin-left-10");
+		reportCustomerHierarchySearchCriteriaPanel.addComponentStyle("stpl-margin-top-11");
 		componentList.add(reportCustomerHierarchySearchCriteriaPanel);
 		reportCustomerHierarchySearchCriteriaLayout(componentList, namespace);
 	}
@@ -287,29 +289,11 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		reportCustomerHierarchyResultsPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportCustomerHierarchyResultsPanel.setAddToParent(true);
+		reportCustomerHierarchyResultsPanel.addComponentStyle("stpl-margin-left-10");
+		reportCustomerHierarchyResultsPanel.addComponentStyle("stpl-margin-top-11");
 		componentList.add(reportCustomerHierarchyResultsPanel);
 		addCustomerHierarchyPagedTableComponent(componentList, namespace);
 
-	}
-
-	private void reportCustomerHierarchyResultLayout(List<GtnUIFrameworkComponentConfig> componentList,
-			String namespace) {
-		GtnUIFrameworkLayoutConfig reportCustomerHierarchyResultLayout = new GtnUIFrameworkLayoutConfig();
-		reportCustomerHierarchyResultLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
-
-		GtnUIFrameworkComponentConfig reportCustomerHierarchyResultConfig = new GtnUIFrameworkComponentConfig();
-		reportCustomerHierarchyResultConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		reportCustomerHierarchyResultConfig.setComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportCustomerHierarchyResultConfig");
-
-		reportCustomerHierarchyResultConfig.setParentComponentId(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportCustomerHierarchyResultsPanel");
-		reportCustomerHierarchyResultConfig.setAddToParent(true);
-		reportCustomerHierarchyResultConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		reportCustomerHierarchyResultConfig.setComponentHight(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		reportCustomerHierarchyResultConfig.setGtnLayoutConfig(reportCustomerHierarchyResultLayout);
-		componentList.add(reportCustomerHierarchyResultConfig);
-		addCustomerHierarchyPagedTableComponent(componentList, namespace);
 	}
 
 	private void addCustomerHierarchyPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
@@ -342,6 +326,13 @@ public class GtnFrameworkReportCustomertHierarchyLookUp {
 		customerHierarchyPagedTableConfig.setSelectable(true);
 		customerHierarchyPagedTableConfig.setPaginationOff(true);
 		customerHierarchyPagedTableConfig.setSinkItemPerPageWithPageLength(false);
+		
+		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
+		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		alertAction.addActionParameter("No Results Found");
+		alertAction.addActionParameter("There are no Hierarchies that match the search criteria.");
+		customerHierarchyPagedTableConfig.setRecordTypeManageActionConfig(alertAction);
+		
 		customerHierarchyPagedTableConfig.setTableColumnDataType(
 				GtnFrameworkReportStringConstants.getReportCustomerHierarchyTableColumnsDataType());
 		customerHierarchyPagedTableConfig.setColumnHeaders(

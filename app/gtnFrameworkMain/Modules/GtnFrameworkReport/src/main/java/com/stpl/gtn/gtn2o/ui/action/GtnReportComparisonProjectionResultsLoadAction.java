@@ -60,6 +60,7 @@ public class GtnReportComparisonProjectionResultsLoadAction
 				recordBean.addProperties(comparisonBean.getContract());
 				recordBean.addProperties(comparisonBean.getBrand());
 				recordBean.addProperties(comparisonBean.getCreatedDate());
+				recordBean.addProperties(comparisonBean.getUserId());
 				recordBean.addProperties(comparisonBean.getCreatedBy());
 				recordBean.addProperties(comparisonBean.getItemNo());
 				recordBean.addProperties(comparisonBean.getItemName());
@@ -68,7 +69,7 @@ public class GtnReportComparisonProjectionResultsLoadAction
 				recordBeanList.add(recordBean);
 			}
 		});
-
+			
 		grid.setItems(recordBeanList);
 	}
 

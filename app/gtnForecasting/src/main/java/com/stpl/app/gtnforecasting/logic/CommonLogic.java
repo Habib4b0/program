@@ -896,6 +896,7 @@ public class CommonLogic {
             String selectedDiscounts = CommonUtils.CollectionToString(discounts, true);
 
             StringBuilder query = new StringBuilder(SQlUtil.getQuery(isProgram ? "get-discount-name-with-program" : "get-discount-name-with-program-category"));
+            selectedDiscounts = selectedDiscounts.substring(1, selectedDiscounts.length()-1);
             query.replace(query.indexOf("?"), query.indexOf("?") + 1, selectedDiscounts);
             List<Object> list = (List<Object>) executeSelectQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()), null, null);
             if (list != null && !list.isEmpty()) {

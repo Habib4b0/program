@@ -2860,6 +2860,14 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
 		HelperTableLocalServiceUtil
 				.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
 	}
+	public void updateProjectionNameAndProjectionDescription(SessionDTO session) {
+		String query = SQlUtil.getQuery("UPDATE_PROJECTION_NAME_AND_PROJECTION_DESC");
+		query = query.replace("@PROJECTIONMASTER_NAME", String.valueOf(session.getProjectionName()));
+		query = query.replace("@PROJECTIONMASTER_DESC", String.valueOf(session.getDescription()));
+		query = query.replace("@PROJECTIONMASTERSID", String.valueOf(session.getProjectionId()));
+		HelperTableLocalServiceUtil
+				.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
+	}
         
 	public int isFileChanged(SessionDTO session) {
 		int fileStatus = 1;

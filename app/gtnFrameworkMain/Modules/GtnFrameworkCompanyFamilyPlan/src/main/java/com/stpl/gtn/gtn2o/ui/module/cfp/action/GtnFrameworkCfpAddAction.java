@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.module.cfp.contants.GtnFrameworkCfpStringContants;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.companyfamilyplan.bean.GtnCFamilyPlanInformation;
+import com.stpl.gtn.gtn2o.ws.companyfamilyplan.constants.GtnWsCFamilyPlanContants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -62,6 +63,10 @@ public class GtnFrameworkCfpAddAction
 					.loadFieldValue(userName);
 			setValueToComponents(componentId);
 			GtnUIFrameworkGlobalUI.addSessionProperty("cfpModelSid", 0);
+                        new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+							GtnWsCFamilyPlanContants.GTN_WS_CFP_SERVICE
+									+ GtnWsCFamilyPlanContants.GTN_WS_CFP_TEMP_DELETE_SERVICE,
+							gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		} catch (Exception e) {
 			gtnLogger.error("Error while calling doAction in GtnFrameworkCfpAddAction ", e);
 		} finally {

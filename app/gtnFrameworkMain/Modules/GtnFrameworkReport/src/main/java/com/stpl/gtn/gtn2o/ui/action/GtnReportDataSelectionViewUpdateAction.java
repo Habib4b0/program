@@ -50,16 +50,18 @@ public class GtnReportDataSelectionViewUpdateAction
 			infoAction.addActionParameter("You have successfully updated " + reportDataSelectionBean.getViewType()
 					+ " View " + reportDataSelectionBean.getViewName());
 		} else {
-			infoAction.addActionParameter("Information");
-			infoAction.addActionParameter("You have successfully added " + reportDataSelectionBean.getViewType()
-					+ " View " + reportDataSelectionBean.getViewName());
+			infoAction.addActionParameter("Cannot update public view");
+			infoAction.addActionParameter("You cannot update " +reportDataSelectionBean.getViewType()+" View " + "("+reportDataSelectionBean.getViewName()+")"
+					+ " because it was created by another user. \n" + "You can choose to save a new profile under a different profile name." );
 		}
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, infoAction);
 		
-		GtnUIFrameWorkActionConfig closePopupAction = new GtnUIFrameWorkActionConfig();
-		closePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		closePopupAction.addActionParameter("dsSaveViewLookUp");
-		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, closePopupAction);
+		if (response.getGtnWsGeneralResponse().isSucess()) {
+			GtnUIFrameWorkActionConfig closePopupAction = new GtnUIFrameWorkActionConfig();
+			closePopupAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+			closePopupAction.addActionParameter("dsSaveViewLookUp");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, closePopupAction);
+		}
 	}
 
 	@Override
