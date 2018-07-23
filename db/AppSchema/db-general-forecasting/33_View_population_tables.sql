@@ -360,4 +360,40 @@ IF NOT EXISTS (SELECT 1
   END
 
 GO
+--------------------------------ALG-5072 filter ccp Changes -------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'CUSTOMER_DISCOUNT'
+                      AND COLUMN_NAME = 'FILTER_CCP'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE CUSTOMER_DISCOUNT
+        ADD FILTER_CCP BIT NULL
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'PRODUCT_DISCOUNT'
+                      AND COLUMN_NAME = 'FILTER_CCP'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE PRODUCT_DISCOUNT
+        ADD FILTER_CCP BIT NULL
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'CUSTOM_DISCOUNT'
+                      AND COLUMN_NAME = 'FILTER_CCP'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE CUSTOM_DISCOUNT
+        ADD FILTER_CCP BIT NULL
+  END
+
+GO
 
