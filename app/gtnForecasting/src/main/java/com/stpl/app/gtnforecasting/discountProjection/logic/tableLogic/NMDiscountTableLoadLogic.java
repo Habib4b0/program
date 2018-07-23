@@ -182,7 +182,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                 Leveldto levelDto = CommonLogic.getNextLevel(dto.getTreeLevelNo() + 1, currentHierarchy);
                 if (levelDto != null) {
                     if (isCustomHierarchy) {
-                        hierarchyNo = levelDto.getHierarchyNo();
+                        hierarchyNo = dto.getHierarchyNo();
                         tempHierarchyIndicator = levelDto.getHierarchyIndicator();
                         levelNumber = levelDto.getLevelNo();
                         treeLevelNo = levelDto.getTreeLevelNo();
