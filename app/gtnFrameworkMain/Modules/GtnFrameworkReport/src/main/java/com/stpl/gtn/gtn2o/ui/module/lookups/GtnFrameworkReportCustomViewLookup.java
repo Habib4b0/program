@@ -639,11 +639,17 @@ public class GtnFrameworkReportCustomViewLookup {
 		selectButtonConfig.setParentComponentId(layoutConfig.getComponentId());
 		selectButtonConfig.setAddToParent(true);
 		componentList.add(selectButtonConfig);
+                
+                
+		GtnUIFrameWorkActionConfig closeConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+	
 
 		GtnUIFrameWorkActionConfig selectButtonActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		selectButtonActionConfig.addActionParameter(GtnFrameworkUICustomSelectAction.class.getName());
 		selectButtonConfig.addGtnUIFrameWorkActionConfig(selectButtonActionConfig);
+		selectButtonConfig.addGtnUIFrameWorkActionConfig(closeConfig);
 
 		GtnUIFrameworkComponentConfig closeButtonConfig = new GtnUIFrameworkComponentConfig();
 		closeButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -651,11 +657,10 @@ public class GtnFrameworkReportCustomViewLookup {
 		closeButtonConfig.setComponentName("CLOSE");
 		closeButtonConfig.setParentComponentId(layoutConfig.getComponentId());
 		closeButtonConfig.setAddToParent(true);
-
-		GtnUIFrameWorkActionConfig closeConfig = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		closeButtonConfig.addGtnUIFrameWorkActionConfig(closeConfig);
+	
+                closeButtonConfig.addGtnUIFrameWorkActionConfig(closeConfig);
 		componentList.add(closeButtonConfig);
+                
 
 	}
 

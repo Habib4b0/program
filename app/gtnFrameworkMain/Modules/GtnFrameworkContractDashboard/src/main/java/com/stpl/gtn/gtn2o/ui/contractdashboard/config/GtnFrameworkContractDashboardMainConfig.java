@@ -84,13 +84,16 @@ public class GtnFrameworkContractDashboardMainConfig {
 		addContractDashboardMainLayout(cdMainComponentList, cdMainTabPrefix, panel.getComponentId());
 	}
 
-	private void addContractDashboardMainLayout(List<GtnUIFrameworkComponentConfig> cdMainComponentList,
+        private void addContractDashboardMainLayout(List<GtnUIFrameworkComponentConfig> cdMainComponentList,
 			String cdMainTabPrefix, String parent) {
 
 		GtnUIFrameworkComponentConfig mainSplitConfig = commonConfig.getUIFrameworkComponentConfig(
 				cdMainTabPrefix + "mainSplitPanel", true, parent, GtnUIFrameworkComponentType.HORIZONTAL_SPLIT_PANEL);
 		mainSplitConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		mainSplitConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_600);
+                GtnUIFrameworkSplitPanelConfig splitPanelConfig = new GtnUIFrameworkSplitPanelConfig();
+		splitPanelConfig.setSplitPosition("44%");
+                mainSplitConfig.setGtnSplitPanelConfig(splitPanelConfig);
 		mainSplitConfig.addComponentStyle("gtnFramework-horizontal-splitpanel");
 		cdMainComponentList.add(mainSplitConfig);
 
@@ -1284,7 +1287,6 @@ public class GtnFrameworkContractDashboardMainConfig {
 		GtnUIFrameworkComponentConfig treeComponentConfig = commonConfig.getUIFrameworkComponentConfig(
 				GtnWsContractDashboardContants.CONTRACT_DASHBOARD_TREE, true, parent, GtnUIFrameworkComponentType.TREE);
 		treeComponentConfig.setAuthorizationIncluded(true);
-		treeComponentConfig.addComponentStyle(GtnFrameworkCssConstants.STPL_MIN_HEIGHT_30);
 		GtnUIFrameworkTreeConfig treeConfig = new GtnUIFrameworkTreeConfig();
 		treeConfig.setSelectable(true);
 		treeConfig.setDragMode(true);
