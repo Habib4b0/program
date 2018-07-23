@@ -177,6 +177,42 @@ public class SalesExcelNM extends ExcelExport{
                 sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
             }
         }
+        //Added Formula to PG_SUM column  
+        else if (formatter.get("PRODUCT_GROWTH_SUM") != null && String.valueOf(propId).endsWith(formatter.get("PRODUCT_GROWTH_SUM"))) {
+            sheetCell.setCellStyle(style3);
+            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+                String formula = getFormula(sheetCell, rootItemId);
+                sheetCell.setCellStyle(style3);
+                LOGGER.info(COLUMN_FORMULA , getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+                sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+            }
+        }
+      //Added Formula to AG_SUM column
+        else if (formatter.get("ACCOUNT_GROWTH_SUM") != null && String.valueOf(propId).endsWith(formatter.get("ACCOUNT_GROWTH_SUM"))) {
+            sheetCell.setCellStyle(style3);
+            if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+                String formula = getFormula(sheetCell, rootItemId);
+                sheetCell.setCellStyle(style3);
+                LOGGER.info(COLUMN_FORMULA , getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+                sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+            }
+        }
+        //Added Formula to Child Count column
+        else if (formatter.get("CHILD_COUNT") != null && String.valueOf(propId).endsWith(formatter.get("CHILD_COUNT"))) {
+            LOGGER.info("inside child count col");
+        	if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
+                
+        		String formula = getFormula(sheetCell, rootItemId);
+                LOGGER.info(COLUMN_FORMULA , getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+                sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
+            }
+        	else
+        	{
+        		// Setting 1 to children
+        		LOGGER.info("set 1 to child count");
+        		sheetCell.setCellValue(1);
+        	}
+        }
     }
 
 	private boolean currencyNoDecimalFormat(Object propId) {
@@ -295,5 +331,35 @@ public class SalesExcelNM extends ExcelExport{
          }
          return formula;
     }
+    // Created formula for PG_SUM and AG_SUM column 
+    public String getAppendedFormulaForPG_AG_Sum(String[] value){
+        boolean isappend = true;
+         List<String> str=new ArrayList<>();
+         String s="";
+         for (int i = 0; i < value.length; i++) {
+             s = s + "," + value[i];
+             if ((i+1) % 30 == 0 && i != 0) {
+                 str.add(s);
+                 s="";
+             }
+         }
+         if(!s.equals("")){
+         str.add(s);
+         }
+         String formula ="";
+          for (int j = 0; j < str.size(); j++) {
+              
+              String string = str.get(j);
+              string = string.replaceFirst(",", "");
+              
+              if(isappend){
+                  formula = "SUM("+string+")";
+              }else{
+                  formula += "+SUM("+string+")";
+              }
+              isappend= false;
+          }
+          return formula;
+     }
     
 }

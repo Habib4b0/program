@@ -1577,8 +1577,10 @@ public class Constant {
     public static final String HISTORY_GROWTH_RATE = "-HistoryGrowthRate";
     public static final String ACCOUNT_GROWTH_TILT = "-AccountGrowth";
     public static final String ACCOUNT_GROWTH_TILT_SUM = "-AccountGrowthSum";
+    public static final String CHILD_COUNT = "-ChildCount";
     public static final String ACCOUNT_GROWTH_1 = " Account Growth";
     public static final String ACCOUNT_GROWTH_1_SUM = " Account Growth Sum";
+    public static final String CHILD_COUNT_HEADER = " Child Count";
     public static final String HISTORY_PROJECTED_UNITS1 = "-HistoryProjectedUnits";
     public static final String PRODUCT_GROWTH_SPACE = "  Product Growth";
     public static final String PROJECTED_SALES_SPACE = "  Projected Sales";

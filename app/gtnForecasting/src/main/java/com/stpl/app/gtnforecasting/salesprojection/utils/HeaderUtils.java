@@ -274,6 +274,9 @@ public class HeaderUtils {
                     StringBuilder str = new StringBuilder(commonColumn);
                     commonColumn = str.insert(commonColumn.length() - NumericConstants.FOUR, '-').toString();
                 }
+                
+                int count_column = 0;
+                
                 String[] variableArr = new String[projSelDTO.getVariableList().size()];
                 variableArr = projSelDTO.getVariableList().toArray(variableArr);
                 if (i >= projSelDTO.getHistoryStartIndex() && i <= projSelDTO.getHistoryEndIndex()) {
@@ -340,6 +343,8 @@ public class HeaderUtils {
                                 columnConfigureSum(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM, commonHeader + PRODUCT_GROWTH1_SUM, excelHeader, dmapsum);
                                 singleColumnForExcel.add(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + PRODUCT_GROWTH1_SUM);//Ends here
+                                count_column  += 1; 
+                                LOGGER.info("inside PG");
                                 break;
                             case Constant.ACCOUNT_GROWTH:
                                 columnConfigure(commonColumn + Constant.ACCOUNT_GROWTH_TILT, commonHeader + Constant.ACCOUNT_GROWTH_1, Constant.ACCOUNT_GROWTH, tableHeaderDTO, excelHeader, dmap);
@@ -349,16 +354,27 @@ public class HeaderUtils {
                                 columnConfigureSum(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM, commonHeader + Constant.ACCOUNT_GROWTH_1_SUM, excelHeader, dmapsum);
                                 singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1_SUM);//Ends here
+                                count_column  += 1; 
+                                LOGGER.info("inside AG");
                                 break;
                                 
                             default:
                                 break;
                         }
                     }
+                    
+                    LOGGER.info("col count if: " + count_column);
+                    if(count_column != 0)
+                    {
+                    	LOGGER.info("if");
+                		columnConfigureSum(commonColumn + Constant.CHILD_COUNT, commonHeader + Constant.CHILD_COUNT_HEADER, excelHeader, dmapsum);
+                        singleColumnForExcel.add(commonColumn + Constant.CHILD_COUNT);//Added for tabwise excel export
+                        singleHeaderForExcel.add(commonHeader + Constant.CHILD_COUNT_HEADER);//Ends here
+                    }
+                    
                     tableHeaderDTO.addDoubleProjectedColumn(commonColumn, commonHeader);
                     
-                } else
-                if (i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex()) {
+                } else if (i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex()) {
                     for (String value : variableArr) {
                         value = value.trim();
                         switch (value) {
@@ -381,6 +397,8 @@ public class HeaderUtils {
                                 columnConfigureSum(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM, commonHeader + PRODUCT_GROWTH1_SUM, excelHeader, dmapsum);
                                 singleColumnForExcel.add(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + PRODUCT_GROWTH1_SUM);//Ends here
+                                count_column  += 1; 
+                                LOGGER.info("inside PG");
                                 break;
                            
                             case Constant.ACCOUNT_GROWTH:
@@ -391,11 +409,21 @@ public class HeaderUtils {
                                 columnConfigureSum(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM, commonHeader + Constant.ACCOUNT_GROWTH_1_SUM, excelHeader, dmapsum);
                                 singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1_SUM);//Ends here
+                                count_column  += 1; 
+                                LOGGER.info("inside AG");
                                 break;
                                 
                             default:
                                 break;
                         }
+                        
+                    }
+                    // Added Count Column
+                    if(count_column != 0)
+                    {
+                		columnConfigureSum(commonColumn + Constant.CHILD_COUNT, commonHeader + Constant.CHILD_COUNT_HEADER, excelHeader, dmapsum);
+                        singleColumnForExcel.add(commonColumn + Constant.CHILD_COUNT);//Added for tabwise excel export
+                        singleHeaderForExcel.add(commonHeader + Constant.CHILD_COUNT_HEADER);//Ends here
                     }
                 }
             }
@@ -403,12 +431,6 @@ public class HeaderUtils {
             if (!dmap.isEmpty()) {
                 tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
                 tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
-
-//                excelHeader.addDoubleColumn(commonColumn, commonHeader);
-//                excelHeader.addDoubleHeaderMap(commonColumn, dmap.toArray());
-//                
-//                doubleColumnForExcel.add(commonColumn);//Added for tabwise excel export
-//                doubleHeaderForExcel.add(commonHeader);
                 doubleHeaderMap.put(commonColumn, dmap.toArray());//Ends here
             }
             

@@ -232,6 +232,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
                      formatterMap.put(UNIT_NO_DECIMAL, UNITS);
                      formatterMap.put("UNITTWODECIMAL", "AccountGrowth");
                      formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
+                     
+                     // Added PG_SUM and AG_SUM cols to fomatter map 
+                     formatterMap.put("PRODUCT_GROWTH_SUM", "ProductGrowthSum");
+                     formatterMap.put("ACCOUNT_GROWTH_SUM", "AccountGrowthSum");
+                     formatterMap.put("CHILD_COUNT", "ChildCount");
+                     
                     if (i == 0) {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap);
@@ -272,6 +278,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
                      formatterMap.put(UNIT_NO_DECIMAL, UNITS);
                      formatterMap.put("UNITTWODECIMAL", "AccountGrowth");
                      formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
+                     
+                     // Added PG_SUM and AG_SUM cols to fomatter map 
+                     formatterMap.put("PRODUCT_GROWTH_SUM", "ProductGrowthSum");
+                     formatterMap.put("ACCOUNT_GROWTH_SUM", "AccountGrowthSum");
+                     formatterMap.put("CHILD_COUNT", "ChildCount");
+                     
                 securityForListView(visibleColumns.toArray(), Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class), excelTable);
                 exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap);
                 exp.export();
