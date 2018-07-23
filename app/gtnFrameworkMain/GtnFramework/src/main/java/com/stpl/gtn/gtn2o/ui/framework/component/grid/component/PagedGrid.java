@@ -87,7 +87,7 @@ public class PagedGrid {
 
     private void configureCheckboxHeaderComponents(Object[] tableColumnMappingId, List<String> columnHeaders) {
         if (tableConfig.isEnableCheckBoxInGridHeader()) {
-            HeaderRow mainHeader = grid.getHeaderRow(0);
+            HeaderRow mainHeader = grid.getHeaderRow(0);  
             for (int i = 0; i < tableColumnMappingId.length; i++) {
                 CheckBoxGroup vaadinCheckBoxGroup = new CheckBoxGroup();
                 vaadinCheckBoxGroup.setItems(columnHeaders.get(i));

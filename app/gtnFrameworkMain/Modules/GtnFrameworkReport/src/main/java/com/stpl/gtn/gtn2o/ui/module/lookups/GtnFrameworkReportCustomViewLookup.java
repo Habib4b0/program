@@ -230,6 +230,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		hierarchyNameTextBox.setComponentName("Tree View Name: ");
 		hierarchyNameTextBox.setAddToParent(true);
 		hierarchyNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
+		hierarchyNameTextBox.setDefaultFocus(true);
 		hierarchyNameTextBox
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "hierarchyNameLayout");
 		componentList.add(hierarchyNameTextBox);
