@@ -316,8 +316,10 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM, GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY, "contractId", "contractNo", "companyNo", "companyName",
 			"businessUnitId", "businessUnitNo", GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAME, "contractName", "itemNo", "itemName",
-			"forecastdeductionValue", "forecastdeductionLevel", "contractType", "companyID", "itemId" };
+			"contractType", "companyID", "itemId" };
 
+        private static final String[] GTN_WORKFLOW_INBOX_ARP_DESCRIPTION_SEARCH_FIELDVALUES= new String[] {"forecastdeductionValue", "forecastdeductionLevel"};
+        
 	private static final String[] GTN_WORKFLOW_INBOX_RETURNS_SEARCH_FIELDVALUES = new String[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME,
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOW_DESC, GtnFrameworkWorkflowInboxClassConstants.CREATEDFROM,
@@ -850,6 +852,10 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 
 	public static String[] getGtnWorkflowInboxArpSearchFieldvalues() {
 		return GTN_WORKFLOW_INBOX_ARP_SEARCH_FIELDVALUES.clone();
+	}
+        
+        public static String[] getGtnWorkflowInboxArpDescriptionSearchFieldvalues() {
+		return GTN_WORKFLOW_INBOX_ARP_DESCRIPTION_SEARCH_FIELDVALUES.clone();
 	}
 
 	public static String[] getGtnWorkflowInboxReturnsSearchFieldvalues() {

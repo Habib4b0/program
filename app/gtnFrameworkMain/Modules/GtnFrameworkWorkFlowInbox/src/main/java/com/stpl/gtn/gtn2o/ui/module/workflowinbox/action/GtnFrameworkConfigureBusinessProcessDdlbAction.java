@@ -164,7 +164,13 @@ public class GtnFrameworkConfigureBusinessProcessDdlbAction
 			searchQueryConfigLoaderType = GtnWsSearchQueryConfigLoaderType.ARP_WORKFLOW_SEARCH;
 			inputList = Arrays
 					.asList(GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxArpSearchFieldvalues());
-		}
+                        
+                        List<String> searchByDescriptionList=Arrays
+					.asList(GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxArpDescriptionSearchFieldvalues());
+                        GtnUIFrameworkGlobalUI
+				.getVaadinComponentData(GtnFrameworkWorkflowInboxClassConstants.SEARCH_BTN).getCurrentComponentConfig()
+                                .getGtnUIFrameWorkActionConfigList().get(2).setFieldDescription(searchByDescriptionList);
+                }
 		else if (combocomponent.equals(GtnFrameworkCommonStringConstants.RETURNS)) {
 			componentList = new ArrayList<>();
 			GtnUIFrameworkGlobalUI
@@ -195,7 +201,7 @@ public class GtnFrameworkConfigureBusinessProcessDdlbAction
 			searchQueryConfigLoaderType = GtnWsSearchQueryConfigLoaderType.RETURNS_WORKFLOW_SEARCH;
 			inputList = Arrays
 					.asList(GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxReturnsSearchFieldvalues());
-
+                     
 		}
 		else if (combocomponent.equals(GtnFrameworkCommonStringConstants.ARM)) {
 			componentList = new ArrayList<>();
@@ -280,7 +286,7 @@ public class GtnFrameworkConfigureBusinessProcessDdlbAction
 			searchQueryConfigLoaderType = GtnWsSearchQueryConfigLoaderType.CONTRACT_WORKFLOW_SEARCH;
 			inputList = Arrays
 					.asList(GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxContractSearchFieldvalues());
-
+ 
 		}
 		GtnUIFrameworkComponentConfig searchResultConfig = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSEARCHRESULTTABLE)
