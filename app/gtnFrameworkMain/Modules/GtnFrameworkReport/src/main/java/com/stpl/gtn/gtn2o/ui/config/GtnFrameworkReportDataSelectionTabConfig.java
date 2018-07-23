@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportResetAndCloseAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionReGenerateAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
@@ -23,6 +24,7 @@ import com.stpl.gtn.gtn2o.ui.hierarchy.config.GtnFrameworkReportProdHierarchyCon
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnFrameworkReportTabChangeAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownFrequencyLoadAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
@@ -75,10 +77,12 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		addProductSelectionLayout(componentList, parentId, namespace);
 
 		GtnFrameworkReportCustHierarchyConfig customerSelection = new GtnFrameworkReportCustHierarchyConfig();
-		componentList.addAll(customerSelection.getCustomerSelectionLayoutComponents(namespace));
+		componentList.addAll(
+				customerSelection.getCustomerSelectionLayoutComponents(namespace, "reportDsCustomerHierarchyLookup"));
 
 		GtnFrameworkReportProdHierarchyConfig productSelection = new GtnFrameworkReportProdHierarchyConfig();
-		componentList.addAll(productSelection.getProductSelectionLayoutComponents(namespace));
+		componentList.addAll(
+				productSelection.getProductSelectionLayoutComponents(namespace, "reportDsProductHierarchyLookup"));
 
 		addReportingDataSelectionFields(componentList, parentId, namespace);
 	}
@@ -193,8 +197,12 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		List<GtnUIFrameWorkActionConfig> list = new ArrayList<>();
 		GtnUIFrameWorkActionConfig reportDataSelectionPrivateViewPopupAction = new GtnUIFrameWorkActionConfig();
 		reportDataSelectionPrivateViewPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		reportDataSelectionPrivateViewPopupAction.setActionParameterList(Arrays.asList(
-				GtnFrameworkReportStringConstants.REPORT_DATASELECTION_PRIVATEVIEW, "Private View", "795", "875"));
+		reportDataSelectionPrivateViewPopupAction.setActionParameterList(
+				Arrays.asList(GtnFrameworkReportStringConstants.REPORT_DATASELECTION_PRIVATEVIEW, "Private View", "795",
+						"875", GtnFrameworkReportResetAndCloseAction.class.getName(),
+						Arrays.asList("dataSelectionPublicView" + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE),
+						Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY)));
 		list.add(reportDataSelectionPrivateViewPopupAction);
 
 		reportDataSelectionPrivateView.setGtnUIFrameWorkActionConfigList(list);
@@ -274,8 +282,12 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		List<GtnUIFrameWorkActionConfig> actionList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig reportDataSelectionPublicViewPopupAction = new GtnUIFrameWorkActionConfig();
 		reportDataSelectionPublicViewPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
-		reportDataSelectionPublicViewPopupAction.setActionParameterList(Arrays.asList(
-				GtnFrameworkReportStringConstants.REPORT_DATASELECTION_PUBLICVIEW, "Public View", "795", "875"));
+		reportDataSelectionPublicViewPopupAction
+				.setActionParameterList(Arrays.asList(GtnFrameworkReportStringConstants.REPORT_DATASELECTION_PUBLICVIEW,
+						"Public View", "795", "875", GtnFrameworkReportResetAndCloseAction.class.getName(),
+						Arrays.asList("dataSelectionPublicView" + GtnFrameworkReportStringConstants.UNDERSCORE
+								+ GtnFrameworkCommonConstants.PUBLIC_SEARCH_RESULT_TABLE),
+						Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY)));
 		actionList.add(reportDataSelectionPublicViewPopupAction);
 		reportDataSelectionPublicView.setGtnUIFrameWorkActionConfigList(actionList);
 
@@ -592,8 +604,8 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		GtnUIFrameworkCheckedComboBoxConfig dsComparisonVariableLoadConfig = new GtnUIFrameworkCheckedComboBoxConfig();
 		GtnWsReportVariablesType[] variableType = Arrays.copyOfRange(GtnWsReportVariablesType.values(), 0,
 				GtnWsReportVariablesType.values().length - 1);
-		dsComparisonVariableLoadConfig.setItemValueList(Arrays.stream(variableType)
-				.map(GtnWsReportVariablesType::toString).collect(Collectors.toList()));
+		dsComparisonVariableLoadConfig.setItemValueList(
+				Arrays.stream(variableType).map(GtnWsReportVariablesType::toString).collect(Collectors.toList()));
 		dsComparisonVariableLoadConfig.setDefaultValue(GtnFrameworkCommonConstants.SELECT_ONE);
 		dsComparisonVariableConfig.setGtnCheckedComboboxConfig(dsComparisonVariableLoadConfig);
 		componentList.add(dsComparisonVariableConfig);

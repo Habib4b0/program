@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -11,6 +12,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -18,6 +20,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
+import com.vaadin.ui.TreeGrid;
 
 public class GtnFrameworkUICustomVariableGridLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -80,6 +83,8 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 		actionConfig.addActionParameter(variableGridId);
 		actionConfig.addActionParameter(dataTable);
 		GtnUIFrameworkActionExecutor.executeSingleAction(variableGridId, actionConfig);
+
+		clearTreeTable(componentId, String.valueOf(parameterList.get(3)));
 	}
 
 	@Override
@@ -98,6 +103,20 @@ public class GtnFrameworkUICustomVariableGridLoadAction
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken()).getGtnUIFrameworkWebserviceComboBoxResponse();
+
+	}
+
+	private void clearTreeTable(String componentId, String treeComponentId) {
+		boolean action = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getComponentConfig()
+				.isUserOriginatedFlag();
+		if (action) {
+			TreeGrid<GtnWsRecordBean> rightGrid = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(treeComponentId, componentId).getTreeGrid();
+			Optional.ofNullable(rightGrid).ifPresent(grid -> {
+				grid.getTreeData().clear();
+				grid.getDataProvider().refreshAll();
+			});
+		}
 
 	}
 }
