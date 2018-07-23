@@ -186,6 +186,19 @@ public class GtnUIFrameworkContractHeaderResetAction
 				.loadComboBoxComponentValue(info.getDocumentClass());
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractHeaderTabTradeClass")
 				.loadComboBoxComponentValue(info.getContractTradeClass());
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_TRADING_PARTNER)
+					.setComponentReadOnly(false);
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_TRADING_PARTNER)
+				.loadFieldValue(info.getTradingPartnerName());
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_TRADING_PARTNER)
+					.setComponentReadOnly(true);
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_COMPANY_NAME)
+					.setComponentReadOnly(false);
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_COMPANY_NAME)
+				.loadFieldValue(info.getCompanyName());
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_COMPANY_NAME)
+					.setComponentReadOnly(true);
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_TERM).loadFieldValue(info.getTerm());
 		if (info.getCompanyMasterByContHoldCompanyMasterSid() != null) {
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(
