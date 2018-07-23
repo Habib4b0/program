@@ -536,9 +536,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 super.initializeResultTable();
                 configureResultTable();
                 addResultTable();
-                commercialGenerate();
-                customerFilterGenerate(customerFlag, productFlag);
-            projectionDTO.setGroup(StringUtils.EMPTY);
+                commercialGenerate(customerFlag, productFlag);
                 CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
                 generateLogic();
             }
@@ -561,7 +559,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         }
     }
 
-    private void commercialGenerate() {
+    private void commercialGenerate(boolean customerFlag, boolean productFlag) {
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
             if (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())) {
                 session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
@@ -571,6 +569,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 CommonUtil.getInstance().waitForSeconds();
             }
             uomValueChangeGenerate();
+            customerFilterGenerate(customerFlag, productFlag);
+            projectionDTO.setGroup(StringUtils.EMPTY);
 
         }
     }
