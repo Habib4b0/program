@@ -935,12 +935,12 @@ public class DiscountProjectionLogic {
                     String commonColumn = StringUtils.EMPTY;
                     if (frequency.equals(QUARTERLY.getConstant())) {
                         commonColumn = Constant.Q_SMALL + obj[1] + obj[0];
-                    } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+                    } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                         commonColumn = Constant.S_SMALL + obj[1] + obj[0];
                     } else if (frequency.equals(MONTHLY.getConstant())) {
                         String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[1]) - 1);
                         commonColumn = monthName.toLowerCase() + obj[0];
-                    } else if (frequency.equals(ANNUALLY.getConstant())) {
+                    } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                         commonColumn = StringUtils.EMPTY + obj[0];
                     }
                     commonColumn = discountName.replaceAll(" ", StringUtils.EMPTY) + commonColumn;
@@ -1041,12 +1041,12 @@ public class DiscountProjectionLogic {
                     String headerColumn = StringUtils.EMPTY;
                     if (frequency.equals(QUARTERLY.getConstant())) {
                         headerColumn = Constant.Q_SMALL + obj[NumericConstants.SIX] + StringUtils.EMPTY + obj[NumericConstants.FIVE];
-                    } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+                    } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                         headerColumn = Constant.S_SMALL + obj[NumericConstants.SIX] + StringUtils.EMPTY + obj[NumericConstants.FIVE];
                     } else if (frequency.equals(MONTHLY.getConstant())) {
                         String monthName = getMonthForInt(Integer.parseInt(StringUtils.EMPTY + obj[NumericConstants.SIX]) - 1);
                         headerColumn = monthName + StringUtils.EMPTY + obj[NumericConstants.FIVE];
-                    } else if (frequency.equals(ANNUALLY.getConstant())) {
+                    } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                         headerColumn = StringUtils.EMPTY + obj[NumericConstants.FIVE];
                     }
                     if (!periodList.contains(headerColumn)) {

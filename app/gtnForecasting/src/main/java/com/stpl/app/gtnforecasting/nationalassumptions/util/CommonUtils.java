@@ -464,7 +464,7 @@ public class CommonUtils {
     }
     public static int getProjections(Date startDate, Date endDate, String frequency) {
 
-        if (frequency.equals(ANNUALLY.getConstant())) {
+        if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
             return endDate.getYear() - startDate.getYear();
         } else {
             Calendar startCalendar = Calendar.getInstance();
@@ -480,7 +480,7 @@ public class CommonUtils {
                     return (diffMonth / NumericConstants.THREE) + 1;
                 }
 
-            } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+            } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                 if (diffMonth % NumericConstants.SIX == 0) {
                     return diffMonth / NumericConstants.SIX;
                 } else {
