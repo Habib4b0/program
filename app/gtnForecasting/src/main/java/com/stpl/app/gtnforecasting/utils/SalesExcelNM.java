@@ -36,7 +36,8 @@ import org.slf4j.LoggerFactory;
  */
 public class SalesExcelNM extends ExcelExport{
     
-     protected Map<String, String> formatter = null;
+	protected boolean isAg;
+    protected Map<String, String> formatter = null;
     protected final CellStyle style1 = this.workbook.createCellStyle();
     protected final CellStyle style2 = this.workbook.createCellStyle();
     protected final CellStyle style3 = this.workbook.createCellStyle();
@@ -49,11 +50,11 @@ public class SalesExcelNM extends ExcelExport{
 
     public static final String COLUMN_FORMULA = "column formula{}";
 
-    public SalesExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter) {
+    public SalesExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter, boolean isAg) {
       
         super(tableHolder, new HSSFWorkbook(), sheetName, reportTitle, exportFileName, hasTotalsRow);
         this.tableHolder = tableHolder;
-        
+        this.isAg = isAg;
         this.formatter = formatter;
     }
 
@@ -128,6 +129,12 @@ public class SalesExcelNM extends ExcelExport{
         if ((formatter.get("UNITTWODECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNITTWODECIMAL"))) && (d > 0)) {
             cellValue = cellValue / NumericConstants.HUNDRED;
         }
+        if ((formatter.get("PRODUCT_GROWTH_SUM") != null && String.valueOf(propId).endsWith(formatter.get("PRODUCT_GROWTH_SUM"))) && (d > 0)) {
+            cellValue = cellValue / NumericConstants.HUNDRED;
+        }
+        if ((formatter.get("ACCOUNT_GROWTH_SUM") != null && String.valueOf(propId).endsWith(formatter.get("ACCOUNT_GROWTH_SUM"))) && (d > 0)) {
+            cellValue = cellValue / NumericConstants.HUNDRED;
+        }
         return cellValue;
     }
 
@@ -164,17 +171,18 @@ public class SalesExcelNM extends ExcelExport{
             sheetCell.setCellStyle(style3);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId);
-                sheetCell.setCellStyle(style3);
-                LOGGER.info(COLUMN_FORMULA , formula);
-                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
+                String agformula = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 1) + "/" + getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 2);
+                LOGGER.info(COLUMN_FORMULA , agformula);
+                sheetCell.setCellFormula(agformula);
             }
         }else if (formatter.get("UNIT_DECIMAL") != null && String.valueOf(propId).endsWith(formatter.get("UNIT_DECIMAL"))) {
             sheetCell.setCellStyle(style3);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                String formula = getFormula(sheetCell, rootItemId);
-                sheetCell.setCellStyle(style3);
-                LOGGER.info(COLUMN_FORMULA , getAppendedFormula(formula.split(",")));
-                sheetCell.setCellFormula(getAppendedFormula(formula.split(",")));
+                LOGGER.info("isAG: " + isAg);
+                int columnIndex = isAg ? sheetCell.getColumnIndex() + 4 : sheetCell.getColumnIndex() + 2;
+                String pgformula = getColumnLetter(sheetCell,sheetCell.getColumnIndex() + 1) + "/" + getColumnLetter(sheetCell,columnIndex);
+                LOGGER.info(COLUMN_FORMULA , pgformula);
+                sheetCell.setCellFormula(pgformula);
             }
         }
         //Added Formula to PG_SUM column  
@@ -182,7 +190,6 @@ public class SalesExcelNM extends ExcelExport{
             sheetCell.setCellStyle(style3);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId);
-                sheetCell.setCellStyle(style3);
                 LOGGER.info(COLUMN_FORMULA , getAppendedFormulaForPG_AG_Sum(formula.split(",")));
                 sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
             }
@@ -192,14 +199,12 @@ public class SalesExcelNM extends ExcelExport{
             sheetCell.setCellStyle(style3);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId);
-                sheetCell.setCellStyle(style3);
                 LOGGER.info(COLUMN_FORMULA , getAppendedFormulaForPG_AG_Sum(formula.split(",")));
                 sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
             }
         }
         //Added Formula to Child Count column
         else if (formatter.get("CHILD_COUNT") != null && String.valueOf(propId).endsWith(formatter.get("CHILD_COUNT"))) {
-            LOGGER.info("inside child count col");
         	if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 
         		String formula = getFormula(sheetCell, rootItemId);
@@ -209,10 +214,14 @@ public class SalesExcelNM extends ExcelExport{
         	else
         	{
         		// Setting 1 to children
-        		LOGGER.info("set 1 to child count");
         		sheetCell.setCellValue(1);
         	}
         }
+    }
+    public String getColumnLetter(Cell sheetCell,int columnIndex) {
+        String columnLetter = CellReference.convertNumToColString(columnIndex);
+        int rowNo = sheetCell.getRowIndex() + 1;
+        return columnLetter+rowNo;
     }
 
 	private boolean currencyNoDecimalFormat(Object propId) {
