@@ -163,6 +163,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
         super.configureGraph();
         securityForButton();
     }
+    
+    public void setFrequency(SessionDTO session)
+    {
+        nmFrequencyDdlb.setValue(session.getDsFrequency());
+    }
 
     @Override
     protected void levelFilterDdlbChangeOption() {
@@ -706,6 +711,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT, 0));
 
         nmSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
+        session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
     }
 
     public void loadAllFilters() {

@@ -409,7 +409,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             configure();
     }
         flag = true;
-
+    
         if (CommonUtil.isValueEligibleForLoading()) {
             CommonUtil commonUtils = CommonUtil.getInstance();
             projectionSelection.setSessionDTO(session);
@@ -452,6 +452,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             setDiscountViewOnly();
         }
     }
+    
+    public void setFrequency(SessionDTO session)
+    {
+        frequencyDdlb.setValue(session.getDsFrequency());
+}
 
     /**
      * To get the Tab number
@@ -3602,7 +3607,24 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         } else {
             if (CommonUtil.isValueEligibleForLoading()) {
                 CommonLogic.updateForFilter(projectionSelection, DEDUCTION, false);
+                CommonLogic.updateDpCustomerProductCustomTables(session);
                 discountProjectionLogic.updateAllToZero(session);
+            }
+            
+            boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionSelection.getCustomerLevelFilter())
+                    && generateCustomerToBeLoaded.size() == projectionSelection.getCustomerLevelFilter().size());
+            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionSelection.getProductLevelFilter())
+                    && generateProductToBeLoaded.size() == projectionSelection.getProductLevelFilter().size());
+
+            if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
+                LOGGER.info("generateBtn :Inside Filter Option");
+                session.setFunctionMode("F");
+                CommonLogic.procedureCompletionCheck(session, "discount", String.valueOf(view.getValue()));
+                CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
+                dsLogic.nmDiscountViewsPopulationProcedureForUPS(session);
+                CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(view.getValue()));
+                customerFlag = true;
+                productFlag = true;
             }
             hierarchyListForCheckRecord.clear();
             session.setFrequency(projectionSelection.getFrequency());
@@ -5506,7 +5528,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         productFilterDdlb.addSubMenuCloseListener(productlistener);
     }
 
-    private void loadDeductionLevelFilter(String levelNo, boolean isResetNeeded) {
+     private void loadDeductionLevelFilter(String levelNo, boolean isResetNeeded) {
         List<Object[]> deductionLevelFilter = new ArrayList<>();
         if (isResetNeeded) {
             generateDiscountToBeLoaded.clear();

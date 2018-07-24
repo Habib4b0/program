@@ -10,7 +10,6 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentActionable;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.fieldfactory.GtnUIFrameworkActionParameter;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.component.PagedGrid;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -47,7 +46,9 @@ public class GtnUIFrameworkPagedGridComponent implements GtnUIFrameworkComponent
         resultLayout.addComponent(pagedGrid.getGrid());
         pagedGrid.getGrid().setWidth(componentConfig.getComponentWidth());
         pagedGrid.getGrid().setHeight(componentConfig.getComponentHight());
-        resultLayout.setComponentAlignment(pagedGrid.getGrid(), Alignment.MIDDLE_CENTER);        GtnUIFrameworkComponentData componentData = new GtnUIFrameworkComponentData();
+        resultLayout.setComponentAlignment(pagedGrid.getGrid(), Alignment.MIDDLE_CENTER);
+        
+        GtnUIFrameworkComponentData componentData = new GtnUIFrameworkComponentData();
         componentData.setTableConfig(tableConfig);
         componentData.setPagedGrid(pagedGrid);
         componentData.setCurrentPageGridLogic(pagedGrid.getPagedTableLogic());

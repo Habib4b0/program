@@ -76,22 +76,11 @@ border-radius: 0px;
 height: auto!important;
 }
 
-.v-grid-cell {
- font-size: 12px !important;
- }
 
 	th.v-treegrid-cell {
 height: auto!important;
 }
 
-.v-panel  {
-margin-left: 9px;
-margin-top: 11px;
-}
-
-.v-widget.v-select-optiongroup{
-margin-left: 10px;
-}
 .v-window > .popupContent .v-datefield [class*="textfield"] {
 height: 137%!important;
 }
@@ -99,7 +88,7 @@ height: 137%!important;
 height: 137%!important;
 }
 
-.v-window > .popupContent .v-grid-cell .v-horizontallayout .v-textfield.v-widget.v-has-width{
+.v-grid-cell .v-horizontallayout .v-textfield.v-widget.v-has-width{
 margin-left: -18px;
 }
 
@@ -110,5 +99,25 @@ margin-left: 0px;
 .v-window > .popupContent .v-grid-cell .v-horizontallayout .v-datefield.v-datefield-popupcalendar {
 margin-left: -18px;
 }
+.v-grid-scroller::-webkit-scrollbar-thumb {
+border-radius: 0px !important;
+}
 
+.datefieldcentered >input {
+    text-align: center;
+}
+.v-grid-cell {
+    font-size: 13px; 
+}
+.v-treegrid-cell {
+    font-size: 13px; 
+}
+.v-treegrid-column-header-content,.v-treegrid-column-footer-content{
+    font-size: 12px; 
+    font-weight: 600;
+}
+.v-grid-column-header-content,.v-grid-column-footer-content {
+    font-size: 12px; 
+    font-weight: 600; 
+}
 }

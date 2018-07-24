@@ -97,6 +97,8 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		reportDsProductHierarchyLookUpSearchCriteriaPanel.setMargin(true);
 		reportDsProductHierarchyLookUpSearchCriteriaPanel
 				.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		reportDsProductHierarchyLookUpSearchCriteriaPanel.addComponentStyle("stpl-margin-left-10");
+		reportDsProductHierarchyLookUpSearchCriteriaPanel.addComponentStyle("stpl-margin-top-11");
 		reportDsProductHierarchyLookUpSearchCriteriaPanel.setAddToParent(true);
 		componentList.add(reportDsProductHierarchyLookUpSearchCriteriaPanel);
 		reportProductHierarchyLookUpSearchCriteriaLayout(componentList, namespace);
@@ -289,6 +291,9 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		searchResultsPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		searchResultsPanel.setAddToParent(true);
+		searchResultsPanel.addComponentStyle("stpl-margin-left-10");
+		searchResultsPanel.addComponentStyle("stpl-margin-top-11");
+		
 		componentList.add(searchResultsPanel);
 		addProductHierarchyPagedTableComponent(componentList, namespace);
 	}
@@ -343,7 +348,12 @@ public class GtnFrameworkReportDSProductHierarchyLookUp {
 		productSearchResults.setItemPerPage(10);
 		productSearchResults.setSelectable(true);
 		productSearchResults.setSinkItemPerPageWithPageLength(false);
-		
+
+		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
+		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		alertAction.addActionParameter("No Results Found");
+		alertAction.addActionParameter("There are no Hierarchies that match the search criteria.");
+		productSearchResults.setRecordTypeManageActionConfig(alertAction);
 		
 		productSearchResults.setColumnHeaders(Arrays.asList("HierarchyName", "Highest Level", "Lowest Level",
 				GtnFrameworkCommonConstants.CREATED_DATE_HEADER, GtnFrameworkCommonConstants.MODIFIED_DATE_HEADER));

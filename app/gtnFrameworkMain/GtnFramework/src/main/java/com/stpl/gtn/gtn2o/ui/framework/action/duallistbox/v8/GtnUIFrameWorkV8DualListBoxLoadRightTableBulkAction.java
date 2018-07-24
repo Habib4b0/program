@@ -23,6 +23,11 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnUIFrameWorkAction {
@@ -57,35 +62,51 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnU
 				.get(1);
 		boolean isProduct = (boolean) dualListBoxBean.getGtnDualListBoxqueryParameters().get(8);
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
+		Grid<GtnWsRecordBean> availableGrid = dualListBoxBean.getLeftTable();
+		Component component = availableGrid.getHeaderRow(1).getCell("levelValue").getComponent();
+		HorizontalLayout horizontalLayout = (HorizontalLayout) component;
+		TextField textField=(TextField) horizontalLayout.getComponent(0);
+		String filterText = textField.getValue();
+		ListDataProvider<GtnWsRecordBean> availableDataProvider = (ListDataProvider<GtnWsRecordBean>) availableGrid.getDataProvider();
+		List<GtnWsRecordBean> gtnWsRecordBeanList = new ArrayList<>();
+		List<GtnWsRecordBean> availableRecords = (List<GtnWsRecordBean>) availableDataProvider.getItems();
+		for (GtnWsRecordBean recordBean : availableRecords) {
+			if(recordBean.getPropertyValue("levelValue").toString().toLowerCase().contains(filterText.toLowerCase())){
+				gtnWsRecordBeanList.add(recordBean);
+			}
+		}
+		
 		GtnUIFrameworkWebserviceResponse response = callWebService(dualListBoxConfig.getMoveAllDataURL(),
 				createRightTableRequest(dualListBoxBean.getGtnDualListBoxqueryParameters(), dualListBoxConfig,
-						isProduct),
+						isProduct, gtnWsRecordBeanList),
 				dualListBoxConfig);
-
-		List<GtnWsRecordBean> gtnWsRecordBeanList = new ArrayList<>();
+		
+		List<GtnWsRecordBean> selectedGridList = new ArrayList<>();
+		
 		for (GtnUIFrameworkDataRow data : response.getGtnSerachResponse().getResultSet().getDataTable()) {
 			GtnWsRecordBean selectedRecordBean = new GtnWsRecordBean();
 			selectedRecordBean.setProperties(data.getColList());
 			selectedRecordBean.addProperties(levelValueMap.get(data.getColumnVAlue(8)));
 			selectedRecordBean.setRecordHeader(dualListBoxConfig.getRightRecordHeader());
-			gtnWsRecordBeanList.add(selectedRecordBean);
+			selectedGridList.add(selectedRecordBean);
 		}
 
-		if (gtnWsRecordBeanList != null) {
-			treeBuilder.buildTree(gtnWsRecordBeanList);
+		if (selectedGridList != null) {
+			treeBuilder.buildTree(selectedGridList);
 			treeBuilder.loadRightTreeTable(rightTable, dualListBoxConfig.getLoadingLevel());
 			rightTable.getDataProvider().refreshAll();
 			rightTable.markAsDirty();
 		}
 	}
 
-	private GtnWsReportRequest createReportRequest(final List<Object> queryParameters, boolean isProduct) {
+	private GtnWsReportRequest createReportRequest(final List<Object> queryParameters, boolean isProduct, List<GtnWsRecordBean> recordBeanList) {
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 		reportRequest.setHierarchyInputBean((GtnReportHierarchyLevelBean) queryParameters.get(2));
 		reportRequest.setHierarchyLevelList((List<GtnReportHierarchyLevelBean>) queryParameters.get(3));
 		if (!isProduct) {
 			reportRequest.setForecastEligibleDate((Date) queryParameters.get(7));
 		}
+		reportRequest.setRecordBean(recordBeanList);
 		return reportRequest;
 	}
 
@@ -104,11 +125,11 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnU
 	}
 
 	private GtnUIFrameworkWebserviceRequest createRightTableRequest(final List<Object> queryParameters,
-			GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig, boolean isProduct) {
+			GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig, boolean isProduct, List<GtnWsRecordBean> recordBeanList) {
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsSearchRequest(createSearchRequest(queryParameters, dualListBoxConfig));
 		request.setGtnWsGeneralRequest(createGeneralRequest());
-		request.setGtnWsReportRequest(createReportRequest(queryParameters, isProduct));
+		request.setGtnWsReportRequest(createReportRequest(queryParameters, isProduct, recordBeanList));
 		return request;
 	}
 

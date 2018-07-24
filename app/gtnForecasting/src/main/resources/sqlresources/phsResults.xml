@@ -713,4 +713,26 @@ WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
        
     ]]> </query>
 </entity>
+<entity id="getPhsBeforeAdjSubmitUpdate">
+<query> <![CDATA[
+
+ update  b set
+PROJECTION_PRICE=a.PROJECTION_PRICE
+from  (SELECT PROJECTION_PRICE = ISNULL(ws.mqwac,0) - COALESCE(ADJUSTMENT_PRICE, PROJECTION_PRICE),
+       MUP.NA_PROJ_DETAILS_SID,
+       MUP.PERIOD_SID
+FROM   ST_PHS_PROJ MUP
+       JOIN NA_PROJ_DETAILS ND
+         ON MUP.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ST_NA_NDC11_WAC ws
+         ON ws.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+            AND MUP.PERIOD_SID = ws.PERIOD_SID
+WHERE  PRICE_TYPE = 'PHS'
+       AND ADJUSTMENT_PRICE IS NOT NULL
+          and exists (select 1 from ST_NATIONAL_ASSUMPTIONS na where na.NA_PROJ_MASTER_SID=nd.NA_PROJ_MASTER_SID)
+          )a join ST_PHS_PROJ b on a.NA_PROJ_DETAILS_SID = b.NA_PROJ_DETAILS_SID
+          and  a.PERIOD_SID = b.PERIOD_SID
+          and b.PRICE_TYPE='PHS Discount';       
+    ]]> </query>
+</entity>
 </sql>
