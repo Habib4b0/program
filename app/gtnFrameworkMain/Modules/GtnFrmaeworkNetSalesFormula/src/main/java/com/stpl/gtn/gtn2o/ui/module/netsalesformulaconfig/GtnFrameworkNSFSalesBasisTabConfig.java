@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnFrameworkNsfSalesTabCheckAllAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUIFrameworkTableSearchCompletionAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfContractSelectionAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfRemoveAction;
@@ -1073,6 +1074,14 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 		selectedCustomersTableConfig.setGtnPagedTableConfig(selectedCustomersTable);
 		selectedCustomersTable.setEditableColumnList(Arrays.asList("checkRecordId", "ruleNo", "ruleName"));
 		selectedCustomersTable.setEditableField(createTableFieldFactoryComponents());
+                
+                List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig checkAllAction = componentConfigProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		checkAllAction.addActionParameter(GtnFrameworkNsfSalesTabCheckAllAction.class.getName());
+		actionConfigList.add(checkAllAction);
+		selectedCustomersTable.setColumnCheckActionConfigList(actionConfigList);
+		selectedCustomersTableConfig.setGtnPagedTableConfig(selectedCustomersTable);
 	}
 
 	private void addResetRemoveExcelButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
