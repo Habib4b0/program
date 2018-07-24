@@ -581,7 +581,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
         customDetailsList.add(0);
         customDetailsList.add(StringUtils.EMPTY);
         customDetailsList.add(0);
-        boolean isCustomHierarchy = !CommonUtil.isValueEligibleForLoading() ? Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator) : Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator);
+        boolean isCustomHierarchy = !CommonUtil.isValueEligibleForLoading() ? Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant().equals(hierarchyIndicator) : Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator);
         List<DiscountProjectionDTO> refreshedDataList = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                 history, hierarchyIndicator, projectionPeriodorder, userGroup,
                 isProgram, discountList, year,

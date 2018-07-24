@@ -1631,7 +1631,7 @@ public class SalesLogic {
                 }
                 if (splitArray != null) {
                     input.put(Constant.HNO1, StringUtils.isBlank(String.valueOf(splitArray[1])) ? PERCENT.getConstant() : String.valueOf(splitArray[1]));
-                    input.put(Constant.LEVELNO1, String.valueOf(splitArray[0]).equals(DASH) ? PERCENT.getConstant() : String.valueOf(splitArray[0]));
+                    input.put(Constant.LEVELNO1, String.valueOf(splitArray[0]).equals(DASH.getConstant()) ? PERCENT.getConstant() : String.valueOf(splitArray[0]));
                 } else {
                     input.put(Constant.HNO1, PERCENT.getConstant());
                     input.put(Constant.LEVELNO1, PERCENT.getConstant());

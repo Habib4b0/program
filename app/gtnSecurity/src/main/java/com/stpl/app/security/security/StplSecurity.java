@@ -95,7 +95,7 @@ public class StplSecurity {
             if (StringUtils.EMPTY.equals(businessRoleIds)) {
                 businessRoleIds = String.valueOf(usergroupBusinessroleMaster.getBusinessroleMasterSid());
             } else {
-                final StringBuffer tempStringBuffer = new StringBuffer();
+                final StringBuilder tempStringBuffer = new StringBuilder();
                 businessRoleIds = tempStringBuffer.append(businessRoleIds).append(',').append(usergroupBusinessroleMaster.getBusinessroleMasterSid()).toString();
                 tempStringBuffer.delete(0, tempStringBuffer.length());
             }

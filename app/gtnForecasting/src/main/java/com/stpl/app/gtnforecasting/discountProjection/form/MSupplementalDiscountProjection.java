@@ -1401,7 +1401,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                         supplementalDiscountDTO.setEndPeriod(endQuater);
                         supplementalDiscountProjectionLogic.populateValues(supplementalDiscountDTO, selectedValue, columnName, session);
                         tableLogic.setRefresh(true);
-                        if (columnName.equals(METHODOLOGY.getConstant().toUpperCase())) {
+                        if (columnName.containsKey(METHODOLOGY.getConstant().toUpperCase())) {
                             checkFlag = true;
                         }
                     }

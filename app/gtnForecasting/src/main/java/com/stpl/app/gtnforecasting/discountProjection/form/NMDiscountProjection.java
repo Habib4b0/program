@@ -3417,7 +3417,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             String temphierarchyIndicator = hierarchyIndicator;
             boolean isCustomHierarchy = CommonUtil.isValueEligibleForLoading()
                     ? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)
-                    : Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
+                    : Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant().equals(hierarchyIndicator);
             if (isCustomHierarchy) {
                 treeLevelNo = dto.getTreeLevelNo() + 1;
             } else {

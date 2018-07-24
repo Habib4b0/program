@@ -749,7 +749,7 @@ public final class AccrualRateProjectionLogic {
     }
 
     public void addToTempTable(String companySid, AccrualRateSelectionDTO dto) {
-        StringBuffer query = new StringBuffer();
+        StringBuilder query = new StringBuilder();
         query.append("Insert into ST_EXCLUSION_DETAILS (PROJECTION_MASTER_SID,COMPANY_MASTER_SID) values ('" ).append( dto.getProjectionId() ).append( "','"
                 ).append( companySid ).append( "')");
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query.toString(), dto.getSessionDto().getCurrentTableNames()));
@@ -758,7 +758,7 @@ public final class AccrualRateProjectionLogic {
 
     public void removeFromTempTable(String CompanySid, AccrualRateSelectionDTO dto, boolean flag) {
 
-        StringBuffer deleteQuery = new StringBuffer();
+        StringBuilder deleteQuery = new StringBuilder();
         deleteQuery.append("DELETE FROM ST_EXCLUSION_DETAILS WHERE");
         if (flag) {
               deleteQuery.append(" COMPANY_MASTER_SID =" ).append( CompanySid);
