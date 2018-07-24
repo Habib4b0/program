@@ -336,7 +336,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		recordBean.addAdditionalProperty(bean.getChildCount());// for Child Count
 		recordBean.addAdditionalProperty(bean.getLevelNo());// level No
 		recordBean.addAdditionalProperty(bean.getHierarchyNo());
-		recordBean.addAdditionalProperty(index);
+		recordBean.addAdditionalProperty(index+1);
 		recordBean.addAdditionalProperty(bean.getRowIndex());
 		recordBean.addAdditionalProperty(0);
 		String levelName = setDisplayFormat(bean.getData(), displayFormat);

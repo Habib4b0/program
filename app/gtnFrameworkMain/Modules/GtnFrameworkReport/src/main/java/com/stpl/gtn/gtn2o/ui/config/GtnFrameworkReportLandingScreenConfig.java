@@ -71,8 +71,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 				customerSelection.getCustomerSelectionLayoutComponents(namespace, "reportCustomerHierarchyLookup"));
 
 		GtnFrameworkReportProdHierarchyConfig productSelection = new GtnFrameworkReportProdHierarchyConfig();
-		componentList.addAll(
-				productSelection.getProductSelectionLayoutComponents(namespace, "reportProductHierarchyLookUp"));
+		componentList.addAll(productSelection.getProductSelectionLayoutComponents(namespace , "landingScreen"));
 
 		addReportingNecessaryFields(componentList, namespace);
 		addControlButtonLayout(componentList, namespace);
@@ -152,9 +151,11 @@ public class GtnFrameworkReportLandingScreenConfig {
 						true, "comparisonHierarchyLayout", GtnUIFrameworkComponentType.POPUPTEXTFIELDVAADIN8);
 		landingScreenVariableComparisonConfig.setAuthorizationIncluded(true);
 		landingScreenVariableComparisonConfig.setComponentName("Comparison: ");
-
+		landingScreenVariableComparisonConfig.setEnable(false);
 		GtnUIFrameworkTextBoxConfig landingScreenVariableComparisonTextboxConfig = configProvider.getTextBoxConfig(true,
 				true, true);
+		landingScreenVariableComparisonTextboxConfig.setEnable(false);
+		landingScreenVariableComparisonTextboxConfig.setReadOnly(false);
 		landingScreenVariableComparisonConfig.setGtnTextBoxConfig(landingScreenVariableComparisonTextboxConfig);
 
 		componentList.add(landingScreenVariableComparisonConfig);

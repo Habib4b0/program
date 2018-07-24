@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportResetAndCloseAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkComparisonLookupTextFieldEnableAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUIReportCustomViewReloadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnProductLevelAvailableTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
@@ -42,7 +43,7 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		addProductSelectionComponents(componentList, namespace);
 		return componentList;
 	}
-
+	
 	private void addParentVerticalLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 		GtnUIFrameworkLayoutConfig parentVerticalLayout = new GtnUIFrameworkLayoutConfig();
 		parentVerticalLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
@@ -421,6 +422,16 @@ public class GtnFrameworkReportProdHierarchyConfig {
 		GtnUIFrameworkValidationConfig customViewValidationConfig = new GtnUIFrameworkValidationConfig();
 		customViewValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		customViewComboboxConfig.setGtnUIFrameworkValidationConfig(customViewValidationConfig);
+		
+		GtnUIFrameWorkActionConfig enableComparisonLookupActionConfig = new GtnUIFrameWorkActionConfig();
+		enableComparisonLookupActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		enableComparisonLookupActionConfig.addActionParameter(GtnFrameworkComparisonLookupTextFieldEnableAction.class.getName());
+		enableComparisonLookupActionConfig.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_COMPARISON_CONFIG);
+		enableComparisonLookupActionConfig.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "comparisonLookup");
+		enableComparisonLookupActionConfig.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE
+				+ GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_CUSTOM_VIEW);
+		enableComparisonLookupActionConfig.addActionParameter(currentScreenNameSpace);
+		customViewComboboxConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(enableComparisonLookupActionConfig));
 
 	}
 }

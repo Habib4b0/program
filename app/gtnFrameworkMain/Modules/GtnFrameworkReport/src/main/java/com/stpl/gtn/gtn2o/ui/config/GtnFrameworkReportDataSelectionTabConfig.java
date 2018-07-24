@@ -81,8 +81,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 				customerSelection.getCustomerSelectionLayoutComponents(namespace, "reportDsCustomerHierarchyLookup"));
 
 		GtnFrameworkReportProdHierarchyConfig productSelection = new GtnFrameworkReportProdHierarchyConfig();
-		componentList.addAll(
-				productSelection.getProductSelectionLayoutComponents(namespace, "reportDsProductHierarchyLookup"));
+		componentList.addAll(productSelection.getProductSelectionLayoutComponents(namespace,"dataSelection"));
 
 		addReportingDataSelectionFields(componentList, parentId, namespace);
 	}

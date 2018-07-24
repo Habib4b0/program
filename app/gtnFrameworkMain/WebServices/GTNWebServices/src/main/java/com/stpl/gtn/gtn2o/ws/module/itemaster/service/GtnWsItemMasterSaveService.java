@@ -254,18 +254,12 @@ public class GtnWsItemMasterSaveService {
 			ItemMaster masterData = new ItemMaster();
 			getItemMaster(masterData, bean, session, gtnWsRequest.getGtnWsItemMasterRequest().getUserId());
 			Integer itemSystemId = (Integer) session.save(masterData);
-			// Save UDCS
-			if ((infoBean.getUdc1() != null && infoBean.getUdc1() > 0)
-					|| (infoBean.getUdc2() != null && infoBean.getUdc2() > 0)
-					|| (infoBean.getUdc3() != null && infoBean.getUdc3() > 0)
-					|| (infoBean.getUdc4() != null && infoBean.getUdc4() > 0)
-					|| (infoBean.getUdc5() != null && infoBean.getUdc5() > 0)
-					|| (infoBean.getUdc6() != null && infoBean.getUdc6() > 0)) {
-				saveOrUpdateUdcs(infoBean, session);
-			}
-			saveOrUpdateItemIdentifier(gtnWsRequest.getGtnWsItemMasterRequest(), session, itemSystemId);
 
 			infoBean.setItemMasterSid(itemSystemId);
+
+			saveOrUpdateUdcs(infoBean, session);
+			saveOrUpdateItemIdentifier(gtnWsRequest.getGtnWsItemMasterRequest(), session, itemSystemId);
+
 			bean.setGtnWsItemMasterInfoBean(infoBean);
 			GtnWsItemMasterResponse imReponse = new GtnWsItemMasterResponse();
 			imReponse.setGtnWsItemMasterBean(bean);
@@ -372,29 +366,25 @@ public class GtnWsItemMasterSaveService {
 	private void saveOrUpdateUdcs(GtnWsItemMasterInfoBean infoBean, Session session)
 			throws GtnFrameworkGeneralException {
 		// Save UDCS
-		if ((infoBean.getUdc1() != null && infoBean.getUdc1() > 0)
-				|| (infoBean.getUdc2() != null && infoBean.getUdc2() > 0)
-				|| (infoBean.getUdc3() != null && infoBean.getUdc3() > 0)
-				|| (infoBean.getUdc4() != null && infoBean.getUdc4() > 0)
-				|| (infoBean.getUdc5() != null && infoBean.getUdc5() > 0)
-				|| (infoBean.getUdc6() != null && infoBean.getUdc6() > 0)) {
-			return;
-		}
-		List<Integer> results = getUdcsList(infoBean);
+		if ((infoBean.getUdc1() != null) || (infoBean.getUdc2() != null) || (infoBean.getUdc3() != null)
+				|| (infoBean.getUdc4() != null) || (infoBean.getUdc5() != null) || (infoBean.getUdc6() != null)) {
 
-		Udcs udcs = new Udcs();
-		if (results != null && !results.isEmpty() && results.get(0) > 0) {
-			udcs = session.get(Udcs.class, results.get(0));
+			List<Integer> results = getUdcsList(infoBean);
+
+			Udcs udcs = new Udcs();
+			if (results != null && !results.isEmpty() && results.get(0) > 0) {
+				udcs = session.get(Udcs.class, results.get(0));
+			}
+			udcs.setMasterSid(infoBean.getItemMasterSid());
+			udcs.setMasterType("ITEM_MASTER");
+			udcs.setHelperTableByUdc1(getHelperTable(infoBean.getUdc1(), session));
+			udcs.setHelperTableByUdc2(getHelperTable(infoBean.getUdc2(), session));
+			udcs.setHelperTableByUdc3(getHelperTable(infoBean.getUdc3(), session));
+			udcs.setHelperTableByUdc4(getHelperTable(infoBean.getUdc4(), session));
+			udcs.setHelperTableByUdc5(getHelperTable(infoBean.getUdc5(), session));
+			udcs.setHelperTableByUdc6(getHelperTable(infoBean.getUdc6(), session));
+			session.saveOrUpdate(udcs);
 		}
-		udcs.setMasterSid(infoBean.getItemMasterSid());
-		udcs.setMasterType("ITEM_MASTER");
-		udcs.setHelperTableByUdc1(getHelperTable(infoBean.getUdc1(), session));
-		udcs.setHelperTableByUdc2(getHelperTable(infoBean.getUdc2(), session));
-		udcs.setHelperTableByUdc3(getHelperTable(infoBean.getUdc3(), session));
-		udcs.setHelperTableByUdc4(getHelperTable(infoBean.getUdc4(), session));
-		udcs.setHelperTableByUdc5(getHelperTable(infoBean.getUdc5(), session));
-		udcs.setHelperTableByUdc6(getHelperTable(infoBean.getUdc6(), session));
-		session.saveOrUpdate(udcs);
 	}
 
 	private HelperTable getHelperTable(Integer systemId, Session session) {
@@ -604,8 +594,8 @@ public class GtnWsItemMasterSaveService {
 		}
 
 	}
-	
-	private void  notesTabAttachment(GtnWsItemMasterBean itemMasterBean) throws  GtnFrameworkGeneralException {
+
+	private void notesTabAttachment(GtnWsItemMasterBean itemMasterBean) throws GtnFrameworkGeneralException {
 		LOGGER.info("Enter Cfp notesTabInsert");
 		Session session = getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -634,19 +624,21 @@ public class GtnWsItemMasterSaveService {
 			session.close();
 		}
 	}
-	 private static byte[] readBytesFromFile(String filePath) throws IOException {
-		    File inputFile = GtnFileNameUtils.getFile(filePath);
-	        FileInputStream inputStreamIm= GtnFileNameUtils.getFileInputStreamFile(inputFile);
-	        byte[] fileBytes = new byte[(int) inputFile.length()];
-	        int i=inputStreamIm.read(fileBytes);
-	        if(i>0) 
-	        return fileBytes;
-			return  new byte[0];
-	    }
+
+	private static byte[] readBytesFromFile(String filePath) throws IOException {
+		File inputFile = GtnFileNameUtils.getFile(filePath);
+		FileInputStream inputStreamIm = GtnFileNameUtils.getFileInputStreamFile(inputFile);
+		byte[] fileBytes = new byte[(int) inputFile.length()];
+		int i = inputStreamIm.read(fileBytes);
+		if (i > 0)
+			return fileBytes;
+		return new byte[0];
+	}
+
 	private int deleteNotesTabAttachment(int systemId) throws GtnFrameworkGeneralException {
 		String deleteQuery = GtnWsCommonQueryContants.GTN_COMMON_NOTE_TAB_ATTACHMENT_DELETE + systemId
 				+ " AND MASTER_TABLE_NAME='ITEM_MASTER'";
 		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(deleteQuery);
 	}
-	
+
 }
