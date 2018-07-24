@@ -982,13 +982,13 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         Object freq = frequency.getValue();
         boolean toFreq = false;
         int historyNum = 0;
-        if ((freq != null) && (!SELECT_ONE.equals(freq.toString()))) {
+        if ((freq != null) && (!SELECT_ONE.getConstant().equals(freq.toString()))) {
             toFreq = true;
             projectionDTO.setFrequency(freq.toString());
         }
         Object hist = history.getValue();
         boolean toHist = false;
-        if ((hist != null) && (!SELECT_ONE.equals(hist.toString()))) {
+        if ((hist != null) && (!SELECT_ONE.getConstant().equals(hist.toString()))) {
             toHist = true;
             projectionDTO.setHistory(hist.toString());
             String[] array = projectionDTO.getHistory().split(" ");

@@ -855,7 +855,7 @@ public class CommmonLogic {
         }
 
         String udcValue = "1";
-        if (conSelDTO.getModuleName().equals(ADD_TRADING_PARTNER) || conSelDTO.getScreenName().equals(TAB_TRANSFER_CONTRACT.getConstant())) {
+        if (conSelDTO.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()) || conSelDTO.getScreenName().equals(TAB_TRANSFER_CONTRACT.getConstant())) {
             udcValue = "2";
         }
         query.append(" AND TEMP_TABLE.OPERATION <> '").append(udcValue).append("' ");

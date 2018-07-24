@@ -3902,7 +3902,7 @@ public class DataSelection extends AbstractDataSelection {
 		}
 	}
 
-	public void configurePermission() {
+	public final void configurePermission() {
 		try {
 			final StplSecurity stplSecurity = new StplSecurity();
 			final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtil.USER_ID));

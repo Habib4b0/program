@@ -65,7 +65,7 @@ public class DiscountLogic {
     private SessionDTO sessionDTO;
 
     public DiscountLogic(SessionDTO sessionDTO) {
-        this.setSessionDTO(sessionDTO);
+        this.sessionDTO = sessionDTO;
     }
 
     public DiscountLogic() {

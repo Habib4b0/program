@@ -27,7 +27,7 @@ public class DiscountSearchView extends VerticalLayout implements View {
         super();
         try {
             setSpacing(true);
-            this.setSessionDTO(sessionDTO);
+            this.sessionDTO = sessionDTO;
             addComponent(new AbstractSearchForm(ConstantsUtils.DEDUCTION_GROUPING, sessionDTO));
             setStyleName("bootstrap");
         } catch (Exception ex) {

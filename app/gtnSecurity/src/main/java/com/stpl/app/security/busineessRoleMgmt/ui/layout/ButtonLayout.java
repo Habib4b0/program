@@ -120,7 +120,8 @@ public class ButtonLayout extends HorizontalLayout {
 					if (!"".equals(businessroleName)
 							|| !"".equals(businessroleDesc)
 							|| !"".equals(businessroleMasterSid)
-							|| !"".equals(hierarchyLevel != null)) {
+							|| !"".equals(hierarchyLevel)
+							) {
 						String flag = businessRoleMgmtLogic
 								.saveBusinessRoleMgmt(binder);
 						if (flag != null && "success".equals(flag)) {
