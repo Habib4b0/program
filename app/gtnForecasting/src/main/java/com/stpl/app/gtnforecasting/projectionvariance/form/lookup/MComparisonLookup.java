@@ -91,7 +91,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
     /**
      * Inits the.
      */
-    public void init() {
+    public final void init() {
         LOGGER.debug("ComparisonLookUp init method started");
         configureFields();
         resultsTable.setFilterBarVisible(true);

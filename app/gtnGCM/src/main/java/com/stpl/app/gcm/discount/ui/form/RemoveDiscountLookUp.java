@@ -235,7 +235,7 @@ public class RemoveDiscountLookUp extends Window {
 		return selecteditemList;
 	}
 
-	public void setSelecteditemList(List<RemoveDiscountDto> selecteditemList) {
+	public final void setSelecteditemList(List<RemoveDiscountDto> selecteditemList) {
 		this.selecteditemList = selecteditemList;
 	}
 

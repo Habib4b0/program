@@ -51,7 +51,7 @@ public class CopyContractView extends VerticalLayout {
 		return selectedList;
 	}
 
-	public void setSelectedList(List<ContractSelectionDTO> selectedList) {
+	public final void setSelectedList(List<ContractSelectionDTO> selectedList) {
 		this.selectedList = selectedList;
 	}
 }

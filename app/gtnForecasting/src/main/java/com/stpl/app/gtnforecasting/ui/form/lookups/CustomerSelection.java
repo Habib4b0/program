@@ -294,7 +294,7 @@ public class CustomerSelection extends CustomComponent implements View {
         LOGGER.debug("Ending removeAllBtn btn method");
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
 
         altHistoryDTO.setScreenName(screen_Name);
         altHistoryDTO.setReset(Boolean.FALSE);

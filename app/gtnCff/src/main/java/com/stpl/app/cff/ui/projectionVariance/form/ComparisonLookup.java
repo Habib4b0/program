@@ -61,7 +61,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
         configureFields();
     }
     
-    public void configureFields() {
+    public final void configureFields() {
         try{
         fromDate.setDateFormat("MM/dd/yyyy");
         toDate.setDateFormat("MM/dd/yyyy");

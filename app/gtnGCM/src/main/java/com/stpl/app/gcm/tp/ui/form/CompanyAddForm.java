@@ -207,7 +207,7 @@ public class CompanyAddForm extends VerticalLayout {
         return binder;
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
 
         try {
             companyStartDate.setDateFormat(Constants.MM_DD_YYYY);

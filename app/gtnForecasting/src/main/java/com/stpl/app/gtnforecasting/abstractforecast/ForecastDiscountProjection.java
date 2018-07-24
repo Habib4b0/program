@@ -490,7 +490,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         
         if (CommonUtil.isValueEligibleForLoading()) {
             disountPanel.setVisible(false);

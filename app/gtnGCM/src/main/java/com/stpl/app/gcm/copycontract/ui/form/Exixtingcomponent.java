@@ -188,7 +188,7 @@ public class Exixtingcomponent extends CustomComponent {
         configureSecurityPermissions();
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
 
             configureDetailsSearchTable();

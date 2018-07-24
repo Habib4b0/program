@@ -318,7 +318,7 @@ public class NotesTabForm extends AbstractNotesTab {
 		this.masterTableSid = masterTableSid;
 	}
 
-	public void configureFields() {
+	public final void configureFields() {
 
 		close.addClickListener(new Button.ClickListener() {
 			@Override
