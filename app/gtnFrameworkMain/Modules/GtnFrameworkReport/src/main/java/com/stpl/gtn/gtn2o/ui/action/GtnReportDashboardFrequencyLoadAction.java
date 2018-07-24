@@ -45,10 +45,10 @@ public class GtnReportDashboardFrequencyLoadAction
 		try {
                         if(selectedFrequency.equals("Annual"))
                         {
-                           GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabAnnualTotals",componentId).setComponentEnable(false);
-                           GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabAnnualTotals",componentId).loadV8ComboBoxComponentValue("No");
+                           GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_TAB+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_ANNUAL_TOTALS,componentId).setComponentEnable(false);
+                           GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_TAB+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_ANNUAL_TOTALS,componentId).loadV8ComboBoxComponentValue("No");
                         }else{
-                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabAnnualTotals",componentId).setComponentEnable(true);                       
+                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_TAB+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_ANNUAL_TOTALS,componentId).setComponentEnable(true);                       
                         }
                         
 			int startSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId)
