@@ -898,7 +898,7 @@ public class CFFLogic {
             query = CommonQueryUtils.getAppQuery(l, "updateProjection");
         }
         query = query.replace("@CFF_TYPE", "0");
-        query = query.replace("@CFFELIGDATE", sessionDTO.getCffEligibleDate() == null || sessionDTO.getCffEligibleDate().equals(ConstantsUtils.NULL) ? ConstantsUtils.NULL : "'" + String.valueOf(dBDate.format(sessionDTO.getCffEligibleDate())) + "'");
+        query = query.replace("@CFFELIGDATE", sessionDTO.getCffEligibleDate() == null  ? ConstantsUtils.NULL : "'" + String.valueOf(dBDate.format(sessionDTO.getCffEligibleDate())) + "'");
         query = query.replace("@CFF_NAME", "");
         query = query.replace("@ACTIVE_FROM_DATE", "null");
         query = query.replace("@ACTIVE_TO_DATE", "null");
