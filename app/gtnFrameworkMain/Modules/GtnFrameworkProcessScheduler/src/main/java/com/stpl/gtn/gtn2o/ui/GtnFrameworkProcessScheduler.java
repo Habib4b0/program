@@ -29,6 +29,7 @@ public class GtnFrameworkProcessScheduler extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
+		gtnLogger.info("Process Schedular -----new");
 		gtnLogger.info("User Id.................." + request.getRemoteUser());
 		addStyleName(GtnFrameworkCssConstants.BOOTSTRAP);
 		addStyleName(GtnFrameworkCssConstants.BOOTSTRAP_BB);

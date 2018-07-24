@@ -1,5 +1,10 @@
 package com.stpl.gtn.gtn2o.ui.module.processscheduler.config;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -17,10 +22,6 @@ import com.stpl.gtn.gtn2o.ui.module.processscheduler.constants.GtnFrameworkProce
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.processscheduler.constants.GtnWsProcessScedulerConstants;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Date;
 
 public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 
@@ -30,7 +31,7 @@ public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 	public GtnUIFrameworkViewConfig getSearchView() {
 		GtnUIFrameworkViewConfig view = new GtnUIFrameworkViewConfig();
 		view.setViewName("Search View");
-		view.setViewId("V001");
+		view.setViewId("V002");
 		view.setDefaultView(true);
 		addComponentList(view);
 		return view;
@@ -418,6 +419,25 @@ public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 		componentList.add(gtnLayout);
 		addUpdateButtonComponent(componentList);
 		addRunButtonComponent(componentList);
+		addNewConfigComponent(componentList);
+	}
+
+	private void addNewConfigComponent(List<GtnUIFrameworkComponentConfig> componentList) {
+		GtnUIFrameworkComponentConfig addButtonConfig = new GtnUIFrameworkComponentConfig();
+		addButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		addButtonConfig.setComponentId("gtnNewConfigButton");
+		addButtonConfig.setComponentName("NewConfig");
+		addButtonConfig.setParentComponentId(GtnFrameworkCommonConstants.BUTTON_LAYOUT);
+		addButtonConfig.setAddToParent(true);
+		componentList.add(addButtonConfig);
+		
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<GtnUIFrameWorkActionConfig>();
+		
+		GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
+		navigationActionConfig.setActionType(GtnUIFrameworkActionType.NAVIGATION_ACTION);
+		navigationActionConfig.addActionParameter("V001");
+		actionConfigList.add(navigationActionConfig);
+		addButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}
 
 	private void addFrequency(List<GtnUIFrameworkComponentConfig> componentList) {

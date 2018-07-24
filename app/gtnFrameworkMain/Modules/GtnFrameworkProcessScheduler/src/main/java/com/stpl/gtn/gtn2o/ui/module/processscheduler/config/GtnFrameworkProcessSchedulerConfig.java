@@ -12,6 +12,7 @@ public class GtnFrameworkProcessSchedulerConfig {
 		GtnUIFrameworkRootConfig rootConfig = new GtnUIFrameworkRootConfig();
 		List<GtnUIFrameworkViewConfig> viewList = new ArrayList<>();
 		viewList.add(new GtnFrameworkProcessSchedulerLandingScreenConfig().getSearchView());
+		viewList.add(new GtnNewProcessSchedularConfig().getProcessSchedularView());
 		rootConfig.setGtnViewConfigList(viewList);
 		return rootConfig;
 	}
