@@ -62,7 +62,7 @@ public class CrossReferenceItems extends VerticalLayout {
         ifpResults.setColumnHeaders(HeaderUtil.getInstance().ifpDetailsHeader);
 
     }
-     public void configureFields(){
+     public final void configureFields(){
         massField.setNullSelectionAllowed(true);
         massField.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
         massField.addItem(ConstantsUtils.SELECT_ONE);

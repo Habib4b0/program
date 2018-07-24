@@ -71,7 +71,7 @@ public class FormulaSearchLookup extends CustomWindow {
         configureFields();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         formulaTableLayout.addComponent(resultsTable);
         tableLogic.setPageLength(NumericConstants.FIVE);
         tableLogic.setContainerDataSource(resultsContainer);

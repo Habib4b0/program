@@ -135,7 +135,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
         if (!session.getAction().equalsIgnoreCase(Constant.VIEW)) {
             insertFileData();
         }
-        this.setSales(new Sales(session, map));
+        this.sales = new Sales(session, map);
         this.rates = new Rates(session, map);
         this.details = new Details(session, map);
         dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));

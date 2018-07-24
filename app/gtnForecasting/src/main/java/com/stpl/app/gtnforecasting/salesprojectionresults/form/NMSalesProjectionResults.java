@@ -1415,7 +1415,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         return group;
     }
 
-    public void configure() {
+    public final void configure() {
         if (flag) {
             configureFields();
             securityForButtons();

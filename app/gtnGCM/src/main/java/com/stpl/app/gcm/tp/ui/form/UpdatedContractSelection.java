@@ -535,7 +535,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         }
     }
 
-    public void configureCurrentTradingPartnerTable() {
+    public final void configureCurrentTradingPartnerTable() {
         final CommmonLogic logic = new CommmonLogic();
 
         pagedTable.setFilterGenerator(new ExtFilterGenerator() {
@@ -905,7 +905,7 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     }
 
-    public void configureComponentInformationTable() {
+    public final void configureComponentInformationTable() {
         componentInformationTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         componentInformationTable.addStyleName("projectionTable");
 
@@ -1681,7 +1681,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         LOGGER.debug("Ending allCustomers method");
     }
 
-    public void configureAddTpScreen() {
+    public final void configureAddTpScreen() {
         if (!TRADING_PARTNER_UPDATE.getConstant().equalsIgnoreCase(session.getModuleName().trim())) {
             fieldDdlb.addItem(Constants.STATUS_FIELD);
         }

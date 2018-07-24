@@ -150,7 +150,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     /**
      * Init method
      */
-    public void init() {
+    public final void init() {
         LOGGER.debug("Inside NMSalesProjection Screen= {} ", session.getUserId());
         configureProjectionDTO();
         Utility.loadHierarchyList(session);

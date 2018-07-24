@@ -81,7 +81,7 @@ public class RebatePlanLookup extends CustomWindow {
         configureFields();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         try {
             formulaTableLayout.addComponent(resultsTable);
             tableLogic.setContainerDataSource(resultsContainer);

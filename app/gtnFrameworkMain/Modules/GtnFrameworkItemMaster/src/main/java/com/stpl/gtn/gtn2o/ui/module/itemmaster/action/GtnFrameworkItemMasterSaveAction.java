@@ -208,8 +208,7 @@ public class GtnFrameworkItemMasterSaveAction
 			if (selectedValue != null && !selectedValue.isEmpty()) {
 				StringBuilder stringBuilder = new StringBuilder();
 				for (String[] stringArray : selectedValue) {
-					stringBuilder.append(stringArray[1]);
-					stringBuilder.append(GtnFrameworkItemMasterStringContants.COMMA);
+					stringBuilder.append(stringArray[1]).append(',');
 				}
 				stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(GtnFrameworkItemMasterStringContants.COMMA));
 				int componentId = GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemCode(stringBuilder.toString());

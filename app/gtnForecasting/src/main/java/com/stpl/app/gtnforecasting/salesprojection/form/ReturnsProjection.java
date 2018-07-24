@@ -63,7 +63,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
         init();
     }
 
-    public void init()   {
+    public final void init()   {
         projectionDTO.setSessionDTO(session);
         projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));
         populateLevel.setVisible(true);

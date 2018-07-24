@@ -334,7 +334,7 @@ public class GtnFrameworkWorkflowPublicPrivateViewSaveAction
 			
 			for(String[] menuItem: objectList) {
 				listString.append(menuItem[2]);
-				listString.append(",");
+				listString.append(',');
 			}
 			listString.deleteCharAt(listString.lastIndexOf(","));
 			return listString.toString();

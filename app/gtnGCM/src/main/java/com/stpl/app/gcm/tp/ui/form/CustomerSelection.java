@@ -175,7 +175,7 @@ public class CustomerSelection extends VerticalLayout {
         configureSecurityPermissionsForProjectionDetails();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         try {
             LOGGER.debug(" Entering configureFields");
             selectedCustomersExport.setIcon(excelExportImage);

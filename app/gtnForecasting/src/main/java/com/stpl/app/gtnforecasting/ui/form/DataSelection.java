@@ -593,7 +593,7 @@ public class DataSelection extends ForecastDataSelection {
 		} 
 	}
 
-	public void configureOnLoading(int projectionId, DataSelectionDTO dataSelectionDTO) {
+	public final void configureOnLoading(int projectionId, DataSelectionDTO dataSelectionDTO) {
 		session.setFromPeriod(dataSelectionDTO.getFromPeriod());
 		session.setToPeriod(dataSelectionDTO.getToPeriod());
 		session.setFromDate(dataSelectionDTO.getFromDate());
@@ -4358,7 +4358,7 @@ public class DataSelection extends ForecastDataSelection {
 
 	}
 
-	void configureOnViewMode() {
+	final void configureOnViewMode() {
 		horizontalLayout.setEnabled(false);
 		selectedCustomer.setEditable(false);
 		selectedCustomer.setSelectable(false);

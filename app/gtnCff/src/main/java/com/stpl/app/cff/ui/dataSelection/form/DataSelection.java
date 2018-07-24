@@ -135,7 +135,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	}
 
-	public void configureOnLoading(int projectionId, DataSelectionDTO dataSelectionDTO, SessionDTO session) {
+	public final void configureOnLoading(int projectionId, DataSelectionDTO dataSelectionDTO, SessionDTO session) {
 		try {
 			sessionDTO.setFromPeriod(dataSelectionDTO.getFromPeriod());
 			sessionDTO.setToPeriod(dataSelectionDTO.getToPeriod());
@@ -3716,7 +3716,7 @@ public class DataSelection extends AbstractDataSelection {
 		return initialHierarchy;
 	}
 
-	public void configureOnTabLoad(int projectionId, SessionDTO session) {
+	public final void configureOnTabLoad(int projectionId, SessionDTO session) {
 		try {
 			customerDescriptionMap = sessionDTO.getCustomerDescription();
 			productDescriptionMap = sessionDTO.getProductDescription();

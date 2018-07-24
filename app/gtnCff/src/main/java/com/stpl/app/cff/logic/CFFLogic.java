@@ -1164,7 +1164,7 @@ public class CFFLogic {
                     VarianceCalculationLogic.submitWorkflow(processInstanceId, sessionDTO,"CFF");
                     noOfLevel = DSCalculationLogic.getProcessVariableLog(processInstanceId, "NoOfUsers");
                 } else {
-                    StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
+                    StringBuilder notiMsg = new StringBuilder("You dont have permission to submit a projection.");
                     if (!roleList.isEmpty()) {
                         notiMsg.append("\n Only " ).append( roleList ).append( " can submit a projection.");
                     }

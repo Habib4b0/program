@@ -168,7 +168,7 @@ public class ButtonLayout extends HorizontalLayout {
 		return table;
 	}
 
-	public void setTable(Table table) {
+	public final void setTable(Table table) {
 		this.table = table;
 	}
 }

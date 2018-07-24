@@ -97,7 +97,7 @@ public class PsLookUp extends Window {
         }
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         psTableLayout.addComponent(resultsTable);
         psTableLayout.addComponent(tableLogic.createControls());
         tableLogic.setContainerDataSource(resultsContainer);

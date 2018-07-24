@@ -319,7 +319,7 @@ public class NMPmpyCalculator extends Window {
     /**
      * Adds the screen contents and configures all the components.
      */
-    public void init() {
+    public final void init() {
         try {
             LOGGER.debug("Entering init method");
             center();
