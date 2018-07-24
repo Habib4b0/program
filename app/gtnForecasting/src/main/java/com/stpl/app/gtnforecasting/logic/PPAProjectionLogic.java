@@ -459,7 +459,7 @@ public class PPAProjectionLogic {
                 list = (List) getPPAProjectionResults(selection, rightDto, start, offset);
             } else if (!selection.isIsFilter()) {
                 selection.setHierarchyNo(StringUtils.EMPTY);
-                selection.setLevelNo(Integer.valueOf(selection.getCustomerLevelNo()));
+                selection.setLevelNo(selection.getCustomerLevelNo());
                 list = (List) getPPAProjectionResults(selection, rightDto, start, offset);
             }
             if (selection.isIsFilter()) {
