@@ -5650,7 +5650,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
     }
     public static final String AMOUNT = "Amount";
 
-    protected void loadDisplayFormatDdlb() {
+    protected final void loadDisplayFormatDdlb() {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatFilter.addAll(commonLogic.displayFormatValues());

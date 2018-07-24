@@ -350,7 +350,7 @@ public class PMPYCalculator extends Window {
     /**
      * Adds the screen contents and configures all the components.
      */
-    public void init() {
+    public final void init() {
 
         LOGGER.debug("Entering init method");
         center();
