@@ -202,7 +202,7 @@ public class PromoteTP extends VerticalLayout {
      * Configure Field Method
      *
      */
-    protected void configureFields() {
+    protected final void configureFields() {
         companyId.setData("maxlengthvalidationhundred,maxlengthvalidationcompanyid,specialchar,specialcharcompanyid");
         companyId.setValidationVisible(true);
         companyId.focus();

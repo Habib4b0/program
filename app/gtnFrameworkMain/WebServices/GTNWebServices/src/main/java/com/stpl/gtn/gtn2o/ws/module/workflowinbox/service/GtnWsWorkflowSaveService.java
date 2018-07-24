@@ -66,7 +66,7 @@ public class GtnWsWorkflowSaveService {
 			String createdBy = getKeyFromValue(map, masterbean.getCreatedBy());
 			String approvedBy = getKeyFromValue(map, masterbean.getApprovedBy());
 			if (createdBy != null) {
-				workflowModel.setCreatedBy(Integer.valueOf(createdBy));
+				workflowModel.setCreatedBy(Integer.parseInt(createdBy));
 			}
 			if (approvedBy != null) {
 				workflowModel.setApprovedBy(Integer.valueOf(approvedBy));
@@ -114,7 +114,7 @@ public class GtnWsWorkflowSaveService {
 			String createdBy = getKeyFromValue(map, masterbean.getCreatedBy());
 			String approvedBy = getKeyFromValue(map, masterbean.getApprovedBy());
 			if (createdBy != null) {
-				workflowModel.setCreatedBy(Integer.valueOf(createdBy));
+				workflowModel.setCreatedBy(Integer.parseInt(createdBy));
 			}
 			if (approvedBy != null) {
 				workflowModel.setApprovedBy(Integer.valueOf(approvedBy));

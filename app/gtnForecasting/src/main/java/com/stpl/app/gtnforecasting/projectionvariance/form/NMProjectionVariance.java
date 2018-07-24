@@ -1856,7 +1856,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         }
     }
 
-    public void configure() {
+    public final void configure() {
         if (flag) {
             try {
                 configureFields();

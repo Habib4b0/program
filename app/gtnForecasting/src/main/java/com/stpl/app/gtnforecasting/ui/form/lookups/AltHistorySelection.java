@@ -180,7 +180,7 @@ public class AltHistorySelection extends CustomComponent implements View {
         }
     }
 
-    protected void configureFields()  {
+    protected final void configureFields()  {
         actualOrProj.addItem(Constant.ACTUALS);
         actualOrProj.addItem(Constant.PROJECTIONS);
         actualOrProj.addItem(Constant.BOTH);

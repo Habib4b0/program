@@ -108,7 +108,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
         configureSecurityPermissions();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
 
         currentTradingPartnerTableLayout.addComponent(currentTradingPartnerDetailsTable);
         transferTradingPartnerTableLayout.addComponent(transferTradingPartnerDetailsTable);

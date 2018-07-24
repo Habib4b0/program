@@ -161,7 +161,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
      * Configure Scheduled Processes Table
      *
      */
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             createSessionID();
             if (ADD_DISCOUNT.getConstant().equals(screenName)) {

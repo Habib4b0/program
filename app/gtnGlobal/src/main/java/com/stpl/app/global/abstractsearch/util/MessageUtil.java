@@ -53,7 +53,7 @@ public final class MessageUtil {
 	 * @return message
 	 */
 	public static String getMessage(final String key) {
-		final StringBuffer sbValue =new StringBuffer();
+		final StringBuilder sbValue =new StringBuilder();
 		
 		sbValue.append(getErrorCode(key));
 		return sbValue.toString();

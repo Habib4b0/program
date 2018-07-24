@@ -48,7 +48,7 @@ public class Contractselectionpopup extends Window {
 
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         contractscount.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         contractscount.addItem("1");
         contractscount.addItem("2");

@@ -122,7 +122,7 @@ public class RebateTab extends VerticalLayout {
     private int projectionId = 0;
 
     public RebateTab(SessionDTO session, boolean isLoad) {
-        this.setLoad(isLoad);
+        this.load = isLoad;
         this.session = session;
         tableLogic.setSession(session);
         getContent();

@@ -231,7 +231,7 @@ public class Copycomponents extends CustomComponent {
         }
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             BtnsearchNC.setEnabled(false);
             componentitems.addItem(Constants.COMPANY_FAMILY_PLAN);
