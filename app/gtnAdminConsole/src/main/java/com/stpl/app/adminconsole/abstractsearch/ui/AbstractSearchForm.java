@@ -285,7 +285,7 @@ public class AbstractSearchForm extends CustomComponent {
      * @throws com.liferay.portal.kernel.exception.PortalException
      * @throws com.liferay.portal.kernel.exception.SystemException
      */
-    public void init() throws PortalException, SystemException {
+    public final void init() throws PortalException, SystemException {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = sessionDTO.getUserId();
         final Map<String, AppPermission> functionCompanyHM = stplSecurity.getBusinessFunctionPermission(userId, securityName() + "," + "Index Screen");

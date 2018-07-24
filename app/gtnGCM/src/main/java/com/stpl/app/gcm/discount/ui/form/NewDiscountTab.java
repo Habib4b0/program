@@ -303,7 +303,7 @@ public class NewDiscountTab extends CustomComponent {
         configureSecurityPermissions();
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             startDate.addStyleName("v-align-center");
             endDate.addStyleName("v-align-center");

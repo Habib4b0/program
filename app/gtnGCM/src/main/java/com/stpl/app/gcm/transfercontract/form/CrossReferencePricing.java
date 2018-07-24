@@ -62,7 +62,7 @@ public class CrossReferencePricing extends VerticalLayout {
         psResults.setColumnHeaders(HeaderUtil.getInstance().psDetailsHeader);
 
     }
-     public void configureFields(){
+     public final void configureFields(){
         massField.setNullSelectionAllowed(true);
         massField.setNullSelectionItemId(Constants.SELECT_ONE);
         massField.addItem(Constants.SELECT_ONE);

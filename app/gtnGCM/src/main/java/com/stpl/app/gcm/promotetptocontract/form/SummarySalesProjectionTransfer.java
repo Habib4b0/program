@@ -96,7 +96,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     private ExtFilterTable resultTable;
 
     public SummarySalesProjectionTransfer(ExtFilterTable resultTable, SessionDTO session) {
-        this.setResultTable(resultTable);
+        this.resultTable = resultTable;
         this.session = session;
         tableLogic.setSession(session);
         getContent();

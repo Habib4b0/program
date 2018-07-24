@@ -1683,7 +1683,7 @@ public class PMPYCalculator extends Window {
         return returnDoubleValue;
     }
 
-    public void configureAttributes() {
+    public final void configureAttributes() {
 
         historyField.setValue(historyPeriods);
         frequencyField.setValue("Quaterly");

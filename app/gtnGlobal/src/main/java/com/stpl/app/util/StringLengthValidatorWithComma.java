@@ -145,7 +145,7 @@ public class StringLengthValidatorWithComma extends AbstractStringValidator {
      * @param minLength
      *            the minimum length to accept or null for no limit
      */
-    public void setMinLength(Integer minLength) {
+    public final void setMinLength(Integer minLength) {
         this.minLength = minLength;
     }
 

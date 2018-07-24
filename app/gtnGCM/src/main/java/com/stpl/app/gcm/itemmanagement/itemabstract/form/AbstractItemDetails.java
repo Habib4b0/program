@@ -90,7 +90,7 @@ public class AbstractItemDetails extends CustomComponent {
         }
     }
 
-    Component ConfigureItemTable() {
+    final Component ConfigureItemTable() {
         itemdetailstableLogic.setContainerDataSource(container);
         itemdetailstableLogic.sinkItemPerPageWithPageLength(false);
         itemdetailstable.setVisibleColumns(visibleColumn);

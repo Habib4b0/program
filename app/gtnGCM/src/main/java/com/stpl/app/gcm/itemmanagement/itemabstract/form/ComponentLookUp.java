@@ -111,7 +111,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.clas
         setCaption(caption);
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         componentId.focus();
         Object[] CFP_SEARCH_COLUMNS = new Object[]{
             "componentId", "componentNo", "componentName", "componentStatus", "componentType"};

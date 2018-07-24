@@ -977,7 +977,7 @@ public class AlternateSummery extends CustomComponent {
         return flag;
     }
 
-    public void init() throws PortalException {
+    public final void init() throws PortalException {
         LOGGER.debug("Inside NMSalesProjection Screen= {} " , session.getUserId());
         projectionDTO.setSessionDTO(session);
         projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));

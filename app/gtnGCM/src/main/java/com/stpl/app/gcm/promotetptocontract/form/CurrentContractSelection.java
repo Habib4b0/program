@@ -296,7 +296,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         }
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             screenName = TAB_CURRENT_CONTRACT.getConstant();
             contractNo.setData("maxlengthvalidationhundred,maxlengthvalidationcontractno,specialchar,specialcharcontractno");

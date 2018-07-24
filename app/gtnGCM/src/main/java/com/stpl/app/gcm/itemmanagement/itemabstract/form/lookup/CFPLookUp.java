@@ -106,7 +106,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(CFPLookUp.class);
         loadComponentDdlb();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         addTableLayout();
         startDate.addStyleName("align-center");
         endDate.addStyleName("align-center");

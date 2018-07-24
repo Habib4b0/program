@@ -4914,7 +4914,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 		}
 	}
 
-	public void configurePermission() {
+	public final void configurePermission() {
 
 		try {
 			final StplSecurity stplSecurity = new StplSecurity();

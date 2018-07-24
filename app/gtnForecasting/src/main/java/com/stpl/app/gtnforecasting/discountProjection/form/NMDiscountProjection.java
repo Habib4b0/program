@@ -3700,7 +3700,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         List<String> discountToBeLoaded;
         boolean isCustom = CommonUtil.isValueEligibleForLoading()
                 ? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)
-                : Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
+                : Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant().equals(hierarchyIndicator);
         if (!programSelectionList.isEmpty()) {
             discountToBeLoaded = programSelectionList;
         } else {
@@ -3999,7 +3999,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             LOGGER.debug(" Discount generated ");
             boolean isCustomHierarchy = CommonUtil.isValueEligibleForLoading()
                     ? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)
-                    : Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
+                    : Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant().equals(hierarchyIndicator);
             boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
             discountProjectionLogic.saveDiscountProjectionListView(session, projectionSelection.getFrequency(), saveList, customId,
                     isProgram, isCustomHierarchy);
@@ -5383,7 +5383,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         return !resultBeanContainer.isEmpty();
     }
 
-    public void configure() {
+    public final void configure() {
         if (flag) {
             getContent();
 

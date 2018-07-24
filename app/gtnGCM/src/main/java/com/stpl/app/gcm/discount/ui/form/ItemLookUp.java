@@ -54,7 +54,7 @@ public class ItemLookUp extends Window {
         configureFields();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         itemTableLayout.addComponent(resultsTable);
         resultsTable.setHeight("500px");
         resultsTable.setPageLength(NumericConstants.FIVE);

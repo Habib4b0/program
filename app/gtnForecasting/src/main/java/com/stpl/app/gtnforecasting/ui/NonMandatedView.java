@@ -60,7 +60,7 @@ public class NonMandatedView extends VerticalLayout {
      *
      * @param event the event
      */
-    public void enter() {
+    public final void enter() {
         dataSelectionBinder.setItemDataSource(new BeanItem<>(dataSelectionDTO));
         nonMandatedForm.configureOnEnter();
     }

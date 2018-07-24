@@ -143,7 +143,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
         loadComponentDdlb();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
 
         addTableLayout();
         tableLogic.setContainerDataSource(resultsContainer);

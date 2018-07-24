@@ -158,7 +158,7 @@ public class CompanySearch extends VerticalLayout {
         configureSecurityPermissions();
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             CompanySearchLogic logic = new CompanySearchLogic();
             List<IdDescriptionDTO> resultList;

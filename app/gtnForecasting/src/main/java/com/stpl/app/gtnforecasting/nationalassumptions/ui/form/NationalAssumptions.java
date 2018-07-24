@@ -322,7 +322,7 @@ public class NationalAssumptions extends CustomComponent implements View {
     /**
      * Inits the.
      */
-    public void init() {
+    public final void init() {
         LOGGER.debug("init method started");
         configureFields();
         LOGGER.debug("init method ends");

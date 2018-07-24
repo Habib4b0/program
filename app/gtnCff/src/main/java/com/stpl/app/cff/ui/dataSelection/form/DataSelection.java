@@ -135,7 +135,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	}
 
-	public void configureOnLoading(int projectionId, DataSelectionDTO dataSelectionDTO, SessionDTO session) {
+	public final void configureOnLoading(int projectionId, DataSelectionDTO dataSelectionDTO, SessionDTO session) {
 		try {
 			sessionDTO.setFromPeriod(dataSelectionDTO.getFromPeriod());
 			sessionDTO.setToPeriod(dataSelectionDTO.getToPeriod());

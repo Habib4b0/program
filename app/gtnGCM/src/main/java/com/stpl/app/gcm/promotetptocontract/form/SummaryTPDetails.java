@@ -111,7 +111,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
     public SummaryTPDetails(SessionDTO session, ExtFilterTable resultTable) {
         try {
             this.session = session;
-            this.setResultTable(resultTable);
+            this.resultTable = resultTable;
             setCompositionRoot(Clara.create(getClass().getResourceAsStream("/promoteTpSummaryTPDetails.xml"), this));
             configureFields();
             configureSecurityPermissions();

@@ -342,7 +342,7 @@ public class NewComponents extends CustomComponent implements View {
         }
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             startDate.setDateFormat(Constants.MM_DD_YYYY);
             endDate.setDateFormat(Constants.MM_DD_YYYY);

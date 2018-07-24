@@ -74,7 +74,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         init();
     }
 
-    public void init() throws PortalException, SystemException  {
+    public final void init() throws PortalException, SystemException  {
         projectionDTO.setSessionDTO(session);
         configureProjectionDTO();
         Utility.loadHierarchyList(session);
@@ -411,7 +411,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
         String history = String.valueOf(historyDdlb.getValue());
         history = history.trim();
-        if (history != null && !StringUtils.isBlank(history) && !NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
+        if (history != null && !StringUtils.isBlank(history) && !NULL.getConstant().equals(history) && !SELECT_ONE.getConstant().equals(history)) {
             toHist = true;
             projectionDTO.setHistory(history);
             historyNum = Integer.parseInt(projectionDTO.getHistory());
