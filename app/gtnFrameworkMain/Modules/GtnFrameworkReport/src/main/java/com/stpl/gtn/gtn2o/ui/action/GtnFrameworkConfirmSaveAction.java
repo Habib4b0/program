@@ -6,9 +6,6 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
-import java.util.Date;
-import java.util.List;
-
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
@@ -16,6 +13,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFramework
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
@@ -27,6 +25,9 @@ import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
@@ -86,7 +87,10 @@ public class GtnFrameworkConfirmSaveAction implements GtnUIFrameWorkAction, GtnU
         new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
                 id, componentId,
                 Arrays.asList(""));
-//        customView.setHasValue(String.valueOf(cvResponse.getCvSysId()));
+       GtnUIFrameworkComponentData data= (GtnUIFrameworkComponentData)
+                Optional.ofNullable(customView.getComponent().getData()).orElse(new GtnUIFrameworkComponentData());
+       data.setCustomData(cvResponse.getCvSysId());
+       customView.getComponent().setData(data);
     }
 
     public GtnWsCustomViewRequest buildWsRequest(List<Object> paramList, final GtnUIFrameworkWebserviceRequest request)

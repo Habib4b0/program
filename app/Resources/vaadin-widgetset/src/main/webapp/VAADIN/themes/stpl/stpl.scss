@@ -76,9 +76,6 @@ border-radius: 0px;
 height: auto!important;
 }
 
-.v-grid-cell {
- font-size: 12px !important;
- }
 
 	th.v-treegrid-cell {
 height: auto!important;
@@ -109,5 +106,18 @@ border-radius: 0px !important;
 .datefieldcentered >input {
     text-align: center;
 }
-
+.v-grid-cell {
+    font-size: 13px; 
+}
+.v-treegrid-cell {
+    font-size: 13px; 
+}
+.v-treegrid-column-header-content,.v-treegrid-column-footer-content{
+    font-size: 12px; 
+    font-weight: 600;
+}
+.v-grid-column-header-content,.v-grid-column-footer-content {
+    font-size: 12px; 
+    font-weight: 600; 
+}
 }
