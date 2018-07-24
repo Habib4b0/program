@@ -307,10 +307,10 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
                 long totalChildCount=input.stream().filter(row -> GridUtils.getHierarchyNo(row).startsWith(hierNo)).count();
                 bean.addAdditionalProperties(3,excelRowCount);
                 bean.addAdditionalProperties(4, excelRowCount+totalChildCount-2);
-                bean.addAdditionalProperties(5,true);
+                bean.addAdditionalProperties(5,Boolean.TRUE);
                 buildTree(input,child, output);
             }else{
-              bean.addAdditionalProperties(5,false);
+              bean.addAdditionalProperties(5,Boolean.FALSE);
             }
         }
     }

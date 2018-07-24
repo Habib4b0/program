@@ -61,7 +61,7 @@ public class GtnFrameworkAdditionalSearchCriteriaAction implements GtnUIFrameWor
 		
 		for(String[] menuItem: resultList) {
 			listString.append(menuItem[2]);
-			listString.append(",");
+			listString.append(',');
 		}
 		
 		if(!listString.toString().isEmpty()) {

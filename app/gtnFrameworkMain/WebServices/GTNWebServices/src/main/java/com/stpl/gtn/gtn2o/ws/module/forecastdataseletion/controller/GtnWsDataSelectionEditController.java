@@ -463,11 +463,11 @@ public class GtnWsDataSelectionEditController {
 		relationshipLevelDefBean.setHierarchyCategory(selectedHierarchyBean.getHierarchyType());
 		for (int i = 0; i < recordBean.size(); i++) {
 			GtnWsRecordBean gtnWsRecordBean = recordBean.get(i);
-			hierarchyNo.append("'");
+			hierarchyNo.append("' ");
 			hierarchyNo.append(gtnWsRecordBean.getStringPropertyByIndex(4));
 			if (i != recordBean.size() - 1) {
-				hierarchyNo.append("'");
-				hierarchyNo.append(",");
+				hierarchyNo.append("' ");
+				hierarchyNo.append(',');
 			}
 		}
 		relationshipLevelDefBean.setHierarchyNo(hierarchyNo.toString());

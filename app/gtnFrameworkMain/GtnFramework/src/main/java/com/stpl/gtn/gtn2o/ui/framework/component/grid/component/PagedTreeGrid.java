@@ -479,7 +479,7 @@ public class PagedTreeGrid {
         while (currentLevel >= tableConfig.getLevelNo() && itemsToFetch >= fetched) {
             start = findStart(start, isFirst, currentLevel);
             List<GtnWsRecordBean> rows = loadData(start, itemsToFetch, currentLevel, currentLevel == tableConfig.getLevelNo() ? emptyString : 
-                    hierNo.isEmpty()?hierNo:hierNo.substring(0,hierNo.lastIndexOf("."))).getRows();
+                    hierNo.isEmpty()?hierNo:hierNo.substring(0,hierNo.lastIndexOf('.'))).getRows();
             currentLevel--;
             fetchRowsRecursively(null, rows, treeData, itemsToFetch);
         }

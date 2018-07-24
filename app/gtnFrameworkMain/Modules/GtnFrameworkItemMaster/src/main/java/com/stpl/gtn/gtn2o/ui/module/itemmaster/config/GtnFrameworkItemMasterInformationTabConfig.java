@@ -859,7 +859,7 @@ public class GtnFrameworkItemMasterInformationTabConfig {
 				"itemInfoTabUDC1CheckedComboBox", Boolean.TRUE, udc1Layout.getComponentId(),
 				GtnUIFrameworkComponentType.CHECKEDCOMBOBOX);
 		udc1.setComponentName(GtnFrameworkItemMasterStringContants.UDC_1);
-		udc1.setAuthorizationIncluded(Boolean.TRUE);
+		udc1.setAuthorizationIncluded(true);
 		componentList.add(udc1);
 
 		GtnUIFrameworkCheckedComboBoxConfig checkedComboBoxConfig = new GtnUIFrameworkCheckedComboBoxConfig();
@@ -877,11 +877,11 @@ public class GtnFrameworkItemMasterInformationTabConfig {
 				"itemInfoTabUDC1TextBox", Boolean.TRUE, udc1Layout.getComponentId(),
 				GtnUIFrameworkComponentType.TEXTBOX);
 		udc1TextBox.setComponentName(GtnFrameworkItemMasterStringContants.UDC_1);
-		udc1TextBox.setAuthorizationIncluded(Boolean.TRUE);
+		udc1TextBox.setAuthorizationIncluded(true);
 		componentList.add(udc1TextBox);
 
 		GtnUIFrameworkTextBoxConfig udcTextBoxConfig = new GtnUIFrameworkTextBoxConfig();
-		udcTextBoxConfig.setEnable(Boolean.FALSE);
+		udcTextBoxConfig.setEnable(false);
 		udc1TextBox.setGtnTextBoxConfig(udcTextBoxConfig);
 	}
 
