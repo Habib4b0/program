@@ -79,7 +79,7 @@ public class QueryUtil {
      * @param projectionId
      * @param userId
      * @param sessionId
-     * @return
+     * @return  
      */
     public static String buildDynamicTempTableCreationQuery(final String screenName, final int projectionId, final String userId, final String sessionId) {
         String append = "('@MAIN_TABLE') ";

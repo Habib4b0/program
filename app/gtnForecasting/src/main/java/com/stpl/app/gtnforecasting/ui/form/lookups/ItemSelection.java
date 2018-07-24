@@ -140,7 +140,7 @@ public class ItemSelection extends CustomComponent implements View {
         configureTable();
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         HelperListUtil helperListUtil = HelperListUtil.getInstance();
         helperListUtil.loadValuesWithListName("alternatehistory");
         try {

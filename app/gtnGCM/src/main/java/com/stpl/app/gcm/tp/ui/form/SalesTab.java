@@ -119,7 +119,7 @@ public class SalesTab extends VerticalLayout {
 
     public SalesTab(SessionDTO session, boolean isLoad) {
         this.session = session;
-        this.setLoad(isLoad);
+        this.load = isLoad;
         tableLogic.setSession(session);
         getContent();
     }

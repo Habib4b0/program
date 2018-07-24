@@ -1043,7 +1043,7 @@ public class PPAProjection extends CustomComponent implements View {
                 int startQuater = 0;
                 int startYear = 0;
                 if (startPeriod.getValue() != null) {
-                    startQuater = Integer.valueOf(startPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT);
+                    startQuater = startPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT;
                     startYear = Integer.parseInt(startPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
                 } else if (startPeriod.isVisible()) {
                     MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_03"), ButtonId.OK);

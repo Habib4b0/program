@@ -256,7 +256,7 @@ public class ExistingComponents extends CustomComponent implements View {
         }
     }
 
-    protected void configureFieldsForExistComp() {
+    protected final void configureFieldsForExistComp() {
         try {
 
             componentTypeDdlbInEC.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());

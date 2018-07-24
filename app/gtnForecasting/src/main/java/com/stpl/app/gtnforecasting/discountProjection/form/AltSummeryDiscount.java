@@ -299,7 +299,7 @@ public class AltSummeryDiscount extends CustomComponent {
         getContent();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         frequencyDdlb.addItem(SELECT_ONE.getConstant());
         frequencyDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         frequencyDdlb.addItem(MONTHLY.getConstant());

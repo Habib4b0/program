@@ -22,8 +22,6 @@ public class processSchedulerView extends VerticalLayout implements View {
 
     private SessionDTO sessionDTO;
 
-    private processSchedulerForm processScheduler;
-
     public processSchedulerView(final SessionDTO sessionDTO) {
         super();
         this.sessionDTO = sessionDTO;
@@ -33,7 +31,7 @@ public class processSchedulerView extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        processScheduler = new processSchedulerForm(sessionDTO);
+        processSchedulerForm processScheduler = new processSchedulerForm(sessionDTO);
         addComponent(processScheduler);
     }
 

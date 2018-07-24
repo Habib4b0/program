@@ -56,7 +56,7 @@ public class PromoteTpToChEdit extends VerticalLayout {
      * Enter Method
      *
      */
-    public void enter() {
+    public final void enter() {
         promoteTpToChBinder.setItemDataSource(new BeanItem<>(promoteTpToChDto));
  
     }

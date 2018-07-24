@@ -55,7 +55,7 @@ public class ValidationUtil {
      * @return message
      */
     public static String getMessage(final String key) {
-        final StringBuffer sbValue = new StringBuffer();
+        final StringBuilder sbValue = new StringBuilder();
         sbValue.append(getMC(key));
         return sbValue.toString();
     }
@@ -66,7 +66,7 @@ public class ValidationUtil {
      * @return 
      */
     public static String getLabel(final String key) {
-        final StringBuffer sbValue = new StringBuffer();
+        final StringBuilder sbValue = new StringBuilder();
         sbValue.append(getLC(key));
         return sbValue.toString();
     }

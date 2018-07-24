@@ -54,7 +54,7 @@ public class CustomerLookUp extends Window {
         configureFields();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         custTableLayout.addComponent(resultsTable);
         resultsTable.setHeight("500px");
         resultsTable.setPageLength(NumericConstants.FIVE);

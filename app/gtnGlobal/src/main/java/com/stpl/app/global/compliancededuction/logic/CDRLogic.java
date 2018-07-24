@@ -144,7 +144,7 @@ public class CDRLogic {
                 }
             }
         }
-        StringBuffer appendQuery =new StringBuffer();
+        StringBuilder appendQuery =new StringBuilder();
         appendQuery.append(" OFFSET " ).append( start ).append( " ROWS FETCH NEXT " ).append( end ).append( " ROWS ONLY");
         queryBuilder.append(false ? StringUtils.EMPTY : appendQuery);
         final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());

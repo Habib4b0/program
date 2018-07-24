@@ -91,7 +91,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
     /**
      * Inits the.
      */
-    public void init() {
+    public final void init() {
         LOGGER.debug("ComparisonLookUp init method started");
         configureFields();
         resultsTable.setFilterBarVisible(true);
@@ -325,7 +325,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
             resultsTable.setVisibleColumns(headerUtils.getComparisonColumns());
             resultsTable.setColumnHeaders(headerUtils.getComparisonHeader());
 
-            if (lookUpDTO.getCreatedDateFrom() != null && lookUpDTO.getCreatedDateTo() != null && lookUpDTO.getCreatedDateFrom().equals(lookUpDTO.getCreatedDateTo())) {
+            if (lookUpDTO.getCreatedDateFrom() != null && lookUpDTO.getCreatedDateTo() != null && String.valueOf(lookUpDTO.getCreatedDateFrom()).equals(lookUpDTO.getCreatedDateTo())) {
                 AbstractNotificationUtils.getErrorNotification("Date Range Error", "Start date and End date should not be equal");
                 flag = false;
             }
