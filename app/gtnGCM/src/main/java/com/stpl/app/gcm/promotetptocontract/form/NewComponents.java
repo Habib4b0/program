@@ -1779,7 +1779,7 @@ public class NewComponents extends CustomComponent implements View {
                                 if (detList != null && detList.size() > 0) {
                                     Object[] obje = (Object[]) detList.get(0);
                                     ifpDetails.setIfpModelSid(ifpmodel.getIfpModelSid());
-                                    ifpDetails.setItemMasterSid(Integer.valueOf(itemMasterId));
+                                    ifpDetails.setItemMasterSid(itemMasterId);
                                     if (obje[1] != null) {
                                         ifpDetails.setStartDate((Date) obje[1]);
                                     } else {

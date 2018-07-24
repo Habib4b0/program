@@ -943,7 +943,7 @@ public class Exixtingcomponent extends CustomComponent {
                 dashboardResultsTable.getContainerProperty(itemIds[i], SAVED_SYSTEM_ID).setValue(contractsidvalue);
                 ContractAliasMaster CAM = ContractAliasMasterLocalServiceUtil.createContractAliasMaster(0);
                 CAM.setContractAliasNo(AliasNumber);
-                CAM.setContractAliasType(Integer.valueOf(AliasType));
+                CAM.setContractAliasType(AliasType);
                 CAM.setStartDate(AliasSDATE);
                 CAM.setEndDate(AliasEDATE);
                 CAM.setModifiedDate(new Date());
