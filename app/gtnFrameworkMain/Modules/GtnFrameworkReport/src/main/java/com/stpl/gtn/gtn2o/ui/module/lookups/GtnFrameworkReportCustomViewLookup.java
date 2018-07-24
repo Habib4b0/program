@@ -5,6 +5,10 @@
  */
 package com.stpl.gtn.gtn2o.ui.module.lookups;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCVSaveValidationAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomSelectAction;
@@ -27,9 +31,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class GtnFrameworkReportCustomViewLookup {
 
@@ -165,6 +166,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				+ GtnFrameworkReportStringConstants.VARIABLE_TYPE_OPTION_GROUP);
 		variableLoadConfig
 				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
+		variableLoadConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
 
 		variableTypeOptionGroup.addGtnUIFrameWorkActionConfig(variableLoadConfig);
 		componentList.add(variableTypeOptionGroup);
@@ -205,6 +207,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				+ GtnFrameworkReportStringConstants.VARIABLE_TYPE_OPTION_GROUP);
 		valuChangeConfig
 				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
+		valuChangeConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
 		variablePositionOptionGroup.addGtnUIFrameWorkActionConfig(valuChangeConfig);
 		componentList.add(variablePositionOptionGroup);
 	}
@@ -249,7 +252,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		searchCriteriaLayout.setParentComponentId(parentId);
 		searchCriteriaLayout.setGtnLayoutConfig(layoutConf);
 		componentList.add(searchCriteriaLayout);
-		
+
 		GtnUIFrameworkLayoutConfig cssLayoutConfig = new GtnUIFrameworkLayoutConfig();
 		cssLayoutConfig.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
 		GtnUIFrameworkComponentConfig searchCriteriaCssLayout = new GtnUIFrameworkComponentConfig();
@@ -261,7 +264,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		searchCriteriaCssLayout.setParentComponentId(searchCriteriaLayout.getComponentId());
 		searchCriteriaCssLayout.setGtnLayoutConfig(cssLayoutConfig);
 		componentList.add(searchCriteriaCssLayout);
-		
+
 		addMainLayoutForLeftTables(componentList, searchCriteriaCssLayout.getComponentId());
 		addCustomTree(componentList, searchCriteriaCssLayout.getComponentId());
 	}
@@ -311,7 +314,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		customerBtnVerLayout.setSpacing(true);
 		customerBtnVerLayout.addComponentStyle("stpl-margin-top-100");
 		componentList.add(customerBtnVerLayout);
-		
+
 		GtnUIFrameworkComponentConfig addCustomerButton = new GtnUIFrameworkComponentConfig();
 		addCustomerButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		addCustomerButton.setAddToParent(true);
@@ -351,8 +354,8 @@ public class GtnFrameworkReportCustomViewLookup {
 
 	private void addProductTree(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
-		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig
-				.getHorizontalLayoutConfig(tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
+		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig.getHorizontalLayoutConfig(
+				tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
 		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		componentList.add(mainCssLayoutForProduct);
 
@@ -422,8 +425,8 @@ public class GtnFrameworkReportCustomViewLookup {
 
 	private void addDeductionTree(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
-		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig
-				.getHorizontalLayoutConfig(tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
+		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig.getHorizontalLayoutConfig(
+				tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
 		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		componentList.add(mainCssLayoutForProduct);
 
@@ -494,8 +497,8 @@ public class GtnFrameworkReportCustomViewLookup {
 
 	private void addVariablesTree(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
-		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig
-				.getHorizontalLayoutConfig(tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
+		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig.getHorizontalLayoutConfig(
+				tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
 		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		componentList.add(mainCssLayoutForProduct);
 
@@ -515,6 +518,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				+ GtnFrameworkReportStringConstants.VARIABLE_TYPE_OPTION_GROUP);
 		variableLoadConfig
 				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
+		variableLoadConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
 		variablesGrid.setGtnUIFrameWorkActionConfigList(Arrays.asList(variableLoadConfig));
 
 		GtnUIFrameworkGridComponentConfig gridConfig = new GtnUIFrameworkGridComponentConfig();
@@ -621,13 +625,11 @@ public class GtnFrameworkReportCustomViewLookup {
 		GtnUIFrameWorkActionConfig saveActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		saveActionConfig.addActionParameter(GtnFrameworkCVSaveValidationAction.class.getName());
-		saveActionConfig
-				.addActionParameter(new String[] {
-						tabName + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkCommonConstants.HIERARCHY_NAME,
-						"reportLandingScreen_customerSelectionRelationship", "reportLandingScreen_relationship",
-						"reportCustomViewLookup_custom_Variable_Type_OptionGroup",
-						"reportCustomViewLookup_custom_Variable_OptionGroup" });
+		saveActionConfig.addActionParameter(new String[] {
+				tabName + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_NAME,
+				"reportLandingScreen_customerSelectionRelationship", "reportLandingScreen_relationship",
+				"reportCustomViewLookup_custom_Variable_Type_OptionGroup",
+				"reportCustomViewLookup_custom_Variable_OptionGroup" });
 		saveActionConfig.addActionParameter(tabName + "customTreeTable");
 		saveActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.UNDERSCORE);
 		saveButton.addGtnUIFrameWorkActionConfig(saveActionConfig);
@@ -639,11 +641,17 @@ public class GtnFrameworkReportCustomViewLookup {
 		selectButtonConfig.setParentComponentId(layoutConfig.getComponentId());
 		selectButtonConfig.setAddToParent(true);
 		componentList.add(selectButtonConfig);
+                
+                
+		GtnUIFrameWorkActionConfig closeConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+	
 
 		GtnUIFrameWorkActionConfig selectButtonActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		selectButtonActionConfig.addActionParameter(GtnFrameworkUICustomSelectAction.class.getName());
 		selectButtonConfig.addGtnUIFrameWorkActionConfig(selectButtonActionConfig);
+		selectButtonConfig.addGtnUIFrameWorkActionConfig(closeConfig);
 
 		GtnUIFrameworkComponentConfig closeButtonConfig = new GtnUIFrameworkComponentConfig();
 		closeButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -651,11 +659,10 @@ public class GtnFrameworkReportCustomViewLookup {
 		closeButtonConfig.setComponentName("CLOSE");
 		closeButtonConfig.setParentComponentId(layoutConfig.getComponentId());
 		closeButtonConfig.setAddToParent(true);
-
-		GtnUIFrameWorkActionConfig closeConfig = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		closeButtonConfig.addGtnUIFrameWorkActionConfig(closeConfig);
+	
+                closeButtonConfig.addGtnUIFrameWorkActionConfig(closeConfig);
 		componentList.add(closeButtonConfig);
+                
 
 	}
 

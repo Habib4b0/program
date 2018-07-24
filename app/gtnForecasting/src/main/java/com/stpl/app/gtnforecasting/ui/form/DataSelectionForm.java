@@ -3948,7 +3948,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 				relationship.select(selectedRelationshipDdlbDto.getRelationshipBuilderSid());
 			}
 			relationship.setPageLength(7);
-			relationship.setImmediate(true);
 			relationship.setNullSelectionAllowed(true);
 			relationship.setInputPrompt(SELECT_ONE);
 

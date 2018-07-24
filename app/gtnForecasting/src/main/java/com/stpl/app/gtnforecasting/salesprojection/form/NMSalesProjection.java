@@ -541,32 +541,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 super.initializeResultTable();
                 configureResultTable();
                 addResultTable();
-                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-                    if (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())) {
-                        session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
-                        session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
-                        CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
-                        dataLogic.nmSalesViewsPopulationProcedure(session);
-                        CommonUtil.getInstance().waitForSeconds();
-                    }
-                    if (uomValueChange) {
-                        session.setUomCode(unitOfMeasureDdlb.getValue() == null ? "EACH" : String.valueOf(unitOfMeasureDdlb.getValue()));
-                        dataLogic.nmSalesViewsPopulationProcedureUOM(session);
-                        uomValueChange = false;
-                    }
-                    if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
-                        LOGGER.info("generateBtn :Inside Filter Option");
-                        session.setFunctionMode("F");
-                        CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
-                        CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
-                        dataLogic.nmSalesViewsPopulationProcedureWithoutTruncation(session);
-                        CommonUtil.getInstance().waitForSeconds();
-                        customerFlag = true; 
-                        productFlag = true; 
-                    }
-                    projectionDTO.setGroup(StringUtils.EMPTY);
-                   
-                }
+                commercialGenerate(customerFlag, productFlag);
                 CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
                 generateLogic();
             }
@@ -574,7 +549,43 @@ public class NMSalesProjection extends ForecastSalesProjection {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("generate button click listener ends ");
+    }
 
+    private void customerFilterGenerate(boolean customerFlag, boolean productFlag) {
+        if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
+            LOGGER.info("generateBtn :Inside Filter Option");
+            session.setFunctionMode("F");
+            CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
+            CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
+            dataLogic.nmSalesViewsPopulationProcedureWithoutTruncation(session);
+            CommonUtil.getInstance().waitForSeconds();
+            customerFlag = true;
+            productFlag = true;
+        }
+    }
+
+    private void commercialGenerate(boolean customerFlag, boolean productFlag) {
+        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+            if (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())) {
+                session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
+                session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
+                CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
+                dataLogic.nmSalesViewsPopulationProcedure(session);
+                CommonUtil.getInstance().waitForSeconds();
+            }
+            uomValueChangeGenerate();
+            customerFilterGenerate(customerFlag, productFlag);
+            projectionDTO.setGroup(StringUtils.EMPTY);
+
+        }
+    }
+
+    private void uomValueChangeGenerate() {
+        if (uomValueChange) {
+            session.setUomCode(unitOfMeasureDdlb.getValue() == null ? "EACH" : String.valueOf(unitOfMeasureDdlb.getValue()));
+            dataLogic.nmSalesViewsPopulationProcedureUOM(session);
+            uomValueChange = false;
+        }
     }
 
     /**
@@ -740,7 +751,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
         String history = String.valueOf(historyDdlb.getValue());
         history = history.trim();
-        if (history != null && !StringUtils.isBlank(history) && !NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
+        if (history != null && !StringUtils.isBlank(history) && !Constant.NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
             toHist = true;
             projectionDTO.setHistory(history);
             historyNum = Integer.parseInt(projectionDTO.getHistory());

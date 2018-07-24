@@ -154,13 +154,13 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 		HeaderRow filterRow = grid.appendHeaderRow();
 		HorizontalLayout horizontalLayout = new HorizontalLayout();
 		horizontalLayout.setMargin(false);
-		horizontalLayout.setWidth("300px");
-		horizontalLayout.setHeight("38px");
+		horizontalLayout.setWidth("113%");
+		horizontalLayout.setHeight("37px");
 		TextField textField = new TextField();
 		textField.setPlaceholder("Show All");
-		textField.setWidth("300px");
-		textField.setHeight("38px");
 		textField.setId(column);
+		textField.setHeight("100%");
+		textField.setWidth("100%");
 
 		horizontalLayout.addComponent(textField);
 

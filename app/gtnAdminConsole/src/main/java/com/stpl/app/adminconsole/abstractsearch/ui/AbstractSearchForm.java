@@ -270,7 +270,7 @@ public class AbstractSearchForm extends CustomComponent {
      *
      * @return the binder
      */
-    public ErrorfulFieldGroup getBinder() {
+    public final ErrorfulFieldGroup getBinder() {
         final SearchCriteriaDTO bean = new SearchCriteriaDTO();
         final ErrorfulFieldGroup fieldBinder = new ErrorfulFieldGroup(new BeanItem<>(bean));
         fieldBinder.setBuffered(true);

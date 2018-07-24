@@ -77,9 +77,11 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		try {
 			createSessionTableForReporting(dataSelectionBean);
 			callCCPInsertService(gtnWsRequest);
-			callInsertProcedure(dataSelectionBean);
-			saveCustomCCPMap(dataSelectionBean);
-			callVariableBreakdownInsertService(dataSelectionBean);
+			if (dataSelectionBean.getCustomViewMasterSid() != 0) {
+				callInsertProcedure(dataSelectionBean);
+				saveCustomCCPMap(dataSelectionBean);
+				callVariableBreakdownInsertService(dataSelectionBean);
+			}
 		} catch (GtnFrameworkGeneralException e) {
 			GTNLOGGER.error(e.getErrorMessage());
 		}
@@ -312,7 +314,8 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					|| customViewTypeDataArray[2].equals("Columns") || charMatcher.find()) {
 				Map<String, Map<String, Double>> rightDataMap = rightTableService.getDataFromBackend(gtnWsRequest, bean,
 						customViewTypeDataArray);
-				if (bean.getData()[5].equals("V") || customViewTypeDataArray[1].equals("Expandable")  && charMatcher.find()) {
+				if (bean.getData()[5].equals("V")
+						|| customViewTypeDataArray[1].equals("Expandable") && charMatcher.find()) {
 					Pattern indexPattern = Pattern.compile("([A-Z])");
 					Matcher charIndexmatch = indexPattern.matcher(bean.getHierarchyNo());
 					charIndexmatch.find();
@@ -434,9 +437,12 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 					.getDataSelectionBean();
 			truncateTables(Arrays.asList(dataSelectionBean.getSessionTable(GtnWsQueryConstants.ST_CCP_HIERARCHY)));
 			callCCPInsertService(gtnWsRequest);
-			callInsertProcedure(dataSelectionBean);
-			gtnReportJsonService.deleteFile(GtnWsQueryConstants.CUSTOM_CCP_FILE_NAME, dataSelectionBean.getSessionId());
-			saveCustomCCPMap(dataSelectionBean);
+			if (dataSelectionBean.getCustomViewMasterSid() != 0) {
+				callInsertProcedure(dataSelectionBean);
+				gtnReportJsonService.deleteFile(GtnWsQueryConstants.CUSTOM_CCP_FILE_NAME,
+						dataSelectionBean.getSessionId());
+				saveCustomCCPMap(dataSelectionBean);
+			}
 		} catch (GtnFrameworkGeneralException | IOException ex) {
 			GTNLOGGER.error(ex.getMessage(), ex);
 		}
@@ -449,9 +455,12 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			GTNLOGGER.info(" Regenerating Custom view tables and Data ");
 			GtnWsReportDataSelectionBean dataSelectionBean = gtnWsRequest.getGtnWsReportRequest().getReportBean()
 					.getDataSelectionBean();
-			callInsertProcedure(dataSelectionBean);
-			gtnReportJsonService.deleteFile(GtnWsQueryConstants.CUSTOM_CCP_FILE_NAME, dataSelectionBean.getSessionId());
-			saveCustomCCPMap(dataSelectionBean);
+			if (dataSelectionBean.getCustomViewMasterSid() != 0) {
+				callInsertProcedure(dataSelectionBean);
+				gtnReportJsonService.deleteFile(GtnWsQueryConstants.CUSTOM_CCP_FILE_NAME,
+						dataSelectionBean.getSessionId());
+				saveCustomCCPMap(dataSelectionBean);
+			}
 		} catch (GtnFrameworkGeneralException | IOException ex) {
 			GTNLOGGER.error(ex.getMessage(), ex);
 		}
