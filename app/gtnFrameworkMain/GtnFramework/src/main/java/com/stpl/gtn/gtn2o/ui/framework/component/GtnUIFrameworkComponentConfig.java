@@ -88,6 +88,7 @@ public class GtnUIFrameworkComponentConfig {
 	private boolean visible = true;
 	private boolean enable = true;
 	private boolean rebuild = false;
+	private boolean userOriginatedFlag = false;
 
 	private GtnUIFrameworkDualListBoxConfig gtnUIFrameworkDualListBoxConfig;
 	private GtnUIFrameworkV8DualListBoxConfig gtnUIFrameworkV8DualListBoxConfig;
@@ -747,6 +748,14 @@ public class GtnUIFrameworkComponentConfig {
 
 	public void setVaadinComponentPlaceHolder(String vaadinComponentPlaceHolder) {
 		this.vaadinComponentPlaceHolder = vaadinComponentPlaceHolder;
+	}
+
+	public boolean isUserOriginatedFlag() {
+		return userOriginatedFlag;
+	}
+
+	public void setUserOriginatedFlag(boolean userOriginatedFlag) {
+		this.userOriginatedFlag = userOriginatedFlag;
 	}
 
 }

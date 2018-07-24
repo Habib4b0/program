@@ -39,6 +39,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 	public GtnUIFrameworkViewConfig getReportComparisonLookupView() {
 		GtnUIFrameworkViewConfig dashboardComparisonLookupRootView = configProvider.getViewConfig("Comparison Lookup",
 				"dashboardcomparisonLookupView", false);
+		dashboardComparisonLookupRootView.setResetAllowed(true);
 		addComponentList(dashboardComparisonLookupRootView);
 		return dashboardComparisonLookupRootView;
 	}
@@ -749,6 +750,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		projectionResultsPagedGridComponent.setComponentName("Projections");
 		projectionResultsPagedGridComponent.setParentComponentId(parentId);
 		projectionResultsPagedGridComponent.setAddToParent(true);
+		projectionResultsPagedGridComponent.setResetToDefaultAllowed(false);
 
 		List<String> tableStyle = new ArrayList<>();
 		tableStyle.add("filterbar");
