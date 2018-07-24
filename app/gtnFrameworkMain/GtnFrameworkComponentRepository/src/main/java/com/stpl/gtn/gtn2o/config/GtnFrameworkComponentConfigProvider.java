@@ -70,7 +70,7 @@ public class GtnFrameworkComponentConfigProvider {
 		return actionConfig;
 	}
 
-	public GtnUIFrameworkComponentConfig getUIFrameworkComponentConfig(String componentId, boolean hasparent,
+	public GtnUIFrameworkComponentConfig getUIFrameworkComponentConfig(String componentId, Boolean hasparent,
 			String parentComponentId, GtnUIFrameworkComponentType componentType) {
 		GtnUIFrameworkComponentConfig gtnComponentConfig = new GtnUIFrameworkComponentConfig();
 		gtnComponentConfig.setComponentType(componentType);
@@ -80,7 +80,7 @@ public class GtnFrameworkComponentConfigProvider {
 		return gtnComponentConfig;
 	}
 
-	public GtnUIFrameworkComponentConfig getHorizontalLayoutConfig(String componentId, boolean hasparent,
+	public GtnUIFrameworkComponentConfig getHorizontalLayoutConfig(String componentId, Boolean hasparent,
 			String parentComponentId) {
 		return getUIFrameworkLayoutComponentConfig(componentId, hasparent, parentComponentId,
 				GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT, GtnUIFrameworkComponentType.LAYOUT);
