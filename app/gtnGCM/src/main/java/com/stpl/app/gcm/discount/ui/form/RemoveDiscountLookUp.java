@@ -95,7 +95,7 @@ public class RemoveDiscountLookUp extends Window {
      *
      * @return
      */
-    HorizontalLayout getActionButton() {
+    final HorizontalLayout getActionButton() {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.addComponent(previousBtn);
         horizontalLayout.addComponent(closeBtn);

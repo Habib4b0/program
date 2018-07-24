@@ -180,7 +180,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
     /**
      * Configures the components.
      */
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             previousBtn.setVisible(false);
             transferBtn.setVisible(false);

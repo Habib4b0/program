@@ -124,7 +124,7 @@ public class CopyContractindex extends VerticalLayout {
         
     }
     
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             contractHolder.focus();
             commonUtils.loadComboBox(aliastypecc, UiUtils.CONTRACT_ALIAS_TYPE, false);
