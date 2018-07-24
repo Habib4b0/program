@@ -260,6 +260,7 @@ public class GtnUIFrameWorkTreeGridExcelExportAction implements GtnUIFrameWorkAc
                     rightStart++;
                     continue;
                 }
+                
                 sheet.addMergedRegion(new CellRangeAddress( tripleHeader.getRowNum(),  tripleHeader.getRowNum(), rightStart, rightStart+size-1));
                 rightStart += size ;
             }
