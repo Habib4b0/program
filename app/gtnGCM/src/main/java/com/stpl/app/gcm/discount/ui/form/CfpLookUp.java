@@ -88,7 +88,7 @@ public class CfpLookUp extends Window {
         configureFields();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         try {
             cfpId.focus();
             cfpTableLayout.addComponent(resultsTable);

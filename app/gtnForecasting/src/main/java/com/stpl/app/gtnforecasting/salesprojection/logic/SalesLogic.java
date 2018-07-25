@@ -1612,7 +1612,7 @@ public class SalesLogic {
     public void saveCheckRecord(final ProjectionSelectionDTO projectionDTO, final String checkedRecord, final boolean isSaveCheck, final String queryName) throws PortalException {
         try {
             Map<String, Object> parameters = new HashMap<>();
-            Map<String, String> input = new HashMap<>();
+            Map<String, String> input = new HashMap<>(NumericConstants.FIFTEEN);
             Map<String, String> join = new HashMap<>();
             String[] splitArray = null;
             if (!StringUtils.isBlank(checkedRecord)) {
@@ -1631,7 +1631,7 @@ public class SalesLogic {
                 }
                 if (splitArray != null) {
                     input.put(Constant.HNO1, StringUtils.isBlank(String.valueOf(splitArray[1])) ? PERCENT.getConstant() : String.valueOf(splitArray[1]));
-                    input.put(Constant.LEVELNO1, String.valueOf(splitArray[0]).equals(DASH) ? PERCENT.getConstant() : String.valueOf(splitArray[0]));
+                    input.put(Constant.LEVELNO1, String.valueOf(splitArray[0]).equals(DASH.getConstant()) ? PERCENT.getConstant() : String.valueOf(splitArray[0]));
                 } else {
                     input.put(Constant.HNO1, PERCENT.getConstant());
                     input.put(Constant.LEVELNO1, PERCENT.getConstant());

@@ -26,8 +26,6 @@ public class CopyContractView extends VerticalLayout {
     private final CopyContractWindow addWindow;
 
     private final CopyContractform addDiscountForm;
-    @SuppressWarnings("unused")
-	private final SessionDTO session;
     private  List<ContractSelectionDTO> selectedList;
 
     /**
@@ -41,7 +39,6 @@ public class CopyContractView extends VerticalLayout {
      */
     public CopyContractView(final CopyContractWindow addWindow, final SessionDTO session, List<ContractSelectionDTO> selectedList, String Count) {
         this.addWindow = addWindow;
-        this.session = session;
         this.setSelectedList(selectedList == null ? selectedList : Collections.unmodifiableList(selectedList));
         addDiscountForm = new CopyContractform(this.addWindow, selectedList, Count);
         addComponent(addDiscountForm);
@@ -51,7 +48,7 @@ public class CopyContractView extends VerticalLayout {
 		return selectedList;
 	}
 
-	public void setSelectedList(List<ContractSelectionDTO> selectedList) {
+	public final void setSelectedList(List<ContractSelectionDTO> selectedList) {
 		this.selectedList = selectedList;
 	}
 }

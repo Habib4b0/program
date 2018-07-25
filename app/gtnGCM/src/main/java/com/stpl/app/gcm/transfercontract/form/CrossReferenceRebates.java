@@ -63,7 +63,7 @@ public class CrossReferenceRebates extends VerticalLayout {
         rsResults.setColumnHeaders(HeaderUtil.getInstance().rsDetailsHeader);
 
     }
-     public void configureFields(){
+     public final void configureFields(){
         massField.setNullSelectionAllowed(true);
         massField.setNullSelectionItemId(Constants.SELECT_ONE);
         massField.addItem(Constants.SELECT_ONE);

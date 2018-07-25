@@ -68,6 +68,11 @@ public class GtnReportingVariableBreakdownMassUpdateAction
 		String endPeriod = GtnUIFrameworkGlobalUI
 		.getVaadinBaseComponent(actionParameterList.get(4).toString()).getStringCaptionFromV8ComboBox();
 		
+		if(startPeriod.equals("-Select one-")||endPeriod.equals("-Select one-")) {
+			massUpdateMissingFieldAlertAction(componentId);
+			return;
+		}
+		
 		LocalDate localDate1  = convert(startPeriod);
 		LocalDate localDate2= convert(endPeriod);
 		
@@ -132,15 +137,19 @@ public class GtnReportingVariableBreakdownMassUpdateAction
 				+ variableBreakdownStartPeriod + ")" + "(" + variableBreakdownEndPeriod + ")";
 		Matcher m = p.matcher(input);
 		if (m.find() || p2.matcher(input).find()) {
-			GtnUIFrameWorkActionConfig massUpdateFailedActionConfig = new GtnUIFrameWorkActionConfig();
-			massUpdateFailedActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-			massUpdateFailedActionConfig.addActionParameter("Missing Fields");
-			massUpdateFailedActionConfig
-					.addActionParameter("Please make sure that all Mass Update fields are populated. Then try again. ");
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, massUpdateFailedActionConfig);
+			massUpdateMissingFieldAlertAction(componentId);
 			return false;
 		}
 		return true;
+	}
+
+	private void massUpdateMissingFieldAlertAction(String componentId) throws GtnFrameworkGeneralException {
+		GtnUIFrameWorkActionConfig massUpdateFailedActionConfig = new GtnUIFrameWorkActionConfig();
+		massUpdateFailedActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		massUpdateFailedActionConfig.addActionParameter("Missing Fields");
+		massUpdateFailedActionConfig
+				.addActionParameter("Please make sure that all Mass Update fields are populated. Then try again. ");
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, massUpdateFailedActionConfig);
 	}
 
 	private boolean massUpdateFuturePeriodUpdateCheck(String componentId, LocalDate localDate1, LocalDate localDate2)
@@ -218,7 +227,7 @@ public class GtnReportingVariableBreakdownMassUpdateAction
 		}
 	}
 	
-	private LocalDate convert(String input) {
+	public static LocalDate convert(String input) {
 		Pattern p = Pattern.compile("\\bQ..[0-9]{4}\\b");
 		Pattern p2 = Pattern.compile("\\bS..[0-9]{4}\\b");
 		Pattern p3 = Pattern.compile("[0-9]{4}");

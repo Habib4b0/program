@@ -65,18 +65,25 @@ public class GtnReportingVariableBreakdownFrequencyLoadAction
                                    relationComboboxConfig.setIsLoadAtStart(true);
                                 List<GtnUIFrameWorkActionConfig> frequencyActionConfigList = new ArrayList<>();
                 
-                GtnUIFrameWorkActionConfig variableBreakdownFrequencyLoadActionConfig = new GtnUIFrameWorkActionConfig();
-                variableBreakdownFrequencyLoadActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-                variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnReportingVariableBreakdownGridLoadAction.class.getName());
-		variableBreakdownFrequencyLoadActionConfig
-				.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT);
-                variableBreakdownFrequencyLoadActionConfig.addActionParameter("reportingDashboardTab_reportOptionsTabVariableBreakdown");
-                variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FILE_OR_PROJECTION);
-                variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
-                variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
-                variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_START_PERIOD);
-                variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_END_PERIOD);
-                    variableBreakdownFrequencyLoadActionConfig.addActionParameter(componentId);
+			GtnUIFrameWorkActionConfig variableBreakdownFrequencyLoadActionConfig = new GtnUIFrameWorkActionConfig();
+			variableBreakdownFrequencyLoadActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+			variableBreakdownFrequencyLoadActionConfig
+					.addActionParameter(GtnReportingVariableBreakdownGridLoadAction.class.getName());
+			variableBreakdownFrequencyLoadActionConfig.addActionParameter(
+					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_RESULTS_LAYOUT_PAGED_TABLE_COMPONENT);
+			variableBreakdownFrequencyLoadActionConfig
+					.addActionParameter("reportingDashboardTab_reportOptionsTabVariableBreakdown");
+			variableBreakdownFrequencyLoadActionConfig.addActionParameter(
+					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FILE_OR_PROJECTION);
+			variableBreakdownFrequencyLoadActionConfig.addActionParameter(
+					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
+			variableBreakdownFrequencyLoadActionConfig.addActionParameter(
+					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
+			variableBreakdownFrequencyLoadActionConfig.addActionParameter(
+					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_START_PERIOD);
+			variableBreakdownFrequencyLoadActionConfig.addActionParameter(
+					GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_END_PERIOD);
+			variableBreakdownFrequencyLoadActionConfig.addActionParameter(componentId);
                     frequencyActionConfigList.add(variableBreakdownFrequencyLoadActionConfig);
                     
                     GtnUIFrameWorkActionConfig variableBreakDownHistoryLoadConfig = new GtnUIFrameWorkActionConfig(
@@ -121,7 +128,7 @@ public class GtnReportingVariableBreakdownFrequencyLoadAction
                 variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_START_PERIOD);
                 variableBreakdownFrequencyLoadActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_END_PERIOD);
                     
-                    frequencyActionConfigList.add(variableBreakdownFrequencyLoadActionConfig);
+                 
                     
                     GtnUIFrameWorkActionConfig variableBreakDownHistoryLoadConfig = new GtnUIFrameWorkActionConfig(
                             GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -132,8 +139,9 @@ public class GtnReportingVariableBreakdownFrequencyLoadAction
                             .addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
                     variableBreakDownHistoryLoadConfig
                             .addActionParameter("reportOptionsTab_variableBreakdownHistoryConfig");
+                
+                    frequencyActionConfigList.add(variableBreakdownFrequencyLoadActionConfig);
                     frequencyActionConfigList.add(variableBreakDownHistoryLoadConfig);
-                    
                     GtnUIFrameworkComponentConfig componentConfig = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId).getComponentConfig();
                     componentConfig.setGtnUIFrameWorkActionConfigList(frequencyActionConfigList);
                     GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();

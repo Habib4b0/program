@@ -17,6 +17,7 @@ import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -637,7 +638,7 @@ public class CommonServiceImpl {
     }
 
     public static List<String> getTempTableList() {
-        List<String> tempTables = new ArrayList<String>();
+        List<String> tempTables = new ArrayList<String>(NumericConstants.TWENTY_FIVE);
         tempTables.add("ST_NM_SALES_PROJECTION");
         tempTables.add("ST_NM_ACTUAL_SALES");
         tempTables.add("ST_NM_SALES_PROJECTION_MASTER");

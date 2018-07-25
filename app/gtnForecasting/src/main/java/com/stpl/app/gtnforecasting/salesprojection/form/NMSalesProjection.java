@@ -150,7 +150,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     /**
      * Init method
      */
-    public void init() {
+    public final void init() {
         LOGGER.debug("Inside NMSalesProjection Screen= {} ", session.getUserId());
         configureProjectionDTO();
         Utility.loadHierarchyList(session);
@@ -751,7 +751,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
         String history = String.valueOf(historyDdlb.getValue());
         history = history.trim();
-        if (history != null && !StringUtils.isBlank(history) && !NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
+        if (history != null && !StringUtils.isBlank(history) && !Constant.NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
             toHist = true;
             projectionDTO.setHistory(history);
             historyNum = Integer.parseInt(projectionDTO.getHistory());

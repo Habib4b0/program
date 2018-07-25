@@ -307,7 +307,7 @@ public class DiscountLogic {
 
     public List<ContractsDetailsDto> getRebateSchedule(ContractsDetailsDto newDiscountTabDto) {
         List<ContractsDetailsDto> searchList;
-        Map<String, String> inputMap = new HashMap<>();
+        Map<String, String> inputMap = new HashMap<>(NumericConstants.TWENTY);
         inputMap.put(StringConstantsUtil.CFP_NO_QUESTION, "%");
         inputMap.put(StringConstantsUtil.CFP_NAME_QUESTION, "%");
         inputMap.put(StringConstantsUtil.CFP_ID_QUESTION, "%");
@@ -631,7 +631,7 @@ public class DiscountLogic {
 
     public int getRebateScheduleCount(ContractsDetailsDto newDiscountTabDto)  {
         List results = new ArrayList();
-        Map<String, String> inputMap = new HashMap<>();
+        Map<String, String> inputMap = new HashMap<>(NumericConstants.TWENTY);
         inputMap.put(StringConstantsUtil.CFP_NO_QUESTION, "%");
         inputMap.put(StringConstantsUtil.CFP_NAME_QUESTION, "%");
         inputMap.put(StringConstantsUtil.CFP_ID_QUESTION, "%");
@@ -1148,7 +1148,7 @@ public class DiscountLogic {
 
     public static boolean insertToTempTable(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO) {
         String searchField = newDiscountTabDto.getCategory();
-        Map<String, String> inputMap = new HashMap<>();
+        Map<String, String> inputMap = new HashMap<>(NumericConstants.TWENTY);
 
         inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, sessionDTO.getUserId());
         inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionDTO.getSearchSessionId());
@@ -1335,7 +1335,7 @@ public class DiscountLogic {
     }
 
     public static void updateTempTableRecord(ContractsDetailsDto newDiscountTabDto, SessionDTO sessionDTO, String propertyId, boolean isSearchTable) {
-        Map<String, String> inputMap = new HashMap<>();
+        Map<String, String> inputMap = new HashMap<>(NumericConstants.TWENTY);
         String searchField = newDiscountTabDto.getCategory();
 
         inputMap.put(StringConstantsUtil.COLUMN_NAME_QUESTION, StringConstantsUtil.USERS_SID_COLUMN);

@@ -860,6 +860,10 @@ public class NMProjectionVarianceLogic {
 			frequency = Constant.SEMIANNUAL_CAPS;
 			break;
 		}
+		case Constant.SEMI_ANNUALY: {
+			frequency = Constant.SEMIANNUAL_CAPS;
+			break;
+		}
 		case Constant.MONTHLY: {
 			frequency = Constant.MONTHLY_COLUMN;
 			break;
@@ -1363,7 +1367,7 @@ public class NMProjectionVarianceLogic {
 		pivotPriorProjIdList = new ArrayList<>();
 		if (frequency.equals(Constant.QUARTERLY)) {
 			frequency = Constant.QUARTERLY1;
-		} else if (frequency.equals(Constant.SEMI_ANNUALLY)) {
+		} else if (frequency.equals(Constant.SEMI_ANNUALLY) || frequency.equals(Constant.SEMI_ANNUALY)) {
 			frequency = Constant.SEMIANNUAL_CAPS;
 		} else if (frequency.equals(Constant.MONTHLY)) {
 			frequency = Constant.MONTHLY_COLUMN;
@@ -2066,7 +2070,7 @@ public class NMProjectionVarianceLogic {
 	public List<ProjectionVarianceDTO> getCustPeriodVariance(final List<Object> gtsList, final PVSelectionDTO pvsdto,
 			final ProjectionVarianceDTO parentDto, final PVSelectionDTO baseVariables) {
 		try {
-			List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>();
+			List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>(NumericConstants.FIFTEEN);
 			if (pvsdto.getLevel().equals(Constant.DETAIL)) {
 				// No action required
 			} else {

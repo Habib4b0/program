@@ -23,11 +23,10 @@ public class FileMananagementResultDTO implements Serializable {
     /**
      * The default.
      */
-    private final String DEFAULT = StringUtils.EMPTY;
     /**
      * The file.
      */
-    private String file = DEFAULT;
+    private String file = StringUtils.EMPTY;
     /**
      * The effective date.
      */
@@ -35,15 +34,15 @@ public class FileMananagementResultDTO implements Serializable {
     /**
      * The effective date.
      */
-    private String effectiveDateStr = DEFAULT;
+    private String effectiveDateStr = StringUtils.EMPTY;
     /**
      * The type.
      */
-    private String type = DEFAULT;
+    private String type = StringUtils.EMPTY;
     /**
      * The version.
      */
-    private String version = DEFAULT;
+    private String version = StringUtils.EMPTY;
     /**
      * The from period.
      */
@@ -55,39 +54,39 @@ public class FileMananagementResultDTO implements Serializable {
     /**
      * The file type.
      */
-    private String fileType = DEFAULT;
+    private String fileType = StringUtils.EMPTY;
     /**
      * The country.
      */
-    private String country = DEFAULT;
+    private String country = StringUtils.EMPTY;
     /**
      * The currentFile.
      */
-    private String currentFile = DEFAULT;
+    private String currentFile = StringUtils.EMPTY;
     /**
      * The selectFile.
      */
-    private String selectFile = DEFAULT;
+    private String selectFile = StringUtils.EMPTY;
     /**
      * The file name.
      */
-    private String fileName = DEFAULT;
+    private String fileName = StringUtils.EMPTY;
     /**
      * The year.
      */
-    private String year = DEFAULT;
+    private String year = StringUtils.EMPTY;
     /**
      * The month.
      */
-    private String month = DEFAULT;
+    private String month = StringUtils.EMPTY;
     /**
      * The item no.
      */
-    private String itemNo = DEFAULT;
+    private String itemNo = StringUtils.EMPTY;
     /**
      * The item name.
      */
-    private String itemName = DEFAULT;
+    private String itemName = StringUtils.EMPTY;
     /**
      * The start date.
      */
@@ -95,23 +94,23 @@ public class FileMananagementResultDTO implements Serializable {
     /**
      * The price.
      */
-    private String price = DEFAULT;
+    private String price = StringUtils.EMPTY;
     /**
      * The units.
      */
-    private String units = DEFAULT;
+    private String units = StringUtils.EMPTY;
     /**
      * The dollars.
      */
-    private String dollars = DEFAULT;
+    private String dollars = StringUtils.EMPTY;
     /**
      * The file id.
      */
-    private String fileId = DEFAULT;
+    private String fileId = StringUtils.EMPTY;
     /**
      * The forecast year.
      */
-    private String forecastYear = DEFAULT;
+    private String forecastYear = StringUtils.EMPTY;
 
     /**
      * The interface flag.
@@ -157,25 +156,25 @@ public class FileMananagementResultDTO implements Serializable {
 
     private Date toDate;
 
-    private String forecastType = DEFAULT;
-    private String forcastYear = DEFAULT;
+    private String forecastType = StringUtils.EMPTY;
+    private String forcastYear = StringUtils.EMPTY;
 
-    private String forecastMonth = DEFAULT;
-    private String itemId = DEFAULT;
-    private String itemIdentifierCodeQualifier = DEFAULT;
-    private String itemIdentifier = DEFAULT;
-    private String segment = DEFAULT;
-    private String brandId = DEFAULT;
-    private String marketShareRatio = DEFAULT;
+    private String forecastMonth = StringUtils.EMPTY;
+    private String itemId = StringUtils.EMPTY;
+    private String itemIdentifierCodeQualifier = StringUtils.EMPTY;
+    private String itemIdentifier = StringUtils.EMPTY;
+    private String segment = StringUtils.EMPTY;
+    private String brandId = StringUtils.EMPTY;
+    private String marketShareRatio = StringUtils.EMPTY;
     private String marketShareUnits;
-    private String uncapturedUnitsRatio = DEFAULT;
-    private String batchId = DEFAULT;
-    private String hiddenbatchId = DEFAULT;
+    private String uncapturedUnitsRatio = StringUtils.EMPTY;
+    private String batchId = StringUtils.EMPTY;
+    private String hiddenbatchId = StringUtils.EMPTY;
 
-    private String source = DEFAULT;
-    private String forecastName = DEFAULT;
-    private String forecastVersion = DEFAULT;
-    private String organizationKey = DEFAULT;
+    private String source = StringUtils.EMPTY;
+    private String forecastName = StringUtils.EMPTY;
+    private String forecastVersion = StringUtils.EMPTY;
+    private String organizationKey = StringUtils.EMPTY;
     private String uncapturedUnits;
     private String marketSizeUnits;
     private String totalDemandUnits;
@@ -199,28 +198,28 @@ public class FileMananagementResultDTO implements Serializable {
     private String hiddenForecastMonth;
     private String hiddenItemId;
     private String hiddenOrganisationKey;
-    private String companyId = DEFAULT;
-    private String identifierCodeQualifier = DEFAULT;
-    private String companyIdentifier = DEFAULT;
+    private String companyId = StringUtils.EMPTY;
+    private String identifierCodeQualifier = StringUtils.EMPTY;
+    private String companyIdentifier = StringUtils.EMPTY;
     private Integer inventoryForecastDetailsSysId = 0;
-    private String hiddenCompanyId = DEFAULT;
+    private String hiddenCompanyId = StringUtils.EMPTY;
     //This is added for customer Gts module
-    private String priceType = DEFAULT;
-    private String salesAmount = DEFAULT;
-    private String salesInclusion = DEFAULT;
-    private String deductionId = DEFAULT;
-    private String deductionCategory = DEFAULT;
-    private String deductionType = DEFAULT;
-    private String deductionProgramType = DEFAULT;
-    private String adjustmentCode = DEFAULT;
-    private String deductionRate = DEFAULT;
-    private String deductionAmount = DEFAULT;
-    private String deductionInclusion = DEFAULT;
-    private String forecastValueType = DEFAULT;
-    private String forecastDate = DEFAULT;
-    private String SearchforcastYear = DEFAULT;
-    private String brandName = DEFAULT;
-    private String businessUnit=DEFAULT;
+    private String priceType = StringUtils.EMPTY;
+    private String salesAmount = StringUtils.EMPTY;
+    private String salesInclusion = StringUtils.EMPTY;
+    private String deductionId = StringUtils.EMPTY;
+    private String deductionCategory = StringUtils.EMPTY;
+    private String deductionType = StringUtils.EMPTY;
+    private String deductionProgramType = StringUtils.EMPTY;
+    private String adjustmentCode = StringUtils.EMPTY;
+    private String deductionRate = StringUtils.EMPTY;
+    private String deductionAmount = StringUtils.EMPTY;
+    private String deductionInclusion = StringUtils.EMPTY;
+    private String forecastValueType = StringUtils.EMPTY;
+    private String forecastDate = StringUtils.EMPTY;
+    private String SearchforcastYear = StringUtils.EMPTY;
+    private String brandName = StringUtils.EMPTY;
+    private String businessUnit=StringUtils.EMPTY;
     private int company;
 
     public FileMananagementResultDTO() {
@@ -619,7 +618,7 @@ public class FileMananagementResultDTO implements Serializable {
      * @return the default
      */
     public String getDEFAULT() {
-        return DEFAULT;
+        return StringUtils.EMPTY;
     }
 
     /**

@@ -157,7 +157,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
      *
      * @return the binder
      */
-    public ErrorfulFieldGroup getBinder() {
+    public final ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
         return binder;
@@ -169,7 +169,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
     }
 
     @Override
-    public void init() throws SystemException, PortalException {
+    public final void init() throws SystemException, PortalException {
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/declarativeui/deduction_calendar/deductionCalendarTab.xml"), this));
         addToContent();
         configureFields();

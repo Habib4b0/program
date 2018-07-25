@@ -219,7 +219,7 @@ public class ItemSelection extends CustomComponent {
      *
      * @return the binder
      */
-    public ErrorfulFieldGroup getBinder() {
+    public final ErrorfulFieldGroup getBinder() {
         final SelectionDTO bean = new SelectionDTO();
         final ErrorfulFieldGroup errFieldBinder = new ErrorfulFieldGroup(new BeanItem<>(bean));
         errFieldBinder.setBuffered(true);

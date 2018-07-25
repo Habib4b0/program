@@ -574,7 +574,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
         customDetailsList.add(0);
         customDetailsList.add(StringUtils.EMPTY);
         customDetailsList.add(0);
-        boolean isCustom = Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
+        boolean isCustom = Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant().equals(hierarchyIndicator);
         List<DiscountProjectionDTO> refreshedDataList = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                 history, hierarchyIndicator, projectionPeriodorder, userGroup,
                 isProgram, discountList, year,

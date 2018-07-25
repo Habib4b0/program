@@ -104,7 +104,7 @@ public class RebatePlanLookup extends Window {
         init();
     }
 
-    public void init() {
+    public final void init() {
         setClosable(true);
         setModal(true);
         setWidth(NumericConstants.NINE_FIVE_ZERO, Sizeable.Unit.PIXELS);

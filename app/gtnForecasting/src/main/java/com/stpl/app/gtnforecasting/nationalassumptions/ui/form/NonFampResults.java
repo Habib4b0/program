@@ -216,7 +216,7 @@ public class NonFampResults extends Window {
     /**
      * Inits the.
      */
-    public void init() {
+    public final void init() {
 
         LOGGER.debug("Entering init ");
         center();

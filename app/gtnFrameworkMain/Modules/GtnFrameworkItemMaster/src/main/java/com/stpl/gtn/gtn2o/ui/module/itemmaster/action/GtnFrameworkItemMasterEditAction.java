@@ -187,9 +187,9 @@ public class GtnFrameworkItemMasterEditAction
 		String itemValue = GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemValue(udc1Code);
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1TextBox").loadFieldValue(itemValue);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1TextBoxLayout").setVisible(Boolean.TRUE);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabUDC1layout").setVisible(Boolean.FALSE);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBoxLayout").setVisible(Boolean.FALSE);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1TextBoxLayout").setVisible(true);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabUDC1layout").setVisible(false);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBoxLayout").setVisible(false);
 	}
 
 	private void setValuesForUdc1CheckedComboBox(Integer udc1Id) {
