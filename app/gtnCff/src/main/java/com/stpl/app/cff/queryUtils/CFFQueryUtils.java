@@ -142,7 +142,7 @@ public class CFFQueryUtils {
                 }
             }
         }
-        int count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
+        int count = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
         return count > 0 ? Boolean.TRUE : Boolean.FALSE;
     }
 }

@@ -602,9 +602,9 @@ public final class AccrualRateProjectionLogic {
                 StringBuilder procedureBuilder = new StringBuilder("{CALL ");
                 procedureBuilder.append(procedureName).append(args);
                 statement = connection.prepareCall(procedureBuilder.toString());
-                LOGGER.info("Procedure Name= {} " , procedureName);
+                LOGGER.debug("Procedure Name= {} " , procedureName);
                 for (int i = 0; i < parameters.length; i++) {
-                    LOGGER.info("Parameter= {},  ----={}  " , (i + 1), parameters[i]);
+                    LOGGER.debug("Parameter= {},  ----={}  " , (i + 1), parameters[i]);
                     statement.setObject(i + 1, parameters[i]);
                 }
                 statement.execute();
@@ -749,7 +749,7 @@ public final class AccrualRateProjectionLogic {
     }
 
     public void addToTempTable(String companySid, AccrualRateSelectionDTO dto) {
-        StringBuffer query = new StringBuffer();
+        StringBuilder query = new StringBuilder();
         query.append("Insert into ST_EXCLUSION_DETAILS (PROJECTION_MASTER_SID,COMPANY_MASTER_SID) values ('" ).append( dto.getProjectionId() ).append( "','"
                 ).append( companySid ).append( "')");
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query.toString(), dto.getSessionDto().getCurrentTableNames()));
@@ -758,7 +758,7 @@ public final class AccrualRateProjectionLogic {
 
     public void removeFromTempTable(String CompanySid, AccrualRateSelectionDTO dto, boolean flag) {
 
-        StringBuffer deleteQuery = new StringBuffer();
+        StringBuilder deleteQuery = new StringBuilder();
         deleteQuery.append("DELETE FROM ST_EXCLUSION_DETAILS WHERE");
         if (flag) {
               deleteQuery.append(" COMPANY_MASTER_SID =" ).append( CompanySid);
@@ -884,7 +884,6 @@ public final class AccrualRateProjectionLogic {
     }
 
     public static List<String> getSelectedCompanyList() {
-        //return selectedCompanyList == null ? selectedCompanyList : Collections.unmodifiableList(selectedCompanyList);
         return selectedCompanyList == null ? Collections.emptyList() : selectedCompanyList;
     }
 

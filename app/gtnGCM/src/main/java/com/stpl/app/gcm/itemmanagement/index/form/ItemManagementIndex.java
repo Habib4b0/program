@@ -158,7 +158,7 @@ public class ItemManagementIndex extends CustomComponent {
         configureFields();
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
 
             configureSearch();

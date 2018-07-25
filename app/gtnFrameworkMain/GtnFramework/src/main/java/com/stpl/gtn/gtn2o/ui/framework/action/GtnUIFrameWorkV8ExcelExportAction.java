@@ -244,9 +244,9 @@ public class GtnUIFrameWorkV8ExcelExportAction implements GtnUIFrameWorkAction {
 		for (int i = 0; i < resultList.size(); i++) {
 			GtnWsRecordBean resultDTO = resultList.get(i);
 			if (!resultDTO.getAdditionalProperties().isEmpty()
-					&& Boolean.valueOf(resultDTO.getAdditionalProperties().get(0).toString())) {
-				groupExcelRow(sheet, Integer.valueOf(resultDTO.getAdditionalProperties().get(1).toString()),
-						Integer.valueOf(resultDTO.getAdditionalProperties().get(2).toString()), isNeedtoCollapsed);
+					&& Boolean.parseBoolean(resultDTO.getAdditionalProperties().get(0).toString())) {
+				groupExcelRow(sheet, Integer.parseInt(resultDTO.getAdditionalProperties().get(1).toString()),
+						Integer.parseInt(resultDTO.getAdditionalProperties().get(2).toString()), isNeedtoCollapsed);
 			}
 		}
 	}

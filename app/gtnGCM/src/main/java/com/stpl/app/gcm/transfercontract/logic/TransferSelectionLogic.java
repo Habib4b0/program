@@ -216,7 +216,7 @@ public class TransferSelectionLogic {
     }
 
     public List<TransferToDTO> getTransferToDetails(final TransferToDTO parent, final String searchComponent, final String searchField, final String searchValue) {
-        Map<String, String> inputMap = new HashMap<>();
+        Map<String, String> inputMap = new HashMap<>(NumericConstants.TWENTY_FIVE);
         String category;
         Integer level = parent == null ? 0 : parent.getLevel() + 1;
         List<TransferToDTO> retList;

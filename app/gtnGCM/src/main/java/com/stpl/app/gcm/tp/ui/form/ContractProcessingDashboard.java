@@ -227,7 +227,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         configureSecurityPermissions();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         componentDetailsTableLayout.addComponent(componentInformationTable);
         addTradingPartnerTableLayout.addComponent(addTradingPartnerTable);
         addTradingPartnerTableLayout.setSizeFull();

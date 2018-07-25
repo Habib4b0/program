@@ -117,7 +117,6 @@ public class FileManagementLogic {
 	private static final DecimalFormat PRICE_FORMAT = new DecimalFormat("#0.00");
 	private final DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 	private final DateFormat dateFormatToParse = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT_TO_PARSE);
-	protected static final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
 
 	protected static final String ITEM_IDENTIFIER = "ITEM_IDENTIFIER";
 
@@ -1271,19 +1270,19 @@ public class FileManagementLogic {
 						Date filterString1 = (Date) stringFilter.getEndValue();
 						if (StringConstantsUtil.FROM_DATE.equals(stringFilter.getPropertyId())) {
 
-							condition = condition + " AND FT_MIN_DATE >= '" + DB_DATE.format(filterString) + "' ";
-							condition = condition + " AND FT_MIN_DATE <= '" + DB_DATE.format(filterString1) + "' ";
+							condition = condition + " AND FT_MIN_DATE >= '" + formatter.format(filterString) + "' ";
+							condition = condition + " AND FT_MIN_DATE <= '" + formatter.format(filterString1) + "' ";
 						} else if (StringConstantsUtil.TO_DATE.equals(stringFilter.getPropertyId())) {
-							filterHaving = filterHaving + " AND  FT_MAX_DATE >= '" + DB_DATE.format(filterString)
+							filterHaving = filterHaving + " AND  FT_MAX_DATE >= '" + formatter.format(filterString)
 									+ "' ";
-							filterHaving = filterHaving + " AND  FT_MAX_DATE <= '" + DB_DATE.format(filterString1)
+							filterHaving = filterHaving + " AND  FT_MAX_DATE <= '" + formatter.format(filterString1)
 									+ "' ";
 						}
 					} else if (filter instanceof Compare) {
 						Compare stringFilter = (Compare) filter;
 						Compare.Operation operation = stringFilter.getOperation();
 						if (stringFilter.getValue() instanceof Date) {
-							String filterString = DB_DATE.format(stringFilter.getValue());
+							String filterString = formatter.format(stringFilter.getValue());
 
 							if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
 								if (StringConstantsUtil.FROM_DATE.equals(stringFilter.getPropertyId())) {

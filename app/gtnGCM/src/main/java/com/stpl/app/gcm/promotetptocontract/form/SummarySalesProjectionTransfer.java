@@ -96,13 +96,13 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     private ExtFilterTable resultTable;
 
     public SummarySalesProjectionTransfer(ExtFilterTable resultTable, SessionDTO session) {
-        this.setResultTable(resultTable);
+        this.resultTable = resultTable;
         this.session = session;
         tableLogic.setSession(session);
         getContent();
     }
 
-    public void getContent() {
+    public final void getContent() {
         LOGGER.debug("getContent method starts");
 
         addComponent(Clara.create(getClass().getResourceAsStream("/summarySalesProjectionTransfer.xml"), this));

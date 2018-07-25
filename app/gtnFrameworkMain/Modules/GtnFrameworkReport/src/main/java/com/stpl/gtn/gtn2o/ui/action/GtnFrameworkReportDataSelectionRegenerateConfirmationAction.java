@@ -57,7 +57,7 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction impleme
             List<Object> params = gtnUIFrameWorkActionConfig.getActionParameterList();
             GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean)params.get(1);
             
-            if(params.get(2).equals("YES")){
+            if(params.get(2).equals("OK")){
     		updateCustomer((boolean) params.get(14), dataSelectionBean, (List<GtnWsRecordBean>) params.get(3), componentId);
     		updateProduct((boolean) params.get(15), dataSelectionBean, (List<GtnWsRecordBean>) params.get(4), componentId);
     		updateComparisonProjection((boolean) params.get(16), dataSelectionBean, (List<GtnReportComparisonProjectionBean>) params.get(5),

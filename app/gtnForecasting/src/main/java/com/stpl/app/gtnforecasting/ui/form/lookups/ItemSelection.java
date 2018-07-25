@@ -140,7 +140,7 @@ public class ItemSelection extends CustomComponent implements View {
         configureTable();
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         HelperListUtil helperListUtil = HelperListUtil.getInstance();
         helperListUtil.loadValuesWithListName("alternatehistory");
         try {
@@ -207,7 +207,7 @@ public class ItemSelection extends CustomComponent implements View {
         LOGGER.debug("Ending reset method");
     }
 
-    public void configureTable() {
+    public final void configureTable() {
 
         availableItemsTableLayout.addComponent(availableItemsTable);
         HorizontalLayout hLayout;

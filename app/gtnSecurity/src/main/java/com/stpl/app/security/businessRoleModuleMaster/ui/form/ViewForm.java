@@ -146,7 +146,7 @@ public class ViewForm extends CustomComponent implements View {
 		return salesMasterDTO;
 	}
 
-	public void setSalesMasterDTO(BusinessRoleModuleMasterDTO salesMasterDTO) {
+	public final void setSalesMasterDTO(BusinessRoleModuleMasterDTO salesMasterDTO) {
 		this.salesMasterDTO = salesMasterDTO;
 	}
 }

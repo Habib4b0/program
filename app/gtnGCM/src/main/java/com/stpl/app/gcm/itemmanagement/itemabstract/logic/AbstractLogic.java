@@ -252,9 +252,9 @@ public class AbstractLogic {
             String basePriceType = dto.getBasePriceType().getDescription();
             if (!Constants.EMPTY.equals(dto.getBaseLineWacManual()) && Constants.MANUAL_LABLE_NAME.equals(basePriceType)) {
                 dto.setBaselineWAC(dto.getBaseLineWacManual());
-            } else if (!Constants.NULL.equals(dto.getBaseLineWacDate()) && Constants.DATE_LABLE_NAME.equals(basePriceType)) {
+            } else if (Constants.DATE_LABLE_NAME.equals(basePriceType)) {
                 dto.setBaselineWAC(dto.getBaseLineWacDate());
-            } else if (!Constants.ZEROSTRING.equals(dto.getBaseLineWacPriceType()) && Constants.PRICE_TYPE_LABEL.equals(basePriceType)) {
+            } else if (Constants.PRICE_TYPE_LABEL.equals(basePriceType)) {
                 dto.setBaselineWAC(dto.getBaseLineWacPriceType());
             } else {
                 dto.setBaselineWAC(Constants.EMPTY);
@@ -585,17 +585,17 @@ public class AbstractLogic {
             dto.setComponentStartDate(str[NumericConstants.FIVE] == null ? null : (Date) str[NumericConstants.FIVE]);
             dto.setComponentEndDate(str[NumericConstants.SIX] == null ? null : (Date) str[NumericConstants.SIX]);
             if (componentFlag.equals("RS text")) {
-                dto.setRsType_Value((str[NumericConstants.FOUR] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) 
+                dto.setRsType_Value((str[NumericConstants.FOUR] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) 
                         ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.FOUR]));
-                dto.setRebateFrequency_Value((str[NumericConstants.SEVEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) 
+                dto.setRebateFrequency_Value((str[NumericConstants.SEVEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) 
                         ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SEVEN]));
-                dto.setRsProgramType_Value((str[NumericConstants.EIGHT] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) ? 
+                dto.setRsProgramType_Value((str[NumericConstants.EIGHT] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) ? 
                         StringUtils.EMPTY : String.valueOf(str[NumericConstants.EIGHT]));
-                dto.setRsCategory_Value((str[NumericConstants.NINE] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) 
+                dto.setRsCategory_Value((str[NumericConstants.NINE] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) 
                         ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.NINE]));
-                dto.setPaymentFrequency_Value((str[NumericConstants.TEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) ? 
+                dto.setPaymentFrequency_Value((str[NumericConstants.TEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) ? 
                         StringUtils.EMPTY : String.valueOf(str[NumericConstants.TEN]));
-                dto.setRebatePlanLevel_Value((str[NumericConstants.ELEVEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE)) ? 
+                dto.setRebatePlanLevel_Value((str[NumericConstants.ELEVEN] == null || String.valueOf(str[NumericConstants.ELEVEN]).equals(FrequencyConstants.SELECT_ONE.getConstant())) ? 
                         StringUtils.EMPTY : String.valueOf(str[NumericConstants.ELEVEN]));
             }
         }
@@ -907,7 +907,7 @@ public class AbstractLogic {
     }
 
     private List getEditedInput(AddItemTableDTO dto, SelectionDTO selection) {
-        List<Object> input = new ArrayList();
+        List<Object> input = new ArrayList(NumericConstants.FIFTEEN);
         input.add(dto.getColumnName());
         switch (dto.getCaseNo()) {
             case NumericConstants.ONE:
@@ -1069,7 +1069,7 @@ public class AbstractLogic {
     }
 
     private List getInput(SelectionDTO selection, AddItemTableDTO binderDto) {
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.FIFTEEN);
         input.add(selection.getSessionId());
         input.add(selection.getButtonMode());
         if (binderDto.getContractNo_SID() != null && !binderDto.getContractNo_SID().isEmpty()) {
@@ -1217,7 +1217,7 @@ public class AbstractLogic {
      * @return
      */
     private List getCFPLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
-        final List input = new ArrayList();
+        final List input = new ArrayList(NumericConstants.FIFTEEN);
         if (binderDto.getComponentId() != null && !binderDto.getComponentId().isEmpty()) {
             input.add(binderDto.getComponentId().replace('*', '%'));
         } else {
@@ -1282,7 +1282,7 @@ public class AbstractLogic {
      * @return
      */
     private List getIFPLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
-        final List input = new ArrayList();
+        final List input = new ArrayList(NumericConstants.FIFTEEN);
         if (binderDto.getComponentName() != null && !binderDto.getComponentName().isEmpty()) {
             input.add(binderDto.getComponentName().replace('*', '%'));
         } else {
@@ -1339,7 +1339,7 @@ public class AbstractLogic {
      * @return
      */
     private List getPSLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
-        final List input = new ArrayList();
+        final List input = new ArrayList(NumericConstants.FIFTEEN);
         if (binderDto.getComponentName() != null && !binderDto.getComponentName().isEmpty()) {
             input.add(binderDto.getComponentName().replace('*', '%'));
         } else {
@@ -1396,7 +1396,7 @@ public class AbstractLogic {
      * @return
      */
     private List getRSLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
-        final List input = new ArrayList();
+        final List input = new ArrayList(NumericConstants.FIFTEEN);
         if (binderDto.getComponentId() != null && !binderDto.getComponentId().isEmpty()) {
             input.add(binderDto.getComponentId().replace('*', '%'));
         } else {

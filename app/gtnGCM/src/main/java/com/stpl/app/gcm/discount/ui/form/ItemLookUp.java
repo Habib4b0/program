@@ -38,8 +38,7 @@ public class ItemLookUp extends Window {
     @UiField("itemType")
     public ComboBox itemType;
 
-    private final RebateTableLogic tableLogic = new RebateTableLogic();
-    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final ExtPagedTable resultsTable = new ExtPagedTable(new RebateTableLogic());
     private final BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     private final BeanItemContainer<String> itemStatusBean = new BeanItemContainer<>(String.class);
     private final BeanItemContainer<String> itemTypeBean = new BeanItemContainer<>(String.class);
@@ -54,7 +53,7 @@ public class ItemLookUp extends Window {
         configureFields();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         itemTableLayout.addComponent(resultsTable);
         resultsTable.setHeight("500px");
         resultsTable.setPageLength(NumericConstants.FIVE);

@@ -153,7 +153,7 @@ public abstract class ForecastSalesProjectionResults extends CustomComponent imp
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         return;
     }
-    public void configureField(){
+    public final void configureField(){
     level.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
     levelFilter.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
     }

@@ -416,7 +416,7 @@ public class GtnWsDataSelectionEditController {
 		input.add( "'%'");
 		input.add(selectedHierarchyLevelDto.getRelationshipBuilderSid());
 		input.add(selectedHierarchyLevelDto.getRelationshipVersionNo());
-		input.add(Integer.parseInt(String.valueOf(inputList.get(6))));
+		input.add(Integer.valueOf(String.valueOf(inputList.get(6))));
 		input.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
 
 		List<Object[]> resultList = productSelectedLoadService.getResultForSelectedProduct(inputQuery, input);
@@ -463,11 +463,11 @@ public class GtnWsDataSelectionEditController {
 		relationshipLevelDefBean.setHierarchyCategory(selectedHierarchyBean.getHierarchyType());
 		for (int i = 0; i < recordBean.size(); i++) {
 			GtnWsRecordBean gtnWsRecordBean = recordBean.get(i);
-			hierarchyNo.append("'");
+			hierarchyNo.append("' ");
 			hierarchyNo.append(gtnWsRecordBean.getStringPropertyByIndex(4));
 			if (i != recordBean.size() - 1) {
-				hierarchyNo.append("'");
-				hierarchyNo.append(",");
+				hierarchyNo.append("' ");
+				hierarchyNo.append(',');
 			}
 		}
 		relationshipLevelDefBean.setHierarchyNo(hierarchyNo.toString());
