@@ -223,7 +223,7 @@ public class DataSelection extends AbstractDataSelection {
 		});
 	}
 
-	public void readModeOnly() {
+	public final void readModeOnly() {
 		company.setEnabled(false);
 		productRelation.setEnabled(false);
 		customerHierarchy.setEnabled(false);

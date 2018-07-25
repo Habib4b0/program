@@ -4482,7 +4482,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         return null;
     }
 
-    public void securityForButton() {
+    public final void securityForButton() {
         try {
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(
                     String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")),

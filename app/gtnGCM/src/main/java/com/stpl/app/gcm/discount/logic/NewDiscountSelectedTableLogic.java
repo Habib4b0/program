@@ -24,7 +24,6 @@ public class NewDiscountSelectedTableLogic extends PageTableLogic {
 
     private ContractsDetailsDto binderDto = new ContractsDetailsDto();
     private SessionDTO sessionDTO;
-    private final DiscountLogic logic = new DiscountLogic();
     private boolean generate = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(NewDiscountSelectedTableLogic.class);
 
