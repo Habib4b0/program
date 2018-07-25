@@ -2070,7 +2070,7 @@ public class NMProjectionVarianceLogic {
 	public List<ProjectionVarianceDTO> getCustPeriodVariance(final List<Object> gtsList, final PVSelectionDTO pvsdto,
 			final ProjectionVarianceDTO parentDto, final PVSelectionDTO baseVariables) {
 		try {
-			List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>();
+			List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>(NumericConstants.FIFTEEN);
 			if (pvsdto.getLevel().equals(Constant.DETAIL)) {
 				// No action required
 			} else {

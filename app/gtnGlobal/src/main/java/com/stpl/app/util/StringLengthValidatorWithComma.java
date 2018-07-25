@@ -125,7 +125,7 @@ public class StringLengthValidatorWithComma extends AbstractStringValidator {
      * by setting a field as required or not.
      */
     @Deprecated
-    public void setNullAllowed(boolean allowNull) {
+    public final void setNullAllowed(boolean allowNull) {
         this.allowNull = allowNull;
     }
 

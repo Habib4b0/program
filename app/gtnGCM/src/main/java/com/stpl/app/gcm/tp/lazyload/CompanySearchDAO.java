@@ -23,7 +23,6 @@ public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
 
     private TradingPartnerDTO dto;
     private int parentCompanySid;
-    private CompanySearchLogic logic = new CompanySearchLogic();
     /**
      * The Constant LOGGER.
      */
