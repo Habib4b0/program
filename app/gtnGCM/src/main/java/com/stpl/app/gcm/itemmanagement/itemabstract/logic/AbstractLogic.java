@@ -907,7 +907,7 @@ public class AbstractLogic {
     }
 
     private List getEditedInput(AddItemTableDTO dto, SelectionDTO selection) {
-        List<Object> input = new ArrayList();
+        List<Object> input = new ArrayList(NumericConstants.FIFTEEN);
         input.add(dto.getColumnName());
         switch (dto.getCaseNo()) {
             case NumericConstants.ONE:
@@ -1069,7 +1069,7 @@ public class AbstractLogic {
     }
 
     private List getInput(SelectionDTO selection, AddItemTableDTO binderDto) {
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.FIFTEEN);
         input.add(selection.getSessionId());
         input.add(selection.getButtonMode());
         if (binderDto.getContractNo_SID() != null && !binderDto.getContractNo_SID().isEmpty()) {
@@ -1217,7 +1217,7 @@ public class AbstractLogic {
      * @return
      */
     private List getCFPLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
-        final List input = new ArrayList();
+        final List input = new ArrayList(NumericConstants.FIFTEEN);
         if (binderDto.getComponentId() != null && !binderDto.getComponentId().isEmpty()) {
             input.add(binderDto.getComponentId().replace('*', '%'));
         } else {
@@ -1282,7 +1282,7 @@ public class AbstractLogic {
      * @return
      */
     private List getIFPLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
-        final List input = new ArrayList();
+        final List input = new ArrayList(NumericConstants.FIFTEEN);
         if (binderDto.getComponentName() != null && !binderDto.getComponentName().isEmpty()) {
             input.add(binderDto.getComponentName().replace('*', '%'));
         } else {
@@ -1339,7 +1339,7 @@ public class AbstractLogic {
      * @return
      */
     private List getPSLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
-        final List input = new ArrayList();
+        final List input = new ArrayList(NumericConstants.FIFTEEN);
         if (binderDto.getComponentName() != null && !binderDto.getComponentName().isEmpty()) {
             input.add(binderDto.getComponentName().replace('*', '%'));
         } else {
@@ -1396,7 +1396,7 @@ public class AbstractLogic {
      * @return
      */
     private List getRSLookUpInput(ComponentLookUpDTO binderDto, SelectionDTO selection) {
-        final List input = new ArrayList();
+        final List input = new ArrayList(NumericConstants.FIFTEEN);
         if (binderDto.getComponentId() != null && !binderDto.getComponentId().isEmpty()) {
             input.add(binderDto.getComponentId().replace('*', '%'));
         } else {

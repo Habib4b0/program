@@ -1176,7 +1176,7 @@ public class AddContractSelection extends CustomComponent {
     }
 
     public void insertToTempTable() {
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.FIFTEEN);
         input.add(AbstractLogic.getItemIds(selecteditemList));
         input.add(selection.getSessionId());
         input.add(selection.getButtonMode());
