@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkRegexStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
@@ -37,6 +38,7 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 		publicViewLookUpView.setViewName("Public View");
 		publicViewLookUpView.setViewId(GtnFrameworkCommonConstants.PUBLIC_VIEW_SEARCH_LOOKUP_VIEW);
 		publicViewLookUpView.setDefaultView(false);
+		publicViewLookUpView.setResetAllowed(true);
 		addPublicViewLookUpComponentList(publicViewLookUpView, namespace);
 		return publicViewLookUpView;
 	}
@@ -138,10 +140,14 @@ public class GtnFrameworkReportPublicViewSearchLookUp {
 		publicViewLookUpViewNameTextBox.setAddToParent(true);
 		publicViewLookUpViewNameTextBox.setParentComponentId(publicViewLookUpViewNameLayout.getComponentId());
 		publicViewLookUpViewNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.PUBLIC_VIEW_NAME);
-
-		GtnUIFrameworkValidationConfig publicViewValConfigForViewName = new GtnUIFrameworkValidationConfig();
-		publicViewValConfigForViewName.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		publicViewLookUpViewNameTextBox.setGtnUIFrameworkValidationConfig(publicViewValConfigForViewName);
+		publicViewLookUpViewNameTextBox.setDefaultFocus(true);
+		GtnUIFrameworkValidationConfig hierarchyNameValidationConfig = new GtnUIFrameworkValidationConfig();
+		hierarchyNameValidationConfig
+				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		hierarchyNameValidationConfig.setAttachRegxValidatior(true);
+		hierarchyNameValidationConfig.setFormatString(GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_100_CHARACTER);
+		hierarchyNameValidationConfig.setRegxValidationMessage("View Name Should be less than 100 Characters");
+		publicViewLookUpViewNameTextBox.setGtnUIFrameworkValidationConfig(hierarchyNameValidationConfig);
 		
 		componentList.add(publicViewLookUpViewNameTextBox);
 

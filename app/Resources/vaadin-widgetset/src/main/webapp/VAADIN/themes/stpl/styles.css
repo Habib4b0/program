@@ -14877,6 +14877,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .stpl .v-grid-scroller::-webkit-scrollbar-thumb {
 	border-radius: 0px !important;
+	border: 3px solid transparent;
 }
 
 .stpl .datefieldcentered > input {

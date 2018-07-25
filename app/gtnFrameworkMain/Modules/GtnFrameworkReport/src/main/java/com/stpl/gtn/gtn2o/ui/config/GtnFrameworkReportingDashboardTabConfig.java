@@ -1539,6 +1539,11 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameWorkActionConfig reportDashBoardCloseAction = new GtnUIFrameWorkActionConfig();
 		reportDashBoardCloseAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		reportDashBoardCloseAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		
+		GtnUIFrameWorkActionConfig resetLandingScreenAction = new GtnUIFrameWorkActionConfig();
+		resetLandingScreenAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		resetLandingScreenAction.setActionParameterList(GtnFrameworkReportDataSelectionTabConfig.getResetParameters());
+		actionConfigList.add(resetLandingScreenAction);
 		actionConfigList.add(reportDashBoardCloseAction);
 		closeButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 

@@ -35,6 +35,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfileLookUpView.setViewName("Report Profile Popup ");
 		reportProfileLookUpView.setViewId("reportProfileLookupView");
 		reportProfileLookUpView.setDefaultView(false);
+		reportProfileLookUpView.setResetAllowed(true);
 		addReportProfileLookUpComponentList(reportProfileLookUpView, namespace);
 		return reportProfileLookUpView;
 	}
@@ -256,6 +257,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfilePagedTableConfig.setItemPerPage(10);
 		reportProfilePagedTableConfig.setSelectable(true);
 		reportProfilePagedTableConfig.setSinkItemPerPageWithPageLength(false);
+		reportProfilePagedTableConfig.setItemsPerPageAlignCentre(false);
 		
 		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
 		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);

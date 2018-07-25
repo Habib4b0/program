@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridLoadActionBasedOnHistory;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownGridResetAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownMassUpdateAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportingVariableBreakdownSubmitAction;
@@ -79,8 +80,6 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		componentList.add(variableBreakdownPopupConfig);
 
 		addVariableBreakdownMassUpdateRootPanel(componentList, namespace);
-		addVariableBreakdownFrequencyAndHistoryComponent(componentList, variableBreakdownPopupConfig.getComponentId(),
-				namespace);
 		addVariableBreakdownResultsPanel(componentList, variableBreakdownPopupConfig.getComponentId());
 		addVariableBreakdownControlButtonComponent(componentList, variableBreakdownPopupConfig.getComponentId(),
 				namespace);
@@ -90,6 +89,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 			String parentId, String namespace) {
 		GtnUIFrameworkComponentConfig variableBreakdownFrequencyAndHistoryConfig = layoutsConfig
 				.getHorizontalLayoutConfig("resultLayoutConfig", parentId);
+		variableBreakdownFrequencyAndHistoryConfig.addComponentStyle("stpl-margin-custom-variable");
 		componentList.add(variableBreakdownFrequencyAndHistoryConfig);
 
 		GtnUIFrameworkLayoutConfig variableBreakdownFrequencyAndHistoryLayout = new GtnUIFrameworkLayoutConfig();
@@ -140,6 +140,11 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownHistoryConfig.setAddToParent(true);
 		variableBreakdownHistoryConfig.setParentComponentId(variableBreakdownHistoryLayoutConfig.getComponentId());
 
+		GtnUIFrameWorkActionConfig actionConfig = new GtnUIFrameWorkActionConfig();
+		actionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		actionConfig.addActionParameter(GtnReportingVariableBreakdownGridLoadActionBasedOnHistory.class.getName());
+		variableBreakdownHistoryConfig.addGtnUIFrameWorkActionConfig(actionConfig);
+		
 		GtnUIFrameworkComboBoxConfig variableBreakdownHistoryLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		variableBreakdownHistoryLoadConfig.setComboBoxType(GtnFrameworkReportStringConstants.STATUS);
 		variableBreakdownHistoryLoadConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -159,6 +164,8 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownMassUpdateRootPanelConfig.setComponentId(namespace
 				+ GtnFrameworkReportStringConstants.UNDERSCORE + "variableBreakdownMassUpdateRootPanelConfig");
 		variableBreakdownMassUpdateRootPanelConfig.setComponentName("Mass Update");
+		variableBreakdownMassUpdateRootPanelConfig.addComponentStyle("stpl-margin-left-10");
+		variableBreakdownMassUpdateRootPanelConfig.addComponentStyle("stpl-margin-top-11");
 		variableBreakdownMassUpdateRootPanelConfig.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "variableBreakdownPopupConfig");
 		variableBreakdownMassUpdateRootPanelConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -177,7 +184,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "variableBreakdownMassUpdateConfig");
 		variableBreakdownMassUpdateConfig.setComponentName("MassUpdateLayout");
 		variableBreakdownMassUpdateConfig.setAddToParent(true);
-		variableBreakdownMassUpdateConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		variableBreakdownMassUpdateConfig.setComponentWidth("98%");
 		variableBreakdownMassUpdateConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ "variableBreakdownMassUpdateRootPanelConfig");
 		variableBreakdownMassUpdateConfig.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
@@ -201,6 +208,8 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 			String namespace) {
 		GtnUIFrameworkComponentConfig variableBreakdownValueConfig = layoutsConfig
 				.getHorizontalLayoutConfig("variableBreakdownValueConfig", parentId);
+		variableBreakdownValueConfig.addComponentStyle("stpl-margin-right-20");
+		variableBreakdownValueConfig.addComponentStyle("stpl-margin-top-11");
 		componentList.add(variableBreakdownValueConfig);
 
 		GtnUIFrameworkComponentConfig variableBreakdownValue = new GtnUIFrameworkComponentConfig();
@@ -224,6 +233,8 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 			String parentId, String namespace) {
 		GtnUIFrameworkComponentConfig variableBreakdownValueFileorProjectionConfig = layoutsConfig
 				.getHorizontalLayoutConfig("variableBreakdownValueFileorProjectionConfig", parentId);
+		variableBreakdownValueFileorProjectionConfig.addComponentStyle("stpl-margin-right-20");
+		variableBreakdownValueFileorProjectionConfig.addComponentStyle("stpl-margin-top-11");
 		componentList.add(variableBreakdownValueFileorProjectionConfig);
 
 		GtnUIFrameworkComponentConfig variableBreakdownValueFileorProjection = new GtnUIFrameworkComponentConfig();
@@ -248,6 +259,8 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 			String parentId, String namespace) {
 		GtnUIFrameworkComponentConfig variableBreakdownStartPeriodConfig = layoutsConfig
 				.getHorizontalLayoutConfig("variableBreakdownStartPeriodConfig", parentId);
+		variableBreakdownStartPeriodConfig.addComponentStyle("stpl-margin-right-20");
+		variableBreakdownStartPeriodConfig.addComponentStyle("stpl-margin-top-11");
 		componentList.add(variableBreakdownStartPeriodConfig);
 
 		GtnUIFrameworkComponentConfig variableBreakdownStartPeriod = new GtnUIFrameworkComponentConfig();
@@ -273,6 +286,8 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 			String parentId, String namespace) {
 		GtnUIFrameworkComponentConfig variableBreakdownEndPeriodConfig = layoutsConfig
 				.getHorizontalLayoutConfig("variableBreakdownEndPeriodConfig", parentId);
+		variableBreakdownEndPeriodConfig.addComponentStyle("stpl-margin-right-20");
+		variableBreakdownEndPeriodConfig.addComponentStyle("stpl-margin-top-11");
 		componentList.add(variableBreakdownEndPeriodConfig);
 
 		GtnUIFrameworkComponentConfig variableBreakdownEndPeriod = new GtnUIFrameworkComponentConfig();
@@ -417,25 +432,27 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 
 	private void addVariableBreakdownResultsPanel(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig variableBreakdownResultsPanel = new GtnUIFrameworkComponentConfig();
-		variableBreakdownResultsPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
-		variableBreakdownResultsPanel.setComponentId("variableBreakdownResultsPanel");
-		variableBreakdownResultsPanel.setParentComponentId(parentId);
-		variableBreakdownResultsPanel.setAddToParent(true);
-		variableBreakdownResultsPanel.setComponentName("Results");
+                variableBreakdownResultsPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
+                variableBreakdownResultsPanel.setComponentId("variableBreakdownResultsPanel");
+                variableBreakdownResultsPanel.setParentComponentId(parentId);
+                variableBreakdownResultsPanel.setAddToParent(true);
+                variableBreakdownResultsPanel.addComponentStyle("stpl-margin-left-10");
+                variableBreakdownResultsPanel.addComponentStyle("stpl-margin-top-11");
 		variableBreakdownResultsPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		componentList.add(variableBreakdownResultsPanel);
-
-		GtnUIFrameworkLayoutConfig variableBreakdownColLayout = new GtnUIFrameworkLayoutConfig();
-		variableBreakdownColLayout.setLayoutType(GtnUIFrameworkLayoutType.COL2_LAYOUT);
-		GtnUIFrameworkComponentConfig variableBreakdownResultsLayout = new GtnUIFrameworkComponentConfig();
-		variableBreakdownResultsLayout.setComponentId("variableBreakdownResultsLayout");
-		variableBreakdownResultsLayout.setParentComponentId(variableBreakdownResultsPanel.getComponentId());
-		variableBreakdownResultsLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		variableBreakdownResultsLayout.setGtnLayoutConfig(variableBreakdownColLayout);
-		variableBreakdownResultsLayout.setAddToParent(true);
-
-		componentList.add(variableBreakdownResultsLayout);
-
+		componentList.add(variableBreakdownResultsPanel);              
+		GtnUIFrameworkLayoutConfig variableBreakdownColLayout=new GtnUIFrameworkLayoutConfig();
+        variableBreakdownColLayout.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
+        GtnUIFrameworkComponentConfig variableBreakdownResultsLayout = new GtnUIFrameworkComponentConfig();
+        variableBreakdownResultsLayout.setComponentId("variableBreakdownResultsLayout");
+        variableBreakdownResultsLayout.setParentComponentId(variableBreakdownResultsPanel.getComponentId());
+        variableBreakdownResultsLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+        variableBreakdownResultsLayout.setGtnLayoutConfig(variableBreakdownColLayout);
+        variableBreakdownResultsLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+        variableBreakdownResultsLayout.setAddToParent(true);
+        
+        componentList.add(variableBreakdownResultsLayout);
+    	addVariableBreakdownFrequencyAndHistoryComponent(componentList,"variableBreakdownResultsLayout",
+				GtnFrameworkReportStringConstants.REPORT_OPTIONS_TAB);
 		addPagedTableComponent(componentList, "variableBreakdownResultsLayout");
 
 	}
@@ -470,6 +487,7 @@ public class GtnFrameworkReportVariableBreakdownLookup {
 		variableBreakdownLookupResultsPagedTableConfig.setPageLength(10);
 		variableBreakdownLookupResultsPagedTableConfig.setItemPerPage(10);
 		variableBreakdownLookupResultsPagedTableConfig.setSelectable(true);
+		variableBreakdownLookupResultsPagedTableConfig.setPaginationOff(true);
 		variableBreakdownLookupResultsPagedTableConfig.setSinkItemPerPageWithPageLength(false);
 		variableBreakdownLookupResultsPagedTableConfig.setModuleName(GtnFrameworkReportStringConstants.REPORT);
 		variableBreakdownLookupResultsPagedTableConfig
