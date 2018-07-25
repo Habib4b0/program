@@ -4120,7 +4120,7 @@ public class MProjectionResultsLogic {
                 + "  ON CC.ITEM_MASTER_SID = U.ITEM_MASTER_SID\n"
                 + "  AND A.PERIOD_SID = U.PERIOD_SID  "
                 + "where  "
-                + CommonLogic.getUserSessionQueryConditionForPR(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A")
+                + CommonLogic.getUserSessionQueryConditionForPR(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A")
                 + periodFilter + "\n"
                 + whereClause + "\n";
 

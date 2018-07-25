@@ -347,7 +347,7 @@ public class AltHistorySelection extends CustomComponent implements View {
      *
      * @param isGenarate
      */
-    public void configureTable(boolean isGenarate) {
+    public final void configureTable(boolean isGenarate) {
         LOGGER.debug("configureTable method starts");
         altHistoryDTO.setFrequency(String.valueOf(frequency.getValue()));
         altHistoryDTO.setActualsOrProjections(projectionDTO.getActualsOrProjections());

@@ -383,7 +383,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
 
     }
 
-    public void configureFilds() {
+    public final void configureFilds() {
  
         if (CommonUtil.isValueEligibleForLoading()) {
             panelVariance.setVisible(false);

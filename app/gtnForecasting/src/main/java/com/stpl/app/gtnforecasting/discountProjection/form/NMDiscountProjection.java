@@ -4788,14 +4788,14 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             GtnSmallHashMap monthMap = new GtnSmallHashMap();
             int defval = 0;
             String frequency = String.valueOf(frequencyDdlb.getValue().toString()).trim();
-            if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+            if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                 defval = NumericConstants.TWO;
             } else if (frequency.equals(QUARTERLY.getConstant())) {
                 defval = NumericConstants.FOUR;
             } else if (frequency.equals(MONTHLY.getConstant())) {
                 defval = NumericConstants.TWELVE;
                 loadMonthMap(monthMap);
-            } else if (frequency.equals(ANNUALLY.getConstant())) {
+            } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                 defval = 1;
             }
             List<String> overall = new ArrayList<>();
@@ -4898,14 +4898,14 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             GtnSmallHashMap monthMap = new GtnSmallHashMap();
             int defval = 0;
             String frequency = String.valueOf(frequencyDdlb.getValue().toString()).trim();
-            if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+            if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                 defval = NumericConstants.TWO;
             } else if (frequency.equals(QUARTERLY.getConstant())) {
                 defval = NumericConstants.FOUR;
             } else if (frequency.equals(MONTHLY.getConstant())) {
                 defval = NumericConstants.TWELVE;
                 loadMonthMap(monthMap);
-            } else if (frequency.equals(ANNUALLY.getConstant())) {
+            } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                 defval = 1;
             }
             List<String> overall = new ArrayList<>();
@@ -4998,14 +4998,14 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             GtnSmallHashMap monthMap = new GtnSmallHashMap();
             int defval = 0;
             String frequency = String.valueOf(frequencyDdlb.getValue().toString()).trim();
-            if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+            if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                 defval = NumericConstants.TWO;
             } else if (frequency.equals(QUARTERLY.getConstant())) {
                 defval = NumericConstants.FOUR;
             } else if (frequency.equals(MONTHLY.getConstant())) {
                 defval = NumericConstants.TWELVE;
                 loadMonthMap(monthMap);
-            } else if (frequency.equals(ANNUALLY.getConstant())) {
+            } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                 defval = 1;
             }
             List<String> overall = new ArrayList<>();
@@ -5075,7 +5075,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         int defval = 0;
         int month = Integer.parseInt(strMonth);
         String frequency = String.valueOf(frequencyDdlb.getValue().toString()).trim();
-        if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             divval = NumericConstants.SIX;
             defval = NumericConstants.TWO;
             month = month + divval;
@@ -5083,7 +5083,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             divval = NumericConstants.THREE;
             defval = NumericConstants.FOUR;
             month = month + divval;
-        } else if (frequency.equals(ANNUALLY.getConstant())) {
+        } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
             defval = 1;
         }
         if (month % divval == 0 && divval != 1 && frequency.equals(MONTHLY.getConstant())) {
@@ -5650,7 +5650,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
     }
     public static final String AMOUNT = "Amount";
 
-    protected void loadDisplayFormatDdlb() {
+    protected final void loadDisplayFormatDdlb() {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
