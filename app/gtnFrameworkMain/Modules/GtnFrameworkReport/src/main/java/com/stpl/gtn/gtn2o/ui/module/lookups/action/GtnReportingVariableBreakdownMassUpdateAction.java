@@ -218,7 +218,7 @@ public class GtnReportingVariableBreakdownMassUpdateAction
 		}
 	}
 	
-	private LocalDate convert(String input) {
+	public static LocalDate convert(String input) {
 		Pattern p = Pattern.compile("\\bQ..[0-9]{4}\\b");
 		Pattern p2 = Pattern.compile("\\bS..[0-9]{4}\\b");
 		Pattern p3 = Pattern.compile("[0-9]{4}");

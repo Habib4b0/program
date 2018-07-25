@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportComparisonProjectionResultsLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionReGenerateAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnReportDataSelectionResetAction;
 import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -31,6 +32,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 	private GtnFrameworkReportLayoutsConfig layoutConfig = new GtnFrameworkReportLayoutsConfig();
+	private static final String REPORT_LANDING_SCREEN  = "reportLandingScreen";
 
 	public void addDataSelectionTab(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
 
@@ -685,16 +687,46 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionCloseButtonConfig.setAddToParent(true);
 		reportDataSelectionCloseButtonConfig
 				.setParentComponentId(reportDataSelectionNavigationButtonConfig.getComponentId());
-
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
 		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		closeAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		
+		GtnUIFrameWorkActionConfig resetLandingScreenAction = new GtnUIFrameWorkActionConfig();
+		resetLandingScreenAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		resetLandingScreenAction.setActionParameterList(getResetParameters());
+		actionConfigList.add(resetLandingScreenAction);
 		actionConfigList.add(closeAction);
 		reportDataSelectionCloseButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		componentList.add(reportDataSelectionNextButtonConfig);
 		componentList.add(reportDataSelectionCloseButtonConfig);
+	}
+
+	public static List<Object> getResetParameters() {
+		return Arrays.asList(GtnReportDataSelectionResetAction.class.getName(), REPORT_LANDING_SCREEN+ GtnFrameworkReportStringConstants.UNDERSCORE + "company",
+				REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "businessUnit",
+				REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORT_DATA_SOURCE,
+						REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "fromPeriod",
+						REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "STATUS",
+						REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "customerHierarchy",
+						REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionRelationship",
+						REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionLevel",
+						REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "customerRelationshipVersion",
+						REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "customerSelectionForecastEligibilityDate",
+						REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "customerDualListBox",
+						REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "producthierarchy",
+						REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "relationship",
+						REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "level",
+						REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "productRelationshipVersion",
+				 REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "productdualListBoxComp",
+				 REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabCustomView",
+				 REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE + "displaySelectionTabVariable",
+				 REPORT_LANDING_SCREEN+ GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_COMPARISON_CONFIG,
+						REPORT_LANDING_SCREEN + GtnFrameworkReportStringConstants.UNDERSCORE
+						+ GtnFrameworkReportStringConstants.LANDINGSCREEN_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG);
 	}
 
 }

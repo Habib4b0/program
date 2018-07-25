@@ -39,6 +39,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 	public GtnUIFrameworkViewConfig getReportComparisonLookupView() {
 		GtnUIFrameworkViewConfig dashboardComparisonLookupRootView = configProvider.getViewConfig("Comparison Lookup",
 				"dashboardcomparisonLookupView", false);
+		dashboardComparisonLookupRootView.setResetAllowed(true);
 		addComponentList(dashboardComparisonLookupRootView);
 		return dashboardComparisonLookupRootView;
 	}

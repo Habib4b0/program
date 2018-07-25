@@ -14852,7 +14852,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .stpl .v-grid-cell {
-	font-size: 12px !important;
+	font-size: 13px !important;
 }
 
 .stpl th.v-treegrid-cell {
@@ -14879,13 +14879,14 @@ div.v-layout.v-horizontal.v-widget {
 	margin-left: -18px;
 }
 
+.stpl .v-grid-scroller::-webkit-scrollbar-thumb {
+	border-radius: 0px !important;
+}
+
 .stpl .datefieldcentered > input {
 	text-align: center;
 }
-.stpl .v-grid-scroller::-webkit-scrollbar-thumb {
-	border-radius: 0px !important;
 
-}
 
 .v-slot, .v-spacing {
 	display: inline;
