@@ -629,7 +629,7 @@ public class CommonUtils {
 
     public static int getProjections(Date startDate, Date endDate, String frequency) {
         if (endDate.after(startDate)) {
-            if (frequency.equals(ANNUALLY.getConstant())) {
+            if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                 return endDate.getYear() - startDate.getYear();
             } else {
                 Calendar startCalendar = Calendar.getInstance();
@@ -645,7 +645,7 @@ public class CommonUtils {
                         return (diffMonth / NumericConstants.THREE) + 1;
                     }
 
-                } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+                } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                     if (diffMonth % NumericConstants.SIX == 0) {
                         return diffMonth / NumericConstants.SIX;
                     } else {
@@ -688,11 +688,11 @@ public class CommonUtils {
         int division = 0;
         if (frequency.equals(QUARTERLY.getConstant())) {
             division = NumericConstants.THREE;
-        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             division = NumericConstants.SIX;
         } else if (frequency.equals(MONTHLY.getConstant())) {
             division = 1;
-        } else if (frequency.equals(ANNUALLY.getConstant())) {
+        } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
             division = NumericConstants.TWELVE;
         }
         return division;
@@ -702,11 +702,11 @@ public class CommonUtils {
         int frequencyDivision = 0;
         if (frequency.equals(QUARTERLY.getConstant())) {
             frequencyDivision = NumericConstants.FOUR;
-        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             frequencyDivision = NumericConstants.TWO;
         } else if (frequency.equals(MONTHLY.getConstant())) {
             frequencyDivision = NumericConstants.TWELVE;
-        } else if (frequency.equals(ANNUALLY.getConstant())) {
+        } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
             frequencyDivision = 1;
         }
         return frequencyDivision;
@@ -723,9 +723,9 @@ public class CommonUtils {
     public static int getStartMonth(int period, String frequency) {
 
         int month = 1;
-        if (frequency.equals(ANNUALLY.getConstant())) {
+        if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
             month = 1;
-        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             if (period == 1) {
                 month = 1;
             } else if (period == NumericConstants.TWO) {
@@ -762,9 +762,9 @@ public class CommonUtils {
 
     public static int getEndMonth(int period, String frequency) {
         int month = 1;
-        if (frequency.equals(ANNUALLY.getConstant())) {
+        if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
             month = NumericConstants.TWELVE;
-        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             if (period == 1) {
                 month = NumericConstants.SIX;
             } else if (period == NumericConstants.TWO) {
@@ -826,7 +826,7 @@ public class CommonUtils {
             frequencyDivision = NumericConstants.FOUR;
             historyEndPeriod = getPeriod(session.getForecastDTO().getHistoryEndMonth(), NumericConstants.THREE);
             forecastStartPeriod = getPeriod(session.getForecastDTO().getForecastStartMonth(), NumericConstants.THREE);
-        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             frequencyDivision = NumericConstants.TWO;
             historyEndPeriod = getPeriod(session.getForecastDTO().getHistoryEndMonth(), NumericConstants.SIX);
             forecastStartPeriod = getPeriod(session.getForecastDTO().getForecastStartMonth(), NumericConstants.SIX);
@@ -834,7 +834,7 @@ public class CommonUtils {
             frequencyDivision = NumericConstants.TWELVE;
             historyEndPeriod = session.getForecastDTO().getHistoryEndMonth();
             forecastStartPeriod = session.getForecastDTO().getForecastStartMonth();
-        } else if (frequency.equals(ANNUALLY.getConstant())) {
+        } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
             frequencyDivision = 1;
             historyEndPeriod = session.getForecastDTO().getHistoryEndYear();
             forecastStartPeriod = session.getForecastDTO().getForecastStartYear();
@@ -1255,11 +1255,11 @@ public class CommonUtils {
         int frequencyNo = 0;
         if (frequency.equals(QUARTERLY.getConstant())) {
             frequencyNo = NumericConstants.THREE;
-        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             frequencyNo = NumericConstants.SIX;
         } else if (frequency.equals(MONTHLY.getConstant())) {
             frequencyNo = 1;
-        } else if (frequency.equals(ANNUALLY.getConstant())) {
+        } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
             frequencyNo = NumericConstants.TWELVE;
         }
         return frequencyNo;

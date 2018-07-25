@@ -128,7 +128,7 @@ public class RebateTab extends VerticalLayout {
         getContent();
     }
 
-    public void getContent() {
+    public final void getContent() {
         LOGGER.debug("getContent method starts");
 
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/salesTab.xml"), this));

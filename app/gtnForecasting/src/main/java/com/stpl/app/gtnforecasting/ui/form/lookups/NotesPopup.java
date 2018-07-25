@@ -55,7 +55,7 @@ public class NotesPopup extends Window {
         this.notes = notes;
     }
     
-    public void configureFields() {
+    public final void configureFields() {
         button.addClickListener(new Button.ClickListener() {
 
             @Override

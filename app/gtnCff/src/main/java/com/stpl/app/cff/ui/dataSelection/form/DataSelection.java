@@ -3716,7 +3716,7 @@ public class DataSelection extends AbstractDataSelection {
 		return initialHierarchy;
 	}
 
-	public void configureOnTabLoad(int projectionId, SessionDTO session) {
+	public final void configureOnTabLoad(int projectionId, SessionDTO session) {
 		try {
 			customerDescriptionMap = sessionDTO.getCustomerDescription();
 			productDescriptionMap = sessionDTO.getProductDescription();
