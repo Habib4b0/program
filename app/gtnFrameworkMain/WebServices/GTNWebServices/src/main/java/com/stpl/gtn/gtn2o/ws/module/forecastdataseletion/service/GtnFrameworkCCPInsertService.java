@@ -94,7 +94,7 @@ public class GtnFrameworkCCPInsertService {
 			String withTableNameQuery = replaceTableNames(gtnWsSqlService.getQuery(input, "ccpInsertQueryForARP"),
 					inputBean.getTempTableMap());
 			gtnSqlQueryEngine.executeInsertOrUpdateQuery(withTableNameQuery);
-		} catch (GtnFrameworkGeneralException e) {
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
 	}
