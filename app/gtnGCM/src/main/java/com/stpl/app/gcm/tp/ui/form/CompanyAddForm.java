@@ -198,7 +198,7 @@ public class CompanyAddForm extends VerticalLayout {
      *
      * @return the binder
      */
-    public ErrorfulFieldGroup getBinder() {
+    public final ErrorfulFieldGroup getBinder() {
         final CompanyCrtIdentifierDTO bean = new CompanyCrtIdentifierDTO();
         final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(bean));
         binder.setBuffered(true);

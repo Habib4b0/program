@@ -27,7 +27,6 @@ public class CopyComponentsResultLogic extends PageTableLogic {
   private boolean generate = false;
   private List<ContractSelectionDTO> selectedlist = new ArrayList<>();
   private final CopyContractLogic logic = new CopyContractLogic();
-  private int count;
   private static final Logger LOGGER = LoggerFactory.getLogger(CopyComponentsResultLogic.class);
 
     public CopyComponentsResultLogic() {
@@ -37,7 +36,7 @@ public class CopyComponentsResultLogic extends PageTableLogic {
 
     @Override
     public int getCount() {
-        count = 0;
+        int count = 0;
         try {
             if (generate) {
                 count = selectedlist.size();

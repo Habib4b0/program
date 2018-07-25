@@ -179,7 +179,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     private final Resource excelExportImage = new ThemeResource("img/excel.png");
     
     private AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
-    protected final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(getBinderDto()));
+    protected ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(getBinderDto()));
     public static final Logger LOGGER = LoggerFactory.getLogger(AbstractContractSearch.class);
     private AbstractContractSelectionTableLogic contractSelectionTableLogic = new AbstractContractSelectionTableLogic();
     public static final String SEARCHICON = "searchicon";
