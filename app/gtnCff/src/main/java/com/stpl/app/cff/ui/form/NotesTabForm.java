@@ -318,7 +318,7 @@ public class NotesTabForm extends AbstractNotesTab {
 		this.masterTableSid = masterTableSid;
 	}
 
-	public void configureFields() {
+	public final void configureFields() {
 
 		close.addClickListener(new Button.ClickListener() {
 			@Override
@@ -391,7 +391,7 @@ public class NotesTabForm extends AbstractNotesTab {
 		return Collections.unmodifiableList(removeDetailsList);
 	}
 
-	public void setValues(boolean saveFlag, SessionDTO sessionDTO) throws SystemException {
+	public final void setValues(boolean saveFlag, SessionDTO sessionDTO) throws SystemException {
 		LOGGER.debug("Inside of AdditionalInformation setValues Method");
 		String vMode = sessionDTO.getAction();
 		if ("edit".equalsIgnoreCase(vMode) || "view".equalsIgnoreCase(vMode) || saveFlag) {

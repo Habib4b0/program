@@ -119,7 +119,7 @@ public class RelationshipOutboundProcess extends Window {
         return binder;
     }
 
-    public void init() {
+    public final void init() {
 
         setContent(Clara.create(getClass().getResourceAsStream("/clara/relationshipBuilderoutbound.xml"), this));
         addStyleName("bootstrap-ui");

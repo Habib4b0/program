@@ -96,7 +96,7 @@ public class RsLookUp extends Window {
         }
     }
 
-    public void configureFields()  {
+    public final void configureFields()  {
         rsTableLayout.addComponent(resultsTable);
         rsTableLayout.addComponent(tableLogic.createControls());
         tableLogic.setContainerDataSource(resultsContainer);

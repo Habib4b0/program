@@ -241,7 +241,7 @@ public class DataSelection extends CustomComponent implements View {
     /**
      * Inits the.
      */
-    public void init() {
+    public final void init() {
         configureFields();
     }
 

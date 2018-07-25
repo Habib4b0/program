@@ -879,9 +879,9 @@ public class MPmpyCalculator extends Window {
     
     public int getHistoryRange(String frequency) {
         
-        if (FrequencyConstants.SEMI_ANNUALLY.equals(frequency)) {
+        if (FrequencyConstants.SEMI_ANNUALLY.getConstant().equals(frequency)) {
             frequency = FrequencyConstants.SEMI_ANNUALLY.getConstant();
-        } else if (FrequencyConstants.ANNUALLY.equals(frequency)) {
+        } else if (FrequencyConstants.ANNUALLY.getConstant().equals(frequency)) {
             frequency = FrequencyConstants.ANNUALLY.getConstant();
         }
         return CommonUtils.getProjections(sessionDTO.getFromDate(), new Date(), frequency);

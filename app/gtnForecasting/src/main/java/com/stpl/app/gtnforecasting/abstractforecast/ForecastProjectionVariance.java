@@ -367,7 +367,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     protected String variablesValue = StringUtils.EMPTY;
     protected String variableCategoryValue = StringUtils.EMPTY;
     protected ForecastProjectionVariance(SessionDTO session, String screenName) {
-        this.setSessionDTO(session);
+        this.sessionDTO = session;
         this.screenName = screenName;
         VerticalLayout layout = new VerticalLayout();
         layout.addComponent(Clara.create(getClass().getResourceAsStream("/ProjectionVariance.xml"), this));
@@ -383,7 +383,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
 
     }
 
-    public void configureFilds() {
+    public final void configureFilds() {
  
         if (CommonUtil.isValueEligibleForLoading()) {
             panelVariance.setVisible(false);

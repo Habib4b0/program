@@ -66,6 +66,7 @@ import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.CfpContractLocalServiceUtil;
 import com.stpl.app.service.ContractMasterLocalServiceUtil;
@@ -1554,7 +1555,7 @@ public class CommonLogic {
                             String moduleName = String.valueOf(projectionMasterRow[NumericConstants.TWO]);
                             String marketType = StringUtils.EMPTY;
 
-                            if (Constants.IndicatorConstants.MANDATED.equals(moduleName)) {
+                            if (ConstantsUtils.MANDATED.equals(moduleName)) {
                                 marketType = getMarketType(String.valueOf(projectionMasterRow[NumericConstants.THREE]),
                                         String.valueOf(projectionMasterRow[0]));
                             }

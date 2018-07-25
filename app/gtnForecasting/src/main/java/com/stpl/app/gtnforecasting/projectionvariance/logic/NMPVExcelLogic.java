@@ -13,6 +13,7 @@ import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.FrequencyConstants.SEMI_ANNUALLY;
+import static com.stpl.app.gtnforecasting.utils.Constant.FrequencyConstants.SEMI_ANNUAL;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
@@ -1108,7 +1109,7 @@ public class NMPVExcelLogic {
         priorList.clear();
         if (frequency.equals(Constant.QUARTERLY)) {
             frequency = QUARTERLY1;
-        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             frequency = Constant.SEMIANNUAL_CAPS;
         } else if (frequency.equals(Constant.MONTHLY)) {
             frequency = Constant.MONTHLY_COLUMN;
@@ -2201,7 +2202,7 @@ public class NMPVExcelLogic {
         pivotPriorProjIdList = new ArrayList<>();
         if (frequency.equals(Constant.QUARTERLY)) {
             frequency = QUARTERLY1;
-        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             frequency = Constant.SEMIANNUAL_CAPS;
         } else if (frequency.equals(Constant.MONTHLY)) {
             frequency = Constant.MONTHLY_COLUMN;
@@ -2242,7 +2243,7 @@ public class NMPVExcelLogic {
         pivotDiscountList = new ArrayList<>();
         if (frequency.equals(Constant.QUARTERLY)) {
             frequency = QUARTERLY1;
-        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             frequency = Constant.SEMIANNUAL_CAPS;
         } else if (frequency.equals(Constant.MONTHLY)) {
             frequency = Constant.MONTHLY_COLUMN;

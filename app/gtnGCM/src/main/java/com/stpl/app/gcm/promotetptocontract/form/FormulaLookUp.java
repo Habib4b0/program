@@ -74,7 +74,7 @@ public class FormulaLookUp extends CustomWindow {
         configureFields();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         formulaTableLayout.addComponent(resultsTable);
         resultsTable.setPageLength(NumericConstants.TEN);
         tableLogic.setContainerDataSource(resultsContainer);

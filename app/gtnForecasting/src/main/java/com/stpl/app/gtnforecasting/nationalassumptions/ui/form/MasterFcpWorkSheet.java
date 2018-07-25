@@ -231,7 +231,7 @@ public class MasterFcpWorkSheet extends Window {
     /**
      * Inits the.
      */
-    public void init() {
+    public final void init() {
 
         LOGGER.debug("Entering init ");
         center();
