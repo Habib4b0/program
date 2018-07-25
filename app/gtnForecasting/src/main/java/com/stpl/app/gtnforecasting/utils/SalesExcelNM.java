@@ -194,7 +194,7 @@ public class SalesExcelNM extends ExcelExport{
                 sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
             }
         }
-      //Added Formula to AG_SUM column
+        //Added Formula to AG_SUM column
         else if (formatter.get("ACCOUNT_GROWTH_SUM") != null && String.valueOf(propId).endsWith(formatter.get("ACCOUNT_GROWTH_SUM"))) {
             sheetCell.setCellStyle(style3);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){

@@ -1432,6 +1432,8 @@ public class HeaderUtils {
                     Object actAmtColumn;
                     Object prjAmtColumn;
                     Object growthColumn;
+                    Object growthSumColumn;
+                    Object childCountColumn;
                     Object actSales;
                     Object actUnits;
                     Object projSales;
@@ -1516,6 +1518,8 @@ public class HeaderUtils {
                         prjRPColumn = commonColumn + Constant.PROJECTEDRPU;
                         prjAmtColumn = commonColumn + Constant.PROJECTED_AMOUNT1;
                         growthColumn = commonColumn + Constant.GROWTH;
+                        growthSumColumn = commonColumn + Constant.GROWTH_SUM;
+                        childCountColumn = commonColumn + Constant.CHILD_COUNT;
                         
                         if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
                             tableHeader.addSingleColumn(singleColumn, PROJECTED_RATE1, String.class);
@@ -1570,6 +1574,18 @@ public class HeaderUtils {
                             singleHeaderForExcel.add(Constant.GROWTH);//Ends here
                             dmap.add(growthColumn);
                             dmapExcel.add(growthColumn);
+                            
+                            //Added Growth Sum column
+                            excelHeader.addSingleColumn(growthSumColumn, Constant.GROWTH_SUM_HEADER, String.class);
+                            singleColumnForExcel.add(growthSumColumn);
+                            singleHeaderForExcel.add(Constant.GROWTH_SUM_HEADER);//Ends here
+                            dmapExcel.add(growthSumColumn);
+                          
+                            //Added Child Count Column
+                            excelHeader.addSingleColumn(childCountColumn, Constant.CHILD_COUNT_HEADER, String.class);
+                            singleColumnForExcel.add(childCountColumn);
+                            singleHeaderForExcel.add(Constant.CHILD_COUNT_HEADER);//Ends here
+                            dmapExcel.add(childCountColumn);
                         }
 
                         if (historyFlag) {
