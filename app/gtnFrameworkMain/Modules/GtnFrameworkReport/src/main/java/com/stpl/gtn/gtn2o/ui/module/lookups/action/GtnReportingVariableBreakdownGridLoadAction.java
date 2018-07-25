@@ -249,7 +249,7 @@ public class GtnReportingVariableBreakdownGridLoadAction
         List<Object[]> reportProfileSubmitBeanList = new ArrayList<>();
         
         GtnUIFrameworkBaseComponent landingScreenVariableBreakdownLookupCustomData = GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponentFromParent("reportLandingScreen_reportOptionsTabVariableBreakdown", componentId);
+                .getVaadinBaseComponentFromParent("dataSelectionTab_reportOptionsTabVariableBreakdown", componentId);
         
         GtnUIFrameworkBaseComponent variableBreakdownLookupCustomData = GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponentFromParent("reportingDashboardTab_reportOptionsTabVariableBreakdown", componentId);

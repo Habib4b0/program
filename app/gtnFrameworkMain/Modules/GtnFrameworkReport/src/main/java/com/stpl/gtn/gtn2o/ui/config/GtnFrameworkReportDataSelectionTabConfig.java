@@ -27,6 +27,10 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportResetAndCloseAction;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+
+
 
 public class GtnFrameworkReportDataSelectionTabConfig {
 
@@ -77,7 +81,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		addProductSelectionLayout(componentList, parentId, namespace);
 
 		GtnFrameworkReportCustHierarchyConfig customerSelection = new GtnFrameworkReportCustHierarchyConfig();
-		componentList.addAll(customerSelection.getCustomerSelectionLayoutComponents(namespace));
+		componentList.addAll(customerSelection.getCustomerSelectionLayoutComponents(namespace, "reportDsCustomerHierarchyLookup"));
 
 		GtnFrameworkReportProdHierarchyConfig productSelection = new GtnFrameworkReportProdHierarchyConfig();
 		componentList.addAll(productSelection.getProductSelectionLayoutComponents(namespace,"dataSelection"));
@@ -196,7 +200,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		GtnUIFrameWorkActionConfig reportDataSelectionPrivateViewPopupAction = new GtnUIFrameWorkActionConfig();
 		reportDataSelectionPrivateViewPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		reportDataSelectionPrivateViewPopupAction.setActionParameterList(Arrays.asList(
-				GtnFrameworkReportStringConstants.REPORT_DATASELECTION_PRIVATEVIEW, "Private View", "795", "875"));
+				GtnFrameworkReportStringConstants.REPORT_DATASELECTION_PRIVATEVIEW, "Private View", "795", "875", GtnFrameworkReportResetAndCloseAction.class.getName(),Arrays.asList("dataSelectionPublicView" + GtnFrameworkReportStringConstants.UNDERSCORE+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE),Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY)));
 		list.add(reportDataSelectionPrivateViewPopupAction);
 
 		reportDataSelectionPrivateView.setGtnUIFrameWorkActionConfigList(list);
@@ -277,7 +281,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		GtnUIFrameWorkActionConfig reportDataSelectionPublicViewPopupAction = new GtnUIFrameWorkActionConfig();
 		reportDataSelectionPublicViewPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		reportDataSelectionPublicViewPopupAction.setActionParameterList(Arrays.asList(
-				GtnFrameworkReportStringConstants.REPORT_DATASELECTION_PUBLICVIEW, "Public View", "795", "875"));
+				GtnFrameworkReportStringConstants.REPORT_DATASELECTION_PUBLICVIEW, "Public View", "795", "875", GtnFrameworkReportResetAndCloseAction.class.getName(),Arrays.asList("dataSelectionPublicView" + GtnFrameworkReportStringConstants.UNDERSCORE+ GtnFrameworkCommonConstants.PUBLIC_SEARCH_RESULT_TABLE),Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY)));
 		actionList.add(reportDataSelectionPublicViewPopupAction);
 		reportDataSelectionPublicView.setGtnUIFrameWorkActionConfigList(actionList);
 

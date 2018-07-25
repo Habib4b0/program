@@ -113,7 +113,7 @@ public class CustomTrees extends Window {
 
 	}
 
-	public void init() {
+	public final void init() {
 		center();
 		setClosable(true);
 		setWidth("850px");

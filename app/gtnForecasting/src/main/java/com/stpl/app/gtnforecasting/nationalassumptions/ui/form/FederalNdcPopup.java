@@ -164,7 +164,7 @@ public class FederalNdcPopup extends CustomComponent {
                             wac.setValue(CommonUtils.DOLLAR + decimalFormat.format(convertedWAC));
                         } else {
                             NewNdcDTO dto = (NewNdcDTO) federalMap.get((Integer)ndc.getValue());
-                            if (dto != null && !dto.equals(Constant.NULL)) {
+                            if (dto != null) {
                                 wac.setReadOnly(false);
                                 wac.setValue(dto.getWac());
                             } else {

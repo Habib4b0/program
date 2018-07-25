@@ -216,7 +216,7 @@ public class MProjectionVarianceLogic {
             }
             customSql.append("AND (CM.COMPANY_NO LIKE ").append(customer).append("or CM.COMPANY_NO is null)");
 
-            if (!Constant.NULL.equals(lookUpDTO.getCreatedDateFrom()) && lookUpDTO.getCreatedDateFrom() != null
+            if (lookUpDTO.getCreatedDateFrom() != null
                     && !Constant.NULL.equals(lookUpDTO.getCreatedDateTo()) && !StringUtils.isEmpty(lookUpDTO.getCreatedDateTo())) {
                 SimpleDateFormat format2 = new SimpleDateFormat(DATE_FORMAT.getConstant());
                 customSql.append(" AND PM.CREATED_DATE BETWEEN '");
@@ -410,7 +410,7 @@ public class MProjectionVarianceLogic {
             }
             customSql.append("AND (CM.COMPANY_NO LIKE ").append(customer).append("or CM.COMPANY_NO is null)");
 
-            if (!Constant.NULL.equals(lookUpDTO.getCreatedDateFrom()) && lookUpDTO.getCreatedDateFrom() != null
+            if (lookUpDTO.getCreatedDateFrom() != null
                     && !Constant.NULL.equals(lookUpDTO.getCreatedDateTo()) && !StringUtils.isEmpty(lookUpDTO.getCreatedDateTo())) {
                 SimpleDateFormat format2 = new SimpleDateFormat(DATE_FORMAT.getConstant());
                 customSql.append(" AND PM.CREATED_DATE BETWEEN '");

@@ -675,6 +675,7 @@ public class GtnFrameworkReportComparisonLookup {
 		comparisonLookupResultsPagedTableComponent.setComponentName("Results");
 		comparisonLookupResultsPagedTableComponent.setParentComponentId(parentId);
 		comparisonLookupResultsPagedTableComponent.setAddToParent(true);
+		
 
 		List<String> tableStyle = new ArrayList<>();
 		tableStyle.add("filterbar");
@@ -767,7 +768,8 @@ public class GtnFrameworkReportComparisonLookup {
 		comparisonLookupProjectionsPagedTableComponent.setComponentName("Projections");
 		comparisonLookupProjectionsPagedTableComponent.setParentComponentId(parentId);
 		comparisonLookupProjectionsPagedTableComponent.setAddToParent(true);
-
+		comparisonLookupProjectionsPagedTableComponent.setResetToDefaultAllowed(false);
+	
 		List<String> tableStyle = new ArrayList<>();
 		tableStyle.add("filterbar");
 		tableStyle.add("v-has-width");

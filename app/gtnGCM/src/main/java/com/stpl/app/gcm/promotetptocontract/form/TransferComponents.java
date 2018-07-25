@@ -262,7 +262,7 @@ public class TransferComponents extends CustomComponent implements View {
         }
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
 
             componentTypeDdlb.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());

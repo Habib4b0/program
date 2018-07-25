@@ -750,6 +750,7 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		projectionResultsPagedGridComponent.setComponentName("Projections");
 		projectionResultsPagedGridComponent.setParentComponentId(parentId);
 		projectionResultsPagedGridComponent.setAddToParent(true);
+		projectionResultsPagedGridComponent.setResetToDefaultAllowed(false);
 
 		List<String> tableStyle = new ArrayList<>();
 		tableStyle.add("filterbar");

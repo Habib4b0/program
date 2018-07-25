@@ -982,7 +982,7 @@ public class MMDPRLogic {
         Object object0 = null;
         Integer historyStartMonth = projSel.getForecastDTO().getHistoryStartMonth();
         Integer historyStartYear = projSel.getForecastDTO().getHistoryStartYear();
-        int projectionId = Integer.valueOf(projSel.getProjectionId());
+        int projectionId = projSel.getProjectionId();
         if (Constant.QUARTERLY.equalsIgnoreCase(quarterly)) {
             frequency = Constant.QUARTERLY;
         } else if (SEMI_ANNUALLY.getConstant().equalsIgnoreCase(quarterly)) {
@@ -1925,7 +1925,7 @@ public class MMDPRLogic {
         Object object0 = null;
         Integer historyStartMonth = projSelDTO.getForecastDTO().getHistoryStartMonth();
         Integer historyStartYear = projSelDTO.getForecastDTO().getHistoryStartYear();
-        int projectionId = Integer.valueOf(projSelDTO.getProjectionId());
+        int projectionId = projSelDTO.getProjectionId();
         if (Constant.QUARTERLY.equalsIgnoreCase(quarterly)) {
             frequency = Constant.QUARTERLY;
         } else if (SEMI_ANNUALLY.getConstant().equalsIgnoreCase(quarterly)) {

@@ -273,6 +273,24 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<configuration>
+							<tasks>
+								<property name="antProperty"
+									value="${project.build.directory}/${project.build.finalName}.${project.packaging}" />
+								<copy file="${antProperty}" todir="D:\Aadhithya\liferay7_wildfly\osgi\modules" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>

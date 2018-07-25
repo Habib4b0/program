@@ -26,7 +26,6 @@ import org.quartz.JobExecutionException;
 public class QuartzJob implements Job {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(QuartzJob.class);
-    private final String one = "1";
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -52,7 +51,7 @@ public class QuartzJob implements Job {
                     new ProcessSchedulerLogic().schedulerInsert();
                     logic.runJob(getFtpBundleValue(), profile.getScriptName());
                     logic.updateLastRun(profile.getProcessSid(), true);
-                    while (logic.existsQuery(one, one)) {
+                    while (logic.existsQuery(ConstantsUtils.NUMBER_ONE, ConstantsUtils.NUMBER_ONE)) {
                         // Waiting block for ETL to end
                         Thread.sleep(NumericConstants.THREE_THOUSAND);
                         i++;
@@ -68,7 +67,7 @@ public class QuartzJob implements Job {
             try {
                 ArmSchedulerSynchronizer arpProcess = ArmSchedulerSynchronizer.getInstance(AUTOMATIC_SCHEDULER);
                 arpProcess.lock();
-                    new ProcessSchedulerLogic().schedulerInsertForArp(one, one);
+                    new ProcessSchedulerLogic().schedulerInsertForArp(ConstantsUtils.NUMBER_ONE, ConstantsUtils.NUMBER_ONE);
                 logic.runJob(getFtpBundleValue(), profile.getScriptName());
                 logic.updateLastRun(profile.getProcessSid(), true);
                 arpProcess.unlock();
@@ -79,7 +78,7 @@ public class QuartzJob implements Job {
             try {
                 ArmSchedulerSynchronizer adjOutboundProcess = ArmSchedulerSynchronizer.getInstance(AUTOMATIC_SCHEDULER);
                 adjOutboundProcess.lock();
-                    new ProcessSchedulerLogic().updateCheckRecord(profile.getProcessName(), one, one);
+                    new ProcessSchedulerLogic().updateCheckRecord(profile.getProcessName(), ConstantsUtils.NUMBER_ONE, ConstantsUtils.NUMBER_ONE);
                 logic.runJob(getFtpBundleValue(), profile.getScriptName());
                 logic.updateLastRun(profile.getProcessSid(), true);
                 adjOutboundProcess.unlock();

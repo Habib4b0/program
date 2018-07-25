@@ -70,7 +70,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
         configureFields();
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         try {
             fromDate.setDateFormat("dd/M/yyyy");
             toDate.setDateFormat("dd/M/yyyy");
