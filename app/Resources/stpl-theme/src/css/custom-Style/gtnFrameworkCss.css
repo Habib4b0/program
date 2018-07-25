@@ -1593,3 +1593,12 @@
 .stpl-margin-left-0 {
   margin-left: 0px !important;
 }
+.stpl-text-align--left {
+	text-align: left !important;
+}
+.stpl-left-caption-100 {
+	display: inline-block !important;
+	min-width: 100px !important;
+	text-align: left !important;
+	padding-right: 5px !important;
+}

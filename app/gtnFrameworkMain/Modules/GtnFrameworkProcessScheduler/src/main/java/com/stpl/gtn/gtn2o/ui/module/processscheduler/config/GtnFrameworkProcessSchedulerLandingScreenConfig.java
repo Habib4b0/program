@@ -230,7 +230,7 @@ public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 		hours1ddlb.setAddToParent(true);
 
 		GtnUIFrameworkComboBoxConfig hours1DdlbConfig = new GtnUIFrameworkComboBoxConfig();
-		hours1DdlbConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.HOURS.split(",")));
+		hours1DdlbConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.MINUTES.split(",")));
 		hours1ddlb.setGtnComboboxConfig(hours1DdlbConfig);
 
 		componentList.add(hours1ddlb);
@@ -247,7 +247,7 @@ public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 		hours2ddlb.setAddToParent(true);
 
 		GtnUIFrameworkComboBoxConfig hours2DdlbConfig = new GtnUIFrameworkComboBoxConfig();
-		hours2DdlbConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.HOURS.split(",")));
+		hours2DdlbConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.MINUTES.split(",")));
 		hours2ddlb.setGtnComboboxConfig(hours2DdlbConfig);
 
 		componentList.add(hours2ddlb);
@@ -264,7 +264,7 @@ public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 		hours3ddlb.setAddToParent(true);
 
 		GtnUIFrameworkComboBoxConfig hours3DdlbConfig = new GtnUIFrameworkComboBoxConfig();
-		hours3DdlbConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.HOURS.split(",")));
+		hours3DdlbConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.MINUTES.split(",")));
 		hours3ddlb.setGtnComboboxConfig(hours3DdlbConfig);
 
 		componentList.add(hours3ddlb);
@@ -281,7 +281,7 @@ public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 		run1Ddlb.setAddToParent(true);
 
 		GtnUIFrameworkComboBoxConfig run1DdlbConfig = new GtnUIFrameworkComboBoxConfig();
-		run1DdlbConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.RUN.split(",")));
+		run1DdlbConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.HOURS.split(",")));
 		run1Ddlb.setGtnComboboxConfig(run1DdlbConfig);
 
 		componentList.add(run1Ddlb);
@@ -298,7 +298,7 @@ public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 		run2Ddlb.setAddToParent(true);
 
 		GtnUIFrameworkComboBoxConfig run2DdlbConfig = new GtnUIFrameworkComboBoxConfig();
-		run2DdlbConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.RUN.split(",")));
+		run2DdlbConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.HOURS.split(",")));
 		run2Ddlb.setGtnComboboxConfig(run2DdlbConfig);
 
 		componentList.add(run2Ddlb);
@@ -315,7 +315,7 @@ public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 		run3Ddlb.setAddToParent(true);
 
 		GtnUIFrameworkComboBoxConfig run3DdlbConfig = new GtnUIFrameworkComboBoxConfig();
-		run3DdlbConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.RUN.split(",")));
+		run3DdlbConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.HOURS.split(",")));
 		run3Ddlb.setGtnComboboxConfig(run3DdlbConfig);
 
 		componentList.add(run3Ddlb);
@@ -348,7 +348,7 @@ public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 		status.setAddToParent(true);
 
 		GtnUIFrameworkComboBoxConfig statusConfig = new GtnUIFrameworkComboBoxConfig();
-		statusConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.CALENDER));
+		statusConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.STATUS));
 		status.setGtnComboboxConfig(statusConfig);
 
 		GtnUIFrameworkValidationConfig valConfig = new GtnUIFrameworkValidationConfig();
@@ -466,10 +466,10 @@ public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 		customAction.addActionParameter(GtnUIFrameworkFrequencyValueChangeAction.class.getName());
 		customAction.addActionParameter(GtnFrameworkCommonConstants.RUN1_DDLB);
 		customAction.addActionParameter(GtnFrameworkCommonConstants.HOURS1_DDLB);
-		customAction.addActionParameter(GtnFrameworkCommonConstants.RUN1_DDLB);
-		customAction.addActionParameter(GtnFrameworkCommonConstants.HOURS1_DDLB);
-		customAction.addActionParameter(GtnFrameworkCommonConstants.RUN1_DDLB);
-		customAction.addActionParameter(GtnFrameworkCommonConstants.HOURS1_DDLB);
+		customAction.addActionParameter(GtnFrameworkCommonConstants.RUN2_DDLB);
+		customAction.addActionParameter(GtnFrameworkCommonConstants.HOURS2_DDLB);
+		customAction.addActionParameter(GtnFrameworkCommonConstants.RUN3_DDLB);
+		customAction.addActionParameter(GtnFrameworkCommonConstants.HOURS3_DDLB);
 		actionConfigList.add(customAction);
 		frequencyComponentConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
