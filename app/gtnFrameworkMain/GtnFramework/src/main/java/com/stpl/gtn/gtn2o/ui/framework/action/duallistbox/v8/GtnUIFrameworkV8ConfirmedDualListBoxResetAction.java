@@ -1,11 +1,17 @@
 package com.stpl.gtn.gtn2o.ui.framework.action.duallistbox.v8;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnUIFrameworkV8ConfirmedDualListBoxResetAction implements GtnUIFrameWorkAction {
@@ -20,12 +26,22 @@ public class GtnUIFrameworkV8ConfirmedDualListBoxResetAction implements GtnUIFra
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamsList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		TreeGrid<GtnWsRecordBean> rightTable = (TreeGrid<GtnWsRecordBean>) actionParamsList.get(1);
-		if (rightTable.getTreeData().getRootItems().iterator().hasNext()) {
-			GtnWsRecordBean recordBean = rightTable.getTreeData().getRootItems().get(0);
-			rightTable.getTreeData().removeItem(recordBean);
-			rightTable.getDataProvider().refreshAll();
-		}
+		GtnUIFrameworkComponentData gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI
+				.getVaadinComponentData(String.valueOf(actionParamsList.get(0)), componentId);
+		GtnFrameworkV8DualListBoxBean dualListBoxBean = (GtnFrameworkV8DualListBoxBean) gtnUIFrameworkComponentData
+				.getCustomData();
+
+		Grid<GtnWsRecordBean> leftTable = dualListBoxBean.getLeftTable();
+		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
+
+		Optional.ofNullable(leftTable).ifPresent(left -> {
+			leftTable.setItems(new ArrayList<>());
+		});
+
+		Optional.ofNullable(rightTable).ifPresent(right -> {
+			right.getTreeData().clear();
+			right.getDataProvider().refreshAll();
+		});
 	}
 
 	@Override

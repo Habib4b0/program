@@ -18,19 +18,17 @@ public class FileManagementDTO implements Serializable {
 
     private static final long serialVersionUID = 5671099792235762634L;
 
-    private final String DEFAULT = StringUtils.EMPTY;
+    private String effectiveDate = StringUtils.EMPTY;
 
-    private String effectiveDate = DEFAULT;
+    private String currentFile = StringUtils.EMPTY;
 
-    private String currentFile = DEFAULT;
+    private String forecastName = StringUtils.EMPTY;
 
-    private String forecastName = DEFAULT;
+    private String forecastDate = StringUtils.EMPTY;
 
-    private String forecastDate = DEFAULT;
+    private String forecastVersion = StringUtils.EMPTY;
 
-    private String forecastVersion = DEFAULT;
-
-    private String createdDate = DEFAULT;
+    private String createdDate = StringUtils.EMPTY;
     
     private Integer processSid = 0;
     private String processName = StringUtils.EMPTY;
@@ -92,7 +90,7 @@ public class FileManagementDTO implements Serializable {
     }
 
     public String getDEFAULT() {
-        return DEFAULT;
+        return StringUtils.EMPTY;
     }
 
     public Integer getProcessSid() {

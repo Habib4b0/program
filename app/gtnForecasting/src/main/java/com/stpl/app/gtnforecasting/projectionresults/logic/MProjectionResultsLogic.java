@@ -3732,7 +3732,7 @@ public class MProjectionResultsLogic {
          CommonLogic commonLogic = new CommonLogic();
         String customerProductQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);;
 
-        StringBuffer netSalesQuery = new StringBuffer();
+        StringBuilder netSalesQuery = new StringBuilder();
         List<String> list = getCommonSelectPeriodNetSalesClause(Constant.TODIS_LABEL, "SALE", projSelDTO.getFrequencyDivision());
         List<String> list2 = getCommonSelectPeriodNetSalesClause(Constant.HISTORY1, Constant.FUTURE, projSelDTO.getFrequencyDivision());
         String value = StringUtils.EMPTY;
@@ -3973,7 +3973,7 @@ public class MProjectionResultsLogic {
 
             productLevelNo = StringUtils.EMPTY + projSelDTO.getTreeLevelNo();
         }
-        StringBuffer customQuery = new StringBuffer();
+        StringBuilder customQuery = new StringBuilder();
         customQuery.append("INSERT INTO @CCP (RELATIONSHIP_LEVEL_SID\n"
                 ).append( ", PROJECTION_DETAILS_SID\n"
                 ).append( ", CCP_DETAILS_SID\n"
@@ -4046,7 +4046,7 @@ public class MProjectionResultsLogic {
     }
 
     public String getCusProdQuery(ProjectionSelectionDTO projSelDTO, String relationshipBuilderSid) {
-        StringBuffer cusProdQuery = new StringBuffer();
+        StringBuilder cusProdQuery = new StringBuilder();
         cusProdQuery.append("  INSERT INTO @CCP\n"
                 ).append( "             (RELATIONSHIP_LEVEL_SID,PROJECTION_DETAILS_SID,CCP_DETAILS_SID,HIERARCHY_NO)\n"
                 ).append( "  SELECT LCCP.RELATIONSHIP_LEVEL_SID,LCCP.PROJECTION_DETAILS_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from\n"
@@ -4120,7 +4120,7 @@ public class MProjectionResultsLogic {
                 + "  ON CC.ITEM_MASTER_SID = U.ITEM_MASTER_SID\n"
                 + "  AND A.PERIOD_SID = U.PERIOD_SID  "
                 + "where  "
-                + CommonLogic.getUserSessionQueryConditionForPR(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A")
+                + CommonLogic.getUserSessionQueryConditionForPR(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A")
                 + periodFilter + "\n"
                 + whereClause + "\n";
 

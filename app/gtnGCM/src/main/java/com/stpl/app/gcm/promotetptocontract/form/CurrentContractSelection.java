@@ -269,7 +269,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
      * Set Read Only Header Values
      *
      */
-    public void setHeaderValues() {
+    public final void setHeaderValues() {
         PromoteTpToChDto dto = (PromoteTpToChDto) resultTable.getValue();
         companyNo.setValue(dto.getCompanyNo());
         companyName.setValue(dto.getCompanyName());
@@ -296,7 +296,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         }
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             screenName = TAB_CURRENT_CONTRACT.getConstant();
             contractNo.setData("maxlengthvalidationhundred,maxlengthvalidationcontractno,specialchar,specialcharcontractno");

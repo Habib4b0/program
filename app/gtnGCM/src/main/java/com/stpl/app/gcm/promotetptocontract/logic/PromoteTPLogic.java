@@ -713,7 +713,7 @@ public class PromoteTPLogic {
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
 
-            if (parent2 != null && parent2.getCategory().equals(Constants.IndicatorConstants.CFP)) {
+            if (parent2 != null && parent2.getCategory().equals(Constants.IndicatorConstants.CFP.getConstant())) {
 
                 if (parent2.getInternalId() == 0) {
                     ifpDynamicQuery.add(RestrictionsFactoryUtil.isNull("cfpContractSid"));
@@ -1881,7 +1881,7 @@ public class PromoteTPLogic {
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
 
-            if (parent2 != null && parent2.getCategory().equals(Constants.IndicatorConstants.CFP)) {
+            if (parent2 != null && parent2.getCategory().equals(Constants.IndicatorConstants.CFP.getConstant())) {
 
                 if (parent2.getInternalId() == 0) {
                     ifpDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.CFP_CONTRACT_SID));

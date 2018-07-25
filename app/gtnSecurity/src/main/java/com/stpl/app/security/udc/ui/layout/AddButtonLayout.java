@@ -40,7 +40,7 @@ public class AddButtonLayout extends HorizontalLayout {
 		init();
 	}
 	
- public void init(){
+ public final void init(){
 	 addButton();
 	 
 	 deleteButton();

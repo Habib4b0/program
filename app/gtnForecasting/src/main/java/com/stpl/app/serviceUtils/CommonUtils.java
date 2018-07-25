@@ -255,7 +255,7 @@ public class CommonUtils {
     public static final Date convert2DigitTo4DigitYearFormat(final Date enteredDate) {
     	Date enterDate = enteredDate;
 
-        if (enterDate != null && !enterDate.equals("")) {
+        if (enterDate != null) {
             try {
                 final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
                 final SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");

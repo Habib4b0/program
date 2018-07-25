@@ -32,7 +32,7 @@ public class FileMgmtCustomerView extends VerticalLayout implements View {
         super();
         LOGGER.debug("FileManagementIndexView Constructor Entered");
         addComponent(new FileMgmtCustomer());
-          this.setSessionDTO(sessionDTO);     
+         this.sessionDTO = sessionDTO; 
         LOGGER.debug("FileManagementIndexView Constructor Ended");
     }
 

@@ -135,7 +135,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
         if (!session.getAction().equalsIgnoreCase(Constant.VIEW)) {
             insertFileData();
         }
-        this.setSales(new Sales(session, map));
+        this.sales = new Sales(session, map);
         this.rates = new Rates(session, map);
         this.details = new Details(session, map);
         dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
@@ -750,7 +750,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                     String workflowId = submitProjToWorkflow(params, notes, screenName, getUploadedData);
                     showSubmitNotification(workflowId);
                 } else {
-                    StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
+                    StringBuilder notiMsg = new StringBuilder("You dont have permission to submit a projection.");
                     if (!roleList.isEmpty()) {
                         notiMsg.append("\n Only " ).append( roleList ).append( " can submit a projection.");
                     }
