@@ -1579,7 +1579,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     public void savePvSelections() {
 
         LOGGER.info("savePVSelections method starts");
-        Map map = new HashMap();
+        Map map = new HashMap(NumericConstants.TWENTY_FIVE);
         try {
             String priorProjectionIds = projIdList == null || projIdList.isEmpty() ? StringUtils.EMPTY : projIdList.toString();
 

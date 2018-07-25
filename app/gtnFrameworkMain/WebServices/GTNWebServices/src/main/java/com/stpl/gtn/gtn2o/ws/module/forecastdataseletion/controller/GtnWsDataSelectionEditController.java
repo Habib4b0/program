@@ -416,7 +416,7 @@ public class GtnWsDataSelectionEditController {
 		input.add( "'%'");
 		input.add(selectedHierarchyLevelDto.getRelationshipBuilderSid());
 		input.add(selectedHierarchyLevelDto.getRelationshipVersionNo());
-		input.add(Integer.parseInt(String.valueOf(inputList.get(6))));
+		input.add(Integer.valueOf(String.valueOf(inputList.get(6))));
 		input.add(selectedHierarchyLevelDto.getHierarchyNo() + "'");
 
 		List<Object[]> resultList = productSelectedLoadService.getResultForSelectedProduct(inputQuery, input);

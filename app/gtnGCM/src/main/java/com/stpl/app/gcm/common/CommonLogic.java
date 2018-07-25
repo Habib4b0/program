@@ -1044,7 +1044,7 @@ public class CommonLogic {
     }
 
     public static List<String> getApprovedProjectionResults(final String forecastingType, final boolean salesFlag) {
-        final List<String> list = new ArrayList<>();
+        final List<String> list = new ArrayList<>(NumericConstants.FIFTEEN);
         if (forecastingType.equals(Constants.IndicatorConstants.NON_MANDATED.getConstant())) {
             if (salesFlag) {
                 list.add("NM_SALES_PROJECTION");

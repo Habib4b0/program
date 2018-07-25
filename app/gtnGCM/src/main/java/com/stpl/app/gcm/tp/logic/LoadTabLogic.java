@@ -135,7 +135,7 @@ public class LoadTabLogic {
     public List<Object> getLevelListQuery(TabSelectionDTO tabSelectionDTO) {
         LOGGER.debug("Entering getLevelListQuery");
         String query = new String();
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.TWENTY_FIVE);
         if (VARIANCE.equalsIgnoreCase(tabSelectionDTO.getParentLevel()) || CONTRACT.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "getContract";
             input.add(tabSelectionDTO.getFrequency());
@@ -677,7 +677,7 @@ public class LoadTabLogic {
     public List<Object> getLevelListQueryForRebate(TabSelectionDTO tabSelectionDTO) {
 
         String queryString = StringUtils.EMPTY;
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.TWENTY_FIVE);
         if (VARIANCE.equalsIgnoreCase(tabSelectionDTO.getParentLevel()) || CONTRACT.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
 
             queryString = "getContractForRebate";

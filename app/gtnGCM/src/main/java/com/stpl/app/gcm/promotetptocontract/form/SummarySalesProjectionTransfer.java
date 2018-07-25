@@ -102,7 +102,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
         getContent();
     }
 
-    public void getContent() {
+    public final void getContent() {
         LOGGER.debug("getContent method starts");
 
         addComponent(Clara.create(getClass().getResourceAsStream("/summarySalesProjectionTransfer.xml"), this));
