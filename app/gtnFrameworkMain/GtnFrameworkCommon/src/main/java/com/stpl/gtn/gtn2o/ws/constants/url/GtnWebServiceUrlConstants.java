@@ -99,7 +99,9 @@ public final class GtnWebServiceUrlConstants {
         public static final String GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_SERVICE = "/GtnAdjustmentDetailsDeductionValue";
         public static final String GTN_ADJUSTMENT_DETAILS_DEDUCTION_VALUE_CONTROLLER = "/GtnAdjustmentDetailsDeductionValueController";
         public static final String GTN_ADJUSTMENT_DETAILS_TABLE_LOAD_SERVICE = "/gtnAdjustmentDetailsTableLoadService";
+        public static final String GTN_ADJUSTMENT_DETAILS_PUBLIC_VIEW_TABLE_LOAD_SERVICE = "/gtnAdjustmentDetailsPublicViewTableLoadService";
         public static final String GTN_ADJUSTMENT_DETAILS_SAVE_VIEW_MASTER_SERVICE = "/gtnAdjustmentDetailsSaveViewMasterService";
+        public static final String GTN_ADJUSTMENT_DETAILS_UPDATE_REPROCESS_SERVICE = "/gtnAdjustmentDetailsUpdateReprocessService";
 
 	private GtnWebServiceUrlConstants() {
 		super();

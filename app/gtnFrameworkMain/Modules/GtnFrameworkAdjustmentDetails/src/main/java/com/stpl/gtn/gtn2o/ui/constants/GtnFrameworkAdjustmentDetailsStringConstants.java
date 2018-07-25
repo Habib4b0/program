@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ui.constants;
 
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import org.sonar.api.internal.apachecommons.lang.StringUtils;
 
 /**
  *
@@ -13,7 +14,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
  */
 public class GtnFrameworkAdjustmentDetailsStringConstants {
 
-    private static final Object[] RESERVE_PROPERTY_IDS = new Object[]{GtnFrameworkCommonConstants.RESERVE_DETAILS_COMPANY,
+    private static final Object[] RESERVE_PROPERTY_IDS = new Object[]{GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.RESERVE_DETAILS_COMPANY,
         GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_DIVISION, GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_COST_CENTER,
         GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_ACCOUNT, GtnFrameworkCommonConstants.RESERVE_DETAILS_BRAND,
         GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_PROJECT, GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_FUTURE_1,
@@ -39,14 +40,14 @@ public class GtnFrameworkAdjustmentDetailsStringConstants {
         GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_WORKFLOW_APPROVED_BY, GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_WORKFLOW_APPROVED_DATE,
         GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_BATCH_ID, GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_ORIGINAL_BATCH_ID,
         GtnFrameworkCommonConstants.RESERVE_DETAILS_ADJUSTMENT_RESERVE_DETAIL_SID};
-    private static final String[] RESERVE_COLUMN_HEADERS = new String[]{"Company", "Division", "Cost Center", "Account", "Brand", "Project", "Future 1",
+    private static final String[] RESERVE_COLUMN_HEADERS = new String[]{StringUtils.EMPTY, "Company", "Division", "Cost Center", "Account", "Brand", "Project", "Future 1",
         "Future 2", "Debit", "Credit", "Line Description", "Balance Type", "Database", "Data Access Set", "Chart of Accounts",
         "Ledger", "Category", "Source", "Currency", "Accounting Date", "Batch Name", "Journal Name", "Journal Description",
         "Reverse Journal", "Reversal Period Date", "Business Unit", "Adjustment Type", "Adjustment Level", "Account Category",
         "Account Type", "Account Description", "Account Indicator", "UDC 1", "UDC 2", "UDC 3", "UDC 4", "UDC 5", "UDC 6",
         "Redemption Period", "Calculation Period", "Posting Indicator", "Workflow ID", "Workflow Name", "Workflow Created By",
         "Workflow Created Date", "Workflow Approved By", "Workflow Approved  Date", "Batch ID", "Original Batch ID", "Adjustment Reserve Detail SID "};
-    private static final Object[] GTN_PROPERTY_IDS = new Object[]{GtnFrameworkCommonConstants.GTN_DETAILS_DEDUCTION_TYPE,
+    private static final Object[] GTN_PROPERTY_IDS = new Object[]{GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.GTN_DETAILS_DEDUCTION_TYPE,
         GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_ADJUSTMENT_TYPE, GtnFrameworkCommonConstants.GTN_DETAILS_GL_MONTH,
         GtnFrameworkCommonConstants.GTN_DETAILS_GL_YEAR, GtnFrameworkCommonConstants.GTN_DETAILS_GL_STRING,
         GtnFrameworkCommonConstants.GTN_DETAILS_GL_COMPANY_ID, GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_DIVISION,
@@ -80,7 +81,7 @@ public class GtnFrameworkAdjustmentDetailsStringConstants {
         GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_WORKFLOW_APPROVED_DATE, GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_BATCH_ID,
         GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_ORIGINAL_BATCH_ID, GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_POSTING_INDICATOR,
         GtnFrameworkCommonConstants.GTN_DETAILS_ADJUSTMENT_GTN_DETAIL_SID};
-    private static final String[] GTN_COLUMN_HEADERS = new String[]{"Deduction Type",
+    private static final String[] GTN_COLUMN_HEADERS = new String[]{StringUtils.EMPTY, "Deduction Type",
         "Adjustment Type", "GL Month", "GL Year", "GL String",
         "GL Company ID", "Division", "Cost Center", "Account",
         "Brand ID", "Project", "Future 1", "Future 2", "Item No",
@@ -97,6 +98,23 @@ public class GtnFrameworkAdjustmentDetailsStringConstants {
         "Deduction UDC 6", "Deduction Rate", "Workflow ID", "Workflow Name",
         "Workflow Created By", "Workflow Created Date", "Workflow Approved By", "Workflow Approved Date",
         "Batch ID", "Original Batch ID", "Posting Indicator", "Adjustment GTN Detail SID"};
+    private static final String[] ADJUSTMENT_VIEW_HEADERS = new String[]{"View Name", "View Type", "Created By", "Created Date", "Modified By", "Modified Date"};
+
+    private static final String[] ADJUSTMENT_VIEW_COLUMNS = new String[]{GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_NAME, GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_TYPE,
+        GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_CREATED_BY, GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_CREATED_DATE, GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_MODIFIED_BY,
+        GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_MODIFIED_DATE};
+
+    private static final String[] FILTER_PROPERTY_IDS = {GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_CREATED_BY, GtnFrameworkCommonConstants.ADJUSTMENTDETAILS_LIST_VIEW_VIEW_MODIFIED_BY};
+
+    private static final String USERS = "USERS";
+
+    private static final String[] FILTER_DB_NAME_ARRAY = {USERS, USERS};
+
+    public static final String REPROCESS = "Reprocess";
+
+    public static final String RESULT_LAYOUT = "resultlayout";
+
+    public static final String RESULT_VIEW_LAYOUT = "resultViewlayout";
 
     public static Object[] getReservePropertyIds() {
         return RESERVE_PROPERTY_IDS.clone();
@@ -112,5 +130,21 @@ public class GtnFrameworkAdjustmentDetailsStringConstants {
 
     public static String[] getGtnColumnHeaders() {
         return GTN_COLUMN_HEADERS.clone();
+    }
+
+    public static Object[] getPrivatePublicPropertyIds() {
+        return ADJUSTMENT_VIEW_COLUMNS.clone();
+    }
+
+    public static String[] getPrivatePublicColumnHeaders() {
+        return ADJUSTMENT_VIEW_HEADERS.clone();
+    }
+
+    public static String[] getFilterPropertyIds() {
+        return FILTER_PROPERTY_IDS.clone();
+    }
+
+    public static String[] getFilterDbHeaders() {
+        return FILTER_DB_NAME_ARRAY.clone();
     }
 }

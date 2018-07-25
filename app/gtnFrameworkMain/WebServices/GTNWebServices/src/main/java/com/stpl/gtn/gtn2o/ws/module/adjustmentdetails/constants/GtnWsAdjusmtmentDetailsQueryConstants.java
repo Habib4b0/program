@@ -18,8 +18,12 @@ public class GtnWsAdjusmtmentDetailsQueryConstants {
 
     private static final Map<String, String> FILTER_MAP = new HashMap<>();
 
+    public static final String SELECT_PRIVATE_PUBLIC_VIEW = "FROM ARM_VIEW_MASTER AVM ";
+    public static final String AVM = "AVM";
+
     public static Map<String, String> getColumnMap() {
         if (FILTER_MAP.isEmpty()) {
+            FILTER_MAP.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, "CHECK_RECORD");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_DETAILS_COMPANY, "COMPANY");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_DIVISION, "DIVISON");
             FILTER_MAP.put(GtnFrameworkCommonConstants.RESERVE_GTN_DETAILS_COST_CENTER, "COST_CENTER");

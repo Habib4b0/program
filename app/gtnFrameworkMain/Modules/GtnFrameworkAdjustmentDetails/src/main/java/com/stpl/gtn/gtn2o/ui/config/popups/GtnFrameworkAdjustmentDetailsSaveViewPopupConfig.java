@@ -29,11 +29,11 @@ public class GtnFrameworkAdjustmentDetailsSaveViewPopupConfig extends GTNFramewo
 
     public GtnUIFrameworkViewConfig getSaveView() {
         GtnFrameworkComponentConfigProvider componentConfig = GtnFrameworkComponentConfigProvider.getInstance();
-        GtnUIFrameworkViewConfig privateView = componentConfig.getViewConfig("PrivateLookup", "V002", false);
+        GtnUIFrameworkViewConfig saveView = componentConfig.getViewConfig("SaveViewLookup", "V002", false);
         List<GtnUIFrameworkComponentConfig> componentList = new ArrayList<>();
-        privateView.setGtnComponentList(componentList);
-        addComponentList(privateView, componentConfig);
-        return privateView;
+        saveView.setGtnComponentList(componentList);
+        addComponentList(saveView, componentConfig);
+        return saveView;
     }
 
     private void addComponentList(GtnUIFrameworkViewConfig searchView, GtnFrameworkComponentConfigProvider componentConfig) {
@@ -131,6 +131,34 @@ public class GtnFrameworkAdjustmentDetailsSaveViewPopupConfig extends GTNFramewo
         saveView.addActionParameter(GtnFrameworkAdjustmentDetailsSaveViewAction.class.getName());
         saveView.addActionParameter(GtnFrameworkCommonConstants.SAVE_VIEW_VIEW_NAME);
         saveView.addActionParameter(GtnFrameworkCommonConstants.SAVE_VIEW_VIEW_TYPE);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.ADJUSTMENT_TYPE);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.GL_COMPANY);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.WORKFLOW_ID);
+        
+        saveView.addActionParameter(GtnFrameworkCommonConstants.TRANSACTION_LEVEL);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.BUSINESS_UNIT);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.WORKFLOW_NAME);
+        
+        saveView.addActionParameter(GtnFrameworkCommonConstants.CUSTOMER_NO);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.ITEM_NO);
+         saveView.addActionParameter(GtnFrameworkCommonConstants.DEDUCTION_LEVEL);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.CREATED_DATE);
+        
+        saveView.addActionParameter(GtnFrameworkCommonConstants.CUSTOMER_NAME);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.ITEM_NAME);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.DEDUCTION_VALUE);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.GL_DATE);
+        
+        saveView.addActionParameter(GtnFrameworkCommonConstants.ORIGINAL_BATCH_ID);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.BRAND_NAME);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.FROM_DATE);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.TO_DATE);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.POSTING_INDICATOR);
+        
+        saveView.addActionParameter(GtnFrameworkCommonConstants.ACCOUNT_CATEGORY);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.ACCOUNT_TYPE);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.ADJUSTMENT_LEVEL);
+        saveView.addActionParameter(GtnFrameworkCommonConstants.ACCOUNT);
         saveViewActionConfig.add(saveView);
         saveButtonConfig.setGtnUIFrameWorkActionConfigList(saveViewActionConfig);
     }

@@ -292,7 +292,8 @@ IF NOT EXISTS (SELECT * FROM ST_ADJUSTMENT_RESERVE_DETAIL WHERE USER_ID = @USER_
     END
 
 ;WITH CTE AS (
-     SELECT A.COMPANY, 
+    SELECT ISNULL(ST.CHECK_RECORD, 0 ) AS CHECK_RECORD,
+       A.COMPANY, 
        A.DIVISION, 
        A.COST_CENTER, 
        A.ACCOUNT, 
@@ -423,29 +424,29 @@ END
         )
     VALUES (
         @MASTER_SID,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?,
-        ?
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?',
+        '?'
     )
                     ]]>    
         </query>
@@ -808,7 +809,8 @@ END
                    			
               
 ;WITH CTE AS (
-        SELECT HT.DEDUCTION_TYPE     AS DEDUCTION_TYPE, 
+        SELECT ISNULL(ST.CHECK_RECORD, 0 ) AS CHECK_RECORD,
+        HT.DEDUCTION_TYPE     AS DEDUCTION_TYPE, 
         AAC.TRANSACTION_NAME  AS ADJUSTMENT_TYPE, 
         GL_MONTH,
         GL_YEAR,
@@ -899,6 +901,14 @@ END
          ON USR.USERID = A.WORKFLOW_CREATED_BY 
        JOIN $SYS.DBO.USER_ USR1 
          ON USR1.USERID = A.WORKFLOW_APPROVED_BY )
+                    ]]>    
+        </query>
+    </entity>
+    
+    <entity id="updateReprocessFlag">
+        <query> 
+     <![CDATA[
+            UPDATE ST_ADJUSTMENT_RESERVE_DETAIL SET ETL_CHECK_RECORD = 1 WHERE ADJUSTMENT_RESERVE_DETAIL_SID IN (?) AND USER_ID = '?' AND SESSION_ID = '?';
                     ]]>    
         </query>
     </entity>

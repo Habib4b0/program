@@ -17,6 +17,7 @@ public class GtnWsAdjusmentDetailsRequest implements Serializable {
     private Integer adjustmentType;
     private Integer glCompany;
     private Integer businessUnit;
+    private String transactionLevel;
     private String workFlowId;
     private String workFlowName;
     private String customerNo;
@@ -29,11 +30,12 @@ public class GtnWsAdjusmentDetailsRequest implements Serializable {
     private Date glDate;
     private String originalBatchId;
     private String brandName;
-    private Date redemptionPeriod;
-    private Integer postingIndicator;
-    private Integer accountCategory;
-    private Integer accountType;
-    private Integer adjustmentLevel;
+    private Date redemptionPeriodStartDate;
+    private Date redemptionPeriodEndDate;
+    private String postingIndicator;
+    private String accountCategory;
+    private String accountType;
+    private String adjustmentLevel;
     private String account;
     private Integer armAdjustmentDetailsMasterSid;
     private String deductionLevelCaption;
@@ -158,43 +160,35 @@ public class GtnWsAdjusmentDetailsRequest implements Serializable {
         this.brandName = brandName;
     }
 
-    public Date getRedemptionPeriod() {
-        return redemptionPeriod;
-    }
-
-    public void setRedemptionPeriod(Date redemptionPeriod) {
-        this.redemptionPeriod = redemptionPeriod;
-    }
-
-    public Integer getPostingIndicator() {
+    public String getPostingIndicator() {
         return postingIndicator;
     }
 
-    public void setPostingIndicator(Integer postingIndicator) {
+    public void setPostingIndicator(String postingIndicator) {
         this.postingIndicator = postingIndicator;
     }
 
-    public Integer getAccountCategory() {
+    public String getAccountCategory() {
         return accountCategory;
     }
 
-    public void setAccountCategory(Integer accountCategory) {
+    public void setAccountCategory(String accountCategory) {
         this.accountCategory = accountCategory;
     }
 
-    public Integer getAccountType() {
+    public String getAccountType() {
         return accountType;
     }
 
-    public void setAccountType(Integer accountType) {
+    public void setAccountType(String accountType) {
         this.accountType = accountType;
     }
 
-    public Integer getAdjustmentLevel() {
+    public String getAdjustmentLevel() {
         return adjustmentLevel;
     }
 
-    public void setAdjustmentLevel(Integer adjustmentLevel) {
+    public void setAdjustmentLevel(String adjustmentLevel) {
         this.adjustmentLevel = adjustmentLevel;
     }
 
@@ -220,6 +214,30 @@ public class GtnWsAdjusmentDetailsRequest implements Serializable {
 
     public void setDeductionValue(String deductionValue) {
         this.deductionValue = deductionValue;
+    }
+
+    public String getTransactionLevel() {
+        return transactionLevel;
+    }
+
+    public void setTransactionLevel(String transactionLevel) {
+        this.transactionLevel = transactionLevel;
+    }
+
+    public Date getRedemptionPeriodStartDate() {
+        return redemptionPeriodStartDate;
+    }
+
+    public void setRedemptionPeriodStartDate(Date redemptionPeriodStartDate) {
+        this.redemptionPeriodStartDate = redemptionPeriodStartDate;
+    }
+
+    public Date getRedemptionPeriodEndDate() {
+        return redemptionPeriodEndDate;
+    }
+
+    public void setRedemptionPeriodEndDate(Date redemptionPeriodEndDate) {
+        this.redemptionPeriodEndDate = redemptionPeriodEndDate;
     }
 
 }

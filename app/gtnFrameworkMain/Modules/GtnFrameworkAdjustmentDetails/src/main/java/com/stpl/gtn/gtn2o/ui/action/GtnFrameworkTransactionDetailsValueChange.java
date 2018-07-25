@@ -58,6 +58,7 @@ public class GtnFrameworkTransactionDetailsValueChange implements GtnUIFrameWork
         int length = visiColumn.length;
         Class[] classes = new Class[length];
         Arrays.fill(classes, GtnFrameworkCommonConstants.JAVALANG_STRING);
+        classes[0] = Boolean.class;
         searchResults.setTableColumnDataType(classes);
         searchResults.setTableVisibleHeader(columnHeader);
         searchResults.setTableColumnMappingId(visiColumn);

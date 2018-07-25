@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkTransactionDetailsValueChange;
 import com.stpl.gtn.gtn2o.ui.config.abstractConfig.GTNFrameworkAbstractComponent;
 import com.stpl.gtn.gtn2o.ui.config.searchConfig.buttonConfig.GtnAdjustmentDetailsButtonConfig;
 import com.stpl.gtn.gtn2o.ui.config.searchConfig.tableConfig.GtnAdjustmentDetailsResultsTableConfig;
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkAdjustmentDetailsStringConstants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
@@ -49,8 +50,7 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
         addSearchCriteriaDetailsPanel(componentList, componentConfig);
         addButtonLayout(componentList, componentConfig);
         addResultPanel(componentList, componentConfig);
-//        addActionButtonLayout(componentList, componentConfig);
-
+        addActionButtonLayout(componentList, componentConfig);
     }
 
     private void addSearchCriteriaPanel(List<GtnUIFrameworkComponentConfig> componentList,
@@ -98,6 +98,17 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
         publicViewConfig.setAuthorizationIncluded(true);
         publicViewConfig.setComponentName("Public View");
         componentList.add(publicViewConfig);
+
+        List<GtnUIFrameWorkActionConfig> parentCFPIdActionConfigList = new ArrayList<>();
+        GtnUIFrameWorkActionConfig parentCFPIdPopupActionConfig = new GtnUIFrameWorkActionConfig();
+        parentCFPIdPopupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+        parentCFPIdPopupActionConfig.addActionParameter("V003");
+        parentCFPIdPopupActionConfig.addActionParameter("Public View");
+        parentCFPIdPopupActionConfig.addActionParameter(GtnFrameworkCssConstants.PERCENT_70);
+        parentCFPIdPopupActionConfig.addActionParameter(GtnFrameworkCssConstants.PERCENT_70);
+        parentCFPIdActionConfigList.add(parentCFPIdPopupActionConfig);
+        publicViewConfig.setGtnUIFrameWorkActionConfigList(parentCFPIdActionConfigList);
+
     }
 
     private void addPrivateView(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
@@ -146,9 +157,9 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
         String componentName = "Transaction Level";
         String objectComponentName = GtnFrameworkCommonConstants.TRANSACTION_LEVEL;
         List transactionLevels = new ArrayList();
-        transactionLevels.add("Reserve Details");
         transactionLevels.add("GTN Details");
-        GtnUIFrameworkComponentConfig transactionLevelConfig = getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, transactionLevels, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_SUMMARY_LAYOUT, "GTN Details");
+        transactionLevels.add("Reserve Details");
+        GtnUIFrameworkComponentConfig transactionLevelConfig = getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, transactionLevels, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_SUMMARY_LAYOUT, true);
         List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
         GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
         customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -292,9 +303,28 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
     }
 
     private void addRedemptionPeriod(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
-        String componentName = "RedemptionPeriod";
+        String componentName = "Redemption Period";
         String objectComponentName = GtnFrameworkCommonConstants.REDEMPTION_PERIOD;
-        getTextBoxComponent(componentConfig, objectComponentName, componentList, componentName, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT);
+        GtnUIFrameworkComponentConfig systemIdLayout = componentConfig.getHorizontalLayoutConfig(
+                objectComponentName + "Layout", true, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT);
+        componentList.add(systemIdLayout);
+
+        GtnUIFrameworkComponentConfig redemptionPeriodConfig = componentConfig.getUIFrameworkComponentConfig(
+                objectComponentName, true, systemIdLayout.getComponentId(),
+                GtnUIFrameworkComponentType.POPUPTEXTFIELD);
+        redemptionPeriodConfig.setAuthorizationIncluded(true);
+        redemptionPeriodConfig.setComponentName(componentName);
+        componentList.add(redemptionPeriodConfig);
+
+        List<GtnUIFrameWorkActionConfig> parentCFPIdActionConfigList = new ArrayList<>();
+        GtnUIFrameWorkActionConfig parentCFPIdPopupActionConfig = new GtnUIFrameWorkActionConfig();
+        parentCFPIdPopupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+        parentCFPIdPopupActionConfig.addActionParameter("V004");
+        parentCFPIdPopupActionConfig.addActionParameter(componentName);
+        parentCFPIdPopupActionConfig.addActionParameter(GtnFrameworkCssConstants.PERCENT_40);
+        parentCFPIdPopupActionConfig.addActionParameter(GtnFrameworkCssConstants.PERCENT_20);
+        parentCFPIdActionConfigList.add(parentCFPIdPopupActionConfig);
+        redemptionPeriodConfig.setGtnUIFrameWorkActionConfigList(parentCFPIdActionConfigList);
     }
 
     private void addAccount(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
@@ -309,7 +339,7 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
         List posInd = new ArrayList<>();
         posInd.add("N");
         posInd.add("Y");
-        getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, posInd, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT, null);
+        getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, posInd, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT, false);
     }
 
     private void addAccountCategory(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
@@ -318,7 +348,7 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
         List accCategory = new ArrayList<>();
         accCategory.add("Balance Sheet");
         accCategory.add("P&L");
-        getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, accCategory, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT, null);
+        getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, accCategory, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT, false);
     }
 
     private void addAccountType(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
@@ -327,7 +357,7 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
         List accCategory = new ArrayList<>();
         accCategory.add("Expense");
         accCategory.add("Liability");
-        getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, accCategory, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT, null);
+        getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, accCategory, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT, false);
     }
 
     private void addAdjustmentLevel(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
@@ -335,7 +365,7 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
         String objectComponentName = GtnFrameworkCommonConstants.ADJUSTMENT_LEVEL;
         List adjLevels = new ArrayList<>();
         adjLevels.add("Item");
-        getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, adjLevels, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT, null);
+        getComboBoxComponent(componentConfig, objectComponentName, componentList, componentName, adjLevels, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_CRITERIA_DETAILS_LAYOUT, false);
     }
 
     private void addResultPanel(List<GtnUIFrameworkComponentConfig> componentList,
@@ -353,7 +383,7 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
     private void addResultLayout(List<GtnUIFrameworkComponentConfig> componentList,
             GtnFrameworkComponentConfigProvider componentConfig) {
 
-        GtnUIFrameworkComponentConfig resultTableLayout = componentConfig.getHorizontalLayoutConfig("Resultlayout",
+        GtnUIFrameworkComponentConfig resultTableLayout = componentConfig.getHorizontalLayoutConfig(GtnFrameworkAdjustmentDetailsStringConstants.RESULT_LAYOUT,
                 true, "ResultPanel");
         resultTableLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
         componentList.add(resultTableLayout);
@@ -370,6 +400,27 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
         customAction.addActionParameter(GtnFrameworkCommonConstants.DEDUCTION_VALUE);
         actionConfigList.add(customAction);
         return actionConfigList;
+    }
+
+    private void addActionButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
+        GtnUIFrameworkComponentConfig itemMasterButtonLayout = componentConfig.getGtnCssLayoutConfig(
+                GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_EXCEL_REPROCESS_BUTTON_LAYOUT, false, null,
+                GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
+        itemMasterButtonLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
+        componentList.add(itemMasterButtonLayout);
+
+        buttonConfig.addExcelButtonComponent(componentList, componentConfig);
+        reprocessButtonLayout(componentList, componentConfig);
+    }
+
+    private void reprocessButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
+        GtnUIFrameworkComponentConfig itemMasterButtonLayout = componentConfig.getGtnCssLayoutConfig(
+                GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_REPROCESS_BUTTON_LAYOUT, true, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_EXCEL_REPROCESS_BUTTON_LAYOUT,
+                GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
+        itemMasterButtonLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
+        componentList.add(itemMasterButtonLayout);
+        buttonConfig.addResetListViewButtonComponent(componentList, componentConfig);
+        buttonConfig.addReprocessButtonComponent(componentList, componentConfig);
     }
 
 }

@@ -1161,8 +1161,11 @@ public class GtnFrameworkCommonConstants {
     public static final String ACCOUNT_CATEGORY = "accountCategory";
     public static final String ACCOUNT_TYPE = "accountType";
     public static final String ADJUSTMENT_LEVEL = "adjustmentLevel";
+    public static final String FROM_DATE = "fromDate";
+    public static final String TO_DATE = "toDate";
 
     public static final String ADJUSTMENT_DETAILS_SEARCH_RESULT_TABLE = "adjustmentDetailssearchResultTable";
+    public static final String ADJUSTMENT_DETAILS_VIEW_SEARCH_RESULT_TABLE = "adjustmentDetailsViewSearchResultTable";
 
     public static final String RESERVE_DETAILS_COMPANY = GL_COMPANY;
     public static final String RESERVE_GTN_DETAILS_DIVISION = "division";
@@ -1256,6 +1259,22 @@ public class GtnFrameworkCommonConstants {
     public static final String SAVE_VIEW_VIEW_NAME = "viewName";
     public static final String SAVE_VIEW_VIEW_TYPE = "viewType";
     public static final String ADJUSTMENT_DETAILS_SAVE_VIEW_LAYOUT = "saveViewLayout";
+    public static final String ADJUSTMENT_DETAILS_PUBLIC_VIEW_LAYOUT = "publicViewLayout";
+    public static final String ADJUSTMENT_DETAILS_PUBLIC_VIEW_LAYOUT1 = "publicViewLayout1";
+    public static final String ADJUSTMENT_DETAILS_REDEMPTION_PERIOD_LAYOUT = "redemptionPeriodLayout";
+    public static final String ADJUSTMENT_DETAILS_REDEMPTION_PERIOD_LAYOUT1 = "redemptionPeriodLayout1";
     public static final String ADJUSTMENT_DETAILS_SAVE_VIEW_BUTTONLAYOUT = "saveViewButtonLayout";
+    public static final String ADJUSTMENT_DETAILS_REDEMPTION_PERIOD_BUTTONLAYOUT = "redemptionPeriodButtonLayout";
+    public static final String ADJUSTMENT_DETAILS_PRIVATE_PUBLIC_VIEW_BUTTONLAYOUT = "privatePublicViewButtonLayout";
+    public static final String ADJUSTMENT_DETAILS_PRIVATE_PUBLIC_VIEW_FOOTER_BUTTONLAYOUT = "privatePublicViewFooterButtonLayout";
+    public static final String ADJUSTMENT_DETAILS_EXCEL_REPROCESS_BUTTON_LAYOUT = "adjustmentDetailsExcelReprocessButtonLayout";
+    public static final String ADJUSTMENT_DETAILS_REPROCESS_BUTTON_LAYOUT = "adjustmentDetailsReprocessButtonLayout";
+
+    public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_NAME = SAVE_VIEW_VIEW_NAME;
+    public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_TYPE = SAVE_VIEW_VIEW_TYPE;
+    public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_CREATED_DATE = CREATED_DATE;
+    public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_CREATED_BY = CREATED_BY;
+    public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_MODIFIED_DATE = MODIFIED_DATE;
+    public static final String ADJUSTMENTDETAILS_LIST_VIEW_VIEW_MODIFIED_BY = MODIFIED_BY;
 
 }

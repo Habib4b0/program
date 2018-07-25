@@ -10,10 +10,12 @@ import com.stpl.gtn.gtn2o.ws.entity.adjustmentDetails.ArmViewMaster;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.adjustmentdetails.GtnWsAdjusmentDetailsRequest;
 import com.stpl.gtn.gtn2o.ws.request.adjustmentdetails.GtnWsAdjustmentDetailsSaveViewMasterRequest;
+import com.stpl.gtn.gtn2o.ws.request.transaction.GtnWsTransactionRequest;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class GtnWsAdjustmentDetailsSaveViewService {
 
     @Autowired
     private org.hibernate.SessionFactory sessionFactory;
-    
+
     @Autowired
     private GtnWsSqlService gtnWsSqlService;
 
@@ -64,10 +66,10 @@ public class GtnWsAdjustmentDetailsSaveViewService {
         return customViewMasterSid;
     }
 
-    public void saveCustViewDetails(GtnUIFrameworkWebserviceRequest gtnWsRequest, int armAdjustmentMasterSid) {
+    public String saveCustViewDetails(GtnUIFrameworkWebserviceRequest gtnWsRequest, int armAdjustmentMasterSid) {
         List input = new ArrayList();
         GtnWsAdjusmentDetailsRequest request = gtnWsRequest.getGtnWsAdjusmentDetailsRequest();
-        input.add(request.getArmAdjustmentDetailsMasterSid());
+        input.add(armAdjustmentMasterSid);
         input.add(request.getAdjustmentType());
         input.add(request.getAdjustmentLevel());
         input.add(request.getGlCompany());
@@ -84,13 +86,22 @@ public class GtnWsAdjustmentDetailsSaveViewService {
         input.add(request.getGlDate());
         input.add(request.getOriginalBatchId());
         input.add(request.getBrandName());
-        input.add(request.getRedemptionPeriod());
+        input.add(request.getRedemptionPeriodStartDate());
         input.add(request.getPostingIndicator());
-        input.add(request.getAdjustmentLevel());
+        input.add(request.getTransactionLevel());
         input.add(request.getAccountCategory());
         input.add(request.getAccountType());
         input.add(request.getAccount());
-        input.add(request.getRedemptionPeriod());
-        gtnWsSqlService.getQuery(input, "insertAdjustmentDetails");
+        input.add(request.getRedemptionPeriodEndDate());
+        return gtnWsSqlService.getNullReplacedQuery(input, "insertAdjustmentDetails");
+    }
+
+    public String updateReprocessDetails(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+        List input = new ArrayList();
+        GtnWsTransactionRequest request = gtnWsRequest.getGtnWsTransactionRequest();
+        input.add(StringUtils.join(request.getReprocessIds(), ","));
+        input.add(gtnWsRequest.getGtnWsGeneralRequest().getUserId());
+        input.add(gtnWsRequest.getGtnWsGeneralRequest().getSessionId());
+        return gtnWsSqlService.getNullReplacedQuery(input, "updateReprocessFlag");
     }
 }

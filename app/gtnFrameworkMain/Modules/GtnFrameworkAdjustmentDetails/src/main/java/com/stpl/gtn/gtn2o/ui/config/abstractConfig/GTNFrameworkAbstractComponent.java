@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkedcombobox.GtnUIFrameworkCheckedComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.date.GtnUIFrameworkDateFieldConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.inlinedate.GtnUIFrameworkInlineDateFieldConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.pojo.ComponentPojo;
@@ -50,7 +51,7 @@ public class GTNFrameworkAbstractComponent {
         return uiComponentConfig;
     }
 
-    protected GtnUIFrameworkComponentConfig getComboBoxComponent(GtnFrameworkComponentConfigProvider componentConfig, String objectComponentName, List<GtnUIFrameworkComponentConfig> componentList, String componentName, List listName, String parentLayout, String defaultValue) {
+    protected GtnUIFrameworkComponentConfig getComboBoxComponent(GtnFrameworkComponentConfigProvider componentConfig, String objectComponentName, List<GtnUIFrameworkComponentConfig> componentList, String componentName, List listName, String parentLayout, boolean defaultValue) {
         GtnUIFrameworkComponentConfig comboBoxLayout = componentConfig.getHorizontalLayoutConfig(objectComponentName + "Layout",
                 true, parentLayout);
         componentList.add(comboBoxLayout);
@@ -70,7 +71,7 @@ public class GTNFrameworkAbstractComponent {
                 GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
                 + GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
         comboBoxConfig.setItemValues(listName);
-        comboBoxConfig.setDefaultValue(defaultValue);
+        comboBoxConfig.setHasDefaultValue(defaultValue);
         uiComponentConfig.setGtnComboboxConfig(comboBoxConfig);
         return uiComponentConfig;
     }
@@ -140,5 +141,22 @@ public class GTNFrameworkAbstractComponent {
                 Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL), true, "Date format not recognized",
                 GtnFrameworkRegexStringConstants.DATE_FORMAT);
         itemIdentifier.setGtnUIFrameworkValidationConfig(itemIdentifierValConfig);
+    }
+
+    protected void getInlinePopupFieldComponent(GtnFrameworkComponentConfigProvider componentConfig, String objectComponentName, List<GtnUIFrameworkComponentConfig> componentList, String componentName, String parentLayout) {
+        GtnUIFrameworkComponentConfig identifierStartDateLayout = componentConfig.getHorizontalLayoutConfig(objectComponentName + "layout", true,
+                parentLayout);
+        identifierStartDateLayout.addComponentStyle(GtnFrameworkCssConstants.GRID_SINGLE_IN_LAYOUT);
+        componentList.add(identifierStartDateLayout);
+
+        GtnUIFrameworkComponentConfig itemIdentifier = componentConfig.getUIFrameworkComponentConfig(
+                objectComponentName, true, identifierStartDateLayout.getComponentId(),
+                GtnUIFrameworkComponentType.INLINE_DATE_FIELD);
+        itemIdentifier.setAuthorizationIncluded(true);
+        itemIdentifier.setComponentName(componentName);
+        componentList.add(itemIdentifier);
+        GtnUIFrameworkInlineDateFieldConfig itemIdentifierFieldConfig = new GtnUIFrameworkInlineDateFieldConfig();
+        itemIdentifierFieldConfig.setImmediate(true);
+        itemIdentifier.setGtnUIFrameworkInlineDateFieldConfig(itemIdentifierFieldConfig);
     }
 }

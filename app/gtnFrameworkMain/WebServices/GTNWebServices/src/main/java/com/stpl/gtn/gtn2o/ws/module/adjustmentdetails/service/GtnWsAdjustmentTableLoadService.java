@@ -9,7 +9,6 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsAllListConfig;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.adjustmentdetails.constants.GtnWsAdjusmtmentDetailsQueryConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -73,6 +72,7 @@ public class GtnWsAdjustmentTableLoadService {
             GtnWebServiceSearchCriteria searchCriteria = namesIterator.next();
             if (GtnFrameworkCommonConstants.TRANSACTION_LEVEL.equals(searchCriteria.getFieldId())) {
                 isReserve = searchCriteria.getFilterValue1().equals("Reserve Details");
+                
             } else if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
                 filterBuilder.append(" AND ").append(getCriteria(searchCriteria));
             }

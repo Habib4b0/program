@@ -7,6 +7,8 @@ package com.stpl.gtn.gtn2o.ui.config;
 
 import com.stpl.gtn.gtn2o.ui.config.searchConfig.GtnFrameworkAdjustmentDetailsSearchConfig;
 import com.stpl.gtn.gtn2o.ui.config.popups.GtnFrameworkAdjustmentDetailsSaveViewPopupConfig;
+import com.stpl.gtn.gtn2o.ui.config.popups.redemptionperiod.GtnFrameworkRedemptionPeriodLookup;
+import com.stpl.gtn.gtn2o.ui.config.popups.privatePublicView.GtnFrameworkPrivatePublicViewLookup;
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkRootConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import java.util.ArrayList;
@@ -23,6 +25,8 @@ public class GtnFrameworkAdjustmentDetailsConfig {
         List<GtnUIFrameworkViewConfig> viewList = new ArrayList<>();
         viewList.add(new GtnFrameworkAdjustmentDetailsSearchConfig().getSearchView());
         viewList.add(new GtnFrameworkAdjustmentDetailsSaveViewPopupConfig().getSaveView());
+        viewList.add(new GtnFrameworkPrivatePublicViewLookup().getPrivateView());
+        viewList.add(new GtnFrameworkRedemptionPeriodLookup().getRedemptionPeriod());
         rootConfig.setGtnViewConfigList(viewList);
         return rootConfig;
     }

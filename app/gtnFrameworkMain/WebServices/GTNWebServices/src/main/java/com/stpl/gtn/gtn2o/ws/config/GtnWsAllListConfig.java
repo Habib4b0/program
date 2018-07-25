@@ -90,6 +90,7 @@ import com.stpl.gtn.gtn2o.ws.entity.transaction.VwRebateSchedule;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.VwReturnReserve;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.module.adjustmentdetails.config.GtnWsAdjustmentDetailsPublicViewConfig;
 import com.stpl.gtn.gtn2o.ws.module.companyfamilyplan.config.GtnWebServiceCompanyFamilyPlanAdditionSearchConfig;
 import com.stpl.gtn.gtn2o.ws.module.companyfamilyplan.config.GtnWebServiceCompanyFamilyPlanSearchConfig;
 import com.stpl.gtn.gtn2o.ws.module.companygroups.config.GtnWebServiceCompanyGroupConfig;
@@ -598,7 +599,8 @@ public class GtnWsAllListConfig {
 				new GtnWsUdcConfig());
 		dynamicClassObjectMap.put(GtnWsSearchQueryConfigLoaderType.CUSTOM_SEARCH_CONFIG.getClassName(),
 				new GtnWebServiceCustomSearchConfig());
-
+		dynamicClassObjectMap.put(GtnWsSearchQueryConfigLoaderType.ADJUSTMENT_DETAILS.getClassName(),
+				new GtnWsAdjustmentDetailsPublicViewConfig());
 	}
 
 	private void loadTransctionDynamicClassObjects() {

@@ -6,13 +6,18 @@
 package com.stpl.gtn.gtn2o.ui.config.searchConfig.buttonConfig;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkTransactionRefreshBeanAction;
+import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkTransactionReprocessRemoveAction;
+import com.stpl.gtn.gtn2o.ui.action.validation.GtnFrameworkTransactionReprocessRemoveValidation;
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkAdjustmentDetailsStringConstants;
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkAdjustmentDetailsWindowMessages;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -90,9 +95,8 @@ public class GtnAdjustmentDetailsButtonConfig {
 
         GtnUIFrameWorkActionConfig notificationActionConfig = componentConfig
                 .getUIFrameworkActionConfig(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
-        notificationActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_MASTERSEARCH_RESULT_TABLE);
+        notificationActionConfig.addActionParameter(GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_RESULT_TABLE);
         searchActionConfigList.add(notificationActionConfig);
-
         searchButtonConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
 
     }
@@ -129,31 +133,137 @@ public class GtnAdjustmentDetailsButtonConfig {
         List<GtnUIFrameWorkActionConfig> resetBtnActionConfigList = new ArrayList<>();
         GtnUIFrameWorkActionConfig resetActionConfig = componentConfig.getUIFrameworkActionConfig(GtnUIFrameworkActionType.RESET_ACTION);
         List<Object> paramsList = new ArrayList<>();
-//                resetActionConfig
-//                        .addActionParameter(GtnFrameworkItemMasterStringContants.GTN_ITEM_MASTER_VALIDATION_MSG_RESET_HEADER);
-//                resetActionConfig.addActionParameter(GtnFrameworkItemMasterStringContants.GTN_ITEM_MASTER_VALIDATION_MSG_RESET);
+        resetActionConfig.addActionParameter(GtnFrameworkAdjustmentDetailsWindowMessages.GTN_ITEM_MASTER_VALIDATION_MSG_RESET_HEADER);
+        resetActionConfig.addActionParameter(GtnFrameworkAdjustmentDetailsWindowMessages.GTN_ITEM_MASTER_VALIDATION_MSG_RESET);
         Map<String, Object> resetMap = new HashMap<>(50);
-        resetMap.put(GtnFrameworkCommonConstants.ITEM_SYSTEM_ID, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_ID, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NO, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NAME, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_DESC, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_STATUS, null);
-        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_TYPE, null);
-        resetMap.put(GtnFrameworkCommonConstants.THERAPEUTIC_CLASS, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC9, null);
-        resetMap.put("form", null);
-        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_QUALIFIER_NAME, null);
-        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_IDENTIFIER, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-        resetMap.put(GtnFrameworkCommonConstants.BRAND, null);
-        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC8, null);
-        resetMap.put(GtnFrameworkCommonConstants.STRENGTH, null);
-        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_BATCH_ID, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-        resetMap.put(GtnFrameworkCommonConstants.ITEM_MASTERSEARCH_RESULT_TABLE, null);
+        resetMap.put(GtnFrameworkCommonConstants.TRANSACTION_LEVEL, "Reserve Details");
+//        resetMap.put(GtnFrameworkCommonConstants.ITEM_SYSTEM_ID, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_ID, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NO, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_NAME, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_DESC, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_STATUS, null);
+//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_TYPE, null);
+//        resetMap.put(GtnFrameworkCommonConstants.THERAPEUTIC_CLASS, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC9, null);
+//        resetMap.put("form", null);
+//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_QUALIFIER_NAME, null);
+//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_ITEM_IDENTIFIER, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+//        resetMap.put(GtnFrameworkCommonConstants.BRAND, null);
+//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_NDC8, null);
+//        resetMap.put(GtnFrameworkCommonConstants.STRENGTH, null);
+//        resetMap.put(GtnFrameworkCommonConstants.I_MASTER_SEARCH_BATCH_ID, GtnFrameworkCommonStringConstants.STRING_EMPTY);
         resetActionConfig.addActionParameter(resetMap);
         resetActionConfig.addActionParameter(paramsList);
         resetBtnActionConfigList.add(resetActionConfig);
         resetBtnConfig.setGtnUIFrameWorkActionConfigList(resetBtnActionConfigList);
+    }
+
+    public void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
+        GtnUIFrameworkComponentConfig excelBtnLayout = componentConfig.getHorizontalLayoutConfig("gtnExcellayout",
+                true, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_EXCEL_REPROCESS_BUTTON_LAYOUT);
+        componentList.add(excelBtnLayout);
+
+        GtnUIFrameworkComponentConfig excelButton = new GtnUIFrameworkComponentConfig();
+        excelButton.setComponentType(GtnUIFrameworkComponentType.EXCEL_BUTTON);
+        excelButton.setAuthorizationIncluded(true);
+        excelButton.setAddToParent(true);
+        excelButton.setParentComponentId("gtnExcellayout");
+        componentList.add(excelButton);
+
+        GtnUIFrameworkExcelButtonConfig cfpExcelButtonConfig = componentConfig.getExcelBtnconfig("Adjustment Details", true,
+                GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_RESULT_TABLE, false);
+        excelButton.setGtnUIFrameworkExcelButtonConfig(cfpExcelButtonConfig);
+        GtnUIFrameWorkActionConfig excelAction = new GtnUIFrameWorkActionConfig();
+        excelAction.setActionType(GtnUIFrameworkActionType.EXCEL_EXPORT_ACTION);
+        excelAction.addActionParameter(cfpExcelButtonConfig);
+        excelButton.setGtnUIFrameWorkActionConfigList(Arrays.asList(excelAction));
+    }
+
+    public void addReprocessButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
+        GtnUIFrameworkComponentConfig resetBtnLayout = componentConfig.getHorizontalLayoutConfig("gtnReprocesslayout", true, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_REPROCESS_BUTTON_LAYOUT);
+        componentList.add(resetBtnLayout);
+        GtnUIFrameworkComponentConfig reprocessBtnConfig = componentConfig.getUIFrameworkComponentConfig("gtnReprocess01", true, resetBtnLayout.getComponentId(), GtnUIFrameworkComponentType.BUTTON);
+        reprocessBtnConfig.setComponentName("REPROCESS");
+        reprocessBtnConfig.setAuthorizationIncluded(true);
+        componentList.add(reprocessBtnConfig);
+        List<GtnUIFrameWorkActionConfig> gtnUIFrameworkReprocessConfigList = new ArrayList<>();
+        GtnUIFrameWorkActionConfig reprocessAlertAction = new GtnUIFrameWorkActionConfig();
+        reprocessAlertAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+        reprocessAlertAction.addActionParameter(GtnFrameworkTransactionReprocessRemoveValidation.class.getName());
+        reprocessAlertAction.addActionParameter(GtnFrameworkAdjustmentDetailsStringConstants.REPROCESS);
+        reprocessAlertAction.addActionParameter(GtnFrameworkAdjustmentDetailsStringConstants.RESULT_LAYOUT);
+        reprocessAlertAction.addActionParameter(true);
+        reprocessAlertAction.addActionParameter("Adjustment Details");
+        gtnUIFrameworkReprocessConfigList.add(reprocessAlertAction);
+        List<GtnUIFrameWorkActionConfig> reprocess = new ArrayList<>();
+        Object resultpanelLayout = GtnFrameworkAdjustmentDetailsStringConstants.RESULT_LAYOUT;
+        GtnUIFrameWorkActionConfig reprocessAction = new GtnUIFrameWorkActionConfig();
+        boolean isOutbound = true;
+        String wsReprocessURL = "/gtnTransactionOutbound/reprocess";
+        List<String> stagingInsertColumns = new ArrayList<>();
+        List<String> stagingUpdateColumns = new ArrayList<>();
+        List<String> stagingUpdateColumnValues = new ArrayList<>();
+        reprocessAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+        reprocessAction.setActionParameterList(Arrays.asList(
+                GtnUIFrameworkTransactionReprocessRemoveAction.class.getName(), GtnFrameworkAdjustmentDetailsStringConstants.REPROCESS,
+                resultpanelLayout, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_RESULT_TABLE, wsReprocessURL,
+                isOutbound, stagingInsertColumns, stagingUpdateColumns, stagingUpdateColumnValues));
+        reprocess.add(reprocessAction);
+        GtnUIFrameWorkActionConfig resetBeanAction = new GtnUIFrameWorkActionConfig();
+        resetBeanAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+        resetBeanAction.addActionParameter(GtnUIFrameworkTransactionRefreshBeanAction.class.getName());
+        resetBeanAction.addActionParameter(GtnFrameworkAdjustmentDetailsStringConstants.RESULT_LAYOUT);
+        resetBeanAction.addActionParameter(GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_RESULT_TABLE);
+        resetBeanAction.addActionParameter(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
+        reprocess.add(resetBeanAction);
+
+        GtnUIFrameWorkActionConfig reprocessConfirmationActionConfig = new GtnUIFrameWorkActionConfig();
+        reprocessConfirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+        List<Object> deleteConfirmationAlertParams = new ArrayList<>();
+        deleteConfirmationAlertParams.add("Confirmation");
+        deleteConfirmationAlertParams.add("Are you sure you want to Reprocess the selected record(s)  ?");
+        GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
+        loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
+        List<Object> actionParams = new ArrayList<>();
+        actionParams.add(GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_RESULT_TABLE);
+        loadDataTableActionConfig.setActionParameterList(actionParams);
+        loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_SEARCH_RESULT_TABLE);
+        loadDataTableActionConfig.setFieldValues(Arrays.asList(
+                GtnFrameworkCommonConstants.WORKFLOW_ID,
+                GtnFrameworkCommonConstants.WORKFLOW_NAME,
+                GtnFrameworkCommonConstants.ITEM_NO,
+                GtnFrameworkCommonConstants.ITEM_NAME,
+                GtnFrameworkCommonConstants.GL_DATE,
+                GtnFrameworkCommonConstants.ORIGINAL_BATCH_ID,
+                GtnFrameworkCommonConstants.BRAND_NAME,
+                GtnFrameworkCommonConstants.REDEMPTION_PERIOD,
+                GtnFrameworkCommonConstants.CUSTOMER_NO));
+        loadDataTableActionConfig.setFieldDescription(Arrays.asList(
+                GtnFrameworkCommonConstants.TRANSACTION_LEVEL,
+                GtnFrameworkCommonConstants.ADJUSTMENT_TYPE,
+                GtnFrameworkCommonConstants.GL_COMPANY,
+                GtnFrameworkCommonConstants.BUSINESS_UNIT,
+                GtnFrameworkCommonConstants.DEDUCTION_LEVEL,
+                GtnFrameworkCommonConstants.POSTING_INDICATOR,
+                GtnFrameworkCommonConstants.ACCOUNT_CATEGORY,
+                GtnFrameworkCommonConstants.ACCOUNT_TYPE,
+                GtnFrameworkCommonConstants.ADJUSTMENT_LEVEL));
+
+        reprocess.add(loadDataTableActionConfig);
+        deleteConfirmationAlertParams.add(reprocess);
+        reprocessConfirmationActionConfig.setActionParameterList(deleteConfirmationAlertParams);
+        gtnUIFrameworkReprocessConfigList.add(reprocessConfirmationActionConfig);
+        reprocessBtnConfig.setGtnUIFrameWorkActionConfigList(gtnUIFrameworkReprocessConfigList);
+    }
+
+    public void addResetListViewButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
+        GtnUIFrameworkComponentConfig resetBtnLayout = componentConfig.getHorizontalLayoutConfig("gtnReset02layout", true, GtnFrameworkCommonConstants.ADJUSTMENT_DETAILS_REPROCESS_BUTTON_LAYOUT);
+        componentList.add(resetBtnLayout);
+        GtnUIFrameworkComponentConfig resetBtnConfig = componentConfig.getUIFrameworkComponentConfig("gtnReset01", true, resetBtnLayout.getComponentId(), GtnUIFrameworkComponentType.BUTTON);
+        resetBtnConfig.setComponentName("RESET");
+        resetBtnConfig.setAuthorizationIncluded(true);
+        componentList.add(resetBtnConfig);
     }
 
 }

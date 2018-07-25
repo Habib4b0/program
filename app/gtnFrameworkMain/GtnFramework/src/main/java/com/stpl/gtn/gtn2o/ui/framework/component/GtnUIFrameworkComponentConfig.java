@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.date.GtnUIFrameworkDateFieldCon
 import com.stpl.gtn.gtn2o.ui.framework.component.duallistbox.GtnUIFrameworkDualListBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.grid.GtnUIFrameworkGridComponentConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.inlinedate.GtnUIFrameworkInlineDateFieldConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.label.GtnUIFrameworkLabelConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.GtnUIFrameworkNotesTabConfig;
@@ -105,6 +106,7 @@ public class GtnUIFrameworkComponentConfig {
 	private GtnUIFrameworkButtonConfig buttonConfig;
 	private GtnUIFrameWorkActionConfig gtnUIFrameWorkColumnGeneratorConfig;
 	private GtnUIFrameworkGridComponentConfig gtnUIFrameWorkGridConfig;
+	private GtnUIFrameworkInlineDateFieldConfig gtnUIFrameworkInlineDateFieldConfig;
 	private String customReference = "";
 	private String vaadinComponentPlaceHolder = "";
 	/*
@@ -748,5 +750,13 @@ public class GtnUIFrameworkComponentConfig {
 	public void setVaadinComponentPlaceHolder(String vaadinComponentPlaceHolder) {
 		this.vaadinComponentPlaceHolder = vaadinComponentPlaceHolder;
 	}
+
+        public GtnUIFrameworkInlineDateFieldConfig getGtnUIFrameworkInlineDateFieldConfig() {
+            return gtnUIFrameworkInlineDateFieldConfig;
+        }
+
+        public void setGtnUIFrameworkInlineDateFieldConfig(GtnUIFrameworkInlineDateFieldConfig gtnUIFrameworkInlineDateFieldConfig) {
+            this.gtnUIFrameworkInlineDateFieldConfig = gtnUIFrameworkInlineDateFieldConfig;
+        }
 
 }
