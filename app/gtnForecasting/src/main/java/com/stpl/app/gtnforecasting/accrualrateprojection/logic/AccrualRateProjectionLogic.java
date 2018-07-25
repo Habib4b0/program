@@ -26,7 +26,6 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import static java.util.Collections.EMPTY_LIST;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -886,7 +885,7 @@ public final class AccrualRateProjectionLogic {
 
     public static List<String> getSelectedCompanyList() {
         //return selectedCompanyList == null ? selectedCompanyList : Collections.unmodifiableList(selectedCompanyList);
-        return selectedCompanyList == null ? Collections.EMPTY_LIST : selectedCompanyList;
+        return selectedCompanyList == null ? Collections.emptyList() : selectedCompanyList;
     }
 
     public static void setSelectedCompanyList(List<String> selectedCompanyList) {
