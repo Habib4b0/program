@@ -17,7 +17,7 @@ import org.apache.commons.lang.StringUtils;
 public class PPADetailsDTO implements Serializable {
     
     private PPAHelperDTO ppaHelperDTO=new PPAHelperDTO(0,Constant.SELECT_ONE,Constant.SELECT_ONE);
-    private final HelperDTO defaultDTO = new HelperDTO(0, Constant.SELECT_ONE);
+//    private final HelperDTO defaultDTO = new HelperDTO(0, Constant.SELECT_ONE);
     private String period = StringUtils.EMPTY;
     private String priceProtectionPriceType = StringUtils.EMPTY;
     private String price = StringUtils.EMPTY;
@@ -45,9 +45,9 @@ public class PPADetailsDTO implements Serializable {
     private String resetFrequency = StringUtils.EMPTY;
     private String netPriceType = StringUtils.EMPTY;
     private String netPriceTypeFormula = StringUtils.EMPTY;
-    private HelperDTO contract = defaultDTO;
-    private HelperDTO customer = defaultDTO;
-    private HelperDTO brand = defaultDTO;
+    private HelperDTO contract = new HelperDTO(0, Constant.SELECT_ONE);
+    private HelperDTO customer = new HelperDTO(0, Constant.SELECT_ONE);
+    private HelperDTO brand = new HelperDTO(0, Constant.SELECT_ONE);
 
     private int projectionID ;
     private int selectedContract =0 ;

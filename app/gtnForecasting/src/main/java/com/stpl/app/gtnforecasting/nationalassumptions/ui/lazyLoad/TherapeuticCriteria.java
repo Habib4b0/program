@@ -32,7 +32,7 @@ public class TherapeuticCriteria implements SearchCriteria {
      * The dirty.
      */
     @SuppressWarnings("unused")
-	private boolean dirty;
+    private boolean dirty;
 
     /**
      * The filter.
@@ -119,7 +119,11 @@ public class TherapeuticCriteria implements SearchCriteria {
 
         this.dirty = dirty;
     }
-
+    
+    public boolean getDirty() {
+        return dirty;
+    }
+    
     /**
      * Gets the Filter.
      *
