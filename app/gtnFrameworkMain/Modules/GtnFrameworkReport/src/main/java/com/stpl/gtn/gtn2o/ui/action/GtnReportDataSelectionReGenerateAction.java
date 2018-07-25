@@ -1,41 +1,23 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
-import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.duallistbox.bean.GtnFrameworkV8DualListBoxBean;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
-import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
-import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnForecastHierarchyInputBean;
-import com.stpl.gtn.gtn2o.ws.forecast.bean.GtnFrameworkRelationshipLevelDefintionBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportComparisonProjectionBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportBean;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
-import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
-import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
-import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
-import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.ui.TreeGrid;
 
 public class GtnReportDataSelectionReGenerateAction
@@ -52,6 +34,9 @@ public class GtnReportDataSelectionReGenerateAction
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		String sourceComponentId = GtnUIFrameworkGlobalUI.getVaadinViewComponentData(componentId).getViewId();
+		GtnWsReportDataSelectionBean dataSelectionBeanPersist = new GtnWsReportDataSelectionBean();
+		dataSelectionBeanPersist = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
 		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(sourceComponentId).getComponentData().getSharedPopupData();
 		List<GtnWsRecordBean> selectedCustomerList = getSelectedList("dataSelectionTab_customerDualListBox",
@@ -107,20 +92,65 @@ public class GtnReportDataSelectionReGenerateAction
 				.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId).getStringCaptionFromV8ComboBox();
 		boolean isFromPeriodChanged = isUpdated(fromPeriod, String.valueOf(dataSelectionBean.getFromPeriodReport()));
 
-		updateCustomer(isCustomerChanged, dataSelectionBean, selectedCustomerList, componentId);
-		updateProduct(isProductChanged, dataSelectionBean, selectedProductList, componentId);
-		updateComparisonProjection(isComparisonProjectionChanged, dataSelectionBean, comparisonProjectionsList,
-				componentId);
-		updateCustomView(isCustomView, dataSelectionBean, customViewName, componentId);
-		updateFrequency(isFrequencyChanged, dataSelectionBean, frequency, componentId);
-		updateVariables(isVariablesChanged, variableList, dataSelectionBean, componentId);
-		updateCompany(isCompanyChanged, company, dataSelectionBean);
-		updateBusinessUnit(isBusinessUnitChanged, businessUnit, dataSelectionBean);
-		updateReportDataSource(isReportDataSourceChanged, reportDataSource, dataSelectionBean);
-		updateFromPeriod(isFromPeriodChanged, fromPeriod, dataSelectionBean, componentId, fromPeriodValue);
+	
 		if (isCustomerChanged || isProductChanged || isComparisonProjectionChanged || isCustomView || isFrequencyChanged
 				|| isReportDataSourceChanged || isFromPeriodChanged) {
-			callRegenerate(dataSelectionBean);
+
+			List<GtnUIFrameWorkActionConfig> onSuccessActionList = new ArrayList<>();
+			List<GtnUIFrameWorkActionConfig> onFailureActionList = new ArrayList<>();
+			GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.INFO_ACTION);
+
+			alertAction.addActionParameter("Information");
+			alertAction.addActionParameter(
+					"You have changed the set of CCP’s that included in this report. The report will now update to reflect these changes.");
+			alertAction.addActionParameter(onSuccessActionList);
+			alertAction.addActionParameter(onFailureActionList);
+			
+			GtnUIFrameWorkActionConfig callRegenerateActionSuccessConfig = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.CUSTOM_ACTION);
+
+			callRegenerateActionSuccessConfig
+					.addActionParameter(GtnFrameworkReportDataSelectionRegenerateConfirmationAction.class.getName());
+			callRegenerateActionSuccessConfig.addActionParameter(dataSelectionBean);
+                        callRegenerateActionSuccessConfig.addActionParameter("OK");
+
+                        callRegenerateActionSuccessConfig.addActionParameter(selectedCustomerList);
+                        callRegenerateActionSuccessConfig.addActionParameter(selectedProductList);
+                        callRegenerateActionSuccessConfig.addActionParameter(comparisonProjectionsList);
+                        callRegenerateActionSuccessConfig.addActionParameter(customViewName);
+                        callRegenerateActionSuccessConfig.addActionParameter(frequency);
+                        callRegenerateActionSuccessConfig.addActionParameter(variableList);
+                        callRegenerateActionSuccessConfig.addActionParameter(company);
+                        callRegenerateActionSuccessConfig.addActionParameter(businessUnit);
+                        callRegenerateActionSuccessConfig.addActionParameter(reportDataSource);
+                        callRegenerateActionSuccessConfig.addActionParameter(fromPeriod);
+                        callRegenerateActionSuccessConfig.addActionParameter(fromPeriodValue);
+                        
+                        callRegenerateActionSuccessConfig.addActionParameter(isCustomerChanged);
+                        callRegenerateActionSuccessConfig.addActionParameter(isProductChanged);
+                        callRegenerateActionSuccessConfig.addActionParameter(isComparisonProjectionChanged);
+                        callRegenerateActionSuccessConfig.addActionParameter(isCustomView);
+                        callRegenerateActionSuccessConfig.addActionParameter(isFrequencyChanged);
+                        callRegenerateActionSuccessConfig.addActionParameter(isVariablesChanged);
+                        callRegenerateActionSuccessConfig.addActionParameter(isCompanyChanged);
+                        callRegenerateActionSuccessConfig.addActionParameter(isBusinessUnitChanged);
+                        callRegenerateActionSuccessConfig.addActionParameter(isReportDataSourceChanged);
+                        callRegenerateActionSuccessConfig.addActionParameter(isFromPeriodChanged);
+                        
+			onSuccessActionList.add(callRegenerateActionSuccessConfig);
+//			GtnUIFrameWorkActionConfig callRegenerateActionFailureConfig = new GtnUIFrameWorkActionConfig(
+//					GtnUIFrameworkActionType.CUSTOM_ACTION);
+//
+//			callRegenerateActionFailureConfig
+//					.addActionParameter(GtnFrameworkReportDataSelectionRegenerateConfirmationAction.class.getName());
+//			callRegenerateActionFailureConfig.addActionParameter(dataSelectionBeanPersist);
+//			callRegenerateActionFailureConfig.addActionParameter("NO");
+//                        
+//			onFailureActionList.add(callRegenerateActionFailureConfig);
+			
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);
+			
 		}
 	}
 
@@ -203,259 +233,6 @@ public class GtnReportDataSelectionReGenerateAction
 			return false;
 		}
 		return true;
-	}
-
-	private void updateCustomer(boolean isCustomerChanged, GtnWsReportDataSelectionBean dataSelectionBean,
-			List<GtnWsRecordBean> selectedCustomerList, String componentId)
-			throws GtnFrameworkValidationFailedException {
-		Date forecastEligibleDate = null;
-		if (isCustomerChanged) {
-			GtnWsRecordBean customerHierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_customerHierarchy", componentId).getComponentData()
-					.getCustomData();
-			dataSelectionBean.setCustomerHierarchySid(Integer.valueOf(String.valueOf(
-					customerHierarchyBean.getPropertyValueByIndex(customerHierarchyBean.getProperties().size() - 1))));
-			dataSelectionBean.setCustomerRelationshipBuilderSid(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_customerSelectionRelationship", componentId)
-					.getCaptionFromV8ComboBox())));
-			dataSelectionBean.setCustomerHierarchyVersionNo(Integer.valueOf(GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_customerRelationshipVersion", componentId)
-					.getStringCaptionFromV8ComboBox()));
-			dataSelectionBean.setCustomerRelationshipVersionNo(Integer.valueOf(GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_customerRelationshipVersion", componentId)
-					.getCaptionFromV8ComboBox()));
-			dataSelectionBean.setCustomerHierarchyForecastLevel(Integer.valueOf(GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_customerSelectionLevel", componentId)
-					.getCaptionFromV8ComboBox()));
-			LocalDate date = (LocalDate) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_customerSelectionForecastEligibilityDate", componentId)
-					.getFieldValue();
-			if (date != null) {
-				forecastEligibleDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
-			}
-			dataSelectionBean.setForecastEligibleDate(forecastEligibleDate);
-			dataSelectionBean.setCustomerHierarchyRecordBean(customerHierarchyBean);
-			dataSelectionBean.setSelectedCustomerHierarchyList(selectedCustomerList);
-			new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-					"reportingDashboardTab_filterTabCustomerLevel", componentId, Arrays.asList(""));
-		}
-	}
-
-	private void updateProduct(boolean isProductChanged, GtnWsReportDataSelectionBean dataSelectionBean,
-			List<GtnWsRecordBean> selectedProductList, String componentId)
-			throws GtnFrameworkValidationFailedException {
-		if (isProductChanged) {
-			GtnWsRecordBean productHierarchyBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_producthierarchy", componentId).getComponentData()
-					.getCustomData();
-			dataSelectionBean.setProductHierarchySid(Integer.valueOf(String.valueOf(
-					productHierarchyBean.getPropertyValueByIndex(productHierarchyBean.getProperties().size() - 1))));
-			dataSelectionBean.setProductRelationshipBuilderSid(Integer.valueOf(GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_relationship", componentId).getCaptionFromV8ComboBox()));
-			dataSelectionBean.setProductHierarchyVersionNo(Integer.valueOf(GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_productRelationshipVersion", componentId)
-					.getStringCaptionFromV8ComboBox()));
-			dataSelectionBean.setProductRelationshipVersionNo(Integer.valueOf(GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_productRelationshipVersion", componentId)
-					.getCaptionFromV8ComboBox()));
-			dataSelectionBean.setProductHierarchyForecastLevel(Integer.valueOf(GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_level", componentId).getCaptionFromV8ComboBox()));
-			dataSelectionBean.setProductHierarchyRecordBean(productHierarchyBean);
-			dataSelectionBean.setSelectedProductHierarchyList(selectedProductList);
-			new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-					"reportingDashboardTab_filterOptionsTabProductLevel", componentId, Arrays.asList(""));
-		}
-	}
-
-	private void updateComparisonProjection(boolean isComparisonProjectionChanged,
-			GtnWsReportDataSelectionBean dataSelectionBean,
-			List<GtnReportComparisonProjectionBean> comparisonProjectionsList, String componentId) {
-		if (isComparisonProjectionChanged) {
-			dataSelectionBean.setComparisonProjectionBeanList(comparisonProjectionsList);
-			GtnUIFrameworkComponentData comparisonData = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportingDashboardTab_reportingDashboardComparisonConfig", componentId)
-					.getComponentData();
-			comparisonData.setCustomData(dataSelectionBean.getComparisonProjectionBeanList());
-			if (dataSelectionBean.getComparisonProjectionBeanList() != null) {
-				String displayValue = getDisplayValue(dataSelectionBean.getComparisonProjectionBeanList());
-				GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent("reportingDashboardTab_reportingDashboardComparisonConfig", componentId)
-						.setV8PopupFieldValue(displayValue);
-			}
-		}
-	}
-
-	private String getDisplayValue(List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
-		if (comparisonProjectionBeanList.size() > 1) {
-			return "MULTIPLE";
-		}
-		return comparisonProjectionBeanList.get(0).getProjectionName();
-	}
-
-	private void updateCustomView(boolean isCustomView, GtnWsReportDataSelectionBean dataSelectionBean,
-			String customViewName, String componentId) throws GtnFrameworkValidationFailedException {
-		if (isCustomView) {
-			dataSelectionBean.setCustomViewMasterSid(Integer.valueOf(customViewName));
-			new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-					"reportingDashboardTab_displaySelectionTabCustomView", componentId, Arrays.asList(""));
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabCustomView", componentId)
-					.loadV8ComboBoxComponentValue(customViewName);
-		}
-	}
-
-	private void updateVariables(boolean isVariablesChanged, List<Object> variableList,
-			GtnWsReportDataSelectionBean dataSelectionBean, String componentId)
-			throws GtnFrameworkValidationFailedException {
-		if (isVariablesChanged) {
-			dataSelectionBean.setVariablesList(variableList);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabVariable", componentId)
-					.addAllItemsToMultiSelect(
-							Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
-									.collect(Collectors.toList()),
-							Arrays.stream(GtnWsReportVariablesType.values()).map(GtnWsReportVariablesType::toString)
-									.collect(Collectors.toList()));
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportingDashboardTab_displaySelectionTabVariable", componentId)
-					.updateSelection(variableList);
-		}
-	}
-
-	private void updateFrequency(boolean isFrequencyChanged, GtnWsReportDataSelectionBean dataSelectionBean,
-			String frequency, String componentId) throws GtnFrameworkValidationFailedException {
-		if (isFrequencyChanged) {
-			dataSelectionBean.setFrequency(Integer.valueOf(frequency));
-			dataSelectionBean.setFrequencyName(GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_landingScreenVariableBreakdownFrequencyConfig",
-							componentId)
-					.getStringCaptionFromV8ComboBox());
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("reportingDashboard_displaySelectionTabFrequency", componentId)
-					.loadV8ComboBoxComponentValue(Integer.valueOf(frequency));
-		}
-	}
-
-	private void updateCompany(boolean isCompanyChanged, String company,
-			GtnWsReportDataSelectionBean dataSelectionBean) {
-		if (isCompanyChanged) {
-			dataSelectionBean.setCompanyReport(Integer.valueOf(company));
-		}
-	}
-
-	private void updateBusinessUnit(boolean isBusinessUnitChanged, String businessUnit,
-			GtnWsReportDataSelectionBean dataSelectionBean) {
-		if (isBusinessUnitChanged) {
-			dataSelectionBean.setBusinessUnitReport(Integer.valueOf(businessUnit));
-		}
-	}
-
-	private void updateReportDataSource(boolean isReportDataSourceChanged, String reportDataSource,
-			GtnWsReportDataSelectionBean dataSelectionBean) {
-		if (isReportDataSourceChanged) {
-			dataSelectionBean.setReportDataSource(Integer.valueOf(reportDataSource));
-		}
-	}
-
-	private void updateFromPeriod(boolean isFromPeriodChanged, String fromPeriod,
-			GtnWsReportDataSelectionBean dataSelectionBean, String componentId, String fromPeriodValue) throws GtnFrameworkGeneralException {
-		if (isFromPeriodChanged) {
-			dataSelectionBean.setFromPeriodReport(Integer.valueOf(fromPeriod));
-			 loadPeriodRangeFrom(componentId, fromPeriodValue);
-			 loadPeriodRangeTo(componentId, fromPeriodValue);
-		}
-	}
-
-	private void loadPeriodRangeTo(String componentId, String fromPeriodValue) throws GtnFrameworkGeneralException {
-		GtnUIFrameWorkActionConfig toPeriodLoadAction = new GtnUIFrameWorkActionConfig();
-		toPeriodLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		toPeriodLoadAction.addActionParameter(GtnFrameworkLoadToInDataSelectionAction.class.getName());
-		toPeriodLoadAction.addActionParameter(fromPeriodValue);
-		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, toPeriodLoadAction);
-	}
-
-	private void loadPeriodRangeFrom(String componentId, String fromPeriodValue) throws GtnFrameworkGeneralException {
-		GtnUIFrameWorkActionConfig fromPeriodLoadAction = new GtnUIFrameWorkActionConfig();
-		fromPeriodLoadAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		fromPeriodLoadAction.addActionParameter(GtnFrameworkLoadFromInDataSelectionAction.class.getName());
-		fromPeriodLoadAction.addActionParameter(fromPeriodValue);
-		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, fromPeriodLoadAction);
-	}
-
-	private void callRegenerate(GtnWsReportDataSelectionBean dataSelectionBean)
-			throws GtnFrameworkValidationFailedException {
-		GtnForecastHierarchyInputBean inputBean = createInputBeanForCCPInsert(
-				dataSelectionBean.getSelectedCustomerHierarchyList(),
-				dataSelectionBean.getSelectedProductHierarchyList(), dataSelectionBean);
-		insertToCCp(inputBean, dataSelectionBean);
-	}
-
-	private GtnForecastHierarchyInputBean createInputBeanForCCPInsert(
-			List<GtnWsRecordBean> selectedCustomerHierarchyList, List<GtnWsRecordBean> selectedProductHierarchyList,
-			GtnWsReportDataSelectionBean dataSelectionBean) {
-		GtnForecastHierarchyInputBean inputBean = new GtnForecastHierarchyInputBean();
-		inputBean.setSelectedCustomerList(relationBeanList(selectedCustomerHierarchyList, dataSelectionBean, false));
-		inputBean.setSelectedProductList(relationBeanList(selectedProductHierarchyList, dataSelectionBean, true));
-		inputBean.setSelectedCustomerRelationShipBuilderVersionNo(dataSelectionBean.getCustomerRelationshipVersionNo());
-		inputBean.setSelectedProductRelationShipBuilderVersionNo(dataSelectionBean.getProductRelationshipVersionNo());
-		inputBean.setSelectedCustomerHierarcySid((int) dataSelectionBean.getCustomerHierarchySid());
-		inputBean.setSelectedProductHierarcySid((int) dataSelectionBean.getProductHierarchySid());
-		inputBean.setSelectedProductRelationShipBuilderSid(dataSelectionBean.getProductRelationshipBuilderSid());
-		inputBean.setSelectedCustomerHierarchyVersionNo(dataSelectionBean.getCustomerHierarchyVersionNo());
-		inputBean.setSelectedProductHierarchyVersionNo(dataSelectionBean.getProductHierarchyVersionNo());
-		inputBean.setForecastEligibleDate(dataSelectionBean.getForecastEligibleDate());
-		inputBean.setForecastInsert(true);
-		return inputBean;
-	}
-
-	private List<GtnFrameworkRelationshipLevelDefintionBean> relationBeanList(
-			List<GtnWsRecordBean> selectedCustomerHierarchyList, GtnWsReportDataSelectionBean dataSelectionBean,
-			boolean isProduct) {
-		List<GtnFrameworkRelationshipLevelDefintionBean> relationBeanList = new ArrayList<>(
-				selectedCustomerHierarchyList.size());
-		for (GtnWsRecordBean recordBean : selectedCustomerHierarchyList) {
-
-			GtnFrameworkRelationshipLevelDefintionBean forecast = new GtnFrameworkRelationshipLevelDefintionBean();
-			forecast.setLevelName(recordBean.getStringProperty("levelName"));
-			forecast.setLevelNo(recordBean.getIntegerProperty("levelNo"));
-			forecast.setRelationshipLevelSid(recordBean.getIntegerProperty("relationshipLevelSid"));
-			forecast.setRelationShipLevelValue(recordBean.getIntegerProperty("relationshipLevelValues"));
-			forecast.setTableName(recordBean.getStringProperty("tableName"));
-			forecast.setFieldName(recordBean.getStringProperty("fieldName"));
-			forecast.setHierarchyNo(recordBean.getStringProperty("hierarchyNo"));
-			forecast.setHierarchyDefinitionSid(recordBean.getIntegerProperty("hierarchyDefSid"));
-			forecast.setHierarchyLevelDefinitionSid(recordBean.getIntegerProperty("hierarchyLevelDefSid"));
-			forecast.setLevelValueReference(recordBean.getStringProperty("levelValuReference"));
-			forecast.setRelationshipBuilderSid(recordBean.getIntegerProperty("relationshipBuilderSid"));
-			forecast.setRelationshipVersionNo(!isProduct ? dataSelectionBean.getCustomerRelationshipVersionNo()
-					: dataSelectionBean.getProductRelationshipVersionNo());
-			forecast.setHierarchyVersionNo(!isProduct ? dataSelectionBean.getCustomerHierarchyVersionNo()
-					: dataSelectionBean.getProductHierarchyVersionNo());
-			forecast.setHierarchyCategory(recordBean.getStringProperty("hierarchyCategory"));
-			relationBeanList.add(forecast);
-
-		}
-		return relationBeanList;
-	}
-
-	private void insertToCCp(GtnForecastHierarchyInputBean inputBean, GtnWsReportDataSelectionBean dataSelectionBean) {
-		GtnWsForecastRequest forecastRequest = new GtnWsForecastRequest();
-		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
-		GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
-		GtnWsReportBean reportBeanRequest = new GtnWsReportBean();
-		generalRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-		generalRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
-		reportRequest.setReportBean(reportBeanRequest);
-		reportBeanRequest.setDataSelectionBean(dataSelectionBean);
-		forecastRequest.setInputBean(inputBean);
-		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		request.setGtnWsForecastRequest(forecastRequest);
-		request.setGtnWsReportRequest(reportRequest);
-		request.setGtnWsGeneralRequest(generalRequest);
-		GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
-				GtnWsReportConstants.GTN_WS_DATA_SELECTION_REGENERATE_SERVICE, "report", request,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override

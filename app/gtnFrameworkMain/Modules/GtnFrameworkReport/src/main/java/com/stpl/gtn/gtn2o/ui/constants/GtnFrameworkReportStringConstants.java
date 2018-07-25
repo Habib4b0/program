@@ -15,7 +15,8 @@ public final class GtnFrameworkReportStringConstants {
 	private GtnFrameworkReportStringConstants() {
 
 	}
-
+        public static final String REPORT_DASHBOARD_TAB = "reportingDashboardTab";
+        
 	public static final String LEVEL_VALUE = "levelValue";
 
 	public static final String VALUE = "value";
@@ -33,6 +34,10 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String REPORT = "report";
 	
 	public static final String SELECT_ONE_PLACE_HOLDER = "-Select One-";
+	
+	public static final String INVALID_SEARCH = "Invalid Search";
+	
+	public static final String VIEW_INVALID_SEARCH_MESSAGE_BODY = "There are no Views that match the search criteria.  Please try again.";
 
 	public static final String HIER_NAME = "productHierarchyName";
 
@@ -45,6 +50,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String HIER_TYPE = "hierarchyType";
 
 	public static final String HIGHEST_LEVEL = "highestLevel";
+	
+	public static final String STPL_PADDING_10 = "stpl-margin-top-10"; 
 	
 	public static final String STPL_PADDING_FRAMEWORK = "stpl-padding-top-13";
 	
@@ -470,6 +477,7 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String PROJECTION_NAMES = "projectionNames";
 	public static final String RD_EXPAND_BUTTON = "reportingDashboardTab_expandButton";
 	public static final String RD_COLLPSE_BUTTON = "reportingDashboardTab_collapseButton";
+	public static final String CONFIRMATION = "Confirmation";
 	
 
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",

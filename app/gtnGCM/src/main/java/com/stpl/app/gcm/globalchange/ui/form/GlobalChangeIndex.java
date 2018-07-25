@@ -70,7 +70,7 @@ public class GlobalChangeIndex extends CustomComponent implements View {
         //empty
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             process.focus();
             process.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());

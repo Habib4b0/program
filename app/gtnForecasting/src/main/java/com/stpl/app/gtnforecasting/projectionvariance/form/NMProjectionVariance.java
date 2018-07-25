@@ -1128,6 +1128,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setIslevelFiler(false);
         loadResultTable(0, StringUtils.EMPTY);
         levelFilter.addValueChangeListener(levelFilterChangeOption);
+        session.setDsFrequency(String.valueOf(frequency.getValue()));
     }
 
     /**
@@ -1578,7 +1579,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     public void savePvSelections() {
 
         LOGGER.info("savePVSelections method starts");
-        Map map = new HashMap();
+        Map map = new HashMap(NumericConstants.TWENTY_FIVE);
         try {
             String priorProjectionIds = projIdList == null || projIdList.isEmpty() ? StringUtils.EMPTY : projIdList.toString();
 
@@ -1671,6 +1672,13 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(productFilterDdlb, productMenuItemValue);
     }
 
+    
+    
+      public void setFrequency(SessionDTO session)
+    {
+        frequency.setValue(session.getDsFrequency());
+}
+      
     public void setDeductionValues(Map<Object, Object> map) {
         Object value = map.get(Constant.DEDUCTION_LEVEL_DDLB);
         deductionlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : DataTypeConverter.convertObjectToInt(value));
@@ -1848,7 +1856,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         }
     }
 
-    public void configure() {
+    public final void configure() {
         if (flag) {
             try {
                 configureFields();

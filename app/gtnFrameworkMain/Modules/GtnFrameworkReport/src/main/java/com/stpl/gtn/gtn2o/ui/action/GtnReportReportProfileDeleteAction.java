@@ -66,7 +66,7 @@ public class GtnReportReportProfileDeleteAction implements GtnUIFrameWorkAction,
 		else {
 			GtnUIFrameWorkActionConfig reportProfileDeleteAlertAction = new GtnUIFrameWorkActionConfig(
 					GtnUIFrameworkActionType.INFO_ACTION);
-			reportProfileDeleteAlertAction.addActionParameter("Error ");
+			reportProfileDeleteAlertAction.addActionParameter("Cannot Delete ");
 			reportProfileDeleteAlertAction.addActionParameter("Only the creator of a view can delete it. ");
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, reportProfileDeleteAlertAction);
 		}

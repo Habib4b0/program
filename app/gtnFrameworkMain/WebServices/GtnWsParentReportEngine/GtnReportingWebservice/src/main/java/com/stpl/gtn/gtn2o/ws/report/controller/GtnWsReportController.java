@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ws.report.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -230,26 +231,22 @@ public class GtnWsReportController {
 		wsGeneralResponse.setSucess(true);
 		boolean count = gtnWsRequest.getGtnWsSearchRequest().isCount();
 
-		try {
-			if (count) {
-				resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_COUNT_QUERY);
-				wsSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
-			}
+		if (count) {
+			resultList = executeQuery(GtnWsQueryConstants.DATA_ASSUMPTIONS_COUNT_QUERY);
+			wsSearchResponse.setCount(Integer.parseInt(String.valueOf(resultList.get(0))));
+		}
 
-			else {
-				String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY;
+		else {
+			String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_RESULT_QUERY;
 
-				String filter = gtnWsReportWebsevice.setFilterForDataAssumptions(gtnWsRequest);
+			String filter = gtnWsReportWebsevice.setFilterForDataAssumptions(gtnWsRequest);
 
-				finalQuery = finalQuery.replace("@filter", filter);
-				resultList = executeQuery(finalQuery);
-				resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
-				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
-				gtnUIFrameworkDataTable.addData(resultList);
-				wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
-			}
-		} catch (GtnFrameworkGeneralException e) {
-			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + e);
+			finalQuery = finalQuery.replace("@filter", filter);
+			resultList = executeQuery(finalQuery);
+			resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
+			GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
+			gtnUIFrameworkDataTable.addData(resultList);
+			wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
 		}
 		wsResponse.setGtnSerachResponse(wsSearchResponse);
 		return wsResponse;
@@ -263,32 +260,32 @@ public class GtnWsReportController {
 		GtnSerachResponse wsSearchResponse = new GtnSerachResponse();
 		List<Object[]> resultList = null;
 		wsGeneralResponse.setSucess(true);
-		try {
+		String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS;
+		finalQuery = finalQuery.replace("@projectionMasterSid",
+				String.valueOf(gtnWsRequest.getGtnWsReportRequest().getProjectionMasterSid()));
+		// String filter =
+		// gtnWsReportWebsevice.setFilterValueList(gtnWsRequest);
 
-			String finalQuery = GtnWsQueryConstants.DATA_ASSUMPTIONS_MULTIPLE_TABS_RESULTS;
-			finalQuery = finalQuery.replace("@projectionMasterSid",
-					String.valueOf(gtnWsRequest.getGtnWsReportRequest().getProjectionMasterSid()));
-			// String filter =
-			// gtnWsReportWebsevice.setFilterValueList(gtnWsRequest);
+		// finalQuery = finalQuery.replace("@filter", filter);
+		resultList = executeQuery(finalQuery);
+		resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
+		GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
+		gtnUIFrameworkDataTable.addData(resultList);
+		wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
 
-			// finalQuery = finalQuery.replace("@filter", filter);
-			resultList = executeQuery(finalQuery);
-			resultList = gtnWsReportWebsevice.resultListCustomization(resultList);
-			GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
-			gtnUIFrameworkDataTable.addData(resultList);
-			wsSearchResponse.setResultSet(gtnUIFrameworkDataTable);
-
-		} catch (GtnFrameworkGeneralException e) {
-			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + e);
-		}
 		wsResponse.setGtnSerachResponse(wsSearchResponse);
 		return wsResponse;
 	}
 
 	@SuppressWarnings({ "rawtypes" })
-	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
-		gtnSqlQueryEngine.setSessionFactory(sessionFactory);
-		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
+	public List executeQuery(String sqlQuery) {
+		try {
+			gtnSqlQueryEngine.setSessionFactory(sessionFactory);
+			return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
+		} catch (GtnFrameworkGeneralException e) {
+			gtnLogger.error(GtnWsQueryConstants.EXCEPTION_IN + e);
+			return Collections.emptyList();
+		}
 	}
 
 	@RequestMapping(value = GtnWsReportConstants.GTN_REPORT_SAVEVIEW_SERVICE, method = RequestMethod.POST)
@@ -300,7 +297,7 @@ public class GtnWsReportController {
 		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
 		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-		int userId = Integer.valueOf(generalRequest.getUserId());
+		int userId = Integer.parseInt(generalRequest.getUserId());
 		int recordCount = gtnWsReportWebsevice.checkViewRecordCount(dataSelectionBean, userId);
 		if (recordCount == 0) {
 			gtnWsReportWebsevice.saveReportingMaster(dataSelectionBean, userId);
@@ -321,14 +318,19 @@ public class GtnWsReportController {
 		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
 		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-		int userId = Integer.valueOf(generalRequest.getUserId());
+		int userId = Integer.parseInt(generalRequest.getUserId());
 		int recordCount = gtnWsReportWebsevice.checkUpdateViewRecordCount(dataSelectionBean, userId);
 		if (recordCount == 0) {
 			gtnWsReportWebsevice.saveReportingMaster(dataSelectionBean, userId);
 			generalResponse.setSucess(false);
-		} else{
-			gtnWsReportWebsevice.updateReportingViewMaster(dataSelectionBean, userId);
-			generalResponse.setSucess(true);
+		} else {
+			int count = gtnWsReportWebsevice.updateReportingViewMaster(dataSelectionBean, userId);
+			if (count == 0) {
+				generalResponse.setSucess(false);
+			} else {
+				generalResponse.setSucess(true);
+
+			}
 		}
 		response.setGtnWsGeneralResponse(generalResponse);
 		return response;
@@ -344,7 +346,7 @@ public class GtnWsReportController {
 				.getReportingDashboardSaveProfileLookupBean();
 		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-		int userId = Integer.valueOf(generalRequest.getUserId());
+		int userId = Integer.parseInt(generalRequest.getUserId());
 		int recordCount = gtnWsReportWebsevice
 				.checkReportProfileViewRecordCount(reportingDashboardSaveProfileLookupBean, userId);
 		if (recordCount == 0) {
@@ -367,15 +369,19 @@ public class GtnWsReportController {
 				.getReportingDashboardSaveProfileLookupBean();
 		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-		int userId = Integer.valueOf(generalRequest.getUserId());
+		int userId = Integer.parseInt(generalRequest.getUserId());
 		int recordCount = gtnWsReportWebsevice
 				.checkUpdateViewRecordCountForReportProfile(reportingDashboardSaveProfileLookupBean, userId);
 		if (recordCount == 0) {
 			gtnWsReportWebsevice.saveReportProfileMaster(reportingDashboardSaveProfileLookupBean, userId);
 			generalResponse.setSucess(false);
-		} else{
-			gtnWsReportWebsevice.updateReportProfileMaster(reportingDashboardSaveProfileLookupBean, userId);
-			generalResponse.setSucess(true);
+		} else {
+			int count = gtnWsReportWebsevice.updateReportProfileMaster(reportingDashboardSaveProfileLookupBean, userId);
+			if (count == 0) {
+				generalResponse.setSucess(false);
+			} else {
+				generalResponse.setSucess(true);
+			}
 		}
 		response.setGtnWsGeneralResponse(generalResponse);
 		return response;
@@ -386,7 +392,7 @@ public class GtnWsReportController {
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
 		GtnWsReportRequest reportRequest = gtnUIFrameworkWebserviceRequest.getGtnWsReportRequest();
 		GtnWsGeneralRequest generalRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
-		int userId = Integer.valueOf(generalRequest.getUserId());
+		int userId = Integer.parseInt(generalRequest.getUserId());
 		GtnWsReportDataSelectionBean dataSelectionBean = reportRequest.getDataSelectionBean();
 		return gtnWsReportWebsevice.deleteView(dataSelectionBean, userId);
 	}

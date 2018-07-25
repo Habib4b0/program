@@ -5,6 +5,10 @@
  */
 package com.stpl.gtn.gtn2o.ui.module.lookups;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkCVSaveValidationAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportCustomViewEditAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkUICustomSelectAction;
@@ -27,9 +31,6 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class GtnFrameworkReportCustomViewLookup {
 
@@ -68,7 +69,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		viewDetailsPanel.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		viewDetailsPanel.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewDetailsPanel");
 		viewDetailsPanel.setComponentName("View Details");
-
+		viewDetailsPanel.addComponentStyle("stpl-margin-left-5px");
 		viewDetailsPanel.setMargin(true);
 		viewDetailsPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		viewDetailsPanel.setComponentHight(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -82,7 +83,6 @@ public class GtnFrameworkReportCustomViewLookup {
 		viewSelectionPanel
 				.setComponentId(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewSelectionPanel");
 		viewSelectionPanel.setComponentName("View Selection");
-
 		viewSelectionPanel.setMargin(true);
 		viewSelectionPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		viewSelectionPanel.setComponentHight(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -102,7 +102,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		viewDetailsLayout
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewDetailsPanel");
 		GtnUIFrameworkLayoutConfig viewDetailsConfig = new GtnUIFrameworkLayoutConfig();
-		viewDetailsConfig.setLayoutType(GtnUIFrameworkLayoutType.COL2_LAYOUT);
+		viewDetailsConfig.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
 		viewDetailsLayout.setGtnLayoutConfig(viewDetailsConfig);
 		viewDetailsLayout.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
 		viewDetailsLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10);
@@ -116,6 +116,9 @@ public class GtnFrameworkReportCustomViewLookup {
 		GtnUIFrameworkComponentConfig fieldLayout = new GtnUIFrameworkComponentConfig();
 		fieldLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		fieldLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "fieldLayout");
+		fieldLayout.addComponentStyle("stpl-margin-left-19");
+		fieldLayout.addComponentStyle("stpl-margin-top-12");
+		fieldLayout.addComponentStyle("stpl-margin-bottom-10");
 		fieldLayout.setAddToParent(true);
 		fieldLayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.VIEW_DETAILS_LAYOUT);
@@ -147,6 +150,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		variableTypeOptionGroup.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.VARIABLE_TYPE_OPTION_GROUP);
 		variableTypeOptionGroup.setComponentName("Variable Type: ");
+		variableTypeOptionGroup.addComponentStyle("stpl-margin-left-47px");
 		variableTypeOptionGroup.setAddToParent(true);
 		variableTypeOptionGroup
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "variableTypeLayout");
@@ -165,6 +169,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				+ GtnFrameworkReportStringConstants.VARIABLE_TYPE_OPTION_GROUP);
 		variableLoadConfig
 				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
+		variableLoadConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
 
 		variableTypeOptionGroup.addGtnUIFrameWorkActionConfig(variableLoadConfig);
 		componentList.add(variableTypeOptionGroup);
@@ -188,6 +193,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		variablePositionOptionGroup.setComponentType(GtnUIFrameworkComponentType.RADIOBUTTON_VAADIN8);
 		variablePositionOptionGroup.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.VARIABLE_POSITION_OPTION_GROUP);
+		variablePositionOptionGroup.addComponentStyle("stpl-margin-left-27");
 		variablePositionOptionGroup.setComponentName("Variable Position: ");
 		variablePositionOptionGroup.setAddToParent(true);
 		variablePositionOptionGroup.setParentComponentId(
@@ -205,6 +211,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				+ GtnFrameworkReportStringConstants.VARIABLE_TYPE_OPTION_GROUP);
 		valuChangeConfig
 				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
+		valuChangeConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
 		variablePositionOptionGroup.addGtnUIFrameWorkActionConfig(valuChangeConfig);
 		componentList.add(variablePositionOptionGroup);
 	}
@@ -215,6 +222,8 @@ public class GtnFrameworkReportCustomViewLookup {
 		hierarchyNameLayout
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "hierarchyNameLayout");
 		hierarchyNameLayout.setAddToParent(true);
+		hierarchyNameLayout.addComponentStyle("stpl-margin-left-47px");
+		hierarchyNameLayout.addComponentStyle("stpl-margin-top-17");
 		hierarchyNameLayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.VIEW_DETAILS_LAYOUT);
 
@@ -229,7 +238,11 @@ public class GtnFrameworkReportCustomViewLookup {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		hierarchyNameTextBox.setComponentName("Tree View Name: ");
 		hierarchyNameTextBox.setAddToParent(true);
+		hierarchyNameTextBox.addComponentStyle("stpl-margin-left-150");
+		
 		hierarchyNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
+		hierarchyNameTextBox.setComponentWidth("300px");
+		hierarchyNameTextBox.setDefaultFocus(true);
 		hierarchyNameTextBox
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "hierarchyNameLayout");
 		componentList.add(hierarchyNameTextBox);
@@ -238,19 +251,31 @@ public class GtnFrameworkReportCustomViewLookup {
 	private void searchCriteriaLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
 		GtnUIFrameworkLayoutConfig layoutConf = new GtnUIFrameworkLayoutConfig();
-		layoutConf.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
+		layoutConf.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
 		GtnUIFrameworkComponentConfig searchCriteriaLayout = new GtnUIFrameworkComponentConfig();
 		searchCriteriaLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		searchCriteriaLayout.setComponentId(tabName + "customViewLookupSearchCriteriaLayout");
 		searchCriteriaLayout.setComponentName("Search Criteria");
-		searchCriteriaLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		searchCriteriaLayout.setAddToParent(true);
 		searchCriteriaLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		searchCriteriaLayout.setParentComponentId(parentId);
 		searchCriteriaLayout.setGtnLayoutConfig(layoutConf);
 		componentList.add(searchCriteriaLayout);
-		addMainLayoutForLeftTables(componentList, searchCriteriaLayout.getComponentId());
-		addCustomTree(componentList, searchCriteriaLayout.getComponentId());
+
+		GtnUIFrameworkLayoutConfig cssLayoutConfig = new GtnUIFrameworkLayoutConfig();
+		cssLayoutConfig.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
+		GtnUIFrameworkComponentConfig searchCriteriaCssLayout = new GtnUIFrameworkComponentConfig();
+		searchCriteriaCssLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		searchCriteriaCssLayout.setComponentId(tabName + "customViewSearchCriteriaCssLayout");
+		searchCriteriaCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
+		searchCriteriaCssLayout.setAddToParent(true);
+		searchCriteriaCssLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		searchCriteriaCssLayout.setParentComponentId(searchCriteriaLayout.getComponentId());
+		searchCriteriaCssLayout.setGtnLayoutConfig(cssLayoutConfig);
+		componentList.add(searchCriteriaCssLayout);
+
+		addMainLayoutForLeftTables(componentList, searchCriteriaCssLayout.getComponentId());
+		addCustomTree(componentList, searchCriteriaCssLayout.getComponentId());
 	}
 
 	private void addMainLayoutForLeftTables(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
@@ -270,7 +295,7 @@ public class GtnFrameworkReportCustomViewLookup {
 
 		GtnUIFrameworkComponentConfig mainCustomerCssLayout = layoutsConfig
 				.getHorizontalLayoutConfig(tabName + "mainHorizontalLayout", parentId);
-		mainCustomerCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_10);
+		mainCustomerCssLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		componentList.add(mainCustomerCssLayout);
 
 		GtnUIFrameworkComponentConfig customerGrid = new GtnUIFrameworkComponentConfig();
@@ -280,7 +305,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		customerGrid.setAddToParent(true);
 		customerGrid.setParentComponentId(mainCustomerCssLayout.getComponentId());
 		customerGrid.setComponentHight(GtnFrameworkReportStringConstants.TWO_SEVENTY_PIXEL);
-		customerGrid.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		customerGrid.setComponentWidth(GtnFrameworkCssConstants.PIXEL_400);
 		GtnUIFrameworkGridComponentConfig gridConfig = new GtnUIFrameworkGridComponentConfig();
 		gridConfig.setColumnHeadersName(new String[] { GtnFrameworkReportStringConstants.LEVEL });
 		gridConfig.setColumnHeadersId(new String[] { LEVEL_VALUE });
@@ -298,7 +323,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		customerBtnVerLayout.setSpacing(true);
 		customerBtnVerLayout.addComponentStyle("stpl-margin-top-100");
 		componentList.add(customerBtnVerLayout);
-		
+
 		GtnUIFrameworkComponentConfig addCustomerButton = new GtnUIFrameworkComponentConfig();
 		addCustomerButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		addCustomerButton.setAddToParent(true);
@@ -338,9 +363,9 @@ public class GtnFrameworkReportCustomViewLookup {
 
 	private void addProductTree(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
-		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig
-				.getHorizontalLayoutConfig(tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
-		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_10);
+		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig.getHorizontalLayoutConfig(
+				tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
+		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		componentList.add(mainCssLayoutForProduct);
 
 		GtnUIFrameworkComponentConfig productGrid = new GtnUIFrameworkComponentConfig();
@@ -350,7 +375,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		productGrid.setAddToParent(true);
 		productGrid.setParentComponentId(mainCssLayoutForProduct.getComponentId());
 		productGrid.setComponentHight(GtnFrameworkReportStringConstants.TWO_SEVENTY_PIXEL);
-		productGrid.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		productGrid.setComponentWidth(GtnFrameworkCssConstants.PIXEL_400);
 
 		GtnUIFrameWorkActionConfig hierachyLoadAction = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -409,9 +434,9 @@ public class GtnFrameworkReportCustomViewLookup {
 
 	private void addDeductionTree(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
-		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig
-				.getHorizontalLayoutConfig(tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
-		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_10);
+		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig.getHorizontalLayoutConfig(
+				tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
+		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		componentList.add(mainCssLayoutForProduct);
 
 		GtnUIFrameworkComponentConfig deductionGrid = new GtnUIFrameworkComponentConfig();
@@ -421,7 +446,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		deductionGrid.setAddToParent(true);
 		deductionGrid.setParentComponentId(mainCssLayoutForProduct.getComponentId());
 		deductionGrid.setComponentHight(GtnFrameworkReportStringConstants.TWO_SEVENTY_PIXEL);
-		deductionGrid.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		deductionGrid.setComponentWidth(GtnFrameworkCssConstants.PIXEL_400);
 
 		GtnUIFrameWorkActionConfig hierachyLoadAction = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -481,9 +506,9 @@ public class GtnFrameworkReportCustomViewLookup {
 
 	private void addVariablesTree(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 
-		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig
-				.getHorizontalLayoutConfig(tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
-		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_10);
+		GtnUIFrameworkComponentConfig mainCssLayoutForProduct = layoutsConfig.getHorizontalLayoutConfig(
+				tabName + GtnFrameworkReportStringConstants.MAIN_CSS_LAYOUT_FOR_PRODUCT, parentId);
+		mainCssLayoutForProduct.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		componentList.add(mainCssLayoutForProduct);
 
 		GtnUIFrameworkComponentConfig variablesGrid = new GtnUIFrameworkComponentConfig();
@@ -493,7 +518,7 @@ public class GtnFrameworkReportCustomViewLookup {
 		variablesGrid.setAddToParent(true);
 		variablesGrid.setParentComponentId(mainCssLayoutForProduct.getComponentId());
 		variablesGrid.setComponentHight(GtnFrameworkReportStringConstants.TWO_SEVENTY_PIXEL);
-		variablesGrid.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		variablesGrid.setComponentWidth(GtnFrameworkCssConstants.PIXEL_400);
 
 		GtnUIFrameWorkActionConfig variableLoadConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -502,6 +527,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				+ GtnFrameworkReportStringConstants.VARIABLE_TYPE_OPTION_GROUP);
 		variableLoadConfig
 				.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_VIEW_LOOKUP_VARIABLE_TABLE);
+		variableLoadConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
 		variablesGrid.setGtnUIFrameWorkActionConfigList(Arrays.asList(variableLoadConfig));
 
 		GtnUIFrameworkGridComponentConfig gridConfig = new GtnUIFrameworkGridComponentConfig();
@@ -608,13 +634,11 @@ public class GtnFrameworkReportCustomViewLookup {
 		GtnUIFrameWorkActionConfig saveActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		saveActionConfig.addActionParameter(GtnFrameworkCVSaveValidationAction.class.getName());
-		saveActionConfig
-				.addActionParameter(new String[] {
-						tabName + GtnFrameworkReportStringConstants.UNDERSCORE
-								+ GtnFrameworkCommonConstants.HIERARCHY_NAME,
-						"reportLandingScreen_customerSelectionRelationship", "reportLandingScreen_relationship",
-						"reportCustomViewLookup_custom_Variable_Type_OptionGroup",
-						"reportCustomViewLookup_custom_Variable_OptionGroup" });
+		saveActionConfig.addActionParameter(new String[] {
+				tabName + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.HIERARCHY_NAME,
+				"reportLandingScreen_customerSelectionRelationship", "reportLandingScreen_relationship",
+				"reportCustomViewLookup_custom_Variable_Type_OptionGroup",
+				"reportCustomViewLookup_custom_Variable_OptionGroup" });
 		saveActionConfig.addActionParameter(tabName + "customTreeTable");
 		saveActionConfig.addActionParameter(tabName + GtnFrameworkReportStringConstants.UNDERSCORE);
 		saveButton.addGtnUIFrameWorkActionConfig(saveActionConfig);
@@ -626,11 +650,17 @@ public class GtnFrameworkReportCustomViewLookup {
 		selectButtonConfig.setParentComponentId(layoutConfig.getComponentId());
 		selectButtonConfig.setAddToParent(true);
 		componentList.add(selectButtonConfig);
+                
+                
+		GtnUIFrameWorkActionConfig closeConfig = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+	
 
 		GtnUIFrameWorkActionConfig selectButtonActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		selectButtonActionConfig.addActionParameter(GtnFrameworkUICustomSelectAction.class.getName());
 		selectButtonConfig.addGtnUIFrameWorkActionConfig(selectButtonActionConfig);
+		selectButtonConfig.addGtnUIFrameWorkActionConfig(closeConfig);
 
 		GtnUIFrameworkComponentConfig closeButtonConfig = new GtnUIFrameworkComponentConfig();
 		closeButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -638,11 +668,10 @@ public class GtnFrameworkReportCustomViewLookup {
 		closeButtonConfig.setComponentName("CLOSE");
 		closeButtonConfig.setParentComponentId(layoutConfig.getComponentId());
 		closeButtonConfig.setAddToParent(true);
-
-		GtnUIFrameWorkActionConfig closeConfig = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		closeButtonConfig.addGtnUIFrameWorkActionConfig(closeConfig);
+	
+                closeButtonConfig.addGtnUIFrameWorkActionConfig(closeConfig);
 		componentList.add(closeButtonConfig);
+                
 
 	}
 

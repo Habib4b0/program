@@ -339,7 +339,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
         return;
     }
 
-    public void addSecurity() {
+    public final void addSecurity() {
 
         final StplSecurity stplSecurityNotes = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(USER_ID.getConstant()));

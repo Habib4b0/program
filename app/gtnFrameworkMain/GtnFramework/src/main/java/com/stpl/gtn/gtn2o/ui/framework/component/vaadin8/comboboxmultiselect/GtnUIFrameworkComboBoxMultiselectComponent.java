@@ -66,12 +66,6 @@ public class GtnUIFrameworkComboBoxMultiselectComponent implements GtnUIFramewor
 			if (response.getItemValueList() != null) {
 				List idList = new ArrayList<>(response.getItemCodeList());
 				List<String> valueList = new ArrayList<>(response.getItemValueList());
-				String defaultValue = checkedComboBoxConfig.getDefaultValue() != null
-						? String.valueOf(checkedComboBoxConfig.getDefaultValue())
-						: "-Select Values-";
-				idList.add(0, "0");
-				valueList.add(0, defaultValue);
-				comboBoxMultiSelect.setValue(new HashSet<>(Arrays.asList(defaultValue)));
 				comboBoxMultiSelect.setItems(idList);
 				comboBoxMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
 			}

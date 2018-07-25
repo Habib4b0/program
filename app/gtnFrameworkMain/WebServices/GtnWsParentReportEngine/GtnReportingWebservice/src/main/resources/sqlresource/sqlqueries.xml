@@ -202,6 +202,8 @@
 						AND VIEW_NAME LIKE ? @filter
 						?
 						AND FLAG = ?
+						Order by view_name 
+						OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
 			]]>
 	</entry>
 	<entry key="filterOptionCustLevelProdLevelLoadQuery">
@@ -269,7 +271,6 @@
 				REPORTING_VIEW_MASTER
 			WHERE
 				VIEW_ID =?
-				AND VIEW_TYPE =?
 		]]>
 	</entry>
 	
@@ -296,6 +297,7 @@
                  VIEW_DATA = ?
              WHERE 
                	 VIEW_ID = ?
+               	 AND CREATED_BY = ?
 		]]>
 	</entry>
 	

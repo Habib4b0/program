@@ -1612,7 +1612,7 @@ public class SalesLogic {
     public void saveCheckRecord(final ProjectionSelectionDTO projectionDTO, final String checkedRecord, final boolean isSaveCheck, final String queryName) throws PortalException {
         try {
             Map<String, Object> parameters = new HashMap<>();
-            Map<String, String> input = new HashMap<>();
+            Map<String, String> input = new HashMap<>(NumericConstants.FIFTEEN);
             Map<String, String> join = new HashMap<>();
             String[] splitArray = null;
             if (!StringUtils.isBlank(checkedRecord)) {
@@ -1631,7 +1631,7 @@ public class SalesLogic {
                 }
                 if (splitArray != null) {
                     input.put(Constant.HNO1, StringUtils.isBlank(String.valueOf(splitArray[1])) ? PERCENT.getConstant() : String.valueOf(splitArray[1]));
-                    input.put(Constant.LEVELNO1, String.valueOf(splitArray[0]).equals(DASH) ? PERCENT.getConstant() : String.valueOf(splitArray[0]));
+                    input.put(Constant.LEVELNO1, String.valueOf(splitArray[0]).equals(DASH.getConstant()) ? PERCENT.getConstant() : String.valueOf(splitArray[0]));
                 } else {
                     input.put(Constant.HNO1, PERCENT.getConstant());
                     input.put(Constant.LEVELNO1, PERCENT.getConstant());
@@ -2254,37 +2254,19 @@ public class SalesLogic {
                     updateLine.append(" PRODUCT_GROWTH='").append(value).append("' ");
                     break;
                 case PROJECTED_SALES:
-                    if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
-                        finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
-                        updateLine.append(" PROJECTION_SALES = PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue).append(')');
-                        updateLine.append(" ,PROJECTION_UNITS = (PROJECTION_SALES+(PROJECTION_SALES*").append(finalvalue).append(')').append(')')
-                                  .append(WAC_PRICE);
-                    } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
                         updateLine.append(" PROJECTION_SALES=").append(finalvalue).append("");
-                        updateLine.append(" ,PROJECTION_UNITS= ").append(finalvalue).append("")
+                        updateLine.append(" ,PROJECTION_UNITS= ").append(finalvalue).append(" /")
                                   .append(WAC_PRICE);
-                    }
                     break;
                 case Constant.PROJECTED_UNITS1:
-                    if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
-                        finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
-                        if (CommonUtil.isValueEligibleForLoading()) {
-                            updateLine.append(" PROJECTION_UNITS= (PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue).append("))/COALESCE(NULLIF(UOM_VALUE,0),1) ");
-                            updateLine.append(" ,PROJECTION_SALES= ((PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue).append("))/COALESCE(NULLIF(UOM_VALUE,0),1)) * ").append(WAC_PRICE);
-                        } else {
-                            updateLine.append(" PROJECTION_UNITS= PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue).append(')');
-                        }
-                    } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
                         if (CommonUtil.isValueEligibleForLoading()) {
-                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue).append("/COALESCE(NULLIF(UOM_VALUE,0),1) ").append(' ');
-                            updateLine.append(" ,PROJECTION_SALES=").append('(').append(finalvalue).append("/COALESCE(NULLIF(UOM_VALUE,0),1)) * ").append(WAC_PRICE);
+                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue).append(' ');
+                            updateLine.append(" ,PROJECTION_SALES=").append('(').append(finalvalue).append(") * ").append(WAC_PRICE);
                         } else {
                             updateLine.append(" PROJECTION_UNITS=").append(finalvalue).append(' ');
                         }
-
-                    }
                     break;
                 default:
                     break;

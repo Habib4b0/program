@@ -135,7 +135,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	}
 
-	public void configureOnLoading(int projectionId, DataSelectionDTO dataSelectionDTO, SessionDTO session) {
+	public final void configureOnLoading(int projectionId, DataSelectionDTO dataSelectionDTO, SessionDTO session) {
 		try {
 			sessionDTO.setFromPeriod(dataSelectionDTO.getFromPeriod());
 			sessionDTO.setToPeriod(dataSelectionDTO.getToPeriod());
@@ -223,7 +223,7 @@ public class DataSelection extends AbstractDataSelection {
 		});
 	}
 
-	public void readModeOnly() {
+	public final void readModeOnly() {
 		company.setEnabled(false);
 		productRelation.setEnabled(false);
 		customerHierarchy.setEnabled(false);
@@ -3716,7 +3716,7 @@ public class DataSelection extends AbstractDataSelection {
 		return initialHierarchy;
 	}
 
-	public void configureOnTabLoad(int projectionId, SessionDTO session) {
+	public final void configureOnTabLoad(int projectionId, SessionDTO session) {
 		try {
 			customerDescriptionMap = sessionDTO.getCustomerDescription();
 			productDescriptionMap = sessionDTO.getProductDescription();
@@ -3793,7 +3793,7 @@ public class DataSelection extends AbstractDataSelection {
 		});
 
 	}
-        public void loadCFFEligibleDate() {
+        public final void loadCFFEligibleDate() {
             cffEligibleDate.setDateFormat("MM/dd/yyyy");
             DataSelectionLogic logic = new DataSelectionLogic();
             if (sessionDTO.getCffEligibleDate() != null) {
@@ -3902,7 +3902,7 @@ public class DataSelection extends AbstractDataSelection {
 		}
 	}
 
-	public void configurePermission() {
+	public final void configurePermission() {
 		try {
 			final StplSecurity stplSecurity = new StplSecurity();
 			final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtil.USER_ID));

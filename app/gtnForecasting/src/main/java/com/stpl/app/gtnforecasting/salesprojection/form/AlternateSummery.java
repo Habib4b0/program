@@ -1878,7 +1878,7 @@ public class AlternateSummery extends CustomComponent {
         });
     }
 
-    public void init() throws PortalException, SystemException {
+    public final void init() throws PortalException, SystemException {
         LOGGER.debug("Inside NMSalesProjection Screen= {} " , session.getUserId());
         projectionDTO.setSessionDTO(session);
         projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));
@@ -1993,7 +1993,7 @@ public class AlternateSummery extends CustomComponent {
             for (Object key : dto.getProperties().keySet()) {
                 if (((Boolean) dto.getPropertyValue(Constant.CHECK) && (Constant.TRADINGPARTNER.equals(dto.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(dto.getHierarchyLevel()))) && (String.valueOf(key).contains("Actual"))) {
                     String value = String.valueOf(dto.getProperties().get(key));
-                    if (!value.equals("-") && !value.equals("0.00") && !value.equals("$0") && !value.equals(DASH) && !value.equals("0.000000")) {
+                    if (!value.equals("-") && !value.equals("0.00") && !value.equals("$0") && !value.equals(DASH.getConstant()) && !value.equals("0.000000")) {
                         hasActuals = true;
                     }
 
@@ -2182,7 +2182,7 @@ public class AlternateSummery extends CustomComponent {
         projectionDTO.setPivotView(String.valueOf(pivotViewVar.getValue()));
         String history = String.valueOf(historyDdlb.getValue());
         history = history.trim();
-        if (history != null && !StringUtils.isBlank(history) && !NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
+        if (history != null && !StringUtils.isBlank(history) && !Constant.NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
             toHist = true;
             projectionDTO.setHistory(history);
             historyNum = Integer.parseInt(projectionDTO.getHistory());

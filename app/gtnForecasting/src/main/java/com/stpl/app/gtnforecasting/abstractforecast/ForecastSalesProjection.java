@@ -1123,6 +1123,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public void generateBtn(Button.ClickEvent event) {
             
         checkBoxMap.clear();
+        session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
         radioMap.clear();
         generateBtnLogic(event);
     }
@@ -3853,7 +3854,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     boolean validateStartEndPeriods(String frequency, String start, String end) {
         LOGGER.debug("Inside New Validation Method");
         try {
-            if (end.isEmpty() || end.equals("null") || end.equals(SELECT_ONE) || start.trim().equals(end.trim())) {
+            if (end.isEmpty() || end.equals("null") || end.equals(SELECT_ONE.getConstant()) || start.trim().equals(end.trim())) {
                 return true;
             }
             if (frequency.equals(MONTHLY)) {

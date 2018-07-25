@@ -23,7 +23,6 @@ public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
 
     private TradingPartnerDTO dto;
     private int parentCompanySid;
-    private CompanySearchLogic logic = new CompanySearchLogic();
     /**
      * The Constant LOGGER.
      */
@@ -35,7 +34,7 @@ public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
 
     public CompanySearchDAO(TradingPartnerDTO tpDto, int parentCompanySid) {
         this.dto = tpDto;
-        this.setParentCompanySid(parentCompanySid);
+        this.parentCompanySid = parentCompanySid;
     }
 
     @Override

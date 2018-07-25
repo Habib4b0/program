@@ -109,7 +109,7 @@ public class TransferContract extends CustomComponent {
 		return selectedItemList == null ? selectedItemList : Collections.unmodifiableList(selectedItemList);
 	}
 
-	public void setSelectedItemList(List selectedItemList) {
+	public final void setSelectedItemList(List selectedItemList) {
 		this.selectedItemList = selectedItemList == null ? selectedItemList : Collections.unmodifiableList(selectedItemList);
 	}
 }

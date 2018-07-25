@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.itemfamilyplan.bean.GtnIFamilyPlanInformationBean;
+import com.stpl.gtn.gtn2o.ws.itemfamilyplan.constants.GtnWsIFamilyPlanContants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -57,6 +58,10 @@ public class GtnFrameworkIfpAddAction
 				.loadFieldValue(userName);
                 GtnUIFrameworkGlobalUI.addSessionProperty("ifpModelSid", 0);
 		GtnFrameworkIfpValueChangeManager.setValueChangeAllowed(true);
+                new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+							GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
+									+ GtnWsIFamilyPlanContants.GTN_WS_IFP_TEMP_DELETE_SERVICE ,
+							gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	@Override

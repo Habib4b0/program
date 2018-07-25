@@ -53,7 +53,7 @@ public final class ValidationUtils {
      * @return message
      */
     public static String getMessage(final String key) {
-        final StringBuffer sbValue = new StringBuffer();
+        final StringBuilder sbValue = new StringBuilder();
         sbValue.append(getMC(key));
         return sbValue.toString();
     }

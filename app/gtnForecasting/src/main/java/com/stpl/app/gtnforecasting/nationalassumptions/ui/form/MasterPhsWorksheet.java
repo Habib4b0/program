@@ -229,7 +229,7 @@ public class MasterPhsWorksheet extends Window {
     /**
      * Inits the.
      */
-    public void init() {
+    public final void init() {
 
         LOGGER.debug("Entering init ");
         center();
@@ -894,6 +894,7 @@ public class MasterPhsWorksheet extends Window {
                  */
                 public void yesMethod() {
                     try {
+                        fcpQueryUtil.updateBeforeAdjustment("getPhsBeforeAdjSubmitUpdate", sessionDTO);
                         fcpQueryUtil.updateAdjustment(projectionDTO.getNdcSid().getId(), "getPhsAdjSumbitUpdate",sessionDTO);
                         submitFlag = true;
                         submitMsg = false;

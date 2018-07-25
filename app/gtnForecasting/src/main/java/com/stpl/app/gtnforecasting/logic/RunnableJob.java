@@ -24,7 +24,6 @@ public class RunnableJob implements Runnable {
     private Object valueOf=null;
     private String hirarechyNo=StringUtils.EMPTY;
     private String group=StringUtils.EMPTY;
-    private SessionDTO session=null;
     private ProjectionSelectionDTO selection=null;
     private String table=StringUtils.EMPTY;
     
@@ -42,7 +41,6 @@ public class RunnableJob implements Runnable {
         this.hirarechyNo = hirarechyNo;
         this.group = group;
         this.projectionId = projectionId;
-        this.session = session;
         this.selection = selection;
         this.procedureCall = procedureCall;
         this.table=table;

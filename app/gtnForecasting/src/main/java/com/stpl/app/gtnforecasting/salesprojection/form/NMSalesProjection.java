@@ -150,7 +150,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     /**
      * Init method
      */
-    public void init() {
+    public final void init() {
         LOGGER.debug("Inside NMSalesProjection Screen= {} ", session.getUserId());
         configureProjectionDTO();
         Utility.loadHierarchyList(session);
@@ -162,6 +162,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
         configureGroupDDLB();
         super.configureGraph();
         securityForButton();
+    }
+    
+    public void setFrequency(SessionDTO session)
+    {
+        nmFrequencyDdlb.setValue(session.getDsFrequency());
     }
 
     @Override
@@ -521,6 +526,10 @@ public class NMSalesProjection extends ForecastSalesProjection {
     @Override
     public void generateBtnLogic(Button.ClickEvent event) {
         try {
+            boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionDTO.getCustomerLevelFilter())
+                    && generateCustomerToBeLoaded.size() == projectionDTO.getCustomerLevelFilter().size());
+            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionDTO.getProductLevelFilter())
+                    && generateProductToBeLoaded.size() == projectionDTO.getProductLevelFilter().size());
             projectionDTO.setCustomerLevelFilter(generateCustomerToBeLoaded);
             projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
              loadAllFilters();
@@ -532,30 +541,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 super.initializeResultTable();
                 configureResultTable();
                 addResultTable();
-                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-                    if (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())) {
-                        session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
-                        session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
-                        CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
-                        dataLogic.nmSalesViewsPopulationProcedure(session);
-                        CommonUtil.getInstance().waitForSeconds();
-                    }
-                    if (uomValueChange) {
-                        session.setUomCode(unitOfMeasureDdlb.getValue() == null ? "EACH" : String.valueOf(unitOfMeasureDdlb.getValue()));
-                        dataLogic.nmSalesViewsPopulationProcedureUOM(session);
-                        uomValueChange = false;
-                    }
-                    if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty())) {
-                        LOGGER.info("generateBtn :Inside Filter Option");
-                        session.setFunctionMode("F");
-                        CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
-                        CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
-                        dataLogic.nmSalesViewsPopulationProcedureWithoutTruncation(session);
-                        CommonUtil.getInstance().waitForSeconds();
-                    }
-                    projectionDTO.setGroup(StringUtils.EMPTY);
-                   
-                }
+                commercialGenerate(customerFlag, productFlag);
                 CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
                 generateLogic();
             }
@@ -563,7 +549,43 @@ public class NMSalesProjection extends ForecastSalesProjection {
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("generate button click listener ends ");
+    }
 
+    private void customerFilterGenerate(boolean customerFlag, boolean productFlag) {
+        if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
+            LOGGER.info("generateBtn :Inside Filter Option");
+            session.setFunctionMode("F");
+            CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
+            CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
+            dataLogic.nmSalesViewsPopulationProcedureWithoutTruncation(session);
+            CommonUtil.getInstance().waitForSeconds();
+            customerFlag = true;
+            productFlag = true;
+        }
+    }
+
+    private void commercialGenerate(boolean customerFlag, boolean productFlag) {
+        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+            if (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())) {
+                session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
+                session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
+                CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
+                dataLogic.nmSalesViewsPopulationProcedure(session);
+                CommonUtil.getInstance().waitForSeconds();
+            }
+            uomValueChangeGenerate();
+            customerFilterGenerate(customerFlag, productFlag);
+            projectionDTO.setGroup(StringUtils.EMPTY);
+
+        }
+    }
+
+    private void uomValueChangeGenerate() {
+        if (uomValueChange) {
+            session.setUomCode(unitOfMeasureDdlb.getValue() == null ? "EACH" : String.valueOf(unitOfMeasureDdlb.getValue()));
+            dataLogic.nmSalesViewsPopulationProcedureUOM(session);
+            uomValueChange = false;
+        }
     }
 
     /**
@@ -689,6 +711,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT, 0));
 
         nmSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
+        session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
     }
 
     public void loadAllFilters() {
@@ -728,7 +751,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
         String history = String.valueOf(historyDdlb.getValue());
         history = history.trim();
-        if (history != null && !StringUtils.isBlank(history) && !NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
+        if (history != null && !StringUtils.isBlank(history) && !Constant.NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
             toHist = true;
             projectionDTO.setHistory(history);
             historyNum = Integer.parseInt(projectionDTO.getHistory());

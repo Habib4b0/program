@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.stpl.gtn.gtn2o.ui.action.GtnFrameworkReportResetAndCloseAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportReportProfileDeleteAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnReportingDashboardReportProfileLoadAction;
 import com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReportConfirmedDeleteButtonAction;
@@ -34,6 +35,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfileLookUpView.setViewName("Report Profile Popup ");
 		reportProfileLookUpView.setViewId("reportProfileLookupView");
 		reportProfileLookUpView.setDefaultView(false);
+		reportProfileLookUpView.setResetAllowed(true);
 		addReportProfileLookUpComponentList(reportProfileLookUpView, namespace);
 		return reportProfileLookUpView;
 	}
@@ -89,7 +91,8 @@ public class GtnFrameworkReportProfileLookUp {
 		reportViewSearchCriteriaPanel.setComponentName("Report View Search");
 		reportViewSearchCriteriaPanel.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
-		reportViewSearchCriteriaPanel.setMargin(true);
+		reportViewSearchCriteriaPanel.addComponentStyle("stpl-margin-left-10");
+		reportViewSearchCriteriaPanel.addComponentStyle("stpl-margin-top-11");
 		reportViewSearchCriteriaPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportViewSearchCriteriaPanel.setAddToParent(true);
 		componentList.add(reportViewSearchCriteriaPanel);
@@ -120,7 +123,7 @@ public class GtnFrameworkReportProfileLookUp {
 		GtnUIFrameworkComponentConfig viewTypeOptionGroupConfig = new GtnUIFrameworkComponentConfig();
 		viewTypeOptionGroupConfig.setComponentType(GtnUIFrameworkComponentType.RADIOBUTTON_VAADIN8);
 		viewTypeOptionGroupConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType");
-		viewTypeOptionGroupConfig.setComponentName("View Type");
+		viewTypeOptionGroupConfig.setComponentName("View Type: ");
 		viewTypeOptionGroupConfig.setAddToParent(true);
 		viewTypeOptionGroupConfig.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_VIEW_SEARCH_CRITERIA_LAYOUT);
@@ -137,7 +140,9 @@ public class GtnFrameworkReportProfileLookUp {
 		GtnUIFrameworkComponentConfig viewNameTextBoxConfig = new GtnUIFrameworkComponentConfig();
 		viewNameTextBoxConfig.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		viewNameTextBoxConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName");
-		viewNameTextBoxConfig.setComponentName("View Name");
+		viewNameTextBoxConfig.setComponentName("View Name: ");
+		viewNameTextBoxConfig.addComponentStyle("stpl-margin-bottom-22");
+		viewNameTextBoxConfig.addComponentStyle("stpl-margin-left-22");
 		viewNameTextBoxConfig.setAddToParent(true);
 		viewNameTextBoxConfig.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_VIEW_SEARCH_CRITERIA_LAYOUT);
@@ -218,28 +223,13 @@ public class GtnFrameworkReportProfileLookUp {
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
 		reportProfileResultPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		reportProfileResultPanel.setAddToParent(true);
+		reportProfileResultPanel.addComponentStyle("stpl-margin-left-10");
+		reportProfileResultPanel.addComponentStyle("stpl-margin-top-11");
 		componentList.add(reportProfileResultPanel);
-		resultLayout(componentList, namespace);
-
-	}
-
-	private void resultLayout(List<GtnUIFrameworkComponentConfig> componentList, String namespace) {
-		GtnUIFrameworkLayoutConfig conf = new GtnUIFrameworkLayoutConfig();
-		conf.setLayoutType(GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
-
-		GtnUIFrameworkComponentConfig reportProfileResultLayout = new GtnUIFrameworkComponentConfig();
-		reportProfileResultLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		reportProfileResultLayout.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfileResultLayout");
-
-		reportProfileResultLayout.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfileResultPanel");
-		reportProfileResultLayout.setAddToParent(true);
-		reportProfileResultLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		reportProfileResultLayout.setComponentHight(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		reportProfileResultLayout.setGtnLayoutConfig(conf);
-		componentList.add(reportProfileResultLayout);
 		addReportProfilePagedTableComponent(componentList, namespace);
 	}
 
+	
 	private void addReportProfilePagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namespace) {
 		GtnUIFrameworkComponentConfig reportProfilePagedTableComponent = new GtnUIFrameworkComponentConfig();
@@ -248,7 +238,7 @@ public class GtnFrameworkReportProfileLookUp {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfilePagedTableComponent");
 		reportProfilePagedTableComponent.setComponentName("Results");
 		reportProfilePagedTableComponent
-				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfileResultLayout");
+				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfileResultPanel");
 		reportProfilePagedTableComponent.setAddToParent(true);
 		List<String> tableStyle = new ArrayList<>();
 		tableStyle.add("filterbar");
@@ -267,6 +257,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfilePagedTableConfig.setItemPerPage(10);
 		reportProfilePagedTableConfig.setSelectable(true);
 		reportProfilePagedTableConfig.setSinkItemPerPageWithPageLength(false);
+		reportProfilePagedTableConfig.setItemsPerPageAlignCentre(false);
 		
 		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
 		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
@@ -370,6 +361,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfileLoadReportingDashboardAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		reportProfileLoadReportingDashboardAction.addActionParameter(GtnReportingDashboardReportProfileLoadAction.class.getName());
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportProfileConfig");
+		
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_displaySelectionTabVariable");
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeFrom");
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboard_displaySelectionTabPeriodRangeTo");
@@ -397,6 +389,7 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportingDashboardComparisonConfig");
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabVariableBreakdown");
 		reportProfileLoadReportingDashboardAction.addActionParameter("reportingDashboardTab_reportOptionsTabComparisonOptions");
+		
 		actionConfigList.add(reportProfileLoadReportingDashboardAction);
 		
 		reportProfileSelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -418,7 +411,7 @@ public class GtnFrameworkReportProfileLookUp {
 		deleteActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		deleteActionConfig.addActionParameter(GtnUIFrameworkReportConfirmedDeleteButtonAction.class.getName());
 		deleteActionConfig.addActionParameter("reportProfileLookup_reportProfilePagedTableComponent");
-		deleteActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.ERROR);
+		deleteActionConfig.addActionParameter("No Value Selected");
 		deleteActionConfig.addActionParameter("Please select a Report View to delete.");
 		deleteActionConfig.addActionParameter("Are you sure you want to delete the selected view?");
 		actionConfigListForDelete.add(deleteActionConfig);
@@ -436,23 +429,11 @@ public class GtnFrameworkReportProfileLookUp {
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + GtnFrameworkReportStringConstants.REPORT_PROFILE_CONTROL_POPUP_BUTTON_LAYOUT);
 		reportProfileResetButton.setAddToParent(true);
 
-		
-		List<GtnUIFrameWorkActionConfig> resetActionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
-		resetActionConfig.setActionType(GtnUIFrameworkActionType.V8_RESET_ACTION);
-
-		List<Object> params = new ArrayList<>();
-		params.add("resetAndClose");
-		params.add(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-		params.add(Arrays.asList(
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewType",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewName",
-				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfilePagedTableComponent"));
-		params.add(Arrays.asList(new Object[] { "Public", GtnFrameworkCommonStringConstants.STRING_EMPTY ,GtnFrameworkCommonStringConstants.STRING_EMPTY }));
-		params.add(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfileResetButton");
-		resetActionConfig.setActionParameterList(params);
-		resetActionConfigList.add(resetActionConfig);	
-		reportProfileResetButton.setGtnUIFrameWorkActionConfigList(resetActionConfigList);
+		List<GtnUIFrameWorkActionConfig> actionConfigListForClose = new ArrayList<>();
+		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
+		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		actionConfigListForClose.add(closeAction);
+		reportProfileResetButton.setGtnUIFrameWorkActionConfigList(actionConfigListForClose);
 		componentList.add(reportProfileResetButton);
 	}
 }

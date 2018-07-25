@@ -60,10 +60,22 @@ public class GtnReportCCPTableLoadAction
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParamList = gtnUIFrameWorkActionConfig.getActionParameterList();
 
-		List<GtnWsRecordBean> selectedCustomerList = getSelectedList(actionParamList.get(1).toString(), componentId);
-		List<GtnWsRecordBean> selectedProductList = getSelectedList(actionParamList.get(2).toString(), componentId);
-		GtnWsReportDataSelectionBean dataSelectionDto = getDataSelectionDto(actionParamList, selectedCustomerList,
-				selectedProductList, componentId);
+		List<GtnWsRecordBean> selectedCustomerList = null;
+		List<GtnWsRecordBean> selectedProductList = null;
+		GtnWsReportDataSelectionBean dataSelectionDto = null;
+		try {
+			selectedCustomerList = getSelectedList(actionParamList.get(1).toString(), componentId);
+			selectedProductList = getSelectedList(actionParamList.get(2).toString(), componentId);
+			dataSelectionDto = getDataSelectionDto(actionParamList, selectedCustomerList, selectedProductList,
+					componentId);
+		} catch (Exception ex) {
+			GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
+			alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+			alertAction.addActionParameter("Error");
+			alertAction.addActionParameter("Not all required fields have been populated. Please try again.");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertAction);
+			return;
+		}
 		ccpHierarchyInsert(selectedCustomerList, selectedProductList, dataSelectionDto);
 
 		GtnUIFrameWorkActionConfig gtnUIFrameWorkGeneratePopupAction = new GtnUIFrameWorkActionConfig();
@@ -90,7 +102,7 @@ public class GtnReportCCPTableLoadAction
 
 		inputForComparisonBasisList.add("Actuals");
 		inputForComparisonBasisList.add("Accruals");
-		inputForComparisonBasisList.add("Projections");
+		inputForComparisonBasisList.add("Current Projection");
 		Optional.ofNullable(comparisonLookupBeanList).ifPresent(e -> {
 			for (GtnReportComparisonProjectionBean comparisonProjectionBeans : e) {
 				inputForComparisonBasisList.add(comparisonProjectionBeans.getProjectionName());
@@ -109,7 +121,8 @@ public class GtnReportCCPTableLoadAction
 				"reportingDashboard_displaySelectionTabComparisonBasis", componentId, Arrays.asList(""));
 	}
 
-	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
+	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId)
+			throws GtnFrameworkValidationFailedException {
 		GtnUIFrameworkComponentData selectedTableComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(tableComponentId, componentId);
 		GtnFrameworkV8DualListBoxBean selectedDualListBoxBean = (GtnFrameworkV8DualListBoxBean) selectedTableComponentData
@@ -117,7 +130,9 @@ public class GtnReportCCPTableLoadAction
 		TreeGrid<GtnWsRecordBean> selectedRightTable = selectedDualListBoxBean.getRightTable();
 		selectedRightTable.expand(selectedRightTable.getTreeData().getRootItems());
 		List<GtnWsRecordBean> selectedValues = selectedRightTable.getTreeData().getRootItems();
-
+		if (selectedValues == null || selectedValues.isEmpty()) {
+			throw new GtnFrameworkValidationFailedException("Selected Table is Empty");
+		}
 		List<GtnWsRecordBean> selectedRecordList = new ArrayList<>(10);
 		for (GtnWsRecordBean gtnWsRecordBean : selectedValues) {
 
@@ -129,7 +144,7 @@ public class GtnReportCCPTableLoadAction
 
 	private GtnWsReportDataSelectionBean getDataSelectionDto(List<Object> actionParamList,
 			List<GtnWsRecordBean> selectedCustomerList, List<GtnWsRecordBean> selectedProductList, String componentId)
-			throws GtnFrameworkValidationFailedException {
+			throws Exception {
 
 		GtnWsReportDataSelectionBean dto = new GtnWsReportDataSelectionBean();
 		Date forecastEligibleDate = null;
@@ -149,36 +164,12 @@ public class GtnReportCCPTableLoadAction
 		if (date != null) {
 			forecastEligibleDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		}
-		dto.setCustomerHierarchyForecastLevel(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(6).toString()).getCaptionFromV8ComboBox())));
-		dto.setCustomerHierarchySid(Integer.valueOf(String
-				.valueOf(customerRecordBean.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1))));
-		dto.setCustomerHierarchyVersionNo(Integer.parseInt(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(5).toString()).getStringCaptionFromV8ComboBox()));
-		dto.setCustomerRelationshipBuilderSid(Integer.parseInt(String.valueOf(
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(relationshipComponentId).getCaptionFromV8ComboBox())));
-		dto.setCustomerRelationshipVersionNo(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(5).toString()).getCaptionFromV8ComboBox())));
+
+		generateButtonMandatoryCheck(dto, actionParamList, customerRecordBean, productRecordBean,
+				relationshipComponentId);
 
 		dto.setForecastEligibleDate(forecastEligibleDate);
 
-		dto.setProductHierarchyForecastLevel(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(10).toString()).getCaptionFromV8ComboBox())));
-		dto.setProductHierarchySid(Integer.valueOf(String
-				.valueOf(productRecordBean.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1))));
-		dto.setProductHierarchyVersionNo(Integer.parseInt(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(11).toString()).getStringCaptionFromV8ComboBox()));
-		dto.setProductRelationshipBuilderSid(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(9).toString()).getCaptionFromV8ComboBox())));
-		dto.setProductRelationshipVersionNo(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(11).toString()).getCaptionFromV8ComboBox())));
-		dto.setReportDataSource(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(12).toString())
-				.getIntegerFromV8ComboBox());
-
-		dto.setCompanyReport(Integer.parseInt(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox()));
-		dto.setBusinessUnitReport(Integer.parseInt(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(actionParamList.get(14).toString()).getCaptionFromV8ComboBox()));
 		GtnUIFrameworkComponentData comparisonProjectionData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(actionParamList.get(16).toString());
 		List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList = (List<GtnReportComparisonProjectionBean>) comparisonProjectionData
@@ -211,10 +202,6 @@ public class GtnReportCCPTableLoadAction
 		String uniqueId = UUID.randomUUID().toString().replaceAll("-", "_").substring(0, 16);
 		dto.setSessionId(uniqueId);
 		dto.setUniqueId(uniqueId);
-		dto.setFromPeriodReport(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(15).toString())
-				.getIntegerFromV8ComboBox());
-		dto.setToPeriod(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamList.get(20).toString())
-				.getIntegerFromV8ComboBox());
 
 		AbstractComponent abstractComponent = GtnUIFrameworkGlobalUI
 				.getVaadinComponent(actionParamList.get(21).toString(), componentId);
@@ -320,6 +307,48 @@ public class GtnReportCCPTableLoadAction
 
 		}
 		return relationBeanList;
+	}
+
+	private void generateButtonMandatoryCheck(GtnWsReportDataSelectionBean dto, List<Object> actionParamList,
+			GtnWsRecordBean customerRecordBean, GtnWsRecordBean productRecordBean, String relationshipComponentId)
+			throws NumberFormatException, GtnFrameworkValidationFailedException {
+		dto.setCompanyReport(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(13).toString()).getCaptionFromV8ComboBox())));
+		dto.setBusinessUnitReport(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(14).toString()).getCaptionFromV8ComboBox())));
+		dto.setReportDataSource(checkDDLBValues(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(12).toString()).getIntegerFromV8ComboBox()));
+		dto.setFromPeriodReport(checkDDLBValues(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(15).toString()).getIntegerFromV8ComboBox()));
+		dto.setToPeriod(checkDDLBValues(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(20).toString()).getIntegerFromV8ComboBox()));
+		dto.setCustomerHierarchySid(checkDDLBValues(Integer.valueOf(String
+				.valueOf(customerRecordBean.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1)))));
+		dto.setCustomerHierarchyVersionNo(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(5).toString()).getStringCaptionFromV8ComboBox())));
+		dto.setCustomerRelationshipBuilderSid(checkDDLBValues(Integer.parseInt(String.valueOf(
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(relationshipComponentId).getCaptionFromV8ComboBox()))));
+		dto.setCustomerRelationshipVersionNo(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(5).toString()).getCaptionFromV8ComboBox()))));
+		dto.setCustomerHierarchyForecastLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(6).toString()).getCaptionFromV8ComboBox()))));
+		dto.setProductHierarchySid(checkDDLBValues(Integer.valueOf(String
+				.valueOf(productRecordBean.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1)))));
+		dto.setProductHierarchyVersionNo(checkDDLBValues(Integer.parseInt(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(11).toString()).getStringCaptionFromV8ComboBox())));
+		dto.setProductRelationshipBuilderSid(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(9).toString()).getCaptionFromV8ComboBox()))));
+		dto.setProductRelationshipVersionNo(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(11).toString()).getCaptionFromV8ComboBox()))));
+		dto.setProductHierarchyForecastLevel(checkDDLBValues(Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParamList.get(10).toString()).getCaptionFromV8ComboBox()))));
+	}
+
+	private int checkDDLBValues(int value) throws GtnFrameworkValidationFailedException {
+		if (value == 0) {
+			throw new GtnFrameworkValidationFailedException("Generate Validation Exception");
+		}
+		return value;
 	}
 
 	@Override

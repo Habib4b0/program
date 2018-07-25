@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.module.itemmaster.action;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterStringContants;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.util.GtnFrameworkItemMasterArmUdc1Utility;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -139,6 +141,11 @@ public class GtnFrameworkItemMasterResetAction implements GtnUIFrameWorkAction, 
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabModifiedBy")
 					.loadFieldValue(getUserName(info.getModifiedBy()));
 
+			/*
+			 * It will check whether UDC1 is ARM_UDC1 or not If it will be
+			 * ARM_UDC1, it reset UDC1 checked combo box
+			 */
+			checkARMUDC1(info.getUdc1());
 			break;
 		case 1:
 			imInfoTabFielsValues = Arrays.asList(new Object[] { info.getDosesPerUnit(), info.getShelfLife(),
@@ -186,6 +193,33 @@ public class GtnFrameworkItemMasterResetAction implements GtnUIFrameWorkAction, 
 		default:
 			break;
 		}
+	}
+
+	private void checkARMUDC1(Integer udc1Code) {
+		String udc1Type = (String) GtnUIFrameworkGlobalUI.getSessionProperty("UDC1");
+		if (udc1Code == null && udc1Type!=null && udc1Type.equals("ARM_UDC1")) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBox")
+					.loadCheckedValueCustomMenuBar(Collections.emptyList());
+			return;
+		}
+
+		if (udc1Type != null && udc1Type.equals("ARM_UDC1")) {
+			setARMUDC1Value(udc1Code);
+			return;
+		}
+	}
+
+	private void setARMUDC1Value(Integer udc1Code) {
+		String armUdc1 = GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemValue(udc1Code);
+		String[] values = armUdc1.split(",");
+		List<Integer> codeList = new ArrayList<>();
+
+		for (String value : values) {
+			codeList.add(GtnFrameworkItemMasterArmUdc1Utility.getArmUdc1ItemCode(value));
+		}
+
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInfoTabUDC1CheckedComboBox")
+				.loadCheckedValueCustomMenuBar(codeList);
 	}
 
 	@SuppressWarnings("unchecked")

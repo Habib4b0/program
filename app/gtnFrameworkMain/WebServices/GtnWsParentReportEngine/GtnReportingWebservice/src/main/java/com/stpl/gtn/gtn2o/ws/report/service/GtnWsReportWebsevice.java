@@ -155,6 +155,11 @@ public class GtnWsReportWebsevice {
 				inputList.add(StringUtils.EMPTY);
 				inputList.add(viewCheck);
 			}
+			int noOfRowsForFetchClause = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordOffset();
+			if(noOfRowsForFetchClause==0)
+				noOfRowsForFetchClause = 10;
+			inputList.add(gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest().getTableRecordStart());
+			inputList.add(noOfRowsForFetchClause);
 
 			String viewQuery = sqlService.getQuery(inputList, "loadViewResults");
 			return executeLoadViewResultsQuery(viewQuery,gtnUIFrameworkWebserviceRequest);
@@ -309,8 +314,8 @@ public class GtnWsReportWebsevice {
 			throws GtnFrameworkGeneralException {
 		int recordCount = 0;
 		String query = sqlService.getQuery("getUpdateViewCount");
-		Object[] params = { dataSelectionBean.getViewId(), dataSelectionBean.getViewType() };
-		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING };
+		Object[] params = { dataSelectionBean.getViewId() };
+		GtnFrameworkDataType[] paramsType = {GtnFrameworkDataType.INTEGER};
 		List<Integer> resultList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query, params, paramsType);
 		recordCount = resultList.get(0);
 		return recordCount;
@@ -321,9 +326,8 @@ public class GtnWsReportWebsevice {
 			throws GtnFrameworkGeneralException {
 		int recordCount = 0;
 		String query = sqlService.getQuery("getUpdateViewCount");
-		Object[] params = { reportingDashboardSaveProfileLookupBean.getReportProfileViewId(),
-				reportingDashboardSaveProfileLookupBean.getReportProfileviewType() };
-		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING };
+		Object[] params = { reportingDashboardSaveProfileLookupBean.getReportProfileViewId()};
+		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER };
 		List<Integer> resultList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query, params, paramsType);
 		recordCount = resultList.get(0);
 		return recordCount;
@@ -368,6 +372,7 @@ public class GtnWsReportWebsevice {
 		String viewData = gtnReportJsonService.convertObjectAsJsonString(dataSelectionBean).replaceAll("'", "\\\\");
 		inputList.add("'" + viewData + "'");
 		inputList.add(dataSelectionBean.getViewId());
+		inputList.add(userId);
 		String query = sqlService.getQuery(inputList, "updatePrivatePublicView");
 		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
 		return count;
@@ -403,6 +408,7 @@ public class GtnWsReportWebsevice {
 				.replaceAll("'", "\\\\");
 		reportProfileUpdateInputList.add("'" + viewData + "'");
 		reportProfileUpdateInputList.add(reportingDashboardSaveProfileLookupBean.getReportProfileViewId());
+		reportProfileUpdateInputList.add(userId);
 		String query = sqlService.getQuery(reportProfileUpdateInputList, "updatePrivatePublicView");
 		int count = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
 		return count;
@@ -533,7 +539,7 @@ public class GtnWsReportWebsevice {
 		dbColumnIdMap.put("viewNameFilter", "VIEW_NAME");
 		dbColumnIdMap.put("createdDateFilter", "CREATED_DATE");
 		dbColumnIdMap.put("modifiedDateFilter", "MODIFIED_DATE");
-		dbColumnIdMap.put("createdByFilter", "CREATED_BY");
+		dbColumnIdMap.put("createdByFilter", "FIRSTNAME+LASTNAME");
 		return dbColumnIdMap;
 	}
 

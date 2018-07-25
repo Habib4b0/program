@@ -181,7 +181,7 @@ public class AbstractComponentInfo extends CustomComponent {
         getComponentInformation(indicator);
     }
 
-    public void getComponentInformation(final String layoutIndicator) {
+    public final void getComponentInformation(final String layoutIndicator) {
         this.layoutIndicator = layoutIndicator;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/item/abstractComponentInfo.xml"), this));
         HorizontalLayout controls = tablelogic.createControls();

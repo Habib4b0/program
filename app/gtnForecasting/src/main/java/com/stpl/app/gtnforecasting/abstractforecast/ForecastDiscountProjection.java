@@ -490,7 +490,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void configureFields() {
+    public final void configureFields() {
         
         if (CommonUtil.isValueEligibleForLoading()) {
             disountPanel.setVisible(false);
@@ -901,7 +901,6 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
             adjustBtnClickLogic();
         }
     }
-
     private void generateBtnLogic() {
         LOGGER.info("session.getDsFrequency() {}" + session.getDsFrequency() + "frequencyDdlb.getValue()------" + frequencyDdlb.getValue());
         LOGGER.info("session.getDeductionLevel()-{}" + session.getDataSelectionDeductionLevel() + "deductionlevelDdlb.getValue()-----" + deductionlevelDdlb.getValue());
@@ -913,6 +912,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
             CommonLogic.viewProceduresCompletionCheckDiscount(session);
             session.setFunctionMode("UPS");
             logic.nmDiscountViewsPopulationProcedureForUPS(session);
+            session.setDsFrequency(String.valueOf(frequencyDdlb.getValue()));
         }
         generateBtnClickLogic(BooleanConstant.getTrueFlag());
     }
