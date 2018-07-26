@@ -36,7 +36,7 @@ public class GtnNewProcessSchedularConfig {
 		GtnUIFrameworkViewConfig view = new GtnUIFrameworkViewConfig();
 		view.setViewName("Process Schedular View");
 		view.setViewId("V001");
-		view.setDefaultView(false);  // need to change when needed to be the default view
+		view.setDefaultView(true);  // need to change when needed to be the default view
 		addComponentList(view);
 		return view;
 	}
@@ -158,8 +158,8 @@ public class GtnNewProcessSchedularConfig {
 
 		GtnUIFrameworkPagedTableConfig searchResults = new GtnUIFrameworkPagedTableConfig();
 		searchResults.setSelectable(true);
-		searchResults.setPageLength(15);
-		searchResults.setItemPerPage(15);
+		searchResults.setPageLength(10);
+		searchResults.setItemPerPage(10);
 		searchResults.setSinkItemPerPageWithPageLength(false);
 
 		searchResults.setTableColumnDataType(new Class[] { String.class, Date.class });
@@ -167,7 +167,7 @@ public class GtnNewProcessSchedularConfig {
 				.setTableVisibleHeader(new String[] { GtnFrameworkCommonConstants.PROCESS_NAME_COMPONENT, "Last Run" });
 		searchResults.setTableColumnMappingId(
 				new Object[] { GtnFrameworkCommonConstants.PROCESS_NAME, GtnFrameworkCommonConstants.LAST_RUN });
-		searchResults.setExtraColumn(new Object[] { "scriptname" });
+		//searchResults.setExtraColumn(new Object[] { "scriptname" });
 
 		searchResults.setCountUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
 				+ GtnWsProcessScedulerConstants.GET_PROCESS_SCHEDULER_TABLE_DATA);
@@ -270,7 +270,20 @@ public class GtnNewProcessSchedularConfig {
 				new Object[] { GtnFrameworkCommonConstants.PROCESS_NAME, GtnFrameworkCommonConstants.STATUS_COMPONENT,
 						GtnFrameworkCommonConstants.START_DATE, GtnFrameworkCommonConstants.END_DATE,
 						GtnFrameworkCommonConstants.FREQUENCY, "lastRunDate", "modifiedDate", "modifiedBy" });
-
+		
+		searchResults.setCountUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
+				+ GtnWsProcessScedulerConstants.GET_SCHEDULED_PROCESSING_TABLE_DATA);
+		gtnLogger.info(searchResults.getCountUrl());
+		searchResults.setResultSetUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
+				+ GtnWsProcessScedulerConstants.GET_SCHEDULED_PROCESSING_TABLE_DATA);
+		
+		searchResults.setModuleName("processSchedulerManual");
+		searchResults.setQueryName("SearchQuery");
+		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
+		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
+		loadDataTableActionConfig.addActionParameter(searchResultConfig.getComponentId());
+		searchResults.addPostCreationActionConfig(loadDataTableActionConfig);
+		searchResults.setDoubleClickEnable(true);
 		searchResultConfig.setGtnPagedTableConfig(searchResults);
 		
 	}
@@ -284,8 +297,8 @@ public class GtnNewProcessSchedularConfig {
 		componentList.add(scheduledProcessEditorPanel);
 		
 		GtnUIFrameworkComponentConfig scheduledProcessEditorPanelLayout = configProvider.getVerticalLayoutConfig("scheduledProcessEditorPanelLayout", true, scheduledProcessEditorPanel.getComponentId());
-		scheduledProcessEditorPanelLayout.setComponentWidth("130%");
-		scheduledProcessEditorPanelLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
+		scheduledProcessEditorPanelLayout.setComponentWidth("145%");
+		//scheduledProcessEditorPanelLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		componentList.add(scheduledProcessEditorPanelLayout);
 		
 		addProcessNameFrequencyLayout(componentList,scheduledProcessEditorPanelLayout.getComponentId());	
@@ -352,6 +365,20 @@ public class GtnNewProcessSchedularConfig {
 		frequencyOptionGroup
 				.setComponentStyle(Arrays.asList( GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE ));
 		frequencyOptionGroup.setGtnUIFrameworkOptionGroupConfig(frequencyOptionGroupConfig);
+		
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
+		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		customAction.addActionParameter(GtnUIFrameworkFrequencyValueChangeAction.class.getName());
+		customAction.addActionParameter("run1Layout");
+		customAction.addActionParameter("run2Layout");
+		customAction.addActionParameter("run3Layout");
+		customAction.addActionParameter("minutes1Layout");
+		customAction.addActionParameter("minutes3Layout");
+		customAction.addActionParameter("runEveryLayout");
+		customAction.addActionParameter("scheduledProcessEditorPanelLayout");
+		actionConfigList.add(customAction);
+		frequencyOptionGroup.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		componentList.add(frequencyOptionGroup);
 	}
@@ -374,7 +401,7 @@ public class GtnNewProcessSchedularConfig {
 		addRunEvery(componentList,statusRunEveryLayout.getComponentId());
 		addRun1(componentList, statusRunEveryLayout.getComponentId());
 		addMinutes1(componentList, statusRunEveryLayout.getComponentId());
-		addMinutesLabel(componentList, statusRunEveryLayout.getComponentId());
+		//addMinutesLabel(componentList, statusRunEveryLayout.getComponentId());
 	}
 
 	private void addStatus(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
@@ -408,7 +435,6 @@ public class GtnNewProcessSchedularConfig {
 		GtnUIFrameworkComponentConfig runEveryLayout = configProvider
 				.getHorizontalLayoutConfig("runEveryLayout", true, parentComponentId);
 		runEveryLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		runEveryLayout.setVisible(false);
 		componentList.add(runEveryLayout);
 		
 		GtnUIFrameworkComponentConfig runEvery = new GtnUIFrameworkComponentConfig();
@@ -426,19 +452,19 @@ public class GtnNewProcessSchedularConfig {
 	}
 
 	private void addHoursLabel(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
-		GtnUIFrameworkComponentConfig hoursLabelLayout = configProvider
+		/*GtnUIFrameworkComponentConfig hoursLabelLayout = configProvider
 				.getHorizontalLayoutConfig("hoursLabelLayout", true, parentComponentId);
 		hoursLabelLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		componentList.add(hoursLabelLayout);
+		componentList.add(hoursLabelLayout);*/
 		
 		GtnUIFrameworkComponentConfig hourslabel = new GtnUIFrameworkComponentConfig();
 		hourslabel.setComponentType(GtnUIFrameworkComponentType.V8_LABEL);
 		hourslabel.setComponentId("hoursLabel");
 		hourslabel.setAddToParent(true);
 		hourslabel.setComponentValue("hours");
-		//hourslabel.addComponentStyle("stpl-left-caption-100");
+		hourslabel.addComponentStyle("stpl-left-caption-100");
 		hourslabel.addComponentStyle("stpl-text-align--left");
-		hourslabel.setParentComponentId(hoursLabelLayout.getComponentId());
+		hourslabel.setParentComponentId(parentComponentId);
 		
 		componentList.add(hourslabel);
 	}
@@ -460,7 +486,6 @@ public class GtnNewProcessSchedularConfig {
 		addStartDate(componentList,startDateMinutesLayout.getComponentId());
 		addRun2(componentList,startDateMinutesLayout.getComponentId());
 		addMinutes2ComboBox(componentList,startDateMinutesLayout.getComponentId());
-		addMinutesLabel(componentList, startDateMinutesLayout.getComponentId());
 	}
 
 	private void addStartDate(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
@@ -500,7 +525,7 @@ public class GtnNewProcessSchedularConfig {
 		minutesConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.MINUTES.split(",")));
 		minutes.setGtnComboboxConfig(minutesConfig);
 		minutes.setGtnComboboxConfig(minutesConfig);
-		
+		addMinutesLabel(componentList, minutesComboBoxLayout.getComponentId());
 	}
 
 	private void addMinutesLabel(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
@@ -536,7 +561,7 @@ public class GtnNewProcessSchedularConfig {
 		addEndDate(componentList, endDateLayout.getComponentId());
 		addRun3(componentList,endDateLayout.getComponentId());
 		addMinutes3ComboBox(componentList,endDateLayout.getComponentId());
-		addMinutesLabel(componentList, endDateLayout.getComponentId());
+		
 	}
 	
 	private void addEndDate(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
@@ -561,8 +586,9 @@ public class GtnNewProcessSchedularConfig {
 	
 	private void addMinutes3ComboBox(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
 		GtnUIFrameworkComponentConfig minutes3ComboBoxLayout = configProvider
-				.getHorizontalLayoutConfig("minutes3ComboBoxLayout", true, parentComponentId);
+				.getHorizontalLayoutConfig("minutes3Layout", true, parentComponentId);
 		minutes3ComboBoxLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
+		minutes3ComboBoxLayout.setVisible(false);
 		componentList.add(minutes3ComboBoxLayout);
 		
 		GtnUIFrameworkComponentConfig minutes = new GtnUIFrameworkComponentConfig();
@@ -576,7 +602,7 @@ public class GtnNewProcessSchedularConfig {
 		minutesConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.MINUTES.split(",")));
 		minutes.setGtnComboboxConfig(minutesConfig);
 		minutes.setGtnComboboxConfig(minutesConfig);
-		
+		addMinutesLabel(componentList, minutes3ComboBoxLayout.getComponentId());
 	}
 
 	private void addUpdateButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
@@ -596,7 +622,7 @@ public class GtnNewProcessSchedularConfig {
 		GtnUIFrameworkComponentConfig run1Layout = configProvider
 				.getHorizontalLayoutConfig("run1Layout", true, parentComponentId);
 		run1Layout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		run1Layout.setVisible(true);
+		run1Layout.setVisible(false);
 		componentList.add(run1Layout);
 		
 		GtnUIFrameworkComponentConfig run1 = new GtnUIFrameworkComponentConfig();
@@ -616,7 +642,7 @@ public class GtnNewProcessSchedularConfig {
 		GtnUIFrameworkComponentConfig run2Layout = configProvider
 				.getHorizontalLayoutConfig("run2Layout", true, parentComponentId);
 		run2Layout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		run2Layout.setVisible(true);
+		run2Layout.setVisible(false);
 		componentList.add(run2Layout);
 		
 		GtnUIFrameworkComponentConfig run2 = new GtnUIFrameworkComponentConfig();
@@ -636,7 +662,7 @@ public class GtnNewProcessSchedularConfig {
 		GtnUIFrameworkComponentConfig run3Layout = configProvider
 				.getHorizontalLayoutConfig("run3Layout", true, parentComponentId);
 		run3Layout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		run3Layout.setVisible(true);
+		run3Layout.setVisible(false);
 		componentList.add(run3Layout);
 		
 		GtnUIFrameworkComponentConfig run3 = new GtnUIFrameworkComponentConfig();
@@ -657,7 +683,7 @@ public class GtnNewProcessSchedularConfig {
 		GtnUIFrameworkComponentConfig minutes1Layout = configProvider
 				.getHorizontalLayoutConfig("minutes1Layout", true, parentComponentId);
 		minutes1Layout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
-		minutes1Layout.setVisible(true);
+		minutes1Layout.setVisible(false);
 		componentList.add(minutes1Layout);
 		
 		GtnUIFrameworkComponentConfig minutes1 = new GtnUIFrameworkComponentConfig();
@@ -671,6 +697,6 @@ public class GtnNewProcessSchedularConfig {
 		GtnUIFrameworkComboBoxConfig minutesConfig = new GtnUIFrameworkComboBoxConfig();
 		minutesConfig.setItemValues(Arrays.asList(GtnFrameworkProcessSchedulerStringContants.MINUTES.split(",")));
 		minutes1.setGtnComboboxConfig(minutesConfig);
-		//addMinutesLabel(componentList,minutes1Layout.getComponentId());
+		addMinutesLabel(componentList,minutes1Layout.getComponentId());
 	}
 }

@@ -23,18 +23,38 @@ public class GtnUIFrameworkFrequencyValueChangeAction implements GtnUIFrameWorkA
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		/*
+		 * List<Object> parameters =
+		 * gtnUIFrameWorkActionConfig.getActionParameterList(); String value =
+		 * GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getStringFromField
+		 * (); if (!value.isEmpty()) { boolean visibility = "Interval".equals(value);
+		 * GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1).toString())
+		 * .setComponentVisible(!visibility);
+		 * GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString())
+		 * .setComponentVisible(!visibility);
+		 * GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3).toString())
+		 * .setComponentVisible(!visibility);
+		 * GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(4).toString())
+		 * .setComponentVisible(!visibility); }
+		 */
+
 		List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String value = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getStringFromField();
 		if (!value.isEmpty()) {
-			boolean visibility = "Interval".equals(value);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1).toString())
-					.setComponentVisible(!visibility);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString())
-					.setComponentVisible(!visibility);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3).toString())
-					.setComponentVisible(!visibility);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(4).toString())
-					.setComponentVisible(!visibility);
+			boolean visibility = "Time".equals(value);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(1).toString()).setComponentVisible(visibility);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString()).setComponentVisible(visibility);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(3).toString()).setComponentVisible(visibility);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(4).toString()).setComponentVisible(visibility);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(5).toString()).setComponentVisible(visibility);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(6).toString()).setComponentVisible(!visibility);
+			/*if("Time".equals(value)) {
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(7).toString()).getComponentConfig().setComponentWidth("150%");
+				gtnLogger.info("150 px worked");
+			}else {
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(7).toString()).getComponentConfig().setComponentWidth("100%");
+				gtnLogger.info("100 px worked");
+			}	*/
 		}
 	}
 

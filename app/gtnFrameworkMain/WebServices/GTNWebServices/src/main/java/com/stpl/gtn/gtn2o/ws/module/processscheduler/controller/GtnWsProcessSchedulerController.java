@@ -79,6 +79,34 @@ public class GtnWsProcessSchedulerController {
 		return processSchedulerResponse;
 	}
 
+	@RequestMapping(value = GtnWsProcessScedulerConstants.GET_SCHEDULED_PROCESSING_TABLE_DATA, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse getScheduledProcessingTableData(
+			@RequestBody GtnUIFrameworkWebserviceRequest processSchedulerRequest) throws GtnFrameworkGeneralException {
+		logger.info("Enter Scheduled Processing; ");
+		GtnUIFrameworkWebserviceResponse processSchedulerResponse = new GtnUIFrameworkWebserviceResponse();
+		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
+		GtnSerachResponse gtnSerachResponse = new GtnSerachResponse();
+		String queryName = processSchedulerRequest.getGtnWsSearchRequest().isCount() ? "getProcessSchedulerCount"
+				: "getProcessSchedulerSchedulerResults";
+		logger.info("------------->"+getSysSchemaCatalog());
+		String replacedQuery= queryName.replace("?", getSysSchemaCatalog());
+		List<Object> inputlist = getSearchInput(processSchedulerRequest);
+		@SuppressWarnings("unchecked")
+		List<Object[]> result = executeQuery(gtnWsSqlService.getQuery(inputlist, replacedQuery));
+
+		if (processSchedulerRequest.getGtnWsSearchRequest().isCount()) {
+			gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
+		} else {
+			GtnUIFrameworkDataTable processSchedulerDataTable = new GtnUIFrameworkDataTable();
+			processSchedulerDataTable.addData(result);
+			gtnSerachResponse.setResultSet(processSchedulerDataTable);
+		}
+
+		processSchedulerResponse.setGtnSerachResponse(gtnSerachResponse);
+		generalResponse.setSucess(true);
+		processSchedulerResponse.setGtnWsGeneralResponse(generalResponse);
+		return processSchedulerResponse;
+	}
 	private List<Object> getSearchInput(GtnUIFrameworkWebserviceRequest gtnWsRequest)
 			throws GtnFrameworkGeneralException {
 		List<Object> list = new ArrayList<>();

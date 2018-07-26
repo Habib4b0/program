@@ -21,6 +21,8 @@ public class GtnWsProcessScedulerConstants {
 	public static final String GTN_PROCESS_SCHEDULER_SERVICE_SCREEN = "/GtnProcessSchedulerService";
 
 	public static final String GET_PROCESS_SCHEDULER_TABLE_DATA = "/getProcessSchedulerTableData";
+	
+	public static final String GET_SCHEDULED_PROCESSING_TABLE_DATA = "/getScheduledProcessingTableData";
 
 	public static final String PROCESS_SCHEDULER_TABLE_CLICK_ACTION = PROCESS_SCHEDULER_PACKAGE
 			+ "GtnFrameworkTableClickAction";
