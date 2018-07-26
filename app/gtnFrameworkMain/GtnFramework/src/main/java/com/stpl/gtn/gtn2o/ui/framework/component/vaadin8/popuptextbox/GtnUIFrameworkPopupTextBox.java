@@ -29,7 +29,7 @@ public class GtnUIFrameworkPopupTextBox implements GtnUIFrameworkComponent, GtnU
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkPopupTextBox.class);
 
 	public GtnUIFrameworkPopupTextBox() {
-
+            //Overridden method
 	}
 
 	@Override

@@ -284,9 +284,9 @@ public class CopyContractform extends CustomComponent implements View {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Alias End date should be after Contract Alias Start Date.");
         } else if (aliasEndDate.getValue() != null && aliasStartDate.getValue().getTime() == aliasEndDate.getValue().getTime()) {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract Alias Start date and Contract Alias End date are equal.");
-        } else if (listcId != null && listcId.size() > 0) {
+        } else if (listcId != null && !listcId.isEmpty()) {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please enter different Contract ID since the Contract ID  already exists");
-        } else if (listcNo != null && listcNo.size() > 0) {
+        } else if (listcNo != null && !listcNo.isEmpty()) {
             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Please enter different Contract No since the Contract No  already exists");
         } else {
             String contHolder = String.valueOf(contracthHolder.getData());
@@ -688,7 +688,7 @@ public class CopyContractform extends CustomComponent implements View {
                 String ids = commonLogic.idString(idList);
                 String query = "select upper(CONTRACT_ID) from CONTRACT_MASTER where CONTRACT_ID in (" + ids + ")";
                 List listId = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (listId != null && listId.size() > 0) {
+                if (listId != null && !listId.isEmpty()) {
                     Object obj = listId.get(0);
                     String duplicateId = String.valueOf(obj);
                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract ID " + duplicateId + " already exists. Enter different Contract ID");
@@ -699,7 +699,7 @@ public class CopyContractform extends CustomComponent implements View {
                 String ids = commonLogic.idString(noList);
                 String query = "select upper(CONTRACT_NO) from CONTRACT_MASTER where CONTRACT_NO in (" + ids + ")";
                 List listNo = HelperTableLocalServiceUtil.executeSelectQuery(query);
-                if (listNo != null && listNo.size() > 0) {
+                if (listNo != null && !listNo.isEmpty()) {
                     Object obj = listNo.get(0);
                     String duplicateId = String.valueOf(obj);
                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Contract NO " + duplicateId + " already exists. Enter different Contract NO");
@@ -771,7 +771,7 @@ public class CopyContractform extends CustomComponent implements View {
                 public void yesMethod() {
                     try {
 
-                        if (idList.size() > 0) {
+                        if (!idList.isEmpty()) {
                             for (Object obj : idList) {
                                 multiContractTable.removeItem(obj);
                             }

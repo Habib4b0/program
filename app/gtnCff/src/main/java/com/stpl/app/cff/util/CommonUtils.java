@@ -244,7 +244,7 @@ public class CommonUtils {
         List<User> resultList;
         try {
             resultList = UserLocalServiceUtil.dynamicQuery(userSearchDynamicQuery);
-            if (resultList != null && resultList.size() > 0) {
+            if (resultList != null && !resultList.isEmpty()) {
                 return resultList.get(0);
             }
         } catch (SystemException ex) {
