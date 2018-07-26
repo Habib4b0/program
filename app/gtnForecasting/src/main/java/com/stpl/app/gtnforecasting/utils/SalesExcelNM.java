@@ -188,6 +188,7 @@ public class SalesExcelNM extends ExcelExport{
         //Added Formula to PG_SUM column  
         else if (formatter.get("PRODUCT_GROWTH_SUM") != null && String.valueOf(propId).endsWith(formatter.get("PRODUCT_GROWTH_SUM"))) {
             sheetCell.setCellStyle(style3);
+            sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId);
                 LOGGER.info(COLUMN_FORMULA , getAppendedFormulaForPG_AG_Sum(formula.split(",")));
@@ -197,6 +198,7 @@ public class SalesExcelNM extends ExcelExport{
         //Added Formula to AG_SUM column
         else if (formatter.get("ACCOUNT_GROWTH_SUM") != null && String.valueOf(propId).endsWith(formatter.get("ACCOUNT_GROWTH_SUM"))) {
             sheetCell.setCellStyle(style3);
+            sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
             if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
                 String formula = getFormula(sheetCell, rootItemId);
                 LOGGER.info(COLUMN_FORMULA , getAppendedFormulaForPG_AG_Sum(formula.split(",")));
@@ -205,8 +207,8 @@ public class SalesExcelNM extends ExcelExport{
         }
         //Added Formula to Child Count column
         else if (formatter.get("CHILD_COUNT") != null && String.valueOf(propId).endsWith(formatter.get("CHILD_COUNT"))) {
+        	sheet.setColumnHidden(sheetCell.getColumnIndex(), true);
         	if(((Container.Hierarchical) getTableHolder().getContainerDataSource()).hasChildren(rootItemId)){
-                
         		String formula = getFormula(sheetCell, rootItemId);
                 LOGGER.info(COLUMN_FORMULA , getAppendedFormulaForPG_AG_Sum(formula.split(",")));
                 sheetCell.setCellFormula(getAppendedFormulaForPG_AG_Sum(formula.split(",")));
