@@ -91,7 +91,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     public AdditionalInformationForm(String moduleName, int projectionIds, String mode)  {
         super(moduleName, projectionIds, mode);
-
+        intailizingObject();
         mode = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
         this.isAddMode = Constant.ADD_SMALL.equalsIgnoreCase(mode);
         this.isEditMode = Constant.EDIT.equalsIgnoreCase(mode);
@@ -106,8 +106,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     }
 
-    @Override
-    public void intailizingObject() {
+    public final void intailizingObject() {
 
         uploadReceiver = (Receiver) new FileUploader(moduleName + "/" + userId);
         uploadComponent = new Upload(null, (FileUploader) uploadReceiver);       

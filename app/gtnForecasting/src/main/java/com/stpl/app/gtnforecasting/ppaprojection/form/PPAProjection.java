@@ -314,8 +314,6 @@ public class PPAProjection extends CustomComponent implements View {
     private boolean valueChangeAllowed = false;
     private boolean generateFlag = true;
     private Date oldDate;
-    private final TableFieldFactory leftTableFieldFactory = getLeftTableFieldFactory();
-    private final TableFieldFactory rightTableFieldFactory = getRightTableFieldFactory();
     private final ExtCustomTable.ColumnCheckListener olumnCheckListener = getColumnCheckListener();
 
     /**
@@ -789,8 +787,8 @@ public class PPAProjection extends CustomComponent implements View {
         groupFilterDdlb.setWidth("100%");
         OnLoadGroupFilter();
         leftTable.addColumnCheckListener(olumnCheckListener);
-        leftTable.setTableFieldFactory(leftTableFieldFactory);
-        rightTable.setTableFieldFactory(rightTableFieldFactory);
+        leftTable.setTableFieldFactory(getLeftTableFieldFactory());
+        rightTable.setTableFieldFactory(getRightTableFieldFactory());
 
     }
 
