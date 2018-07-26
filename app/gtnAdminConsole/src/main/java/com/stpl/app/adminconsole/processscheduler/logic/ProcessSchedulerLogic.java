@@ -427,7 +427,7 @@ public class ProcessSchedulerLogic {
 	 * @return
 	 */
 	private Map<String, String> getFilterMap() {
-		Map<String, String> filterMap = new HashMap<>();
+		Map<String, String> filterMap = new HashMap<>(NumericConstants.SIXTY);
 		filterMap.put(StringConstantUtils.FINANCIAL_FORECAST_ID, "FINANCIAL_FORECAST_ID");
 		filterMap.put(StringConstantUtils.FINANCIAL_FORECAST_NAME, "FINANCIAL_FORECAST_NAME");
 		filterMap.put("typeDesc", "TYPE");

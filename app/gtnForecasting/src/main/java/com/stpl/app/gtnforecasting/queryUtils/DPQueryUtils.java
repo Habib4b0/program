@@ -5,12 +5,12 @@
  */
 package com.stpl.app.gtnforecasting.queryUtils;
 
-import static com.stpl.app.gtnforecasting.dao.impl.DiscountProjectionForChannelsDAOImpl.DBDate;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -20,13 +20,16 @@ import org.apache.commons.lang.StringUtils;
  * @author vigneshkanna
  */
 public class DPQueryUtils {
-
+    
+    private final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
+    
     public String updateCheckRecordQuery(SessionDTO session, String hierarchyNo, String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, String hierarchy) {
         String ccpDetails;
         String customSql;
         final String userId = session.getUserId();
         final String sessionId = session.getSessionId();
         final int projectionId = session.getProjectionId();
+        
 
         if (isCustomView && customViewDetails != null && !customViewDetails.isEmpty()) {
 

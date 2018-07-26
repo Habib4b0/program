@@ -105,6 +105,9 @@ public class NMProjectionVarianceLogic {
 	private List chartList;
 	private static final String FROM = " FROM ";
 	private static final String SELECTED_HIERARCHY_NO_FOR_CUSTOMER_PV = "selected-hierarchy-no-for-customer-pv";
+        protected static final String DF_LEVEL_NAME = "dfLevelName";
+        protected static final String DF_LEVEL_NUMBER= "dfLevelNumber";
+        protected static final String LEVEL_NAME = "Level Name";
 
 	public NMProjectionVarianceLogic() {
 		super();
@@ -1523,23 +1526,36 @@ public class NMProjectionVarianceLogic {
 			visibleSingleCol.addAll(Arrays.asList(doubleMap.get(visibleDoubleCol.get(i))));
 			doubleFinalMap.put(visibleDoubleCol.get(i), doubleMap.get(visibleDoubleCol.get(i)));
 
-		}
-		int startSingle = visibleSingleColumn.indexOf(visibleSingleCol.get(0));
-		int endSingle = visibleSingleColumn.indexOf(visibleSingleCol.get(visibleSingleCol.size() - 1));
+		          }
+            int startSingle = visibleSingleColumn.indexOf(visibleSingleCol.get(0));
+            int endSingle = visibleSingleColumn.indexOf(visibleSingleCol.get(visibleSingleCol.size() - 1));
 
-		for (int i = startSingle; i <= endSingle; i++) {
-			visibleSingleHead.add(visibleSingleHeader.get(i));
-		}
-		rightTable.setVisibleColumns(visibleSingleCol.toArray());
-		rightTable.setColumnHeaders(visibleSingleHead.toArray(new String[visibleSingleHead.size()]));
-		rightTable.setDoubleHeaderVisibleColumns(finalVisList.toArray());
-		rightTable.setDoubleHeaderColumnHeaders(finalHeaderList.toArray(new String[finalHeaderList.size()]));
-		rightTable.setDoubleHeaderMap(doubleFinalMap);
-		// For Chart and Excel Header when date range is selected
-		for (int i = 0; i < visibleSingleCol.size(); i++) {
-			String singleHeader = fullHeader.getSingleHeader(visibleSingleCol.get(i));
-			newFullHeader.addSingleColumn(visibleSingleCol.get(i), singleHeader, String.class);
-		}
+            for (int i = startSingle; i <= endSingle; i++) {
+                visibleSingleHead.add(visibleSingleHeader.get(i));
+            }
+            rightTable.setVisibleColumns(visibleSingleCol.toArray());
+            rightTable.setColumnHeaders(visibleSingleHead.toArray(new String[visibleSingleHead.size()]));
+            rightTable.setDoubleHeaderVisibleColumns(finalVisList.toArray());
+            rightTable.setDoubleHeaderColumnHeaders(finalHeaderList.toArray(new String[finalHeaderList.size()]));
+            rightTable.setDoubleHeaderMap(doubleFinalMap);
+            // For Chart and Excel Header when date range is selected
+            Object singleCol = Constant.GROUP;
+            newFullHeader.addSingleColumn(singleCol, " ", String.class); 
+            newFullHeader.addSingleColumn(DF_LEVEL_NUMBER, "Level Number",String.class);
+            newFullHeader.addSingleColumn(DF_LEVEL_NAME, LEVEL_NAME, String.class);
+            for (int i = 0; i < visibleSingleCol.size(); i++) {
+                String singleHeader = fullHeader.getSingleHeader(visibleSingleCol.get(i));
+                newFullHeader.addSingleColumn(visibleSingleCol.get(i), singleHeader, String.class);
+            }
+            if (!doubleFinalMap.isEmpty()) {
+                Object doubleCol = Constant.GROUP;
+                newFullHeader.addDoubleColumn(doubleCol, "");
+                doubleFinalMap.put(doubleCol, new Object[]{Constant.GROUP,DF_LEVEL_NUMBER, DF_LEVEL_NAME});
+                for (int i = 0; i < finalVisList.size(); i++) {
+                    newFullHeader.addDoubleColumn(finalVisList.get(i), finalHeaderList.get(i));
+                }
+                newFullHeader.setDoubleHeaderMaps(doubleFinalMap);
+            }
 		return newFullHeader;
 	}
 
@@ -2070,7 +2086,7 @@ public class NMProjectionVarianceLogic {
 	public List<ProjectionVarianceDTO> getCustPeriodVariance(final List<Object> gtsList, final PVSelectionDTO pvsdto,
 			final ProjectionVarianceDTO parentDto, final PVSelectionDTO baseVariables) {
 		try {
-			List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>();
+			List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>(NumericConstants.FIFTEEN);
 			if (pvsdto.getLevel().equals(Constant.DETAIL)) {
 				// No action required
 			} else {

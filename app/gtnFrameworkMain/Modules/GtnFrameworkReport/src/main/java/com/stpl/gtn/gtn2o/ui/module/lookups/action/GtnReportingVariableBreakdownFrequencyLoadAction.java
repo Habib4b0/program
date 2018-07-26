@@ -43,7 +43,11 @@ public class GtnReportingVariableBreakdownFrequencyLoadAction
 			throws GtnFrameworkGeneralException {
 
 		List<Object> actionParameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
-
+		
+		/*if(!GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getComponentConfig().isUserOriginatedFlag()) {
+			return;
+		}*/
+		
 		String frequencyId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(1).toString())
 				.getCaptionFromV8ComboBox();
 
@@ -139,9 +143,10 @@ public class GtnReportingVariableBreakdownFrequencyLoadAction
                             .addActionParameter(GtnFrameworkReportStringConstants.REPORT_VARIABLE_BREAKDOWN_REPORT_OPTIONS_FREQUENCY_CONFIG);
                     variableBreakDownHistoryLoadConfig
                             .addActionParameter("reportOptionsTab_variableBreakdownHistoryConfig");
-                
-                    frequencyActionConfigList.add(variableBreakdownFrequencyLoadActionConfig);
+                    
                     frequencyActionConfigList.add(variableBreakDownHistoryLoadConfig);
+                    frequencyActionConfigList.add(variableBreakdownFrequencyLoadActionConfig);
+
                     GtnUIFrameworkComponentConfig componentConfig = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParameterList.get(2).toString(), componentId).getComponentConfig();
                     componentConfig.setGtnUIFrameWorkActionConfigList(frequencyActionConfigList);
                     GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();

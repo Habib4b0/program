@@ -341,7 +341,7 @@ public class PagedGrid {
         for (Map.Entry<String, Object> entry : tableConfig.getFilterValueMap().entrySet()) {
             String key = getDBColumnName(entry.getKey());
             Object value = entry.getValue();
-            filter.append(condition + " " + key + "  like '%" + value + "%'");
+            filter.append(condition).append(" ").append(key).append("  like '%").append(value).append("%'");
         }
 
         return query.replace("@filter", filter.toString());

@@ -2,7 +2,9 @@ package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -25,6 +27,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.vaadin.data.HasValue.ValueChangeListener;
+import com.vaadin.shared.Registration;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -40,14 +43,16 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 	@Override
 	public AbstractComponent buildVaadinComponent(GtnUIFrameworkComponentConfig componentConfig) {
 		ComboBox vaadinComboBox = new ComboBox(componentConfig.getComponentName());
-		vaadinComboBox = generateComboBox(componentConfig, vaadinComboBox);
 		setComponentData(vaadinComboBox, componentConfig);
+		vaadinComboBox = generateComboBox(componentConfig, vaadinComboBox);
+
 		return vaadinComboBox;
 	}
 
 	private ComboBox generateComboBox(GtnUIFrameworkComponentConfig componentConfig, ComboBox vaadinComboBox) {
 		try {
-
+			GtnUIFrameworkComponentData dataForComboBox = (GtnUIFrameworkComponentData) vaadinComboBox.getData();
+			removeAllListeners(dataForComboBox.getRegisteredListeners());
 			final GtnUIFrameworkComboBoxConfig comboboxConfig = componentConfig.getGtnComboboxConfig();
 			if (componentConfig.getComponentName() != null && !componentConfig.getComponentName().isEmpty()) {
 				vaadinComboBox.setCaption(componentConfig.getComponentName());
@@ -59,12 +64,13 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 
 				if (comboboxConfig.getValueChangeListenerClassName() != null) {
 					GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
-					vaadinComboBox.addValueChangeListener((ValueChangeListener) (classLoader
-							.loadDynamicClass(comboboxConfig.getValueChangeListenerClassName())));
+					Registration firstValueChange = vaadinComboBox
+							.addValueChangeListener((ValueChangeListener) (classLoader
+									.loadDynamicClass(comboboxConfig.getValueChangeListenerClassName())));
+					dataForComboBox.addRegisteredListener(firstValueChange);
 				}
-
-				addValueChangeListener(componentConfig, vaadinComboBox);
-
+				Optional<Registration> secondValuechange = addValueChangeListener(componentConfig, vaadinComboBox);
+				secondValuechange.ifPresent(dataForComboBox::addRegisteredListener);
 				setDefaultFocus(vaadinComboBox, componentConfig);
 				return vaadinComboBox;
 			}
@@ -74,10 +80,13 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		return vaadinComboBox;
 	}
 
-	private void addValueChangeListener(GtnUIFrameworkComponentConfig componentConfig, ComboBox<?> vaadinComboBox) {
+	private Optional<Registration> addValueChangeListener(GtnUIFrameworkComponentConfig componentConfig, ComboBox<?> vaadinComboBox
+			) {
 		if (componentConfig.getGtnUIFrameWorkActionConfigList() != null
 				&& !componentConfig.getGtnUIFrameWorkActionConfigList().isEmpty()) {
-			vaadinComboBox.addValueChangeListener(event -> {
+			vaadinComboBox.getListeners(com.vaadin.data.HasValue.ValueChangeListener.class);
+
+			return  Optional.ofNullable(vaadinComboBox.addValueChangeListener(event -> {
 				try {
 					AbstractComponent component = (AbstractComponent) event.getComponent();
 					GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) component.getData();
@@ -90,9 +99,22 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 				} catch (GtnFrameworkGeneralException e) {
 					gtnLogger.error(e.getMessage(), e);
 				}
-			});
+			}));
 
 		}
+		return Optional.empty();
+	}
+
+	private void removeAllListeners(List<Registration> list) {
+		if (list != null) {
+			Iterator<Registration> iterator =list.iterator();
+			while(iterator.hasNext()) {
+				iterator.next().remove();
+			}
+			list.clear();
+		}
+		
+		
 	}
 
 	private void setComponentProperties(GtnUIFrameworkComponentConfig componentConfig, ComboBox vaadinComboBox,
@@ -103,6 +125,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 		vaadinComboBox.setReadOnly(comboboxConfig.isReadOnly());
 		vaadinComboBox.setRequiredIndicatorVisible(comboboxConfig.isRequired());
 		vaadinComboBox.setEmptySelectionAllowed(false);
+		vaadinComboBox.setWidth("100%");
 	}
 
 	@Override

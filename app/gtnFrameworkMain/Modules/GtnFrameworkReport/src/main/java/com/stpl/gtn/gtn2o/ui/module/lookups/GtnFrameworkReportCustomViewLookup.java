@@ -84,6 +84,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				.setComponentId(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "viewSelectionPanel");
 		viewSelectionPanel.setComponentName("View Selection");
 		viewSelectionPanel.setMargin(true);
+		viewSelectionPanel.addComponentStyle("stpl-margin-left-5px");
 		viewSelectionPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		viewSelectionPanel.setComponentHight(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(viewSelectionPanel);
@@ -282,7 +283,10 @@ public class GtnFrameworkReportCustomViewLookup {
 
 		GtnUIFrameworkComponentConfig treeMainLayout = layoutsConfig
 				.getCssLayoutConfig(tabName + "customViewLookupMainLefttableLayout", parentId);
-		treeMainLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_6);
+		treeMainLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_7);
+		treeMainLayout.addComponentStyle("stpl-margin-left-10");
+		treeMainLayout.addComponentStyle("stpl-margin-bottom-25");
+		treeMainLayout.setComponentWidth("63%");
 		componentList.add(treeMainLayout);
 
 		addCustomerTree(componentList, treeMainLayout.getComponentId());
@@ -322,6 +326,7 @@ public class GtnFrameworkReportCustomViewLookup {
 				.getVerticalLayoutConfig(tabName + "customerBtn", mainCustomerCssLayout.getComponentId());
 		customerBtnVerLayout.setSpacing(true);
 		customerBtnVerLayout.addComponentStyle("stpl-margin-top-100");
+		customerBtnVerLayout.addComponentStyle("stpl-margin-left-125");
 		componentList.add(customerBtnVerLayout);
 
 		GtnUIFrameworkComponentConfig addCustomerButton = new GtnUIFrameworkComponentConfig();
@@ -583,7 +588,7 @@ public class GtnFrameworkReportCustomViewLookup {
 
 		GtnUIFrameworkComponentConfig customTreeMainLayout = layoutsConfig
 				.getHorizontalLayoutConfig(tabName + "customViewLookupCssCustomTableLayout", parentId);
-		customTreeMainLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_6);
+		customTreeMainLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
 		componentList.add(customTreeMainLayout);
 		GtnUIFrameworkComponentConfig customTree = new GtnUIFrameworkComponentConfig();
 		customTree.setComponentId(tabName + GtnFrameworkReportStringConstants.CUSTOM_TREETABLE);
@@ -608,6 +613,8 @@ public class GtnFrameworkReportCustomViewLookup {
 		layoutConfig.setComponentId(tabName + "customLookupControlButtonLayout");
 		layoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		layoutConfig.setMargin(true);
+		layoutConfig.addComponentStyle("stpl-margin-top-10");
+		layoutConfig.addComponentStyle("stpl-margin-bottom-10");
 
 		GtnUIFrameworkLayoutConfig layout = new GtnUIFrameworkLayoutConfig();
 		layout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);

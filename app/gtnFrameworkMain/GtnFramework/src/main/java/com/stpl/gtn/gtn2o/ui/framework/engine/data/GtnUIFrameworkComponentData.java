@@ -15,6 +15,8 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkSupportedValidationType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.vaadin.shared.Registration;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,7 +45,7 @@ public class GtnUIFrameworkComponentData {
 	private GtnUIFrameworkComponentConfig currentComponentConfig;
 
 	private GtnUIFrameworkPagedTableLogic currentPageTableLogic;
-        
+
 	private GtnUIFrameworkPagedGridLogic currentPageGridLogic;
 
 	private GtnUIFrameworkNewPagedTreeTableLogic newPageTableLogic;
@@ -74,11 +76,13 @@ public class GtnUIFrameworkComponentData {
 
 	private List<GtnWsRecordBean> dataTableRecordList;
 
+	private List<Registration> registeredListeners;
+
 	private String sourceComponentId;
-        
-        private PagedGrid  pagedGrid;
-        
-        GtnUIFrameworkPagedTableConfig tableConfig;
+
+	private PagedGrid pagedGrid;
+
+	GtnUIFrameworkPagedTableConfig tableConfig;
 
 	public String getSourceComponentId() {
 		return sourceComponentId;
@@ -290,28 +294,44 @@ public class GtnUIFrameworkComponentData {
 
 	}
 
-    public PagedGrid getPagedGrid() {
-        return pagedGrid;
-    }
+	public PagedGrid getPagedGrid() {
+		return pagedGrid;
+	}
 
-    public void setPagedGrid(PagedGrid pagedGrid) {
-        this.pagedGrid = pagedGrid;
-    }
+	public void setPagedGrid(PagedGrid pagedGrid) {
+		this.pagedGrid = pagedGrid;
+	}
 
-    public GtnUIFrameworkPagedTableConfig getTableConfig() {
-        return tableConfig;
-    }
+	public GtnUIFrameworkPagedTableConfig getTableConfig() {
+		return tableConfig;
+	}
 
-    public void setTableConfig(GtnUIFrameworkPagedTableConfig tableConfig) {
-        this.tableConfig = tableConfig;
-    }
+	public void setTableConfig(GtnUIFrameworkPagedTableConfig tableConfig) {
+		this.tableConfig = tableConfig;
+	}
 
-    public GtnUIFrameworkPagedGridLogic getCurrentPageGridLogic() {
-        return currentPageGridLogic;
-    }
+	public GtnUIFrameworkPagedGridLogic getCurrentPageGridLogic() {
+		return currentPageGridLogic;
+	}
 
-    public void setCurrentPageGridLogic(GtnUIFrameworkPagedGridLogic currentPageGridLogic) {
-        this.currentPageGridLogic = currentPageGridLogic;
-    }
-        
+	public void setCurrentPageGridLogic(GtnUIFrameworkPagedGridLogic currentPageGridLogic) {
+		this.currentPageGridLogic = currentPageGridLogic;
+	}
+
+	public List<Registration> getRegisteredListeners() {
+		return registeredListeners;
+	}
+
+	public void setRegisteredListeners(List<Registration> registeredListeners) {
+		this.registeredListeners = registeredListeners;
+	}
+
+	public void addRegisteredListener(Registration registeredListener) {
+		if(registeredListeners ==  null) {
+			registeredListeners = new ArrayList<>();
+					
+		}
+		registeredListeners.add(registeredListener);
+	}
+
 }

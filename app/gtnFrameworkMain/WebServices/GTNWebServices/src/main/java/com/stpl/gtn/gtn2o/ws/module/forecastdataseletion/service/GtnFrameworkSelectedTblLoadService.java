@@ -66,7 +66,7 @@ public class GtnFrameworkSelectedTblLoadService {
             }
 
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error(ex.getMessage(),ex);
         }
         return sql.toString();
     }

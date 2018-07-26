@@ -629,7 +629,7 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 
 		List<Object> params = new ArrayList<>();
 		params.add("variableBreakdown");
-		params.add("Variable Breakdown");
+		params.add("Variable Breakdown Popup");
 		params.add(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		params.add(null);
 		params.add(null);
@@ -693,16 +693,27 @@ public class GtnFrameworkReportDataSelectionTabConfig {
 		reportDataSelectionCloseButtonConfig.setAddToParent(true);
 		reportDataSelectionCloseButtonConfig
 				.setParentComponentId(reportDataSelectionNavigationButtonConfig.getComponentId());
-		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
-		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		closeAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
-		
+                
+                List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig confirmationActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+		List<Object> alertParamsList = new ArrayList<>();
+		alertParamsList.add(GtnFrameworkReportStringConstants.CONFIRMATION);
+		alertParamsList.add("Are you sure you want to close this Report?");
+		List<GtnUIFrameWorkActionConfig> onSucessActionConfigList = new ArrayList<>();
+		alertParamsList.add(onSucessActionConfigList);
+		GtnUIFrameWorkActionConfig closeActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
+		closeActionConfig.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		onSucessActionConfigList.add(closeActionConfig);
+		confirmationActionConfig.setActionParameterList(alertParamsList);
+
+		actionConfigList.add(confirmationActionConfig);
 		GtnUIFrameWorkActionConfig resetLandingScreenAction = new GtnUIFrameWorkActionConfig();
 		resetLandingScreenAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		resetLandingScreenAction.setActionParameterList(getResetParameters());
-		actionConfigList.add(resetLandingScreenAction);
-		actionConfigList.add(closeAction);
+		onSucessActionConfigList.add(resetLandingScreenAction);
 		reportDataSelectionCloseButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		componentList.add(reportDataSelectionNextButtonConfig);

@@ -49,7 +49,7 @@ public class FetchData {
 		try {
 			return queryRunner.query(conn, query, resultSetHandler);
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage(), e);
 			return null;
 		}
 
