@@ -23,7 +23,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  * @author 
  */
 public class AbstractFilterLogic {
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
+    public final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
     private static AbstractFilterLogic instance;
 
     private AbstractFilterLogic() {

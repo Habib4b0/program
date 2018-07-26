@@ -35,7 +35,7 @@ public class RelationShipFilterLogic {
 
 	private static final RelationShipFilterLogic instance = new RelationShipFilterLogic();
 	private final CommonDAO daoImpl = new CommonDAOImpl();
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
+	private final SimpleDateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
 
 	private RelationShipFilterLogic() {
 		// Singleton constructor

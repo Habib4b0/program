@@ -47,7 +47,7 @@ public class ItemQueries {
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemQueries.class);
     
     private final static CommonDao ITEMDAO = CommonImpl.getInstance();
-    private final static SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     
     public static final String COMPANY_STATUS = "companyStatus";
     public static final String TRADE_CLASS_PROPERTY = "tradeClass";
@@ -277,6 +277,7 @@ public class ItemQueries {
 
     private static StringBuilder getCFPFilterQuery(Set<Container.Filter> filters) {
         StringBuilder query = new StringBuilder();
+        final SimpleDateFormat dateFormatter = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
         Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
@@ -295,9 +296,9 @@ public class ItemQueries {
                     Date startValue = (Date) betweenFilter.getStartValue();
                     Date endValue = (Date) betweenFilter.getEndValue();
 
-                    parameters.put(betweenFilter.getPropertyId() + "from", String.valueOf(dateFormat.format(startValue)));
+                    parameters.put(betweenFilter.getPropertyId() + "from", String.valueOf(dateFormatter.format(startValue)));
 
-                    parameters.put(betweenFilter.getPropertyId() + "to", String.valueOf(dateFormat.format(endValue)));
+                    parameters.put(betweenFilter.getPropertyId() + "to", String.valueOf(dateFormatter.format(endValue)));
 
                 }
             }
@@ -341,6 +342,7 @@ public class ItemQueries {
 
     private static StringBuilder getIFPFilterQuery(Set<Container.Filter> filters) {
         StringBuilder query = new StringBuilder();
+        final SimpleDateFormat dateFormatter = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
         Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
@@ -360,9 +362,9 @@ public class ItemQueries {
                     Date startValue = (Date) betweenFilter.getStartValue();
                     Date endValue = (Date) betweenFilter.getEndValue();
 
-                    parameters.put(betweenFilter.getPropertyId() + "from", String.valueOf(dateFormat.format(startValue)));
+                    parameters.put(betweenFilter.getPropertyId() + "from", String.valueOf(dateFormatter.format(startValue)));
 
-                    parameters.put(betweenFilter.getPropertyId() + "to", String.valueOf(dateFormat.format(endValue)));
+                    parameters.put(betweenFilter.getPropertyId() + "to", String.valueOf(dateFormatter.format(endValue)));
 
                 }
             }
@@ -534,6 +536,7 @@ public class ItemQueries {
 
     private static StringBuilder getRSFilterQuery(Set<Container.Filter> filters) {
         StringBuilder query = new StringBuilder();
+        final SimpleDateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
         Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
@@ -556,9 +559,9 @@ public class ItemQueries {
                     Date startValue = (Date) betweenFilter.getStartValue();
                     Date endValue = (Date) betweenFilter.getEndValue();
 
-                    parameters.put(betweenFilter.getPropertyId() + "from", String.valueOf(dateFormat.format(startValue)));
+                    parameters.put(betweenFilter.getPropertyId() + "from", String.valueOf(df.format(startValue)));
 
-                    parameters.put(betweenFilter.getPropertyId() + "to", String.valueOf(dateFormat.format(endValue)));
+                    parameters.put(betweenFilter.getPropertyId() + "to", String.valueOf(df.format(endValue)));
                     
                 }
             }
@@ -623,6 +626,7 @@ public class ItemQueries {
 
     private static StringBuilder getSubmittedRecordsFilterQuery(Set<Container.Filter> filters) {
         StringBuilder query = new StringBuilder();
+         final SimpleDateFormat dff = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
         Map<String, Object> parameters = new HashMap<>();
         if (filters != null) {
             for (Container.Filter filter : filters) {
@@ -656,9 +660,9 @@ public class ItemQueries {
                     Date startValue = (Date) betweenFilter.getStartValue();
                     Date endValue = (Date) betweenFilter.getEndValue();
 
-                    parameters.put(betweenFilter.getPropertyId() + "from", String.valueOf(dateFormat.format(startValue)));
+                    parameters.put(betweenFilter.getPropertyId() + "from", String.valueOf(dff.format(startValue)));
 
-                    parameters.put(betweenFilter.getPropertyId() + "to", String.valueOf(dateFormat.format(endValue)));
+                    parameters.put(betweenFilter.getPropertyId() + "to", String.valueOf(dff.format(endValue)));
 
                 }
             }

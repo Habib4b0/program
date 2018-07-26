@@ -112,7 +112,7 @@ public class Summary extends CustomComponent {
     private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
     private ContractsDetailsDto dto;
     private RemoveDiscount removeDiscount;
-    private static final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
+    private final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
 
     public Summary() {
         super();
