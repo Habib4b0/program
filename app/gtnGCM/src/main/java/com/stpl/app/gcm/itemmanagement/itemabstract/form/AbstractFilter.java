@@ -12,6 +12,7 @@ import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
 import com.vaadin.v7.data.util.filter.Compare;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +34,7 @@ public class AbstractFilter {
     private Map<String, String> psComponentInfoMap = new HashMap<>();
     private Map<String, String> rsComponentInfoMap = new HashMap<>();
     private static AbstractFilter instance;
+    final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
 
     private AbstractFilter() {
         setFilterMap();
@@ -247,7 +249,7 @@ public class AbstractFilter {
                                 tempStart = new StringBuilder(dateStartstr);
                             }
                             tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, CommonUtils.DBDate.format(startValue));
+                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, DBDate.format(startValue));
                             sql.append(tempStart);
                         }
                         if (!betweenFilter.getEndValue().toString().isEmpty()) {
@@ -259,7 +261,7 @@ public class AbstractFilter {
                             }
 
                             tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, CommonUtils.DBDate.format(endValue));
+                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, DBDate.format(endValue));
                             sql.append(tempEnd);
                         }
                     }

@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author hazi.s
  */
-public class AbstractItemDetails extends CustomComponent {
+public final class AbstractItemDetails extends CustomComponent {
 
     
     private Panel itemDetailsSummary = new Panel();
@@ -90,7 +90,7 @@ public class AbstractItemDetails extends CustomComponent {
         }
     }
 
-    Component ConfigureItemTable() {
+    final Component ConfigureItemTable() {
         itemdetailstableLogic.setContainerDataSource(container);
         itemdetailstableLogic.sinkItemPerPageWithPageLength(false);
         itemdetailstable.setVisibleColumns(visibleColumn);

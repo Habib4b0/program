@@ -590,7 +590,7 @@ public class CFFLogic {
      * @return
      */
     public List getParametersForCffSearch(CFFSearchDTO binderDto) {
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.FIFTEEN);
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Connection connection = null;
         try {
@@ -898,7 +898,7 @@ public class CFFLogic {
             query = CommonQueryUtils.getAppQuery(l, "updateProjection");
         }
         query = query.replace("@CFF_TYPE", "0");
-        query = query.replace("@CFFELIGDATE", sessionDTO.getCffEligibleDate() == null || sessionDTO.getCffEligibleDate().equals(ConstantsUtils.NULL) ? ConstantsUtils.NULL : "'" + String.valueOf(dBDate.format(sessionDTO.getCffEligibleDate())) + "'");
+        query = query.replace("@CFFELIGDATE", sessionDTO.getCffEligibleDate() == null  ? ConstantsUtils.NULL : "'" + String.valueOf(dBDate.format(sessionDTO.getCffEligibleDate())) + "'");
         query = query.replace("@CFF_NAME", "");
         query = query.replace("@ACTIVE_FROM_DATE", "null");
         query = query.replace("@ACTIVE_TO_DATE", "null");
@@ -1164,7 +1164,7 @@ public class CFFLogic {
                     VarianceCalculationLogic.submitWorkflow(processInstanceId, sessionDTO,"CFF");
                     noOfLevel = DSCalculationLogic.getProcessVariableLog(processInstanceId, "NoOfUsers");
                 } else {
-                    StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
+                    StringBuilder notiMsg = new StringBuilder("You dont have permission to submit a projection.");
                     if (!roleList.isEmpty()) {
                         notiMsg.append("\n Only " ).append( roleList ).append( " can submit a projection.");
                     }

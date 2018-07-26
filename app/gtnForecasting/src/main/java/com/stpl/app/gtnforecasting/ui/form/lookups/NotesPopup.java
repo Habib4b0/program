@@ -34,7 +34,7 @@ public class NotesPopup extends Window {
         addStyleName(Constant.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
     }
     
-    public VerticalLayout addToContent() {
+    public final VerticalLayout addToContent() {
         VerticalLayout layout = new VerticalLayout();
         Label notesLabel = new Label("Notes:");
         HorizontalLayout hlayout = new HorizontalLayout();
@@ -55,7 +55,7 @@ public class NotesPopup extends Window {
         this.notes = notes;
     }
     
-    public void configureFields() {
+    public final void configureFields() {
         button.addClickListener(new Button.ClickListener() {
 
             @Override

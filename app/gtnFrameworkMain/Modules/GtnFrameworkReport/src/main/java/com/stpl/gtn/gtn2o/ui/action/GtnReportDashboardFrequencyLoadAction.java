@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.action;
 
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkReportStringConstants;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.temporal.IsoFields;
@@ -17,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.vaadin.ui.AbstractComponent;
 
 public class GtnReportDashboardFrequencyLoadAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -41,6 +43,14 @@ public class GtnReportDashboardFrequencyLoadAction
 	private void loadFromTo(String selectedFrequency, String componentId) {
 
 		try {
+                        if(selectedFrequency.equals("Annual"))
+                        {
+                           GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_TAB+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_ANNUAL_TOTALS,componentId).setComponentEnable(false);
+                           GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_TAB+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_ANNUAL_TOTALS,componentId).loadV8ComboBoxComponentValue("No");
+                        }else{
+                            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DASHBOARD_TAB+GtnFrameworkReportStringConstants.UNDERSCORE+GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_ANNUAL_TOTALS,componentId).setComponentEnable(true);                       
+                        }
+                        
 			int startSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_fromPeriod", componentId)
 					.getIntegerFromV8ComboBox();
 			int endSid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_STATUS", componentId)
@@ -86,7 +96,7 @@ public class GtnReportDashboardFrequencyLoadAction
 			}
 
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
+			logger.info(e.getMessage());
 		}
 
 	}

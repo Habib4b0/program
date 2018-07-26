@@ -44,14 +44,7 @@ public class HeaderUtils {
 			columnEnd = columnCount;
 		}
 		repaintGrid(pagedTreeGrid);
-		List<Object> currentSingleColumns = pagedTreeGrid.getTableConfig().getVisibleColumns().subList(columnStart,
-				columnEnd).stream().distinct().collect(Collectors.toList());
-		for (int j = 0; j < currentSingleColumns.size(); j++) {
-			String column = (currentSingleColumns.get(j)).toString();
-			PagedTreeGrid.gtnlogger.info("column = " + column);
-            String header=pagedTreeGrid.getTableConfig().getColumnHeaders().get(columnStart + j);
-                pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> row.getPropertyValue(column)).setCaption(header).setId(column).setWidth(170);
-        }
+                List<Object> currentSingleColumns = addSingleHeader(pagedTreeGrid, columnStart, columnEnd);
 		if (pagedTreeGrid.getTableConfig().getCustomFilterConfigMap() != null) {
 			pagedTreeGrid.shiftLeftSingeHeader = true;
 		}
@@ -71,6 +64,23 @@ public class HeaderUtils {
 		addTripleHeader(currentSingleColumns, pagedTreeGrid);
 	}
 
+    private static List<Object> addSingleHeader(PagedTreeGrid pagedTreeGrid, int columnStart, int columnEnd) throws IllegalStateException, IllegalArgumentException {
+        List<Object> leftColumns = Arrays.stream(pagedTreeGrid.getTableConfig().getLeftTableColumnMappingId()).collect(Collectors.toList());
+        for (int j = 0; j < leftColumns.size(); j++) {
+            String column = (leftColumns.get(j)).toString();
+            String header = pagedTreeGrid.getTableConfig().getLeftTableVisibleHeader()[j];
+            pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> row.getPropertyValue(column)).setCaption(header).setId(column).setWidth(170);
+        }
+        List<Object> currentSingleColumns = pagedTreeGrid.getTableConfig().getVisibleColumns().stream().skip(columnStart + leftColumns.size()
+        ).limit(columnEnd).distinct().collect(Collectors.toList());
+        for (int j = 0; j < currentSingleColumns.size(); j++) {
+            String column = (currentSingleColumns.get(j)).toString();
+            String header = pagedTreeGrid.getTableConfig().getRightTableVisibleHeader()[columnStart + j];
+            pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> row.getPropertyValue(column)).setCaption(header).setId(column).setWidth(170);
+        }
+        return currentSingleColumns;
+    }
+
 	public static void repaintGrid(PagedTreeGrid pagedTreeGrid) {
 		if (pagedTreeGrid.getGrid().getParent() != null) {
 			VerticalLayout parent = (VerticalLayout) pagedTreeGrid.getGrid().getParent();
@@ -78,7 +88,10 @@ public class HeaderUtils {
 			pagedTreeGrid.getGrid().setWidth(pagedTreeGrid.getComponentConfig().getComponentWidth());
 			pagedTreeGrid.getGrid().setHeight(pagedTreeGrid.getComponentConfig().getComponentHight());
 			parent.replaceComponent(parent.getComponent(0), pagedTreeGrid.getGrid());
-			pagedTreeGrid.initializeGrid(pagedTreeGrid.componentIdInMap);
+                        pagedTreeGrid.columnLazyLoading=true;
+			pagedTreeGrid.initialConfig(pagedTreeGrid.componentIdInMap);
+                        pagedTreeGrid.columnLazyLoading=false;
+                       
 
 		}
 	}

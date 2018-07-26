@@ -76,7 +76,7 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-import static com.stpl.app.gcm.discount.ui.form.NewDiscountTab.DB_DATE;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -213,6 +213,7 @@ public class ExistingDiscountTab extends CustomComponent {
     private List<ContractsDetailsDto> rsListforMap;
     private final StplSecurity stplSecurity = new StplSecurity();
     private final SessionDTO session;
+     final SimpleDateFormat dbDate = new SimpleDateFormat("MM-dd-yyyy");
 
     public ExistingDiscountTab(List<RemoveDiscountDto> removeDiscountDto,SessionDTO session) {
         this.removeDiscountDto = removeDiscountDto == null ? removeDiscountDto : new ArrayList<>(removeDiscountDto);
@@ -222,15 +223,15 @@ public class ExistingDiscountTab extends CustomComponent {
         configureSecurityPermissions();
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             startDate.addStyleName("v-align-center");
             endDate.addStyleName("v-align-center");
             contractNo.setValue(removeDiscountDto.get(0).getContractNo());
             contractName.setValue(removeDiscountDto.get(0).getContractName());
             contractType.setValue(removeDiscountDto.get(0).getMarketType());
-            startDate.setValue(removeDiscountDto.get(0).getContractstartDate() == null ? StringUtils.EMPTY : DB_DATE.format((Date) removeDiscountDto.get(0).getContractstartDate()));
-            endDate.setValue(removeDiscountDto.get(0).getContractendDate() == null ? StringUtils.EMPTY : DB_DATE.format((Date) removeDiscountDto.get(0).getContractendDate()));
+            startDate.setValue(removeDiscountDto.get(0).getContractstartDate() == null ? StringUtils.EMPTY : dbDate.format((Date) removeDiscountDto.get(0).getContractstartDate()));
+            endDate.setValue(removeDiscountDto.get(0).getContractendDate() == null ? StringUtils.EMPTY : dbDate.format((Date) removeDiscountDto.get(0).getContractendDate()));
 
             isEnable(false);
 

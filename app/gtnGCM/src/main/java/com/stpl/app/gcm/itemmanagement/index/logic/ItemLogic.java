@@ -616,7 +616,7 @@ public class ItemLogic {
     }
 
     private List getComponentSearchSelection(ComponentLookUpDTO binderDto, SelectionDTO selection) {
-        List<Object> input = new ArrayList();
+        List<Object> input = new ArrayList(NumericConstants.FIFTEEN);
         String startDate = StringUtils.EMPTY;
         String endDate = StringUtils.EMPTY;
         if (selection.getComponent().equals(Constants.CFP)) {

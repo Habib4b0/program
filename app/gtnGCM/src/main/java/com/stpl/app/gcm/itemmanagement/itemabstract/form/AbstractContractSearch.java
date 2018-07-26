@@ -65,6 +65,7 @@ import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -179,7 +180,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     private final Resource excelExportImage = new ThemeResource("img/excel.png");
     
     private AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
-    protected ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(getBinderDto()));
+    protected final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(getBinderDto()));
     public static final Logger LOGGER = LoggerFactory.getLogger(AbstractContractSearch.class);
     private AbstractContractSelectionTableLogic contractSelectionTableLogic = new AbstractContractSelectionTableLogic();
     public static final String SEARCHICON = "searchicon";
@@ -231,6 +232,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     private CustomTextField.ClickListener clickLister;
     private String dateMessage = StringUtils.EMPTY;
     private final BeanItemContainer<AbstractContractSearchDTO> container = new BeanItemContainer<>(AbstractContractSearchDTO.class);
+    final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
 
     public AbstractContractSearch(SelectionDTO selection, List selectedItemList) {
         this.selection = selection;
@@ -915,7 +917,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
     public Object getDBDate(Object date) {
-        return date == null ? null : "'" + CommonUtils.DBDate.format(date) + "'";
+        return date == null ? null : "'" + DBDate.format(date) + "'";
     }
 
     public void loadAllDdlb() {
@@ -1044,7 +1046,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
      * @return
      */
     public List getInput() {
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.FIFTEEN);
         input.add(selection.getSessionId());
         input.add(selection.getButtonMode());
         if (getBinderDto().getContractNo() != null && !getBinderDto().getContractNo().isEmpty()) {

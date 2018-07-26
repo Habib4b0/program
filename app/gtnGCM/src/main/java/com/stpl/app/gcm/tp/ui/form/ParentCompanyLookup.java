@@ -95,7 +95,7 @@ public class ParentCompanyLookup extends Window {
     public ParentCompanyLookup(TradingPartnerDTO tpDTO) {
         super("Parent Company Lookup");
         try {
-            this.setTpDTO(tpDTO);
+            this.tpDTO = tpDTO;
             init();
         } catch (Exception ex) {
             LOGGER.error("",ex);

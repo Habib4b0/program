@@ -200,8 +200,8 @@ public class ProjectionResults extends ForecastProjectionResults {
             projectionSelectionDTO.setCustomId(customId);
             projectionSelectionDTO.setView(viewOpg.getValue().toString());
             projectionSelectionDTO.setDiscountList(new ArrayList<>(discountlist));
-            projectionSelectionDTO.setCustomerLevelNo(Integer.valueOf(NumericConstants.TWO));
-            projectionSelectionDTO.setProductLevelNo(Integer.valueOf(NumericConstants.TWO));
+            projectionSelectionDTO.setCustomerLevelNo(NumericConstants.TWO);
+            projectionSelectionDTO.setProductLevelNo(NumericConstants.TWO);
             configureProjectionDTO();
             viewChange(false);
             groupChange(false);

@@ -361,7 +361,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
 
     }
 
-    public void configureFilds() {
+    public final void configureFilds() {
         tabsheetVariance.addTab(varianceSelection, "Display Selection");
         tabsheetVariance.addTab(projectionVariancefilterLayout, "Filter Options");
         tabsheetVariance.addStyleName(ValoTheme.TABSHEET_FRAMED);

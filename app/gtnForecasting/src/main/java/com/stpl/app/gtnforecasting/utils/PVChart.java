@@ -84,7 +84,7 @@ public class PVChart extends Window {
      *
      * @return the chart
      */
-    public Component getChart() {
+    public final Component getChart() {
         LOGGER.debug("Entering getChart method ");
         try {
             return new Label();

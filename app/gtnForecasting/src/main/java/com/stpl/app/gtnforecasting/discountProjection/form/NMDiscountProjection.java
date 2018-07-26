@@ -409,7 +409,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             configure();
     }
         flag = true;
-
+    
         if (CommonUtil.isValueEligibleForLoading()) {
             CommonUtil commonUtils = CommonUtil.getInstance();
             projectionSelection.setSessionDTO(session);
@@ -436,6 +436,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      * @return
      */
     public void getContent() {
+        try{
         LOGGER.debug("Inside getContent= {} ", session.getAction());
         configureFeildsForNm();
         loadDeductionLevelFilter(session.getDataSelectionDeductionLevel(), false);
@@ -450,6 +451,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
         if (ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             setDiscountViewOnly();
+        }
+        }catch(Exception e){
+        LOGGER.error(e.getMessage());
         }
     }
     
@@ -3424,7 +3428,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             String temphierarchyIndicator = hierarchyIndicator;
             boolean isCustomHierarchy = CommonUtil.isValueEligibleForLoading()
                     ? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)
-                    : Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
+                    : Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant().equals(hierarchyIndicator);
             if (isCustomHierarchy) {
                 treeLevelNo = dto.getTreeLevelNo() + 1;
             } else {
@@ -3609,7 +3613,24 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         } else {
             if (CommonUtil.isValueEligibleForLoading()) {
                 CommonLogic.updateForFilter(projectionSelection, DEDUCTION, false);
+                CommonLogic.updateDpCustomerProductCustomTables(session);
                 discountProjectionLogic.updateAllToZero(session);
+            }
+            
+            boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionSelection.getCustomerLevelFilter())
+                    && generateCustomerToBeLoaded.size() == projectionSelection.getCustomerLevelFilter().size());
+            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionSelection.getProductLevelFilter())
+                    && generateProductToBeLoaded.size() == projectionSelection.getProductLevelFilter().size());
+
+            if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFlag || !productFlag) {
+                LOGGER.info("generateBtn :Inside Filter Option");
+                session.setFunctionMode("F");
+                CommonLogic.procedureCompletionCheck(session, "discount", String.valueOf(view.getValue()));
+                CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
+                dsLogic.nmDiscountViewsPopulationProcedureForUPS(session);
+                CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(view.getValue()));
+                customerFlag = true;
+                productFlag = true;
             }
             hierarchyListForCheckRecord.clear();
             session.setFrequency(projectionSelection.getFrequency());
@@ -3685,7 +3706,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         List<String> discountToBeLoaded;
         boolean isCustom = CommonUtil.isValueEligibleForLoading()
                 ? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)
-                : Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
+                : Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant().equals(hierarchyIndicator);
         if (!programSelectionList.isEmpty()) {
             discountToBeLoaded = programSelectionList;
         } else {
@@ -3984,7 +4005,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             LOGGER.debug(" Discount generated ");
             boolean isCustomHierarchy = CommonUtil.isValueEligibleForLoading()
                     ? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)
-                    : Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
+                    : Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant().equals(hierarchyIndicator);
             boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
             discountProjectionLogic.saveDiscountProjectionListView(session, projectionSelection.getFrequency(), saveList, customId,
                     isProgram, isCustomHierarchy);
@@ -4463,7 +4484,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         return null;
     }
 
-    public void securityForButton() {
+    public final void securityForButton() {
         try {
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(
                     String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")),
@@ -4773,14 +4794,14 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             GtnSmallHashMap monthMap = new GtnSmallHashMap();
             int defval = 0;
             String frequency = String.valueOf(frequencyDdlb.getValue().toString()).trim();
-            if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+            if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                 defval = NumericConstants.TWO;
             } else if (frequency.equals(QUARTERLY.getConstant())) {
                 defval = NumericConstants.FOUR;
             } else if (frequency.equals(MONTHLY.getConstant())) {
                 defval = NumericConstants.TWELVE;
                 loadMonthMap(monthMap);
-            } else if (frequency.equals(ANNUALLY.getConstant())) {
+            } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                 defval = 1;
             }
             List<String> overall = new ArrayList<>();
@@ -4883,14 +4904,14 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             GtnSmallHashMap monthMap = new GtnSmallHashMap();
             int defval = 0;
             String frequency = String.valueOf(frequencyDdlb.getValue().toString()).trim();
-            if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+            if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                 defval = NumericConstants.TWO;
             } else if (frequency.equals(QUARTERLY.getConstant())) {
                 defval = NumericConstants.FOUR;
             } else if (frequency.equals(MONTHLY.getConstant())) {
                 defval = NumericConstants.TWELVE;
                 loadMonthMap(monthMap);
-            } else if (frequency.equals(ANNUALLY.getConstant())) {
+            } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                 defval = 1;
             }
             List<String> overall = new ArrayList<>();
@@ -4983,14 +5004,14 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             GtnSmallHashMap monthMap = new GtnSmallHashMap();
             int defval = 0;
             String frequency = String.valueOf(frequencyDdlb.getValue().toString()).trim();
-            if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+            if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                 defval = NumericConstants.TWO;
             } else if (frequency.equals(QUARTERLY.getConstant())) {
                 defval = NumericConstants.FOUR;
             } else if (frequency.equals(MONTHLY.getConstant())) {
                 defval = NumericConstants.TWELVE;
                 loadMonthMap(monthMap);
-            } else if (frequency.equals(ANNUALLY.getConstant())) {
+            } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                 defval = 1;
             }
             List<String> overall = new ArrayList<>();
@@ -5060,7 +5081,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         int defval = 0;
         int month = Integer.parseInt(strMonth);
         String frequency = String.valueOf(frequencyDdlb.getValue().toString()).trim();
-        if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             divval = NumericConstants.SIX;
             defval = NumericConstants.TWO;
             month = month + divval;
@@ -5068,7 +5089,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
             divval = NumericConstants.THREE;
             defval = NumericConstants.FOUR;
             month = month + divval;
-        } else if (frequency.equals(ANNUALLY.getConstant())) {
+        } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
             defval = 1;
         }
         if (month % divval == 0 && divval != 1 && frequency.equals(MONTHLY.getConstant())) {
@@ -5368,7 +5389,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         return !resultBeanContainer.isEmpty();
     }
 
-    public void configure() {
+    public final void configure() {
         if (flag) {
             getContent();
 
@@ -5513,7 +5534,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         productFilterDdlb.addSubMenuCloseListener(productlistener);
     }
 
-    private void loadDeductionLevelFilter(String levelNo, boolean isResetNeeded) {
+     private void loadDeductionLevelFilter(String levelNo, boolean isResetNeeded) {
         List<Object[]> deductionLevelFilter = new ArrayList<>();
         if (isResetNeeded) {
             generateDiscountToBeLoaded.clear();
@@ -5635,7 +5656,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
     }
     public static final String AMOUNT = "Amount";
 
-    protected void loadDisplayFormatDdlb() {
+    protected final void loadDisplayFormatDdlb() {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatDdlb.removeSubMenuCloseListener(displayFormatListener);
         displayFormatFilter.addAll(commonLogic.displayFormatValues());

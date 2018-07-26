@@ -122,13 +122,13 @@ public class RebateTab extends VerticalLayout {
     private int projectionId = 0;
 
     public RebateTab(SessionDTO session, boolean isLoad) {
-        this.setLoad(isLoad);
+        this.load = isLoad;
         this.session = session;
         tableLogic.setSession(session);
         getContent();
     }
 
-    public void getContent() {
+    public final void getContent() {
         LOGGER.debug("getContent method starts");
 
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/salesTab.xml"), this));

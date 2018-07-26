@@ -55,7 +55,7 @@ public class QueryUtils {
 
 	private String rdMarketType = "select DESCRIPTION from HELPER_TABLE where LIST_NAME= 'CONTRACT_TYPE'";
     private static final HashMap<String, String> columnNames = new HashMap<>();
-    public static final SimpleDateFormat DB_DATE = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    public final SimpleDateFormat DB_DATE = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     public static final char CHAR_PERCENT = '%';
     private static final Map<String, String> fieldMap = new HashMap<>();
     private static final Logger LOGGER = LoggerFactory.getLogger(QueryUtils.class);

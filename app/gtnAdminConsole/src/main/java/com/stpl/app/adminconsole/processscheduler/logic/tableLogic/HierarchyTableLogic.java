@@ -40,7 +40,7 @@ public class HierarchyTableLogic extends PageTableLogic {
         int count = 0;
         try {
             if (isFirstLoad) {
-                count = (Integer) searchLogic.getHierarchyDefinitionCount(binder, this.getFilters(), hierarchyType);
+                count = searchLogic.getHierarchyDefinitionCount(binder, this.getFilters(), hierarchyType);
             }
             isResultsEmpty = count == 0;
             count = isReset ? 0 : count;
