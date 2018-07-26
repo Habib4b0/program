@@ -19,7 +19,7 @@ public class LevelDto implements Comparable<LevelDto> {
 	/**
 	 * The level no.
 	 */
-	private Integer levelNo = new Integer("0");
+	private Integer levelNo = Integer.valueOf("0");
 
 	/**
 	 * The parent node.
