@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -525,7 +526,9 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 	@Override
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
 		ComboBox vaadinComboBox = (ComboBox) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
+		vaadinComboBox.setItems(Collections.emptyList());
 		generateComboBox(componentConfig, vaadinComboBox);
+		postCreateComponent(vaadinComboBox, componentConfig);
 		vaadinComboBox.getDataProvider().refreshAll();
 		vaadinComboBox.markAsDirty();
 	}
