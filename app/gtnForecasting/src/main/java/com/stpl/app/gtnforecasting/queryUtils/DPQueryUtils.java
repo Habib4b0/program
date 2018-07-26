@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class DPQueryUtils {
     
-    final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
+    private final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
     
     public String updateCheckRecordQuery(SessionDTO session, String hierarchyNo, String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, String hierarchy) {
         String ccpDetails;

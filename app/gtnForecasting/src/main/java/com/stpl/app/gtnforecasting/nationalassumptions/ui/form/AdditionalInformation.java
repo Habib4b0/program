@@ -163,7 +163,7 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The file size.
      */
-    private double fileSize = 0.00;
+    private Double fileSize = 0.00;
     public static final String DOCUMENTS = "Documents";
     /**
      * The file path.
