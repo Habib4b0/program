@@ -34,7 +34,7 @@ public class AbstractFilter {
     private Map<String, String> psComponentInfoMap = new HashMap<>();
     private Map<String, String> rsComponentInfoMap = new HashMap<>();
     private static AbstractFilter instance;
-    final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    private final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
 
     private AbstractFilter() {
         setFilterMap();

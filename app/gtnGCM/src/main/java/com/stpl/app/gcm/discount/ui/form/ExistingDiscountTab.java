@@ -213,7 +213,7 @@ public class ExistingDiscountTab extends CustomComponent {
     private List<ContractsDetailsDto> rsListforMap;
     private final StplSecurity stplSecurity = new StplSecurity();
     private final SessionDTO session;
-     final SimpleDateFormat dbDate = new SimpleDateFormat("MM-dd-yyyy");
+    private final SimpleDateFormat dbDate = new SimpleDateFormat("MM-dd-yyyy");
 
     public ExistingDiscountTab(List<RemoveDiscountDto> removeDiscountDto,SessionDTO session) {
         this.removeDiscountDto = removeDiscountDto == null ? removeDiscountDto : new ArrayList<>(removeDiscountDto);
