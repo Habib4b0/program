@@ -314,7 +314,6 @@ public class PPAProjection extends CustomComponent implements View {
     private boolean valueChangeAllowed = false;
     private boolean generateFlag = true;
     private Date oldDate;
-    private final ExtCustomTable.ColumnCheckListener olumnCheckListener = getColumnCheckListener();
 
     /**
      * Instantiates a new SALES_SMALL projection.
@@ -786,7 +785,7 @@ public class PPAProjection extends CustomComponent implements View {
         groupFilterDdlb.select(Constant.ALL_GROUP);
         groupFilterDdlb.setWidth("100%");
         OnLoadGroupFilter();
-        leftTable.addColumnCheckListener(olumnCheckListener);
+        leftTable.addColumnCheckListener(getColumnCheckListener());
         leftTable.setTableFieldFactory(getLeftTableFieldFactory());
         rightTable.setTableFieldFactory(getRightTableFieldFactory());
 
