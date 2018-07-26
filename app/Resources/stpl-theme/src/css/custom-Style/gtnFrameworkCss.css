@@ -1593,3 +1593,7 @@
 .stpl-margin-left-0 {
   margin-left: 0px !important;
 }
+.stpl-margin-left-2 {
+   margin-left: -18px !important;
+   height : 40px !important;
+}

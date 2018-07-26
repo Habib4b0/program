@@ -181,7 +181,10 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		for (int i = 0; i < dataAssumptionsPropertyIDs.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig dataAssumptionsTableFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			dataAssumptionsTableFilterConfig.setPropertId(dataAssumptionsPropertyIDs[i]);
-			dataAssumptionsTableFilterConfig.setGtnComponentType(componentType[i]);
+			dataAssumptionsTableFilterConfig.setGtnComponentType(componentType[i]); 
+                        GtnUIFrameworkComponentConfig componentList = new GtnUIFrameworkComponentConfig();
+                        componentList.addComponentStyle("v-textfield-custom-report");
+                        dataAssumptionsTableFilterConfig.setGtnComponentConfig(componentList);
 			if ((comboboxStartIndex < dataAssumptionsComboboxIds.length)
 					&& dataAssumptionsPropertyIDs[i].equals(dataAssumptionsComboboxIds[comboboxStartIndex])) {
 				GtnUIFrameworkComponentConfig dataAssumptionsSearchFilterConfig = new GtnUIFrameworkComponentConfig();

@@ -120,4 +120,31 @@ border-radius: 0px !important;
     font-size: 12px; 
     font-weight: 600; 
 }
+.v-textfield-custom-report{
+     margin-left: -18px !important;
+     height : 39px !important;
+     margin-top: -5px !important;
+}
+.v-combobox-custom-report{
+    margin-left: 7px !important;
+}
+.v-layout-custom-report{
+    padding-left: 4px !important;
+}
+.v-layout-report-custom{
+    padding-left: 42px !important;
+}
+.v-report-save-lookup{
+    height: 26px !important;
+    margin-left: 10px !important;
+}
+.v-vertical-layout-report-save-lookup{
+    padding-left: 12px;
+    padding-bottom: 12px;
+    padding-right: 12px;
+    padding-top: 12px;
+}
+.v-h-layout-report-save-lookup{
+   margin-left: -7px !important;
+}
 }
