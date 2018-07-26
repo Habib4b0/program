@@ -89,7 +89,7 @@ public class GtnUIFrameworkComponentConfig {
 	private boolean enable = true;
 	private boolean rebuild = false;
 	private boolean userOriginatedFlag = false;
-
+	
 	private GtnUIFrameworkDualListBoxConfig gtnUIFrameworkDualListBoxConfig;
 	private GtnUIFrameworkV8DualListBoxConfig gtnUIFrameworkV8DualListBoxConfig;
 

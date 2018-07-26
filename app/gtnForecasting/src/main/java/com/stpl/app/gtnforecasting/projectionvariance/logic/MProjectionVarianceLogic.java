@@ -1336,7 +1336,7 @@ public class MProjectionVarianceLogic {
      * @return List
      */
     public List<ProjectionVarianceDTO> getCustPeriodVariance(final List<Object> gtsList, final List<Object> dataList, final PVSelectionDTO pvsdto, final ProjectionVarianceDTO parentDto, final PVSelectionDTO baseVariables) {
-        List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>();
+        List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>(NumericConstants.FIFTEEN);
         ProjectionVarianceDTO exFacValue = new ProjectionVarianceDTO();
         ProjectionVarianceDTO exFacVar = new ProjectionVarianceDTO();
         ProjectionVarianceDTO exFacPer = new ProjectionVarianceDTO();

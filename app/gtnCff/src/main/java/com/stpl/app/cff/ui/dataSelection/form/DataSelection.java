@@ -223,7 +223,7 @@ public class DataSelection extends AbstractDataSelection {
 		});
 	}
 
-	public void readModeOnly() {
+	public final void readModeOnly() {
 		company.setEnabled(false);
 		productRelation.setEnabled(false);
 		customerHierarchy.setEnabled(false);
@@ -3793,7 +3793,7 @@ public class DataSelection extends AbstractDataSelection {
 		});
 
 	}
-        public void loadCFFEligibleDate() {
+        public final void loadCFFEligibleDate() {
             cffEligibleDate.setDateFormat("MM/dd/yyyy");
             DataSelectionLogic logic = new DataSelectionLogic();
             if (sessionDTO.getCffEligibleDate() != null) {

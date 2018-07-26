@@ -136,6 +136,8 @@ public class GtnUIFrameworkTextBoxComponent implements GtnUIFrameworkComponent {
 			}
 			abstractTextField.setEnabled(textBoxComponentConfig.isEnable());
 		}
+		
+		setDefaultFocus(abstractTextField, componentConfig);
 
 	}
 

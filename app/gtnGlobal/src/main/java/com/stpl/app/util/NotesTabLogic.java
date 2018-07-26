@@ -37,7 +37,7 @@ public class NotesTabLogic {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private boolean isFileExists;
+	
 	private static final Logger LOGGER = LoggerFactory.getLogger(NotesTabLogic.class);
         
         
@@ -103,8 +103,7 @@ public class NotesTabLogic {
 			MasterDataFilesLocalServiceUtil.deleteMasterDataFiles(docDetailsId);
 		}
 		File file = GtnFileUtil.getFile(fileName);
-		isFileExists=file.delete();
-		LOGGER.info("File is deleted successfully : {}",isFileExists);
+		LOGGER.info("File is deleted successfully : {}",file.delete());
 		return BooleanConstant.getTrueFlag();
 	}
 

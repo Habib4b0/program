@@ -1405,7 +1405,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
     public void savePvSelections(SessionDTO sessionDTO) {
         LOGGER.debug("savePVSelections method starts");
-        Map map = new HashMap();
+        Map map = new HashMap(NumericConstants.TWENTY);
         try {
             String priorProjectionIds = projIdList == null || projIdList.isEmpty() ? StringUtils.EMPTY : projIdList.toString();
             map.put("Comparison", priorProjectionIds);

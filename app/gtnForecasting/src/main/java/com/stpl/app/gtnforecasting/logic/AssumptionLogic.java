@@ -73,7 +73,7 @@ public class AssumptionLogic {
      * @throws PortalException
      */
     public void getPVResults(final SessionDTO session)  {
-        List<Object> input = new ArrayList<>();
+        List<Object> input = new ArrayList<>(NumericConstants.TWENTY_FIVE);
         input.add(Constant.UPDATE);
         input.add(session.getUserId());
         input.add(session.getUserId());
@@ -320,7 +320,7 @@ public class AssumptionLogic {
      * @throws PortalException
      */
     public void removeLinePVS(final SessionDTO session, AssumptionPVDTO child)  {
-            List<Object> input = new ArrayList<>();
+            List<Object> input = new ArrayList<>(NumericConstants.TWENTY_FIVE);
             input.add(Constant.UPDATE);
             
             input.add(child.getChildPeriod());

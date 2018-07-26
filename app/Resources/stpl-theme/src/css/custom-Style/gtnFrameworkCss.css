@@ -1593,12 +1593,25 @@
 .stpl-margin-left-0 {
   margin-left: 0px !important;
 }
-.stpl-text-align--left {
-	text-align: left !important;
+
+.stpl-margin-custom-variable{
+	margin-left: 26%;
+    margin-top: 20px;
+    margin-bottom: -20px;
 }
-.stpl-left-caption-100 {
-	display: inline-block !important;
-	min-width: 100px !important;
-	text-align: left !important;
-	padding-right: 5px !important;
+
+.stpl-comboBox-Inside-Grid-CustomStyle{
+	width: 123%!important;
+    height: 33px!important;
+    margin-left: -18px;
+}
+
+.stpl-margin-left-5px{
+	margin-left: 5px!important;
+}
+.stpl-margin-left-47px{
+	margin-left: 47px;
+}
+.stpl-margin-left-150{
+    margin-left: 150px!important;
 }
