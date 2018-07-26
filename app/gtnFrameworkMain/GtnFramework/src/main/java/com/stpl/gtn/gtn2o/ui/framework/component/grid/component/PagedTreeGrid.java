@@ -81,7 +81,6 @@ public class PagedTreeGrid {
         try {
             this.tableConfig = tableConfig;
             this.componentConfig = componentConfig;
-            gtnlogger.info("count>>>" + count);
             grid = new TreeGrid<>();
             initalizeColumnController();
            

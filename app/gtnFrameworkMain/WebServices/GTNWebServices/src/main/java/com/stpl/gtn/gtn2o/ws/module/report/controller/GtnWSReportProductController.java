@@ -28,7 +28,6 @@ public class GtnWSReportProductController {
 		 */
 	}
 
-	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWSReportProductController.class);
 
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
@@ -36,8 +35,6 @@ public class GtnWSReportProductController {
 	@Autowired
 	private GtnFrameworkQueryEngineMain gtnFrameworkQueryEngineMain;
 
-	@Autowired
-	private GtnWsSqlService gtnWsSqlService;
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
