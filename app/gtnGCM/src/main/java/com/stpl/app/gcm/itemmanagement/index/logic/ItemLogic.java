@@ -33,6 +33,7 @@ import com.vaadin.v7.ui.ComboBox;
 import java.util.Date;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -50,6 +51,7 @@ public class ItemLogic {
     private Map<String, String> psMap = new HashMap<>();
     private Map<Integer, String> users = new HashMap<>();
     private String userid = "";
+    public final SimpleDateFormat formatter = new SimpleDateFormat(Constants.DBDATE_FORMAT);
 
     public void setCfpSearch() {
         componentMap = new HashMap<>();
@@ -616,7 +618,7 @@ public class ItemLogic {
     }
 
     private List getComponentSearchSelection(ComponentLookUpDTO binderDto, SelectionDTO selection) {
-        List<Object> input = new ArrayList();
+        List<Object> input = new ArrayList(NumericConstants.FIFTEEN);
         String startDate = StringUtils.EMPTY;
         String endDate = StringUtils.EMPTY;
         if (selection.getComponent().equals(Constants.CFP)) {
@@ -645,7 +647,7 @@ public class ItemLogic {
             input.add("%");
         }
         if (binderDto.getStartDate() != null) {
-            input.add(" AND ( " + startDate + " >= '" + CommonUtils.DBDate.format(binderDto.getStartDate()) + "')");
+            input.add(" AND ( " + startDate + " >= '" + formatter.format(binderDto.getStartDate()) + "')");
         } else {
             input.add(" ");
         }
@@ -667,7 +669,7 @@ public class ItemLogic {
             input.add("%");
         }
         if (binderDto.getEndDate() != null) {
-            input.add(" AND ( " + endDate + " <= '" + CommonUtils.DBDate.format(binderDto.getEndDate()) + "')");
+            input.add(" AND ( " + endDate + " <= '" + formatter.format(binderDto.getEndDate()) + "')");
         } else {
             input.add(" ");
         }

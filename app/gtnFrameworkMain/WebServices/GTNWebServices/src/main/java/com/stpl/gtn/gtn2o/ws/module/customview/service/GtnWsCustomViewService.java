@@ -182,8 +182,11 @@ public class GtnWsCustomViewService {
 			tx.commit();
 			return true;
 		} catch (Exception e) {
+                    if(tx != null)
+                    {
 			tx.rollback();
-			logger.error(e.getMessage(), e);
+                    }
+                        logger.error(e.getMessage(), e);
 			return false;
 		}
 	}

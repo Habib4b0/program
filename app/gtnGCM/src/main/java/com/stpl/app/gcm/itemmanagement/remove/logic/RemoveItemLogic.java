@@ -315,7 +315,7 @@ public class RemoveItemLogic {
     public static List<Object> getLevelListQuery(TabSelectionDTO tabSelectionDTO) {
 
         String query = new String();
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.FIFTEEN);
         if (CONTRACT.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "getContractForItem";
             input.add(tabSelectionDTO.getFrequency());
@@ -419,7 +419,7 @@ public class RemoveItemLogic {
 
     public static List<Object> getCountQueryForRebate(TabSelectionDTO tabSelectionDTO) {
         String query = new String();
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.FIFTEEN);
         if (CONTRACT.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "contractCountForItem";
             input.add(AbstractLogic.getItemIds(tabSelectionDTO.getItemList()));
@@ -630,7 +630,7 @@ public class RemoveItemLogic {
     public static List<Object> getLevelListQueryForRebate(TabSelectionDTO tabSelectionDTO) {
 
         String query = new String();
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.FIFTEEN);
         if (CONTRACT.equalsIgnoreCase(tabSelectionDTO.getParentLevel())) {
             query = "getContractForRebateForItem";
             input.add(tabSelectionDTO.getFrequency());

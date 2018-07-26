@@ -172,7 +172,7 @@ public class RemoveDiscount extends CustomComponent {
     private final List<Integer> contractList = new ArrayList<>();
     private final List<Integer> rebateList = new ArrayList<>();
     private List<RemoveDiscountDto> selecteditemList;
-    private static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    private final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private final StplSecurity stplSecurity = new StplSecurity();
     /**
      * The table bean id.

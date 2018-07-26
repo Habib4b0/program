@@ -436,6 +436,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
      * @return
      */
     public void getContent() {
+        try{
         LOGGER.debug("Inside getContent= {} ", session.getAction());
         configureFeildsForNm();
         loadDeductionLevelFilter(session.getDataSelectionDeductionLevel(), false);
@@ -450,6 +451,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
         if (ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             setDiscountViewOnly();
+        }
+        }catch(Exception e){
+        LOGGER.error(e.getMessage());
         }
     }
     

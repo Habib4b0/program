@@ -220,6 +220,11 @@ public class HeaderGeneratorService {
 			getFormat(dateheaderColumnId, dateString, dashboardBean.getSelectFreqString(), endDate);
 			List<String> headerId = new ArrayList<>(dateheaderColumnId);
 			List<String> headers = new ArrayList<>(dateString);
+                        if(dashboardBean.getSelectFreqString().equals("Annual"))
+                        {
+                             headers.replaceAll(s -> s+" Total");
+                        }
+                        
 			if (!dashboardBean.getSelectFreqString().equals("Annual")) {
 				Iterator<String> it = dateheaderColumnId.iterator();
 				String prevoius = null;
