@@ -70,6 +70,7 @@ public class MSalesProjection extends ForecastSalesProjection {
 
     public MSalesProjection(SessionDTO session, String screenName) throws PortalException, SystemException  {
         super(session, screenName);
+        enableDisableFields();
         this.scrnName = screenName;
         init();
     }
@@ -119,7 +120,7 @@ public class MSalesProjection extends ForecastSalesProjection {
     }
 
     @Override
-    protected void enableDisableFields() {
+    protected final void enableDisableFields() {
         return;
     }
     

@@ -148,12 +148,11 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         AbsAdditionalInformation.moduleName = moduleName;
         this.mode = mode;
         setCompositionRoot(Clara.create(ForecastDataSelection.class.getResourceAsStream("/ui/notestabform.xml"), this));
-        intailizingObject();
         init();
 
     }
 
-    public void init() {
+    public final void init() {
 
         addToContent();
         createExportDocs();
@@ -719,14 +718,6 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
      */
     public abstract void addEnteredNotes(Button.ClickEvent event, AbstractNotificationUtils.Parameter flag);
 
-    /**
-     *
-     */
-
-    /**
-     * Method to initailize the requried object in the class
-     */
-    public abstract void intailizingObject();
 
     /**
      * method to execute after the item upload successfully
