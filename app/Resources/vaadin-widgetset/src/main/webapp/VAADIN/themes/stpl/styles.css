@@ -14902,6 +14902,10 @@ div.v-layout.v-horizontal.v-widget {
 	font-weight: 600;
 }
 
+.stpl #reportCustomViewLookup_custom_Variable_OptionGroup > span:nth-child(1) {
+	margin-right: 52px;
+}
+
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;
