@@ -180,11 +180,11 @@ public abstract class AbstractContractSearch extends CustomComponent {
     private final Resource excelExportImage = new ThemeResource("img/excel.png");
     
     private AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
-    protected final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(getBinderDto()));
+    protected final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     public static final Logger LOGGER = LoggerFactory.getLogger(AbstractContractSearch.class);
     private AbstractContractSelectionTableLogic contractSelectionTableLogic = new AbstractContractSelectionTableLogic();
     public static final String SEARCHICON = "searchicon";
-    private ExtPagedTable contractSelectionTable = new ExtPagedTable(getContractSelectionTableLogic());
+    private ExtPagedTable contractSelectionTable = new ExtPagedTable(contractSelectionTableLogic);
     
     private final Object[] CONTRACT_SELECTION_VISIBLE_COLUMN = {Constants.CHECK_RECORD, "projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO,
         Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "itemStartDate",
