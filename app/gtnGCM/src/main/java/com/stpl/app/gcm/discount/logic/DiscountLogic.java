@@ -100,7 +100,7 @@ public class DiscountLogic {
     private static final CommonDao DAO = CommonImpl.getInstance();
     private static final DiscountDAO discountDAO = new DiscountDaoImpl();
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscountLogic.class);
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
+    public final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
     private final QueryUtils queryUtils = new QueryUtils();
     private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0");
     private static final DecimalFormat AMOUNT_UNITS = new DecimalFormat("#,##0");
@@ -975,15 +975,16 @@ public class DiscountLogic {
         }
         try {
             List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
+            final SimpleDateFormat formatter = new SimpleDateFormat(MMDDYYYY.getConstant());
             input.add(rsContract.getRsContractSid());
             input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-            input.add(DBDate.format(new Date()));
+            input.add(formatter.format(new Date()));
             input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-            input.add(DBDate.format(new Date()));
+            input.add(formatter.format(new Date()));
             input.add(rsId);
-            input.add(DBDate.format(rebateMaster.getRsStartDate()));
+            input.add(formatter.format(rebateMaster.getRsStartDate()));
             if (rebateMaster.getRsEndDate() != null) {
-                input.add(DBDate.format(rebateMaster.getRsEndDate()));
+                input.add(formatter.format(rebateMaster.getRsEndDate()));
             } else {
                 input.add(null);
             }
@@ -2115,15 +2116,16 @@ public class DiscountLogic {
             }
 
             List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
+            final SimpleDateFormat dbformatter = new SimpleDateFormat(MMDDYYYY.getConstant());
             input.add(psContract.getPsContractSid());
             input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-            input.add(DBDate.format(new Date()));
+            input.add(dbformatter.format(new Date()));
             input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-            input.add(DBDate.format(new Date()));
+            input.add(dbformatter.format(new Date()));
             input.add(psId);
-            input.add(DBDate.format(priceSchedule.getPsStartDate()));
+            input.add(dbformatter.format(priceSchedule.getPsStartDate()));
             if (priceSchedule.getPsEndDate() != null) {
-                input.add(DBDate.format(priceSchedule.getPsEndDate()));
+                input.add(dbformatter.format(priceSchedule.getPsEndDate()));
             } else {
                 input.add(null);
             }
@@ -2221,15 +2223,16 @@ public class DiscountLogic {
             contractMember.setIfpContractId(list.get(0).getIfpContractSid());
         }
         List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
+        final SimpleDateFormat dbDate = new SimpleDateFormat(MMDDYYYY.getConstant());
         input.add(ifpContract.getIfpContractSid());
         input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-        input.add(DBDate.format(new Date()));
+        input.add(dbDate.format(new Date()));
         input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-        input.add(DBDate.format(new Date()));
+        input.add(dbDate.format(new Date()));
         input.add(ifpId);
-        input.add(DBDate.format(itemFamily.getIfpStartDate()));
+        input.add(dbDate.format(itemFamily.getIfpStartDate()));
         if (itemFamily.getIfpEndDate() != null) {
-            input.add(DBDate.format(itemFamily.getIfpEndDate()));
+            input.add(dbDate.format(itemFamily.getIfpEndDate()));
         } else {
             input.add(null);
         }
@@ -2287,6 +2290,7 @@ public class DiscountLogic {
             contractMember.setCfpContractId(list.get(0).getCfpContractSid());
         }
         List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
+        final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
         input.add(cfpContract.getCfpContractSid());
         input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
         input.add(DBDate.format(new Date()));
