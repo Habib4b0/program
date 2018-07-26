@@ -68,11 +68,13 @@ public class GtnReportingVariableBreakdownGridLoadActionBasedOnHistory
 		GtnUIFrameworkComponentData gridComponent = (GtnUIFrameworkComponentData) abstractComponent.getData();
 		PagedGrid pagedGrid = gridComponent.getPagedGrid();
 		Grid<GtnWsRecordBean> grid = pagedGrid.getGrid();
-		grid.setFrozenColumnCount(1);
 		GtnUIFrameworkPagedTableConfig pagedTableConfig = pagedGrid.getTableConfig();
 		List<String> currentStartingColumnArray = pagedTableConfig.getColumnHeaders();
 		List<String> columnHeaders = pagedTableConfig.getColumnHeaders();
 		List<Column<GtnWsRecordBean, ?>> gridColumns = grid.getColumns();
+		if(gridColumns.isEmpty())
+			return;
+		grid.setFrozenColumnCount(1);
 		String currentStartingColumn = currentStartingColumnArray.get(1);
 		String variableBreakdownFrequency = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("reportOptionsTab_variableBreakdownFrequencyConfig")

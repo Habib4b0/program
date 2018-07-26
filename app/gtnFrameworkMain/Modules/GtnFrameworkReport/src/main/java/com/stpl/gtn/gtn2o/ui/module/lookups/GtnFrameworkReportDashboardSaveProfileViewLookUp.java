@@ -45,6 +45,7 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 		GtnUIFrameworkComponentConfig reportDashboardSaveProfileHorizontalLayoutButton = layoutConfig
 				.getHorizontalLayoutConfig("saveView-ViewButtons",
 						GtnFrameworkCommonConstants.SAVE_VIEW_LOOK_UP_ROOT_VERTICAL_LAYOUT);
+		reportDashboardSaveProfileHorizontalLayoutButton.addComponentStyle("stpl-margin-left-66");
 		reportDashboardSaveProfileComponentList.add(reportDashboardSaveProfileHorizontalLayoutButton);
 
 		addReportDashboardControlPopUpButtonLayout(reportDashboardSaveProfileComponentList,
@@ -78,18 +79,24 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 		reportProfilePanel.setAuthorizationIncluded(true);
 		reportProfilePanel.setParentComponentId(GtnFrameworkCommonConstants.SAVE_VIEW_LOOK_UP_ROOT_VERTICAL_LAYOUT);
 		reportProfilePanel.setComponentName("Save View:");
+		reportProfilePanel.addComponentStyle("stpl-margin-left-10");
+		reportProfilePanel.setComponentWidth("98%");
+		reportProfilePanel.addComponentStyle("stpl-margin-top-11");
 		componentList.add(reportProfilePanel);
 
 		String panelId = namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "reportProfileSaveViewPanel";
 
 		GtnUIFrameworkComponentConfig horizontalLayout = layoutConfig.getVerticalLayoutConfig(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "verticalLayout", panelId);
+		
 		componentList.add(horizontalLayout);
 
 		GtnUIFrameworkComponentConfig reportDashboardSaveProfileHorizontalLayoutType = layoutConfig
 				.getHorizontalLayoutConfig("saveView-ViewType", horizontalLayout.getComponentId());
 		reportDashboardSaveProfileHorizontalLayoutType.setSpacing(true);
 		reportDashboardSaveProfileHorizontalLayoutType.setMargin(true);
+		reportDashboardSaveProfileHorizontalLayoutType.addComponentStyle("stpl-margin-left-150");
+		reportDashboardSaveProfileHorizontalLayoutType.addComponentStyle("stpl-margin-top-10");
 		componentList.add(reportDashboardSaveProfileHorizontalLayoutType);
 
 		addreportDashboardSaveProfileTypeOptionGroup(componentList, reportDashboardSaveProfileHorizontalLayoutType.getComponentId(), namespace);
@@ -97,6 +104,7 @@ public class GtnFrameworkReportDashboardSaveProfileViewLookUp {
 		GtnUIFrameworkComponentConfig reportDashboardSaveProfileHorizontalLayoutName = layoutConfig
 				.getHorizontalLayoutConfig("saveView-ViewName", horizontalLayout.getComponentId());
 		reportDashboardSaveProfileHorizontalLayoutName.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
+		reportDashboardSaveProfileHorizontalLayoutName.addComponentStyle("stpl-margin-left-84");
 		componentList.add(reportDashboardSaveProfileHorizontalLayoutName);
 
 		addReportDashboardSaveProfileNameTextField(componentList, reportDashboardSaveProfileHorizontalLayoutName.getComponentId(), namespace);
