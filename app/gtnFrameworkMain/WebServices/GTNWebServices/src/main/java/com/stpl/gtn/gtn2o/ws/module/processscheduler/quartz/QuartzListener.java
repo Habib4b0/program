@@ -49,8 +49,7 @@ public class QuartzListener {
 		return gtnSqlQueryEngine;
 	}
 
-	private Session session = getSessionFactory().openSession();
-	private Transaction tx = session.beginTransaction();
+	
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
 
@@ -64,6 +63,8 @@ public class QuartzListener {
 	@SuppressWarnings("rawtypes")
 	public void contextInitialized() throws GtnFrameworkGeneralException {
 		try {
+                        Session session = getSessionFactory().openSession();
+	                Transaction tx = session.beginTransaction();
 			scheduler = new StdSchedulerFactory().getScheduler();
 			scheduler.start();
 
