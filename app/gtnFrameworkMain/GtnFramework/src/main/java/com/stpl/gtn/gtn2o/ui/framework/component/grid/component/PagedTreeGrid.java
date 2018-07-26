@@ -685,7 +685,7 @@ public class PagedTreeGrid {
             Notification.show(newPageLength + "Illegal page length.");
         }
      
-         if(getTreeDataProvider()!=null && pageLength != newPageLength && count != 0){
+         if( pageLength != newPageLength && count != 0 && getTreeDataProvider()!=null){
          paintCurrentPage();
          pageLength = newPageLength;
          }

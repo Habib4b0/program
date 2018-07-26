@@ -140,9 +140,9 @@ public class HeaderUtils {
 		if (pagedTreeGrid.getTableConfig().isTripleHeaderVisible()) {
 			HeaderRow groupingHeader = pagedTreeGrid.getGrid().prependHeaderRow();
 			int j = 0;
+                        List<Object> singleList = new ArrayList<>();
 			for (Object property : pagedTreeGrid.getTableConfig().getRightTableTripleHeaderVisibleColumns()) {
 				Object[] doubleHeaders = pagedTreeGrid.getTableConfig().getRightTableTripleHeaderMap().get(property);
-				List<Object> singleList = new ArrayList<>();
 				for (Object dbl : doubleHeaders) {
 					if (pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(dbl) != null) {
 						singleList.addAll(Arrays.stream(pagedTreeGrid.getTableConfig().getRightTableDoubleHeaderMap().get(dbl))
