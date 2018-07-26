@@ -4358,7 +4358,7 @@ public class DataSelection extends ForecastDataSelection {
 
 	}
 
-	void configureOnViewMode() {
+	final void configureOnViewMode() {
 		horizontalLayout.setEnabled(false);
 		selectedCustomer.setEditable(false);
 		selectedCustomer.setSelectable(false);

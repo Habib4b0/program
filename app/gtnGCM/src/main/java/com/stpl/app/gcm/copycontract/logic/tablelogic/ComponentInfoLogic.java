@@ -28,7 +28,6 @@ public class ComponentInfoLogic extends PageTableLogic {
     private boolean generate = false;
     private String component = StringUtils.EMPTY;
     private final CopyContractLogic logic = new CopyContractLogic();
-    private int count;
     private static final Logger LOGGER = LoggerFactory.getLogger(ComponentInfoLogic.class);
 
     public ComponentInfoLogic() {
@@ -38,7 +37,7 @@ public class ComponentInfoLogic extends PageTableLogic {
     
     @Override
     public int getCount() {
-        count = 0;
+         int count = 0;
         try {
             if (generate) {
                 count = logic.getComponentCount(query);

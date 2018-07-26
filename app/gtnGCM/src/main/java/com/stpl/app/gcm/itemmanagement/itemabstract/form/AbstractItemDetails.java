@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author hazi.s
  */
-public class AbstractItemDetails extends CustomComponent {
+public final class AbstractItemDetails extends CustomComponent {
 
     
     private Panel itemDetailsSummary = new Panel();

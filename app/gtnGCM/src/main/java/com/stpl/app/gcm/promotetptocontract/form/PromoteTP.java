@@ -593,7 +593,7 @@ public class PromoteTP extends VerticalLayout {
     private void createSearchSessionId() {
         searchSessionId = CommonUtils.createSessionId();
     }
-    public ErrorfulFieldGroup getBinder() {
+    public final ErrorfulFieldGroup getBinder() {
         final PromoteTpToChDto bean = new PromoteTpToChDto();
         final ErrorfulFieldGroup dataSelectionBinderErrorfulFieldGroup = new ErrorfulFieldGroup(new BeanItem<>(bean));
         dataSelectionBinderErrorfulFieldGroup.setBuffered(true);

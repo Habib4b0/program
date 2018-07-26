@@ -6,6 +6,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import org.asi.ui.customwindow.MinimizeTray;
 
 public class GtnUIFrameworkPopupCloseAction implements GtnUIFrameWorkAction {
 
@@ -25,6 +26,10 @@ public class GtnUIFrameworkPopupCloseAction implements GtnUIFrameWorkAction {
 		CustomWindow customWindow = componentData.getCustomWindow();
 		if (customWindow != null) {
 			try{
+                            MinimizeTray tray = customWindow.getMinimizeTray();
+                            if (tray.getWindowItems().size() == 1) {
+                                tray.close();
+                            }
 			customWindow.close();
 			}
 			catch(Exception e)

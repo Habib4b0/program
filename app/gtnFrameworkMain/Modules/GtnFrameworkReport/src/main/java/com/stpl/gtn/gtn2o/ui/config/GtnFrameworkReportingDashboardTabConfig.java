@@ -221,7 +221,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameWorkActionConfig customViewButtonPopupAction = new GtnUIFrameWorkActionConfig();
 		customViewButtonPopupAction.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		customViewButtonPopupAction.addActionParameter("reportCustomViewLookup");
-		customViewButtonPopupAction.addActionParameter("reportCustomViewLookup");
+		customViewButtonPopupAction.addActionParameter("Custom Tree View Popup");
 		customViewButtonPopupAction.addActionParameter("75%");
 		customViewButtonPopupAction.addActionParameter(null);
 		actionConfigList.add(customViewButtonPopupAction);
@@ -931,7 +931,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameWorkActionConfig comparisonOptionsPopupActionConfig = new GtnUIFrameWorkActionConfig();
 		comparisonOptionsPopupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		comparisonOptionsPopupActionConfig.addActionParameter("comparisonOptions");
-		comparisonOptionsPopupActionConfig.addActionParameter("Comparison Options");
+		comparisonOptionsPopupActionConfig.addActionParameter("Comparison Options Popup");
 		comparisonOptionsPopupActionConfig.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		actionConfigList.add(comparisonOptionsPopupActionConfig);
 
@@ -977,7 +977,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		List<Object> params = new ArrayList<>();
 		params.add("variableBreakdown");
-		params.add("Variable Breakdown");
+		params.add("Variable Breakdown Popup");
 		params.add(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		params.add(null);
 		params.add(null);
@@ -1549,6 +1549,11 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameWorkActionConfig reportDashBoardCloseAction = new GtnUIFrameWorkActionConfig();
 		reportDashBoardCloseAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		reportDashBoardCloseAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		
+		GtnUIFrameWorkActionConfig resetLandingScreenAction = new GtnUIFrameWorkActionConfig();
+		resetLandingScreenAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		resetLandingScreenAction.setActionParameterList(GtnFrameworkReportDataSelectionTabConfig.getResetParameters());
+		actionConfigList.add(resetLandingScreenAction);
 		actionConfigList.add(reportDashBoardCloseAction);
 		closeButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 

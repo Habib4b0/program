@@ -304,7 +304,7 @@ public class CustomerSelection extends CustomComponent implements View {
 
     }
 
-    public void configureTable() {
+    public final void configureTable() {
 
         availableCustomerTableLayout.addComponent(availableCustomerTable);
         HorizontalLayout hLayout;

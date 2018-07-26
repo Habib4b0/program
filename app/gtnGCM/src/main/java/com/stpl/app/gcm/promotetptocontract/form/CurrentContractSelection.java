@@ -269,7 +269,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
      * Set Read Only Header Values
      *
      */
-    public void setHeaderValues() {
+    public final void setHeaderValues() {
         PromoteTpToChDto dto = (PromoteTpToChDto) resultTable.getValue();
         companyNo.setValue(dto.getCompanyNo());
         companyName.setValue(dto.getCompanyName());
@@ -774,7 +774,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         currentTradingPartnerTable2.removeAllItems();
     }
 
-    public void disableComponentInfoFields() {
+    public final void disableComponentInfoFields() {
         rebateId.setEnabled(false);
         rsNumber.setEnabled(false);
         rsName.setEnabled(false);

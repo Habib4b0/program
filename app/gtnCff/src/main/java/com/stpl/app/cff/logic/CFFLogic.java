@@ -590,7 +590,7 @@ public class CFFLogic {
      * @return
      */
     public List getParametersForCffSearch(CFFSearchDTO binderDto) {
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.FIFTEEN);
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Connection connection = null;
         try {

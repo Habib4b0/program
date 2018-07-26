@@ -456,7 +456,7 @@ public class AltSummeryDiscount extends CustomComponent {
         customDdlbLogic();
     }
 
-    public void getContent() {
+    public final void getContent() {
         LOGGER.debug("Inside getContent= {} " , session.getAction());
         configureFeildsForNm();
 

@@ -247,6 +247,11 @@ public class GtnFrameworkDataAssumptionsTabConfig {
 		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
 		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		closeAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		
+		GtnUIFrameWorkActionConfig resetLandingScreenAction = new GtnUIFrameWorkActionConfig();
+		resetLandingScreenAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		resetLandingScreenAction.setActionParameterList(GtnFrameworkReportDataSelectionTabConfig.getResetParameters());
+		actionConfigList.add(resetLandingScreenAction);
 		actionConfigList.add(closeAction);
 		closeButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		

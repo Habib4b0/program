@@ -1977,7 +1977,7 @@ public class ProjectionVarianceLogic {
      */
     public List<ProjectionVarianceDTO> getCustPeriodVariance(final List<Object> gtsList, final PVSelectionDTO pvsdto, final ProjectionVarianceDTO parentDto) {
         boolean actualBasis = (StringConstantsUtil.ACTUALS1).equals(pvsdto.getComparisonBasis());
-        List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>();
+        List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>(NumericConstants.FIFTEEN);
         boolean isDetail = false;
         if (pvsdto.getLevel().equals(DETAIL)) {
             isDetail = true;
