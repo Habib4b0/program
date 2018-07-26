@@ -245,7 +245,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		GtnUIFrameworkComponentConfig comparison = new GtnUIFrameworkComponentConfig();
 		comparison.setComponentType(GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		comparison.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "comparison");
-		comparison.setComponentName("Comparison: ");
+		comparison.setComponentName("File/Projection: ");
 		comparison.setAddToParent(true);
 		comparison.setParentComponentId(comparisonConfig.getComponentId());
 		GtnUIFrameworkComboBoxConfig comparisonBreakdownComparisonBreakdownLoadConfig = new GtnUIFrameworkComboBoxConfig();
