@@ -78,15 +78,10 @@ public class SummaryLogic {
     public List<ContractDashboardDTO> configureDashBoardLevel(SelectionDTO projSelDTO, List input) {
         List<ContractDashboardDTO> resultList = new ArrayList<>();
         List<Object[]> list = ItemQueries.getItemData(input, projSelDTO.getDataQueryName(), null);
-        Set<String> levelName = new HashSet<>();
         ContractDashboardDTO dto = new ContractDashboardDTO();
         for (int i = 0; i < list.size(); i++) {
             final Object[] obj = (Object[]) list.get(i);
             if (i == 0) {
-                dto = setLevelValue(obj);
-                levelName.add(obj[0] == null ? StringUtils.EMPTY : obj[0].toString());
-            } else if (levelName.add(obj[0] == null ? StringUtils.EMPTY : obj[0].toString())) {
-                resultList.add(dto);
                 dto = setLevelValue(obj);
             }
         }
