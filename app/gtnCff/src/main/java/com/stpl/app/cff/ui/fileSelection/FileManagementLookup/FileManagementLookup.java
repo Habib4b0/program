@@ -1616,8 +1616,6 @@ public class FileManagementLookup extends Window {
 				changeFlag = true;
 			}
 			DynamicQuery dynamicQuery;
-
-			final HashMap savedForecast = new HashMap();
 			List<Integer> existingSystemId = new ArrayList<>();
 
 			if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
@@ -1634,7 +1632,6 @@ public class FileManagementLookup extends Window {
 				for (final Iterator<ForecastingMaster> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final ForecastingMaster itemDetail = iterator.next();
 					existingSystemId.add(itemDetail.getForecastMasterSid());
-					savedForecast.put(itemDetail.getForecastMasterSid(), itemDetail);
 				}
 			} else if (fileType.equals(ConstantsUtils.DEMAND)) {
 				dynamicQuery = DemandForecastLocalServiceUtil.dynamicQuery();
@@ -1648,7 +1645,6 @@ public class FileManagementLookup extends Window {
 				for (final Iterator<DemandForecast> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final DemandForecast itemDetail = iterator.next();
 					existingSystemId.add(itemDetail.getDemandForecastSid());
-					savedForecast.put(itemDetail.getDemandForecastSid(), itemDetail);
 				}
 			} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
 				dynamicQuery = AdjustedDemandForecastLocalServiceUtil.dynamicQuery();
@@ -1663,7 +1659,6 @@ public class FileManagementLookup extends Window {
 				for (final Iterator<AdjustedDemandForecast> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final AdjustedDemandForecast itemDetail = iterator.next();
 					existingSystemId.add(itemDetail.getAdjustedDemandForecastSid());
-					savedForecast.put(itemDetail.getAdjustedDemandForecastSid(), itemDetail);
 				}
 			} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 				List<String> query = new ArrayList<>();
@@ -1675,7 +1670,6 @@ public class FileManagementLookup extends Window {
 				for (final Iterator<FileMananagementResultDTO> iterator = list.iterator(); iterator.hasNext();) {
 					final FileMananagementResultDTO itemDetail = iterator.next();
 					existingSystemId.add(itemDetail.getInventoryForecastDetailsSysId());
-					savedForecast.put(itemDetail.getInventoryForecastDetailsSysId(), itemDetail);
 
 				}
 			} else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
@@ -1690,7 +1684,6 @@ public class FileManagementLookup extends Window {
 				for (final Iterator<CustomerGtsForecast> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final CustomerGtsForecast itemDetail = iterator.next();
 					existingSystemId.add(itemDetail.getCustomerGtsForecastSid());
-					savedForecast.put(itemDetail.getCustomerGtsForecastSid(), itemDetail);
 				}
 			}
 

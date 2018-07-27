@@ -139,6 +139,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     public NMSalesProjection(SessionDTO session, String screenName) {
         super(session, screenName);
+        enableDisableFields();
         this.sessionDTO = session;
         if (CommonUtil.isValueEligibleForLoading()) {
             loadSalesInclusion();
@@ -321,7 +322,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     public static final String SALES_PROJECTION_XLS = "Sales_Projection.xls";
 
     @Override
-    protected void enableDisableFields() {
+    protected final void enableDisableFields() {
         return;
     }
 

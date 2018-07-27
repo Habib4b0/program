@@ -1036,7 +1036,7 @@ public class CommonLogic {
             projectionId = obj[0] == null ? Constants.ZEROSTRING : String.valueOf(obj[0]);
             forecastingType = obj[1] == null ? StringUtils.EMPTY : String.valueOf(obj[1]);
         }
-        if (list.size() != 0) {
+        if (!list.isEmpty()) {
             resultList.add(projectionId);
             resultList.add(forecastingType);
         }
@@ -1874,7 +1874,7 @@ public class CommonLogic {
 
     public String idString(List<String> list) {
         String value = Constants.EMPTY;
-        if (list != null && list.size() > 0) {
+        if (list != null && !list.isEmpty()) {
             boolean flag = false;
             for (Object item : list) {
                 if (!flag) {
@@ -2051,7 +2051,7 @@ public class CommonLogic {
         input.add(rbID);
         List<Object> temp = ItemQueries.getItemData(input, "get Generate MarketValue", null);
         String marketType = StringUtils.EMPTY;
-        if (temp.size() > 0 && String.valueOf(temp.get(0)) != null
+        if (!temp.isEmpty() && String.valueOf(temp.get(0)) != null
                 && !StringUtils.EMPTY.equals(String.valueOf(temp.get(0)))) {
             marketType = String.valueOf(temp.get(0));
         }
@@ -2064,7 +2064,7 @@ public class CommonLogic {
         String query = "select LEVEL_VALUE_REFERENCE from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID="
                 + definedValue + " and LEVEL_NAME='Market Type'";
 		List<Object> listValue = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        if (listValue.size() > 0) {
+        if (!listValue.isEmpty()) {
             for (int i = 0; i < listValue.size(); i++) {
                 str = String.valueOf(listValue.get(0));
             }
@@ -2077,7 +2077,7 @@ public class CommonLogic {
         String query = "select DESCRIPTION from HELPER_TABLE where HELPER_TABLE_SID in('" + marketType
                 + "') and LIST_NAME='CONTRACT_TYPE' ";
 		List<Object> temp = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        if (temp.size() > 0) {
+        if (!temp.isEmpty()) {
             for (int i = 0; i < temp.size(); i++) {
                 marketTypeValue = String.valueOf(temp.get(i));
             }
@@ -2095,9 +2095,6 @@ public class CommonLogic {
             LOGGER.debug(" cust Rel Builder Sid  {} " , String.valueOf(projectionMasterRow[0]));
             LOGGER.debug("  prod Rel Builder Sid {} " , String.valueOf(projectionMasterRow[1]));
             setProdRelationshipId(Integer.parseInt(String.valueOf(projectionMasterRow[1])));
-            List<String> relationshipBuilderSids = new ArrayList<>();
-            relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
-            relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
             int newProjectionID = cloneProjection(oldProjectionId, session.getUserId());
             LOGGER.debug(" New Projection Id ===== {} " , newProjectionID);
             insertIntoNmProjectionSelection(oldProjectionId, newProjectionID);
@@ -2105,9 +2102,6 @@ public class CommonLogic {
                 setNewProjectionId(newProjectionID);
                 setForecastingType(String.valueOf(projectionMasterRow[NumericConstants.TWO]));
                 cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionID, true, true, session);
-//                for (Object relationshipLevelSid : relationshipBuilderSids) {  //  FOREIGN KEY constraint , twice insert is happening in PROJECTION_PROD_HIERARCHY , PROJECTION_CUST_HIERARCHY
-//                    updateCustomerOrProductHierarchy(false, newProjectionId, String.valueOf(relationshipLevelSid));
-//                }
                 if (insertIntoProjectionDetails(oldProjectionId, newProjectionID, session)) {
                     String marketType = StringUtils.EMPTY;
                     Object[] inputs = new Object[NumericConstants.FOUR];
@@ -2277,7 +2271,6 @@ public class CommonLogic {
         StringBuilder salesQuery = new StringBuilder();
         StringBuilder discountQuery = new StringBuilder();
         StringBuilder rebateQuery = new StringBuilder();
-        List queryList = new ArrayList();
         try {
             if (Constants.NON_MANDATED.equalsIgnoreCase(forecastingType)) {
 				salesQuery.append(SQlUtil.getQuery("nm.salesTableUpdate"));
@@ -2316,9 +2309,6 @@ public class CommonLogic {
 
             rebateQuery.replace(rebateQuery.indexOf(Constants.FIELD),
                     rebateQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.COMPANY_MASTER_SID);
-
-            queryList.add(salesQuery.toString());
-            queryList.add(rebateQuery.toString());
 			HelperTableLocalServiceUtil.executeUpdateQuery(salesQuery.toString());
 			HelperTableLocalServiceUtil.executeUpdateQuery(discountQuery.toString());
 			HelperTableLocalServiceUtil.executeUpdateQuery(rebateQuery.toString());

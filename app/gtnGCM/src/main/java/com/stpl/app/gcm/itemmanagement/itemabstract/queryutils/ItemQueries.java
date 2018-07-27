@@ -47,8 +47,6 @@ public class ItemQueries {
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemQueries.class);
     
     private final static CommonDao ITEMDAO = CommonImpl.getInstance();
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
-    
     public static final String COMPANY_STATUS = "companyStatus";
     public static final String TRADE_CLASS_PROPERTY = "tradeClass";
     public static final String START_DATEFROM = "startDatefrom";

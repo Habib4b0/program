@@ -56,7 +56,13 @@ public class GtnFrameworkReportConfig {
 				.getReportProfileLookupView(GtnFrameworkReportStringConstants.REPORT_PROFILE_LOOKUP));
 
 		viewList.add(new GtnFrameworkReportCustomViewLookup()
-				.getCustomViewLookUpView(GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP));
+				.getCustomViewLookUpViewLandingScreen(GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP));
+
+		viewList.add(new GtnFrameworkReportCustomViewLookup()
+				.getCustomViewLookUpViewDataSelection(GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP_DS));
+
+		viewList.add(new GtnFrameworkReportCustomViewLookup().getCustomViewLookUpViewReportDashboard(
+				GtnFrameworkReportStringConstants.REPORT_CUSTOM_VIEW_LOOKUP_RD));
 
 		viewList.add(new GtnFrameworkReportCustomertHierarchyLookUp()
 				.getCustHierarchyLookUpView(GtnFrameworkReportStringConstants.REPORT_CUSTOMER_HIERARCHY_LOOKUP));

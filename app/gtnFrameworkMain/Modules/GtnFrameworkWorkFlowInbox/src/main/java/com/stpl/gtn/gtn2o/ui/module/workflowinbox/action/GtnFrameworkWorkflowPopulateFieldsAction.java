@@ -17,326 +17,327 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 public class GtnFrameworkWorkflowPopulateFieldsAction
-		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+        implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkWorkflowPopulateFieldsAction.class);
+    private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkWorkflowPopulateFieldsAction.class);
 
-	@Override
-	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		gtnLogger.debug("inside GtnFrameworkWorkflowPopulateFieldsAction");
-	}
+    @Override
+    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
+        gtnLogger.debug("inside GtnFrameworkWorkflowPopulateFieldsAction");
+    }
 
-	@Override
-	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		GtnWsRecordBean gtnWsRecordBean = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)))
-				.getValueFromPagedDataTable();
-		
-		try {
-			String combocomponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("businessProcess")
-					.getCaptionFromComboBox();
-			String workflowIdPrivate = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWIDPRIVATE));
-			String workflowNamePrivate = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAMEPRIVATE));
-			String workflowDescPrivate = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWDESCPRIVATE));
-			String companyNamePrivate = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.COMPANYNAMEPRIVATE));
-			String businessUnitNamePrivate = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAMEPRIVATE));
-			String contractId = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTID));
-			String contractNo = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNO));
-			String companyNo = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.COMPANYNO));
-			String businessUnitId = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITID));
-			String businessUnitNo = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNO));
-			String businessUnitName = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAME));
-			String contractName = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNAME));
-			String itemNo = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMNO));
-			String itemName = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMNAME));
+    @Override
+    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
+        GtnWsRecordBean gtnWsRecordBean = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(1)))
+                .getValueFromPagedDataTable();
 
-			String forecastdeductionLevel = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.FORECASTDEDUCTIONLEVEL));
+        try {
+            String combocomponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("businessProcess")
+                    .getCaptionFromComboBox();
+            String workflowIdPrivate = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWIDPRIVATE));
+            String workflowNamePrivate = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAMEPRIVATE));
+            String workflowDescPrivate = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWDESCPRIVATE));
+            String companyNamePrivate = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.COMPANYNAMEPRIVATE));
+            String businessUnitNamePrivate = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAMEPRIVATE));
+            String contractId = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTID));
+            String contractNo = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNO));
+            String companyNo = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.COMPANYNO));
+            String businessUnitId = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITID));
+            String businessUnitNo = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNO));
+            String businessUnitName = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAME));
+            String contractName = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNAME));
+            String itemNo = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMNO));
+            String itemName = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMNAME));
 
-			String forecastdeductionValue = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.FORECASTDEDUCTIONVALUE));
+            String forecastdeductionLevel = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.FORECASTDEDUCTIONLEVEL));
 
-			String contractType = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTTYPE));
+            String forecastdeductionValue = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.FORECASTDEDUCTIONVALUE));
 
-			String companyID = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.COMPANYID));
-			String itemId = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMID));
-			String businessUnitIdReturns = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITIDRETURNS));
-			String businessUnitNoReturns = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNORETURNS));
-			String businessUnitNameReturns = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAMERETURNS));
-			String itemNoReturns = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMNORETURNS));
-			String itemNameReturns = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMNAMERETURNS));
-			String itemIdReturns = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMIDRETURNS));
+            String contractType = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTTYPE));
 
-			String contractIdArm = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTIDARM));
-			String contractNoArm = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNOARM));
-			String brandIdArm = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BRANDIDARM));
-			String contractNameArm = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNAMEARM));
-			String itemNoArm = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMNOARM));
-			String itemNameArm = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMNAMEARM));
+            String companyID = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.COMPANYID));
+            String itemId = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMID));
+            String businessUnitIdReturns = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITIDRETURNS));
+            String businessUnitNoReturns = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNORETURNS));
+            String businessUnitNameReturns = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAMERETURNS));
+            String itemNoReturns = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMNORETURNS));
+            String itemNameReturns = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMNAMERETURNS));
+            String itemIdReturns = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMIDRETURNS));
 
-			String brandNameArm = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BRANDNAMEARM));
-			Date glDateArm = (Date) gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.GLDATEARM);
+            String contractIdArm = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTIDARM));
+            String contractNoArm = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNOARM));
+            String brandIdArm = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BRANDIDARM));
+            String contractNameArm = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNAMEARM));
+            String itemNoArm = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMNOARM));
+            String itemNameArm = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ITEMNAMEARM));
 
-			String deductionNoArm = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONNOARM));
-			String deductionNameArm = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONNAMEARM));
+            String brandNameArm = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BRANDNAMEARM));
+            Date glDateArm = (Date) gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.GLDATEARM);
 
-			String customerNoArm = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.COMPANYNO));
+            String deductionNoArm = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONNOARM));
+            String deductionNameArm = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONNAMEARM));
 
-			String customerNameArm = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNAMEARM));
+            String customerNoArm = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.COMPANYNO));
 
-			Date createdfromPrivate = (Date) gtnWsRecordBean
-					.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CREATEDFROM_PRIVATE);
+            String customerNameArm = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNAMEARM));
 
-			Date createdtoPrivate = (Date) gtnWsRecordBean
-					.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CREATEDTO_PRIVATE);
+            Date createdfromPrivate = (Date) gtnWsRecordBean
+                    .getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CREATEDFROM_PRIVATE);
 
-			Date approvedfromPrivate = (Date) gtnWsRecordBean
-					.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM_PRIVATE);
+            Date createdtoPrivate = (Date) gtnWsRecordBean
+                    .getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CREATEDTO_PRIVATE);
 
-			Date approvedtoPrivate = (Date) gtnWsRecordBean
-					.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO_PRIVATE);
+            Date approvedfromPrivate = (Date) gtnWsRecordBean
+                    .getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM_PRIVATE);
 
-			String businessunitArm = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITARM));
+            Date approvedtoPrivate = (Date) gtnWsRecordBean
+                    .getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO_PRIVATE);
 
-			String workflowStatusArm = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUSPRIVATE));
+            String businessunitArm = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITARM));
 
-			String adjustmentType = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE));
+            String workflowStatusArm = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUSPRIVATE));
 
-			String deductionLevelArm = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONLEVELARM));
+            String adjustmentType = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE));
 
-			String deductionValueArm = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONVALUEARM));
+            String deductionLevelArm = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONLEVELARM));
 
-			String companyARM = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.COMPANYARM));
+            String deductionValueArm = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONVALUEARM));
 
-			String createdByPrivate = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CREATEDBYPRIVATE));
+            String companyARM = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.COMPANYARM));
 
-			String approvedByPrivate = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.APPROVEDBYPRIVATE));
+            String createdByPrivate = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CREATEDBYPRIVATE));
 
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, componentId)
-					.loadFieldValue(workflowIdPrivate);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME, componentId)
-					.loadFieldValue(workflowNamePrivate);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.WORKFLOW_DESC, componentId)
-					.loadFieldValue(workflowDescPrivate);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CREATEDFROM, componentId)
-					.loadDateValue(createdfromPrivate);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CREATEDTO, componentId)
-					.loadDateValue(createdtoPrivate);
+            String approvedByPrivate = String.valueOf(
+                    gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.APPROVEDBYPRIVATE));
 
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM, componentId)
-					.loadDateValue(approvedfromPrivate);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO, componentId)
-					.loadDateValue(approvedtoPrivate);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, componentId)
+                    .loadFieldValue(workflowIdPrivate);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME, componentId)
+                    .loadFieldValue(workflowNamePrivate);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.WORKFLOW_DESC, componentId)
+                    .loadFieldValue(workflowDescPrivate);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CREATEDFROM, componentId)
+                    .loadDateValue(createdfromPrivate);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CREATEDTO, componentId)
+                    .loadDateValue(createdtoPrivate);
 
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CONTRACTID, componentId)
-					.loadFieldValue(contractId);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNO, componentId)
-					.loadFieldValue(contractNo);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.COMPANYNO, componentId)
-					.loadFieldValue(companyNo);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.COMPANYNAME, componentId)
-					.loadFieldValue(companyNamePrivate);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITID, componentId)
-					.loadFieldValue(businessUnitId);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNO, componentId)
-					.loadFieldValue(businessUnitNo);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAME, componentId)
-					.loadFieldValue(businessUnitName);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAME, componentId)
-					.loadFieldValue(businessUnitNamePrivate);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNAME, componentId)
-					.loadFieldValue(contractName);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.APPROVEDFROM, componentId)
+                    .loadDateValue(approvedfromPrivate);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.APPROVEDTO, componentId)
+                    .loadDateValue(approvedtoPrivate);
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMNO, componentId)
-					.loadFieldValue(itemNo);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMNAME, componentId)
-					.loadFieldValue(itemName);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CONTRACTID, componentId)
+                    .loadFieldValue(contractId);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNO, componentId)
+                    .loadFieldValue(contractNo);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.COMPANYNO, componentId)
+                    .loadFieldValue(companyNo);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.COMPANYNAME, componentId)
+                    .loadFieldValue(companyNamePrivate);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITID, componentId)
+                    .loadFieldValue(businessUnitId);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNO, componentId)
+                    .loadFieldValue(businessUnitNo);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAME, componentId)
+                    .loadFieldValue(businessUnitName);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAME, componentId)
+                    .loadFieldValue(businessUnitNamePrivate);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNAME, componentId)
+                    .loadFieldValue(contractName);
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("forecastdeductionLevel", componentId)
-					.loadComboBoxComponentValue(getIntValue(forecastdeductionLevel));
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMNO, componentId)
+                    .loadFieldValue(itemNo);
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMNAME, componentId)
+                    .loadFieldValue(itemName);
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("forecastdeductionValue", componentId)
-					.loadComboBoxComponentValue(getIntValue(forecastdeductionValue));
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent("forecastdeductionLevel", componentId)
+                    .loadComboBoxComponentValue(getIntValue(forecastdeductionLevel));
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractType", componentId)
-					.loadComboBoxComponentValue(getIntValue(contractType));
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent("forecastdeductionValue", componentId)
+                    .loadComboBoxComponentValue(getIntValue(forecastdeductionValue));
 
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.COMPANYID, componentId)
-					.loadFieldValue(companyID);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMID, componentId)
-					.loadFieldValue(itemId);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITIDRETURNS, componentId)
-					.loadFieldValue(businessUnitIdReturns);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNORETURNS, componentId)
-					.loadFieldValue(businessUnitNoReturns);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAMERETURNS,
-							componentId)
-					.loadFieldValue(businessUnitNameReturns);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMNORETURNS, componentId)
-					.loadFieldValue(itemNoReturns);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMNAMERETURNS, componentId)
-					.loadFieldValue(itemNameReturns);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMIDRETURNS, componentId)
-					.loadFieldValue(itemIdReturns);
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent("contractType", componentId)
+                    .loadComboBoxComponentValue(getIntValue(contractType));
 
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CONTRACTIDARM, componentId)
-					.loadFieldValue(contractIdArm);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNOARM, componentId)
-					.loadFieldValue(contractNoArm);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.COMPANYID, componentId)
+                    .loadFieldValue(companyID);
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMID, componentId)
+                    .loadFieldValue(itemId);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITIDRETURNS, componentId)
+                    .loadFieldValue(businessUnitIdReturns);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNORETURNS, componentId)
+                    .loadFieldValue(businessUnitNoReturns);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAMERETURNS,
+                            componentId)
+                    .loadFieldValue(businessUnitNameReturns);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMNORETURNS, componentId)
+                    .loadFieldValue(itemNoReturns);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMNAMERETURNS, componentId)
+                    .loadFieldValue(itemNameReturns);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMIDRETURNS, componentId)
+                    .loadFieldValue(itemIdReturns);
 
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BRANDIDARM, componentId)
-					.loadFieldValue(brandIdArm);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNAMEARM, componentId)
-					.loadFieldValue(contractNameArm);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMNOARM, componentId)
-					.loadFieldValue(itemNoArm);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMNAMEARM, componentId)
-					.loadFieldValue(itemNameArm);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BRANDNAMEARM, componentId)
-					.loadFieldValue(brandNameArm);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.GLDATEARM, componentId)
-					.loadDateValue(glDateArm);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CREATEDBY, componentId)
-					.loadFieldValue(createdByPrivate);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY, componentId)
-					.loadFieldValue(approvedByPrivate);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CONTRACTIDARM, componentId)
+                    .loadFieldValue(contractIdArm);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNOARM, componentId)
+                    .loadFieldValue(contractNoArm);
 
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONNOARM, componentId)
-					.loadFieldValue(deductionNoArm);
-			GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONNAMEARM, componentId)
-					.loadFieldValue(deductionNameArm);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BRANDIDARM, componentId)
+                    .loadFieldValue(brandIdArm);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CONTRACTNAMEARM, componentId)
+                    .loadFieldValue(contractNameArm);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMNOARM, componentId)
+                    .loadFieldValue(itemNoArm);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.ITEMNAMEARM, componentId)
+                    .loadFieldValue(itemNameArm);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BRANDNAMEARM, componentId)
+                    .loadFieldValue(brandNameArm);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.GLDATEARM, componentId)
+                    .loadDateValue(glDateArm);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CREATEDBY, componentId)
+                    .loadFieldValue(createdByPrivate);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY, componentId)
+                    .loadFieldValue(approvedByPrivate);
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("businessUnitARM", componentId)
-					.loadComboBoxComponentValue(getIntValue(businessunitArm));
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONNOARM, componentId)
+                    .loadFieldValue(deductionNoArm);
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.DEDUCTIONNAMEARM, componentId)
+                    .loadFieldValue(deductionNameArm);
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("workflowStatusArm", componentId)
-					.loadComboBoxComponentValue(getIntValue(workflowStatusArm));
-		
-			selectComponentOfMultiComboBox("adjustmentType",componentId,adjustmentType);
-			
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("deductionLevelArm", componentId)
-					.loadComboBoxComponentValue(getIntValue(deductionLevelArm));
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent("businessUnitARM", componentId)
+                    .loadComboBoxComponentValue(getIntValue(businessunitArm));
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("deductionValueArm", componentId)
-					.loadComboBoxComponentValue(getIntValue(deductionValueArm));
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent("workflowStatusArm", componentId)
+                    .loadComboBoxComponentValue(getIntValue(workflowStatusArm));
 
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("customerNoArm", componentId).loadFieldValue(customerNoArm);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("customerNameArm", componentId)
-					.loadFieldValue(customerNameArm);
-			if (combocomponent.equals(GtnFrameworkCommonStringConstants.ARM) && !companyARM.isEmpty()) {
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("companyARM", componentId)
-						.loadComboBoxComponentValue(getIntValue(companyARM));
-			}
+            selectComponentOfMultiComboBox("adjustmentType", componentId, adjustmentType);
 
-		} catch (
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent("deductionLevelArm", componentId)
+                    .loadComboBoxComponentValue(getIntValue(deductionLevelArm));
 
-		Exception e) {
-			gtnLogger.error(e.getMessage(), e);
-		}
-	}
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent("deductionValueArm", componentId)
+                    .loadComboBoxComponentValue(getIntValue(deductionValueArm));
 
-	@Override
-	public GtnUIFrameWorkAction createInstance() {
-		return this;
-	}
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent("customerNoArm", componentId).loadFieldValue(customerNoArm);
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent("customerNameArm", componentId)
+                    .loadFieldValue(customerNameArm);
+            if (combocomponent.equals(GtnFrameworkCommonStringConstants.ARM) && !companyARM.isEmpty()) {
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent("companyARM", componentId)
+                        .loadComboBoxComponentValue(getIntValue(companyARM));
+            }
 
-	private Integer getIntValue(String value) {
-		if (value != null && !value.isEmpty() && !"null".equalsIgnoreCase(String.valueOf(value).trim())) {
-			return Integer.valueOf(value);
-		}
-		return 0;
-	}
+        } catch (Exception e) {
+            gtnLogger.error(e.getMessage(), e);
+        }
+    }
 
-	/*	Basically for business process type='ARM'
+    @Override
+    public GtnUIFrameWorkAction createInstance() {
+        return this;
+    }
+
+    private Integer getIntValue(String value) {
+        if (value != null && !value.isEmpty() && !"null".equalsIgnoreCase(String.valueOf(value).trim())) {
+            return Integer.valueOf(value);
+        }
+        return 0;
+    }
+
+    /*	Basically for business process type='ARM'
 	 *  It will select multiple select combo box components 
-	 */
-	private void selectComponentOfMultiComboBox(String componentId, String sourceComponentId, String value) {
-		List<String> stringList = Arrays.asList(value.split(","));
-		List<Integer> integerList=new ArrayList<>();
-			
-		for(String strValue : stringList) {
-			integerList.add(Integer.valueOf(strValue));
-		}
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId, sourceComponentId).loadCheckedValueCustomMenuBar(integerList);
-		
-	}
+     */
+    private void selectComponentOfMultiComboBox(String componentId, String sourceComponentId, String value) {
+        if (value.matches(".*[a-zA-Z]+.*") || value.equals("")) {
+            return;
+        }
+        List<String> stringList = Arrays.asList(value.split(","));
+        List<Integer> integerList = new ArrayList<>();
+
+        for (String strValue : stringList) {
+            integerList.add(Integer.valueOf(strValue));
+        }
+        GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId, sourceComponentId).loadCheckedValueCustomMenuBar(integerList);
+
+    }
 }

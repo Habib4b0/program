@@ -256,7 +256,6 @@ public class MedicaidURA extends CustomComponent implements View {
     @UiField("priceBasisDdlb")
     private ComboBox priceBasisDdlb;
     private HelperDTO brandWorksheetDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    private final Property.ValueChangeListener ndcValueChange = getNDCFilterValueChangeListener();
     private final SessionDTO sessionDTO;
     public static final String MEDICAID_URA_WORSHEET_HELPER_TABLE = "Medicaid_Ura_Worsheet_Helper_table";
     public static final String MEDICAID_URA_TOTAL_URA = "MEDICAID_URA_TOTAL_URA";
@@ -398,7 +397,7 @@ public class MedicaidURA extends CustomComponent implements View {
             }
         });
 
-        ndcFilterDdlb.addValueChangeListener(ndcValueChange);
+        ndcFilterDdlb.addValueChangeListener(getNDCFilterValueChangeListener());
 
         levelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 
@@ -1077,10 +1076,10 @@ public class MedicaidURA extends CustomComponent implements View {
         if (ndcFilterDdlb.getValue() != null) {
             HelperDTO helperDTO = (HelperDTO) ndcFilterDdlb.getValue();
             if (!SELECT_ONE.getConstant().equals(helperDTO.getDescription())) {
-                ndcFilterDdlb.removeValueChangeListener(ndcValueChange);
+                ndcFilterDdlb.removeValueChangeListener(getNDCFilterValueChangeListener());
                 ndcFilterDdlb.setImmediate(true);
                 tableLogic.clearAll();
-                ndcFilterDdlb.addValueChangeListener(ndcValueChange);
+                ndcFilterDdlb.addValueChangeListener(getNDCFilterValueChangeListener());
                 ndcFilterDdlb.select(ndcFilterDto);
             }
         }

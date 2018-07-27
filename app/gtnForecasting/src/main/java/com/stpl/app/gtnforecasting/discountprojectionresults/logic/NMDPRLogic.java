@@ -315,7 +315,6 @@ public class NMDPRLogic {
     public List<DiscountProjectionResultsDTO> getPivotProjectionTotal(int projectionId,
             ProjectionSelectionDTO projSelDTO, List<Integer> startAndEndPeriods)  {
         List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<>();
-        List<Object> view = new ArrayList<>();
         String selectedView = String.valueOf(projSelDTO.getView());
         List ccpId = null;
         /**
@@ -364,7 +363,6 @@ public class NMDPRLogic {
             discountList = projSelDTO.getDiscountNameList();
             String discountString = getDiscountName(discountList);
             projSelDTO.setCcpCount(ccpId.size());
-            view.add(projSelDTO.getProjectionOrder());
             String order = projSelDTO.getProjectionOrder();
             List list = getDPRProjectionTotal(projSelDTO, discountString, Constant.PARENT, order, startAndEndPeriods, ccpTableName, BooleanConstant.getTrueFlag(), PERCENTAGE, Constant.STRING_ONE, BooleanConstant.getTrueFlag());
             if (list != null && !list.isEmpty()) {
@@ -1105,40 +1103,6 @@ public class NMDPRLogic {
         dto.setParent(1);
         String hierachyNumber = String.valueOf(dto.getHierarchyNo());
         hierachyNumber = hierachyNumber + PERCENTAGE;
-        List<Integer> yearList = new ArrayList<>();
-        yearList.add(projSelDTO.getForecastDTO().getHistoryStartYear());
-        yearList.add(projSelDTO.getForecastDTO().getHistoryStartMonth());
-        yearList.add(projSelDTO.getForecastDTO().getHistoryEndYear());
-        yearList.add(projSelDTO.getForecastDTO().getHistoryEndMonth());
-
-        yearList.add(projSelDTO.getForecastDTO().getForecastStartYear());
-        String freq = String.valueOf(projSelDTO.getFrequency());
-        if (QUARTERLY.getConstant().equals(freq)) {
-            int month = projSelDTO.getForecastDTO().getForecastStartMonth();
-            if (month <= NumericConstants.THREE) {
-                yearList.add(1);
-            } else if (month >= NumericConstants.FOUR && month < NumericConstants.SEVEN) {
-                yearList.add(NumericConstants.FOUR);
-            } else if (month >= NumericConstants.SEVEN && month < NumericConstants.TEN) {
-                yearList.add(NumericConstants.SEVEN);
-            } else if (month >= NumericConstants.TEN && month < NumericConstants.THIRTEEN) {
-                yearList.add(NumericConstants.TEN);
-            }
-        } else if (SEMI_ANNUALLY.getConstant().equals(freq)) {
-            int month = projSelDTO.getForecastDTO().getForecastStartMonth();
-            if (month <= NumericConstants.SIX) {
-                yearList.add(1);
-            } else if (month >= NumericConstants.SEVEN && month < NumericConstants.THIRTEEN) {
-                yearList.add(NumericConstants.SEVEN);
-            }
-        } else if (ANNUALLY.getConstant().equals(freq)) {
-            yearList.add(1);
-        } else if (MONTHLY.getConstant().equals(freq)) {
-            int month = projSelDTO.getForecastDTO().getForecastStartMonth();
-            yearList.add(month);
-        }
-        yearList.add(projSelDTO.getForecastDTO().getForecastEndYear());
-        yearList.add(projSelDTO.getForecastDTO().getForecastEndMonth());
         String selectedView = projSelDTO.getView();
         List ccpId = null;
         String query = "";

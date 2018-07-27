@@ -35,7 +35,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,6 +87,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.ComboBox;
+import java.util.HashMap;
 
 /**
  *
@@ -594,9 +594,6 @@ public class DataSelection extends ForecastDataSelection {
 	}
 
 	public final void configureOnLoading(int projectionId, DataSelectionDTO dataSelectionDTO) {
-		
-		boolean flag = Boolean.FALSE;
-		
 		session.setFromPeriod(dataSelectionDTO.getFromPeriod());
 		session.setToPeriod(dataSelectionDTO.getToPeriod());
 		session.setFromDate(dataSelectionDTO.getFromDate());
@@ -605,15 +602,21 @@ public class DataSelection extends ForecastDataSelection {
 		if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
 			configureStartAndEndPeriods();
 		} else {
-			productLevel.setVisible(flag);
-			customerLevel.setVisible(flag);
-			productForecastLevelLabel.setVisible(flag);
-			customerForecastLevelLabel.setVisible(flag);
+			productLevel.setVisible(Boolean.FALSE);
+			customerLevel.setVisible(Boolean.FALSE);
+			productForecastLevelLabel.setVisible(Boolean.FALSE);
+			customerForecastLevelLabel.setVisible(Boolean.FALSE);
+                        forecastEligibleDateLB.setVisible(Boolean.FALSE);
+                        forecastEligibleDate.setVisible(Boolean.FALSE);
+                        customRelation.setVisible(Boolean.FALSE);
+                        customRelationDdlb.setVisible(Boolean.FALSE);
+                        customRelationDiscount.setVisible(Boolean.FALSE);
+                        customRelationDdlbDeduction.setVisible(Boolean.FALSE);
 		}
 		initializeProductHierarchy(projectionId, String.valueOf(dataSelectionDTO.getProductHierarchyLevel()));
 		setFirstTimeLoad(true);
 		initializeFromDto();
-		setFirstTimeLoad(flag);
+		setFirstTimeLoad(false);
 		if (!CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
 			session.setCustomerHierarchyId(Integer.parseInt(dataSelectionDTO.getCustomerHierSid()));
 			initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()));
@@ -1792,8 +1795,7 @@ public class DataSelection extends ForecastDataSelection {
 			if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
 				{
 					dedLevel = getDedutionLevel();
-					dedValue = deductionValue.getValue() == null ? StringUtils.EMPTY
-							: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
+                                        dedValue=String.valueOf(deductionValue.getValue());
 				}
 			}
 		} catch (NumberFormatException ex) {
@@ -1952,8 +1954,11 @@ public class DataSelection extends ForecastDataSelection {
 				loadProductVersionNo(productRelation.getValue());
                                 customViewInput.put("prodVer", productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
                                 customViewInput.put("prodSid", String.valueOf(productRelation.getValue()));
-                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
-                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
+
+                                if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
+                                    loadCustomViewDropDown(customRelationDdlb,customViewInput);
+                                    loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
+                                }
 			} catch (NumberFormatException ex) {
 				LOGGER.error(" in productRelation value change= {}",ex);
 			}
@@ -2077,8 +2082,7 @@ public class DataSelection extends ForecastDataSelection {
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
 					{
 						dedLevel = getDedutionLevel();
-						dedValue = deductionValue.getValue() == null ? StringUtils.EMPTY
-								: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
+                                                dedValue = String.valueOf(deductionValue.getValue());
 					}
 				}
 				String relationshipSid = String.valueOf(productRelation.getValue());

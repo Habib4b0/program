@@ -17,7 +17,6 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public class PromoteTpToChEdit extends VerticalLayout {
 
-    private final SessionDTO session;
     /**
      * View name for navigation.
      */
@@ -31,8 +30,6 @@ public class PromoteTpToChEdit extends VerticalLayout {
      */
     private final ErrorfulFieldGroup promoteTpToChBinder = new ErrorfulFieldGroup(new BeanItem<>(promoteTpToChDto));
     private final PromoteTPToChForm promoteTPToChForm;
-    private final PromoteTpToChWindow editWindow;
-    private final ExtFilterTable resultTable;
 
     /**
      *
@@ -43,11 +40,8 @@ public class PromoteTpToChEdit extends VerticalLayout {
      * @throws Exception
      */
     public PromoteTpToChEdit(final SessionDTO session, final PromoteTpToChDto promoteTpToChDto, final PromoteTpToChWindow editWindow, final ExtFilterTable resultTable) {
-        this.session = session;
         this.promoteTpToChDto = promoteTpToChDto;
-        this.editWindow = editWindow;
-        this.resultTable = resultTable;
-        promoteTPToChForm = new PromoteTPToChForm(promoteTpToChBinder, this.session, this.editWindow, this.resultTable);
+        promoteTPToChForm = new PromoteTPToChForm(promoteTpToChBinder, session, editWindow, resultTable);
         addComponent(promoteTPToChForm);
         enter();
     }

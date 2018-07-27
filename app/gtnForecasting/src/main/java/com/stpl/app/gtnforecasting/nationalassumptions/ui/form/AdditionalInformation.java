@@ -163,7 +163,7 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The file size.
      */
-    private double fileSize = 0.00;
+    private Double fileSize = 0.00;
     public static final String DOCUMENTS = "Documents";
     /**
      * The file path.
@@ -376,7 +376,7 @@ public class AdditionalInformation extends CustomComponent {
             @Override
             public void updateProgress(final long readBytes, final long contentLength) {
                 LOGGER.debug("updateProgress method in addProgressListener started");
-                fileSize = Double.valueOf(contentLength) / NumericConstants.ONE_ZERO_TWO_FOUR;
+                fileSize = Double.valueOf(contentLength) / (Integer)NumericConstants.ONE_ZERO_TWO_FOUR;
                 LOGGER.debug("updateProgress method in addProgressListener ends");
             }
         });

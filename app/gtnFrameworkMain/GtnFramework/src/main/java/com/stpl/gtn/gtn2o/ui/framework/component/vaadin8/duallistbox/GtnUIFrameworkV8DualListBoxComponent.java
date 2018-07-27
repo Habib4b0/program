@@ -32,6 +32,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.components.grid.HeaderRow;
+import java.util.Locale;
 
 public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkComponent {
 
@@ -187,7 +188,7 @@ public class GtnUIFrameworkV8DualListBoxComponent implements GtnUIFrameworkCompo
 			String filterText = event.getValue();
 			ListDataProvider<GtnWsRecordBean> dataprovider = (ListDataProvider<GtnWsRecordBean>) grid.getDataProvider();
 			dataprovider.setFilter(s -> {
-				String value = s.getPropertyValue("levelValue").toString().toLowerCase();
+				String value = s.getPropertyValue("levelValue").toString().toLowerCase(Locale.ENGLISH);
 				return value.contains(filterText.toLowerCase());
 			});
 		});

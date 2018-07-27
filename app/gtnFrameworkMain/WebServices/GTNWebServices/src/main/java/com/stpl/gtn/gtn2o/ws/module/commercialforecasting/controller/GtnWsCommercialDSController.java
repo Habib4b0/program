@@ -41,17 +41,17 @@ public class GtnWsCommercialDSController {
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsCommercialDSController.class);
 
 	@Autowired
-	private GtnWsGeneralController gtnGeneralServiceController;
+	private GtnWsGeneralController gtnWSGeneralServiceController;
 
 	@Autowired
 	private org.hibernate.SessionFactory sysSessionFactory;
 
-	public GtnWsGeneralController getGtnGeneralServiceController() {
-		return gtnGeneralServiceController;
+	public GtnWsGeneralController getGtnWSGeneralServiceController() {
+		return gtnWSGeneralServiceController;
 	}
 
-	public void setGtnGeneralServiceController(GtnWsGeneralController gtnGeneralServiceController) {
-		this.gtnGeneralServiceController = gtnGeneralServiceController;
+	public void setGtnWSGeneralServiceController(GtnWsGeneralController gtnWSGeneralServiceController) {
+		this.gtnWSGeneralServiceController = gtnWSGeneralServiceController;
 	}
 
 	public org.hibernate.SessionFactory getSysSessionFactory() {
@@ -65,24 +65,24 @@ public class GtnWsCommercialDSController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "getProductHierarchyLookUp", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getProductHierarchyLookUp(
-			@RequestBody GtnUIFrameworkWebserviceRequest productHierarchyRequest) {
+			@RequestBody GtnUIFrameworkWebserviceRequest productHierarchyWSRequest) {
 		GtnUIFrameworkWebserviceResponse productHierarchyResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			LOGGER.info(" inside Product Hierarchy search ");
-			GtnSerachResponse productHierarchySerachResponse = new GtnSerachResponse();
-			String queryName = productHierarchyRequest.getGtnWsSearchRequest().isCount()
+			GtnSerachResponse productHierarchySearchResponse = new GtnSerachResponse();
+			String queryName = productHierarchyWSRequest.getGtnWsSearchRequest().isCount()
 					? "getCountCommercialForecastingProductHierarchy" : "getDataCommercialForecastingProductHierarchy";
 
-			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnGeneralServiceController
-					.getGtnWsSqlService().getQuery(getProductHierarchyLookUpInput(productHierarchyRequest), queryName));
-			if (productHierarchyRequest.getGtnWsSearchRequest().isCount()) {
-				productHierarchySerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
+			List<Object[]> result = gtnWSGeneralServiceController.executeQuery(gtnWSGeneralServiceController
+					.getGtnWsSqlService().getQuery(getProductHierarchyLookUpInput(productHierarchyWSRequest), queryName));
+			if (productHierarchyWSRequest.getGtnWsSearchRequest().isCount()) {
+				productHierarchySearchResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable gtnUIFrameworkDataTable = new GtnUIFrameworkDataTable();
 				gtnUIFrameworkDataTable.addData(result);
-				productHierarchySerachResponse.setResultSet(gtnUIFrameworkDataTable);
+				productHierarchySearchResponse.setResultSet(gtnUIFrameworkDataTable);
 			}
-			productHierarchyResponse.setGtnSerachResponse(productHierarchySerachResponse);
+			productHierarchyResponse.setGtnSerachResponse(productHierarchySearchResponse);
 		} catch (GtnFrameworkGeneralException ex) {
 			LOGGER.error(ex.getMessage());
 			productHierarchyResponse.getGtnWsGeneralResponse().setSucess(false);
@@ -96,40 +96,40 @@ public class GtnWsCommercialDSController {
 	private List<Object> getProductHierarchyLookUpInput(GtnUIFrameworkWebserviceRequest gtnWsRequest)
 			throws ParseException {
 
-		List<Object> productHierarchySearchResultList = new ArrayList<>();
-		String hierarchyName = "%";
-		String hierarchyType = "%";
-		String hierarchyNameListVie = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		String highestLevel = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		String lowestLevel = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		String createdDate = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		String modifiedDate = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		List<Object> productHierarchySearchResultListForCF = new ArrayList<>();
+		String hierarchyNameForCF = "%";
+		String hierarchyTypeForCF = "%";
+		String hierarchyNameList = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String highestLevelValue = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String lowestLevelValue = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String createdDateOfPH = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String modifiedDateOfPH = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 
 		for (GtnWebServiceSearchCriteria searchCriteria : gtnWsRequest.getGtnWsSearchRequest()
 				.getGtnWebServiceSearchCriteriaList()) {
 			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
 				switch (searchCriteria.getFieldId()) {
 				case "prodHierarchyLookupHierarchyType":
-					hierarchyType = searchCriteria.getFilterValue1().replace('*', '%');
+					hierarchyTypeForCF = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "prodHierarchyLookupHierarchyName":
-					hierarchyName = searchCriteria.getFilterValue1().replace('*', '%');
+					hierarchyNameForCF = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "prodHierarchyLookupHierName":
-					hierarchyNameListVie = "AND c.HIERARCHY_NAME like '%" + searchCriteria.getFilterValue1() + "%'";
+					hierarchyNameList = "AND c.HIERARCHY_NAME like '%" + searchCriteria.getFilterValue1() + "%'";
 					break;
 				case "prodHierarchyLookupHighestLevel":
-					highestLevel = getLevelFilter(searchCriteria);
+					highestLevelValue = getLevelFilter(searchCriteria);
 					break;
 				case "prodHierarchyLookupLowestLevel":
-					lowestLevel = getLevelFilter(searchCriteria);
+					lowestLevelValue = getLevelFilter(searchCriteria);
 					break;
 				case "prodHierarchyLookupCreatedDate":
 
-					createdDate = getDateFilter(searchCriteria, GtnFrameworkCommonConstants.C_CREATED_DATE);
+					createdDateOfPH = getDateFilter(searchCriteria, GtnFrameworkCommonConstants.C_CREATED_DATE);
 					break;
 				case "prodHierarchyLookupModifiedDate":
-					modifiedDate = getDateFilter(searchCriteria, GtnFrameworkCommonConstants.C_MODIFIED_DATE);
+					modifiedDateOfPH = getDateFilter(searchCriteria, GtnFrameworkCommonConstants.C_MODIFIED_DATE);
 					break;
 				default:
 					break;
@@ -137,121 +137,121 @@ public class GtnWsCommercialDSController {
 			}
 
 		}
-		productHierarchySearchResultList.add(hierarchyName);
-		productHierarchySearchResultList.add(hierarchyType);
-		productHierarchySearchResultList.add(hierarchyNameListVie);
-		productHierarchySearchResultList.add(highestLevel);
-		productHierarchySearchResultList.add(lowestLevel);
-		productHierarchySearchResultList.add(createdDate);
-		productHierarchySearchResultList.add(modifiedDate);
+		productHierarchySearchResultListForCF.add(hierarchyNameForCF);
+		productHierarchySearchResultListForCF.add(hierarchyTypeForCF);
+		productHierarchySearchResultListForCF.add(hierarchyNameList);
+		productHierarchySearchResultListForCF.add(highestLevelValue);
+		productHierarchySearchResultListForCF.add(lowestLevelValue);
+		productHierarchySearchResultListForCF.add(createdDateOfPH);
+		productHierarchySearchResultListForCF.add(modifiedDateOfPH);
 		if (!gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-			productHierarchySearchResultList.addAll(getProductHierarchySortedInputs(
+			productHierarchySearchResultListForCF.addAll(getProductHierarchySortedInputs(
 					gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceOrderByCriteriaList()));
-			productHierarchySearchResultList.add(gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart());
-			productHierarchySearchResultList.add(gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset());
+			productHierarchySearchResultListForCF.add(gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart());
+			productHierarchySearchResultListForCF.add(gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset());
 		}
-		return productHierarchySearchResultList;
+		return productHierarchySearchResultListForCF;
 	}
 
-	String getComparisonOperator(String expression) {
-		if (expression.contains(GtnFrameworkWebserviceConstant.GREATER)) {
+	String getComparisonOperator(String compExpression) {
+		if (compExpression.contains(GtnFrameworkWebserviceConstant.GREATER)) {
 			return ">";
-		} else if (expression.contains("LESS")) {
+		} else if (compExpression.contains("LESS")) {
 			return "<";
 		}
 		return "=";
 	}
 
-	String getLevelFilter(GtnWebServiceSearchCriteria searchCriteria) {
-		String exp = getComparisonOperator(searchCriteria.getExpression());
-		return "AND B.LEVEL_NO " + exp + " " + searchCriteria.getFilterValue1();
+	String getLevelFilter(GtnWebServiceSearchCriteria wsSearchCriteria) {
+		String exp = getComparisonOperator(wsSearchCriteria.getExpression());
+		return "AND B.LEVEL_NO " + exp + " " + wsSearchCriteria.getFilterValue1();
 	}
 
-	String getDateFilter(GtnWebServiceSearchCriteria searchCriteria, String column) throws ParseException {
+	String getDateFilter(GtnWebServiceSearchCriteria wsDFSearchCriteria, String column) throws ParseException {
 		String dateFilter = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		if (searchCriteria.getFilterValue2() != null && !searchCriteria.getFilterValue2().isEmpty()) {
-			dateFilter = "AND " + column + " BETWEEN '" + getDate(searchCriteria.getFilterValue1())
-					+ GtnFrameworkWebserviceConstant.AND + getDate(searchCriteria.getFilterValue2()) + "'";
+		if (wsDFSearchCriteria.getFilterValue2() != null && !wsDFSearchCriteria.getFilterValue2().isEmpty()) {
+			dateFilter = "AND " + column + " BETWEEN '" + getDate(wsDFSearchCriteria.getFilterValue1())
+					+ GtnFrameworkWebserviceConstant.AND + getDate(wsDFSearchCriteria.getFilterValue2()) + "'";
 		}
 		return dateFilter;
 	}
 
-	public String getDate(String input) throws ParseException {
+	public String getDate(String dateInput) throws ParseException {
 
 		DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
-		Date date = formatter.parse(input);
+		Date date = formatter.parse(dateInput);
 		SimpleDateFormat commonDate = new SimpleDateFormat("MM/dd/yyyy");
 		return commonDate.format(date);
 	}
 
 	private List<Object> getProductHierarchySortedInputs(
-			List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList) {
-		List<Object> sortedProductHierarchyList = new ArrayList<>();
-		if (!gtnWebServiceOrderByCriteriaList.isEmpty()) {
-			GtnWebServiceOrderByCriteria dto = gtnWebServiceOrderByCriteriaList.get(0);
-			sortedProductHierarchyList
+			List<GtnWebServiceOrderByCriteria> gtnPHWebServiceOrderByCriteriaList) {
+		List<Object> sortedProductHierList = new ArrayList<>();
+		if (!gtnPHWebServiceOrderByCriteriaList.isEmpty()) {
+			GtnWebServiceOrderByCriteria dto = gtnPHWebServiceOrderByCriteriaList.get(0);
+			sortedProductHierList
 					.add(sortedProductHierarchyMap().get(dto.getPropertyId()) + " " + dto.getOrderByCriteria());
 		} else {
-			sortedProductHierarchyList.add(sortedProductHierarchyMap().get("sid") + " ASC");
+			sortedProductHierList.add(sortedProductHierarchyMap().get("sid") + " ASC");
 		}
-		return sortedProductHierarchyList;
+		return sortedProductHierList;
 	}
 
 	private Map<String, String> sortedProductHierarchyMap() {
-		Map<String, String> sortedProductHierarchyMap = new HashMap<>();
-		sortedProductHierarchyMap.put("sid", "c.HIERARCHY_DEFINITION_SID");
-		sortedProductHierarchyMap.put("prodHierarchyLookupHierName", "c.HIERARCHY_NAME");
-		sortedProductHierarchyMap.put("prodHierarchyLookupHighestLevel", "A.LEVEL_NO");
-		sortedProductHierarchyMap.put("prodHierarchyLookupLowestLevel", "B.LEVEL_NO");
-		sortedProductHierarchyMap.put("prodHierarchyLookupCreatedDate", GtnFrameworkCommonConstants.C_CREATED_DATE);
-		sortedProductHierarchyMap.put("prodHierarchyLookupModifiedDate", GtnFrameworkCommonConstants.C_MODIFIED_DATE);
-		return sortedProductHierarchyMap;
+		Map<String, String> sortedProductHierMap = new HashMap<>();
+		sortedProductHierMap.put("sid", "c.HIERARCHY_DEFINITION_SID");
+		sortedProductHierMap.put("prodHierarchyLookupHierName", "c.HIERARCHY_NAME");
+		sortedProductHierMap.put("prodHierarchyLookupHighestLevel", "A.LEVEL_NO");
+		sortedProductHierMap.put("prodHierarchyLookupLowestLevel", "B.LEVEL_NO");
+		sortedProductHierMap.put("prodHierarchyLookupCreatedDate", GtnFrameworkCommonConstants.C_CREATED_DATE);
+		sortedProductHierMap.put("prodHierarchyLookupModifiedDate", GtnFrameworkCommonConstants.C_MODIFIED_DATE);
+		return sortedProductHierMap;
 	}
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "getCustomerHierarchyLookUp", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getCustomerHierarchyLookUp(
-			@RequestBody GtnUIFrameworkWebserviceRequest customerHierarchyWsRequest) {
+			@RequestBody GtnUIFrameworkWebserviceRequest customerHierarchyWSRequest) {
 
-		GtnUIFrameworkWebserviceResponse customerHierarchyResponse = new GtnUIFrameworkWebserviceResponse();
+		GtnUIFrameworkWebserviceResponse customerHierLookupResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			GtnSerachResponse customerHierarchySerachResponse = new GtnSerachResponse();
-			String queryName = customerHierarchyWsRequest.getGtnWsSearchRequest().isCount()
+			String queryName = customerHierarchyWSRequest.getGtnWsSearchRequest().isCount()
 					? "getCountCommercialForecastingCustomerHierarchy"
 					: "getDataCommercialForecastingCustomerHierarchy";
 
-			List<Object[]> result = gtnGeneralServiceController
-					.executeQuery(gtnGeneralServiceController.getGtnWsSqlService()
-							.getQuery(getCustomerHierarchyLookUpInput(customerHierarchyWsRequest), queryName));
-			if (customerHierarchyWsRequest.getGtnWsSearchRequest().isCount()) {
+			List<Object[]> result = gtnWSGeneralServiceController
+					.executeQuery(gtnWSGeneralServiceController.getGtnWsSqlService()
+							.getQuery(getCustomerHierarchyLookUpInput(customerHierarchyWSRequest), queryName));
+			if (customerHierarchyWSRequest.getGtnWsSearchRequest().isCount()) {
 				customerHierarchySerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable customerHierarchyDataTable = new GtnUIFrameworkDataTable();
 				customerHierarchyDataTable.addData(result);
 				customerHierarchySerachResponse.setResultSet(customerHierarchyDataTable);
 			}
-			customerHierarchyResponse.setGtnSerachResponse(customerHierarchySerachResponse);
+			customerHierLookupResponse.setGtnSerachResponse(customerHierarchySerachResponse);
 		} catch (GtnFrameworkGeneralException ex) {
 			LOGGER.error(ex.getMessage());
-			customerHierarchyResponse.getGtnWsGeneralResponse().setSucess(false);
-			customerHierarchyResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			customerHierLookupResponse.getGtnWsGeneralResponse().setSucess(false);
+			customerHierLookupResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
 		}
-		return customerHierarchyResponse;
+		return customerHierLookupResponse;
 	}
 
 	private List<Object> getCustomerHierarchyLookUpInput(GtnUIFrameworkWebserviceRequest gtnWsRequest)
 			throws ParseException {
 
-		List<Object> customerHierarchySearchResultList = new ArrayList<>();
-		String hierarchyName = "%";
-		String hierarchyType = "%";
-		String hierarchyNameListVie = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		String highestLevel = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		String lowestLevel = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		String createdDate = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		String modifiedDate = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		List<Object> customerHierSearchResultList = new ArrayList<>();
+		String hierarchyNameForCH = "%";
+		String hierarchyTypeForCH = "%";
+		String hierarchyNameListForCH = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String highestLevelForCH = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String lowestLevelForCH = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String createdDateOfCH = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String modifiedDateOfCH = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 
 		for (GtnWebServiceSearchCriteria searchCriteria : gtnWsRequest.getGtnWsSearchRequest()
 				.getGtnWebServiceSearchCriteriaList()) {
@@ -264,19 +264,19 @@ public class GtnWsCommercialDSController {
 			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
 				switch (searchCriteria.getFieldId()) {
 				case "custHierarchyLookupHierarchyType":
-					hierarchyType = searchCriteria.getFilterValue1().replace('*', '%');
+					hierarchyTypeForCH = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "custHierarchyLookupHierarchyName":
-					hierarchyName = searchCriteria.getFilterValue1().replace('*', '%');
+					hierarchyNameForCH = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "custHierarchyLookupHierName":
-					hierarchyNameListVie = "AND c.HIERARCHY_NAME like '%" + searchCriteria.getFilterValue1() + "%'";
+					hierarchyNameListForCH = "AND c.HIERARCHY_NAME like '%" + searchCriteria.getFilterValue1() + "%'";
 					break;
 				case "custHierarchyLookupHighestLevel":
-					highestLevel = "AND A.LEVEL_NO " + exp + " " + searchCriteria.getFilterValue1();
+					highestLevelForCH = "AND A.LEVEL_NO " + exp + " " + searchCriteria.getFilterValue1();
 					break;
 				case "custHierarchyLookupLowestLevel":
-					lowestLevel = "AND B.LEVEL_NO " + exp + " " + searchCriteria.getFilterValue1();
+					lowestLevelForCH = "AND B.LEVEL_NO " + exp + " " + searchCriteria.getFilterValue1();
 					break;
 				case "custHierarchyLookupCreatedDate":
 					getDateFilter(searchCriteria, GtnFrameworkCommonConstants.C_CREATED_DATE);
@@ -290,112 +290,112 @@ public class GtnWsCommercialDSController {
 			}
 
 		}
-		hierarchyName = !hierarchyName.isEmpty() ? hierarchyName : "%";
-		customerHierarchySearchResultList.add(hierarchyName);
-		customerHierarchySearchResultList.add(hierarchyType);
-		customerHierarchySearchResultList.add(hierarchyNameListVie);
-		customerHierarchySearchResultList.add(highestLevel);
-		customerHierarchySearchResultList.add(lowestLevel);
-		customerHierarchySearchResultList.add(createdDate);
-		customerHierarchySearchResultList.add(modifiedDate);
+		hierarchyNameForCH = !hierarchyNameForCH.isEmpty() ? hierarchyNameForCH : "%";
+		customerHierSearchResultList.add(hierarchyNameForCH);
+		customerHierSearchResultList.add(hierarchyTypeForCH);
+		customerHierSearchResultList.add(hierarchyNameListForCH);
+		customerHierSearchResultList.add(highestLevelForCH);
+		customerHierSearchResultList.add(lowestLevelForCH);
+		customerHierSearchResultList.add(createdDateOfCH);
+		customerHierSearchResultList.add(modifiedDateOfCH);
 		if (!gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-			customerHierarchySearchResultList.addAll(getCustomerHierarchySortedInputs(
+			customerHierSearchResultList.addAll(getCustomerHierarchySortedInputs(
 					gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceOrderByCriteriaList()));
-			customerHierarchySearchResultList.add(gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart());
-			customerHierarchySearchResultList.add(gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset());
+			customerHierSearchResultList.add(gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart());
+			customerHierSearchResultList.add(gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset());
 		}
-		return customerHierarchySearchResultList;
+		return customerHierSearchResultList;
 	}
 
 	private List<Object> getCustomerHierarchySortedInputs(
 			List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList) {
-		List<Object> sortedCustomerHierarchyList = new ArrayList<>();
+		List<Object> sortedCustomerHierarList = new ArrayList<>();
 		if (!gtnWebServiceOrderByCriteriaList.isEmpty()) {
 			GtnWebServiceOrderByCriteria dto = gtnWebServiceOrderByCriteriaList.get(0);
-			sortedCustomerHierarchyList
+			sortedCustomerHierarList
 					.add(sortedCustomerHierarchyMap().get(dto.getPropertyId()) + " " + dto.getOrderByCriteria());
 		} else {
-			sortedCustomerHierarchyList.add(sortedCustomerHierarchyMap().get("sid") + " ASC");
+			sortedCustomerHierarList.add(sortedCustomerHierarchyMap().get("sid") + " ASC");
 		}
-		return sortedCustomerHierarchyList;
+		return sortedCustomerHierarList;
 	}
 
 	private Map<String, String> sortedCustomerHierarchyMap() {
-		Map<String, String> sortedCustomerHierarchyMap = new HashMap<>();
-		sortedCustomerHierarchyMap.put("sid", "c.HIERARCHY_DEFINITION_SID");
-		sortedCustomerHierarchyMap.put("custHierarchyLookupHierName", "c.HIERARCHY_NAME");
-		sortedCustomerHierarchyMap.put("custHierarchyLookupHighestLevel", "A.LEVEL_NO");
-		sortedCustomerHierarchyMap.put("custHierarchyLookupLowestLevel", "B.LEVEL_NO");
-		sortedCustomerHierarchyMap.put("custHierarchyLookupCreatedDate", GtnFrameworkCommonConstants.C_CREATED_DATE);
-		sortedCustomerHierarchyMap.put("custHierarchyLookupModifiedDate", GtnFrameworkCommonConstants.C_MODIFIED_DATE);
-		return sortedCustomerHierarchyMap;
+		Map<String, String> sortedCustomerHierMap = new HashMap<>();
+		sortedCustomerHierMap.put("sid", "c.HIERARCHY_DEFINITION_SID");
+		sortedCustomerHierMap.put("custHierarchyLookupHierName", "c.HIERARCHY_NAME");
+		sortedCustomerHierMap.put("custHierarchyLookupHighestLevel", "A.LEVEL_NO");
+		sortedCustomerHierMap.put("custHierarchyLookupLowestLevel", "B.LEVEL_NO");
+		sortedCustomerHierMap.put("custHierarchyLookupCreatedDate", GtnFrameworkCommonConstants.C_CREATED_DATE);
+		sortedCustomerHierMap.put("custHierarchyLookupModifiedDate", GtnFrameworkCommonConstants.C_MODIFIED_DATE);
+		return sortedCustomerHierMap;
 	}
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "getProductGroupLookUp", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse getProductGroupLookUp(
-			@RequestBody GtnUIFrameworkWebserviceRequest productGroupRequest) {
-		GtnUIFrameworkWebserviceResponse productGroupResponse = new GtnUIFrameworkWebserviceResponse();
+			@RequestBody GtnUIFrameworkWebserviceRequest productGroupWSRequest) {
+		GtnUIFrameworkWebserviceResponse productGroupWSResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
-			GtnSerachResponse productGroupSerachResponse = new GtnSerachResponse();
-			String queryName = productGroupRequest.getGtnWsSearchRequest().isCount()
+			GtnSerachResponse productGroupSearchResponse = new GtnSerachResponse();
+			String queryName = productGroupWSRequest.getGtnWsSearchRequest().isCount()
 					? "getCountCommercialForecastingProdGroupLookUp" : "getDataCommercialForecastingProdGroupLookUp";
 
-			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnGeneralServiceController
-					.getGtnWsSqlService().getQuery(getProductGroupLookUpInput(productGroupRequest), queryName));
-			if (productGroupRequest.getGtnWsSearchRequest().isCount()) {
-				productGroupSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
+			List<Object[]> result = gtnWSGeneralServiceController.executeQuery(gtnWSGeneralServiceController
+					.getGtnWsSqlService().getQuery(getProductGroupLookUpInput(productGroupWSRequest), queryName));
+			if (productGroupWSRequest.getGtnWsSearchRequest().isCount()) {
+				productGroupSearchResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable productGroupDataTable = new GtnUIFrameworkDataTable();
 				productGroupDataTable.addData(result);
-				productGroupSerachResponse.setResultSet(productGroupDataTable);
+				productGroupSearchResponse.setResultSet(productGroupDataTable);
 			}
-			productGroupResponse.setGtnSerachResponse(productGroupSerachResponse);
+			productGroupWSResponse.setGtnSerachResponse(productGroupSearchResponse);
 		} catch (GtnFrameworkGeneralException ex) {
-			productGroupResponse.getGtnWsGeneralResponse().setSucess(false);
-			productGroupResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			productGroupWSResponse.getGtnWsGeneralResponse().setSucess(false);
+			productGroupWSResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
 		}
-		return productGroupResponse;
+		return productGroupWSResponse;
 
 	}
 
-	private List<Object> getProductGroupLookUpInput(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+	private List<Object> getProductGroupLookUpInput(GtnUIFrameworkWebserviceRequest gtnWsProdGroupRequest) {
 
-		List<Object> productGroupLookUpInputList = new ArrayList<>();
-		String productGroupName = "%";
-		String productGroupNo = "%";
-		String productGroupNameFilterView = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		String productGroupNoFilterView = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		String productGroupDescFilterView = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		String companyNameFilterView = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		List<Object> prodGroupLookUpInputList = new ArrayList<>();
+		String prodGroupName = "%";
+		String prodGroupNo = "%";
+		String prodGroupNameFilterView = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String prodGroupNoFilterView = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String prodGroupDescFilterView = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String compNameFilterView = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 
-		for (GtnWebServiceSearchCriteria searchCriteria : gtnWsRequest.getGtnWsSearchRequest()
+		for (GtnWebServiceSearchCriteria searchCriteria : gtnWsProdGroupRequest.getGtnWsSearchRequest()
 				.getGtnWebServiceSearchCriteriaList()) {
 			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
 				switch (searchCriteria.getFieldId()) {
 				case "prodGroupLookupProductGroupName":
-					productGroupName = searchCriteria.getFilterValue1().replace('*', '%');
+					prodGroupName = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "prodGroupLookupProductGroupNo":
-					productGroupNo = searchCriteria.getFilterValue1().replace('*', '%');
+					prodGroupNo = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "prodGroupLookupProductGroupNameFilterView":
 
-					productGroupNameFilterView = "AND (IG.ITEM_GROUP_NAME LIKE '%" + searchCriteria.getFilterValue1()
+					prodGroupNameFilterView = "AND (IG.ITEM_GROUP_NAME LIKE '%" + searchCriteria.getFilterValue1()
 							+ "%')";
 					break;
 				case "prodGroupLookupProductGroupNoFilterView":
-					productGroupNoFilterView = "AND (IG.ITEM_GROUP_NO LIKE '%" + searchCriteria.getFilterValue1()
+					prodGroupNoFilterView = "AND (IG.ITEM_GROUP_NO LIKE '%" + searchCriteria.getFilterValue1()
 							+ "%' OR IG.ITEM_GROUP_NO IS NULL )";
 					break;
 				case "prodGroupLookupProductGroupDescFilterView":
-					productGroupDescFilterView = "AND (IG.ITEM_GROUP_DESCRIPTION LIKE '%"
+					prodGroupDescFilterView = "AND (IG.ITEM_GROUP_DESCRIPTION LIKE '%"
 							+ searchCriteria.getFilterValue1() + "%')";
 					break;
 				case "prodGroupLookupCompanyNameFilterView":
-					companyNameFilterView = "AND (CM.COMPANY_NAME  LIKE '%" + searchCriteria.getFilterValue1()
+					compNameFilterView = "AND (CM.COMPANY_NAME  LIKE '%" + searchCriteria.getFilterValue1()
 							+ "%' OR CM.COMPANY_NAME IS NULL )";
 					break;
 				default:
@@ -404,34 +404,34 @@ public class GtnWsCommercialDSController {
 			}
 		}
 
-		productGroupNo = (!productGroupName.isEmpty() && productGroupNo.isEmpty()) ? "%" : productGroupNo;
-		productGroupName = (!productGroupNo.isEmpty() && productGroupName.isEmpty()) ? "%" : productGroupName;
+		prodGroupNo = (!prodGroupName.isEmpty() && prodGroupNo.isEmpty()) ? "%" : prodGroupNo;
+		prodGroupName = (!prodGroupNo.isEmpty() && prodGroupName.isEmpty()) ? "%" : prodGroupName;
 
-		productGroupLookUpInputList.add(productGroupName);
-		productGroupLookUpInputList.add(productGroupNo);
-		productGroupLookUpInputList.add(productGroupNameFilterView);
-		productGroupLookUpInputList.add(productGroupNoFilterView);
-		productGroupLookUpInputList.add(productGroupDescFilterView);
-		productGroupLookUpInputList.add(companyNameFilterView);
+		prodGroupLookUpInputList.add(prodGroupName);
+		prodGroupLookUpInputList.add(prodGroupNo);
+		prodGroupLookUpInputList.add(prodGroupNameFilterView);
+		prodGroupLookUpInputList.add(prodGroupNoFilterView);
+		prodGroupLookUpInputList.add(prodGroupDescFilterView);
+		prodGroupLookUpInputList.add(compNameFilterView);
 
-		if (!gtnWsRequest.getGtnWsSearchRequest().isCount())
+		if (!gtnWsProdGroupRequest.getGtnWsSearchRequest().isCount())
 
 		{
-			productGroupLookUpInputList.addAll(getProductGroupSortedInputs(
-					gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceOrderByCriteriaList()));
-			productGroupLookUpInputList.add(gtnWsRequest.getGtnWsSearchRequest().getTableRecordStart());
-			productGroupLookUpInputList.add(gtnWsRequest.getGtnWsSearchRequest().getTableRecordOffset());
+			prodGroupLookUpInputList.addAll(getProductGroupSortedInputs(
+					gtnWsProdGroupRequest.getGtnWsSearchRequest().getGtnWebServiceOrderByCriteriaList()));
+			prodGroupLookUpInputList.add(gtnWsProdGroupRequest.getGtnWsSearchRequest().getTableRecordStart());
+			prodGroupLookUpInputList.add(gtnWsProdGroupRequest.getGtnWsSearchRequest().getTableRecordOffset());
 		}
-		return productGroupLookUpInputList;
+		return prodGroupLookUpInputList;
 	}
 
 	private List<Object> getProductGroupSortedInputs(
 			List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList) {
 		List<Object> productGroupSortedList = new ArrayList<>();
 		if (!gtnWebServiceOrderByCriteriaList.isEmpty()) {
-			GtnWebServiceOrderByCriteria dto = gtnWebServiceOrderByCriteriaList.get(0);
+			GtnWebServiceOrderByCriteria orderByCriteriaDto = gtnWebServiceOrderByCriteriaList.get(0);
 			productGroupSortedList
-					.add(sortedProductGroupMap().get(dto.getPropertyId()) + " " + dto.getOrderByCriteria());
+					.add(sortedProductGroupMap().get(orderByCriteriaDto.getPropertyId()) + " " + orderByCriteriaDto.getOrderByCriteria());
 		} else {
 			productGroupSortedList.add(sortedProductGroupMap().get("sid") + " ASC");
 		}
@@ -440,13 +440,13 @@ public class GtnWsCommercialDSController {
 
 	private Map<String, String> sortedProductGroupMap() {
 
-		Map<String, String> sortedProductGroupMap = new HashMap<>();
-		sortedProductGroupMap.put("sid", "IG.ITEM_GROUP_SID");
-		sortedProductGroupMap.put("prodGroupLookupProductGroupNameFilterView", "IG.ITEM_GROUP_NAME");
-		sortedProductGroupMap.put("prodGroupLookupProductGroupNoFilterView", "IG.ITEM_GROUP_NO");
-		sortedProductGroupMap.put("prodGroupLookupProductGroupDescFilterView", "IG.ITEM_GROUP_DESCRIPTION");
-		sortedProductGroupMap.put("prodGroupLookupCompanyNameFilterView", " COMPANY_NAME");
-		return sortedProductGroupMap;
+		Map<String, String> sortedProdGroupMap = new HashMap<>();
+		sortedProdGroupMap.put("sid", "IG.ITEM_GROUP_SID");
+		sortedProdGroupMap.put("prodGroupLookupProductGroupNameFilterView", "IG.ITEM_GROUP_NAME");
+		sortedProdGroupMap.put("prodGroupLookupProductGroupNoFilterView", "IG.ITEM_GROUP_NO");
+		sortedProdGroupMap.put("prodGroupLookupProductGroupDescFilterView", "IG.ITEM_GROUP_DESCRIPTION");
+		sortedProdGroupMap.put("prodGroupLookupCompanyNameFilterView", " COMPANY_NAME");
+		return sortedProdGroupMap;
 
 	}
 
@@ -456,20 +456,20 @@ public class GtnWsCommercialDSController {
 			@RequestBody GtnUIFrameworkWebserviceRequest customerGroupRequest) {
 		GtnUIFrameworkWebserviceResponse customerGroupResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
-			GtnSerachResponse customerGroupSerachResponse = new GtnSerachResponse();
+			GtnSerachResponse customerGroupSearchResponse = new GtnSerachResponse();
 			String queryName = customerGroupRequest.getGtnWsSearchRequest().isCount()
 					? "getCountCommercialForecastingCustGroupLookUp" : "getDataCommercialForecastingCustGroupLookUp";
 
-			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnGeneralServiceController
+			List<Object[]> result = gtnWSGeneralServiceController.executeQuery(gtnWSGeneralServiceController
 					.getGtnWsSqlService().getQuery(getCustomerGroupLookUpInput(customerGroupRequest), queryName));
 			if (customerGroupRequest.getGtnWsSearchRequest().isCount()) {
-				customerGroupSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
+				customerGroupSearchResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 			} else {
 				GtnUIFrameworkDataTable customerGroupDataTable = new GtnUIFrameworkDataTable();
 				customerGroupDataTable.addData(result);
-				customerGroupSerachResponse.setResultSet(customerGroupDataTable);
+				customerGroupSearchResponse.setResultSet(customerGroupDataTable);
 			}
-			customerGroupResponse.setGtnSerachResponse(customerGroupSerachResponse);
+			customerGroupResponse.setGtnSerachResponse(customerGroupSearchResponse);
 		} catch (GtnFrameworkGeneralException ex) {
 			customerGroupResponse.getGtnWsGeneralResponse().setSucess(false);
 			customerGroupResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
@@ -483,32 +483,32 @@ public class GtnWsCommercialDSController {
 	private List<Object> getCustomerGroupLookUpInput(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 
 		List<Object> customerGroupLookUpInputList = new ArrayList<>();
-		String customerGroupName = "%";
-		String customerGroupNo = "%";
-		String customerGroupNameFilterView = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		String customerGroupNoFilterView = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		String customerGroupDescFilterView = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String customerGroupNameForLookup = "%";
+		String customerGroupNoForLookup = "%";
+		String customerGroupNameForFilterView = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String customerGroupNoForFilterView = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String customerGroupDescForFilterView = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 
 		for (GtnWebServiceSearchCriteria searchCriteria : gtnWsRequest.getGtnWsSearchRequest()
 				.getGtnWebServiceSearchCriteriaList()) {
 			if (searchCriteria.getFilterValue1() != null && !searchCriteria.getFilterValue1().isEmpty()) {
 				switch (searchCriteria.getFieldId()) {
 				case "customerGroupLookupName":
-					customerGroupName = searchCriteria.getFilterValue1().replace('*', '%');
+					customerGroupNameForLookup = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "customerGroupLookupNo":
-					customerGroupNo = searchCriteria.getFilterValue1().replace('*', '%');
+					customerGroupNoForLookup = searchCriteria.getFilterValue1().replace('*', '%');
 					break;
 				case "custGroupLookupCustomerGroupNameFilterView":
-					customerGroupNameFilterView = "AND (IG.COMPANY_GROUP_NAME LIKE '%"
+					customerGroupNameForFilterView = "AND (IG.COMPANY_GROUP_NAME LIKE '%"
 							+ searchCriteria.getFilterValue1() + "%')";
 					break;
 				case "custGroupLookupCustomerGroupNoFilterView":
-					customerGroupNoFilterView = "AND (IG.COMPANY_GROUP_NO LIKE '%" + searchCriteria.getFilterValue1()
+					customerGroupNoForFilterView = "AND (IG.COMPANY_GROUP_NO LIKE '%" + searchCriteria.getFilterValue1()
 							+ "%' OR IG.COMPANY_GROUP_NO IS NULL )";
 					break;
 				case "custGroupLookupCusomterDescFilterView":
-					customerGroupDescFilterView = "AND (IG.COMPANY_GROUP_DESCRIPTION LIKE '%"
+					customerGroupDescForFilterView = "AND (IG.COMPANY_GROUP_DESCRIPTION LIKE '%"
 							+ searchCriteria.getFilterValue1() + "%')";
 					break;
 				default:
@@ -518,14 +518,14 @@ public class GtnWsCommercialDSController {
 
 		}
 
-		customerGroupNo = (!customerGroupName.isEmpty() && customerGroupNo.isEmpty()) ? "%" : customerGroupNo;
-		customerGroupName = (!customerGroupNo.isEmpty() && customerGroupName.isEmpty()) ? "%" : customerGroupName;
+		customerGroupNoForLookup = (!customerGroupNameForLookup.isEmpty() && customerGroupNoForLookup.isEmpty()) ? "%" : customerGroupNoForLookup;
+		customerGroupNameForLookup = (!customerGroupNoForLookup.isEmpty() && customerGroupNameForLookup.isEmpty()) ? "%" : customerGroupNameForLookup;
 
-		customerGroupLookUpInputList.add(customerGroupName);
-		customerGroupLookUpInputList.add(customerGroupNo);
-		customerGroupLookUpInputList.add(customerGroupNameFilterView);
-		customerGroupLookUpInputList.add(customerGroupNoFilterView);
-		customerGroupLookUpInputList.add(customerGroupDescFilterView);
+		customerGroupLookUpInputList.add(customerGroupNameForLookup);
+		customerGroupLookUpInputList.add(customerGroupNoForLookup);
+		customerGroupLookUpInputList.add(customerGroupNameForFilterView);
+		customerGroupLookUpInputList.add(customerGroupNoForFilterView);
+		customerGroupLookUpInputList.add(customerGroupDescForFilterView);
 
 		if (!gtnWsRequest.getGtnWsSearchRequest().isCount()) {
 			customerGroupLookUpInputList.addAll(getCustomerGroupSortedInputs(
@@ -538,25 +538,25 @@ public class GtnWsCommercialDSController {
 
 	private List<Object> getCustomerGroupSortedInputs(
 			List<GtnWebServiceOrderByCriteria> gtnWebServiceOrderByCriteriaList) {
-		List<Object> customerGroupSortedList = new ArrayList<>();
+		List<Object> customerGroupSortedInputList = new ArrayList<>();
 		if (!gtnWebServiceOrderByCriteriaList.isEmpty()) {
 			GtnWebServiceOrderByCriteria dto = gtnWebServiceOrderByCriteriaList.get(0);
-			customerGroupSortedList
+			customerGroupSortedInputList
 					.add(sortedCustomerGroupMap().get(dto.getPropertyId()) + " " + dto.getOrderByCriteria());
 		} else {
-			customerGroupSortedList.add(sortedCustomerGroupMap().get("sid") + " ASC");
+			customerGroupSortedInputList.add(sortedCustomerGroupMap().get("sid") + " ASC");
 		}
-		return customerGroupSortedList;
+		return customerGroupSortedInputList;
 	}
 
 	private Map<String, String> sortedCustomerGroupMap() {
 
-		Map<String, String> sortedcustomerGroupMap = new HashMap<>();
-		sortedcustomerGroupMap.put("sid", "IG.COMPANY_GROUP_SID");
-		sortedcustomerGroupMap.put("custGroupLookupCustomerGroupNameFilterView", "IG.COMPANY_GROUP_NAME");
-		sortedcustomerGroupMap.put("custGroupLookupCustomerGroupNoFilterView", "IG.COMPANY_GROUP_NO");
-		sortedcustomerGroupMap.put("custGroupLookupCusomterDescFilterView", "IG.COMPANY_GROUP_DESCRIPTION");
-		return sortedcustomerGroupMap;
+		Map<String, String> sortedCustomerGroupMap = new HashMap<>();
+		sortedCustomerGroupMap.put("sid", "IG.COMPANY_GROUP_SID");
+		sortedCustomerGroupMap.put("custGroupLookupCustomerGroupNameFilterView", "IG.COMPANY_GROUP_NAME");
+		sortedCustomerGroupMap.put("custGroupLookupCustomerGroupNoFilterView", "IG.COMPANY_GROUP_NO");
+		sortedCustomerGroupMap.put("custGroupLookupCusomterDescFilterView", "IG.COMPANY_GROUP_DESCRIPTION");
+		return sortedCustomerGroupMap;
 
 	}
 

@@ -26,10 +26,8 @@ public class AddDiscountAddView extends VerticalLayout {
     /**
      * Binder for DataSelection.
      */
-    private final AddDiscountWindow addWindow;
 
     private final AddDiscountForm addDiscountForm;
-    private final SessionDTO session;
 
     /**
      * Default constructor.
@@ -41,9 +39,7 @@ public class AddDiscountAddView extends VerticalLayout {
      * @throws java.lang.Exception
      */
     public AddDiscountAddView(final AddDiscountWindow addWindow, final SessionDTO session, List<RemoveDiscountDto> removeList)  {
-        this.addWindow = addWindow;
-        this.session = session;
-        addDiscountForm = new AddDiscountForm(this.addWindow, removeList, this.session);
+        addDiscountForm = new AddDiscountForm(addWindow, removeList, session);
         addComponent(addDiscountForm);
     }
 

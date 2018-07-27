@@ -42,16 +42,6 @@ public class ForecastMainView extends VerticalLayout implements View {
     public static final String NAME = StringUtils.EMPTY;
 
     /**
-     * DTO object for DataSelection.
-     */
-    private DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
-
-    /**
-     * Binder for DataSelection.
-     */
-    private CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
-
-    /**
      * Default constructor.
      */
     public ForecastMainView() throws Exception {
@@ -67,8 +57,8 @@ public class ForecastMainView extends VerticalLayout implements View {
      */
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        dataSelectionDTO = new DataSelectionDTO();
-        dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
+        DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
+        CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
         this.removeAllComponents(); // Added for GAL-9838
         String screenName = (String) VaadinSession.getCurrent().getAttribute(Constant.PORTLET_NAME);
         LOGGER.debug(" Screen Name -->= {} " , screenName);
