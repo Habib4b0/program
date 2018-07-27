@@ -715,24 +715,6 @@ public class ItemLogic {
 
     }
 
-    public List<Integer> isMandatoryCheck(SelectionDTO selection) {
-        final List input = new ArrayList();
-        input.add(selection.getSessionId());
-        input.add(selection.getInternalSessionid());
-        final List<Integer> finalList = new ArrayList<>();
-        List<Object[]> list = ItemQueries.getItemData(input, "contractTempValidations", null);
-        if (!list.isEmpty()) {
-            Object[] obj = list.get(0);
-            int startDate = obj[0] == null ? 0 : (Integer) obj[0];
-            int cpStartDateCount = obj[1] == null ? 0 : (Integer) obj[1];
-            int priceType = obj[NumericConstants.TWO] == null ? 0 : (Integer) obj[NumericConstants.TWO];
-            finalList.add(startDate);
-            finalList.add(cpStartDateCount);
-            finalList.add(priceType);
-        }
-        return new ArrayList<>();
-    }
-
     private void addList(List input, Integer size) {
         for (int i = 0; i < size; i++) {
             if(i == 10){

@@ -475,7 +475,6 @@ public class NMProjectionResultsXLLogic {
     private void calculateAndCustomize_total_pivot() {
         String frequency = selection.getFrequency();
         String discountId = CommonUtils.CollectionToString(selection.getDiscountNoList(), false);
-        List<String> projectionIdList = new ArrayList<>();
         pivotTotalList = new ArrayList<>();
         if (frequency.equals(Constant.QUARTERLY)) {
             frequency = QUARTERLY;
@@ -486,7 +485,6 @@ public class NMProjectionResultsXLLogic {
         } else {
             frequency = Constant.ANNUAL_CAPS;
         }
-        projectionIdList.add(String.valueOf(selection.getProjectionId()));
         Object[] orderedArgs = {selection.getProjectionId(), frequency, discountId, ASSUMPTIONS1, selection.getSessionDTO().getSessionId(), selection.getUserId()};
         hierarchyKeys.add(Constants.LabelConstants.TOTAL.toString());
         List<ProjectionResultsDTO> pvList = new ArrayList();

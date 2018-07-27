@@ -602,10 +602,16 @@ public class DataSelection extends ForecastDataSelection {
 		if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
 			configureStartAndEndPeriods();
 		} else {
-			productLevel.setVisible(false);
-			customerLevel.setVisible(false);
-			productForecastLevelLabel.setVisible(false);
-			customerForecastLevelLabel.setVisible(false);
+			productLevel.setVisible(Boolean.FALSE);
+			customerLevel.setVisible(Boolean.FALSE);
+			productForecastLevelLabel.setVisible(Boolean.FALSE);
+			customerForecastLevelLabel.setVisible(Boolean.FALSE);
+                        forecastEligibleDateLB.setVisible(Boolean.FALSE);
+                        forecastEligibleDate.setVisible(Boolean.FALSE);
+                        customRelation.setVisible(Boolean.FALSE);
+                        customRelationDdlb.setVisible(Boolean.FALSE);
+                        customRelationDiscount.setVisible(Boolean.FALSE);
+                        customRelationDdlbDeduction.setVisible(Boolean.FALSE);
 		}
 		initializeProductHierarchy(projectionId, String.valueOf(dataSelectionDTO.getProductHierarchyLevel()));
 		setFirstTimeLoad(true);
@@ -1789,8 +1795,7 @@ public class DataSelection extends ForecastDataSelection {
 			if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
 				{
 					dedLevel = getDedutionLevel();
-					dedValue = deductionValue.getValue() == null ? StringUtils.EMPTY
-							: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
+                                        dedValue=String.valueOf(deductionValue.getValue());
 				}
 			}
 		} catch (NumberFormatException ex) {
@@ -1949,8 +1954,11 @@ public class DataSelection extends ForecastDataSelection {
 				loadProductVersionNo(productRelation.getValue());
                                 customViewInput.put("prodVer", productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
                                 customViewInput.put("prodSid", String.valueOf(productRelation.getValue()));
-                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
-                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
+
+                                if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
+                                    loadCustomViewDropDown(customRelationDdlb,customViewInput);
+                                    loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
+                                }
 			} catch (NumberFormatException ex) {
 				LOGGER.error(" in productRelation value change= {}",ex);
 			}
@@ -2074,8 +2082,7 @@ public class DataSelection extends ForecastDataSelection {
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
 					{
 						dedLevel = getDedutionLevel();
-						dedValue = deductionValue.getValue() == null ? StringUtils.EMPTY
-								: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
+                                                dedValue = String.valueOf(deductionValue.getValue());
 					}
 				}
 				String relationshipSid = String.valueOf(productRelation.getValue());

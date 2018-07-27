@@ -619,14 +619,6 @@ public class GtnWsContractDashboardLogic {
 			cdResponse.setMessageType(GtnFrameworkCommonStringConstants.WARNING);
 			return;
 		}
-                if (tableLevel != (treeLevel+1)) {
-			String treeCategory = cdResponse.getTreeBean().getStringPropertyByIndex(8);
-			cdResponse.setSuccess(false);
-			cdResponse.setMessage(tableCategory + " cannot be added to " + treeCategory);
-			cdResponse.setMessageHeader(CRITERIA_MISMATCH);
-			cdResponse.setMessageType(GtnFrameworkCommonStringConstants.WARNING);
-			return;
-		}
 		int tableLevelId = cdResponse.getTableBean().getIntegerPropertyByIndex(4);
 		int treeLevelId = cdResponse.getTreeBean().getIntegerPropertyByIndex(4);
 		if (tableLevel == 4 && treeLevel == 3) {

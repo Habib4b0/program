@@ -11,7 +11,7 @@ public class GtnWsSecurityPropertyReaderService {
 	private GtnWsSecurityPropertyReaderService() {
 		super();	
 	}
-
+        
 	public static GtnWsSecurityPropertyBean getProperyBean() {
 
 		if (gtnWsSecurityPropertyBean == null) {
