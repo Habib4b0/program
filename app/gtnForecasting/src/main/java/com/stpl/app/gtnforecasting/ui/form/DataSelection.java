@@ -2082,8 +2082,6 @@ public class DataSelection extends ForecastDataSelection {
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
 					{
 						dedLevel = getDedutionLevel();
-//						dedValue = deductionValue.getValue() == null ? StringUtils.EMPTY
-//								: String.valueOf(((HelperDTO) deductionValue.getValue()).getId());
                                                 dedValue = String.valueOf(deductionValue.getValue());
 					}
 				}

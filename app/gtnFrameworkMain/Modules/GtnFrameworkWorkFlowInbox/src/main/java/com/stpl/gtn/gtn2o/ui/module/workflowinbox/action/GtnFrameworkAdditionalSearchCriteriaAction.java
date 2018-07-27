@@ -110,7 +110,7 @@ public class GtnFrameworkAdditionalSearchCriteriaAction implements GtnUIFrameWor
         GtnWsRecordBean gtnWsRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY + GtnFrameworkWorkflowInboxClassConstants.SEARCHPOPUP)
                 .getComponentData().getCustomData();
 
-        if (gtnWsRecordBean==null || gtnWsRecordBean.getPropertyValue("fullName")==null || !String.valueOf(gtnWsRecordBean.getPropertyValue("fullName"))
+        if (gtnWsRecordBean == null || gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.FULLNAME) == null || !String.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.FULLNAME))
                 .equalsIgnoreCase(String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.APPROVEDBY).getObjectFromField()))) {
             return;
         }
@@ -131,8 +131,7 @@ public class GtnFrameworkAdditionalSearchCriteriaAction implements GtnUIFrameWor
         GtnWsRecordBean gtnWsRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CREATEDBY + GtnFrameworkWorkflowInboxClassConstants.SEARCHPOPUP)
                 .getComponentData().getCustomData();
 
-        
-        if (gtnWsRecordBean==null || gtnWsRecordBean.getPropertyValue("fullName")==null || !String.valueOf(gtnWsRecordBean.getPropertyValue("fullName"))
+        if (gtnWsRecordBean == null || gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.FULLNAME) == null || !String.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.FULLNAME))
                 .equalsIgnoreCase(String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.CREATEDBY).getObjectFromField()))) {
             return;
         }
