@@ -62,7 +62,7 @@ public class ForecastEditView extends VerticalLayout {
         this.screenName = screenName;
         this.dataSelectionForm = dataSelectionForm;
 
-        forecastName = new ForecastForm(dataSelectionBinder, this.dataSelectionDTO, this.session, this.editWindow, this.resultTable, screenName, dataSelectionForm, null);
+        forecastName = new ForecastForm(dataSelectionBinder, dataSelectionDTO, this.session, this.editWindow, this.resultTable, screenName, dataSelectionForm, null);
         addComponent(forecastName);
     }
 

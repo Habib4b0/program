@@ -2776,13 +2776,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
                 if (!checkedDiscountsPropertyIds.isEmpty()) {
 
-                    List<String> headerList = new ArrayList<>();
-                    for (Object propertyId : checkedDiscountsPropertyIds) {
-                        String tripleHeader = resultsTable.getRightFreezeAsTable()
-                                .getTripleHeaderColumnHeader(propertyId);
-                        headerList.add(tripleHeader);
-                    }
-
                     for (Object propertyId : checkedDiscountsPropertyIds) {
 
                         String tripleHeader = resultsTable.getRightFreezeAsTable()
