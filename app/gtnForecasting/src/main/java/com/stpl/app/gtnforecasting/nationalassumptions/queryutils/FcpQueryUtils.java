@@ -210,7 +210,6 @@ public class FcpQueryUtils {
     }
 
     public String[] getTextValue(String propertyId, int itemSid, String pricetype, SessionDTO session) throws PortalException, SystemException {
-        List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
 
         queryBuilder1 = new StringBuilder();
@@ -236,7 +235,6 @@ public class FcpQueryUtils {
         queryBuilder1.append(" AND PERIOD_SID in(SELECT PERIOD_SID FROM PERIOD where YEAR ='").append(year).append("'  and QUARTER ='").append(quarter).append("' ) ");
         String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
         queryBuilder1 = new StringBuilder(replacedQuery);
-        queryList.add(queryBuilder1);
 
         List list = (List) DAO.executeSelectQuery(String.valueOf(queryBuilder1));
         String notesText[] = new String[NumericConstants.TWO];
@@ -317,7 +315,6 @@ public class FcpQueryUtils {
     }
 
     public void updateAdjustment(int itemSid, String queryName, SessionDTO sessionDTO) throws PortalException, SystemException {
-        List<StringBuilder> queryList = new ArrayList<>();
         Map<String, Object> input = new HashMap<>();
 
         input.put(Constant.IMID1, itemSid);
@@ -329,7 +326,6 @@ public class FcpQueryUtils {
         }
 
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, sessionDTO.getCurrentTableNames()));
-        queryList.clear();
     }
 
     public Map<String, String> getFcpPriceTypeNameDynamic(String screenName) throws PortalException, SystemException {
