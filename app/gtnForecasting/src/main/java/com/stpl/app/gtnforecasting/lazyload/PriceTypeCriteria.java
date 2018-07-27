@@ -21,7 +21,7 @@ public class PriceTypeCriteria implements SearchCriteria{
 	private int lastCount;
 
 	/** The dirty. */
-	private boolean dirty;
+	private boolean dirty = true;
 
 	/** The filter. */
 	private String filter;
@@ -95,7 +95,7 @@ public class PriceTypeCriteria implements SearchCriteria{
 	 */
 	@Override
 	public boolean isDirty() {
-		return true;
+		return dirty;
 	}
 
 	/**
