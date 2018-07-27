@@ -341,7 +341,7 @@ public class PagedGrid {
         for (Map.Entry<String, Object> entry : tableConfig.getFilterValueMap().entrySet()) {
             String key = getDBColumnName(entry.getKey());
             Object value = entry.getValue();
-            filter.append(condition).append(" ").append(key).append("  like '%").append(value).append("%'");
+            filter.append(condition).append(' ').append(key).append("  like '%").append(value).append("%'");
         }
 
         return query.replace("@filter", filter.toString());
@@ -569,11 +569,7 @@ public class PagedGrid {
 
             @Override
             public void valueChange(ValueChangeEvent<LocalDate> event) {
-                if (inlineDateField.getId().equals("inlineDateFieldStartDate")) {
                     inlineDateField.setData(event.getValue());
-                } else {
-                    inlineDateField.setData(event.getValue());
-                }
             }
         });
     }
