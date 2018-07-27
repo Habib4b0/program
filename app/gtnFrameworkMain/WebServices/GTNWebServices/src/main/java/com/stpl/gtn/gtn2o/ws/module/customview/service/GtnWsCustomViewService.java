@@ -175,18 +175,41 @@ public class GtnWsCustomViewService {
 		Transaction tx = null;
 		try (Session session = getSessionFactory().openSession()) {
 			tx = session.beginTransaction();
-			CustViewMaster master = session.load(CustViewMaster.class, cvRequest.getCvSysId());
-			if (master != null) {
-				session.delete(master);
+			if (cvRequest.getCvSysId() != 0) {
+				session.createSQLQuery(gtnWsSqlService.getQuery("getCustomCCPDetailsDeleteQuery"))
+						.setParameter(0, cvRequest.getCvSysId()).executeUpdate();
+
+				List<CustViewDetails> details = session.createCriteria(CustViewDetails.class)
+						.add(Restrictions.eq("customViewMasterSid", cvRequest.getCvSysId())).list();
+				if (details != null) {
+					for (CustViewDetails custViewDetails : details) {
+						if (custViewDetails.getHierarchyIndicator() == 'V') {
+							List<CustomViewVariables> variables = session
+									.createCriteria(CustomViewVariables.class).add(Restrictions
+											.eq("customViewDetailsSid", custViewDetails.getCustomViewDetailsSid()))
+									.list();
+							if (variables != null) {
+								for (CustomViewVariables customViewVariables : variables) {
+									session.delete(customViewVariables);
+								}
+							}
+						}
+						session.delete(custViewDetails);
+					}
+				}
+
+				CustViewMaster master = session.load(CustViewMaster.class, cvRequest.getCvSysId());
+				if (master != null) {
+					session.delete(master);
+				}
 			}
 			tx.commit();
 			return true;
 		} catch (Exception e) {
-                    if(tx != null)
-                    {
-			tx.rollback();
-                    }
-                        logger.error(e.getMessage(), e);
+			if (tx != null) {
+				tx.rollback();
+			}
+			logger.error(e.getMessage(), e);
 			return false;
 		}
 	}

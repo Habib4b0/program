@@ -24,6 +24,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.customview.constants.GtnWsCustomViewConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDashboardBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -90,8 +91,8 @@ public class GtnFrameworkReportCustomViewDeleteAction implements GtnUIFrameWorkA
 				return;
 			}
 
-			if ((boolean) inputList.get(4)
-					&& isCustomViewGenerated(inputList.get(0).toString(), inputList.get(2).toString())) {
+			if ((boolean) inputList.get(4) && isCustomViewGenerated(inputList.get(0).toString(),
+					inputList.get(2).toString(), (boolean) inputList.get(4))) {
 				GtnUIFrameWorkActionConfig customViewAlreadygeneratedNotification = new GtnUIFrameWorkActionConfig(
 						GtnUIFrameworkActionType.ALERT_ACTION);
 				customViewAlreadygeneratedNotification.addActionParameter("Delete Check");
@@ -122,12 +123,30 @@ public class GtnFrameworkReportCustomViewDeleteAction implements GtnUIFrameWorkA
 		return cvResponse.isSuccess();
 	}
 
-	private boolean isCustomViewGenerated(String selectedItem, String componentId) {
+	private boolean isCustomViewGenerated(String selectedItem, String componentId, boolean isCustomViewGenerate) {
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinBaseComponentFromParent(
 				"reportDashboard" + GtnFrameworkCommonConstants.RESULT_TABLE, componentId).getComponentData();
 		PagedTreeGrid grid = (PagedTreeGrid) componentData.getCustomData();
 		GtnWsReportDashboardBean dashBoardBean = grid.getTableConfig().getGtnWsReportDashboardBean();
-		return dashBoardBean == null || dashBoardBean.getCustomViewMasterSid() == Integer.parseInt(selectedItem);
+		return reportDashboardCustomViewValidation(dashBoardBean, isCustomViewGenerate, selectedItem)
+				|| (dashBoardBean != null && dashBoardBean.getCustomViewMasterSid() == Integer.parseInt(selectedItem));
+	}
+
+	private boolean reportDashboardCustomViewValidation(GtnWsReportDashboardBean dashBoardBean,
+			boolean isCustomViewGenerate, String selectedItem) {
+		if (dashBoardBean == null && isCustomViewGenerate) {
+			try {
+				String dsSelectedItem = GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_CUSTOM_VIEW)
+						.getCaptionFromV8ComboBox();
+				return dsSelectedItem.equals(selectedItem);
+
+			} catch (GtnFrameworkValidationFailedException e) {
+				logger.error(e.getErrorMessage(), e);
+				return false;
+			}
+		}
+		return false;
 	}
 
 	private void deleteCustomView(List<Object> inputList) throws GtnFrameworkGeneralException {
@@ -142,6 +161,7 @@ public class GtnFrameworkReportCustomViewDeleteAction implements GtnUIFrameWorkA
 		saveActionConfig.addActionParameter(inputList.get(0).toString());
 		saveActionConfig.addActionParameter(inputList.get(5).toString());
 		saveActionConfig.addActionParameter(inputList.get(4).toString());
+		saveActionConfig.addActionParameter(inputList.get(1).toString());
 		successActionConfigList.add(saveActionConfig);
 		List<Object> actionParameter = (List<Object>) inputList.get(3);
 		successActionConfigList.add((GtnUIFrameWorkActionConfig) actionParameter.get(2));

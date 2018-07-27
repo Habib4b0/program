@@ -197,5 +197,13 @@ WHERE
 
    ]]>
 		</query>
-	</entity>           
+	</entity>       
+	
+    <entity id="getCustomCCPDetailsDeleteQuery">
+        <query>
+        <![CDATA[
+        	DELETE FROM CUSTOM_CCP_DETAILS WHERE CUST_VIEW_MASTER_SID = ?
+   		]]>
+        </query>
+   </entity>      
 </sql>
