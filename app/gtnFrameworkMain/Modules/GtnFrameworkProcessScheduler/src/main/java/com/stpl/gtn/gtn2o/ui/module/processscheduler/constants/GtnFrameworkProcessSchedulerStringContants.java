@@ -6,6 +6,7 @@ public class GtnFrameworkProcessSchedulerStringContants {
 
 	public static final String VALIDATAION_ERROR = "Validation Error :";
 	public static final String[] STATUS = new String[] { "Active", "Inactive" };
+	public static final String[] TYPE = new String[] { "Both", "Latest Estimate" , "Update Cycle"};
 	public static final String HOURS =  "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23"  ;
 	public static final String MINUTES =  "0,15,30,45" ;
 	

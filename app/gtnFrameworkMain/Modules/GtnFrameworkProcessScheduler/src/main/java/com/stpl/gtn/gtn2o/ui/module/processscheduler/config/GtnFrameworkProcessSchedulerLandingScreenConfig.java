@@ -31,7 +31,7 @@ public class GtnFrameworkProcessSchedulerLandingScreenConfig {
 	public GtnUIFrameworkViewConfig getSearchView() {
 		GtnUIFrameworkViewConfig view = new GtnUIFrameworkViewConfig();
 		view.setViewName("Search View");
-		view.setViewId("V002");
+		view.setViewId("V009");
 		//view.setDefaultView(true);
 		addComponentList(view);
 		return view;

@@ -118,7 +118,26 @@ public class GtnNewProcessSchedularConfig {
 			
 		addManualProcessingPanel(componentList,processSchedularMainLayout.getComponentId());
 		addRunButton(componentList,processSchedularMainLayout.getComponentId());
+		addCffOutBoundButton(componentList,processSchedularMainLayout.getComponentId());
 	}
+	private void addCffOutBoundButton(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
+		GtnUIFrameworkComponentConfig addButtonConfig = new GtnUIFrameworkComponentConfig();
+		addButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+		addButtonConfig.setComponentId("CffOutBoundButton");
+		addButtonConfig.setComponentName("CFF_OUTBOUND");
+		addButtonConfig.setParentComponentId(parentComponentId);
+		addButtonConfig.setAddToParent(true);
+		componentList.add(addButtonConfig);
+		
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<GtnUIFrameWorkActionConfig>();
+		
+		GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
+		navigationActionConfig.setActionType(GtnUIFrameworkActionType.NAVIGATION_ACTION);
+		navigationActionConfig.addActionParameter("V002");
+		actionConfigList.add(navigationActionConfig);
+		addButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+	}
+
 	private void addManualProcessingPanel(List<GtnUIFrameworkComponentConfig> componentList, String parentComponentId) {
 		gtnLogger.info("Started the execution of addManualProcessingPanel()");
 		GtnUIFrameworkComponentConfig manualProcessingPanel = configProvider
@@ -167,7 +186,7 @@ public class GtnNewProcessSchedularConfig {
 				.setTableVisibleHeader(new String[] { GtnFrameworkCommonConstants.PROCESS_NAME_COMPONENT, "Last Run" });
 		searchResults.setTableColumnMappingId(
 				new Object[] { GtnFrameworkCommonConstants.PROCESS_NAME, GtnFrameworkCommonConstants.LAST_RUN });
-		//searchResults.setExtraColumn(new Object[] { "scriptname" });
+		searchResults.setExtraColumn(new Object[] { "scriptname" });
 
 		searchResults.setCountUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
 				+ GtnWsProcessScedulerConstants.GET_PROCESS_SCHEDULER_TABLE_DATA);
@@ -270,6 +289,7 @@ public class GtnNewProcessSchedularConfig {
 				new Object[] { GtnFrameworkCommonConstants.PROCESS_NAME, GtnFrameworkCommonConstants.STATUS_COMPONENT,
 						GtnFrameworkCommonConstants.START_DATE, GtnFrameworkCommonConstants.END_DATE,
 						GtnFrameworkCommonConstants.FREQUENCY, "lastRunDate", "modifiedDate", "modifiedBy" });
+		searchResults.setExtraColumn(new Object[] { "scriptname" });
 		
 		searchResults.setCountUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
 				+ GtnWsProcessScedulerConstants.GET_SCHEDULED_PROCESSING_TABLE_DATA);
@@ -277,7 +297,7 @@ public class GtnNewProcessSchedularConfig {
 		searchResults.setResultSetUrl(GtnWsProcessScedulerConstants.GTN_PROCESS_SCHEDULER_SERVICE_SCREEN
 				+ GtnWsProcessScedulerConstants.GET_SCHEDULED_PROCESSING_TABLE_DATA);
 		
-		searchResults.setModuleName("processSchedulerManual");
+		searchResults.setModuleName("scheduledProcessing");
 		searchResults.setQueryName("SearchQuery");
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);

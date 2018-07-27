@@ -17,9 +17,9 @@ import org.osgi.service.component.annotations.ServiceScope;
 @Theme("stpl")
 @Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet")
 @Component(service = UI.class, property = {
-        "com.liferay.portlet.display-category=ProcessScheduler",
-        "javax.portlet.name=ProcessScheduler",
-        "javax.portlet.display-name=ProcessScheduler",
+        "com.liferay.portlet.display-category=ProcessSchedulerNew",
+        "javax.portlet.name=ProcessSchedulerNew",
+        "javax.portlet.display-name=ProcessSchedulerNew",
         "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class GtnFrameworkProcessScheduler extends UI {
 

@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.logic.GtnWsSearchQueryGenerationLogic;
 import com.stpl.gtn.gtn2o.ws.processscheduler.constants.GtnWsProcessScedulerConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
@@ -60,14 +61,29 @@ public class GtnWsProcessSchedulerController {
 		GtnSerachResponse gtnSerachResponse = new GtnSerachResponse();
 		String queryName = processSchedulerRequest.getGtnWsSearchRequest().isCount() ? "getProcessSchedulerCount"
 				: "getProcessSchedulerManualResults";
-
+		logger.info("------------->startRecord="+  processSchedulerRequest.getGtnWsSearchRequest().getTableRecordStart());
+		int startRecord = processSchedulerRequest.getGtnWsSearchRequest().getTableRecordStart();
+		
+		GtnWsSearchQueryGenerationLogic searchQueryLogic = new GtnWsSearchQueryGenerationLogic();
+		
+		int endRecord = processSchedulerRequest.getGtnWsSearchRequest().getTableRecordOffset();
+		logger.info("-------------> endRecord: "+ processSchedulerRequest.getGtnWsSearchRequest().getTableRecordOffset());
+		
 		List<Object> inputlist = getSearchInput(processSchedulerRequest);
-		@SuppressWarnings("unchecked")
-		List<Object[]> result = executeQuery(gtnWsSqlService.getQuery(inputlist, queryName));
 
 		if (processSchedulerRequest.getGtnWsSearchRequest().isCount()) {
+			@SuppressWarnings("unchecked")
+			List<Object[]> result = executeQuery(gtnWsSqlService.getQuery(inputlist, queryName));
 			gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 		} else {
+			
+			StringBuilder updatedOffsetQuery = new StringBuilder(gtnWsSqlService.getQuery(inputlist, queryName));
+			logger.info("before appending offset logic---------->"+updatedOffsetQuery);
+			searchQueryLogic.appendOffset(updatedOffsetQuery, startRecord, endRecord);
+			logger.info("after appending offset logic---------->"+updatedOffsetQuery);
+			
+			@SuppressWarnings("unchecked")		
+			List<Object[]> result = executeQuery(updatedOffsetQuery.toString());
 			GtnUIFrameworkDataTable processSchedulerDataTable = new GtnUIFrameworkDataTable();
 			processSchedulerDataTable.addData(result);
 			gtnSerachResponse.setResultSet(processSchedulerDataTable);
@@ -83,20 +99,36 @@ public class GtnWsProcessSchedulerController {
 	public GtnUIFrameworkWebserviceResponse getScheduledProcessingTableData(
 			@RequestBody GtnUIFrameworkWebserviceRequest processSchedulerRequest) throws GtnFrameworkGeneralException {
 		logger.info("Enter Scheduled Processing; ");
+		
 		GtnUIFrameworkWebserviceResponse processSchedulerResponse = new GtnUIFrameworkWebserviceResponse();
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
 		GtnSerachResponse gtnSerachResponse = new GtnSerachResponse();
 		String queryName = processSchedulerRequest.getGtnWsSearchRequest().isCount() ? "getProcessSchedulerCount"
 				: "getProcessSchedulerSchedulerResults";
-		logger.info("------------->"+getSysSchemaCatalog());
-		String replacedQuery= queryName.replace("?", getSysSchemaCatalog());
+		logger.info("------------->"+getSysSchemaCatalog()+"-----> "+queryName);
+		logger.info("------------->startRecord="+  processSchedulerRequest.getGtnWsSearchRequest().getTableRecordStart());
+		int startRecord = processSchedulerRequest.getGtnWsSearchRequest().getTableRecordStart();
+		
+		GtnWsSearchQueryGenerationLogic searchQueryLogic = new GtnWsSearchQueryGenerationLogic();
+		
+		int endRecord = processSchedulerRequest.getGtnWsSearchRequest().getTableRecordOffset();
+		logger.info("-------------> endRecord: "+ processSchedulerRequest.getGtnWsSearchRequest().getTableRecordOffset());
+		
 		List<Object> inputlist = getSearchInput(processSchedulerRequest);
-		@SuppressWarnings("unchecked")
-		List<Object[]> result = executeQuery(gtnWsSqlService.getQuery(inputlist, replacedQuery));
-
+		
 		if (processSchedulerRequest.getGtnWsSearchRequest().isCount()) {
+			@SuppressWarnings("unchecked")		
+			List<Object[]> result = executeQuery(gtnWsSqlService.getQuery(inputlist, queryName));
 			gtnSerachResponse.setCount(Integer.parseInt(String.valueOf(result.get(0))));
 		} else {
+			String replacedQuery= gtnWsSqlService.getQuery(inputlist, queryName).replace("?", getSysSchemaCatalog());
+			StringBuilder updatedOffsetQuery = new StringBuilder(replacedQuery);
+			logger.info("before appending offset logic---------->"+updatedOffsetQuery);
+			searchQueryLogic.appendOffset(updatedOffsetQuery, startRecord, endRecord);
+			logger.info("after appending offset logic---------->"+updatedOffsetQuery);
+			
+			@SuppressWarnings("unchecked")		
+			List<Object[]> result = executeQuery(updatedOffsetQuery.toString());
 			GtnUIFrameworkDataTable processSchedulerDataTable = new GtnUIFrameworkDataTable();
 			processSchedulerDataTable.addData(result);
 			gtnSerachResponse.setResultSet(processSchedulerDataTable);
@@ -107,6 +139,8 @@ public class GtnWsProcessSchedulerController {
 		processSchedulerResponse.setGtnWsGeneralResponse(generalResponse);
 		return processSchedulerResponse;
 	}
+	
+	
 	private List<Object> getSearchInput(GtnUIFrameworkWebserviceRequest gtnWsRequest)
 			throws GtnFrameworkGeneralException {
 		List<Object> list = new ArrayList<>();
