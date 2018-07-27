@@ -2,7 +2,6 @@ package com.stpl.app.gtnforecasting.discountProjection.form;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.common.AppDataUtils;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
 import com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder;
@@ -2527,7 +2526,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 "% of Inventory Withdrawal", Constant.PERC_OF_ADJUSTED_DEMAND}));
             String endValue;
             List<String> checkedDiscountNames = new ArrayList<>();
-            List<String> checkedDiscountNamesList = new ArrayList<>();
             if (endPeriodForecastTab.getValue() != null) {
                 endValue = endPeriodForecastTab.getValue().toString().replace(' ', '~').trim();
             } else {
@@ -2619,10 +2617,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                         .equals(methodologyDdlb.getValue())) {
                                                     checkedDiscountNames = Arrays.asList(resultsTable
                                                             .getRightFreezeAsTable().getTripleHeaderColumnHeaders());
-                                                }
-                                                for (Object discountPropertyId : checkedDiscountsPropertyIds) {
-                                                    checkedDiscountNamesList.add(resultsTable.getRightFreezeAsTable()
-                                                            .getTripleHeaderColumnHeader(discountPropertyId));
                                                 }
                                                 discountProjectionLogic.calcDataUpdate(session, projectionSelection,
                                                         String.valueOf(level.getValue()),
@@ -2788,8 +2782,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                 .getTripleHeaderColumnHeader(propertyId);
                         headerList.add(tripleHeader);
                     }
-                    List<String> remoList = new ArrayList<>(tripleHeaderForCheckedDoubleHeader.keySet());
-                    remoList.removeAll(headerList);
 
                     for (Object propertyId : checkedDiscountsPropertyIds) {
 
@@ -2871,13 +2863,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                         allocationMethodology, tripleHeaderForCheckedDoubleHeader)) {
                                     ExtPagedTreeTable rightTable = resultsTable.getRightFreezeAsTable();
                                     List<String> selectedDiscountList = new ArrayList<>();
-                                    List<String> checkedDiscountList = new ArrayList<>();
                                     for (Object obj : rightHeader.getTripleColumns()) {
                                         if (!rightTable.getTripleHeaderColumnCheckBox(obj)) {
                                             selectedDiscountList.add(rightHeader.getTripleHeader(obj));
-                                        }
-                                        if (rightTable.getTripleHeaderColumnCheckBox(obj)) {
-                                            checkedDiscountList.add(rightHeader.getTripleHeader(obj));
                                         }
                                     }
                                     boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
@@ -3235,6 +3223,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             formatterMap.put("sales", "Sales");
             formatterMap.put("units", "Units");
             formatterMap.put("Growth", "Growth");
+            formatterMap.put("GrowthSum", "GrowthSum");
+            formatterMap.put("ChildCount", "ChildCount");
             excelTable.setRefresh(BooleanConstant.getTrueFlag());
             ForecastUI.setEXCEL_CLOSE(true);
             CustomExcelNM excel = null;
