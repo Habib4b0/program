@@ -1399,9 +1399,9 @@ public class HeaderUtils {
                             dmapExcel.add(growthColumn);
                             
                             //Added Growth Sum column
-                            excelHeader.addSingleColumn(growthSumColumn, Constant.GROWTH_SUM_HEADER, String.class);
+                            excelHeader.addSingleColumn(growthSumColumn, Constant.GROWTH_SUM, String.class);
                             singleColumnForExcel.add(growthSumColumn);
-                            singleHeaderForExcel.add(Constant.GROWTH_SUM_HEADER);//Ends here
+                            singleHeaderForExcel.add(Constant.GROWTH_SUM);//Ends here
                             dmapExcel.add(growthSumColumn);
                           
                             //Added Child Count Column

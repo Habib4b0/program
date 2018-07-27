@@ -843,7 +843,6 @@ public class Constant {
     public static final String RS_TYPE = "RS_TYPE";
     public static final String GROWTH = "Growth";
     public static final String GROWTH_SUM = "GrowthSum";
-    public static final String GROWTH_SUM_HEADER = "GrowthSum";
     public static final String PROJECTEDRPU = "ProjectedRPU";
     public static final String PROJECTION_DETAILS_SID = "projectionDetailsSid";
     public static final String CCP_DETAILS_SID = "ccpDetailsSid";
