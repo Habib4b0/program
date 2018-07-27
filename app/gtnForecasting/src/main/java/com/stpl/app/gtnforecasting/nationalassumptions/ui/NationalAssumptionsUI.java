@@ -79,15 +79,6 @@ public class NationalAssumptionsUI extends UI {
             com.stpl.app.gtnforecasting.utils.CommonUtils.setPortletSession(portletRequest.getPortletSession());
             com.stpl.app.gtnforecasting.utils.CommonUtils.setPortalConfig(portletConfig);
 
-            if (pageParameters != null) {
-                final String[] parameters = pageParameters.split("&");
-                String parametersFromProjection[];
-
-                parametersFromProjection = parameters[0].split(EQUAL.getConstant());
-
-                final HashMap<String, String> hmValue = new HashMap<>();
-                hmValue.put(parametersFromProjection[0], parametersFromProjection[1]);
-            }
             VaadinSession.getCurrent().setAttribute(USER_ID, userId);
             VaadinSession.getCurrent().setAttribute(ACTION.getConstant(), StringUtils.EMPTY);
             VaadinSession.getCurrent().setAttribute(Constant.PORTLET_NAME, portletConfig.getPortletName());

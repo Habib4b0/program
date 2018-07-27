@@ -329,9 +329,6 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                 }
                                 if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
-
-                                    Map<String, Object> params = new HashMap<>();
-                                    params.put(Constant.APPROVE_FLAG, "approve");
                                     VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Approved Information", Constant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
@@ -379,8 +376,6 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                 WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getRejectedStatus(), popup.getNotes().getValue(), session.getApprovalLevel());
                                 String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                 if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
-                                    Map<String, Object> params = new HashMap<>();
-                                    params.put(Constant.APPROVE_FLAG, "reject-RWC");
                                     VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Rejected Information ", Constant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
@@ -423,8 +418,6 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                 WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getWithdrawnStatus(), popup.getNotes().getValue(), session.getApprovalLevel());
                                 String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                 if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
-                                    Map<String, Object> params = new HashMap<>();
-                                    params.put(Constant.APPROVE_FLAG, "withdraw-RWC");
                                     VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", Constant.WORKFLOW_ID + workflowIdUpdate + " withdrawn successfully");
@@ -467,10 +460,6 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                 WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId, workflowId, userIdInt, WorkflowConstants.getCancelledStatus(), popup.getNotes().getValue(), session.getApprovalLevel());
                                 String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
                                 if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
-
-                                    Map<String, Object> params = new HashMap<>();
-                                    params.put(Constant.APPROVE_FLAG, "cancel-RWC");
-
                                     VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Cancel Information", Constant.WORKFLOW_ID + workflowIdUpdate + " cancelled successfully");
