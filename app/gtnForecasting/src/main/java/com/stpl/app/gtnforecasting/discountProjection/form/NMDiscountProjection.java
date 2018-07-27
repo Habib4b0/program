@@ -3235,6 +3235,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             formatterMap.put("sales", "Sales");
             formatterMap.put("units", "Units");
             formatterMap.put("Growth", "Growth");
+            formatterMap.put("GrowthSum", "GrowthSum");
+            formatterMap.put("ChildCount", "ChildCount");
             excelTable.setRefresh(BooleanConstant.getTrueFlag());
             ForecastUI.setEXCEL_CLOSE(true);
             CustomExcelNM excel = null;
