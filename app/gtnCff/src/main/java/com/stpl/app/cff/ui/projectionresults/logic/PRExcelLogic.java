@@ -640,7 +640,7 @@ public class PRExcelLogic {
             String dateQuery = CommonLogic.getHistoryPeriodDate(selection.getFrequency(), selection.getHistoryNum());
             List dateList = HelperTableLocalServiceUtil.executeSelectQuery(dateQuery);
             String fromDate = StringUtils.EMPTY;
-            if (dateList != null && dateList.size() > 0) {
+            if (dateList != null && !dateList.isEmpty()) {
                 Object obj = dateList.get(0);
                 fromDate = String.valueOf(obj);
             }

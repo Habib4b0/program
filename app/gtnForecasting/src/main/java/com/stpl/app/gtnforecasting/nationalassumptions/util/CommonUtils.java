@@ -481,16 +481,20 @@ public class CommonUtils {
                 }
 
             } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
-                if (diffMonth % NumericConstants.SIX == 0) {
-                    return diffMonth / NumericConstants.SIX;
-                } else {
-                    return (diffMonth / NumericConstants.SIX) + 1;
-                }
+                return getProjectionForSemiAnnual(diffMonth);
             } else if (frequency.equals(MONTHLY.getConstant())) {
                 return diffMonth;
             }
             return 0;
 
+        }
+    }
+
+    private static int getProjectionForSemiAnnual(int diffMonth) {
+        if (diffMonth % NumericConstants.SIX == 0) {
+            return diffMonth / NumericConstants.SIX;
+        } else {
+            return (diffMonth / NumericConstants.SIX) + 1;
         }
     }
 

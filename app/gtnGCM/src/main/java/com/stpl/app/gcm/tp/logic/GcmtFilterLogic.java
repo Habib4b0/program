@@ -23,7 +23,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  */
 public class GcmtFilterLogic {
 
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    public final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private static GcmtFilterLogic instance;
 
     private GcmtFilterLogic() {

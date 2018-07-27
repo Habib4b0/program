@@ -91,7 +91,7 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 					gtnLogger.error(e.getMessage(), e);
 				}
 			});
-
+			
 		}
 	}
 

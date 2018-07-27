@@ -60,6 +60,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
 
     public ReturnsProjection(SessionDTO session, String screenName) throws Exception  {
         super(session, screenName);
+        enableDisableFields();
         init();
     }
 
@@ -160,7 +161,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
     }
 
     @Override
-    protected void enableDisableFields() {
+    protected final void enableDisableFields() {
         return;
     }
 

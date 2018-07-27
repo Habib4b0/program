@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import java.util.Optional;
 
 public class GtnFrameworkRebatePlanCalculationAddButtonAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -67,7 +68,7 @@ public class GtnFrameworkRebatePlanCalculationAddButtonAction
 			if (tierTo != null && tierTo.equals(GtnFrameworkCommonStringConstants.STRING_EMPTY)) {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tierToId).getComponent().setEnabled(false);
 			} else {
-				BigDecimal value = BigDecimal.valueOf(Double.parseDouble(tierTo));
+				BigDecimal value = BigDecimal.valueOf(Double.parseDouble(Optional.ofNullable(tierTo).orElse("0.0")));
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tierFromId)
 						.loadFieldValue(value.add(new BigDecimal("0.01")));
 			}

@@ -17,8 +17,7 @@ public class CFPSearchCriteria implements BeanSearchCriteria {
 
     private Set<Container.Filter> filters;
     private int lastCount;
-    @SuppressWarnings("unused")
-	private boolean dirty;
+	private boolean dirty = true;
 
     public CFPSearchCriteria() {
         super();
@@ -36,7 +35,7 @@ public class CFPSearchCriteria implements BeanSearchCriteria {
 
     @Override
     public boolean isDirty() {
-        return true;
+        return dirty;
     }
 
     @Override

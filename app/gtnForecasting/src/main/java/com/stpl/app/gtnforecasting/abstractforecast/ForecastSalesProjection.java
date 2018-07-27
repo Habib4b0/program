@@ -621,7 +621,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             addComponent();
             configurefields();
             Utility.loadHierarchyList(session);
-            enableDisableFields();
+           
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }

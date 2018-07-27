@@ -29,6 +29,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeGrid;
+import java.util.Locale;
 
 public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnUIFrameWorkAction {
 
@@ -71,7 +72,7 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnU
 		List<GtnWsRecordBean> gtnWsRecordBeanList = new ArrayList<>();
 		List<GtnWsRecordBean> availableRecords = (List<GtnWsRecordBean>) availableDataProvider.getItems();
 		for (GtnWsRecordBean recordBean : availableRecords) {
-			if(recordBean.getPropertyValue("levelValue").toString().toLowerCase().contains(filterText.toLowerCase())){
+			if(recordBean.getPropertyValue("levelValue").toString().toLowerCase().contains(filterText.toLowerCase(Locale.ENGLISH))){
 				gtnWsRecordBeanList.add(recordBean);
 			}
 		}
