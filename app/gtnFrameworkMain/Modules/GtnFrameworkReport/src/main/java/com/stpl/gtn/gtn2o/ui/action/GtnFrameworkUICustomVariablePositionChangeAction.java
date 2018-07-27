@@ -28,12 +28,18 @@ public class GtnFrameworkUICustomVariablePositionChangeAction
 		List<Object> parameterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String variableTypeId = (String) parameterList.get(1);
 		String variableTypeGridId = (String) parameterList.get(2);
+		String variableTypeAddButtonId = (String) parameterList.get(4);
+		String variableTypeRemoveButtonId = (String) parameterList.get(5);
 		String selectedType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getV8StringFromField();
 		boolean isNeedToBeEnabled = selectedType.equals("Rows");
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(variableTypeId, componentId)
 				.setComponentEnable(isNeedToBeEnabled);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(variableTypeGridId, componentId)
+				.setComponentEnable(isNeedToBeEnabled);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(variableTypeAddButtonId, componentId)
+				.setComponentEnable(isNeedToBeEnabled);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(variableTypeRemoveButtonId, componentId)
 				.setComponentEnable(isNeedToBeEnabled);
 
 		clearTreeTable(componentId, String.valueOf(parameterList.get(3)));
