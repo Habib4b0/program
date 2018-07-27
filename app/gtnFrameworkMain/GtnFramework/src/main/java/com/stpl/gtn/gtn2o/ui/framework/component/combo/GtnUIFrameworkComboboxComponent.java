@@ -158,7 +158,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 			vaadinComboBox.setNullSelectionItemId(0);
 			vaadinComboBox.addItem(0);
 			vaadinComboBox.setItemCaption(0, defaultValue);
-			vaadinComboBox.select(0);
+ 			vaadinComboBox.select(0);
 		}
 		fillComboboxFromResponse(response, comboboxConfig, vaadinComboBox);
 

@@ -22,6 +22,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.BooleanConstant;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,6 +45,7 @@ public class PPAProjectionLogic {
     private static Thread procedureThread;
     private static RunnableJob runnableJob;
     private final CommonLogic commonLogic=new CommonLogic();
+    public  final SimpleDateFormat formatter = new SimpleDateFormat(Constant.DATE_FORMAT);
 
     public List getInputForMassUpdate(int startQuater, int endQuater, int startYear, int endYear, Object columnValue, String columnName, ProjectionSelectionDTO selection) {
         List input = new ArrayList();
@@ -71,8 +73,8 @@ public class PPAProjectionLogic {
         } else {
             input.add(Constant.PERCENT);
         }
-        input.add(CommonUtils.DBDate.format(startAndEndDate.get(0)));
-        input.add(CommonUtils.DBDate.format(startAndEndDate.get(1)));
+        input.add(formatter.format(startAndEndDate.get(0)));
+        input.add(formatter.format(startAndEndDate.get(1)));
         return input;
 
     }

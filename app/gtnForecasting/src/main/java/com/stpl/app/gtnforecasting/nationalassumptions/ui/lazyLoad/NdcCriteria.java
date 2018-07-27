@@ -35,8 +35,7 @@ public class NdcCriteria implements SearchCriteria {
     /**
      * The dirty.
      */
-    @SuppressWarnings("unused")
-	private boolean dirty;
+	private boolean dirty = true;
 
     /**
      * The filter.
@@ -106,7 +105,7 @@ public class NdcCriteria implements SearchCriteria {
      */
     @Override
     public boolean isDirty() {
-        return true;
+        return dirty;
     }
 
     /**
