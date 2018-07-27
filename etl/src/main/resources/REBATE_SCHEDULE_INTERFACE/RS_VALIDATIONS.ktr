@@ -271,7 +271,7 @@
   <hop> <from>GET NSF  CDR SID 3 2</from><to>Filter rows</to><enabled>Y</enabled> </hop>
   <hop> <from>GET NSF  CDR SID 3 2</from><to>INVALID TABLE 14 2</to><enabled>Y</enabled> </hop>
   <hop> <from>GET EVAL CDR SID 2</from><to>INVALID TABLE 12 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>PS CONTRACT lookUp 2</from><to>CALC RULE</to><enabled>Y</enabled> </hop>
+  <hop> <from>PS CONTRACT lookUp 2</from><to>CALC RULE</to><enabled>N</enabled> </hop>
   <hop> <from>CALC RULE</from><to>GET CALC HLPR_SID</to><enabled>Y</enabled> </hop>
   <hop> <from>GET CALC CDR SID</from><to>EVAL RULE</to><enabled>Y</enabled> </hop>
   <hop> <from>EVAL RULE</from><to>GET EVAL HLPR_SID 2</to><enabled>Y</enabled> </hop>
@@ -310,6 +310,14 @@
   <hop> <from>Filter rows deduction</from><to>deduction constant</to><enabled>Y</enabled> </hop>
   <hop> <from>deduction constant</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>
   <hop> <from>GET deduction sid</from><to>Invalid Reason 6 2 2 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ded Incl No</from><to>Invalid Ded Inclusion</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ded Incl No</from><to>DED INCL NO CHECK </to><enabled>Y</enabled> </hop>
+  <hop> <from>Ded Incl Yes</from><to>DED INCL YES CHECK</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ded Incl Yes</from><to>Ded Incl No</to><enabled>Y</enabled> </hop>
+  <hop> <from>PS CONTRACT lookUp 2</from><to>Ded Incl Yes</to><enabled>Y</enabled> </hop>
+  <hop> <from>DED INCL NO CHECK </from><to>CALC RULE</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Ded Inclusion</from><to>INVALID Deduction 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>DED INCL YES CHECK</from><to>CALC RULE</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>ADD Audit update</name>
@@ -1104,6 +1112,102 @@
     </step>
 
   <step>
+    <name>DED INCL NO CHECK </name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>HELPER_TABLE</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>LIST_NAME_INCLUSION</name>
+        <field>LIST_NAME</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>NO_DESC</name>
+        <field>DESCRIPTION</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>HELPER_TABLE_SID</name>
+        <rename>new_deduction_inclusion</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1386</xloc>
+      <yloc>964</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>DED INCL YES CHECK</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>HELPER_TABLE</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>LIST_NAME_INCLUSION</name>
+        <field>LIST_NAME</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>DESCRIPTION_INCLUSION</name>
+        <field>DESCRIPTION</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>HELPER_TABLE_SID</name>
+        <rename>new_deduction_inclusion</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1301</xloc>
+      <yloc>890</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>DELETE BATCH DUPLCIATION</name>
     <type>Unique</type>
     <description/>
@@ -1182,6 +1286,130 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>417</xloc>
       <yloc>169</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Ded Incl No</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>DED INCL NO CHECK </send_true_to>
+<send_false_to>Invalid Ded Inclusion</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <conditions>
+  <condition>
+   <negated>N</negated>
+   <leftvalue>DEDUCTION_INCLUSION</leftvalue>
+   <function>&#x3d;</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>N</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  <condition>
+   <negated>N</negated>
+   <operator>OR</operator>
+   <leftvalue>DEDUCTION_INCLUSION</leftvalue>
+   <function>&#x3d;</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>NO</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  <condition>
+   <negated>N</negated>
+   <operator>OR</operator>
+   <leftvalue>DEDUCTION_INCLUSION</leftvalue>
+   <function>&#x3d;</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>No</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  <condition>
+   <negated>N</negated>
+   <operator>OR</operator>
+   <leftvalue>DEDUCTION_INCLUSION</leftvalue>
+   <function>&#x3d;</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>n</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  <condition>
+   <negated>N</negated>
+   <operator>OR</operator>
+   <leftvalue>DEDUCTION_INCLUSION</leftvalue>
+   <function>&#x3d;</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>no</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  </conditions>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1450</xloc>
+      <yloc>820</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Ded Incl Yes</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>DED INCL YES CHECK</send_true_to>
+<send_false_to>Ded Incl No</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <conditions>
+  <condition>
+   <negated>N</negated>
+   <leftvalue>DEDUCTION_INCLUSION</leftvalue>
+   <function>&#x3d;</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>Y</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  <condition>
+   <negated>N</negated>
+   <operator>OR</operator>
+   <leftvalue>DEDUCTION_INCLUSION</leftvalue>
+   <function>&#x3d;</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>YES</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  <condition>
+   <negated>N</negated>
+   <operator>OR</operator>
+   <leftvalue>DEDUCTION_INCLUSION</leftvalue>
+   <function>&#x3d;</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>Yes</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  <condition>
+   <negated>N</negated>
+   <operator>OR</operator>
+   <leftvalue>DEDUCTION_INCLUSION</leftvalue>
+   <function>&#x3d;</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>y</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  <condition>
+   <negated>N</negated>
+   <operator>OR</operator>
+   <leftvalue>DEDUCTION_INCLUSION</leftvalue>
+   <function>&#x3d;</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>yes</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  </conditions>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1329</xloc>
+      <yloc>736</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1390,6 +1618,35 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>921</xloc>
       <yloc>590</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows deduction</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>GET deduction sid</send_true_to>
+<send_false_to>deduction constant</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>DEDUCTION_CALENDAR_NO</leftvalue>
+ <function>IS NOT NULL</function>
+ <rightvalue/>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1340</xloc>
+      <yloc>549</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2163,6 +2420,48 @@
     </step>
 
   <step>
+    <name>GET deduction sid</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>DEDUCTION_CALENDAR_MASTER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>DEDUCTION_CALENDAR_NO</name>
+        <field>DEDUCTION_CALENDAR_NO</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>DEDUCTION_CALENDAR_MASTER_SID</name>
+        <rename>DEDUCTION_CALENDAR_MASTER_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1102</xloc>
+      <yloc>521</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>IFP CONTRACT CHECK  2</name>
     <type>DBLookup</type>
     <description/>
@@ -2422,6 +2721,770 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>735</xloc>
       <yloc>2709</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID Deduction</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_REBATE_SCHEDULE</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ADDRESS_1</column_name>
+          <stream_name>ADDRESS_1</stream_name>
+        </field>
+        <field>
+          <column_name>ADDRESS_2</column_name>
+          <stream_name>ADDRESS_2</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>ATTACHED_DATE</column_name>
+          <stream_name>ATTACHED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ATTACHED_STATUS</column_name>
+          <stream_name>ATTACHED_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUNDLE_NO</column_name>
+          <stream_name>BUNDLE_NO</stream_name>
+        </field>
+        <field>
+          <column_name>CALENDAR</column_name>
+          <stream_name>CALENDAR</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_ID</column_name>
+          <stream_name>CFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CITY</column_name>
+          <stream_name>CITY</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_ID</column_name>
+          <stream_name>FORMULA_ID</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_METHOD_ID</column_name>
+          <stream_name>FORMULA_METHOD_ID</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_NAME</column_name>
+          <stream_name>FORMULA_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_NO</column_name>
+          <stream_name>FORMULA_NO</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_TYPE</column_name>
+          <stream_name>FORMULA_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_ID</column_name>
+          <stream_name>IFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>INTEREST_BEARING_BASIS</column_name>
+          <stream_name>INTEREST_BEARING_BASIS</stream_name>
+        </field>
+        <field>
+          <column_name>INTEREST_BEARING_INDICATOR</column_name>
+          <stream_name>INTEREST_BEARING_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_END_DATE</column_name>
+          <stream_name>ITEM_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM-NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_REBATE_END_DATE</column_name>
+          <stream_name>ITEM_REBATE_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_REBATE_START_DATE</column_name>
+          <stream_name>ITEM_REBATE_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_START_DATE</column_name>
+          <stream_name>ITEM-START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MAKE_PAYABLE_TO</column_name>
+          <stream_name>MAKE_PAYABLE_TO</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_REBATE_SCHEDULE_ID</column_name>
+          <stream_name>PARENT_REBATE_SCHEDULE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_REBATE_SCHEDULE_NAME</column_name>
+          <stream_name>PARENT_REBATE_SCHEDULE_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>PAYMENT_FREQUENCY</column_name>
+          <stream_name>PAYMENT_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>PAYMENT_GRACE_PERIOD</column_name>
+          <stream_name>PAYMENT_GRACE_PERIOD</stream_name>
+        </field>
+        <field>
+          <column_name>PAYMENT_METHOD</column_name>
+          <stream_name>PAYMENT_METHOD</stream_name>
+        </field>
+        <field>
+          <column_name>PAYMENT_TERMS</column_name>
+          <stream_name>PAYMENT_TERMS</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_ID</column_name>
+          <stream_name>PRICE_SCHEDULE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_AMOUNT</column_name>
+          <stream_name>REBATE_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_FREQUENCY</column_name>
+          <stream_name>REBATE_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_ID</column_name>
+          <stream_name>REBATE_PLAN_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_LEVEL</column_name>
+          <stream_name>REBATE_PLAN_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PROCESSING_TYPE</column_name>
+          <stream_name>REBATE_PROCESSING_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PROGRAM_TYPE</column_name>
+          <stream_name>REBATE_PROGRAM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_RULE_ASSOCIATION</column_name>
+          <stream_name>REBATE_RULE_ASSOCIATION</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_RULE_TYPE</column_name>
+          <stream_name>REBATE_RULE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_CATEGORY</column_name>
+          <stream_name>REBATE_SCHEDULE_CATEGORY</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_DESIGNATION</column_name>
+          <stream_name>REBATE_SCHEDULE_DESIGNATION</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_ID</column_name>
+          <stream_name>REBATE_SCHEDULE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_INTFID</column_name>
+          <stream_name>REBATE_SCHEDULE_INTFID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_NAME</column_name>
+          <stream_name>REBATE_SCHEDULE_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_NO</column_name>
+          <stream_name>REBATE_SCHEDULE_NO</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_STATUS</column_name>
+          <stream_name>REBATE_SCHEDULE_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_TRANS_REF_ID</column_name>
+          <stream_name>REBATE_SCHEDULE_TRANS_REF_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_TRANS_REF_NAME</column_name>
+          <stream_name>REBATE_SCHEDULE_TRANS_REF_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_TRANS_REF_NO</column_name>
+          <stream_name>REBATE_SCHEDULE_TRANS_REF_NO</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_TYPE</column_name>
+          <stream_name>REBATE_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>STATE</column_name>
+          <stream_name>STATE</stream_name>
+        </field>
+        <field>
+          <column_name>TRADE_CLASS</column_name>
+          <stream_name>TRADE_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>UDC1</column_name>
+          <stream_name>UDC1</stream_name>
+        </field>
+        <field>
+          <column_name>UDC2</column_name>
+          <stream_name>UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>UDC3</column_name>
+          <stream_name>UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>UDC4</column_name>
+          <stream_name>UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>UDC5</column_name>
+          <stream_name>UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>UDC6</column_name>
+          <stream_name>UDC6</stream_name>
+        </field>
+        <field>
+          <column_name>VALIDATION_PROFILE</column_name>
+          <stream_name>VALIDATION_PROFILE</stream_name>
+        </field>
+        <field>
+          <column_name>ZIP_CODE</column_name>
+          <stream_name>ZIP_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ERROR_CODE_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>DEDUCTION_INCLUSION</column_name>
+          <stream_name>DEDUCTION_INCLUSION</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_ALIAS_ID</column_name>
+          <stream_name>REBATE_SCHEDULE_ALIAS_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PAYMENT_LEVEL</column_name>
+          <stream_name>PAYMENT_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>EVALUATION_RULE_LEVEL</column_name>
+          <stream_name>EVALUATION_RULE_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>EVALUATION_RULE</column_name>
+          <stream_name>EVALUATION_RULE</stream_name>
+        </field>
+        <field>
+          <column_name>EVALUATION_RULE_BUNDLE</column_name>
+          <stream_name>EVALUATION_RULE_BUNDLE</stream_name>
+        </field>
+        <field>
+          <column_name>CALCULATION_TYPE</column_name>
+          <stream_name>CALCULATION_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>CALCULATION_RULE</column_name>
+          <stream_name>CALCULATION_RULE</stream_name>
+        </field>
+        <field>
+          <column_name>CALCULATION_RULE_LEVEL</column_name>
+          <stream_name>CALCULATION_RULE_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>CALCULATION_RULE_BUNDLE</column_name>
+          <stream_name>CALCULATION_RULE_BUNDLE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SALES_FORMULA</column_name>
+          <stream_name>NET_SALES_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SALES_RULE</column_name>
+          <stream_name>NET_SALES_RULE</stream_name>
+        </field>
+        <field>
+          <column_name>DEDUCTION_CALENDAR_NO</column_name>
+          <stream_name>DEDUCTION_CALENDAR_NO</stream_name>
+        </field>
+        <field>
+          <column_name>DEDUCTION_CALENDAR_NAME</column_name>
+          <stream_name>DEDUCTION_CALENDAR_NAME</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1610</xloc>
+      <yloc>665</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID Deduction 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_REBATE_SCHEDULE</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ADDRESS_1</column_name>
+          <stream_name>ADDRESS_1</stream_name>
+        </field>
+        <field>
+          <column_name>ADDRESS_2</column_name>
+          <stream_name>ADDRESS_2</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>ATTACHED_DATE</column_name>
+          <stream_name>ATTACHED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ATTACHED_STATUS</column_name>
+          <stream_name>ATTACHED_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BUNDLE_NO</column_name>
+          <stream_name>BUNDLE_NO</stream_name>
+        </field>
+        <field>
+          <column_name>CALENDAR</column_name>
+          <stream_name>CALENDAR</stream_name>
+        </field>
+        <field>
+          <column_name>CFP_ID</column_name>
+          <stream_name>CFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CITY</column_name>
+          <stream_name>CITY</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_ID</column_name>
+          <stream_name>FORMULA_ID</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_METHOD_ID</column_name>
+          <stream_name>FORMULA_METHOD_ID</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_NAME</column_name>
+          <stream_name>FORMULA_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_NO</column_name>
+          <stream_name>FORMULA_NO</stream_name>
+        </field>
+        <field>
+          <column_name>FORMULA_TYPE</column_name>
+          <stream_name>FORMULA_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>IFP_ID</column_name>
+          <stream_name>IFP_ID</stream_name>
+        </field>
+        <field>
+          <column_name>INTEREST_BEARING_BASIS</column_name>
+          <stream_name>INTEREST_BEARING_BASIS</stream_name>
+        </field>
+        <field>
+          <column_name>INTEREST_BEARING_INDICATOR</column_name>
+          <stream_name>INTEREST_BEARING_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_END_DATE</column_name>
+          <stream_name>ITEM_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM-NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_REBATE_END_DATE</column_name>
+          <stream_name>ITEM_REBATE_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_REBATE_START_DATE</column_name>
+          <stream_name>ITEM_REBATE_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_START_DATE</column_name>
+          <stream_name>ITEM-START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MAKE_PAYABLE_TO</column_name>
+          <stream_name>MAKE_PAYABLE_TO</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_REBATE_SCHEDULE_ID</column_name>
+          <stream_name>PARENT_REBATE_SCHEDULE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PARENT_REBATE_SCHEDULE_NAME</column_name>
+          <stream_name>PARENT_REBATE_SCHEDULE_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>PAYMENT_FREQUENCY</column_name>
+          <stream_name>PAYMENT_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>PAYMENT_GRACE_PERIOD</column_name>
+          <stream_name>PAYMENT_GRACE_PERIOD</stream_name>
+        </field>
+        <field>
+          <column_name>PAYMENT_METHOD</column_name>
+          <stream_name>PAYMENT_METHOD</stream_name>
+        </field>
+        <field>
+          <column_name>PAYMENT_TERMS</column_name>
+          <stream_name>PAYMENT_TERMS</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_SCHEDULE_ID</column_name>
+          <stream_name>PRICE_SCHEDULE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_AMOUNT</column_name>
+          <stream_name>REBATE_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_FREQUENCY</column_name>
+          <stream_name>REBATE_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_ID</column_name>
+          <stream_name>REBATE_PLAN_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PLAN_LEVEL</column_name>
+          <stream_name>REBATE_PLAN_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PROCESSING_TYPE</column_name>
+          <stream_name>REBATE_PROCESSING_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_PROGRAM_TYPE</column_name>
+          <stream_name>REBATE_PROGRAM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_RULE_ASSOCIATION</column_name>
+          <stream_name>REBATE_RULE_ASSOCIATION</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_RULE_TYPE</column_name>
+          <stream_name>REBATE_RULE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_CATEGORY</column_name>
+          <stream_name>REBATE_SCHEDULE_CATEGORY</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_DESIGNATION</column_name>
+          <stream_name>REBATE_SCHEDULE_DESIGNATION</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_ID</column_name>
+          <stream_name>REBATE_SCHEDULE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_INTFID</column_name>
+          <stream_name>REBATE_SCHEDULE_INTFID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_NAME</column_name>
+          <stream_name>REBATE_SCHEDULE_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_NO</column_name>
+          <stream_name>REBATE_SCHEDULE_NO</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_STATUS</column_name>
+          <stream_name>REBATE_SCHEDULE_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_TRANS_REF_ID</column_name>
+          <stream_name>REBATE_SCHEDULE_TRANS_REF_ID</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_TRANS_REF_NAME</column_name>
+          <stream_name>REBATE_SCHEDULE_TRANS_REF_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_TRANS_REF_NO</column_name>
+          <stream_name>REBATE_SCHEDULE_TRANS_REF_NO</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_TYPE</column_name>
+          <stream_name>REBATE_SCHEDULE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>STATE</column_name>
+          <stream_name>STATE</stream_name>
+        </field>
+        <field>
+          <column_name>TRADE_CLASS</column_name>
+          <stream_name>TRADE_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>UDC1</column_name>
+          <stream_name>UDC1</stream_name>
+        </field>
+        <field>
+          <column_name>UDC2</column_name>
+          <stream_name>UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>UDC3</column_name>
+          <stream_name>UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>UDC4</column_name>
+          <stream_name>UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>UDC5</column_name>
+          <stream_name>UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>UDC6</column_name>
+          <stream_name>UDC6</stream_name>
+        </field>
+        <field>
+          <column_name>VALIDATION_PROFILE</column_name>
+          <stream_name>VALIDATION_PROFILE</stream_name>
+        </field>
+        <field>
+          <column_name>ZIP_CODE</column_name>
+          <stream_name>ZIP_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ERROR_CODE_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>DEDUCTION_INCLUSION</column_name>
+          <stream_name>DEDUCTION_INCLUSION</stream_name>
+        </field>
+        <field>
+          <column_name>REBATE_SCHEDULE_ALIAS_ID</column_name>
+          <stream_name>REBATE_SCHEDULE_ALIAS_ID</stream_name>
+        </field>
+        <field>
+          <column_name>PAYMENT_LEVEL</column_name>
+          <stream_name>PAYMENT_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>EVALUATION_RULE_LEVEL</column_name>
+          <stream_name>EVALUATION_RULE_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>EVALUATION_RULE</column_name>
+          <stream_name>EVALUATION_RULE</stream_name>
+        </field>
+        <field>
+          <column_name>EVALUATION_RULE_BUNDLE</column_name>
+          <stream_name>EVALUATION_RULE_BUNDLE</stream_name>
+        </field>
+        <field>
+          <column_name>CALCULATION_TYPE</column_name>
+          <stream_name>CALCULATION_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>CALCULATION_RULE</column_name>
+          <stream_name>CALCULATION_RULE</stream_name>
+        </field>
+        <field>
+          <column_name>CALCULATION_RULE_LEVEL</column_name>
+          <stream_name>CALCULATION_RULE_LEVEL</stream_name>
+        </field>
+        <field>
+          <column_name>CALCULATION_RULE_BUNDLE</column_name>
+          <stream_name>CALCULATION_RULE_BUNDLE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SALES_FORMULA</column_name>
+          <stream_name>NET_SALES_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SALES_RULE</column_name>
+          <stream_name>NET_SALES_RULE</stream_name>
+        </field>
+        <field>
+          <column_name>DEDUCTION_CALENDAR_NO</column_name>
+          <stream_name>DEDUCTION_CALENDAR_NO</stream_name>
+        </field>
+        <field>
+          <column_name>DEDUCTION_CALENDAR_NAME</column_name>
+          <stream_name>DEDUCTION_CALENDAR_NAME</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1691</xloc>
+      <yloc>1073</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -10031,6 +11094,18 @@
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
       </field>
+      <field>
+        <name>NO_DESC</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>NO</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -10069,6 +11144,51 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>608</xloc>
       <yloc>750</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Ded Inclusion</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Invalid Deduction Inclusion</nullif>
+        <length>50</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ERROR_CODE_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E04</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1593</xloc>
+      <yloc>951</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -10480,6 +11600,51 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1319</xloc>
       <yloc>424</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 6 2 2 2 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Invalid Deduction calendar No</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>ERROR_CODE_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E04</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1430</xloc>
+      <yloc>634</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -13004,7 +14169,7 @@
            <schema_name/>
            </partitioning>
     <connection>BPI DB</connection>
-    <sql>&#xd;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;ITEM&#x27;&#x29; IS NOT NULL&#xd;&#xa;DROP TABLE &#x23;ITEM&#xd;&#xa;	SELECT a.ITEM_ID,&#xd;&#xa;		    ITEM_MASTER_SID&#xd;&#xa;INTO   &#x23;ITEM&#xd;&#xa;	FROM   &#x28;SELECT DISTINCT ITEM_ID&#xd;&#xa;			FROM   STAG_REBATE_SCHEDULE&#x29; a&#xd;&#xa;		   JOIN ITEM_MASTER im&#xd;&#xa;			 ON im.ITEM_ID &#x3d; a.ITEM_ID WHERE IM.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;contract&#x27;&#x29; IS NOT NULL&#xd;&#xa;DROP TABLE &#x23;contract&#xd;&#xa;	SELECT a.CONTRACT_ID,&#xd;&#xa;		   CONTRACT_MASTER_SID&#xd;&#xa;INTO   &#x23;contract&#xd;&#xa;	FROM   &#x28;SELECT DISTINCT CONTRACT_ID&#xd;&#xa;			FROM   STAG_REBATE_SCHEDULE&#x29; a&#xd;&#xa;		   JOIN CONTRACT_MASTER im&#xd;&#xa;			 ON im.CONTRACT_ID &#x3d; a.CONTRACT_ID&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;SELECT&#xd;&#xa;  A.REBATE_SCHEDULE_INTFID&#xd;&#xa;, A.REBATE_SCHEDULE_ID&#xd;&#xa;, A.REBATE_SCHEDULE_NO&#xd;&#xa;, A.REBATE_SCHEDULE_NAME&#xd;&#xa;, A.REBATE_SCHEDULE_TYPE&#xd;&#xa;, A.REBATE_PROGRAM_TYPE&#xd;&#xa;, A.REBATE_SCHEDULE_CATEGORY&#xd;&#xa;, A.TRADE_CLASS&#xd;&#xa;, A.REBATE_SCHEDULE_DESIGNATION&#xd;&#xa;, A.PARENT_REBATE_SCHEDULE_ID&#xd;&#xa;, A.PARENT_REBATE_SCHEDULE_NAME&#xd;&#xa;, A.REBATE_SCHEDULE_STATUS&#xd;&#xa;, A.REBATE_SCHEDULE_TRANS_REF_ID&#xd;&#xa;, A.REBATE_SCHEDULE_TRANS_REF_NO&#xd;&#xa;, A.REBATE_SCHEDULE_TRANS_REF_NAME&#xd;&#xa;, A.PAYMENT_METHOD&#xd;&#xa;, A.PAYMENT_FREQUENCY&#xd;&#xa;, A.PAYMENT_TERMS&#xd;&#xa;, A.REBATE_FREQUENCY&#xd;&#xa;, A.CALENDAR&#xd;&#xa;, A.REBATE_PROCESSING_TYPE&#xd;&#xa;, A.VALIDATION_PROFILE&#xd;&#xa;, A.REBATE_RULE_TYPE&#xd;&#xa;, A.REBATE_RULE_ASSOCIATION&#xd;&#xa;, A.REBATE_PLAN_LEVEL&#xd;&#xa;, A.INTEREST_BEARING_INDICATOR&#xd;&#xa;, A.INTEREST_BEARING_BASIS&#xd;&#xa;, A.PAYMENT_GRACE_PERIOD&#xd;&#xa;, A.MAKE_PAYABLE_TO&#xd;&#xa;, A.ADDRESS_1&#xd;&#xa;, A.ADDRESS_2&#xd;&#xa;, A.CITY&#xd;&#xa;, A.&#x22;STATE&#x22;&#xd;&#xa;, A.ZIP_CODE&#xd;&#xa;, A.ITEM_ID&#xd;&#xa;, A.IDENTIFIER_CODE_QUALIFIER&#xd;&#xa;, A.ITEM_NO&#xd;&#xa;, A.&#x22;ITEM-NAME&#x22;&#xd;&#xa;, A.ATTACHED_STATUS&#xd;&#xa;, A.ATTACHED_DATE&#xd;&#xa;, A.&#x22;ITEM-START_DATE&#x22;&#xd;&#xa;, A.ITEM_END_DATE&#xd;&#xa;, A.FORMULA_TYPE&#xd;&#xa;, A.FORMULA_ID&#xd;&#xa;, A.FORMULA_NO&#xd;&#xa;, A.FORMULA_NAME&#xd;&#xa;, A.REBATE_PLAN_ID&#xd;&#xa;, A.REBATE_AMOUNT&#xd;&#xa;, A.ITEM_REBATE_START_DATE&#xd;&#xa;, A.ITEM_REBATE_END_DATE&#xd;&#xa;, A.BUNDLE_NO&#xd;&#xa;, A.INTERNAL_NOTES&#xd;&#xa;, A.CONTRACT_ID&#xd;&#xa;, A.CFP_ID&#xd;&#xa;, A.MFP_ID&#xd;&#xa;, A.IFP_ID&#xd;&#xa;, A.PRICE_SCHEDULE_ID&#xd;&#xa;, A.UDC1&#xd;&#xa;, A.UDC2&#xd;&#xa;, A.UDC3&#xd;&#xa;, A.UDC4&#xd;&#xa;, A.UDC5&#xd;&#xa;, A.UDC6&#xd;&#xa;, A.FORMULA_METHOD_ID&#xd;&#xa;, A.CREATED_BY&#xd;&#xa;, A.CREATED_DATE&#xd;&#xa;, A.MODIFIED_BY&#xd;&#xa;, A.MODIFIED_DATE&#xd;&#xa;, A.BATCH_ID&#xd;&#xa;, A.SOURCE&#xd;&#xa;, A.ADD_CHG_DEL_INDICATOR&#xd;&#xa;, A.DEDUCTION_INCLUSION&#xd;&#xa;, A.REBATE_SCHEDULE_ALIAS_ID&#xd;&#xa;, A.PAYMENT_LEVEL&#xd;&#xa;, A.EVALUATION_RULE_LEVEL&#xd;&#xa;, A.EVALUATION_RULE&#xd;&#xa;, A.EVALUATION_RULE_BUNDLE&#xd;&#xa;, A.CALCULATION_TYPE&#xd;&#xa;, A.CALCULATION_RULE&#xd;&#xa;, A.CALCULATION_RULE_LEVEL&#xd;&#xa;, A.CALCULATION_RULE_BUNDLE&#xd;&#xa;, A.NET_SALES_FORMULA&#xd;&#xa;, A.NET_SALES_RULE&#xd;&#xa;, A.DEDUCTION_CALENDAR_NO&#xd;&#xa;, A.DEDUCTION_CALENDAR_NAME &#xd;&#xa;&#xd;&#xa;,B.ITEM_MASTER_SID&#xd;&#xa;,CM.CONTRACT_MASTER_SID&#xd;&#xa;&#xd;&#xa;,D.HELPER_TABLE_SID AS rebate_shedule_status_code&#xd;&#xa;,E.HELPER_TABLE_SID AS rebate_shedule_type_code&#xd;&#xa;,H.HELPER_TABLE_SID AS rebate_shedule_category_code&#xd;&#xa;,G.HELPER_TABLE_SID AS trade_class_code&#xd;&#xa;,J.HELPER_TABLE_SID AS rebate_shedule_designation_code&#xd;&#xa;,K.HELPER_TABLE_SID AS validation_profile_code&#xd;&#xa;,L.HELPER_TABLE_SID AS rebate_plan_level_code&#xd;&#xa;,M.HELPER_TABLE_SID AS rebate_rule_association_code&#xd;&#xa;,N.HELPER_TABLE_SID AS payment_method_code&#xd;&#xa;,O.HELPER_TABLE_SID AS rebate_processing_type_code&#xd;&#xa;,P.HELPER_TABLE_SID AS rebate_frequency_code&#xd;&#xa;,Q.HELPER_TABLE_SID AS payment_frequency_code&#xd;&#xa;,R.HELPER_TABLE_SID AS payment_terms_code&#xd;&#xa;,S.HELPER_TABLE_SID AS calender_code&#xd;&#xa;,T.HELPER_TABLE_SID AS rebate_program_type_code&#xd;&#xa;,U.HELPER_TABLE_SID AS rebate_attached_status_code&#xd;&#xa;,V.HELPER_TABLE_SID AS rebate_rule_type_code&#xd;&#xa;,W.HELPER_TABLE_SID AS rebate_rs_state_code&#xd;&#xa;,X.HELPER_TABLE_SID AS HELPER_TABLE_INCLUSION_SID&#xd;&#xa;,U1.HELPER_TABLE_SID AS new_udc1_code&#xd;&#xa;,U2.HELPER_TABLE_SID AS new_udc2_code&#xd;&#xa;,U3.HELPER_TABLE_SID AS new_udc3_code&#xd;&#xa;,U4.HELPER_TABLE_SID AS new_udc4_code&#xd;&#xa;,U5.HELPER_TABLE_SID AS new_udc5_code&#xd;&#xa;,U6.HELPER_TABLE_SID AS new_udc6_code&#xd;&#xa;,LS.HELPER_TABLE_SID AS new_deduction_inclusion&#xd;&#xa;,PL.HELPER_TABLE_SID AS new_payment_level&#xd;&#xa;,EL.HELPER_TABLE_SID AS new_evaluation_rule_level&#xd;&#xa;,ER.HELPER_TABLE_SID AS new_evaluation_rule&#xd;&#xa;,CT.HELPER_TABLE_SID AS new_calculation_type&#xd;&#xa;,CR.HELPER_TABLE_SID AS new_calculation_rule&#xd;&#xa;,CL.HELPER_TABLE_SID AS new_calculation_rule_level&#xd;&#xa;,NF.HELPER_TABLE_SID AS new_net_sales_formula&#xd;&#xa;,NR.HELPER_TABLE_SID AS new_net_sales_rule&#xd;&#xa;,DC.HELPER_TABLE_SID AS new_deduction_calendar_no&#xd;&#xa;,DN.HELPER_TABLE_SID AS new_deduction_calendar_name&#xd;&#xa;,IB.HELPER_TABLE_SID AS new_Interest_Bearing_Basis&#xd;&#xa;,II.HELPER_TABLE_SID AS new_Interest_Bearing_Indicator&#xd;&#xa;,CFP.CFP_MODEL_SID&#xd;&#xa;,IFP.IFP_MODEL_SID&#xd;&#xa;,PS.PS_MODEL_SID&#xd;&#xa;,RPM.REBATE_PLAN_MASTER_SID&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;FROM STAG_REBATE_SCHEDULE A&#xd;&#xa;inner join &#x23;ITEM  B &#xd;&#xa;           ON A.ITEM_ID&#x3d;B.ITEM_ID&#xd;&#xa;INNER JOIN &#x23;contract CM&#xd;&#xa;           ON CM.CONTRACT_ID&#x3d; A.CONTRACT_ID&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;     INNER JOIN CFP_MODEL CFP&#xd;&#xa;           ON CFP.CFP_ID&#x3d; A.CFP_ID&#xd;&#xa;	 INNER JOIN IFP_MODEL IFP&#xd;&#xa;           ON IFP.IFP_ID&#x3d; A.IFP_ID&#xd;&#xa;	 INNER JOIN PS_MODEL PS&#xd;&#xa;           ON PS.PS_ID&#x3d; A.PRICE_SCHEDULE_ID&#xd;&#xa;   	LEFT JOIN REBATE_PLAN_MASTER RPM&#xd;&#xa;           ON RPM.REBATE_PLAN_ID&#x3d; A.REBATE_PLAN_ID&#xd;&#xa;&#xd;&#xa;		 Left join HELPER_TABLE D &#xd;&#xa;	          ON D.DESCRIPTION&#x3d;A.REBATE_SCHEDULE_STATUS&#xd;&#xa;			  AND D.LIST_NAME&#x3d;&#x27;STATUS&#x27;&#xd;&#xa;	    left join HELPER_TABLE E &#xd;&#xa;	          ON E.DESCRIPTION&#x3d;A.REBATE_SCHEDULE_TYPE&#xd;&#xa;	   	      AND E.LIST_NAME&#x3d;&#x27;RS_TYPE&#x27;&#xd;&#xa;		left join HELPER_TABLE H &#xd;&#xa;	          ON H.DESCRIPTION&#x3d;A.REBATE_SCHEDULE_CATEGORY&#xd;&#xa;	   	      AND H.LIST_NAME&#x3d;&#x27;RS_CATEGORY&#x27;&#xd;&#xa;	    left join HELPER_TABLE G &#xd;&#xa;	          ON G.DESCRIPTION&#x3d;A.TRADE_CLASS&#xd;&#xa;	   	      AND G.LIST_NAME&#x3d;&#x27;RS_TRADE_CLASS&#x27; &#xd;&#xa;        left join HELPER_TABLE J&#xd;&#xa;	          ON J.DESCRIPTION&#x3d;A.REBATE_SCHEDULE_DESIGNATION&#xd;&#xa;	   	      AND J.LIST_NAME&#x3d;&#x27;RS_DESIGNATION&#x27;&#xd;&#xa;		left join HELPER_TABLE K&#xd;&#xa;	          ON K.DESCRIPTION&#x3d;A.VALIDATION_PROFILE&#xd;&#xa;	   	      AND K.LIST_NAME&#x3d;&#x27;RS_VALIDATION_PROFILE&#x27;&#xd;&#xa;		left join HELPER_TABLE L&#xd;&#xa;	          ON L.DESCRIPTION&#x3d;A.REBATE_PLAN_LEVEL&#xd;&#xa;	   	      AND L.LIST_NAME&#x3d;&#x27;REBATE_PLAN_LEVEL&#x27;&#xd;&#xa;		left join HELPER_TABLE M&#xd;&#xa;	          ON M.DESCRIPTION&#x3d;A.REBATE_RULE_ASSOCIATION&#xd;&#xa;	   	      AND M.LIST_NAME&#x3d;&#x27;RS_RBT_RULE_ASSOCN&#x27;&#xd;&#xa;		left join HELPER_TABLE N&#xd;&#xa;	          ON N.DESCRIPTION&#x3d;A.PAYMENT_METHOD&#xd;&#xa;	   	      AND N.LIST_NAME&#x3d;&#x27;PAYMENT_METHOD&#x27;&#xd;&#xa;		left join HELPER_TABLE O&#xd;&#xa;	          ON O.DESCRIPTION&#x3d;A.REBATE_PROCESSING_TYPE&#xd;&#xa;	   	      AND O.LIST_NAME&#x3d;&#x27;REBATE_PROCESSING_TYPE&#x27;&#xd;&#xa;		left join HELPER_TABLE P&#xd;&#xa;	          ON P.DESCRIPTION&#x3d;A.REBATE_FREQUENCY&#xd;&#xa;	   	      AND P.LIST_NAME&#x3d;&#x27;REBATE_FREQUENCY&#x27;&#xd;&#xa;		left join HELPER_TABLE Q&#xd;&#xa;	          ON Q.DESCRIPTION&#x3d;A.PAYMENT_FREQUENCY&#xd;&#xa;	   	      AND Q.LIST_NAME&#x3d;&#x27;PAYMENT_FREQUENCY&#x27;&#xd;&#xa;		left join HELPER_TABLE R&#xd;&#xa;	          ON R.DESCRIPTION&#x3d;A.PAYMENT_TERMS&#xd;&#xa;	   	      AND R.LIST_NAME&#x3d;&#x27;PAYMENT_TERMS&#x27;&#xd;&#xa;		left join HELPER_TABLE S&#xd;&#xa;	          ON S.DESCRIPTION&#x3d;A.CALENDAR&#xd;&#xa;	   	      AND S.LIST_NAME&#x3d;&#x27;RS_CALENDAR&#x27;&#xd;&#xa;		left join HELPER_TABLE T&#xd;&#xa;	          ON T.DESCRIPTION&#x3d;A.REBATE_PROGRAM_TYPE&#xd;&#xa;	   	      AND T.LIST_NAME&#x3d;&#x27;REBATE_PROGRAM_TYPE&#x27;&#xd;&#xa;		left join HELPER_TABLE U&#xd;&#xa;	          ON U.DESCRIPTION&#x3d;A.ATTACHED_STATUS&#xd;&#xa;	   	      AND U.LIST_NAME&#x3d;&#x27;STATUS&#x27;&#xd;&#xa;		left join HELPER_TABLE V&#xd;&#xa;	          ON V.DESCRIPTION&#x3d;A.REBATE_RULE_TYPE&#xd;&#xa;	   	      AND V.LIST_NAME&#x3d;&#x27;REBATE_RULE_TYPE&#x27;&#xd;&#xa;		left join HELPER_TABLE W&#xd;&#xa;	          ON W.DESCRIPTION&#x3d;A.STATE&#xd;&#xa;	   	      AND W.LIST_NAME&#x3d;&#x27;STATE&#x27;&#xd;&#xa;		left join HELPER_TABLE X&#xd;&#xa;	          ON X.DESCRIPTION&#x3d;&#x27;YES&#x27;&#xd;&#xa;	   	      AND X.LIST_NAME&#x3d;&#x27;LOCKED_STATUS&#x27;&#xd;&#xa;      left join HELPER_TABLE U1&#xd;&#xa;	          ON U1.DESCRIPTION&#x3d;A.UDC1&#xd;&#xa;	   	      AND U1.LIST_NAME&#x3d;&#x27;RS_UDC1&#x27;&#xd;&#xa;		left join HELPER_TABLE U2&#xd;&#xa;	          ON U2.DESCRIPTION&#x3d;A.UDC2&#xd;&#xa;	   	      AND U2.LIST_NAME&#x3d;&#x27;RS_UDC2&#x27;&#xd;&#xa;		left join HELPER_TABLE U3&#xd;&#xa;	          ON U3.DESCRIPTION&#x3d;A.UDC3&#xd;&#xa;	   	      AND U3.LIST_NAME&#x3d;&#x27;RS_UDC3&#x27;&#xd;&#xa;		left join HELPER_TABLE U4&#xd;&#xa;	          ON U4.DESCRIPTION&#x3d;A.UDC4&#xd;&#xa;	   	      AND U4.LIST_NAME&#x3d;&#x27;RS_UDC4&#x27;&#xd;&#xa;		left join HELPER_TABLE U5&#xd;&#xa;	          ON U5.DESCRIPTION&#x3d;A.UDC5&#xd;&#xa;	   	      AND U5.LIST_NAME&#x3d;&#x27;RS_UDC5&#x27;&#xd;&#xa;		left join HELPER_TABLE U6&#xd;&#xa;	          ON U6.DESCRIPTION&#x3d;A.UDC6&#xd;&#xa;	   	      AND U6.LIST_NAME&#x3d;&#x27;RS_UDC6&#x27;&#xd;&#xa;		left join HELPER_TABLE PL&#xd;&#xa;	          ON PL.DESCRIPTION&#x3d;A.PAYMENT_LEVEL&#xd;&#xa;	   	      AND PL.LIST_NAME&#x3d;&#x27;Payment_Level&#x27;&#xd;&#xa;		left join HELPER_TABLE EL&#xd;&#xa;	          ON EL.DESCRIPTION&#x3d;A.EVALUATION_RULE_LEVEL&#xd;&#xa;	   	      AND EL.LIST_NAME&#x3d;&#x27;Evaluation_Rule_Level&#x27;&#xd;&#xa;		left join HELPER_TABLE ER&#xd;&#xa;	          ON ER.DESCRIPTION&#x3d;A.EVALUATION_RULE&#xd;&#xa;	   	      AND ER.LIST_NAME&#x3d;&#x27;RULE_TYPE&#x27;&#xd;&#xa;		left join HELPER_TABLE CR&#xd;&#xa;	          ON CR.DESCRIPTION&#x3d;A.CALCULATION_RULE&#xd;&#xa;	   	      AND CR.LIST_NAME&#x3d;&#x27;RULE_TYPE&#x27;&#xd;&#xa;		left join HELPER_TABLE CL&#xd;&#xa;	          ON CL.DESCRIPTION&#x3d;A.CALCULATION_RULE_LEVEL&#xd;&#xa;	   	      AND CL.LIST_NAME&#x3d;&#x27;Calculation_Rule_Level&#x27;&#xd;&#xa;	    left join HELPER_TABLE NF&#xd;&#xa;	          ON NF.DESCRIPTION&#x3d;A.NET_SALES_FORMULA&#xd;&#xa;	   	      AND NF.LIST_NAME&#x3d;&#x27;Net_Sales_Formula&#x27;&#xd;&#xa;		left join HELPER_TABLE NR&#xd;&#xa;	          ON NR.DESCRIPTION&#x3d;A.NET_SALES_RULE&#xd;&#xa;	   	      AND NR.LIST_NAME&#x3d;&#x27;RULE_TYPE&#x27;&#xd;&#xa;		left join HELPER_TABLE DC&#xd;&#xa;	          ON DC.DESCRIPTION&#x3d;A.DEDUCTION_CALENDAR_NO&#xd;&#xa;	   	      AND DC.LIST_NAME&#x3d;&#x27;Deduction_Calendar_No&#x27;&#xd;&#xa;		left join HELPER_TABLE DN&#xd;&#xa;	          ON DN.DESCRIPTION&#x3d;A.DEDUCTION_CALENDAR_NAME&#xd;&#xa;	   	      AND DN.LIST_NAME&#x3d;&#x27;Deduction_Calendar_Name&#x27;&#xd;&#xa;		left join HELPER_TABLE LS&#xd;&#xa;	          ON LS.DESCRIPTION&#x3d;A.DEDUCTION_INCLUSION&#xd;&#xa;	   	      AND LS.LIST_NAME&#x3d;&#x27;locked_status&#x27;&#xd;&#xa;		left join HELPER_TABLE CT&#xd;&#xa;	          ON CT.DESCRIPTION&#x3d;A.CALCULATION_TYPE&#xd;&#xa;	   	      AND CT.LIST_NAME&#x3d;&#x27;calculation_type&#x27;&#xd;&#xa;		left join HELPER_TABLE IB&#xd;&#xa;	          ON IB.DESCRIPTION&#x3d;A.INTEREST_BEARING_BASIS&#xd;&#xa;	   	      AND IB.LIST_NAME&#x3d;&#x27;INTEREST_BEARING_BASIS&#x27;&#xd;&#xa;		left join HELPER_TABLE II&#xd;&#xa;	          ON II.DESCRIPTION&#x3d;A.INTEREST_BEARING_INDICATOR&#xd;&#xa;	   	      AND II.LIST_NAME&#x3d;&#x27;INTEREST_BEARING_INDICATOR&#x27;&#xd;&#xa;WHERE EXISTS &#x28;SELECT 1 FROM REBATE_PLAN_MASTER  RB &#xd;&#xa;           WHERE A.REBATE_PLAN_ID&#x3d;RB.REBATE_PLAN_ID and RB.INBOUND_STATUS &#x3c;&#x3e;&#x27;D&#x27; or A.REBATE_PLAN_ID IS NULL&#x29; &#xd;&#xa;</sql>
+    <sql>&#xd;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;ITEM&#x27;&#x29; IS NOT NULL&#xd;&#xa;DROP TABLE &#x23;ITEM&#xd;&#xa;	SELECT a.ITEM_ID,&#xd;&#xa;		    ITEM_MASTER_SID&#xd;&#xa;INTO   &#x23;ITEM&#xd;&#xa;	FROM   &#x28;SELECT DISTINCT ITEM_ID&#xd;&#xa;			FROM   STAG_REBATE_SCHEDULE&#x29; a&#xd;&#xa;		   JOIN ITEM_MASTER im&#xd;&#xa;			 ON im.ITEM_ID &#x3d; a.ITEM_ID WHERE IM.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;contract&#x27;&#x29; IS NOT NULL&#xd;&#xa;DROP TABLE &#x23;contract&#xd;&#xa;	SELECT a.CONTRACT_ID,&#xd;&#xa;		   CONTRACT_MASTER_SID&#xd;&#xa;INTO   &#x23;contract&#xd;&#xa;	FROM   &#x28;SELECT DISTINCT CONTRACT_ID&#xd;&#xa;			FROM   STAG_REBATE_SCHEDULE&#x29; a&#xd;&#xa;		   JOIN CONTRACT_MASTER im&#xd;&#xa;			 ON im.CONTRACT_ID &#x3d; a.CONTRACT_ID&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;SELECT&#xd;&#xa;  A.REBATE_SCHEDULE_INTFID&#xd;&#xa;, A.REBATE_SCHEDULE_ID&#xd;&#xa;, A.REBATE_SCHEDULE_NO&#xd;&#xa;, A.REBATE_SCHEDULE_NAME&#xd;&#xa;, A.REBATE_SCHEDULE_TYPE&#xd;&#xa;, A.REBATE_PROGRAM_TYPE&#xd;&#xa;, A.REBATE_SCHEDULE_CATEGORY&#xd;&#xa;, A.TRADE_CLASS&#xd;&#xa;, A.REBATE_SCHEDULE_DESIGNATION&#xd;&#xa;, A.PARENT_REBATE_SCHEDULE_ID&#xd;&#xa;, A.PARENT_REBATE_SCHEDULE_NAME&#xd;&#xa;, A.REBATE_SCHEDULE_STATUS&#xd;&#xa;, A.REBATE_SCHEDULE_TRANS_REF_ID&#xd;&#xa;, A.REBATE_SCHEDULE_TRANS_REF_NO&#xd;&#xa;, A.REBATE_SCHEDULE_TRANS_REF_NAME&#xd;&#xa;, A.PAYMENT_METHOD&#xd;&#xa;, A.PAYMENT_FREQUENCY&#xd;&#xa;, A.PAYMENT_TERMS&#xd;&#xa;, A.REBATE_FREQUENCY&#xd;&#xa;, A.CALENDAR&#xd;&#xa;, A.REBATE_PROCESSING_TYPE&#xd;&#xa;, A.VALIDATION_PROFILE&#xd;&#xa;, A.REBATE_RULE_TYPE&#xd;&#xa;, A.REBATE_RULE_ASSOCIATION&#xd;&#xa;, A.REBATE_PLAN_LEVEL&#xd;&#xa;, A.INTEREST_BEARING_INDICATOR&#xd;&#xa;, A.INTEREST_BEARING_BASIS&#xd;&#xa;, A.PAYMENT_GRACE_PERIOD&#xd;&#xa;, A.MAKE_PAYABLE_TO&#xd;&#xa;, A.ADDRESS_1&#xd;&#xa;, A.ADDRESS_2&#xd;&#xa;, A.CITY&#xd;&#xa;, A.&#x22;STATE&#x22;&#xd;&#xa;, A.ZIP_CODE&#xd;&#xa;, A.ITEM_ID&#xd;&#xa;, A.IDENTIFIER_CODE_QUALIFIER&#xd;&#xa;, A.ITEM_NO&#xd;&#xa;, A.&#x22;ITEM-NAME&#x22;&#xd;&#xa;, A.ATTACHED_STATUS&#xd;&#xa;, A.ATTACHED_DATE&#xd;&#xa;, A.&#x22;ITEM-START_DATE&#x22;&#xd;&#xa;, A.ITEM_END_DATE&#xd;&#xa;, A.FORMULA_TYPE&#xd;&#xa;, A.FORMULA_ID&#xd;&#xa;, A.FORMULA_NO&#xd;&#xa;, A.FORMULA_NAME&#xd;&#xa;, A.REBATE_PLAN_ID&#xd;&#xa;, A.REBATE_AMOUNT&#xd;&#xa;, A.ITEM_REBATE_START_DATE&#xd;&#xa;, A.ITEM_REBATE_END_DATE&#xd;&#xa;, A.BUNDLE_NO&#xd;&#xa;, A.INTERNAL_NOTES&#xd;&#xa;, A.CONTRACT_ID&#xd;&#xa;, A.CFP_ID&#xd;&#xa;, A.MFP_ID&#xd;&#xa;, A.IFP_ID&#xd;&#xa;, A.PRICE_SCHEDULE_ID&#xd;&#xa;, A.UDC1&#xd;&#xa;, A.UDC2&#xd;&#xa;, A.UDC3&#xd;&#xa;, A.UDC4&#xd;&#xa;, A.UDC5&#xd;&#xa;, A.UDC6&#xd;&#xa;, A.FORMULA_METHOD_ID&#xd;&#xa;, A.CREATED_BY&#xd;&#xa;, A.CREATED_DATE&#xd;&#xa;, A.MODIFIED_BY&#xd;&#xa;, A.MODIFIED_DATE&#xd;&#xa;, A.BATCH_ID&#xd;&#xa;, A.SOURCE&#xd;&#xa;, A.ADD_CHG_DEL_INDICATOR&#xd;&#xa;, A.DEDUCTION_INCLUSION&#xd;&#xa;, A.REBATE_SCHEDULE_ALIAS_ID&#xd;&#xa;, A.PAYMENT_LEVEL&#xd;&#xa;, A.EVALUATION_RULE_LEVEL&#xd;&#xa;, A.EVALUATION_RULE&#xd;&#xa;, A.EVALUATION_RULE_BUNDLE&#xd;&#xa;, A.CALCULATION_TYPE&#xd;&#xa;, A.CALCULATION_RULE&#xd;&#xa;, A.CALCULATION_RULE_LEVEL&#xd;&#xa;, A.CALCULATION_RULE_BUNDLE&#xd;&#xa;, A.NET_SALES_FORMULA&#xd;&#xa;, A.NET_SALES_RULE&#xd;&#xa;, A.DEDUCTION_CALENDAR_NO&#xd;&#xa;, A.DEDUCTION_CALENDAR_NAME &#xd;&#xa;&#xd;&#xa;,B.ITEM_MASTER_SID&#xd;&#xa;,CM.CONTRACT_MASTER_SID&#xd;&#xa;&#xd;&#xa;,D.HELPER_TABLE_SID AS rebate_shedule_status_code&#xd;&#xa;,E.HELPER_TABLE_SID AS rebate_shedule_type_code&#xd;&#xa;,H.HELPER_TABLE_SID AS rebate_shedule_category_code&#xd;&#xa;,G.HELPER_TABLE_SID AS trade_class_code&#xd;&#xa;,J.HELPER_TABLE_SID AS rebate_shedule_designation_code&#xd;&#xa;,K.HELPER_TABLE_SID AS validation_profile_code&#xd;&#xa;,L.HELPER_TABLE_SID AS rebate_plan_level_code&#xd;&#xa;,M.HELPER_TABLE_SID AS rebate_rule_association_code&#xd;&#xa;,N.HELPER_TABLE_SID AS payment_method_code&#xd;&#xa;,O.HELPER_TABLE_SID AS rebate_processing_type_code&#xd;&#xa;,P.HELPER_TABLE_SID AS rebate_frequency_code&#xd;&#xa;,Q.HELPER_TABLE_SID AS payment_frequency_code&#xd;&#xa;,R.HELPER_TABLE_SID AS payment_terms_code&#xd;&#xa;,S.HELPER_TABLE_SID AS calender_code&#xd;&#xa;,T.HELPER_TABLE_SID AS rebate_program_type_code&#xd;&#xa;,U.HELPER_TABLE_SID AS rebate_attached_status_code&#xd;&#xa;,V.HELPER_TABLE_SID AS rebate_rule_type_code&#xd;&#xa;,W.HELPER_TABLE_SID AS rebate_rs_state_code&#xd;&#xa;,X.HELPER_TABLE_SID AS HELPER_TABLE_INCLUSION_SID&#xd;&#xa;,U1.HELPER_TABLE_SID AS new_udc1_code&#xd;&#xa;,U2.HELPER_TABLE_SID AS new_udc2_code&#xd;&#xa;,U3.HELPER_TABLE_SID AS new_udc3_code&#xd;&#xa;,U4.HELPER_TABLE_SID AS new_udc4_code&#xd;&#xa;,U5.HELPER_TABLE_SID AS new_udc5_code&#xd;&#xa;,U6.HELPER_TABLE_SID AS new_udc6_code&#xd;&#xa;,PL.HELPER_TABLE_SID AS new_payment_level&#xd;&#xa;,EL.HELPER_TABLE_SID AS new_evaluation_rule_level&#xd;&#xa;,ER.HELPER_TABLE_SID AS new_evaluation_rule&#xd;&#xa;,CT.HELPER_TABLE_SID AS new_calculation_type&#xd;&#xa;,CR.HELPER_TABLE_SID AS new_calculation_rule&#xd;&#xa;,CL.HELPER_TABLE_SID AS new_calculation_rule_level&#xd;&#xa;,NF.HELPER_TABLE_SID AS new_net_sales_formula&#xd;&#xa;,NR.HELPER_TABLE_SID AS new_net_sales_rule&#xd;&#xa;,DC.HELPER_TABLE_SID AS new_deduction_calendar_no&#xd;&#xa;,DN.HELPER_TABLE_SID AS new_deduction_calendar_name&#xd;&#xa;,IB.HELPER_TABLE_SID AS new_Interest_Bearing_Basis&#xd;&#xa;,II.HELPER_TABLE_SID AS new_Interest_Bearing_Indicator&#xd;&#xa;,CFP.CFP_MODEL_SID&#xd;&#xa;,IFP.IFP_MODEL_SID&#xd;&#xa;,PS.PS_MODEL_SID&#xd;&#xa;,RPM.REBATE_PLAN_MASTER_SID&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;FROM STAG_REBATE_SCHEDULE A&#xd;&#xa;inner join &#x23;ITEM  B &#xd;&#xa;           ON A.ITEM_ID&#x3d;B.ITEM_ID&#xd;&#xa;INNER JOIN &#x23;contract CM&#xd;&#xa;           ON CM.CONTRACT_ID&#x3d; A.CONTRACT_ID&#xd;&#xa;&#xd;&#xa;&#xd;&#xa;     INNER JOIN CFP_MODEL CFP&#xd;&#xa;           ON CFP.CFP_ID&#x3d; A.CFP_ID&#xd;&#xa;	 INNER JOIN IFP_MODEL IFP&#xd;&#xa;           ON IFP.IFP_ID&#x3d; A.IFP_ID&#xd;&#xa;	 INNER JOIN PS_MODEL PS&#xd;&#xa;           ON PS.PS_ID&#x3d; A.PRICE_SCHEDULE_ID&#xd;&#xa;   	LEFT JOIN REBATE_PLAN_MASTER RPM&#xd;&#xa;           ON RPM.REBATE_PLAN_ID&#x3d; A.REBATE_PLAN_ID&#xd;&#xa;&#xd;&#xa;		 Left join HELPER_TABLE D &#xd;&#xa;	          ON D.DESCRIPTION&#x3d;A.REBATE_SCHEDULE_STATUS&#xd;&#xa;			  AND D.LIST_NAME&#x3d;&#x27;STATUS&#x27;&#xd;&#xa;	    left join HELPER_TABLE E &#xd;&#xa;	          ON E.DESCRIPTION&#x3d;A.REBATE_SCHEDULE_TYPE&#xd;&#xa;	   	      AND E.LIST_NAME&#x3d;&#x27;RS_TYPE&#x27;&#xd;&#xa;		left join HELPER_TABLE H &#xd;&#xa;	          ON H.DESCRIPTION&#x3d;A.REBATE_SCHEDULE_CATEGORY&#xd;&#xa;	   	      AND H.LIST_NAME&#x3d;&#x27;RS_CATEGORY&#x27;&#xd;&#xa;	    left join HELPER_TABLE G &#xd;&#xa;	          ON G.DESCRIPTION&#x3d;A.TRADE_CLASS&#xd;&#xa;	   	      AND G.LIST_NAME&#x3d;&#x27;RS_TRADE_CLASS&#x27; &#xd;&#xa;        left join HELPER_TABLE J&#xd;&#xa;	          ON J.DESCRIPTION&#x3d;A.REBATE_SCHEDULE_DESIGNATION&#xd;&#xa;	   	      AND J.LIST_NAME&#x3d;&#x27;RS_DESIGNATION&#x27;&#xd;&#xa;		left join HELPER_TABLE K&#xd;&#xa;	          ON K.DESCRIPTION&#x3d;A.VALIDATION_PROFILE&#xd;&#xa;	   	      AND K.LIST_NAME&#x3d;&#x27;RS_VALIDATION_PROFILE&#x27;&#xd;&#xa;		left join HELPER_TABLE L&#xd;&#xa;	          ON L.DESCRIPTION&#x3d;A.REBATE_PLAN_LEVEL&#xd;&#xa;	   	      AND L.LIST_NAME&#x3d;&#x27;REBATE_PLAN_LEVEL&#x27;&#xd;&#xa;		left join HELPER_TABLE M&#xd;&#xa;	          ON M.DESCRIPTION&#x3d;A.REBATE_RULE_ASSOCIATION&#xd;&#xa;	   	      AND M.LIST_NAME&#x3d;&#x27;RS_RBT_RULE_ASSOCN&#x27;&#xd;&#xa;		left join HELPER_TABLE N&#xd;&#xa;	          ON N.DESCRIPTION&#x3d;A.PAYMENT_METHOD&#xd;&#xa;	   	      AND N.LIST_NAME&#x3d;&#x27;PAYMENT_METHOD&#x27;&#xd;&#xa;		left join HELPER_TABLE O&#xd;&#xa;	          ON O.DESCRIPTION&#x3d;A.REBATE_PROCESSING_TYPE&#xd;&#xa;	   	      AND O.LIST_NAME&#x3d;&#x27;REBATE_PROCESSING_TYPE&#x27;&#xd;&#xa;		left join HELPER_TABLE P&#xd;&#xa;	          ON P.DESCRIPTION&#x3d;A.REBATE_FREQUENCY&#xd;&#xa;	   	      AND P.LIST_NAME&#x3d;&#x27;REBATE_FREQUENCY&#x27;&#xd;&#xa;		left join HELPER_TABLE Q&#xd;&#xa;	          ON Q.DESCRIPTION&#x3d;A.PAYMENT_FREQUENCY&#xd;&#xa;	   	      AND Q.LIST_NAME&#x3d;&#x27;PAYMENT_FREQUENCY&#x27;&#xd;&#xa;		left join HELPER_TABLE R&#xd;&#xa;	          ON R.DESCRIPTION&#x3d;A.PAYMENT_TERMS&#xd;&#xa;	   	      AND R.LIST_NAME&#x3d;&#x27;PAYMENT_TERMS&#x27;&#xd;&#xa;		left join HELPER_TABLE S&#xd;&#xa;	          ON S.DESCRIPTION&#x3d;A.CALENDAR&#xd;&#xa;	   	      AND S.LIST_NAME&#x3d;&#x27;RS_CALENDAR&#x27;&#xd;&#xa;		left join HELPER_TABLE T&#xd;&#xa;	          ON T.DESCRIPTION&#x3d;A.REBATE_PROGRAM_TYPE&#xd;&#xa;	   	      AND T.LIST_NAME&#x3d;&#x27;REBATE_PROGRAM_TYPE&#x27;&#xd;&#xa;		left join HELPER_TABLE U&#xd;&#xa;	          ON U.DESCRIPTION&#x3d;A.ATTACHED_STATUS&#xd;&#xa;	   	      AND U.LIST_NAME&#x3d;&#x27;STATUS&#x27;&#xd;&#xa;		left join HELPER_TABLE V&#xd;&#xa;	          ON V.DESCRIPTION&#x3d;A.REBATE_RULE_TYPE&#xd;&#xa;	   	      AND V.LIST_NAME&#x3d;&#x27;REBATE_RULE_TYPE&#x27;&#xd;&#xa;		left join HELPER_TABLE W&#xd;&#xa;	          ON W.DESCRIPTION&#x3d;A.STATE&#xd;&#xa;	   	      AND W.LIST_NAME&#x3d;&#x27;STATE&#x27;&#xd;&#xa;		left join HELPER_TABLE X&#xd;&#xa;	          ON X.DESCRIPTION&#x3d;&#x27;YES&#x27;&#xd;&#xa;	   	      AND X.LIST_NAME&#x3d;&#x27;LOCKED_STATUS&#x27;&#xd;&#xa;      left join HELPER_TABLE U1&#xd;&#xa;	          ON U1.DESCRIPTION&#x3d;A.UDC1&#xd;&#xa;	   	      AND U1.LIST_NAME&#x3d;&#x27;RS_UDC1&#x27;&#xd;&#xa;		left join HELPER_TABLE U2&#xd;&#xa;	          ON U2.DESCRIPTION&#x3d;A.UDC2&#xd;&#xa;	   	      AND U2.LIST_NAME&#x3d;&#x27;RS_UDC2&#x27;&#xd;&#xa;		left join HELPER_TABLE U3&#xd;&#xa;	          ON U3.DESCRIPTION&#x3d;A.UDC3&#xd;&#xa;	   	      AND U3.LIST_NAME&#x3d;&#x27;RS_UDC3&#x27;&#xd;&#xa;		left join HELPER_TABLE U4&#xd;&#xa;	          ON U4.DESCRIPTION&#x3d;A.UDC4&#xd;&#xa;	   	      AND U4.LIST_NAME&#x3d;&#x27;RS_UDC4&#x27;&#xd;&#xa;		left join HELPER_TABLE U5&#xd;&#xa;	          ON U5.DESCRIPTION&#x3d;A.UDC5&#xd;&#xa;	   	      AND U5.LIST_NAME&#x3d;&#x27;RS_UDC5&#x27;&#xd;&#xa;		left join HELPER_TABLE U6&#xd;&#xa;	          ON U6.DESCRIPTION&#x3d;A.UDC6&#xd;&#xa;	   	      AND U6.LIST_NAME&#x3d;&#x27;RS_UDC6&#x27;&#xd;&#xa;		left join HELPER_TABLE PL&#xd;&#xa;	          ON PL.DESCRIPTION&#x3d;A.PAYMENT_LEVEL&#xd;&#xa;	   	      AND PL.LIST_NAME&#x3d;&#x27;Payment_Level&#x27;&#xd;&#xa;		left join HELPER_TABLE EL&#xd;&#xa;	          ON EL.DESCRIPTION&#x3d;A.EVALUATION_RULE_LEVEL&#xd;&#xa;	   	      AND EL.LIST_NAME&#x3d;&#x27;Evaluation_Rule_Level&#x27;&#xd;&#xa;		left join HELPER_TABLE ER&#xd;&#xa;	          ON ER.DESCRIPTION&#x3d;A.EVALUATION_RULE&#xd;&#xa;	   	      AND ER.LIST_NAME&#x3d;&#x27;RULE_TYPE&#x27;&#xd;&#xa;		left join HELPER_TABLE CR&#xd;&#xa;	          ON CR.DESCRIPTION&#x3d;A.CALCULATION_RULE&#xd;&#xa;	   	      AND CR.LIST_NAME&#x3d;&#x27;RULE_TYPE&#x27;&#xd;&#xa;		left join HELPER_TABLE CL&#xd;&#xa;	          ON CL.DESCRIPTION&#x3d;A.CALCULATION_RULE_LEVEL&#xd;&#xa;	   	      AND CL.LIST_NAME&#x3d;&#x27;Calculation_Rule_Level&#x27;&#xd;&#xa;	    left join HELPER_TABLE NF&#xd;&#xa;	          ON NF.DESCRIPTION&#x3d;A.NET_SALES_FORMULA&#xd;&#xa;	   	      AND NF.LIST_NAME&#x3d;&#x27;Net_Sales_Formula&#x27;&#xd;&#xa;		left join HELPER_TABLE NR&#xd;&#xa;	          ON NR.DESCRIPTION&#x3d;A.NET_SALES_RULE&#xd;&#xa;	   	      AND NR.LIST_NAME&#x3d;&#x27;RULE_TYPE&#x27;&#xd;&#xa;		left join HELPER_TABLE DC&#xd;&#xa;	          ON DC.DESCRIPTION&#x3d;A.DEDUCTION_CALENDAR_NO&#xd;&#xa;	   	      AND DC.LIST_NAME&#x3d;&#x27;Deduction_Calendar_No&#x27;&#xd;&#xa;		left join HELPER_TABLE DN&#xd;&#xa;	          ON DN.DESCRIPTION&#x3d;A.DEDUCTION_CALENDAR_NAME&#xd;&#xa;	   	      AND DN.LIST_NAME&#x3d;&#x27;Deduction_Calendar_Name&#x27;&#xd;&#xa;		left join HELPER_TABLE CT&#xd;&#xa;	          ON CT.DESCRIPTION&#x3d;A.CALCULATION_TYPE&#xd;&#xa;	   	      AND CT.LIST_NAME&#x3d;&#x27;calculation_type&#x27;&#xd;&#xa;		left join HELPER_TABLE IB&#xd;&#xa;	          ON IB.DESCRIPTION&#x3d;A.INTEREST_BEARING_BASIS&#xd;&#xa;	   	      AND IB.LIST_NAME&#x3d;&#x27;INTEREST_BEARING_BASIS&#x27;&#xd;&#xa;		left join HELPER_TABLE II&#xd;&#xa;	          ON II.DESCRIPTION&#x3d;A.INTEREST_BEARING_INDICATOR&#xd;&#xa;	   	      AND II.LIST_NAME&#x3d;&#x27;INTEREST_BEARING_INDICATOR&#x27;&#xd;&#xa;WHERE EXISTS &#x28;SELECT 1 FROM REBATE_PLAN_MASTER  RB &#xd;&#xa;           WHERE A.REBATE_PLAN_ID&#x3d;RB.REBATE_PLAN_ID and RB.INBOUND_STATUS &#x3c;&#x3e;&#x27;D&#x27; or A.REBATE_PLAN_ID IS NULL&#x29; &#xd;&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -15013,504 +16178,6 @@
     </step>
 
   <step>
-    <name>Filter rows deduction</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<send_true_to>GET deduction sid</send_true_to>
-<send_false_to>deduction constant</send_false_to>
-    <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>DEDUCTION_CALENDAR_NO</leftvalue>
- <function>IS NOT NULL</function>
- <rightvalue/>
- </condition>
-    </compare>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1276</xloc>
-      <yloc>609</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>GET deduction sid</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <cache>Y</cache>
-    <cache_load_all>Y</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>DEDUCTION_CALENDAR_MASTER</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>DEDUCTION_CALENDAR_NO</name>
-        <field>DEDUCTION_CALENDAR_NO</field>
-        <condition>LIKE</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>DEDUCTION_CALENDAR_MASTER_SID</name>
-        <rename>DEDUCTION_CALENDAR_MASTER_SID</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1094</xloc>
-      <yloc>585</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>INVALID Deduction</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>BPI DB</connection>
-    <schema/>
-    <table>IVLD_REBATE_SCHEDULE</table>
-    <commit>10000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>N</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>ADDRESS_1</column_name>
-          <stream_name>ADDRESS_1</stream_name>
-        </field>
-        <field>
-          <column_name>ADDRESS_2</column_name>
-          <stream_name>ADDRESS_2</stream_name>
-        </field>
-        <field>
-          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
-          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
-        </field>
-        <field>
-          <column_name>ATTACHED_DATE</column_name>
-          <stream_name>ATTACHED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>ATTACHED_STATUS</column_name>
-          <stream_name>ATTACHED_STATUS</stream_name>
-        </field>
-        <field>
-          <column_name>BATCH_ID</column_name>
-          <stream_name>BATCH_ID</stream_name>
-        </field>
-        <field>
-          <column_name>BUNDLE_NO</column_name>
-          <stream_name>BUNDLE_NO</stream_name>
-        </field>
-        <field>
-          <column_name>CALENDAR</column_name>
-          <stream_name>CALENDAR</stream_name>
-        </field>
-        <field>
-          <column_name>CFP_ID</column_name>
-          <stream_name>CFP_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CITY</column_name>
-          <stream_name>CITY</stream_name>
-        </field>
-        <field>
-          <column_name>CONTRACT_ID</column_name>
-          <stream_name>CONTRACT_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_BY</column_name>
-          <stream_name>CREATED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_DATE</column_name>
-          <stream_name>CREATED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>FORMULA_ID</column_name>
-          <stream_name>FORMULA_ID</stream_name>
-        </field>
-        <field>
-          <column_name>FORMULA_METHOD_ID</column_name>
-          <stream_name>FORMULA_METHOD_ID</stream_name>
-        </field>
-        <field>
-          <column_name>FORMULA_NAME</column_name>
-          <stream_name>FORMULA_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>FORMULA_NO</column_name>
-          <stream_name>FORMULA_NO</stream_name>
-        </field>
-        <field>
-          <column_name>FORMULA_TYPE</column_name>
-          <stream_name>FORMULA_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>IDENTIFIER_CODE_QUALIFIER</column_name>
-          <stream_name>IDENTIFIER_CODE_QUALIFIER</stream_name>
-        </field>
-        <field>
-          <column_name>IFP_ID</column_name>
-          <stream_name>IFP_ID</stream_name>
-        </field>
-        <field>
-          <column_name>INTEREST_BEARING_BASIS</column_name>
-          <stream_name>INTEREST_BEARING_BASIS</stream_name>
-        </field>
-        <field>
-          <column_name>INTEREST_BEARING_INDICATOR</column_name>
-          <stream_name>INTEREST_BEARING_INDICATOR</stream_name>
-        </field>
-        <field>
-          <column_name>INTERNAL_NOTES</column_name>
-          <stream_name>INTERNAL_NOTES</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_END_DATE</column_name>
-          <stream_name>ITEM_END_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_ID</column_name>
-          <stream_name>ITEM_ID</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_NAME</column_name>
-          <stream_name>ITEM-NAME</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_NO</column_name>
-          <stream_name>ITEM_NO</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_REBATE_END_DATE</column_name>
-          <stream_name>ITEM_REBATE_END_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_REBATE_START_DATE</column_name>
-          <stream_name>ITEM_REBATE_START_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_START_DATE</column_name>
-          <stream_name>ITEM-START_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>MAKE_PAYABLE_TO</column_name>
-          <stream_name>MAKE_PAYABLE_TO</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_BY</column_name>
-          <stream_name>MODIFIED_BY</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_DATE</column_name>
-          <stream_name>MODIFIED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>PARENT_REBATE_SCHEDULE_ID</column_name>
-          <stream_name>PARENT_REBATE_SCHEDULE_ID</stream_name>
-        </field>
-        <field>
-          <column_name>PARENT_REBATE_SCHEDULE_NAME</column_name>
-          <stream_name>PARENT_REBATE_SCHEDULE_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>PAYMENT_FREQUENCY</column_name>
-          <stream_name>PAYMENT_FREQUENCY</stream_name>
-        </field>
-        <field>
-          <column_name>PAYMENT_GRACE_PERIOD</column_name>
-          <stream_name>PAYMENT_GRACE_PERIOD</stream_name>
-        </field>
-        <field>
-          <column_name>PAYMENT_METHOD</column_name>
-          <stream_name>PAYMENT_METHOD</stream_name>
-        </field>
-        <field>
-          <column_name>PAYMENT_TERMS</column_name>
-          <stream_name>PAYMENT_TERMS</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE_SCHEDULE_ID</column_name>
-          <stream_name>PRICE_SCHEDULE_ID</stream_name>
-        </field>
-        <field>
-          <column_name>REASON_FOR_FAILURE</column_name>
-          <stream_name>Reason_For_Failure</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_AMOUNT</column_name>
-          <stream_name>REBATE_AMOUNT</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_FREQUENCY</column_name>
-          <stream_name>REBATE_FREQUENCY</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_PLAN_ID</column_name>
-          <stream_name>REBATE_PLAN_ID</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_PLAN_LEVEL</column_name>
-          <stream_name>REBATE_PLAN_LEVEL</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_PROCESSING_TYPE</column_name>
-          <stream_name>REBATE_PROCESSING_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_PROGRAM_TYPE</column_name>
-          <stream_name>REBATE_PROGRAM_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_RULE_ASSOCIATION</column_name>
-          <stream_name>REBATE_RULE_ASSOCIATION</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_RULE_TYPE</column_name>
-          <stream_name>REBATE_RULE_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_SCHEDULE_CATEGORY</column_name>
-          <stream_name>REBATE_SCHEDULE_CATEGORY</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_SCHEDULE_DESIGNATION</column_name>
-          <stream_name>REBATE_SCHEDULE_DESIGNATION</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_SCHEDULE_ID</column_name>
-          <stream_name>REBATE_SCHEDULE_ID</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_SCHEDULE_INTFID</column_name>
-          <stream_name>REBATE_SCHEDULE_INTFID</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_SCHEDULE_NAME</column_name>
-          <stream_name>REBATE_SCHEDULE_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_SCHEDULE_NO</column_name>
-          <stream_name>REBATE_SCHEDULE_NO</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_SCHEDULE_STATUS</column_name>
-          <stream_name>REBATE_SCHEDULE_STATUS</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_SCHEDULE_TRANS_REF_ID</column_name>
-          <stream_name>REBATE_SCHEDULE_TRANS_REF_ID</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_SCHEDULE_TRANS_REF_NAME</column_name>
-          <stream_name>REBATE_SCHEDULE_TRANS_REF_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_SCHEDULE_TRANS_REF_NO</column_name>
-          <stream_name>REBATE_SCHEDULE_TRANS_REF_NO</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_SCHEDULE_TYPE</column_name>
-          <stream_name>REBATE_SCHEDULE_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>SOURCE</column_name>
-          <stream_name>SOURCE</stream_name>
-        </field>
-        <field>
-          <column_name>STATE</column_name>
-          <stream_name>STATE</stream_name>
-        </field>
-        <field>
-          <column_name>TRADE_CLASS</column_name>
-          <stream_name>TRADE_CLASS</stream_name>
-        </field>
-        <field>
-          <column_name>UDC1</column_name>
-          <stream_name>UDC1</stream_name>
-        </field>
-        <field>
-          <column_name>UDC2</column_name>
-          <stream_name>UDC2</stream_name>
-        </field>
-        <field>
-          <column_name>UDC3</column_name>
-          <stream_name>UDC3</stream_name>
-        </field>
-        <field>
-          <column_name>UDC4</column_name>
-          <stream_name>UDC4</stream_name>
-        </field>
-        <field>
-          <column_name>UDC5</column_name>
-          <stream_name>UDC5</stream_name>
-        </field>
-        <field>
-          <column_name>UDC6</column_name>
-          <stream_name>UDC6</stream_name>
-        </field>
-        <field>
-          <column_name>VALIDATION_PROFILE</column_name>
-          <stream_name>VALIDATION_PROFILE</stream_name>
-        </field>
-        <field>
-          <column_name>ZIP_CODE</column_name>
-          <stream_name>ZIP_CODE</stream_name>
-        </field>
-        <field>
-          <column_name>ERROR_CODE</column_name>
-          <stream_name>ERROR_CODE_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>DEDUCTION_INCLUSION</column_name>
-          <stream_name>DEDUCTION_INCLUSION</stream_name>
-        </field>
-        <field>
-          <column_name>REBATE_SCHEDULE_ALIAS_ID</column_name>
-          <stream_name>REBATE_SCHEDULE_ALIAS_ID</stream_name>
-        </field>
-        <field>
-          <column_name>PAYMENT_LEVEL</column_name>
-          <stream_name>PAYMENT_LEVEL</stream_name>
-        </field>
-        <field>
-          <column_name>EVALUATION_RULE_LEVEL</column_name>
-          <stream_name>EVALUATION_RULE_LEVEL</stream_name>
-        </field>
-        <field>
-          <column_name>EVALUATION_RULE</column_name>
-          <stream_name>EVALUATION_RULE</stream_name>
-        </field>
-        <field>
-          <column_name>EVALUATION_RULE_BUNDLE</column_name>
-          <stream_name>EVALUATION_RULE_BUNDLE</stream_name>
-        </field>
-        <field>
-          <column_name>CALCULATION_TYPE</column_name>
-          <stream_name>CALCULATION_TYPE</stream_name>
-        </field>
-        <field>
-          <column_name>CALCULATION_RULE</column_name>
-          <stream_name>CALCULATION_RULE</stream_name>
-        </field>
-        <field>
-          <column_name>CALCULATION_RULE_LEVEL</column_name>
-          <stream_name>CALCULATION_RULE_LEVEL</stream_name>
-        </field>
-        <field>
-          <column_name>CALCULATION_RULE_BUNDLE</column_name>
-          <stream_name>CALCULATION_RULE_BUNDLE</stream_name>
-        </field>
-        <field>
-          <column_name>NET_SALES_FORMULA</column_name>
-          <stream_name>NET_SALES_FORMULA</stream_name>
-        </field>
-        <field>
-          <column_name>NET_SALES_RULE</column_name>
-          <stream_name>NET_SALES_RULE</stream_name>
-        </field>
-        <field>
-          <column_name>DEDUCTION_CALENDAR_NO</column_name>
-          <stream_name>DEDUCTION_CALENDAR_NO</stream_name>
-        </field>
-        <field>
-          <column_name>DEDUCTION_CALENDAR_NAME</column_name>
-          <stream_name>DEDUCTION_CALENDAR_NAME</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1596</xloc>
-      <yloc>806</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Invalid Reason 6 2 2 2 2</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>Reason_For_Failure</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>Invalid Deduction calendar No</nullif>
-        <length>40</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>ERROR_CODE_NAME</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>E04</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1373</xloc>
-      <yloc>751</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>deduction constant</name>
     <type>Constant</type>
     <description/>
@@ -15537,8 +16204,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1250</xloc>
-      <yloc>714</yloc>
+      <xloc>1153</xloc>
+      <yloc>607</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -15655,6 +16322,18 @@
       <error>
         <source_step>GET PS MODEL SID 2</source_step>
         <target_step>Invalid Reason 5</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>GET deduction sid</source_step>
+        <target_step>Invalid Reason 6 2 2 2 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -15919,18 +16598,6 @@
       <error>
         <source_step>Update RS Details Attached</source_step>
         <target_step>Invalid Reason</target_step>
-        <is_enabled>Y</is_enabled>
-        <nr_valuename/>
-        <descriptions_valuename/>
-        <fields_valuename/>
-        <codes_valuename/>
-        <max_errors/>
-        <max_pct_errors/>
-        <min_pct_rows/>
-      </error>
-      <error>
-        <source_step>GET deduction sid</source_step>
-        <target_step>Invalid Reason 6 2 2 2 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>

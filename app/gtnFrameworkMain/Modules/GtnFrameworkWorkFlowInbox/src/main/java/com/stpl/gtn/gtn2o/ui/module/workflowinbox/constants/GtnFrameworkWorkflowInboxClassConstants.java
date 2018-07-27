@@ -450,7 +450,7 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	public static final String WEB_GOVERNMENT = "/web/guest/government?mFlow='true'";
 	public static final String WEB_BASERATE = "/web/guest/base-rate?nmFlow='true'";
 	public static final String WEB_FIXEDDOLLAR = "/web/guest/fixed-dollar-adjustment?nmFlow='true'";
-	public static final String WEB_ARP = "/web/guest/accrual-rate-projection?arFlow='true'";
+        public static final String WEB_ARP = "?arFlow='true'";
 	public static final String WEB_CONTRACT_DASHBOARD = "?cwFlow='true'";
 	public static final String WEB_FORECAST_RETURNS = "/web/guest/forecast-returns?reFlow='true'";
 	public static final String WEB_FIXEDDOLLAR_ARMFLOW = "?armFlow='true'";

@@ -1512,6 +1512,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 			String parentId) {
 		GtnUIFrameworkComponentConfig reportDashboardControlLayout = configProvider
 				.getHorizontalLayoutConfig("reportDashboardControlLayout", true, parentId);
+		reportDashboardControlLayout.addComponentStyle("stpl-margin-left-66");
+		reportDashboardControlLayout.addComponentStyle("stpl-margin-bottom-13");
 		componentList.add(reportDashboardControlLayout);
 
 		GtnUIFrameworkComponentConfig previousButtonConfig = new GtnUIFrameworkComponentConfig();
