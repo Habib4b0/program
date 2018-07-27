@@ -539,7 +539,7 @@ public class GtnWsReportWebsevice {
 		dbColumnIdMap.put("viewNameFilter", "VIEW_NAME");
 		dbColumnIdMap.put("createdDateFilter", "CREATED_DATE");
 		dbColumnIdMap.put("modifiedDateFilter", "MODIFIED_DATE");
-		dbColumnIdMap.put("createdByFilter", "CREATED_BY");
+		dbColumnIdMap.put("createdByFilter", "FIRSTNAME+LASTNAME");
 		return dbColumnIdMap;
 	}
 

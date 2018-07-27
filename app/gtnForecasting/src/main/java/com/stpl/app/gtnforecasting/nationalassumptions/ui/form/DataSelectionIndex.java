@@ -259,7 +259,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
     /**
      * Inits the.
      */
-    public void init() {
+    public final void init() {
         configureFields();
         getBinder();
     }

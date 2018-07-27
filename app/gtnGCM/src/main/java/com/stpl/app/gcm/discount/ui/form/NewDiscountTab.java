@@ -248,7 +248,7 @@ public class NewDiscountTab extends CustomComponent {
     private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
     private final BeanItemContainer<ContractsDetailsDto> selectedContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
     private final BeanItemContainer<ContractsDetailsDto> availableItemContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
-    public static final SimpleDateFormat DB_DATE = new SimpleDateFormat("MM-dd-yyyy");
+    public final SimpleDateFormat DB_DATE = new SimpleDateFormat("MM-dd-yyyy");
     public static final String S_DATE_PROPERTY = "sDate";
     /* Current Level Value */
     private int levelValue;
@@ -303,7 +303,7 @@ public class NewDiscountTab extends CustomComponent {
         configureSecurityPermissions();
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             startDate.addStyleName("v-align-center");
             endDate.addStyleName("v-align-center");

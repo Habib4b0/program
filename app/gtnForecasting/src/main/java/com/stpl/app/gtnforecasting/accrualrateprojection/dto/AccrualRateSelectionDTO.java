@@ -246,7 +246,7 @@ public class AccrualRateSelectionDTO {
 
     
     public List<String> getVariableList() {
-        return variableList == null ? variableList : Collections.unmodifiableList(variableList);
+        return variableList;
     }
 
     public String getPeriodBasis() {

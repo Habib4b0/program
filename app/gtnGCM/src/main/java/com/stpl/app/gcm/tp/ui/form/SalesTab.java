@@ -119,12 +119,12 @@ public class SalesTab extends VerticalLayout {
 
     public SalesTab(SessionDTO session, boolean isLoad) {
         this.session = session;
-        this.setLoad(isLoad);
+        this.load = isLoad;
         tableLogic.setSession(session);
         getContent();
     }
 
-    public void getContent() {
+    public final void getContent() {
         LOGGER.debug("getContent method starts");
 
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/salesTab.xml"), this));

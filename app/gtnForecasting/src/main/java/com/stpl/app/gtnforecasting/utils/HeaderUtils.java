@@ -1156,183 +1156,6 @@ public class HeaderUtils {
         return common;
     }
 
-    public static CustomTableHeaderDTO getCalculatedColumns(Map selection, CustomTableHeaderDTO tableHeaderDTO) {
-        String freq = selection.get(Constant.FREQUENCY).toString();
-        String hist = selection.get(Constant.HISTORY).toString();
-        String projFreq = selection.get(Constant.PROJECT_FREQUENCY1).toString();
-        String projection = selection.get("projection").toString();
-        Calendar ob = Calendar.getInstance();
-        ob.set(NumericConstants.TWO_THOUSAND_FIFTEEN, NumericConstants.EIGHT, NumericConstants.TWENTY_FIVE);
-        int curMonth = ob.get(Calendar.MONTH);
-        int curYear = ob.get(Calendar.YEAR);
-        int current = 1;
-        int frequency = 0;
-        int projectFrequency = 0;
-        int division = 1;
-        if (freq.contains(Constant.QUARTERLY)) {
-            current = curMonth / NumericConstants.THREE;
-            division = NumericConstants.FOUR;
-            try {
-                frequency = Integer.parseInt(hist.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectFrequency = Integer.parseInt(projFreq.replace(Constant.QUARTER1, StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-            } catch (NumberFormatException e) {
-            }
-        } else if (freq.contains(Constant.SEMI_ANNUALLY)) {
-            current = curMonth / NumericConstants.SIX;
-            division = NumericConstants.TWO;
-            try {
-                frequency = Integer.parseInt(hist.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
-                projectFrequency = Integer.parseInt(projFreq.replace(Constant.SEMI_ANNUALY, StringUtils.EMPTY).trim());
-            } catch (NumberFormatException e) {
-            }
-        } else if (freq.contains(MONTHLY.getConstant())) {
-            current = curMonth;
-            division = NumericConstants.TWELVE;
-            try {
-                frequency = Integer.parseInt(hist.replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                projectFrequency = Integer.parseInt(projFreq.replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-            } catch (NumberFormatException e) {
-            }
-        } else if (freq.contains(Constant.ANNUALLY)) {
-            current = curYear;
-            division = 1;
-            try {
-                frequency = Integer.parseInt(hist.replace(Constant.YEAR, StringUtils.EMPTY).trim());
-                projectFrequency = Integer.parseInt(projFreq.replace(Constant.YEAR, StringUtils.EMPTY).trim());
-            } catch (NumberFormatException e) {
-            }
-        }
-        projectFrequency = projectFrequency + 1;
-        int pastYear = curYear;
-
-        int startFreq = current + 1;
-
-        int tempFreq = frequency - current;
-        if (tempFreq > 0) {
-            pastYear = pastYear - tempFreq / division;
-            startFreq = 1;
-            if (tempFreq % division > 0) {
-                pastYear = pastYear - 1;
-                startFreq = division - (tempFreq % division) + 1;
-            }
-        } else {
-            startFreq = startFreq - frequency;
-        }
-
-        int squr = startFreq;
-        int syear = pastYear;
-        if (freq.contains(Constant.ANNUALLY) && !freq.contains(Constant.SEMI_ANNUALLY)) {
-            syear = current - frequency;
-        }
-        for (int i = 0; i < frequency; i++) {
-            List<Object> dmap = new ArrayList<>();
-            String commonColumn = StringUtils.EMPTY;
-            String commonHeader = StringUtils.EMPTY;
-            if (freq.contains(Constant.QUARTERLY)) {
-                commonColumn = Constant.Q + squr + StringUtils.EMPTY + syear;
-                commonHeader = Constant.Q + squr + " " + syear;
-            } else if (freq.contains(Constant.SEMI_ANNUALLY)) {
-                commonColumn = Constant.S + squr + StringUtils.EMPTY + syear;
-                commonHeader = Constant.S + squr + " " + syear;
-            } else if (freq.contains(Constant.ANNUALLY)) {
-                commonColumn = StringUtils.EMPTY + syear;
-                commonHeader = StringUtils.EMPTY + syear;
-            } else if (freq.contains(Constant.MONTHLY)) {
-                String monthName = getMonthForInt(squr - 1);
-                commonColumn = monthName + syear;
-                commonHeader = monthName + " " + syear;
-            }
-            if (selection.containsKey(Constant.SALES)) {
-
-                if (projection.contains(Constant.BOTH_SMALL) || projection.contains(Constant.ACTUALS_PROPERTY)) {
-                    dmap.add(commonColumn + Constant.ACTUALSALES);
-                    tableHeaderDTO.addSingleColumn(commonColumn + Constant.ACTUALSALES, Constant.ACTUAL_SALES, String.class);
-                    tableHeaderDTO.addSingleHistoryColumn(commonColumn + Constant.ACTUALSALES, Constant.ACTUAL_SALES);
-                }
-                if (projection.contains(Constant.BOTH_SMALL) || projection.contains(PROJECTIONS1)) {
-                    dmap.add(commonColumn + Constant.PROJECTED_SALES1);
-                    tableHeaderDTO.addSingleColumn(commonColumn + Constant.PROJECTED_SALES1, PROJECTED_SALES1, String.class);
-                    tableHeaderDTO.addSingleHistoryColumn(commonColumn + Constant.PROJECTED_SALES1, PROJECTED_SALES1);
-                }
-            }
-            if (selection.containsKey(Constant.UNITS)) {
-                if (projection.contains(Constant.BOTH_SMALL) || projection.contains(Constant.ACTUALS_PROPERTY)) {
-                    dmap.add(commonColumn + Constant.ACTUALUNITS);
-                    tableHeaderDTO.addSingleColumn(commonColumn + Constant.ACTUALUNITS, ACTUAL_UNITS1, String.class);
-                    tableHeaderDTO.addSingleHistoryColumn(commonColumn + Constant.ACTUALUNITS, ACTUAL_UNITS1);
-                }
-                if (projection.contains(Constant.BOTH_SMALL) || projection.contains(PROJECTIONS1)) {
-                    dmap.add(commonColumn + Constant.PROJECTED_UNITS1);
-                    tableHeaderDTO.addSingleColumn(commonColumn + Constant.PROJECTED_UNITS1, PROJECTED_UNITS1, String.class);
-                    tableHeaderDTO.addSingleHistoryColumn(commonColumn + Constant.PROJECTED_UNITS1, PROJECTED_UNITS1);
-                }
-            }
-            if (!dmap.isEmpty()) {
-                tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
-                tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
-                tableHeaderDTO.addDoubleHistoryColumn(commonColumn, commonHeader);
-                tableHeaderDTO.addDoubleHistoryHeaderMap(commonColumn, dmap.toArray());
-            }
-            squr++;
-            if (squr > division) {
-                squr = 1;
-                syear++;
-            }
-        }
-        squr = current + 1;
-        syear = curYear;
-        for (int i = 0; i < projectFrequency; i++) {
-            List<Object> dmap = new ArrayList<>();
-            String commonColumn = StringUtils.EMPTY;
-            String commonHeader = StringUtils.EMPTY;
-            if (freq.contains(Constant.QUARTERLY)) {
-                commonColumn = Constant.Q + squr + StringUtils.EMPTY + syear;
-                commonHeader = Constant.Q + squr + " " + syear;
-            } else if (freq.contains(Constant.SEMI_ANNUALLY)) {
-                commonColumn = Constant.S + squr + StringUtils.EMPTY + syear;
-                commonHeader = Constant.S + squr + " " + syear;
-            } else if (freq.contains(Constant.ANNUALLY)) {
-                commonColumn = StringUtils.EMPTY + syear;
-                commonHeader = StringUtils.EMPTY + syear;
-            } else if (freq.contains(MONTHLY.getConstant())) {
-                String monthName = getMonthForInt(squr - 1);
-                commonColumn = monthName + syear;
-                commonHeader = monthName + " " + syear;
-            }
-            if (selection.containsKey(Constant.SALES)) {
-                dmap.add(commonColumn + Constant.PROJECTED_SALES1);
-                tableHeaderDTO.addSingleColumn(commonColumn + Constant.PROJECTED_SALES1, PROJECTED_SALES1, String.class);
-                tableHeaderDTO.addSingleProjectedColumn(commonColumn + Constant.PROJECTED_SALES1, PROJECTED_SALES1);
-            }
-            if (selection.containsKey(Constant.UNITS)) {
-                dmap.add(commonColumn + Constant.PROJECTED_UNITS1);
-                tableHeaderDTO.addSingleColumn(commonColumn + Constant.PROJECTED_UNITS1, PROJECTED_UNITS1, String.class);
-                tableHeaderDTO.addSingleProjectedColumn(commonColumn + Constant.PROJECTED_UNITS1, PROJECTED_UNITS1);
-            }
-            if (selection.containsKey("product")) {
-                dmap.add(commonColumn + Constant.PRODUCT_GROWTH1);
-                tableHeaderDTO.addSingleColumn(commonColumn + Constant.PRODUCT_GROWTH1, Constant.PRODUCT_GROWTH, String.class);
-                tableHeaderDTO.addSingleProjectedColumn(commonColumn + Constant.PRODUCT_GROWTH1, Constant.PRODUCT_GROWTH);
-            }
-            if (selection.containsKey("account")) {
-                dmap.add(commonColumn + Constant.ACCOUNT_GROWTH1);
-                tableHeaderDTO.addSingleColumn(commonColumn + Constant.ACCOUNT_GROWTH1, Constant.ACCOUNT_GROWTH, String.class);
-                tableHeaderDTO.addSingleProjectedColumn(commonColumn + Constant.ACCOUNT_GROWTH1, Constant.ACCOUNT_GROWTH);
-            }
-            if (!dmap.isEmpty()) {
-                tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader + " Results");
-                tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
-                tableHeaderDTO.addDoubleProjectedColumn(commonColumn, commonHeader + " Results");
-                tableHeaderDTO.addDoubleProjectedHeaderMap(commonColumn, dmap.toArray());
-            }
-            squr++;
-            if (squr > division) {
-                squr = 1;
-                syear++;
-            }
-        }
-        return tableHeaderDTO;
-    }
 
     public static List<Object> getCalculatedDiscountProjectionColumns(CustomTableHeaderDTO tableHeader, CustomTableHeaderDTO excelHeader, ProjectionSelectionDTO projSelDTO) {
         LOGGER.debug("Entering getCalculatedDiscountProjectionColumns ");
@@ -1432,6 +1255,8 @@ public class HeaderUtils {
                     Object actAmtColumn;
                     Object prjAmtColumn;
                     Object growthColumn;
+                    Object growthSumColumn;
+                    Object childCountColumn;
                     Object actSales;
                     Object actUnits;
                     Object projSales;
@@ -1516,6 +1341,8 @@ public class HeaderUtils {
                         prjRPColumn = commonColumn + Constant.PROJECTEDRPU;
                         prjAmtColumn = commonColumn + Constant.PROJECTED_AMOUNT1;
                         growthColumn = commonColumn + Constant.GROWTH;
+                        growthSumColumn = commonColumn + Constant.GROWTH_SUM;
+                        childCountColumn = commonColumn + Constant.CHILD_COUNT;
                         
                         if (projSelDTO.getdPVariablesList().contains(DISCOUNT_RATE.getConstant())) {
                             tableHeader.addSingleColumn(singleColumn, PROJECTED_RATE1, String.class);
@@ -1570,6 +1397,18 @@ public class HeaderUtils {
                             singleHeaderForExcel.add(Constant.GROWTH);//Ends here
                             dmap.add(growthColumn);
                             dmapExcel.add(growthColumn);
+                            
+                            //Added Growth Sum column
+                            excelHeader.addSingleColumn(growthSumColumn, Constant.GROWTH_SUM, String.class);
+                            singleColumnForExcel.add(growthSumColumn);
+                            singleHeaderForExcel.add(Constant.GROWTH_SUM);//Ends here
+                            dmapExcel.add(growthSumColumn);
+                          
+                            //Added Child Count Column
+                            excelHeader.addSingleColumn(childCountColumn, Constant.CHILD_COUNT_HEADER, String.class);
+                            singleColumnForExcel.add(childCountColumn);
+                            singleHeaderForExcel.add(Constant.CHILD_COUNT_HEADER);//Ends here
+                            dmapExcel.add(childCountColumn);
                         }
 
                         if (historyFlag) {
@@ -1872,7 +1711,7 @@ public class HeaderUtils {
     public static List getCalculatedSalesColumns(Map selection, CustomTableHeaderDTO tableHeaderDTO, CustomTableHeaderDTO excelDto, SessionDTO session) {
         ForecastDTO forecastDTO = session.getForecastDTO();
 
-        Map<Object, Object[]> reProjectedColumn = new HashMap<>();
+//        Map<Object, Object[]> reProjectedColumn = new HashMap<>();
         Map<Object, Object[]> doubleHeaderHistoryMap = new HashMap<>();
         List<String> totalProjected = new ArrayList<>();
         SalesProjectionLogic salesLogic = new SalesProjectionLogic();
@@ -2047,7 +1886,6 @@ public class HeaderUtils {
                 tableHeaderDTO.addDoubleHistoryColumn(commonColumn, commonHeader);
                 tableHeaderDTO.addDoubleHistoryHeaderMap(commonColumn, dmap.toArray());
                 doubleHeaderHistoryMap.put(commonColumn, historyObj.toArray());
-                reProjectedColumn.put(commonColumn, projectionObj.toArray());
             }
 
             squr++;
@@ -2172,8 +2010,6 @@ public class HeaderUtils {
                 tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
                 tableHeaderDTO.addDoubleProjectedColumn(commonColumn, commonHeader);
                 tableHeaderDTO.addDoubleProjectedHeaderMap(commonColumn, dmap.toArray());
-                reProjectedColumn.put(commonColumn, projectionObj.toArray());
-
             }
             if ((forecastDTO.getForecastEndDate().after(forecastDTO.getProjectionEndDate()) || forecastDTO.getForecastEndDate().equals(forecastDTO.getProjectionEndDate())) && (salesLogic.getQuator(forecastDTO.getForecastEndMonth()) == squr && forecastDTO.getForecastEndYear() == syear)) {
 
@@ -2275,7 +2111,7 @@ public class HeaderUtils {
             forecastEndPeriod = CommonUtils.getPeriod(projSelDTO.getForecastDTO().getForecastEndMonth(), NumericConstants.THREE);
             projectionStartPeriod = CommonUtils.getPeriod(projSelDTO.getForecastDTO().getProjectionStartMonth(), NumericConstants.THREE);
             projectionEndPeriod = CommonUtils.getPeriod(projSelDTO.getForecastDTO().getProjectionEndMonth(), NumericConstants.THREE);
-        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             frequencyDivision = NumericConstants.TWO;
             currentPeriod = CommonUtils.getPeriod(curMonth + 1, NumericConstants.SIX);
             historyStartPeriod = CommonUtils.getPeriod(projSelDTO.getForecastDTO().getHistoryStartMonth(), NumericConstants.SIX);
@@ -2293,7 +2129,7 @@ public class HeaderUtils {
             forecastEndPeriod = projSelDTO.getForecastDTO().getForecastEndMonth();
             projectionStartPeriod = projSelDTO.getForecastDTO().getProjectionStartMonth();
             projectionEndPeriod = projSelDTO.getForecastDTO().getProjectionEndMonth();
-        } else if (frequency.equals(ANNUALLY.getConstant())) {
+        } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
             currentPeriod = curYear;
             frequencyDivision = 1;
             historyStartPeriod = projSelDTO.getForecastDTO().getHistoryStartYear();
@@ -4378,8 +4214,6 @@ public class HeaderUtils {
                     tableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, tableHeaderDTO, fullHeader);
                 }
             }
-
-            List<String> pivotList = new ArrayList<>();
             List<String> periodList = projSelDTO.getPeriodList();
             List<String> periodListUpper = new ArrayList<>();
             Map<String, String> periodListMap = projSelDTO.getPeriodListMap();
@@ -4392,7 +4226,6 @@ public class HeaderUtils {
                     comColumn = commonColumn1.toUpperCase();
                 }
                 periodListUpper.add(comColumn);
-                pivotList.add(comHeader);
                 periodListMapUpper.put(comColumn, comHeader);
 
             }
@@ -4425,7 +4258,7 @@ public class HeaderUtils {
             forecastEndPeriod = getPeriod(projSelDTO.getForecastDTO().getForecastEndMonth(), NumericConstants.THREE);
             projectionStartPeriod = getPeriod(projSelDTO.getForecastDTO().getProjectionStartMonth(), NumericConstants.THREE);
             projectionEndPeriod = getPeriod(projSelDTO.getForecastDTO().getProjectionEndMonth(), NumericConstants.THREE);
-        } else if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+        } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             frequencyDivision = NumericConstants.TWO;
             historyStartPeriod = getPeriod(projSelDTO.getForecastDTO().getHistoryStartMonth(), NumericConstants.SIX);
             historyEndPeriod = getPeriod(projSelDTO.getForecastDTO().getHistoryEndMonth(), NumericConstants.SIX);
@@ -4441,7 +4274,7 @@ public class HeaderUtils {
             forecastEndPeriod = projSelDTO.getForecastDTO().getForecastEndMonth();
             projectionStartPeriod = projSelDTO.getForecastDTO().getProjectionStartMonth();
             projectionEndPeriod = projSelDTO.getForecastDTO().getProjectionEndMonth();
-        } else if (frequency.equals(ANNUALLY.getConstant())) {
+        } else if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
             frequencyDivision = 1;
             historyStartPeriod = projSelDTO.getForecastDTO().getHistoryStartYear();
             historyEndPeriod = projSelDTO.getForecastDTO().getHistoryEndYear();

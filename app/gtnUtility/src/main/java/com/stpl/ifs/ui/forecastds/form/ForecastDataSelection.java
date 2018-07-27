@@ -134,8 +134,14 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	protected Label customerRelationVersionLabel;
 	@UiField("customerRelationVersion")
 	protected ComboBox customerRelationVersionComboBox;
+        
+        @UiField("customRelation")
+        protected Label customRelation;
         @UiField("customRelationDdlb")
 	protected ComboBox customRelationDdlb;
+        
+        @UiField("customRelationDiscount")
+        protected Label customRelationDiscount;
         @UiField("customRelationDdlbDeduction")
 	protected ComboBox customRelationDdlbDeduction;
 
@@ -599,6 +605,10 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	 * the deduction Value ddlb
 	 */
 	protected ComboBox deductionValue = new ComboBox();
+        
+      
+        @UiField("forecastEligibleDateLB")
+        protected Label forecastEligibleDateLB;
         @UiField("forecastEligibleDate")
         protected PopupDateField forecastEligibleDate;
 
@@ -1839,7 +1849,6 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
         
         public void setNullSelectionCustomDdlb(ComboBox customRelationDdlb) {
         customRelationDdlb.removeAllItems();
-        customRelationDdlb.setImmediate(true);
         customRelationDdlb.setNullSelectionAllowed(true);
         customRelationDdlb.setInputPrompt(SELECT_ONE);
         customRelationDdlb.select(SELECT_ONE);

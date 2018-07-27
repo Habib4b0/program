@@ -15,7 +15,8 @@ public final class GtnFrameworkReportStringConstants {
 	private GtnFrameworkReportStringConstants() {
 
 	}
-
+        public static final String REPORT_DASHBOARD_TAB = "reportingDashboardTab";
+        
 	public static final String LEVEL_VALUE = "levelValue";
 
 	public static final String VALUE = "value";
@@ -481,6 +482,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String RD_EXPAND_BUTTON = "reportingDashboardTab_expandButton";
 	public static final String RD_COLLPSE_BUTTON = "reportingDashboardTab_collapseButton";
 
+        public static final String CONFIRMATION = "Confirmation";
+	
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");
 

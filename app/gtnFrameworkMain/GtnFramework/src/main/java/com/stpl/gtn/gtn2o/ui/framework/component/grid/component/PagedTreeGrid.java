@@ -14,7 +14,6 @@ import com.vaadin.data.TreeData;
 import com.vaadin.data.provider.TreeDataProvider;
 import com.vaadin.event.CollapseEvent;
 import com.vaadin.event.ExpandEvent;
-import com.vaadin.shared.Registration;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -81,7 +80,6 @@ public class PagedTreeGrid {
         try {
             this.tableConfig = tableConfig;
             this.componentConfig = componentConfig;
-            gtnlogger.info("count>>>" + count);
             grid = new TreeGrid<>();
             initalizeColumnController();
            
@@ -479,7 +477,7 @@ public class PagedTreeGrid {
         while (currentLevel >= tableConfig.getLevelNo() && itemsToFetch >= fetched) {
             start = findStart(start, isFirst, currentLevel);
             List<GtnWsRecordBean> rows = loadData(start, itemsToFetch, currentLevel, currentLevel == tableConfig.getLevelNo() ? emptyString : 
-                    hierNo.isEmpty()?hierNo:hierNo.substring(0,hierNo.lastIndexOf("."))).getRows();
+                    hierNo.isEmpty()?hierNo:hierNo.substring(0,hierNo.lastIndexOf('.'))).getRows();
             currentLevel--;
             fetchRowsRecursively(null, rows, treeData, itemsToFetch);
         }
@@ -685,7 +683,7 @@ public class PagedTreeGrid {
             Notification.show(newPageLength + "Illegal page length.");
         }
      
-         if(getTreeDataProvider()!=null && pageLength != newPageLength && count != 0){
+         if( pageLength != newPageLength && count != 0 && getTreeDataProvider()!=null){
          paintCurrentPage();
          pageLength = newPageLength;
          }

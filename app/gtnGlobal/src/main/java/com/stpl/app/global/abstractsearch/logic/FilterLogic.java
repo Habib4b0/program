@@ -25,7 +25,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  */
 public class FilterLogic {
 
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
+    public final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
     private static FilterLogic instance;
 
     private FilterLogic() {

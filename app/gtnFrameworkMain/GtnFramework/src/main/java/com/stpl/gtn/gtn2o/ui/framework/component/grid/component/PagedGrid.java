@@ -341,7 +341,7 @@ public class PagedGrid {
         for (Map.Entry<String, Object> entry : tableConfig.getFilterValueMap().entrySet()) {
             String key = getDBColumnName(entry.getKey());
             Object value = entry.getValue();
-            filter.append(condition + " " + key + "  like '%" + value + "%'");
+            filter.append(condition).append(' ').append(key).append("  like '%").append(value).append("%'");
         }
 
         return query.replace("@filter", filter.toString());
@@ -466,30 +466,30 @@ public class PagedGrid {
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setMargin(false);
 		hl.setWidth("105%");
-		TextField textField = new TextField();
-		textField.setPlaceholder(SHOW_ALL);
-		textField.setWidth("118%");
-		textField.setId(property);
-		textField.addValueChangeListener(this::onFilterTextChange);
+		TextField textFieldFilter = new TextField();
+		textFieldFilter.setPlaceholder(SHOW_ALL);
+		textFieldFilter.setWidth("118%");
+		textFieldFilter.setId(property);
+		textFieldFilter.addValueChangeListener(this::onFilterTextChange);
 		
-		hl.addComponent(textField);
+		hl.addComponent(textFieldFilter);
 		
 		hl.addLayoutClickListener(new LayoutClickListener() {
 		@Override
-		public void layoutClick(LayoutClickEvent event) {
+		public void layoutClick(LayoutClickEvent layoutClickEvent) {
 			
-				if (event.getChildComponent() == textField) {
-					textField.setPlaceholder("");
+				if (layoutClickEvent.getChildComponent() == textFieldFilter) {
+					textFieldFilter.setPlaceholder("");
 					}
 				}
 		});
-		textField.addBlurListener(new BlurListener(){
+		textFieldFilter.addBlurListener(new BlurListener(){
 				@Override
-				public void blur(BlurEvent event) {
-					if (event.getComponent() == textField){
-		                    String value = textField.getValue();
+				public void blur(BlurEvent blurEvent) {
+					if (blurEvent.getComponent() == textFieldFilter){
+		                    String value = textFieldFilter.getValue();
 						if(value.equals(""))
-							textField.setPlaceholder(SHOW_ALL);
+							textFieldFilter.setPlaceholder(SHOW_ALL);
 					}
 				} 
 		});         
@@ -569,11 +569,7 @@ public class PagedGrid {
 
             @Override
             public void valueChange(ValueChangeEvent<LocalDate> event) {
-                if (inlineDateField.getId().equals("inlineDateFieldStartDate")) {
                     inlineDateField.setData(event.getValue());
-                } else {
-                    inlineDateField.setData(event.getValue());
-                }
             }
         });
     }

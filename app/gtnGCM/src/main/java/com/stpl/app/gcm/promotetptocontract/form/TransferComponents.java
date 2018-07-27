@@ -8,7 +8,6 @@ import com.stpl.app.gcm.common.CommonLogic;
 import org.asi.container.ExtTreeContainer;
 import com.stpl.app.gcm.tp.logic.CommmonLogic;
 import com.stpl.app.gcm.common.QueryUtils;
-import static com.stpl.app.gcm.discount.logic.DiscountLogic.DBDate;
 import com.stpl.app.model.ContractAliasMaster;
 import com.stpl.app.model.ContractMaster;
 import com.stpl.app.gcm.promotetptocontract.dto.ComponentInfoDTO;
@@ -239,7 +238,7 @@ public class TransferComponents extends CustomComponent implements View {
     private ExtCustomTable contractExportPeriodViewTable = new ExtCustomTable();
     private List<ComponentInfoDTO> componentInformation = new ArrayList<>();
     private String excelName = "Rebate Schedule Information";
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private boolean contractExcelFlag = false;
     private boolean infoExcelFlag = false;
     private final StplSecurity stplSecurity = new StplSecurity();
@@ -262,7 +261,7 @@ public class TransferComponents extends CustomComponent implements View {
         }
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
 
             componentTypeDdlb.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
@@ -1235,12 +1234,12 @@ public class TransferComponents extends CustomComponent implements View {
                     List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
                     input.add(ifpcontract.getIfpContractSid());
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(DBDate.format(new Date()));
+                    input.add(simpleDateFormat.format(new Date()));
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(DBDate.format(new Date()));
+                    input.add(simpleDateFormat.format(new Date()));
                     input.add(ifpModelId);
-                    input.add(DBDate.format(ifpmodel.getIfpStartDate()));
-                    input.add(ifpmodel.getIfpEndDate() == null ? null : DBDate.format(ifpmodel.getIfpEndDate()));
+                    input.add(simpleDateFormat.format(ifpmodel.getIfpStartDate()));
+                    input.add(ifpmodel.getIfpEndDate() == null ? null : simpleDateFormat.format(ifpmodel.getIfpEndDate()));
                     IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
                 } else if (level.equals(Constants.THREE)) {
 
@@ -1277,12 +1276,12 @@ public class TransferComponents extends CustomComponent implements View {
                     List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
                     input.add(psContract.getPsContractSid());
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(DBDate.format(new Date()));
+                    input.add(simpleDateFormat.format(new Date()));
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(DBDate.format(new Date()));
+                    input.add(simpleDateFormat.format(new Date()));
                     input.add(psModelId);
-                    input.add(DBDate.format(psmodel.getPsStartDate()));
-                    input.add(psmodel.getPsEndDate() == null ? null : DBDate.format(psmodel.getPsEndDate()));
+                    input.add(simpleDateFormat.format(psmodel.getPsStartDate()));
+                    input.add(psmodel.getPsEndDate() == null ? null : simpleDateFormat.format(psmodel.getPsEndDate()));
                     PsContractDetailsImpl.savePsDetailsAttached(input, null);
 
                 } else if (level.equals(Constants.FOUR)) {
@@ -1325,9 +1324,9 @@ public class TransferComponents extends CustomComponent implements View {
                     List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
                     input.add(rsContract.getRsContractSid());
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(DBDate.format(new Date()));
+                    input.add(simpleDateFormat.format(new Date()));
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(DBDate.format(new Date()));
+                    input.add(simpleDateFormat.format(new Date()));
                     input.add(rsModelId);
                     input.add(rsmodel.getRsStartDate());
                     input.add(rsmodel.getRsEndDate() == null ? null : rsmodel.getRsEndDate());

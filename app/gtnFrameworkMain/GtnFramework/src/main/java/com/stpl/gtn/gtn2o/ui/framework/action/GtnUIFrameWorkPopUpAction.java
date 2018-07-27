@@ -60,6 +60,7 @@ public class GtnUIFrameWorkPopUpAction implements GtnUIFrameWorkAction {
 			buildPopupScreenView(sourceComponentId, view);
 
 			popUpWindow.setContent(view.getRootLayout());
+                        popUpWindow.setMinimizeToTray();
 			if (configList.size() > 4 && configList.get(4) != null) {
 				popUpWindow.addCloseListener(GtnUIPopUpCloseListener.getListener());
 			}

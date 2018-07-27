@@ -1333,7 +1333,7 @@ public class GtnUIFrameworkBaseComponent {
 
 		for (int valueIndex = 0; valueIndex < description.size(); valueIndex++) {
 			MenuItemDTO menuItemDTO = new MenuItemDTO();
-			menuItemDTO.setId(Integer.valueOf(id.get(valueIndex)));
+			menuItemDTO.setId(Integer.parseInt(id.get(valueIndex)));
 			menuItemDTO.setCaption(description.get(valueIndex));
 			customItem[valueIndex] = customMenuItem.addItem(menuItemDTO, null);
 			customItem[valueIndex].setCheckable(true);

@@ -182,8 +182,11 @@ public class GtnWsCustomViewService {
 			tx.commit();
 			return true;
 		} catch (Exception e) {
+                    if(tx != null)
+                    {
 			tx.rollback();
-			logger.error(e.getMessage(), e);
+                    }
+                        logger.error(e.getMessage(), e);
 			return false;
 		}
 	}
@@ -298,8 +301,8 @@ public class GtnWsCustomViewService {
 				if (variableType.toLowerCase(Locale.ENGLISH).contains("static")
 						&& indicator.toLowerCase(Locale.ENGLISH).startsWith("v")) {
 					variablesList.add(dto);
-				} else if (variableType.toLowerCase().contains("expandable")
-						&& indicator.toLowerCase().startsWith("v")) {
+				} else if (variableType.toLowerCase(Locale.ENGLISH).contains("expandable")
+						&& indicator.toLowerCase(Locale.ENGLISH).startsWith("v")) {
 					variablesList
 							.addAll(getRecordBeanFromObjectArray((List<List<Object>>) dto.getPropertyValueByIndex(5)));
 				} else {

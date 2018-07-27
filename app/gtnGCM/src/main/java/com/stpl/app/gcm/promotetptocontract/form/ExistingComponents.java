@@ -7,7 +7,6 @@ package com.stpl.app.gcm.promotetptocontract.form;
 import org.asi.container.ExtTreeContainer;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.QueryUtils;
-import static com.stpl.app.gcm.discount.logic.DiscountLogic.DBDate;
 import com.stpl.app.gcm.promotetptocontract.dto.ComponentInfoDTO;
 import com.stpl.app.gcm.promotetptocontract.logic.ExistingComponentSearchTableLogic;
 import com.stpl.app.gcm.promotetptocontract.logic.PromoteTPLogic;
@@ -239,11 +238,11 @@ public class ExistingComponents extends CustomComponent implements View {
     private QueryUtils queryUtils = new QueryUtils();
     private DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
     private List<HelperDTO> itemStatusListInEC = new ArrayList<>();
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private boolean contractExcelFlag = false;
     private boolean infoExcelFlag = false;
     private StplSecurity stplSecurity = new StplSecurity();
-
+    
     public ExistingComponents(SessionDTO sessionDTO, TreeTable contractDashboardTable) {
         try {
             this.session = sessionDTO;
@@ -256,7 +255,7 @@ public class ExistingComponents extends CustomComponent implements View {
         }
     }
 
-    protected void configureFieldsForExistComp() {
+    protected final void configureFieldsForExistComp() {
         try {
 
             componentTypeDdlbInEC.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
@@ -1009,12 +1008,12 @@ public class ExistingComponents extends CustomComponent implements View {
                     List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
                     input.add(ifpContractExis.getIfpContractSid());
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(DBDate.format(new Date()));
+                    input.add(simpleDateFormat.format(new Date()));
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(DBDate.format(new Date()));
+                    input.add(simpleDateFormat.format(new Date()));
                     input.add(ifpModelId);
-                    input.add(DBDate.format(ifpModelExis.getIfpStartDate()));
-                    input.add(ifpModelExis.getIfpEndDate() == null ? null : DBDate.format(ifpModelExis.getIfpEndDate()));
+                    input.add(simpleDateFormat.format(ifpModelExis.getIfpStartDate()));
+                    input.add(ifpModelExis.getIfpEndDate() == null ? null : simpleDateFormat.format(ifpModelExis.getIfpEndDate()));
                     IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
                 } else if (level.equals(Constants.THREE)) {
 
@@ -1050,12 +1049,12 @@ public class ExistingComponents extends CustomComponent implements View {
                     List<Object> psInput = new ArrayList<>(NumericConstants.EIGHT);
                     psInput.add(psContractExis.getPsContractSid());
                     psInput.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    psInput.add(DBDate.format(new Date()));
+                    psInput.add(simpleDateFormat.format(new Date()));
                     psInput.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    psInput.add(DBDate.format(new Date()));
+                    psInput.add(simpleDateFormat.format(new Date()));
                     psInput.add(psModelId);
-                    psInput.add(DBDate.format(psModelExis.getPsStartDate()));
-                    psInput.add(psModelExis.getPsEndDate() == null ? null : DBDate.format(psModelExis.getPsEndDate()));
+                    psInput.add(simpleDateFormat.format(psModelExis.getPsStartDate()));
+                    psInput.add(psModelExis.getPsEndDate() == null ? null : simpleDateFormat.format(psModelExis.getPsEndDate()));
                     PsContractDetailsImpl.savePsDetailsAttached(psInput, null);
 
                 } else if (level.equals(Constants.FOUR)) {
@@ -1098,9 +1097,9 @@ public class ExistingComponents extends CustomComponent implements View {
                     List<Object> input = new ArrayList<>(NumericConstants.EIGHT);
                     input.add(rsContractExis.getRsContractSid());
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(DBDate.format(new Date()));
+                    input.add(simpleDateFormat.format(new Date()));
                     input.add(VaadinSession.getCurrent().getAttribute(Constants.USER_ID));
-                    input.add(DBDate.format(new Date()));
+                    input.add(simpleDateFormat.format(new Date()));
                     input.add(rsModelId);
                     input.add(rsModelExis.getRsStartDate());
                     input.add(rsModelExis.getRsEndDate() == null ? null : rsModelExis.getRsEndDate());

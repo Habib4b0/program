@@ -6,9 +6,11 @@ package com.stpl.app.gcm.tp.logic;
 
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +26,7 @@ public class AbstractFilterLogic {
     private final Map<String, String> summaryFilterMap = new HashMap<>();
     private final Map<String, String> queryMap = new HashMap<>();
     public static final String CONTRACT_STATUS = "contractStatus";
+    public final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 
     private AbstractFilterLogic() {
         setFilterMap();
@@ -147,7 +150,7 @@ public class AbstractFilterLogic {
                                 tempStart = new StringBuilder(dateStartstr);
                             }
                             tempStart.replace(tempStart.indexOf("*"), tempStart.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, CommonUtils.dateFormat.format(startValue));
+                            tempStart.replace(tempStart.indexOf("?"), tempStart.indexOf("?") + 1, dateFormat.format(startValue));
                             sql.append(tempStart);
                         }
                         if (!betweenFilter.getEndValue().toString().isEmpty()) {
@@ -159,7 +162,7 @@ public class AbstractFilterLogic {
                             }
 
                             tempEnd.replace(tempEnd.indexOf("*"), tempEnd.indexOf("*") + 1, queryMap.get(betweenFilter.getPropertyId().toString()));
-                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, CommonUtils.dateFormat.format(endValue));
+                            tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, dateFormat.format(endValue));
                             sql.append(tempEnd);
                         }
                     }

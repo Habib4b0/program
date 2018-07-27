@@ -285,6 +285,14 @@ public class DataSelectionForm extends ForecastDataSelection {
 			customerLevel.setVisible(false);
 			productForecastLevelLabel.setVisible(false);
 			customerForecastLevelLabel.setVisible(false);
+                 
+                        forecastEligibleDateLB.setVisible(false);
+                        forecastEligibleDate.setVisible(false);
+                        customRelation.setVisible(false);
+                        customRelationDdlb.setVisible(false);
+                        customRelationDiscount.setVisible(false);
+                        customRelationDdlbDeduction.setVisible(false);
+                        
 			modeOptionChange(true);
 		} else {
 			resultTable.setVisibleColumns(TableHeaderColumnsUtil.getDataSelectionColumns());
@@ -3170,7 +3178,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				 if (isRelationShipIsUpdated) {
 					AbstractNotificationUtils.getInfoNotification("Info",
 							"Relationship used in this projection is updated");
-				 }
+				}
 				final SessionDTO tempSession = SessionUtil.createSession();
 				tempSession.setScreenName(scrName);
                                 tempSession.setFunctionMode("E");
@@ -3218,10 +3226,10 @@ public class DataSelectionForm extends ForecastDataSelection {
 					} else {
 						HelperListUtil helperUtil = HelperListUtil.getInstance();
 						String dedLevel = getDedutionLevel(dto.getDeductionLevel());
-						String deductionValue = String
+						String dedValue = String
 								.valueOf(helperUtil.getIdByDescription(dto.getDeductionValue(), dedLevel));
 						relationLogic.ccpHierarchyInsertARP(tempSession.getCurrentTableNames(), customerItemIds,
-								productItemIds, dto, dedLevel, deductionValue);
+								productItemIds, dto, dedLevel, dedValue);
 					}
 				}
 				tempSession.setProjectionId(projectionIdValue);
@@ -3948,7 +3956,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 				relationship.select(selectedRelationshipDdlbDto.getRelationshipBuilderSid());
 			}
 			relationship.setPageLength(7);
-			relationship.setImmediate(true);
 			relationship.setNullSelectionAllowed(true);
 			relationship.setInputPrompt(SELECT_ONE);
 
@@ -4209,8 +4216,11 @@ public class DataSelectionForm extends ForecastDataSelection {
 					}
 					level.setContainerDataSource(customerForecastLevelContainer);
 				}
-                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
-                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
+                                
+                                if(!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
+                                    loadCustomViewDropDown(customRelationDdlb,customViewInput);
+                                    loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);  
+                                }
 			} catch (NumberFormatException ex) {
 				
 				LOGGER.error(" in customerRelation value change= {}",ex);
@@ -4261,8 +4271,11 @@ public class DataSelectionForm extends ForecastDataSelection {
 					}
 					productlevelDdlb.setContainerDataSource(productForecastLevelContainer);
 				}
-                                loadCustomViewDropDown(customRelationDdlb,customViewInput);
-                                loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
+                                
+                                if(!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
+                                    loadCustomViewDropDown(customRelationDdlb,customViewInput);
+                                    loadCustomViewDeductionDropDown(customRelationDdlbDeduction, customViewInput);
+                                }
 
 			} catch (NumberFormatException ex) {
 				LOGGER.error(" in productRelation value change= {}",ex);
@@ -4808,6 +4821,13 @@ public class DataSelectionForm extends ForecastDataSelection {
 				session.setScreenName(scrName);
 				// To create the temp tables with userId and session id
 				QueryUtils.createTempTables(session);
+                                
+                                HelperListUtil helperUtil = HelperListUtil.getInstance();
+				String dedLevel = getDedutionLevel(dataSelectionDTO.getDeductionLevel());
+				String dedValue = String.valueOf(helperUtil.getIdByDescription(dataSelectionDTO.getDeductionValue(), dedLevel));
+				relationLogic.ccpHierarchyInsertARP(session.getCurrentTableNames(), selectedCustomerContainer.getItemIds(),
+								selectedProductContainer.getItemIds(), dataSelectionDTO, dedLevel, dedValue);
+                                
 				session.setProjectionId(projectionIdValue);
 				session.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 				session.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
@@ -4914,7 +4934,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 		}
 	}
 
-	public void configurePermission() {
+	public final void configurePermission() {
 
 		try {
 			final StplSecurity stplSecurity = new StplSecurity();

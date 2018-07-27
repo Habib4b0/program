@@ -70,11 +70,12 @@ public class MSalesProjection extends ForecastSalesProjection {
 
     public MSalesProjection(SessionDTO session, String screenName) throws PortalException, SystemException  {
         super(session, screenName);
+        enableDisableFields();
         this.scrnName = screenName;
         init();
     }
 
-    public void init() throws PortalException, SystemException  {
+    public final void init() throws PortalException, SystemException  {
         projectionDTO.setSessionDTO(session);
         configureProjectionDTO();
         Utility.loadHierarchyList(session);
@@ -119,7 +120,7 @@ public class MSalesProjection extends ForecastSalesProjection {
     }
 
     @Override
-    protected void enableDisableFields() {
+    protected final void enableDisableFields() {
         return;
     }
     
@@ -411,7 +412,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
         String history = String.valueOf(historyDdlb.getValue());
         history = history.trim();
-        if (history != null && !StringUtils.isBlank(history) && !NULL.equals(history) && !SELECT_ONE.getConstant().equals(history)) {
+        if (history != null && !StringUtils.isBlank(history) && !NULL.getConstant().equals(history) && !SELECT_ONE.getConstant().equals(history)) {
             toHist = true;
             projectionDTO.setHistory(history);
             historyNum = Integer.parseInt(projectionDTO.getHistory());

@@ -157,7 +157,7 @@ public class ParityLookup extends Window {
 	/**
 	 * Inits the.
 	 */
-	public void init() {
+	public final void init() {
 		LOGGER.debug("ParityLookup init method started");
                 setContent(Clara.create(getClass().getResourceAsStream("/mandated/ParityLookup.xml"), this));
 		configureFields();

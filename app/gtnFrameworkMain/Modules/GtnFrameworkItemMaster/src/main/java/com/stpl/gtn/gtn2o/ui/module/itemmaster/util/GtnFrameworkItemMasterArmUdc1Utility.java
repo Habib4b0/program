@@ -38,7 +38,7 @@ public class GtnFrameworkItemMasterArmUdc1Utility {
 		codeValueArmUdc1HashMap = new HashMap<>();
 
 		for (int i = 0; i < armUdc1ValueList.size(); i++) {
-			codeValueArmUdc1HashMap.put(Integer.parseInt(armUdc1CodeList.get(i)), armUdc1ValueList.get(i));
+			codeValueArmUdc1HashMap.put(Integer.valueOf(armUdc1CodeList.get(i)), armUdc1ValueList.get(i));
 		}
 	}
 
@@ -65,6 +65,7 @@ public class GtnFrameworkItemMasterArmUdc1Utility {
 	private static synchronized void reset() {
 		armUdc1ValueList=null;
 		armUdc1CodeList=null;
+                codeValueArmUdc1HashMap.clear();
 		codeValueArmUdc1HashMap=null;
 	}
 

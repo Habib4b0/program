@@ -18,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.component.combo.GtnUIFrameworkComboBoxConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.vaadin8.combobox.GtnUIFrameworkComboBoxComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -85,6 +86,9 @@ public class GtnReportingVariableBreakdownHistoryLoadAction
 			break;
 		}
 
+		if(historyPeriodCaptionList.isEmpty()) {
+			return;
+		}
 		GtnUIFrameworkComboBoxConfig historyReloadComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParams.get(3).toString(), componentId).getComponentConfig()
 				.getGtnComboboxConfig();
@@ -94,6 +98,30 @@ public class GtnReportingVariableBreakdownHistoryLoadAction
 		GtnUIFrameworkComboBoxComponent combobox = new GtnUIFrameworkComboBoxComponent();
 		combobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION, actionParams.get(3).toString(),
 				componentId, Arrays.asList(""));
+		if (!historyPeriodCaptionList.isEmpty()) {
+			String defaultValue = null;
+			switch(frequency) {
+			case "Quarter" :
+			defaultValue = historyPeriodCaptionList.get(3);
+			break;
+			case "Semi-Annual" :
+				defaultValue = historyPeriodCaptionList.get(1);
+				break;
+			case "Month" :
+				defaultValue = historyPeriodCaptionList.get(11);
+				break;
+			case "Annual" :
+				defaultValue = historyPeriodCaptionList.get(0);
+				break;
+			}
+			historyReloadComboboxConfig.setDefaultDesc(defaultValue);
+			if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParams.get(3).toString(),
+					componentId) != null) {
+				GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(actionParams.get(3).toString(), componentId);
+				baseComponent.loadV8ComboBoxComponentValue(defaultValue);
+			}
+		}
 		}
 		catch(Exception ex){
 			logger.error("Error message",ex);

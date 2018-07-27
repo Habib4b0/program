@@ -60,10 +60,11 @@ public class ReturnsProjection extends ForecastSalesProjection {
 
     public ReturnsProjection(SessionDTO session, String screenName) throws Exception  {
         super(session, screenName);
+        enableDisableFields();
         init();
     }
 
-    public void init()   {
+    public final void init()   {
         projectionDTO.setSessionDTO(session);
         projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));
         populateLevel.setVisible(true);
@@ -160,7 +161,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
     }
 
     @Override
-    protected void enableDisableFields() {
+    protected final void enableDisableFields() {
         return;
     }
 

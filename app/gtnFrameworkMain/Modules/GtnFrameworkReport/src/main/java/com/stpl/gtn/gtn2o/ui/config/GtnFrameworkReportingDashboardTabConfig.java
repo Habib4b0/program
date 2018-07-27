@@ -400,7 +400,6 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		selectedFrequencyAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		selectedFrequencyAction.addActionParameter(GtnReportDashboardFrequencyLoadAction.class.getName());
 		frequencyConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(selectedFrequencyAction));
-
 	}
 
 	private void addPeriodRangeFromComponent(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -487,6 +486,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 				true, GtnFrameworkReportStringConstants.DISPLAY_SELECTION_TAB_ANNUAL_TOTALS_LAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX_VAADIN8);
 		annualTotalsConfig.setComponentName("Annual Totals: ");
+                annualTotalsConfig.setEnable(false);
 		annualTotalsConfig.setAuthorizationIncluded(true);
 
 		componentList.add(annualTotalsConfig);
@@ -930,7 +930,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameWorkActionConfig comparisonOptionsPopupActionConfig = new GtnUIFrameWorkActionConfig();
 		comparisonOptionsPopupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
 		comparisonOptionsPopupActionConfig.addActionParameter("comparisonOptions");
-		comparisonOptionsPopupActionConfig.addActionParameter("Comparison Options");
+		comparisonOptionsPopupActionConfig.addActionParameter("Comparison Options Popup");
 		comparisonOptionsPopupActionConfig.addActionParameter(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		actionConfigList.add(comparisonOptionsPopupActionConfig);
 
@@ -974,7 +974,7 @@ public class GtnFrameworkReportingDashboardTabConfig {
 
 		List<Object> params = new ArrayList<>();
 		params.add("variableBreakdown");
-		params.add("Variable Breakdown");
+		params.add("Variable Breakdown Popup");
 		params.add(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		params.add(null);
 		params.add(null);
@@ -1515,6 +1515,8 @@ public class GtnFrameworkReportingDashboardTabConfig {
 			String parentId) {
 		GtnUIFrameworkComponentConfig reportDashboardControlLayout = configProvider
 				.getHorizontalLayoutConfig("reportDashboardControlLayout", true, parentId);
+		reportDashboardControlLayout.addComponentStyle("stpl-margin-left-66");
+		reportDashboardControlLayout.addComponentStyle("stpl-margin-bottom-13");
 		componentList.add(reportDashboardControlLayout);
 
 		GtnUIFrameworkComponentConfig previousButtonConfig = new GtnUIFrameworkComponentConfig();
@@ -1542,6 +1544,11 @@ public class GtnFrameworkReportingDashboardTabConfig {
 		GtnUIFrameWorkActionConfig reportDashBoardCloseAction = new GtnUIFrameWorkActionConfig();
 		reportDashBoardCloseAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		reportDashBoardCloseAction.addActionParameter(GtnFrameworkReportStringConstants.REPORT_GENERATE_LOOKUP_VIEW);
+		
+		GtnUIFrameWorkActionConfig resetLandingScreenAction = new GtnUIFrameWorkActionConfig();
+		resetLandingScreenAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		resetLandingScreenAction.setActionParameterList(GtnFrameworkReportDataSelectionTabConfig.getResetParameters());
+		actionConfigList.add(resetLandingScreenAction);
 		actionConfigList.add(reportDashBoardCloseAction);
 		closeButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
