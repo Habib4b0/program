@@ -2568,7 +2568,6 @@ public class NonMandatedLogic {
 	 */
 	public void mainToTempTableInsert(SessionDTO session, ExecutorService service) {
             CommonUtil commonUtil = CommonUtil.getInstance();
-		List<Future> tempInsertFutureList = new ArrayList<>();
 		session.addFutureMap(Constant.PPA_SMALL,
 				new Future[] {
 						// PPA MASTER INSERT

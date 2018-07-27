@@ -942,7 +942,6 @@ public class HeaderUtils {
                     cffPVTableHeaderDTO = loadSingleHeader(commonColumn, commonHeader, projSelDTO, cffPVTableHeaderDTO, fullHeader);
                 }
             }
-            List<String> pivotList = new ArrayList<>();
             List<String> periodList = projSelDTO.getPeriodList();
             List<String> periodListUpper = new ArrayList<>();
             Map<String, String> periodListMap = projSelDTO.getPeriodListMap();
@@ -955,7 +954,6 @@ public class HeaderUtils {
                     comColumn = commonColumn1.toUpperCase();
                 }
                 periodListUpper.add(comColumn);
-                pivotList.add(comHeader);
                 periodListMapUpper.put(comColumn, comHeader);
 
             }

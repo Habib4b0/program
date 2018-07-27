@@ -1496,8 +1496,6 @@ public class ProjectionVarianceLogic {
                 pcommonColumn = getCommonColumn(frequencyDivision, pcommonColumn);
                 if (periodList.contains(pcommonColumn)) {
                     periodList.remove(pcommonColumn);
-                    List<String> columnList = new ArrayList<>(pvsdto.getColumns());
-                    columnList.remove(StringConstantsUtil.GROUP_PROPERTY);
                     ProjectionVarianceDTO projDTO = new ProjectionVarianceDTO();
                     projDTO.setGroup(commonHeader);
                     projDTO.setDfLevelNumber(commonHeader);
