@@ -207,6 +207,10 @@ public class NMDiscountExcelLogic {
           discountProjectionDTO.addStringProperties(header + Constant.PROJECTEDRPU,CommonUtils.forecastConfigDataHide(projectionSelection.getFrequency(), projectionSelection.getForecastConfigPeriods(),
                       column, projectedValue) );
           discountProjectionDTO.addStringProperties(header + Constant.GROWTH, Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]));
+          
+          // Added Growth sum column
+          discountProjectionDTO.addStringProperties(header + Constant.GROWTH_SUM, Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]));
+          
           if(!projectionSelection.isIsCustomHierarchy()){
           discountProjectionDTO.addStringProperties(header + "ProjectedSales", Constant.NULL.equals(String.valueOf(obj[NumericConstants.NINETEEN])) ? DASH : String.valueOf(obj[NumericConstants.NINETEEN]));
           discountProjectionDTO.addStringProperties(header + "ProjectedUnits", Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWENTY])) ? DASH : String.valueOf(obj[NumericConstants.TWENTY]));
@@ -228,6 +232,9 @@ public class NMDiscountExcelLogic {
             discountProjectionDTO.addStringProperties(header + Constant.GROWTH,  StringUtils.EMPTY);
             discountProjectionDTO.addStringProperties(header + "ProjectedSales",  StringUtils.EMPTY);
             discountProjectionDTO.addStringProperties(header + "ProjectedUnits",  StringUtils.EMPTY);
+            
+            //Added Growth Sum column
+            discountProjectionDTO.addStringProperties(header + Constant.GROWTH_SUM,  StringUtils.EMPTY);
         }
     }
      
