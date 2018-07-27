@@ -981,7 +981,7 @@ public class QueryUtils {
                     + "WHERE RS.RS_MODEL_SID=" + newDiscountTabDto.getRsSid();
         }
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        if (list != null && list.size() > 0) {
+        if (list != null && !list.isEmpty()) {
             String retCount = String.valueOf(list.get(0));
             count = Integer.parseInt(retCount);
             return count;

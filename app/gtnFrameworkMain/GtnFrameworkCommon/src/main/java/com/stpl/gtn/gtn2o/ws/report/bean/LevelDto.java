@@ -19,7 +19,7 @@ public class LevelDto implements Comparable<LevelDto> {
 	/**
 	 * The level no.
 	 */
-	private Integer levelNo = new Integer("0");
+	private Integer levelNo = Integer.valueOf("0");
 
 	/**
 	 * The parent node.
@@ -29,7 +29,7 @@ public class LevelDto implements Comparable<LevelDto> {
 	/**
 	 * The relationship level sid.
 	 */
-	private Integer relationshipLevelSid = new Integer("0");
+	private Integer relationshipLevelSid = Integer.valueOf("0");
 
 	/**
 	 * The relationship level value.
@@ -468,7 +468,7 @@ public class LevelDto implements Comparable<LevelDto> {
 	public static List<String> getLastLevelHierarchyNo(List<LevelDto> selectedCustomerContractList, Integer levelNo) {
 		List<String> hierarchyNosList = new ArrayList<>();
 		for (LevelDto LevelDto : selectedCustomerContractList) {
-			if (LevelDto.levelNo == levelNo) {
+			if (LevelDto.levelNo.intValue() == levelNo.intValue()) {
 				hierarchyNosList.add(LevelDto.hierarchyNo);
 			}
 		}

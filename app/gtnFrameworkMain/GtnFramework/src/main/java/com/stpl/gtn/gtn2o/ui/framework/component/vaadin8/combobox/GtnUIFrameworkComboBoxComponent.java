@@ -83,14 +83,15 @@ public class GtnUIFrameworkComboBoxComponent implements GtnUIFrameworkComponent,
 					GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) component.getData();
 					GtnUIFrameworkComponentConfig valueChangeComponentConfig = componentData
 							.getCurrentComponentConfig();
+					componentConfig.setUserOriginatedFlag(event.isUserOriginated());
 					GtnUIFrameworkActionExecutor.executeActionList(componentData.getComponentIdInMap(),
 							valueChangeComponentConfig.getGtnUIFrameWorkActionConfigList());
-
+					componentConfig.setUserOriginatedFlag(false);
 				} catch (GtnFrameworkGeneralException e) {
 					gtnLogger.error(e.getMessage(), e);
 				}
 			});
-
+			
 		}
 	}
 

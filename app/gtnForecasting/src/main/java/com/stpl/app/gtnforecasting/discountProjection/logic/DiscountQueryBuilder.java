@@ -139,13 +139,13 @@ public class DiscountQueryBuilder {
             if (frequency.equals(QUARTERLY.getConstant())) {
                 period = " CAST(PR.QUARTER AS CHAR(1)) + CAST(PR.\"YEAR\" AS char(4))";
             }
-            if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
+            if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
                 period = " CAST(PR.SEMI_ANNUAL AS CHAR(1)) + CAST(PR.\"YEAR\" AS char(4))";
             }
             if (frequency.equals(MONTHLY.getConstant())) {
                 period = " CASE WHEN LEN(\"MONTH\")>1 THEN  CAST(\"MONTH\" AS CHAR(2)) ELSE '0'+ CAST(\"MONTH\" AS CHAR(1)) END + CAST(PR.\"YEAR\" AS char(4))";
             }
-            if (frequency.equals(ANNUALLY.getConstant())) {
+            if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                 period = "CAST(PR.\"YEAR\" AS char(4))";
             }
 
@@ -635,7 +635,7 @@ public class DiscountQueryBuilder {
                 customSql = customSql.replace("@SETTER", "DPT.refreshed_value = " + fieldValue + MANUAL_ENTRY_COUNT );
             }
 
-            if (!frequency.equals(ANNUALLY.getConstant())) {
+            if (!frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
                 customSql += "and I.period = " + period;
             }
 

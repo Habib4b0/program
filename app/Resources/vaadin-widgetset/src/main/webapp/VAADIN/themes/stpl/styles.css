@@ -14877,6 +14877,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .stpl .v-grid-scroller::-webkit-scrollbar-thumb {
 	border-radius: 0px !important;
+	border: 3px solid transparent;
 }
 
 .stpl .datefieldcentered > input {
@@ -14899,6 +14900,10 @@ div.v-layout.v-horizontal.v-widget {
 .stpl .v-grid-column-header-content, .stpl .v-grid-column-footer-content {
 	font-size: 12px;
 	font-weight: 600;
+}
+
+.stpl #reportCustomViewLookup_custom_Variable_OptionGroup > span:nth-child(1) {
+	margin-right: 52px;
 }
 
 .v-slot, .v-spacing {
