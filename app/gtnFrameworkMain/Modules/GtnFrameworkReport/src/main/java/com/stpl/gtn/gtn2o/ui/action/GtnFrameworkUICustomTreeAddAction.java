@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkSkipActionException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportVariablesType;
 import com.vaadin.data.TreeData;
@@ -23,6 +24,10 @@ import com.vaadin.ui.TreeGrid;
 public class GtnFrameworkUICustomTreeAddAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
+	private static final GtnWSLogger GTNLOGGER = GtnWSLogger
+			.getGTNLogger(GtnFrameworkUICustomTreeAddAction.class);
+
+	
 	private static final String INVALID_STRUCTURE_CAPTION = "Invalid Structure";
 	private static final String INVALID_MSG = "You cannot add %s as a child to %s";
 
@@ -87,7 +92,7 @@ public class GtnFrameworkUICustomTreeAddAction
 
 	private void isAddingToVariable(GtnWsRecordBean parentBean, GtnWsRecordBean beanTobeAdded)
 			throws GtnFrameworkSkipActionException {
-		//
+		
 		if (parentBean == null
 				&& GtnWsHierarchyType.VARIABLES.toString().equals(beanTobeAdded.getStringPropertyByIndex(3))
 				&& !beanTobeAdded.getStringPropertyByIndex(1).equals(GtnWsReportVariablesType.VARIABLES.toString())) {
@@ -126,10 +131,14 @@ public class GtnFrameworkUICustomTreeAddAction
 	private void isLowerValueAlreadyAdded(GtnWsRecordBean next, GtnWsRecordBean beanTobeAdded,
 			TreeData<GtnWsRecordBean> gridData) throws GtnFrameworkGeneralException {
 		if (next != null) {
+			GTNLOGGER.info("Inside isLowerValueAlreadyAdded method");
 			int currentLevel = beanTobeAdded.getIntegerPropertyByIndex(1);
+
+
 			if (next.getPropertyValueByIndex(3).equals(beanTobeAdded.getStringPropertyByIndex(3))
 					&& next.getIntegerPropertyByIndex(1) > currentLevel && !isVariable(beanTobeAdded)
-					&& !isDiscount(beanTobeAdded)) {
+					) {
+				
 				GtnUIFrameWorkActionConfig notificationConfig = new GtnUIFrameWorkActionConfig(
 						GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 				String errorMsg = String.format(INVALID_MSG, beanTobeAdded.getStringPropertyByIndex(0),

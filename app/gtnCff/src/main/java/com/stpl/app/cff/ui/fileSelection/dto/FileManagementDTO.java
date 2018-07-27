@@ -21,25 +21,24 @@ public class FileManagementDTO implements Serializable {
 	private static final long serialVersionUID = 5671099792235762634L;
 
 	/** The default. */
-	private final String DEFAULT = StringUtils.EMPTY;
 
 	/** The effective date. */
-	private String effectiveDate = DEFAULT;
+	private String effectiveDate = StringUtils.EMPTY;
 
 	/** The current file. */
-	private String currentFile = DEFAULT;
+	private String currentFile = StringUtils.EMPTY;
 
 	/** The forecast name. */
-	private String forecastName = DEFAULT;
+	private String forecastName = StringUtils.EMPTY;
 
 	/** The forecast date. */
-	private String forecastDate = DEFAULT;
+	private String forecastDate = StringUtils.EMPTY;
 
 	/** The forecast version. */
-	private String forecastVersion = DEFAULT;
+	private String forecastVersion = StringUtils.EMPTY;
 
 	/** The created date. */
-	private String createdDate = DEFAULT;
+	private String createdDate = StringUtils.EMPTY;
 
 	/**
 	 * Gets the effective date.
@@ -161,6 +160,6 @@ public class FileManagementDTO implements Serializable {
 	 * @return the default
 	 */
 	public String getDEFAULT() {
-		return DEFAULT;
+		return StringUtils.EMPTY;
 	}
 }

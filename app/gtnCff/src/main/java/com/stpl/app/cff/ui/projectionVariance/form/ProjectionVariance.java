@@ -1137,13 +1137,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
     @Override
     protected void graphBtnLogic() {
-        List chartiLst = new ArrayList();
-        for (Object obj : resultsTable.getRightFreezeAsTable().getContainerDataSource().getItemIds()) {
-            ProjectionVarianceDTO dto = (ProjectionVarianceDTO) obj;
-            if (dto.getLevelNo() != null && dto.getParent() == 0) {
-                chartiLst.add(dto);
-            }
-        }
+        /**
+         *  
+         * Empty Method graphBtnLogic
+         */
     }
 
     public static List<Date> getStartandTodate() {
@@ -1405,7 +1402,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
     public void savePvSelections(SessionDTO sessionDTO) {
         LOGGER.debug("savePVSelections method starts");
-        Map map = new HashMap();
+        Map map = new HashMap(NumericConstants.TWENTY);
         try {
             String priorProjectionIds = projIdList == null || projIdList.isEmpty() ? StringUtils.EMPTY : projIdList.toString();
             map.put("Comparison", priorProjectionIds);

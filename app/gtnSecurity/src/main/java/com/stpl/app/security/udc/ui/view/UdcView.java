@@ -15,18 +15,14 @@ import org.slf4j.LoggerFactory;
 public class UdcView extends VerticalLayout implements View {
 
     public static final String NAME = "";
-    private final BeanItemContainer<HelperForm> searchResultbeans = new BeanItemContainer<HelperForm>(
-            HelperForm.class);
-    private static final Logger LOGGER = LoggerFactory.getLogger(UdcView.class
-			.getName());
-
-    private final Table table = new Table();
     private final SessionDTO sessionDTO;
+     private static final Logger LOGGER = LoggerFactory.getLogger(UdcView.class
+			.getName());
 
     public UdcView(final SessionDTO sessionDTO) {
         setSpacing(true);
         this.sessionDTO = sessionDTO;
-        addComponent(new UdcHelperForm(sessionDTO,searchResultbeans, table));
+        addComponent(new UdcHelperForm(sessionDTO,new BeanItemContainer<>(HelperForm.class), new Table()));
         setComponentError(new UserError(""));
     }
 

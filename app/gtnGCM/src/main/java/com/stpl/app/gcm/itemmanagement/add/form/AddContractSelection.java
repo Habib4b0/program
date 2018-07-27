@@ -70,6 +70,7 @@ import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -217,7 +218,7 @@ public class AddContractSelection extends CustomComponent {
     private CustomTextField.ClickListener clickLister;
     @UiField("massUpdateText")
     protected CustomTextField massUpdateText;
-
+    public  final SimpleDateFormat formatter = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     public AddContractSelection() {
         addItemTableLogic.setTempPageLength(NumericConstants.FIVE);
     }
@@ -1176,7 +1177,7 @@ public class AddContractSelection extends CustomComponent {
     }
 
     public void insertToTempTable() {
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.FIFTEEN);
         input.add(AbstractLogic.getItemIds(selecteditemList));
         input.add(selection.getSessionId());
         input.add(selection.getButtonMode());
@@ -1192,13 +1193,13 @@ public class AddContractSelection extends CustomComponent {
         }
 
         if (binderDto.getStartDate() != null) {
-            input.add(" AND ( cm.START_DATE >= '" + CommonUtils.DBDate.format(binderDto.getItemStartDate()) + "')");
+            input.add(" AND ( cm.START_DATE >= '" + formatter.format(binderDto.getItemStartDate()) + "')");
         } else {
             input.add(" ");
         }
 
         if (binderDto.getEndDate() != null) {
-            input.add(" AND ( CM.END_DATE <= '" + CommonUtils.DBDate.format(binderDto.getEndDate()) + "')");
+            input.add(" AND ( CM.END_DATE <= '" + formatter.format(binderDto.getEndDate()) + "')");
         } else {
             input.add(" ");
         }
@@ -1329,7 +1330,7 @@ public class AddContractSelection extends CustomComponent {
                     case Constants.ITEM_START_DATE:
                         addItemTable.getItem(object).getItemProperty("itemStartDate").setValue(massStartDate.getValue());
                         columnName = StringConstantsUtil.START_DATE_COLUMN;
-                        value = CommonUtils.DBDate.format(massStartDate.getValue());
+                        value = formatter.format(massStartDate.getValue());
                         break;
                     case Constants.ITEM_END_DATE:
                         tempDdate = dto.getItemStartDate();
@@ -1339,14 +1340,14 @@ public class AddContractSelection extends CustomComponent {
                         } else {
                             addItemTable.getItem(object).getItemProperty("itemEndDate").setValue(massEndDate.getValue());
                             columnName = StringConstantsUtil.END_DATE_COLUMN;
-                            value = CommonUtils.DBDate.format(massEndDate.getValue());
+                            value = formatter.format(massEndDate.getValue());
 
                         }
                         break;
                     case StringConstantsUtil.CP_START_DATE_LABEL:
                         addItemTable.getItem(object).getItemProperty(StringConstantsUtil.CP_START_DATE).setValue(massStartDate.getValue());
                         columnName = StringConstantsUtil.CONTRACT_PRICE_START_DATE_COLUMN;
-                        value = CommonUtils.DBDate.format(massStartDate.getValue());
+                        value = formatter.format(massStartDate.getValue());
                         break;
                     case StringConstantsUtil.CP_END_DATE_LABEL:
                         tempDdate = dto.getCpStartDate();
@@ -1356,7 +1357,7 @@ public class AddContractSelection extends CustomComponent {
                         } else {
                             addItemTable.getItem(object).getItemProperty(StringConstantsUtil.CP_END_DATE).setValue(massEndDate.getValue());
                             columnName = StringConstantsUtil.CONTRACT_PRICE_END_DATE_COLUMN;
-                            value = CommonUtils.DBDate.format(massEndDate.getValue());
+                            value = formatter.format(massEndDate.getValue());
 
                         }
                         break;
@@ -1381,7 +1382,7 @@ public class AddContractSelection extends CustomComponent {
                     case Constants.PRICE_PROTECTION_START_DATE_LABEL:
                         addItemTable.getItem(object).getItemProperty(Constants.PRICE_PROTECTION_START_DATE_PROPERTY).setValue(massStartDate.getValue());
                         columnName = StringConstantsUtil.PRICE_PROTECTION_START_DATE_COLUMN;
-                        value = CommonUtils.DBDate.format(massStartDate.getValue());
+                        value = formatter.format(massStartDate.getValue());
                         break;
 
                     case Constants.PRICE_PROTECTION_END_DATE_LABEL:
@@ -1392,7 +1393,7 @@ public class AddContractSelection extends CustomComponent {
                         } else {
                             addItemTable.getItem(object).getItemProperty(Constants.PRICE_PROTECTION_END_DATE_PROPERTY).setValue(massEndDate.getValue());
                             columnName = StringConstantsUtil.PRICE_PROTECTION_END_DATE_LABEL;
-                            value = CommonUtils.DBDate.format(massEndDate.getValue());
+                            value = formatter.format(massEndDate.getValue());
 
                         }
                         break;
@@ -1427,7 +1428,7 @@ public class AddContractSelection extends CustomComponent {
                         } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
                             addItemTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_DATE_LABLE_NAME).setValue(baseWacDate.getValue());
                             baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
-                            baseLineValue = CommonUtils.DBDate.format(baseWacDate.getValue());
+                            baseLineValue = formatter.format(baseWacDate.getValue());
                             logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
                         } else if (Constants.PRICE_TYPE_LABEL.equals(tempDTO.getDescription())) {
                             baseLineValue = baseWacPriceType.getValue();
@@ -1512,7 +1513,7 @@ public class AddContractSelection extends CustomComponent {
                     case Constants.RESET_DATE_LABEL:
                         addItemTable.getItem(object).getItemProperty(Constants.RESET_DATE_PROPERTY).setValue(massStartDate.getValue());
                         columnName = Constants.RESET_DATE_COLUMN_NAME;
-                        value = CommonUtils.DBDate.format(massStartDate.getValue());
+                        value = formatter.format(massStartDate.getValue());
                         break;
                     case Constants.RESET_INTERVAL_LABEL:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();

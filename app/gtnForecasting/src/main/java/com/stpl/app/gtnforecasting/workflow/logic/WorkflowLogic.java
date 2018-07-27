@@ -59,7 +59,6 @@ public class WorkflowLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowLogic.class);
-    private final String SUCCESS = Constant.SUCCESS;
     private WorkFlowLogicDao workFlowLogicDao = new WorkFlowLogicDaoImpl();
     private DataSelectionDAO dataselectionLogicDao = new DataSelectionDAOImpl();
 
@@ -277,7 +276,7 @@ public class WorkflowLogic {
 
                 workFlowLogicDao.updateWorkflowMaster(workflowMaster);
                 String projectionUpdated = updateProjectionMaster(workflowMasterDTO);
-                if (!projectionUpdated.equals(SUCCESS)) {
+                if (!projectionUpdated.equals(Constant.SUCCESS)) {
                     return CommonUtils.WORKFLOW_NOT_SAVED;
                 }
             } else {
@@ -334,7 +333,7 @@ public class WorkflowLogic {
                 projectionMaster.setIsApproved("W");
             }
             dataselectionLogicDao.updateProjectionMaster(projectionMaster);
-            return SUCCESS;
+            return Constant.SUCCESS;
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
             return CommonUtils.WORKFLOW_NOT_SAVED;

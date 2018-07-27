@@ -548,9 +548,6 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 						if (workFlowState.equals(Constant.SUBMITTED)) {
 							workFlowState = WorkflowConstants.getPendingStatus();
 						}
-						List<String> projId = new ArrayList<>();
-						projId.add(toDate);
-
 						String notSearchProjId;
                                                 StringBuilder notSearchProjIdBuilder = new StringBuilder();
                                                 notSearchProjIdBuilder.append('\'').append( currentProjId ).append('\'');

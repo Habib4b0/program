@@ -24,6 +24,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkRegexStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
@@ -35,6 +36,7 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		productHierarchyView.setViewName("Product Hierarchy LookUp");
 		productHierarchyView.setViewId("reportLandingScreen_productHierarchyLookup");
 		productHierarchyView.setDefaultView(false);
+		productHierarchyView.setResetAllowed(true);
 		addReportProductHierarchyLookUpComponentList(productHierarchyView, namespace);
 		return productHierarchyView;
 	}
@@ -172,11 +174,13 @@ public class GtnFrameworkReportProductHierarchyLookUp {
 		addHierarchyNameTextBox.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT);
 
-		GtnUIFrameworkValidationConfig productHierarchyNameValidationConfig = new GtnUIFrameworkValidationConfig();
-		productHierarchyNameValidationConfig
+		GtnUIFrameworkValidationConfig hierarchyNameValidationConfig = new GtnUIFrameworkValidationConfig();
+		hierarchyNameValidationConfig
 				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		addHierarchyNameTextBox.setGtnUIFrameworkValidationConfig(productHierarchyNameValidationConfig);
-
+		hierarchyNameValidationConfig.setAttachRegxValidatior(true);
+		hierarchyNameValidationConfig.setFormatString(GtnFrameworkRegexStringConstants.ACCEPT_MIN_1_MAX_200_CHARACTER);
+		hierarchyNameValidationConfig.setRegxValidationMessage("Hierarchy Name Should be less than 200 Characters");
+		addHierarchyNameTextBox.setGtnUIFrameworkValidationConfig(hierarchyNameValidationConfig);
 		componentList.add(addHierarchyNameTextBox);
 	}
 

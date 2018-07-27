@@ -829,7 +829,7 @@ public class GtnUIFrameworkBaseComponent {
 		}
 	}
 
-	public void setVisible(Boolean visibleFlag) {
+	public void setVisible(boolean visibleFlag) {
 		component.setVisible(visibleFlag);
 	}
 

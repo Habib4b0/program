@@ -18,6 +18,7 @@ import com.vaadin.ui.TreeGrid;
 public class GtnUIFrameworkV8DualListBoxResetAction implements GtnUIFrameWorkAction {
 
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkV8DualListBoxResetAction.class);
+        private static final String SELECT_ONE = "-Select one-";
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -42,8 +43,8 @@ public class GtnUIFrameworkV8DualListBoxResetAction implements GtnUIFrameWorkAct
 		gtnLogger.info("selectedLevelName------->" + selectedLevelName);
 		TreeGrid<GtnWsRecordBean> rightTable = dualListBoxBean.getRightTable();
 		gtnLogger.info("boolean value is ------>" + rightTable.getTreeData().getRootItems().iterator().hasNext());
-		if (rightTable.getTreeData().getRootItems().iterator().hasNext() && !selectedLevelName.equals("-Select one-")
-				&& !relationshipName.equals("-Select one-")) {
+		if (rightTable.getTreeData().getRootItems().iterator().hasNext() && !selectedLevelName.equals(SELECT_ONE)
+				&& !relationshipName.equals(SELECT_ONE)) {
 			GtnUIFrameWorkActionConfig confirmationActionConfig = new GtnUIFrameWorkActionConfig();
 			confirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 			confirmationActionConfig.addActionParameter("Confirm Change");
@@ -60,7 +61,7 @@ public class GtnUIFrameworkV8DualListBoxResetAction implements GtnUIFrameWorkAct
 
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, confirmationActionConfig);
 
-		} else if (!selectedLevelName.equals("-Select one-")) {
+		} else if (!selectedLevelName.equals(SELECT_ONE)) {
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId,
 					(GtnUIFrameWorkActionConfig) actionParamList.get(3));
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId,

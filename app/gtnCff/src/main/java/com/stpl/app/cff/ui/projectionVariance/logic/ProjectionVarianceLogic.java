@@ -1496,8 +1496,6 @@ public class ProjectionVarianceLogic {
                 pcommonColumn = getCommonColumn(frequencyDivision, pcommonColumn);
                 if (periodList.contains(pcommonColumn)) {
                     periodList.remove(pcommonColumn);
-                    List<String> columnList = new ArrayList<>(pvsdto.getColumns());
-                    columnList.remove(StringConstantsUtil.GROUP_PROPERTY);
                     ProjectionVarianceDTO projDTO = new ProjectionVarianceDTO();
                     projDTO.setGroup(commonHeader);
                     projDTO.setDfLevelNumber(commonHeader);
@@ -1977,7 +1975,7 @@ public class ProjectionVarianceLogic {
      */
     public List<ProjectionVarianceDTO> getCustPeriodVariance(final List<Object> gtsList, final PVSelectionDTO pvsdto, final ProjectionVarianceDTO parentDto) {
         boolean actualBasis = (StringConstantsUtil.ACTUALS1).equals(pvsdto.getComparisonBasis());
-        List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>();
+        List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>(NumericConstants.FIFTEEN);
         boolean isDetail = false;
         if (pvsdto.getLevel().equals(DETAIL)) {
             isDetail = true;

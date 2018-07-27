@@ -157,7 +157,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
      *
      * @return the binder
      */
-    public ErrorfulFieldGroup getBinder() {
+    public final ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setErrorDisplay(errorMsg);
         return binder;

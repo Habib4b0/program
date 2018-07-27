@@ -19,21 +19,19 @@ import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
 import com.stpl.gtn.gtn2o.ws.entity.projectionmaster.ProjectionMaster;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author STPL
  */
+@Service
 public class GtnWsReturnsDatabaseService {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsReturnsDatabaseService.class);
 	@Autowired
 	private SessionFactory sessionFactory;
-	@Autowired
-	private SessionFactory sysSessionFactory;
-
-	@Autowired
-	private SessionFactory bpmSessionFactory;
+	
 
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -43,33 +41,13 @@ public class GtnWsReturnsDatabaseService {
 		super();
 	}
 
-	public GtnWsReturnsDatabaseService(SessionFactory sessionFactory, SessionFactory sysSessionFactory,
-			SessionFactory bpmSessionFactory) {
-		super();
-		this.sessionFactory = sessionFactory;
-		this.sysSessionFactory = sysSessionFactory;
-		this.bpmSessionFactory = bpmSessionFactory;
-	}
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
-	public SessionFactory getSysSessionFactory() {
-		return sysSessionFactory;
-	}
 
-	public void setSysSessionFactory(SessionFactory sysSessionFactory) {
-		this.sysSessionFactory = sysSessionFactory;
-	}
 
-	public SessionFactory getBpmSessionFactory() {
-		return bpmSessionFactory;
-	}
-
-	public void setBpmSessionFactory(SessionFactory bpmSessionFactory) {
-		this.bpmSessionFactory = bpmSessionFactory;
-	}
 
 	@SuppressWarnings("rawtypes")
 	public List executeQuery(String sqlQuery, Object[] params) throws GtnFrameworkGeneralException {
@@ -128,23 +106,7 @@ public class GtnWsReturnsDatabaseService {
 		return null;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public List bpmexecuteQuery(String sqlQuery, Object[] params) throws GtnFrameworkGeneralException {
-		logger.queryLog(GtnFrameworkWebserviceConstant.EXECUTING_QUERY_IN_GTN_WS_RETURNS_DATABASE_SE + sqlQuery);
-		Session bpmSession = bpmSessionFactory.openSession();
-		List list = null;
-		try {
-			Query query = generateSQLQuery(bpmSession, sqlQuery, params);
-			list = query.list();
-		} catch (Exception ex) {
-			logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
-			throw new GtnFrameworkGeneralException(GtnFrameworkWebserviceConstant.ERROR_IN_EXECUTING_QUERY + sqlQuery,
-					ex);
-		} finally {
-			bpmSession.close();
-		}
-		return list;
-	}
+
 
 	public Query generateSQLQuery(Session session, String sqlQuery, Object[] params) {
 		Query query = session.createSQLQuery(sqlQuery);

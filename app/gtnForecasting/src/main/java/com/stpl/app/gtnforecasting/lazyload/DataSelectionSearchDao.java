@@ -20,7 +20,6 @@ import org.asi.ui.addons.lazycontainer.OrderByColumn;
 public class DataSelectionSearchDao implements BeanDAO<DataSelectionDTO> {
 
     private final DataSelectionDTO dataSelectionDTO;
-    private final NonMandatedLogic logic = new NonMandatedLogic();
 
     public DataSelectionSearchDao(DataSelectionDTO dataSelectionDTO) {
         this.dataSelectionDTO = dataSelectionDTO;

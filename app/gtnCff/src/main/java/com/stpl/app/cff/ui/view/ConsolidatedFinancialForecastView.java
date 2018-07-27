@@ -37,7 +37,6 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
     /**
      * Constructor
      *
-     * @param sessionDTO
      */
     public ConsolidatedFinancialForecastView() {
         super();

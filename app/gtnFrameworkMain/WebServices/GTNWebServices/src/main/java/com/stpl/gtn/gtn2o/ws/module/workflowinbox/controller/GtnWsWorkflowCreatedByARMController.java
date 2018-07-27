@@ -55,7 +55,7 @@ public class GtnWsWorkflowCreatedByARMController {
 			session = gtnWebServiceAllListConfig.getSysSessionFactory().openSession();
 			connection = gtnWebServiceAllListConfig.getSysSessionFactory().getSessionFactoryOptions()
 					.getServiceRegistry().getService(ConnectionProvider.class).getConnection();
-			armQuery.append("select firstName+' '+middleName+' '+lastName as userName,firstName,lastName,CONCAT(lastName, ' ', firstName) as fullName from ").append(connection.getCatalog()).append(".dbo.User_");
+			armQuery.append("select firstName+' '+middleName+' '+lastName as userName,firstName,lastName,CONCAT(lastName, ' ', firstName) as fullName,userId from ").append(connection.getCatalog()).append(".dbo.User_");
 			List<Object[]> resultList = null;
 
 			resultList = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(armQuery.toString());
@@ -68,7 +68,8 @@ public class GtnWsWorkflowCreatedByARMController {
 				arnUserInfo[1] = String.valueOf(arnUserInfo[1]) == null ? "" : String.valueOf(arnUserInfo[1]);
 				arnUserInfo[2] = String.valueOf(arnUserInfo[2]) == null ? "" : String.valueOf(arnUserInfo[2]);
 				arnUserInfo[3] = String.valueOf(arnUserInfo[3]) == null ? "" : String.valueOf(arnUserInfo[3]);
-				armUserBean.setRecordHeader(Arrays.asList("userName", "firstName", "lastName", "fullName"));
+                                arnUserInfo[4] = String.valueOf(arnUserInfo[4]) == null ? "" : String.valueOf(arnUserInfo[4]);
+				armUserBean.setRecordHeader(Arrays.asList("userName", "firstName", "lastName", "fullName","userId"));
 				armUserBean.setProperties(Arrays.asList(arnUserInfo));
 				resultListBean.add(armUserBean);
 			}

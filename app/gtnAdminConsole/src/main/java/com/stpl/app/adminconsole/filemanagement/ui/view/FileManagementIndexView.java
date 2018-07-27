@@ -39,7 +39,6 @@ public class FileManagementIndexView extends VerticalLayout implements View {
         super();
         LOGGER.debug("FileManagementIndexView Constructor Entered");
         setSpacing(true);
-        this.sessionDTO = sessionDTO;
         try{
         addComponent(new FileManagementIndex(this.sessionDTO));
         LOGGER.debug("FileManagementIndexView Constructor Ended");

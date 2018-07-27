@@ -75,7 +75,7 @@ public class Summary extends VerticalLayout implements View {
 		}
 	}
 
-	public void setHeaderValues() {
+	public final void setHeaderValues() {
 		PromoteTpToChDto dto = (PromoteTpToChDto) resultTable.getValue();
 		companyNo.setValue(dto.getCompanyNo());
 		companyName.setValue(dto.getCompanyName());

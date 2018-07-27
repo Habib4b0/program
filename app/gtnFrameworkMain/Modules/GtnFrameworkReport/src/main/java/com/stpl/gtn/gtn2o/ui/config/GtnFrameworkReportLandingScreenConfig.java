@@ -229,7 +229,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 
 		List<Object> params = new ArrayList<>();
 		params.add("variableBreakdown");
-		params.add("Variable Breakdown");
+		params.add("Variable Breakdown Popup");
 		params.add(GtnFrameworkReportStringConstants.HUNDRED_PERCENT);
 		params.add(null);
 		params.add(null);
@@ -297,12 +297,14 @@ public class GtnFrameworkReportLandingScreenConfig {
 		componentList.add(reportOptionsMainLayoutConfig);
 
 		GtnUIFrameworkLayoutConfig reportOptionsInnerLayout = new GtnUIFrameworkLayoutConfig();
-		reportOptionsInnerLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
+		reportOptionsInnerLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
 		GtnUIFrameworkComponentConfig reportOptionsInnerLayoutConfig = new GtnUIFrameworkComponentConfig();
 		reportOptionsInnerLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportOptionsInnerLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_INNER_LAYOUT);
 		reportOptionsInnerLayoutConfig.setAddToParent(true);
+		reportOptionsInnerLayoutConfig.addComponentStyle("stpl-margin-top--9");
+		reportOptionsInnerLayoutConfig.addComponentStyle("stpl-margin-left--35");
 		reportOptionsInnerLayoutConfig.setSpacing(true);
 		reportOptionsInnerLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_8);
 		reportOptionsInnerLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -324,7 +326,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		componentList.add(modeLayoutConfig);
 
 		GtnUIFrameworkLayoutConfig fromToMainLayout = new GtnUIFrameworkLayoutConfig();
-		fromToMainLayout.setLayoutType(GtnUIFrameworkLayoutType.CSS_LAYOUT);
+		fromToMainLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
 		GtnUIFrameworkComponentConfig fromToLayoutConfig = new GtnUIFrameworkComponentConfig();
 		fromToLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		fromToLayoutConfig
@@ -332,6 +334,7 @@ public class GtnFrameworkReportLandingScreenConfig {
 		fromToLayoutConfig.setAddToParent(true);
 		fromToLayoutConfig.setSpacing(true);
 		fromToLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
+		fromToLayoutConfig.addComponentStyle("stpl-margin-top-12");
 		fromToLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkReportStringConstants.REPORT_OPTIONS_MAIN_LAYOUT);
 		fromToLayoutConfig.setGtnLayoutConfig(fromToMainLayout);

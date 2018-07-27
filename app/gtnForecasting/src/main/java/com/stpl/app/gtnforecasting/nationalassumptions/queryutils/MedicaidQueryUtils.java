@@ -176,7 +176,6 @@ public class MedicaidQueryUtils {
     }
 
     public String[] getTextValue(String propertyId, SessionDTO session, int itemSid, String pricetype) throws PortalException, SystemException {
-        List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
 
         queryBuilder1 = new StringBuilder();
@@ -203,7 +202,6 @@ public class MedicaidQueryUtils {
 
         String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
         queryBuilder1 = new StringBuilder(replacedQuery);
-        queryList.add(queryBuilder1);
 
         List list = (List) DAO.executeSelectQuery(String.valueOf(queryBuilder1));
         String notesText[] = new String[NumericConstants.TWO];
@@ -353,7 +351,6 @@ public class MedicaidQueryUtils {
     }
 
     public void updateAdjustment(String ndc9, String queryName, SessionDTO session) throws PortalException, SystemException {
-        List<StringBuilder> queryList = new ArrayList<>();
         Map<String, Object> input = new HashMap<>();
         ndc9 = "'" + ndc9 + "'";
         input.put(Constant.NDC_NINE_QUESTION, ndc9);
@@ -364,7 +361,6 @@ public class MedicaidQueryUtils {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
         }
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
-        queryList.clear();
     }
 
     public List loadMedicaidDdlb(int projMasterId, int brandSid, int therapeuticSid, String filterText, int start, int end) throws PortalException, SystemException {

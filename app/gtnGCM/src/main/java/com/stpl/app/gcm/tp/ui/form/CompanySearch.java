@@ -720,7 +720,7 @@ public class CompanySearch extends VerticalLayout {
         }
     }
 
-     public void configureSecurityPermissions() {
+     public final void configureSecurityPermissions() {
         try {
             if (ADD_TRADING_PARTNER.getConstant().equals(updateType)) {
                 Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID)), "GCM-Customer Management", "Add Customer", "Add Customer Screen");

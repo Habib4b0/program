@@ -58,7 +58,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class PromoteTPToChForm extends CustomComponent implements View {
 
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    public final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private static final Logger LOGGER = LoggerFactory.getLogger(PromoteTPToChForm.class);
     private final StplSecurity stplSecurity = new StplSecurity();
     /**
@@ -180,7 +180,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
     /**
      * Configures the components.
      */
-    protected void configureFields() {
+    protected final void configureFields() {
         try {
             previousBtn.setVisible(false);
             transferBtn.setVisible(false);

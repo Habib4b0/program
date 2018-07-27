@@ -115,9 +115,6 @@ public class GtnUIFrameworkPagedTreeGridComponent
 		List<Object> leftVisibleColumnList = new ArrayList<>(Arrays.asList(tableConfig.getLeftTableColumnMappingId()));
 		List<Object> rightVisibleColumnList = new ArrayList<>(
 				Arrays.asList(tableConfig.getRightTableColumnMappingId()));
-		List<Object> recordHeader = new ArrayList<>();
-		recordHeader.addAll(leftVisibleColumnList);
-		recordHeader.addAll(rightVisibleColumnList);
 
 		List<String> leftHeaderList = new ArrayList<>(Arrays.asList(tableConfig.getLeftTableVisibleHeader()));
 		List<String> rightHeaderList = new ArrayList<>(Arrays.asList(tableConfig.getRightTableVisibleHeader()));

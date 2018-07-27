@@ -590,7 +590,7 @@ public class CFFLogic {
      * @return
      */
     public List getParametersForCffSearch(CFFSearchDTO binderDto) {
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.FIFTEEN);
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Connection connection = null;
         try {
@@ -1144,11 +1144,7 @@ public class CFFLogic {
 
 
     public String getNoOfLevelFromJbpm(SessionDTO sessionDTO, String cffMasterSid, String userId) {
-        Map<String, Object> params = new HashMap<>();
         String noOfLevel = StringUtils.EMPTY;
-        WorkflowRuleDTO dto = new WorkflowRuleDTO();
-        params.put("out_workflowDTO", dto);
-        params.put(StringConstantsUtil.PROJECTION_ID, cffMasterSid);
         if (null == sessionDTO.getWorkflowStatus()) {
             try {
                 List<String> roleList = new ArrayList<>();

@@ -652,11 +652,6 @@ public class DataSelection extends CustomComponent implements View {
                 String msg = StringUtils.EMPTY;
                 if (modeOption.getValue() != null && Constant.ADD_SMALL.equals(modeOption.getValue())) {
                     // Save the Projection
-                    List<DataSelectionDTO> ProductSelected = new ArrayList<>();
-                    for (int i = 0; i < selectedProductBean.size(); i++) {
-                        DataSelectionDTO dataSelectionDto = (DataSelectionDTO) selectedProductBean.getIdByIndex(i);
-                        ProductSelected.add(dataSelectionDto);
-                    }
                     try {
                         dataSelectionBinder.commit();
                     } catch (FieldGroup.CommitException e) {

@@ -120,7 +120,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
         }
     }
 
-    protected void configureFields() {
+    protected final void configureFields() {
         excelBtn1.setIcon(excelExportImage);
         excelBtn2.setIcon(excelExportImage);
         currentTradingPartnerTableLayout.addComponent(currentTradingPartnerTable);

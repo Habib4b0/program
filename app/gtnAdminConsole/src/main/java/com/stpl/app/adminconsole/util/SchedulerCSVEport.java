@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 public class SchedulerCSVEport {
 
 	private static final String CREATE_WORK_SHEET_CONTENT = "createWorkSheetContent";
-	private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 	public final static char QUOTE = '"';
 	private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerCSVEport.class);
 	private static boolean isFileCreated;
@@ -115,6 +114,7 @@ public class SchedulerCSVEport {
 
 	public static void createFileContent(Object[] visibleColumns, List searchList, PrintWriter printWriter)
 			throws NoSuchFieldException, IllegalAccessException {
+            final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 		for (Object value : searchList) {
 			StringBuilder builder = new StringBuilder();
 			for (int i = 0; i < visibleColumns.length; i++) {
