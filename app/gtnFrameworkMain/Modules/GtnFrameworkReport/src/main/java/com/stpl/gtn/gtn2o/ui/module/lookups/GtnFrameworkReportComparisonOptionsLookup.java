@@ -84,6 +84,8 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		comparisonOptionsPanelConfig.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		comparisonOptionsPanelConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "comparisonOptionsPanel");
+		comparisonOptionsPanelConfig.addComponentStyle("stpl-margin-left-9px");
+		comparisonOptionsPanelConfig.addComponentStyle("stpl-margin-top-11");
 		comparisonOptionsPanelConfig.setComponentName("Comparison Options");
 		comparisonOptionsPanelConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
@@ -102,7 +104,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "comparisonOptionsLayout");
 		comparisonOptionsLayoutConfig.setComponentName("Comparison Options Layout");
 		comparisonOptionsLayoutConfig.setAddToParent(true);
-		comparisonOptionsLayoutConfig.setComponentWidth("102%");
+		comparisonOptionsLayoutConfig.setComponentWidth("98%");
 		comparisonOptionsLayoutConfig.setParentComponentId(
 				namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "comparisonOptionsPanel");
 		comparisonOptionsLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
@@ -119,6 +121,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 	private void addComparisonBasisComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig comparisonBasisConfig = layoutsConfig
 				.getHorizontalLayoutConfig("comparisonBasisConfig", parentId);
+		comparisonBasisConfig.addComponentStyle("v-margin-custom-style-10");
 		componentList.add(comparisonBasisConfig);
 
 		GtnUIFrameworkComponentConfig comparisonBasis = new GtnUIFrameworkComponentConfig();
@@ -127,13 +130,17 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		comparisonBasis.setComponentName("Comparison Basis: ");
 		comparisonBasis.setAddToParent(true);
 		comparisonBasis.setParentComponentId(comparisonBasisConfig.getComponentId());
+		comparisonBasis.addComponentStyle("stpl-margin-left-10");
 		comparisonBasis.setEnable(false);
+		comparisonBasis.setComponentHight("32px");
 		componentList.add(comparisonBasis);
 	}
 
 	private void addFrequencyComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig frequencyConfig = layoutsConfig.getHorizontalLayoutConfig("frequencyConfig",
 				parentId);
+		frequencyConfig.addComponentStyle("v-margin-custom-style-10");
+
 		componentList.add(frequencyConfig);
 
 		GtnUIFrameworkComponentConfig frequency = new GtnUIFrameworkComponentConfig();
@@ -143,13 +150,16 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		frequency.setAddToParent(true);
 		frequency.setParentComponentId(frequencyConfig.getComponentId());
 		frequency.setEnable(false);
-
+		frequency.addComponentStyle("stpl-margin-left-10");
+		frequency.setComponentHight("32px");
 		componentList.add(frequency);
 	}
 
 	private void addPeriodRangeFromComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig periodRangeFromConfig = layoutsConfig
 				.getHorizontalLayoutConfig("periodRangeFromConfig", parentId);
+		periodRangeFromConfig.addComponentStyle("v-margin-custom-style-10");
+
 		componentList.add(periodRangeFromConfig);
 
 		GtnUIFrameworkComponentConfig periodRangeFrom = new GtnUIFrameworkComponentConfig();
@@ -159,13 +169,16 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		periodRangeFrom.setAddToParent(true);
 		periodRangeFrom.setParentComponentId(periodRangeFromConfig.getComponentId());
 		periodRangeFrom.setEnable(false);
-
+		periodRangeFrom.addComponentStyle("stpl-margin-left-10");
+		periodRangeFrom.setComponentHight("32px");
 		componentList.add(periodRangeFrom);
 	}
 
 	private void addPeriodRangeToComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig periodRangeToConfig = layoutsConfig
 				.getHorizontalLayoutConfig("periodRangeToConfig", parentId);
+		periodRangeToConfig.addComponentStyle("v-margin-custom-style-10");
+
 		componentList.add(periodRangeToConfig);
 
 		GtnUIFrameworkComponentConfig periodRangeTo = new GtnUIFrameworkComponentConfig();
@@ -175,7 +188,8 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		periodRangeTo.setAddToParent(true);
 		periodRangeTo.setParentComponentId(periodRangeToConfig.getComponentId());
 		periodRangeTo.setEnable(false);
-
+		periodRangeTo.addComponentStyle("stpl-margin-left-10");
+		periodRangeTo.setComponentHight("32px");
 		componentList.add(periodRangeTo);
 	}
 
@@ -187,6 +201,8 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		massUpdatePanelConfig.setComponentName("Mass Update");
 		massUpdatePanelConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
+		massUpdatePanelConfig.addComponentStyle("stpl-margin-left-9px");
+		massUpdatePanelConfig.addComponentStyle("stpl-margin-top-11");
 		massUpdatePanelConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		massUpdatePanelConfig.setAddToParent(true);
 		componentList.add(massUpdatePanelConfig);
@@ -202,7 +218,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "massUpdateLayout");
 		massUpdateLayoutConfig.setComponentName("MassUpdateLayout");
 		massUpdateLayoutConfig.setAddToParent(true);
-		massUpdateLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		massUpdateLayoutConfig.setComponentWidth("98%");
 		massUpdateLayoutConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "massUpdatePanel");
 		massUpdateLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.POPUP_TEXTBOX_STYLE);
@@ -220,6 +236,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 	private void addValueComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
 			String namespace) {
 		GtnUIFrameworkComponentConfig valueConfig = layoutsConfig.getHorizontalLayoutConfig("valueConfig", parentId);
+		valueConfig.addComponentStyle("v-margin-custom-style-10");
 		componentList.add(valueConfig);
 
 		GtnUIFrameworkComponentConfig value = new GtnUIFrameworkComponentConfig();
@@ -227,6 +244,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		value.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "value");
 		value.setComponentName("Value: ");
 		value.setAddToParent(true);
+
 		value.setParentComponentId(valueConfig.getComponentId());
 		GtnUIFrameworkComboBoxConfig comparisonBreakdownValueLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		comparisonBreakdownValueLoadConfig.setModuleName(GtnFrameworkReportStringConstants.REPORT);
@@ -240,6 +258,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 			String namespace) {
 		GtnUIFrameworkComponentConfig comparisonConfig = layoutsConfig.getHorizontalLayoutConfig("comparisonConfig",
 				parentId);
+		comparisonConfig.addComponentStyle("v-margin-custom-style-10");
 		componentList.add(comparisonConfig);
 
 		GtnUIFrameworkComponentConfig comparison = new GtnUIFrameworkComponentConfig();
@@ -247,6 +266,9 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		comparison.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "comparison");
 		comparison.setComponentName("Comparison: ");
 		comparison.setAddToParent(true);
+
+		comparison.addComponentStyle("stpl-margin-left-10");
+		comparison.setComponentHight("32px");
 		comparison.setParentComponentId(comparisonConfig.getComponentId());
 		GtnUIFrameworkComboBoxConfig comparisonBreakdownComparisonBreakdownLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		comparisonBreakdownComparisonBreakdownLoadConfig.setModuleName(GtnFrameworkReportStringConstants.REPORT);
@@ -260,6 +282,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 			String namespace) {
 		GtnUIFrameworkComponentConfig startPeriodConfig = layoutsConfig.getHorizontalLayoutConfig("startPeriodConfig",
 				parentId);
+		startPeriodConfig.addComponentStyle("v-margin-custom-style-10");
 		componentList.add(startPeriodConfig);
 
 		GtnUIFrameworkComponentConfig startPeriod = new GtnUIFrameworkComponentConfig();
@@ -267,6 +290,8 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		startPeriod.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "startPeriod");
 		startPeriod.setComponentName("Start Period: ");
 		startPeriod.setAddToParent(true);
+		startPeriod.addComponentStyle("stpl-margin-left-10");
+		startPeriod.setComponentHight("32px");
 		startPeriod.setParentComponentId(startPeriodConfig.getComponentId());
 		GtnUIFrameworkComboBoxConfig startPeriodLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		startPeriodLoadConfig.setModuleName(GtnFrameworkReportStringConstants.REPORT);
@@ -281,6 +306,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 			String namespace) {
 		GtnUIFrameworkComponentConfig endPeriodConfig = layoutsConfig.getHorizontalLayoutConfig("endPeriodConfig",
 				parentId);
+		endPeriodConfig.addComponentStyle("v-margin-custom-style-10");
 		componentList.add(endPeriodConfig);
 
 		GtnUIFrameworkComponentConfig endPeriod = new GtnUIFrameworkComponentConfig();
@@ -288,6 +314,8 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		endPeriod.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE + "endPeriod");
 		endPeriod.setComponentName("End Period: ");
 		endPeriod.setAddToParent(true);
+		endPeriod.addComponentStyle("stpl-margin-left-10");
+		endPeriod.setComponentHight("32px");
 		endPeriod.setParentComponentId(endPeriodConfig.getComponentId());
 		GtnUIFrameworkComboBoxConfig endPeriodLoadConfig = new GtnUIFrameworkComboBoxConfig();
 		endPeriodLoadConfig.setModuleName(GtnFrameworkReportStringConstants.REPORT);
@@ -404,16 +432,19 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		comparisonBreakdownResultsPanel.setParentComponentId(parentId);
 		comparisonBreakdownResultsPanel.setAddToParent(true);
 		comparisonBreakdownResultsPanel.setComponentName("Time Period");
+		comparisonBreakdownResultsPanel.addComponentStyle("stpl-margin-left-9px");
+		comparisonBreakdownResultsPanel.addComponentStyle("stpl-margin-top-11");
 		comparisonBreakdownResultsPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(comparisonBreakdownResultsPanel);
 
 		GtnUIFrameworkLayoutConfig comparisonBreakdownColLayout = new GtnUIFrameworkLayoutConfig();
-		comparisonBreakdownColLayout.setLayoutType(GtnUIFrameworkLayoutType.COL2_LAYOUT);
+		comparisonBreakdownColLayout.setLayoutType(GtnUIFrameworkLayoutType.HORIZONTAL_LAYOUT);
 		GtnUIFrameworkComponentConfig variableBreakdownResultsLayout = new GtnUIFrameworkComponentConfig();
 		variableBreakdownResultsLayout.setComponentId("comparisonBreakdownResultsLayout");
 		variableBreakdownResultsLayout.setParentComponentId(comparisonBreakdownResultsPanel.getComponentId());
 		variableBreakdownResultsLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		variableBreakdownResultsLayout.setGtnLayoutConfig(comparisonBreakdownColLayout);
+		variableBreakdownResultsLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		variableBreakdownResultsLayout.setAddToParent(true);
 
 		componentList.add(variableBreakdownResultsLayout);
@@ -459,6 +490,7 @@ public class GtnFrameworkReportComparisonOptionsLookup {
 		comparisonBreakdownLookupResultsPagedTableConfig
 				.setGridColumnHeader(GtnWsReportConstants.GTN_WS_REPORT_COMPARISON_BREAKDOWN_TABLE_HEADERS_SERVICE);
 		comparisonBreakdownLookupResultsPagedTableConfig.setEnableCheckBoxInGridHeader(true);
+		comparisonBreakdownLookupResultsPagedTableConfig.setPaginationOff(true);
 
 		comparisonBreakdownLookupResultsPagedTableConfig.setTableColumnDataType(new Class<?>[] {
 				GtnFrameworkCommonConstants.JAVA_LANG_STRING, GtnFrameworkCommonConstants.JAVA_LANG_STRING,

@@ -164,13 +164,9 @@ public class GtnFrameworkReportingComparisonOptionsGroupValuesLoadingAction
 	}
 
 	private void getValueList(List<String> valueList, int i) {
-		for (int j = 0; j <= i; j++)
-			if(j>0){
+		for (int j = 1; j <= i; j++)		
 			valueList.add("-" + j);
-			}
-			else{
-				valueList.add(String.valueOf(j));
-			}
+			
 	}
 
 	@Override
