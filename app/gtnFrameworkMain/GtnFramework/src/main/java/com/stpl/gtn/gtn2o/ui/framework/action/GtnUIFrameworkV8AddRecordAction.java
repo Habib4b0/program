@@ -37,11 +37,11 @@ public class GtnUIFrameworkV8AddRecordAction implements GtnUIFrameWorkAction {
 		GtnUIFrameworkComponentData availableGridData = (GtnUIFrameworkComponentData) availableGrid.getData();
 		PagedGrid availablePagedGrid = availableGridData.getPagedGrid();
 		Set<GtnWsRecordBean> recordBeans = availableGridData.getPagedGrid().getValue();
-		GtnWsRecordBean selectedRecord = recordBeans.isEmpty() ? null : recordBeans.iterator().next();
-
-		recordBean.setRecordHeader(selectedRecord.getRecordHeader());
-		recordBean.setProperties(selectedRecord.getProperties());
-
+		          GtnWsRecordBean selectedRecord = recordBeans.isEmpty() ? null : recordBeans.iterator().next();
+            if (selectedRecord != null) {
+                recordBean.setRecordHeader(selectedRecord.getRecordHeader());
+                recordBean.setProperties(selectedRecord.getProperties());
+            }
 		if (parameters.size() > 2) {
 			for (int i = 2; i < parameters.size(); i++) {
 				recordBean.addAdditionalProperty(parameters.get(i));

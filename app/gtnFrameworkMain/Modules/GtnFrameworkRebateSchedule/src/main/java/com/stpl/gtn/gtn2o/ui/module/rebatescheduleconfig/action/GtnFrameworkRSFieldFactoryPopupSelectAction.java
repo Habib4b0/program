@@ -51,7 +51,7 @@ public class GtnFrameworkRSFieldFactoryPopupSelectAction implements GtnUIFrameWo
 				.getVaadinBaseComponent(popupIdViewMap.get(propertId)).getComponentConfig();
 		List<GtnUIFrameWorkActionConfig> rsActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig psSelectAction = new GtnUIFrameWorkActionConfig();
-		List<Object> rsActionParameter = new ArrayList<>();
+		List<Object> rsActionParameter = new ArrayList<>(15);
 
 		if (propertId.equals(GtnFrameworkCommonConstants.FORMULA_NO)) {
 

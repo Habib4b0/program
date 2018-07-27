@@ -1612,7 +1612,7 @@ public class SalesLogic {
     public void saveCheckRecord(final ProjectionSelectionDTO projectionDTO, final String checkedRecord, final boolean isSaveCheck, final String queryName) throws PortalException {
         try {
             Map<String, Object> parameters = new HashMap<>();
-            Map<String, String> input = new HashMap<>();
+            Map<String, String> input = new HashMap<>(NumericConstants.FIFTEEN);
             Map<String, String> join = new HashMap<>();
             String[] splitArray = null;
             if (!StringUtils.isBlank(checkedRecord)) {

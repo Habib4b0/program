@@ -267,7 +267,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
 
     @Override
     public List getInput() {
-        List input = new ArrayList();
+        List input = new ArrayList(NumericConstants.FIFTEEN);
         if (selectionDto.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
             input.add(AbstractLogic.getItemIds(getSelectedItemList()));
         }

@@ -76,7 +76,6 @@ border-radius: 0px;
 height: auto!important;
 }
 
-
 	th.v-treegrid-cell {
 height: auto!important;
 }
@@ -101,11 +100,13 @@ margin-left: -18px;
 }
 .v-grid-scroller::-webkit-scrollbar-thumb {
 border-radius: 0px !important;
+border: 3px solid transparent;
 }
 
 .datefieldcentered >input {
     text-align: center;
 }
+
 .v-grid-cell {
     font-size: 13px; 
 }
@@ -119,5 +120,8 @@ border-radius: 0px !important;
 .v-grid-column-header-content,.v-grid-column-footer-content {
     font-size: 12px; 
     font-weight: 600; 
+}
+#reportCustomViewLookup_custom_Variable_OptionGroup>span:nth-child(1){
+	margin-right: 52px;
 }
 }

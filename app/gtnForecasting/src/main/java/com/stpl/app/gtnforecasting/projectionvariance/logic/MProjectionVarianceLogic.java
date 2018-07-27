@@ -123,52 +123,52 @@ public class MProjectionVarianceLogic {
         String asterik = "*";
         String percent = Constant.PERCENT;
 
-        String marketTypeVal;
-        String brandVal;
-        String projNameVal;
+        String marketTypeValue;
+        String brandValue;
+        String projNameValue;
         String desc = StringUtils.EMPTY;
-        String customer;
-        String ndcNoVal;
-        String ndcNameVal;
-        String contractVal;
+        String customerAtProjCount;
+        String ndcNoValue;
+        String ndcNameValue;
+        String contractValue;
         boolean isProjectionStatus = false;
         try {
-            StringBuilder customSql = new StringBuilder();
+            StringBuilder countCustomSql = new StringBuilder();
 
             if (Constant.SAVED.equals(lookUpDTO.getWorkflowStatus())) {
                 isProjectionStatus = true;
             }
-            customSql.append("SELECT distinct Count(CO.CONTRACT_MASTER_SID) FROM   CONTRACT_MASTER CO \n"
+            countCustomSql.append("SELECT distinct Count(CO.CONTRACT_MASTER_SID) FROM   CONTRACT_MASTER CO \n"
                     + "JOIN HELPER_TABLE HT ON CO.CONTRACT_TYPE = HT.HELPER_TABLE_SID \n"
                     + "JOIN CCP_DETAILS CCP ON CCP.CONTRACT_MASTER_SID = CO.CONTRACT_MASTER_SID \n"
                     + "JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID \n"
                     + " JOIN PROJECTION_DETAILS CUR_PD ON CUR_PD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID \n"
                     + "JOIN PROJECTION_MASTER PM ON PM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID \n");
             if (!isProjectionStatus) {
-                customSql.append("       JOIN workflow_master WM \n"
+                countCustomSql.append("       JOIN workflow_master WM \n"
                         + "         ON PM.projection_master_sid = WM.projection_master_sid \n"
                         + "       JOIN helper_table HT1 \n"
                         + "         ON HT1.helper_table_sid = WM.workflow_status_id ");
             }
-            customSql.append("JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID \n"
+            countCustomSql.append("JOIN COMPANY_MASTER CM ON CCP.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID \n"
                     + "JOIN ITEM_MASTER IM ON CCP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID \n"
                     + "LEFT JOIN BRAND_MASTER BM ON BM.BRAND_MASTER_SID = im.BRAND_MASTER_SID WHERE ");
 
             if (lookUpDTO.getMarketType() == null || lookUpDTO.getMarketType().equals(StringUtils.EMPTY)) {
-                marketTypeVal = "'%'";
+                marketTypeValue = "'%'";
             } else {
-                marketTypeVal = lookUpDTO.getMarketType().replace('*', '%');
-                marketTypeVal = quotes + marketTypeVal + quotes;
+                marketTypeValue = lookUpDTO.getMarketType().replace('*', '%');
+                marketTypeValue = quotes + marketTypeValue + quotes;
             }
-            customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(')');
+            countCustomSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeValue).append(')');
 
             if (lookUpDTO.getBrand() == null || lookUpDTO.getBrand().equals(StringUtils.EMPTY)) {
-                brandVal = "'%'";
+                brandValue = "'%'";
             } else {
-                brandVal = lookUpDTO.getBrand().replace('*', '%');
-                brandVal = quotes + brandVal + quotes;
+                brandValue = lookUpDTO.getBrand().replace('*', '%');
+                brandValue = quotes + brandValue + quotes;
             }
-            customSql.append("  AND (BM.BRAND_NAME LIKE ").append(brandVal).append(" or BM.BRAND_NAME is null)");
+            countCustomSql.append("  AND (BM.BRAND_NAME LIKE ").append(brandValue).append(" or BM.BRAND_NAME is null)");
 
             if (lookUpDTO.getProjectionDescription() == null || lookUpDTO.getProjectionDescription().equals(StringUtils.EMPTY)) {
                 desc = "'%'";
@@ -176,63 +176,63 @@ public class MProjectionVarianceLogic {
                 desc = lookUpDTO.getProjectionDescription().replace('*', '%');
                 desc = quotes + desc + quotes;
             }
-            customSql.append("AND (PM.PROJECTION_DESCRIPTION LIKE ").append(desc).append(" or PM.PROJECTION_DESCRIPTION is null)");
+            countCustomSql.append("AND (PM.PROJECTION_DESCRIPTION LIKE ").append(desc).append(" or PM.PROJECTION_DESCRIPTION is null)");
 
             if (lookUpDTO.getProjectionName() == null || lookUpDTO.getProjectionName().equals(StringUtils.EMPTY)) {
-                projNameVal = "'%'";
+                projNameValue = "'%'";
             } else {
-                projNameVal = lookUpDTO.getProjectionName().replace('*', '%');
-                projNameVal = quotes + projNameVal + quotes;
+                projNameValue = lookUpDTO.getProjectionName().replace('*', '%');
+                projNameValue = quotes + projNameValue + quotes;
             }
-            customSql.append("AND (PM.PROJECTION_NAME LIKE ").append(projNameVal).append(" or PM.PROJECTION_NAME is null)");
+            countCustomSql.append("AND (PM.PROJECTION_NAME LIKE ").append(projNameValue).append(" or PM.PROJECTION_NAME is null)");
 
             if (lookUpDTO.getContract() == null || lookUpDTO.getContract().equals(StringUtils.EMPTY)) {
-                contractVal = "'%'";
+                contractValue = "'%'";
             } else {
-                contractVal = lookUpDTO.getContract().replace('*', '%');
-                contractVal = quotes + contractVal + quotes;
+                contractValue = lookUpDTO.getContract().replace('*', '%');
+                contractValue = quotes + contractValue + quotes;
             }
-            customSql.append("AND (CO.CONTRACT_NO LIKE ").append(contractVal).append(" or CO.CONTRACT_NO is null)");
+            countCustomSql.append("AND (CO.CONTRACT_NO LIKE ").append(contractValue).append(" or CO.CONTRACT_NO is null)");
 
             if (lookUpDTO.getNdcName() == null || lookUpDTO.getNdcName().equals(StringUtils.EMPTY)) {
-                ndcNameVal = "'%'";
+                ndcNameValue = "'%'";
             } else {
-                ndcNameVal = lookUpDTO.getNdcName().replace('*', '%');
-                ndcNameVal = quotes + ndcNameVal + quotes;
+                ndcNameValue = lookUpDTO.getNdcName().replace('*', '%');
+                ndcNameValue = quotes + ndcNameValue + quotes;
             }
-            customSql.append("AND (IM.ITEM_NAME LIKE ").append(ndcNameVal).append(" or IM.ITEM_NAME is null)");
+            countCustomSql.append("AND (IM.ITEM_NAME LIKE ").append(ndcNameValue).append(" or IM.ITEM_NAME is null)");
             if (lookUpDTO.getNdcNo() == null || lookUpDTO.getNdcNo().equals(StringUtils.EMPTY)) {
-                ndcNoVal = "'%'";
+                ndcNoValue = "'%'";
             } else {
-                ndcNoVal = lookUpDTO.getNdcNo().replace('*', '%');
-                ndcNoVal = quotes + ndcNoVal + quotes;
+                ndcNoValue = lookUpDTO.getNdcNo().replace('*', '%');
+                ndcNoValue = quotes + ndcNoValue + quotes;
             }
-            customSql.append("AND (IM.ITEM_NO LIKE ").append(ndcNoVal).append("or IM.ITEM_NO is null)");
+            countCustomSql.append("AND (IM.ITEM_NO LIKE ").append(ndcNoValue).append("or IM.ITEM_NO is null)");
             if (lookUpDTO.getCustomer() == null || lookUpDTO.getCustomer().equals(StringUtils.EMPTY)) {
-                customer = "'%'";
+                customerAtProjCount = "'%'";
             } else {
-                customer = lookUpDTO.getCustomer().replace('*', '%');
-                customer = quotes + customer + quotes;
+                customerAtProjCount = lookUpDTO.getCustomer().replace('*', '%');
+                customerAtProjCount = quotes + customerAtProjCount + quotes;
             }
-            customSql.append("AND (CM.COMPANY_NO LIKE ").append(customer).append("or CM.COMPANY_NO is null)");
+            countCustomSql.append("AND (CM.COMPANY_NO LIKE ").append(customerAtProjCount).append("or CM.COMPANY_NO is null)");
 
             if (lookUpDTO.getCreatedDateFrom() != null
                     && !Constant.NULL.equals(lookUpDTO.getCreatedDateTo()) && !StringUtils.isEmpty(lookUpDTO.getCreatedDateTo())) {
                 SimpleDateFormat format2 = new SimpleDateFormat(DATE_FORMAT.getConstant());
-                customSql.append(" AND PM.CREATED_DATE BETWEEN '");
-                customSql.append(format2.format(lookUpDTO.getCreatedDateFrom()));
-                customSql.append(Constant.AND_SPACE);
-                customSql.append(format2.format(format2.parse(lookUpDTO.getCreatedDateTo())));
-                customSql.append("' ");
+                countCustomSql.append(" AND PM.CREATED_DATE BETWEEN '");
+                countCustomSql.append(format2.format(lookUpDTO.getCreatedDateFrom()));
+                countCustomSql.append(Constant.AND_SPACE);
+                countCustomSql.append(format2.format(format2.parse(lookUpDTO.getCreatedDateTo())));
+                countCustomSql.append("' ");
             }
             if (isProjectionStatus) {
-                customSql.append("and pm.is_approved not in ('Y','C','A','R')");
+                countCustomSql.append("and pm.is_approved not in ('Y','C','A','R')");
             } else {
-                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " ).append( quotes ).append( lookUpDTO.getWorkflowStatus() ).append( quotes);
+                countCustomSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " ).append( quotes ).append( lookUpDTO.getWorkflowStatus() ).append( quotes);
             }
-            customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (").append(selectedProjectionIds).append(')');
-            customSql.append("AND CUR_PD.PROJECTION_MASTER_SID =").append(selectedProjectionIds);
-            customSql.append(" AND PM.FORECASTING_TYPE='Mandated'");
+            countCustomSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (").append(selectedProjectionIds).append(')');
+            countCustomSql.append("AND CUR_PD.PROJECTION_MASTER_SID =").append(selectedProjectionIds);
+            countCustomSql.append(" AND PM.FORECASTING_TYPE='Mandated'");
             if (filterValue != null) {
                 for (Container.Filter filter : filterValue) {
 
@@ -241,23 +241,23 @@ public class MProjectionVarianceLogic {
                         if (StringUtils.isNotBlank(stringFilter.getFilterString()) && !Constant.NULL.equals(stringFilter.getFilterString())) {
                             String filterString = "'%" + stringFilter.getFilterString() + "%'";
                             if (Constant.PROJECTION_NAME.equals(stringFilter.getPropertyId())) {
-                                customSql.append("AND PM.PROJECTION_NAME LIKE ").append(filterString);
+                                countCustomSql.append("AND PM.PROJECTION_NAME LIKE ").append(filterString);
                             } else if (Constant.PROJECTIONDESCRIPTION.equals(stringFilter.getPropertyId())) {
-                                customSql.append("AND PM.PROJECTION_DESCRIPTION LIKE ").append(filterString);
+                                countCustomSql.append("AND PM.PROJECTION_DESCRIPTION LIKE ").append(filterString);
                             } else if (Constant.MARKET_TYPE.equals(stringFilter.getPropertyId())) {
-                                customSql.append("AND CO.CONTRACT_TYPE LIKE ").append(filterString);
+                                countCustomSql.append("AND CO.CONTRACT_TYPE LIKE ").append(filterString);
                             } else if (Constant.CUSTOMER1_SMALL.equals(stringFilter.getPropertyId())) {
-                                customSql.append("AND CM.COMPANY_NO LIKE ").append(filterString);
+                                countCustomSql.append("AND CM.COMPANY_NO LIKE ").append(filterString);
                             } else if (Constant.CONTRACT.equals(stringFilter.getPropertyId())) {
-                                customSql.append("AND CO.CONTRACT_NO LIKE ").append(filterString);
+                                countCustomSql.append("AND CO.CONTRACT_NO LIKE ").append(filterString);
                             } else if (Constant.BRAND.equals(stringFilter.getPropertyId())) {
-                                customSql.append("AND BM.BRAND_NAME LIKE ").append(filterString);
+                                countCustomSql.append("AND BM.BRAND_NAME LIKE ").append(filterString);
                             } else if ("ndcNo".equals(stringFilter.getPropertyId())) {
-                                customSql.append("AND IM.ITEM_NO LIKE ").append(filterString);
+                                countCustomSql.append("AND IM.ITEM_NO LIKE ").append(filterString);
                             } else if (Constant.NDC_NAME.equals(stringFilter.getPropertyId())) {
-                                customSql.append("AND IM.ITEM_NAME LIKE ").append(filterString);
+                                countCustomSql.append("AND IM.ITEM_NAME LIKE ").append(filterString);
                             } else if (Constant.CREATED_DATE_SMALL.equals(stringFilter.getPropertyId())) {
-                                customSql.append("AND PM.CREATED_DATE LIKE ").append(filterString);
+                                countCustomSql.append("AND PM.CREATED_DATE LIKE ").append(filterString);
                             } else if (Constant.CREATED_BY_SMALL.equals(stringFilter.getPropertyId())) {
                                 List<String> strList;
                                 final DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
@@ -269,7 +269,7 @@ public class MProjectionVarianceLogic {
                                 dynamicQuery.setProjection(productProjectionList);
                                 strList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
                                 String userID = CommonUtils.CollectionToString(strList, false);
-                                customSql.append("AND PM.CREATED_BY IN (").append(userID).append(')');
+                                countCustomSql.append("AND PM.CREATED_BY IN (").append(userID).append(')');
                             }
                         }
                     } else if (filter instanceof Between) {
@@ -278,28 +278,28 @@ public class MProjectionVarianceLogic {
                         Date endValue = (Date) betweenFilter.getEndValue();
                         SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00.0");
                         if (startValue != null && !StringUtils.EMPTY.equals(String.valueOf(startValue))) {
-                            customSql.append(" and PM.CREATED_DATE >= '").append(outputDateFormat.format(startValue)).append("' ");
+                            countCustomSql.append(" and PM.CREATED_DATE >= '").append(outputDateFormat.format(startValue)).append("' ");
                         }
                         if (endValue != null && !StringUtils.EMPTY.equals(String.valueOf(endValue))) {
                             outputDateFormat = new SimpleDateFormat(YYYY_M_MDD_HH);
-                            customSql.append("  and PM.CREATED_DATE <= '").append(outputDateFormat.format(endValue)).append("' ");
+                            countCustomSql.append("  and PM.CREATED_DATE <= '").append(outputDateFormat.format(endValue)).append("' ");
                         }
                     } else if (filter instanceof Compare) {
                         Compare compare = (Compare) filter;
                         Date date = (Date) compare.getValue();
                         SimpleDateFormat outputDateFormat = new SimpleDateFormat(YYYY_MM_DD_ZERO);
                         if (Operation.GREATER.equals(compare.getOperation()) || Operation.GREATER_OR_EQUAL.equals(compare.getOperation())) {
-                            customSql.append(" and PM.CREATED_DATE >= '").append(outputDateFormat.format(date)).append("' ");
+                            countCustomSql.append(" and PM.CREATED_DATE >= '").append(outputDateFormat.format(date)).append("' ");
                         }
                         if (Operation.LESS.equals(compare.getOperation()) || Operation.LESS_OR_EQUAL.equals(compare.getOperation())) {
                             outputDateFormat = new SimpleDateFormat(YYYY_M_MDD_HH);
-                            customSql.append("  and PM.CREATED_DATE <= '").append(outputDateFormat.format(date)).append("' ");
+                            countCustomSql.append("  and PM.CREATED_DATE <= '").append(outputDateFormat.format(date)).append("' ");
                         }
                     }
                 }
             }
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-            List resultList = (List) salesProjectionDAO.executeSelectQuery(customSql.toString());
+            List resultList = (List) salesProjectionDAO.executeSelectQuery(countCustomSql.toString());
             int count = Integer.parseInt(String.valueOf(resultList.get(0)));
             return count;
         } catch (ParseException e) {
@@ -1336,7 +1336,7 @@ public class MProjectionVarianceLogic {
      * @return List
      */
     public List<ProjectionVarianceDTO> getCustPeriodVariance(final List<Object> gtsList, final List<Object> dataList, final PVSelectionDTO pvsdto, final ProjectionVarianceDTO parentDto, final PVSelectionDTO baseVariables) {
-        List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>();
+        List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>(NumericConstants.FIFTEEN);
         ProjectionVarianceDTO exFacValue = new ProjectionVarianceDTO();
         ProjectionVarianceDTO exFacVar = new ProjectionVarianceDTO();
         ProjectionVarianceDTO exFacPer = new ProjectionVarianceDTO();
