@@ -19,7 +19,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
-import com.stpl.gtn.gtn2o.ws.service.GtnWsReturnsDatabaseService;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsReturnBpmDbService;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsWorkFlowOpenViewService;
 import com.stpl.gtn.gtn2o.ws.service.userrole.GtnWsUserRoleService;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.constants.GtnWsWorkFlowConstants;
@@ -30,8 +30,8 @@ public class GtnWsWorkFlowOpenViewController {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsWorkFlowOpenViewController.class);
 
-	@Autowired
-	private GtnWsReturnsDatabaseService gtnWsReturnsDatabaseService;
+        @Autowired
+	private GtnWsReturnBpmDbService GtnWsReturnBpmDbService;
 
 	@Autowired
 	private GtnWsUserRoleService gtnWsUserRoleService;
@@ -40,10 +40,9 @@ public class GtnWsWorkFlowOpenViewController {
 		super();
 	}
 
-	public GtnWsWorkFlowOpenViewController(GtnWsReturnsDatabaseService gtnWsReturnsDatabaseService,
+	public GtnWsWorkFlowOpenViewController(
 			GtnWsUserRoleService gtnWsUserRoleService) {
 		super();
-		this.gtnWsReturnsDatabaseService = gtnWsReturnsDatabaseService;
 		this.gtnWsUserRoleService = gtnWsUserRoleService;
 	}
 
@@ -64,7 +63,7 @@ public class GtnWsWorkFlowOpenViewController {
 			String bpmOpenViewQuery = openviewWebservice.openviewSearchQuery();
 			Object[] bpmOpenViewQueryParams = { gtnWsRequest.getGtnWSCommonWorkflowRequest().getProcessInstanceId() };
 			@SuppressWarnings("unchecked")
-			List<Object[]> resultList = gtnWsReturnsDatabaseService.bpmexecuteQuery(bpmOpenViewQuery, bpmOpenViewQueryParams);
+			List<Object[]> resultList = GtnWsReturnBpmDbService.bpmexecuteQuery(bpmOpenViewQuery, bpmOpenViewQueryParams);
 			if (resultList != null) {
 				for (Object[] obj : resultList) {
 					roleList.add(String.valueOf(obj[1]));
