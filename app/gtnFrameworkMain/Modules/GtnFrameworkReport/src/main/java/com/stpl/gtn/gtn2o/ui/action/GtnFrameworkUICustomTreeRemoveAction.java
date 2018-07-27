@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkSkipActionException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsHierarchyType;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.Grid;
@@ -21,6 +22,9 @@ import com.vaadin.ui.TreeGrid;
 public class GtnFrameworkUICustomTreeRemoveAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
+	private static final GtnWSLogger GTNLOGGER = GtnWSLogger
+			.getGTNLogger(GtnFrameworkUICustomTreeRemoveAction.class);
+	
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -79,8 +83,15 @@ public class GtnFrameworkUICustomTreeRemoveAction
 
 	private void validateSameLevelToBeRemoved(TreeGrid<GtnWsRecordBean> rightGrid, GtnWsHierarchyType type,
 			String componentId) throws GtnFrameworkGeneralException {
+		
+		GTNLOGGER.info("Inside validateSameLevelToBeRemoved");
+		
 		GtnWsRecordBean selectedBean = rightGrid.getSelectedItems().iterator().next();
-		if (!selectedBean.getStringPropertyByIndex(3).equals(type.toString())) {
+		
+		GTNLOGGER.info("selectedBean.getStringPropertyByIndex(3): " + selectedBean.getStringPropertyByIndex(3).toLowerCase());
+		GTNLOGGER.info("type.toString(): " + type.toString());
+		
+		if (!type.toString().startsWith(selectedBean.getStringPropertyByIndex(3).toLowerCase())) {
 			GtnUIFrameWorkActionConfig invalidButtonNotificationConfig = new GtnUIFrameWorkActionConfig(
 					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 			String message = String.format("Level which is selected belogs to %s Hierarchy",
