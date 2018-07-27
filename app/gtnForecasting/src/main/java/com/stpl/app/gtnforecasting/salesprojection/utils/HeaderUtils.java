@@ -275,7 +275,7 @@ public class HeaderUtils {
                     commonColumn = str.insert(commonColumn.length() - NumericConstants.FOUR, '-').toString();
                 }
                 
-                int count_column = 0;
+                int countColumn = 0;
                 
                 String[] variableArr = new String[projSelDTO.getVariableList().size()];
                 variableArr = projSelDTO.getVariableList().toArray(variableArr);
@@ -343,7 +343,7 @@ public class HeaderUtils {
                                 columnConfigureSum(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM, commonHeader + PRODUCT_GROWTH1_SUM, excelHeader, dmapsum);
                                 singleColumnForExcel.add(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + PRODUCT_GROWTH1_SUM);//Ends here
-                                count_column  += 1; 
+                                countColumn  += 1; 
                                 LOGGER.info("inside PG");
                                 break;
                             case Constant.ACCOUNT_GROWTH:
@@ -354,7 +354,7 @@ public class HeaderUtils {
                                 columnConfigureSum(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM, commonHeader + Constant.ACCOUNT_GROWTH_1_SUM, excelHeader, dmapsum);
                                 singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1_SUM);//Ends here
-                                count_column  += 1; 
+                                countColumn  += 1; 
                                 LOGGER.info("inside AG");
                                 break;
                                 
@@ -363,10 +363,8 @@ public class HeaderUtils {
                         }
                     }
                     
-                    LOGGER.info("col count if: " + count_column);
-                    if(count_column != 0)
+                    if(countColumn != 0)
                     {
-                    	LOGGER.info("if");
                 		columnConfigureSum(commonColumn + Constant.CHILD_COUNT, commonHeader + Constant.CHILD_COUNT_HEADER, excelHeader, dmapsum);
                         singleColumnForExcel.add(commonColumn + Constant.CHILD_COUNT);//Added for tabwise excel export
                         singleHeaderForExcel.add(commonHeader + Constant.CHILD_COUNT_HEADER);//Ends here
@@ -397,7 +395,7 @@ public class HeaderUtils {
                                 columnConfigureSum(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM, commonHeader + PRODUCT_GROWTH1_SUM, excelHeader, dmapsum);
                                 singleColumnForExcel.add(commonColumn + Constant.PRODUCT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + PRODUCT_GROWTH1_SUM);//Ends here
-                                count_column  += 1; 
+                                countColumn  += 1; 
                                 LOGGER.info("inside PG");
                                 break;
                            
@@ -409,7 +407,7 @@ public class HeaderUtils {
                                 columnConfigureSum(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM, commonHeader + Constant.ACCOUNT_GROWTH_1_SUM, excelHeader, dmapsum);
                                 singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT_SUM);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1_SUM);//Ends here
-                                count_column  += 1; 
+                                countColumn  += 1; 
                                 LOGGER.info("inside AG");
                                 break;
                                 
@@ -419,7 +417,7 @@ public class HeaderUtils {
                         
                     }
                     // Added Count Column
-                    if(count_column != 0)
+                    if(countColumn != 0)
                     {
                 		columnConfigureSum(commonColumn + Constant.CHILD_COUNT, commonHeader + Constant.CHILD_COUNT_HEADER, excelHeader, dmapsum);
                         singleColumnForExcel.add(commonColumn + Constant.CHILD_COUNT);//Added for tabwise excel export

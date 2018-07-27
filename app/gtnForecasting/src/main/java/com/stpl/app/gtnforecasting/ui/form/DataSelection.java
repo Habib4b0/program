@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,7 +88,6 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.ComboBox;
-import java.util.HashMap;
 
 /**
  *
@@ -594,6 +594,9 @@ public class DataSelection extends ForecastDataSelection {
 	}
 
 	public final void configureOnLoading(int projectionId, DataSelectionDTO dataSelectionDTO) {
+		
+		boolean flag = Boolean.FALSE;
+		
 		session.setFromPeriod(dataSelectionDTO.getFromPeriod());
 		session.setToPeriod(dataSelectionDTO.getToPeriod());
 		session.setFromDate(dataSelectionDTO.getFromDate());
@@ -602,15 +605,15 @@ public class DataSelection extends ForecastDataSelection {
 		if (!CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
 			configureStartAndEndPeriods();
 		} else {
-			productLevel.setVisible(false);
-			customerLevel.setVisible(false);
-			productForecastLevelLabel.setVisible(false);
-			customerForecastLevelLabel.setVisible(false);
+			productLevel.setVisible(flag);
+			customerLevel.setVisible(flag);
+			productForecastLevelLabel.setVisible(flag);
+			customerForecastLevelLabel.setVisible(flag);
 		}
 		initializeProductHierarchy(projectionId, String.valueOf(dataSelectionDTO.getProductHierarchyLevel()));
 		setFirstTimeLoad(true);
 		initializeFromDto();
-		setFirstTimeLoad(false);
+		setFirstTimeLoad(flag);
 		if (!CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(screenName)) {
 			session.setCustomerHierarchyId(Integer.parseInt(dataSelectionDTO.getCustomerHierSid()));
 			initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()));

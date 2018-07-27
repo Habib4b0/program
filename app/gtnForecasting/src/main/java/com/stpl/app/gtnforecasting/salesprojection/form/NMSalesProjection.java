@@ -101,6 +101,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     public static final String CURRENCY_NO_DECIMAL = "currencyNoDecimal";
     public static final String UNIT_NO_DECIMAL = "unitNoDecimal";
     public static final String UNITS = "Units";
+    private static final String ACNT_GRWOTH = "AccountGrowth";
     
     protected CustomMenuBar.SubMenuCloseListener productListener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -228,7 +229,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     // Added for isAccountGrowth checking
                     boolean isAg = false;
                     for (Object propertyId : excelTable.getContainerPropertyIds()) {
-                        if (String.valueOf(propertyId).endsWith("AccountGrowth")) {
+                        if (String.valueOf(propertyId).endsWith(ACNT_GRWOTH)) {
                             isAg = true;
                             excelTable.setConverter(propertyId, percentFormat);
                         }
@@ -242,7 +243,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                      Map<String, String> formatterMap = new HashMap<>();
                      formatterMap.put(CURRENCY_NO_DECIMAL, SALES);
                      formatterMap.put(UNIT_NO_DECIMAL, UNITS);
-                     formatterMap.put("UNITTWODECIMAL", "AccountGrowth");
+                     formatterMap.put("UNITTWODECIMAL", ACNT_GRWOTH);
                      formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
                      
                      // Added PG_SUM and AG_SUM cols to fomatter map 
@@ -289,7 +290,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                  // Added for isAccountGrowth checking
                     boolean isAg = false;
                     for (Object propertyId : excelTable.getContainerPropertyIds()) {
-                        if (String.valueOf(propertyId).endsWith("AccountGrowth")) {
+                        if (String.valueOf(propertyId).endsWith(ACNT_GRWOTH)) {
                             isAg = true;
                             excelTable.setConverter(propertyId, percentFormat);
                         }
@@ -298,7 +299,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     Map<String, String> formatterMap = new HashMap<>();
                      formatterMap.put(CURRENCY_NO_DECIMAL, SALES);
                      formatterMap.put(UNIT_NO_DECIMAL, UNITS);
-                     formatterMap.put("UNITTWODECIMAL", "AccountGrowth");
+                     formatterMap.put("UNITTWODECIMAL", ACNT_GRWOTH);
                      formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
                      
                      // Added PG_SUM and AG_SUM cols to fomatter map 
@@ -1160,7 +1161,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     // Added for isAccountGrowth checking
                     boolean isAg = false;
                     for (Object propertyId : excelTable.getContainerPropertyIds()) {
-                        if (String.valueOf(propertyId).endsWith("AccountGrowth")) {
+                        if (String.valueOf(propertyId).endsWith(ACNT_GRWOTH)) {
                             isAg = true;
                             excelTable.setConverter(propertyId, percentFormat);
                         }
@@ -1197,8 +1198,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 excelTable.setColumnHeaders(Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class));
                 tableLayout.addComponent(excelTable);
                 exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false);
-                
-                LOGGER.info("excel export started: " + exp);
                 
                 exp.export();
             }
