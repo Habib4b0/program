@@ -14,7 +14,6 @@ import com.vaadin.data.TreeData;
 import com.vaadin.data.provider.TreeDataProvider;
 import com.vaadin.event.CollapseEvent;
 import com.vaadin.event.ExpandEvent;
-import com.vaadin.shared.Registration;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -81,7 +80,6 @@ public class PagedTreeGrid {
         try {
             this.tableConfig = tableConfig;
             this.componentConfig = componentConfig;
-            gtnlogger.info("count>>>" + count);
             grid = new TreeGrid<>();
             initalizeColumnController();
            

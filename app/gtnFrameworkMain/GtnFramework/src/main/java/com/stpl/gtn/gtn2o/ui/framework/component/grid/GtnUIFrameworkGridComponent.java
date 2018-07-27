@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.grid;
 
 import java.util.Collections;
+import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
@@ -37,9 +38,18 @@ public class GtnUIFrameworkGridComponent implements GtnUIFrameworkComponent, Gtn
 		grid.setWidth(componentConfig.getComponentWidth());
 		grid.setCaption(componentConfig.getComponentName());
 		grid.setHeight(componentConfig.getComponentHight());
+		loadStyles(grid, componentConfig.getComponentStyle());
 		generateColumns(grid, componentConfig.getGtnUIFrameWorkGridConfig());
 		setComponentData(grid, componentConfig);
 		return grid;
+	}
+
+	private void loadStyles(Grid<GtnWsRecordBean> grid, List<String> styleForGrid) {
+		if (styleForGrid != null) {
+			for (String styleText : styleForGrid) {
+				grid.addStyleName(styleText);
+			}
+		}		
 	}
 
 	private void generateColumns(Grid<GtnWsRecordBean> grid,

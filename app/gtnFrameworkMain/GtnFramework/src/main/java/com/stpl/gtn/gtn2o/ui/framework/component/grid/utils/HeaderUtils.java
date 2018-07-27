@@ -71,8 +71,8 @@ public class HeaderUtils {
             String header = pagedTreeGrid.getTableConfig().getLeftTableVisibleHeader()[j];
             pagedTreeGrid.getGrid().addColumn((GtnWsRecordBean row) -> row.getPropertyValue(column)).setCaption(header).setId(column).setWidth(170);
         }
-        List<Object> currentSingleColumns = pagedTreeGrid.getTableConfig().getVisibleColumns().stream().skip(columnStart + leftColumns.size()
-        ).limit(columnEnd).distinct().collect(Collectors.toList());
+        List<Object> currentSingleColumns = pagedTreeGrid.getTableConfig().getVisibleColumns().stream().skip(Long.parseLong(String.valueOf(columnStart)) + leftColumns.size()
+            ).limit(columnEnd).distinct().collect(Collectors.toList());
         for (int j = 0; j < currentSingleColumns.size(); j++) {
             String column = (currentSingleColumns.get(j)).toString();
             String header = pagedTreeGrid.getTableConfig().getRightTableVisibleHeader()[columnStart + j];

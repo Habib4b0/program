@@ -49,7 +49,7 @@ public class NotesTabLogic {
 		try {
 			docDetailsList = MasterDataFilesLocalServiceUtil.dynamicQuery(docDetailsDynamicQuery);
 
-			if (docDetailsList != null && docDetailsList.size() > 0) {
+			if (docDetailsList != null && !docDetailsList.isEmpty()) {
 				for (MasterDataFiles docDetails : docDetailsList) {
 					NotesDTO attachmentDTO = new NotesDTO();
 					attachmentDTO.setDocDetailsId(docDetails.getMasterDataFilesSid());
@@ -78,7 +78,7 @@ public class NotesTabLogic {
 
 	public void saveUploadedInformation(List<NotesDTO> availableUploadedInformation, String moduleName, int moduleSystemId) throws SystemException, PortalException {
 
-		if (availableUploadedInformation != null && availableUploadedInformation.size() > 0) {
+		if (availableUploadedInformation != null && !availableUploadedInformation.isEmpty()) {
 
 			for (NotesDTO uploadDetails : availableUploadedInformation) {
                             MasterDataFiles masterDataFiles ;
