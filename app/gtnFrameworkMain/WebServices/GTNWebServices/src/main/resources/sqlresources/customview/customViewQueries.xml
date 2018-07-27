@@ -179,7 +179,7 @@ WHERE
 	from
 		dbo.CUST_VIEW_MASTER CV
 	where
-	               CV.CUST_VIEW_NAME = ? and CUST_VIEW_TYPE='report';
+	               CV.CUST_VIEW_NAME = ? and CUST_VIEW_TYPE like '%report%';
    ]]>
 		</query>
    </entity>  
