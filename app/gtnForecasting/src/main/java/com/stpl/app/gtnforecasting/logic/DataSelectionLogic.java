@@ -2618,7 +2618,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
         }
 
     }
-    public void callViewInsertProcedureForPV(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod) {
+    public void callViewInsertProcedureForPV(SessionDTO session,String screenName,String view,String startPeriod) {
         int relSid = screenName.equalsIgnoreCase(SALES_SMALL) ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
         String freq = screenName.equalsIgnoreCase(SALES_SMALL) && session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
         String dedCaptionUdc = session.getDataSelectionDeductionLevelCaption().startsWith("UDC") ? session.getDataSelectionDeductionLevelCaption().replace(" ", StringUtils.EMPTY) : session.getDataSelectionDeductionLevelCaption();
@@ -2684,7 +2684,7 @@ public void callInsertProcedureForNmDiscountMaster(int projectionId, SessionDTO 
         return query.toString();
 
     }
-    public void callViewInsertProcedureForUOM(SessionDTO session,String screenName,String view,String startPeriod,String endPeriod) {
+    public void callViewInsertProcedureForUOM(SessionDTO session,String screenName,String view,String startPeriod) {
         int masterSid = screenName.equalsIgnoreCase(SALES_SMALL) ? session.getCustomRelationShipSid() : session.getCustomDeductionRelationShipSid();
         String frequency = screenName.equalsIgnoreCase(SALES_SMALL) && session.getDsFrequency().equals(Constant.SEMI_ANNUALY) ? Constant.SEMI_ANNUALLY : session.getDsFrequency();
         String deductionCaptionUdc = session.getDataSelectionDeductionLevelCaption().startsWith("UDC") ? session.getDataSelectionDeductionLevelCaption().replace(" ", StringUtils.EMPTY) : session.getDataSelectionDeductionLevelCaption();

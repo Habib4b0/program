@@ -975,8 +975,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     LOGGER.info("generateBtn :Inside Filter Option");
                     dsLogic.nmPvViewsPopulationProcedure(session);
                     CommonLogic.procedureCompletionCheck(session, Constant.VARIANCE_SCREEN, String.valueOf(view.getValue()));
-                    customerFlag = true;
-                    productFlag = true;
                 }
 
                 if (excelFlag) {

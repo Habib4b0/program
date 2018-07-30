@@ -19,7 +19,6 @@ import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.Utility;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
-import com.stpl.app.gtnforecasting.projectionvariance.logic.PVCommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.app.gtnforecasting.ui.form.lookups.AlternateHistory;
@@ -3297,7 +3296,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         }
         LOGGER.debug("excel ends");
         long endTime = System.currentTimeMillis();
-        LOGGER.info("Excel Export time--------------------------------------------------------------"+(endTime-startTime)/1000);
+        LOGGER.info("Excel Export time--------------------------------------------------------------{}",(endTime-startTime)/1000);
     }
 
     public void generateButtonlogicForExcel() {
@@ -3610,8 +3609,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
                 dsLogic.nmDiscountViewsPopulationProcedureForUPS(session);
                 CommonLogic.procedureCompletionCheck(session,DISCOUNT,String.valueOf(view.getValue()));
-                customerFlag = true;
-                productFlag = true;
             }
             hierarchyListForCheckRecord.clear();
             session.setFrequency(projectionSelection.getFrequency());
@@ -5738,7 +5735,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 Object parentItemId;
                 key = key.contains("$") ? key.substring(0, key.indexOf('$')) : key;
                 tempKey = key.trim();
-                parentKey = CommonUtil.getParentItemId(key, itemId.getParentHierarchyNo());
+                parentKey = CommonUtil.getParentItemId(key);
                 parentItemId = excelParentRecords.get(parentKey);
                 if (parentItemId != null) {
                     excelContainer.setParent(itemId, parentItemId);

@@ -429,7 +429,7 @@ public class CommonUtil {
                         break;
                     case Constant.PV_PRC_VIEWS_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
-                        new DataSelectionLogic().callViewInsertProcedureForPV((SessionDTO)inputs[NumericConstants.SEVEN] ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,String.valueOf(inputs[6]));
+                        new DataSelectionLogic().callViewInsertProcedureForPV((SessionDTO)inputs[NumericConstants.SEVEN] ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString());
                         break;
                     case Constant.FUNCTION_PRC_VIEWS_CALL:
                         Thread.currentThread().setName(inputs[1].toString());
@@ -445,7 +445,7 @@ public class CommonUtil {
                          break;
                     case Constant.FUNCTION_PRC_VIEWS_CALL_UOM:
                         Thread.currentThread().setName(inputs[1].toString());
-                        new DataSelectionLogic().callViewInsertProcedureForUOM((SessionDTO)inputs[NumericConstants.SEVEN] ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() ,String.valueOf(inputs[6]));
+                        new DataSelectionLogic().callViewInsertProcedureForUOM((SessionDTO)inputs[NumericConstants.SEVEN] ,inputs[3].toString() ,inputs[4].toString() ,inputs[5].toString() );
                         break;
                     default:
                         break;
@@ -746,7 +746,7 @@ public class CommonUtil {
 		return parentKey;
 	}
 
-	public static String getParentItemId(String key, String parentHierarchyNo) {
+	public static String getParentItemId(String key) {
 		String parentKey;
 
 			parentKey = key.substring(0, key.lastIndexOf('.'));

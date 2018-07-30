@@ -1435,6 +1435,7 @@ public class NMProjectionVarianceLogic {
 				}
 			}
 		} catch (Exception e) {
+                    LOGGER.error(e.getMessage());
 		}
 		return rsIds;
 	}

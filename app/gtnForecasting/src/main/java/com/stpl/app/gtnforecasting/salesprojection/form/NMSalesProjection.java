@@ -317,7 +317,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             LOGGER.info(e.getMessage(),e);
         }
         long endTime = System.currentTimeMillis();
-        LOGGER.info("Excel Export time--------------------------------------------------------------"+(endTime-startTime)/1000);
+        LOGGER.info("Excel Export time--------------------------------------------------------------{}",(endTime-startTime)/1000);
     }
     public static final String SALES_PROJECTION_XLS = "Sales_Projection.xls";
 
@@ -603,7 +603,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     private void commercialGenerate(boolean customerFlag, boolean productFlag) {
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
             if (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue())) {
-                session.setFunctionMode(session.getAction().toLowerCase().equals(Constant.ADD_FULL_SMALL) ? "G" : "E");
+                session.setFunctionMode(session.getAction().equalsIgnoreCase(Constant.ADD_FULL_SMALL) ? "G" : "E");
                 session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
                 CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.SALES1);
                 dataLogic.nmSalesViewsPopulationProcedure(session);
@@ -1118,7 +1118,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 Object parentItemId;
                 key = key.contains("$") ? key.substring(0, key.indexOf('$')) : key;
                 tempKey = key.trim();
-                    parentKey = CommonUtil.getParentItemId(key, itemId.getParentHierarchyNo());
+                    parentKey = CommonUtil.getParentItemId(key);
                 parentItemId = excelParentRecords.get(parentKey);
                 if (parentItemId != null) {
                     excelContainer.setParent(itemId, parentItemId);
