@@ -901,8 +901,7 @@ public class FileManagementLookup extends Window {
 								return;
 							}
 						}
-						if (fieldName.getValue().equals(ConstantsUtils.CAPS_STARTDATE) && (startDate.getValue() == null
-								|| startDate.getValue().equals(ConstantsUtils.EMPTY))) {
+						if (fieldName.getValue().equals(ConstantsUtils.CAPS_STARTDATE) && (startDate.getValue() == null)) {
 							AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
 									"Please Select Start Date. Recognized Date format is mm/dd/yy");
 							return;

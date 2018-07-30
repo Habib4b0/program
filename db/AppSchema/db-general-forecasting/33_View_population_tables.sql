@@ -396,4 +396,83 @@ IF NOT EXISTS (SELECT 1
   END
 
 GO
+---------------------------------CUSTOM_PV
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.TABLES
+               WHERE  Object_name(OBJECT_ID) = 'CUSTOM_PV'
+                      AND Schema_name(SCHEMA_ID) = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[CUSTOM_PV]
+        (
+           HIERARCHY_NO        INT NOT NULL,
+		   RS_CONTRACT_SID     INT NOT NULL,
+           PERIOD              SMALLINT NOT NULL,
+           [YEAR]              SMALLINT NOT NULL,
+           DISCOUNT            NUMERIC(22, 6) NULL,
+           DEDUCTION_INCLUSION SMALLINT NOT NULL,
+           INDICATOR           BIT NOT NULL,
+           GROWTH              NUMERIC(22, 6)
+        )
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.KEY_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'CUSTOM_PV'
+                      AND Schema_name(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'PK_CUSTOM_PV_HIERARCHY_NO_RS_CONTRACT_SID_PERIOD_YEAR_DEDUCTION_INCLUSION_INDICATOR'
+                      AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE CUSTOM_PV
+        ADD CONSTRAINT PK_CUSTOM_PV_HIERARCHY_NO_RS_CONTRACT_SID_PERIOD_YEAR_DEDUCTION_INCLUSION_INDICATOR PRIMARY KEY ( HIERARCHY_NO,
+RS_CONTRACT_SID,
+PERIOD,
+YEAR,
+DEDUCTION_INCLUSION,
+INDICATOR
+ )
+  END
+
+GO
+-------------------------------CUSTOMER_PV
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.TABLES
+               WHERE  Object_name(OBJECT_ID) = 'CUSTOMER_PV'
+                      AND Schema_name(SCHEMA_ID) = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[CUSTOMER_PV]
+        (
+           HIERARCHY_NO        VARCHAR(8000) NOT NULL,
+           RS_CONTRACT_SID     INT NOT NULL,
+           PERIOD              SMALLINT NOT NULL,
+           [YEAR]              SMALLINT NOT NULL,
+           DISCOUNT            NUMERIC(22, 6) NULL,
+           DEDUCTION_INCLUSION SMALLINT NULL,
+           INDICATOR           BIT NULL,
+           GROWTH              NUMERIC(22, 6)
+        )
+  END
+
+GO
+-----------------------------------PRODUCT_PV
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.TABLES
+               WHERE  Object_name(OBJECT_ID) = 'PRODUCT_PV'
+                      AND Schema_name(SCHEMA_ID) = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[PRODUCT_PV]
+        (
+           HIERARCHY_NO        VARCHAR(8000) NOT NULL,
+           RS_CONTRACT_SID     INT NOT NULL,
+           PERIOD              SMALLINT NOT NULL,
+           [YEAR]              SMALLINT NOT NULL,
+           DISCOUNT            NUMERIC(22, 6) NULL,
+           DEDUCTION_INCLUSION BIT NULL,
+           INDICATOR           BIT NULL,
+           GROWTH              NUMERIC(22, 6)
+        )
+  END
+
+GO 
 

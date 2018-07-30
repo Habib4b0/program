@@ -2030,10 +2030,10 @@ public class CommmonLogic {
 
                 tradeClass.setCompanyTradeClass(Integer.parseInt(companyTradeList.get(i).getTradeClass()));
 
-                if (companyTradeList.get(i).getTradeStartDate() != null && !StringUtils.EMPTY.equals(companyTradeList.get(i).getTradeStartDate())) {
+                if (companyTradeList.get(i).getTradeStartDate() != null) {
                     tradeClass.setTradeClassStartDate(companyTradeList.get(i).getTradeStartDate());
                 }
-                if (companyTradeList.get(i).getTradeEndDate() != null && !StringUtils.EMPTY.equals(companyTradeList.get(i).getTradeEndDate())) {
+                if (companyTradeList.get(i).getTradeEndDate() != null) {
                     tradeClass.setTradeClassEndDate(companyTradeList.get(i).getTradeEndDate());
                 } else {
                     tradeClass.setTradeClassEndDate(null);

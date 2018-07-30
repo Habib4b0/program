@@ -710,7 +710,7 @@ public class DataSelection extends CustomComponent implements View {
                 selectedProducts.removeAllItems();
                 resultTable.removeAllItems();
 
-            } else if (modeOption.getValue().toString().equals(Constants.LabelConstants.MODE_SEARCH)) {
+            } else if (modeOption.getValue().toString().equals(Constants.LabelConstants.MODE_SEARCH.getConstant())) {
                 generateBtn.setEnabled(false);
                 searchBtn.setEnabled(true);
                 projectionName.setValue(StringUtils.EMPTY);
