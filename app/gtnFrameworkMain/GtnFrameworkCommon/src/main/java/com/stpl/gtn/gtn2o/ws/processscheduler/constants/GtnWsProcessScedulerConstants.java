@@ -36,4 +36,6 @@ public class GtnWsProcessScedulerConstants {
 
 	public static final String GTN_WS_PROCESS_SCHEDULER_RUN_SERVICE_DATA = "/runService";
 
+	public static final String GTN_WS_PROCESS_SCHEDULER_RUN_SERVICE = "/validateAndRunService";
+
 }

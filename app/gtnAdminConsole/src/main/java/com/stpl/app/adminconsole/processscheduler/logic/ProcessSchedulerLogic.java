@@ -310,7 +310,8 @@ public class ProcessSchedulerLogic {
 			String jbossHome=getJbossHome();
 			if (!StringUtils.isBlank(jbossHome)) {
 					java.util.Properties prop =getPropertyFile(getPropertyPath());
-					java.util.Properties prop1 = getPropertyFile(jbossHome.concat("/../").concat(prop.getProperty("EtlConfiguration.properties")));
+					//java.util.Properties prop1 = getPropertyFile(jbossHome.concat("/../").concat(prop.getProperty("EtlConfiguration.properties")));
+					java.util.Properties prop1 = getPropertyFile(jbossHome.concat(prop.getProperty("EtlConfiguration.properties")));
 					ftpProperties.setScripts(prop1.getProperty("scripts"));
 			}
 		} catch (Exception ex) {

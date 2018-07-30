@@ -19,7 +19,7 @@
 	<entity id="getProcessSchedulerManualResults">
 		<query> 
         <![CDATA[
- SELECT WP.PROCESS_DISPLAY_NAME, MANUAL_LAST_RUN,SCRIPT_NAME\
+ SELECT WP.PROCESS_DISPLAY_NAME, MANUAL_LAST_RUN,SCRIPT_NAME,PROCESS_SID\
                             FROM WORKFLOW_PROFILE WP \
                           LEFT JOIN HELPER_TABLE HTF ON HTF.HELPER_TABLE_SID = WP.PROCESS_TYPE 
                  WHERE HTF.DESCRIPTION LIKE 'Manual' OR HTF.DESCRIPTION LIKE 'Both' OR HTF.DESCRIPTION LIKE '-Select One-' OR HTF.DESCRIPTION is null 
@@ -38,6 +38,22 @@ SELECT count(*) FROM WORKFLOW_PROFILE WP \
 ]]>
 		</query>
 	</entity>
+	
+	<entity id="getRunningStatus">
+        <query> 
+            <![CDATA[
+                SELECT VALIDATION FROM WORKFLOW_PROFILE WHERE PROCESS_NAME ='@PROCESS_NAME'
+           ]]>
+        </query> 
+    </entity>
+    
+    <entity id="getProcessForLastRunUpdate">
+        <query> 
+            <![CDATA[
+                SELECT * FROM WORKFLOW_PROFILE WHERE PROCESS_SID =@PROCESS_SID
+           ]]>
+        </query> 
+    </entity>
 
 
 
