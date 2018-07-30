@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
  */
 public class TherapeuticContainer implements DAO<HelperDTO> {
 
-    private HelperDTO therapeuticClass;
     /**
      * The Constant LOGGER.
      */
@@ -34,15 +33,6 @@ public class TherapeuticContainer implements DAO<HelperDTO> {
      */
     public TherapeuticContainer() {
        
-    }
-
-    /**
-     * Method used for get Count.
-     *
-     * @param therapeuticClass
-     */
-    public TherapeuticContainer(final HelperDTO therapeuticClass) {
-        this.therapeuticClass = therapeuticClass;
     }
 
     @Override
