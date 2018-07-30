@@ -89,10 +89,10 @@ AS
           DECLARE @CUSTOMER_TABLE_SALES VARCHAR(200) = Concat('ST_CUSTOMER_SALES_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', ''))
           DECLARE @PRODUCT_TABLE_SALES VARCHAR(200) = Concat ('ST_PRODUCT_SALES_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
                   @CUSTOM_TABLE_SALES  VARCHAR(200) = Concat ('ST_CUSTOM_SALES_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', ''))
-          DECLARE @CUSTOMER_TABLE_DISCOUNT VARCHAR(200) = Concat('ST_CUSTOMER_DISCOUNT_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', ''))
-          DECLARE @PRODUCT_TABLE_DISCOUNT VARCHAR(200) = Concat ('ST_PRODUCT_DISCOUNT_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+          DECLARE @CUSTOMER_TABLE_DISCOUNT VARCHAR(200) = Concat('ST_CUSTOMER_PV_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', ''))
+          DECLARE @PRODUCT_TABLE_DISCOUNT VARCHAR(200) = Concat ('ST_PRODUCT_PV_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
                   @STATUS_TABLE           VARCHAR(200) = Concat ('ST_STATUS_TABLE_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
-                  @CUSTOM_TABLE_DISCOUNT  VARCHAR(200) = Concat ('ST_CUSTOM_DISCOUNT_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
+                  @CUSTOM_TABLE_DISCOUNT  VARCHAR(200) = Concat ('ST_CUSTOM_PV_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', '')),
                   @sales_table            VARCHAR(200),
                   @discount_table         VARCHAR(200),
 				  @CUSTOM_CCP_SALES VARCHAR(200) = CONCAT ('CUSTOM_CCP_SALES_',@CUSTOM_VIEW_MASTER_SID)
@@ -156,6 +156,8 @@ JOIN CCP_DETAILS CD ON CH.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
 			)
 		OR @CCP IS NULL
 		)
+			AND EXISTS (SELECT 1 FROM ', @DISC_PROJECTION_MASTER_TABLE, '  DMAS WHERE DMAS.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+			 AND DMAS.PV_FILTERS=1)
  ')
 
                 EXEC Sp_executesql
@@ -187,13 +189,14 @@ JOIN CCP_DETAILS CD ON CH.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
 			SELECT 1
 			FROM UDF_SPLITSTRING(@CCP, '','') U
 			WHERE HIERARCHY_NO  like U.TOKEN +''%''
+			--WHERE HIERARCHY_NO  =U.TOKEN
 			)
 		OR @CCP IS NULL
 		)
 		 WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '  
                         AND C.LEVEL_NO= ', @CUSTOM_LEVEL_NO, '
 			AND EXISTS (SELECT 1 FROM ', @DISC_PROJECTION_MASTER_TABLE, '  DMAS WHERE DMAS.CCP_DETAILS_SID = C.CCP_DETAILS_SID
-			AND (DMAS.RS_CONTRACT_SID = C.RS_CONTRACT_SID or C.RS_CONTRACT_SID =0)
+			AND (DMAS.RS_CONTRACT_SID = C.RS_CONTRACT_SID or C.RS_CONTRACT_SID =0) AND DMAS.PV_FILTERS=1
 			)-- and nullif(C.RS_CONTRACT_SID,0) is not null
  ')
 
@@ -541,7 +544,7 @@ WHERE IU.UOM_CODE = @UOM_CODE
             --                         ON U6.HELPER_TABLE_SID = U.UDC6
             --           WHERE  MASTER_TYPE = ''RS_CONTRACT'') UD
 			INNER JOIN ', @DISC_PROJECTION_MASTER_TABLE, ' D
-                    on  R.RS_CONTRACT_SID = D.RS_CONTRACT_SID 
+                    on  R.RS_CONTRACT_SID = D.RS_CONTRACT_SID AND D.PV_FILTERS = 1
 			LEFT JOIN UDCS UD
                    ON UD.MASTER_SID = R.RS_CONTRACT_SID
 				   and MASTER_TYPE = ''RS_CONTRACT''    
@@ -578,7 +581,7 @@ WHERE IU.UOM_CODE = @UOM_CODE
 		RS_CONTRACT_SID
 		from  ', @DISC_PROJECTION_MASTER_TABLE, ' D
 		where exists (select 1 from #CCP_DETAILS_TEMP cdt where cdt.ccp_details_sid= D.ccp_details_sid
-		and (cdt.RS_CONTRACT_SID= D.RS_CONTRACT_SID or cdt.rs_contract_sid is null)) 
+		and (cdt.RS_CONTRACT_SID= D.RS_CONTRACT_SID or cdt.rs_contract_sid is null) AND D.PV_FILTERS = 1) 
 		')
 		
                 EXEC Sp_executesql
@@ -1586,60 +1589,7 @@ AS (
 	,SALES
 AS (
 	')
-
-                      IF @INDICATOR IN ( 'c', 'p' )
-                        BEGIN
-                            SET @SQL_ACC=Concat(@SQL_ACC, 'SELECT PERIOD
-	    ,YEAR
-		,CONTRACT_SALES_ACTUALS = Sum(ACTUAL_SALES)
-		,CONTRACT_SALES_PROJECTED = Sum(PROJECTION_SALES)
-		,CONTRACT_UNITS_ACTUALS = Sum(ACTUAL_UNITS)
-		,CONTRACT_UNITS_PROJECTED = Sum(PROJECTION_UNITS)
-		,COGS_ACTUALS = max(COGS_ACTUAL)
-		,COGS_PROJECTED = max(COGS_PROJECTED)
-	FROM (
-		SELECT dt.HIERARCHY_NO
-			,dt.PERIOD
-	        ,dt.YEAR
-			,IIF(( cts.SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ) and cts.indicator=0, ISNULL(SALES,0), NULL) ACTUAL_SALES
-			,IIF(( cts.SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ) and cts.indicator=0, ISNULL(UNITS,0), NULL)   ACTUAL_UNITS
-			,IIF(( cts.SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ) and cts.indicator=1, ISNULL(SALES,0), NULL) PROJECTION_SALES
-			,IIF(( cts.SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ) and cts.indicator=1, ISNULL(UNITS,0), NULL) PROJECTION_UNITS
-			--,DT.ITEM_MASTER_SID
-			,COGS_ACTUAL = COGS_ACTUAL---(ISNULL(NAS.ACTUAL_UNITS, 0) * ISNULL(U.ITEM_PRICE, 0)) *  COALESCE(NULLIF(UOM_VALUE, 0),1) 
-			,COGS_PROJECTED = COGS_ACTUAL---(ISNULL(NPS.PROJECTION_UNITS, 0) * ISNULL(U.ITEM_PRICE, 0)) *  COALESCE(NULLIF(UOM_VALUE, 0),1) 
-		FROM #DATA_TABLE DT
-		left join ', @sales_table, ' cts on cts.HIERARCHY_NO=dt.HIERARCHY_NO
-		and cts.period=dt.period
-		and cts.year=dt.year
-		left join (select --dt.HIERARCHY_NO,
-		p.year,p.period,COGS_ACTUAL = sum((ISNULL(NAS.QUANTITY, 0) * ISNULL(U.ITEM_PRICE, 0)) *  COALESCE(NULLIF(UOM_VALUE, 0),1)),
-		COGS_PROJECTED = sum((ISNULL(NPS.PROJECTION_UNITS, 0) * ISNULL(U.ITEM_PRICE, 0)) *  COALESCE(NULLIF(UOM_VALUE, 0),1) )
-		  from  #CCP_DETAILS_TEMP dt
-		cross join #period p 
-		LEFT JOIN ', @SALES_MASTER_TABLE, ' SPM ON SPM.CCP_DETAILS_SID = DT.CCP_DETAILS_SID
-		LEFT JOIN (SELECT AD.CCP_DETAILS_SID,
-                               PERIOD_SID,                               
-                               SUM(QUANTITY) QUANTITY
-                        FROM   [ACTUALS_DETAILS] AD
-                        WHERE  QUANTITY_INCLUSION = ''Y''
-                        GROUP  BY AD.CCP_DETAILS_SID,
-                                  PERIOD_SID) NAS ON DT.CCP_DETAILS_SID = NAS.CCP_DETAILS_SID
-			AND p.PERIOD_SID = NAS.PERIOD_SID
-		LEFT JOIN ', @SALES_PROJECTION_TABLE, ' NPS ON NPS.CCP_DETAILS_SID = DT.CCP_DETAILS_SID
-			AND p.PERIOD_SID = NPS.PERIOD_SID
-		LEFT JOIN #ITEM_PRICING U ON DT.ITEM_MASTER_SID = U.ITEM_MASTER_SID
-			AND p.PERIOD_SID = U.PERIOD_SID
-		LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID = dt.ITEM_MASTER_SID
-		group by --dt.HIERARCHY_NO,
-		p.year,p.period)  h on --h.HIERARCHY_NO=dt.HIERARCHY_NO and
-		 h.period=dt.period
-		and h.year=dt.year
-		')
-                        END
-                      ELSE IF @INDICATOR NOT IN ( 'c', 'p' )
-                        BEGIN
-                            SET @SQL_ACC=Concat(@SQL_ACC, 'SELECT PERIOD
+                        SET @SQL_ACC=Concat(@SQL_ACC, 'SELECT PERIOD
 	    ,YEAR
 		,CONTRACT_SALES_ACTUALS = Sum(ACTUAL_SALES)
 		,CONTRACT_SALES_PROJECTED = Sum(PROJECTION_SALES)
@@ -1687,7 +1637,7 @@ AS (
 		 h.period=dt.period
 		and h.year=dt.year
 		')
-                        END
+                 
 
                       SET @SQL_ACC=Concat(@SQL_ACC, '
 		) A
