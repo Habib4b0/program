@@ -964,8 +964,13 @@ public class Constant {
     public static final String CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL = "CUSTOMER_VIEW_DISCOUNT_POPULATION_CALL";
     public static final String PRODUCT_VIEW_DISCOUNT_POPULATION_CALL = "PRODUCT_VIEW_DISCOUNT_POPULATION_CALL";
     public static final String CUSTOM_VIEW_DISCOUNT_POPULATION_CALL = "CUSTOM_VIEW_DISCOUNT_POPULATION_CALL";
+    public static final String CUSTOMER_VIEW_VARIANCE_POPULATION_CALL = "CUSTOMER_VIEW_VARIANCE_POPULATION_CALL";
+    public static final String PRODUCT_VIEW_VARIANCE_POPULATION_CALL = "PRODUCT_VIEW_VARIANCE_POPULATION_CALL";
+    public static final String CUSTOM_VIEW_VARIANCE_POPULATION_CALL = "CUSTOM_VIEW_VARIANCE_POPULATION_CALL";
+    public static final String GENERATE_FLAG = "G";
     public static final String PRC_VIEWS_POPULATION = "PRC_VIEWS_POPULATION";
     public static final String PRC_VIEWS_CALL = "PRC_VIEWS_CALL";
+    public static final String PV_PRC_VIEWS_CALL = "PV_PRC_VIEWS_CALL";
     public static final String FUNCTION_PRC_VIEWS_CALL = "FUNCTION_PRC_VIEWS_CALL";
     public static final String SALES_PROCEDURE_ACTUAL = "SALES_PROCEDURE_ACTUAL";
     public static final String SALES_PROCEDURE_PROJ = "SALES_PROCEDURE_PROJ";
@@ -2136,6 +2141,7 @@ public class Constant {
     public static final String QNONFAMP = "QNON-FAMP";
     public static final String CUSTOM_VIEW_DECLARATION = "customViewDeclaration";
     public static final String FUNCTION_PRC_VIEWS_CALL_UOM = "FUNCTION_PRC_VIEWS_CALL_UOM";
+    public static final String VARIANCE_SCREEN = "Variance";
 
     /**
      * Enum for Frequency constants

@@ -1435,6 +1435,7 @@ public class NMProjectionVarianceLogic {
 				}
 			}
 		} catch (Exception e) {
+                    LOGGER.error(e.getMessage());
 		}
 		return rsIds;
 	}
@@ -1457,11 +1458,12 @@ public class NMProjectionVarianceLogic {
 						rsIds = String.valueOf(obj);
 						flag = false;
 					} else {
-						rsIds = rsIds + "," + String.valueOf(obj);
+						rsIds = rsIds + "," + obj;
 					}
 				}
 			}
 		} catch (Exception e) {
+                    LOGGER.error(e.getMessage());
 		}
 		return rsIds;
 	}
@@ -1610,6 +1612,8 @@ public class NMProjectionVarianceLogic {
 					periodList.remove(pcommonColumn);
 					ProjectionVarianceDTO projDTO = new ProjectionVarianceDTO();
 					projDTO.setGroup(commonHeader);
+                                        projDTO.setDfLevelNumber(commonHeader);
+                                        projDTO.setDfLevelName(commonHeader);
 
 					// Exfactory Sales
 					if ((baseVariables.isVarExFacSales())) {
@@ -2071,6 +2075,8 @@ public class NMProjectionVarianceLogic {
 		ProjectionVarianceDTO totalDTO = new ProjectionVarianceDTO();
 		if (pvsdto.getLevel().equals(TOTAL.getConstant())) {
 			totalDTO.setGroup(Constant.PROJECTION_TOTAL);
+			totalDTO.setDfLevelNumber(Constant.PROJECTION_TOTAL);
+			totalDTO.setDfLevelName(Constant.PROJECTION_TOTAL);
 			projDTOList.add(0, totalDTO);
 		}
 		return projDTOList;
@@ -3221,7 +3227,6 @@ public class NMProjectionVarianceLogic {
 				: SQlUtil.getQuery(Constant.SELECTED_HIERARCHY_CUSTOM);
 		if (projSelDTO.isIsCustomHierarchy()) {
 			String currentHierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
-			int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
 			switch (String.valueOf(currentHierarchyIndicator)) {
 			case Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY:
 				sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES,
@@ -3264,14 +3269,12 @@ public class NMProjectionVarianceLogic {
 			currentHierarchyIndicator = projSelDTO.getHierarchyIndicator();
 		}
 
-		String joinQuery = getHierarchyJoinQuery(projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomerHierarchyNo(),
-				projSelDTO.getProductHierarchyNo(), projSelDTO.getDeductionHierarchyNo(), currentHierarchyIndicator,
+		String joinQuery = getHierarchyJoinQuery(projSelDTO.isIsCustomHierarchy(), currentHierarchyIndicator,
 				projSelDTO);
 		return joinQuery;
 	}
 
-	public String getHierarchyJoinQuery(boolean isCustomHierarchy, String customerHierarchyNo,
-			String productHierarchyNo, String deductionHierarchyNo, String hierarchyIndicator,
+	public String getHierarchyJoinQuery(boolean isCustomHierarchy, String hierarchyIndicator,
 			ProjectionSelectionDTO projSelDTO) {
 		StringBuilder joinQuery = new StringBuilder();
 		String dedJoin = StringUtils.EMPTY;
@@ -3286,7 +3289,7 @@ public class NMProjectionVarianceLogic {
 		if (isCustomHierarchy) {
 			joinQuery.append("CH.CCP_DETAILS_SID = RLD1.CCP_DETAILS_SID ");
 			dedJoin = "AND ( RLD1.RS_CONTRACT_SID = SPM.RS_CONTRACT_SID\n"
-					+ "                   OR RLD1.RS_CONTRACT_SID=0 )";
+					+ "                   OR RLD1.RS_CONTRACT_SID=0 ) AND PV_FILTERS=1 ";
 
 		} else {
 			joinQuery.append(
@@ -3434,7 +3437,6 @@ public class NMProjectionVarianceLogic {
 			LOGGER.info("Custom view last level");
 			return 0;
 		}
-		int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
 		String countQuery = SQlUtil.getQuery(Constant.CUSTOM_VIEW_DECLARATION);
 		countQuery = countQuery.replace(Constant.CUSTOM_VIEW_MASTER_SID, String.valueOf(projSelDTO.getCustomId()));
 		countQuery += insertAvailableHierarchyNo(projSelDTO);
@@ -3450,7 +3452,6 @@ public class NMProjectionVarianceLogic {
 
     public List<String> getHiearchyNoForCustomView(final ProjectionSelectionDTO projSelDTO, int start, int end) {
 
-        int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
         List<String> resultSet = new ArrayList();
         String query = SQlUtil.getQuery(Constant.CUSTOM_VIEW_DECLARATION);
         query = query.replace(Constant.CUSTOM_VIEW_MASTER_SID, String.valueOf(projSelDTO.getCustomId()));
