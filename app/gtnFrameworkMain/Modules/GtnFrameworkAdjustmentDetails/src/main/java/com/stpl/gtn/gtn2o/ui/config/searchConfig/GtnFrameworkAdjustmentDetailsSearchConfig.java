@@ -123,6 +123,15 @@ public class GtnFrameworkAdjustmentDetailsSearchConfig extends GTNFrameworkAbstr
         privateViewConfig.setAuthorizationIncluded(true);
         privateViewConfig.setComponentName("Private View");
         componentList.add(privateViewConfig);
+        List<GtnUIFrameWorkActionConfig> parentCFPIdActionConfigList = new ArrayList<>();
+        GtnUIFrameWorkActionConfig parentCFPIdPopupActionConfig = new GtnUIFrameWorkActionConfig();
+        parentCFPIdPopupActionConfig.setActionType(GtnUIFrameworkActionType.POPUP_ACTION);
+        parentCFPIdPopupActionConfig.addActionParameter("V003");
+        parentCFPIdPopupActionConfig.addActionParameter("Public View");
+        parentCFPIdPopupActionConfig.addActionParameter(GtnFrameworkCssConstants.PERCENT_70);
+        parentCFPIdPopupActionConfig.addActionParameter(GtnFrameworkCssConstants.PERCENT_70);
+        parentCFPIdActionConfigList.add(parentCFPIdPopupActionConfig);
+        privateViewConfig.setGtnUIFrameWorkActionConfigList(parentCFPIdActionConfigList);
     }
 
     private void addAdjustmentType(List<GtnUIFrameworkComponentConfig> componentList, GtnFrameworkComponentConfigProvider componentConfig) {
