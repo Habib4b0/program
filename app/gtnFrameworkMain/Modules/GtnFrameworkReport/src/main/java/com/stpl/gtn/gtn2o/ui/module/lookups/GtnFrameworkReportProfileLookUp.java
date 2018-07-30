@@ -257,8 +257,12 @@ public class GtnFrameworkReportProfileLookUp {
 		reportProfilePagedTableConfig.setItemPerPage(10);
 		reportProfilePagedTableConfig.setSelectable(true);
 		reportProfilePagedTableConfig.setSinkItemPerPageWithPageLength(false);
+
+		reportProfilePagedTableConfig.setPaginationOff(true);
+
 		reportProfilePagedTableConfig.setItemsPerPageAlignCentre(false);
 		
+
 		GtnUIFrameWorkActionConfig alertAction = new GtnUIFrameWorkActionConfig();
 		alertAction.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 		alertAction.addActionParameter("No Results Found");

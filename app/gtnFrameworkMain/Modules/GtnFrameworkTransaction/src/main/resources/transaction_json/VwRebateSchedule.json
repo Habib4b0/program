@@ -317,8 +317,7 @@
 		"columnName": "Reprocessed Flag",
 		"isSearchCriteria": false,
 		"isResultView": true,
-		"componentType": "text",
-		"defaultValue": "N"
+		"componentType": "text"
 	},
 	{
 		"columnID": "addChgDelIndicator",
