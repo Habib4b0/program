@@ -5,18 +5,12 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.addons.tableexport.TableHolder;
-import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
-import com.stpl.ifs.ui.util.converters.DataTypeConverter;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.v7.data.Container;
-import com.vaadin.v7.data.Property;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -29,6 +23,13 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.ss.util.CellUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.addons.tableexport.TableHolder;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataTypeConverter;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
 
 /**
  *
@@ -134,16 +135,20 @@ public class CustomExcelNM extends ExcelExport {
     }
 
     private Double getCellValue(Object propId, Double d, Double cellValue) {
+    	
+    	Double getCellValue = (double) 0;
+    	
         if ((formatter.get(Constant.PERCENT_THREE_DECIMAL) != null && String.valueOf(propId).endsWith(formatter.get(Constant.PERCENT_THREE_DECIMAL))) && (d > 0)) {
-            cellValue = cellValue / NumericConstants.HUNDRED;
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
         }
         else if ((formatter.get(GROWTH) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH))) && (d > 0)) {
-            cellValue = cellValue / NumericConstants.HUNDRED;
+        	
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
         }
         else if ((formatter.get(GROWTH_SUM) != null && String.valueOf(propId).endsWith(formatter.get(GROWTH_SUM))) && (d > 0)) {
-            cellValue = cellValue / NumericConstants.HUNDRED;
+        	getCellValue = cellValue / NumericConstants.HUNDRED;
         }
-        return cellValue;
+        return getCellValue;
     }
 
     private Double dataConverter(Object value) throws NumberFormatException {

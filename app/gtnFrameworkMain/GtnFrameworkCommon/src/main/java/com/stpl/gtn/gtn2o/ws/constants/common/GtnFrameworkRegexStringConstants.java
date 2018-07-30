@@ -37,7 +37,9 @@ public class GtnFrameworkRegexStringConstants {
 	
     public static final String ACCEPT_MIN_1_MAX_100_CHARACTER = "^[a-zA-Z0-9\\.|\\*|\\,|\\_|\\-|\\@|\\#|\\$|\\+|\\'|\\&|\\%|\\^|\\{|\\}|\\[|\\]|\\s|\\/|\\(|\\!|\\)|\\:|\\~|\\=|\\`|\\||\\?|\\;]{1,100}?$";
 
-    public static final String ACCEPT_MIN_1_MAX_200_CHARACTER = "^[a-zA-Z0-9\\.|\\*|\\,|\\_|\\-|\\@|\\#|\\$|\\+|\\'|\\&|\\%|\\^|\\{|\\}|\\[|\\]|\\s|\\/|\\(|\\!|\\)|\\:|\\~|\\=|\\`|\\||\\?|\\;]{1,200}?$";
+    public static final String ACCEPT_MIN_0_MAX_100_CHARACTER = "^[a-zA-Z0-9\\.|\\*|\\,|\\_|\\-|\\@|\\#|\\$|\\+|\\'|\\&|\\%|\\^|\\{|\\}|\\[|\\]|\\s|\\/|\\(|\\!|\\)|\\:|\\~|\\=|\\`|\\||\\?|\\;]{0,100}?$";
+    
+    public static final String ACCEPT_MIN_1_MAX_200_CHARACTER = "^[a-zA-Z0-9\\.|\\*|\\,|\\_|\\-|\\@|\\#|\\$|\\+|\\'|\\&|\\%|\\^|\\{|\\}|\\[|\\]|\\s|\\/|\\(|\\!|\\)|\\:|\\~|\\=|\\`|\\||\\?|\\;]{0,200}?$";
 
 	public static final String ACCEPT_NEGATIVE_AND_ZERO = "^\\-[1-9]*|0$";
         

@@ -27,6 +27,11 @@ public class GtnUIFrameworkButtonComponent implements GtnUIFrameworkComponent, G
 			componentName = componentName.toUpperCase(Locale.ENGLISH);
 
 		}
+                if(!(componentConfig.getButtonConfig() == null
+				|| componentConfig.getButtonConfig().isButtonCaptionInUpperCase())){
+                    
+                        componentName = componentConfig.getComponentName();
+                }
 		Button vaadinButton = new Button(componentName);
 		vaadinButton.setWidth(componentConfig.getComponentWidth());
 		vaadinButton.setVisible(componentConfig.isVisible());

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -42,7 +43,6 @@ import com.stpl.gtn.gtn2o.ws.request.customview.GtnWsCustomViewRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsCustomViewResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
-import java.util.Locale;
 
 /**
  *
@@ -159,6 +159,7 @@ public class GtnWsCustomViewService {
 				master.setModuleType(cvRequest.getModuleType());
 				master.setScreenName(cvRequest.getCustomViewType());
 				session.update(master);
+				customViewMasterSid = cvRequest.getCvSysId();
 			}
 			tx.commit();
 		} catch (Exception e) {
@@ -174,18 +175,58 @@ public class GtnWsCustomViewService {
 		Transaction tx = null;
 		try (Session session = getSessionFactory().openSession()) {
 			tx = session.beginTransaction();
-			CustViewMaster master = session.load(CustViewMaster.class, cvRequest.getCvSysId());
-			if (master != null) {
-				session.delete(master);
+			if (cvRequest.getCvSysId() != 0) {
+				session.createSQLQuery(gtnWsSqlService.getQuery("getCustomCCPDetailsDeleteQuery"))
+						.setParameter(0, cvRequest.getCvSysId()).executeUpdate();
+
+				List<CustViewDetails> details = session.createCriteria(CustViewDetails.class)
+						.add(Restrictions.eq("customViewMasterSid", cvRequest.getCvSysId())).list();
+				if (details != null) {
+					for (CustViewDetails custViewDetails : details) {
+						if (custViewDetails.getHierarchyIndicator() == 'V') {
+							List<CustomViewVariables> variables = session
+									.createCriteria(CustomViewVariables.class).add(Restrictions
+											.eq("customViewDetailsSid", custViewDetails.getCustomViewDetailsSid()))
+									.list();
+							if (variables != null) {
+								for (CustomViewVariables customViewVariables : variables) {
+									session.delete(customViewVariables);
+								}
+							}
+						}
+						session.delete(custViewDetails);
+					}
+				}
+
+				CustViewMaster master = session.load(CustViewMaster.class, cvRequest.getCvSysId());
+				if (master != null) {
+					session.delete(master);
+				}
 			}
 			tx.commit();
 			return true;
 		} catch (Exception e) {
-                    if(tx != null)
-                    {
+			if (tx != null) {
+				tx.rollback();
+			}
+			logger.error(e.getMessage(), e);
+			return false;
+		}
+	}
+
+	public boolean validateCustViewUser(GtnWsCustomViewRequest cvRequest) {
+		Transaction tx = null;
+		try (Session session = getSessionFactory().openSession()) {
+			tx = session.beginTransaction();
+			CustViewMaster master = session.get(CustViewMaster.class, cvRequest.getCvSysId());
+			if (master != null) {
+				return master.getCreatedBy() == Integer.parseInt(cvRequest.getCreatedBy());
+			}
+			tx.commit();
+			return false;
+		} catch (Exception e) {
 			tx.rollback();
-                    }
-                        logger.error(e.getMessage(), e);
+			logger.error(e.getMessage(), e);
 			return false;
 		}
 	}
@@ -320,8 +361,8 @@ public class GtnWsCustomViewService {
 			session.update(lastLevel);
 			session.flush();
 			levelCountForSaveVariableData++;
-			int customViewDetailsSid = saveCustomDetailsForVariable(customViewMasterSid, session, levelCountForSaveVariableData,
-					variablesList);
+			int customViewDetailsSid = saveCustomDetailsForVariable(customViewMasterSid, session,
+					levelCountForSaveVariableData, variablesList);
 			insertCustomVariables(variablesList, customViewDetailsSid, session);
 		}
 		return levelCountForSaveVariableData;

@@ -1594,6 +1594,12 @@
   margin-left: 0px !important;
 }
 
+.stpl-margin-left-2 {
+   margin-left: -18px !important;
+   height : 40px !important;
+}
+
+
 .stpl-margin-custom-variable{
 	margin-left: 26%;
     margin-top: 20px;
@@ -1615,6 +1621,9 @@
 .stpl-margin-left-150{
     margin-left: 150px!important;
 }
+
+
+
 .stpl-margin-left--35{
 	margin-left: -35px!important;
 }
@@ -1633,3 +1642,4 @@
 .stpl-margin-left-9px{
 	margin-left: 9px!important;
 }
+

@@ -6,6 +6,7 @@ import com.stpl.app.gtnforecasting.additionalinformation.logic.NotesTabLogic;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
+import com.stpl.app.utils.FileUploader;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.forecastds.form.ForecastDataSelection;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
@@ -13,6 +14,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
+import com.stpl.ifs.util.GtnFileUtil;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.event.FieldEvents.FocusListener;
@@ -153,7 +155,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     }
 
     public final void init() {
-
+        intailizingObject();
         addToContent();
         createExportDocs();
         configureFields();
@@ -789,6 +791,15 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             LOGGER.error(e.getMessage());
         }
         LOGGER.debug("Ends of AdditionalInformation setValues Method");
+    }
+    
+    public void intailizingObject() {
+        uploadReceiver = (Receiver) new FileUploader(moduleName + "/" + userId);
+        uploadComponent = new Upload(null, (FileUploader) uploadReceiver);       
+        filePath = GtnFileUtil.getFile(basepath + File.separator + "Attachments" + File.separator + moduleName);
+        wordFile = GtnFileUtil.getFile(filePath + File.separator + fileName + ExportWord.DOC_EXT);
+        pdfFile = GtnFileUtil.getFile(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
+        fileUploadPath = FileUploader.FILE_PATH + moduleName + "/" + userId + "/";
     }
   
 }
